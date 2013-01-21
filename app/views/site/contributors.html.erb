@@ -1,0 +1,468 @@
+<!-- TODO set up for translation -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<title>By OpenStreetMap</title>
+<style>
+* {
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  }
+
+html, body, h1, h2, p { margin:0px; padding:0px; }
+html, body, .page { height:100%; min-height:640px; position:relative; }
+
+body {
+  color:#333;
+  font:normal 16px/25px Arial,sans-serif;
+  background-color:#000;
+  background-position:50% 50%;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+  background-size:cover;
+  }
+
+small {
+  font-size:12px;
+  text-shadow:#000 0px 1px 5px;
+  }
+
+body.photo-0 { background-image:url(/assets/contributors/0.jpg) }
+body.photo-1 { background-image:url(/assets/contributors/1.jpg); }
+body.photo-2 { background-image:url(/assets/contributors/2.jpg); }
+body.photo-3 { background-image:url(/assets/contributors/3.jpg); }
+body.photo-4 { background-image:url(/assets/contributors/4.jpg); }
+body.photo-5 { background-image:url(/assets/contributors/5.jpg); }
+body.photo-0 .photo-0 { display:block; }
+body.photo-1 .photo-1 { display:block; }
+body.photo-2 .photo-2 { display:block; }
+body.photo-3 .photo-3 { display:block; }
+body.photo-4 .photo-4 { display:block; }
+body.photo-5 .photo-5 { display:block; }
+
+.caption {
+  max-width:320px;
+  float:right;
+  font:italic 16px/20px 'Times New Roman',serif;
+  position:fixed;
+  text-align:right;
+  right:70px;
+  bottom:10px;
+  text-shadow:#000 0px 1px 5px;
+  color:#fff;
+  display:none;
+  }
+
+.caption a,
+.attr strong {
+  color:#76C551;
+  text-decoration:none;
+  }
+
+.caption a { white-space:nowrap; }
+
+a.next {
+  display:block;
+  position:fixed;
+  right:10px;
+  bottom:10px;
+  width:40px;
+  height:40px;
+  border-radius:5px;
+  text-indent:-9999px;
+  overflow:hidden;
+  background:url(/assets/contributors/sprite.png) -120px 0px no-repeat;
+  background-color:#000;
+  background-color:rgba(0,0,0,0.5);
+  }
+
+.button {
+  color:#fff;
+  text-decoration:none;
+  font-weight:bold;
+  display:block;
+  height:45px;
+  width:280px;
+  position:relative;
+  margin:0px auto 10px;
+  padding:10px 25px;
+  text-align:center;
+  background:#000;
+  background:rgba(0,0,0,0.95);
+  border-radius:5px;
+  }
+
+#content .button.osm:before,
+#content .button.vendor:after {
+  content:'';
+  display:inline-block;
+  vertical-align:middle;
+  margin-top:-2px;
+  width:20px; height:20px;
+  }
+
+#content .button.osm { height:75px; padding:25px; background: #76c551; }
+#content .button.osm:before { background:url(/assets/contributors/sprite.png) -250px -10px no-repeat; margin-right:10px; }
+#content .button.vendor:after { background:url(/assets/contributors/sprite.png) -290px -10px no-repeat; margin-left:5px; }
+
+.text,
+.buttons {
+  position:relative;
+  width:40%;
+  min-width:320px;
+  max-width:480px;
+  }
+
+.text {
+  padding:40px;
+  background:white;
+  border-bottom:1px solid #ddd;
+  }
+
+.buttons { text-align:center; }
+
+#content .buttons { padding:20px 0px 80px; }
+
+#header .text { position:absolute; left:0px; bottom:40px; }
+
+.attr { position:relative; padding-top:160px; }
+
+.attr strong {
+  display:block;
+  font-size:20px;
+  margin:0px 0px 10px;
+  }
+
+.attr strong span { color:#333; }
+
+.attr .user-image {
+  position:absolute;
+  top:0px; right:0px; left:240px;
+  height:120px;
+  background-position:50% 50%;
+  background-repeat:no-repeat;
+  background-image:url(/assets/contributors/osm.png);
+  }
+
+.attr .byosm {
+  position:absolute; top:0px; left:0px; z-index:1;
+  width:240px; height:120px; padding:35px 40px;
+  font:bold 24px/25px Helvetica,Arial,sans-serif;
+  letter-spacing:-1px;
+  white-space:nowrap;
+  color:#fff;
+  background: #76c551
+  }
+
+.attr .byosm span {
+  display:inline-block;
+  width:25px; margin-left:-25px;
+  }
+
+.attr .byosm .mark {
+  position:absolute; right:-23px; top:36px;
+  width:48px; height:48px;
+  background:url(/assets/contributors/sprite.png) 0px -72px no-repeat;
+  }
+
+#content { margin-top:-40px; }
+#content .text p,
+#content .text strong { padding-left:40px; }
+
+.img {
+  margin:-10px -10px 30px;
+  height:160px;
+  background:url(/assets/contributors/headers.jpg) 420px 160px no-repeat;
+  border-radius:3px;
+  }
+
+.img.local { background-position:50% 0px; }
+.img.community { background-position:50% -170px; }
+.img.open { background-position:50% -340px; }
+.img.widget { background-position:100% -510px; }
+
+.icon {
+  width:40px; height:40px;
+  position:absolute; left:30px;
+  background:40px 40px url(/assets/contributors/sprite.png) no-repeat;
+  }
+
+.icon.local { background-position:0px 0px; }
+.icon.community { background-position:-40px 0px; }
+.icon.open { background-position:-80px 0px; }
+
+a.builder {
+  display:inline-block;
+  text-decoration:none;
+  background:#000;
+  background:rgba(0,0,0,0.5);
+  padding:5px 15px;
+  border-radius:5px;
+  margin:20px 10px 10px;
+  color:#fff;
+  text-transform:uppercase;
+  font:normal 9px/20px Arial,sans-serif;
+  }
+
+a.builder em {
+  display:inline-block;
+  vertical-align:middle;
+  width:20px; height:20px;
+  text-indent:-9999px;
+  overflow:hidden;
+  background:url(/assets/contributors/sprite.png) -170px -10px no-repeat;
+  }
+
+div.builder {
+  background:#181818;
+  background:rgba(24,24,24,0.95);
+  display:none;
+  position:fixed; left:50%; top:0px;
+  margin:20px 0px 0px -160px;
+  width:320px;
+  padding:0 20px 20px 20px;
+  border-radius:5px;
+  z-index:2;
+  }
+
+div.builder a.close {
+  position:absolute; right:-20px; top:-20px; z-index:1;
+  display:block;
+  width:40px; height:40px;
+  text-indent:-9999px;
+  overflow:hidden;
+  background:url(/assets/contributors/sprite.png) -200px 0px no-repeat;
+  }
+
+div.builder .button {
+  display:block;
+  width:200px;
+  margin:0px 0px 0px auto;
+  }
+div.builder .attr strong { margin-bottom: 0;}
+div.builder .attr strong span { color:white; }
+div.builder p { color: white;}
+div.builder a.customized { display:none; }
+div.builder a.skip { display:block; }
+div.customized a.skip { display:none; }
+div.customized a.customized { display:block; }
+
+div.builder .form { display:block; }
+div.builder.widget .form { display:none; }
+div.builder .widget { display:none; }
+div.builder.widget .widget { display:block; }
+
+div.builder .attr {
+  border-bottom:2px dashed #333;
+  border-radius:3px;
+  padding: 140px 20px 20px 20px;
+  margin:0px -20px 20px;
+  }
+
+input[type='text'] {
+  border:0px;
+  background:#111;
+  color:#fff;
+  display:inline-block;
+  padding:0px 5px;
+  margin:0px 0px 10px;
+  width:100%;
+  font:16px/25px Arial,sans-serif;
+  }
+
+body.builder div.builder { display:block; }
+
+body.builder:after {
+  content:'';
+  position:fixed;
+  z-index:1;
+  left:0px; right:0px; bottom:0px; top:0px;
+  background:rgba(0,0,0,0.6);
+  }
+
+@media
+  screen and (max-width:640px) {
+  a.builder, a.next, div.caption { display:none !important; }
+  }
+@media
+  screen and (-webkit-min-device-pixel-ratio:2),
+  screen and (min-device-pixel-ratio:2) {
+  .icon,
+  a.next,
+  #content .button.osm:before,
+  #content .button.vendor:after,
+  .attr .byosm .mark,
+  div.builder a.close {
+    background-image:url(/assets/contributors/sprite@2x.png);
+    background-size:320px 120px;
+    }
+  }
+</style>
+<script type='text/javascript'>
+// Use byosm namespace.
+var byosm = {};
+byosm.hash = '';
+byosm.num = Math.floor(Math.random() * 6);
+byosm.attr = function(data) {
+  var data = data || this;
+  var output = "<div class='byosm'><div class='mark'></div><span>&copy;</span>OpenStreetMap<br>contributors</div>";
+  if (data && data.image) {
+    output += "<div class='user-image' style='background-image:url(\""+data.image+"\")'></div>";
+  } else {
+    output += "<div class='user-image'></div>";
+  }
+  if (data && data.name) {
+    output += "<strong><span class='user-name'>"+data.name+"</span> uses maps powered by data from <span>OpenStreetMap</span></strong>";
+  } else {
+    output += "<strong><span class='user-name'>OpenStreetMap</span> powers map data on hundreds of web and mobile apps</strong>";
+  }
+  return output;
+};
+byosm.update = function() {
+  var data = {
+    name: document.getElementById('field-user-name').value,
+    image: document.getElementById('field-user-image').value
+  };
+  document.getElementById('preview').innerHTML = byosm.attr(data);
+  document.getElementById('builder').className = 'builder ' + ((data.name||data.image) ? 'customized' : '');
+  return false;
+};
+byosm.create = function() {
+  var query = [];
+  if (document.getElementById('field-user-name').value)
+    query.push('name='+document.getElementById('field-user-name').value);
+  if (document.getElementById('field-user-image').value)
+    query.push('image='+document.getElementById('field-user-image').value);
+  var url = 'http://www.openstreetmap.org/contributors.html' + (query.length ? '?' + query.join('&') : '');
+  var attr = "<a target='_blank' href='"+url+"' style='background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAAAwCAMAAACFQszZAAAASFBMVEX///////8AAAC7u7vt7e0AAAAAAACenp4AAAAAAAD5+fkAAAAAAAA8PDyBgYFkZGQRERH09PQAAAD9/f3Q0NAAAAAAAADl5eVHEuEiAAAAGHRSTlMAfT9WbTIrTx8HeAkgQ0tIL3M7fF4+FGf7jOcLAAACLUlEQVRIx+WW23aDIBBFKygGFBHM6P//aWfwGsCIafvUeclKFu7M5XDGr6//FHIUVeWgEmKUP8A0wjEARgHgRPNpNoIFIT7KanT0rOGTVcpO3NA3N97nPKikrhyKJQbbUYWPTzh6Kl5i0oi6SRqRY1QRhML64FZ1EvtjikQgyd3pOM5LqxRo0AzEDf1gL/b+8G38+NuEH82dhLoEx1eLsxN3OmRDjinn7xYY5HZpZGCifMq1SyZ/cAIYH8K6jqWK/Batrd44fJdlPqjaW5QAWcaqTBCqmkQ0dPwwsY2kUN2ZIOdBTw0vHsJ3kLtV2p7NkthCKvNLq+ZmHx4/kp75IHF8nBdFCM2+beghs4XQ410RkNCUcgUpYRUy301gJZUpI5HNY2xkUtprIs/g8vIOIj1K4ecL8W5o4Ggj4bWDJryaPW4I3A99vBvwLxLGtpBEyDFK4dUcBmui7qGRgBnSpKBD0h082UTtI/PvVMJoIw8RPR2z2juo7SOJPWjyQU6qixeb9JLwHC/i2PRi0tAl1lrDJuW1xbT3GIgNPSQlOXjKFiVtBKat95iEWNsXkue0CVu2ZU8Y7UkquYmPpBMOlUbDnKhNSCrTu2onnXFw+lwhyRYziZ9smI10xkHP6RHibyaR9JkxtPP9P+fgDd8EiaTzFwNPesOhdterzup3BtPOF6x9d2Ih1e9fntoLDmmpzuB4Unt1oiZOe+WY7fUJVmdwcuI662zSL3H+KL4Bvxgab1k+DMoAAAAASUVORK5CYII=) no-repeat; background-size:36px 24px;background-position:-48px -24px\\0/;width:24px;height:24px;display:block;z-index:1000;bottom:2px;right:2px;position:absolute;'></a>";
+  document.getElementById('builder').className = 'builder widget';
+  document.getElementById('field-widget').value = attr;
+  return false;
+};
+byosm.builder = function() {
+  document.body.className += " builder";
+  return false;
+};
+byosm.cancel = function() {
+  document.body.className = document.body.className.replace('builder','');
+  document.getElementById('builder').className = 'builder';
+  return false;
+};
+byosm.next = function() {
+  byosm.num=(byosm.num+1)%6;
+  document.body.className="photo-"+byosm.num;
+  window.location.hash=byosm.num;
+  return false;
+};
+byosm.getmaps = function() {
+  if (!byosm.vendor || !byosm.vendorURL) return '';
+  return "<a class='button vendor' href='"+byosm.vendorURL+"'>Maps from "+byosm.vendor+"</a><small>Get maps powered by OpenStreetMap from <strong>"+byosm.vendor+"</strong></small>";
+};
+
+// Parse querystring.
+if (window.location.search) {
+  var n = window.location.search.match(/[?|&]name=([^&]+)/);
+  var i = window.location.search.match(/[?|&]image=([^&]+)/);
+  var v = window.location.search.match(/[?|&]vendor=([^&]+)/);
+  var vu = window.location.search.match(/[?|&]vendorURL=([^&]+)/);
+  if (n) {
+    byosm.name = decodeURIComponent(n[1]);
+    if (i) byosm.image = decodeURIComponent(i[1].indexOf('://') === -1 ? 'http://'+i[1] : i[1]);
+  }
+  if (v && vu) {
+    byosm.vendor = decodeURIComponent(v[1]);
+    byosm.vendorURL = decodeURIComponent(vu[1].indexOf('://') === -1 ? 'http://'+vu[1] : vu[1]);
+  }
+}
+// Parse hash.
+if (window.location.hash) {
+  var h = window.location.hash.match(/#(.*)/);
+  if (h) byosm.hash = h[1];
+  if (!isNaN(parseInt(h[1],10))) byosm.num = h[1];
+}
+</script>
+</head>
+<body class='photo-0'>
+
+<!-- Attribution header -->
+<div id='header' class='page'>
+<div class='attr text w s'>
+  <script type='text/javascript'>document.write(byosm.attr());</script>
+  <p>OSM is built by a community of local mappers that keeps data about roads, cafés, subway stations, and much more up to date every day.</p>
+</div>
+</div>
+
+<!-- About OSM content -->
+<div id='content'>
+<div class='text'>
+  <div class='img local'></div>
+  <div class='icon local'></div>
+  <strong>Local Knowledge</strong>
+  <p>OpenStreetMap emphasizes local knowledge. Contributors make use of aerial imagery, GPS devices, and low-tech field maps to verify that OSM is up to date and accurate.</p>
+</div>
+<div class='text'>
+  <div class='img community'></div>
+  <div class='icon community'></div>
+  <strong>Community Driven</strong>
+  <p>From the engineers that tune OSM's servers to the Humanitarian OSM Team that maps disaster-affected areas, OSM's community is diverse, passionate, and growing every day.</p>
+</div>
+<div class='text'>
+  <div class='img open'></div>
+  <div class='icon open'></div>
+  <strong>Open Data</strong>
+  <p>Your contributions to OpenStreetMap stay yours. Individuals and organizations can all contribute and make use of OSM, one of the largest shared open data sets in the world.</p>
+</div>
+<div class='buttons'>
+  <a class='button osm' href='http://wiki.openstreetmap.org'>Learn more about OSM</a>
+  <script type='text/javascript'>document.write(byosm.getmaps());</script>
+</div>
+<a class='builder' href='#builder' onclick='return byosm.builder()'>Add <em>byosm</em> to your map</a>
+</div>
+
+<!-- Photo captions -->
+<div class='caption photo-0'>
+<a href='https://twitter.com/mikel'>@mikel</a> working on <a href='http://mapkibera.org/'>Map Kibera</a>, a project to map the largest slum in Nairobi, Kenya. <a href='http://www.flickr.com/photos/watato/4564778295'>&copy; watato 2010</a>
+</div>
+<div class='caption photo-1'>
+<a href='https://twitter.com/lxbarth'>@lxbarth</a> and <a href='https://twitter.com/limareis'>@limareis</a> survey Brasilia with walking papers. <a href='http://www.flickr.com/photos/mapbox/7104560119'>&copy; mapbox 2012</a>
+</div>
+<div class='caption photo-2'>
+@TODO caption (<a href='http://www.flickr.com/photos/oddwick/4775001075'>source</a>)
+</div>
+<div class='caption photo-3'>
+@TODO caption (<a href='http://www.flickr.com/photos/28698126@N02/3012439281'>source</a>)
+</div>
+<div class='caption photo-4'>
+@TODO caption (<a href='http://www.flickr.com/photos/louis_liu/4875155429/'>source</a>)
+</div>
+<div class='caption photo-5'>
+@TODO caption (<a href='http://www.flickr.com/photos/kachkaev/5793019627'>source</a>)
+</div>
+<a class='next' href='#' onclick='return byosm.next()'>Next</a>
+
+<!-- Attribution widget builder -->
+<div class='builder' id='builder'>
+<a class='close' href='#' onclick='return byosm.cancel()'>Close</a>
+<div class='form'>
+  <div class='attr' id='preview'><script type='text/javascript'>document.write(byosm.attr({}));</script></div>
+  <input onkeyup='byosm.update()' id='field-user-name' type='text' placeholder='Your name'/>
+  <input onkeyup='byosm.update()' id='field-user-image' type='text' placeholder='Image URL'/>
+  <a class='button skip' href='#create' onclick='return byosm.create()'>Skip customization</a>
+  <a class='button customized' href='#create' onclick='return byosm.create()'>Create attribution</a>
+</div>
+<div class='widget'>
+  <div class='img widget'></div>
+  <input id='field-widget' type='text' onclick='(event.target||event.srcElement).select()' />
+  <p>Copy + paste the code above into your map element.</p>
+</div>
+</div>
+
+<script type='text/javascript'>
+document.body.className = 'photo-'+byosm.num;
+if (byosm.hash === 'builder') byosm.builder();
+</script>
+
+</body>
+</html>

@@ -73,7 +73,7 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/gpx/:id' => 'trace#api_delete', :via => :delete, :id => /\d+/
   match 'api/0.6/gpx/:id/details' => 'trace#api_read', :via => :get, :id => /\d+/
   match 'api/0.6/gpx/:id/data' => 'trace#api_data', :via => :get
-  
+
   # AMF (ActionScript) API
 
   match 'api/0.6/amf/read' => 'amf#amf_read', :via => :post
@@ -102,6 +102,7 @@ OpenStreetMap::Application.routes.draw do
   match '/edit' => 'site#edit', :via => :get
   match '/copyright/:copyright_locale' => 'site#copyright', :via => :get
   match '/copyright' => 'site#copyright', :via => :get
+  match '/contributors' => 'site#contributors', :via => :get
   match '/history' => 'changeset#list', :via => :get
   match '/history/feed' => 'changeset#feed', :via => :get, :format => :atom
   match '/export' => 'site#index', :export => true, :via => :get
