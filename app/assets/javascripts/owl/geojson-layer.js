@@ -32,17 +32,21 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
 
   showCurrentGeom: function (changeId) {
     var change = this.findChange(changeId);
-    if (change && change.prevGeomLayer) {
-      this._map.hasLayer(change.prevGeomLayer) && this._map.removeLayer(change.prevGeomLayer);
-      !this._map.hasLayer(change.currentGeomLayer) && this._map.addLayer(change.currentGeomLayer);
+    if (change.prevGeomLayer && this._map.hasLayer(change.prevGeomLayer)) {
+      this._map.removeLayer(change.prevGeomLayer);
+    }
+    if (change.currentGeomLayer && !this._map.hasLayer(change.currentGeomLayer)) {
+      this._map.addLayer(change.currentGeomLayer);
     }
   },
 
   showPrevGeom: function (changeId) {
     var change = this.findChange(changeId);
-    if (change && change.prevGeomLayer) {
-      this._map.hasLayer(change.currentGeomLayer) && this._map.removeLayer(change.currentGeomLayer);
-      !this._map.hasLayer(change.prevGeomLayer) && this._map.addLayer(change.prevGeomLayer);
+    if (change.currentGeomLayer && this._map.hasLayer(change.currentGeomLayer)) {
+      this._map.removeLayer(change.currentGeomLayer);
+    }
+    if (change.prevGeomLayer && !this._map.hasLayer(change.prevGeomLayer)) {
+      this._map.addLayer(change.prevGeomLayer);
     }
   },
 
