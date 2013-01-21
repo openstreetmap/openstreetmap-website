@@ -135,31 +135,21 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   },
 
   highlightChangeFeature: function (changeId) {
-    var layer = this;
-    $.each(this.changesets, function(changesetId, changeset) {
-      if (changeId in changeset.changes) {
-        if (changeset.changes[changeId].currentGeomLayer) {
-          changeset.changes[changeId].currentGeomLayer.setStyle(layer.styles.hover);
-        } else if (changeset.changes[changeId].prevGeomLayer) {
-          changeset.changes[changeId].prevGeomLayer.setStyle(layer.styles.hover);
-        }
-        return false;
-      }
-    });
+    var change = this.findChange(changeId);
+    if (change.currentGeomLayer) {
+      change.currentGeomLayer.setStyle(this.styles.hover);
+    } else if (change.prevGeomLayer) {
+      change.prevGeomLayer.setStyle(this.styles.hover);
+    }
   },
 
   unhighlightChangeFeature: function (changeId) {
-    var layer = this;
-    $.each(this.changesets, function(changesetId, changeset) {
-      if (changeId in changeset.changes) {
-        if (changeset.changes[changeId].currentGeomLayer) {
-          changeset.changes[changeId].currentGeomLayer.setStyle(changeset.changes[changeId].currentGeomLayer.options.style);
-        } else if (changeset.changes[changeId].prevGeomLayer) {
-          changeset.changes[changeId].prevGeomLayer.setStyle(changeset.changes[changeId].prevGeomLayer.options.style);
-        }
-        return false;
-      }
-    });
+    var change = this.findChange(changeId);
+    if (change.currentGeomLayer) {
+      change.currentGeomLayer.setStyle(change.currentGeomLayer.options.style);
+    } else if (change.prevGeomLayer) {
+      change.prevGeomLayer.setStyle(change.prevGeomLayer.options.style);
+    }
   },
 
   // Add GeoJSON features, build internal structures.
