@@ -146,7 +146,12 @@
       </p>
     </div>
 
-    <div class='user-description'><%= @this_user.description.to_html %></div>
+    <div class='user-description'>
+        <%= @this_user.description.to_html %>
+        <% unless @this_user.url.nil? || @this_user.url.empty? || @this_user.blocks.exists? %>
+          <div class="user-website"><%= link_to t('user.view.website'), @this_user.url, { :rel => "me" } %></div>
+        <% end %>
+    </div>
 
   </div>
 

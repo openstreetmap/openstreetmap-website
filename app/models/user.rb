@@ -43,10 +43,11 @@ class User < ActiveRecord::Base
   validates_numericality_of :home_lon, :allow_nil => true
   validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true
   validates_inclusion_of :preferred_editor, :in => Editors::ALL_EDITORS, :allow_nil => true
+  validates_format_of :url, :with => URI::regexp(%w(http https))
 
   attr_accessible :display_name, :email, :email_confirmation, :openid_url,
                   :pass_crypt, :pass_crypt_confirmation, :consider_pd,
-                  :image_use_gravatar
+                  :image_use_gravatar, :user
 
   after_initialize :set_defaults
   before_save :encrypt_password
