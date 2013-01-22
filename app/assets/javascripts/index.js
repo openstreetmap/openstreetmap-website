@@ -65,10 +65,10 @@ $(document).ready(function () {
   });
 
   function updateLocation() {
-    var center = map.getCenter();
+    var center = map.getCenter().wrap();
     var zoom = map.getZoom();
     var layers = getMapLayers();
-    var extents = map.getBounds();
+    var extents = map.getBounds().wrap();
 
     updatelinks(center.lng,
                 center.lat,
