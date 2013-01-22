@@ -9,6 +9,8 @@
 az: 
   activerecord: 
     attributes: 
+      diary_comment: 
+        body: Mətn
       diary_entry: 
         language: Dil
         latitude: En dairəsi
@@ -19,6 +21,7 @@ az:
         friend: Dost
         user: İstifadəçi
       message: 
+        body: Mətn
         recipient: Qəbul edən
         sender: Göndərən
         title: Başlıq
@@ -27,27 +30,51 @@ az:
         latitude: En dairəsi
         longitude: Uzunluq dairəsi
         name: Ad
-        public: İctimai istifadə
+        public: İctimai
         size: Ölçüsü
         user: İstifadəçi
-        visible: Görünən
+        visible: Görünüş
       user: 
-        active: Aktiv
+        active: Aktivdir
         description: İzah
         display_name: "Gorüntülənən ad:"
         email: E-poçt
         languages: Dillər
         pass_crypt: Parol
     models: 
-      changeset: Dəyişikliklər dəsti
+      acl: Giriş Məhdudiyyətləri siyahısı
+      changeset: Dəyişikliklər Dəsti
+      changeset_tag: Dəyişikliklər Dəstinin Teqi
       country: Ölkə
+      diary_comment: Gündəliyə şərh
+      diary_entry: Gündəlikdə Yazı
       friend: Dost
       language: Dil
       message: Mesaj
+      node: Nöqtə
+      node_tag: Nöqtənin Teqi
       notifier: Bildiriş
+      old_node: Köhnə Nöqtə
+      old_node_tag: Köhnə Nöqtənin Teqi
+      old_relation: Köhnə Əlaqə
+      old_relation_member: Köhnə Əlaqənin İştirakçısı
+      old_relation_tag: Köhnə Əlaqənin Teqi
+      old_way: Köhnə Xətt
+      old_way_node: Köhnə Xəttin Nöqtəsi
+      old_way_tag: Köhnə Xəttin Teqi
+      relation: Əlaqə
+      relation_member: Əlaqənin İştirakçısı
+      relation_tag: Əlaqənin Teqi
+      session: Sessiya
+      trace: Trek
+      tracepoint: Trek Nöqtəsi
+      tracetag: Trek Teqi
       user: İstifadəçi
-      way: Yol
-      way_node: Yol kəsişməsi
+      user_preference: İstifadəçi Qurmaları
+      user_token: İstifadəçi Əlaməti
+      way: Xətt
+      way_node: Xəttin Nöqtələri
+      way_tag: Xəttin Teqi
   browse: 
     changeset: 
       changeset: "Dəyişikliklər dəsti: %{id}"
@@ -60,113 +87,190 @@ az:
     changeset_details: 
       belongs_to: "Məxsusdur:"
       bounding_box: "Məhdudlaşdırıcı çərçivə:"
-      box: qutu
+      box: çərçivə
       closed_at: "Bağlanılıb:"
       created_at: "Yaradılıb:"
+      no_bounding_box: Bu dəyişikliklər dəsti üçün məhdudlaşdırıcı çərçivə təyin edilməmişdir.
       show_area_box: Ərazi çərçivəsini göstər
     common_details: 
       changeset_comment: "Şərh:"
-      deleted_at: "Silinib:"
-      deleted_by: "Tərəfindən silinib:"
+      deleted_at: "Nə zaman silinib:"
+      deleted_by: "Kim tərəfindən silinib:"
       edited_at: "Redaktə edilib:"
-      edited_by: "Tərəfindən redaktə edilib:"
+      edited_by: "İstifadəçi:"
       in_changeset: "Dəyişikliklər dəstində:"
       version: "Versiya:"
+    containing_relation: 
+      entry: Əlaqəsi %{relation_name}
+      entry_role: Əlaqəsi %{relation_name} (%{relation_role} kimi)
     map: 
       deleted: Silinib
+      edit: 
+        area: Ərazini redaktə etmək
+        node: Nöqtəni redaktə etmək
+        relation: Əlaqani redaktə etmək
+        way: Xətti redaktə etmək
+      larger: 
+        area: Əraziyə daha böyük xəritədə baxış
+        node: Nöqtəyə daha böyük xəritədə baxış
+        relation: Əlaqəalərə daha böyük xəritədə baxış
+        way: Xəttə daha böyük xəritədə baxış
       loading: Yüklənir…
     navigation: 
       all: 
-        next_changeset_tooltip: Sonrak dəyişikliklər dəsti
-        next_node_tooltip: Sonrakı kəsişmə
-        next_relation_tooltip: Sonrakı əlaqə
-        next_way_tooltip: Növbəti yol
+        next_changeset_tooltip: Növbəti dəyişikliklər dəsti
+        next_node_tooltip: Növbəti nöqtə
+        next_relation_tooltip: Növbəti əlaqə
+        next_way_tooltip: Növbəti xətt
         prev_changeset_tooltip: Əvvəlki dəyişikliklər dəsti
-        prev_node_tooltip: Əvvəlki kəsişmə
+        prev_node_tooltip: Əvvəlki nöqtə
         prev_relation_tooltip: Əvvəlki əlaqə
-        prev_way_tooltip: Əvvəlki yol
+        prev_way_tooltip: Əvvəlki xətt
       user: 
         name_changeset_tooltip: "%{user} tərəfindən edilmiş redaktələrə bax"
         next_changeset_tooltip: "%{user} tərəfindən edilmiş sonrakı redaktələr"
         prev_changeset_tooltip: "%{user} tərəfindən edilmiş əvvəlki redaktələr"
     node: 
       download_xml: XML kimi yüklə
-      edit: redaktə
+      edit: Nöqtəni redaktə etmək
+      node: Nöqtə
+      node_title: "Nöqtə: %{node_name}"
       view_history: Tarixçəyə bax
     node_details: 
       coordinates: "Koordinatlar:"
+      part_of: "Tərkibindədir:"
     node_history: 
       download_xml: XML kimi yüklə
-      view_details: Detalları göstər
+      node_history: Nöqtənin tarixcəsi
+      node_history_title: "Nöqtənin Tarixçəsi: %{node_name}"
+      view_details: Ətraflı göstər
     not_found: 
+      sorry: Təəsüf ki, %{id} identifikatorlu %{type} tapılmadı.
       type: 
         changeset: dəyişikliklər dəsti
+        node: nöqtə
+        relation: əlaqə
+        way: xətt
+    paging_nav: 
+      of: dən
+      showing_page: Səhifə göstərilmişdir
     redacted: 
-      redaction: Redaktə %{id}
+      message_html: "%{type} üçün %{version} versiya redaktə olunduğu üçün göstərilə bilməz. Zəhmət olmasa əlavə məlumat üçün %{redaction_link} baxınız."
+      redaction: Redaksiya %{id}
       type: 
-        node: kəsişmə
-        way: yol
+        node: nöqtə
+        relation: əlaqə
+        way: xətt
     relation: 
       download_xml: XML kimi yüklə
+      relation: Əlaqə
+      relation_title: "Əlaqə: %{relation_name}"
       view_history: Tarixçəyə bax
     relation_details: 
-      members: "Üzvlər:"
+      members: "İştirakçılar:"
+      part_of: "Tərkibindədir:"
     relation_history: 
       download_xml: XML kimi yüklə
-      view_details: Detalları göstər
+      relation_history: Əlaqə tarixçəsi
+      relation_history_title: "Əlaqə tarixçəsi: %{relation_name}"
+      view_details: Ətraflı göstər
     relation_member: 
+      entry_role: "%{role} kimi %{type} %{name}"
       type: 
-        node: Kəsişmə
-        way: Yol
+        node: Nöqtə
+        relation: Əlaqə
+        way: Xətt
     start_rjs: 
-      data_frame_title: Tarix
-      data_layer_name: Xəritəs Məlumatlarını Gözdən keçir
+      data_frame_title: Məlumatlar
+      data_layer_name: Xəritə məlumatlarına bax
+      details: Ətraflı
+      edited_by_user_at_timestamp: "%{user} tərəfindən %{timestamp} redaktə edilib"
       hide_areas: Ərazini gizlət
+      history_for_feature: "%{feature} üçün tarixçə"
+      load_data: Məlumatları yüklənməsi
       loading: Yüklənir…
+      manually_select: Digər ərazini seçmək
       object_list: 
-        details: Detallar
+        api: Bu ərazini API-dən almaq
+        back: Obyektlərin siyahısını göstər
+        details: Ətraflı
+        heading: Obyektlərin siyahısı
         history: 
           type: 
-            node: Kəsişmə %{id}
-            way: Yol %{id}
+            node: Nöqtə %{id}
+            way: Xətt %{id}
         selected: 
           type: 
-            node: Kəsişmə %{id}
+            node: Nöqtə %{id}
+            way: Xətt %{id}
         type: 
-          way: Yol
-      private_user: məxfi istifadəçi
+          node: Nöqtə
+          way: Xətt
+      private_user: fərdi istifadəçi
       show_areas: Ərazini göstər
       show_history: Tarixçəni göstər
-      wait: Gözlə...
+      unable_to_load_size: Yükləmə mümkün deyil. Kvadratın ölçüsü %{bbox_size} çox böyükdür (%{max_bbox_size} kiçik olmalıdır)
+      view_data: Xəritənin hazırki görüntüsü üçün  məlumatlara baxış
+      wait: Gözləyin...
+      zoom_or_select: Baxmaq üşün ərazini seçin və ya böyüdün.
+    tag_details: 
+      tags: "Teqlər:"
+      wiki_link: 
+        key: "%{key} teqini təsvir edən viki səhifəsi"
+        tag: "%{key}=%{value} teqini təsvir edən viki səhifəsi"
+      wikipedia_link: Vikipediyada %{page} məqaləsi
     timeout: 
+      sorry: Bağışlayın, %{id} identifikatorlu %{type} üçün məlumatlar çıxarılmaq üçün cox uzundurlar.
       type: 
         changeset: dəyişikliklər dəsti
-        way: yol
+        node: nöqtə
+        relation: əlaqə
+        way: xətt
     way: 
       download_xml: XML kimi yüklə
-      edit: redaktə
+      edit: Xətti redaktə etmək
       view_history: Tarixçəyə bax
-      way: Yol
+      way: Xətt
+      way_title: "Xətt: %{way_name}"
+    way_details: 
+      also_part_of: 
+        one: "%{related_ways} xəttin tərkib hissəsidir"
+        other: həmçinin %{related_ways} xəttin tərkibindədir
+      nodes: "Nöqtələr:"
+      part_of: "Tərkibindədir:"
     way_history: 
       download_xml: XML kimi yüklə
-      view_details: Detalları göstər
+      view_details: Ətraflı göstər
+      way_history: Xəttin dəyişiklik tarixçəsi
+      way_history_title: "Xəttin dəyişiklik tarixçəsi: %{way_name}"
   changeset: 
     changeset: 
       anonymous: Anonim
       big_area: (böyük)
-      no_comment: (heç biri)
+      no_comment: (yoxdur)
+      no_edits: (redaktə yoxdur)
+      show_area_box: ərazi çərçivəsini göstər
+      still_editing: (hal-hazırda redaktə olunur)
+      view_changeset_details: Dəyişikliklər dəstinin ətraflı gorüntüsü
     changeset_paging_nav: 
       next: Növbəti »
       previous: « Əvvəlki
+      showing_page: Səhifə %{page}
     changesets: 
       area: Ərazi
       comment: Şərh
       id: ID
+      saved_at: Başa çatdı
       user: İstifadəçi
     list: 
+      description: Son dəyişikliklər
+      description_bbox: "%{bbox} koordinatlarını çərçivəsində dəyişikliklər dəsti"
       description_friend: Dostlarınız tərəfindən edilmiş dəyişikliklər dəsti
       description_nearby: Yaxınlıqdakı istifadəçilər tərəfindən edilmiş dəyişikliklər dəsti
       description_user: "%{user} tərəfindən edilmiş dəyişikliklər dəsti"
+      description_user_bbox: "%{bbox} koordinatlarını çərçivəsində %{user} tərəfindən edilmiş dəyişikliklər dəsti"
+      empty_anon_html: Hal-hazırda redaktələr hələdə yoxdur
+      empty_user_html: Görünür, siz hələ heç nə redaktə etməmisiniz. İşləməyə başlamazdan əvvəl <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Yeni başlayanlar üçün təlimatlar</a> səhifəsinə baxın.
       heading: Dəyişikliklər dəsti
       heading_bbox: Dəyişikliklər dəsti
       heading_friend: Dəyişikliklər dəsti
@@ -174,58 +278,88 @@ az:
       heading_user: Dəyişikliklər dəsti
       heading_user_bbox: Dəyişikliklər dəsti
       title: Dəyişikliklər dəsti
+      title_bbox: "%{bbox} koordinatlarını çərçivəsində dəyişikliklər dəsti"
+      title_friend: Dostlarınız tərəfindən edilmiş dəyişikliklər dəsti
+      title_nearby: Yaxınlıqdakı istifadəçilər tərəfindən edilmiş dəyişikliklər dəsti
+      title_user: "%{user} tərəfindən edilmiş dəyişikliklər dəsti"
+      title_user_bbox: "%{bbox} koordinatlarını çərçivəsində %{user} tərəfindən edilmiş dəyişikliklər dəsti"
+    timeout: 
+      sorry: Bağışlayın, tələb etdiyiniz dəyişikliklər dəstinin siyahısı, çıxarıla bilmək üçün cox böyükdür.
   diary_entry: 
     comments: 
       ago: "%{ago} əvvəl"
       comment: Şərh
+      has_commented_on: "%{display_name} indicə gündəliyin növbəti yazılarını şərh etdi"
       newer_comments: Yeni şərhlər
       older_comments: Köhnə Şərhlər
-      when: Harada
+      post: Post
+      when: Nə vaxt
     diary_comment: 
-      confirm: Təsdiq et
+      comment_from: Şərh %{link_user} tərəfindən %{comment_created_at}
+      confirm: Təsdiq etmək
       hide_link: Bu şərhi gizlət
     diary_entry: 
+      comment_count: 
+        one: "%{count} şərh var"
+        other: "%{count} şərh var"
+        zero: Şərh yoxdur
       comment_link: Bu yazıyı şərh et
-      confirm: Təsdiq et
+      confirm: Təsdiq etmək
       edit_link: Bu yazıyı redaktə et
       hide_link: Bu yazını gizlət
+      posted_by: "%{link_user} tərəfindən %{created} yazılıb, %{language_link} dilində."
+      reply_link: Bu yazıya cavab ver
     edit: 
+      body: "Mətn:"
       language: "Dil:"
       latitude: "En dairəsi:"
+      location: "Yerləşdiyi yer:"
       longitude: "Uzunluq dairəsi:"
-      marker_text: Gundəlik yazısının yeri
+      marker_text: Gundəlik yazısının yazıldığı yer
       save_button: Qeyd et
       subject: "Mövzu:"
-      title: Gündəlik yazısıni redaktə et
-      use_map_link: xəritədən istifadə
+      title: Gündəlik yazısıni redaktə etmək
+      use_map_link: xəritə üzərində göstər
     feed: 
       all: 
+        description: OpenStreetMap istifadəçilərinin axırıncı gündəlik yazıları
         title: OpenStreetMap gündəlik yazısı
       language: 
-        title: "%{language_name} dilində OpenStreetMap gündəlik yazısı"
+        description: "%{language_name} dilində OpenStreetMap istifadəçilərinin axırıncı gündəlik yazıları"
+        title: "%{language_name} dilində OpenStreetMap gündəlik yazıları"
       user: 
-        title: "%{user} üçün OpenStreetMap gündəlik yazısı"
+        description: "%{user} üçün axırıncı OpenStreetMap gündəlik yazıları"
+        title: "%{user} üçün OpenStreetMap gündəlik yazıları"
     list: 
       in_language_title: "%{language} dilində Gundəlik Yazıları"
       new: Yeni Gündəlik Yazısı
+      new_title: İstifadəçi gündəliyinizə yeni yazı əlavə etmək
       newer_entries: Yeni yazılar
-      no_entries: Gundəlik yazıları yoxdur
+      no_entries: Gundəlikdə yazı yoxdur
       older_entries: Köhnə yazılar
+      recent_entries: "Yaxın müddətdəki gündəlik yazıları:"
       title: İstifadəçi gündəlikləri
       title_friends: Dostların gündəlikləri
       title_nearby: Yaxınlıqdakı İstifadəçilərin Gündəlikləri
       user_title: "%{user}'nin gündəliyi"
     location: 
       edit: Redaktə
+      location: "Yerləşdiyi yer:"
       view: Görünüş
     new: 
       title: Yeni Gündəlik Yazısı
+    no_such_entry: 
+      heading: "Yazı mövcud deyil id: %{id}"
+      title: Belə bir gündəlik yazısı mövcud deyil
     view: 
-      login: Daxil ol
-      save_button: Saxla
-      title: "%{user}'nin gündəliyi | %{title}"
-      user_title: "%{user}'nin gündəliyi"
+      leave_a_comment: Şərh yaz
+      login: Özünüzü təqdim edin
+      login_to_leave_a_comment: Şərh yazmaq üçün %{login_link}
+      save_button: Qeyd et
+      title: İstifadəçi %{user} gündəliyi | %{title}
+      user_title: İstifadəçi %{user} gündəliyi
   editor: 
+    default: Susmaya görə (hal-hazırda %{name})
     potlatch: 
       description: Potlatch 1 (brauzer üzərindən redaktə)
       name: Potlatch 1
@@ -237,16 +371,34 @@ az:
       name: Uzaqdan idarəetmə
   export: 
     start: 
+      add_marker: Xəritəyə marker əlavə etmək
+      area_to_export: İxrac üçün Ərazi
+      embeddable_html: Quraşdırılan HTML
+      export_button: İxrac etmək
       format: Format
+      format_to_export: İxracın forması
       image_size: Şəkil ölçüsü
       latitude: "En:"
       licence: Lisenziya
       longitude: "Uz:"
+      manually_select: Digər ərazini seçmək
+      map_image: Xəritənin Şəkili (standart qatı göstərir)
+      max: maks
+      options: Nizamlamalar
+      osm_xml_data: OpenStreetMap XML formasında məlumatlar
+      output: Nəticə
+      paste_html: Veb sayta quraşdırmaq üçün HTML kod
       scale: Miqyas
       too_large: 
         heading: Sahə Çox Böyükdür
       zoom: Yaxınlaşdır
     start_rjs: 
+      add_marker: Xəritəyə marker əlavə etmək
+      change_marker: Markerin yerini dəyişin
+      click_add_marker: Marker əlavə etmək üçün xəritəyə basın
+      drag_a_box: Ərazini seçmək üçün çərçivəni xəritə üzərində dartın
+      export: İxrac
+      manually_select: Digər ərazini seçmək
       view_larger_map: Böyüdülmüş xəritəyə bax
   geocoder: 
     description: 
@@ -264,26 +416,53 @@ az:
     results: 
       more_results: Daha çox nəticə
       no_results: Nəticələr tapılmadı
+    search: 
+      title: 
+        ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a> nəticələri
+        geonames: <a href="http://www.geonames.org/">GeoNames</a> nəticələri
+        latlon: <a href="http://openstreetmap.org/">Daxili nəticələr</a>
+        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> nəticələri
+        uk_postcode: <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a> nəticələri
+        us_postcode: <a href="http://geocoder.us/">Geocoder.us</a> nəticələri
     search_osm_nominatim: 
       prefix: 
         aeroway: 
           aerodrome: Aerodrom
+          apron: Perron
+          gate: Enmə zonasına çıxış
           helipad: Vertalyot meydançası
+          runway: Uçuş-enmə zolağı
+          taxiway: Sürmə yolu
           terminal: Terminal
         amenity: 
+          WLAN: WiFi ərazi
           airport: Aeroport
-          atm: ATM
+          arts_centre: İncəsənət mərkəzi
+          artwork: İncəsənət əsəri
+          atm: Bankomat
+          auditorium: Auditoriya
           bank: Bank
           bar: Bar
-          bus_station: Avtovağzal
+          bbq: Manqal
+          bench: Skameyka
+          bicycle_parking: Relosiped dayanacağı
+          bicycle_rental: Relosiped icarəsi
+          biergarten: Açıq havada Pivəxana
+          brothel: Bardel
+          bureau_de_change: Valyuta mübadiləsi
+          bus_station: Avtobus Stansiyası
           cafe: Kafe
           car_rental: Avtomobil icarəsi
+          car_sharing: Karşarinq
           car_wash: Avto yuyucu
           casino: Kazino
+          charging_station: Şarj Stansiyası
           cinema: Kinoteatr
           clinic: Klinika
           club: Klub
           college: Kollec
+          community_centre: İctimai mərkəz
+          courthouse: Məhkəmə yeri
           crematorium: Krematoriya
           dentist: Diş həkimi
           doctors: Həkimlər
@@ -291,8 +470,14 @@ az:
           drinking_water: İçməli su
           driving_school: Sürücülük məktəbi
           embassy: Səfirlik
+          emergency_phone: Fövqəladə hallar üçün telefon
+          fast_food: Fəst Fud
+          ferry_terminal: Parom Terminalı
+          fire_hydrant: Yanğın Hidrantı
+          fire_station: Yanğın söndürmə Stansiyası
+          food_court: Açıq havada Yeməkxana
           fountain: Fontan
-          fuel: Yanacaq
+          fuel: Yanacaq doldurma
           grave_yard: Qəbirsanlıq
           gym: Fitnes mərkəzi
           hall: Zal
@@ -304,55 +489,106 @@ az:
           kindergarten: Uşaq bağçası
           library: Kitabxana
           market: Market
+          marketplace: Bazar meydanı
+          mountain_rescue: Dağ Xilasetmə Xidməti
           nightclub: Gecə klubu
+          nursery: Pansionat
           nursing_home: Qocalar evi
           office: Ofis
           park: Park
+          parking: Dayanacaq
           pharmacy: Aptek
           place_of_worship: Sitayişgah
           police: Polis
           post_box: Poçt qutusu
           post_office: Poçt
+          preschool: Məktəbəqədər hazırlıq
           prison: Həbsxana
           pub: Pivəxana
-          public_building: İctimai binalar
+          public_building: İctimai Binalar
+          public_market: İctimai Bazar
           reception_area: Qəbul sahəsi
+          recycling: Utilizasiya yeri
           restaurant: Restoran
+          retirement_home: Qocalar Evi
           sauna: Sauna
           school: Məktəb
           shelter: Sığınacaq
+          shop: Mağaza
+          shopping: Alış-veriş
+          shower: Duş
+          social_centre: İctimai Mərkəz
+          social_club: İctimai Club
+          studio: Studiya
           supermarket: Supermarket
           swimming_pool: Üzgüçülük hovuzu
           taxi: Taksi
+          telephone: İctimai Telefon
           theatre: Teatr
           toilets: Tualet
+          townhall: Şəhər Administrasiyası
           university: Universitet
           vending_machine: Ticarət avtomatı
+          veterinary: Veterenar Klinikası
+          village_hall: Villa
+          waste_basket: Zibillik
+          wifi: WiFi ərazi
+          youth_centre: Gənclər Mərkəzi
         boundary: 
           administrative: Administrativ sərhəd
+          census: Siyahıya alma sərhədi
           national_park: Milli Park
           protected_area: Qorunan ərazi
         bridge: 
+          aqueduct: Akveduk
+          suspension: Asma Körpü
+          swing: Açılan Körpü
+          viaduct: Viaduk
           "yes": Körpü
         building: 
           "yes": Tikili
         highway: 
+          bridleway: Atlı yolu
+          bus_guideway: Gəzinti Avtobus xətti
           bus_stop: Avtobus dayanacağı
+          byway: Dalan
+          construction: Yol təmirdədir
+          cycleway: Velocığır
           emergency_access_point: Təcili yardım məntəqəsi
-          footway: Cığır
+          footway: Tratuar (Piyada yolu)
+          ford: Çay keçidi
+          living_street: Yaşayış küçəsi
+          milestone: Məsafə dirəyi
+          minor: Kiçik yol
+          motorway: Avtomagistral
+          motorway_junction: Avtomagistral Kəsişməsi
+          motorway_link: Avtomagistral yolu
+          path: Cığır
+          pedestrian: Piyadalar üçün yol
+          platform: Platforma
           primary: Birinci dərəcəli yol
           primary_link: Birinci dərəcəli yol
+          raceway: Otüş yolu
+          residential: Küçə
+          rest_area: Dincəlmə güşəsi
           road: Yol
           secondary: İkici dərəcəli yol
           secondary_link: İkici dərəcəli yol
-          service: Servis yolu
+          service: Keçid yolu
+          services: Yolətrafı Servislər
           speed_camera: Sürət kamerası
+          steps: Pilləkənlər
+          stile: Turniket
           tertiary: Üçüncü dərəcəli yol
           tertiary_link: Üçüncü dərəcəli yol
+          track: Torpaq yol
+          trail: Cığır
           trunk: Baş yol
           trunk_link: Baş yol
           unclassified: Təsnifatsız yol
+          unsurfaced: Örtüksüz yol
         historic: 
+          archaeological_site: Arxeoloji qazıntılar
           battlefield: Döyüş meydanı
           boundary_stone: Sərhəd daşı
           building: Tikili
@@ -360,30 +596,42 @@ az:
           church: Kilsə
           fort: Qala
           house: Ev
+          icon: Ikona
           manor: Malikanə
           memorial: Memorial
           mine: Mədən
+          monument: Abidə
           museum: Muzey
           ruins: Xarabalıqlar
           tower: Qüllə
           wayside_cross: Yolkənarı xaç
+          wayside_shrine: Yolkənarı Ziyarətgah
+          wreck: Gəmi qalıqları
         landuse: 
+          allotments: Bağ-bostanlar
+          basin: Hovuz
+          brownfield: Tərk edilmiş ərazi
           cemetery: Məzarlıq
           commercial: Ticarət sahəsi
+          conservation: Konservasiya ərazisi
           construction: Tikinti
           farm: Ferma
           farmland: Kənd təsərrüfatı
           farmyard: Ferma həyəti
-          forest: Meşə
+          forest: Meşə təsərrüfatı
           garages: Qarajlar
           grass: Ot
+          greenfield: Mənimsənməmiş Ərazi
           industrial: Sənaye sahəsi
+          landfill: Zibillik
           meadow: Çəmənlik
           military: Hərbi ərazi
           mine: Mədən
           nature_reserve: Təbiət Qoruğu
           orchard: Meyvə bağı
           park: Park
+          piste: Xizəkçilik
+          quarry: Karxana
           railway: Dəmir yolu
           wood: Ağac
         leisure: 
@@ -486,7 +734,7 @@ az:
           toys: Otuncaq dükanı
           travel_agency: Səyahət Agentliyi
         tourism: 
-          artwork: İncəsənə əsərləri dükanı
+          artwork: İncəsənət əsərləri dükanı
           attraction: Attraksion
           caravan_site: Karvansaray
           guest_house: Qonaq evi
@@ -534,7 +782,6 @@ az:
     user_diaries: İstifadəçi Gündəlikləri
     view: Görünüş
     view_tooltip: Xəritəni göstər
-    welcome_user: Xoş gəlmisiz, %{user_link}
     welcome_user_link_tooltip: Sizin istifadəçi səhifəniz
     wiki: Viki
   license_page: 
