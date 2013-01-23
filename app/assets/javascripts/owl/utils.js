@@ -117,3 +117,8 @@ function findDataValue(el, key) {
   }
   return result;
 }
+
+// Determines if the "Load more" element is in view - means that we need to load another page of results!
+function isLoadMoreInView() {
+  return $('#sidebar_content').height() - $('#sidebar').scrollTop() < $('#sidebar').height();
+}

@@ -27,7 +27,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
 
   nextPage: function() {
     this.currentOffset += this.pageSize;
-    this._refresh();
+    this._loadMore();
   },
 
   showCurrentGeom: function (changeId) {
@@ -63,58 +63,10 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
 
   // Returns the layer to the starting state - removes all features, resets internal structures etc.
   reset: function () {
+    this.fire('reset');
+    this.changesets = {};
     this.osmElements = {};
     this._removeObjectLayers();
-  },
-
-  _handleMapChange: function (e) {
-    var url = this._getUrlForTilerange();
-    if (url == this.currentUrl) {
-      // No change in tile range - no need to do the AJAX call.
-      return;
-    }
-    this.currentOffset = 0;
-    this._refresh();
-  },
-
-  _refresh: function () {
-    this.fire('refreshcalled');
-
-    this.reset();
-
-    if (this._map.getZoom() < this.minZoomLevel) {
-      return;
-    }
-
-    this.fire('loading');
-
-    var requestUrl = this._getUrlForTilerange();
-    $.ajax({
-      context: this,
-      url: requestUrl,
-      dataType: 'jsonp',
-      success: function(geojson, status, xhr) {
-        var url = this._getUrlForTilerange();
-        if (url != requestUrl) {
-          // Ignore response that is not applicable to the current viewport.
-          return;
-        }
-        this.currentUrl = url;
-        this._processResponse(geojson);
-        this.fire('loaded', geojson);
-      },
-      error: function() {
-      }
-    });
-  },
-
-  changesetList: function () {
-    var list = [];
-    $.each(this.changesets, function (k, v) { list.push(v); });
-    list.sort(function (a, b) {
-      return a.created_at > b.created_at ? -1 : 1;
-    });
-    return list;
   },
 
   highlightChangesetFeatures: function (changeset_id) {
@@ -156,16 +108,60 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     }
   },
 
+  _handleMapChange: function (e) {
+    var url = this._getUrlForTilerange();
+    if (url == this.currentUrl) {
+      // No change in tile range - no need to do the AJAX call.
+      return;
+    }
+    this.currentOffset = 0;
+    this._loadMore(true);
+  },
+
+  _loadMore: function (doReset) {
+    if (doReset) {
+      this.reset();
+    }
+
+    if (this._map.getZoom() < this.minZoomLevel) {
+      this.fire('notloading');
+      return;
+    }
+
+    this.fire('loading');
+
+    var requestUrl = this._getUrlForTilerange();
+    $.ajax({
+      context: this,
+      url: requestUrl,
+      dataType: 'jsonp',
+      success: function(geojson, status, xhr) {
+        var url = this._getUrlForTilerange();
+        if (url != requestUrl) {
+          // Ignore response that is not applicable to the current viewport.
+          return;
+        }
+        this.currentUrl = url;
+        var loadedChangesets = this._processResponse(geojson);
+        this.fire('loaded', {
+          changesets: loadedChangesets,
+          gotMore: loadedChangesets.length == this.pageSize
+        });
+      },
+      error: function() {
+      }
+    }, this);
+  },
+
   // Add GeoJSON features, build internal structures.
   _processResponse: function (geojson) {
-    this.clearLayers();
-    this.changesets = {};
-
     var layer = this;
+    var loadedChangesets = [];
 
     $.each(geojson['features'], function (index, changeset) {
       layer.owlObjectLayers[changeset.properties.id] = [];
       layer.changesets[changeset.properties.id] = changeset.properties;
+      loadedChangesets.push(changeset.properties);
 
       var changeById = {};
       $.each(changeset.properties.changes, function (index, change) {
@@ -193,6 +189,12 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
         }
       });
     });
+
+    loadedChangesets.sort(function (a, b) {
+      return a.created_at > b.created_at ? -1 : 1;
+    });
+
+    return loadedChangesets;
   },
 
   // Prepares a GeoJSON layer for a given change feature and adds it to the map.
@@ -339,5 +341,4 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     }
     return result;
   }
-
 });

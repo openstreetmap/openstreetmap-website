@@ -1,6 +1,7 @@
 //= require owl/config
 //= require owl/geojson-layer
 //= require owl/utils
+//= require templates/owl/sidebar_layout
 //= require templates/owl/changeset_list
 //= require templates/owl/changes
 
@@ -8,37 +9,64 @@ var owlGeoJsonLayer;
 var currentlyShownChangeset;
 var currentlySelectedChange;
 var initialized = false;
+var gotMoreChangesets = true;
+var loadingInProgress = false;
 
 function initOwlLayer() {
   if (initialized) {
     return;
   }
   initialized = true;
+
   owlGeoJsonLayer = new L.OWL.GeoJSON({styles: OWL.geoJsonStyles});
 
-  owlGeoJsonLayer.on('refreshcalled', function (geojson) {
+  owlGeoJsonLayer.on('notloading', function (geojson) {
     $("#sidebar_content").html('<span class="pleasezoomin">Please zoom in<br>to see history</span>');
   });
 
   owlGeoJsonLayer.on('loading', function (geojson) {
-    $("#sidebar_content").html('<%= image_tag "searching.gif" %>');
+    $('#history-sidebar-loadmore').show();
+    loadingInProgress = true;
+  });
+
+  owlGeoJsonLayer.on('reset', function (geojson) {
+    $('#sidebar_content').html(JST["templates/owl/sidebar_layout"]());
+    gotMoreChangesets = true;
+    loadingInProgress = false;
   });
 
   owlGeoJsonLayer.on('change_clicked', onChangeClicked);
 
-  owlGeoJsonLayer.on('loaded', function (geojson) {
+  owlGeoJsonLayer.on('loaded', function (data) {
+    $('#history-sidebar-loadmore').hide();
+    gotMoreChangesets = data.gotMore;
+    loadingInProgress = false;
+
+    if (data.changesets.length == 0) {
+      return;
+    }
+
     var changesets = owlGeoJsonLayer.changesets;
 
     $.each(changesets, function (index, changeset) {
       prepareChangesetInfo(changeset);
     });
 
-    $("#sidebar_content").html(JST["templates/owl/changeset_list"]({
-      changesets: owlGeoJsonLayer.changesetList(),
-      owlLayer: owlGeoJsonLayer
-    }));
+    var existing = $('#history-sidebar').html();
+    $('#history-sidebar').html(existing +
+      JST["templates/owl/changeset_list"]({
+        changesets: data.changesets,
+        owlLayer: owlGeoJsonLayer
+      })
+    );
 
     $("abbr.timeago").timeago();
+
+    $('#sidebar').scroll(function (e) {
+      if (isLoadMoreInView() && gotMoreChangesets && !loadingInProgress) {
+        owlGeoJsonLayer.nextPage();
+      }
+    });
 
     $('.changeset-info').click(function (e) {
       var changesetId = findChangesetId(e.target);
