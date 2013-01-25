@@ -114,6 +114,12 @@ h6:first-child {
   margin-top: 0;
 }
 
+.wrapper {
+  margin-left: 185px;
+  border-left: 1px solid #ccc;
+  text-align: left;
+}
+
 .column-1 {
   width: 50%;
   margin-bottom: 20px;
@@ -167,6 +173,8 @@ table {
 #left {
   position: absolute;
   height: 100%;
+  left: 0;
+  top: 0;
   width: 185px;
   font-size: 11px;
   line-height: 12px;
@@ -436,10 +444,12 @@ table {
 
 .site-edit #top-bar,
 .site-index #top-bar,
-.site-export #top-bar {
+.site-export #top-bar,
+.changeset-list #top-bar {
   position: fixed;
   left: 0;
   right: 0;
+  top: 0;
 }
 
 #tabnav {
@@ -538,13 +548,15 @@ table {
 }
 
 .site-index .leaflet-top,
-.site-export .leaflet-top {
+.site-export .leaflet-top,
+.changeset-list .leaflet-top {
   top: 10px !important;
   .leaflet-control {
     margin-top: 0px !important;
   }
 }
 
+.changeset-list #map .olControlScaleLine,
 .site-index #map .olControlScaleLine,
 .site-export #map .olControlScaleLine {
   left: 10px !important;
@@ -757,6 +769,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   position: relative;
 }
 
+/* Exceptions for big map */
 .site-edit #content,
 .site-index #content,
 .site-export #content {
@@ -765,12 +778,6 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   top: 30px; bottom: 0;
   left: 185px; right: 0;
   border-left: 1px solid #ccc;
-}
-
-.wrapper {
-  margin-left: 185px;
-  border-left: 1px solid #ccc;
-  text-align: left;
 }
 
 .site-edit #content {
@@ -877,10 +884,34 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 /* Rules for the changeset list shown by the history tab etc */
 
+.changeset-list #content {
+  padding: 0;
+  height: 100%;
+  overflow: auto;
+  margin-top: 30px;
+}
+
+.changeset-list .wrapper {
+  position: absolute;
+  right: 45%;
+  height: 100%;
+  overflow: hidden;
+  margin-top: 0;
+  margin-left: 0;
+  left: 185px;
+  text-align: left;
+}
+
+.changeset-list ul.secondary-actions.pager {
+    padding: 10px 20px;
+    margin: 0;
+    display: block;
+}
+
 #changeset_list {
   width: 100%;
   ul {
-    padding: 10px 0;
+    padding: 10px 20px;
     margin-bottom: 0px;
     border-top: 1px solid #ccc;
     &:last-child {
@@ -899,14 +930,13 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 #changeset_list_map {
-  position: absolute;
-  bottom: 20px;
-  top: 20px;
-  right: 20px;
+  position: fixed;
+  bottom: 0px;
+  top: 30px;
+  right: 0px;
   width: 45%;
-  min-height: 398px;
-  max-height: 598px;
-  border: 1px solid #ccc;
+  overflow: hidden;
+  border-left: 1px solid #ccc;
 }
 
 /* Rules for the data browser */
