@@ -41,8 +41,8 @@ $(document).ready(function () {
   $(".richtext_dopreview").click(function (event) {
     var editor = $(this).parents(".richtext_container").find("textarea");
     var preview = $(this).parents(".richtext_container").find(".richtext_preview");
-    var width = editor.outerWidth() - preview.outerWidth() + preview.innerWidth();
-    var minHeight = editor.outerHeight() - preview.outerHeight() + preview.innerHeight();
+    var width = editor.outerWidth() - preview.outerWidth() + preview.width();
+    var minHeight = editor.outerHeight() - preview.outerHeight() + preview.height();
 
     if (preview.contents().length == 0) {
       preview.oneTime(500, "loading", function () {
