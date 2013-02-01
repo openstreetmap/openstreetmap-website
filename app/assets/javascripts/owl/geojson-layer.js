@@ -297,7 +297,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   getAtomUrlForTilerange: function () {
     var tileSize, zoom;
     if (this._map.getZoom() > 16) {
-      // Modified tile size: ZL17 -> 512, ZL19 -> 1024
+      // Modified tile size: ZL17 -> 512, ZL18 -> 1024
       tileSize = Math.pow(2, 8 - (16 - this._map.getZoom()));
       zoom = 16;
     } else {
