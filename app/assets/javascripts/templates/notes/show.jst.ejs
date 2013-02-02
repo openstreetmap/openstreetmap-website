@@ -5,11 +5,12 @@
     <small class="deemphasize">
       <% if (comment.user) { %>
         <%= I18n.t('javascripts.notes.show.' + comment.action + '_by', {
-           user: comment.user, user_url: comment.user_url, time: comment.date
+           user: comment.user, user_url: comment.user_url,
+           time: I18n.l("time.formats.long", comment.date)
         }) %>
       <% } else { %>
         <%- I18n.t('javascripts.notes.show.' + comment.action + '_by_anonymous', {
-           time: comment.date
+           time: I18n.l("time.formats.long", comment.date)
         }) %>
       <% } %>
     </small>
