@@ -5,7 +5,7 @@
 //= require index/notes
 
 $(document).ready(function () {
-  var permalinks = $("#permalink").html();
+  var permalinks = $("#permalink").detach().html();
   var marker;
   var params = OSM.mapParams();
   var map = createMap("map");
@@ -66,10 +66,10 @@ $(document).ready(function () {
   });
 
   function updateLocation() {
-    var center = map.getCenter();
+    var center = map.getCenter().wrap();
     var zoom = map.getZoom();
     var layers = getMapLayers();
-    var extents = map.getBounds();
+    var extents = map.getBounds().wrap();
 
     updatelinks(center.lng,
                 center.lat,

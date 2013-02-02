@@ -469,7 +469,7 @@ table {
 
 .site-index #tabnav a#viewanchor,
 .site-edit #tabnav a#editanchor,
-.changeset_list #tabnav a#historyanchor,
+.changeset-list #tabnav a#historyanchor,
 .site-export #tabnav a#exportanchor {
   border-bottom: 1px solid #aaa;
   background: #9ed485;
@@ -789,6 +789,15 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   top: 30px;
 }
 
+#content.maximised {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 0;
+  z-index: 1000;
+}
+
 #slim_container {
   width: 100%;
 }
@@ -805,12 +814,16 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 #slim_content {
   margin: 10px;
-  margin-top: 90px;
+  margin-top: 95px;
   max-width: 50em;
+
+  .content-heading {
+    margin-bottom: 15px;
+  }
 }
 
 #slim_header {
-  margin: 10px;
+  margin: 30px 10px;
   position: absolute;
   top: 0px;
   margin-right: 5px;
@@ -891,7 +904,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     }
   }
   .selected {
-    background-color: rgb(255, 255, 160);
+    background: #FFFFC0;
   }
   .date,
   .user {
@@ -1021,6 +1034,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 .activity-block {
+  clear: left;
   border-bottom: 1px solid #ccc;
   padding-bottom: 20px;
   float: left;
@@ -1139,15 +1153,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   }
   ul,
   ol {
-    margin-bottom: 20px;
     font-style: italic;
-    margin-left: 20px;
-  }
-  ul li {
-    list-style: disc;
-  }
-  ol li {
-    list-style: decimal;
   }
   ul.secondary-actions { display: inline-block;}
 }
@@ -1436,8 +1442,8 @@ textarea {
 /* Rules for user images */
 
 img.user_image {
-  width: 100px;
-  height: 100px;
+  max-width: 100px;
+  max-height: 100px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
   float: left;
@@ -1445,8 +1451,8 @@ img.user_image {
 }
 
 img.user_thumbnail {
-  width: 50px;
-  height: 50px;
+  max-width: 50px;
+  max-height: 50px;
   border: 1px solid #ccc;
   margin-right: 20px;
 }
@@ -1499,18 +1505,6 @@ ul.secondary-actions {
       padding-left: 0;
     }
   }
-  .hidden li,
-  .hide_unless_logged_in li,
-  .hide_unless_administrator li {
-    border-left: 1px solid #ccc;
-    padding-left: 5px;
-    }
-  .hidden:first-child li,
-  .hide_unless_logged_in:first-child li,
-  .hide_unless_administrator:first-child li {
-    border-left: 0;
-    padding-left: 0;
-  }
 }
 
 /* Utility for managing inner content areas */
@@ -1548,6 +1542,7 @@ a.button.submit {
     background-color: #9ed485;
   }
 }
+
 /* Rules for doing distinct colour of alternate table rows */
 
 .table0,
@@ -1567,55 +1562,79 @@ a.button.submit {
   border: 0;
 }
 
+/* Rules for rich text */
+
+.richtext {
+  ul,
+  ol {
+    margin-bottom: 20px;
+    margin-left: 20px;
+  }
+  ul li {
+    list-style: disc;
+  }
+
+  ol li {
+    list-style: decimal;
+  }
+}
+
 /* Rules for rich text editors */
 
 .richtext_container {
   white-space: nowrap;
+
   .richtext_content {
     display: inline-block;
     vertical-align: top;
+
     .richtext_preview {
       display: inline-block;
       padding: 20px;
       background-color: #f4f4ff;
       white-space: normal;
+
       &.loading {
         background-image: image-url("loading.gif");
         background-repeat: no-repeat;
         background-position: center;
       }
+
       > :first-child {
         margin-top: 0px;
       }
     }
   }
+
   .richtext_help {
     display: inline-block;
     vertical-align: top;
     margin-left: 15px;
     background-color: #f8f8ff;
     padding: 20px;
+
     p {
       margin: 0px;
     }
+
     th {
       vertical-align: top;
       text-align: left;
       padding: 0px 15px 0px 0px !important;
     }
-    table > thead th {
-      font-weight: bold;
-    }
+
     td {
       font-family: fixed;
       line-height: 16px;
       text-align: left;
       padding: 0px !important;
     }
+
     input.richtext_doedit {
       margin-top: 5px !important;
       margin-right: 10px !important;
     }
+
     input.richtext_dopreview {
       margin-top: 5px !important;
       margin-left: 10px !important;

@@ -1,5 +1,5 @@
 // Leaflet extensions
-L.LatLngBounds.include({
+L.extend(L.LatLngBounds.prototype, {
   getSouthLat: function () {
     return this._southWest.lat;
   },
@@ -29,10 +29,14 @@ L.LatLngBounds.include({
   getSize: function () {
     return (this._northEast.lat - this._southWest.lat) *
            (this._northEast.lng - this._southWest.lng);
+  },
+
+  wrap: function () {
+    return new L.LatLngBounds(this._southWest.wrap(), this._northEast.wrap());
   }
 });
 
-L.Bounds.include({
+L.extend(L.Bounds.prototype, {
   getWidth: function () {
    return this.max.x - this.min.x;
   },

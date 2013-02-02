@@ -20,12 +20,12 @@ module ApplicationHelper
   def style_rules
     css = ""
 
-    css << ".hidden { display: none }";
-    css << ".hide_unless_logged_in { display: none }" unless @user;
-    css << ".hide_if_logged_in { display: none }" if @user;
-    css << ".hide_if_user_#{@user.id} { display: none }" if @user;
-    css << ".show_if_user_#{@user.id} { display: inline }" if @user;
-    css << ".hide_unless_administrator { display: none }" unless @user and @user.administrator?;
+    css << ".hidden { display: none !important }";
+    css << ".hide_unless_logged_in { display: none !important }" unless @user;
+    css << ".hide_if_logged_in { display: none !important }" if @user;
+    css << ".hide_if_user_#{@user.id} { display: none !important }" if @user;
+    css << ".show_if_user_#{@user.id} { display: inline !important }" if @user;
+    css << ".hide_unless_administrator { display: none !important }" unless @user and @user.administrator?;
 
     return content_tag(:style, css, :type => "text/css")
   end
@@ -77,7 +77,7 @@ module ApplicationHelper
     content_tag(:div, :id => "#{id}_container", :class => "richtext_container") do
       output_buffer << content_tag(:div, :id => "#{id}_content", :class => "richtext_content") do
         output_buffer << text_area(object_name, method, options.merge("data-preview-url" => preview_url(:format => format)))
-        output_buffer << content_tag(:div, "", :id => "#{id}_preview", :class => "richtext_preview")
+        output_buffer << content_tag(:div, "", :id => "#{id}_preview", :class => "richtext_preview richtext")
       end
 
       output_buffer << content_tag(:div, :id => "#{id}_help", :class => "richtext_help") do

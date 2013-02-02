@@ -20,7 +20,7 @@
       <%= link_to t('trace.trace.edit'), {:controller => 'site', :action => 'edit', :gpx => trace.id }, {:title => t('trace.trace.edit_map')} %>
       <span class="trace_<%= trace.visibility %>"><%= t('trace.trace.' + trace.visibility) %></span>
       <br />
-      <%= t('trace.list.description') %>
+      <%= trace.description %>
     <br />
     <%= t'trace.trace.by' %> <%=link_to h(trace.user.display_name), {:controller => 'user', :action => 'view', :display_name => trace.user.display_name} %>
     <% if !trace.tags.empty? %>

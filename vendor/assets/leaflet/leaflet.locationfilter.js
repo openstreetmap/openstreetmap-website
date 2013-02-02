@@ -294,7 +294,7 @@ L.LocationFilter = L.Class.extend({
         this._eastRect = this._drawRectangle(this._eastBounds);
         this._southRect = this._drawRectangle(this._southBounds);
         this._innerRect = this._drawRectangle(this.getBounds(), {
-            fillColor: "transparent",
+            fillOpacity: 0,
             stroke: true,
             color: "white",
             weight: 1,

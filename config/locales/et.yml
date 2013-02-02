@@ -159,9 +159,11 @@ et:
       hide_areas: Peida alad
       history_for_feature: Omaduse %{feature} ajalugu
       load_data: Laadi andmed
+      loaded_an_area_with_num_features: Oled laadinud ala, mis sisaldab %{num_features} objekti. Mõned brauserid ei saa hästi hakkama sellise hulga andmete kuvamisega. Üldiselt suudavad brauserid kuvada korraga kuni %{max_features} objekti. Suurema arvu laadimine võib muuta brauseri aeglaseks või see lakkab üldse toimimast. Kui soovid siiski neid andmeid kuvada, võid seda teha, klõpsates nupul allpool.
       loading: Laadin andmeid...
       manually_select: Vali uus ala
       object_list: 
+        api: Laadi antud ala APIst
         back: Näita objektide nimekirja
         details: Detailid
         heading: Objektide nimekiri
@@ -179,6 +181,7 @@ et:
       show_areas: Näita alasid
       show_history: Näita ajalugu
       unable_to_load_size: "Laadimine ebaõnnestus: valitud ala küjepikkus %{bbox_size} on liiga suur (see peab olema väiksem kui %{max_bbox_size})"
+      view_data: Näita andmeid praeguse kaardivaate kohta
       wait: Oota...
       zoom_or_select: Suurenda või vali soovitud ala kaardil
     tag_details: 
@@ -193,7 +196,7 @@ et:
         relation: relatsiooni
         way: joone
     way: 
-      download_xml: Lae XML
+      download_xml: Laadi alla XML
       edit: redigeeri
       view_history: vaata ajalugu
       way: Joon
@@ -205,7 +208,7 @@ et:
       nodes: "Sõlmed:"
       part_of: "Osa:"
     way_history: 
-      download_xml: Lae alla XML-fail.
+      download_xml: Laadi alla XML
       view_details: vaata detaile
       way_history: Joone muudatuste ajalugu
       way_history_title: "Joone: %{way_name} ajalugu"
@@ -251,6 +254,7 @@ et:
       confirm: Kinnita
       edit_link: Muuda seda sissekannet
       hide_link: Peida see sissekanne
+      posted_by: Postitas %{link_user} %{created} %{language_link}
       reply_link: Vasta sellele sissekandele
     edit: 
       body: "Tekst:"
@@ -258,6 +262,7 @@ et:
       latitude: "Laiuskraad:"
       location: "Asukoht:"
       longitude: "Pikkuskraad:"
+      marker_text: Päeviku sissekande tegemise asukoht
       save_button: Salvesta
       subject: "Teema:"
       title: Muuda päeviku sissekannet
@@ -336,6 +341,7 @@ et:
       add_marker: Lisa kaardile marker
       change_marker: Muuda märgi asukohta
       export: Ekspordi
+      manually_select: Vali käsitsi teine ala
       view_larger_map: Näita suuremat kaarti
   geocoder: 
     description: 
@@ -372,6 +378,7 @@ et:
           gate: Värav
           terminal: Terminal
         amenity: 
+          WLAN: WiFi-ühendus
           airport: Lennujaam
           artwork: Kunstiteos
           atm: Pangaautomaat
@@ -388,6 +395,7 @@ et:
           car_rental: Autorent
           car_wash: Autopesu
           casino: Kasiino
+          charging_station: Laadimisjaam
           cinema: Kino
           clinic: Kliinik
           club: Klubi
@@ -400,10 +408,12 @@ et:
           emergency_phone: Hädaabi telefon
           fast_food: Kiirtoit
           ferry_terminal: Praamiterminal
+          fire_hydrant: Tuletõrjehüdrant
           fire_station: Tuletõrjedepoo
           fountain: Purskkaev
           fuel: Kütus
           grave_yard: Surnuaed
+          health_centre: Tervisekeskus
           hospital: Haigla
           hotel: Hotell
           ice_cream: Jäätis
@@ -412,6 +422,7 @@ et:
           market: Turg
           marketplace: Turg
           nightclub: Ööklubi
+          office: Kontor
           park: Park
           parking: Parkimisplats
           pharmacy: Apteek
@@ -434,7 +445,7 @@ et:
           toilets: WC
           university: Ülikool
           waste_basket: Prügikast
-          wifi: WiFi
+          wifi: WiFi-ühendus
           youth_centre: Noortekeskus
         boundary: 
           administrative: Halduspiir
@@ -583,12 +594,14 @@ et:
           miniature: Miniatuurraudtee
           narrow_gauge: Kitsarööpmeline raudtee
           platform: Raudteeperroon
+          spur: Raudtee harutee
           station: Raudteejaam
           subway: Metroojaam
           switch: Pöörangud
           tram: Trammitee
           tram_stop: Trammipeatus
         shop: 
+          antiques: Antikvariaat
           bicycle: Rattapood
           books: Raamatupood
           butcher: Lihunik
@@ -598,6 +611,7 @@ et:
           computer: Arvutikauplus
           cosmetics: Kosmeetikapood
           dry_cleaning: Keemiline puhastus
+          electronics: Elektroonikapood
           fish: Kalapood
           florist: Lillepood
           food: Toidupood
@@ -631,6 +645,8 @@ et:
           picnic_site: piknikuplats
           theme_park: Teemapark
           zoo: Loomaaed
+        tunnel: 
+          "yes": Tunnel
         waterway: 
           canal: Kanal
           dam: Tamm
@@ -668,17 +684,19 @@ et:
     gps_traces: GPS rajad
     gps_traces_tooltip: Halda GPS radasid
     help: Juhend
+    help_centre: Abikeskus
     help_title: Projekti abiinfo
     history: Ajalugu
     home: kodu
     home_tooltip: Mine kodupaika
+    inbox_html: sisendkaust %{count}
     inbox_tooltip: 
       one: Sul on üks lugemata sõnum
       other: Sul on %{count} lugemata sõnumit
       zero: Sul ei ole lugemata sõnumeid
     intro_1: OpenStreetMap on vaba, kogu maailma hõlmav kaart, mille on loonud inimesed, nagu sina.
     intro_2_create_account: loo oma konto
-    intro_2_download: allalaadida
+    intro_2_download: alla laadida
     intro_2_html: Andmeid võib olemasoleva %{license} alusel tasuta %{download} ja %{use}. Kaardi täiendamiseks %{create_account}.
     intro_2_license: avatud litsentsi
     intro_2_use: kasutada
@@ -691,6 +709,13 @@ et:
     make_a_donation: 
       text: Anneta
       title: Toeta OpenStreetMapi rahaliselt
+    osm_offline: OpenStreetMapi andmebaas ei ole hetkel juurdepääsetav sest teostatakse vajalikke hooldustöid.
+    osm_read_only: OpenStreetMapi andmebaas on hetkel oluliste hooldustööde tõttu ligipääsetav ainult lugemiseks.
+    partners_bytemark: Bytemark Hosting
+    partners_html: Majutust toetavad %{ucl}, %{ic} ja %{bytemark} ning teised %{partners}.
+    partners_ic: Imperial College London
+    partners_partners: partnerid
+    partners_ucl: UCL VR Centre
     sign_up: registreeru
     sign_up_tooltip: Redigeerimiseks loo omale konto
     tag_line: Vaba viki-maailmakaart
@@ -698,17 +723,22 @@ et:
     user_diaries_tooltip: Vaata kasutajate päevikuid
     view: Vaata
     view_tooltip: Vaata kaarti
-    welcome_user: Tere tulemast, %{user_link}
     welcome_user_link_tooltip: Sinu kasutajaleht
     wiki: Viki
+    wiki_title: Projekti wiki leht
   license_page: 
     foreign: 
-      english_link: ingliskeelne originaal
+      english_link: ingliskeelse originaali
+      text: Juhul kui tekib vastuolu käesoleva tõlgitud lehe ja %{english_original_link} vahel, on ingliskeelne leht ülimuslik.
       title: Info selle tõlke kohta
+    legal_babble: 
+      intro_1_html: "OpenStreetMap on <i>avatud andmed</i>, mis on litsenseeritud <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data\nCommons Open Database License</a> (ODbL) tingimustel."
+      title_html: Autoriõigused ja litsents
     native: 
       mapping_link: alustada kaardistamist
       native_link: eestikeelse versiooni
       text: Sa vaatad ingliskeelset versiooni autoriõiguste leheküljest. Sa võid minna tagasi selle lehe %{native_link} juurde või lõpetada autoriõiguste lugemise ja %{mapping_link}.
+      title: Sellest leheküljest
   message: 
     delete: 
       deleted: Sõnum kustutatud
@@ -787,6 +817,7 @@ et:
     email_confirm_plain: 
       greeting: Tere,
     friend_notification: 
+      had_added_you: "% {user} lisas sind OpenStreetMap'is sõbraks."
       subject: "[OpenStreetMap] %{user} lisas sind oma sõbraks"
     gpx_notification: 
       greeting: Tere,
@@ -795,10 +826,30 @@ et:
     lost_password_plain: 
       greeting: Tere,
     message_notification: 
+      footer1: "Sa saad lugeda sõnumit ka lehel: %{readurl}"
       header: "%{from_user} on saatnud sulle OpenStreetMapi kaudu sõnumi teemaga %{subject}:"
       hi: Tere, %{to_user},
     signup_confirm: 
+      confirm: "Enne kasutajakonto loomist peame saama kinnituse, et see taotlus tuli sinult ja selleks klõpsa alloleval lingil:"
+      created: Keegi (loodetavasti sina) lõi äsja %{site_url} kasutajakonto.
+      greeting: Tere!
       subject: "[OpenStreetMap] E-posti aadressi kinnitamine"
+      welcome: Teretulemast OpenStreetMap kaardirakendusse! Soovime pakkuda sulle lisainfot, et saaksid selle kasutamist hõlpsalt alustada.
+    signup_confirm_html: 
+      introductory_video: Võid vaadata %{introductory_video_link}.
+      more_videos: Vaata %{more_videos_link}.
+      more_videos_here: rohkem videosid siit
+      video_to_openstreetmap: OpenStreetMapi esitlusvideot
+    signup_confirm_plain: 
+      ask_questions: "Võid esitada huvipakkuvaid küsimusi OpenStreetMapi kohta meie küsimuste ja vastuste veebisaidil:"
+      blog_and_twitter: "Loe viimaseid uudiseid OpenStreetMapi blogist või Twitterist:"
+      current_user: "Nimekiri kasutajatest kategooriates, sõltuvalt nende asukohast, on nähtav siin:"
+      introductory_video: "Sa võid vaadata OpenStreetMapi tutvustavat videot siit:"
+      more_videos: "Rohkem videosid võib näha siit:"
+      opengeodata: "OpenGeoData.org on OpenStreetMapi asutaja Steve Coasti blogi. Ka taskuhääling on saadaval:"
+      the_wiki: "Loe lisaks OpenStreetMapi kohta vikist:"
+      user_wiki_page: Soovitatav on luua kasutaja viki-leht, mis sisaldab sinu asukohta näitavaid kategooria-silte, näiteks [[Category:Users_in_Estonia]].
+      wiki_signup: "Soovi korral võid samuti registreeruda OpenStreetMapi viki kasutajaks:"
   oauth: 
     oauthorize: 
       allow_write_api: muuda kaarti.
@@ -822,9 +873,11 @@ et:
       issued_at: Väljastatud
       list_tokens: "Järgmised turvamärgid on rakendustele väljastatud sinu nime all:"
       my_apps: Minu kliendirakendused
+      my_tokens: Minu autoriseeritud rakendused
       no_apps: Kas omad rakendust, mida soovid siin kasutamiseks registreerida, kasutades %(oauth) standardit? Selleks tuleb kõigepealt registreerida oma veebirakendus enne kui see saab teostada OAuth päringuid antud teenusele.
       register_new: Registreeri oma rakendus
       revoke: Tühista!
+      title: Minu OAuth seaded
     new: 
       submit: Registreeri
       title: Registreeri uus rakendus
@@ -949,7 +1002,9 @@ et:
       visibility: "Nähtavus:"
       visibility_help: Mida see tähendab?
     list: 
+      description: Sirvi viimati üles laaditud GPS-radasid
       public_traces: Avalikud GPS rajad
+      tagged_with: ", millel on silt %{tags}"
       your_traces: Sinu GPS rajad
     trace: 
       ago: "%{time_in_words_ago} tagasi"
@@ -965,12 +1020,12 @@ et:
       trace_details: Vaata Jälje Detaile
       view_map: Vaata kaarti
     trace_form: 
-      description: Kirjeldus
+      description: "Kirjeldus:"
       help: Abi
       tags: "Sildid:"
       upload_button: Laadi üles
       upload_gpx: "Laadi üles GPX-fail:"
-      visibility: Nähtavus
+      visibility: "Nähtavus:"
       visibility_help: mida see tähendab?
     trace_header: 
       see_all_traces: Vaata kõiki GPS-radasid
@@ -1001,13 +1056,18 @@ et:
     account: 
       contributor terms: 
         agreed: Oled nõustunud uute Kaastöö tingimustega.
+        agreed_with_pd: Samuti oled deklareerinud oma kaastöö autoriõigustest vabaks (Public Domain).
         heading: "Kaastöö tingimused:"
         link text: Mis see on?
         not yet agreed: Sa ei ole veel nõustunud uute Kaastöö tingimustega.
+        review link text: Loe ja nõustu uute Kaastöö tingimustega klõpsates endale sobival ajal antud lingil.
       current email address: "Praegune e-posti aadress:"
       delete image: Eemalda praegune pilt
       email never displayed publicly: (ei näidata mitte kunagi avalikult)
       flash update success: Kasutaja informatsioon uuendatud edukalt.
+      gravatar: 
+        gravatar: Kasuta Gravatari
+        link text: mis see on?
       home location: "Kodu asukoht:"
       image: "Pilt:"
       image size hint: (ruudukujuline pilt mõõtudega vähemalt 100x100 on sobiv)
@@ -1039,6 +1099,7 @@ et:
       update home location on click: Kas uuendan kodu asukohta kui ma klõpsan kaardil?
     confirm: 
       already active: See konto on juba kinnitatud.
+      before you start: Kindlasti soovid juba kiiresti alustada kaardistamist, kuid enne seda võiksid lisada allpool olevasse vormi rohkem teavet enda kohta.
       button: Kinnita
       heading: Kinnita kasutajakonto
       press confirm button: Vajuta allolevale kinnitamise nupule, et oma kasutajakonto aktiveerida.
@@ -1122,7 +1183,7 @@ et:
       flash success: Kodukoht edukalt salvestatud
     terms: 
       agree: Nõustun
-      consider_pd_why: Mis see on?
+      consider_pd_why: mis see on?
       decline: Ei nõustu
       heading: "Kaastöötingimused:"
       legale_names: 

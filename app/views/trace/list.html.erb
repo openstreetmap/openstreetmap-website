@@ -26,11 +26,15 @@
   <%= render :partial => 'trace_paging_nav' %>
 
   <table id="trace_list" cellpadding="3">
-    <tr>
-      <th></th>
-      <th></th>
-    </tr>
-    <%= render :partial => 'trace', :collection => @traces unless @traces.nil? %>
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render :partial => 'trace', :collection => @traces unless @traces.nil? %>
+    </tbody>
   </table>
 
   <%= render :partial => 'trace_paging_nav' %>

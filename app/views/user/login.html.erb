@@ -10,8 +10,8 @@
     <p><%= t 'user.login.no account' %> <%= link_to t('user.login.register now'), :action => :new, :referer => params[:referer] %></p>
 
     <table id="loginForm">
-      <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field_tag "username", params[:username], :size => 28, :maxlength => 255, :tabindex => 1 %></td></tr>
-      <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field_tag "password", "", :size => 28, :maxlength => 255, :tabindex => 2 %> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
+      <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field_tag "username", params[:username], :maxlength => 255, :tabindex => 1 %></td></tr>
+      <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field_tag "password", "", :maxlength => 255, :tabindex => 2 %> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
       <tr>
         <td></td>
         <td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %>
@@ -43,7 +43,7 @@
           <%= raw t 'user.login.openid', :logo => openid_logo %>
         </td>
         <td>
-          <%= url_field_tag("openid_url", "", { :size => 28, :maxlength => 255, :tabindex => 3, :class => "openid_url" }) %>
+          <%= url_field_tag("openid_url", "", { :maxlength => 255, :tabindex => 3, :class => "openid_url" }) %>
           <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
         </td>
       </tr>

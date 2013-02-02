@@ -1,27 +1,11 @@
 function maximiseMap() {
-  $("#left").hide();
-  $("#top-bar").hide();
-
-  $("#content").css("top", "0px");
-  if ($("html").attr("dir") == "ltr") {
-    $("#content").css("margin-left", "0px");
-  } else {
-    $("#content").css("margin-right", "0px");
-  }
+  $("#content").addClass("maximised");
 
   handleResize();
 }
 
 function minimiseMap() {
-  $("#left").show();
-  $("#top-bar").show();
-
-  $("#content").css("top", "30px");
-  if ($("html").attr("dir") == "ltr") {
-    $("#content").css("margin-left", "185px");
-  } else {
-    $("#content").css("margin-right", "185px");
-  }
+  $("#content").removeClass("maximised");
 
   handleResize();
 }

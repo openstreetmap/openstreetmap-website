@@ -3,6 +3,7 @@
 # Export driver: syck-pecl
 # Author: Bilbo
 # Author: Chmee2
+# Author: JAn Dudík
 # Author: Jezevec
 # Author: Jkjk
 # Author: Kuvaly
@@ -181,7 +182,7 @@ cs:
         way: cesta
     paging_nav: 
       of: z
-      showing_page: Zobrazuji stranu
+      showing_page: stránka
     redacted: 
       message_html: Verzi %{version} tohoto objektu %{type} nelze zobrazit, protože byla skryta. Více informací uvádí stránka %{redaction_link}.
       redaction: Redakce %{id}
@@ -221,7 +222,7 @@ cs:
       manually_select: Ručně vybrat jinou oblast
       object_list: 
         api: Získat tuto oblast pomocí API
-        back: Zobrazit seznam objektů
+        back: Zpět na seznam objektů
         details: Detaily
         heading: Seznam objektů
         history: 
@@ -263,8 +264,8 @@ cs:
       way_title: "Cesta: %{way_name}"
     way_details: 
       also_part_of: 
-        one: patří také do cesty %{related_ways}
-        other: patří také do cest %{related_ways}
+        one: patří do cesty %{related_ways}
+        other: patří do cest %{related_ways}
       nodes: "Uzly:"
       part_of: "Součást:"
     way_history: 
@@ -284,7 +285,7 @@ cs:
     changeset_paging_nav: 
       next: Následující »
       previous: « Předchozí
-      showing_page: Zobrazuji stranu %{page}
+      showing_page: Stránka %{page}
     changesets: 
       area: Oblast
       comment: Komentář
@@ -292,13 +293,13 @@ cs:
       saved_at: Uloženo v
       user: Uživatel
     list: 
-      description: Poslední změny
+      description: Procházení nedávných příspěvků do mapy
       description_bbox: Sady změn v %{bbox}
       description_friend: Sady změn vašich přátel
       description_nearby: Sady změn uživatelů poblíž
       description_user: Sady změn uživatele %{user}
       description_user_bbox: Sady změn uživatele %{user} v %{bbox}
-      empty_anon_html: Zatím žádné editace
+      empty_anon_html: Zatím žádné editace.
       empty_user_html: Vypadá to, že jste zatím neprovedli žádné editace. Pokud chcete začít, podívejte se do <a href='http://wiki.openstreetmap.org/wiki/CS:Beginners_Guide_1.3'>Příručky pro začátečníka</a>.
       heading: Sady změn
       heading_bbox: Sady změn
@@ -367,7 +368,7 @@ cs:
       newer_entries: Novější záznamy
       no_entries: Žádné záznamy v deníčku
       older_entries: Starší záznamy
-      recent_entries: "Aktuální deníčkové záznamy:"
+      recent_entries: Aktuální deníčkové záznamy
       title: Deníčky uživatelů
       title_friends: Deníčky přátel
       title_nearby: Deníčky uživatelů poblíž
@@ -1000,7 +1001,6 @@ cs:
     user_diaries_tooltip: Zobrazit deníčky uživatelů
     view: Zobrazit
     view_tooltip: Zobrazit mapu
-    welcome_user: Vítejte, %{user_link}
     welcome_user_link_tooltip: Vaše uživatelská stránka
     wiki: wiki
     wiki_title: Wiki k tomuto projektu
@@ -1438,6 +1438,7 @@ cs:
       visibility: "Viditelnost:"
       visibility_help: co tohle znamená?
     list: 
+      description: Procházení nedávno nahraných GPS stop
       empty_html: Nic tu ještě není. <a href='%{upload_link}'>Nahrajte novou stopu</a> nebo si něco o GPS stopách přečtěte na <a href='http://wiki.openstreetmap.org/wiki/CS:Beginners_Guide_1.2'>wiki</a>.
       public_traces: Veřejné GPS stopy
       public_traces_from: Veřejné GPS stopy uživatele %{user}
@@ -1485,7 +1486,7 @@ cs:
     trace_paging_nav: 
       newer: Novější stopy
       older: Starší stopy
-      showing_page: Zobrazuji stranu %{page}
+      showing_page: Stránka %{page}
     view: 
       delete_track: Smazat tuto stopu
       description: "Popis:"
@@ -1590,8 +1591,8 @@ cs:
       heading: Uživatelé
       hide: Skrýt vybrané uživatele
       showing: 
-        one: Zobrazuje se stránka %{page} (%{first_item} z %{items})
-        other: Zobrazuje se stránka %{page} (%{first_item}–%{last_item} z %{items})
+        one: Stránka %{page} (%{first_item} z %{items})
+        other: Stránka %{page} (%{first_item}–%{last_item} z %{items})
       summary: "%{name} vytvořeno %{date} z %{ip_address}"
       summary_no_ip: "%{name} vytvořen %{date}"
       title: Uživatelé
@@ -1653,7 +1654,7 @@ cs:
       button: Přidat jako přítele
       failed: Je mi líto, nepodařilo se přidat %{name} jako přítele.
       heading: Přidat uživatele %{user} jako přítele?
-      success: "%{name} je nyní váš přítel."
+      success: "%{name} je nyní váš přítel!"
     new: 
       confirm email address: "Potvrdit e-mailovou adresu:"
       confirm password: "Potvrdit heslo:"
@@ -1724,7 +1725,7 @@ cs:
       you need to accept or decline: Pro pokračování si prosím přečtěte a přijměte nebo odmítněte nové Podmínky pro přispěvatele.
     view: 
       activate_user: aktivovat tohoto uživatele
-      add as friend: přidat jako přítele
+      add as friend: přidat do přátel
       ago: (před %{time_in_words_ago})
       block_history: zablokování
       blocks by me: zablokování mnou
@@ -1744,10 +1745,10 @@ cs:
       diary: deníček
       edits: editace
       email address: "E-mailová adresa:"
-      friends_changesets: Procházet všechny sady změn mých přátel
-      friends_diaries: Procházet všechny záznamy v deníčcích přátel
+      friends_changesets: sady změn přátel
+      friends_diaries: záznamy v deníčcích přátel
       hide_user: skrýt tohoto uživatele
-      if set location: Když si nastavíte svou polohu, objeví se níže hezká mapka atp. Polohu domova si můžete nastavit na stránce %{settings_link}.
+      if set location: Nastavte si domácí souřadnice na stránce %{settings_link} abyste viděli blízké uživatele.
       km away: "%{count} km"
       latest edit: "Poslední editace %{ago}:"
       m away: "%{count} m"
@@ -1759,13 +1760,13 @@ cs:
       my settings: moje nastavení
       my traces: moje stopy
       nearby users: Další uživatelé poblíž
-      nearby_changesets: Procházet všechny sady změn uživatelů poblíž
-      nearby_diaries: Procházet všechny záznamy v deníčcích uživatelů poblíž
+      nearby_changesets: sady změn uživatelů poblíž
+      nearby_diaries: záznamy v deníčcích uživatelů poblíž
       new diary entry: nový záznam do deníčku
       no friends: Zatím jste nepřidali žádné přátele.
       no nearby users: Nejsou známi žádní uživatelé, kteří by uvedli domov blízko vás.
       oauth settings: nastavení oauth
-      remove as friend: odstranit jako přítele
+      remove as friend: odebrat z přátel
       role: 
         administrator: Tento uživatel je správce
         grant: 
@@ -1844,7 +1845,7 @@ cs:
       revoke: Zrušit !
       revoker_name: Zrušno
       show: Zobrazit
-      showing_page: Zobrazuji stranu %{page}
+      showing_page: Stránka %{page}
       status: Stav
     period: 
       one: 1 hodina
