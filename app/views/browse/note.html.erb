@@ -15,6 +15,12 @@
 
 <div class='column-1'>
 
+  <% if @note.comments.find { |comment| comment.author.nil? } -%>
+  <div class='browse-section common warning'>
+    <%= t "javascripts.notes.show.anonymous_warning" %>
+  </div>
+  <% end -%>
+
   <div class='browse-section common'>
     <div>
       <h4><%= t "browse.note.opened" %></h4>
