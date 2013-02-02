@@ -1,4 +1,6 @@
 module Nominatim
+  extend ActionView::Helpers::NumberHelper
+
   def self.describe_location(lat, lon, zoom = nil, language = nil)
     zoom = zoom || 14
     language = language || request.user_preferred_languages.join(',')
