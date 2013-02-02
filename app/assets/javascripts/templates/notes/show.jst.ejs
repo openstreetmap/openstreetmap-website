@@ -4,13 +4,12 @@
   <div>
     <small class="deemphasize">
       <% if (comment.user) { %>
-        <%= I18n.t('javascripts.notes.show.event', {
-           action: comment.action, user: comment.user,
-           user_url: comment.user_url, time: comment.date
+        <%= I18n.t('javascripts.notes.show.' + comment.action + '_by', {
+           user: comment.user, user_url: comment.user_url, time: comment.date
         }) %>
       <% } else { %>
-        <%- I18n.t('javascripts.notes.show.anonymous_event', {
-           action: comment.action, time: comment.date
+        <%- I18n.t('javascripts.notes.show.' + comment.action + '_by_anonymous', {
+           time: comment.date
         }) %>
       <% } %>
     </small>
