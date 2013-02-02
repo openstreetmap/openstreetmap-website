@@ -236,7 +236,7 @@ class NotesController < ApplicationController
       if @this_user = User.active.find_by_display_name(params[:display_name])
         @title =  t 'note.mine.title', :user => @this_user.display_name 
         @heading =  t 'note.mine.heading', :user => @this_user.display_name 
-        @description = t 'note.mine.description', :user => render_to_string(:partial => "user", :object => @this_user)
+        @description = t 'note.mine.subheading', :user => render_to_string(:partial => "user", :object => @this_user)
         @page = (params[:page] || 1).to_i 
         @page_size = 10
         @notes = @this_user.notes.order("updated_at DESC").offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author)

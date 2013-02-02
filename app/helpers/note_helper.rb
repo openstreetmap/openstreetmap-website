@@ -8,6 +8,10 @@ module NoteHelper
   end
 
   def note_author(author, link_options = {})
-    link_to h(author.display_name), link_options.merge({:controller => "user", :action => "view", :display_name => author.display_name})
+    if author.nil?
+      ""
+    else
+      link_to h(author.display_name), link_options.merge({:controller => "user", :action => "view", :display_name => author.display_name})
+    end
   end
 end
