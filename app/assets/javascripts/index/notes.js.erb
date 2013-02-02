@@ -106,7 +106,12 @@ $(document).ready(function () {
   function popupOptions() {
     var mapSize = map.getSize();
 
-    return { maxHeight: mapSize.y * 2 / 3, autoPanPadding: new L.Point(60, 40) };
+    return { 
+      minWidth: 320,
+      maxWidth: mapSize.y * 1 / 3, 
+      maxHeight: mapSize.y * 2 / 3, 
+      autoPanPadding: new L.Point(60, 40)
+    };
   }
 
   function createPopupContent(marker, properties) {
