@@ -18,18 +18,18 @@
   <div class='browse-section common'>
     <div>
       <h4><%= t "browse.note.opened" %></h4>
-      <p><%= t "browse.note.at_by_html", :when => friendly_date(@note.created_at), :user => note_author(@note) %></p>
+      <p><%= note_event(@note.created_at, @note.author) %></p>
     </div>
 
     <% if @note.status == "closed" %>
       <div>
         <h4><%= t "browse.note.closed" %></h4>
-        <p><%= t "browse.note.at_by_html", :when => friendly_date(@note.closed_at), :user => note_author(@note.comments.last) %></p>
+        <p><%= note_event(@note.closed_at, @note.comments.last.author) %></p>
       </div>  
     <% elsif @note.comments.length > 1 %>
       <div>
         <h4><%= t "browse.note.last_modified" %></h4>
-        <p><%= t "browse.note.at_by_html", :when => friendly_date(@note.updated_at), :user => note_author(@note.comments.last) %></p>
+        <p><%= note_event(@note.updated_at, @note.comments.last.author) %></p>
       </div>  
     <% end %>
 
@@ -51,7 +51,7 @@
         <% @note.comments[1..-1].each do |comment| %>
           <li>
             <%= comment.body.to_html %>
-            <small class="deemphasize"><%= t "browse.note.at_by_html", :when => friendly_date(comment.created_at), :user => note_author(comment) %></small>
+            <small class="deemphasize"><%= note_event(comment.created_at, comment.author) %></small>
           </li>
         <% end %>
       </ul>

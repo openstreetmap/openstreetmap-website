@@ -99,12 +99,4 @@ module ApplicationHelper
   def friendly_date(date)
     content_tag(:span, time_ago_in_words(date), :title => l(date, :format => :friendly))
   end
-
-  def note_author(object, link_options = {})
-    if object.author.nil?
-      ""
-    else
-      link_to h(object.author.display_name), link_options.merge({:controller => "user", :action => "view", :display_name => object.author.display_name})
-    end
-  end
 end
