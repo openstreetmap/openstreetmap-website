@@ -113,6 +113,10 @@ OSM = {
 
     mapParams.notes = params.notes == "yes";
 
+    if (params.note) {
+      mapParams.note = parseInt(params.note);
+    }
+
     var scale = parseFloat(params.scale);
     if (scale > 0) {
       mapParams.zoom = Math.log(360.0 / (scale * 512.0)) / Math.log(2.0);
