@@ -22,6 +22,7 @@
      elsif map.instance_of? Note
        data = {
          :type => "note",
+         :id   => map.id,
          :lon  => map.lon,
          :lat  => map.lat
        }
@@ -60,7 +61,7 @@
   </li>
 </ul>
 
-  <% unless map.instance_of? Changeset or map.instance_of? Note %>
+  <% unless map.instance_of? Changeset %>
   <ul class='secondary-actions clearfix'>
     <li>
       <%= link_to t("browse.map.larger." + map.class.to_s.downcase),
