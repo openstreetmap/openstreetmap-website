@@ -184,7 +184,23 @@ $(document).ready(function () {
 
     map.addLayer(noteLayer);
 
-    var marker = L.marker(map.getCenter(), {
+    var mapSize = map.getSize();
+    var markerPosition;
+
+    if (mapSize.y > 800)
+    {
+      markerPosition = [mapSize.x / 2, mapSize.y / 2];
+    }
+    else if (mapSize.y > 400)
+    {
+      markerPosition = [mapSize.x / 2, 400];
+    }
+    else
+    {
+      markerPosition = [mapSize.x / 2, mapSize.y];
+    }
+
+    var marker = L.marker(map.containerPointToLatLng(markerPosition), {
       icon: noteIcons["new"],
       opacity: 0.7,
       draggable: true
