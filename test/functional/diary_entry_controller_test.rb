@@ -259,7 +259,64 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
   
   def test_create_diary_entry
-    #post :new
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Make sure that you are redirected to the login page when you
+    # are not logged in
+    get :new
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :referer => "/diary/new"
+
+    # Now try again when logged in
+    get :new, {}, {:user => users(:normal_user).id}
+    assert_response :success
+    assert_select "html", :count => 1 do
+      assert_select "head", :count => 1 do
+        assert_select "title", :text => /New Diary Entry/, :count => 1
+      end
+      assert_select "body", :count => 1 do
+        assert_select "div.wrapper", :count => 1 do
+          assert_select "div.content-heading", :count => 1 do
+            assert_select "h1", :text => /New Diary Entry/, :count => 1
+          end
+          assert_select "div#content", :count => 1 do 
+            assert_select "form[action='/diary/new'][method=post]", :count => 1 do
+              assert_select "input#diary_entry_title[name='diary_entry[title]']", :count => 1
+              assert_select "textarea#diary_entry_body[name='diary_entry[body]']", :text => "", :count => 1
+              assert_select "select#diary_entry_language_code", :count => 1
+              assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
+              assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
+              assert_select "input[name=commit][type=submit][value=Save]", :count => 1
+              assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
+              assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
+              assert_select "input", :count => 7
+            end
+          end
+        end
+      end
+    end
+
+    # Now try creating a diary entry
+    new_title = "New Title"
+    new_body = "This is a new body for the diary entry"
+    new_latitude = "1.1"
+    new_longitude = "2.2"
+    new_language_code = "en"
+    assert_difference "DiaryEntry.count", 1 do
+      post(:new, {'commit' => 'save', 
+        'diary_entry'=>{'title' => new_title, 'body' => new_body, 'latitude' => new_latitude,
+        'longitude' => new_longitude, 'language_code' => new_language_code} },
+           {:user => users(:normal_user).id})
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :list, :display_name => users(:normal_user).display_name
+    entry = DiaryEntry.find(4)
+    assert_equal users(:normal_user).id, entry.user_id
+    assert_equal new_title, entry.title
+    assert_equal new_body, entry.body
+    assert_equal new_latitude.to_f, entry.latitude
+    assert_equal new_longitude.to_f, entry.longitude
+    assert_equal new_language_code, entry.language_code
   end
   
   def test_creating_diary_comment
