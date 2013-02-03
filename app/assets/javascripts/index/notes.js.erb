@@ -225,6 +225,16 @@ $(document).ready(function () {
 
     var popupContent = $(JST["templates/notes/new"]({ create_url: $(e.target).attr("href") }));
 
+    popupContent.find("textarea").on("input", function (e) {
+      var form = e.target.form;
+
+      if ($(e.target).val() == "") {
+        $(form.add).prop("disabled", true);
+      } else {
+        $(form.add).prop("disabled", false);
+      }
+    });
+
     popupContent.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
       createNote(marker, e.target.form, $(e.target).data("url"));
