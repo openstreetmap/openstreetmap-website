@@ -1,5 +1,5 @@
 class NoteComment < ActiveRecord::Base
-  belongs_to :note, :foreign_key => :note_id
+  belongs_to :note, :foreign_key => :note_id, :touch => true
   belongs_to :author, :class_name => "User", :foreign_key => :author_id
 
   validates_presence_of :id, :on => :update
