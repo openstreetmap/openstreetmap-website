@@ -320,7 +320,54 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
   
   def test_creating_diary_comment
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+    entry = diary_entries(:normal_user_entry_1)
+
+    # Make sure that you are denied when you are not logged in
+    post :comment, :display_name => entry.user.display_name, :id => entry.id
+    assert_response :forbidden
     
+    # Verify that you get a not found error, when you pass a bogus id
+    post :comment, {:display_name => entry.user.display_name, :id => 9999}, {:user => users(:public_user).id}
+    assert_response :not_found
+    assert_select "html", :count => 1 do
+      assert_select "body", :count => 1 do
+        assert_select "div.wrapper", :count => 1 do
+          assert_select "div.content-heading", :count => 1 do
+            assert_select "h2", :text => "No entry with the id: 9999", :count => 1 
+          end
+        end
+      end
+    end
+
+    # Now try again with the right id
+    assert_difference "ActionMailer::Base.deliveries.size", 1 do
+      assert_difference "DiaryComment.count", 1 do
+        post :comment, {:display_name => entry.user.display_name, :id => entry.id, :diary_comment => {:body => "New comment"}}, {:user => users(:public_user).id}
+      end
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => entry.user.display_name, :id => entry.id
+    email = ActionMailer::Base.deliveries.first
+    assert_equal [ users(:normal_user).email ], email.to
+    assert_equal "[OpenStreetMap] #{users(:public_user).display_name} commented on your diary entry", email.subject
+    assert_match /New comment/, email.text_part.decoded
+    assert_match /New comment/, email.html_part.decoded
+    ActionMailer::Base.deliveries.clear
+    comment = DiaryComment.find(4)
+    assert_equal entry.id, comment.diary_entry_id
+    assert_equal users(:public_user).id, comment.user_id
+    assert_equal "New comment", comment.body
+
+    # Now view the diary entry, and check the new comment is present
+    get :view, :display_name => entry.user.display_name, :id => entry.id
+    assert_response :success
+    assert_select ".diary-comment", :count => 1 do
+      assert_select "#comment4", :count => 1 do
+        assert_select "a[href='/user/#{users(:public_user).display_name}']", :text => users(:public_user).display_name, :count => 1
+      end
+      assert_select ".richtext", :text => /New comment/, :count => 1
+    end
   end
   
   # Check that you can get the expected response and template for all available languages

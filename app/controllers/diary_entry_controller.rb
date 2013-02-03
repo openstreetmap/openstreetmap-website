@@ -70,6 +70,8 @@ class DiaryEntryController < ApplicationController
     else
       render :action => 'view'
     end
+  rescue ActiveRecord::RecordNotFound
+    render :action => "no_such_entry", :status => :not_found
   end
 
   def list
