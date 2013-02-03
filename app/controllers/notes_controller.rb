@@ -239,7 +239,7 @@ class NotesController < ApplicationController
         @description = t 'note.mine.subheading', :user => render_to_string(:partial => "user", :object => @this_user)
         @page = (params[:page] || 1).to_i 
         @page_size = 10
-        @notes = @this_user.notes.order("updated_at DESC").offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author)
+        @notes = @this_user.notes.order("updated_at DESC, id").uniq.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author)
       else
         @title = t 'user.no_such_user.title' 
         @not_found_user = params[:display_name] 
