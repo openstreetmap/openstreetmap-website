@@ -182,6 +182,8 @@ $(document).ready(function () {
 
     if ($(e.target).hasClass("disabled")) return;
 
+    $(e.target).removeClass("geolink").addClass("disabled");
+
     map.addLayer(noteLayer);
 
     var mapSize = map.getSize();
@@ -217,6 +219,8 @@ $(document).ready(function () {
 
     $(".leaflet-popup-close-button").on("click.close", function (e) {
       map.removeLayer(marker);
+
+      $("#createnoteanchor").removeClass("disabled").addClass("geolink");
     });
 
     marker.on("dragend", function (e) {
