@@ -93,7 +93,7 @@ class NotesController < ApplicationController
     # Find the note and check it is valid
     @note = Note.find(id)
     raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError unless @note.visible?
+    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
 
     # Add a comment to the note
     Note.transaction do
@@ -120,7 +120,7 @@ class NotesController < ApplicationController
     # Find the note and check it is valid
     @note = Note.find_by_id(id)
     raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError unless @note.visible?
+    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
 
     # Close the note and add a comment
     Note.transaction do
@@ -170,8 +170,8 @@ class NotesController < ApplicationController
     # Find the note and check it is valid
     @note = Note.find(params[:id])
     raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError unless @note.visible?
-    
+    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+
     # Render the result
     respond_to do |format|
       format.xml
@@ -193,7 +193,7 @@ class NotesController < ApplicationController
     # Find the note and check it is valid
     note = Note.find(id)
     raise OSM::APINotFoundError unless note
-    raise OSM::APIAlreadyDeletedError unless note.visible?
+    raise OSM::APIAlreadyDeletedError.new("note", note.id) unless note.visible?
 
     # Mark the note as hidden
     Note.transaction do
