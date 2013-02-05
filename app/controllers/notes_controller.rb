@@ -84,7 +84,7 @@ class NotesController < ApplicationController
   def comment
     # Check the arguments are sane
     raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
-    raise OSM::APIBadUserInput.new("No text was given") unless params[:text]
+    raise OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
 
     # Extract the arguments
     id = params[:id].to_i

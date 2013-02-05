@@ -228,6 +228,11 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :bad_request
 
     assert_no_difference('NoteComment.count') do
+      post :comment, {:id => notes(:open_note_with_comment).id, :text => ""}
+    end
+    assert_response :bad_request
+
+    assert_no_difference('NoteComment.count') do
       post :comment, {:id => 12345, :text => "This is an additional comment"}
     end
     assert_response :not_found
