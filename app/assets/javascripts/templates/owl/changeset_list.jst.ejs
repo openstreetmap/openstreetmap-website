@@ -1,6 +1,7 @@
 <% $.each(changesets, function (index, changeset) { %>
   <div class="changeset-item" data-changeset-id="<%- changeset.id %>">
     <div class="changeset-info">
+    <img class="user_avatar_<%- changeset.user_id %>" src="" style="float:right;width:48px" />
     <% if (typeof changeset.tags['comment'] != 'undefined') { %>
       <a href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>" class="changeset-comment"><%- changeset.tags['comment'] %></a>
     <% } else { %>
@@ -23,7 +24,7 @@
         <a href="<%- OSM.OWL_LINKS_BASE_URL %>user/<%- changeset.user_name %>"><%- changeset.user_name %></a>
       </div>
       <div class="changeset-actions">
-        <a href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>">#<%- changeset.id %></a>
+        <!--<a href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>">#<%- changeset.id %></a>-->
       </div>
     </div>
     <br style="clear:both" />

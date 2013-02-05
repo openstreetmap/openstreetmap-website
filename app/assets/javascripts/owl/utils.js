@@ -122,3 +122,21 @@ function findDataValue(el, key) {
 function isLoadMoreInView() {
   return $('#sidebar_content').height() - $('#sidebar').scrollTop() < $('#sidebar').height();
 }
+
+function fetchUserDetails(ids, callback) {
+  $.each(ids, function (index, id) {
+    $.ajax({
+      context: this,
+      url: "http://www.openstreetmap.org/api/0.6/user/" + id,
+      dataType: 'xml',
+      success: function(xml, status, xhr) {
+        callback({
+            user_id: parseInt(xml.getElementsByTagName('user')[0].attributes.getNamedItem('id').value),
+            img_href: xml.getElementsByTagName('img')[0].attributes.getNamedItem('href').value
+        });
+      },
+      error: function(x,xx,xxx) {
+      }
+    }, this);
+  });
+}
