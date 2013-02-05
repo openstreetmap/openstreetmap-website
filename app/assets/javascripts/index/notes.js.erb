@@ -24,6 +24,7 @@ $(document).ready(function () {
 
   var noteLayer = new L.LayerGroup();
   var notes = {};
+  var newNote;
 
   map.on("layeradd", function (e) {
     if (e.layer == noteLayer) {
@@ -36,6 +37,14 @@ $(document).ready(function () {
     if (e.layer == noteLayer) {
       map.off("moveend", loadNotes);
       noteLayer.clearLayers();
+    }
+  });
+
+  map.on("popupclose", function (e) {
+    if (e.popup == newNote._popup) {
+      $(newNote).oneTime(10, "removenote", function () {
+        map.removeLayer(newNote);
+      });
     }
   });
 
@@ -217,7 +226,7 @@ $(document).ready(function () {
       markerPosition = [mapSize.x / 2, mapSize.y];
     }
 
-    var marker = L.marker(map.containerPointToLatLng(markerPosition), {
+    newNote = L.marker(map.containerPointToLatLng(markerPosition), {
       icon: noteIcons["new"],
       opacity: 0.7,
       draggable: true
@@ -237,18 +246,20 @@ $(document).ready(function () {
 
     popupContent.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
-      createNote(marker, e.target.form, $(e.target).data("url"));
+      createNote(newNote, e.target.form, $(e.target).data("url"));
     });
 
-    marker.addTo(noteLayer).bindPopup(popupContent[0], popupOptions()).openPopup();
+    newNote.addTo(noteLayer).bindPopup(popupContent[0], popupOptions()).openPopup();
 
-    $(".leaflet-popup-close-button").on("click.close", function (e) {
-      map.removeLayer(marker);
-
+    newNote.on("remove", function (e) {
       $("#createnoteanchor").removeClass("disabled").addClass("geolink");
     });
 
-    marker.on("dragend", function (e) {
+    newNote.on("dragstart", function (e) {
+      $(newNote).stopTime("removenote");
+    });
+
+    newNote.on("dragend", function (e) {
       e.target.openPopup();
     });
   });
