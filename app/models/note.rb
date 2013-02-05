@@ -49,7 +49,7 @@ class Note < ActiveRecord::Base
 
   # Check if a note is visible
   def visible?
-    return status != "hidden"
+    status != "hidden"
   end
 
   # Return the author object, derived from the first comment
