@@ -236,6 +236,11 @@ class NotesControllerTest < ActionController::TestCase
       post :comment, {:id => notes(:hidden_note_with_comment).id, :text => "This is an additional comment"}
     end
     assert_response :gone
+
+    assert_no_difference('NoteComment.count') do
+      post :comment, {:id => notes(:closed_note_with_comment).id, :text => "This is an additional comment"}
+    end
+    assert_response :conflict
   end
 
   def test_note_close_success
@@ -273,6 +278,9 @@ class NotesControllerTest < ActionController::TestCase
 
     post :close, {:id => notes(:hidden_note_with_comment).id}
     assert_response :gone
+
+    post :close, {:id => notes(:closed_note_with_comment).id}
+    assert_response :conflict
   end
 
   def test_note_read_success

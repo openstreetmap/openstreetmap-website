@@ -52,6 +52,11 @@ class Note < ActiveRecord::Base
     status != "hidden"
   end
 
+  # Check if a note is closed
+  def closed?
+    not closed_at.nil?
+  end
+
   # Return the author object, derived from the first comment
   def author
     self.comments.first.author

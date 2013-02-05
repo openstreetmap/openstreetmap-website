@@ -94,6 +94,7 @@ class NotesController < ApplicationController
     @note = Note.find(id)
     raise OSM::APINotFoundError unless @note
     raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+    raise OSM::APINoteAlreadyClosedError.new(@note) if @note.closed?
 
     # Add a comment to the note
     Note.transaction do
@@ -121,6 +122,7 @@ class NotesController < ApplicationController
     @note = Note.find_by_id(id)
     raise OSM::APINotFoundError unless @note
     raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+    raise OSM::APINoteAlreadyClosedError.new(@note) if @note.closed?
 
     # Close the note and add a comment
     Note.transaction do
