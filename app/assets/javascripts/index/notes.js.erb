@@ -41,7 +41,7 @@ $(document).ready(function () {
   });
 
   map.on("popupclose", function (e) {
-    if (e.popup == newNote._popup) {
+    if (newNote && e.popup == newNote._popup) {
       $(newNote).oneTime(10, "removenote", function () {
         map.removeLayer(newNote);
       });
