@@ -52,7 +52,7 @@ class NotesController < ApplicationController
     # Check the arguments are sane
     raise OSM::APIBadUserInput.new("No lat was given") unless params[:lat]
     raise OSM::APIBadUserInput.new("No lon was given") unless params[:lon]
-    raise OSM::APIBadUserInput.new("No text was given") unless params[:text]
+    raise OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
 
     # Extract the arguments
     lon = params[:lon].to_f
