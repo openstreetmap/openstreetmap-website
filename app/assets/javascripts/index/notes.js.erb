@@ -44,6 +44,7 @@ $(document).ready(function () {
     if (newNote && e.popup == newNote._popup) {
       $(newNote).oneTime(10, "removenote", function () {
         map.removeLayer(newNote);
+        newNote = null;
       });
     }
   });
@@ -176,8 +177,8 @@ $(document).ready(function () {
       },
       success: function (feature) {
         notes[feature.properties.id] = updateMarker(marker, feature);
+        newNote = null;
 
-        $(".leaflet-popup-close-button").off("click.close");
         $("#createnoteanchor").removeClass("disabled").addClass("geolink");
       }
     });
