@@ -2,6 +2,7 @@ module Potlatch2
   LOCALES = {
     "ar" => "ar",
     "ast" => "ast",
+    "az" => "az",
     "be" => "be",
     "be-Tarask" => "be-tarask",
     "br" => "br",

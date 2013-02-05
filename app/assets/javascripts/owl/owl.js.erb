@@ -47,9 +47,15 @@ function initOwlLayer() {
     }
 
     var changesets = owlGeoJsonLayer.changesets;
+    var userIds = [];
 
     $.each(changesets, function (index, changeset) {
       prepareChangesetInfo(changeset);
+      userIds.push(changeset.user_id);
+    });
+
+    fetchUserDetails($.unique(userIds), function (user) {
+      $('.user_avatar_' + user.user_id).attr('src', user.img_href);
     });
 
     var existing = $('#history-sidebar').html();
