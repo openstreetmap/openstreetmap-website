@@ -85,6 +85,8 @@ el:
   application: 
     require_cookies: 
       cookies_needed: Φαίνεται ότι έχετε τα cookies απενεργοποιημένα - παρακαλούμε ενεργοποιήστε τα cookies στο πρόγραμμα περιήγησής σας πριν συνεχίσετε.
+    require_moderator: 
+      not_a_moderator: Θα πρέπει να είστε μεσολαβητής για να εκτελέσετε αυτή την ενέργεια.
   browse: 
     changeset: 
       changeset: "Ομάδα αλλαγών: %{id}"
@@ -206,7 +208,7 @@ el:
       manually_select: Χειροκίνητη επιλογή διαφορετικής περιοχής
       object_list: 
         api: Ανάκτηση περιοχής από το API
-        back: Εμφάνιση λίστας αντικειμένων
+        back: Πίσω στον κατάλογο αντικειμένων
         details: Λεπτομέρειες
         heading: Λίστα αντικειμένων
         history: 
@@ -247,8 +249,8 @@ el:
       way_title: "Διαδρομή: %{way_name}"
     way_details: 
       also_part_of: 
-        one: επίσης μέρος της διαδρομής %{related_ways}
-        other: επίσης μέρος των διαδρομών %{related_ways}
+        one: μέρος της διαδρομής %{related_ways}
+        other: μέρος των διαδρομών %{related_ways}
       nodes: "Κόμβοι:"
       part_of: "Μέρος του:"
     way_history: 
@@ -268,7 +270,7 @@ el:
     changeset_paging_nav: 
       next: Επόμενο »
       previous: « Προηγούμενο
-      showing_page: Εμφάνιση σελίδας %{page}
+      showing_page: Σελίδα %{page}
     changesets: 
       area: Περιοχή
       comment: Σχόλιο
@@ -276,13 +278,13 @@ el:
       saved_at: Αποθήκευση στις
       user: Χρήστης
     list: 
-      description: Πρόσφατες αλλαγές
+      description: Αναζήτηση πρόσφατων συνεισφορών στο χάρτη
       description_bbox: Ομάδες αλλαγών μεταξύ %{bbox}
       description_friend: Ομάδες αλλαγών από τους φίλους σας
       description_nearby: Ομάδες αλλαγών από κοντινούς χρήστες
       description_user: Ομάδες αλλαγών από %{user}
       description_user_bbox: Ομάδες αλλαγών από %{user} μεταξύ %{bbox}
-      empty_anon_html: Δεν έχει γίνει ακόμη καμία επεξεργασία
+      empty_anon_html: Δεν έχει γίνει ακόμη καμία επεξεργασία.
       heading: Ομάδες αλλαγών
       heading_bbox: Ομάδες αλλαγών
       heading_friend: Ομάδες αλλαγών
@@ -348,7 +350,7 @@ el:
       newer_entries: Νεότερες Καταχωρήσεις
       no_entries: Καμία καταχώρηση ημερολογίου
       older_entries: Παλιότερες Καταχωρήσεις
-      recent_entries: "Πρόσφατες καταχωρήσεις ημερολογίου:"
+      recent_entries: Πρόσφατες καταχωρίσεις ημερολογίου
       title: Ημερολόγια χρηστών
       title_friends: Ημερολόγια φίλων
       title_nearby: Ημερολόγια Κοντινών Χρηστών
@@ -460,6 +462,7 @@ el:
           WLAN: Πρόσβαση WiFi
           airport: Αεροδρόμιο
           arts_centre: Κέντρο Τεχνών
+          artwork: Έργο τέχνης
           atm: ATM
           auditorium: Αμφιθέατρο
           bank: Τράπεζα
@@ -468,6 +471,7 @@ el:
           bench: Πάγκος
           bicycle_parking: Στάθμευση Ποδηλάτων
           bicycle_rental: Ενοικίαση Ποδηλάτων
+          biergarten: Υπαίθρια μπυραρία
           brothel: Οίκος ανοχής
           bureau_de_change: Ανταλλακτήριο Συναλλάγματος
           bus_station: Σταθμός Λεωφορείου
@@ -499,6 +503,7 @@ el:
           fuel: Καύσιμα
           grave_yard: Νεκροταφείο
           gym: Γυμναστήριο
+          hall: Αίθουσα
           health_centre: Κέντρο Υγείας
           hospital: Νοσοκομείο
           hotel: Ξενοδοχείο
@@ -533,7 +538,9 @@ el:
           shelter: Καταφύγιο
           shop: Κατάστημα
           shopping: Αγορές
+          shower: Ντους
           social_centre: Κοινωνικό κέντρο
+          social_club: Κοινωνική λέσχη
           studio: Στούντιο
           supermarket: Σουπερμάρκετ
           swimming_pool: Πισίνα
@@ -755,10 +762,12 @@ el:
         shop: 
           antiques: Αντίκες
           bakery: Φούρνος
+          beauty: Σαλόνι ομορφιάς
           beverages: Κατάστημα ποτών
           bicycle: Κατάστημα Ποδηλάτων
           books: Βιβλιοπωλείο
           butcher: Κρεοπωλείο
+          car: Κατάστημα αυτοκινήτων
           car_parts: Εξαρτήματα Αυτοκινήτου
           car_repair: Επισκευή Αυτοκινήτων
           carpet: Κατάστημα Χαλιών
@@ -780,11 +789,13 @@ el:
           food: Κατάστημα Τροφίμων
           funeral_directors: Γραφείο τελετών
           furniture: Έπιπλα
+          gallery: Γκαλερί
           gift: Κατάστημα Δώρων
           greengrocer: Μανάβης
           grocery: Οπωροπωλείο
           hairdresser: Κομμωτήριο
           hardware: Κατάστημα Σιδηρικών
+          hifi: Hi-Fi
           insurance: Ασφαλιστική
           jewelry: Κοσμηματοπωλείο
           kiosk: Περίπτερο
@@ -792,9 +803,11 @@ el:
           mall: Εμπορικό Κέντρο
           market: Αγορά
           mobile_phone: Κατάστημα κινητής τηλεφωνίας
+          motorcycle: Κατάστημα μοτοσικλετών
           music: Κατάστημα Μουσικής
           newsagent: Πρακτορείο εφημερίδων
           optician: Οπτικός
+          organic: Κατάστημα οργανικών τροφίμων
           photo: Φωτογραφείο
           shoes: Κατάστημα Υποδημάτων
           sports: Κατάστημα Αθλητικών
@@ -903,6 +916,8 @@ el:
       text: Σε περίπτωση διένεξης μεταξύ αυτής της μεταφρασμένης σελίδας και %{english_original_link}, Η Αγγλική σελίδα θα προτιμηθεί
       title: Σχετικά με αυτή την μετάφραση
     legal_babble: 
+      attribution_example: 
+        title: Παράδειγμα αναφοράς δημιουργού
       contributors_title_html: Οι συνεισφέροντές μας
       credit_title_html: Πως να πιστώσετε το OpenStreetMap
       infringement_title_html: Παραβιάσεις πνευματικών δικαιωμάτων
@@ -971,8 +986,6 @@ el:
       back_to_outbox: Πίσω στα Εξερχόμενα
       date: Ημ/νία
       from: Από
-      reading_your_messages: Ανάγνωση μηνυμάτων
-      reading_your_sent_messages: Ανάγνωση απεσταλμένων μηνυμάτων
       reply_button: Απάντηση
       subject: Θέμα
       title: Ανάγνωση μηνύματος
@@ -1041,6 +1054,11 @@ el:
       opengeodata: "Το OpenGeoData.org είναι το ιστολόγιο του ιδρυτή του OpenStreetMap Steve Coast's , έχει επίσης και podcasts:"
       the_wiki: "Διάβασε σχετικά με το OpenStreetMap στο wiki:"
       wiki_signup: "Ίσως θες επίσης να κάνεις εγγραφή στο OpenStreetMap wiki:"
+  oauth: 
+    oauthorize: 
+      allow_read_gpx: διαβάστε τα ιδιωτικά σας GPS ίχνη.
+      allow_write_api: τροποποιήστε το χάρτη.
+      allow_write_gpx: ανεβάστε ίχνη GPS.
   oauth_clients: 
     edit: 
       submit: Επεξεργασία
@@ -1055,7 +1073,12 @@ el:
     new: 
       submit: Εγγραφή
     show: 
+      allow_read_prefs: διαβάστε τις δικές τους προτιμήσεις χρήστη.
+      allow_write_api: τροποποιήστε το χάρτη.
+      allow_write_diary: δημιουργήστε εγγραφές ημερολογίου, σχόλια και κάντε φίλους.
+      allow_write_prefs: τροποποιήστε τις δικές τους προτιμήσεις χρήστη.
       confirm: Είστε σίγουροι;
+      delete: Διαγραφή εξυπηρετητή
       requests: "Ζητά της ακόλουθες πληροφορίες από το χρήστη:"
   redaction: 
     edit: 
@@ -1227,6 +1250,10 @@ el:
       delete image: Αφαίρεση της τρέχουσας εικόνας
       email never displayed publicly: (όχι δημόσια εμφάνιση)
       flash update success: Οι πληροφορίες χρήστη ενημερώθηκαν με επιτυχία.
+      flash update success confirm needed: Οι πληροφορίες του χρήστη ενημερώθηκαν επιτυχώς. Ελέγξτε το email για μια ειδοποίηση για να επιβεβαιώσετε την νέα σας διεύθυνση email.
+      gravatar: 
+        gravatar: Χρήση Gravatar
+        link text: Τι είναι αυτό;
       home location: "Τοποθεσία Σπιτιού:"
       image: "Εικόνα:"
       image size hint: (τετράγωνες εικόνες τουλάχιστον 100 x 100 λειτουργούν καλύτερα)
@@ -1256,6 +1283,7 @@ el:
       return to profile: Επιστροφή στο προφίλ
       save changes button: Αποθήκευση Αλλαγών
       title: Επεξεργασία λογαριασμού
+      update home location on click: Ενημέρωση τοποθεσίας σπιτιού όταν κάνω κλικ στον χάρτη;
     confirm: 
       already active: Αυτός ο λογαριασμός έχει ήδη επιβεβαιωθεί.
       button: Επιβεβαίωση
@@ -1330,8 +1358,9 @@ el:
       title: Έχασες τον κωδικό σου
     make_friend: 
       already_a_friend: Είστε ήδη φίλοι με τον χρήστη %{name}.
+      button: Προσθήκη ως φίλου
       failed: Λυπούμαστε, απέτυχε η προσθήκη του χρήστη %{name} ως φίλο.
-      success: Ο χρήστης %{name} είναι τώρα φίλος σου.
+      success: "%{name} είναι τώρα φίλος σου!"
     new: 
       confirm email address: "Επιβεβαιώση Διεύθυνσης ηλεκτρονικού ταχυδρομείου:"
       confirm password: "Επιβεβαίωση Κωδικού:"

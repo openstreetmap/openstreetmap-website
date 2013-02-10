@@ -6,6 +6,7 @@
 # Author: Erdemaslancan
 # Author: George Animal
 # Author: Gizemb
+# Author: Incelemeelemani
 # Author: Katpatuka
 # Author: SalihB
 # Author: Szoszv
@@ -775,6 +776,7 @@ tr:
           shoes: Ayakkabı Dükkanı
           shopping_centre: Alışveriş Merkezi
           sports: Spor Malzemeleri Mağazası
+          stationery: Kırtasiye
           supermarket: Süpermarket
           toys: Oyuncakçı
           travel_agency: Seyahat Acentası
@@ -804,18 +806,27 @@ tr:
         tunnel: 
           "yes": Tünel
         waterway: 
+          artificial: Yapay su yolu
+          boatyard: Tersane
           canal: Kanal
+          connector: Su yolu bağlantısı
           dam: Baraj
+          derelict_canal: Sahipsiz kanal
           ditch: Sulama kanalı
           dock: İskele
           drain: Atık su kanalı
           lock: İskele
+          lock_gate: Menfez
           mineral_spring: Maden Suyu
+          mooring: Baba
+          rapids: Akıntı
           river: Nehir
           riverbank: Irmak kenarı
           stream: Çay
           wadi: Vadi
+          water_point: İçme suyu
           waterfall: Şelale
+          weir: Küçük köprü
   javascripts: 
     map: 
       base: 
@@ -853,12 +864,13 @@ tr:
     history: Geçmiş
     home: konum
     home_tooltip: Kendin konuma git
+    inbox_html: mesajlar %{count}
     inbox_tooltip: 
       one: Bir tane okunmamış mesajın var
       other: "%{count} okunmamış mesaj var"
       zero: Okunmamış mesajın yok
     intro_1: OpenStreetMap herkese serbest ve ücretsiz senin gibi insanlar tarafından oluşturduğu bir dünya haritasıdır.
-    intro_2_create_account: hesabı oluşturunuz
+    intro_2_create_account: hesap oluşturunuz
     intro_2_download: indirmesi
     intro_2_html: "%{license} olan verilerinin %{download} ve %{use} tamamen serbesttir. Harita geliştirmek için bir %{create_account}."
     intro_2_license: Kamuya açık lisansı
@@ -906,6 +918,7 @@ tr:
     inbox: 
       date: Tarih
       from: Gönderen
+      messages: "%{new_messages} yeni ve %{old_messages} eski mesaj var"
       my_inbox: Gelen kutusu
       outbox: Gönderilmiş kutusu
       people_mapping_nearby: yakın çevredeki haritacılar
@@ -945,8 +958,6 @@ tr:
       back_to_outbox: Gönderilmiş kutusuna dön
       date: Tarih
       from: Gönderen
-      reading_your_messages: Mesajlarını oku
-      reading_your_sent_messages: Gönderilmiş mesajlarını oku
       reply_button: Yanıtla
       subject: Konu
       title: Mesaj oku
@@ -962,9 +973,14 @@ tr:
     email_confirm: 
       subject: "[OpenStreetMap] E-posta adresi onaylama mesajı"
     email_confirm_html: 
+      click_the_link: Bu e-postayı sana aitse onaylamak için aşağıdaki bağlantıyı tıkla.
       greeting: Merhaba,
+      hopefully_you: Birisi (umarım sen) %{server_url} deki kayıtlı olan e-posta adresi %{new_address} olarak değiştirmek istiyor.
     email_confirm_plain: 
+      click_the_link: Bu e-posta adresi sana aitse onaylamak için aşağıdaki bağlantıyı tıkla.
       greeting: Merhaba,
+      hopefully_you_1: "Birisi (umarım sen) kendi e-posta adresini değiştirmek istiyor:"
+      hopefully_you_2: "%{server_url} deki %{new_address} olacak."
     friend_notification: 
       befriend_them: "%{befriendurl} üzerinden arkadaş olarak da ekleyebilirsiniz."
       had_added_you: Kullanıcı %{user} seni arkadaş olarak OpenStreetMap'te ekledi.
@@ -982,15 +998,21 @@ tr:
     lost_password: 
       subject: "[OpenStreetMap] Şifre sıfırlama isteği"
     lost_password_html: 
+      click_the_link: Bu istek sana aitse şifre sıfırlamak için aşağıdaki bağlantıyı tıkla.
       greeting: Merhaba,
     lost_password_plain: 
+      click_the_link: Bu istek sana aitse şifre sıfırlamak için aşağıdaki bağlantıyı tıkla.
       greeting: Merhaba,
+      hopefully_you_1: "Birisi (muhtemelen sen) şifre sıfırlanmak için başvurdu:"
+      hopefully_you_2: openstreetmap.org hesabı bu e-posta ile.
     message_notification: 
       footer1: Ayrıca mesajı %{readurl} tıklayarak okuyabilirsin
       footer2: ve %{replyurl} üzerinden cevap verebilirsiniz
       header: "OpenStreetMap kullanıcı %{from_user} sana %{subject} konulu bir mesaj gönderdi:"
       hi: Merhaba %{to_user},
     signup_confirm: 
+      created: Birisi (umarım sen) %{site_url} sitesinde yeni bir hesap açtı.
+      greeting: Merhaba!
       subject: "[OpenStreetMap] e-posta adresi onaylama mesajı"
     signup_confirm_html: 
       introductory_video: "%{introductory_video_link} seyretebilirsin."
@@ -1006,12 +1028,14 @@ tr:
       name: Isim
       required: Gerekli
     index: 
+      my_apps: Benim istemci uygulamalarım
       revoke: İptal!
       title: OAuth Ayrıntılarım
     new: 
       submit: Kayıt ol
     show: 
       confirm: Emin misiniz?
+      delete: İstemci Sil
       edit: Ayrıntıları Düzenle
   redaction: 
     create: 
@@ -1232,9 +1256,12 @@ tr:
         not yet agreed: Yeni katılımcı şartları kabul etmedin.
       current email address: "Geçerli E-posta Adresi:"
       delete image: Geçerli resim kaldır
-      email never displayed publicly: (asla genel olarak görüntülenir)
+      email never displayed publicly: (hiçbir zaman görüntülenmez)
       flash update success: Kullanıcı bilgisi başarıyla güncellendi.
       flash update success confirm needed: Kullanıcı bilgisi başarıyla güncellendi. Yeni e-posta adresinizi onaylamak için e-mail'inizi lütfen kontrol ediniz.
+      gravatar: 
+        gravatar: Gravatar kullanın
+        link text: bu nedir?
       home location: "Konum:"
       image: "Resim:"
       image size hint: (100x100 olan kare görüntüleri en iyi görünür)
@@ -1270,7 +1297,7 @@ tr:
     confirm: 
       button: Onayla
       heading: Kullanıcı hesabı onayla
-      success: Hesabın onaylandı, teşekkür ve iyi çalışmaları!<br /><br /><a href="http://wiki.openstreetmap.org/wiki/Tr:Main_Page">Hoşgeldin sayfasında</a> Türkiye'deki harita durumu konusunda bilgi alabilirsin.
+      success: Hesabın onaylandı, teşekkür ve iyi çalışmalar!<br /><br /><a href="http://wiki.openstreetmap.org/wiki/Tr:Main_Page">Hoşgeldin sayfasında</a> Türkiye'deki harita durumu konusunda bilgi alabilirsin.
     confirm_email: 
       button: Onayla
       success: E-posta adresinizi doğrulandı, kaydolduğu için teşekkür ederiz! İyi çalışmaları dileriz!
@@ -1342,6 +1369,7 @@ tr:
       display name: "Görünen Ad:"
       display name description: Herkes tarafından görünen ad. Bu adı istediği zaman 'tercihlerim' bölümünde değiştirebilirsin.
       email address: "E-posta Adresi:"
+      flash create success message: Kayıt olduğunuz için teşekkür ederiz. Şu anda %{email} e-posta adresinize işlemlerin tamamlandığına dair son bir onaylama daha gönderildi. E-posta adresindeki onay işlemlerini gerçekleştirdikten sonra kendi haritalarınıza ulaşabilicek ve oluşturabileceksiniz<br /><br />Eğer siz antispam sistemi kullanıyorsanız, gönderdiğimiz onay e-postasının spam listesine düşmüş olabileceğini unutmayın. Ayrıca doğrulama istek e-postalarınıza cevap veremiyoruz. Bunun yerine sorun için bizimle webmaster@openstreetmap.org e-posta adresinden iletişim kurabilirsiniz.
       heading: Kullanıcı Hesabı Oluştur
       openid: "%{logo} OpenID:"
       password: "Şifre:"
@@ -1372,15 +1400,19 @@ tr:
       webmaster: site yönetici
     terms: 
       agree: Kabul Et
+      consider_pd: Yukarıdaki anlaşmaya ek olarak, katkılarınızın kamu malı olarak kabul edilmesini de seçebilirsiniz
       consider_pd_why: bu nedir?
       decline: Reddet
+      guidance: "Buradaki bilgileri anlamanıza yardımcı olabilecek bilgiler:  <a href=\"%{summary}\">okunabilir bir özet</a> ve ayrıca <a href=\"%{translations}\">genel çeviriler</a>"
       heading: Katılımcı Şartları
       legale_names: 
         france: Fransa
         italy: İtalya
         rest_of_world: Dünyanın geri kalanı
       legale_select: "İkamet ettiğiniz ülke seç:"
+      read and accept: Lütfen aşağıdaki anlaşmayı okuyun ve mevcut ya da gelecekteki katkılarınız için bu sözleşmenin şartlarını kabul ettiğinizi onaylamak için kabul et butonuna basın.
       title: Katılımcı Şartları
+      you need to accept or decline: Lütfen katılımcı şartlarını okuyunuz ve şartları kabul ya da ret ediniz.
     view: 
       activate_user: Bu kullanıcıyı etkinleştir
       add as friend: arkadaş olarak ekle
@@ -1426,7 +1458,13 @@ tr:
       remove as friend: Arkadaş listesinden çıkar
       role: 
         administrator: Bu kullanıcı bir yönetici dir.
+        grant: 
+          administrator: Yönetici erişim hakkı
+          moderator: Moderatör erişim izni
         moderator: Bu kullanıcı bir moderatör dür.
+        revoke: 
+          administrator: Yönetici erişimini iptal etme
+          moderator: Moderatör erişimini iptal etme
       send message: mesaj gönder
       settings_link_text: ayarları
       spam score: "Spam puanı:"

@@ -67,6 +67,15 @@ et:
       box: ala
       closed_at: "Suletud:"
       created_at: "Loodud:"
+      has_nodes: 
+        one: "Sisaldab järgmist %{count} sõlme:"
+        other: "Sisaldab järgmist %{count} sõlme:"
+      has_relations: 
+        one: "Sisaldab järgmist %{count} relatsiooni:"
+        other: "Sisaldab järgmist %{count} relatsiooni:"
+      has_ways: 
+        one: "Sisaldab järgmist %{count} joont:"
+        other: "Sisaldab järgmist %{count} joont:"
     common_details: 
       changeset_comment: "Kommentaar:"
       deleted_at: "Kustutamise aeg:"
@@ -109,7 +118,7 @@ et:
       edit: redigeeri
       node: sõlm
       node_title: "Punkt: %{node_name}"
-      view_history: vaata redigeerimiste ajalugu
+      view_history: Vaata ajalugu
     node_details: 
       coordinates: "koordinaadid:"
       part_of: "Osa joonest:"
@@ -117,7 +126,7 @@ et:
       download_xml: Laadi XML
       node_history: Punkti muudatusteajalugu
       node_history_title: Punkti %{node_name} ajalugu
-      view_details: vaata üksikasju
+      view_details: Vaata üksikasju
     not_found: 
       sorry: "Vabandame, %{type}\n id-ga %{id} ei leitud."
       type: 
@@ -126,7 +135,7 @@ et:
         way: joont
     paging_nav: 
       of: " /"
-      showing_page: Näitan lehte
+      showing_page: leht
     redacted: 
       redaction: Redaktsioon %{id}
       type: 
@@ -137,14 +146,14 @@ et:
       download_xml: Laadi XML
       relation: relatsioon
       relation_title: "Relatsioon: %{relation_name}"
-      view_history: vaata ajalugu
+      view_history: Vaata ajalugu
     relation_details: 
       members: "Liikmed:"
     relation_history: 
       download_xml: Laadi XML
       relation_history: Relatsiooni muudatuste ajalugu
       relation_history_title: Relatsiooni %{relation_name} ajalugu
-      view_details: vaata üksikasju
+      view_details: Vaata üksikasju
     relation_member: 
       entry_role: "%{type} %{name} kui %{role}"
       type: 
@@ -164,7 +173,7 @@ et:
       manually_select: Vali uus ala
       object_list: 
         api: Laadi antud ala APIst
-        back: Näita objektide nimekirja
+        back: Tagasi objektide nimekirja
         details: Detailid
         heading: Objektide nimekiri
         history: 
@@ -187,8 +196,8 @@ et:
     tag_details: 
       tags: "Sildid:"
       wiki_link: 
-        key: Sildi %{key} kirjelduse lehekülg wiki's
-        tag: Sildi %{key}=%{value} kirjelduse lehekülg wiki's
+        key: Sildi %{key} kirjelduse leht vikis
+        tag: Sildi %{key}=%{value} kirjelduse leht vikis
       wikipedia_link: Artikkel %{page} Vikipeedias
     timeout: 
       type: 
@@ -198,18 +207,18 @@ et:
     way: 
       download_xml: Laadi alla XML
       edit: redigeeri
-      view_history: vaata ajalugu
+      view_history: Vaata ajalugu
       way: Joon
       way_title: "Joon: %{way_name}"
     way_details: 
       also_part_of: 
-        one: on ka osa joonest %{related_ways}
-        other: on ka osa joontest %{related_ways}
+        one: on osa joonest %{related_ways}
+        other: on osa joontest %{related_ways}
       nodes: "Sõlmed:"
       part_of: "Osa:"
     way_history: 
       download_xml: Laadi alla XML
-      view_details: vaata detaile
+      view_details: Vaata üksikasju
       way_history: Joone muudatuste ajalugu
       way_history_title: "Joone: %{way_name} ajalugu"
   changeset: 
@@ -222,7 +231,7 @@ et:
     changeset_paging_nav: 
       next: Järgmine »
       previous: « Eelmine
-      showing_page: Näitan lehekülge %{page}
+      showing_page: Leht %{page}
     changesets: 
       area: Ala
       comment: Kommentaar
@@ -230,8 +239,8 @@ et:
       saved_at: Salvestatud
       user: Kasutaja
     list: 
-      description: Viimased muudatused
-      empty_anon_html: Muudatusi ei ole veel tehtud
+      description: Viimased muudatused kaardil
+      empty_anon_html: Muudatusi ei ole veel tehtud.
   diary_entry: 
     comments: 
       ago: "%{ago} tagasi"
@@ -284,7 +293,7 @@ et:
       newer_entries: Uuemad...
       no_entries: Päevikus pole sissekandeid
       older_entries: Vanemad...
-      recent_entries: "Hiljutised päeviku sissekanded:"
+      recent_entries: Hiljutised päeviku sissekanded
       title: Kasutajate päevikud
       title_friends: Sõprade päevikud
       title_nearby: Lähedalasuvate kasutajate päevikud
@@ -308,8 +317,10 @@ et:
   editor: 
     default: Vaikimisi (praegu %{name})
     potlatch: 
+      description: Potlatch 1 (veebilehitsejapõhine redaktor)
       name: Potlatch 1
     potlatch2: 
+      description: Potlatch 2 (veebilehitsejapõhine redaktor)
       name: Potlatch 2
     remote: 
       description: Remote Control (JOSM või Merkaartor)
@@ -591,12 +602,14 @@ et:
           historic_station: Ajalooline raudteejaam
           junction: Raudtee ülekäigukoht
           level_crossing: Raudtee ülesõidukoht
+          light_rail: Kergraudtee
           miniature: Miniatuurraudtee
           narrow_gauge: Kitsarööpmeline raudtee
           platform: Raudteeperroon
           spur: Raudtee harutee
           station: Raudteejaam
           subway: Metroojaam
+          subway_entrance: Metroo sissepääs
           switch: Pöörangud
           tram: Trammitee
           tram_stop: Trammipeatus
@@ -609,7 +622,9 @@ et:
           carpet: Vaibakauplus
           clothes: Riidepood
           computer: Arvutikauplus
+          copyshop: Paljunduskoda
           cosmetics: Kosmeetikapood
+          department_store: Kaubamaja
           dry_cleaning: Keemiline puhastus
           electronics: Elektroonikapood
           fish: Kalapood
@@ -620,6 +635,7 @@ et:
           gallery: Galerii
           garden_centre: Aianduskeskus
           hairdresser: Juuksur
+          hardware: Rauakauplus
           insurance: Kindlustus
           jewelry: Juveelipood
           kiosk: Kiosk
@@ -737,8 +753,8 @@ et:
     native: 
       mapping_link: alustada kaardistamist
       native_link: eestikeelse versiooni
-      text: Sa vaatad ingliskeelset versiooni autoriõiguste leheküljest. Sa võid minna tagasi selle lehe %{native_link} juurde või lõpetada autoriõiguste lugemise ja %{mapping_link}.
-      title: Sellest leheküljest
+      text: Sa vaatad ingliskeelset versiooni autoriõiguste lehest. Sa võid minna tagasi selle lehe %{native_link} juurde või lõpetada autoriõiguste lugemise ja %{mapping_link}.
+      title: Sellest lehest
   message: 
     delete: 
       deleted: Sõnum kustutatud
@@ -797,7 +813,6 @@ et:
       back_to_outbox: Tagasi saadetud sõnumite juurde
       date: Kuupäev
       from: Kellelt
-      reading_your_messages: Sissetulnud kirjad
       reply_button: Vasta
       subject: Teema
       title: Loe sõnumit
@@ -833,7 +848,7 @@ et:
       confirm: "Enne kasutajakonto loomist peame saama kinnituse, et see taotlus tuli sinult ja selleks klõpsa alloleval lingil:"
       created: Keegi (loodetavasti sina) lõi äsja %{site_url} kasutajakonto.
       greeting: Tere!
-      subject: "[OpenStreetMap] E-posti aadressi kinnitamine"
+      subject: "[OpenStreetMap] Tere tulemast OpenStreetMap-i"
       welcome: Teretulemast OpenStreetMap kaardirakendusse! Soovime pakkuda sulle lisainfot, et saaksid selle kasutamist hõlpsalt alustada.
     signup_confirm_html: 
       introductory_video: Võid vaadata %{introductory_video_link}.
@@ -881,6 +896,11 @@ et:
     new: 
       submit: Registreeri
       title: Registreeri uus rakendus
+  redaction: 
+    edit: 
+      description: Kirjeldus
+    show: 
+      description: "Kirjeldus:"
   site: 
     edit: 
       user_page_link: kasutajaleht
@@ -1034,7 +1054,7 @@ et:
     trace_optionals: 
       tags: Sildid
     trace_paging_nav: 
-      showing_page: Näitan lehekülge %{page}
+      showing_page: Leht %{page}
     view: 
       delete_track: Kustuta see jälg
       description: "Kirjeldus:"
@@ -1129,7 +1149,7 @@ et:
       password: "Parool:"
       register now: "Registreeru:"
       remember: "Jäta mind meelde:"
-      title: Sisselogimise lehekülg
+      title: Sisselogimise leht
       with openid: "Või kasuta sisse logimiseks oma OpenID kasutajat:"
     logout: 
       heading: Välju OpenStreetMap -st
