@@ -1,59 +1,49 @@
 var OWL = {
 
   geoJsonStyles: {
-    'node_create': {
+    'Point': {
       fill: true,
       stroke: false,
-      fillColor: "indigo",
-      fillOpacity: 0.50,
+      opacity: 0.50,
       radius: 8
     },
-    'node_modify': {
-      fill: true,
+    'LineString': {
+      fill: false,
+      opacity: 0.50,
+      weight: 5
+    },
+    'MultiLineString': {
+      fill: false,
+      opacity: 0.50,
+      weight: 5
+    },
+    'Polygon': {
       stroke: false,
-      fillColor: "blue",
-      fillOpacity: 0.50,
-      radius: 8
+      fillOpacity: 0.10,
+      opacity: 0.50,
+      weight: 1
     },
-    'node_delete': {
-      fill: true,
+    'MultiPolygon': {
       stroke: false,
-      fillColor: "red",
-      fillOpacity: 0.50,
-      radius: 8
-    },
-    'way_create': {
-      color: "indigo",
-      fillColor: "indigo",
-      weight: 5,
+      fillOpacity: 0.10,
       opacity: 0.50,
-      fillOpacity: 0.50
+      weight: 1
     },
-    'way_modify': {
-      color: "blue",
-      fillColor: "blue",
-      weight: 5,
-      opacity: 0.50,
-      fillOpacity: 0.50
+    'action_CREATE': {
+      color: 'indigo',
+      fillColor: 'indigo'
     },
-    'way_delete': {
-      color: "red",
-      fillColor: "red",
-      weight: 5,
-      opacity: 0.50,
-      fillOpacity: 0.50
+    'action_MODIFY': {
+      color: 'blue',
+      fillColor: 'blue'
     },
-    'way_affect': {
-      color: "blue",
-      fillColor: "lightblue",
-      weight: 5,
-      opacity: 0.50,
-      fillOpacity: 0.50
+    'action_DELETE': {
+      color: 'red',
+      fillColor: 'red'
     },
     'hover': {
       opacity: 0.75,
-      fillOpacity: 0.75,
-      weight: 7,
+      fillOpacity: 0.25
     }
   },
 

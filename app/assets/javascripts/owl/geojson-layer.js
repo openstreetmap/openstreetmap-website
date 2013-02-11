@@ -212,7 +212,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     }
 
     var layer = this;
-    var style = this.styles[this._getStyleName(change)];
+    var style = this._getStyle(change, geojson, prev_geojson);
 
     var currentGeomLayer = new L.GeoJSON(geojson, {style: style,
       pointToLayer: function (geojson, latlng) {
@@ -261,10 +261,12 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     this.addLayer(currentGeomLayer);
   },
 
-  _getStyleName: function (change) {
-    var name = {'N': 'node_', 'W': 'way_'}[change['el_type']];
-    name += change['el_action'].toLowerCase();
-    return name;
+  _getStyle: function (change, geojson, prevGeojson) {
+    var geomType = geojson ? geojson.geometry.type : null;
+    if (prevGeojson) {
+      geomType = prevGeojson.geometry.type;
+    }
+    return $.extend(this.styles[geomType], this.styles['action_' + change['el_action']]);
   },
 
   _removeObjectLayers: function () {
