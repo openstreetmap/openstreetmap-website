@@ -184,8 +184,16 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
       $.each(changeset['features'].reverse(), function (index, changeFeature) {
         var change = layer.changesets[changeFeature.properties.changeset_id].changes[changeFeature.properties.change_id];
         if (changeFeature.features.length > 0) {
-          layer.addChangeFeatureLayer(change, changeFeature.features[0],
-            changeFeature.features.length > 1 ? changeFeature.features[1] : null);
+          var geojson = null, prevGeojson = null;
+          if (changeFeature.features[0].properties.type == 'prev') {
+            prevGeojson = changeFeature.features[0];
+          } else {
+            geojson = changeFeature.features[0];
+            if (changeFeature.features.length > 1) {
+              prevGeojson = changeFeature.features[1];
+            }
+          }
+          layer.addChangeFeatureLayer(change, geojson, prevGeojson);
         }
       });
     });
@@ -200,11 +208,11 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   // Prepares a GeoJSON layer for a given change feature and adds it to the map.
   addChangeFeatureLayer: function (change, geojson, prev_geojson) {
     if (change.id != this.osmElements[change.el_id].id) {
-      return;
+      //return;
     }
 
     var layer = this;
-    var style = this.styles[this._getStyleName(change)];
+    var style = this._getStyle(change, geojson, prev_geojson);
 
     var currentGeomLayer = new L.GeoJSON(geojson, {style: style,
       pointToLayer: function (geojson, latlng) {
@@ -250,14 +258,15 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
 
     this.owlObjectLayers[change.changeset_id].push(currentGeomLayer);
     change.currentGeomLayer = currentGeomLayer;
-
     this.addLayer(currentGeomLayer);
   },
 
-  _getStyleName: function (change) {
-    var name = {'N': 'node_', 'W': 'way_'}[change['el_type']];
-    name += change['el_action'].toLowerCase();
-    return name;
+  _getStyle: function (change, geojson, prevGeojson) {
+    var geomType = geojson ? geojson.geometry.type : null;
+    if (prevGeojson) {
+      geomType = prevGeojson.geometry.type;
+    }
+    return $.extend(this.styles[geomType], this.styles['action_' + change['el_action']]);
   },
 
   _removeObjectLayers: function () {
@@ -273,7 +282,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   _getUrlForTilerange: function () {
     var tileSize, zoom;
     if (this._map.getZoom() > 16) {
-      // Modified tile size: ZL17 -> 512, ZL19 -> 1024
+      // Modified tile size: ZL17 -> 512, ZL18 -> 1024
       tileSize = Math.pow(2, 8 - (16 - this._map.getZoom()));
       zoom = 16;
     } else {
@@ -297,7 +306,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   getAtomUrlForTilerange: function () {
     var tileSize, zoom;
     if (this._map.getZoom() > 16) {
-      // Modified tile size: ZL17 -> 512, ZL19 -> 1024
+      // Modified tile size: ZL17 -> 512, ZL18 -> 1024
       tileSize = Math.pow(2, 8 - (16 - this._map.getZoom()));
       zoom = 16;
     } else {
