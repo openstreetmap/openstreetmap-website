@@ -1,13 +1,16 @@
 <% @title = t('user_block.revoke.title',
               :block_on => h(@user_block.user.display_name),
               :block_by => h(@user_block.creator.display_name)) %>
-<h1><%= raw t('user_block.revoke.heading',
-              :block_on => link_to(
-                                   h(@user_block.user.display_name),
-                                   {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name}),
-              :block_by => link_to(
-                                   h(@user_block.creator.display_name),
-                                   {:controller => 'user', :action => 'view', :display_name => @user_block.creator.display_name})) %></h1>
+
+<% content_for :heading do %>
+  <h1><%= raw t('user_block.revoke.heading',
+                :block_on => link_to(
+                                     h(@user_block.user.display_name),
+                                     {:controller => 'user', :action => 'view', :display_name => @user_block.user.display_name}),
+                :block_by => link_to(
+                                     h(@user_block.creator.display_name),
+                                     {:controller => 'user', :action => 'view', :display_name => @user_block.creator.display_name})) %></h1>
+<% end %>
 
 <% if @user_block.ends_at > Time.now %>
 <p><b>
@@ -16,7 +19,7 @@
 
 <%= form_for :revoke, :url => { :action => "revoke" } do |f| %>
   <%= f.error_messages %>
-<p>  
+<p>
   <%= check_box_tag 'confirm', 'yes' %>
   <%= label_tag 'confirm', t('user_block.revoke.confirm') %>
 </p>

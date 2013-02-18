@@ -1,35 +1,39 @@
+<% content_for :heading do %>
 <% if @locale == 'en' %>
   <!-- Maybe ease foreigners back to their native page -->
-  <% if t('license_page.legal_babble', :locale => I18n.locale) != t('license_page.legal_babble', :locale => :en) %>
-    <h2><%= t 'license_page.native.title' %></h2>
-    <p>
-      <%= raw t 'license_page.native.text',
-                  :native_link => link_to(t('license_page.native.native_link'),
-                                              :controller => 'site',
-                                              :action => 'copyright',
-                                              :copyright_locale => nil),
-                  :mapping_link => link_to(t('license_page.native.mapping_link'),
-                                              :controller => 'site',
-                                              :action => 'index') %>
-    </p>
-    <hr />
-  <% end %>
-<% else %>
-  <!-- Maybe note that this page has been translated -->
-  <% if t('license_page.legal_babble', :locale => @locale) != t('license_page.legal_babble', :locale => :en) %>
-    <h2><%= t 'license_page.foreign.title' %></h2>
-    <p>
-      <%= raw t 'license_page.foreign.text',
-                  :english_original_link => link_to(t('license_page.foreign.english_link'),
-                                                        :controller => 'site',
-                                                        :action => 'copyright',
-                                                        :copyright_locale => 'en') %>
-    </p>
-    <hr />
-  <% end %>
-<% end %>
 
-<h2><%= t "license_page.legal_babble.title_html", :locale => @locale %></h2>
+    <% if t('license_page.legal_babble', :locale => I18n.locale) != t('license_page.legal_babble', :locale => :en) %>
+      <h2><%= t 'license_page.native.title' %></h2>
+      <p>
+        <%= raw t 'license_page.native.text',
+                    :native_link => link_to(t('license_page.native.native_link'),
+                                                :controller => 'site',
+                                                :action => 'copyright',
+                                                :copyright_locale => nil),
+                    :mapping_link => link_to(t('license_page.native.mapping_link'),
+                                                :controller => 'site',
+                                                :action => 'index') %>
+      </p>
+      <hr />
+    <% end %>
+  <% else %>
+    <!-- Maybe note that this page has been translated -->
+    <% if t('license_page.legal_babble', :locale => @locale) != t('license_page.legal_babble', :locale => :en) %>
+      <h2><%= t 'license_page.foreign.title' %></h2>
+      <p>
+        <%= raw t 'license_page.foreign.text',
+                    :english_original_link => link_to(t('license_page.foreign.english_link'),
+                                                          :controller => 'site',
+                                                          :action => 'copyright',
+                                                          :copyright_locale => 'en') %>
+      </p>
+      <hr />
+    <% end %>
+  <% end %>
+
+  <h2><%= t "license_page.legal_babble.title_html", :locale => @locale %></h2>
+
+<% end %>
 
 <p><%= t "license_page.legal_babble.intro_1_html", :locale => @locale %></p>
 <p><%= t "license_page.legal_babble.intro_2_html", :locale => @locale %></p>
@@ -42,8 +46,6 @@
 <p><%= image_tag("attribution_example.png",
               :alt => t('license_page.legal_babble.attribution_example.alt'),
               :border => 0,
-              :width => 193,
-              :height => 69,
               :title => t('license_page.legal_babble.attribution_example.title')) %>
 
 <h3><%= t "license_page.legal_babble.more_title_html", :locale => @locale %></h3>

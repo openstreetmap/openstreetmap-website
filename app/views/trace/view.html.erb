@@ -1,4 +1,6 @@
-<h2><%= t 'trace.view.heading', :name => h(@trace.name) %></h2>
+<% content_for :heading do %>
+  <h2><%= t 'trace.view.heading', :name => h(@trace.name) %></h2>
+<% end %>
 
 <% if STATUS != :gpx_offline %>
   <% if @trace.inserted %>
@@ -12,7 +14,7 @@
   <tr>
     <td><%= t'trace.view.filename' %></td>
     <td><%= @trace.name %> (<%= link_to t('trace.view.download'), :controller => 'trace', :action => 'data', :id => @trace.id %>)</td>
-  </tr> 
+  </tr>
   <tr>
     <td><%= t'trace.view.uploaded' %></td>
     <td><%= l @trace.timestamp, :format => :friendly %></td>

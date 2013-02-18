@@ -1,11 +1,13 @@
 <% @title = t('redaction.show.title') %>
-<h1><%= t('redaction.show.heading', :title => @redaction.title) %></h1>
+<% content_for :heading do %>
+  <h1><%= t('redaction.show.heading', :title => @redaction.title) %></h1>
+<% end %>
 
 <p>
   <b><%= t 'redaction.show.user' %></b>
   <%= link_to(@redaction.user.display_name, {:controller => 'user', :action => 'view', :display_name => @redaction.user.display_name}) %>
 </p>
-<p>
+<p class="richtext">
   <b><%= t 'redaction.show.description' %></b>
   <%= @redaction.description.to_html %>
 </p>

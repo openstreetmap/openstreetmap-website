@@ -4,7 +4,7 @@
 //= require index/key
 
 $(document).ready(function () {
-  var permalinks = $("#permalink").html();
+  var permalinks = $("#permalink").detach().html();
   var marker;
   var params = OSM.mapParams();
   var map = createMap("map");
@@ -65,10 +65,10 @@ $(document).ready(function () {
   });
 
   function updateLocation() {
-    var center = map.getCenter();
+    var center = map.getCenter().wrap();
     var zoom = map.getZoom();
     var layers = getMapLayers();
-    var extents = map.getBounds();
+    var extents = map.getBounds().wrap();
 
     updatelinks(center.lng,
                 center.lat,
@@ -127,5 +127,11 @@ $(document).ready(function () {
 
   if ($("#query").val()) {
     $("#search_form").submit();
+  }
+
+  // Focus the search field for browsers that don't support
+  // the HTML5 'autofocus' attribute
+  if (!("autofocus" in document.createElement("input"))) {
+    $("#query").focus();
   }
 });

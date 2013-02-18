@@ -1,15 +1,14 @@
-<tr><td colspan='2'>
+<div>
 <% current_page = pages.current_page %>
 
-<%= t'browse.paging_nav.showing_page' %> 
-<%= current_page.number %> (<%= current_page.first_item %><% 
-if (current_page.first_item < current_page.last_item) # if more than 1 trace on page 
-  %>-<%= current_page.last_item %><% 
+<%= t'browse.paging_nav.showing_page' %>
+<%= current_page.number %> (<%= current_page.first_item %><%
+if (current_page.first_item < current_page.last_item) # if more than 1 trace on page
+  %>-<%= current_page.last_item %><%
 end %>
 <%= t'browse.paging_nav.of'%> <%= pages.item_count %>)
 
 <% if pages.page_count > 1 %>
 | <%= raw pagination_links_each(pages, {}) { |n| link_to_page(n, page_param) } %>
 <% end %>
-</td>
-</tr>
+</div>

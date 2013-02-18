@@ -154,7 +154,8 @@ class TraceControllerTest < ActionController::TestCase
   def test_list
     get :list
     assert_response :success
-    assert_template 'list'
+    assert_template "list"
+    check_trace_list Trace.public
   end
 
   # Check that I can get mine
@@ -168,6 +169,43 @@ class TraceControllerTest < ActionController::TestCase
     # Now try when logged in
     get :mine, {}, {:user => users(:public_user).id}
     assert_redirected_to :controller => 'trace', :action => 'list', :display_name => users(:public_user).display_name
+
+    # Fetch the actual list
+    get :list, {:display_name => users(:public_user).display_name}, {:user => users(:public_user).id}
+    assert_response :success
+    assert_template "list"
+    check_trace_list users(:public_user).traces
+  end
+
+  # Check the list of changesets for a specific user
+  def test_list_user
+    # Test a user with no traces
+    get :list, :display_name => users(:second_public_user).display_name
+    assert_response :success
+    assert_template "list"
+    check_trace_list users(:second_public_user).traces.public
+
+    # Test a user with some traces - should see only public ones
+    get :list, :display_name => users(:public_user).display_name
+    assert_response :success
+    assert_template "list"
+    check_trace_list users(:public_user).traces.public
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Should still see only public ones when authenticated as another user
+    get :list, {:display_name => users(:public_user).display_name}, {:user => users(:normal_user).id}
+    assert_response :success
+    assert_template "list"
+    check_trace_list users(:public_user).traces.public
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # Should see all traces when authenticated as the target user
+    get :list, {:display_name => users(:public_user).display_name}, {:user => users(:public_user).id}
+    assert_response :success
+    assert_template "list"
+    check_trace_list users(:public_user).traces
   end
 
   # Check that the rss loads
@@ -306,5 +344,25 @@ class TraceControllerTest < ActionController::TestCase
     basic_authorization(users(:normal_user).display_name, "test")
     delete :api_delete, :id => gpx_files(:public_trace_file).id
     assert_response :not_found
+  end
+
+private
+
+  def check_trace_list(traces)
+    traces = traces.visible.order("timestamp DESC")
+    
+    if traces.count > 0
+      assert_select "table#trace_list tbody", :count => 1 do
+        assert_select "tr", :count => traces.count do |rows|
+          traces.zip(rows).each do |trace,row|
+            assert_select row, "span.trace_summary", Regexp.new(Regexp.escape("(#{trace.size} points)"))
+            assert_select row, "td", Regexp.new(Regexp.escape(trace.description))
+            assert_select row, "td", Regexp.new(Regexp.escape("by #{trace.user.display_name}"))
+          end
+        end
+      end
+    else
+      assert_select "h4", /Nothing here yet/
+    end
   end
 end

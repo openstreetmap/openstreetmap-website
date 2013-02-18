@@ -1,4 +1,7 @@
-<h1><%= t "user.remove_friend.heading", :user => @friend.display_name %></h1>
+<% content_for :heading do %>
+  <h1><%= t "user.remove_friend.heading", :user => @friend.display_name %></h1>
+<% end %>
+
 <%= form_tag do %>
   <% if params[:referer] -%>
   <%= hidden_field_tag("referer", params[:referer]) %>
