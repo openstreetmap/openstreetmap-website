@@ -266,7 +266,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     if (prevGeojson) {
       geomType = prevGeojson.geometry.type;
     }
-    return $.extend(this.styles[geomType], this.styles['action_' + change['el_action']]);
+    return $.extend({}, this.styles[geomType], this.styles['action_' + change['el_action']]);
   },
 
   _removeObjectLayers: function () {

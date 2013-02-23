@@ -4,30 +4,32 @@ var OWL = {
     'Point': {
       fill: true,
       stroke: false,
-      opacity: 0.50,
+      opacity: 0.60,
       radius: 8
     },
     'LineString': {
       fill: false,
-      opacity: 0.50,
+      opacity: 0.60,
       weight: 5
     },
     'MultiLineString': {
       fill: false,
-      opacity: 0.50,
+      opacity: 0.60,
       weight: 5
     },
     'Polygon': {
-      stroke: false,
+      fill: false,
+      stroke: true,
       fillOpacity: 0.10,
-      opacity: 0.50,
-      weight: 1
+      opacity: 0.60,
+      weight: 5
     },
     'MultiPolygon': {
-      stroke: false,
+      fill: false,
+      stroke: true,
       fillOpacity: 0.10,
-      opacity: 0.50,
-      weight: 1
+      opacity: 0.60,
+      weight: 5
     },
     'action_CREATE': {
       color: 'indigo',
