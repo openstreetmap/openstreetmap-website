@@ -83,6 +83,8 @@ zh-CN:
   application: 
     require_cookies: 
       cookies_needed: 您似乎已禁用了 cookies - 请在浏览器中启用 cookies，然后继续。
+    require_moderator: 
+      not_a_moderator: 必须为管理员才能执行该操作。
     setup_user_auth: 
       blocked: 您对 API 的访问已经被阻挡了。请登录到网站以了解更多信息。
       need_to_see_terms: 您对 API 的访问已暂时中止。请登录到网站以查看贡献者条款。您不需要同意，但必须查看它们。
@@ -176,6 +178,8 @@ zh-CN:
       of: /
       showing_page: 页面
     redacted: 
+      message_html: 该%{type}的版本%{version}无法显示，其已被删节。详情请见%{redaction_link}。
+      redaction: 删节 %{id}
       type: 
         node: 节点
         relation: 关系
@@ -231,6 +235,7 @@ zh-CN:
       show_areas: 显示区域
       show_history: 显示历史
       unable_to_load_size: 无法读取：限定窗口的大小 %{bbox_size} 过大(需小于 %{max_bbox_size})
+      view_data: 查看当前地图视图的数据
       wait: 等待中...
       zoom_or_select: 放大或选择查看一个地图区域
     tag_details: 
@@ -318,8 +323,9 @@ zh-CN:
       hide_link: 隐藏此评论
     diary_entry: 
       comment_count: 
-        one: 1 回复
-        other: "%{count} 回复"
+        one: 一个回复
+        other: "%{count}个回复"
+        zero: 无回复
       comment_link: 关于此篇评论
       confirm: 确认
       edit_link: 编辑此篇
@@ -393,7 +399,7 @@ zh-CN:
       area_to_export: 输出区域
       embeddable_html: 嵌入 HTML
       export_button: 输出
-      export_details: OpenStreetMap 数据是以<a href="http://creativecommons.org/licenses/by-sa/2.0/">知识共享 署名-相同方式 2.0 许可</a>授权。
+      export_details: OpenStreetMap数据以<a href="http://opendatacommons.org/licenses/odbl/1.0/">开放式数据共享开放式数据库许可</a>（ODbL）授权。
       format: 格式
       format_to_export: 输出格式
       image_size: 图像尺寸
@@ -775,7 +781,7 @@ zh-CN:
           subdivision: 次级
           suburb: 郊区
           town: 镇
-          unincorporated_area: 团的区
+          unincorporated_area: 自由区
           village: 村
         railway: 
           abandoned: 废弃铁路
@@ -1005,12 +1011,27 @@ zh-CN:
       text: 这个翻译页面和%{english_original_link}在事件上有冲突时，以英文页面为准
       title: 关于这个翻译
     legal_babble: 
+      contributors_at_html: <strong>奥地利</strong>：包含来自<a href="http://data.wien.gv.at/">Stadt Wien</a>（<a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>协议）、<a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a>及Land Tirol（修订的<a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT</a>协议）的数据。
+      contributors_ca_html: <strong>加拿大</strong>：包含来自GeoBase&reg;、GeoGratis（&copy;加拿大自然资源局）、CanVec（&copy;加拿大自然资源局）及StatCan（加拿大统计局地理处）的数据。
+      contributors_footer_1_html: "关于其进一步的细节，及其他被用来帮助提升OpenStreetMap的来源，详见OpenStreetMap Wiki的<a\nhref=\"http://wiki.openstreetmap.org/wiki/Contributors\">贡献者页面</a>。"
+      contributors_footer_2_html: OpenStreetMap纳入数据并不意味着原始数据提供者认可OpenStreetMap、提供任何担保或担负任何法律责任。
+      contributors_fr_html: <strong>法国</strong>：包含来自Direction Générale des Impôts的数据。
+      contributors_gb_html: <strong>英国</strong>：包含来自Ordnance的调查数据，&copy; Crown版权所有及数据库权利，2010-12。
+      contributors_intro_html: 我们的数据来源于成千上万人的贡献。但我们也从国家测绘机构等处获取公共版权的数据，其中包括：
+      contributors_nl_html: <strong>荷兰</strong>：包含来自&copy; AND 2007年的数据。（<a href="http://www.and.com">www.and.com</a>）
+      contributors_nz_html: <strong>新西兰</strong>：包含来自新西兰土地信息部的数据。Crown版权所有。
       contributors_title_html: 我们的贡献者
+      contributors_za_html: <strong>南非</strong>：包含来自<a href="http://www.ngi.gov.za/">行政局：国家地球空间信息</a>，国家版权所有。
+      credit_1_html: "我们需要使用您的信用卡&ldquo;&copy; OpenStreetMap\ncontributors&rdquo;。"
+      credit_2_html: 您必须明确我们的数据使用的开放式数据库协议，若使用我们的地图块，其协议须为CC-BY-SA。详见<a href="http://www.openstreetmap.org/copyright">该版权页</a>另外，若您要以数据形式发布OSM，您必须属名并加入协议链接。若某些媒介无法进行链接（如印刷品），我们建议您引导您的读者去往openstreetmap.org（或OpenStreetMap的完整网址）、opendatacommons.org，及可能相关的creativecommons.org。
       infringement_1_html: "OSM 的贡献者会被提醒，在没有\n版权持有人的明确许可下，绝不添加任何受版权保护的数据\n（例如：谷歌地图，或印刷地图）。"
+      infringement_2_html: 如果你认为版权的材料已被不恰当地添加的OpenStreetMap数据库或该网站，请参见我们的<a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">撤除程序</a>或直接在我们的<a href="http://dmca.openstreetmap.org/">在线申报页面</a>上提出。
       infringement_title_html: 侵权问题
-      intro_1_html: "OpenStreetMap is <i>open data</i>, licensed under the <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data\nCommons Open Database License</a> (ODbL)."
-      intro_2_html: "  您可以自由地复制、发行、传播和创作演绎我们的地图\n  和数据，只要您信任 OpenStreetMap 和它的\n  贡献者。如果您改变、转换或者以我们的地图或数据为基础进行创作，您\n  只能采用与本协议相同的许可协议发布您的作品。完整\n  的<a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">法律\n  文本</a>阐明了您的权利和义务。"
-      more_1_html: "  阅读更多关于使用我们数据的 <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">常见\n  法律问题</a>。"
+      intro_1_html: "OpenStreetMap为<i>开放式数据</i>，在<a\nhref=\"http://opendatacommons.org/licenses/odbl/\">开放式数据共享开放式数据库许可</a>（ODbL）下授权。"
+      intro_2_html: 您可以自由地复制、发行、传播和创作演绎我们的数据，只要您信赖OpenStreetMap和它的贡献者。如果您想改变、转换或者以我们的数据为基础进行创作，您只能采用与本协议相同的许可协议发布您的作品。完整的<a href="http://opendatacommons.org/licenses/odbl/1.0/">法律文本</a>阐明了您的权利和义务。
+      intro_3_html: 创作我们的地图块及文档须在<a href="http://creativecommons.org/licenses/by-sa/2.0/">知识共享署名-ShareAlike 2.0</a>（CC-BY-SA）协议下进行的。
+      more_1_html: "阅读更多关于使用我们数据的 <a\nhref=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">常见法律问题</a>。"
+      more_2_html: 虽然OpenStreetMap是一个开发的数据库，但我们无法为第三方开发人员免费的提供地图API。详见我们的<a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">API使用政策</a>、<a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">地图块使用政策</a>及<a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">指名使用政策</a>。
       more_title_html: 了解更多
       title_html: 版权和许可
     native: 
@@ -1226,7 +1247,7 @@ zh-CN:
       key: 用户键：
       requests: 要向用户要求下列权限：
       secret: 用户密钥：
-      support_notice: 我们支持 HMAC-SHA1 (推荐)和 ssl 模式的纯文字。
+      support_notice: 我们支持HMAC-SHA1（推荐）和RSA-SHA1署名。
       title: "%{app_name} 的 OAuth 详细信息"
       url: 请求令牌 URL：
     update: 
@@ -1295,6 +1316,7 @@ zh-CN:
           footway: 步道
           forest: 森林
           golf: 高尔夫球场
+          heathland: 荒坡
           industrial: 工业区
           lake: 
             - 湖
@@ -1360,7 +1382,7 @@ zh-CN:
       search_results: 搜索结果
   time: 
     formats: 
-      friendly: "%Y 年 %B %e 日 %H:%M"
+      friendly: "%Y年 %B月 %e日 %H:%M"
   trace: 
     create: 
       trace_uploaded: 您的 GPX 文件已经被上传，正等待被输入数据库。这通常在半小时之内，当上传结束后会发邮件通知您。
@@ -1540,8 +1562,8 @@ zh-CN:
       heading: 用户
       hide: 隐藏所选用户
       showing: 
-        one: 显示页面 %{page} (%{first_item}/%{items})
-        other: 显示页面 %{page} (%{first_item}-%{last_item}/%{items})
+        one: "%{page}页（%{items}的第%{first_item}页）"
+        other: "%{page}页（%{items}的第%{first_item}至%{last_item}页）"
       summary: "%{name} 由 %{ip_address} 于 %{date} 创建"
       summary_no_ip: "%{name} 创建于 %{date}"
       title: 用户
@@ -1768,8 +1790,8 @@ zh-CN:
       heading: 用户封禁列表
       title: 用户的封禁
     model: 
-      non_moderator_revoke: 必须撤消块的主持人。
-      non_moderator_update: 必须创建或更新一个块的主持人。
+      non_moderator_revoke: 必须为管理员才能撤消块。
+      non_moderator_update: 必须为管理员才能创建或更新一个块。
     new: 
       back: 查看所有封禁
       heading: 正在建立对 %{name} 的封禁
