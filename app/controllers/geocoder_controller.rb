@@ -1,3 +1,4 @@
+# coding: utf-8
 class GeocoderController < ApplicationController
   require 'uri'
   require 'net/http'
@@ -14,6 +15,10 @@ class GeocoderController < ApplicationController
     @query.sub(/\s+$/, "")
 
     if @query.match(/^[+-]?\d+(\.\d*)?\s*[\s,]\s*[+-]?\d+(\.\d*)?$/)
+      @sources.push "latlon"
+    elsif @query.match(/^[NS]\s?(\d{1,3})°?\s?(\d{1,2})'?\s?(\d{1,3}\.\d*)?"?\W*[EW]\s?(\d{1,3})°?\s?(\d{1,2})'?\s?(\d{1,3}\.\d*)?"?$/) # [NSEW] degrees minutes seconds
+      @sources.push "latlon"
+    elsif @query.match(/^(\d{1,3})°?\s?(\d{1,2})'?\s?(\d{1,3}\.\d*)?"\s?[NS]\W*(\d{1,3})°?\s?(\d{1,2})'?\s?(\d{1,3}\.\d*)?"?\s?[EW]$/) # degrees minutes seconds [NSEW]
       @sources.push "latlon"
     elsif @query.match(/^\d{5}(-\d{4})?$/)
       @sources.push "us_postcode"

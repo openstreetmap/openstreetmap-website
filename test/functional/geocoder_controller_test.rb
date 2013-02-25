@@ -1,3 +1,4 @@
+# coding: utf-8
 require File.dirname(__FILE__) + '/../test_helper'
 require 'geocoder_controller'
 
@@ -58,11 +59,38 @@ class GeocoderControllerTest < ActionController::TestCase
 
   ##
   # test the regular expressions that split search queries into 'latlon', 'us_postcode', and the like
+
+  # latlon examples/motivation from https://trac.openstreetmap.org/ticket/4730 & https://trac.openstreetmap.org/ticket/4748
   def test_identify_latlon_degdec
-    post :search, :query => '10.354, 010.374'
-    assert_response :success
-    assert_not_nil assigns(:sources)
-    assert_equal ['latlon'], assigns(:sources)
+    ['50.06773 14.37742', '50.06773, 14.37742', '+50.06773 +14.37742', '+50.06773, +14.37742'].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+    end
+  end
+
+=begin
+  def test_identify_latlon_mindec
+    ['N 50° 04.064 E 014° 22.645', "N 50° 04.064' E 014° 22.645", "N 50° 04.064', E 014° 22.645'", 'N50° 04.064 E14° 22.645', 'N 50 04.064 E 014 22.645', 'N50 4.064 E14 22.645'].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+    end
+  end
+=end
+
+  def test_identify_latlon_dms
+    [
+        "N 50° 4' 03.828\" E 14° 22' 38.712\"",
+        "N 50° 4' 03.828\", E 14° 22' 38.712\"",
+        'N50 4 03.828 E14 22 38.712',
+        'N50 4 03.828, E14 22 38.712',
+        "50°4'3.828\"N 14°22'38.712\"E"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+    end
   end
 
   def test_identify_us_postcode
