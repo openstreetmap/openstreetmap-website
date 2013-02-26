@@ -321,9 +321,9 @@ private
       params[:query] = view_context.ddm_to_decdeg(latlon)
     elsif latlon = @query.match(/^(\d{1,3})°?\s*(\d{1,3}\.?\d*)?['′]?\s*([NS])\W*(\d{1,3})°?\s*(\d{1,3}\.?\d*)?['′]?\s*([EW])$/).try(:captures) # degrees, decimal minutes [NSEW]
       params[:query] = view_context.ddm_to_decdeg(latlon)
-    elsif latlon = @query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}\.?\d*)?"?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}\.?\d*)?"?$/).try(:captures) # [NSEW] degrees, minutes, decimal seconds
+    elsif latlon = @query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}\.?\d*)?["″]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}\.?\d*)?["″]?$/).try(:captures) # [NSEW] degrees, minutes, decimal seconds
       params[:query] = view_context.dms_to_decdeg(latlon)
-    elsif latlon = @query.match(/^(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}\.?\d*)?"\s*([NS])\W*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}\.?\d*)?"?\s*([EW])$/).try(:captures) # degrees, minutes, decimal seconds [NSEW]
+    elsif latlon = @query.match(/^(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}\.?\d*)?["″]\s*([NS])\W*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}\.?\d*)?["″]?\s*([EW])$/).try(:captures) # degrees, minutes, decimal seconds [NSEW]
       params[:query] = view_context.dms_to_decdeg(latlon)
     else
       return

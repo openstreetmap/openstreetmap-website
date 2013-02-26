@@ -193,4 +193,16 @@ class GeocoderControllerTest < ActionController::TestCase
     end
   end
 
+  def test_primes_and_double_primes
+    target = '50.06773, -14.37742'
+    [
+        "N 50° 4′ 03.828″, W 14° 22′ 38.712″"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_equal target, assigns(:query)
+    end
+  end
+
 end
