@@ -66,20 +66,29 @@ class GeocoderControllerTest < ActionController::TestCase
       post :search, :query => code
       assert_response :success
       assert_equal ['latlon'], assigns(:sources)
+      assert_equal code, assigns(:query)
     end
   end
 
-=begin
-  def test_identify_latlon_mindec
-    ['N 50° 04.064 E 014° 22.645', "N 50° 04.064' E 014° 22.645", "N 50° 04.064', E 014° 22.645'", 'N50° 04.064 E14° 22.645', 'N 50 04.064 E 014 22.645', 'N50 4.064 E14 22.645'].each do |code|
+  def test_identify_latlon_ddm
+    target = '50.06773, 14.37742'
+    [
+        'N 50° 04.064 E 014° 22.645',
+        "N 50° 04.064' E 014° 22.645",
+        "N 50° 04.064', E 014° 22.645'",
+        'N50° 04.064 E14° 22.645',
+        'N 50 04.064 E 014 22.645',
+        'N50 4.064 E14 22.645'
+    ].each do |code|
       post :search, :query => code
       assert_response :success
       assert_equal ['latlon'], assigns(:sources)
+      assert_equal target, assigns(:query)
     end
   end
-=end
 
   def test_identify_latlon_dms
+    target = '50.06773, 14.37742'
     [
         "N 50° 4' 03.828\" E 14° 22' 38.712\"",
         "N 50° 4' 03.828\", E 14° 22' 38.712\"",
@@ -90,6 +99,7 @@ class GeocoderControllerTest < ActionController::TestCase
       post :search, :query => code
       assert_response :success
       assert_equal ['latlon'], assigns(:sources)
+      assert_equal target, assigns(:query)
     end
   end
 

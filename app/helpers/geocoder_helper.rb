@@ -40,4 +40,23 @@ module GeocoderHelper
       "#{number_with_precision(lat, :precision => 3)}, #{number_with_precision(lon, :precision => 3)}"
     end
   end
+
+  def ddm_to_decdeg(captures)
+    captures[0].downcase != 's' ? lat = captures[1].to_f + captures[2].to_f/60 : lat = -(captures[1].to_f + captures[2].to_f/60)
+    captures[3].downcase != 'w' ? lon = captures[4].to_f + captures[5].to_f/60 : lat = -(captures[4].to_f + captures[5].to_f/60)
+    return "#{number_with_precision(lat, :precision => 5)}, #{number_with_precision(lon, :precision => 5)}"
+  end
+
+  def dms_to_decdeg(captures)
+    begin
+      Float(captures[0])
+      captures[3].downcase != 's' ? lat = captures[0].to_f + (captures[1].to_f + captures[2].to_f/60)/60 : lat = -(captures[0].to_f + (captures[1].to_f + captures[2].to_f/60)/60)
+      captures[7].downcase != 'w' ? lon = captures[4].to_f + (captures[5].to_f + captures[6].to_f/60)/60 : lat = -(captures[4].to_f + (captures[5].to_f + captures[6].to_f/60)/60)
+    rescue
+      captures[0].downcase != 's' ? lat = captures[1].to_f + (captures[2].to_f + captures[3].to_f/60)/60 : lat = -(captures[1].to_f + (captures[2].to_f + captures[3].to_f/60)/60)
+      captures[4].downcase != 'w' ? lon = captures[5].to_f + (captures[6].to_f + captures[7].to_f/60)/60 : lat = -(captures[5].to_f + (captures[6].to_f + captures[7].to_f/60)/60)
+    end
+    return "#{number_with_precision(lat, :precision => 5)}, #{number_with_precision(lon, :precision => 5)}"
+  end
+
 end
