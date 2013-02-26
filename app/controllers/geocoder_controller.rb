@@ -6,6 +6,7 @@ class GeocoderController < ApplicationController
 
   before_filter :authorize_web
   before_filter :set_locale
+  before_filter :convert_latlon
 
   def search
     @query = params[:query]
@@ -15,15 +16,6 @@ class GeocoderController < ApplicationController
     @query.sub(/\s+$/, "")
 
     if @query.match(/^[+-]?\d+(\.\d*)?\s*[\s,]\s*[+-]?\d+(\.\d*)?$/)
-      @sources.push "latlon"
-    elsif latlon = @query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,3}\.\d*)?'?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,3}\.\d*)?'?$/).try(:captures) # [NSEW] degrees, decimal minutes
-      @query = view_context.ddm_to_decdeg(latlon)
-      @sources.push "latlon"
-    elsif latlon = @query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,2})'?\s*(\d{1,3}\.\d*)?"?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,2})'?\s*(\d{1,3}\.\d*)?"?$/).try(:captures) # [NSEW] degrees, minutes, decimal seconds
-      @query = view_context.dms_to_decdeg(latlon)
-      @sources.push "latlon"
-    elsif latlon = @query.match(/^(\d{1,3})°?\s*(\d{1,2})'?\s*(\d{1,3}\.\d*)?"\s*([NS])\W*(\d{1,3})°?\s*(\d{1,2})'?\s*(\d{1,3}\.\d*)?"?\s*([EW])$/).try(:captures) # degrees, minutes, decimal seconds [NSEW]
-      @query = view_context.dms_to_decdeg(latlon)
       @sources.push "latlon"
     elsif @query.match(/^\d{5}(-\d{4})?$/)
       @sources.push "us_postcode"
@@ -322,4 +314,17 @@ private
   def escape_query(query)
     return URI.escape(query, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]", false, 'N'))
   end
+
+  def convert_latlon
+    @query = params[:query]
+    if latlon = @query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,3}\.\d*)?'?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,3}\.\d*)?'?$/).try(:captures) # [NSEW] degrees, decimal minutes
+    params[:query] = view_context.ddm_to_decdeg(latlon)
+    elsif latlon = @query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,2})'?\s*(\d{1,3}\.\d*)?"?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,2})'?\s*(\d{1,3}\.\d*)?"?$/).try(:captures) # [NSEW] degrees, minutes, decimal seconds
+    params[:query] = view_context.dms_to_decdeg(latlon)
+    elsif latlon = @query.match(/^(\d{1,3})°?\s*(\d{1,2})'?\s*(\d{1,3}\.\d*)?"\s*([NS])\W*(\d{1,3})°?\s*(\d{1,2})'?\s*(\d{1,3}\.\d*)?"?\s*([EW])$/).try(:captures) # degrees, minutes, decimal seconds [NSEW]
+    params[:query] = view_context.dms_to_decdeg(latlon)
+    else
+    end
+  end
+
 end

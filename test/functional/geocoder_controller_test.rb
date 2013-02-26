@@ -132,4 +132,60 @@ class GeocoderControllerTest < ActionController::TestCase
     assert_equal ['osm_nominatim'], assigns(:sources)
   end
 
+  def test_ne
+    target = '50.06773, 14.37742'
+    [
+        "N 50° 04.064', E 014° 22.645'",
+        "N 50° 4' 03.828\", E 14° 22' 38.712\"",
+        "50°4'3.828\"N 14°22'38.712\"E"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_equal target, assigns(:query)
+    end
+  end
+
+  def test_nw
+    target = '50.06773, -14.37742'
+    [
+        "N 50° 04.064', W 014° 22.645'",
+        "N 50° 4' 03.828\", W 14° 22' 38.712\"",
+        "50°4'3.828\"N 14°22'38.712\"W"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_equal target, assigns(:query)
+    end
+  end
+
+  def test_se
+    target = '-50.06773, 14.37742'
+    [
+        "S 50° 04.064', E 014° 22.645'",
+        "S 50° 4' 03.828\", E 14° 22' 38.712\"",
+        "50°4'3.828\"S 14°22'38.712\"E"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_equal target, assigns(:query)
+    end
+  end
+
+  def test_sw
+    target = '-50.06773, -14.37742'
+    [
+        "S 50° 04.064', W 014° 22.645'",
+        "S 50° 4' 03.828\", W 14° 22' 38.712\"",
+        "50°4'3.828\"S 14°22'38.712\"W"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_equal target, assigns(:query)
+    end
+  end
+
 end
