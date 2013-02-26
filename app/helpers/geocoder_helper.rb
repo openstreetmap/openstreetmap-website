@@ -42,8 +42,14 @@ module GeocoderHelper
   end
 
   def ddm_to_decdeg(captures)
-    captures[0].downcase != 's' ? lat = captures[1].to_f + captures[2].to_f/60 : lat = -(captures[1].to_f + captures[2].to_f/60)
-    captures[3].downcase != 'w' ? lon = captures[4].to_f + captures[5].to_f/60 : lon = -(captures[4].to_f + captures[5].to_f/60)
+    begin
+      Float(captures[0])
+      captures[2].downcase != 's' ? lat = captures[0].to_f + captures[1].to_f/60 : lat = -(captures[0].to_f + captures[1].to_f/60)
+      captures[5].downcase != 'w' ? lon = captures[3].to_f + captures[4].to_f/60 : lon = -(captures[3].to_f + captures[4].to_f/60)
+    rescue
+      captures[0].downcase != 's' ? lat = captures[1].to_f + captures[2].to_f/60 : lat = -(captures[1].to_f + captures[2].to_f/60)
+      captures[3].downcase != 'w' ? lon = captures[4].to_f + captures[5].to_f/60 : lon = -(captures[4].to_f + captures[5].to_f/60)
+      end
     return "#{number_with_precision(lat, :precision => 5)}, #{number_with_precision(lon, :precision => 5)}"
   end
 

@@ -78,7 +78,8 @@ class GeocoderControllerTest < ActionController::TestCase
         "N 50° 04.064', E 014° 22.645'",
         'N50° 04.064 E14° 22.645',
         'N 50 04.064 E 014 22.645',
-        'N50 4.064 E14 22.645'
+        'N50 4.064 E14 22.645',
+        "50° 04.064' N, 014° 22.645' E"
     ].each do |code|
       post :search, :query => code
       assert_response :success
@@ -137,7 +138,8 @@ class GeocoderControllerTest < ActionController::TestCase
     [
         "N 50° 04.064', E 014° 22.645'",
         "N 50° 4' 03.828\", E 14° 22' 38.712\"",
-        "50°4'3.828\"N 14°22'38.712\"E"
+        "50°4'3.828\"N 14°22'38.712\"E",
+        "50° 04.064' N, 014° 22.645' E"
     ].each do |code|
       post :search, :query => code
       assert_response :success
@@ -151,7 +153,8 @@ class GeocoderControllerTest < ActionController::TestCase
     [
         "N 50° 04.064', W 014° 22.645'",
         "N 50° 4' 03.828\", W 14° 22' 38.712\"",
-        "50°4'3.828\"N 14°22'38.712\"W"
+        "50°4'3.828\"N 14°22'38.712\"W",
+        "50° 04.064' N, 014° 22.645' W"
     ].each do |code|
       post :search, :query => code
       assert_response :success
@@ -165,7 +168,8 @@ class GeocoderControllerTest < ActionController::TestCase
     [
         "S 50° 04.064', E 014° 22.645'",
         "S 50° 4' 03.828\", E 14° 22' 38.712\"",
-        "50°4'3.828\"S 14°22'38.712\"E"
+        "50°4'3.828\"S 14°22'38.712\"E",
+        "50° 04.064' S, 014° 22.645' E"
     ].each do |code|
       post :search, :query => code
       assert_response :success
@@ -179,7 +183,8 @@ class GeocoderControllerTest < ActionController::TestCase
     [
         "S 50° 04.064', W 014° 22.645'",
         "S 50° 4' 03.828\", W 14° 22' 38.712\"",
-        "50°4'3.828\"S 14°22'38.712\"W"
+        "50°4'3.828\"S 14°22'38.712\"W",
+        "50° 04.064' S, 014° 22.645' W"
     ].each do |code|
       post :search, :query => code
       assert_response :success
