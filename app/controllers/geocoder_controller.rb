@@ -317,7 +317,13 @@ private
 
   def convert_latlon
     @query = params[:query]
-    if latlon = @query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,3}\.?\d*)?['′]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,3}\.?\d*)?['′]?$/).try(:captures) # [NSEW] degrees, decimal minutes
+
+    if latlon = @query.match(/^([NS])\s*(\d{1,3}\.?\d*)\W*([EW])\s*(\d{1,3}\.?\d*)$/).try(:captures) # [NSEW] decimal degrees
+      params[:query] = view_context.nsew_to_decdeg(latlon)
+    elsif latlon = @query.match(/^(\d{1,3}\.?\d*)\s*([NS])\W*(\d{1,3}\.?\d*)\s*([EW])$/).try(:captures) # degrees, decimal minutes [NSEW]
+      params[:query] = view_context.nsew_to_decdeg(latlon)
+
+    elsif latlon = @query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,3}\.?\d*)?['′]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,3}\.?\d*)?['′]?$/).try(:captures) # [NSEW] degrees, decimal minutes
       params[:query] = view_context.ddm_to_decdeg(latlon)
     elsif latlon = @query.match(/^(\d{1,3})°?\s*(\d{1,3}\.?\d*)?['′]?\s*([NS])\W*(\d{1,3})°?\s*(\d{1,3}\.?\d*)?['′]?\s*([EW])$/).try(:captures) # degrees, decimal minutes [NSEW]
       params[:query] = view_context.ddm_to_decdeg(latlon)
