@@ -41,6 +41,18 @@ module GeocoderHelper
     end
   end
 
+  def nsew_to_decdeg(captures)
+    begin
+      Float(captures[0])
+      captures[1].downcase != 's' ? lat = captures[0].to_f : lat = -(captures[0].to_f)
+      captures[3].downcase != 'w' ? lon = captures[2].to_f : lon = -(captures[2].to_f)
+    rescue
+      captures[0].downcase != 's' ? lat = captures[1].to_f : lat = -(captures[1].to_f)
+      captures[2].downcase != 'w' ? lon = captures[3].to_f : lon = -(captures[3].to_f)
+      end
+    return "#{number_with_precision(lat, :precision => 5)}, #{number_with_precision(lon, :precision => 5)}"
+  end
+
   def ddm_to_decdeg(captures)
     begin
       Float(captures[0])

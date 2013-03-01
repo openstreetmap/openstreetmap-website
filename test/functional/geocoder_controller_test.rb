@@ -70,6 +70,21 @@ class GeocoderControllerTest < ActionController::TestCase
     end
   end
 
+  def test_identify_latlon_degdec_nsew
+    target = '50.06773, 14.37742'
+    [
+        'N50.06773 E14.37742',
+        'N50.06773, E14.37742',
+        '50.06773N 14.37742E',
+        '50.06773N, 14.37742E'
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_equal target, assigns(:query)
+    end
+  end
+
   def test_identify_latlon_ddm
     target = '50.06773, 14.37742'
     [
