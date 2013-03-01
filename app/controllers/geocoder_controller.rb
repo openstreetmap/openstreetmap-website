@@ -320,7 +320,7 @@ private
 
     if latlon = @query.match(/^([NS])\s*(\d{1,3}\.?\d*)\W*([EW])\s*(\d{1,3}\.?\d*)$/).try(:captures) # [NSEW] decimal degrees
       params[:query] = nsew_to_decdeg(latlon)
-    elsif latlon = @query.match(/^(\d{1,3}\.?\d*)\s*([NS])\W*(\d{1,3}\.?\d*)\s*([EW])$/).try(:captures) # degrees, decimal minutes [NSEW]
+    elsif latlon = @query.match(/^(\d{1,3}\.?\d*)\s*([NS])\W*(\d{1,3}\.?\d*)\s*([EW])$/).try(:captures) # decimal degrees [NSEW]
       params[:query] = nsew_to_decdeg(latlon)
     elsif latlon = @query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,3}\.?\d*)?['′]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,3}\.?\d*)?['′]?$/).try(:captures) # [NSEW] degrees, decimal minutes
       params[:query] = ddm_to_decdeg(latlon)
