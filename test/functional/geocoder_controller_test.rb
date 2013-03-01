@@ -70,6 +70,13 @@ class GeocoderControllerTest < ActionController::TestCase
     end
   end
 
+  ##
+  # this is a test helper for rounding latlon strings to a specified precision, e.g., at a precision 
+  # of 5, "50.06773333333334, -14.377416666666667" will become "50.06773, -14.37742"
+  def assert_latlon_equal_round(expected, actual, precision)
+    assert_equal expected.split(',').map {|i| i.to_f.round(precision)}.join(', '), actual.split(',').map {|i| i.to_f.round(precision)}.join(', ')
+  end
+
   def test_identify_latlon_degdec_nsew
     target = '50.06773, 14.37742'
     [
@@ -99,7 +106,7 @@ class GeocoderControllerTest < ActionController::TestCase
       post :search, :query => code
       assert_response :success
       assert_equal ['latlon'], assigns(:sources)
-      assert_equal target, assigns(:query)
+      assert_latlon_equal_round(target, assigns(:query), 5)
     end
   end
 
@@ -159,7 +166,7 @@ class GeocoderControllerTest < ActionController::TestCase
       post :search, :query => code
       assert_response :success
       assert_equal ['latlon'], assigns(:sources)
-      assert_equal target, assigns(:query)
+      assert_latlon_equal_round(target, assigns(:query), 5)
     end
   end
 
@@ -174,7 +181,7 @@ class GeocoderControllerTest < ActionController::TestCase
       post :search, :query => code
       assert_response :success
       assert_equal ['latlon'], assigns(:sources)
-      assert_equal target, assigns(:query)
+      assert_latlon_equal_round(target, assigns(:query), 5)
     end
   end
 
@@ -189,7 +196,7 @@ class GeocoderControllerTest < ActionController::TestCase
       post :search, :query => code
       assert_response :success
       assert_equal ['latlon'], assigns(:sources)
-      assert_equal target, assigns(:query)
+      assert_latlon_equal_round(target, assigns(:query), 5)
     end
   end
 
@@ -204,7 +211,7 @@ class GeocoderControllerTest < ActionController::TestCase
       post :search, :query => code
       assert_response :success
       assert_equal ['latlon'], assigns(:sources)
-      assert_equal target, assigns(:query)
+      assert_latlon_equal_round(target, assigns(:query), 5)
     end
   end
 
