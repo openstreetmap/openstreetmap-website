@@ -228,6 +228,31 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
       });
       this.owlObjectLayers[change.changeset_id].push(prevGeomLayer);
       change.prevGeomLayer = prevGeomLayer;
+      prevGeomLayer.on('mouseover', function (e) {
+          e.target.setStyle(this.styles.hover);
+          this.fire('changemouseover', {
+            event: e,
+            change: change
+          });
+      }, this);
+
+      prevGeomLayer.on('mouseout', function (e) {
+          e.target.setStyle(style);
+          this.fire('changemouseout', {
+            event: e,
+            change: change
+          });
+      }, this);
+
+      prevGeomLayer.on('click', function (e) {
+        this.fire('change_clicked', {
+          event: e,
+          changesets: this.changesets,
+          clickedChange: change,
+          currentGeomLayer: currentGeomLayer,
+          prevGeomLayer: prevGeomLayer
+        });
+      }, this);
     }
 
     currentGeomLayer.on('mouseover', function (e) {
@@ -259,6 +284,9 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
     this.owlObjectLayers[change.changeset_id].push(currentGeomLayer);
     change.currentGeomLayer = currentGeomLayer;
     this.addLayer(currentGeomLayer);
+    if (change.el_action == 'DELETE') {
+      this.showPrevGeom(change.id);
+    }
   },
 
   _getStyle: function (change, geojson, prevGeojson) {
