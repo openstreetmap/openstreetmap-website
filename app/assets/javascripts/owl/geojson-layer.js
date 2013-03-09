@@ -208,7 +208,8 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   // Prepares a GeoJSON layer for a given change feature and adds it to the map.
   addChangeFeatureLayer: function (change, geojson, prev_geojson) {
     if (change.id != this.osmElements[change.el_id].id) {
-      //return;
+      // Display only the latest change for each element.
+      return;
     }
 
     var layer = this;
