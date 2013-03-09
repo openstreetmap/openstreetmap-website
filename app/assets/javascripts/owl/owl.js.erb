@@ -66,6 +66,16 @@ function initOwlLayer() {
       })
     );
 
+    $('.changeset-comment').click(function (e) {
+      var changesetId = findChangesetId(e.target);
+      if (changesetId != currentlyShownChangeset) {
+        showChanges(changesetId, null);
+      } else {
+        hideChanges(changesetId);
+      }
+      return false;
+    });
+
     $("abbr.timeago").timeago();
 
     $('#sidebar').scroll(function (e) {
