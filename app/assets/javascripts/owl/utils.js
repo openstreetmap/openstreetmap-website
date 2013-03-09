@@ -130,10 +130,13 @@ function fetchUserDetails(ids, callback) {
       url: "http://www.openstreetmap.org/api/0.6/user/" + id,
       dataType: 'xml',
       success: function(xml, status, xhr) {
-        callback({
-            user_id: parseInt(xml.getElementsByTagName('user')[0].attributes.getNamedItem('id').value),
-            img_href: xml.getElementsByTagName('img')[0].attributes.getNamedItem('href').value
-        });
+        // Some users returned by the API don't have the avatar link for some reason...
+        if (xml.getElementsByTagName('img').length > 0) {
+          callback({
+              user_id: parseInt(xml.getElementsByTagName('user')[0].attributes.getNamedItem('id').value),
+              img_href: xml.getElementsByTagName('img')[0].attributes.getNamedItem('href').value
+          });
+        }
       },
       error: function(x,xx,xxx) {
       }
