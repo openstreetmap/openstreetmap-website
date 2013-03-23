@@ -4,9 +4,9 @@ class User < ActiveRecord::Base
   has_many :traces, :conditions => { :visible => true }
   has_many :diary_entries, :order => 'created_at DESC'
   has_many :diary_comments, :order => 'created_at DESC'
-  has_many :messages, :foreign_key => :to_user_id, :conditions => { :to_user_visible => true }, :order => 'sent_on DESC'
+  has_many :messages, :foreign_key => :to_user_id, :conditions => { :to_user_visible => true }, :order => 'sent_on DESC', :include => [:sender, :recipient]
   has_many :new_messages, :class_name => "Message", :foreign_key => :to_user_id, :conditions => { :to_user_visible => true, :message_read => false }, :order => 'sent_on DESC'
-  has_many :sent_messages, :class_name => "Message", :foreign_key => :from_user_id, :conditions => { :from_user_visible => true }, :order => 'sent_on DESC'
+  has_many :sent_messages, :class_name => "Message", :foreign_key => :from_user_id, :conditions => { :from_user_visible => true }, :order => 'sent_on DESC', :include => [:sender, :recipient]
   has_many :friends, :include => :befriendee, :conditions => "users.status IN ('active', 'confirmed')"
   has_many :friend_users, :through => :friends, :source => :befriendee
   has_many :tokens, :class_name => "UserToken"
