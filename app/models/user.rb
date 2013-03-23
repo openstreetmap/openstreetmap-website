@@ -142,14 +142,7 @@ class User < ActiveRecord::Base
   end
 
   def is_friends_with?(new_friend)
-    res = false
-    @new_friend = new_friend
-    self.friends.each do |friend|
-      if friend.friend_user_id == @new_friend.id
-        return true
-      end
-    end
-    return false
+    self.friends.where(:friend_user_id => new_friend.id).exists?
   end
 
   ##
