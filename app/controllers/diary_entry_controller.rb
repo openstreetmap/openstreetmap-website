@@ -141,30 +141,33 @@ class DiaryEntryController < ApplicationController
   end
 
   def rss
-    @entries = DiaryEntry.includes(:user).order("created_at DESC").limit(20)
-
     if params[:display_name]
       user = User.active.find_by_display_name(params[:display_name])
 
       if user
-        @entries = user.diary_entries.visible
+        @entries = user.diary_entries
         @title = I18n.t('diary_entry.feed.user.title', :user => user.display_name)
         @description = I18n.t('diary_entry.feed.user.description', :user => user.display_name)
         @link = "http://#{SERVER_URL}/user/#{user.display_name}/diary"
       else
         render :nothing => true, :status => :not_found
       end
-    elsif params[:language]
-      @entries = @entries.visible.where(:language_code => params[:language]).joins(:user).where(:users => { :status => ["active", "confirmed"] })
-      @title = I18n.t('diary_entry.feed.language.title', :language_name => Language.find(params[:language]).english_name)
-      @description = I18n.t('diary_entry.feed.language.description', :language_name => Language.find(params[:language]).english_name)
-      @link = "http://#{SERVER_URL}/diary/#{params[:language]}"
     else
-      @entries = @entries.visible.joins(:user).where(:users => { :status => ["active", "confirmed"] })
-      @title = I18n.t('diary_entry.feed.all.title')
-      @description = I18n.t('diary_entry.feed.all.description')
-      @link = "http://#{SERVER_URL}/diary"
+      @entries = DiaryEntry.joins(:user).where(:users => { :status => ["active", "confirmed"] })
+
+      if params[:language]
+        @entries = @entries.where(:language_code => params[:language])
+        @title = I18n.t('diary_entry.feed.language.title', :language_name => Language.find(params[:language]).english_name)
+        @description = I18n.t('diary_entry.feed.language.description', :language_name => Language.find(params[:language]).english_name)
+        @link = "http://#{SERVER_URL}/diary/#{params[:language]}"
+      else
+        @title = I18n.t('diary_entry.feed.all.title')
+        @description = I18n.t('diary_entry.feed.all.description')
+        @link = "http://#{SERVER_URL}/diary"
+      end
     end
+
+    @entries = @entries.visible.includes(:user).order("created_at DESC").limit(20)
   end
 
   def view
