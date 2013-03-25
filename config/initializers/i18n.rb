@@ -42,4 +42,6 @@ I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
 
 I18n.fallbacks.map("no" => "nb")
 
-I18n.available_locales
+Rails.configuration.after_initialize do |app|
+  I18n.available_locales
+end
