@@ -10,6 +10,7 @@
 //= require leaflet.pan
 //= require leaflet.zoom
 //= require i18n/translations
+//= require oauth
 //= require osm
 //= require piwik
 //= require map

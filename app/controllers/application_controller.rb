@@ -55,6 +55,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_oauth
+    @oauth = @user.access_token(OAUTH_KEY) if @user and defined? OAUTH_KEY
+  end
+
   ##
   # requires the user to be logged in by the token or HTTP methods, or have an 
   # OAuth token with the right capability. this method is a bit of a pain to call 
