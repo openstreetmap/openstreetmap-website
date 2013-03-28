@@ -41,6 +41,10 @@ $(document).ready(function () {
     }
   });
 
+  map.on("popupopen", function (e) {
+    $(e.popup._container).find(".comment").focus();
+  });
+
   map.on("popupclose", function (e) {
     if (newNote && e.popup == newNote._popup) {
       $(newNote).oneTime(10, "removenote", function () {
