@@ -71,22 +71,22 @@ $(document).ready(function () {
   }
 
   function updateMarker(marker, feature) {
-    var icon = noteIcons[feature.properties.status];
-    var popupContent = createPopupContent(marker, feature.properties);
-
     if (marker)
     {
       marker.setIcon(noteIcons[feature.properties.status]);
-      marker._popup.setContent(popupContent);
+      marker._popup.setContent(createPopupContent(marker, feature.properties));
     }
     else
     {
       marker = L.marker(feature.geometry.coordinates.reverse(), {
-        icon: icon,
+        icon: noteIcons[feature.properties.status],
         opacity: 0.7
       });
 
-      marker.addTo(noteLayer).bindPopup(popupContent, popupOptions());
+      marker.addTo(noteLayer).bindPopup(
+        createPopupContent(marker, feature.properties),
+        popupOptions()
+      );
     }
 
     return marker;
