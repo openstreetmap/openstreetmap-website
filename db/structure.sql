@@ -249,7 +249,8 @@ CREATE TABLE client_applications (
     allow_write_diary boolean DEFAULT false NOT NULL,
     allow_write_api boolean DEFAULT false NOT NULL,
     allow_read_gpx boolean DEFAULT false NOT NULL,
-    allow_write_gpx boolean DEFAULT false NOT NULL
+    allow_write_gpx boolean DEFAULT false NOT NULL,
+    allow_write_notes boolean DEFAULT false NOT NULL
 );
 
 
@@ -850,7 +851,8 @@ CREATE TABLE oauth_tokens (
     callback_url character varying(255),
     verifier character varying(20),
     scope character varying(255),
-    valid_to timestamp without time zone
+    valid_to timestamp without time zone,
+    allow_write_notes boolean DEFAULT false NOT NULL
 );
 
 
@@ -2450,6 +2452,8 @@ INSERT INTO schema_migrations (version) VALUES ('20121119165817');
 INSERT INTO schema_migrations (version) VALUES ('20121202155309');
 
 INSERT INTO schema_migrations (version) VALUES ('20121203124841');
+
+INSERT INTO schema_migrations (version) VALUES ('20130328184137');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

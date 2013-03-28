@@ -116,6 +116,9 @@ class ApplicationController < ActionController::Base
   def require_allow_write_gpx
     require_capability(:allow_write_gpx)
   end
+  def require_allow_write_notes
+    require_capability(:allow_write_notes)
+  end
 
   ##
   # require that the user is a moderator, or fill out a helpful error message
