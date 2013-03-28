@@ -80,36 +80,15 @@ class DiaryEntryController < ApplicationController
 
       if @this_user
         @title = t 'diary_entry.list.user_title', :user => @this_user.display_name
-        @entry_pages, @entries = paginate(:diary_entries,
-                                          :conditions => {
-                                            :user_id => @this_user.id,
-                                            :visible => true
-                                          },
-                                          :order => 'created_at DESC',
-                                          :per_page => 20)
+        @entries = @this_user.diary_entries
       else
         render_unknown_user params[:display_name]
+        return
       end
-    elsif params[:language]
-      @title = t 'diary_entry.list.in_language_title', :language => Language.find(params[:language]).english_name
-      @entry_pages, @entries = paginate(:diary_entries, :include => :user,
-                                        :conditions => {
-                                          :users => { :status => ["active", "confirmed"] },
-                                          :visible => true,
-                                          :language_code => params[:language]
-                                        },
-                                        :order => 'created_at DESC',
-                                        :per_page => 20)
     elsif params[:friends]
       if @user
         @title = t 'diary_entry.list.title_friends'
-        @entry_pages, @entries = paginate(:diary_entries, :include => :user,
-                                          :conditions => {
-                                            :user_id => @user.friend_users,
-                                            :visible => true
-                                          },
-                                          :order => 'created_at DESC',
-                                          :per_page => 20)
+        @entries = DiaryEntry.where(:user_id => @user.friend_users)
       else
           require_user
           return
@@ -117,54 +96,61 @@ class DiaryEntryController < ApplicationController
     elsif params[:nearby]
       if @user
         @title = t 'diary_entry.list.title_nearby'
-        @entry_pages, @entries = paginate(:diary_entries, :include => :user,
-                                          :conditions => {
-                                            :user_id => @user.nearby,
-                                            :visible => true
-                                          },
-                                          :order => 'created_at DESC',
-                                          :per_page => 20)
+        @entries = DiaryEntry.where(:user_id => @user.nearby)
       else
           require_user
           return
       end
     else
-      @title = t 'diary_entry.list.title'
-      @entry_pages, @entries = paginate(:diary_entries, :include => :user,
-                                        :conditions => {
-                                          :users => { :status => ["active", "confirmed"] },
-                                          :visible => true
-                                        },
-                                        :order => 'created_at DESC',
-                                        :per_page => 20)
+      @entries = DiaryEntry.joins(:user).where(:users => { :status => ["active", "confirmed"] })
+      
+      if params[:language]
+        @title = t 'diary_entry.list.in_language_title', :language => Language.find(params[:language]).english_name
+        @entries = @entries.where(:language_code => params[:language])
+      else
+        @title = t 'diary_entry.list.title'
+      end
     end
+
+    @page = (params[:page] || 1).to_i
+    @page_size = 20
+
+    @entries = @entries.visible
+    @entries = @entries.order("created_at DESC")
+    @entries = @entries.offset((@page - 1) * @page_size)
+    @entries = @entries.limit(@page_size)
+    @entries = @entries.includes(:user, :language)
   end
 
   def rss
-    @entries = DiaryEntry.includes(:user).order("created_at DESC").limit(20)
-
     if params[:display_name]
       user = User.active.find_by_display_name(params[:display_name])
 
       if user
-        @entries = user.diary_entries.visible
+        @entries = user.diary_entries
         @title = I18n.t('diary_entry.feed.user.title', :user => user.display_name)
         @description = I18n.t('diary_entry.feed.user.description', :user => user.display_name)
         @link = "http://#{SERVER_URL}/user/#{user.display_name}/diary"
       else
         render :nothing => true, :status => :not_found
+        return
       end
-    elsif params[:language]
-      @entries = @entries.visible.where(:language_code => params[:language]).joins(:user).where(:users => { :status => ["active", "confirmed"] })
-      @title = I18n.t('diary_entry.feed.language.title', :language_name => Language.find(params[:language]).english_name)
-      @description = I18n.t('diary_entry.feed.language.description', :language_name => Language.find(params[:language]).english_name)
-      @link = "http://#{SERVER_URL}/diary/#{params[:language]}"
     else
-      @entries = @entries.visible.joins(:user).where(:users => { :status => ["active", "confirmed"] })
-      @title = I18n.t('diary_entry.feed.all.title')
-      @description = I18n.t('diary_entry.feed.all.description')
-      @link = "http://#{SERVER_URL}/diary"
+      @entries = DiaryEntry.joins(:user).where(:users => { :status => ["active", "confirmed"] })
+
+      if params[:language]
+        @entries = @entries.where(:language_code => params[:language])
+        @title = I18n.t('diary_entry.feed.language.title', :language_name => Language.find(params[:language]).english_name)
+        @description = I18n.t('diary_entry.feed.language.description', :language_name => Language.find(params[:language]).english_name)
+        @link = "http://#{SERVER_URL}/diary/#{params[:language]}"
+      else
+        @title = I18n.t('diary_entry.feed.all.title')
+        @description = I18n.t('diary_entry.feed.all.description')
+        @link = "http://#{SERVER_URL}/diary"
+      end
     end
+
+    @entries = @entries.visible.includes(:user).order("created_at DESC").limit(20)
   end
 
   def view

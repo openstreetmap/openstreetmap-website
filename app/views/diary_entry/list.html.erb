@@ -28,16 +28,25 @@
 <% else %>
   <h4><%= t 'diary_entry.list.recent_entries' %></h4>
 
-<% if @this_user %>
-  <%= render :partial => 'diary_entry', :collection => @entries %>
-<% else %>
-  <%= render :partial => 'diary_list_entry', :collection => @entries %>
-<% end %>
+  <% if @this_user %>
+    <%= render :partial => 'diary_entry', :collection => @entries %>
+  <% else %>
+    <%= render :partial => 'diary_list_entry', :collection => @entries %>
+  <% end %>
 
-<%= link_to t('diary_entry.list.older_entries'), { :page => @entry_pages.current.next, :language => params[:language] } if @entry_pages.current.next %>
-<% if @entry_pages.current.next and @entry_pages.current.previous %>|<% end %>
-<%= link_to t('diary_entry.list.newer_entries'), { :page => @entry_pages.current.previous, :language => params[:language] } if @entry_pages.current.previous %>
+  <% if @page > 1 -%>
+    <%= link_to t('diary_entry.list.older_entries'), params.merge(:page => @page - 1 ) %>
+  <% else -%>
+    <%= t('diary_entry.list.older_entries') %>
+  <% end -%>
 
+  |
+
+  <% if @entries.size < @page_size -%>
+    <%= t('diary_entry.list.newer_entries') %>
+  <% else -%>
+    <%= link_to t('diary_entry.list.newer_entries'), params.merge(:page => @page + 1) %>
+  <% end -%>
 <% end %>
 
 <% unless params[:friends] or params[:nearby] -%>

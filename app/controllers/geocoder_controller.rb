@@ -1,3 +1,5 @@
+# coding: utf-8
+
 class GeocoderController < ApplicationController
   require 'uri'
   require 'net/http'
@@ -5,6 +7,7 @@ class GeocoderController < ApplicationController
 
   before_filter :authorize_web
   before_filter :set_locale
+  before_filter :convert_latlon, :only => [:search]
 
   def search
     @query = params[:query]
@@ -312,4 +315,63 @@ private
   def escape_query(query)
     return URI.escape(query, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]", false, 'N'))
   end
+
+  def convert_latlon
+    @query = params[:query]
+
+    if latlon = @query.match(/^([NS])\s*(\d{1,3}(\.\d*)?)\W*([EW])\s*(\d{1,3}(\.\d*)?)$/).try(:captures) # [NSEW] decimal degrees
+      params[:query] = nsew_to_decdeg(latlon)
+    elsif latlon = @query.match(/^(\d{1,3}(\.\d*)?)\s*([NS])\W*(\d{1,3}(\.\d*)?)\s*([EW])$/).try(:captures) # decimal degrees [NSEW]
+      params[:query] = nsew_to_decdeg(latlon)
+
+    elsif latlon = @query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?$/).try(:captures) # [NSEW] degrees, decimal minutes
+      params[:query] = ddm_to_decdeg(latlon)
+    elsif latlon = @query.match(/^(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\s*([NS])\W*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\s*([EW])$/).try(:captures) # degrees, decimal minutes [NSEW]
+      params[:query] = ddm_to_decdeg(latlon)
+
+    elsif latlon = @query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?$/).try(:captures) # [NSEW] degrees, minutes, decimal seconds
+      params[:query] = dms_to_decdeg(latlon)
+    elsif latlon = @query.match(/^(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]\s*([NS])\W*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?\s*([EW])$/).try(:captures) # degrees, minutes, decimal seconds [NSEW]
+      params[:query] = dms_to_decdeg(latlon)
+    else
+      return
+    end
+  end
+
+  def nsew_to_decdeg(captures)
+    begin
+      Float(captures[0])
+      captures[1].downcase != 's' ? lat = captures[0].to_f : lat = -(captures[0].to_f)
+      captures[4].downcase != 'w' ? lon = captures[3].to_f : lon = -(captures[3].to_f)
+    rescue
+      captures[0].downcase != 's' ? lat = captures[1].to_f : lat = -(captures[1].to_f)
+      captures[3].downcase != 'w' ? lon = captures[4].to_f : lon = -(captures[4].to_f)
+    end
+    return "#{lat}, #{lon}"
+  end
+
+  def ddm_to_decdeg(captures)
+    begin
+      Float(captures[0])
+      captures[3].downcase != 's' ? lat = captures[0].to_f + captures[1].to_f/60 : lat = -(captures[0].to_f + captures[1].to_f/60)
+      captures[7].downcase != 'w' ? lon = captures[4].to_f + captures[5].to_f/60 : lon = -(captures[4].to_f + captures[5].to_f/60)
+    rescue
+      captures[0].downcase != 's' ? lat = captures[1].to_f + captures[2].to_f/60 : lat = -(captures[1].to_f + captures[2].to_f/60)
+      captures[4].downcase != 'w' ? lon = captures[5].to_f + captures[6].to_f/60 : lon = -(captures[5].to_f + captures[6].to_f/60)
+    end
+    return "#{lat}, #{lon}"
+  end
+
+  def dms_to_decdeg(captures)
+    begin
+      Float(captures[0])
+      captures[4].downcase != 's' ? lat = captures[0].to_f + (captures[1].to_f + captures[2].to_f/60)/60 : lat = -(captures[0].to_f + (captures[1].to_f + captures[2].to_f/60)/60)
+      captures[9].downcase != 'w' ? lon = captures[5].to_f + (captures[6].to_f + captures[7].to_f/60)/60 : lon = -(captures[5].to_f + (captures[6].to_f + captures[7].to_f/60)/60)
+    rescue
+      captures[0].downcase != 's' ? lat = captures[1].to_f + (captures[2].to_f + captures[3].to_f/60)/60 : lat = -(captures[1].to_f + (captures[2].to_f + captures[3].to_f/60)/60)
+      captures[5].downcase != 'w' ? lon = captures[6].to_f + (captures[7].to_f + captures[8].to_f/60)/60 : lon = -(captures[6].to_f + (captures[7].to_f + captures[8].to_f/60)/60)
+    end
+    return "#{lat}, #{lon}"
+  end
+
 end
