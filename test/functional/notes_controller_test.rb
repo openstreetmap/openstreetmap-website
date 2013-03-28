@@ -257,6 +257,11 @@ class NotesControllerTest < ActionController::TestCase
 
   def test_note_close_success
     post :close, {:id => notes(:open_note_with_comment).id, :text => "This is a close comment", :format => "json"}
+    assert_response :unauthorized
+
+    basic_authorization(users(:public_user).email, "test")
+
+    post :close, {:id => notes(:open_note_with_comment).id, :text => "This is a close comment", :format => "json"}
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
@@ -266,7 +271,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 3, js["properties"]["comments"].count
     assert_equal "closed", js["properties"]["comments"].last["action"]
     assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
-    assert_nil js["properties"]["comments"].last["user"]
+    assert_equal "test2", js["properties"]["comments"].last["user"]
 
     get :show, {:id => notes(:open_note_with_comment).id, :format => "json"}
     assert_response :success
@@ -278,10 +283,15 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 3, js["properties"]["comments"].count
     assert_equal "closed", js["properties"]["comments"].last["action"]
     assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
-    assert_nil js["properties"]["comments"].last["user"]
+    assert_equal "test2", js["properties"]["comments"].last["user"]
   end
 
   def test_note_close_fail
+    post :close
+    assert_response :unauthorized
+
+    basic_authorization(users(:public_user).email, "test")
+
     post :close
     assert_response :bad_request
 
@@ -334,6 +344,11 @@ class NotesControllerTest < ActionController::TestCase
 
   def test_note_delete_success
     delete :destroy, {:id => notes(:open_note_with_comment).id}
+    assert_response :unauthorized
+
+    basic_authorization(users(:public_user).email, "test")
+
+    delete :destroy, {:id => notes(:open_note_with_comment).id}
     assert_response :success
 
     get :show, {:id => notes(:open_note_with_comment).id, :format => 'json'}
@@ -341,6 +356,11 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_note_delete_fail
+    delete :destroy, {:id => 12345}
+    assert_response :unauthorized
+
+    basic_authorization(users(:public_user).email, "test")
+
     delete :destroy, {:id => 12345}
     assert_response :not_found
 
