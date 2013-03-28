@@ -2,7 +2,7 @@
 //= require ohauth
 
 $.ajaxPrefilter(function(options, jqxhr) {
-  if (options.oauth) {
+  if (options.oauth && OSM.oauth_token) {
     var ohauth = window.ohauth;
     var url = options.url.replace(/\?$/, "");
     var params = {
