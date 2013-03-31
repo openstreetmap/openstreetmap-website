@@ -114,7 +114,7 @@ private
     end
 
     return {
-      :url => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}",
+      :url => "http://#{lang}.wikipedia.org/wiki/?uselang=#{I18n.locale}#{value}",
       :title => value
     }
   end

@@ -17,19 +17,19 @@ class BrowseHelperTest < ActionView::TestCase
 
   def test_wikipedia_link_helper_when_key_is_wikipedia_value_is_simple_string
     key, value = @key, @title
-    expected_hash = { url: "http://en.wikipedia.org/wiki/#{@title}?uselang=#{@locale}", title: @title }
+    expected_hash = { url: "http://en.wikipedia.org/wiki/?uselang=#{@locale}#{@title}", title: @title }
     assert_equal expected_hash, wikipedia_link(key, value)
   end
 
   def test_wikipedia_link_helper_when_key_is_wikipedia_including_language_string
     key, value = "#{@key}:#{@language}", "#{@title}"
-    expected_hash = { url: "http://#{@language}.wikipedia.org/wiki/#{@title}?uselang=#{@locale}", title: "#{@title}" }
+    expected_hash = { url: "http://#{@language}.wikipedia.org/wiki/?uselang=#{@locale}#{@title}", title: "#{@title}" }
     assert_equal expected_hash, wikipedia_link(key, value)
   end
 
   def test_wikipedia_link_helper_when_key_is_wikipedia_value_includes_language_string
     key, value = @key, "#{@language}:#{@title}"
-    expected_hash = { url: "http://#{@language}.wikipedia.org/wiki/#{@language}:#{@title}?uselang=#{@locale}", title: "#{@language}:#{@title}" }
+    expected_hash = { url: "http://#{@language}.wikipedia.org/wiki/?uselang=#{@locale}#{@language}:#{@title}", title: "#{@language}:#{@title}" }
     assert_equal expected_hash, wikipedia_link(key, value)
   end
 
