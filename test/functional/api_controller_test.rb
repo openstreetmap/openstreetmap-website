@@ -299,6 +299,9 @@ class ApiControllerTest < ActionController::TestCase
         assert_select "area[maximum=#{MAX_REQUEST_AREA}]", :count => 1
         assert_select "tracepoints[per_page=#{TRACEPOINTS_PER_PAGE}]", :count => 1
         assert_select "changesets[maximum_elements=#{Changeset::MAX_ELEMENTS}]", :count => 1
+        assert_select "status[database=online]", :count => 1
+        assert_select "status[api=online]", :count => 1
+        assert_select "status[gpx=online]", :count => 1
       end
     end
   end
