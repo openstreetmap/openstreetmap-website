@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <%= stylesheet_link_tag 'iD' %>
+  <!--[if !IE || gte IE 9]><!-->
+  <%= javascript_include_tag 'iD' %>
+  <!-- <![endif]-->
+</head>
+<body>
+<div id='id-container'></div>
+<script>
+  if (typeof iD == 'undefined') {
+    document.getElementById('id-container').innerHTML = 'This editor is supported ' +
+      'in Firefox, Chrome, Safari, Opera, and Internet Explorer 9 and above. ' +
+      'Please upgrade your browser or use Potlatch 2 to edit the map.';
+    document.getElementById('id-container').className = 'unsupported';
+  } else {
+    var qs = iD.util.stringQs(location.hash);
+    if (qs.preauth) {
+      var preauth = JSON.parse(qs.preauth);
+
+      var id = iD()
+        .embed(true)
+        .imagePath("/assets/iD/img/"); <%# Can't use asset_path('id/img/') in production. %>
+
+      id.connection()
+        .url(Object.keys(preauth)[0])
+        .keys(preauth);
+
+      d3.select('#id-container')
+        .call(id.ui());
+    }
+  }
+</script>
+</body>
+</html>

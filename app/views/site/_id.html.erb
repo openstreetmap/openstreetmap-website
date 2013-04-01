@@ -1,0 +1,34 @@
+<% if defined? ID_KEY %>
+<iframe frameBorder="0" id="id-embed" class="id-embed"></iframe>
+<% token = @user.access_token(ID_KEY) %>
+<script>
+var keys = {
+    '<%= request.protocol + request.host_with_port %>': {
+        oauth_consumer_key: "<%= token.client_application.key %>",
+        oauth_secret: "<%= token.client_application.secret %>",
+        oauth_token: "<%= token.token %>",
+        oauth_token_secret: "<%= token.secret %>"
+    }
+};
+
+var coord = {};
+<% if @lat && @lon && @zoom -%>
+coord.lat = <%= @lat %>;
+coord.lon = <%= @lon %>;
+coord.zoom = <%= @zoom %>;
+<% else -%>
+var params = OSM.mapParams();
+coord.lat = params.lat;
+coord.lon = params.lon;
+coord.zoom = params.zoom;
+<% end -%>
+var url = 'id_iframe#map=' + coord.zoom + '/' + coord.lon + '/' + coord.lat +
+    '&preauth=' + JSON.stringify(keys);
+$('#id-embed').attr('src', url);
+</script>
+<% else%>
+<script type="text/javascript">alert("<%= t 'site.edit.id_not_configured' %>")</script>
+<% end %>
+
+<script type="text/javascript">
+</script>
