@@ -4,16 +4,12 @@
       <%= user_thumbnail diary_entry.user %>
     <% end %>
 
-    <h2>
-      <% if params[:action] == 'list' %>
-      <%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %>
-       <% else %>
-      <%= diary_entry.title %>
-      <% end %>
-    </h2>
+    <h2><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></h2>
+
     <small class='deemphasize'>
       <%= raw(t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :display_name => nil, :language => diary_entry.language_code)) %>
     </small>
+
   </div>
 
   <div class="richtext" xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
