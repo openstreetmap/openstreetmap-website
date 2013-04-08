@@ -343,38 +343,47 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_note_delete_success
-    delete :destroy, {:id => notes(:open_note_with_comment).id}
+    delete :destroy, {:id => notes(:open_note_with_comment).id, :text => "This is a hide comment", :format => "json"}
     assert_response :unauthorized
 
     basic_authorization(users(:public_user).email, "test")
 
-    delete :destroy, {:id => notes(:open_note_with_comment).id}
+    delete :destroy, {:id => notes(:open_note_with_comment).id, :text => "This is a hide comment", :format => "json"}
     assert_response :forbidden
 
     basic_authorization(users(:moderator_user).email, "test")
 
-    delete :destroy, {:id => notes(:open_note_with_comment).id}
+    delete :destroy, {:id => notes(:open_note_with_comment).id, :text => "This is a hide comment", :format => "json"}
     assert_response :success
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "Feature", js["type"]
+    assert_equal notes(:open_note_with_comment).id, js["properties"]["id"]
+    assert_equal "hidden", js["properties"]["status"]
+    assert_equal 3, js["properties"]["comments"].count
+    assert_equal "hidden", js["properties"]["comments"].last["action"]
+    assert_equal "This is a hide comment", js["properties"]["comments"].last["text"]
+    assert_equal "moderator", js["properties"]["comments"].last["user"]
 
     get :show, {:id => notes(:open_note_with_comment).id, :format => 'json'}
     assert_response :gone
   end
 
   def test_note_delete_fail
-    delete :destroy, {:id => 12345}
+    delete :destroy, {:id => 12345, :format => "json"}
     assert_response :unauthorized
 
     basic_authorization(users(:public_user).email, "test")
 
-    delete :destroy, {:id => 12345}
+    delete :destroy, {:id => 12345, :format => "json"}
     assert_response :forbidden
 
     basic_authorization(users(:moderator_user).email, "test")
 
-    delete :destroy, {:id => 12345}
+    delete :destroy, {:id => 12345, :format => "json"}
     assert_response :not_found
 
-    delete :destroy, {:id => notes(:hidden_note_with_comment).id}
+    delete :destroy, {:id => notes(:hidden_note_with_comment).id, :format => "json"}
     assert_response :gone
   end
 

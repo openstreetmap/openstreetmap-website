@@ -198,20 +198,23 @@ class NotesController < ApplicationController
     comment = params[:text]
 
     # Find the note and check it is valid
-    note = Note.find(id)
-    raise OSM::APINotFoundError unless note
-    raise OSM::APIAlreadyDeletedError.new("note", note.id) unless note.visible?
+    @note = Note.find(id)
+    raise OSM::APINotFoundError unless @note
+    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
 
     # Mark the note as hidden
     Note.transaction do
-      note.status = "hidden"
-      note.save
+      @note.status = "hidden"
+      @note.save
 
-      add_comment(note, comment, "hidden")
+      add_comment(@note, comment, "hidden")
     end
 
-    # Render the result
-    render :text => "ok\n", :content_type => "text/html" 
+    # Return a copy of the updated note
+    respond_to do |format|
+      format.xml { render :action => :show }
+      format.json { render :action => :show }
+    end
   end
 
   ##
