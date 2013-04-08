@@ -213,18 +213,47 @@ class ApplicationController < ActionController::Base
   end
 
   def check_api_readable
-    if STATUS == :database_offline or STATUS == :api_offline
+    if api_status == :offline
       report_error "Database offline for maintenance", :service_unavailable
       return false
     end
   end
 
   def check_api_writable
-    if STATUS == :database_offline or STATUS == :database_readonly or
-       STATUS == :api_offline or STATUS == :api_readonly
+    unless api_status == :online
       report_error "Database offline for maintenance", :service_unavailable
       return false
     end
+  end
+
+  def database_status
+    if STATUS == :database_offline
+      :offline
+    elsif STATUS == :database_readonly
+      :readonly
+    else 
+      :online
+    end
+  end
+
+  def api_status
+    status = database_status
+    if status == :online
+      if STATUS == :api_offline
+        status = :offline
+      elsif STATUS == :api_readonly
+        status = :readonly
+      end
+    end
+    return status
+  end
+
+  def gpx_status
+    status = database_status
+    if status == :online
+      status = :offline if STATUS == :gpx_offline
+    end
+    return status
   end
 
   def require_public_data
