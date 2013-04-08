@@ -161,7 +161,8 @@ $(document).ready(function () {
 
     content.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
-      updateNote(marker, e.target.form, $(e.target).data("url"));
+      var data = $(e.target).data();
+      updateNote(marker, e.target.form, data.method, data.url);
     });
 
     return content[0];
@@ -190,21 +191,27 @@ $(document).ready(function () {
     });
   }
 
-  function updateNote(marker, form, url) {
+  function updateNote(marker, form, method, url) {
     $(form).find("input[type=submit]").prop("disabled", true);
 
     $.ajax({
       url: url,
-      type: "POST",
+      type: method,
       oauth: true,
       data: {
         text: $(form.text).val()
       },
       success: function (feature) {
-        var popupContent = createPopupContent(marker, feature.properties);
+        if (feature.properties.status == "hidden") {
+          noteLayer.removeLayer(marker);
 
-        marker.setIcon(noteIcons[feature.properties.status]);
-        marker._popup.setContent(popupContent);
+          delete notes[feature.properties.id];
+        } else {
+          var popupContent = createPopupContent(marker, feature.properties);
+
+          marker.setIcon(noteIcons[feature.properties.status]);
+          marker._popup.setContent(popupContent);
+        }
       }
     });
   }
