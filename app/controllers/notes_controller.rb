@@ -195,6 +195,7 @@ class NotesController < ApplicationController
 
     # Extract the arguments
     id = params[:id].to_i
+    comment = params[:text]
 
     # Find the note and check it is valid
     note = Note.find(id)
@@ -206,7 +207,7 @@ class NotesController < ApplicationController
       note.status = "hidden"
       note.save
 
-      add_comment(note, nil, "hidden")
+      add_comment(note, comment, "hidden")
     end
 
     # Render the result
