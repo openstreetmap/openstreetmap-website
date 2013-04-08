@@ -6,6 +6,7 @@ class NotesController < ApplicationController
   before_filter :authorize_web, :only => [:mine]
   before_filter :setup_user_auth, :only => [:create, :comment]
   before_filter :authorize, :only => [:close, :destroy]
+  before_filter :require_moderator, :only => [:destroy]
   before_filter :check_api_writable, :only => [:create, :comment, :close, :destroy]
   before_filter :require_allow_write_notes, :only => [:create, :comment, :close, :destroy]
   before_filter :set_locale, :only => [:mine]

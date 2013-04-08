@@ -349,6 +349,11 @@ class NotesControllerTest < ActionController::TestCase
     basic_authorization(users(:public_user).email, "test")
 
     delete :destroy, {:id => notes(:open_note_with_comment).id}
+    assert_response :forbidden
+
+    basic_authorization(users(:moderator_user).email, "test")
+
+    delete :destroy, {:id => notes(:open_note_with_comment).id}
     assert_response :success
 
     get :show, {:id => notes(:open_note_with_comment).id, :format => 'json'}
@@ -360,6 +365,11 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :unauthorized
 
     basic_authorization(users(:public_user).email, "test")
+
+    delete :destroy, {:id => 12345}
+    assert_response :forbidden
+
+    basic_authorization(users(:moderator_user).email, "test")
 
     delete :destroy, {:id => 12345}
     assert_response :not_found
