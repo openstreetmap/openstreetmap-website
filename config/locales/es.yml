@@ -3,6 +3,7 @@
 # Export driver: syck-pecl
 # Author: Armando-Martin
 # Author: Crazymadlover
+# Author: Hereñu
 # Author: Invadinado
 # Author: Johnarupire
 # Author: Jynus
@@ -60,8 +61,8 @@ es:
       changeset: Conjunto de cambios
       changeset_tag: Etiqueta del conjunto de cambios
       country: País
-      diary_comment: Comentario al diario
-      diary_entry: Entrada del diario
+      diary_comment: Comentario diario
+      diary_entry: Entrada diaria
       friend: Amigo
       language: Idioma
       message: Mensaje
@@ -88,7 +89,7 @@ es:
       user_token: Token del usuario
       way: Vía
       way_node: Nodo de la vía
-      way_tag: Etiqueta de ví­a
+      way_tag: Etiqueta de la ví­a
   application: 
     require_cookies: 
       cookies_needed: Parece que tienes las cookies deshabilitadas. Por favor, habilita las cookies en tu navegador antes de continuar.
@@ -109,7 +110,7 @@ es:
     changeset_details: 
       belongs_to: "Pertenece a:"
       bounding_box: "Envoltura:"
-      box: Caja
+      box: caja
       closed_at: "Cerrado el:"
       created_at: "Creado el:"
       has_nodes: 
@@ -118,8 +119,10 @@ es:
       has_relations: 
         one: "Tiene la siguiente %{count} relación:"
         other: "Tiene las siguientes %{count} relaciones:"
-      has_ways: "Tiene %{count} vías:"
-      no_bounding_box: No se ha guardado una envoltura para este conjunto de cambios
+      has_ways: 
+        one: "Tiene el siguiente %{count} vía:"
+        other: "Tiene las siguientes %{count} vías:"
+      no_bounding_box: No se ha guardado una envoltura para este conjunto de cambios.
       show_area_box: Mostrar caja del área
     common_details: 
       changeset_comment: "Comentario:"
@@ -141,7 +144,7 @@ es:
         way: Editar vía
       larger: 
         area: Ver área en un mapa más grande
-        node: Ver el nodo en un mapa más grande
+        node: Ver nodo en un mapa más grande
         relation: Ver la relación en un mapa más grande
         way: Ver la vía en un mapa más grande
       loading: Cargando...
@@ -174,7 +177,7 @@ es:
       node_history_title: "Historial del nodo: %{node_name}"
       view_details: Ver detalles
     not_found: 
-      sorry: Lo sentimos, %{type} con ID %{id} no fue encontrado
+      sorry: Lo sentimos, el %{type} con ID %{id} no fue encontrado.
       type: 
         changeset: conjunto de cambios
         node: el nodo
@@ -217,7 +220,7 @@ es:
       hide_areas: Ocultar áreas
       history_for_feature: Historial de %{feature}
       load_data: Cargar datos
-      loaded_an_area_with_num_features: Has cargado un área que contiene %{num_features} objetos. Por lo general, algunos navegadores web no aguantan bien el mostrar esta cantidad de información vectorial. Generalmente, el funcionamiento óptimo se da cuando se muestran menos de %{max_features} objetos al mismo tiempo; de otra manera, tu navegador puede volverse lento o no responder. Si estás seguro de que quieres mostrar todos estos datos, puedes hacerlo pulsando el botón que aparece debajo.
+      loaded_an_area_with_num_features: Has cargado un área que contiene %{num_features} objetos. Por lo general, algunos navegadores de internet no aguantan bien el mostrar esta cantidad de información vectorial. Generalmente, el funcionamiento óptimo se da cuando se muestran menos de %{max_features} objetos al mismo tiempo; de otra manera, tu navegador puede volverse lento o no responder. Si estás seguro de que quieres mostrar todos estos datos, puedes hacerlo pulsando el botón que aparece debajo.
       loading: Cargando...
       manually_select: Seleccionar manualmente un área diferente
       object_list: 
@@ -240,7 +243,7 @@ es:
       show_areas: Mostrar áreas
       show_history: Mostrar historial
       unable_to_load_size: "Imposible cargar: El tamaño de la envoltura (%{bbox_size} es demasiado grande (debe ser menor que %{max_bbox_size})"
-      view_data: Ver los datos de la vista de mapa actual
+      view_data: Ver los datos de la vista del mapa actual
       wait: Espere...
       zoom_or_select: Para ver los datos, haga más zoom o seleccione un área del mapa
     tag_details: 
@@ -279,7 +282,7 @@ es:
       big_area: (grande)
       no_comment: (ninguno)
       no_edits: (sin ediciones)
-      show_area_box: mostrar caja
+      show_area_box: Mostrar caja del área
       still_editing: (todavía en edición)
       view_changeset_details: Ver detalles del conjunto de cambios
     changeset_paging_nav: 
@@ -335,9 +338,9 @@ es:
         zero: Sin comentarios
       comment_link: Comentar esta entrada
       confirm: Confirmar
-      edit_link: Editar entrada
+      edit_link: Editar esta entrada
       hide_link: Ocultar esta entrada
-      posted_by: Posteado por %{link_user} el %{created} en %{language_link}
+      posted_by: Ingresado por %{link_user} el %{created} en %{language_link}
       reply_link: Responder a la entrada
     edit: 
       body: "Cuerpo:"
@@ -349,7 +352,7 @@ es:
       save_button: Guardar
       subject: "Asunto:"
       title: Editar entrada del diario
-      use_map_link: Usar mapa
+      use_map_link: usar mapa
     feed: 
       all: 
         description: Entradas recientes en los diarios de los usuarios de OpenStreetMap
@@ -380,7 +383,7 @@ es:
       title: Nueva entrada en el diario
     no_such_entry: 
       body: Lo sentimos, no hay ninguna entrada del diario para la ID %{id}. Por favor, comprueba que la dirección esté correctamente escrita.
-      heading: No hay entrada con la ID %{id}
+      heading: "No hay entrada con la id: %{id}"
       title: No existe esa entrada de diario
     view: 
       leave_a_comment: Dejar un comentario
@@ -390,7 +393,7 @@ es:
       title: Diario de %{user} | %{title}
       user_title: Diario de %{user}
   editor: 
-    default: Por defecto (en la actualidad %{name})
+    default: Por defecto (actualmente % {nombre})
     potlatch: 
       description: Potlatch 1 (editor en el navegador)
       name: Potlatch 1
@@ -402,27 +405,27 @@ es:
       name: Control remoto
   export: 
     start: 
-      add_marker: Añadir chincheta en el mapa
+      add_marker: Añadir un marcador al mapa
       area_to_export: Área a exportar
-      embeddable_html: HTML para pegar
+      embeddable_html: HTML empotrable
       export_button: Exportar
-      export_details: Los datos de OpenStreetMap se encuentran bajo la a href="http://opendatacommons.org/licenses/odbl/1.0/">licencia Open Database (ODbL) de Open Data Commons</a>.
+      export_details: Los datos de OpenStreetMap se encuentran bajo la href="http://opendatacommons.org/licenses/odbl/1.0/">licencia Open Database (ODbL) de Open Data Commons</a>.
       format: Formato
       format_to_export: Formato de exportación
       image_size: Tamaño de la imagen
       latitude: "Lat:"
       licence: Licencia
       longitude: "Lon:"
-      manually_select: Seleccionar a mano otra área
+      manually_select: Seleccionar manualmente un área diferente
       map_image: Imagen de mapa (muestra una capa normal)
       max: max
       options: Opciones
-      osm_xml_data: Datos formato OpenStreetMap XML
+      osm_xml_data: Datos OpenStreetMap en formato XML
       output: Resultado
-      paste_html: HTML para empotrar en otro sitio web
+      paste_html: HTML para empotrar en otro sitio de internet
       scale: Escala
       too_large: 
-        body: Esta área es demasiado grande para ser exportada como OpenStreetMap XML. Por favor, haga zoom o seleccione un área más pequeña.
+        body: Esta área es demasiado grande para ser exportada como OpenStreetMap XML. Por favor, acérquese o seleccione un área más pequeña.
         heading: El área es demasiado grande
       zoom: Zoom
     start_rjs: 
@@ -510,13 +513,13 @@ es:
           doctors: Consultorio médico
           dormitory: Residencia de estudiantes
           drinking_water: Agua potable
-          driving_school: Autoescuela
+          driving_school: Escuela de manejo
           embassy: Embajada
           emergency_phone: Teléfono de emergencia
           fast_food: Comida rápida
           ferry_terminal: Terminal de ferrys
           fire_hydrant: Hidrante
-          fire_station: Parque de bomberos
+          fire_station: Estación de bomberos
           food_court: Zona de restaurantes
           fountain: Fuente
           fuel: Gasolinera
@@ -567,7 +570,7 @@ es:
           taxi: Taxi
           telephone: Teléfono público
           theatre: Teatro
-          toilets: Aseos
+          toilets: Baños
           townhall: Ayuntamiento
           university: Universidad
           vending_machine: Máquina expendedora
@@ -594,8 +597,8 @@ es:
           bus_guideway: Canal guiado de autobuses
           bus_stop: Parada de autobuses
           byway: Camino
-          construction: Vía en construcción
-          cycleway: Carril bici
+          construction: Autopista en construcción
+          cycleway: Carril bicicleta
           emergency_access_point: Acceso de emergencia
           footway: Sendero
           ford: Vado
@@ -611,11 +614,11 @@ es:
           primary: Carretera primaria
           primary_link: Enlace de carretera principal
           raceway: Pista de carreras
-          residential: Calle
+          residential: Residencial
           rest_area: Área de descanso
           road: Carretera
           secondary: Carretera secundaria
-          secondary_link: Enlace de carretera secundaria
+          secondary_link: Carretera secundaria
           service: Vía de servicio
           services: Vía de servicio
           speed_camera: Radar
@@ -646,7 +649,7 @@ es:
           museum: Museo
           ruins: Ruinas
           tower: Torre
-          wayside_cross: Cruz de término
+          wayside_cross: Camino cruzado
           wayside_shrine: Sepulcro
           wreck: Pecio
         landuse: 
@@ -654,8 +657,8 @@ es:
           basin: Cuenca
           brownfield: Solar vacante
           cemetery: Cementerio
-          commercial: Área de oficinas
-          conservation: Terreno protegido
+          commercial: Área Comercial
+          conservation: Conservación
           construction: Construcción
           farm: Granja
           farmland: Tierra de labranza
@@ -712,6 +715,8 @@ es:
           airfield: Aeródromo militar
           barracks: Barracas
           bunker: Búnker
+        mountain_pass: 
+          "yes": Paso de montaña
         natural: 
           bay: Bahía
           beach: Playa
@@ -1584,8 +1589,8 @@ es:
       heading: Usuarios
       hide: Ocultar Usuarios Seleccionados
       showing: 
-        one: Mostrando página %{page} (%{first_item} de %{items})
-        other: Mostrando página %{page} (%{first_item}-%{last_item} de %{items})
+        one: Página %{page} (%{first_item} de %{items})
+        other: Página %{page} (%{first_item}-%{last_item} de %{items})
       summary: "%{name} creado desde %{ip_address} el %{date}"
       summary_no_ip: "%{name} creado el %{date}"
       title: Usuarios
@@ -1647,7 +1652,7 @@ es:
       button: Añadir como amigo
       failed: Lo sentimos, no se ha podido añadir a %{name} como un amigo.
       heading: ¿Añadir a %{user} como un amigo?
-      success: "%{name} es tu amigo ahora"
+      success: ¡%{name} ahora es tu amigo!
     new: 
       confirm email address: "Confirmar la dirección de correo:"
       confirm password: "Confirmar contraseña:"
@@ -1680,8 +1685,8 @@ es:
       nearby mapper: Mapeadores cercanos
       your location: "Tu lugar de origen:"
     remove_friend: 
-      button: Eliminar como amigo
-      heading: ¿Eliminar a %{user} como un amigo?
+      button: Quitar de amigos
+      heading: ¿Quitar a %{user} de los amigos?
       not_a_friend: "%{name} no es uno de tus amigos."
       success: Has quitado a %{name} de tus amigos.
     reset_password: 
@@ -1736,10 +1741,10 @@ es:
       diary: diario
       edits: ediciones
       email address: "Dirección de correo electrónico:"
-      friends_changesets: Navegar por los conjuntos de cambios realizados por amigos
-      friends_diaries: Navegar por todas las entradas de diario realizadas por amigos
+      friends_changesets: conjuntos de cambios realizados por amigos
+      friends_diaries: entradas de diario realizadas por amigos
       hide_user: esconder este usuario
-      if set location: Si ha configurado su lugar de origen, verá un mapa abajo. Puede configurar su lugar de origen en la página de %{settings_link}.
+      if set location: Configure su lugar de origen en la página %{settings_link} para ver los usuarios cercanos.
       km away: "%{count} km de distancia"
       latest edit: "Última edición %{ago}:"
       m away: "%{count} m de distancia"
@@ -1751,8 +1756,8 @@ es:
       my settings: mis preferencias
       my traces: mis trazas
       nearby users: "Otros usuarios cercanos:"
-      nearby_changesets: Navegar por todos los conjuntos de cambios de los usuarios cercanos
-      nearby_diaries: Buscar todas las entradas de diario realizadas por usuarios cercanos
+      nearby_changesets: conjuntos de cambios de los usuarios cercanos
+      nearby_diaries: entradas de diario realizadas por usuarios cercanos
       new diary entry: nueva entrada de diario
       no friends: No has añadido ningún amigo aún.
       no nearby users: Todavía no hay usuarios que se hayan ubicado en su proximidad.
@@ -1836,7 +1841,7 @@ es:
       revoke: Revocar
       revoker_name: Revocado por
       show: Mostrar
-      showing_page: Mostrando la página %{page}
+      showing_page: Página %{page}
       status: Estado
     period: 
       one: 1 hora

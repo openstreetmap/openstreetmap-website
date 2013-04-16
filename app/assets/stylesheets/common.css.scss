@@ -75,7 +75,7 @@ h1, h2 {
 }
 
 #content h2 {
-  font-size: 24px;
+  font-size: 21px;
 }
 
 h3 {
@@ -1139,6 +1139,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 .diary_post {
+  max-width: 740px;
   position: relative;
   margin-top: 20px;
   padding-top: 20px;
@@ -1154,11 +1155,8 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     line-height: 21px;
   }
   small.deemphasize {
+    float: left;
     display: block;
-  }
-  ul,
-  ol {
-    font-style: italic;
   }
   ul.secondary-actions { display: inline-block;}
 }
@@ -1167,14 +1165,12 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   display: inline;
 }
 
-.post_heading {
+#content  .post_heading {
   margin-bottom: 20px;
   h2 {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 10px;
     font-size: 24px;
-    float: left;
-    line-height: 32px;
   }
 }
 
@@ -1194,8 +1190,13 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     padding-top: 20px;
     margin-top: 10px;
   }
+  .comments {
+    max-width: 740px;
+  }
   .diary-comment {
     margin-top: 10px;
+    border-top: 1px dashed #ccc;
+    padding-top: 10px;
     &:first-child {
       margin-top: 20px;
       padding-top: 20px;
@@ -1203,7 +1204,6 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     }
     p {
       margin-bottom: 10px;
-      margin-left: 70px;
     }
     .comment-heading {
       margin-bottom: 0;
@@ -1573,11 +1573,48 @@ a.button.submit {
 /* Rules for rich text */
 
 .richtext {
-  ul,
-  ol {
+  h1, h2 {
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #cccccc;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  h3 {
+    font-size: 14px;
+  }
+
+  img {
+    padding: 20px;
+    background-color: #f4f4ff;
+    display: block;
+    max-width: 100%;
+    margin: auto;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+
+  blockquote {
+    border-left: 20px solid #f4f4ff;
+    padding-left: 20px;
+    margin: 0;
+    color: #7E7E7E;
+  }
+
+  ul, ol {
+    font-style: italic;
+    padding-left: 20px;
     margin-bottom: 20px;
     margin-left: 20px;
   }
+
   ul li {
     list-style: disc;
   }
@@ -1585,6 +1622,15 @@ a.button.submit {
   ol li {
     list-style: decimal;
   }
+}
+
+.diary_post .richtext {
+    margin-top: 20px;
+  }
+
+.comments .richtext {
+  margin-left: 70px;
+  margin-top: 0;
 }
 
 /* Rules for rich text editors */
@@ -1619,33 +1665,38 @@ a.button.submit {
     vertical-align: top;
     margin-left: 15px;
     background-color: #f8f8ff;
-    padding: 20px;
+    padding: 10px;
+    width: 200px;
 
-    p {
-      margin: 0px;
+    ul {
+      margin-bottom: 0;
     }
 
-    th {
-      vertical-align: top;
-      text-align: left;
-      padding: 0px 15px 0px 0px !important;
+    h4.heading, li {
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 5px;
+      padding-bottom: 5px;
     }
 
-    td {
-      font-family: fixed;
-      line-height: 16px;
-      text-align: left;
-      padding: 0px !important;
+    li h4, li span {
+      display: block;
+      font-size: 11px;
     }
 
-    input.richtext_doedit {
-      margin-top: 5px !important;
-      margin-right: 10px !important;
+    li h4 {
+      margin: 0;
+      float: left;
     }
 
+    li span {
+      float: right;
+      width: 50%;
+      margin-left: 10px;
+    }
+
+    input.richtext_doedit,
     input.richtext_dopreview {
-      margin-top: 5px !important;
-      margin-left: 10px !important;
+      margin-right: 10px;
     }
   }
 }
