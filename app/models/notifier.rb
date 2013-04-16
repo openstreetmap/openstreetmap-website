@@ -6,7 +6,7 @@ class Notifier < ActionMailer::Base
 
   def signup_confirm(user, token)
     @locale = user.preferred_language_from(I18n.available_locales)
-    
+
     # If we are passed an email address verification token, create
     # the confirumation URL for account activation.
     #
@@ -19,7 +19,7 @@ class Notifier < ActionMailer::Base
                      :display_name => user.display_name,
                      :confirm_string => token.token)
     end
-      
+
     mail :to => user.email,
          :subject => I18n.t('notifier.signup_confirm.subject', :locale => @locale)
   end
@@ -67,7 +67,7 @@ class Notifier < ActionMailer::Base
     mail :to => trace.user.email,
          :subject => I18n.t('notifier.gpx_notification.failure.subject', :locale => @locale)
   end
-  
+
   def message_notification(message)
     @locale = message.recipient.preferred_language_from(I18n.available_locales)
     @to_user = message.recipient.display_name
@@ -121,6 +121,28 @@ class Notifier < ActionMailer::Base
 
     mail :to => friend.befriendee.email,
          :subject => I18n.t('notifier.friend_notification.subject', :user => friend.befriender.display_name, :locale => @locale)
+  end
+
+  def note_comment_notification(comment, recipient)
+    @locale = recipient.preferred_language_from(I18n.available_locales)
+    @noteurl = browse_note_url(comment.note, :host => SERVER_URL)
+    @place = Nominatim.describe_location(comment.note.lat, comment.note.lon, 14, @locale)
+    @comment = comment.body
+    @owner = recipient == comment.note.author
+
+    if comment.author
+      @commenter = comment.author.display_name
+    else
+      @commenter = I18n.t("notifier.note_comment_notification.anonymous")
+    end
+
+    if @owner
+      subject = I18n.t('notifier.note_comment_notification.subject_own', :commenter => @commenter)
+    else
+      subject = I18n.t('notifier.note_comment_notification.subject_other', :commenter => @commenter)
+    end
+
+    mail :to => recipient.email, :subject => subject
   end
 
 private

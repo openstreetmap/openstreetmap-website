@@ -11,6 +11,9 @@
             <span class='count-number'><%= number_with_delimiter(@user.changesets.size) %></span>
           </li>
           <li>
+            <%= link_to t('user.view.my notes'), :controller => 'notes', :action=> 'mine' %>
+          </li>
+          <li>
             <%= link_to t('user.view.my traces'), :controller => 'trace', :action=>'mine' %>
             <span class='count-number'><%= number_with_delimiter(@user.traces.size) %></span>
           </li>
@@ -48,6 +51,9 @@
           <li>
             <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %>
             <span class='count-number'><%= number_with_delimiter(@this_user.changesets.size) %></span>
+          </li>
+          <li>
+            <%= link_to t('user.view.notes'), :controller => 'notes', :action=> 'mine' %>
           </li>
           <li>
             <%= link_to t('user.view.traces'), :controller => 'trace', :action => 'list', :display_name => @this_user.display_name %>

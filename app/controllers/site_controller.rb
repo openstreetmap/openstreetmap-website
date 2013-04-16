@@ -5,6 +5,7 @@ class SiteController < ApplicationController
   before_filter :authorize_web
   before_filter :set_locale
   before_filter :require_user, :only => [:edit]
+  before_filter :require_oauth, :only => [:index]
 
   def index
     unless STATUS == :database_readonly or STATUS == :database_offline

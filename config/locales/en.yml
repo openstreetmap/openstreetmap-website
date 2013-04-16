@@ -121,6 +121,8 @@ en:
         next_relation_tooltip: "Next relation"
         prev_changeset_tooltip: "Previous changeset"
         next_changeset_tooltip: "Next changeset"
+        prev_note_tooltip: "Previous note"
+        next_note_tooltip: "Next note"
     changeset_details:
       created_at: "Created at:"
       closed_at: "Closed at:"
@@ -157,11 +159,13 @@ en:
         node: "View node on larger map"
         way: "View way on larger map"
         relation: "View relation on larger map"
+        note: "View note on larger map"
       edit:
         area: "Edit area"
         node: "Edit node"
         way: "Edit way"
         relation: "Edit relation"
+        note: "Edit note"
     node_details:
       coordinates: "Coordinates:"
       part_of: "Part of:"
@@ -221,6 +225,7 @@ en:
       download_xml: "Download XML"
       view_history: "View history"
     start_rjs:
+      notes_layer_name: "Browse Notes"
       data_layer_name: "Browse Map Data"
       data_frame_title: "Data"
       zoom_or_select: "Zoom in or select an area of the map to view"
@@ -280,6 +285,16 @@ en:
       download_xml: "Download XML"
       view_history: "View history"
       edit: "Edit way"
+    note:
+      open_title: "Unresolved issue: %{note_name}"
+      closed_title: "Resolved issue: %{note_name}"
+      opened: "Opened:"
+      last_modified: "Last modified:"
+      closed: "Closed:"
+      at_html: "%{when} ago"
+      at_by_html: "%{when} ago by %{user}"
+      description: "Description:"
+      comments: "Comments:"
   changeset:
     changeset_paging_nav:
       showing_page: "Page %{page}"
@@ -1192,6 +1207,14 @@ en:
       greeting: "Hi,"
       hopefully_you: "Someone (possibly you) has asked for the password to be reset on this email address's openstreetmap.org account."
       click_the_link: "If this is you, please click the link below to reset your password."
+    note_comment_notification:
+      anonymous: An anonymous user
+      subject_own: "[OpenStreetMap] %{commenter} has commented on one of your notes"
+      subject_other: "[OpenStreetMap] %{commenter} has commented on a note you are interested in"
+      greeting: "Hi,"
+      your_note: "%{commenter} has left a comment on one of your map notes near %{place}."
+      commented_note: "%{commenter} has left a comment on a map note you have commented on. The note is near %{place}."
+      details: "More details about the note can be found at %{url}."
   message:
     inbox:
       title: "Inbox"
@@ -1266,6 +1289,7 @@ en:
       js_2: "OpenStreetMap uses JavaScript for its slippy map."
       permalink: Permalink
       shortlink: Shortlink
+      createnote: Add a note
       license:
         copyright: "Copyright OpenStreetMap and contributors, under an open license"
         license_url: "http://openstreetmap.org/copyright"
@@ -1676,6 +1700,7 @@ en:
       new diary entry: new diary entry
       my edits: my edits
       my traces: my traces
+      my notes: my map notes
       my settings: my settings
       my comments: my comments
       oauth settings: oauth settings
@@ -1685,6 +1710,7 @@ en:
       diary: diary
       edits: edits
       traces: traces
+      notes: map notes
       remove as friend: unfriend
       add as friend: add friend
       mapper since: "Mapper since:"
@@ -1955,6 +1981,33 @@ en:
       back: "View all blocks"
       revoker: "Revoker:"
       needs_view: "The user needs to log in before this block will be cleared."
+  note:
+    description:
+      opened_at: "Created %{when} ago"
+      opened_at_by: "Created %{when} ago by %{user}"
+      commented_at: "Updated %{when} ago"
+      commented_at_by: "Updated %{when} ago by %{user}"
+      closed_at: "Resolved %{when} ago"
+      closed_at_by: "Resolved %{when} ago by %{user}"
+      reopened_at: "Reactivated %{when} ago"
+      reopened_at_by: "Reactivated %{when} ago by %{user}"
+    rss:
+      title: "OpenStreetMap Notes"
+      description_area: "A list of notes, reported, commented on or closed in your area [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]"
+      description_item: "An rss feed for note %{id}"
+      closed: "closed note (near %{place})"
+      new: "new note (near %{place})"
+      comment: "new comment (near %{place})"
+    mine:
+      title: "Notes submitted or commented on by %{user}"
+      heading: "%{user}'s notes"
+      subheading: "Notes submitted or commented on by %{user}"
+      id: "Id"
+      creator: "Creator"
+      description: "Description"
+      created_at: "Created at"
+      last_changed: "Last changed"
+      ago_html: "%{when} ago"
   javascripts:
     map:
       base:
@@ -1971,6 +2024,28 @@ en:
       history_tooltip: View edits for this area
       history_disabled_tooltip: Zoom in to view edits for this area
       history_zoom_alert: You must zoom in to view edits for this area
+      createnote_tooltip: Add a note to the map
+      createnote_disabled_tooltip: Zoom in to add a note to the map
+      createnote_zoom_alert: You must zoom in to add a note to the map
+    notes:
+      new:
+        intro: "In order to improve the map the information you enter is shown to other mappers, so please be as descriptive and precise as possible when moving the marker to the correct position and entering your note below."
+        add: Add Note
+      show:
+        title: Note %{id}
+        anonymous_warning: This note includes comments from anonymous users which should be independently verified.
+        opened_by: "created by <a href='%{user_url}'>%{user}</a> at %{time}"
+        opened_by_anonymous: "created by anonymous at %{time}"
+        commented_by: "comment from <a href='%{user_url}'>%{user}</a> at %{time}"
+        commented_by_anonymous: "comment from anonymous at %{time}"
+        closed_by: "resolved by <a href='%{user_url}'>%{user}</a> at %{time}"
+        closed_by_anonymous: "resolved by anonymous at %{time}"
+        reopened_by: "reactivated by <a href='%{user_url}'>%{user}</a> at %{time}"
+        reopened_by_anonymous: "reactivated by anonymous at %{time}"
+        hide: Hide
+        resolve: Resolve
+        comment_and_resolve: Comment & Resolve
+        comment: Comment
   redaction:
     edit:
       description: "Description"

@@ -37,6 +37,13 @@ public
     from_bbox_array(bbox_array)
   end
 
+  def self.from_lrbt_params(params)
+    if params[:l] and params[:b] and params[:t] and params[:t]
+      bbox_array = [params[:l], params[:b], params[:r], params[:t]]
+    end
+    from_bbox_array(bbox_array)
+  end
+
   def expand!(bbox, margin = 0)
     update!(bbox) unless complete?
     # only try to expand the bbox if there is a value for every coordinate
@@ -71,10 +78,10 @@ public
     self
   end
 
-  def check_size
+  def check_size(max_area = MAX_REQUEST_AREA)
     # check the bbox isn't too large
-    if area > MAX_REQUEST_AREA
-      raise OSM::APIBadBoundingBox.new("The maximum bbox size is " + MAX_REQUEST_AREA.to_s +
+    if area > max_area
+      raise OSM::APIBadBoundingBox.new("The maximum bbox size is " + max_area.to_s +
         ", and your request was too large. Either request a smaller area, or use planet.osm")
     end
     self
