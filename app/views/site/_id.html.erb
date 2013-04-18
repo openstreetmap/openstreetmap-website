@@ -7,12 +7,17 @@
     coord.lon = <%= @lon %>;
     coord.zoom = <%= @zoom %>;
     <% else -%>
-    var params = OSM.mapParams();
-    coord.lat = params.lat;
-    coord.lon = params.lon;
-    coord.zoom = params.zoom;
+    coord = OSM.mapParams();
     <% end -%>
-    $('#id-embed').attr('src', 'id_iframe#map=' + coord.zoom + '/' + coord.lon + '/' + coord.lat);
+
+    var hash;
+    if (coord.object && coord.object.type !== 'relation') {
+      hash = '#id=' + coord.object.type[0] + coord.object.id;
+    } else {
+      hash = '#map=' + (coord.zoom || 17) + '/' + coord.lon + '/' + coord.lat
+    }
+
+    $('#id-embed').attr('src', 'id_iframe' + hash);
   </script>
 <% else %>
   <script type="text/javascript">alert("<%= t 'site.edit.id_not_configured' %>")</script>

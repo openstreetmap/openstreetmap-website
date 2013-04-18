@@ -14797,7 +14797,7 @@ window.iD = function () {
         container,
         ui = iD.ui(context),
         map = iD.Map(context),
-        connection = iD.Connection(context, iD.data.keys[0]);
+        connection = iD.Connection();
 
     connection.on('load.context', function loadContext(err, result) {
         history.merge(result);
@@ -14975,377 +14975,6 @@ iD.detect = function() {
     else browser.os = 'win';
 
     return browser;
-};
-iD.Connection = function(context, options) {
-
-    var event = d3.dispatch('auth', 'loading', 'load', 'loaded'),
-        url = options.url || 'http://www.openstreetmap.org',
-        connection = {},
-        user = {},
-        inflight = {},
-        loadedTiles = {},
-        loadingModal,
-        oauth = osmAuth(_.extend({
-            loading: authLoading,
-            done: authDone
-        }, options)),
-        ndStr = 'nd',
-        tagStr = 'tag',
-        memberStr = 'member',
-        nodeStr = 'node',
-        wayStr = 'way',
-        relationStr = 'relation',
-        off;
-
-    connection.changesetUrl = function(changesetId) {
-        return url + '/browse/changeset/' + changesetId;
-    };
-
-    connection.entityURL = function(entity) {
-        return url + '/browse/' + entity.type + '/' + entity.osmId();
-    };
-
-    connection.userUrl = function(username) {
-        return url + "/user/" + username;
-    };
-
-    connection.loadFromURL = function(url, callback) {
-        function done(dom) {
-            return callback(null, parse(dom));
-        }
-        return d3.xml(url).get().on('load', done);
-    };
-
-    function authLoading() {
-        loadingModal = iD.ui.Loading(context)
-            .message(t('loading_auth'));
-
-        context.container()
-            .call(loadingModal);
-    }
-
-    function authDone() {
-        if (loadingModal) loadingModal.close();
-    }
-
-    function getNodes(obj) {
-        var elems = obj.getElementsByTagName(ndStr),
-            nodes = new Array(elems.length);
-        for (var i = 0, l = elems.length; i < l; i++) {
-            nodes[i] = 'n' + elems[i].attributes.ref.nodeValue;
-        }
-        return nodes;
-    }
-
-    function getTags(obj) {
-        var elems = obj.getElementsByTagName(tagStr),
-            tags = {};
-        for (var i = 0, l = elems.length; i < l; i++) {
-            var attrs = elems[i].attributes;
-            tags[attrs.k.nodeValue] = attrs.v.nodeValue;
-        }
-        return tags;
-    }
-
-    function getMembers(obj) {
-        var elems = obj.getElementsByTagName(memberStr),
-            members = new Array(elems.length);
-        for (var i = 0, l = elems.length; i < l; i++) {
-            var attrs = elems[i].attributes;
-            members[i] = {
-                id: attrs.type.nodeValue[0] + attrs.ref.nodeValue,
-                type: attrs.type.nodeValue,
-                role: attrs.role.nodeValue
-            };
-        }
-        return members;
-    }
-
-    var parsers = {
-        node: function nodeData(obj) {
-            var attrs = obj.attributes;
-            return new iD.Node({
-                id: iD.Entity.id.fromOSM(nodeStr, attrs.id.nodeValue),
-                loc: [parseFloat(attrs.lon.nodeValue), parseFloat(attrs.lat.nodeValue)],
-                version: attrs.version.nodeValue,
-                changeset: attrs.changeset.nodeValue,
-                user: attrs.user && attrs.user.nodeValue,
-                uid: attrs.uid && attrs.uid.nodeValue,
-                visible: attrs.visible.nodeValue,
-                timestamp: attrs.timestamp.nodeValue,
-                tags: getTags(obj)
-            });
-        },
-
-        way: function wayData(obj) {
-            var attrs = obj.attributes;
-            return new iD.Way({
-                id: iD.Entity.id.fromOSM(wayStr, attrs.id.nodeValue),
-                version: attrs.version.nodeValue,
-                changeset: attrs.changeset.nodeValue,
-                user: attrs.user && attrs.user.nodeValue,
-                uid: attrs.uid && attrs.uid.nodeValue,
-                visible: attrs.visible.nodeValue,
-                timestamp: attrs.timestamp.nodeValue,
-                tags: getTags(obj),
-                nodes: getNodes(obj)
-            });
-        },
-
-        relation: function relationData(obj) {
-            var attrs = obj.attributes;
-            return new iD.Relation({
-                id: iD.Entity.id.fromOSM(relationStr, attrs.id.nodeValue),
-                version: attrs.version.nodeValue,
-                changeset: attrs.changeset.nodeValue,
-                user: attrs.user && attrs.user.nodeValue,
-                uid: attrs.uid && attrs.uid.nodeValue,
-                visible: attrs.visible.nodeValue,
-                timestamp: attrs.timestamp.nodeValue,
-                tags: getTags(obj),
-                members: getMembers(obj)
-            });
-        }
-    };
-
-    function parse(dom) {
-        if (!dom || !dom.childNodes) return new Error('Bad request');
-
-        var root = dom.childNodes[0],
-            children = root.childNodes,
-            entities = {};
-
-        var i, o, l;
-        for (i = 0, l = children.length; i < l; i++) {
-            var child = children[i],
-                parser = parsers[child.nodeName];
-            if (parser) {
-                o = parser(child);
-                entities[o.id] = o;
-            }
-        }
-
-        return entities;
-    }
-
-    connection.authenticated = function() {
-        return oauth.authenticated();
-    };
-
-    // Generate Changeset XML. Returns a string.
-    connection.changesetJXON = function(tags) {
-        return {
-            osm: {
-                changeset: {
-                    tag: _.map(tags, function(value, key) {
-                        return { '@k': key, '@v': value };
-                    }),
-                    '@version': 0.3,
-                    '@generator': 'iD'
-                }
-            }
-        };
-    };
-
-    // Generate [osmChange](http://wiki.openstreetmap.org/wiki/OsmChange)
-    // XML. Returns a string.
-    connection.osmChangeJXON = function(userid, changeset_id, changes) {
-        function nest(x, order) {
-            var groups = {};
-            for (var i = 0; i < x.length; i++) {
-                var tagName = Object.keys(x[i])[0];
-                if (!groups[tagName]) groups[tagName] = [];
-                groups[tagName].push(x[i][tagName]);
-            }
-            var ordered = {};
-            order.forEach(function(o) {
-                if (groups[o]) ordered[o] = groups[o];
-            });
-            return ordered;
-        }
-
-        function rep(entity) {
-            return entity.asJXON(changeset_id);
-        }
-
-        return {
-            osmChange: {
-                '@version': 0.3,
-                '@generator': 'iD',
-                'create': nest(changes.created.map(rep), ['node', 'way', 'relation']),
-                'modify': nest(changes.modified.map(rep), ['node', 'way', 'relation']),
-                'delete': _.extend(nest(changes.deleted.map(rep), ['relation', 'way', 'node']), {'@if-unused': true})
-            }
-        };
-    };
-
-    connection.putChangeset = function(changes, comment, imagery_used, callback) {
-        oauth.xhr({
-                method: 'PUT',
-                path: '/api/0.6/changeset/create',
-                options: { header: { 'Content-Type': 'text/xml' } },
-                content: JXON.stringify(connection.changesetJXON({
-                    imagery_used: imagery_used.join(';'),
-                    comment: comment,
-                    created_by: 'iD ' + iD.version
-                }))
-            }, function(err, changeset_id) {
-                if (err) return callback(err);
-                oauth.xhr({
-                    method: 'POST',
-                    path: '/api/0.6/changeset/' + changeset_id + '/upload',
-                    options: { header: { 'Content-Type': 'text/xml' } },
-                    content: JXON.stringify(connection.osmChangeJXON(user.id, changeset_id, changes))
-                }, function(err) {
-                    if (err) return callback(err);
-                    oauth.xhr({
-                        method: 'PUT',
-                        path: '/api/0.6/changeset/' + changeset_id + '/close'
-                    }, function(err) {
-                        callback(err, changeset_id);
-                    });
-                });
-            });
-    };
-
-    connection.userDetails = function(callback) {
-        function done(err, user_details) {
-            if (err) return callback(err);
-            var u = user_details.getElementsByTagName('user')[0],
-                img = u.getElementsByTagName('img'),
-                image_url = '';
-            if (img && img[0].getAttribute('href')) {
-                image_url = img[0].getAttribute('href');
-            }
-            callback(undefined, connection.user({
-                display_name: u.attributes.display_name.nodeValue,
-                image_url: image_url,
-                id: u.attributes.id.nodeValue
-            }).user());
-        }
-        oauth.xhr({ method: 'GET', path: '/api/0.6/user/details' }, done);
-    };
-
-    connection.status = function(callback) {
-        function done(capabilities) {
-            var apiStatus = capabilities.getElementsByTagName('status');
-            callback(undefined, apiStatus[0].getAttribute('api'));
-        }
-        d3.xml(url + '/api/capabilities').get()
-            .on('load', done)
-            .on('error', callback);
-    };
-
-    function abortRequest(i) { i.abort(); }
-
-    connection.loadTiles = function(projection, dimensions) {
-
-        if (off) return;
-
-        var scaleExtent = [16, 16],
-            s = projection.scale() * 2 * Math.PI,
-            tiles = d3.geo.tile()
-                .scaleExtent(scaleExtent)
-                .scale(s)
-                .size(dimensions)
-                .translate(projection.translate())(),
-            z = Math.max(Math.log(s) / Math.log(2) - 8, 0),
-            rz = Math.max(scaleExtent[0], Math.min(scaleExtent[1], Math.floor(z))),
-            ts = 256 * Math.pow(2, z - rz),
-            tile_origin = [
-                s / 2 - projection.translate()[0],
-                s / 2 - projection.translate()[1]];
-
-        function bboxUrl(tile) {
-            var x = (tile[0] * ts) - tile_origin[0];
-            var y = (tile[1] * ts) - tile_origin[1];
-            var b = [
-                projection.invert([x, y]),
-                projection.invert([x + ts, y + ts])];
-
-            return url + '/api/0.6/map?bbox=' + [b[0][0], b[1][1], b[1][0], b[0][1]];
-        }
-
-        _.filter(inflight, function(v, i) {
-            var wanted = _.find(tiles, function(tile) {
-                return i === tile.toString();
-            });
-            if (!wanted) delete inflight[i];
-            return !wanted;
-        }).map(abortRequest);
-
-        tiles.forEach(function(tile) {
-            var id = tile.toString();
-
-            if (loadedTiles[id] || inflight[id]) return;
-
-            if (_.isEmpty(inflight)) {
-                event.loading();
-            }
-
-            inflight[id] = connection.loadFromURL(bboxUrl(tile), function(err, parsed) {
-                loadedTiles[id] = true;
-                delete inflight[id];
-
-                event.load(err, parsed);
-
-                if (_.isEmpty(inflight)) {
-                    event.loaded();
-                }
-            });
-        });
-    };
-
-    connection.switch = function(options) {
-        url = options.url;
-        oauth.options(_.extend({
-            loading: authLoading,
-            done: authDone
-        }, options));
-        event.auth();
-        connection.flush();
-        return connection;
-    };
-
-    connection.toggle = function(_) {
-        off = !_;
-        return connection;
-    };
-
-    connection.user = function(_) {
-        if (!arguments.length) return user;
-        user = _;
-        return connection;
-    };
-
-    connection.flush = function() {
-        _.forEach(inflight, abortRequest);
-        loadedTiles = {};
-        inflight = {};
-        return connection;
-    };
-
-    connection.loadedTiles = function(_) {
-        if (!arguments.length) return loadedTiles;
-        loadedTiles = _;
-        return connection;
-    };
-
-    connection.logout = function() {
-        oauth.logout();
-        event.auth();
-        return connection;
-    };
-
-    connection.authenticate = function(callback) {
-        function done(err, res) {
-            event.auth();
-            if (callback) callback(err, res);
-        }
-        return oauth.authenticate(done);
-    };
-
-    return d3.rebind(connection, event, 'on');
 };
 iD.taginfo = function() {
     var taginfo = {},
@@ -17279,6 +16908,12 @@ iD.behavior.Hash = function(context) {
     // do so before any features are loaded. thus wait for the feature to
     // be loaded and then select
     function willselect(id) {
+        context.connection().loadEntity(id, function(error, entity) {
+            if (entity) {
+                context.map().zoomTo(entity);
+            }
+        });
+
         context.map().on('drawn.hash', function() {
             if (!context.entity(id)) return;
             selectoff();
@@ -18721,6 +18356,387 @@ iD.operations.Split = function(selection, context) {
 
     return operation;
 };
+iD.Connection = function() {
+
+    var event = d3.dispatch('authenticating', 'authenticated', 'auth', 'loading', 'load', 'loaded'),
+        url = 'http://www.openstreetmap.org',
+        connection = {},
+        user = {},
+        inflight = {},
+        loadedTiles = {},
+        oauth = osmAuth({
+            url: 'http://www.openstreetmap.org',
+            oauth_consumer_key: '5A043yRSEugj4DJ5TljuapfnrflWDte8jTOcWLlT',
+            oauth_secret: 'aB3jKq1TRsCOUrfOIZ6oQMEDmv2ptV76PA54NGLL',
+            loading: authenticating,
+            done: authenticated
+        }),
+        ndStr = 'nd',
+        tagStr = 'tag',
+        memberStr = 'member',
+        nodeStr = 'node',
+        wayStr = 'way',
+        relationStr = 'relation',
+        off;
+
+    connection.changesetURL = function(changesetId) {
+        return url + '/browse/changeset/' + changesetId;
+    };
+
+    connection.entityURL = function(entity) {
+        return url + '/browse/' + entity.type + '/' + entity.osmId();
+    };
+
+    connection.userURL = function(username) {
+        return url + "/user/" + username;
+    };
+
+    connection.loadFromURL = function(url, callback) {
+        function done(dom) {
+            return callback(null, parse(dom));
+        }
+        return d3.xml(url).get().on('load', done);
+    };
+
+    connection.loadEntity = function(id, callback) {
+        var type = iD.Entity.id.type(id),
+            osmID = iD.Entity.id.toOSM(id);
+
+        connection.loadFromURL(
+            url + '/api/0.6/' + type + '/' + osmID + (type !== 'node' ? '/full' : ''),
+            function(err, entities) {
+                event.load(err, entities);
+                if (callback) callback(err, entities && entities[id]);
+            });
+    };
+
+    function authenticating() {
+        event.authenticating();
+    }
+
+    function authenticated() {
+        event.authenticated();
+    }
+
+    function getNodes(obj) {
+        var elems = obj.getElementsByTagName(ndStr),
+            nodes = new Array(elems.length);
+        for (var i = 0, l = elems.length; i < l; i++) {
+            nodes[i] = 'n' + elems[i].attributes.ref.nodeValue;
+        }
+        return nodes;
+    }
+
+    function getTags(obj) {
+        var elems = obj.getElementsByTagName(tagStr),
+            tags = {};
+        for (var i = 0, l = elems.length; i < l; i++) {
+            var attrs = elems[i].attributes;
+            tags[attrs.k.nodeValue] = attrs.v.nodeValue;
+        }
+        return tags;
+    }
+
+    function getMembers(obj) {
+        var elems = obj.getElementsByTagName(memberStr),
+            members = new Array(elems.length);
+        for (var i = 0, l = elems.length; i < l; i++) {
+            var attrs = elems[i].attributes;
+            members[i] = {
+                id: attrs.type.nodeValue[0] + attrs.ref.nodeValue,
+                type: attrs.type.nodeValue,
+                role: attrs.role.nodeValue
+            };
+        }
+        return members;
+    }
+
+    var parsers = {
+        node: function nodeData(obj) {
+            var attrs = obj.attributes;
+            return new iD.Node({
+                id: iD.Entity.id.fromOSM(nodeStr, attrs.id.nodeValue),
+                loc: [parseFloat(attrs.lon.nodeValue), parseFloat(attrs.lat.nodeValue)],
+                version: attrs.version.nodeValue,
+                changeset: attrs.changeset.nodeValue,
+                user: attrs.user && attrs.user.nodeValue,
+                uid: attrs.uid && attrs.uid.nodeValue,
+                visible: attrs.visible.nodeValue,
+                timestamp: attrs.timestamp.nodeValue,
+                tags: getTags(obj)
+            });
+        },
+
+        way: function wayData(obj) {
+            var attrs = obj.attributes;
+            return new iD.Way({
+                id: iD.Entity.id.fromOSM(wayStr, attrs.id.nodeValue),
+                version: attrs.version.nodeValue,
+                changeset: attrs.changeset.nodeValue,
+                user: attrs.user && attrs.user.nodeValue,
+                uid: attrs.uid && attrs.uid.nodeValue,
+                visible: attrs.visible.nodeValue,
+                timestamp: attrs.timestamp.nodeValue,
+                tags: getTags(obj),
+                nodes: getNodes(obj)
+            });
+        },
+
+        relation: function relationData(obj) {
+            var attrs = obj.attributes;
+            return new iD.Relation({
+                id: iD.Entity.id.fromOSM(relationStr, attrs.id.nodeValue),
+                version: attrs.version.nodeValue,
+                changeset: attrs.changeset.nodeValue,
+                user: attrs.user && attrs.user.nodeValue,
+                uid: attrs.uid && attrs.uid.nodeValue,
+                visible: attrs.visible.nodeValue,
+                timestamp: attrs.timestamp.nodeValue,
+                tags: getTags(obj),
+                members: getMembers(obj)
+            });
+        }
+    };
+
+    function parse(dom) {
+        if (!dom || !dom.childNodes) return new Error('Bad request');
+
+        var root = dom.childNodes[0],
+            children = root.childNodes,
+            entities = {};
+
+        var i, o, l;
+        for (i = 0, l = children.length; i < l; i++) {
+            var child = children[i],
+                parser = parsers[child.nodeName];
+            if (parser) {
+                o = parser(child);
+                entities[o.id] = o;
+            }
+        }
+
+        return entities;
+    }
+
+    connection.authenticated = function() {
+        return oauth.authenticated();
+    };
+
+    // Generate Changeset XML. Returns a string.
+    connection.changesetJXON = function(tags) {
+        return {
+            osm: {
+                changeset: {
+                    tag: _.map(tags, function(value, key) {
+                        return { '@k': key, '@v': value };
+                    }),
+                    '@version': 0.3,
+                    '@generator': 'iD'
+                }
+            }
+        };
+    };
+
+    // Generate [osmChange](http://wiki.openstreetmap.org/wiki/OsmChange)
+    // XML. Returns a string.
+    connection.osmChangeJXON = function(userid, changeset_id, changes) {
+        function nest(x, order) {
+            var groups = {};
+            for (var i = 0; i < x.length; i++) {
+                var tagName = Object.keys(x[i])[0];
+                if (!groups[tagName]) groups[tagName] = [];
+                groups[tagName].push(x[i][tagName]);
+            }
+            var ordered = {};
+            order.forEach(function(o) {
+                if (groups[o]) ordered[o] = groups[o];
+            });
+            return ordered;
+        }
+
+        function rep(entity) {
+            return entity.asJXON(changeset_id);
+        }
+
+        return {
+            osmChange: {
+                '@version': 0.3,
+                '@generator': 'iD',
+                'create': nest(changes.created.map(rep), ['node', 'way', 'relation']),
+                'modify': nest(changes.modified.map(rep), ['node', 'way', 'relation']),
+                'delete': _.extend(nest(changes.deleted.map(rep), ['relation', 'way', 'node']), {'@if-unused': true})
+            }
+        };
+    };
+
+    connection.putChangeset = function(changes, comment, imagery_used, callback) {
+        oauth.xhr({
+                method: 'PUT',
+                path: '/api/0.6/changeset/create',
+                options: { header: { 'Content-Type': 'text/xml' } },
+                content: JXON.stringify(connection.changesetJXON({
+                    imagery_used: imagery_used.join(';'),
+                    comment: comment,
+                    created_by: 'iD ' + iD.version
+                }))
+            }, function(err, changeset_id) {
+                if (err) return callback(err);
+                oauth.xhr({
+                    method: 'POST',
+                    path: '/api/0.6/changeset/' + changeset_id + '/upload',
+                    options: { header: { 'Content-Type': 'text/xml' } },
+                    content: JXON.stringify(connection.osmChangeJXON(user.id, changeset_id, changes))
+                }, function(err) {
+                    if (err) return callback(err);
+                    oauth.xhr({
+                        method: 'PUT',
+                        path: '/api/0.6/changeset/' + changeset_id + '/close'
+                    }, function(err) {
+                        callback(err, changeset_id);
+                    });
+                });
+            });
+    };
+
+    connection.userDetails = function(callback) {
+        function done(err, user_details) {
+            if (err) return callback(err);
+            var u = user_details.getElementsByTagName('user')[0],
+                img = u.getElementsByTagName('img'),
+                image_url = '';
+            if (img && img[0].getAttribute('href')) {
+                image_url = img[0].getAttribute('href');
+            }
+            callback(undefined, connection.user({
+                display_name: u.attributes.display_name.nodeValue,
+                image_url: image_url,
+                id: u.attributes.id.nodeValue
+            }).user());
+        }
+        oauth.xhr({ method: 'GET', path: '/api/0.6/user/details' }, done);
+    };
+
+    connection.status = function(callback) {
+        function done(capabilities) {
+            var apiStatus = capabilities.getElementsByTagName('status');
+            callback(undefined, apiStatus[0].getAttribute('api'));
+        }
+        d3.xml(url + '/api/capabilities').get()
+            .on('load', done)
+            .on('error', callback);
+    };
+
+    function abortRequest(i) { i.abort(); }
+
+    connection.loadTiles = function(projection, dimensions) {
+
+        if (off) return;
+
+        var scaleExtent = [16, 16],
+            s = projection.scale() * 2 * Math.PI,
+            tiles = d3.geo.tile()
+                .scaleExtent(scaleExtent)
+                .scale(s)
+                .size(dimensions)
+                .translate(projection.translate())(),
+            z = Math.max(Math.log(s) / Math.log(2) - 8, 0),
+            rz = Math.max(scaleExtent[0], Math.min(scaleExtent[1], Math.floor(z))),
+            ts = 256 * Math.pow(2, z - rz),
+            tile_origin = [
+                s / 2 - projection.translate()[0],
+                s / 2 - projection.translate()[1]];
+
+        function bboxUrl(tile) {
+            var x = (tile[0] * ts) - tile_origin[0];
+            var y = (tile[1] * ts) - tile_origin[1];
+            var b = [
+                projection.invert([x, y]),
+                projection.invert([x + ts, y + ts])];
+
+            return url + '/api/0.6/map?bbox=' + [b[0][0], b[1][1], b[1][0], b[0][1]];
+        }
+
+        _.filter(inflight, function(v, i) {
+            var wanted = _.find(tiles, function(tile) {
+                return i === tile.toString();
+            });
+            if (!wanted) delete inflight[i];
+            return !wanted;
+        }).map(abortRequest);
+
+        tiles.forEach(function(tile) {
+            var id = tile.toString();
+
+            if (loadedTiles[id] || inflight[id]) return;
+
+            if (_.isEmpty(inflight)) {
+                event.loading();
+            }
+
+            inflight[id] = connection.loadFromURL(bboxUrl(tile), function(err, parsed) {
+                loadedTiles[id] = true;
+                delete inflight[id];
+
+                event.load(err, parsed);
+
+                if (_.isEmpty(inflight)) {
+                    event.loaded();
+                }
+            });
+        });
+    };
+
+    connection.switch = function(options) {
+        url = options.url;
+        oauth.options(_.extend({
+            loading: authenticating,
+            done: authenticated
+        }, options));
+        event.auth();
+        connection.flush();
+        return connection;
+    };
+
+    connection.toggle = function(_) {
+        off = !_;
+        return connection;
+    };
+
+    connection.user = function(_) {
+        if (!arguments.length) return user;
+        user = _;
+        return connection;
+    };
+
+    connection.flush = function() {
+        _.forEach(inflight, abortRequest);
+        loadedTiles = {};
+        inflight = {};
+        return connection;
+    };
+
+    connection.loadedTiles = function(_) {
+        if (!arguments.length) return loadedTiles;
+        loadedTiles = _;
+        return connection;
+    };
+
+    connection.logout = function() {
+        oauth.logout();
+        event.auth();
+        return connection;
+    };
+
+    connection.authenticate = function(callback) {
+        function done(err, res) {
+            event.auth();
+            if (callback) callback(err, res);
+        }
+        return oauth.authenticate(done);
+    };
+
+    return d3.rebind(connection, event, 'on');
+};
 /*
     iD.Difference represents the difference between two graphs.
     It knows how to calculate the set of entities that were
@@ -18734,7 +18750,7 @@ iD.Difference = function(base, head) {
 
     _.each(head.entities, function(h, id) {
         var b = base.entities[id];
-        if (h !== b) {
+        if (!_.isEqual(h, b)) {
             changes[id] = {base: b, head: h};
             length++;
         }
@@ -18742,7 +18758,7 @@ iD.Difference = function(base, head) {
 
     _.each(base.entities, function(b, id) {
         var h = head.entities[id];
-        if (!changes[id] && h !== b) {
+        if (!changes[id] && !_.isEqual(h, b)) {
             changes[id] = {base: b, head: h};
             length++;
         }
@@ -18878,6 +18894,10 @@ iD.Entity.id.fromOSM = function(type, id) {
 
 iD.Entity.id.toOSM = function(id) {
     return id.slice(1);
+};
+
+iD.Entity.id.type = function(id) {
+    return {'n': 'node', 'w': 'way', 'r': 'relation'}[id[0]];
 };
 
 // A function suitable for use as the second argument to d3.selection#data().
@@ -20788,6 +20808,12 @@ iD.Map = function(context) {
         return redraw();
     };
 
+    map.zoomTo = function(entity) {
+        var extent = entity.extent(context.graph()),
+            zoom = map.extentZoom(extent);
+        map.centerZoom(extent.center(), zoom);
+    };
+
     map.centerZoom = function(loc, z) {
         var centered = setCenter(loc),
             zoomed   = setZoom(z);
@@ -22256,6 +22282,17 @@ iD.ui = function(context) {
             .call(iD.ui.Splash(context))
             .call(iD.ui.Restore(context));
 
+        var authenticating = iD.ui.Loading(context)
+            .message(t('loading_auth'));
+
+        context.connection()
+            .on('authenticating.ui', function() {
+                context.container()
+                    .call(authenticating);
+            })
+            .on('authenticated.ui', function() {
+                authenticating.close();
+            });
     };
 };
 
@@ -22281,7 +22318,7 @@ iD.ui.Account = function(context) {
 
             // Link
             var userLink = selection.append('a')
-                .attr('href', connection.userUrl(details.display_name))
+                .attr('href', connection.userURL(details.display_name))
                 .attr('target', '_blank');
 
             // Add thumbnail or dont
@@ -22817,7 +22854,7 @@ iD.ui.Commit = function(context) {
         userLink.append('a')
             .attr('class','user-info')
             .text(user.display_name)
-            .attr('href', connection.userUrl(user.display_name))
+            .attr('href', connection.userURL(user.display_name))
             .attr('tabindex', -1)
             .attr('target', '_blank');
 
@@ -22954,7 +22991,7 @@ iD.ui.Contributors = function(context) {
             .enter()
             .append('a')
             .attr('class', 'user-link')
-            .attr('href', function(d) { return context.connection().userUrl(d); })
+            .attr('href', function(d) { return context.connection().userURL(d); })
             .attr('target', '_blank')
             .attr('tabindex', -1)
             .text(String);
@@ -23486,6 +23523,11 @@ iD.ui.Inspector = function(context, entity) {
     }
 
     inspector.close = function(selection) {
+
+        // Blur focused element so that tag changes are dispatched
+        // See #1295
+        document.activeElement.blur();
+
         selection.transition()
             .style('right', '-500px')
             .each('end', function() {
@@ -23989,7 +24031,7 @@ iD.ui.preset = function(context, entity, preset) {
         d3.event.preventDefault();
         var t = {};
         field.keys.forEach(function(key) {
-            t[key] = original ? original.tags[key] : undefined;
+            t[key] = original ? original.tags[key] || '' : '';
         });
         event.change(t);
     }
@@ -24672,6 +24714,8 @@ iD.ui.Save = function(context) {
     };
 };
 iD.ui.SourceSwitch = function(context) {
+    var keys;
+
     function click() {
         d3.event.preventDefault();
 
@@ -24682,7 +24726,7 @@ iD.ui.SourceSwitch = function(context) {
             .classed('live');
 
         context.connection()
-            .switch(live ? iD.data.keys[1] : iD.data.keys[0]);
+            .switch(live ? keys[1] : keys[0]);
 
         context.map()
             .flush();
@@ -24692,7 +24736,7 @@ iD.ui.SourceSwitch = function(context) {
             .classed('live', !live);
     }
 
-    return function(selection) {
+    var sourceSwitch = function(selection) {
         selection.append('a')
             .attr('href', '#')
             .text(t('source_switch.live'))
@@ -24700,6 +24744,14 @@ iD.ui.SourceSwitch = function(context) {
             .attr('tabindex', -1)
             .on('click', click);
     };
+
+    sourceSwitch.keys = function(_) {
+        if (!arguments.length) return keys;
+        keys = _;
+        return sourceSwitch;
+    };
+
+    return sourceSwitch;
 };
 iD.ui.Spinner = function(context) {
     var connection = context.connection();
@@ -24819,7 +24871,7 @@ iD.ui.Success = function(connection) {
         }
 
         var message = (m || 'Edited OSM!') +
-            connection.changesetUrl(changeset.id);
+            connection.changesetURL(changeset.id);
 
         var links = body.append('div').attr('class','modal-actions cf');
 
@@ -24827,7 +24879,7 @@ iD.ui.Success = function(connection) {
             .attr('class','col6 osm')
             .attr('target', '_blank')
             .attr('href', function() {
-                return connection.changesetUrl(changeset.id);
+                return connection.changesetURL(changeset.id);
             })
             .text(t('view_on_osm'));
 
@@ -25556,6 +25608,7 @@ iD.ui.preset.address = function(field, context) {
         housenumber,
         street,
         city,
+        postcode,
         entity;
 
     function getStreets() {
@@ -25627,6 +25680,14 @@ iD.ui.preset.address = function(field, context) {
             .on('blur', change)
             .on('change', change)
             .call(close());
+
+        postcode = wrap.append('input')
+            .property('type', 'text')
+            .attr('placeholder', field.t('placeholders.postcode'))
+            .attr('class', 'addr-postcode')
+            .on('blur', change)
+            .on('change', change)
+            .call(close());
     }
 
     function change() {
@@ -25634,7 +25695,8 @@ iD.ui.preset.address = function(field, context) {
             'addr:housename': housename.property('value'),
             'addr:housenumber': housenumber.property('value'),
             'addr:street': street.property('value'),
-            'addr:city': city.property('value')
+            'addr:city': city.property('value'),
+            'addr:postcode': postcode.property('value')
         });
     }
 
@@ -25649,6 +25711,7 @@ iD.ui.preset.address = function(field, context) {
         housenumber.property('value', tags['addr:housenumber'] || '');
         street.property('value', tags['addr:street'] || '');
         city.property('value', tags['addr:city'] || '');
+        postcode.property('value', tags['addr:postcode'] || '');
         return address;
     };
 
@@ -26024,13 +26087,16 @@ iD.ui.preset.maxspeed = function(field, context) {
     var event = d3.dispatch('change', 'close'),
         entity,
         imperial,
+        unitInput,
+        combobox,
         input;
 
     var metricValues = [20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120],
         imperialValues = [20, 25, 30, 40, 45, 50, 55, 65, 70];
 
     function maxspeed(selection) {
-        var combobox = d3.combobox();
+        combobox = d3.combobox();
+        var unitCombobox = d3.combobox().data(['km/h', 'mph'].map(comboValues));
 
         input = selection.append('input')
             .attr('type', 'text')
@@ -26048,18 +26114,33 @@ iD.ui.preset.maxspeed = function(field, context) {
             });
         });
 
-        selection.append('span')
+        unitInput = selection.append('input')
+            .attr('type', 'text')
             .attr('class', 'maxspeed-unit')
-            .text(imperial ? 'mph' : 'km/h');
+            .on('blur', changeUnits)
+            .on('change', changeUnits)
+            .call(unitCombobox);
 
-        combobox.data((imperial ? imperialValues : metricValues).map(function(d) {
-            return {
-                value: d.toString(),
-                title: d.toString()
-            };
-        }));
+        function changeUnits() {
+            imperial = unitInput.property('value') === 'mph';
+            unitInput.property('value', imperial ? 'mph' : 'km/h');
+            setSuggestions();
+            change();
+        }
+
     }
 
+    function setSuggestions() {
+        combobox.data((imperial ? imperialValues : metricValues).map(comboValues));
+        unitInput.property('value', imperial ? 'mph' : 'km/h');
+    }
+
+    function comboValues(d) {
+        return {
+            value: d.toString(),
+            title: d.toString()
+        };
+    }
 
     function change() {
         var value = input.property('value');
@@ -26078,7 +26159,16 @@ iD.ui.preset.maxspeed = function(field, context) {
 
     maxspeed.tags = function(tags) {
         var value = tags[field.key];
-        if (value && isNaN(value) && value.indexOf('mph') >= 0) value = parseInt(value, 10);
+
+        if (value && value.indexOf('mph') >= 0) {
+            value = parseInt(value, 10);
+            imperial = true;
+        } else if (value) {
+            imperial = false;
+        }
+
+        setSuggestions();
+
         input.property('value', value || '');
     };
 
@@ -54213,14 +54303,12 @@ iD.data = {
         {
             "url": "http://www.openstreetmap.org",
             "oauth_consumer_key": "5A043yRSEugj4DJ5TljuapfnrflWDte8jTOcWLlT",
-            "oauth_secret": "aB3jKq1TRsCOUrfOIZ6oQMEDmv2ptV76PA54NGLL",
-            "oauth_signature_method": "HMAC-SHA1"
+            "oauth_secret": "aB3jKq1TRsCOUrfOIZ6oQMEDmv2ptV76PA54NGLL"
         },
         {
             "url": "http://api06.dev.openstreetmap.org",
             "oauth_consumer_key": "zwQZFivccHkLs3a8Rq5CoS412fE5aPCXDw9DZj7R",
-            "oauth_secret": "aMnOOCwExO2XYtRVWJ1bI9QOdqh1cay2UgpbhA6p",
-            "oauth_signature_method": "HMAC-SHA1"
+            "oauth_secret": "aMnOOCwExO2XYtRVWJ1bI9QOdqh1cay2UgpbhA6p"
         }
     ],
     "imagery": [
@@ -60629,7 +60717,8 @@ iD.data = {
                     "addr:housename",
                     "addr:housenumber",
                     "addr:street",
-                    "addr:city"
+                    "addr:city",
+                    "addr:postcode"
                 ],
                 "icon": "address",
                 "universal": true,
@@ -60639,7 +60728,8 @@ iD.data = {
                         "housename": "Housename",
                         "number": "123",
                         "street": "Street",
-                        "city": "City"
+                        "city": "City",
+                        "postcode": "Postal code"
                     }
                 }
             },
