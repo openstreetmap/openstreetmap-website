@@ -28,6 +28,22 @@
         oauth_token_secret: "<%= token.secret %>"
       });
 
+    id.map().on('move.embed', function() {
+      var extent = id.map().extent(),
+          zoom = ~~id.map().zoom(),
+          center = id.map().center();
+
+      parent.updatelinks(
+        center[0],
+        center[1],
+        zoom,
+        null,
+        extent[0][0],
+        extent[0][1],
+        extent[1][0],
+        extent[1][1]);
+    });
+
     d3.select('#id-container')
       .call(id.ui());
   }
