@@ -52,6 +52,16 @@
         Math.max(data.zoom || 15, 13));
     });
 
+    var maximized = false;
+    id.on('toggleFullscreen.embed', function() {
+      if (maximized) {
+        parent.minimiseMap();
+      } else {
+        parent.maximiseMap();
+      }
+      maximized = !maximized;
+    });
+
     d3.select('#id-container')
       .call(id.ui());
   }
