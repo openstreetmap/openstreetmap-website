@@ -18,7 +18,7 @@
   } else {
     var id = iD()
       .embed(true)
-      .imagePath("/assets/iD/img/")<%# Can't use asset_path('id/img/') in production. %>
+      .assetPath("/assets/iD/") <%# Can't use asset_path('iD/') in production. %>
       .preauth({
         <% token = @user.access_token(ID_KEY) %>
         url: "<%= request.protocol + request.host_with_port %>",

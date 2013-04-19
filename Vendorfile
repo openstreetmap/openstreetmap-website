@@ -41,6 +41,7 @@ folder 'vendor/assets' do
   folder 'iD' do
     from 'git://github.com/systemed/iD', :branch => 'embed' do
       folder 'iD/img', 'dist/img'
+      folder 'iD/locales', 'dist/locales'
       file 'iD.css.erb', 'dist/iD.css' do |path|
         rewrite(path) { |content| content.gsub(/url\('?(img\/[^')]+)'?\)/, 'url(<%= asset_path("iD/\1") %>)') }
       end
