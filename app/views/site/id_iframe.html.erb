@@ -44,6 +44,14 @@
         extent[1][1]);
     });
 
+    parent.$("body").on("click", "a.set_position", function (e) {
+      e.preventDefault();
+      var data = parent.$(this).data();
+      id.map().centerZoom(
+        [data.lon, data.lat],
+        Math.max(data.zoom || 15, 13));
+    });
+
     d3.select('#id-container')
       .call(id.ui());
   }
