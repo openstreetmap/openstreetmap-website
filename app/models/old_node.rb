@@ -42,9 +42,37 @@ class OldNode < ActiveRecord::Base
     return doc
   end
 
-  def to_xml_node
+  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'node'
     el1['id'] = self.node_id.to_s
+    el1['version'] = self.version.to_s
+    el1['changeset'] = self.changeset_id.to_s
+
+    if self.visible?
+      el1['lat'] = self.lat.to_s
+      el1['lon'] = self.lon.to_s
+    end
+
+    if changeset_cache.key?(self.changeset_id)
+      # use the cache if available
+    else
+      changeset_cache[self.changeset_id] = self.changeset.user_id
+    end
+
+    user_id = changeset_cache[self.changeset_id]
+
+    if user_display_name_cache.key?(user_id)
+      # use the cache if available
+    elsif self.changeset.user.data_public?
+      user_display_name_cache[user_id] = self.changeset.user.display_name
+    else
+      user_display_name_cache[user_id] = nil
+    end
+
+    if not user_display_name_cache[user_id].nil?
+      el1['user'] = user_display_name_cache[user_id]
+      el1['uid'] = user_id.to_s
+    end
 
     self.tags.each do |k,v|
       el2 = XML::Node.new('tag')
@@ -53,20 +81,8 @@ class OldNode < ActiveRecord::Base
       el1 << el2
     end
 
-    if self.visible?
-      el1['lat'] = self.lat.to_s
-      el1['lon'] = self.lon.to_s
-    end
-    
-    el1['changeset'] = self.changeset.id.to_s
-    if self.changeset.user.data_public?
-      el1['user'] = self.changeset.user.display_name
-      el1['uid'] = self.changeset.user.id.to_s
-    end
-
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
-    el1['version'] = self.version.to_s
     
     el1['redacted'] = self.redaction.id.to_s if self.redacted?
 

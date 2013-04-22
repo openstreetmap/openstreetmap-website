@@ -285,7 +285,12 @@ class ApiController < ApplicationController
     timeout = XML::Node.new 'timeout'
     timeout['seconds'] = API_TIMEOUT.to_s
     api << timeout
-    
+    status = XML::Node.new 'status'
+    status['database'] = database_status.to_s
+    status['api'] = api_status.to_s
+    status['gpx'] = gpx_status.to_s
+    api << status
+
     doc.root << api
 
     render :text => doc.to_s, :content_type => "text/xml"

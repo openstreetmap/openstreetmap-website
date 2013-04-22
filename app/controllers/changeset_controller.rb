@@ -161,6 +161,10 @@ class ChangesetController < ApplicationController
       end
     end
 
+    # create changeset and user caches
+    changeset_cache = {}
+    user_display_name_cache = {}
+
     # create an osmChange document for the output
     result = OSM::API.new.get_xml_doc
     result.root.name = "osmChange"
@@ -173,16 +177,16 @@ class ChangesetController < ApplicationController
         if (elt.version == 1)
           # first version, so it must be newly-created.
           created = XML::Node.new "create"
-          created << elt.to_xml_node
+          created << elt.to_xml_node(changeset_cache, user_display_name_cache)
         else
           unless elt.visible
             # if the element isn't visible then it must have been deleted
             deleted = XML::Node.new "delete"
-            deleted << elt.to_xml_node
+            deleted << elt.to_xml_node(changeset_cache, user_display_name_cache)
           else
             # must be a modify
             modified = XML::Node.new "modify"
-            modified << elt.to_xml_node
+            modified << elt.to_xml_node(changeset_cache, user_display_name_cache)
           end
         end
     end
