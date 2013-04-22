@@ -47,9 +47,14 @@
     parent.$("body").on("click", "a.set_position", function (e) {
       e.preventDefault();
       var data = parent.$(this).data();
-      id.map().centerZoom(
-        [data.lon, data.lat],
-        Math.max(data.zoom || 15, 13));
+
+      // 0ms timeout to avoid iframe JS context weirdness.
+      // http://bl.ocks.org/jfirebaugh/5439412
+      setTimeout(function() {
+        id.map().centerZoom(
+          [data.lon, data.lat],
+          Math.max(data.zoom || 15, 13));
+      }, 0);
     });
 
     var maximized = false;
