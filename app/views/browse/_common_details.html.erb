@@ -29,7 +29,7 @@
     <p><%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %></p>
   </div>
 
-  <% if common_details.changeset.tags['comment'] %>
+  <% if common_details.changeset.tags['comment'].present? %>
     <div>
       <h4><%= t 'browse.common_details.changeset_comment' %></h4>
       <p><%= linkify(h(common_details.changeset.tags['comment'])) %></p>
