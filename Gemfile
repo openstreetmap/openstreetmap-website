@@ -29,6 +29,7 @@ gem 'paperclip', '~> 2.0'
 gem 'deadlock_retry', '>= 1.2.0'
 gem 'i18n-js', '>= 3.0.0.rc2'
 gem 'rack-cors'
+gem 'jsonify-rails'
 
 # We need ruby-openid 2.2.0 or later for ruby 1.9 support
 gem 'ruby-openid', '>= 2.2.0'
