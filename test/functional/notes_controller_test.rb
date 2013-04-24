@@ -388,39 +388,87 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_get_notes_success
-#    get :index, {:bbox => '1,1,1.2,1.2'}
-#    assert_response :success
-#    assert_equal "text/javascript", @response.content_type
-
     get :index, {:bbox => '1,1,1.2,1.2', :format => 'rss'}
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "item", :count => 2
+      end
+    end
 
     get :index, {:bbox => '1,1,1.2,1.2', :format => 'json'}
     assert_response :success
     assert_equal "application/json", @response.content_type
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "FeatureCollection", js["type"]
+    assert_equal 2, js["features"].count
 
     get :index, {:bbox => '1,1,1.2,1.2', :format => 'xml'}
     assert_response :success
     assert_equal "application/xml", @response.content_type
+    assert_select "osm", :count => 1 do
+      assert_select "note", :count => 2
+    end
 
     get :index, {:bbox => '1,1,1.2,1.2', :format => 'gpx'}
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
+    assert_select "gpx", :count => 1 do
+      assert_select "wpt", :count => 2
+    end
+  end
+
+  def test_get_notes_empty_area
+    get :index, {:bbox => '5,5,5.1,5.1', :format => 'rss'}
+    assert_response :success
+    assert_equal "application/rss+xml", @response.content_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "item", :count => 0
+      end
+    end
+
+    get :index, {:bbox => '5,5,5.1,5.1', :format => 'json'}
+    assert_response :success
+    assert_equal "application/json", @response.content_type
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "FeatureCollection", js["type"]
+    assert_equal 0, js["features"].count
+
+    get :index, {:bbox => '5,5,5.1,5.1', :format => 'xml'}
+    assert_response :success
+    assert_equal "application/xml", @response.content_type
+    assert_select "osm", :count => 1 do
+      assert_select "note", :count => 0
+    end
+
+    get :index, {:bbox => '5,5,5.1,5.1', :format => 'gpx'}
+    assert_response :success
+    assert_equal "application/gpx+xml", @response.content_type
+    assert_select "gpx", :count => 1 do
+      assert_select "wpt", :count => 0
+    end
   end
 
   def test_get_notes_large_area
-#    get :index, {:bbox => '-2.5,-2.5,2.5,2.5'}
-#    assert_response :success
+    get :index, {:bbox => '-2.5,-2.5,2.5,2.5', :format => :json}
+    assert_response :success
+    assert_equal "application/json", @response.content_type
 
-#    get :index, {:l => '-2.5', :b => '-2.5', :r => '2.5', :t => '2.5'}
-#    assert_response :success
+    get :index, {:l => '-2.5', :b => '-2.5', :r => '2.5', :t => '2.5', :format => :json}
+    assert_response :success
+    assert_equal "application/json", @response.content_type
 
-    get :index, {:bbox => '-10,-10,12,12'}
+    get :index, {:bbox => '-10,-10,12,12', :format => :json}
     assert_response :bad_request
+    assert_equal "text/plain", @response.content_type
 
-    get :index, {:l => '-10', :b => '-10', :r => '12', :t => '12'}
+    get :index, {:l => '-10', :b => '-10', :r => '12', :t => '12', :format => :json}
     assert_response :bad_request
+    assert_equal "text/plain", @response.content_type
   end
 
   def test_get_notes_closed
