@@ -309,18 +309,65 @@ class NotesControllerTest < ActionController::TestCase
     get :show, {:id => notes(:open_note).id, :format => "xml"}
     assert_response :success
     assert_equal "application/xml", @response.content_type
+    assert_select "osm", :count => 1 do
+      assert_select "note[lat=#{notes(:open_note).lat}][lon=#{notes(:open_note).lon}]", :count => 1 do
+        assert_select "id", notes(:open_note).id
+        assert_select "url", note_url(notes(:open_note), :format => "xml")
+        assert_select "comment_url", comment_note_url(notes(:open_note), :format => "xml")
+        assert_select "close_url", close_note_url(notes(:open_note), :format => "xml")
+        assert_select "date_created", notes(:open_note).created_at.to_s
+        assert_select "status", notes(:open_note).status
+        assert_select "comments", :count => 1 do
+          assert_select "comment", :count => 1
+        end
+      end
+    end
 
     get :show, {:id => notes(:open_note).id, :format => "rss"}
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "item", :count => 1 do
+          assert_select "link", browse_note_url(notes(:open_note))
+          assert_select "guid", note_url(notes(:open_note))
+          assert_select "pubDate", notes(:open_note).created_at.to_s(:rfc822)
+#          assert_select "geo:lat", notes(:open_note).lat.to_s
+#          assert_select "geo:long", notes(:open_note).lon
+#          assert_select "georss:point", "#{notes(:open_note).lon} #{notes(:open_note).lon}"
+        end
+      end
+    end
 
     get :show, {:id => notes(:open_note).id, :format => "json"}
     assert_response :success
     assert_equal "application/json", @response.content_type
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "Feature", js["type"]
+    assert_equal "Point", js["geometry"]["type"]
+    assert_equal notes(:open_note).lat, js["geometry"]["coordinates"][0]
+    assert_equal notes(:open_note).lon, js["geometry"]["coordinates"][1]
+    assert_equal notes(:open_note).id, js["properties"]["id"]
+    assert_equal note_url(notes(:open_note), :format => "json"), js["properties"]["url"]
+    assert_equal comment_note_url(notes(:open_note), :format => "json"), js["properties"]["comment_url"]
+    assert_equal close_note_url(notes(:open_note), :format => "json"), js["properties"]["close_url"]
+    assert_equal notes(:open_note).created_at, js["properties"]["date_created"]
+    assert_equal notes(:open_note).status, js["properties"]["status"]
 
     get :show, {:id => notes(:open_note).id, :format => "gpx"}
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
+    assert_select "gpx", :count => 1 do
+      assert_select "wpt[lat=#{notes(:open_note).lat}][lon=#{notes(:open_note).lon}]", :count => 1 do
+        assert_select "extension", :count => 1 do
+          assert_select "id", notes(:open_note).id
+          assert_select "url", note_url(notes(:open_note), :format => "gpx")
+          assert_select "comment_url", comment_note_url(notes(:open_note), :format => "gpx")
+          assert_select "close_url", close_note_url(notes(:open_note), :format => "gpx")
+        end
+      end
+    end
   end
 
   def test_show_hidden_comment
@@ -328,6 +375,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
     assert_not_nil js
+    assert_equal "Feature", js["type"]
     assert_equal notes(:note_with_hidden_comment).id, js["properties"]["id"]
     assert_equal 2, js["properties"]["comments"].count
     assert_equal "Valid comment for note 5", js["properties"]["comments"][0]["text"]
