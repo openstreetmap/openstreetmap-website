@@ -521,18 +521,66 @@ class NotesControllerTest < ActionController::TestCase
     get :search, {:q => 'note 1', :format => 'xml'}
     assert_response :success
     assert_equal "application/xml", @response.content_type
+    assert_select "osm", :count => 1 do
+      assert_select "note", :count => 1
+    end
 
     get :search, {:q => 'note 1', :format => 'json'}
     assert_response :success
     assert_equal "application/json", @response.content_type
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "FeatureCollection", js["type"]
+    assert_equal 1, js["features"].count
 
     get :search, {:q => 'note 1', :format => 'rss'}
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "item", :count => 1
+      end
+    end
 
     get :search, {:q => 'note 1', :format => 'gpx'}
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
+    assert_select "gpx", :count => 1 do
+      assert_select "wpt", :count => 1
+    end
+  end
+
+  def test_search_no_match
+    get :search, {:q => 'no match', :format => 'xml'}
+    assert_response :success
+    assert_equal "application/xml", @response.content_type
+    assert_select "osm", :count => 1 do
+      assert_select "note", :count => 0
+    end
+
+    get :search, {:q => 'no match', :format => 'json'}
+    assert_response :success
+    assert_equal "application/json", @response.content_type
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "FeatureCollection", js["type"]
+    assert_equal 0, js["features"].count
+
+    get :search, {:q => 'no match', :format => 'rss'}
+    assert_response :success
+    assert_equal "application/rss+xml", @response.content_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "item", :count => 0
+      end
+    end
+
+    get :search, {:q => 'no match', :format => 'gpx'}
+    assert_response :success
+    assert_equal "application/gpx+xml", @response.content_type
+    assert_select "gpx", :count => 1 do
+      assert_select "wpt", :count => 0
+    end
   end
 
   def test_search_bad_params
