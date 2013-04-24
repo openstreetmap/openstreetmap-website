@@ -14,7 +14,7 @@ xml.item do
   xml.description render(:partial => "description", :object => note, :formats => [ :html ])
 
   if note.author
-    xml.author note.author_display_name
+    xml.author note.author.display_name
   end
 
   xml.pubDate note.updated_at.to_s(:rfc822)
