@@ -117,7 +117,7 @@ class NotesControllerTest < ActionController::TestCase
     )
   end
 
-  def test_note_create_success
+  def test_create_success
     assert_difference('Note.count') do
       assert_difference('NoteComment.count') do
         post :create, {:lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json"}
@@ -151,7 +151,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_nil js["properties"]["comments"].last["user"]
   end
 
-  def test_note_create_fail
+  def test_create_fail
     assert_no_difference('Note.count') do
       assert_no_difference('NoteComment.count') do
         post :create, {:lon => -1.0, :text => "This is a comment"}
@@ -195,7 +195,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :bad_request
   end
 
-  def test_note_comment_create_success
+  def test_comment_success
     assert_difference('NoteComment.count') do
       post :comment, {:id => notes(:open_note_with_comment).id, :text => "This is an additional comment", :format => "json"}
     end
@@ -223,7 +223,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_nil js["properties"]["comments"].last["user"]
   end
 
-  def test_note_comment_create_fail
+  def test_comment_fail
     assert_no_difference('NoteComment.count') do
       post :comment, {:text => "This is an additional comment"}
     end
@@ -255,7 +255,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :conflict
   end
 
-  def test_note_close_success
+  def test_close_success
     post :close, {:id => notes(:open_note_with_comment).id, :text => "This is a close comment", :format => "json"}
     assert_response :unauthorized
 
@@ -286,7 +286,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "test2", js["properties"]["comments"].last["user"]
   end
 
-  def test_note_close_fail
+  def test_close_fail
     post :close
     assert_response :unauthorized
 
@@ -305,7 +305,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :conflict
   end
 
-  def test_note_read_success
+  def test_show_success
     get :show, {:id => notes(:open_note).id, :format => "xml"}
     assert_response :success
     assert_equal "application/xml", @response.content_type
@@ -323,7 +323,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "application/gpx+xml", @response.content_type
   end
 
-  def test_note_read_hidden_comment
+  def test_show_hidden_comment
     get :show, {:id => notes(:note_with_hidden_comment).id, :format => "json"}
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
@@ -334,7 +334,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "Another valid comment for note 5", js["properties"]["comments"][1]["text"]
   end
 
-  def test_note_read_fail
+  def test_show_fail
     get :show, {:id => 12345}
     assert_response :not_found
 
@@ -342,7 +342,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :gone
   end
 
-  def test_note_delete_success
+  def test_destroy_success
     delete :destroy, {:id => notes(:open_note_with_comment).id, :text => "This is a hide comment", :format => "json"}
     assert_response :unauthorized
 
@@ -369,7 +369,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :gone
   end
 
-  def test_note_delete_fail
+  def test_destroy_fail
     delete :destroy, {:id => 12345, :format => "json"}
     assert_response :unauthorized
 
@@ -387,7 +387,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :gone
   end
 
-  def test_get_notes_success
+  def test_index_success
     get :index, {:bbox => '1,1,1.2,1.2', :format => 'rss'}
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
@@ -420,7 +420,7 @@ class NotesControllerTest < ActionController::TestCase
     end
   end
 
-  def test_get_notes_empty_area
+  def test_index_empty_area
     get :index, {:bbox => '5,5,5.1,5.1', :format => 'rss'}
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
@@ -453,7 +453,7 @@ class NotesControllerTest < ActionController::TestCase
     end
   end
 
-  def test_get_notes_large_area
+  def test_index_large_area
     get :index, {:bbox => '-2.5,-2.5,2.5,2.5', :format => :json}
     assert_response :success
     assert_equal "application/json", @response.content_type
@@ -471,7 +471,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "text/plain", @response.content_type
   end
 
-  def test_get_notes_closed
+  def test_index_closed
     get :index, {:bbox => '1,1,1.7,1.7', :closed => '7', :format => 'json'}
     assert_response :success
     assert_equal "application/json", @response.content_type
@@ -497,7 +497,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal 6, js["features"].count
   end
 
-  def test_get_notes_bad_params
+  def test_index_bad_params
     get :index, {:bbox => '-2.5,-2.5,2.5'}
     assert_response :bad_request
 
@@ -588,7 +588,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :bad_request
   end
 
-  def test_rss_success
+  def test_feed_success
     get :feed, {:format => "rss"}
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
@@ -598,7 +598,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "application/rss+xml", @response.content_type
   end
 
-  def test_rss_fail
+  def test_feed_fail
     get :feed, {:bbox => "1,1,1.2"}
     assert_response :bad_request
 
@@ -606,7 +606,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :bad_request
   end
 
-  def test_user_notes_success
+  def test_mine_success
     get :mine, {:display_name => "test"}
     assert_response :success
 
