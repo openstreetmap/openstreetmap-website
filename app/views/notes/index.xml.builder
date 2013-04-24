@@ -1,3 +1,5 @@
 xml.instruct!
 
-xml.notes << (render(:partial => "note", :collection => @notes) || "")
+xml.osm(:version => API_VERSION, :generator => GENERATOR) do |osm|
+  osm << (render(:partial => "note", :collection => @notes) || "")
+end
