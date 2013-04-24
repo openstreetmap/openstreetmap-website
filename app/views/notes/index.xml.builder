@@ -1,3 +1,3 @@
 xml.instruct!
 
-xml << render(:partial => "note", :collection => @notes)
+xml.notes << (render(:partial => "note", :collection => @notes) || "")
