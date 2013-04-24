@@ -8,6 +8,6 @@ xml.rss("version" => "2.0",
     xml.description t('note.rss.description_area', :min_lat => @min_lat, :min_lon => @min_lon, :max_lat => @max_lat, :max_lon => @max_lon )
     xml.link url_for(:controller => "site", :action => "index", :only_path => false)
 
-    xml << render(:partial => "note", :collection => @notes)
+    xml << (render(:partial => "note", :collection => @notes) || "")
   end
 end
