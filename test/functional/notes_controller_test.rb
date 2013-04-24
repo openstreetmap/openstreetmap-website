@@ -640,10 +640,20 @@ class NotesControllerTest < ActionController::TestCase
     get :feed, {:format => "rss"}
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "item", :count => 8
+      end
+    end
 
     get :feed, {:bbox => "1,1,1.2,1.2", :format => "rss"}
     assert_response :success	
     assert_equal "application/rss+xml", @response.content_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "item", :count => 3
+      end
+    end
   end
 
   def test_feed_fail
