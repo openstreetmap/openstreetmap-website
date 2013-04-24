@@ -9,7 +9,7 @@ class NotesController < ApplicationController
   before_filter :require_moderator, :only => [:destroy]
   before_filter :check_api_writable, :only => [:create, :comment, :close, :destroy]
   before_filter :require_allow_write_notes, :only => [:create, :comment, :close, :destroy]
-  before_filter :set_locale, :only => [:mine]
+  before_filter :set_locale
   after_filter :compress_output
   around_filter :api_call_handle_error, :api_call_timeout
 
