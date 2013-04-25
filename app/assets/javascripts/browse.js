@@ -43,7 +43,7 @@ $(document).ready(function () {
     });
 
     var centre = bbox.getCenter();
-    updatelinks(centre.lon, centre.lat, 16, null, params.minlon, params.minlat, params.maxlon, params.maxlat);
+    updatelinks(centre.lng, centre.lat, 16, null, params.minlon, params.minlat, params.maxlon, params.maxlat);
   } else if (params.type == "note") {
     var object = {type: params.type, id: params.id};
 
