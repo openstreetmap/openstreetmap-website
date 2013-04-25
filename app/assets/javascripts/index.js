@@ -58,6 +58,10 @@ $(document).ready(function () {
       map.setView(centre, data.zoom);
     }
 
+    if (data.type && data.id) {
+      addObjectToMap(data, true);
+    }
+
     if (marker) {
       map.removeLayer(marker);
     }
