@@ -71,13 +71,13 @@
   doSWF(params.lat, params.lon, params.zoom || 17);
   <% end -%>
 
-  $(document).ready(function () {
-    $("body").on("click", "a.set_position", function () {
-      var data = $(this).data();
+  $("body").on("click", "a.set_position", function (e) {
+    e.preventDefault();
 
-      $("#potlatch").each(function () {
-        this.setPosition(data.lat, data.lon, Math.max(data.zoom || 15, 13));
-      });
+    var data = $(this).data();
+
+    $("#potlatch").each(function () {
+      this.setPosition(data.lat, data.lon, Math.max(data.zoom || 15, 13));
     });
   });
 
