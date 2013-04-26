@@ -25,18 +25,7 @@ xml.rss("version" => "2.0",
         xml.link url_for(:controller => "browse", :action => "note", :id => comment.note.id, :only_path => false)
         xml.guid url_for(:controller => "browse", :action => "note", :id => comment.note.id, :only_path => false)
 
-        description_text = ""
-
-        if comment.event == "commented" and not comment.nil?
-          description_text += "<b>Comment:</b><br>"
-          description_text += comment.body.to_html
-          description_text += "<br>"
-        end
-
-        description_text += "<b>Full note:</b><br>"
-        description_text += comment.note.flatten_comment("<br>", comment.created_at)
-
-        xml.description description_text 
+        xml.description render(:partial => "entry", :object => comment, :formats => [ :html ])
 
         if comment.author
           xml.author comment.author.display_name
