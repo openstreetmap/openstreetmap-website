@@ -30,23 +30,6 @@ class Note < ActiveRecord::Base
     self.save
   end
 
-  # Return a flattened version of the comments for a note
-  def flatten_comment(separator_char, upto_timestamp = :nil)
-    resp = ""
-    comment_no = 1
-    self.comments.each do |comment|
-      next if upto_timestamp != :nil and comment.created_at > upto_timestamp
-      resp += (comment_no == 1 ? "" : separator_char)
-      resp += comment.body if comment.body
-      resp += " [ " 
-      resp += comment.author.display_name if comment.author
-      resp += " " + comment.created_at.to_s + " ]"
-      comment_no += 1
-    end
-
-    return resp
-  end
-
   # Check if a note is visible
   def visible?
     status != "hidden"
