@@ -4,8 +4,8 @@ var ohauth = {};
 
 ohauth.qsString = function(obj) {
     return Object.keys(obj).sort().map(function(key) {
-        return encodeURIComponent(key) + '=' +
-            encodeURIComponent(obj[key]);
+        return ohauth.percentEncode(key) + '=' +
+            ohauth.percentEncode(obj[key]);
     }).join('&');
 };
 
