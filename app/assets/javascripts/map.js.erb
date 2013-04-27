@@ -50,6 +50,7 @@ L.Icon.Default.imagePath = <%= "#{asset_prefix}/images".to_json %>;
 
 var map;
 var objectLayer;
+var objectLoader;
 
 var layers = [
   {
@@ -129,11 +130,15 @@ function getUserIcon(url) {
 }
 
 function addObjectToMap(object, zoom, callback) {
+  if (objectLoader) {
+    objectLoader.abort();
+  }
+
   if (objectLayer) {
     map.removeLayer(objectLayer);
   }
 
-  $.ajax({
+  objectLoader = $.ajax({
     url: OSM.apiUrl(object),
     dataType: "xml",
     success: function (xml) {
