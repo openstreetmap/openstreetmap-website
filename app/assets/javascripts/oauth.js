@@ -1,25 +1,19 @@
-//= require sha
 //= require ohauth
 
-$.ajaxPrefilter(function(options, jqxhr) {
-  if (options.oauth && OSM.oauth_token) {
-    var ohauth = window.ohauth;
-    var url = options.url.replace(/\?$/, "");
-    var params = {
-      oauth_consumer_key: OSM.oauth_consumer_key,
-      oauth_token: OSM.oauth_token,
-      oauth_signature_method: "HMAC-SHA1",
-      oauth_timestamp: ohauth.timestamp(),
-      oauth_nonce: ohauth.nonce()
-    };
+$(document).ready(function () {
+  if (OSM.oauth_token) {
+    var headerGenerator = window.ohauth.headerGenerator({
+      consumer_key: OSM.oauth_consumer_key,
+      consumer_secret: OSM.oauth_consumer_secret,
+      token: OSM.oauth_token,
+      token_secret: OSM.oauth_token_secret
+    });
 
-    params.oauth_signature = ohauth.signature(
-      OSM.oauth_consumer_secret,
-      OSM.oauth_token_secret,
-      ohauth.baseString(options.type, url, $.extend({}, params, jqxhr.data))
-    );
-
-    options.headers = options.headers || {};
-    options.headers.Authorization = "OAuth " + ohauth.authHeader(params);
+    $.ajaxPrefilter(function(options, jqxhr) {
+      if (options.oauth) {
+        options.headers = options.headers || {};
+        options.headers.Authorization = headerGenerator(options.type, options.url, jqxhr.data);
+      }
+    });
   }
 });
