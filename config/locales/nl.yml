@@ -129,11 +129,13 @@ nl:
       edit: 
         area: Gebied bewerken
         node: Node bewerken
+        note: Opmerking bewerken
         relation: Relatie bewerken
         way: Weg bewerken
       larger: 
         area: Gebied op grotere kaart bekijken
         node: Node op grotere kaart bekijken
+        note: Opmerking op grotere kaart bekijken
         relation: Relatie op grotere kaart bekijken
         way: Weg op grotere kaart bekijken
       loading: Bezig met laden…
@@ -141,10 +143,12 @@ nl:
       all: 
         next_changeset_tooltip: Volgende set wijzigingen
         next_node_tooltip: Volgende node
+        next_note_tooltip: Volgende opmerking
         next_relation_tooltip: Volgende relatie
         next_way_tooltip: Volgende weg
         prev_changeset_tooltip: Vorige set wijzigingen
         prev_node_tooltip: Vorige node
+        prev_note_tooltip: Vorige opmerking
         prev_relation_tooltip: Vorige relatie
         prev_way_tooltip: Vorige weg
       user: 
@@ -172,6 +176,16 @@ nl:
         node: node
         relation: relatie
         way: weg
+    note: 
+      at_by_html: "%{when} geleden door %{user}"
+      at_html: "%{when} geleden"
+      closed: "Gesloten:"
+      closed_title: "Opgeloste opmerking: %{note_name}"
+      comments: "Opmerkingen:"
+      description: "Beschrijving:"
+      last_modified: "Laatste wijziging:"
+      open_title: "Niet-opgeloste opmerking: %{note_name}"
+      opened: "Geopend:"
     paging_nav: 
       of: van
       showing_page: pagina
@@ -212,6 +226,7 @@ nl:
       loaded_an_area_with_num_features: U hebt een gebied geladen dat %{num_features} objecten bevat. Sommige browsers kunnen niet goed overweg met zoveel gegevens. Normaal gesproken werken browsers het best met minder dan %{max_features} objecten. Als u er meer weergeeft kan de browser traag worden of niet meer reageren. Als u zeker weet dat u de gegevens wilt weergeven, klik dan op de knop hieronder.
       loading: Bezig met laden…
       manually_select: Handmatig een ander gebied selecteren
+      notes_layer_name: Opmerkingen bekijken
       object_list: 
         api: Dit gebied via de API ophalen
         back: Terug naar objectenlijst
@@ -1104,6 +1119,13 @@ nl:
       wrong_user: U bent aangemeld als "%{user}", maar het bericht waarop u wilt antwoorden is niet aan die gebruiker gericht. Meld u aan als de juiste gebruiker om te antwoorden.
     sent_message_summary: 
       delete_button: Verwijderen
+  note: 
+    description: 
+      closed_at: "%{when} geleden opgelost door"
+      commented_at: "%{when} geleden bijgewerkt"
+      commented_at_by: "%{when} geleden bijgewerkt door %{user}"
+      opened_at: "%{when} geleden gemaakt"
+      opened_at_by: "%{when} geleden gemaakt door %{user}"
   notifier: 
     diary_comment_notification: 
       footer: U kunt de reactie ook lezen op %{readurl} en u kunt zelf ook reageren op %{commenturl} of antwoorden op %{replyurl}
@@ -1156,6 +1178,14 @@ nl:
       footer2: en u kunt antwoorden op %{replyurl}
       header: "%{from_user} heeft u een bericht gezonden via OpenStreetMap met het onderwerp %{subject}:"
       hi: Hallo %{to_user},
+    note_comment_notification: 
+      anonymous: Een anonieme gebruiker
+      commented_note: "%{commenter} heeft gereageerd op een opmerking bij een kaart waar u op gereageerd hebt. De opmerking is gemaakt nabij %{place}."
+      details: Meer details over de opmerking zijn te vinden op %{url}.
+      greeting: Hallo,
+      subject_other: "[OpenStreetMap] %{commenter} heeft gereageerd op een opmerking waar jij interesse in hebt"
+      subject_own: "[OpenStreetMap] %{commenter} heeft gereageerd op een van jouw opmerkingen"
+      your_note: "%{commenter} heeft gereageerd op een van uw opmerkingen bij een kaart nabij %{place}."
     signup_confirm: 
       confirm: "Voordat we iets doen, zoeken we bevestiging dat dit verzoek inderdaad van u afkomstig is. Als dat zo is, klik dan op de onderstaande koppeling om uw gebruiker te bevestigen:"
       created: Iemand (hopelijk u) heeft zojuist een gebruiker aangemaakt op %{site_url}.
@@ -1190,6 +1220,7 @@ nl:
       allow_write_api: de kaart wijzigen
       allow_write_diary: dagboekberichten schrijven, reacties geven en vrienden maken
       allow_write_gpx: GPS-tracks uploaden
+      allow_write_notes: opmerkingen wijzigen.
       allow_write_prefs: uw gebruikersvoorkeuren wijzigen
       request_access: De applicatie %{app_name} vraagt toegang tot uw gebruiker %{user}. Controleer of u deze applicatie de volgende mogelijkheden wilt bieden. U kunt zoveel of zo weinig rechten toewijzen als u wilt.
     revoke: 
@@ -1208,6 +1239,7 @@ nl:
       allow_write_api: de kaart wijzigen
       allow_write_diary: dagboekberichten schrijven, reacties en vrienden toevoegen
       allow_write_gpx: GPS-tracks uploaden
+      allow_write_notes: opmerkingen wijzigen.
       allow_write_prefs: gebruikersinstellingen wijzigen
       callback_url: Callback-URL
       name: Naam
@@ -1238,6 +1270,7 @@ nl:
       allow_write_api: kaart wijzigen
       allow_write_diary: dagboekberichten schrijven, reacties geven en vrienden maken
       allow_write_gpx: GPS-tracks uploaden
+      allow_write_notes: opmerkingen wijzigen.
       allow_write_prefs: gebruikerseigenschappen wijzigen
       authorize_url: "URL voor autorisatie:"
       confirm: Weet u het zeker?
@@ -1294,6 +1327,7 @@ nl:
       potlatch_unsaved_changes: U hebt wijzigingen gemaakt die nog niet zijn opgeslagen. Om op te slaan in Potlach, deselecteert u de huidige weg of het huidige punt als u in livemodus bewerkt, of klikt u op de knop Opslaan.
       user_page_link: gebruikerspagina
     index: 
+      createnote: Opmerking toevoegen
       js_1: U gebruikt een browser die JavaScript niet ondersteunt, of u hebt JavaScript uitgeschakeld.
       js_2: OpenStreetMap gebruikt JavaScript voor de slippy-kaart.
       license: 
@@ -1739,6 +1773,7 @@ nl:
       my comments: mijn opmerkingen
       my diary: mijn dagboek
       my edits: mijn bewerkingen
+      my notes: mijn opmerkingen kaarten
       my settings: mijn instellingen
       my traces: mijn traces
       nearby users: Andere dichtbijzijnde gebruikers
@@ -1747,6 +1782,7 @@ nl:
       new diary entry: nieuw dagboekbericht
       no friends: U hebt nog geen vrienden toegevoegd.
       no nearby users: Er zijn geen andere gebruikers die hebben opgegeven in de buurt te mappen.
+      notes: opmerkingen bij kaarten
       oauth settings: Oauth-instellingen
       remove as friend: vriend verwijderen
       role: 
