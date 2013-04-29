@@ -129,6 +129,7 @@ class Notifier < ActionMailer::Base
     @place = Nominatim.describe_location(comment.note.lat, comment.note.lon, 14, @locale)
     @comment = comment.body
     @owner = recipient == comment.note.author
+    @event = comment.event
 
     if comment.author
       @commenter = comment.author.display_name
@@ -137,9 +138,9 @@ class Notifier < ActionMailer::Base
     end
 
     if @owner
-      subject = I18n.t('notifier.note_comment_notification.subject_own', :commenter => @commenter)
+      subject = I18n.t("notifier.note_comment_notification.#{@event}.subject_own", :commenter => @commenter)
     else
-      subject = I18n.t('notifier.note_comment_notification.subject_other', :commenter => @commenter)
+      subject = I18n.t("notifier.note_comment_notification.#{@event}.subject_other", :commenter => @commenter)
     end
 
     mail :to => recipient.email, :subject => subject
