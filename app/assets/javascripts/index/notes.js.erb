@@ -171,6 +171,9 @@ $(document).ready(function () {
   function createNote(marker, form, url) {
     var location = marker.getLatLng();
 
+    marker.options.draggable = false;
+    marker.dragging.disable();
+
     $(form).find("input[type=submit]").prop("disabled", true);
 
     $.ajax({
