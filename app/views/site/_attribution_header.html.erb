@@ -1,0 +1,24 @@
+<div class='byosm'>
+  <div class='mark'></div>
+  <%= t "license_page.copyright_html", :locale => @locale %>
+</div>
+
+<% if image.present? %>
+  <div class='user-image' style='background-image:url("<%= image %>")'></div>
+<% else %>
+  <div class='user-image'></div>
+<% end %>
+
+<% if name.present? %>
+  <strong>
+    <%= raw t "license_page.used_by_named",
+              :name => "<span class='user-name'>#{h name}</span>",
+              :locale => @locale %>
+  </strong>
+<% else %>
+  <strong>
+    <%= raw t "license_page.used_by",
+              :name => "<span class='user-name'>OpenStreetMap</span>",
+              :locale => @locale %>
+  </strong>
+<% end %>

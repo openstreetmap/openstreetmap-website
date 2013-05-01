@@ -60,6 +60,7 @@ class SiteController < ApplicationController
 
   def copyright
     @locale = params[:copyright_locale] || I18n.locale
+    render :layout => false
   end
 
   def preview
