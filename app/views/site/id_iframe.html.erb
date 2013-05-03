@@ -16,9 +16,12 @@
       'Please upgrade your browser or use Potlatch 2 to edit the map.';
     document.getElementById('id-container').className = 'unsupported';
   } else {
+    <% locale = request.compatible_language_from(ID::LOCALES) || "en" %>
+
     var id = iD()
       .embed(true)
       .assetPath("/assets/iD/") <%# Can't use asset_path('iD/') in production. %>
+      .locale("<%= locale %>", "<%= asset_path("iD/locales/#{locale}.json") %>")
       .preauth({
         <% token = @user.access_token(ID_KEY) %>
         url: "<%= request.protocol + request.host_with_port %>",

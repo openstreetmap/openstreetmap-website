@@ -14782,8 +14782,8 @@ if (typeof exports === 'object') {
 (function () {
 'use strict';
 window.iD = function () {
-    locale.en = iD.data.en;
-    locale.current('en');
+    window.locale.en = iD.data.en;
+    window.locale.current('en');
 
     var context = {},
         storage;
@@ -14805,7 +14805,13 @@ window.iD = function () {
         container,
         ui = iD.ui(context),
         map = iD.Map(context),
-        connection = iD.Connection();
+        connection = iD.Connection(),
+        locale = iD.detect().locale,
+        localePath;
+
+    if (locale && iD.data.locales.indexOf(locale) === -1) {
+        locale = locale.split('-')[0];
+    }
 
     connection.on('load.context', function loadContext(err, result) {
         history.merge(result);
@@ -14816,20 +14822,21 @@ window.iD = function () {
         return context;
     };
 
+    context.locale = function(_, path) {
+        locale = _;
+        localePath = path;
+        return context;
+    };
+
     context.ui = function() {
         return function(container) {
             context.container(container);
 
-            var detectedLocale = iD.detect().locale;
-
-            if (iD.data.locales.indexOf(detectedLocale) === -1) {
-                detectedLocale = detectedLocale.split('-')[0];
-            }
-
-            if (detectedLocale !== 'en' && iD.data.locales.indexOf(detectedLocale) !== -1) {
-                d3.json(context.assetPath() + 'locales/' + detectedLocale + '.json', function(err, result) {
-                    locale[detectedLocale] = result;
-                    locale.current(detectedLocale);
+            if (locale && locale !== 'en' && iD.data.locales.indexOf(locale) !== -1) {
+                localePath = localePath || context.assetPath() + 'locales/' + locale + '.json';
+                d3.json(localePath, function(err, result) {
+                    window.locale[locale] = result;
+                    window.locale.current(locale);
                     container.call(ui);
                 });
             } else {
@@ -15474,6 +15481,56 @@ _.extend(iD.geo.Extent.prototype, {
                 [this[1][0] + dLon, this[1][1] + dLat]);
     }
 });
+// For fixing up rendering of multipolygons with tags on the outer member.
+// https://github.com/systemed/iD/issues/613
+iD.geo.isSimpleMultipolygonOuterMember = function(entity, graph) {
+    if (entity.type !== 'way')
+        return false;
+
+    var parents = graph.parentRelations(entity);
+    if (parents.length !== 1)
+        return false;
+
+    var parent = parents[0];
+    if (!parent.isMultipolygon() || Object.keys(parent.tags).length > 1)
+        return false;
+
+    var members = parent.members, member;
+    for (var i = 0; i < members.length; i++) {
+        member = members[i];
+        if (member.id === entity.id && member.role && member.role !== 'outer')
+            return false; // Not outer member
+        if (member.id !== entity.id && (!member.role || member.role === 'outer'))
+            return false; // Not a simple multipolygon
+    }
+
+    return parent;
+};
+
+iD.geo.simpleMultipolygonOuterMember = function(entity, graph) {
+    if (entity.type !== 'way')
+        return false;
+
+    var parents = graph.parentRelations(entity);
+    if (parents.length !== 1)
+        return false;
+
+    var parent = parents[0];
+    if (!parent.isMultipolygon() || Object.keys(parent.tags).length > 1)
+        return false;
+
+    var members = parent.members, member, outerMember;
+    for (var i = 0; i < members.length; i++) {
+        member = members[i];
+        if (!member.role || member.role === 'outer') {
+            if (outerMember)
+                return false; // Not a simple multipolygon
+            outerMember = member;
+        }
+    }
+
+    return outerMember && graph.hasEntity(outerMember.id);
+};
 iD.actions = {};
 iD.actions.AddEntity = function(way) {
     return function(graph) {
@@ -17603,9 +17660,13 @@ iD.modes.DragNode = function(context) {
 
         var parentWays = _.pluck(context.graph().parentWays(entity), 'id');
 
-        context.enter(
-            iD.modes.Select(context, parentWays)
-                .suppressMenu(true));
+        if (parentWays.length) {
+            context.enter(
+                iD.modes.Select(context, parentWays)
+                    .suppressMenu(true));
+        } else {
+            context.enter(iD.modes.Browse(context));
+        }
     }
 
     function cancel() {
@@ -20074,6 +20135,8 @@ _.extend(iD.Way.prototype, {
 
     isOneWay: function() {
         return this.tags.oneway === 'yes' ||
+            this.tags.oneway === '1' ||
+            this.tags.oneway === '-1' ||
             this.tags.waterway === 'river' ||
             this.tags.waterway === 'stream' ||
             this.tags.junction === 'roundabout';
@@ -20616,6 +20679,7 @@ iD.Map = function(context) {
             .on('zoom', zoomPan),
         dblclickEnabled = true,
         transformStart,
+        transformed = false,
         minzoom = 0,
         layers = [
             iD.Background().projection(projection),
@@ -20661,14 +20725,14 @@ iD.Map = function(context) {
             .call(iD.svg.Surface(context));
 
         surface.on('mouseover.vertices', function() {
-            if (map.editable() && !isTransformed()) {
+            if (map.editable() && !transformed) {
                 var hover = d3.event.target.__data__;
                 surface.call(vertices.drawHover, context.graph(), hover, map.zoom());
             }
         });
 
         surface.on('mouseout.vertices', function() {
-            if (map.editable() && !isTransformed()) {
+            if (map.editable() && !transformed) {
                 var hover = d3.event.relatedTarget && d3.event.relatedTarget.__data__;
                 surface.call(vertices.drawHover, context.graph(), hover, map.zoom());
             }
@@ -20774,20 +20838,17 @@ iD.Map = function(context) {
                 'translate(' + tX + 'px,' + tY + 'px)' :
                 'translate3d(' + tX + 'px,' + tY + 'px, 0)');
 
+        transformed = true;
         supersurface.style(transformProp, transform);
         queueRedraw();
 
         dispatch.move(map);
     }
 
-    function isTransformed() {
-        var prop = supersurface.style(transformProp);
-        return prop && prop !== 'none';
-    }
-
     function resetTransform() {
-        if (!isTransformed()) return false;
+        if (!transformed) return false;
         supersurface.style(transformProp, '');
+        transformed = false;
         return true;
     }
 
@@ -21073,13 +21134,16 @@ iD.svg = {
                 b,
                 i = 0,
                 offset = dt,
-                segments = [];
+                segments = [],
+                coordinates = graph.childNodes(entity).map(function(n) {
+                    return n.loc;
+                });
+
+            if (entity.tags.oneway === '-1') coordinates.reverse();
 
             d3.geo.stream({
                 type: 'LineString',
-                coordinates: graph.childNodes(entity).map(function(n) {
-                    return n.loc;
-                })
+                coordinates: coordinates
             }, projection.stream({
                 lineStart: function() {},
                 lineEnd: function() {},
@@ -21137,32 +21201,6 @@ iD.svg = {
     }
 };
 iD.svg.Areas = function(projection) {
-    // For fixing up rendering of multipolygons with tags on the outer member.
-    // https://github.com/systemed/iD/issues/613
-    function isSimpleMultipolygonOuterMember(entity, graph) {
-        if (entity.type !== 'way')
-            return false;
-
-        var parents = graph.parentRelations(entity);
-        if (parents.length !== 1)
-            return false;
-
-        var parent = parents[0];
-        if (!parent.isMultipolygon() || Object.keys(parent.tags).length > 1)
-            return false;
-
-        var members = parent.members, member;
-        for (var i = 0; i < members.length; i++) {
-            member = members[i];
-            if (member.id === entity.id && member.role && member.role !== 'outer')
-                return false; // Not outer member
-            if (member.id !== entity.id && (!member.role || member.role === 'outer'))
-                return false; // Not a simple multipolygon
-        }
-
-        return parent;
-    }
-
     // Patterns only work in Firefox when set directly on element
     var patterns = {
         wetland: 'wetland',
@@ -21200,7 +21238,7 @@ iD.svg.Areas = function(projection) {
             var entity = entities[i];
             if (entity.geometry(graph) !== 'area') continue;
 
-            if (multipolygon = isSimpleMultipolygonOuterMember(entity, graph)) {
+            if (multipolygon = iD.geo.isSimpleMultipolygonOuterMember(entity, graph)) {
                 areas[multipolygon.id] = {
                     entity: multipolygon.mergeTags(entity.tags),
                     area: Math.abs(path.area(entity.asGeoJSON(graph, true)))
@@ -21760,33 +21798,6 @@ iD.svg.Lines = function(projection) {
         return as - bs;
     }
 
-    // For fixing up rendering of multipolygons with tags on the outer member.
-    // https://github.com/systemed/iD/issues/613
-    function simpleMultipolygonOuterMember(entity, graph) {
-        if (entity.type !== 'way')
-            return false;
-
-        var parents = graph.parentRelations(entity);
-        if (parents.length !== 1)
-            return false;
-
-        var parent = parents[0];
-        if (!parent.isMultipolygon() || Object.keys(parent.tags).length > 1)
-            return false;
-
-        var members = parent.members, member, outer;
-        for (var i = 0; i < members.length; i++) {
-            member = members[i];
-            if (!member.role || member.role === 'outer') {
-                if (outer)
-                    return false; // Not a simple multipolygon
-                outer = graph.entity(member.id);
-            }
-        }
-
-        return outer;
-    }
-
     return function drawLines(surface, graph, entities, filter) {
         function drawPaths(group, lines, filter, klass, lineString) {
             lines = lines.filter(function(line) {
@@ -21823,7 +21834,7 @@ iD.svg.Lines = function(projection) {
 
         for (var i = 0; i < entities.length; i++) {
             var entity = entities[i],
-                outer = simpleMultipolygonOuterMember(entity, graph);
+                outer = iD.geo.simpleMultipolygonOuterMember(entity, graph);
             if (outer) {
                 lines.push(entity.mergeTags(outer.tags));
             } else if (entity.geometry(graph) === 'line') {
@@ -21850,6 +21861,7 @@ iD.svg.Lines = function(projection) {
             .map(iD.svg.OneWaySegments(projection, graph, 35)));
 
         var oneways = oneway.selectAll('path.oneway')
+            .filter(filter)
             .data(segments, function(d) { return [d.id, d.index]; });
 
         oneways.enter()
@@ -24390,8 +24402,6 @@ iD.ui.preset = function(context, entity, preset) {
 };
 iD.ui.PresetGrid = function(context, entity) {
     var event = d3.dispatch('choose', 'close'),
-        defaultLimit = 9,
-        currentlyDrawn = 9,
         presets,
         autofocus = false;
 
@@ -24427,16 +24437,7 @@ iD.ui.PresetGrid = function(context, entity) {
 
         var grid = gridwrap.append('div')
             .attr('class', 'preset-grid fillL cf')
-            .data([context.presets().defaults(entity, 36).collection]);
-
-        var showMore = gridwrap.append('button')
-            .attr('class', 'fillL show-more')
-            .text(t('inspector.show_more'))
-            .on('click', function() {
-                grid.call(drawGrid, (currentlyDrawn += defaultLimit));
-            });
-
-        grid.call(drawGrid, defaultLimit);
+            .call(drawGrid, context.presets().defaults(entity, 36));
 
         function keydown() {
             // hack to let delete shortcut work when search is autofocused
@@ -24463,7 +24464,6 @@ iD.ui.PresetGrid = function(context, entity) {
             if (d3.event.keyCode === 13 && value.length) {
                 choose(grid.selectAll('.grid-entry:first-child').datum());
             } else {
-                currentlyDrawn = defaultLimit;
                 grid.classed('filtered', value.length);
                 if (value.length) {
                     var results = presets.search(value);
@@ -24471,11 +24471,9 @@ iD.ui.PresetGrid = function(context, entity) {
                         n: results.collection.length,
                         search: value
                     }));
-                    grid.data([results.collection])
-                        .call(drawGrid, defaultLimit);
+                    grid.call(drawGrid, results);
                 } else {
-                    grid.data([context.presets().defaults(entity, 36).collection])
-                        .call(drawGrid, defaultLimit);
+                    grid.call(drawGrid, context.presets().defaults(entity, 36));
                 }
             }
         }
@@ -24508,15 +24506,14 @@ iD.ui.PresetGrid = function(context, entity) {
 
                     subgrid.append('div')
                         .attr('class', 'preset-grid fillL3 cf fl')
-                        .data([d.members.collection])
-                        .call(drawGrid, 1000);
+                        .call(drawGrid, d.members);
 
                     subgrid.style('max-height', '0px')
                         .style('padding-bottom', '0px')
                         .transition()
                         .duration(300)
                         .style('padding-bottom', '20px')
-                        .style('max-height', (d.members.collection.length / 3 * 150) + 200 + 'px');
+                        .style('max-height', (d.members.collection.length * 80) + 200 + 'px');
                 }
 
             // Preset
@@ -24525,8 +24522,6 @@ iD.ui.PresetGrid = function(context, entity) {
                 event.choose(d);
             }
         }
-
-        function name(d) { return d.name(); }
 
         // Inserts a div inline after the entry for the provided entity
         // Used for preset descriptions, and for expanding categories
@@ -24554,25 +24549,24 @@ iD.ui.PresetGrid = function(context, entity) {
                 if (d === entity) index = i;
             });
 
-            var insertIndex = index + 3 - index % 3;
-            if (insertIndex > shownIndex) insertIndex ++;
+            if (index >= shownIndex) index++;
 
             var elem = document.createElement('div');
-            grid.node().insertBefore(elem, grid.node().childNodes[insertIndex]);
+            grid.node().insertBefore(elem, grid.node().childNodes[index + 1]);
 
             var newbox = d3.select(elem)
-                .attr('class', 'col12 box-insert ' + klass + ' arrow-' + (index % 3))
+                .attr('class', 'col12 box-insert ' + klass)
                 .datum(entity);
 
             return newbox;
         }
 
-        function drawGrid(selection, limit) {
+        function drawGrid(grid, presets) {
 
             function helpClick(d) {
                 d3.event.stopPropagation();
 
-                var presetinspect = insertBox(selection, d, 'preset-inspect');
+                var presetinspect = insertBox(grid, d, 'preset-inspect');
 
                 if (!presetinspect) return;
 
@@ -24588,23 +24582,18 @@ iD.ui.PresetGrid = function(context, entity) {
                 tagReference.show();
             }
 
-            if (selection.node() === grid.node()) {
-                showMore
-                    .style('display', (selection.data()[0].length > limit) ? 'block' : 'none');
-            }
+            grid.selectAll('.preset-inspect, .subgrid').remove();
 
-            selection.selectAll('.preset-inspect, .subgrid').remove();
-
-            var entries = selection
-                .selectAll('div.grid-entry-wrap')
-                .data(function(d) { return d.slice(0, limit); }, name);
+            var entries = grid
+                .selectAll('.grid-entry-wrap')
+                .data(presets.collection, function(d) { return d.id; });
 
             entries.exit()
                 .remove();
 
             var entered = entries.enter()
                 .append('div')
-                .attr('class','grid-button-wrap col4 grid-entry-wrap')
+                .attr('class','grid-button-wrap col12 grid-entry-wrap')
                 .classed('category', function(d) { return !!d.members; })
                 .classed('current', function(d) { return d === preset; });
 
@@ -24622,15 +24611,15 @@ iD.ui.PresetGrid = function(context, entity) {
 
             var label = buttonInner.append('div')
                 .attr('class','label')
-                .text(name);
+                .text(function(d) { return d.name(); });
 
             entered.filter(function(d) { return !d.members; })
                 .append('button')
                 .attr('tabindex', -1)
                 .attr('class', 'tag-reference-button minor')
-                .on('click', helpClick, selection)
+                .on('click', helpClick)
                 .append('span')
-                    .attr('class', 'icon inspect');
+                .attr('class', 'icon inspect');
 
             entries.order();
         }
@@ -29746,10 +29735,58 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "airport",
                     "aerodrome"
                 ],
+                "fields": [
+                    "ref",
+                    "iata",
+                    "icao",
+                    "operator"
+                ],
                 "tags": {
                     "aeroway": "aerodrome"
                 },
                 "name": "Airport"
+            },
+            "aeroway/apron": {
+                "icon": "airport",
+                "geometry": [
+                    "area"
+                ],
+                "terms": [
+                    "ramp"
+                ],
+                "fields": [
+                    "ref",
+                    "surface"
+                ],
+                "tags": {
+                    "aeroway": "apron"
+                },
+                "name": "Apron"
+            },
+            "aeroway/gate": {
+                "icon": "airport",
+                "geometry": [
+                    "point"
+                ],
+                "fields": [
+                    "ref"
+                ],
+                "tags": {
+                    "aeroway": "gate"
+                },
+                "name": "Airport gate"
+            },
+            "aeroway/hangar": {
+                "geometry": [
+                    "area"
+                ],
+                "fields": [
+                    "building_area"
+                ],
+                "tags": {
+                    "aeroway": "hangar"
+                },
+                "name": "Hangar"
             },
             "aeroway/helipad": {
                 "icon": "heliport",
@@ -29766,6 +29803,54 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "aeroway": "helipad"
                 },
                 "name": "Helipad"
+            },
+            "aeroway/runway": {
+                "geometry": [
+                    "line",
+                    "area"
+                ],
+                "terms": [
+                    "landing strip"
+                ],
+                "fields": [
+                    "ref",
+                    "surface"
+                ],
+                "tags": {
+                    "aeroway": "runway"
+                },
+                "name": "Runway"
+            },
+            "aeroway/taxiway": {
+                "geometry": [
+                    "line"
+                ],
+                "fields": [
+                    "ref",
+                    "surface"
+                ],
+                "tags": {
+                    "aeroway": "taxiway"
+                },
+                "name": "Taxiway"
+            },
+            "aeroway/terminal": {
+                "geometry": [
+                    "point",
+                    "area"
+                ],
+                "terms": [
+                    "airport",
+                    "aerodrome"
+                ],
+                "fields": [
+                    "operator",
+                    "building_area"
+                ],
+                "tags": {
+                    "aeroway": "terminal"
+                },
+                "name": "Airport terminal"
             },
             "amenity": {
                 "fields": [
@@ -29954,6 +30039,22 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "name": "Cinema"
             },
+            "amenity/college": {
+                "icon": "college",
+                "fields": [
+                    "operator",
+                    "address"
+                ],
+                "geometry": [
+                    "point",
+                    "area"
+                ],
+                "tags": {
+                    "amenity": "college"
+                },
+                "terms": [],
+                "name": "College"
+            },
             "amenity/courthouse": {
                 "fields": [
                     "operator",
@@ -30094,6 +30195,28 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "amenity": "hospital"
                 },
                 "name": "Hospital"
+            },
+            "amenity/kindergarten": {
+                "icon": "school",
+                "fields": [
+                    "building_area",
+                    "address"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "terms": [
+                    "preschool",
+                    "nursery",
+                    "childcare",
+                    "playgroup"
+                ],
+                "tags": {
+                    "amenity": "kindergarten"
+                },
+                "name": "Kindergarten"
             },
             "amenity/library": {
                 "icon": "library",
@@ -30585,7 +30708,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "amenity": "university"
                 },
-                "terms": [],
+                "terms": [
+                    "college"
+                ],
                 "name": "University"
             },
             "amenity/waste_basket": {
@@ -32091,6 +32216,25 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "name": "Man Made"
             },
+            "man_made/breakwater": {
+                "geometry": [
+                    "line",
+                    "area"
+                ],
+                "tags": {
+                    "man_made": "breakwater"
+                },
+                "name": "Breakwater"
+            },
+            "man_made/cutline": {
+                "geometry": [
+                    "line"
+                ],
+                "tags": {
+                    "man_made": "cutline"
+                },
+                "name": "Cut line"
+            },
             "man_made/lighthouse": {
                 "geometry": [
                     "point",
@@ -32111,6 +32255,19 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "name": "Pier"
             },
+            "man_made/pipeline": {
+                "geometry": [
+                    "line"
+                ],
+                "tags": {
+                    "man_made": "pipeline"
+                },
+                "fields": [
+                    "location",
+                    "operator"
+                ],
+                "name": "Pipeline"
+            },
             "man_made/survey_point": {
                 "icon": "monument",
                 "geometry": [
@@ -32124,6 +32281,19 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "ref"
                 ],
                 "name": "Survey Point"
+            },
+            "man_made/tower": {
+                "geometry": [
+                    "point",
+                    "area"
+                ],
+                "tags": {
+                    "man_made": "tower"
+                },
+                "fields": [
+                    "towertype"
+                ],
+                "name": "Tower"
             },
             "man_made/wastewater_plant": {
                 "icon": "water",
@@ -32152,6 +32322,16 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "man_made": "water_tower"
                 },
                 "name": "Water Tower"
+            },
+            "man_made/water_well": {
+                "geometry": [
+                    "point",
+                    "area"
+                ],
+                "tags": {
+                    "man_made": "water_well"
+                },
+                "name": "Water well"
             },
             "man_made/water_works": {
                 "icon": "water",
@@ -34474,6 +34654,16 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "type": "combo",
                 "label": "Type"
             },
+            "iata": {
+                "key": "iata",
+                "type": "text",
+                "label": "IATA"
+            },
+            "icao": {
+                "key": "icao",
+                "type": "text",
+                "label": "ICAO"
+            },
             "incline": {
                 "key": "incline",
                 "type": "combo",
@@ -34524,6 +34714,11 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "key": "building:levels",
                 "type": "number",
                 "label": "Levels"
+            },
+            "location": {
+                "key": "location",
+                "type": "combo",
+                "label": "Location"
             },
             "man_made": {
                 "key": "man_made",
@@ -34725,6 +34920,11 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "key": "tourism",
                 "type": "combo",
                 "label": "Type"
+            },
+            "towertype": {
+                "key": "tower:type",
+                "type": "combo",
+                "label": "Tower type"
             },
             "tracktype": {
                 "key": "tracktype",
@@ -46205,14 +46405,15 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
     "locales": [
         "af",
         "bs",
+        "ca",
         "zh",
         "zh_TW",
+        "hr",
         "cs",
         "da",
         "nl",
         "fr",
         "de",
-        "hu",
         "it",
         "ja",
         "lv",
@@ -46691,6 +46892,12 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "historic": {
                     "label": "Type"
                 },
+                "iata": {
+                    "label": "IATA"
+                },
+                "icao": {
+                    "label": "ICAO"
+                },
                 "incline": {
                     "label": "Incline"
                 },
@@ -46718,6 +46925,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "levels": {
                     "label": "Levels"
+                },
+                "location": {
+                    "label": "Location"
                 },
                 "man_made": {
                     "label": "Type"
@@ -46821,6 +47031,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tourism": {
                     "label": "Type"
                 },
+                "towertype": {
+                    "label": "Tower type"
+                },
                 "tracktype": {
                     "label": "Type"
                 },
@@ -46858,9 +47071,33 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Airport",
                     "terms": "airplane,airport,aerodrome"
                 },
+                "aeroway/apron": {
+                    "name": "Apron",
+                    "terms": "ramp"
+                },
+                "aeroway/gate": {
+                    "name": "Airport gate",
+                    "terms": ""
+                },
+                "aeroway/hangar": {
+                    "name": "Hangar",
+                    "terms": ""
+                },
                 "aeroway/helipad": {
                     "name": "Helipad",
                     "terms": "helicopter,helipad,heliport"
+                },
+                "aeroway/runway": {
+                    "name": "Runway",
+                    "terms": "landing strip"
+                },
+                "aeroway/taxiway": {
+                    "name": "Taxiway",
+                    "terms": ""
+                },
+                "aeroway/terminal": {
+                    "name": "Airport terminal",
+                    "terms": "airport,aerodrome"
                 },
                 "amenity": {
                     "name": "Amenity",
@@ -46898,6 +47135,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Cinema",
                     "terms": "big screen,bijou,cine,drive-in,film,flicks,motion pictures,movie house,movie theater,moving pictures,nabes,photoplay,picture show,pictures,playhouse,show,silver screen"
                 },
+                "amenity/college": {
+                    "name": "College",
+                    "terms": ""
+                },
                 "amenity/courthouse": {
                     "name": "Courthouse",
                     "terms": ""
@@ -46929,6 +47170,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "amenity/hospital": {
                     "name": "Hospital",
                     "terms": "clinic,emergency room,health service,hospice,infirmary,institution,nursing home,rest home,sanatorium,sanitarium,sick bay,surgery,ward"
+                },
+                "amenity/kindergarten": {
+                    "name": "Kindergarten",
+                    "terms": "preschool,nursery,childcare,playgroup"
                 },
                 "amenity/library": {
                     "name": "Library",
@@ -47008,7 +47253,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "amenity/university": {
                     "name": "University",
-                    "terms": ""
+                    "terms": "college"
                 },
                 "amenity/waste_basket": {
                     "name": "Waste Basket",
@@ -47418,6 +47663,14 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Man Made",
                     "terms": ""
                 },
+                "man_made/breakwater": {
+                    "name": "Breakwater",
+                    "terms": ""
+                },
+                "man_made/cutline": {
+                    "name": "Cut line",
+                    "terms": ""
+                },
                 "man_made/lighthouse": {
                     "name": "Lighthouse",
                     "terms": ""
@@ -47426,8 +47679,16 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Pier",
                     "terms": ""
                 },
+                "man_made/pipeline": {
+                    "name": "Pipeline",
+                    "terms": ""
+                },
                 "man_made/survey_point": {
                     "name": "Survey Point",
+                    "terms": ""
+                },
+                "man_made/tower": {
+                    "name": "Tower",
                     "terms": ""
                 },
                 "man_made/wastewater_plant": {
@@ -47436,6 +47697,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "man_made/water_tower": {
                     "name": "Water Tower",
+                    "terms": ""
+                },
+                "man_made/water_well": {
+                    "name": "Water well",
                     "terms": ""
                 },
                 "man_made/water_works": {
