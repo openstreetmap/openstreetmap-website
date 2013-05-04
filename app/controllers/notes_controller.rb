@@ -3,11 +3,12 @@ class NotesController < ApplicationController
   layout 'site', :only => [:mine]
 
   before_filter :check_api_readable
-  before_filter :authorize_web, :only => [:mine]
+  before_filter :authorize_web, :only => [:mine, :web_comment]
+  before_filter :require_user, :only => [:web_comment]
   before_filter :setup_user_auth, :only => [:create, :comment]
   before_filter :authorize, :only => [:close, :destroy]
   before_filter :require_moderator, :only => [:destroy]
-  before_filter :check_api_writable, :only => [:create, :comment, :close, :destroy]
+  before_filter :check_api_writable, :only => [:create, :comment, :close, :destroy, :web_comment]
   before_filter :require_allow_write_notes, :only => [:create, :comment, :close, :destroy]
   before_filter :set_locale
   after_filter :compress_output
@@ -110,6 +111,32 @@ class NotesController < ApplicationController
       format.xml { render :action => :show }
       format.json { render :action => :show }
     end
+  end
+
+  ##
+  # Add a comment on or close an existing note via the browse page
+  def web_comment
+    # Extract the arguments
+    id = params[:id]
+    comment = params[:note_comment][:comment]
+
+    # Find the note and check it is valid
+    note = Note.find(id)
+    raise OSM::APIAlreadyDeletedError.new("note", note.id) unless note.visible?
+    raise OSM::APINoteAlreadyClosedError.new(note) if note.closed?
+    
+    # Add a comment to the note
+    Note.transaction do
+      if params[:resolve]
+        note.close
+        add_comment(note, comment, "closed")
+      else
+        add_comment(note, comment, "commented")
+      end
+    end
+    redirect_to :controller => 'browse', :action => 'note', :id => params[:id]
+  rescue ActiveRecord::RecordNotFound
+    render :action => "not_found", :status => :not_found
   end
 
   ##
