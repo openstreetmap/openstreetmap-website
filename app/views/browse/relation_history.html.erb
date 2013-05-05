@@ -2,6 +2,9 @@
 @name = printable_name @relation
 @title = t('browse.relation_history.relation_history') + ' | ' + @name
 %>
+<% content_for :head do %>
+<%= stylesheet_link_tag 'browse' %>
+<% end %>
 
 <% content_for :heading do %>
   <h2><%= raw t'browse.relation_history.relation_history_title', :relation_name => link_to(h(@name), :action => "relation", :id => @relation.id) %></h2>
