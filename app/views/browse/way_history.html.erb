@@ -2,6 +2,9 @@
 @name = printable_name @way
 @title = t('browse.way_history.way_history') + ' | ' + @name
 %>
+<% content_for :head do %>
+<%= stylesheet_link_tag 'browse' %>
+<% end %>
 
 <% content_for :heading do %>
   <h2><%= raw t'browse.way_history.way_history_title', :way_name => link_to(h(@name), :action => "way", :id => @way.id) %></h2>
