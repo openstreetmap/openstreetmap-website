@@ -18,6 +18,7 @@
 //= require sidebar
 //= require richtext
 //= require resize
+//= require geocoder
 
 function zoomPrecision(zoom) {
     var decimals = Math.pow(10, Math.floor(zoom/3));
