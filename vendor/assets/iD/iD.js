@@ -2789,7 +2789,7 @@ function d3_geo_clipView(x0, y0, x1, y1) {
             }
             listener.point(b[0], b[1]);
             if (!v) listener.lineEnd();
-          } else {
+          } else if (v) {
             listener.lineStart();
             listener.point(x, y);
           }
@@ -15003,7 +15003,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '0.0.0-beta1';
+iD.version = '1.0.0';
 
 iD.detect = function() {
     var browser = {};
@@ -46414,6 +46414,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "nl",
         "fr",
         "de",
+        "is",
         "it",
         "ja",
         "lv",
