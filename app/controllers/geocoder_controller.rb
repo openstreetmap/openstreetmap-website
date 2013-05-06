@@ -177,17 +177,11 @@ class GeocoderController < ApplicationController
       prefix = t "geocoder.search_osm_nominatim.prefix_format", :name => prefix_name
       object_type = place.attributes["osm_type"].to_s
       object_id = place.attributes["osm_id"].to_s
-      if object_type != ''
-        suffix = " [<a href='browse/%s/%s'>%s</a>]" % [ object_type, object_id, t ("browse.%s_history.view_details" % object_type) ]
-      else
-        suffix = ""
-      end
 
       @results.push({:lat => lat, :lon => lon,
                      :min_lat => min_lat, :max_lat => max_lat,
                      :min_lon => min_lon, :max_lon => max_lon,
                      :prefix => prefix, :name => name,
-                     :suffix => suffix,
                      :type => object_type, :id => object_id})
       @more_params[:exclude].push(place.attributes["place_id"].to_s)
     end
