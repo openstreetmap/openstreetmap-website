@@ -1,0 +1,1539 @@
+{
+    "modes": {
+        "add_area": {
+            "title": "Område",
+            "description": "Tilføj parker, bygninger, søer, eller andre områder til kortet.",
+            "tail": "Klik på kortet for at indtegne et område fx en park, sø eller bygning."
+        },
+        "add_line": {
+            "title": "Linje",
+            "description": "Linjer kan være veje, gader eller stier selv kanaler kan være linjer.",
+            "tail": "Klik på kortet for at indtegne en vej, sti eller rute."
+        },
+        "add_point": {
+            "title": "Punkt",
+            "description": "Restauranter, mindesmærker og postkasser er punkter.",
+            "tail": "Klik på kortet for at tilføje et punkt."
+        },
+        "browse": {
+            "title": "Gennemse",
+            "description": "Træk rundt og zoom på kortet."
+        },
+        "draw_area": {
+            "tail": "Klik for at tilføje punkter til dit område. Klik på det første punkt for at færdiggøre området."
+        },
+        "draw_line": {
+            "tail": "Klik her for at tilføje flere punkter til linjen. Klik på andre linjer for at forbinde dem og dobbeltklik for at afslutte linjen."
+        }
+    },
+    "operations": {
+        "add": {
+            "annotation": {
+                "point": "Tilføjede et punkt.",
+                "vertex": "Tilføjede en node til en vej."
+            }
+        },
+        "start": {
+            "annotation": {
+                "line": "Startede en linje.",
+                "area": "Startede et område."
+            }
+        },
+        "continue": {
+            "annotation": {
+                "line": "Fortsatte en linje.",
+                "area": "Fortsatte et område."
+            }
+        },
+        "cancel_draw": {
+            "annotation": "Annullerede indtegning."
+        },
+        "change_tags": {
+            "annotation": "Ændret tags."
+        },
+        "circularize": {
+            "title": "Cirkularisere",
+            "description": {
+                "line": "Lav denne linje cirkulær.",
+                "area": "Lav dette område rundt."
+            },
+            "key": "O",
+            "annotation": {
+                "line": "Lavede en linje rund.",
+                "area": "Lave et område rundt."
+            },
+            "not_closed": "Dette kan ikke laves rundt da det ikke er område."
+        },
+        "orthogonalize": {
+            "title": "Ortogonalisering",
+            "description": "Gør disse hjørner firkantet.",
+            "key": "Q",
+            "annotation": {
+                "line": "Lavede hjørner på en linje firkantet.",
+                "area": "Lavede hjørner på et område firkantet."
+            },
+            "not_closed": "Dette kan ikke laves firkantet da det ikke er et område."
+        },
+        "delete": {
+            "title": "Slet",
+            "description": "Fjern dette fra kortet.",
+            "annotation": {
+                "point": "Slettede et punkt.",
+                "vertex": "Slettede en node fra en vej.",
+                "line": "Slettede en linje.",
+                "area": "Slettede et område.",
+                "relation": "Sletede en relation.",
+                "multiple": "Slettede {n} objekter."
+            }
+        },
+        "connect": {
+            "annotation": {
+                "point": "Forbandt en vej til et punkt.",
+                "vertex": "Forbandt en vej til en anden vej.",
+                "line": "Forbandt en vej til en linje.",
+                "area": "Forbandt en vej til et område."
+            }
+        },
+        "disconnect": {
+            "title": "Afbryd",
+            "description": "Afbryd disse veje fra hinanden.",
+            "key": "D",
+            "annotation": "Afbryd linjer/områder.",
+            "not_connected": "Der er ikke nok linjer/områder her til at fraklippe."
+        },
+        "merge": {
+            "title": "Flet",
+            "description": "Flet disse linjer.",
+            "key": "C",
+            "annotation": "Flettede {n} linjer.",
+            "not_eligible": "Disse funktioner kan ikke fusioneres.",
+            "not_adjacent": "Disse linjer kan ikke fusioneres da de ikke er forbundet."
+        },
+        "move": {
+            "title": "Flyt",
+            "description": "Flyt dette til en anden lokation.",
+            "key": "M",
+            "annotation": {
+                "point": "Flyttede et punkt.",
+                "vertex": "Flyttede en node i en vej.",
+                "line": "Flyttede en linje.",
+                "area": "Flyttede et område.",
+                "multiple": "Flyttede flere objekter."
+            },
+            "incomplete_relation": "Disse kortegenskaber kan ikke flyttes, da de ikke er blevet downloadet fuldstændigt."
+        },
+        "rotate": {
+            "title": "Roter",
+            "description": "Roter dette objekt omkring centerpunktet.",
+            "key": "R",
+            "annotation": {
+                "line": "Roterede en linje.",
+                "area": "Roterede et område."
+            }
+        },
+        "reverse": {
+            "title": "Omvendt",
+            "description": "Lad denne linje gå i modsat retning.",
+            "key": "V",
+            "annotation": "Omvendte en linje."
+        },
+        "split": {
+            "title": "Del op",
+            "description": {
+                "line": "Split denne linje i to dele ved dette her punkt.",
+                "area": "Klip grænsen af dette område i to dele.",
+                "multiple": "Split linjerne/områdernes grænser ved dette punkt i to dele."
+            },
+            "key": "X",
+            "annotation": {
+                "line": "Klip en linje op.",
+                "area": "Spilt et områdes grænse op.",
+                "multiple": "Split {n} linjer/områder for grænserne."
+            },
+            "not_eligible": "Linje kan ikke splittes op ved deres begyndelse eller ende.",
+            "multiple_ways": "Der er for mange linjer her der kan blive splittet."
+        }
+    },
+    "nothing_to_undo": "Ingenting at fortryde.",
+    "nothing_to_redo": "Ingenting at gendanne.",
+    "just_edited": "Du har lige rettet i OpenStreetMap!",
+    "browser_notice": "Dette værktøj er understøttet i Firefox, Chrome, Safari, Opera og Internet Explorer 9 og højere. Vær venlig at opgradere din browser eller benyt Potlatch 2 for at rette i kortet.",
+    "view_on_osm": "Vis på OSM",
+    "zoom_in_edit": "zoom ind for at rette på kortet",
+    "logout": "log ud",
+    "loading_auth": "Forbinder til OpenStreetMap...",
+    "report_a_bug": "rapportere en fejl",
+    "status": {
+        "error": "Er ikke i stand til at forbinde til API'et.",
+        "offline": "API'et er off-line. Prøv igen senere.",
+        "readonly": "API'et er i læs-kun status. Du er nødt til at vente med at gemme dine ændringer."
+    },
+    "commit": {
+        "title": "Gem ændringer",
+        "description_placeholder": "Kort beskrivelse af dine bidrag",
+        "message_label": "Tilføj en besked",
+        "upload_explanation": "Dine ændringer vil som brugernavn {user} blive synligt på alle kort der bruger OpenStreetMap data.",
+        "save": "Gem",
+        "cancel": "Fortryd",
+        "warnings": "Advarsler",
+        "modified": "Modificeret",
+        "deleted": "Slettede",
+        "created": "Lavede"
+    },
+    "contributors": {
+        "list": "Vis bidrag fra {users}",
+        "truncated_list": "Vis bidrag fra {users} og {count} andre"
+    },
+    "geocoder": {
+        "title": "Find et sted",
+        "placeholder": "Find et sted",
+        "no_results": "Kunne ikke finde '{name}'"
+    },
+    "geolocate": {
+        "title": "Vis min lokalitet"
+    },
+    "inspector": {
+        "no_documentation_combination": "Der er ingen dokumentation for denne tag kombination",
+        "no_documentation_key": "Der er ingen dokumentation tilgængelig for denne nøgle",
+        "show_more": "Vis mere",
+        "new_tag": "Nyt tag",
+        "view_on_osm": "Se på openstreetmap.org",
+        "editing_feature": "Redigerer {feature}",
+        "all_tags": "Alle tags",
+        "choose": "Vælg funktionstype",
+        "results": "{n} resultater for {search}",
+        "reference": "Se på OpenStreetMap Wiki",
+        "back_tooltip": "Gem funktionstype",
+        "remove": "Fjern",
+        "search": "Søg"
+    },
+    "background": {
+        "title": "Baggrund",
+        "description": "Baggrundsindstillinger",
+        "percent_brightness": "{opacity}% lysstyrke",
+        "fix_misalignment": "Lav fejljustering",
+        "reset": "nulstil"
+    },
+    "restore": {
+        "heading": "Du har ændringer der ikke er gemt endnu",
+        "description": "Du har ændringer fra forrige session som ikke er gemt. Ønsker du at gendanne disse ændringer?",
+        "restore": "Gendan",
+        "reset": "Nulstil"
+    },
+    "save": {
+        "title": "Gem",
+        "help": "Gem ændringer til OpenStreetMap vil gøre dem synlige for andre brugere.",
+        "no_changes": "Ingen ændringer at gemme.",
+        "error": "Der skete en fejl da du prøvede at gemme",
+        "uploading": "Gemmer nu ændringer til OpenStreetMap.",
+        "unsaved_changes": "Du har ændringer der ikke er gemt endnu"
+    },
+    "splash": {
+        "welcome": "Velkommen til iD OpenStreetMap værktøjet",
+        "text": "Dette er udviklingsversion {version}. Mere information se {website} og rapportere fejl på {github}.",
+        "walkthrough": "Start gennemgangen",
+        "start": "Redigerer nu"
+    },
+    "source_switch": {
+        "live": "live",
+        "lose_changes": "Du har ændringer som ikke er blevet gemt endnu. Ved at skifte kort server vil du miste disse ændringer. Er du sikker på at du vil skifte server?",
+        "dev": "dev"
+    },
+    "tag_reference": {
+        "description": "Beskrivelse",
+        "on_wiki": "{tag} på wiki.osm.org",
+        "used_with": "brugt med {type}"
+    },
+    "validations": {
+        "untagged_point": "Ej tagget punkt",
+        "untagged_line": "Mangler tag på linje",
+        "untagged_area": "Mangler tag på område",
+        "many_deletions": "You're deleting {n} objects. Are you sure you want to do this? This will delete them from the map that everyone else sees on openstreetmap.org.",
+        "tag_suggests_area": "Dette tag {tag} mener denne linje skule være et område, men dette er ikke et område",
+        "deprecated_tags": "Uønskede tags: {tags}"
+    },
+    "zoom": {
+        "in": "Zoom ind",
+        "out": "Zoom ud"
+    },
+    "cannot_zoom": "Kan ikke zoome ud mere.",
+    "gpx": {
+        "local_layer": "Lokal GPX fil",
+        "drag_drop": "Træk og slip en .gpx fil på denne her side"
+    },
+    "help": {
+        "title": "Hjælp",
+        "help": "# Hjælp\n\nDette er et redigeringsværktøj for [OpenStreetMap](http://www.openstreetmap.org/), det\nåbne og redigeringsbare verdenskort. Du kan bruge dette værktøj til at opdatere\ngeodata i dit lokalområde. Derved skaber du et bedre verdenskort med open source og frie geodata\ntil gavn for alle.\n\nDine ændringer på kortet vil blive synligt for alle og enhver der benytter\nOpenStreetMap. For at lave redigeringer skal du oprette\n[en gratis OpenStreetMap konto](https://www.openstreetmap.org/user/new).\n\nDette [iD redigeringsværktøj](http://ideditor.com/) er et kollaborativ projekt og [kildekoden\ner tilgængelig på GitHub](https://github.com/systemed/iD). \n",
+        "editing_saving": "# Redigering & Gem\n\nDette redigeringsværktøj er lavet primært til at arbejde online, og du\narbejder gennem et website lige nu.\n\n### Vælg Objekter\n\nFor at vælge et kortobjekt, som fx en vej eller et interessepunkt, klik\npå dette på kortet. Dette vil highlighte det valgte objekt, åbne et panel med\nyderligere detajler om det og samtidigt vise en menu med forskellige ting du kan gøre\nmed dette objekt.\n\nFlere objekter på en gang kan vælges ved at holde \"Shift\" knappen ned, klik og udvælg\npå kortet. Dette vil vælge alle indtegnede objekter indenfor en firkant. Dette tillader\ndig at gøre flere ting med flere objekter på en gang.\n\n### Gem Redigeringer\n\nNår du laver ændringer fx tilføjer veje, bygninger og steder, så er disse\ngemt lokalt på din computer lige ind til du har gemt dem på OpenStreetMaps server.\nDu skal ikke bekymre dig om, hvis du laver en fejl - du kan fortryde ændringer ved at klikke på \"Fortryd\" knappen.\n\nKlik på \"Gem\" for at afslutte dine ændringer - fx du har lavet et komplet område af en by og du ønsker at gå i gang med et nyt område. Du har mulighed for at gennemse hvad du har lavet og redigeringsværktøjet giver nogle hjælpsomme forslag og advarsler, hvis der er noget som ikke ser helt korrekt ud.\n\nHvis alting ser fint nok ud, så kan du skrive en lille kort kommentar om de ændringer du lige har lavet og klik så \"Gem\" igen for at sende ændringerne til [OpenStreetMap.org](http://www.openstreetmap.org/). Dine ændringer vil nu være synlige og tilgængelige for alle. Der igen kan bygge videre og forbedre data.\n\nHvis du ikke kan afslutte dine ændringer lige med det samme, så kan du forlade redigeringsværktøjet og komme igen senere (NB kræver du bruger samme browser og computer igen). Redigeringsværktøjet vil nu gendanne alt dit arbejde igen.\n",
+        "gps": "# GPS\n\nGPS data er den mest pålidelige kilde for OpenStreetMap projektet. Dette \nredigeringsværktøj understøtter `.gpx` filer som er gemt på din egen computer. Du\nkan indsamle GPS filer med smartphone applikationer eller med GPS hardware.\n\nMere information om indsamling af GPS data læs\n[guiden . indsamling med GPS](http://learnosm.org/en/beginner/using-gps/).\n\nFor at bruge en GPX fil - så træk og slip GPX filen ind på redigeringsværktøjet.\n Hvis filen bliver indlæst, så vil du se den som en lys grøn linje på kortet.\nKlik på 'Baggrundsindstillinger' menuen i venstre side for at aktivere, deaktivere eller \nfor at zoome ind til dette GPX lag.\n\nGPx-filen er ikke direkte oploadet til OpenStreetMap. Den bedste måde at bruge GPX-filen på er,\nat indtegne ovenpå denne.\n",
+        "imagery": "# Billedelag\n\nBilledelag er en vigtig resource ved kortlægning. En kombination af \nluftfotos, satellitfoto og frie-indsamlet kilder er tilgængelig i \nværktøjet under \"Baggrundsindstillinger\" menuen i venstre side.\n\nSom standard bruges [Bing Maps](http://www.bing.com/maps/) satellitlaget, men \nzoomer du hen til nye geografiske områder vil andre billedlag være tilgængelige.\nNogle lande som fx USA, Frankrig og Danmark vil have andre billedlag i høj kvalitet for\nnogle områder.\n\nBilledlag kan nogle gange være skævt forskudt pga fejl fra leverandørens side.\nHvis du ser en masse veje er forskudt i forhold til billedlaget nedenunder, så skal du\nikke begynde at justere disse veje for at tilpasse dem til billedlaget. I stedet for skal\ndu justere billedlaget, det gør du ved at klikke på \"Justerer\" knappen nede i \"Baggrundsindstillinger\".\n",
+        "addresses": "#Adresser⏎\n⏎\nAdresser er noget af det mest brugbare til kortet.⏎\n⏎\nSelvom adresser ofte er repræsenteret som dele af veje i OpenStreetMap⏎\nDisse er lagret som attributter for bygninger og steder langs veje.⏎\n⏎\nDu kan også tilføje adresseinformation til steder som er kortlagt som bygningspolygoner⏎\nligesom bygninger der er markeret som enkeltpunkter. Den optimale kilde til⏎\nadresser⏎\ner indsamling på selve stedet eller personlig kendkskab - som med ethvert andet⏎\ngeografisk objekt, så er kopiering fra kommercielle kilder som fx Google Maps\nstrengt⏎\nforbudt.⏎\n\n\n",
+        "buildings": "# Bygninger\n\nOpenStreetMap er verdens største database af bygninger. Du kan skabe\nendnu flere selv og gøre databasen endnu bedre.\n\n### Vælg\n\nDu udvælger en bygning ved at klikke et af dens hjørner. Dette vil highlighte\nbygningen og vil samtidigt åbne en lille værktøjsmenu og en sidemenu der viser\nendnu mere information om bygningen.\n\n### Ændring\n\nNogle gange er bygninger placeret forkert eller har forkerte tags.\n\nFor at flytte en bygning, udvælg den og klik så på \"flyt\" værktøjet. Flyt med\ndin mus bygningen og klik så når bygningen er blevet placeret korrekt.\n\nHvis en bygnings form ser forkert ud, så klik og træk i punkterne i omridset\naf bygningen så det passer bedre.\n\n### Ny\n\nDa OpenStreetMap både kan registre bygninger som et enkelt punkt eller som en polygon, så\nkan følgende tommelfingerregel gives. Kortlæg såvidt muligt alle bygninger som polygoner og kortlæg\nså fx butikker, firmaer og andet som opererer fra denne bygning som enkeltpunkter.\n\nStart kortlægning af bygninger ved at klikke på \"Område\" knappen øverst oppe til venstre. Når du\ner færdig med at indtegne bygningen, så klik på \"Retur\" knappen på dit keyboard eller klik på det \nførste punkt i din indtegnede bygning for at lukke.\n\n### Sletning\n\nHvis en bygningen er helt forkert, du kan ikke se den på fx et luftfoto eller satellitfoto eller ideelt selv\nhave set lokalt, at bygningen ikke findes. Så kan du slette bygningen. Men pas meget på med at slette hvad andre\nhar lavet. Luftfoto eller satellitfoto kan fx være meget gamle og der kan være blevet bygget i mellemtiden i området.\n\nDu kan slette en bygning ved at udvælge den - dernæst klik på skraldespands-ikonet\n- alternativt brug \"slet\" tasten på dit keyboard\n"
+    },
+    "intro": {
+        "navigation": {
+            "drag": "Grundkortet viser OpenStreetMap data oven på et baggrundkort. Du kan navigere ved at trække og scrolle lige som ethvert andet webkort.**Træk i kortet!**",
+            "select": "Kortets objekter kun beskrives på tre måder: ved brug af punkter, linjer eller områder. Alle kortets objekter kan vælges ved at klikke på dem.**Klik på et punkt for at vælge dette.**",
+            "header": "Overskriften viser os kortfunktionstyperne.",
+            "pane": "Når et geografisk objekt er valgt, så vil objektredigeringsværktøjet blive vist.  Øverst vil vise objekttypen og det centrale panel i midten vil vise objektets attributter som fx navn og adresse.**Luk objektredigeringsværktøjet med luk-knappen oppe i højre hjørne.** "
+        },
+        "points": {
+            "add": "Punkter kan bruges til at beskrive ting som fx butikker, restauranter og mindesmærker. De markerer en bestemt lokalitet og beskriver hvad der er lige der.**Klik på punktknappen for at tilføje et nyt punkt.**",
+            "place": "Et punkt kan placeres ved at klikke på kortet.**Placerer punktet på toppen af bygningen.**",
+            "search": "Punkter kan repræsenteres på mange måder. Punktet du lige tilføjede var en cafe.**Søg efter 'cafe'**",
+            "choose": "**Vælg cafe fra gitteret.**",
+            "describe": "Punktet er nu markeret som en cafe. Ved at bruge funktionsredigeringsværktøjet kan vi tilføje mere information.**Tilføj et navn**",
+            "close": "Funktionsredigeringsværktøjet  kan lukkes med luk knappen.\n**Luk funktionsredigeringsværktøjet**",
+            "reselect": "Ofte vil punkter allerede findes, men har fejl eller mangler. Vi kan rette i allerede indsatte punkter.**Vælg punktet du lige lavede.**",
+            "fixname": "**Omdøb navnet og luk funktionsredigeringsværktøjet.**",
+            "reselect_delete": "Alle geografiske objekter på kortet kan slettes.**Klik på punktet du har lavet.**",
+            "delete": "Menuen omkring punkter har værktøjer der kan bruges til forskellige operationer inkl. sletning.**Slet punktet.**"
+        },
+        "areas": {
+            "add": "Områder er en mere detaljeret måde at beskrive kortet. Områder giver information om grænserne til det geografiske område. Områder kan bruges for de fleste typer af punkter og er ofte den bedste måde.**Klik på områdeknappen for at tilføje et nyt område.**",
+            "corner": "Områder indtegnes ved at placere punkter der afgrænser ydre området.**Placerer startpunktet i et af hjørnerne for legepladsen.**",
+            "place": "Indtegn området ved at placere flere punkter. Afslut området ved at klikke på det først indtegnet punkt.**Indtegn legepladsens område.**",
+            "search": "**Søg efter legeplads.**",
+            "choose": "**Vælg baggrund fra gitteret.**",
+            "describe": "**Tilføj et navn og luk så funktionsværktøjet**"
+        },
+        "lines": {
+            "add": "Linjer bruges til at beskrive ting som fx veje, jernbanespor og floder.**Klik på linjeknappen for at tilføje en ny linje.**",
+            "start": "**Start linjen ved at klikke ved enden af en vej**",
+            "intersect": "Klik for at tilføje punkter til linjen. Du kan trække i kortet hvis det er nødvendigt mens du tegner. Veje og mange andre type af linjer er dele af et større netværk. Det er meget vigtigt at disse linjer er forbundet korrekt for at få rutenavigationsværktøjer til at virke.**Klik på Flower Street for at lave en sammenkædning af de to linjer.**",
+            "finish": "Linjer kan afsluttes ved at klikke på det sidste punkt igen.**Afslut indtegning af vejen.**",
+            "road": "**Vælg vej fra gitteret**",
+            "residential": "Der er mange typer af veje, den mest brugte er villaveje.**Vælg villaveje**",
+            "describe": "**Navngiv vejen og luk funktionsredigeringsværktøjet.**",
+            "restart": "Vejen skal berøre Flower Street."
+        },
+        "startediting": {
+            "help": "Mere dokumentation samt denne gennemgang kan ses her.",
+            "save": "Glem ikke regelmæssigt at gemme dine ændringer!",
+            "start": "Start kortlægning!"
+        }
+    },
+    "presets": {
+        "categories": {
+            "category-landuse": {
+                "name": "Områdebrug"
+            },
+            "category-path": {
+                "name": "Sti"
+            },
+            "category-rail": {
+                "name": "Jernbane"
+            },
+            "category-road": {
+                "name": "Vej"
+            },
+            "category-water": {
+                "name": "Vand"
+            }
+        },
+        "fields": {
+            "access": {
+                "label": "Adgang",
+                "types": {
+                    "access": "Generelt",
+                    "foot": "Fod",
+                    "motor_vehicle": "Motorkøretøjer",
+                    "bicycle": "Cykler",
+                    "horse": "Heste"
+                },
+                "options": {
+                    "yes": {
+                        "title": "Tilladt",
+                        "description": "Adgang tilladt i følge loven"
+                    },
+                    "no": {
+                        "title": "Forbudt",
+                        "description": "Adgang ikke tilladt for offentligheden"
+                    },
+                    "permissive": {
+                        "title": "Adgang efter tilladelse",
+                        "description": "Adgang tilladt indtil ejer tilbagekalder tilladelsen"
+                    },
+                    "private": {
+                        "title": "Privat",
+                        "description": "Adgang tilladt ved udstedelse af  individuelle  tilladelser fra ejer"
+                    },
+                    "designated": {
+                        "title": "Udpeget til netop dette formål",
+                        "description": "Adgang tilladt iflg. trafikskilte eller lokale bestemmelser"
+                    },
+                    "destination": {
+                        "title": "Destination",
+                        "description": "Ærindekørsel tilladt"
+                    }
+                }
+            },
+            "address": {
+                "label": "Adresse",
+                "placeholders": {
+                    "housename": "Husnavn",
+                    "number": "123",
+                    "street": "Gade",
+                    "city": "By",
+                    "postcode": "Postnummer"
+                }
+            },
+            "admin_level": {
+                "label": "Administrativt niveau"
+            },
+            "aeroway": {
+                "label": "Type"
+            },
+            "amenity": {
+                "label": "Type"
+            },
+            "atm": {
+                "label": "Pengeautomat"
+            },
+            "barrier": {
+                "label": "Type"
+            },
+            "bicycle_parking": {
+                "label": "Type"
+            },
+            "building": {
+                "label": "Bygning"
+            },
+            "building_area": {
+                "label": "Bygning"
+            },
+            "building_yes": {
+                "label": "Bygning"
+            },
+            "capacity": {
+                "label": "Kapacitet"
+            },
+            "cardinal_direction": {
+                "label": "Retning"
+            },
+            "clock_direction": {
+                "label": "Retning",
+                "options": {
+                    "clockwise": "Retning med uret",
+                    "anticlockwise": "Retning mod uret"
+                }
+            },
+            "collection_times": {
+                "label": "Indsamlingstid"
+            },
+            "construction": {
+                "label": "Type"
+            },
+            "country": {
+                "label": "Land"
+            },
+            "crossing": {
+                "label": "Type"
+            },
+            "cuisine": {
+                "label": "Cuisine"
+            },
+            "denomination": {
+                "label": "Trosretning"
+            },
+            "denotation": {
+                "label": "Denotation"
+            },
+            "elevation": {
+                "label": "Højde over havet"
+            },
+            "emergency": {
+                "label": "Nødkald"
+            },
+            "entrance": {
+                "label": "Type"
+            },
+            "fax": {
+                "label": "Fax"
+            },
+            "fee": {
+                "label": "Gebyr"
+            },
+            "highway": {
+                "label": "Type"
+            },
+            "historic": {
+                "label": "Type"
+            },
+            "iata": {
+                "label": "IATA"
+            },
+            "icao": {
+                "label": "ICAO"
+            },
+            "incline": {
+                "label": "Stigning"
+            },
+            "internet_access": {
+                "label": "Internetadgang",
+                "options": {
+                    "wlan": "Wifi",
+                    "wired": "Kabeladgang",
+                    "terminal": "Terminal"
+                }
+            },
+            "landuse": {
+                "label": "Type"
+            },
+            "lanes": {
+                "label": "Vejbaner"
+            },
+            "layer": {
+                "label": "Lag"
+            },
+            "leisure": {
+                "label": "Type"
+            },
+            "levels": {
+                "label": "Etager"
+            },
+            "location": {
+                "label": "Lokalitet"
+            },
+            "man_made": {
+                "label": "Type"
+            },
+            "maxspeed": {
+                "label": "Hastighedsbegræsning"
+            },
+            "name": {
+                "label": "Navn"
+            },
+            "natural": {
+                "label": "Naturlig"
+            },
+            "network": {
+                "label": "Netværk"
+            },
+            "note": {
+                "label": "Bemærkning"
+            },
+            "office": {
+                "label": "Type"
+            },
+            "oneway": {
+                "label": "Ensrettet vej"
+            },
+            "oneway_yes": {
+                "label": "Ensrettet vej"
+            },
+            "opening_hours": {
+                "label": "Timer"
+            },
+            "operator": {
+                "label": "Operatør"
+            },
+            "park_ride": {
+                "label": "Park and ride-anlæg"
+            },
+            "parking": {
+                "label": "Type"
+            },
+            "phone": {
+                "label": "Telefon"
+            },
+            "place": {
+                "label": "Type"
+            },
+            "power": {
+                "label": "Type"
+            },
+            "railway": {
+                "label": "Type"
+            },
+            "ref": {
+                "label": "Reference"
+            },
+            "religion": {
+                "label": "Religion",
+                "options": {
+                    "christian": "Kristen",
+                    "muslim": "Muslimsk",
+                    "buddhist": "Buddhist",
+                    "jewish": "Jødisk",
+                    "hindu": "Hinduisme",
+                    "shinto": "Shinto",
+                    "taoist": "Taoist"
+                }
+            },
+            "sac_scale": {
+                "label": "Spor vanskelighedsniveau"
+            },
+            "service": {
+                "label": "Type"
+            },
+            "shelter": {
+                "label": "Shelter"
+            },
+            "shop": {
+                "label": "Type"
+            },
+            "source": {
+                "label": "Kilde"
+            },
+            "sport": {
+                "label": "Sport"
+            },
+            "structure": {
+                "label": "Struktur",
+                "options": {
+                    "bridge": "Bro",
+                    "tunnel": "Tunnel",
+                    "embankment": "Forhøjning til tog, vej",
+                    "cutting": "Udskæring"
+                }
+            },
+            "supervised": {
+                "label": "Supervision"
+            },
+            "surface": {
+                "label": "Overflade"
+            },
+            "tourism": {
+                "label": "Type"
+            },
+            "towertype": {
+                "label": "Tårn type"
+            },
+            "tracktype": {
+                "label": "Type"
+            },
+            "trail_visibility": {
+                "label": "Spor synlighed"
+            },
+            "water": {
+                "label": "Type"
+            },
+            "waterway": {
+                "label": "Type"
+            },
+            "website": {
+                "label": "Webside"
+            },
+            "wetland": {
+                "label": "Type"
+            },
+            "wheelchair": {
+                "label": "Kørestolsadgang"
+            },
+            "wikipedia": {
+                "label": "Wikipedia"
+            },
+            "wood": {
+                "label": "Type"
+            }
+        },
+        "presets": {
+            "aeroway": {
+                "name": "Lufthavnsveje"
+            },
+            "aeroway/aerodrome": {
+                "name": "Lufthavn",
+                "terms": "fly,lufthavn,lufthavnsområde"
+            },
+            "aeroway/apron": {
+                "name": "Apron",
+                "terms": "rampe"
+            },
+            "aeroway/gate": {
+                "name": "Lufthavns gate"
+            },
+            "aeroway/hangar": {
+                "name": "Hangar"
+            },
+            "aeroway/helipad": {
+                "name": "Helikopterlandningsplads",
+                "terms": "helikopter,helipad,helikopterlandsplads"
+            },
+            "aeroway/runway": {
+                "name": "Runway",
+                "terms": "Landingsstribe"
+            },
+            "aeroway/taxiway": {
+                "name": "Taxiway"
+            },
+            "aeroway/terminal": {
+                "name": "Lufthavnsterminal",
+                "terms": "lufthavn,lufthavnlandingsbaner"
+            },
+            "amenity": {
+                "name": "Faciliteter"
+            },
+            "amenity/bank": {
+                "name": "Bank",
+                "terms": "kreditfirma,investeringsfirma,investeringsforening,kreditrådgivning"
+            },
+            "amenity/bar": {
+                "name": "Bar"
+            },
+            "amenity/bench": {
+                "name": "Bænk"
+            },
+            "amenity/bicycle_parking": {
+                "name": "Cykelparkering"
+            },
+            "amenity/bicycle_rental": {
+                "name": "Cykeludlejning"
+            },
+            "amenity/cafe": {
+                "name": "Cafe",
+                "terms": "kaffe,te, kaffebutik"
+            },
+            "amenity/car_wash": {
+                "name": "Bilvask"
+            },
+            "amenity/cinema": {
+                "name": "Biograf",
+                "terms": "storskærm,drive-in-bio,film,bio,biograf,biografteater,film"
+            },
+            "amenity/college": {
+                "name": "Gymnasie"
+            },
+            "amenity/courthouse": {
+                "name": "Domstolsbygning"
+            },
+            "amenity/embassy": {
+                "name": "Ambassade"
+            },
+            "amenity/fast_food": {
+                "name": "Fast food"
+            },
+            "amenity/fire_station": {
+                "name": "Brandstation"
+            },
+            "amenity/fountain": {
+                "name": "Springvand"
+            },
+            "amenity/fuel": {
+                "name": "Tankstation"
+            },
+            "amenity/grave_yard": {
+                "name": "Gravsted"
+            },
+            "amenity/hospital": {
+                "name": "Hospital",
+                "terms": "klinik, skadestue, sundhedsvæsen, hospice, ambulatorium, institution, plejehjem,ældrebolig,sanatorium,kirurgi"
+            },
+            "amenity/kindergarten": {
+                "name": "Børnehave",
+                "terms": "vuggestue,dagpleje,småbørnslegegruppe"
+            },
+            "amenity/library": {
+                "name": "Bibliotek"
+            },
+            "amenity/marketplace": {
+                "name": "Markedsplads"
+            },
+            "amenity/parking": {
+                "name": "Parkering"
+            },
+            "amenity/pharmacy": {
+                "name": "Apotek"
+            },
+            "amenity/place_of_worship": {
+                "name": "Religiøst tilbedelsessted",
+                "terms": "katedral,kapel, kirke,Guds hus, bedehus,missionshus, moske, sogn,fristed,synagoge,tempel"
+            },
+            "amenity/place_of_worship/christian": {
+                "name": "Kirke",
+                "terms": "katedral,kapel, kirke,Guds hus, bedehus,missionshus, moske, sogn,fristed,synagoge,tempel"
+            },
+            "amenity/place_of_worship/jewish": {
+                "name": "Synagoge",
+                "terms": "jødisk,synagoge"
+            },
+            "amenity/place_of_worship/muslim": {
+                "name": "Moské",
+                "terms": "muslimsk,moské"
+            },
+            "amenity/police": {
+                "name": "Politi",
+                "terms": "spejder,betjent, politikorps, strisser,detektiv, retshåndhævelse,politi"
+            },
+            "amenity/post_box": {
+                "name": "Postkasse",
+                "terms": "brevkasse,postboks"
+            },
+            "amenity/post_office": {
+                "name": "Postkontor"
+            },
+            "amenity/pub": {
+                "name": "Værtshus"
+            },
+            "amenity/restaurant": {
+                "name": "Restaurant",
+                "terms": "bar, cafeteria, cafe, kantine,kaffebar,spisestue,drive-in, spisested, spisehus,fastfood sted,grill, hamburgerbar,pølsevogn, kro, madpakkerum,natklub,pizzeria, salon,vandingshul"
+            },
+            "amenity/school": {
+                "name": "Skole",
+                "terms": "akademi,kollegium, afdeling, disciplin,fakultet,institut, institution, fængsel*, skole, seminarium, universitet"
+            },
+            "amenity/swimming_pool": {
+                "name": "Svømmebassin"
+            },
+            "amenity/telephone": {
+                "name": "Telefon"
+            },
+            "amenity/theatre": {
+                "name": "Teater",
+                "terms": "teater,performance,skuespil,musical"
+            },
+            "amenity/toilets": {
+                "name": "Toiletter"
+            },
+            "amenity/townhall": {
+                "name": "Rådhus",
+                "terms": "medborgerhus,forsamlingshus,rådhus,medborgercenter"
+            },
+            "amenity/university": {
+                "name": "Universitet",
+                "terms": "gymnasie"
+            },
+            "amenity/waste_basket": {
+                "name": "Skraldespand",
+                "terms": "affaldspand,skraldespand"
+            },
+            "barrier": {
+                "name": "Barrier"
+            },
+            "barrier/block": {
+                "name": "Blok"
+            },
+            "barrier/bollard": {
+                "name": "Pullert"
+            },
+            "barrier/cattle_grid": {
+                "name": "Kreaturrist"
+            },
+            "barrier/city_wall": {
+                "name": "Bymur"
+            },
+            "barrier/cycle_barrier": {
+                "name": "Cykelbarrier"
+            },
+            "barrier/ditch": {
+                "name": "Grøft"
+            },
+            "barrier/entrance": {
+                "name": "Indgang"
+            },
+            "barrier/fence": {
+                "name": "Hegn"
+            },
+            "barrier/gate": {
+                "name": "Port"
+            },
+            "barrier/hedge": {
+                "name": "Læhegn"
+            },
+            "barrier/kissing_gate": {
+                "name": "Dyrefoldsport"
+            },
+            "barrier/lift_gate": {
+                "name": "Løftebom"
+            },
+            "barrier/retaining_wall": {
+                "name": "Stengærde"
+            },
+            "barrier/stile": {
+                "name": "Stente"
+            },
+            "barrier/toll_booth": {
+                "name": "Vejafgifthus"
+            },
+            "barrier/wall": {
+                "name": "Mur"
+            },
+            "boundary/administrative": {
+                "name": "Administrativt grænse"
+            },
+            "building": {
+                "name": "Bygning"
+            },
+            "building/apartments": {
+                "name": "Lejligheder"
+            },
+            "building/entrance": {
+                "name": "Indgang"
+            },
+            "building/house": {
+                "name": "Hus"
+            },
+            "emergency/phone": {
+                "name": "Nødtelefon"
+            },
+            "entrance": {
+                "name": "Indgang"
+            },
+            "highway": {
+                "name": "Veje"
+            },
+            "highway/bridleway": {
+                "name": "Hestesti",
+                "terms": "ridesti, ridning sti,hestesti"
+            },
+            "highway/bus_stop": {
+                "name": "Busstoppested"
+            },
+            "highway/crossing": {
+                "name": "Kryds",
+                "terms": "fodgængerovergang"
+            },
+            "highway/cycleway": {
+                "name": "Cykelsti"
+            },
+            "highway/footway": {
+                "name": "Gangsti",
+                "terms": "sti,boulevard,gangsti,vej,bane,linje,passage,sti,jernbane,jernbanespor,vej,gade,rute,gennemkørsel,spor,gå"
+            },
+            "highway/living_street": {
+                "name": "Stillevej"
+            },
+            "highway/mini_roundabout": {
+                "name": "Vendeplads"
+            },
+            "highway/motorway": {
+                "name": "Motorvej"
+            },
+            "highway/motorway_junction": {
+                "name": "Motorvejsfletningsvej"
+            },
+            "highway/motorway_link": {
+                "name": "Motorvejsafkørsel",
+                "terms": "rampe, tilkørelsesrampe, afkørelsesrampe"
+            },
+            "highway/path": {
+                "name": "Sti"
+            },
+            "highway/pedestrian": {
+                "name": "Fodgænger"
+            },
+            "highway/primary": {
+                "name": "Primærvej"
+            },
+            "highway/primary_link": {
+                "name": "Primærvej",
+                "terms": "rampe, påkørelsesrampe, afkørelsesrampe"
+            },
+            "highway/residential": {
+                "name": "Villavej"
+            },
+            "highway/road": {
+                "name": "Ukendt vejtype"
+            },
+            "highway/secondary": {
+                "name": "Mindre stor vej"
+            },
+            "highway/secondary_link": {
+                "name": "Sekundærvej",
+                "terms": "ramp,on ramp,off ramp"
+            },
+            "highway/service": {
+                "name": "Servicevej"
+            },
+            "highway/service/alley": {
+                "name": "Stræde (gade)"
+            },
+            "highway/service/drive-through": {
+                "name": "Gennemkørsel (uden stop)"
+            },
+            "highway/service/driveway": {
+                "name": "Indkørsel"
+            },
+            "highway/service/emergency_access": {
+                "name": "Ambulancevej"
+            },
+            "highway/service/parking_aisle": {
+                "name": "Parkeringsservicevej"
+            },
+            "highway/steps": {
+                "name": "Trappe",
+                "terms": "trapper,trappe"
+            },
+            "highway/tertiary": {
+                "name": " Tertiær vej"
+            },
+            "highway/tertiary_link": {
+                "name": "Afkørsel motortrafikvej",
+                "terms": "ramp,on ramp,off ramp"
+            },
+            "highway/track": {
+                "name": "Mark/Skovvej"
+            },
+            "highway/traffic_signals": {
+                "name": "Trafiksignal",
+                "terms": "lys,stoplys,traffiklys"
+            },
+            "highway/trunk": {
+                "name": "Motortrafikvej "
+            },
+            "highway/trunk_link": {
+                "name": "Afkørsel motortrafikvej",
+                "terms": "rampe, påkørelsesrampe, afkørelsesrampe"
+            },
+            "highway/turning_circle": {
+                "name": "Vendeplads"
+            },
+            "highway/unclassified": {
+                "name": "Mindre vej"
+            },
+            "historic": {
+                "name": "Historisk sted"
+            },
+            "historic/archaeological_site": {
+                "name": "Arkæologisksted"
+            },
+            "historic/boundary_stone": {
+                "name": "Grænsesten"
+            },
+            "historic/castle": {
+                "name": "Slot"
+            },
+            "historic/memorial": {
+                "name": "Mindesmærke"
+            },
+            "historic/monument": {
+                "name": "Monument"
+            },
+            "historic/ruins": {
+                "name": "Ruiner"
+            },
+            "historic/wayside_cross": {
+                "name": "Vejsidemindesmærker"
+            },
+            "historic/wayside_shrine": {
+                "name": "Vejsideskrin"
+            },
+            "landuse": {
+                "name": "Områdebrug"
+            },
+            "landuse/allotments": {
+                "name": "Kolonihaver"
+            },
+            "landuse/basin": {
+                "name": "Basin"
+            },
+            "landuse/cemetery": {
+                "name": " Begravelsesplads "
+            },
+            "landuse/commercial": {
+                "name": "Indkøbsområde"
+            },
+            "landuse/construction": {
+                "name": "Under konstruktion"
+            },
+            "landuse/farm": {
+                "name": "Landbrug"
+            },
+            "landuse/farmyard": {
+                "name": "Gård"
+            },
+            "landuse/forest": {
+                "name": "Skov"
+            },
+            "landuse/grass": {
+                "name": "Græs"
+            },
+            "landuse/industrial": {
+                "name": "Industriområde"
+            },
+            "landuse/meadow": {
+                "name": "Eng"
+            },
+            "landuse/orchard": {
+                "name": "Frugtplantage"
+            },
+            "landuse/quarry": {
+                "name": "Råstofudvinding"
+            },
+            "landuse/residential": {
+                "name": "Beboelsesområde"
+            },
+            "landuse/retail": {
+                "name": "Handelsområde"
+            },
+            "landuse/vineyard": {
+                "name": "Vingård"
+            },
+            "leisure": {
+                "name": "Fritid"
+            },
+            "leisure/garden": {
+                "name": "Have"
+            },
+            "leisure/golf_course": {
+                "name": "Golfbane"
+            },
+            "leisure/marina": {
+                "name": "Lystbådehavn"
+            },
+            "leisure/park": {
+                "name": "Park",
+                "terms": "have,græsplæne,eng,park,rekreativt område,legeplads"
+            },
+            "leisure/pitch": {
+                "name": "Sportsbane"
+            },
+            "leisure/pitch/american_football": {
+                "name": "Amerikansk fodboldbane"
+            },
+            "leisure/pitch/baseball": {
+                "name": "Baseballbane"
+            },
+            "leisure/pitch/basketball": {
+                "name": "Basketballbane"
+            },
+            "leisure/pitch/soccer": {
+                "name": "Fodboldbane"
+            },
+            "leisure/pitch/tennis": {
+                "name": "Tenninsbane"
+            },
+            "leisure/pitch/volleyball": {
+                "name": "Volleyballbane"
+            },
+            "leisure/playground": {
+                "name": "Legeplads"
+            },
+            "leisure/slipway": {
+                "name": "Bådrampe"
+            },
+            "leisure/stadium": {
+                "name": "Stadion"
+            },
+            "leisure/swimming_pool": {
+                "name": "Svømmebassin"
+            },
+            "man_made": {
+                "name": "Menneskeskabt"
+            },
+            "man_made/breakwater": {
+                "name": "Bølgebryder"
+            },
+            "man_made/cutline": {
+                "name": "Udskæringslinje"
+            },
+            "man_made/lighthouse": {
+                "name": "Fyr (navigation)"
+            },
+            "man_made/pier": {
+                "name": "Bade-gang bro (ved vandet)"
+            },
+            "man_made/pipeline": {
+                "name": "Rørledningsnet"
+            },
+            "man_made/survey_point": {
+                "name": "Geografisk fixpunkt"
+            },
+            "man_made/tower": {
+                "name": "Tårn"
+            },
+            "man_made/wastewater_plant": {
+                "name": "Rensningsanlæg ",
+                "terms": "rensningsanlæg, genvindingsanlæg"
+            },
+            "man_made/water_tower": {
+                "name": "Vandtårn"
+            },
+            "man_made/water_well": {
+                "name": "Brønd"
+            },
+            "man_made/water_works": {
+                "name": "Vandforsyning"
+            },
+            "natural": {
+                "name": "Naturlig"
+            },
+            "natural/bay": {
+                "name": "Bugt"
+            },
+            "natural/beach": {
+                "name": "Strand"
+            },
+            "natural/cliff": {
+                "name": "Klint"
+            },
+            "natural/coastline": {
+                "name": "Kystlinje",
+                "terms": "Kysten"
+            },
+            "natural/glacier": {
+                "name": "Gletsjer"
+            },
+            "natural/grassland": {
+                "name": "Græsmark"
+            },
+            "natural/heath": {
+                "name": "Hede"
+            },
+            "natural/peak": {
+                "name": "Højdedrag",
+                "terms": "alpetop,bjergtop,bakke,bjerg,top,bakketop"
+            },
+            "natural/scrub": {
+                "name": "Buskområde"
+            },
+            "natural/spring": {
+                "name": "Kilde (vand)"
+            },
+            "natural/tree": {
+                "name": "Træ"
+            },
+            "natural/water": {
+                "name": "Vand"
+            },
+            "natural/water/lake": {
+                "name": "Sø",
+                "terms": "sø, dam, mose"
+            },
+            "natural/water/pond": {
+                "name": "Dam",
+                "terms": "mølledam,pool"
+            },
+            "natural/water/reservoir": {
+                "name": "Reservoir"
+            },
+            "natural/wetland": {
+                "name": "Vådområde"
+            },
+            "natural/wood": {
+                "name": "Naturskov"
+            },
+            "office": {
+                "name": "Kontor"
+            },
+            "other": {
+                "name": "Andet"
+            },
+            "other_area": {
+                "name": "Andet"
+            },
+            "place": {
+                "name": "Lokalitet"
+            },
+            "place/city": {
+                "name": "Storby"
+            },
+            "place/hamlet": {
+                "name": "Mindre beboet område"
+            },
+            "place/island": {
+                "name": "Ø",
+                "terms": "skærgård, atol,holm,rev,"
+            },
+            "place/isolated_dwelling": {
+                "name": "Lille beboet område (1-2 hustande)"
+            },
+            "place/locality": {
+                "name": "Lokalitet"
+            },
+            "place/town": {
+                "name": "By"
+            },
+            "place/village": {
+                "name": "Landsby"
+            },
+            "power": {
+                "name": "Energi"
+            },
+            "power/generator": {
+                "name": "Kraftværk"
+            },
+            "power/line": {
+                "name": "Elledning"
+            },
+            "power/pole": {
+                "name": "Elmast (telefonmast)"
+            },
+            "power/sub_station": {
+                "name": "Transformatorstation"
+            },
+            "power/tower": {
+                "name": "Højspændingsmast"
+            },
+            "power/transformer": {
+                "name": "Transformer"
+            },
+            "railway": {
+                "name": "Jernbane"
+            },
+            "railway/abandoned": {
+                "name": "Ej brugt jernbanespor"
+            },
+            "railway/disused": {
+                "name": "Ej brugt jernbanespor"
+            },
+            "railway/level_crossing": {
+                "name": "Jernbaneoverskæring",
+                "terms": "passage,jernbaneoverskæring, jernbaneoverskæring, vej gennem jernbane"
+            },
+            "railway/monorail": {
+                "name": "Monorail"
+            },
+            "railway/platform": {
+                "name": "Stationsplatform"
+            },
+            "railway/rail": {
+                "name": "Jernbanespor"
+            },
+            "railway/station": {
+                "name": "Togstation"
+            },
+            "railway/subway": {
+                "name": "S-togspor"
+            },
+            "railway/subway_entrance": {
+                "name": "S-togstationsindgang"
+            },
+            "railway/tram": {
+                "name": "Sporvogn",
+                "terms": "delebil"
+            },
+            "shop": {
+                "name": "Butik"
+            },
+            "shop/alcohol": {
+                "name": "Vinforhandler",
+                "terms": "alkohol "
+            },
+            "shop/bakery": {
+                "name": "Bager"
+            },
+            "shop/beauty": {
+                "name": "Parfumebutik"
+            },
+            "shop/beverages": {
+                "name": "Vinforhandler"
+            },
+            "shop/bicycle": {
+                "name": "Cykelbutik"
+            },
+            "shop/books": {
+                "name": "Boghandler"
+            },
+            "shop/boutique": {
+                "name": "Boutique"
+            },
+            "shop/butcher": {
+                "name": "Slagter"
+            },
+            "shop/car": {
+                "name": "Bilforhandler"
+            },
+            "shop/car_parts": {
+                "name": "Autoudstyrsbutik"
+            },
+            "shop/car_repair": {
+                "name": "Autoværksted"
+            },
+            "shop/chemist": {
+                "name": "Kemiforhandler"
+            },
+            "shop/clothes": {
+                "name": "Tøjbutik"
+            },
+            "shop/computer": {
+                "name": "Computerforhandler"
+            },
+            "shop/confectionery": {
+                "name": "Slikbutik"
+            },
+            "shop/convenience": {
+                "name": "Minimarked"
+            },
+            "shop/deli": {
+                "name": "Deli"
+            },
+            "shop/department_store": {
+                "name": "Stormagasin"
+            },
+            "shop/doityourself": {
+                "name": "Gør-det-selv butik"
+            },
+            "shop/dry_cleaning": {
+                "name": "Tøjrenseri"
+            },
+            "shop/electronics": {
+                "name": "Elektronikbutik"
+            },
+            "shop/fishmonger": {
+                "name": "Fiskeforretning"
+            },
+            "shop/florist": {
+                "name": "Blomsterbutik"
+            },
+            "shop/furniture": {
+                "name": "Møbelforhandler"
+            },
+            "shop/garden_centre": {
+                "name": "Havecenter"
+            },
+            "shop/gift": {
+                "name": "Gavebutik"
+            },
+            "shop/greengrocer": {
+                "name": "Grønthandler"
+            },
+            "shop/hairdresser": {
+                "name": "Frisør"
+            },
+            "shop/hardware": {
+                "name": "Værktøjsbutik"
+            },
+            "shop/hifi": {
+                "name": "Radioforhandler"
+            },
+            "shop/jewelry": {
+                "name": "Juvelér"
+            },
+            "shop/kiosk": {
+                "name": "Kiosk"
+            },
+            "shop/laundry": {
+                "name": "Vaskeri"
+            },
+            "shop/mall": {
+                "name": "Indkøbscenter"
+            },
+            "shop/mobile_phone": {
+                "name": "Mobiltelefonforhandler"
+            },
+            "shop/motorcycle": {
+                "name": "Motorcykelforhandler"
+            },
+            "shop/music": {
+                "name": "Musikbutik"
+            },
+            "shop/newsagent": {
+                "name": "Bladforhandler"
+            },
+            "shop/optician": {
+                "name": "Optiker"
+            },
+            "shop/outdoor": {
+                "name": "Friluftudstyrsbutik"
+            },
+            "shop/pet": {
+                "name": "Kæledyrsbutik"
+            },
+            "shop/shoes": {
+                "name": "Skobutik"
+            },
+            "shop/sports": {
+                "name": "Sportsudstyrsbutik"
+            },
+            "shop/stationery": {
+                "name": "Papirforhandler"
+            },
+            "shop/supermarket": {
+                "name": "Supermarked",
+                "terms": "basar, butik, butikskæde,discountbutik,loppemarked, galleri,outlet-butik, shop, shoppingcenter, shopping,butik, supermarked"
+            },
+            "shop/toys": {
+                "name": "Legetøjsbutik"
+            },
+            "shop/travel_agency": {
+                "name": "Rejsebureau"
+            },
+            "shop/tyres": {
+                "name": "Dækforhandler"
+            },
+            "shop/vacant": {
+                "name": "Lukket butik (ingen salg pt)"
+            },
+            "shop/variety_store": {
+                "name": "Spøg og skæmtbutik "
+            },
+            "shop/video": {
+                "name": "Videobutik"
+            },
+            "tourism": {
+                "name": "Turisme"
+            },
+            "tourism/alpine_hut": {
+                "name": "Bjerghytte"
+            },
+            "tourism/artwork": {
+                "name": "Kunstværk"
+            },
+            "tourism/attraction": {
+                "name": "Turistattraktion"
+            },
+            "tourism/camp_site": {
+                "name": "Campingplads"
+            },
+            "tourism/caravan_site": {
+                "name": "Autocamperplads"
+            },
+            "tourism/chalet": {
+                "name": "Bjergferiehytte"
+            },
+            "tourism/guest_house": {
+                "name": "Gæstehus",
+                "terms": "B&B,Bed & Breakfast,Bed and Breakfast"
+            },
+            "tourism/hostel": {
+                "name": "Vandrehjem"
+            },
+            "tourism/hotel": {
+                "name": "Hotel"
+            },
+            "tourism/information": {
+                "name": "Information"
+            },
+            "tourism/motel": {
+                "name": "Motel"
+            },
+            "tourism/museum": {
+                "name": "Museum",
+                "terms": "udstilling, udstillinger,arkiver,galleri,bibliotek,salon"
+            },
+            "tourism/picnic_site": {
+                "name": "Picnic"
+            },
+            "tourism/theme_park": {
+                "name": "Forlystelsespark"
+            },
+            "tourism/viewpoint": {
+                "name": "Udsigtspunkt"
+            },
+            "tourism/zoo": {
+                "name": "Zoologisk have"
+            },
+            "waterway": {
+                "name": "Vandvej"
+            },
+            "waterway/canal": {
+                "name": "Kanal"
+            },
+            "waterway/dam": {
+                "name": "Dam"
+            },
+            "waterway/ditch": {
+                "name": "Grøft"
+            },
+            "waterway/drain": {
+                "name": "Drænløb"
+            },
+            "waterway/river": {
+                "name": "Flod",
+                "terms": "bæk,kurs,å,vandvej"
+            },
+            "waterway/riverbank": {
+                "name": "Flodbred"
+            },
+            "waterway/stream": {
+                "name": "Å",
+                "terms": "vandløb, kanal,flod, vand,å"
+            },
+            "waterway/weir": {
+                "name": "Stemmeværk"
+            }
+        }
+    }
+}
