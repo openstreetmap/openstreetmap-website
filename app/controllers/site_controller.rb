@@ -66,7 +66,7 @@ class SiteController < ApplicationController
     render :text => RichText.new(params[:format], params[:text]).to_html
   end
 
-  def id_iframe
-    render "id_iframe", :layout => false
+  def id
+    render "id", :layout => false
   end
 end
