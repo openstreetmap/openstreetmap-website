@@ -2,9 +2,10 @@
 //= require index/browse
 //= require index/export
 //= require index/key
+//= require index/notes
 
 $(document).ready(function () {
-  var permalinks = $("#permalink").html();
+  var permalinks = $("#permalink").detach().html();
   var marker;
   var params = OSM.mapParams();
   var map = createMap("map");
@@ -57,6 +58,10 @@ $(document).ready(function () {
       map.setView(centre, data.zoom);
     }
 
+    if (data.type && data.id) {
+      addObjectToMap(data, true);
+    }
+
     if (marker) {
       map.removeLayer(marker);
     }
@@ -65,10 +70,10 @@ $(document).ready(function () {
   });
 
   function updateLocation() {
-    var center = map.getCenter();
+    var center = map.getCenter().wrap();
     var zoom = map.getZoom();
     var layers = getMapLayers();
-    var extents = map.getBounds();
+    var extents = map.getBounds().wrap();
 
     updatelinks(center.lng,
                 center.lat,

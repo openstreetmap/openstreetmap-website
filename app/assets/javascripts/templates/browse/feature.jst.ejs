@@ -1,19 +1,15 @@
-<div style="text-align: center; margin-bottom: 20px;">
-  <a href="#" class="browse_show_list"><%- I18n.t('browse.start_rjs.object_list.back') %></a>
-</div>
-<table width="100%" class="browse_heading">
-  <tr>
-    <td><%- name %></td>
-    <td align="right">
-      <a href="<%- url %>"><%- I18n.t('browse.start_rjs.object_list.details') %></a>
-    </td>
-  </tr>
-</table>
 <div class="browse_details">
-  <ul>
+
+  <h4><%- name %></h4>
+  <a class='more-details' href="<%- url %>"><%- I18n.t('browse.start_rjs.object_list.details') %></a>
+
+  <ul class="inner12">
     <% for (var key in attributes) { %>
       <li><b><%- key %></b>: <%- attributes[key] %></li>
     <% } %>
+  <li> <a href="<%- url %>/history" class="browse_show_history"><%- I18n.t('browse.start_rjs.show_history') %></a></li>
   </ul>
-  <a href="<%- url %>/history" class="browse_show_history"><%- I18n.t('browse.start_rjs.show_history') %></a>
+
 </div>
+
+<a href="#" class="browse_show_list button"><%- I18n.t('browse.start_rjs.object_list.back') %></a>

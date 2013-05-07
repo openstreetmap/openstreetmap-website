@@ -1,28 +1,51 @@
 folder 'vendor/assets' do
   folder 'leaflet' do
-    from 'https://github.com/CloudMade/Leaflet.git' do
+    from 'git://github.com/Leaflet/Leaflet.git', :tag => 'v0.5' do
       file 'leaflet.css', 'dist/leaflet.css'
       file 'leaflet.ie.css', 'dist/leaflet.ie.css'
       file 'leaflet.js', 'dist/leaflet-src.js'
       folder 'images', 'dist/images'
     end
 
-    from 'https://github.com/tripbirds/leaflet-locationfilter.git' do
+    from 'git://github.com/kajic/leaflet-locationfilter.git' do
       file 'leaflet.locationfilter.css', 'src/locationfilter.css'
       file 'leaflet.locationfilter.js', 'src/locationfilter.js'
       folder 'img', 'src/img'
     end
 
-    from 'https://github.com/kartena/Leaflet.Pancontrol.git' do
+    from 'git://github.com/kartena/Leaflet.Pancontrol.git' do
       file 'leaflet.pan.js', 'src/L.Control.Pan.js'
     end
 
-    from 'https://github.com/kartena/Leaflet.zoomslider.git' do
+    from 'git://github.com/kartena/Leaflet.zoomslider.git' do
       file 'leaflet.zoom.js', 'src/L.Control.Zoomslider.js'
     end
 
-    from 'https://github.com/jfirebaugh/leaflet-osm.git' do
+    from 'git://github.com/jfirebaugh/leaflet-osm.git' do
       file 'leaflet.osm.js', 'leaflet-osm.js'
+    end
+  end
+
+  folder 'jquery' do
+    from 'git://github.com/jevin/Autogrow-Textarea.git' do
+      file 'jquery.autogrowtextarea.js', 'jquery.autogrowtextarea.js'
+    end  
+  end
+
+  folder 'ohauth' do
+    from 'git://github.com/osmlab/ohauth.git' do
+      file 'ohauth.js'
+    end
+  end
+
+  folder 'iD' do
+    from 'git://github.com/systemed/iD', :branch => '1-0-stable' do
+      folder 'iD/img', 'dist/img'
+      folder 'iD/locales', 'dist/locales'
+      file 'iD.css.erb', 'dist/iD.css' do |path|
+        rewrite(path) { |content| content.gsub(/url\('?(img\/[^')]+)'?\)/, 'url(<%= asset_path("iD/\1") %>)') }
+      end
+      file 'iD.js', 'dist/iD.js'
     end
   end
 end

@@ -1,5 +1,5 @@
 // Leaflet extensions
-L.LatLngBounds.include({
+L.extend(L.LatLngBounds.prototype, {
   getSouthLat: function () {
     return this._southWest.lat;
   },
@@ -29,10 +29,14 @@ L.LatLngBounds.include({
   getSize: function () {
     return (this._northEast.lat - this._southWest.lat) *
            (this._northEast.lng - this._southWest.lng);
+  },
+
+  wrap: function () {
+    return new L.LatLngBounds(this._southWest.wrap(), this._northEast.wrap());
   }
 });
 
-L.Bounds.include({
+L.extend(L.Bounds.prototype, {
   getWidth: function () {
    return this.max.x - this.min.x;
   },
@@ -45,6 +49,8 @@ L.Bounds.include({
 L.Icon.Default.imagePath = <%= "#{asset_prefix}/images".to_json %>;
 
 var map;
+var objectLayer;
+var objectLoader;
 
 var layers = [
   {
@@ -124,11 +130,19 @@ function getUserIcon(url) {
 }
 
 function addObjectToMap(object, zoom, callback) {
-  $.ajax({
+  if (objectLoader) {
+    objectLoader.abort();
+  }
+
+  if (objectLayer) {
+    map.removeLayer(objectLayer);
+  }
+
+  objectLoader = $.ajax({
     url: OSM.apiUrl(object),
     dataType: "xml",
     success: function (xml) {
-      var layer = new L.OSM.DataLayer(xml, {
+      objectLayer = new L.OSM.DataLayer(xml, {
         style: {
           strokeColor: "blue",
           strokeWidth: 3,
@@ -139,7 +153,7 @@ function addObjectToMap(object, zoom, callback) {
         }
       });
 
-      var bounds = layer.getBounds();
+      var bounds = objectLayer.getBounds();
 
       if (zoom) {
         map.fitBounds(bounds);
@@ -149,7 +163,7 @@ function addObjectToMap(object, zoom, callback) {
         callback(bounds);
       }
 
-      layer.addTo(map);
+      objectLayer.addTo(map);
     }
   });
 }

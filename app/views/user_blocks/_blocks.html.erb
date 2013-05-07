@@ -18,18 +18,18 @@
   <%= render :partial => 'block', :locals => {:show_revoke_link => show_revoke_link, :show_user_name => show_user_name, :show_creator_name => show_creator_name }, :collection => @user_blocks %>
 </table>
 
-<p>
+<ul class='secondary-actions'>
   <% if @user_blocks_pages.current_page.number > 1 -%>
-    <%= link_to t('user_block.partial.previous'), params.merge({ :page => @user_blocks_pages.current_page.number - 1 }) %>
+    <li><%= link_to t('user_block.partial.previous'), params.merge({ :page => @user_blocks_pages.current_page.number - 1 }) %></li>
   <% else -%>
-    <%= t('user_block.partial.previous') %>
+    <li><%= t('user_block.partial.previous') %></li>
   <% end -%>
 
-  | <%= t('user_block.partial.showing_page', :page => @user_blocks_pages.current_page.number) %> |
+  <li><%= t('user_block.partial.showing_page', :page => @user_blocks_pages.current_page.number) %></li>
 
   <% if @user_blocks_pages.current_page.number < @user_blocks_pages.page_count -%>
-    <%= link_to t('user_block.partial.next'), params.merge({ :page => @user_blocks_pages.current_page.number + 1 }) %>
+    <li><%= link_to t('user_block.partial.next'), params.merge({ :page => @user_blocks_pages.current_page.number + 1 }) %></li>
   <% else -%>
-    <%= t('user_block.partial.next') %>
+    <li><%= t('user_block.partial.next') %></li>
   <% end -%>
-</p>
+</ul>

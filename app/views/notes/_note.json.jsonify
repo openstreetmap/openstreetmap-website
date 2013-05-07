@@ -1,0 +1,33 @@
+json.type "Feature"
+
+json.geometry do
+  json.type "Point"
+  json.coordinates [ note.lon, note.lat ]
+end
+
+json.properties do
+  json.id note.id
+  json.url note_url(note, :format => params[:format])
+  json.comment_url comment_note_url(note, :format => params[:format])
+  json.close_url close_note_url(note, :format => params[:format])
+  json.date_created note.created_at
+  json.status note.status
+  json.closed_at note.closed_at if note.status == "closed"
+
+  json.comments(note.comments) do |comment|
+    json.date comment.created_at
+
+    if comment.author
+      json.uid comment.author.id
+      json.user comment.author.display_name
+      json.user_url user_url(:display_name => comment.author.display_name)
+    end
+
+    json.action comment.event
+
+    if comment.body
+      json.text comment.body.to_text
+      json.html comment.body.to_html
+    end
+  end
+end

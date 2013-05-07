@@ -1,4 +1,6 @@
-<h2><%= t 'trace.edit.heading', :name => h(@trace.name) %></h2>
+<% content_for :heading do %>
+  <h2><%= t 'trace.edit.heading', :name => h(@trace.name) %></h2>
+<% end %>
 
 <img src="<%= url_for :controller => 'trace', :action => 'picture', :id => @trace.id, :display_name => @trace.user.display_name %>">
 
@@ -8,7 +10,7 @@
   <tr>
     <td><%= t'trace.edit.filename' %></td>
     <td><%= @trace.name %> (<%= link_to t('trace.edit.download'), :controller => 'trace', :action => 'data', :id => @trace.id %>)</td>
-  </tr> 
+  </tr>
   <tr>
     <td><%= t'trace.edit.uploaded_at' %></td>
     <td><%= l @trace.timestamp, :format => :friendly %></td>

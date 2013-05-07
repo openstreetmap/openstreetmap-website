@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <%= stylesheet_link_tag 'iD' %>
+  <!--[if !IE || gte IE 9]><!-->
+  <%= javascript_include_tag 'iD' %>
+  <!-- <![endif]-->
+</head>
+<body>
+<div id='id-container'></div>
+<script>
+  if (typeof iD == 'undefined') {
+    document.getElementById('id-container').innerHTML = 'This editor is supported ' +
+      'in Firefox, Chrome, Safari, Opera, and Internet Explorer 9 and above. ' +
+      'Please upgrade your browser or use Potlatch 2 to edit the map.';
+    document.getElementById('id-container').className = 'unsupported';
+  } else {
+    <% locale = request.compatible_language_from(ID::LOCALES) || "en" %>
+
+    var id = iD()
+      .embed(true)
+      .assetPath("/assets/iD/") <%# Can't use asset_path('iD/') in production. %>
+      .locale("<%= locale %>", "<%= asset_path("iD/locales/#{locale}.json") %>")
+      .preauth({
+        <% token = @user.access_token(ID_KEY) %>
+        url: "<%= request.protocol + request.host_with_port %>",
+        oauth_consumer_key: "<%= token.client_application.key %>",
+        oauth_secret: "<%= token.client_application.secret %>",
+        oauth_token: "<%= token.token %>",
+        oauth_token_secret: "<%= token.secret %>"
+      });
+
+    id.map().on('move.embed', function() {
+      var extent = id.map().extent(),
+          zoom = ~~id.map().zoom(),
+          center = id.map().center();
+
+      parent.updatelinks(
+        center[0],
+        center[1],
+        zoom,
+        null,
+        extent[0][0],
+        extent[0][1],
+        extent[1][0],
+        extent[1][1]);
+    });
+
+    parent.$("body").on("click", "a.set_position", function (e) {
+      e.preventDefault();
+      var data = parent.$(this).data();
+
+      // 0ms timeout to avoid iframe JS context weirdness.
+      // http://bl.ocks.org/jfirebaugh/5439412
+      setTimeout(function() {
+        id.map().centerZoom(
+          [data.lon, data.lat],
+          Math.max(data.zoom || 15, 13));
+      }, 0);
+    });
+
+    var maximized = false;
+    id.on('toggleFullscreen.embed', function() {
+      if (maximized) {
+        parent.minimiseMap();
+      } else {
+        parent.maximiseMap();
+      }
+      maximized = !maximized;
+    });
+
+    d3.select('#id-container')
+      .call(id.ui());
+  }
+</script>
+</body>
+</html>

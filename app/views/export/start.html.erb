@@ -1,73 +1,69 @@
 <%= form_tag :action => "finish" do %>
 
-  <p class="export_heading"><%= t'export.start.area_to_export' %></p>
+  <h4><%= t'export.start.area_to_export' %></h4>
 
-  <div class="export_bounds">
-    <%= text_field_tag('maxlat', nil, :size => 10, :class => "export_bound") %>
-    <br/>
-    <%= text_field_tag('minlon', nil, :size => 10, :class => "export_bound") %>
-    <%= text_field_tag('maxlon', nil, :size => 10, :class => "export_bound") %>
-    <br/>
-    <%= text_field_tag('minlat', nil, :size => 10, :class => "export_bound") %>
-    <p class="export_hint">
-      <a id="drag_box" href="#"><%= t'export.start.manually_select' %></a>  
-    </p>
+  <div class="export_bounds inner12">
+    <div class='export_area_inputs'>
+      <%= text_field_tag('maxlat', nil, :size => 10, :class => "export_bound") %>
+      <br/>
+      <%= text_field_tag('minlon', nil, :size => 10, :class => "export_bound") %>
+      <%= text_field_tag('maxlon', nil, :size => 10, :class => "export_bound") %>
+      <br/>
+      <%= text_field_tag('minlat', nil, :size => 10, :class => "export_bound") %>
+    </div>
+    <a id="drag_box" class='export_hint button' href="#"><%= t'export.start.manually_select' %></a>
   </div>
 
-  <p class="export_heading"><%= t'export.start.format_to_export' %></p>
+  <h4><%= t'export.start.format_to_export' %></h4>
 
-  <div class="export_details">
-    <p>
-      <%= radio_button_tag("format", "osm") %> <%= t'export.start.osm_xml_data' %>
-      <br/>
-      <%= radio_button_tag("format", "mapnik") %> <%= t'export.start.map_image' %>
-      <br/>
-      <%= radio_button_tag("format", "html") %> <%= t'export.start.embeddable_html' %>
-    </p>
-  </div>
+  <ul class="export_details inner12">
+    <li><%= radio_button_tag("format", "osm") %> <%= t'export.start.osm_xml_data' %></li>
+    <li><%= radio_button_tag("format", "mapnik") %> <%= t'export.start.map_image' %></li>
+    <li><%= radio_button_tag("format", "html") %> <%= t'export.start.embeddable_html' %></li>
+  </ul>
 
   <div id="export_osm">
-    <p class="export_heading"><%= t'export.start.licence' %></p>
+    <h4><%= t'export.start.licence' %></h4>
 
-    <div class="export_details">
+    <div class="export_details inner12">
       <p><%= raw t'export.start.export_details' %></p>
     </div>
 
     <div  id="export_osm_too_large">
-      <p class="export_heading"><%= t'export.start.too_large.heading' %></p>
+      <h4><%= t'export.start.too_large.heading' %></h4>
 
-      <div class="export_details">
+      <div class="export_details inner12">
         <p><%= t'export.start.too_large.body' %></p>
       </div>
     </div>
   </div>
 
   <div id="export_mapnik">
-    <p class="export_heading"><%= t'export.start.options' %></p>
+    <h4><%= t'export.start.options' %></h4>
 
-    <div class="export_details">
-      <p><%= t'export.start.format' %> <%= select_tag("mapnik_format", options_for_select([["PNG", "png"], ["JPEG", "jpeg"], ["SVG", "svg"], ["PDF", "pdf"]], "png")) %></p>
-      <p><%= t'export.start.scale' %> 1 : <%= text_field_tag("mapnik_scale", nil, :size => 8) %> <span class="export_hint">(<%= t'export.start.max' %> 1 : <span id="mapnik_max_scale"></span>)</span></p>
-      <p><%= t'export.start.image_size' %> <span id="mapnik_image_width"></span> x <span id="mapnik_image_height"></span></p>
-    </div>
+    <ul class="export_details inner12">
+      <li><%= t'export.start.format' %> <%= select_tag("mapnik_format", options_for_select([["PNG", "png"], ["JPEG", "jpeg"], ["SVG", "svg"], ["PDF", "pdf"]], "png")) %></li>
+      <li><%= t'export.start.scale' %> 1 : <%= text_field_tag("mapnik_scale", nil) %> <p class="deemphasize export_hint">(<%= t'export.start.max' %> 1 : <span id="mapnik_max_scale"></span>)</p></li>
+      <li><%= t'export.start.image_size' %> <span id="mapnik_image_width"></span> x <span id="mapnik_image_height"></span></li>
+    </ul>
   </div>
 
   <div id="export_html">
-    <p class="export_heading"><%= t'export.start.options' %></p>
+    <h4><%= t'export.start.options' %></h4>
 
-    <div class="export_details">
-      <p><a id="add_marker" href="#"><%= t'export.start.add_marker' %></a></p>
-      <p id="marker_inputs" style="display:none">
-        <%= t'export.start.latitude' %> <input type="text" id="marker_lat" size="9" />
-        <%= t'export.start.longitude' %> <input type="text" id="marker_lon" size="9" />
-      </p>
+    <div class="export_details inner12">
+      <ul id="marker_inputs" style="display:none">
+        <li><%= t'export.start.latitude' %> <input type="text" id="marker_lat"/></li>
+        <li><%= t'export.start.longitude' %> <input type="text" id="marker_lon"/></li>
+      </ul>
+      <a id="add_marker" class='button' href="#"><%= t'export.start.add_marker' %></a>
     </div>
 
-    <p class="export_heading"><%= t'export.start.output' %></p>
+    <h4><%= t'export.start.output' %></h4>
 
-    <div class="export_details">
-      <p><input type="text" id="export_html_text" style="width:95%" /></p>
-      <p><%= t'export.start.paste_html' %></p>
+    <div class="export_details inner12">
+      <input type="text" id="export_html_text"/>
+      <p class='deemphasize'><%= t'export.start.paste_html' %></p>
     </div>
   </div>
 

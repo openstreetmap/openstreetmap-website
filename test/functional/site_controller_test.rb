@@ -58,6 +58,10 @@ class SiteControllerTest < ActionController::TestCase
       { :path => "/preview/formatname", :method => :get },
       { :controller => "site", :action => "preview", :format => "formatname" }
     )
+    assert_routing(
+      { :path => "/id", :method => :get },
+      { :controller => "site", :action => "id" }
+    )
   end
 
   ## Lets check that we can get all the pages without any errors  

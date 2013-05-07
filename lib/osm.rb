@@ -281,6 +281,23 @@ module OSM
     end
   end
 
+  # Raised when the note provided is already closed
+  class APINoteAlreadyClosedError < APIError
+    def initialize(note)
+      @note = note
+    end
+
+    attr_reader :note
+
+    def status
+      :conflict
+    end
+
+    def to_s
+      "The note #{@note.id} was closed at #{@note.closed_at}"
+    end
+  end
+
   # Helper methods for going to/from mercator and lat/lng.
   class Mercator
     include Math

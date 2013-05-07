@@ -4,6 +4,7 @@ en:
   time:
     formats:
       friendly: "%e %B %Y at %H:%M"
+      blog: "%e %B %Y"
   activerecord:
     # Translates all the model names, which is used in error handling on the web site
     models:
@@ -84,6 +85,9 @@ en:
     potlatch:
       name: "Potlatch 1"
       description: "Potlatch 1 (in-browser editor)"
+    id:
+      name: "iD"
+      description: "iD (in-browser editor)"
     potlatch2:
       name: "Potlatch 2"
       description: "Potlatch 2 (in-browser editor)"
@@ -120,6 +124,8 @@ en:
         next_relation_tooltip: "Next relation"
         prev_changeset_tooltip: "Previous changeset"
         next_changeset_tooltip: "Next changeset"
+        prev_note_tooltip: "Previous note"
+        next_note_tooltip: "Next note"
     changeset_details:
       created_at: "Created at:"
       closed_at: "Closed at:"
@@ -156,11 +162,13 @@ en:
         node: "View node on larger map"
         way: "View way on larger map"
         relation: "View relation on larger map"
+        note: "View note on larger map"
       edit:
         area: "Edit area"
         node: "Edit node"
         way: "Edit way"
         relation: "Edit relation"
+        note: "Edit note"
     node_details:
       coordinates: "Coordinates:"
       part_of: "Part of:"
@@ -190,7 +198,7 @@ en:
         relation: relation
         changeset: changeset
     paging_nav:
-      showing_page: "Showing page"
+      showing_page: "page"
       of: "of"
     redacted:
       redaction: "Redaction %{id}"
@@ -220,6 +228,7 @@ en:
       download_xml: "Download XML"
       view_history: "View history"
     start_rjs:
+      notes_layer_name: "Browse Notes"
       data_layer_name: "Browse Map Data"
       data_frame_title: "Data"
       zoom_or_select: "Zoom in or select an area of the map to view"
@@ -239,7 +248,7 @@ en:
       edited_by_user_at_timestamp: "Edited by %{user} at %{timestamp}"
       object_list:
         heading: "Object list"
-        back: "Display object list"
+        back: "Back to object list"
         type:
           node: "Node"
           way: "Way"
@@ -266,8 +275,8 @@ en:
       nodes: "Nodes:"
       part_of: "Part of:"
       also_part_of:
-        one: "also part of way %{related_ways}"
-        other: "also part of ways %{related_ways}"
+        one: "part of way %{related_ways}"
+        other: "part of ways %{related_ways}"
     way_history:
       way_history: "Way History"
       way_history_title: "Way History: %{way_name}"
@@ -279,13 +288,22 @@ en:
       download_xml: "Download XML"
       view_history: "View history"
       edit: "Edit way"
+    note:
+      open_title: "Unresolved note: %{note_name}"
+      closed_title: "Resolved note: %{note_name}"
+      opened: "Opened:"
+      last_modified: "Last modified:"
+      closed: "Closed:"
+      at_html: "%{when} ago"
+      at_by_html: "%{when} ago by %{user}"
+      description: "Description:"
+      comments: "Comments:"
   changeset:
     changeset_paging_nav:
-      showing_page: "Showing page %{page}"
+      showing_page: "Page %{page}"
       next: "Next »"
       previous: "« Previous"
     changeset:
-      id: "#%{id}"
       still_editing: "(still editing)"
       anonymous: "Anonymous"
       no_comment: "(none)"
@@ -312,14 +330,14 @@ en:
       heading_user_bbox: "Changesets"
       heading_friend: "Changesets"
       heading_nearby: "Changesets"
-      description: "Recent changes"
+      description: "Browse recent contributions to the map"
       description_user: "Changesets by %{user}"
       description_bbox: "Changesets within %{bbox}"
       description_user_bbox: "Changesets by %{user} within %{bbox}"
       description_friend: "Changesets by your friends"
       description_nearby: "Changesets by nearby users"
       empty_user_html: "It looks you haven't made any edits yet. To get started, check out the <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Beginners Guide</a>."
-      empty_anon_html: "No edits made yet"
+      empty_anon_html: "No edits made yet."
     timeout:
       sorry: "Sorry, the list of changesets you requested took too long to retrieve."
   diary_entry:
@@ -334,7 +352,7 @@ en:
       new: New Diary Entry
       new_title: Compose a new entry in your user diary
       no_entries: No diary entries
-      recent_entries: "Recent diary entries:"
+      recent_entries: "Recent diary entries"
       older_entries: Older Entries
       newer_entries: Newer Entries
     edit:
@@ -685,6 +703,8 @@ en:
           airfield: "Military Airfield"
           barracks: "Barracks"
           bunker: "Bunker"
+        mountain_pass:
+          "yes" : "Mountain Pass"
         natural:
           bay: "Bay"
           beach: "Beach"
@@ -933,7 +953,6 @@ en:
       h1: OpenStreetMap
     logo:
       alt_text: OpenStreetMap logo
-    welcome_user: "Welcome, %{user_link}"
     welcome_user_link_tooltip: Your user page
     home: home
     home_tooltip: Go to home location
@@ -1191,6 +1210,20 @@ en:
       greeting: "Hi,"
       hopefully_you: "Someone (possibly you) has asked for the password to be reset on this email address's openstreetmap.org account."
       click_the_link: "If this is you, please click the link below to reset your password."
+    note_comment_notification:
+      anonymous: An anonymous user
+      greeting: "Hi,"
+      commented:
+        subject_own: "[OpenStreetMap] %{commenter} has commented on one of your notes"
+        subject_other: "[OpenStreetMap] %{commenter} has commented on a note you are interested in"
+        your_note: "%{commenter} has left a comment on one of your map notes near %{place}."
+        commented_note: "%{commenter} has left a comment on a map note you have commented on. The note is near %{place}."
+      closed:
+        subject_own: "[OpenStreetMap] %{commenter} has resolved one of your notes"
+        subject_other: "[OpenStreetMap] %{commenter} has resolved a note you are interested in"
+        your_note: "%{commenter} has resolved one of your map notes near %{place}."
+        commented_note: "%{commenter} has resolved a map note you have commented on. The note is near %{place}."
+      details: "More details about the note can be found at %{url}."
   message:
     inbox:
       title: "Inbox"
@@ -1243,14 +1276,12 @@ en:
       wrong_user: "You are logged in as `%{user}' but the message you have asked to reply to was not sent to that user. Please login as the correct user in order to reply."
     read:
       title: "Read message"
-      reading_your_messages: "Reading your messages"
       from: "From"
       subject: "Subject"
       date: "Date"
       reply_button: "Reply"
       unread_button: "Mark as unread"
       back_to_inbox: "Back to inbox"
-      reading_your_sent_messages: "Reading your sent messages"
       to: "To"
       back_to_outbox: "Back to outbox"
       wrong_user: "You are logged in as `%{user}' but the message you have asked to read was not sent by or to that user. Please login as the correct user in order to read it."
@@ -1267,6 +1298,7 @@ en:
       js_2: "OpenStreetMap uses JavaScript for its slippy map."
       permalink: Permalink
       shortlink: Shortlink
+      createnote: Add a note
       license:
         copyright: "Copyright OpenStreetMap and contributors, under an open license"
         license_url: "http://openstreetmap.org/copyright"
@@ -1283,6 +1315,7 @@ en:
       potlatch_unsaved_changes: "You have unsaved changes. (To save in Potlatch, you should deselect the current way or point, if editing in live mode, or click save if you have a save button.)"
       potlatch2_not_configured: "Potlatch 2 has not been configured - please see http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 for more information"
       potlatch2_unsaved_changes: "You have unsaved changes. (To save in Potlatch 2, you should click save.)"
+      id_not_configured: "iD has not been configured"
       no_iframe_support: "Your browser doesn't support HTML iframes, which are necessary for this feature."
     sidebar:
       search_results: Search Results
@@ -1444,7 +1477,7 @@ en:
       trace_not_found: "Trace not found!"
       visibility: "Visibility:"
     trace_paging_nav:
-      showing_page: "Showing page %{page}"
+      showing_page: "Page %{page}"
       older: "Older Traces"
       newer: "Newer Traces"
     trace:
@@ -1467,6 +1500,7 @@ en:
       public_traces: "Public GPS traces"
       your_traces: "Your GPS traces"
       public_traces_from: "Public GPS traces from %{user}"
+      description: "Browse recent GPS track uploads"
       tagged_with: " tagged with %{tags}"
       empty_html: "Nothing here yet. <a href='%{upload_link}'>Upload a new trace</a> or learn more about GPS tracing on the <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki page</a>."
     delete:
@@ -1496,6 +1530,7 @@ en:
       allow_write_api:   "modify the map."
       allow_read_gpx:    "read your private GPS traces."
       allow_write_gpx:   "upload GPS traces."
+      allow_write_notes: "modify notes."
     revoke:
       flash: "You've revoked the token for %{application}"
   oauth_clients:
@@ -1512,7 +1547,7 @@ en:
       url: "Request Token URL:"
       access_url: "Access Token URL:"
       authorize_url: "Authorise URL:"
-      support_notice: "We support HMAC-SHA1 (recommended) as well as plain text in SSL mode."
+      support_notice: "We support HMAC-SHA1 (recommended) and RSA-SHA1 signatures."
       edit: "Edit Details"
       delete: "Delete Client"
       confirm: "Are you sure?"
@@ -1523,6 +1558,7 @@ en:
       allow_write_api:   "modify the map."
       allow_read_gpx:    "read their private GPS traces."
       allow_write_gpx:   "upload GPS traces."
+      allow_write_notes: "modify notes."
     index:
       title: "My OAuth Details"
       my_tokens: "My Authorised Applications"
@@ -1547,6 +1583,7 @@ en:
       allow_write_api:   "modify the map."
       allow_read_gpx:    "read their private GPS traces."
       allow_write_gpx:   "upload GPS traces."
+      allow_write_notes: "modify notes."
     not_found:
       sorry: "Sorry, that %{type} could not be found."
     create:
@@ -1676,6 +1713,7 @@ en:
       new diary entry: new diary entry
       my edits: my edits
       my traces: my traces
+      my notes: my map notes
       my settings: my settings
       my comments: my comments
       oauth settings: oauth settings
@@ -1685,8 +1723,9 @@ en:
       diary: diary
       edits: edits
       traces: traces
-      remove as friend: remove as friend
-      add as friend: add as friend
+      notes: map notes
+      remove as friend: unfriend
+      add as friend: add friend
       mapper since: "Mapper since:"
       ago: "(%{time_in_words_ago} ago)"
       ct status: "Contributor terms:"
@@ -1700,7 +1739,7 @@ en:
       spam score: "Spam Score:"
       description: Description
       user location: User location
-      if set location: "If you set your location, a pretty map and stuff will appear here. You can set your home location on your %{settings_link} page."
+      if set location: "Set your home location on the %{settings_link} page to see nearby users."
       settings_link_text: settings
       your friends: Your friends
       no friends: You have not added any friends yet.
@@ -1728,10 +1767,10 @@ en:
       unhide_user: "unhide this user"
       delete_user: "delete this user"
       confirm: "Confirm"
-      friends_changesets: "Browse all changesets by friends"
-      friends_diaries: "Browse all diary entries by friends"
-      nearby_changesets: "Browse all changesets by nearby users"
-      nearby_diaries: "Browse all diary entries by nearby users"
+      friends_changesets: "friends' changesets"
+      friends_diaries: "friends' diary entries"
+      nearby_changesets: "nearby user changesets"
+      nearby_diaries: "nearby user diary entries"
     popup:
       your location: "Your location"
       nearby mapper: "Nearby mapper"
@@ -1812,12 +1851,12 @@ en:
     make_friend:
       heading: "Add %{user} as a friend?"
       button: "Add as friend"
-      success: "%{name} is now your friend."
+      success: "%{name} is now your friend!"
       failed: "Sorry, failed to add %{name} as a friend."
       already_a_friend: "You are already friends with %{name}."
     remove_friend:
-      heading: "Remove %{user} as a friend?"
-      button: "Remove as friend"
+      heading: "Unfriend %{user}?"
+      button: "Unfriend"
       success: "%{name} was removed from your friends."
       not_a_friend: "%{name} is not one of your friends."
     filter:
@@ -1826,8 +1865,8 @@ en:
       title: Users
       heading: Users
       showing:
-        one: Showing page %{page} (%{first_item} of %{items})
-        other: Showing page %{page} (%{first_item}-%{last_item} of %{items})
+        one: Page %{page} (%{first_item} of %{items})
+        other: Page %{page} (%{first_item}-%{last_item} of %{items})
       summary: "%{name} created from %{ip_address} on %{date}"
       summary_no_ip: "%{name} created on %{date}"
       confirm: Confirm Selected Users
@@ -1926,7 +1965,7 @@ en:
       status: "Status"
       revoker_name: "Revoked by"
       not_revoked: "(not revoked)"
-      showing_page: "Showing page %{page}"
+      showing_page: "Page %{page}"
       next: "Next »"
       previous: "« Previous"
     helper:
@@ -1955,6 +1994,36 @@ en:
       back: "View all blocks"
       revoker: "Revoker:"
       needs_view: "The user needs to log in before this block will be cleared."
+  note:
+    description:
+      opened_at_html: "Created %{when} ago"
+      opened_at_by_html: "Created %{when} ago by %{user}"
+      commented_at_html: "Updated %{when} ago"
+      commented_at_by_html: "Updated %{when} ago by %{user}"
+      closed_at_html: "Resolved %{when} ago"
+      closed_at_by_html: "Resolved %{when} ago by %{user}"
+      reopened_at_html: "Reactivated %{when} ago"
+      reopened_at_by_html: "Reactivated %{when} ago by %{user}"
+    rss:
+      title: "OpenStreetMap Notes"
+      description_area: "A list of notes, reported, commented on or closed in your area [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]"
+      description_item: "An rss feed for note %{id}"
+      closed: "closed note (near %{place})"
+      new: "new note (near %{place})"
+      comment: "new comment (near %{place})"
+    entry:
+      comment: Comment
+      full: Full note
+    mine:
+      title: "Notes submitted or commented on by %{user}"
+      heading: "%{user}'s notes"
+      subheading: "Notes submitted or commented on by %{user}"
+      id: "Id"
+      creator: "Creator"
+      description: "Description"
+      created_at: "Created at"
+      last_changed: "Last changed"
+      ago_html: "%{when} ago"
   javascripts:
     map:
       base:
@@ -1971,6 +2040,28 @@ en:
       history_tooltip: View edits for this area
       history_disabled_tooltip: Zoom in to view edits for this area
       history_zoom_alert: You must zoom in to view edits for this area
+      createnote_tooltip: Add a note to the map
+      createnote_disabled_tooltip: Zoom in to add a note to the map
+      createnote_zoom_alert: You must zoom in to add a note to the map
+    notes:
+      new:
+        intro: "In order to improve the map the information you enter is shown to other mappers, so please be as descriptive and precise as possible when moving the marker to the correct position and entering your note below."
+        add: Add Note
+      show:
+        permalink: Permalink
+        anonymous_warning: This note includes comments from anonymous users which should be independently verified.
+        opened_by: "created by <a href='%{user_url}'>%{user}</a> at %{time}"
+        opened_by_anonymous: "created by anonymous at %{time}"
+        commented_by: "comment from <a href='%{user_url}'>%{user}</a> at %{time}"
+        commented_by_anonymous: "comment from anonymous at %{time}"
+        closed_by: "resolved by <a href='%{user_url}'>%{user}</a> at %{time}"
+        closed_by_anonymous: "resolved by anonymous at %{time}"
+        reopened_by: "reactivated by <a href='%{user_url}'>%{user}</a> at %{time}"
+        reopened_by_anonymous: "reactivated by anonymous at %{time}"
+        hide: Hide
+        resolve: Resolve
+        comment_and_resolve: Comment & Resolve
+        comment: Comment
   redaction:
     edit:
       description: "Description"
