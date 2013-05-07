@@ -25,7 +25,9 @@ xml.rss("version" => "2.0",
         xml.link url_for(:controller => "browse", :action => "note", :id => comment.note.id, :only_path => false)
         xml.guid url_for(:controller => "browse", :action => "note", :id => comment.note.id, :only_path => false)
 
-        xml.description render(:partial => "entry", :object => comment, :formats => [ :html ])
+        xml.description do
+          xml.cdata! render(:partial => "entry", :object => comment, :formats => [ :html ])
+        end
 
         if comment.author
           xml.author comment.author.display_name
