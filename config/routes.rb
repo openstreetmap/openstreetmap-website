@@ -131,7 +131,7 @@ OpenStreetMap::Application.routes.draw do
   match '/logout' => 'user#logout', :via => [:get, :post]
   match '/offline' => 'site#offline', :via => :get
   match '/key' => 'site#key', :via => :get
-  match '/id_iframe' => 'site#id_iframe', :via => :get
+  match '/id' => 'site#id', :via => :get
   match '/user/new' => 'user#new', :via => :get
   match '/user/terms' => 'user#terms', :via => [:get, :post]
   match '/user/save' => 'user#save', :via => :post
