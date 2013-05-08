@@ -344,8 +344,8 @@ private
   def nsew_to_decdeg(captures)
     begin
       Float(captures[0])
-      captures[1].downcase != 's' ? lat = captures[0].to_f : lat = -(captures[0].to_f)
-      captures[4].downcase != 'w' ? lon = captures[3].to_f : lon = -(captures[3].to_f)
+      captures[2].downcase != 's' ? lat = captures[0].to_f : lat = -(captures[0].to_f)
+      captures[5].downcase != 'w' ? lon = captures[3].to_f : lon = -(captures[3].to_f)
     rescue
       captures[0].downcase != 's' ? lat = captures[1].to_f : lat = -(captures[1].to_f)
       captures[3].downcase != 'w' ? lon = captures[4].to_f : lon = -(captures[4].to_f)
