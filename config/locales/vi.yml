@@ -124,22 +124,26 @@ vi:
       edit: 
         area: Sửa đổi vùng
         node: Sửa đổi nốt
+        note: Sửa đổi ghi chú
         relation: Sửa đổi quan hệ
         way: Sửa đổi lối
       larger: 
         area: Xem vùng trên bản đồ rộng hơn
         node: Xem nốt trên bản đồ rộng hơn
+        note: Xem ghi chú trên bản đồ rộng hơn
         relation: Xem quan hệ trên bản đồ rộng hơn
         way: Xem lối trên bản đồ rộng hơn
       loading: Đang tải…
     navigation: 
       all: 
         next_changeset_tooltip: Bộ thay đổi sau
-        next_node_tooltip: Node tiếp theo
+        next_node_tooltip: Nốt sau
+        next_note_tooltip: Ghi chú sau
         next_relation_tooltip: Quan hệ sau
         next_way_tooltip: Đường tiếp theo
         prev_changeset_tooltip: Bộ thay đổi trước
-        prev_node_tooltip: Node trước
+        prev_node_tooltip: Nốt trước
+        prev_note_tooltip: Ghi chú trước
         prev_relation_tooltip: Relation trước
         prev_way_tooltip: Lối trước
       user: 
@@ -167,6 +171,16 @@ vi:
         node: nốt
         relation: quan hệ
         way: lối
+    note: 
+      at_by_html: cách đây %{when} bởi %{user}
+      at_html: cách đây %{when}
+      closed: "Đóng:"
+      closed_title: "Ghi chú đã giải quyết: %{note_name}"
+      comments: "Ghi chú:"
+      description: "Miêu tả:"
+      last_modified: "Sửa đổi lần cuối:"
+      open_title: "Ghi chú chưa giải quyết: %{note_name}"
+      opened: "Mở:"
     paging_nav: 
       of: trong
       showing_page: trang
@@ -200,13 +214,14 @@ vi:
       data_frame_title: Dữ liệu
       data_layer_name: Xem Dữ liệu Bản đồ
       details: Chi tiết
-      edited_by_user_at_timestamp: Được sửa đổi bởi %{user} lúc %{timestamp}
+      edited_by_user_at_timestamp: Được %{user} sửa đổi vào %{timestamp}
       hide_areas: Ẩn các khu vực
       history_for_feature: Lịch sử %{đối tượng}
       load_data: Tải Dữ liệu
       loaded_an_area_with_num_features: Bạn đã tải vùng chứa %{num_features} đối tượng. Một số trình duyệt bị trục trặc khi hiển thị nhiều dữ liệu như thế. Nói chung, các trình duyệt hoạt động tốt với tối đa 100 đối tượng cùng lúc; nếu hơn thì trình duyệt sẽ chậm chạp. Nếu bạn chắc chắn muốn xem dữ liệu này, hãy bấm nút ở dưới.
       loading: Đang tải…
       manually_select: Chọn vùng khác thủ công
+      notes_layer_name: Xem các Ghi chú
       object_list: 
         api: Lấy vùng này dùng API
         back: Quay lại danh sách đối tượng
@@ -312,7 +327,7 @@ vi:
       post: Mục nhật ký
       when: Lúc đăng
     diary_comment: 
-      comment_from: Bình luận của %{link_user} lúc %{comment_created_at}
+      comment_from: Bình luận của %{link_user} vào %{comment_created_at}
       confirm: Xác nhận
       hide_link: Ẩn bình luận này
     diary_entry: 
@@ -323,7 +338,7 @@ vi:
       confirm: Xác nhận
       edit_link: Sửa đổi mục này
       hide_link: Ẩn mục này
-      posted_by: Được đăng bởi %{link_user} lúc %{created} bằng %{language_link}
+      posted_by: Do %{link_user} đăng vào %{created} bằng %{language_link}
       reply_link: Trả lời mục này
     edit: 
       body: "Nội dung:"
@@ -925,7 +940,29 @@ vi:
         transport_map: Bản đồ Giao thông
       overlays: 
         maplint: Maplint
+    notes: 
+      new: 
+        add: Thêm Ghi chú
+        intro: Những thông tin bạn nhập được hiển thị cho những người dùng khác để cho họ cải thiện bản đồ. Xin vui lòng chuyển ghim vào đúng vị trí và ghi chú trong hộp bên dưới càng rõ ràng càng tốt.
+      show: 
+        anonymous_warning: Ghi chú này có bình luận của người dùng vô danh đóng góp; các bình luận này cần được xác nhận lại.
+        closed_by: được giải quyết bởi <a href='%{user_url}'>%{user}</a> vào %{time}
+        closed_by_anonymous: được giải quyết bởi người dùng vô danh vào %{time}
+        comment: Bình luận
+        comment_and_resolve: Bình luận & Giải quyết
+        commented_by: bình luận của <a href='%{user_url}'>%{user}</a> vào %{time}
+        commented_by_anonymous: bình luận của người dùng vô danh vào %{time}
+        hide: Ẩn
+        opened_by: do <a href='%{user_url}'>%{user}</a> tạo ra vào %{time}
+        opened_by_anonymous: do người dùng vô danh tạo ra vào %{time}
+        permalink: Liên kết Thường trực
+        reopened_by: được <a href='%{user_url}'>%{user}</a> mở lại vào %{time}
+        reopened_by_anonymous: được người dùng vô danh mở lại vào %{time}
+        resolve: Giải quyết
     site: 
+      createnote_disabled_tooltip: Phóng to để thêm một ghi chú vào bản đồ
+      createnote_tooltip: Thêm một ghi chú vào bản đồ
+      createnote_zoom_alert: Bạn cần phải phóng to để thêm ghi chú vào bản đồ
       edit_disabled_tooltip: Phóng to để sửa đổi bản đồ
       edit_tooltip: Sửa đổi bản đồ
       edit_zoom_alert: Hãy phóng to hơn để sửa đổi bản đồ
@@ -1096,6 +1133,27 @@ vi:
       wrong_user: Bạn đã đăng nhập dùng tài khoản “%{user}” nhưng vừa yêu cầu trả lời một thư không được gửi đến bạn. Xin hãy đăng nhập với nhận diện chính xác để trả lời.
     sent_message_summary: 
       delete_button: Xóa
+  note: 
+    entry: 
+      comment: Bình luận
+      full: Ghi chú đầy đủ
+    mine: 
+      ago_html: cách đây %{when}
+      created_at: Lúc tạo
+      creator: Người tạo
+      description: Miêu tả
+      heading: Ghi chú của %{user}
+      id: Mã số
+      last_changed: Thay đổi gần đây nhất
+      subheading: Các ghi chú do %{user} lưu hoặc bình luận
+      title: Các ghi chú do %{user} lưu hoặc bình luận
+    rss: 
+      closed: đóng ghi chú (gần %{place})
+      comment: bình luận mới (gần %{place})
+      description_area: Danh sách các ghi chú được mở, bình luận, hoặc đóng trong khu vực của bạn [(%{min_lat}|%{min_lon}) – (%{max_lat}|%{max_lon})]
+      description_item: Nguồn tin RSS của ghi chú %{id}
+      new: mở ghi chú (gần %{place})
+      title: Ghi chú OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Bạn cũng có thể đọc bình luận tại %{readurl}, bình luận tại %{commenturl}, hoặc trả lời tại %{replyurl}
@@ -1111,8 +1169,6 @@ vi:
     email_confirm_plain: 
       click_the_link: Nếu bạn là người đó, xin hãy nhấn chuột vào liên kết ở dưới để xác nhận thay đổi này.
       greeting: Chào bạn,
-      hopefully_you_1: Ai (chắc bạn) muốn đổi địa chỉ thư điện tử bên
-      hopefully_you_2: "%{server_url} thành %{new_address}."
     friend_notification: 
       befriend_them: Cũng có thể thêm họ vào danh sách người bạn tại %{befriendurl}.
       had_added_you: "%{user} đã thêm bạn vào danh sách bạn tại OpenStreetMap."
@@ -1142,13 +1198,15 @@ vi:
     lost_password_plain: 
       click_the_link: Nếu bạn là người đó, xin hãy nhấn chuột vào liên kết ở dưới để đặt lại mật khẩu.
       greeting: Chào bạn,
-      hopefully_you_1: Ai (chắc bạn) đã xin đặt lại mật khẩu của tài khoản openstreetmap.org
-      hopefully_you_2: có địa chỉ thư điện tử này.
     message_notification: 
       footer1: Bạn cũng có thể đọc thư này tại %{readurl}
       footer2: và trả lời tại %{replyurl}
       header: "%{from_user} đã gửi thư cho bạn dùng OpenStreetMap có tiêu đề %{subject}:"
       hi: Chào %{to_user},
+    note_comment_notification: 
+      anonymous: Người dùng vô danh
+      details: Xem chi tiết về ghi chú tại %{url}.
+      greeting: Chào bạn,
     signup_confirm: 
       confirm: "Trước tiên, chúng tôi cần xác nhận bạn là người mở tài khoản này. Nếu phải, xin vui lòng sử dụng liên kết ở dưới để xác nhận tài khoản mới của bạn:"
       created: Ai đó (có lẽ là bạn) vừa mở tài khoản tại %{site_url}.
@@ -1185,6 +1243,7 @@ vi:
       allow_write_api: sửa đổi bản đồ.
       allow_write_diary: tạo mục trong nhật ký, bình luận, và thêm người bạn.
       allow_write_gpx: tải lên tuyến đường GPS.
+      allow_write_notes: thay đổi ghi chú.
       allow_write_prefs: thay đổi tùy chọn cá nhân.
       request_access: Chương trình %{app_name} xin phép truy cập tài khoản của bạn, %{user}. Xin hãy chọn những khả năng mà bạn muốn cấp cho chương trình này. Bạn có thể chọn nhiều hay ít khả năng tùy ý.
     revoke: 
@@ -1203,6 +1262,7 @@ vi:
       allow_write_api: sửa đổi bản đồ.
       allow_write_diary: tạo mục trong nhật ký, bình luận, và thêm người bạn.
       allow_write_gpx: tải lên tuyến đường GPS.
+      allow_write_notes: thay đổi ghi chú.
       allow_write_prefs: thay đổi tùy chọn cá nhân.
       callback_url: URL Gọi lại
       name: Tên
@@ -1233,6 +1293,7 @@ vi:
       allow_write_api: sửa đổi bản đồ.
       allow_write_diary: tạo mục trong nhật ký, bình luận, và thêm người bạn.
       allow_write_gpx: tải lên tuyến đường GPS.
+      allow_write_notes: thay đổi ghi chú.
       allow_write_prefs: thay đổi tùy chọn cá nhân.
       authorize_url: "Cho phép URL:"
       confirm: Bạn có chắc không?
@@ -1289,6 +1350,7 @@ vi:
       potlatch_unsaved_changes: Bạn có thay đổi chưa lưu. (Để lưu trong Potlatch, hãy bỏ chọn lối hoặc địa điểm đang được chọn, nếu đến sửa đổi trong chế độ Áp dụng Ngay, hoặc bấm nút Lưu nếu có.)
       user_page_link: trang cá nhân
     index: 
+      createnote: Thêm ghi chú
       js_1: Hoặc trình duyệt của bạn không hỗ trợ JavaScript, hoặc bạn đã tắt JavaScript.
       js_2: OpenStreetMap sử dụng JavaScript cho chức năng bản đồ trơn.
       license: 
@@ -1741,6 +1803,7 @@ vi:
       my comments: bình luận của tôi
       my diary: nhật ký của tôi
       my edits: đóng góp của tôi
+      my notes: ghi chú bản đồ của tôi
       my settings: tùy chọn
       my traces: tuyến đường của tôi
       nearby users: Người dùng khác ở gần
@@ -1749,6 +1812,7 @@ vi:
       new diary entry: mục nhật ký mới
       no friends: Bạn chưa thêm người bạn.
       no nearby users: Không có người dùng nào nhận rằng họ ở gần.
+      notes: ghi chú bản đồ
       oauth settings: thiết lập OAuth
       remove as friend: hủy kết nối bạn
       role: 

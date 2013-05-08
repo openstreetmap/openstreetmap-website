@@ -137,11 +137,13 @@ cs:
       edit: 
         area: Upravit oblast
         node: Upravit uzel
+        note: Upravit poznámku
         relation: Upravit relaci
         way: Upravit cestu
       larger: 
         area: Zobrazit oblast na větší mapě
         node: Zobrazit uzel na větší mapě
+        note: Zobrazit poznámku na větší mapě
         relation: Zobrazit relaci na větší mapě
         way: Zobrazit cestu na větší mapě
       loading: Načítá se…
@@ -149,10 +151,12 @@ cs:
       all: 
         next_changeset_tooltip: Další sada změn
         next_node_tooltip: Následující uzel
+        next_note_tooltip: Následující poznámka
         next_relation_tooltip: Následující relace
         next_way_tooltip: Následující cesta
         prev_changeset_tooltip: Předchozí sada změn
         prev_node_tooltip: Předchozí uzel
+        prev_note_tooltip: Předchozí poznámka
         prev_relation_tooltip: Předchozí relace
         prev_way_tooltip: Předchozí cesta
       user: 
@@ -180,6 +184,16 @@ cs:
         node: uzel
         relation: relace
         way: cesta
+    note: 
+      at_by_html: před %{when} od %{user}
+      at_html: před %{when}
+      closed: "Uzavřena:"
+      closed_title: "Vyřešená poznámka: %{note_name}"
+      comments: "Komentáře:"
+      description: "Popis:"
+      last_modified: "Naposledy změněna:"
+      open_title: "Nevyřešená poznámka: %{note_name}"
+      opened: "Otevřena:"
     paging_nav: 
       of: z
       showing_page: stránka
@@ -220,6 +234,7 @@ cs:
       loaded_an_area_with_num_features: Máte načtenu oblast, která obsahuje %{num_features} prvků. Některé prohlížeče mohou mít potíže při zobrazování takového množství dat. Obecně fungují prohlížeče nejlépe při zobrazování ne více než %{max_features} prvků současně – větší množství může způsobit, že bude prohlížeč reagovat pomalu či vůbec. Pokud jste si jisti, že chcete tato data zobrazit, klikněte na tlačítko níže.
       loading: Načítá se…
       manually_select: Ručně vybrat jinou oblast
+      notes_layer_name: Procházet poznámky
       object_list: 
         api: Získat tuto oblast pomocí API
         back: Zpět na seznam objektů
@@ -938,7 +953,29 @@ cs:
         mapquest: MapQuest Open
         standard: Standardní
         transport_map: Dopravní mapa
+    notes: 
+      new: 
+        add: Přidat poznámku
+        intro: Abychom vylepšili mapu, zobrazí se vámi zadané informace ostatním tvůrcům, takže buďte při umisťování značky a zadávání poznámky co nejvíce podrobní a přesní.
+      show: 
+        anonymous_warning: Tato poznámka zahrnuje komentáře anonymních uživatelů, které by se měly nezávisle ověřit.
+        closed_by: vyřešil <a href='%{user_url}'>%{user}</a> v %{time}
+        closed_by_anonymous: vyřešil anonym v %{time}
+        comment: Okomentovat
+        comment_and_resolve: Okomentovat a vyřešit
+        commented_by: komentář od uživatele <a href='%{user_url}'>%{user}</a> z %{time}
+        commented_by_anonymous: komentář od anonyma z %{time}
+        hide: Skrýt
+        opened_by: vytvořil <a href='%{user_url}'>%{user}</a> v %{time}
+        opened_by_anonymous: vytvořil anonym v %{time}
+        permalink: Trvalý odkaz
+        reopened_by: reaktivoval <a href='%{user_url}'>%{user}</a> v %{time}
+        reopened_by_anonymous: reaktivoval anonym v %{time}
+        resolve: Vyřešit
     site: 
+      createnote_disabled_tooltip: Pro přidání poznámky přejděte na větší měřítko
+      createnote_tooltip: Přidat do mapy poznámku
+      createnote_zoom_alert: Pro přidání poznámky do mapy musíte přejít na větší měřítko
       edit_disabled_tooltip: Pro editaci mapy přejděte na větší měřítko
       edit_tooltip: Upravit mapu
       edit_zoom_alert: Upravovat mapu můžete jen ve větším přiblížení
@@ -1117,6 +1154,27 @@ cs:
       wrong_user: Jste přihlášeni jako „%{user}“, ale zpráva, na kterou chcete odpovědět, nebyla poslána tomuto uživateli. Pokud na ni chcete odpovědět, přihlaste se pod správným účtem.
     sent_message_summary: 
       delete_button: Smazat
+  note: 
+    entry: 
+      comment: Komentář
+      full: Celá poznámka
+    mine: 
+      ago_html: před %{when}
+      created_at: Vytvořeno
+      creator: Tvůrce
+      description: Popis
+      heading: Poznámky uživatele %{user}
+      id: ID
+      last_changed: Poslední změna
+      subheading: Poznámky vytvořené nebo okomentované uživatelem %{user}
+      title: Poznámky vytvořené nebo okomentované uživatelem %{user}
+    rss: 
+      closed: poznámka uzavřena (poblíž %{place})
+      comment: nový komentář (poblíž %{place})
+      description_area: Seznam poznámek hlášených, komentovaných nebo uzavřených ve vaší oblasti [(%{min_lat}|%{min_lon}) – (%{max_lat}|%{max_lon})]
+      description_item: RSS kanál k poznámce %{id}
+      new: nová poznámka (poblíž %{place})
+      title: Poznámky OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Také si můžete komentář přečíst na %{readurl}, komentovat na %{commenturl} nebo odpovědět na %{replyurl}
@@ -1132,8 +1190,6 @@ cs:
     email_confirm_plain: 
       click_the_link: Pokud jste to byli vy, potvrďte změnu kliknutím na následující odkaz.
       greeting: Ahoj,
-      hopefully_you_1: Někdo (snad vy) požádal o změnu e-mailové adresy na serveru
-      hopefully_you_2: "%{server_url} na %{new_address}."
     friend_notification: 
       befriend_them: Můžete si ho/ji také přidat jako přítele na %{befriendurl}.
       had_added_you: "%{user} si vás na OpenStreetMap přidal(a) jako přítele."
@@ -1162,13 +1218,15 @@ cs:
     lost_password_plain: 
       click_the_link: Pokud tedy chcete, kliknutím na níže uvedený odkaz získáte nové heslo.
       greeting: Ahoj,
-      hopefully_you_1: Někdo (patrně vy) požádal o vygenerování nového hesla pro uživatele
-      hopefully_you_2: serveru openstreetmap.org s touto e-mailovou adresou.
     message_notification: 
       footer1: Také si můžete zprávu přečíst na %{readurl}
       footer2: a můžete odpovědět na %{replyurl}
       header: "%{from_user} vám poslal(a) prostřednictvím OpenStreetMap zprávu s předmětem %{subject}:"
       hi: Dobrý den, uživateli %{to_user},
+    note_comment_notification: 
+      anonymous: Jako anonymní uživatel
+      details: Podrobnosti k poznámce můžete najít na %{url}.
+      greeting: Ahoj,
     signup_confirm: 
       confirm: "Než budeme pokračovat, potřebujeme potvrdit, že tento požadavek přišel od vás, takže pokud jste to byli vy, klikněte prosím na odkaz níže, abyste svůj účet potvrdili:"
       created: Někdo (doufáme, že vy) si právě založil účet na %{site_url}.
@@ -1205,6 +1263,7 @@ cs:
       allow_write_api: upravovat mapu.
       allow_write_diary: vytvářet deníčkové záznamy, komentovat a navazovat přátelství.
       allow_write_gpx: nahrávat GPS stopy.
+      allow_write_notes: měnit poznámky.
       allow_write_prefs: měnit vaše uživatelské nastavení.
       request_access: Aplikace %{app_name} žádá o přístup k vašemu účtu %{user}. Vyberte si, zda si přejete, aby aplikace měla následující oprávnění. Můžete jich zvolit libovolný počet.
     revoke: 
@@ -1223,6 +1282,7 @@ cs:
       allow_write_api: upravovat mapu.
       allow_write_diary: vytvářet deníčkové záznamy, komentovat a navazovat přátelství.
       allow_write_gpx: nahrávat GPS stopy.
+      allow_write_notes: měnit poznámky.
       allow_write_prefs: měnit jejich uživatelské nastavení.
       callback_url: URL pro zpětné volání
       name: Název
@@ -1253,6 +1313,7 @@ cs:
       allow_write_api: upravovat mapu.
       allow_write_diary: vytvářet deníčkové záznamy, komentovat a navazovat přátelství.
       allow_write_gpx: nahrávat GPS stopy.
+      allow_write_notes: měnit poznámky.
       allow_write_prefs: měnit jejich uživatelské nastavení.
       authorize_url: "Autorizační URL:"
       confirm: Opravdu?
@@ -1309,6 +1370,7 @@ cs:
       potlatch_unsaved_changes: Máte neuložené změny. (V Potlatchi odznačte aktuální cestu nebo bod, pokud editujete v živém režimu, nebo klikněte na tlačítko uložit, pokud tam je.)
       user_page_link: uživatelské stránce
     index: 
+      createnote: Přidat poznámku
       js_1: Buď používáte prohlížeč bez podpory JavaScriptu, nebo máte JavaScript zakázaný.
       js_2: OpenStreetMap používá pro svou interaktivní mapu JavaScript.
       license: 
@@ -1757,6 +1819,7 @@ cs:
       my comments: moje komentáře
       my diary: můj deníček
       my edits: moje editace
+      my notes: moje poznámky k mapě
       my settings: moje nastavení
       my traces: moje stopy
       nearby users: Další uživatelé poblíž
@@ -1765,6 +1828,7 @@ cs:
       new diary entry: nový záznam do deníčku
       no friends: Zatím jste nepřidali žádné přátele.
       no nearby users: Nejsou známi žádní uživatelé, kteří by uvedli domov blízko vás.
+      notes: poznámky k mapě
       oauth settings: nastavení oauth
       remove as friend: odebrat z přátel
       role: 

@@ -122,11 +122,13 @@ ia:
       edit: 
         area: Modificar area
         node: Modificar nodo
+        note: Modificar nota
         relation: Modificar relation
         way: Modificar via
       larger: 
         area: Vider le area in un carta plus grande
         node: Vider le nodo in un carta plus grande
+        note: Vider le nota in un carta plus grande
         relation: Vider le relation in un carta plus grande
         way: Vider le via in un carta plus grande
       loading: Cargamento...
@@ -134,10 +136,12 @@ ia:
       all: 
         next_changeset_tooltip: Gruppo de modificationes sequente
         next_node_tooltip: Nodo sequente
+        next_note_tooltip: Nota sequente
         next_relation_tooltip: Relation sequente
         next_way_tooltip: Via sequente
         prev_changeset_tooltip: Gruppo de modificationes precedente
         prev_node_tooltip: Nodo precedente
+        prev_note_tooltip: Nota precedente
         prev_relation_tooltip: Relation precedente
         prev_way_tooltip: Via precedente
       user: 
@@ -165,6 +169,16 @@ ia:
         node: nodo
         relation: relation
         way: via
+    note: 
+      at_by_html: "%{when} retro per %{user}"
+      at_html: "%{when} retro"
+      closed: "Claudite:"
+      closed_title: "Nota resolvite: %{note_name}"
+      comments: "Commentos:"
+      description: "Description:"
+      last_modified: "Ultime modification:"
+      open_title: "Nota non resolvite: %{note_name}"
+      opened: "Aperite:"
     paging_nav: 
       of: de
       showing_page: pagina
@@ -205,6 +219,7 @@ ia:
       loaded_an_area_with_num_features: Tu ha cargate un area que contine %{num_features} elementos. In general, alcun navigatores del web pote haber problemas in presentar un tal quantitate de datos. Generalmente, un navigator functiona melio monstrante minus de %{max_features} elementos per vice; alteremente, illo pote devenir lente o non responder. Si tu es secur de voler visualisar iste datos, tu pote cliccar super le button a basso.
       loading: Cargamento...
       manually_select: Seliger manualmente un altere area
+      notes_layer_name: Percurrer notas
       object_list: 
         api: Obtener iste area per medio del API
         back: Retornar al lista de objectos
@@ -922,7 +937,29 @@ ia:
         mapquest: MapQuest Open
         standard: Standard
         transport_map: Carta de transporto
+    notes: 
+      new: 
+        add: Adder nota
+        intro: Pro meliorar le carta, le information que tu scribe es monstrate a altere cartographos. Dunque, per favor sia tanto descriptive e precise como possibile quando tu positiona le marcator e scribe tu nota hic infra.
+      show: 
+        anonymous_warning: Iste nota include commentos de usatores anonyme que debe esser verificate independentemente.
+        closed_by: resolvite per <a href='%{user_url}'>%{user}</a> a %{time}
+        closed_by_anonymous: resolvite per anonymo a %{time}
+        comment: Commento
+        comment_and_resolve: Commentar e resolver
+        commented_by: commento de <a href='%{user_url}'>%{user}</a> a %{time}
+        commented_by_anonymous: commento de anonymo a %{time}
+        hide: Celar
+        opened_by: create per <a href='%{user_url}'>%{user}</a> a %{time}
+        opened_by_anonymous: create per anonymo a %{time}
+        permalink: Permaligamine
+        reopened_by: reactivate per <a href='%{user_url}'>%{user}</a> a %{time}
+        reopened_by_anonymous: reactivate per anonymo a %{time}
+        resolve: Resolver
     site: 
+      createnote_disabled_tooltip: Face zoom avante pro adder un nota al carta
+      createnote_tooltip: Adder un nota al carta
+      createnote_zoom_alert: Tu debe facer zoom avante pro adder un nota al carta
       edit_disabled_tooltip: Face zoom avante pro modificar le carta
       edit_tooltip: Modificar le carta
       edit_zoom_alert: Tu debe facer zoom avante pro modificar le carta
@@ -1098,6 +1135,27 @@ ia:
       wrong_user: Tu es authenticate como "%{user}", ma le message al qual tu vole responder non ha essite inviate a iste usator. Per favor aperi un session como le usator correcte pro poter responder.
     sent_message_summary: 
       delete_button: Deler
+  note: 
+    entry: 
+      comment: Commento
+      full: Nota complete
+    mine: 
+      ago_html: "%{when} retro"
+      created_at: Create a
+      creator: Creator
+      description: Description
+      heading: Notas de %{user}
+      id: ID
+      last_changed: Ultime modification
+      subheading: Notas submittite o commentate per %{user}
+      title: Notas submittite o commentate per %{user}
+    rss: 
+      closed: nota claudite (a presso de %{place})
+      comment: nove commento (a presso de %{place})
+      description_area: Un lista de notas reportate, commentate o claudite in tu area [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: Syndication RSS pro le nota %{id}
+      new: nove nota (a presso de %{place})
+      title: Notas de OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Tu pote tamben leger le commento a %{readurl} e tu pote commentar a %{commenturl} o responder a %{replyurl}
@@ -1113,8 +1171,6 @@ ia:
     email_confirm_plain: 
       click_the_link: Si isto es tu, per favor clicca super le ligamine ci infra pro confirmar le alteration.
       greeting: Salute,
-      hopefully_you_1: Alcuno (sperabilemente tu) vole cambiar su adresse de e-mail a
-      hopefully_you_2: "%{server_url} a %{new_address}."
     friend_notification: 
       befriend_them: Tu pote equalmente adder le/la como amico a %{befriendurl}.
       had_added_you: "%{user} te ha addite como amico in OpenStreetMap."
@@ -1143,13 +1199,15 @@ ia:
     lost_password_plain: 
       click_the_link: Si isto es tu, per favor clicca super le ligamine ci infra pro reinitialisar tu contrasigno.
       greeting: Salute,
-      hopefully_you_1: Alcuno (possibilemente tu) ha demandate de reinitialisar le contrasigno del
-      hopefully_you_2: conto openstreetmap.org con iste adresse de e-mail.
     message_notification: 
       footer1: Tu pote tamben leger le message at %{readurl}
       footer2: e tu pote responder a %{replyurl}
       header: "%{from_user} te ha inviate un message per OpenStreetMap con le subjecto %{subject}:"
       hi: Salute %{to_user},
+    note_comment_notification: 
+      anonymous: Un usator anonyme
+      details: Plus detalios sur le nota pote esser trovate a %{url}.
+      greeting: Salute,
     signup_confirm: 
       confirm: "Ante de facer altere cosa, nos debe confirmar que iste requesta proveniva de te. Dunque, si tu lo faceva, per favor clicca sur le ligamine sequente pro confirmar tu conto:"
       created: Un persona (probabilemente tu) ha justo create un conto a %{site_url}.
@@ -1184,6 +1242,7 @@ ia:
       allow_write_api: modificar le carta.
       allow_write_diary: crear entratas de diario, commentos e adder amicos.
       allow_write_gpx: incargar tracias GPS.
+      allow_write_notes: modificar notas.
       allow_write_prefs: modificar tu preferentias de usator.
       request_access: Le application %{app_name} requesta accesso a tu conto "%{user}". Per favor verifica si tu vole que le application ha le sequente possibilitates. Tu pote seliger tantes o si poches como tu vole.
     revoke: 
@@ -1202,6 +1261,7 @@ ia:
       allow_write_api: modificar le carta.
       allow_write_diary: crear entratas de diario, commentos e adder amicos.
       allow_write_gpx: incargar tracias GPS.
+      allow_write_notes: modificar notas.
       allow_write_prefs: modificar su preferentias de usator.
       callback_url: URL de retorno
       name: Nomine
@@ -1232,6 +1292,7 @@ ia:
       allow_write_api: modificar le carta.
       allow_write_diary: crear entratas de diario, commentos e adder amicos.
       allow_write_gpx: incargar tracias GPS.
+      allow_write_notes: modificar notas.
       allow_write_prefs: modificar su preferentias de usator.
       authorize_url: "URL de autorisation:"
       confirm: Es tu secur?
@@ -1288,6 +1349,7 @@ ia:
       potlatch_unsaved_changes: Tu ha modificationes non salveguardate. (Pro salveguardar in Potlatch, tu debe deseliger le via o puncto actual si tu modifica in modo directe, o cliccar super le button Salveguardar si presente.)
       user_page_link: pagina de usator
     index: 
+      createnote: Adder un nota
       js_1: O tu usa un navigator que non supporta JavaScript, o tu ha disactivate JavaScript.
       js_2: OpenStreetMap usa JavaScript pro su carta glissante.
       license: 
@@ -1732,6 +1794,7 @@ ia:
       my comments: mi commentos
       my diary: mi diario
       my edits: mi modificationes
+      my notes: mi notas de carta
       my settings: mi configurationes
       my traces: mi tracias
       nearby users: Altere usatores vicin
@@ -1740,6 +1803,7 @@ ia:
       new diary entry: nove entrata de diario
       no friends: Tu non ha ancora addite alcun amico.
       no nearby users: Il non ha ancora altere cartographos in le vicinitate.
+      notes: notas de carta
       oauth settings: configuration oauth
       remove as friend: remover amico
       role: 

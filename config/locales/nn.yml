@@ -129,11 +129,13 @@ nn:
       edit: 
         area: Rediger område
         node: Rediger node
+        note: Rediger notis
         relation: Rediger relasjon
         way: Rediger rute
       larger: 
         area: Vis område på større kart
         node: Vis node på større kart
+        note: Vis notis på større kart
         relation: Vis relasjon på større kart
         way: Vis veg på større kart
       loading: Lastar...
@@ -141,10 +143,12 @@ nn:
       all: 
         next_changeset_tooltip: Neste endringssett
         next_node_tooltip: Neste node
+        next_note_tooltip: Neste notis
         next_relation_tooltip: Neste relasjon
         next_way_tooltip: Neste veg
         prev_changeset_tooltip: Forrige endringssett
         prev_node_tooltip: Forrige node
+        prev_note_tooltip: Forrige notis
         prev_relation_tooltip: Forrige relasjon
         prev_way_tooltip: Forrige veg
       paging: 
@@ -179,6 +183,16 @@ nn:
         node: node
         relation: relasjon
         way: veg
+    note: 
+      at_by_html: "%{when} sidan av %{user}"
+      at_html: "%{when} sidan"
+      closed: "Attlatne:"
+      closed_title: "Oppklara notis: %{note_name}"
+      comments: "Kommentarar:"
+      description: "Skildring:"
+      last_modified: "Sist endra:"
+      open_title: "Uoppklara notis: %{note_name}"
+      opened: "Opna:"
     paging_nav: 
       of: av
       showing_page: side
@@ -220,6 +234,7 @@ nn:
       loaded_an_area_with_num_features: Dette området inneheld %{num_features} objekt. Nokre nettlesarar kan ikkje handtere så mykje data. For å ikkje risikere at nettlesaren låsar seg bør du halde deg til under %{max_features} objekt. Om du er sikker på at du vil sjå informasjonen kan du klikke på knappen nedanfor.
       loading: Lastar...
       manually_select: Vel eit anna område manuelt
+      notes_layer_name: Bla gjennom notiser
       object_list: 
         api: Hent dette området frå API-et
         back: Tilbake til objektlista
@@ -1136,8 +1151,6 @@ nn:
     email_confirm_plain: 
       click_the_link: Viss det er deg, klikk lenkja nedanfor for å stadfeste endringa.
       greeting: Hei,
-      hopefully_you_1: Nokre (vonleg deg) ynskjer å endre e-postadressen for
-      hopefully_you_2: "%{server_url} til %{new_address}."
     friend_notification: 
       befriend_them: Du kan òg leggje dei til som ven på %{befriendurl}.
       had_added_you: "%{user} har lagt deg til som ven på OpenStreetMap."
@@ -1167,14 +1180,16 @@ nn:
     lost_password_plain: 
       click_the_link: Om dette er deg, vennligst klikk på lenkja under for å tilbakestille passordet.
       greeting: Hei,
-      hopefully_you_1: Nokre (moglegvis deg) har bede om å tilbakestille passordet på denne
-      hopefully_you_2: e-postadressa for openstreetmap.org-konto.
     message_notification: 
       footer1: Du kan òg lese meldinga på %{readurl}
       footer2: og du kan svare til %{replyurl}
       header: "%{from_user} har sendt deg ei melding gjennom OpenStreetMap med emnet %{subject}:"
       hi: Hei %{to_user},
       subject_header: "[OpenStreetMap] %{subject}"
+    note_comment_notification: 
+      anonymous: Ein anonym brukar
+      details: Meir detaljar om notisen kan du finne på %{url}.
+      greeting: Hei,
     signup_confirm: 
       confirm: "Før me kan gjere noko må me bekrefta at denne forespørselen kom frå deg, om den gjer det ver god å klikk linken nedanfor for å bekrefte kontoen din:"
       created: Nokon (forhåpentligvis deg) laga nettop ein konto på %{site_url}.
@@ -1211,6 +1226,7 @@ nn:
       allow_write_api: endre kartet.
       allow_write_diary: opprette dagbokoppføringar, kommentarar og finne venner.
       allow_write_gpx: laste opp GPS-spor.
+      allow_write_notes: endre notisar.
       allow_write_prefs: endre brukarinnstillingane dine
       request_access: Applikasjonen %{app_name} ber om tilgjenge til kontoen din, %{user}. Sjekk om du vil at applikasjonen skal ha følgjande løyve. Du kan velje så mange eller så få som du vil.
     revoke: 
@@ -1229,6 +1245,7 @@ nn:
       allow_write_api: endre kartet.
       allow_write_diary: opprett dagbokoppføringer, kommentarar og finn vener.
       allow_write_gpx: last opp GPS-spor.
+      allow_write_notes: endre notisar.
       allow_write_prefs: endre brukerinnstillingene deira.
       callback_url: "URL for tilbakekall:"
       name: Namn
@@ -1259,6 +1276,7 @@ nn:
       allow_write_api: endre kartet.
       allow_write_diary: opprett dagbokoppføringer, kommentarar og finn venner.
       allow_write_gpx: last opp GPS-spor.
+      allow_write_notes: endre notisar.
       allow_write_prefs: endre brukerinnstillingene deira.
       authorize_url: "Godkjenn URL:"
       confirm: Er du sikker?
@@ -1318,6 +1336,7 @@ nn:
       potlatch_unsaved_changes: Du har ulagra endringar. (For å lagre i Potlatch, må du fjerne markeringa av gjeldande veg eller punkt viss du redigerer i live-modues eller klikke lagre viss du har ein lagreknapp.)
       user_page_link: brukarside
     index: 
+      createnote: Legg til ein notis
       js_1: Du har ein nettleser som ikkje støttar JavaScript eller så har du slått av JavaScript.
       js_2: OpenStreetMap brukar JavaScript på kartsidene.
       license: 
@@ -1770,6 +1789,7 @@ nn:
       my comments: mine kommentarar
       my diary: mi dagbok
       my edits: redigeringane mine
+      my notes: mine kartnotisar
       my settings: innstellingane mine
       my traces: spora mine
       nearby users: Andre næliggande brukarar
@@ -1778,6 +1798,7 @@ nn:
       new diary entry: ny dagbokoppføring
       no friends: Du har ikkje lagt til nokon venner enno.
       no nearby users: Det er ingen andre brukarar som innrømmer kartlegging i området ditt enno.
+      notes: kartnotisar
       oauth settings: oauth-innstellingar
       remove as friend: fjern ven
       role: 

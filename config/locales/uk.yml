@@ -138,11 +138,13 @@ uk:
       edit: 
         area: Редагувати область
         node: Редагувати точку
+        note: Редагувати нотатку
         relation: Редагувати зв’язок
         way: Редагувати лінію
       larger: 
         area: Перегляд ділянки на більшій мапі
         node: Перегляд точки на більшій мапі
+        note: Переглянути нотатку на великій мапі
         relation: Перегляд зв’язку на більшій мапі
         way: Перегляд лінії на більшій мапі
       loading: Завантаження…
@@ -150,10 +152,12 @@ uk:
       all: 
         next_changeset_tooltip: Наступний набір змін
         next_node_tooltip: Наступна точка
+        next_note_tooltip: Наступна нотатка
         next_relation_tooltip: Наступний зв'язок
         next_way_tooltip: Наступна лінія
         prev_changeset_tooltip: Попередній набір змін
         prev_node_tooltip: Попередня точка
+        prev_note_tooltip: Попередня нотатка
         prev_relation_tooltip: Попередній зв’язок
         prev_way_tooltip: Попередня лінія
       user: 
@@ -181,6 +185,16 @@ uk:
         node: точка
         relation: зв’язок
         way: лінія
+    note: 
+      at_by_html: "%{when} тому учасником %{user}"
+      at_html: "%{when} тому"
+      closed: "Закрита:"
+      closed_title: "Розв’язана нотатка: %{note_name}"
+      comments: "Коментарі:"
+      description: "Опис:"
+      last_modified: "Остання зміна:"
+      open_title: "Нерозв’язана нотатка: %{note_name}"
+      opened: "Відкрито:"
     paging_nav: 
       of: з
       showing_page: сторінка
@@ -221,6 +235,7 @@ uk:
       loaded_an_area_with_num_features: "Ви завантажили ділянку, яка містить %{num_features} об’єктів. Загалом, деякі оглядачі можуть не впоратися з відображенням такої кількості даних. Зазвичай, оглядачі працюють краще, коли водночас показується не більше %{max_features} об'єктів: якщо ж ви робите інакше, це може спричинити  сповільнення чи взагалі відсутність відгуку у вашому оглядачі. Коли ви впевнені, що слід показати ці дані, можете натиснути кнопку нижче."
       loading: Завантаження…
       manually_select: Виберіть іншу ділянку
+      notes_layer_name: Огляд нотаток
       object_list: 
         api: Отримати цю ділянку з API
         back: Повернутися до списку об’єктів
@@ -939,7 +954,29 @@ uk:
         mapquest: MapQuest Open
         standard: Стандартний
         transport_map: Мапа Транспорту
+    notes: 
+      new: 
+        add: Додати нотатку
+        intro: Введена вами інформація буде доступна іншим користувачам, можливо, вона допоможе поліпшити мапу. Будь ласка, додайте в нотатку чіткий опис, встановіть маркер в точне місце на мапі.
+      show: 
+        anonymous_warning: Ця нотатка містить коментарі від анонімних користувачів. Потрібна незалежна перевірка відомостей.
+        closed_by: розв’язав <a href='%{user_url}'>%{user}</a> %{time}
+        closed_by_anonymous: розв’язано анонімним користувачем %{time}
+        comment: Коментар
+        comment_and_resolve: Прокоментувати та Розв’язати
+        commented_by: коментар <a href='%{user_url}'>%{user}</a> %{time}
+        commented_by_anonymous: коментар анонімного користувача %{time}
+        hide: Приховати
+        opened_by: створив(ла) <a href='%{user_url}'>%{user}</a> %{time}
+        opened_by_anonymous: створена анонімним користувачем %{time}
+        permalink: Постійне посилання
+        reopened_by: відновив <a href='%{user_url}'>%{user}</a> %{time}
+        reopened_by_anonymous: відновив анонімний користувач %{time}
+        resolve: Розв’язати
     site: 
+      createnote_disabled_tooltip: Треба наблизитись для додання нотатки
+      createnote_tooltip: Додати нотатку на мапу
+      createnote_zoom_alert: Ви повинні збільшити масштаб, щоб додати нотатку до мапи
       edit_disabled_tooltip: Збільшить масштаб для редагування мапи
       edit_tooltip: Редагування мапи
       edit_zoom_alert: Потрібно збільшити масштаб мапи для її редагування
@@ -1116,6 +1153,27 @@ uk:
       wrong_user: Ви увійшли як `%{user}', але повідомлення, на яке ви хочете відповісти, було відправлено не цьому користувачу. Будь ласка, увійдіть з правильним ім’ям користувача щоб відповісти.
     sent_message_summary: 
       delete_button: Вилучити
+  note: 
+    entry: 
+      comment: Коментар
+      full: Повний текст
+    mine: 
+      ago_html: "%{when} тому"
+      created_at: Створено
+      creator: Автор
+      description: Опис
+      heading: Нотатки користувача %{user}
+      id: Номер
+      last_changed: Остання зміна
+      subheading: Нотатки, створені чи прокоментовані користувачем %{user}
+      title: Нотатки створені чи прокоментовані користувачем %{user}
+    rss: 
+      closed: закрита нотатка (біля %{place})
+      comment: новий коментар (біля %{place})
+      description_area: Перелік нотаток, створених, прокоментованих чи закритих біля вас [(%{min_lat}|%{min_lon}) — (%{max_lat}|%{max_lon})]
+      description_item: Rss-канал нотаток %{id}
+      new: нова нотатка (біля %{place})
+      title: Нотатки OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Ви можете також прочитати коментар — %{readurl}, залишити свій — %{commenturl} або відповісти — %{replyurl}
@@ -1131,8 +1189,6 @@ uk:
     email_confirm_plain: 
       click_the_link: Якщо це ви, будь ласка, клацніть на посилання нижче, щоб підтвердити зміни.
       greeting: Привіт,
-      hopefully_you_1: Хтось (сподіваємось, ви) хоче змінити адресу електронної пошти з
-      hopefully_you_2: "%{server_url} на адресу: %{new_address}."
     friend_notification: 
       befriend_them: Ви також можете додати їх у якості друзів %{befriendurl}.
       had_added_you: "%{user} додав Вас як друга у OpenStreetMap."
@@ -1161,13 +1217,15 @@ uk:
     lost_password_plain: 
       click_the_link: Якщо це ви, будь ласка, клацніть на посилання нижче, щоб змінити свій пароль.
       greeting: Привіт,
-      hopefully_you_1: Хтось (можливо, ви) запросив зміну паролю для цієї
-      hopefully_you_2: адреси ел.пошти зареєстрованої на openstreetmap.org
     message_notification: 
       footer1: Ви також можете прочитати повідомлення %{readurl}
       footer2: і ви можете відповісти на %{replyurl}
       header: "%{from_user} надіслав вам повідомлення через OpenStreetMap з темою %{subject}:"
       hi: Привіт, %{to_user},
+    note_comment_notification: 
+      anonymous: Анонімний користувач
+      details: Докладніше про нотатку %{url}.
+      greeting: Привіт,
     signup_confirm: 
       confirm: "Перш ніж ми щось зробимо, ми повинні впевнитись, що запит надійшов від Вас; тож якщо це були Ви, будь ласка, натисніть на посилання нижче, щоб підтвердити Ваш обліковий запис:"
       created: Хтось (сподіваємось Ви) щойно створив обліковий запис на % {site_url}.
@@ -1204,6 +1262,7 @@ uk:
       allow_write_api: змінювати мапу
       allow_write_diary: створювати записи у щоденнику, коментарі та заводити друзів.
       allow_write_gpx: передавати GPS-треки на сервер.
+      allow_write_notes: змінювати нотатки.
       allow_write_prefs: змінювати ваші налаштування користувача.
       request_access: Застосунок %{app_name} намагається отримати доступ до вашого облікового запису, %{user}. Будь ласка, перевірте чи бажаєте ви, щоб застосунок мав наступні можливості. Ви можете обрати будь-яку кількість.
     revoke: 
@@ -1222,6 +1281,7 @@ uk:
       allow_write_api: правити мапу.
       allow_write_diary: створити записи щоденника, коментарі та завести нових друзів.
       allow_write_gpx: передавати GPS-треки на сервер.
+      allow_write_notes: змінювати нотатки.
       allow_write_prefs: змінювати налаштування користувача.
       callback_url: URL зворотного виклику
       name: Ім’я
@@ -1252,6 +1312,7 @@ uk:
       allow_write_api: правити мапу.
       allow_write_diary: створити записи щоденника, коментарі та завести нових друзів.
       allow_write_gpx: передавати GPS-треки на сервер.
+      allow_write_notes: змінювати нотатки.
       allow_write_prefs: змінювати налаштування користувача.
       authorize_url: "URL автентифікації:"
       confirm: Ви впевнені?
@@ -1308,6 +1369,7 @@ uk:
       potlatch_unsaved_changes: Є незбережені зміни. (Для збереження в Potlatch зніміть виділення з колії або точки, якщо редагуєте «вживу», або натисніть кнопку «зберегти», якщо ви в режимі відкладеного збереження.)
       user_page_link: сторінка користувача
     index: 
+      createnote: Додати нотатку
       js_1: Ви користуєтесь оглядачем, в якому не підтримується або відключений JavaScript.
       js_2: OpenStreetMap використовує JavaScript для мапи.
       license: 
@@ -1754,6 +1816,7 @@ uk:
       my comments: мої коментарі
       my diary: мій щоденник
       my edits: мої правки
+      my notes: мої нотатки
       my settings: мої налаштування
       my traces: мої треки
       nearby users: Інші користувачі поруч
@@ -1762,6 +1825,7 @@ uk:
       new diary entry: новий запис
       no friends: Ви не додали ще жодного друга.
       no nearby users: Поблизу поки немає користувачів, які займаються складанням мапи.
+      notes: нотатки
       oauth settings: налаштування OAuth
       remove as friend: вилучити із списку друзів
       role: 

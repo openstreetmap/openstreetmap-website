@@ -145,11 +145,13 @@ sv:
       edit: 
         area: Redigera område
         node: Redigera nod
+        note: Redigera anteckning
         relation: Redigera relation
         way: Redigera väg
       larger: 
         area: Se området på en större karta
         node: Se noden på en större karta
+        note: Se anteckning på större karta
         relation: Se relationen på en större karta
         way: Se sträckan på en större karta
       loading: Läser in...
@@ -157,10 +159,12 @@ sv:
       all: 
         next_changeset_tooltip: Nästa ändringsset
         next_node_tooltip: Nästa nod
+        next_note_tooltip: Nästa anteckning
         next_relation_tooltip: Nästa relation
         next_way_tooltip: Nästa väg
         prev_changeset_tooltip: Föregående ändringsset
         prev_node_tooltip: Föregående nod
+        prev_note_tooltip: Föregående anteckning
         prev_relation_tooltip: Föregående relation
         prev_way_tooltip: Föregående väg
       user: 
@@ -188,6 +192,16 @@ sv:
         node: nod
         relation: relation
         way: väg
+    note: 
+      at_by_html: "%{when} sedan av %{user}"
+      at_html: "%{when} sedan"
+      closed: "Stängd:"
+      closed_title: "Avklarad anteckning: %{note_name}"
+      comments: "Kommentarer:"
+      description: "Beskrivning:"
+      last_modified: "Senast ändrad:"
+      open_title: "Ej avklarad anteckning: %{note_name}"
+      opened: "Öppnad:"
     paging_nav: 
       of: av
       showing_page: sida
@@ -228,6 +242,7 @@ sv:
       loaded_an_area_with_num_features: "Du har läst in ett område som innehåller %{num_features} objekt. En del webbläsare klarar vanligtvis inte av hantering av sådana stora mängder data. För att inte riskera att datorn ska slöas ner, bör du hålla antalet objekt till 100 eller färre. Vanligtvis arbetar webbläsare bäst när den visar mindre än %{max_features} objekt samtidigt: Genom att göra någonting annat kan få din webbläsare att bli långsam eller frysa sig. Om du är säker på att du vill visa denna data kan du göra det genom att klicka på knappen nedan."
       loading: Laddar...
       manually_select: Välj en annan area manuellt
+      notes_layer_name: Bläddra bland anteckningar
       object_list: 
         api: Hämta detta område från API:t
         back: Tillbaka till objektlista
@@ -341,12 +356,12 @@ sv:
         one: 1 kommentar
         other: "%{count} kommentarer"
         zero: Inga kommentarer
-      comment_link: Kommentera denna anteckning
+      comment_link: Kommentera detta inlägg
       confirm: Bekräfta
-      edit_link: Redigera denna anteckning
+      edit_link: Redigera detta inlägg
       hide_link: Dölj den här posten
       posted_by: Skrivet av %{link_user} den %{created} på %{language_link}
-      reply_link: Svara på denna anteckning
+      reply_link: Svara på detta inlägg
     edit: 
       body: "Meddelandetext:"
       language: "Språk:"
@@ -372,9 +387,9 @@ sv:
       in_language_title: Dagboksinlägg på %{language}
       new: Nytt dagboksinlägg
       new_title: Skapa inlägg i din användardagbok
-      newer_entries: Nyare anteckningar
+      newer_entries: Nyare inlägg
       no_entries: Inga dagboksinlägg
-      older_entries: Äldre anteckningar
+      older_entries: Äldre inlägg
       recent_entries: Nyligen skapade dagboksinlägg
       title: Användardagböcker
       title_friends: Vänners dagböcker
@@ -944,7 +959,29 @@ sv:
         cycle_map: Cykelkarta
         standard: Standard
         transport_map: Transportkarta
+    notes: 
+      new: 
+        add: Lägg till anteckning
+        intro: För att förbättra kartan visas den information du skriver in för andra karterare. Så var så noga och beskrivande som möjligt när du positionerar markören och skriver din anteckning nedan.
+      show: 
+        anonymous_warning: Denna anteckning innehåller kommentarer från anonyma användare som bör bekräftas oberoende.
+        closed_by: avklarad av <a href='%{user_url}'>%{user}</a> %{time}
+        closed_by_anonymous: avklarad av anonym %{time}
+        comment: Kommentera
+        comment_and_resolve: Kommentera och Avklara
+        commented_by: kommentar av <a href='%{user_url}'>%{user}</a> %{time}
+        commented_by_anonymous: kommentar från anonym %{time}
+        hide: Göm
+        opened_by: skapad av <a href='%{user_url}'>%{user}</a> %{time}
+        opened_by_anonymous: skapad av anonym %{time}
+        permalink: Permanent länk
+        reopened_by: återöppnad av <a href='%{user_url}'>%{user}</a> %{time}
+        reopened_by_anonymous: återöppnad av anonym %{time}
+        resolve: Avklara
     site: 
+      createnote_disabled_tooltip: Zooma in för att lägga till anteckningar på kartan
+      createnote_tooltip: Lägg till en anteckning på kartan
+      createnote_zoom_alert: Du måste zooma in för att lägga till anteckningar på kartan
       edit_disabled_tooltip: Zooma in för att redigera kartan
       edit_tooltip: Redigera kartan
       edit_zoom_alert: Du måste zooma in för att kunna ändra kartan
@@ -1120,6 +1157,27 @@ sv:
       wrong_user: Du är inloggad som '%{user}', men meddelandet du har bett om att besvara skickades inte till den användaren. Logga in med korrekt användare för att svara.
     sent_message_summary: 
       delete_button: Radera
+  note: 
+    entry: 
+      comment: Kommentar
+      full: Hela anteckningen
+    mine: 
+      ago_html: "%{when} sedan"
+      created_at: Skapades
+      creator: Skapare
+      description: Beskrivning
+      heading: "%{user}s anteckningar"
+      id: Id
+      last_changed: Senast ändrad
+      subheading: Anteckningar skapade eller kommenterade av %{user}
+      title: Anteckningar skapade eller kommenterade av %{user}
+    rss: 
+      closed: Avklarad anteckning (nära %{place})
+      comment: ny kommentar (nära %{place})
+      description_area: En lista med anteckningar som rapporterats, kommenterats eller avklarats i närheten av ditt område [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: Ett rss-flöde för anteckning %{id}
+      new: ny anteckning (nära %{place})
+      title: OpenStreetMap-anteckningar
   notifier: 
     diary_comment_notification: 
       footer: Du kan också läsa kommentaren på %{readurl} och du kan kommentera på %{commenturl} eller svara på %{replyurl}
@@ -1135,8 +1193,6 @@ sv:
     email_confirm_plain: 
       click_the_link: Om det är du, klicka på länken nedan för att bekräfta ändringen.
       greeting: Hej,
-      hopefully_you_1: Någon (förhoppningsvis du) skulle vilja ändra sina e-postadress vid
-      hopefully_you_2: "%{server_url} till %{new_address}."
     friend_notification: 
       befriend_them: Du kan också lägga till dem som en vän på %{befriendurl}.
       had_added_you: "%{user} har lagt till dig som vän på OpenStreetMap."
@@ -1165,13 +1221,15 @@ sv:
     lost_password_plain: 
       click_the_link: Om det är du, klicka på länken nedan för att återställa ditt lösenord.
       greeting: Hej,
-      hopefully_you_1: Någon (förhoppningsvis du) vill återställa lösenordet för denna
-      hopefully_you_2: e-postadress för openstreetmap.org-konto.
     message_notification: 
       footer1: Du kan också läsa meddelandet på %{readurl}
       footer2: och du kan svara på %{replyurl}
       header: "%{from_user} har skickat ett meddelande via OpenStreetMap med ämnet %{subject}:"
       hi: Hej %{to_user},
+    note_comment_notification: 
+      anonymous: En anonym användare
+      details: Mer detaljer om anteckningen finns på %{url}.
+      greeting: Hej,
     signup_confirm: 
       confirm: "Innan vi gör något annat, måste vi bekräfta att denna begäran kom från dig. Om den gjorde det, var vänligen klicka på länken nedan för att bekräfta ditt konto:"
       created: Någon (förhoppningsvis du) skapade just ett konto på %{site_url}.
@@ -1206,6 +1264,7 @@ sv:
       allow_write_api: ändra på kartan.
       allow_write_diary: skapa dagboksinlägg, kommentarer och hitta vänner.
       allow_write_gpx: ladda upp GPS-spår
+      allow_write_notes: ändra anteckningar.
       allow_write_prefs: ändra på dina inställningar.
       request_access: För att programmet %{app_name} ska få tillgång till ditt konto måste du godkänna att det får tillgång till att göra ändringar i ditt namn. Du kan välja eller ta bort hur många val du vill.
     revoke: 
@@ -1224,6 +1283,7 @@ sv:
       allow_write_api: ändra kartan.
       allow_write_diary: skapa dagboksinlägg, kommentarer och hitta vänner.
       allow_write_gpx: ladda upp GPS-spår.
+      allow_write_notes: ändra anteckningar.
       allow_write_prefs: ändra deras användarinställningar.
       callback_url: Återkopplingsadress
       name: Namn
@@ -1254,6 +1314,7 @@ sv:
       allow_write_api: ändra kartan.
       allow_write_diary: skapa dagboksinlägg, kommentarer och hitta vänner.
       allow_write_gpx: ladda upp GPS-spår.
+      allow_write_notes: ändra anteckningar.
       allow_write_prefs: ändra deras användarinställningar.
       authorize_url: "Godkänn URL:"
       confirm: Är du säker?
@@ -1310,6 +1371,7 @@ sv:
       potlatch_unsaved_changes: Du har osparade ändringar. (För att spara i Potlatch, bör du avmarkera den nuvarande vägen eller markeringen om du redigerar i realtidsläge, eller klicka på Spara om du har en Spara-knapp.)
       user_page_link: användarsida
     index: 
+      createnote: Lägg till en anteckning
       js_1: Du måste ha javascript påslaget, alternativt en webbläsare som stödjer javascript.
       js_2: OpentStreetMap använder javascript för slippymapen
       license: 
@@ -1754,6 +1816,7 @@ sv:
       my comments: mina kommentarer
       my diary: min dagbok
       my edits: mina redigeringar
+      my notes: mina kartanteckningar
       my settings: mina inställningar
       my traces: mina GPS-spår
       nearby users: Andra användare nära dig
@@ -1762,6 +1825,7 @@ sv:
       new diary entry: nytt dagboksinlägg
       no friends: Du har inte lagt till några vänner ännu.
       no nearby users: Det är inga andra användare som uppgett att de mappar i ditt område ännu.
+      notes: kartanteckningar
       oauth settings: oauth inställningar
       remove as friend: ta bort vän
       role: 

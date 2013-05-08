@@ -131,11 +131,13 @@ ja:
       edit: 
         area: エリアを編集
         node: ノードを編集
+        note: メモを編集
         relation: リレーションを編集
         way: ウェイを編集
       larger: 
         area: エリアを大きい地図で表示
         node: ノードを大きい地図で表示
+        note: メモを大きい地図で表示
         relation: リレーションを大きい地図で表示
         way: ウェイを大きい地図で表示
       loading: 読み込み中...
@@ -143,10 +145,12 @@ ja:
       all: 
         next_changeset_tooltip: 次の変更セット
         next_node_tooltip: 次のノード
+        next_note_tooltip: 次のメモ
         next_relation_tooltip: 次のリレーション
         next_way_tooltip: 次のウェイ
         prev_changeset_tooltip: 前の変更セット
         prev_node_tooltip: 前のノード
+        prev_note_tooltip: 前のメモ
         prev_relation_tooltip: 前のリレーション
         prev_way_tooltip: 前のウェイ
       user: 
@@ -174,6 +178,16 @@ ja:
         node: ノード
         relation: リレーション
         way: ウェイ
+    note: 
+      at_by_html: "%{when}前、%{user}"
+      at_html: "%{when}前"
+      closed: "クローズ:"
+      closed_title: "解決済のメモ: %{note_name}"
+      comments: "コメント:"
+      description: "説明:"
+      last_modified: "最終更新:"
+      open_title: "未解決のメモ: %{note_name}"
+      opened: "オープン:"
     paging_nav: 
       of: /
       showing_page: ページ
@@ -211,9 +225,10 @@ ja:
       hide_areas: 領域を隠す
       history_for_feature: "%{feature}の履歴"
       load_data: データの読み込み
-      loaded_an_area_with_num_features: "%{num_features}件の地物を含む領域を読み込みました。一般に、ブラウザーによっては、この量のデータを表示するとうまく処理できないかもしれません。通常、ブラウザーは一度に100件未満の地物を表示させるとうまく動作します。このままでは、ブラウザーが遅くなったり、反応しなくなったりします。それでもこのデータを表示したいならば、以下のボタンをクリックしてください。"
+      loaded_an_area_with_num_features: "%{num_features}件の地物を含む領域を読み込みました。一般に、ブラウザーによっては、この量のデータを表示するとうまく処理できないかもしれません。通常、ブラウザーは一度に%{max_features}件未満の地物を表示させるとうまく動作します。このままでは、ブラウザーが遅くなったり、反応しなくなったりします。それでもこのデータを表示したいならば、以下のボタンをクリックしてください。"
       loading: 読み込み中...
       manually_select: ドラッグして別の領域を選択
+      notes_layer_name: ノートを閲覧
       object_list: 
         api: API でこの領域を取得
         back: オブジェクト一覧に戻る
@@ -372,7 +387,7 @@ ja:
     new: 
       title: 日記エントリの新規作成
     no_such_entry: 
-      body: ID が %{id} のコメントや日記は存在しません。URLにスペルミスが無いか確認をしてください。もしくはリンク元が間違ってます。
+      body: ID が %{id} のコメントや日記は存在しません。URLにスペルミスがないか確認をしてください。またはリンク元が間違っています。
       heading: ID %{id} にコメントはまだありません。
       title: そのような日記エントリはありません
     view: 
@@ -395,7 +410,7 @@ ja:
       name: 遠隔制御
   export: 
     start: 
-      add_marker: 地図にマーカーを追加
+      add_marker: マーカーを地図に追加
       area_to_export: エクスポートする領域
       embeddable_html: 埋め込み HTML
       export_button: エクスポート
@@ -929,7 +944,29 @@ ja:
         cycle_map: サイクリングマップ
         standard: 標準
         transport_map: 交通マップ
+    notes: 
+      new: 
+        add: メモを追加
+        intro: マップ改善のために、あなたが入力した情報は他のマッパーに表示されます。そのため、マーカーを正しい位置に動かしたりノートを以下に書き込む場合は、できるだけ分かりやすく詳細に記述してください。
+      show: 
+        anonymous_warning: 匿名ユーザからのノートもありますので、別々に確認してください。
+        closed_by: <a href='%{user_url}'>%{user}</a>が%{time}に解決
+        closed_by_anonymous: 匿名ユーザーが%{time}に解決
+        comment: コメント
+        comment_and_resolve: コメント & 解決
+        commented_by: <a href='%{user_url}'>%{user}</a>による%{time}のコメント
+        commented_by_anonymous: 匿名ユーザーによる%{time}のコメント
+        hide: 隠す
+        opened_by: <a href='%{user_url}'>%{user}</a>が%{time}に作成
+        opened_by_anonymous: 匿名ユーザーが%{time}に作成
+        permalink: 固定リンク
+        reopened_by: <a href='%{user_url}'>%{user}</a> さんが %{time} に再度有効化しました
+        reopened_by_anonymous: 匿名ユーザが %{time} に再度有効化しました
+        resolve: 解決
     site: 
+      createnote_disabled_tooltip: メモを地図に追加するには拡大してください
+      createnote_tooltip: メモを地図に追加する
+      createnote_zoom_alert: メモを地図に追加するには拡大してください
       edit_disabled_tooltip: 地図を編集するには拡大してください
       edit_tooltip: 地図を編集
       edit_zoom_alert: 地図を編集するには拡大してください
@@ -1023,7 +1060,7 @@ ja:
     native: 
       mapping_link: マッピングを開始
       native_link: THIS_LANGUAGE_NAME_HERE バージョン
-      text: あなたは英語版の著作権情報のページを閲覧しています。%{native_link} から戻る事ができます。または %{mapping_link} からマッピングに戻れます。
+      text: あなたは英語版の著作権情報のページを閲覧しています。%{native_link} から戻れます。または %{mapping_link} からマッピングに戻れます。
       title: このページについて
   message: 
     delete: 
@@ -1090,11 +1127,32 @@ ja:
       wrong_user: あなたは「%{user}」としてログインしていますが、返信しようとしたメッセージはこのユーザー宛てのものではありません。返信するには、正しいユーザーとしてログインしてください。
     sent_message_summary: 
       delete_button: 削除
+  note: 
+    entry: 
+      comment: コメント
+      full: ノート全文
+    mine: 
+      ago_html: "%{when}前"
+      created_at: 作成日時
+      creator: 作成者
+      description: 説明
+      heading: "%{user}のメモ"
+      id: ID
+      last_changed: 最終変更
+      subheading: "%{user} さんが投稿またはコメントしたノート"
+      title: "%{user} さんが投稿またはコメントしたノート"
+    rss: 
+      closed: クローズされたノート ( %{place} 付近)
+      comment: 新しいコメント (%{place}付近)
+      description_area: あなたのエリア [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})] でレポート、コメント、あるいはクローズされたノートの一覧
+      description_item: メモ %{id} の RSS フィード
+      new: 新しいメモ (%{place}付近)
+      title: OpenStreetMap メモ
   notifier: 
     diary_comment_notification: 
       footer: "%{readurl}でコメントを読むことができ、%{commenturl} でコメントするか、%{replyurl} で返信できます。"
       header: "あなたの最近の OpenStreetMap 日記エントリ (タイトル: %{subject}) に、%{from_user} がコメントしました。"
-      hi: やあ、%{to_user} さん
+      hi: こんにちは、%{to_user} さん。
       subject: "[OpenStreetMap] %{user} さんがあなたの日記エントリにコメントしました"
     email_confirm: 
       subject: "[OpenStreetMap] あなたのメール アドレスの確認"
@@ -1105,12 +1163,10 @@ ja:
     email_confirm_plain: 
       click_the_link: この要求を出したのがあなたなら、下のリンクをクリックして、変更の認証をしてください。
       greeting: こんにちは。
-      hopefully_you_1: "誰か (おそらくあなた) がメール アドレスを変更しようとしています:"
-      hopefully_you_2: "%{server_url}から%{new_address}へ。"
     friend_notification: 
-      befriend_them: "%{befriendurl}で友達になることができます。"
+      befriend_them: "%{befriendurl} で友達になることができます。"
       had_added_you: OpenStreetMap で %{user} さんがあなたを友達に追加しました。
-      see_their_profile: ％{userurl} でプロファイルを見ることができます。
+      see_their_profile: "%{userurl} でプロフィールを閲覧できます。"
       subject: "[OpenStreetMap] %{user} さんがあなたを友達に追加しました。"
     gpx_notification: 
       and_no_tags: とタグなし。
@@ -1135,13 +1191,15 @@ ja:
     lost_password_plain: 
       click_the_link: これがあなたであれば、以下のリンクをクリックしてパスワードをリセットしてください。
       greeting: こんにちは、
-      hopefully_you_1: 誰か (おそらくあなた) が、この openstreetmap.org アカウントのメール アドレスに対する
-      hopefully_you_2: パスワードをリセットするように依頼しました。
     message_notification: 
       footer1: "%{readurl} でメッセージを読むこともできます。"
       footer2: また、%{replyurl} で返信することができます。
       header: "%{from_user} さんが、OpenStreetMap であなたに件名 %{subject} のメッセージを送信しました:"
-      hi: やあ %{to_user} さん、
+      hi: こんにちは、%{to_user} さん。
+    note_comment_notification: 
+      anonymous: 匿名ユーザー
+      details: ノートについての詳細は %{url} を参照。
+      greeting: こんにちは。
     signup_confirm: 
       created: 誰か (おそらくあなた) が %{site_url} でアカウントを作成しました。
       greeting: やあ、皆さん!
@@ -1173,6 +1231,7 @@ ja:
       allow_write_api: 地図を変更する。
       allow_write_diary: 日記エントリを作成する、コメントする、友達を作る。
       allow_write_gpx: GPS トレースをアップロードする。
+      allow_write_notes: メモを変更する。
       allow_write_prefs: 自分のユーザー設定を変更する。
       request_access: アプリケーション %{app_name} があなたのアカウント、%{user} への接続許可を求めています。そのアプリケーションに許可してもよいかどうかを確認してください。複数のアプリケーションに許可を与えることもできます。
     revoke: 
@@ -1191,6 +1250,7 @@ ja:
       allow_write_api: 地図を変更する。
       allow_write_diary: 日記エントリを作成する、コメントする、友達を作る。
       allow_write_gpx: GPS トレースをアップロードする。
+      allow_write_notes: メモを変更する。
       allow_write_prefs: ユーザー設定を変更する。
       callback_url: コールバック URL
       name: 名前
@@ -1221,6 +1281,7 @@ ja:
       allow_write_api: 地図を変更する。
       allow_write_diary: 日記エントリを作成する、コメントする、友達を作る。
       allow_write_gpx: GPS トレースをアップロードする。
+      allow_write_notes: メモを変更する。
       allow_write_prefs: ユーザー設定を変更する。
       authorize_url: "承認 URL:"
       confirm: 本当によろしいですか?
@@ -1275,6 +1336,7 @@ ja:
       potlatch_unsaved_changes: 保存していない変更があります。(Potlatch では、一覧モードで編集している場合、ウェイや点の選択を解除する必要があります。または、保存ボタンをクリックして保存してください。)
       user_page_link: ユーザー ページ
     index: 
+      createnote: メモを追加
       js_1: JavaScript に対応していないブラウザーを使用しているか、JavaScript を無効にしているかのどちらかです。
       js_2: OpenStreetMap は地図の表示に JavaScript を使用します。
       permalink: 固定リンク
@@ -1516,7 +1578,7 @@ ja:
         disabled: 無効。データを編集できず、これまでの編集はすべて匿名です。
         disabled link text: なぜ編集できないのですか?
         enabled: 有効。匿名ではなく、データを編集できます。
-        enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: これは何ですか?
         heading: "公開編集:"
       public editing note: 
@@ -1592,7 +1654,7 @@ ja:
           title: WordPress でログイン
         yahoo: 
           alt: Yahoo の OpenID でログイン
-          title: Yahoo ID でログ​​イン
+          title: Yahoo ID でログイン
       password: "パスワード:"
       register now: 今すぐ登録
       remember: ログイン状態を保持
@@ -1680,13 +1742,13 @@ ja:
         france: フランス
         italy: イタリア
         rest_of_world: それ以外の国
-      legale_select: "お住まいの国もしくは地域を選択してください:"
+      legale_select: "お住まいの国または地域を選択してください:"
       read and accept: 下記の同意書を読み、あなたの既存および将来の投稿のために本同意書の条項を承諾することを確認するために同意ボタンを押してください。
       title: 投稿規約
       you need to accept or decline: 続行するには新しい投稿規約を読んで同意または拒否してください。
     view: 
       activate_user: このユーザーを有効にする
-      add as friend: 友達を追加
+      add as friend: 友達として追加
       ago: (%{time_in_words_ago}前)
       block_history: 受けたブロック
       blocks by me: 自分が実行したブロック
@@ -1718,6 +1780,7 @@ ja:
       my comments: 自分のコメント
       my diary: 自分の日記
       my edits: 自分の編集
+      my notes: 自分の地図メモ
       my settings: 設定
       my traces: 自分のトレース
       nearby users: 周辺のその他のユーザー
@@ -1726,6 +1789,7 @@ ja:
       new diary entry: 新しい日記エントリ
       no friends: あなたはまだ誰も友達として登録していません。
       no nearby users: あなたの活動地域周辺に他のマッパーはいないようです。
+      notes: 地図メモ
       oauth settings: OAuth 設定
       remove as friend: 友達を解除
       role: 
@@ -1845,7 +1909,7 @@ ja:
       heading: 権限付与の確認
       title: 権限付与の確認
     revoke: 
-      are_you_sure: ユーザー「%{name}の「%{role}」権限を本当に取り消しますか?
+      are_you_sure: ユーザー「%{name}」の「%{role}」権限を本当に取り消しますか?
       confirm: 確認
       fail: ユーザー「%{name}」の「%{role}」権限を取り消せませんでした。ユーザーおよび権限が両方とも正しいか確認してください。
       heading: 権限取り消しの確認
