@@ -85,6 +85,9 @@ en:
     potlatch:
       name: "Potlatch 1"
       description: "Potlatch 1 (in-browser editor)"
+    id:
+      name: "iD"
+      description: "iD (in-browser editor)"
     potlatch2:
       name: "Potlatch 2"
       description: "Potlatch 2 (in-browser editor)"
@@ -1192,8 +1195,7 @@ en:
       subject: "[OpenStreetMap] Confirm your email address"
     email_confirm_plain:
       greeting: "Hi,"
-      hopefully_you_1: "Someone (hopefully you) would like to change their email address over at"
-      hopefully_you_2: "%{server_url} to %{new_address}."
+      hopefully_you: "Someone (hopefully you) would like to change their email address over at %{server_url} to %{new_address}."
       click_the_link: "If this is you, please click the link below to confirm the change."
     email_confirm_html:
       greeting: "Hi,"
@@ -1203,8 +1205,7 @@ en:
       subject: "[OpenStreetMap] Password reset request"
     lost_password_plain:
       greeting: "Hi,"
-      hopefully_you_1: "Someone (possibly you) has asked for the password to be reset on this"
-      hopefully_you_2: "email addresses openstreetmap.org account."
+      hopefully_you: "Someone (possibly you) has asked for the password to be reset on this email address's openstreetmap.org account."
       click_the_link: "If this is you, please click the link below to reset your password."
     lost_password_html:
       greeting: "Hi,"
@@ -1315,6 +1316,7 @@ en:
       potlatch_unsaved_changes: "You have unsaved changes. (To save in Potlatch, you should deselect the current way or point, if editing in live mode, or click save if you have a save button.)"
       potlatch2_not_configured: "Potlatch 2 has not been configured - please see http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 for more information"
       potlatch2_unsaved_changes: "You have unsaved changes. (To save in Potlatch 2, you should click save.)"
+      id_not_configured: "iD has not been configured"
       no_iframe_support: "Your browser doesn't support HTML iframes, which are necessary for this feature."
     sidebar:
       search_results: Search Results
@@ -1453,7 +1455,9 @@ en:
       upload_trace: "Upload a trace"
       see_all_traces: "See all traces"
       see_your_traces: "See your traces"
-      traces_waiting: "You have %{count} traces waiting for upload. Please consider waiting for these to finish before uploading any more, so as not to block the queue for other users."
+      traces_waiting:
+        one: "You have %{count} trace waiting for upload. Please consider waiting for these to finish before uploading any more, so as not to block the queue for other users."
+        other: "You have %{count} traces waiting for upload. Please consider waiting for these to finish before uploading any more, so as not to block the queue for other users."
     trace_optionals:
       tags: "Tags"
     view:
@@ -1995,14 +1999,14 @@ en:
       needs_view: "The user needs to log in before this block will be cleared."
   note:
     description:
-      opened_at: "Created %{when} ago"
-      opened_at_by: "Created %{when} ago by %{user}"
-      commented_at: "Updated %{when} ago"
-      commented_at_by: "Updated %{when} ago by %{user}"
-      closed_at: "Resolved %{when} ago"
-      closed_at_by: "Resolved %{when} ago by %{user}"
-      reopened_at: "Reactivated %{when} ago"
-      reopened_at_by: "Reactivated %{when} ago by %{user}"
+      opened_at_html: "Created %{when} ago"
+      opened_at_by_html: "Created %{when} ago by %{user}"
+      commented_at_html: "Updated %{when} ago"
+      commented_at_by_html: "Updated %{when} ago by %{user}"
+      closed_at_html: "Resolved %{when} ago"
+      closed_at_by_html: "Resolved %{when} ago by %{user}"
+      reopened_at_html: "Reactivated %{when} ago"
+      reopened_at_by_html: "Reactivated %{when} ago by %{user}"
     rss:
       title: "OpenStreetMap Notes"
       description_area: "A list of notes, reported, commented on or closed in your area [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]"

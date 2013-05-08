@@ -18,6 +18,12 @@ module GeocoderHelper
     html << link_to(result[:name], url, html_options) if result[:name]
     html << result[:suffix] if result[:suffix]
 
+    if result[:type] and result[:id]
+      html << content_tag(:small, :class => ["deemphasize", "search_details"]) do
+        link_to(t("browse.#{result[:type]}_history.view_details"), :controller => :browse, :action => result[:type], :id => result[:id])
+      end
+    end
+
     return raw(html)
   end
 

@@ -37,4 +37,15 @@ folder 'vendor/assets' do
       file 'ohauth.js'
     end
   end
+
+  folder 'iD' do
+    from 'git://github.com/systemed/iD', :branch => '1-0-stable' do
+      folder 'iD/img', 'dist/img'
+      folder 'iD/locales', 'dist/locales'
+      file 'iD.css.erb', 'dist/iD.css' do |path|
+        rewrite(path) { |content| content.gsub(/url\('?(img\/[^')]+)'?\)/, 'url(<%= asset_path("iD/\1") %>)') }
+      end
+      file 'iD.js', 'dist/iD.js'
+    end
+  end
 end

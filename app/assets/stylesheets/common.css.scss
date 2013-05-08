@@ -692,7 +692,12 @@ table {
 }
 
 .search_results_entry {
-  margin-bottom: 0 ;
+  margin-bottom: 0;
+
+  .search_details {
+    display: block;
+    text-align: right;
+  }
 }
 
 .search_results_entry .search_searching {
@@ -947,14 +952,13 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     margin: 0px;
     padding: 4px 6px;
   }
-  div {
-    clear: left;
-  }
   h4, p {
     margin-bottom: 5px;
   }
-  p, ul, .bbox {
-    margin-left: 33.3333%;
+  p, ul, .bbox, .geo {
+    display: inline-block;
+    vertical-align: top;
+    max-width: 65%;
   }
   ul p {
     margin-left: 0;
@@ -962,7 +966,8 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   }
   h4 {
     width: 33.3333%;
-    float: left;
+    display: inline-block;
+    vertical-align: top;
   }
 }
 
@@ -1783,4 +1788,12 @@ a.button.submit {
     margin-top: 5px;
     text-align: right;
   }
+}
+
+/*
+ * Rules for the iD editor
+ */
+.id-embed {
+  width: 100%;
+  height: 100%;
 }

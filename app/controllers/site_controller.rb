@@ -65,4 +65,8 @@ class SiteController < ApplicationController
   def preview
     render :text => RichText.new(params[:format], params[:text]).to_html
   end
+
+  def id
+    render "id", :layout => false
+  end
 end
