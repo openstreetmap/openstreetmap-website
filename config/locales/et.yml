@@ -4,6 +4,7 @@
 # Author: AivoK
 # Author: Avjoska
 # Author: Kanne
+# Author: Luckas
 # Author: RM87
 # Author: WikedKentaur
 et: 
@@ -76,6 +77,7 @@ et:
       title: Muutuskogum
     changeset_details: 
       belongs_to: "Kuulub:"
+      bounding_box: "Piirid:"
       box: ala
       closed_at: "Suletud:"
       created_at: "Loodud:"
@@ -88,6 +90,8 @@ et:
       has_ways: 
         one: "Sisaldab järgmist %{count} joont:"
         other: "Sisaldab järgmist %{count} joont:"
+      no_bounding_box: Antud muutuskogumile ei ole piire seatud.
+      show_area_box: Näita valitud ala
     common_details: 
       changeset_comment: "Kommentaar:"
       deleted_at: "Kustutamise aeg:"
@@ -104,11 +108,13 @@ et:
       edit: 
         area: Muuda ala
         node: Muuda sõlme
+        note: Muuda märkust
         relation: Muuda relatsiooni
         way: Muuda joont
       larger: 
         area: Vaata ala suuremal kaardil
         node: Vaata sõlme suuremal kaardil
+        note: Vaata märkust suuremal kaardil
         relation: Vaata relatsiooni suuremal kaardil
         way: Vaata joont suuremal kaardil
       loading: Laen...
@@ -116,10 +122,12 @@ et:
       all: 
         next_changeset_tooltip: Järgmine muutuskogum
         next_node_tooltip: Järgmine sõlm
+        next_note_tooltip: Järgmine märkus
         next_relation_tooltip: Järgmine relatsioon
         next_way_tooltip: Järgmine joon
         prev_changeset_tooltip: Eelmine muutuskogum
         prev_node_tooltip: Eelmine sõlm
+        prev_note_tooltip: Eelmine märkus
         prev_relation_tooltip: Eelmine relatsioon
         prev_way_tooltip: Eelmine joon
       user: 
@@ -147,6 +155,15 @@ et:
         node: sõlme
         relation: relatsiooni
         way: joont
+    note: 
+      at_html: "%{when} tagasi"
+      closed: "Suletud:"
+      closed_title: "Lahendatud märkus: %{note_name}"
+      comments: "Kommentaarid:"
+      description: "Kirjeldus:"
+      last_modified: "Viimati muudetud:"
+      open_title: "Lahendamata märkus: %{note_name}"
+      opened: "Avatud:"
     paging_nav: 
       of: " /"
       showing_page: leht
@@ -185,6 +202,7 @@ et:
       loaded_an_area_with_num_features: Oled laadinud ala, mis sisaldab %{num_features} objekti. Mõned brauserid ei saa hästi hakkama sellise hulga andmete kuvamisega. Üldiselt suudavad brauserid kuvada korraga kuni %{max_features} objekti. Suurema arvu laadimine võib muuta brauseri aeglaseks või see lakkab üldse toimimast. Kui soovid siiski neid andmeid kuvada, võid seda teha, klõpsates nupul allpool.
       loading: Laadin andmeid...
       manually_select: Vali uus ala
+      notes_layer_name: Sirvi märkuseid
       object_list: 
         api: Laadi antud ala APIst
         back: Tagasi objektide nimekirja
@@ -214,6 +232,7 @@ et:
         tag: Sildi %{key}=%{value} kirjelduse leht vikis
       wikipedia_link: Artikkel %{page} Vikipeedias
     timeout: 
+      sorry: Kahjuks võttis andmete (%{type} id-ga %{id}) laadimine liiga kaua aega.
       type: 
         changeset: muutuskogumi
         node: sõlme
@@ -262,6 +281,7 @@ et:
       description_user: Kasutaja %{user} muutuskogumid
       description_user_bbox: Kasutaja %{user} muutuskogumid raamis, koordinaatidega %{bbox}
       empty_anon_html: Muudatusi ei ole veel tehtud.
+      empty_user_html: Näib, et sa pole teinud veel ühtegi muudatust. Et alustada, loe <a href='http://wiki.openstreetmap.org/wiki/Et:Beginners_Guide_1.3'>Esmakasutaja juhendit</a>.
       heading: Muutuskogumid
       heading_bbox: Muutuskogumid
       heading_friend: Muutuskogumid
@@ -274,6 +294,8 @@ et:
       title_nearby: Läheduses asuvate kasutajate muutuskogumid
       title_user: Kasutaja %{user} muutuskogumid
       title_user_bbox: Kasutaja %{user} muutuskogumid raamis, koordinaatidega %{bbox}
+    timeout: 
+      sorry: Kahjuks võttis taotletud muutuskogumite laadimine liiga kaua aega.
   diary_entry: 
     comments: 
       ago: "%{ago} tagasi"
@@ -338,6 +360,7 @@ et:
     new: 
       title: Uus päeviku sissekanne
     no_such_entry: 
+      body: Kahjuks ei leidu päeviku sissekannet või kommentaari id-ga %{id}. Kontrolli sisestatud lingi õigekirja. Võimalik, et link millele sa vajutasid on vigane.
       heading: Sissekannet id'ga %{id} pole olemas
       title: Sellist päeviku sissekannet pole olemas
     view: 
@@ -416,6 +439,7 @@ et:
       title: 
         ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a> tulemused
         geonames: <a href="http://www.geonames.org/">GeoNames</a>i tulemused
+        latlon: <a href="http://openstreetmap.org/">Sisemised</a> tulemused
         osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>i tulemused
         uk_postcode: " <a href=\"http://www.npemap.org.uk/\">NPEMap / FreeThe Postcode</a> tulemused"
         us_postcode: <a href="http://geocoder.us/">Geocoder.us</a> tulemused
@@ -423,6 +447,7 @@ et:
       prefix: 
         aeroway: 
           gate: Värav
+          helipad: Kopteriväljak
           taxiway: Ruleerimisrada
           terminal: Terminal
         amenity: 
@@ -470,6 +495,7 @@ et:
           library: Raamatukogu
           market: Turg
           marketplace: Turg
+          mountain_rescue: Mäepäästeteenistus
           nightclub: Ööklubi
           nursing_home: Hooldekodu
           office: Kontor
@@ -558,6 +584,7 @@ et:
           meadow: Niit
           mine: Kaevandus
           nature_reserve: Looduskaitseala
+          orchard: Viljapuuaed
           park: Park
           quarry: Karjäär
           railway: Raudtee
@@ -731,7 +758,17 @@ et:
       base: 
         cycle_map: Rattakaart
         transport_map: Transpordikaart
+    notes: 
+      new: 
+        add: Lisa märkus
+        intro: Sisestatav info on nähtav teistele kasutajatele ja võib-olla aitab see kaarti parandada. Palun lisa lühike kirjeldus ja lohista kaardil marker õigesse asukohta.
+      show: 
+        anonymous_warning: Käesolev märkus sisaldab kommentaare anonüümsetelt kasutajatelt, mida tuleks eraldi üle kontrollida.
+        hide: Peida
+        permalink: Püsilink
+        resolve: Lahenda
     site: 
+      createnote_tooltip: Märkuse lisamine kaardile
       edit_disabled_tooltip: Kaardi redigeerimiseks suurenda kaarti
       edit_tooltip: Töötle kaarti
       history_tooltip: Vaata tehtud muudatusi
@@ -873,6 +910,16 @@ et:
       unread_button: Märgi mitteloetuks
     sent_message_summary: 
       delete_button: Kustuta
+  note: 
+    entry: 
+      comment: Kommentaar
+    mine: 
+      ago_html: "%{when} tagasi"
+      created_at: Loodud
+      description: Kirjeldus
+      last_changed: Viimati muudetud
+    rss: 
+      title: OpenStreetMap märkused
   notifier: 
     diary_comment_notification: 
       header: "%{from_user} on kommenteerinud sinu hiljutist OpenStreetMap päeviku sissekannet pealkirjaga %{subject}:"
@@ -885,8 +932,6 @@ et:
     email_confirm_plain: 
       click_the_link: Kui see oled sina, siis palun kliki allolevale lingile muudatuse kinnitamiseks.
       greeting: Tere,
-      hopefully_you_1: Keegi (loodetavasti sina) soovib muuta oma e-posti aadressi
-      hopefully_you_2: "%{server_url} aadressiks %{new_address}."
     friend_notification: 
       had_added_you: "% {user} lisas sind OpenStreetMap'is sõbraks."
       subject: "[OpenStreetMap] %{user} lisas sind oma sõbraks"
@@ -900,6 +945,10 @@ et:
       footer1: "Sa saad lugeda sõnumit ka lehel: %{readurl}"
       header: "%{from_user} on saatnud sulle OpenStreetMapi kaudu sõnumi teemaga %{subject}:"
       hi: Tere, %{to_user},
+    note_comment_notification: 
+      anonymous: Anonüümne kasutaja
+      details: Märkuse lisateavet leiad %{url}.
+      greeting: Tere,
     signup_confirm: 
       confirm: "Enne kasutajakonto loomist peame saama kinnituse, et see taotlus tuli sinult ja selleks klõpsa alloleval lingil:"
       created: Keegi (loodetavasti sina) lõi äsja %{site_url} kasutajakonto.
@@ -930,11 +979,12 @@ et:
       title: Redigeeri oma rakendust
     form: 
       allow_read_gpx: lugeda enda privaatseid GPS-radasid.
-      allow_read_prefs: Lugeda oma kasutajaeelistusi.
+      allow_read_prefs: lugeda oma kasutajaeelistusi.
       allow_write_api: muuta kaarti.
       allow_write_diary: luua päeviku sissekandeid, kommenteerida ja saada sõpradeks.
       allow_write_gpx: laadida üles GPS-radasid.
-      allow_write_prefs: Muuta oma kasutajaeelistusi.
+      allow_write_notes: muuta märkuseid.
+      allow_write_prefs: muuta oma kasutajaeelistusi.
       name: Nimi
       requests: "Kasutajalt nõutakse järgmisi õiguseid:"
       required: Nõutav
@@ -959,12 +1009,16 @@ et:
   redaction: 
     edit: 
       description: Kirjeldus
+    new: 
+      description: Kirjeldus
     show: 
+      confirm: Kas oled kindel?
       description: "Kirjeldus:"
   site: 
     edit: 
       user_page_link: kasutajaleht
     index: 
+      createnote: Lisa märkus
       js_1: Sa kas kasutad veebilehitsejat, mis ei toeta JavaScript'i või sa oled JavaScript'i ära keelanud.
       permalink: Püsilink
       shortlink: Lühilink
@@ -1167,7 +1221,9 @@ et:
       preferred languages: "Eelistatud keeled:"
       profile description: "Profiili kirjeldus:"
       public editing: 
+        disabled: Keelatud ja ei saa andmeid muuta, kõik varasemad muudatused on anonüümsed.
         disabled link text: Miks ma ei saa kaarti töödelda?
+        enabled: Lubatud. Pole anonüümne ja saab andmeid muuta.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Mis see on?
         heading: "Avalikud seaded:"
@@ -1198,10 +1254,12 @@ et:
       summary_no_ip: "%{name} loodud %{date}"
       title: Kasutajad
     login: 
+      create account minute: Loo kasutajakonto. See võtab vaid hetke.
       email or username: "E-posti aadress või kasutajanimi:"
       heading: Logi sisse
       login_button: Logi sisse
       lost password link: Salasõna ununes?
+      new to osm: Oled uus OpenStreetMap kasutaja?
       no account: Sa ei ole veel registreerinud kasutajaks?
       openid: "%{logo} OpenID:"
       openid_providers: 
@@ -1211,7 +1269,9 @@ et:
       register now: "Registreeru:"
       remember: "Jäta mind meelde:"
       title: Sisselogimise leht
+      to make changes: Muudatuste tegemiseks OpenStreetMap andmetes peab sul olema kasutajakonto.
       with openid: "Või kasuta sisse logimiseks oma OpenID kasutajat:"
+      with username: Kas omad juba OpenStreetMap kasutajakontot? Palun logi sisse enda kasutajanime ja salasõnaga.
     logout: 
       heading: Välju OpenStreetMap -st
       logout_button: Logi välja
@@ -1297,6 +1357,7 @@ et:
       my comments: minu kommentaarid
       my diary: minu päevik
       my edits: minu muutmised
+      my notes: minu märkused
       my settings: minu seaded
       my traces: minu jäljelogid
       nearby users: Teised lähedal asuvad kasutajad
@@ -1305,6 +1366,7 @@ et:
       new diary entry: uus päevikusissekanne
       no friends: Sa ei ole lisanud veel ühtegi sõpra.
       no nearby users: Puuduvad teised kasutajad, kes tunnistavad, et kaardistavad läheduses.
+      notes: märkused
       oauth settings: oauth seaded
       remove as friend: Eemalda sõprade hulgast
       role: 
@@ -1334,6 +1396,7 @@ et:
       previous: « Eelmine
       reason: Blokeerimise põhjus
       show: Näita
+      showing_page: Leht %{page}
     show: 
       back: Vaata kõiki blokeeringuid
       confirm: Oled Sa kindel?

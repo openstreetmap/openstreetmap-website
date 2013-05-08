@@ -6,6 +6,7 @@
 # Author: Dani
 # Author: Dj
 # Author: Glanthor Reviol
+# Author: Grin
 # Author: Leiric
 # Author: Misibacsi
 # Author: Nemo bis
@@ -135,6 +136,7 @@ hu:
       larger: 
         area: Terület megtekintése nagyobb térképen
         node: Pont megtekintése nagyobb térképen
+        note: Jegyzet megtekintése nagyobb térképen
         relation: Kapcsolat megtekintése nagyobb térképen
         way: Vonal megtekintése nagyobb térképen
       loading: Betöltés…
@@ -146,6 +148,7 @@ hu:
         next_way_tooltip: Következő vonal
         prev_changeset_tooltip: Előző módosításcsomag
         prev_node_tooltip: Előző pont
+        prev_note_tooltip: Előző jegyzet
         prev_relation_tooltip: Előző kapcsolat
         prev_way_tooltip: Előző vonal
       user: 
@@ -173,6 +176,9 @@ hu:
         node: pont
         relation: kapcsolat
         way: vonal
+    note: 
+      closed_title: "Megoldott jegyzet: %{note_name}"
+      open_title: "Megoldatlan jegyzet: %{note_name}"
     paging_nav: 
       of: "összesen:"
       showing_page: "Jelenlegi oldal:"
@@ -211,6 +217,7 @@ hu:
       loaded_an_area_with_num_features: "Olyan területet töltöttél be, amely %{num_features} elemet tartalmaz. Néhány böngésző lehet, hogy nem birkózik meg ekkora mennyiségű adattal. Általában a böngészők egyszerre legfeljebb %{max_features} elemet tudnak megjeleníteni: minden más esetben a böngésző lelassulhat/nem válaszolhat. Ha biztos vagy benne, hogy meg szeretnéd jeleníteni ezeket az adatokat, megteheted ezt az alábbi gombra kattintva."
       loading: Betöltés…
       manually_select: Más terület kézi kijelölése
+      notes_layer_name: Jegyzetek böngészése
       object_list: 
         api: Ezen terület letöltése API-ból
         back: Objektumlista megjelenítése
@@ -923,7 +930,15 @@ hu:
         mapquest: MapQuest Open
         standard: Alapértelmezett
         transport_map: Tömegközlekedési térkép
+    notes: 
+      new: 
+        intro: A térkép tökéletesítésének érdekében az alábbi jegyzetedet minden térképező látni fogja ezért fogalmazz olyan érthetően amennyire lehetséges, a lehető legpontosabban helyezd el a jelölőt.
+      show: 
+        anonymous_warning: Ez a jegyzet anonim felhasználók megjegyzéseit is tartalmazza melyeket ellenőrizni szükséges.
     site: 
+      createnote_disabled_tooltip: Nagyíts térképes jegyzet hozzáadásához
+      createnote_tooltip: Jegyzet hozzáadása a térképhez
+      createnote_zoom_alert: Nagyítanod kell ahhoz, hogy jegyzetet helyezhess el
       edit_disabled_tooltip: Közelíts a térkép szerkesztéséhez
       edit_tooltip: Térkép szerkesztése
       edit_zoom_alert: Közelítened kell a térkép szerkesztéséhez
@@ -1096,6 +1111,15 @@ hu:
       wrong_user: „%{user}” néven jelentkeztél be, de a levelet, amit lekérdeztél válaszolásra, nem ez a felhasználó kapta. Annak érdekében, hogy válaszolhass, jelentkezz be a helyes felhasználóval.
     sent_message_summary: 
       delete_button: Törlés
+  note: 
+    entry: 
+      full: Teljes jegyzet
+    mine: 
+      heading: "%{user} jegyzetei"
+    rss: 
+      description_item: RSS hírcsatorna a %{id} jegyzethez
+      new: új jegyzet (%{place} közelében)
+      title: OpenStreetMap jegyzetek
   notifier: 
     diary_comment_notification: 
       footer: "A hozzászólást elolvashatod itt is: %{readurl} és hozzászólhatsz itt: %{commenturl} vagy válaszolhatsz rá itt: %{replyurl}"
@@ -1111,8 +1135,6 @@ hu:
     email_confirm_plain: 
       click_the_link: Ha ez Te vagy, akkor a módosítás megerősítéséhez kattints az alábbi hivatkozásra.
       greeting: Szia!
-      hopefully_you_1: "Valaki (remélhetőleg Te) meg szeretné változtatni az e-mail címét erről:"
-      hopefully_you_2: "%{server_url} erre: %{new_address}."
     friend_notification: 
       befriend_them: "Felveheted őt barátnak is itt: %{befriendurl}."
       had_added_you: "%{user} felvett a barátai közé az OpenStreetMapon."
@@ -1141,8 +1163,6 @@ hu:
     lost_password_plain: 
       click_the_link: Ha ez Te vagy, akkor a jelszó alaphelyzetbe állításához kattints az alábbi hivatkozásra.
       greeting: Szia!
-      hopefully_you_1: Valaki (esetleg Te) kérte, hogy az ehhez az e-mail címhez tartozó
-      hopefully_you_2: openstreetmap.org felhasználói fiók jelszava kerüljön alaphelyzetbe.
     message_notification: 
       footer1: "Az üzenetet elolvashatod itt is: %{readurl}"
       footer2: "és válaszolhatsz rá itt: %{replyurl}"
@@ -1178,6 +1198,7 @@ hu:
       allow_write_api: a térkép módosítása.
       allow_write_diary: naplóbejegyzések, hozzászólások készítése és barátok hozzáadása.
       allow_write_gpx: GPS nyomvonalak feltöltése.
+      allow_write_notes: jegyzet módosítása
       allow_write_prefs: felhasználói beállítások módosítása.
       request_access: A(z) %{app_name} alkalmazás hozzáférést kér a felhasználói fiókodhoz, %{user}. Kérlek, jelöld, ha azt szeretnéd, hogy az alkalmazás rendelkezzen a következő képességekkel. Választhatsz olyan sokat vagy keveset, amennyit szeretnél.
     revoke: 
@@ -1226,6 +1247,7 @@ hu:
       allow_write_api: a térkép módosítása.
       allow_write_diary: naplóbejegyzések, hozzászólások készítése és barátok hozzáadása.
       allow_write_gpx: GPS nyomvonalak feltöltése.
+      allow_write_notes: jegyzet módosítása.
       allow_write_prefs: felhasználó beállításainak módosítása.
       authorize_url: "Felhatalmazási URL:"
       confirm: Biztos vagy benne?
@@ -1262,6 +1284,7 @@ hu:
       potlatch_unsaved_changes: Nem mentett módosítások vannak. (Potlatchban való mentéshez szüntesd meg a jelenlegi vonal vagy pont kijelölését, ha élő módban szerkesztesz, vagy kattints a mentésre, ha van mentés gomb.)
       user_page_link: felhasználói oldal
     index: 
+      createnote: Új jegyzet
       js_1: Vagy egy olyan böngészőt használsz, amely nem támogatja a JavaScriptet, vagy letiltottad a JavaScriptet.
       js_2: Az OpenStreetMap JavaScriptet használ a slippy maphoz.
       permalink: Permalink
@@ -1701,6 +1724,7 @@ hu:
       my comments: Saját megjegyzések
       my diary: naplóm
       my edits: szerkesztéseim
+      my notes: saját jegyzeteim
       my settings: beállításaim
       my traces: saját nyomvonalak
       nearby users: Egyéb közeli felhasználók

@@ -122,11 +122,13 @@ mk:
       edit: 
         area: Уреди подрачје
         node: Уреди јазол
+        note: Уреди белешка
         relation: Уреди однос
         way: Уреди пат
       larger: 
         area: Погледај го просторот на поголема карта
         node: Погледај го јазолот на поголема карта
+        note: Погледај ја белешката на поголема карта
         relation: Вид. односот на поголема карта
         way: Погледај го патот на поголема карта
       loading: Вчитувам...
@@ -134,10 +136,12 @@ mk:
       all: 
         next_changeset_tooltip: "Следни измени:"
         next_node_tooltip: Следен јазол
+        next_note_tooltip: Следна белешка
         next_relation_tooltip: Следен однос
         next_way_tooltip: Следен пат
         prev_changeset_tooltip: "Претходни измени:"
         prev_node_tooltip: Претходен јазол
+        prev_note_tooltip: Претходна белешка
         prev_relation_tooltip: Претходен однос
         prev_way_tooltip: Претходен пат
       user: 
@@ -165,6 +169,16 @@ mk:
         node: јазол
         relation: однос
         way: пат
+    note: 
+      at_by_html: пред %{when} од %{user}
+      at_html: пред %{when}
+      closed: "Затворена:"
+      closed_title: "Решена белешка: %{note_name}"
+      comments: "Коментари:"
+      description: "Опис:"
+      last_modified: "Последна промена:"
+      open_title: "Нерешена белешка: %{note_name}"
+      opened: "Отворена:"
     paging_nav: 
       of: од
       showing_page: страница
@@ -205,6 +219,7 @@ mk:
       loaded_an_area_with_num_features: "Вчитавте простор што содржи %{num_features} елементи. Некои прелистувачи не можат да се справат со толку податоци. Начелно, прелистувачите работат најдобро при помалку од %{max_features} елементи наеднаш: ако правите нешто друго прелистувачот ќе ви биде бавен/пасивен. Ако и покрај тоа сакате да се прикажат овие податоци, тогаш стиснете на копчето подолу."
       loading: Вчитувам...
       manually_select: Рачно изберете друга површина
+      notes_layer_name: Прелистај белешки
       object_list: 
         api: Retrieve this area from the API
         back: Назад на списокот на предмети
@@ -924,7 +939,29 @@ mk:
         mapquest: MapQuest Open
         standard: Стандардна
         transport_map: Сообраќајна карта
+    notes: 
+      new: 
+        add: Додај белешка
+        intro: За да ја подобриме картата, информациите што ги внесувате се прикажува на другите корисници, па затоа бидете што е можно поописни и попрецизни кога го преместувате бележникот на исправното место и кога ја внесувате белешката подолу.
+      show: 
+        anonymous_warning: Оваа белешка има коментари од анонимни корисници што треба независно да се проверат.
+        closed_by: решена од <a href='%{user_url}'>%{user}</a> во %{time}
+        closed_by_anonymous: решена од анонимен во %{time}
+        comment: Коментирај
+        comment_and_resolve: Коментирај и реши
+        commented_by: коментар од <a href='%{user_url}'>%{user}</a> во %{time}
+        commented_by_anonymous: коментар од анонимен во %{time}
+        hide: Скриј
+        opened_by: создадена од <a href='%{user_url}'>%{user}</a> во %{time}
+        opened_by_anonymous: создадена од анонимен во %{time}
+        permalink: Постојана врска
+        reopened_by: повторно отворена од <a href='%{user_url}'>%{user}</a> во %{time}
+        reopened_by_anonymous: повторно отворена од анонимен во %{time}
+        resolve: Решена
     site: 
+      createnote_disabled_tooltip: Приближете за да додадете белешка
+      createnote_tooltip: Додај белешка на картата
+      createnote_zoom_alert: Ќе мора да ја приближите картата за да можете да додадете белешка
       edit_disabled_tooltip: Приближете за да ја уредите картата
       edit_tooltip: Уредување на картата
       edit_zoom_alert: Морате да приближите за да можете да ја уредувате картата.
@@ -1101,6 +1138,27 @@ mk:
       wrong_user: Најавени сте како „%{user}“, но пораката на којашто побаравте да одговорите не е испратена до тој корисник. Најавете се под правилно корисничко име за да одговорите.
     sent_message_summary: 
       delete_button: Избриши
+  note: 
+    entry: 
+      comment: Коментар
+      full: Целата белешка
+    mine: 
+      ago_html: пред %{when}
+      created_at: Создадена
+      creator: Создавач
+      description: Опис
+      heading: Белешки на %{user}
+      id: Назнака
+      last_changed: Изменета
+      subheading: Белешки создадени или коментирани од %{user}
+      title: Белешки создадени или коментирани од %{user}
+    rss: 
+      closed: затворена белешка (кај %{place})
+      comment: нов коментар (кај %{place})
+      description_area: Список на белешки, создадени, искометирани или затворени, во вашата околина [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: RSS-канал за белешката %{id}
+      new: нова белешка (кај %{place})
+      title: Белешки на OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Можете да го прочитате коментарот и на %{readurl} и можете да коментирате на %{commenturl} или да одговорите на %{replyurl}
@@ -1116,8 +1174,6 @@ mk:
     email_confirm_plain: 
       click_the_link: Ако ова сте вие, стиснете на врската подолу за да ја потврдите измената.
       greeting: Здраво,
-      hopefully_you_1: Некој (се надеваме Вие) сака да ја замени е-поштенската адреса на
-      hopefully_you_2: "%{server_url} со новата адреса %{new_address}."
     friend_notification: 
       befriend_them: Можете личноста и да ја додадете како пријател на %{befriendurl}.
       had_added_you: "%{user} ве додаде како пријател на OpenStreetMap."
@@ -1147,14 +1203,16 @@ mk:
     lost_password_plain: 
       click_the_link: Ако ова сте вие, стиснете на врската подолу за да си ја смените лозинката.
       greeting: Здраво,
-      hopefully_you_1: Некој (можеби Вие) има побарано да се смени лозинката на
-      hopefully_you_2: адресата на оваа openstreetmap.org сметка.
     message_notification: 
       footer1: Можете да ја прочитате пораката и на %{readurl}
       footer2: и можете да одговорите на %{replyurl}
       header: "%{from_user} ви испрати порака преку OpenStreetMap со насловот %{subject}:"
       hi: Здраво %{to_user},
       subject_header: "[OpenStreetMap] — %{subject}"
+    note_comment_notification: 
+      anonymous: Анонимен корисник
+      details: Поподробно за белешката на %{url}.
+      greeting: Здраво,
     signup_confirm: 
       confirm: "Најнапред треба да потврдиме дека вие сте оној што го поставил барањето. Ако сте вие, тогаш стиснете на долунаведената врска за да ја потврдите сметката:"
       created: Некој (се надеваме, вие) штотуку направи сметка на %{site_url}.
@@ -1191,6 +1249,7 @@ mk:
       allow_write_api: ја менува картата.
       allow_write_diary: создава ставки во дневникот, пишува коментари и да се спријателува.
       allow_write_gpx: подига GPS-траги.
+      allow_write_notes: измена на белешки.
       allow_write_prefs: ги менува вашите кориснички прилагодувања.
       request_access: Програмскиот прилог %{app_name} бара пристап до вашата сметка, %{user}. Видете дали би сакале прилогот да ги има следните можности. Можете да одберете колку што сакате.
     revoke: 
@@ -1209,6 +1268,7 @@ mk:
       allow_write_api: ја менува картата.
       allow_write_diary: создава ставки во дневници, да коментира, и да се спријателува.
       allow_write_gpx: подига GPS-траги.
+      allow_write_notes: измена на белешки.
       allow_write_prefs: им ги менува корисничките прилагодувања.
       callback_url: URL адреса за обратен одзив
       name: Име
@@ -1239,6 +1299,7 @@ mk:
       allow_write_api: ја менува картата.
       allow_write_diary: прави ставки во дневници, да коментира и да се сптијателува.
       allow_write_gpx: подига GPS-траги.
+      allow_write_notes: измена на белешки.
       allow_write_prefs: им ги менува корисничките прилагодувања.
       authorize_url: "Дозволи URL адреса:"
       confirm: Дали сте сигурни?
@@ -1297,6 +1358,7 @@ mk:
       potlatch_unsaved_changes: Имате незачувани промени. (За да зачувате во Potlatch, треба го одселектирате тековниот пат или точка, ако уредувате во живо, или стиснете на „зачувај“ ако го имате тоа копче.)
       user_page_link: корисничка страница
     index: 
+      createnote: Додај белешка
       js_1: Или користите прелистувач кој не поддржува JavaScript, или пак сте го оневозможиле тој програм.
       js_2: OpenStreetMap користи JavaScript за нејзината лизгава карта.
       license: 
@@ -1749,6 +1811,7 @@ mk:
       my comments: мои коментари
       my diary: мојот дневник
       my edits: мои уредувања
+      my notes: мои белешки
       my settings: мои прилагодувања
       my traces: мои траги
       nearby users: Други соседни корисници
@@ -1757,6 +1820,7 @@ mk:
       new diary entry: нова ставка во дневникот
       no friends: Сè уште немате додадено пријатели.
       no nearby users: Сè уште нема други корисници во вашата околина што признаваат дека работат на карти.
+      notes: белешки
       oauth settings: oauth поставки
       remove as friend: отстрани од пријатели
       role: 

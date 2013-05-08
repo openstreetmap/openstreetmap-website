@@ -4,9 +4,11 @@
 # Author: BraulioBezerra
 # Author: Diego Queiroz
 # Author: Fmca
+# Author: Fúlvio
 # Author: Giro720
 # Author: Gmare
 # Author: Gusta
+# Author: Luckas
 # Author: Luckas Blade
 # Author: Nemo bis
 # Author: Nighto
@@ -132,11 +134,13 @@ pt-BR:
       edit: 
         area: Editar área
         node: Editar nó
+        note: Editar nota
         relation: Editar relação
         way: Editar caminho
       larger: 
         area: Ver área em um mapa maior
         node: Ver ponto em um mapa maior
+        note: Ver nota em um mapa maior
         relation: Ver relação em um mapa maior
         way: Ver caminho em um mapa maior
       loading: Carregando...
@@ -144,10 +148,12 @@ pt-BR:
       all: 
         next_changeset_tooltip: Próximo conjunto de alterações
         next_node_tooltip: Próximo nó
+        next_note_tooltip: Próxima nota
         next_relation_tooltip: Próxima relação
         next_way_tooltip: Próximo caminho
         prev_changeset_tooltip: Conjunto de alterações anterior
         prev_node_tooltip: Nó anterior
+        prev_note_tooltip: Nota anterior
         prev_relation_tooltip: Relação anterior
         prev_way_tooltip: Caminho anterior
       paging: 
@@ -182,6 +188,16 @@ pt-BR:
         node: ponto
         relation: relação
         way: caminho
+    note: 
+      at_by_html: Há %{when} por %{user}
+      at_html: Há %{when}
+      closed: "Fechada:"
+      closed_title: "Nota resolvida: %{note_name}"
+      comments: "Comentários:"
+      description: "Descrição:"
+      last_modified: "Última modificação:"
+      open_title: "Nota não resolvida: %{note_name}"
+      opened: "Aberta:"
     paging_nav: 
       of: de
       showing_page: página
@@ -223,6 +239,7 @@ pt-BR:
       loaded_an_area_with_num_features: "Você carregou uma área que contém %{num_features} pontos. Alguns navegadores podem não conseguir exibir essa quantidade de dados. Geralmente, navegadores trabalham melhor exibindo menos de %{max_features} pontos por vez: acima disso pode deixá-lo lento ou travá-lo. Se você tem certeza que deseja exibir estes dados, clique no botão abaixo."
       loading: Carregando...
       manually_select: Selecionar manualmente uma área diferente
+      notes_layer_name: Ver Notas
       object_list: 
         api: Obter esta área através da API
         back: Voltar à lista de objetos
@@ -945,7 +962,29 @@ pt-BR:
         transport_map: Mapa de transporte público
       overlays: 
         maplint: Maplint
+    notes: 
+      new: 
+        add: Adicionar nota
+        intro: A fim de melhorar o mapa, as informações inseridas por você serão visíveis a outros cartógrafos; sendo assim, seja o mais descritivo e preciso possível ao mover o marcador para sua posição correta e ao escrever sua nota abaixo dele.
+      show: 
+        anonymous_warning: Esta nota contém comentários de usuários anônimos que devem ser verificados separadamente.
+        closed_by: resolvido por <a href='%{user_url}'>%{user}</a> às %{time}
+        closed_by_anonymous: resolvido por um anônimo às %{time}
+        comment: Comentar
+        comment_and_resolve: Comentar e resolver
+        commented_by: comentado por <a href='%{user_url}'>%{user}</a> às %{time}
+        commented_by_anonymous: comentado por um anônimo às %{time}
+        hide: Esconder
+        opened_by: criado por <a href='%{user_url}'>%{user}</a> às %{time}
+        opened_by_anonymous: criado por um anônimo às %{time}
+        permalink: Link permanente
+        reopened_by: reativado por <a href='%{user_url}'>%{user}</a> às %{time}
+        reopened_by_anonymous: reativado por um anônimo às %{time}
+        resolve: Resolver
     site: 
+      createnote_disabled_tooltip: Ampliar para adicionar uma nota ao mapa
+      createnote_tooltip: Adicionar uma nota ao mapa
+      createnote_zoom_alert: Você precisa dar mais zoom para adicionar uma nota ao mapa
       edit_disabled_tooltip: Aumente o zoom para editar o mapa
       edit_tooltip: Edite o mapa
       edit_zoom_alert: Você deve aumentar o zoom para editar o mapa
@@ -1124,6 +1163,27 @@ pt-BR:
       wrong_user: Você está conectado como `%{user}' mas a mensagem que você quer responder não foi enviada para este usuário. Por gentileza, faça o login com o usuário correto para poder responder.
     sent_message_summary: 
       delete_button: Apagar
+  note: 
+    entry: 
+      comment: Comentar
+      full: Nota completa
+    mine: 
+      ago_html: Há %{when}
+      created_at: Criado em
+      creator: Criador
+      description: Descrição
+      heading: Notas de %{user}
+      id: ID
+      last_changed: Última alteração
+      subheading: Notas postadas ou comentadas por %{user}
+      title: Notas postadas ou comentadas por %{user}
+    rss: 
+      closed: nota encerrada (próxima a %{place})
+      comment: novo comentário (próximo a %{place})
+      description_area: Uma lista de notas reportadas, comentadas ou encerradas na sua área [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: Um feed RSS para a nota %{id}
+      new: nova nota (próxima a %{place})
+      title: Notas do OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Você pode ler o comentário em %{readurl}, pode comentá-lo em %{commenturl} ou respondê-lo em %{replyurl}
@@ -1139,8 +1199,6 @@ pt-BR:
     email_confirm_plain: 
       click_the_link: Se esta pessoa é você, por favor clique no link abaixo para confirmar a alteração.
       greeting: Olá,
-      hopefully_you_1: Alguém (esperamos que você) quer alterar seu endereço de e-mail de
-      hopefully_you_2: "%{server_url} para %{new_address}."
     friend_notification: 
       befriend_them: Você também pode adicioná-lo como amigo em %{befriendurl}.
       had_added_you: "%{user} adicionou você como amigo no OpenStreetMap."
@@ -1170,14 +1228,16 @@ pt-BR:
     lost_password_plain: 
       click_the_link: Se esta pessoa é você, por favor clique no link abaixo para receber uma nova senha.
       greeting: Olá,
-      hopefully_you_1: Alguém (possivelmente você) pediu uma nova senha
-      hopefully_you_2: para a conta no openstreetmap.org ligada a este e-mail.
     message_notification: 
       footer1: Você pode ler a mensagem em %{readurl}
       footer2: e pode respondê-la em %{replyurl}
       header: "%{from_user} enviou uma mensagem pelo OpenStreetMap para você com o assunto %{subject}:"
       hi: Olá %{to_user},
       subject_header: "[OpenStreetMap] %{subject}"
+    note_comment_notification: 
+      anonymous: Um usuário anônimo
+      details: Mais detalhes sobre a nota podem ser encontradas em %{url}.
+      greeting: Olá,
     signup_confirm: 
       confirm: "Antes de qualquer coisa, nós precisamos confirmar que esta solicitação veio de você, portanto, se sim, por favor, clique no endereço abaixo para confirmar sua conta:"
       created: Alguém (provavelmente você) acaba de criar uma conta em %{site_url}.
@@ -1214,6 +1274,7 @@ pt-BR:
       allow_write_api: modificar o mapa.
       allow_write_diary: criar entradas de diário, comentários e adicionar amigos.
       allow_write_gpx: atualizar trilhas de GPS.
+      allow_write_notes: alterar notas.
       allow_write_prefs: modificar suas preferências de usuário.
       request_access: A aplicação %{app_name} está pedindo acesso à sua conta, %{user}. Por favor verifique se você deseja que a aplicação tenha as capacidades a seguir. Você pode escolher quaisquer que quiser.
     revoke: 
@@ -1232,6 +1293,7 @@ pt-BR:
       allow_write_api: modificar o mapa.
       allow_write_diary: criar entradas de diário, comentários e adicionar amigos.
       allow_write_gpx: enviar trilhas de GPS
+      allow_write_notes: alterar notas.
       allow_write_prefs: modificar suas preferências de usuário.
       callback_url: URL de callback
       name: Nome
@@ -1262,6 +1324,7 @@ pt-BR:
       allow_write_api: modificar o mapa
       allow_write_diary: criar entradas de diário, comentários e adicionar amigos.
       allow_write_gpx: enviar trilhas de GPS.
+      allow_write_notes: alterar notas.
       allow_write_prefs: modificar suas preferências de usuário.
       authorize_url: "URL de autorização:"
       confirm: Você tem certeza?
@@ -1321,6 +1384,7 @@ pt-BR:
       potlatch_unsaved_changes: Você tem alterações não salvas. (Para salvar no Potlatch, você deve deselecionar a linha ou ponto atual, se editando no modo de edição ao vivo, ou clicar em salvar se estiver editando offline.
       user_page_link: página de usuário
     index: 
+      createnote: Adicionar uma nota
       js_1: Você está usando um navegador sem suporte a JavaScript, ou está com o JavaScript desativado.
       js_2: O OpenStreetMap usa JavaScript para a navegação dos mapas.
       license: 
@@ -1771,6 +1835,7 @@ pt-BR:
       my comments: meus comentários
       my diary: meu diário
       my edits: minhas edições
+      my notes: minhas notas de mapa
       my settings: minhas configurações
       my traces: minhas trilhas
       nearby users: Outros usuários próximos
@@ -1779,6 +1844,7 @@ pt-BR:
       new diary entry: nova entrada de diário
       no friends: Você ainda não adicionou amigos.
       no nearby users: Ainda não há outros usuários mapeando por perto.
+      notes: notas de mapa
       oauth settings: configurações do oauth
       remove as friend: remover da lista de amigos
       role: 

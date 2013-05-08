@@ -398,6 +398,9 @@ nl:
       user_title: Dagboek van %{user}
   editor: 
     default: Standaard (op dit moment %{name})
+    id: 
+      description: iD (bewerken in de browser)
+      name: iD
     potlatch: 
       description: Potlatch 1 (in-browser kaartbewerkingsprogramma)
       name: Potlatch 1
@@ -944,7 +947,29 @@ nl:
         mapquest: MapQuest Open
         standard: Standaard
         transport_map: Transport Map
+    notes: 
+      new: 
+        add: Opmerking toevoegen
+        intro: Om de kaar te verbeteren, worden de gegevens die u opgeeft weergegeven aan andere kaartmakers. Maak uw opmerkingen zo beschrijvend mogelijk en plaats de markering zo precies als mogelijk.
+      show: 
+        anonymous_warning: In deze opmerking staan reacties van anonieme gebruikers die moeten worden gecontroleerd.
+        closed_by: opgelost door <a href='%{user_url}'>%{user}</a> om %{time}
+        closed_by_anonymous: opgelost door anoniem om %{time}
+        comment: Reageren
+        comment_and_resolve: Reageren en oplossen
+        commented_by: opmerking van <a href='%{user_url}'>%{user}</a> om %{time}
+        commented_by_anonymous: opmerking van anoniem om %{time}
+        hide: Verbergen
+        opened_by: gemaakt door <a href='%{user_url}'>%{user}</a> om %{time}
+        opened_by_anonymous: gemaakt door anoniem om %{time}
+        permalink: Permanente koppeling
+        reopened_by: heropend door <a href='%{user_url}'>%{user}</a> om %{time}
+        reopened_by_anonymous: heropend door anoniem om %{time}
+        resolve: Oplossen
     site: 
+      createnote_disabled_tooltip: Zoom in om een opmerking bij de kaart te maken
+      createnote_tooltip: Opmerking bij kaart maken
+      createnote_zoom_alert: U moet inzoomen om een opmerking aan de kaart toe te voegen
       edit_disabled_tooltip: Zoom in om de kaart te bewerken
       edit_tooltip: Kaart bewerken
       edit_zoom_alert: U moet inzoomen om de kaart te bewerken
@@ -1121,11 +1146,34 @@ nl:
       delete_button: Verwijderen
   note: 
     description: 
-      closed_at: "%{when} geleden opgelost door"
-      commented_at: "%{when} geleden bijgewerkt"
-      commented_at_by: "%{when} geleden bijgewerkt door %{user}"
-      opened_at: "%{when} geleden gemaakt"
-      opened_at_by: "%{when} geleden gemaakt door %{user}"
+      closed_at_by_html: "%{when} geleden opgelost door %{user}"
+      closed_at_html: "%{when} geleden opgelost door"
+      commented_at_by_html: "%{when} geleden bijgewerkt door %{user}"
+      commented_at_html: "%{when} geleden bijgewerkt"
+      opened_at_by_html: "%{when} geleden gemaakt door %{user}"
+      opened_at_html: "%{when} geleden gemaakt"
+      reopened_at_by_html: "%{when} geleden opnieuw geactiveerd door %{user}"
+      reopened_at_html: "%{when} geleden opnieuw geactiveerd"
+    entry: 
+      comment: Opmerking
+      full: Volledige opmerking
+    mine: 
+      ago_html: "%{when} geleden"
+      created_at: Aangemaakt op
+      creator: Auteur
+      description: Beschrijving
+      heading: Opmerkingen van %{user}
+      id: Id
+      last_changed: Laatste wijziging
+      subheading: Opmerkingen gemaakt door %{user}
+      title: Opmerkingen gemaakt door %{user}
+    rss: 
+      closed: gesloten opmerking (nabij %{place})
+      comment: nieuwe opmerking (nabij %{place})
+      description_area: Een lijst met opmerkingen en reacties in uw gebied [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: Een RSS-feed voor opmerking %{id}
+      new: nieuwe opmerking (nabij %{place})
+      title: OpenStreetMap opmerkingen
   notifier: 
     diary_comment_notification: 
       footer: U kunt de reactie ook lezen op %{readurl} en u kunt zelf ook reageren op %{commenturl} of antwoorden op %{replyurl}
@@ -1141,8 +1189,7 @@ nl:
     email_confirm_plain: 
       click_the_link: Als u dit bent, klik dan op de onderstaande koppeling om de wijziging te bevestigen.
       greeting: Hallo,
-      hopefully_you_1: Iemand - hopelijk u - wil zijn e-mailadres  op
-      hopefully_you_2: "%{server_url} wijzigen naar %{new_address}."
+      hopefully_you: Iemand - hopelijk u - wil zijn/haar e-mailadres op %{server_url} wijzigen naar %{new_address}.
     friend_notification: 
       befriend_them: U kunt deze gebruiker ook als vriend toevoegen op %{befriendurl}.
       had_added_you: "%{user} heeft u toegevoegd als vriend op OpenStreetMap."
@@ -1171,8 +1218,7 @@ nl:
     lost_password_plain: 
       click_the_link: Als u dit bent, klik dan op de onderstaande koppeling om uw wachtwoord opnieuw in te stellen.
       greeting: Hallo,
-      hopefully_you_1: Iemand - mogelijk u - heeft aangevraagd om het wachtwoord opnieuw in te stellen voor
-      hopefully_you_2: de gebruiker met dit e-mailadres op openstreetmap.org.
+      hopefully_you: Iemand - mogelijk u - heeft aangevraagd om het wachtwoord opnieuw in te stellen voor de gebruiker met dit e-mailadres op openstreetmap.org.
     message_notification: 
       footer1: U kunt het bericht ook lezen op %{readurl}
       footer2: en u kunt antwoorden op %{replyurl}
@@ -1180,12 +1226,18 @@ nl:
       hi: Hallo %{to_user},
     note_comment_notification: 
       anonymous: Een anonieme gebruiker
-      commented_note: "%{commenter} heeft gereageerd op een opmerking bij een kaart waar u op gereageerd hebt. De opmerking is gemaakt nabij %{place}."
+      closed: 
+        commented_note: "%{commenter} heeft een opmerking opgelost bij een kaart waar u op hebt gereageerd. De opmerking is gemaakt nabij %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} heeft een opmerking opgelost waar u interesse in hebt"
+        subject_own: "[OpenStreetMap] %{commenter} heeft een van uw opmerkingen opgelost"
+        your_note: "%{commenter} heeft een opmerking van u opgelost bij een kaart nabij %{place}."
+      commented: 
+        commented_note: "%{commenter} heeft gereageerd op een opmerking bij een kaart waar u op gereageerd hebt. De opmerking is gemaakt nabij %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} heeft gereageerd op een opmerking waar u interesse in hebt"
+        subject_own: "[OpenStreetMap] %{commenter} heeft gereageerd op een van jouw opmerkingen"
+        your_note: "%{commenter} heeft gereageerd op een opmerking van u bij een kaart nabij %{place}."
       details: Meer details over de opmerking zijn te vinden op %{url}.
       greeting: Hallo,
-      subject_other: "[OpenStreetMap] %{commenter} heeft gereageerd op een opmerking waar jij interesse in hebt"
-      subject_own: "[OpenStreetMap] %{commenter} heeft gereageerd op een van jouw opmerkingen"
-      your_note: "%{commenter} heeft gereageerd op een van uw opmerkingen bij een kaart nabij %{place}."
     signup_confirm: 
       confirm: "Voordat we iets doen, zoeken we bevestiging dat dit verzoek inderdaad van u afkomstig is. Als dat zo is, klik dan op de onderstaande koppeling om uw gebruiker te bevestigen:"
       created: Iemand (hopelijk u) heeft zojuist een gebruiker aangemaakt op %{site_url}.
@@ -1319,6 +1371,7 @@ nl:
     edit: 
       anon_edits_link_text: Lees waarom dit het geval is.
       flash_player_required: U hebt Flash-player nodig om Potlatch, de OpenStreetMap Flash-editor te gebruiken. U kunt <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Flash-player van Adobe.com downloaden</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Er zijn ook andere opties</a> om OpenStreetMap te bewerken.
+      id_not_configured: iD is niet ingesteld
       no_iframe_support: Uw browser ondersteunt geen iframes HTML die nodig zijn voor deze functie.
       not_public: U hebt ingesteld dat uw bewerkingen niet openbaar zijn.
       not_public_description: U kunt de kaart niet meer bewerken, behalve als u uw bewerkingen openbaar maakt. U kunt deze instelling maken op uw %{user_page}.
@@ -1499,7 +1552,9 @@ nl:
     trace_header: 
       see_all_traces: Alle traces bekijken
       see_your_traces: Al uw tracks weergeven
-      traces_waiting: U hebt al %{count} traces die wachten om geüpload te worden. Overweeg om te wachten totdat die verwerkt zijn, om te voorkomen dat de wachtrij voor andere gebruikers geblokkeerd wordt.
+      traces_waiting: 
+        one: U hebt al een trace die wacht om geüpload te worden. Overweeg om te wachten totdat die verwerkt is, om te voorkomen dat de wachtrij voor andere gebruikers geblokkeerd wordt.
+        other: U hebt al %{count} traces die wachten om geüpload te worden. Overweeg om te wachten totdat die verwerkt zijn, om te voorkomen dat de wachtrij voor andere gebruikers geblokkeerd wordt.
       upload_trace: Trace uploaden
     trace_optionals: 
       tags: Labels
