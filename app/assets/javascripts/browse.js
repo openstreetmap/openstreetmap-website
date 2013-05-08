@@ -48,6 +48,37 @@ $(document).ready(function () {
     });
 
     updatelinks(params, 16, null, bbox, object);
+
+    $("textarea.comment").on("input", function (e) {
+      if ($(e.target).val() == "") {
+        $("input[name=close]").val(I18n.t("javascripts.notes.show.resolve"));
+        $("input[name=comment]").prop("disabled", true);
+      } else {
+        $("input[name=close]").val(I18n.t("javascripts.notes.show.comment_and_resolve"));
+        $("input[name=comment]").prop("disabled", false);
+      }
+    });
+
+    $(".buttons input[type=submit]").on("click", function (e) {
+      e.preventDefault();
+      var data = $(e.target).data();
+      
+      $(".buttons input[type=submit]").prop("disabled", true);
+
+      $.ajax({
+        url: data.url,
+        type: data.method,
+        oauth: true,
+        data: {
+          text: $("textarea.comment").val()
+        },
+        success: function (feature) {
+          var last_comment = feature.properties.comments.pop();
+          $(".browse-section ul").append("<li>"+last_comment.text+"<small class='deemphasize'>Just now</small></li>");
+        }
+      });
+    });
+
   } else {
     $("#object_larger_map, #object_edit").hide();
 
