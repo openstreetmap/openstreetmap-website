@@ -189,13 +189,13 @@ function getMapBaseLayer() {
 }
 
 function getMapLayers() {
+  var layerConfig = "";
   for (var i = 0; i < layers.length; i++) {
     if (map.hasLayer(layers[i].layer)) {
-      return layers[i].layerCode;
+      layerConfig += layers[i].layerCode;
     }
   }
-
-  return "";
+  return layerConfig;
 }
 
 function setMapLayers(layerConfig) {
