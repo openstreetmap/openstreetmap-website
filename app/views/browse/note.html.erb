@@ -64,4 +64,22 @@
     </div>
   <% end %>
 
+  <% unless @note.closed? %>
+    <%= if_logged_in(:div) do %>
+      <p>
+      <h4 id="newcomment"><%= t 'browse.note.leave_a_comment' %></h3> 
+ 
+      <%= error_messages_for 'note_comment' %> 
+ 
+      <%= form_for :notes, :url => { :controller => 'notes', :action => 'web_comment' } do |f| %> 
+        <%= text_area :note_comment, :comment, :rows => 5 %> 
+        <br>
+        <%= submit_tag t('browse.note.resolve'), :name => 'resolve' %>
+        <%= submit_tag t('browse.note.comment'), :name => 'comment' %>
+        <% if @user and @user.moderator? %>
+        <%= submit_tag t('browse.note.hide'), :name => 'destroy' %>
+        <% end %>
+      <% end %> 
+    <% end %>
+  <% end %>
 </div>

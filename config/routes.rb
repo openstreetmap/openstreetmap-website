@@ -110,6 +110,7 @@ OpenStreetMap::Application.routes.draw do
   match '/browse/relation/:id/history' => 'browse#relation_history', :via => :get, :id => /\d+/
   match '/browse/changeset/:id' => 'browse#changeset', :via => :get, :as => :changeset, :id => /\d+/
   match '/browse/note/:id' => 'browse#note', :via => :get, :id => /\d+/, :as => "browse_note"
+  match '/browse/note/:id/comment' => 'notes#web_comment', :via => :post, :id => /\d+/
   match '/user/:display_name/edits' => 'changeset#list', :via => :get
   match '/user/:display_name/edits/feed' => 'changeset#feed', :via => :get, :format => :atom
   match '/user/:display_name/notes' => 'notes#mine', :via => :get
