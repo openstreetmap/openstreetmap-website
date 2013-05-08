@@ -288,38 +288,43 @@ class ApplicationController < ActionController::Base
   def set_locale
     response.header['Vary'] = 'Accept-Language'
 
-    if @user
-      if !@user.languages.empty?
-        request.user_preferred_languages = @user.languages
-        response.header['Vary'] = '*'
-      elsif !request.user_preferred_languages.empty?
-        @user.languages = request.user_preferred_languages
-        @user.save
-      end
+    if @user && !@user.languages.empty?
+      request.user_preferred_languages = @user.languages
+      response.header['Vary'] = '*'
     end
 
-    if request.compatible_language_from(I18n.available_locales).nil?
+    I18n.locale = select_locale
+
+    if @user && @user.languages.empty? && !request.user_preferred_languages.empty?
+      @user.languages = request.user_preferred_languages
+      @user.save
+    end
+
+    response.headers['Content-Language'] = I18n.locale.to_s
+  end
+
+  def select_locale(locales = I18n.available_locales)
+    if params[:locale]
+      request.user_preferred_languages = [ params[:locale] ]
+    end
+
+    if request.compatible_language_from(locales).nil?
       request.user_preferred_languages = request.user_preferred_languages.collect do |pl|
         pls = [ pl ]
 
         while pl.match(/^(.*)-[^-]+$/)
-          pls.push($1) if I18n.available_locales.include?($1.to_sym)
+          pls.push($1) if locales.include?($1) or locales.include?($1.to_sym)
           pl = $1
         end
 
         pls
       end.flatten
-
-      if @user and not request.compatible_language_from(I18n.available_locales).nil?
-        @user.languages = request.user_preferred_languages
-        @user.save        
-      end
     end
 
-    I18n.locale = params[:locale] || request.compatible_language_from(I18n.available_locales) || I18n.default_locale
-
-    response.headers['Content-Language'] = I18n.locale.to_s
+    request.compatible_language_from(locales) || I18n.default_locale
   end
+
+  helper_method :select_locale
 
   def api_call_handle_error
     begin
