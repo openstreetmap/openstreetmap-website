@@ -130,6 +130,11 @@ class NotesController < ApplicationController
       if params[:resolve]
         note.close
         add_comment(note, comment, "closed")
+      elsif params[:destroy]
+        require_moderator
+        note.status = "hidden"
+        note.save
+        add_comment(note, comment, "hidden")
       else
         add_comment(note, comment, "commented")
       end
