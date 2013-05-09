@@ -87,18 +87,23 @@ module ActiveRecord
         @enumerations ||= Hash.new
       end
 
-      def create_enumeration (enumeration_name, values)
+      def create_enumeration(enumeration_name, values)
         enumerations[enumeration_name] = values
-        execute "create type #{enumeration_name} as enum ('#{values.join '\',\''}')"
+        execute "CREATE TYPE #{enumeration_name} AS ENUM ('#{values.join '\',\''}')"
       end
 
-      def drop_enumeration (enumeration_name)
-        execute "drop type #{enumeration_name}"
+      def drop_enumeration(enumeration_name)
+        execute "DROP TYPE #{enumeration_name}"
         enumerations.delete(enumeration_name)
       end
 
+      def rename_enumeration(old_name, new_name)
+        execute "ALTER TYPE #{quote_table_name(old_name)} RENAME TO #{quote_table_name(new_name)}"
+      end
+
       def alter_primary_key(table_name, new_columns)
-        execute "alter table #{table_name} drop constraint #{table_name}_pkey; alter table #{table_name} add primary key (#{new_columns.join(',')})"
+        execute "ALTER TABLE #{table_name} DROP CONSTRAINT #{table_name}_pkey"
+        execute "ALTER TABLE #{table_name} ADD PRIMARY KEY (#{new_columns.join(',')})"
       end
 
       def interval_constant(interval)
@@ -124,6 +129,10 @@ module ActiveRecord
         quoted_column_names = quoted_column_names.join(", ")
 
         execute "CREATE #{index_type} INDEX #{quote_column_name(index_name)} ON #{quote_table_name(table_name)} USING #{index_method} (#{quoted_column_names})"
+      end
+
+      def rename_index(table_name, old_name, new_name)
+        execute "ALTER INDEX #{quote_table_name(old_name)} RENAME TO #{quote_table_name(new_name)}"
       end
     end
   end

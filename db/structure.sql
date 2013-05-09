@@ -62,6 +62,30 @@ CREATE TYPE gpx_visibility_enum AS ENUM (
 
 
 --
+-- Name: note_event_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE note_event_enum AS ENUM (
+    'opened',
+    'closed',
+    'reopened',
+    'commented',
+    'hidden'
+);
+
+
+--
+-- Name: note_status_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE note_status_enum AS ENUM (
+    'open',
+    'closed',
+    'hidden'
+);
+
+
+--
 -- Name: nwr_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -225,7 +249,8 @@ CREATE TABLE client_applications (
     allow_write_diary boolean DEFAULT false NOT NULL,
     allow_write_api boolean DEFAULT false NOT NULL,
     allow_read_gpx boolean DEFAULT false NOT NULL,
-    allow_write_gpx boolean DEFAULT false NOT NULL
+    allow_write_gpx boolean DEFAULT false NOT NULL,
+    allow_write_notes boolean DEFAULT false NOT NULL
 );
 
 
@@ -701,6 +726,76 @@ CREATE TABLE nodes (
 
 
 --
+-- Name: note_comments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE note_comments (
+    id integer NOT NULL,
+    note_id bigint NOT NULL,
+    visible boolean NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    author_ip inet,
+    author_id bigint,
+    body text,
+    event note_event_enum
+);
+
+
+--
+-- Name: note_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE note_comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: note_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE note_comments_id_seq OWNED BY note_comments.id;
+
+
+--
+-- Name: notes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE notes (
+    id integer NOT NULL,
+    latitude integer NOT NULL,
+    longitude integer NOT NULL,
+    tile bigint NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    status note_status_enum NOT NULL,
+    closed_at timestamp without time zone
+);
+
+
+--
+-- Name: notes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE notes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE notes_id_seq OWNED BY notes.id;
+
+
+--
 -- Name: oauth_nonces; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -756,7 +851,8 @@ CREATE TABLE oauth_tokens (
     callback_url character varying(255),
     verifier character varying(20),
     scope character varying(255),
-    valid_to timestamp without time zone
+    valid_to timestamp without time zone,
+    allow_write_notes boolean DEFAULT false NOT NULL
 );
 
 
@@ -1164,6 +1260,20 @@ ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY note_comments ALTER COLUMN id SET DEFAULT nextval('note_comments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY notes ALTER COLUMN id SET DEFAULT nextval('notes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY oauth_nonces ALTER COLUMN id SET DEFAULT nextval('oauth_nonces_id_seq'::regclass);
 
 
@@ -1375,6 +1485,22 @@ ALTER TABLE ONLY node_tags
 
 ALTER TABLE ONLY nodes
     ADD CONSTRAINT nodes_pkey PRIMARY KEY (node_id, version);
+
+
+--
+-- Name: note_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY note_comments
+    ADD CONSTRAINT note_comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY notes
+    ADD CONSTRAINT notes_pkey PRIMARY KEY (id);
 
 
 --
@@ -1728,6 +1854,34 @@ CREATE INDEX nodes_timestamp_idx ON nodes USING btree ("timestamp");
 
 
 --
+-- Name: note_comments_note_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX note_comments_note_id_idx ON note_comments USING btree (note_id);
+
+
+--
+-- Name: notes_created_at_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX notes_created_at_idx ON notes USING btree (created_at);
+
+
+--
+-- Name: notes_tile_status_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX notes_tile_status_idx ON notes USING btree (tile, status);
+
+
+--
+-- Name: notes_updated_at_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX notes_updated_at_idx ON notes USING btree (updated_at);
+
+
+--
 -- Name: points_gpxid_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2062,6 +2216,22 @@ ALTER TABLE ONLY nodes
 
 
 --
+-- Name: note_comments_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY note_comments
+    ADD CONSTRAINT note_comments_author_id_fkey FOREIGN KEY (author_id) REFERENCES users(id);
+
+
+--
+-- Name: note_comments_note_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY note_comments
+    ADD CONSTRAINT note_comments_note_id_fkey FOREIGN KEY (note_id) REFERENCES notes(id);
+
+
+--
 -- Name: oauth_tokens_client_application_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2245,6 +2415,10 @@ INSERT INTO schema_migrations (version) VALUES ('20101114011429');
 
 INSERT INTO schema_migrations (version) VALUES ('20110322001319');
 
+INSERT INTO schema_migrations (version) VALUES ('20110508145337');
+
+INSERT INTO schema_migrations (version) VALUES ('20110521142405');
+
 INSERT INTO schema_migrations (version) VALUES ('20110925112722');
 
 INSERT INTO schema_migrations (version) VALUES ('20111116184519');
@@ -2272,6 +2446,14 @@ INSERT INTO schema_migrations (version) VALUES ('20120808231205');
 INSERT INTO schema_migrations (version) VALUES ('20121005195010');
 
 INSERT INTO schema_migrations (version) VALUES ('20121012044047');
+
+INSERT INTO schema_migrations (version) VALUES ('20121119165817');
+
+INSERT INTO schema_migrations (version) VALUES ('20121202155309');
+
+INSERT INTO schema_migrations (version) VALUES ('20121203124841');
+
+INSERT INTO schema_migrations (version) VALUES ('20130328184137');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
@@ -2342,6 +2524,16 @@ INSERT INTO schema_migrations (version) VALUES ('50');
 INSERT INTO schema_migrations (version) VALUES ('51');
 
 INSERT INTO schema_migrations (version) VALUES ('52');
+
+INSERT INTO schema_migrations (version) VALUES ('53');
+
+INSERT INTO schema_migrations (version) VALUES ('54');
+
+INSERT INTO schema_migrations (version) VALUES ('55');
+
+INSERT INTO schema_migrations (version) VALUES ('56');
+
+INSERT INTO schema_migrations (version) VALUES ('57');
 
 INSERT INTO schema_migrations (version) VALUES ('6');
 

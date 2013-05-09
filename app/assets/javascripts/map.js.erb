@@ -49,6 +49,8 @@ L.extend(L.Bounds.prototype, {
 L.Icon.Default.imagePath = <%= "#{asset_prefix}/images".to_json %>;
 
 var map;
+var objectLayer;
+var objectLoader;
 
 var layers = [
   {
@@ -128,11 +130,19 @@ function getUserIcon(url) {
 }
 
 function addObjectToMap(object, zoom, callback) {
-  $.ajax({
+  if (objectLoader) {
+    objectLoader.abort();
+  }
+
+  if (objectLayer) {
+    map.removeLayer(objectLayer);
+  }
+
+  objectLoader = $.ajax({
     url: OSM.apiUrl(object),
     dataType: "xml",
     success: function (xml) {
-      var layer = new L.OSM.DataLayer(xml, {
+      objectLayer = new L.OSM.DataLayer(xml, {
         style: {
           strokeColor: "blue",
           strokeWidth: 3,
@@ -143,7 +153,7 @@ function addObjectToMap(object, zoom, callback) {
         }
       });
 
-      var bounds = layer.getBounds();
+      var bounds = objectLayer.getBounds();
 
       if (zoom) {
         map.fitBounds(bounds);
@@ -153,7 +163,7 @@ function addObjectToMap(object, zoom, callback) {
         callback(bounds);
       }
 
-      layer.addTo(map);
+      objectLayer.addTo(map);
     }
   });
 }
@@ -179,13 +189,13 @@ function getMapBaseLayer() {
 }
 
 function getMapLayers() {
+  var layerConfig = "";
   for (var i = 0; i < layers.length; i++) {
     if (map.hasLayer(layers[i].layer)) {
-      return layers[i].layerCode;
+      layerConfig += layers[i].layerCode;
     }
   }
-
-  return "";
+  return layerConfig;
 }
 
 function setMapLayers(layerConfig) {

@@ -130,11 +130,13 @@ he:
       edit: 
         area: עריכת אזור
         node: עריכת צומת
+        note: עריכת ההערה
         relation: עריכת יחס
         way: עריכת דרך
       larger: 
         area: צפייה בשטח במפה גדולה יותר
         node: צפייה בצומת במפה גדולה יותר
+        note: הצגת ההערה במפה גדולה יותר
         relation: צפייה ביחס במפה גדולה יותר
         way: צפייה בדרך במפה גדולה יותר
       loading: בטעינה...
@@ -142,10 +144,12 @@ he:
       all: 
         next_changeset_tooltip: ערכת השינויים הבאה
         next_node_tooltip: הצומת הבא
+        next_note_tooltip: ההערה הבאה
         next_relation_tooltip: היחס הבא
         next_way_tooltip: הדרך הבאה
         prev_changeset_tooltip: ערכת השינויים הקודמת
         prev_node_tooltip: הצומת הקודם
+        prev_note_tooltip: ההערה הקודמת
         prev_relation_tooltip: היחס הקודם
         prev_way_tooltip: הדרך הקודמת
       user: 
@@ -173,6 +177,16 @@ he:
         node: צומת
         relation: יחס
         way: דרך
+    note: 
+      at_by_html: לפני %{when} על־ידי %{user}
+      at_html: לפני %{when}
+      closed: "נסגרה:"
+      closed_title: "הערה פתורה: %{note_name}"
+      comments: "תגובות:"
+      description: "תיאור:"
+      last_modified: "שונתה לאחרונה:"
+      open_title: "הערה שלא נפתרה: %{note_name}"
+      opened: "נפתחה:"
     paging_nav: 
       of: מתוך
       showing_page: דף
@@ -213,6 +227,7 @@ he:
       loaded_an_area_with_num_features: "האזור שנטען מכיל %{num_features} תכונות. באופן כללי, חלק מהדפדפנים לא יוכלו להתמודד עם הצגה של כזו כמות של נתונים. לרוב, דפדפנים עובדים באופן מיטבי בהצגת פחות מ־%{max_features} תכונות בו־זמנית: ביצוע משימות נוספות עלול לגרום לדפדפן לפעול באופן איטי או להיתקע. אם ברצונך בכל זאת להציג מידע זה, באפשרותך להציג אותו בלחיצה על הכפתור למטה."
       loading: בטעינה...
       manually_select: בחירת אזור אחר ידנית
+      notes_layer_name: עיון בהערות
       object_list: 
         api: אחזור אזור זה מה־API
         back: חזרה אל רשימת הפריטים
@@ -384,6 +399,9 @@ he:
       user_title: היומן של %{user}‏
   editor: 
     default: בררת מחדל (כעת %{name})
+    id: 
+      description: iD (עורך בתוך הדפדפן)
+      name: iD
     potlatch: 
       description: Potlatch 1 (עורך בתוך הדפדפן)
       name: Potlatch 1
@@ -931,7 +949,29 @@ he:
         cycle_map: מפת אופניים
         standard: תקני
         transport_map: מפת תחבורה
+    notes: 
+      new: 
+        add: הוספת הערה
+        intro: כדי לשפר את המפה, המידע שהזנת מוצג לממפים אחרים, אז נא לספק כמה שיותר פירוט בעת הזזת הסמן למיקום המדויק ובהז נת ההערה שלך להלן.
+      show: 
+        anonymous_warning: ההערה הזאת כוללת תגובות ממשתמשים אלמוניים שצריך לאמת באופן עצמאי.
+        closed_by: נפתר על־ידי <a href='%{user_url}'>%{user}</a> ב־%{time}
+        closed_by_anonymous: נפתרה על־ידי משתמש אלמוני ב־%{time}
+        comment: להגיב
+        comment_and_resolve: להגיב ולפתור
+        commented_by: תגובה מאת <a href='%{user_url}'>%{user}</a> ב־%{time}
+        commented_by_anonymous: תגובה מאת אלמוני ב־%{time}
+        hide: להסתיר
+        opened_by: נוצרה על־ידי <a href='%{user_url}'>%{user}</a> ב־%{time}
+        opened_by_anonymous: נוצר על־ידי אלמוני ב־%{time}
+        permalink: קישור קבוע
+        reopened_by: הופעלה מחדש על־ידי <a href='%{user_url}'>%{user}</a> ב־%{time}
+        reopened_by_anonymous: הופעל מחדש על־ידי משתמש אלמוני ב־%{time}
+        resolve: לפתור
     site: 
+      createnote_disabled_tooltip: נא להתקרב כדי להוסיף הערה למפה
+      createnote_tooltip: הוספת הערה למפה
+      createnote_zoom_alert: יש להתקרב כדי להוסיף הערה למפה
       edit_disabled_tooltip: להתקרב כדי לערוך את המפה
       edit_tooltip: עריכת המפה
       edit_zoom_alert: יש להתקרב כדי לערוך את המפה
@@ -1107,6 +1147,36 @@ he:
       wrong_user: נכנסת בשם „%{user}”, אבל ההודעה שביקשת להשיב עליה לא נשלחה לאותו המשתמש. נא להיכנס בחשבון הנכון כדי להשיב.
     sent_message_summary: 
       delete_button: מחיקה
+  note: 
+    description: 
+      closed_at_by_html: נפתרה לפני %{when} על־ידי %{user}
+      closed_at_html: נפתרה לפני %{when}
+      commented_at_by_html: עודכנה לפני %{when} על־ידי %{user}
+      commented_at_html: עודכנה לפני %{when}
+      opened_at_by_html: נוצרה לפני %{when} על־ידי %{user}
+      opened_at_html: נוצרה לפני %{when}
+      reopened_at_by_html: הופעלה מחדש לפני %{when} על־ידי %{user}
+      reopened_at_html: הופעלה מחדש לפני %{when}
+    entry: 
+      comment: תגובה
+      full: הערה מלאה
+    mine: 
+      ago_html: לפני %{when}
+      created_at: "יצירה:"
+      creator: יוצר
+      description: תיאור
+      heading: הערות של %{user}
+      id: מזהה
+      last_changed: "שינוי אחרון:"
+      subheading: הערות ותגובות של %{user}
+      title: הערות ותגובות של %{user}
+    rss: 
+      closed: הערה סגורה (ליד %{place})
+      comment: תגובה חדשה (ליד %{place})
+      description_area: רשימת הערות שהוספו, שהתקבלו עליהן הערות ושנדבגרו באזור שלך [(%{min_lat}|%{min_lon}) – (%{max_lat}|%{max_lon})]
+      description_item: הזנת rss עבור ההערה %{id}
+      new: הערה חדשה (ליד %{place})
+      title: הערות של OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: אפשר גם לקרוא את התגובה בכתובת %{readurl} ולהגיב בכתובת %{commenturl} או להשיב בכתובת %{replyurl}
@@ -1122,8 +1192,7 @@ he:
     email_confirm_plain: 
       click_the_link: אם באמת עשית את זה, נא ללחוץ על הקישור להלן כדי לאשר את השינוי.
       greeting: שלום,
-      hopefully_you_1: מישהו (בתקווה מדובר בך) רוצה לשנות את כתובת הדוא״ל ב־
-      hopefully_you_2: "%{server_url} אל %{new_address}."
+      hopefully_you: מישהו (אנחנו מקווים שאת או אתה) ביקש לשנות את כתובת הדוא"ל הזאת באתר %{server_url} לכתובת %{new_address}
     friend_notification: 
       befriend_them: באפשרותך לסמנו כחבר בכתובת %{befriendurl}.
       had_added_you: "%{user} הוסיף אותך כחבר ב־OpenStreetMap."
@@ -1152,13 +1221,26 @@ he:
     lost_password_plain: 
       click_the_link: אם אכן עשית את זה, יש ללחוץ על הקישור להלן כדי לאפס את הססמה.
       greeting: שלום,
-      hopefully_you_1: מישהו (אולי את או אתה) ביקש לאפס את הססמה
-      hopefully_you_2: בחשבון openstreetmap.org המשויך לכתובת הדוא"ל הזאת.
+      hopefully_you: מישהו (אולי את או אתה) ביקש שהססמה המשויכת לחשבון המזוהה עם כתובת הדוא"ל הזאת באתר openstreetmap.org.
     message_notification: 
       footer1: אפשר גם לקרוא את ההודעה בכתובת %{readurl}
       footer2: ולענות בכתובת %{replyurl}
       header: "לתיבתך ב־OpenStreetMap הגיעה הודעה מאת %{from_user} עם הנושא %{subject}:"
       hi: שלום %{to_user},
+    note_comment_notification: 
+      anonymous: משתמש אלמוני
+      closed: 
+        commented_note: הערת מפה שהגבת עליה נפתרה על־ידי %{commenter}. ההערה נמצאת ליד %{place}
+        subject_other: "[OpenStreetMap] הערה שהתעניינת בה נפתרה על־ידי %{commenter}"
+        subject_own: "[OpenStreetMap] אחת מההערות שלך נפתרה על־ידי %{commenter}"
+        your_note: אחת מהערות המפה שלך ליד %{place} נפתרה על־ידי %{commenter}
+      commented: 
+        commented_note: התקלבה תגובה מאת %{commenter} על הערה על מפה שהגבת עליה. הערה נמצאת ליד %{place}
+        subject_other: "[OpenStreetMap] התקבלה תגובה מאת %{commenter} על הערה שהתעניינת בה"
+        subject_own: "[OpenStreetMap] התקבלה תגובה מאת %{commenter} על אחת מההערות שלך"
+        your_note: התקבלה תגובה מאת %{commenter} על אחת מהערות המפה שלך ליד %{place}
+      details: אפשר למצוא פרטים נוספים על ההערה בכתובת %{url}
+      greeting: שלום,
     signup_confirm: 
       confirm: "לפני שאנחנו ממשיכים, אנחנו צריכים לוודא שהבקשה הגיעה ממך, אז אם באמת עשית את זה, צריך ללחוץ כאן כדי לאמת את החשבון שלך:"
       created: מישהו (בתקווה את או אתה) יצר חשבון באתר %{site_url}.
@@ -1193,6 +1275,7 @@ he:
       allow_write_api: לשנות את המפה.
       allow_write_diary: ליצור רשומות יומן והערות ולהוסיף חברים.
       allow_write_gpx: להעלות מסלולי GPS.
+      allow_write_notes: לשנות הערות
       allow_write_prefs: לשנות את העדפות המשתמש שלך.
       request_access: היישום %{app_name} דורש גישה לחשבונך, %{user}. נא לבדוק האם מתאים לך שהיישום יקבל את היכולות האלו. אפשר לבחור או לא לבחור את כל מה שמתאים לך.
     revoke: 
@@ -1211,6 +1294,7 @@ he:
       allow_write_api: לשנות את המפה.
       allow_write_diary: ליצור רשומות יומן והערות ולהוסיף חברים.
       allow_write_gpx: להעלות מסלולי GPS.
+      allow_write_notes: לשנות הערות
       allow_write_prefs: לשנות ההעדפות של המשתמש.
       callback_url: כתובת קריאה (callback)
       name: שם
@@ -1241,6 +1325,7 @@ he:
       allow_write_api: לשנות את המפה.
       allow_write_diary: ליצור רשומות יומן והערות ולהוסיף חברים.
       allow_write_gpx: להעלות מסלולי GPS.
+      allow_write_notes: לשנות הערות
       allow_write_prefs: לשנות את ההעדפות שלהם.
       authorize_url: "כתובת אישור:"
       confirm: באמת?
@@ -1289,6 +1374,7 @@ he:
     edit: 
       anon_edits_link_text: גלה מדוע זה כך.
       flash_player_required: יש צורך בנגן פלאש כדי להשתמש ב־Potlatch, ערוך הפלאש של OpenStreetMap. אפשר <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">להוריד נגן פלאש מאתר Adobe.com</a>. יש <a href="http://wiki.openstreetmap.org/wiki/Editing">אפשרויות נוספות</a> לעריכת OpenStreetMap.
+      id_not_configured: לא התבצעו הגדרות של iD
       no_iframe_support: הדפדפן שלך אינו תומך באלמנטים מסוג iframe של HTML, ואלו חיוניים עבור תכונה זו.
       not_public: לא הגדרת את עריכותיך כציבוריות.
       not_public_description: לא תוכל להמשיך לערוך את המפה בטרם תעשה זאת. באפשרותך להגדיר את עריכותיך כציבוריות דרך %{user_page} שלך.
@@ -1297,6 +1383,7 @@ he:
       potlatch_unsaved_changes: You have unsaved changes. (To save in Potlatch, you should deselect the current way or point, if editing in list mode, or click save if you have a save button.)
       user_page_link: דף המשתמש
     index: 
+      createnote: הוספת הערה
       js_1: הדפדפן שבו אתה משתמש אינו תומך ב־JavaScript, או שהשבתת את השימוש ב־JavaScript.
       js_2: אתר OpenStreetMap משתמש ב־JavaScript למפה המחליקה.
       license: 
@@ -1467,7 +1554,8 @@ he:
     trace_header: 
       see_all_traces: הצגת כל המסלולים
       see_your_traces: הצגת המסלולים שלך
-      traces_waiting: יש לך %{count} מסלולים שמחכים להעלאה. נא לשקול לחכות עד סיום העלאתם לפני העלאת נוספים, כדי לא לחסום את התור למשתמשים אחרים.
+      traces_waiting: 
+        other: יש לך מסלול שמחכה להעלאה. נא לשקול לחכות עד סיום העלאתו לפני העלאת מסלולים נוספים, כדי לא לחסום את התור למשתמשים אחרים.
       upload_trace: העלאת מסלול
     trace_optionals: 
       tags: תגים
@@ -1742,6 +1830,7 @@ he:
       my comments: ההערות שלי
       my diary: היומן שלי
       my edits: העריכות שלי
+      my notes: הערות המפה שלי
       my settings: ההגדרות שלי
       my traces: המסלולים שלי
       nearby users: עוד משתמשים בסביבה
@@ -1750,6 +1839,7 @@ he:
       new diary entry: רשומה חדשה ביומן
       no friends: עדיין לא הוספת חברים כלל.
       no nearby users: אין עדיין עוד משתמשים שמודים שהם מיפו בסביבה.
+      notes: הערות מפה
       oauth settings: הגדרות oauth
       remove as friend: הסרה מרשימת חברים
       role: 

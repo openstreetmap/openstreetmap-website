@@ -120,11 +120,13 @@ ko:
       edit: 
         area: 지역 편집
         node: 노드 편집
+        note: 참고 편집
         relation: 관계 편집
         way: 길 편집
       larger: 
         area: 큰 지도에서 지역 보기
         node: 큰 지도에서 노드 보기
+        note: 큰 지도에서 참고 보기
         relation: 큰 지도에서 관계 보기
         way: 큰 지도에서 길 보기
       loading: 불러오는 중...
@@ -132,10 +134,12 @@ ko:
       all: 
         next_changeset_tooltip: 다음 바뀜집합
         next_node_tooltip: 다음 노드
+        next_note_tooltip: 다음 참고
         next_relation_tooltip: 다음 관계
         next_way_tooltip: 다음 길
         prev_changeset_tooltip: 이전 바뀜집합
         prev_node_tooltip: 이전 노드
+        prev_note_tooltip: 이전 참고
         prev_relation_tooltip: 이전 관계
         prev_way_tooltip: 이전 길
       user: 
@@ -163,6 +167,16 @@ ko:
         node: 노드
         relation: 관계
         way: 길
+    note: 
+      at_by_html: "%{user} 사용자가 %{when} 전"
+      at_html: "%{when} 전"
+      closed: "닫힘:"
+      closed_title: "해결된 참고: %{note_name}"
+      comments: "덧글:"
+      description: "설명:"
+      last_modified: "마지막으로 수정됨:"
+      open_title: "해결되지 않은 참고: %{note_name}"
+      opened: "열림:"
     paging_nav: 
       of: 중
       showing_page: 페이지
@@ -203,6 +217,7 @@ ko:
       loaded_an_area_with_num_features: 당신은 특성을 가진 지역 %{num_features}개를 불러왔습니다. 일반적으로, 일부 브라우저에서는 이 데이터 개수를 모두 처리하지 못할 수도 있습니다. 일반적으로, 브라우저들은 대개 특성 %{max_features}개 이하를 처리하여 보여줄 수 있습니다. 그렇지 않은 경우, 브라우저의 속도가 저하되거나 브라우저의 반응이 느려질 수 있습니다. 여전히 이 데이터를 표시하려면, 아래의 버튼을 클릭하세요.
       loading: 불러오는 중...
       manually_select: 다른 지역 선택
+      notes_layer_name: 참고 찾아보기
       object_list: 
         api: API로부터 이 지역 회수
         back: 개체 목록으로 돌아가기
@@ -439,7 +454,7 @@ ko:
       other: 다음 %{count}km
       zero: 1km보다 가까움
     results: 
-      more_results: 더 많은 결과
+      more_results: 더 많은 결과 보기
       no_results: 결과가 없습니다
     search: 
       title: 
@@ -919,13 +934,35 @@ ko:
         cycle_map: 사이클 지도
         standard: 표준
         transport_map: 교통 지도
+    notes: 
+      new: 
+        add: 참고 추가
+        intro: 지도를 개선하기 위해 입력한 정보가 다른 매퍼에 보여집니다. 따라서 올바른 위치에 표시를 이동하고 아래에 참고를 입력할 때 가능하면 알기 쉽고 정확하게 적어주세요.
+      show: 
+        anonymous_warning: 익명 사용자의 참고도 있으므로 별도로 확인해야 합니다.
+        closed_by: "%{time}에 <a href='%{user_url}'>%{user}</a> 사용자가 해결함"
+        closed_by_anonymous: "%{time}에 익명이 해결함"
+        comment: 덧글
+        comment_and_resolve: 덧글 & 해결
+        commented_by: "%{time}에 <a href='%{user_url}'>%{user}</a> 사용자가 덧글을 남김"
+        commented_by_anonymous: "%{time}에 익명이 덧글을 남김"
+        hide: 숨기기
+        opened_by: "%{time}에 <a href='%{user_url}'>%{user}</a> 사용자가 만듦"
+        opened_by_anonymous: "%{time}에 익명이 만듦"
+        permalink: 고유링크
+        reopened_by: "%{time}에 <a href='%{user_url}'>%{user}</a> 사용자가 다시 활성화함"
+        reopened_by_anonymous: "%{time}에 익명이 다시 활성화함"
+        resolve: 해결
     site: 
+      createnote_disabled_tooltip: 지도에 참고를 추가하려면 확대
+      createnote_tooltip: 지도에 참고 추가
+      createnote_zoom_alert: 지도에 참고를 추가하려면 확대해야 합니다
       edit_disabled_tooltip: 지도를 편집하려면 확대
       edit_tooltip: 지도 편집
-      edit_zoom_alert: 지도를 편집하려면 확대해야 합니다.
+      edit_zoom_alert: 지도를 편집하려면 확대해야 합니다
       history_disabled_tooltip: 이 지역에 대한 편집을 보려면 확대
       history_tooltip: 이 지역에 대한 편집 보기
-      history_zoom_alert: 이 지역에 대한 편집을 보려면 확대하야 합니다
+      history_zoom_alert: 이 지역에 대한 편집을 보려면 확대해야 합니다
   layouts: 
     community: 커뮤니티
     community_blogs: 커뮤니티 블로그
@@ -957,7 +994,7 @@ ko:
     intro_1: OpenStreetMap은 여러분같은 사람에 의해 만들어진 우리 모두의 전세계 지도입니다.
     intro_2_create_account: 계정을 만들 수 있습니다
     intro_2_download: 다운로드
-    intro_2_html: 데이터는 %{license}에 따라 자유로 %{download}와 %{use}합니다. 지도를 개선하려면 %{create_account}.
+    intro_2_html: 데이터는 %{license}에 따라 자유롭게 %{download}와 %{use}할 수 있습니다. 지도를 개선하려면 %{create_account}.
     intro_2_license: 오픈 라이선스
     intro_2_use: 이용
     log_in: 로그인
@@ -1094,6 +1131,27 @@ ko:
       wrong_user: "'%{user}' 사용자로 로그인하고 있지만 답장을 요청한 메시지가 해당 사용자에게 보내지지 않았습니다. 답장을 하려면 올바른 사용자로 로그인하세요."
     sent_message_summary: 
       delete_button: 삭제
+  note: 
+    entry: 
+      comment: 덧글
+      full: 전체 참고
+    mine: 
+      ago_html: "%{when} 전"
+      created_at: 만든 때
+      creator: 만든이
+      description: 설명
+      heading: "%{user}의 참고"
+      id: ID
+      last_changed: 마지막으로 바뀜
+      subheading: "%{user} 사용자가 제출했거나 덧글을 남긴 참고"
+      title: "%{user} 사용자가 제출했거나 덧글을 남긴 참고"
+    rss: 
+      closed: 닫힌 참고 (%{place} 근처)
+      comment: 새 덧글 (%{place} 근처)
+      description_area: 내 지역[(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]에 참고, 덧글 또는 닫힌 참고 목록
+      description_item: "%{id} 참고에 대한 RSS 피드"
+      new: 새 참고 (%{place} 근처)
+      title: OpenStreetMap 참고
   notifier: 
     diary_comment_notification: 
       footer: "%{readurl}에서도 덧글을 확인할 수 있습니다. %{commenturl}에서 덧글을 남기거나 %{replyurl}에서 답글을 남길 수 있습니다."
@@ -1109,8 +1167,6 @@ ko:
     email_confirm_plain: 
       click_the_link: 만약 당신이라면 바뀜을 확인하기 위해 아래 링크를 클릭하세요.
       greeting: 안녕하세요,
-      hopefully_you_1: 누군가가 아마 자신이 여기를 통해 이메일 주소를 바꾸고 싶습니다.
-      hopefully_you_2: "%{server_url} (은)는 %{new_address} 에 있습니다."
     friend_notification: 
       befriend_them: 또한 %{befriendurl}에서 친구로 추가할 수 있습니다.
       had_added_you: "%{user} 님이 당신을 OpenStreetMap 친구로 추가하였습니다."
@@ -1139,13 +1195,15 @@ ko:
     lost_password_plain: 
       click_the_link: 만약 당신이라면 비밀번호를 재설정하기 위해 아래 링크를 클릭하세요.
       greeting: 안녕하세요,
-      hopefully_you_1: 누군가가 아마 자신이 openstreetmap.org 계정의 이 이메일 주소로
-      hopefully_you_2: 재설정할 비밀번호를 요청했습니다.
     message_notification: 
       footer1: "%{readurl} 에서도 쪽지를 확인할 수 있습니다."
       footer2: "%{replyurl} 에서 답장하실 수 있습니다."
       header: "%{from_user} 님이 OpenStreetMap을 통해 %{subject} 쪽지를 보냈습니다."
       hi: "%{to_user}님 안녕하세요."
+    note_comment_notification: 
+      anonymous: 익명 사용자
+      details: 참고에 대한 자세한 사항은 %{url} 에서 찾을 수 있습니다.
+      greeting: 안녕하세요,
     signup_confirm: 
       confirm: "무엇을 하기 전에 당신에게 온 요청을 확인해야 하며 만약 당신에게 온 요청이 맞다면 계정을 확인하기 위해 아래 링크를 클릭하세요:"
       created: 누군가가 아마도 자신이 %{site_url} 에 계정을 만들었습니다.
@@ -1180,6 +1238,7 @@ ko:
       allow_write_api: 지도를 수정합니다.
       allow_write_diary: 일지 항목을 만들고 덧글을 달고 친구를 만듭니다.
       allow_write_gpx: GPS 추적을 올립니다.
+      allow_write_notes: 참고를 수정합니다.
       allow_write_prefs: 사용자 환경 설정을 수정합니다.
       request_access: "%{app_name} 응용 프로그램이 %{user} 계정에 접근을 요청합니다. 응용 프로그램이 다음 기능을 수행할 것인지 확인하세요. 원하는 많큼 많거나 적게 선택할 수 있습니다."
     revoke: 
@@ -1198,6 +1257,7 @@ ko:
       allow_write_api: 지도를 수정합니다.
       allow_write_diary: 일지 항목을 만들고 덧글을 달고 친구를 만듭니다.
       allow_write_gpx: GPS 추적을 올립니다.
+      allow_write_notes: 참고를 수정합니다.
       allow_write_prefs: 사용자 환경 설정을 수정합니다.
       callback_url: 연락 URL
       name: 이름
@@ -1228,6 +1288,7 @@ ko:
       allow_write_api: 지도를 수정합니다.
       allow_write_diary: 일지 항목을 만들고 덧글을 달고 친구를 만듭니다.
       allow_write_gpx: GPS 추적을 올립니다.
+      allow_write_notes: 참고를 수정합니다.
       allow_write_prefs: 사용자 환경 설정을 수정합니다.
       authorize_url: "요청 URL:"
       confirm: 확실합니까?
@@ -1284,6 +1345,7 @@ ko:
       potlatch_unsaved_changes: 바뀜을 저장하지 않았습니다. (Potlatch에 저장하려면 라이브 모드에서 편집하는 경우, 현재의 방식이나 지점을 선택을 해제하거나 저장 버튼이 있다면 저장을 클릭해야 합니다.)
       user_page_link: 사용자 문서
     index: 
+      createnote: 참고 추가
       js_1: 자바스크립트를 지원하지 않는 브라우저이거나, 자바스크립트가 활성화 되어 있지 않습니다.
       js_2: OpenStreetMap은 매끄러운 지도를 위해 자바스크립트를 사용합니다.
       license: 
@@ -1728,6 +1790,7 @@ ko:
       my comments: 내 덧글
       my diary: 내 일지
       my edits: 내 편집
+      my notes: 내 지도 참고
       my settings: 내 설정
       my traces: 내 발자취
       nearby users: 기타 근처 사용자
@@ -1736,6 +1799,7 @@ ko:
       new diary entry: 새 일지 항목
       no friends: 아직 어떠한 친구도 추가하지 않았습니다.
       no nearby users: 아직 근처에 매핑을 인정하는 다른 사용자가 없습니다.
+      notes: 지도 참고
       oauth settings: oauth 설정
       remove as friend: 친구 제거
       role: 

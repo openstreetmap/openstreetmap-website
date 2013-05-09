@@ -17,13 +17,14 @@
 # Author: Solde
 # Author: Ssola
 # Author: Toniher
+# Author: XVEC
 ca: 
   activerecord: 
     attributes: 
       diary_comment: 
         body: Cos
       diary_entry: 
-        language: Llengua
+        language: Idioma
         latitude: Latitud
         longitude: Longitud
         title: Títol
@@ -60,7 +61,7 @@ ca:
       diary_comment: Comentari del diari
       diary_entry: Entrada al diari
       friend: Amic
-      language: Llengua
+      language: Idioma
       message: Missatge
       node: Node
       node_tag: Etiqueta del node
@@ -81,7 +82,7 @@ ca:
       tracepoint: Punt de traç
       tracetag: Etiqueta de la traça
       user: Usuari
-      user_preference: Preferències d'usuari
+      user_preference: Preferència d'usuari
       user_token: Testimoni d'usuari
       way: Via
       way_node: Node de la via
@@ -136,11 +137,13 @@ ca:
       edit: 
         area: Modifica l'àrea
         node: Modifica el node
+        note: Edita la nota
         relation: Modifica la relació
         way: Modifica la via
       larger: 
         area: Visualitza l'àrea en un mapa més gran
         node: Visualitza el node en un mapa més gran
+        note: Mostra la nota en un mapa més gran
         relation: Visualitza la relació en un mapa més gran
         way: Visualitza la via en un mapa més gran
       loading: S'està carregant...
@@ -148,10 +151,12 @@ ca:
       all: 
         next_changeset_tooltip: Conjunt de canvis següent
         next_node_tooltip: Node següent
+        next_note_tooltip: següent nota
         next_relation_tooltip: Relació següent
         next_way_tooltip: Via següent
         prev_changeset_tooltip: Conjunt de canvis anterior
         prev_node_tooltip: Node anterior
+        prev_note_tooltip: nota anterior
         prev_relation_tooltip: Relació anterior
         prev_way_tooltip: Via anterior
       user: 
@@ -179,6 +184,16 @@ ca:
         node: node
         relation: relació
         way: via
+    note: 
+      at_by_html: Fa %{when} per %{user}
+      at_html: Fa %{when}
+      closed: "Tancat:"
+      closed_title: Nota resolta
+      comments: "Comentaris:"
+      description: "Descripció:"
+      last_modified: "Última modificació:"
+      open_title: "nota no resolta: %{note_name}"
+      opened: "Obert:"
     paging_nav: 
       of: de
       showing_page: pàgina
@@ -219,6 +234,7 @@ ca:
       loaded_an_area_with_num_features: "Heu carregat una àrea que conté %{num_features} elements. En general, els navegadors no poden mostrar una quantitat tant gran de dades, funcionen millor mostrant menys de 100 elements a la vegada: el fet de voler que es mostri una quantitat més gran pot fer que el vostre navegador esdevingui lent o que deixi de respondre. Si esteu segur que voleu mostrar aquestes dades, podeu fer-ho fent clic sobre el botó de sota."
       loading: S'està carregant...
       manually_select: Selecciona manualment una àrea diferent
+      notes_layer_name: Navega per les notes
       object_list: 
         api: Obté aquesta àrea mitjançant l'API
         back: Torna a la llista d'objectes
@@ -936,7 +952,29 @@ ca:
         mapquest: MapQuest Open
         standard: Estàndard
         transport_map: Mapa de transports
+    notes: 
+      new: 
+        add: Afegeix una nota
+        intro: Per tal de millorar el mapa, la informació que envieu és mostrada a altres mappers, per tant, siusplau  sigueu tan  descriptius i precissos com pugueu al moure el marcador a la posició correcta i al escriure la nota a continuació.
+      show: 
+        anonymous_warning: Aquesta nota inclou comentaris d'usuaris anònims que haurien de ser verificats independentment.
+        closed_by: Resolt per <a href='%{user_url}'>%{user}</a> a %{time}
+        closed_by_anonymous: Resolt per un anònim a %{time}
+        comment: Comenta
+        comment_and_resolve: Comenta i resol
+        commented_by: Comentari de <a href='%{user_url}'>%{user}</a> a %{time}
+        commented_by_anonymous: Comentari d'un anònim a %{time}
+        hide: Amaga
+        opened_by: Creat per <a href='%{user_url}'>%{user}</a> a %{time}
+        opened_by_anonymous: Creat per un anònim a %{time}
+        permalink: Enllaç permanent
+        reopened_by: Reactivat per <a href='%{user_url}'>%{user}</a> a %{time}
+        reopened_by_anonymous: Reactivat per un anònim a %{time}
+        resolve: Resol
     site: 
+      createnote_disabled_tooltip: Fes zoom per afegir una nota al mapa
+      createnote_tooltip: Afegiu una nota al mapa
+      createnote_zoom_alert: Heu de fer zoom per afegir una nota al mapa
       edit_disabled_tooltip: Augmenteu el zoom per modificar el mapa
       edit_tooltip: Modifica el mapa
       edit_zoom_alert: Heu d'ampliar el zoom per editar el mapa
@@ -1110,6 +1148,27 @@ ca:
       wrong_user: Heu iniciat la sessió com "%{user}", però el missatge que han demanat de respondre a no s'ha enviat a aquest usuari. Si us plau connecti's com l'usuari correcte per a respondre.
     sent_message_summary: 
       delete_button: Suprimeix
+  note: 
+    entry: 
+      comment: Comentari
+      full: Nota sencera
+    mine: 
+      ago_html: fa %{when}
+      created_at: Creat a
+      creator: Creador
+      description: Descripció
+      heading: notes de %{user}
+      id: Id
+      last_changed: Últim canvi
+      subheading: Notes enviades o comentades per %{user}
+      title: Notes enviades o comentades per %{user}
+    rss: 
+      closed: nota tancada (aprop de %{place})
+      comment: nou comentari (aprop de %{place})
+      description_area: Una llista de notes, reportades, comentades o bé tancades a la vostra àrea [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: Un canal rss per la nota %{id}
+      new: nova nota  (aprop de %{place})
+      title: Notes de OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: També podeu llegir el comentari a les %{readurl} i es pot comentar als %{commenturl} o respondre a les %{replyurl}
@@ -1125,8 +1184,6 @@ ca:
     email_confirm_plain: 
       click_the_link: Si sou vós mateix, feu clic a l'enllaç inferior per confirmar el canvi.
       greeting: Hola,
-      hopefully_you_1: Algú (esperem que vós mateix) vol canviar l'adreça de correu a
-      hopefully_you_2: "%{server_url} a %{new_address}."
     friend_notification: 
       befriend_them: També el podeu afegir com a amic a %{befriendurl}.
       had_added_you: "%{user} t'ha afegit com a amic a OpenStreetMap."
@@ -1155,13 +1212,15 @@ ca:
     lost_password_plain: 
       click_the_link: Si això és vostè, si us plau, feu clic a l'enllaç de sota per restaurar la seva contrasenya.
       greeting: Hola,
-      hopefully_you_1: Algú (possiblement vostè) ha demanat per a la contrasenya restaurar en això
-      hopefully_you_2: adreces d'e-mail openstreetmap.org compte.
     message_notification: 
       footer1: També podeu llegir el missatge a %{readurl}
       footer2: i el pots replicar a %{replyurl}
       header: "%{from_user} ha enviat un missatge a través de OpenStreetMap amb el tema %{subject}:"
       hi: Hola %{to_user},
+    note_comment_notification: 
+      anonymous: Un usuari anònim
+      details: Podeu trobar més detalls de la nota a %{url}.
+      greeting: Hola,
     signup_confirm: 
       confirm: "Primer de tot hem de confirmar que aquesta petició ha estat feta per vostè, si ha estat així, si us plau, premeu sobre el següent enllaç per tal confirmar la vostra petició de creació del compte d'usuari:"
       created: Algú (suposem que vós mateix) acaba de crear un compte a %{site_url}.
@@ -1196,6 +1255,7 @@ ca:
       allow_write_api: modificar el mapa.
       allow_write_diary: crear entrades de diari, comentaris i fer amics.
       allow_write_gpx: carregar traces GPS.
+      allow_write_notes: modificar les notes.
       allow_write_prefs: modificar les preferències d'usuari.
       request_access: L'aplicació %{app_name} sol·licita accés al vostre compte, %{user}. Marqueu si voleu autoritzar l'aplicació amb les següents funcions. Podeu triar les que vulgueu.
     revoke: 
@@ -1214,6 +1274,7 @@ ca:
       allow_write_api: modificar el mapa.
       allow_write_diary: crear entrades de diari, comentaris i fer amics.
       allow_write_gpx: carregar traces GPS.
+      allow_write_notes: modifcar les notes.
       allow_write_prefs: modificar les seves preferències d'usuari.
       callback_url: Resposta d'URL
       name: Nom
@@ -1244,6 +1305,7 @@ ca:
       allow_write_api: modificar el mapa.
       allow_write_diary: crear entrades de diari, comentaris i fer amics.
       allow_write_gpx: carregar traces GPS.
+      allow_write_notes: modificar les notes
       allow_write_prefs: modificar les vostres preferències d'usuari.
       authorize_url: "Autoritza URL:"
       confirm: N'esteu segur?
@@ -1300,6 +1362,7 @@ ca:
       potlatch_unsaved_changes: Teniu canvis sense desar. (Per desar els canvis al Potlatch, heu de desseleccionar la via o el punt actual, si esteu en l'edicó en viu, o fer clic a "desa", si teniu un botó "desa".)
       user_page_link: pàgina d'usuari
     index: 
+      createnote: Afegiu una nota
       js_1: Tampoc està utilitzant un navegador que no suporta JavaScript o té deshabilitat JavaScript.
       js_2: L'OpenStreetMap utilitza JavaScript per al mapa lliscant.
       license: 
@@ -1745,6 +1808,7 @@ ca:
       my comments: els meus comentaris
       my diary: el meu diari
       my edits: les meves edicions
+      my notes: les meves notes de mapa
       my settings: les meves preferències
       my traces: les meves traces
       nearby users: Altres usuaris propers
@@ -1753,6 +1817,7 @@ ca:
       new diary entry: Nova entrada del diari
       no friends: No has afegit cap amics encara.
       no nearby users: Hi ha altres usuaris que admetre a Cartografia prop encara.
+      notes: notes de mapa
       oauth settings: configuració OAuth
       remove as friend: elimina com a amic
       role: 

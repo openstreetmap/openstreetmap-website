@@ -121,11 +121,13 @@ ast:
       edit: 
         area: Editar área
         node: Editar nodiu
+        note: Editar nota
         relation: Editar rellación
         way: Editar vía
       larger: 
         area: Ver área nun mapa más grande
         node: Ver nodiu nún mapa más grande
+        note: Ver nota nun mapa más grande
         relation: Ver rellación nun mapa más grande
         way: Ver la vía nun mapa más grande
       loading: Cargando...
@@ -133,10 +135,12 @@ ast:
       all: 
         next_changeset_tooltip: Conxuntu de cambeos siguiente
         next_node_tooltip: Nodiu siguiente
+        next_note_tooltip: Nota siguiente
         next_relation_tooltip: Rellación siguiente
         next_way_tooltip: Vía siguiente
         prev_changeset_tooltip: Conxuntu de cambeos anterior
         prev_node_tooltip: Nodiu anterior
+        prev_note_tooltip: Nota anterior
         prev_relation_tooltip: Rellación anterior
         prev_way_tooltip: Vía anterior
       user: 
@@ -164,6 +168,16 @@ ast:
         node: nodiu
         relation: rellación
         way: vía
+    note: 
+      at_by_html: hai %{when} por %{user}
+      at_html: hai %{when}
+      closed: "Zarrada:"
+      closed_title: "Nota resuelta: %{note_name}"
+      comments: "Comentarios:"
+      description: "Descripción:"
+      last_modified: "Último cambéu:"
+      open_title: "Nota ensin resolver: %{note_name}"
+      opened: "Abierta:"
     paging_nav: 
       of: de
       showing_page: páxina
@@ -204,6 +218,7 @@ ast:
       loaded_an_area_with_num_features: "Cargasti un área que contién %{num_features} carauterístiques. Polo xeneral, dellos restoladores nun pueden amosar bien esta cantidá de datos. Normalmente los restoladores funcionen meyor amosando menos de %{max_features} carauterístiques al tiempu: d'otra miente se tornen lentos/dexen de responder. Si tas seguru d'amosar los datos, pues facelo calcando nel botón d'abaxo."
       loading: Cargando...
       manually_select: Seleiciona manualmente un área distinta
+      notes_layer_name: Navegar notes
       object_list: 
         api: Recuperar esti área de l'API
         back: Volver a la llista d'oxetos
@@ -921,7 +936,29 @@ ast:
         mapquest: MapQuest Open
         standard: Estándar
         transport_map: Mapa de tresportes
+    notes: 
+      new: 
+        add: Amestar nota
+        intro: P'ameyorar el mapa la información qu'escriba amuesase a otros mapeadores, de mou que seya tolo descriptivu y precisu que pueda cuando mueva el marcador a la posición correuta y escriba la nota abaxo.
+      show: 
+        anonymous_warning: Esta nota incluye comentarios d'usuarios anónimos que tendríen de comprobase de mou independiente.
+        closed_by: resuelta por <a href='%{user_url}'>%{user}</a> a les %{time}
+        closed_by_anonymous: resuelta por anónimu a les %{time}
+        comment: Comentar
+        comment_and_resolve: Comentar y resolver
+        commented_by: comentariu de <a href='%{user_url}'>%{user}</a> a les %{time}
+        commented_by_anonymous: comentariu de anónimu a les %{time}
+        hide: Anubrir
+        opened_by: creada por <a href='%{user_url}'>%{user}</a> a les %{time}
+        opened_by_anonymous: creada por anónimu a les %{time}
+        permalink: Enllaz permanente
+        reopened_by: reactivada por <a href='%{user_url}'>%{user}</a> a les %{time}
+        reopened_by_anonymous: reactivada por anónimu a les %{time}
+        resolve: Resolver
     site: 
+      createnote_disabled_tooltip: Ampliar p'amestar una nota al mapa
+      createnote_tooltip: Amestar una nota al mapa
+      createnote_zoom_alert: Tien d'ampliar p'amestar una nota al mapa
       edit_disabled_tooltip: Aumenta pa editar el mapa
       edit_tooltip: Editar el mapa
       edit_zoom_alert: Tienes d'acercate pa editar el mapa
@@ -1095,6 +1132,27 @@ ast:
       wrong_user: Tas coneutáu como `%{user}' pero el mensaxe que quies contestar nun s'unvió a esi usuariu. Coneuta col usuariu correchu pa contestar.
     sent_message_summary: 
       delete_button: Desaniciar
+  note: 
+    entry: 
+      comment: Comentariu
+      full: Nota completa
+    mine: 
+      ago_html: hai %{when}
+      created_at: Creada el
+      creator: Creador
+      description: Descripción
+      heading: notes de %{user}
+      id: Id
+      last_changed: Cambéu postreru
+      subheading: Notes unviaes o comentaes por %{user}
+      title: Notes unviaes o comentaes por %{user}
+    rss: 
+      closed: nota zarrada (cerca de %{place})
+      comment: comentariu nuevu (cerca de %{place})
+      description_area: Llista de notes, escrites, comentaes o zarraes en so área [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: Una canal rss pa la nota %{id}
+      new: nota nueva (cerca de %{place})
+      title: Notes d'OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Tamién pues lleer el comentariu en %{readurl}, y comentalu en %{commenturl} o contestar en %{replyurl}
@@ -1110,8 +1168,6 @@ ast:
     email_confirm_plain: 
       click_the_link: Si yes tú, calca nel enllaz d'abaxo pa confirmar el cambéu.
       greeting: Bones,
-      hopefully_you_1: Dalguién (esperamos que tu) quier camudar la so direición de corréu en
-      hopefully_you_2: "%{server_url} a %{new_address}."
     friend_notification: 
       befriend_them: Tamién pues amestalos como amigos en %{befriendurl}.
       had_added_you: "%{user} t'amestó como amigu en OpenStreetMap."
@@ -1140,13 +1196,15 @@ ast:
     lost_password_plain: 
       click_the_link: Si yes tu, calca nel enllaz d'abaxo pa reaniciar la to conseña.
       greeting: Bones,
-      hopefully_you_1: Dalguién (esperamos que tu) pidió que se-y reanicie la conseña na
-      hopefully_you_2: cuenta con estes señes de corréu d'openstreetmap.org.
     message_notification: 
       footer1: Tamién pues lleer el mensax en %{readurl}
       footer2: y pues contestar en %{replyurl}
       header: "%{from_user} t'unvió un mensax per OpenStreetMap col asuntu %{subject}:"
       hi: Bones %{to_user},
+    note_comment_notification: 
+      anonymous: Un usuariu anónimu
+      details: Pue alcontrar más detalles sobro la nota en %{url}.
+      greeting: Bones,
     signup_confirm: 
       confirm: "Antes de facer nada, necesitamos confirmar qu'esta solicitú ye daveres tuya; si ye asina, calca nel enllaz de más abaxo pa confirmar la cuenta:"
       created: Dalguién (seique tu) vien de crear una cuenta en %{site_url}.
@@ -1181,6 +1239,7 @@ ast:
       allow_write_api: camudar el mapa.
       allow_write_diary: crear entraes del diariu, comentarios y facer amigos.
       allow_write_gpx: xubir traces GPS.
+      allow_write_notes: camudar notes.
       allow_write_prefs: camudar les preferencies d'usuariu.
       request_access: L'aplicación %{app_name} ta solicitando accesu a la to cuenta, %{user}. Por favor, revisa si quies que l'aplicación tenga les capacidaes darréu. Puedes esbillar tantes o tan poques como te preste.
     revoke: 
@@ -1199,6 +1258,7 @@ ast:
       allow_write_api: camudar el mapa.
       allow_write_diary: crear entraes del diariu, comentarios y facer amigos.
       allow_write_gpx: xubir traces GPS.
+      allow_write_notes: camudar notes.
       allow_write_prefs: camudar les preferencies d'usuariu.
       callback_url: URL de retornu
       name: Nome
@@ -1229,6 +1289,7 @@ ast:
       allow_write_api: camudar el mapa.
       allow_write_diary: crear entraes del diariu, comentarios y facer amigos.
       allow_write_gpx: xubir traces GPS.
+      allow_write_notes: camudar notes.
       allow_write_prefs: camudar les preferencies d'usuariu.
       authorize_url: "URL d'autorización:"
       confirm: ¿Tas seguru?
@@ -1285,6 +1346,7 @@ ast:
       potlatch_unsaved_changes: Tienes cambios ensin guardar. (Pa guardalos en Potlatch, tienes de deseleicionar la vía o puntu actual si tas editando en vivo, o calcar nel botón guardar si apaez esi botón).
       user_page_link: páxina d'usuariu
     index: 
+      createnote: Amestar una nota
       js_1: O tas usando un restolador ensin sofitu pa JavaScript, o tienes JavaScript desactiváu.
       js_2: OpenStreetMap usa JavaScript pal so mapa eslizante.
       license: 
@@ -1730,6 +1792,7 @@ ast:
       my comments: los mios comentarios
       my diary: el mio diariu
       my edits: les mios ediciones
+      my notes: les mios notes del mapa
       my settings: les mios preferencies
       my traces: les mios traces
       nearby users: Otros usuarios próximos
@@ -1738,6 +1801,7 @@ ast:
       new diary entry: nueva entrada del diariu
       no friends: Entá nun amestasti dengún amigu.
       no nearby users: Entá nun hai otros usuarios que tean mapeando cerca de ti.
+      notes: notes del mapa
       oauth settings: configuración OAuth
       remove as friend: desaniciar como amigu
       role: 
