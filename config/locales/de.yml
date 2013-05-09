@@ -244,7 +244,7 @@ de:
       loaded_an_area_with_num_features: Du hast einen Bereich geladen, der %{num_features} Elemente enthält. Manche Browser haben Probleme bei der Darstellung einer solch großen Datenmenge. Normalerweise ist es am besten, nur weniger als %{max_features} Elemente zu betrachten. Alles andere macht deinen Browser langsam bzw. lässt ihn nicht mehr auf Eingaben reagieren. Sofern du dir sicher bist, dass du dir diese Daten anzeigen lassen möchtest, klicke unten auf „Daten laden“.
       loading: Lade …
       manually_select: Einen anderen Kartenausschnitt manuell auswählen
-      notes_layer_name: Fehler durchsuchen
+      notes_layer_name: Alle Fehler anzeigen
       object_list: 
         api: Diesen Bereich von der API abfragen
         back: Zurück zur Objektliste
@@ -416,6 +416,9 @@ de:
       user_title: "%{user}s Blog"
   editor: 
     default: Standard (derzeit %{name})
+    id: 
+      description: iD (In-Browser-Editor)
+      name: iD
     potlatch: 
       description: Potlatch 1 (im Browser eingebetteter Editor)
       name: Potlatch 1
@@ -968,18 +971,18 @@ de:
         intro: Um die Karte zu verbessern, werden die eingegebenen Informationen anderen Mappern angezeigt. Bitte verschiebe die Markierung auf die richtige Position und beschreibe deinen Fehler so präzise wie möglich.
       show: 
         anonymous_warning: Dieser Fehler enthält Kommentare von anonymen Benutzern, die unabhängig geprüft werden sollten.
-        closed_by: erledigt von <a href='%{user_url}'>%{user}</a> um %{time}
-        closed_by_anonymous: erledigt von anonym um %{time}
+        closed_by: erledigt von <a href='%{user_url}'>%{user}</a> am %{time}
+        closed_by_anonymous: erledigt von anonym am %{time}
         comment: Kommentar
         comment_and_resolve: Kommentieren & Erledigen
-        commented_by: Kommentar von <a href='%{user_url}'>%{user}</a> um %{time}
-        commented_by_anonymous: Kommentar von anonym um %{time}
+        commented_by: Kommentar von <a href='%{user_url}'>%{user}</a> am %{time}
+        commented_by_anonymous: Kommentar von anonym am %{time}
         hide: Verstecken
-        opened_by: erstellt von <a href='%{user_url}'>%{user}</a> um %{time}
-        opened_by_anonymous: erstellt von anonym um %{time}
+        opened_by: erstellt von <a href='%{user_url}'>%{user}</a> am %{time}
+        opened_by_anonymous: erstellt von anonym am %{time}
         permalink: Permanentlink
-        reopened_by: reaktiviert von <a href='%{user_url}'>%{user}</a> um %{time}
-        reopened_by_anonymous: reaktiviert von anonym um %{time}
+        reopened_by: reaktiviert von <a href='%{user_url}'>%{user}</a> am %{time}
+        reopened_by_anonymous: reaktiviert von anonym am %{time}
         resolve: Erledigt
     site: 
       createnote_disabled_tooltip: Vergrößere die Karte, um einen Fehler zu melden.
@@ -1162,8 +1165,17 @@ de:
     sent_message_summary: 
       delete_button: Löschen
   note: 
+    description: 
+      closed_at_by_html: vor %{when} von %{user} gelöst
+      closed_at_html: vor %{when} gelöst
+      commented_at_by_html: vor %{when} von %{user} aktualisiert
+      commented_at_html: vor %{when} aktualisiert
+      opened_at_by_html: vor %{when} von %{user} erstellt
+      opened_at_html: vor %{when} erstellt
+      reopened_at_by_html: vor %{when} von %{user} reaktiviert
+      reopened_at_html: vor %{when} reaktiviert
     entry: 
-      comment: Kommentar
+      comment: Kommentieren
       full: Vollständige Beschreibung
     mine: 
       ago_html: vor %{when}
@@ -1197,6 +1209,7 @@ de:
     email_confirm_plain: 
       click_the_link: Wenn du das bist, bestätige bitte deine E-Mail-Adresse mit dem Link unten.
       greeting: Hallo,
+      hopefully_you: Jemand (hoffentlich du) will seine E-Mail-Adresse auf %{server_url} zu „%{new_address}“ ändern.
     friend_notification: 
       befriend_them: Du kannst sie/ihn unter %{befriendurl} ebenfalls als Freund hinzufügen.
       had_added_you: "%{user} hat dich als Freund hinzugefügt."
@@ -1225,6 +1238,7 @@ de:
     lost_password_plain: 
       click_the_link: Wenn du das bist, klicke bitte auf den Link unten, um dein Passwort zurückzusetzen.
       greeting: Hallo,
+      hopefully_you: Jemand (wahrscheinlich du) hat eine Zurücksetzung des Passworts für das openstreetmap.org-Konto an diese E-Mail-Adresse angefordert.
     message_notification: 
       footer1: Du kannst diese Nachricht auch hier %{readurl} lesen
       footer2: und hier %{replyurl} antworten
@@ -1232,6 +1246,16 @@ de:
       hi: Hallo %{to_user},
     note_comment_notification: 
       anonymous: Ein anonymer Benutzer
+      closed: 
+        commented_note: "%{commenter} hat einen Kartenfehler gelöst, den du kommentiert hast. Der Fehler ist in der Nähe von %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} hat einen gemeldeten Fehler gelöst, an dem du interessiert bist"
+        subject_own: "[OpenStreetMap] %{commenter} hat einen deiner gemeldeten Fehler gelöst"
+        your_note: "%{commenter} hat einen deiner gemeldeten Kartenfehler in der Nähe von %{place} gelöst."
+      commented: 
+        commented_note: "%{commenter} hat einen Kommentar zu einem gemeldeten Kartenfehler hinterlassen, den du kommentiert hast. Der Fehler ist in der Nähe von %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} hat zu einem gemeldeten Fehler kommentiert, an dem du interessiert bist"
+        subject_own: "[OpenStreetMap] %{commenter} hat zu einem deiner gemeldeten Fehler kommentiert"
+        your_note: "%{commenter} hat einen Kommentar zu einem deiner gemeldeten Kartenfehler in der Nähe von %{place} hinterlassen."
       details: Mehr Einzelheiten über den Fehler können unter %{url} gefunden werden.
       greeting: Hallo,
     signup_confirm: 
@@ -1369,6 +1393,7 @@ de:
     edit: 
       anon_edits_link_text: Hier findest du mehr Infos dazu.
       flash_player_required: Du benötigst den Flash Player um Potlatch, den OpenStreetMap-Flash-Editor zu benutzen. <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Lade den Flash Player von Adobe.com herunter</a>. <a href="http://wiki.openstreetmap.org/wiki/DE:Editing">Einige andere Möglichkeiten</a>, um OpenStreetMap zu editieren, sind hier beschrieben.
+      id_not_configured: iD wurde nicht konfiguriert
       no_iframe_support: Der Browser unterstützt keine HTML-Inlineframes (iframes), die zur Nutzung dieser Funktion unabdingbar sind.
       not_public: Deine Einstellungen sind auf anonymes Bearbeiten gestellt.
       not_public_description: Du musst deine Einstellungen auf öffentliches Bearbeiten umstellen. Dies kannst du auf deiner %{user_page} tun.
@@ -1549,7 +1574,9 @@ de:
     trace_header: 
       see_all_traces: Alle GPS-Tracks
       see_your_traces: Eigene GPS-Tracks
-      traces_waiting: "%{count} deiner Tracks sind momentan in der Warteschlange. Bitte warte bis diese fertig sind, um die Verarbeitung nicht für andere Nutzer zu blockieren."
+      traces_waiting: 
+        one: Ein Track ist momentan in der Warteschlange. Bitte warte, bis er fertig ist, um die Verarbeitung nicht für andere Nutzer zu blockieren.
+        other: "%{count} deiner Tracks sind momentan in der Warteschlange. Bitte warte bis diese fertig sind, um die Verarbeitung nicht für andere Nutzer zu blockieren."
       upload_trace: Lade einen GPS-Track hoch
     trace_optionals: 
       tags: Tags
