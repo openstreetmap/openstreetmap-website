@@ -399,6 +399,9 @@ ja:
       user_title: "%{user} の日記"
   editor: 
     default: 既定 (現在は %{name})
+    id: 
+      description: iD (ブラウザー内エディター)
+      name: iD
     potlatch: 
       description: Potlatch 1 (ブラウザ内エディター)
       name: Potlatch 1
@@ -960,7 +963,7 @@ ja:
         opened_by: <a href='%{user_url}'>%{user}</a>が%{time}に作成
         opened_by_anonymous: 匿名ユーザーが%{time}に作成
         permalink: 固定リンク
-        reopened_by: <a href='%{user_url}'>%{user}</a> さんが %{time} に再度有効化しました
+        reopened_by: <a href='%{user_url}'>%{user}</a>が%{time}に再有効化
         reopened_by_anonymous: 匿名ユーザが %{time} に再度有効化しました
         resolve: 解決
     site: 
@@ -1128,6 +1131,13 @@ ja:
     sent_message_summary: 
       delete_button: 削除
   note: 
+    description: 
+      closed_at_by_html: "%{when}前に%{user}が解決"
+      closed_at_html: "%{when}前に解決"
+      commented_at_by_html: "%{when}前に%{user}が更新"
+      commented_at_html: "%{when}前に更新"
+      opened_at_by_html: "%{when}前に%{user}が作成"
+      opened_at_html: "%{when}前に作成"
     entry: 
       comment: コメント
       full: ノート全文
@@ -1136,17 +1146,17 @@ ja:
       created_at: 作成日時
       creator: 作成者
       description: 説明
-      heading: "%{user}のメモ"
+      heading: "%{user} のメモ"
       id: ID
       last_changed: 最終変更
       subheading: "%{user} さんが投稿またはコメントしたノート"
       title: "%{user} さんが投稿またはコメントしたノート"
     rss: 
-      closed: クローズされたノート ( %{place} 付近)
-      comment: 新しいコメント (%{place}付近)
+      closed: クローズされたノート (%{place} 付近)
+      comment: 新しいコメント (%{place} 付近)
       description_area: あなたのエリア [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})] でレポート、コメント、あるいはクローズされたノートの一覧
       description_item: メモ %{id} の RSS フィード
-      new: 新しいメモ (%{place}付近)
+      new: 新しいメモ (%{place} 付近)
       title: OpenStreetMap メモ
   notifier: 
     diary_comment_notification: 
@@ -1163,6 +1173,7 @@ ja:
     email_confirm_plain: 
       click_the_link: この要求を出したのがあなたなら、下のリンクをクリックして、変更の認証をしてください。
       greeting: こんにちは。
+      hopefully_you: 誰か (おそらくあなた) が %{server_url} で、メール アドレスを %{new_address} に変更しようとしています。
     friend_notification: 
       befriend_them: "%{befriendurl} で友達になることができます。"
       had_added_you: OpenStreetMap で %{user} さんがあなたを友達に追加しました。
@@ -1191,6 +1202,7 @@ ja:
     lost_password_plain: 
       click_the_link: これがあなたであれば、以下のリンクをクリックしてパスワードをリセットしてください。
       greeting: こんにちは、
+      hopefully_you: 誰か (おそらくあなた) が、このメール アドレスの openstreetmap.org アカウントに対するパスワードをリセットするように依頼しました。
     message_notification: 
       footer1: "%{readurl} でメッセージを読むこともできます。"
       footer2: また、%{replyurl} で返信することができます。
@@ -1198,6 +1210,11 @@ ja:
       hi: こんにちは、%{to_user} さん。
     note_comment_notification: 
       anonymous: 匿名ユーザー
+      closed: 
+        subject_own: "[OpenStreetMap] %{commenter} さんがあなたのメモを解決しました"
+        your_note: "%{commenter} さんが %{place} 付近のあなたの地図メモの 1 つにコメントしました。"
+      commented: 
+        subject_own: "[OpenStreetMap] %{commenter} さんがあなたのメモにコメントしました"
       details: ノートについての詳細は %{url} を参照。
       greeting: こんにちは。
     signup_confirm: 
@@ -1506,7 +1523,8 @@ ja:
     trace_header: 
       see_all_traces: すべてのトレースを見る
       see_your_traces: 自分のトレースをすべて見る
-      traces_waiting: あなたの %{count} 件のトレースがアップロード待ち中です。これらのアップロードが完了するまでお待ちください。他のユーザーのアップロードが制限されてしまいます。
+      traces_waiting: 
+        other: あなたの %{count} 件のトレースがアップロード待ち中です。これらのアップロードが完了するまでお待ちください。他のユーザーのアップロードが制限されてしまいます。
       upload_trace: トレースをアップロード
     trace_optionals: 
       tags: タグ
