@@ -4,11 +4,12 @@ class UserPreferenceController < ApplicationController
   before_filter :authorize
   before_filter :require_allow_read_prefs, :only => [:read_one, :read]
   before_filter :require_allow_write_prefs, :except => [:read_one, :read]
+  around_filter :api_call_handle_error
 
   def read_one
     pref = UserPreference.find(@user.id, params[:preference_key])
 
-    render :text => pref.v.to_s
+    render :text => pref.v.to_s, :content_type => "text/plain"
   rescue ActiveRecord::RecordNotFound => ex
     render :text => 'OH NOES! PREF NOT FOUND!', :status => :not_found
   end
@@ -26,13 +27,13 @@ class UserPreferenceController < ApplicationController
       pref.save
     end
 
-    render :nothing => true
+    render :nothing => true, :content_type => "text/plain"
   end
 
   def delete_one
-    UserPreference.delete(@user.id, params[:preference_key])
+    UserPreference.find(@user.id, params[:preference_key]).delete
 
-    render :nothing => true
+    render :nothing => true, :content_type => "text/plain"
   rescue ActiveRecord::RecordNotFound => ex
     render :text => "param: #{params[:preference_key]} not found", :status => :not_found
   end
@@ -55,12 +56,7 @@ class UserPreferenceController < ApplicationController
 
   # update the entire set of preferences
   def update
-    begin
-      p = XML::Parser.string(request.raw_post)
-    rescue LibXML::XML::Error, ArgumentError => ex
-      raise OSM::APIBadXMLError.new("preferences", xml, ex.message)
-    end
-    doc = p.parse
+    doc = XML::Parser.string(request.raw_post).parse
 
     prefs = []
 
@@ -70,7 +66,8 @@ class UserPreferenceController < ApplicationController
       pref = UserPreference.new
 
       unless keyhash[pt['k']].nil? # already have that key
-        render :text => 'OH NOES! CAN HAS UNIQUE KEYS?', :status => :not_acceptable
+        render :text => 'OH NOES! CAN HAS UNIQUE KEYS?', :status => :not_acceptable, :content_type => "text/plain"
+        return
       end
 
       keyhash[pt['k']] = 1
@@ -82,7 +79,8 @@ class UserPreferenceController < ApplicationController
     end
 
     if prefs.size > 150
-      render :text => 'Too many preferences', :status => :request_entity_too_large
+      render :text => 'Too many preferences', :status => :request_entity_too_large, :content_type => "text/plain"
+      return
     end
 
     # kill the existing ones
@@ -92,9 +90,7 @@ class UserPreferenceController < ApplicationController
     prefs.each do |pref|
       pref.save!
     end
-    render :nothing => true
 
-  rescue Exception => ex
-    render :text => 'OH NOES! FAIL!: ' + ex.to_s, :status => :internal_server_error
+    render :nothing => true, :content_type => "text/plain"
   end
 end
