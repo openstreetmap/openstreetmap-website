@@ -211,16 +211,16 @@ class TraceControllerTest < ActionController::TestCase
   # Check that the rss loads
   def test_rss
     get :georss
-    assert_rss_success
+    check_trace_feed Trace.public
 
-    get :georss, :display_name => users(:normal_user).display_name
-    assert_rss_success
-  end
+    get :georss, :tag => "London"
+    check_trace_feed Trace.tagged("London").public
 
-  def assert_rss_success
-    assert_response :success
-    assert_template nil
-    assert_equal "application/rss+xml", @response.content_type
+    get :georss, :display_name => users(:public_user).display_name
+    check_trace_feed users(:public_user).traces.public
+
+    get :georss, :display_name => users(:public_user).display_name, :tag => "Birmingham"
+    check_trace_feed users(:public_user).traces.tagged("Birmingham").public
   end
 
   # Check getting a specific trace through the api
@@ -347,6 +347,30 @@ class TraceControllerTest < ActionController::TestCase
   end
 
 private
+
+  def check_trace_feed(traces)
+    assert_response :success
+    assert_template nil
+    assert_equal "application/rss+xml", @response.content_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "title"
+        assert_select "description"
+        assert_select "link"
+        assert_select "image"
+        assert_select "item", :count => traces.visible.count do |items|
+          traces.visible.order("timestamp DESC").zip(items).each do |trace,item|
+            assert_select item, "title", trace.name
+            assert_select item, "link", "http://test.host/user/#{trace.user.display_name}/traces/#{trace.id}"
+            assert_select item, "guid", "http://test.host/user/#{trace.user.display_name}/traces/#{trace.id}"
+            assert_select item, "description"
+            assert_select item, "author", trace.user.display_name
+            assert_select item, "pubDate", trace.timestamp.rfc822
+          end
+        end
+      end
+    end
+  end
 
   def check_trace_list(traces)
     traces = traces.visible.order("timestamp DESC")
