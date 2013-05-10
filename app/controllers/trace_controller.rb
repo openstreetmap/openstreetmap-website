@@ -215,7 +215,7 @@ class TraceController < ApplicationController
   end
 
   def georss
-    traces = Trace.public
+    traces = Trace.public.visible
 
     if params[:display_name]
       traces = traces.joins(:user).where(:users => {:display_name => params[:display_name]})
