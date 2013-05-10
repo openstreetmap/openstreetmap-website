@@ -65,6 +65,21 @@
         </li>
         <%= yield :left_menu %>
       </ul>
+      <div class='ad-container'>
+        <div class='ads'>
+          <%= ad = [{:image => 'sotm-birmingham-ad.png',
+                     :title => 'State of the Map Birmingham',
+                     :href =>'http://stateofthemap.org/'},
+                    {:image => 'sotm-us-ad.png',
+                     :title => 'State of the Map USA',
+                     :href =>'http://stateofthemap.us/'}].sample
+
+              link_to ad[:href], :title => ad[:title] do
+                image_tag ad[:image], :class => :ad
+              end
+          %>
+        </div>
+      </div>
       <a title="<%= h(t('layouts.make_a_donation.title')) %>" href="http://donate.openstreetmap.org/" class="donate">
         <span><%= h(t('layouts.make_a_donation.text')) %></span>
       </a>
