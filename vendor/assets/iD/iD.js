@@ -10935,7 +10935,7 @@ module.exports = function(o) {
     return oauth;
 };
 
-},{"store":2,"ohauth":3}],2:[function(require,module,exports){
+},{"ohauth":2,"store":3}],3:[function(require,module,exports){
 /* Copyright (c) 2010-2012 Marcus Westin
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -11112,25 +11112,26 @@ module.exports = function(o) {
 	else { this.store = store }
 })();
 
-},{}],3:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 'use strict';
 
 var hashes = require('jshashes'),
+    xtend = require('xtend'),
     sha1 = new hashes.SHA1();
 
 var ohauth = {};
 
 ohauth.qsString = function(obj) {
     return Object.keys(obj).sort().map(function(key) {
-        return encodeURIComponent(key) + '=' +
-            encodeURIComponent(obj[key]);
+        return ohauth.percentEncode(key) + '=' +
+            ohauth.percentEncode(obj[key]);
     }).join('&');
 };
 
 ohauth.stringQs = function(str) {
     return str.split('&').reduce(function(obj, pair){
         var parts = pair.split('=');
-        obj[parts[0]] = (null === parts[1]) ?
+        obj[decodeURIComponent(parts[0])] = (null === parts[1]) ?
             '' : decodeURIComponent(parts[1]);
         return obj;
     }, {});
@@ -11195,9 +11196,62 @@ ohauth.signature = function(oauth_secret, token_secret, baseString) {
         baseString);
 };
 
+/**
+ * Takes an options object for configuration (consumer_key,
+ * consumer_secret, version, signature_method, token) and returns a
+ * function that generates the Authorization header for given data.
+ *
+ * The returned function takes these parameters:
+ * - method: GET/POST/...
+ * - uri: full URI with protocol, port, path and query string
+ * - extra_params: any extra parameters (that are passed in the POST data),
+ *   can be an object or a from-urlencoded string.
+ *
+ * Returned function returns full OAuth header with "OAuth" string in it.
+ */
+
+ohauth.headerGenerator = function(options) {
+    options = options || {};
+    var consumer_key = options.consumer_key || '',
+        consumer_secret = options.consumer_secret || '',
+        signature_method = options.signature_method || 'HMAC-SHA1',
+        version = options.version || '1.0',
+        token = options.token || '';
+
+    return function(method, uri, extra_params) {
+        method = method.toUpperCase();
+        if (typeof extra_params === 'string' && extra_params.length > 0) {
+            extra_params = ohauth.stringQs(extra_params);
+        }
+
+        var uri_parts = uri.split('?', 2),
+        base_uri = uri_parts[0];
+
+        var query_params = uri_parts.length === 2 ?
+            ohauth.stringQs(uri_parts[1]) : {};
+
+        var oauth_params = {
+            oauth_consumer_key: consumer_key,
+            oauth_signature_method: signature_method,
+            oauth_version: version,
+            oauth_timestamp: ohauth.timestamp(),
+            oauth_nonce: ohauth.nonce()
+        };
+
+        if (token) oauth_params.oauth_token = token;
+
+        var all_params = xtend({}, oauth_params, query_params, extra_params),
+            base_str = ohauth.baseString(method, base_uri, all_params);
+
+        oauth_params.oauth_signature = ohauth.signature(consumer_secret, token, base_str);
+
+        return 'OAuth ' + ohauth.authHeader(oauth_params);
+    };
+};
+
 module.exports = ohauth;
 
-},{"jshashes":4}],4:[function(require,module,exports){
+},{"jshashes":4,"xtend":5}],4:[function(require,module,exports){
 (function(global){/**
  * jsHashes - A fast and independent hashing library pure JavaScript implemented (ES5 compliant) for both server and client side
  * 
@@ -12819,9 +12873,49 @@ module.exports = ohauth;
   }( this ));
 }()); // IIFE
 })(window)
+},{}],5:[function(require,module,exports){
+var Keys = Object.keys || objectKeys
+
+module.exports = extend
+
+function extend() {
+    var target = {}
+
+    for (var i = 0; i < arguments.length; i++) {
+        var source = arguments[i]
+
+        if (!isObject(source)) {
+            continue
+        }
+
+        var keys = Keys(source)
+
+        for (var j = 0; j < keys.length; j++) {
+            var name = keys[j]
+            target[name] = source[name]
+        }
+    }
+
+    return target
+}
+
+function objectKeys(obj) {
+    var keys = []
+    for (var k in obj) {
+        keys.push(k)
+    }
+    return keys
+}
+
+function isObject(obj) {
+    return obj !== null && typeof obj === "object"
+}
+
 },{}]},{},[1])(1)
 });
-;/******************************************************************************
+;
+
+/******************************************************************************
 	rtree.js - General-Purpose Non-Recursive Javascript R-Tree Library
 	Version 0.6.2, December 5st 2009
 
@@ -14871,6 +14965,10 @@ window.iD = function () {
         return history.graph().entity(id);
     };
 
+    context.childNodes = function(way) {
+        return history.graph().childNodes(way);
+    };
+
     context.geometry = function(id) {
         return context.entity(id).geometry(history.graph());
     };
@@ -15003,7 +15101,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.0.0';
+iD.version = '1.0.1';
 
 iD.detect = function() {
     var browser = {};
@@ -15214,7 +15312,7 @@ iD.wikipedia  = function() {
             }), function(d) {
                 var list = d.query.pages[Object.keys(d.query.pages)[0]],
                     translations = {};
-                if (list) {
+                if (list && list.langlinks) {
                     list.langlinks.forEach(function(d) {
                         translations[d.lang] = d['*'];
                     });
@@ -15366,24 +15464,48 @@ iD.geo.dist = function(a, b) {
     return Math.sqrt((x * x) + (y * y));
 };
 
-iD.geo.chooseIndex = function(way, point, context) {
+// Choose the edge with the minimal distance from `point` to its orthogonal
+// projection onto that edge, if such a projection exists, or the distance to
+// the closest vertex on that edge. Returns an object with the `index` of the
+// chosen edge, the chosen `loc` on that edge, and the `distance` to to it.
+iD.geo.chooseEdge = function(nodes, point, projection) {
     var dist = iD.geo.dist,
-        graph = context.graph(),
-        nodes = graph.childNodes(way),
-        projNodes = nodes.map(function(n) { return context.projection(n.loc); });
+        points = nodes.map(function(n) { return projection(n.loc); }),
+        min = Infinity,
+        idx, loc;
 
-    for (var i = 0, changes = []; i < projNodes.length - 1; i++) {
-        changes[i] =
-            (dist(projNodes[i], point) + dist(point, projNodes[i + 1])) /
-            dist(projNodes[i], projNodes[i + 1]);
+    function dot(p, q) {
+        return p[0] * q[0] + p[1] * q[1];
     }
 
-    var idx = _.indexOf(changes, _.min(changes)),
-        ratio = dist(projNodes[idx], point) / dist(projNodes[idx], projNodes[idx + 1]),
-        loc = iD.geo.interp(nodes[idx].loc, nodes[idx + 1].loc, ratio);
+    for (var i = 0; i < points.length - 1; i++) {
+        var o = points[i],
+            s = [points[i + 1][0] - o[0],
+                 points[i + 1][1] - o[1]],
+            v = [point[0] - o[0],
+                 point[1] - o[1]],
+            proj = dot(v, s) / dot(s, s),
+            p;
+
+        if (proj < 0) {
+            p = o;
+        } else if (proj > 1) {
+            p = points[i + 1];
+        } else {
+            p = [o[0] + proj * s[0], o[1] + proj * s[1]];
+        }
+
+        var d = dist(p, point);
+        if (d < min) {
+            min = d;
+            idx = i + 1;
+            loc = projection.invert(p);
+        }
+    }
 
     return {
-        index: idx + 1,
+        index: idx,
+        distance: min,
         loc: loc
     };
 };
@@ -15896,6 +16018,15 @@ iD.actions.Join = function(ids) {
         var a = graph.entity(idA),
             b = graph.entity(idB),
             nodes;
+
+        // Prefer to keep an existing way.
+        if (a.isNew() && !b.isNew()) {
+            var tmp = a;
+            a = b;
+            b = tmp;
+            idA = a.id;
+            idB = b.id;
+        }
 
         if (a.first() === b.first()) {
             // a <-- b ==> c
@@ -16726,7 +16857,7 @@ iD.behavior.Draw = function(context) {
     function click() {
         var d = datum();
         if (d.type === 'way') {
-            var choice = iD.geo.chooseIndex(d, d3.mouse(context.surface().node()), context),
+            var choice = iD.geo.chooseEdge(context.childNodes(d), d3.mouse(context.surface().node()), context.projection),
                 edge = [d.nodes[choice.index - 1], d.nodes[choice.index]];
             event.clickWay(choice.loc, edge);
 
@@ -16827,7 +16958,7 @@ iD.behavior.DrawWay = function(context, wayId, index, mode, baseGraph) {
         } else if (datum.type === 'node') {
             loc = datum.loc;
         } else if (datum.type === 'way') {
-            loc = iD.geo.chooseIndex(datum, d3.mouse(context.surface().node()), context).loc;
+            loc = iD.geo.chooseEdge(context.childNodes(datum), d3.mouse(context.surface().node()), context.projection).loc;
         }
 
         context.replace(iD.actions.MoveNode(end.id, loc));
@@ -17622,7 +17753,7 @@ iD.modes.DragNode = function(context) {
         if (d.type === 'node' && d.id !== entity.id) {
             loc = d.loc;
         } else if (d.type === 'way') {
-            loc = iD.geo.chooseIndex(d, d3.mouse(context.surface().node()), context).loc;
+            loc = iD.geo.chooseEdge(context.childNodes(d), d3.mouse(context.surface().node()), context.projection).loc;
         }
 
         context.replace(
@@ -17636,7 +17767,7 @@ iD.modes.DragNode = function(context) {
         var d = datum();
 
         if (d.type === 'way') {
-            var choice = iD.geo.chooseIndex(d, d3.mouse(context.surface().node()), context);
+            var choice = iD.geo.chooseEdge(context.childNodes(d), d3.mouse(context.surface().node()), context.projection);
             context.replace(
                 iD.actions.AddMidpoint({ loc: choice.loc, edge: [d.nodes[choice.index - 1], d.nodes[choice.index]] }, entity),
                 connectAnnotation(d));
@@ -18115,8 +18246,8 @@ iD.modes.Select = function(context, selection) {
                 datum = target.datum();
 
             if (datum instanceof iD.Way && !target.classed('fill')) {
-                var choice = iD.geo.chooseIndex(datum,
-                        d3.mouse(context.surface().node()), context),
+                var choice = iD.geo.chooseEdge(context.childNodes(datum),
+                        d3.mouse(context.surface().node()), context.projection),
                     node = iD.Node();
 
                 var prev = datum.nodes[choice.index - 1],
@@ -20290,7 +20421,7 @@ iD.Way.areaKeys = {
 };
 iD.Background = function(backgroundType) {
 
-    backgroundType = backgroundType || 'layer';
+    backgroundType = backgroundType || 'background';
 
     var tileSize = 256,
         tile = d3.geo.tile(),
@@ -20339,6 +20470,12 @@ iD.Background = function(backgroundType) {
 
     // Update tiles based on current state of `projection`.
     function background(selection) {
+        var layer = selection.selectAll('.' + backgroundType + '-layer')
+            .data([background]);
+
+        layer.enter().append('div')
+            .attr('class', 'layer-layer ' + backgroundType + '-layer', true);
+
         tile.scale(projection.scale() * 2 * Math.PI)
             .translate(projection.translate());
 
@@ -20348,7 +20485,7 @@ iD.Background = function(backgroundType) {
 
         z = Math.max(Math.log(projection.scale() * 2 * Math.PI) / Math.log(2) - 8, 0);
 
-        render(selection);
+        render(layer);
     }
 
     // Derive the tiles onscreen, remove those offscreen and position them.
@@ -20573,31 +20710,25 @@ iD.BackgroundSource.Custom = function() {
 
 iD.BackgroundSource.Custom.data = { 'name': 'Custom' };
 iD.LocalGpx = function(context) {
-    var tileSize = 256,
-        projection,
+    var projection,
         gj = {},
         enable = true,
         size = [0, 0],
-        transformProp = iD.util.prefixCSSProperty('Transform'),
-        path = d3.geo.path().projection(projection),
-        source = d3.functor('');
+        svg;
 
     function render(selection) {
+        svg = selection.selectAll('svg')
+            .data([render]);
 
-        path.projection(projection);
-
-        var surf = selection.selectAll('svg')
-            .data(enable ? [gj] : []);
-
-        surf.exit().remove();
-
-        surf.enter()
+        svg.enter()
             .append('svg')
-            .style('position', 'absolute');
+            .attr('class', 'layer-layer gpx-layer');
 
-        var paths = surf
+        svg.style('display', enable ? 'block' : 'none');
+
+        var paths = svg
             .selectAll('path')
-            .data(function(d) { return [d]; });
+            .data([gj]);
 
         paths
             .enter()
@@ -20605,7 +20736,7 @@ iD.LocalGpx = function(context) {
             .attr('class', 'gpx');
 
         paths
-            .attr('d', path);
+            .attr('d', d3.geo.path().projection(projection));
     }
 
     function toDom(x) {
@@ -20631,8 +20762,8 @@ iD.LocalGpx = function(context) {
     };
 
     render.size = function(_) {
-        if (!arguments.length) return size;
-        size = _;
+        if (!arguments.length) return svg.size();
+        svg.size(_);
         return render;
     };
 
@@ -20685,7 +20816,7 @@ iD.Map = function(context) {
             iD.Background().projection(projection),
             iD.LocalGpx(context).projection(projection),
             iD.Background('overlay').projection(projection)
-            ],
+        ],
         transformProp = iD.util.prefixCSSProperty('Transform'),
         points = iD.svg.Points(roundedProjection, context),
         vertices = iD.svg.Vertices(roundedProjection, context),
@@ -20694,7 +20825,7 @@ iD.Map = function(context) {
         midpoints = iD.svg.Midpoints(roundedProjection, context),
         labels = iD.svg.Labels(roundedProjection, context),
         tail = iD.ui.Tail(),
-        supersurface, surface, layergroup;
+        supersurface, surface;
 
     function map(selection) {
         context.history()
@@ -20709,10 +20840,16 @@ iD.Map = function(context) {
         supersurface = selection.append('div')
             .attr('id', 'supersurface');
 
-        layergroup = supersurface.append('div')
-            .attr('id', 'layer-g');
+        layers.forEach(function(layer) {
+            supersurface.call(layer);
+        });
 
-        surface = supersurface.append('svg')
+        // Need a wrapper div because Opera can't cope with an absolutely positioned
+        // SVG element: http://bl.ocks.org/jfirebaugh/6fbfbd922552bf776c16
+        var dataLayer = supersurface.append('div')
+            .attr('class', 'layer-layer layer-data');
+
+        surface = dataLayer.append('svg')
             .on('mousedown.zoom', function() {
                 if (d3.event.button == 2) {
                     d3.event.stopPropagation();
@@ -20740,7 +20877,6 @@ iD.Map = function(context) {
 
         map.size(selection.size());
         map.surface = surface;
-        map.layersurface = layergroup;
 
         labels.supersurface(supersurface);
 
@@ -20871,18 +21007,9 @@ iD.Map = function(context) {
         }
 
         if (!difference) {
-            var sel = layergroup
-                .selectAll('.layer-layer')
-                .data(layers);
-
-            sel.exit().remove();
-
-            sel.enter().append('div')
-                .attr('class', 'layer-layer');
-
-            sel.each(function(layer) {
-                    d3.select(this).call(layer);
-                });
+            layers.forEach(function(layer) {
+                supersurface.call(layer);
+            });
         }
 
         if (map.editable()) {
@@ -20978,8 +21105,8 @@ iD.Map = function(context) {
         var center = map.center();
         dimensions = _;
         surface.size(dimensions);
-        layers.map(function(l) {
-            l.size(dimensions);
+        layers.forEach(function(layer) {
+            layer.size(dimensions);
         });
         projection.clipExtent([[0, 0], dimensions]);
         setCenter(center);
@@ -22678,7 +22805,9 @@ iD.ui.Background = function(context) {
             ['top', [0, -1]],
             ['right', [-1, 0]],
             ['bottom', [0, 1]]],
-        layers = context.backgroundSources();
+        layers = context.backgroundSources(),
+        opacityDefault = (context.storage('background-opacity') !== undefined) ?
+            (+context.storage('background-opacity')) : 0.5;
 
     function getSources() {
         var ext = context.map().extent();
@@ -22691,19 +22820,15 @@ iD.ui.Background = function(context) {
     function background(selection) {
 
         function setOpacity(d) {
-            context.map().layersurface.selectAll('.layer-layer')
-                .filter(function(d) { return d == context.map().layers[0]; })
+            context.container().selectAll('.background-layer')
                 .transition()
                 .style('opacity', d)
                 .attr('data-opacity', d);
 
             opacityList.selectAll('li')
-                .classed('selected', false);
+                .classed('selected', function(_) { return _ === d; });
 
-            if (d3.event) {
-                d3.select(this)
-                    .classed('selected', true);
-            }
+            context.storage('background-opacity', d);
         }
 
         function selectLayer() {
@@ -22908,10 +23033,6 @@ iD.ui.Background = function(context) {
             .attr('class', 'opacity')
             .style('opacity', String);
 
-        // Make sure there is an active selection by default
-        opa.select('.opacity-options li:nth-child(2)')
-            .classed('selected', true);
-
         var backgroundList = content
             .append('ul')
             .attr('class', 'toggle-list');
@@ -22998,7 +23119,7 @@ iD.ui.Background = function(context) {
         context.map()
             .on('move.background-update', _.debounce(update, 1000));
         update();
-        setOpacity(0.5);
+        setOpacity(opacityDefault);
 
         var keybinding = d3.keybinding('background');
         keybinding.on(key, toggle);
@@ -23216,7 +23337,7 @@ iD.ui.confirm = function(selection) {
         .on('click.confirm', function() {
             modal.remove();
         })
-        .text('Okay');
+        .text(t('confirm.okay'));
 
     return modal;
 };
@@ -23801,7 +23922,7 @@ iD.ui.intro = function(context) {
         var history = context.history().toJSON(),
             hash = window.location.hash,
             background = context.background().source(),
-            opacity = d3.select('.layer-layer:first-child').style('opacity'),
+            opacity = d3.select('.background-layer').style('opacity'),
             loadedTiles = context.connection().loadedTiles(),
             baseEntities = context.history().graph().base().entities;
 
@@ -23822,7 +23943,7 @@ iD.ui.intro = function(context) {
         var beforeunload = window.onbeforeunload;
         window.onbeforeunload = null;
 
-        d3.select('.layer-layer:first-child').style('opacity', 1);
+        d3.select('.background-layer').style('opacity', 1);
 
         var curtain = d3.curtain();
         selection.call(curtain);
@@ -23836,7 +23957,7 @@ iD.ui.intro = function(context) {
             var s = iD.ui.intro[step](context, reveal)
                 .on('done', function() {
                     entered.filter(function(d) {
-                        return d.name === s.name;
+                        return d.title === s.title;
                     }).classed('finished', true);
                     enter(steps[i + 1]);
                 });
@@ -23846,7 +23967,7 @@ iD.ui.intro = function(context) {
         steps[steps.length - 1].on('startEditing', function() {
             curtain.remove();
             navwrap.remove();
-            d3.select('.layer-layer:first-child').style('opacity', opacity);
+            d3.select('.background-layer').style('opacity', opacity);
             context.connection().toggle(true).flush().loadedTiles(loadedTiles);
             context.history().reset().merge(baseEntities);
             context.background().source(background);
@@ -23868,7 +23989,7 @@ iD.ui.intro = function(context) {
                 .on('click', enter);
 
         entered.append('div').attr('class','icon icon-pre-text apply');
-        entered.append('label').text(function(d) { return d.name; });
+        entered.append('label').text(function(d) { return t(d.title); });
         enter(steps[0]);
 
         function enter (newStep) {
@@ -23883,7 +24004,7 @@ iD.ui.intro = function(context) {
             step.enter();
 
             entered.classed('active', function(d) {
-                return d.name === step.name;
+                return d.title === step.title;
             });
         }
 
@@ -25098,7 +25219,7 @@ iD.ui.Success = function(connection) {
         var m = changeset.comment ?
             changeset.comment.substring(0, 130) : '';
 
-        var message = (m || 'Edited OSM!') + ' ' +
+        var message = (m || t('success.edited_osm')) + ' ' +
             connection.changesetURL(changeset.id);
 
         var links = body.append('div').attr('class','modal-actions cf');
@@ -25118,7 +25239,7 @@ iD.ui.Success = function(connection) {
                 return 'https://twitter.com/intent/tweet?source=webclient&text=' +
                     encodeURIComponent(message);
             })
-            .text('Tweet');
+            .text(t('success.tweet'));
 
         links.append('a')
             .attr('class','col4 facebook')
@@ -25126,7 +25247,7 @@ iD.ui.Success = function(connection) {
             .attr('href', function() {
                 return 'https://facebook.com/sharer/sharer.php?u=' + encodeURIComponent(message);
             })
-            .text('Share on Facebook');
+            .text(t('success.facebook'));
 
         var section = body.append('div').attr('class','modal-section cf');
 
@@ -25135,7 +25256,7 @@ iD.ui.Success = function(connection) {
             .on('click.save', function() {
                 event.cancel();
             })
-            .text('Okay')
+            .text(t('success.okay'))
             .node().focus();
     }
 
@@ -25880,11 +26001,11 @@ iD.ui.preset.address = function(field, context) {
                 var loc = context.projection([
                     (extent[0][0] + extent[1][0]) / 2,
                     (extent[0][1] + extent[1][1]) / 2]),
-                    closest = context.projection(iD.geo.chooseIndex(d, loc, context).loc);
+                    choice = iD.geo.chooseEdge(context.childNodes(d), loc, context.projection);
                 return {
                     title: d.tags.name,
                     value: d.tags.name,
-                    dist: iD.geo.dist(closest, loc)
+                    dist: choice.distance
                 };
             }).sort(function(a, b) {
                 return a.dist - b.dist;
@@ -26515,12 +26636,12 @@ iD.ui.preset.textarea = function(field) {
 
     function change() {
         var t = {};
-        t[field.key] = input.text();
+        t[field.key] = input.property('value');
         event.change(t);
     }
 
     i.tags = function(tags) {
-        input.text(tags[field.key] || '');
+        input.property('value', tags[field.key] || '');
     };
 
     i.focus = function() {
@@ -26662,7 +26783,7 @@ iD.ui.intro.area = function(context, reveal) {
         timeout;
 
     var step = {
-        name: 'Areas'
+        title: 'intro.areas.title'
     };
 
     step.enter = function() {
@@ -26714,7 +26835,7 @@ iD.ui.intro.area = function(context, reveal) {
                 d3.select('.preset-grid-search-wrap input').on('keyup.intro', keySearch);
             }, 500);
         }
-        
+
         function keySearch() {
             var first = d3.select('.grid-button-wrap:first-child');
             if (first.datum().id === 'leisure/playground') {
@@ -26728,8 +26849,6 @@ iD.ui.intro.area = function(context, reveal) {
             reveal('.pane', 'intro.areas.describe');
             context.on('exit.intro', event.done);
         }
-
-
     };
 
     step.exit = function() {
@@ -26749,7 +26868,7 @@ iD.ui.intro.line = function(context, reveal) {
         timeouts = [];
 
     var step = {
-        name: 'Lines'
+        title: 'intro.lines.title'
     };
 
     function one(target, e, f) {
@@ -26884,7 +27003,7 @@ iD.ui.intro.navigation = function(context, reveal) {
         timeouts = [];
 
     var step = {
-        name: 'Navigation'
+        title: 'intro.navigation.title'
     };
 
     function set(f, t) {
@@ -26965,7 +27084,7 @@ iD.ui.intro.point = function(context, reveal) {
         timeouts = [];
 
     var step = {
-        name: 'Points'
+        title: 'intro.points.title'
     };
 
     function setTimeout(f, t) {
@@ -27111,7 +27230,7 @@ iD.ui.intro.startEditing = function(context, reveal) {
         timeouts = [];
 
     var step = {
-        name: 'Start Editing'
+        title: 'intro.startediting.title'
     };
 
     function timeout(f, t) {
@@ -28277,6 +28396,25 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 ]
             ],
             "sourcetag": "ngi-aerial"
+        },
+        {
+            "name": "Lithuania - ORT10LT",
+            "template": "http://mapproxy.openmap.lt/ort10lt/g/{z}/{x}/{y}.jpeg",
+            "extent": [
+                [
+                    21,
+                    53.88
+                ],
+                [
+                    26.85,
+                    56.45
+                ]
+            ],
+            "scaleExtent": [
+                4,
+                18
+            ],
+            "sourcetag": "NŽT ORT10LT"
         }
     ],
     "wikipedia": [
@@ -29866,6 +30004,20 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "name": "Amenity"
             },
+            "amenity/atm": {
+                "icon": "bank",
+                "fields": [
+                    "operator"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex"
+                ],
+                "tags": {
+                    "amenity": "atm"
+                },
+                "name": "ATM"
+            },
             "amenity/bank": {
                 "icon": "bank",
                 "fields": [
@@ -31150,7 +31302,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Foot Path"
             },
             "highway/living_street": {
-                "icon": "highway-residential",
+                "icon": "highway-living-street",
                 "fields": [
                     "oneway",
                     "structure",
@@ -31842,7 +31994,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "landuse": "farm"
                 },
                 "terms": [],
-                "name": "Farm"
+                "name": "Farm",
+                "icon": "farm"
             },
             "landuse/farmyard": {
                 "geometry": [
@@ -32164,7 +32317,11 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "leisure": "playground"
                 },
-                "name": "Playground"
+                "name": "Playground",
+                "terms": [
+                    "jungle gym",
+                    "play area"
+                ]
             },
             "leisure/slipway": {
                 "geometry": [
@@ -32647,7 +32804,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Place"
             },
             "place/city": {
-                "icon": "square",
+                "icon": "city",
                 "geometry": [
                     "point",
                     "area"
@@ -32710,7 +32867,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Locality"
             },
             "place/town": {
-                "icon": "square-stroked",
+                "icon": "town",
                 "geometry": [
                     "point",
                     "area"
@@ -32721,7 +32878,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Town"
             },
             "place/village": {
-                "icon": "triangle",
+                "icon": "village",
                 "geometry": [
                     "point",
                     "area"
@@ -34350,7 +34507,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "category-landuse": {
                 "geometry": "area",
                 "name": "Land Use",
-                "icon": "category-landuse",
+                "icon": "land-use",
                 "members": [
                     "landuse/residential",
                     "landuse/industrial",
@@ -45123,7 +45280,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1114
             ]
         },
-        "college": {
+        "city": {
             "12": [
                 0,
                 1140
@@ -45137,7 +45294,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1174
             ]
         },
-        "commercial": {
+        "college": {
             "12": [
                 0,
                 1200
@@ -45151,7 +45308,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1234
             ]
         },
-        "cricket": {
+        "commercial": {
             "12": [
                 0,
                 1260
@@ -45165,7 +45322,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1294
             ]
         },
-        "cross": {
+        "cricket": {
             "12": [
                 0,
                 1320
@@ -45179,7 +45336,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1354
             ]
         },
-        "dam": {
+        "cross": {
             "12": [
                 0,
                 1380
@@ -45193,7 +45350,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1414
             ]
         },
-        "danger": {
+        "dam": {
             "12": [
                 0,
                 1440
@@ -45207,7 +45364,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1474
             ]
         },
-        "disability": {
+        "danger": {
             "12": [
                 0,
                 1500
@@ -45221,7 +45378,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1534
             ]
         },
-        "embassy": {
+        "disability": {
             "12": [
                 0,
                 1560
@@ -45235,7 +45392,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1594
             ]
         },
-        "emergency-telephone": {
+        "embassy": {
             "12": [
                 0,
                 1620
@@ -45249,7 +45406,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1654
             ]
         },
-        "fast-food": {
+        "emergency-telephone": {
             "12": [
                 0,
                 1680
@@ -45263,7 +45420,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1714
             ]
         },
-        "ferry": {
+        "farm": {
             "12": [
                 0,
                 1740
@@ -45277,7 +45434,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1774
             ]
         },
-        "fire-station": {
+        "fast-food": {
             "12": [
                 0,
                 1800
@@ -45291,7 +45448,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1834
             ]
         },
-        "fuel": {
+        "ferry": {
             "12": [
                 0,
                 1860
@@ -45305,7 +45462,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1894
             ]
         },
-        "garden": {
+        "fire-station": {
             "12": [
                 0,
                 1920
@@ -45319,7 +45476,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 1954
             ]
         },
-        "golf": {
+        "fuel": {
             "12": [
                 0,
                 1980
@@ -45333,7 +45490,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2014
             ]
         },
-        "grocery": {
+        "garden": {
             "12": [
                 0,
                 2040
@@ -45347,7 +45504,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2074
             ]
         },
-        "harbor": {
+        "golf": {
             "12": [
                 0,
                 2100
@@ -45361,7 +45518,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2134
             ]
         },
-        "heliport": {
+        "grocery": {
             "12": [
                 0,
                 2160
@@ -45375,7 +45532,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2194
             ]
         },
-        "hospital": {
+        "harbor": {
             "12": [
                 0,
                 2220
@@ -45389,7 +45546,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2254
             ]
         },
-        "industrial": {
+        "heliport": {
             "12": [
                 0,
                 2280
@@ -45403,7 +45560,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2314
             ]
         },
-        "library": {
+        "hospital": {
             "12": [
                 0,
                 2340
@@ -45417,7 +45574,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2374
             ]
         },
-        "lodging": {
+        "industrial": {
             "12": [
                 0,
                 2400
@@ -45431,7 +45588,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2434
             ]
         },
-        "logging": {
+        "land-use": {
             "12": [
                 0,
                 2460
@@ -45445,7 +45602,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2494
             ]
         },
-        "marker": {
+        "library": {
             "12": [
                 0,
                 2520
@@ -45459,7 +45616,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2554
             ]
         },
-        "marker-stroked": {
+        "lodging": {
             "12": [
                 0,
                 2580
@@ -45473,7 +45630,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2614
             ]
         },
-        "monument": {
+        "logging": {
             "12": [
                 0,
                 2640
@@ -45487,7 +45644,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2674
             ]
         },
-        "museum": {
+        "marker": {
             "12": [
                 0,
                 2700
@@ -45501,7 +45658,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2734
             ]
         },
-        "music": {
+        "marker-stroked": {
             "12": [
                 0,
                 2760
@@ -45515,7 +45672,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2794
             ]
         },
-        "oil-well": {
+        "monument": {
             "12": [
                 0,
                 2820
@@ -45529,7 +45686,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2854
             ]
         },
-        "park": {
+        "museum": {
             "12": [
                 0,
                 2880
@@ -45543,7 +45700,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2914
             ]
         },
-        "park2": {
+        "music": {
             "12": [
                 0,
                 2940
@@ -45557,7 +45714,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 2974
             ]
         },
-        "parking": {
+        "oil-well": {
             "12": [
                 0,
                 3000
@@ -45571,7 +45728,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3034
             ]
         },
-        "parking-garage": {
+        "park": {
             "12": [
                 0,
                 3060
@@ -45585,7 +45742,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3094
             ]
         },
-        "pharmacy": {
+        "park2": {
             "12": [
                 0,
                 3120
@@ -45599,7 +45756,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3154
             ]
         },
-        "pitch": {
+        "parking": {
             "12": [
                 0,
                 3180
@@ -45613,7 +45770,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3214
             ]
         },
-        "place-of-worship": {
+        "parking-garage": {
             "12": [
                 0,
                 3240
@@ -45627,7 +45784,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3274
             ]
         },
-        "police": {
+        "pharmacy": {
             "12": [
                 0,
                 3300
@@ -45641,7 +45798,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3334
             ]
         },
-        "post": {
+        "pitch": {
             "12": [
                 0,
                 3360
@@ -45655,7 +45812,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3394
             ]
         },
-        "prison": {
+        "place-of-worship": {
             "12": [
                 0,
                 3420
@@ -45669,7 +45826,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3454
             ]
         },
-        "rail": {
+        "police": {
             "12": [
                 0,
                 3480
@@ -45683,7 +45840,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3514
             ]
         },
-        "rail-above": {
+        "post": {
             "12": [
                 0,
                 3540
@@ -45697,7 +45854,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3574
             ]
         },
-        "rail-underground": {
+        "prison": {
             "12": [
                 0,
                 3600
@@ -45711,7 +45868,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3634
             ]
         },
-        "religious-christian": {
+        "rail": {
             "12": [
                 0,
                 3660
@@ -45725,7 +45882,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3694
             ]
         },
-        "religious-jewish": {
+        "rail-above": {
             "12": [
                 0,
                 3720
@@ -45739,7 +45896,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3754
             ]
         },
-        "religious-muslim": {
+        "rail-underground": {
             "12": [
                 0,
                 3780
@@ -45753,7 +45910,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3814
             ]
         },
-        "restaurant": {
+        "religious-christian": {
             "12": [
                 0,
                 3840
@@ -45767,7 +45924,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3874
             ]
         },
-        "roadblock": {
+        "religious-jewish": {
             "12": [
                 0,
                 3900
@@ -45781,7 +45938,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3934
             ]
         },
-        "school": {
+        "religious-muslim": {
             "12": [
                 0,
                 3960
@@ -45795,7 +45952,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 3994
             ]
         },
-        "shop": {
+        "restaurant": {
             "12": [
                 0,
                 4020
@@ -45809,7 +45966,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4054
             ]
         },
-        "skiing": {
+        "roadblock": {
             "12": [
                 0,
                 4080
@@ -45823,7 +45980,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4114
             ]
         },
-        "slaughterhouse": {
+        "school": {
             "12": [
                 0,
                 4140
@@ -45837,7 +45994,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4174
             ]
         },
-        "soccer": {
+        "shop": {
             "12": [
                 0,
                 4200
@@ -45851,7 +46008,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4234
             ]
         },
-        "square": {
+        "skiing": {
             "12": [
                 0,
                 4260
@@ -45865,7 +46022,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4294
             ]
         },
-        "square-stroked": {
+        "slaughterhouse": {
             "12": [
                 0,
                 4320
@@ -45879,7 +46036,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4354
             ]
         },
-        "star": {
+        "soccer": {
             "12": [
                 0,
                 4380
@@ -45893,7 +46050,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4414
             ]
         },
-        "star-stroked": {
+        "square": {
             "12": [
                 0,
                 4440
@@ -45907,7 +46064,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4474
             ]
         },
-        "swimming": {
+        "square-stroked": {
             "12": [
                 0,
                 4500
@@ -45921,7 +46078,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4534
             ]
         },
-        "telephone": {
+        "star": {
             "12": [
                 0,
                 4560
@@ -45935,7 +46092,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4594
             ]
         },
-        "tennis": {
+        "star-stroked": {
             "12": [
                 0,
                 4620
@@ -45949,7 +46106,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4654
             ]
         },
-        "theatre": {
+        "swimming": {
             "12": [
                 0,
                 4680
@@ -45963,7 +46120,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4714
             ]
         },
-        "toilets": {
+        "telephone": {
             "12": [
                 0,
                 4740
@@ -45977,7 +46134,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4774
             ]
         },
-        "town-hall": {
+        "tennis": {
             "12": [
                 0,
                 4800
@@ -45991,7 +46148,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4834
             ]
         },
-        "triangle": {
+        "theatre": {
             "12": [
                 0,
                 4860
@@ -46005,7 +46162,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4894
             ]
         },
-        "triangle-stroked": {
+        "toilets": {
             "12": [
                 0,
                 4920
@@ -46019,7 +46176,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 4954
             ]
         },
-        "warehouse": {
+        "town": {
             "12": [
                 0,
                 4980
@@ -46033,7 +46190,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 5014
             ]
         },
-        "waste-basket": {
+        "town-hall": {
             "12": [
                 0,
                 5040
@@ -46047,7 +46204,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 5074
             ]
         },
-        "water": {
+        "triangle": {
             "12": [
                 0,
                 5100
@@ -46061,7 +46218,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 5134
             ]
         },
-        "wetland": {
+        "triangle-stroked": {
             "12": [
                 0,
                 5160
@@ -46075,7 +46232,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 5194
             ]
         },
-        "zoo": {
+        "village": {
             "12": [
                 0,
                 5220
@@ -46087,6 +46244,76 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "24": [
                 0,
                 5254
+            ]
+        },
+        "warehouse": {
+            "12": [
+                0,
+                5280
+            ],
+            "18": [
+                0,
+                5294
+            ],
+            "24": [
+                0,
+                5314
+            ]
+        },
+        "waste-basket": {
+            "12": [
+                0,
+                5340
+            ],
+            "18": [
+                0,
+                5354
+            ],
+            "24": [
+                0,
+                5374
+            ]
+        },
+        "water": {
+            "12": [
+                0,
+                5400
+            ],
+            "18": [
+                0,
+                5414
+            ],
+            "24": [
+                0,
+                5434
+            ]
+        },
+        "wetland": {
+            "12": [
+                0,
+                5460
+            ],
+            "18": [
+                0,
+                5474
+            ],
+            "24": [
+                0,
+                5494
+            ]
+        },
+        "zoo": {
+            "12": [
+                0,
+                5520
+            ],
+            "18": [
+                0,
+                5534
+            ],
+            "24": [
+                0,
+                5554
             ]
         },
         "highway-motorway": {
@@ -46404,10 +46631,11 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
     },
     "locales": [
         "af",
+        "ast",
         "bs",
         "ca",
         "zh",
-        "zh_TW",
+        "zh-TW",
         "hr",
         "cs",
         "da",
@@ -46415,14 +46643,17 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "fr",
         "de",
         "is",
+        "id",
         "it",
         "ja",
         "lv",
         "pl",
         "pt",
+        "pt-BR",
         "ru",
         "sr",
         "sk",
+        "sl",
         "es",
         "sv",
         "tr",
@@ -46659,9 +46890,18 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "uploading": "Uploading changes to OpenStreetMap.",
             "unsaved_changes": "You have unsaved changes"
         },
+        "success": {
+            "edited_osm": "Edited OSM!",
+            "facebook": "Share on Facebook",
+            "tweet": "Tweet",
+            "okay": "Okay"
+        },
+        "confirm": {
+            "okay": "Okay"
+        },
         "splash": {
             "welcome": "Welcome to the iD OpenStreetMap editor",
-            "text": "iD is a friendly but powerful tool for contributing to the world's best free world map. This is development version {version}. For more information see {website} and report bugs at {github}.",
+            "text": "iD is a friendly but powerful tool for contributing to the world's best free world map. This is version {version}. For more information see {website} and report bugs at {github}.",
             "walkthrough": "Start the Walkthrough",
             "start": "Edit Now"
         },
@@ -46701,20 +46941,22 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "imagery": "# Imagery\n\nAerial imagery is an important resource for mapping. A combination of\nairplane flyovers, satellite views, and freely-compiled sources are available\nin the editor under the 'Background Settings' menu on the left.\n\nBy default a [Bing Maps](http://www.bing.com/maps/) satellite layer is\npresented in the editor, but as you pan and zoom the map to new geographical\nareas, new sources will become available. Some countries, like the United\nStates, France, and Denmark have very high-quality imagery available for some areas.\n\nImagery is sometimes offset from the map data because of a mistake on the\nimagery provider's side. If you see a lot of roads shifted from the background,\ndon't immediately move them all to match the background. Instead you can adjust\nthe imagery so that it matches the existing data by clicking 'Fix alignment' at\nthe bottom of the Background Settings UI.\n",
             "addresses": "# Addresses\n\nAddresses are some of the most useful information for the map.\n\nAlthough addresses are often represented as parts of streets, in OpenStreetMap\nthey're recorded as attributes of buildings and places along streets.\n\nYou can add address information to places mapped as building outlines as well\nas well as those mapped as single points. The optimal source of address\ndata is from an on-the-ground survey or personal knowledge - as with any\nother feature, copying from commercial sources like Google Maps is strictly\nforbidden.\n",
             "inspector": "# Using the Inspector\n\nThe inspector is the user interface element on the right-hand side of the\npage that appears when a feature is selected and allows you to edit its details.\n\n### Selecting a Feature Type\n\nAfter you add a point, line, or area, you can choose what type of feature it\nis, like whether it's a highway or residential road, supermarket or cafe.\nThe inspector will display buttons for common feature types, and you can\nfind others by typing what you're looking for in the search box.\n\nClick the 'i' in the bottom-right-hand corner of a feature type button to\nlearn more about it. Click a button to choose that type.\n\n### Using Forms and Editing Tags\n\nAfter you choose a feature type, or when you select a feature that already\nhas a type assigned, the inspector will display fields with details about\nthe feature like its name and address.\n\nBelow the fields you see, you can click icons to add other details,\nlike [Wikipedia](http://www.wikipedia.org/) information, wheelchair\naccess, and more.\n\nAt the bottom of the inspector, click 'Additional tags' to add arbitrary\nother tags to the element. [Taginfo](http://taginfo.openstreetmap.org/) is a\ngreat resource for learn more about popular tag combinations.\n\nChanges you make in the inspector are automatically applied to the map.\nYou can undo them at any time by clicking the 'Undo' button.\n\n### Closing the Inspector\n\nYou can close the inspector by clicking the close button in the top-right,\npressing the 'Escape' key, or clicking on the map.\n",
-            "buildings": "# Buildings\n\nOpenStreetMap is the world's largest database of buildings. You can create\nand improve this database.\n\n### Selecting\n\nYou can select a building by clicking on its border. This will highlight the\nbuilding and open a small tools menu and a sidebar showing more information\nabout the building.\n\n### Modifying\n\nSometimes buildings are incorrectly placed or have incorrect tags.\n\nTo move an entire building, select it, then click the 'Move' tool. Move your\nmouse to shift the building, and click when it's correctly placed.\n\nTo fix the specific shape of a building, click and drag the nodes that form\nits border into better places.\n\n### Creating\n\nOne of the main questions around adding buildings to the map is that\nOpenStreetMap records buildings both as shapes and points. The rule of thumb\nis to _map a building as a shape whenever possible_, and map companies, homes,\namenities, and other things that operate out of buildings as points placed\nwithin the building shape.\n\nStart drawing a building as a shape by clicking the 'Area' button in the top\nleft of the interface, and end it either by pressing 'Return' on your keyboard\nor clicking on the first node drawn to close the shape.\n\n### Deleting\n\nIf a building is entirely incorrect - you can see that it doesn't exist in satellite\nimagery and ideally have confirmed locally that it's not present - you can delete\nit, which removes it from the map. Be cautious when deleting features -\nlike any other edit, the results are seen by everyone and satellite imagery\nis often out of date, so the road could simply be newly built.\n\nYou can delete a building by clicking on it to select it, then clicking the\ntrash can icon or pressing the 'Delete' key.\n"
+            "buildings": "# Buildings\n\nOpenStreetMap is the world's largest database of buildings. You can create\nand improve this database.\n\n### Selecting\n\nYou can select a building by clicking on its border. This will highlight the\nbuilding and open a small tools menu and a sidebar showing more information\nabout the building.\n\n### Modifying\n\nSometimes buildings are incorrectly placed or have incorrect tags.\n\nTo move an entire building, select it, then click the 'Move' tool. Move your\nmouse to shift the building, and click when it's correctly placed.\n\nTo fix the specific shape of a building, click and drag the nodes that form\nits border into better places.\n\n### Creating\n\nOne of the main questions around adding buildings to the map is that\nOpenStreetMap records buildings both as shapes and points. The rule of thumb\nis to _map a building as a shape whenever possible_, and map companies, homes,\namenities, and other things that operate out of buildings as points placed\nwithin the building shape.\n\nStart drawing a building as a shape by clicking the 'Area' button in the top\nleft of the interface, and end it either by pressing 'Return' on your keyboard\nor clicking on the first node drawn to close the shape.\n\n### Deleting\n\nIf a building is entirely incorrect - you can see that it doesn't exist in satellite\nimagery and ideally have confirmed locally that it's not present - you can delete\nit, which removes it from the map. Be cautious when deleting features -\nlike any other edit, the results are seen by everyone and satellite imagery\nis often out of date, so the building could simply be newly built.\n\nYou can delete a building by clicking on it to select it, then clicking the\ntrash can icon or pressing the 'Delete' key.\n"
         },
         "intro": {
             "navigation": {
+                "title": "Navigation",
                 "drag": "The main map area shows OpenStreetMap data on top of a background. You can navigate by dragging and scrolling, just like any web map. **Drag the map!**",
                 "select": "Map features are represented three ways: using points, lines or areas. All features can be selected by clicking on them. **Click on the point to select it.**",
                 "header": "The header shows us the feature type.",
                 "pane": "When a feature is selected, the feature editor is displayed. The header shows us the feature type and the main pane shows the feature's attributes, such as its name and address. **Close the feature editor with the close button in the top right.**"
             },
             "points": {
+                "title": "Points",
                 "add": "Points can be used to represent features such as shops, restaurants and monuments. They mark a specific location, and describe what's there. **Click the Point button to add a new point.**",
                 "place": "The point can be placed by clicking on the map. **Place the point on top of the building.**",
-                "search": "There many different features that can be represented by points. The point you just added is a Cafe. **Search for 'Cafe' **",
-                "choose": "**Choose Cafe from the grid.**",
+                "search": "There are many different features that can be represented by points. The point you just added is a Cafe. **Search for 'Cafe' **",
+                "choose": "**Choose Cafe from the list.**",
                 "describe": "The point is now marked as a cafe. Using the feature editor, we can add more information about the feature. **Add a name**",
                 "close": "The feature editor can be closed by clicking on the close button. **Close the feature editor**",
                 "reselect": "Often points will already exist, but have mistakes or be incomplete. We can edit existing points. **Select the point you just created.**",
@@ -46723,24 +46965,27 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "delete": "The menu around the point contains operations that can be performed on it, including delete. **Delete the point.**"
             },
             "areas": {
-                "add": "Areas are a more detailed way to represent features. They provide information on the boundaries of the feature. Areas can be used for most features types points can be used for, and are often preferred. **Click the Area button to add a new area.**",
+                "title": "Areas",
+                "add": "Areas are a more detailed way to represent features. They provide information on the boundaries of the feature. Areas can be used for most feature types points can be used for, and are often preferred. **Click the Area button to add a new area.**",
                 "corner": "Areas are drawn by placing nodes that mark the boundary of the area. **Place the starting node on one of the corners of the playground.**",
                 "place": "Draw the area by placing more nodes. Finish the area by clicking on the starting node. **Draw an area for the playground.**",
                 "search": "**Search for Playground.**",
-                "choose": "**Choose Playground from the grid.**",
+                "choose": "**Choose Playground from the list.**",
                 "describe": "**Add a name, and close the feature editor**"
             },
             "lines": {
+                "title": "Lines",
                 "add": "Lines are used to represent features such as roads, railways and rivers. **Click the Line button to add a new line.**",
                 "start": "**Start the line by clicking on the end of the road.**",
                 "intersect": "Click to add more nodes to the line. You can drag the map while drawing if necessary. Roads, and many other types of lines, are part of a larger network. It is important for these lines to be connected properly in order for routing applications to work. **Click on Flower Street, to create an intersection connecting the two lines.**",
                 "finish": "Lines can be finished by clicking on the last node again. **Finish drawing the road.**",
-                "road": "**Select Road from the grid**",
+                "road": "**Select Road from the list**",
                 "residential": "There are different types of roads, the most common of which is Residential. **Choose the Residential road type**",
                 "describe": "**Name the road and close the feature editor.**",
                 "restart": "The road needs to intersect Flower Street."
             },
             "startediting": {
+                "title": "Start Editing",
                 "help": "More documentation and this walkthrough are available here.",
                 "save": "Don't forget to regularly save your changes!",
                 "start": "Start mapping!"
@@ -47102,6 +47347,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "amenity": {
                     "name": "Amenity",
+                    "terms": ""
+                },
+                "amenity/atm": {
+                    "name": "ATM",
                     "terms": ""
                 },
                 "amenity/bank": {
@@ -47646,7 +47895,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "leisure/playground": {
                     "name": "Playground",
-                    "terms": ""
+                    "terms": "jungle gym,play area"
                 },
                 "leisure/slipway": {
                     "name": "Slipway",
