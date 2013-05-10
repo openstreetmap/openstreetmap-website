@@ -66,13 +66,7 @@ class TraceController < ApplicationController
     end
 
     if params[:tag]
-      @tag = params[:tag]
-
-      files = Tracetag.where(:tag => params[:tag]).select(:gpx_id).all
-
-      if files.length > 0
-        @traces = @traces.where(:id => files.collect { |tt| tt.gpx_id })
-      end
+      @traces = @traces.tagged(params[:tag])
     end
 
     @page = (params[:page] || 1).to_i
@@ -222,7 +216,7 @@ class TraceController < ApplicationController
     end
 
     if params[:tag]
-      traces = traces.where("EXISTS (SELECT * FROM gpx_file_tags AS gft WHERE gft.gpx_id = gpx_files.id AND gft.tag = ?)", params[:tag])
+      traces = traces.tagged(params[:tag])
     end
 
     traces = traces.order("timestamp DESC")
