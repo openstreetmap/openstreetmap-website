@@ -120,9 +120,9 @@ class UserPreferenceControllerTest < ActionController::TestCase
       content "<osm><preferences><preference k='key' v='value'/><preference k='key' v='newer_value'/></preferences></osm>"
       put :update
     end
-    assert_response :not_acceptable
+    assert_response :bad_request
     assert_equal "text/plain", @response.content_type
-    assert_equal "OH NOES! CAN HAS UNIQUE KEYS?", @response.body
+    assert_equal "Duplicate preferences with key key", @response.body
     assert_equal "new_value", UserPreference.find(1, "key").v
 
     # try a put with invalid content
