@@ -46,9 +46,12 @@ $(document).ready(function () {
     }
   });
 
-  map.on("popupopen", function (e) {
-    $(e.popup._container).find(".comment").focus();
-  });
+  // Don't focus the text area on touch devices to avoid flashing the keyboard
+  if (!('ontouchstart' in document.documentElement)) {
+    map.on("popupopen", function (e) {
+      $(e.popup._container).find(".comment").focus();
+    });
+  }
 
   map.on("popupclose", function (e) {
     if (newNote && e.popup == newNote._popup) {
