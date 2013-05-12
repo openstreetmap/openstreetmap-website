@@ -389,11 +389,14 @@ ko:
       user_title: "%{user} 일지"
   editor: 
     default: 기본값(현재 %{name})
+    id: 
+      description: iD(브라우저 내 편집기)
+      name: iD
     potlatch: 
-      description: Potlatch 1(브라우저 편집기)
+      description: Potlatch 1(브라우저 내 편집기)
       name: Potlatch 1
     potlatch2: 
-      description: Potlatch 2(브라우저 편집기)
+      description: Potlatch 2(브라우저 내 편집기)
       name: Potlatch 2
     remote: 
       description: 원격 제어(JOSM 또는 Merkaartor)
@@ -1132,6 +1135,15 @@ ko:
     sent_message_summary: 
       delete_button: 삭제
   note: 
+    description: 
+      closed_at_by_html: "%{user} 사용자가 %{when} 전에 해결함"
+      closed_at_html: "%{when} 전에 해결함"
+      commented_at_by_html: "%{user} 사용자가 %{when} 전에 바꿈"
+      commented_at_html: "%{when} 전에 바꿈"
+      opened_at_by_html: "%{user} 사용자가 %{when} 전에 만듦"
+      opened_at_html: "%{when} 전에 만듦"
+      reopened_at_by_html: "%{user} 사용자가 %{when} 전에 다시 활성화함"
+      reopened_at_html: "%{when} 전에 다시 활성화함"
     entry: 
       comment: 덧글
       full: 전체 참고
@@ -1167,6 +1179,7 @@ ko:
     email_confirm_plain: 
       click_the_link: 만약 당신이라면 바뀜을 확인하기 위해 아래 링크를 클릭하세요.
       greeting: 안녕하세요,
+      hopefully_you: 누군가가 아마 자신이 %{server_url} 에 %{new_address} 로 이메일 주소를 바꾸고 싶습니다.
     friend_notification: 
       befriend_them: 또한 %{befriendurl}에서 친구로 추가할 수 있습니다.
       had_added_you: "%{user} 님이 당신을 OpenStreetMap 친구로 추가하였습니다."
@@ -1195,6 +1208,7 @@ ko:
     lost_password_plain: 
       click_the_link: 만약 당신이라면 비밀번호를 재설정하기 위해 아래 링크를 클릭하세요.
       greeting: 안녕하세요,
+      hopefully_you: 누군가가 아마 자신이 이 이메일 계정의 openstreetmap.org 계정에서 재설정할 비밀번호를 요청했습니다.
     message_notification: 
       footer1: "%{readurl} 에서도 쪽지를 확인할 수 있습니다."
       footer2: "%{replyurl} 에서 답장하실 수 있습니다."
@@ -1202,6 +1216,16 @@ ko:
       hi: "%{to_user}님 안녕하세요."
     note_comment_notification: 
       anonymous: 익명 사용자
+      closed: 
+        commented_note: "%{commenter} 사용자가 당신이 덧글을 남긴 지도 참고를 해결했습니다. 참고는 %{place} 근처에 있습니다."
+        subject_other: "[OpenStreetMap] %{commenter} 사용자가 당신이 관심 있는 참고를 해결했습니다"
+        subject_own: "[OpenStreetMap] %{commenter} 사용자가 당신의 참고 중 하나를 해결했습니다"
+        your_note: "%{commenter} 사용자가 %{place} 근처의 당신의 지도 참고 중 하나를 해결했습니다."
+      commented: 
+        commented_note: "%{commenter} 사용자가 당신이 덧글을 남긴 지도 참고에 덧글을 남겼습니다. 참고는 %{place} 근처에 있습니다."
+        subject_other: "[OpenStreetMap] %{commenter} 사용자가 당신이 관심 있는 참고에 덧글을 남겼습니다"
+        subject_own: "[OpenStreetMap] %{commenter} 사용자가 당신의 참고에 덧글을 남겼습니다"
+        your_note: "%{commenter} 사용자가 %{place} 근처의 당신의 지도에 덧글을 남겼습니다."
       details: 참고에 대한 자세한 사항은 %{url} 에서 찾을 수 있습니다.
       greeting: 안녕하세요,
     signup_confirm: 
@@ -1337,6 +1361,7 @@ ko:
     edit: 
       anon_edits_link_text: 왜 이러한지 알아보세요.
       flash_player_required: OpenStreetMap 플래시 편집기인 Potlatch를 사용하려면 플래시 플래이어가 필요합니다. <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Adobe.com에서 플래시 플레이어를 다운로드</a>할 수 있습니다. <a href="http://wiki.openstreetmap.org/wiki/Editing">몇 가지 다른 설정</a> 또한 OpenStreetMap 편집을 위해 사용할 수 있습니다.
+      id_not_configured: iD가 설정되지 않았습니다
       no_iframe_support: 브라우저가 이 기능에 필요한 HTML iframe을 지원하지 않습니다.
       not_public: 공개할 편집을 설정하지 않았습니다.
       not_public_description: 이렇게 하지 않으면 더 이상 지도를 편집할 수 없습니다. %{user_page}에서 공개로 편집을 설정할 수 있습니다.
@@ -1516,7 +1541,9 @@ ko:
     trace_header: 
       see_all_traces: 모든 추적 보기
       see_your_traces: 내 추적 보기
-      traces_waiting: 올리기를 기다리는 추적 %{count}개가 있습니다. 이 올리기가 완료될 때까지 기다리세요. 다른 사용자의 올리기가 제한되어 버립니다.
+      traces_waiting: 
+        one: 올리기를 기다리는 추적 %{count}개가 있습니다. 이 올리기가 완료될 때까지 기다리는 것을 고려하세요. 다른 사용자의 올리기가 제한되어 버립니다.
+        other: 올리기를 기다리는 추적 %{count}개가 있습니다. 이 올리기가 완료될 때까지 기다리는 것을 고려하세요. 다른 사용자의 올리기가 제한되어 버립니다.
       upload_trace: 추적 올리기
     trace_optionals: 
       tags: 태그

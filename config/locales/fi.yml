@@ -135,11 +135,13 @@ fi:
       edit: 
         area: Muokkaa aluetta
         node: Muokkaa pistettä
+        note: Muokkaa karttailmoitusta
         relation: Muokkaa relaatiota
         way: Muokkaa polkua
       larger: 
         area: Näytä alue suurella kartalla
         node: Näytä piste suurella kartalla
+        note: Näytä karttailmoitus isolla kartalla
         relation: Näytä relaatio suurella kartalla
         way: Näytä polku suurella kartalla
       loading: Ladataan…
@@ -147,10 +149,12 @@ fi:
       all: 
         next_changeset_tooltip: Seuraava muutoskokoelma
         next_node_tooltip: Seuraava piste
+        next_note_tooltip: Seuraava karttailmoitus
         next_relation_tooltip: Seuraava relaatio
         next_way_tooltip: Seuraava viiva
         prev_changeset_tooltip: Edellinen muutoskokoelma
         prev_node_tooltip: Edellinen piste
+        prev_note_tooltip: Edellinen karttailmoitus
         prev_relation_tooltip: Edellinen relaatio
         prev_way_tooltip: Edellinen viiva
       user: 
@@ -178,6 +182,14 @@ fi:
         node: Pistettä
         relation: Relaatiota
         way: Polkua
+    note: 
+      at_html: "%{when} sitten"
+      closed: "Ratkaistu:"
+      comments: "Kommentit:"
+      description: "Kuvaus:"
+      last_modified: "Muokattu viimeksi:"
+      open_title: "Ratkaisematon karttailmoitus: %{note_name}"
+      opened: "Lähetetty:"
     paging_nav: 
       of: " /"
       showing_page: sivu
@@ -218,6 +230,7 @@ fi:
       loaded_an_area_with_num_features: Olet ladannut alueen, joka sisältää %{num_features} osiota. Yleensä jotkin selaimet eivät kykene näyttämään tätä määrää dataa. Yleisesti selaimet toimivat parhaiten näyttäessään alle %{max_features} kohdetta kerrallaan. Muussa tapauksessa selain saattaa tulla hitaaksi tai lakata toimimasta kokonaan. Jos olet varma että haluat näyttää tämän datan, voit tehdä niin napsauttamalla alla olevaa painiketta.
       loading: Ladataan tietoja...
       manually_select: Rajaa pienempi alue käsin
+      notes_layer_name: Selaa karttailmoituksia
       object_list: 
         api: Hae tämä alue APIsta
         back: Takaisin objektilistaan
@@ -389,11 +402,14 @@ fi:
       user_title: Käyttäjän %{user} päiväkirja
   editor: 
     default: Oletus (tällä hetkellä %{name})
+    id: 
+      description: iD (selainkäyttöinen muokkain)
+      name: iD
     potlatch: 
-      description: Potlatch 1 (verkkopohjainen kartanmuokkaus)
+      description: Potlatch 1 (selainkäyttöinen muokkain)
       name: Potlatch 1
     potlatch2: 
-      description: Potlatch 2 (verkkopohjainen kartanmuokkaus)
+      description: Potlatch 2 (selainkäyttöinen muokkain)
       name: Potlatch 2
     remote: 
       description: Kauko-ohjaus (JOSM tai Merkaartor)
@@ -932,6 +948,16 @@ fi:
         cycle_map: Pyöräilykartta
         standard: Perinteinen
         transport_map: Joukkoliikenne
+    notes: 
+      new: 
+        add: Lähetä ilmoitus
+        intro: Auta parantamaan karttatietokantaa ilmoittamalla virheistä. Muut kartoittajat näkevät tämän ilmoituksen ja voivat korjata sen, joten valitse sijainti ja kirjoita virheen kuvaus mahdollisimman huolellisesti.
+      show: 
+        comment: Kommentoi
+        comment_and_resolve: Kommentoi + ratkaise
+        hide: Piilota
+        permalink: Ikilinkki
+        resolve: Ratkaise
     site: 
       edit_disabled_tooltip: Aloita kartan muokkaaminen suurentamalla karttaa
       edit_tooltip: Muokkaa karttaa
@@ -1028,6 +1054,7 @@ fi:
       infringement_title_html: Tekijänoikeusloukkaus
       intro_1_html: "OpenStreetMap on <i>avointa dataa</i>, joka on lisensoitu <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data\nCommons Open Database Lisenssillä</a> (ODbL)."
       intro_2_html: "Karttojamme ja tietojamme voi kopioida, levittää, välittää ja mukauttaa, \nkunhan OpenStreetMap ja sen tekijät mainitaan.\nJos muutat tai kehität karttojamme tai tietoja, voit\njakaa teosta vain saman lisenssin nojalla.\n<a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">Legal codessa</a>\nkerrotaan oikeutesi ja velvollisuutesi."
+      intro_3_html: "Kartografia karttatiilissämme ja dokumentaatio on lisensöity <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons Attribution-ShareAlike 2.0</a> lisenssillä. (CC-BY-SA)."
       more_1_html: Lue lisää datan käyttämisestä <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Legal FAQ:sta</a>.
       more_2_html: "Vaikka OpenStreetMap on avointa dataa, emme voi tarjota\nmaksutonta karttarajapintaa (API) kolmannen osapuolen kehittäjille.\n\nKatso <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">APIn käyttösäännöt</a>,\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">karttakuvien käyttösäännöt</a>\n<a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">ja Nominatimin käyttösäännöt</a>."
       more_title_html: Lisätietoja
@@ -1105,6 +1132,12 @@ fi:
       wrong_user: Olet kirjautunut sisään tunnuksella `%{user}' mutta viestiä, johon tahdot vastata, ei ole lähetetty kyseiselle käyttäjälle. Ole hyvä ja kirjaudu sisään oikealla käyttäjätunnuksella vastataksesi.
     sent_message_summary: 
       delete_button: Poista
+  note: 
+    entry: 
+      comment: Kommentti
+      full: Koko karttailmoitus
+    rss: 
+      title: OpenStreetMapin karttailmoitukset
   notifier: 
     diary_comment_notification: 
       footer: Lue kommentti sivulla %{readurl}. Jatkokommentin voi lähettää sivulla %{commenturl} tai vastausviestin sivulla %{replyurl}.
@@ -1120,6 +1153,7 @@ fi:
     email_confirm_plain: 
       click_the_link: Jos tämä olet sinä, napsauta linkkiä alla vahvistaaksesi muutoksen.
       greeting: Hei,
+      hopefully_you: Joku (toivottavasti sinä) haluaa vaihtaa sähköpostiosoitteen palvelimella %{server_url} osoitteeksi %{new_address}
     friend_notification: 
       befriend_them: Voit myös lisätä lähettäjän ystäväksi osoitteessa %{befriendurl}.
       had_added_you: Käyttäjä %{user} lisäsi sinut kaverikseen OpenStreetMapissa.
@@ -1148,11 +1182,26 @@ fi:
     lost_password_plain: 
       click_the_link: Jos tämä olet sinä, napsauta linkkiä alla nollataksesi salasanasi.
       greeting: Hei!
+      hopefully_you: Joku (mahdollisesti sinä) on pyytänyt tähän sähköpostiosoitteeseen rekisteröidyn openstreetmap.org-tunnuksen salasanan vaihtoa.
     message_notification: 
       footer1: Viestin voi lukea myös osoitteessa %{readurl}
       footer2: ja siihen voi vastata osoitteessa %{replyurl}.
       header: "%{from_user} on lähettänyt sinulle viestin OpenStreetMapissa otsikkolla %{subject}:"
       hi: Hei %{to_user}!
+    note_comment_notification: 
+      anonymous: Anonyymi käyttäjä
+      closed: 
+        commented_note: "%{commenter} on selvittänyt merkinnän jota olet kommentoinut. Merkintä on lähellä paikkaa %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} on selvittänyt merkinnän josta olet kiinnostunut"
+        subject_own: "[OpenStreetMap] %{commenter} on selvittänyt yhden merkintäsi"
+        your_note: "%{commenter} on selvittänyt yhden merkintäsi lähellä paikkaa %{place}"
+      commented: 
+        commented_note: "%{commenter} on kommentoinut yhtä kommentoimaasi merkintää. Merkintä on lähellä paikkaa %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} on kommentoinut merkintää josta olet kiinnostunut"
+        subject_own: "[OpenStreetMap] %{commenter} on kommentoinut yhtä merkinnöistäsi"
+        your_note: "%{commenter} on kommentoinut yhtä merkinnöistäsi lähellä paikkaa %{place}."
+      details: Lisää tietoja merkinnästä löytyy osoitteesta %{url}.
+      greeting: Hei!
     signup_confirm: 
       confirm: "Varmista, että tämän käyttäjätunnuksen on luonut sinä. Jos et ole luonut tätä käyttäjätiliä, poista se napsauttamalla tätä linkkiä:"
       created: Joku (toivottavasti sinä) on luonut käyttäjätunnuksen osoitteessa %{site_url}.
@@ -1293,6 +1342,7 @@ fi:
       potlatch_unsaved_changes: Tallentamattomia muutoksia. Tallenna muutokset Potlatchissa poistamalla valinta nykyiseltä karttakohteelta tai napsauta Tallenna-painiketta, jos sellainen on käytössä.
       user_page_link: käyttäjätiedot
     index: 
+      createnote: Ilmoita karttavirheestä
       js_1: Selain ei tue JavaScriptiä tai sen suorittaminen on estetty.
       js_2: OpenStreetMap tarvitsee JavaScriptin liikuteltavaan karttaan.
       license: 
@@ -1464,7 +1514,9 @@ fi:
     trace_header: 
       see_all_traces: Näytä kaikki jäljet
       see_your_traces: Näytä kaikki omat jäljet
-      traces_waiting: Lähettämiäsi jälkiä on jo %{count} käsittelyjonossa odottamassa tallennusta tietokantaan. Olisi huomaavaista jos odottaisit näiden valmistuvan ennen kuin lähetät lisää jälkiä. Näin muidenkin käyttäjien lähettämät jäljet pääsevät aiemmin tietokantaan.
+      traces_waiting: 
+        one: Sinulla on %{count} jälki käsittelyjonossa odottamassa tallennusta tietokantaan. Olisi huomaavaista jos odottaisit näiden valmistuvan ennen kuin lähetät lisää jälkiä. Näin muidenkin käyttäjien lähettämät jäljet pääsevät aiemmin tietokantaan.
+        other: Sinulla on %{count} jälkeä käsittelyjonossa odottamassa tallennusta tietokantaan. Olisi huomaavaista jos odottaisit näiden valmistuvan ennen kuin lähetät lisää jälkiä. Näin muidenkin käyttäjien lähettämät jäljet pääsevät aiemmin tietokantaan.
       upload_trace: Lisää GPS-jälki
     trace_optionals: 
       tags: Tagit
@@ -1665,8 +1717,8 @@ fi:
       nearby mapper: Lähellä oleva kartoittaja
       your location: Oma sijaintisi
     remove_friend: 
-      button: Poista ystävä
-      heading: Poista ystävä %{user}?
+      button: Poista kaveri
+      heading: Poistetaanko kaveri %{user}?
       not_a_friend: "%{name} ei ole enää kaverisi."
       success: "%{name} poistettiin kaverilistastasi."
     reset_password: 
@@ -1719,10 +1771,10 @@ fi:
       diary: päiväkirja
       edits: muokkaukset
       email address: "Sähköpostiosoite:"
-      friends_changesets: Selaa kaikkia ystävien muutoskokoelmia
-      friends_diaries: Selaa kaikkia ystävien päiväkirjamerkintöjä
+      friends_changesets: ystävien muutoskokoelmat
+      friends_diaries: ystävien päiväkirjamerkinnät
       hide_user: piilota käyttäjä
-      if set location: Jos määrittelet sijaintisi, alle ilmestyy nätti kartta. Voit määritellä sijaintisi %{settings_link}.
+      if set location: Määrittelet sijaintisi sivulla %{settings_link} nähdäksesi lähialueen käyttäjiä.
       km away: "%{count} kilometrin päässä"
       latest edit: "Viimeisin muutos %{ago}:"
       m away: "%{count} metrin päässä"
@@ -1731,14 +1783,16 @@ fi:
       my comments: omat kommentit
       my diary: oma päiväkirja
       my edits: omat muokkaukset
+      my notes: omat karttailmoitukset
       my settings: asetukset
       my traces: omat jäljet
       nearby users: Muut lähialueen käyttäjät
-      nearby_changesets: Selaa lähialueen käyttäjien muutoskokoelmia
-      nearby_diaries: Selaa lähialueen käyttäjien päiväkirjamerkintöjä
+      nearby_changesets: lähialueen käyttäjien muutoskokoelmat
+      nearby_diaries: lähialueen käyttäjien päiväkirjamerkinnät
       new diary entry: uusi päiväkirjamerkintä
       no friends: Sinulla ei ole vielä kavereita.
       no nearby users: Valitun sijainnin lähellä ei ole tiedossa muita käyttäjiä.
+      notes: karttailmoitukset
       oauth settings: oauth-asetukset
       remove as friend: poista kavereista
       role: 

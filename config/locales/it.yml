@@ -187,7 +187,7 @@ it:
       at_by_html: "%{when} fa da %{user}"
       at_html: "%{when} fa"
       closed: "Chiusa:"
-      closed_title: "Nota risolta: %{note_name}"
+      closed_title: "Nota chiusa: %{note_name}"
       comments: "Commenti:"
       description: "Descrizione:"
       last_modified: "Modificata per l'ultima volta:"
@@ -233,7 +233,7 @@ it:
       loaded_an_area_with_num_features: "È stata caricata un'area che contiene %{num_features} caratteristiche. In generale, alcuni browser potrebbero non visualizzare correttamente questa quantità di dati. Generalmente i browser lavorano al meglio se si visualizzano meno di %{max_features} caratteristiche alla volta: se si fa qualcos'altro il proprio browser potrebbe diventare lento o non rispondere più. Se si è sicuri di voler visualizzare questi dati, allora si può premere il pulsante sottostante."
       loading: Caricamento in corso...
       manually_select: Seleziona manualmente un'area differente
-      notes_layer_name: Sfoglia le note
+      notes_layer_name: Mostra le note
       object_list: 
         api: Ottieni quest'area dalle API
         back: Ritorna all'elenco degli oggetti
@@ -405,6 +405,9 @@ it:
       user_title: Diario dell'utente %{user}
   editor: 
     default: Predefinito (al momento %{name})
+    id: 
+      description: iD (editor nel browser)
+      name: iD
     potlatch: 
       description: Potlatch 1 (editor nel browser)
       name: Potlatch 1
@@ -953,23 +956,23 @@ it:
         transport_map: Mappa dei trasporti
     notes: 
       new: 
-        add: Aggiungi una nota
+        add: Aggiungi la nota
         intro: Per migliorare la mappa, le informazioni che inserisci vengono mostrate agli altri mappatori. Sei pregato di essere il più possibile preciso e descrittivo nello spostare il puntatore sulla posizione corretta e nell'inserire la nota qui sotto.
       show: 
         anonymous_warning: Questa nota include commenti da parte di utenti anonimi che devono essere verificati in modo indipendente.
-        closed_by: risolta da <a href='%{user_url}'>%{user}</a> alle %{time}
-        closed_by_anonymous: risolta da un utente anonimo il %{time}
+        closed_by: chiusa da <a href='%{user_url}'>%{user}</a> il %{time}
+        closed_by_anonymous: chiusa da un utente anonimo il %{time}
         comment: Commenta
-        comment_and_resolve: Commenta e risolvi
-        commented_by: commento da <a href='%{user_url}'>%{user}</a> alle %{time}
+        comment_and_resolve: Commenta e chiudi
+        commented_by: commento da <a href='%{user_url}'>%{user}</a> il %{time}
         commented_by_anonymous: commento da un utente anonimo il %{time}
         hide: Nascondi
-        opened_by: creata da <a href='%{user_url}'>%{user}</a> alle %{time}
+        opened_by: creata da <a href='%{user_url}'>%{user}</a> il %{time}
         opened_by_anonymous: creata da un utente anonimo il %{time}
         permalink: Link permanente
-        reopened_by: riaperta da <a href='%{user_url}'>%{user}</a> alle %{time}
+        reopened_by: riaperta da <a href='%{user_url}'>%{user}</a> il %{time}
         reopened_by_anonymous: riaperta da un utente anonimo il %{time}
-        resolve: Risolvi
+        resolve: Chiudi
     site: 
       createnote_disabled_tooltip: Ingrandisci la mappa per aggiungere una nota
       createnote_tooltip: Aggiungi una nota sulla mappa
@@ -1148,6 +1151,15 @@ it:
     sent_message_summary: 
       delete_button: Elimina
   note: 
+    description: 
+      closed_at_by_html: Chiusa %{when} fa da %{user}
+      closed_at_html: Chiusa %{when} fa
+      commented_at_by_html: Aggiornata %{when} fa da %{user}
+      commented_at_html: Aggiornata %{when} fa
+      opened_at_by_html: Creata %{when} fa da %{user}
+      opened_at_html: Creata %{when} fa
+      reopened_at_by_html: Riaperta %{when} fa da %{user}
+      reopened_at_html: Riaperta %{when} fa
     entry: 
       comment: Commento
       full: Nota completa
@@ -1183,6 +1195,7 @@ it:
     email_confirm_plain: 
       click_the_link: Se questo sei proprio tu, per favore clicca sul collegamento sottostante per confermare il cambiamento.
       greeting: Ciao,
+      hopefully_you: Qualcuno (si spera proprio tu) vuole modificare il tuo indirizzo di posta elettronica su %{server_url} con il nuovo indirizzo %{new_address}.
     friend_notification: 
       befriend_them: Puoi anche aggiungerli come amici in %{befriendurl}.
       had_added_you: "%{user} ti ha aggiunto come suo amico su OpenStreetMap."
@@ -1211,6 +1224,7 @@ it:
     lost_password_plain: 
       click_the_link: Se sei tu, per favore clicca sul link sotto per resettare la password
       greeting: Ciao,
+      hopefully_you: Qualcuno (probabilmente tu stesso) ha chiesto di resettare la password del profilo utente di openstreetmap.org associato a questo indirizzo di posta elettronica.
     message_notification: 
       footer1: Puoi leggere il messaggio anche su %{readurl}
       footer2: e puoi rispondere a  %{replyurl}
@@ -1218,6 +1232,16 @@ it:
       hi: Ciao %{to_user},
     note_comment_notification: 
       anonymous: Un utente anonimo
+      closed: 
+        commented_note: "%{commenter} ha chiuso una nota sulla mappa da te commentata. La nota è vicina a %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} ha chiuso una nota cui sei interessato"
+        subject_own: "[OpenStreetMap] %{commenter} ha chiuso una delle tue note"
+        your_note: "%{commenter} ha chiuso una delle tue note sulla mappa vicina a %{place}."
+      commented: 
+        commented_note: "%{commenter} ha lasciato un commento su una nota sulla mappa da te commentata. La nota è vicina a %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} ha commentato una delle note cui sei interessato"
+        subject_own: "[OpenStreetMap] %{commenter} ha commentato una delle tue note"
+        your_note: "%{commenter} ha lasciato un commento su una delle tue note sulla mappa vicina a %{place}."
       details: Ulteriori dettagli sulla nota possono essere trovati su %{url}.
       greeting: Ciao,
     signup_confirm: 
@@ -1353,6 +1377,7 @@ it:
     edit: 
       anon_edits_link_text: Leggi il perché.
       flash_player_required: È necessario un visualizzatore Flash per utilizzare Potlatch, il programma Flash per le modifiche di OpenStreetMap. Si può <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">scaricare il Flash Player da Adobe.com</a>. Sono disponibili anche <a href="http://wiki.openstreetmap.org/wiki/Editing">altre possibilità</a> per apportare modifiche a OpenStreetMap.
+      id_not_configured: iD non è stato configurato
       no_iframe_support: Il proprio browser non supporta gli iframe HTML, necessari per questa funzionalità.
       not_public: Non si sono impostate come pubbliche le proprie modifiche.
       not_public_description: Non è possibile modificare la mappa finché non lo si fa. Si possono impostare come pubbliche le proprie modifiche dalla propria %{user_page}.
