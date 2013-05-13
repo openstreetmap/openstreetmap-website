@@ -87,7 +87,10 @@ $(document).ready(function () {
     if (marker)
     {
       marker.setIcon(noteIcons[feature.properties.status]);
-      marker._popup.setContent(createPopupContent(marker, feature.properties));
+      marker._popup.setContent(createPopupContent(
+        marker, feature.properties, 
+        $(marker._popup._content).find("textarea").val()
+      ));
     }
     else
     {
@@ -153,7 +156,7 @@ $(document).ready(function () {
     };
   }
 
-  function createPopupContent(marker, properties) {
+  function createPopupContent(marker, properties, comment) {
     var content = $(JST["templates/notes/show"]({ note: properties }));
 
     content.find("textarea").on("input", function (e) {
@@ -173,6 +176,10 @@ $(document).ready(function () {
       var data = $(e.target).data();
       updateNote(marker, e.target.form, data.method, data.url);
     });
+
+    if (comment) {
+      content.find("textarea").val(comment).trigger("input");
+    }
 
     return content[0];
   }
