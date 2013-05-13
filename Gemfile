@@ -56,6 +56,11 @@ gem 'httpclient'
 # Load memcache in case we are using it
 gem 'memcached', '>= 1.4.1'
 
+# Gems useful for development
+group :development do
+  gem 'vendorer'
+end
+
 # Gems needed for running tests
 group :test do
   gem 'timecop'
