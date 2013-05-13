@@ -1,61 +1,40 @@
-# Description
+# "The Rails Port"
 
-This is the Rails port, the [Ruby on Rails](http://rubyonrails.org/)
-application that powers [OpenStreetMap](http://www.openstreetmap.org).
+This is The Rails Port, the [Ruby on Rails](http://rubyonrails.org/)
+application that powers the [OpenStreetMap](http://www.openstreetmap.org) website and API.
+The software is also known as "openstreetmap-website".
 
-The Rails port provides almost all the services which are available 
-on the OpenStreetMap site, including:
+This repository consists of:
 
-* The web site itself, including the edit pages.
-* The editing [API](http://wiki.openstreetmap.org/wiki/API_v0.6).
-* Browse pages - a web front-end to the OpenStreetMap data.
-* The user system, including preferences, diary entries, friends and
-  user-to-user messaging.
-* GPX uploads, browsing and API.
+* The web site, including user accounts, diary entries, user-to-user messaging
+* The XML-based editing [API](http://wiki.openstreetmap.org/wiki/API_v0.6)
+* The integrated versions of [Potlatch], [Potlatch 2] and [iD]
+* The Browse pages - a web front-end to the OpenStreetMap data
+* The GPX uploads, browsing and API.
 
-There are some non-Rails services which the site includes, for 
-example; tiles, geocoding, GPX file loading. There are also some
-utilities which provide other services on the OpenStreetMap site,
-or improve its function, but are not integrated with the Rails 
-port, for example; Osmosis, CGImap.
+A fully-functional Rails Port installation depends on other services, including map tile
+servers and geocoding services, that are provided by other software. The default installation
+uses publically-available services to help with development and testing.
 
 # License
 
 This software is licensed under the [GNU General Public License 2.0](http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt),
 a copy of which can be found in the LICENSE file.
 
-# Running it
+# Installation
 
-You can find documentation on [how to setup and
-run](http://wiki.openstreetmap.org/wiki/The_Rails_Port) the software
-on the OpenStreetMap wiki.
+The Rails Port is a Ruby on Rails application that uses PostgreSQL as its database, and has a large
+number of dependencies for installation. For full details please see the INSTALL.md
 
-# Hacking it
+# Development
 
-The canonical Git repository for this software is hosted at
-[git.openstreetmap.org](http://git.openstreetmap.org/?p=rails.git),
-but much of the development is done on GitHub and for most people
-[this repository on Github](https://github.com/openstreetmap/openstreetmap-website)
-will be a better place to start.
+We're always keen to have more developers! Pull requests are very welcome.
 
-Anybody hacking on the code is welcome to join the
-[rails-dev](http://lists.openstreetmap.org/listinfo/rails-dev) mailing
-list where other people hacking on the code hang out and will be happy
-to help with any problems you may encounter. If you are looking for a
-project to help out with, please take a look at the list of 
-[Top Ten Tasks](http://wiki.openstreetmap.org/wiki/Top_Ten_Tasks) that
-EWG maintains on the wiki.
+* Bugs are recorded in the [issue tracker](https://github.com/openstreetmap/openstreetmap-website/issues).
+* Some bug reports are also found on the [OpenStreetMap trac] system, in the "website" and "api" components
+* Translation is managed by Translatewiki
+* There is a [rails-dev@openstreetmap.org](http://lists.openstreetmap.org/listinfo/rails-dev) mailing list for development discussion.
+* IRC - there is the #osm-dev channel on irc.oftc.net.
+* There are also weekly meetings of the OpenStreetMap Foundation Engineering Working Group (EWG) on Mondays at 1700 GMT on the #osm-ewg channel.
 
-There are also weekly IRC meetings, at 1800 GMT on Mondays in #osm-ewg on
-the OFTC network where questions can be asked and ideas discussed. For more 
-information, please see [the EWG page]
-(http://www.osmfoundation.org/wiki/Engineering_Working_Group#Meetings). You can
-join the channel using your favourite IRC client or [irc.openstreetmap.org](http://irc.openstreetmap.org/).
-
-## Rails
-
-If you're not already familiar with Ruby on Rails then it's probably
-worth having a look at [Rails Guides](http://guides.rubyonrails.org/) for an introduction.
-
-While working with Rails you will probably find the [API documentation](http://api.rubyonrails.org/)
-helpful as a reference.
+More details on contributing to the code are in the CONTRIBUTING.md file.
