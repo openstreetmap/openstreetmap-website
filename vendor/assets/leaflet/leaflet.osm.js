@@ -88,11 +88,12 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
   buildFeatures: function (xml) {
     var features = [],
       nodes = L.OSM.getNodes(xml),
-      ways = L.OSM.getWays(xml, nodes);
+      ways = L.OSM.getWays(xml, nodes),
+      relations = L.OSM.getRelations(xml, nodes, ways);
 
     for (var node_id in nodes) {
       var node = nodes[node_id];
-      if (this.interestingNode(node, ways)) {
+      if (this.interestingNode(node, ways, relations)) {
         features.push(node);
       }
     }
@@ -119,7 +120,7 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
     return false;
   },
 
-  interestingNode: function (node, ways) {
+  interestingNode: function (node, ways, relations) {
     var used = false;
 
     for (var i = 0; i < ways.length; i++) {
@@ -131,6 +132,11 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
 
     if (!used) {
       return true;
+    }
+
+    for (var i = 0; i < relations.length; i++) {
+      if (relations[i].members.indexOf(node) >= 0)
+        return true;
     }
 
     for (var key in node.tags) {
@@ -182,6 +188,33 @@ L.Util.extend(L.OSM, {
       }
 
       result.push(way_object);
+    }
+
+    return result;
+  },
+
+  getRelations: function (xml, nodes, ways) {
+    var result = [];
+
+    var rels = xml.getElementsByTagName("relation");
+    for (var i = 0; i < rels.length; i++) {
+      var rel = rels[i], members = rel.getElementsByTagName("member");
+
+      var rel_object = {
+        id: rel.getAttribute("id"),
+        type: "relation",
+        members: new Array(members.length),
+        tags: this.getTags(rel)
+      };
+
+      for (var j = 0; j < members.length; j++) {
+        if (members[j].getAttribute("type") === "node")
+          rel_object.members[j] = nodes[members[j].getAttribute("ref")];
+        else // relation-way and relation-relation membership not implemented
+          rel_object.members[j] = null;
+      }
+
+      result.push(rel_object);
     }
 
     return result;
