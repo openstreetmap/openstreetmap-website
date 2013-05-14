@@ -37,28 +37,14 @@ It's advisable to develop on MacOSX by using Ubuntu in a virtual machine. Otherw
 It's advisable to develop on windows by using Ubuntu in a virtual machine. Otherwise it's a world of hurt
 
 
-## Getting the code
-==Getting the OpenStreetMap code==
-Choose a directory to put this code - Rails can run from anywhere on your system.
+## Ruby gems
 
-<pre style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">
-cd <your-base-path-for-source>
+```
 git clone https://github.com/openstreetmap/openstreetmap-website.git
-</pre>
+cd openstreetmap-website
+bundle install
+```
 
-For information on how to committing changes to the Rails Port, see [[Committing to the rails port]].
-
-Rails uses a preconfigured directory structure.  Notable directories are:
-
-:<tt>app/</tt> - The application source code:
-:<tt>app/controllers</tt> - The Controllers
-:<tt>app/models</tt> - The Models
-:<tt>app/views</tt> - The Views - if you just want to work on the look and feel, this is the place to start
-:<tt>db/</tt>  - Contains migrations and SQL to create databases (not the actual database)
-:<tt>config/</tt> - Application configuration files
-:<tt>lib/</tt> - OSM Rails specific libraries
-:<tt>log/</tt> - Log files, the directory in svn should be empty
-:<tt>test/</tt> - The Tests (very useful for determining if you have the rails environment and database setup correctly)
 
 ==Initial OSM database setup==
 
@@ -153,25 +139,6 @@ UPDATE pg_proc SET probin='/<your new path info>/openstreetmap-website/db/functi
 </pre>
 
 ==Install Rails Port gems==
-
-===Gems (libraries)===
-
-When you have the dependencies and RubyGems installed, you need to install Bundler. ''Execute as root (sudo on Ubuntu/OS X)''.
-
- cd /<your path info>/openstreetmap-website/
- sudo gem install bundler
-
-Now bundler can take care of the rest of the gem (''Execute as root''):
-
- bundle install
-
-After this, you'll see a long list of gems being installed.
-
-'''Note:''' At the top of the install list, you may see an error like this:
-
- Error Bundler::HTTPError during request to dependency API
-
-It's not a problem & is related to the RubyGems support site. You can check this status at: http://status.rubygems.org/
 
 ==Managed Vendor Files (libraries)==
 
