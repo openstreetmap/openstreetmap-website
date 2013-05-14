@@ -193,10 +193,6 @@ The database is now configured and you are ready to roll with rails. Rails comes
  # cd /<your path>/openstreetmap-website/
  # rails server
 
-'''Troubleshooting Firing Up Rails'''
-
-* If you get an error message about uninitialized constant RLIMIT_AS, comment out line 2 of sites/rails_port/config/initializers/limits.rb .
-
 ===Viewing the website===
 
 In your favourite web-browser, go to:
