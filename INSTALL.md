@@ -9,9 +9,6 @@ Many of the dependencies are managed through the standard Ruby on Rails mechanis
 i.e. ruby gems specified in the Gemfile and installed using bundler. However, there are a large number
 of packages required to get the various gems installed.
 
-
-# TODO Magick::Foo in lib/gpx.rb
-
 ## Minimum requirements
 
 * Ruby 1.8.7 or 1.9.3
@@ -20,21 +17,27 @@ of packages required to get the various gems installed.
 * ImageMagick
 * Bundler
 
-Everything else will be installed as RubyGems using Bundler.
+### Ubuntu (10.10 or later)
 
-===Platform-specific instructions===
+`sudo apt-get install ruby libruby ruby-dev rdoc ri libmagickwand-dev libxml2-dev libxslt1-dev apache2 apache2-threaded-dev build-essential git-core postgresql postgresql-contrib libpq-dev libsasl2-dev openjdk-6-jre postgresql-server-dev-9.1`
 
-'''Note:''' Follow these instructions for installing dependencies '''before''' proceeding through the rest of the Rails Port installation process.
+TODO - check or remove the postgresql-server-dev-9.1 mention that's on the wiki - it doesn't apply to all ubuntus, and is it needed?
+TODO - remove osmosis related instructions in favour of people going reading osmosis stuff on the osmosis wiki pages
 
-* [[Rails port/Debian]]
-* [[Rails port/Fedora]] - Fedora 10 to be exact
-* [[Rails port/Gentoo]]
-* [[Rails port/Ubuntu]]
-* [[Rails port/OS X]]
-* [[Rails port/SME Server]]
-* [[Rails port/Windows]]
-* FreeBSD - [[User:S-s-s_wiki/Creating_a_local_OSM_server_under_FreeBSD]]
+### Fedora
 
+TODO
+
+### MacOSX
+
+It's advisable to develop on MacOSX by using Ubuntu in a virtual machine. Otherwise ImageMagick will eat your soul.
+
+### Windows
+
+It's advisable to develop on windows by using Ubuntu in a virtual machine. Otherwise it's a world of hurt
+
+
+## Getting the code
 ==Getting the OpenStreetMap code==
 Choose a directory to put this code - Rails can run from anywhere on your system.
 
