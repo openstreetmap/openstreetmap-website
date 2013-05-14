@@ -19,8 +19,6 @@ of packages required to get the various gems installed.
 * Postgres 8.3+
 * ImageMagick
 * Bundler
-* [[Osmosis]]
-* [https://github.com/grosser/vendorer vendorer] (optional)
 
 Everything else will be installed as RubyGems using Bundler.
 
