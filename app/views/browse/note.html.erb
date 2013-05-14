@@ -51,17 +51,9 @@
   </div>
 
   <% if @note.comments.length > 1 %>
-    <div class='browse-section clearfix'>
-      <h4><%= t "browse.note.comments" %></h4>
-      <ul>
-        <% @note.comments[1..-1].each do |comment| %>
-          <li id="c<%= comment.id %>">
-            <%= comment.body.to_html %>
-            <small class="deemphasize"><%= note_event(comment.created_at, comment.author) %></small>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+  <div class='browse-section clearfix'>
+  <% else %>
+  <div class='browse-section clearfix hidden'>
   <% end %>
     <h4><%= t "browse.note.comments" %></h4>
     <ul>
