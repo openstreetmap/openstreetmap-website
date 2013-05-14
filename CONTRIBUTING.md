@@ -1,3 +1,6 @@
+* http://www.ruby-lang.org/ - The homepage of Ruby which has more links and some great tutorials.
+* http://rubyonrails.org/ - The homepage of Rails, also has links and tutorials
+
 ## Coding style
 
 When writing code it is generally a good idea to try and match your

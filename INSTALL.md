@@ -1,31 +1,26 @@
-'''The Rails port''' is the current production version of OSM's server code - [[API]], [[web front end]] and everything that runs on www.openstreetmap.org.
+# Installation
 
-Before attempting to install '''The Rails Port''' be sure to review the complete list of [[Develop#Main_Projects|OSM software]] components, in order to understand the role played by the Rails Port. For example, many of the features used by www.openstreetmap.org do not actually run on www.openstreetmap.org, but are still required for the full OSM experience. These other applications include the tile server (http://switch2osm.org/serving-tiles/, [[Ubuntu_tile_server]]) and a geocoder ([[Nominatim]]).
+These instructions are designed for setting up The Rails Port for development and testing.
+If you want to deploy the software for your own project, then see the notes at the end.
 
-If you have a Unix-like system (Linux, Mac OS X or a BSD) then you can install the Rails Port on your own machine, so that you can make and test improvements to the code locally, then commit them to the OSM server. (This is not currently trivial for Windows users.) The term "port" in the name is a legacy of when the OSM code was originally migrated to Rails. The port is complete, but the name has remained.
+## Dependencies
 
-It is not recommended to set up local copies of The Rails Port for local data editing due to the complexity of later merging the dataset back into the main OSM database. For personal use, it is possible to use an offline editor such as [[JOSM]] or [[Merkaartor]] to do off-line editing to be saved to a .osm file. This can then be used with other OSM tools, such as [[Mapnik]], and later imported to the main database if required.
+Many of the dependencies are managed through the standard Ruby on Rails mechanisms -
+i.e. ruby gems specified in the Gemfile and installed using bundler. However, there are a large number
+of packages required to get the various gems installed.
 
-See [[Rails port/Development]] for tips on how to contribute your improvements back to the project, and [[Rails port/UI]] for style-specific instructions after you've set up the code and want to start hacking on styles.
 
-==Ruby on Rails==
+# TODO Magick::Foo in lib/gpx.rb
 
-Ruby on Rails is a web development framework, written in Ruby.  It is intended to make developing database driven web-based applications faster and more productive. You should have some familiarity with Ruby and Model-View-Controller architectures before you start hacking on the OSM Rails port. Here are some resources that might help you:
-* http://www.ruby-lang.org/ - The homepage of Ruby which has more links and some great tutorials.
-* http://rubyonrails.org/ - The homepage of Rails, also has links and tutorials
+## Minimum requirements
 
-==Installing Rails==
-
-===Prerequisites/Dependencies===
-
-The dependencies aren't particularly stretching for any linux distribution, and are roughly:
-*Ruby 1.8.7 or 1.9.3
-*RubyGems 1.3.1+
-*Postgres 8.3+
-*ImageMagick
-*Bundler
-*[[Osmosis]]
-*[https://github.com/grosser/vendorer vendorer] (optional)
+* Ruby 1.8.7 or 1.9.3
+* RubyGems 1.3.1+
+* Postgres 8.3+
+* ImageMagick
+* Bundler
+* [[Osmosis]]
+* [https://github.com/grosser/vendorer vendorer] (optional)
 
 Everything else will be installed as RubyGems using Bundler.
 
@@ -473,3 +468,7 @@ Rails-dev OSM maillist: http://lists.openstreetmap.org/listinfo/rails-dev
 [[Category:Ruby|Rails Port]]
 [[Category:Map API Server|Rails Port]]
 [[Category:Software|Rails Port]]
+
+# Production Deployment
+
+Write some notes here about passenger, CGIMap and the GPX importer.
