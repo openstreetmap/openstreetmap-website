@@ -63,9 +63,19 @@
       </ul>
     </div>
   <% end %>
+    <h4><%= t "browse.note.comments" %></h4>
+    <ul>
+      <% @note.comments[1..-1].each do |comment| %>
+        <li>
+          <%= comment.body.to_html %>
+          <small class="deemphasize"><%= note_event(comment.created_at, comment.author) %></small>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 
   <% unless @note.closed? %>
-  <div class='browse-section'>
+  <div class='browse-section clearfix'>
     <h4 id="newcomment"><%= t 'browse.note.leave_a_comment' %></h4>
 
     <p>
