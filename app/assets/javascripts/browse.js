@@ -76,7 +76,7 @@ $(document).ready(function () {
           $(".browse-section").removeClass('hidden');
           $("textarea.comment").val("");
           var last_comment = feature.properties.comments.pop();
-          $(".browse-section ul").append("<li>"+last_comment.text+"<small class='deemphasize'>Just now</small></li>");
+          $(".browse-section ul").append("<li>"+last_comment.html+"<small class='deemphasize'>Just now</small></li>");
         }
       });
     });
