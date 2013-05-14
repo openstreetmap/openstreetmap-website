@@ -2,6 +2,7 @@ class BrowseController < ApplicationController
   layout 'site', :except => [ :start ]
 
   before_filter :authorize_web  
+  before_filter :require_oauth, :only => [:note]
   before_filter :set_locale 
   before_filter { |c| c.check_database_readable(true) }
   around_filter :web_timeout, :except => [:start]
