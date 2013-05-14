@@ -142,7 +142,7 @@ function addObjectToMap(object, zoom, callback) {
     url: OSM.apiUrl(object),
     dataType: "xml",
     success: function (xml) {
-      objectLayer = new L.OSM.DataLayer(xml, {
+      objectLayer = new L.OSM.DataLayer(null, {
         style: {
           strokeColor: "blue",
           strokeWidth: 3,
@@ -152,6 +152,20 @@ function addObjectToMap(object, zoom, callback) {
           pointRadius: 6
         }
       });
+
+      objectLayer.interestingNode = function (node, ways, relations) {
+        if (object.type === "node") {
+          return true;
+        } else if (object.type === "relation") {
+          for (var i = 0; i < relations.length; i++)
+            if (relations[i].members.indexOf(node) != -1)
+              return true;
+        } else {
+          return false;
+        }
+      };
+
+      objectLayer.addData(xml);
 
       var bounds = objectLayer.getBounds();
 
