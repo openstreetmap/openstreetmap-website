@@ -39,48 +39,48 @@ It's advisable to develop on windows by using Ubuntu in a virtual machine. Other
 
 ## Ruby gems
 
+We use [Bundle](http://gembundler.com/) to manage the rubygems required for the project.
+
 ```
 git clone https://github.com/openstreetmap/openstreetmap-website.git
 cd openstreetmap-website
 bundle install
 ```
 
+## Application setup
 
-==Initial OSM database setup==
+We need to create the `config/application.yml` file from the example template. This contains various configuration options.
 
-Currently the main API server runs on a PostgreSQL (aka postgres aka pgsql) backend. Before API 0.6 it used a mysql backend.
-
-===application.yml & database.yml configuration===
-
-If you want to do any work on the rails port, you'll need to have databases available. Rails uses three databases - one for development, one for testing, and one for production. The configuration for these databases, config/database.yml '''does not exist by default.''' You can create config/database.yml by copying config/example.database.yml.
-
-'''NOTE:''' If you want to customize your installation of the rails port, you may want to review the existing example.application.yml file before copying it.
-
-<pre style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">
-cd /<your path info>/openstreetmap-website/
+```
 cp config/example.application.yml config/application.yml
+```
+
+You can customize your installation of The Rails Port by changing the values in `config/application.yml`
+
+## Database setup
+
+The Rails Port uses three databases -  one for development, one for testing, and one for production. The database-specific configuration
+options are stored in `config/database.yml`, which we need to create from the example template.
+
+```
 cp config/example.database.yml config/database.yml
-</pre>
+```
 
-Review '''config/database.yml''' and edit it to match the passwords you'd like to use in the next section. It is ok to use the same username and password for each of the three environments defined in config/database.yml, for example:
+PostgreSQL is configured to, by default, accept local connections without requiring a username or password. This is fine for development.
+If you wish to set up your database differently, then you should change the values found in the `config/database.yml` file, and amend the
+instructions below as appropriate.
 
-<pre style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">
-app-path% vi config/database.yml
+### PostgreSQL account setup
 
-username: openstreetmap
-password: openstreetmap
-</pre>
+We need to create a PostgreSQL role (i.e. user account) for your current user, and it needs to be a superuser so that we can create more database.
 
-===PostgreSQL setup===
-
-Setting up a PostgreSQL user account with the same name as your username will help reduce steps required during installation. Be sure to answer "yes" when prompted whether to make the new account a superuser.
-
-<pre style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">
+```
 sudo -u postgres -i
-createuser <username>
-createdb -E UTF8 -O <username> <username>
+createuser -s <username>
 exit
-</pre>
+```
+
+TODO: Ditch all this, use rake db:create
 
 Now, create the openstreetmap user for the postgres database, using the username and password you put into the configuration files in the prior step. Note that you will be prompted to set the password for the openstreetmap user.
 
