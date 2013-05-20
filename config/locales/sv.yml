@@ -122,13 +122,13 @@ sv:
         one: "Innehåller följande nod:"
         other: "Innehåller följande %{count} noder:"
       has_relations: 
-        one: "Har följande %{count} relationer:"
+        one: "Innehåller följande %{count} relation:"
         other: "Innehåller följande %{count} relationer:"
       has_ways: 
         one: "Har följande %{count} sträcka:"
         other: "Innehåller följande %{count} sträckor:"
-      no_bounding_box: Inga yttre gränser (bounding box) lagrades för detta ändringsset.
-      show_area_box: Visa boxarea
+      no_bounding_box: Inget omslutande område lagrades för detta ändringsset.
+      show_area_box: Visa areabox
     common_details: 
       changeset_comment: "Kommentar:"
       deleted_at: "Raderad:"
@@ -186,7 +186,7 @@ sv:
       node_history_title: "Nodhistorik: %{node_name}"
       view_details: Visa detaljer
     not_found: 
-      sorry: "%{type}en med id %{id} kunde inte hittas"
+      sorry: Tyvärr kunde inte %{type} med id %{id} hittas.
       type: 
         changeset: ändringsset
         node: nod
@@ -414,6 +414,9 @@ sv:
       user_title: Dagbok för %{user}
   editor: 
     default: Standard (för närvarande %{name})
+    id: 
+      description: iD (webbläsarredigeraren)
+      name: iD
     potlatch: 
       description: Potlatch 1 (redigera i webläsaren)
       name: Potlatch 1
@@ -1158,6 +1161,15 @@ sv:
     sent_message_summary: 
       delete_button: Radera
   note: 
+    description: 
+      closed_at_by_html: Löstes för %{when} sedan av %{user}
+      closed_at_html: Löstes för %{when} sedan
+      commented_at_by_html: Uppdaterades för %{when} sedan av %{user}
+      commented_at_html: Uppdaterades för %{when} sedan
+      opened_at_by_html: Skapades för %{when} sedan av %{user}
+      opened_at_html: Skapades för %{when} sedan
+      reopened_at_by_html: Återaktiverades för %{when} sedan av %{user}
+      reopened_at_html: Återaktiverades för %{when} sedan
     entry: 
       comment: Kommentar
       full: Hela anteckningen
@@ -1193,6 +1205,7 @@ sv:
     email_confirm_plain: 
       click_the_link: Om det är du, klicka på länken nedan för att bekräfta ändringen.
       greeting: Hej,
+      hopefully_you: Någon (förhoppningsvis du själv) vill ändra sin e-postadress på %{server_url} till %{new_address}.
     friend_notification: 
       befriend_them: Du kan också lägga till dem som en vän på %{befriendurl}.
       had_added_you: "%{user} har lagt till dig som vän på OpenStreetMap."
@@ -1221,6 +1234,7 @@ sv:
     lost_password_plain: 
       click_the_link: Om det är du, klicka på länken nedan för att återställa ditt lösenord.
       greeting: Hej,
+      hopefully_you: Någon (kanske du själv) har begärt återställning av lösenordet på denna e-postadress opeenstreetmap.org-konto.
     message_notification: 
       footer1: Du kan också läsa meddelandet på %{readurl}
       footer2: och du kan svara på %{replyurl}
@@ -1228,6 +1242,16 @@ sv:
       hi: Hej %{to_user},
     note_comment_notification: 
       anonymous: En anonym användare
+      closed: 
+        commented_note: "% {commenter} har löst en kartanteckning du har kommenterat. Anteckningen är nära %{plats}."
+        subject_other: "[OpenStreetMap] %{commenter} har löst en anteckning som du är intresserad av"
+        subject_own: "[OpenStreetMap] %{commenter} har kommenterat en av dina anteckningar"
+        your_note: "%{commenter} har kommenterat en av dina kartanteckningar i närheten av %{place}."
+      commented: 
+        commented_note: "%{commenter} har kommenterat en kartanteckning som du tidigare kommenterat. Anteckningen är i närheten av %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} har kommenterat en anteckning du är intresserad av"
+        subject_own: "[OpenStreetMap] %{commenter} har kommenterat en av dina anteckningar"
+        your_note: "%{commenter} har kommenterat en av dina kartanteckningar i närheten av %{place}."
       details: Mer detaljer om anteckningen finns på %{url}.
       greeting: Hej,
     signup_confirm: 
@@ -1363,6 +1387,7 @@ sv:
     edit: 
       anon_edits_link_text: Ta reda på varför det är så.
       flash_player_required: Du måste ha Flash Player för att kunna använda Potlatch, OpenStreetMaps flasheditor. Du kan <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">ladda hem Flash Player från Adobe.com</a>. Det finns också <a href="http://wiki.openstreetmap.org/wiki/Editing">flera andra editorer</a> tillgängliga för OpenStreetMap.
+      id_not_configured: iD har inte konfigurerats
       no_iframe_support: Din webbläsare stöder inte HTML iframe, som är nödvändig för den här funktionen.
       not_public: Du har inte satt statusen på dina redigeringar som offentliga.
       not_public_description: Du kan inte längre redigera kartan om du inte gör det. Du kan göra dina redigeringar offentliga från din %{user_page}.
@@ -1542,7 +1567,9 @@ sv:
     trace_header: 
       see_all_traces: Se alla GPS-spår
       see_your_traces: Visa alla dina spår
-      traces_waiting: Du har %{count} GPS-spår som laddas upp. Det är en bra idé att låta dessa bli klara innan du laddar upp fler, så att du inte blockerar uppladdningskön för andra användare.
+      traces_waiting: 
+        one: Du har %{count} GPS-spår som håller på att laddas upp. Vänta gärna på att dessa blir klara innan du laddar upp fler, så att du inte blockerar kön för andra användare.
+        other: Du har %{count} GPS-spår som håller på att laddas upp. Vänta gärna på att detta blir klart innan du laddar upp fler, så att du inte blockerar kön för andra användare.
       upload_trace: Ladda upp GPS-spår
     trace_optionals: 
       tags: Taggar
