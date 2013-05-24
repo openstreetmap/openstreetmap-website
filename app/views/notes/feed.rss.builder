@@ -22,8 +22,8 @@ xml.rss("version" => "2.0",
           xml.title "unknown event"
         end
         
-        xml.link url_for(:controller => "browse", :action => "note", :id => comment.note.id, :only_path => false)
-        xml.guid url_for(:controller => "browse", :action => "note", :id => comment.note.id, :only_path => false)
+        xml.link url_for(:controller => "browse", :action => "note", :id => comment.note.id, :anchor => "c#{comment.id}", :only_path => false)
+        xml.guid url_for(:controller => "browse", :action => "note", :id => comment.note.id, :anchor => "c#{comment.id}", :only_path => false)
 
         xml.description do
           xml.cdata! render(:partial => "entry", :object => comment, :formats => [ :html ])
