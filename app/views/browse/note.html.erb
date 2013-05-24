@@ -39,7 +39,7 @@
       </div>  
     <% end %>
 
-    <div>
+    <div id="c<%= @note.comments.first.id %>">
       <h4><%= t "browse.note.description" %></h4>
       <p><%= h(@note.comments.first.body) %></p>
     </div>
@@ -55,7 +55,7 @@
       <h4><%= t "browse.note.comments" %></h4>
       <ul>
         <% @note.comments[1..-1].each do |comment| %>
-          <li>
+          <li id="c<%= comment.id %>">
             <%= comment.body.to_html %>
             <small class="deemphasize"><%= note_event(comment.created_at, comment.author) %></small>
           </li>
