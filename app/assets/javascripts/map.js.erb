@@ -49,41 +49,44 @@ L.extend(L.Bounds.prototype, {
 L.Icon.Default.imagePath = <%= "#{asset_prefix}/images".to_json %>;
 
 var map;
+var layers;
 var objectLayer;
 var objectLoader;
 
-var layers = [
-  {
-    klass: L.OSM.Mapnik,
-    attribution: "",
-    keyid: "mapnik",
-    layerCode: "M",
-    name: I18n.t("javascripts.map.base.standard")
-  },
-  {
-    klass: L.OSM.CycleMap,
-    attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-    keyid: "cyclemap",
-    layerCode: "C",
-    name: I18n.t("javascripts.map.base.cycle_map")
-  },
-  {
-    klass: L.OSM.TransportMap,
-    attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-    keyid: "transportmap",
-    layerCode: "T",
-    name: I18n.t("javascripts.map.base.transport_map")
-  },
-  {
-    klass: L.OSM.MapQuestOpen,
-    attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
-    keyid: "mapquest",
-    layerCode: "Q",
-    name: I18n.t("javascripts.map.base.mapquest")
-  }
-];
-
 function createMap(divName, options) {
+  if (!layers) {
+    layers = [
+      {
+        klass: L.OSM.Mapnik,
+        attribution: "",
+        keyid: "mapnik",
+        layerCode: "M",
+        name: I18n.t("javascripts.map.base.standard")
+      },
+      {
+        klass: L.OSM.CycleMap,
+        attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+        keyid: "cyclemap",
+        layerCode: "C",
+        name: I18n.t("javascripts.map.base.cycle_map")
+      },
+      {
+        klass: L.OSM.TransportMap,
+        attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+        keyid: "transportmap",
+        layerCode: "T",
+        name: I18n.t("javascripts.map.base.transport_map")
+      },
+      {
+        klass: L.OSM.MapQuestOpen,
+        attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
+        keyid: "mapquest",
+        layerCode: "Q",
+        name: I18n.t("javascripts.map.base.mapquest")
+      }
+    ];
+  }
+
   options = $.extend({zoomControl: true, panZoomControl: true, layerControl: true}, options);
 
   map = L.map(divName, $.extend({}, options, {panControl: false, zoomsliderControl: false, maxZoom: 18}));
