@@ -116,11 +116,13 @@ ms:
       edit: 
         area: Sunting kawasan
         node: Sunting nod
+        note: Sunting nota
         relation: Sunting hubungan
         way: Sunting jalan
       larger: 
         area: Lihat kawasan pada peta yang lebih besar
         node: Lihat nod pada peta yang lebih besar
+        note: Baca nota pada peta yang lebih besar
         relation: Lihat hubungan pada peta yang lebih besar
         way: Lihat jalan pada peta yang lebih besar
       loading: Memuatkan...
@@ -128,10 +130,12 @@ ms:
       all: 
         next_changeset_tooltip: Set ubah berikutnya
         next_node_tooltip: Nod berikutnya
+        next_note_tooltip: Nota berikutnya
         next_relation_tooltip: Hubungan berikutnya
         next_way_tooltip: Jalan berikutnya
         prev_changeset_tooltip: Set ubah sebelumnya
         prev_node_tooltip: Nod sebelumnya
+        prev_note_tooltip: Nota sebelumnya
         prev_relation_tooltip: Hubungan sebelumnya
         prev_way_tooltip: Jalan sebelumnya
       user: 
@@ -159,6 +163,16 @@ ms:
         node: nod
         relation: hubungan
         way: jalan
+    note: 
+      at_by_html: "%{when} yang lalu oleh %{user}"
+      at_html: "%{when} yang lalu"
+      closed: "Ditutup:"
+      closed_title: "Nota yang telah diselesaikan: %{note_name}"
+      comments: "Komen:"
+      description: "Keterangan:"
+      last_modified: "Kali terakhir diubahsuai:"
+      open_title: "Nota yang belum diselesaikan: %{note_name}"
+      opened: "Dibuka:"
     paging_nav: 
       of: daripada
       showing_page: halaman
@@ -199,6 +213,7 @@ ms:
       loaded_an_area_with_num_features: Anda telah memilih satu kawasan yang mengandungi %{num_features} ciri. Pada umumnya, sesetengah pelayar web tidak mungkin mampu memaparkan sebegini banyak data dengan betul. Lazimnya, pelayar paling berkemampuan apabila memaparkan kurang daripada %{max_features} ciri sekaligus; lebih daripada itu mungkin akan melambatkan pelayar anda atau membuatnya tidak responsif. Jika anda betul-betul ingin memaparkan data ini, anda boleh berbuat demikian dengan mengklik butang di bawah.
       loading: Memuatkan...
       manually_select: Pilih kawasan yang lain secara insani
+      notes_layer_name: Semak Imbas Nota
       object_list: 
         api: Ambil kawasan in dari API
         back: Kembali ke senarai objek
@@ -369,6 +384,9 @@ ms:
       user_title: Diari %{user}
   editor: 
     default: Asali (kini %{name})
+    id: 
+      description: iD (editor dalam pelayar)
+      name: iD
     potlatch: 
       description: Potlatch 1 (alat sunting dalam pelayar)
       name: Potlatch 1
@@ -915,7 +933,29 @@ ms:
         mapquest: MapQuest Dibuka
         standard: Piawai
         transport_map: Peta Pengangkutan
+    notes: 
+      new: 
+        add: Tambah Nota
+        intro: Demi menambah baik mutu peta, maklumat yang anda masukkan dipaparkan kepada pemeta-pemeta yang lain, jadi sila terangkan dengan sedeskriptif dan setepat yang boleh dalam mengalihkan penanda kepada kedudukan yang betul sambil menulis nota di bawah.
+      show: 
+        anonymous_warning: Nota ini merangkumi komen-komen daripada pengguna awanama yang wajar ditentusahkan secara bebas.
+        closed_by: diselesaikan oleh <a href='%{user_url}'>%{user}</a> pada %{time}
+        closed_by_anonymous: diselesaikan oleh pengguna awanama pada %{time}
+        comment: Komen
+        comment_and_resolve: Ulas & Selesaikan
+        commented_by: komen daripada <a href='%{user_url}'>%{user}</a> pada %{time}
+        commented_by_anonymous: komen daripada pengguna awanama pada %{time}
+        hide: Sorokkan
+        opened_by: ditulis oleh <a href='%{user_url}'>%{user}</a> pada %{time}
+        opened_by_anonymous: ditulis oleh pengguna awanama pada %{time}
+        permalink: Pautan Kekal
+        reopened_by: diaktifkan semula oleh <a href='%{user_url}'>%{user}</a> pada %{time}
+        reopened_by_anonymous: diaktifkan semula oleh pengguna awanama pada %{time}
+        resolve: Selesaikan
     site: 
+      createnote_disabled_tooltip: Zum dekat untuk meletakkan nota pada peta
+      createnote_tooltip: Letak nota pada peta
+      createnote_zoom_alert: Anda mesti zum dekat untuk meletakkan nota pada peta
       edit_disabled_tooltip: Zum dekat untuk menyunting peta
       edit_tooltip: Sunting peta
       edit_zoom_alert: Anda mesti mengezum dekat untuk menyunting peta ini
@@ -1083,6 +1123,36 @@ ms:
       wrong_user: Anda telah log masuk sebagai `%{user}' tetapi pesanan yang anda pohon untuk membalas itu tidak dihantar kepada pengguna itu. Sila log masuk sebagai pengguna yang betul untuk membacanya.
     sent_message_summary: 
       delete_button: Hapuskan
+  note: 
+    description: 
+      closed_at_by_html: Diselesaikan %{when} yang lalu oleh %{user}
+      closed_at_html: Diselesaikan %{when} yang lalu
+      commented_at_by_html: Dikemaskinikan %{when} yang lalu oleh %{user}
+      commented_at_html: Dikemaskinikan %{when} yang lalu
+      opened_at_by_html: Dicatatkan %{when} yang lalu oleh %{user}
+      opened_at_html: Dicatatkan %{when} yang lalu
+      reopened_at_by_html: Diaktifkan semula %{when} yang lalu oleh %{user}
+      reopened_at_html: Diaktifkan semula %{when} yang lalu
+    entry: 
+      comment: Komen
+      full: Nota penuh
+    mine: 
+      ago_html: "%{when} yang lalu"
+      created_at: Dicatatkan pada
+      creator: Pencatat
+      description: Keterangan
+      heading: nota-nota %{user}
+      id: Id
+      last_changed: Kali terakhir disunting
+      subheading: Nota yang dikemukakan atau diulas oleh %{user}
+      title: Nota yang dikemukakan atau diulas oleh %{user}
+    rss: 
+      closed: nota ditutup (dekat %{place})
+      comment: komen baru (dekat %{place})
+      description_area: Senarai nota yng dilaporkan, diulas atau ditutup di kawasan anda [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: Suapan rss untuk nota %{id}
+      new: nota baru (dekat %{place})
+      title: Nota OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Anda juga boleh membaca komen di %{readurl} serta mengulas di %{commenturl} atau membalas di %{replyurl}
@@ -1098,6 +1168,7 @@ ms:
     email_confirm_plain: 
       click_the_link: Jika anda orangnya, sila klik pautan di bawah untuk mengesahkan perubahan.
       greeting: Apa khabar,
+      hopefully_you: Seseorang (harap-harap iaitu anda) ingin menukar alamat e-melnya di %{server_url} kepada %{new_address}.
     friend_notification: 
       befriend_them: Anda juga boleh menjadikannya sebagai kawan di %{befriendurl}.
       had_added_you: "%{user} telah menjadikan anda sebagai kawan di OpenStreetMap."
@@ -1126,11 +1197,26 @@ ms:
     lost_password_plain: 
       click_the_link: Jika anda orangnya, sila klik pautan di bawah untuk mengeset semula kata laluan anda.
       greeting: Apa khabar,
+      hopefully_you: Seseorang (mungkin anda) telah memohon supaya kata laluan ini diset semula di akaun openstreetmap.org milik alamat e-mel ini.
     message_notification: 
       footer1: Anda juga boleh membaca pesanan ini di %{readurl}
       footer2: dan anda boleh membalas di %{replyurl}
       header: "%{from_user} telah menghantar sepucuk pesanan kepada anda melalui OpenStreetMap dengan subjek %{subject}:"
       hi: Apa khabar %{to_user},
+    note_comment_notification: 
+      anonymous: Seorang pengguna awanama
+      closed: 
+        commented_note: "%{commenter} telah menyelesaikan salah satu nota peta yang pernah anda ulas dekat %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} telah menyelesaikan satu nota yang anda minati"
+        subject_own: "[OpenStreetMap] %{commenter} telah menyelesaikan salah satu nota anda"
+        your_note: "%{commenter} telah menyelesaikan salah satu nota peta anda dekat %{place}."
+      commented: 
+        commented_note: "%{commenter} telah meninggalkan komen di salah satu nota peta yang pernah anda ulas dekat %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} telah mengulas satu nota yang anda minati"
+        subject_own: "[OpenStreetMap] %{commenter} telah mengulas salah satu nota anda"
+        your_note: "%{commenter} telah meninggalkan komen di salah satu nota peta anda dekat %{place}."
+      details: Butiran lanjut tentang nota berkenaan boleh didapati di %{url}.
+      greeting: Selamat sejahtera,
     signup_confirm: 
       confirm: "Sebelum kami berbuat apa-apa lagi, kami perlu memastikan bahawa permintaan ini datang daripada anda; jika betul, sila klik pautan di bawah untuk mengesahkan akaun anda:"
       created: Seseorang (harap-harap anda) baru membuka akaun di %{site_url}.
@@ -1165,6 +1251,7 @@ ms:
       allow_write_api: mengubah suai peta.
       allow_write_diary: membuat catatan diari dan komen serta berkawan.
       allow_write_gpx: memuat naik jejak GPS.
+      allow_write_notes: menyunting nota.
       allow_write_prefs: mengubah suai keutamaan pengguna anda.
       request_access: Aplikasi %{app_name} sedang memohon akses kepada akaun anda, %{user}. Sila semak sama ada anda menginginkan aplikasi itu untuk memiliki kebolehan-kebolehan yang berikut. Anda boleh memilih sebanyak mana yang anda suka.
     revoke: 
@@ -1183,6 +1270,7 @@ ms:
       allow_write_api: mengubah suai peta.
       allow_write_diary: membuat catatan diari dan komen serta berkawan.
       allow_write_gpx: memuat naik jejak GPS.
+      allow_write_notes: menyunting nota.
       allow_write_prefs: mengubah suai keutamaan penggunanya.
       callback_url: URL Panggil Balik
       name: Nama
@@ -1213,6 +1301,7 @@ ms:
       allow_write_api: mengubah suai peta.
       allow_write_diary: membuat catatan diari dan komen serta berkawan.
       allow_write_gpx: memuat naik jejak GPS.
+      allow_write_notes: menyunting nota.
       allow_write_prefs: mengubah suai keutamaan penggunanya.
       authorize_url: "URL Kebenaran:"
       confirm: Adakah anda pasti?
@@ -1261,6 +1350,7 @@ ms:
     edit: 
       anon_edits_link_text: Ketahuilah sebab jadinya begini.
       flash_player_required: Anda memerlukan pemain Flash untuk menggunakan Potlatch, iaitu editor OpenStreetMap yang menggunakan Flash. Anda boleh <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">memuat turun Flash Player dari Adobe.com</a>. Terdapat juga <a href="http://wiki.openstreetmap.org/wiki/Editing">pilihan-pilihan lain</a> untuk menyunting OpenStreetMap.
+      id_not_configured: iD belum dikonfigurasi
       no_iframe_support: Pelayar web anda tidak menyokong 'iframe' HTML yang diperlukan untuk ciri ini.
       not_public: Anda belum menetapkan suntingan anda untuk untuk ditunjukkan kepada orang awam.
       not_public_description: Selagi tidak berbuat demikian, anda tidak boleh menyunting peta lagi. Anda boleh menetapkan suntingan-suntingan anda sebagai tatapan umum di %{user_page} anda.
@@ -1269,6 +1359,7 @@ ms:
       potlatch_unsaved_changes: Anda ada perubahan yang belum disimpan. (Untuk menyimpan dalam Potlatch, anda perlu menyahpilih arah atau titik semasa jika anda menyunting dalam mod langsung, atau klik simpan jika terdapat butang simpan.)
       user_page_link: laman pengguna
     index: 
+      createnote: Tambah nota
       js_1: Anda sedang menggunakan pelayar web yang tidak menyokong JavaScript, ataupun anda tidak menghidupkan JavaScript.
       js_2: OpenStreetMap menggunakan JavaScript untuk peta licinnya.
       license: 
@@ -1439,7 +1530,8 @@ ms:
     trace_header: 
       see_all_traces: Lihat semua jejak
       see_your_traces: Lihat jejak anda
-      traces_waiting: Anda mempunyai %{count} jejak yang sedang menunggu untuk dimuat naik. Ada baiknya anda menunggu hingga yang ini selesai sebelum memuat naik lagi supaya tidak menyesakkan baris gilir untuk pengguna-pengguna lain.
+      traces_waiting: 
+        other: Anda mempunyai %{count} jejak yang sedang menunggu untuk dimuat naik. Ada baiknya anda menunggu hingga yang ini selesai sebelum memuat naik lagi supaya tidak menyesakkan baris gilir untuk pengguna-pengguna lain.
       upload_trace: Muat naik jejak
     trace_optionals: 
       tags: Tag
@@ -1714,6 +1806,7 @@ ms:
       my comments: komen saya
       my diary: diari saya
       my edits: suntingan saya
+      my notes: nota-nota peta saya
       my settings: tetapan saya
       my traces: jejak saya
       nearby users: Pengguna lain yang berdekatan
@@ -1722,6 +1815,7 @@ ms:
       new diary entry: catatan diari baru
       no friends: Anda belum mencari kawan lagi.
       no nearby users: Belum ada pengguna lain yang mengaku memetakan kawasan berdekatan.
+      notes: nota-nota peta
       oauth settings: tetapan oauth
       remove as friend: gugurkan kawan
       role: 
