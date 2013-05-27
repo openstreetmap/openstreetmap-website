@@ -133,7 +133,7 @@ class Notifier < ActionMailer::Base
   def note_comment_notification(comment, recipient)
     with_recipient_locale recipient do
       @noteurl = browse_note_url(comment.note, :host => SERVER_URL)
-      @place = Nominatim.describe_location(comment.note.lat, comment.note.lon, 14, @locale)
+      @place = Nominatim.describe_location(comment.note.lat, comment.note.lon, 14, I18n.locale)
       @comment = comment.body
       @owner = recipient == comment.note.author
       @event = comment.event
