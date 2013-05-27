@@ -134,13 +134,13 @@ class Notifier < ActionMailer::Base
     if comment.author
       @commenter = comment.author.display_name
     else
-      @commenter = I18n.t("notifier.note_comment_notification.anonymous")
+      @commenter = I18n.t("notifier.note_comment_notification.anonymous", :locale => @locale)
     end
 
     if @owner
-      subject = I18n.t("notifier.note_comment_notification.#{@event}.subject_own", :commenter => @commenter)
+      subject = I18n.t("notifier.note_comment_notification.#{@event}.subject_own", :commenter => @commenter, :locale => @locale)
     else
-      subject = I18n.t("notifier.note_comment_notification.#{@event}.subject_other", :commenter => @commenter)
+      subject = I18n.t("notifier.note_comment_notification.#{@event}.subject_other", :commenter => @commenter, :locale => @locale)
     end
 
     mail :to => recipient.email, :subject => subject
