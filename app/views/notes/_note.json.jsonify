@@ -20,7 +20,7 @@ json.properties do
     if comment.author
       json.uid comment.author.id
       json.user comment.author.display_name
-      json.user_url user_url(:display_name => comment.author.display_name)
+      json.user_url user_url(:display_name => comment.author.display_name, :host => SERVER_URL)
     end
 
     json.action comment.event
