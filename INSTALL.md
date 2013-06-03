@@ -173,7 +173,7 @@ Note that the OSM map tiles you see aren't created from your local database - th
 
 ## Populating the database
 
-* Use this (yet-to-be-written script)[https://github.com/openstreetmap/openstreetmap-website/issues/282]
+* Use this [yet-to-be-written script](https://github.com/openstreetmap/openstreetmap-website/issues/282)
 
 ## Managing Users
 
