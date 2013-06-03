@@ -171,15 +171,15 @@ You can now view the site in your favourite web-browser at `http://localhost:300
 
 Note that the OSM map tiles you see aren't created from your local database - they are just the standard map tiles.
 
-===Populating the database===
+## Populating the database
 
 * Use this (yet-to-be-written script)[https://github.com/openstreetmap/openstreetmap-website/issues/282]
 
-=== Confirming users ===
+## Managing Users
 
 If you create a user and you don't want to set up your development box to send E-Mail to a public E-Mail address then you can create the user in the web UI as normal and then confirm it manually through the Rails console:
 
-<pre>
+```
 $ rails console
 >> user = User.find_by_display_name("My New User Name")
 => #[ ... ]
@@ -188,23 +188,13 @@ $ rails console
 >> user.save!
 => true
 >> quit
-</pre>
+```
 
-or through PgSQL:
+### Giving Administrator/Moderator Permissions
 
-<pre style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">
-sudo -u postgres -i
-psql openstreetmap
-select * from users;
-update users set status='active' where id=XX;
-\q
-exit
-</pre>
-
-=== Giving administrator/moderator permissions ===
 To give administrator or moderator permissions:
 
-<pre style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">
+```
 $ rails console
 >> user = User.find_by_display_name("My New User Name")
 => #[ ... ]
@@ -215,7 +205,7 @@ $ rails console
 >> user.save!
 => true
 >> quit
-</pre>
+```
 
 === Potlatch 2 ===
 To use the Potlatch 2 editor you need to register it as an OAuth application.
