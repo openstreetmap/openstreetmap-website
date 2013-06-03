@@ -80,6 +80,54 @@ createuser -s <username>
 exit
 ```
 
+### PostgreSQL Btree-gist Extension
+
+We need to load the btree-gist extension # TODO why?
+
+For PostgreSQL < 9.1 (change the version number in the path as necessary):
+
+```
+psql -d openstreetmap < /usr/share/postgresql/9.1/contrib/btree_gist.sql
+```
+
+For PostgreSQL >= 9.1:
+
+```
+psql -d openstreetmap -c "CREATE EXTENSION btree_gist;"
+psql -d osm -c "CREATE EXTENSION btree_gist;"
+```
+
+TODO: not required for the test database?
+
+### PostgreSQL Quadtile Functions
+
+We need to install special functions into the postgresql databases, and these are provided by a library that needs compiling first.
+
+Ensure that you have the *server* extension headers for PostgreSQL, on Ubuntu the package is typically called postgresql-server-dev-9.1 (or 8.2, or whatever version of PostgreSQL you have installed).
+
+```
+sudo apt-get install postgresql-server-dev-X.X
+```
+
+Now build the library, found in the `db/functions` directory
+
+```
+cd openstreetmap-website/db/functions
+make libpgosm.so
+```
+
+Then we create the functions within each database. Be sure to replace the "/<your path info>" text with the appropriate full path information.
+
+```
+psql -d openstreetmap -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT;"
+psql -d osm -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT;"
+psql -d openstreetmap -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT;"
+psql -d osm -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT;"
+psql -d openstreetmap -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT;"
+psql -d osm -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT;"</pre>
+```
+
+
 TODO: Ditch all this, use rake db:create
 
 Now, create the openstreetmap user for the postgres database, using the username and password you put into the configuration files in the prior step. Note that you will be prompted to set the password for the openstreetmap user.
@@ -93,121 +141,39 @@ createdb -E UTF8 -O openstreetmap osm_test
 createdb -E UTF8 -O openstreetmap osm
 </pre>
 
-===B-Tree Configuration===
+### Database structure
 
-For PostgreSQL < 9.1:
-<pre style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">
-psql -d openstreetmap < /usr/share/postgresql/8.4/contrib/btree_gist.sql
-</pre>
+```
+bundle exec rake db:migrate
+```
 
-For PostgreSQL >= 9.1:
-<pre style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">
-psql -d openstreetmap -c "CREATE EXTENSION btree_gist;"
-psql -d osm -c "CREATE EXTENSION btree_gist;"
-</pre>
-
-(OS X: see [[Rails on OS X]] for the last line)
-
-===Installing the quadtile functions (For PgSQL) ===
-
-You need to install the *server* extension headers for PostgreSQL, on Ubuntu/Debian that is typically called postgresql-server-dev-8.3 (or 8.2, or whatever version of pgsql you have).
-
-<pre style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">
-sudo apt-get install postgresql-server-dev-X.X
-cd /<your path info>/openstreetmap-website/db/functions
-make libpgosm.so
-</pre>
-
-Log into PgSQL and execute the CREATE FUNCTION statement from maptile.c's comment:
-
-'''Note:''' Be sure to replace the "/<your path info>" text with the appropriate full path information.
-
-<pre style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">
-psql -d openstreetmap -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT;"
-psql -d osm -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT;"
-psql -d openstreetmap -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT;"
-psql -d osm -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT;"
-psql -d openstreetmap -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT;"
-psql -d osm -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT;"</pre>
-
-'''Another note:''' If, at some time in the future, you move your installation directory, these functions will cease working because you've hardcoded path information into your database. To repair them, connect to your databases using the '''psql''' client and issue the following updates:
-
-<pre style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">
-UPDATE pg_proc SET probin='/<your new path info>/openstreetmap-website/db/functions/libpgosm' WHERE proname='maptile_for_point';
-UPDATE pg_proc SET probin='/<your new path info>/openstreetmap-website/db/functions/libpgosm' WHERE proname='tile_for_point';
-UPDATE pg_proc SET probin='/<your new path info>/openstreetmap-website/db/functions/libpgosm' WHERE proname='xid_to_int4';
-</pre>
-
-==Install Rails Port gems==
-
-==Managed Vendor Files (libraries)==
-
-Javascript libraries like Leaflet and its plugins are managed in a `Vendorfile` that can be updated. To run this vendor file, install the [https://github.com/grosser/vendorer `vendorer` gem] and run `vendorer` in the root directory of `openstreetmap-website`. This will pull any new revisions of dependencies into the `vendor` path. This is only necessary if you are updating the Rails Port to use a newer version of one of the Javascript libraries.
-
-==An Optional Step for the Impatient==
-
-At this point, you should be able to fire up the OSM Rails server, it just won't do everything you want, as the databases aren't set up properly. But, if you'd like to confirm that some things (no guarantee about everything) are working now, jump ahead to [[The_Rails_Port#Firing_Up_Rails|Firing Up Rails]], follow the steps there through the web server, then come back here and finish the installation process.
-
-==Post-gems install Database configs and data population==
-
-===Database tables ===
-
-Your database is still empty at this stage. We need to create the tables. Rails handles this by running a series of migrations (see '''db/migrate'''), which run quite fast on an empty db!
-
-'''Development db''' - for the development database, simply run
-
- rake db:migrate
-
-'''Test db''' - You don't need to worry about the test database, as "rake test" will take care of it automagically (assuming that you have setup the development database, and created but not run the migrations for the test database).
-
-'''Production db''' - To set up the production database (which you probably won't need), run:
-
-<pre style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">
-env RAILS_ENV=production rake db:migrate
-</pre>
-
-'''Troubleshooting rake db:migrate'''
-* Make sure you have the latest rubygems (sudo gem update --system) and the gems themselves (sudo bundle install)
-* If you're installing dependencies with Bundler and have other versions of rake on your system (as you will with OSX) run rake as:  bundle exec rake
-
-===Running the tests===
+## Running the tests
 
 To ensure that everything is set up properly, you should now run:
 
- rake test
+```
+bundle exec rake test
+```
 
 This test will take a few minutes, reporting tests run, assertions, and errors.
 
 '''Note:''' This process may output a parser error related to "Attribute lat redefined." Installation appears to succeed in spite of this.
 
+### Starting the server
+
+Rails comes with a built-in webserver, so that you can test on your own machine without needing a server. Run
+
+```
+bundle exec rails server
+```
+
+You can now view the site in your favourite web-browser at `http://localhost:3000/`
+
+Note that the OSM map tiles you see aren't created from your local database - they are just the standard map tiles.
+
 ===Populating the database===
 
 * Use this (yet-to-be-written script)[https://github.com/openstreetmap/openstreetmap-website/issues/282]
-
-==Starting the Rails Port==
-
-===Firing Up Rails===
-
-The database is now configured and you are ready to roll with rails. Rails comes with its own webserver for testing, called WEBrick. On Unix-like systems as root do:
-
- # cd /<your path>/openstreetmap-website/
- # rails server
-
-===Viewing the website===
-
-In your favourite web-browser, go to:
-
-  http://localhost:3000/
-
-You should see the OSM rails port. Very cool - congratulations!
-
-Note that, unlike http://openstreetmap.org, the OSM map tiles you see aren't created by the same database you're editing against.
-
-'''Troubleshooting Viewing the Website'''
-
-* When you open localhost:3000, if you get a message like 'host myispname.co.uk is not allowed to connect to this database', that suggests you are trying to contact to the real live OSM database, rather than your own one. Edit sites/rails_port/config/database.yml, and change the IP addresses ('128....') to 'localhost'.
-
-* If you get "out of memory" messages when processing large requests, edit config/application.yml to raise the default memory limit (soft_memory_limit and hard_memory_limit).
 
 === Confirming users ===
 
