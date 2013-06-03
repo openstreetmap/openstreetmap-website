@@ -252,36 +252,6 @@ If your installation stops working for some reason:
 * The OSM database schema is changed periodically and you need to keep up with these improvements. Go to your rails_port directory and
   rake db:migrate
 
-===Getting GPX importing to work===
-
-You don't need the GPX import facility to work before using the rest of the Rails port. However, if you want to hack on this bit, too:
-
-* Make sure you have set the database settings for 'production' (config/database.yml) as well as 'development'
-* Make sure you have set your SMTP server in config/initializers/action_mailer.rb
-* Install the 'daemons' package: gem install daemons
-* Create directories at /home/osm/traces and /home/osm/images (you can change these dirs in config/application.yml)
-* If your rails config/environment.rb or config/environments/*.rb file specifies 'config.action_controller.perform_caching = true' - which is the default if you are running your rails server in its 'production' environment:
-** Create a directory at the path you specified at 'config.cache_store' in 'config/environment.rb' - default: in your rails directory at tmp/cache.
-** Also make sure it has the correct permissions (e.g. chown to the user running your rails application.)
-** (Otherwise, GPX files will get uploaded but no acknowledgment appears on the return page.)
-* Then start the import daemon running: script/daemons start
-
-If you run into trouble, you can turn on logging by adding this line to lib/daemons/gpx_import_ctl
-
-options[:log_output] = true
-
-Logs will then be written in the log dir.
-
-====The high-performance GPX importer====
-
-If you are interested in running the same GPX importer as runs on the main server then you should investigate the GPX importer which is present in the git repository at [http://git.openstreetmap.org/gpx-import.git/tree gpx-import] but requires you to build C code and configure it. See the settings.sh file in that for help on configuring the higher performance GPX importer
-
-== The high-performance map call (cgimap) ==
-
-In addition to the API written in ruby on rails, there is a high-performance implementation of the single API function "map" called [[cgimap]]. It is written in C++ as a fastCGI server and is approximately 10x less CPU intense than the rails version. Both versions should give the identical output and can be tested statistically with the [http://trac.openstreetmap.org/browser/applications/utils/OsmMapCallValidator OsmMapCallValidator].
-
-[[Cgimap/install|Installing cgimap.]]
-
 == Testing on the osm dev server ==
 
 For example, after developing a patch for the rails_port, you might want to demonstrate it to others or ask for comments and testing. To do this one can [[Using_the_dev_server#Rails_Applications|set up an instance of the rails_port on the dev server in ones user directory]].
@@ -306,4 +276,4 @@ Rails-dev OSM maillist: http://lists.openstreetmap.org/listinfo/rails-dev
 
 # Production Deployment
 
-Write some notes here about passenger, CGIMap and the GPX importer.
+Write some notes here about environments, production database, passenger, CGIMap and the GPX importer.
