@@ -275,10 +275,6 @@ To generate test coverage stats, sudo gem install rcov. Then rcov -x gems test/*
 
 Some information about [[/Testing|testing]]. The tests are automatically run on commit with the results shown at http://cruise.openstreetmap.org/
 
-To commit your changes, see [[Rails port/Development]]
-
-Rails-dev OSM maillist: http://lists.openstreetmap.org/listinfo/rails-dev
-
 # Production Deployment
 
-Write some notes here about environments, production database, passenger, CGIMap and the GPX importer.
+TODO: Write some notes here about environments, production database, passenger, CGIMap and the GPX importer.
