@@ -207,7 +207,10 @@ $ rails console
 >> quit
 ```
 
-=== Potlatch 2 ===
+## Potlatch 2
+
+TODO: do we need similar for iD?
+
 To use the Potlatch 2 editor you need to register it as an OAuth application.
 
 Do the following:
@@ -223,27 +226,33 @@ Do the following:
 * On the next page, copy the "consumer key"
 * Edit config/application.yml in your rails tree
 * Change the "potlatch2_key" configuration value - excerpt from application.yml:
-<pre>
+
+```
 # Default editor
 default_editor: "potlatch2"
 # OAuth consumer key for Potlatch 2
 potlatch2_key: "8lFmZPsagHV4l3rkAHq0hWY5vV3Ctl3oEFY1aXth"
-</pre>
+```
 
-'''Note:''' The first time Potlatch is run, you will get the following message: "Potlatch 2 has not been configured - please see http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 for more information." Just click "OK" and proceed.
+*Note:* The first time Potlatch is run, you will get the following message: "Potlatch 2 has not been configured - please see http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 for more information." Just click "OK" and proceed.
 
-'''Note:''' If your attempt to save any ways leads to a hanging "authorisation required" message, flush your browser cache and try again.
+TODO: really? If so, this seems like a bug that needs fixing.
 
-'''Note:''' Potlatch does not have the appropriate icons if these instructions are followed.
+*Note:* Potlatch does not have the appropriate icons if these instructions are followed.
 
-==Troubleshooting==
+TODO: really? If so, this also seems like a bug that needs fixing.
+
+## Troubleshooting
 
 Rails has its own log.  To inspect the log, do this:
+
+```
  tail -f <path-to-osm-source>/log/development.log
+```
 
-If you have more problems, please ask on the [[Contact#Mailing_lists|dev mailing list]] (dev@openstreetmap.org) or on [[Contact#IRC|IRC]]. Here are some frequently encountered issues.
+If you have more problems, please ask on the [rails-dev@openstreetmap.org mailing list](http://lists.openstreetmap.org/listinfo/rails-dev) or on the [#osm-dev IRC Channel](http://wiki.openstreetmap.org/wiki/IRC)
 
-=== Maintaining your installation ===
+### Maintaining your installation
 
 If your installation stops working for some reason:
 
@@ -252,11 +261,11 @@ If your installation stops working for some reason:
 * The OSM database schema is changed periodically and you need to keep up with these improvements. Go to your rails_port directory and
   rake db:migrate
 
-== Testing on the osm dev server ==
+## Testing on the osm dev server
 
-For example, after developing a patch for the rails_port, you might want to demonstrate it to others or ask for comments and testing. To do this one can [[Using_the_dev_server#Rails_Applications|set up an instance of the rails_port on the dev server in ones user directory]].
+For example, after developing a patch for the rails_port, you might want to demonstrate it to others or ask for comments and testing. To do this one can [set up an instance of the rails_port on the dev server in ones user directory](http://wiki.openstreetmap.org/wiki/Using_the_dev_server#Rails_Applications).
 
-== Miscellanea ==
+## Miscellanea
 
 It is possible to produce diagrams of the rails port using railroad. More information is in [[/Railroad diagrams]].
 
@@ -269,10 +278,6 @@ Some information about [[/Testing|testing]]. The tests are automatically run on 
 To commit your changes, see [[Rails port/Development]]
 
 Rails-dev OSM maillist: http://lists.openstreetmap.org/listinfo/rails-dev
-
-[[Category:Ruby|Rails Port]]
-[[Category:Map API Server|Rails Port]]
-[[Category:Software|Rails Port]]
 
 # Production Deployment
 
