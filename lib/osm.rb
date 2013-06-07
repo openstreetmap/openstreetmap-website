@@ -298,6 +298,23 @@ module OSM
     end
   end
 
+  # raised when a two preferences have a duplicate key string.
+  class APIDuplicatePreferenceError < APIError
+    def initialize(key)
+      @key = key
+    end
+
+    attr_reader :key
+
+    def status
+      :bad_request
+    end
+
+    def to_s
+      "Duplicate preferences with key #{@key}"
+    end
+  end
+
   # Helper methods for going to/from mercator and lat/lng.
   class Mercator
     include Math
@@ -497,7 +514,7 @@ module OSM
           country = "GB" if country == "UK"
         end
       end
-      
+
       return country.upcase
     end
 

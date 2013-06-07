@@ -7,18 +7,18 @@ $(document).ready(function () {
   var noteIcons = {
     "new": L.icon({
       iconUrl: "<%= image_path 'new_note_marker.png' %>",
-      iconSize: [22, 22],
-      iconAnchor: [11, 11]
+      iconSize: [25, 40],
+      iconAnchor: [12, 40]
     }),
     "open": L.icon({
       iconUrl: "<%= image_path 'open_note_marker.png' %>",
-      iconSize: [22, 22],
-      iconAnchor: [11, 11]
+      iconSize: [25, 40],
+      iconAnchor: [12, 40]
     }),
     "closed": L.icon({
       iconUrl: "<%= image_path 'closed_note_marker.png' %>",
-      iconSize: [22, 22],
-      iconAnchor: [11, 11]
+      iconSize: [25, 40],
+      iconAnchor: [12, 40]
     })
   };
 
@@ -46,9 +46,12 @@ $(document).ready(function () {
     }
   });
 
-  map.on("popupopen", function (e) {
-    $(e.popup._container).find(".comment").focus();
-  });
+  // Don't focus the text area on touch devices to avoid flashing the keyboard
+  if (!('ontouchstart' in document.documentElement)) {
+    map.on("popupopen", function (e) {
+      $(e.popup._container).find(".comment").focus();
+    });
+  }
 
   map.on("popupclose", function (e) {
     if (newNote && e.popup == newNote._popup) {
@@ -84,13 +87,16 @@ $(document).ready(function () {
     if (marker)
     {
       marker.setIcon(noteIcons[feature.properties.status]);
-      marker._popup.setContent(createPopupContent(marker, feature.properties));
+      marker._popup.setContent(createPopupContent(
+        marker, feature.properties, 
+        $(marker._popup._content).find("textarea").val()
+      ));
     }
     else
     {
       marker = L.marker(feature.geometry.coordinates.reverse(), {
         icon: noteIcons[feature.properties.status],
-        opacity: 0.7
+        opacity: 0.9
       });
 
       marker.addTo(noteLayer).bindPopup(
@@ -145,12 +151,12 @@ $(document).ready(function () {
       minWidth: 320,
       maxWidth: mapSize.y * 1 / 3,
       maxHeight: mapSize.y * 2 / 3,
-      offset: new L.Point(0, -3),
+      offset: new L.Point(0, -40),
       autoPanPadding: new L.Point(60, 40)
     };
   }
 
-  function createPopupContent(marker, properties) {
+  function createPopupContent(marker, properties, comment) {
     var content = $(JST["templates/notes/show"]({ note: properties }));
 
     content.find("textarea").on("input", function (e) {
@@ -170,6 +176,10 @@ $(document).ready(function () {
       var data = $(e.target).data();
       updateNote(marker, e.target.form, data.method, data.url);
     });
+
+    if (comment) {
+      content.find("textarea").val(comment).trigger("input");
+    }
 
     return content[0];
   }
@@ -192,6 +202,8 @@ $(document).ready(function () {
         text: $(form.text).val()
       },
       success: function (feature) {
+        $(marker._popup._content).find("textarea").val("");
+
         notes[feature.properties.id] = updateMarker(marker, feature);
         newNote = null;
 
@@ -252,7 +264,7 @@ $(document).ready(function () {
 
     newNote = L.marker(map.containerPointToLatLng(markerPosition), {
       icon: noteIcons["new"],
-      opacity: 0.7,
+      opacity: 0.9,
       draggable: true
     });
 

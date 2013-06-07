@@ -18,7 +18,7 @@ xml.note("lon" => note.lon, "lat" => note.lat) do
         if comment.author
           xml.uid comment.author.id
           xml.user comment.author.display_name
-          xml.user_url user_url(:display_name => comment.author.display_name)
+          xml.user_url user_url(:display_name => comment.author.display_name, :host => SERVER_URL)
         end
 
         if comment.body

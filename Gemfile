@@ -56,10 +56,15 @@ gem 'httpclient'
 # Load memcache in case we are using it
 gem 'memcached', '>= 1.4.1'
 
+# Gems useful for development
+group :development do
+  gem 'vendorer'
+end
+
 # Gems needed for running tests
 group :test do
   gem 'timecop'
-  gem 'minitest', :platforms => :ruby_19
+  gem 'minitest', '~> 4.7.0', :platforms => :ruby_19
 end
 
 # Gems needed for compiling assets

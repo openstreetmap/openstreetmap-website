@@ -169,7 +169,7 @@ table {
   height: 100%;
   width: 185px;
   font-size: 11px;
-  line-height: 12px;
+  line-height: 1.1;
   z-index: 100;
   border-right: 1px solid #ccc;
 }
@@ -187,7 +187,7 @@ table {
 
 #logo h1 {
   font-size: 18px;
-  line-height: 20px;
+  line-height: 1.1;
   text-align: center;
   margin: 0px;
 }
@@ -262,8 +262,8 @@ table {
   left: 0px;
   margin: 0;
   padding: 5px 10px;
-  line-height: 15px;
   font-size: 12px;
+  line-height: 1.25;
   list-style-type: none;
   border-bottom: 1px solid #ccc;
   border-top: 1px solid #ccc;
@@ -335,7 +335,7 @@ table {
   width: 165px;
   padding: 3px;
   font-size: 14px;
-  line-height: 15px;
+  line-height: 1.1;
   height: 25px;
   padding: 2px 0px 2px 5px;
   box-shadow: inset #DDD 0px 1px 3px;
@@ -382,38 +382,26 @@ table {
 
 .donate {
   display: block;
-  position: relative;
   width: 153px;
   padding: 5px;
   border: 1px solid #AED1A0;
   background: #cbeea7;
-  line-height: 20px;
-  text-align: center;
   font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
   border-radius: 2px;
-  -moz-border-radius: 2px;
   color: #222;
   margin: 10px 10px 0px 10px;
-}
 
-.donate:hover {
-  background: #9ed485;
-  text-decoration: none;
-}
-
-.donate p {
-  text-indent: 20px;
-  margin: 0;
-}
-
-.donate .donate-icon {
-  width: 15px;
-  height: 15px;
-  border: 0px;
-  background: image-url("sprite.png") 0 -30px no-repeat;
-  position: absolute;
-  top: 8px;
-  left: 17px;
+  &:hover {
+    background: #9ed485;
+    text-decoration: none;
+  }
+  span {
+    margin: 0;
+    padding-left: 18px;
+    background: image-url("sprite.png") 0 -29px no-repeat;
+  }
 }
 
 /* Rules for Creative Commons logo button */
@@ -951,6 +939,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     background-color: #ffe0cc;
     margin: 0px;
     padding: 4px 6px;
+    max-width: 100%;
   }
   h4, p {
     margin-bottom: 5px;
@@ -1163,7 +1152,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   }
   h1, h2 {
     font-size: 21px;
-    line-height: 21px;
+    line-height: 1;
   }
   small.deemphasize {
     float: left;
@@ -1435,7 +1424,7 @@ p#contributorGuidance {
   vertical-align: top;
   font-weight: bold;
   font-size: 12px;
-  line-height: 20px;
+  line-height: 1.6666;
   text-align: right;
 }
 
@@ -1602,6 +1591,12 @@ a.button.submit {
     font-size: 14px;
   }
 
+  code {
+    font-size: 13px;
+    background: #e8e8e8;
+    padding: 2px 3px;
+  }
+
   img {
     padding: 20px;
     background-color: #f4f4ff;
@@ -1658,7 +1653,7 @@ a.button.submit {
       display: inline-block;
       padding: 20px;
       background-color: #f4f4ff;
-      overflow-x: scroll;
+      overflow-x: auto;
 
       &.loading {
         background-image: image-url("loading.gif");
@@ -1796,4 +1791,27 @@ a.button.submit {
 .id-embed {
   width: 100%;
   height: 100%;
+}
+
+/* Rules for rotating sidebar ads */
+.ad-container {
+  display: block;
+  height: 120px;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid #cccccc;
+}
+
+.ads {
+  width: 370px;
+  position: absolute;
+  left: 0%;
+}
+
+.ad {
+  float: left;
+  height: 100px;
+  padding: 10px;
+  border: 0px;
+  background: #fff;
 }

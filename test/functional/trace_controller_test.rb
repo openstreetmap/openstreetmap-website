@@ -153,9 +153,10 @@ class TraceControllerTest < ActionController::TestCase
   # Check that the list of changesets is displayed
   def test_list
     get :list
-    assert_response :success
-    assert_template "list"
     check_trace_list Trace.public
+
+    get :list, :tag => "London"
+    check_trace_list Trace.tagged("London").public
   end
 
   # Check that I can get mine
@@ -172,8 +173,6 @@ class TraceControllerTest < ActionController::TestCase
 
     # Fetch the actual list
     get :list, {:display_name => users(:public_user).display_name}, {:user => users(:public_user).id}
-    assert_response :success
-    assert_template "list"
     check_trace_list users(:public_user).traces
   end
 
@@ -181,46 +180,42 @@ class TraceControllerTest < ActionController::TestCase
   def test_list_user
     # Test a user with no traces
     get :list, :display_name => users(:second_public_user).display_name
-    assert_response :success
-    assert_template "list"
     check_trace_list users(:second_public_user).traces.public
 
     # Test a user with some traces - should see only public ones
     get :list, :display_name => users(:public_user).display_name
-    assert_response :success
-    assert_template "list"
     check_trace_list users(:public_user).traces.public
 
     @request.cookies["_osm_username"] = users(:normal_user).display_name
 
     # Should still see only public ones when authenticated as another user
     get :list, {:display_name => users(:public_user).display_name}, {:user => users(:normal_user).id}
-    assert_response :success
-    assert_template "list"
     check_trace_list users(:public_user).traces.public
 
     @request.cookies["_osm_username"] = users(:public_user).display_name
 
     # Should see all traces when authenticated as the target user
     get :list, {:display_name => users(:public_user).display_name}, {:user => users(:public_user).id}
-    assert_response :success
-    assert_template "list"
     check_trace_list users(:public_user).traces
+
+    # Should only see traces with the correct tag when a tag is specified
+    get :list, {:display_name => users(:public_user).display_name, :tag => "London"}, {:user => users(:public_user).id}
+    check_trace_list users(:public_user).traces.tagged("London")
   end
 
   # Check that the rss loads
   def test_rss
     get :georss
-    assert_rss_success
+    check_trace_feed Trace.public
 
-    get :georss, :display_name => users(:normal_user).display_name
-    assert_rss_success
-  end
+    get :georss, :tag => "London"
+    check_trace_feed Trace.tagged("London").public
 
-  def assert_rss_success
-    assert_response :success
-    assert_template nil
-    assert_equal "application/rss+xml", @response.content_type
+    get :georss, :display_name => users(:public_user).display_name
+    check_trace_feed users(:public_user).traces.public
+
+    get :georss, :display_name => users(:public_user).display_name, :tag => "Birmingham"
+    check_trace_feed users(:public_user).traces.tagged("Birmingham").public
   end
 
   # Check getting a specific trace through the api
@@ -348,13 +343,38 @@ class TraceControllerTest < ActionController::TestCase
 
 private
 
+  def check_trace_feed(traces)
+    assert_response :success
+    assert_template nil
+    assert_equal "application/rss+xml", @response.content_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "title"
+        assert_select "description"
+        assert_select "link"
+        assert_select "image"
+        assert_select "item", :count => traces.visible.count do |items|
+          traces.visible.order("timestamp DESC").zip(items).each do |trace,item|
+            assert_select item, "title", trace.name
+            assert_select item, "link", "http://test.host/user/#{trace.user.display_name}/traces/#{trace.id}"
+            assert_select item, "guid", "http://test.host/user/#{trace.user.display_name}/traces/#{trace.id}"
+            assert_select item, "description"
+            assert_select item, "author", trace.user.display_name
+            assert_select item, "pubDate", trace.timestamp.rfc822
+          end
+        end
+      end
+    end
+  end
+
   def check_trace_list(traces)
-    traces = traces.visible.order("timestamp DESC")
-    
+    assert_response :success
+    assert_template "list"
+
     if traces.count > 0
       assert_select "table#trace_list tbody", :count => 1 do
-        assert_select "tr", :count => traces.count do |rows|
-          traces.zip(rows).each do |trace,row|
+        assert_select "tr", :count => traces.visible.count do |rows|
+          traces.visible.order("timestamp DESC").zip(rows).each do |trace,row|
             assert_select row, "span.trace_summary", Regexp.new(Regexp.escape("(#{trace.size} points)"))
             assert_select row, "td", Regexp.new(Regexp.escape(trace.description))
             assert_select row, "td", Regexp.new(Regexp.escape("by #{trace.user.display_name}"))
