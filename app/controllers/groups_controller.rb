@@ -1,12 +1,12 @@
 class GroupsController < ApplicationController
 
   layout 'site'
-
+  before_filter :authorize_web
   before_filter :check_api_readable
   before_filter :set_locale
   after_filter :compress_output
   around_filter :api_call_handle_error, :api_call_timeout
-
+  before_filter :require_user , :only => [:new]
   ##
   # An index of Groups
   def index
