@@ -1,9 +1,12 @@
 //= require_self
+//= require leaflet.layers
+//= require leaflet.share
+//= require leaflet.note
+//= require leaflet.locate
 //= require index/browse
 //= require index/export
 //= require index/key
 //= require index/notes
-//= require index/map_ui
 
 var map, layers; // TODO: remove globals
 
@@ -18,7 +21,36 @@ $(document).ready(function () {
 
   map.attributionControl.setPrefix('');
 
-  layers = mapLayers();
+  layers = [{
+    layer: new L.OSM.Mapnik({
+      attribution: ''
+    }),
+    keyid: "mapnik",
+    layerCode: "M",
+    name: I18n.t("javascripts.map.base.standard")
+  }, {
+    layer: new L.OSM.CycleMap( {
+      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+    }),
+    keyid: "cyclemap",
+    layerCode: "C",
+    name: I18n.t("javascripts.map.base.cycle_map")
+  }, {
+    layer: new L.OSM.TransportMap({
+      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+    }),
+    keyid: "transportmap",
+    layerCode: "T",
+    name: I18n.t("javascripts.map.base.transport_map")
+  }, {
+    layer: new L.OSM.MapQuestOpen({
+      attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
+    }),
+    keyid: "mapquest",
+    layerCode: "Q",
+    name: I18n.t("javascripts.map.base.mapquest")
+  }];
+
   layers[0].layer.addTo(map);
 
   $("#map").on("resized", function () {
@@ -28,7 +60,8 @@ $(document).ready(function () {
   L.control.zoom({position: 'topright'})
     .addTo(map);
 
-  OSM.mapUI().addTo(map);
+  L.OSM.layers({position: 'topright', layers: layers})
+    .addTo(map);
 
   L.control.share({
       getUrl: function(map) {

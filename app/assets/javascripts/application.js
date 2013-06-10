@@ -6,8 +6,6 @@
 //= require leaflet
 //= require leaflet.osm
 //= require leaflet.locationfilter
-//= require leaflet.locate
-//= require leaflet.note
 //= require i18n/translations
 //= require oauth
 //= require osm
@@ -15,7 +13,6 @@
 //= require map
 //= require menu
 //= require sidebar
-//= require leaflet.share
 //= require richtext
 //= require resize
 //= require geocoder

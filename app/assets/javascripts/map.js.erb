@@ -15,38 +15,6 @@ L.Icon.Default.imagePath = <%= "#{asset_prefix}/images".to_json %>;
 var objectLayer;
 var objectLoader;
 
-function mapLayers() {
-  return [{
-    layer: new L.OSM.Mapnik({
-      attribution: ''
-    }),
-    keyid: "mapnik",
-    layerCode: "M",
-    name: I18n.t("javascripts.map.base.standard")
-  }, {
-    layer: new L.OSM.CycleMap( {
-      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-    }),
-    keyid: "cyclemap",
-    layerCode: "C",
-    name: I18n.t("javascripts.map.base.cycle_map")
-  }, {
-    layer: new L.OSM.TransportMap({
-      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-    }),
-    keyid: "transportmap",
-    layerCode: "T",
-    name: I18n.t("javascripts.map.base.transport_map")
-  }, {
-    layer: new L.OSM.MapQuestOpen({
-      attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
-    }),
-    keyid: "mapquest",
-    layerCode: "Q",
-    name: I18n.t("javascripts.map.base.mapquest")
-  }]
-}
-
 function getUserIcon(url) {
   return L.icon({
     iconUrl: url || <%= asset_path('marker-red.png').to_json %>,
