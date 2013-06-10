@@ -44,7 +44,10 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,object) {
     maxlat = toPrecision(maxlat);
   }
 
-  $(".geolink").each(function (index, link) {
+  $(".geolink").each(setGeolink);
+  $("#shortlinkanchor").each(setShortlink);
+
+  function setGeolink(index, link) {
     var args = getArgs(link.href);
 
     if ($(link).hasClass("llz")) {
@@ -80,9 +83,9 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,object) {
     }
 
     link.href = setArgs(link.href, args);
-  });
+  }
 
-  $("#shortlinkanchor").each(function () {
+  function setShortlink() {
     var args = getArgs(this.href);
     var code = makeShortCode(lat, lon, zoom);
     var prefix = shortlinkPrefix();
@@ -109,7 +112,7 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,object) {
     } else {
       this.href = prefix + "/go/" + code;
     }
-  });
+  }
 }
 
 /*

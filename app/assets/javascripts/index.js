@@ -21,7 +21,14 @@ $(document).ready(function () {
 
   OSM.mapUI().addTo(map);
 
-  L.control.share().addTo(map);
+  L.control.share({
+      getUrl: function(map) {
+          return setArgs('http://osm.org/', {
+              lon: map.getCenter().lng,
+              lat: map.getCenter().lat
+          });
+      }
+  }).addTo(map);
 
   L.control.locate({
       position: 'topright'
