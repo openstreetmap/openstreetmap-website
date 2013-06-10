@@ -21,9 +21,12 @@ $(document).ready(function () {
 
   OSM.mapUI().addTo(map);
 
+  L.control.share().addTo(map);
+
   L.control.locate({
       position: 'topright'
   }).addTo(map);
+
   L.control.scale().addTo(map);
 
   map.attributionControl.setPrefix(permalinks);
