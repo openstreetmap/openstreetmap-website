@@ -15,6 +15,10 @@ OSM.MapUI = L.Control.extend({
         link.title = 'Layers';
 
         this._uiPane = L.DomUtil.create('div', 'leaflet-map-ui', map._container);
+        L.DomEvent
+            .on(this._uiPane, 'click', L.DomEvent.stopPropagation)
+            .on(this._uiPane, 'click', L.DomEvent.preventDefault)
+            .on(this._uiPane, 'dblclick', L.DomEvent.preventDefault);
 
         $(link).on('click', $.proxy(this.toggleLayers, this));
     },
@@ -27,12 +31,12 @@ OSM.MapUI = L.Control.extend({
 
         if ($(this._uiPane).is(':visible')) {
             $(this._uiPane).hide();
-            controlContainer.css({paddingRight: '0'})
+            controlContainer.css({paddingRight: '0'});
         } else {
             $(this._uiPane)
                 .show()
                 .html(JST["templates/map/layers"]());
-            controlContainer.css({paddingRight: '200px'})
+            controlContainer.css({paddingRight: '200px'});
         }
     }
 });
