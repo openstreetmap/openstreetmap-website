@@ -36,7 +36,7 @@ $(document).ready(function () {
   });
 
   if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
-    map.layersControl.addOverlay(dataLayer, I18n.t("browse.start_rjs.data_layer_name"));
+//    map.layersControl.addOverlay(dataLayer, I18n.t("browse.start_rjs.data_layer_name"));
   }
 
   map.on('layeradd', function (e) {

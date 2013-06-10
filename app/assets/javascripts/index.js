@@ -3,12 +3,15 @@
 //= require index/export
 //= require index/key
 //= require index/notes
+//= require index/map_ui
 
 $(document).ready(function () {
   var permalinks = $("#permalink").detach().html();
   var marker;
   var params = OSM.mapParams();
-  var map = createMap("map");
+  var map = createMap("map", {layerControl: false});
+
+  OSM.mapUI().addTo(map);
 
   L.control.scale().addTo(map);
 
