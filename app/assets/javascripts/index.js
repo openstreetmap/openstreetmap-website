@@ -19,10 +19,6 @@ $(document).ready(function () {
 
   layers = mapLayers();
 
-  for (var i = 0; i < layers.length; i++) {
-    layers[i].layer = new (layers[i].klass)(layers[i]);
-  }
-
   layers[0].layer.addTo(map);
 
   $("#map").on("resized", function () {
