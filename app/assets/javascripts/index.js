@@ -12,13 +12,13 @@ $(document).ready(function () {
   var params = OSM.mapParams();
 
   map = L.map("map", {
-    attributionControl: false,
     zoomControl: false,
     layerControl: false
   });
 
-  layers = mapLayers();
+  map.attributionControl.setPrefix('');
 
+  layers = mapLayers();
   layers[0].layer.addTo(map);
 
   $("#map").on("resized", function () {
