@@ -16,12 +16,7 @@ L.Control.Share = L.Control.extend({
         link.href = '#';
         link.title = this.options.title;
 
-        this._uiPane = L.DomUtil.create('div', 'leaflet-map-ui', map._container);
-
-        L.DomEvent
-            .on(this._uiPane, 'click', L.DomEvent.stopPropagation)
-            .on(this._uiPane, 'click', L.DomEvent.preventDefault)
-            .on(this._uiPane, 'dblclick', L.DomEvent.preventDefault);
+        this._uiPane = this.options.uiPane;
 
         var h2 = L.DomUtil.create('h2', '', this._uiPane);
         h2.innerHTML = I18n.t('javascripts.share.title');

@@ -2,6 +2,7 @@
 
 L.OSM.Layers = L.Control.extend({
   onAdd: function (map) {
+    this._map = map;
     this._initLayout(map);
     return this._container;
   },
@@ -14,12 +15,7 @@ L.OSM.Layers = L.Control.extend({
     link.href = '#';
     link.title = 'Layers';
 
-    this._uiPane = L.DomUtil.create('div', 'leaflet-map-ui', map._container);
-
-    L.DomEvent
-      .on(this._uiPane, 'click', L.DomEvent.stopPropagation)
-      .on(this._uiPane, 'click', L.DomEvent.preventDefault)
-      .on(this._uiPane, 'dblclick', L.DomEvent.preventDefault);
+    this._uiPane = this.options.uiPane;
 
     $(link).on('click', $.proxy(this.toggleLayers, this));
   },
@@ -36,7 +32,32 @@ L.OSM.Layers = L.Control.extend({
     } else {
       $(this._uiPane)
         .show()
-        .html(JST["templates/map/layers"]({layers: this.options.layers}));
+        .html(JST["templates/map/layers"]());
+
+      var list = $(this._uiPane).find('.base-layers ul');
+
+      var layers = this.options.layers;
+      for (var i = 0; i < layers.length; i++) {
+        var item = $('<li></li>')
+          .appendTo(list);
+
+        var div = $('<div></div>')
+            .appendTo(item);
+
+        var map = L.map(div[0], {attributionControl: false, zoomControl: false})
+          .setView(this._map.getCenter(), Math.max(this._map.getZoom() - 2, 0))
+          .addLayer(new layers[i].layer.constructor);
+
+        map.dragging.disable();
+        map.touchZoom.disable();
+        map.doubleClickZoom.disable();
+        map.scrollWheelZoom.disable();
+
+        var label = $('<label></label>')
+          .text(layers[i].name)
+          .appendTo(item);
+      }
+
       controlContainer.css({paddingRight: '200px'});
     }
   }

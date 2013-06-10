@@ -61,19 +61,25 @@ $(document).ready(function () {
   L.control.customZoom({position: 'topright'})
     .addTo(map);
 
-  L.OSM.layers({position: 'topright', layers: layers})
-    .addTo(map);
+  var uiPane = $('#map-ui')[0];
+
+  L.OSM.layers({
+    position: 'topright',
+    layers: layers,
+    uiPane: uiPane
+  }).addTo(map);
 
   L.control.share({
-      getUrl: getShortUrl
+    getUrl: getShortUrl,
+    uiPane: uiPane
   }).addTo(map);
 
   L.control.note({
-      position: 'topright'
+    position: 'topright'
   }).addTo(map);
 
   L.control.locate({
-      position: 'topright'
+    position: 'topright'
   }).addTo(map);
 
   L.control.scale().addTo(map);
