@@ -7,55 +7,56 @@
 <% end %>
 
 <%= error_messages_for 'user' %>
-<%= form_for :user, :html => { :multipart => true } do |f| %>
-<table id="accountForm">
-  <tr>
-    <td class="fieldName"><%= t 'user.new.display name' %></td>
-    <td><%= f.text_field :display_name %></td>
-  </tr>
+<%= form_for :user, :html => { :multipart => true, :id => 'accountForm',:class => 'standard-form' } do |f| %>
+  <fieldset class="form-row">
+    <label><%= t 'user.new.display name' %></label>
+    <%= f.text_field :display_name %>
+  </fieldset>
 
-  <tr>
-    <td class="fieldName" style="padding-bottom:0px;"><%= t 'user.account.current email address' %></td>
-    <td style="padding-bottom:0px;"><%= @user.email %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td>
-  </tr>
+  <fieldset class="form-row">
+    <label style="padding-bottom:0px;"><%= t 'user.account.current email address' %></label>
+    <input type="email" disabled value="<%= @user.email %>" />
+    <p class="form-help deempharize"><%= t 'user.account.email never displayed publicly' %></p>
+  </fieldset>
 
-  <tr>
-    <td class="fieldName"><%= t 'user.account.new email address' %></td>
-    <td><%= f.email_field :new_email, {:size => 50, :maxlength => 255} %> <span class="minorNote"><%= t 'user.account.email never displayed publicly' %></span></td>
-  </tr>
+  <fieldset class="form-row">
+    <label><%= t 'user.account.new email address' %></label>
+    <%= f.email_field :new_email, {:maxlength => 255} %>
+    <p class="form-help deempharize"><%= t 'user.account.email never displayed publicly' %></p>
+  </fieldset>
 
-  <tr>
-    <td class="fieldName" style="padding-bottom:0px;"><%= t 'user.new.password' %></td>
-    <td style="padding-bottom:0px;"><%= f.password_field :pass_crypt, {:value => '', :size => 30, :maxlength => 255, :autocomplete => :off} %></td>
-  </tr>
+  <fieldset class="form-row">
+    <label style="padding-bottom:0px;"><%= t 'user.new.password' %></td>
+    <td style="padding-bottom:0px;"><%= f.password_field :pass_crypt, {:value => '', :maxlength => 255, :autocomplete => :off} %></td>
+  </fieldset>
 
-  <tr>
-    <td class="fieldName"><%= t 'user.new.confirm password' %></td>
-    <td><%= f.password_field :pass_crypt_confirmation, {:value => '', :size => 30, :maxlength => 255, :autocomplete => :off} %></td>
-  </tr>
+  <fieldset class="form-row">
+    <label><%= t 'user.new.confirm password' %></td>
+    <td><%= f.password_field :pass_crypt_confirmation, {:value => '', :maxlength => 255, :autocomplete => :off} %></td>
+  </fieldset>
 
-  <tr>
-    <td class="fieldName" ><%= t 'user.account.openid.openid' %></td>
-    <td><%= f.url_field :openid_url, {:id => "openid_url", :class => "openid_url"} %> <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span></td>
-  </tr>
+  <fieldset class="form-row">
+    <label ><%= t 'user.account.openid.openid' %></td>
+    <td><%= f.url_field :openid_url, {:id => "openid_url", :class => "openid_url"} %> <span class="form-help deempharize">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span></td>
+  </fieldset>
 
-  <tr>
-    <td class="fieldName"><%= t 'user.account.public editing.heading' %></td>
+  <fieldset class="form-row">
+    <label><%= t 'user.account.public editing.heading' %></td>
     <td>
       <% if @user.data_public? %>
-        <%= t 'user.account.public editing.enabled' %> <span class="minorNote">(<a href="<%= t 'user.account.public editing.enabled link' %>" target="_new"><%= t 'user.account.public editing.enabled link text' %></a>)</span>
+        <%= t 'user.account.public editing.enabled' %> <span class="form-help deempharize">(<a href="<%= t 'user.account.public editing.enabled link' %>" target="_new"><%= t 'user.account.public editing.enabled link text' %></a>)</span>
       <% else %>
-        <%= t 'user.account.public editing.disabled' %> <span class="minorNote">(<a href="#public"><%= t 'user.account.public editing.disabled link text' %></a>)</span>
+        <%= t 'user.account.public editing.disabled' %> <span class="form-help deempharize">(<a href="#public"><%= t 'user.account.public editing.disabled link text' %></a>)</span>
       <% end %>
     </td>
-  </tr>
+  </fieldset>
 
-  <tr>
-    <td class="fieldName"><%= t 'user.account.contributor terms.heading' %></td>
+  <fieldset class="form-row">
+    <label><%= t 'user.account.contributor terms.heading' %></td>
     <td>
       <% if @user.terms_agreed? %>
         <%= t 'user.account.contributor terms.agreed' %>
-        <span class="minorNote">(<a href="<%= t 'user.account.contributor terms.link' %>" target="_new"><%= t 'user.account.contributor terms.link text' %></a>)</span>
+        <span class="form-help deempharize">(<a href="<%= t 'user.account.contributor terms.link' %>" target="_new"><%= t 'user.account.contributor terms.link text' %></a>)</span>
         <br />
         <% if @user.consider_pd? %>
           <%= t 'user.account.contributor terms.agreed_with_pd' %>
@@ -66,67 +67,67 @@
         <%= link_to t('user.account.contributor terms.review link text'), :controller => 'user', :action => 'terms' %>
       <% end %>
     </td>
-  </tr>
+  </fieldset>
 
-  <tr>
-    <td class="fieldName"><%= t 'user.account.profile description' %></td>
+  <fieldset class="form-row">
+    <label><%= t 'user.account.profile description' %></td>
     <td><%= richtext_area :user, :description, :rows => '15', :cols => '80' %></td>
-  </tr>
+  </fieldset>
 
-  <tr>
-    <td class="fieldName"><%= t 'user.account.preferred languages' %></td>
+  <fieldset class="form-row">
+    <label><%= t 'user.account.preferred languages' %></td>
     <td><%= f.text_field :languages %></td>
-  </tr>
+  </fieldset>
 
-  <tr>
-    <td class="fieldName"><%= t 'user.account.preferred editor' %></td>
+  <fieldset class="form-row">
+    <label><%= t 'user.account.preferred editor' %></td>
     <td><%= f.select :preferred_editor, [[t("editor.default", :name => t("editor.#{DEFAULT_EDITOR}.name")), 'default']] + Editors::ALL_EDITORS.collect { |e| [t("editor.#{e}.description"), e] } %></td>
-  </tr>
+  </fieldset>
 
-  <tr>
-    <td class="fieldName">
+  <fieldset class="form-row">
+    <label>
       <%= t 'user.account.image' %>
     </td>
     <td class="accountImage">
       <%= user_image @user %>
       <table class="accountImage-options">
         <% if @user.image.file? %>
-        <tr>
+        <fieldset class="form-row">
           <td><%= radio_button_tag "image_action", "keep", !@user.image_use_gravatar %></td>
           <td><%= t 'user.account.keep image' %></td>
-        </tr>
+        </fieldset>
         <% end %>
         <% if @user.image.file? || @user.image_use_gravatar? %>
-        <tr>
+        <fieldset class="form-row">
           <td><%= radio_button_tag "image_action", "delete" %></td>
           <td><%= t 'user.account.delete image' %></td>
-        </tr>
+        </fieldset>
         <% end %>
         <% if @user.image.file? %>
-        <tr>
+        <fieldset class="form-row">
           <td><%= radio_button_tag "image_action", "new" %></td>
-          <td><%= t 'user.account.replace image' %><br /><%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %><br /><span class="minorNote"><%= t 'user.account.image size hint' %></span></td>
-        </tr>
+          <td><%= t 'user.account.replace image' %><br /><%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %><br /><span class="form-help deempharize"><%= t 'user.account.image size hint' %></span></td>
+        </fieldset>
         <% else %>
-        <tr>
+        <fieldset class="form-row">
           <td><%= radio_button_tag "image_action", "new" %></td>
-          <td><%= t 'user.account.new image' %><br /><%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %><br /><span class="minorNote"><%= t 'user.account.image size hint' %></span></td>
-        </tr>
+          <td><%= t 'user.account.new image' %><br /><%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %><br /><span class="form-help deempharize"><%= t 'user.account.image size hint' %></span></td>
+        </fieldset>
         <% end %>
-        <tr>
+        <fieldset class="form-row">
           <td><%= radio_button_tag "image_action", "gravatar", @user.image_use_gravatar %></td>
-          <td><%= t 'user.account.gravatar.gravatar' %> <span class="minorNote">(<a href="<%= t 'user.account.gravatar.link' %>" target="_new"><%= t 'user.account.gravatar.link text' %></a>)</span></td>
-        </tr>
+          <td><%= t 'user.account.gravatar.gravatar' %> <span class="form-help deempharize">(<a href="<%= t 'user.account.gravatar.link' %>" target="_new"><%= t 'user.account.gravatar.link text' %></a>)</span></td>
+        </fieldset>
       </table>
     </td>
-  </tr>
+  </fieldset>
 
   <tr id="homerow" <% unless @user.home_lat and @user.home_lon %> class="nohome" <%end%> >
-    <td class="fieldName"><%= t 'user.account.home location' %></td>
-    <td><em class="message"><%= t 'user.account.no home location' %></em><span class="location"><%= t 'user.account.latitude' %> <%= f.text_field :home_lat, :size => 20, :id => "home_lat" %> <%= t 'user.account.longitude' %><%= f.text_field :home_lon, :size => 20, :id => "home_lon" %></span></td>
-  </tr>
+    <label><%= t 'user.account.home location' %></td>
+    <td><em class="message"><%= t 'user.account.no home location' %></em><span class="location"><%= t 'user.account.latitude' %> <%= f.text_field :home_lat, :id => "home_lat" %> <%= t 'user.account.longitude' %><%= f.text_field :home_lon, :id => "home_lon" %></span></td>
+  </fieldset>
 
-  <tr>
+  <fieldset class="form-row">
     <td></td>
     <td>
       <p><%= t 'user.account.update home location on click' %> <input type="checkbox" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" /> </p>
@@ -135,13 +136,12 @@
       <% end %>
       <%= content_tag "div", "", :id => "map", :class => "content_map settings_map set_location" %>
     </td>
-  </tr>
+  </fieldset>
 
-  <tr>
+  <fieldset class="form-row">
     <td></td>
     <td class="submitButton"><%= submit_tag t('user.account.save changes button') %></td>
-  </tr>
-</table>
+  </fieldset>
 <% end %>
 
 <% unless @user.data_public? %>
