@@ -10,10 +10,14 @@ $(document).ready(function () {
   var marker;
   var params = OSM.mapParams();
   var map = createMap("map", {
+    zoomControl: false,
     layerControl: false
   }, {
     locateControl: true
   });
+
+  L.control.zoom({position: 'topright'})
+    .addTo(map);
 
   OSM.mapUI().addTo(map);
 

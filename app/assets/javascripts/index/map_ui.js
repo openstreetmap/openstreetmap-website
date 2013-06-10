@@ -23,14 +23,16 @@ OSM.MapUI = L.Control.extend({
         e.stopPropagation();
         e.preventDefault();
 
+        var controlContainer = $('.leaflet-control-container .leaflet-top.leaflet-right');
+
         if ($(this._uiPane).is(':visible')) {
             $(this._uiPane).hide();
-            $(this._container).css({paddingRight: '0'})
+            controlContainer.css({paddingRight: '0'})
         } else {
             $(this._uiPane)
                 .show()
                 .html(JST["templates/map/layers"]());
-            $(this._container).css({paddingRight: '200px'})
+            controlContainer.css({paddingRight: '200px'})
         }
     }
 });
