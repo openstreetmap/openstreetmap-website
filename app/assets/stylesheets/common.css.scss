@@ -915,15 +915,29 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   }
 }
 
+#changeset_list_map_wrapper {
+  position: absolute;
+  width: 50%;
+  height: 490px;
+  top: 0;
+  right: 0;
+}
+
+#changeset_list_map_wrapper.scrolled {
+  position: fixed;
+}
+
 #changeset_list_map {
   position: absolute;
   bottom: 20px;
   top: 20px;
   right: 20px;
-  width: 45%;
-  min-height: 398px;
-  max-height: 598px;
+  left: 20px;
   border: 1px solid #ccc;
+}
+
+#changeset_list_map_wrapper.scrolled #changeset_list_map {
+  margin-left: 93px;
 }
 
 /* Rules for the data browser */
@@ -1642,12 +1656,9 @@ a.button.submit {
 /* Rules for rich text editors */
 
 .richtext_container {
-  white-space: nowrap;
-
   .richtext_content {
     display: inline-block;
     vertical-align: top;
-    white-space: normal;
 
     .richtext_preview {
       display: inline-block;
@@ -1673,7 +1684,7 @@ a.button.submit {
     margin-left: 15px;
     background-color: #f8f8ff;
     padding: 10px;
-    width: 200px;
+    max-width: 450px;
 
     ul {
       margin-bottom: 0;
@@ -1685,20 +1696,22 @@ a.button.submit {
       padding-bottom: 5px;
     }
 
-    li h4, li span {
-      display: block;
+    li h4, li span, li p {
+      display: inline-block;
+      vertical-align: top;
       font-size: 11px;
     }
 
     li h4 {
+      width: 35%;
       margin: 0;
-      float: left;
     }
 
-    li span {
-      float: right;
-      width: 50%;
+    li span, li p {
+      width: 60%;
       margin-left: 10px;
+      margin-bottom: 5px;
+      white-space: nowrap;
     }
 
     input.richtext_doedit,
