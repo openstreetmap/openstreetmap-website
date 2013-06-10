@@ -539,14 +539,14 @@ private
 
   def facebook_authentication()
     if params[:code]
-      consumer = OAuth2::Client.new(FACEBOOK_APP_ID,FACEBOOK_APP_SHARED_SECRET, :site => 'https://graph.facebook.com', :token_url => '/oauth/access_token')
+      consumer = OAuth2::Client.new(FACEBOOK_APP_ID,FACEBOOK_APP_SHARED_SECRET, :site => 'https://graph.facebook.com', :authorize_url => '/dialog/oauth', :token_url => '/oauth/access_token')
       access_token = consumer.auth_code.get_token(params[:code], {:redirect_uri => "#{request.protocol}#{request.host_with_port}#{request.fullpath}", :parse => :query})
       user_info = access_token.get('/me').parsed
       identity_url = "#facebook#://" + user_info["id"]
       login_with_identity_url(identity_url, user_info["name"], user_info["email"])
     else
       session[:federated_auth_method] = 'facebook'
-      consumer = OAuth2::Client.new(FACEBOOK_APP_ID,FACEBOOK_APP_SHARED_SECRET, :site => 'https://graph.facebook.com', :token_url => '/oauth/access_token')      
+      consumer = OAuth2::Client.new(FACEBOOK_APP_ID,FACEBOOK_APP_SHARED_SECRET, :site => 'https://www.facebook.com/',  :authorize_url => '/dialog/oauth', :token_url => '/oauth/access_token')      
       redirect_to consumer.auth_code.authorize_url(:scope => 'email', :redirect_uri => "#{request.protocol}#{request.host_with_port}#{request.fullpath}")
     end
   end
@@ -651,7 +651,7 @@ private
 
   def facebook_verify(identity_url, user)
     if params[:code]
-      consumer = OAuth2::Client.new(FACEBOOK_APP_ID,FACEBOOK_APP_SHARED_SECRET, :site => 'https://graph.facebook.com', :token_url => '/oauth/access_token')
+      consumer = OAuth2::Client.new(FACEBOOK_APP_ID,FACEBOOK_APP_SHARED_SECRET, :site => 'https://graph.facebook.com', :authorize_url => '/dialog/oauth', :token_url => '/oauth/access_token')
       access_token = consumer.auth_code.get_token(params[:code], {:redirect_uri => "#{request.protocol}#{request.host_with_port}#{request.fullpath}", :parse => :query})
       user_info = access_token.get('/me').parsed
       identity_url = "#facebook#://" + user_info["id"]
@@ -659,7 +659,7 @@ private
       yield user, user_info["email"]
     else
       session[:federated_auth_method] = 'facebook'
-      consumer = OAuth2::Client.new(FACEBOOK_APP_ID,FACEBOOK_APP_SHARED_SECRET, :site => 'https://graph.facebook.com', :token_url => '/oauth/access_token')
+      consumer = OAuth2::Client.new(FACEBOOK_APP_ID,FACEBOOK_APP_SHARED_SECRET, :site => 'https://www.facebook.com', :authorize_url => '/dialog/oauth', :token_url => '/oauth/access_token')
       redirect_to consumer.auth_code.authorize_url(:scope => 'email', :redirect_uri => "#{request.protocol}#{request.host_with_port}#{request.fullpath}")
     end
   end
