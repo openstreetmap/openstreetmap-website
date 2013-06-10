@@ -3,6 +3,7 @@
 //= require leaflet.share
 //= require leaflet.note
 //= require leaflet.locate
+//= require leaflet.customzoom
 //= require index/browse
 //= require index/export
 //= require index/key
@@ -57,7 +58,7 @@ $(document).ready(function () {
     map.invalidateSize();
   });
 
-  L.control.zoom({position: 'topright'})
+  L.control.customZoom({position: 'topright'})
     .addTo(map);
 
   L.OSM.layers({position: 'topright', layers: layers})
