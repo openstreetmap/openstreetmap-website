@@ -30,6 +30,10 @@ $(document).ready(function () {
       }
   }).addTo(map);
 
+  L.control.note({
+      position: 'topright'
+  }).addTo(map);
+
   L.control.locate({
       position: 'topright'
   }).addTo(map);

@@ -1,5 +1,3 @@
-//= require templates/map/share
-
 L.Control.Share = L.Control.extend({
     options: {
         position: 'topright',

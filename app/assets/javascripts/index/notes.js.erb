@@ -2,7 +2,10 @@
 //= require templates/notes/new
 
 $(document).ready(function () {
-  var params = OSM.mapParams();
+  var params = OSM.mapParams(),
+      noteLayer = new L.LayerGroup(),
+      notes = {},
+      newNote;
 
   var noteIcons = {
     "new": L.icon({
@@ -22,52 +25,40 @@ $(document).ready(function () {
     })
   };
 
-  var noteLayer = new L.LayerGroup();
-  var notes = {};
-  var newNote;
-
   layers.push({
     layer: noteLayer,
     layerCode: "N"
   });
+
+  map.noteLayer = noteLayer;
 
   map.on("layeradd", function (e) {
     if (e.layer == noteLayer) {
       loadNotes();
       map.on("moveend", loadNotes);
     }
-  });
-
-  map.on("layerremove", function (e) {
+  }).on("layerremove", function (e) {
     if (e.layer == noteLayer) {
       map.off("moveend", loadNotes);
       noteLayer.clearLayers();
       notes = {};
     }
-  });
-
-  // Don't focus the text area on touch devices to avoid flashing the keyboard
-  if (!('ontouchstart' in document.documentElement)) {
-    map.on("popupopen", function (e) {
-      $(e.popup._container).find(".comment").focus();
-    });
-  }
-
-  map.on("popupclose", function (e) {
+  }).on("popupclose", function (e) {
     if (newNote && e.popup == newNote._popup) {
       $(newNote).oneTime(10, "removenote", function () {
         map.removeLayer(newNote);
         newNote = null;
       });
     }
+  }).on("popupopen", function (e) {
+    if (!('ontouchstart' in document.documentElement)) {
+      $(e.popup._container).find(".comment").focus();
+    }
   });
 
   if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
-//    map.layersControl.addOverlay(noteLayer, I18n.t("browse.start_rjs.notes_layer_name"));
-
     if (params.layers) setMapLayers(params.layers);
     if (params.notes) map.addLayer(noteLayer);
-
     if (params.note) {
       $.ajax({
         url: "/api/" + OSM.API_VERSION + "/notes/" + params.note + ".json",
@@ -84,16 +75,13 @@ $(document).ready(function () {
   }
 
   function updateMarker(marker, feature) {
-    if (marker)
-    {
+    if (marker) {
       marker.setIcon(noteIcons[feature.properties.status]);
       marker.setPopupContent(createPopupContent(
-        marker, feature.properties, 
+        marker, feature.properties,
         $(marker._popup._content).find("textarea").val()
       ));
-    }
-    else
-    {
+    } else {
       marker = L.marker(feature.geometry.coordinates.reverse(), {
         icon: noteIcons[feature.properties.status],
         opacity: 0.9
@@ -121,26 +109,28 @@ $(document).ready(function () {
 
       noteLoader = $.ajax({
         url: url,
-        success: function (json) {
-          var oldNotes = notes;
-
-          notes = {};
-
-          json.features.forEach(function (feature) {
-            var marker = oldNotes[feature.properties.id];
-
-            delete oldNotes[feature.properties.id];
-
-            notes[feature.properties.id] = updateMarker(marker, feature);
-          });
-
-          for (id in oldNotes) {
-            noteLayer.removeLayer(oldNotes[id]);
-          }
-
-          noteLoader = null;
-        }
+        success: success
       });
+    }
+
+    function success(json) {
+      var oldNotes = notes;
+
+      notes = {};
+
+      json.features.forEach(updateMarkers);
+
+      function updateMarkers(feature) {
+        var marker = oldNotes[feature.properties.id];
+        delete oldNotes[feature.properties.id];
+        notes[feature.properties.id] = updateMarker(marker, feature);
+      }
+
+      for (id in oldNotes) {
+        noteLayer.removeLayer(oldNotes[id]);
+      }
+
+      noteLoader = null;
     }
   };
 
@@ -201,15 +191,17 @@ $(document).ready(function () {
         lon: location.lng,
         text: $(form.text).val()
       },
-      success: function (feature) {
-        $(marker._popup._content).find("textarea").val("");
-
-        notes[feature.properties.id] = updateMarker(marker, feature);
-        newNote = null;
-
-        $("#createnoteanchor").removeClass("disabled").addClass("geolink");
-      }
+      success: noteCreated
     });
+
+    function noteCreated(feature) {
+      $(marker._popup._content).find("textarea").val("");
+
+      notes[feature.properties.id] = updateMarker(marker, feature);
+      newNote = null;
+
+      $("#createnoteanchor").removeClass("disabled").addClass("geolink");
+    }
   }
 
   function updateNote(marker, form, method, url) {
@@ -249,16 +241,11 @@ $(document).ready(function () {
     var mapSize = map.getSize();
     var markerPosition;
 
-    if (mapSize.y > 800)
-    {
+    if (mapSize.y > 800) {
       markerPosition = [mapSize.x / 2, mapSize.y / 2];
-    }
-    else if (mapSize.y > 400)
-    {
+    } else if (mapSize.y > 400) {
       markerPosition = [mapSize.x / 2, 400];
-    }
-    else
-    {
+    } else {
       markerPosition = [mapSize.x / 2, mapSize.y];
     }
 
@@ -268,17 +255,15 @@ $(document).ready(function () {
       draggable: true
     });
 
-    var popupContent = $(JST["templates/notes/new"]({ create_url: $(e.target).attr("href") }));
+    var popupContent = $(JST["templates/notes/new"]({
+        create_url: $(e.target).attr("href")
+    }));
 
-    popupContent.find("textarea").on("input", function (e) {
-      var form = e.target.form;
+    popupContent.find("textarea").on("input", disableWhenBlank);
 
-      if ($(e.target).val() == "") {
-        $(form.add).prop("disabled", true);
-      } else {
-        $(form.add).prop("disabled", false);
-      }
-    });
+    function disableWhenBlank(e) {
+      $(e.target.form).prop("disabled", $(e.target).val() === "");
+    }
 
     popupContent.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
