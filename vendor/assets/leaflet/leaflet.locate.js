@@ -32,9 +32,8 @@ L.Control.Locate = L.Control.extend({
     },
 
     onAdd: function (map) {
-        var className = 'leaflet-control-locate',
-            classNames = className + ' leaflet-control-zoom leaflet-bar leaflet-control',
-            container = L.DomUtil.create('div', classNames);
+        var className = 'control-locate',
+            container = L.DomUtil.create('div', className);
 
         var self = this;
         this._layer = new L.LayerGroup();
@@ -49,7 +48,8 @@ L.Control.Locate = L.Control.extend({
             'watch': true  // if you overwrite this, visualization cannot be updated
         });
 
-        var link = L.DomUtil.create('a', 'leaflet-bar-part leaflet-bar-part-single', container);
+        var link = L.DomUtil.create('a', 'control-button', container);
+        link.innerHTML = "<span class='icon geolocate'></span>";
         link.href = '#';
         link.title = this.options.title;
 
@@ -74,7 +74,7 @@ L.Control.Locate = L.Control.extend({
                     }
                     self._active = true;
                     if (!self._event) {
-                        self._container.className = classNames + " requesting";
+                        self._container.className = className + " requesting";
                     } else {
                         visualizeLocation();
                     }
@@ -137,7 +137,7 @@ L.Control.Locate = L.Control.extend({
 
             if (!self._container)
                 return;
-            self._container.className = classNames + " active";
+            self._container.className = className + " active";
         };
 
         var resetVariables = function() {
@@ -151,7 +151,7 @@ L.Control.Locate = L.Control.extend({
             _log('stopLocate');
             map.stopLocate();
 
-            self._container.className = classNames;
+            self._container.className = className;
             resetVariables();
 
             self._layer.clearLayers();

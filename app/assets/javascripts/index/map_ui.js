@@ -7,10 +7,11 @@ OSM.MapUI = L.Control.extend({
     },
 
     _initLayout: function(map) {
-        var className = 'leaflet-control-map-ui',
+        var className = 'control-layers',
             container = this._container = L.DomUtil.create('div', className);
 
-        var link = this._layersLink = L.DomUtil.create('a', 'leaflet-map-ui-layers', container);
+        var link = this._layersLink = L.DomUtil.create('a', 'control-button', container);
+        link.innerHTML = "<span class='icon layers'></span>";
         link.href = '#';
         link.title = 'Layers';
 

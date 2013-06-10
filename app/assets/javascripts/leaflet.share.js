@@ -8,11 +8,11 @@ L.Control.Share = L.Control.extend({
     },
 
     onAdd: function (map) {
-        var className = 'leaflet-control-locate',
-            classNames = className + ' leaflet-control-zoom leaflet-bar leaflet-control',
-            container = L.DomUtil.create('div', classNames);
+        var className = 'control-share',
+            container = L.DomUtil.create('div', className);
 
-        var link = L.DomUtil.create('a', 'leaflet-bar-part leaflet-bar-part-single', container);
+        var link = L.DomUtil.create('a', 'control-button', container);
+        link.innerHTML = "<span class='icon share'></span>";
         link.href = '#';
         link.title = this.options.title;
 

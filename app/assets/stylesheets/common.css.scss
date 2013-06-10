@@ -141,6 +141,36 @@ h6:first-child {
   margin-right: $lineheight/4;
 }
 
+/* Rules for icons */
+
+.icon {
+  display:inline-block;
+  vertical-align:top;
+  width:20px;
+  height:20px;
+  background:transparent image-url("sprite.png") no-repeat 0 0;
+  text-indent:-9999px;
+  overflow:hidden;
+  }
+
+.icon-pre-text {
+    margin-right: 5px;
+}
+
+.icon.search      { background-position: 0 0; }
+.icon.donate      { background-position: -20px 0; }
+.icon.zoomin      { background-position: -40px 0; }
+.icon.zoomout     { background-position: -60px 0; }
+.icon.geolocate   { background-position: -80px 0; }
+.icon.layers      { background-position: -100px 0; }
+.icon.key         { background-position: -120px 0; }
+.icon.share       { background-position: -140px 0; }
+.icon.clipboard   { background-position: -160px 0; }
+.icon.link        { background-position: -180px 0; }
+.icon.close       { background-position: -200px 0; }
+.icon.check       { background-position: -220px 0; }
+.icon.note        { background-position: -240px 0; }
+
 /* Rules for links */
 
 a {
@@ -389,7 +419,7 @@ table {
 
 /* Rules for donation request box */
 
-.donate {
+a.donate {
   display: block;
   width: 163px;
   padding: $lineheight/4;
@@ -405,11 +435,6 @@ table {
   &:hover {
     background: #9ed485;
     text-decoration: none;
-  }
-  span {
-    margin: 0;
-    padding-left: 18px;
-    background: image-url("sprite.png") 0 -29px no-repeat;
   }
 }
 
@@ -518,8 +543,35 @@ table {
 }
 
 /* Rules for Leaflet maps */
-.leaflet-control-layers-expanded {
-  padding: 10px !important;
+
+.leaflet-control a {
+  display: block;
+  height: 40px;
+  width: 40px;
+  background-color: white;
+  background-color: rgba(255,255,255,.8);
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.leaflet-control a:hover {
+  background-color: white;
+}
+
+.leaflet-control a .icon {
+  margin: 10px;
+}
+
+.leaflet-map-ui-layers {
+  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.4);
+  background: #f8f8f9;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  display: block;
+  width: 36px;
+  height: 36px;
 }
 
 .leaflet-control-layers-separator {
@@ -1882,11 +1934,11 @@ a.button {
 
 /* Rules for the notes interface */
 
-.note {
+.leaflet-popup-content .note {
   padding-top: $lineheight/2;
 }
 
-.note {
+.leaflet-popup-content .note {
   h2 {
     margin-bottom: $lineheight/2;
   }
