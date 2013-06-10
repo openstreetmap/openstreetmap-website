@@ -257,6 +257,10 @@ OpenStreetMap::Application.routes.draw do
   resources :user_blocks
   match '/blocks/:id/revoke' => 'user_blocks#revoke', :via => [:get, :post], :as => "revoke_user_block"
 
+  # groups
+  match '/groups' => 'groups#index', :via => :get
+  match '/groups/new' => 'groups#new', :via => :get
+
   # redactions
   resources :redactions
 end

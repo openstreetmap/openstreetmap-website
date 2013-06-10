@@ -1,0 +1,22 @@
+<% content_for :heading do %>
+  <h2><%= t'group.new_group' %></h2>
+<% end %>
+
+<%= error_messages_for 'message' %>
+
+<%= form_for :group, :url => { :action => "new" } do |f| %>
+  <table>
+    <tr valign="top">
+      <td class="fieldName"><%= t'group.new.title' %></td>
+      <td><%= f.text_field :title, :size => 60, :value => @subject %></td>
+    </tr>
+    <tr valign="top">
+      <td class="fieldName"><%= t'group.new.description' %></td>
+      <td><%= richtext_area :message, :body, :cols => 80, :value => @body %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= submit_tag t('group.new.submit') %></td>
+    </tr>
+  </table>
+<% end %>
