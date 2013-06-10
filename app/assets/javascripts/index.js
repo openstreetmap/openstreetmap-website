@@ -114,14 +114,7 @@ $(document).ready(function () {
     var layers = getMapLayers();
     var extents = map.getBounds().wrap();
 
-    updatelinks(center,
-                zoom,
-                layers,
-                extents.getWest(),
-                extents.getSouth(),
-                extents.getEast(),
-                extents.getNorth(),
-                params.object);
+    updatelinks(center, zoom, layers, extents, params.object);
 
     var expiry = new Date();
     expiry.setYear(expiry.getFullYear() + 10);

@@ -27,22 +27,30 @@ function zoomPrecision(zoom) {
     };
 }
 
+function normalBounds(bounds) {
+    if (bounds instanceof L.LatLngBounds) return bounds;
+    return new L.LatLngBounds(
+        new L.LatLng(bounds[0][0], bounds[0][1]),
+        new L.LatLng(bounds[1][0], bounds[1][1]));
+}
+
 /*
- * Called as the user scrolls/zooms around to aniplate hrefs of the
+ * Called as the user scrolls/zooms around to maniplate hrefs of the
  * view tab and various other links
  */
-function updatelinks(loc, zoom, layers, minlon, minlat, maxlon, maxlat, object) {
+function updatelinks(loc, zoom, layers, bounds, object) {
   var toPrecision = zoomPrecision(zoom);
+  bounds = normalBounds(bounds);
   var node;
 
   var lat = toPrecision(loc.lat),
       lon = toPrecision(loc.lon || loc.lng);
 
-  if (minlon) {
-    minlon = toPrecision(minlon);
-    minlat = toPrecision(minlat);
-    maxlon = toPrecision(maxlon);
-    maxlat = toPrecision(maxlat);
+  if (bounds) {
+    var minlon = toPrecision(bounds.getWest()),
+        minlat = toPrecision(bounds.getSouth()),
+        maxlon = toPrecision(bounds.getEast()),
+        maxlat = toPrecision(bounds.getNorth());
   }
 
   $(".geolink").each(setGeolink);
@@ -52,11 +60,15 @@ function updatelinks(loc, zoom, layers, minlon, minlat, maxlon, maxlat, object) 
     var args = getArgs(link.href);
 
     if ($(link).hasClass("llz")) {
-      args.lat = lat;
-      args.lon = lon;
-      args.zoom = zoom;
+      $.extend(args, {
+          lat: lat,
+          lon: lon,
+          zoom: zoom
+      });
     } else if (minlon && $(link).hasClass("bbox")) {
-      args.bbox = minlon + "," + minlat + "," + maxlon + "," + maxlat;
+      $.extend(args, {
+          bbox: minlon + "," + minlat + "," + maxlon + "," + maxlat
+      });
     }
 
     if (layers && $(link).hasClass("layers")) {
@@ -86,9 +98,6 @@ function updatelinks(loc, zoom, layers, minlon, minlat, maxlon, maxlat, object) 
     link.href = setArgs(link.href, args);
   }
 
-  function minZoomAlert() {
-      alert(I18n.t("javascripts.site." + name + "_zoom_alert")); return false;
-  }
 
   function setShortlink() {
     var args = getArgs(this.href);
@@ -103,8 +112,7 @@ function updatelinks(loc, zoom, layers, minlon, minlat, maxlon, maxlat, object) 
     // This is a hack to omit the default mapnik layer from the shortlink.
     if (layers && layers != "M") {
       args.layers = layers;
-    }
-    else {
+    } else {
       delete args.layers;
     }
 
@@ -118,6 +126,10 @@ function updatelinks(loc, zoom, layers, minlon, minlat, maxlon, maxlat, object) 
       this.href = prefix + "/go/" + code;
     }
   }
+}
+
+function minZoomAlert() {
+    alert(I18n.t("javascripts.site." + name + "_zoom_alert")); return false;
 }
 
 /*
