@@ -9,62 +9,65 @@
 <%= form_for :user, :url => { :action => 'terms' } do %>
   <%= hidden_field_tag('referer', h(@referer)) unless @referer.nil? %>
 
-  <table id="signupForm">
-    <tr>
-      <td class="fieldName"><%= t 'user.new.email address' %></td>
-      <td><%= email_field(:user, :email, { :size => 50, :maxlength => 255, :tabindex => 1 }) %></td>
-    </tr>
-    <tr>
-      <td class="fieldName"><%= t 'user.new.confirm email address' %></td>
-      <td><%= email_field(:user, :email_confirmation, { :size => 50, :maxlength => 255, :tabindex => 2 }) %></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><span class="minorNote"><%= raw(t 'user.new.not displayed publicly') %></span></td>
-    </tr>
+  <div id="signupForm" class="standard-form">
+    <fieldset>
+      <div class="form-row">
+        <label for="email" class="fieldName">
+          <%= t 'user.new.email address' %>
+        </label>
+        <%= email_field(:user, :email, { :tabindex => 1 }) %>
+      </div>
+      <div class="form-row">
+        <label for="email_confirmation" class="fieldName">
+          <%= t 'user.new.confirm email address' %>
+        </label>
+        <%= email_field(:user, :email_confirmation, { :tabindex => 2 }) %>
+      </div>
+    <p class="form-help deemphasize"><%= raw(t 'user.new.not displayed publicly') %></p>
+    </fieldset>
 
-    <tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
+    <fieldset>
+      <div class="form-row">
+        <label for="display_name" class="fieldName">
+          <%= t 'user.new.display name' %>
+        </label>
+        <%= text_field(:user, :display_name, { :tabindex => 3 }) %>
+      </div>
+      <p class="form-help deemphasize"><%= t 'user.new.display name description' %></span>
+    </fieldset>
 
-    <tr>
-      <td class="fieldName"><%= t 'user.new.display name' %></td>
-      <td><%= text_field(:user, :display_name, { :size => 30, :maxlength => 255, :tabindex => 3 }) %></td></tr>
-    <tr>
-      <td></td>
-      <td><span class="minorNote"><%= t 'user.new.display name description' %></span></td>
-    </tr>
+    <fieldset id="openid_field">
+      <div class="form-row">
+        <label for="openid_url" class="fieldName">
+          <%= raw t 'user.new.openid', :logo => openid_logo %>
+        </label>
+        <%= url_field(:user, :openid_url, { :id => "openid_url", :tabindex => 4, :class => "openid_url" }) %>
+      </div>
+    </fieldset>
 
-    <tr id="openid_spacer"><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
+    <fieldset>
+      <div class="form-row">
+        <label for='user[pass_crypt]' class="fieldName">
+          <%= t 'user.new.password' %>
+        </label>
+        <%= password_field(:user, :pass_crypt, {:tabindex => 5 }) %>
+      </div>
+      <div class="form-row">
+        <label class="fieldName">
+          <%= t 'user.new.confirm password' %>
+        </label>
+        <%= password_field(:user, :pass_crypt_confirmation, { :tabindex => 6 }) %>
+      </div>
+      <span id="openid_prompt" class="">
+        <%= link_to raw(t("user.new.use openid", :logo => openid_logo)), "#", :id => "openid_enable" %>
+      </span>
+      <span id="openid_note" class="">
+        <%= t 'user.new.openid no password' %>
+      </span>
+    </fieldset>
 
-    <tr id="openid_field">
-      <td class="fieldName"><%= raw t 'user.new.openid', :logo => openid_logo %></td>
-      <td><%= url_field(:user, :openid_url, { :id => "openid_url", :size => 50, :maxlength => 255, :tabindex => 4, :class => "openid_url" }) %></td>
-    </tr>
-
-    <tr><td colspan="2">&nbsp;<!--vertical spacer--></td></tr>
-
-    <tr>
-      <td class="fieldName"><%= t 'user.new.password' %></td>
-      <td><%= password_field(:user, :pass_crypt, { :size => 30, :maxlength => 255, :tabindex => 5 }) %></td>
-    </tr>
-    <tr>
-      <td class="fieldName"><%= t 'user.new.confirm password' %></td>
-      <td><%= password_field(:user, :pass_crypt_confirmation, { :size => 30, :maxlength => 255, :tabindex => 6 }) %></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>
-        <span id="openid_prompt" class="minorNote"><%= link_to raw(t("user.new.use openid", :logo => openid_logo)), "#", :id => "openid_enable" %></span>
-        <span id="openid_note" class="minorNote"><%= t 'user.new.openid no password' %></span>
-      </td>
-    </tr>
-
-    <tr><td colspan="2" >&nbsp;<!--vertical spacer--></td></tr>
-
-    <tr>
-      <td></td>
-      <td class="submitButton"><%= submit_tag t('user.new.continue'), :tabindex => 6 %></td>
-    </tr>
-  </table>
+      <div class="submitButton"><%= submit_tag t('user.new.continue'), :tabindex => 6 %></div>
+  </div>
 <% end %>
 
 <script type="text/javascript">
