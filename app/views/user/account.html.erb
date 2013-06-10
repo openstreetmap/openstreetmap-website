@@ -26,17 +26,17 @@
   </fieldset>
 
   <fieldset class="form-row">
-    <label><%= t 'user.new.password' %>
+      <label><%= t 'user.new.password' %></label>
     <%= f.password_field :pass_crypt, {:value => '', :autocomplete => :off} %>
   </fieldset>
 
   <fieldset class="form-row">
-    <label><%= t 'user.new.confirm password' %>
+    <label><%= t 'user.new.confirm password' %></label>
     <%= f.password_field :pass_crypt_confirmation, {:value => '', :autocomplete => :off} %>
   </fieldset>
 
   <fieldset class="form-row">
-    <label ><%= t 'user.account.openid.openid' %>
+    <label><%= t 'user.account.openid.openid' %></label>
       <%= f.url_field :openid_url, {:id => "openid_url", :class => "openid_url"} %>
       <p class="form-help deemphasize">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</p>
   </fieldset>
@@ -133,14 +133,11 @@
   </fieldset>
 
   <fieldset class="form-row">
-    
-    
       <p><%= t 'user.account.update home location on click' %> <input type="checkbox" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" /> </p>
       <% content_for :head do %>
         <%= javascript_include_tag "user" %>
       <% end %>
       <%= content_tag "div", "", :id => "map", :class => "content_map settings_map set_location" %>
-    
   </fieldset>
 
   <fieldset class="form-row">
