@@ -27,4 +27,10 @@ class GroupsController < ApplicationController
       @title = t 'group.new.group'
     end
   end
+
+  def view
+    @group = Group.find(params[:id])
+    @title = t 'group.view'
+    render :template => 'groups/view'
+  end
 end
