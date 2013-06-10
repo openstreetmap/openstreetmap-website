@@ -16,37 +16,37 @@
   <fieldset class="form-row">
     <label style="padding-bottom:0px;"><%= t 'user.account.current email address' %></label>
     <input type="email" disabled value="<%= @user.email %>" />
-    <p class="form-help deempharize"><%= t 'user.account.email never displayed publicly' %></p>
+    <p class="form-help deemphasize"><%= t 'user.account.email never displayed publicly' %></p>
   </fieldset>
 
   <fieldset class="form-row">
     <label><%= t 'user.account.new email address' %></label>
-    <%= f.email_field :new_email, {:maxlength => 255} %>
-    <p class="form-help deempharize"><%= t 'user.account.email never displayed publicly' %></p>
+    <%= f.email_field :new_email %>
+    <p class="form-help deemphasize"><%= t 'user.account.email never displayed publicly' %></p>
   </fieldset>
 
   <fieldset class="form-row">
     <label style="padding-bottom:0px;"><%= t 'user.new.password' %></td>
-    <td style="padding-bottom:0px;"><%= f.password_field :pass_crypt, {:value => '', :maxlength => 255, :autocomplete => :off} %></td>
+    <td style="padding-bottom:0px;"><%= f.password_field :pass_crypt, {:value => '', :autocomplete => :off} %></td>
   </fieldset>
 
   <fieldset class="form-row">
     <label><%= t 'user.new.confirm password' %></td>
-    <td><%= f.password_field :pass_crypt_confirmation, {:value => '', :maxlength => 255, :autocomplete => :off} %></td>
+    <td><%= f.password_field :pass_crypt_confirmation, {:value => '', :autocomplete => :off} %></td>
   </fieldset>
 
   <fieldset class="form-row">
     <label ><%= t 'user.account.openid.openid' %></td>
-    <td><%= f.url_field :openid_url, {:id => "openid_url", :class => "openid_url"} %> <span class="form-help deempharize">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span></td>
+    <td><%= f.url_field :openid_url, {:id => "openid_url", :class => "openid_url"} %> <span class="form-help deemphasize">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span></td>
   </fieldset>
 
   <fieldset class="form-row">
     <label><%= t 'user.account.public editing.heading' %></td>
     <td>
       <% if @user.data_public? %>
-        <%= t 'user.account.public editing.enabled' %> <span class="form-help deempharize">(<a href="<%= t 'user.account.public editing.enabled link' %>" target="_new"><%= t 'user.account.public editing.enabled link text' %></a>)</span>
+        <%= t 'user.account.public editing.enabled' %> <span class="form-help deemphasize">(<a href="<%= t 'user.account.public editing.enabled link' %>" target="_new"><%= t 'user.account.public editing.enabled link text' %></a>)</span>
       <% else %>
-        <%= t 'user.account.public editing.disabled' %> <span class="form-help deempharize">(<a href="#public"><%= t 'user.account.public editing.disabled link text' %></a>)</span>
+        <%= t 'user.account.public editing.disabled' %> <span class="form-help deemphasize">(<a href="#public"><%= t 'user.account.public editing.disabled link text' %></a>)</span>
       <% end %>
     </td>
   </fieldset>
@@ -56,7 +56,7 @@
     <td>
       <% if @user.terms_agreed? %>
         <%= t 'user.account.contributor terms.agreed' %>
-        <span class="form-help deempharize">(<a href="<%= t 'user.account.contributor terms.link' %>" target="_new"><%= t 'user.account.contributor terms.link text' %></a>)</span>
+        <span class="form-help deemphasize">(<a href="<%= t 'user.account.contributor terms.link' %>" target="_new"><%= t 'user.account.contributor terms.link text' %></a>)</span>
         <br />
         <% if @user.consider_pd? %>
           <%= t 'user.account.contributor terms.agreed_with_pd' %>
@@ -106,17 +106,17 @@
         <% if @user.image.file? %>
         <fieldset class="form-row">
           <td><%= radio_button_tag "image_action", "new" %></td>
-          <td><%= t 'user.account.replace image' %><br /><%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %><br /><span class="form-help deempharize"><%= t 'user.account.image size hint' %></span></td>
+          <td><%= t 'user.account.replace image' %><br /><%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %><br /><span class="form-help deemphasize"><%= t 'user.account.image size hint' %></span></td>
         </fieldset>
         <% else %>
         <fieldset class="form-row">
           <td><%= radio_button_tag "image_action", "new" %></td>
-          <td><%= t 'user.account.new image' %><br /><%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %><br /><span class="form-help deempharize"><%= t 'user.account.image size hint' %></span></td>
+          <td><%= t 'user.account.new image' %><br /><%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %><br /><span class="form-help deemphasize"><%= t 'user.account.image size hint' %></span></td>
         </fieldset>
         <% end %>
         <fieldset class="form-row">
           <td><%= radio_button_tag "image_action", "gravatar", @user.image_use_gravatar %></td>
-          <td><%= t 'user.account.gravatar.gravatar' %> <span class="form-help deempharize">(<a href="<%= t 'user.account.gravatar.link' %>" target="_new"><%= t 'user.account.gravatar.link text' %></a>)</span></td>
+          <td><%= t 'user.account.gravatar.gravatar' %> <span class="form-help deemphasize">(<a href="<%= t 'user.account.gravatar.link' %>" target="_new"><%= t 'user.account.gravatar.link text' %></a>)</span></td>
         </fieldset>
       </table>
     </td>
