@@ -30,6 +30,13 @@ class Note < ActiveRecord::Base
     self.save
   end
 
+  # Reopen a note
+  def reopen
+    self.status = "open"
+    self.closed_at = nil
+    self.save
+  end
+
   # Check if a note is visible
   def visible?
     status != "hidden"

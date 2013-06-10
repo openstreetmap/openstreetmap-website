@@ -5,10 +5,10 @@ class NotesController < ApplicationController
   before_filter :check_api_readable
   before_filter :authorize_web, :only => [:mine]
   before_filter :setup_user_auth, :only => [:create, :comment]
-  before_filter :authorize, :only => [:close, :destroy]
+  before_filter :authorize, :only => [:close, :reopen, :destroy]
   before_filter :require_moderator, :only => [:destroy]
-  before_filter :check_api_writable, :only => [:create, :comment, :close, :destroy]
-  before_filter :require_allow_write_notes, :only => [:create, :comment, :close, :destroy]
+  before_filter :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
+  before_filter :require_allow_write_notes, :only => [:create, :comment, :close, :reopen, :destroy]
   before_filter :set_locale
   after_filter :compress_output
   around_filter :api_call_handle_error, :api_call_timeout
@@ -133,6 +133,36 @@ class NotesController < ApplicationController
       @note.close
 
       add_comment(@note, comment, "closed")
+    end
+
+    # Return a copy of the updated note
+    respond_to do |format|
+      format.xml { render :action => :show }
+      format.json { render :action => :show }
+    end
+  end 
+
+  ##
+  # Reopen a note
+  def reopen
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+
+    # Extract the arguments
+    id = params[:id].to_i
+    comment = params[:text]
+
+    # Find the note and check it is valid
+    @note = Note.find_by_id(id)
+    raise OSM::APINotFoundError unless @note
+    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+    raise OSM::APINoteAlreadyOpenError.new(@note) unless @note.closed?
+
+    # Reopen the note and add a comment
+    Note.transaction do
+      @note.reopen
+
+      add_comment(@note, comment, "reopened")
     end
 
     # Return a copy of the updated note
