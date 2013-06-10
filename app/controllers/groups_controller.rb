@@ -10,6 +10,7 @@ class GroupsController < ApplicationController
   ##
   # An index of Groups
   def index
+    @groups = Group.all()
     render :template => 'groups/index'
   end
   
