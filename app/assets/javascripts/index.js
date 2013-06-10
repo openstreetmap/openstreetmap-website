@@ -65,7 +65,7 @@ $(document).ready(function () {
 
   L.control.share({
       getUrl: function(map) {
-          return setArgs('http://osm.org/', {
+          return 'http://osm.org/' + querystring.stringify({
               lon: map.getCenter().lng,
               lat: map.getCenter().lat
           });
@@ -159,10 +159,13 @@ $(document).ready(function () {
     var loaded = false;
 
     $("#linkloader").load(function () { loaded = true; });
-    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + extent.getWest()
-                                                                   + "&bottom=" + extent.getSouth()
-                                                                   + "&right=" + extent.getEast()
-                                                                   + "&top=" + extent.getNorth());
+    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?" +
+         querystring.stringify({
+            left: extent.getWest(),
+            bottom: extent.getSouth(),
+            right: extent.getEast(),
+            top: extent.getNorth()
+         }));
 
     setTimeout(function () {
       if (!loaded) alert(I18n.t('site.index.remote_failed'));

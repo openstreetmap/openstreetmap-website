@@ -9,9 +9,21 @@ $(document).ready(function () {
     $("#linkloader").load(function () { loaded = true; });
 
     if (select) {
-      $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + left + "&top=" + top + "&right=" + right + "&bottom=" + bottom + "&select=" + select);
+      $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?" +
+        querystring.stringify({
+            left: left,
+            top: top,
+            right: right,
+            bottom: bottom,
+            select: select
+        }));
     } else {
-      $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + left + "&top=" + top + "&right=" + right + "&bottom=" + bottom);
+      $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?" + querystring.stringify({
+            left: left,
+            top: top,
+            right: right,
+            bottom: bottom
+        }));
     }
 
     setTimeout(function () {

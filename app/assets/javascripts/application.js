@@ -16,6 +16,9 @@
 //= require richtext
 //= require resize
 //= require geocoder
+//= require querystring
+
+var querystring = require('querystring');
 
 function zoomPrecision(zoom) {
     var decimals = Math.pow(10, Math.floor(zoom/3));
@@ -54,13 +57,15 @@ function updatelinks(loc, zoom, layers, bounds, object) {
   $("#shortlinkanchor").each(setShortlink);
 
   function setGeolink(index, link) {
-    var args = getArgs(link.href);
+    var base = link.href.split('?')[0];
+    var qs = link.href.split('?')[1];
+    var args = querystring.parse(qs);
 
     if ($(link).hasClass("llz")) {
       $.extend(args, {
-          lat: lat,
-          lon: lon,
-          zoom: zoom
+          lat: '' + lat,
+          lon: '' + lon,
+          zoom: '' + zoom
       });
     } else if (minlon && $(link).hasClass("bbox")) {
       $.extend(args, {
@@ -68,13 +73,8 @@ function updatelinks(loc, zoom, layers, bounds, object) {
       });
     }
 
-    if (layers && $(link).hasClass("layers")) {
-      args.layers = layers;
-    }
-
-    if (object && $(link).hasClass("object")) {
-      args[object.type] = object.id;
-    }
+    if (layers && $(link).hasClass("layers")) args.layers = layers;
+    if (object && $(link).hasClass("object")) args[object.type] = object.id;
 
     var minzoom = $(link).data("minzoom");
     if (minzoom) {
@@ -92,14 +92,16 @@ function updatelinks(loc, zoom, layers, bounds, object) {
         }
     }
 
-    link.href = setArgs(link.href, args);
+    link.href = base + '?' + querystring.stringify(args);
   }
 
 
   function setShortlink() {
-    var args = getArgs(this.href);
-    var code = makeShortCode(lat, lon, zoom);
-    var prefix = shortlinkPrefix();
+    var base = link.href.split('?')[0],
+        qs = link.href.split('?')[1],
+        args = querystring.parse(qs),
+        code = makeShortCode(lat, lon, zoom),
+        prefix = shortlinkPrefix();
 
     // Add ?{node,way,relation}=id to the arguments
     if (object) {
@@ -118,7 +120,7 @@ function updatelinks(loc, zoom, layers, bounds, object) {
     // which encodes lat/lon/zoom. If new URL parameters are added to
     // the main slippy map this needs to be changed.
     if (args.layers || object) {
-      this.href = setArgs(prefix + "/go/" + code, args);
+      this.href = prefix + "/go/" + code + '?' + querystring.stringify(args);
     } else {
       this.href = prefix + "/go/" + code;
     }
@@ -138,46 +140,6 @@ function shortlinkPrefix() {
   } else {
     return "";
   }
-}
-
-/*
- * Called to get the arguments from a URL as a hash.
- */
-function getArgs(url) {
-  var args = {};
-  var querystart = url.indexOf("?");
-
-  if (querystart >= 0) {
-     var querystring = url.substring(querystart + 1);
-     var queryitems = querystring.split("&");
-
-     for (var i = 0; i < queryitems.length; i++) {
-        if (match = queryitems[i].match(/^(.*)=(.*)$/)) {
-           args[unescape(match[1])] = unescape(match[2]);
-        } else {
-           args[unescape(queryitems[i])] = null;
-        }
-     }
-  }
-
-  return args;
-}
-
-/*
- * Called to set the arguments on a URL from the given hash.
- */
-function setArgs(url, args) {
-   var queryitems = [];
-
-   for (arg in args) {
-      if (args[arg] == null) {
-         queryitems.push(escape(arg));
-      } else {
-         queryitems.push(escape(arg) + "=" + escape(args[arg]));
-      }
-   }
-
-   return url.replace(/\?.*$/, "") + "?" + queryitems.join("&");
 }
 
 /*
