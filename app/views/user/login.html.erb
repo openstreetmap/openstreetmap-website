@@ -9,23 +9,24 @@
 
     <p><%= t 'user.login.no account' %> <%= link_to t('user.login.register now'), :action => :new, :referer => params[:referer] %></p>
 
-    <table id="loginForm">
-      <tr><td class="fieldName"><%= t 'user.login.email or username' %></td><td><%= text_field_tag "username", params[:username], :maxlength => 255, :tabindex => 1 %></td></tr>
-      <tr><td class="fieldName"><%= t 'user.login.password' %></td><td><%= password_field_tag "password", "", :maxlength => 255, :tabindex => 2 %> <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span></td></tr>
-      <tr>
-        <td></td>
-        <td><%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %>
-          <label for="remember_me">
-            <%= t 'user.login.remember' %></label>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>
-          <%= submit_tag t('user.login.login_button'), :tabindex => 4 %>
-        </td>
-      </tr>
-    </table>
+    <div id="loginForm">
+      <fieldset>
+        <label><%= t 'user.login.email or username' %></label>
+        <%= text_field_tag "username", params[:username], :maxlength => 255, :tabindex => 1 %>
+      </fieldset>
+      <fieldset>
+        <label><%= t 'user.login.password' %></label>
+        <%= password_field_tag "password", "", :maxlength => 255, :tabindex => 2 %>
+        <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span>
+      </fieldset>
+      <fieldset>
+        <%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %>
+        <label for="remember_me"><%= t 'user.login.remember' %></label>
+      </fieldset>
+      <fieldset>
+        <%= submit_tag t('user.login.login_button'), :tabindex => 4 %>
+      </fieldset>
+    </div>
     <p><%= t 'user.login.with openid' %></p>
 
     <ul id="login_openid_buttons">
@@ -37,21 +38,17 @@
         <li><%= openid_button "aol", "aol.com" %></li>
     </ul>
 
-    <table>
-      <tr id="login_openid_url">
-        <td class="fieldName nowrap">
-          <%= raw t 'user.login.openid', :logo => openid_logo %>
-        </td>
-        <td>
-          <%= url_field_tag("openid_url", "", { :maxlength => 255, :tabindex => 3, :class => "openid_url" }) %>
-          <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
-        </td>
-      </tr>
-      <tr>
-        <td class="fieldName nowrap" id="remember_me_label"><label for="remember_me"><%= t 'user.login.remember' %></label></td>
-        <td width="100%"><%= check_box_tag "remember_me", "yes", false, :tabindex => 5 %></td>
-      </tr>
-    </table>
+    <div>
+      <fieldset id="login_openid_url">
+        <label><%= raw t 'user.login.openid', :logo => openid_logo %></label>
+        <%= url_field_tag("openid_url", "", { :maxlength => 255, :tabindex => 3, :class => "openid_url" }) %>
+        <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
+      </fieldset>
+      <fieldset>
+        <label for="remember_me"><%= t 'user.login.remember' %></label>
+        <%= check_box_tag "remember_me", "yes", false, :tabindex => 5 %>
+      </fieldset>
+    </div>
 
     <%= submit_tag t('user.login.login_button'), :tabindex => 6, :id => "login_openid_submit" %>
   <% end %>
