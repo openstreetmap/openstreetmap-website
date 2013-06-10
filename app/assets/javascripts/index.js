@@ -48,7 +48,11 @@ $(document).ready(function () {
       map.fitBounds(bbox);
 
       if (params.box) {
-        addBoxToMap(bbox);
+        L.rectangle(bbox, {
+          weight: 2,
+          color: '#e90',
+          fillOpacity: 0
+        }).addTo(map);
       }
     } else {
       map.setView([params.lat, params.lon], params.zoom);

@@ -33,7 +33,12 @@ $(document).ready(function () {
                               [params.maxlat, params.maxlon]);
 
     map.fitBounds(bbox);
-    addBoxToMap(bbox);
+
+    L.rectangle(bbox, {
+      weight: 2,
+      color: '#e90',
+      fillOpacity: 0
+    }).addTo(map);
 
     $("#loading").hide();
     $("#browse_map .geolink").show();
