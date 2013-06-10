@@ -60,7 +60,7 @@ $(document).ready(function () {
       return remoteEditHandler(bbox);
     });
 
-    updatelinks(params.lon, params.lat, 16, null, 
+    updatelinks(params.lon, params.lat, 16, null,
                 bbox.getWest(), bbox.getSouth(),
                 bbox.getEast(), bbox.getNorth(),
                 object);

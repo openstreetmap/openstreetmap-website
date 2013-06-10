@@ -6,6 +6,7 @@
 //= require leaflet
 //= require leaflet.osm
 //= require leaflet.locationfilter
+//= require leaflet.locate
 //= require i18n/translations
 //= require oauth
 //= require osm
