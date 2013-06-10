@@ -69,10 +69,10 @@ $(document).ready(function () {
     map.on("moveend", updateData);
     updateData();
 
-    $("#browse_filter_toggle").toggle(enableFilter, disableFilter);
+    $("#browse_filter_toggle").click(toggleFilter);
 
     $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.hide_areas'));
-    $("#browse_hide_areas_box").toggle(hideAreas, showAreas);
+    $("#browse_hide_areas_box").click(toggleAreas);
 
     $("#sidebar").one("closed", function () {
       map.removeLayer(dataLayer);
@@ -96,28 +96,28 @@ $(document).ready(function () {
     }
   }
 
-  function enableFilter() {
-    $("#browse_filter_toggle").html(I18n.t('browse.start_rjs.view_data'));
-    locationFilter.setBounds(map.getBounds().pad(-0.2));
-    locationFilter.enable();
+  function toggleFilter() {
+    if (locationFilter.isEnabled()) {
+      $("#browse_filter_toggle").html(I18n.t('browse.start_rjs.manually_select'));
+      locationFilter.disable();
+    } else {
+      $("#browse_filter_toggle").html(I18n.t('browse.start_rjs.view_data'));
+      locationFilter.setBounds(map.getBounds().pad(-0.2));
+      locationFilter.enable();
+    }
+
     getData();
   }
 
-  function disableFilter() {
-    $("#browse_filter_toggle").html(I18n.t('browse.start_rjs.manually_select'));
-    locationFilter.disable();
-    getData();
-  }
+  function toggleAreas() {
+    if (areasHidden) {
+      $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.hide_areas'));
+      areasHidden = false;
+    } else {
+      $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.show_areas'));
+      areasHidden = true;
+    }
 
-  function hideAreas() {
-    $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.show_areas'));
-    areasHidden = true;
-    getData();
-  }
-
-  function showAreas() {
-    $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.hide_areas'));
-    areasHidden = false;
     getData();
   }
 

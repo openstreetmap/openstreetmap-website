@@ -16,6 +16,7 @@
 # Author: Ezhick
 # Author: G0rn
 # Author: Ignatus
+# Author: Iluvatar
 # Author: Kaganer
 # Author: Komzpa
 # Author: Lockal
@@ -152,11 +153,13 @@ ru:
       edit: 
         area: Править область
         node: Править точку
+        note: Править заметку
         relation: Править отношение
         way: Править линию
       larger: 
         area: Просмотр области на более крупной карте
         node: Просмотр точки на более крупной карте
+        note: Просмотр заметки на большой карте
         relation: Просмотр отношения на более крупной карте
         way: Просмотр линии на более крупной карте
       loading: Загрузка...
@@ -164,10 +167,12 @@ ru:
       all: 
         next_changeset_tooltip: Следующий пакет правок
         next_node_tooltip: Следующая точка
+        next_note_tooltip: Следующая заметка
         next_relation_tooltip: Следующее отношение
         next_way_tooltip: Следующая линия
         prev_changeset_tooltip: Предыдущий пакет правок
         prev_node_tooltip: Предыдущая точка
+        prev_note_tooltip: Предыдущая заметка
         prev_relation_tooltip: Предыдущее отношение
         prev_way_tooltip: Предыдущая линия
       user: 
@@ -195,9 +200,19 @@ ru:
         node: точка
         relation: отношение
         way: линия
+    note: 
+      at_by_html: "%{when} назад участником %{user}"
+      at_html: "%{when} назад"
+      closed: "Закрыта:"
+      closed_title: "Обработанная заметка: %{note_name}"
+      comments: "Комментарии:"
+      description: "Описание:"
+      last_modified: "Изменена:"
+      open_title: "Необработанная заметка: %{note_name}"
+      opened: "Открыта:"
     paging_nav: 
       of: из
-      showing_page: Показана страница
+      showing_page: страница
     redacted: 
       message_html: Версия %{version} этого объекта вырезана и не может быть отображена. Смотрите %{redaction_link} для дополнительной информации.
       redaction: Редакция %{id}
@@ -235,9 +250,10 @@ ru:
       loaded_an_area_with_num_features: Вы загрузили область, которая содержит %{num_features} объектов. Некоторые браузеры могут не справиться с отображением такого количества данных. Обычно браузеры могут обрабатывать до %{max_features} объектов. Загрузка большего числа может замедлить ваш браузер или привести к его зависанию. Если вы всё равно хотите отобразить эти данные, нажмите на кнопку ниже.
       loading: Загрузка...
       manually_select: Выделить другую область
+      notes_layer_name: Просмотр заметок
       object_list: 
         api: Получить эту область из API
-        back: Отобразить список объектов
+        back: Вернуться к списку объектов
         details: Подробности
         heading: Список объектов
         history: 
@@ -279,8 +295,8 @@ ru:
       way_title: "Линия: %{way_name}"
     way_details: 
       also_part_of: 
-        one: также содержится в линии %{related_ways}
-        other: также содержится в линиях %{related_ways}
+        one: содержится в линии %{related_ways}
+        other: содержится в линиях %{related_ways}
       nodes: "Точки:"
       part_of: "Участвует в:"
     way_history: 
@@ -308,13 +324,13 @@ ru:
       saved_at: Завершено
       user: Пользователь
     list: 
-      description: Последние изменения
+      description: Последние изменения в карте
       description_bbox: "Пакеты правок в рамке, охватывающей координаты: %{bbox}"
       description_friend: Пакеты правок ваших друзей
       description_nearby: Наборы правок соседних участников
       description_user: Пакеты правок пользователя %{user}
       description_user_bbox: Пакеты правок пользователя %{user} в рамке, охватывающей координаты %{bbox}
-      empty_anon_html: Пока правок ещё нет
+      empty_anon_html: Пока правок ещё нет.
       empty_user_html: Похоже, вы ещё не сделали ни одной правки. Приступая к работе, посмотрите <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Руководство для начинающих</a>.
       heading: Пакеты правок
       heading_bbox: Пакеты правок
@@ -383,7 +399,7 @@ ru:
       newer_entries: Более новые записи
       no_entries: В дневнике нет записей
       older_entries: Более старые записи
-      recent_entries: "Недавние записи:"
+      recent_entries: Недавние записи
       title: Дневники
       title_friends: Дневники друзей
       title_nearby: Дневники соседних участников
@@ -728,6 +744,8 @@ ru:
           airfield: Военный аэродром
           barracks: Казармы
           bunker: Бункер
+        mountain_pass: 
+          "yes": Перевал
         natural: 
           bay: Залив
           beach: Пляж
@@ -953,7 +971,29 @@ ru:
         transport_map: Карта транспорта
       overlays: 
         maplint: Maplint
+    notes: 
+      new: 
+        add: Добавить заметку
+        intro: Введённая вами информация будет доступна другим пользователям, возможно, она поможет улучшить карту. Пожалуйста, оставьте в заметке чёткое описание, установите маркер в точное место на карте.
+      show: 
+        anonymous_warning: Эта заметка содержит комментарии анонимных участников. Требуется независимая проверка сведений.
+        closed_by: обработана <a href='%{user_url}'>%{user}</a> %{time}
+        closed_by_anonymous: обработана анонимом %{time}
+        comment: Прокомментировать
+        comment_and_resolve: Прокомментировать и обработать
+        commented_by: прокомментирована <a href='%{user_url}'>%{user}</a> %{time}
+        commented_by_anonymous: прокомментирована анонимом %{time}
+        hide: Скрыть
+        opened_by: создана <a href='%{user_url}'>%{user}</a> %{time}
+        opened_by_anonymous: создана анонимом %{time}
+        permalink: Постоянная ссылка
+        reopened_by: возобновлена <a href='%{user_url}'>%{user}</a> %{time}
+        reopened_by_anonymous: возобновлена анонимом %{time}
+        resolve: Обработана
     site: 
+      createnote_disabled_tooltip: Приблизьте карту, чтобы добавить заметку
+      createnote_tooltip: Добавить заметку на карту
+      createnote_zoom_alert: Вы должны приблизить карту, чтобы добавить заметку
       edit_disabled_tooltip: Увеличить масштаб для редактирования карты
       edit_tooltip: Править карту
       edit_zoom_alert: Необходимо увеличить масштаб карты, если вы хотите ее править.
@@ -1126,8 +1166,6 @@ ru:
       back_to_outbox: Назад к исходящим
       date: Дата
       from: От
-      reading_your_messages: Просмотр сообщения
-      reading_your_sent_messages: Просмотр отправленного сообщения
       reply_button: Ответить
       subject: Тема
       title: Просмотр сообщения
@@ -1138,6 +1176,27 @@ ru:
       wrong_user: "\nВы вошли как `%{user}' но ответ на ваш вопрос был отправлен не этому пользователю. Пожалуйста, войдите как соответствующий вашему вопросу пользователь, чтобы прочитать ответ."
     sent_message_summary: 
       delete_button: Удалить
+  note: 
+    entry: 
+      comment: Комментарий
+      full: Полный текст
+    mine: 
+      ago_html: "%{when} назад"
+      created_at: Создана
+      creator: Автор
+      description: Описание
+      heading: Заметки участника %{user}
+      id: ИД
+      last_changed: Изменена
+      subheading: Заметки, созданные или прокомментированные участником %{user}
+      title: Заметки, созданные или прокомментированный участником %{user}
+    rss: 
+      closed: закрытая заметка (около %{place})
+      comment: новый комментарий (около %{place})
+      description_area: Список заметок, созданных, прокомментированных или закрытых в вашей области [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: RSS-поток заметки %{id}
+      new: новая заметка (около %{place})
+      title: Заметки OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Вы можете также прочитать комментарий — %{readurl}, оставить свой — %{commenturl} или ответить — %{replyurl}
@@ -1153,8 +1212,6 @@ ru:
     email_confirm_plain: 
       click_the_link: Если это вы, то перейдите по ссылке, расположенной ниже, чтобы подтвердить изменение.
       greeting: Здравствуйте,
-      hopefully_you_1: Кто-то (надеемся, что вы) хочет изменить свой адрес электронной почты в
-      hopefully_you_2: "%{server_url} на адрес %{new_address}."
     friend_notification: 
       befriend_them: Вы также можете добавить их в качестве друзей в %{befriendurl}.
       had_added_you: "%{user} добавил вас в друзья на OpenStreetMap."
@@ -1184,13 +1241,15 @@ ru:
     lost_password_plain: 
       click_the_link: Если это вы, пожалуйста, перейдите по ссылке, указанной ниже, чтобы сменить ваш пароль.
       greeting: Здравствуйте,
-      hopefully_you_1: Кто-то (надеемся, что вы) запросил смену пароля для этого
-      hopefully_you_2: адреса электронной почты, зарегистрированного на openstreetmap.org.
     message_notification: 
       footer1: Вы можете также прочитать сообщение — %{readurl}
       footer2: и вы можете ответить на %{replyurl}
       header: "Пользователь OpenStreetMap %{from_user} отправил вам сообщение с темой %{subject}:"
       hi: Привет, %{to_user},
+    note_comment_notification: 
+      anonymous: анонимный участник
+      details: Подробнее о заметке %{url}.
+      greeting: Привет,
     signup_confirm: 
       confirm: "Прежде чем мы сможем что-либо сделать, мы должны убедиться, что эта просьба исходит от вас, так что если это так, то, пожалуйста, нажмите на ссылку ниже для подтверждения вашей учетной записи:"
       created: Кто-то (надеемся, вы) только что создал учетную запись на %{site_url}.
@@ -1227,6 +1286,7 @@ ru:
       allow_write_api: изменять карту
       allow_write_diary: создавать дневниковые записи, комментарии, устанавливать друзей
       allow_write_gpx: передавать GPS-треки на сервер.
+      allow_write_notes: изменять заметки.
       allow_write_prefs: изменять ваши пользовательские настройки
       request_access: Приложение %{app_name} запрашивает доступ к вашей учётной записи, %{user}. Пожалуйста, проверьте желаете ли вы, чтобы приложение имело следующие возможности. Вы можете выбрать любое количество.
     revoke: 
@@ -1245,6 +1305,7 @@ ru:
       allow_write_api: изменять карту.
       allow_write_diary: создать дневниковые записи, комментарии, устанавливать друзей
       allow_write_gpx: передавать GPS-треки на сервер.
+      allow_write_notes: изменять заметки.
       allow_write_prefs: изменять их пользовательские настройки
       callback_url: URL обратного вызова
       name: Имя
@@ -1275,6 +1336,7 @@ ru:
       allow_write_api: изменять карту
       allow_write_diary: создавать дневниковые записи, комментарии, устанавливать друзей
       allow_write_gpx: передавать GPS-треки на сервер.
+      allow_write_notes: изменять заметки.
       allow_write_prefs: изменять их пользовательские настройки.
       authorize_url: "Авторизующий URL:"
       confirm: Вы уверены?
@@ -1283,7 +1345,7 @@ ru:
       key: "Потребительский ключ:"
       requests: "Запрос следующих разрешений со стороны пользователя:"
       secret: "Потребительский секрет:"
-      support_notice: Мы поддерживаем HMAC-SHA1 (рекомендуется) и обычный текст в режиме SSL.
+      support_notice: Мы поддерживаем HMAC-SHA1 (рекомендуется) и RSA-SHA1 подписи.
       title: Подробности OAuth для %{app_name}
       url: "URL маркера запроса:"
     update: 
@@ -1331,6 +1393,7 @@ ru:
       potlatch_unsaved_changes: Имеются несохранённые изменения. (Для сохранения в Potlatch снимите выделение с пути или точки, если редактируете в «живом» режиме, либо нажмите кнопку «сохранить», если вы в режиме отложенного сохранения.)
       user_page_link: страница пользователя
     index: 
+      createnote: Добавить заметку
       js_1: Вы используете браузер, в котором не поддерживается или отключен JavaScript.
       js_2: OpenStreetMap использует JavaScript для отображения карт.
       license: 
@@ -1461,6 +1524,7 @@ ru:
       visibility_help: Что это значит?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/RU:%D0%92%D0%B8%D0%B4%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C_GPS-%D1%82%D1%80%D0%B5%D0%BA%D0%BE%D0%B2?uselang=ru
     list: 
+      description: Обзор последних загруженных маршрутов GPS
       empty_html: Пока здесь ничего нет. <a href='%{upload_link}'>Загрузите новый трек</a> или почитайте про GPS-треки на <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>вики-странице</a>.
       public_traces: Общедоступные GPS-треки
       public_traces_from: Общедоступные треки пользователя %{user}
@@ -1510,7 +1574,7 @@ ru:
     trace_paging_nav: 
       newer: Более новые треки
       older: Более старые треки
-      showing_page: Показывается страница %{page}
+      showing_page: Страница %{page}
     view: 
       delete_track: Удалить этот трек
       description: "Описание:"
@@ -1614,8 +1678,8 @@ ru:
       heading: Пользователи
       hide: Скрыть выделенных пользователей
       showing: 
-        one: Показана страница %{page} (%{first_item} из %{items})
-        other: Показана страница %{page} (%{first_item}-%{last_item} из %{items})
+        one: Страница %{page} (%{first_item} из %{items})
+        other: Страница %{page} (%{first_item}-%{last_item} из %{items})
       summary: "%{name} создан %{date}, с адреса %{ip_address}"
       summary_no_ip: "%{name} создан %{date}"
       title: Пользователи
@@ -1677,7 +1741,7 @@ ru:
       button: Добавить в друзья
       failed: Не удалось добавить %{name} в друзья.
       heading: Добавить %{user} в друзья?
-      success: "%{name} теперь ваш друг."
+      success: "%{name} теперь ваш друг!"
     new: 
       confirm email address: "Подтвердите адрес эл. почты:"
       confirm password: "Повторите пароль:"
@@ -1766,10 +1830,10 @@ ru:
       diary: дневник
       edits: правки
       email address: "Адрес Email:"
-      friends_changesets: Просмотреть все наборы правок друзей
-      friends_diaries: Просмотреть все дневники друзей
+      friends_changesets: наборы правок друзей
+      friends_diaries: дневники друзей
       hide_user: скрыть этого пользователя
-      if set location: Если вы укажете свое местоположение, ниже  появятся карта и дополнительные инструменты. Вы можете установить ваше местоположение на вашей странице %{settings_link}.
+      if set location: Укажите свое местоположение на вашей странице %{settings_link} чтобы увидеть своих соседей.
       km away: "%{count} км от вас"
       latest edit: "Последняя правка %{ago}:"
       m away: "%{count} м от вас"
@@ -1778,14 +1842,16 @@ ru:
       my comments: мои комментарии
       my diary: мой дневник
       my edits: мои правки
+      my notes: мои заметки
       my settings: мои настройки
       my traces: мои треки
       nearby users: Другие ближайшие пользователи
-      nearby_changesets: Просмотреть все правки соседей
-      nearby_diaries: Просмотреть все дневники соседей
+      nearby_changesets: правки соседей
+      nearby_diaries: дневники соседей
       new diary entry: новая запись
       no friends: Вы не добавили ещё ни одного друга.
       no nearby users: Пока нет других пользователей, признающих, что занимающихся составлением карты поблизости.
+      notes: заметки
       oauth settings: "\nнастройки OAuth"
       remove as friend: удалить из друзей
       role: 
@@ -1866,7 +1932,7 @@ ru:
       revoke: Разблокировать!
       revoker_name: Разблокировал
       show: Показать
-      showing_page: Показывается страница %{page}
+      showing_page: Страница %{page}
       status: Состояние
     period: 
       one: 1 час

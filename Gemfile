@@ -2,7 +2,7 @@
 source 'http://rubygems.org'
 
 # Require rails
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.12'
 
 # Require things which have moved to gems in ruby 1.9
 gem 'bigdecimal', :platforms => :ruby_19
@@ -29,6 +29,7 @@ gem 'paperclip', '~> 2.0'
 gem 'deadlock_retry', '>= 1.2.0'
 gem 'i18n-js', '>= 3.0.0.rc2'
 gem 'rack-cors'
+gem 'jsonify-rails'
 
 # We need ruby-openid 2.2.0 or later for ruby 1.9 support
 gem 'ruby-openid', '>= 2.2.0'
@@ -37,7 +38,7 @@ gem 'ruby-openid', '>= 2.2.0'
 gem 'redcarpet'
 
 # Character conversion support for ruby 1.8
-gem 'iconv', :platforms => :ruby_18
+gem 'iconv', '= 0.1', :platforms => :ruby_18
 
 # Load libxml support for XML parsing and generation
 gem 'libxml-ruby', '>= 2.0.5', :require => 'libxml'
@@ -55,10 +56,15 @@ gem 'httpclient'
 # Load memcache in case we are using it
 gem 'memcached', '>= 1.4.1'
 
+# Gems useful for development
+group :development do
+  gem 'vendorer'
+end
+
 # Gems needed for running tests
 group :test do
   gem 'timecop'
-  gem 'minitest', :platforms => :ruby_19
+  gem 'minitest', '~> 4.7.0', :platforms => :ruby_19
 end
 
 # Gems needed for compiling assets

@@ -9,6 +9,7 @@
 # Author: Jmontane
 # Author: Martorell
 # Author: McDutchie
+# Author: Micru
 # Author: Nemo bis
 # Author: PerroVerd
 # Author: Pitort
@@ -17,13 +18,14 @@
 # Author: Solde
 # Author: Ssola
 # Author: Toniher
+# Author: XVEC
 ca: 
   activerecord: 
     attributes: 
       diary_comment: 
         body: Cos
       diary_entry: 
-        language: Llengua
+        language: Idioma
         latitude: Latitud
         longitude: Longitud
         title: Títol
@@ -60,7 +62,7 @@ ca:
       diary_comment: Comentari del diari
       diary_entry: Entrada al diari
       friend: Amic
-      language: Llengua
+      language: Idioma
       message: Missatge
       node: Node
       node_tag: Etiqueta del node
@@ -81,7 +83,7 @@ ca:
       tracepoint: Punt de traç
       tracetag: Etiqueta de la traça
       user: Usuari
-      user_preference: Preferències d'usuari
+      user_preference: Preferència d'usuari
       user_token: Testimoni d'usuari
       way: Via
       way_node: Node de la via
@@ -136,11 +138,13 @@ ca:
       edit: 
         area: Modifica l'àrea
         node: Modifica el node
+        note: Edita la nota
         relation: Modifica la relació
         way: Modifica la via
       larger: 
         area: Visualitza l'àrea en un mapa més gran
         node: Visualitza el node en un mapa més gran
+        note: Mostra la nota en un mapa més gran
         relation: Visualitza la relació en un mapa més gran
         way: Visualitza la via en un mapa més gran
       loading: S'està carregant...
@@ -148,10 +152,12 @@ ca:
       all: 
         next_changeset_tooltip: Conjunt de canvis següent
         next_node_tooltip: Node següent
+        next_note_tooltip: següent nota
         next_relation_tooltip: Relació següent
         next_way_tooltip: Via següent
         prev_changeset_tooltip: Conjunt de canvis anterior
         prev_node_tooltip: Node anterior
+        prev_note_tooltip: nota anterior
         prev_relation_tooltip: Relació anterior
         prev_way_tooltip: Via anterior
       user: 
@@ -179,9 +185,19 @@ ca:
         node: node
         relation: relació
         way: via
+    note: 
+      at_by_html: Fa %{when} per %{user}
+      at_html: Fa %{when}
+      closed: "Tancat:"
+      closed_title: Nota resolta
+      comments: "Comentaris:"
+      description: "Descripció:"
+      last_modified: "Última modificació:"
+      open_title: "nota no resolta: %{note_name}"
+      opened: "Obert:"
     paging_nav: 
       of: de
-      showing_page: S'està mostrant pàgina
+      showing_page: pàgina
     redacted: 
       message_html: La versió %{version} d'aquest %{type} no pot ser mostrada com ha estat redactada. Si us plau, vegeu  %{redaction_link} per més detalls.
       redaction: Redacció %{id}
@@ -219,9 +235,10 @@ ca:
       loaded_an_area_with_num_features: "Heu carregat una àrea que conté %{num_features} elements. En general, els navegadors no poden mostrar una quantitat tant gran de dades, funcionen millor mostrant menys de 100 elements a la vegada: el fet de voler que es mostri una quantitat més gran pot fer que el vostre navegador esdevingui lent o que deixi de respondre. Si esteu segur que voleu mostrar aquestes dades, podeu fer-ho fent clic sobre el botó de sota."
       loading: S'està carregant...
       manually_select: Selecciona manualment una àrea diferent
+      notes_layer_name: Navega per les notes
       object_list: 
         api: Obté aquesta àrea mitjançant l'API
-        back: Mostra llista d'objectes
+        back: Torna a la llista d'objectes
         details: Detalls
         heading: Llista d'objectes
         history: 
@@ -263,8 +280,8 @@ ca:
       way_title: "Via: %{way_name}"
     way_details: 
       also_part_of: 
-        one: també part de la via %{related_ways}
-        other: també part de les vies %{related_ways}
+        one: part de la via %{related_ways}
+        other: part de les vies %{related_ways}
       nodes: "Nodes:"
       part_of: "Part de:"
     way_history: 
@@ -284,7 +301,7 @@ ca:
     changeset_paging_nav: 
       next: Endavant »
       previous: « Enrere
-      showing_page: Mostrant pàgina %{page}
+      showing_page: Pàgina %{page}
     changesets: 
       area: Àrea
       comment: Comentari
@@ -292,13 +309,13 @@ ca:
       saved_at: Desat a
       user: Usuari
     list: 
-      description: Canvis recents
+      description: Navega pels canvis recents al mapa
       description_bbox: Conjunt de canvis dins de %{bbox}
       description_friend: Conjunts de canvis dels vostres amics
       description_nearby: Conjunts de canvis d'usuaris propers
       description_user: Conjunt de canvis fets per %{user}
       description_user_bbox: Conjunt de canvis de %{user} dins de %{bbox}
-      empty_anon_html: Encara no ha estat feta cap modificació
+      empty_anon_html: Encara no ha estat feta cap modificació.
       empty_user_html: Sembla que encara no heu fet cap modificació. Per començar feu un cop d'ull a la <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Guia d'iniciació </a>.
       heading: Conjunt de canvis
       heading_bbox: Conjunt de canvis
@@ -366,7 +383,7 @@ ca:
       newer_entries: Entrades més Recents
       no_entries: No hi ha entrades al diari
       older_entries: Entrades més Antigues
-      recent_entries: "Entrades Recents al diari:"
+      recent_entries: "Entrades recents al diari:"
       title: Diaris d'usuari/a
       title_friends: Diaris dels amics
       title_nearby: Diaris d'amics propers
@@ -390,6 +407,9 @@ ca:
       user_title: Diari de %{user}
   editor: 
     default: Predeterminat (actualment %{name})
+    id: 
+      description: iD (editor en el navegador)
+      name: iD
     potlatch: 
       description: Potlatch 1 (editor al navegador)
       name: Potlatch 1
@@ -711,6 +731,8 @@ ca:
           airfield: Aeroport militar
           barracks: Caserna
           bunker: Búnquer
+        mountain_pass: 
+          "yes": Coll
         natural: 
           bay: Badia
           beach: Platja
@@ -934,7 +956,29 @@ ca:
         mapquest: MapQuest Open
         standard: Estàndard
         transport_map: Mapa de transports
+    notes: 
+      new: 
+        add: Afegeix una nota
+        intro: Per tal de millorar el mapa, la informació que envieu és mostrada a altres mappers, per tant, siusplau  sigueu tan  descriptius i precissos com pugueu al moure el marcador a la posició correcta i al escriure la nota a continuació.
+      show: 
+        anonymous_warning: Aquesta nota inclou comentaris d'usuaris anònims que haurien de ser verificats independentment.
+        closed_by: Resolt per <a href='%{user_url}'>%{user}</a> a %{time}
+        closed_by_anonymous: Resolt per un anònim a %{time}
+        comment: Comenta
+        comment_and_resolve: Comenta i resol
+        commented_by: Comentari de <a href='%{user_url}'>%{user}</a> a %{time}
+        commented_by_anonymous: Comentari d'un anònim a %{time}
+        hide: Amaga
+        opened_by: Creat per <a href='%{user_url}'>%{user}</a> a %{time}
+        opened_by_anonymous: Creat per un anònim a %{time}
+        permalink: Enllaç permanent
+        reopened_by: Reactivat per <a href='%{user_url}'>%{user}</a> a %{time}
+        reopened_by_anonymous: Reactivat per un anònim a %{time}
+        resolve: Resol
     site: 
+      createnote_disabled_tooltip: Fes zoom per afegir una nota al mapa
+      createnote_tooltip: Afegiu una nota al mapa
+      createnote_zoom_alert: Heu de fer zoom per afegir una nota al mapa
       edit_disabled_tooltip: Augmenteu el zoom per modificar el mapa
       edit_tooltip: Modifica el mapa
       edit_zoom_alert: Heu d'ampliar el zoom per editar el mapa
@@ -1098,8 +1142,6 @@ ca:
       back_to_outbox: Torna a la safata de sortida
       date: Data
       from: De
-      reading_your_messages: S'estan llegint els missatges
-      reading_your_sent_messages: S'estan llegint els missatges enviats
       reply_button: Respon
       subject: Assumpte
       title: Llegeix el missatge
@@ -1110,6 +1152,36 @@ ca:
       wrong_user: Heu iniciat la sessió com "%{user}", però el missatge que han demanat de respondre a no s'ha enviat a aquest usuari. Si us plau connecti's com l'usuari correcte per a respondre.
     sent_message_summary: 
       delete_button: Suprimeix
+  note: 
+    description: 
+      closed_at_by_html: Resolt fa %{when} per %{user}
+      closed_at_html: Resolt fa %{when}
+      commented_at_by_html: Actualitzat fa %{when} per %{user}
+      commented_at_html: Actualitzat fa %{when}
+      opened_at_by_html: Creat fa %{when} per %{user}
+      opened_at_html: Creat fa %{when}
+      reopened_at_by_html: Reactivat fa %{when} per %{user}
+      reopened_at_html: Reactivat fa %{when}
+    entry: 
+      comment: Comentari
+      full: Nota sencera
+    mine: 
+      ago_html: fa %{when}
+      created_at: Creat a
+      creator: Creador
+      description: Descripció
+      heading: notes de %{user}
+      id: Id
+      last_changed: Últim canvi
+      subheading: Notes enviades o comentades per %{user}
+      title: Notes enviades o comentades per %{user}
+    rss: 
+      closed: nota tancada (aprop de %{place})
+      comment: nou comentari (aprop de %{place})
+      description_area: Una llista de notes, reportades, comentades o bé tancades a la vostra àrea [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: Un canal rss per la nota %{id}
+      new: nova nota  (aprop de %{place})
+      title: Notes de OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: També podeu llegir el comentari a les %{readurl} i es pot comentar als %{commenturl} o respondre a les %{replyurl}
@@ -1125,8 +1197,7 @@ ca:
     email_confirm_plain: 
       click_the_link: Si sou vós mateix, feu clic a l'enllaç inferior per confirmar el canvi.
       greeting: Hola,
-      hopefully_you_1: Algú (esperem que vós mateix) vol canviar l'adreça de correu a
-      hopefully_you_2: "%{server_url} a %{new_address}."
+      hopefully_you: Algú (esperem que vostè) vol canviar la vostra adreça electrònica a %{server_url} per %{new_address}.
     friend_notification: 
       befriend_them: També el podeu afegir com a amic a %{befriendurl}.
       had_added_you: "%{user} t'ha afegit com a amic a OpenStreetMap."
@@ -1155,13 +1226,26 @@ ca:
     lost_password_plain: 
       click_the_link: Si això és vostè, si us plau, feu clic a l'enllaç de sota per restaurar la seva contrasenya.
       greeting: Hola,
-      hopefully_you_1: Algú (possiblement vostè) ha demanat per a la contrasenya restaurar en això
-      hopefully_you_2: adreces d'e-mail openstreetmap.org compte.
+      hopefully_you: Algú (possiblement vostè) ha demanat que la contrasenya d'aquest compte d'openstreetmap.org li siga reiniciada a la vostra adreça de correu electrònic.
     message_notification: 
       footer1: També podeu llegir el missatge a %{readurl}
       footer2: i el pots replicar a %{replyurl}
       header: "%{from_user} ha enviat un missatge a través de OpenStreetMap amb el tema %{subject}:"
       hi: Hola %{to_user},
+    note_comment_notification: 
+      anonymous: Un usuari anònim
+      closed: 
+        commented_note: "%{commenter} ha resolt una nota de mapa en la qual has comentat. Aquesta nota és aprop de %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} ha solucionat una nota que t'interessa"
+        subject_own: "[OpenStreetMap] %{commenter} ha solucionat una de les teves notes"
+        your_note: "%{commenter} ha resolt una de les notes de mapa a prop %{place}."
+      commented: 
+        commented_note: "%{commenter} ha fet un comentari en una nota de mapa a la qual has comentat. Aquesta nota és aprop de %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} ha comentat en una nota la qual hi estàs interessat"
+        subject_own: "[OpenStreetMap] %{commenter} ha comentat en una de les teves notes"
+        your_note: "%{commenter} ha fet un comentari en una de les teves notes del mapa aprop de %{place}."
+      details: Podeu trobar més detalls de la nota a %{url}.
+      greeting: Hola,
     signup_confirm: 
       confirm: "Primer de tot hem de confirmar que aquesta petició ha estat feta per vostè, si ha estat així, si us plau, premeu sobre el següent enllaç per tal confirmar la vostra petició de creació del compte d'usuari:"
       created: Algú (suposem que vós mateix) acaba de crear un compte a %{site_url}.
@@ -1196,6 +1280,7 @@ ca:
       allow_write_api: modificar el mapa.
       allow_write_diary: crear entrades de diari, comentaris i fer amics.
       allow_write_gpx: carregar traces GPS.
+      allow_write_notes: modificar les notes.
       allow_write_prefs: modificar les preferències d'usuari.
       request_access: L'aplicació %{app_name} sol·licita accés al vostre compte, %{user}. Marqueu si voleu autoritzar l'aplicació amb les següents funcions. Podeu triar les que vulgueu.
     revoke: 
@@ -1214,6 +1299,7 @@ ca:
       allow_write_api: modificar el mapa.
       allow_write_diary: crear entrades de diari, comentaris i fer amics.
       allow_write_gpx: carregar traces GPS.
+      allow_write_notes: modifcar les notes.
       allow_write_prefs: modificar les seves preferències d'usuari.
       callback_url: Resposta d'URL
       name: Nom
@@ -1244,6 +1330,7 @@ ca:
       allow_write_api: modificar el mapa.
       allow_write_diary: crear entrades de diari, comentaris i fer amics.
       allow_write_gpx: carregar traces GPS.
+      allow_write_notes: modificar les notes
       allow_write_prefs: modificar les vostres preferències d'usuari.
       authorize_url: "Autoritza URL:"
       confirm: N'esteu segur?
@@ -1252,11 +1339,13 @@ ca:
       key: "Clau de consum:"
       requests: "Sol·licitar els permisos següents des de l'usuari:"
       secret: "Secret de consum:"
-      support_notice: Donem suport a HMAC-SHA1 (recomanat), així com text sense format en el mode de ssl.
+      support_notice: Suportem les signatures de tipus HMAC-SHA1 (recomanat) i RSA-SHA1.
       title: OAuth detalls per %{app_name}
       url: "Sol·licitud Token URL:"
     update: 
       flash: La informació de client ha actualitzat correctament
+  printable_name: 
+    with_version: "% {id}, v % {versió}"
   redaction: 
     create: 
       flash: Redacció creada
@@ -1292,6 +1381,7 @@ ca:
     edit: 
       anon_edits_link_text: Esbrina perquè aquest és el cas.
       flash_player_required: Necessiteu intèrpret de Flash per utilitzar el Potlatch, l'editor de l'OpenStreetMap. Podeu <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">baixar el pluguin de Flash des del web Adobe.com</a>. També hi ha <a href="http://wiki.openstreetmap.org/wiki/Editing">altres opcions</a> per editar l'OpenStreetMap.
+      id_not_configured: iD no s'ha configurat
       no_iframe_support: El navegador no suporta iframes HTML, que són necessàries per a aquesta funcionalitat.
       not_public: No heu fet les configuracions necessàries per tal que les vostres modificacions siguin públiques.
       not_public_description: Ja no podeu modificar el mapa a menys que feu públics els vostres canvis. Podeu configurar les modificacions com a públiques a la vostra %{user_page}.
@@ -1300,6 +1390,7 @@ ca:
       potlatch_unsaved_changes: Teniu canvis sense desar. (Per desar els canvis al Potlatch, heu de desseleccionar la via o el punt actual, si esteu en l'edicó en viu, o fer clic a "desa", si teniu un botó "desa".)
       user_page_link: pàgina d'usuari
     index: 
+      createnote: Afegiu una nota
       js_1: Tampoc està utilitzant un navegador que no suporta JavaScript o té deshabilitat JavaScript.
       js_2: L'OpenStreetMap utilitza JavaScript per al mapa lliscant.
       license: 
@@ -1429,6 +1520,7 @@ ca:
       visibility: "Visibilitat:"
       visibility_help: Què vol dir això?
     list: 
+      description: Navega pels tracks pujats recentment
       empty_html: Aquí encara no hi ha res. <a href='%{upload_link}'>Pujeu un nou track</a> o apreneu més sobre els tracks GPS a la <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>pàgina wiki</a>.
       public_traces: Traces GPS públiques
       public_traces_from: Tracks GPS públics de %{user}
@@ -1469,14 +1561,16 @@ ca:
     trace_header: 
       see_all_traces: Mostra totes les traces
       see_your_traces: Mostra totes les vostres traces
-      traces_waiting: Teniu %{count} traces esperant en cua per a pujar. Considereu esperar a que aquestes traces acabin abans de pujar-ne més, així no blocareu la cua per a altres usuaris.
+      traces_waiting: 
+        one: Teniu %{count} traça esperant en cua per a pujar. Considereu esperar a que aquesta traça acabi abans de pujar-ne més, així no blocareu la cua per a altres usuaris.
+        other: Teniu %{count} traces esperant en cua per a pujar. Considereu esperar a que aquestes traces acabin abans de pujar-ne més, així no blocareu la cua per a altres usuaris.
       upload_trace: Puja una traça
     trace_optionals: 
       tags: Etiquetes
     trace_paging_nav: 
       newer: Tracks més recents
       older: Tracks més antics
-      showing_page: S'està mostrant pàgina %{page}
+      showing_page: Pàgina %{page}
     view: 
       delete_track: Elimina aquesta traça
       description: "Descripció:"
@@ -1580,8 +1674,8 @@ ca:
       heading: Usuaris
       hide: Amaga els usuaris seleccionats
       showing: 
-        one: "mostrant pàgina %{page} (%{first_item} de %{items}) "
-        other: Mostrant pàgina %{page} (%{first_item}-%{last_item} de %{items})
+        one: Pàgina %{page} (%{first_item} de %{items})
+        other: Pàgina %{page} (%{first_item}-%{last_item} de %{items})
       summary: "%{name} creat a partir de %{ip_address} el %{date}"
       summary_no_ip: "%{name} creat el %{date}"
       title: Usuaris
@@ -1643,7 +1737,7 @@ ca:
       button: Afegeix als amics
       failed: Ho sentim, no afegir %{name} com un amic.
       heading: Voleu afegir % {user} com un amic?
-      success: "%{name} ara és el vostre amic."
+      success: "%{name} és ara el vostre amic!"
     new: 
       confirm email address: "Confirmeu l'adreça de correu electrònic:"
       confirm password: "Confirmeu la contrasenya:"
@@ -1677,7 +1771,7 @@ ca:
       your location: La vostra ubicació
     remove_friend: 
       button: Suprimeix dels amics
-      heading: Voleu suprimir % {user} dels amics?
+      heading: Voleu suprimir %{user} dels amics?
       not_a_friend: "%{name} no és un dels seus amics."
       success: "%{name} s'ha suprimit dels teus amics."
     reset_password: 
@@ -1732,26 +1826,28 @@ ca:
       diary: diari
       edits: modificacions
       email address: "Adreça de correu:"
-      friends_changesets: Navega per tots els conjunts de canvis dels vostres amics
-      friends_diaries: Navega totes les entrades de diari dels amics
+      friends_changesets: conjunts de canvis dels vostres amics
+      friends_diaries: entrades de diari dels amics
       hide_user: amagar aquest usuari
-      if set location: Si establiu la vostra ubicació, aquí es mostrarà un mapa i altre coses interessants. Podeu configurar la vostra ubicació a la pàgina %{settings_link}.
+      if set location: Podeu configurar la vostra ubicació a la pàgina %{settings_link} per veure els usuaris propers a vostè.
       km away: "%{count}km de distància"
       latest edit: "Última edició %{ago}:"
       m away: "%{count}m de distància"
-      mapper since: "Mapant des de:"
+      mapper since: "Cartografiant des de:"
       moderator_history: blocs donats
       my comments: els meus comentaris
       my diary: el meu diari
       my edits: les meves edicions
+      my notes: les meves notes de mapa
       my settings: les meves preferències
       my traces: les meves traces
       nearby users: Altres usuaris propers
-      nearby_changesets: Navega tots els conjunts de canvis dels usuaris propers
-      nearby_diaries: Navega totes les entrades de diari dels usuaris propers
+      nearby_changesets: conjunts de canvis dels usuaris propers
+      nearby_diaries: entrades de diari dels usuaris propers
       new diary entry: Nova entrada del diari
       no friends: No has afegit cap amics encara.
       no nearby users: Hi ha altres usuaris que admetre a Cartografia prop encara.
+      notes: notes de mapa
       oauth settings: configuració OAuth
       remove as friend: elimina com a amic
       role: 
@@ -1832,7 +1928,7 @@ ca:
       revoke: Revoca!
       revoker_name: Revocat per
       show: Mostra
-      showing_page: Mostrant pàgina %{page}
+      showing_page: Pàgina %{page}
       status: Estat
     period: 
       one: 1 hora

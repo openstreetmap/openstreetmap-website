@@ -45,4 +45,3 @@ private
     180/Math::PI * Math.log(Math.tan(Math::PI/4+a*(Math::PI/180)/2))
   end
 end
-

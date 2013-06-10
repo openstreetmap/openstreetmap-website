@@ -5,6 +5,11 @@
     <% end %>
 
     <h2><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></h2>
+
+    <small class='deemphasize'>
+      <%= raw(t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :display_name => nil, :language => diary_entry.language_code)) %>
+    </small>
+
   </div>
 
   <div class="richtext" xml:lang="<%= diary_entry.language_code %>" lang="<%= diary_entry.language_code %>">
@@ -14,10 +19,6 @@
   <% if diary_entry.latitude and diary_entry.longitude %>
     <%= render :partial => "location", :object => diary_entry %>
   <% end %>
-
-  <small class='deemphasize'>
-    <%= raw(t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at, :format => :friendly), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :display_name => nil, :language => diary_entry.language_code)) %>
-  </small>
 
   <ul class='secondary-actions clearfix'>
     <% if params[:action] == 'list' %>

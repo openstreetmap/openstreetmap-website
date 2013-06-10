@@ -3,6 +3,8 @@
 # Export driver: syck-pecl
 # Author: Armando-Martin
 # Author: Crazymadlover
+# Author: Fortega
+# Author: Hereñu
 # Author: Invadinado
 # Author: Johnarupire
 # Author: Jynus
@@ -14,6 +16,7 @@
 # Author: PerroVerd
 # Author: Peter17
 # Author: Remux
+# Author: Rubenwap
 # Author: Toliño
 # Author: Translationista
 # Author: VegaDark
@@ -51,7 +54,7 @@ es:
         active: Activo
         description: Descripción
         display_name: Nombre en pantalla
-        email: Correo
+        email: Correo electrónico
         languages: Idiomas
         pass_crypt: Contraseña
     models: 
@@ -59,8 +62,8 @@ es:
       changeset: Conjunto de cambios
       changeset_tag: Etiqueta del conjunto de cambios
       country: País
-      diary_comment: Comentario al diario
-      diary_entry: Entrada del diario
+      diary_comment: Comentario diario
+      diary_entry: Entrada diaria
       friend: Amigo
       language: Idioma
       message: Mensaje
@@ -87,7 +90,7 @@ es:
       user_token: Token del usuario
       way: Vía
       way_node: Nodo de la vía
-      way_tag: Etiqueta de ví­a
+      way_tag: Etiqueta de la ví­a
   application: 
     require_cookies: 
       cookies_needed: Parece que tienes las cookies deshabilitadas. Por favor, habilita las cookies en tu navegador antes de continuar.
@@ -108,7 +111,7 @@ es:
     changeset_details: 
       belongs_to: "Pertenece a:"
       bounding_box: "Envoltura:"
-      box: Caja
+      box: caja
       closed_at: "Cerrado el:"
       created_at: "Creado el:"
       has_nodes: 
@@ -117,8 +120,10 @@ es:
       has_relations: 
         one: "Tiene la siguiente %{count} relación:"
         other: "Tiene las siguientes %{count} relaciones:"
-      has_ways: "Tiene %{count} vías:"
-      no_bounding_box: No se ha guardado una envoltura para este conjunto de cambios
+      has_ways: 
+        one: "Tiene el siguiente %{count} vía:"
+        other: "Tiene las siguientes %{count} vías:"
+      no_bounding_box: No se ha guardado una envoltura para este conjunto de cambios.
       show_area_box: Mostrar caja del área
     common_details: 
       changeset_comment: "Comentario:"
@@ -136,11 +141,13 @@ es:
       edit: 
         area: Editar área
         node: Editar nodo
+        note: Editar nota
         relation: Editar relación
         way: Editar vía
       larger: 
         area: Ver área en un mapa más grande
-        node: Ver el nodo en un mapa más grande
+        node: Ver nodo en un mapa más grande
+        note: Ver nota en mapa mayor
         relation: Ver la relación en un mapa más grande
         way: Ver la vía en un mapa más grande
       loading: Cargando...
@@ -148,10 +155,12 @@ es:
       all: 
         next_changeset_tooltip: Siguiente conjunto de cambios
         next_node_tooltip: Siguiente nodo
+        next_note_tooltip: Nota siguiente
         next_relation_tooltip: Siguiente relación
         next_way_tooltip: Siguiente vía
         prev_changeset_tooltip: Conjunto de cambios anterior
         prev_node_tooltip: Nodo anterior
+        prev_note_tooltip: Nota anterior
         prev_relation_tooltip: Relación anterior
         prev_way_tooltip: Vía anterior
       user: 
@@ -173,15 +182,25 @@ es:
       node_history_title: "Historial del nodo: %{node_name}"
       view_details: Ver detalles
     not_found: 
-      sorry: Lo sentimos, %{type} con ID %{id} no fue encontrado
+      sorry: Lo sentimos, el %{type} con ID %{id} no fue encontrado.
       type: 
         changeset: conjunto de cambios
         node: el nodo
         relation: la relación
         way: la vía
+    note: 
+      at_by_html: Hace %{when} por %{user}
+      at_html: Hace %{when}
+      closed: "Cerrada:"
+      closed_title: "Nota resuelta: %{note_name}"
+      comments: "Comentarios:"
+      description: "Descripción:"
+      last_modified: "Última modificación:"
+      open_title: "Nota sin resolver: %{note_name}"
+      opened: "Abierta:"
     paging_nav: 
       of: de
-      showing_page: Mostrando página
+      showing_page: página
     redacted: 
       message_html: La versión %{version} de este %{type} no se puede mostrar tal como ha sido redactada. Consulte %{redaction_link} para obtener más detalles.
       redaction: Redacción %{id}
@@ -216,12 +235,13 @@ es:
       hide_areas: Ocultar áreas
       history_for_feature: Historial de %{feature}
       load_data: Cargar datos
-      loaded_an_area_with_num_features: Has cargado un área que contiene %{num_features} objetos. Por lo general, algunos navegadores web no aguantan bien el mostrar esta cantidad de información vectorial. Generalmente, el funcionamiento óptimo se da cuando se muestran menos de %{max_features} objetos al mismo tiempo; de otra manera, tu navegador puede volverse lento o no responder. Si estás seguro de que quieres mostrar todos estos datos, puedes hacerlo pulsando el botón que aparece debajo.
+      loaded_an_area_with_num_features: Has cargado un área que contiene %{num_features} objetos. Por lo general, algunos navegadores de internet no aguantan bien el mostrar esta cantidad de información vectorial. Generalmente, el funcionamiento óptimo se da cuando se muestran menos de %{max_features} objetos al mismo tiempo; de otra manera, tu navegador puede volverse lento o no responder. Si estás seguro de que quieres mostrar todos estos datos, puedes hacerlo pulsando el botón que aparece debajo.
       loading: Cargando...
       manually_select: Seleccionar manualmente un área diferente
+      notes_layer_name: Ver notas
       object_list: 
         api: Descargar esta área a través de la API
-        back: Mostrar lista de objetos
+        back: Volver a la lista de proyectos
         details: Detalles
         heading: Lista de objetos
         history: 
@@ -239,7 +259,7 @@ es:
       show_areas: Mostrar áreas
       show_history: Mostrar historial
       unable_to_load_size: "Imposible cargar: El tamaño de la envoltura (%{bbox_size} es demasiado grande (debe ser menor que %{max_bbox_size})"
-      view_data: Ver los datos de la vista de mapa actual
+      view_data: Ver los datos de la vista del mapa actual
       wait: Espere...
       zoom_or_select: Para ver los datos, haga más zoom o seleccione un área del mapa
     tag_details: 
@@ -263,8 +283,8 @@ es:
       way_title: "Vía %{way_name}:"
     way_details: 
       also_part_of: 
-        one: también parte de la ví­a %{related_ways}
-        other: también parte de las ví­as %{related_ways}
+        one: parte del camino %{related_ways}
+        other: parte de los caminos %{related_ways}
       nodes: "Nodos:"
       part_of: "Parte de:"
     way_history: 
@@ -278,13 +298,13 @@ es:
       big_area: (grande)
       no_comment: (ninguno)
       no_edits: (sin ediciones)
-      show_area_box: mostrar caja
+      show_area_box: Mostrar caja del área
       still_editing: (todavía en edición)
       view_changeset_details: Ver detalles del conjunto de cambios
     changeset_paging_nav: 
       next: Siguiente »
       previous: « Anterior
-      showing_page: Mostrando página %{page}
+      showing_page: Página %{page}
     changesets: 
       area: Área
       comment: Comentario
@@ -292,13 +312,13 @@ es:
       saved_at: Guardado en
       user: Usuario
     list: 
-      description: Cambios recientes
+      description: Examinar los cambios recientes hecho en el mapa
       description_bbox: Conjunto de cambios dentro de %{bbox}
       description_friend: Conjuntos de cambios realizados por vuestros amigos
       description_nearby: Conjuntos de cambios realizados por usuarios cercanos
       description_user: Conjunto de cambios por %{user}
       description_user_bbox: Conjunto de cambios por %{user} dentro de %{bbox}
-      empty_anon_html: No se han realizado ediciones todavía
+      empty_anon_html: Todavía no se ha hecho ninguna edición.
       empty_user_html: Parece que no has hecho ninguna edición todavía. Para comenzar, consulta la <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Guía para principiantes</a>.
       heading: Conjuntos de cambios
       heading_bbox: Conjuntos de cambios
@@ -334,9 +354,9 @@ es:
         zero: Sin comentarios
       comment_link: Comentar esta entrada
       confirm: Confirmar
-      edit_link: Editar entrada
+      edit_link: Editar esta entrada
       hide_link: Ocultar esta entrada
-      posted_by: Posteado por %{link_user} el %{created} en %{language_link}
+      posted_by: Ingresado por %{link_user} el %{created} en %{language_link}
       reply_link: Responder a la entrada
     edit: 
       body: "Cuerpo:"
@@ -348,7 +368,7 @@ es:
       save_button: Guardar
       subject: "Asunto:"
       title: Editar entrada del diario
-      use_map_link: Usar mapa
+      use_map_link: usar mapa
     feed: 
       all: 
         description: Entradas recientes en los diarios de los usuarios de OpenStreetMap
@@ -366,7 +386,7 @@ es:
       newer_entries: Entradas más modernas
       no_entries: No hay entradas en el diario
       older_entries: Entradas más antiguas
-      recent_entries: "Entradas recientes en el diario:"
+      recent_entries: Entradas recientes en el diario
       title: Diarios de usuarios
       title_friends: Diarios de amigos
       title_nearby: Diarios de usuarios cercanos
@@ -379,7 +399,7 @@ es:
       title: Nueva entrada en el diario
     no_such_entry: 
       body: Lo sentimos, no hay ninguna entrada del diario para la ID %{id}. Por favor, comprueba que la dirección esté correctamente escrita.
-      heading: No hay entrada con la ID %{id}
+      heading: "No hay entrada con la id: %{id}"
       title: No existe esa entrada de diario
     view: 
       leave_a_comment: Dejar un comentario
@@ -389,7 +409,7 @@ es:
       title: Diario de %{user} | %{title}
       user_title: Diario de %{user}
   editor: 
-    default: Por defecto (en la actualidad %{name})
+    default: Por defecto (actualmente % {nombre})
     potlatch: 
       description: Potlatch 1 (editor en el navegador)
       name: Potlatch 1
@@ -401,27 +421,27 @@ es:
       name: Control remoto
   export: 
     start: 
-      add_marker: Añadir chincheta en el mapa
+      add_marker: Añadir un marcador al mapa
       area_to_export: Área a exportar
-      embeddable_html: HTML para pegar
+      embeddable_html: HTML integrable
       export_button: Exportar
-      export_details: Los datos de OpenStreetMap se encuentran bajo la a href="http://opendatacommons.org/licenses/odbl/1.0/">licencia Open Database (ODbL) de Open Data Commons</a>.
+      export_details: Los datos de OpenStreetMap se encuentran bajo la href="http://opendatacommons.org/licenses/odbl/1.0/">licencia Open Database (ODbL) de Open Data Commons</a>.
       format: Formato
       format_to_export: Formato de exportación
       image_size: Tamaño de la imagen
       latitude: "Lat:"
       licence: Licencia
       longitude: "Lon:"
-      manually_select: Seleccionar a mano otra área
+      manually_select: Seleccionar manualmente un área diferente
       map_image: Imagen de mapa (muestra una capa normal)
       max: max
       options: Opciones
-      osm_xml_data: Datos formato OpenStreetMap XML
+      osm_xml_data: Datos OpenStreetMap en formato XML
       output: Resultado
-      paste_html: HTML para empotrar en otro sitio web
+      paste_html: HTML para empotrar en otro sitio de internet
       scale: Escala
       too_large: 
-        body: Esta área es demasiado grande para ser exportada como OpenStreetMap XML. Por favor, haga zoom o seleccione un área más pequeña.
+        body: Esta área es demasiado grande para ser exportada como OpenStreetMap XML. Por favor, acérquese o seleccione un área más pequeña.
         heading: El área es demasiado grande
       zoom: Zoom
     start_rjs: 
@@ -509,13 +529,13 @@ es:
           doctors: Consultorio médico
           dormitory: Residencia de estudiantes
           drinking_water: Agua potable
-          driving_school: Autoescuela
+          driving_school: Escuela de manejo
           embassy: Embajada
           emergency_phone: Teléfono de emergencia
           fast_food: Comida rápida
           ferry_terminal: Terminal de ferrys
           fire_hydrant: Hidrante
-          fire_station: Parque de bomberos
+          fire_station: Estación de bomberos
           food_court: Zona de restaurantes
           fountain: Fuente
           fuel: Gasolinera
@@ -566,7 +586,7 @@ es:
           taxi: Taxi
           telephone: Teléfono público
           theatre: Teatro
-          toilets: Aseos
+          toilets: Baños
           townhall: Ayuntamiento
           university: Universidad
           vending_machine: Máquina expendedora
@@ -593,8 +613,8 @@ es:
           bus_guideway: Canal guiado de autobuses
           bus_stop: Parada de autobuses
           byway: Camino
-          construction: Vía en construcción
-          cycleway: Carril bici
+          construction: Autopista en construcción
+          cycleway: Carril bicicleta
           emergency_access_point: Acceso de emergencia
           footway: Sendero
           ford: Vado
@@ -610,11 +630,11 @@ es:
           primary: Carretera primaria
           primary_link: Enlace de carretera principal
           raceway: Pista de carreras
-          residential: Calle
+          residential: Residencial
           rest_area: Área de descanso
           road: Carretera
           secondary: Carretera secundaria
-          secondary_link: Enlace de carretera secundaria
+          secondary_link: Carretera secundaria
           service: Vía de servicio
           services: Vía de servicio
           speed_camera: Radar
@@ -645,7 +665,7 @@ es:
           museum: Museo
           ruins: Ruinas
           tower: Torre
-          wayside_cross: Cruz de término
+          wayside_cross: Camino cruzado
           wayside_shrine: Sepulcro
           wreck: Pecio
         landuse: 
@@ -653,8 +673,8 @@ es:
           basin: Cuenca
           brownfield: Solar vacante
           cemetery: Cementerio
-          commercial: Área de oficinas
-          conservation: Terreno protegido
+          commercial: Área Comercial
+          conservation: Conservación
           construction: Construcción
           farm: Granja
           farmland: Tierra de labranza
@@ -711,6 +731,8 @@ es:
           airfield: Aeródromo militar
           barracks: Barracas
           bunker: Búnker
+        mountain_pass: 
+          "yes": Paso de montaña
         natural: 
           bay: Bahía
           beach: Playa
@@ -934,7 +956,29 @@ es:
         mapquest: MapQuest Open
         standard: Estándar
         transport_map: Mapa de transporte
+    notes: 
+      new: 
+        add: Añadir nota
+        intro: Para mejorar el mapa, la información que introduces es mostrada a otros cartógrafos, así que debe ser tan descriptiva y precisa como sea posible al desplazar el marcador a su posición correcta y escribir tu nota debajo.
+      show: 
+        anonymous_warning: Esta nota contiene comentarios de usuarios anónimos que deberían ser verificados por separado.
+        closed_by: resuelta por <a href='%{user_url}'>%{user}</a> a las %{time}
+        closed_by_anonymous: resuelta por anónimo a las %{time}
+        comment: Commentar
+        comment_and_resolve: Comentar y resolver
+        commented_by: comentario de <a href='%{user_url}'>%{user}</a> a las %{time}
+        commented_by_anonymous: comentario de anónimo a las %{time}
+        hide: Ocultar
+        opened_by: creada por <a href='%{user_url}'>%{user}</a> a las %{time}
+        opened_by_anonymous: creada por anónimo a las %{time}
+        permalink: Enlace permanente
+        reopened_by: reactivada por <a href='%{user_url}'>%{user}</a> a las %{time}
+        reopened_by_anonymous: reactivada por anónimo a las %{time}
+        resolve: Resolver
     site: 
+      createnote_disabled_tooltip: Acercar para añadir una nota al mapa
+      createnote_tooltip: Añadir una nota al mapa
+      createnote_zoom_alert: Debes acercar para añadir una nota al mapa
       edit_disabled_tooltip: Haga zoom para editar el mapa
       edit_tooltip: Edita el mapa
       edit_zoom_alert: Debe hacer más zoom para editar el mapa
@@ -1000,7 +1044,7 @@ es:
     user_diaries_tooltip: Ver diarios de usuario
     view: Ver
     view_tooltip: Ver el mapa
-    welcome_user_link_tooltip: Tu página de usuario
+    welcome_user_link_tooltip: Tu página de {{GENDER:|usuario|usuaria}}
     wiki: Wiki
     wiki_title: Sitio Wiki del proyecto
   license_page: 
@@ -1100,8 +1144,6 @@ es:
       back_to_outbox: Regresar a la bandeja de salida
       date: Fecha
       from: De
-      reading_your_messages: Leyendo tus mensajes
-      reading_your_sent_messages: Leyendo tus mensajes enviados
       reply_button: Responder
       subject: Asunto
       title: Leer mensaje
@@ -1112,6 +1154,27 @@ es:
       wrong_user: Está conectado como `%{user}' pero el mensaje que quiere responder no se ha enviado a dicho usuario. Por favor, ingrese con el usuario correcto para responder.
     sent_message_summary: 
       delete_button: Borrar
+  note: 
+    entry: 
+      comment: Comentario
+      full: Nota completa
+    mine: 
+      ago_html: hace %{when}
+      created_at: Creado en
+      creator: Autor
+      description: Descripción
+      heading: Notas de %{user}
+      id: Identificador
+      last_changed: Última modificación
+      subheading: Notas remitidas o comentadas por %{user}
+      title: Notas remitidas o comentadas por %{user}
+    rss: 
+      closed: nota cerrada (cerca de %{place})
+      comment: comentario nuevo (cerca de %{place})
+      description_area: Lista de notas comunicadas, comentadas o cerradas en tu zona [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: Agregador RSS para la nota %{id}
+      new: nota nueva (cerca de %{place})
+      title: Notas de OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: También puede leer el comentario en %{readurl} y puedes comentar en %{commenturl} o responder en %{replyurl}
@@ -1127,8 +1190,6 @@ es:
     email_confirm_plain: 
       click_the_link: Si es usted, por favor pulse el enlace inferior para confirmar el cambio
       greeting: Hola,
-      hopefully_you_1: Alguien (posiblemente usted) quiere cambiar la dirección de correo en
-      hopefully_you_2: "%{server_url} a %{new_address}."
     friend_notification: 
       befriend_them: También puede añadirle como amigo en %{befriendurl}.
       had_added_you: "%{user} te ha añadido como amigo en OpenStreetMap"
@@ -1157,13 +1218,15 @@ es:
     lost_password_plain: 
       click_the_link: Si es usted, por favor pulse el enlace inferior para resetear la contraseña.
       greeting: Hola,
-      hopefully_you_1: Alguien (posiblemente usted) ha solicitado el reestablecimiento de la contraseña en esta
-      hopefully_you_2: dirección de correo de una cuenta de openstreetmap.org.
     message_notification: 
       footer1: También puedes leer el mensaje en %{readurl}
       footer2: y puedes responder en %{replyurl}
       header: "%{from_user} te ha enviado un mensaje a través de OpenStreetMap con el asunto %{subject}:"
       hi: Hola %{to_user},
+    note_comment_notification: 
+      anonymous: Un usuario anónimo
+      details: Más detalles acerca de la nota pueden encontrarse en %{url}.
+      greeting: Hola,
     signup_confirm: 
       confirm: "Antes de hacer nada, tenemos que confirmar que esta solicitud procede de ti, así que si esto es cierto haz clic en el siguiente enlace para confirmar tu cuenta:"
       created: Alguien (probablemente tú) acaba de crear una cuenta en %{site_url}.
@@ -1200,6 +1263,7 @@ es:
       allow_write_api: modificar el mapa.
       allow_write_diary: crear publicaciones en su diario, comentarios y hacer amigos.
       allow_write_gpx: subir trazas GPS.
+      allow_write_notes: cambiar notas.
       allow_write_prefs: modificar sus preferencias de usuario.
       request_access: La aplicación %{app_name} está solicitando acceso a su cuenta, %{user}. Por favor, revise si quiere que la aplicación tenga las siguientes capacidades. Puede elegir tantas o tan pocas como quiera.
     revoke: 
@@ -1218,6 +1282,7 @@ es:
       allow_write_api: modificar el mapa.
       allow_write_diary: crear entradas en el diario, comentarios y hacer amigos.
       allow_write_gpx: subir trazas GPS.
+      allow_write_notes: cambiar notas.
       allow_write_prefs: modificar sus preferencias de usuario.
       callback_url: Callback URL
       name: Nombre
@@ -1248,6 +1313,7 @@ es:
       allow_write_api: modificar el mapa.
       allow_write_diary: crear entradas del diario, comentarios y hacer amigos.
       allow_write_gpx: subir trazas de GPS
+      allow_write_notes: cambiar notas.
       allow_write_prefs: modificar sus preferencias de usuario.
       authorize_url: "URL de autorización:"
       confirm: ¿Estás seguro?
@@ -1256,7 +1322,7 @@ es:
       key: "Clave de Consumidor:"
       requests: "Solicitando los siguientes permisos del usuario:"
       secret: "Secreto de Consumidor:"
-      support_notice: Soportamos HMAC-SHA1 (recomendado) asi como texto plano en el modo ssl.
+      support_notice: Soportamos HMAC-SHA1 (recomendado) y firmas RSA-SHA1.
       title: Detalles OAuth para %{app_name}
       url: "URL de Token de Solicitud:"
     update: 
@@ -1304,6 +1370,7 @@ es:
       potlatch_unsaved_changes: Tiene cambios sin guardar. (Para guardarlos en Potlatch, debería deseleccionar la vía o punto actual si está editando en directo, o pulse sobre guardar si aparece un botón de guardar.)
       user_page_link: página de usuario
     index: 
+      createnote: Añadir una nota
       js_1: Está usando un navegador que no soporta o tiene desactivado JavaScript
       js_2: OpenStreetMap utiliza JavaScript para mostrar su mapa
       license: 
@@ -1433,6 +1500,7 @@ es:
       visibility: "Visibilidad:"
       visibility_help: ¿Qué significa esto?
     list: 
+      description: Explorar los itinerarios GPS subidos recientemente
       empty_html: No hay nada aquí todavía. <a href='%{upload_link}'>Carga una nueva traza</a> o aprende más acerca de cómo hacer trazas con el GPS en la <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>página wiki</a>.
       public_traces: Trazas GPS públicas
       public_traces_from: Trazas GPS públicas de %{user}
@@ -1480,7 +1548,7 @@ es:
     trace_paging_nav: 
       newer: Trazas más recientes
       older: Trazas más antiguas
-      showing_page: Mostrando página %{page}
+      showing_page: Página %{page}
     view: 
       delete_track: Borrar esta traza
       description: "Descripción:"
@@ -1573,7 +1641,7 @@ es:
       success: Dirección de correo electrónico confirmada. ¡Gracias por registrarse!
     confirm_resend: 
       failure: No se ha encontrado el usuario %{name}
-      success: Te hemos enviado un nuevo aviso de confirmación a %{email} y tan pronto confirmes tu cuenta podrás comenzar a mapear <br /><br />Si usas un sistema para control de spam que envíe solicitudes de confirmación, asegúrate, por favor, de incluir en tu lista blanca a webmaster@openstreetmap.org ya que no podemos responder a ninguna solicitud de confirmación.
+      success: Te hemos enviado un nuevo aviso de confirmación a %{email} y tan pronto confirmes tu cuenta podrás comenzar a crear mapas<br /><br />Si usas un sistema de antispam que envía solicitudes de confirmación, asegúrate, por favor, de incluir en tu lista blanca a webmaster@openstreetmap.org ya que no podemos responder a ninguna solicitud de confirmación.
     filter: 
       not_an_administrator: Necesitas ser administrador para ejecutar esta acción.
     go_public: 
@@ -1584,8 +1652,8 @@ es:
       heading: Usuarios
       hide: Ocultar Usuarios Seleccionados
       showing: 
-        one: Mostrando página %{page} (%{first_item} de %{items})
-        other: Mostrando página %{page} (%{first_item}-%{last_item} de %{items})
+        one: Página %{page} (%{first_item} de %{items})
+        other: Página %{page} (%{first_item}-%{last_item} de %{items})
       summary: "%{name} creado desde %{ip_address} el %{date}"
       summary_no_ip: "%{name} creado el %{date}"
       title: Usuarios
@@ -1647,7 +1715,7 @@ es:
       button: Añadir como amigo
       failed: Lo sentimos, no se ha podido añadir a %{name} como un amigo.
       heading: ¿Añadir a %{user} como un amigo?
-      success: "%{name} es tu amigo ahora"
+      success: ¡%{name} ahora es tu amigo!
     new: 
       confirm email address: "Confirmar la dirección de correo:"
       confirm password: "Confirmar contraseña:"
@@ -1680,8 +1748,8 @@ es:
       nearby mapper: Mapeadores cercanos
       your location: "Tu lugar de origen:"
     remove_friend: 
-      button: Eliminar como amigo
-      heading: ¿Eliminar a %{user} como un amigo?
+      button: Quitar amistad
+      heading: ¿Quitar a %{user} de los amigos?
       not_a_friend: "%{name} no es uno de tus amigos."
       success: Has quitado a %{name} de tus amigos.
     reset_password: 
@@ -1736,10 +1804,10 @@ es:
       diary: diario
       edits: ediciones
       email address: "Dirección de correo electrónico:"
-      friends_changesets: Navegar por los conjuntos de cambios realizados por amigos
-      friends_diaries: Navegar por todas las entradas de diario realizadas por amigos
+      friends_changesets: conjuntos de cambios realizados por amigos
+      friends_diaries: entradas de diario realizadas por amigos
       hide_user: esconder este usuario
-      if set location: Si ha configurado su lugar de origen, verá un mapa abajo. Puede configurar su lugar de origen en la página de %{settings_link}.
+      if set location: Configure su lugar de origen en la página %{settings_link} para ver los usuarios cercanos.
       km away: "%{count} km de distancia"
       latest edit: "Última edición %{ago}:"
       m away: "%{count} m de distancia"
@@ -1748,14 +1816,16 @@ es:
       my comments: Mis comentarios
       my diary: mi diario
       my edits: mis ediciones
+      my notes: mis notas de mapa
       my settings: mis preferencias
       my traces: mis trazas
       nearby users: "Otros usuarios cercanos:"
-      nearby_changesets: Navegar por todos los conjuntos de cambios de los usuarios cercanos
-      nearby_diaries: Buscar todas las entradas de diario realizadas por usuarios cercanos
+      nearby_changesets: conjuntos de cambios de los usuarios cercanos
+      nearby_diaries: entradas de diario realizadas por usuarios cercanos
       new diary entry: nueva entrada de diario
       no friends: No has añadido ningún amigo aún.
       no nearby users: Todavía no hay usuarios que se hayan ubicado en su proximidad.
+      notes: notas de mapa
       oauth settings: ajustes OAuth
       remove as friend: eliminar como amigo
       role: 
@@ -1836,7 +1906,7 @@ es:
       revoke: Revocar
       revoker_name: Revocado por
       show: Mostrar
-      showing_page: Mostrando la página %{page}
+      showing_page: Página %{page}
       status: Estado
     period: 
       one: 1 hora

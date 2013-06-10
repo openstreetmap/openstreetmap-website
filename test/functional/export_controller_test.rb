@@ -19,20 +19,36 @@ class ExportControllerTest < ActionController::TestCase
     )
   end
 
+  ##
+  # test the start action
   def test_start
     xhr :get, :start
     assert_response :success
-    assert_template 'export/start'
+    assert_template "export/start"
   end
   
+  ###
+  # test the finish action for raw OSM data
   def test_finish_osm
     get :finish, {:minlon => 0, :minlat => 50, :maxlon => 1, :maxlat => 51, :format => 'osm'}
     assert_response :redirect
+    assert_redirected_to "http://api.openstreetmap.org/api/#{API_VERSION}/map?bbox=0.0,50.0,1.0,51.0"
   end
   
+  ###
+  # test the finish action for mapnik images
   def test_finish_mapnik
     get :finish, {:minlon => 0, :minlat => 50, :maxlon => 1, :maxlat => 51, :format => 'mapnik', :mapnik_format => 'test', :mapnik_scale => '12'}
     assert_response :redirect
+    assert_redirected_to "http://parent.tile.openstreetmap.org/cgi-bin/export?bbox=0.0,50.0,1.0,51.0&scale=12&format=test"
+  end
+
+  ##
+  # test the embed action
+  def test_embed
+    get :embed
+    assert_response :success
+    assert_template "export/embed"
   end
 
 end

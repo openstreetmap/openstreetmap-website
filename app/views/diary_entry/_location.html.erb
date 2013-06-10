@@ -2,8 +2,6 @@
 
 <a href="<%= url_for :controller => 'site', :action => 'index', :lat => location.latitude, :lon => location.longitude, :zoom => 14 %>">
 <abbr class="geo" title="<%= number_with_precision(location.latitude, :precision => 4) %>; <%= number_with_precision(location.longitude, :precision => 4) %>">
-<% cache(:controller => 'diary_entry', :action => 'view', :display_name => location.user.display_name, :id => location.id, :part => "location") do %>
 <%= describe_location location.latitude, location.longitude, 14, location.language_code %>
-<% end %>
 </abbr>
 </a>

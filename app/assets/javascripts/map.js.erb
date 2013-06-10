@@ -49,39 +49,44 @@ L.extend(L.Bounds.prototype, {
 L.Icon.Default.imagePath = <%= "#{asset_prefix}/images".to_json %>;
 
 var map;
-
-var layers = [
-  {
-    klass: L.OSM.Mapnik,
-    attribution: "",
-    keyid: "mapnik",
-    layerCode: "M",
-    name: I18n.t("javascripts.map.base.standard")
-  },
-  {
-    klass: L.OSM.CycleMap,
-    attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-    keyid: "cyclemap",
-    layerCode: "C",
-    name: I18n.t("javascripts.map.base.cycle_map")
-  },
-  {
-    klass: L.OSM.TransportMap,
-    attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-    keyid: "transportmap",
-    layerCode: "T",
-    name: I18n.t("javascripts.map.base.transport_map")
-  },
-  {
-    klass: L.OSM.MapQuestOpen,
-    attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
-    keyid: "mapquest",
-    layerCode: "Q",
-    name: I18n.t("javascripts.map.base.mapquest")
-  }
-];
+var layers;
+var objectLayer;
+var objectLoader;
 
 function createMap(divName, options) {
+  if (!layers) {
+    layers = [
+      {
+        klass: L.OSM.Mapnik,
+        attribution: "",
+        keyid: "mapnik",
+        layerCode: "M",
+        name: I18n.t("javascripts.map.base.standard")
+      },
+      {
+        klass: L.OSM.CycleMap,
+        attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+        keyid: "cyclemap",
+        layerCode: "C",
+        name: I18n.t("javascripts.map.base.cycle_map")
+      },
+      {
+        klass: L.OSM.TransportMap,
+        attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+        keyid: "transportmap",
+        layerCode: "T",
+        name: I18n.t("javascripts.map.base.transport_map")
+      },
+      {
+        klass: L.OSM.MapQuestOpen,
+        attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
+        keyid: "mapquest",
+        layerCode: "Q",
+        name: I18n.t("javascripts.map.base.mapquest")
+      }
+    ];
+  }
+
   options = $.extend({zoomControl: true, panZoomControl: true, layerControl: true}, options);
 
   map = L.map(divName, $.extend({}, options, {panControl: false, zoomsliderControl: false, maxZoom: 18}));
@@ -128,11 +133,19 @@ function getUserIcon(url) {
 }
 
 function addObjectToMap(object, zoom, callback) {
-  $.ajax({
+  if (objectLoader) {
+    objectLoader.abort();
+  }
+
+  if (objectLayer) {
+    map.removeLayer(objectLayer);
+  }
+
+  objectLoader = $.ajax({
     url: OSM.apiUrl(object),
     dataType: "xml",
     success: function (xml) {
-      var layer = new L.OSM.DataLayer(xml, {
+      objectLayer = new L.OSM.DataLayer(null, {
         style: {
           strokeColor: "blue",
           strokeWidth: 3,
@@ -143,7 +156,21 @@ function addObjectToMap(object, zoom, callback) {
         }
       });
 
-      var bounds = layer.getBounds();
+      objectLayer.interestingNode = function (node, ways, relations) {
+        if (object.type === "node") {
+          return true;
+        } else if (object.type === "relation") {
+          for (var i = 0; i < relations.length; i++)
+            if (relations[i].members.indexOf(node) != -1)
+              return true;
+        } else {
+          return false;
+        }
+      };
+
+      objectLayer.addData(xml);
+
+      var bounds = objectLayer.getBounds();
 
       if (zoom) {
         map.fitBounds(bounds);
@@ -153,7 +180,7 @@ function addObjectToMap(object, zoom, callback) {
         callback(bounds);
       }
 
-      layer.addTo(map);
+      objectLayer.addTo(map);
     }
   });
 }
@@ -179,13 +206,13 @@ function getMapBaseLayer() {
 }
 
 function getMapLayers() {
+  var layerConfig = "";
   for (var i = 0; i < layers.length; i++) {
     if (map.hasLayer(layers[i].layer)) {
-      return layers[i].layerCode;
+      layerConfig += layers[i].layerCode;
     }
   }
-
-  return "";
+  return layerConfig;
 }
 
 function setMapLayers(layerConfig) {

@@ -123,11 +123,13 @@ gl:
       edit: 
         area: Editar a zona
         node: Editar o nodo
+        note: Editar a nota
         relation: Editar a relación
         way: Editar o camiño
       larger: 
         area: Ver a zona nun mapa máis grande
         node: Ver o nodo nun mapa máis grande
+        note: Ver a nota nun mapa máis grande
         relation: Ver a relación nun mapa máis grande
         way: Ver o camiño nun mapa máis grande
       loading: Cargando...
@@ -135,10 +137,12 @@ gl:
       all: 
         next_changeset_tooltip: Seguinte conxunto de cambios
         next_node_tooltip: Nodo seguinte
+        next_note_tooltip: Nota seguinte
         next_relation_tooltip: Seguinte relación
         next_way_tooltip: Camiño seguinte
         prev_changeset_tooltip: Conxunto de cambios anterior
         prev_node_tooltip: Nodo anterior
+        prev_note_tooltip: Nota anterior
         prev_relation_tooltip: Relación anterior
         prev_way_tooltip: Camiño anterior
       user: 
@@ -166,6 +170,16 @@ gl:
         node: nodo
         relation: relación
         way: camiño
+    note: 
+      at_by_html: hai %{when} por %{user}
+      at_html: hai %{when}
+      closed: "Pechada:"
+      closed_title: "Nota resolta: %{note_name}"
+      comments: "Comentarios:"
+      description: "Descrición:"
+      last_modified: "Última modificación:"
+      open_title: "Nota sen resolver: %{note_name}"
+      opened: "Aberta:"
     paging_nav: 
       of: de
       showing_page: páxina
@@ -206,6 +220,7 @@ gl:
       loaded_an_area_with_num_features: Cargou unha zona que contén %{num_features} funcionalidades. Pode que algúns navegadores teñan problemas para mostrar correctamente esta cantidade de datos. Xeralmente, os navegadores traballan mellor mostrando menos de %{max_features} funcionalidades á vez. Utilizar máis pode provocar que o navegador vaia lento ou non responda. Se está seguro de que quere mostrar estes datos, pode facelo premendo no seguinte botón.
       loading: Cargando...
       manually_select: Escoller manualmente unha zona distinta
+      notes_layer_name: Explorar as notas
       object_list: 
         api: Obter esta área desde a API
         back: Volver á lista de obxectos
@@ -279,7 +294,7 @@ gl:
       saved_at: Gardado o
       user: Usuario
     list: 
-      description: Cambios recentes
+      description: Examinar os cambios recentes feitos no mapa
       description_bbox: Conxuntos de cambios en %{bbox}
       description_friend: Conxuntos de cambios dos seus amigos
       description_nearby: Conxuntos de cambios dos usuarios de lugares próximos
@@ -377,6 +392,9 @@ gl:
       user_title: Diario de %{user}
   editor: 
     default: Predeterminado (actualmente, %{name})
+    id: 
+      description: iD (editor no navegador)
+      name: iD
     potlatch: 
       description: Potlatch 1 (editor integrado no navegador)
       name: Potlatch 1
@@ -698,6 +716,8 @@ gl:
           airfield: Aeródromo militar
           barracks: Barracas
           bunker: Búnker
+        mountain_pass: 
+          "yes": Porto de montaña
         natural: 
           bay: Baía
           beach: Praia
@@ -921,6 +941,15 @@ gl:
         mapquest: MapQuest Open
         standard: Estándar
         transport_map: Mapa de transporte
+    notes: 
+      new: 
+        add: Engadir a nota
+      show: 
+        comment: Comentar
+        comment_and_resolve: Comentar e resolver
+        hide: Agochar
+        permalink: Ligazón permanente
+        resolve: Resolver
     site: 
       edit_disabled_tooltip: Achegue para editar o mapa
       edit_tooltip: Editar o mapa
@@ -1085,8 +1114,6 @@ gl:
       back_to_outbox: Volver á caixa de saída
       date: Data
       from: De
-      reading_your_messages: Lendo as súas mensaxes
-      reading_your_sent_messages: Lendo as mensaxes enviadas
       reply_button: Responder
       subject: Asunto
       title: Ler a mensaxe
@@ -1097,6 +1124,20 @@ gl:
       wrong_user: Accedeu ao sistema como "%{user}", pero a mensaxe que pediu responder non lla enviou a ese usuario. Acceda co usuario correcto para redactar a resposta.
     sent_message_summary: 
       delete_button: Borrar
+  note: 
+    entry: 
+      comment: Comentario
+      full: Nota completa
+    mine: 
+      ago_html: hai %{when}
+      created_at: Creado o
+      creator: Creador
+      description: Descrición
+      heading: Notas de %{user}
+      id: ID
+      last_changed: Última modificación
+    rss: 
+      title: Notas do OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Tamén pode ler o comentario en %{readurl}, comentar en %{commenturl} ou responder en %{replyurl}
@@ -1112,8 +1153,7 @@ gl:
     email_confirm_plain: 
       click_the_link: Se este é vostede, prema na seguinte ligazón para confirmar a modificación.
       greeting: "Ola:"
-      hopefully_you_1: Alguén (probablemente vostede) quere cambiar o seu enderezo de correo electrónico en
-      hopefully_you_2: "%{server_url} a %{new_address}."
+      hopefully_you: Alguén (probablemente vostede) quere cambiar o seu enderezo de correo electrónico en %{server_url} a %{new_address}.
     friend_notification: 
       befriend_them: Tamén pode engadilo como amigo en %{befriendurl}.
       had_added_you: "%{user} engadiuno como amigo en OpenStreetMap."
@@ -1142,13 +1182,26 @@ gl:
     lost_password_plain: 
       click_the_link: Se este é vostede, prema na seguinte ligazón para restablecer o seu contrasinal.
       greeting: "Ola:"
-      hopefully_you_1: Alguén (probablemente vostede) pediu o restablecemento do contrasinal desta
-      hopefully_you_2: conta de correo electrónico en openstreetmap.org
+      hopefully_you: Alguén (probablemente vostede) pediu o restablecemento do contrasinal desta conta de correo electrónico en openstreetmap.org.
     message_notification: 
       footer1: Tamén pode ler a mensaxe en %{readurl}
       footer2: e pode responder en %{replyurl}
       header: "%{from_user} envioulle unha mensaxe a través do OpenStreetMap co asunto \"%{subject}\":"
       hi: "Ola %{to_user}:"
+    note_comment_notification: 
+      anonymous: Un usuario anónimo
+      closed: 
+        commented_note: "%{commenter} resolveu unha das súas notas de mapa nas que vostede comentou. A nota está preto de %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} resolveu unha das notas nas que ten interese"
+        subject_own: "[OpenStreetMap] %{commenter} resolveu unha das súas notas"
+        your_note: "%{commenter} resolveu unha das súas notas de mapa preto de %{place}."
+      commented: 
+        commented_note: "%{commenter} deixou un comentario nunha das súas notas de mapa nas que vostede comentou. A nota está preto de %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} comentou nunha das notas nas que ten interese"
+        subject_own: "[OpenStreetMap] %{commenter} comentou nunha das súas notas"
+        your_note: "%{commenter} deixou un comentario nunha das súas notas de mapa preto de %{place}."
+      details: Pode atopar máis detalles da nota en %{url}.
+      greeting: "Ola:"
     signup_confirm: 
       confirm: "Antes de facer nada, cómpre confirmar que esta solicitude veu de vostede. Se é así, prema na ligazón inferior para confirmar a conta:"
       created: Alguén (probablemente vostede) acaba de crear unha conta en %{site_url}.
@@ -1179,10 +1232,11 @@ gl:
     oauthorize: 
       allow_read_gpx: ler as súas pistas GPS privadas.
       allow_read_prefs: ler as súas preferencias de usuario.
-      allow_to: "Permitir a aplicación de cliente a:"
+      allow_to: "Permitir á aplicación de cliente a:"
       allow_write_api: modificar o mapa.
       allow_write_diary: crear entradas de diario, comentarios e facer amigos.
       allow_write_gpx: cargar pistas GPS.
+      allow_write_notes: modificar as notas.
       allow_write_prefs: modificar as súas preferencias de usuario.
       request_access: A aplicación %{app_name} solicita acceso á súa conta, %{user}. Comprobe que desexa que a aplicación teña as seguintes capacidades. Pode elixir cantas queira.
     revoke: 
@@ -1201,6 +1255,7 @@ gl:
       allow_write_api: modificar o mapa.
       allow_write_diary: crear entradas de diario, comentarios e facer amigos.
       allow_write_gpx: cargar pistas GPS.
+      allow_write_notes: modificar as notas.
       allow_write_prefs: modificar as súas preferencias de usuario.
       callback_url: URL de retorno
       name: Nome
@@ -1231,6 +1286,7 @@ gl:
       allow_write_api: modificar o mapa.
       allow_write_diary: crear entradas de diario, comentarios e facer amigos.
       allow_write_gpx: cargar pistas GPS.
+      allow_write_notes: modificar as notas.
       allow_write_prefs: modificar as súas preferencias de usuario.
       authorize_url: "Autorizar o URL:"
       confirm: Está seguro?
@@ -1239,7 +1295,7 @@ gl:
       key: "Clave do consumidor:"
       requests: "Solicitar os seguintes permisos ao usuario:"
       secret: "Pregunta secreta do consumidor:"
-      support_notice: Soportamos HMAC-SHA1 (recomendado), así como texto sinxelo en modo ssl.
+      support_notice: Soportamos HMAC-SHA1 (recomendado) e sinaturas RSA-SHA1.
       title: Detalles OAuth para %{app_name}
       url: "Solicitar un URL de pase:"
     update: 
@@ -1279,6 +1335,7 @@ gl:
     edit: 
       anon_edits_link_text: Descubra aquí o motivo.
       flash_player_required: Necesita un reprodutor de Flash para usar o Potlatch, o editor Flash do OpenStreetMap. Pode <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">descargar o reprodutor Flash desde Adobe.com</a>. Hai dispoñibles <a href="http://wiki.openstreetmap.org/wiki/Editing">outras opcións</a> para editar o OpenStreetMap.
+      id_not_configured: iD non está configurado
       no_iframe_support: O seu navegador non soporta os iframes HTML, necesarios para esta característica.
       not_public: Non fixo que as súas edicións fosen públicas.
       not_public_description: Non pode editar o mapa a menos que o faga. Pode establecer as súas edicións como públicas desde a súa %{user_page}.
@@ -1287,6 +1344,7 @@ gl:
       potlatch_unsaved_changes: Ten cambios sen gardar. (Para gardar no Potlatch, ten que desmarcar o camiño actual ou o punto, se está a editar no modo en vivo, ou premer sobre o botón "Gardar".)
       user_page_link: páxina de usuario
     index: 
+      createnote: Engadir unha nota
       js_1: Está a usar un navegador que non soporta o JavaScript ou teno desactivado.
       js_2: O OpenStreetMap emprega JavaScript para o seu mapa estático e dinámico.
       license: 
@@ -1416,6 +1474,7 @@ gl:
       visibility: "Visibilidade:"
       visibility_help: que significa isto?
     list: 
+      description: Examinar as cargas recentes de pistas GPS
       empty_html: Aínda non hai nada por aquí. <a href='%{upload_link}'>Cargue unha nova pista</a> ou obteña máis información sobre as pistas GPS na <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>páxina do wiki</a>.
       public_traces: Pistas GPS públicas
       public_traces_from: Pistas GPS públicas de %{user}
@@ -1456,7 +1515,9 @@ gl:
     trace_header: 
       see_all_traces: Ollar todas as pistas
       see_your_traces: Ollar todas as súas pistas
-      traces_waiting: Ten %{count} pistas á espera de ser cargadas. Considere agardar a que remate antes de cargar máis para non bloquear a cola do resto de usuarios.
+      traces_waiting: 
+        one: Ten %{count} pista á espera de ser cargada. Considere agardar a que remate antes de cargar máis para non bloquear a cola do resto de usuarios.
+        other: Ten %{count} pistas á espera de ser cargadas. Considere agardar a que remate antes de cargar máis para non bloquear a cola do resto de usuarios.
       upload_trace: Cargar unha pista
     trace_optionals: 
       tags: Etiquetas
@@ -1608,7 +1669,7 @@ gl:
           title: Acceder ao sistema con Yahoo
       password: "Contrasinal:"
       register now: Rexístrese agora
-      remember: "Lembrádeme:"
+      remember: Lembrádeme
       title: Rexistro
       to make changes: Para realizar as modificacións nos datos do OpenStreetMap, cómpre ter unha conta.
       with openid: "Tamén pode usar o seu OpenID para acceder:"
@@ -1731,6 +1792,7 @@ gl:
       my comments: os meus comentarios
       my diary: o meu diario
       my edits: as miñas edicións
+      my notes: as miñas notas de mapa
       my settings: os meus axustes
       my traces: as miñas pistas
       nearby users: Outros usuarios próximos
@@ -1739,6 +1801,7 @@ gl:
       new diary entry: nova entrada no diario
       no friends: Aínda non engadiu ningún amigo.
       no nearby users: Aínda non hai usuarios que estean situados na súa proximidade.
+      notes: notas de mapa
       oauth settings: axustes OAuth
       remove as friend: eliminar como amigo
       role: 

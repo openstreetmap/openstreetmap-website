@@ -16,7 +16,8 @@ class ClientApplication < ActiveRecord::Base
   attr_accessible :name, :url, :support_url, :callback_url,
                   :allow_read_prefs, :allow_write_prefs,
                   :allow_write_diary, :allow_write_api,
-                  :allow_read_gpx, :allow_write_gpx
+                  :allow_read_gpx, :allow_write_gpx,
+                  :allow_write_notes
 
   before_validation :generate_keys, :on => :create
 
@@ -87,7 +88,8 @@ protected
   # have to say up-front what permissions they want and when users sign up they
   # can agree or not agree to each of them.
   PERMISSIONS = [:allow_read_prefs, :allow_write_prefs, :allow_write_diary,
-                 :allow_write_api, :allow_read_gpx, :allow_write_gpx ]
+                 :allow_write_api, :allow_read_gpx, :allow_write_gpx,
+                 :allow_write_notes]
 
   def generate_keys
     self.key = OAuth::Helper.generate_key(40)[0,40]

@@ -18,26 +18,16 @@ module GeocoderHelper
     html << link_to(result[:name], url, html_options) if result[:name]
     html << result[:suffix] if result[:suffix]
 
+    if result[:type] and result[:id]
+      html << content_tag(:small, :class => ["deemphasize", "search_details"]) do
+        link_to(t("browse.#{result[:type]}_history.view_details"), :controller => :browse, :action => result[:type], :id => result[:id])
+      end
+    end
+
     return raw(html)
   end
 
   def describe_location(lat, lon, zoom = nil, language = nil)
-    zoom = zoom || 14
-    language = language || request.user_preferred_languages.join(',')
-    url = "http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{language}"
-
-    begin
-      response = OSM::Timer.timeout(4) do
-        REXML::Document.new(Net::HTTP.get(URI.parse(url)))
-      end
-    rescue Exception
-      response = nil
-    end
-
-    if response and result = response.get_text("reversegeocode/result")
-      result.to_s
-    else
-      "#{number_with_precision(lat, :precision => 3)}, #{number_with_precision(lon, :precision => 3)}"
-    end
+    Nominatim.describe_location(lat, lon, zoom, language)
   end
 end

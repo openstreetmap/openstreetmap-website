@@ -75,7 +75,7 @@ h1, h2 {
 }
 
 #content h2 {
-  font-size: 24px;
+  font-size: 21px;
 }
 
 h3 {
@@ -177,7 +177,7 @@ table {
   top: 0;
   width: 185px;
   font-size: 11px;
-  line-height: 12px;
+  line-height: 1.1;
   z-index: 100;
   border-right: 1px solid #ccc;
 }
@@ -195,7 +195,7 @@ table {
 
 #logo h1 {
   font-size: 18px;
-  line-height: 20px;
+  line-height: 1.1;
   text-align: center;
   margin: 0px;
 }
@@ -270,8 +270,8 @@ table {
   left: 0px;
   margin: 0;
   padding: 5px 10px;
-  line-height: 15px;
   font-size: 12px;
+  line-height: 1.25;
   list-style-type: none;
   border-bottom: 1px solid #ccc;
   border-top: 1px solid #ccc;
@@ -343,7 +343,7 @@ table {
   width: 165px;
   padding: 3px;
   font-size: 14px;
-  line-height: 15px;
+  line-height: 1.1;
   height: 25px;
   padding: 2px 0px 2px 5px;
   box-shadow: inset #DDD 0px 1px 3px;
@@ -390,38 +390,26 @@ table {
 
 .donate {
   display: block;
-  position: relative;
   width: 153px;
   padding: 5px;
   border: 1px solid #AED1A0;
   background: #cbeea7;
-  line-height: 20px;
-  text-align: center;
   font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
   border-radius: 2px;
-  -moz-border-radius: 2px;
   color: #222;
   margin: 10px 10px 0px 10px;
-}
 
-.donate:hover {
-  background: #9ed485;
-  text-decoration: none;
-}
-
-.donate p {
-  text-indent: 20px;
-  margin: 0;
-}
-
-.donate .donate-icon {
-  width: 15px;
-  height: 15px;
-  border: 0px;
-  background: image-url("sprite.png") 0 -30px no-repeat;
-  position: absolute;
-  top: 8px;
-  left: 17px;
+  &:hover {
+    background: #9ed485;
+    text-decoration: none;
+  }
+  span {
+    margin: 0;
+    padding-left: 18px;
+    background: image-url("sprite.png") 0 -29px no-repeat;
+  }
 }
 
 /* Rules for Creative Commons logo button */
@@ -521,6 +509,7 @@ table {
 #greeting {
   float: right;
   padding-top: 3px;
+  margin-right: 5px;
 }
 
 .greeting-bar-unread {
@@ -538,13 +527,21 @@ table {
 
 /* Rules for Leaflet maps */
 
-#permalink {
-  z-index: 10000;
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  padding: 5px;
-  background:#fff;
+.leaflet-control-attribution {
+  a.disabled {
+    color: #99c9dc;
+    cursor: default;
+    text-decoration: none;
+  }
+
+  ul.secondary-actions {
+    float: left;
+    margin-right: 5px;
+
+    &:only-child {
+      margin-right: 0px;
+    }
+  }
 }
 
 .site-index .leaflet-top,
@@ -560,6 +557,17 @@ table {
 .site-index #map .olControlScaleLine,
 .site-export #map .olControlScaleLine {
   left: 10px !important;
+}
+
+.leaflet-popup-scrolled {
+  padding-right: 20px;
+  border-bottom: 0px !important;
+  border-top: 0px !important;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 4px !important;
+  -webkit-border-radius: 4px !important;
 }
 
 /* Rules for edit menu */
@@ -684,7 +692,12 @@ table {
 }
 
 .search_results_entry {
-  margin-bottom: 0 ;
+  margin-bottom: 0;
+
+  .search_details {
+    display: block;
+    text-align: right;
+  }
 }
 
 .search_results_entry .search_searching {
@@ -809,12 +822,16 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 #slim_content {
   margin: 10px;
-  margin-top: 90px;
+  margin-top: 95px;
   max-width: 50em;
+
+  .content-heading {
+    margin-bottom: 15px;
+  }
 }
 
 #slim_header {
-  margin: 10px;
+  margin: 30px 10px;
   position: absolute;
   top: 0px;
   margin-right: 5px;
@@ -948,15 +965,28 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   &:first-child {
     margin-top: 0;
   }
+  .warning {
+    background-color: #ffe0cc;
+    margin: 0px;
+    padding: 4px 6px;
+    max-width: 100%;
+  }
   h4, p {
     margin-bottom: 5px;
   }
-  p, ul, .bbox {
-    margin-left: 33.3333%;
+  p, ul, .bbox, .geo {
+    display: inline-block;
+    vertical-align: top;
+    max-width: 65%;
+  }
+  ul p {
+    margin-left: 0;
+    margin-bottom: 0;
   }
   h4 {
     width: 33.3333%;
-    float: left;
+    display: inline-block;
+    vertical-align: top;
   }
 }
 
@@ -1083,11 +1113,6 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   min-height: 62px;
 }
 
-.content_map .leaflet-popup-content-wrapper {
--webkit-border-radius: 4px;
-  border-radius: 4px;
-}
-
 /* Rules for user popups on maps */
 
 .user_popup {
@@ -1144,6 +1169,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 .diary_post {
+  max-width: 740px;
   position: relative;
   margin-top: 20px;
   padding-top: 20px;
@@ -1156,14 +1182,11 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   }
   h1, h2 {
     font-size: 21px;
-    line-height: 21px;
+    line-height: 1;
   }
   small.deemphasize {
+    float: left;
     display: block;
-  }
-  ul,
-  ol {
-    font-style: italic;
   }
   ul.secondary-actions { display: inline-block;}
 }
@@ -1172,14 +1195,12 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   display: inline;
 }
 
-.post_heading {
+#content  .post_heading {
   margin-bottom: 20px;
   h2 {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: 10px;
     font-size: 24px;
-    float: left;
-    line-height: 32px;
   }
 }
 
@@ -1199,8 +1220,13 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     padding-top: 20px;
     margin-top: 10px;
   }
+  .comments {
+    max-width: 740px;
+  }
   .diary-comment {
     margin-top: 10px;
+    border-top: 1px dashed #ccc;
+    padding-top: 10px;
     &:first-child {
       margin-top: 20px;
       padding-top: 20px;
@@ -1208,7 +1234,6 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     }
     p {
       margin-bottom: 10px;
-      margin-left: 70px;
     }
     .comment-heading {
       margin-bottom: 0;
@@ -1373,7 +1398,7 @@ p#contributorGuidance {
     background-color: #ff7070;
   }
   &#warning {
-    background-color: #fff6f0;
+    background-color: #ffe0cc;
   }
   &#notice {
     background-color: #CBEEA7;
@@ -1429,7 +1454,7 @@ p#contributorGuidance {
   vertical-align: top;
   font-weight: bold;
   font-size: 12px;
-  line-height: 20px;
+  line-height: 1.6666;
   text-align: right;
 }
 
@@ -1452,8 +1477,8 @@ textarea {
 /* Rules for user images */
 
 img.user_image {
-  width: 100px;
-  height: 100px;
+  max-width: 100px;
+  max-height: 100px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
   float: left;
@@ -1461,8 +1486,8 @@ img.user_image {
 }
 
 img.user_thumbnail {
-  width: 50px;
-  height: 50px;
+  max-width: 50px;
+  max-height: 50px;
   border: 1px solid #ccc;
   margin-right: 20px;
 }
@@ -1513,6 +1538,9 @@ ul.secondary-actions {
     &:first-child {
       border-left: 0;
       padding-left: 0;
+    }
+    &:last-child {
+      margin-right: 0px;
     }
   }
 }
@@ -1575,11 +1603,54 @@ a.button.submit {
 /* Rules for rich text */
 
 .richtext {
-  ul,
-  ol {
+  h1, h2 {
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #cccccc;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  h3 {
+    font-size: 14px;
+  }
+
+  code {
+    font-size: 13px;
+    background: #e8e8e8;
+    padding: 2px 3px;
+  }
+
+  img {
+    padding: 20px;
+    background-color: #f4f4ff;
+    display: block;
+    max-width: 100%;
+    margin: auto;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+
+  blockquote {
+    border-left: 20px solid #f4f4ff;
+    padding-left: 20px;
+    margin: 0;
+    color: #7E7E7E;
+  }
+
+  ul, ol {
+    font-style: italic;
+    padding-left: 20px;
     margin-bottom: 20px;
     margin-left: 20px;
   }
+
   ul li {
     list-style: disc;
   }
@@ -1587,6 +1658,15 @@ a.button.submit {
   ol li {
     list-style: decimal;
   }
+}
+
+.diary_post .richtext {
+    margin-top: 20px;
+  }
+
+.comments .richtext {
+  margin-left: 70px;
+  margin-top: 0;
 }
 
 /* Rules for rich text editors */
@@ -1597,12 +1677,13 @@ a.button.submit {
   .richtext_content {
     display: inline-block;
     vertical-align: top;
+    white-space: normal;
 
     .richtext_preview {
       display: inline-block;
       padding: 20px;
       background-color: #f4f4ff;
-      white-space: normal;
+      overflow-x: auto;
 
       &.loading {
         background-image: image-url("loading.gif");
@@ -1621,33 +1702,146 @@ a.button.submit {
     vertical-align: top;
     margin-left: 15px;
     background-color: #f8f8ff;
-    padding: 20px;
+    padding: 10px;
+    width: 200px;
 
-    p {
-      margin: 0px;
+    ul {
+      margin-bottom: 0;
     }
 
-    th {
-      vertical-align: top;
-      text-align: left;
-      padding: 0px 15px 0px 0px !important;
+    h4.heading, li {
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 5px;
+      padding-bottom: 5px;
     }
 
-    td {
-      font-family: fixed;
-      line-height: 16px;
-      text-align: left;
-      padding: 0px !important;
+    li h4, li span {
+      display: block;
+      font-size: 11px;
     }
 
-    input.richtext_doedit {
-      margin-top: 5px !important;
-      margin-right: 10px !important;
+    li h4 {
+      margin: 0;
+      float: left;
     }
 
+    li span {
+      float: right;
+      width: 50%;
+      margin-left: 10px;
+    }
+
+    input.richtext_doedit,
     input.richtext_dopreview {
-      margin-top: 5px !important;
-      margin-left: 10px !important;
+      margin-right: 10px;
     }
   }
+}
+
+/* Rules for the user notes list */
+
+.note_list {
+  tr.creator {
+    background-color: #eeeeee;
+  }
+
+  td {
+    padding: 3px;
+  }
+
+  p {
+    margin-bottom: 0px;
+  }
+}
+
+/* Rules for the notes interface */
+
+.note {
+  padding-top: 10px;
+}
+
+.note {
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  div {
+    margin-top: 10px;
+  }
+
+  .permalink {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    min-width: 15px;
+    min-height: 15px;
+    background: image-url("sprite.png") 0 -45px no-repeat;
+  }
+
+  .permalink span {
+    display: none;
+    padding-left: 20px;
+  }
+
+  .permalink:hover span {
+    display: block;
+  }
+
+  .warning {
+    display: block;
+    background-color: #ffe0cc;
+    padding: 4px 6px;
+    margin-bottom: 10px;
+  }
+
+  .comment_body {
+    margin-top: 2px;
+    margin-bottom: 2px;
+
+    p {
+      margin-top: 0px;
+      margin-bottom: 0px;
+    }
+  }
+
+  .comment {
+    width: 100%;
+    height: 100px;
+  }
+
+  .buttons {
+    margin-top: 5px;
+    text-align: right;
+  }
+}
+
+/*
+ * Rules for the iD editor
+ */
+.id-embed {
+  width: 100%;
+  height: 100%;
+}
+
+/* Rules for rotating sidebar ads */
+.ad-container {
+  display: block;
+  height: 120px;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid #cccccc;
+}
+
+.ads {
+  width: 370px;
+  position: absolute;
+  left: 0%;
+}
+
+.ad {
+  float: left;
+  height: 100px;
+  padding: 10px;
+  border: 0px;
+  background: #fff;
 }

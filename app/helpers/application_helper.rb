@@ -26,6 +26,7 @@ module ApplicationHelper
     css << ".hide_if_user_#{@user.id} { display: none !important }" if @user;
     css << ".show_if_user_#{@user.id} { display: inline !important }" if @user;
     css << ".hide_unless_administrator { display: none !important }" unless @user and @user.administrator?;
+    css << ".hide_unless_moderator { display: none !important }" unless @user and @user.moderator?;
 
     return content_tag(:style, css, :type => "text/css")
   end
@@ -94,5 +95,9 @@ module ApplicationHelper
     else
       I18n.t("html.dir")
     end
+  end
+
+  def friendly_date(date)
+    content_tag(:span, time_ago_in_words(date), :title => l(date, :format => :friendly))
   end
 end
