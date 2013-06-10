@@ -64,7 +64,7 @@
     // 700,600 for fixed size, 100%,100% for resizable
 
     if (lat && lon) {
-      updatelinks(lon, lat, zoom);
+      updatelinks({ lon: lon, lat: lat }, zoom);
     }
   }
 
@@ -86,6 +86,6 @@
   });
 
   function mapMoved(lon, lat, zoom, minlon, minlat, maxlon, maxlat) {
-    updatelinks(lon, lat, zoom, null, minlon, minlat, maxlon, maxlat);
+    updatelinks({ lon: lon, lat: lat }, zoom, null, minlon, minlat, maxlon, maxlat);
   }
 </script>

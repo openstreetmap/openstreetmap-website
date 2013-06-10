@@ -114,8 +114,7 @@ $(document).ready(function () {
     var layers = getMapLayers();
     var extents = map.getBounds().wrap();
 
-    updatelinks(center.lng,
-                center.lat,
+    updatelinks(center,
                 zoom,
                 layers,
                 extents.getWest(),

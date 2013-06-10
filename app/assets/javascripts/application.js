@@ -31,12 +31,12 @@ function zoomPrecision(zoom) {
  * Called as the user scrolls/zooms around to aniplate hrefs of the
  * view tab and various other links
  */
-function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,object) {
+function updatelinks(loc, zoom, layers, minlon, minlat, maxlon, maxlat, object) {
   var toPrecision = zoomPrecision(zoom);
   var node;
 
-  lat = toPrecision(lat);
-  lon = toPrecision(lon);
+  var lat = toPrecision(loc.lat),
+      lon = toPrecision(loc.lon || loc.lng);
 
   if (minlon) {
     minlon = toPrecision(minlon);
@@ -74,16 +74,20 @@ function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,object) {
         $(link).off("click.minzoom");
 
         if (zoom >= minzoom) {
-          $(link).attr("title", I18n.t("javascripts.site." + name + "_tooltip"));
-          $(link).removeClass("disabled");
+          $(link).attr("title", I18n.t("javascripts.site." + name + "_tooltip"))
+              .removeClass("disabled");
         } else {
-          $(link).on("click.minzoom", function () { alert(I18n.t("javascripts.site." + name + "_zoom_alert")); return false; });
-          $(link).attr("title", I18n.t("javascripts.site." + name + "_disabled_tooltip"));
-          $(link).addClass("disabled");
+          $(link).on("click.minzoom", minZoomAlert)
+              .attr("title", I18n.t("javascripts.site." + name + "_disabled_tooltip"))
+              .addClass("disabled");
         }
     }
 
     link.href = setArgs(link.href, args);
+  }
+
+  function minZoomAlert() {
+      alert(I18n.t("javascripts.site." + name + "_zoom_alert")); return false;
   }
 
   function setShortlink() {
