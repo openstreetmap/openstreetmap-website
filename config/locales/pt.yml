@@ -136,12 +136,13 @@ pt:
       edit: 
         area: Editar área
         node: Editar nó
-        note: Editar nota
+        note: Editar erro reportado
         relation: Editar relação
         way: Editar linha
       larger: 
         area: Ver área num mapa maior
         node: Ver nó num mapa maior
+        note: Ver erro reportado numa área maior
         relation: Ver relação num mapa maior
         way: Ver linha num mapa maior
       loading: A carregar…
@@ -149,12 +150,12 @@ pt:
       all: 
         next_changeset_tooltip: Conjunto de alterações seguinte
         next_node_tooltip: Nó seguinte
-        next_note_tooltip: Nota seguinte
+        next_note_tooltip: Erro seguinte
         next_relation_tooltip: Relação seguinte
         next_way_tooltip: Linha seguinte
         prev_changeset_tooltip: Conjunto de alterações anterior
         prev_node_tooltip: Nó anterior
-        prev_note_tooltip: Nota anterior
+        prev_note_tooltip: Erro anterior
         prev_relation_tooltip: Relação anterior
         prev_way_tooltip: Linha anterior
       user: 
@@ -176,15 +177,23 @@ pt:
       node_history_title: "Histórico do nó: %{node_name}"
       view_details: Ver detalhes
     not_found: 
-      sorry: Lamentamos, não foi possível encontrar o %{type} com o id %{id}.
+      sorry: Lamentamos, não foi possível encontrar o %{type} com o identificador %{id}.
       type: 
         changeset: conjunto de alterações
         node: nó
         relation: relação
         way: linha
     note: 
+      at_by_html: há %{when} pelo utilizador %{user}
+      at_html: há %{when}
+      closed: "Fechado:"
+      closed_title: "Erro resolvido: %{note_name}"
       comments: "Comentários:"
       description: "Descrição:"
+      last_modified: "Última alteração:"
+      open_title: "Erro não resolvido: %{note_name}"
+      opened: "Aberto:"
+      title: Erro
     paging_nav: 
       of: de
       showing_page: página
@@ -225,6 +234,7 @@ pt:
       loaded_an_area_with_num_features: Carregou uma área com %{num_features} elementos. Alguns navegadores de Internet podem ter problemas em mostrar esta quantidade de dados. Geralmente os navegadores funcionam melhor a mostrar até %{max_features} elementos de cada vez. Mais do que isso o navegador poderá ficar muito lento ou até bloquear. Se tem a certeza que quer mostrar esta quantidade de elementos clique no botão seguinte.
       loading: A carregar…
       manually_select: Selecionar manualmente uma área diferente
+      notes_layer_name: Ver Erros Reportados
       object_list: 
         api: Descarregar esta área no formato XML OSM através da API
         back: Regressar à lista de objetos
@@ -396,6 +406,9 @@ pt:
       user_title: Diário de %{user}
   editor: 
     default: Padrão (actualmente %{name})
+    id: 
+      description: iD (novo editor)
+      name: iD
     potlatch: 
       description: Potlatch 1
       name: Potlatch 1
@@ -716,6 +729,8 @@ pt:
           airfield: Aeródromo militar
           barracks: Quartel
           bunker: Bunker
+        mountain_pass: 
+          "yes": Passo de Montanha (portela)
         natural: 
           bay: Baía
           beach: Praia
@@ -935,11 +950,27 @@ pt:
         transport_map: Transportes Públicos
     notes: 
       new: 
-        add: Adicionar nota
+        add: Reportar Erro
+        intro: Para melhorar a informação no mapa, o erro que vai reportar é mostrado a outros editores, por isso descreva por favor de forma clara e precisa o problema no mapa e desloque a marca azul abaixo (clicar e arrastar) para o sítio correto do mapa onde se encontra o erro. Obrigado.
       show: 
+        anonymous_warning: Este erro reportado inclui comentários de utilizadores anónimos que devem ser confirmados por fonte independente.
+        closed_by: resolvido por <a href='%{user_url}'>%{user}</a> em %{time}
+        closed_by_anonymous: marcado como resolvido por um anónimo em %{time}
+        comment: Comentário
+        comment_and_resolve: Comentar e Marcar como Resolvido
+        commented_by: comentário de <a href='%{user_url}'>%{user}</a> em %{time}
+        commented_by_anonymous: comentário de um anónimo em %{time}
         hide: Esconder
-        resolve: Resolver
+        opened_by: criado por <a href='%{user_url}'>%{user}</a> em %{time}
+        opened_by_anonymous: criado por um anónimo em %{time}
+        permalink: Ligação permanente
+        reopened_by: reaberto por <a href='%{user_url}'>%{user}</a> em %{time}
+        reopened_by_anonymous: reaberto %{time} por um anónimo
+        resolve: Marcar como Resolvido
     site: 
+      createnote_disabled_tooltip: A área do mapa é demasiado grande. Amplie o mapa para poder reportar um erro
+      createnote_tooltip: Adicionar nota ao mapa
+      createnote_zoom_alert: Tem de ampliar o mapa para poder reportar um erro
       edit_disabled_tooltip: Área demasiado grande. Amplie para poder editar
       edit_tooltip: Editar o mapa
       edit_zoom_alert: A área do mapa é demasiado grande. Amplie para poder editar o mapa.
@@ -1114,9 +1145,35 @@ pt:
     sent_message_summary: 
       delete_button: Eliminar
   note: 
+    description: 
+      closed_at_by_html: Resolvido %{when} atrás por %{user}
+      closed_at_html: Resolvido %{when} atrás
+      commented_at_by_html: Atualizado %{when} por %{user}
+      commented_at_html: Atualizado %{when}
+      opened_at_by_html: Criado %{when} atrás por %{user}
+      opened_at_html: Criado %{when} atrás
+      reopened_at_by_html: Reaberto %{when} por %{user}
+      reopened_at_html: Reaberto em %{when}
+    entry: 
+      comment: Comentário
+      full: Erro reportado completo
     mine: 
+      ago_html: há %{when}
+      created_at: Criado em
       creator: Criador
       description: Descrição
+      heading: Erros reportados por %{user}
+      id: Identificador
+      last_changed: Última alteração
+      subheading: Erros reportados ou comentados por %{user}
+      title: Erros reportados ou comentados por %{user}
+    rss: 
+      closed: erro reportado resolvido (perto de %{place})
+      comment: novo comentário (perto de %{place})
+      description_area: Lista de erros reportados, comentados ou resolvidos na sua área [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: Uma fonte RSS para o erro %{id} reportado
+      new: novo erro reportado (perto de %{place})
+      title: Erros reportados no OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Também pode ler o comentário em %{readurl} e comentar em %{commenturl} ou responder em %{replyurl}
@@ -1132,6 +1189,7 @@ pt:
     email_confirm_plain: 
       click_the_link: Se foi você que fez o pedido, clique na ligação seguinte para confirmar o pedido.
       greeting: Olá,
+      hopefully_you: Alguém (provavelmente você) pediu para alterar o endereço de email registado na conta em %{server_url} para o endereço %{new_address}.
     friend_notification: 
       befriend_them: Também pode adicioná-lo como amigo em %{befriendurl}.
       had_added_you: "%{user} adicionou-o como amigo no OpenStreetMap."
@@ -1160,17 +1218,32 @@ pt:
     lost_password_plain: 
       click_the_link: Se foi você que fez o pedido, clique na ligação seguinte para lhe ser enviada uma nova palavra-passe, invalidando a anterior.
       greeting: Olá,
+      hopefully_you: Alguém (provavelmente você) pediu para ser enviada uma nova palavra-passe da conta no openstreetmap.org
     message_notification: 
       footer1: Também pode ler a mensagem em %{readurl}
       footer2: e pode responder em %{replyurl}
       header: "%{from_user} enviou-lhe uma mensagem através do OpenStreetMap com o assunto %{subject}:"
       hi: Olá %{to_user},
     note_comment_notification: 
+      anonymous: Um utilizador anónimo
+      closed: 
+        commented_note: "%{commenter} resolveu um erro do mapa que você comentou. O erro do mapa encontra-se perto de %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} resolveu um erro no mapa que você está interessado"
+        subject_own: "[OpenStreetMap] %{commenter} resolveu um erro do mapa que você reportou"
+        your_note: "%{commenter} resolveu um erro do mapa perto de %{place}."
+      commented: 
+        commented_note: "%{commenter} deixou um comentário num erro do mapa no mapa que você reportou. O erro reportado encontra-se perto de %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} deixou um comentário num erro do mapa que você reportou"
+        subject_own: "[OpenStreetMap] %{commenter} deixou um comentário num erro do mapa que você reportou"
+        your_note: "%{commenter} deixou um comentário num erro do mapa que você reportou perto de %{place}."
+      details: Ver mais detalhes sobre o erro reportado em %{url}.
       greeting: Olá,
     signup_confirm: 
+      confirm: "Antes de fazermos outra coisa, necessitamos que confirme que o pedido partiu de si. Se fez o pedido clique na ligação seguinte para confirmar a conta:"
       created: Alguém (provavelmente você) acaba de criar uma conta em %{site_url}.
       greeting: Olá!
       subject: "[OpenStreetMap] Bem vindo(a) ao OpenStreetMap"
+      welcome: Damos-lhe as boas-vindas e queremos fornecer algumas informações para começar a editar.
     signup_confirm_html: 
       ask_questions: Pode fazer qualquer pergunta sobre o OpenStreetMap no nosso <a href="http://help.openstreetmap.org/">fórum de ajuda</a>.
       current_user: Está disponível uma lista de utilizadores por categorização conforme o local onde se encontram em <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
@@ -1184,6 +1257,7 @@ pt:
     signup_confirm_plain: 
       ask_questions: "Pode fazer qualquer pergunta que queira sobre o OpenStreetMap no nosso fórum de ajuda:"
       blog_and_twitter: "Ponha-se em dia com as últimas notícias com o blogue OpenStreetMap ou o Twitter:"
+      current_user: "Está disponível uma lista de utilizadores atuais em categorias, baseada em que local estão:"
       introductory_video: "Pode ver um vídeo de introdução sobre o OpenStreetMap em:"
       more_videos: "Há mais vídeos em:"
       opengeodata: "OpenGeoData.org é o blogue do fundador do OpenStreetMap, que também tem podcasts disponíveis:"
@@ -1198,7 +1272,7 @@ pt:
       allow_write_api: alterar o mapa.
       allow_write_diary: criar entradas no diário, comentários e adicionar amigos.
       allow_write_gpx: enviar trilhos GPS.
-      allow_write_notes: modificar notas.
+      allow_write_notes: alterar erros reportados.
       allow_write_prefs: alterar as minhas preferências.
       request_access: O programa %{app_name} está a pedir acesso à sua conta, %{user}. Por favor escolha as permissões que o programa pode ter. Pode escolher as que quiser.
     revoke: 
@@ -1217,6 +1291,7 @@ pt:
       allow_write_api: alterar o mapa.
       allow_write_diary: criar entradas no diário, comentários e adicionar amigos.
       allow_write_gpx: enviar trilhos GPS.
+      allow_write_notes: alterar erros reportados.
       allow_write_prefs: alterar as preferências do utilizador.
       callback_url: URL de retorno
       name: Nome
@@ -1247,6 +1322,7 @@ pt:
       allow_write_api: alterar o mapa.
       allow_write_diary: criar entradas no diário, comentários e adicionar amigos.
       allow_write_gpx: enviar trilhos GPS.
+      allow_write_notes: alterar erros reportados.
       allow_write_prefs: alterar as preferências do utilizador.
       authorize_url: "URL de Autorização:"
       confirm: Tem a certeza?
@@ -1295,6 +1371,7 @@ pt:
     edit: 
       anon_edits_link_text: Descubra a que se deve isto.
       flash_player_required: Necessita do Flash instalado e ativado para usar o Potlatch, o editor em Flash do OpenStreetMap. Pode <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">descarregar o Flash do site Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Também estão disponíveis outras opções</a> para editar o OpenStreetMap.
+      id_not_configured: O editor iD não foi configurado
       no_iframe_support: O seu navegador de Internet não suporta ou tem desativado as iframes HTML, que são necessárias para esta funcionalidade.
       not_public: Não configurou as suas edições como públicas.
       not_public_description: Não pode editar mais o mapa a não ser que torne as suas edições públicas. Pode fazer essa alteração na sua %{user_page}.
@@ -1303,7 +1380,7 @@ pt:
       potlatch_unsaved_changes: Tem alterações por gravar (Para gravar no Potlatch, deve desselecionar o ponto ou linha atual, se estiver a editar no modo direto, ou clicar no botão gravar se este estiver disponível.)
       user_page_link: página de utilizador
     index: 
-      createnote: Adicionar uma nota
+      createnote: Reportar um erro no mapa
       js_1: Está a usar um navegador de Internet que não suporta JavaScript ou tem o JavaScript desativado.
       js_2: É necessário ter o JavaScript ativado para visualizar mapas no OpenStreetMap.
       license: 
@@ -1391,7 +1468,7 @@ pt:
       second: Segundo item
       subheading: Sub-secção
       text: Texto
-      title_html: Tabela de códigos. Processado com <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      title_html: Tabela de códigos (<a href="http://daringfireball.net/projects/markdown/">Markdown</a>)
       unordered: Lista
       url: URL
     richtext_area: 
@@ -1474,7 +1551,9 @@ pt:
     trace_header: 
       see_all_traces: Ver todos os trilhos
       see_your_traces: Ver todos os meus trilhos GPS
-      traces_waiting: Tem %{count} trilhos GPS na fila para serem colocados na base de dados. Por favor, antes de enviar mais trilhos aguarde um pouco para terminar a inclusão dos trilhos enviados, de modo a não bloquear a fila para outros utilizadores.
+      traces_waiting: 
+        one: Tem %{count} trilho GPS na fila para ser colocado na base de dados do OpenStreetMap. Por favor, antes de enviar mais trilhos aguarde um pouco para terminar a inclusão do trilho enviado, de modo a não bloquear a fila para outros utilizadores.
+        other: Tem %{count} trilhos GPS na fila para serem colocados na base de dados do OpenStreetMap. Por favor, antes de enviar mais trilhos aguarde um pouco para terminar a inclusão dos trilhos enviados, de modo a não bloquear a fila para outros utilizadores.
       upload_trace: Carregar trilho GPS
     trace_optionals: 
       tags: Etiquetas
@@ -1650,7 +1729,7 @@ pt:
       success: "%{name} já faz parte da sua lista de amigos!"
     new: 
       confirm email address: "Confirmar E-mail:"
-      confirm password: "Confirmar palavra-passe:"
+      confirm password: "Confirmar senha:"
       contact_webmaster: Entre em contacto com o <a href="mailto:webmaster@openstreetmap.org">webmaster</a> para uma conta ser criada - vamos tentar lidar com o pedido o mais rapidamente possível.
       continue: Continuar
       display name: "Nome de utilizador:"
@@ -1748,6 +1827,7 @@ pt:
       my comments: meus comentários
       my diary: meu diário
       my edits: as minhas edições
+      my notes: erros reportados por mim
       my settings: as minhas configurações
       my traces: meus trilhos GPS
       nearby users: Outros editores nas redondezas
@@ -1756,6 +1836,7 @@ pt:
       new diary entry: adicionar entrada no meu diário
       no friends: Ainda não adicionou nenhum amigo.
       no nearby users: Não existem outros editores nas redondezas que admitam que estão nas redondezas.
+      notes: erros reportados no mapa
       oauth settings: configurações do OAuth
       remove as friend: remover amigo
       role: 

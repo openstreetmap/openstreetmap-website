@@ -29,5 +29,13 @@
       <input type="submit" name="comment" value="<%- I18n.t('javascripts.notes.show.comment') %>" data-method="POST" data-url="<%- note.comment_url %>" disabled="1">
     </div>
   </form>
+  <% } else { %>
+  <form action="#">
+    <input type="hidden" name="text" value="">
+    <div class="buttons">
+      <input type="submit" name="hide" value="<%- I18n.t('javascripts.notes.show.hide') %>" class="hide_unless_moderator" data-method="DELETE" data-url="<%- note.url %>">
+      <input type="submit" name="reopen" value="<%- I18n.t('javascripts.notes.show.reactivate') %>" class="hide_unless_logged_in" data-method="POST" data-url="<%- note.reopen_url %>">
+    </div>
+  </form>
   <% } %>
 </div>

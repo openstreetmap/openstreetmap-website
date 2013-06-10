@@ -131,6 +131,7 @@ hu:
       edit: 
         area: Terület szerkesztése
         node: Pont szerkesztése
+        note: Jegyzet szerkesztése
         relation: Kapcsolat szerkesztése
         way: Vonal szerkesztése
       larger: 
@@ -144,6 +145,7 @@ hu:
       all: 
         next_changeset_tooltip: Következő módosításcsomag
         next_node_tooltip: Következő pont
+        next_note_tooltip: Következő jegyzet
         next_relation_tooltip: Következő kapcsolat
         next_way_tooltip: Következő vonal
         prev_changeset_tooltip: Előző módosításcsomag
@@ -177,12 +179,22 @@ hu:
         relation: kapcsolat
         way: vonal
     note: 
+      at_by_html: "%{when} óta %{user} által"
+      at_html: "%{when} óta"
+      closed: "Lezárva:"
       closed_title: "Megoldott jegyzet: %{note_name}"
+      comments: "Megjegyzések:"
+      description: "Leírás:"
+      last_modified: "Utoljára módosítva:"
       open_title: "Megoldatlan jegyzet: %{note_name}"
+      opened: "Létrehozva:"
+      title: Jegyzet
     paging_nav: 
       of: "összesen:"
-      showing_page: "Jelenlegi oldal:"
+      showing_page: oldal
     redacted: 
+      message_html: A %{type} %{version} verzióját nem lehet megjeleníteni, mert el lett távolítva. További részletekért lásd %{redaction_link}
+      redaction: Eltávolítás %{id}
       type: 
         node: pont
         relation: kapcsolat
@@ -220,7 +232,7 @@ hu:
       notes_layer_name: Jegyzetek böngészése
       object_list: 
         api: Ezen terület letöltése API-ból
-        back: Objektumlista megjelenítése
+        back: Vissza az objektumlistához
         details: Részletek
         heading: Objektumlista
         history: 
@@ -262,8 +274,8 @@ hu:
       way_title: "Vonal: %{way_name}"
     way_details: 
       also_part_of: 
-        one: szintén része a(z) %{related_ways} vonalnak
-        other: szintén része a(z) %{related_ways} vonalaknak
+        one: "%{related_ways} vonal része"
+        other: "{related_ways} vonalak része"
       nodes: "Pontok:"
       part_of: "Része:"
     way_history: 
@@ -283,7 +295,7 @@ hu:
     changeset_paging_nav: 
       next: következő »
       previous: « előző
-      showing_page: "Jelenlegi oldal: %{page}"
+      showing_page: "%{page} oldal"
     changesets: 
       area: Terület
       comment: Megjegyzés
@@ -291,13 +303,13 @@ hu:
       saved_at: Mentve
       user: Felhasználó
     list: 
-      description: Legutóbbi módosítások
+      description: Legutóbbi módosítások megtekintése a térképen
       description_bbox: "Módosításcsomagok ezen belül: %{bbox}"
       description_friend: Ismerőseid módosításcsomagjai
       description_nearby: Közeli felhasználók módosításcsomagjai
       description_user: "%{user} módosításcsomagjai"
       description_user_bbox: "%{user} módosításcsomagjai ezen belül: %{bbox}"
-      empty_anon_html: Még nincs szerkesztése
+      empty_anon_html: Még nincs szerkesztése.
       empty_user_html: Úgy tűnik, még nincsen szerkesztésed. Kezdetnek javasoljuk, hogy olvasd el a <a href='http://wiki.openstreetmap.org/wiki/HU:Beginners_Guide_1.3'>Kezdők Kézikönyvét</a>.
       heading: Módosításcsomagok
       heading_bbox: Módosításcsomagok
@@ -328,8 +340,9 @@ hu:
       hide_link: Hozzászólás elrejtése
     diary_entry: 
       comment_count: 
-        one: 1 hozzászólás
-        other: "%{count} hozzászólás"
+        one: "{count} % hozzászólás"
+        other: " % {count} hozzászólás"
+        zero: Nincs hozzászólás
       comment_link: Hozzászólás ehhez a bejegyzéshez
       confirm: Megerősítés
       edit_link: Ezen bejegyzés szerkesztése
@@ -364,7 +377,7 @@ hu:
       newer_entries: Újabb bejegyzések
       no_entries: Nincsenek naplóbejegyzések
       older_entries: Régebbi bejegyzések
-      recent_entries: "Legutóbbi naplóbejegyzések:"
+      recent_entries: Legutóbbi naplóbejegyzések
       title: Felhasználók naplói
       title_friends: Ismerősök naplói
       title_nearby: Közeli felhasználók naplói
@@ -388,6 +401,9 @@ hu:
       user_title: "%{user} naplója"
   editor: 
     default: Alapértelmezett (jelenleg %{name})
+    id: 
+      description: iD (böngészőben futó szerkesztő)
+      name: iD
     potlatch: 
       description: Potlatch 1 (böngészőn belüli szerkesztő)
       name: Potlatch 1
@@ -707,6 +723,8 @@ hu:
           airfield: Katonai repülőtér
           barracks: Laktanya
           bunker: Bunker
+        mountain_pass: 
+          "yes": Hegyszoros
         natural: 
           bay: Öböl
           beach: Part
@@ -1032,7 +1050,7 @@ hu:
       infringement_1_html: "  Az OSM közreműködői emlékeztetve lettek arra, hogy soha ne adjanak hozzá adatokat egyetlen\n  szerzői jogvédett forrásból se (pl. Google Térkép vagy nyomtatott térképek) a\n  szerzői jog tulajdonosának kifejezett engedélye nélkül."
       infringement_title_html: Copyright megsértése
       intro_1_html: "   Az OpenStreetMap egy <i>szabad adathalmaz</i>, amelyre az <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data\nCommons Open Database License</a> licenc (ODbL) vonatkozik."
-      intro_2_html: "  Szabadon másolhatod, terjesztheted, továbbíthatod és átdolgozhatod térképünket\n  és adatainkat mindaddig, amíg feltünteted az OpenStreetMapot és\n  közreműködőit. Ha módosítod vagy felhasználod térképünket vagy adatainkat, akkor\n  az eredményt is csak azonos licenccel terjesztheted. A\n  teljes <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">jogi\n  szöveg</a> ismerteti a jogaidat és kötelezettségeidet."
+      intro_2_html: "  Szabadon másolhatod, terjesztheted, továbbíthatod és átdolgozhatod adatainkat mindaddig, amíg feltünteted az OpenStreetMapot és közreműködőit. Ha módosítod vagy felhasználod az adatainkat, akkor az eredményt is csak azonos licenccel terjesztheted. A teljes <a\n  href=\"http://opendatacommons.org/licenses/odbl/1.0/\">jogi\n  szabályzat</a> ismerteti a jogaidat és kötelezettségeidet."
       intro_3_html: "   Az OpenStreetMap <i>térképeire</i> a <a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Commons Nevezd meg! - Így add tovább! 2.0</a> licenc (CC BY-SA) vonatkozik."
       more_1_html: "További információ adataink használatáról a <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Jogi\n  GYIK</a>-ban."
       more_2_html: "  Az OSM közreműködői emlékeztetve lettek arra, hogy soha ne adjanak hozzá adatokat egyetlen\n  szerzői jogvédett forrásból (pl. Google Térkép vagy nyomtatott térképek) se a\n  szerzői jog tulajdonosának kifejezett engedélye nélkül."
@@ -1169,8 +1187,9 @@ hu:
       header: "%{from_user} küldött neked egy üzenetet az OpenStreetMapon keresztül %{subject} tárggyal:"
       hi: Szia %{to_user}!
     signup_confirm: 
+      created: Valaki (remélhetőleg te) most hozott létre egy fiókot az %{site_url}-on.
       greeting: Szia!
-      subject: "[OpenStreetMap] E-mail cím megerősítése"
+      subject: "[OpenStreetMap] Üdvözlünk az OpenStreetMapnál"
     signup_confirm_html: 
       ask_questions: Ha bármilyen kérdésed merülne fel az OpenStreetMappal kapcsolatban, felteheted azt a mi <a href="http://help.openstreetmap.org/">kérdés és válasz oldalunkon</a>.
       current_user: "A jelenlegi felhasználók listája kategóriákban, annak megfelelően, hogy hol vannak a világban, elérhető innen: <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region\">Category:Users_by_geographical_region</a>."
