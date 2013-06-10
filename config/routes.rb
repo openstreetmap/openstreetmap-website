@@ -259,7 +259,7 @@ OpenStreetMap::Application.routes.draw do
 
   # groups
   match '/groups' => 'groups#index', :via => :get
-  match '/groups/new' => 'groups#new', :via => :get
+  match '/groups/new' => 'groups#new', :via => [:get,:post]
 
   # redactions
   resources :redactions

@@ -22,20 +22,6 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
---
--- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA public;
-
-
---
--- Name: EXTENSION btree_gist; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiST';
-
-
 SET search_path = public, pg_catalog;
 
 --
@@ -117,33 +103,6 @@ CREATE TYPE user_status_enum AS ENUM (
     'suspended',
     'deleted'
 );
-
-
---
--- Name: maptile_for_point(bigint, bigint, integer); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
-    LANGUAGE c STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
-
-
---
--- Name: tile_for_point(integer, integer); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
-    LANGUAGE c STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
-
-
---
--- Name: xid_to_int4(xid); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION xid_to_int4(xid) RETURNS integer
-    LANGUAGE c IMMUTABLE STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
 
 
 SET default_tablespace = '';
@@ -242,8 +201,8 @@ CREATE TABLE client_applications (
     key character varying(50),
     secret character varying(50),
     user_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     allow_read_prefs boolean DEFAULT false NOT NULL,
     allow_write_prefs boolean DEFAULT false NOT NULL,
     allow_write_diary boolean DEFAULT false NOT NULL,
@@ -649,6 +608,36 @@ ALTER SEQUENCE gpx_files_id_seq OWNED BY gpx_files.id;
 
 
 --
+-- Name: groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE groups (
+    id integer NOT NULL,
+    title character varying(255),
+    description text
+);
+
+
+--
+-- Name: groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE groups_id_seq OWNED BY groups.id;
+
+
+--
 -- Name: languages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -803,8 +792,8 @@ CREATE TABLE oauth_nonces (
     id integer NOT NULL,
     nonce character varying(255),
     "timestamp" integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -840,8 +829,8 @@ CREATE TABLE oauth_tokens (
     secret character varying(50),
     authorized_at timestamp without time zone,
     invalidated_at timestamp without time zone,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     allow_read_prefs boolean DEFAULT false NOT NULL,
     allow_write_prefs boolean DEFAULT false NOT NULL,
     allow_write_diary boolean DEFAULT false NOT NULL,
@@ -970,8 +959,8 @@ CREATE TABLE user_blocks (
     ends_at timestamp without time zone NOT NULL,
     needs_view boolean DEFAULT false NOT NULL,
     revoker_id bigint,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     reason_format format_enum DEFAULT 'html'::format_enum NOT NULL
 );
 
@@ -1013,8 +1002,8 @@ CREATE TABLE user_preferences (
 CREATE TABLE user_roles (
     id integer NOT NULL,
     user_id bigint NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     role user_role_enum NOT NULL,
     granter_id bigint NOT NULL
 );
@@ -1096,9 +1085,9 @@ CREATE TABLE users (
     status user_status_enum DEFAULT 'pending'::user_status_enum NOT NULL,
     terms_agreed timestamp without time zone,
     consider_pd boolean DEFAULT false NOT NULL,
+    openid_url character varying(255),
     preferred_editor character varying(255),
     terms_seen boolean DEFAULT false NOT NULL,
-    openid_url character varying(255),
     description_format format_enum DEFAULT 'html'::format_enum NOT NULL,
     image_fingerprint character varying(255),
     changesets_count integer DEFAULT 0 NOT NULL,
@@ -1247,6 +1236,13 @@ ALTER TABLE ONLY gpx_file_tags ALTER COLUMN id SET DEFAULT nextval('gpx_file_tag
 --
 
 ALTER TABLE ONLY gpx_files ALTER COLUMN id SET DEFAULT nextval('gpx_files_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY groups ALTER COLUMN id SET DEFAULT nextval('groups_id_seq'::regclass);
 
 
 --
@@ -1456,6 +1452,14 @@ ALTER TABLE ONLY gpx_files
 
 
 --
+-- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY groups
+    ADD CONSTRAINT groups_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: languages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1633,7 +1637,7 @@ CREATE INDEX changeset_tags_id_idx ON changeset_tags USING btree (changeset_id);
 -- Name: changesets_bbox_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX changesets_bbox_idx ON changesets USING gist (min_lat, max_lat, min_lon, max_lon);
+CREATE INDEX changesets_bbox_idx ON changesets USING btree (min_lat, max_lat, min_lon, max_lon);
 
 
 --
@@ -2454,6 +2458,8 @@ INSERT INTO schema_migrations (version) VALUES ('20121202155309');
 INSERT INTO schema_migrations (version) VALUES ('20121203124841');
 
 INSERT INTO schema_migrations (version) VALUES ('20130328184137');
+
+INSERT INTO schema_migrations (version) VALUES ('20130610132812');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
