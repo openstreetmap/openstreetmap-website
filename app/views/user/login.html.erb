@@ -9,7 +9,7 @@
 
     <p><%= t 'user.login.no account' %> <%= link_to t('user.login.register now'), :action => :new, :referer => params[:referer] %></p>
 
-    <div id="loginForm">
+    <div id="loginForm" class="standard-form">
       <fieldset>
         <label><%= t 'user.login.email or username' %></label>
         <%= text_field_tag "username", params[:username], :maxlength => 255, :tabindex => 1 %>
@@ -17,7 +17,7 @@
       <fieldset>
         <label><%= t 'user.login.password' %></label>
         <%= password_field_tag "password", "", :maxlength => 255, :tabindex => 2 %>
-        <span class="minorNote">(<%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>)</span>
+        <p class="form-help deemphasize"><%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %></p>
       </fieldset>
       <fieldset>
         <%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %>
@@ -44,12 +44,11 @@
         <%= url_field_tag("openid_url", "", { :maxlength => 255, :tabindex => 3, :class => "openid_url" }) %>
         <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
       </fieldset>
-      <fieldset>
+      <fieldset id="remember_me_openid">
         <label for="remember_me"><%= t 'user.login.remember' %></label>
         <%= check_box_tag "remember_me", "yes", false, :tabindex => 5 %>
       </fieldset>
     </div>
-
     <%= submit_tag t('user.login.login_button'), :tabindex => 6, :id => "login_openid_submit" %>
   <% end %>
 
