@@ -16,9 +16,21 @@ L.Control.Note = L.Control.extend({
         L.DomEvent
             .on(link, 'click', L.DomEvent.stopPropagation)
             .on(link, 'click', L.DomEvent.preventDefault)
+            .on(link, 'click', this._toggle, this)
             .on(link, 'dblclick', L.DomEvent.stopPropagation);
 
+        this.map = map;
+
         return container;
+    },
+
+    // TODO: this relies on notesLayer on the map
+    _toggle: function() {
+        if (this.map.hasLayer(this.map.noteLayer)) {
+            this.map.removeLayer(this.map.noteLayer);
+        } else {
+            this.map.addLayer(this.map.noteLayer);
+        }
     }
 });
 

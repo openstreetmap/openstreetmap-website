@@ -64,9 +64,7 @@ $(document).ready(function () {
         url: "/api/" + OSM.API_VERSION + "/notes/" + params.note + ".json",
         success: function (feature) {
           var marker = updateMarker(notes[feature.properties.id], feature);
-
           notes[feature.properties.id] = marker;
-
           map.addLayer(noteLayer);
           marker.openPopup();
         }
@@ -86,13 +84,11 @@ $(document).ready(function () {
         icon: noteIcons[feature.properties.status],
         opacity: 0.9
       });
-
       marker.addTo(noteLayer).bindPopup(
         createPopupContent(marker, feature.properties),
         popupOptions()
       );
     }
-
     return marker;
   }
 
@@ -115,9 +111,7 @@ $(document).ready(function () {
 
     function success(json) {
       var oldNotes = notes;
-
       notes = {};
-
       json.features.forEach(updateMarkers);
 
       function updateMarkers(feature) {
@@ -274,13 +268,9 @@ $(document).ready(function () {
 
     newNote.on("remove", function (e) {
       $("#createnoteanchor").removeClass("disabled").addClass("geolink");
-    });
-
-    newNote.on("dragstart", function (e) {
+    }).on("dragstart", function (e) {
       $(newNote).stopTime("removenote");
-    });
-
-    newNote.on("dragend", function (e) {
+    }).on("dragend", function (e) {
       e.target.openPopup();
     });
   });
