@@ -64,12 +64,7 @@ $(document).ready(function () {
     .addTo(map);
 
   L.control.share({
-      getUrl: function(map) {
-          return 'http://osm.org/' + querystring.stringify({
-              lon: map.getCenter().lng,
-              lat: map.getCenter().lat
-          });
-      }
+      getUrl: getShortUrl
   }).addTo(map);
 
   L.control.note({

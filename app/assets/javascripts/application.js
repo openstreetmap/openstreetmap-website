@@ -54,12 +54,11 @@ function updatelinks(loc, zoom, layers, bounds, object) {
   }
 
   $(".geolink").each(setGeolink);
-  $("#shortlinkanchor").each(setShortlink);
 
   function setGeolink(index, link) {
-    var base = link.href.split('?')[0];
-    var qs = link.href.split('?')[1];
-    var args = querystring.parse(qs);
+    var base = link.href.split('?')[0],
+        qs = link.href.split('?')[1],
+        args = querystring.parse(qs);
 
     if ($(link).hasClass("llz")) {
       $.extend(args, {
@@ -91,40 +90,14 @@ function updatelinks(loc, zoom, layers, bounds, object) {
               .addClass("disabled");
         }
     }
-
     link.href = base + '?' + querystring.stringify(args);
   }
+}
 
-
-  function setShortlink() {
-    var base = link.href.split('?')[0],
-        qs = link.href.split('?')[1],
-        args = querystring.parse(qs),
-        code = makeShortCode(lat, lon, zoom),
-        prefix = shortlinkPrefix();
-
-    // Add ?{node,way,relation}=id to the arguments
-    if (object) {
-      args[object.type] = object.id;
-    }
-
-    // This is a hack to omit the default mapnik layer from the shortlink.
-    if (layers && layers != "M") {
-      args.layers = layers;
-    } else {
-      delete args.layers;
-    }
-
-    // Here we're assuming that all parameters but ?layers= and
-    // ?{node,way,relation}= can be safely omitted from the shortlink
-    // which encodes lat/lon/zoom. If new URL parameters are added to
-    // the main slippy map this needs to be changed.
-    if (args.layers || object) {
-      this.href = prefix + "/go/" + code + '?' + querystring.stringify(args);
-    } else {
-      this.href = prefix + "/go/" + code;
-    }
-  }
+function getShortUrl(map) {
+  return (window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
+          'http://osm.org/go/' : '/go/') +
+          makeShortCode(map);
 }
 
 function minZoomAlert() {
@@ -132,61 +105,51 @@ function minZoomAlert() {
 }
 
 /*
- * Get the URL prefix to use for a short link
- */
-function shortlinkPrefix() {
-  if (window.location.hostname.match(/^www\.openstreetmap\.org/i)) {
-    return "http://osm.org";
-  } else {
-    return "";
-  }
-}
-
-/*
- * Called to interlace the bits in x and y, making a Morton code.
- */
-function interlace(x, y) {
-    x = (x | (x << 8)) & 0x00ff00ff;
-    x = (x | (x << 4)) & 0x0f0f0f0f;
-    x = (x | (x << 2)) & 0x33333333;
-    x = (x | (x << 1)) & 0x55555555;
-
-    y = (y | (y << 8)) & 0x00ff00ff;
-    y = (y | (y << 4)) & 0x0f0f0f0f;
-    y = (y | (y << 2)) & 0x33333333;
-    y = (y | (y << 1)) & 0x55555555;
-
-    return (x << 1) | y;
-}
-
-/*
  * Called to create a short code for the short link.
  */
-function makeShortCode(lat, lon, zoom) {
-    char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~";
-    var x = Math.round((lon + 180.0) * ((1 << 30) / 90.0));
-    var y = Math.round((lat +  90.0) * ((1 << 30) / 45.0));
-    // JavaScript only has to keep 32 bits of bitwise operators, so this has to be
-    // done in two parts. each of the parts c1/c2 has 30 bits of the total in it
-    // and drops the last 4 bits of the full 64 bit Morton code.
-    var str = "";
-    var c1 = interlace(x >>> 17, y >>> 17), c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff);
+function makeShortCode(map) {
+    var lon = map.getCenter().lng,
+        lat = map.getCenter().lat,
+        zoom = map.getZoom(),
+        str = '',
+        char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
+        x = Math.round((lon + 180.0) * ((1 << 30) / 90.0)),
+        y = Math.round((lat +  90.0) * ((1 << 30) / 45.0)),
+        // JavaScript only has to keep 32 bits of bitwise operators, so this has to be
+        // done in two parts. each of the parts c1/c2 has 30 bits of the total in it
+        // and drops the last 4 bits of the full 64 bit Morton code.
+        c1 = interlace(x >>> 17, y >>> 17), c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff);
+
     for (var i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
         digit = (c1 >> (24 - 6 * i)) & 0x3f;
         str += char_array.charAt(digit);
     }
-    for (var i = 5; i < Math.ceil((zoom + 8) / 3.0); ++i) {
+    for (i = 5; i < Math.ceil((zoom + 8) / 3.0); ++i) {
         digit = (c2 >> (24 - 6 * (i - 5))) & 0x3f;
         str += char_array.charAt(digit);
     }
-    for (var i = 0; i < ((zoom + 8) % 3); ++i) {
-        str += "-";
+    for (i = 0; i < ((zoom + 8) % 3); ++i) str += "-";
+
+    /*
+     * Called to interlace the bits in x and y, making a Morton code.
+     */
+    function interlace(x, y) {
+        x = (x | (x << 8)) & 0x00ff00ff;
+        x = (x | (x << 4)) & 0x0f0f0f0f;
+        x = (x | (x << 2)) & 0x33333333;
+        x = (x | (x << 1)) & 0x55555555;
+        y = (y | (y << 8)) & 0x00ff00ff;
+        y = (y | (y << 4)) & 0x0f0f0f0f;
+        y = (y | (y << 2)) & 0x33333333;
+        y = (y | (y << 1)) & 0x55555555;
+        return (x << 1) | y;
     }
+
     return str;
 }
 
 /*
- * Forms which have been cached by rails may have he wrong
+ * Forms which have been cached by rails may have the wrong
  * authenticity token, so patch up any forms with the correct
  * token taken from the page header.
  */
