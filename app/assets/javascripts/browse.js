@@ -21,10 +21,16 @@ $(document).ready(function () {
     return false;
   }
 
-  var map = createMap("small_map", {
-    layerControl: false,
-    panZoomControl: false,
-    attributionControl: false
+  var map = L.map("small_map", {
+    attributionControl: false,
+    zoomControl: false
+  }).addLayer(new L.OSM.Mapnik());
+
+  L.control.zoom({position: 'topright'})
+    .addTo(map);
+
+  $("#small_map").on("resized", function () {
+    map.invalidateSize();
   });
 
   var params = $("#small_map").data();
@@ -79,7 +85,7 @@ $(document).ready(function () {
       object.version = params.version - 1;
     }
 
-    addObjectToMap(object, {
+    addObjectToMap(object, map, {
       zoom: true, 
       callback: function(extent) {
         $("#loading").hide();

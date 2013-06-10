@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  var marker;
+  var marker, map;
 
   function setLocation(e) {
     $("#latitude").val(e.latlng.lat);
@@ -21,7 +21,18 @@ $(document).ready(function () {
 
     var params = $("#map").data();
     var centre = [params.lat, params.lon];
-    var map = createMap("map");
+
+    map = L.map("map", {
+      attributionControl: false,
+      zoomControl: false
+    }).addLayer(new L.OSM.Mapnik());
+
+    L.control.zoom({position: 'topright'})
+      .addTo(map);
+
+    $("#map").on("resized", function () {
+      map.invalidateSize();
+    });
 
     map.setView(centre, params.zoom);
 

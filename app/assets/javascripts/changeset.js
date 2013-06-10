@@ -1,6 +1,18 @@
 $(document).ready(function () {
   var changesets = [], rects = {};
-  var map = createMap("changeset_list_map");
+
+  var map = L.map("changeset_list_map", {
+    attributionControl: false,
+    zoomControl: false
+  }).addLayer(new L.OSM.Mapnik());
+
+  L.control.zoom({position: 'topright'})
+    .addTo(map);
+
+  $("#changeset_list_map").on("resized", function () {
+    map.invalidateSize();
+  });
+
   var group = L.featureGroup().addTo(map);
 
   $("[data-changeset]").each(function () {

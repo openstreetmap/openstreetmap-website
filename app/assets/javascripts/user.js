@@ -1,7 +1,14 @@
 $(document).ready(function () {
-  var map = createMap("map", {
-    zoomControl: true,
-    panZoomControl: false
+  var map = L.map("map", {
+    attributionControl: false,
+    zoomControl: false
+  }).addLayer(new L.OSM.Mapnik());
+
+  L.control.zoom({position: 'topright'})
+    .addTo(map);
+
+  $("#map").on("resized", function () {
+    map.invalidateSize();
   });
 
   if (OSM.home) {
