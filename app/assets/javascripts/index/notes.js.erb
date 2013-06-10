@@ -3,7 +3,7 @@
 
 $(document).ready(function () {
   var params = OSM.mapParams(),
-      noteLayer = new L.LayerGroup(),
+      noteLayer = new L.LayerGroup({code: 'N'}),
       notes = {},
       newNote;
 
@@ -24,11 +24,6 @@ $(document).ready(function () {
       iconAnchor: [12, 40]
     })
   };
-
-  layers.push({
-    layer: noteLayer,
-    layerCode: "N"
-  });
 
   map.noteLayer = noteLayer;
 
@@ -57,8 +52,7 @@ $(document).ready(function () {
   });
 
   if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
-    if (params.layers) setMapLayers(params.layers);
-    if (params.notes) map.addLayer(noteLayer);
+    if (params.notes || params.layers.indexOf('N') >= 0) map.addLayer(noteLayer);
     if (params.note) {
       $.ajax({
         url: "/api/" + OSM.API_VERSION + "/notes/" + params.note + ".json",

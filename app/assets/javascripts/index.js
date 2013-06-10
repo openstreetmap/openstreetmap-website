@@ -24,31 +24,31 @@ $(document).ready(function () {
 
   layers = [{
     layer: new L.OSM.Mapnik({
-      attribution: ''
+      attribution: '',
+      code: "M"
     }),
     keyid: "mapnik",
-    layerCode: "M",
     name: I18n.t("javascripts.map.base.standard")
   }, {
     layer: new L.OSM.CycleMap({
       attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+      code: "C"
     }),
     keyid: "cyclemap",
-    layerCode: "C",
     name: I18n.t("javascripts.map.base.cycle_map")
   }, {
     layer: new L.OSM.TransportMap({
       attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+      code: "T"
     }),
     keyid: "transportmap",
-    layerCode: "T",
     name: I18n.t("javascripts.map.base.transport_map")
   }, {
     layer: new L.OSM.MapQuestOpen({
       attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
+      code: "Q"
     }),
     keyid: "mapquest",
-    layerCode: "Q",
     name: I18n.t("javascripts.map.base.mapquest")
   }];
 
@@ -100,7 +100,18 @@ $(document).ready(function () {
   }
 
   if (params.layers) {
-    setMapLayers(params.layers);
+    var foundLayer = false;
+    for (var i = 0; i < layers.length; i++) {
+      if (params.layers.indexOf(layers[i].layer.options.code) >= 0) {
+        map.addLayer(layers[i].layer);
+        foundLayer = true;
+      } else {
+        map.removeLayer(layers[i].layer);
+      }
+    }
+    if (!foundLayer) {
+      map.addLayer(layers[0].layer);
+    }
   }
 
   if (params.marker) {
@@ -214,25 +225,11 @@ function getMapBaseLayer() {
 
 function getMapLayers() {
   var layerConfig = "";
-  for (var i = 0; i < layers.length; i++) {
-    if (map.hasLayer(layers[i].layer)) {
-      layerConfig += layers[i].layerCode;
+  for (var i in map._layers) { // TODO: map.eachLayer
+    var layer = map._layers[i];
+    if (layer.options && layer.options.code) {
+      layerConfig += layer.options.code;
     }
   }
   return layerConfig;
-}
-
-function setMapLayers(layerConfig) {
-  var foundLayer = false;
-  for (var i = 0; i < layers.length; i++) {
-    if (layerConfig.indexOf(layers[i].layerCode) >= 0) {
-      map.addLayer(layers[i].layer);
-      foundLayer = true;
-    } else {
-      map.removeLayer(layers[i].layer);
-    }
-  }
-  if (!foundLayer) {
-    map.addLayer(layers[0].layer);
-  }
 }
