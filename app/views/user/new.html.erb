@@ -2,42 +2,42 @@
   <h1><%= t 'user.new.heading' %></h1>
 <% end %>
 
-<p class="deemphasize"><%= t 'user.new.fill_form' %></p>
+<p><%= t 'user.new.fill_form' %></p>
 
 <%= error_messages_for 'user' %>
 
 <%= form_for :user, :url => { :action => 'terms' } do %>
   <%= hidden_field_tag('referer', h(@referer)) unless @referer.nil? %>
 
-  <div id="signupForm">
+  <div id="signupForm" class="standard-form">
     <fieldset>
-      <div class="formrow">
+      <div class="form-row">
         <label for="email" class="fieldName">
           <%= t 'user.new.email address' %>
         </label>
         <%= email_field(:user, :email, { :tabindex => 1 }) %>
       </div>
-      <div class="formrow">
+      <div class="form-row">
         <label for="email_confirmation" class="fieldName">
           <%= t 'user.new.confirm email address' %>
         </label>
         <%= email_field(:user, :email_confirmation, { :tabindex => 2 }) %>
       </div>
-    <p class="deephmasize"><%= raw(t 'user.new.not displayed publicly') %></p>
+    <p class="form-help deemphasize"><%= raw(t 'user.new.not displayed publicly') %></p>
     </fieldset>
 
     <fieldset>
-      <div class="formrow">
+      <div class="form-row">
         <label for="display_name" class="fieldName">
           <%= t 'user.new.display name' %>
         </label>
         <%= text_field(:user, :display_name, { :tabindex => 3 }) %>
       </div>
-      <p class="deemphasize"><%= t 'user.new.display name description' %></span>
+      <p class="form-help deemphasize"><%= t 'user.new.display name description' %></span>
     </fieldset>
 
     <fieldset id="openid_field">
-      <div class="formrow">
+      <div class="form-row">
         <label for="openid_url" class="fieldName">
           <%= raw t 'user.new.openid', :logo => openid_logo %>
         </label>
@@ -46,13 +46,13 @@
     </fieldset>
 
     <fieldset>
-      <div class="formrow">
+      <div class="form-row">
         <label for='user[pass_crypt]' class="fieldName">
           <%= t 'user.new.password' %>
         </label>
         <%= password_field(:user, :pass_crypt, {:tabindex => 5 }) %>
       </div>
-      <div class="formrow">
+      <div class="form-row">
         <label class="fieldName">
           <%= t 'user.new.confirm password' %>
         </label>
