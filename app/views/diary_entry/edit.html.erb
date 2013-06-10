@@ -9,34 +9,33 @@
 <%= error_messages_for 'diary_entry' %>
 
 <%= form_for :diary_entry do |f| %>
-  <table class="diary_entry">
-    <tr valign="top">
-      <td class="fieldName"><%= t 'diary_entry.edit.subject' -%></td>
-      <td><%= f.text_field :title, :size => 60 %></td>
-    </tr>
-    <tr valign="top">
-      <td class="fieldName"><%= t 'diary_entry.edit.body' -%></td>
-      <td><%= richtext_area :diary_entry, :body, :cols => 80, :format => @diary_entry.body_format %></td>
-    </tr>
-    <tr valign="top">
-      <td class="fieldName"><%= t 'diary_entry.edit.language' -%></td>
-      <td><%= f.collection_select :language_code, Language.order(:english_name), :code, :name %></td>
-    </tr>
-    <tr valign="top">
-      <td class="fieldName"><%= t 'diary_entry.edit.location' -%></td>
-      <td>
-        <%= content_tag "div", "", :id => "map", :data => {:lat => @lat, :lon => @lon, :zoom => @zoom} %>
-        <span class="location"><%= t 'diary_entry.edit.latitude' -%> <%= f.text_field :latitude, :size => 20, :id => "latitude" %> <%= t 'diary_entry.edit.longitude' -%> <%= f.text_field :longitude, :size => 20, :id => "longitude" %></span>
-        <a href="#" id="usemap"><%= t 'diary_entry.edit.use_map_link' -%></a>
-        <br/><br/>
-      </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>
-        <%= submit_tag t('diary_entry.edit.save_button') %>
-        <%# TODO: button should say 'publish' or 'save changes' depending on new/edit state %>
-      </td>
-    </tr>
-  </table>
+  <div class="diary_entry standard-form">
+    <fieldset>
+      <label><%= t 'diary_entry.edit.subject' -%></label>
+      <%= f.text_field :title, :size => 60 %>
+    </fieldset>
+    <fieldset>
+      <label><%= t 'diary_entry.edit.body' -%></label>
+      <%= richtext_area :diary_entry, :body, :cols => 80, :format => @diary_entry.body_format %>
+    </fieldset>
+    <fieldset>
+      <label><%= t 'diary_entry.edit.language' -%></label>
+      <%= f.collection_select :language_code, Language.order(:english_name), :code, :name %>
+    </fieldset>
+    <div class="location">
+      <p class="form-help"><%= t 'diary_entry.edit.location' -%></p>
+      <%= content_tag "div", "", :id => "map", :data => {:lat => @lat, :lon => @lon, :zoom => @zoom} %>
+      <fieldset>
+        <label><%= t 'diary_entry.edit.latitude' -%></label>
+        <%= f.text_field :latitude, :size => 20, :id => "latitude" %>
+      </fieldset>
+      <fieldset>
+        <label><%= t 'diary_entry.edit.longitude' -%></label>
+        <%= f.text_field :longitude, :size => 20, :id => "longitude" %>
+      </fieldset>
+      <p class="form-help"><a href="#" id="usemap"><%= t 'diary_entry.edit.use_map_link' -%></a></p>
+    </div>
+    <%= submit_tag t('diary_entry.edit.save_button') %>
+    <%# TODO: button should say 'publish' or 'save changes' depending on new/edit state %>
+  </div>
 <% end %>
