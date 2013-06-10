@@ -8,23 +8,17 @@ $(document).ready(function () {
 
     $("#linkloader").load(function () { loaded = true; });
 
-    if (select) {
-      $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?" +
-        querystring.stringify({
-            left: left,
-            top: top,
-            right: right,
-            bottom: bottom,
-            select: select
-        }));
-    } else {
-      $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?" + querystring.stringify({
-            left: left,
-            top: top,
-            right: right,
-            bottom: bottom
-        }));
-    }
+    var query = {
+        left: left,
+        top: top,
+        right: right,
+        bottom: bottom,
+        select: select
+    };
+
+    if (select) query.select = select;
+    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?" +
+      querystring.stringify(query));
 
     setTimeout(function () {
       if (!loaded) alert(I18n.t('site.index.remote_failed'));

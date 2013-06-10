@@ -5,6 +5,7 @@
 //= require augment
 //= require leaflet
 //= require leaflet.osm
+//= require leaflet.extend
 //= require leaflet.locationfilter
 //= require i18n/translations
 //= require oauth
@@ -78,9 +79,7 @@ function updatelinks(loc, zoom, layers, bounds, object) {
     var minzoom = $(link).data("minzoom");
     if (minzoom) {
         var name = link.id.replace(/anchor$/, "");
-
         $(link).off("click.minzoom");
-
         if (zoom >= minzoom) {
           $(link).attr("title", I18n.t("javascripts.site." + name + "_tooltip"))
               .removeClass("disabled");

@@ -29,7 +29,7 @@ $(document).ready(function () {
     layerCode: "M",
     name: I18n.t("javascripts.map.base.standard")
   }, {
-    layer: new L.OSM.CycleMap( {
+    layer: new L.OSM.CycleMap({
       attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
     }),
     keyid: "cyclemap",

@@ -1,18 +1,3 @@
-// Leaflet extensions
-L.extend(L.LatLngBounds.prototype, {
-  getSize: function () {
-    return (this._northEast.lat - this._southWest.lat) *
-           (this._northEast.lng - this._southWest.lng);
-  },
-
-  wrap: function () {
-    return new L.LatLngBounds(this._southWest.wrap(), this._northEast.wrap());
-  }
-});
-
-L.Icon.Default.imagePath = <%= "#{asset_prefix}/images".to_json %>;
-
-var objectLayer;
 var objectLoader;
 
 function getUserIcon(url) {
@@ -28,13 +13,13 @@ function getUserIcon(url) {
 
 function addObjectToMap(object, map, options) {
   if (objectLoader) objectLoader.abort();
-  if (objectLayer) map.removeLayer(objectLayer);
+  if (map.objectLayer) map.removeLayer(map.objectLayer);
 
   objectLoader = $.ajax({
     url: OSM.apiUrl(object),
     dataType: "xml",
     success: function (xml) {
-      objectLayer = new L.OSM.DataLayer(null, {
+      map.objectLayer = new L.OSM.DataLayer(null, {
         styles: {
           node: options.style,
           way: options.style,
@@ -42,7 +27,7 @@ function addObjectToMap(object, map, options) {
         }
       });
 
-      objectLayer.interestingNode = function (node, ways, relations) {
+      map.objectLayer.interestingNode = function (node, ways, relations) {
         if (object.type === "node") {
           return true;
         } else if (object.type === "relation") {
@@ -54,12 +39,12 @@ function addObjectToMap(object, map, options) {
         }
       };
 
-      objectLayer.addData(xml);
+      map.objectLayer.addData(xml);
 
-      if (options.zoom) map.fitBounds(objectLayer.getBounds());
-      if (options.callback) options.callback(objectLayer.getBounds());
+      if (options.zoom) map.fitBounds(map.objectLayer.getBounds());
+      if (options.callback) options.callback(map.objectLayer.getBounds());
 
-      objectLayer.addTo(map);
+      map.objectLayer.addTo(map);
     }
   });
 }
