@@ -7,20 +7,20 @@
 <%= form_for @trace, :url => { :action => "create" }, :html => { :multipart => true } do |f| %>
   <div class="standard-form">
     <fieldset>
-      <label><%= t'trace.trace_form.upload_gpx' %></label>
+      <label class="standard-label"><%= t'trace.trace_form.upload_gpx' %></label>
       <%= f.file_field :gpx_file %>
     </fieldset>
     <fieldset>
-      <label><%= t'trace.trace_form.description' %></label>
+      <label class="standard-label"><%= t'trace.trace_form.description' %></label>
       <%= f.text_field :description %></td></tr>
     </fieldset>
     <fieldset>
-      <label><%= t'trace.trace_form.tags' %></label>
+      <label class="standard-label"><%= t'trace.trace_form.tags' %></label>
       <%= f.text_field :tagstring %>
       <p class="form-help deemphasize">(<%= t'trace.trace_form.tags_help' %>)</p>
     </fieldset>
     <fieldset>
-      <label><%= t'trace.trace_form.visibility' %></label>
+      <label class="standard-label"><%= t'trace.trace_form.visibility' %></label>
       <%= f.select :visibility, [[t('trace.visibility.private'),"private"],[t('trace.visibility.public'),"public"],[t('trace.visibility.trackable'),"trackable"],[t('trace.visibility.identifiable'),"identifiable"]] %>
       <p class="form-help deemphasize">(<a href="<%= t'trace.trace_form.visibility_help_url' %>"><%= t'trace.trace_form.visibility_help' %></a>)</p>
     </fieldset>

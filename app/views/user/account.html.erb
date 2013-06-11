@@ -9,40 +9,40 @@
 <%= error_messages_for 'user' %>
 <%= form_for :user, :html => { :multipart => true, :id => 'accountForm',:class => 'standard-form' } do |f| %>
   <fieldset class="form-row">
-    <label><%= t 'user.new.display name' %></label>
+    <label class="standard-label"><%= t 'user.new.display name' %></label>
     <%= f.text_field :display_name %>
   </fieldset>
 
   <fieldset class="form-row">
-    <label><%= t 'user.account.current email address' %></label>
+    <label class="standard-label"><%= t 'user.account.current email address' %></label>
     <input type="email" size="30" disabled value="<%= @user.email %>" />
     <p class="form-help deemphasize"><%= t 'user.account.email never displayed publicly' %></p>
   </fieldset>
 
   <fieldset class="form-row">
-    <label><%= t 'user.account.new email address' %></label>
+    <label class="standard-label"><%= t 'user.account.new email address' %></label>
     <%= f.email_field :new_email %>
     <p class="form-help deemphasize"><%= t 'user.account.email never displayed publicly' %></p>
   </fieldset>
 
   <fieldset class="form-row">
-      <label><%= t 'user.new.password' %></label>
+      <label class="standard-label"><%= t 'user.new.password' %></label>
     <%= f.password_field :pass_crypt, {:value => '', :autocomplete => :off} %>
   </fieldset>
 
   <fieldset class="form-row">
-    <label><%= t 'user.new.confirm password' %></label>
+    <label class="standard-label"><%= t 'user.new.confirm password' %></label>
     <%= f.password_field :pass_crypt_confirmation, {:value => '', :autocomplete => :off} %>
   </fieldset>
 
   <fieldset class="form-row">
-    <label><%= t 'user.account.openid.openid' %></label>
+    <label class="standard-label"><%= t 'user.account.openid.openid' %></label>
       <%= f.url_field :openid_url, {:id => "openid_url", :class => "openid_url"} %>
       <p class="form-help deemphasize">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</p>
   </fieldset>
 
   <div class="form-row">
-    <label><%= t 'user.account.public editing.heading' %></label>
+    <label class="standard-label"><%= t 'user.account.public editing.heading' %></label>
     <p class="form-help deemphasize">
       <% if @user.data_public? %>
         <%= t 'user.account.public editing.enabled' %>
@@ -55,7 +55,7 @@
   </div>
 
   <fieldset class="form-row">
-    <label><%= t 'user.account.contributor terms.heading' %></label>
+    <label class="standard-label"><%= t 'user.account.contributor terms.heading' %></label>
     <p class="form-help deemphasize">
       <% if @user.terms_agreed? %>
         <%= t 'user.account.contributor terms.agreed' %>
@@ -71,22 +71,22 @@
   </fieldset>
 
   <fieldset class="form-row">
-    <label><%= t 'user.account.profile description' %></label>
+    <label class="standard-label"><%= t 'user.account.profile description' %></label>
     <%= richtext_area :user, :description, :rows => '15', :cols => '80' %>
   </fieldset>
 
   <fieldset class="form-row">
-    <label><%= t 'user.account.preferred languages' %></label>
+    <label class="standard-label"><%= t 'user.account.preferred languages' %></label>
     <%= f.text_field :languages %>
   </fieldset>
 
   <fieldset class="form-row">
-    <label><%= t 'user.account.preferred editor' %></label>
+    <label class="standard-label"><%= t 'user.account.preferred editor' %></label>
     <%= f.select :preferred_editor, [[t("editor.default", :name => t("editor.#{DEFAULT_EDITOR}.name")), 'default']] + Editors::ALL_EDITORS.collect { |e| [t("editor.#{e}.description"), e] } %>
   </fieldset>
 
   <fieldset class="form-row">
-    <label><%= t 'user.account.image' %></label>
+    <label class="standard-label"><%= t 'user.account.image' %></label>
     <div class="accountImage">
       <%= user_image @user %>
       <fieldset class="accountImage-options">
@@ -137,9 +137,9 @@
   <div id="homerow" <% unless @user.home_lat and @user.home_lon %>class="nohome"<%end%> >
     <p class="message form-help deemphasize"><%= t 'user.account.no home location' %></p>
     <div class="location">
-      <label><%= t 'user.account.latitude' %></label>
+      <label class="standard-label"><%= t 'user.account.latitude' %></label>
       <%= f.text_field :home_lat, :id => "home_lat" %>
-      <label><%= t 'user.account.longitude' %></label>
+      <label class="standard-label"><%= t 'user.account.longitude' %></label>
       <%= f.text_field :home_lon, :id => "home_lon" %>
     </div>
   </div>
