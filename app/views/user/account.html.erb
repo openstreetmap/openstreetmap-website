@@ -89,35 +89,46 @@
     <label><%= t 'user.account.image' %></label>
     <div class="accountImage">
       <%= user_image @user %>
-      <table class="accountImage-options">
+      <fieldset class="accountImage-options">
         <% if @user.image.file? %>
-        <fieldset class="form-row">
+        <div class="form-row">
           <%= radio_button_tag "image_action", "keep", !@user.image_use_gravatar %>
           <%= t 'user.account.keep image' %>
-        </fieldset>
+        </div>
         <% end %>
         <% if @user.image.file? || @user.image_use_gravatar? %>
-        <fieldset class="form-row">
+        <div class="form-row">
           <%= radio_button_tag "image_action", "delete" %>
           <%= t 'user.account.delete image' %>
-        </fieldset>
+        </div>
         <% end %>
         <% if @user.image.file? %>
-        <fieldset class="form-row">
-          <%= radio_button_tag "image_action", "new" %>
-          <%= t 'user.account.replace image' %><br /><%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %><br /><span class="form-help deemphasize"><%= t 'user.account.image size hint' %></span>
-        </fieldset>
+        <div>
+          <div class="form-row">
+            <%= radio_button_tag "image_action", "new" %>
+            <%= t 'user.account.replace image' %>
+          </div>
+          <div class="form-row">
+            <%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %>
+            <p class="form-help deemphasize"><%= t 'user.account.image size hint' %></p>
+          </div>
+        </div>
         <% else %>
-        <fieldset class="form-row">
+        <div class="form-row">
           <%= radio_button_tag "image_action", "new" %>
-          <%= t 'user.account.new image' %><br /><%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %><br /><span class="form-help deemphasize"><%= t 'user.account.image size hint' %></span>
-        </fieldset>
+          <%= t 'user.account.new image' %>
+        </div>
+        <div class="form-row">
+          <%= f.file_field :image, :onchange => "$('#image_action_new').prop('checked', true)" %>
+          <p class="form-help deemphasize"><%= t 'user.account.image size hint' %></p>
+        </div>
         <% end %>
-        <fieldset class="form-row">
+        <div class="form-row">
           <%= radio_button_tag "image_action", "gravatar", @user.image_use_gravatar %>
-          <%= t 'user.account.gravatar.gravatar' %> <span class="form-help deemphasize">(<a href="<%= t 'user.account.gravatar.link' %>" target="_new"><%= t 'user.account.gravatar.link text' %></a>)</span>
-        </fieldset>
-      </table>
+          <%= t 'user.account.gravatar.gravatar' %>
+          <p class="form-help deemphasize">(<a href="<%= t 'user.account.gravatar.link' %>" target="_new"><%= t 'user.account.gravatar.link text' %></a>)</p>
+        </div>
+      </fieldset>
     </div>
   </fieldset>
 
