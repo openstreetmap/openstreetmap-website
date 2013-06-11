@@ -48,6 +48,9 @@ $(document).ready(function () {
 
   layers[0].addTo(map);
 
+  map.noteLayer = new L.LayerGroup({code: 'N'});
+  map.dataLayer = new L.OSM.DataLayer(null);
+
   $("#map").on("resized", function () {
     map.invalidateSize();
   });

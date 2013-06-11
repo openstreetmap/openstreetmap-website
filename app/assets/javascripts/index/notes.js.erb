@@ -3,7 +3,7 @@
 
 function initializeNotes(map) {
   var params = OSM.mapParams(),
-      noteLayer = new L.LayerGroup({code: 'N'}),
+      noteLayer = map.noteLayer,
       notes = {},
       newNote;
 
@@ -24,8 +24,6 @@ function initializeNotes(map) {
       iconAnchor: [12, 40]
     })
   };
-
-  map.noteLayer = noteLayer;
 
   map.on("layeradd", function (e) {
     if (e.layer == noteLayer) {

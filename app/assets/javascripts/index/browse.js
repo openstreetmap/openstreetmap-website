@@ -10,20 +10,20 @@ function initializeBrowse(map) {
   var areasHidden = false;
   var locationFilter;
 
-  var dataLayer = new L.OSM.DataLayer(null, {
-    styles: {
-      way: {
-        weight: 3,
-        color: "#000000",
-        opacity: 0.4
-      },
-      area: {
-        weight: 3,
-        color: "#ff0000"
-      },
-      node: {
-        color: "#00ff00"
-      }
+  var dataLayer = map.dataLayer;
+
+  dataLayer.setStyle({
+    way: {
+      weight: 3,
+      color: "#000000",
+      opacity: 0.4
+    },
+    area: {
+      weight: 3,
+      color: "#ff0000"
+    },
+    node: {
+      color: "#00ff00"
     }
   });
 
@@ -34,10 +34,6 @@ function initializeBrowse(map) {
   dataLayer.on("click", function (e) {
     onSelect(e.layer);
   });
-
-  if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
-//    map.layersControl.addOverlay(dataLayer, I18n.t("browse.start_rjs.data_layer_name"));
-  }
 
   map.on('layeradd', function (e) {
     if (e.layer === dataLayer) {

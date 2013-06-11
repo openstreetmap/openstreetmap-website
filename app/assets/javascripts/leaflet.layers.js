@@ -1,72 +1,132 @@
-//= require templates/map/layers
-
 L.OSM.Layers = L.Control.extend({
   onAdd: function (map) {
     this._map = map;
-    this._initLayout(map);
-    return this._container;
+    this._initLayout();
+    return this.$container[0];
   },
 
   _initLayout: function () {
-    var className = 'leaflet-control-map-ui',
-      container = this._container = L.DomUtil.create('div', className);
+    var map = this._map,
+      layers = this.options.layers;
 
-    var link = L.DomUtil.create('a', 'control-button', container);
-    link.innerHTML = "<span class='icon layers'></span>";
-    link.href = '#';
-    link.title = 'Layers';
+    this.$container = $('<div>')
+      .attr('class', 'control-layers');
 
-    this._ui = $(L.DomUtil.create('div', 'layers-ui', this.options.uiPane))
-      .html(JST["templates/map/layers"]());
+    var link = $('<a>')
+      .attr('class', 'control-button')
+      .attr('href', '#')
+      .attr('title', 'Layers')
+      .html('<span class="icon layers"></span>')
+      .appendTo(this.$container);
 
-    var list = this._ui.find('.base-layers ul');
+    if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
+      this.$ui = $('<div>')
+        .attr('class', 'layers-ui')
+        .appendTo(this.options.uiPane);
 
-    this.options.layers.forEach(function(layer) {
-      var item = $('<li></li>')
+      $('<h2>')
+        .text(I18n.t('javascripts.map.layers.header'))
+        .appendTo(this.$ui);
+
+      var overlaySection = $('<section>')
+        .addClass('overlay-layers')
+        .appendTo(this.$ui);
+
+      $('<p>')
+        .text(I18n.t('javascripts.map.layers.overlays'))
+        .appendTo(overlaySection);
+
+      var list = $('<ul>')
+        .appendTo(overlaySection);
+
+      function addOverlay(layer, name) {
+        var item = $('<li>')
+          .appendTo(list);
+
+        var label = $('<label>')
+          .appendTo(item);
+
+        var input = $('<input>')
+          .attr('type', 'checkbox')
+          .prop('checked', map.hasLayer(layer))
+          .appendTo(label);
+
+        label.append(name);
+
+        input.on('change', function() {
+          if (input.is(':checked')) {
+            map.addLayer(layer);
+          } else {
+            map.removeLayer(layer);
+          }
+        });
+
+        map.on('layeradd layerremove', function() {
+          input.prop('checked', map.hasLayer(layer));
+        });
+      }
+
+      addOverlay(map.noteLayer, I18n.t('javascripts.map.layers.notes'));
+      addOverlay(map.dataLayer, I18n.t('javascripts.map.layers.data'));
+    }
+
+    var baseSection = $('<section>')
+      .addClass('base-layers')
+      .appendTo(this.$ui);
+
+    $('<p>')
+      .text(I18n.t('javascripts.map.layers.base'))
+      .appendTo(baseSection);
+
+    list = $('<ul>')
+      .appendTo(baseSection);
+
+    layers.forEach(function(layer) {
+      var item = $('<li>')
         .appendTo(list);
 
-      if (this._map.hasLayer(layer)) {
+      if (map.hasLayer(layer)) {
         item.addClass('active');
       }
 
-      var div = $('<div></div>')
+      var div = $('<div>')
         .appendTo(item);
 
-      this._map.whenReady(function() {
-        var map = L.map(div[0], {attributionControl: false, zoomControl: false})
-          .setView(this._map.getCenter(), Math.max(this._map.getZoom() - 2, 0))
+      map.whenReady(function() {
+        var miniMap = L.map(div[0], {attributionControl: false, zoomControl: false})
+          .setView(map.getCenter(), Math.max(map.getZoom() - 2, 0))
           .addLayer(new layer.constructor);
 
-        map.dragging.disable();
-        map.touchZoom.disable();
-        map.doubleClickZoom.disable();
-        map.scrollWheelZoom.disable();
-      }, this);
+        miniMap.dragging.disable();
+        miniMap.touchZoom.disable();
+        miniMap.doubleClickZoom.disable();
+        miniMap.scrollWheelZoom.disable();
 
-      var label = $('<label></label>')
+        map.on('moveend', function() {
+          miniMap.setView(map.getCenter(), Math.max(map.getZoom() - 2, 0));
+        });
+
+        div.data('map', miniMap);
+      });
+
+      var label = $('<label>')
         .text(layer.options.name)
         .appendTo(item);
 
       item.on('click', function() {
-        this.options.layers.forEach(function(other) {
+        layers.forEach(function(other) {
           if (other === layer) {
-            this._map.addLayer(other);
+            map.addLayer(other);
           } else {
-            this._map.removeLayer(other);
+            map.removeLayer(other);
           }
-        }, this);
-      }.bind(this));
-
-      this._map.on('layeradd', function(e) {
-        if (e.layer === layer) {
-          item.addClass('active');
-        }
-      }).on('layerremove', function(e) {
-        if (e.layer === layer) {
-          item.removeClass('active');
-        }
+        });
       });
-    }, this);
+
+      map.on('layeradd layerremove', function() {
+        item.toggleClass('active', map.hasLayer(layer));
+      });
+    });
 
     $(link).on('click', $.proxy(this.toggleLayers, this));
   },
@@ -77,13 +137,17 @@ L.OSM.Layers = L.Control.extend({
 
     var controlContainer = $('.leaflet-control-container .leaflet-top.leaflet-right');
 
-    if ($(this._ui).is(':visible')) {
+    if (this.$ui.is(':visible')) {
       $(this.options.uiPane).hide();
       controlContainer.css({paddingRight: '0'});
     } else {
       $(this.options.uiPane).show();
       controlContainer.css({paddingRight: '230px'});
     }
+
+    this.$ui.find('.base-layers .leaflet-container').each(function() {
+      $(this).data('map').invalidateSize();
+    });
   }
 });
 
