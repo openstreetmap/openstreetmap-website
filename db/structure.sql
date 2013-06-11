@@ -608,6 +608,39 @@ ALTER SEQUENCE gpx_files_id_seq OWNED BY gpx_files.id;
 
 
 --
+-- Name: group_memberships; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE group_memberships (
+    id integer NOT NULL,
+    group_id integer,
+    user_id integer,
+    role character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: group_memberships_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE group_memberships_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: group_memberships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE group_memberships_id_seq OWNED BY group_memberships.id;
+
+
+--
 -- Name: groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1242,6 +1275,13 @@ ALTER TABLE ONLY gpx_files ALTER COLUMN id SET DEFAULT nextval('gpx_files_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY group_memberships ALTER COLUMN id SET DEFAULT nextval('group_memberships_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY groups ALTER COLUMN id SET DEFAULT nextval('groups_id_seq'::regclass);
 
 
@@ -1449,6 +1489,14 @@ ALTER TABLE ONLY gpx_file_tags
 
 ALTER TABLE ONLY gpx_files
     ADD CONSTRAINT gpx_files_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: group_memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY group_memberships
+    ADD CONSTRAINT group_memberships_pkey PRIMARY KEY (id);
 
 
 --
@@ -1799,6 +1847,27 @@ CREATE INDEX gpx_files_visible_visibility_idx ON gpx_files USING btree (visible,
 --
 
 CREATE UNIQUE INDEX index_client_applications_on_key ON client_applications USING btree (key);
+
+
+--
+-- Name: index_group_memberships_on_group_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_group_memberships_on_group_id ON group_memberships USING btree (group_id);
+
+
+--
+-- Name: index_group_memberships_on_group_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_group_memberships_on_group_id_and_user_id ON group_memberships USING btree (group_id, user_id);
+
+
+--
+-- Name: index_group_memberships_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_group_memberships_on_user_id ON group_memberships USING btree (user_id);
 
 
 --
@@ -2460,6 +2529,8 @@ INSERT INTO schema_migrations (version) VALUES ('20121203124841');
 INSERT INTO schema_migrations (version) VALUES ('20130328184137');
 
 INSERT INTO schema_migrations (version) VALUES ('20130610132812');
+
+INSERT INTO schema_migrations (version) VALUES ('20130610230524');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

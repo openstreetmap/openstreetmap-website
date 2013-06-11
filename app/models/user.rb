@@ -14,7 +14,6 @@ class User < ActiveRecord::Base
   has_many :changesets, :order => 'created_at DESC'
   has_many :note_comments, :foreign_key => :author_id
   has_many :notes, :through => :note_comments
-  has_many :groups
 
   has_many :client_applications
   has_many :oauth_tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
@@ -24,6 +23,8 @@ class User < ActiveRecord::Base
   has_many :blocks_revoked, :class_name => "UserBlock", :foreign_key => :revoker_id
 
   has_many :roles, :class_name => "UserRole"
+
+  has_many :groups, :through => :group_memberships
 
   scope :visible, where(:status => ["pending", "active", "confirmed"])
   scope :active, where(:status => ["active", "confirmed"])

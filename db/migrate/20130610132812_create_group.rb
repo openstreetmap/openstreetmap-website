@@ -1,5 +1,3 @@
-require 'migrate'
-
 class CreateGroup < ActiveRecord::Migration
   def up
     create_table :groups do |t|
