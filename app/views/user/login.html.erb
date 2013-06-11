@@ -7,57 +7,66 @@
   <%= form_tag({ :action => "login" }, { :id => "login_form" }) do %>
     <%= hidden_field_tag('referer', h(params[:referer])) %>
 
-    <p><%= t 'user.login.no account' %> <%= link_to t('user.login.register now'), :action => :new, :referer => params[:referer] %></p>
+    <p class='deemphasize'><%= t 'user.login.no account' %> <%= link_to t('user.login.register now'), :action => :new, :referer => params[:referer] %></p>
 
     <div id="loginForm" class="standard-form">
+
       <fieldset>
-        <label class="standard-label">
-          <%= t 'user.login.email or username' %>
-        </label>
-        <%= text_field_tag "username", params[:username], :maxlength => 255, :tabindex => 1 %>
-      </fieldset>
-      <fieldset>
-        <label class="standard-label">
-          <%= t 'user.login.password' %>
-        </label>
-        <%= password_field_tag "password", "", :maxlength => 255, :tabindex => 2 %>
+        <div class="form-row">
+          <label class="standard-label">
+            <%= t 'user.login.email or username' %>
+          </label>
+          <%= text_field_tag "username", params[:username], :tabindex => 1 %>
+        </div>
+        <div class="form-row">
+          <label class="standard-label">
+            <%= t 'user.login.password' %>
+          </label>
+          <%= password_field_tag "password", "", :tabindex => 2 %>
+        </div>
         <p class="form-help deemphasize">
           <%= link_to t('user.login.lost password link'), :controller => 'user', :action => 'lost_password' %>
         </p>
       </fieldset>
+
       <fieldset>
         <%= check_box_tag "remember_me", "yes", false, :tabindex => 3 %>
         <label for="remember_me" class="standard-label">
           <%= t 'user.login.remember' %>
         </label>
-      </fieldset>
-      <fieldset>
         <%= submit_tag t('user.login.login_button'), :tabindex => 4 %>
       </fieldset>
-    </div>
-    <p><%= t 'user.login.with openid' %></p>
 
-    <ul id="login_openid_buttons">
-        <li><%= link_to image_tag("openid.png", :alt => t("user.login.openid_providers.openid.title")), "#", :id => "openid_open_url", :title => t("user.login.openid_providers.openid.title") %></li>
-        <li><%= openid_button "google", "gmail.com" %></li>
-        <li><%= openid_button "yahoo", "me.yahoo.com" %></li>
-        <li><%= openid_button "myopenid", "myopenid.com" %></li>
-        <li><%= openid_button "wordpress", "wordpress.com" %></li>
-        <li><%= openid_button "aol", "aol.com" %></li>
-    </ul>
+      <fieldset class='form-section'>
 
-    <div>
-      <fieldset id="login_openid_url">
-        <label class="standard-label"><%= raw t 'user.login.openid', :logo => openid_logo %></label>
-        <%= url_field_tag("openid_url", "", { :tabindex => 3, :class => "openid_url" }) %>
-        <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
+        <p class='standard-label'><%= t 'user.login.with openid' %></p>
+
+        <ul class='clearfix' id="login_openid_buttons">
+          <li><%= link_to image_tag("openid.png", :alt => t("user.login.openid_providers.openid.title")), "#", :id => "openid_open_url", :title => t("user.login.openid_providers.openid.title") %></li>
+          <li><%= openid_button "google", "gmail.com" %></li>
+          <li><%= openid_button "yahoo", "me.yahoo.com" %></li>
+          <li><%= openid_button "myopenid", "myopenid.com" %></li>
+          <li><%= openid_button "wordpress", "wordpress.com" %></li>
+          <li><%= openid_button "aol", "aol.com" %></li>
+        </ul>
+
+          <div id='login_openid_url' class='form-row'>
+            <label class="standard-label"><%= raw t 'user.login.openid', :logo => openid_logo %></label>
+            <%= url_field_tag("openid_url", "", { :tabindex => 3, :class => "openid_url" }) %>
+            <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
+          </div>
+
+          <div id="remember_me_openid" class='form-row'>
+            <%= check_box_tag "remember_me_openid", "yes", false, :tabindex => 5 %>
+            <label class="standard-label" for="remember_me"><%= t 'user.login.remember' %></label>
+          </div>
+
+        <%= submit_tag t('user.login.login_button'), :tabindex => 6, :id => "login_openid_submit" %>
+
       </fieldset>
-      <fieldset id="remember_me_openid">
-        <label class="standard-label" for="remember_me"><%= t 'user.login.remember' %></label>
-        <%= check_box_tag "remember_me", "yes", false, :tabindex => 5 %>
-      </fieldset>
+
     </div>
-    <%= submit_tag t('user.login.login_button'), :tabindex => 6, :id => "login_openid_submit" %>
+
   <% end %>
 
 </div>
