@@ -4,21 +4,20 @@
 
 <%= error_messages_for 'message' %>
 
-<%= form_for :message, :url => { :action => "new", :display_name => @this_user.display_name } do |f| %>
-  <table>
-    <tr valign="top">
-      <td class="fieldName"><%= t'message.new.subject' %></td>
-      <td><%= f.text_field :title, :size => 60, :value => @subject %></td>
-    </tr>
-    <tr valign="top">
-      <td class="fieldName"><%= t'message.new.body' %></td>
-      <td><%= richtext_area :message, :body, :cols => 80, :value => @body %></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><%= submit_tag t('message.new.send_button') %></td>
-    </tr>
-  </table>
+<%= form_for :message, :html => { :class => 'standard-form' }, :url => { :action => "new", :display_name => @this_user.display_name } do |f| %>
+  <fieldset class="form-row">
+    <label><%= t'message.new.subject' %></label>
+    <%= f.text_field :title, :size => 60, :value => @subject %>
+  </fieldset>
+
+  <fieldset class="form-row">
+    <label><%= t'message.new.body' %></label>
+    <%= richtext_area :message, :body, :cols => 80, :value => @body %>
+  </fieldset>
+
+  <fieldset class="form-row">
+    <%= submit_tag t('message.new.send_button') %>
+  </fieldset>
 <% end %>
 
 <br />
