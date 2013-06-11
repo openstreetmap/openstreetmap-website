@@ -17,7 +17,7 @@
 <% @notes.each do |note| -%>
   <tr<% if note.author != @user2 %> class="creator"<% end %>>
     <td>
-      <% if note.status == "closed" %>
+      <% if note.closed? %>
         <%= image_tag("closed_note_marker.png", :alt => 'closed') %>
       <% else %>
         <%= image_tag("open_note_marker.png", :alt => 'open') %>

@@ -12,7 +12,7 @@ xml.note("lon" => note.lon, "lat" => note.lat) do
   xml.date_created note.created_at
   xml.status note.status
 
-  if note.status == "closed"
+  if note.closed?
     xml.date_closed note.closed_at
   end
 
