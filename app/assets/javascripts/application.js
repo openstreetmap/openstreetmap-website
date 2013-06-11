@@ -19,7 +19,7 @@
 //= require geocoder
 //= require querystring
 
-var querystring = require('querystring');
+var querystring = require('querystring-component');
 
 function zoomPrecision(zoom) {
     var decimals = Math.pow(10, Math.floor(zoom/3));
@@ -33,6 +33,27 @@ function normalBounds(bounds) {
     return new L.LatLngBounds(
         new L.LatLng(bounds[0][0], bounds[0][1]),
         new L.LatLng(bounds[1][0], bounds[1][1]));
+}
+
+function remoteEditHandler(bbox, select) {
+  var loaded = false,
+      query = {
+          left: bbox.getWest() - 0.0001,
+          top: bbox.getNorth() + 0.0001,
+          right: bbox.getEast() + 0.0001,
+          bottom: bbox.getSouth() - 0.0001
+      };
+
+  if (select) query.select = select;
+  $("#linkloader")
+    .attr("src", "http://127.0.0.1:8111/load_and_zoom?" + querystring.stringify(query))
+    .load(function() { loaded = true; });
+
+  setTimeout(function () {
+    if (!loaded) alert(I18n.t('site.index.remote_failed'));
+  }, 1000);
+
+  return false;
 }
 
 /*
@@ -63,9 +84,9 @@ function updatelinks(loc, zoom, layers, bounds, object) {
 
     if ($(link).hasClass("llz")) {
       $.extend(args, {
-          lat: '' + lat,
-          lon: '' + lon,
-          zoom: '' + zoom
+          lat: lat,
+          lon: lon,
+          zoom: zoom
       });
     } else if (minlon && $(link).hasClass("bbox")) {
       $.extend(args, {
@@ -103,17 +124,13 @@ function minZoomAlert() {
     alert(I18n.t("javascripts.site." + name + "_zoom_alert")); return false;
 }
 
-/*
- * Called to create a short code for the short link.
- */
+// Called to create a short code for the short link.
 function makeShortCode(map) {
-    var lon = map.getCenter().lng,
-        lat = map.getCenter().lat,
-        zoom = map.getZoom(),
+    var zoom = map.getZoom(),
         str = '',
         char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
-        x = Math.round((lon + 180.0) * ((1 << 30) / 90.0)),
-        y = Math.round((lat +  90.0) * ((1 << 30) / 45.0)),
+        x = Math.round((map.getCenter().lng + 180.0) * ((1 << 30) / 90.0)),
+        y = Math.round((map.getCenter().lat +  90.0) * ((1 << 30) / 45.0)),
         // JavaScript only has to keep 32 bits of bitwise operators, so this has to be
         // done in two parts. each of the parts c1/c2 has 30 bits of the total in it
         // and drops the last 4 bits of the full 64 bit Morton code.

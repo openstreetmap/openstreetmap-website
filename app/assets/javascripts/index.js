@@ -9,20 +9,8 @@
 //= require index/key
 //= require index/notes
 
-var map, layers; // TODO: remove globals
-
-$(document).ready(function () {
-  var marker;
-  var params = OSM.mapParams();
-
-  var map = L.map("map", {
-    zoomControl: false,
-    layerControl: false
-  });
-
-  map.attributionControl.setPrefix('');
-
-  layers = [{
+function allLayers() {
+  return [{
     layer: new L.OSM.Mapnik({
       attribution: '',
       code: "M"
@@ -51,6 +39,19 @@ $(document).ready(function () {
     keyid: "mapquest",
     name: I18n.t("javascripts.map.base.mapquest")
   }];
+}
+
+$(document).ready(function () {
+  var params = OSM.mapParams();
+
+  var map = L.map("map", {
+    zoomControl: false,
+    layerControl: false
+  });
+
+  map.attributionControl.setPrefix('');
+
+  var layers = allLayers();
 
   layers[0].layer.addTo(map);
 
@@ -74,17 +75,13 @@ $(document).ready(function () {
     uiPane: uiPane
   }).addTo(map);
 
-  L.control.note({
-    position: 'topright'
-  }).addTo(map);
-
-  L.control.locate({
-    position: 'topright'
-  }).addTo(map);
-
+  L.control.note({ position: 'topright' }).addTo(map);
+  L.control.locate({ position: 'topright' }).addTo(map);
   L.control.scale().addTo(map);
 
   map.on('moveend layeradd layerremove', updateLocation);
+
+  map.markerLayer = L.layerGroup().addTo(map);
 
   if (!params.object_zoom) {
     if (params.bbox) {
@@ -121,7 +118,7 @@ $(document).ready(function () {
   }
 
   if (params.marker) {
-    marker = L.marker([params.mlat, params.mlon], {icon: getUserIcon()}).addTo(map);
+    L.marker([params.mlat, params.mlon], {icon: getUserIcon()}).addTo(map.markerLayer);
   }
 
   if (params.object) {
@@ -130,90 +127,21 @@ $(document).ready(function () {
 
   handleResize();
 
-  $("body").on("click", "a.set_position", function (e) {
-    e.preventDefault();
+  $("body").on("click", "a.set_position", setPositionLink(map));
 
-    var data = $(this).data();
-    var centre = L.latLng(data.lat, data.lon);
-
-    if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
-      map.fitBounds([[data.minLat, data.minLon],
-                     [data.maxLat, data.maxLon]]);
-    } else {
-      map.setView(centre, data.zoom);
-    }
-
-    if (data.type && data.id) {
-      addObjectToMap(data, map, { zoom: true, style: { opacity: 0.2, fill: false } });
-    }
-
-    if (marker) {
-      map.removeLayer(marker);
-    }
-
-    marker = L.marker(centre, {icon: getUserIcon()}).addTo(map);
+  $("a[data-editor=remote]").click(function(e) {
+      remoteEditHandler(map.getBounds());
+      e.preventDefault();
   });
 
-  // generate a cookie-safe string of map state
-  function cookieContent(map) {
-    var center = map.getCenter().wrap();
-    return [center.lng, center.lat, map.getZoom(), getMapLayers(map)].join('|');
-  }
-
-  function updateLocation() {
-    updatelinks(map.getCenter().wrap(),
-        map.getZoom(),
-        getMapLayers(this),
-        map.getBounds().wrap(),
-        params.object);
-
-    var expiry = new Date();
-    expiry.setYear(expiry.getFullYear() + 10);
-    $.cookie("_osm_location", cookieContent(map), { expires: expiry });
-  }
-
-  function remoteEditHandler() {
-    var extent = map.getBounds();
-    var loaded = false;
-
-    $("#linkloader").load(function () { loaded = true; });
-    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?" +
-         querystring.stringify({
-            left: extent.getWest(),
-            bottom: extent.getSouth(),
-            right: extent.getEast(),
-            top: extent.getNorth()
-         }));
-
-    setTimeout(function () {
-      if (!loaded) alert(I18n.t('site.index.remote_failed'));
-    }, 1000);
-
-    return false;
-  }
-
-  $("a[data-editor=remote]").click(remoteEditHandler);
-
   if (OSM.preferred_editor == "remote" && $('body').hasClass("site-edit")) {
-    remoteEditHandler();
+    remoteEditHandler(map.getBounds());
   }
 
   $(window).resize(handleResize);
 
-  $("#search_form").submit(function () {
-    var bounds = map.getBounds();
+  $("#search_form").submit(submitSearch(map));
 
-    $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
-    $("#sidebar_content").load($(this).attr("action"), {
-      query: $("#query").val(),
-      minlon: bounds.getWest(),
-      minlat: bounds.getSouth(),
-      maxlon: bounds.getEast(),
-      maxlat: bounds.getNorth()
-    }, openSidebar);
-
-    return false;
-  });
 
   if ($("#query").val()) {
     $("#search_form").submit();
@@ -226,6 +154,7 @@ $(document).ready(function () {
   }
 });
 
+// non-scoped utilities
 function getMapBaseLayer() {
   for (var i = 0; i < layers.length; i++) {
     if (map.hasLayer(layers[i].layer)) {
@@ -243,4 +172,61 @@ function getMapLayers(map) {
     }
   }
   return layerConfig;
+}
+
+// generate a cookie-safe string of map state
+function cookieContent(map) {
+  var center = map.getCenter().wrap();
+  return [center.lng, center.lat, map.getZoom(), getMapLayers(map)].join('|');
+}
+
+function updateLocation() {
+  updatelinks(this.getCenter().wrap(),
+      this.getZoom(),
+      getMapLayers(this),
+      this.getBounds().wrap(), {});
+
+  var expiry = new Date();
+  expiry.setYear(expiry.getFullYear() + 10);
+  $.cookie("_osm_location", cookieContent(this), { expires: expiry });
+}
+
+function setPositionLink(map) {
+  return function(e) {
+      var data = $(this).data(),
+          center = L.latLng(data.lat, data.lon);
+
+      if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
+        map.fitBounds([[data.minLat, data.minLon],
+                       [data.maxLat, data.maxLon]]);
+      } else {
+        map.setView(center, data.zoom);
+      }
+
+      if (data.type && data.id) {
+        addObjectToMap(data, map, { zoom: true, style: { opacity: 0.2, fill: false } });
+      }
+
+      map.markerLayer.clearLayers();
+      L.marker(center, {icon: getUserIcon()}).addTo(map.markerLayer);
+
+      return e.preventDefault();
+  };
+}
+
+function submitSearch(map) {
+  return function(e) {
+    var bounds = map.getBounds();
+
+    $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
+    $("#sidebar_content").load($(this).attr("action"), {
+      query: $("#query").val(),
+      minlon: bounds.getWestLng(),
+      minlat: bounds.getSouthLat(),
+      maxlon: bounds.getEastLng(),
+      maxlat: bounds.getNorthLat()
+    }, openSidebar);
+
+    return e.preventDefault();
+  };
 }

@@ -1,31 +1,4 @@
 $(document).ready(function () {
-  function remoteEditHandler(bbox, select) {
-    var left = bbox.getWest() - 0.0001;
-    var top = bbox.getNorth() + 0.0001;
-    var right = bbox.getEast() + 0.0001;
-    var bottom = bbox.getSouth() - 0.0001;
-    var loaded = false;
-
-    $("#linkloader").load(function () { loaded = true; });
-
-    var query = {
-        left: left,
-        top: top,
-        right: right,
-        bottom: bottom,
-        select: select
-    };
-
-    if (select) query.select = select;
-    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?" +
-      querystring.stringify(query));
-
-    setTimeout(function () {
-      if (!loaded) alert(I18n.t('site.index.remote_failed'));
-    }, 1000);
-
-    return false;
-  }
 
   var map = L.map("small_map", {
     attributionControl: false,
