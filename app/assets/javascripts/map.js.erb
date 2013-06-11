@@ -57,12 +57,40 @@ function createMap(divName, options) {
   if (!layers) {
     layers = [
       {
+        klass: L.OSM.Historical,
+        attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
+        keyid: "historical",
+        layerCode: "H",
+        name: I18n.t("javascripts.map.base.historical")
+      },
+      {
         klass: L.OSM.Mapnik,
         attribution: "",
         keyid: "mapnik",
         layerCode: "M",
         name: I18n.t("javascripts.map.base.standard")
       },
+/* 2008 and 2009 are layers for temporary rendering filtering hack 
+   Still need to make modifications to leaflet.osm.js and embed.js.erb to make these go
+
+      {
+        klass: L.OSM.2008,
+        attribution: "",
+        keyid: "2008",
+        layerCode: "8",
+        name: I18n.t("javascripts.map.base.2008")
+      },
+      {
+        klass: L.OSM.2009,
+        attribution: "",
+        keyid: "2009",
+        layerCode: "9",
+        name: I18n.t("javascripts.map.base.2009")
+      },
+*/
+
+/* temporarily removing these layers from the layer selector
+
       {
         klass: L.OSM.CycleMap,
         attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
@@ -84,6 +112,7 @@ function createMap(divName, options) {
         layerCode: "Q",
         name: I18n.t("javascripts.map.base.mapquest")
       }
+*/
     ];
   }
 

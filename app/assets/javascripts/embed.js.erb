@@ -17,6 +17,8 @@ window.onload = function () {
 
   if (!args.layer || args.layer == "mapnik" || args.layer == "osmarender") {
     new L.OSM.Mapnik().addTo(map);
+  } else if (args.layer == "historical") {
+    new L.OSM.Historical().addTo(map);
   } else if (args.layer == "cyclemap" || args.layer == "cycle map") {
     new L.OSM.CycleMap().addTo(map);
   } else if (args.layer == "transportmap") {
