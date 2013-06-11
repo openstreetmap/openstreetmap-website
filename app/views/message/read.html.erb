@@ -8,8 +8,10 @@
     <%= link_to h(@message.sender.display_name), :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>
     <div class='right'>
       <%= l @message.sent_on, :format => :friendly %>
+      <div class='buttons-joined'>
       <%= button_to t('message.read.reply_button'), :controller => 'message', :action => 'reply', :message_id => @message.id %>
       <%= button_to t('message.read.unread_button'), :controller => 'message', :action => 'mark', :message_id => @message.id, :mark => 'unread' %>
+    </div>
     </div>
   </div>
 
