@@ -145,6 +145,9 @@ $(document).ready(function () {
   if (!("autofocus" in document.createElement("input"))) {
     $("#query").focus();
   }
+
+  initializeBrowse(map);
+  initializeNotes(map);
 });
 
 function getMapBaseLayerId(map) {

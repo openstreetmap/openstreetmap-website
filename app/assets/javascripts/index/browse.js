@@ -2,7 +2,7 @@
 //= require templates/browse/feature_list
 //= require templates/browse/feature_history
 
-$(document).ready(function () {
+function initializeBrowse(map) {
   var browseBounds;
   var layersById;
   var selectedLayer;
@@ -327,4 +327,4 @@ $(document).ready(function () {
     $("#browse_status").html("");
     $("#browse_status").hide();
   }
-});
+}
