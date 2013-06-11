@@ -18,7 +18,7 @@ json.properties do
 
   json.date_created note.created_at
   json.status note.status
-  json.closed_at note.closed_at if note.status == "closed"
+  json.closed_at note.closed_at if note.closed?
 
   json.comments(note.comments) do |comment|
     json.date comment.created_at
