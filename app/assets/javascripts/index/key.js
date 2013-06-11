@@ -6,7 +6,7 @@ $(document).ready(function () {
         title = $(this).text();
 
     function updateMapKey() {
-      var mapLayer = getMapBaseLayer().keyid,
+      var mapLayer = getMapBaseLayerId(),
           mapZoom = map.getZoom();
 
       $(".mapkey-table-entry").each(function () {

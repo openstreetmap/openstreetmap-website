@@ -9,38 +9,6 @@
 //= require index/key
 //= require index/notes
 
-function allLayers() {
-  return [{
-    layer: new L.OSM.Mapnik({
-      attribution: '',
-      code: "M"
-    }),
-    keyid: "mapnik",
-    name: I18n.t("javascripts.map.base.standard")
-  }, {
-    layer: new L.OSM.CycleMap({
-      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-      code: "C"
-    }),
-    keyid: "cyclemap",
-    name: I18n.t("javascripts.map.base.cycle_map")
-  }, {
-    layer: new L.OSM.TransportMap({
-      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-      code: "T"
-    }),
-    keyid: "transportmap",
-    name: I18n.t("javascripts.map.base.transport_map")
-  }, {
-    layer: new L.OSM.MapQuestOpen({
-      attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
-      code: "Q"
-    }),
-    keyid: "mapquest",
-    name: I18n.t("javascripts.map.base.mapquest")
-  }];
-}
-
 $(document).ready(function () {
   var params = OSM.mapParams();
 
@@ -51,9 +19,34 @@ $(document).ready(function () {
 
   map.attributionControl.setPrefix('');
 
-  var layers = allLayers();
+  var layers = [
+    new L.OSM.Mapnik({
+      attribution: '',
+      code: "M",
+      keyid: "mapnik",
+      name: I18n.t("javascripts.map.base.standard")
+    }),
+    new L.OSM.CycleMap({
+      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+      code: "C",
+      keyid: "cyclemap",
+      name: I18n.t("javascripts.map.base.cycle_map")
+    }),
+    new L.OSM.TransportMap({
+      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+      code: "T",
+      keyid: "transportmap",
+      name: I18n.t("javascripts.map.base.transport_map")
+    }),
+    new L.OSM.MapQuestOpen({
+      attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
+      code: "Q",
+      keyid: "mapquest",
+      name: I18n.t("javascripts.map.base.mapquest")
+    })
+  ];
 
-  layers[0].layer.addTo(map);
+  layers[0].addTo(map);
 
   $("#map").on("resized", function () {
     map.invalidateSize();
@@ -105,15 +98,15 @@ $(document).ready(function () {
   if (params.layers) {
     var foundLayer = false;
     for (var i = 0; i < layers.length; i++) {
-      if (params.layers.indexOf(layers[i].layer.options.code) >= 0) {
-        map.addLayer(layers[i].layer);
+      if (params.layers.indexOf(layers[i].options.code) >= 0) {
+        map.addLayer(layers[i]);
         foundLayer = true;
       } else {
-        map.removeLayer(layers[i].layer);
+        map.removeLayer(layers[i]);
       }
     }
     if (!foundLayer) {
-      map.addLayer(layers[0].layer);
+      map.addLayer(layers[0]);
     }
   }
 
@@ -154,11 +147,11 @@ $(document).ready(function () {
   }
 });
 
-// non-scoped utilities
-function getMapBaseLayer() {
-  for (var i = 0; i < layers.length; i++) {
-    if (map.hasLayer(layers[i].layer)) {
-      return layers[i];
+function getMapBaseLayerId(map) {
+  for (var i in map._layers) { // TODO: map.eachLayer
+    var layer = map._layers[i];
+    if (layer.options && layer.options.keyid) {
+      return layer.options.keyid;
     }
   }
 }
