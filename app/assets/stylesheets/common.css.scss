@@ -5,6 +5,7 @@ $typeheight: 14px;
 $offwhite: #f4f4ff;
 $blue: #7092FF;
 $grey: #AAA;
+$keyline: #CCC;
 $hovercolor: 20%;
 
 /* Styles common to large and small screens */
@@ -36,7 +37,7 @@ li { list-style: none; }
 input,
 select,
 textarea,
-body { font: $typeheight/$lineheight "Helvetica Neue",Arial,sans-serif; }
+body { font: #{$typeheight}/#{$lineheight} "Helvetica Neue",Arial,sans-serif; }
 
 abbr, acronym {
   border-bottom: .1em dotted;
@@ -287,19 +288,19 @@ table {
     padding: 0;
     margin: 0;
   }
-  
+
   li {
     list-style-type: none;
     padding: 0;
     margin: 0;
   }
-  
+
   h4 {
     padding: $lineheight/4 0 $lineheight/4 0;
     font-size: 12px;
     margin: 0;
   }
-  
+
   li:last-child h4 {
     padding-top: 0;
   }
@@ -339,7 +340,7 @@ table {
   form {
     width: 165px;
   }
-  
+
   input[type="text"] {
     width: 165px;
     padding: 3px;
@@ -349,12 +350,12 @@ table {
     padding: 2px 0px 2px $lineheight/4;
     box-shadow: inset #DDD 0px 1px 3px;
   }
-  
+
   input[type="text"]:focus {
     outline: none;
     border: 1px solid #000;
   }
-  
+
   input[type="submit"] {
     border: 0;
     margin: 0;
@@ -573,7 +574,7 @@ table {
   z-index: 10000;
   position: absolute;
   background-color: #ffffff;
-  border: 1px solid #cccccc;
+  border: 1px solid $keyline;
   border-top: 0px;
   ul {
     margin: 0px;
@@ -609,7 +610,7 @@ table {
   top: 0px;
   bottom: 0px;
   left: 0px;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid $keyline;
   width: 33.3333%;
   .sidebar_heading {
     position: relative;
@@ -623,6 +624,9 @@ table {
   }
   ul {
     margin-bottom: 0;
+    &:last-child {
+        border-bottom: 1px solid #ccc;
+    }
     li {
       margin-bottom: $lineheight/4;
       &:last-child {
@@ -643,7 +647,7 @@ table {
 
 #sidebar_content {
   position: relative;
-  bottom: 0;
+  margin-bottom: 20px;
   width: 100%;
   h4 {
     padding: 0 $lineheight $lineheight/2 $lineheight;
@@ -656,7 +660,7 @@ table {
 /* Rules for the map key which appears in the popout sidebar */
 
 #mapkey {
-  padding: $lineheight;
+  padding: $lineheight $lineheight 0 $lineheight;
  .mapkey-table-key img {
     display: block;
     margin-left: auto;
@@ -751,21 +755,6 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 #export_mapnik,
 #export_osmarender {
   display: none;
-}
-
-.export_buttons {
-  width: 100%;
-  text-align: center;
-}
-
-#drag_box {
-  display: inline;
-  padding: $lineheight/2 $lineheight;
-}
-
-#export_commit {
-  width: 50%;
-  margin: auto;
 }
 
 /* Rules for the main content area */
@@ -1009,28 +998,28 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   font-size: $lineheight/2;
   border-width: 0px;
   text-align: right;
-  
+
   .trace_summary {
     font-size: 12px;
     color: gray;
   }
-  
+
   .trace_pending {
     color: red;
   }
-  
+
   .trace_public {
     color: green;
   }
-  
+
   .trace_identifiable {
     color: green;
   }
-  
+
   .trace_trackable {
     color: red;
   }
-  
+
   .trace_private {
     color: red;
   }
@@ -1115,7 +1104,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     margin-left: 60px;
     font-size: 12px;
   }
-  
+
   img.user_thumbnail {
     float: left;
     margin: 0 $lineheight/2 0 0;
@@ -1131,7 +1120,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   tr {
     vertical-align: middle;
   }
-  
+
   p {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -1247,21 +1236,21 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     margin-bottom: $lineheight;
     overflow: auto;
     height: 10em;
-  
+
     &:p#last {
       margin-bottom: 0px;
     }
-    
+
     &:ol {
       margin-bottom: 0px;
     }
-    
+
     &:img {
       display: block;
       margin: $lineheight auto inherit auto;
     }
   }
-  
+
   form.sign {
     input[type=submit] {
       float: left;
@@ -1322,25 +1311,31 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   width: 100%;
   border: 1px solid #ddd;
 
+  input[type="submit"] {
+    margin: auto;
+  }
   tbody tr {
     border-top: 1px solid #ccc;
   }
-  
+
   .inbox-row {
     background: #f8f8ff;
   }
-  
+
   .inbox-row-unread {
     background:#CBEEA7;
   }
-  
+
   .right {
     float: right;
   }
-  
+
   tr td,
   tr th {
     padding: $lineheight/4;
+  }
+  tr td {
+    border-right: 1px solid $keyline;
   }
 }
 
@@ -1412,7 +1407,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     margin-bottom: 0px;
     padding: $lineheight/4;
   }
-  
+
   ul li {
     font-size: 12px;
     list-style: disc;
@@ -1424,12 +1419,12 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 .standard-form {
   fieldset {
-    margin-bottom: $lineheight;
+    margin-bottom: $lineheight/2;
   }
   label {
     display: block;
     width: 300px;
-    margin-right: $lineheight/2;
+    margin-bottom: $lineheight/4;
     font-size: $typeheight;
     font-weight: bold;
     line-height: 1.5;
@@ -1452,6 +1447,7 @@ input[type="url"],
 input[type="password"],
 textarea {
   border: 1px solid #ccc;
+  padding: 2px;
 }
 
 /* Rules for user images */
