@@ -129,9 +129,7 @@ function makeShortCode(map) {
     }
     for (i = 0; i < ((zoom + 8) % 3); ++i) str += "-";
 
-    /*
-     * Called to interlace the bits in x and y, making a Morton code.
-     */
+    // Called to interlace the bits in x and y, making a Morton code.
     function interlace(x, y) {
         x = (x | (x << 8)) & 0x00ff00ff;
         x = (x | (x << 4)) & 0x0f0f0f0f;

@@ -15,7 +15,7 @@ $(document).ready(function () {
   var marker;
   var params = OSM.mapParams();
 
-  map = L.map("map", {
+  var map = L.map("map", {
     zoomControl: false,
     layerControl: false
   });
@@ -84,7 +84,7 @@ $(document).ready(function () {
 
   L.control.scale().addTo(map);
 
-  map.on("moveend layeradd layerremove", updateLocation);
+  map.on('moveend layeradd layerremove', updateLocation);
 
   if (!params.object_zoom) {
     if (params.bbox) {
@@ -154,17 +154,22 @@ $(document).ready(function () {
     marker = L.marker(centre, {icon: getUserIcon()}).addTo(map);
   });
 
-  function updateLocation() {
+  // generate a cookie-safe string of map state
+  function cookieContent(map) {
     var center = map.getCenter().wrap();
-    var zoom = map.getZoom();
-    var layers = getMapLayers();
-    var extents = map.getBounds().wrap();
+    return [center.lng, center.lat, map.getZoom(), getMapLayers(map)].join('|');
+  }
 
-    updatelinks(center, zoom, layers, extents, params.object);
+  function updateLocation() {
+    updatelinks(map.getCenter().wrap(),
+        map.getZoom(),
+        getMapLayers(this),
+        map.getBounds().wrap(),
+        params.object);
 
     var expiry = new Date();
     expiry.setYear(expiry.getFullYear() + 10);
-    $.cookie("_osm_location", [center.lng, center.lat, zoom, layers].join("|"), {expires: expiry});
+    $.cookie("_osm_location", cookieContent(map), { expires: expiry });
   }
 
   function remoteEditHandler() {
@@ -229,8 +234,8 @@ function getMapBaseLayer() {
   }
 }
 
-function getMapLayers() {
-  var layerConfig = "";
+function getMapLayers(map) {
+  var layerConfig = '';
   for (var i in map._layers) { // TODO: map.eachLayer
     var layer = map._layers[i];
     if (layer.options && layer.options.code) {

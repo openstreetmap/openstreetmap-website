@@ -18,6 +18,8 @@ L.Control.Share = L.Control.extend({
 
         this._uiPane = this.options.uiPane;
 
+        this._map = map;
+
         var h2 = L.DomUtil.create('h2', '', this._uiPane);
         h2.innerHTML = I18n.t('javascripts.share.title');
 
@@ -35,9 +37,9 @@ L.Control.Share = L.Control.extend({
     },
 
     _update: function (e) {
-        var center = map.getCenter().wrap();
-        var layers = getMapLayers();
-        this._linkInput.value = this.options.getUrl(map);
+        var center = this._map.getCenter().wrap();
+        var layers = getMapLayers(this._map);
+        this._linkInput.value = this.options.getUrl(this._map);
     },
 
     _toggle: function() {
