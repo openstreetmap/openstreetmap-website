@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
 
   has_many :roles, :class_name => "UserRole"
 
+  has_many :group_memberships, :dependent => :destroy
   has_many :groups, :through => :group_memberships
 
   scope :visible, where(:status => ["pending", "active", "confirmed"])
