@@ -1307,6 +1307,10 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 /* Rules for message in/out box page */
 
+.message #content {
+  max-width: 740px;
+}
+
 .messages {
   width: 100%;
   border: 1px solid #ddd;
@@ -1539,7 +1543,7 @@ a.button {
   display: block;
   padding: $lineheight/4;
   min-width: 120px;
-  margin-bottom: $lineheight/2;
+  margin: 0 0 $lineheight/2 0;
   color: white;
   background: $blue;
   text-align: center;
@@ -1558,6 +1562,28 @@ a.button.submit {
   background-color: #cbeea7;
   &:hover {
     background-color: #9ed485;
+  }
+}
+
+.buttons {
+  min-width: 200px;
+
+  input[type="submit"],
+  .button {
+    box-sizing: border-box;
+    display: inline-block;
+    margin-bottom:0;
+    width:50%;
+    min-width: 0;
+  }
+  input:first-child,
+  .button:first-child {
+    border-radius:2px 0 0 2px;
+    border-right:1px solid white;
+  }
+  input:last-child,
+  .button:first-child {
+    border-radius:0 2px 2px 0;
   }
 }
 
@@ -1718,25 +1744,6 @@ a.button.submit {
       margin-bottom: $lineheight/4;
       white-space: nowrap;
     }
-
-    input.richtext_doedit,
-    input.richtext_dopreview {
-      margin-right: $lineheight/2;
-    }
-  }
-
-  .buttons input[type="submit"] {
-    display: inline-block;
-    margin-bottom:0;
-    width:99px;
-    min-width:99px;
-  }
-  .buttons input:first-child {
-    border-radius:2px 0 0 2px;
-    margin-right:1px;
-  }
-  .buttons input:last-child {
-    border-radius:0 2px 2px 0;
   }
 }
 
