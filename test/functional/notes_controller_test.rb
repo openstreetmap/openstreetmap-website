@@ -39,6 +39,10 @@ class NotesControllerTest < ActionController::TestCase
       { :controller => "notes", :action => "close", :id => "1", :format => "xml" }
     )
     assert_routing(
+      { :path => "/api/0.6/notes/1/reopen", :method => :post },
+      { :controller => "notes", :action => "reopen", :id => "1", :format => "xml" }
+    )
+    assert_routing(
       { :path => "/api/0.6/notes/1", :method => :delete },
       { :controller => "notes", :action => "destroy", :id => "1", :format => "xml" }
     )
@@ -302,6 +306,53 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :gone
 
     post :close, {:id => notes(:closed_note_with_comment).id}
+    assert_response :conflict
+  end
+
+  def test_reopen_success
+    post :reopen, {:id => notes(:closed_note_with_comment).id, :text => "This is a reopen comment", :format => "json"}
+    assert_response :unauthorized
+
+    basic_authorization(users(:public_user).email, "test")
+
+    post :reopen, {:id => notes(:closed_note_with_comment).id, :text => "This is a reopen comment", :format => "json"}
+    assert_response :success
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "Feature", js["type"]
+    assert_equal notes(:closed_note_with_comment).id, js["properties"]["id"]
+    assert_equal "open", js["properties"]["status"]
+    assert_equal 2, js["properties"]["comments"].count
+    assert_equal "reopened", js["properties"]["comments"].last["action"]
+    assert_equal "This is a reopen comment", js["properties"]["comments"].last["text"]
+    assert_equal "test2", js["properties"]["comments"].last["user"]
+
+    get :show, {:id => notes(:closed_note_with_comment).id, :format => "json"}
+    assert_response :success
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "Feature", js["type"]
+    assert_equal notes(:closed_note_with_comment).id, js["properties"]["id"]
+    assert_equal "open", js["properties"]["status"]
+    assert_equal 2, js["properties"]["comments"].count
+    assert_equal "reopened", js["properties"]["comments"].last["action"]
+    assert_equal "This is a reopen comment", js["properties"]["comments"].last["text"]
+    assert_equal "test2", js["properties"]["comments"].last["user"]
+  end
+
+  def test_reopen_fail
+    post :reopen, {:id => notes(:hidden_note_with_comment).id}
+    assert_response :unauthorized
+
+    basic_authorization(users(:public_user).email, "test")
+
+    post :reopen, {:id => 12345}
+    assert_response :not_found
+
+    post :reopen, {:id => notes(:hidden_note_with_comment).id}
+    assert_response :gone
+
+    post :reopen, {:id => notes(:open_note_with_comment).id}
     assert_response :conflict
   end
 
