@@ -8,14 +8,13 @@ L.OSM.key = function (options) {
     $('<a>')
       .attr('class', 'control-button')
       .attr('href', '#')
-      .attr('title', I18n.t("javascripts.key.tooltip"))
+      .attr('title', I18n.t('javascripts.key.tooltip'))
       .html('<span class="icon key"></span>')
       .on('click', toggle)
       .appendTo($container);
 
     var $ui = $('<div>')
-      .attr('class', 'layers-ui')
-      .appendTo(options.uiPane);
+      .attr('class', 'layers-ui');
 
     $('<h2>')
       .text(I18n.t('javascripts.key.title'))
@@ -24,32 +23,34 @@ L.OSM.key = function (options) {
     var $section = $('<section>')
       .appendTo($ui);
 
+    options.sidebar.addPane($ui);
+
+    $ui
+      .on('show', shown)
+      .on('hide', hidden);
+
+    function shown() {
+      map.on('zoomend baselayerchange', update);
+      $section.load('/key', update);
+    }
+
+    function hidden() {
+      map.off('zoomend baselayerchange', update);
+    }
+
     function toggle(e) {
       e.stopPropagation();
       e.preventDefault();
-
-      var controlContainer = $('.leaflet-control-container .leaflet-top.leaflet-right');
-
-      if ($ui.is(':visible')) {
-        $(options.uiPane).hide();
-        controlContainer.css({paddingRight: '0'});
-        map.off("zoomend baselayerchange", update);
-      } else {
-        $(options.uiPane).show();
-        controlContainer.css({paddingRight: '200px'});
-        map.on("zoomend baselayerchange", update);
-        $section.load('/key', update);
-      }
+      options.sidebar.togglePane($ui);
     }
 
     function update() {
-      var mapLayer = getMapBaseLayerId(map),
-        mapZoom = map.getZoom();
+      var layer = getMapBaseLayerId(map),
+        zoom = map.getZoom();
 
-      $(".mapkey-table-entry").each(function () {
+      $('.mapkey-table-entry').each(function () {
         var data = $(this).data();
-
-        if (mapLayer == data.layer && mapZoom >= data.zoomMin && mapZoom <= data.zoomMax) {
+        if (layer == data.layer && zoom >= data.zoomMin && zoom <= data.zoomMax) {
           $(this).show();
         } else {
           $(this).hide();

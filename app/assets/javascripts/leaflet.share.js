@@ -14,8 +14,7 @@ L.OSM.share = function (options) {
       .appendTo($container);
 
     var $ui = $('<div>')
-      .attr('class', 'share-ui')
-      .appendTo(options.uiPane);
+      .attr('class', 'share-ui');
 
     $('<h2>')
       .text(I18n.t('javascripts.share.title'))
@@ -26,19 +25,12 @@ L.OSM.share = function (options) {
 
     map.on('moveend layeradd layerremove', update);
 
+    options.sidebar.addPane($ui);
+
     function toggle(e) {
       e.stopPropagation();
       e.preventDefault();
-
-      var controlContainer = $('.leaflet-control-container .leaflet-top.leaflet-right');
-
-      if ($ui.is(':visible')) {
-        $(control.options.uiPane).hide();
-        controlContainer.css({paddingRight: '0'});
-      } else {
-        $(control.options.uiPane).show();
-        controlContainer.css({paddingRight: '200px'});
-      }
+      options.sidebar.togglePane($ui);
     }
 
     function update() {

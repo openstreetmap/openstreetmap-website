@@ -1,4 +1,5 @@
 //= require_self
+//= require leaflet.sidebar
 //= require leaflet.customzoom
 //= require leaflet.locate
 //= require leaflet.layers
@@ -61,27 +62,27 @@ $(document).ready(function () {
   L.control.locate({position: 'topright'})
     .addTo(map);
 
-  var uiPane = $('#map-ui')[0];
+  var sidebar = L.OSM.sidebar('#map-ui');
 
   L.OSM.layers({
     position: 'topright',
     layers: layers,
-    uiPane: uiPane
+    sidebar: sidebar
   }).addTo(map);
 
   L.OSM.key({
     position: 'topright',
-    uiPane: uiPane
+    sidebar: sidebar
   }).addTo(map);
 
   L.OSM.note({
     position: 'topright',
-    uiPane: uiPane
+    sidebar: sidebar
   }).addTo(map);
 
   L.OSM.share({
     getUrl: getShortUrl,
-    uiPane: uiPane
+    sidebar: sidebar
   }).addTo(map);
 
   L.control.scale()

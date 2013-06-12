@@ -16,8 +16,7 @@ L.OSM.layers = function(options) {
       .appendTo($container);
 
     var $ui = $('<div>')
-      .attr('class', 'layers-ui')
-      .appendTo(options.uiPane);
+      .attr('class', 'layers-ui');
 
     $('<h2>')
       .text(I18n.t('javascripts.map.layers.header'))
@@ -124,23 +123,21 @@ L.OSM.layers = function(options) {
       });
     });
 
-    function toggle(e) {
-      e.stopPropagation();
-      e.preventDefault();
+    options.sidebar.addPane($ui);
 
-      var controlContainer = $('.leaflet-control-container .leaflet-top.leaflet-right');
+    $ui
+      .on('show', shown);
 
-      if ($ui.is(':visible')) {
-        $(control.options.uiPane).hide();
-        controlContainer.css({paddingRight: '0'});
-      } else {
-        $(control.options.uiPane).show();
-        controlContainer.css({paddingRight: '230px'});
-      }
-
+    function shown() {
       $ui.find('.base-layers .leaflet-container').each(function() {
         $(this).data('map').invalidateSize();
       });
+    }
+
+    function toggle(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      options.sidebar.togglePane($ui);
     }
 
     return $container[0];
