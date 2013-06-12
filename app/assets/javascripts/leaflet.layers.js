@@ -1,15 +1,10 @@
-L.OSM.Layers = L.Control.extend({
-  onAdd: function (map) {
-    this._map = map;
-    this._initLayout();
-    return this.$container[0];
-  },
+L.OSM.layers = function(options) {
+  var control = L.control(options);
 
-  _initLayout: function () {
-    var map = this._map,
-      layers = this.options.layers;
+  control.onAdd = function (map) {
+    var layers = options.layers;
 
-    this.$container = $('<div>')
+    var $container = $('<div>')
       .attr('class', 'control-layers');
 
     var link = $('<a>')
@@ -17,20 +12,21 @@ L.OSM.Layers = L.Control.extend({
       .attr('href', '#')
       .attr('title', 'Layers')
       .html('<span class="icon layers"></span>')
-      .appendTo(this.$container);
+      .on('click', toggle)
+      .appendTo($container);
+
+    var $ui = $('<div>')
+      .attr('class', 'layers-ui')
+      .appendTo(options.uiPane);
+
+    $('<h2>')
+      .text(I18n.t('javascripts.map.layers.header'))
+      .appendTo($ui);
 
     if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
-      this.$ui = $('<div>')
-        .attr('class', 'layers-ui')
-        .appendTo(this.options.uiPane);
-
-      $('<h2>')
-        .text(I18n.t('javascripts.map.layers.header'))
-        .appendTo(this.$ui);
-
       var overlaySection = $('<section>')
         .addClass('overlay-layers')
-        .appendTo(this.$ui);
+        .appendTo($ui);
 
       $('<p>')
         .text(I18n.t('javascripts.map.layers.overlays'))
@@ -72,7 +68,7 @@ L.OSM.Layers = L.Control.extend({
 
     var baseSection = $('<section>')
       .addClass('base-layers')
-      .appendTo(this.$ui);
+      .appendTo($ui);
 
     $('<p>')
       .text(I18n.t('javascripts.map.layers.base'))
@@ -128,29 +124,27 @@ L.OSM.Layers = L.Control.extend({
       });
     });
 
-    $(link).on('click', $.proxy(this.toggleLayers, this));
-  },
+    function toggle(e) {
+      e.stopPropagation();
+      e.preventDefault();
 
-  toggleLayers: function (e) {
-    e.stopPropagation();
-    e.preventDefault();
+      var controlContainer = $('.leaflet-control-container .leaflet-top.leaflet-right');
 
-    var controlContainer = $('.leaflet-control-container .leaflet-top.leaflet-right');
+      if ($ui.is(':visible')) {
+        $(control.options.uiPane).hide();
+        controlContainer.css({paddingRight: '0'});
+      } else {
+        $(control.options.uiPane).show();
+        controlContainer.css({paddingRight: '230px'});
+      }
 
-    if (this.$ui.is(':visible')) {
-      $(this.options.uiPane).hide();
-      controlContainer.css({paddingRight: '0'});
-    } else {
-      $(this.options.uiPane).show();
-      controlContainer.css({paddingRight: '230px'});
+      $ui.find('.base-layers .leaflet-container').each(function() {
+        $(this).data('map').invalidateSize();
+      });
     }
 
-    this.$ui.find('.base-layers .leaflet-container').each(function() {
-      $(this).data('map').invalidateSize();
-    });
-  }
-});
+    return $container[0];
+  };
 
-L.OSM.layers = function(options) {
-  return new L.OSM.Layers(options);
+  return control;
 };

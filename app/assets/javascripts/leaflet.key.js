@@ -1,25 +1,19 @@
-L.OSM.Key = L.Control.extend({
-  onAdd: function (map) {
-    this._map = map;
-    this._initLayout();
-    return this.$container[0];
-  },
+L.OSM.key = function(options) {
+  var control = L.control(options);
 
-  _initLayout: function () {
-    var map = this._map;
-
-    this.$container = $('<div>')
+  control.onAdd = function (map) {
+    var $container = $('<div>')
       .attr('class', 'control-key');
 
-    var link = $('<a>')
+    $('<a>')
       .attr('class', 'control-button')
       .attr('href', '#')
       .attr('title', 'Map Key')
       .html('<span class="icon key"></span>')
-      .appendTo(this.$container);
-  }
-});
+      .appendTo($container);
 
-L.OSM.key = function(options) {
-  return new L.OSM.Key(options);
+    return $container[0];
+  };
+
+  return control;
 };

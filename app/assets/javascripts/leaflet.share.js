@@ -1,60 +1,54 @@
-L.Control.Share = L.Control.extend({
-    options: {
-        position: 'topright',
-        title: 'Share',
-        url: function(map) {
-            return '';
-        }
-    },
+L.OSM.share = function (options) {
+  var control = L.control(options);
 
-    onAdd: function (map) {
-        var className = 'control-share',
-            container = L.DomUtil.create('div', className);
+  control.onAdd = function (map) {
+    var $container = $('<div>')
+      .attr('class', 'control-share');
 
-        var link = L.DomUtil.create('a', 'control-button', container);
-        link.innerHTML = "<span class='icon share'></span>";
-        link.href = '#';
-        link.title = this.options.title;
+    $('<a>')
+      .attr('class', 'control-button')
+      .attr('href', '#')
+      .attr('title', 'Share')
+      .html('<span class="icon share"></span>')
+      .on('click', toggle)
+      .appendTo($container);
 
-        this._uiPane = this.options.uiPane;
+    var $ui = $('<div>')
+      .attr('class', 'share-ui')
+      .appendTo(options.uiPane);
 
-        this._map = map;
+    $('<h2>')
+      .text(I18n.t('javascripts.share.title'))
+      .appendTo($ui);
 
-        var h2 = L.DomUtil.create('h2', '', this._uiPane);
-        h2.innerHTML = I18n.t('javascripts.share.title');
+    var $input = $('<input>')
+      .appendTo($ui);
 
-        this._linkInput = L.DomUtil.create('input', '', this._uiPane);
+    map.on('moveend layeradd layerremove', update);
 
-        L.DomEvent
-            .on(link, 'click', L.DomEvent.stopPropagation)
-            .on(link, 'click', L.DomEvent.preventDefault)
-            .on(link, 'click', this._toggle, this)
-            .on(link, 'dblclick', L.DomEvent.stopPropagation);
+    function toggle(e) {
+      e.stopPropagation();
+      e.preventDefault();
 
-        map.on('moveend layeradd layerremove', this._update, this);
+      var controlContainer = $('.leaflet-control-container .leaflet-top.leaflet-right');
 
-        return container;
-    },
-
-    _update: function (e) {
-        var center = this._map.getCenter().wrap();
-        var layers = getMapLayers(this._map);
-        this._linkInput.value = this.options.getUrl(this._map);
-    },
-
-    _toggle: function() {
-        var controlContainer = $('.leaflet-control-container .leaflet-top.leaflet-right');
-
-        if ($(this._uiPane).is(':visible')) {
-            $(this._uiPane).hide();
-            controlContainer.css({paddingRight: '0'});
-        } else {
-            $(this._uiPane).show();
-            controlContainer.css({paddingRight: '200px'});
-        }
+      if ($ui.is(':visible')) {
+        $(control.options.uiPane).hide();
+        controlContainer.css({paddingRight: '0'});
+      } else {
+        $(control.options.uiPane).show();
+        controlContainer.css({paddingRight: '200px'});
+      }
     }
-});
 
-L.control.share = function(options) {
-    return new L.Control.Share(options);
+    function update() {
+      var center = map.getCenter().wrap();
+      var layers = getMapLayers(map);
+      $input.val(options.getUrl(map));
+    }
+
+    return $container[0];
+  };
+
+  return control;
 };

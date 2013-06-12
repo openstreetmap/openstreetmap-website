@@ -1,39 +1,31 @@
-L.Control.Note = L.Control.extend({
-    options: {
-        position: 'topright',
-        title: 'Notes',
-    },
+L.OSM.note = function (options) {
+  var control = L.control(options);
 
-    onAdd: function (map) {
-        var className = 'control-note',
-            container = L.DomUtil.create('div', className);
+  control.onAdd = function (map) {
+    var $container = $('<div>')
+      .attr('class', 'control-note');
 
-        var link = L.DomUtil.create('a', 'control-button', container);
-        link.innerHTML = "<span class='icon note'></span>";
-        link.href = '#';
-        link.title = this.options.title;
+    $('<a>')
+      .attr('class', 'control-button')
+      .attr('href', '#')
+      .attr('title', 'Notes')
+      .html('<span class="icon note"></span>')
+      .on('click', toggle)
+      .appendTo($container);
 
-        L.DomEvent
-            .on(link, 'click', L.DomEvent.stopPropagation)
-            .on(link, 'click', L.DomEvent.preventDefault)
-            .on(link, 'click', this._toggle, this)
-            .on(link, 'dblclick', L.DomEvent.stopPropagation);
+    function toggle(e) {
+      e.stopPropagation();
+      e.preventDefault();
 
-        this.map = map;
-
-        return container;
-    },
-
-    // TODO: this relies on notesLayer on the map
-    _toggle: function() {
-        if (this.map.hasLayer(this.map.noteLayer)) {
-            this.map.removeLayer(this.map.noteLayer);
-        } else {
-            this.map.addLayer(this.map.noteLayer);
-        }
+      if (map.hasLayer(map.noteLayer)) {
+        map.removeLayer(map.noteLayer);
+      } else {
+        map.addLayer(map.noteLayer);
+      }
     }
-});
 
-L.control.note = function(options) {
-    return new L.Control.Note(options);
+    return $container[0];
+  };
+
+  return control;
 };

@@ -75,12 +75,12 @@ $(document).ready(function () {
     uiPane: uiPane
   }).addTo(map);
 
-  L.control.note({
+  L.OSM.note({
     position: 'topright',
     uiPane: uiPane
   }).addTo(map);
 
-  L.control.share({
+  L.OSM.share({
     getUrl: getShortUrl,
     uiPane: uiPane
   }).addTo(map);
