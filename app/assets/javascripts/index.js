@@ -1,9 +1,10 @@
 //= require_self
-//= require leaflet.layers
-//= require leaflet.share
-//= require leaflet.note
-//= require leaflet.locate
 //= require leaflet.customzoom
+//= require leaflet.locate
+//= require leaflet.layers
+//= require leaflet.key
+//= require leaflet.note
+//= require leaflet.share
 //= require index/browse
 //= require index/export
 //= require index/key
@@ -58,6 +59,9 @@ $(document).ready(function () {
   L.control.customZoom({position: 'topright'})
     .addTo(map);
 
+  L.control.locate({position: 'topright'})
+    .addTo(map);
+
   var uiPane = $('#map-ui')[0];
 
   L.OSM.layers({
@@ -66,14 +70,23 @@ $(document).ready(function () {
     uiPane: uiPane
   }).addTo(map);
 
+  L.OSM.key({
+    position: 'topright',
+    uiPane: uiPane
+  }).addTo(map);
+
+  L.control.note({
+    position: 'topright',
+    uiPane: uiPane
+  }).addTo(map);
+
   L.control.share({
     getUrl: getShortUrl,
     uiPane: uiPane
   }).addTo(map);
 
-  L.control.note({ position: 'topright' }).addTo(map);
-  L.control.locate({ position: 'topright' }).addTo(map);
-  L.control.scale().addTo(map);
+  L.control.scale()
+    .addTo(map);
 
   map.on('moveend layeradd layerremove', updateLocation);
 
