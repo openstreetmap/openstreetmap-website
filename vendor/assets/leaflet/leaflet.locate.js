@@ -74,7 +74,7 @@ L.Control.Locate = L.Control.extend({
                     }
                     self._active = true;
                     if (!self._event) {
-                        self._container.className = className + " requesting";
+                        L.DomUtil.addClass(self._container, "requesting");
                     } else {
                         visualizeLocation();
                     }
@@ -137,7 +137,9 @@ L.Control.Locate = L.Control.extend({
 
             if (!self._container)
                 return;
-            self._container.className = className + " active";
+
+            L.DomUtil.removeClass(self._container, "requesting");
+            L.DomUtil.addClass(self._container, "active");
         };
 
         var resetVariables = function() {
@@ -151,7 +153,9 @@ L.Control.Locate = L.Control.extend({
             _log('stopLocate');
             map.stopLocate();
 
-            self._container.className = className;
+            L.DomUtil.removeClass(self._container, "requesting");
+            L.DomUtil.removeClass(self._container, "active");
+
             resetVariables();
 
             self._layer.clearLayers();
