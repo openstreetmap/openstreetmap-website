@@ -89,7 +89,6 @@ L.OSM.layers = function(options) {
 
       map.whenReady(function() {
         var miniMap = L.map(div[0], {attributionControl: false, zoomControl: false})
-          .setView(map.getCenter(), Math.max(map.getZoom() - 2, 0))
           .addLayer(new layer.constructor);
 
         miniMap.dragging.disable();
@@ -97,11 +96,23 @@ L.OSM.layers = function(options) {
         miniMap.doubleClickZoom.disable();
         miniMap.scrollWheelZoom.disable();
 
-        map.on('moveend', function() {
-          miniMap.setView(map.getCenter(), Math.max(map.getZoom() - 2, 0));
-        });
+        $ui
+          .on('show', shown)
+          .on('hide', hide);
 
-        div.data('map', miniMap);
+        function shown() {
+          miniMap.invalidateSize();
+          setView();
+          map.on('moveend', setView);
+        }
+
+        function hide() {
+          map.off('moveend', setView);
+        }
+
+        function setView() {
+          miniMap.setView(map.getCenter(), Math.max(map.getZoom() - 2, 0));
+        }
       });
 
       var label = $('<label>')
@@ -124,15 +135,6 @@ L.OSM.layers = function(options) {
     });
 
     options.sidebar.addPane($ui);
-
-    $ui
-      .on('show', shown);
-
-    function shown() {
-      $ui.find('.base-layers .leaflet-container').each(function() {
-        $(this).data('map').invalidateSize();
-      });
-    }
 
     function toggle(e) {
       e.stopPropagation();
