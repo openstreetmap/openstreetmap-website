@@ -4,6 +4,7 @@ $typeheight: 14px;
 
 $offwhite: #f4f4ff;
 $blue: #7092FF;
+$lightblue: #B8C5F0;
 $grey: #AAA;
 $keyline: #CCC;
 $hovercolor: 20%;
@@ -12,7 +13,7 @@ $hovercolor: 20%;
 
 /* Minimal CSS reset */
 
-html, body, ul, ol, li, form, fieldset, legend, h1, h2, h3, h4, h5, h6, p {
+html, body, ul, ol, li, form, fieldset, legend, h1, h2, h3, h4, h5, h6, p, input {
   margin: 0;
   padding: 0;
   border: 0;
@@ -488,7 +489,7 @@ table {
 
 .count-number {
   padding: 2px $lineheight/4;
-  border-radius: 3px;
+  border-radius: 2px;
   background: #d7d7ff;
   margin: 0 2px;
   font-size: 11px;
@@ -738,6 +739,10 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 .export_area_inputs {
   margin-bottom: $lineheight/2;
+  input[type="text"] {
+    width: 60px;
+    margin-bottom: 5px;
+  }
 }
 
 .export_bound {
@@ -1285,8 +1290,16 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   border: 1px solid #ccc;
 }
 
-.accountImage-options p {
-  margin-bottom: 0px;
+#accountForm .user_image {
+  margin-bottom: 0;
+}
+
+#accountForm #user_image {
+  margin-left: 20px;
+}
+
+#accountForm ul.accountImage-options {
+  margin-left: 120px;
 }
 
 .nohome .location {
@@ -1306,11 +1319,17 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   float: none;
 }
 
-/* Rules for message in/out box page */
+/* Rules for the oauth settings page */
 
-.message #content {
-  max-width: 740px;
+.oauth_clients .buttons .oauth-edit {
+  border-radius: 2px 0 0 2px;
 }
+
+.oauth_clients .buttons .oauth-delete {
+  border-radius: 0 2px 2px 0;
+}
+
+/* Rules for messages pages */
 
 .messages {
   width: 100%;
@@ -1340,6 +1359,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     padding: $lineheight/4;
   }
   tr td {
+    height: 30px;
     border-right: 1px solid $keyline;
   }
 }
@@ -1362,8 +1382,24 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   vertical-align: middle;
 }
 
+.inbox-mark-unread,
+.inbox-mark-read,
+.inbox-delete {
+  width: 1%;
+}
+
 .inbox-row-unread .inbox-mark-unread {
   display: none;
+}
+
+.message-read .message-buttons {
+  margin-top: $lineheight;
+  padding-top: $lineheight;
+  border-top: 1px solid $keyline;
+}
+
+.message-read .buttons .mark-unread-button {
+  border-radius: 0;
 }
 
 /* Rules for "flash" notice boxes shown at the top of the content area */
@@ -1426,15 +1462,25 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   fieldset {
     margin-bottom: $lineheight;
   }
-  label {
+  label.standard-label {
     display: block;
-    width: 300px;
     margin-bottom: $lineheight/4;
     font-size: $typeheight;
     font-weight: bold;
     line-height: 1.5;
   }
-  .form-section {
+  label.standard-label.secondary {
+    display: inline-block;
+    font-weight: normal;
+  }
+  .form-help {
+    font-weight: normal;
+  }
+  .form-column {
+    float: left;
+    margin-right: 20px;
+  }
+  .form-divider {
     margin-top: $lineheight;
     padding-top: $lineheight;
     border-top: 1px solid $keyline;
@@ -1442,9 +1488,17 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   .form-row {
     margin-bottom: $lineheight/2;
   }
-  input[name=remember_me],
-  input[name=remember_me_openid] {
+  .form-list {
+    margin-bottom: 0;
+  }
+  .form-list li {
+    margin-bottom: 5px;
+   }
+  input[type="checkbox"],
+  input[type="radio"] {
     float: left;
+    margin-top: 5px;
+    margin-right: 5px;
   }
 }
 
@@ -1465,6 +1519,8 @@ textarea {
 
 textarea {
   padding: 5px;
+  width: 100%;
+  height: 100% !important;
 }
 
 /* Rules for user images */
@@ -1553,8 +1609,9 @@ input[type="reset"],
 a.button {
   cursor: pointer;
   border: 0;
-  display: block;
-  padding: $lineheight/4;
+  display: inline-block;
+  line-height: 20px;
+  padding: $lineheight/4 $lineheight/2;
   min-width: 120px;
   margin: 0 0 $lineheight/2 0;
   color: white;
@@ -1566,31 +1623,28 @@ a.button {
     background: darken($blue, $hovercolor);
     text-decoration: none;
   }
+  &.deemphasize {
+    background: $lightblue;
+    &:hover {
+      background: darken($lightblue, $hovercolor);
+    }
+  }
   &:last-child {
     margin-bottom: 0;
   }
 }
 
-a.button.submit {
-  background-color: #cbeea7;
-  &:hover {
-    background-color: #9ed485;
-  }
-}
-
 .buttons {
   min-width: 200px;
-
   input[type="submit"],
+  input[type="button"],
+  input[type="reset"],
   .button {
     box-sizing: border-box;
-    display: inline-block;
+    float: left;
     margin-bottom:0;
-    width:50%;
-    min-width: 0;
+    min-width: 100px;
     max-width: 150px;
-    margin-left: 2px;
-    margin-right: 2px;
   }
   input:first-child,
   .button:first-child {
@@ -1603,6 +1657,12 @@ a.button.submit {
     border-radius:0 2px 2px 0;
     margin-right: 0px;
   }
+  input:only-child,
+  .button:only-child {
+    border-radius:2px;
+    margin-right: 0px;
+  }
+
 }
 
 /* Rules for doing distinct colour of alternate table rows */
@@ -1626,7 +1686,8 @@ a.button.submit {
 
 /* Rules for rich text */
 
-.richtext {
+.richtext,
+.prose {
   h1, h2 {
     padding-bottom: $lineheight/2;
     border-bottom: 1px dashed #cccccc;
@@ -1704,7 +1765,10 @@ a.button.submit {
 /* Rules for rich text editors */
 
 .richtext_container {
+  margin-bottom: $lineheight;
+
   .richtext_content {
+    width: 50%;
     display: inline-block;
     vertical-align: top;
 
