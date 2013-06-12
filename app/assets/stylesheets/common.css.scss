@@ -1450,9 +1450,9 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   .form-row {
     margin-bottom: $lineheight/2;
   }
-  input[name=remember_me],
-  input[name=remember_me_openid] {
+  input[type="checkbox"] {
     float: left;
+    margin-right: 5px;
   }
 }
 
@@ -1574,25 +1574,18 @@ a.button {
   text-align: center;
   border-radius: 2px;
   -moz-border-radius: 2px;
+  &:hover {
+    background: darken($blue, $hovercolor);
+    text-decoration: none;
+  }
   &.deemphasize {
     background: $lightblue;
     &:hover {
       background: darken($lightblue, $hovercolor);
     }
   }
-  &:hover {
-    background: darken($blue, $hovercolor);
-    text-decoration: none;
-  }
   &:last-child {
     margin-bottom: 0;
-  }
-}
-
-a.button.submit {
-  background-color: #cbeea7;
-  &:hover {
-    background-color: #9ed485;
   }
 }
 
@@ -1718,7 +1711,7 @@ a.button.submit {
 /* Rules for rich text editors */
 
 .richtext_container {
-  white-space: nowrap;
+  margin-bottom: $lineheight;
 
   .richtext_content {
     width: 50%;
