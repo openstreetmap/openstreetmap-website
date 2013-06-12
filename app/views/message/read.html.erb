@@ -8,16 +8,14 @@
     <%= link_to h(@message.sender.display_name), :controller => 'user', :action => 'view', :display_name => @message.sender.display_name %></td>
     <div class='right'>
       <%= l @message.sent_on, :format => :friendly %>
-      <div class='buttons'>
-      <%= button_to t('message.read.reply_button'), :controller => 'message', :action => 'reply', :message_id => @message.id %>
-      <%= button_to t('message.read.unread_button'), :controller => 'message', :action => 'mark', :message_id => @message.id, :mark => 'unread' %>
-    </div>
     </div>
   </div>
 
   <div class="richtext"><%= @message.body.to_html %></div>
 
-  <%= link_to t('message.read.back_to_inbox'), :controller => 'message', :action => 'inbox', :display_name => @user.display_name %>
+  <div class='message-buttons buttons'>
+    <%= button_to t('message.read.reply_button'), {:controller => 'message', :action => 'reply', :message_id => @message.id}, :class => 'reply-button' %>
+    <%= button_to t('message.read.unread_button'), {:controller => 'message', :action => 'mark', :message_id => @message.id, :mark => 'unread'}, :class => 'mark-unread-button' %>
 
 <% else %>
 
@@ -33,6 +31,9 @@
 
   <div class="richtext"><%= @message.body.to_html %></div>
 
-  <%= link_to t('message.read.back_to_outbox'), :controller => 'message', :action => 'outbox', :display_name => @user.display_name %>
+  <div class='message-buttons buttons'>
 
 <% end %>
+
+  <%= link_to t('message.read.back_to_outbox'), {:controller => 'message', :action => 'outbox', :display_name => @user.display_name }, :class => "button deemphasize" %>
+  </div>

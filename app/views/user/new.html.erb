@@ -10,6 +10,7 @@
   <%= hidden_field_tag('referer', h(@referer)) unless @referer.nil? %>
 
   <div id="signupForm" class="standard-form">
+
     <fieldset>
       <div class="form-row">
         <label for="email" class="standard-label">
@@ -23,7 +24,7 @@
         </label>
         <%= email_field(:user, :email_confirmation, { :tabindex => 2 }) %>
       </div>
-    <p class="form-help deemphasize"><%= raw(t 'user.new.not displayed publicly') %></p>
+    <span class="form-help deemphasize"><%= raw(t 'user.new.not displayed publicly') %></span>
     </fieldset>
 
     <fieldset>
@@ -33,16 +34,19 @@
         </label>
         <%= text_field(:user, :display_name, { :tabindex => 3 }) %>
       </div>
-      <p class="form-help deemphasize"><%= t 'user.new.display name description' %></span>
+      <span class="form-help deemphasize"><%= t 'user.new.display name description' %></span>
     </fieldset>
 
-    <fieldset id="openid_field">
+    <fieldset class="form-divider" id="openid_field">
       <div class="form-row">
         <label for="openid_url" class="standard-label">
           <%= raw t 'user.new.openid', :logo => openid_logo %>
         </label>
         <%= url_field(:user, :openid_url, { :id => "openid_url", :tabindex => 4, :class => "openid_url" }) %>
       </div>
+      <span id="openid_note" class="deemphasize">
+        <%= t 'user.new.openid no password' %>
+      </span>
     </fieldset>
 
     <fieldset>
@@ -58,13 +62,12 @@
         </label>
         <%= password_field(:user, :pass_crypt_confirmation, { :tabindex => 6 }) %>
       </div>
-      <span id="openid_prompt" class="">
-        <%= link_to raw(t("user.new.use openid", :logo => openid_logo)), "#", :id => "openid_enable" %>
-      </span>
-      <span id="openid_note" class="">
-        <%= t 'user.new.openid no password' %>
-      </span>
     </fieldset>
+
+    <div id="openid_prompt" class="form-row">
+      <%= link_to raw(t("user.new.use openid", :logo => openid_logo)), "#", :id => "openid_enable" %>
+    </div>
+
     <%= submit_tag t('user.new.continue'), :tabindex => 6 %>
   </div>
 <% end %>
@@ -74,7 +77,6 @@ function enableOpenID()
 {
   $("#openid_prompt").hide();
 
-  $("#openid_spacer").show();
   $("#openid_field").show();
   $("#openid_note").show();
 
@@ -85,7 +87,6 @@ function disableOpenID()
 {
   $("#openid_prompt").show();
 
-  $("#openid_spacer").hide();
   $("#openid_field").hide();
   $("#openid_note").hide();
 
