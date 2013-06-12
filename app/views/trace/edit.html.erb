@@ -8,40 +8,54 @@
 
 <div id='edit-trace-form' class='standard-form'>
   <fieldset>
-    <label><%= t'trace.edit.filename' %></label>
-    <p class='deemphasize'><%= @trace.name %> (<%= link_to t('trace.edit.download'), :controller => 'trace', :action => 'data', :id => @trace.id %>)</p>
+    <div class='form-row'>
+      <label><%= t'trace.edit.filename' %></label>
+      <p class='deemphasize'><%= @trace.name %> (<%= link_to t('trace.edit.download'), :controller => 'trace', :action => 'data', :id => @trace.id %>)</p>
+    </div>
+    <div class='form-row'>
+      <label><%= t'trace.edit.uploaded_at' %></label>
+      <p class='deemphasize'><%= l @trace.timestamp, :format => :friendly %></p>
+    </div>
   </fieldset>
-  <fieldset>
-    <label><%= t'trace.edit.uploaded_at' %></label>
-    <p class='deemphasize'><%= l @trace.timestamp, :format => :friendly %></p>
-  </fieldset>
+
   <% if @trace.inserted? %>
+
   <fieldset>
-    <label><%= t'trace.edit.points' %></label>
-    <p class='deemphasize'><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %></p>
-  <fieldset>
-    <label><%= t'trace.edit.start_coord' %></label>
+    <div class='form-row'>
+      <label><%= t'trace.edit.points' %></label>
+      <p class='deemphasize'><%= @trace.size.to_s.gsub(/(\d)(?=(\d{3})+$)/,'\1,') %></p>
+    </div>
+    <div class='form-row'>
+      <label><%= t'trace.edit.start_coord' %></label>
+    </div>
     <div class="geo">
       <span class="latitude"><%= @trace.latitude %></span>;
       <span class="longitude"><%= @trace.longitude %></span>
     </div>
-      (<%=link_to t('trace.edit.map'), :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %> / <%=link_to t('trace.edit.edit'), :controller => 'site', :action => 'edit', :lat => @trace.latitude, :lon => @trace.longitude, :gpx=> @trace.id, :zoom => 14 %>)
+    (<%=link_to t('trace.edit.map'), :controller => 'site', :action => 'index', :lat => @trace.latitude, :lon => @trace.longitude, :zoom => 14 %> / <%=link_to t('trace.edit.edit'), :controller => 'site', :action => 'edit', :lat => @trace.latitude, :lon => @trace.longitude, :gpx=> @trace.id, :zoom => 14 %>)
   </fieldset>
+
   <% end %>
+
   <fieldset>
-    <label><%= t'trace.edit.owner' %></label>
-    <p class='deemphasize'><%= link_to h(@trace.user.display_name), {:controller => 'user', :action => 'view', :display_name => @trace.user.display_name} %></p>
+    <div class='form-row'>
+      <label><%= t'trace.edit.owner' %></label>
+      <p class='deemphasize'><%= link_to h(@trace.user.display_name), {:controller => 'user', :action => 'view', :display_name => @trace.user.display_name} %></p>
+    </div>
+    <div class='form-row'>
+      <label><%= t'trace.edit.description' %></label>
+      <%= f.text_field :description %>
+    </div>
+    <div class='form-row'>
+      <label><%= t'trace.edit.tags' %></label>
+      <%= f.text_field :tagstring %> (<%= t'trace.edit.tags_help' %>)
+    </div>
+    <div class='form-row'>
+      <label><%= t'trace.edit.visibility' %></label>
+      <%= f.select :visibility, [[t('trace.visibility.private'),"private"],[t('trace.visibility.public'),"public"],[t('trace.visibility.trackable'),"trackable"],[t('trace.visibility.identifiable'),"identifiable"]] %> (<a href="<%= t'trace.edit.visibility_help_url' %>"><%= t'trace.edit.visibility_help' %></a>)
+    </div>
   </fieldset>
-    <label><%= t'trace.edit.description' %></label>
-    <%= f.text_field :description %>
-  </fieldset>
-  <fieldset>
-    <label><%= t'trace.edit.tags' %></label>
-    <%= f.text_field :tagstring %> (<%= t'trace.edit.tags_help' %>)
-  </fieldset>
-  <fieldset>
-    <label><%= t'trace.edit.visibility' %></label>
-    <%= f.select :visibility, [[t('trace.visibility.private'),"private"],[t('trace.visibility.public'),"public"],[t('trace.visibility.trackable'),"trackable"],[t('trace.visibility.identifiable'),"identifiable"]] %> (<a href="<%= t'trace.edit.visibility_help_url' %>"><%= t'trace.edit.visibility_help' %></a>)
+
 </div>
 
 <%= submit_tag t'trace.edit.save_button' %>

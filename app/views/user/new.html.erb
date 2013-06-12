@@ -10,6 +10,7 @@
   <%= hidden_field_tag('referer', h(@referer)) unless @referer.nil? %>
 
   <div id="signupForm" class="standard-form">
+
     <fieldset>
       <div class="form-row">
         <label for="email" class="standard-label">
@@ -23,7 +24,7 @@
         </label>
         <%= email_field(:user, :email_confirmation, { :tabindex => 2 }) %>
       </div>
-    <p class="form-help deemphasize"><%= raw(t 'user.new.not displayed publicly') %></p>
+    <span class="form-help deemphasize"><%= raw(t 'user.new.not displayed publicly') %></span>
     </fieldset>
 
     <fieldset>
@@ -33,7 +34,7 @@
         </label>
         <%= text_field(:user, :display_name, { :tabindex => 3 }) %>
       </div>
-      <p class="form-help deemphasize"><%= t 'user.new.display name description' %></span>
+      <span class="form-help deemphasize"><%= t 'user.new.display name description' %></span>
     </fieldset>
 
     <fieldset class="form-divider" id="openid_field">
@@ -43,9 +44,9 @@
         </label>
         <%= url_field(:user, :openid_url, { :id => "openid_url", :tabindex => 4, :class => "openid_url" }) %>
       </div>
-      <p id="openid_note" class="deemphasize">
+      <span id="openid_note" class="deemphasize">
         <%= t 'user.new.openid no password' %>
-      </p>
+      </span>
     </fieldset>
 
     <fieldset>
