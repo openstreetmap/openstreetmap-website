@@ -161,6 +161,7 @@ $(document).ready(function () {
     $("#query").focus();
   }
 
+  initializeExport(map);
   initializeBrowse(map);
   initializeNotes(map);
 });
