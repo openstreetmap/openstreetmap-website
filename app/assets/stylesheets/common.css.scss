@@ -489,7 +489,7 @@ table {
 
 .count-number {
   padding: 2px $lineheight/4;
-  border-radius: 3px;
+  border-radius: 2px;
   background: #d7d7ff;
   margin: 0 2px;
   font-size: 11px;
@@ -1304,7 +1304,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   float: none;
 }
 
-/* Rules for message in/out box page */
+/* Rules for messages pages */
 
 .messages {
   width: 100%;
@@ -1364,6 +1364,10 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 .inbox-row-unread .inbox-mark-unread {
   display: none;
+}
+
+.message-read .buttons .mark-unread-button {
+  border-radius: 0;
 }
 
 /* Rules for "flash" notice boxes shown at the top of the content area */
@@ -1560,9 +1564,9 @@ input[type="reset"],
 a.button {
   cursor: pointer;
   border: 0;
-  height: 30px;
   display: inline-block;
-  padding: $lineheight/4;
+  line-height: 20px;
+  padding: $lineheight/4 $lineheight/2;
   min-width: 120px;
   margin: 0 0 $lineheight/2 0;
   color: white;
@@ -1601,8 +1605,7 @@ a.button.submit {
     box-sizing: border-box;
     float: left;
     margin-bottom:0;
-    width:50%;
-    min-width: 0;
+    min-width: 100px;
     max-width: 150px;
   }
   input:first-child,
@@ -1616,6 +1619,12 @@ a.button.submit {
     border-radius:0 2px 2px 0;
     margin-right: 0px;
   }
+  input:only-child,
+  .button:only-child {
+    border-radius:2px;
+    margin-right: 0px;
+  }
+
 }
 
 /* Rules for doing distinct colour of alternate table rows */
