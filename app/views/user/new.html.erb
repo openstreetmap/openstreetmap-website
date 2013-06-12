@@ -36,16 +36,17 @@
       <p class="form-help deemphasize"><%= t 'user.new.display name description' %></span>
     </fieldset>
 
-    <fieldset id="openid_field">
+    <div id="openid_prompt" class="form-row">
+      <%= link_to raw(t("user.new.use openid", :logo => openid_logo)), "#", :id => "openid_enable" %>
+    </div>
+
+    <fieldset class="form-section" id="openid_field">
       <div class="form-row">
         <label for="openid_url" class="standard-label">
           <%= raw t 'user.new.openid', :logo => openid_logo %>
         </label>
         <%= url_field(:user, :openid_url, { :id => "openid_url", :tabindex => 4, :class => "openid_url" }) %>
       </div>
-    </fieldset>
-
-    <fieldset>
       <div class="form-row">
         <label for='user[pass_crypt]' class="standard-label">
           <%= t 'user.new.password' %>
@@ -58,12 +59,9 @@
         </label>
         <%= password_field(:user, :pass_crypt_confirmation, { :tabindex => 6 }) %>
       </div>
-      <span id="openid_prompt" class="">
-        <%= link_to raw(t("user.new.use openid", :logo => openid_logo)), "#", :id => "openid_enable" %>
-      </span>
-      <span id="openid_note" class="">
+      <p id="openid_note" class="deemphasize">
         <%= t 'user.new.openid no password' %>
-      </span>
+      </p>
     </fieldset>
     <%= submit_tag t('user.new.continue'), :tabindex => 6 %>
   </div>
@@ -74,7 +72,6 @@ function enableOpenID()
 {
   $("#openid_prompt").hide();
 
-  $("#openid_spacer").show();
   $("#openid_field").show();
   $("#openid_note").show();
 
@@ -85,7 +82,6 @@ function disableOpenID()
 {
   $("#openid_prompt").show();
 
-  $("#openid_spacer").hide();
   $("#openid_field").hide();
   $("#openid_note").hide();
 
