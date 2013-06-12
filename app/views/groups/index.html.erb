@@ -1,11 +1,24 @@
 <% content_for :heading do %>
-  <h2><%= t'groups.groups'%></h2>
-  <p>
-  Groups are local and topical teams of mappers.
-  </p>
+  <h2><%= t('group.plural').capitalize %></h2>
+  <p><%= t 'group.index.about' %></p></p>
+  <% if defined?(@user) %>
+    <ul class='secondary-actions clearfix'>
+      <li><%= link_to t('group.new.action'), new_group_path %></li>
+    </ul>
+  <% end %>
 <% end %>
 
-<h3><%= t'groups.your_groups'%></h3>
+<% if defined?(@user) %>
+  <h3><%= t'groups.your_groups'%></h3>
+  <% if @user.groups.count == 0 %>
 
-<h3><%= t'groups.all_groups'%></h3>
-<%= render :partial =>'group_entry', :collection => @groups %>
+  <% else %>
+    <%= render :partial =>'group', :collection => @user.groups %>
+  <% end %>
+
+  <h3><%= t'groups.other_groups'%></h3>
+  <%= render :partial =>'group', :collection => @groups - @user.groups %>
+<% else %>
+  <h3><%= t'groups.all_groups'%></h3>
+  <%= render :partial =>'group', :collection => @groups - @user.groups %>
+<% end %>

@@ -3,6 +3,7 @@ class CreateGroup < ActiveRecord::Migration
     create_table :groups do |t|
       t.string :title
       t.text   :description
+      t.text   :description_format
      end
   end
 

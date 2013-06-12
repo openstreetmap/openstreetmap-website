@@ -101,6 +101,7 @@
            <li id="full-greeting"><%=link_to h(@user.display_name), user_path(:display_name => @user.display_name), :title => t('layouts.welcome_user_link_tooltip') %></li>
            <li><%= yield :greeting %></li>
            <li><%= render :partial => "layouts/inbox" %></li>
+           <li><%= link_to t('group.plural'), groups_path %></li>
            <li><%= link_to t('layouts.logout'), logout_path(:session => request.session_options[:id], :referer => request.fullpath), {:id => 'logoutanchor', :title => t('layouts.logout_tooltip')}%></li>
          <% else %>
            <li><%= link_to t('layouts.log_in'), login_path(:referer => request.fullpath), {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %></li>

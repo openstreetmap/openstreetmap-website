@@ -1,0 +1,4 @@
+<%= group_membership.group.title %> <%= group_membership.role.present? ? ", #{group_membership.role}" : "" %>
+<% if defined?(include_leave_button) && include_leave_button %>
+  <%= button_to t('group.leave.action'), leave_group_path(group_membership.group), :method => :post %>
+<% end %>

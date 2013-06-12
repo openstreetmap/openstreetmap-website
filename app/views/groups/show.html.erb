@@ -1,0 +1,25 @@
+<% content_for :heading do %>
+  <h1><%= link_to "Groups", groups_path %> / <%= @group.title %></h1>
+  <% if defined?(@user) %>
+    <ul class='secondary-actions clearfix'>
+      <%= render :partial => 'join_or_leave_links', :locals => { :group => @group } %>
+      <% if @group.leadership_includes?(@user) %>
+        <li><%= link_to t('group.edit.action'), edit_group_path(@group) %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
+
+<% content_for :head do %>
+  <%= javascript_include_tag "user" %>
+<% end %>
+<%= content_tag "div", "", :id => "map", :class => "content_map" %>
+
+<p><%= @group.description.to_html %></p>
+
+<h2>Members</h2>
+<div class="activity-block column-1">
+<div id="friends-container">
+  <%= render :partial => "user/contact", :collection => @group.users, :locals => {:type => "friend"} %>
+</div>
+</div>

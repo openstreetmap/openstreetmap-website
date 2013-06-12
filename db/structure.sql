@@ -647,7 +647,8 @@ ALTER SEQUENCE group_memberships_id_seq OWNED BY group_memberships.id;
 CREATE TABLE groups (
     id integer NOT NULL,
     title character varying(255),
-    description text
+    description text,
+    description_format text
 );
 
 
