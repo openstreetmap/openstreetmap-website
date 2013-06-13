@@ -169,36 +169,10 @@ $(document).ready(function () {
   initializeNotes(map);
 });
 
-function getMapBaseLayerId(map) {
-  for (var i in map._layers) { // TODO: map.eachLayer
-    var layer = map._layers[i];
-    if (layer.options && layer.options.keyid) {
-      return layer.options.keyid;
-    }
-  }
-}
-
-function getMapLayers(map) {
-  var layerConfig = '';
-  for (var i in map._layers) { // TODO: map.eachLayer
-    var layer = map._layers[i];
-    if (layer.options && layer.options.code) {
-      layerConfig += layer.options.code;
-    }
-  }
-  return layerConfig;
-}
-
-// generate a cookie-safe string of map state
-function cookieContent(map) {
-  var center = map.getCenter().wrap();
-  return [center.lng, center.lat, map.getZoom(), getMapLayers(map)].join('|');
-}
-
 function updateLocation() {
   updatelinks(this.getCenter().wrap(),
       this.getZoom(),
-      getMapLayers(this),
+      this.getLayersCode(),
       this.getBounds().wrap(), {});
 
   var expiry = new Date();

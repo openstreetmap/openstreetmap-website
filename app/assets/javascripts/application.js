@@ -114,6 +114,10 @@ function updatelinks(loc, zoom, layers, bounds, object) {
   }
 }
 
+function minZoomAlert() {
+    alert(I18n.t("javascripts.site." + name + "_zoom_alert")); return false;
+}
+
 function getShortUrl(map) {
   return (window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
           'http://osm.org/go/' : '/go/') +
@@ -129,12 +133,9 @@ function getUrl(map) {
         querystring.stringify({
             lat: center.lat,
             lon: center.lng,
-            zoom: zoom
+            zoom: zoom,
+            layers: map.getLayersCode()
         });
-}
-
-function minZoomAlert() {
-    alert(I18n.t("javascripts.site." + name + "_zoom_alert")); return false;
 }
 
 // Called to create a short code for the short link.
@@ -173,6 +174,12 @@ function makeShortCode(map) {
     }
 
     return str;
+}
+
+// generate a cookie-safe string of map state
+function cookieContent(map) {
+  var center = map.getCenter().wrap();
+  return [center.lng, center.lat, map.getZoom(), map.getLayersCode()].join('|');
 }
 
 /*

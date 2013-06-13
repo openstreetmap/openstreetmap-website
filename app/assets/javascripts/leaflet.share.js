@@ -58,8 +58,6 @@ L.OSM.share = function (options) {
     }
 
     function update() {
-      var center = map.getCenter().wrap();
-      var layers = getMapLayers(map);
       $input.val(
           options.short ? options.getShortUrl(map) : options.getUrl(map)
       );
