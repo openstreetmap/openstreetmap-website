@@ -16,9 +16,11 @@ L.OSM.key = function (options) {
     var $ui = $('<div>')
       .attr('class', 'layers-ui');
 
-    $('<h2>')
-      .text(I18n.t('javascripts.key.title'))
-      .appendTo($ui);
+    $('<section>')
+      .appendTo($ui)
+      .append(
+      $('<h2>')
+        .text(I18n.t('javascripts.key.title')));
 
     var $section = $('<section>')
       .appendTo($ui);

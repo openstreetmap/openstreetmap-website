@@ -16,11 +16,13 @@ L.OSM.share = function (options) {
     var $ui = $('<div>')
       .attr('class', 'share-ui');
 
-    $('<h2>')
-      .text(I18n.t('javascripts.share.title'))
-      .appendTo($ui);
+    $('<section>')
+      .appendTo($ui)
+      .append(
+      $('<h2>')
+        .text(I18n.t('javascripts.share.title')));
 
-    var $share_link = $('<div></div>')
+    var $share_link = $('<section></section>')
       .appendTo($ui);
 
     var $title = $('<h3></h3>')

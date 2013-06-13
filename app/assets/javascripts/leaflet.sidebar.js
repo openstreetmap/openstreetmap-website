@@ -22,7 +22,7 @@ L.OSM.sidebar = function(selector) {
       current = $();
     } else {
       $(sidebar).show();
-      controlContainer.css({paddingRight: '200px'});
+      controlContainer.css({paddingRight: '250px'});
       current = pane;
     }
 

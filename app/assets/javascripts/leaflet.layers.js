@@ -18,9 +18,11 @@ L.OSM.layers = function(options) {
     var $ui = $('<div>')
       .attr('class', 'layers-ui');
 
-    $('<h2>')
-      .text(I18n.t('javascripts.map.layers.header'))
-      .appendTo($ui);
+    $('<section>')
+       .appendTo($ui)
+       .append(
+        $('<h2>')
+          .text(I18n.t('javascripts.map.layers.header')));
 
     if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
       var overlaySection = $('<section>')

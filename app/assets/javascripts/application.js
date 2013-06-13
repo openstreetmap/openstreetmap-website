@@ -123,6 +123,7 @@ function getShortUrl(map) {
 function getUrl(map) {
   var center = map.getCenter(),
       zoom = map.getZoom();
+
   return (window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
           'http://openstreetmap.org/?' : '/?') +
         querystring.stringify({
