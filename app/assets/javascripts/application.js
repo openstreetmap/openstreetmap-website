@@ -120,6 +120,18 @@ function getShortUrl(map) {
           makeShortCode(map);
 }
 
+function getUrl(map) {
+  var center = map.getCenter(),
+      zoom = map.getZoom();
+  return (window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
+          'http://openstreetmap.org/?' : '/?') +
+        querystring.stringify({
+            lat: center.lat,
+            lon: center.lng,
+            zoom: zoom
+        });
+}
+
 function minZoomAlert() {
     alert(I18n.t("javascripts.site." + name + "_zoom_alert")); return false;
 }

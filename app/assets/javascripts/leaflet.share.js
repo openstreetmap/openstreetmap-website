@@ -20,8 +20,30 @@ L.OSM.share = function (options) {
       .text(I18n.t('javascripts.share.title'))
       .appendTo($ui);
 
-    var $input = $('<input>')
+    var $share_link = $('<div></div>')
       .appendTo($ui);
+
+    var $title = $('<h3></h3>')
+      .text(I18n.t('javascripts.share.link'))
+      .appendTo($share_link);
+
+    var $short_url_input = $('<input />')
+      .attr('id', 'short_url')
+      .attr('type', 'checkbox')
+      .prop('checked', 'checked')
+      .appendTo($share_link)
+      .bind('change', function() {
+          options.short = $(this).prop('checked');
+          update();
+      });
+
+    var $short_url_label = $('<label></label>')
+      .text(I18n.t('javascripts.share.short_url'))
+      .attr('for', 'short_url')
+      .appendTo($share_link);
+
+    var $input = $('<input />')
+      .appendTo($share_link);
 
     map.on('moveend layeradd layerremove', update);
 
@@ -36,7 +58,9 @@ L.OSM.share = function (options) {
     function update() {
       var center = map.getCenter().wrap();
       var layers = getMapLayers(map);
-      $input.val(options.getUrl(map));
+      $input.val(
+          options.short ? options.getShortUrl(map) : options.getUrl(map)
+      );
     }
 
     return $container[0];

@@ -81,8 +81,10 @@ $(document).ready(function () {
   }).addTo(map);
 
   L.OSM.share({
-    getUrl: getShortUrl,
-    sidebar: sidebar
+    getShortUrl: getShortUrl,
+    getUrl: getUrl,
+    sidebar: sidebar,
+    short: true
   }).addTo(map);
 
   L.control.scale()
