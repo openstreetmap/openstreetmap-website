@@ -18,9 +18,9 @@ OpenLayers.Layer.OSM.Mapnik = OpenLayers.Class(OpenLayers.Layer.OSM, {
             "http://b.tile.openstreetmap.org/${z}/${x}/${y}.png",
             "http://c.tile.openstreetmap.org/${z}/${x}/${y}.png"
         ];
-        attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors";
         options = OpenLayers.Util.extend({
             numZoomLevels: 19,
+            attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
             buffer: 0,
             transitionEffect: "resize"
         }, options);
