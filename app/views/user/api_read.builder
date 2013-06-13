@@ -22,6 +22,11 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
     end
     xml.tag! "changesets", :count => @this_user.changesets.size
     xml.tag! "traces", :count => @this_user.traces.size
+    xml.tag! "memberships" do
+      @this_user.groups.each do |group|
+        xml.tag! "group", :id => group.id, :title => group.title
+      end
+    end
     xml.tag! "blocks" do
       xml.tag! "received", :count => @this_user.blocks.size,
                            :active => @this_user.blocks.active.size
