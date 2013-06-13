@@ -27,7 +27,7 @@ $(document).ready(function () {
       zoomControl: false
     }).addLayer(new L.OSM.Mapnik());
 
-    L.control.zoom({position: 'topright'})
+    L.OSM.zoom()
       .addTo(map);
 
     $("#map").on("resized", function () {

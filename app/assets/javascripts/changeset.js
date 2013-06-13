@@ -6,7 +6,7 @@ $(document).ready(function () {
     zoomControl: false
   }).addLayer(new L.OSM.Mapnik());
 
-  L.control.zoom({position: 'topright'})
+  L.OSM.zoom()
     .addTo(map);
 
   $("#changeset_list_map").on("resized", function () {

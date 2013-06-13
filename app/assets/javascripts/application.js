@@ -5,6 +5,7 @@
 //= require augment
 //= require leaflet
 //= require leaflet.osm
+//= require leaflet.zoom
 //= require leaflet.extend
 //= require leaflet.locationfilter
 //= require i18n/translations

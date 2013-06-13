@@ -1,10 +1,6 @@
-/*
- * L.Control.CustomZoom is used for the default zoom buttons on the map.
- */
-
-L.Control.CustomZoom = L.Control.extend({
+L.OSM.Zoom = L.Control.extend({
 	options: {
-		position: 'topleft'
+		position: 'topright'
 	},
 
 	onAdd: function (map) {
@@ -14,9 +10,9 @@ L.Control.CustomZoom = L.Control.extend({
 		this._map = map;
 
 		this._zoomInButton  = this._createButton(
-		        '', 'Zoom in',  zoomName + 'in',  container, this._zoomIn,  this);
+		        '', I18n.t('javascripts.map.zoom.in'),  zoomName + 'in',  container, this._zoomIn,  this);
 		this._zoomOutButton = this._createButton(
-		        '', 'Zoom out', zoomName + 'out', container, this._zoomOut, this);
+		        '', I18n.t('javascripts.map.zoom.out'), zoomName + 'out', container, this._zoomOut, this);
 
 		map.on('zoomend zoomlevelschange', this._updateDisabled, this);
 
@@ -71,6 +67,6 @@ L.Control.CustomZoom = L.Control.extend({
 	}
 });
 
-L.control.customZoom = function (options) {
-	return new L.Control.CustomZoom(options);
+L.OSM.zoom = function (options) {
+	return new L.OSM.Zoom(options);
 };

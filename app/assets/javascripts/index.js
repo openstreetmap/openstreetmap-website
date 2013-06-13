@@ -1,6 +1,5 @@
 //= require_self
 //= require leaflet.sidebar
-//= require leaflet.customzoom
 //= require leaflet.locate
 //= require leaflet.layers
 //= require leaflet.key
@@ -56,7 +55,7 @@ $(document).ready(function () {
     map.invalidateSize();
   });
 
-  L.control.customZoom({position: 'topright'})
+  L.OSM.zoom({position: 'topright'})
     .addTo(map);
 
   L.control.locate({position: 'topright'})
