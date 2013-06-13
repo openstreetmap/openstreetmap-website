@@ -1640,27 +1640,40 @@ a.button {
   .button {
     box-sizing: border-box;
     float: left;
-    margin-bottom:0;
+    border-radius: 0;
+    margin:0;
     min-width: 100px;
     max-width: 150px;
+    border-right:1px solid white;
   }
   input:first-child,
   .button:first-child {
     border-radius:2px 0 0 2px;
-    border-right:1px solid white;
-    margin-left: 0px;
   }
   input:last-child,
   .button:last-child {
     border-radius:0 2px 2px 0;
-    margin-right: 0px;
+    border-right-width: 0;
   }
   input:only-child,
-  .button:only-child {
+  .button:only-child,
+  *[value="Hide"] + input:last-child,
+  *[value="Hide"] + .button:last-child {
     border-radius:2px;
-    margin-right: 0px;
+    border-right-width: 0;
   }
-
+    /* if a 3-button set has a hidden middle button */
+  *[value="Hide"] + input:nth-child(3),
+  *[value="Hide"] + .button:nth-child(3) {
+    border-radius:0 2px 2px 0;
+    border-right-width: 0;
+  }
+  /* if a 3-button set starts with a hidden button */
+  *[value="Hide"] + input:nth-child(2):not(:last-child),
+  *[value="Hide"] + .button:nth-child(2):not(:last-child) {
+    border-radius:2px 0 0 2px;
+    border-right-width: 1px solid white;
+  }
 }
 
 /* Rules for doing distinct colour of alternate table rows */
