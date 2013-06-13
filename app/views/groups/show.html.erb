@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "group" %>
+<% end %>
+
 <% content_for :heading do %>
   <h1><%= link_to "Groups", groups_path %> / <%= @group.title %></h1>
   <% if defined?(@user) %>
@@ -13,9 +17,6 @@
   <% end %>
 <% end %>
 
-<% content_for :head do %>
-  <%= javascript_include_tag "user" %>
-<% end %>
 <%= content_tag "div", "", :id => "map", :class => "content_map" %>
 
 <p><%= @group.description.to_html %></p>
