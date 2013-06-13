@@ -2,10 +2,13 @@
   <h1><%= link_to "Groups", groups_path %> / <%= @group.title %></h1>
   <% if defined?(@user) %>
     <ul class='secondary-actions clearfix'>
-      <%= render :partial => 'join_or_leave_links', :locals => { :group => @group } %>
       <% if @group.leadership_includes?(@user) %>
         <li><%= link_to t('group.edit.action'), edit_group_path(@group) %></li>
+        <li><%= link_to t('group.resign.action'), resign_leader_group_path(@group), :method => :post, :data => { :confirm => t('group.resign.confirm') } %></li>
+      <% elsif @group.users.include?(@user) && @group.leaders.count == 0 %>
+        <li><%= link_to t('group.lead.action'), become_leader_group_path(@group), :method => :post, :data => { :confirm => t('group.lead.confirm') } %></li>
       <% end %>
+      <%= render :partial => 'join_or_leave_links', :locals => { :group => @group } %>
     </ul>
   <% end %>
 <% end %>
@@ -19,8 +22,9 @@
 
 <h2><%= t 'group.show.members' -%></h2>
 <div class="activity-block column-1">
-<div id="friends-container">
-  <%= render :partial => "user/contact", :collection => @group.users, :locals => {:type => "friend"} %>
+<div id="members-container">
+  <%# TODO: change the _contact partial to have a "group_member" display type with proper formatting %>
+  <%= render :partial => "user/contact", :collection => @group.users, :locals => {:type => "group_member"} %>
 </div>
 </div>
 

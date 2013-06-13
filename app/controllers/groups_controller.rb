@@ -4,11 +4,26 @@ class GroupsController < ApplicationController
   before_filter :authorize_web
   before_filter :check_api_readable
   before_filter :set_locale
-  after_filter :compress_output
-  around_filter :api_call_handle_error, :api_call_timeout
-  before_filter :require_user , :except => [:index, :show]
+  after_filter  :compress_output
+  around_filter :api_call_handle_error,
+                :api_call_timeout
+  before_filter :require_user, 
+                :except => [
+                  :index, 
+                  :show
+                ]
 
-  before_filter :find_group, :only => [:show, :edit, :update, :destroy, :leave, :join]
+  before_filter :find_group,
+                :only => [
+                  :show,
+                  :edit,
+                  :update,
+                  :destroy,
+                  :join,
+                  :leave,
+                  :become_leader,
+                  :resign_leader
+                ]
 
   ##
   # An index of Groups.
@@ -30,9 +45,10 @@ class GroupsController < ApplicationController
     if @group.save
       if defined?(@user)
         @group.users << @user
-        # TODO: role
+        @group.group_memberships.find_by_user_id(@user.id).set_role(GroupMembership::Roles::LEADER)
       end
-      flash[:notice] = t 'group.create.success', :title => @group.title
+      flash[:notice] = t 'group.create.success',
+      :title => @group.title
       redirect_to group_url(@group)
     else
       render :action => "new"
@@ -54,7 +70,7 @@ class GroupsController < ApplicationController
   def update
     if @group.update_attributes(params[:group])
       flash[:notice] = t 'group.update.success', :title => @group.title
-      redirect_to groups_url
+      redirect_to group_url(@group)
     else
       render :action => "edit"
     end
@@ -92,6 +108,34 @@ class GroupsController < ApplicationController
       flash[:notice] = t 'group.leave.success', :title => @group.title
     else
       flash[:error] = t 'group.leave.error', :title => @group.title
+    end
+    redirect_to :back
+  end
+
+  ##
+  # 
+  def become_leader
+    group_membership = @group.group_memberships.find_by_user_id(@user.id)
+    if group_membership.blank?
+      flash[:error] = t 'group.lead.not_in_group', :title => @group.title
+    elsif group_membership.set_role(GroupMembership::Roles::LEADER)
+      flash[:notice] = t 'group.lead.success', :title => @group.title
+    else
+      flash[:error] = t 'group.lead.error', :title => @group.title
+    end
+    redirect_to :back
+  end
+
+  ##
+  # 
+  def resign_leader
+    group_membership = @group.group_memberships.find_by_user_id(@user.id)
+    if group_membership.blank? || !group_membership.has_role?(GroupMembership::Roles::LEADER)
+      flash[:error] = t 'group.resign.not_leader', :title => @group.title
+    elsif group_membership.set_role(GroupMembership::Roles::MEMBER)
+      flash[:notice] = t 'group.resign.success', :title => @group.title
+    else
+      flash[:error] = t 'group.resign.error', :title => @group.title
     end
     redirect_to :back
   end

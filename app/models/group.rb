@@ -1,6 +1,15 @@
 class Group < ActiveRecord::Base
   has_many :group_memberships, :dependent => :destroy
   has_many :users, :through => :group_memberships
+  has_many :leaders, 
+           :class_name => 'User', 
+           :source => :user, 
+           :through => :group_memberships, 
+           :conditions => {
+             :group_memberships => {
+                :role => GroupMembership::Roles::LEADER
+             }
+           }
 
   attr_accessible :title, :description
 

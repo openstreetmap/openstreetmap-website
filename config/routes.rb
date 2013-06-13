@@ -260,8 +260,7 @@ OpenStreetMap::Application.routes.draw do
   # groups
   resources :groups do
     member do
-      post :join
-      post :leave
+      post :join, :leave, :become_leader, :resign_leader
     end
   end
 
