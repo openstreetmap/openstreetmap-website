@@ -20,6 +20,7 @@ OpenLayers.Layer.OSM.Mapnik = OpenLayers.Class(OpenLayers.Layer.OSM, {
         ];
         options = OpenLayers.Util.extend({
             numZoomLevels: 19,
+            attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
             buffer: 0,
             transitionEffect: "resize"
         }, options);
@@ -52,6 +53,7 @@ OpenLayers.Layer.OSM.CycleMap = OpenLayers.Class(OpenLayers.Layer.OSM, {
         ];
         options = OpenLayers.Util.extend({
             numZoomLevels: 19,
+            attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors, Tiles courtesy of <a href='http://www.opencyclemap.org'>Andy Allan</a>",
             buffer: 0,
             transitionEffect: "resize"
         }, options);
@@ -84,6 +86,7 @@ OpenLayers.Layer.OSM.TransportMap = OpenLayers.Class(OpenLayers.Layer.OSM, {
         ];
         options = OpenLayers.Util.extend({
             numZoomLevels: 19,
+            attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors, Tiles courtesy of <a href='http://www.opencyclemap.org'>Andy Allan</a>",
             buffer: 0,
             transitionEffect: "resize"
         }, options);
