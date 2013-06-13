@@ -1,6 +1,7 @@
 class DiaryEntry < ActiveRecord::Base
   belongs_to :user, :counter_cache => true
   belongs_to :language, :foreign_key => 'language_code'
+  belongs_to :group
 
   has_many :comments, :class_name => "DiaryComment",
                       :include => :user,
@@ -24,7 +25,7 @@ class DiaryEntry < ActiveRecord::Base
                             :greater_than_or_equal_to => -180, :less_than_or_equal_to => 180
   validates_associated :language
 
-  attr_accessible :title, :body, :language_code, :latitude, :longitude
+  attr_accessible :title, :body, :language_code, :latitude, :longitude, :group_id
 
   after_initialize :set_defaults
 

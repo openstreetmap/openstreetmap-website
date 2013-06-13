@@ -17,9 +17,18 @@
 
 <p><%= @group.description.to_html %></p>
 
-<h2>Members</h2>
+<h2><%= t 'group.show.members' -%></h2>
 <div class="activity-block column-1">
 <div id="friends-container">
   <%= render :partial => "user/contact", :collection => @group.users, :locals => {:type => "friend"} %>
+</div>
+</div>
+
+<%# TODO needs ordering, paging, summaries, number of comments etc.
+  # best done by refactoring DiaryEntryController.list? %>
+<h2><%= t 'group.show.diary_entries' -%></h2>
+<div class="activity-block column-1">
+<div id="diary-container">
+<%= render :partial => "diary_entry/diary_list_entry", :collection => DiaryEntry.where(:group_id => @group.id) %>
 </div>
 </div>

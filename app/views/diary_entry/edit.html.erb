@@ -19,6 +19,10 @@
       <td><%= richtext_area :diary_entry, :body, :cols => 80, :format => @diary_entry.body_format %></td>
     </tr>
     <tr valign="top">
+      <td class="fieldName"><%= t 'diary_entry.edit.group' -%></td>
+      <td><%= select(:diary_entry, :group_id, @user.groups.collect {|g| [g.title, g.id]}, { :include_blank => t('diary_entry.edit.no_group') }) %></td>
+    </tr>
+    <tr valign="top">
       <td class="fieldName"><%= t 'diary_entry.edit.language' -%></td>
       <td><%= f.collection_select :language_code, Language.order(:english_name), :code, :name %></td>
     </tr>
