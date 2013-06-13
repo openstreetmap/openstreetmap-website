@@ -8,21 +8,9 @@ L.OSM.note = function (options) {
     $('<a>')
       .attr('class', 'control-button')
       .attr('href', '#')
-      .attr('title', 'Notes')
+      .attr('title', I18n.t('javascripts.notes.new.add'))
       .html('<span class="icon note"></span>')
-      .on('click', toggle)
       .appendTo($container);
-
-    function toggle(e) {
-      e.stopPropagation();
-      e.preventDefault();
-
-      if (map.hasLayer(map.noteLayer)) {
-        map.removeLayer(map.noteLayer);
-      } else {
-        map.addLayer(map.noteLayer);
-      }
-    }
 
     return $container[0];
   };

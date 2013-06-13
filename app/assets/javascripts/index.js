@@ -75,16 +75,16 @@ $(document).ready(function () {
     sidebar: sidebar
   }).addTo(map);
 
-  L.OSM.note({
-    position: 'topright',
-    sidebar: sidebar
-  }).addTo(map);
-
   L.OSM.share({
     getShortUrl: getShortUrl,
     getUrl: getUrl,
     sidebar: sidebar,
     short: true
+  }).addTo(map);
+
+  L.OSM.note({
+    position: 'topright',
+    sidebar: sidebar
   }).addTo(map);
 
   L.control.scale()

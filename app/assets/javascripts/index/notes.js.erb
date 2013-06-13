@@ -160,6 +160,8 @@ function initializeNotes(map) {
     return content[0];
   }
 
+  var addNoteButton = $(".control-note .control-button");
+
   function createNote(marker, form, url) {
     var location = marker.getLatLng();
 
@@ -186,7 +188,7 @@ function initializeNotes(map) {
       notes[feature.properties.id] = updateMarker(marker, feature);
       newNote = null;
 
-      $("#createnoteanchor").removeClass("disabled").addClass("geolink");
+      addNoteButton.removeClass("disabled");
     }
   }
 
@@ -215,12 +217,13 @@ function initializeNotes(map) {
     });
   }
 
-  $(".leaflet-control-attribution").on("click", "#createnoteanchor", function (e) {
+  addNoteButton.on("click", function (e) {
     e.preventDefault();
+    e.stopPropagation();
 
-    if ($(e.target).hasClass("disabled")) return;
+    if (addNoteButton.hasClass("disabled")) return;
 
-    $(e.target).removeClass("geolink").addClass("disabled");
+    addNoteButton.addClass("disabled");
 
     map.addLayer(noteLayer);
 
@@ -241,25 +244,23 @@ function initializeNotes(map) {
       draggable: true
     });
 
-    var popupContent = $(JST["templates/notes/new"]({
-        create_url: $(e.target).attr("href")
-    }));
+    var popupContent = $(JST["templates/notes/new"]());
 
     popupContent.find("textarea").on("input", disableWhenBlank);
 
     function disableWhenBlank(e) {
-      $(e.target.form).prop("disabled", $(e.target).val() === "");
+      $(e.target.form.add).prop("disabled", $(e.target).val() === "");
     }
 
     popupContent.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
-      createNote(newNote, e.target.form, $(e.target).data("url"));
+      createNote(newNote, e.target.form, '/api/0.6/notes.json');
     });
 
     newNote.addTo(noteLayer).bindPopup(popupContent[0], popupOptions()).openPopup();
 
     newNote.on("remove", function (e) {
-      $("#createnoteanchor").removeClass("disabled").addClass("geolink");
+      addNoteButton.removeClass("disabled");
     }).on("dragstart", function (e) {
       $(newNote).stopTime("removenote");
     }).on("dragend", function (e) {
