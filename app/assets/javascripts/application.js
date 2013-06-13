@@ -126,13 +126,14 @@ function getShortUrl(map) {
 
 function getUrl(map) {
   var center = map.getCenter(),
-      zoom = map.getZoom();
+      zoom = map.getZoom(),
+      toZoom = zoomPrecision(zoom);
 
   return (window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
           'http://openstreetmap.org/?' : '/?') +
         querystring.stringify({
-            lat: center.lat,
-            lon: center.lng,
+            lat: toZoom(center.lat),
+            lon: toZoom(center.lng),
             zoom: zoom,
             layers: map.getLayersCode()
         });

@@ -38,7 +38,7 @@ function initializeExport(map) {
 
     openSidebar();
 
-    if (getMapBaseLayerId(map) == "mapnik") {
+    if (map.getMapBaseLayerId() == "mapnik") {
       $("#format_mapnik").prop("checked", true);
     }
 
@@ -186,7 +186,7 @@ function initializeExport(map) {
 
     function htmlUrlChanged() {
       var bounds = getBounds();
-      var layerName = getMapBaseLayerId(map);
+      var layerName = map.getMapBaseLayerId();
 
       var url = "http://" + OSM.SERVER_URL + "/export/embed.html?bbox=" + bounds.toBBoxString() + "&amp;layer=" + layerName;
       var markerUrl = "";

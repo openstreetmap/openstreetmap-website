@@ -19,6 +19,12 @@ L.OSM.key = function (options) {
     $('<section>')
       .appendTo($ui)
       .append(
+          $('<a>')
+            .html('&raquo;')
+            .attr('class', 'close-button')
+            .attr('href', '#')
+            .bind('click', toggle))
+      .append(
       $('<h2>')
         .text(I18n.t('javascripts.key.title')));
 
@@ -47,7 +53,7 @@ L.OSM.key = function (options) {
     }
 
     function update() {
-      var layer = getMapBaseLayerId(map),
+      var layer = map.getMapBaseLayerId(),
         zoom = map.getZoom();
 
       $('.mapkey-table-entry').each(function () {

@@ -19,6 +19,12 @@ L.OSM.share = function (options) {
     $('<section>')
       .appendTo($ui)
       .append(
+          $('<a>')
+            .html('&raquo;')
+            .attr('class', 'close-button')
+            .attr('href', '#')
+            .bind('click', toggle))
+      .append(
       $('<h2>')
         .text(I18n.t('javascripts.share.title')));
 
