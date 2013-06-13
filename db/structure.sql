@@ -471,7 +471,8 @@ CREATE TABLE diary_entries (
     longitude double precision,
     language_code character varying(255) DEFAULT 'en'::character varying NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    body_format format_enum DEFAULT 'html'::format_enum NOT NULL
+    body_format format_enum DEFAULT 'html'::format_enum NOT NULL,
+    group_id integer
 );
 
 
@@ -1781,6 +1782,13 @@ CREATE UNIQUE INDEX diary_comments_entry_id_idx ON diary_comments USING btree (d
 
 
 --
+-- Name: diary_entries_group_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX diary_entries_group_id_idx ON diary_entries USING btree (group_id);
+
+
+--
 -- Name: diary_entry_created_at_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2194,6 +2202,14 @@ ALTER TABLE ONLY diary_comments
 
 
 --
+-- Name: diary_entries_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY diary_entries
+    ADD CONSTRAINT diary_entries_group_id_fkey FOREIGN KEY (group_id) REFERENCES groups(id);
+
+
+--
 -- Name: diary_entries_language_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2532,6 +2548,8 @@ INSERT INTO schema_migrations (version) VALUES ('20130328184137');
 INSERT INTO schema_migrations (version) VALUES ('20130610132812');
 
 INSERT INTO schema_migrations (version) VALUES ('20130610230524');
+
+INSERT INTO schema_migrations (version) VALUES ('20130613103205');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
