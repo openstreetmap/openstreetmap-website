@@ -30,8 +30,12 @@ of packages required before you can get the various gems installed.
 
 These can be installed on Ubuntu 10.10 or later with:
 
-`sudo apt-get install ruby libruby ruby-dev rdoc ri libmagickwand-dev libxml2-dev libxslt1-dev apache2 apache2-threaded-dev build-essential git-core postgresql postgresql-contrib libpq-dev libsasl2-dev`
-
+```
+sudo apt-get install ruby libruby ruby-dev rdoc ri ruby-bundler rubygems \
+                     libmagickwand-dev libxml2-dev libxslt1-dev \
+                     apache2 apache2-threaded-dev build-essential git-core \
+                     postgresql postgresql-contrib libpq-dev libsasl2-dev
+```
 ## Ruby gems
 
 We use [Bundle](http://gembundler.com/) to manage the rubygems required for the project.
