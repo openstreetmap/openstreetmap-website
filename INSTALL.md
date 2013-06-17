@@ -262,8 +262,6 @@ For example, after developing a patch for the rails_port, you might want to demo
 
 ## Miscellanea
 
-It is possible to produce diagrams of the rails port using railroad. More information is in [[/Railroad diagrams]].
-
 To generate the HTML documentation of the API/rails code, run the command rake doc:app
 
 To generate test coverage stats, sudo gem install rcov. Then rcov -x gems test/*/*.rb in the rails_port directory.
