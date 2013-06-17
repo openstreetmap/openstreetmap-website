@@ -9,6 +9,8 @@ class GroupMembership < ActiveRecord::Base
   module Roles
     LEADER = "Leader"
     MEMBER = ""
+
+    ALL_ROLES = [MEMBER, LEADER]
   end
 
   attr_accessible :role

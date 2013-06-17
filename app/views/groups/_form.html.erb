@@ -10,6 +10,21 @@
       <td class="fieldName"><%= t'group.new.description' %></td>
       <td><%= richtext_area :group, :description, :cols => 80 %></td>
     </tr>
+    <% if defined?(include_members) && include_members %>
+    <tr valign="top">
+      <td class="fieldName" rowspan="<%=@group.users.count %>">
+        <%= t'group.edit.members' %>
+      </td>
+      <%= f.fields_for :group_memberships do |group_memberships| %>
+        <td>
+          <%= group_memberships.object.user.display_name %>
+          <%= group_memberships.select :role, GroupMembership::Roles::ALL_ROLES %>
+          <%= label_tag :_destroy, "Remove?" %>
+          <%= group_memberships.check_box :_destroy %>
+        </td>
+      <% end %>
+    </tr>
+    <% end %>
     <tr>
       <td></td>
       <td><%= submit_tag @group.new_record? ? t('group.new.submit') : t('group.edit.submit') %></td>

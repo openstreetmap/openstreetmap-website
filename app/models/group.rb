@@ -11,8 +11,7 @@ class Group < ActiveRecord::Base
              }
            }
 
-  attr_accessible :title, :description
-
+  attr_accessible :title, :description, :group_memberships_attributes
   accepts_nested_attributes_for :group_memberships, :allow_destroy => true
 
   validates :title, :length => { :in => 3..250 }
