@@ -89,28 +89,29 @@ bundle exec rake db:create
 
 ### PostgreSQL Btree-gist Extension
 
-We need to load the btree-gist extension # TODO why?
+We need to load the btree-gist extension, which is needed for showing changesets on the history tab.
 
 For PostgreSQL < 9.1 (change the version number in the path as necessary):
 
 ```
-psql -d openstreetmap < /usr/share/postgresql/9.1/contrib/btree_gist.sql
+psql -d openstreetmap < /usr/share/postgresql/9.0/contrib/btree_gist.sql
 ```
 
 For PostgreSQL >= 9.1:
 
 ```
-psql -d openstreetmap -c "CREATE EXTENSION btree_gist;"
-psql -d osm -c "CREATE EXTENSION btree_gist;"
+psql -d openstreetmap -c "CREATE EXTENSION btree_gist"
 ```
 
 TODO: not required for the test database?
 
-### PostgreSQL Quadtile Functions
+### PostgreSQL Functions
 
 We need to install special functions into the postgresql databases, and these are provided by a library that needs compiling first.
 
 Ensure that you have the *server* extension headers for PostgreSQL, on Ubuntu the package is typically called postgresql-server-dev-9.1 (or 8.2, or whatever version of PostgreSQL you have installed).
+
+TODO: postgresql-server-dev-all might be a better package?
 
 ```
 sudo apt-get install postgresql-server-dev-X.X
@@ -119,21 +120,18 @@ sudo apt-get install postgresql-server-dev-X.X
 Now build the library, found in the `db/functions` directory
 
 ```
-cd openstreetmap-website/db/functions
+cd db/functions
 make libpgosm.so
+cd ../..
 ```
 
-Then we create the functions within each database. Be sure to replace the "/<your path info>" text with the appropriate full path information.
+Then we create the functions within each database. We're using `pwd` to substitute in the current working directory, since PostgreSQL needs the full path.
 
 ```
-psql -d openstreetmap -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT;"
-psql -d osm -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT;"
-psql -d openstreetmap -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT;"
-psql -d osm -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT;"
-psql -d openstreetmap -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT;"
-psql -d osm -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '/<your path info>/openstreetmap-website/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT;"</pre>
+psql -d openstreetmap -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT"
+psql -d openstreetmap -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '`pwd`/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT"
+psql -d openstreetmap -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT"
 ```
-
 
 TODO: Ditch all this, use rake db:create
 
@@ -285,5 +283,6 @@ If you want to deploy The Rails Port for production use, you'll need to make a f
 
 * It's not recommended to use `rails server` in production. Our recommended approach is to use [Phusion Passenger](https://www.phusionpassenger.com/).
 * Passenger will, by design, use the Production environment and therefore the production database - make sure it contains the appropriate data and user accounts.
+* Your production database will also need the extensions and functions installed - see above for details.
 * The included version of the map call is quite slow and eats a lot of memory. You should consider using [CGIMap](https://github.com/zerebubuth/openstreetmap-cgimap) instead.
 * The included version of the GPX importer is slow and/or completely inoperable. You should consider using [the high-speed GPX importer](http://git.openstreetmap.org/gpx-import.git/).
