@@ -19,12 +19,12 @@ uses publically-available services to help with development and testing.
 # License
 
 This software is licensed under the [GNU General Public License 2.0](http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt),
-a copy of which can be found in the LICENSE file.
+a copy of which can be found in the [LICENSE](LICENSE) file.
 
 # Installation
 
 The Rails Port is a Ruby on Rails application that uses PostgreSQL as its database, and has a large
-number of dependencies for installation. For full details please see the INSTALL.md
+number of dependencies for installation. For full details please see [INSTALL.md](INSTALL.md)
 
 # Development
 
@@ -37,4 +37,4 @@ We're always keen to have more developers! Pull requests are very welcome.
 * IRC - there is the #osm-dev channel on irc.oftc.net.
 * There are also weekly meetings of the OpenStreetMap Foundation Engineering Working Group (EWG) on Mondays at 1700 UTC on the #osm-ewg channel.
 
-More details on contributing to the code are in the CONTRIBUTING.md file.
+More details on contributing to the code are in the [CONTRIBUTING.md](CONTRIBUTING.md) file.
