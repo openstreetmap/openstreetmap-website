@@ -29,6 +29,21 @@ When hacking, you should:
 functionality.
 * Never comment out or remove a test just because it doesn't pass.
 
+You can run the existing test suite with:
+
+```
+bundle exec rake test
+```
+
+You can generate test coverage stats with:
+
+```
+sudo gem install rcov
+rcov -x gems test/*/*.rb
+```
+
+The tests are automatically run on commit with the results shown at [http://cruise.openstreetmap.org/](http://cruise.openstreetmap.org/)
+
 ## Comments
 
 Sometimes it's not apparent from the code itself what it does, or,
@@ -42,6 +57,14 @@ When hacking, you should:
 might be difficult to understand what the code does, why it does it
 and why it should be the way it is.
 * Check existing comments to ensure that they are not misleading.
+
+## Code Documentation
+
+To generate the HTML documentation of the API/rails code, run the command
+
+```
+rake doc:app
+```
 
 ## Committing
 

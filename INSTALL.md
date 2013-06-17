@@ -263,13 +263,9 @@ If your installation stops working for some reason:
 
 For example, after developing a patch for the rails_port, you might want to demonstrate it to others or ask for comments and testing. To do this one can [set up an instance of the rails_port on the dev server in ones user directory](http://wiki.openstreetmap.org/wiki/Using_the_dev_server#Rails_Applications).
 
-## Miscellanea
+# Contributing
 
-To generate the HTML documentation of the API/rails code, run the command rake doc:app
-
-To generate test coverage stats, sudo gem install rcov. Then rcov -x gems test/*/*.rb in the rails_port directory.
-
-Some information about [[/Testing|testing]]. The tests are automatically run on commit with the results shown at http://cruise.openstreetmap.org/
+For information on contributing changes to the codes, see [CONTRIBUTING.md](CONTRIBUTING.md)
 
 # Production Deployment
 
