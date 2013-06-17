@@ -3,11 +3,22 @@
 These instructions are designed for setting up The Rails Port for development and testing.
 If you want to deploy the software for your own project, then see the notes at the end.
 
+These instructions are based on Ubuntu 12.04 LTS, which is the platform used by the OSMF servers.
+The instructions also work, with only minor amendments, for all other current Ubuntu releases.
+
+For other operating systems see
+
+* [Fedora](INSTALL-fedora.md)
+* [MacOSX](INSTALL-macosx.md)
+
+We don't recommend attempting to develop or deploy this software on Windows. If you need to, try using
+Ubuntu in a virtual machine.
+
 ## Dependencies
 
 Many of the dependencies are managed through the standard Ruby on Rails mechanisms -
 i.e. ruby gems specified in the Gemfile and installed using bundler. However, there are a large number
-of packages required to get the various gems installed.
+of packages required before you can get the various gems installed.
 
 ## Minimum requirements
 
@@ -23,19 +34,6 @@ of packages required to get the various gems installed.
 
 TODO - check or remove the postgresql-server-dev-9.1 mention that's on the wiki - it doesn't apply to all ubuntus, and is it needed?
 TODO - remove osmosis related instructions in favour of people going reading osmosis stuff on the osmosis wiki pages
-
-### Fedora
-
-TODO
-
-### MacOSX
-
-It's advisable to develop on MacOSX by using Ubuntu in a virtual machine. Otherwise ImageMagick will eat your soul.
-
-### Windows
-
-It's advisable to develop on windows by using Ubuntu in a virtual machine. Otherwise it's a world of hurt
-
 
 ## Ruby gems
 
