@@ -270,4 +270,9 @@ Some information about [[/Testing|testing]]. The tests are automatically run on 
 
 # Production Deployment
 
-TODO: Write some notes here about environments, production database, passenger, CGIMap and the GPX importer.
+If you want to deploy The Rails Port for production use, you'll need to make a few changes.
+
+* It's not recommended to use `rails server` in production. Our recommended approach is to use [Phusion Passenger](https://www.phusionpassenger.com/).
+* Passenger will, by design, use the Production environment and therefore the production database - make sure it contains the appropriate data and user accounts.
+* The included version of the map call is quite slow and eats a lot of memory. You should consider using [CGIMap](https://github.com/zerebubuth/openstreetmap-cgimap) instead.
+* The included version of the GPX importer is slow and/or completely inoperable. You should consider using [the high-speed GPX importer](http://git.openstreetmap.org/gpx-import.git/).
