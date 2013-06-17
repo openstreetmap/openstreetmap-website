@@ -53,6 +53,14 @@ $(document).ready(function () {
     }
   });
 
+  $(window).scroll(function() {
+        if ($(window).scrollTop() > $('.content-heading').outerHeight() + $('#top-bar').outerHeight() ) {
+            $('#changeset_list_map_wrapper').addClass('scrolled');
+        } else {
+            $('#changeset_list_map_wrapper').removeClass('scrolled');
+        }
+  });
+
   var params = OSM.mapParams();
   if (params.bbox) {
     map.fitBounds([[params.minlat, params.minlon],

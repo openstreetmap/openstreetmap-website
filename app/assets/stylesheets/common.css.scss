@@ -48,6 +48,12 @@ abbr, acronym {
 
 /* Default rules for the body of every page */
 
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Helvetica Neue',Arial,sans-serif;
   font-size: 14px;
@@ -87,7 +93,7 @@ h3 {
 h4,h5,h6 {
   font-size: 14px;
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-weight: bold;
   line-height: 1.5;
 }
@@ -116,7 +122,7 @@ h6:first-child {
 
 .column-1 {
   width: 50%;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .small_icon {
@@ -187,15 +193,15 @@ table {
 
 #logo h1 {
   font-size: 18px;
-  line-height: 1.1;
+  line-height: 1;
   text-align: center;
-  margin: 0px;
+  margin: 0;
 }
 
 #logo h2 {
   font-size: 10px;
   line-height: 15px;
-  margin: 0px;
+  margin: 0;
 }
 
 /* Rules for the site name */
@@ -215,7 +221,6 @@ table {
 }
 
 .sidebar-copy.intro {
-  margin-top: -1px;
   border-top: 1px solid #ccc;
 }
 
@@ -229,7 +234,7 @@ table {
   padding: 5px;
   border-top: 1px solid #ccc;
   margin-top: 4px;
-  margin-bottom: -4px;
+  margin-bottom: -5px;
   background: #e00;
   font-size: 12px;
   font-weight: bold;
@@ -248,7 +253,7 @@ table {
   padding: 5px;
   border-top: 1px solid #ccc;
   margin-top: 4px;
-  margin-bottom: -4px;
+  margin-bottom: -5px;
   background: #ea0;
   font-size: 12px;
   p {
@@ -339,10 +344,6 @@ table {
   height: 25px;
   padding: 2px 0px 2px 5px;
   box-shadow: inset #DDD 0px 1px 3px;
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
 }
 
 #search_field input[type="text"]:focus {
@@ -382,7 +383,7 @@ table {
 
 .donate {
   display: block;
-  width: 153px;
+  width: 164px;
   padding: 5px;
   border: 1px solid #AED1A0;
   background: #cbeea7;
@@ -416,7 +417,7 @@ table {
 #top-bar {
   position: relative;
   margin-left: 185px;
-  height: 29px;
+  height: 30px;
   border-bottom: 1px solid #ccc;
   background: white;
   z-index: 100;
@@ -431,7 +432,7 @@ table {
 }
 
 #tabnav {
-  height: 29px;
+  height: 30px;
   margin-bottom:0;
   overflow: hidden;
 }
@@ -442,7 +443,6 @@ table {
 
 #tabnav a, #tabnav a:link, #tabnav a:visited {
   float: left;
-  background: #fff;
   font-weight: bold;
   padding: 3px 10px;
   text-decoration: none;
@@ -776,12 +776,12 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   position: fixed;
   padding: 0;
   top: 30px; bottom: 0;
-  left: 185px; right: 0;
+  left: 184px; right: 0;
   border-left: 1px solid #ccc;
 }
 
 .wrapper {
-  margin-left: 185px;
+  margin-left: 184px;
   border-left: 1px solid #ccc;
   text-align: left;
 }
@@ -858,7 +858,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 .content_map {
   position: relative;
   width: 45%;
-  height: 398px;
+  height: 400px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
   float: right;
@@ -915,15 +915,29 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   }
 }
 
+#changeset_list_map_wrapper {
+  position: absolute;
+  width: 50%;
+  height: 490px;
+  top: 0;
+  right: 0;
+}
+
+#changeset_list_map_wrapper.scrolled {
+  position: fixed;
+}
+
 #changeset_list_map {
   position: absolute;
   bottom: 20px;
   top: 20px;
   right: 20px;
-  width: 45%;
-  min-height: 398px;
-  max-height: 598px;
+  left: 20px;
   border: 1px solid #ccc;
+}
+
+#changeset_list_map_wrapper.scrolled #changeset_list_map {
+  margin-left: 93px;
 }
 
 /* Rules for the data browser */
@@ -1079,8 +1093,8 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 /* Rules for the user map */
 
 .content_map .leaflet-popup-content {
-  margin: 10px 15px;
-  min-height: 62px;
+  margin: 10px;
+  min-height: 50px;
 }
 
 /* Rules for user popups on maps */
@@ -1090,17 +1104,14 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 .user_popup p {
-  padding-top: 3px;
-  padding-bottom: 3px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: 55px;
-  margin-right: 2px;
+  padding-top:0;
+  padding-bottom: 5px;
+  margin-top: 0;
 }
 
 .user_popup img.user_thumbnail {
   float: left;
-  margin-right: 10px;
+  margin: 0 10px 0 0;
 }
 
 /* Rules for user popups on maps */
@@ -1141,7 +1152,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 .diary_post {
   max-width: 740px;
   position: relative;
-  margin-top: 20px;
+  margin-top: 10px;
   padding-top: 20px;
   border-top: 1px solid #ccc;
 
@@ -1180,7 +1191,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   #map {
     position: relative;
     width: 90%;
-    height: 398px;
+    height: 400px;
     border: 1px solid #ccc;
     display: none;
     margin-bottom: 20px;
@@ -1260,8 +1271,8 @@ div#slim_content form#termsForm {
 
 p#contributorGuidance {
   background-color: #f4f4ff;
-  border-radius: 3px;
-  -moz-border-radius: 3px;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
   margin-top: 20px;
   padding: 10px;
 }
@@ -1278,8 +1289,8 @@ p#contributorGuidance {
 
 #accountForm .user_map {
   position: relative;
-  width: 498px;
-  height: 398px;
+  width: 500px;
+  height: 400px;
   border: 1px solid #ccc;
 }
 
@@ -1463,8 +1474,8 @@ img.user_thumbnail {
 }
 
 img.user_thumbnail_tiny {
-  max-width: 24px;
-  max-height: 24px;
+  max-width: 25px;
+  max-height: 25px;
   border: 1px solid #ccc;
 }
 
@@ -1484,7 +1495,7 @@ abbr.geo {
 
 .rsssmall {
   position: relative;
-  top: 4px;
+  top: 5px;
 }
 
 /* General styles for action lists / subnavs / pager navs */
@@ -1495,7 +1506,6 @@ ul.secondary-actions {
   margin-left: 0;
   &.pager {
     display: inline-block;
-    margin-bottom: 20px;
     margin-right: 60px;
   }
   li {
@@ -1603,8 +1613,6 @@ a.button.submit {
     display: block;
     max-width: 100%;
     margin: auto;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
   }
 
   blockquote {
@@ -1642,12 +1650,9 @@ a.button.submit {
 /* Rules for rich text editors */
 
 .richtext_container {
-  white-space: nowrap;
-
   .richtext_content {
     display: inline-block;
     vertical-align: top;
-    white-space: normal;
 
     .richtext_preview {
       display: inline-block;
@@ -1673,7 +1678,8 @@ a.button.submit {
     margin-left: 15px;
     background-color: #f8f8ff;
     padding: 10px;
-    width: 200px;
+    width: 300px;
+    max-width: 450px;
 
     ul {
       margin-bottom: 0;
@@ -1685,20 +1691,22 @@ a.button.submit {
       padding-bottom: 5px;
     }
 
-    li h4, li span {
-      display: block;
+    li h4, li span, li p {
+      display: inline-block;
+      vertical-align: top;
       font-size: 11px;
     }
 
     li h4 {
+      width: 35%;
       margin: 0;
-      float: left;
     }
 
-    li span {
-      float: right;
-      width: 50%;
+    li span, li p {
+      width: 60%;
       margin-left: 10px;
+      margin-bottom: 5px;
+      white-space: nowrap;
     }
 
     input.richtext_doedit,
@@ -1799,7 +1807,7 @@ a.button.submit {
   height: 120px;
   overflow: hidden;
   position: relative;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid #ccc;
 }
 
 .ads {
@@ -1810,7 +1818,7 @@ a.button.submit {
 
 .ad {
   float: left;
-  height: 100px;
+  height: 120px;
   padding: 10px;
   border: 0px;
   background: #fff;

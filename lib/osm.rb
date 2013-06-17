@@ -298,6 +298,23 @@ module OSM
     end
   end
 
+  # Raised when the note provided is already open
+  class APINoteAlreadyOpenError < APIError
+    def initialize(note)
+      @note = note
+    end
+
+    attr_reader :note
+
+    def status
+      :conflict
+    end
+
+    def to_s
+      "The note #{@note.id} is already open"
+    end
+  end
+
   # raised when a two preferences have a duplicate key string.
   class APIDuplicatePreferenceError < APIError
     def initialize(key)

@@ -1,7 +1,7 @@
 xml.item do
   location = describe_location(note.lat, note.lon, 14, locale)
 
-  if note.status == "closed"
+  if note.closed?
     xml.title t('note.rss.closed', :place => location)
   elsif note.comments.length > 1
     xml.title t('note.rss.comment', :place => location)

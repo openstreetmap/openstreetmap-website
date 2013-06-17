@@ -90,6 +90,7 @@ OpenStreetMap::Application.routes.draw do
       member do
         post 'comment'
         post 'close'
+        post 'reopen'
       end
     end
 

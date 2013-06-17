@@ -17,7 +17,9 @@
 <%= render :partial => 'changeset_paging_nav' %>
 
 <% if @edits.size > 0 %>
-  <%= render :partial => 'map' %>
+  <div id='changeset_list_map_wrapper'>
+    <%= render :partial => 'map' %>
+  </div>
   <div class='column-1'>
     <%= render :partial => 'changesets', :locals => { :showusername => !params.has_key?(:display_name) } %>
   </div>
