@@ -28,7 +28,7 @@ of packages required before you can get the various gems installed.
 * ImageMagick
 * Bundler
 
-### Ubuntu (10.10 or later)
+These can be installed on Ubuntu 10.10 or later with:
 
 `sudo apt-get install ruby libruby ruby-dev rdoc ri libmagickwand-dev libxml2-dev libxslt1-dev apache2 apache2-threaded-dev build-essential git-core postgresql postgresql-contrib libpq-dev libsasl2-dev`
 
@@ -253,8 +253,11 @@ If your installation stops working for some reason:
 
 * Sometimes gem dependencies change. To update go to your rails_port directory and run ''bundle install'' as root.
 
-* The OSM database schema is changed periodically and you need to keep up with these improvements. Go to your rails_port directory and
+* The OSM database schema is changed periodically and you need to keep up with these improvements. Go to your rails_port directory and run:
+
+```
   rake db:migrate
+```
 
 ## Testing on the osm dev server
 
