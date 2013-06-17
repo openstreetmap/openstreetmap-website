@@ -30,10 +30,9 @@ of packages required before you can get the various gems installed.
 
 ### Ubuntu (10.10 or later)
 
-`sudo apt-get install ruby libruby ruby-dev rdoc ri libmagickwand-dev libxml2-dev libxslt1-dev apache2 apache2-threaded-dev build-essential git-core postgresql postgresql-contrib libpq-dev libsasl2-dev openjdk-6-jre postgresql-server-dev-9.1`
+`sudo apt-get install ruby libruby ruby-dev rdoc ri libmagickwand-dev libxml2-dev libxslt1-dev apache2 apache2-threaded-dev build-essential git-core postgresql postgresql-contrib libpq-dev libsasl2-dev postgresql-server-dev-9.1`
 
 TODO - check or remove the postgresql-server-dev-9.1 mention that's on the wiki - it doesn't apply to all ubuntus, and is it needed?
-TODO - remove osmosis related instructions in favour of people going reading osmosis stuff on the osmosis wiki pages
 
 ## Ruby gems
 
