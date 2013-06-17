@@ -133,19 +133,6 @@ psql -d openstreetmap -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int
 psql -d openstreetmap -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT"
 ```
 
-TODO: Ditch all this, use rake db:create
-
-Now, create the openstreetmap user for the postgres database, using the username and password you put into the configuration files in the prior step. Note that you will be prompted to set the password for the openstreetmap user.
-
-<pre style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">
-sudo apt-get install postgresql-contrib libpq-dev
-createuser openstreetmap -s -P
-  <* enter and confirm the password information *>
-createdb -E UTF8 -O openstreetmap openstreetmap
-createdb -E UTF8 -O openstreetmap osm_test
-createdb -E UTF8 -O openstreetmap osm
-</pre>
-
 ### Database structure
 
 ```
