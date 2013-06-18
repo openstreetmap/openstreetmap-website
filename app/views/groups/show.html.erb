@@ -19,14 +19,15 @@
 
 <%= content_tag "div", "", :id => "map", :class => "content_map" %>
 
-<p><%= @group.description.to_html %></p>
-
-<h2><%= t 'group.show.members' -%></h2>
 <div class="activity-block column-1">
-<div id="members-container">
-  <%# TODO: change the _contact partial to have a "group_member" display type with proper formatting %>
-  <%= render :partial => "user/contact", :collection => @group.users, :locals => {:type => "group_member"} %>
+  <p><%= @group.description.to_html %></p>
 </div>
+
+<div class="activity-block column-1">
+  <h2><%= t 'group.show.members' -%></h2>
+  <div id="members-container">
+    <%= render :partial => "user/contact", :collection => @group.users, :locals => {:type => "group_member"} %>
+  </div>
 </div>
 
 <%# TODO needs ordering, paging, summaries etc.
