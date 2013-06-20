@@ -122,6 +122,22 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :bad_request, "node upload did not return bad_request status"
     assert_equal "Cannot parse valid node from xml string <node lat=\"3.434\" changeset=\"#{changeset.id}\"/>. lon missing", @response.body
 
+    # test that the upload is rejected when lat is non-numeric
+    # create a minimal xml file
+    content("<osm><node lat='abc' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
+    put :create
+    # hope for success
+    assert_response :bad_request, "node upload did not return bad_request status"
+    assert_equal "Cannot parse valid node from xml string <node lat=\"abc\" lon=\"#{lon}\" changeset=\"#{changeset.id}\"/>. lat not a number", @response.body
+
+    # test that the upload is rejected when lon is non-numeric
+    # create a minimal xml file
+    content("<osm><node lat='#{lat}' lon='abc' changeset='#{changeset.id}'/></osm>")
+    put :create
+    # hope for success
+    assert_response :bad_request, "node upload did not return bad_request status"
+    assert_equal "Cannot parse valid node from xml string <node lat=\"#{lat}\" lon=\"abc\" changeset=\"#{changeset.id}\"/>. lon not a number", @response.body
+
     # test that the upload is rejected when we have a tag which is too long
     content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'><tag k='foo' v='#{'x'*256}'/></node></osm>")
     put :create
