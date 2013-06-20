@@ -197,6 +197,20 @@ class NotesControllerTest < ActionController::TestCase
       end
     end
     assert_response :bad_request
+
+    assert_no_difference('Note.count') do
+      assert_no_difference('NoteComment.count') do
+        post :create, {:lat => 'abc', :lon => -1.0, :text => "This is a comment"}
+      end
+    end
+    assert_response :bad_request
+
+    assert_no_difference('Note.count') do
+      assert_no_difference('NoteComment.count') do
+        post :create, {:lat => -1.0, :lon => 'abc', :text => "This is a comment"}
+      end
+    end
+    assert_response :bad_request
   end
 
   def test_comment_success
