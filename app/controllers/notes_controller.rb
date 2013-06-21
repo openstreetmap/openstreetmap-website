@@ -237,7 +237,7 @@ class NotesController < ApplicationController
       @note.status = "hidden"
       @note.save
 
-      add_comment(@note, comment, "hidden")
+      add_comment(@note, comment, "hidden", false)
     end
 
     # Return a copy of the updated note
@@ -338,7 +338,7 @@ private
 
   ##
   # Add a comment to a note
-  def add_comment(note, text, event)
+  def add_comment(note, text, event, notify = true)
     attributes = { :visible => true, :event => event, :body => text }
 
     if @user  
@@ -350,7 +350,7 @@ private
     comment = note.comments.create(attributes, :without_protection => true)
 
     note.comments.map { |c| c.author }.uniq.each do |user|
-      if user and user != @user
+      if notify and user and user != @user
         Notifier.note_comment_notification(comment, user).deliver
       end
     end
