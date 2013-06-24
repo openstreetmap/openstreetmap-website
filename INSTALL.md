@@ -34,7 +34,8 @@ These can be installed on Ubuntu 10.10 or later with:
 sudo apt-get install ruby libruby ruby-dev rdoc ri ruby-bundler rubygems \
                      libmagickwand-dev libxml2-dev libxslt1-dev \
                      apache2 apache2-threaded-dev build-essential git-core \
-                     postgresql postgresql-contrib libpq-dev libsasl2-dev
+                     postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
+                     libsasl2-dev
 ```
 ## Ruby gems
 
@@ -106,16 +107,6 @@ psql -d openstreetmap -c "CREATE EXTENSION btree_gist"
 ### PostgreSQL Functions
 
 We need to install special functions into the postgresql databases, and these are provided by a library that needs compiling first.
-
-Ensure that you have the *server* extension headers for PostgreSQL, on Ubuntu the package is typically called postgresql-server-dev-9.1 (or 8.2, or whatever version of PostgreSQL you have installed).
-
-TODO: postgresql-server-dev-all might be a better package?
-
-```
-sudo apt-get install postgresql-server-dev-X.X
-```
-
-Now build the library, found in the `db/functions` directory
 
 ```
 cd db/functions
