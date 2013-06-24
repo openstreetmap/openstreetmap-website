@@ -103,8 +103,6 @@ For PostgreSQL >= 9.1:
 psql -d openstreetmap -c "CREATE EXTENSION btree_gist"
 ```
 
-TODO: not required for the test database?
-
 ### PostgreSQL Functions
 
 We need to install special functions into the postgresql databases, and these are provided by a library that needs compiling first.
@@ -134,6 +132,8 @@ psql -d openstreetmap -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '`pwd
 ```
 
 ### Database structure
+
+To create all the tables, indexes and constraints, run:
 
 ```
 bundle exec rake db:migrate
