@@ -156,11 +156,13 @@ Note that the OSM map tiles you see aren't created from your local database - th
 
 ## Populating the database
 
+Your installation comes with no geographic data loaded. You can either create new data using one of the editors (Potlatch 2, iD, JOSM etc) or by loading an OSM extract.
+
 * Use this [yet-to-be-written script](https://github.com/openstreetmap/openstreetmap-website/issues/282)
 
 ## Managing Users
 
-If you create a user and you don't want to set up your development box to send E-Mail to a public E-Mail address then you can create the user in the web UI as normal and then confirm it manually through the Rails console:
+If you create a user by signing up to your local website, you need to confirm the user before you can log in, which normally happens by clicking a link sent via email. If don't want to set up your development box to send emails to public email addresses then you can create the user as normal and then confirm it manually through the Rails console:
 
 ```
 $ rails console
