@@ -59,16 +59,8 @@ class NotesController < ApplicationController
     raise OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
 
     # Extract the arguments
-    begin
-      lon = Float(params[:lon])
-    rescue
-      raise OSM::APIBadUserInput.new("lon was not a number")
-    end
-    begin
-      lat = Float(params[:lat])
-    rescue
-      raise OSM::APIBadUserInput.new("lat was not a number")
-    end
+    lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
+    lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
     comment = params[:text]
 
     # Include in a transaction to ensure that there is always a note_comment for every note
