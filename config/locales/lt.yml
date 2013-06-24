@@ -949,13 +949,27 @@ lt:
     notes: 
       new: 
         add: Pridėti pastabą
+        intro: Siekiant pagerinti žemėlapyje įvesta informacija yra rodomas kitiems žymėtojams, todėl prašome būti kaip aprašomasis ir tikslesnis kai perkeliate žymeklį į teisingą padėtį ir į jūsų pastabą žemiau.
       show: 
+        anonymous_warning: Ši Pastaba turi komentarų nuo anoniminių vartotojų, kurie turi patikrinti nepriklausomą auditą.
+        closed_by: Išsprendė <a href='%{user_url}'>%{user}</a> per %{time}
+        closed_by_anonymous: Išsprendė anonimas per %{time}
         comment: Komentuoti
         comment_and_resolve: Komentuoti & išspręsti
+        commented_by: komentaras nuo <a href='%{user_url}'>%{user}</a> per %{time}
+        commented_by_anonymous: komentaras nuo anonimo per %{time}
         hide: Slėpti
+        opened_by: sukūrė <a href='%{user_url}'>%{user}</a> per %{time}
+        opened_by_anonymous: sukūrė anonimas per %{time}
+        permalink: Nuoroda į šią vietą
+        reactivate: Iš naujo suaktyvinti
+        reopened_by: Iš naujo suaktyvino<a href='%{user_url}'>%{user}</a> per %{time}
+        reopened_by_anonymous: Iš naujo suaktyvino anonimai per%{time}
         resolve: Išspręsti
     site: 
+      createnote_disabled_tooltip: Priartinkite, jei norite pridėti pastabą prie žemėlapio
       createnote_tooltip: Pridėti pastabą prie žemėlapio
+      createnote_zoom_alert: Jūs turite padidinti, norėdami pridėti pastabą prie žemėlapio
       edit_disabled_tooltip: Norėdami redaguoti, priartinkite
       edit_tooltip: Redaguoti žemėlapį
       edit_zoom_alert: Turite priartinti, kad galėtumėte keisti žemėlapį
@@ -1137,20 +1151,26 @@ lt:
       commented_at_html: Atnaujinta prieš %{when}
       opened_at_by_html: Prieš %{when} sukūrė %{user}
       opened_at_html: Sukurta prieš %{when}
+      reopened_at_by_html: Prieš %{when} iš naujo suaktyvino %{user}
+      reopened_at_html: Iš naujo suaktyvinta prieš %{when}
     entry: 
       comment: Komentaras
       full: Pilna pastaba
     mine: 
       ago_html: prieš %{when}
+      created_at: Sukurta
       creator: Kūrėjas
       description: Aprašymas
       heading: "%{user} pastabos"
       id: Id
       last_changed: Paskutinį kartą atnaujinta
+      subheading: Pastabas pateikė arba komentavo %{user}
       title: Pastabas pateikė arba komentavo %{user}
     rss: 
       closed: uždaryta pastaba (netoli %{place})
       comment: Naujas komentaras (netoli %{place})
+      description_area: sąrašas pastabų, pranešta, pakomentuota arba uždaryta jūsų srityje (%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: Rss kanalas pastabai %{id}
       new: nauja pastaba (netoli %{place})
       title: OpenStreetMap pastabos
   notifier: 
@@ -1168,6 +1188,7 @@ lt:
     email_confirm_plain: 
       click_the_link: Jei tai jūs, spauskite žemiau pateikiamą nuorodą, kad patvirtintumėte pakeitimą.
       greeting: Sveiki,
+      hopefully_you: Kažkas (tikimės, kad tai jūs) nori pakeisti savo elektroninio pašto adresą iš %{server_url} į %{new_address}.
     friend_notification: 
       befriend_them: "Galite pridėti juos prie draugų: %{befriendurl}"
       had_added_you: "%{user} pridėjo jus į savo OpenStreetMap draugų sąrašą."
@@ -1196,6 +1217,7 @@ lt:
     lost_password_plain: 
       click_the_link: Jei tai jūs, paspauskite žemiau esančią nuorodą, kad iš naujo nustatytumėte slaptažodį.
       greeting: Sveiki,
+      hopefully_you: Kažkas (tikriausiai jūs) paprašė anuliuoti slaptažodį, susijusį su šio pašto adreso openstreetmap.org paskyra.
     message_notification: 
       footer1: Pranešimą taipogi galite perskaityti adresu %{readurl}
       footer2: ir atsakyti galite adresu %{replyurl}
@@ -1204,10 +1226,16 @@ lt:
     note_comment_notification: 
       anonymous: Anoniminis naudotojas
       closed: 
+        commented_note: "%{commenter} išsprendė žemėlapio pastabą, kurį jūs pakomentavote. Pastaba yra šalia %{place}."
         subject_other: "[OpenStreetMap] %{commenter} išsprendė jūsų dominančia pastaba"
         subject_own: "[OpenStreetMap] %{commenter} išsprendė vieną iš jūsų pastabos"
+        your_note: "%{commenter} išsprendė vieną iš jūsų žemėlapio pastabų šalia %{place}."
       commented: 
+        commented_note: "%{commenter} paliko komentarą žemėlapio pastabą kurį jūs komentavote. Pastaba yra šalia %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} pakomentavo jūsų dominančia pastabą"
         subject_own: "[OpenStreetMap] %{commenter} pakomentavo vieną iš jūsų pastabos"
+        your_note: "%{commenter} paliko komentarą viename iš jūsų žemėlapio pastabų šalia %{place}."
+      details: Daugiau informacijos apie pastaba galima rasti %{url}.
       greeting: Sveiki,
     signup_confirm: 
       confirm: Prieš ką nors darant kito, mes turime patvirtinti, kad ši užklausa atėjo nuo tavęs, tai atlikus spauskite nuorodą žemiau, kad patvirtintumėte savo paskyrą
@@ -1243,6 +1271,7 @@ lt:
       allow_write_api: keisti žemėlapį.
       allow_write_diary: kurti dienoraščio įrašus, komentarus ir susirasti draugų.
       allow_write_gpx: įkelti GPS pėdsakus.
+      allow_write_notes: modifikuoti pastabas.
       allow_write_prefs: kaisti jūsų naudotojo nustatymus.
       request_access: Programa %{app_name} prašo prieigos prie jūsų paskyros, %{user}. Peržiūrėkite, ar jūs norėtumėte taikyti šias galimybes. Galite pasirinkti tiek kiek jums reikia.
     revoke: 
@@ -1261,6 +1290,7 @@ lt:
       allow_write_api: keisti žemėlapį.
       allow_write_diary: kurti dienoraščio įrašus, komentarus ir susirasti draugų.
       allow_write_gpx: įkelti GPS pėdsakus.
+      allow_write_notes: modifikuoti pastabos.
       allow_write_prefs: keisti jo naudotojo nustatymus.
       callback_url: Atgalinio ryšio nuoroda
       name: Pavadinimas
@@ -1291,6 +1321,7 @@ lt:
       allow_write_api: keisti žemėlapį.
       allow_write_diary: kurti dienoraščio įrašus, komentarus ir susirasti draugų.
       allow_write_gpx: įkelti GPS pėdsakus.
+      allow_write_notes: modifikuoti pastabos.
       allow_write_prefs: keisti savo naudotojo nustatymus.
       authorize_url: "Leisti nuorodą:"
       confirm: Esate tikras?
@@ -1339,6 +1370,7 @@ lt:
     edit: 
       anon_edits_link_text: Sužinokite, kodėl taip yra.
       flash_player_required: Jums reikalingas Flash player norint redaguoti su Potlatch (atvirojo žemėlapio Flash redagavimo įrankis). Jūs galite <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">parsisiųsti Flash Player iš Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Taip pat yra daugybė kitų būdų</a>, kuriais galėsite prisidėti prie OpenStreetMap žemėlapio redagavimo.
+      id_not_configured: iD nesukonfigūruotas
       no_iframe_support: Jūsų naršyklė nepalaiko HTML iframe'ų, o šiai savybei jie būtini.
       not_public: Jūs nenustatėte savo keitimų, kad būtų vieši
       not_public_description: Jūs nebegalite keisti žemėlapio, jei jūs tą darysite. Jūs galite nustatyti keitimus,kaip viešus iš savo %{user_page}.
@@ -1518,7 +1550,9 @@ lt:
     trace_header: 
       see_all_traces: Rodyti visus pėdsakus
       see_your_traces: Rodyti visus jūsų pėdsakus
-      traces_waiting: Jūs turite %{count} pėdsakus laukiant, kad įkrautų. Apsvarstykite savo galimą įkrovos laiką, kad nesukeltumėte didesnių eilių kitų naudotojų, kurie taip pat nori įkelti savo darbus.
+      traces_waiting: 
+        one: Jūs turite %{count} pėdsakus laukiant, kad įkrautų. Apsvarstykite savo galimą įkrovos laiką, kad nesukeltumėte didesnių eilių kitų naudotojų, kurie taip pat nori įkelti savo darbus.
+        other: Jūs turite %{count} pėdsakus laukiant, kad įkrautų. Apsvarstykite savo galimą įkrovos laiką, kad nesukeltumėte didesnių eilių kitų naudotojų, kurie taip pat nori įkelti savo darbus.
       upload_trace: Įkelti pėdsaką
     trace_optionals: 
       tags: Žymos
