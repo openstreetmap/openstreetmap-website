@@ -18,8 +18,6 @@ class UserController < ApplicationController
   before_filter :lookup_user_by_id, :only => [:api_read]
   before_filter :lookup_user_by_name, :only => [:set_status, :delete]
 
-  cache_sweeper :user_sweeper, :only => [:account, :set_status, :delete]
-
   def terms
     @legale = params[:legale] || OSM.IPToCountry(request.remote_ip) || DEFAULT_LEGALE
     @text = OSM.legal_text_for_country(@legale)
