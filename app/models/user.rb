@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
 
   after_initialize :set_defaults
   before_save :encrypt_password
+  after_save :spam_check
 
   has_attached_file :image,
     :default_url => "/assets/:class/:attachment/:style.png",
@@ -214,6 +215,14 @@ class User < ActiveRecord::Base
     score -= trace_score
 
     return score.to_i
+  end
+
+  ##
+  # perform a spam check on a user
+  def spam_check
+    if status == "active" and spam_score > SPAM_THRESHOLD
+      update_column(:status, "suspended")
+    end
   end
 
   ##

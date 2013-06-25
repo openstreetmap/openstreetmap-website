@@ -8,6 +8,7 @@ class DiaryComment < ActiveRecord::Base
   attr_accessible :body
 
   after_initialize :set_defaults
+  after_save :spam_check
 
   def body
     RichText.new(read_attribute(:body_format), read_attribute(:body))
@@ -26,5 +27,9 @@ private
 
   def set_defaults
     self.body_format = "markdown" unless self.attribute_present?(:body_format)
+  end
+
+  def spam_check
+    user.spam_check
   end
 end
