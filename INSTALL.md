@@ -37,12 +37,29 @@ sudo apt-get install ruby libruby ruby-dev rdoc ri ruby-bundler rubygems \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
                      libsasl2-dev
 ```
+
+## Cloning the repository
+
+The repository is reasonably large (~150MB) and it's unlikely that you need the full history. If you are happy to wait for it all to download, run:
+
+```
+git clone https://github.com/openstreetmap/openstreetmap-website.git
+```
+
+To clone only the most recent version (~23MB), instead use a 'shallow clone':
+
+```
+git clone --depth=1 https://github.com/openstreetmap/openstreetmap-website.git
+```
+
+If you want to add in the full history later on, perhaps to run `git blame` or `git log`, run `git fetch --depth=1000000`
+
+
 ## Ruby gems
 
 We use [Bundle](http://gembundler.com/) to manage the rubygems required for the project.
 
 ```
-git clone https://github.com/openstreetmap/openstreetmap-website.git
 cd openstreetmap-website
 bundle install
 ```
