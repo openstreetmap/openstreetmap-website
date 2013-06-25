@@ -138,9 +138,9 @@ To ensure that everything is set up properly, you should now run:
 bundle exec rake test
 ```
 
-This test will take a few minutes, reporting tests run, assertions, and errors.
+This test will take a few minutes, reporting tests run, assertions, and any errors. If you receive no errors, then your installation is successful.
 
-'''Note:''' This process may output a parser error related to "Attribute lat redefined." Installation appears to succeed in spite of this.
+The unit tests may output parser errors related to "Attribute lat redefined." These can be ignored.
 
 ### Starting the server
 
