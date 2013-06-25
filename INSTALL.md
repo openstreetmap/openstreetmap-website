@@ -228,14 +228,6 @@ potlatch2_key: "8lFmZPsagHV4l3rkAHq0hWY5vV3Ctl3oEFY1aXth"
 
 Follow the same process for registering and configuring iD (`id_key`) and the website/Notes (`oauth_key`), or to save time, simply reuse the same consumer key for each.
 
-*Note:* The first time Potlatch is run, you will get the following message: "Potlatch 2 has not been configured - please see http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 for more information." Just click "OK" and proceed.
-
-TODO: really? If so, this seems like a bug that needs fixing.
-
-*Note:* Potlatch does not have the appropriate icons if these instructions are followed.
-
-TODO: really? If so, this also seems like a bug that needs fixing.
-
 ## Troubleshooting
 
 Rails has its own log.  To inspect the log, do this:
