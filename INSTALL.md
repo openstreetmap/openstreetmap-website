@@ -180,7 +180,7 @@ $ bundle exec rails console
 To give administrator or moderator permissions:
 
 ```
-$ rails console
+$ bundle exec rails console
 >> user = User.find_by_display_name("My New User Name")
 => #[ ... ]
 >> user.roles.create( {:role => "administrator", :granter_id => user.id}, :without_protection => true)
@@ -233,7 +233,7 @@ Follow the same process for registering and configuring iD (`id_key`) and the we
 Rails has its own log.  To inspect the log, do this:
 
 ```
- tail -f <path-to-osm-source>/log/development.log
+tail -f log/development.log
 ```
 
 If you have more problems, please ask on the [rails-dev@openstreetmap.org mailing list](http://lists.openstreetmap.org/listinfo/rails-dev) or on the [#osm-dev IRC Channel](http://wiki.openstreetmap.org/wiki/IRC)
@@ -247,7 +247,7 @@ If your installation stops working for some reason:
 * The OSM database schema is changed periodically and you need to keep up with these improvements. Go to your rails_port directory and run:
 
 ```
-  rake db:migrate
+bundle exec rake db:migrate
 ```
 
 ## Testing on the osm dev server
