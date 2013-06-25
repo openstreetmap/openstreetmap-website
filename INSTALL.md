@@ -165,7 +165,7 @@ Your installation comes with no geographic data loaded. You can either create ne
 If you create a user by signing up to your local website, you need to confirm the user before you can log in, which normally happens by clicking a link sent via email. If don't want to set up your development box to send emails to public email addresses then you can create the user as normal and then confirm it manually through the Rails console:
 
 ```
-$ rails console
+$ bundle exec rails console
 >> user = User.find_by_display_name("My New User Name")
 => #[ ... ]
 >> user.status = "active"
@@ -192,11 +192,15 @@ $ rails console
 >> quit
 ```
 
-## Potlatch 2
+## OAuth Consumer Keys
 
-TODO: do we need similar for iD?
+Three of the built-in applications communicate via the API, and therefore need OAuth consumer keys configured. These are:
 
-To use the Potlatch 2 editor you need to register it as an OAuth application.
+* Potlatch 2
+* iD
+* The website itself (for the Notes functionality)
+
+For example, to use the Potlatch 2 editor you need to register it as an OAuth application.
 
 Do the following:
 * Log into your Rails Port instance - e.g. http://localhost:3000
@@ -210,7 +214,10 @@ Do the following:
 * Click the "Register" button
 * On the next page, copy the "consumer key"
 * Edit config/application.yml in your rails tree
-* Change the "potlatch2_key" configuration value - excerpt from application.yml:
+* Uncomment and change the "potlatch2_key" configuration value
+* Restart your rails server
+
+An example excerpt from application.yml:
 
 ```
 # Default editor
@@ -218,6 +225,8 @@ default_editor: "potlatch2"
 # OAuth consumer key for Potlatch 2
 potlatch2_key: "8lFmZPsagHV4l3rkAHq0hWY5vV3Ctl3oEFY1aXth"
 ```
+
+Follow the same process for registering and configuring iD (`id_key`) and the website/Notes (`oauth_key`), or to save time, simply reuse the same consumer key for each.
 
 *Note:* The first time Potlatch is run, you will get the following message: "Potlatch 2 has not been configured - please see http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 for more information." Just click "OK" and proceed.
 
