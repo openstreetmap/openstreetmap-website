@@ -14,8 +14,6 @@ class Note < ActiveRecord::Base
   validates_inclusion_of :status, :in => ["open", "closed", "hidden"]
   validate :validate_position
 
-  attr_accessible :lat, :lon
-
   after_initialize :set_defaults
 
   # Sanity check the latitude and longitude and add an error if it's broken

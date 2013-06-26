@@ -24,8 +24,6 @@ class DiaryEntry < ActiveRecord::Base
                             :greater_than_or_equal_to => -180, :less_than_or_equal_to => 180
   validates_associated :language
 
-  attr_accessible :title, :body, :language_code, :latitude, :longitude
-
   after_initialize :set_defaults
   after_save :spam_check
 

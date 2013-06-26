@@ -77,13 +77,13 @@ class NodeTest < ActiveSupport::TestCase
   
   # Check that you can create a node and store it
   def test_create
-    node_template = Node.new({
+    node_template = Node.new(
       :latitude => 12.3456,
       :longitude => 65.4321,
       :changeset_id => changesets(:normal_user_first_change).id,
       :visible => 1, 
       :version => 1
-    }, :without_protection => true)
+    )
     assert node_template.create_with_history(users(:normal_user))
 
     node = Node.find(node_template.id)

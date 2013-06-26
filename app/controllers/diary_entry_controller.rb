@@ -13,7 +13,7 @@ class DiaryEntryController < ApplicationController
     @title = t 'diary_entry.new.title'
 
     if params[:diary_entry]
-      @diary_entry = DiaryEntry.new(params[:diary_entry])
+      @diary_entry = DiaryEntry.new(entry_params)
       @diary_entry.user = @user
 
       if @diary_entry.save
@@ -43,7 +43,7 @@ class DiaryEntryController < ApplicationController
 
     if @user != @diary_entry.user
       redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
-    elsif params[:diary_entry] and @diary_entry.update_attributes(params[:diary_entry])
+    elsif params[:diary_entry] and @diary_entry.update_attributes(entry_params)
       redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
     end
 
@@ -54,7 +54,7 @@ class DiaryEntryController < ApplicationController
 
   def comment
     @entry = DiaryEntry.find(params[:id])
-    @diary_comment = @entry.comments.build(params[:diary_comment])
+    @diary_comment = @entry.comments.build(comment_params)
     @diary_comment.user = @user
     if @diary_comment.save
       if @diary_comment.user != @entry.user
@@ -160,13 +160,13 @@ class DiaryEntryController < ApplicationController
 
   def hide
     entry = DiaryEntry.find(params[:id])
-    entry.update_attributes({:visible => false}, :without_protection => true)
+    entry.update_attributes(:visible => false)
     redirect_to :action => "list", :display_name => entry.user.display_name
   end
 
   def hidecomment
     comment = DiaryComment.find(params[:comment])
-    comment.update_attributes({:visible => false}, :without_protection => true)
+    comment.update_attributes(:visible => false)
     redirect_to :action => "view", :display_name => comment.diary_entry.user.display_name, :id => comment.diary_entry.id
   end
 
@@ -181,6 +181,18 @@ class DiaryEntryController < ApplicationController
     @page = (params[:page] || 1).to_i
   end
 private
+  ##
+  # return permitted diary entry parameters
+  def entry_params
+    params.require(:diary_entry).permit(:title, :body, :language_code, :latitude, :longitude)
+  end
+
+  ##
+  # return permitted diary comment parameters
+  def comment_params
+    params.require(:diary_comment).permit(:body)
+  end
+
   ##
   # require that the user is a administrator, or fill out a helpful error message
   # and return them to the user page.

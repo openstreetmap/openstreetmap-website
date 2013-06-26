@@ -5,8 +5,6 @@ class DiaryComment < ActiveRecord::Base
   validates_presence_of :body
   validates_associated :diary_entry
 
-  attr_accessible :body
-
   after_initialize :set_defaults
   after_save :spam_check
 

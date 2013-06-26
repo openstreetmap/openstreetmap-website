@@ -46,10 +46,6 @@ class User < ActiveRecord::Base
   validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true
   validates_inclusion_of :preferred_editor, :in => Editors::ALL_EDITORS, :allow_nil => true
 
-  attr_accessible :display_name, :email, :email_confirmation, :openid_url,
-                  :pass_crypt, :pass_crypt_confirmation, :consider_pd,
-                  :image_use_gravatar
-
   after_initialize :set_defaults
   before_save :encrypt_password
   after_save :spam_check
@@ -246,7 +242,9 @@ private
   end
 
   def encrypt_password
+logger.info "XXX"
     if pass_crypt_confirmation
+logger.info "YYY"
       self.pass_crypt, self.pass_salt = PasswordHash.create(pass_crypt)
       self.pass_crypt_confirmation = nil
     end

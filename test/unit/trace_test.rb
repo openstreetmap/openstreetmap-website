@@ -84,8 +84,8 @@ private
   end
 
   def trace_valid(attrs, result = true)
-    entry = Trace.new(gpx_files(:public_trace_file).attributes, :without_protection => true)
-    entry.assign_attributes(attrs, :without_protection => true)
+    entry = Trace.new(gpx_files(:public_trace_file).attributes)
+    entry.assign_attributes(attrs)
     assert_equal result, entry.valid?, "Expected #{attrs.inspect} to be #{result}"
   end
 end

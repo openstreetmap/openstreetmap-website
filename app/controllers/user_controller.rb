@@ -251,7 +251,7 @@ class UserController < ApplicationController
     else
       session[:referer] = params[:referer]
 
-      @user = User.new(params[:user])
+      @user = User.new(user_params)
       @user.status = "pending"
 
       if @user.openid_url.present? && @user.pass_crypt.empty?
@@ -808,5 +808,11 @@ private
     # having not agreed already would cause an infinite redirect loop.
     # it's .now so that this doesn't propagate to other pages.
     flash.now[:skip_terms] = true
+  end
+
+  ##
+  # return permitted user parameters
+  def user_params
+    params.require(:user).permit(:email, :email_confirmation, :display_name, :openid_url, :pass_crypt, :pass_crypt_confirmation)
   end
 end

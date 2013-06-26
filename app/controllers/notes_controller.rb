@@ -347,7 +347,7 @@ private
       attributes[:author_ip] = request.remote_ip
     end
 
-    comment = note.comments.create(attributes, :without_protection => true)
+    comment = note.comments.create(attributes)
 
     note.comments.map { |c| c.author }.uniq.each do |user|
       if notify and user and user != @user
