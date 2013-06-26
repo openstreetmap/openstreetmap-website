@@ -1,10 +1,7 @@
 class Note < ActiveRecord::Base
   include GeoRecord
 
-  has_many :comments, :class_name => "NoteComment",
-                      :foreign_key => :note_id,
-                      :order => :created_at,
-                      :conditions => { :visible => true }
+  has_many :comments, -> { where(:visible => true).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id
 
   validates_presence_of :id, :on => :update
   validates_uniqueness_of :id

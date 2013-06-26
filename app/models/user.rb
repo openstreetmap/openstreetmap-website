@@ -1,22 +1,22 @@
 class User < ActiveRecord::Base
   require 'xml/libxml'
 
-  has_many :traces, :conditions => { :visible => true }
-  has_many :diary_entries, :order => 'created_at DESC'
-  has_many :diary_comments, :order => 'created_at DESC'
-  has_many :messages, :foreign_key => :to_user_id, :conditions => { :to_user_visible => true }, :order => 'sent_on DESC', :include => [:sender, :recipient]
-  has_many :new_messages, :class_name => "Message", :foreign_key => :to_user_id, :conditions => { :to_user_visible => true, :message_read => false }, :order => 'sent_on DESC'
-  has_many :sent_messages, :class_name => "Message", :foreign_key => :from_user_id, :conditions => { :from_user_visible => true }, :order => 'sent_on DESC', :include => [:sender, :recipient]
-  has_many :friends, :include => :befriendee, :conditions => "users.status IN ('active', 'confirmed')"
+  has_many :traces, -> { where(:visible => true) }
+  has_many :diary_entries, -> { order(:created_at => :desc) }
+  has_many :diary_comments, -> { order(:created_at => :desc) }
+  has_many :messages, -> { where(:to_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :foreign_key => :to_user_id
+  has_many :new_messages, -> { where(:to_user_visible => true, :message_read => false).order(:sent_on => :desc) }, :class_name => "Message", :foreign_key => :to_user_id
+  has_many :sent_messages, -> { where(:from_user_visible => true).order(:sent_on => :desc).preload(:sender, :recipient) }, :class_name => "Message", :foreign_key => :from_user_id
+  has_many :friends, -> { joins(:befriendee).where(:users => { :status => ["active", "confirmed"] }) }
   has_many :friend_users, :through => :friends, :source => :befriendee
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
-  has_many :changesets, :order => 'created_at DESC'
+  has_many :changesets, -> { order(:created_at => :desc) }
   has_many :note_comments, :foreign_key => :author_id
   has_many :notes, :through => :note_comments
 
   has_many :client_applications
-  has_many :oauth_tokens, :class_name => "OauthToken", :order => "authorized_at desc", :include => [:client_application]
+  has_many :oauth_tokens, -> { order(:authorized_at => :desc).preload(:client_application) }, :class_name => "OauthToken"
 
   has_many :blocks, :class_name => "UserBlock"
   has_many :blocks_created, :class_name => "UserBlock", :foreign_key => :creator_id
@@ -24,9 +24,9 @@ class User < ActiveRecord::Base
 
   has_many :roles, :class_name => "UserRole"
 
-  scope :visible, where(:status => ["pending", "active", "confirmed"])
-  scope :active, where(:status => ["active", "confirmed"])
-  scope :public, where(:data_public => true)
+  scope :visible, -> { where(:status => ["pending", "active", "confirmed"]) }
+  scope :active, -> { where(:status => ["active", "confirmed"]) }
+  scope :public, -> { where(:data_public => true) }
 
   validates_presence_of :email, :display_name
   validates_confirmation_of :email#, :message => ' addresses must match'

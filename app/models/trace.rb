@@ -5,10 +5,10 @@ class Trace < ActiveRecord::Base
   has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :delete_all
   has_many :points, :class_name => 'Tracepoint', :foreign_key => 'gpx_id', :dependent => :delete_all
 
-  scope :visible, where(:visible => true)
-  scope :visible_to, lambda { |u| visible.where("visibility IN ('public', 'identifiable') OR user_id = ?", u) }
-  scope :public, where(:visibility => ["public", "identifiable"])
-  scope :tagged, lambda { |t| joins(:tags).where(:gpx_file_tags => { :tag => t }) }
+  scope :visible, -> { where(:visible => true) }
+  scope :visible_to, ->(u) { visible.where("visibility IN ('public', 'identifiable') OR user_id = ?", u) }
+  scope :public, -> { where(:visibility => ["public", "identifiable"]) }
+  scope :tagged, ->(t) { joins(:tags).where(:gpx_file_tags => { :tag => t }) }
 
   validates_presence_of :user_id, :name, :timestamp
   validates_presence_of :description, :on => :create
