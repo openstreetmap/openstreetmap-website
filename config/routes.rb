@@ -155,7 +155,7 @@ OpenStreetMap::Application.routes.draw do
   match '/go/:code' => 'site#permalink', :via => :get, :code => /[a-zA-Z0-9_@~]+[=-]*/
 
   # rich text preview
-  match '/preview/:format' => 'site#preview', :as => :preview
+  match '/preview/:format' => 'site#preview', :via => :post, :as => :preview
 
   # traces
   match '/user/:display_name/traces/tag/:tag/page/:page' => 'trace#list', :via => :get
@@ -244,12 +244,12 @@ OpenStreetMap::Application.routes.draw do
   scope "/user/:display_name" do
     resources :oauth_clients
   end
-  match '/oauth/revoke' => 'oauth#revoke'
-  match '/oauth/authorize' => 'oauth#authorize', :as => :authorize
-  match '/oauth/token' => 'oauth#token', :as => :token
-  match '/oauth/request_token' => 'oauth#request_token', :as => :request_token
-  match '/oauth/access_token' => 'oauth#access_token', :as => :access_token
-  match '/oauth/test_request' => 'oauth#test_request', :as => :test_request
+  match '/oauth/revoke' => 'oauth#revoke', :via => :post
+  match '/oauth/authorize' => 'oauth#authorize', :via => :post, :as => :authorize
+  match '/oauth/token' => 'oauth#token', :via => :get, :as => :token
+  match '/oauth/request_token' => 'oauth#request_token', :via => :get, :as => :request_token
+  match '/oauth/access_token' => 'oauth#access_token', :via => :get, :as => :access_token
+  match '/oauth/test_request' => 'oauth#test_request', :via => :get, :as => :test_request
 
   # roles and banning pages
   match '/user/:display_name/role/:role/grant' => 'user_roles#grant', :via => :post, :as => "grant_role"

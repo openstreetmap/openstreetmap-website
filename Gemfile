@@ -1,8 +1,7 @@
-# Gem source to use
 source 'http://rubygems.org'
 
 # Require rails
-gem 'rails', '3.2.12'
+gem 'rails', '4.0.0'
 
 # Require things which have moved to gems in ruby 1.9
 gem 'bigdecimal', "~> 1.1.0", :platforms => :ruby_19
@@ -10,29 +9,48 @@ gem 'bigdecimal', "~> 1.1.0", :platforms => :ruby_19
 # Require things which have moved to gems in ruby 2.0
 gem 'psych', :platforms => :ruby_20
 
-# Require the postgres database driver
+# Use postgres as the database
 gem 'pg'
 
-# Load jquery support
+# Use SCSS for stylesheets
+gem 'sass-rails', '~> 4.0.0'
+
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 1.3.0'
+
+# Use CoffeeScript for .js.coffee assets and views
+gem 'coffee-rails', '~> 4.0.0'
+
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+# gem 'therubyracer', platforms: :ruby
+
+# Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-# Load R2 for RTL conversion
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+# gem 'jbuilder', '~> 1.2'
+gem 'jsonify-rails'
+
+# Use R2 for RTL conversion
 gem 'r2'
+
+# Use ejs for javascript templates
+gem 'ejs'
 
 # Load rails plugins
 gem 'rails-i18n', ">= 0.6.3"
 gem 'dynamic_form'
 gem 'rinku', '>= 1.2.2', :require => 'rails_rinku'
-gem 'oauth-plugin', '>= 0.4.1', :require => 'oauth-plugin'
+gem 'openstreetmap-oauth-plugin', '>= 0.4.1.1', :require => 'oauth-plugin'
 gem 'open_id_authentication', '>= 1.1.0'
 gem 'validates_email_format_of', '>= 1.5.1'
-gem 'composite_primary_keys', '>= 5.0.10'
+gem 'composite_primary_keys', '>= 6.0.0'
 gem 'http_accept_language', '>= 1.0.2'
 gem 'paperclip', '~> 2.0'
 gem 'deadlock_retry', '>= 1.2.0'
-gem 'i18n-js', '>= 3.0.0.rc2'
+gem 'openstreetmap-i18n-js', '>= 3.0.0.rc5.2', :require => 'i18n-js'
 gem 'rack-cors'
-gem 'jsonify-rails'
+gem 'actionpack-page_caching'
 
 # We need ruby-openid 2.2.0 or later for ruby 1.9 support
 gem 'ruby-openid', '>= 2.2.0'
@@ -68,13 +86,4 @@ end
 group :test do
   gem 'timecop'
   gem 'minitest', '~> 4.7.0', :platforms => [:ruby_19, :ruby_20]
-end
-
-# Gems needed for compiling assets
-group :assets do
-  gem 'sass-rails', '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
-  gem 'therubyracer', '~> 0.10.2'
-  gem 'ejs'
 end
