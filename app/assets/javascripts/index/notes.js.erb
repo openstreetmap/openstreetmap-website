@@ -87,7 +87,7 @@ $(document).ready(function () {
     if (marker)
     {
       marker.setIcon(noteIcons[feature.properties.status]);
-      marker._popup.setContent(createPopupContent(
+      marker.setPopupContent(createPopupContent(
         marker, feature.properties, 
         $(marker._popup._content).find("textarea").val()
       ));
@@ -231,7 +231,7 @@ $(document).ready(function () {
           var popupContent = createPopupContent(marker, feature.properties);
 
           marker.setIcon(noteIcons[feature.properties.status]);
-          marker._popup.setContent(popupContent);
+          marker.setPopupContent(popupContent);
         }
       }
     });
