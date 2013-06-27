@@ -59,6 +59,19 @@ if defined?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter)
           nil
         end
       end
+
+      class PostgreSQLColumn
+        def simplified_type_with_enum(field_type)
+          case field_type
+          when /_enum$/
+            :string
+          else
+            simplified_type_without_enum(field_type)
+          end
+        end
+
+        alias_method_chain :simplified_type, :enum
+      end
     end
   end
 end
