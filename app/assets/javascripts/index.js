@@ -79,10 +79,10 @@ $(document).ready(function () {
                 center.lat,
                 zoom,
                 layers,
-                extents.getWestLng(),
-                extents.getSouthLat(),
-                extents.getEastLng(),
-                extents.getNorthLat(),
+                extents.getWest(),
+                extents.getSouth(),
+                extents.getEast(),
+                extents.getNorth(),
                 params.object);
 
     var expiry = new Date();
@@ -95,10 +95,10 @@ $(document).ready(function () {
     var loaded = false;
 
     $("#linkloader").load(function () { loaded = true; });
-    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + extent.getWestLng()
-                                                                   + "&bottom=" + extent.getSouthLat()
-                                                                   + "&right=" + extent.getEastLng()
-                                                                   + "&top=" + extent.getNorthLat());
+    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + extent.getWest()
+                                                                   + "&bottom=" + extent.getSouth()
+                                                                   + "&right=" + extent.getEast()
+                                                                   + "&top=" + extent.getNorth());
 
     setTimeout(function () {
       if (!loaded) alert(I18n.t('site.index.remote_failed'));
@@ -121,10 +121,10 @@ $(document).ready(function () {
     $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
     $("#sidebar_content").load($(this).attr("action"), {
       query: $("#query").val(),
-      minlon: bounds.getWestLng(),
-      minlat: bounds.getSouthLat(),
-      maxlon: bounds.getEastLng(),
-      maxlat: bounds.getNorthLat()
+      minlon: bounds.getWest(),
+      minlat: bounds.getSouth(),
+      maxlon: bounds.getEast(),
+      maxlat: bounds.getNorth()
     }, openSidebar);
 
     return false;

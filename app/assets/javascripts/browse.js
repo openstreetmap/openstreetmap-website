@@ -1,9 +1,9 @@
 $(document).ready(function () {
   function remoteEditHandler(bbox, select) {
-    var left = bbox.getWestLng() - 0.0001;
-    var top = bbox.getNorthLat() + 0.0001;
-    var right = bbox.getEastLng() + 0.0001;
-    var bottom = bbox.getSouthLat() - 0.0001;
+    var left = bbox.getWest() - 0.0001;
+    var top = bbox.getNorth() + 0.0001;
+    var right = bbox.getEast() + 0.0001;
+    var bottom = bbox.getSouth() - 0.0001;
     var loaded = false;
 
     $("#linkloader").load(function () { loaded = true; });
@@ -61,8 +61,8 @@ $(document).ready(function () {
     });
 
     updatelinks(params.lon, params.lat, 16, null, 
-                bbox.getWestLng(), bbox.getSouthLat(),
-                bbox.getEastLng(), bbox.getNorthLat(),
+                bbox.getWest(), bbox.getSouth(),
+                bbox.getEast(), bbox.getNorth(),
                 object);
   } else {
     $("#object_larger_map").hide();
@@ -94,10 +94,10 @@ $(document).ready(function () {
         updatelinks(centre.lng,
                     centre.lat,
                     16, null,
-                    extent.getWestLng(),
-                    extent.getSouthLat(),
-                    extent.getEastLng(),
-                    extent.getNorthLat(),
+                    extent.getWest(),
+                    extent.getSouth(),
+                    extent.getEast(),
+                    extent.getNorth(),
                     object);
       } else {
         $("#small_map").hide();

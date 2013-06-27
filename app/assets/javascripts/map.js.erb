@@ -1,31 +1,5 @@
 // Leaflet extensions
 L.extend(L.LatLngBounds.prototype, {
-  getSouthLat: function () {
-    return this._southWest.lat;
-  },
-
-  getWestLng: function () {
-    return this._southWest.lng;
-  },
-
-  getNorthLat: function () {
-    return this._northEast.lat;
-  },
-
-  getEastLng: function () {
-    return this._northEast.lng;
-  },
-
-  toBBOX: function () {
-    var decimal = 6;
-    var mult = Math.pow(10, decimal);
-    var xmin = Math.round(this.getWestLng() * mult) / mult;
-    var ymin = Math.round(this.getSouthLat() * mult) / mult;
-    var xmax = Math.round(this.getEastLng() * mult) / mult;
-    var ymax = Math.round(this.getNorthLat() * mult) / mult;
-    return xmin + "," + ymin + "," + xmax + "," + ymax;
-  },
-
   getSize: function () {
     return (this._northEast.lat - this._southWest.lat) *
            (this._northEast.lng - this._southWest.lng);
@@ -33,16 +7,6 @@ L.extend(L.LatLngBounds.prototype, {
 
   wrap: function () {
     return new L.LatLngBounds(this._southWest.wrap(), this._northEast.wrap());
-  }
-});
-
-L.extend(L.Bounds.prototype, {
-  getWidth: function () {
-   return this.max.x - this.min.x;
-  },
-
-  getHeight: function () {
-   return this.max.y - this.min.y;
   }
 });
 

@@ -151,7 +151,7 @@ $(document).ready(function () {
 
     setStatus(I18n.t('browse.start_rjs.loading'));
 
-    var url = "/api/" + OSM.API_VERSION + "/map?bbox=" + bounds.toBBOX();
+    var url = "/api/" + OSM.API_VERSION + "/map?bbox=" + bounds.toBBoxString();
 
     /*
      * Modern browsers are quite happy showing far more than 100 features in
