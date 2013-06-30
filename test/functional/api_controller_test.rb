@@ -266,14 +266,6 @@ class ApiControllerTest < ActionController::TestCase
     end
   end
   
-  def test_start_end_time_invalid
-    
-  end
-  
-  def test_start_end_time_invalid
-    
-  end
-  
   def test_hours_invalid
     invalid = %w{ -21 335 -1 0 25 26 100 one two three ping pong : }
     invalid.each do |hour|
