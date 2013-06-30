@@ -5,7 +5,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.2.12'
 
 # Require things which have moved to gems in ruby 1.9
-gem 'bigdecimal', :platforms => :ruby_19
+gem 'bigdecimal', "~> 1.1.0", :platforms => :ruby_19
 
 # Require things which have moved to gems in ruby 2.0
 gem 'psych', :platforms => :ruby_20
