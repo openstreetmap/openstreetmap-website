@@ -7,6 +7,9 @@ gem 'rails', '3.2.12'
 # Require things which have moved to gems in ruby 1.9
 gem 'bigdecimal', :platforms => :ruby_19
 
+# Require things which have moved to gems in ruby 2.0
+gem 'psych', :platforms => :ruby_20
+
 # Require the postgres database driver
 gem 'pg'
 
@@ -64,7 +67,7 @@ end
 # Gems needed for running tests
 group :test do
   gem 'timecop'
-  gem 'minitest', '~> 4.7.0', :platforms => :ruby_19
+  gem 'minitest', '~> 4.7.0', :platforms => [:ruby_19, :ruby_20]
 end
 
 # Gems needed for compiling assets
