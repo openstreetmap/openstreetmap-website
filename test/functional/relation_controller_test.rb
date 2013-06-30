@@ -916,7 +916,7 @@ OSM
   ##
   # returns a k->v hash of tags from an xml doc
   def get_tags_as_hash(a) 
-    a.find("//osm/relation/tag").inject({}) do |h,v|
+    a.find("//osm/relation/tag").sort_by { |v| v['k'] }.inject({}) do |h,v|
       h[v['k']] = v['v']
       h
     end
