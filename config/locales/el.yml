@@ -825,6 +825,7 @@ el:
           car_parts: Εξαρτήματα Αυτοκινήτου
           car_repair: Επισκευή Αυτοκινήτων
           carpet: Κατάστημα Χαλιών
+          charity: Κατάστημα Φιλανθρωπίας
           chemist: Χημικός
           clothes: Κατάστημα Ρούχων
           computer: Κατάστημα Υπολογιστών
@@ -844,6 +845,7 @@ el:
           funeral_directors: Γραφείο τελετών
           furniture: Έπιπλα
           gallery: Γκαλερί
+          garden_centre: Κέντρο Κήπου
           gift: Κατάστημα Δώρων
           greengrocer: Μανάβης
           grocery: Οπωροπωλείο
@@ -1067,6 +1069,10 @@ el:
       wrong_user: Έχεις συνδεθεί ως `%{user}' αλλά το μήνυμα που ζητάς να απαντήσεις δεν έχει σταλεί σε αυτόν το χρήστη. Παρακαλώ συνδέσου με το σωστό όνομα χρήστη ώστε να μπορέσεις να απαντήσεις
     sent_message_summary: 
       delete_button: Διαγραφή
+  note: 
+    mine: 
+      creator: Δημιουργός
+      description: Περιγραφή
   notifier: 
     diary_comment_notification: 
       footer: Μπορείτε επίσης να διαβάσετε το σχόλιο στο %{readurl} και μπορείτε να σχολιάσετε στο %{commenturl} ή να απαντήσετε στο %{replyurl}
@@ -1109,6 +1115,11 @@ el:
       footer2: και μπορείτε να απαντήσετε στο %{replyurl}
       header: "Ο χρήστης %{from_user} σάς έχει στείλει ένα μήνυμα μέσω του OpenStreetMap με θέμα %{subject}:"
       hi: Γεια σου %{to_user},
+    note_comment_notification: 
+      anonymous: Ανώνυμος χρήστης
+      commented: 
+        subject_own: "[OpenStreetMap] %{commenter} σχολίασε σε κάποια από τις σημειώσεις σας"
+      greeting: Γεια,
     signup_confirm: 
       created: Κάποιος (ας ελπίσουμε εσύ) μόλις δημιούργησες έναν λογαριασμό στο {site_url} %.
       greeting: Γεια σου!
@@ -1133,12 +1144,14 @@ el:
       allow_read_gpx: διαβάστε τα ιδιωτικά σας GPS ίχνη.
       allow_write_api: τροποποιήστε το χάρτη.
       allow_write_gpx: ανεβάστε ίχνη GPS.
+      allow_write_notes: τροποποιήστε τις σημειώσεις.
   oauth_clients: 
     edit: 
       submit: Επεξεργασία
       title: Επεξεργασία της αίτησής σας
     form: 
       allow_write_api: τροποποιήστε το χάρτη. \
+      allow_write_notes: τροποποιήστε τις σημειώσεις.
       callback_url: Ανάκληση URL \
       name: Όνομα
       required: Απαιτείται
@@ -1151,6 +1164,7 @@ el:
       title: Οι λεπτομέρειες της OAuth μου \
     new: 
       submit: Εγγραφή
+      title: Καταχώρηση νέας εφαρμογής
     show: 
       allow_read_prefs: διαβάστε τις δικές τους προτιμήσεις χρήστη.
       allow_write_api: τροποποιήστε το χάρτη.
@@ -1197,8 +1211,11 @@ el:
       potlatch2_unsaved_changes: Έχετε μη αποθηκευμένες αλλαγές. (Για να αποθηκεύσετε στο Potlatch 2, πρέπει να κάνετε κλικ στο «Αποθήκευση».)
       user_page_link: σελίδα χρήστη
     index: 
+      createnote: Πρόσθηκη σημείωσης
       js_1: Είτε χρησιμοποιείτε πρόγραμμα περιήγησης που δεν υποστηρίζει JavaScript ή έχετε απενεργοποιήσει την JavaScript.
       js_2: Το OpenStreetMap χρησιμοποιεί JavaScript για το ολισθαίνοντα χάρτη του.
+      license: 
+        copyright: Πνευματικά δικαιώματα του  OpenStreetMap και των συντακτών του, υπό ελεύθερη άδεια
       permalink: Μόνιμος σύνδεσμος
       remote_failed: Η επεξεργασία απέτυχε - βεβαιώσου ότι ο JOSM ή ο Merkaartor έχουν φορτωθεί και η επιλογή τηλεχειρισμού είναι ενεργή
     key: 
@@ -1304,6 +1321,7 @@ el:
       tags: "Ετικέτες:"
       tags_help: οριοθετημένο με κόμματα
       title: Επεξεργασία ίχνους %{name}
+      uploaded_at: "Μεταφορτώθηκε:"
       visibility: "Ορατότητα:"
       visibility_help: τι σημαίνει αυτό;
     list: 
@@ -1332,6 +1350,10 @@ el:
       upload_gpx: "Αποστολή αρχείου GPX:"
       visibility: "Ορατότητα:"
       visibility_help: τι σημαίνει αυτό;
+    trace_header: 
+      see_all_traces: Δείτε όλα τα ίχνη
+      see_your_traces: Δείτε τα ίχνη σας
+      upload_trace: Φόρτωση ίχνους
     trace_optionals: 
       tags: Ετικέτες
     trace_paging_nav: 
@@ -1349,6 +1371,8 @@ el:
       pending: ΣΕ ΕΚΚΡΕΜΌΤΗΤΑ
       points: "Σημεία:"
       tags: "Ετικέτες:"
+      trace_not_found: Δεν βρέθηκε ίχνος!
+      uploaded: "Μεταφορτώθηκε:"
       visibility: "Ορατότητα:"
   user: 
     account: 
@@ -1564,6 +1588,7 @@ el:
       new diary entry: νέα καταχώρηση ημερολογίου
       no friends: Δεν έχεις προσθέσει φίλους ακόμα.
       no nearby users: Δεν υπάρχουν άλλοι χρήστες που παραδέχονται ότι χαρτογραφούν κοντά σου προς το παρόν.
+      notes: σημειώσεις χάρτη
       oauth settings: ρυθμίσεις oauth
       remove as friend: αφαιρέστε από φίλο
       role: 
@@ -1578,6 +1603,7 @@ el:
       send message: αποστολή μηνύματος
       settings_link_text: ρυθμίσεις
       status: "Κατάσταση:"
+      traces: ίχνη
       unhide_user: επανεμφάνιση αυτού του χρήστη
       user location: Τοποθεσία χρήστη
       your friends: Οι φίλοι σου
