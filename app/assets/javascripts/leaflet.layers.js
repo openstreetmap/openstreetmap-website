@@ -30,49 +30,6 @@ L.OSM.layers = function(options) {
         $('<h2>')
           .text(I18n.t('javascripts.map.layers.header')));
 
-    if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
-      var overlaySection = $('<section>')
-        .addClass('overlay-layers')
-        .appendTo($ui);
-
-      $('<p>')
-        .text(I18n.t('javascripts.map.layers.overlays'))
-        .appendTo(overlaySection);
-
-      var list = $('<ul>')
-        .appendTo(overlaySection);
-
-      function addOverlay(layer, name) {
-        var item = $('<li>')
-          .appendTo(list);
-
-        var label = $('<label>')
-          .appendTo(item);
-
-        var input = $('<input>')
-          .attr('type', 'checkbox')
-          .prop('checked', map.hasLayer(layer))
-          .appendTo(label);
-
-        label.append(name);
-
-        input.on('change', function() {
-          if (input.is(':checked')) {
-            map.addLayer(layer);
-          } else {
-            map.removeLayer(layer);
-          }
-        });
-
-        map.on('layeradd layerremove', function() {
-          input.prop('checked', map.hasLayer(layer));
-        });
-      }
-
-      addOverlay(map.noteLayer, I18n.t('javascripts.map.layers.notes'));
-      addOverlay(map.dataLayer, I18n.t('javascripts.map.layers.data'));
-    }
-
     var baseSection = $('<section>')
       .addClass('base-layers')
       .appendTo($ui);
@@ -141,6 +98,49 @@ L.OSM.layers = function(options) {
         item.toggleClass('active', map.hasLayer(layer));
       });
     });
+
+    if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
+      var overlaySection = $('<section>')
+        .addClass('overlay-layers')
+        .appendTo($ui);
+
+      $('<p>')
+        .text(I18n.t('javascripts.map.layers.overlays'))
+        .appendTo(overlaySection);
+
+      var list = $('<ul>')
+        .appendTo(overlaySection);
+
+      function addOverlay(layer, name) {
+        var item = $('<li>')
+          .appendTo(list);
+
+        var label = $('<label>')
+          .appendTo(item);
+
+        var input = $('<input>')
+          .attr('type', 'checkbox')
+          .prop('checked', map.hasLayer(layer))
+          .appendTo(label);
+
+        label.append(name);
+
+        input.on('change', function() {
+          if (input.is(':checked')) {
+            map.addLayer(layer);
+          } else {
+            map.removeLayer(layer);
+          }
+        });
+
+        map.on('layeradd layerremove', function() {
+          input.prop('checked', map.hasLayer(layer));
+        });
+      }
+
+      addOverlay(map.noteLayer, I18n.t('javascripts.map.layers.notes'));
+      addOverlay(map.dataLayer, I18n.t('javascripts.map.layers.data'));
+    }
 
     options.sidebar.addPane($ui);
 
