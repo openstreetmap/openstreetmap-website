@@ -121,7 +121,7 @@ function minZoomAlert() {
 
 function getShortUrl(map) {
   return (window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
-          'http://osm.org/go/' : '/go/') +
+          'http://osm.org/go/' : 'http://' + window.location.hostname + '/go/') +
           makeShortCode(map);
 }
 
@@ -131,7 +131,7 @@ function getUrl(map) {
       toZoom = zoomPrecision(zoom);
 
   return (window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
-          'http://openstreetmap.org/?' : '/?') +
+          'http://openstreetmap.org/?' : 'http://' + window.location.hostname + '/?') +
         querystring.stringify({
             lat: toZoom(center.lat),
             lon: toZoom(center.lng),
