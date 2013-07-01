@@ -92,6 +92,7 @@ L.OSM.layers = function(options) {
             map.removeLayer(other);
           }
         });
+        map.fire('baselayerchange', {layer: layer});
       });
 
       map.on('layeradd layerremove', function() {

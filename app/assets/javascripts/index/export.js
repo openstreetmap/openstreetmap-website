@@ -203,7 +203,7 @@ function initializeExport(map) {
 
       var zoom = map.getBoundsZoom(bounds);
 
-      var layers = getMapLayers(map);
+      var layers = map.getLayersCode();
 
       var text = I18n.t('export.start_rjs.view_larger_map');
       var escaped = [];
