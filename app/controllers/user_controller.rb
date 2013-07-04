@@ -12,7 +12,7 @@ class UserController < ApplicationController
   before_filter :check_api_readable, :only => [:api_read, :api_details, :api_gpx_files]
   before_filter :require_allow_read_prefs, :only => [:api_details]
   before_filter :require_allow_read_gpx, :only => [:api_gpx_files]
-  before_filter :require_cookies, :only => [:login, :confirm]
+  before_filter :require_cookies, :only => [:new, :login, :confirm]
   before_filter :require_administrator, :only => [:set_status, :delete, :list]
   around_filter :api_call_handle_error, :only => [:api_read, :api_details, :api_gpx_files]
   before_filter :lookup_user_by_id, :only => [:api_read]
