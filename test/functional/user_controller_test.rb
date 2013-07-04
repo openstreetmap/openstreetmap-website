@@ -190,8 +190,12 @@ class UserControllerTest < ActionController::TestCase
   # The user creation page loads
   def test_user_create_view
     get :new
+    assert_response :redirect
+    assert_redirected_to user_new_path(:cookie_test => "true")
+
+    get :new, { :cookie_test => "true" }, { :cookie_test => true }
     assert_response :success
-    
+
     assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
         assert_select "title", :text => /Create account/, :count => 1

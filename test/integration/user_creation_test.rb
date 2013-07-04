@@ -9,7 +9,7 @@ class UserCreationTest < ActionController::IntegrationTest
 
   def test_create_user_form
     I18n.available_locales.each do |locale|
-      get '/user/new', {}, {"HTTP_ACCEPT_LANGUAGE" => locale.to_s}
+      get_via_redirect '/user/new', {}, {"HTTP_ACCEPT_LANGUAGE" => locale.to_s}
       assert_response :success
       assert_template 'user/new'
     end
