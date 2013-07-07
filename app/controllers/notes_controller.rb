@@ -30,7 +30,7 @@ class NotesController < ApplicationController
     end
 
     # Get any conditions that need to be applied
-    notes = closed_condition(Note.scoped)
+    notes = closed_condition(Note.all)
 
     # Check that the boundaries are valid
     bbox.check_boundaries
@@ -176,7 +176,7 @@ class NotesController < ApplicationController
   # Get a feed of recent notes and comments
   def feed
     # Get any conditions that need to be applied
-    notes = closed_condition(Note.scoped)
+    notes = closed_condition(Note.all)
 
     # Process any bbox
     if params[:bbox]
@@ -254,7 +254,7 @@ class NotesController < ApplicationController
     raise OSM::APIBadUserInput.new("No query string was given") unless params[:q]
 
     # Get any conditions that need to be applied
-    @notes = closed_condition(Note.scoped)
+    @notes = closed_condition(Note.all)
     @notes = @notes.joins(:comments).where("note_comments.body ~ ?", params[:q])
 
     # Find the notes we want to return
