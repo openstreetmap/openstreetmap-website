@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class UserTermsSeenTest < ActionController::IntegrationTest
+class UserTermsSeenTest < ActionDispatch::IntegrationTest
   fixtures :users
 
   def auth_header(user, pass)

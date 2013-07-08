@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class OAuthTest < ActionController::IntegrationTest
+class OAuthTest < ActionDispatch::IntegrationTest
   fixtures :users, :client_applications, :gpx_files
 
   include OAuth::Helper

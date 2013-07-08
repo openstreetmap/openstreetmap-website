@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ClientApplicationTest < ActionController::IntegrationTest
+class ClientApplicationTest < ActionDispatch::IntegrationTest
   fixtures :users, :client_applications
 
   ##
