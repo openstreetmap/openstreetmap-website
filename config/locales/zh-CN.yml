@@ -32,7 +32,7 @@ zh-CN:
         sender: 发送人
         title: 标题
       trace: 
-        description: 说明
+        description: 描述
         latitude: 纬度
         longitude: 经度
         name: 姓名
@@ -42,7 +42,7 @@ zh-CN:
         visible: 可见性
       user: 
         active: 激活
-        description: 说明
+        description: 描述
         display_name: 显示姓名
         email: 邮件
         languages: 语言
@@ -69,12 +69,12 @@ zh-CN:
       old_way_node: 旧路径节点
       old_way_tag: 旧路径标签
       relation: 关系
-      relation_member: 关系对象
+      relation_member: 关系成员
       relation_tag: 关系标签
       session: 会话
-      trace: 跟踪
-      tracepoint: 跟踪点
-      tracetag: 跟踪标签
+      trace: 轨迹
+      tracepoint: 轨迹点
+      tracetag: 轨迹标签
       user: 用户
       user_preference: 用户首选项
       user_token: 用户令牌
@@ -125,11 +125,13 @@ zh-CN:
       edit: 
         area: 编辑区域
         node: 编辑节点
+        note: 编辑注释
         relation: 编辑关系
         way: 编辑路径
       larger: 
         area: 在较大的地图查看区域
         node: 在较大的地图查看节点
+        note: 在较大的地图查看注释
         relation: 在较大的地图查看关系
         way: 在较大的地图查看路径
       loading: 载入中...
@@ -137,10 +139,12 @@ zh-CN:
       all: 
         next_changeset_tooltip: 下个修改集合
         next_node_tooltip: 下个节点
+        next_note_tooltip: 下个注释
         next_relation_tooltip: 下个关系
         next_way_tooltip: 下个路径
         prev_changeset_tooltip: 上个修改集合
         prev_node_tooltip: 上个节点
+        prev_note_tooltip: 上个注释
         prev_relation_tooltip: 上个关系
         prev_way_tooltip: 上个路径
       paging: 
@@ -175,6 +179,17 @@ zh-CN:
         node: 节点
         relation: 关系
         way: 路径
+    note: 
+      at_by_html: 由 %{user} 于%{when}前
+      at_html: "%{when}前"
+      closed: 关闭：
+      closed_title: 已解决的注释：%{note_name}
+      comments: 评论：
+      description: 描述：
+      last_modified: 最后修改：
+      open_title: 未解决的注释：%{note_name}
+      opened: 创建：
+      title: 注释
     paging_nav: 
       of: /
       showing_page: 页面
@@ -216,6 +231,7 @@ zh-CN:
       loaded_an_area_with_num_features: 您已选择了包含 %{num_features} 项特征的区域。通常，有些浏览器无法正常显示这么多的数据。一般而言，浏览器一次显示少于 %{max_features} 项特征时效果最好：执行其他任务会使您的浏览器变慢/无响应。如果确定要显示这些数据，请按下面的按钮。
       loading: 载入中...
       manually_select: 手动选择一个不同区域
+      notes_layer_name: 浏览注释
       object_list: 
         api: 从 API 取回这一区域
         back: 回到对象列表
@@ -259,7 +275,7 @@ zh-CN:
       way: 路径
       way_title: 路径：%{way_name}
     way_details: 
-      also_part_of: 也是%{related_ways}路径的一部分
+      also_part_of: 也是路径 %{related_ways} 的一部分
       nodes: 节点：
       part_of: 部分：
     way_history: 
@@ -385,6 +401,9 @@ zh-CN:
       user_title: "%{user} 的日记"
   editor: 
     default: 默认(目前为 %{name})
+    id: 
+      description: iD(在浏览器中编辑)
+      name: iD
     potlatch: 
       description: Potlatch 1(在浏览器中编辑)
       name: Potlatch 1
@@ -461,6 +480,14 @@ zh-CN:
         uk_postcode: 来自 <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a> 的结果
         us_postcode: 来自 <a href="http://geocoder.us/">Geocoder.us</a> 的结果
     search_osm_nominatim: 
+      admin_levels: 
+        level10: 郊区界
+        level2: 国界
+        level4: 州界
+        level5: 行政区界
+        level6: 县界
+        level8: 市界
+        level9: 村界
       prefix: 
         aeroway: 
           aerodrome: 机场
@@ -939,11 +966,27 @@ zh-CN:
     notes: 
       new: 
         add: 添加注释
+        intro: 为了改进地图，您输入的信息将会向其他制图者显示，所以在将标记移动到正确的位置时，请尽可能精确并仔细描述，并在下面输入您的注释。
       show: 
+        anonymous_warning: 此注释包括来自匿名用户的意见，应独立核实。
+        closed_by: 由 <a href='%{user_url}'>%{user}</a> 于 %{time} 解决
+        closed_by_anonymous: 由匿名于 %{time} 解决
+        comment: 注释
+        comment_and_resolve: 注释并解决
+        commented_by: 由 <a href='%{user_url}'>%{user}</a> 于 %{time} 注释
+        commented_by_anonymous: 由匿名于 %{time} 注释
         hide: 隐藏
+        opened_by: 由 <a href='%{user_url}'>%{user}</a> 于 %{time} 创建
+        opened_by_anonymous: 由匿名于 %{time} 创建
         permalink: 永久链接
+        reactivate: 重开
+        reopened_by: 由 <a href='%{user_url}'>%{user}</a> 于 %{time} 重开
+        reopened_by_anonymous: 由匿名于 %{time} 重开
         resolve: 解决
     site: 
+      createnote_disabled_tooltip: 放大以向地图添加一个注释
+      createnote_tooltip: 向地图添加一个注释
+      createnote_zoom_alert: 您必须放大，才能向地图添加一个注释
       edit_disabled_tooltip: 放大以编辑地图
       edit_tooltip: 编辑地图
       edit_zoom_alert: 您必须先放大才能编辑地图
@@ -1024,23 +1067,23 @@ zh-CN:
       attribution_example: 
         alt: 在网页上注明 OpenStreetMap 的样例
         title: 注明样例
-      contributors_at_html: <strong>奥地利</strong>：包含来自 <a href="http://data.wien.gv.at/">Stadt Wien</a>（<a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>协议）、<a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a>及 Land Tirol（修订的<a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT</a>协议）的数据。
-      contributors_ca_html: <strong>加拿大</strong>：包含来自 GeoBase&reg;、GeoGratis（&copy;加拿大自然资源局）、CanVec（&copy;加拿大自然资源局）及 StatCan（加拿大统计局地理处）的数据。
+      contributors_at_html: <strong>奥地利</strong>：包含来自 <a href="http://data.wien.gv.at/">Stadt Wien</a>(<a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>协议)、<a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a>及 Land Tirol(修订的<a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT</a>协议)的数据。
+      contributors_ca_html: <strong>加拿大</strong>：包含来自 GeoBase&reg;、GeoGratis(&copy;加拿大自然资源局)、CanVec(&copy;加拿大自然资源局)及 StatCan(加拿大统计局地理处)的数据。
       contributors_footer_1_html: "关于其进一步的细节，及其他被用来帮助提升 OpenStreetMap 的来源，详见 OpenStreetMap Wiki 的<a\nhref=\"http://wiki.openstreetmap.org/wiki/Contributors\">贡献者页面</a>。"
       contributors_footer_2_html: OpenStreetMap 纳入数据并不意味着原始数据提供者认可 OpenStreetMap、提供任何担保或担负任何法律责任。
       contributors_fr_html: <strong>法国</strong>：包含来自 Direction Générale des Impôts 的数据。
       contributors_gb_html: <strong>英国</strong>：包含来自 Ordnance 的调查数据，&copy; Crown 版权所有及数据库权利，2010-12。
       contributors_intro_html: 我们的数据来源于成千上万人的贡献。但我们也从国家测绘机构等处获取公共版权的数据，其中包括：
-      contributors_nl_html: <strong>荷兰</strong>：包含来自 &copy; AND 2007 年的数据。（<a href="http://www.and.com">www.and.com</a>）
-      contributors_nz_html: <strong>新西兰</strong>：包含来自新西兰土地信息部的数据。Crown版权所有。
+      contributors_nl_html: <strong>荷兰</strong>：包含来自 &copy; AND 2007 年的数据。(<a href="http://www.and.com">www.and.com</a>)
+      contributors_nz_html: <strong>新西兰</strong>：包含来自新西兰土地信息部的数据。Crown 版权所有。
       contributors_title_html: 我们的贡献者
       contributors_za_html: <strong>南非</strong>：包含来自<a href="http://www.ngi.gov.za/">行政局：国家地球空间信息</a>，国家版权所有。
       credit_1_html: "我们需要您注明 &ldquo;&copy; OpenStreetMap\ncontributors&rdquo;。"
       credit_2_html: 您必须明确注明，我们的数据使用开放式数据库协议，若使用我们的地图瓦片，其协议须为 CC-BY-SA。您可以链接<a href="http://www.openstreetmap.org/copyright">此版权页</a>以注明。另外，若您要以数据形式发布 OSM，您可以属名并直接链接协议。若某些媒介无法进行链接（如印刷品），我们建议您引导您的读者至 openstreetmap.org（或OpenStreetMap的完整网址）、opendatacommons.org，及可能相关的creativecommons.org。
       credit_3_html: "对于可浏览的电子地图，标记会出现在地图的右下角。\n例如："
       credit_title_html: 如何注明 OpenStreetMap
-      infringement_1_html: OSM 的贡献者会被提醒，在没有版权持有人的明确许可下，绝不添加任何受版权保护的数据（例如：谷歌地图，或印刷地图）。
-      infringement_2_html: 如果你认为版权的材料已被不恰当地添加的OpenStreetMap数据库或该网站，请参见我们的<a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">撤除程序</a>，或直接在我们的<a href="http://dmca.openstreetmap.org/">在线申报页面</a>上提出。
+      infringement_1_html: OSM 的贡献者会被提醒，在没有版权持有人的明确许可下，绝不添加任何受版权保护的数据(例如：谷歌地图，或印刷地图)。
+      infringement_2_html: 如果你认为版权的材料已被不恰当地添加的 OpenStreetMap 数据库或该网站，请参见我们的<a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">撤除程序</a>，或直接在我们的<a href="http://dmca.openstreetmap.org/">在线申报页面</a>上提出。
       infringement_title_html: 侵权问题
       intro_1_html: "OpenStreetMap 为<i>开放式数据</i>，在<a\nhref=\"http://opendatacommons.org/licenses/odbl/\">开放式数据共享开放式数据库许可</a>（ODbL）下授权。"
       intro_2_html: 您可以自由地复制、发行、传播和创作演绎我们的数据，只要您注明 OpenStreetMap 和它的贡献者。如果您想改变、转换或者以我们的数据为基础进行创作，您只能采用与本协议相同的许可协议发布您的作品。完整的<a href="http://opendatacommons.org/licenses/odbl/1.0/">法律文本</a>阐明了您的权利和义务。
@@ -1117,10 +1160,33 @@ zh-CN:
     sent_message_summary: 
       delete_button: 删除
   note: 
+    description: 
+      closed_at_by_html: 由 %{user} 于%{when}前解决
+      closed_at_html: 于%{when}前解决
+      commented_at_by_html: 由 %{user} 于%{when}前更新
+      commented_at_html: 于%{when}前更新
+      opened_at_by_html: 由 %{user} 于%{when}前创建
+      opened_at_html: 于%{when}前创建
+      reopened_at_by_html: 由 %{user} 于%{when}前重开
+      reopened_at_html: 于%{when}前重开
     entry: 
       comment: 评论
+      full: 完整注释
     mine: 
+      ago_html: "%{when}前"
+      created_at: 创建于
+      creator: 创建者
+      description: 描述
+      heading: "%{user} 的注释"
       id: Id
+      last_changed: 最后修改
+      subheading: 由 %{user} 提交或评论的注释
+      title: 由 %{user} 提交或评论的注释
+    rss: 
+      closed: 关闭的注释(%{place} 附近)
+      description_area: 在您的地区[(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]报告、评论或关闭的注释列表
+      description_item: 注释 %{id} 的 RSS feed
+      title: OpenStreetMap 注释
   notifier: 
     diary_comment_notification: 
       footer: 您也可以通过%{readurl}来读取评论，并且在%{commenturl}来撰写评论或者通过%{replyurl}回复
@@ -1136,6 +1202,7 @@ zh-CN:
     email_confirm_plain: 
       click_the_link: 如果这是您，请点击下面的链接以确认更改。
       greeting: 您好，
+      hopefully_you: 某人(希望是您)在%{server_url}将邮箱地址更改到了 %{new_address}。
     friend_notification: 
       befriend_them: 您可以在 %{befriendurl} 把他们加为朋友。
       had_added_you: "%{user} 已经在 Openstreetmap 上加您为好友。"
@@ -1161,19 +1228,34 @@ zh-CN:
     lost_password_html: 
       click_the_link: 如果这是您，请点击下面的链接重置您的密码。
       greeting: 您好，
-      hopefully_you: 某人(可能是您)已要求对此电子邮件地址上的 openstreetmap.org 账户重置密码
+      hopefully_you: 某人(可能是您)已要求重置该电子邮件地址上的 openstreetmap.org 账户密码
     lost_password_plain: 
       click_the_link: 如果这是您，请点击下面的链接重置您的密码。
       greeting: 您好，
+      hopefully_you: 某人(可能是您)已要求重置该电子邮件地址上的 openstreetmap.org 帐户密码。
     message_notification: 
       footer1: 您可以在 %{readurl} 阅读这条消息
       footer2: 并且您可以在 %{replyurl} 回复
       header: "%{from_user} 已经通过 OpenStreetMap 向您发送标题为 %{subject} 的消息："
       hi: "%{to_user} 您好，"
       subject_header: "[OpenStreetMap] %{subject}"
+    note_comment_notification: 
+      anonymous: 一位匿名用户
+      closed: 
+        commented_note: "%{commenter} 解决了您感兴趣的一个地图注释。该注释位于 %{place} 附近。"
+        subject_other: "[OpenStreetMap] %{commenter} 解决了您感兴趣的一个注释"
+        subject_own: "[OpenStreetMap] %{commenter} 解决了您的一个注释"
+        your_note: "%{commenter} 解决了您在 %{place} 附近的一个注释。"
+      commented: 
+        commented_note: "%{commenter} 评论了您感兴趣的一个地图注释。该注释位于 %{place} 附近。"
+        subject_other: "[OpenStreetMap] %{commenter} 评论了您感兴趣的一个注释"
+        subject_own: "[OpenStreetMap] %{commenter} 评论了您的一个注释"
+        your_note: "%{commenter} 评论了您在 %{place} 附近的一个注释。"
+      details: 注释的更多细节可以在%{url}找到。
+      greeting: 您好，
     signup_confirm: 
       confirm: 在开始之前，我们需要确认这个请求来自于您。如果确实这样，那么请点击以下链接以确认您的帐户：
-      created: 某人(希望是您)刚在 %{site_url} 创建了一个帐户。
+      created: 某人(希望是您)刚在%{site_url}创建了一个帐户。
       greeting: 您好！
       subject: "[OpenStreetMap] 欢迎加入 OpenStreetMap"
       welcome: 我们欢迎您，并提供一些额外的信息，帮助您开始使用。
@@ -1207,10 +1289,11 @@ zh-CN:
       allow_write_api: 修改地图。
       allow_write_diary: 创建日记、评论和交朋友。
       allow_write_gpx: 上传 GPS 轨迹。
+      allow_write_notes: 修改注释。
       allow_write_prefs: 修改您的用户首选项。
       request_access: "%{user}，应用程序 %{app_name} 要求访问您的帐户。请确定您要让此应用程序使用下列功能。您可以按照自己的意思选择几个。"
     revoke: 
-      flash: 您已经注销 %{application} 的记号。
+      flash: 您已经注销 %{application} 的令牌。
   oauth_clients: 
     create: 
       flash: 注册信息成功
@@ -1225,6 +1308,7 @@ zh-CN:
       allow_write_api: 修改地图。
       allow_write_diary: 创建日记、评论和交朋友。
       allow_write_gpx: 上传 GPS 轨迹。
+      allow_write_notes: 修改注释。
       allow_write_prefs: 修改他们的用户参数设置。
       callback_url: 回调 URL
       name: 名称
@@ -1255,6 +1339,7 @@ zh-CN:
       allow_write_api: 修改地图。
       allow_write_diary: 创建日记、评论和交朋友。
       allow_write_gpx: 上传 GPS 轨迹。
+      allow_write_notes: 修改注释。
       allow_write_prefs: 修改他们的用户首选项。
       authorize_url: 授权 URL：
       confirm: 您确定吗？
@@ -1272,12 +1357,12 @@ zh-CN:
     with_version: "%{id}，版本 %{version}"
   redaction: 
     edit: 
-      description: 说明
+      description: 描述
     new: 
-      description: 说明
+      description: 描述
     show: 
       confirm: 您确定吗？
-      description: 说明：
+      description: 描述：
       user: "创建者:"
     update: 
       flash: 更改已保存。
@@ -1286,6 +1371,7 @@ zh-CN:
       anon_edits: (%{link})
       anon_edits_link_text: 了解为什么这很重要。
       flash_player_required: 您需要 Flash Player 来使用 OpenStreetMap Flash 编辑器 Potlatch。您可以<a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">从 Adobe.com 下载 Flash Player</a>。<a href="http://wiki.openstreetmap.org/wiki/Editing">其他几种选择</a>也可以用来编辑 OpenStreetMap。
+      id_not_configured: iD 尚未配置
       no_iframe_support: 您的浏览器不支持 HTML 嵌入式框架，这是此功能所需要的。
       not_public: 您尚未公开您的编辑。
       not_public_description: 您将无法再编辑此地图，直到您做到如上所述。您可以通过您的%{user_page}公开您的编辑。
@@ -1294,6 +1380,7 @@ zh-CN:
       potlatch_unsaved_changes: 您有尚未保存的修改。(要在 Potlatch 中保存，如果在在线模式下编辑，您需要取消选择当前的路径或节点；或者点击保存，如果有保存按钮。)
       user_page_link: 用户页
     index: 
+      createnote: 添加一个注释
       js_1: 您或许正在使用不支持 JavaScript 的浏览器，或许您禁用了 JavaScript。
       js_2: OpenStreetMap 使用 JavaScript 让地图更平滑。
       license: 
@@ -1406,7 +1493,7 @@ zh-CN:
     delete: 
       scheduled_for_deletion: 计划被删除的路径
     edit: 
-      description: 说明：
+      description: 描述：
       download: 下载
       edit: 编辑
       filename: 文件名：
@@ -1454,7 +1541,7 @@ zh-CN:
       trackable: 可追踪
       view_map: 查看地图
     trace_form: 
-      description: 说明：
+      description: 描述：
       help: 帮助
       help_url: http://wiki.openstreetmap.org/wiki/Upload
       tags: 标签：
@@ -1467,7 +1554,7 @@ zh-CN:
     trace_header: 
       see_all_traces: 查看所有轨迹
       see_your_traces: 查看您的所有轨迹
-      traces_waiting: 您有 %{count} 条追踪路径正等待上传，请再您上传更多路径前等待这些传完，以确保不会给其他用户造成队列拥堵。
+      traces_waiting: 您有 %{count} 条轨迹正等待上传，请在上传更多轨迹前等待这些传完，以确保不会给其他用户造成队列拥堵。
       upload_trace: 上传轨迹
     trace_optionals: 
       tags: 标签
@@ -1477,7 +1564,7 @@ zh-CN:
       showing_page: 第%{page}页
     view: 
       delete_track: 删除这条轨迹
-      description: 说明：
+      description: 描述：
       download: 下载
       edit: 编辑
       edit_track: 编辑这条轨迹
@@ -1561,7 +1648,7 @@ zh-CN:
       unknown token: 该标记似乎不存在。
     confirm_email: 
       button: 确认
-      failure: 具有此记号的电子邮件地址已经确认过了。
+      failure: 具有此令牌的电子邮件地址已经确认过了。
       heading: 确认电子邮件地址变更
       press confirm button: 按下面的确认按钮以确认您的新电子邮件地址。
       success: 已确认您的电子邮件地址，感谢您的注册！
@@ -1729,7 +1816,7 @@ zh-CN:
       ct undecided: 未决定
       deactivate_user: 停用该用户
       delete_user: 删除此用户
-      description: 说明
+      description: 描述
       diary: 日记
       edits: 编辑
       email address: 电子邮件地址：
@@ -1745,6 +1832,7 @@ zh-CN:
       my comments: 我的评论
       my diary: 我的日记
       my edits: 我的编辑
+      my notes: 我的地图注释
       my settings: 我的设置
       my traces: 我的轨迹
       nearby users: 附近的其他用户
@@ -1753,7 +1841,7 @@ zh-CN:
       new diary entry: 新日记入口
       no friends: 您还没有添加任何好友。
       no nearby users: 附近没有在进行制图的用户。
-      notes: 地图说明
+      notes: 地图注释
       oauth settings: OAuth 设置
       remove as friend: 删除好友
       role: 
