@@ -413,7 +413,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select "div#notice", /^User information updated successfully/
-    assert_select "table#accountForm > tr > td > div#user_description_container > div#user_description_content > textarea#user_description", user.description
+    assert_select "form#accountForm > fieldset > div.form-row > div#user_description_container > div#user_description_content > textarea#user_description", user.description
 
     # Changing name to one that exists should fail
     user.display_name = users(:public_user).display_name
@@ -422,7 +422,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#notice", false
     assert_select "div#errorExplanation"
-    assert_select "table#accountForm > tr > td > div[class=field_with_errors] > input#user_display_name"
+    assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
 
     # Changing name to one that exists should fail, regardless of case
     user.display_name = users(:public_user).display_name.upcase
@@ -431,7 +431,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#notice", false
     assert_select "div#errorExplanation"
-    assert_select "table#accountForm > tr > td > div[class=field_with_errors] > input#user_display_name"
+    assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
 
     # Changing name to one that doesn't exist should work
     user.display_name = "new tester"
@@ -440,7 +440,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select "div#notice", /^User information updated successfully/
-    assert_select "table#accountForm > tr > td > input#user_display_name[value=?]", user.display_name
+    assert_select "form#accountForm > fieldset > div.form-row > input#user_display_name[value=?]", user.display_name
 
     # Need to update cookies now to stay valid
     @request.cookies["_osm_username"] = user.display_name
@@ -452,7 +452,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#notice", false
     assert_select "div#errorExplanation"
-    assert_select "table#accountForm > tr > td > div[class=field_with_errors] > input#user_new_email"
+    assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_new_email"
 
     # Changing email to one that exists should fail, regardless of case
     user.new_email = users(:public_user).email.upcase
@@ -461,7 +461,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#notice", false
     assert_select "div#errorExplanation"
-    assert_select "table#accountForm > tr > td > div[class=field_with_errors] > input#user_new_email"
+    assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_new_email"
 
     # Changing email to one that doesn't exist should work
     user.new_email = "new_tester@example.com"
@@ -470,7 +470,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select "div#notice", /^User information updated successfully/
-    assert_select "table#accountForm > tr > td > input#user_new_email[value=?]", user.new_email
+    assert_select "form#accountForm > fieldset > div.form-row > input#user_new_email[value=?]", user.new_email
   end
   
   # Check that the user account page will display and contains some relevant
