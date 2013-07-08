@@ -416,7 +416,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 0, current_node.tags.size, "There seems to be a tag that has been added to the node"
     assert_equal result[4], current_node.version, "The version returned, is different to the one returned by the amf"
     # Now check the history table
-    historic_nodes = Node.find(:all, :conditions => { :id => result[3] })
+    historic_nodes = Node.where(:id => result[3])
     assert_equal 1, historic_nodes.size, "There should only be one historic node created"
     first_historic_node = historic_nodes.first
     assert_in_delta lat, first_historic_node.lat, 0.00001, "The latitude was not retreived correctly"
@@ -456,7 +456,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal({ "key" => "value", "ping" => "pong" }, current_node.tags, "tags are different")
     assert_equal result[4], current_node.version, "The version returned, is different to the one returned by the amf"
     # Now check the history table
-    historic_nodes = Node.find(:all, :conditions => { :id => result[3] })
+    historic_nodes = Node.where(:id => result[3])
     assert_equal 1, historic_nodes.size, "There should only be one historic node created"
     first_historic_node = historic_nodes.first
     assert_in_delta lat, first_historic_node.lat, 0.00001, "The latitude was not retreived correctly"
