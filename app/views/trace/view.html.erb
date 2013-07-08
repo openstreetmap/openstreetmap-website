@@ -55,10 +55,8 @@
 <br /><br />
 
 <%= if_user(@trace.user) do %>
-  <table>
-    <tr>
-      <td><%= button_to t('trace.view.edit_track'), :controller => 'trace', :action => 'edit', :id => @trace.id %></td>
-      <td><%= button_to t('trace.view.delete_track'), :controller => 'trace', :action => 'delete', :id => @trace.id %></td>
-    </tr>
-  </table>
+  <div class="buttons">
+    <%= button_to t('trace.view.edit_track'), :controller => 'trace', :action => 'edit', :id => @trace.id %>
+    <%= button_to t('trace.view.delete_track'), :controller => 'trace', :action => 'delete', :id => @trace.id %>
+  </div>
 <% end %>

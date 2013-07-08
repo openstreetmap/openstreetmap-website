@@ -2,8 +2,10 @@
   <h1><%= t'oauth_clients.new.title' %></h1>
 <% end %>
 
-<%= form_for :client_application, :url => { :action => :create } do |f| %>
-   <%= render :partial => "form", :locals => { :f => f } %>
-   <br />
-   <%= submit_tag t('oauth_clients.new.submit') %>
+<div class='standard-form'>
+  <%= form_for :client_application, :url => { :action => :create } do |f| %>
+  <%= render :partial => "form", :locals => { :f => f } %>
+  <%= submit_tag t('oauth_clients.new.submit') %>
+</div>
+
 <% end %>
