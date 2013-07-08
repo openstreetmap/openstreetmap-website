@@ -81,8 +81,14 @@ L.OSM.layers = function(options) {
       });
 
       var label = $('<label>')
-        .text(layer.options.name)
         .appendTo(item);
+
+      var input = $('<input>')
+        .attr('type', 'radio')
+        .prop('checked', map.hasLayer(layer))
+        .appendTo(label);
+
+      label.append(layer.options.name);
 
       item.on('click', function() {
         layers.forEach(function(other) {
@@ -97,6 +103,7 @@ L.OSM.layers = function(options) {
 
       map.on('layeradd layerremove', function() {
         item.toggleClass('active', map.hasLayer(layer));
+        input.prop('checked', map.hasLayer(layer));
       });
     });
 
