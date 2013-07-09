@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ShortLinkTest < ActionController::IntegrationTest
+class ShortLinksTest < ActionController::IntegrationTest
   ##
   # test the short link with various parameters and ensure they're
   # kept in the redirect.
