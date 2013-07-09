@@ -18,16 +18,17 @@ L.OSM.layers = function(options) {
     var $ui = $('<div>')
       .attr('class', 'layers-ui');
 
-    $('<section>')
-       .appendTo($ui)
-       .append(
-          $('<a>')
-            .html('&raquo;')
-            .attr('class', 'close-button')
-            .attr('href', '#')
-            .bind('click', toggle))
-       .append(
-        $('<h2>')
+    $('<header>')
+      .attr('class', 'sidebar_heading')
+      .appendTo($ui)
+      .append(
+        $('<a>')
+          .text(I18n.t('javascripts.close'))
+          .attr('class', 'sidebar_close')
+          .attr('href', '#')
+          .bind('click', toggle))
+      .append(
+        $('<h4>')
           .text(I18n.t('javascripts.map.layers.header')));
 
     var baseSection = $('<section>')

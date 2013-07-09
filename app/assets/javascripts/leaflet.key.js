@@ -14,19 +14,20 @@ L.OSM.key = function (options) {
       .appendTo($container);
 
     var $ui = $('<div>')
-      .attr('class', 'layers-ui');
+      .attr('class', 'key-ui');
 
-    $('<section>')
+    $('<header>')
+      .attr('class', 'sidebar_heading')
       .appendTo($ui)
       .append(
-          $('<a>')
-            .html('&raquo;')
-            .attr('class', 'close-button')
-            .attr('href', '#')
-            .bind('click', toggle))
+        $('<a>')
+          .text(I18n.t('javascripts.close'))
+          .attr('class', 'sidebar_close')
+          .attr('href', '#')
+          .bind('click', toggle))
       .append(
-      $('<h2>')
-        .text(I18n.t('javascripts.key.title')));
+        $('<h4>')
+          .text(I18n.t('javascripts.key.title')));
 
     var $section = $('<section>')
       .appendTo($ui);
