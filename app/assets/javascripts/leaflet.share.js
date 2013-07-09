@@ -38,6 +38,7 @@ L.OSM.share = function (options) {
 
     var $input = $('<input />')
       .attr('type', 'text')
+      .on('click', select)
       .appendTo($share_link);
 
     var $list = $('<ul>')
@@ -77,6 +78,10 @@ L.OSM.share = function (options) {
       $input.val(
           options.short ? options.getShortUrl(map) : options.getUrl(map)
       );
+    }
+
+    function select() {
+      $(this).select();
     }
 
     return $container[0];
