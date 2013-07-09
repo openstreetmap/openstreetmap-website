@@ -1,16 +1,20 @@
-function openSidebar(options) {
-  options = options || {};
+function openSidebar() {
+  $("#sidebar-main")
+    .hide();
 
-  $("#sidebar").trigger("closed");
-
-  if (options.title) { $("#sidebar_title").html(options.title); }
-
-  $("#sidebar").width(options.width || "30%");
-  $("#sidebar").css("display", "block").trigger("opened");
+  $("#sidebar")
+    .trigger("closed")
+    .show()
+    .trigger("opened");
 }
 
 function closeSidebar() {
-  $("#sidebar").css("display", "none").trigger("closed");
+  $("#sidebar")
+    .hide()
+    .trigger("closed");
+
+  $("#sidebar-main")
+    .show();
 }
 
 $(document).ready(function () {

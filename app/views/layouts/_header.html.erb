@@ -1,0 +1,36 @@
+<header>
+  <h1>
+    <%= image_tag "osm_logo.png", :alt => t('layouts.logo.alt_text'), :class => 'logo' %>
+    <%= t 'layouts.project_name.h1' %>
+  </h1>
+  <nav class='primary'>
+    <ul>
+      <li id="view_tab">
+        <%= link_to t('layouts.view'), root_path, :class => 'tab geolink llz layers' %>
+      </li><li id="history_tab">
+        <%= link_to t('layouts.history'), browse_changesets_path, :class => 'tab geolink bbox' %>
+      </li><li id="export_tab">
+        <%= link_to t('layouts.export'), export_path, :class => 'tab geolink llz' %>
+      </li><li id="edit_tab">
+        <%= render :partial => 'layouts/edit_menu',
+                   :locals => { :link_text => t('layouts.edit'), :link_class => 'llz object' }%>
+      </li>
+    </ul>
+  </nav>
+  <nav class='secondary'>
+    <ul>
+      <li><%= link_to t('layouts.gps_traces'), traces_path %></li>
+      <li><%= link_to t('layouts.user_diaries'), diary_path %></li>
+      <li><%= link_to t('layouts.help'), help_path %></li>
+      <li><%= link_to t('layouts.about'), '#' %></li>
+    </ul>
+    <% if @user %>
+      <%= render :partial => "layouts/user_menu" %>
+    <% else %>
+      <ul class="secondary-actions">
+        <li><%= link_to t('layouts.log_in'), login_path(:referer => request.fullpath), {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %></li>
+        <li><%= link_to t('layouts.sign_up'), user_new_path, {:id => 'registeranchor', :title => t('layouts.sign_up_tooltip')} %></li>
+      </ul>
+    <% end %>
+  </nav>
+</header>

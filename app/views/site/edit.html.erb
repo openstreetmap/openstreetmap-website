@@ -1,21 +1,17 @@
-<% if STATUS == :database_offline or STATUS == :api_offline %>
-<p><%= t 'layouts.osm_offline' %>
-</p>
-<% elsif STATUS == :database_readonly or STATUS == :api_readonly %>
-<p><%= t 'layouts.osm_read_only' %>
-</p>
-<% elsif !@user.data_public? %>
-<p><%= t 'site.edit.not_public' %></p>
-<p><%= raw t 'site.edit.not_public_description', :user_page => (link_to t('site.edit.user_page_link'), {:controller => 'user', :action => 'account', :display_name => @user.display_name, :anchor => 'public'}) %></p>
-<p><%= raw t 'site.edit.anon_edits', :link => link_to(t('site.edit.anon_edits_link_text'), t('site.edit.anon_edits_link')) %></p>
-<% else %>
-<% content_for :head do %>
-  <%= javascript_include_tag "edit" %>
-<% end %>
+<% content_for :content do %>
+  <% if STATUS == :database_offline or STATUS == :api_offline %>
+    <p><%= t 'layouts.osm_offline' %></p>
+  <% elsif STATUS == :database_readonly or STATUS == :api_readonly %>
+    <p><%= t 'layouts.osm_read_only' %></p>
+  <% elsif !@user.data_public? %>
+    <p><%= t 'site.edit.not_public' %></p>
+    <p><%= raw t 'site.edit.not_public_description', :user_page => (link_to t('site.edit.user_page_link'), {:controller => 'user', :action => 'account', :display_name => @user.display_name, :anchor => 'public'}) %></p>
+    <p><%= raw t 'site.edit.anon_edits', :link => link_to(t('site.edit.anon_edits_link_text'), t('site.edit.anon_edits_link')) %></p>
+  <% else %>
+    <% content_for :head do %>
+      <%= javascript_include_tag "edit" %>
+    <% end %>
 
-<%= render :partial => 'home_link' %>
-<%= render :partial => 'sidebar' %>
-<%= render :partial => 'search' %>
-
-<%= render :partial => preferred_editor %>
+    <%= render :partial => preferred_editor %>
+  <% end %>
 <% end %>

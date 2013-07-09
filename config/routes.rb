@@ -129,7 +129,7 @@ OpenStreetMap::Application.routes.draw do
   match '/help' => 'site#help', :via => :get, :as => :help
   match '/history' => 'changeset#list', :via => :get
   match '/history/feed' => 'changeset#feed', :via => :get, :defaults => { :format => :atom }
-  match '/export' => 'site#index', :export => true, :via => :get
+  match '/export' => 'site#export', :via => :get
   match '/login' => 'user#login', :via => [:get, :post]
   match '/logout' => 'user#logout', :via => [:get, :post]
   match '/offline' => 'site#offline', :via => :get

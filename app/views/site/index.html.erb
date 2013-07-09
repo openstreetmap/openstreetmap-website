@@ -2,32 +2,28 @@
   <%= javascript_include_tag "index" %>
 <% end %>
 
-<%= render :partial => 'home_link' %>
-<%= render :partial => 'sidebar' %>
-<%= render :partial => 'search' %>
+<% content_for :sidebar do %>
+  <h2>
+    <%= t 'layouts.intro_header' %>
+    <span class="icon close"></span>
+  </h2>
 
-<noscript>
-  <div id="noscript">
-    <p><%= t 'site.index.js_1' %></p>
-    <p><%= t 'site.index.js_2' %></p>
+  <p><%= t 'layouts.intro_text' %></p>
+
+  <div class='footer'>
+    <a title="<%= t('layouts.make_a_donation.title') %>" href="http://donate.openstreetmap.org/" class="donate">
+      <span class='icon donate'></span>
+      <span><%= t('layouts.make_a_donation.text') %></span>
+    </a>
+
+    <p class='credits'>
+      <%= t 'layouts.partners_html',
+            :ucl => link_to(t('layouts.partners_ucl'), "http://www.vr.ucl.ac.uk"),
+            :ic => link_to(t('layouts.partners_ic'), "http://www.imperial.ac.uk/"),
+            :bytemark => link_to(t('layouts.partners_bytemark'), "http://www.bytemark.co.uk"),
+            :partners => link_to(t('layouts.partners_partners'), t('layouts.partners_url')) %>
+    </p>
   </div>
-</noscript>
+<% end %>
 
-<div id="map-ui">
-</div>
-
-<div id="map" tabindex="2">
-</div>
-
-<div id="attribution">
-  <table width="100%">
-    <tr>
-      <td class="attribution_license"><%= t'site.index.license.license_url' %></td>
-      <td class="attribution_project"><%= t'site.index.license.project_url' %></td>
-    </tr>
-    <tr>
-      <td colspan="2" class="attribution_notice"><%= t'site.index.license.copyright' %></td>
-    </tr>
-  </table>
-</div>
- 
+<%= render :template => 'layouts/map' %>

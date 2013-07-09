@@ -5,9 +5,14 @@ $typeheight: 14px;
 $offwhite: #f4f4ff;
 $blue: #7092FF;
 $lightblue: #B8C5F0;
-$grey: #AAA;
-$lightgrey: #CCC;
+$green: #7ebc6f;
+$grey: #CCC;
+$lightgrey: #EEE;
+$darkgrey: #AAA;
 $hovercolor: 20%;
+$headerHeight: 75px;
+$sidebarWidth: 350px;
+$keyline: 1px solid $grey;
 
 /* Styles common to large and small screens */
 
@@ -88,6 +93,7 @@ abbr, acronym {
 .margin12 { margin-left:100.0000%; }
 
 .fillL { background-color: white; }
+
 /* Default rules for the body of every page */
 
 * {
@@ -112,35 +118,19 @@ body.slim {
 }
 
 h1, h2, h3 {
-  margin-top: $lineheight/2;
-  margin-bottom: $lineheight;
   font-weight: bold;
   line-height: 1.2;
 }
 
-h1, h2 {
-  font-size: 32px;
+h1 {
+  font-size: 18px;
 }
 
-#content h2 {
-  font-size: 21px;
+h2, h3 {
+  font-size: 16px;
 }
 
-h3 {
-  font-size: 21px;
-  margin-top: $lineheight/2;
-  margin-bottom: $lineheight;
-}
-
-h4,h5,h6 {
-  font-size: $typeheight;
-  margin-top: $lineheight/2;
-  margin-bottom: $lineheight/2;
-  font-weight: bold;
-  line-height: 1.5;
-}
-
-p, ul {
+p {
   margin-bottom: $lineheight;
 }
 
@@ -242,194 +232,40 @@ table {
   }
 }
 
-/* Rules for the whole left sidebar, including the logo */
-
-#left {
-  position: absolute;
-  height: 100%;
-  width: 185px;
-  font-size: 11px;
-  line-height: 1.1;
-  z-index: 100;
-  border-right: 1px solid #ccc;
-}
-
-/* Rules for the OpenStreetMap logo in the top left corner */
-
-#logo {
-  display: block;
-  width: 170px;
-  min-width: 170px;
-  padding: $lineheight $lineheight/4;
-  text-align: center;
-  margin: auto;
-}
-
-#logo h1 {
-  font-size: 18px;
-  line-height: 1;
-  text-align: center;
-  margin: 0;
-}
-
-#logo h2 {
-  font-size: $lineheight/2;
-  line-height: 15px;
-  margin: 0;
-}
-
-/* Rules for the site name */
-
-#small-title {
-  display: none;
-
-  img {
-    vertical-align: text-bottom;
-  }
-}
-
-/* Rules for the introductory text displayed in the left sidebar to new users */
-
-.sidebar-copy {
-  padding: $lineheight/4 $lineheight/2;
-  p {
-    margin: $lineheight/4 0;
-  }
-}
-.sidebar-copy.intro {
-  border-top: 1px solid #ccc;
-}
-
-/*
- * Rules for alert boxes shown in the left sidebar when important
- * information needs to be conveyed such as when the site is
- * undergoing maintenance.
- */
-
-.sidebar-alert {
-  padding: $lineheight/4;
-  border-top: 1px solid #ccc;
-  margin-top: 4px;
-  margin-bottom: -5px;
-  background: #e00;
-  font-size: 12px;
-  font-weight: bold;
-  p {
-    margin: $lineheight/4;
-  }
-}
-
-/*
- * Rules for notice boxes shown in the left sidebar when important, but
- * non-critical information needs to be conveyed such as notices about
- * donation drives.
- */
-
-.sidebar-notice {
-  padding: $lineheight/4;
-  border-top: 1px solid #ccc;
-  margin-top: 4px;
-  margin-bottom: -5px;
-  background: #ea0;
-  font-size: 12px;
-  p {
-    margin: $lineheight/4;
-  }
-}
-
-/* Rules for the menu displayed in the left sidebar */
-
-.left_menu {
-  left: 0px;
-  margin: 0;
-  padding: $lineheight/4 $lineheight/2 $lineheight/2 $lineheight/2;
-  font-size: 12px;
-  line-height: 1.25;
-  list-style-type: none;
-  border-bottom: 1px solid #ccc;
-  border-top: 1px solid #ccc;
-  img {
-    margin: $lineheight/2 0px;
-  }
-
-  ul {
-    padding: 0;
-    margin: 0;
-  }
-
-  li {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  h4 {
-    padding: $lineheight/4 0 $lineheight/4 0;
-    font-size: 12px;
-    margin: 0;
-  }
-}
-
-/*
- * Rules for "optional boxes" which appear in the left sidebar on
- * certain pages. Current users are the seach box on the main page
- * and the tag cloud on the traces pages.
- */
-
-.optionalbox {
-  left: 0px;
-  padding: $lineheight/4 $lineheight/2;
-  margin: $lineheight/4 0;
-  text-align: left;
-}
-
 /* Rules for the search box */
 
-#search_field {
+#search_form {
   position: relative;
+  padding: $lineheight;
+  background-color: $lightgrey;
+  border-bottom: $keyline;
 
-  form {
-    width: 165px;
+  #query_wrapper {
+    overflow: hidden;
   }
 
-  input[type="text"] {
-    width: 165px;
-    padding: 3px;
-    font-size: $typeheight;
-    line-height: 1.1;
-    height: 25px;
-    padding: 2px 0px 2px $lineheight/4;
-    box-shadow: inset #DDD 0px 1px 3px;
+  input {
+    width: 100%;
+    height: 30px;
+    border-right: none;
+    border-radius: 2px 0 0 2px;
 
     transition: 300ms linear;
     -webkit-transition: 300ms linear;
     -moz-transition: 300ms linear;
   }
 
-  input[type="text"]:focus {
-    box-shadow: 0px 0px 7px #9ED485;
+  input:focus {
     outline: none;
+    box-shadow: 0px 0px 7px #9ED485;
   }
 
-  input[type="submit"] {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    width: 15px;
-    height: 15px;
+  input[type=submit] {
+    float: right;
+    width: auto;
     min-width: 0;
-    text-indent: -1000px;
-    overflow: hidden;
-    background: image-url("sprite.png") -2px -2px no-repeat;
-    position: absolute;
-    top: $lineheight/4;
-    right: $lineheight/4;
-    cursor: pointer;
+    border-radius: 0 2px 2px 0;
   }
-}
-
-.search_help {
-  margin: $lineheight/4 0 0 0;
 }
 
 /* Utility for de-emphasizing content */
@@ -454,7 +290,7 @@ a.donate {
   text-align: center;
   border-radius: 2px;
   color: #222;
-  margin: $lineheight/2 $lineheight/2 0px $lineheight/2;
+  margin: $lineheight/2 auto;
 
   &:hover {
     background: #9ed485;
@@ -462,69 +298,64 @@ a.donate {
   }
 }
 
-/* Rules for Creative Commons logo button */
+/* Rules for the header */
 
-#cclogo {
-  margin: $lineheight/2 0;
-  float: right;
-}
-
-/* Rules for tabbed navigation bar */
-
-#top-bar {
+header {
+  height: $headerHeight;
   position: relative;
-  margin-left: 185px;
-  height: 30px;
-  border-bottom: 1px solid #ccc;
-  background: white;
-  z-index: 1001;
+  border-bottom: $keyline;
 
-  .caret {
-    margin-top: 10px;
+  h1, nav, nav > ul, nav > ul > li, .dropdown {
+    display: inline-block;
+  }
+
+  > * {
+    height: 100%;
+    padding: $lineheight;
+  }
+
+  h1, nav.primary {
+    float: left;
+  }
+
+  img.logo {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+  }
+
+  h1 {
+    margin: 0;
+    border-right: $keyline;
   }
 }
 
-.site-edit #top-bar,
-.site-index #top-bar,
-.site-export #top-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
-#top-bar nav > ul {
-  height: 29px;
-  margin-bottom: 0;
-}
-
 nav.primary {
-  float: left;
-
   > ul {
-    > li {
-      float: left;
-
-      > * {
-        padding: 3px $lineheight/2;
-      }
-    }
+    border: 1px solid darken($green, 20%);
+    border-radius: 4px;
   }
 
   a.tab {
     display: inline-block;
     font-weight: bold;
     text-decoration: none;
-    color: #333;
+    color: $green;
+    padding: 5px 15px;
+    border-right: 1px solid darken($green, 20%);
+  }
 
-    -webkit-transition: color 200ms ease-in;
-       -moz-transition: color 200ms ease-in;
-         -o-transition: color 200ms ease-in;
-            transition: color 200ms ease-in;
+  #edit_tab a.tab {
+    border-right: 1px solid lighten($green, 20%);
+  }
 
-    &:hover {
-      text-decoration: underline;
-    }
+  .dropdown-toggle {
+    padding: 5px 10px 5px 5px;
+  }
+
+  .caret {
+    margin-top: 15px;
+    border-top-color: $green;
   }
 
   .disabled a {
@@ -539,34 +370,37 @@ nav.primary {
       border-top-color: #ccc;
     }
   }
-
-  .dropdown {
-    height: 29px;
-  }
 }
 
 .site-index #view_tab,
-.site-edit #edit_tab,
-.changeset-list #history_tab {
-  background: #9ed485;
-  color: #000;
+.changeset-list #history_tab,
+.site-export #export_tab,
+.site-edit #edit_tab {
+  background-color: $green;
+
+  .tab {
+    color: #fff;
+  }
+
+  .caret {
+    border-top-color: #fff;
+  }
 }
 
 nav.secondary {
-  float: right;
-  height: 100%;
+  position: absolute;
+  right: 0;
 
-  > ul {
-    display: inline-block;
-    padding: 3px $lineheight/2;
+  > ul a {
+    font-weight: bold;
+    text-decoration: none;
+    color: $darkgrey;
+    padding-right: 10px;
   }
 
   .dropdown {
-    display: inline-block;
-    background-color: #EEE;
-    &:hover {
-      background-color: #CCC;
-    }
+    border: 1px solid $grey;
+    border-radius: 4px;
   }
 
   img {
@@ -774,7 +608,6 @@ nav.secondary {
   width: 250px;
   height: 100%;
   background: white;
-  border-left: 1px solid #CCC;
   overflow: auto;
 
   .section {
@@ -882,7 +715,7 @@ nav.secondary {
 }
 
 .leaflet-top.leaflet-right {
-  top: $lineheight/2 !important;
+  top: 10px !important;
   .leaflet-control {
     margin-right: 0px !important;
     margin-top: 0px !important;
@@ -901,15 +734,6 @@ nav.secondary {
 }
 
 /* Rules for edit menu */
-
-.menuicon {
-  padding: 0 $lineheight/4;
-  font-weight: normal;
-  display: inline-block;
-  &:hover {
-    text-decoration: none !important;
-  }
-}
 
 .menu {
   display: none;
@@ -943,25 +767,39 @@ nav.secondary {
   text-align: center;
 }
 
-/* Rules for the popout map sidebar */
+/* Rules for the sidebar */
 
 #sidebar {
-  display: none;
-  position: relative;
-  float: left;
-  border-right: 1px solid $lightgrey;
-  width: 33.3333%;
-  height: 100%;
-  ul {
-    margin-bottom: 0;
-    &:last-child {
-        border-bottom: 1px solid #ccc;
-    }
-    li {
-      margin-bottom: $lineheight/4;
-      &:last-child {
-        margin-bottom: 0;
-      }
+  .alert {
+    background: #e00;
+  }
+
+  h2, h3, h4 {
+    padding: $lineheight;
+    border-bottom: $keyline;
+  }
+
+  .icon.close {
+    position: absolute;
+    right: $lineheight;
+  }
+
+  p {
+    padding: $lineheight;
+    margin: 0;
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+  }
+
+  p.credits {
+    font-size: 11px;
+    color: #999;
+
+    a {
+      color: #666;
     }
   }
 }
@@ -986,17 +824,11 @@ nav.secondary {
 }
 
 #sidebar_content {
-  position: relative;
-  margin-bottom: 20px;
-  overflow: auto;
-  height: 100%;
+  position: absolute;
+  top: 72px;
+  bottom: 0;
   width: 100%;
-  h4 {
-    padding: 0 $lineheight $lineheight/2 $lineheight;
-    margin-top: $lineheight/2;
-    margin-bottom: 0;
-    border-bottom: 1px solid #ddd;
-  }
+  overflow-y: auto;
 }
 
 /* Rules for the map key which appears in the popout sidebar */
@@ -1091,35 +923,43 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   margin: $lineheight/4;
 }
 
-/* Rules for the main content area */
+/* Rules for the sidebar and main content area */
 
-#content {
+.site-index,
+.site-export,
+.site-edit {
+  #content {
+    position: absolute;
+    top: $headerHeight;
+    bottom: 0;
+    width: 100%;
+  }
+
+  #sidebar, #map {
+    position: relative;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  #sidebar {
+    float: left;
+    width: $sidebarWidth;
+  }
+}
+
+.content-heading {
   position: relative;
+  padding: $lineheight;
+  background: $lightgrey;
+  border-bottom: $keyline;
+}
+
+.content-body {
   padding: $lineheight;
 }
 
-.site-edit #content,
-.site-index #content,
-.site-export #content {
-  position: fixed;
-  padding: 0;
-  top: 30px; bottom: 0;
-  left: 184px; right: 0;
-  border-left: 1px solid #ccc;
-}
-
 /* Overrides for pages that use new layout conventions */
-.user-new,
-.user-create,
-.user-terms,
-.user-confirm,
-.site-copyright,
-.site-welcome,
-.site-help {
-  #content {
-    max-width: 740px;
-  }
-}
 
 .user-new,
 .user-create,
@@ -1133,7 +973,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 .user-new,
 .user-create,
 .user-terms {
-  #content {
+  .content-body {
     padding: 0;
   }
 }
@@ -1170,12 +1010,11 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 @media only screen and (max-width:900px) {
   .header-illustration.new-user-arm { display: none;}
+.wrapper {
+  margin-left: $sidebarWidth;
+  text-align: left;
 }
 
-.wrapper {
-  margin-left: 184px;
-  border-left: 1px solid #ccc;
-  text-align: left;
 }
 
 #content.maximised {
@@ -1220,24 +1059,6 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     vertical-align: middle;
     margin-bottom: $lineheight/4;
     margin-right: $lineheight/4;
-  }
-}
-
-.content-heading {
-  position: relative;
-  padding: $lineheight;
-  background: $offwhite;
-  z-index: 2;
-  h1, h2 {
-    margin-bottom: $lineheight/2;
-    line-height: 100%;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  p {
-    margin-top: $lineheight/2;
-    margin-bottom: 0px;
   }
 }
 
@@ -2316,29 +2137,6 @@ a.button {
  * Rules for the iD editor
  */
 
-.site-edit-id {
-  #left,
-  #large-title {
-    display: none;
-  }
-
-  #small-title {
-    display: inline-block;
-    width: 185px;
-    height: 30px;
-    font-size: 14px;
-    margin: 0;
-    background-color: #eee;
-    border-bottom: 1px solid #ccc;
-    text-align: center;
-    padding-top: 7px;
-  }
-
-  #content {
-    left: 0;
-  }
-}
-
 .id-embed {
   width: 100%;
   height: 100%;
@@ -2348,15 +2146,22 @@ a.button {
 .ad-container {
   display: block;
   height: 120px;
+  margin: auto;
   overflow: hidden;
   position: relative;
   border-bottom: 1px solid #ccc;
-}
 
-.ad {
-  height: 100px;
-  border: 0;
-  background: #fff;
+  a {
+    display: block;
+    width: 165px;
+    margin: auto;
+  }
+
+  .ad {
+    height: 100px;
+    border: 0;
+    background: #fff;
+  }
 }
 
 /* Rules for dropdown menus */
