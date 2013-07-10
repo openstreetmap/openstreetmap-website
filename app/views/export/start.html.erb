@@ -1,6 +1,5 @@
-<%= form_tag :action => "finish" do %>
-
-  <h4><%= t'export.start.area_to_export' %></h4>
+<%= form_tag :controller => "export", :action => "finish" do %>
+  <%= hidden_field_tag 'format', 'osm' %>
 
   <div class="export_bounds inner12">
     <div class='export_area_inputs'>
@@ -13,22 +12,6 @@
     </div>
     <a id="drag_box" class='export_hint button' href="#"><%= t'export.start.manually_select' %></a>
   </div>
-
-  <h4><%= t'export.start.format_to_export' %></h4>
-
-  <ul class="export_details inner12">
-    <li>
-      <%= radio_button_tag("format", "osm") %>
-      <label for='format_osm'><%= t'export.start.osm_xml_data' %></label>
-    </li>
-    <li>
-      <%= radio_button_tag("format", "mapnik") %>
-      <label for='format_mapnik'><%= t'export.start.map_image' %></label>
-    </li>
-    <li>
-      <%= radio_button_tag("format", "html") %>
-      <label for='format_html'><%= t'export.start.embeddable_html' %></label></li>
-  </ul>
 
   <div id="export_osm">
     <h4><%= t'export.start.licence' %></h4>
@@ -46,37 +29,7 @@
     </div>
   </div>
 
-  <div id="export_mapnik">
-    <h4><%= t'export.start.options' %></h4>
-
-    <ul class="export_details inner12">
-      <li><%= t'export.start.format' %> <%= select_tag("mapnik_format", options_for_select([["PNG", "png"], ["JPEG", "jpeg"], ["SVG", "svg"], ["PDF", "pdf"]], "png")) %></li>
-      <li><%= t'export.start.scale' %> 1 : <%= text_field_tag("mapnik_scale", nil) %> <p class="deemphasize export_hint">(<%= t'export.start.max' %> 1 : <span id="mapnik_max_scale"></span>)</p></li>
-      <li><%= t'export.start.image_size' %> <span id="mapnik_image_width"></span> x <span id="mapnik_image_height"></span></li>
-    </ul>
-  </div>
-
-  <div id="export_html">
-    <h4><%= t'export.start.options' %></h4>
-
-    <div class="export_details inner12">
-      <ul id="marker_inputs" style="display:none">
-        <li><%= t'export.start.latitude' %> <input type="text" id="marker_lat"/></li>
-        <li><%= t'export.start.longitude' %> <input type="text" id="marker_lon"/></li>
-      </ul>
-      <a id="add_marker" class='button' href="#"><%= t'export.start.add_marker' %></a>
-    </div>
-
-    <h4><%= t'export.start.output' %></h4>
-
-    <div class="export_details inner12">
-      <input type="text" id="export_html_text"/>
-      <p class='deemphasize'><%= t'export.start.paste_html' %></p>
-    </div>
-  </div>
-
   <div class="inner12">
     <%= submit_tag t('export.start.export_button'), :id => "export_commit" %>
   </div>
-
 <% end %>
