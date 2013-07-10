@@ -29,39 +29,24 @@ L.OSM.share = function (options) {
         $('<h4>')
           .text(I18n.t('javascripts.share.title')));
 
-    var $share_link = $('<section>')
+    var $linkSection = $('<section>')
+      .attr('class', 'share-link')
       .appendTo($ui);
 
-    var $title = $('<h4>')
+    $('<h4>')
       .text(I18n.t('javascripts.share.link'))
-      .appendTo($share_link);
+      .appendTo($linkSection);
 
-    var $input = $('<input />')
-      .attr('type', 'text')
-      .on('click', select)
-      .appendTo($share_link);
+    var $shortLink, $longLink;
 
-    var $list = $('<ul>')
-      .appendTo($share_link);
-
-    var $short_option = $('<li>')
-      .appendTo($list);
-
-    var $short_url_label = $('<label></label>')
-      .attr('for', 'short_url')
-      .appendTo($short_option);
-
-    var $short_url_input = $('<input />')
-      .attr('id', 'short_url')
-      .attr('type', 'checkbox')
-      .prop('checked', 'checked')
-      .appendTo($short_url_label)
-      .bind('change', function() {
-          options.short = $(this).prop('checked');
-          update();
-      });
-
-    $short_url_label.append(I18n.t('javascripts.share.short_url'));
+    $('<ul>')
+      .appendTo($linkSection)
+      .append($('<li>')
+        .append($longLink = $('<a>')
+          .text(I18n.t('javascripts.share.long_link'))))
+      .append($('<li>')
+        .append($shortLink = $('<a>')
+          .text(I18n.t('javascripts.share.short_link'))));
 
     map.on('moveend layeradd layerremove', update);
 
@@ -71,13 +56,12 @@ L.OSM.share = function (options) {
       e.stopPropagation();
       e.preventDefault();
       options.sidebar.togglePane($ui);
-      $input.select();
+      update();
     }
 
     function update() {
-      $input.val(
-          options.short ? options.getShortUrl(map) : options.getUrl(map)
-      );
+      $shortLink.attr('href', options.getShortUrl(map));
+      $longLink.attr('href', options.getUrl(map));
     }
 
     function select() {
