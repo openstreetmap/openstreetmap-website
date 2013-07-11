@@ -172,7 +172,7 @@ function updateLocation() {
   updatelinks(this.getCenter().wrap(),
       this.getZoom(),
       this.getLayersCode(),
-      this.getBounds().wrap(), {});
+      this.getBounds().wrap());
 
   var expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
