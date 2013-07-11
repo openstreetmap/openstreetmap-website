@@ -209,10 +209,10 @@ function submitSearch(map) {
     $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
     $("#sidebar_content").load($(this).attr("action"), {
       query: $("#query").val(),
-      minlon: bounds.getWestLng(),
-      minlat: bounds.getSouthLat(),
-      maxlon: bounds.getEastLng(),
-      maxlat: bounds.getNorthLat()
+      minlon: bounds.getWest(),
+      minlat: bounds.getSouth(),
+      maxlon: bounds.getEast(),
+      maxlat: bounds.getNorth()
     }, openSidebar);
 
     return e.preventDefault();
