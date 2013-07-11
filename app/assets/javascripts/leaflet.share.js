@@ -44,6 +44,23 @@ L.OSM.share = function (options) {
       .text(I18n.t('javascripts.share.link'))
       .appendTo($linkSection);
 
+    var $form = $('<form>')
+      .attr('class', 'standard-form')
+      .appendTo($linkSection);
+
+    $('<div>')
+      .attr('class', 'form-row')
+      .appendTo($form)
+      .append(
+        $('<label>')
+          .attr('for', 'link_marker')
+          .append(
+            $('<input>')
+              .attr('id', 'link_marker')
+              .attr('type', 'checkbox')
+              .bind('change', toggleMarker))
+          .append(I18n.t('javascripts.share.include_marker')));
+
     var $shortLink, $longLink;
 
     $('<ul>')
@@ -65,10 +82,8 @@ L.OSM.share = function (options) {
       .text(I18n.t('javascripts.share.embed'))
       .appendTo($embedSection);
 
-    var $form = $('<form>')
+    $form = $('<form>')
       .attr('class', 'standard-form')
-      .attr('action', '/export/finish')
-      .attr('method', 'post')
       .appendTo($embedSection);
 
     $('<div>')
@@ -82,7 +97,7 @@ L.OSM.share = function (options) {
               .attr('id', 'embed_marker')
               .attr('type', 'checkbox')
               .bind('change', toggleMarker))
-          .append(I18n.t('javascripts.share.include_marker')))
+          .append(I18n.t('javascripts.share.include_marker')));
 
     $('<div>')
       .attr('class', 'form-row')
@@ -185,6 +200,7 @@ L.OSM.share = function (options) {
       .addTo(map);
 
     map.on('moveend layeradd layerremove', update);
+    marker.on('dragend', update);
 
     options.sidebar.addPane($ui);
 
@@ -222,40 +238,32 @@ L.OSM.share = function (options) {
     }
 
     function update() {
+      var bounds = map.getBounds();
+
+      $('#link_marker, #embed_marker')
+        .prop('checked', map.hasLayer(marker));
+
       // Link
 
-      $shortLink.attr('href', map.getShortUrl());
-      $longLink.attr('href', map.getUrl());
+      $shortLink.attr('href', map.getShortUrl(marker));
+      $longLink.attr('href', map.getUrl(marker));
 
       // Embed
 
-      var bounds = map.getBounds(),
-        center = bounds.getCenter(),
-        params = {
-          bbox: bounds.toBBoxString(),
-          layer: map.getMapBaseLayerId()
-        },
-        linkParams = {
-          lat: center.lat,
-          lon: center.lng,
-          zoom: map.getBoundsZoom(bounds),
-          layers: map.getLayersCode()
-        };
+      var params = {
+        bbox: bounds.toBBoxString(),
+        layer: map.getMapBaseLayerId()
+      };
 
       if (map.hasLayer(marker)) {
-        var m = marker.getLatLng();
-        params.marker = m.lat + ',' + m.lng;
-        linkParams.mlat = m.lat;
-        linkParams.mlon = m.lng;
+        params.marker = marker.getLatLng().lat + ',' + marker.getLatLng().lng;
       }
 
       $('#embed_html').val(
         '<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="' +
           'http://' + OSM.SERVER_URL + '/export/embed.html?' + $.param(params) +
           '" style="border: 1px solid black"></iframe><br/>' +
-          '<small><a href="' +
-          'http://' + OSM.SERVER_URL + '/?' + $.param(linkParams) +
-          '">' + I18n.t('export.start_rjs.view_larger_map') + '</a></small>');
+          '<small><a href="' + map.getUrl(marker) + '</a></small>');
 
       // Image
 
