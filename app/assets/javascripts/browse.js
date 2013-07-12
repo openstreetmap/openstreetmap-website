@@ -8,10 +8,6 @@ $(document).ready(function () {
   L.OSM.zoom()
     .addTo(map);
 
-  $("#small_map").on("resized", function () {
-    map.invalidateSize();
-  });
-
   var params = $("#small_map").data();
   var object, bbox;
   if (params.type == "changeset") {

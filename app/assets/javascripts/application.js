@@ -16,7 +16,6 @@
 //= require menu
 //= require sidebar
 //= require richtext
-//= require resize
 //= require geocoder
 //= require querystring
 

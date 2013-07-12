@@ -30,10 +30,6 @@ $(document).ready(function () {
     L.OSM.zoom()
       .addTo(map);
 
-    $("#map").on("resized", function () {
-      map.invalidateSize();
-    });
-
     map.setView(centre, params.zoom);
 
     if ($("#latitude").val() && $("#longitude").val()) {

@@ -51,7 +51,7 @@ $(document).ready(function () {
   map.noteLayer = new L.LayerGroup({code: 'N'});
   map.dataLayer = new L.OSM.DataLayer(null);
 
-  $("#map").on("resized", function () {
+  $("#sidebar").on("opened closed", function () {
     map.invalidateSize();
   });
 
@@ -61,7 +61,8 @@ $(document).ready(function () {
   L.control.locate({position: 'topright'})
     .addTo(map);
 
-  var sidebar = L.OSM.sidebar('#map-ui');
+  var sidebar = L.OSM.sidebar('#map-ui')
+    .addTo(map);
 
   L.OSM.layers({
     position: 'topright',
@@ -135,8 +136,6 @@ $(document).ready(function () {
     addObjectToMap(params.object, map, { zoom: params.object_zoom });
   }
 
-  handleResize();
-
   $("body").on("click", "a.set_position", setPositionLink(map));
 
   $("a[data-editor=remote]").click(function(e) {
@@ -147,8 +146,6 @@ $(document).ready(function () {
   if (OSM.preferred_editor == "remote" && $('body').hasClass("site-edit")) {
     remoteEditHandler(map.getBounds());
   }
-
-  $(window).resize(handleResize);
 
   $("#search_form").submit(submitSearch(map));
 

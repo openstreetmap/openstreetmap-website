@@ -1,7 +1,13 @@
 L.OSM.sidebar = function(selector) {
   var control = {},
     sidebar = $(selector),
-    current = $();
+    current = $(),
+    map;
+
+  control.addTo = function (_) {
+    map = _;
+    return control;
+  };
 
   control.addPane = function(pane) {
     pane
@@ -10,25 +16,23 @@ L.OSM.sidebar = function(selector) {
   };
 
   control.togglePane = function(pane) {
-    var controlContainer = $('.leaflet-control-container .leaflet-top.leaflet-right');
-
     current
       .hide()
       .trigger('hide');
 
     if (current === pane) {
       $(sidebar).hide();
-      controlContainer.css({paddingRight: '0'});
       current = $();
     } else {
       $(sidebar).show();
-      controlContainer.css({paddingRight: '250px'});
       current = pane;
     }
 
     current
       .show()
       .trigger('show');
+
+    map.invalidateSize({pan: false, animate: false});
   };
 
   return control;

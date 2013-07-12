@@ -7,10 +7,6 @@ $(document).ready(function () {
   L.OSM.zoom()
     .addTo(map);
 
-  $("#map").on("resized", function () {
-    map.invalidateSize();
-  });
-
   if (OSM.home) {
     map.setView([OSM.home.lat, OSM.home.lon], 12);
   } else {

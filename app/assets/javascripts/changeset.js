@@ -9,10 +9,6 @@ $(document).ready(function () {
   L.OSM.zoom()
     .addTo(map);
 
-  $("#changeset_list_map").on("resized", function () {
-    map.invalidateSize();
-  });
-
   var group = L.featureGroup().addTo(map);
 
   $("[data-changeset]").each(function () {
