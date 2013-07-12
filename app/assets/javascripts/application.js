@@ -99,23 +99,24 @@ function updatelinks(loc, zoom, layers, bounds, object) {
 
     var minzoom = $(link).data("minzoom");
     if (minzoom) {
-        var name = link.id.replace(/anchor$/, "");
-        $(link).off("click.minzoom");
-        if (zoom >= minzoom) {
-          $(link).attr("title", I18n.t("javascripts.site." + name + "_tooltip"))
-              .removeClass("disabled");
-        } else {
-          $(link).on("click.minzoom", minZoomAlert)
-              .attr("title", I18n.t("javascripts.site." + name + "_disabled_tooltip"))
-              .addClass("disabled");
-        }
+      var name = link.id.replace(/anchor$/, "");
+      $(link).off("click.minzoom");
+      if (zoom >= minzoom) {
+        $(link)
+          .attr("title", I18n.t("javascripts.site." + name + "_tooltip"))
+          .removeClass("disabled");
+      } else {
+        $(link)
+          .attr("title", I18n.t("javascripts.site." + name + "_disabled_tooltip"))
+          .addClass("disabled")
+          .on("click.minzoom", function () {
+            alert(I18n.t("javascripts.site." + name + "_zoom_alert"));
+            return false;
+          });
+      }
     }
     link.href = base + '?' + querystring.stringify(args);
   }
-}
-
-function minZoomAlert() {
-    alert(I18n.t("javascripts.site." + name + "_zoom_alert")); return false;
 }
 
 function getShortUrl(map) {
