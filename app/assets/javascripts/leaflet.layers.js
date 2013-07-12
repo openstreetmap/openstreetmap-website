@@ -18,7 +18,7 @@ L.OSM.layers = function(options) {
     var $ui = $('<div>')
       .attr('class', 'layers-ui');
 
-    $('<header>')
+    $('<div>')
       .attr('class', 'sidebar_heading')
       .appendTo($ui)
       .append(
@@ -31,8 +31,8 @@ L.OSM.layers = function(options) {
         $('<h4>')
           .text(I18n.t('javascripts.map.layers.header')));
 
-    var baseSection = $('<section>')
-      .addClass('base-layers')
+    var baseSection = $('<div>')
+      .attr('class', 'section base-layers')
       .appendTo($ui);
 
     $('<p>')
@@ -109,8 +109,8 @@ L.OSM.layers = function(options) {
     });
 
     if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
-      var overlaySection = $('<section>')
-        .addClass('overlay-layers')
+      var overlaySection = $('<div>')
+        .attr('class', 'section overlay-layers')
         .appendTo($ui);
 
       $('<p>')

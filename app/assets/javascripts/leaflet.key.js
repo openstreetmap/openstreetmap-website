@@ -16,7 +16,7 @@ L.OSM.key = function (options) {
     var $ui = $('<div>')
       .attr('class', 'key-ui');
 
-    $('<header>')
+    $('<div>')
       .attr('class', 'sidebar_heading')
       .appendTo($ui)
       .append(
@@ -29,7 +29,8 @@ L.OSM.key = function (options) {
         $('<h4>')
           .text(I18n.t('javascripts.key.title')));
 
-    var $section = $('<section>')
+    var $section = $('<div>')
+      .attr('class', 'section')
       .appendTo($ui);
 
     options.sidebar.addPane($ui);

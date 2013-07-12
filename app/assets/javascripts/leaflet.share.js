@@ -16,7 +16,7 @@ L.OSM.share = function (options) {
     var $ui = $('<div>')
       .attr('class', 'share-ui');
 
-    $('<header>')
+    $('<div>')
       .attr('class', 'sidebar_heading')
       .appendTo($ui)
       .append(
@@ -29,8 +29,8 @@ L.OSM.share = function (options) {
         $('<h4>')
           .text(I18n.t('javascripts.share.title')));
 
-    var $linkSection = $('<section>')
-      .attr('class', 'share-link')
+    var $linkSection = $('<div>')
+      .attr('class', 'section share-link')
       .appendTo($ui);
 
     $('<h4>')
