@@ -55,27 +55,30 @@ $(document).ready(function () {
     map.invalidateSize();
   });
 
-  L.OSM.zoom({position: 'topright'})
+  var position = $('html').attr('dir') === 'rtl' ? 'topleft' : 'topright';
+
+  L.OSM.zoom({position: position})
     .addTo(map);
 
-  L.control.locate({position: 'topright'})
+  L.control.locate({position: position})
     .addTo(map);
 
   var sidebar = L.OSM.sidebar('#map-ui')
     .addTo(map);
 
   L.OSM.layers({
-    position: 'topright',
+    position: position,
     layers: layers,
     sidebar: sidebar
   }).addTo(map);
 
   L.OSM.key({
-    position: 'topright',
+    position: position,
     sidebar: sidebar
   }).addTo(map);
 
   L.OSM.share({
+    position: position,
     getShortUrl: getShortUrl,
     getUrl: getUrl,
     sidebar: sidebar,
@@ -83,7 +86,7 @@ $(document).ready(function () {
   }).addTo(map);
 
   L.OSM.note({
-    position: 'topright',
+    position: position,
     sidebar: sidebar
   }).addTo(map);
 
