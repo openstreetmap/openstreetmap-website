@@ -125,11 +125,13 @@ br:
       edit: 
         area: Aozañ an takad
         node: Aozañ ar skoulm
+        note: Aozañ an notenn
         relation: Aozañ an darempred
         way: Aozañ an hent
       larger: 
         area: Gwelet an takad war ur gartenn vrasoc'h
         node: Gwelet ar skoulm war ur gartenn vrasoc'h
+        note: Gwelet an notenn war ur gartenn vrasoc'h
         relation: Gwelet an darempred war ur gartenn vrasoc'h
         way: Gwelet an hent war ur gartenn vrasoc'h
       loading: O kargañ...
@@ -137,10 +139,12 @@ br:
       all: 
         next_changeset_tooltip: Strollad kemmoù da-heul
         next_node_tooltip: Neud da-heul
+        next_note_tooltip: Notenn war-lerc'h
         next_relation_tooltip: Darempred da-heul
         next_way_tooltip: Hent da-heul
         prev_changeset_tooltip: Strollad kemmoù kent
         prev_node_tooltip: Neud kent
+        prev_note_tooltip: Notenn gent
         prev_relation_tooltip: Darempred kent
         prev_way_tooltip: Hent kent
       user: 
@@ -168,6 +172,17 @@ br:
         node: skoulm
         relation: darempred
         way: hent
+    note: 
+      at_by_html: "%{when} zo gant %{user}"
+      at_html: "%{when} zo"
+      closed: Serret
+      closed_title: "Notenn diskoulmet : %{note_name}"
+      comments: "Evezhiadennoù :"
+      description: "Deskrivadur :"
+      last_modified: "Kemm diwezhañ :"
+      open_title: "Notenn n'eo ket diskoulmet : %{note_name}"
+      opened: "Digoret :"
+      title: Notenn
     paging_nav: 
       of: eus
       showing_page: pajenn
@@ -208,6 +223,7 @@ br:
       loaded_an_area_with_num_features: ↓Karget hoc'h eus un takad zo ennañ %{num_features} elfenn. Peurliesañ o devez poan ar merdeerioù o tiskwel kemend-all a roadennoù, ha labourat a reont gwelloc'h pa vez nebeutoc'h a 100 elfenn da ziskwel, a-hend-all e c'hall ho merdeer bezañ gorrek pe chom hep respont. Ma'z oc'h sur hoc'h eus c'hoant da ziskwel ar roadennoù-mañ, e c'hallit ober dre glikañ war ar bouton amañ dindan.
       loading: O kargañ...
       manually_select: Diuzañ un takad disheñvel gant an dorn
+      notes_layer_name: Furchal an notennoù
       object_list: 
         api: Tapout an takad-mañ diwar an API
         back: Distreiñ d'ar roll an traezoù
@@ -455,6 +471,14 @@ br:
         uk_postcode: Disoc'hoù diwar <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Disoc'hoù diwar <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Bevenn ar bannlev
+        level2: Bevenn ar vro
+        level4: Bevenn ar Stad
+        level5: Bevenn ar rannvro
+        level6: Bevenn ar gontelezh
+        level8: Bevenn kêr
+        level9: Bevenn ar gêriadenn
       prefix: 
         aeroway: 
           aerodrome: Nijva
@@ -925,7 +949,26 @@ br:
         mapquest: MapQuest digor
         standard: Standard
         transport_map: Kartenn treuzdougen
+    notes: 
+      new: 
+        add: Ouzhpennañ un notenn
+      show: 
+        closed_by: diskoulmet gant <a href='%{user_url}'>%{user}</a> da %{time}
+        closed_by_anonymous: diskoulmet gant un implijer dizanv da %{time}
+        comment: Evezhiadenn
+        commented_by: evezhiadenn gant <a href='%{user_url}'>%{user}</a> da %{time}
+        commented_by_anonymous: evezhiadenn gant un implijer dizanv da %{time}
+        hide: Kuzhat
+        opened_by: krouet gant <a href='%{user_url}'>%{user}</a> da %{time}
+        opened_by_anonymous: krouet gant un implijer dizanv da %{time}
+        reactivate: Adweredekaat
+        reopened_by: adweredekaet gant <a href='%{user_url}'>%{user}</a> da %{time}
+        reopened_by_anonymous: adweredekaet gant un implijer dizanv da %{time}
+        resolve: Diskoulmañ
     site: 
+      createnote_disabled_tooltip: Zoumañ da ouzhpennañ un notenn d'ar gartenn
+      createnote_tooltip: Ouzhpennañ un notenn d'ar gartenn
+      createnote_zoom_alert: Ret eo deoc'h zoumañ da ouzhpennañ un notenn d'ar gartenn
       edit_disabled_tooltip: Zoumañ da zegas kemmoù war ar gartenn
       edit_tooltip: Kemmañ ar gartenn
       edit_zoom_alert: Ret eo deoc'h zoumañ evit aozañ ar gartenn
@@ -1100,6 +1143,33 @@ br:
       wrong_user: Kevreet oc'h evel "%{user}", met ar gemennadenn a fell deoc'h respont outi n'eo ket bet kaset d'an implijer-se. Mar plij kevreit gant ar gont reizh evit gellout respont.
     sent_message_summary: 
       delete_button: Dilemel
+  note: 
+    description: 
+      closed_at_by_html: Diskoulmet %{when} zo gant %{user}
+      closed_at_html: Diskoulmet %{when} zo
+      commented_at_by_html: Hizivaet %{when} zo gant %{user}
+      commented_at_html: Hizivaet %{when} zo
+      opened_at_by_html: Bet krouet %{when} zo gant %{user}
+      opened_at_html: Bet krouet %{when} zo
+      reopened_at_by_html: Adweredekaet %{when} zo gant %{user}
+      reopened_at_html: adweredekaet %{when} zo
+    entry: 
+      comment: Evezhiadenn
+      full: Notenn glok
+    mine: 
+      ago_html: "%{when} zo"
+      created_at: Krouet e
+      creator: Krouer
+      description: Deskrivadur
+      heading: notennoù %{user}
+      id: Id
+      last_changed: Kemm diwezhañ
+    rss: 
+      closed: notenn serret (tost da %{place})
+      commented: evezhiadenn nevez (tost da %{place})
+      opened: notenn nevez (tost da %{place})
+      reopened: notenn adweredekaet (tost da %{place})
+      title: Notennoù OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Gallout a rit ivez lenn an addispleg war %{readurl}, lezel addisplegoù war %{commenturl} pe respont war %{replyurl}
@@ -1148,6 +1218,13 @@ br:
       footer2: ha gallout a rit respont da %{replyurl}
       header: "%{from_user} en deus kaset deoc'h ur gemennadenn dre OpenStreetMap gant an danvez %{subject} :"
       hi: Demat %{to_user},
+    note_comment_notification: 
+      anonymous: Un implijer dizanv
+      details: Munudoù ouzhpenn diwar-benn an notenn a c'hall bezañ kavet e %{url}.
+      greeting: Demat,
+      reopened: 
+        subject_own: "[OpenStreetMap] %{commenter} en deus adweredekaet unan eus ho notennoù"
+        your_note: "%{commenter} en deus adweredekaet unan eus ho notennoù kartenn tost da %{place}."
     signup_confirm: 
       confirm: "A-raok ober forzh petra hon eus ezhomm da wiriañ hag-eñ ez eo ganeoc'h-c'hwi ez eo bet kaset ar goulenn-mañ ; m'emañ kont evel-se, klikit war al liamm a-is da gadarnaat ho kont :"
       created: Unan bennak (c'hwi, emichañs) a zo o paouez krouiñ ur gont war %{site_url}.
@@ -1182,6 +1259,7 @@ br:
       allow_write_api: kemmañ ar gartenn.
       allow_write_diary: krouiñ enmonedoù en deizlevr, addisplegoù ha kavout mignoned.
       allow_write_gpx: kas roudoù GPS.
+      allow_write_notes: kemmañ notennoù
       allow_write_prefs: kemmañ ho penndibaboù implijer.
       request_access: Emañ an arload %{app_name} o c'houlenn mont d'ho kont, %{user}. Gwiriit hag-eñ hoc'h eus c'hoant e vefe ar barregezhioù-mañ gant hoc'h arloadoù. Gallout a rit dibab kement ha ma karit.
     revoke: 
@@ -1200,6 +1278,7 @@ br:
       allow_write_api: kemmañ ar gartenn.
       allow_write_diary: krouit enmonedoù en deizlevr, addisplegoù, ha kavit mignoned.
       allow_write_gpx: kas roudoù GPS.
+      allow_write_notes: kemmañ notennoù
       allow_write_prefs: kemmañ e benndibaboù implijer.
       callback_url: URL gervel en-dro
       name: Anv
@@ -1230,6 +1309,7 @@ br:
       allow_write_api: kemmañ ar gartenn.
       allow_write_diary: krouit enmonedoù en deizlevr, addisplegoù ha kavit mignoned.
       allow_write_gpx: kas roudoù GPS.
+      allow_write_notes: kemmañ notennoù
       allow_write_prefs: kemmañ o fenndibaboù implijerien.
       authorize_url: "URL aotren :"
       confirm: Ha sur oc'h ?
@@ -1278,6 +1358,7 @@ br:
     edit: 
       anon_edits_link_text: Kavit perak.
       flash_player_required: Ezhomm hoc'h eus eus ul lenner Flash evit implijout Potlatch, aozer flash OpenStreetMap. Gallout a rit <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">pellgargañ Flash Player diwar Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Meur a zibarzh</a> a c'haller kaout evit aozañ OpenStreetMap.
+      id_not_configured: N'eo ket bet kefluniet an ID
       no_iframe_support: N'eo ket ho merdeer evit ober gant iframmoù HTML, hag ezhomm zo eus ar re-se evit an arc'hweladur-mañ.
       not_public: N'hoc'h eus ket lakaet hoc'h aozadennoù da vezañ foran.
       not_public_description: Ne c'hallit ket ken aozañ ar gartenn nemet e lakafec'h hoc'h aozadennoù da vezañ foran. Gallout a rit lakaat hoc'h aozadennoù da vezañ foran diwar ho %{user_page}.
@@ -1286,6 +1367,7 @@ br:
       potlatch_unsaved_changes: Kemmoù n'int ket bet enrollet zo ganeoc'h. (Evit enrollañ e Potlatch, e tlefec'h diziuzañ an hent pe ar poent red m'emaoc'h oc'h aozañ er mod bev, pe klikañ war enrollañ ma vez ur bouton enrollañ ganeoc'h.)
       user_page_link: pajenn implijer
     index: 
+      createnote: Ouzhpennañ un notenn
       js_1: Pe emaoc'h oc'h implijout ur merdeer ha ne skor ket JavaScript, pe hoc'h eus diweredekaet JavaScript.
       js_2: OpenStreetMap a implij JavaScript evit e gartenn risklus.
       license: 
@@ -1731,6 +1813,7 @@ br:
       my comments: ma evezhiadennoù
       my diary: ma deizlevr
       my edits: ma aozadennoù
+      my notes: ma notennoù kartenn
       my settings: ma arventennoù
       my traces: ma roudoù
       nearby users: "Implijerien all tost deoc'h :"
@@ -1739,6 +1822,7 @@ br:
       new diary entry: enmoned nevez en deizlevr
       no friends: N'hoc'h eus ouzhpennet mignon ebet c'hoazh.
       no nearby users: N'eus implijer ebet all en ardremez c'hoazh.
+      notes: notennoù kartenn
       oauth settings: arventennoù oauth
       remove as friend: Lemel eus ar vignoned
       role: 
