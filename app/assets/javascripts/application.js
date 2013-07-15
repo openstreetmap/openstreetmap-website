@@ -19,6 +19,7 @@
 //= require richtext
 //= require resize
 //= require geocoder
+//= require group
 
 function zoomPrecision(zoom) {
     var decimals = Math.pow(10, Math.floor(zoom/3));
