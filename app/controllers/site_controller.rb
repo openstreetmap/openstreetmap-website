@@ -80,6 +80,9 @@ class SiteController < ApplicationController
     @locale = params[:copyright_locale] || I18n.locale
   end
 
+  def welcome
+  end
+
   def preview
     render :text => RichText.new(params[:format], params[:text]).to_html
   end

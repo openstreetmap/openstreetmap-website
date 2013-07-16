@@ -125,6 +125,7 @@ OpenStreetMap::Application.routes.draw do
   match '/edit' => 'site#edit', :via => :get
   match '/copyright/:copyright_locale' => 'site#copyright', :via => :get
   match '/copyright' => 'site#copyright', :via => :get
+  match '/welcome' => 'site#welcome', :via => :get
   match '/history' => 'changeset#list', :via => :get
   match '/history/feed' => 'changeset#feed', :via => :get, :format => :atom
   match '/export' => 'site#index', :export => true, :via => :get

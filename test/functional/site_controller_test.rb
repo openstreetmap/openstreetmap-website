@@ -35,6 +35,10 @@ class SiteControllerTest < ActionController::TestCase
       { :controller => "site", :action => "copyright", :copyright_locale => "locale" }
     )
     assert_routing(
+      { :path => "/welcome", :method => :get },
+      { :controller => "site", :action => "welcome" }
+    )
+    assert_routing(
       { :path => "/export", :method => :get },
       { :controller => "site", :action => "index", :export => true }
     )
