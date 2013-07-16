@@ -90,15 +90,14 @@ class UserController < ApplicationController
 
           if @user.status == "active"
             flash[:notice] = t 'user.new.flash welcome', :email => @user.email
-
-            Notifier.signup_confirm(@user, nil).deliver
+            session[:referer] = welcome_path
 
             successful_login(@user)
           else
             flash[:notice] = t 'user.new.flash create success message', :email => @user.email
             session[:token] = @user.tokens.create.token
 
-            Notifier.signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer))).deliver
+            Notifier.signup_confirm(@user, @user.tokens.create(:referer => welcome_path)).deliver
 
             redirect_to :action => 'login', :referer => params[:referer]
           end

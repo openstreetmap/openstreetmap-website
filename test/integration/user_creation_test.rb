@@ -140,10 +140,8 @@ class UserCreationTest < ActionController::IntegrationTest
     post 'user/confirm', { :confirm_string => confirm_string, :confirm_action => 'submit' }
     assert_response :redirect # to trace/mine in original referrer
     follow_redirect!
-    assert_response :redirect # but it not redirects to /user/<display_name>/traces
-    follow_redirect!
     assert_response :success
-    assert_template 'trace/list'
+    assert_template 'site/welcome'
   end
 
   def test_user_create_openid_success
@@ -235,9 +233,7 @@ class UserCreationTest < ActionController::IntegrationTest
     post 'user/confirm', { :confirm_string => confirm_string, :confirm_action => 'submit' }
     assert_response :redirect # to trace/mine in original referrer
     follow_redirect!
-    assert_response :redirect # but it not redirects to /user/<display_name>/traces
-    follow_redirect!
     assert_response :success
-    assert_template "trace/list"
+    assert_template 'site/welcome'
   end
 end
