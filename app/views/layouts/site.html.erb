@@ -40,13 +40,6 @@
       <% end %>
       <ul id="left_menu" class="left_menu">
         <li>
-          <h4><%= t'layouts.help' %></h4>
-          <ul>
-            <li><%= link_to(t('layouts.help_centre'), t('layouts.help_url'), :title => t('layouts.help_title')) %></li>
-            <li><%= link_to(t('layouts.documentation'), t('layouts.wiki_url'), :title => t('layouts.documentation_title')) %></li>
-          </ul>
-        </li>
-        <li>
           <h4><%= t'layouts.community' %></h4>
           <ul>
             <li><a href="http://blogs.openstreetmap.org/" title="<%= t 'layouts.community_blogs_title' %>"><%= t 'layouts.community_blogs' %></a></li>
@@ -84,6 +77,9 @@
       </div>
     </div>
     <div id='top-bar'>
+      <ul class='secondary-actions'>
+        <li><%= link_to t('layouts.help'), help_path %></li>
+      </ul>
       <% if @user and @user.id %>
         <%= render :partial => "layouts/user_menu" %>
       <% else %>

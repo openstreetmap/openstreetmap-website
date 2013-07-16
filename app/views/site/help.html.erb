@@ -1,0 +1,12 @@
+<% content_for :heading do %>
+  <h2><%= t "help_page.title" %></h2>
+<% end %>
+
+<p class='introduction'><%= t "help_page.introduction" %></p>
+
+<% ['welcome', 'learnosm', 'help', 'wiki'].each do |site| %>
+  <a class='<%= site %>' href='<%= t "help_page.#{site}.url" %>'>
+    <h3><%= t "help_page.#{site}.title" %></h3>
+    <p><%= t "help_page.#{site}.description" %></p>
+  </a>
+<% end %>
