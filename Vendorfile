@@ -1,11 +1,14 @@
 folder 'vendor/assets' do
   folder 'leaflet' do
-    from 'git://github.com/Leaflet/Leaflet.git', :tag => 'v0.6.1' do
-      file 'leaflet.css', 'dist/leaflet.css'
-      file 'leaflet.ie.css', 'dist/leaflet.ie.css'
-      file 'leaflet.js', 'dist/leaflet-src.js'
-      folder 'images', 'dist/images'
-    end
+    file 'leaflet.js', 'http://cdn.leafletjs.com/leaflet-0.6.3/leaflet-src.js'
+    file 'leaflet.css', 'http://cdn.leafletjs.com/leaflet-0.6.3/leaflet.css'
+    file 'leaflet.ie.css', 'http://cdn.leafletjs.com/leaflet-0.6.3/leaflet.ie.css'
+
+    [ 'layers.png', 'layers-2x.png',
+      'marker-icon.png', 'marker-icon-2x.png',
+      'marker-shadow.png' ].each do |image|
+      file "images/#{image}", "http://cdn.leafletjs.com/leaflet-0.6.3/images/#{image}"
+    end    
 
     from 'git://github.com/kajic/leaflet-locationfilter.git' do
       file 'leaflet.locationfilter.css', 'src/locationfilter.css'
