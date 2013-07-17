@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "welcome" %>
+<% end %>
+
 <% content_for :heading do %>
   <h2><%= t "welcome_page.title" %></h2>
   <h3><%= t "welcome_page.subtitle" %></h3>
@@ -79,7 +83,13 @@
 <div class='pad2 drop'>
   <h3><%= t "welcome_page.section_6.title" %></h3>
   <% if @user %>
-    <p><%= t "welcome_page.section_6.paragraph_1_html" %></p>
+    <p>
+      <%= t "welcome_page.section_6.paragraph_1_html" %>
+      <span class='edit-located'><%= t "welcome_page.section_6.paragraph_located" %></span>
+      <span class='edit-geocoded'><%= t "welcome_page.section_6.paragraph_geocoded_html" %></span>
+      <span class='edit-geolocated'><%= t "welcome_page.section_6.paragraph_geolocated" %></span>
+    </p>
+    <button class="edit-located edit-geocoded edit-geolocated start-mapping">Start Mapping</button>
   <% else %>
     <p><%= t "welcome_page.section_6.paragraph_1_no_user_html" %></p>
   <% end %>
