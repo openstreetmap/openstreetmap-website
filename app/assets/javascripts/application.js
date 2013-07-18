@@ -1,6 +1,5 @@
 //= require jquery
 //= require jquery_ujs
-//= require jquery.autogrowtextarea
 //= require jquery.timers
 //= require jquery.cookie
 //= require augment
@@ -215,11 +214,4 @@ function makeShortCode(lat, lon, zoom) {
 $(document).ready(function () {
   var auth_token = $("meta[name=csrf-token]").attr("content");
   $("form input[name=authenticity_token]").val(auth_token);
-});
-
-/*
- * Enable auto expansion for all text areas
- */
-$(document).ready(function () {
-  $("textarea").autoGrow();
 });
