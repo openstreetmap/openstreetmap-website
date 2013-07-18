@@ -6,9 +6,10 @@ L.OSM.note = function (options) {
       .attr('class', 'control-note');
 
     $('<a>')
-      .attr('class', 'control-button')
+      .attr('id', 'createnoteanchor')
+      .attr('class', 'control-button geolink')
+      .attr('data-minzoom', 12)
       .attr('href', '#')
-      .attr('title', I18n.t('javascripts.notes.new.add'))
       .html('<span class="icon note"></span>')
       .appendTo($container);
 
