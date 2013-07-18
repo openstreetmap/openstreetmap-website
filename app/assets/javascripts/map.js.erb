@@ -96,7 +96,7 @@ function getUserIcon(url) {
   });
 }
 
-function addObjectToMap(object, zoom, callback) {
+function addObjectToMap(object, options) {
   if (objectLoader) {
     objectLoader.abort();
   }
@@ -110,13 +110,10 @@ function addObjectToMap(object, zoom, callback) {
     dataType: "xml",
     success: function (xml) {
       objectLayer = new L.OSM.DataLayer(null, {
-        style: {
-          strokeColor: "blue",
-          strokeWidth: 3,
-          strokeOpacity: 0.5,
-          fillOpacity: 0.2,
-          fillColor: "lightblue",
-          pointRadius: 6
+        styles: {
+          node: options.style,
+          way: options.style,
+          area: options.style
         }
       });
 
@@ -136,12 +133,12 @@ function addObjectToMap(object, zoom, callback) {
 
       var bounds = objectLayer.getBounds();
 
-      if (zoom) {
+      if (options.zoom) {
         map.fitBounds(bounds);
       }
 
-      if (callback) {
-        callback(bounds);
+      if (options.callback) {
+        options.callback(bounds);
       }
 
       objectLayer.addTo(map);

@@ -74,33 +74,36 @@ $(document).ready(function () {
       object.version = params.version - 1;
     }
 
-    addObjectToMap(object, true, function(extent) {
-      $("#loading").hide();
-      $("#browse_map .geolink").show();
+    addObjectToMap(object, {
+      zoom: true, 
+      callback: function(extent) {
+        $("#loading").hide();
+        $("#browse_map .geolink").show();
 
-      if (extent) {
-        $("a.bbox[data-editor=remote]").click(function () {
-          return remoteEditHandler(extent);
-        });
+        if (extent) {
+          $("a.bbox[data-editor=remote]").click(function () {
+            return remoteEditHandler(extent);
+          });
 
-        $("a.object[data-editor=remote]").click(function () {
-          return remoteEditHandler(extent, params.type + params.id);
-        });
+          $("a.object[data-editor=remote]").click(function () {
+            return remoteEditHandler(extent, params.type + params.id);
+          });
 
-        $("#object_larger_map").show();
-        $("#object_edit").show();
+          $("#object_larger_map").show();
+          $("#object_edit").show();
 
-        var centre = extent.getCenter();
-        updatelinks(centre.lng,
-                    centre.lat,
-                    16, null,
-                    extent.getWest(),
-                    extent.getSouth(),
-                    extent.getEast(),
-                    extent.getNorth(),
-                    object);
-      } else {
-        $("#small_map").hide();
+          var centre = extent.getCenter();
+          updatelinks(centre.lng,
+                      centre.lat,
+                      16, null,
+                      extent.getWest(),
+                      extent.getSouth(),
+                      extent.getEast(),
+                      extent.getNorth(),
+                      object);
+        } else {
+          $("#small_map").hide();
+        }
       }
     });
   }

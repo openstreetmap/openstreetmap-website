@@ -40,7 +40,7 @@ $(document).ready(function () {
   }
 
   if (params.object) {
-    addObjectToMap(params.object, params.object_zoom);
+    addObjectToMap(params.object, { zoom: params.object_zoom });
   }
 
   handleResize();
@@ -59,7 +59,7 @@ $(document).ready(function () {
     }
 
     if (data.type && data.id) {
-      addObjectToMap(data, true);
+      addObjectToMap(data, { zoom: true, style: { opacity: 0.2, fill: false } });
     }
 
     if (marker) {
