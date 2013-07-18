@@ -1,0 +1,31 @@
+L.extend(L.LatLngBounds.prototype, {
+  getSize: function () {
+    return (this._northEast.lat - this._southWest.lat) *
+           (this._northEast.lng - this._southWest.lng);
+  },
+
+  wrap: function () {
+    return new L.LatLngBounds(this._southWest.wrap(), this._northEast.wrap());
+  }
+});
+
+L.extend(L.Map.prototype, {
+    getLayersCode: function() {
+        var layerConfig = '';
+        for (var i in this._layers) { // TODO: map.eachLayer
+            var layer = this._layers[i];
+            if (layer.options && layer.options.code) {
+                layerConfig += layer.options.code;
+            }
+        }
+        return layerConfig;
+    },
+    getMapBaseLayerId: function() {
+        for (var i in this._layers) { // TODO: map.eachLayer
+            var layer = this._layers[i];
+            if (layer.options && layer.options.keyid) return layer.options.keyid;
+        }
+    }
+});
+
+L.Icon.Default.imagePath = <%= "#{asset_prefix}/images".to_json %>;

@@ -1,4 +1,4 @@
-$(document).ready(function () {
+function initializeExport(map) {
   $("#exportanchor").click(function (e) {
     $.ajax({ url: $(this).data('url'), success: function (sidebarHtml) {
       startExport(sidebarHtml);
@@ -38,7 +38,7 @@ $(document).ready(function () {
 
     openSidebar();
 
-    if (getMapBaseLayer().keyid == "mapnik") {
+    if (map.getMapBaseLayerId() == "mapnik") {
       $("#format_mapnik").prop("checked", true);
     }
 
@@ -186,7 +186,7 @@ $(document).ready(function () {
 
     function htmlUrlChanged() {
       var bounds = getBounds();
-      var layerName = getMapBaseLayer().keyid;
+      var layerName = map.getMapBaseLayerId();
 
       var url = "http://" + OSM.SERVER_URL + "/export/embed.html?bbox=" + bounds.toBBoxString() + "&amp;layer=" + layerName;
       var markerUrl = "";
@@ -203,7 +203,7 @@ $(document).ready(function () {
 
       var zoom = map.getBoundsZoom(bounds);
 
-      var layers = getMapLayers();
+      var layers = map.getLayersCode();
 
       var text = I18n.t('export.start_rjs.view_larger_map');
       var escaped = [];
@@ -281,4 +281,4 @@ $(document).ready(function () {
       validateControls();
     }
   }
-});
+}

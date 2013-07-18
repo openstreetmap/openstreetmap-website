@@ -1,89 +1,4 @@
-// Leaflet extensions
-L.extend(L.LatLngBounds.prototype, {
-  getSize: function () {
-    return (this._northEast.lat - this._southWest.lat) *
-           (this._northEast.lng - this._southWest.lng);
-  },
-
-  wrap: function () {
-    return new L.LatLngBounds(this._southWest.wrap(), this._northEast.wrap());
-  }
-});
-
-L.Icon.Default.imagePath = <%= "#{asset_prefix}/images".to_json %>;
-
-var map;
-var layers;
-var objectLayer;
 var objectLoader;
-
-function createMap(divName, options) {
-  if (!layers) {
-    layers = [
-      {
-        klass: L.OSM.Mapnik,
-        attribution: "",
-        keyid: "mapnik",
-        layerCode: "M",
-        name: I18n.t("javascripts.map.base.standard")
-      },
-      {
-        klass: L.OSM.CycleMap,
-        attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-        keyid: "cyclemap",
-        layerCode: "C",
-        name: I18n.t("javascripts.map.base.cycle_map")
-      },
-      {
-        klass: L.OSM.TransportMap,
-        attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-        keyid: "transportmap",
-        layerCode: "T",
-        name: I18n.t("javascripts.map.base.transport_map")
-      },
-      {
-        klass: L.OSM.MapQuestOpen,
-        attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
-        keyid: "mapquest",
-        layerCode: "Q",
-        name: I18n.t("javascripts.map.base.mapquest")
-      }
-    ];
-  }
-
-  options = $.extend({zoomControl: true, panZoomControl: true, layerControl: true}, options);
-
-  map = L.map(divName, $.extend({}, options, {panControl: false, zoomsliderControl: false, maxZoom: 18}));
-
-  if (map.attributionControl) {
-    map.attributionControl.setPrefix('');
-  }
-
-  if (options.panZoomControl) {
-    new L.Control.Pan().addTo(map);
-    new L.Control.Zoomslider({stepHeight: 7}).addTo(map);
-  }
-
-  var layersControl = L.control.layers();
-
-  if (options.layerControl) {
-    layersControl.addTo(map);
-    map.layersControl = layersControl;
-  }
-
-  for (var i = 0; i < layers.length; i++) {
-    layers[i].layer = new (layers[i].klass)(layers[i]);
-    layersControl.addBaseLayer(layers[i].layer, layers[i].name);
-  }
-
-  layers[0].layer.addTo(map);
-
-  $("#" + divName).on("resized", function () {
-    map.invalidateSize();
-  });
-
-  return map;
-}
 
 function getUserIcon(url) {
   return L.icon({
@@ -96,20 +11,15 @@ function getUserIcon(url) {
   });
 }
 
-function addObjectToMap(object, options) {
-  if (objectLoader) {
-    objectLoader.abort();
-  }
-
-  if (objectLayer) {
-    map.removeLayer(objectLayer);
-  }
+function addObjectToMap(object, map, options) {
+  if (objectLoader) objectLoader.abort();
+  if (map.objectLayer) map.removeLayer(map.objectLayer);
 
   objectLoader = $.ajax({
     url: OSM.apiUrl(object),
     dataType: "xml",
     success: function (xml) {
-      objectLayer = new L.OSM.DataLayer(null, {
+      map.objectLayer = new L.OSM.DataLayer(null, {
         styles: {
           node: options.style,
           way: options.style,
@@ -117,7 +27,7 @@ function addObjectToMap(object, options) {
         }
       });
 
-      objectLayer.interestingNode = function (node, ways, relations) {
+      map.objectLayer.interestingNode = function (node, ways, relations) {
         if (object.type === "node") {
           return true;
         } else if (object.type === "relation") {
@@ -129,64 +39,12 @@ function addObjectToMap(object, options) {
         }
       };
 
-      objectLayer.addData(xml);
+      map.objectLayer.addData(xml);
 
-      var bounds = objectLayer.getBounds();
+      if (options.zoom) map.fitBounds(map.objectLayer.getBounds());
+      if (options.callback) options.callback(map.objectLayer.getBounds());
 
-      if (options.zoom) {
-        map.fitBounds(bounds);
-      }
-
-      if (options.callback) {
-        options.callback(bounds);
-      }
-
-      objectLayer.addTo(map);
+      map.objectLayer.addTo(map);
     }
   });
-}
-
-function addBoxToMap(bounds) {
-  var box = L.rectangle(bounds, {
-    weight: 2,
-    color: '#e90',
-    fillOpacity: 0
-  });
-
-  box.addTo(map);
-
-  return box;
-}
-
-function getMapBaseLayer() {
-  for (var i = 0; i < layers.length; i++) {
-    if (map.hasLayer(layers[i].layer)) {
-      return layers[i];
-    }
-  }
-}
-
-function getMapLayers() {
-  var layerConfig = "";
-  for (var i = 0; i < layers.length; i++) {
-    if (map.hasLayer(layers[i].layer)) {
-      layerConfig += layers[i].layerCode;
-    }
-  }
-  return layerConfig;
-}
-
-function setMapLayers(layerConfig) {
-  var foundLayer = false;
-  for (var i = 0; i < layers.length; i++) {
-    if (layerConfig.indexOf(layers[i].layerCode) >= 0) {
-      map.addLayer(layers[i].layer);
-      foundLayer = true;
-    } else {
-      map.removeLayer(layers[i].layer);
-    }
-  }
-  if (!foundLayer) {
-    map.addLayer(layers[0].layer);
-  }
 }
