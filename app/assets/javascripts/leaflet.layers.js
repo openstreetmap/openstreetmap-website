@@ -35,10 +35,6 @@ L.OSM.layers = function(options) {
       .attr('class', 'section base-layers')
       .appendTo($ui);
 
-    $('<p>')
-      .text(I18n.t('javascripts.map.layers.base'))
-      .appendTo(baseSection);
-
     list = $('<ul>')
       .appendTo(baseSection);
 
