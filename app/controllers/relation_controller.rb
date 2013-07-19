@@ -45,7 +45,7 @@ class RelationController < ApplicationController
       relation.update_from new_relation, @user
       render :text => relation.version.to_s, :content_type => "text/plain"
     else
-      render :nothing => true, :status => :bad_request
+      render :text => "", :status => :bad_request
     end
   end
 
@@ -56,7 +56,7 @@ class RelationController < ApplicationController
       relation.delete_with_history!(new_relation, @user)
       render :text => relation.version.to_s, :content_type => "text/plain"
     else
-      render :nothing => true, :status => :bad_request
+      render :text => "", :status => :bad_request
     end
   end
 
@@ -125,7 +125,7 @@ class RelationController < ApplicationController
       render :text => doc.to_s, :content_type => "text/xml"
       
     else
-      render :nothing => true, :status => :gone
+      render :text => "", :status => :gone
     end
   end
 

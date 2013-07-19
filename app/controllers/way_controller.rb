@@ -19,7 +19,7 @@ class WayController < ApplicationController
       way.create_with_history @user
       render :text => way.id.to_s, :content_type => "text/plain"
     else
-      render :nothing => true, :status => :bad_request
+      render :text => "", :status => :bad_request
     end
   end
 
@@ -43,7 +43,7 @@ class WayController < ApplicationController
       way.update_from(new_way, @user)
       render :text => way.version.to_s, :content_type => "text/plain"
     else
-      render :nothing => true, :status => :bad_request
+      render :text => "", :status => :bad_request
     end
   end
 
@@ -56,7 +56,7 @@ class WayController < ApplicationController
       way.delete_with_history!(new_way, @user)
       render :text => way.version.to_s, :content_type => "text/plain"
     else
-      render :nothing => true, :status => :bad_request
+      render :text => "", :status => :bad_request
     end
   end
 
@@ -99,7 +99,7 @@ class WayController < ApplicationController
 
       render :text => doc.to_s, :content_type => "text/xml"
     else
-      render :nothing => true, :status => :bad_request
+      render :text => "", :status => :bad_request
     end
   end
 

@@ -108,7 +108,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_equal "text/plain", @response.content_type
-    assert_equal " ", @response.body
+    assert_equal "", @response.body
     assert_equal "new_value", UserPreference.find(1, "key").v
     assert_equal "value", UserPreference.find(1, "new_key").v
     assert_raises ActiveRecord::RecordNotFound do
@@ -156,7 +156,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_equal "text/plain", @response.content_type
-    assert_equal " ", @response.body
+    assert_equal "", @response.body
     assert_equal "new_value", UserPreference.find(1, "new_key").v
 
     # try changing the value of a preference
@@ -166,7 +166,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_equal "text/plain", @response.content_type
-    assert_equal " ", @response.body
+    assert_equal "", @response.body
     assert_equal "newer_value", UserPreference.find(1, "new_key").v
   end
 
@@ -189,7 +189,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_equal "text/plain", @response.content_type
-    assert_equal " ", @response.body
+    assert_equal "", @response.body
     assert_raises ActiveRecord::RecordNotFound do
       UserPreference.find(1, "key")
     end

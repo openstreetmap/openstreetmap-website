@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
       if request.get?
         redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath
       else
-        render :nothing => true, :status => :forbidden
+        render :text => "", :status => :forbidden
       end
     end
   end
@@ -124,7 +124,7 @@ class ApplicationController < ActionController::Base
         flash[:error] = t('application.require_moderator.not_a_moderator')
         redirect_to :action => 'index'
       else
-        render :nothing => true, :status => :forbidden
+        render :text => "", :status => :forbidden
       end
     end
   end
@@ -325,7 +325,7 @@ class ApplicationController < ActionController::Base
     begin
       yield
     rescue ActiveRecord::RecordNotFound => ex
-      render :nothing => true, :status => :not_found
+      render :text => "", :status => :not_found
     rescue LibXML::XML::Error, ArgumentError => ex
       report_error ex.message, :bad_request
     rescue ActiveRecord::RecordInvalid => ex
@@ -405,7 +405,7 @@ class ApplicationController < ActionController::Base
 
     respond_to do |format|
       format.html { render :template => "user/no_such_user", :status => :not_found }
-      format.all { render :nothing => true, :status => :not_found }
+      format.all { render :text => "", :status => :not_found }
     end
   end
 

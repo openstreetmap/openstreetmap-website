@@ -150,17 +150,17 @@ class TraceController < ApplicationController
 
     if trace.visible? and (trace.public? or (@user and @user == trace.user))
       if Acl.no_trace_download(request.remote_ip)
-        render :nothing => true, :status => :forbidden
+        render :text => "", :status => :forbidden
       elsif request.format == Mime::XML
         send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => Mime::XML.to_s, :disposition => 'attachment')
       else
         send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
       end
     else
-      render :nothing => true, :status => :not_found
+      render :text => "", :status => :not_found
     end
   rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
+    render :text => "", :status => :not_found
   end
 
   def edit
@@ -177,10 +177,10 @@ class TraceController < ApplicationController
         end
       end
     else
-      render :nothing => true, :status => :forbidden
+      render :text => "", :status => :forbidden
     end
   rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
+    render :text => "", :status => :not_found
   end
 
   def delete
@@ -193,13 +193,13 @@ class TraceController < ApplicationController
         flash[:notice] = t 'trace.delete.scheduled_for_deletion'
         redirect_to :action => :list, :display_name => @user.display_name
       else
-        render :nothing => true, :status => :not_found
+        render :text => "", :status => :not_found
       end
     else
-      render :nothing => true, :status => :forbidden
+      render :text => "", :status => :forbidden
     end
   rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
+    render :text => "", :status => :not_found
   end
 
   def georss
@@ -234,13 +234,13 @@ class TraceController < ApplicationController
         expires_in 7.days, :private => !trace.public?, :public => trace.public?
         send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline')
       else
-        render :nothing => true, :status => :forbidden
+        render :text => "", :status => :forbidden
       end
     else
-      render :nothing => true, :status => :not_found
+      render :text => "", :status => :not_found
     end
   rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
+    render :text => "", :status => :not_found
   end
 
   def icon
@@ -251,13 +251,13 @@ class TraceController < ApplicationController
         expires_in 7.days, :private => !trace.public?, :public => trace.public?
         send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline')
       else
-        render :nothing => true, :status => :forbidden
+        render :text => "", :status => :forbidden
       end
     else
-      render :nothing => true, :status => :not_found
+      render :text => "", :status => :not_found
     end
   rescue ActiveRecord::RecordNotFound
-    render :nothing => true, :status => :not_found
+    render :text => "", :status => :not_found
   end
 
   def api_read
@@ -266,7 +266,7 @@ class TraceController < ApplicationController
     if trace.public? or trace.user == @user
       render :text => trace.to_xml.to_s, :content_type => "text/xml"
     else
-      render :nothing => true, :status => :forbidden
+      render :text => "", :status => :forbidden
     end
   end
 
@@ -285,9 +285,9 @@ class TraceController < ApplicationController
       trace.visibility = new_trace.visibility
       trace.save!
 
-      render :nothing => true, :status => :ok
+      render :text => "", :status => :ok
     else
-      render :nothing => true, :status => :forbidden
+      render :text => "", :status => :forbidden
     end
   end
 
@@ -298,9 +298,9 @@ class TraceController < ApplicationController
       trace.visible = false
       trace.save!
 
-      render :nothing => true, :status => :ok
+      render :text => "", :status => :ok
     else
-      render :nothing => true, :status => :forbidden
+      render :text => "", :status => :forbidden
     end
   end
 
@@ -314,7 +314,7 @@ class TraceController < ApplicationController
         send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
       end
     else
-      render :nothing => true, :status => :forbidden
+      render :text => "", :status => :forbidden
     end
   end
 
@@ -337,12 +337,12 @@ class TraceController < ApplicationController
       if @trace.id
         render :text => @trace.id.to_s, :content_type => "text/plain"
       elsif @trace.valid?
-        render :nothing => true, :status => :internal_server_error
+        render :text => "", :status => :internal_server_error
       else
-        render :nothing => true, :status => :bad_request
+        render :text => "", :status => :bad_request
       end
     else
-      render :nothing => true, :status => :bad_request
+      render :text => "", :status => :bad_request
     end
   end
 

@@ -393,7 +393,7 @@ class UserController < ApplicationController
   end
 
   def api_read
-    render :nothing => true, :status => :gone unless @this_user.visible?
+    render :text => "", :status => :gone unless @this_user.visible?
   end
 
   def api_details

@@ -127,7 +127,7 @@ class DiaryEntryController < ApplicationController
         @description = I18n.t('diary_entry.feed.user.description', :user => user.display_name)
         @link = "http://#{SERVER_URL}/user/#{user.display_name}/diary"
       else
-        render :nothing => true, :status => :not_found
+        render :text => "", :status => :not_found
         return
       end
     else
