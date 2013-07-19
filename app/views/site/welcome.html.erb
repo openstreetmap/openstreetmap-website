@@ -16,8 +16,8 @@
   <div class='center one-map'>
     <div class='sprite large one-map'>
       <span class='one-map-name one-map-project-name'><%= t "layouts.project_name.title" %></span>
-      <% 1.upto(6) do |i| %>
-        <span class='one-map-name one-map-name-<%= i %>'><%= t "welcome_page.section_1.name_#{i}" %></span>
+      <% t("welcome_page.section_1.names").sample(6).each_with_index do |name, i| %>
+        <span class='one-map-name one-map-name-<%= i+1 %>'><%= name %></span>
       <% end %>
     </div>
   </div>
