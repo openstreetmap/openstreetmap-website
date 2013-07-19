@@ -253,6 +253,9 @@ L.OSM.share = function (options) {
       $('#link_marker, #embed_marker')
         .prop('checked', map.hasLayer(marker));
 
+      $('#image_filter')
+        .prop('checked', locationFilter.isEnabled());
+
       // Link
 
       $shortLink.attr('href', map.getShortUrl(marker));
