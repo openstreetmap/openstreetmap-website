@@ -325,7 +325,7 @@ class ApplicationController < ActionController::Base
     begin
       yield
     rescue ActiveRecord::RecordNotFound => ex
-      render :nothing => true, :status => :not_found
+      render :text => "", :status => :not_found
     rescue LibXML::XML::Error, ArgumentError => ex
       report_error ex.message, :bad_request
     rescue ActiveRecord::RecordInvalid => ex
