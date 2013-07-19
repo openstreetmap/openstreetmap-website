@@ -47,10 +47,7 @@ $(document).ready(function () {
       return remoteEditHandler(bbox);
     });
 
-    updatelinks(params, 16, null,
-                bbox.getWest(), bbox.getSouth(),
-                bbox.getEast(), bbox.getNorth(),
-                object);
+    updatelinks(params, 16, null, bbox, object);
   } else {
     $("#object_larger_map, #object_edit").hide();
 
