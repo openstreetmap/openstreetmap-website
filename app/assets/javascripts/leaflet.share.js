@@ -226,6 +226,7 @@ L.OSM.share = function (options) {
 
     function toggleMarker() {
       if ($(this).is(':checked')) {
+        marker.setLatLng(map.getCenter());
         map.addLayer(marker);
       } else {
         map.removeLayer(marker);
