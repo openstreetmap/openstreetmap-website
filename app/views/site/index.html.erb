@@ -2,10 +2,6 @@
   <%= javascript_include_tag "index" %>
 <% end %>
 
-<% content_for :left_menu do %>
-  <li><h4><%= link_to t("site.key.map_key"), {:action => :key}, :id => "open_map_key", :title => t("site.key.map_key_tooltip") %></h4></li>
-<% end %>
-
 <%= render :partial => 'home_link' %>
 <%= render :partial => 'sidebar' %>
 <%= render :partial => 'search' %>
@@ -17,19 +13,10 @@
   </div>
 </noscript>
 
+<div id="map-ui">
+</div>
+
 <div id="map">
-  <div id="permalink">
-    <ul class="secondary-actions">
-      <li><a href="/" id="permalinkanchor" class="geolink llz layers object"><%= t 'site.index.permalink' %></a></li>
-      <li><a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a></li>
-      <li><%= link_to t("site.index.createnote"), notes_url(:format => :json),
-          :id => "createnoteanchor",
-          :data => { :minzoom => 12 },
-          :title => "javascripts.site.createnote_tooltip",
-          :class => "geolink"
-      %></li>
-    </ul>
-  </div>
 </div>
 
 <iframe id="linkloader" style="display: none">
