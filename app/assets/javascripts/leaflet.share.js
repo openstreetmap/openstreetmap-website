@@ -204,6 +204,15 @@ L.OSM.share = function (options) {
 
     options.sidebar.addPane($ui);
 
+    $ui
+      .on('hide', hidden);
+
+    function hidden() {
+      map.removeLayer(marker);
+      locationFilter.disable();
+      update();
+    }
+
     function toggle(e) {
       e.stopPropagation();
       e.preventDefault();
