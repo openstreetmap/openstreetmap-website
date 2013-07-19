@@ -19,6 +19,8 @@ $(document).ready(function () {
 
   map.attributionControl.setPrefix('');
 
+  new L.Hash(map);
+
   var layers = [
     new L.OSM.Mapnik({
       attribution: '',
