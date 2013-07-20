@@ -20,6 +20,7 @@ xml.note("lon" => note.lon, "lat" => note.lat) do
     note.comments.each do |comment|
       xml.comment do
         xml.date comment.created_at
+        xml.action comment.event
 
         if comment.author
           xml.uid comment.author.id
