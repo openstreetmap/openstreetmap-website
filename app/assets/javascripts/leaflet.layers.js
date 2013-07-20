@@ -64,16 +64,20 @@ L.OSM.layers = function(options) {
 
         function shown() {
           miniMap.invalidateSize();
-          setView();
-          map.on('moveend', setView);
+          setView({animate: false});
+          map.on('moveend', moved);
         }
 
         function hide() {
-          map.off('moveend', setView);
+          map.off('moveend', moved);
         }
 
-        function setView() {
-          miniMap.setView(map.getCenter(), Math.max(map.getZoom() - 2, 0));
+        function moved() {
+          setView();
+        }
+
+        function setView(options) {
+          miniMap.setView(map.getCenter(), Math.max(map.getZoom() - 2, 0), options);
         }
       });
 
