@@ -28,11 +28,11 @@ L.OSM.sidebar = function(selector) {
       current = pane;
     }
 
+    map.invalidateSize({pan: false, animate: false});
+
     current
       .show()
       .trigger('show');
-
-    map.invalidateSize({pan: false, animate: false});
   };
 
   return control;
