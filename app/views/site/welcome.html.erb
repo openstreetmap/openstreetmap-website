@@ -12,97 +12,89 @@
 </div>
 
 <div class='pad2 drop'>
-  <h3><%= t "welcome_page.section_1.title" %></h3>
+  <h3><%= t "welcome_page.one_map_many_uses.title" %></h3>
   <div class='center one-map'>
     <div class='sprite large one-map'>
       <span class='one-map-name one-map-project-name'><%= t "layouts.project_name.title" %></span>
-      <% t("welcome_page.section_1.names").sample(6).each_with_index do |name, i| %>
+      <% t("welcome_page.one_map_many_uses.names").sample(6).each_with_index do |name, i| %>
         <span class='one-map-name one-map-name-<%= i+1 %>'><%= name %></span>
       <% end %>
     </div>
   </div>
-  <p><%= t "welcome_page.section_1.paragraph_1_html" %></p>
+  <p><%= t "welcome_page.one_map_many_uses.paragraph_1_html" %></p>
 </div>
 
 <div class='pad2 drop clearfix'>
-  <h3><%= t "welcome_page.section_2.title" %></h3>
+  <h3><%= t "welcome_page.whats_on_the_map.title" %></h3>
   <div class='col6 pad1'>
     <div class='center pad1'>
       <span class='sprite small check'></span>
     </div>
-    <p><%= t "welcome_page.section_2.on_html" %></p>
+    <p><%= t "welcome_page.whats_on_the_map.on_html" %></p>
   </div>
   <div class='col6 pad1'>
     <div class='center pad1'>
       <span class='sprite small x'></span>
     </div>
-    <p><%= t "welcome_page.section_2.off_html" %></p>
+    <p><%= t "welcome_page.whats_on_the_map.off_html" %></p>
   </div>
 </div>
 
-<% if @user %>
-  <div class='pad2 drop'>
-    <h3><%= t "welcome_page.section_3.title" %></h3>
-    <p><%= t "welcome_page.section_3.paragraph_2_html" %></p>
-  </div>
-<% else %>
-  <div class='pad2 drop'>
-    <h3><%= t "welcome_page.section_3.title_no_user" %></h3>
-    <p><%= t "welcome_page.section_3.paragraph_1_html" %></p>
-    <p><%= t "welcome_page.section_3.paragraph_2_html" %></p>
-  </div>
-<% end %>
-
 <div class='pad2 drop'>
-  <h3><%= t "welcome_page.section_4.title" %></h3>
-  <p><%= t "welcome_page.section_4.paragraph_1_html" %></p>
+  <h3><%= t "welcome_page.basic_terms.title" %></h3>
+  <p><%= t "welcome_page.basic_terms.paragraph_1_html" %></p>
   <div class='col12 clearfix'>
     <p>
       <span class='sprite small term editor'></span>
-      <%= t "welcome_page.section_4.editor_html" %>
+      <%= t "welcome_page.basic_terms.editor_html" %>
     </p>
     <p>
       <span class='sprite small term node'></span>
-      <%= t "welcome_page.section_4.node_html" %>
+      <%= t "welcome_page.basic_terms.node_html" %>
     </p>
     <p>
       <span class='sprite small term way'></span>
-      <%= t "welcome_page.section_4.way_html" %>
+      <%= t "welcome_page.basic_terms.way_html" %>
     </p>
     <p>
       <span class='sprite small term changeset'></span>
-      <%= t "welcome_page.section_4.changeset_html" %>
+      <%= t "welcome_page.basic_terms.changeset_html" %>
     </p>
   </div>
 </div>
 
 <div class='pad2 drop'>
-  <h3><%= t "welcome_page.section_5.title" %></h3>
+  <h3><%= t "welcome_page.questions.title" %></h3>
   <div class='center pad1'>
     <span class='sprite small term question'></span>
   </div>
-  <p><%= t "welcome_page.section_5.paragraph_1_html" %></p>
+  <p><%= t "welcome_page.questions.paragraph_1_html" %></p>
 </div>
 
 <div class='pad2 drop'>
-  <h3><%= t "welcome_page.section_6.title" %></h3>
+  <h3><%= t "welcome_page.contributing.title" %></h3>
   <% if @user %>
     <p>
-      <%= t "welcome_page.section_6.paragraph_1_html" %>
-      <span class='edit-located'><%= t "welcome_page.section_6.paragraph_located" %></span>
-      <span class='edit-geocoded'><%= t "welcome_page.section_6.paragraph_geocoded_html" %></span>
-      <span class='edit-geolocated'><%= t "welcome_page.section_6.paragraph_geolocated" %></span>
+      <%= t "welcome_page.contributing.paragraph_1_html" %>
+      <span class='edit-located'><%= t "welcome_page.contributing.paragraph_located" %></span>
+      <span class='edit-geocoded'><%= t "welcome_page.contributing.paragraph_geocoded_html" %></span>
+      <span class='edit-geolocated'><%= t "welcome_page.contributing.paragraph_geolocated" %></span>
     </p>
-    <button class="edit-located edit-geocoded edit-geolocated start-mapping">Start Mapping</button>
+    <div class='center'>
+      <a href="<%= edit_path %>" class="edit-located edit-geocoded edit-geolocated start-mapping"><%= t "welcome_page.contributing.start_mapping" %></a>
+    </div>
   <% else %>
-    <p><%= t "welcome_page.section_6.paragraph_1_no_user_html" %></p>
+    <p><%= t "welcome_page.contributing.paragraph_1_no_user_html" %></p>
+    <div class='center'>
+      <a href="<%= user_new_path %>" class="sign-up"><%= t "welcome_page.contributing.sign_up" %></a>
+    </div>
   <% end %>
 </div>
 
 <div class='note-box pad2 drop'>
   <div class='pad1'>
-    <h3><%= t "welcome_page.section_7.title" %></h3>
-    <p><%= t "welcome_page.section_7.paragraph_1_html" %></p>
-    <p><%= t "welcome_page.section_7.paragraph_2_html" %></p>
+    <h3><%= t "welcome_page.add_a_note.title" %></h3>
+    <p><%= t "welcome_page.add_a_note.paragraph_1_html" %></p>
+    <p><%= t "welcome_page.add_a_note.paragraph_2_html" %></p>
   </div>
 </div>

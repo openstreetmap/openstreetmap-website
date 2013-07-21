@@ -21,9 +21,7 @@ $(document).ready(function() {
       }
     });
 
-    $('.start-mapping').on('click', function(e) {
-      window.location = '/edit?zoom=17&lat=' + params.lat + '&lon=' + params.lon;
-    });
+    $('.start-mapping').attr('href', '/edit?zoom=17&lat=' + params.lat + '&lon=' + params.lon);
 
   } else if (navigator.geolocation) {
     $('.edit-geolocated').show();
