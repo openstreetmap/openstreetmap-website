@@ -100,22 +100,19 @@ $(document).ready(function () {
   map.markerLayer = L.layerGroup().addTo(map);
 
   if (!params.object_zoom) {
-    if (params.bbox) {
-      var bbox = L.latLngBounds([params.minlat, params.minlon],
-                                [params.maxlat, params.maxlon]);
-
-      map.fitBounds(bbox);
-
-      if (params.box) {
-        L.rectangle(bbox, {
-          weight: 2,
-          color: '#e90',
-          fillOpacity: 0
-        }).addTo(map);
-      }
+    if (params.bounds) {
+      map.fitBounds(params.bounds);
     } else {
       map.setView([params.lat, params.lon], params.zoom);
     }
+  }
+
+  if (params.box) {
+    L.rectangle(params.box, {
+      weight: 2,
+      color: '#e90',
+      fillOpacity: 0
+    }).addTo(map);
   }
 
   if (params.layers) {
