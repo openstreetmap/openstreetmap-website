@@ -19,7 +19,7 @@ $(document).ready(function () {
 
   map.attributionControl.setPrefix('');
 
-  new L.Hash(map);
+  map.hash = L.hash(map);
 
   var layers = [
     new L.OSM.Mapnik({
@@ -50,8 +50,11 @@ $(document).ready(function () {
 
   layers[0].addTo(map);
 
-  map.noteLayer = new L.LayerGroup({code: 'N'});
+  map.noteLayer = new L.LayerGroup();
+  map.noteLayer.options = {code: 'N'};
+
   map.dataLayer = new L.OSM.DataLayer(null);
+  map.dataLayer.options.code = 'D';
 
   $("#sidebar").on("opened closed", function () {
     map.invalidateSize();
@@ -161,8 +164,8 @@ $(document).ready(function () {
   }
 
   initializeExport(map);
-  initializeBrowse(map);
-  initializeNotes(map);
+  initializeBrowse(map, params);
+  initializeNotes(map, params);
 });
 
 function updateLocation() {
@@ -174,6 +177,9 @@ function updateLocation() {
   var expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
   $.cookie("_osm_location", cookieContent(this), { expires: expiry });
+
+  // Trigger hash update on layer changes.
+  this.hash.onMapMove();
 }
 
 function setPositionLink(map) {

@@ -4,6 +4,7 @@
 //= require jquery.cookie
 //= require jquery.throttle-debounce
 //= require augment
+//= require osm
 //= require leaflet
 //= require leaflet.osm
 //= require leaflet.hash
@@ -12,7 +13,6 @@
 //= require leaflet.locationfilter
 //= require i18n/translations
 //= require oauth
-//= require osm
 //= require piwik
 //= require map
 //= require menu
@@ -61,17 +61,27 @@ function remoteEditHandler(bbox, select) {
  */
 function updatelinks(loc, zoom, layers, bounds, object) {
   $(".geolink").each(function(index, link) {
-    var base = link.href.split('?')[0],
+    var href = link.href.split(/[?#]/)[0],
         args = querystring.parse(link.search.substring(1));
 
     if (bounds && $(link).hasClass("bbox")) args.bbox = normalBounds(bounds).toBBoxString();
-    if (layers && $(link).hasClass("layers")) args.layers = layers;
     if (object && $(link).hasClass("object")) args[object.type] = object.id;
 
-    var href = base + '?' + querystring.stringify(args);
+    var query = querystring.stringify(args);
+    if (query) href += '?' + query;
 
     if ($(link).hasClass("llz")) {
-      href += OSM.formatHash({lat: loc.lat, lon: loc.lon || loc.lng, zoom: zoom});
+      args = {
+        lat: loc.lat,
+        lon: loc.lon || loc.lng,
+        zoom: zoom
+      };
+
+      if (layers && $(link).hasClass("layers")) {
+        args.layers = layers;
+      }
+
+      href += OSM.formatHash(args);
     }
 
     link.href = href;

@@ -30,15 +30,21 @@ L.extend(L.Map.prototype, {
 
   getUrl: function(marker) {
     var precision = zoomPrecision(this.getZoom()),
-        params = { layers: this.getLayersCode() };
+        params = {};
 
     if (marker && this.hasLayer(marker)) {
       params.mlat = marker.getLatLng().lat.toFixed(precision);
       params.mlon = marker.getLatLng().lng.toFixed(precision);
     }
 
-    return 'http://' + OSM.SERVER_URL + '/?' + querystring.stringify(params) +
-      OSM.formatHash({lat: this.getCenter().lat, lon: this.getCenter().lng, zoom: this.getZoom()});
+    var url = 'http://' + OSM.SERVER_URL + '/',
+      query = querystring.stringify(params),
+      hash = OSM.formatHash(this);
+
+    if (query) url += '?' + query;
+    if (hash) url += hash;
+
+    return url;
   },
 
   getShortUrl: function(marker) {
@@ -87,3 +93,6 @@ L.extend(L.Map.prototype, {
 });
 
 L.Icon.Default.imagePath = <%= "#{asset_prefix}/images".to_json %>;
+
+L.Hash.prototype.parseHash = OSM.parseHash;
+L.Hash.prototype.formatHash = OSM.formatHash;

@@ -8,9 +8,20 @@ class SiteController < ApplicationController
   before_filter :require_oauth, :only => [:index]
 
   def index
+    anchor = []
+
     if params[:lat] && params[:lon]
-      params[:anchor] = "#{params.delete(:zoom) || 5}/#{params.delete(:lat)}/#{params.delete(:lon)}"
-      redirect_to params
+      anchor << "map=#{params.delete(:zoom) || 5}/#{params.delete(:lat)}/#{params.delete(:lon)}"
+    end
+
+    if params[:layers]
+      anchor << "layers=#{params.delete(:layers)}"
+    elsif params.delete(:notes) == 'yes'
+      anchor << "layers=N"
+    end
+
+    if anchor.present?
+      redirect_to params.merge(:anchor => anchor.join('&'))
       return
     end
 

@@ -41,10 +41,6 @@ OSM = {
       mapParams.mlat = parseFloat(params.mlat);
     }
 
-    if (params.layers) {
-      mapParams.layers = params.layers;
-    }
-
     if (params.node || params.way || params.relation) {
       mapParams.object_zoom = true;
 
@@ -76,9 +72,10 @@ OSM = {
       mapParams.box = bounds;
     }
 
+    var hash = OSM.parseHash(location.hash);
+
     // Decide on a map starting position. Various ways of doing this.
-    var hash = L.Hash.parseHash(location.hash);
-    if (hash) {
+    if (hash.lat && hash.lon) {
       mapParams.lon = hash.center.lng;
       mapParams.lat = hash.center.lat;
       mapParams.zoom = hash.zoom;
@@ -101,7 +98,6 @@ OSM = {
       mapParams.lon = parseFloat(loc[0]);
       mapParams.lat = parseFloat(loc[1]);
       mapParams.zoom = parseInt(loc[2]);
-      mapParams.layers = loc[3];
     } else if (OSM.home) {
       mapParams.lon = OSM.home.lon;
       mapParams.lat = OSM.home.lat;
@@ -118,7 +114,7 @@ OSM = {
       mapParams.zoom = parseInt(params.zoom || 5);
     }
 
-    mapParams.notes = params.notes == "yes";
+    mapParams.layers = hash.layers || (loc && loc[3]) || '';
 
     if (params.note) {
       mapParams.note = parseInt(params.note);
@@ -132,10 +128,39 @@ OSM = {
     return mapParams;
   },
 
+  parseHash: function(hash) {
+    if (hash.indexOf('#') === 0) {
+      hash = hash.substr(1);
+    }
+    hash = querystring.parse(hash);
+    var args = L.Hash.parseHash(hash.map || '') || {};
+    if (hash.layers) args.layers = hash.layers;
+    return args;
+  },
+
   formatHash: function(args) {
-    var precision = zoomPrecision(args.zoom);
-    return '#' + args.zoom +
-           '/' + args.lat.toFixed(precision) +
-           '/' + args.lon.toFixed(precision);
+    if (args instanceof L.Map) {
+      args = {
+        lat: args.getCenter().lat,
+        lon: args.getCenter().lng,
+        zoom: args.getZoom(),
+        layers: args.getLayersCode()
+      };
+    }
+
+    var precision = zoomPrecision(args.zoom),
+      hash = '#map=' + args.zoom +
+        '/' + args.lat.toFixed(precision) +
+        '/' + args.lon.toFixed(precision);
+
+    if (args.layers) {
+      args.layers = args.layers.replace('M', '');
+    }
+
+    if (args.layers) {
+      hash += '&layers=' + args.layers;
+    }
+
+    return hash;
   }
 };
