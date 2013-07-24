@@ -85,7 +85,12 @@
     });
   });
 
-  function mapMoved(lon, lat, zoom, minlon, minlat, maxlon, maxlat) {
+  var mapMoved = $.throttle(250, function(lon, lat, zoom, minlon, minlat, maxlon, maxlat) {
     updatelinks({ lon: lon, lat: lat }, zoom, null, [[minlat, minlon], [maxlat, maxlon]]);
-  }
+
+    var hash = OSM.formatHash({ lon: lon, lat: lat, zoom: zoom });
+    if (hash !== location.hash) {
+      location.replace(hash);
+    }
+  });
 </script>

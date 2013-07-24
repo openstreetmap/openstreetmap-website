@@ -2,6 +2,7 @@
 //= require jquery_ujs
 //= require jquery.timers
 //= require jquery.cookie
+//= require jquery.throttle-debounce
 //= require augment
 //= require leaflet
 //= require leaflet.osm
