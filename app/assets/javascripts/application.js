@@ -120,65 +120,6 @@ function updatelinks(loc, zoom, layers, bounds, object) {
   }
 }
 
-function getShortUrl(map) {
-  return (window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
-          'http://osm.org/go/' : 'http://' + window.location.hostname + '/go/') +
-          makeShortCode(map);
-}
-
-function getUrl(map) {
-  var center = map.getCenter(),
-      zoom = map.getZoom(),
-      toZoom = zoomPrecision(zoom);
-
-  return (window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
-          'http://openstreetmap.org/?' : 'http://' + window.location.hostname + '/?') +
-        querystring.stringify({
-            lat: toZoom(center.lat),
-            lon: toZoom(center.lng),
-            zoom: zoom,
-            layers: map.getLayersCode()
-        });
-}
-
-// Called to create a short code for the short link.
-function makeShortCode(map) {
-    var zoom = map.getZoom(),
-        str = '',
-        char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
-        x = Math.round((map.getCenter().lng + 180.0) * ((1 << 30) / 90.0)),
-        y = Math.round((map.getCenter().lat +  90.0) * ((1 << 30) / 45.0)),
-        // JavaScript only has to keep 32 bits of bitwise operators, so this has to be
-        // done in two parts. each of the parts c1/c2 has 30 bits of the total in it
-        // and drops the last 4 bits of the full 64 bit Morton code.
-        c1 = interlace(x >>> 17, y >>> 17), c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff);
-
-    for (var i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
-        digit = (c1 >> (24 - 6 * i)) & 0x3f;
-        str += char_array.charAt(digit);
-    }
-    for (i = 5; i < Math.ceil((zoom + 8) / 3.0); ++i) {
-        digit = (c2 >> (24 - 6 * (i - 5))) & 0x3f;
-        str += char_array.charAt(digit);
-    }
-    for (i = 0; i < ((zoom + 8) % 3); ++i) str += "-";
-
-    // Called to interlace the bits in x and y, making a Morton code.
-    function interlace(x, y) {
-        x = (x | (x << 8)) & 0x00ff00ff;
-        x = (x | (x << 4)) & 0x0f0f0f0f;
-        x = (x | (x << 2)) & 0x33333333;
-        x = (x | (x << 1)) & 0x55555555;
-        y = (y | (y << 8)) & 0x00ff00ff;
-        y = (y | (y << 4)) & 0x0f0f0f0f;
-        y = (y | (y << 2)) & 0x33333333;
-        y = (y | (y << 1)) & 0x55555555;
-        return (x << 1) | y;
-    }
-
-    return str;
-}
-
 // generate a cookie-safe string of map state
 function cookieContent(map) {
   var center = map.getCenter().wrap();

@@ -81,8 +81,6 @@ $(document).ready(function () {
 
   L.OSM.share({
     position: position,
-    getShortUrl: getShortUrl,
-    getUrl: getUrl,
     sidebar: sidebar,
     short: true
   }).addTo(map);
