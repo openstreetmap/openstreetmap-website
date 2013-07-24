@@ -130,5 +130,12 @@ OSM = {
     }
 
     return mapParams;
+  },
+
+  formatHash: function(args) {
+    var precision = zoomPrecision(args.zoom);
+    return '#' + args.zoom +
+           '/' + args.lat.toFixed(precision) +
+           '/' + args.lon.toFixed(precision);
   }
 };

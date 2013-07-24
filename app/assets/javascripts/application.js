@@ -59,40 +59,21 @@ function remoteEditHandler(bbox, select) {
  * view tab and various other links
  */
 function updatelinks(loc, zoom, layers, bounds, object) {
-  var precision = zoomPrecision(zoom);
-  bounds = normalBounds(bounds);
-
-  var lat = loc.lat.toFixed(precision),
-      lon = (loc.lon || loc.lng).toFixed(precision);
-
-  if (bounds) {
-    var minlon = bounds.getWest().toFixed(precision),
-        minlat = bounds.getSouth().toFixed(precision),
-        maxlon = bounds.getEast().toFixed(precision),
-        maxlat = bounds.getNorth().toFixed(precision);
-  }
-
-  $(".geolink").each(setGeolink);
-
-  function setGeolink(index, link) {
+  $(".geolink").each(function(index, link) {
     var base = link.href.split('?')[0],
-        qs = link.href.split('?')[1],
-        args = querystring.parse(qs);
+        args = querystring.parse(link.search.substring(1));
 
-    if ($(link).hasClass("llz")) {
-      $.extend(args, {
-          lat: lat,
-          lon: lon,
-          zoom: zoom
-      });
-    } else if (minlon && $(link).hasClass("bbox")) {
-      $.extend(args, {
-          bbox: minlon + "," + minlat + "," + maxlon + "," + maxlat
-      });
-    }
-
+    if (bounds && $(link).hasClass("bbox")) args.bbox = normalBounds(bounds).toBBoxString();
     if (layers && $(link).hasClass("layers")) args.layers = layers;
     if (object && $(link).hasClass("object")) args[object.type] = object.id;
+
+    var href = base + '?' + querystring.stringify(args);
+
+    if ($(link).hasClass("llz")) {
+      href += OSM.formatHash({lat: loc.lat, lon: loc.lon || loc.lng, zoom: zoom});
+    }
+
+    link.href = href;
 
     var minzoom = $(link).data("minzoom");
     if (minzoom) {
@@ -112,8 +93,7 @@ function updatelinks(loc, zoom, layers, bounds, object) {
           });
       }
     }
-    link.href = base + '?' + querystring.stringify(args);
-  }
+  });
 }
 
 // generate a cookie-safe string of map state

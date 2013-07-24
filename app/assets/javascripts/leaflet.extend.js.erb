@@ -29,22 +29,16 @@ L.extend(L.Map.prototype, {
   },
 
   getUrl: function(marker) {
-    var center = this.getCenter(),
-        zoom = this.getZoom(),
-        precision = zoomPrecision(zoom),
-        params = {
-          lat: center.lat.toFixed(precision),
-          lon: center.lng.toFixed(precision),
-          zoom: zoom,
-          layers: this.getLayersCode()
-        };
+    var precision = zoomPrecision(this.getZoom()),
+        params = { layers: this.getLayersCode() };
 
     if (marker && this.hasLayer(marker)) {
       params.mlat = marker.getLatLng().lat.toFixed(precision);
       params.mlon = marker.getLatLng().lng.toFixed(precision);
     }
 
-    return 'http://' + OSM.SERVER_URL + '/?' + querystring.stringify(params);
+    return 'http://' + OSM.SERVER_URL + '/?' + querystring.stringify(params) +
+      OSM.formatHash({lat: this.getCenter().lat, lon: this.getCenter().lng, zoom: this.getZoom()});
   },
 
   getShortUrl: function(marker) {
