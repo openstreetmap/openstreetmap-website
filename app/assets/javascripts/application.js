@@ -23,10 +23,7 @@
 var querystring = require('querystring-component');
 
 function zoomPrecision(zoom) {
-    var decimals = Math.pow(10, Math.floor(zoom/3));
-    return function(x) {
-         return Math.round(x * decimals) / decimals;
-    };
+    return Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
 }
 
 function normalBounds(bounds) {
@@ -62,18 +59,17 @@ function remoteEditHandler(bbox, select) {
  * view tab and various other links
  */
 function updatelinks(loc, zoom, layers, bounds, object) {
-  var toPrecision = zoomPrecision(zoom);
+  var precision = zoomPrecision(zoom);
   bounds = normalBounds(bounds);
-  var node;
 
-  var lat = toPrecision(loc.lat),
-      lon = toPrecision(loc.lon || loc.lng);
+  var lat = loc.lat.toFixed(precision),
+      lon = (loc.lon || loc.lng).toFixed(precision);
 
   if (bounds) {
-    var minlon = toPrecision(bounds.getWest()),
-        minlat = toPrecision(bounds.getSouth()),
-        maxlon = toPrecision(bounds.getEast()),
-        maxlat = toPrecision(bounds.getNorth());
+    var minlon = bounds.getWest().toFixed(precision),
+        minlat = bounds.getSouth().toFixed(precision),
+        maxlon = bounds.getEast().toFixed(precision),
+        maxlat = bounds.getNorth().toFixed(precision);
   }
 
   $(".geolink").each(setGeolink);

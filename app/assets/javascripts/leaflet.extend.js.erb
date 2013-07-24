@@ -31,17 +31,17 @@ L.extend(L.Map.prototype, {
   getUrl: function(marker) {
     var center = this.getCenter(),
         zoom = this.getZoom(),
-        toZoom = zoomPrecision(zoom),
+        precision = zoomPrecision(zoom),
         params = {
-          lat: toZoom(center.lat),
-          lon: toZoom(center.lng),
+          lat: center.lat.toFixed(precision),
+          lon: center.lng.toFixed(precision),
           zoom: zoom,
           layers: this.getLayersCode()
         };
 
     if (marker && this.hasLayer(marker)) {
-      params.mlat = toZoom(marker.getLatLng().lat);
-      params.mlon = toZoom(marker.getLatLng().lng);
+      params.mlat = marker.getLatLng().lat.toFixed(precision);
+      params.mlon = marker.getLatLng().lng.toFixed(precision);
     }
 
     return 'http://' + OSM.SERVER_URL + '/?' + querystring.stringify(params);

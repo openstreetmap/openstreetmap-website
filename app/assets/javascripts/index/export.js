@@ -150,12 +150,12 @@ function initializeExport(map) {
     }
 
     function setBounds(bounds) {
-      var toPrecision = zoomPrecision(map.getZoom());
+      var precision = zoomPrecision(map.getZoom());
 
-      $("#minlon").val(toPrecision(bounds.getWest()));
-      $("#minlat").val(toPrecision(bounds.getSouth()));
-      $("#maxlon").val(toPrecision(bounds.getEast()));
-      $("#maxlat").val(toPrecision(bounds.getNorth()));
+      $("#minlon").val(bounds.getWest().toFixed(precision));
+      $("#minlat").val(bounds.getSouth().toFixed(precision));
+      $("#maxlon").val(bounds.getEast().toFixed(precision));
+      $("#maxlat").val(bounds.getNorth().toFixed(precision));
 
       mapnikSizeChanged();
       htmlUrlChanged();
