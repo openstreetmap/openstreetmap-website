@@ -1,12 +1,10 @@
 <% content_for :heading do %>
-  <h1><%= t 'user.new.heading' %></h1>
+  <h1><%= t 'user.new.title' %></h1>
 <% end %>
 
-<p><%= t 'user.new.fill_form' %></p>
+<%= form_for :user, :url => { :action => 'create' }, :html => { :class => 'col6' } do %>
+  <%= error_messages_for 'user' %>
 
-<%= error_messages_for 'user' %>
-
-<%= form_for :user, :url => { :action => 'create' } do %>
   <%= hidden_field_tag('referer', h(@referer)) unless @referer.nil? %>
 
   <div id="signupForm" class="standard-form">
@@ -71,6 +69,11 @@
     <%= submit_tag t('user.new.continue'), :tabindex => 6 %>
   </div>
 <% end %>
+
+<div class='col6'>
+  <h3><%= t 'user.new.about.header' %></h3>
+  <%= t 'user.new.about.html' %>
+</div>
 
 <script type="text/javascript">
 function enableOpenID()

@@ -199,7 +199,7 @@ class UserControllerTest < ActionController::TestCase
 
     assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
-        assert_select "title", :text => /Create account/, :count => 1
+        assert_select "title", :text => /Sign Up/, :count => 1
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
@@ -209,7 +209,7 @@ class UserControllerTest < ActionController::TestCase
             assert_select "input[id=user_display_name]", :count => 1
             assert_select "input[id=user_pass_crypt][type=password]", :count => 1
             assert_select "input[id=user_pass_crypt_confirmation][type=password]", :count => 1
-            assert_select "input[type=submit][value=Continue]", :count => 1
+            assert_select "input[type=submit][value=Sign Up]", :count => 1
           end
         end
       end

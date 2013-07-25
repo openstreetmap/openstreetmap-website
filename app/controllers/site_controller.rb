@@ -4,7 +4,7 @@ class SiteController < ApplicationController
 
   before_filter :authorize_web
   before_filter :set_locale
-  before_filter :require_user, :only => [:edit]
+  before_filter :require_user, :only => [:edit, :welcome]
   before_filter :require_oauth, :only => [:index]
 
   def index
