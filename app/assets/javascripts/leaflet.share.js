@@ -34,7 +34,7 @@ L.OSM.share = function (options) {
         $('<h4>')
           .text(I18n.t('javascripts.share.title')));
 
-    // Link
+    // Link / Embed
 
     var $linkSection = $('<div>')
       .attr('class', 'section share-link')
@@ -63,45 +63,42 @@ L.OSM.share = function (options) {
 
     var $shortLink, $longLink;
 
-    $('<ul>')
-      .appendTo($linkSection)
-      .append($('<li>')
-        .append($longLink = $('<a>')
-          .text(I18n.t('javascripts.share.long_link'))))
-      .append($('<li>')
-        .append($shortLink = $('<a>')
-          .text(I18n.t('javascripts.share.short_link'))));
-
-    // Embeddable HTML
-
-    var $embedSection = $('<div>')
-      .attr('class', 'section share-html')
-      .appendTo($ui);
-
-    $('<h4>')
-      .text(I18n.t('javascripts.share.embed'))
-      .appendTo($embedSection);
-
-    $form = $('<form>')
-      .attr('class', 'standard-form')
-      .appendTo($embedSection);
+    $('<div>')
+      .attr('class', 'form-row')
+      .appendTo($form)
+      .append($('<label>')
+        .attr('for', 'long_input')
+        .text(I18n.t('javascripts.share.long_link')))
+      .append($('<a>')
+        .attr('id', 'long_link')
+        .append($('<span>')
+          .attr('class', 'icon link')))
+      .append($('<input>')
+        .attr('id', 'long_input')
+        .attr('type', 'text')
+        .on('click', select));
 
     $('<div>')
       .attr('class', 'form-row')
       .appendTo($form)
-      .append(
-        $('<label>')
-          .attr('for', 'embed_marker')
-          .append(
-            $('<input>')
-              .attr('id', 'embed_marker')
-              .attr('type', 'checkbox')
-              .bind('change', toggleMarker))
-          .append(I18n.t('javascripts.share.include_marker')));
+      .append($('<label>')
+        .attr('for', 'short_input')
+        .text(I18n.t('javascripts.share.short_link')))
+      .append($('<a>')
+        .attr('id', 'short_link')
+        .append($('<span>')
+          .attr('class', 'icon link')))
+      .append($('<input>')
+        .attr('id', 'short_input')
+        .attr('type', 'text')
+        .on('click', select));
 
     $('<div>')
       .attr('class', 'form-row')
       .appendTo($form)
+      .append($('<label>')
+        .attr('for', 'embed_html')
+        .text(I18n.t('javascripts.share.embed')))
       .append(
         $('<textarea>')
           .attr('id', 'embed_html')
@@ -110,7 +107,7 @@ L.OSM.share = function (options) {
     $('<p>')
       .attr('class', 'deemphasize')
       .text(I18n.t('javascripts.share.paste_html'))
-      .appendTo($embedSection);
+      .appendTo($linkSection);
 
     // Image
 
@@ -250,18 +247,18 @@ L.OSM.share = function (options) {
     function update() {
       var bounds = map.getBounds();
 
-      $('#link_marker, #embed_marker')
+      $('#link_marker')
         .prop('checked', map.hasLayer(marker));
 
       $('#image_filter')
         .prop('checked', locationFilter.isEnabled());
 
-      // Link
+      // Link / Embed
 
-      $shortLink.attr('href', map.getShortUrl(marker));
-      $longLink.attr('href', map.getUrl(marker));
-
-      // Embed
+      $('#short_input').val(map.getShortUrl(marker));
+      $('#long_input').val(map.getUrl(marker));
+      $('#short_link').attr('href', map.getShortUrl(marker));
+      $('#long_link').attr('href', map.getUrl(marker));
 
       var params = {
         bbox: bounds.toBBoxString(),
