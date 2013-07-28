@@ -26,8 +26,10 @@ class NodeController < ApplicationController
   # Dump the details on a node given in params[:id]
   def read
     node = Node.find(params[:id])
-    if node.visible?
-      response.last_modified = node.timestamp
+
+    response.last_modified = node.timestamp
+
+    if node.visible
       render :text => node.to_xml.to_s, :content_type => "text/xml"
     else
       render :text => "", :status => :gone
