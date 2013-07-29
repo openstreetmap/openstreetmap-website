@@ -4,15 +4,10 @@ These instructions are designed for setting up The Rails Port for development an
 If you want to deploy the software for your own project, then see the notes at the end.
 
 These instructions are based on Ubuntu 12.04 LTS, which is the platform used by the OSMF servers.
-The instructions also work, with only minor amendments, for all other current Ubuntu releases.
+The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and MacOSX
 
-For other operating systems see
-
-* [Fedora](INSTALL-fedora.md)
-* [MacOSX](INSTALL-macosx.md)
-
-We don't recommend attempting to develop or deploy this software on Windows. If you need to, try using
-Ubuntu in a virtual machine.
+We don't recommend attempting to develop or deploy this software on Windows. If you need to use Windows, then
+try developing this sofware using Ubuntu in a virtual machine.
 
 ## Dependencies
 
@@ -37,6 +32,44 @@ sudo apt-get install ruby libruby ruby-dev rdoc ri ruby-bundler rubygems \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
                      libsasl2-dev
 ```
+
+### Alternative platforms
+
+#### Fedora
+
+For Fedora, you can install the minimum requirements with:
+
+```
+sudo yum install ruby libruby ruby-dev rdoc ri ruby-bundler rubygems \
+                     libmagickwand-dev libxml2-dev libxslt1-dev \
+                     apache2 apache2-threaded-dev build-essential git-core \
+                     postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
+                     libsasl2-dev
+```
+
+#### MacOSX
+
+For MacOSX, you will need XCode installed from the Mac App Store; OS X 10.7 (Lion) or later; and some familiarity with Unix development via the Terminal.
+
+Installing Postgres:
+
+* Install Postgres.app from http://postgresapp.com/
+* Add Postgres to your path, by editing your profile:
+
+`nano ~/.profile`
+
+and adding:
+
+`export PATH=/Applications/Postgres.app/Contents/MacOS/bin:$PATH`
+
+Installing other dependencies:
+
+* Install Homebrew from http://mxcl.github.io/homebrew/
+* Install the latest version of Ruby: brew install ruby
+* Install ImageMagick: brew install imagemagick
+* Install Bundler: gem install bundler
+
+Note that OS X does not have a /home directory by default, so if you are using the GPX functions, you will need to change the directories specified in config/application.yml.
 
 ## Cloning the repository
 
