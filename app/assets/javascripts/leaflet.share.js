@@ -290,9 +290,9 @@ L.OSM.share = function (options) {
 
       $('#embed_html').val(
         '<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="' +
-          'http://' + OSM.SERVER_URL + '/export/embed.html?' + $.param(params) +
+          escapeHTML('http://' + OSM.SERVER_URL + '/export/embed.html?' + $.param(params)) +
           '" style="border: 1px solid black"></iframe><br/>' +
-          '<small><a href="' + map.getUrl(marker) + '</a></small>');
+          '<small><a href="' + escapeHTML(map.getUrl(marker)) + '</a></small>');
 
       // Image
 
