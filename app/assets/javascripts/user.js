@@ -24,11 +24,12 @@ $(document).ready(function () {
     map.on("click", function (e) {
       if ($('#updatehome').is(':checked')) {
         var zoom = map.getZoom(),
-            toZoom = zoomPrecision(zoom);
+            toZoom = zoomPrecision(zoom),
+            location = e.latlng.wrap();
 
         $('#homerow').removeClass();
-        $('#home_lat').val(toZoom(e.latlng.lat));
-        $('#home_lon').val(toZoom(e.latlng.lng));
+        $('#home_lat').val(toZoom(location.lat));
+        $('#home_lon').val(toZoom(location.lng));
 
         marker.setLatLng(e.latlng);
         marker.addTo(map);
