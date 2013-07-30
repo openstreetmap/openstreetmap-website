@@ -1047,12 +1047,14 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 /* Overrides for pages that use new layout conventions */
 .site-copyright,
-.site-welcome,
-.user-new {
-  #content.pad2 {
-    padding: 0;
+.site-welcome {
+  #content {
+    max-width: 740px;
   }
 }
+.user-new #content.pad2 {
+    padding: 0;
+  }
 
 .user-new .content-heading {
   height: 200px;  
@@ -1538,9 +1540,9 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
       float: left;
     }
     #decline {
-      background: $grey;
+      background: $lightblue;
       &:hover {
-        background: darken($grey, $hovercolor);
+        background: darken($lightblue, $hovercolor);
       }
     }
   }
@@ -2269,6 +2271,10 @@ a.button {
 .site-welcome {
   .center {
     text-align: center;
+    .sprite { 
+      float: none;
+      margin: auto;
+    }
   }
 
   .drop {
@@ -2278,9 +2284,18 @@ a.button {
   .sprite {
     background-image: image-url("welcome-sprite.png");
     background-size: 500px 250px;
-    display: inline-block;
+    display: block;
+    float: left;
   }
 
+  .icon-list div { 
+    margin-bottom: 10px;
+  }
+  
+  .icon-list div p { 
+    padding-top: 10px;
+  }
+  
   .sprite.small {
     width: 50px;
     height: 50px;
@@ -2316,13 +2331,9 @@ a.button {
   }
 
   .start-mapping {
-    background: #EB6F67;
-    color: #FFF;
     margin: auto;
     cursor: pointer;
     border: none;
-    border-radius: 5px;
-    border-bottom: 1px solid #A53931;
     padding: 20px 40px;
     font-size: 30px;
     text-decoration: none;
