@@ -1058,6 +1058,32 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   height: 200px;  
 }
 
+.new-user-illustration { 
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  position: absolute;
+}
+
+.new-user-illustration.new-user-main {
+  height: 200px;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  background-image: image-url("sign-up-illustration.png");
+}
+
+.new-user-illustration.new-user-arm {
+  height: 110px;
+  width: 130px;
+  left: 230px;
+  top: 160px;
+  background-image: image-url("sign-up-illustration-arm.png");
+}
+
+@media only screen and (max-width:770px) {
+  .new-user-illustration.new-user-arm { display: none;}
+}
+
 .wrapper {
   margin-left: 184px;
   border-left: 1px solid #ccc;
@@ -1113,6 +1139,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   position: relative;
   padding: $lineheight;
   background: $offwhite;
+  z-index: 2;
   h1, h2 {
     margin-bottom: $lineheight/2;
     line-height: 100%;
