@@ -136,6 +136,8 @@ function initializeBrowse(map) {
     $("#browse_content").append(div);
   }
 
+  var dataLoader;
+
   function getData() {
     var bounds = locationFilter.isEnabled() ? locationFilter.getBounds() : map.getBounds();
     var size = bounds.getSize();
@@ -164,7 +166,9 @@ function initializeBrowse(map) {
       }
     @*/
 
-    $.ajax({
+    if (dataLoader) dataLoader.abort();
+
+    dataLoader = $.ajax({
       url: url,
       success: function (xml) {
         clearStatus();
@@ -203,6 +207,8 @@ function initializeBrowse(map) {
         } else {
           displayFeatureWarning(features.length, maxFeatures, addFeatures);
         }
+
+        dataLoader = null;
       }
     });
   }
