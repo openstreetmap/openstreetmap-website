@@ -64,20 +64,6 @@ L.OSM.share = function (options) {
     $('<div>')
       .attr('class', 'form-row')
       .appendTo($form)
-      .append(
-        $('<label>')
-          .attr('for', 'center_marker')
-          .append(
-            $('<input>')
-              .attr('id', 'center_marker')
-              .attr('type', 'checkbox')
-              .prop('checked', true)
-              .bind('change', update))
-          .append(I18n.t('javascripts.share.center_marker')));
-
-    $('<div>')
-      .attr('class', 'form-row')
-      .appendTo($form)
       .append($('<label>')
         .attr('for', 'long_input')
         .text(I18n.t('javascripts.share.long_link')))
@@ -267,7 +253,7 @@ L.OSM.share = function (options) {
     }
 
     function update() {
-      if (map.hasLayer(marker) && $('#center_marker').is(':checked')) {
+      if (map.hasLayer(marker)) {
         map.panTo(marker.getLatLng());
       }
 
@@ -275,9 +261,6 @@ L.OSM.share = function (options) {
 
       $('#link_marker')
         .prop('checked', map.hasLayer(marker));
-
-      $('#center_marker')
-        .prop('disabled', !map.hasLayer(marker));
 
       $('#image_filter')
         .prop('checked', locationFilter.isEnabled());
