@@ -67,14 +67,15 @@ L.OSM.share = function (options) {
       .append($('<label>')
         .attr('for', 'long_input')
         .text(I18n.t('javascripts.share.long_link')))
-      .append($('<a>')
-        .attr('id', 'long_link')
-        .append($('<span>')
-          .attr('class', 'icon link')))
       .append($('<input>')
         .attr('id', 'long_input')
         .attr('type', 'text')
-        .on('click', select));
+        .on('click', select))
+      .append($('<a>')
+        .attr('id', 'long_link')
+        .on('click', function() { return false; })
+        .append($('<span>')
+          .attr('class', 'icon link')));
 
     $('<div>')
       .attr('class', 'form-row')
@@ -82,14 +83,15 @@ L.OSM.share = function (options) {
       .append($('<label>')
         .attr('for', 'short_input')
         .text(I18n.t('javascripts.share.short_link')))
-      .append($('<a>')
-        .attr('id', 'short_link')
-        .append($('<span>')
-          .attr('class', 'icon link')))
       .append($('<input>')
         .attr('id', 'short_input')
         .attr('type', 'text')
-        .on('click', select));
+        .on('click', select))
+      .append($('<a>')
+        .attr('id', 'short_link')
+        .on('click', function() { return false; })
+        .append($('<span>')
+          .attr('class', 'icon link')));
 
     // Embed
 
