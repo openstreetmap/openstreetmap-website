@@ -62,6 +62,8 @@ function initializeBrowse(map) {
 
     openSidebar();
 
+    if (browseObjectList) loadObjectList();
+
     map.on("moveend", updateData);
     updateData();
 
