@@ -34,7 +34,7 @@ L.OSM.share = function (options) {
         $('<h4>')
           .text(I18n.t('javascripts.share.title')));
 
-    // Link / Embed
+    // Link
 
     var $linkSection = $('<div>')
       .attr('class', 'section share-link')
@@ -104,6 +104,16 @@ L.OSM.share = function (options) {
         .attr('id', 'short_input')
         .attr('type', 'text')
         .on('click', select));
+
+    // Embed
+
+    var $embedSection = $('<div>')
+      .attr('class', 'section share-embed')
+      .appendTo($ui);
+
+    var $form = $('<form>')
+      .attr('class', 'standard-form')
+      .appendTo($embedSection);
 
     $('<div>')
       .attr('class', 'form-row')
