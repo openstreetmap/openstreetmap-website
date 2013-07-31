@@ -64,23 +64,31 @@ L.OSM.share = function (options) {
     $('<div>')
       .attr('class', 'share-tabs')
       .appendTo($form)
-      .append($('<label>')
+      .append($('<a>')
         .attr('class', 'active')
         .attr('for', 'long_input')
+        .attr('id', 'long_link')
         .text(I18n.t('javascripts.share.long_link')))
-      .append($('<label>')
+      .append($('<a>')
         .attr('for', 'short_input')
+        .attr('id', 'short_link')
         .text(I18n.t('javascripts.share.short_link')))
-      .append($('<label>')
+      .append($('<a>')
         .attr('for', 'embed_html')
+        .attr('href', '#')
         .text(I18n.t('javascripts.share.embed')))
-      .on('click', 'label', function() {
+      .on('click', 'a', function(e) {
+        e.preventDefault();
         var id = '#' + $(this).attr('for');
-        $linkSection.find('.share-tabs label')
+        $linkSection.find('.share-tabs a')
           .removeClass('active');
         $(this).addClass('active');
-        $linkSection.find('.share-tab').hide();
-        $linkSection.find('.share-tab:has(' + id + ')').show();
+        $linkSection.find('.share-tab')
+          .hide();
+        $linkSection.find('.share-tab:has(' + id + ')')
+          .show()
+          .find('input, textarea')
+          .select();
       });
 
     $('<div>')
@@ -90,12 +98,7 @@ L.OSM.share = function (options) {
       .append($('<input>')
         .attr('id', 'long_input')
         .attr('type', 'text')
-        .on('click', select))
-      .append($('<a>')
-        .attr('id', 'long_link')
-        .on('click', function() { return false; })
-        .append($('<span>')
-          .attr('class', 'icon link')));
+        .on('click', select));
 
     $('<div>')
       .attr('class', 'form-row share-tab')
@@ -103,12 +106,7 @@ L.OSM.share = function (options) {
       .append($('<input>')
         .attr('id', 'short_input')
         .attr('type', 'text')
-        .on('click', select))
-      .append($('<a>')
-        .attr('id', 'short_link')
-        .on('click', function() { return false; })
-        .append($('<span>')
-          .attr('class', 'icon link')));
+        .on('click', select));
 
     $('<div>')
       .attr('class', 'form-row share-tab')
