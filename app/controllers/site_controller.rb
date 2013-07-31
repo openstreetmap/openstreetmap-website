@@ -59,6 +59,8 @@ class SiteController < ApplicationController
       return
     end
 
+    @extra_body_class = "site-edit-#{editor}"
+
     if params[:node]
       bbox = Node.find(params[:node]).bbox.to_unscaled
       @lat = bbox.centre_lat

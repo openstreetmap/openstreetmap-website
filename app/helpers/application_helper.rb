@@ -102,4 +102,8 @@ module ApplicationHelper
   def friendly_date(date)
     content_tag(:span, time_ago_in_words(date), :title => l(date, :format => :friendly))
   end
+
+  def body_class
+    [params[:controller], "#{params[:controller]}-#{params[:action]}", @extra_body_class].compact.join(" ")
+  end
 end
