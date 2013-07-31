@@ -24,63 +24,15 @@ class UserController < ApplicationController
 
     if request.xhr?
       render :partial => "terms"
-    elsif using_open_id?
-      # The redirect from the OpenID provider reenters here
-      # again and we need to pass the parameters through to
-      # the open_id_authentication function
-      @user = session.delete(:new_user)
-
-      openid_verify(nil, @user) do |user,verified_email|
-        user.status = "active" if user.email == verified_email
-      end
-
-      if @user.openid_url.nil? or @user.invalid?
-        render :action => 'new'
-      else
-        session[:new_user] = @user
-        render :action => 'terms'
-      end
-    elsif params[:user] and Acl.no_account_creation(request.remote_ip, params[:user][:email].split("@").last)
-      render :action => 'blocked'
     else
-      session[:referer] = params[:referer]
-
       @title = t 'user.terms.title'
-      @user = User.new(params[:user]) if params[:user]
+      @user ||= session[:new_user]
 
-      if params[:user] and params[:user][:openid_url] and @user.pass_crypt.empty?
-        # We are creating an account with OpenID and no password
-        # was specified so create a random one
-        @user.pass_crypt = SecureRandom.base64(16)
-        @user.pass_crypt_confirmation = @user.pass_crypt
-      end
-
-      if @user
-        @user.status = "pending"
-
-        if @user.invalid?
-          if @user.new_record?
-            # Something is wrong with a new user, so rerender the form
-            render :action => :new
-          else
-            # Error in existing user, so go to account settings
-            flash[:errors] = @user.errors
-            redirect_to :action => :account, :display_name => @user.display_name
-          end
-        elsif @user.terms_agreed?
-          # Already agreed to terms, so just show settings
-          redirect_to :action => :account, :display_name => @user.display_name
-        elsif params[:user] and params[:user][:openid_url] and not params[:user][:openid_url].empty?
-          # Verify OpenID before moving on
-          session[:new_user] = @user
-          openid_verify(params[:user][:openid_url], @user)
-        elsif @user.new_record?
-          # Save the user record
-          session[:new_user] = @user
-        end
-      else
-        # Not logged in, so redirect to the login page
+      if !@user
         redirect_to :action => :login, :referer => request.fullpath
+      elsif @user.terms_agreed?
+        # Already agreed to terms, so just show settings
+        redirect_to :action => :account, :display_name => @user.display_name
       end
     end
   end
@@ -248,7 +200,23 @@ class UserController < ApplicationController
     @title = t 'user.new.title'
     @referer = params[:referer] || session[:referer]
 
-    if @user
+    if using_open_id?
+      # The redirect from the OpenID provider reenters here
+      # again and we need to pass the parameters through to
+      # the open_id_authentication function
+      @user = session.delete(:new_user)
+
+      openid_verify(nil, @user) do |user, verified_email|
+        user.status = "active" if user.email == verified_email
+      end
+
+      if @user.openid_url.nil? or @user.invalid?
+        render :action => 'new'
+      else
+        session[:new_user] = @user
+        redirect_to :action => 'terms'
+      end
+    elsif @user
       # The user is logged in already, so don't show them the signup
       # page, instead send them to the home page
       if @referer
@@ -265,6 +233,38 @@ class UserController < ApplicationController
       flash.now[:notice] = t 'user.new.openid association'
     elsif Acl.no_account_creation(request.remote_ip)
       render :action => 'blocked'
+    end
+  end
+
+  def create
+    if params[:user] and Acl.no_account_creation(request.remote_ip, params[:user][:email].split("@").last)
+      render :action => 'blocked'
+
+    else
+      session[:referer] = params[:referer]
+
+      @user = User.new(params[:user])
+      @user.status = "pending"
+
+      if @user.openid_url.present? && @user.pass_crypt.empty?
+        # We are creating an account with OpenID and no password
+        # was specified so create a random one
+        @user.pass_crypt = SecureRandom.base64(16)
+        @user.pass_crypt_confirmation = @user.pass_crypt
+      end
+
+      if @user.invalid?
+        # Something is wrong with a new user, so rerender the form
+        render :action => "new"
+      elsif @user.openid_url.present?
+        # Verify OpenID before moving on
+        session[:new_user] = @user
+        openid_verify(@user.openid_url, @user)
+      else
+        # Save the user record
+        session[:new_user] = @user
+        redirect_to :action => :terms
+      end
     end
   end
 
