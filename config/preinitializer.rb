@@ -1,7 +1,7 @@
 require 'yaml'
 
-config = YAML.load_file(File.expand_path("../application.yml", __FILE__))
 env = ENV['RAILS_ENV'] || 'development'
+config = YAML.load_file(File.expand_path(env == "test" ? "../example.application.yml" : "../application.yml", __FILE__))
 
 ENV.each do |key,value|
   if key.match(/^OSM_(.*)$/)
