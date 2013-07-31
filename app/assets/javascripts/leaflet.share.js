@@ -10,7 +10,7 @@ L.OSM.share = function (options) {
     var $container = $('<div>')
       .attr('class', 'control-share');
 
-    $('<a>')
+    var button = $('<a>')
       .attr('class', 'control-button')
       .attr('href', '#')
       .attr('title', 'Share')
@@ -230,7 +230,7 @@ L.OSM.share = function (options) {
       marker.setLatLng(map.getCenter());
 
       update();
-      options.sidebar.togglePane($ui);
+      options.sidebar.togglePane($ui, button);
     }
 
     function toggleMarker() {

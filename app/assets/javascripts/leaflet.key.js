@@ -5,7 +5,7 @@ L.OSM.key = function (options) {
     var $container = $('<div>')
       .attr('class', 'control-key');
 
-    $('<a>')
+    var button = $('<a>')
       .attr('class', 'control-button')
       .attr('href', '#')
       .attr('title', I18n.t('javascripts.key.tooltip'))
@@ -51,7 +51,7 @@ L.OSM.key = function (options) {
     function toggle(e) {
       e.stopPropagation();
       e.preventDefault();
-      options.sidebar.togglePane($ui);
+      options.sidebar.togglePane($ui, button);
     }
 
     function update() {
