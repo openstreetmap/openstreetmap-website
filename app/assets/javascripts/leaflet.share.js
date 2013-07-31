@@ -157,7 +157,6 @@ L.OSM.share = function (options) {
       .appendTo($form)
       .append(
         $('<label>')
-          .attr('class', 'standard-label')
           .attr('for', 'mapnik_format')
           .text(I18n.t('javascripts.share.format')))
       .append($('<select>')
@@ -172,7 +171,6 @@ L.OSM.share = function (options) {
       .attr('class', 'form-row')
       .appendTo($form)
       .append($('<label>')
-        .attr('class', 'standard-label')
         .attr('for', 'mapnik_scale')
         .text(I18n.t('javascripts.share.scale')))
       .append('1 : ')
