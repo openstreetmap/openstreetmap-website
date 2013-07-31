@@ -243,10 +243,7 @@ L.OSM.share = function (options) {
 
     function toggleFilter() {
       if ($(this).is(':checked')) {
-        if (!locationFilter.getBounds().isValid()) {
-          locationFilter.setBounds(map.getBounds().pad(-0.2));
-        }
-
+        locationFilter.setBounds(map.getBounds().pad(-0.2));
         locationFilter.enable();
       } else {
         locationFilter.disable();
