@@ -136,7 +136,7 @@ $(document).ready(function () {
   }
 
   if (params.object) {
-    addObjectToMap(params.object, map, { zoom: params.object_zoom });
+    map.addObject(params.object, { zoom: params.object_zoom });
   }
 
   $("body").on("click", "a.set_position", setPositionLink(map));
@@ -195,7 +195,7 @@ function setPositionLink(map) {
       }
 
       if (data.type && data.id) {
-        addObjectToMap(data, map, { zoom: true, style: { opacity: 0.2, fill: false } });
+        map.addObject(data, { zoom: true, style: { opacity: 0.2, fill: false } });
       }
 
       map.markerLayer.clearLayers();

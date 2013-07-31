@@ -37,6 +37,10 @@ L.extend(L.Map.prototype, {
       params.mlon = marker.getLatLng().lng.toFixed(precision);
     }
 
+    if (this._object) {
+      params[this._object.type] = this._object.id;
+    }
+
     var url = 'http://' + OSM.SERVER_URL + '/',
       query = querystring.stringify(params),
       hash = OSM.formatHash(this);
@@ -50,7 +54,8 @@ L.extend(L.Map.prototype, {
   getShortUrl: function(marker) {
     var zoom = this.getZoom(),
       latLng = marker && this.hasLayer(marker) ? marker.getLatLng() : this.getCenter(),
-      str = '',
+      str = window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
+        'http://osm.org/go/' : 'http://' + window.location.hostname + '/go/',
       char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
       x = Math.round((latLng.lng + 180.0) * ((1 << 30) / 90.0)),
       y = Math.round((latLng.lat + 90.0) * ((1 << 30) / 45.0)),
@@ -83,12 +88,63 @@ L.extend(L.Map.prototype, {
       return (x << 1) | y;
     }
 
+    var params = {};
+
     if (marker && this.hasLayer(marker)) {
-      str += '?m'
+      params.m = '';
     }
 
-    return (window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
-            'http://osm.org/go/' : 'http://' + window.location.hostname + '/go/') + str;
+    if (this._object) {
+      params[this._object.type] = this._object.id;
+    }
+
+    var query = querystring.stringify(params);
+    if (query) {
+      str += '?' + query;
+    }
+
+    return str;
+  },
+
+  addObject: function(object, options) {
+    this._object = object;
+
+    if (this._objectLoader) this._objectLoader.abort();
+    if (this._objectLayer) this.removeLayer(this._objectLayer);
+
+    var map = this;
+    this._objectLoader = $.ajax({
+      url: OSM.apiUrl(object),
+      dataType: "xml",
+      success: function (xml) {
+        map._objectLayer = new L.OSM.DataLayer(null, {
+          styles: {
+            node: options.style,
+            way: options.style,
+            area: options.style
+          }
+        });
+
+        map._objectLayer.interestingNode = function (node, ways, relations) {
+          if (object.type === "node") {
+            return true;
+          } else if (object.type === "relation") {
+            for (var i = 0; i < relations.length; i++)
+              if (relations[i].members.indexOf(node) != -1)
+                return true;
+          } else {
+            return false;
+          }
+        };
+
+        map._objectLayer.addData(xml);
+
+        if (options.zoom) map.fitBounds(map._objectLayer.getBounds());
+        if (options.callback) options.callback(map._objectLayer.getBounds());
+
+        map._objectLayer.addTo(map);
+      }
+    });
   }
 });
 
