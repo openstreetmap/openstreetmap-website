@@ -34,7 +34,7 @@ L.OSM.share = function (options) {
         $('<h4>')
           .text(I18n.t('javascripts.share.title')));
 
-    // Link
+    // Link / Embed
 
     var $linkSection = $('<div>')
       .attr('class', 'section share-link')
@@ -62,11 +62,31 @@ L.OSM.share = function (options) {
           .append(I18n.t('javascripts.share.include_marker')));
 
     $('<div>')
-      .attr('class', 'form-row')
+      .attr('class', 'share-tabs')
       .appendTo($form)
       .append($('<label>')
+        .attr('class', 'active')
         .attr('for', 'long_input')
         .text(I18n.t('javascripts.share.long_link')))
+      .append($('<label>')
+        .attr('for', 'short_input')
+        .text(I18n.t('javascripts.share.short_link')))
+      .append($('<label>')
+        .attr('for', 'embed_html')
+        .text(I18n.t('javascripts.share.embed')))
+      .on('click', 'label', function() {
+        var id = '#' + $(this).attr('for');
+        $linkSection.find('.share-tabs label')
+          .removeClass('active');
+        $(this).addClass('active');
+        $linkSection.find('.share-tab').hide();
+        $linkSection.find('.share-tab:has(' + id + ')').show();
+      });
+
+    $('<div>')
+      .attr('class', 'form-row share-tab')
+      .css('display', 'block')
+      .appendTo($form)
       .append($('<input>')
         .attr('id', 'long_input')
         .attr('type', 'text')
@@ -78,11 +98,8 @@ L.OSM.share = function (options) {
           .attr('class', 'icon link')));
 
     $('<div>')
-      .attr('class', 'form-row')
+      .attr('class', 'form-row share-tab')
       .appendTo($form)
-      .append($('<label>')
-        .attr('for', 'short_input')
-        .text(I18n.t('javascripts.share.short_link')))
       .append($('<input>')
         .attr('id', 'short_input')
         .attr('type', 'text')
@@ -93,31 +110,18 @@ L.OSM.share = function (options) {
         .append($('<span>')
           .attr('class', 'icon link')));
 
-    // Embed
-
-    var $embedSection = $('<div>')
-      .attr('class', 'section share-embed')
-      .appendTo($ui);
-
-    var $form = $('<form>')
-      .attr('class', 'standard-form')
-      .appendTo($embedSection);
-
     $('<div>')
-      .attr('class', 'form-row')
+      .attr('class', 'form-row share-tab')
       .appendTo($form)
-      .append($('<label>')
-        .attr('for', 'embed_html')
-        .text(I18n.t('javascripts.share.embed')))
       .append(
         $('<textarea>')
           .attr('id', 'embed_html')
-          .on('click', select));
-
-    $('<p>')
-      .attr('class', 'deemphasize')
-      .text(I18n.t('javascripts.share.paste_html'))
-      .appendTo($linkSection);
+          .on('click', select))
+      .append(
+        $('<p>')
+          .attr('class', 'deemphasize')
+          .text(I18n.t('javascripts.share.paste_html'))
+          .appendTo($linkSection));
 
     // Image
 
