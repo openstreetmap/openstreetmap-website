@@ -55,11 +55,12 @@ class UserControllerTest < ActionController::TestCase
     )
 
     assert_routing(
-      { :path => "/user/terms", :method => :get },
-      { :controller => "user", :action => "terms" }
+      { :path => "/user/new", :method => :post },
+      { :controller => "user", :action => "create" }
     )
+
     assert_routing(
-      { :path => "/user/terms", :method => :post },
+      { :path => "/user/terms", :method => :get },
       { :controller => "user", :action => "terms" }
     )
 
@@ -202,7 +203,7 @@ class UserControllerTest < ActionController::TestCase
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
-          assert_select "form[action='/user/terms'][method=post]", :count => 1 do
+          assert_select "form[action='/user/new'][method=post]", :count => 1 do
             assert_select "input[id=user_email]", :count => 1
             assert_select "input[id=user_email_confirmation]", :count => 1
             assert_select "input[id=user_display_name]", :count => 1
@@ -320,6 +321,23 @@ class UserControllerTest < ActionController::TestCase
     assert_template 'new'
     assert_select "div#errorExplanation"
     assert_select "div#signupForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
+  end
+
+  def test_user_terms_new_user
+    get :terms, {}, { "new_user" => User.new }
+    assert_response :success
+    assert_template :terms
+  end
+
+  def test_user_terms_seen
+    user = users(:normal_user)
+
+    # Set the username cookie
+    @request.cookies["_osm_username"] = user.display_name
+
+    get :terms, {}, { "user" => user }
+    assert_response :redirect
+    assert_redirected_to :action => :account, :display_name => user.display_name
   end
 
   def test_user_lost_password
