@@ -29,7 +29,6 @@ class UserCreationTest < ActionController::IntegrationTest
       assert_response :success
       assert_template 'user/new'
       assert_equal response.headers['Content-Language'][0..1], localer.to_s[0..1] unless localer == :root
-      assert_select "div#errorExplanation"
       assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_email"
       assert_no_missing_translations
     end
@@ -48,7 +47,6 @@ class UserCreationTest < ActionController::IntegrationTest
       end
       assert_response :success
       assert_template 'user/new'
-      assert_select "div#errorExplanation"
       assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
       assert_no_missing_translations
     end

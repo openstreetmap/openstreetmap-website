@@ -5,8 +5,6 @@
 <% end %>
 
 <%= form_for :user, :url => { :action => 'create' }, :html => { :class => 'signup-form-wrapper standard-form fillL col6 pad2' } do %>
-  <%= error_messages_for 'user' %>
-
   <%= hidden_field_tag('referer', h(@referer)) unless @referer.nil? %>
 
   <fieldset>
@@ -15,12 +13,14 @@
         <%= t 'user.new.email address' %>
       </label>
       <%= email_field(:user, :email, { :tabindex => 1 }) %>
+      <%= error_message_on(:user, :email) %>
     </div>
     <div class="form-row">
       <label for="email_confirmation" class="standard-label">
         <%= t 'user.new.confirm email address' %>
       </label>
       <%= email_field(:user, :email_confirmation, { :tabindex => 2 }) %>
+      <%= error_message_on(:user, :email_confirmation) %>
     </div>
     <span class="form-help deemphasize"><%= raw(t 'user.new.not displayed publicly') %></span>
   </fieldset>
@@ -31,6 +31,7 @@
         <%= t 'user.new.display name' %>
       </label>
       <%= text_field(:user, :display_name, { :tabindex => 3 }) %>
+      <%= error_message_on(:user, :display_name) %>
     </div>
     <span class="form-help deemphasize"><%= t 'user.new.display name description' %></span>
   </fieldset>
@@ -41,6 +42,7 @@
         <%= raw t 'user.new.openid', :logo => openid_logo %>
       </label>
       <%= url_field(:user, :openid_url, { :id => "openid_url", :tabindex => 4, :class => "openid_url" }) %>
+      <%= error_message_on(:user, :openid_url) %>
     </div>
     <span class="form-help deemphasize"><%= t 'user.new.openid no password' %></span>
   </fieldset>
@@ -51,12 +53,14 @@
         <%= t 'user.new.password' %>
       </label>
       <%= password_field(:user, :pass_crypt, {:tabindex => 5 }) %>
+      <%= error_message_on(:user, :pass_crypt) %>
     </div>
     <div class="form-row">
       <label class="standard-label">
         <%= t 'user.new.confirm password' %>
       </label>
       <%= password_field(:user, :pass_crypt_confirmation, { :tabindex => 6 }) %>
+      <%= error_message_on(:user, :pass_crypt_confirmation) %>
     </div>
   </fieldset>
 

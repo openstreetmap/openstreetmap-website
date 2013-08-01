@@ -259,7 +259,6 @@ class UserControllerTest < ActionController::TestCase
     end
     assert_response :success                                                                       
     assert_template 'new'
-    assert_select "div#errorExplanation"
     assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_email"
   end
   
@@ -279,7 +278,6 @@ class UserControllerTest < ActionController::TestCase
     end
     assert_response :success                                                                       
     assert_template 'new'
-    assert_select "div#errorExplanation"
     assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_email"
   end
     
@@ -299,7 +297,6 @@ class UserControllerTest < ActionController::TestCase
     end
     assert_response :success                                                                       
     assert_template 'new'
-    assert_select "div#errorExplanation"
     assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
   end
   
@@ -319,7 +316,6 @@ class UserControllerTest < ActionController::TestCase
     end
     assert_response :success                                                                       
     assert_template 'new'
-    assert_select "div#errorExplanation"
     assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
   end
 
