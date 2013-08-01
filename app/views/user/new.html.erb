@@ -22,7 +22,7 @@
       </label>
       <%= email_field(:user, :email_confirmation, { :tabindex => 2 }) %>
     </div>
-  <span class="form-help deemphasize"><%= raw(t 'user.new.not displayed publicly') %></span>
+    <span class="form-help deemphasize"><%= raw(t 'user.new.not displayed publicly') %></span>
   </fieldset>
 
   <fieldset>
@@ -42,9 +42,7 @@
       </label>
       <%= url_field(:user, :openid_url, { :id => "openid_url", :tabindex => 4, :class => "openid_url" }) %>
     </div>
-    <span id="openid_note" class="deemphasize">
-      <%= t 'user.new.openid no password' %>
-    </span>
+    <span class="form-help deemphasize"><%= t 'user.new.openid no password' %></span>
   </fieldset>
 
   <fieldset>
@@ -78,27 +76,21 @@
 function enableOpenID()
 {
   $("#openid_prompt").hide();
-
   $("#openid_field").show();
-  $("#openid_note").show();
-
   $("#openid_url").prop("disabled", false);
 }
 
 function disableOpenID()
 {
   $("#openid_prompt").show();
-
   $("#openid_field").hide();
-  $("#openid_note").hide();
-
   $("#openid_url").prop("disabled", true);
 }
 
 $(document).ready(function () {
   $("#openid_enable").click(enableOpenID);
 
-  <% if params[:openid] or (@user and @user.openid_url and not @user.openid_url.empty?) -%>
+  <% if params[:openid] or (@user and @user.openid_url.present?) -%>
   enableOpenID();
   <% else -%>
   disableOpenID();
