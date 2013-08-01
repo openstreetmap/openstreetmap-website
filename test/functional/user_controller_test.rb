@@ -260,7 +260,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success                                                                       
     assert_template 'new'
     assert_select "div#errorExplanation"
-    assert_select "div#signupForm > fieldset > div.form-row > div.field_with_errors > input#user_email"
+    assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_email"
   end
   
   def test_user_create_submit_duplicate_email_uppercase
@@ -280,7 +280,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success                                                                       
     assert_template 'new'
     assert_select "div#errorExplanation"
-    assert_select "div#signupForm > fieldset > div.form-row > div.field_with_errors > input#user_email"
+    assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_email"
   end
     
   def test_user_create_submit_duplicate_name
@@ -300,7 +300,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success                                                                       
     assert_template 'new'
     assert_select "div#errorExplanation"
-    assert_select "div#signupForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
+    assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
   end
   
   def test_user_create_submit_duplicate_name_uppercase
@@ -320,7 +320,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success                                                                       
     assert_template 'new'
     assert_select "div#errorExplanation"
-    assert_select "div#signupForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
+    assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
   end
 
   def test_user_terms_new_user

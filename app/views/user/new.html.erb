@@ -4,72 +4,69 @@
   <div class='header-illustration new-user-arm'></div>
 <% end %>
 
-<%= form_for :user, :url => { :action => 'create' }, :html => { :class => 'signup-form-wrapper fillL col6 pad2' } do %>
+<%= form_for :user, :url => { :action => 'create' }, :html => { :class => 'signup-form-wrapper standard-form fillL col6 pad2' } do %>
   <%= error_messages_for 'user' %>
 
   <%= hidden_field_tag('referer', h(@referer)) unless @referer.nil? %>
 
-  <div id="signupForm" class="standard-form">
-
-    <fieldset>
-      <div class="form-row">
-        <label for="email" class="standard-label">
-          <%= t 'user.new.email address' %>
-        </label>
-        <%= email_field(:user, :email, { :tabindex => 1 }) %>
-      </div>
-      <div class="form-row">
-        <label for="email_confirmation" class="standard-label">
-          <%= t 'user.new.confirm email address' %>
-        </label>
-        <%= email_field(:user, :email_confirmation, { :tabindex => 2 }) %>
-      </div>
-    <span class="form-help deemphasize"><%= raw(t 'user.new.not displayed publicly') %></span>
-    </fieldset>
-
-    <fieldset>
-      <div class="form-row">
-        <label for="display_name" class="standard-label">
-          <%= t 'user.new.display name' %>
-        </label>
-        <%= text_field(:user, :display_name, { :tabindex => 3 }) %>
-      </div>
-      <span class="form-help deemphasize"><%= t 'user.new.display name description' %></span>
-    </fieldset>
-
-    <fieldset class="form-divider" id="openid_field">
-      <div class="form-row">
-        <label for="openid_url" class="standard-label">
-          <%= raw t 'user.new.openid', :logo => openid_logo %>
-        </label>
-        <%= url_field(:user, :openid_url, { :id => "openid_url", :tabindex => 4, :class => "openid_url" }) %>
-      </div>
-      <span id="openid_note" class="deemphasize">
-        <%= t 'user.new.openid no password' %>
-      </span>
-    </fieldset>
-
-    <fieldset>
-      <div class="form-row">
-        <label for='user[pass_crypt]' class="standard-label">
-          <%= t 'user.new.password' %>
-        </label>
-        <%= password_field(:user, :pass_crypt, {:tabindex => 5 }) %>
-      </div>
-      <div class="form-row">
-        <label class="standard-label">
-          <%= t 'user.new.confirm password' %>
-        </label>
-        <%= password_field(:user, :pass_crypt_confirmation, { :tabindex => 6 }) %>
-      </div>
-    </fieldset>
-
-    <div id="openid_prompt" class="form-row">
-      <%= link_to raw(t("user.new.use openid", :logo => openid_logo)), "#", :id => "openid_enable" %>
+  <fieldset>
+    <div class="form-row">
+      <label for="email" class="standard-label">
+        <%= t 'user.new.email address' %>
+      </label>
+      <%= email_field(:user, :email, { :tabindex => 1 }) %>
     </div>
+    <div class="form-row">
+      <label for="email_confirmation" class="standard-label">
+        <%= t 'user.new.confirm email address' %>
+      </label>
+      <%= email_field(:user, :email_confirmation, { :tabindex => 2 }) %>
+    </div>
+  <span class="form-help deemphasize"><%= raw(t 'user.new.not displayed publicly') %></span>
+  </fieldset>
 
-    <%= submit_tag t('user.new.continue'), :tabindex => 6 %>
+  <fieldset>
+    <div class="form-row">
+      <label for="display_name" class="standard-label">
+        <%= t 'user.new.display name' %>
+      </label>
+      <%= text_field(:user, :display_name, { :tabindex => 3 }) %>
+    </div>
+    <span class="form-help deemphasize"><%= t 'user.new.display name description' %></span>
+  </fieldset>
+
+  <fieldset class="form-divider" id="openid_field">
+    <div class="form-row">
+      <label for="openid_url" class="standard-label">
+        <%= raw t 'user.new.openid', :logo => openid_logo %>
+      </label>
+      <%= url_field(:user, :openid_url, { :id => "openid_url", :tabindex => 4, :class => "openid_url" }) %>
+    </div>
+    <span id="openid_note" class="deemphasize">
+      <%= t 'user.new.openid no password' %>
+    </span>
+  </fieldset>
+
+  <fieldset>
+    <div class="form-row">
+      <label for='user[pass_crypt]' class="standard-label">
+        <%= t 'user.new.password' %>
+      </label>
+      <%= password_field(:user, :pass_crypt, {:tabindex => 5 }) %>
+    </div>
+    <div class="form-row">
+      <label class="standard-label">
+        <%= t 'user.new.confirm password' %>
+      </label>
+      <%= password_field(:user, :pass_crypt_confirmation, { :tabindex => 6 }) %>
+    </div>
+  </fieldset>
+
+  <div id="openid_prompt" class="form-row">
+    <%= link_to raw(t("user.new.use openid", :logo => openid_logo)), "#", :id => "openid_enable" %>
   </div>
+
+  <%= submit_tag t('user.new.continue'), :tabindex => 6 %>
 <% end %>
 
 <div class='col6 deemphasize pad2'>
