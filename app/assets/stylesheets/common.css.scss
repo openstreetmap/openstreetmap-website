@@ -1046,7 +1046,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 /* Overrides for pages that use new layout conventions */
-.site-verifysignup,
+.user-confirm,
 .site-copyright,
 .site-welcome {
   #content {
@@ -1055,40 +1055,48 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 .user-new,
-.user-create {
+.user-create,
+.user-confirm {
   .content-heading {
     height: 200px;
   }
+}
 
-  #content.pad2 {
+.user-new,
+.user-create {
+  #content {
     padding: 0;
   }
 }
 
-.header-illustration { 
+.header-illustration {
   background-position: 0 0;
   background-repeat: no-repeat;
   position: absolute;
-}
-
-.header-illustration.new-user-main {
   height: 200px;
   width: 100%;
   left: 0;
   bottom: 0;
-  background-image: image-url("sign-up-illustration.png");
-}
 
-.header-illustration.new-user-arm {
-  height: 110px;
-  width: 130px;
-  left: 260px;
-  top: 160px;
-  background-image: image-url("sign-up-illustration-arm.png");
+  &.new-user-main {
+    background-image: image-url("sign-up-illustration.png");
+  }
+
+  &.confirm-main {
+    background-image: image-url("confirm-illustration.png");
+  }
+
+  &.new-user-arm {
+    height: 110px;
+    width: 130px;
+    left: 260px;
+    top: 160px;
+    background-image: image-url("sign-up-illustration-arm.png");
+  }
 }
 
 @media only screen and (max-width:770px) {
-  .new-user-illustration.new-user-arm { display: none;}
+  .header-illustration.new-user-arm { display: none;}
 }
 
 .wrapper {
@@ -2280,25 +2288,6 @@ a.button {
   height: 100px;
   border: 0;
   background: #fff;
-}
-
-/* Rules for the "Verify signup" page */
-.site-verifysignup .content-heading { 
-  height: 200px;  
-}
-
-.header-illustration.verify-main { 
-  background-position: 0 0;
-  background-repeat: no-repeat;
-  position: absolute;
-}
-
-.header-illustration.verify-main {
-  height: 200px;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  background-image: image-url("verify-illustration.png");
 }
 
 /* Rules for the "Welcome" page */

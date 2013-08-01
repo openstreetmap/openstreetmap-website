@@ -238,8 +238,8 @@ class UserControllerTest < ActionController::TestCase
     assert_match /#{@url}/, register_email.body.to_s
 
     # Check the page
-    assert_redirected_to :action => 'login', :referer => nil
-      
+    assert_redirected_to :action => 'confirm', :display_name => display_name
+
     ActionMailer::Base.deliveries.clear
   end
   

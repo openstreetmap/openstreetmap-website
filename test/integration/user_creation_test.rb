@@ -82,7 +82,7 @@ class UserCreationTest < ActionController::IntegrationTest
 
       # Check the page
       assert_response :success
-      assert_template 'login'
+      assert_template 'user/confirm'
 
       ActionMailer::Base.deliveries.clear
     end
@@ -126,17 +126,17 @@ class UserCreationTest < ActionController::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template 'login'
+    assert_template 'user/confirm'
 
     ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
-    get 'user/confirm', { :confirm_string => confirm_string }
+    get "/user/#{display_name}/confirm", { :confirm_string => confirm_string }
     assert_response :success
     assert_template 'user/confirm'
 
-    post 'user/confirm', { :confirm_string => confirm_string, :confirm_action => 'submit' }
-    assert_response :redirect # to trace/mine in original referrer
+    post "user/#{display_name}/confirm", { :confirm_string => confirm_string }
+    assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template 'site/welcome'
@@ -163,7 +163,7 @@ class UserCreationTest < ActionController::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template 'login'
+    assert_template 'user/confirm'
 
     ActionMailer::Base.deliveries.clear
   end
@@ -219,17 +219,17 @@ class UserCreationTest < ActionController::IntegrationTest
 
     # Check the page
     assert_response :success
-    assert_template 'login'
+    assert_template 'user/confirm'
 
     ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
-    get 'user/confirm', { :confirm_string => confirm_string }
+    get "/user/#{display_name}/confirm", { :confirm_string => confirm_string }
     assert_response :success
     assert_template 'user/confirm'
 
-    post 'user/confirm', { :confirm_string => confirm_string, :confirm_action => 'submit' }
-    assert_response :redirect # to trace/mine in original referrer
+    post "/user/#{display_name}/confirm", { :confirm_string => confirm_string }
+    assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template 'site/welcome'
