@@ -21,7 +21,14 @@ $(document).ready(function() {
       }
     });
 
-    $('.start-mapping').attr('href', '/edit?zoom=17&lat=' + params.lat + '&lon=' + params.lon);
+    params = {
+      lat: params.lat,
+      lon: params.lon,
+      zoom: params.zoom || 17,
+      editor: params.editor
+    };
+
+    $('.start-mapping').attr('href', '/edit?' + $.param(params));
 
   } else if (navigator.geolocation) {
     $('.edit-geolocated').show();

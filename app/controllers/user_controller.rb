@@ -88,12 +88,19 @@ class UserController < ApplicationController
         if @user.save
           flash[:piwik_goal] = PIWIK_SIGNUP_GOAL if defined?(PIWIK_SIGNUP_GOAL)
 
+          begin
+            referer_params = Rack::Utils.parse_query(URI(session[:referer]).query)
+            referer = welcome_path(referer_params.slice(:lat, :lon, :zoom, :editor))
+          rescue
+            referer = welcome_path
+          end
+
           if @user.status == "active"
-            session[:referer] = welcome_path
+            session[:referer] = referer
             successful_login(@user)
           else
             session[:token] = @user.tokens.create.token
-            Notifier.signup_confirm(@user, @user.tokens.create(:referer => welcome_path)).deliver
+            Notifier.signup_confirm(@user, @user.tokens.create(:referer => referer)).deliver
             redirect_to :action => 'confirm', :display_name => @user.display_name
           end
         else
