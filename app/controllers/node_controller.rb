@@ -64,6 +64,10 @@ class NodeController < ApplicationController
 
   # Dump the details on many nodes whose ids are given in the "nodes" parameter.
   def nodes
+    if not params['nodes']
+      raise OSM::APIBadUserInput.new("The parameter nodes is required, and must be of the form nodes=id[,id[,id...]]")
+    end
+
     ids = params['nodes'].split(',').collect { |n| n.to_i }
 
     if ids.length == 0

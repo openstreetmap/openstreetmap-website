@@ -130,19 +130,23 @@ class RelationController < ApplicationController
   end
 
   def relations
+    if not params['relations']
+      raise OSM::APIBadUserInput.new("The parameter relations is required, and must be of the form relations=id[,id[,id...]]")
+    end
+
     ids = params['relations'].split(',').collect { |w| w.to_i }
 
-    if ids.length > 0
-      doc = OSM::API.new.get_xml_doc
-
-      Relation.find(ids).each do |relation|
-        doc.root << relation.to_xml_node
-      end
-
-      render :text => doc.to_s, :content_type => "text/xml"
-    else
-      render :text => "You need to supply a comma separated list of ids.", :status => :bad_request
+    if ids.length == 0
+      raise OSM::APIBadUserInput.new("No relations were given to search for")
     end
+
+    doc = OSM::API.new.get_xml_doc
+
+    Relation.find(ids).each do |relation|
+      doc.root << relation.to_xml_node
+    end
+
+    render :text => doc.to_s, :content_type => "text/xml"
   end
 
   def relations_for_way
