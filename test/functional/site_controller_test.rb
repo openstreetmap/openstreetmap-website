@@ -72,7 +72,29 @@ class SiteControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_site_partials
   end
-  
+
+  def test_index_redirect
+    get :index, :lat => 4, :lon => 5
+    assert_redirected_to :controller => :site, :action => 'index', :anchor => 'map=5/4/5'
+
+    get :index, :lat => 4, :lon => 5, :zoom => 3
+    assert_redirected_to :controller => :site, :action => 'index', :anchor => 'map=3/4/5'
+
+    get :index, :layers => 'T'
+    assert_redirected_to :controller => :site, :action => 'index', :anchor => 'layers=T'
+
+    get :index, :notes => 'yes'
+    assert_redirected_to :controller => :site, :action => 'index', :anchor => 'layers=N'
+
+    get :index, :lat => 4, :lon => 5, :zoom => 3, :layers => 'T'
+    assert_redirected_to :controller => :site, :action => 'index', :anchor => 'map=3/4/5&layers=T'
+  end
+
+  def test_permalink
+    get :permalink, :code => 'wBz3--'
+    assert_redirected_to :controller => :site, :action => 'index', :anchor => '3/4.8779296875/3.955078125'
+  end
+
   # Get the edit page
   def test_edit
     get :edit

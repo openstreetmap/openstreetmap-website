@@ -19,6 +19,8 @@ $(document).ready(function () {
 
   map.attributionControl.setPrefix('');
 
+  map.hash = L.hash(map);
+
   var layers = [
     new L.OSM.Mapnik({
       attribution: '',
@@ -48,8 +50,11 @@ $(document).ready(function () {
 
   layers[0].addTo(map);
 
-  map.noteLayer = new L.LayerGroup({code: 'N'});
+  map.noteLayer = new L.LayerGroup();
+  map.noteLayer.options = {code: 'N'};
+
   map.dataLayer = new L.OSM.DataLayer(null);
+  map.dataLayer.options.code = 'D';
 
   $("#sidebar").on("opened closed", function () {
     map.invalidateSize();
@@ -79,8 +84,6 @@ $(document).ready(function () {
 
   L.OSM.share({
     position: position,
-    getShortUrl: getShortUrl,
-    getUrl: getUrl,
     sidebar: sidebar,
     short: true
   }).addTo(map);
@@ -98,22 +101,19 @@ $(document).ready(function () {
   map.markerLayer = L.layerGroup().addTo(map);
 
   if (!params.object_zoom) {
-    if (params.bbox) {
-      var bbox = L.latLngBounds([params.minlat, params.minlon],
-                                [params.maxlat, params.maxlon]);
-
-      map.fitBounds(bbox);
-
-      if (params.box) {
-        L.rectangle(bbox, {
-          weight: 2,
-          color: '#e90',
-          fillOpacity: 0
-        }).addTo(map);
-      }
+    if (params.bounds) {
+      map.fitBounds(params.bounds);
     } else {
       map.setView([params.lat, params.lon], params.zoom);
     }
+  }
+
+  if (params.box) {
+    L.rectangle(params.box, {
+      weight: 2,
+      color: '#e90',
+      fillOpacity: 0
+    }).addTo(map);
   }
 
   if (params.layers) {
@@ -164,8 +164,8 @@ $(document).ready(function () {
   }
 
   initializeExport(map);
-  initializeBrowse(map);
-  initializeNotes(map);
+  initializeBrowse(map, params);
+  initializeNotes(map, params);
 });
 
 function updateLocation() {
@@ -177,6 +177,9 @@ function updateLocation() {
   var expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
   $.cookie("_osm_location", cookieContent(this), { expires: expiry });
+
+  // Trigger hash update on layer changes.
+  this.hash.onMapMove();
 }
 
 function setPositionLink(map) {

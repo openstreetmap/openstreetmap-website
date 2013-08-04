@@ -69,11 +69,5 @@ $(document).ready(function () {
         }
   });
 
-  var params = OSM.mapParams();
-  if (params.bbox) {
-    map.fitBounds([[params.minlat, params.minlon],
-                   [params.maxlat, params.maxlon]]);
-  } else {
-    map.fitBounds(group.getBounds());
-  }
+  map.fitBounds(OSM.mapParams().bounds || group.getBounds());
 });
