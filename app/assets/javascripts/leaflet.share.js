@@ -60,8 +60,8 @@ L.OSM.share = function (options) {
     }
 
     function update() {
-      $shortLink.attr('href', options.getShortUrl(map));
-      $longLink.attr('href', options.getUrl(map));
+      $shortLink.attr('href', map.getShortUrl());
+      $longLink.attr('href', map.getUrl());
     }
 
     function select() {

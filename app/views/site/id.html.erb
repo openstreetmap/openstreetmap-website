@@ -31,7 +31,7 @@
         oauth_token_secret: "<%= token.secret %>"
       });
 
-    id.map().on('move.embed', function() {
+    id.map().on('move.embed', parent.$.throttle(250, function() {
       var extent = id.map().extent(),
           zoom = ~~id.map().zoom(),
           center = id.map().center();
@@ -46,7 +46,16 @@
         extent[0][0]],
         [extent[1][1],
         extent[1][0]]]);
-    });
+
+      // 0ms timeout to avoid iframe JS context weirdness.
+      // http://bl.ocks.org/jfirebaugh/5439412
+      parent.setTimeout(function() {
+        var hash = parent.OSM.formatHash({ lon: center[0], lat: center[1], zoom: zoom });
+        if (hash !== parent.location.hash) {
+          parent.location.replace(hash);
+        }
+      }, 0);
+    }));
 
     parent.$("body").on("click", "a.set_position", function (e) {
       e.preventDefault();
@@ -54,7 +63,7 @@
 
       // 0ms timeout to avoid iframe JS context weirdness.
       // http://bl.ocks.org/jfirebaugh/5439412
-      setTimeout(function() {
+      parent.setTimeout(function() {
         id.map().centerZoom(
           [data.lon, data.lat],
           Math.max(data.zoom || 15, 13));

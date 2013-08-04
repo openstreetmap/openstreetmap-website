@@ -1,9 +1,8 @@
 //= require templates/notes/show
 //= require templates/notes/new
 
-function initializeNotes(map) {
-  var params = OSM.mapParams(),
-      noteLayer = map.noteLayer,
+function initializeNotes(map, params) {
+  var noteLayer = map.noteLayer,
       notes = {},
       newNote;
 
@@ -50,7 +49,7 @@ function initializeNotes(map) {
   });
 
   if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
-    if (params.notes || (params.layers && params.layers.indexOf('N')) >= 0) {
+    if (params.layers.indexOf(noteLayer.options.code) >= 0) {
       map.addLayer(noteLayer);
     }
 
