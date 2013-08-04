@@ -79,6 +79,33 @@ class WayControllerTest < ActionController::TestCase
     end
   end
 
+  ##
+  # test fetching multiple ways
+  def test_ways
+    # check error when no parameter provided
+    get :ways
+    assert_response :bad_request
+
+    # check error when no parameter value provided
+    get :ways, :ways => ""
+    assert_response :bad_request
+
+    # test a working call
+    get :ways, :ways => "1,2,4,6"
+    assert_response :success
+    assert_select "osm" do
+      assert_select "way", :count => 4
+      assert_select "way[id=1][visible=true]", :count => 1
+      assert_select "way[id=2][visible=false]", :count => 1
+      assert_select "way[id=4][visible=true]", :count => 1
+      assert_select "way[id=6][visible=true]", :count => 1
+    end
+
+    # check error when a non-existent way is included
+    get :ways, :ways => "1,2,4,6,400"
+    assert_response :not_found
+  end
+
   # -------------------------------------
   # Test simple way creation.
   # -------------------------------------

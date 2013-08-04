@@ -419,6 +419,34 @@ class NodeControllerTest < ActionController::TestCase
   end
 
   ##
+  # test fetching multiple nodes
+  def test_nodes
+    # check error when no parameter provided
+    get :nodes
+    assert_response :bad_request
+
+    # check error when no parameter value provided
+    get :nodes, :nodes => ""
+    assert_response :bad_request
+
+    # test a working call
+    get :nodes, :nodes => "1,2,4,15,17"
+    assert_response :success
+    assert_select "osm" do
+      assert_select "node", :count => 5
+      assert_select "node[id=1][visible=true]", :count => 1
+      assert_select "node[id=2][visible=false]", :count => 1
+      assert_select "node[id=4][visible=true]", :count => 1
+      assert_select "node[id=15][visible=true]", :count => 1
+      assert_select "node[id=17][visible=false]", :count => 1
+    end
+
+    # check error when a non-existent node is included
+    get :nodes, :nodes => "1,2,4,15,17,400"
+    assert_response :not_found
+  end
+
+  ##
   # test adding tags to a node
   def test_duplicate_tags
     # setup auth
