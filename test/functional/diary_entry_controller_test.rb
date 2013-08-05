@@ -31,15 +31,15 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
     assert_routing(
       { :path => "/diary/rss", :method => :get },
-      { :controller => "diary_entry", :action => "rss", :format => :rss }
+      { :controller => "diary_entry", :action => "rss" }
     )
     assert_routing(
       { :path => "/diary/language/rss", :method => :get },
-      { :controller => "diary_entry", :action => "rss", :language => "language", :format => :rss }
+      { :controller => "diary_entry", :action => "rss", :language => "language" }
     )
     assert_routing(
       { :path => "/user/username/diary/rss", :method => :get },
-      { :controller => "diary_entry", :action => "rss", :display_name => "username", :format => :rss }
+      { :controller => "diary_entry", :action => "rss", :display_name => "username" }
     )
 
     assert_routing(

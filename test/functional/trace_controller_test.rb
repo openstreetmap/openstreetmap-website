@@ -88,19 +88,19 @@ class TraceControllerTest < ActionController::TestCase
 
     assert_routing(
       { :path => "/traces/rss", :method => :get },
-      { :controller => "trace", :action => "georss", :format => :rss }
+      { :controller => "trace", :action => "georss" }
     )
     assert_routing(
       { :path => "/traces/tag/tagname/rss", :method => :get },
-      { :controller => "trace", :action => "georss", :tag => "tagname", :format => :rss }
+      { :controller => "trace", :action => "georss", :tag => "tagname" }
     )
     assert_routing(
       { :path => "/user/username/traces/rss", :method => :get },
-      { :controller => "trace", :action => "georss", :display_name => "username", :format => :rss }
+      { :controller => "trace", :action => "georss", :display_name => "username" }
     )
     assert_routing(
       { :path => "/user/username/traces/tag/tagname/rss", :method => :get },
-      { :controller => "trace", :action => "georss", :display_name => "username", :tag => "tagname", :format => :rss }
+      { :controller => "trace", :action => "georss", :display_name => "username", :tag => "tagname" }
     )
 
     assert_routing(
