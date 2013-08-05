@@ -76,7 +76,7 @@ class UserBlocksControllerTest < ActionController::TestCase
   # test the show action
   def test_show
     # Viewing a block should fail when no ID is given
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :show
     end
 
@@ -184,7 +184,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     end
 
     # We should get an error if no user is specified
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :edit
     end
 
@@ -311,7 +311,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     assert_equal "Vandalism", b.reason
 
     # We should get an error if no block ID is specified
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       put :update
     end
 
@@ -358,7 +358,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     assert_in_delta Time.now, b.ends_at, 1
 
     # We should get an error if no block ID is specified
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :revoke
     end
 
@@ -373,7 +373,7 @@ class UserBlocksControllerTest < ActionController::TestCase
   # test the blocks_on action
   def test_blocks_on
     # Asking for a list of blocks with no user name should fail
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :blocks_on
     end
 
@@ -411,7 +411,7 @@ class UserBlocksControllerTest < ActionController::TestCase
   # test the blocks_by action
   def test_blocks_by
     # Asking for a list of blocks with no user name should fail
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :blocks_by
     end
 

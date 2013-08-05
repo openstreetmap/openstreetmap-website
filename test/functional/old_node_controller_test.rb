@@ -156,7 +156,7 @@ class OldNodeControllerTest < ActionController::TestCase
   def check_not_found_id_version(id, version)
     get :version, :id => id, :version => version
     assert_response :not_found
-  rescue ActionController::RoutingError => ex
+  rescue ActionController::UrlGenerationError => ex
     assert_match /No route matches/, ex.to_s
   end
   
