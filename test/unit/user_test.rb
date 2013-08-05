@@ -231,7 +231,7 @@ class UserTest < ActiveSupport::TestCase
     user = users(:normal_user)
     user.delete
     assert_equal "user_#{user.id}", user.display_name
-    assert_blank user.description
+    assert user.description.blank?
     assert_equal nil, user.home_lat
     assert_equal nil, user.home_lon
     assert_equal false, user.image.file?

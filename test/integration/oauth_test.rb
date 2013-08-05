@@ -356,7 +356,7 @@ private
     params = CGI.parse(URI.parse(response.location).query)
 
     assert_not_nil params["oauth_verifier"]
-    assert_present params["oauth_verifier"].first
+    assert params["oauth_verifier"].first.present?
 
     params["oauth_verifier"].first
   end
