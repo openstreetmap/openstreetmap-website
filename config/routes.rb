@@ -134,7 +134,8 @@ OpenStreetMap::Application.routes.draw do
   match '/key' => 'site#key', :via => :get
   match '/id' => 'site#id', :via => :get
   match '/user/new' => 'user#new', :via => :get
-  match '/user/terms' => 'user#terms', :via => [:get, :post]
+  match '/user/new' => 'user#create', :via => :post
+  match '/user/terms' => 'user#terms', :via => :get
   match '/user/save' => 'user#save', :via => :post
   match '/user/:display_name/confirm/resend' => 'user#confirm_resend', :via => :get
   match '/user/:display_name/confirm' => 'user#confirm', :via => [:get, :post]

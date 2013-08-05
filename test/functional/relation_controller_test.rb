@@ -114,6 +114,33 @@ class RelationControllerTest < ActionController::TestCase
     end
   end
 
+  ##
+  # test fetching multiple relations
+  def test_relations
+    # check error when no parameter provided
+    get :relations
+    assert_response :bad_request
+
+    # check error when no parameter value provided
+    get :relations, :relations => ""
+    assert_response :bad_request
+
+    # test a working call
+    get :relations, :relations => "1,2,4,7"
+    assert_response :success
+    assert_select "osm" do
+      assert_select "relation", :count => 4
+      assert_select "relation[id=1][visible=true]", :count => 1
+      assert_select "relation[id=2][visible=false]", :count => 1
+      assert_select "relation[id=4][visible=true]", :count => 1
+      assert_select "relation[id=7][visible=true]", :count => 1
+    end
+
+    # check error when a non-existent relation is included
+    get :relations, :relations => "1,2,4,7,400"
+    assert_response :not_found
+  end
+
   # -------------------------------------
   # Test simple relation creation.
   # -------------------------------------
@@ -916,7 +943,7 @@ OSM
   ##
   # returns a k->v hash of tags from an xml doc
   def get_tags_as_hash(a) 
-    a.find("//osm/relation/tag").inject({}) do |h,v|
+    a.find("//osm/relation/tag").sort_by { |v| v['k'] }.inject({}) do |h,v|
       h[v['k']] = v['v']
       h
     end

@@ -472,6 +472,14 @@ vi:
         uk_postcode: Kết quả <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Kết quả <a href="http://www.geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Biên giới Khu phố
+        level2: Biên giới Quốc gia
+        level4: Biên giới Tỉnh bang
+        level5: Biên giới Miền
+        level6: Biên giới Thị xã/Quận/Huyện
+        level8: Biên giới Phường/Xã/Thị trấn
+        level9: Biên giới Làng
       prefix: 
         aeroway: 
           aerodrome: Sân bay
@@ -942,8 +950,6 @@ vi:
         mapquest: MapQuest Mở
         standard: Chuẩn
         transport_map: Bản đồ Giao thông
-      overlays: 
-        maplint: Maplint
     notes: 
       new: 
         add: Thêm Ghi chú
@@ -960,6 +966,7 @@ vi:
         opened_by: do <a href='%{user_url}'>%{user}</a> tạo ra vào %{time}
         opened_by_anonymous: do người dùng vô danh tạo ra vào %{time}
         permalink: Liên kết Thường trực
+        reactivate: Mở lại
         reopened_by: được <a href='%{user_url}'>%{user}</a> mở lại vào %{time}
         reopened_by_anonymous: được người dùng vô danh mở lại vào %{time}
         resolve: Giải quyết
@@ -1162,10 +1169,11 @@ vi:
       title: Các ghi chú do %{user} lưu hoặc bình luận
     rss: 
       closed: đóng ghi chú (gần %{place})
-      comment: bình luận mới (gần %{place})
+      commented: bình luận mới (gần %{place})
       description_area: Danh sách các ghi chú được mở, bình luận, hoặc đóng trong khu vực của bạn [(%{min_lat}|%{min_lon}) – (%{max_lat}|%{max_lon})]
       description_item: Nguồn tin RSS của ghi chú %{id}
-      new: mở ghi chú (gần %{place})
+      opened: mở ghi chú (gần %{place})
+      reopened: mở lại ghi chú (gần %{place})
       title: Ghi chú OpenStreetMap
   notifier: 
     diary_comment_notification: 
@@ -1232,6 +1240,11 @@ vi:
         your_note: "%{commenter} đã bình luận trên một ghi chú bản đồ của bạn gần %{place}."
       details: Xem chi tiết về ghi chú tại %{url}.
       greeting: Chào bạn,
+      reopened: 
+        commented_note: "%{commenter} đã mở lại một ghi chú mà bạn đã bình luận, ghi chú gần %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} đã mở lại một ghi chú mà bạn đang quan tâm"
+        subject_own: "[OpenStreetMap] %{commenter} đã mở lại một ghi chú của bạn"
+        your_note: "%{commenter} đã mở lại một ghi chú bản đồ của bạn gần %{place}."
     signup_confirm: 
       confirm: "Trước tiên, chúng tôi cần xác nhận bạn là người mở tài khoản này. Nếu phải, xin vui lòng sử dụng liên kết ở dưới để xác nhận tài khoản mới của bạn:"
       created: Ai đó (có lẽ là bạn) vừa mở tài khoản tại %{site_url}.
@@ -1241,7 +1254,7 @@ vi:
     signup_confirm_html: 
       ask_questions: Có thể đặt bất kỳ câu hỏi mà bạn có về OpenStreetMap tại <a href="http://help.openstreetmap.org/">trang hỏi đáp</a>.
       current_user: Có danh sách các người dùng, xếp thể loại theo nơi ở, tại <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region?uselang=vi">Category:Users by geographical region</a>.
-      get_reading: Bắt đầu tìm hiểu về OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Vi:Beginners%27_Guide?uselang=vi">tại wiki</a>, theo dõi tin tức gần đây tại <a href="http://blog.openstreetmap.org/">blog OpenGeoData</a> hay <a href="http://twitter.com/openstreetmap">Twitter</a>, hoặc đọc <a href="http://www.opengeodata.org/">blog</a> và nghe <a href="http://www.opengeodata.org/?cat=13">podcast</a> của nhà sáng lập Steve Coast!
+      get_reading: Bắt đầu tìm hiểu về OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Vi:Beginners%27_Guide?uselang=vi">trên wiki</a>, và theo dõi tin tức gần đây trên <a href="http://blog.openstreetmap.org/">blog của OpenStreetMap</a> hoặc <a href="http://twitter.com/openstreetmap">Twitter</a>!
       introductory_video: Bạn có thể coi %{introductory_video_link}.
       more_videos: Cũng có %{more_videos_link}.
       more_videos_here: thêm video tại đây
@@ -1254,7 +1267,6 @@ vi:
       current_user: "Có danh sách những người dùng được xếp theo nơi ở tại:"
       introductory_video: "Bạn có thể coi video giới thiệu OpenStreetMap tại đây:"
       more_videos: "Có thêm video tại đây:"
-      opengeodata: "OpenGeoData.org là blog của nhà sáng lập OpenStreetMap, Steve Coast, cũng chứa podcast:"
       the_wiki: "Bắt đầu tìm hiểu về OpenStreetMap trên wiki:"
       the_wiki_url: http://wiki.openstreetmap.org/wiki/Vi:Beginners%27_Guide?uselang=vi
       user_wiki_page: Bạn nên tạo ra trang cá nhân trên wiki và gắn các thẻ thể loại để cho người ta biết bạn ở đâu, thí dụ như [[Category:Users in Hanoi]].
@@ -1385,8 +1397,6 @@ vi:
       remote_failed: Thất bại mở trình vẽ – hãy chắc chắn rằng JOSM hoặc Markaartor đã khởi động và tùy chọn phần điều khiển từ xa được kích hoạt
       shortlink: Liên kết Ngắn gọn
     key: 
-      map_key: Chú giải
-      map_key_tooltip: Chú giải bản đồ
       table: 
         entry: 
           admin: Biên giới hành chính

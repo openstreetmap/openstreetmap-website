@@ -1,8 +1,11 @@
 $(document).ready(function () {
-  var map = createMap("map", {
-    zoomControl: true,
-    panZoomControl: false
-  });
+  var map = L.map("map", {
+    attributionControl: false,
+    zoomControl: false
+  }).addLayer(new L.OSM.Mapnik());
+
+  L.OSM.zoom()
+    .addTo(map);
 
   if (OSM.home) {
     map.setView([OSM.home.lat, OSM.home.lon], 12);
@@ -20,9 +23,13 @@ $(document).ready(function () {
 
     map.on("click", function (e) {
       if ($('#updatehome').is(':checked')) {
+        var zoom = map.getZoom(),
+            precision = zoomPrecision(zoom),
+            location = e.latlng.wrap();
+
         $('#homerow').removeClass();
-        $('#home_lat').val(e.latlng.lat);
-        $('#home_lon').val(e.latlng.lng);
+        $('#home_lat').val(location.lat.toFixed(precision));
+        $('#home_lon').val(location.lng.toFixed(precision));
 
         marker.setLatLng(e.latlng);
         marker.addTo(map);

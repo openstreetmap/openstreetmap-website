@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class OldNodeTest < ActiveSupport::TestCase
+class OldNodeTagTest < ActiveSupport::TestCase
   api_fixtures
 
   def test_old_node_tag_count

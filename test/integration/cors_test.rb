@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class CORSTest < ActionController::IntegrationTest
   # Rails 4 adds a built-in `options` method. When we upgrade, we can remove
   # this definition.
-  unless instance_method_names.include?("options")
+  unless instance_methods.include?(:options)
     def options(*args)
       reset! unless integration_session
       @html_document = nil

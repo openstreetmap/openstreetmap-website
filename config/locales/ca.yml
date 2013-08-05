@@ -25,7 +25,7 @@ ca:
       diary_comment: 
         body: Cos
       diary_entry: 
-        language: Llengua
+        language: Idioma
         latitude: Latitud
         longitude: Longitud
         title: Títol
@@ -52,7 +52,7 @@ ca:
         description: Descripció
         display_name: Nom en pantalla
         email: Adreça electrònica
-        languages: Llengües
+        languages: Idiomes
         pass_crypt: Contrasenya
     models: 
       acl: Llista de control d'accés
@@ -487,6 +487,14 @@ ca:
         uk_postcode: Resultats de <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultats de <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Límit de suburbi
+        level2: Frontera
+        level4: Límit d'estat
+        level5: Límit de regió
+        level6: Frontera
+        level8: Límit de municipi
+        level9: Límit de poble
       prefix: 
         aeroway: 
           aerodrome: Aeròdrom
@@ -973,6 +981,7 @@ ca:
         opened_by: Creat per <a href='%{user_url}'>%{user}</a> a %{time}
         opened_by_anonymous: Creat per un anònim a %{time}
         permalink: Enllaç permanent
+        reactivate: Reactivar
         reopened_by: Reactivat per <a href='%{user_url}'>%{user}</a> a %{time}
         reopened_by_anonymous: Reactivat per un anònim a %{time}
         resolve: Resol
@@ -1181,10 +1190,11 @@ ca:
       title: Notes enviades o comentades per %{user}
     rss: 
       closed: nota tancada (aprop de %{place})
-      comment: nou comentari (aprop de %{place})
+      commented: nou comentari (prop de % {lloc})
       description_area: Una llista de notes, reportades, comentades o bé tancades a la vostra àrea [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
       description_item: Un canal rss per la nota %{id}
-      new: nova nota  (aprop de %{place})
+      opened: Nota nova (a prop % {lloc})
+      reopened: Nota reactivada (prop de % {lloc})
       title: Notes de OpenStreetMap
   notifier: 
     diary_comment_notification: 
@@ -1250,6 +1260,11 @@ ca:
         your_note: "%{commenter} ha fet un comentari en una de les teves notes del mapa aprop de %{place}."
       details: Podeu trobar més detalls de la nota a %{url}.
       greeting: Hola,
+      reopened: 
+        commented_note: "% {comentarista} ha reactivat una nota de mapa en la qual hi heu comentat. La nota és a prop de % {lloc}."
+        subject_other: "% [OpenStreetMap] {comentarista} ha reactivat una nota en que vostè està interessat"
+        subject_own: "% [OpenStreetMap] {comentarista} ha reactivat una de les vostres notes"
+        your_note: "% {comentarista} ha reactivat una de les notes de mapa a prop % {Lloc}."
     signup_confirm: 
       confirm: "Primer de tot hem de confirmar que aquesta petició ha estat feta per vostè, si ha estat així, si us plau, premeu sobre el següent enllaç per tal confirmar la vostra petició de creació del compte d'usuari:"
       created: Algú (suposem que vós mateix) acaba de crear un compte a %{site_url}.
@@ -1259,7 +1274,7 @@ ca:
     signup_confirm_html: 
       ask_questions: Podeu fer qualsevol pregunta que tingueu sobre l'OpenStreetMap al nostre <a href="http://help.openstreetmap.org/">lloc de preguntes i respostes</a>.
       current_user: "Una llista d'usuaris actuals en categories, basades en on en el món que són, està disponible des de <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region\">Categoria: Users_by_geographical_region</a>."
-      get_reading: Obtenir de lectura sobre OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">al wiki</a>, posarà al dia amb les últimes notícies via <a href="http://blog.openstreetmap.org/">OpenStreetMap bloc</a> o <a href="http://twitter.com/openstreetmap">Twitter</a>o navegar a través de OpenStreetMap fundador Steve Costa <a href="http://www.opengeodata.org/">OpenGeoData blog</a> per a la breu història del projecte, que disposa de <a href="http://www.opengeodata.org/?cat=13">podcasts d'escoltar</a> !
+      get_reading: Obteniu quelcom per llegir sobre OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">al wiki</a>, i poseu-vos al dia amb les últimes notícies via <a href="http://blog.openstreetmap.org/">OpenStreetMap bloc</a> o <a href="http://twitter.com/openstreetmap">Twitter</a>o navegar a través de OpenStreetMap fundador Steve Costa <a href="http://www.opengeodata.org/">OpenGeoData blog</a> per a la breu història del projecte, que disposa de <a href="http://www.opengeodata.org/?cat=13">podcasts d'escoltar</a> !
       introductory_video: Podeu veure un %{introductory_video_link}.
       more_videos: Hi ha %{more_videos_link}.
       more_videos_here: més de vídeos aquí
@@ -1272,7 +1287,6 @@ ca:
       current_user: "Una llista dels usuaris classificats en base al lloc on són està disponible a:"
       introductory_video: "Podeu veure un vídeo d'introducció a OpenStreetMap aquí:"
       more_videos: "Hi ha més videos aquí:"
-      opengeodata: "OpenGeoData.org és el blog d'Steve Costa, fundador de l'OpenStreetMap, i també té podcasts:"
       the_wiki: "Llegiu sobre l'OpenStreetMap al wiki:"
       user_wiki_page: Us recomanem de crear una pàgina wiki d'usuari, amb etiquetes de categoria que indiquin on sou, com per exemple [[Category:Users_in_Barcelona].
       wiki_signup: "També us podeu inscriuire a la wiki de l'OpenStreetMap a:"
@@ -1403,8 +1417,6 @@ ca:
       remote_failed: L'edició ha fallat - assegureu-vos que el JOSM, o el Merkaartor, esta executant-se i que l'opció de comandament a distància està habilitatada
       shortlink: Enllaç curt
     key: 
-      map_key: Llegenda
-      map_key_tooltip: Llegenda del mapa
       table: 
         entry: 
           admin: Límits administratius

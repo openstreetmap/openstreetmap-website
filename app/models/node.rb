@@ -83,8 +83,8 @@ class Node < ActiveRecord::Base
     
     raise OSM::APIBadXMLError.new("node", pt, "lat missing") if pt['lat'].nil?
     raise OSM::APIBadXMLError.new("node", pt, "lon missing") if pt['lon'].nil?
-    node.lat = pt['lat'].to_f
-    node.lon = pt['lon'].to_f
+    node.lat = OSM.parse_float(pt['lat'], OSM::APIBadXMLError, "node", pt, "lat not a number")
+    node.lon = OSM.parse_float(pt['lon'], OSM::APIBadXMLError, "node", pt, "lon not a number")
     raise OSM::APIBadXMLError.new("node", pt, "Changeset id is missing") if pt['changeset'].nil?
     node.changeset_id = pt['changeset'].to_i
 

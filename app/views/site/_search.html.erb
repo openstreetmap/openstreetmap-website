@@ -1,7 +1,7 @@
 <script type="text/javascript">
 <!--
   function describeLocation() {
-    var args = getArgs($("#viewanchor").attr("href"));
+    var args = querystring.parse($("#viewanchor").attr("href").split('?')[1]);
 
     $("#sidebar_title").html("<%= t 'site.sidebar.search_results' %>");
     $("#sidebar_content").load("<%= url_for :controller => :geocoder, :action => :description %>", {

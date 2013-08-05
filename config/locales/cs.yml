@@ -487,6 +487,14 @@ cs:
         uk_postcode: Výsledky z <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Výsledky z <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Hranice čtvrti
+        level2: Státní hranice
+        level4: Hranice státu
+        level5: Hranice regionu
+        level6: Hranice okresu
+        level8: Hranice obce
+        level9: Hranice vesnice
       prefix: 
         aeroway: 
           aerodrome: Letiště
@@ -973,6 +981,7 @@ cs:
         opened_by: vytvořil <a href='%{user_url}'>%{user}</a> v %{time}
         opened_by_anonymous: vytvořil anonym v %{time}
         permalink: Trvalý odkaz
+        reactivate: Reaktivovat
         reopened_by: reaktivoval <a href='%{user_url}'>%{user}</a> v %{time}
         reopened_by_anonymous: reaktivoval anonym v %{time}
         resolve: Vyřešit
@@ -1185,10 +1194,11 @@ cs:
       title: Poznámky vytvořené nebo okomentované uživatelem %{user}
     rss: 
       closed: poznámka uzavřena (poblíž %{place})
-      comment: nový komentář (poblíž %{place})
+      commented: nový komentář (poblíž %{place})
       description_area: Seznam poznámek hlášených, komentovaných nebo uzavřených ve vaší oblasti [(%{min_lat}|%{min_lon}) – (%{max_lat}|%{max_lon})]
       description_item: RSS kanál k poznámce %{id}
-      new: nová poznámka (poblíž %{place})
+      opened: nová poznámka (poblíž %{place})
+      reopened: reaktivovaná poznámka (poblíž %{place})
       title: Poznámky OpenStreetMap
   notifier: 
     diary_comment_notification: 
@@ -1255,6 +1265,11 @@ cs:
         your_note: "%{commenter} okomentoval jednu z vašich poznámek k mapě nedaleko %{place}."
       details: Podrobnosti k poznámce můžete najít na %{url}.
       greeting: Ahoj,
+      reopened: 
+        commented_note: "%{commenter} reaktivoval poznámku k mapě, kterou jste komentovali. Poznámka je umístěna poblíž %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} reaktivoval jednu z poznámek, která vás zajímá"
+        subject_own: "[OpenStreetMap] %{commenter} reaktivoval jednu z vašich poznámek"
+        your_note: "%{commenter} reaktivoval jednu z vašich poznámek k mapě nedaleko %{place}."
     signup_confirm: 
       confirm: "Než budeme pokračovat, potřebujeme potvrdit, že tento požadavek přišel od vás, takže pokud jste to byli vy, klikněte prosím na odkaz níže, abyste svůj účet potvrdili:"
       created: Někdo (doufáme, že vy) si právě založil účet na %{site_url}.
@@ -1264,7 +1279,7 @@ cs:
     signup_confirm_html: 
       ask_questions: Libovolné otázky k OpenStreetMap můžete klást na našem <a href="http://help.openstreetmap.org/">webu otázek a odpovědí</a>.
       current_user: Seznam existujících uživatelů v kategoriích podle místa bydliště je dostupný v <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">kategorii Users by geographical region</a>.
-      get_reading: Přečtěte si něco o OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Cz:Beginners_Guide">na wiki</a>, sledujte aktuální dění na našem <a href="http://blog.openstreetmap.org/">blogu</a> či <a href="http://twitter.com/openstreetmap">Twitteru</a> nebo si projděte blog zakladatele OpenStreetMap Steva Coasta <a href="http://www.opengeodata.org/">OpenGeoData</a> se stručnou historií projektu i ve formě <a href="http://www.opengeodata.org/?cat=13">podcastů</a>!
+      get_reading: Přečtěte si něco o OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Cs:Beginners%27_guide">na wiki</a> a sledujte aktuální dění na našem <a href="http://blog.openstreetmap.org/">blogu</a> či <a href="http://twitter.com/openstreetmap">Twitteru</a>.
       introductory_video: Můžete si prohlédnout %{introductory_video_link}.
       more_videos: Máme i %{more_videos_link}.
       more_videos_here: další videa
@@ -1277,7 +1292,6 @@ cs:
       current_user: "Seznam stávajících kategorií pro dělení uživatelů podle bydliště je dostupný na:"
       introductory_video: "Můžete si prohlédnout úvodní video k OpenStreetMap:"
       more_videos: "Další videa najdete na:"
-      opengeodata: "OpenGeoData.org je blog zakladatele OpenStreetMap Steva Coasta, nabízí i podcasty:"
       the_wiki: "Přečtěte si něco o OpenStreetMap na wiki:"
       the_wiki_url: http://wiki.openstreetmap.org/wiki/Cs:Beginners%27_guide?uselang=cs
       user_wiki_page: Doporučujeme, abyste si na wiki založili uživatelskou stránku, na které kategoriemi označíte, odkud pocházíte, například [[Category:Users in Praha]].
@@ -1408,8 +1422,6 @@ cs:
       remote_failed: Editace se nezdařila – ujistěte se, že JOSM nebo Merkaartor běží a je zapnuto dálkové ovládání
       shortlink: Krátký odkaz
     key: 
-      map_key: Legenda
-      map_key_tooltip: Legenda k mapě
       table: 
         entry: 
           admin: Administrativní hranice
@@ -1573,7 +1585,7 @@ cs:
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=cs
     trace_header: 
       see_all_traces: Zobrazit všechny stopy
-      see_your_traces: Zobrazit všechny vaše stopy
+      see_your_traces: Zobrazit vaše stopy
       traces_waiting: 
         few: Na zpracování čekají %{count} vaše stopy. Zvažte, zda by nebylo před nahráním dalších lepší počkat, dokud nebudou zpracovány, abyste neblokovali frontu dalším uživatelům.
         one: Na zpracování čeká %{count} vaše stopa. Zvažte, zda by nebylo před nahráním dalších lepší počkat, dokud nebude zpracována, abyste neblokovali frontu dalším uživatelům.

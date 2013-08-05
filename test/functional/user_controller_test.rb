@@ -55,11 +55,12 @@ class UserControllerTest < ActionController::TestCase
     )
 
     assert_routing(
-      { :path => "/user/terms", :method => :get },
-      { :controller => "user", :action => "terms" }
+      { :path => "/user/new", :method => :post },
+      { :controller => "user", :action => "create" }
     )
+
     assert_routing(
-      { :path => "/user/terms", :method => :post },
+      { :path => "/user/terms", :method => :get },
       { :controller => "user", :action => "terms" }
     )
 
@@ -190,15 +191,19 @@ class UserControllerTest < ActionController::TestCase
   # The user creation page loads
   def test_user_create_view
     get :new
+    assert_response :redirect
+    assert_redirected_to user_new_path(:cookie_test => "true")
+
+    get :new, { :cookie_test => "true" }, { :cookie_test => true }
     assert_response :success
-    
+
     assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
         assert_select "title", :text => /Create account/, :count => 1
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
-          assert_select "form[action='/user/terms'][method=post]", :count => 1 do
+          assert_select "form[action='/user/new'][method=post]", :count => 1 do
             assert_select "input[id=user_email]", :count => 1
             assert_select "input[id=user_email_confirmation]", :count => 1
             assert_select "input[id=user_display_name]", :count => 1
@@ -255,7 +260,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success                                                                       
     assert_template 'new'
     assert_select "div#errorExplanation"
-    assert_select "table#signupForm > tr > td > div[class=field_with_errors] > input#user_email"
+    assert_select "div#signupForm > fieldset > div.form-row > div.field_with_errors > input#user_email"
   end
   
   def test_user_create_submit_duplicate_email_uppercase
@@ -275,7 +280,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success                                                                       
     assert_template 'new'
     assert_select "div#errorExplanation"
-    assert_select "table#signupForm > tr > td > div[class=field_with_errors] > input#user_email"
+    assert_select "div#signupForm > fieldset > div.form-row > div.field_with_errors > input#user_email"
   end
     
   def test_user_create_submit_duplicate_name
@@ -295,7 +300,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success                                                                       
     assert_template 'new'
     assert_select "div#errorExplanation"
-    assert_select "table#signupForm > tr > td > div[class=field_with_errors] > input#user_display_name"
+    assert_select "div#signupForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
   end
   
   def test_user_create_submit_duplicate_name_uppercase
@@ -315,7 +320,24 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success                                                                       
     assert_template 'new'
     assert_select "div#errorExplanation"
-    assert_select "table#signupForm > tr > td > div[class=field_with_errors] > input#user_display_name"
+    assert_select "div#signupForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
+  end
+
+  def test_user_terms_new_user
+    get :terms, {}, { "new_user" => User.new }
+    assert_response :success
+    assert_template :terms
+  end
+
+  def test_user_terms_seen
+    user = users(:normal_user)
+
+    # Set the username cookie
+    @request.cookies["_osm_username"] = user.display_name
+
+    get :terms, {}, { "user" => user }
+    assert_response :redirect
+    assert_redirected_to :action => :account, :display_name => user.display_name
   end
 
   def test_user_lost_password
@@ -409,7 +431,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select "div#notice", /^User information updated successfully/
-    assert_select "table#accountForm > tr > td > div#user_description_container > div#user_description_content > textarea#user_description", user.description
+    assert_select "form#accountForm > fieldset > div.form-row > div#user_description_container > div#user_description_content > textarea#user_description", user.description
 
     # Changing name to one that exists should fail
     user.display_name = users(:public_user).display_name
@@ -418,7 +440,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#notice", false
     assert_select "div#errorExplanation"
-    assert_select "table#accountForm > tr > td > div[class=field_with_errors] > input#user_display_name"
+    assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
 
     # Changing name to one that exists should fail, regardless of case
     user.display_name = users(:public_user).display_name.upcase
@@ -427,7 +449,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#notice", false
     assert_select "div#errorExplanation"
-    assert_select "table#accountForm > tr > td > div[class=field_with_errors] > input#user_display_name"
+    assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
 
     # Changing name to one that doesn't exist should work
     user.display_name = "new tester"
@@ -436,7 +458,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select "div#notice", /^User information updated successfully/
-    assert_select "table#accountForm > tr > td > input#user_display_name[value=?]", user.display_name
+    assert_select "form#accountForm > fieldset > div.form-row > input#user_display_name[value=?]", user.display_name
 
     # Need to update cookies now to stay valid
     @request.cookies["_osm_username"] = user.display_name
@@ -448,7 +470,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#notice", false
     assert_select "div#errorExplanation"
-    assert_select "table#accountForm > tr > td > div[class=field_with_errors] > input#user_new_email"
+    assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_new_email"
 
     # Changing email to one that exists should fail, regardless of case
     user.new_email = users(:public_user).email.upcase
@@ -457,7 +479,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#notice", false
     assert_select "div#errorExplanation"
-    assert_select "table#accountForm > tr > td > div[class=field_with_errors] > input#user_new_email"
+    assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_new_email"
 
     # Changing email to one that doesn't exist should work
     user.new_email = "new_tester@example.com"
@@ -466,7 +488,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select "div#notice", /^User information updated successfully/
-    assert_select "table#accountForm > tr > td > input#user_new_email[value=?]", user.new_email
+    assert_select "form#accountForm > fieldset > div.form-row > input#user_new_email[value=?]", user.new_email
   end
   
   # Check that the user account page will display and contains some relevant

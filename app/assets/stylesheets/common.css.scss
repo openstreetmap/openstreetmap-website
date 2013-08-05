@@ -1,8 +1,19 @@
+/* Parameters */
+$lineheight: 20px;
+$typeheight: 14px;
+
+$offwhite: #f4f4ff;
+$blue: #7092FF;
+$lightblue: #B8C5F0;
+$grey: #AAA;
+$lightgrey: #CCC;
+$hovercolor: 20%;
+
 /* Styles common to large and small screens */
 
 /* Minimal CSS reset */
 
-html, body, ul, ol, li, form, fieldset, legend, h1, h2, h3, h4, h5, h6, p {
+html, body, ul, ol, li, form, fieldset, legend, h1, h2, h3, h4, h5, h6, p, input {
   margin: 0;
   padding: 0;
   border: 0;
@@ -27,7 +38,7 @@ li { list-style: none; }
 input,
 select,
 textarea,
-body { font: 14px/20px "Helvetica Neue",Arial,sans-serif; }
+body { font: #{$typeheight}/#{$lineheight} "Helvetica Neue",Arial,sans-serif; }
 
 abbr, acronym {
   border-bottom: .1em dotted;
@@ -56,7 +67,7 @@ abbr, acronym {
 
 body {
   font-family: 'Helvetica Neue',Arial,sans-serif;
-  font-size: 14px;
+  font-size: $typeheight;
   line-height: 1.6666;
   color: #222;
   background-color: #fff;
@@ -70,8 +81,8 @@ body.slim {
 }
 
 h1, h2, h3 {
-  margin-top: 10px;
-  margin-bottom: 20px;
+  margin-top: $lineheight/2;
+  margin-bottom: $lineheight;
   font-weight: bold;
   line-height: 1.2;
 }
@@ -86,20 +97,20 @@ h1, h2 {
 
 h3 {
   font-size: 21px;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  margin-top: $lineheight/2;
+  margin-bottom: $lineheight;
 }
 
 h4,h5,h6 {
-  font-size: 14px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  font-size: $typeheight;
+  margin-top: $lineheight/2;
+  margin-bottom: $lineheight/2;
   font-weight: bold;
   line-height: 1.5;
 }
 
 p, ul {
-  margin-bottom: 20px;
+  margin-bottom: $lineheight;
 }
 
 p > img {
@@ -122,13 +133,44 @@ h6:first-child {
 
 .column-1 {
   width: 50%;
-  margin-bottom: 10px;
+  margin: 0 0 $lineheight/2 0;
 }
 
 .small_icon {
   vertical-align: middle;
-  margin-right: 5px;
+  margin-right: $lineheight/4;
 }
+
+/* Rules for icons */
+
+.icon {
+  display:inline-block;
+  vertical-align:top;
+  width:20px;
+  height:20px;
+  background:transparent image-url("sprite.png") no-repeat 0 0;
+  text-indent:-9999px;
+  overflow:hidden;
+  }
+
+.icon-pre-text {
+    margin-right: 5px;
+}
+
+.icon.search      { background-position: 0 0; }
+.icon.donate      { background-position: -20px 0; }
+.icon.zoomin      { background-position: -40px 0; }
+.icon.zoomout     { background-position: -60px 0; }
+.icon.geolocate   { background-position: -80px 0; }
+.active .icon.geolocate   { background-position: -80px -20px; }
+.icon.layers      { background-position: -100px 0; }
+.icon.key         { background-position: -120px 0; }
+.icon.share       { background-position: -140px 0; }
+.icon.clipboard   { background-position: -160px 0; }
+.icon.link        { background-position: -180px 0; }
+.icon.close       { background-position: -200px 0; }
+.icon.check       { background-position: -220px 0; }
+.icon.note        { background-position: -240px 0; }
 
 /* Rules for links */
 
@@ -153,11 +195,11 @@ hr {
 
 table {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: $lineheight;
   th, td {
     text-align: left;
-    padding: 5px;
-    line-height: 20px;
+    padding: $lineheight/4;
+    line-height: $lineheight;
   }
   th {
     font-weight: bold;
@@ -186,7 +228,7 @@ table {
   display: block;
   width: 170px;
   min-width: 170px;
-  padding: 20px 5px;
+  padding: $lineheight $lineheight/4;
   text-align: center;
   margin: auto;
 }
@@ -199,7 +241,7 @@ table {
 }
 
 #logo h2 {
-  font-size: 10px;
+  font-size: $lineheight/2;
   line-height: 15px;
   margin: 0;
 }
@@ -213,13 +255,11 @@ table {
 /* Rules for the introductory text displayed in the left sidebar to new users */
 
 .sidebar-copy {
-  padding: 5px 10px;
+  padding: $lineheight/4 $lineheight/2;
+  p {
+    margin: $lineheight/4 0;
+  }
 }
-
-.sidebar-copy p {
-  margin: 5px 0;
-}
-
 .sidebar-copy.intro {
   border-top: 1px solid #ccc;
 }
@@ -231,7 +271,7 @@ table {
  */
 
 .sidebar-alert {
-  padding: 5px;
+  padding: $lineheight/4;
   border-top: 1px solid #ccc;
   margin-top: 4px;
   margin-bottom: -5px;
@@ -239,7 +279,7 @@ table {
   font-size: 12px;
   font-weight: bold;
   p {
-    margin: 5px;
+    margin: $lineheight/4;
   }
 }
 
@@ -250,14 +290,14 @@ table {
  */
 
 .sidebar-notice {
-  padding: 5px;
+  padding: $lineheight/4;
   border-top: 1px solid #ccc;
   margin-top: 4px;
   margin-bottom: -5px;
   background: #ea0;
   font-size: 12px;
   p {
-    margin: 5px;
+    margin: $lineheight/4;
   }
 }
 
@@ -266,51 +306,36 @@ table {
 .left_menu {
   left: 0px;
   margin: 0;
-  padding: 5px 10px;
+  padding: $lineheight/4 $lineheight/2;
   font-size: 12px;
   line-height: 1.25;
   list-style-type: none;
   border-bottom: 1px solid #ccc;
   border-top: 1px solid #ccc;
-}
+  img {
+    margin: $lineheight/2 0px;
+  }
 
-.left_menu img {
-  margin: 10px 0px;
-}
+  ul {
+    padding: 0;
+    margin: 0;
+  }
 
-.left_menu ul {
-  padding: 0;
-  margin: 0;
-}
+  li {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
 
-.left_menu li {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
+  h4 {
+    padding: $lineheight/4 0 $lineheight/4 0;
+    font-size: 12px;
+    margin: 0;
+  }
 
-.left_menu h4 {
-  padding: 5px 0 5px 0;
-  font-size: 12px;
-  margin: 0;
-}
-
-.left_menu li:last-child h4 {
-  padding-top: 0;
-}
-
-/* Rules for SOTM advert */
-
-#sotm {
-  width: 165px;
-  margin: 10px;
-  padding: 0px;
-  border: 0px;
-  background: #fff;
-}
-
-#sotm img {
-  width: 165px;
+  li:last-child h4 {
+    padding-top: 0;
+  }
 }
 
 /*
@@ -321,53 +346,54 @@ table {
 
 .optionalbox {
   left: 0px;
-  padding: 5px 10px;
-  margin: 5px 0;
+  padding: $lineheight/4 $lineheight/2;
+  margin: $lineheight/4 0;
   text-align: left;
 }
 
 /* Rules for the search box */
 
-#search_field form {
-  width: 165px;
-}
-
 #search_field {
   position: relative;
-}
 
-#search_field input[type="text"] {
-  width: 165px;
-  padding: 3px;
-  font-size: 14px;
-  line-height: 1.1;
-  height: 25px;
-  padding: 2px 0px 2px 5px;
-  box-shadow: inset #DDD 0px 1px 3px;
-}
+  form {
+    width: 165px;
+  }
 
-#search_field input[type="text"]:focus {
-  outline: none;
-  border: 1px solid #000;
-}
+  input[type="text"] {
+    width: 165px;
+    padding: 3px;
+    font-size: $typeheight;
+    line-height: 1.1;
+    height: 25px;
+    padding: 2px 0px 2px $lineheight/4;
+    box-shadow: inset #DDD 0px 1px 3px;
+  }
 
-#search_field input[type="submit"] {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  width: 15px;
-  height: 15px;
-  text-indent: -1000px;
-  overflow: hidden;
-  background: image-url("sprite.png") 0 0 no-repeat;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  cursor: pointer;
+  input[type="text"]:focus {
+    outline: none;
+    border: 1px solid #000;
+  }
+
+  input[type="submit"] {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 15px;
+    height: 15px;
+    min-width: 0;
+    text-indent: -1000px;
+    overflow: hidden;
+    background: image-url("sprite.png") -2px -2px no-repeat;
+    position: absolute;
+    top: $lineheight/4;
+    right: $lineheight/4;
+    cursor: pointer;
+  }
 }
 
 .search_help {
-  margin: 5px 0 0 0;
+  margin: $lineheight/4 0 0 0;
 }
 
 /* Utility for de-emphasizing content */
@@ -375,40 +401,35 @@ table {
 .deemphasize {
   color: #999;
   a {
-    color: #7092FF;
+    color: $blue;
   }
 }
 
 /* Rules for donation request box */
 
-.donate {
+a.donate {
   display: block;
-  width: 164px;
-  padding: 5px;
+  width: 163px;
+  padding: $lineheight/4;
   border: 1px solid #AED1A0;
   background: #cbeea7;
-  font-size: 14px;
+  font-size: $typeheight;
   line-height: 1.4;
   text-align: center;
   border-radius: 2px;
   color: #222;
-  margin: 10px 10px 0px 10px;
+  margin: $lineheight/2 $lineheight/2 0px $lineheight/2;
 
   &:hover {
     background: #9ed485;
     text-decoration: none;
-  }
-  span {
-    margin: 0;
-    padding-left: 18px;
-    background: image-url("sprite.png") 0 -29px no-repeat;
   }
 }
 
 /* Rules for Creative Commons logo button */
 
 #cclogo {
-  margin: 10px 0;
+  margin: $lineheight/2 0;
   float: right;
 }
 
@@ -432,27 +453,25 @@ table {
 }
 
 #tabnav {
-  height: 30px;
+  height: 29px;
   margin-bottom:0;
   overflow: hidden;
-}
-
-#tabnav li {
-  display: inline;
-}
-
-#tabnav a, #tabnav a:link, #tabnav a:visited {
-  float: left;
-  font-weight: bold;
-  padding: 3px 10px;
-  text-decoration: none;
-  color: #333;
-  float: left;
-  margin-right: 1px;
-  -webkit-transition: color 200ms ease-in;
-     -moz-transition: color 200ms ease-in;
-       -o-transition: color 200ms ease-in;
-          transition: color 200ms ease-in;
+  li {
+    display: inline;
+  }
+  a, a:link, a:visited {
+    float: left;
+    font-weight: bold;
+    padding: 3px $lineheight/2;
+    text-decoration: none;
+    color: #333;
+    float: left;
+    margin-right: 1px;
+    -webkit-transition: color 200ms ease-in;
+       -moz-transition: color 200ms ease-in;
+         -o-transition: color 200ms ease-in;
+            transition: color 200ms ease-in;
+  }
 }
 
 .site-index #tabnav a#viewanchor,
@@ -474,20 +493,16 @@ table {
 #tabnav a:visited:hover.disabled {
   color: #ccc;
   cursor: default;
-}
-
-#tabnav a:link.disabled:hover,
-#tabnav a:visited.disabled:hover,
-#tabnav a:link:hover.disabled:hover,
-#tabnav a:visited:hover.disabled:hover {
-  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 /* Utility for styling notification numbers */
 
 .count-number {
-  padding: 2px 5px;
-  border-radius: 3px;
+  padding: 2px $lineheight/4;
+  border-radius: 2px;
   background: #d7d7ff;
   margin: 0 2px;
   font-size: 11px;
@@ -499,7 +514,7 @@ table {
 #greeting {
   float: right;
   padding-top: 3px;
-  margin-right: 5px;
+  margin-right: $lineheight/4;
 }
 
 .greeting-bar-unread {
@@ -517,38 +532,127 @@ table {
 
 /* Rules for Leaflet maps */
 
-.leaflet-control-attribution {
-  a.disabled {
-    color: #99c9dc;
-    cursor: default;
-    text-decoration: none;
+.leaflet-control .control-button {
+  display: block;
+  height: 40px;
+  width: 40px;
+  background-color: white;
+  background-color: rgba(255,255,255,.8);
+  border-radius: 4px;
+  margin-bottom: 10px;
+  outline: none;
+}
+
+.leaflet-control .zoomin,
+.control-layers .control-button {
+  margin-bottom: 0px;
+  border-radius: 4px 4px 0px 0px;
+}
+
+.site .leaflet-control .zoomout,
+.control-key .control-button {
+  margin-bottom: 0px;
+  border-radius: 0px;
+}
+
+.leaflet-control .zoomout,
+.control-locate .control-button,
+.control-share .control-button {
+  border-radius: 0px 0px 4px 4px;
+}
+
+.leaflet-control .control-button:hover {
+  background-color: white;
+}
+
+.leaflet-control .control-button .icon {
+  margin: 10px;
+}
+
+/* Rules for the home page */
+
+.site-export #map,
+.site-index #map,
+.site-edit #map {
+  height: 100%;
+  overflow: hidden;
+}
+
+#map-ui {
+  display: none;
+  position: relative;
+  float: right;
+  width: 250px;
+  height: 100%;
+  background: white;
+  border-left: 1px solid #CCC;
+  overflow: auto;
+
+  .section {
+    border-bottom: 1px solid #DDD;
+    padding: 15px;
   }
 
-  ul.secondary-actions {
-    float: left;
-    margin-right: 5px;
+  a.close-button {
+    float: right;
+    padding:5px;
+    font-size:20px;
+    line-height:10px;
+    color:#222;
+    border:1px solid #ddd;
+  }
+}
 
-    &:only-child {
-      margin-right: 0px;
+.layers-ui {
+  ul, li:last-child {
+    margin-bottom: 0;
+  }
+
+  li {
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+
+  label {
+    display: block;
+    padding: 5px 5px 5px 7px;
+    background-color: #eee;
+    cursor: pointer;
+  }
+
+  li.active label {
+    background-color: #ccc;
+  }
+
+  .base-layers {
+    .leaflet-container {
+      width: 100%;
+      height: 50px;
+      cursor: pointer;
+    }
+  }
+}
+
+.share-ui {
+  .share-link {
+    li {
+      display: inline-block;
+      width: 50%;
     }
   }
 }
 
 .site-index .leaflet-top,
 .site-export .leaflet-top {
-  top: 10px !important;
+  top: $lineheight/2 !important;
   .leaflet-control {
     margin-top: 0px !important;
   }
 }
 
-.site-index #map .olControlScaleLine,
-.site-export #map .olControlScaleLine {
-  left: 10px !important;
-}
-
 .leaflet-popup-scrolled {
-  padding-right: 20px;
+  padding-right: $lineheight;
   border-bottom: 0px !important;
   border-top: 0px !important;
 }
@@ -561,7 +665,7 @@ table {
 /* Rules for edit menu */
 
 .menuicon {
-  padding: 0 5px;
+  padding: 0 $lineheight/4;
   font-weight: normal;
   display: inline-block;
   &:hover {
@@ -574,18 +678,16 @@ table {
   z-index: 10000;
   position: absolute;
   background-color: #ffffff;
-  border: 1px solid #cccccc;
+  border: 1px solid $lightgrey;
   border-top: 0px;
-}
-
-.menu ul {
-  margin: 0px;
-}
-
-.menu li {
-  padding: 2px 5px;
-  border-top: 1px solid #eee;
-  white-space: nowrap;
+  ul {
+    margin: 0px;
+  }
+  li {
+    padding: 2px $lineheight/4;
+    border-top: 1px solid #eee;
+    white-space: nowrap;
+  }
 }
 
 /* Rules for attribution text under the main map shown on printouts */
@@ -607,27 +709,18 @@ table {
 
 #sidebar {
   display: none;
-  position: absolute;
-  overflow: auto;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  border-right: 1px solid #ccc;
+  position: relative;
+  float: left;
+  border-right: 1px solid $lightgrey;
   width: 33.3333%;
-  .sidebar_heading {
-    position: relative;
-    padding: 10px 20px;
-    z-index: 9999;
-    background: #F4F4FF;
-    border-bottom: 1px solid #ccc;
-  }
-  h4 {
-    margin: 0;
-  }
+  height: 100%;
   ul {
     margin-bottom: 0;
+    &:last-child {
+        border-bottom: 1px solid #ccc;
+    }
     li {
-      margin-bottom: 5px;
+      margin-bottom: $lineheight/4;
       &:last-child {
         margin-bottom: 0;
       }
@@ -635,22 +728,35 @@ table {
   }
 }
 
-#sidebar_close {
+.sidebar_heading {
+  position: relative;
+  padding: $lineheight/2 $lineheight;
+  z-index: 9999;
+  background: $offwhite;
+  border-bottom: 1px solid #ccc;
+  h4 {
+    margin: 0;
+  }
+}
+
+.sidebar_close {
   position: absolute;
-  height: 20px;
+  height: $lineheight;
   top: 0px;
   bottom: 0;
-  right: 20px;
+  right: $lineheight;
   margin: auto;
 }
 
 #sidebar_content {
   position: relative;
-  bottom: 0;
+  margin-bottom: 20px;
+  overflow: auto;
+  height: 100%;
   width: 100%;
   h4 {
-    padding: 0 20px 10px 20px;
-    margin-top: 10px;
+    padding: 0 $lineheight $lineheight/2 $lineheight;
+    margin-top: $lineheight/2;
     margin-bottom: 0;
     border-bottom: 1px solid #ddd;
   }
@@ -659,24 +765,21 @@ table {
 /* Rules for the map key which appears in the popout sidebar */
 
 #mapkey {
-  padding: 20px;
-}
-
-#mapkey .mapkey-table-key img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#mapkey td {
-  padding: 0 5px 5px 5px;
+ .mapkey-table-key img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  td {
+    padding: 0 $lineheight/4 $lineheight/4 $lineheight/4;
+  }
 }
 
 /* Rules for search results which appear in the popout sidebar */
 
 .search_searching {
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-top: $lineheight/4;
+  margin-bottom: $lineheight/4;
 }
 
 .search_results_entry {
@@ -690,8 +793,8 @@ table {
 
 .search_results_entry .search_searching {
   text-align: center;
-  margin: 20px auto;
-  width: 20px;
+  margin: $lineheight auto;
+  width: $lineheight;
   display: block;
 }
 
@@ -707,15 +810,15 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   position: relative;
   .browse_show_list.button {
     position: absolute;
-    left: 20px;
-    right: 20px;
+    left: $lineheight;
+    right: $lineheight;
     bottom: -40px;
     margin-bottom: 0;
   }
   a.more-details {
     position: absolute;
     top: 0;
-    right: 20px;
+    right: $lineheight;
   }
   ul li {
     margin-bottom: 0;
@@ -737,11 +840,15 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 .export_area_inputs {
-  margin-bottom: 10px;
+  margin-bottom: $lineheight/2;
+  input[type="text"] {
+    width: 80px;
+    margin-bottom: 5px;
+  }
 }
 
 .export_bound {
-  margin: 5px;
+  margin: $lineheight/4;
 }
 
 .export_details input[type="text"]#export_html_text {
@@ -749,7 +856,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 #sidebar #marker_inputs li:last-child {
-  margin-bottom: 10px;
+  margin-bottom: $lineheight/2;
 }
 
 #export_osm,
@@ -758,15 +865,10 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   display: none;
 }
 
-.export_buttons {
-  width: 100%;
-  text-align: center;
-}
-
 /* Rules for the main content area */
 
 #content {
-  padding: 20px;
+  padding: $lineheight;
   position: relative;
 }
 
@@ -806,7 +908,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 #slim_container_content {
   max-width: 50em;
   background-color: #FFFFFF;
-  margin: 10px auto;
+  margin: $lineheight/2 auto;
   padding: 3px;
   border-radius: 25px;
   -moz-border-radius: 25px;
@@ -814,7 +916,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 #slim_content {
-  margin: 10px;
+  margin: $lineheight/2;
   margin-top: 95px;
   max-width: 50em;
 
@@ -824,31 +926,30 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 #slim_header {
-  margin: 30px 10px;
+  margin: 30px $lineheight/2;
   position: absolute;
   top: 0px;
-  margin-right: 5px;
-}
-
-#slim_header img {
-  vertical-align: middle;
-  margin-bottom: 5px;
-  margin-right: 5px;
+  margin-right: $lineheight/4;
+  img {
+    vertical-align: middle;
+    margin-bottom: $lineheight/4;
+    margin-right: $lineheight/4;
+  }
 }
 
 .content-heading {
   position: relative;
-  padding: 20px;
-  background: #F4F4FF;
+  padding: $lineheight;
+  background: $offwhite;
   h1, h2 {
-    margin-bottom: 10px;
+    margin-bottom: $lineheight/2;
     line-height: 100%;
     &:last-child {
       margin-bottom: 0;
     }
   }
   p {
-    margin-top: 10px;
+    margin-top: $lineheight/2;
     margin-bottom: 0px;
   }
 }
@@ -860,36 +961,14 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   width: 45%;
   height: 400px;
   border: 1px solid #ccc;
-  margin-bottom: 20px;
+  margin-bottom: $lineheight;
   float: right;
 }
 
 .content_map #small_map {
   height: 100%;
   width: 100%;
-  margin-bottom: 20px;
-}
-
-/* Rules for the home page */
-
-.site-export #map,
-.site-index #map {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-}
-
-/* Rules for the edit page */
-
-.site-edit #map {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  overflow: hidden;
+  margin-bottom: $lineheight;
 }
 
 /* Rules for the changeset list shown by the history tab etc */
@@ -897,7 +976,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 #changeset_list {
   width: 100%;
   ul {
-    padding: 10px 0;
+    padding: $lineheight/2 0;
     margin-bottom: 0px;
     border-top: 1px solid #ccc;
     &:last-child {
@@ -910,8 +989,8 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   .date,
   .user {
     border-left: 1px solid #ccc;
-    padding-left: 5px;
-    margin-right: 5px;
+    padding-left: $lineheight/4;
+    margin-right: $lineheight/4;
   }
 }
 
@@ -929,10 +1008,10 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 #changeset_list_map {
   position: absolute;
-  bottom: 20px;
-  top: 20px;
-  right: 20px;
-  left: 20px;
+  bottom: $lineheight;
+  top: $lineheight;
+  right: $lineheight;
+  left: $lineheight;
   border: 1px solid #ccc;
 }
 
@@ -944,8 +1023,8 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 .browse-section {
   border-top: 1px solid #ccc;
-  margin-top: 10px;
-  padding-top: 10px;
+  margin-top: $lineheight/2;
+  padding-top: $lineheight/2;
   &:first-child {
     margin-top: 0;
   }
@@ -956,9 +1035,9 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     max-width: 100%;
   }
   h4, p {
-    margin-bottom: 5px;
+    margin-bottom: $lineheight/4;
   }
-  p, ul, .bbox, .geo {
+  ul, .bbox, .geo {
     display: inline-block;
     vertical-align: top;
     max-width: 65%;
@@ -968,6 +1047,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     margin-bottom: 0;
   }
   h4 {
+    float: left;
     width: 33.3333%;
     display: inline-block;
     vertical-align: top;
@@ -978,7 +1058,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   div {
     width: 33.3333%;
     text-align: center;
-    padding: 5px 0;
+    padding: $lineheight/4 0;
     overflow: hidden;
     text-overflow: ellipsis;
     float: left;
@@ -996,45 +1076,46 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 #browse_map .secondary-actions {
-  margin-bottom: 10px;
+  margin-bottom: $lineheight/2;
 }
 
 /* Rules for the trace list shown by the traces tab etc */
 
 #trace_list {
-  font-size: 10px;
+  font-size: $lineheight/2;
   border-width: 0px;
   text-align: right;
-}
 
-#trace_list .trace_summary {
-  font-size: 12px;
-  color: gray;
-}
+  .trace_summary {
+    font-size: 12px;
+    color: gray;
+  }
 
-#trace_list .trace_pending {
-  color: red;
-}
+  .trace_pending {
+    color: red;
+  }
 
-#trace_list .trace_public {
-  color: green;
-}
+  .trace_public {
+    color: green;
+  }
 
-#trace_list .trace_identifiable {
-  color: green;
-}
+  .trace_identifiable {
+    color: green;
+  }
 
-#trace_list .trace_trackable {
-  color: red;
-}
+  .trace_trackable {
+    color: red;
+  }
 
-#trace_list .trace_private {
-  color: red;
+  .trace_private {
+    color: red;
+  }
 }
 
 /* Rules for the user profile and group pages */
 
 #userinformation {
+
   min-height: 100px;
   .userinformation-inner {
     float: left;
@@ -1052,50 +1133,50 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 .admin-user-info small {
-  margin-bottom: 10px;
+  margin-bottom: $lineheight/2;
   display: inline;
-  margin-right: 20px;
+  margin-right: $lineheight;
 }
 
 .activity-block {
   clear: left;
   border-bottom: 1px solid #ccc;
-  padding-bottom: 20px;
+  padding-bottom: $lineheight;
   float: left;
   h3 {
-    margin-bottom: 10px;
+    margin-bottom: $lineheight/2;
   }
 }
 
 .contact-activity {
-  margin-top: 20px;
+  margin-top: $lineheight;
   width: 100%;
 }
 
 .activity-details p {
-  margin-left: 72px;
+  margin-left: 70px;
   margin-bottom: 0;
 }
 
 #friends-container .contact-activity ul,
 #members-container .contact-activity ul {
-  margin-left: 72px;
-  }
-
-.user-view p#no_home_location {
-  margin: 20px;
+  margin-left: 70px;
 }
 
-.user-view .user_thumbnail,
-.groups-show .user_thumbnail {
-  margin-top: 5px;
-  float: left;
+.user-view, .groups-show {
+  p#no_home_location {
+    margin: $lineheight;
+  }
+  .user_thumbnail {
+    margin-top: $lineheight/4;
+    float: left;
+  }
 }
 
 /* Rules for the user map */
 
 .content_map .leaflet-popup-content {
-  margin: 10px;
+  margin: $lineheight/2;
   min-height: 50px;
 }
 
@@ -1103,46 +1184,36 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 .user_popup {
   min-width: 200px;
-}
-
-.user_popup p {
-  padding-top:0;
-  padding-bottom: 5px;
-  margin-top: 0;
-}
-
-.user_popup img.user_thumbnail {
-  float: left;
-  margin: 0 10px 0 0;
-}
-
-/* Rules for user popups on maps */
-
-.user_popup p {
-  margin-bottom: 0;
-  margin-left: 60px;
-  font-size: 12px;
+  p {
+    padding: 0 0 5px 0;
+    margin-top: 0 0 0 60px;
+    font-size: 12px;
+  }
+  img.user_thumbnail {
+    float: left;
+    margin: 0 $lineheight/2 0 0;
+  }
 }
 
 /* Rules for the user list */
 
 #user_list {
-  font-size: 10px;
+  font-size: $lineheight/2;
   width: 100%;
-}
 
-#user_list tr {
-  vertical-align: middle;
-}
+  tr {
+    vertical-align: middle;
+  }
 
-#user_list p {
-  margin-top: 0px;
-  margin-bottom: 0px;
+  p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
 }
 
 #user_list_actions {
   float: right;
-  margin-top: 10px;
+  margin-top: $lineheight/2;
 }
 
 /* Rules for the diary list page */
@@ -1154,8 +1225,8 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 .diary_post {
   max-width: 740px;
   position: relative;
-  margin-top: 10px;
-  padding-top: 20px;
+  margin-top: $lineheight/2;
+  padding-top: $lineheight;
   border-top: 1px solid #ccc;
 
   &:first-child {
@@ -1165,7 +1236,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   }
   h1, h2 {
     font-size: 21px;
-    line-height: 1;
+    line-height: 1em;
   }
   small.deemphasize {
     float: left;
@@ -1179,10 +1250,10 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 #content  .post_heading {
-  margin-bottom: 20px;
+  margin-bottom: $lineheight;
   h2 {
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: $lineheight/2;
     font-size: 24px;
   }
 }
@@ -1196,27 +1267,27 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     height: 400px;
     border: 1px solid #ccc;
     display: none;
-    margin-bottom: 20px;
+    margin-bottom: $lineheight;
   }
   #newcomment {
     border-top: 1px solid #ccc;
-    padding-top: 20px;
-    margin-top: 10px;
+    padding-top: $lineheight;
+    margin-top: $lineheight/2;
   }
   .comments {
     max-width: 740px;
   }
   .diary-comment {
-    margin-top: 10px;
+    margin-top: $lineheight/2;
     border-top: 1px dashed #ccc;
-    padding-top: 10px;
+    padding-top: $lineheight/2;
     &:first-child {
-      margin-top: 20px;
-      padding-top: 20px;
+      margin-top: $lineheight;
+      padding-top: $lineheight;
       border-top: 1px solid #ccc;
     }
     p {
-      margin-bottom: 10px;
+      margin-bottom: $lineheight/2;
     }
     .comment-heading {
       margin-bottom: 0;
@@ -1231,63 +1302,64 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 /* Rules for the login page */
 
+#login_openid_buttons {
+  margin-bottom: 0;
+}
+
 #login_openid_buttons li {
   float: left;
-  padding: 5px 10px;
+  padding: $lineheight/4 $lineheight/2;
 }
 
 /* Rules for the account confirmation page */
 
-div#contributorTerms {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin-bottom: 20px;
-  overflow: auto;
-  height: 398px;
-}
+#terms {
+  .legale {
+    border: 1px solid #ccc;
+    padding: $lineheight;
+    margin-bottom: $lineheight;
+    overflow: auto;
+    height: 10em;
 
-div#contributorTerms p#last {
-  margin-bottom: 0px;
-}
+    &:p#last {
+      margin-bottom: 0px;
+    }
 
-div#contributorTerms ol {
-  margin-bottom: 0px;
-}
+    &:ol {
+      margin-bottom: 0px;
+    }
 
-div#contributorTerms img {
-  display: block;
-  margin: 20px auto inherit auto;
-}
+    &:img {
+      display: block;
+      margin: $lineheight auto inherit auto;
+    }
+  }
 
-form#termsForm div#buttons {
-  float: right;
-}
-
-form#termsForm input#agree {
-  margin-left: 40px;
-}
-
-div#slim_content form#termsForm {
-  width: auto;
-}
-
-p#contributorGuidance {
-  background-color: #f4f4ff;
-  border-radius: 4px;
-  -moz-border-radius: 4px;
-  margin-top: 20px;
-  padding: 10px;
+  form.sign {
+    input[type=submit] {
+      float: left;
+    }
+    #decline {
+      background: $grey;
+      &:hover {
+        background: darken($grey, $hovercolor);
+      }
+    }
+  }
+  fieldset {
+    margin-bottom: $lineheight;
+  }
+  #contributorGuidance {
+    background-color: $offwhite;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+  }
+  .signing-buttons {
+    height: 50px;
+  }
 }
 
 /* Rules for the account settings page */
-
-#accountForm {
-  margin-top: 20px;
-}
-
-#accountForm td {
-  padding-bottom: 10px;
-}
 
 #accountForm .user_map {
   position: relative;
@@ -1296,9 +1368,16 @@ p#contributorGuidance {
   border: 1px solid #ccc;
 }
 
-.accountImage-options {
-  width: 50%;
-  display: inline-block;
+#accountForm .user_image {
+  margin-bottom: 0;
+}
+
+#accountForm #user_image {
+  margin-left: 20px;
+}
+
+#accountForm ul.accountImage-options {
+  margin-left: 120px;
 }
 
 .nohome .location {
@@ -1313,41 +1392,61 @@ p#contributorGuidance {
   display: inline !important;
 }
 
-#accountForm input[type=submit] {
-  margin-top: 15px;
-}
-
 .content_map.settings_map {
-  float: none;
   width: 50%;
+  float: none;
 }
 
-/* Rules for message in/out box page */
+/* Rules for the oauth settings page */
+
+.oauth_clients .buttons .oauth-edit {
+  border-radius: 2px 0 0 2px;
+}
+
+.oauth_clients .buttons .oauth-delete {
+  border-radius: 0 2px 2px 0;
+}
+
+/* Rules for messages pages */
 
 .messages {
   width: 100%;
   border: 1px solid #ddd;
-}
 
-.messages tbody tr {
-  border-top: 1px solid #ccc;
-}
+  input[type="submit"] {
+    margin: auto;
+  }
+  tbody tr {
+    border-top: 1px solid #ccc;
+  }
 
-.messages .inbox-row {
-  background: #f8f8ff;
-}
+  .inbox-row {
+    background: #f8f8ff;
+  }
 
-.messages .inbox-row-unread {
-  background:#CBEEA7;
-}
+  .inbox-row-unread {
+    background:#CBEEA7;
+  }
 
-.right {
-  float: right;
-}
+  .right {
+    float: right;
+  }
 
-.messages tr td,
-.messages tr th {
-  padding: 5px;
+  tr td,
+  tr th {
+    padding: $lineheight/4;
+  }
+  p:last-child,
+  h2:last-child,
+  h3:last-child,
+  ol:last-child,
+  ul:last-child {
+    margin-bottom:0;
+  }
+  tr td {
+    height: 30px;
+    border-right: 1px solid $lightgrey;
+  }
 }
 
 .inbox-row .inbox-mark-read {
@@ -1355,28 +1454,43 @@ p#contributorGuidance {
 }
 
 .info-line {
-  margin-bottom: 20px;
-  padding: 5px 0px 4px 0px;
+  margin-bottom: $lineheight;
+  padding: $lineheight/4 0px 4px 0px;
   border-bottom: 1px solid #ccc;
-}
 
-.info-line form,
-.info-line form div {
-  display: inline;
+  form, form div {
+    display: inline;
+  }
 }
 
 .info-line .user_thumbnail_tiny {
   vertical-align: middle;
 }
 
+.inbox-mark-unread,
+.inbox-mark-read,
+.inbox-delete {
+  width: 1%;
+}
+
 .inbox-row-unread .inbox-mark-unread {
   display: none;
+}
+
+.message-read .message-buttons {
+  margin-top: $lineheight;
+  padding-top: $lineheight;
+  border-top: 1px solid $lightgrey;
+}
+
+.message-read .buttons .mark-unread-button {
+  border-radius: 0;
 }
 
 /* Rules for "flash" notice boxes shown at the top of the content area */
 
 .flash {
-    padding: 20px;
+    padding: $lineheight;
   &#error {
     background-color: #ff7070;
   }
@@ -1401,52 +1515,88 @@ p#contributorGuidance {
 #errorExplanation {
   width: 400px;
   border: 2px solid #ff7070;
-  padding: 10px;
-  margin-bottom: 20px;
+  padding: 0 $lineheight/2;
+  margin-bottom: $lineheight;
   background-color: #f0f0f0;
-}
 
-#errorExplanation h2 {
-  margin: -10px;
-  padding: 5px 5px 5px 15px;
-  font-weight: bold;
-  font-size: 12px;
-  background-color: #c00;
-  color: #fff;
-  text-align: left;
-}
+  h2 {
+    margin: 0 -10px 10px -10px;
+    padding: $lineheight/4 $lineheight/4 $lineheight/4 15px;
+    font-weight: bold;
+    font-size: 12px;
+    background-color: #c00;
+    color: #fff;
+    text-align: left;
+  }
 
-#errorExplanation p {
-  color: #333;
-  margin-bottom: 0px;
-  padding: 5px;
-}
+  p {
+    color: #333;
+    margin-bottom: 0px;
+    padding: $lineheight/4;
+  }
 
-#errorExplanation ul li {
-  font-size: 12px;
-  list-style: disc;
+  ul {
+    padding-left: $lineheight;
+
+    li {
+      font-size: 12px;
+      list-style: disc;
+    }
+  }
 }
 
 /* Rules for forms */
 
-.submitButton {
-  text-align: center;
+.standard-form {
+  fieldset {
+    margin-bottom: $lineheight;
+  }
+  label.standard-label {
+    display: block;
+    margin-bottom: $lineheight/4;
+    font-size: $typeheight;
+    font-weight: bold;
+    line-height: 1.5;
+  }
+  label.standard-label.secondary {
+    display: inline-block;
+    font-weight: normal;
+  }
+  .form-help {
+    font-weight: normal;
+  }
+  .form-column {
+    float: left;
+    margin-right: 20px;
+  }
+  .form-divider {
+    margin-top: $lineheight;
+    padding-top: $lineheight;
+    border-top: 1px solid $lightgrey;
+  }
+  .form-row {
+    margin-bottom: $lineheight/2;
+  }
+  .form-list {
+    margin-bottom: 0;
+  }
+  .form-list li {
+    margin-bottom: 5px;
+   }
+  input[type="checkbox"],
+  input[type="radio"] {
+    float: left;
+    margin-top: 5px;
+  }
 }
 
-.fieldName {
-  vertical-align: top;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 1.6666;
-  text-align: right;
+#remember_me_openid {
+  display: block;
 }
 
-.submitButton {
-  text-align: right;
-}
-
-.minorNote {
-  font-size: 12px;
+input[type="checkbox"],
+input[type="radio"] {
+    margin-right: 5px;
 }
 
 input[type="text"],
@@ -1455,6 +1605,15 @@ input[type="url"],
 input[type="password"],
 textarea {
   border: 1px solid #ccc;
+  padding: 2px 5px;
+  margin: 0;
+  width: 200px;
+}
+
+textarea {
+  padding: 5px;
+  width: 100%;
+  height: 100% !important;
 }
 
 /* Rules for user images */
@@ -1463,16 +1622,16 @@ img.user_image {
   max-width: 100px;
   max-height: 100px;
   border: 1px solid #ccc;
-  margin-bottom: 20px;
+  margin-bottom: $lineheight;
   float: left;
-  margin-right: 20px;
+  margin-right: $lineheight;
 }
 
 img.user_thumbnail {
   max-width: 50px;
   max-height: 50px;
   border: 1px solid #ccc;
-  margin-right: 20px;
+  margin-right: $lineheight;
 }
 
 img.user_thumbnail_tiny {
@@ -1515,8 +1674,8 @@ ul.secondary-actions {
     float: left;
     list-style: none;
     border-left: 1px solid #ccc;
-    padding-left: 5px;
-    margin-right: 5px;
+    padding-left: $lineheight/4;
+    margin-right: $lineheight/4;
     &:first-child {
       border-left: 0;
       padding-left: 0;
@@ -1529,37 +1688,98 @@ ul.secondary-actions {
 
 /* Utility for managing inner content areas */
 
-.inner22 { padding: 20px;}
+.inner22 { padding: $lineheight;}
 
-.inner12 { padding: 10px 20px;}
+.inner12 { padding: $lineheight/2 $lineheight;}
 
-.inner02 { padding: 0 20px;}
+.inner11 { padding: $lineheight/2;}
+
+.inner02 { padding: 0 $lineheight;}
 
 /* Utility for general button styles */
 
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
 a.button {
-  display: block;
-  padding: 5px;
+  cursor: pointer;
+  border: 0;
+  display: inline-block;
+  line-height: 20px;
+  padding: $lineheight/4 $lineheight/2;
+  min-height: 20px + $lineheight/2;
   min-width: 120px;
-  margin-bottom: 10px;
+  margin: 0 0 $lineheight/2 0;
   color: white;
-  background: #7092FF;
+  background: $blue;
   text-align: center;
   border-radius: 2px;
   -moz-border-radius: 2px;
   &:hover {
-    background: blue;
+    background: darken($blue, $hovercolor);
     text-decoration: none;
+  }
+  &.deemphasize {
+    background: $lightblue;
+    &:hover {
+      background: darken($lightblue, $hovercolor);
+    }
+  }
+  &:disabled {
+    background: $lightgrey;
+    &:hover {
+      background: $lightgrey;
+    }
   }
   &:last-child {
     margin-bottom: 0;
   }
 }
 
-a.button.submit {
-  background-color: #cbeea7;
-  &:hover {
-    background-color: #9ed485;
+.buttons {
+  min-width: 200px;
+  input[type="submit"],
+  input[type="button"],
+  input[type="reset"],
+  .button {
+    box-sizing: border-box;
+    float: left;
+    border-radius: 0;
+    margin:0;
+    min-width: 100px;
+    max-width: 180px;
+    border-right:1px solid white;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  input:first-child,
+  .button:first-child {
+    border-radius:2px 0 0 2px;
+  }
+  input:last-child,
+  .button:last-child {
+    border-radius:0 2px 2px 0;
+    border-right-width: 0;
+  }
+  input:only-child,
+  .button:only-child,
+  *[value="Hide"] + input:last-child,
+  *[value="Hide"] + .button:last-child {
+    border-radius:2px;
+    border-right-width: 0;
+  }
+    /* if a 3-button set has a hidden middle button */
+  *[value="Hide"] + input:nth-child(3),
+  *[value="Hide"] + .button:nth-child(3) {
+    border-radius:0 2px 2px 0;
+    border-right-width: 0;
+  }
+  /* if a 3-button set starts with a hidden button */
+  *[value="Hide"] + input:nth-child(2):not(:last-child),
+  *[value="Hide"] + .button:nth-child(2):not(:last-child) {
+    border-radius:2px 0 0 2px;
+    border-right-width: 1px solid white;
   }
 }
 
@@ -1567,7 +1787,7 @@ a.button.submit {
 
 .table0,
 .item0 {
-  background: #F4F4FF;
+  background: $offwhite;
 }
 
 .table1,
@@ -1584,11 +1804,12 @@ a.button.submit {
 
 /* Rules for rich text */
 
-.richtext {
+.richtext,
+.prose {
   h1, h2 {
-    padding-bottom: 10px;
+    padding-bottom: $lineheight/2;
     border-bottom: 1px dashed #cccccc;
-    margin-bottom: 10px;
+    margin-bottom: $lineheight/2;
   }
 
   h1 {
@@ -1600,7 +1821,7 @@ a.button.submit {
   }
 
   h3 {
-    font-size: 14px;
+    font-size: $typeheight;
   }
 
   code {
@@ -1609,26 +1830,35 @@ a.button.submit {
     padding: 2px 3px;
   }
 
+  pre {
+    font-size: 13px;
+    background: #e8e8e8;
+    padding: 2px 3px;
+
+    code {
+      padding: 0;
+    }
+  }
+
   img {
-    padding: 20px;
-    background-color: #f4f4ff;
+    padding: $lineheight;
+    background-color: $offwhite;
     display: block;
     max-width: 100%;
     margin: auto;
   }
 
   blockquote {
-    border-left: 20px solid #f4f4ff;
-    padding-left: 20px;
+    border-left: $lineheight solid $offwhite;
+    padding-left: $lineheight;
     margin: 0;
     color: #7E7E7E;
   }
 
   ul, ol {
-    font-style: italic;
-    padding-left: 20px;
-    margin-bottom: 20px;
-    margin-left: 20px;
+    padding-left: $lineheight;
+    margin-bottom: $lineheight;
+    margin-left: $lineheight;
   }
 
   ul li {
@@ -1641,7 +1871,7 @@ a.button.submit {
 }
 
 .diary_post .richtext {
-    margin-top: 20px;
+    margin-top: $lineheight;
   }
 
 .comments .richtext {
@@ -1652,14 +1882,17 @@ a.button.submit {
 /* Rules for rich text editors */
 
 .richtext_container {
+  margin-bottom: $lineheight;
+
   .richtext_content {
+    width: 50%;
     display: inline-block;
     vertical-align: top;
 
     .richtext_preview {
       display: inline-block;
-      padding: 20px;
-      background-color: #f4f4ff;
+      padding: $lineheight;
+      background-color: $offwhite;
       overflow-x: auto;
 
       &.loading {
@@ -1679,9 +1912,8 @@ a.button.submit {
     vertical-align: top;
     margin-left: 15px;
     background-color: #f8f8ff;
-    padding: 10px;
-    width: 300px;
-    max-width: 450px;
+    padding: $lineheight/2;
+    width: 220px;
 
     ul {
       margin-bottom: 0;
@@ -1689,8 +1921,8 @@ a.button.submit {
 
     h4.heading, li {
       border-bottom: 1px solid #ccc;
-      margin-bottom: 5px;
-      padding-bottom: 5px;
+      margin-bottom: $lineheight/4;
+      padding-bottom: $lineheight/4;
     }
 
     li h4, li span, li p {
@@ -1700,20 +1932,15 @@ a.button.submit {
     }
 
     li h4 {
-      width: 35%;
+      width: 40%;
       margin: 0;
     }
 
     li span, li p {
-      width: 60%;
-      margin-left: 10px;
-      margin-bottom: 5px;
+      width: 50%;
+      margin-left: $lineheight/2;
+      margin-bottom: $lineheight/4;
       white-space: nowrap;
-    }
-
-    input.richtext_doedit,
-    input.richtext_dopreview {
-      margin-right: 10px;
     }
   }
 }
@@ -1736,31 +1963,30 @@ a.button.submit {
 
 /* Rules for the notes interface */
 
-.note {
-  padding-top: 10px;
+.leaflet-popup-content .note {
+  padding-top: $lineheight/2;
 }
 
-.note {
+.leaflet-popup-content .note {
   h2 {
-    margin-bottom: 10px;
+    margin-bottom: $lineheight/2;
   }
 
   div {
-    margin-top: 10px;
+    margin-top: $lineheight/2;
   }
 
   .permalink {
     position: absolute;
-    top: 5px;
-    left: 5px;
+    top: $lineheight/4;
+    left: $lineheight/4;
     min-width: 15px;
     min-height: 15px;
-    background: image-url("sprite.png") 0 -45px no-repeat;
   }
 
   .permalink span {
     display: none;
-    padding-left: 20px;
+    padding-left: $lineheight;
   }
 
   .permalink:hover span {
@@ -1771,7 +1997,7 @@ a.button.submit {
     display: block;
     background-color: #ffe0cc;
     padding: 4px 6px;
-    margin-bottom: 10px;
+    margin-bottom: $lineheight/2;
   }
 
   .comment_body {
@@ -1790,7 +2016,7 @@ a.button.submit {
   }
 
   .buttons {
-    margin-top: 5px;
+    margin-top: $lineheight/4;
     text-align: right;
   }
 }
@@ -1812,16 +2038,8 @@ a.button.submit {
   border-bottom: 1px solid #ccc;
 }
 
-.ads {
-  width: 370px;
-  position: absolute;
-  left: 0%;
-}
-
 .ad {
-  float: left;
-  height: 120px;
-  padding: 10px;
-  border: 0px;
+  height: 100px;
+  border: 0;
   background: #fff;
 }

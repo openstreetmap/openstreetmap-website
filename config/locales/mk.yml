@@ -471,6 +471,14 @@ mk:
         uk_postcode: Резултати од <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Резултати од <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Населбена граница
+        level2: Државна граница
+        level4: Покраинска граница
+        level5: Регионална граница
+        level6: Окружна граница
+        level8: Градска граница
+        level9: Селска граница
       prefix: 
         aeroway: 
           aerodrome: Аеродром
@@ -959,6 +967,7 @@ mk:
         opened_by: создадена од <a href='%{user_url}'>%{user}</a> во %{time}
         opened_by_anonymous: создадена од анонимен во %{time}
         permalink: Постојана врска
+        reactivate: Реактивирај
         reopened_by: повторно отворена од <a href='%{user_url}'>%{user}</a> во %{time}
         reopened_by_anonymous: повторно отворена од анонимен во %{time}
         resolve: Решена
@@ -1167,10 +1176,11 @@ mk:
       title: Белешки создадени или коментирани од %{user}
     rss: 
       closed: затворена белешка (кај %{place})
-      comment: нов коментар (кај %{place})
+      commented: нова коментар (кај %{place})
       description_area: Список на белешки, создадени, искометирани или затворени, во вашата околина [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
       description_item: RSS-канал за белешката %{id}
-      new: нова белешка (кај %{place})
+      opened: нова белешка (кај %{place})
+      reopened: преактивирана белешка (кај %{place})
       title: Белешки на OpenStreetMap
   notifier: 
     diary_comment_notification: 
@@ -1238,6 +1248,11 @@ mk:
         your_note: "%{commenter} искоментира на една од вашите белешки на картите близу %{place}."
       details: Поподробно за белешката на %{url}.
       greeting: Здраво,
+      reopened: 
+        commented_note: "%{commenter} реши картографска белешка на која имате коментирано. Белешката се наоѓа близу %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} преактивира белешка што ве интересира"
+        subject_own: "[OpenStreetMap] %{commenter} преактивира една од вашите белешки"
+        your_note: "[OpenStreetMap] %{commenter} преактивира една од вашите белешки на каритте близу %{place}."
     signup_confirm: 
       confirm: "Најнапред треба да потврдиме дека вие сте оној што го поставил барањето. Ако сте вие, тогаш стиснете на долунаведената врска за да ја потврдите сметката:"
       created: Некој (се надеваме, вие) штотуку направи сметка на %{site_url}.
@@ -1247,7 +1262,7 @@ mk:
     signup_confirm_html: 
       ask_questions: Можете да поставувате прашања за OpenStreetMap на нашата <a href="http://help.openstreetmap.org/">страница за прашања и одговори</a>.
       current_user: На <a href="http://wiki.openstreetmap.org/index.php?title=Category:Users_by_geographical_region&uselang=mk">Category:Users_by_geographical_region</a> ќе најдете список на тековни корисници во категории, зависно од нивната местоположба во светот.
-      get_reading: Читајте за OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">на викито</a>, информирајте се за најновите збиднувања преку <a href="http://blog.openstreetmap.org/">OpenStreetMap блогот</a> или <a href="http://twitter.com/openstreetmap">Twitter</a>, или пак прелистајте го<a href="http://www.opengeodata.org/">блогот „OpenGeoData“</a> на основачот на OpenStreetMap, Стив Коуст за историја на проектот, заедно со <a href="http://www.opengeodata.org/?cat=13">под-емитувања</a>!
+      get_reading: Читајте за OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">на викито</a>, информирајте се за најновите збиднувања преку <a href="http://blog.openstreetmap.org/">Блогот на OpenStreetMap</a> или на <a href="http://twitter.com/openstreetmap">Twitter</a>.
       introductory_video: Можете да погледате %{introductory_video_link}.
       more_videos: Имаме %{more_videos_link}.
       more_videos_here: повеќе видеоклипови овде
@@ -1260,7 +1275,6 @@ mk:
       current_user: "Тука ќе најдете категориски список на корисници подредени според место:"
       introductory_video: "Погледајте го воведниот видеоклип за  OpenStreetMap тука:"
       more_videos: "Повеќе видеоклипови ќе најдете тука:"
-      opengeodata: "OpenGeoData.org е блогот на основачот на OpenStreetMap, Стив Коуст, а таму има и под-емитувања:"
       the_wiki: "Читајте за OpenStreetMap на викито:"
       the_wiki_url: http://wiki.openstreetmap.org/wiki/MK:Beginners%27_Guide?uselang=mk
       user_wiki_page: Се препорачува да создадете корисничка страница и да ставите категорија за местото во кое се наоѓате, како на пр. [[Категорија:Корисници од Прилеп]].
@@ -1295,7 +1309,7 @@ mk:
       allow_write_gpx: подига GPS-траги.
       allow_write_notes: измена на белешки.
       allow_write_prefs: им ги менува корисничките прилагодувања.
-      callback_url: URL адреса за обратен одзив
+      callback_url: URL-адреса за одѕив
       name: Име
       requests: "Побарај ги следниве дозволи од корисникот:"
       required: Се бара
@@ -1393,8 +1407,6 @@ mk:
       remote_failed: Уредувањето не успеа - проверете дали е вчитан JOSM или Merkaartor и дали е овозможено далечинското управување
       shortlink: Кратка врска
     key: 
-      map_key: Легенда
-      map_key_tooltip: Легенда на картата
       table: 
         entry: 
           admin: Административна граница
@@ -1489,6 +1501,7 @@ mk:
       search_results: Резултати од пребарувањето
   time: 
     formats: 
+      blog: "%d %B %Y"
       friendly: "%e %B %Y во %H:%M ч."
   trace: 
     create: 

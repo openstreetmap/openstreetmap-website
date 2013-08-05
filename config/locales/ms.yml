@@ -464,6 +464,14 @@ ms:
         uk_postcode: Hasil carian <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Hasil carian <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Sempadan Pinggir Bandar
+        level2: Sempadan Negara
+        level4: Sempadan Negeri
+        level5: Sempadan Kawasan
+        level6: Sempadan Daerah
+        level8: Sempadan Bandar
+        level9: Sempadan Desa
       prefix: 
         aeroway: 
           aerodrome: Padang Terbang
@@ -950,6 +958,7 @@ ms:
         opened_by: ditulis oleh <a href='%{user_url}'>%{user}</a> pada %{time}
         opened_by_anonymous: ditulis oleh pengguna awanama pada %{time}
         permalink: Pautan Kekal
+        reactivate: Aktifkan semula
         reopened_by: diaktifkan semula oleh <a href='%{user_url}'>%{user}</a> pada %{time}
         reopened_by_anonymous: diaktifkan semula oleh pengguna awanama pada %{time}
         resolve: Selesaikan
@@ -1149,10 +1158,11 @@ ms:
       title: Nota yang dikemukakan atau diulas oleh %{user}
     rss: 
       closed: nota ditutup (dekat %{place})
-      comment: komen baru (dekat %{place})
+      commented: komen baru (dekat %{place})
       description_area: Senarai nota yng dilaporkan, diulas atau ditutup di kawasan anda [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
       description_item: Suapan rss untuk nota %{id}
-      new: nota baru (dekat %{place})
+      opened: nota baru (dekat %{place})
+      reopened: nota yang dihidupkan semula (dekat %{place})
       title: Nota OpenStreetMap
   notifier: 
     diary_comment_notification: 
@@ -1218,6 +1228,11 @@ ms:
         your_note: "%{commenter} telah meninggalkan komen di salah satu nota peta anda dekat %{place}."
       details: Butiran lanjut tentang nota berkenaan boleh didapati di %{url}.
       greeting: Selamat sejahtera,
+      reopened: 
+        commented_note: "%{commenter} telah menghidupkan semula salah satu nota peta yang pernah anda ulas dekat %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} telah menghidupkan semula salah satu nota yang anda minati"
+        subject_own: "[OpenStreetMap] %{commenter} telah menghidupkan semula salah satu nota anda"
+        your_note: "%{commenter} telah menghidupkan semula salah satu nota peta anda dekat %{place}."
     signup_confirm: 
       confirm: "Sebelum kami berbuat apa-apa lagi, kami perlu memastikan bahawa permintaan ini datang daripada anda; jika betul, sila klik pautan di bawah untuk mengesahkan akaun anda:"
       created: Seseorang (harap-harap anda) baru membuka akaun di %{site_url}.
@@ -1227,7 +1242,7 @@ ms:
     signup_confirm_html: 
       ask_questions: Anda boleh menanyakan sebarang soalan tentang OpenStreetMap di <a href="http://help.openstreetmap.org/">tapak soal jawab</a> kami.
       current_user: Senarai pengguna semasa dalam kategori berasaskan kedudukan mereka di dunia, terdapat di <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
-      get_reading: Bacalah maklumat tentang OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">di wiki ini</a>, ikutilah perkembangan terbaru melalui <a href="http://blog.openstreetmap.org/">blog</a> atau <a href="http://twitter.com/openstreetmap">Twitter OpenStreetMap</a>, ataupun layari <a href="http://www.opengeodata.org/">blog OpenGeoData</a> oleh Steve Coast, pengasas OpenStreetMap untuk mempelajari sejarah ringkas projek ini, lengkap dengan <a href="http://www.opengeodata.org/?cat=13">podcast</a> juga!
+      get_reading: Bacalah maklumat tentang OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_guide">di wiki ini</a>, ikutilah perkembangan terbaru melalui <a href="http://blog.openstreetmap.org/">blog</a> atau <a href="http://twitter.com/openstreetmap">Twitter OpenStreetMap</a>.
       introductory_video: Anda boleh menonton %{introductory_video_link}.
       more_videos: Terdapat %{more_videos_link}.
       more_videos_here: banyak lagi video di sini
@@ -1240,7 +1255,6 @@ ms:
       current_user: "Senarai pengguna semasa mengikut kategori, berasaskan kedudukan mereka di dunia, terdapat di:"
       introductory_video: "Anda boleh menonton video pengenalan OpenStreetMap di sini:"
       more_videos: "Ada banyak lagi video di sini:"
-      opengeodata: "OpenGeoData.org merupakan blog milik pengasas OpenStreetMap, Steve Coast, dan juga mempunyai podcast:"
       the_wiki: "Bacalah perihal OpenStreetMap di wiki:"
       user_wiki_page: Anda disyorkan supaya membentuk sebuah halaman wiki pengguna yang merangkumi tag-tag kategori yang menyatakan kedudukan anda, seperti [[Category:Users_in_Kuala_Lumpur]].
       wiki_signup: "Anda juga boleh mendaftarkan diri untuk menyertai wiki OpenStreetMap di:"
@@ -1369,8 +1383,6 @@ ms:
       remote_failed: Penyuntingan gagal - pastikan JOSM atau Merkaartor dimuatkan dan ciri kawalan jauh dihidupkan
       shortlink: Pautan Ringkas
     key: 
-      map_key: Petunjuk
-      map_key_tooltip: Petunjuk peta
       table: 
         entry: 
           admin: Sempadan pentadbiran

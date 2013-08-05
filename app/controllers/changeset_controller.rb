@@ -55,7 +55,7 @@ class ChangesetController < ApplicationController
     changeset.set_closed_time_now
 
     changeset.save!
-    render :nothing => true
+    render :text => ""
   end
 
   ##
@@ -243,7 +243,7 @@ class ChangesetController < ApplicationController
       render :text => changeset.to_xml, :mime_type => "text/xml"
     else
 
-      render :nothing => true, :status => :bad_request
+      render :text => "", :status => :bad_request
     end
   end
 

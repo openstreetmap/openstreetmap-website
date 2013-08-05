@@ -9,11 +9,6 @@ class DiaryEntryController < ApplicationController
   before_filter :check_database_writable, :only => [:new, :edit]
   before_filter :require_administrator, :only => [:hide, :hidecomment]
 
-#  caches_action :list, :layout => false, :unless => :user_specific_list?
-  caches_action :rss, :layout => true
-#  caches_action :view, :layout => false
-  cache_sweeper :diary_sweeper, :only => [:new, :edit, :comment, :hide, :hidecomment]
-
   def new
     @title = t 'diary_entry.new.title'
 
@@ -132,7 +127,7 @@ class DiaryEntryController < ApplicationController
         @description = I18n.t('diary_entry.feed.user.description', :user => user.display_name)
         @link = "http://#{SERVER_URL}/user/#{user.display_name}/diary"
       else
-        render :nothing => true, :status => :not_found
+        render :text => "", :status => :not_found
         return
       end
     else

@@ -550,6 +550,13 @@ module OSM
     return nil
   end
 
+  # Parse a float, raising a specified exception on failure
+  def self.parse_float(str, klass, *args)
+    Float(str)
+  rescue
+    raise klass.new(*args)
+  end
+
   # Construct a random token of a given length
   def self.make_token(length = 30)
     chars = 'abcdefghijklmnopqrtuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'

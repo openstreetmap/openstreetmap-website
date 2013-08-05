@@ -13,15 +13,7 @@ xml.rss("version" => "2.0",
       location = describe_location(comment.note.lat, comment.note.lon, 14, locale)
 
       xml.item do
-        if comment.event == "closed"
-          xml.title t('note.rss.closed', :place => location)
-        elsif comment.event == "commented"
-          xml.title t('note.rss.comment', :place => location)
-        elsif comment.event == "opened"
-          xml.title t('note.rss.new', :place => location)
-        else
-          xml.title "unknown event"
-        end
+        xml.title t("note.rss.#{comment.event}", :place => location)
         
         xml.link url_for(:controller => "browse", :action => "note", :id => comment.note.id, :anchor => "c#{comment.id}", :only_path => false)
         xml.guid url_for(:controller => "browse", :action => "note", :id => comment.note.id, :anchor => "c#{comment.id}", :only_path => false)

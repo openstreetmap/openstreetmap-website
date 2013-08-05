@@ -8,12 +8,14 @@
 # Author: Dim Grits
 # Author: Dittaeva
 # Author: Dubyk
+# Author: Dudka
 # Author: KEL
 # Author: Nemo bis
 # Author: Olvin
 # Author: Prima klasy4na
 # Author: Riwnodennyk
 # Author: Sev
+# Author: SteveR
 # Author: Yurkoy
 # Author: Тест
 uk: 
@@ -189,12 +191,13 @@ uk:
       at_by_html: "%{when} тому учасником %{user}"
       at_html: "%{when} тому"
       closed: "Закрита:"
-      closed_title: "Розв’язана нотатка: %{note_name}"
+      closed_title: "Опрацьована нотатка: %{note_name}"
       comments: "Коментарі:"
       description: "Опис:"
       last_modified: "Остання зміна:"
-      open_title: "Нерозв’язана нотатка: %{note_name}"
+      open_title: "Неопрацьована нотатка: %{note_name}"
       opened: "Відкрито:"
+      title: Примітка
     paging_nav: 
       of: з
       showing_page: сторінка
@@ -963,10 +966,10 @@ uk:
         intro: Введена вами інформація буде доступна іншим користувачам, можливо, вона допоможе поліпшити мапу. Будь ласка, додайте в нотатку чіткий опис, встановіть маркер в точне місце на мапі.
       show: 
         anonymous_warning: Ця нотатка містить коментарі від анонімних користувачів. Потрібна незалежна перевірка відомостей.
-        closed_by: розв’язав <a href='%{user_url}'>%{user}</a> %{time}
+        closed_by: опрацював <a href='%{user_url}'>%{user}</a> %{time}
         closed_by_anonymous: розв’язано анонімним користувачем %{time}
         comment: Коментар
-        comment_and_resolve: Прокоментувати та Розв’язати
+        comment_and_resolve: Прокоментувати та Опрацювати
         commented_by: коментар <a href='%{user_url}'>%{user}</a> %{time}
         commented_by_anonymous: коментар анонімного користувача %{time}
         hide: Приховати
@@ -975,7 +978,7 @@ uk:
         permalink: Постійне посилання
         reopened_by: відновив <a href='%{user_url}'>%{user}</a> %{time}
         reopened_by_anonymous: відновив анонімний користувач %{time}
-        resolve: Розв’язати
+        resolve: Опрацювати
     site: 
       createnote_disabled_tooltip: Треба наблизитись для додання нотатки
       createnote_tooltip: Додати нотатку на мапу
@@ -1159,7 +1162,7 @@ uk:
   note: 
     description: 
       closed_at_by_html: Розв’язано %{when} тому користувачем %{user}
-      closed_at_html: Розв’язано %{when} тому
+      closed_at_html: Опрацьовано %{when} тому
       commented_at_by_html: Оновлено %{when} тому користувачем %{user}
       commented_at_html: Оновлено %{when} тому
       opened_at_by_html: Створено %{when} тому користувачем %{user}
@@ -1181,10 +1184,8 @@ uk:
       title: Нотатки створені чи прокоментовані користувачем %{user}
     rss: 
       closed: закрита нотатка (біля %{place})
-      comment: новий коментар (біля %{place})
       description_area: Перелік нотаток, створених, прокоментованих чи закритих біля вас [(%{min_lat}|%{min_lon}) — (%{max_lat}|%{max_lon})]
       description_item: Rss-канал нотаток %{id}
-      new: нова нотатка (біля %{place})
       title: Нотатки OpenStreetMap
   notifier: 
     diary_comment_notification: 
@@ -1241,8 +1242,8 @@ uk:
       closed: 
         commented_note: "%{commenter} розв’язав нотатку, прокоментовану вами, що знаходиться біля %{place}."
         subject_other: "[OpenStreetMap] %{commenter} розв’язав нотатку до якови ви виявили зацікавленість"
-        subject_own: "[OpenStreetMap] %{commenter} розв’язав одну з ваших нотаток"
-        your_note: "%{commenter} розв’язав одну з ваших нотаток на мапі біля %{place}."
+        subject_own: "[OpenStreetMap] %{commenter} опрацював одну з ваших нотаток"
+        your_note: "%{commenter} опрацював одну з ваших нотаток на мапі біля %{place}."
       commented: 
         commented_note: "%{commenter} залишив коментар до однієї з прокоментованих вами нотаток, що знаходиться біля %{place}."
         subject_other: "[OpenStreetMap] %{commenter} прокоментував цікаву вам нотатку"
@@ -1272,7 +1273,6 @@ uk:
       current_user: "Список поточних коростувачів у категоріях, основаних на тому, де в світі вони перебувають, доступних з:"
       introductory_video: "Ви можете подивитися відео-вступ про OpenStreetMap тут:"
       more_videos: "Ще більше відео тут:"
-      opengeodata: "OpenGeoData.org — це блог засновника OpenStreetMap — Стіва Коуста (Steve Coast), тут також можна знайти підкасти:"
       the_wiki: "Почитати про OpenStreetMap у Вікі:"
       the_wiki_url: http://wiki.openstreetmap.org/wiki/Uk:Beginners%27_Guide
       user_wiki_page: Рекомендовано створити вікі-сторінку користувача, до якої включити категорії, що вказують на те, де Ви перебуваєте, такі як [[Category:Users_in_London]].
@@ -1403,8 +1403,6 @@ uk:
       remote_failed: Редагування не вдалося — переконайтеся, що JOSM або Merkaartor завантажений та втулок дистанційного керування увімкнений.
       shortlink: Коротке посилання
     key: 
-      map_key: Умовні знаки
-      map_key_tooltip: Легенда мапи
       table: 
         entry: 
           admin: Адміністративна межа
@@ -1514,7 +1512,7 @@ uk:
       heading: Правка треку %{name}
       map: мапа
       owner: "Власник:"
-      points: "Точок:"
+      points: "Кількість точок:"
       save_button: Зберегти зміни
       start_coord: "Координати початку:"
       tags: "Теґи:"
@@ -1585,7 +1583,7 @@ uk:
       none: Нічого
       owner: "Власник:"
       pending: ОЧІКУЄ
-      points: "Точок:"
+      points: "Кількість точок:"
       start_coordinates: "Координати початку:"
       tags: "Теґи:"
       title: Перегляд треку %{name}

@@ -472,6 +472,14 @@ gl:
         uk_postcode: Resultados desde <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultados desde <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Fronteira do barrio
+        level2: Fronteira do país
+        level4: Fronteira do estado/provincia
+        level5: Fronteira da rexión
+        level6: Fronteira do condado
+        level8: Fronteira da cidade
+        level9: Fronteira da vila
       prefix: 
         aeroway: 
           aerodrome: Aeródromo
@@ -958,6 +966,7 @@ gl:
         opened_by: creado por <a href='%{user_url}'>%{user}</a> o %{time}
         opened_by_anonymous: creado por un anónimo o %{time}
         permalink: Ligazón permanente
+        reactivate: Reactivar
         reopened_by: reactivado por <a href='%{user_url}'>%{user}</a> o %{time}
         reopened_by_anonymous: reactivado por un anónimo o %{time}
         resolve: Resolver
@@ -1163,10 +1172,11 @@ gl:
       title: Notas enviadas ou comentadas por %{user}
     rss: 
       closed: nota pechada (preto de %{place})
-      comment: comentario novo (preto de %{place})
+      commented: comentario novo (preto de %{place})
       description_area: Unha lista das notas recibidas, comentadas ou pechadas na súa zona [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
       description_item: Unha fonte de novas RSS para a nota %{id}
-      new: nota nova (preto de %{place})
+      opened: nota nova (preto de %{place})
+      reopened: nota reactivada (preto de %{place})
       title: Notas do OpenStreetMap
   notifier: 
     diary_comment_notification: 
@@ -1232,6 +1242,11 @@ gl:
         your_note: "%{commenter} deixou un comentario nunha das súas notas de mapa preto de %{place}."
       details: Pode atopar máis detalles da nota en %{url}.
       greeting: "Ola:"
+      reopened: 
+        commented_note: "%{commenter} reactivou unha das súas notas de mapa nas que vostede comentou. A nota está preto de %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} reactivou unha das notas nas que ten interese"
+        subject_own: "[OpenStreetMap] %{commenter} reactivou unha das súas notas"
+        your_note: "%{commenter} reactivou unha das súas notas de mapa preto de %{place}."
     signup_confirm: 
       confirm: "Antes de facer nada, cómpre confirmar que esta solicitude veu de vostede. Se é así, prema na ligazón inferior para confirmar a conta:"
       created: Alguén (probablemente vostede) acaba de crear unha conta en %{site_url}.
@@ -1241,7 +1256,7 @@ gl:
     signup_confirm_html: 
       ask_questions: Pode facer calquera pregunta en relación ao OpenStreetMap no noso <a href="http://help.openstreetmap.org/">sitio de preguntas e respostas</a>.
       current_user: "A lista de todos os usuarios por categorías, baseada segundo a súa localización no mundo, está dispoñible en: <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region\">Category:Users_by_geographical_region</a>."
-      get_reading: Infórmese sobre o OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">no wiki</a>, póñase ao día das últimas novas a través do <a href="http://blog.openstreetmap.org/">blogue</a> ou o <a href="http://twitter.com/openstreetmap">Twitter</a> do OpenStreetMap ou vaia polo <a href="http://www.opengeodata.org/">blogue OpenGeoData</a> de Steve Coast, o fundador do OpenStreetMap, para ler a pequena historia do proxecto e <a href="http://www.opengeodata.org/?cat=13">escoitar os podcasts</a> tamén!
+      get_reading: Infórmese sobre o OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_guide">no wiki</a> e póñase ao día das últimas novas a través do <a href="http://blog.openstreetmap.org/">blogue</a> ou o <a href="http://twitter.com/openstreetmap">Twitter</a> do OpenStreetMap.
       introductory_video: Pode ollar un %{introductory_video_link}.
       more_videos: Hai %{more_videos_link}.
       more_videos_here: máis vídeos aquí
@@ -1254,7 +1269,6 @@ gl:
       current_user: "A lista de todos os usuarios por categorías, baseada segundo a súa localización no mundo, está dispoñible en:"
       introductory_video: "Pode ollar un vídeo introdutorio ao OpenStreetMap aquí:"
       more_videos: "Hai máis vídeos aquí:"
-      opengeodata: "OpenGeoData.org é o blogue de Steve Coast, o fundador do OpenStreetMap. Tamén ten podcasts:"
       the_wiki: "Lea máis acerca do OpenStreetMap no wiki:"
       user_wiki_page: Recoméndase crear unha páxina de usuario que inclúa etiquetas de categoría que indiquen a súa localización, como [[Category:Users_in_London]].
       wiki_signup: "Poida que tamén queira crear unha conta no wiki do OpenStreetMap en:"
@@ -1383,8 +1397,6 @@ gl:
       remote_failed: Fallo de edición; comprobe que ou ben JOSM ou ben Merkaartor estea cargado e que a opción do control remoto estea activada
       shortlink: Atallo
     key: 
-      map_key: Lenda do mapa
-      map_key_tooltip: Lenda do mapa
       table: 
         entry: 
           admin: Límite administrativo

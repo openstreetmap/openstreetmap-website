@@ -59,8 +59,8 @@ class NotesController < ApplicationController
     raise OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
 
     # Extract the arguments
-    lon = params[:lon].to_f
-    lat = params[:lat].to_f
+    lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
+    lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
     comment = params[:text]
 
     # Include in a transaction to ensure that there is always a note_comment for every note
@@ -237,7 +237,7 @@ class NotesController < ApplicationController
       @note.status = "hidden"
       @note.save
 
-      add_comment(@note, comment, "hidden")
+      add_comment(@note, comment, "hidden", false)
     end
 
     # Return a copy of the updated note
@@ -338,7 +338,7 @@ private
 
   ##
   # Add a comment to a note
-  def add_comment(note, text, event)
+  def add_comment(note, text, event, notify = true)
     attributes = { :visible => true, :event => event, :body => text }
 
     if @user  
@@ -350,7 +350,7 @@ private
     comment = note.comments.create(attributes, :without_protection => true)
 
     note.comments.map { |c| c.author }.uniq.each do |user|
-      if user and user != @user
+      if notify and user and user != @user
         Notifier.note_comment_notification(comment, user).deliver
       end
     end

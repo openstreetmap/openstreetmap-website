@@ -1,4 +1,4 @@
-$(document).ready(function () {
+function initializeExport(map) {
   $("#exportanchor").click(function (e) {
     $.ajax({ url: $(this).data('url'), success: function (sidebarHtml) {
       startExport(sidebarHtml);
@@ -38,7 +38,7 @@ $(document).ready(function () {
 
     openSidebar();
 
-    if (getMapBaseLayer().keyid == "mapnik") {
+    if (map.getMapBaseLayerId() == "mapnik") {
       $("#format_mapnik").prop("checked", true);
     }
 
@@ -67,7 +67,7 @@ $(document).ready(function () {
       var bounds = map.getBounds(),
         centerLat = bounds.getCenter().lat,
         halfWorldMeters = 6378137 * Math.PI * Math.cos(centerLat * Math.PI / 180),
-        meters = halfWorldMeters * (bounds.getNorthEast().lng - bounds.getSouthWest().lng) / 180,
+        meters = halfWorldMeters * (bounds.getEast() - bounds.getWest()) / 180,
         pixelsPerMeter = map.getSize().x / meters,
         metersPerPixel = 1 / (92 * 39.3701);
       return Math.round(1 / (pixelsPerMeter * metersPerPixel));
@@ -150,12 +150,12 @@ $(document).ready(function () {
     }
 
     function setBounds(bounds) {
-      var toPrecision = zoomPrecision(map.getZoom());
+      var precision = zoomPrecision(map.getZoom());
 
-      $("#minlon").val(toPrecision(bounds.getWestLng()));
-      $("#minlat").val(toPrecision(bounds.getSouthLat()));
-      $("#maxlon").val(toPrecision(bounds.getEastLng()));
-      $("#maxlat").val(toPrecision(bounds.getNorthLat()));
+      $("#minlon").val(bounds.getWest().toFixed(precision));
+      $("#minlat").val(bounds.getSouth().toFixed(precision));
+      $("#maxlon").val(bounds.getEast().toFixed(precision));
+      $("#maxlat").val(bounds.getNorth().toFixed(precision));
 
       mapnikSizeChanged();
       htmlUrlChanged();
@@ -186,9 +186,9 @@ $(document).ready(function () {
 
     function htmlUrlChanged() {
       var bounds = getBounds();
-      var layerName = getMapBaseLayer().keyid;
+      var layerName = map.getMapBaseLayerId();
 
-      var url = "http://" + OSM.SERVER_URL + "/export/embed.html?bbox=" + bounds.toBBOX() + "&amp;layer=" + layerName;
+      var url = "http://" + OSM.SERVER_URL + "/export/embed.html?bbox=" + bounds.toBBoxString() + "&amp;layer=" + layerName;
       var markerUrl = "";
 
       if ($("#marker_lat").val() && $("#marker_lon").val()) {
@@ -203,7 +203,7 @@ $(document).ready(function () {
 
       var zoom = map.getBoundsZoom(bounds);
 
-      var layers = getMapLayers();
+      var layers = map.getLayersCode();
 
       var text = I18n.t('export.start_rjs.view_larger_map');
       var escaped = [];
@@ -254,16 +254,16 @@ $(document).ready(function () {
     }
 
     function maxMapnikScale() {
-      var bounds = getMercatorBounds();
+      var size = getMercatorBounds().getSize();
 
-      return Math.floor(Math.sqrt(bounds.getWidth() * bounds.getHeight() / 0.3136));
+      return Math.floor(Math.sqrt(size.x * size.y / 0.3136));
     }
 
     function mapnikImageSize(scale) {
-      var bounds = getMercatorBounds();
+      var size = getMercatorBounds().getSize();
 
-      return {w: Math.round(bounds.getWidth() / scale / 0.00028),
-              h: Math.round(bounds.getHeight() / scale / 0.00028)};
+      return {w: Math.round(size.x / scale / 0.00028),
+              h: Math.round(size.y / scale / 0.00028)};
     }
 
     function roundScale(scale) {
@@ -281,4 +281,4 @@ $(document).ready(function () {
       validateControls();
     }
   }
-});
+}

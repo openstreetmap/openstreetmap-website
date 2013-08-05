@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ShortLinkTest < ActionController::IntegrationTest
+class ShortLinksTest < ActionController::IntegrationTest
   ##
   # test the short link with various parameters and ensure they're
   # kept in the redirect.
@@ -13,23 +13,24 @@ class ShortLinkTest < ActionController::IntegrationTest
   # utility method to test short links
   def assert_short_link_redirect(short_link)
     lon, lat, zoom = ShortLink::decode(short_link)
+    anchor = "#{zoom}/#{lat}/#{lon}"
 
     # test without marker
     get '/go/' + short_link
-    assert_redirected_to :controller => 'site', :action => 'index', :lat => lat.to_s, :lon => lon.to_s, :zoom => zoom.to_s
+    assert_redirected_to :controller => 'site', :action => 'index', :anchor => anchor
 
     # test with marker
     get '/go/' + short_link + "?m"
-    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat.to_s, :mlon => lon.to_s, :zoom => zoom.to_s
+    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat.to_s, :mlon => lon.to_s, :anchor => anchor
 
     # test with layers and a marker
     get '/go/' + short_link + "?m&layers=B000FTF"
-    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat.to_s, :mlon => lon.to_s, :zoom => zoom.to_s, :layers => "B000FTF"
+    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat.to_s, :mlon => lon.to_s, :layers => "B000FTF", :anchor => anchor
     get '/go/' + short_link + "?layers=B000FTF&m"
-    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat.to_s, :mlon => lon.to_s, :zoom => zoom.to_s, :layers => "B000FTF"
+    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat.to_s, :mlon => lon.to_s, :layers => "B000FTF", :anchor => anchor
 
     # test with some random query parameters we haven't even implemented yet
     get '/go/' + short_link + "?foobar=yes"
-    assert_redirected_to :controller => 'site', :action => 'index', :lat => lat.to_s, :lon => lon.to_s, :zoom => zoom.to_s, :foobar => "yes"
+    assert_redirected_to :controller => 'site', :action => 'index', :foobar => "yes", :anchor => anchor
   end
 end
