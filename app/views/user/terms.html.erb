@@ -1,55 +1,56 @@
 <% content_for :heading do %>
   <h1><%= t 'user.terms.heading' %></h1>
-  <div class='header-illustration new-user-main'></div>
-  <div class='header-illustration new-user-arm'></div>
+  <div class='header-illustration new-user-terms'></div>
 <% end %>
 
-<%= form_tag({:action => "save"}, { :class => "standard-form fillL col6 pad2" }) do %>
+<%= form_tag({:action => "save"}, { :class => " inner22 standard-form fillL" }) do %>
   <!-- legale is <%= @legale %> -->
-  <label class="standard-label">
-    <%= t 'user.terms.legale_select' %>
-  </label>
+  <div class='margin3 col6 horizontal-list'>
+    <label class="standard-label">
+      <%= t 'user.terms.legale_select' %>
+    </label>
 
-  <% [['france', 'FR'], ['italy', 'IT'], ['rest_of_world', 'GB']].each do |name, legale| %>
-    <div class="form-row">
-      <label for="legale_<%= legale %>">
-        <%= radio_button_tag 'legale', legale, @legale == legale %>
-        <%= t('user.terms.legale_names.' + name) %>
-      </label>
-      <script>
-        $("#legale_<%= legale %>").change(function () {
-          $("#contributorTerms").html("<%=j image_tag 'searching.gif' %>");
-          $("#contributorTerms").load("<%= url_for :legale => legale %>");
-        });
-      </script>
-    </div>
-  <% end %>
+    <% [['france', 'FR'], ['italy', 'IT'], ['rest_of_world', 'GB']].each do |name, legale| %>
+      <div class="form-row">
+        <label for="legale_<%= legale %>">
+          <%= radio_button_tag 'legale', legale, @legale == legale %>
+          <%= t('user.terms.legale_names.' + name) %>
+        </label>
+        <script>
+          $("#legale_<%= legale %>").change(function () {
+            $("#contributorTerms").html("<%=j image_tag 'searching.gif' %>");
+            $("#contributorTerms").load("<%= url_for :legale => legale %>");
+          });
+        </script>
+      </div>
+    <% end %>
+  </div>
 
-  <div id="contributorTerms" class="legale">
+  <div id="contributorTerms" class="col12 legale">
     <%= render :partial => "terms" %>
   </div>
 
-  <div class="form-row">
-    <label for="user_consider_pd">
-      <%= check_box('user', 'consider_pd') %>
-      <%= t 'user.terms.consider_pd' %>
-    </label>
-    <span class="minorNote">(<%= link_to(t('user.terms.consider_pd_why'), t('user.terms.consider_pd_why_url'), :target => :new)%>)</span>
+    <div class="form-row margin3 col6">
+      <label for="user_consider_pd">
+        <%= check_box('user', 'consider_pd') %>
+        <%= t 'user.terms.consider_pd' %>
+      </label>
+      <span class="minorNote">(<%= link_to(t('user.terms.consider_pd_why'), t('user.terms.consider_pd_why_url'), :target => :new)%>)</span>
+
+    <%= hidden_field_tag('referer', h(params[:referer])) unless params[:referer].nil? %>
+
+    <div class="buttons form-row inner20 clearfix">
+      <p class="deemphasize"><%= t 'user.terms.read and accept' %></p>
+      <%= submit_tag(t('user.terms.agree'), :name => "agree", :id => "agree") %>
+      <%= submit_tag(t('user.terms.decline'), :name => "decline", :id => "decline") %>
+    </div>
+  <% end %>
+
+  <div class="deemphasize">
+    <p id="contributorGuidance">
+      <%= raw t 'user.terms.guidance',
+                :summary => 'http://www.osmfoundation.org/wiki/License/Contributor_Terms_Summary',
+                :translations => 'http://www.osmfoundation.org/wiki/License/Contributor_Terms/Informal_Translations' %>
+    </p>
   </div>
-
-  <%= hidden_field_tag('referer', h(params[:referer])) unless params[:referer].nil? %>
-
-  <div class="form-row">
-    <%= submit_tag(t('user.terms.agree'), :name => "agree", :id => "agree") %>
-    <%= submit_tag(t('user.terms.decline'), :name => "decline", :id => "decline") %>
-  </div>
-<% end %>
-
-<div class="col6 deemphasize pad2">
-  <p><%= t 'user.terms.read and accept' %></p>
-  <p id="contributorGuidance">
-    <%= raw t 'user.terms.guidance',
-              :summary => 'http://www.osmfoundation.org/wiki/License/Contributor_Terms_Summary',
-              :translations => 'http://www.osmfoundation.org/wiki/License/Contributor_Terms/Informal_Translations' %>
-  </p>
 </div>
