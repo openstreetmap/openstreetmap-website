@@ -58,10 +58,13 @@
           </ul>
         </li>
         <li>
-          <h4><%= link_to t('layouts.gps_traces'), traces_path, {
-            :id => 'traceanchor',
-            :title => t('layouts.gps_traces_tooltip')
-          } %></h4>
+          <h4><%= t'layouts.data' %></h4>
+          <ul>
+            <li><%= link_to t('layouts.export_data'), export_path %></li>
+          </ul>
+          <ul>
+            <li><%= link_to t('layouts.gps_traces'), traces_path %></li>
+          </ul>
         </li>
         <%= yield :left_menu %>
       </ul>
@@ -122,12 +125,6 @@
           :data => { :minzoom => 11 },
           :title => t('javascripts.site.history_tooltip'),
           :class => 'geolink bbox'
-        } %></li>
-        <li><%= link_to t('layouts.export'), export_path, {
-          :id => 'exportanchor',
-          :title => t('layouts.export_tooltip'),
-          :data => { :url => url_for(:controller => :export, :action => :start) },
-          :class => 'geolink llz layers'
         } %></li>
       </ul>
     </div>

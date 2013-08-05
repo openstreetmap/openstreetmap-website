@@ -306,7 +306,7 @@ table {
 .left_menu {
   left: 0px;
   margin: 0;
-  padding: $lineheight/4 $lineheight/2;
+  padding: $lineheight/4 $lineheight/2 $lineheight/2 $lineheight/2;
   font-size: 12px;
   line-height: 1.25;
   list-style-type: none;
@@ -331,10 +331,6 @@ table {
     padding: $lineheight/4 0 $lineheight/4 0;
     font-size: 12px;
     margin: 0;
-  }
-
-  li:last-child h4 {
-    padding-top: 0;
   }
 }
 
@@ -476,8 +472,7 @@ a.donate {
 
 .site-index #tabnav a#viewanchor,
 .site-edit #tabnav a#editanchor,
-.changeset-list #tabnav a#historyanchor,
-.site-export #tabnav a#exportanchor {
+.changeset-list #tabnav a#historyanchor {
   border-bottom: 1px solid #aaa;
   background: #9ed485;
   color: #000;
@@ -536,37 +531,48 @@ a.donate {
   display: block;
   height: 40px;
   width: 40px;
-  background-color: white;
-  background-color: rgba(255,255,255,.8);
-  border-radius: 4px;
+  background-color: #333;
+  background-color: rgba(0,0,0,.6);
+  -bottom: 1px solid #333; 
+  border-radius: 4px 0 0 4px;
   margin-bottom: 10px;
   outline: none;
+
+  &:hover {
+    background-color: black;
+  }
+
+  &.active {
+    background-color: #9ed485;
+  }
+
+  &.disabled {
+    background-color: #333;
+    background-color: rgba(0,0,0,.5);
+    cursor: default;
+  }
+
+  .icon {
+    margin: 10px;
+  }
 }
 
 .leaflet-control .zoomin,
 .control-layers .control-button {
   margin-bottom: 0px;
-  border-radius: 4px 4px 0px 0px;
+  border-radius: 4px 0 0 0;
 }
 
 .site .leaflet-control .zoomout,
 .control-key .control-button {
-  margin-bottom: 0px;
-  border-radius: 0px;
+  margin-bottom: 0;
+  border-radius: 0;
 }
 
-.leaflet-control .zoomout,
+.leaflet-control .zoomout, // For non-main page maps
 .control-locate .control-button,
 .control-share .control-button {
-  border-radius: 0px 0px 4px 4px;
-}
-
-.leaflet-control .control-button:hover {
-  background-color: white;
-}
-
-.leaflet-control .control-button .icon {
-  margin: 10px;
+  border-radius: 0 0 0 4px;
 }
 
 /* Rules for the home page */
@@ -603,11 +609,14 @@ a.donate {
   }
 }
 
-.layers-ui {
-  ul, li:last-child {
+.layers-ui,
+.share-ui {
+  ul, li:last-child, p:last-child {
     margin-bottom: 0;
   }
+}
 
+.layers-ui {
   li {
     border-radius: 4px;
     overflow: hidden;
@@ -635,18 +644,63 @@ a.donate {
 }
 
 .share-ui {
-  .share-link {
-    li {
-      display: inline-block;
-      width: 50%;
+  .share-tabs {
+    margin-bottom: 10px;
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      background-color: $lightblue;
+      padding: 5px 10px;
     }
+
+    a:first-child {
+      border-right: 1px solid #fff;
+      border-radius: 4px 0 0 4px;
+    }
+
+    a:last-child {
+      border-left: 1px solid #fff;
+      border-radius: 0 4px 4px 0;
+    }
+
+    a.active {
+      background-color: $blue;
+    }
+  }
+
+  .share-tab {
+    display: none;
+  }
+
+  .share-link {
+    input[type=text],
+    textarea {
+      width: 100%;
+      font-family: monospace;
+      font-size: small;
+    }
+  }
+
+  .share-image {
+    label {
+      margin-right: 10px;
+    }
+  }
+
+  #embed_html {
+    resize: vertical;
+  }
+
+  #mapnik_scale {
+    width: 100px;
   }
 }
 
-.site-index .leaflet-top,
-.site-export .leaflet-top {
+.leaflet-top.leaflet-right {
   top: $lineheight/2 !important;
   .leaflet-control {
+    margin-right: 0px !important;
     margin-top: 0px !important;
   }
 }
@@ -849,20 +903,6 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 .export_bound {
   margin: $lineheight/4;
-}
-
-.export_details input[type="text"]#export_html_text {
-  width: 100%;
-}
-
-#sidebar #marker_inputs li:last-child {
-  margin-bottom: $lineheight/2;
-}
-
-#export_osm,
-#export_mapnik,
-#export_osmarender {
-  display: none;
 }
 
 /* Rules for the main content area */
@@ -1612,7 +1652,6 @@ textarea {
 textarea {
   padding: 5px;
   width: 100%;
-  height: 100% !important;
 }
 
 /* Rules for user images */
