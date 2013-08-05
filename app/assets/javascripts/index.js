@@ -48,7 +48,12 @@ $(document).ready(function () {
     })
   ];
 
-  layers[0].addTo(map);
+  for (var i = layers.length - 1; i >= 0; i--) {
+    if (i === 0 || params.layers.indexOf(layers[i].options.code) >= 0) {
+      map.addLayer(layers[i]);
+      break;
+    }
+  }
 
   map.noteLayer = new L.LayerGroup();
   map.noteLayer.options = {code: 'N'};
@@ -114,21 +119,6 @@ $(document).ready(function () {
       color: '#e90',
       fillOpacity: 0
     }).addTo(map);
-  }
-
-  if (params.layers) {
-    var foundLayer = false;
-    for (var i = 0; i < layers.length; i++) {
-      if (params.layers.indexOf(layers[i].options.code) >= 0) {
-        map.addLayer(layers[i]);
-        foundLayer = true;
-      } else {
-        map.removeLayer(layers[i]);
-      }
-    }
-    if (!foundLayer) {
-      map.addLayer(layers[0]);
-    }
   }
 
   if (params.marker) {

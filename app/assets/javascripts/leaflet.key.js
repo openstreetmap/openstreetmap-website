@@ -39,6 +39,10 @@ L.OSM.key = function (options) {
       .on('show', shown)
       .on('hide', hidden);
 
+    map.on('baselayerchange', updateButton);
+
+    updateButton();
+
     function shown() {
       map.on('zoomend baselayerchange', update);
       $section.load('/key', update);
@@ -51,7 +55,14 @@ L.OSM.key = function (options) {
     function toggle(e) {
       e.stopPropagation();
       e.preventDefault();
-      options.sidebar.togglePane($ui, button);
+      if (!button.hasClass('disabled')) {
+        options.sidebar.togglePane($ui, button);
+      }
+    }
+
+    function updateButton() {
+      var layer = map.getMapBaseLayerId();
+      button.toggleClass('disabled', layer !== 'mapnik');
     }
 
     function update() {
