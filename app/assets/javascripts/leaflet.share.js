@@ -206,8 +206,9 @@ L.OSM.share = function (options) {
       .on('change', update)
       .addTo(map);
 
+    marker.on('dragend', movedMarker);
+    map.on('move', movedMap);
     map.on('moveend layeradd layerremove', update);
-    marker.on('dragend', update);
 
     options.sidebar.addPane($ui);
 
@@ -216,6 +217,7 @@ L.OSM.share = function (options) {
 
     function hidden() {
       map.removeLayer(marker);
+      map.options.scrollWheelZoom = map.options.doubleClickZoom = true;
       locationFilter.disable();
       update();
     }
@@ -235,8 +237,10 @@ L.OSM.share = function (options) {
       if ($(this).is(':checked')) {
         marker.setLatLng(map.getCenter());
         map.addLayer(marker);
+        map.options.scrollWheelZoom = map.options.doubleClickZoom = 'center';
       } else {
         map.removeLayer(marker);
+        map.options.scrollWheelZoom = map.options.doubleClickZoom = true;
       }
       update();
     }
@@ -251,11 +255,26 @@ L.OSM.share = function (options) {
       update();
     }
 
-    function update() {
+    function movedMap() {
+      marker.setLatLng(map.getCenter());
+      update();
+    }
+
+    function movedMarker() {
       if (map.hasLayer(marker)) {
+        map.off('move', movedMap);
+        map.on('moveend', updateOnce);
         map.panTo(marker.getLatLng());
       }
+    }
 
+    function updateOnce() {
+      map.off('moveend', updateOnce);
+      map.on('move', movedMap);
+      update();
+    }
+
+    function update() {
       var bounds = map.getBounds();
 
       $('#link_marker')
