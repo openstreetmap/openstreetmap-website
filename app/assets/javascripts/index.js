@@ -195,7 +195,7 @@ function setPositionLink(map) {
       }
 
       if (data.type && data.id) {
-        addObjectToMap(data, map, { zoom: true, style: { opacity: 0.2, fill: false } });
+        addObjectToMap(data, map, { zoom: false, style: { opacity: 0.2, fill: false } });
       }
 
       map.markerLayer.clearLayers();
