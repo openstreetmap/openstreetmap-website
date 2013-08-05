@@ -44,12 +44,21 @@ function remoteEditHandler(bbox, select) {
       };
 
   if (select) query.select = select;
-  $("#linkloader")
+
+  var iframe = $('<iframe>')
+    .hide()
+    .appendTo('body')
     .attr("src", "http://127.0.0.1:8111/load_and_zoom?" + querystring.stringify(query))
-    .load(function() { loaded = true; });
+    .on('load', function() {
+      $(this).remove();
+      loaded = true;
+    });
 
   setTimeout(function () {
-    if (!loaded) alert(I18n.t('site.index.remote_failed'));
+    if (!loaded) {
+      alert(I18n.t('site.index.remote_failed'));
+      iframe.remove();
+    }
   }, 1000);
 
   return false;
