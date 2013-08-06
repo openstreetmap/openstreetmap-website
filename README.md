@@ -17,7 +17,8 @@ There are some non-Rails services which the site includes, for
 example; tiles, geocoding, GPX file loading. There are also some
 utilities which provide other services on the OpenStreetMap site,
 or improve its function, but are not integrated with the Rails 
-port, for example; Osmosis, CGImap.
+port, for example; [Osmosis,](http://wiki.openstreetmap.org/wiki/Osmosis) 
+[CGImap.](https://github.com/zerebubuth/openstreetmap-cgimap)
 
 # License
 
