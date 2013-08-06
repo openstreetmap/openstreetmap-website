@@ -30,6 +30,11 @@ function initializeSearch(map) {
     });
 
     openSidebar();
+
+    $("#sidebar").one("closed", function () {
+      map.removeLayer(marker);
+      map.removeObject();
+    });
   }
 
   function clickSearchResult(e) {

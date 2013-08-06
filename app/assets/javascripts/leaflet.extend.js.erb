@@ -146,6 +146,12 @@ L.extend(L.Map.prototype, {
         map._objectLayer.addTo(map);
       }
     });
+  },
+
+  removeObject: function() {
+    this._object = null;
+    if (this._objectLoader) this._objectLoader.abort();
+    if (this._objectLayer) this.removeLayer(this._objectLayer);
   }
 });
 
