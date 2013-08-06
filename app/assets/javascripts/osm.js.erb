@@ -81,6 +81,8 @@ OSM = {
       mapParams.zoom = hash.zoom;
       mapParams.object_zoom = false;
     } else if (bounds) {
+      mapParams.lon = bounds.getCenter().lng; // Not used by main map, but
+      mapParams.lat = bounds.getCenter().lat; // are used by iD/Potlatch.
       mapParams.bounds = bounds;
       mapParams.object_zoom = false;
     } else if (params.lon && params.lat) {
