@@ -139,26 +139,28 @@ OSM = {
   },
 
   formatHash: function(args) {
+    var center, zoom, layers;
+
     if (args instanceof L.Map) {
-      args = {
-        lat: args.getCenter().lat,
-        lon: args.getCenter().lng,
-        zoom: args.getZoom(),
-        layers: args.getLayersCode()
-      };
+      center = args.getCenter();
+      zoom = args.getZoom();
+      layers = args.getLayersCode();
+    } else {
+      center = L.latLng(args.lat, args.lon);
+      zoom = args.zoom;
+      layers = args.layers || '';
     }
 
-    var precision = zoomPrecision(args.zoom),
-      hash = '#map=' + args.zoom +
-        '/' + args.lat.toFixed(precision) +
-        '/' + args.lon.toFixed(precision);
+    center = center.wrap();
+    layers = layers.replace('M', '');
 
-    if (args.layers) {
-      args.layers = args.layers.replace('M', '');
-    }
+    var precision = zoomPrecision(zoom),
+      hash = '#map=' + zoom +
+        '/' + center.lat.toFixed(precision) +
+        '/' + center.lng.toFixed(precision);
 
-    if (args.layers) {
-      hash += '&layers=' + args.layers;
+    if (layers) {
+      hash += '&layers=' + layers;
     }
 
     return hash;
