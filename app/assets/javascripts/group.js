@@ -1,7 +1,11 @@
 $(document).ready(function () {
-  var map = createMap("map", {
-    panZoomControl: true
-  });
+  var map = L.map("map", {
+    attributionControl: false,
+    zoomControl: false
+  }).addLayer(new L.OSM.Mapnik());
+
+  L.OSM.zoom()
+    .addTo(map);
 
   var userMarkers = []
 
