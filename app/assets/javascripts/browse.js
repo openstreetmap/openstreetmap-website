@@ -57,8 +57,8 @@ $(document).ready(function () {
       object.version = params.version - 1;
     }
 
-    addObjectToMap(object, map, {
-      zoom: true, 
+    map.addObject(object, {
+      zoom: true,
       callback: function(extent) {
         $("#loading").hide();
         $("#browse_map .geolink").show();

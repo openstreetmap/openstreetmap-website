@@ -48,7 +48,12 @@ $(document).ready(function () {
     })
   ];
 
-  layers[0].addTo(map);
+  for (var i = layers.length - 1; i >= 0; i--) {
+    if (i === 0 || params.layers.indexOf(layers[i].options.code) >= 0) {
+      map.addLayer(layers[i]);
+      break;
+    }
+  }
 
   map.noteLayer = new L.LayerGroup();
   map.noteLayer.options = {code: 'N'};
@@ -116,27 +121,12 @@ $(document).ready(function () {
     }).addTo(map);
   }
 
-  if (params.layers) {
-    var foundLayer = false;
-    for (var i = 0; i < layers.length; i++) {
-      if (params.layers.indexOf(layers[i].options.code) >= 0) {
-        map.addLayer(layers[i]);
-        foundLayer = true;
-      } else {
-        map.removeLayer(layers[i]);
-      }
-    }
-    if (!foundLayer) {
-      map.addLayer(layers[0]);
-    }
-  }
-
   if (params.marker) {
     L.marker([params.mlat, params.mlon], {icon: getUserIcon()}).addTo(map.markerLayer);
   }
 
   if (params.object) {
-    addObjectToMap(params.object, map, { zoom: params.object_zoom });
+    map.addObject(params.object, { zoom: params.object_zoom });
   }
 
   $("body").on("click", "a.set_position", setPositionLink(map));
@@ -195,7 +185,7 @@ function setPositionLink(map) {
       }
 
       if (data.type && data.id) {
-        addObjectToMap(data, map, { zoom: false, style: { opacity: 0.2, fill: false } });
+        map.addObject(data, { zoom: false, style: { opacity: 0.2, fill: false } });
       }
 
       map.markerLayer.clearLayers();

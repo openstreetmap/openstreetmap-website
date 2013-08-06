@@ -122,6 +122,19 @@ function cookieContent(map) {
   return [center.lng, center.lat, map.getZoom(), map.getLayersCode()].join('|');
 }
 
+function escapeHTML(string) {
+  var htmlEscapes = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;'
+  };
+  return string == null ? '' : (string + '').replace(/[&<>"']/g, function(match) {
+      return htmlEscapes[match];
+  });
+}
+
 /*
  * Forms which have been cached by rails may have the wrong
  * authenticity token, so patch up any forms with the correct
