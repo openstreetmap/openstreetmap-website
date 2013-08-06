@@ -2,39 +2,27 @@ $(document).ready(function() {
   var params = OSM.params();
 
   if (params.lat && params.lon) {
-    $('.edit-located').show();
+    params.lat = parseFloat(params.lat);
+    params.lon = parseFloat(params.lon);
+    params.zoom = params.zoom || 17;
 
-    $.ajax({
-      url: "http://nominatim.openstreetmap.org/reverse",
-      data: {
-        lat: params.lat,
-        lon: params.lon,
-        zoom: 10
-      },
-      success: function(xml) {
-        var result = $(xml).find('result');
-        if (result.length) {
-          $('.edit-located').hide();
-          $('.edit-geocoded').show();
-          $('.edit-geocoded-location').text(result.text());
-        }
-      }
-    });
+    var url = '/edit';
 
-    params = {
-      lat: params.lat,
-      lon: params.lon,
-      zoom: params.zoom || 17,
-      editor: params.editor
-    };
+    if (params.editor) {
+      url += '?editor=' + params.editor;
+    }
 
-    $('.start-mapping').attr('href', '/edit?' + $.param(params));
+    url += OSM.formatHash(params);
+
+    $('.start-mapping').attr('href', url);
 
   } else if (navigator.geolocation) {
-    $('.edit-geolocated').show();
-
     function geoSuccess(position) {
-      window.location = '/edit?zoom=17&lat=' + position.coords.latitude + '&lon=' + position.coords.longitude;
+      window.location = '/edit' + OSM.formatHash({
+        zoom: 17,
+        lat: position.coords.latitude,
+        lon: position.coords.longitude
+      });
     }
 
     function geoError() {
