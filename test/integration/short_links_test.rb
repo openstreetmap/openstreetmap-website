@@ -13,7 +13,7 @@ class ShortLinksTest < ActionController::IntegrationTest
   # utility method to test short links
   def assert_short_link_redirect(short_link)
     lon, lat, zoom = ShortLink::decode(short_link)
-    anchor = "#{zoom}/#{lat}/#{lon}"
+    anchor = "map=#{zoom}/#{lat}/#{lon}"
 
     # test without marker
     get '/go/' + short_link
