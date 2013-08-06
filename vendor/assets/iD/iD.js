@@ -32811,6 +32811,20 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "name": "Residential Building"
             },
+            "emergency/ambulance_station": {
+                "fields": [
+                    "operator"
+                ],
+                "geometry": [
+                    "area",
+                    "point",
+                    "vertex"
+                ],
+                "tags": {
+                    "emergency": "ambulance_station"
+                },
+                "name": "Ambulance Station"
+            },
             "emergency/phone": {
                 "icon": "emergency-telephone",
                 "fields": [
@@ -35772,6 +35786,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Alpine Hut"
             },
             "tourism/artwork": {
+                "fields": [
+                    "artwork_type",
+                    "artist"
+                ],
                 "icon": "art-gallery",
                 "geometry": [
                     "point",
@@ -36639,6 +36657,16 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "amenity": {
                 "key": "amenity",
+                "type": "combo",
+                "label": "Type"
+            },
+            "artist": {
+                "key": "artist_name",
+                "type": "text",
+                "label": "Artist"
+            },
+            "artwork_type": {
+                "key": "artwork_type",
                 "type": "combo",
                 "label": "Type"
             },
@@ -49233,6 +49261,12 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "amenity": {
                     "label": "Type"
                 },
+                "artist": {
+                    "label": "Artist"
+                },
+                "artwork_type": {
+                    "label": "Type"
+                },
                 "atm": {
                     "label": "ATM"
                 },
@@ -49845,6 +49879,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "building/residential": {
                     "name": "Residential Building",
+                    "terms": ""
+                },
+                "emergency/ambulance_station": {
+                    "name": "Ambulance Station",
                     "terms": ""
                 },
                 "emergency/phone": {
