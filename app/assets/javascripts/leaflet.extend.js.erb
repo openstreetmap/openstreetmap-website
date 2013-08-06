@@ -33,8 +33,9 @@ L.extend(L.Map.prototype, {
         params = {};
 
     if (marker && this.hasLayer(marker)) {
-      params.mlat = marker.getLatLng().lat.toFixed(precision);
-      params.mlon = marker.getLatLng().lng.toFixed(precision);
+      var latLng = marker.getLatLng().wrap();
+      params.mlat = latLng.lat.toFixed(precision);
+      params.mlon = latLng.lng.toFixed(precision);
     }
 
     if (this._object) {
@@ -53,7 +54,7 @@ L.extend(L.Map.prototype, {
 
   getShortUrl: function(marker) {
     var zoom = this.getZoom(),
-      latLng = marker && this.hasLayer(marker) ? marker.getLatLng() : this.getCenter(),
+      latLng = marker && this.hasLayer(marker) ? marker.getLatLng().wrap() : this.getCenter().wrap(),
       str = window.location.hostname.match(/^www\.openstreetmap\.org/i) ?
         'http://osm.org/go/' : 'http://' + window.location.hostname + '/go/',
       char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
