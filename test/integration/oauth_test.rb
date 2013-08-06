@@ -328,7 +328,7 @@ private
   def signed_get(uri, options)
     uri = URI.parse(uri)
     uri.scheme ||= "http"
-    uri.host ||= host
+    uri.host ||= "www.example.com"
 
     helper = OAuth::Client::Helper.new(nil, options)
 
