@@ -24,11 +24,11 @@ class CreateCountries < ActiveRecord::Migration
         maxlon = ele.get_text("bBoxEast").to_s
         maxlat = ele.get_text("bBoxNorth").to_s
 
-        Country.create({
+        Country.create(
           :code => code,
           :min_lat => minlat.to_f, :max_lat => maxlat.to_f,
           :min_lon => minlon.to_f, :max_lon => maxlon.to_f
-        }, :without_protection => true)
+        )
       end
     end
   end

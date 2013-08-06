@@ -3,7 +3,6 @@ require 'migrate'
 class RefactorMapBugTables < ActiveRecord::Migration
   def self.up
     create_table :map_bug_comment do |t|
-      t.column :id, :bigint, :null => false
       t.column :bug_id, :bigint, :null => false
       t.boolean :visible, :null => false 
       t.datetime :date_created, :null => false
@@ -14,6 +13,8 @@ class RefactorMapBugTables < ActiveRecord::Migration
     end
 
     remove_column :map_bugs, :text 
+
+    change_column :map_bug_comment, :id, :bigint
 
     add_index :map_bug_comment, [:bug_id], :name => "map_bug_comment_id_idx"
 
