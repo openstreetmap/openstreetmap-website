@@ -70,6 +70,11 @@ group :test do
   gem 'minitest', '~> 4.7.0', :platforms => [:ruby_19, :ruby_20]
 end
 
+group :test, :development do
+  gem 'konacha'
+  gem 'poltergeist'
+end
+
 # Gems needed for compiling assets
 group :assets do
   gem 'sass-rails', '~> 3.2.3'
