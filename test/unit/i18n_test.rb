@@ -24,6 +24,10 @@ class I18nTest < ActiveSupport::TestCase
           end
         end
 
+        if key =~ /^(active(model|record)\.)?errors\./
+          variables.push("attribute")
+        end
+
         value = I18n.t(key, :locale => locale, :fallback => true)
 
         if value.is_a?(Hash)
