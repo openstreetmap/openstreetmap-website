@@ -19,7 +19,6 @@
 //= require sidebar
 //= require richtext
 //= require geocoder
-//= require group
 //= require querystring
 
 var querystring = require('querystring-component');
