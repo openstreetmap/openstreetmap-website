@@ -71,8 +71,10 @@ $(document).ready(function () {
   L.OSM.zoom({position: position})
     .addTo(map);
 
-  L.control.locate({position: position})
-    .addTo(map);
+  L.control.locate({
+    position: position,
+    title: I18n.t('javascripts.map.locate.title')
+  }).addTo(map);
 
   var sidebar = L.OSM.sidebar('#map-ui')
     .addTo(map);
@@ -101,6 +103,8 @@ $(document).ready(function () {
 
   L.control.scale()
     .addTo(map);
+
+  $('.leaflet-control .control-button').tooltip({placement: 'left', container: 'body'});
 
   map.on('moveend layeradd layerremove', updateLocation);
 
