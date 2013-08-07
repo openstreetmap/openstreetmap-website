@@ -26,13 +26,12 @@ class UserController < ApplicationController
       render :partial => "terms"
     else
       @title = t 'user.terms.title'
-      @user ||= session[:new_user]
 
-      if !@user
-        redirect_to :action => :login, :referer => request.fullpath
-      elsif @user.terms_agreed?
+      if @user and @user.terms_agreed?
         # Already agreed to terms, so just show settings
         redirect_to :action => :account, :display_name => @user.display_name
+      elsif session[:new_user].nil?
+        redirect_to :action => :login, :referer => request.fullpath
       end
     end
   end
