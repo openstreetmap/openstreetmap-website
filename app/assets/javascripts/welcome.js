@@ -25,12 +25,6 @@ $(document).ready(function() {
       });
     }
 
-    function geoError() {
-      $('.start-mapping')
-        .removeClass('loading')
-        .addClass('error');
-    }
-
     $('.start-mapping').on('click', function(e) {
       e.preventDefault();
 
@@ -39,9 +33,15 @@ $(document).ready(function() {
 
       // handle firefox's weird implementation
       // https://bugzilla.mozilla.org/show_bug.cgi?id=675533
-      window.setTimeout(geoError, 4000);
+      window.setTimeout(manualEdit, 4000);
 
-      navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+      navigator.geolocation.getCurrentPosition(geoSuccess, manualEdit);
     });
+  } else {
+    manualEdit();
+  }
+
+  function manualEdit() {
+    window.location = '/?edit_help=1'
   }
 });
