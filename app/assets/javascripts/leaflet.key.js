@@ -8,7 +8,6 @@ L.OSM.key = function (options) {
     var button = $('<a>')
       .attr('class', 'control-button')
       .attr('href', '#')
-      .attr('title', I18n.t('javascripts.key.tooltip'))
       .html('<span class="icon key"></span>')
       .on('click', toggle)
       .appendTo($container);
@@ -61,8 +60,12 @@ L.OSM.key = function (options) {
     }
 
     function updateButton() {
-      var layer = map.getMapBaseLayerId();
-      button.toggleClass('disabled', layer !== 'mapnik');
+      var disabled = map.getMapBaseLayerId() !== 'mapnik'
+      button
+        .toggleClass('disabled', disabled)
+        .attr('data-original-title', I18n.t(disabled ?
+          'javascripts.key.tooltip_disabled' :
+          'javascripts.key.tooltip'))
     }
 
     function update() {

@@ -5,13 +5,24 @@ L.OSM.note = function (options) {
     var $container = $('<div>')
       .attr('class', 'control-note');
 
-    $('<a>')
-      .attr('id', 'createnoteanchor')
-      .attr('class', 'control-button geolink')
-      .attr('data-minzoom', 12)
+    var link = $('<a>')
+      .attr('class', 'control-button')
       .attr('href', '#')
       .html('<span class="icon note"></span>')
       .appendTo($container);
+
+    map.on('zoomend', update);
+
+    update();
+
+    function update() {
+      var disabled = map.getZoom() < 12;
+      link
+        .toggleClass('disabled', disabled)
+        .attr('data-original-title', I18n.t(disabled ?
+          'javascripts.site.createnote_disabled_tooltip' :
+          'javascripts.site.createnote_tooltip'));
+    }
 
     return $container[0];
   };

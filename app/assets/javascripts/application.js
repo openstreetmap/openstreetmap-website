@@ -3,6 +3,7 @@
 //= require jquery.timers
 //= require jquery.cookie
 //= require jquery.throttle-debounce
+//= require bootstrap.tooltip
 //= require augment
 //= require osm
 //= require leaflet
