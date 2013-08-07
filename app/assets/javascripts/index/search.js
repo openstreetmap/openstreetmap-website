@@ -1,5 +1,6 @@
 function initializeSearch(map) {
   $("#search_form").submit(submitSearch);
+  $("#describe_location").click(describeLocation);
 
   if ($("#query").val()) {
     $("#search_form").submit();
@@ -57,5 +58,19 @@ function initializeSearch(map) {
     if (data.type && data.id) {
       map.addObject(data, { zoom: false, style: { opacity: 0.2, fill: false } });
     }
+  }
+
+  function describeLocation(e) {
+    e.preventDefault();
+
+    var center = map.getCenter(),
+      zoom = map.getZoom();
+
+    $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
+    $("#sidebar_content").load($(this).attr("href"), {
+      lat: center.lat,
+      lon: center.lng,
+      zoom: zoom
+    }, openSidebar);    
   }
 }

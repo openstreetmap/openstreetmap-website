@@ -1,18 +1,3 @@
-<script type="text/javascript">
-<!--
-  function describeLocation() {
-    var args = querystring.parse($("#viewanchor").attr("href").split('?')[1]);
-
-    $("#sidebar_title").html("<%= t 'site.sidebar.search_results' %>");
-    $("#sidebar_content").load("<%= url_for :controller => :geocoder, :action => :description %>", {
-      lat: args["lat"],
-      lon: args["lon"],
-      zoom: args["zoom"]
-    }, openSidebar);
-  }
-// -->
-</script>
-
 <% content_for :optionals do %>
   <div class="optionalbox">
     <div class="search_container">
@@ -25,7 +10,7 @@
     </div>
     <p class='search_help deemphasize'>
       <%= raw(t 'site.search.search_help') %>
-      <span class="whereami"><a href="javascript:describeLocation()" title="<%= t 'site.search.where_am_i_title' %>"><%= t 'site.search.where_am_i' %></a></span>
+      <%= link_to t('site.search.where_am_i'), { :controller => :geocoder, :action => :description }, { :id => "describe_location", :title => t('site.search.where_am_i_title') } %>
     </p>
   </div>
 <% end %>
