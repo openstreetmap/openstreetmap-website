@@ -22,27 +22,29 @@ $(document).ready(function () {
 
   map.hash = L.hash(map);
 
+  var copyright = I18n.t('javascripts.map.copyright', {copyright_url: '/copyright'});
+
   var layers = [
     new L.OSM.Mapnik({
-      attribution: '',
+      attribution: copyright,
       code: "M",
       keyid: "mapnik",
       name: I18n.t("javascripts.map.base.standard")
     }),
     new L.OSM.CycleMap({
-      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+      attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
       code: "C",
       keyid: "cyclemap",
       name: I18n.t("javascripts.map.base.cycle_map")
     }),
     new L.OSM.TransportMap({
-      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+      attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
       code: "T",
       keyid: "transportmap",
       name: I18n.t("javascripts.map.base.transport_map")
     }),
     new L.OSM.MapQuestOpen({
-      attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
+      attribution: copyright + ". Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
       code: "Q",
       keyid: "mapquest",
       name: I18n.t("javascripts.map.base.mapquest")
