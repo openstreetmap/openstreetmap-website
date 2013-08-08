@@ -215,106 +215,95 @@ class UserControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
+  def new_user
+    user = User.new
+    user.status = "pending"
+    user.display_name = "new_tester"
+    user.email = "newtester@osm.org"
+    user.email_confirmation = "newtester@osm.org"
+    user.pass_crypt = "testtest"
+    user.pass_crypt_confirmation = "testtest"
+    user
+  end
+
   def test_user_create_success
-    new_email = "newtester@osm.org"
-    display_name = "new_tester"
+    user = new_user
+
     assert_difference('User.count') do
       assert_difference('ActionMailer::Base.deliveries.size') do
-        session[:new_user] = User.new({
-          :status => "pending", :display_name => display_name,
-          :email => new_email, :email_confirmation => new_email, 
-          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
-        }, :without_protection => true)
-
-        post :save
+        post :save, {}, {:new_user => user}
       end
     end
-      
+
     # Check the e-mail
     register_email = ActionMailer::Base.deliveries.first
-  
-    assert_equal register_email.to[0], new_email
+
+    assert_equal register_email.to[0], user.email
     assert_match /#{@url}/, register_email.body.to_s
 
     # Check the page
-    assert_redirected_to :action => 'confirm', :display_name => display_name
+    assert_redirected_to :action => 'confirm', :display_name => user.display_name
 
     ActionMailer::Base.deliveries.clear
   end
-  
-  def test_user_create_submit_duplicate_email
-    email = users(:public_user).email
-    display_name = "new_tester"
-    assert_difference('User.count', 0) do
-      assert_difference('ActionMailer::Base.deliveries.size', 0) do
-        session[:new_user] = User.new({
-          :status => "pending", :display_name => display_name,
-          :email => email, :email_confirmation => email, 
-          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
-        }, :without_protection => true)
 
-        post :save
+  def test_user_create_submit_duplicate_email
+    user = new_user
+    user.email = users(:public_user).email
+
+    assert_no_difference('User.count') do
+      assert_no_difference('ActionMailer::Base.deliveries.size') do
+        post :save, {}, {:new_user => user}
       end
     end
-    assert_response :success                                                                       
+
+    assert_response :success
     assert_template 'new'
     assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_email"
   end
-  
-  def test_user_create_submit_duplicate_email_uppercase
-    email = users(:public_user).email.upcase
-    display_name = "new_tester"
-    assert_difference('User.count', 0) do
-      assert_difference('ActionMailer::Base.deliveries.size', 0) do
-        session[:new_user] = User.new({
-          :status => "pending", :display_name => display_name,
-          :email => email, :email_confirmation => email, 
-          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
-        }, :without_protection => true)
 
-        post :save
+  def test_user_create_submit_duplicate_email_uppercase
+    user = new_user
+    user.email = users(:public_user).email.upcase
+
+    assert_no_difference('User.count') do
+      assert_no_difference('ActionMailer::Base.deliveries.size') do
+        post :save, {}, {:new_user => user}
       end
     end
-    assert_response :success                                                                       
+
+    assert_response :success
     assert_template 'new'
     assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_email"
   end
     
   def test_user_create_submit_duplicate_name
-    email = "new_tester@example.com"
-    display_name = users(:public_user).display_name
-    assert_difference('User.count', 0) do
-      assert_difference('ActionMailer::Base.deliveries.size', 0) do
-        session[:new_user] = User.new({
-          :status => "pending", :display_name => display_name,
-          :email => email, :email_confirmation => email, 
-          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
-        }, :without_protection => true)
+    user = new_user
+    user.display_name = users(:public_user).display_name
 
-        post :save
+    assert_no_difference('User.count') do
+      assert_no_difference('ActionMailer::Base.deliveries.size') do
+        post :save, {}, {:new_user => user}
       end
     end
-    assert_response :success                                                                       
+
+    assert_response :success
     assert_template 'new'
     assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
   end
   
   def test_user_create_submit_duplicate_name_uppercase
-    email = "new_tester@example.com"
-    display_name = users(:public_user).display_name.upcase
-    assert_difference('User.count', 0) do
-      assert_difference('ActionMailer::Base.deliveries.size', 0) do
-        session[:new_user] = User.new({
-          :status => "pending", :display_name => display_name,
-          :email => email, :email_confirmation => email, 
-          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
-        }, :without_protection => true)
+    user = new_user
+    user.display_name = users(:public_user).display_name.upcase
 
-        post :save
+    assert_no_difference('User.count') do
+      assert_no_difference('ActionMailer::Base.deliveries.size') do
+        post :save, {}, {:new_user => user}
       end
     end
-    assert_response :success                                                                       
+
+    assert_response :success
     assert_template 'new'
     assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
   end
