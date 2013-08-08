@@ -304,10 +304,14 @@ class UserController < ApplicationController
   end
 
   def confirm
-    if request.post? && (token = UserToken.find_by_token(params[:confirm_string]))
-      if token.user.active?
+    if request.post?
+      token = UserToken.find_by_token(params[:confirm_string])
+      if token && token.user.active?
         flash[:error] = t('user.confirm.already active')
         redirect_to :action => 'login'
+      elsif !token || token.expired?
+        flash[:error] = t('user.confirm.unknown token')
+        redirect_to :action => 'confirm'
       else
         user = token.user
         user.status = "active"

@@ -319,6 +319,30 @@ class UserControllerTest < ActionController::TestCase
     assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
   end
 
+  def test_user_confirm_expired_token
+    user = users(:inactive_user)
+    token = user.tokens.new
+    token.expiry = 1.day.ago
+    token.save!
+
+    @request.cookies["_osm_session"] = user.display_name
+    post :confirm, :confirm_string => token.token
+
+    assert_redirected_to :action => 'confirm'
+    assert_match /expired/, flash[:error]
+  end
+
+  def test_user_already_confirmed
+    user = users(:normal_user)
+    token = user.tokens.create
+
+    @request.cookies["_osm_session"] = user.display_name
+    post :confirm, :confirm_string => token.token
+
+    assert_redirected_to :action => 'login'
+    assert_match /confirmed/, flash[:error]
+  end
+
   def test_user_terms_new_user
     get :terms, {}, { "new_user" => User.new }
     assert_response :success
