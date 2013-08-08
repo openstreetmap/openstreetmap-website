@@ -94,6 +94,17 @@ class SiteControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :site, :action => 'index', :anchor => 'map=3/4/5&layers=T'
   end
 
+  def test_edit_redirect
+    get :edit, :lat => 4, :lon => 5
+    assert_redirected_to :controller => :site, :action => 'edit', :anchor => 'map=5/4/5'
+
+    get :edit, :lat => 4, :lon => 5, :zoom => 3
+    assert_redirected_to :controller => :site, :action => 'edit', :anchor => 'map=3/4/5'
+
+    get :edit, :lat => 4, :lon => 5, :zoom => 3, :editor => 'id'
+    assert_redirected_to :controller => :site, :action => 'edit', :editor => 'id', :anchor => 'map=3/4/5'
+  end
+
   def test_permalink
     get :permalink, :code => 'wBz3--'
     assert_redirected_to :controller => :site, :action => 'index', :anchor => 'map=3/4.8779296875/3.955078125'
