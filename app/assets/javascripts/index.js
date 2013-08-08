@@ -75,7 +75,10 @@ $(document).ready(function () {
 
   L.control.locate({
     position: position,
-    title: I18n.t('javascripts.map.locate.title')
+    strings: {
+      title: I18n.t('javascripts.map.locate.title'),
+      popup: I18n.t('javascripts.map.locate.popup')
+    }
   }).addTo(map);
 
   var sidebar = L.OSM.sidebar('#map-ui')
