@@ -73,6 +73,11 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+  // Preserve location hash in referer
+  if (window.location.hash) {
+    $('#referer').val($('#referer').val() + window.location.hash);
+  }
+
   $("#openid_open_url").click(function() {
     $("#openid_url").val("http://");
     $("#login_openid_buttons").hide();
