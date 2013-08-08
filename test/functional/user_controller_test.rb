@@ -308,6 +308,16 @@ class UserControllerTest < ActionController::TestCase
     assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
   end
 
+  def test_user_save_referer_params
+    user = new_user
+
+    post :save, {}, {:new_user => user,
+                     :referer => '/edit?editor=id#map=1/2/3'}
+
+    assert_equal welcome_path(:editor => 'id', :zoom => 1, :lat => 2, :lon => 3),
+                 user.tokens.first.referer
+  end
+
   def test_user_confirm_expired_token
     user = users(:inactive_user)
     token = user.tokens.new

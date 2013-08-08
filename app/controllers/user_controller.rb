@@ -88,11 +88,18 @@ class UserController < ApplicationController
         if @user.save
           flash[:piwik_goal] = PIWIK_SIGNUP_GOAL if defined?(PIWIK_SIGNUP_GOAL)
 
+          referer = welcome_path
+
           begin
-            referer_params = Rack::Utils.parse_query(URI(session[:referer]).query)
-            referer = welcome_path(referer_params.slice(:lat, :lon, :zoom, :editor))
+            uri = URI(session[:referer])
+            /map=(.*)\/(.*)\/(.*)/.match(uri.fragment) do |m|
+              editor = Rack::Utils.parse_query(uri.query).slice('editor')
+              referer = welcome_path({'zoom' => m[1],
+                                      'lat' => m[2],
+                                      'lon' => m[3]}.merge(editor))
+            end
           rescue
-            referer = welcome_path
+            # Use default
           end
 
           if @user.status == "active"
