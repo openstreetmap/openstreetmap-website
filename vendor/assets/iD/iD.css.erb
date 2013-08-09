@@ -180,6 +180,9 @@ img.tile {
 img.tile-loaded {
     opacity: 1;
 }
+img.tile-removing {
+    opacity: 0;
+}
 
 /* base styles */
 path {
@@ -221,7 +224,7 @@ g.point .shadow {
     stroke-opacity: 0;
 }
 
-.behavior-hover g.point.hover:not(.selected) .shadow {
+g.point.hover:not(.selected) .shadow {
     stroke-opacity: 0.5;
 }
 
@@ -236,7 +239,7 @@ g.point.active, g.point.active * {
 /* vertices and midpoints */
 
 g.vertex .fill {
-    fill: none;
+    fill: #000;
 }
 
 g.vertex .stroke {
@@ -247,10 +250,6 @@ g.vertex .stroke {
 
 g.vertex.shared .stroke {
     fill: #aaa;
-}
-
-g.vertex.tagged .fill {
-    fill: #000;
 }
 
 g.midpoint .fill {
@@ -270,17 +269,17 @@ g.vertex.vertex-hover {
     display: none;
 }
 
-.mode-draw-area .behavior-hover g.vertex.vertex-hover,
-.mode-draw-line .behavior-hover g.vertex.vertex-hover,
-.mode-add-area  .behavior-hover g.vertex.vertex-hover,
-.mode-add-line  .behavior-hover g.vertex.vertex-hover,
-.mode-add-point .behavior-hover g.vertex.vertex-hover,
-.mode-drag-node .behavior-hover g.vertex.vertex-hover {
+.mode-draw-area g.vertex.vertex-hover,
+.mode-draw-line g.vertex.vertex-hover,
+.mode-add-area  g.vertex.vertex-hover,
+.mode-add-line  g.vertex.vertex-hover,
+.mode-add-point g.vertex.vertex-hover,
+.mode-drag-node g.vertex.vertex-hover {
     display: block;
 }
 
-.behavior-hover g.vertex.hover:not(.selected) .shadow,
-.behavior-hover g.midpoint.hover:not(.selected) .shadow {
+g.vertex.hover:not(.selected) .shadow,
+g.midpoint.hover:not(.selected) .shadow {
     fill-opacity: 0.3;
 }
 
@@ -292,8 +291,7 @@ g.vertex.selected .shadow {
 .mode-draw-line g.midpoint,
 .mode-add-area g.midpoint,
 .mode-add-line g.midpoint,
-.mode-add-point g.midpoint,
-.mode-drag-node g.midpoint {
+.mode-add-point g.midpoint {
   display: none;
 }
 
@@ -315,7 +313,7 @@ path.shadow {
     stroke-opacity: 0;
 }
 
-.behavior-hover path.shadow.hover:not(.selected) {
+path.shadow.hover:not(.selected) {
     stroke-opacity: 0.3;
 }
 
@@ -323,18 +321,11 @@ path.shadow.selected {
     stroke-opacity: 0.7;
 }
 
-path.area.stroke,
-path.line.member-type-multipolygon.stroke {
-    stroke-width:2;
-}
-path.area.stroke.selected,
-path.line.member-type-multipolygon.stroke.selected {
-    stroke-width:4 !important;
+path.area.stroke {
+    stroke: white;
+    stroke-width: 1;
 }
 
-path.area.stroke {
-    stroke:#fff;
-}
 path.area.fill {
     fill:#fff;
     fill-opacity:0.3;
@@ -348,7 +339,6 @@ path.line.stroke {
 
 path.stroke.tag-natural {
     stroke: #b6e199;
-    stroke-width:1;
 }
 path.fill.tag-natural {
     fill: #b6e199;
@@ -363,7 +353,6 @@ path.fill.tag-natural-water {
 
 path.stroke.tag-amenity-school {
     stroke: #ffff94;
-    stroke-width: 1;
 }
 path.fill.tag-amenity-school {
     fill: #ffff94;
@@ -380,7 +369,6 @@ path.fill.tag-amenity-university {
 
 path.stroke.tag-building {
     stroke: #e06e5f;
-    stroke-width: 1;
 }
 path.fill.tag-building {
     fill: #e06e5f;
@@ -396,7 +384,6 @@ path.stroke.tag-natural-grassland,
 path.stroke.tag-leisure-pitch,
 path.stroke.tag-leisure-park {
     stroke: #8cd05f;
-    stroke-width: 1;
 }
 
 path.stroke.tag-landuse-residential {
@@ -565,7 +552,6 @@ path.fill.tag-landuse-industrial {
 
 path.stroke.tag-amenity-parking {
     stroke: #aaa;
-    stroke-width: 1;
 }
 path.fill.tag-amenity-parking {
     fill: #aaa;
@@ -825,24 +811,24 @@ path.fill.tag-aeroway-apron {
 
 /* bridges */
 
-path.casing.tag-bridge-yes {
+path.casing.tag-bridge {
     stroke-width: 14;
     stroke-opacity: 0.5;
     stroke: #000;
 }
 
-path.casing.tag-highway-living_street.tag-bridge-yes,
-path.casing.tag-highway-path.tag-bridge-yes {
+path.casing.tag-highway-living_street.tag-bridge,
+path.casing.tag-highway-path.tag-bridge {
     stroke-width: 6;
 }
 
 path.casing.line.tag-highway-pedestrian,
-path.casing.tag-highway-service.tag-bridge-yes,
-path.casing.tag-highway-track.tag-bridge-yes,
-path.casing.tag-highway-steps.tag-bridge-yes,
-path.casing.tag-highway-footway.tag-bridge-yes,
-path.casing.tag-highway-cycleway.tag-bridge-yes,
-path.casing.tag-highway-bridleway.tag-bridge-yes {
+path.casing.tag-highway-service.tag-bridge,
+path.casing.tag-highway-track.tag-bridge,
+path.casing.tag-highway-steps.tag-bridge,
+path.casing.tag-highway-footway.tag-bridge,
+path.casing.tag-highway-cycleway.tag-bridge,
+path.casing.tag-highway-bridleway.tag-bridge {
     stroke-width: 8;
 }
 
@@ -850,25 +836,25 @@ path.shadow.tag-highway-residential.tag-bridge {
     stroke-width:22;
 }
 
-path.shadow.tag-highway-living_street.tag-bridge-yes,
-path.shadow.tag-highway-path.tag-bridge-yes,
+path.shadow.tag-highway-living_street.tag-bridge,
+path.shadow.tag-highway-path.tag-bridge,
 path.shadow.line.tag-highway-pedestrian,
-path.shadow.tag-highway-service.tag-bridge-yes,
-path.shadow.tag-highway-track.tag-bridge-yes,
-path.shadow.tag-highway-steps.tag-bridge-yes,
-path.shadow.tag-highway-footway.tag-bridge-yes,
-path.shadow.tag-highway-cycleway.tag-bridge-yes,
-path.shadow.tag-highway-bridleway.tag-bridge-yes {
+path.shadow.tag-highway-service.tag-bridge,
+path.shadow.tag-highway-track.tag-bridge,
+path.shadow.tag-highway-steps.tag-bridge,
+path.shadow.tag-highway-footway.tag-bridge,
+path.shadow.tag-highway-cycleway.tag-bridge,
+path.shadow.tag-highway-bridleway.tag-bridge {
     stroke-width: 16;
 }
 
 /* tunnels */
 
-path.stroke.tag-highway.tag-tunnel-yes {
+path.stroke.tag-highway.tag-tunnel {
     stroke-opacity: 0.3;
 }
 
-path.casing.tag-highway.tag-tunnel-yes {
+path.casing.tag-highway.tag-tunnel {
     stroke-opacity: 0.5;
 }
 
@@ -1048,27 +1034,22 @@ text.pointlabel {
     stroke-miterlimit: 1;
 }
 
+text.proximate {
+    opacity: 0;
+}
+
 text.point {
   font-size: 10px;
 }
 
 /* Cursors */
 
-#map:hover {
+#map {
     cursor: auto; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-grab.png") %>) 9 9, auto; /* FF */
     cursor: -webkit-image-set(
         url(<%= asset_path("iD/img/cursor-grab.png") %>) 1x,
         url(<%= asset_path("iD/img/cursor-grab2x.png") %>) 2x
-        ) 9 9, auto;
-}
-
-#map:active {
-    cursor: pointer; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-grabbing.png") %>) 9 9, auto; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-grabbing.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-grabbing2x.png") %>) 2x
         ) 9 9, auto;
 }
 
@@ -1157,11 +1138,11 @@ text.point {
         ), pointer;
 }
 
-.mode-draw-line #map:hover,
-.mode-draw-area #map:hover,
-.mode-add-line  #map:hover,
-.mode-add-area  #map:hover,
-.mode-drag-node #map:hover {
+.mode-draw-line #map,
+.mode-draw-area #map,
+.mode-add-line  #map,
+.mode-add-area  #map,
+.mode-drag-node #map {
     cursor: crosshair; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-draw.png") %>) 9 9, crosshair; /* FF */
     cursor: -webkit-image-set(
@@ -1170,11 +1151,11 @@ text.point {
         ) 9 9, crosshair;
 }
 
-.mode-draw-line .behavior-hover .way,
-.mode-draw-area .behavior-hover .way,
-.mode-add-line  .behavior-hover .way,
-.mode-add-area  .behavior-hover .way,
-.mode-drag-node .behavior-hover .way {
+.mode-draw-line .way.hover,
+.mode-draw-area .way.hover,
+.mode-add-line  .way.hover,
+.mode-add-area  .way.hover,
+.mode-drag-node .way.hover {
     cursor: crosshair; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-draw-connect-line.png") %>) 9 9, crosshair; /* FF */
     cursor: -webkit-image-set(
@@ -1183,11 +1164,11 @@ text.point {
         ) 9 9, crosshair;
 }
 
-.mode-draw-line .behavior-hover .vertex,
-.mode-draw-area .behavior-hover .vertex,
-.mode-add-line  .behavior-hover .vertex,
-.mode-add-area  .behavior-hover .vertex,
-.mode-drag-node .behavior-hover .vertex {
+.mode-draw-line .vertex.hover,
+.mode-draw-area .vertex.hover,
+.mode-add-line  .vertex.hover,
+.mode-add-area  .vertex.hover,
+.mode-drag-node .vertex.hover {
     cursor: crosshair; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-draw-connect-vertex.png") %>) 9 9, crosshair; /* FF */
     cursor: -webkit-image-set(
@@ -1196,8 +1177,8 @@ text.point {
         ) 9 9, crosshair;
 }
 
-.mode-add-point #map:hover,
-.lasso #map:hover,
+.mode-add-point #map,
+.lasso #map,
 .lasso .way,
 .lasso .vertex {
     cursor: crosshair; /* Opera */
@@ -1251,18 +1232,17 @@ path.gpx {
   applied to both html and body. https://gist.github.com/jfirebaugh/bd225bcfdd3a633850c4
 */
 html, body {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 body {
-    font:normal 12px/1.6666 'Helvetica Neue', Arial, sans-serif;
+    font:normal 12px/1.6667 'Helvetica Neue', Arial, sans-serif;
     margin:0;
     padding:0;
     min-width: 768px;
     color:#333;
     overflow: hidden;
-    -webkit-font-smoothing: subpixel-antialiased;
 }
 
 .unsupported {
@@ -1279,6 +1259,17 @@ body {
     min-width: 768px;
 }
 
+#content {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.spacer {
+    height: 40px;
+    margin-right: 10px;
+}
+
 .limiter {
     position: relative;
     max-width: 1200px;
@@ -1286,18 +1277,16 @@ body {
 
 .spinner {
     opacity: .5;
-    z-index: 2;
-    position: relative;
 }
 
 .spinner img {
-    position: fixed;
+    position: absolute;
     height: 40px;
     width: 40px;
     right: 10px;
     top: 10px;
-    margin: auto;
     border-radius: 4px;
+    margin-right: 10px;
     background: black;
 }
 
@@ -1405,10 +1394,12 @@ input[type=email] {
     height:30px;
     width: 100%;
     border-radius:4px;
-    -webkit-transition: all 100ms;
-       -moz-transition: all 100ms;
-       -o-transition: all 100ms;
-            transition: all 100ms;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-transition: all 200ms;
+       -moz-transition: all 200ms;
+         -o-transition: all 200ms;
+            transition: all 200ms;
 }
 
 textarea:focus,
@@ -1416,19 +1407,20 @@ input:focus {
     background-color: #F1F1F1;
 }
 
-input.major {
-    width: 100%;
-    padding:5px 10px;
-    font-size: 18px;
-    font-weight: bold;
-    height:60px;
+input[type="checkbox"],
+input[type="radio"] {
+    float: left;
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+    margin-top: 3px;
 }
 
-/* remove bottom border radius when combox is open */
-.combobox + div textarea:focus,
-.combobox + div input:focus {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+/* remove bottom border radius when combobox is open */
+.combobox + * textarea:focus,
+.combobox + * input:focus {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
 }
 
 /* tables */
@@ -1471,37 +1463,62 @@ table.tags, table.tags td, table.tags th {
 
 ul li { list-style: none;}
 
-ul.toggle-list {
+.toggle-list {
     border-radius: 4px;
     border: 1px solid #CCC;
-    margin-bottom: 10px;
 }
 
-ul.toggle-list li a {
+.toggle-list > label {
     position: relative;
-    padding: 5px 10px 5px 25px;
+    padding: 5px 10px;
     display:block;
-    border-top: 1px solid #ccc;
+    height: 30px;
+    border-bottom: 1px solid #ccc;
+    background-color: white;
+    color: #7092FF;
+    cursor: pointer;
+       -moz-transition: all 100ms;
+         -o-transition: all 100ms;
+            transition: all 100ms;
 }
 
-ul.toggle-list li:first-child a {
-    border-top: 0;
+.toggle-list > label:hover {
+    background-color: #ececec;
+}
+
+.toggle-list > label:first-child {
     border-radius: 3px 3px 0 0;
 }
 
-ul.toggle-list li:last-child a {
+.toggle-list > label:last-child {
     border-radius: 0 0 3px 3px;
+    border-bottom-width: 0;
 }
 
-ul.toggle-list li:only-child a {
+.toggle-list > label:only-child {
     border-radius: 3px;
 }
 
-ul.toggle-list li a:hover { background-color: #ececec;}
+.toggle-list label > span { 
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
-ul.toggle-list li a.selected { background-color: #e8ebff;}
+.toggle-list > label.remove span.icon {
+    display: block;
+    width: 14px;
+    float: left;
+    margin-right: 5px;
+    background-position: -204px 0;
+}
 
-ul.link-list li {
+.toggle-list > label.active {
+    background: #E8EBFF;
+}
+
+.link-list li {
     float: right;
     border-left: 1px solid rgba(255,255,255,.5);
     padding: 5px 0 5px 5px;
@@ -1514,28 +1531,6 @@ ul.link-list li:last-child {
     padding-left: 0;
 }
 
-.toggle-list a::before {
-    content: "";
-    display: inline-block;
-    border-radius: 50%;
-    height: 12px;
-    width: 12px;
-    margin-right: 10px;
-    border: 1px solid #CCC;
-    position: absolute;
-    left: 5px;
-    top: 8px;
-}
-
-.toggle-list a:hover::before {
-    box-shadow: inset 0 0 0 2px white;
-}
-
-.toggle-list a.selected::before {
-    background: #7092ff;
-    box-shadow: inset 0 0 0 2px white;
-}
-
 /* Utility Classes
 ------------------------------------------------------- */
 .fillL {
@@ -1544,12 +1539,12 @@ ul.link-list li:last-child {
 }
 
 .fillL2 {
-    background: #f7f7f7 url(<%= asset_path("iD/img/background-pattern-1.png") %>) repeat;
+    background: #f6f6f6;
     color: #333;
 }
 
 .fillL3 {
-    background: #f1f1f1;
+    background: #ececec;
     color: #333;
 }
 
@@ -1591,7 +1586,8 @@ a.hide {
 .pane {
     position:absolute;
     width:50%;
-    height:100%;
+    top: 0;
+    bottom: 30px;
 }
 
 .pane:first-child {
@@ -1606,10 +1602,10 @@ a.hide {
 
 button {
     text-align: center;
-    font-weight:bold;
     line-height:20px;
     border:0;
     background: white;
+    font-weight: bold;
     color:#333;
     font-size:12px;
     display: inline-block;
@@ -1634,7 +1630,7 @@ button.disabled {
     cursor: auto;
 }
 
-button.active:not([disabled]):not(.disabled) {
+button.active {
     background: #7092ff;
 }
 
@@ -1643,9 +1639,17 @@ button.minor {
     top: 0;
     right: 0;
     height: 100%;
-    width: 20px;
-    opacity: .5;
+    width: 10%;
     border-radius: 0;
+    background-color: #fafafa;
+}
+
+button.minor .icon {
+    opacity: .5;
+}
+
+button.minor:hover {
+    background-color: #f1f1f1;
 }
 
 .button-wrap {
@@ -1654,8 +1658,13 @@ button.minor {
     margin: 0;
 }
 
-.button-wrap button:only-child { width: 100%;}
-.button-wrap:last-of-type { padding-right: 0;}
+.button-wrap button:only-child {
+    width: 100%;
+}
+
+.button-wrap:last-of-type {
+    padding-right: 0;
+}
 
 .joined button {
     border-radius:0;
@@ -1741,9 +1750,12 @@ button.save.has-count .count::before {
 }
 
 /* Definitions for every icon */
-.icon.browse     { background-position:   0 0;}
+.icon.alert     { background-position:   0 0;}
+.icon.point,
 .icon.add-point  { background-position: -20px 0;}
+.icon.line,
 .icon.add-line   { background-position: -40px 0;}
+.icon.area,
 .icon.add-area   { background-position: -60px 0;}
 .icon.undo       { background-position: -80px 0;}
 .icon.redo       { background-position: -100px 0;}
@@ -1753,8 +1765,6 @@ button.save.has-count .count::before {
 .icon.delete     { background-position: -180px 0;}
 .icon.remove     { background-position: -200px 0;}
 .icon.inspect    { background-position: -220px 0;}
-.icon.zoom-in    { background-position: -240px 0;}
-.icon.zoom-out   { background-position: -260px 0;}
 .icon.plus       { background-position: -240px 0;}
 .icon.search     { background-position: -280px 0;}
 .icon.geocode    { background-position: -280px 0;}
@@ -1763,20 +1773,30 @@ button.save.has-count .count::before {
 .icon.nearby     { background-position: -340px 0;}
 .icon.geolocate  { background-position: -360px 0;}
 .icon.warning    { background-position: -380px 0;}
+.icon.bug        { background-position: -400px 0;}
 .icon.back       { background-position: -420px 0;}
 .icon.forward    { background-position: -440px 0;}
 .icon.help       { background-position: -460px 0;}
+.icon.relation    { background-position: -520px 0;}
+.icon.relation.route         { background-position: -540px 0;}
+.icon.relation.multipolygon  { background-position: -560px 0;}
 
 .icon.inspect.light    { background-position: -220px -20px;}
+.icon.plus.light       { background-position: -240px -20px;}
+.icon.zoom-in          { background-position: -240px -20px;}
+.icon.zoom-out         { background-position: -260px -20px;}
 .icon.geocode.light    { background-position: -280px -20px;}
-.icon.help.light       { background-position: -460px -20px;}
+.icon.layers.light     { background-position: -300px -20px;}
 .icon.avatar.light     { background-position: -320px -20px;}
 .icon.nearby.light     { background-position: -340px -20px;}
+.icon.geolocate.light  { background-position: -360px -20px;}
+.icon.bug.light        { background-position: -400px -20px;}
+.icon.help.light       { background-position: -460px -20px;}
 
 .icon.back.blue        { background-position: -420px -20px;}
 .icon.forward.blue     { background-position: -440px -20px;}
 
-button[disabled] .icon.browse     { background-position:   0 -40px;}
+button[disabled] .icon.alert      { background-position:   0 -40px;}
 button[disabled] .icon.add-point  { background-position: -20px -40px;}
 button[disabled] .icon.add-line   { background-position: -40px -40px;}
 button[disabled] .icon.add-area   { background-position: -60px -40px;}
@@ -1816,12 +1836,14 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 ------------------------------------------------------- */
 
 #bar {
-    position:absolute;
-    padding: 10px;
+    position: fixed;
+    padding: 10px 0;
     left:0;
     top:0;
     right:0;
     height:60px;
+    z-index: 1;
+    min-width: 768px;
 }
 
 /* Header for modals / panes
@@ -1829,45 +1851,90 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 
 .header {
     border-bottom: 1px solid #ccc;
-    z-index: 2;
     height: 60px;
     position: relative;
 }
 
 .header h3 {
-    margin-right: 40px;
+    text-align: center;
     margin-bottom: 0;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    padding: 20px;
 }
 
-.modal > button,
-.header button {
-    height: 100%;
+.header button,
+.modal > button {
     border-radius: 0;
-    border-left: 1px solid #CCC;
     width: 40px;
     text-align: center;
     overflow: hidden;
+}
+
+.header button {
+    position: relative;
+    height: 100%;
+}
+
+.preset-list-pane .header button {
     position: absolute;
     right: 0;
     top: 0;
 }
 
 .modal > button {
+    position: absolute;
+    right: 0;
+    top: 0;
     height: 59px;
     z-index: 3;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    padding: 5px 30px 5px 30px;
+    border-top: 1px solid #ccc;
+    background-color: #fafafa;
+    width: 100%;
+}
+
+.sidebar-component .body {
+    width: 100%;
+    overflow: auto;
+    top: 60px;
+    bottom: 0;
+    position: absolute;
 }
 
 /* Inspector
 ------------------------------------------------------- */
 
-.inspector-wrap {
-    position: absolute;
+#sidebar {
+    position: relative;
+    float: left;
     height: 100%;
-    right: 0;
     overflow: hidden;
+    z-index: 2;
+    background: #f6f6f6;
+}
+
+.sidebar-component {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.inspector-wrap {
+    width: 100%;
+    height: 100%;
+}
+
+.inspector-hidden {
+    display: none;
 }
 
 .inspector-body {
@@ -1876,12 +1943,19 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     position: absolute;
     right: 0;
     left: 0;
-    bottom: 30px;
-    top: 60px;
+    bottom: 0;
 }
 
-.pane:first-child .inspector-body {
+.feature-list-pane .inspector-body {
     top: 120px;
+}
+
+.preset-list-pane .inspector-body {
+    top: 120px;
+}
+
+.entity-editor-pane .inspector-body {
+    top: 60px;
 }
 
 .inspector-inner {
@@ -1889,41 +1963,75 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     position: relative;
 }
 
-.inspector-wrap .header button.preset-reset {
-    border-right: 1px solid #CCC;
-    position: relative;
-}
-
-.inspector-wrap .header button.preset-reset > div {
-    height: 100%;
-    padding: 20px 0;
-}
-
-.inspector-wrap .header button.preset-reset .col12:last-child {
-    position: absolute;
-    width: 100%;
-    padding: 20px 0;
-    opacity: 0;
-}
-
-.inspector-wrap .header button:hover .col12:first-child {
-    opacity: 0;
-}
-
-.inspector-wrap .header button:hover .col12:last-child {
-    opacity: 1;
-}
-
-.inspector-wrap .header button.line > div {
-    padding: 0;
-}
-
-.inspector-toggle {
-    color:#fff;
-    width: 100%;
+#sidebar .search-header .icon {
     display: block;
-    background:#7092ff;
-    border: 0;
+    position: absolute;
+    left: 10px;
+    top: 80px;
+    pointer-events: none;
+}
+
+#sidebar .search-header input {
+    position: absolute;
+    top: 60px;
+    height: 60px;
+    width: 100%;
+    padding: 5px 10px;
+    border-radius: 0;
+    border-width: 0;
+    border-bottom-width: 1px;
+    text-indent: 30px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Feature list */
+
+.feature-list  {
+    width:100%;
+}
+
+.no-results-item,
+.geocode-item,
+.feature-list-item {
+    width: 100%;
+    position: relative;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+}
+
+.feature-list-item .label {
+    text-align: left;
+    padding: 5px 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border-left: 1px solid rgba(0, 0, 0, .1);
+    -moz-transition: all 100ms;
+    -o-transition: all 100ms;
+    transition: all 100ms;
+}
+
+.feature-list-item .label .icon {
+    opacity: .5;
+}
+
+.feature-list-item:hover .label {
+    background-color: #ececec;
+}
+
+.feature-list-item .entity-type {
+    color:#7092ff;
+}
+
+.feature-list-item:hover .entity-type {
+    color:#597be7;
+}
+
+.feature-list-item .entity-name {
+    font-weight: normal;
+    color: #666;
+    padding-left: 10px;
 }
 
 /* Presets
@@ -1931,30 +2039,26 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 
 /* Preset grid  */
 
-.preset-grid  {
+.preset-list  {
     width:100%;
     padding: 20px 20px 10px 20px;
     border-bottom: 1px solid #ccc;
 }
 
-.grid-button-wrap {
-    padding-bottom: 10px;
-    height: 70px;
+.preset-list-button-wrap {
+    position: relative;
+    margin-bottom: 10px;
+    height: 60px;
 }
 
-.grid-entry {
+.preset-list-button {
     width: 100%;
     height: 100%;
     position: relative;
     border: 1px solid #ccc;
-    float: left;
 }
 
-.grid-inner {
-    margin-bottom: 20px;
-}
-
-.preset-grid.filtered .grid-button-wrap:first-child .grid-entry {
+.preset-list.filtered .preset-list-item:first-child .preset-list-button {
     background: #ececec;
 }
 
@@ -1965,47 +2069,49 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     margin: auto;
 }
 
-.preset-icon-line {
+.preset-icon-line,
+.preset-icon-relation {
     top: 0;
     left: 0;
 }
 
-.grid-entry .label {
-    background: #f6f6f6;
+.preset-list-button .label {
+    background-color: #f6f6f6;
     text-align: left;
     position: absolute;
-    padding: 5px 10px;
-    height: 100%;
+    top: 0;
     bottom: 0;
-    left: 60px;
     right: 0;
+    padding: 5px 10px;
+    left: 60px;
+    line-height: 50px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     border-left: 1px solid rgba(0, 0, 0, .1);
-    line-height: 50px;
+    -moz-transition: all 100ms;
+    -o-transition: all 100ms;
+    transition: all 100ms;
+    border-radius: 0 3px 3px 0;
     }
 
-.grid-entry:hover .label {
-    background: none;
+.preset-list-button:hover .label {
+    background-color: #ececec;
 }
 
-.grid-button-wrap button.tag-reference-button {
-    float: right;
-    position: static;
-    margin-top: -60px;
+.preset-list-item button.tag-reference-button {
     height: 100%;
     border: 1px solid #CCC;
     border-radius: 0 3px 3px 0;
 }
 
-.current .grid-entry,
-.current .grid-entry .label {
+.current .preset-list-button,
+.current .preset-list-button .label {
     background-color: #E8EBFF;
 }
 
-.category .grid-entry:after,
-.category .grid-entry:before {
+.category .preset-list-button:after,
+.category .preset-list-button:before {
     content: "";
     position: absolute;
     top: -5px;
@@ -2016,44 +2122,23 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     height: 6px;
 }
 
-.category .grid-entry:before {
+.category .preset-list-button:before {
     top: -3px;
 }
 
-.preset-grid-search-wrap .icon {
-    display: block;
-    position: absolute;
-    left: 10px;
-    top: 80px;
-    pointer-events: none;
-}
-
-.preset-grid-search-wrap input {
-    position: absolute;
-    top: 60px;
-    border-radius: 0;
-    border-width: 0;
-    border-bottom-width: 1px;
-    text-indent: 30px;
-}
-
-.preset-search-result {
-    padding: 0 10px;
-    height:30px;
-    margin: 5px;
-}
-
-.subgrid .preset-grid {
+.subgrid .preset-list {
     padding: 10px 10px 0 10px;
-    border: 1px solid #CCC;
     margin-top: 0;
+    border: 0;
     border-radius: 8px;
+    width: -webkit-calc(100% + 20px);
+    margin-left: -10px;
 }
 
 .subgrid .arrow {
     border: solid rgba(0, 0, 0, 0);
     border-width: 10px;
-    border-bottom-color: #CCC;
+    border-bottom-color: #f1f1f1;
     width: 0;
     height: 0;
     margin-left: 50%;
@@ -2061,22 +2146,7 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     margin-top: -10px;
 }
 
-.show-more {
-    text-align: center;
-    width: 100%;
-    border-bottom: 1px solid #ccc;
-    border-radius: 0;
-}
-
-.show-more a {
-    color: #222;
-}
-
 /* Preset icon colors */
-
-.inspector-body-line .icon.feature-marker-stroked {
-    top: 30px;
-}
 
 .preset-icon-fill.icon-area {
     cursor: inherit;
@@ -2111,12 +2181,17 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 
 /* preset form basics */
 
-.tag-wrap .preset-icon-wrap {
-    border-bottom: 1px solid #CCC;
-    background-color: #e8ebff;
+.inspector-preset {
+    overflow: hidden;
 }
 
-.tag-wrap .preset-icon-wrap::after {
+.inspector-preset form.preset-form {
+    padding: 10px;
+    margin: 0 10px 20px 10px;
+    border-radius: 8px;
+}
+
+.entity-editor-pane .preset-list-item::after {
     content: "";
     position: absolute;
     height: 0;
@@ -2127,21 +2202,25 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     margin: auto;
     border: solid rgba(0, 0, 0, 0);
     border-width: 10px;
-    border-bottom-color: #CCC;
+    border-bottom-color: #ececec;
 }
 
-.tag-wrap .preset-icon-wrap > div {
-    height: 60px;
-    width: 60px;
-    margin: auto;
-    border-radius: 4px;
-    border: 1px solid #CCC;
-    position: relative;
+.entity-editor-pane .preset-list-item .preset-list-button-wrap {
+    margin-bottom: 0;
 }
 
-.inspector-preset .form-field {
-    padding-left: 20px;
-    padding-right: 20px;
+
+.form-field {
+    margin-bottom: 10px;
+    width: 100%;
+    -webkit-transition: margin-bottom 200ms;
+       -moz-transition: margin-bottom 200ms;
+         -o-transition: margin-bottom 200ms;
+            transition: margin-bottom 200ms;
+}
+
+.form-field:last-child {
+    margin-bottom: 0;
 }
 
 .form-label {
@@ -2161,11 +2240,13 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 .form-label .modified-icon {
     border-right: 0;
     opacity: 0;
-    right: 20px;
+    z-index: -10;
+    right: 10%;
 }
 
 .modified .form-label .modified-icon {
-    opacity: .5;
+    opacity: 1;
+    z-index: 1;
 }
 
 .form-label button.tag-reference-button {
@@ -2176,41 +2257,229 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 .form-field > textarea,
 .form-field .preset-input-wrap {
     border: 1px solid #CCC;
+    min-height: 30px;
     border-top: 0;
     border-radius: 0 0 4px 4px;
+    overflow: hidden;
 }
 
 .form-field textarea {
     height: 65px;
 }
 
-.form-field-name input.localized-main {
-    height: 35px;
-    font-size: 18px;
-    font-weight: bold;
+.form-field button.remove {
+    border-radius: 0 0 4px 0;
+}
+
+.inspector-border {
+    border-bottom: 1px solid #CCC
+}
+
+/* Preset form (hover mode) */
+
+.inspector-hover .checkselect label:last-of-type,
+.inspector-hover .preset-input-wrap .label,
+.inspector-hover input,
+.inspector-hover label {
+    background: #ececec;
+}
+
+.inspector-hover a,
+.inspector-hover .checkselect label:last-of-type {
+    color: #666;
+}
+
+/* hide and remove from layout */
+.inspector-hidden,
+.inspector-hover label input[type="checkbox"],
+.inspector-hover label input[type="radio"],
+.inspector-hover .toggle-list label:not(.active),
+.inspector-hover .toggle-list label span,
+.inspector-hover .inspector-inner .add-tag,
+.inspector-hover .inspector-inner .add-relation,
+.inspector-hover .toggle-list label.remove .icon {
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    opacity: 0 !important;
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* hide but preserve in layout */
+.inspector-hover .modified .form-label .modified-icon,
+.inspector-hover .entity-editor-pane button.minor,
+.inspector-hover .combobox-carat,
+.inspector-hover .entity-editor-pane .header button,
+.inspector-hover .spin-control,
+.inspector-hover .hide-toggle:before,
+.inspector-hover .more-buttons,
+.inspector-hover .view-on-osm {
+    opacity: 0;
+}
+
+/* Styles for raw tag inspector on hover */
+.inspector-hover .tag-row .key-wrap,
+.inspector-hover .tag-row .input-wrap-position {
+    width: 50%;
+}
+
+.inspector-hover .tag-row:first-child input.value {
+    border-top-right-radius: 4px;
+}
+
+.inspector-hover .tag-row:last-child input.value {
+    border-bottom-right-radius: 4px;
+}
+
+.inspector-hover .tag-row:last-child input.key {
+    border-bottom-left-radius: 4px;
+}
+
+.inspector-hover .inspector-body .more-buttons {
+    max-height: 0;
+    padding-bottom: 0;
+}
+
+/* Unstyle button fields */
+.inspector-hover .toggle-list label.active,
+.inspector-hover .entity-editor-pane a.hide-toggle {
+    opacity: 1;
+    background-color: transparent;
+    color: #666;
+    padding-left: 0;
+    border-width: 0;
+}
+
+.inspector-hover .toggle-list button.active {
+    padding-left: 10px;
+}
+
+/* Add placeholder only on hover for radio buttons */
+.inspector-hover .toggle-list .placeholder {
+    color: #a9a9a9;
+    padding: 5px 10px;
+    opacity: 1;
+    line-height: 20px;
+    width: 100%;
+}
+
+/* Hide placeholder for radio buttons if another is active, or not in hover state */
+.toggle-list label.active ~ .placeholder,
+.toggle-list .placeholder {
+    padding: 0;
+    opacity: 0;
+    width: 0;
+    line-height: 0;
+    display: block;
+    overflow: hidden;
+    -webkit-transition: opacity 200ms, width 0 200ms, padding 0 200ms, line-height 0 200ms;
+       -moz-transition: opacity 200ms, width 0 200ms, padding 0 200ms, line-height 0 200ms;
+         -o-transition: opacity 200ms, width 0 200ms, padding 0 200ms, line-height 0 200ms;
+            transition: opacity 200ms, width 0 200ms, padding 0 200ms, line-height 0 200ms;
+}
+
+/* first phase hover-to-active animations */
+
+textarea,
+.form-label,
+.preset-input-wrap,
+.preset-input-wrap .label {
+    -webkit-transition: all 200ms;
+       -moz-transition: all 200ms;
+         -o-transition: all 200ms;
+            transition: all 200ms;
+}
+
+/* second phase hover-to-active animations */
+
+input,
+.checkselect label:last-of-type {
+    -webkit-transition: opacity 200ms 200ms, width 200ms 200ms, margin-right 200ms 200ms;
+       -moz-transition: opacity 200ms 200ms, width 200ms 200ms, margin-right 200ms 200ms;
+         -o-transition: opacity 200ms 200ms, width 200ms 200ms, margin-right 200ms 200ms;
+            transition: opacity 200ms 200ms, width 200ms 200ms, margin-right 200ms 200ms;
+}
+
+.modified .form-label .modified-icon,
+.entity-editor-pane button.minor,
+.combobox-carat,
+.entity-editor-pane .header button,
+.toggle-list label span,
+.spin-control,
+.more-buttons,
+.view-on-osm,
+.hide-toggle:before,
+.entity-editor-pane .toggle-list label::before,
+.entity-editor-pane .toggle-list label.remove .icon {
+    -webkit-transition: opacity 200ms 200ms;
+       -moz-transition: opacity 200ms 200ms;
+         -o-transition: opacity 200ms 200ms;
+            transition: opacity 200ms 200ms;
+}
+
+.entity-editor-pane a.hide-toggle {
+    -webkit-transition: padding-left 200ms 200ms, color 200ms 200ms;
+       -moz-transition: padding-left 200ms 200ms, color 200ms 200ms;
+         -o-transition: padding-left 200ms 200ms, color 200ms 200ms;
+            transition: padding-left 200ms 200ms, color 200ms 200ms;
+}
+
+.entity-editor-pane .toggle-list label:not(.active) {
+    -webkit-transition: height 200ms 200ms, padding 200ms 200ms, border-width 100ms 300ms;
+       -moz-transition: height 200ms 200ms, padding 200ms 200ms, border-width 100ms 300ms;
+         -o-transition: height 200ms 200ms, padding 200ms 200ms, border-width 100ms 300ms;
+            transition: height 200ms 200ms, padding 200ms 200ms, border-width 100ms 300ms;
+}
+
+.entity-editor-pane .toggle-list label {
+    -webkit-transition: border-width 100ms 300ms, padding 200ms 200ms, background-color 200ms 200ms, color 200ms 200ms;
+       -moz-transition: border-width 100ms 300ms, padding 200ms 200ms, background-color 200ms 200ms, color 200ms 200ms;
+         -o-transition: border-width 100ms 300ms, padding 200ms 200ms, background-color 200ms 200ms, color 200ms 200ms;
+            transition: border-width 100ms 300ms, padding 200ms 200ms, background-color 200ms 200ms, color 200ms 200ms;
 }
 
 /* adding additional preset fields */
 
-.more-buttons {
-    margin-top: 20px;
-    border-top: 1px solid #CCC;
-}
-
-.more-buttons:nth-last-child(2) {
-    border-bottom: 1px solid #CCC;
+.inspector-body .more-buttons {
+    max-height: 100px;
+    padding-top: 0;
+    -webkit-transition: padding 200ms 200ms, max-height 200ms 200ms;
+       -moz-transition: padding 200ms 200ms, max-height 200ms 200ms;
+         -o-transition: padding 200ms 200ms, max-height 200ms 200ms;
+            transition: padding 200ms 200ms, max-height 200ms 200ms;
 }
 
 button.preset-add-field {
+    background: #f6f6f6;
     width: 25%;
     height: 40px;
     -webkit-transition: width 200ms;
-    -moz-transition: width 200ms;
-    -o-transition: width 200ms;
-    transition: width 200ms;
+       -moz-transition: width 200ms;
+         -o-transition: width 200ms;
+            transition: width 200ms;
+}
+
+button.preset-add-field:hover {
+    background: #ececec;
 }
 
 /* set width based on # of buttons */
+
+button.preset-add-field:only-child {
+    width: 100%;
+}
+
+button.preset-add-field:nth-last-child(2),
+button.preset-add-field:nth-last-child(2) ~ button.preset-add-field {
+    width: 50%;
+}
+
+button.preset-add-field:nth-last-child(3),
+button.preset-add-field:nth-last-child(3) ~ button.preset-add-field {
+    width: 33.3333%;
+}
 
 button.preset-add-field:nth-last-child(4),
 button.preset-add-field:nth-last-child(4) ~ button.preset-add-field {
@@ -2237,15 +2506,6 @@ button.preset-add-field:nth-last-child(8) ~ button.preset-add-field {
     width: 12.5%;
 }
 
-.preset-add-field .tooltip.top .tooltip-arrow {
-    border-top-color: #000;
-}
-
-.preset-add-field .tooltip-inner {
-    background: #000;
-    color: #ccc;
-}
-
 .preset-fav button.fav {
     height: 30px;
     margin: 5px;
@@ -2254,16 +2514,17 @@ button.preset-add-field:nth-last-child(8) ~ button.preset-add-field {
 
 /* preset form access */
 
-.preset-input-wrap li {
-    border-bottom: 1px solid #CCC;
-}
-.preset-input-wrap li:last-child {
-    border-bottom: 0;
+.preset-input-wrap .label {
+    height: 30px;
+    background: #F6F6F6;
+    padding: 5px 10px;
 }
 
-.preset-input-wrap .label {
-    background: #F6F6F6;
-    padding: 5px;
+.form-field-access .preset-input-wrap li {
+    border-bottom: 1px solid #CCC;
+}
+.form-field-access .preset-input-wrap li:last-child {
+    border-bottom: 0;
 }
 
 .preset-input-access-wrap input {
@@ -2280,28 +2541,26 @@ button.preset-add-field:nth-last-child(8) ~ button.preset-add-field {
 
 input[type=number] {
     position: relative;
-    padding-right: 65px;
+    padding-right: 20%;
 }
 
 .spin-control {
-    width: 41px;
+    width: 20%;
     height: 29px;
-    border-left: 1px solid #CCC;
     display: inline-block;
-    margin-left: -41px;
+    margin-left: -20%;
     margin-bottom: -11px;
     position: relative;
 }
 
 .spin-control button {
+    right: 1px;
     position: relative;
     float: left;
     height: 100%;
     width: 50%;
     border-left: 1px solid #CCC;
-    border-right: 1px solid #CCC;
     border-radius: 0;
-    border-left: 0;
     background: rgba(0, 0, 0, 0);
 }
 
@@ -2334,9 +2593,9 @@ input[type=number] {
 
 .checkselect label:last-of-type {
     display: block;
-    padding: 5px;
-    box-sizing: border-box;
-    color: #999;
+    background: white;
+    padding: 5px 10px;
+    color: #7092FF;
 }
 
 .checkselect label:hover {
@@ -2347,146 +2606,47 @@ input[type=number] {
     color: inherit;
 }
 
-.checkselect input[type="checkbox"] {
-    margin-right: 5px;
-    width: 20px;
-    vertical-align: middle;
-    opacity: 0.5;
-}
-
-.checkselect .set input[type="checkbox"] {
-    opacity: 1;
+.checkselect label:not(.set) input[type="checkbox"] {
+    opacity: .5;
 }
 
 /* Preset form radio button */
 
-.radio-wrap button {
-    position: relative;
-    text-align: left;
-    font-weight: normal;
-    height: 30px;
-    border-radius: 0;
-    border-bottom: 1px solid #CCC;
-    color: #7092FF;
-    width: 100%;
-    padding-left: 25px;
-}
-
-.radio-wrap button::before {
-    content: "";
-    display: inline-block;
-    border-radius: 50%;
-    height: 12px;
-    width: 12px;
-    margin-right: 10px;
-    border: 1px solid #CCC;
-    position: absolute;
-    left: 5px;
-    top: 8px;
-}
-
-.radio-wrap button:hover::before {
-    box-shadow: inset 0 0 0 2px white;
-}
-
-.radio-wrap button.active::before {
-    background: #7092ff;
-    box-shadow: inset 0 0 0 2px white;
-}
-
-.radio-wrap button:last-child {
-    border-bottom: 0;
-}
-
-.radio-wrap button.active {
-    background-color: #E8EBFF !important;
-}
-
-.radio-wrap button.remove {
+.toggle-list button.remove {
     border-radius: 0 0 3px 3px;
 }
-.radio-wrap button.remove .icon {
+
+.toggle-list button.remove .icon {
     position: absolute;
-    left: 2px;
+    left: 5px;
 }
 
-.radio-wrap button.remove::before {
+.toggle-list button.remove::before {
     content: none;
 }
 
-.form-field .localized-main {
-    width: 90%;
-    border-radius: 0 0 0 4px;
-}
-
-.form-field .localized-add {
-    width: 10%;
-    height: 35px;
-    border-radius: 0 0 4px 0;
-    border-bottom: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    vertical-align: top;
-}
-
-.form-field .localized-wrap .entry .localized-lang {
-    border-top: none;
-    border-right: none;
-    border-radius: 0;
-    width: 30%;
-}
-
-.form-field .localized-wrap .entry .localized-value {
-    border-top: none;
-    border-radius: 0;
-    width: 60%;
-}
-
-.form-field .localized-wrap .entry .localized-remove {
-    height: 30px;
-    border-radius: 0;
-    border-bottom: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    vertical-align: top;
-    width: 10%;
-}
-
-.form-field .localized-wrap .entry:last-child .localized-lang {
-    border-radius: 0 0 0 4px;
-}
-
-.form-field .localized-wrap .entry:last-child .localized-remove {
-    border-radius: 0 0 4px 0;
-}
-
 .form-field .wiki-lang {
-    width: 30%;
-    border-right: none;
-    border-radius: 0 0 0 4px;
+    border-radius: 0;
 }
 
 .form-field .wiki-title {
-    width: 60%;
-    border-right: none;
-    border-radius: 0;
+    padding-right: 10%;
+}
+
+.form-field .wiki-title ~ .combobox-carat {
+    margin-left: -18%;
+    margin-right: 9%;
 }
 
 .form-field .wiki-link {
-    border-radius: 0 0 4px 0;
-    border: 1px solid #ccc;
-    border-top: none;
-    height: 30px;
-    width: 10%;
     float: right;
+    background: #fafafa;
     padding: 5px;
     text-align: center;
-    -webkit-transition: all 100ms;
-       -moz-transition: all 100ms;
-         -o-transition: all 100ms;
-            transition: all 100ms;
 }
 
 .form-field .wiki-link:hover {
-    background: #ececec;
+    background: #f1f1f1;
 }
 
 #preset-input-maxspeed {
@@ -2497,25 +2657,70 @@ input[type=number] {
 
 .form-field .maxspeed-unit {
     border-radius: 0 0 4px 0;
-    border: 1px solid #ccc;
-    border-top: none;
-    height: 30px;
     width: 20%;
-    float: right;
-    padding: 5px;
-    text-align: center;
-    color: #A9A9A9;
-    font-weight: bold;
+}
+
+/* Name + translate form */
+
+.form-field .localized-main {
+    padding-right: 10%;
+}
+
+.form-field .button-input-action {
+    position: relative;
+    right: 1px;
+    width: 10%;
+    margin-left: -10%;
+    border: 1px solid #CCC;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-radius: 0 0 4px 0;
+    height: 30px;
+    vertical-align: top;
+}
+
+.form-field .localized-wrap .entry {
+    position: relative;
+    overflow: hidden;
+    background: #f1f1f1;
+    border: 1px solid #ccc;
+    border-width: 0;
+    border-radius: 4px;
+}
+
+.form-field .localized-wrap .entry::before {
+    content: "";
+    display: block;
+    position: absolute;
+    background:#ccc;
+    height: 11px;
+    width: 1px;
+    left: 0;
+    right: 0;
+    top: -11px;
+    margin: auto;
+}
+
+.form-field .localized-wrap .entry .localized-lang {
+    border-radius: 0;
+    border-top-width: 0;
+}
+
+.form-field .localized-wrap .entry .localized-value {
+    padding-right: 10%;
+    border-top-width: 0;
+    border-radius: 0 0 4px 4px;
 }
 
 /* Preset form address */
 
 .form-field .addr-housename {
     border: 0;
+    border-radius: 0;
 }
 
 .form-field .addr-number {
-    width: 33%;
+    width: 33.3333%;
     border-left: 0;
     border-right: 0;
     border-bottom: 0;
@@ -2523,14 +2728,14 @@ input[type=number] {
 }
 
 .form-field .addr-street {
-    width: 66%;
+    width: 66.6666%;
     border-right: 0;
     border-bottom: 0;
     border-radius: 0;
 }
 
 .form-field .addr-city {
-    width: 66%;
+    width: 66.6666%;
     border-left: 0;
     border-right: 0;
     border-bottom: 0;
@@ -2538,7 +2743,7 @@ input[type=number] {
 }
 
 .form-field .addr-postcode {
-    width: 33%;
+    width: 33.3333%;
     border-right: 0;
     border-bottom: 0;
     border-radius: 0 0 4px 0;
@@ -2585,14 +2790,10 @@ div.combobox {
     border-right: 5px solid transparent;
 }
 
-/* tag editor */
-
-.inspector-inner.additional-tags {
-    border-top: 1px solid #ccc;
-}
+/* Raw Tag Editor */
 
 .tag-list {
-    margin-right: 40px;
+    padding-top: 10px;
 }
 
 .tag-row {
@@ -2602,13 +2803,26 @@ div.combobox {
 }
 
 .tag-row input {
+    height: 31px;
     border: 0;
     border-radius: 0;
     border-bottom: 1px solid #CCC;
     border-left: 1px solid #CCC;
 }
 
+.tag-row .key-wrap,
+.tag-row .input-wrap-position {
+    width: 40%;
+    float: left;
+    height: 30px;
+    -webkit-transition: width 200ms;
+       -moz-transition: width 200ms;
+         -o-transition: width 200ms;
+            transition: width 200ms;
+}
+
 .tag-row input.key {
+    font-weight: bold;
     background-color: #f6f6f6;
 }
 
@@ -2627,13 +2841,11 @@ div.combobox {
 
 .tag-row button {
     position: absolute;
-    height: 30px;
-    right: -20px;
+    height: 31px;
+    right: 10%;
     border: 1px solid #CCC;
-    border-top-width: 0; border-left-width: 0;
-    border-radius: 0;
-    opacity: 1;
-    background: #fafafa;
+    border-top-width: 0;
+    border-left-width: 0;
 }
 
 .tag-row button:hover {
@@ -2648,23 +2860,22 @@ div.combobox {
     border-top-width: 1px;
 }
 
-.tag-row:first-child button.tag-help-button {
+.tag-row:first-child .tag-reference-button {
     border-top-right-radius: 4px;
 }
 
-.tag-row:last-child button.tag-help-button {
+.tag-row:last-child .tag-reference-button {
     border-bottom-right-radius: 4px;
 }
 
-.tag-row button.tag-help-button {
-    right: -40px;
+.tag-row .tag-reference-button {
+    right: 0;
 }
 
 /* Adding form fields to tag editor */
 
 .inspector-inner .add-tag {
-    width: -webkit-calc(50% - 20px);
-    width: calc(50% - 20px);
+    width: 40%;
     height: 30px;
     border-top: 0;
     background: rgba(0,0,0,.5);
@@ -2681,37 +2892,59 @@ div.combobox {
 
 /* Tag reference */
 
-.preset-inspect {
-    position: relative;
+button.minor.tag-reference-loading {
+    background-color: #f5f5f5;
 }
 
-.tag-help {
+.tag-reference-loading .icon {
+    background-image: url(<%= asset_path("iD/img/mini-loader.gif") %>);
+    background-position: 0 0;
+}
+
+.tag-reference-body {
     overflow: hidden;
 }
 
-.tag-help a {
-    margin-top: 5px;
+.tag-reference-body p,
+.tag-reference-body img {
+    margin-top: 20px;
+}
+
+.tag-reference-body p:last-child {
+    padding-bottom: 10px;
+}
+
+.tag-reference-body a {
     display: block;
+    padding-bottom: 10px;
 }
 
-.grid-pane .tag-reference-wrap {
-    padding: 10px 0 20px 0;
+.preset-list .tag-reference-body {
+    position: relative;
+    width: 100%;
 }
 
-.tag-pane .tag-reference-wrap {
-    padding-top: 20px;
+.preset-list .tag-reference-body a {
+    padding-bottom: 20px;
 }
 
-.additional-tags .tag-reference-wrap {
+.preset-list .tag-reference-body p,
+.preset-list .tag-reference-body img {
+    margin-top: 10px;
+}
+
+.raw-tag-editor .tag-reference-body {
     border-bottom: 1px solid #ccc;
-    padding: 20px 0;
-}
-
-.additional-tags div.tag-help {
     float: left;
     width: 100%;
-    width: -webkit-calc(100% + 40px);
-    width: calc(100% + 40px);
+}
+
+.raw-tag-editor .tag-reference-body p:last-child {
+    padding-bottom: 20px;
+}
+
+.raw-tag-editor .tag-reference-body a {
+    padding-bottom: 20px;
 }
 
 img.wiki-image {
@@ -2723,20 +2956,56 @@ img.wiki-image {
     margin-right: 10px;
     border-radius: 4px;
     max-height: 200px;
+    margin-bottom: 20px;
+}
+
+/* Raw relation membership editor */
+
+.raw-member-editor .member-list li:first-child,
+.raw-membership-editor .member-list li:first-child {
+    padding-top: 10px;
+}
+
+.raw-member-editor .member-row,
+.raw-membership-editor .member-row {
+    position: relative;
+}
+
+.raw-member-editor .member-row .member-entity-name,
+.raw-membership-editor .member-row .member-entity-name {
+    font-weight: normal;
+    padding-left: 10px;
+}
+
+.member-row-new .member-entity-input {
+    border-radius: 4px 4px 0 0;
+    border: 1px solid #cfcfcf;
+}
+
+.add-relation {
+    width: 40%;
+    height: 30px;
+    background: rgba(0,0,0,.5);
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.add-relation:hover {
+    background: rgba(0,0,0,.8);
 }
 
 /* Map Controls */
 
 .map-controls {
-    left: 0;
-    top: 80px;
-    width: 30px;
-    position: absolute;
+    right: 0;
+    top: 70px;
+    width: 40px;
+    position: fixed;
     z-index: 100;
 }
 
 .map-control > button {
-    width: 30px;
+    width: 40px;
     background: rgba(0,0,0,.5);
     border-radius: 0;
 }
@@ -2763,17 +3032,32 @@ img.wiki-image {
 /* Zoomer */
 
 .zoombuttons button.zoom-in {
-    border-radius:0 4px 0 0;
+    border-radius: 4px 0 0 0;
 }
 
 /* Background Settings */
 
-.background-control button {
-    border-radius:0 4px 0 0;
+
+.toggle-list.layer-list {
+    margin-bottom: 10px;
 }
+
+.background-control button {
+    border-radius: 4px 0 0 0;
+}
+
 
 .background-control button.active {
     border-radius: 0;
+}
+
+.background-control {
+    position: relative;
+}
+
+.background-control .map-overlay {
+    position: absolute;
+    top: 0;
 }
 
 .nudge-container {
@@ -2785,9 +3069,13 @@ img.wiki-image {
     border: 0;
 }
 
+.background-control .hide-toggle  {
+    padding-bottom: 10px;
+}
+
 .hide-toggle {
     display: block;
-    padding: 0 0 10px 12px;
+    padding-left:12px;
     position: relative;
 }
 
@@ -2898,72 +3186,35 @@ img.wiki-image {
 
 .background-control .layer-toggle-gpx .layer-extent {
     border-left: 1px solid #CCC;
+    border-radius: 0 4px 4px 0;
 }
 
 .background-control .layer-toggle-gpx.selected .layer-extent {
     display:inline-block;
 }
 
-/* Geocoder */
-
-.geocode-control form {
-    top:260px;
-}
-
-.geocode-control form {
-    padding: 5px;
-}
-
-.geocode-control input {
-    width: 100%;
-}
-
-.geocode-control div.map-overlay {
-    border-top: 1px solid #CCC;
-    z-index: 100;
-    max-height: 240px;
-    overflow-y: auto;
-    padding: 0;
-    margin-top: 40px;
-}
-
-.geocode-control div.map-overlay span {
-    display: inline-block;
-    border-bottom: 1px solid #CCC;
-    padding: 5px 10px;
-    width: 100%;
-}
-.geocode-control div.map-overlay span.not-found {
-    line-height: 28px;
-    width: 100%;
-}
-
-.geocode-control a:focus {
-    text-decoration: underline;
-}
-
 /* Geolocator */
 
+.geolocate-control {
+    margin-bottom: 10px;
+}
+
 .geolocate-control button {
-    border-radius: 0 0 4px 0;
+    border-radius: 0 0 0 4px;
 }
 
 /* Help */
 
-.help-control {
-    margin-bottom: 20px;
-}
-
 .help-control button {
-    border-radius: 0 0 4px 0;
+    border-radius: 0 0 0 4px;
 }
 
 .help-wrap {
-    position: absolute;
+    position: fixed;
     top:60px;
     bottom: 30px;
-    padding: 20px 20px 20px 50px;
-    left: 0;
+    padding: 20px 50px 20px 20px;
+    right: 0;
     overflow-y: scroll;
 }
 
@@ -3050,13 +3301,9 @@ img.wiki-image {
 ------------------------------------------------------- */
 
 #map {
-    display:block;
-    position:absolute;
+    position:relative;
     overflow:hidden;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
+    height:100%;
     background:#000;
 }
 
@@ -3085,11 +3332,8 @@ img.wiki-image {
 
 .about-block {
     position: absolute;
-    right:0px;
-    bottom:0px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    right:0;
+    bottom:0;
     border-radius: 0;
     opacity: .625;
     -webkit-transition: opacity 200ms;
@@ -3181,8 +3425,10 @@ img.wiki-image {
 .shaded {
     z-index: 2;
     position: absolute;
-    height: 100%;
-    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     overflow: auto;
 }
 
@@ -3207,32 +3453,24 @@ img.wiki-image {
 }
 
 .modal-actions button,
-.modal-actions a {
-    background-size: white;
+.save-success a {
     font-weight: normal;
     color: #7092FF;
     border-bottom: 1px solid #CCC;
     border-radius: 0;
-    height: 180px;
+    height: 160px;
     text-align: center;
     display: inline-block;
 }
 
-.modal-actions a {
-    /* `button` elements have box-algin: auto, need
-    compensate this for `a`*/
-    padding-top: 25px;
-}
-
-.modal-actions button:hover,
-.modal-actions a:hover {
+.modal-actions button:hover
+.save-success a:hover {
     background-color: #ececec;
 }
 
-.modal-actions a:before,
 .modal-actions button:before,
+.save-success a:before,
 .walkthrough a:before {
-    background-size: white;
     display: block;
     content: '';
     height: 100px;
@@ -3260,15 +3498,19 @@ img.wiki-image {
 /* Success Modal
 ------------------------------------------------------- */
 
-.modal-actions .twitter:before {
+.save-success a {
+    padding-top: 15px;
+}
+
+.save-success .osm:before {
+    background-position: 0px -220px;
+}
+
+.save-success .twitter:before {
     background-position: -100px -220px;
 }
 
-.modal-actions .facebook {
-    border-left: 1px solid #ccc;
-}
-
-.modal-actions .facebook:before {
+.save-success .facebook:before {
     background-position: -200px -220px;
 }
 
@@ -3287,20 +3529,25 @@ img.wiki-image {
 /* Commit Modal
 ------------------------------------------------------- */
 
-.commit-modal a.user-info {
+.mode-save a.user-info {
     display: inline-block;
 }
 
-.commit-modal .commit-info {
-    margin-top: 10px;
-    padding-bottom: 20px;
+.mode-save .commit-form {
+    margin-bottom: 0;
 }
 
-.commit-modal .user-info img {
+.mode-save button.action {
+    float: none;
+    margin: auto;
+    display: block;
+}
+
+.mode-save .user-info img {
     float: left;
 }
 
-.commit-modal h3 small.count {
+.mode-save h3 small.count {
     margin-right: 10px;
     text-align: center;
     float: left;
@@ -3314,7 +3561,7 @@ img.wiki-image {
     color:#fff;
 }
 
-.commit-modal .changeset-list {
+.mode-save .changeset-list {
     overflow: auto;
     border:1px solid #ccc;
     border-radius: 4px;
@@ -3322,11 +3569,11 @@ img.wiki-image {
     max-height: 160px;
 }
 
-.commit-modal .warning-section .changeset-list button {
+.mode-save .warning-section .changeset-list button {
     border-left: 1px solid #CCC;
 }
 
-.commit-modal .changeset-list li {
+.mode-save .changeset-list li {
     position: relative;
     border-top:1px solid #ccc;
     padding:5px 10px;
@@ -3347,18 +3594,21 @@ img.wiki-image {
 ------------------------------------------------------- */
 
 .notice {
-    float:left;
-    width:25%;
-    padding-right: 10px;
-    text-align:center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: #fff;
 }
 
 .notice .zoom-to {
-    width:100%;
-    height: 40px;
+    margin: auto;
+    width: 80%;
+    height: 100px;
     border-radius: 5px;
     line-height: 40px;
-    background: #fff;
     color: #000;
     opacity: 0.9;
 }
@@ -3380,7 +3630,6 @@ img.wiki-image {
 ------------------------------------------------------- */
 
 .tooltip {
-    width: 200px;
     position: absolute;
     display: none;
     color:#333;
@@ -3411,10 +3660,13 @@ img.wiki-image {
 
 .tooltip.left {
     margin-left: -20px;
+    text-align: right;
 }
 
 .tooltip-inner {
     display: inline-block;
+    max-width: 200px;
+    min-width: 80px;
     padding: 10px;
     font-weight: normal;
     background-color: white;
@@ -3508,22 +3760,13 @@ img.wiki-image {
     border-width: 0 5px 5px;
 }
 
-
-/* Exceptions for tooltips that are up against the edge of the screen */
-.add-point .tooltip {
-    left: -20px !important; }
-
-.curtain-tooltip.intro-points-add .tooltip-arrow,
-.add-point .tooltip .tooltip-arrow {
-    left: 60px;
-}
-
-.tooltip .keyhint-wrap {
-    padding: 5px 0 5px 0;
+.keyhint-wrap {
+    background: #F6F6F6;
+    padding: 10px;
+    margin: 10px -10px -10px;
 }
 
 .tooltip-inner .keyhint {
-    color: #222;
     font-size: 10px;
     padding: 0 7px;
     font-weight: bold;
@@ -3533,11 +3776,6 @@ img.wiki-image {
     position: relative;
     z-index: 1;
     text-align: left;
-    clear: both;
-}
-
-.tooltip .keyhint .keyhint-label {
-    display: inline-block;
 }
 
 .tooltip-inner .keyhint::after {
@@ -3553,8 +3791,46 @@ img.wiki-image {
     border-top: 0;
 }
 
+/* Exceptions for tooltip layouts */
+
+/* make tooltips in editor pane dark */
+.entity-editor-pane .tooltip.top .tooltip-arrow {
+    border-top-color: #000;
+}
+
+.entity-editor-pane .tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #000;
+}
+
+.entity-editor-pane .tooltip.left .tooltip-arrow {
+    border-left-color: #000;
+}
+
+.entity-editor-pane .tooltip.right .tooltip-arrow {
+    border-right-color: #000;
+}
+
+.entity-editor-pane .tooltip-inner {
+    background: #000;
+    color: #ccc;
+}
+
+/* Uncramp map-control tooltips */
+.map-control .tooltip {
+    min-width: 160px;
+}
+/* Move over tooltips that are near the edge of screen */
+.add-point .tooltip {
+    left: 33.3333% !important; 
+}
+
+.curtain-tooltip.intro-points-add .tooltip-arrow,
+.add-point .tooltip .tooltip-arrow {
+    left: 60px;
+}
+
 .radial-menu-tooltip {
-    background-color: rgba(255, 255, 255, 0.8);
+    opacity: 0.8;
     display: none;
     position: absolute;
     width: 200px;
@@ -3598,7 +3874,6 @@ img.wiki-image {
 ------------------------------------------------------- */
 
 @media only screen and (max-width: 840px) {
-    #bar .label {display: none;}
     #bar .icon.icon-pre-text { margin-right: 0;}
     /* override hide for save button */
     #bar .save .label { display: block;}
@@ -3703,6 +3978,7 @@ img.wiki-image {
 .intro-points-add .tooltip-inner::before,
 .intro-areas-add .tooltip-inner::before,
 .intro-lines-add .tooltip-inner::before {
+    margin-left: -20px;
     display: block;
     content: "";
     height: 80px;
@@ -3734,6 +4010,7 @@ img.wiki-image {
 
 .preset-icon{background-image:url(<%= asset_path("iD/img/maki-sprite.png") %>);background-repeat:no-repeat;width:24px;height:24px;}
 .preset-icon-line{background-image:url(<%= asset_path("iD/img/line-presets.png") %>);background-repeat:no-repeat;width:60px;height:60px;}
+.preset-icon-relation{background-image:url(<%= asset_path("iD/img/relation-presets.png") %>);background-repeat:no-repeat;width:60px;height:60px;}
 .feature-airfield{background-position:-0px -34px;}
 .feature-airport{background-position:-0px -94px;}
 .feature-alcohol-shop{background-position:-0px -154px;}
@@ -3864,3 +4141,21 @@ img.wiki-image {
 .preset-icon-line.feature-category-rail{background-position:-2060px -25px;}
 .preset-icon-line.feature-category-path{background-position:-2120px -25px;}
 .preset-icon-line.feature-category-water{background-position:-2180px -25px;}
+.preset-icon-line.feature-ferry{background-position:-2240px -25px;}
+.preset-icon-line.feature-pipeline{background-position:-2300px -25px;}
+.preset-icon-relation.feature-relation{background-position:-20px -25px;}
+.preset-icon-relation.feature-restriction{background-position:-80px -25px;}
+.preset-icon-relation.feature-multipolygon{background-position:-140px -25px;}
+.preset-icon-relation.feature-boundary{background-position:-200px -25px;}
+.preset-icon-relation.feature-route{background-position:-260px -25px;}
+.preset-icon-relation.feature-route-road{background-position:-320px -25px;}
+.preset-icon-relation.feature-route-bicycle{background-position:-380px -25px;}
+.preset-icon-relation.feature-route-foot{background-position:-440px -25px;}
+.preset-icon-relation.feature-route-bus{background-position:-500px -25px;}
+.preset-icon-relation.feature-route-train{background-position:-560px -25px;}
+.preset-icon-relation.feature-route-detour{background-position:-620px -25px;}
+.preset-icon-relation.feature-route-tram{background-position:-680px -25px;}
+.preset-icon-relation.feature-route-ferry{background-position:-740px -25px;}
+.preset-icon-relation.feature-route-power{background-position:-800px -25px;}
+.preset-icon-relation.feature-route-pipeline{background-position:-860px -25px;}
+.preset-icon-relation.feature-route-master{background-position:-920px -25px;}

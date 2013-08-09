@@ -30,7 +30,8 @@
         "add": {
             "annotation": {
                 "point": "Punkt hinzugefügt.",
-                "vertex": "Einen Punkt zum Weg hinzugefügt."
+                "vertex": "Einen Punkt zum Weg hinzugefügt.",
+                "relation": "Relation hinzugefügt."
             }
         },
         "start": {
@@ -47,6 +48,9 @@
         },
         "cancel_draw": {
             "annotation": "Zeichnen abgebrochen."
+        },
+        "change_role": {
+            "annotation": "Rolle eines Relationsmitglieds geändert."
         },
         "change_tags": {
             "annotation": "Tags verändert."
@@ -84,7 +88,14 @@
                 "area": "Fläche gelöscht.",
                 "relation": "Relation gelöscht.",
                 "multiple": "{n} Objekte gelöscht."
-            }
+            },
+            "incomplete_relation": "Dieses Objekt kann nicht gelöscht werden, da es nicht vollständig heruntergeladen wurde."
+        },
+        "add_member": {
+            "annotation": "Ein Mitglied zu einer Relation hinzugefügt."
+        },
+        "delete_member": {
+            "annotation": "Ein Mitglied aus einer Relation entfernt."
         },
         "connect": {
             "annotation": {
@@ -107,7 +118,8 @@
             "key": "C",
             "annotation": "{n} Linien vereinigt.",
             "not_eligible": "Diese Objekte können nicht vereint werden.",
-            "not_adjacent": "Diese Linien können nicht vereint werden, da sie nicht verbunden sind."
+            "not_adjacent": "Diese Linien können nicht vereint werden, da sie nicht verbunden sind.",
+            "restriction": "Diese Linien können nicht vereinigt werden, da mindestens eine Linie ein Mitglied einer \"{relation}\" Relation ist."
         },
         "move": {
             "title": "Verschieben",
@@ -156,10 +168,17 @@
     },
     "nothing_to_undo": "Nichts zum Rückgängigmachen.",
     "nothing_to_redo": "Nichts zum Wiederherstellen.",
+    "tooltip_keyhint": "Tastenkürzel:",
     "just_edited": "Sie haben gerade OpenStreetMap editiert!",
     "browser_notice": "Dieser Editor wird von Firefox, Chrome, Safari, Opera, und Internet Explorer (Version 9 und höher) unterstützt. Bitte aktualisieren Sie Ihren Browser oder nutzen Sie Potlatch 2, um die Karte zu modifizieren.",
     "view_on_osm": "Auf OpenStreetMap anschauen",
-    "zoom_in_edit": "Hineinzoomen, um die Karte zu bearbeiten",
+    "translate": {
+        "translate": "Übersetzen",
+        "localized_translation_label": "Mehrsprachiger Name",
+        "localized_translation_language": "Sprache wählen",
+        "localized_translation_name": "Name"
+    },
+    "zoom_in_edit": "Hineinzoomen, um zu bearbeiten",
     "logout": "Abmelden",
     "loading_auth": "Verbinde mit OpenStreetMap....",
     "report_a_bug": "Programmfehler melden",
@@ -172,7 +191,8 @@
         "title": "Änderungen speichern",
         "description_placeholder": "Eine kurze Beschreibung deiner Beiträge",
         "message_label": "Änderungskommentar",
-        "upload_explanation": "Änderungen, die du als {user} hochlädst erscheinen auf allen Karten, die Daten von OpenStreetMap nutzen.",
+        "upload_explanation": "Änderungen, die du hochlädst, werden auf allen Karten sichtbar, die OpenStreetMap nutzen.",
+        "upload_explanation_with_user": "Änderungen, die du als {user} hochlädst, werden auf allen Karten sichtbar, die OpenStreetMap nutzen.",
         "save": "Speichern",
         "cancel": "Abbrechen",
         "warnings": "Warnungen",
@@ -181,13 +201,13 @@
         "created": "Erstellt"
     },
     "contributors": {
-        "list": "Diese Kartenansicht enthält Beiträge von:",
-        "truncated_list": "Diese Kartenansicht enthält Beiträge von: {users} und {count} anderen"
+        "list": "Bearbeitet von {users}",
+        "truncated_list": "Bearbeitet von {users} und {count} anderen"
     },
     "geocoder": {
-        "title": "Suche einen Ort",
-        "placeholder": "suche einen Ort",
-        "no_results": "Ein Ort namens '{name}' konnte nicht gefunden werden"
+        "search": "Suche weltweit...",
+        "no_results_visible": "Keine Ergebnisse im sichtbaren Kartenbereich",
+        "no_results_worldwide": "Keine Ergebnisse gefunden"
     },
     "geolocate": {
         "title": "Zeige meine Position"
@@ -196,16 +216,22 @@
         "no_documentation_combination": "Für dieses Attribut ist keine Dokumentation verfügbar.",
         "no_documentation_key": "Für dieses Schlüsselwort ist keine Dokumentation verfügbar",
         "show_more": "Zeige mehr",
-        "new_tag": "Neues Attribut",
         "view_on_osm": "Auf openstreetmap.org ansehen",
-        "editing_feature": "In Bearbeitung {feature}",
         "all_tags": "Alle Tags",
+        "all_members": "Alle Mitglieder",
+        "all_relations": "Alle Relationen",
+        "new_relation": "Neue Relation...",
+        "role": "Rolle",
         "choose": "Eigenschafts-Typ auswählen",
         "results": "{n} Resultate für {search}",
         "reference": "Im OpenStreetMap-Wiki anschauen",
-        "back_tooltip": "Eigenschafts-Typ ändern",
+        "back_tooltip": "Eigenschaft ändern",
         "remove": "Entfernen",
-        "search": "Suchen"
+        "search": "Suchen",
+        "unknown": "Unbekannt",
+        "incomplete": "<nicht heruntergeladen>",
+        "feature_list": "Objekte suchen",
+        "edit": "Eigenschaft bearbeiten"
     },
     "background": {
         "title": "Hintergrund",
@@ -272,14 +298,14 @@
     },
     "help": {
         "title": "Hilfe",
-        "help": "#Hilfe\n\nDies ist ein Editor für [OpenStreetMap](http://www.openstreetmap.org/), der freien und editierbaren Weltkarte. Du kannst ihn verwenden, um Daten in deiner Umgebung hinzuzufügen oder zu verändern und so diese Karte mit freien Quellen und freien Daten für jeden verbessern.\n\nVeränderungen werden für alle Nutzer von OpenStreetMap sichtbar. Um Veränderungen vornehmen zu können, musst du ein [kostenloses OpenStreetMap Profil](https://www.openstreetmap.org/user/new) anlegen.\n\nDer [iD editor](http://ideditor.com/) ist ein Gemeinschaftsprojektn dessen [Quellcode\nauf GitHub verfügbar ist](https://github.com/systemed/iD).\n\n",
-        "editing_saving": "# Editieren & Speichern\n\nDieser Editor wurde entworfen, um online zu arbeiten und du erreichst ihn über diese Webseite.\n\n###Objekte auswählen\n\nUm ein Kartenobjekt wie eine Straße oder ein Sonderziel (POI) auszuwählen, klicke auf der Karte darauf. Dadurch wird das Objekt hervorgehoben und ein Bedienfeld mit Details und Möglichkeiten zur Veränderung aufgerufen. \n\nMehrere Objekte kannst du auswählen indem du die Shift-Taste (Umschaltaste) drückst und die Objekte einzeln anklickst oder klickst und einen Rahmen darum ziehst.\nSo könne mehrere Objekte gleichzeitig geändert werden.\n\n### Speichern der Änderungen\n\nWenn du Änderungen an einer Straße, einem Gebäude oder einem Platz vorgenommen hast sind diese lokal gespeichert, bis du sie auf dem Server speicherst. Keine Sorge falls du einen Fehler machen solltest: Du kannst Änderungen jederzeit über den Rückgängig-Knopf rückgängig machen oder über den Wiederherstellen-Knopf noch einmal ausführen.\n\nKlicke auf \"Speichern\", um eine Gruppe von Änderungen zu speichern. Zum Beispiel, wenn du in einem Stadtteil fertig bist und in einer neuen Gegend editieren willst.\nDu bekommst dann die Möglichkeit noch einmal zu überprüfen, was du gerade getan hast und der Editor zeigt dir nützliche Hinweise oder mögliche Fehler, wenn etwas nicht in Ordnung zu sein scheint.\n\nWenn alles gut aussieht kannst du einen kurzen Kommentar schreiben, der erklärt, was du gemacht hast. Drücke nun \"Speichern\", um die Änderungen auf dem Server zu speichern.\nNun können es alle auf [OpenStreetMap.org](http://www.openstreetmap.org/) sehen und darauf aufbauen.\n\nWenn du es zeitlich nicht schaffst, kannst du das Editor-Fenster einfach schließen. Wenn du  die Seite wieder aufrufst (mit dem gleichen Browser und Computer) wird dir angeboten, die letzte Sitzung wiederherzustellen. \n",
-        "roads": "# Straßen\n\nMit dem Editor kannst du Wege erstellen, verändern und löschen. Wege können alles möglich sein, zum Beispiel Pfade, Straßen, Schienen, Fahrradwege und anderes.\n\n### Auswählen\n\nKlicke auf einem Weg, um ihn auszuwählen. Er sollte nun hervorgehoben werden. Außerdem erscheint ein kleines Werkzeugmenü und eine Seitenleiste mit den Eigenschaften des Weges.\n\n### Modifizieren\n\nOft sieht man, dass Wege nicht mit dem Luftbild oder einer GPS-Spur übereinstimmen. Du kannst den Weg aber so anpassen, das er an der richtigen Stelle ist. Beachte jedoch, dass Luftbilder einen Versatz aufweisen können.\n\nAls Erstes wählst du einen Weg aus. Dieser wird nun hervorgehoben und es werden die Knoten des Weges angezeigt. Diese kannst du verschieben, bis sie an der richtigen Stelle sind. Wenn du neu Konten hinzufügen möchtest, klickt doppelt zwischen den Knoten auf die Linie und es wird ein neuer Punkt erzeugt.\n\nWenn zwei Wege in Wirklichkeit mit einander verbunden sind aber auf der Karte nicht, kannst du sie verbinden, indem du einen Knoten des einen Weges auf den anderen Weg ziehst. Dass Wege verbunden sind, ist wichtig für die Karte und essentiell für die Nutzung von Routenführung.\n\nDu kannst auch das \"Bewegen\"-Werkzeug nutzen oder \"M\" drücken, um den kompletten Weg zu verschieben. Beende die Aktion mit einem Klick.\n\n### Löschen\n\nWenn du weißt, dass ein Weg nicht existiert, kannst du ihn löschen, um ihn von der Karte zu entfernen. Sei beim Löschen von Objekten besonders vorsichtig, da diese Änderungen von jedem gesehen werden können und Luftbilder oft veraltet sind. Das heißt, dass ein Weg, der im Luftbild nicht zusehen ist, vielleicht einfach neu gebaut wurde.\n\nDu kannst Wege löschen, indem du sie anklickst und das Mülltonnensymbol auswählst oder die \"Entfernen\"-Taste drückst.\n\n### Erstellen\n\nDu kennst einen Weg der nicht eingezeichnet ist? Dann klicke auf das \"Linien\"-Symbol oben links im Editor oder drücke Taste \"2\" und beginne mit dem Zeichnen einer Linie.\n\nKlick dort hin, wo die Straße anfängt. Sollte sie von einer bereits existierenden Straße abzweigen, klicke an der entsprechenden Stelle auf diese Straße.\n\nZeichnen nun den Weg, indem du Punkte anhand der Luftaufnahme oder der GPS-Spur entlang des Weges setzt. Sollte der Weg einen anderen kreuzen, klicke auf den  Kreuzungspunkt, um sie zu verbinden. Wenn du mit dem Zeichnen fertig bist, klicke doppelt oder drücke \"Enter\" auf der Tastatur, um den Weg abzuschließen.\n",
-        "gps": "# GPS\n\nGPS Daten sind die vertrauenswürdigste Quelle für OpenStreetMap.\nDieser Editor unterstützt lokale GPS-Spuren - \".gpx\" Dateien auf deinem Computer. \nDu kannst diese GPS-Spuren mit Hilfe diverser Smartphone-Apps oder anderen GPS-Geräten aufnehmen.\n\nFür Informationen über das Sammeln von GPS-Daten kannst du dir folgende Anleitung durchlesen: [Surveying with a GPS](http://learnosm.org/en/beginner/using-gps/) (bis jetzt nur auf Englisch)\n\nUm eine GPX-Tracks zu verwenden, ziehe ihn einfach in den Karteneditor.\nWenn er erkannt wurde, wird dieser Track als leuchtend grüne Linie auf der Karte dargestellt.\nKlicke auf \"Hintergrundeinstellungen\", um sie zu deaktivieren und zu aktivieren, oder zum Gebiet des Tracks zu gelangen (Lupe).\n\nDer GPX-Track wird nicht automatisch direkt zu OpenStreetMap hochgeladen. Am besten verwendest du ihn, um neue Wege hinzuzufügen. \nMöchtest du den GPX-Track jedem zugänglich machen, kannst du ihn über [Track-Upload-Seite](http://www.openstreetmap.org/trace/create) hochladen.\n",
+        "help": "#Hilfe\n\nDies ist ein Editor für [OpenStreetMap](http://www.openstreetmap.org/), der freien und editierbaren Weltkarte. Du kannst ihn verwenden, um Daten in deiner Umgebung hinzuzufügen oder zu verändern und so diese Karte mit freien Quellen und freien Daten für jeden verbessern.\n\nVeränderungen werden für alle Nutzer von OpenStreetMap sichtbar. Um Veränderungen vornehmen zu können, musst du ein [kostenloses OpenStreetMap Profil](https://www.openstreetmap.org/user/new) anlegen.\n\nDer [iD editor](http://ideditor.com/) ist ein Gemeinschaftsprojekt dessen [Quellcode\nauf GitHub verfügbar ist](https://github.com/systemed/iD).\n\n",
+        "editing_saving": "# Editieren & Speichern\n\nDieser Editor wurde entworfen, um online zu arbeiten und du erreichst ihn über diese Webseite.\n\n###Objekte auswählen\n\nUm ein Kartenobjekt wie eine Straße oder ein Sonderziel (POI) auszuwählen, klicke auf der Karte darauf. Dadurch wird das Objekt hervorgehoben und ein Bedienfeld mit Details und Möglichkeiten zur Veränderung aufgerufen. \n\nMehrere Objekte kannst du auswählen indem du die Shift-Taste (Umschaltaste) drückst und die Objekte einzeln anklickst oder klickst und einen Rahmen darum ziehst.\nSo können mehrere Objekte gleichzeitig geändert werden.\n\n### Speichern der Änderungen\n\nWenn du Änderungen an einer Straße, einem Gebäude oder einem Platz vorgenommen hast sind diese lokal gespeichert, bis du sie auf dem Server speicherst. Keine Sorge falls du einen Fehler machen solltest: Du kannst Änderungen jederzeit über den Rückgängig-Knopf rückgängig machen oder über den Wiederherstellen-Knopf noch einmal ausführen.\n\nKlicke auf \"Speichern\", um eine Gruppe von Änderungen zu speichern. Zum Beispiel, wenn du in einem Stadtteil fertig bist und in einer neuen Gegend editieren willst.\nDu bekommst dann die Möglichkeit noch einmal zu überprüfen, was du gerade getan hast und der Editor zeigt dir nützliche Hinweise oder mögliche Fehler, wenn etwas nicht in Ordnung zu sein scheint.\n\nWenn alles gut aussieht kannst du einen kurzen Kommentar schreiben, der erklärt, was du gemacht hast. Drücke nun \"Speichern\", um die Änderungen auf dem Server zu speichern.\nNun können es alle auf [OpenStreetMap.org](http://www.openstreetmap.org/) sehen und darauf aufbauen.\n\nWenn du es zeitlich nicht schaffst, kannst du das Editor-Fenster einfach schließen. Wenn du  die Seite wieder aufrufst (mit dem gleichen Browser und Computer) wird dir angeboten, die letzte Sitzung wiederherzustellen. \n",
+        "roads": "# Straßen\n\nMit dem Editor kannst du Wege erstellen, verändern und löschen. Wege können alles möglich sein, zum Beispiel Pfade, Straßen, Schienen, Fahrradwege und anderes.\n\n### Auswählen\n\nKlicke auf einem Weg, um ihn auszuwählen. Er sollte nun hervorgehoben werden. Außerdem erscheint ein kleines Werkzeugmenü und eine Seitenleiste mit den Eigenschaften des Weges.\n\n### Modifizieren\n\nOft sieht man, dass Wege nicht mit dem Luftbild oder einer GPS-Spur übereinstimmen. Du kannst den Weg aber so anpassen, das er an der richtigen Stelle ist. Beachte jedoch, dass Luftbilder einen Versatz aufweisen können.\n\nAls Erstes wählst du einen Weg aus. Dieser wird nun hervorgehoben und es werden die Knoten des Weges angezeigt. Diese kannst du verschieben, bis sie an der richtigen Stelle sind. Wenn du einen neuen Knoten hinzufügen möchtest, klicke doppelt zwischen bestehenden Knoten auf der Linie und es wird ein neuer Punkt erzeugt.\n\nWenn zwei Wege in Wirklichkeit mit einander verbunden sind aber auf der Karte nicht, kannst du sie verbinden, indem du einen Knoten des einen Weges auf den anderen Weg ziehst. Dass Wege verbunden sind, ist wichtig für die Karte und essentiell für die Nutzung von Routenführung.\n\nDu kannst auch das \"Bewegen\"-Werkzeug nutzen oder \"M\" drücken, um den kompletten Weg zu verschieben. Beende die Aktion mit einem Klick.\n\n### Löschen\n\nWenn du weißt, dass ein Weg nicht existiert, kannst du ihn löschen, um ihn von der Karte zu entfernen. Sei beim Löschen von Objekten besonders vorsichtig, da diese Änderungen von jedem gesehen werden können und Luftbilder oft veraltet sind. Das heißt, dass ein Weg, der im Luftbild nicht zusehen ist, vielleicht einfach neu gebaut wurde.\n\nDu kannst Wege löschen, indem du sie anklickst und das Papierkorbsymbol auswählst oder die \"Entfernen\"-Taste drückst.\n\n### Erstellen\n\nDu kennst einen Weg der nicht eingezeichnet ist? Dann klicke auf das \"Linien\"-Symbol oben links im Editor oder drücke die Taste \"2\" und beginne mit dem Zeichnen einer Linie.\n\nKlick dort hin, wo die Straße anfängt. Sollte sie von einer bereits existierenden Straße abzweigen, klicke an der entsprechenden Stelle auf diese Straße.\n\nZeichne nun den Weg, indem du Punkte anhand der Luftaufnahme oder der GPS-Spur entlang des Weges setzt. Sollte der Weg einen anderen kreuzen, klicke auf den Kreuzungspunkt, um sie zu verbinden. Wenn du mit dem Zeichnen fertig bist, klicke doppelt oder drücke \"Enter\" auf der Tastatur, um den Weg abzuschließen.\n",
+        "gps": "# GPS\n\nGPS Daten sind die vertrauenswürdigste Quelle für OpenStreetMap.\nDieser Editor unterstützt lokale GPS-Spuren - \".gpx\" Dateien auf deinem Computer. \nDu kannst diese GPS-Spuren mit Hilfe diverser Smartphone-Apps oder anderen GPS-Geräten aufnehmen.\n\nFür Informationen über das Sammeln von GPS-Daten kannst du dir folgende Anleitung durchlesen: [Surveying with a GPS](http://learnosm.org/en/beginner/using-gps/) (bis jetzt nur auf Englisch)\n\nUm einen GPX-Track zu verwenden, ziehe ihn einfach in den Karteneditor.\nWenn er erkannt wurde, wird dieser Track als leuchtend grüne Linie auf der Karte dargestellt.\nKlicke auf \"Hintergrundeinstellungen\", um sie zu deaktivieren und zu aktivieren, oder zum Gebiet des Tracks zu gelangen (Lupe).\n\nDer GPX-Track wird nicht automatisch direkt zu OpenStreetMap hochgeladen. Am besten verwendest du ihn, um neue Wege hinzuzufügen. \nMöchtest du den GPX-Track jedem zugänglich machen, kannst du ihn über die [Track-Upload-Seite](http://www.openstreetmap.org/trace/create) hochladen.\n",
         "imagery": "# Bildmaterial\n\nLuftbilder sind eine wichtige Quelle für das Kartografieren. Eine Kombination aus Luftbildern von Flugzeugen, Satellitenbilder und freien Quellen sind im Editor über das \"Hintergrundeinstellungen\"- Menü auf der linken Seite verfügbar. \n\nAls Standard ist der [Bing Maps](http://www.bing.com/maps/) Satelliten-Layer ausgewählt. Je nach Gegend werden dir verschiedene andere Quellen angezeigt.\nIn einigen Länder wie den USA, Frankreich, Deutschland und Dänemark stehen zum Teil sehr hochauflösende Luftbilder zur Verfügung.\n\nLuftbilder sind manchmal durch Fehler der Luftbild-Anbieter verschoben. \nWenn du feststellst, dass viele  Straßen gegenüber dem Hintergrund verschoben sind, dann verschiebe nicht die Straßen sondern das Luftbild, bis sie übereinstimmen. Um das Luftbild zu korrigieren, klicke auf \"Fehlerhafte Ausrichtung korrigieren\" in den Hintergrundeinstellungen.\n\n",
         "addresses": "# Adressen\n\nAdressen sind eine der wichtigsten Informationen einer Karte.\n\nObwohl Adressen oft als Teil einer Straße repräsentiert werden, werden sie in OpenStreetMap  als Attribute von Gebäuden oder Objekten neben der Straße eingetragen.\n\nDu kannst Adressinformationen sowohl zu Flächen die als Gebäudegrundriss gezeichnet sind, als auch zu einzelnen Punkten hinzufügen. Adressen musst du über eine Stadtbegehung oder dein eigenes Wissen herausfinden, da die Nutzung kommerzieller Quellen wie Google Maps strikt verboten ist.\n",
-        "inspector": "# Den Inspektor benutzen\n \nDer Inspektor ist das Bedienelement, das rechts im Editor erscheint, wenn du ein Objekt auswählst. Mit dem Inspektor kannst du die Details des Objektes zu bearbeiten.\n\n ### Eine Eigenschaft auswählen\n \nNachdem du einen Punkt, eine Linie oder eine Fläche hinzugefügt hast kannst du auswählen, welche Eigenschaft das Objekt hat - ob es eine Autobahn oder eine Wohnstraße; ein Supermarkt oder ein Café ist.\nDer Inspektor wird Knöpfe für die am häufigsten verwendeten Eigenschaften zeigen.Andere Eigenschaften findest du, indem du im Suchfeld eingibst wonach du suchst. \n \nKlicke auf den 'i'-Knopf in der Ecke rechts unten in einem Eigenschaften-Knopf, um mehr darüber zu erfahren. \n\n ### Vorlagen verwenden und Tags editieren\n \nNachdem du ein Objekt mit einer Eigenschaft versehen oder ausgewählt hast, zeigt der Inspektor Felder mit Details zu der Eigenschaft an wie Name und Adresse.\n\nUnter diesen Feldern kannst du Icons anklicken, um weitere Details hinzuzufügen wie zum Beispiel einen [Wikipedia](http://www.wikipedia.org/)-Link, Zugänglichkeit für Rollstühle und anderes.\n\nGanz unten im Inspektor kannst du auf 'Weitere Merkmale' klicken, um das Objekt mit beliebigen anderen Tags zu versehen.\n[Taginfo](http://taginfo.openstreetmap.org/) ist eine gute Quelle, um oft genutzte Kombinationen von Eigenschaften zu finden.\n\nÄnderungen die du im Inspektor vornimmst, werden automatisch auf die ausgewählten Objekte angewendet. Durch Klicken auf den 'Rückgängig'-Knopf kannst du sie rückgängig machen.\n\n ### Den Inspektor schließen\n\nDu kannst den Inspektor schließen, indem du auf den Schließen-Knopf oben rechts klickst, den 'Escape'-Knopf auf der Tastatur drückst oder in die Karte klickst.\n",
-        "buildings": "# Gebäude\n\nOpenStreetMap ist die weltgrößte Datenbank für Gebäude und du kannst helfen sie\nweiter zu verbessern.\n\n### Auswahl\n\nDu kannst ein Gebäude auswählen, indem du auf dessen Umrisslinie klickst. Der\nUmriss wird nun hervorgehoben. Außerdem wird ein Werkzeugmenü und eine\nSeitenleiste eingeblendet, welche Informationen zum Gebäude zeigt.\n\n### Bearbeitung\n\nManchmal sind Gebäude falsch platziert oder haben falsche Eigenschaften.\n\nUm ein Gebäude komplett zu verschieben wähle es aus und klicke auf das\n„Bewegen“-Werkzeug. Verschiebe nun das Gebäude mit der Maus und Klicke einmal\nwenn es an der richtigen Stelle ist.\n\nUm den Gebäudeumriss zu korrigieren, klicke und ziehe die Umrissknoten, bis\nsie an der richtigen Stelle sind.\n\n### Erstellen\n\nEine oft gestellte Frage bezieht sich auf das Erstellen von Gebäuden als\nGebäudefläche und/oder als Punkt. Hier gilt, wann immer es möglich ist, sollte\ndas Gebäude als Fläche eingetragen werden. Firmen, Geschäfte und ähnliches\nwerden zusätzlich als Punkte innerhalb des Gebäudeumrisses angelegt.\n\nUm ein Gebäude als Fläche zu zeichnen, klicke auf den „Fläche“-Knopf oben\nlinks und vollende das Gebäude, indem du entweder die \"Enter\"-taste drückst,\noder auf den ersten Knoten klickst.\n\n### Löschen\n\nWenn du siehst und weißt, dass eine Gebäude nicht existiert - zum Beispiel,\nweil du vor Ort warst - kannst du es löschen und es wird von der Karte\nentfernt. Sei vorsichtig mit der Löschenfunktion! Das Ergebnis kann, wie\nbei jeder anderen Veränderung, von allen gesehen werden. Außerdem sind\nSatellitenbilder oft veraltet und ein Gebäude könnte einfach neu gebaut sein.\n\nDu kannst ein Gebäude löschen, indem du es auswählst und auf das\nMülltonnensymbol klickst oder die „Entfernen“-Taste betätigst.\n"
+        "inspector": "# Den Inspektor benutzen\n \nDer Inspektor ist das Bedienelement, das rechts im Editor erscheint, wenn du ein Objekt auswählst. Mit dem Inspektor kannst du die Details des Objektes bearbeiten.\n\n ### Eine Eigenschaft auswählen\n \nNachdem du einen Punkt, eine Linie oder eine Fläche hinzugefügt hast kannst du auswählen, welche Eigenschaft das Objekt hat - ob es eine Autobahn oder eine Wohnstraße; ein Supermarkt oder ein Café ist.\nDer Inspektor wird Knöpfe für die am häufigsten verwendeten Eigenschaften zeigen. Andere Eigenschaften findest du, indem du im Suchfeld eingibst wonach du suchst. \n \nKlicke auf den 'i'-Knopf in der Ecke rechts unten in einem Eigenschaften-Knopf, um mehr darüber zu erfahren. \n\n ### Vorlagen verwenden und Tags editieren\n \nNachdem du ein Objekt mit einer Eigenschaft versehen oder ausgewählt hast, zeigt der Inspektor Felder mit Details zu der Eigenschaft wie Name und Adresse an.\n\nUnter diesen Feldern kannst du Icons anklicken, um weitere Details hinzuzufügen wie zum Beispiel einen [Wikipedia](http://www.wikipedia.org/)-Link, Zugänglichkeit für Rollstühle und anderes.\n\nGanz unten im Inspektor kannst du auf 'Weitere Merkmale' klicken, um das Objekt mit beliebigen anderen Tags zu versehen.\n[Taginfo](http://taginfo.openstreetmap.org/) ist eine gute Quelle, um oft genutzte Kombinationen von Eigenschaften zu finden.\n\nÄnderungen die du im Inspektor vornimmst, werden automatisch auf die ausgewählten Objekte angewendet. Durch Klicken auf den 'Rückgängig'-Knopf kannst du sie rückgängig machen.\n\n ### Den Inspektor schließen\n\nDu kannst den Inspektor schließen, indem du auf den Schließen-Knopf oben rechts klickst, den 'Escape'-Knopf auf der Tastatur drückst oder in die Karte klickst.\n",
+        "buildings": "# Gebäude\n\nOpenStreetMap ist die weltgrößte Datenbank für Gebäude und du kannst helfen sie\nweiter zu verbessern.\n\n### Auswahl\n\nDu kannst ein Gebäude auswählen, indem du auf dessen Umrisslinie klickst. Der\nUmriss wird nun hervorgehoben. Außerdem wird ein Werkzeugmenü und eine\nSeitenleiste eingeblendet, welche Informationen zum Gebäude zeigt.\n\n### Bearbeitung\n\nManchmal sind Gebäude falsch platziert oder haben falsche Eigenschaften.\n\nUm ein Gebäude komplett zu verschieben wähle es aus und klicke auf das\n„Bewegen“-Werkzeug. Verschiebe nun das Gebäude mit der Maus und Klicke einmal\nwenn es an der richtigen Stelle ist.\n\nUm den Gebäudeumriss zu korrigieren, klicke und ziehe die Umrissknoten, bis\nsie an der richtigen Stelle sind.\n\n### Erstellen\n\nEine oft gestellte Frage bezieht sich auf das Erstellen von Gebäuden als\nGebäudefläche und/oder als Punkt. Hier gilt, wann immer es möglich ist, sollte\ndas Gebäude als Fläche eingetragen werden. Firmen, Geschäfte und ähnliches\nwerden zusätzlich als Punkte innerhalb des Gebäudeumrisses angelegt.\n\nUm ein Gebäude als Fläche zu zeichnen, klicke auf den „Fläche“-Knopf oben\nlinks und vollende das Gebäude, indem du entweder die \"Enter\"-taste drückst,\noder auf den ersten Knoten klickst.\n\n### Löschen\n\nWenn du siehst und weißt, dass ein Gebäude nicht existiert - zum Beispiel,\nweil du vor Ort warst - kannst du es löschen und es wird von der Karte\nentfernt. Sei vorsichtig mit der Löschfunktion! Das Ergebnis kann, wie\nbei jeder anderen Veränderung, von allen gesehen werden. Außerdem sind\nSatellitenbilder oft veraltet und ein Gebäude könnte einfach neu gebaut sein.\n\nDu kannst ein Gebäude löschen, indem du es auswählst und auf das\nPapierkorbsymbol klickst oder die „Entfernen“-Taste betätigst.\n"
     },
     "intro": {
         "navigation": {
@@ -293,7 +319,7 @@
             "title": "Punkte",
             "add": "Punkte können verwendet werden, um Objekte wie Läden, Restaurants oder Denkmäler darzustellen. Sie markieren eine bestimmte Stelle und beschreiben, was sich dort befindet. **Klicke den Punkt-Knopf an, um einen neuen Punkt hinzuzufügen**",
             "place": "Punkte können durch Klicken auf die Karte platziert werden. **Platziere einen Punkt auf dem Gebäude**",
-            "search": "Es gibt viele verschiedene Objekte, die ein Punkt repräsentieren kann. Der Punkt, den du gerade hinzugefügt hast, ist ein Café. **Suche nach \"Café\"**",
+            "search": "Es gibt viele verschiedene Objekte, die ein Punkt repräsentieren kann. Der Punkt, den du gerade hinzugefügt hast, ist ein Café. **Suche nach '{name}'**",
             "choose": "**Wähle \"Café\" aus der Liste aus.**",
             "describe": "Der Knoten wurde nun als Café markiert. Mit dem Eigenschaftseditor können wir mehr Informationen über das Objekt angeben. **Füge einen Namen hinzu.**",
             "close": "Der Eigenschaftseditor kann mithilfe des Schließen-Buttons beendet werden. **Schließe den Eigenschaftseditor.**",
@@ -307,7 +333,7 @@
             "add": "Flächen sind eine Möglichkeit, Objekte detailliert wiederzugeben. Diese bieten Information über die Grenzen des Objektes. Flächen können fast immer da verwendet werden, wo auch Knoten Verwendung finden, werden aber oft bevorzugt. **Benutze den Flächen-Button, um ein neues Gebiet hinzuzufügen.**",
             "corner": "Flächen werden gezeichnet, indem man Punkte platziert, die den Umriss der Fläche repräsentieren. **Setze den Startpunkt auf eine Ecke des Spielplatzes**",
             "place": "Zeichne eine Fläche, indem du mehr Punkte hinzufügst. Beende die Fläche, indem du auf den Startpunkt klickst. **Zeichne eine Fläche für den Spielplatz.**",
-            "search": "**Suche nach Spielplatz**",
+            "search": "**Suche nach '{name}'.**",
             "choose": "**Wähle \"Spielplatz\" aus der Liste aus.**",
             "describe": "**Füge einen Namen hinzu und schließe den Eigenschaftseditor**"
         },
@@ -343,6 +369,9 @@
             "category-road": {
                 "name": "Straße"
             },
+            "category-route": {
+                "name": "Route"
+            },
             "category-water": {
                 "name": "Wasser"
             }
@@ -350,6 +379,7 @@
         "fields": {
             "access": {
                 "label": "Zugangsbeschränkungen",
+                "placeholder": "Unbekannt",
                 "types": {
                     "access": "Allgemein",
                     "foot": "zu Fuß",
@@ -412,6 +442,9 @@
             "bicycle_parking": {
                 "label": "Typ"
             },
+            "boundary": {
+                "label": "Typ"
+            },
             "building": {
                 "label": "Gebäude"
             },
@@ -422,7 +455,8 @@
                 "label": "Gebäude"
             },
             "capacity": {
-                "label": "Kapazität"
+                "label": "Kapazität",
+                "placeholder": "50, 100, 200..."
             },
             "cardinal_direction": {
                 "label": "Richtung"
@@ -455,6 +489,9 @@
             "denotation": {
                 "label": "Vorgesehene Verwendung"
             },
+            "description": {
+                "label": "Beschreibung"
+            },
             "elevation": {
                 "label": "Erhöhung"
             },
@@ -465,7 +502,8 @@
                 "label": "Typ"
             },
             "fax": {
-                "label": "Fax"
+                "label": "Fax",
+                "placeholder": "+31 42 123 4567"
             },
             "fee": {
                 "label": "Gebühr"
@@ -497,7 +535,8 @@
                 "label": "Art"
             },
             "lanes": {
-                "label": "Fahrspuren"
+                "label": "Fahrspuren",
+                "placeholder": "1, 2, 3..."
             },
             "layer": {
                 "label": "Ebene"
@@ -506,7 +545,8 @@
                 "label": "Art"
             },
             "levels": {
-                "label": "Etagen"
+                "label": "Etagen",
+                "placeholder": "2, 4, 6..."
             },
             "location": {
                 "label": "Position"
@@ -515,10 +555,12 @@
                 "label": "Art"
             },
             "maxspeed": {
-                "label": "Höchstgeschwindigkeit"
+                "label": "Höchstgeschwindigkeit",
+                "placeholder": "40, 50, 60..."
             },
             "name": {
-                "label": "Name"
+                "label": "Name",
+                "placeholder": "allgemeine Bezeichnung (falls vorhanden)"
             },
             "natural": {
                 "label": "Natur"
@@ -551,7 +593,8 @@
                 "label": "Typ"
             },
             "phone": {
-                "label": "Telefon"
+                "label": "Telefon",
+                "placeholder": "+31 42 123 4567"
             },
             "place": {
                 "label": "Art"
@@ -565,6 +608,9 @@
             "ref": {
                 "label": "Referenz"
             },
+            "relation": {
+                "label": "Typ"
+            },
             "religion": {
                 "label": "Religion",
                 "options": {
@@ -576,6 +622,15 @@
                     "shinto": "Shinto",
                     "taoist": "Tao"
                 }
+            },
+            "restriction": {
+                "label": "Typ"
+            },
+            "route": {
+                "label": "Typ"
+            },
+            "route_master": {
+                "label": "Typ"
             },
             "sac_scale": {
                 "label": "SAC-Wanderskala"
@@ -597,6 +652,7 @@
             },
             "structure": {
                 "label": "Struktur",
+                "placeholder": "Unbekannt",
                 "options": {
                     "bridge": "Brücke",
                     "tunnel": "Tunnel",
@@ -629,7 +685,8 @@
                 "label": "Typ"
             },
             "website": {
-                "label": "Webseite"
+                "label": "Webseite",
+                "placeholder": "http://example.com/"
             },
             "wetland": {
                 "label": "Typ"
@@ -645,6 +702,9 @@
             }
         },
         "presets": {
+            "address": {
+                "name": "Adresse"
+            },
             "aeroway": {
                 "name": "Luftfahrt"
             },
@@ -668,7 +728,7 @@
             },
             "aeroway/runway": {
                 "name": "Piste",
-                "terms": "Start-/Landebahn"
+                "terms": "Start-/Landebahn,Startbahn,Landebahn"
             },
             "aeroway/taxiway": {
                 "name": "Rollweg"
@@ -703,18 +763,32 @@
                 "name": "Café",
                 "terms": "Kaffee,Tee,Kaffeehandlung"
             },
+            "amenity/car_rental": {
+                "name": "Autovermietung"
+            },
+            "amenity/car_sharing": {
+                "name": "Carsharing"
+            },
             "amenity/car_wash": {
                 "name": "Autowäsche"
             },
+            "amenity/childcare": {
+                "name": "Kindertagesbetreuung",
+                "terms": "Hort"
+            },
             "amenity/cinema": {
                 "name": "Kino",
-                "terms": "Großbildleinwand, Kino, Autokino, Filmtheater, Filmpalast"
+                "terms": "Großbildleinwand,Kino,Autokino,Filmtheater,Filmpalast"
             },
             "amenity/college": {
                 "name": "Hochschule"
             },
             "amenity/courthouse": {
                 "name": "Gericht"
+            },
+            "amenity/drinking_water": {
+                "name": "Trinkwasserstelle",
+                "terms": "Brunnen,Trinkwasser,Trinkwasserbrunnen,Wasserhahn"
             },
             "amenity/embassy": {
                 "name": "Botschaft"
@@ -736,7 +810,7 @@
             },
             "amenity/hospital": {
                 "name": "Krankenhaus",
-                "terms": "Klinik, Notaufnahme, Gesundheitswesen, Hospiz, Krankenhaus, Pflegeheim, Altersheim, Nervenheilanstalt, Sanatorium, Lazarett, Chirurgie, Krankenstation"
+                "terms": "Klinik,Notaufnahme,Gesundheitswesen,Hospiz,Krankenhaus,Pflegeheim,Altersheim,Nervenheilanstalt,Sanatorium,Lazarett,Chirurgie,Krankenstation"
             },
             "amenity/kindergarten": {
                 "name": "Kindergaten",
@@ -756,10 +830,15 @@
             },
             "amenity/place_of_worship": {
                 "name": "Gebetsort",
-                "terms": "Abtei, Basilika, geweihter Ort, Kathedrale, Altarraum, Kantorei, Kapelle, Kirche, Kirchgemeinde, Gotteshaus, Gebetshaus, Dom, Moschee, Oratorium, Heiligtum, Sacellum, Schrein, Synagoge, Tabernakel, Tempel"
+                "terms": "Abtei,Basilika,geweihter Ort,Kathedrale,Altarraum,Kantorei,Kapelle,Kirche,Kirchgemeinde,Gotteshaus,Gebetshaus,Dom,Moschee,Oratorium,Heiligtum,Sacellum,Schrein,Synagoge,Tabernakel,Tempel"
+            },
+            "amenity/place_of_worship/buddhist": {
+                "name": "Buddhistischer Tempel",
+                "terms": "Stupa,Vihara,Kloster,Tempel,Pagoda,Tempelanlage,Zendo,Dojo"
             },
             "amenity/place_of_worship/christian": {
-                "name": "Kirche"
+                "name": "Kirche",
+                "terms": "christlich,Abtei,Basilika,geweihter Ort,Kathedrale,Altarraum,Kantorei,Kapelle,Kirche,Kirchgemeinde,Gotteshaus,Gebetshaus,Dom,Oratorium,Heiligtum,Sacellum,Schrein,Tabernakel,Tempel"
             },
             "amenity/place_of_worship/jewish": {
                 "name": "Sy­n­a­go­ge",
@@ -783,13 +862,18 @@
                 "name": "Pub"
             },
             "amenity/restaurant": {
-                "name": "Restaurant"
+                "name": "Restaurant",
+                "terms": "Bar,Cafeteria,Café,Kantine,Speisehaus,Coffee-Shop,Kaffeehaus,Imbiss,Speisesaal,Kneipe,Donut Shop,Drive-In,Restaurant,Speiserestaurant,Wirtschaft,Fast-Food-Restaurant,Grill,Hamburgerstand,Hotdogstand,Gasthaus,Gasthof,Wirtshaus,Imbissstube,Imbiss,Pizzeria,Lokal"
             },
             "amenity/school": {
                 "name": "Schule"
             },
             "amenity/swimming_pool": {
                 "name": "Schwimmbecken"
+            },
+            "amenity/taxi": {
+                "name": "Taxistand",
+                "terms": "Taxi"
             },
             "amenity/telephone": {
                 "name": "Telefon"
@@ -799,11 +883,12 @@
                 "terms": "Theater,Aufführung,Schauspiel,Musical"
             },
             "amenity/toilets": {
-                "name": "Toilette"
+                "name": "Toilette",
+                "terms": "Bad,Toilette,WC"
             },
             "amenity/townhall": {
                 "name": "Rathaus",
-                "terms": "Gemeindezentrum, Stadtverwaltung, Landratsamt, Rathaus, Verwaltungszentrum"
+                "terms": "Gemeindezentrum,Stadtverwaltung,Landratsamt,Rathaus,Verwaltungszentrum"
             },
             "amenity/university": {
                 "name": "Universität",
@@ -812,6 +897,9 @@
             "amenity/waste_basket": {
                 "name": "Abfalleimer",
                 "terms": "Abfalleimer,Abfallkübel,Abfallbehälter,Mistkübel,Mülleimer"
+            },
+            "area": {
+                "name": "Fläche"
             },
             "barrier": {
                 "name": "Barrieren"
@@ -873,11 +961,29 @@
             "building/apartments": {
                 "name": "Wohnungen"
             },
+            "building/commercial": {
+                "name": "Geschäftshaus",
+                "terms": "Gewerbehaus,gewerblich genutztes Gebäude,"
+            },
             "building/entrance": {
                 "name": "Eingang"
             },
+            "building/garage": {
+                "name": "Garage"
+            },
             "building/house": {
                 "name": "Haus"
+            },
+            "building/hut": {
+                "name": "Hütte",
+                "terms": "Baracke,Holzhütte,Berghütte"
+            },
+            "building/industrial": {
+                "name": "Industriegebäude"
+            },
+            "building/residential": {
+                "name": "Wohngebäude",
+                "terms": "Wohnhaus,Einfamilienhaus,Mehrfamilienhaus"
             },
             "emergency/phone": {
                 "name": "Notruftelefon"
@@ -967,7 +1073,7 @@
             },
             "highway/steps": {
                 "name": "Treppen",
-                "terms": "Treppe"
+                "terms": "Treppe,Stufen"
             },
             "highway/tertiary": {
                 "name": "Kreisstraße"
@@ -981,7 +1087,7 @@
             },
             "highway/traffic_signals": {
                 "name": "Ampeln",
-                "terms": "Ampel"
+                "terms": "Ampel,Lichtzeichenanlage,Lichtsignalanlage,Verkehrslichtsignalanlage"
             },
             "highway/trunk": {
                 "name": "Kraftfahrstraße"
@@ -1077,6 +1183,10 @@
             "leisure": {
                 "name": "Erholung"
             },
+            "leisure/dog_park": {
+                "name": "Hundepark",
+                "terms": "Hundefreilaufzone,Hundeauslaufzone,Hundezone,Hundeauslaufplatz"
+            },
             "leisure/garden": {
                 "name": "Garten"
             },
@@ -1087,7 +1197,8 @@
                 "name": "Yachthafen"
             },
             "leisure/park": {
-                "name": "Park"
+                "name": "Park",
+                "terms": "Promenade,Esplanade,Gut,Wald,Garten,Gras,Grün,Außenanlagen,Rasen,Land,Wiese,Park,Platz,Spielplatz,Piazza,Lustgarten,Erholungsgebiet,Dorfanger,Dorfwiese,Waldgelände"
             },
             "leisure/pitch": {
                 "name": "Sportplatz"
@@ -1111,7 +1222,8 @@
                 "name": "Volleyballplatz"
             },
             "leisure/playground": {
-                "name": "Spielplatz"
+                "name": "Spielplatz",
+                "terms": "Kinderspielplatz,Klettergerüst"
             },
             "leisure/slipway": {
                 "name": "Gleitbahn"
@@ -1121,6 +1233,9 @@
             },
             "leisure/swimming_pool": {
                 "name": "Schwimmbecken"
+            },
+            "line": {
+                "name": "Linie"
             },
             "man_made": {
                 "name": "Zivilbauten"
@@ -1148,7 +1263,7 @@
             },
             "man_made/wastewater_plant": {
                 "name": "Kläranlage",
-                "terms": "Kläranlage, Abwasseranlage, Abwasserreinigungsanlage, Wasseraufbereitungsanlage"
+                "terms": "Kläranlage,Abwasseranlage,Abwasserreinigungsanlage,Wasseraufbereitungsanlage,Wasserrückgewinnungsanlage"
             },
             "man_made/water_tower": {
                 "name": "Wasserturm"
@@ -1186,7 +1301,7 @@
             },
             "natural/peak": {
                 "name": "Gipfel",
-                "terms": "Gipfel, Felsnadel, Alpe, Höhepunkt, Kamm, Scheitelpunkt, Hügel, Berg, , Bergspitze, Bergkuppe, Zipfel"
+                "terms": "Gipfel,Felsnadel,Alpe,Höhepunkt,Kamm,Scheitelpunkt,Hügel,Berg,Bergspitze,Bergkuppe,Zipfel"
             },
             "natural/scrub": {
                 "name": "Gestrüpp"
@@ -1202,11 +1317,11 @@
             },
             "natural/water/lake": {
                 "name": "See",
-                "terms": "See, Loch"
+                "terms": "See,Loch"
             },
             "natural/water/pond": {
                 "name": "Teich",
-                "terms": "See, Mühlteich, Bergsee, Tümpel, Teich"
+                "terms": "See,Mühlteich,Bergsee,Tümpel,Teich"
             },
             "natural/water/reservoir": {
                 "name": "Speicherbecken"
@@ -1220,12 +1335,6 @@
             "office": {
                 "name": "Büro"
             },
-            "other": {
-                "name": "Andere"
-            },
-            "other_area": {
-                "name": "Andere"
-            },
             "place": {
                 "name": "Ort"
             },
@@ -1237,7 +1346,7 @@
             },
             "place/island": {
                 "name": "Insel",
-                "terms": "Inselgruppe, Archipel, Atoll, Inselchen, Insel, Koralleninsel, Riff"
+                "terms": "Inselgruppe,Archipel,Atoll,Inselchen,Insel,Koralleninsel,Riff"
             },
             "place/isolated_dwelling": {
                 "name": "abgelegene Siedlung"
@@ -1250,6 +1359,9 @@
             },
             "place/village": {
                 "name": "Dorf"
+            },
+            "point": {
+                "name": "Punkt"
             },
             "power": {
                 "name": "Energieversorgung"
@@ -1306,6 +1418,12 @@
             "railway/tram": {
                 "name": "Straßenbahn",
                 "terms": "Straßenbahn"
+            },
+            "relation": {
+                "name": "Relation"
+            },
+            "route/ferry": {
+                "name": "Fährenroute"
             },
             "shop": {
                 "name": "Laden"
@@ -1373,6 +1491,10 @@
             },
             "shop/electronics": {
                 "name": "Elektronikfachgeschäft"
+            },
+            "shop/farm": {
+                "name": "Obst- und Gemüsestand",
+                "terms": "Hofladen"
             },
             "shop/fishmonger": {
                 "name": "Fischhändler"
@@ -1487,7 +1609,7 @@
             },
             "tourism/guest_house": {
                 "name": "Gästehaus",
-                "terms": "Frühstückspension,Frühstückspension,Frühstückspension"
+                "terms": "Frühstückspension"
             },
             "tourism/hostel": {
                 "name": "Hostel"
@@ -1502,7 +1624,8 @@
                 "name": "Motel"
             },
             "tourism/museum": {
-                "name": "Museum"
+                "name": "Museum",
+                "terms": "Ausstellung,Exponatarchiv,Stiftung,Galerie,Halle,Institution,Bibliothek,Menagerie,Sammlung,Salon,Lagerhaus,Schatzhaus,Schatzkammer"
             },
             "tourism/picnic_site": {
                 "name": "Picknickplatz"
@@ -1515,6 +1638,57 @@
             },
             "tourism/zoo": {
                 "name": "Zoo"
+            },
+            "type/boundary": {
+                "name": "Grenze"
+            },
+            "type/boundary/administrative": {
+                "name": "Administrative Grenze"
+            },
+            "type/multipolygon": {
+                "name": "Multipolygon"
+            },
+            "type/restriction": {
+                "name": "Beschränkung"
+            },
+            "type/route": {
+                "name": "Route"
+            },
+            "type/route/bicycle": {
+                "name": "Radweg"
+            },
+            "type/route/bus": {
+                "name": "Buslinie"
+            },
+            "type/route/detour": {
+                "name": "Bedarfsumleitungsroute"
+            },
+            "type/route/ferry": {
+                "name": "Fährenroute"
+            },
+            "type/route/foot": {
+                "name": "Wanderweg"
+            },
+            "type/route/pipeline": {
+                "name": "Pipelinenetz"
+            },
+            "type/route/power": {
+                "name": "Stromnetz"
+            },
+            "type/route/road": {
+                "name": "Straßennetz"
+            },
+            "type/route/train": {
+                "name": "Bahnlinie"
+            },
+            "type/route/tram": {
+                "name": "Tramlinie"
+            },
+            "type/route_master": {
+                "name": "Hauptroute"
+            },
+            "vertex": {
+                "name": "Andere"
             },
             "waterway": {
                 "name": "Wasserweg"

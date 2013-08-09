@@ -30,7 +30,8 @@
         "add": {
             "annotation": {
                 "point": "Aggiunto un punto.",
-                "vertex": "Aggiunto un punto ad una linea."
+                "vertex": "Aggiunto un punto ad una linea.",
+                "relation": "Aggiunta una relazione."
             }
         },
         "start": {
@@ -47,6 +48,9 @@
         },
         "cancel_draw": {
             "annotation": "Cancellato il disegno."
+        },
+        "change_role": {
+            "annotation": "Cambia il ruolo di un membro della relazione."
         },
         "change_tags": {
             "annotation": "Cambiati i tag."
@@ -84,7 +88,14 @@
                 "area": "Cancellata un'area.",
                 "relation": "Cancellata una relazione.",
                 "multiple": "Cancellati {n} oggetti."
-            }
+            },
+            "incomplete_relation": "Questo elemento non può essere cancellato perché non è stato completamente scaricato."
+        },
+        "add_member": {
+            "annotation": "Aggiunto membro alla relazione"
+        },
+        "delete_member": {
+            "annotation": "Membro rimosso dalla relazione"
         },
         "connect": {
             "annotation": {
@@ -107,7 +118,8 @@
             "key": "C",
             "annotation": "Unite {n} linee.",
             "not_eligible": "Questi elementi non possono essere uniti.",
-            "not_adjacent": "Queste linee non possono essere unite perché non sono connesse."
+            "not_adjacent": "Queste linee non possono essere unite perché non sono connesse.",
+            "restriction": "Queste linee non possono essere unite perché almeno una è membro di una relazione \"{relation}\"."
         },
         "move": {
             "title": "Muovi",
@@ -132,10 +144,10 @@
             }
         },
         "reverse": {
-            "title": "Cambia direzione",
-            "description": "Fai andare questa linea nella direzione opposta.",
+            "title": "Inverti Direzione",
+            "description": "Inverti il senso di direzione di questa linea.",
             "key": "V",
-            "annotation": "Cambiata direzione ad una linea."
+            "annotation": "Cambiato verso ad una linea."
         },
         "split": {
             "title": "Dividi",
@@ -156,10 +168,17 @@
     },
     "nothing_to_undo": "Niente da ripristinare.",
     "nothing_to_redo": "Niente da rifare.",
+    "tooltip_keyhint": "Scorciatoia da tastiera:",
     "just_edited": "Hai appena modificato OpenStreetMap!",
     "browser_notice": "Questo editor è supportato in Firefox, Chrome, Safari, Opera, e Internet Explorer 9 e superiori. Aggiorna il tuo browser o usa Potlatch 2 per modificare la mappa.",
     "view_on_osm": "Guarda su OSM",
-    "zoom_in_edit": "ingrandisci per modificare la mappa",
+    "translate": {
+        "translate": "Traduci",
+        "localized_translation_label": "Nome multilingua",
+        "localized_translation_language": "Scegli la lingua",
+        "localized_translation_name": "Nome"
+    },
+    "zoom_in_edit": "Ingrandisci per modificare",
     "logout": "logout",
     "loading_auth": "Connettendomi ad OpenStreetMap...",
     "report_a_bug": "segnala un bug",
@@ -172,7 +191,8 @@
         "title": "Salva le modifiche",
         "description_placeholder": "Una breve descrizione delle tue modifiche",
         "message_label": "Messaggio di invio",
-        "upload_explanation": "I cambiamenti che carichi come {user} saranno visibili su tutte le mappe che usano i dati di OpenStreetMap.",
+        "upload_explanation": "Le modifiche che carichi saranno visibili su tutte le mappe che usano i dati di OpenStreetMap.",
+        "upload_explanation_with_user": "Le modifiche che carichi come {user} saranno visibili su tutte le mappe che usano i dati di OpenStreetMap.",
         "save": "Salva",
         "cancel": "Annulla",
         "warnings": "Avvertimenti",
@@ -181,13 +201,13 @@
         "created": "Creati"
     },
     "contributors": {
-        "list": "Stai vedendo i contributi di {users}",
-        "truncated_list": "Stai vedendo i contributi di {users} ed altri {count}"
+        "list": "Modifiche di {users}",
+        "truncated_list": "Modifiche di {users} e {count} altri"
     },
     "geocoder": {
-        "title": "Trova un luogo",
-        "placeholder": "Trova un luogo",
-        "no_results": "Non trovo un luogo chiamato '{name}'"
+        "search": "Cerca in tutto il mondo...",
+        "no_results_visible": "Nessun risultato nell'area visibile della mappa",
+        "no_results_worldwide": "Nessun risultato trovato"
     },
     "geolocate": {
         "title": "Mostra la mia posizione"
@@ -196,16 +216,22 @@
         "no_documentation_combination": "Non c'è documentazione per questa combinazione di tag",
         "no_documentation_key": "Non c'è documentazione per questa chiave",
         "show_more": "Mostra di più",
-        "new_tag": "Nuovo Tag",
         "view_on_osm": "Vedi su openstreetmap.org",
-        "editing_feature": "Modificando {feature}",
         "all_tags": "Tutti i tag",
+        "all_members": "Tutti i membri",
+        "all_relations": "Tutte le relazioni",
+        "new_relation": "Nuova relazione...",
+        "role": "Ruolo",
         "choose": "Seleziona il tipo di caratteristica",
         "results": "{n} risultati per {search}",
         "reference": "Vedi sulla Wiki di OpenStreetMap →",
-        "back_tooltip": "Cambia il tipo di caratteristica",
+        "back_tooltip": "Cambia elemento",
         "remove": "Rimuovere",
-        "search": "Cercare"
+        "search": "Cerca",
+        "unknown": "Sconosciuto",
+        "incomplete": "<non scaricato>",
+        "feature_list": "Cerca elementi",
+        "edit": "Modifica elemento"
     },
     "background": {
         "title": "Sfondo",
@@ -229,6 +255,7 @@
         "unsaved_changes": "Hai modifiche non salvate"
     },
     "success": {
+        "edited_osm": "OSMI Modificato",
         "facebook": "Condividi su Facebook",
         "tweet": "Condividi su Twitter",
         "okay": "Okay"
@@ -276,7 +303,7 @@
         "roads": "# Strade\n\nE' possibile creare, aggiustare ed eliminare le strade con questo editor. Le strade possono essere di tutti i tipi: percorsi, autostrade, cammini, piste ciclabili o altro. E' possibile mappare ogni segmento calpestabile.\n\n### Selezione\n\nCliccare su una strada per selezionarla. Verranno visualizzati un contorno e un piccolo menu strumenti sulla mappa oltre ad una barra laterale che mostra informazioni dettagliate sulla strada.\n\n### Modifica\n\nVi capiterà spesso di vedere strade non combacianti con le immagini sullo sfondo o con il tracciato GPS. E' possibile allineare queste strada in modo che si trovino nella giusta posizione.\n\nPer prima cosa cliccare sulla strada che si vuole modificare. Questo farà in modo che la strada venga evidenziata e che vengano visualizzati i punti di controllo lungo di essa che possono essere spostati in luoghi più consoni. Se si vuole aggiungere nuovi punti di controllo per aggiungere maggiori dettagli, basta fare doppio clic su parte della strada senza nodi.\n\nSe la strada è connessa ad un'altra strada ma non è ben connessa sulla mappa, è possibile spostare uno di questi punti di controllo sull'altra strada in modo da unirli. E' importante per la mappa che le strade siano correttamente connesse  anche per garantire giuste indicazioni di guida.\n\nE' possibile cliccare sullo strumento 'Sposta' o premere il tasto rapido `M` per muovere l'intera strada in una volta sola. Cliccare nuovamente per memorizzare lo spostamento.\n\n### Eliminizione\n\nSe la strada è completamente sbagliata, ovvero non compare sulle immagini satellitari e non viene rilevata nella realtà, è possibile eliminarla eliminandola dalla mappa. Attenzione ad effettuare questa operazione di eliminazione poiché, come per ogni altra modifica, i risultati vengono visti da tutti. Considera che le immagini satellitari sono spesso vecchie quindi è possibile che la strada sia stata costruita solo di recente.\n\nE' possibile eliminare una strada cliccando prima su di essa per selezionarla e poi sull'icona cestino o premendo il tasto 'Canc' della tastiera.\n\n### Creazione\n\nHai notato che in un punto della mappa dovrebbe esserci una strada ma non c'è ? Clicca sull'incona 'Linea' in alto a sinistra nell'editor o premi il tasto `2` per iniziare a disegnare una linea.\n\nCliccare sull'inizio della strada sulla mappa per iniziare a disegnarla. Se la strada  è unita ad una strada già esistente, iniziare cliccando nel punto dove sono connesse.\n\nQuindi cliccare i nuovi punti lungo la strada in modo che segua il percorso giusto dettato dall'immagine satellitare o dai dati del GPS. Se la strada che stai disegnando attraversa un'altra strada, collegala cliccando sul punto di intersezione. Quando hai finito di disegnare fai doppio clic o premi 'Invio' o 'Enter' sulla tua tastiera.\n",
         "gps": "# GPS\n\nI dati provenienti dal GPS sono la sorgente dati più sicura per OpenStreetMap. Questo editor\nsupporta i tracciati locali - i file `.gpx` che si trovano sul vostro computer locale.  E' possibile raccogliere questo tipo di tracciati GPS con un gran numero di applicazioni per smartphone o tramite dispositivi GPS personali.\n\nPer informazioni su come effettuare un rilevamento GPS è possibile leggere [Rilevamenti con un GPS](http://learnosm.org/en/beginner/using-gps/).\n\nPer utilizzare un tracciato GPX al fine di effettuare una mappatura, trascinare il file GPX sull'editor di mappe. Se viene riconosciuto verrà aggiunto alla mappa ed evidenziato tramite una linea verde chiaro. Cliccare sul menu 'Impostazioni sfondo' che si trova sulla sinitra per abilitare, disabilitare o zoomare il livello creato dal file GPX.\n\nIl tracciato GPX non viene caricato direttamente su OpenStreetMap - il modo migliore di utilizzarlo è quello di disegnare sulla mappa usando il tracciato come guida per le nuove funzionalità che si deve aggiungere.\n\\n",
         "imagery": "# Immagini satellitari\n\nLe immagini satellitari sono una risorsa importante per le lavorare con le mappe. Tramite il menu sulla sinistra 'Impostazioni dello sfondo' sono disponibili varie immagini, ad es. quelle dei voli a bassa quota, le viste satellitari e altre sorgenti combinate liberamente.\n\nNell'editor viene visualizzato, per impostazione predefinita, il livello satellitare di [Bing Maps](http://www.bing.com/maps/) , ma non appena vi muoverete sulla mappa ed effettuerete degli zoom in altre aree, saranno disponibili nuove sorgenti. Alcuni paesi, come ad esempio gli Stati Uniti, la Francia e la Danimarca dispongono di immagini di altissima qualità in alcune aree.\n\nLe immagini talvolta non sono ben allineate ai dati della mappa a causa di errori compiuti dal fornitore di immagini. Se vedete molte strade spostate rispetto allo sfondo, non muovetele immediatamente per allinearle allo sfondo. Piuttosto potete allineare le immagini in modo che combacino con i dati esistenti facendo clic su 'Allinea' nella parte bassa del riquardo delle 'Impostazioni dello sfondo'.\n",
-        "addresses": "# Indirizzi stradali\n\nGli indirizzi sono tra le informazioni più utili per una mappa.\n\nNonostante gli indirizzi siano spesso rappresentati come parte delle strade, in OpenStreetMap\nvengono memorizzati come attributi degli edifici e dei luoghi lungo le strade.\n\nPotrai aggiungere informazioni sull'indirizzo a dei luoghi mappati come contorni di edificio così come a quelli mappati come singoli punti. La sorgente ottimale dei dati degli indirizzi è un rilevamento per strada o la conoscenza personale dato che copiare da sorgenti commerciali come ad es. Google Maps è severamente vietato.\n",
+        "addresses": "# Indirizzi stradali\n\nGli indirizzi sono tra le informazioni più utili per una mappa.\n\nNonostante gli indirizzi siano spesso rappresentati come parte delle strade, in OpenStreetMap\nvengono memorizzati come attributi degli edifici e dei luoghi lungo le strade.\n\nPotrai aggiungere informazioni sull'indirizzo a dei luoghi mappati come contorni di edificio\ncosì come a quelli mappati come singoli punti. La sorgente ottimale dei dati degli indirizzi\nè un rilevamento per strada o la conoscenza personale dato che copiare da sorgenti\ncommerciali come ad es. Google Maps è severamente vietato.\n",
         "inspector": "# Utilizzo dell'inspector\n\nL'inspector è quell'elemento dell'interfaccia utente sulla parte destra della pagina che appare quando viene selezionata una funzionalità e che consente di modificarne i dettagli.\n\n### Selezione di un tipo di funzionalità\n\nDopo che è stato aggiunto un punto, una linea o un'area, è possibile scegliere quale tipo di caratteristica abbia, come ad esempio se si tratta di una strada principale o una strada residenziale, di un supermarket o di un caffè.\nL'inspector visualizzerà i pulsanti per le caratteristiche più comuni e sarà possibile trovarne altre semplicemente digitando la caratteristica voluta nella casella di ricerca.\n\nFare clic sulla 'i' che si trova nell'angolo in basso a destra del pulsante per saperne di più. Fare clic su un pulsante per scegliere quel tipo.\n\n### Utilizzo di Form e di Tag di modifica\n\nDopo aver scelto un tipo di caratteristica o quando si è selezionato una caratteristica per la quale è già stato assegnato un tipo, l'inspector mostrerà i campi con i dettagli come ad esempio il nome e l'indirizzo.\n\nAl di sotto dei campi è possibile fare clic sulle icone per aggiungere ulteriori dettagli come ad es. informazioni [Wikipedia](http://www.wikipedia.org/), accesso consentito alle carrozzine, e altro.\n\nSotto l'inspector è possibile fare clic su 'Tag aggiuntivi' per aggiungere arbitrariamente altri tag all'elemento. [Taginfo](http://taginfo.openstreetmap.org/) è una buona risorsa per imparare qualcosa sulle combinazioni di tag più comuni.\n\nLe modifiche effettuate nell'inspector vengono applicate automaticamente alla mappa.\nE' possibile annullarle in ogni momento cliccando semplicemente sul pulsante 'Ripristina'.\n\n### Chiusura dell'inspector\n\nE' possibile chiudere l'inspector sia facendo clic sul pulsante chiudi posizionato in alto a destra, sia premendo il tasto 'Esc', che facendo clic sulla mappa.\n\\n",
         "buildings": "# Edifici\n\nOpenStreetMap è il più grande database online di edifici. Puoi creare e migliorare questo database.\n\n### Selezione\n\nPuoi selezionare un edificio cliccando sul suo bordo. Ciò evidenzierà l'edificio e aprirà un piccolo menu degli strumenti ed una barra laterale contenente ulteriori informazioni sull'edificio.\n\n### Modifica\n\nTalvolta gli edifici sono posizionati in maniera errata o hanno tag incorretti.\n\nPer spostare un edificio, selezionalo, quindi clicca sullo strumento 'Sposta'. Sposta il mouse per traslare l'edificio, clicca nuovamente quando è nel posto giusto.\n\nPer migliorare la forma di un edificio, clicca e sposta i nodi che formano il suo contorno in una posizione corretta.\n\n### Creazione\n\nUna delle principali diatribe sulla aggiunta degli edifici alla mappa riguarda il fatto che OpenStreetMap permette di creare edifici come aree o come singoli punti. La regola generale in questi casi è di _mappare un edificio come un'area quando possibile_, e di mappare compagnie, case, amenità e altri oggetti che operano nell'edificio come punti all'interno della forma dell'edificio.\n\nInizia a disegnare un edificio come una forma cliccando sul pulsante 'Area' nella parte alta a sinistra dell'interfaccia, e termina premendo 'Invio' sulla tastiera o cliccando sul primo nodo che hai disegnato per chiudere la forma.\n\n### Eliminazione\n\nSe un edificio è completamente sbagliato - non è presente nelle immagini satellitari e possibilmente hai controllato di persona che esso non esista davvero - puoi eliminarlo, in modo da toglierlo dalla mappa. Sii cauto quando elimini un elemento - come ogni modifica, i risultati sono visibili a tutti e le immagini satellitari sono spesso datate, perciò l'edificio potrebbe essere stato costruito nel frattempo.\n\nPuoi eliminare un edificio cliccandoci sopra per selezionarlo, quindi cliccando sull'icona del cestino o premendo il tasto 'Canc' sulla tastiera.\n\n"
     },
@@ -292,7 +319,7 @@
             "title": "Punti",
             "add": "I punti possono essere usati per rappresentare elementi come negozi, ristoranti e monumenti. Indicano un luogo specifico e descrivono cos'è. **Clicca il bottone Punto per aggiungere un nuovo punto.**",
             "place": "Il punto può essere piazzato cliccando sulla mappa. **Piazza il punto sull'edificio.**",
-            "search": "Ci sono molti elementi che possono essere rappresentati da un punto. Il punto che hai appena creato è un Caffè. **Cerca 'Caffè'**",
+            "search": "Ci sono diversi elementi che possono essere rappresentati da punti. Il punto che hai appena aggiunto è un Caffè. **Cerca '{name}'**",
             "choose": "**Scegli un Caffè dalla lista.**",
             "describe": "Ora il punto è marcato come Caffè. Usando l'editor dell'elemento possiamo aggiungere più informazioni sull'elemento stesso. **Aggiungi un nome**",
             "close": "L'editor dell'elemento può essere chiuso cliccando sul pulsante chiudi. **Chiudi l'editor dell'elemento**",
@@ -306,7 +333,7 @@
             "add": "Le aree sono un modo più dettagliato di rappresentare degli elementi. Esse forniscono le informazioni circa il contorno fisico di un oggetto. Le aree possono essere usate per quasi tutti i casi in cui potresti usare un punto, e sono spesso da preferirsi. **Clicca il pulsante Area per aggiungere una nuova area.**",
             "corner": "Le aree devono essere disegnate posizionando i punti che segnano il confine dell'area. **Posizionare il punto di partenza a uno degli angoli del parchetto.**",
             "place": "Disegna l'area posizionando più punti. Terminare l'area cliccando sul punto di partenza. **Disegnare un'area per il parchetto.**",
-            "search": "**Cerca il parco giochi**",
+            "search": "**Cerca per '{name}'.**",
             "choose": "**Scegli un Parco giochi dalla lista.**",
             "describe": "**Aggiungi un nome e chiudi l'editor dell'elemento**"
         },
@@ -330,11 +357,20 @@
     },
     "presets": {
         "categories": {
+            "category-landuse": {
+                "name": "Utilizzo del terreno"
+            },
             "category-path": {
                 "name": "Sentiero"
             },
+            "category-rail": {
+                "name": "Binario"
+            },
             "category-road": {
                 "name": "Strada"
+            },
+            "category-route": {
+                "name": "Percorso"
             },
             "category-water": {
                 "name": "Acqua"
@@ -343,7 +379,9 @@
         "fields": {
             "access": {
                 "label": "Accesso",
+                "placeholder": "Sconosciuto",
                 "types": {
+                    "access": "Generale",
                     "foot": "A piedi",
                     "motor_vehicle": "Veicoli a Motore",
                     "bicycle": "Biciclette",
@@ -351,13 +389,28 @@
                 },
                 "options": {
                     "yes": {
-                        "title": "Permesso"
+                        "title": "Permesso",
+                        "description": "Accesso consentito a norma di legge; diritto di passaggio"
                     },
                     "no": {
-                        "title": "Vietato"
+                        "title": "Vietato",
+                        "description": "Accesso consentito ai soli autorizzati"
+                    },
+                    "permissive": {
+                        "title": "Permissivo",
+                        "description": "Accesso consentito fino a quando il proprietario lo consente"
                     },
                     "private": {
-                        "title": "Privato"
+                        "title": "Privato",
+                        "description": "Accesso consentito solo con il permesso individuale del proprietario"
+                    },
+                    "designated": {
+                        "title": "Preferenziale",
+                        "description": "Accesso consentito stando ai cartelli stradali od alle norme locali"
+                    },
+                    "destination": {
+                        "title": "Destinazione",
+                        "description": "Accesso consentito solo se la destinazione coincide con l'elemento stesso"
                     }
                 }
             },
@@ -370,6 +423,9 @@
                     "city": "Città",
                     "postcode": "Codice postale"
                 }
+            },
+            "admin_level": {
+                "label": "Livello di Amministrazione"
             },
             "aeroway": {
                 "label": "Tipo"
@@ -386,6 +442,9 @@
             "bicycle_parking": {
                 "label": "Tipo"
             },
+            "boundary": {
+                "label": "Tipo"
+            },
             "building": {
                 "label": "Edificio"
             },
@@ -396,9 +455,14 @@
                 "label": "Edificio"
             },
             "capacity": {
-                "label": "Capienza"
+                "label": "Capienza",
+                "placeholder": "50, 100, 200..."
+            },
+            "cardinal_direction": {
+                "label": "Direzione"
             },
             "clock_direction": {
+                "label": "Direzione",
                 "options": {
                     "clockwise": "Senso orario",
                     "anticlockwise": "Senso antiorario"
@@ -425,6 +489,9 @@
             "denotation": {
                 "label": "Denotazione"
             },
+            "description": {
+                "label": "Descrizione"
+            },
             "elevation": {
                 "label": "Altitudine"
             },
@@ -435,16 +502,26 @@
                 "label": "Tipo"
             },
             "fax": {
-                "label": "Fax"
+                "label": "Fax",
+                "placeholder": "+39 01 123 456"
             },
             "fee": {
                 "label": "Tariffa"
+            },
+            "fixme": {
+                "label": "Sistemare"
             },
             "highway": {
                 "label": "Tipo"
             },
             "historic": {
                 "label": "Tipo"
+            },
+            "iata": {
+                "label": "IATA"
+            },
+            "icao": {
+                "label": "ICAO"
             },
             "incline": {
                 "label": "Pendenza"
@@ -461,7 +538,8 @@
                 "label": "Tipo"
             },
             "lanes": {
-                "label": "Corsie"
+                "label": "Corsie",
+                "placeholder": "1, 2, 3..."
             },
             "layer": {
                 "label": "Livello"
@@ -470,16 +548,22 @@
                 "label": "Tipo"
             },
             "levels": {
-                "label": "Piani"
+                "label": "Piani",
+                "placeholder": "2, 4, 6..."
+            },
+            "location": {
+                "label": "Posizione"
             },
             "man_made": {
                 "label": "Tipo"
             },
             "maxspeed": {
-                "label": "Limite di velocità"
+                "label": "Limite di velocità",
+                "placeholder": "40, 50, 60..."
             },
             "name": {
-                "label": "Nome"
+                "label": "Nome",
+                "placeholder": "Nome comune (se presente)"
             },
             "natural": {
                 "label": "Naturale"
@@ -505,11 +589,15 @@
             "operator": {
                 "label": "Operatore"
             },
+            "park_ride": {
+                "label": "Parcheggio di Interscambio"
+            },
             "parking": {
                 "label": "Tipo"
             },
             "phone": {
-                "label": "Telefono"
+                "label": "Telefono",
+                "placeholder": "+39 01 123 456"
             },
             "place": {
                 "label": "Tipo"
@@ -523,6 +611,9 @@
             "ref": {
                 "label": "Riferimento"
             },
+            "relation": {
+                "label": "Tipo"
+            },
             "religion": {
                 "label": "Religione",
                 "options": {
@@ -534,6 +625,15 @@
                     "shinto": "Shintoista",
                     "taoist": "Taoista"
                 }
+            },
+            "restriction": {
+                "label": "Tipo"
+            },
+            "route": {
+                "label": "Tipo"
+            },
+            "route_master": {
+                "label": "Tipo"
             },
             "sac_scale": {
                 "label": "Difficoltà del sentiero"
@@ -555,6 +655,7 @@
             },
             "structure": {
                 "label": "Struttura",
+                "placeholder": "Sconosciuto",
                 "options": {
                     "bridge": "Ponte",
                     "tunnel": "Tunnel",
@@ -571,6 +672,9 @@
             "tourism": {
                 "label": "Tipo"
             },
+            "towertype": {
+                "label": "Tipo di torre"
+            },
             "tracktype": {
                 "label": "Tipo"
             },
@@ -584,7 +688,8 @@
                 "label": "Tipo"
             },
             "website": {
-                "label": "Sito web"
+                "label": "Sito web",
+                "placeholder": "http://example.com/"
             },
             "wetland": {
                 "label": "Tipo"
@@ -600,29 +705,35 @@
             }
         },
         "presets": {
+            "address": {
+                "name": "Indirizzo"
+            },
             "aeroway": {
                 "name": "Pista aeroportuale"
             },
             "aeroway/aerodrome": {
-                "name": "Aeroporto",
-                "terms": "aeroplano,aeroporto,aerodromo"
+                "name": "Aeroporto"
             },
             "aeroway/apron": {
-                "name": "Area di sosta per aeromobili",
-                "terms": "rampa"
+                "name": "Area di sosta per aeromobili"
+            },
+            "aeroway/gate": {
+                "name": "Gate dell'aeroporto"
             },
             "aeroway/hangar": {
                 "name": "Hangar"
             },
             "aeroway/helipad": {
-                "name": "Elisuperficie",
-                "terms": "elicottero,elisuperficie,eliporto"
+                "name": "Elisuperficie"
             },
             "aeroway/runway": {
                 "name": "Pista di decollo/atterraggio"
             },
             "aeroway/taxiway": {
                 "name": "Pista di rullaggio"
+            },
+            "aeroway/terminal": {
+                "name": "Terminale di aeroporto"
             },
             "amenity": {
                 "name": "Servizi"
@@ -646,8 +757,13 @@
                 "name": "Stazione del Bike Sharing"
             },
             "amenity/cafe": {
-                "name": "Caffè",
-                "terms": "caffè,te,bar"
+                "name": "Caffè"
+            },
+            "amenity/car_rental": {
+                "name": "Noleggio auto"
+            },
+            "amenity/car_sharing": {
+                "name": "Car Sharing"
             },
             "amenity/car_wash": {
                 "name": "Autolavaggio"
@@ -660,6 +776,9 @@
             },
             "amenity/courthouse": {
                 "name": "Tribunale"
+            },
+            "amenity/drinking_water": {
+                "name": "Fontanella"
             },
             "amenity/embassy": {
                 "name": "Ambasciata"
@@ -683,8 +802,7 @@
                 "name": "Ospedale"
             },
             "amenity/kindergarten": {
-                "name": "Scuola d'infanzia",
-                "terms": "scuola di infanzia,asilo,assistenza all'infanzia,asilo d'infanzia"
+                "name": "Scuola d'infanzia"
             },
             "amenity/library": {
                 "name": "Biblioteca"
@@ -699,19 +817,19 @@
                 "name": "Farmacia"
             },
             "amenity/place_of_worship": {
-                "name": "Luogo di culto",
-                "terms": "abbazia,basilica,sinagoga,cattedrale,presbiterio,cappella,chiesa,casa di Dio,luogo di preghiera,luogo di culto,missione,moschea,oratorio,parrocchia,sacello,edicola votiva,tabernacolo,tempio"
+                "name": "Luogo di culto"
+            },
+            "amenity/place_of_worship/buddhist": {
+                "name": "Tempio Buddista"
             },
             "amenity/place_of_worship/christian": {
                 "name": "Chiesa"
             },
             "amenity/place_of_worship/jewish": {
-                "name": "Sinagoga",
-                "terms": "ebrea,sinagoga"
+                "name": "Sinagoga"
             },
             "amenity/place_of_worship/muslim": {
-                "name": "Moschea",
-                "terms": "musulmana,moschea"
+                "name": "Moschea"
             },
             "amenity/police": {
                 "name": "Forze di polizia"
@@ -734,12 +852,14 @@
             "amenity/swimming_pool": {
                 "name": "Piscina"
             },
+            "amenity/taxi": {
+                "name": "Posteggio Taxi"
+            },
             "amenity/telephone": {
                 "name": "Telefono"
             },
             "amenity/theatre": {
-                "name": "Teatro",
-                "terms": "teatro,spettacoli,giochi,musical"
+                "name": "Teatro"
             },
             "amenity/toilets": {
                 "name": "Bagni"
@@ -748,12 +868,13 @@
                 "name": "Municipio"
             },
             "amenity/university": {
-                "name": "Università",
-                "terms": "college"
+                "name": "Università"
             },
             "amenity/waste_basket": {
-                "name": "Cestino della spazzatura",
-                "terms": "sacchetto della spazzatura,cestino della spazzatura,cassonetto della spazzatura"
+                "name": "Cestino della spazzatura"
+            },
+            "area": {
+                "name": "Area"
             },
             "barrier": {
                 "name": "Barriera"
@@ -806,6 +927,9 @@
             "barrier/wall": {
                 "name": "Muro"
             },
+            "boundary/administrative": {
+                "name": "Confine Amministrativo"
+            },
             "building": {
                 "name": "Edificio"
             },
@@ -834,8 +958,7 @@
                 "name": "Fermata dell'autobus"
             },
             "highway/crossing": {
-                "name": "Attraversamento",
-                "terms": "attraversamento pedonale,strisce pedonali"
+                "name": "Attraversamento"
             },
             "highway/cycleway": {
                 "name": "Percorso ciclabile"
@@ -843,11 +966,17 @@
             "highway/footway": {
                 "name": "Percorso pedonale"
             },
+            "highway/living_street": {
+                "name": "Strada residenziale prevalentemente pedonale"
+            },
             "highway/mini_roundabout": {
                 "name": "Mini rotatoria"
             },
             "highway/motorway": {
                 "name": "Autostrada"
+            },
+            "highway/motorway_junction": {
+                "name": "Svincolo da o verso Autostrada"
             },
             "highway/motorway_link": {
                 "name": "Raccordo autostradale"
@@ -861,6 +990,9 @@
             "highway/primary": {
                 "name": "Strada di importanza nazionale"
             },
+            "highway/primary_link": {
+                "name": "Svincolo da o verso una strada di importanza nazionale"
+            },
             "highway/residential": {
                 "name": "Strada residenziale"
             },
@@ -870,25 +1002,47 @@
             "highway/secondary": {
                 "name": "Strada di importanza regionale"
             },
+            "highway/secondary_link": {
+                "name": "Svincolo da o verso una strada di importanza regionale"
+            },
             "highway/service": {
                 "name": "Strada di servizio"
             },
+            "highway/service/alley": {
+                "name": "Vialetto tra i palazzi"
+            },
+            "highway/service/drive-through": {
+                "name": "Accesso al servizio Drive-through"
+            },
+            "highway/service/driveway": {
+                "name": "Accesso ad edifici/aziende"
+            },
+            "highway/service/emergency_access": {
+                "name": "Accesso per i veicoli di soccorso/emergenza"
+            },
+            "highway/service/parking_aisle": {
+                "name": "Corsia di un parcheggio"
+            },
             "highway/steps": {
-                "name": "Scale",
-                "terms": "scale,scalinata"
+                "name": "Scale"
             },
             "highway/tertiary": {
                 "name": "Strada di importanza locale"
+            },
+            "highway/tertiary_link": {
+                "name": "Svincolo da o verso una strada di importanza comunale"
             },
             "highway/track": {
                 "name": "Strada ad uso agricolo / forestale"
             },
             "highway/traffic_signals": {
-                "name": "Semaforo",
-                "terms": "semaforo,luce semaforica,lanterna semaforica"
+                "name": "Semaforo"
             },
             "highway/trunk": {
                 "name": "Superstrada"
+            },
+            "highway/trunk_link": {
+                "name": "Svincolo da o verso una superstrada"
             },
             "highway/turning_circle": {
                 "name": "Slargo per inversione"
@@ -968,6 +1122,9 @@
             "landuse/residential": {
                 "name": "Residenziale"
             },
+            "landuse/retail": {
+                "name": "Negozio di vendita al dettaglio"
+            },
             "landuse/vineyard": {
                 "name": "Vigneto"
             },
@@ -1004,6 +1161,9 @@
             "leisure/pitch/tennis": {
                 "name": "Campo da tennis"
             },
+            "leisure/pitch/volleyball": {
+                "name": "Campo di Pallavolo"
+            },
             "leisure/playground": {
                 "name": "Parco giochi"
             },
@@ -1015,6 +1175,9 @@
             },
             "leisure/swimming_pool": {
                 "name": "Piscina"
+            },
+            "line": {
+                "name": "Linea"
             },
             "man_made": {
                 "name": "Costruzioni civili"
@@ -1049,6 +1212,9 @@
             "man_made/water_well": {
                 "name": "Pozzo"
             },
+            "man_made/water_works": {
+                "name": "Impianto Idrico"
+            },
             "natural": {
                 "name": "Naturale"
             },
@@ -1062,8 +1228,7 @@
                 "name": "Scogliera"
             },
             "natural/coastline": {
-                "name": "Linea di costa",
-                "terms": "riva"
+                "name": "Linea di costa"
             },
             "natural/glacier": {
                 "name": "Ghiacciaio"
@@ -1090,8 +1255,7 @@
                 "name": "Specchio d'acqua"
             },
             "natural/water/lake": {
-                "name": "Lago",
-                "terms": "stagno,lago,laghetto"
+                "name": "Lago"
             },
             "natural/water/pond": {
                 "name": "Stagno"
@@ -1108,12 +1272,6 @@
             "office": {
                 "name": "Uffici"
             },
-            "other": {
-                "name": "Altro"
-            },
-            "other_area": {
-                "name": "Altro"
-            },
             "place": {
                 "name": "Luogo"
             },
@@ -1126,11 +1284,20 @@
             "place/island": {
                 "name": "Isola"
             },
+            "place/isolated_dwelling": {
+                "name": "Case Sparse"
+            },
             "place/locality": {
                 "name": "Località"
             },
+            "place/town": {
+                "name": "Centro abitato tra 10000 e 100000 abitanti"
+            },
             "place/village": {
                 "name": "Villaggio"
+            },
+            "point": {
+                "name": "Punto"
             },
             "power": {
                 "name": "Energia"
@@ -1163,11 +1330,13 @@
                 "name": "Ferrovia in disuso"
             },
             "railway/level_crossing": {
-                "name": "Passaggio a livello",
-                "terms": "passaggio a livello,incrocio ferroviario"
+                "name": "Passaggio a livello"
             },
             "railway/monorail": {
                 "name": "Monorotaia"
+            },
+            "railway/platform": {
+                "name": "Piattaforma della stazione ferroviaria"
             },
             "railway/rail": {
                 "name": "Binario"
@@ -1182,15 +1351,19 @@
                 "name": "Entrata di metropolitana"
             },
             "railway/tram": {
-                "name": "Tram",
-                "terms": "Tram"
+                "name": "Tram"
+            },
+            "relation": {
+                "name": "Relazione"
+            },
+            "route/ferry": {
+                "name": "Rotta"
             },
             "shop": {
                 "name": "Negozio"
             },
             "shop/alcohol": {
-                "name": "Negozio di liquori",
-                "terms": "alcool"
+                "name": "Negozio di liquori"
             },
             "shop/bakery": {
                 "name": "Panificio"
@@ -1251,6 +1424,9 @@
             },
             "shop/electronics": {
                 "name": "Negozio di elettronica"
+            },
+            "shop/farm": {
+                "name": "Banchetto Alimentari Freschi"
             },
             "shop/fishmonger": {
                 "name": "Pescivendolo"
@@ -1364,8 +1540,7 @@
                 "name": "Chalet"
             },
             "tourism/guest_house": {
-                "name": "Affittacamere",
-                "terms": "B&B,Bed & Breakfast,Bed and Breakfast"
+                "name": "Affittacamere"
             },
             "tourism/hostel": {
                 "name": "Ostello"
@@ -1393,6 +1568,57 @@
             },
             "tourism/zoo": {
                 "name": "Zoo"
+            },
+            "type/boundary": {
+                "name": "Confine"
+            },
+            "type/boundary/administrative": {
+                "name": "Confine Amministrativo"
+            },
+            "type/multipolygon": {
+                "name": "Multipoligono"
+            },
+            "type/restriction": {
+                "name": "Limitazione"
+            },
+            "type/route": {
+                "name": "Percorso"
+            },
+            "type/route/bicycle": {
+                "name": "Pista ciclabile"
+            },
+            "type/route/bus": {
+                "name": "Percorso bus"
+            },
+            "type/route/detour": {
+                "name": "Deviazione"
+            },
+            "type/route/ferry": {
+                "name": "Rotta"
+            },
+            "type/route/foot": {
+                "name": "Escursione"
+            },
+            "type/route/pipeline": {
+                "name": "Condotta"
+            },
+            "type/route/power": {
+                "name": "Linea elettrica"
+            },
+            "type/route/road": {
+                "name": "Percorso stradale"
+            },
+            "type/route/train": {
+                "name": "Linea ferroviaria"
+            },
+            "type/route/tram": {
+                "name": "Linea tramviaria"
+            },
+            "type/route_master": {
+                "name": "Percorso Principale"
+            },
+            "vertex": {
+                "name": "Altro"
             },
             "waterway": {
                 "name": "Corso d'acqua"
