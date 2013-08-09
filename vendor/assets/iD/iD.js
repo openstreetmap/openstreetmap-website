@@ -15232,7 +15232,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.1.0rc1';
+iD.version = '1.1.0';
 
 (function() {
     var detected = {};
@@ -18966,7 +18966,7 @@ iD.modes.Select = function(context, selectedIDs) {
         context.map().on('drawn.select', selectElements);
         selectElements();
 
-        radialMenu = iD.ui.RadialMenu(operations);
+        radialMenu = iD.ui.RadialMenu(context, operations);
         var show = d3.event && !suppressMenu;
 
         if (show) {
@@ -25888,7 +25888,7 @@ iD.ui.PresetList = function(context) {
 
     return d3.rebind(presetList, event, 'on');
 };
-iD.ui.RadialMenu = function(operations) {
+iD.ui.RadialMenu = function(context, operations) {
     var menu,
         center = [0, 0],
         tooltip;
@@ -25956,9 +25956,10 @@ iD.ui.RadialMenu = function(operations) {
             .attr('class', 'tooltip-inner radial-menu-tooltip');
 
         function mouseover(d, i) {
-            var angle = a0 + i * a,
-                dx = angle < 0 ? -200 : 0,
-                dy = 0;
+            var rect = context.surface().node().getBoundingClientRect(),
+                angle = a0 + i * a,
+                dx = rect.left - (angle < 0 ? 200 : 0),
+                dy = rect.top;
 
             tooltip
                 .style('left', (r + 25) * Math.sin(angle) + dx + center[0] + 'px')
@@ -48808,6 +48809,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "id",
         "it",
         "ja",
+        "ko",
         "lv",
         "lt",
         "no",
