@@ -15232,7 +15232,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.1.0';
+iD.version = '1.1.1';
 
 (function() {
     var detected = {};
@@ -17324,8 +17324,11 @@ iD.behavior.Draw = function(context) {
 
     function draw(selection) {
         context.install(hover);
-        context.install(tail);
         context.install(edit);
+
+        if (!iD.behavior.Draw.usedTails[tail.text()]) {
+            context.install(tail);
+        }
 
         keybinding
             .on('⌫', backspace)
@@ -17345,8 +17348,12 @@ iD.behavior.Draw = function(context) {
 
     draw.off = function(selection) {
         context.uninstall(hover);
-        context.uninstall(tail);
         context.uninstall(edit);
+
+        if (!iD.behavior.Draw.usedTails[tail.text()]) {
+            context.uninstall(tail);
+            iD.behavior.Draw.usedTails[tail.text()] = true;
+        }
 
         selection
             .on('mousedown.draw', null)
@@ -17360,10 +17367,7 @@ iD.behavior.Draw = function(context) {
     };
 
     draw.tail = function(_) {
-        if (!_ || iD.behavior.Draw.usedTails[_] === undefined) {
-            tail.text(_);
-            iD.behavior.Draw.usedTails[_] = true;
-        }
+        tail.text(_);
         return draw;
     };
 
@@ -24443,6 +24447,7 @@ iD.ui.EntityEditor = function(context) {
                 .entityID(id));
 
         function historyChanged() {
+            if (state === 'hide') return;
             var entity = context.hasEntity(id);
             if (!entity) return;
             entityEditor.preset(context.presets().match(entity, context.graph()));
@@ -24985,6 +24990,7 @@ iD.ui.Inspector = function(context) {
     inspector.state = function(_) {
         if (!arguments.length) return state;
         state = _;
+        entityEditor.state(state);
         return inspector;
     };
 
@@ -25956,7 +25962,9 @@ iD.ui.RadialMenu = function(context, operations) {
             .attr('class', 'tooltip-inner radial-menu-tooltip');
 
         function mouseover(d, i) {
-            var rect = context.surface().node().getBoundingClientRect(),
+            // Avoid getBoundingClientRect on SVG element; browser implementations
+            // differ: http://stackoverflow.com/questions/18153989/
+            var rect = context.surface().node().parentNode.getBoundingClientRect(),
                 angle = a0 + i * a,
                 dx = rect.left - (angle < 0 ? 200 : 0),
                 dy = rect.top;
@@ -26669,6 +26677,7 @@ iD.ui.Sidebar = function(context) {
             } else if (!current) {
                 featureListWrap.classed('inspector-hidden', false);
                 inspectorWrap.classed('inspector-hidden', true);
+                inspector.state('hide');
             }
         };
 
@@ -26689,6 +26698,7 @@ iD.ui.Sidebar = function(context) {
             } else if (!current) {
                 featureListWrap.classed('inspector-hidden', false);
                 inspectorWrap.classed('inspector-hidden', true);
+                inspector.state('hide');
             }
         };
 
