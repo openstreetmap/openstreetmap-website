@@ -7,7 +7,7 @@ L.OSM.layers = function(options) {
     var $container = $('<div>')
       .attr('class', 'control-layers');
 
-    var link = $('<a>')
+    var button = $('<a>')
       .attr('class', 'control-button')
       .attr('href', '#')
       .attr('title', 'Layers')
@@ -156,7 +156,7 @@ L.OSM.layers = function(options) {
     function toggle(e) {
       e.stopPropagation();
       e.preventDefault();
-      options.sidebar.togglePane($ui);
+      options.sidebar.togglePane($ui, button);
     }
 
     return $container[0];

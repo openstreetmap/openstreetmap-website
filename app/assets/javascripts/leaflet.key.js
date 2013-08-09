@@ -5,10 +5,9 @@ L.OSM.key = function (options) {
     var $container = $('<div>')
       .attr('class', 'control-key');
 
-    $('<a>')
+    var button = $('<a>')
       .attr('class', 'control-button')
       .attr('href', '#')
-      .attr('title', I18n.t('javascripts.key.tooltip'))
       .html('<span class="icon key"></span>')
       .on('click', toggle)
       .appendTo($container);
@@ -39,6 +38,10 @@ L.OSM.key = function (options) {
       .on('show', shown)
       .on('hide', hidden);
 
+    map.on('baselayerchange', updateButton);
+
+    updateButton();
+
     function shown() {
       map.on('zoomend baselayerchange', update);
       $section.load('/key', update);
@@ -51,7 +54,18 @@ L.OSM.key = function (options) {
     function toggle(e) {
       e.stopPropagation();
       e.preventDefault();
-      options.sidebar.togglePane($ui);
+      if (!button.hasClass('disabled')) {
+        options.sidebar.togglePane($ui, button);
+      }
+    }
+
+    function updateButton() {
+      var disabled = map.getMapBaseLayerId() !== 'mapnik'
+      button
+        .toggleClass('disabled', disabled)
+        .attr('data-original-title', I18n.t(disabled ?
+          'javascripts.key.tooltip_disabled' :
+          'javascripts.key.tooltip'))
     }
 
     function update() {

@@ -92,7 +92,7 @@ class SiteControllerTest < ActionController::TestCase
 
   def test_permalink
     get :permalink, :code => 'wBz3--'
-    assert_redirected_to :controller => :site, :action => 'index', :anchor => '3/4.8779296875/3.955078125'
+    assert_redirected_to :controller => :site, :action => 'index', :anchor => 'map=3/4.8779296875/3.955078125'
   end
 
   # Get the edit page

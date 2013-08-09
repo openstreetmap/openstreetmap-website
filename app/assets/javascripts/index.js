@@ -5,6 +5,7 @@
 //= require leaflet.key
 //= require leaflet.note
 //= require leaflet.share
+//= require index/search
 //= require index/browse
 //= require index/export
 //= require index/notes
@@ -21,34 +22,41 @@ $(document).ready(function () {
 
   map.hash = L.hash(map);
 
+  var copyright = I18n.t('javascripts.map.copyright', {copyright_url: '/copyright'});
+
   var layers = [
     new L.OSM.Mapnik({
-      attribution: '',
+      attribution: copyright,
       code: "M",
       keyid: "mapnik",
       name: I18n.t("javascripts.map.base.standard")
     }),
     new L.OSM.CycleMap({
-      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+      attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
       code: "C",
       keyid: "cyclemap",
       name: I18n.t("javascripts.map.base.cycle_map")
     }),
     new L.OSM.TransportMap({
-      attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+      attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
       code: "T",
       keyid: "transportmap",
       name: I18n.t("javascripts.map.base.transport_map")
     }),
     new L.OSM.MapQuestOpen({
-      attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
+      attribution: copyright + ". Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
       code: "Q",
       keyid: "mapquest",
       name: I18n.t("javascripts.map.base.mapquest")
     })
   ];
 
-  layers[0].addTo(map);
+  for (var i = layers.length - 1; i >= 0; i--) {
+    if (i === 0 || params.layers.indexOf(layers[i].options.code) >= 0) {
+      map.addLayer(layers[i]);
+      break;
+    }
+  }
 
   map.noteLayer = new L.LayerGroup();
   map.noteLayer.options = {code: 'N'};
@@ -65,8 +73,13 @@ $(document).ready(function () {
   L.OSM.zoom({position: position})
     .addTo(map);
 
-  L.control.locate({position: position})
-    .addTo(map);
+  L.control.locate({
+    position: position,
+    strings: {
+      title: I18n.t('javascripts.map.locate.title'),
+      popup: I18n.t('javascripts.map.locate.popup')
+    }
+  }).addTo(map);
 
   var sidebar = L.OSM.sidebar('#map-ui')
     .addTo(map);
@@ -96,9 +109,11 @@ $(document).ready(function () {
   L.control.scale()
     .addTo(map);
 
+  $('.leaflet-control .control-button').tooltip({placement: 'left', container: 'body'});
+
   map.on('moveend layeradd layerremove', updateLocation);
 
-  map.markerLayer = L.layerGroup().addTo(map);
+  var marker = L.marker([0, 0], {icon: getUserIcon()});
 
   if (!params.object_zoom) {
     if (params.bounds) {
@@ -116,30 +131,23 @@ $(document).ready(function () {
     }).addTo(map);
   }
 
-  if (params.layers) {
-    var foundLayer = false;
-    for (var i = 0; i < layers.length; i++) {
-      if (params.layers.indexOf(layers[i].options.code) >= 0) {
-        map.addLayer(layers[i]);
-        foundLayer = true;
-      } else {
-        map.removeLayer(layers[i]);
-      }
-    }
-    if (!foundLayer) {
-      map.addLayer(layers[0]);
-    }
-  }
-
   if (params.marker) {
-    L.marker([params.mlat, params.mlon], {icon: getUserIcon()}).addTo(map.markerLayer);
+    marker.setLatLng([params.mlat, params.mlon]).addTo(map);
   }
 
   if (params.object) {
-    addObjectToMap(params.object, map, { zoom: params.object_zoom });
+    map.addObject(params.object, { zoom: params.object_zoom });
   }
 
-  $("body").on("click", "a.set_position", setPositionLink(map));
+  $("#homeanchor").on("click", function(e) {
+    e.preventDefault();
+
+    var data = $(this).data(),
+      center = L.latLng(data.lat, data.lon);
+
+    map.setView(center, data.zoom);
+    marker.setLatLng(center).addTo(map);
+  });
 
   $("a[data-editor=remote]").click(function(e) {
       remoteEditHandler(map.getBounds());
@@ -150,19 +158,7 @@ $(document).ready(function () {
     remoteEditHandler(map.getBounds());
   }
 
-  $("#search_form").submit(submitSearch(map));
-
-
-  if ($("#query").val()) {
-    $("#search_form").submit();
-  }
-
-  // Focus the search field for browsers that don't support
-  // the HTML5 'autofocus' attribute
-  if (!("autofocus" in document.createElement("input"))) {
-    $("#query").focus();
-  }
-
+  initializeSearch(map);
   initializeExport(map);
   initializeBrowse(map, params);
   initializeNotes(map, params);
@@ -180,44 +176,4 @@ function updateLocation() {
 
   // Trigger hash update on layer changes.
   this.hash.onMapMove();
-}
-
-function setPositionLink(map) {
-  return function(e) {
-      var data = $(this).data(),
-          center = L.latLng(data.lat, data.lon);
-
-      if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
-        map.fitBounds([[data.minLat, data.minLon],
-                       [data.maxLat, data.maxLon]]);
-      } else {
-        map.setView(center, data.zoom);
-      }
-
-      if (data.type && data.id) {
-        addObjectToMap(data, map, { zoom: true, style: { opacity: 0.2, fill: false } });
-      }
-
-      map.markerLayer.clearLayers();
-      L.marker(center, {icon: getUserIcon()}).addTo(map.markerLayer);
-
-      return e.preventDefault();
-  };
-}
-
-function submitSearch(map) {
-  return function(e) {
-    var bounds = map.getBounds();
-
-    $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
-    $("#sidebar_content").load($(this).attr("action"), {
-      query: $("#query").val(),
-      minlon: bounds.getWest(),
-      minlat: bounds.getSouth(),
-      maxlon: bounds.getEast(),
-      maxlat: bounds.getNorth()
-    }, openSidebar);
-
-    return e.preventDefault();
-  };
 }

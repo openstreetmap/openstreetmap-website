@@ -5,12 +5,11 @@ window.onload = function () {
   var query = (window.location.search || '?').substr(1),
       args  = {};
 
-  query.replace(/([^&=]+)=?([^&]*)(?:&+|$)/g, function(match, key, value) {
-    value = value.split(",");
-    if (value.length == 1)
-      value = value[0];
-    args[key] = value;
-  });
+  var pairs = query.split('&');
+  for (var i = 0; i < pairs.length; i++) {
+    var parts = pairs[i].split('=');
+    args[parts[0]] = decodeURIComponent(parts[1] || '');
+  }
 
   var map = L.map("map");
   map.attributionControl.setPrefix('');
@@ -26,7 +25,7 @@ window.onload = function () {
   }
 
   if (args.marker) {
-    L.marker(args.marker, {icon: L.icon({
+    L.marker(args.marker.split(','), {icon: L.icon({
       iconUrl: <%= asset_path('images/marker-icon.png').to_json %>,
       iconSize: new L.Point(25, 41),
       iconAnchor: new L.Point(12, 41),
@@ -36,8 +35,9 @@ window.onload = function () {
   }
 
   if (args.bbox) {
-    map.fitBounds([L.latLng(args.bbox[1], args.bbox[0]),
-                   L.latLng(args.bbox[3], args.bbox[2])])
+    var bbox = args.bbox.split(',');
+    map.fitBounds([L.latLng(bbox[1], bbox[0]),
+                   L.latLng(bbox[3], bbox[2])])
   } else {
     map.fitWorld();
   }

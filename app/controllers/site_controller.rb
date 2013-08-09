@@ -42,7 +42,7 @@ class SiteController < ApplicationController
 
     new_params[:controller] = 'site'
     new_params[:action] = 'index'
-    new_params[:anchor] = "#{zoom}/#{lat}/#{lon}"
+    new_params[:anchor] = "map=#{zoom}/#{lat}/#{lon}"
 
     redirect_to new_params
   end
