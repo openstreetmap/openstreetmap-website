@@ -15232,7 +15232,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.1.1';
+iD.version = '1.1.2';
 
 (function() {
     var detected = {};
@@ -15323,7 +15323,7 @@ iD.taginfo = function() {
     }
 
     function popularValues() {
-        return function(d) { return parseFloat(d.fraction) > 0.01; };
+        return function(d) { return parseFloat(d.fraction) > 0.01 || d.in_wiki; };
     }
 
     function valKey(d) { return { value: d.key }; }
@@ -21673,7 +21673,6 @@ iD.Map = function(context) {
         map.dimensions(selection.dimensions());
 
         labels.supersurface(supersurface);
-        mouse = iD.util.fastMouse(supersurface.node());
     }
 
     function pxCenter() { return [dimensions[0] / 2, dimensions[1] / 2]; }
@@ -21903,6 +21902,7 @@ iD.Map = function(context) {
         surface.dimensions(dimensions);
         context.background().dimensions(dimensions);
         projection.clipExtent([[0, 0], dimensions]);
+        mouse = iD.util.fastMouse(supersurface.node());
         setCenter(center);
         return redraw();
     };
@@ -27487,7 +27487,11 @@ iD.ui.preset.combo = function(field) {
 
         input.enter().append('input')
             .attr('type', 'text')
-            .attr('id', 'preset-input-' + field.id)
+            .attr('id', 'preset-input-' + field.id);
+
+        input
+            .on('change', change)
+            .on('blur', change)
             .each(function() {
                 if (field.options) {
                     options(field.options);
@@ -27498,11 +27502,7 @@ iD.ui.preset.combo = function(field) {
                         if (!err) options(_.pluck(data, 'value'));
                     });
                 }
-            });
-
-        input
-            .on('change', change)
-            .on('blur', change)
+            })
             .call(combobox);
 
         function options(opts) {
@@ -48814,6 +48814,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "fi",
         "fr",
         "de",
+        "el",
         "hu",
         "is",
         "id",
