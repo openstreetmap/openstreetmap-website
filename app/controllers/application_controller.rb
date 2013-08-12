@@ -370,7 +370,7 @@ class ApplicationController < ActionController::Base
   rescue ActionView::Template::Error => ex
     ex = ex.original_exception
 
-    if ex.is_a?(ActiveRecord::StatementInvalid) and ex.message =~ /^Timeout::Error/
+    if ex.is_a?(ActiveRecord::StatementInvalid) and ex.message =~ /execution expired/
       ex = Timeout::Error.new
     end
 
