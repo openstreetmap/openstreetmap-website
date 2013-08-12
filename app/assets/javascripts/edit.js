@@ -24,7 +24,7 @@ $(document).ready(function () {
     $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
     $("#sidebar_content").load($(this).attr("href"), {
       lat: mapParams.lat,
-      lon: mapParams.lng,
+      lon: mapParams.lon,
       zoom: mapParams.zoom
     }, openSidebar);    
   });
