@@ -22,7 +22,7 @@ class ExportController < ApplicationController
       format = params[:mapnik_format]
       scale = params[:mapnik_scale]
 
-      redirect_to "http://parent.tile.openstreetmap.org/cgi-bin/export?bbox=#{bbox}&scale=#{scale}&format=#{format}"
+      redirect_to "http://render.openstreetmap.org/cgi-bin/export?bbox=#{bbox}&scale=#{scale}&format=#{format}"
     end
   end
 
