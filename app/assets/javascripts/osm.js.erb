@@ -22,8 +22,8 @@ OSM = {
     return url;
   },
 
-  mapParams: function (search) {
-    var params = {}, mapParams = {}, bounds, loc;
+  params: function(search) {
+    var params = {};
 
     search = (search || window.location.search).replace('?', '').split(/&|;/);
 
@@ -34,6 +34,12 @@ OSM = {
         val = pair.slice(++j);
       params[key] = decodeURIComponent(val);
     }
+
+    return params;
+  },
+
+  mapParams: function (search) {
+    var params = OSM.params(search), mapParams = {}, bounds, loc;
 
     if (params.mlon && params.mlat) {
       mapParams.marker = true;
