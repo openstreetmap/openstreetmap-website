@@ -3,23 +3,21 @@
     <iframe frameBorder="0" id="id-embed" class="id-embed"></iframe>
   </div>
   <script>
-    var coord = {};
-    <% if @lat && @lon && @zoom -%>
-    coord.lat = <%= @lat %>;
-    coord.lon = <%= @lon %>;
-    coord.zoom = <%= @zoom %>;
-    <% else -%>
-    coord = OSM.mapParams();
-    <% end -%>
+    var params = {};
 
-    var hash;
-    if (coord.object) {
-      hash = '#id=' + coord.object.type[0] + coord.object.id;
+    var mapParams = OSM.mapParams();
+    if (mapParams.object) {
+      params.id = mapParams.object.type[0] + mapParams.object.id;
     } else {
-      hash = '#map=' + (coord.zoom || 17) + '/' + coord.lon + '/' + coord.lat
+      params.map = (mapParams.zoom || 17) + '/' + mapParams.lon + '/' + mapParams.lat;
     }
 
-    $('#id-embed').attr('src', '<%= id_url :locale => params[:locale] %>' + hash);
+    var hashParams = OSM.params(location.hash.substring(1));
+    if (hashParams.background) {
+      params.background = hashParams.background;
+    }
+
+    $('#id-embed').attr('src', '<%= id_url :locale => params[:locale] %>#' + querystring.stringify(params));
   </script>
 <% else %>
   <script type="text/javascript">alert("<%= t 'site.edit.id_not_configured' %>")</script>
