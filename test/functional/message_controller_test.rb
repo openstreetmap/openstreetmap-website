@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MessageControllerTest < ActionController::TestCase
-  fixtures :users, :messages
+  fixtures :users, :messages, :groups
 
   ##
   # test all routes which lead to this controller
@@ -21,6 +21,14 @@ class MessageControllerTest < ActionController::TestCase
     assert_routing(
       { :path => "/message/new/username", :method => :post },
       { :controller => "message", :action => "new", :display_name => "username" }
+    )
+    assert_routing(
+      { :path => "/message/new_to_group/1", :method => :get },
+      { :controller => "message", :action => "new_to_group", :group_id => "1" }
+    )
+    assert_routing(
+      { :path => "/message/new_to_group/1", :method => :post },
+      { :controller => "message", :action => "new_to_group", :group_id => "1" }
     )
     assert_routing(
       { :path => "/message/read/1", :method => :get },
@@ -95,6 +103,36 @@ class MessageControllerTest < ActionController::TestCase
     assert_response :not_found
     assert_template "user/no_such_user"
     assert_select "h2", "The user non_existent_user does not exist"
+  end
+
+  ##
+  # test the new_to_group action
+  def test_new_to_group
+    # Set up group, members, and leader
+    uk_group = groups(:british_cyclists_group)
+    first_user = User.find(1)
+    uk_group.users << first_user
+    uk_group.group_memberships.find_by_user_id(first_user.id).set_role(GroupMembership::Roles::LEADER)
+    other_users = User.limit(5) - [first_user]
+    uk_group.users << other_users
+
+    # Try to send as a non-leader
+    session[:user] = other_users.first.id
+    cookies["_osm_username"] = other_users.first.display_name
+    post :new_to_group,
+      :group_id => uk_group.id,
+      :message => { :title => "Test Message", :body => "Test message body" }
+    assert_equal "You must be a leader of this group to send messages to all members.", flash[:error]
+
+    # Try to send as an actual leader
+    session[:user] = first_user.id
+    cookies["_osm_username"] = first_user.display_name
+    message_count_before = Message.count
+    post :new_to_group,
+      :group_id => uk_group.id,
+      :message => { :title => "Test Message", :body => "Test message body" }
+    assert_equal "Message sent to #{other_users.count} group members.", flash[:notice]
+    assert_equal Message.count, (message_count_before + other_users.count)
   end
 
   ##
