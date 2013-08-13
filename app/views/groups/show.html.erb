@@ -7,6 +7,7 @@
   <% if defined?(@user) %>
     <ul class='secondary-actions clearfix'>
       <% if @group.leadership_includes?(@user) %>
+        <li><%= link_to t('group.message.action'), new_message_to_group_path(@group) %></li>
         <li><%= link_to t('group.edit.action'), edit_group_path(@group) %></li>
         <li><%= link_to t('group.resign.action'), resign_leader_group_path(@group), :method => :post, :data => { :confirm => t('group.resign.confirm') } %></li>
       <% elsif @group.users.include?(@user) && @group.leaders.count == 0 %>

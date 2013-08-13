@@ -234,6 +234,7 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/inbox' => 'message#inbox', :via => :get, :as => "inbox"
   match '/user/:display_name/outbox' => 'message#outbox', :via => :get, :as => "outbox"
   match '/message/new/:display_name' => 'message#new', :via => [:get, :post], :as => "new_message"
+  match '/message/new_to_group/:group_id' => 'message#new_to_group', :via => [:get, :post], :as => "new_message_to_group"
   match '/message/read/:message_id' => 'message#read', :via => :get, :as => "read_message"
   match '/message/mark/:message_id' => 'message#mark', :via => :post, :as => "mark_message"
   match '/message/reply/:message_id' => 'message#reply', :via => [:get, :post], :as => "reply_message"
