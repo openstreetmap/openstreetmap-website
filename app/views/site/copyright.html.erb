@@ -1,71 +1,129 @@
-<% content_for :heading do %>
-<% if @locale == 'en' %>
-  <!-- Maybe ease foreigners back to their native page -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <title><%= t "license_page.legal_babble.title_html", :locale => @locale %></title>
+  <%= stylesheet_link_tag 'copyright' %>
+  <%= javascript_include_tag 'copyright' %>
+</head>
+<body class='photo-0'>
 
-    <% if t('license_page.legal_babble', :locale => I18n.locale) != t('license_page.legal_babble', :locale => :en) %>
-      <h2><%= t 'license_page.native.title' %></h2>
+<!-- Skinny header -->
+<div id='skinny-top-bar'>
+  <a href='http://www.openstreetmap.org/' class='logo'><span class='osmlogo'></span><h1><%= t "layouts.project_name.h1" %></h1></a>
+  <%= render :partial => "layouts/greeting" %>
+</div>
+
+<!-- Attribution header -->
+<div id='header' class='page'>
+  <div class='attr text w s'>
+    <%= render "attribution_header",
+               :name  => params[:name],
+               :image => params[:image] %>
+  </div>
+</div>
+
+<!-- Legal section -->
+<div class='legal' id='content-body'>
+  <div class='text'>
+    <div class='section'>
+      <p><strong><%= t "license_page.legal_babble.lede_text", :locale => @locale %></strong></p>
+      <h2><div class='icon local'></div><%= t "license_page.legal_babble.local_knowledge_title", :locale => @locale %></h2>
+      <p><%= t "license_page.legal_babble.local_knowledge_html", :locale => @locale %></p>
+    </div>
+    <div class='section'>
+      <h2><div class='icon community'></div><%= t "license_page.legal_babble.community_driven_title", :locale => @locale %></h2>
+      <p><%= t "license_page.legal_babble.community_driven_html", :locale => @locale %></p>
+    </div>
+    <div class='section' id='open-data'>
+      <h2><div class='icon open'></div><%= t "license_page.legal_babble.open_data_title", :locale => @locale %></h2>
+      <p><%= t "license_page.legal_babble.intro_1_html", :locale => @locale %></p>
       <p>
-        <%= raw t 'license_page.native.text',
-                    :native_link => link_to(t('license_page.native.native_link'),
-                                                :controller => 'site',
-                                                :action => 'copyright',
-                                                :copyright_locale => nil),
-                    :mapping_link => link_to(t('license_page.native.mapping_link'),
-                                                :controller => 'site',
-                                                :action => 'index') %>
+        <%= t "license_page.legal_babble.intro_2_html", :locale => @locale %>
+        <%= t "license_page.legal_babble.intro_3_html", :locale => @locale %>
       </p>
-      <hr />
-    <% end %>
-  <% else %>
-    <!-- Maybe note that this page has been translated -->
-    <% if t('license_page.legal_babble', :locale => @locale) != t('license_page.legal_babble', :locale => :en) %>
-      <h2><%= t 'license_page.foreign.title' %></h2>
+      <p><%= t "license_page.legal_babble.more_2_html", :locale => @locale %></p>
+      <p><strong><%= t "license_page.legal_babble.credit_title_html", :locale => @locale %></strong></p>
+      <p><%= t "license_page.legal_babble.credit_1_html", :locale => @locale %></p>
       <p>
-        <%= raw t 'license_page.foreign.text',
-                    :english_original_link => link_to(t('license_page.foreign.english_link'),
-                                                          :controller => 'site',
-                                                          :action => 'copyright',
-                                                          :copyright_locale => 'en') %>
+        <a class='builder' href='#builder'><%= t "license_page.legal_babble.credit_add_to_site_html", :locale => @locale %></a>
       </p>
-      <hr />
+      <p><%= t "license_page.legal_babble.credit_2_html", :locale => @locale %></p>
+    </div>
+    <div class='section' id='contributors'>
+      <h2><div class='icon contributors'></div><%= t "license_page.legal_babble.contributors_title_html", :locale => @locale %></h2>
+      <p><%= t "license_page.legal_babble.contributors_intro_html", :locale => @locale %></p>
+      <ul id="contributors">
+        <li><%= t "license_page.legal_babble.contributors_at_html", :locale => @locale %></li>
+        <li><%= t "license_page.legal_babble.contributors_ca_html", :locale => @locale %></li>
+        <li><%= t "license_page.legal_babble.contributors_fr_html", :locale => @locale %></li>
+        <li><%= t "license_page.legal_babble.contributors_nl_html", :locale => @locale %></li>
+        <li><%= t "license_page.legal_babble.contributors_nz_html", :locale => @locale %></li>
+        <li><%= t "license_page.legal_babble.contributors_za_html", :locale => @locale %></li>
+        <li><%= t "license_page.legal_babble.contributors_gb_html", :locale => @locale %></li>
+      </ul>
+    </div>
+    <div class='section' id='copyright-infringement'>
+      <h2><div class='icon infringement'></div><%= t "license_page.legal_babble.infringement_title_html", :locale => @locale %></h2>
+      <p><%= t "license_page.legal_babble.infringement_1_html", :locale => @locale %></p>
+      <p><%= t "license_page.legal_babble.infringement_2_html", :locale => @locale %></p>
+    </div>
+  </div>
+  <div class='buttons'>
+    <% unless @user %>
+      <%= link_to t("license_page.join", :locale => @locale), login_path, :class => 'button osm' %>
     <% end %>
-  <% end %>
+    <% if params[:vendor].present? && params[:vendorURL].present? %>
+      <a class='button vendor' href='<%= params[:vendorURL] %>'>
+        <%= raw t "license_page.vendor_link",
+                  :vendor => "<strong>#{h params[:vendor]}</strong>",
+                  :locale => @locale %>
+      </a>
+      <small>
+        <%= raw t "license_page.vendor",
+                  :vendor => "<strong>#{h params[:vendor]}</strong>",
+                  :locale => @locale %>
+      </small>
+    <% end %>
+  </div>
+</div>
 
-  <h2><%= t "license_page.legal_babble.title_html", :locale => @locale %></h2>
-
+<!-- Photo captions -->
+<% 5.times do |i| %>
+  <div class='caption photo-<%= i %>'>
+    <%= t "license_page.photo_caption_#{i}_html", :locale => @locale %>
+  </div>
 <% end %>
+<a class='next' id='next-photo' href='#'><%= t "license_page.next" %></a>
 
-<p><%= t "license_page.legal_babble.intro_1_html", :locale => @locale %></p>
-<p><%= t "license_page.legal_babble.intro_2_html", :locale => @locale %></p>
-<p><%= t "license_page.legal_babble.intro_3_html", :locale => @locale %></p>
+<!-- Attribution widget builder -->
+<div class='builder' id='builder'>
+  <a class='close' href='#'><%= t "license_page.builder.close" %></a>
+  <div class='form'>
+    <div id='preview'>
+      <div class='attr default'>
+        <%= render "attribution_header",
+                   :name => nil,
+                   :image => nil %>
+      </div>
+      <div class='attr customized'>
+        <%= render "attribution_header",
+                   :name => 'Name',
+                   :image => nil %>
+      </div>
+    </div>
+    <input id='field-user-name' type='text' placeholder='<%= t "license_page.builder.your_name" %>'/>
+    <input id='field-user-image' type='text' placeholder='<%= t "license_page.builder.image_url" %>'/>
+    <a class='button skip' href='#create'><%= t "license_page.builder.skip" %></a>
+    <a class='button customized' href='#create'><%= t "license_page.builder.create" %></a>
+  </div>
+  <div class='widget'>
+    <div class='img widget'></div>
+    <input id='field-widget' type='text' onclick='(event.target||event.srcElement).select()' />
+    <p><%= t "license_page.builder.copy_and_paste" %></p>
+  </div>
+</div>
 
-<h3><%= t "license_page.legal_babble.credit_title_html", :locale => @locale %></h3>
-<p><%= t "license_page.legal_babble.credit_1_html", :locale => @locale %></p>
-<p><%= t "license_page.legal_babble.credit_2_html", :locale => @locale %></p>
-<p><%= t "license_page.legal_babble.credit_3_html", :locale => @locale %></p>
-<p><%= image_tag("attribution_example.png",
-              :alt => t('license_page.legal_babble.attribution_example.alt'),
-              :border => 0,
-              :title => t('license_page.legal_babble.attribution_example.title')) %>
-
-<h3><%= t "license_page.legal_babble.more_title_html", :locale => @locale %></h3>
-<p><%= t "license_page.legal_babble.more_1_html", :locale => @locale %></p>
-<p><%= t "license_page.legal_babble.more_2_html", :locale => @locale %></p>
-
-<h3><%= t "license_page.legal_babble.contributors_title_html", :locale => @locale %></h3>
-<p><%= t "license_page.legal_babble.contributors_intro_html", :locale => @locale %></p>
-<ul id="contributors">
-  <li><%= t "license_page.legal_babble.contributors_at_html", :locale => @locale %></li>
-  <li><%= t "license_page.legal_babble.contributors_ca_html", :locale => @locale %></li>
-  <li><%= t "license_page.legal_babble.contributors_fr_html", :locale => @locale %></li>
-  <li><%= t "license_page.legal_babble.contributors_nl_html", :locale => @locale %></li>
-  <li><%= t "license_page.legal_babble.contributors_nz_html", :locale => @locale %></li>
-  <li><%= t "license_page.legal_babble.contributors_za_html", :locale => @locale %></li>
-  <li><%= t "license_page.legal_babble.contributors_gb_html", :locale => @locale %></li>
-</ul>
-<p><%= t "license_page.legal_babble.contributors_footer_1_html", :locale => @locale %></p>
-<p><%= t "license_page.legal_babble.contributors_footer_2_html", :locale => @locale %></p>
-
-<h3><%= t "license_page.legal_babble.infringement_title_html", :locale => @locale %></h3>
-<p><%= t "license_page.legal_babble.infringement_1_html", :locale => @locale %></p>
-<p><%= t "license_page.legal_babble.infringement_2_html", :locale => @locale %></p>
+</body>
+</html>
