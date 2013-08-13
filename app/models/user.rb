@@ -70,7 +70,14 @@ class User < ActiveRecord::Base
         end
       end
 
-      user = nil if user and not PasswordHash.check(user.pass_crypt, user.pass_salt, options[:password])
+      if user and PasswordHash.check(user.pass_crypt, user.pass_salt, options[:password])
+        if PasswordHash.upgrade?(user.pass_crypt, user.pass_salt)
+          user.pass_crypt, user.pass_salt = PasswordHash.create(options[:password])
+          user.save
+        end
+      else
+        user = nil
+      end
     elsif options[:token]
       token = UserToken.find_by_token(options[:token])
       user = token.user if token

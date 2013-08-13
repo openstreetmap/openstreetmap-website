@@ -29,6 +29,22 @@ module PasswordHash
     return hash == candidate
   end
 
+  def self.upgrade?(hash, salt)
+    if salt.nil?
+      return true
+    elsif salt =~ /!/
+      algorithm, iterations, salt = salt.split("!")
+      return true if Base64.strict_decode64(salt).length != SALT_BYTE_SIZE
+      return true if Base64.strict_decode64(hash).length != HASH_BYTE_SIZE
+      return true if iterations.to_i != PBKDF2_ITERATIONS
+      return true if algorithm != DIGEST_ALGORITHM
+    else
+      return true
+    end
+
+    return false
+  end
+
 private
 
   def self.hash(password, salt, iterations, size, algorithm)
