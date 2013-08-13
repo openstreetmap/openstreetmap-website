@@ -5,7 +5,6 @@ module OSM
   require 'rexml/parsers/sax2parser'
   require 'rexml/text'
   require 'xml/libxml'
-  require 'digest/md5'
 
   if defined?(SystemTimer)
     Timer = SystemTimer
@@ -567,12 +566,6 @@ module OSM
     end
 
     return token
-  end
-
-  # Return an encrypted version of a password
-  def self.encrypt_password(password, salt)
-    return Digest::MD5.hexdigest(password) if salt.nil?
-    return Digest::MD5.hexdigest(salt + password)
   end
 
   # Return an SQL fragment to select a given area of the globe
