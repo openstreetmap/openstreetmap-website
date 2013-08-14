@@ -108,41 +108,16 @@
         </ul>
       <% end %>
       <ul id="tabnav">
-        <li><%= link_to t('layouts.view'), root_path, {
-          :id => 'viewanchor',
-          :title => t('layouts.view_tooltip'),
-          :class => 'geolink llz layers'
-        } %></li>
-        <li><%= link_to h(t('layouts.edit')) + content_tag(:span, "▼", :class => "menuicon"), edit_path, {
-          :id => 'editanchor',
-          :title => t('javascripts.site.edit_tooltip'),
-          :data => { :minzoom => 13, :editor => preferred_editor },
-          :class => 'geolink llz object disabled'
-        } %></li>
-        <li><%= link_to t('layouts.history'), browse_changesets_path, {
-          :id => 'historyanchor',
-          :data => { :minzoom => 11 },
-          :title => t('javascripts.site.history_tooltip'),
-          :class => 'geolink bbox'
-        } %></li>
+        <li id="view_tab">
+          <%= link_to t('layouts.view'), root_path, :class => 'tab geolink llz layers' %>
+        </li><li id="edit_tab">
+          <%= render :partial => 'layouts/edit_menu',
+                     :locals => { :link_text => t('layouts.edit'), :link_class => 'llz object' }%>
+        </li><li id="history_tab">
+          <%= link_to t('layouts.history'), browse_changesets_path, :class => 'tab geolink bbox' %>
+        </li>
       </ul>
     </div>
-    <div id="editmenu" class="menu">
-      <ul>
-        <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
-          <li><%= link_to t('layouts.edit_with',
-            :editor => t("editor.#{editor}.description")),
-            edit_path(:editor => editor), {
-            :data => { :editor => editor },
-            :class => "geolink llz object"
-          } %></li>
-        <% end %>
-        <%= yield :editmenu %>
-      </ul>
-    </div>
-    <script type="text/javascript">
-      createMenu("editanchor", "editmenu", "left");
-    </script>
     <div class="wrapper">
       <%= render :partial => "layouts/flash", :locals => { :flash => flash } %>
       <% if content_for? :heading %>

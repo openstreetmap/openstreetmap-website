@@ -17,7 +17,6 @@
 //= require oauth
 //= require piwik
 //= require map
-//= require menu
 //= require sidebar
 //= require richtext
 //= require geocoder
@@ -96,26 +95,25 @@ function updatelinks(loc, zoom, layers, bounds, object) {
     }
 
     link.href = href;
-
-    var minzoom = $(link).data("minzoom");
-    if (minzoom) {
-      var name = link.id.replace(/anchor$/, "");
-      $(link).off("click.minzoom");
-      if (zoom >= minzoom) {
-        $(link)
-          .attr("title", I18n.t("javascripts.site." + name + "_tooltip"))
-          .removeClass("disabled");
-      } else {
-        $(link)
-          .attr("title", I18n.t("javascripts.site." + name + "_disabled_tooltip"))
-          .addClass("disabled")
-          .on("click.minzoom", function () {
-            alert(I18n.t("javascripts.site." + name + "_zoom_alert"));
-            return false;
-          });
-      }
-    }
   });
+
+  var editDisabled = zoom < 13;
+  $('#edit_tab')
+    .tooltip({placement: 'bottom'})
+    .off('click.minzoom')
+    .on('click.minzoom', function() { return !editDisabled; })
+    .toggleClass('disabled', editDisabled)
+    .attr('data-original-title', editDisabled ?
+      I18n.t('javascripts.site.edit_disabled_tooltip') : '');
+
+  var historyDisabled = zoom < 11;
+  $('#history_tab')
+    .tooltip({placement: 'bottom'})
+    .off('click.minzoom')
+    .on('click.minzoom', function() { return !historyDisabled; })
+    .toggleClass('disabled', historyDisabled)
+    .attr('data-original-title', historyDisabled ?
+      I18n.t('javascripts.site.history_disabled_tooltip') : '');
 }
 
 // generate a cookie-safe string of map state

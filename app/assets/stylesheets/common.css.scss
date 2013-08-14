@@ -491,47 +491,55 @@ a.donate {
 
 #tabnav {
   height: 29px;
-  margin-bottom:0;
-  overflow: hidden;
-  li {
-    display: inline;
-  }
-  a, a:link, a:visited {
+  margin-bottom: 0;
+
+  > li {
     float: left;
+
+    > * {
+      padding: 3px $lineheight/2;
+    }
+  }
+
+  a.tab {
+    display: inline-block;
     font-weight: bold;
-    padding: 3px $lineheight/2;
     text-decoration: none;
     color: #333;
-    float: left;
-    margin-right: 1px;
+
     -webkit-transition: color 200ms ease-in;
        -moz-transition: color 200ms ease-in;
          -o-transition: color 200ms ease-in;
             transition: color 200ms ease-in;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .disabled a {
+    color: #ccc;
+    cursor: default;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    .caret {
+      border-top-color: #ccc;
+    }
+  }
+
+  .dropdown {
+    height: 29px;
   }
 }
 
-.site-index #tabnav a#viewanchor,
-.site-edit #tabnav a#editanchor,
-.changeset-list #tabnav a#historyanchor {
-  border-bottom: 1px solid #aaa;
+.site-index #view_tab,
+.site-edit #edit_tab,
+.changeset-list #history_tab {
   background: #9ed485;
   color: #000;
-}
-
-#tabnav a:link:hover, #tabnav a:visited:hover {
-  text-decoration: underline;
-}
-
-#tabnav a:link.disabled,
-#tabnav a:visited.disabled,
-#tabnav a:link:hover.disabled,
-#tabnav a:visited:hover.disabled {
-  color: #ccc;
-  cursor: default;
-  &:hover {
-    text-decoration: none;
-  }
 }
 
 /* Utility for styling notification numbers */
@@ -1337,11 +1345,8 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   }
 }
 
-#browse_map .geolink {
-  display: none;
-}
-
 #browse_map .secondary-actions {
+  display: none;
   margin-bottom: $lineheight/2;
 }
 
@@ -1936,7 +1941,7 @@ ul.secondary-actions {
     display: inline-block;
     margin-right: 60px;
   }
-  li {
+  > li {
     display: block;
     float: left;
     list-style: none;
@@ -1950,6 +1955,10 @@ ul.secondary-actions {
     &:last-child {
       margin-right: 0px;
     }
+  }
+  .dropdown-menu {
+    left: auto;
+    right: 0;
   }
 }
 
