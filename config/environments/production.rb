@@ -72,7 +72,15 @@ OpenStreetMap::Application.configure do
   config.assets.precompile += %w( large-rtl.css small-rtl.css print-rtl.css )
   config.assets.precompile += %w( browse.css leaflet-all.css leaflet.ie.css )
   config.assets.precompile += %w( embed.js embed.css )
+  config.assets.precompile += %w( images/marker-*.png img/*-handle.png )
+  config.assets.precompile += %w( potlatch2.swf )
+  config.assets.precompile += %w( potlatch2/assets.zip )
+  config.assets.precompile += %w( potlatch2/FontLibrary.swf )
+  config.assets.precompile += %w( potlatch2/locales/*.swf )
+  config.assets.precompile += %w( help/introduction.* )
   config.assets.precompile += %w( iD.js iD.css )
+  config.assets.precompile += %w( iD/img/*.svg iD/img/*.png iD/img/*.gif )
+  config.assets.precompile += %w( iD/img/pattern/*.png )
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
