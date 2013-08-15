@@ -5725,6 +5725,10 @@ d3.combobox = function() {
                         position: 'absolute',
                         display: 'block',
                         left: '0px'
+                    })
+                    .on('mousedown', function () {
+                        // prevent moving focus out of the text field
+                        d3.event.preventDefault();
                     });
 
                 d3.select(document.body)
@@ -15232,7 +15236,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.1.2';
+iD.version = '1.1.3';
 
 (function() {
     var detected = {};
@@ -18208,12 +18212,16 @@ iD.modes.Browse = function(context) {
         iD.modes.DragNode(context).behavior];
 
     mode.enter = function() {
+        context.history().save();
+
         behaviors.forEach(function(behavior) {
             context.install(behavior);
         });
 
         // Get focus on the body.
-        document.activeElement.blur();
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
 
         if (sidebar) {
             context.ui().sidebar.show(sidebar);
@@ -18884,6 +18892,8 @@ iD.modes.Select = function(context, selectedIDs) {
     };
 
     mode.enter = function() {
+        context.history().save();
+
         behaviors.forEach(function(behavior) {
             context.install(behavior);
         });
@@ -19918,6 +19928,8 @@ iD.Entity = function(attrs) {
     // Create the appropriate subtype.
     if (attrs && attrs.type) {
         return iD.Entity[attrs.type].apply(this, arguments);
+    } else if (attrs && attrs.id) {
+        return iD.Entity[iD.Entity.id.type(attrs.id)].apply(this, arguments);
     }
 
     // Initialize a generic Entity (used only in tests).
@@ -19944,7 +19956,7 @@ iD.Entity.id.type = function(id) {
 
 // A function suitable for use as the second argument to d3.selection#data().
 iD.Entity.key = function(entity) {
-    return entity.id + ',' + entity.v;
+    return entity.id + 'v' + (entity.v || 0);
 };
 
 iD.Entity.areaPath = d3.geo.path()
@@ -20319,28 +20331,14 @@ iD.Graph.prototype = {
 
     // Obliterates any existing entities
     load: function(entities) {
-
-        var base = this.base(),
-            i, entity, prefix;
+        var base = this.base();
         this.entities = Object.create(base.entities);
 
-        for (i in entities) {
-            entity = entities[i];
-            prefix = i[0];
-
-            if (entity === 'undefined') {
-                this.entities[i] = undefined;
-            } else if (prefix == 'n') {
-                this.entities[i] = new iD.Node(entity);
-
-            } else if (prefix == 'w') {
-                this.entities[i] = new iD.Way(entity);
-
-            } else if (prefix == 'r') {
-                this.entities[i] = new iD.Relation(entity);
-            }
+        for (var i in entities) {
+            this.entities[i] = entities[i];
             this._updateCalculated(base.entities[i], this.entities[i]);
         }
+
         return this;
     }
 };
@@ -20533,33 +20531,85 @@ iD.History = function(context) {
         toJSON: function() {
             if (stack.length <= 1) return;
 
+            var allEntities = {};
+
             var s = stack.map(function(i) {
-                var x = { entities: i.graph.entities };
+                var modified = [], deleted = [];
+
+                _.forEach(i.graph.entities, function(entity, id) {
+                    if (entity) {
+                        var key = iD.Entity.key(entity);
+                        allEntities[key] = entity;
+                        modified.push(key);
+                    } else {
+                        deleted.push(id);
+                    }
+                });
+
+                var x = {};
+
+                if (modified.length) x.modified = modified;
+                if (deleted.length) x.deleted = deleted;
                 if (i.imageryUsed) x.imageryUsed = i.imageryUsed;
                 if (i.annotation) x.annotation = i.annotation;
+
                 return x;
             });
 
             return JSON.stringify({
+                version: 2,
+                entities: _.values(allEntities),
                 stack: s,
                 nextIDs: iD.Entity.id.next,
                 index: index
-            }, function includeUndefined(key, value) {
-                if (typeof value === 'undefined') return 'undefined';
-                return value;
             });
         },
 
         fromJSON: function(json) {
-
             var h = JSON.parse(json);
 
             iD.Entity.id.next = h.nextIDs;
             index = h.index;
-            stack = h.stack.map(function(d) {
-                d.graph = iD.Graph(stack[0].graph).load(d.entities);
-                return d;
-            });
+
+            if (h.version === 2) {
+                var allEntities = {};
+
+                h.entities.forEach(function(entity) {
+                    allEntities[iD.Entity.key(entity)] = iD.Entity(entity);
+                });
+
+                stack = h.stack.map(function(d) {
+                    var entities = {}, entity;
+
+                    d.modified && d.modified.forEach(function(key) {
+                        entity = allEntities[key];
+                        entities[entity.id] = entity;
+                    });
+
+                    d.deleted && d.deleted.forEach(function(id) {
+                        entities[id] = undefined;
+                    });
+
+                    return {
+                        graph: iD.Graph(stack[0].graph).load(entities),
+                        annotation: d.annotation,
+                        imageryUsed: d.imageryUsed
+                    };
+                });
+            } else { // original version
+                stack = h.stack.map(function(d) {
+                    var entities = {};
+
+                    for (var i in d.entities) {
+                        var entity = d.entities[i];
+                        entities[i] = entity === 'undefined' ? undefined : iD.Entity(entity);
+                    }
+
+                    d.graph = iD.Graph(stack[0].graph).load(entities);
+                    return d;
+                });
+            }
+
             stack[0].graph.inherited = false;
             dispatch.change();
 
@@ -24515,9 +24565,10 @@ iD.ui.FeatureList = function(context) {
             .text(t('inspector.feature_list'));
 
         function keypress() {
-            var q = search.property('value');
-            if (d3.event.keyCode === 13 && q.length) {
-                click(list.selectAll('.feature-list-item:first-child').datum().entity);
+            var q = search.property('value'),
+                items = list.selectAll('.feature-list-item');
+            if (d3.event.keyCode === 13 && q.length && items.size()) {
+                click(items.datum().entity);
             }
         }
 
@@ -25474,10 +25525,10 @@ iD.ui.preset = function(context) {
         var shown = fields.filter(function(field) { return field.shown(); }),
             notShown = fields.filter(function(field) { return !field.shown(); });
 
-        var $form = selection.selectAll('form')
+        var $form = selection.selectAll('.preset-form')
             .data([0]);
 
-        $form.enter().append('form')
+        $form.enter().append('div')
             .attr('class', 'preset-form inspector-inner fillL3');
 
         var $fields = $form.selectAll('.form-field')
@@ -25673,7 +25724,7 @@ iD.ui.PresetList = function(context) {
         var message = messagewrap.append('h3')
             .text(t('inspector.choose'));
 
-        if (currentPreset) {
+        if (context.entity(id).isUsed(context.graph())) {
             messagewrap.append('button')
                 .attr('class', 'preset-choose')
                 .on('click', function() { event.choose(currentPreset); })
@@ -25883,6 +25934,7 @@ iD.ui.PresetList = function(context) {
     presetList.entityID = function(_) {
         if (!arguments.length) return id;
         id = _;
+        presetList.preset(context.presets().match(context.entity(id), context.graph()));
         return presetList;
     };
 
@@ -26884,21 +26936,24 @@ iD.ui.Success = function(context) {
             .on('click', function() { event.cancel(success) });
 
         header.append('h3')
-            .text(t('just_edited'));
+            .text(t('success.just_edited'));
 
         var body = selection.append('div')
             .attr('class', 'body save-success');
 
+        body.append('p')
+            .html(t('success.help_html'));
+
         body.append('a')
-            .attr('class', 'col12 osm')
+            .attr('class', 'button col12 osm')
             .attr('target', '_blank')
             .attr('href', function() {
                 return context.connection().changesetURL(changeset.id);
             })
-            .text(t('view_on_osm'));
+            .text(t('success.view_on_osm'));
 
         body.append('a')
-            .attr('class', 'col12 twitter')
+            .attr('class', 'button col12 twitter')
             .attr('target', '_blank')
             .attr('href', function() {
                 return 'https://twitter.com/intent/tweet?source=webclient&text=' +
@@ -26907,7 +26962,7 @@ iD.ui.Success = function(context) {
             .text(t('success.tweet'));
 
         body.append('a')
-            .attr('class', 'col12 facebook')
+            .attr('class', 'button col12 facebook')
             .attr('target', '_blank')
             .attr('href', function() {
                 return 'https://facebook.com/sharer/sharer.php?u=' +
@@ -27108,7 +27163,9 @@ iD.ui.UndoRedo = function(context) {
             .placement('bottom')
             .html(true)
             .title(function (d) {
-                return iD.ui.tooltipHtml(d.annotation() || t('nothing_to_' + d.id), d.cmd);
+                return iD.ui.tooltipHtml(d.annotation() ?
+                    t(d.id + '.tooltip', {action: d.annotation()}) :
+                    t(d.id + '.nothing'), d.cmd);
             });
 
         var buttons = selection.selectAll('button')
@@ -32485,7 +32542,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "area": {
                 "name": "Area",
-                "tags": {},
+                "tags": {
+                    "area": "yes"
+                },
                 "geometry": [
                     "area"
                 ]
@@ -32835,6 +32894,19 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "emergency": "ambulance_station"
                 },
                 "name": "Ambulance Station"
+            },
+            "emergency/fire_hydrant": {
+                "fields": [
+                    "fire_hydrant/type"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex"
+                ],
+                "tags": {
+                    "emergency": "fire_hydrant"
+                },
+                "name": "Fire Hydrant"
             },
             "emergency/phone": {
                 "icon": "emergency-telephone",
@@ -34058,6 +34130,21 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "icon": "swimming",
                 "name": "Swimming Pool"
             },
+            "leisure/track": {
+                "icon": "pitch",
+                "fields": [
+                    "surface"
+                ],
+                "geometry": [
+                    "point",
+                    "line",
+                    "area"
+                ],
+                "tags": {
+                    "leisure": "track"
+                },
+                "name": "Race Track"
+            },
             "line": {
                 "name": "Line",
                 "tags": {},
@@ -34597,6 +34684,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Power"
             },
             "power/generator": {
+                "name": "Power Generator",
                 "geometry": [
                     "point",
                     "vertex",
@@ -34605,7 +34693,11 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "power": "generator"
                 },
-                "name": "Power Plant"
+                "fields": [
+                    "generator/source",
+                    "generator/method",
+                    "generator/type"
+                ]
             },
             "power/line": {
                 "geometry": [
@@ -36831,10 +36923,36 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "type": "check",
                 "label": "Fee"
             },
+            "fire_hydrant/type": {
+                "key": "fire_hydrant:type",
+                "type": "combo",
+                "options": [
+                    "pillar",
+                    "pond",
+                    "underground",
+                    "wall"
+                ],
+                "label": "Type"
+            },
             "fixme": {
                 "key": "fixme",
                 "type": "textarea",
                 "label": "Fix Me"
+            },
+            "generator/method": {
+                "key": "generator:method",
+                "type": "combo",
+                "label": "Method"
+            },
+            "generator/source": {
+                "key": "generator:source",
+                "type": "combo",
+                "label": "Source"
+            },
+            "generator/type": {
+                "key": "generator:type",
+                "type": "combo",
+                "label": "Type"
             },
             "highway": {
                 "key": "highway",
@@ -49007,12 +49125,16 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "multiple_ways": "There are too many lines here to split."
             }
         },
-        "nothing_to_undo": "Nothing to undo.",
-        "nothing_to_redo": "Nothing to redo.",
+        "undo": {
+            "tooltip": "Undo: {action}",
+            "nothing": "Nothing to undo."
+        },
+        "redo": {
+            "tooltip": "Redo: {action}",
+            "nothing": "Nothing to redo."
+        },
         "tooltip_keyhint": "Shortcut:",
-        "just_edited": "You just edited OpenStreetMap!",
         "browser_notice": "This editor is supported in Firefox, Chrome, Safari, Opera, and Internet Explorer 9 and above. Please upgrade your browser or use Potlatch 2 to edit the map.",
-        "view_on_osm": "View on OSM",
         "translate": {
             "translate": "Translate",
             "localized_translation_label": "Multilingual name",
@@ -49097,9 +49219,11 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         },
         "success": {
             "edited_osm": "Edited OSM!",
+            "just_edited": "You just edited OpenStreetMap!",
+            "view_on_osm": "View on OSM",
             "facebook": "Share on Facebook",
             "tweet": "Tweet",
-            "okay": "Okay"
+            "help_html": "Your changes should appear in the \"Standard\" layer in a few minutes. Other layers, and certain features, may take longer\n(<a href='https://help.openstreetmap.org/questions/4705/why-havent-my-changes-appeared-on-the-map'>details</a>).\n"
         },
         "confirm": {
             "okay": "Okay"
@@ -49355,8 +49479,20 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "fee": {
                     "label": "Fee"
                 },
+                "fire_hydrant/type": {
+                    "label": "Type"
+                },
                 "fixme": {
                     "label": "Fix Me"
+                },
+                "generator/method": {
+                    "label": "Method"
+                },
+                "generator/source": {
+                    "label": "Source"
+                },
+                "generator/type": {
+                    "label": "Type"
                 },
                 "highway": {
                     "label": "Type"
@@ -49898,6 +50034,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Ambulance Station",
                     "terms": ""
                 },
+                "emergency/fire_hydrant": {
+                    "name": "Fire Hydrant",
+                    "terms": ""
+                },
                 "emergency/phone": {
                     "name": "Emergency Phone",
                     "terms": ""
@@ -50214,6 +50354,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Swimming Pool",
                     "terms": ""
                 },
+                "leisure/track": {
+                    "name": "Race Track",
+                    "terms": ""
+                },
                 "line": {
                     "name": "Line",
                     "terms": ""
@@ -50383,7 +50527,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "terms": ""
                 },
                 "power/generator": {
-                    "name": "Power Plant",
+                    "name": "Power Generator",
                     "terms": ""
                 },
                 "power/line": {
