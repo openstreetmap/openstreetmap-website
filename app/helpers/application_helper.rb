@@ -57,16 +57,6 @@ module ApplicationHelper
     content_tag(tag, capture(&block), :class => "hide_unless_administrator")
   end
 
-  def preferred_editor
-    if params[:editor]
-      params[:editor]
-    elsif @user and @user.preferred_editor
-      @user.preferred_editor
-    else
-      DEFAULT_EDITOR
-    end
-  end
-
   def scale_to_zoom(scale)
     Math.log(360.0 / (scale.to_f * 512.0)) / Math.log(2.0)
   end
