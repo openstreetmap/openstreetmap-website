@@ -52,7 +52,7 @@ class SiteController < ApplicationController
   end
 
   def edit
-    editor = params[:editor] || @user.preferred_editor || DEFAULT_EDITOR
+    editor = preferred_editor
 
     if editor == "remote"
       render :action => :index
