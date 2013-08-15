@@ -113,7 +113,9 @@ function initializeBrowse(map, params) {
     getData();
   }
 
-  function toggleAreas() {
+  function toggleAreas(e) {
+    e.preventDefault();
+
     if (areasHidden) {
       $("#browse_hide_areas_box").html(I18n.t('browse.start_rjs.hide_areas'));
       areasHidden = false;
