@@ -12,33 +12,6 @@
       <% end %>
     </li>
     <li>
-      <%= link_to :controller => 'changeset', :action => 'list', :display_name => @user.display_name do %>
-        <span class='count-number'><%= number_with_delimiter(@user.changesets.size) %></span>
-        <%= t('user.view.my edits') %>
-      <% end %>
-    </li>
-    <li>
-      <%= link_to :controller => 'notes', :action => 'mine', :display_name => @user.display_name do %>
-        <span class='count-number'><%= number_with_delimiter(@user.notes.size) %></span>
-        <%= t('user.view.my notes') %>
-      <% end %>
-    </li>
-    <li>
-      <%= link_to :controller => 'trace', :action => 'mine' do %>
-        <span class='count-number'><%= number_with_delimiter(@user.traces.size) %></span>
-        <%= t('user.view.my traces') %>
-      <% end %>
-    </li>
-    <li>
-      <%= link_to :controller => 'diary_entry', :action => 'list', :display_name => @user.display_name do %>
-        <span class='count-number'><%= number_with_delimiter(@user.diary_entries.size) %></span>
-        <%= t('user.view.my diary') %>
-      <% end %>
-    </li>
-    <li>
-      <%= link_to t('user.view.my comments' ), :controller => 'diary_entry', :action => 'comments', :display_name => @user.display_name %>
-    </li>
-    <li>
       <%= link_to t('user.view.my profile'), user_path(:display_name => @user.display_name) %>
     </li>
     <li>
