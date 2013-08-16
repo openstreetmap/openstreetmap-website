@@ -21,6 +21,7 @@
     var id = iD()
       .embed(true)
       .assetPath("/assets/iD/") <%# Can't use asset_path('iD/') in production. %>
+      .assetMap(<%= assets("iD").to_json.html_safe %>)
       .locale("<%= locale %>", "<%= asset_path("iD/locales/#{locale}.json") %>")
       .preauth({
         <% token = @user.access_token(ID_KEY) %>
