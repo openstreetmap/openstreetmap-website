@@ -41,6 +41,11 @@ xml.osm("version" => API_VERSION, "generator" => GENERATOR) do
           @this_user.languages.split(",") { |lang| xml.tag! "lang", lang }
         end
       end
+      xml.tag! "messages" do
+        xml.tag! "received", :count => @this_user.messages.size,
+                             :unread => @this_user.new_messages.size
+        xml.tag! "sent", :count => @this_user.sent_messages.size
+      end
     end
   end
 end
