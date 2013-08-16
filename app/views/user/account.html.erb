@@ -7,7 +7,7 @@
 <% end %>
 
 <%= error_messages_for 'user' %>
-<%= form_for :user, :html => { :multipart => true, :id => 'accountForm',:class => 'standard-form' } do |f| %>
+<%= form_for :user, :html => { :multipart => true, :id => 'accountForm', :class => 'standard-form', :autocomplete => :off } do |f| %>
   <fieldset>
     <div class="form-row">
       <label class="standard-label"><%= t 'user.new.display name' %></label>
@@ -24,7 +24,7 @@
 
     <div class="form-row">
       <label class="standard-label"><%= t 'user.account.new email address' %></label>
-      <%= f.email_field :new_email %>
+      <%= f.email_field :new_email, :autocomplete => :off %>
       <span class="form-help deemphasize"><%= t 'user.account.email never displayed publicly' %></span>
     </div>
   </fieldset>
