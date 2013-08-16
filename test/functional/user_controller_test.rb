@@ -582,10 +582,33 @@ class UserControllerTest < ActionController::TestCase
     get :api_read, :id => users(:normal_user).id
     assert_response :success
 
+    # check the data that is returned
+    assert_select "description", :count => 1, :text => "test"
+    assert_select "contributor-terms", :count => 1 do
+      assert_select "[agreed=true]"
+    end
+    assert_select "img", :count => 1
+    assert_select "roles", :count => 1 do
+      assert_select "role", :count => 0
+    end
+    assert_select "changesets", :count => 1 do
+      assert_select "[count=0]"
+    end
+    assert_select "traces", :count => 1 do
+      assert_select "[count=0]"
+    end
+    assert_select "blocks", :count => 1 do
+      assert_select "received", :count => 1 do
+        assert_select "[count=0][active=0]"
+      end
+      assert_select "issued", :count => 0
+    end
+
     # check that we aren't revealing private information
     assert_select "contributor-terms[pd]", false
     assert_select "home", false
     assert_select "languages", false
+    assert_select "messages", false
 
     # check that a suspended user is not returned
     get :api_read, :id => users(:suspended_user).id
@@ -601,12 +624,50 @@ class UserControllerTest < ActionController::TestCase
   end
 
   def test_user_api_details
+    # check that nothing is returned when not logged in
     get :api_details
     assert_response :unauthorized
     
+    # check that we get a response when logged in
     basic_authorization(users(:normal_user).email, "test")
     get :api_details
     assert_response :success
+
+    # check the data that is returned
+    assert_select "description", :count => 1, :text => "test"
+    assert_select "contributor-terms", :count => 1 do
+      assert_select "[agreed=true][pd=false]"
+    end
+    assert_select "img", :count => 1
+    assert_select "roles", :count => 1 do
+      assert_select "role", :count => 0
+    end
+    assert_select "changesets", :count => 1 do
+      assert_select "[count=0]", :count => 1
+    end
+    assert_select "traces", :count => 1 do
+      assert_select "[count=0]", :count => 1
+    end
+    assert_select "blocks", :count => 1 do
+      assert_select "received", :count => 1 do
+        assert_select "[count=0][active=0]"
+      end
+      assert_select "issued", :count => 0
+    end
+    assert_select "home", :count => 1 do
+      assert_select "[lat=12.1][lon=12.1][zoom=3]"
+    end
+    assert_select "languages", :count => 1 do
+      assert_select "lang", :count => 1, :text => "en"
+    end
+    assert_select "messages", :count => 1 do
+      assert_select "received", :count => 1 do
+        assert_select "[count=1][unread=0]"
+      end
+      assert_select "sent", :count => 1 do
+        assert_select "[count=1]"
+      end
+    end
   end
 
   def test_user_make_friend
