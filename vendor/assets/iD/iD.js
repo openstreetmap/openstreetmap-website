@@ -15028,12 +15028,19 @@ window.iD = function () {
     // https://github.com/systemed/iD/issues/772
     // http://mathiasbynens.be/notes/localstorage-pattern#comment-9
     try { storage = localStorage; } catch (e) {}
-    storage = storage || {};
+    storage = storage || (function() {
+        var s = {};
+        return {
+            getItem: function(k) { return s[k]; },
+            setItem: function(k, v) { s[k] = v; },
+            removeItem: function(k) { delete s[k] }
+        };
+    })();
 
     context.storage = function(k, v) {
-        if (arguments.length === 1) return storage[k];
-        else if (v === null) delete storage[k];
-        else storage[k] = v;
+        if (arguments.length === 1) return storage.getItem(k);
+        else if (v === null) storage.removeItem(k);
+        else storage.setItem(k, v);
     };
 
     var history = iD.History(context),
@@ -15236,7 +15243,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.1.3';
+iD.version = '1.1.4';
 
 (function() {
     var detected = {};
@@ -23730,7 +23737,7 @@ iD.ui.Background = function(context) {
             ['top', [0, -1]],
             ['right', [-1, 0]],
             ['bottom', [0, 1]]],
-        opacityDefault = (context.storage('background-opacity') !== undefined) ?
+        opacityDefault = (context.storage('background-opacity') != undefined) ?
             (+context.storage('background-opacity')) : 0.5;
 
     function background(selection) {
@@ -27753,7 +27760,9 @@ iD.ui.preset.localized = function(field, context) {
 
         if (language) value = language[2];
 
-        t[key(d.lang)] = '';
+        if (d.lang) {
+            t[key(d.lang)] = '';
+        }
 
         if (d.value) {
             t[key(value)] = d.value;
