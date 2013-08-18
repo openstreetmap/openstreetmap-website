@@ -158,6 +158,20 @@ $(document).ready(function () {
     remoteEditHandler(map.getBounds());
   }
 
+  if (OSM.params().edit_help) {
+    $('#editanchor')
+      .removeAttr('title')
+      .tooltip({
+        placement: 'bottom',
+        title: I18n.t('javascripts.edit_help')
+      })
+      .tooltip('show');
+
+    $('body').one('click', function() {
+      $('#editanchor').tooltip('hide');
+    });
+  }
+
   initializeSearch(map);
   initializeExport(map);
   initializeBrowse(map, params);

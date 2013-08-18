@@ -56,7 +56,7 @@ OpenStreetMap::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( index.js edit.js browse.js changeset.js )
+  config.assets.precompile += %w( index.js edit.js browse.js changeset.js welcome.js )
   config.assets.precompile += %w( user.js diary_entry.js pngfix.js swfobject.js )
   config.assets.precompile += %w( large-ltr.css small-ltr.css print-ltr.css )
   config.assets.precompile += %w( large-rtl.css small-rtl.css print-rtl.css )

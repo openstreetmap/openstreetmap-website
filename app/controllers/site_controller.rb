@@ -4,27 +4,11 @@ class SiteController < ApplicationController
 
   before_filter :authorize_web
   before_filter :set_locale
-  before_filter :require_user, :only => [:edit]
+  before_filter :redirect_map_params, :only => [:index, :edit, :export]
+  before_filter :require_user, :only => [:edit, :welcome]
   before_filter :require_oauth, :only => [:index]
 
   def index
-    anchor = []
-
-    if params[:lat] && params[:lon]
-      anchor << "map=#{params.delete(:zoom) || 5}/#{params.delete(:lat)}/#{params.delete(:lon)}"
-    end
-
-    if params[:layers]
-      anchor << "layers=#{params.delete(:layers)}"
-    elsif params.delete(:notes) == 'yes'
-      anchor << "layers=N"
-    end
-
-    if anchor.present?
-      redirect_to params.merge(:anchor => anchor.join('&'))
-      return
-    end
-
     unless STATUS == :database_readonly or STATUS == :database_offline
       session[:location] ||= OSM::IPLocation(request.env['REMOTE_ADDR'])
     end
@@ -80,11 +64,34 @@ class SiteController < ApplicationController
     @locale = params[:copyright_locale] || I18n.locale
   end
 
+  def welcome
+  end
+
   def preview
     render :text => RichText.new(params[:format], params[:text]).to_html
   end
 
   def id
     render "id", :layout => false
+  end
+
+  private
+
+  def redirect_map_params
+    anchor = []
+
+    if params[:lat] && params[:lon]
+      anchor << "map=#{params.delete(:zoom) || 5}/#{params.delete(:lat)}/#{params.delete(:lon)}"
+    end
+
+    if params[:layers]
+      anchor << "layers=#{params.delete(:layers)}"
+    elsif params.delete(:notes) == 'yes'
+      anchor << "layers=N"
+    end
+
+    if anchor.present?
+      redirect_to params.merge(:anchor => anchor.join('&'))
+    end
   end
 end

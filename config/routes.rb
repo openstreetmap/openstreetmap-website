@@ -122,9 +122,10 @@ OpenStreetMap::Application.routes.draw do
 
   # web site
   root :to => 'site#index', :via => [:get, :post]
-  match '/edit' => 'site#edit', :via => :get
+  match '/edit' => 'site#edit', :via => :get, :as => :edit
   match '/copyright/:copyright_locale' => 'site#copyright', :via => :get
   match '/copyright' => 'site#copyright', :via => :get
+  match '/welcome' => 'site#welcome', :via => :get, :as => :welcome
   match '/history' => 'changeset#list', :via => :get
   match '/history/feed' => 'changeset#feed', :via => :get, :format => :atom
   match '/export' => 'site#index', :export => true, :via => :get
