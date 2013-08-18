@@ -199,7 +199,7 @@ class UserControllerTest < ActionController::TestCase
 
     assert_select "html", :count => 1 do
       assert_select "head", :count => 1 do
-        assert_select "title", :text => /Create account/, :count => 1
+        assert_select "title", :text => /Sign Up/, :count => 1
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
@@ -209,118 +209,137 @@ class UserControllerTest < ActionController::TestCase
             assert_select "input[id=user_display_name]", :count => 1
             assert_select "input[id=user_pass_crypt][type=password]", :count => 1
             assert_select "input[id=user_pass_crypt_confirmation][type=password]", :count => 1
-            assert_select "input[type=submit][value=Continue]", :count => 1
+            assert_select "input[type=submit][value=Sign Up]", :count => 1
           end
         end
       end
     end
   end
-  
+
+  def new_user
+    user = User.new
+    user.status = "pending"
+    user.display_name = "new_tester"
+    user.email = "newtester@osm.org"
+    user.email_confirmation = "newtester@osm.org"
+    user.pass_crypt = "testtest"
+    user.pass_crypt_confirmation = "testtest"
+    user
+  end
+
   def test_user_create_success
-    new_email = "newtester@osm.org"
-    display_name = "new_tester"
+    user = new_user
+
     assert_difference('User.count') do
       assert_difference('ActionMailer::Base.deliveries.size') do
-        session[:new_user] = User.new({
-          :status => "pending", :display_name => display_name,
-          :email => new_email, :email_confirmation => new_email, 
-          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
-        }, :without_protection => true)
-
-        post :save
+        post :save, {}, {:new_user => user}
       end
     end
-      
+
     # Check the e-mail
     register_email = ActionMailer::Base.deliveries.first
-  
-    assert_equal register_email.to[0], new_email
+
+    assert_equal register_email.to[0], user.email
     assert_match /#{@url}/, register_email.body.to_s
 
     # Check the page
-    assert_redirected_to :action => 'login', :referer => nil
-      
+    assert_redirected_to :action => 'confirm', :display_name => user.display_name
+
     ActionMailer::Base.deliveries.clear
   end
-  
+
   def test_user_create_submit_duplicate_email
-    email = users(:public_user).email
-    display_name = "new_tester"
-    assert_difference('User.count', 0) do
-      assert_difference('ActionMailer::Base.deliveries.size', 0) do
-        session[:new_user] = User.new({
-          :status => "pending", :display_name => display_name,
-          :email => email, :email_confirmation => email, 
-          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
-        }, :without_protection => true)
+    user = new_user
+    user.email = users(:public_user).email
 
-        post :save
+    assert_no_difference('User.count') do
+      assert_no_difference('ActionMailer::Base.deliveries.size') do
+        post :save, {}, {:new_user => user}
       end
     end
-    assert_response :success                                                                       
+
+    assert_response :success
     assert_template 'new'
-    assert_select "div#errorExplanation"
-    assert_select "div#signupForm > fieldset > div.form-row > div.field_with_errors > input#user_email"
+    assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_email"
   end
-  
-  def test_user_create_submit_duplicate_email_uppercase
-    email = users(:public_user).email.upcase
-    display_name = "new_tester"
-    assert_difference('User.count', 0) do
-      assert_difference('ActionMailer::Base.deliveries.size', 0) do
-        session[:new_user] = User.new({
-          :status => "pending", :display_name => display_name,
-          :email => email, :email_confirmation => email, 
-          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
-        }, :without_protection => true)
 
-        post :save
+  def test_user_create_submit_duplicate_email_uppercase
+    user = new_user
+    user.email = users(:public_user).email.upcase
+
+    assert_no_difference('User.count') do
+      assert_no_difference('ActionMailer::Base.deliveries.size') do
+        post :save, {}, {:new_user => user}
       end
     end
-    assert_response :success                                                                       
+
+    assert_response :success
     assert_template 'new'
-    assert_select "div#errorExplanation"
-    assert_select "div#signupForm > fieldset > div.form-row > div.field_with_errors > input#user_email"
+    assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_email"
   end
     
   def test_user_create_submit_duplicate_name
-    email = "new_tester@example.com"
-    display_name = users(:public_user).display_name
-    assert_difference('User.count', 0) do
-      assert_difference('ActionMailer::Base.deliveries.size', 0) do
-        session[:new_user] = User.new({
-          :status => "pending", :display_name => display_name,
-          :email => email, :email_confirmation => email, 
-          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
-        }, :without_protection => true)
+    user = new_user
+    user.display_name = users(:public_user).display_name
 
-        post :save
+    assert_no_difference('User.count') do
+      assert_no_difference('ActionMailer::Base.deliveries.size') do
+        post :save, {}, {:new_user => user}
       end
     end
-    assert_response :success                                                                       
+
+    assert_response :success
     assert_template 'new'
-    assert_select "div#errorExplanation"
-    assert_select "div#signupForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
+    assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
   end
   
   def test_user_create_submit_duplicate_name_uppercase
-    email = "new_tester@example.com"
-    display_name = users(:public_user).display_name.upcase
-    assert_difference('User.count', 0) do
-      assert_difference('ActionMailer::Base.deliveries.size', 0) do
-        session[:new_user] = User.new({
-          :status => "pending", :display_name => display_name,
-          :email => email, :email_confirmation => email, 
-          :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"
-        }, :without_protection => true)
+    user = new_user
+    user.display_name = users(:public_user).display_name.upcase
 
-        post :save
+    assert_no_difference('User.count') do
+      assert_no_difference('ActionMailer::Base.deliveries.size') do
+        post :save, {}, {:new_user => user}
       end
     end
-    assert_response :success                                                                       
+
+    assert_response :success
     assert_template 'new'
-    assert_select "div#errorExplanation"
-    assert_select "div#signupForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
+    assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
+  end
+
+  def test_user_save_referer_params
+    user = new_user
+
+    post :save, {}, {:new_user => user,
+                     :referer => '/edit?editor=id#map=1/2/3'}
+
+    assert_equal welcome_path(:editor => 'id', :zoom => 1, :lat => 2, :lon => 3),
+                 user.tokens.first.referer
+  end
+
+  def test_user_confirm_expired_token
+    user = users(:inactive_user)
+    token = user.tokens.new
+    token.expiry = 1.day.ago
+    token.save!
+
+    @request.cookies["_osm_session"] = user.display_name
+    post :confirm, :confirm_string => token.token
+
+    assert_redirected_to :action => 'confirm'
+    assert_match /expired/, flash[:error]
+  end
+
+  def test_user_already_confirmed
+    user = users(:normal_user)
+    token = user.tokens.create
+
+    @request.cookies["_osm_session"] = user.display_name
+    post :confirm, :confirm_string => token.token
+
+    assert_redirected_to :action => 'login'
+    assert_match /confirmed/, flash[:error]
   end
 
   def test_user_terms_new_user

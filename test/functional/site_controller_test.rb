@@ -35,6 +35,10 @@ class SiteControllerTest < ActionController::TestCase
       { :controller => "site", :action => "copyright", :copyright_locale => "locale" }
     )
     assert_routing(
+      { :path => "/welcome", :method => :get },
+      { :controller => "site", :action => "welcome" }
+    )
+    assert_routing(
       { :path => "/export", :method => :get },
       { :controller => "site", :action => "index", :export => true }
     )
@@ -88,6 +92,17 @@ class SiteControllerTest < ActionController::TestCase
 
     get :index, :lat => 4, :lon => 5, :zoom => 3, :layers => 'T'
     assert_redirected_to :controller => :site, :action => 'index', :anchor => 'map=3/4/5&layers=T'
+  end
+
+  def test_edit_redirect
+    get :edit, :lat => 4, :lon => 5
+    assert_redirected_to :controller => :site, :action => 'edit', :anchor => 'map=5/4/5'
+
+    get :edit, :lat => 4, :lon => 5, :zoom => 3
+    assert_redirected_to :controller => :site, :action => 'edit', :anchor => 'map=3/4/5'
+
+    get :edit, :lat => 4, :lon => 5, :zoom => 3, :editor => 'id'
+    assert_redirected_to :controller => :site, :action => 'edit', :editor => 'id', :anchor => 'map=3/4/5'
   end
 
   def test_permalink

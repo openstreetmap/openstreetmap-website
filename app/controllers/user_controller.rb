@@ -88,19 +88,27 @@ class UserController < ApplicationController
         if @user.save
           flash[:piwik_goal] = PIWIK_SIGNUP_GOAL if defined?(PIWIK_SIGNUP_GOAL)
 
+          referer = welcome_path
+
+          begin
+            uri = URI(session[:referer])
+            /map=(.*)\/(.*)\/(.*)/.match(uri.fragment) do |m|
+              editor = Rack::Utils.parse_query(uri.query).slice('editor')
+              referer = welcome_path({'zoom' => m[1],
+                                      'lat' => m[2],
+                                      'lon' => m[3]}.merge(editor))
+            end
+          rescue
+            # Use default
+          end
+
           if @user.status == "active"
-            flash[:notice] = t 'user.new.flash welcome', :email => @user.email
-
-            Notifier.signup_confirm(@user, nil).deliver
-
+            session[:referer] = referer
             successful_login(@user)
           else
-            flash[:notice] = t 'user.new.flash create success message', :email => @user.email
             session[:token] = @user.tokens.create.token
-
-            Notifier.signup_confirm(@user, @user.tokens.create(:referer => session.delete(:referer))).deliver
-
-            redirect_to :action => 'login', :referer => params[:referer]
+            Notifier.signup_confirm(@user, @user.tokens.create(:referer => referer)).deliver
+            redirect_to :action => 'confirm', :display_name => @user.display_name
           end
         else
           render :action => 'new', :referer => params[:referer]
@@ -304,55 +312,44 @@ class UserController < ApplicationController
 
   def confirm
     if request.post?
-      if token = UserToken.find_by_token(params[:confirm_string])
-        if token.user.active?
-          flash[:error] = t('user.confirm.already active')
-          redirect_to :action => 'login'
+      token = UserToken.find_by_token(params[:confirm_string])
+      if token && token.user.active?
+        flash[:error] = t('user.confirm.already active')
+        redirect_to :action => 'login'
+      elsif !token || token.expired?
+        flash[:error] = t('user.confirm.unknown token')
+        redirect_to :action => 'confirm'
+      else
+        user = token.user
+        user.status = "active"
+        user.email_valid = true
+        user.save!
+        referer = token.referer
+        token.destroy
+
+        if session[:token]
+          token = UserToken.find_by_token(session[:token])
+          session.delete(:token)
         else
-          user = token.user
-          user.status = "active"
-          user.email_valid = true
-          user.save!
-          referer = token.referer
+          token = nil
+        end
+
+        if token.nil? or token.user != user
+          flash[:notice] = t('user.confirm.success')
+          redirect_to :action => :login, :referer => referer
+        else
           token.destroy
 
-          if session[:token]
-            token = UserToken.find_by_token(session[:token])
-            session.delete(:token)
-          else
-            token = nil
-          end
+          session[:user] = user.id
+          cookies.permanent["_osm_username"] = user.display_name
 
-          if token.nil? or token.user != user
-            flash[:notice] = t('user.confirm.success')
-            redirect_to :action => :login, :referer => referer
-          else
-            token.destroy
-
-            session[:user] = user.id
-            cookies.permanent["_osm_username"] = user.display_name
-
-            if referer.nil?
-              flash[:notice] = t('user.confirm.success') + "<br /><br />" + t('user.confirm.before you start')
-              redirect_to :action => :account, :display_name => user.display_name
-            else
-              flash[:notice] = t('user.confirm.success')
-              redirect_to referer
-            end
-          end
+          redirect_to referer || welcome_path
         end
-      else
-        user = User.find_by_display_name(params[:display_name])
-
-        if user and user.active?
-          flash[:error] = t('user.confirm.already active')
-        elsif user
-          flash[:error] = t('user.confirm.unknown token') + t('user.confirm.reconfirm', :reconfirm => url_for(:action => 'confirm_resend', :display_name => params[:display_name]))
-        else
-          flash[:error] = t('user.confirm.unknown token')
-        end
-
-        redirect_to :action => 'login'
+      end
+    else
+      user = User.find_by_display_name(params[:display_name])
+      if !user || user.active?
+        redirect_to root_path
       end
     end
   end
@@ -518,7 +515,7 @@ private
     if user = User.authenticate(:username => username, :password => password)
       successful_login(user)
     elsif user = User.authenticate(:username => username, :password => password, :pending => true)
-      failed_login t('user.login.account not active', :reconfirm => url_for(:action => 'confirm_resend', :display_name => user.display_name))
+      unconfirmed_login(user)
     elsif User.authenticate(:username => username, :password => password, :suspended => true)
       failed_login t('user.login.account is suspended', :webmaster => "mailto:webmaster@openstreetmap.org")
     else
@@ -549,7 +546,7 @@ private
         if user = User.find_by_openid_url(identity_url)
           case user.status
             when "pending" then
-              failed_login t('user.login.account not active', :reconfirm => url_for(:action => 'confirm_resend', :display_name => user.display_name))
+              unconfirmed_login(user)
             when "active", "confirmed" then
               successful_login(user)
             when "suspended" then
@@ -675,6 +672,15 @@ private
     flash[:error] = message
 
     redirect_to :action => 'login', :referer =>  session[:referer]
+
+    session.delete(:remember_me)
+    session.delete(:referer)
+  end
+
+  ##
+  #
+  def unconfirmed_login(user)
+    redirect_to :action => 'confirm', :display_name => user.display_name
 
     session.delete(:remember_me)
     session.delete(:referer)
