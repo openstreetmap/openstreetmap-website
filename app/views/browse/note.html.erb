@@ -72,9 +72,9 @@
     <p>
     <textarea class="comment" name="text" cols="40" rows="5"></textarea>
     <div class="buttons">
+      <input type="submit" name="comment" value="<%= t 'javascripts.notes.show.comment' %>" <% if @note.closed? %>class="hidden"<% end %> data-method="POST" data-url="<%= comment_note_url(@note, :format=>:json) %>" disabled="1">
       <input type="submit" name="reopen" value="<%= t 'javascripts.notes.show.reactivate' %>" <% unless @note.closed? %>class="hidden"<% end %> data-method="POST" data-url="<%= reopen_note_url(@note, :format=>:json) %>">
       <input type="submit" name="close" value="<%= t 'javascripts.notes.show.resolve' %>" class="hide_unless_logged_in<% if @note.closed? %> hidden<% end %>" data-method="POST" data-url="<%= close_note_url(@note, :format=>:json) %>">
-      <input type="submit" name="comment" value="<%= t 'javascripts.notes.show.comment' %>" <% if @note.closed? %>class="hidden"<% end %> data-method="POST" data-url="<%= comment_note_url(@note, :format=>:json) %>" disabled="1">
       <input type="submit" name="hide" value="<%= t 'javascripts.notes.show.hide' %>" class="hide_unless_moderator" data-method="DELETE" data-url="<%= note_url(@note, :format=>:json) %>">
     </div>
     </p>
