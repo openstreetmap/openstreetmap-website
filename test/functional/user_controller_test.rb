@@ -315,7 +315,7 @@ class UserControllerTest < ActionController::TestCase
                      :referer => '/edit?editor=id#map=1/2/3'}
 
     assert_equal welcome_path(:editor => 'id', :zoom => 1, :lat => 2, :lon => 3),
-                 user.tokens.first.referer
+                 user.tokens.order("id DESC").first.referer
   end
 
   def test_user_confirm_expired_token
