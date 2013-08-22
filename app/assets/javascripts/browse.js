@@ -79,7 +79,7 @@ $(document).ready(function () {
         success: function (feature) {
           $(".browse-section").removeClass('hidden');
           var last_comment = feature.properties.comments.pop();
-          $(".browse-section ul").append("<li>"+last_comment.html+"<small class='deemphasize'>Just now</small></li>");
+          $("<li>"+last_comment.html+"<small class='deemphasize'>Just now</small></li>").insertBefore($(".browse-section ul li:last-child"));
           $("textarea.comment").val("");
           $(".buttons input[type=submit]").prop("disabled", false);
           updateNoteCommentButtons();
