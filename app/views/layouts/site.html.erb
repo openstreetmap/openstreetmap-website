@@ -96,53 +96,25 @@
       </div>
     </div>
     <div id='top-bar'>
-      <ul class='secondary-actions' id="greeting">
-         <% if @user and @user.id %>
-           <li id="full-greeting"><%=link_to h(@user.display_name), user_path(:display_name => @user.display_name), :title => t('layouts.welcome_user_link_tooltip') %></li>
-           <li><%= yield :greeting %></li>
-           <li><%= render :partial => "layouts/inbox" %></li>
-           <li><%= link_to t('layouts.logout'), logout_path(:session => request.session_options[:id], :referer => request.fullpath), {:id => 'logoutanchor', :title => t('layouts.logout_tooltip')}%></li>
-         <% else %>
-           <li><%= link_to t('layouts.log_in'), login_path(:referer => request.fullpath), {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %></li>
-           <li><%= link_to t('layouts.sign_up'), user_new_path, {:id => 'registeranchor', :title => t('layouts.sign_up_tooltip')} %></li>
-         <% end %>
-      </ul>
+      <% if @user and @user.id %>
+        <%= render :partial => "layouts/user_menu" %>
+      <% else %>
+        <ul class='secondary-actions' id='greeting'>
+          <li><%= link_to t('layouts.log_in'), login_path(:referer => request.fullpath), {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %></li>
+          <li><%= link_to t('layouts.sign_up'), user_new_path, {:id => 'registeranchor', :title => t('layouts.sign_up_tooltip')} %></li>
+        </ul>
+      <% end %>
       <ul id="tabnav">
-        <li><%= link_to t('layouts.view'), root_path, {
-          :id => 'viewanchor',
-          :title => t('layouts.view_tooltip'),
-          :class => 'geolink llz layers'
-        } %></li>
-        <li><%= link_to h(t('layouts.edit')) + content_tag(:span, "▼", :class => "menuicon"), edit_path, {
-          :id => 'editanchor',
-          :title => t('javascripts.site.edit_tooltip'),
-          :data => { :minzoom => 13, :editor => preferred_editor },
-          :class => 'geolink llz object disabled'
-        } %></li>
-        <li><%= link_to t('layouts.history'), browse_changesets_path, {
-          :id => 'historyanchor',
-          :data => { :minzoom => 11 },
-          :title => t('javascripts.site.history_tooltip'),
-          :class => 'geolink bbox'
-        } %></li>
+        <li id="view_tab">
+          <%= link_to t('layouts.view'), root_path, :class => 'tab geolink llz layers' %>
+        </li><li id="edit_tab">
+          <%= render :partial => 'layouts/edit_menu',
+                     :locals => { :link_text => t('layouts.edit'), :link_class => 'llz object' }%>
+        </li><li id="history_tab">
+          <%= link_to t('layouts.history'), browse_changesets_path, :class => 'tab geolink bbox' %>
+        </li>
       </ul>
     </div>
-    <div id="editmenu" class="menu">
-      <ul>
-        <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
-          <li><%= link_to t('layouts.edit_with',
-            :editor => t("editor.#{editor}.description")),
-            edit_path(:editor => editor), {
-            :data => { :editor => editor },
-            :class => "geolink llz object"
-          } %></li>
-        <% end %>
-        <%= yield :editmenu %>
-      </ul>
-    </div>
-    <script type="text/javascript">
-      createMenu("editanchor", "editmenu", "left");
-    </script>
     <div class="wrapper">
       <%= render :partial => "layouts/flash", :locals => { :flash => flash } %>
       <% if content_for? :heading %>

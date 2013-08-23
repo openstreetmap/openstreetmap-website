@@ -23,7 +23,7 @@ $(document).ready(function () {
     }).addTo(map);
 
     $("#loading").hide();
-    $("#browse_map .geolink").show();
+    $("#browse_map .secondary-actions").show();
 
     $("a[data-editor=remote]").click(function () {
       return remoteEditHandler(bbox);
@@ -41,7 +41,7 @@ $(document).ready(function () {
     bbox = map.getBounds();
 
     $("#loading").hide();
-    $("#browse_map .geolink").show();
+    $("#browse_map .secondary-actions").show();
 
     $("a[data-editor=remote]").click(function () {
       return remoteEditHandler(bbox);
@@ -61,7 +61,7 @@ $(document).ready(function () {
       zoom: true,
       callback: function(extent) {
         $("#loading").hide();
-        $("#browse_map .geolink").show();
+        $("#browse_map .secondary-actions").show();
 
         if (extent) {
           $("a.bbox[data-editor=remote]").click(function () {
@@ -82,7 +82,4 @@ $(document).ready(function () {
       }
     });
   }
-
-  createMenu("area_edit", "area_edit_menu", "right");
-  createMenu("object_edit", "object_edit_menu", "right");
 });
