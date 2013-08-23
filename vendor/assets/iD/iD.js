@@ -15044,7 +15044,7 @@ window.iD = function () {
     };
 
     var history = iD.History(context),
-        dispatch = d3.dispatch('enter', 'exit', 'toggleFullscreen'),
+        dispatch = d3.dispatch('enter', 'exit'),
         mode,
         container,
         ui = iD.ui(context),
@@ -15232,18 +15232,22 @@ window.iD = function () {
         return context;
     };
 
-    context.imagePath = function(_) {
-        return assetPath + 'img/' + _;
+    var assetMap = {};
+    context.assetMap = function(_) {
+        if (!arguments.length) return assetMap;
+        assetMap = _;
+        return context;
     };
 
-    context.toggleFullscreen = function() {
-        dispatch.toggleFullscreen();
+    context.imagePath = function(_) {
+        var asset = 'img/' + _;
+        return assetMap[asset] || assetPath + asset;
     };
 
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.1.4';
+iD.version = '1.1.5';
 
 (function() {
     var detected = {};
@@ -19071,11 +19075,11 @@ iD.operations.Delete = function(selectedIDs, context) {
 
     var operation = function() {
         var annotation,
-            mode;
+            nextSelectedID;
 
         if (selectedIDs.length > 1) {
             annotation = t('operations.delete.annotation.multiple', {n: selectedIDs.length});
-            mode = iD.modes.Browse(context);
+
         } else {
             var id = selectedIDs[0],
                 entity = context.entity(id),
@@ -19084,7 +19088,6 @@ iD.operations.Delete = function(selectedIDs, context) {
                 parent = parents[0];
 
             annotation = t('operations.delete.annotation.' + geometry);
-            mode = iD.modes.Browse(context);
 
             // Select the next closest node in the way.
             if (geometry === 'vertex' && parents.length === 1 && parent.nodes.length > 2) {
@@ -19101,7 +19104,7 @@ iD.operations.Delete = function(selectedIDs, context) {
                     i = a < b ? i - 1 : i + 1;
                 }
 
-                mode = iD.modes.Select(context, [nodes[i]]);
+                nextSelectedID = nodes[i];
             }
         }
 
@@ -19109,8 +19112,11 @@ iD.operations.Delete = function(selectedIDs, context) {
             action,
             annotation);
 
-        context.enter(mode);
-
+        if (nextSelectedID && context.hasEntity(nextSelectedID)) {
+            context.enter(iD.modes.Select(context, [nextSelectedID]));
+        } else {
+            context.enter(iD.modes.Browse(context));
+        }
     };
 
     operation.available = function() {
@@ -19129,7 +19135,7 @@ iD.operations.Delete = function(selectedIDs, context) {
     };
 
     operation.id = "delete";
-    operation.keys = [iD.ui.cmd('⌫'), iD.ui.cmd('⌦')];
+    operation.keys = [iD.ui.cmd('⌘⌫'), iD.ui.cmd('⌘⌦')];
     operation.title = t('operations.delete.title');
 
     return operation;
@@ -21269,21 +21275,19 @@ iD.Background = function(context) {
         if (source.sourcetag === 'Bing') {
             return iD.BackgroundSource.Bing(source, dispatch);
         } else {
-            return iD.BackgroundSource.template(source);
+            return iD.BackgroundSource(source);
         }
     });
 
-    backgroundSources.push(iD.BackgroundSource.Custom);
-
     function findSource(sourcetag) {
         return _.find(backgroundSources, function(d) {
-            return d.data.sourcetag && d.data.sourcetag === sourcetag;
+            return d.sourcetag && d.sourcetag === sourcetag;
         });
     }
 
     function updateImagery() {
-        var b = background.baseLayerSource().data,
-            o = overlayLayers.map(function (d) { return d.source().data.sourcetag; }).join(','),
+        var b = background.baseLayerSource(),
+            o = overlayLayers.map(function (d) { return d.source().sourcetag; }).join(','),
             q = iD.util.stringQs(location.hash.substring(1));
 
         var tag = b.sourcetag;
@@ -21313,7 +21317,10 @@ iD.Background = function(context) {
         }
 
         overlayLayers.forEach(function (d) {
-            imageryUsed.push(d.source().data.sourcetag || d.source().data.name);
+            var source = d.source();
+            if (!source.isLocatorOverlay()) {
+                imageryUsed.push(source.sourcetag || source.name);
+            }
         });
 
         if (background.showsGpxLayer()) {
@@ -21341,7 +21348,7 @@ iD.Background = function(context) {
         gpx.call(gpxLayer);
 
         var overlays = selection.selectAll('.overlay-layer')
-            .data(overlayLayers, function(d) { return d.source().data.name });
+            .data(overlayLayers, function(d) { return d.source().name });
 
         overlays.enter().insert('div', '.layer-data')
             .attr('class', 'layer-layer overlay-layer');
@@ -21355,11 +21362,8 @@ iD.Background = function(context) {
     }
 
     background.sources = function(extent) {
-        return backgroundSources.filter(function(layer) {
-            return !layer.data.extents ||
-                layer.data.extents.some(function(layerExtent) {
-                    return iD.geo.Extent(layerExtent).intersects(extent);
-                });
+        return backgroundSources.filter(function(source) {
+            return source.intersects(extent);
         });
     };
 
@@ -21408,7 +21412,7 @@ iD.Background = function(context) {
 
     background.showsLayer = function(d) {
         return d === baseLayer.source() ||
-            (d.data.name === 'Custom' && baseLayer.source().data.name === 'Custom') ||
+            (d.name === 'Custom' && baseLayer.source().name === 'Custom') ||
             overlayLayers.some(function(l) { return l.source() === d; });
     };
 
@@ -21425,7 +21429,7 @@ iD.Background = function(context) {
             }
         }
 
-        layer = iD.TileLayer('overlay')
+        layer = iD.TileLayer()
             .source(d)
             .projection(context.projection)
             .dimensions(baseLayer.dimensions());
@@ -21436,14 +21440,14 @@ iD.Background = function(context) {
     };
 
     background.nudge = function(d, zoom) {
-        baseLayer.nudge(d, zoom);
+        baseLayer.source().nudge(d, zoom);
         dispatch.change();
         return background;
     };
 
     background.offset = function(d) {
-        if (!arguments.length) return baseLayer.offset();
-        baseLayer.offset(d);
+        if (!arguments.length) return baseLayer.source().offset();
+        baseLayer.source().offset(d);
         dispatch.change();
         return background;
     };
@@ -21452,12 +21456,20 @@ iD.Background = function(context) {
         chosen = q.background || q.layer;
 
     if (chosen && chosen.indexOf('custom:') === 0) {
-        background.baseLayerSource(iD.BackgroundSource.template({
+        background.baseLayerSource(iD.BackgroundSource({
             template: chosen.replace(/^custom:/, ''),
             name: 'Custom'
         }));
     } else {
         background.baseLayerSource(findSource(chosen) || findSource("Bing"));
+    }
+
+    var locator = _.find(backgroundSources, function(d) {
+        return d.overlay && d.default;
+    });
+
+    if (locator) {
+        background.toggleOverlayLayer(locator);
     }
 
     var overlays = (q.overlays || '').split(',');
@@ -21468,12 +21480,25 @@ iD.Background = function(context) {
 
     return d3.rebind(background, dispatch, 'on');
 };
-iD.BackgroundSource = {};
+iD.BackgroundSource = function(data) {
+    var source = _.clone(data),
+        offset = [0, 0];
 
-// derive the url of a 'quadkey' style tile from a coordinate object
-iD.BackgroundSource.template = function(data) {
+    source.scaleExtent = data.scaleExtent || [0, 20];
 
-    function generator(coord) {
+    source.offset = function(_) {
+        if (!arguments.length) return offset;
+        offset = _;
+        return source;
+    };
+
+    source.nudge = function(_, zoomlevel) {
+        offset[0] += _[0] / Math.pow(2, zoomlevel);
+        offset[1] += _[1] / Math.pow(2, zoomlevel);
+        return source;
+    };
+
+    source.url = function(coord) {
         var u = '';
         for (var zoom = coord[2]; zoom > 0; zoom--) {
             var b = 0;
@@ -21498,19 +21523,33 @@ iD.BackgroundSource.template = function(data) {
                 var subdomains = r.split(':')[1].split(',');
                 return subdomains[coord[2] % subdomains.length];
             });
-    }
+    };
 
-    generator.data = data;
-    generator.copyrightNotices = function() {};
+    source.intersects = function(extent) {
+        return !data.extents || data.extents.some(function(ex) {
+            return iD.geo.Extent(ex).intersects(extent);
+        });
+    };
 
-    return generator;
+    source.validZoom = function(z) {
+        return source.scaleExtent[0] <= z &&
+            (!source.isLocatorOverlay() || source.scaleExtent[1] > z);
+    };
+
+    source.isLocatorOverlay = function() {
+        return source.name === 'Locator Overlay';
+    };
+
+    source.copyrightNotices = function() {};
+
+    return source;
 };
 
 iD.BackgroundSource.Bing = function(data, dispatch) {
     // http://msdn.microsoft.com/en-us/library/ff701716.aspx
     // http://msdn.microsoft.com/en-us/library/ff701701.aspx
 
-    var bing = iD.BackgroundSource.template(data),
+    var bing = iD.BackgroundSource(data),
         key = 'Arzdiw4nlOJzRwOz__qailc8NiR31Tt51dN2D7cm57NrnceZnCpgOkmJhNpGoppU', // Same as P2 and JOSM
         url = 'http://dev.virtualearth.net/REST/v1/Imagery/Metadata/Aerial?include=ImageryProviders&key=' +
             key + '&jsonp={callback}',
@@ -21546,18 +21585,6 @@ iD.BackgroundSource.Bing = function(data, dispatch) {
 
     return bing;
 };
-
-iD.BackgroundSource.Custom = function() {
-    var template = window.prompt('Enter a tile template. ' +
-        'Valid tokens are {z}, {x}, {y} for Z/X/Y scheme and {u} for quadtile scheme.');
-    if (!template) return null;
-    return iD.BackgroundSource.template({
-        template: template,
-        name: 'Custom'
-    });
-};
-
-iD.BackgroundSource.Custom.data = { 'name': 'Custom' };
 iD.GpxLayer = function(context, dispatch) {
     var projection,
         gj = {},
@@ -22063,16 +22090,11 @@ iD.Map = function(context) {
 
     return d3.rebind(map, dispatch, 'on');
 };
-iD.TileLayer = function(backgroundType) {
-
-    backgroundType = backgroundType || 'background';
-
+iD.TileLayer = function() {
     var tileSize = 256,
         tile = d3.geo.tile(),
         projection,
         cache = {},
-        offset = [0, 0],
-        offsets = {},
         tileOrigin,
         z,
         transformProp = iD.util.prefixCSSProperty('Transform'),
@@ -22093,7 +22115,7 @@ iD.TileLayer = function(backgroundType) {
     function lookUp(d) {
         for (var up = -1; up > -d[2]; up--) {
             var tile = atZoom(d, up);
-            if (cache[source(tile)] !== false) {
+            if (cache[source.url(tile)] !== false) {
                 return tile;
             }
         }
@@ -22111,7 +22133,7 @@ iD.TileLayer = function(backgroundType) {
     }
 
     function addSource(d) {
-        d.push(source(d));
+        d.push(source.url(d));
         return d;
     }
 
@@ -22135,7 +22157,7 @@ iD.TileLayer = function(backgroundType) {
     function render(selection) {
         var requests = [];
 
-        if (tile.scaleExtent()[0] <= z) {
+        if (source.validZoom(z)) {
             tile().forEach(function(d) {
                 addSource(d);
                 requests.push(d);
@@ -22151,8 +22173,8 @@ iD.TileLayer = function(backgroundType) {
         }
 
         var pixelOffset = [
-            Math.round(offset[0] * Math.pow(2, z)),
-            Math.round(offset[1] * Math.pow(2, z))
+            Math.round(source.offset()[0] * Math.pow(2, z)),
+            Math.round(source.offset()[1] * Math.pow(2, z))
         ];
 
         function load(d) {
@@ -22209,19 +22231,6 @@ iD.TileLayer = function(backgroundType) {
             .classed('tile-removing', false);
     }
 
-    background.offset = function(_) {
-        if (!arguments.length) return offset;
-        offset = _;
-        if (source.data) offsets[source.data.name] = offset;
-        return background;
-    };
-
-    background.nudge = function(_, zoomlevel) {
-        offset[0] += _[0] / Math.pow(2, zoomlevel);
-        offset[1] += _[1] / Math.pow(2, zoomlevel);
-        return background;
-    };
-
     background.projection = function(_) {
         if (!arguments.length) return projection;
         projection = _;
@@ -22237,13 +22246,8 @@ iD.TileLayer = function(backgroundType) {
     background.source = function(_) {
         if (!arguments.length) return source;
         source = _;
-        if (source.data) {
-            offset = offsets[source.data.name] = offsets[source.data.name] || [0, 0];
-        } else {
-            offset = [0, 0];
-        }
         cache = {};
-        tile.scaleExtent((source.data && source.data.scaleExtent) || [1, 20]);
+        tile.scaleExtent(source.scaleExtent);
         return background;
     };
 
@@ -23571,8 +23575,7 @@ iD.ui = function(context) {
             .on('←', pan([pa, 0]))
             .on('↑', pan([0, pa]))
             .on('→', pan([-pa, 0]))
-            .on('↓', pan([0, -pa]))
-            .on('M', function() { context.toggleFullscreen(); });
+            .on('↓', pan([0, -pa]));
 
         d3.select(document)
             .call(keybinding);
@@ -23674,22 +23677,22 @@ iD.ui.Attribution = function(context) {
         }
 
         var attribution = selection.selectAll('.provided-by')
-            .data([context.background().baseLayerSource()], function(d) { return d.data.name; });
+            .data([context.background().baseLayerSource()], function(d) { return d.name; });
 
         attribution.enter()
             .append('span')
             .attr('class', 'provided-by')
             .each(function(d) {
-                var source = d.data.sourcetag || d.data.name;
+                var source = d.sourcetag || d.name;
 
-                if (d.data.logo) {
-                    source = '<img class="source-image" src="' + context.imagePath(d.data.logo) + '">';
+                if (d.logo) {
+                    source = '<img class="source-image" src="' + context.imagePath(d.logo) + '">';
                 }
 
-                if (d.data.terms_url) {
+                if (d.terms_url) {
                     d3.select(this)
                         .append('a')
-                        .attr('href', d.data.terms_url)
+                        .attr('href', d.terms_url)
                         .attr('target', '_blank')
                         .html(source);
                 } else {
@@ -23759,7 +23762,7 @@ iD.ui.Background = function(context) {
                 return context.background().showsLayer(d);
             }
 
-            content.selectAll('label.layer')
+            content.selectAll('label.layer, label.custom_layer')
                 .classed('active', active)
                 .selectAll('input')
                 .property('checked', active);
@@ -23767,15 +23770,21 @@ iD.ui.Background = function(context) {
 
         function clickSetSource(d) {
             d3.event.preventDefault();
-            if (d.data.name === 'Custom') {
-                var configured = d();
-                if (!configured) {
-                    selectLayer();
-                    return;
-                }
-                d = configured;
-            }
             context.background().baseLayerSource(d);
+            selectLayer();
+        }
+
+        function clickCustom() {
+            d3.event.preventDefault();
+            var template = window.prompt(t('background.custom_prompt'));
+            if (!template) {
+                selectLayer();
+                return;
+            }
+            context.background().baseLayerSource(iD.BackgroundSource({
+                template: template,
+                name: 'Custom'
+            }));
             selectLayer();
         }
 
@@ -23796,29 +23805,27 @@ iD.ui.Background = function(context) {
                 .filter(filter);
 
             var layerLinks = layerList.selectAll('label.layer')
-                .data(sources, function(d) { return d.data.name; });
+                .data(sources, function(d) { return d.name; });
 
             var layerInner = layerLinks.enter()
-                .append('label')
+                .insert('label', '.custom_layer')
                 .attr('class', 'layer');
 
             // only set tooltips for layers with tooltips
             layerInner
-                .filter(function(d) { return d.data.description; })
+                .filter(function(d) { return d.description; })
                 .call(bootstrap.tooltip()
-                    .title(function(d) { return d.data.description; })
-                    .placement('left')
-                );
+                    .title(function(d) { return d.description; })
+                    .placement('left'));
 
             layerInner.append('input')
                 .attr('type', type)
                 .attr('name', 'layers')
-                .attr('value', function(d) { return d.data.name; })
+                .attr('value', function(d) { return d.name; })
                 .on('change', change);
 
-            layerInner.insert('span').text(function(d) {
-                return d.data.name;
-            });
+            layerInner.append('span')
+                .text(function(d) { return d.name; });
 
             layerLinks.exit()
                 .remove();
@@ -23827,13 +23834,8 @@ iD.ui.Background = function(context) {
         }
 
         function update() {
-            backgroundList.call(drawList, 'radio', clickSetSource, function(d) {
-                return !d.data.overlay;
-            });
-
-            overlayList.call(drawList, 'checkbox', clickSetOverlay, function(d) {
-                return d.data.overlay;
-            });
+            backgroundList.call(drawList, 'radio', clickSetSource, function(d) { return !d.overlay; });
+            overlayList.call(drawList, 'checkbox', clickSetOverlay, function(d) { return d.overlay; });
 
             var hasGpx = context.background().hasGpxLayer(),
                 showsGpx = context.background().showsGpxLayer();
@@ -23949,6 +23951,19 @@ iD.ui.Background = function(context) {
         var backgroundList = content
             .append('div')
             .attr('class', 'toggle-list layer-list');
+
+        var custom = backgroundList
+            .append('label')
+            .attr('class', 'custom_layer')
+            .datum({name: 'Custom'});
+
+        custom.append('input')
+            .attr('type', 'radio')
+            .attr('name', 'layers')
+            .on('change', clickCustom);
+
+        custom.append('span')
+            .text(t('background.custom'));
 
         var overlayList = content
             .append('div')
@@ -24104,9 +24119,9 @@ iD.ui.Commit = function(context) {
 
         header.append('button')
             .attr('class', 'fr')
+            .on('click', event.cancel)
             .append('span')
-            .attr('class', 'icon close')
-            .on('click', event.cancel);
+            .attr('class', 'icon close');
 
         header.append('h3')
             .text(t('commit.title'));
@@ -24867,7 +24882,8 @@ iD.ui.Help = function(context) {
                 'help.imagery',
                 'help.addresses',
                 'help.inspector',
-                'help.buildings'];
+                'help.buildings',
+                'help.relations'];
 
             function one(f) { return function(x) { return f(x); }; }
             var docs = docKeys.map(one(t)).map(function(text) {
@@ -25786,6 +25802,7 @@ iD.ui.PresetList = function(context) {
                 list.call(drawList, results);
             } else {
                 list.call(drawList, context.presets().defaults(geometry, 36));
+                message.text(t('inspector.choose'));
             }
         }
 
@@ -26951,31 +26968,29 @@ iD.ui.Success = function(context) {
         body.append('p')
             .html(t('success.help_html'));
 
+        var changesetURL = context.connection().changesetURL(changeset.id);
+
         body.append('a')
             .attr('class', 'button col12 osm')
             .attr('target', '_blank')
-            .attr('href', function() {
-                return context.connection().changesetURL(changeset.id);
-            })
+            .attr('href', changesetURL)
             .text(t('success.view_on_osm'));
 
-        body.append('a')
-            .attr('class', 'button col12 twitter')
-            .attr('target', '_blank')
-            .attr('href', function() {
-                return 'https://twitter.com/intent/tweet?source=webclient&text=' +
-                    encodeURIComponent(message);
-            })
-            .text(t('success.tweet'));
+        var sharing = {
+            facebook: 'https://facebook.com/sharer/sharer.php?u=' + encodeURIComponent(changesetURL),
+            twitter: 'https://twitter.com/intent/tweet?source=webclient&text=' + encodeURIComponent(message),
+            google: 'https://plus.google.com/share?url=' + encodeURIComponent(changesetURL)
+        };
 
-        body.append('a')
-            .attr('class', 'button col12 facebook')
+        body.selectAll('.button.social')
+            .data(d3.entries(sharing))
+            .enter().append('a')
+            .attr('class', function(d) { return 'button social col4 ' + d.key; })
             .attr('target', '_blank')
-            .attr('href', function() {
-                return 'https://facebook.com/sharer/sharer.php?u=' +
-                    encodeURIComponent(context.connection().changesetURL(changeset.id));
-            })
-            .text(t('success.facebook'));
+            .attr('href', function(d) { return d.value; })
+            .call(bootstrap.tooltip()
+                .title(function(d) { return t('success.' + d.key); })
+                .placement('bottom'));
     }
 
     success.changeset = function(_) {
@@ -29105,7 +29120,11 @@ iD.presets.Preset = function(id, preset, fields) {
         tags = _.clone(tags);
 
         for (var k in applyTags) {
-            if (applyTags[k] !== '*') tags[k] = applyTags[k];
+            if (applyTags[k] === '*') {
+                tags[k] = 'yes';
+            } else {
+                tags[k] = applyTags[k];
+            }
         }
 
         for (var f in preset.fields) {
@@ -29361,11 +29380,28 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "2",
                 "3"
             ],
-            "default": "yes",
+            "default": true,
             "sourcetag": "Bing",
             "logo": "bing_maps.png",
             "logo_url": "http://www.bing.com/maps",
             "terms_url": "http://opengeodata.org/microsoft-imagery-details"
+        },
+        {
+            "name": "Locator Overlay",
+            "template": "http://{t}.tiles.mapbox.com/v3/openstreetmap.map-btyhiati/{z}/{x}/{y}.png",
+            "description": "Shows major features to help orient you.",
+            "overlay": true,
+            "default": true,
+            "scaleExtent": [
+                0,
+                16
+            ],
+            "subdomains": [
+                "a",
+                "b",
+                "c"
+            ],
+            "terms_url": "http://mapbox.com/tos/"
         },
         {
             "name": "MapBox Satellite",
@@ -32321,6 +32357,27 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "terms": [],
                 "name": "Pub"
             },
+            "amenity/ranger_station": {
+                "fields": [
+                    "building_area",
+                    "opening_hours",
+                    "operator",
+                    "phone"
+                ],
+                "geometry": [
+                    "point",
+                    "area"
+                ],
+                "terms": [
+                    "visitor center",
+                    "permit center",
+                    "backcountry office"
+                ],
+                "tags": {
+                    "amenity": "ranger_station"
+                },
+                "name": "Ranger Station"
+            },
             "amenity/restaurant": {
                 "icon": "restaurant",
                 "fields": [
@@ -32472,8 +32529,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "amenity/toilets": {
                 "fields": [
+                    "toilets/disposal",
                     "operator",
-                    "building_area"
+                    "building_area",
+                    "access"
                 ],
                 "geometry": [
                     "point",
@@ -32482,7 +32541,15 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 ],
                 "terms": [
                     "bathroom",
-                    "restroom"
+                    "restroom",
+                    "outhouse",
+                    "privy",
+                    "head",
+                    "lavatory",
+                    "latrine",
+                    "water closet",
+                    "WC",
+                    "W.C."
                 ],
                 "tags": {
                     "amenity": "toilets"
@@ -35911,6 +35978,11 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "tourism": "artwork"
                 },
+                "terms": [
+                    "mural",
+                    "sculpture",
+                    "statue"
+                ],
                 "name": "Artwork"
             },
             "tourism/attraction": {
@@ -37260,6 +37332,11 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "key": "surface",
                 "type": "combo",
                 "label": "Surface"
+            },
+            "toilets/disposal": {
+                "key": "toilets:disposal",
+                "type": "combo",
+                "label": "Disposal"
             },
             "tourism": {
                 "key": "tourism",
@@ -49209,6 +49286,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "title": "Background",
             "description": "Background settings",
             "percent_brightness": "{opacity}% brightness",
+            "custom": "Custom",
+            "custom_prompt": "Enter a tile template. Valid tokens are {z}, {x}, {y} for Z/X/Y scheme and {u} for quadtile scheme.",
             "fix_misalignment": "Fix misalignment",
             "reset": "reset"
         },
@@ -49231,7 +49310,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "just_edited": "You just edited OpenStreetMap!",
             "view_on_osm": "View on OSM",
             "facebook": "Share on Facebook",
-            "tweet": "Tweet",
+            "twitter": "Share on Twitter",
+            "google": "Share on Google+",
             "help_html": "Your changes should appear in the \"Standard\" layer in a few minutes. Other layers, and certain features, may take longer\n(<a href='https://help.openstreetmap.org/questions/4705/why-havent-my-changes-appeared-on-the-map'>details</a>).\n"
         },
         "confirm": {
@@ -49279,7 +49359,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "imagery": "# Imagery\n\nAerial imagery is an important resource for mapping. A combination of\nairplane flyovers, satellite views, and freely-compiled sources are available\nin the editor under the 'Background Settings' menu on the left.\n\nBy default a [Bing Maps](http://www.bing.com/maps/) satellite layer is\npresented in the editor, but as you pan and zoom the map to new geographical\nareas, new sources will become available. Some countries, like the United\nStates, France, and Denmark have very high-quality imagery available for some areas.\n\nImagery is sometimes offset from the map data because of a mistake on the\nimagery provider's side. If you see a lot of roads shifted from the background,\ndon't immediately move them all to match the background. Instead you can adjust\nthe imagery so that it matches the existing data by clicking 'Fix alignment' at\nthe bottom of the Background Settings UI.\n",
             "addresses": "# Addresses\n\nAddresses are some of the most useful information for the map.\n\nAlthough addresses are often represented as parts of streets, in OpenStreetMap\nthey're recorded as attributes of buildings and places along streets.\n\nYou can add address information to places mapped as building outlines\nas well as those mapped as single points. The optimal source of address\ndata is from an on-the-ground survey or personal knowledge - as with any\nother feature, copying from commercial sources like Google Maps is strictly\nforbidden.\n",
             "inspector": "# Using the Inspector\n\nThe inspector is the user interface element on the right-hand side of the\npage that appears when a feature is selected and allows you to edit its details.\n\n### Selecting a Feature Type\n\nAfter you add a point, line, or area, you can choose what type of feature it\nis, like whether it's a highway or residential road, supermarket or cafe.\nThe inspector will display buttons for common feature types, and you can\nfind others by typing what you're looking for in the search box.\n\nClick the 'i' in the bottom-right-hand corner of a feature type button to\nlearn more about it. Click a button to choose that type.\n\n### Using Forms and Editing Tags\n\nAfter you choose a feature type, or when you select a feature that already\nhas a type assigned, the inspector will display fields with details about\nthe feature like its name and address.\n\nBelow the fields you see, you can click icons to add other details,\nlike [Wikipedia](http://www.wikipedia.org/) information, wheelchair\naccess, and more.\n\nAt the bottom of the inspector, click 'Additional tags' to add arbitrary\nother tags to the element. [Taginfo](http://taginfo.openstreetmap.org/) is a\ngreat resource for learn more about popular tag combinations.\n\nChanges you make in the inspector are automatically applied to the map.\nYou can undo them at any time by clicking the 'Undo' button.\n\n### Closing the Inspector\n\nYou can close the inspector by clicking the close button in the top-right,\npressing the 'Escape' key, or clicking on the map.\n",
-            "buildings": "# Buildings\n\nOpenStreetMap is the world's largest database of buildings. You can create\nand improve this database.\n\n### Selecting\n\nYou can select a building by clicking on its border. This will highlight the\nbuilding and open a small tools menu and a sidebar showing more information\nabout the building.\n\n### Modifying\n\nSometimes buildings are incorrectly placed or have incorrect tags.\n\nTo move an entire building, select it, then click the 'Move' tool. Move your\nmouse to shift the building, and click when it's correctly placed.\n\nTo fix the specific shape of a building, click and drag the nodes that form\nits border into better places.\n\n### Creating\n\nOne of the main questions around adding buildings to the map is that\nOpenStreetMap records buildings both as shapes and points. The rule of thumb\nis to _map a building as a shape whenever possible_, and map companies, homes,\namenities, and other things that operate out of buildings as points placed\nwithin the building shape.\n\nStart drawing a building as a shape by clicking the 'Area' button in the top\nleft of the interface, and end it either by pressing 'Return' on your keyboard\nor clicking on the first node drawn to close the shape.\n\n### Deleting\n\nIf a building is entirely incorrect - you can see that it doesn't exist in satellite\nimagery and ideally have confirmed locally that it's not present - you can delete\nit, which removes it from the map. Be cautious when deleting features -\nlike any other edit, the results are seen by everyone and satellite imagery\nis often out of date, so the building could simply be newly built.\n\nYou can delete a building by clicking on it to select it, then clicking the\ntrash can icon or pressing the 'Delete' key.\n"
+            "buildings": "# Buildings\n\nOpenStreetMap is the world's largest database of buildings. You can create\nand improve this database.\n\n### Selecting\n\nYou can select a building by clicking on its border. This will highlight the\nbuilding and open a small tools menu and a sidebar showing more information\nabout the building.\n\n### Modifying\n\nSometimes buildings are incorrectly placed or have incorrect tags.\n\nTo move an entire building, select it, then click the 'Move' tool. Move your\nmouse to shift the building, and click when it's correctly placed.\n\nTo fix the specific shape of a building, click and drag the nodes that form\nits border into better places.\n\n### Creating\n\nOne of the main questions around adding buildings to the map is that\nOpenStreetMap records buildings both as shapes and points. The rule of thumb\nis to _map a building as a shape whenever possible_, and map companies, homes,\namenities, and other things that operate out of buildings as points placed\nwithin the building shape.\n\nStart drawing a building as a shape by clicking the 'Area' button in the top\nleft of the interface, and end it either by pressing 'Return' on your keyboard\nor clicking on the first node drawn to close the shape.\n\n### Deleting\n\nIf a building is entirely incorrect - you can see that it doesn't exist in satellite\nimagery and ideally have confirmed locally that it's not present - you can delete\nit, which removes it from the map. Be cautious when deleting features -\nlike any other edit, the results are seen by everyone and satellite imagery\nis often out of date, so the building could simply be newly built.\n\nYou can delete a building by clicking on it to select it, then clicking the\ntrash can icon or pressing the 'Delete' key.\n",
+            "relations": "# Relations\n\nA relation is a special type of feature in OpenStreetMap that groups together\nother features. For example, two common types of relations are *route relations*,\nwhich group together sections of road that belong to a specific freeway or\nhighway, and *multipolygons*, which group together several lines that define\na complex area (one with several pieces or holes in it like a donut).\n\nThe group of features in a relation are called *members*. In the sidebar, you can\nsee which relations a feature is a member of, and click on a relation there\nto select the it. When the relation is selected, you can see all of its\nmembers listed in the sidebar and highlighted on the map.\n\nFor the most part, iD will take care of maintaining relations automatically\nwhile you edit. The main thing you should be aware of is that if you delete a\nsection of road to redraw it more accurately, you should make sure that the\nnew section is a member of the same relations as the original.\n\n## Editing Relations\n\nIf you want to edit relations, here are the basics.\n\nTo add a feature to a relation, select the feature, click the \"+\" button in the\n\"All relations\" section of the sidebar, and select or type the name of the relation.\n\nTo create a new relation, select the first feature that should be a member,\nclick the \"+\" button in the \"All relations\" section, and select \"New relation...\".\n\nTo remove a feature from a relation, select the feature and click the trash\nbutton next to the relation you want to remove it from.\n\nYou can create multipolygons with holes using the \"Merge\" tool. Draw two areas (inner\nand outer), hold the Shift key and click on each of them to select them both, and then\nclick the \"Merge\" (+) button.\n"
         },
         "intro": {
             "navigation": {
@@ -49663,6 +49744,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "surface": {
                     "label": "Surface"
                 },
+                "toilets/disposal": {
+                    "label": "Disposal"
+                },
                 "tourism": {
                     "label": "Type"
                 },
@@ -49887,6 +49971,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Pub",
                     "terms": ""
                 },
+                "amenity/ranger_station": {
+                    "name": "Ranger Station",
+                    "terms": "visitor center,permit center,backcountry office"
+                },
                 "amenity/restaurant": {
                     "name": "Restaurant",
                     "terms": "bar,cafeteria,café,canteen,chophouse,coffee shop,diner,dining room,dive*,doughtnut shop,drive-in,eatery,eating house,eating place,fast-food place,greasy spoon,grill,hamburger stand,hashery,hideaway,hotdog stand,inn,joint*,luncheonette,lunchroom,night club,outlet*,pizzeria,saloon,soda fountain,watering hole"
@@ -49913,7 +50001,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "amenity/toilets": {
                     "name": "Toilets",
-                    "terms": "bathroom,restroom"
+                    "terms": "bathroom,restroom,outhouse,privy,head,lavatory,latrine,water closet,WC,W.C."
                 },
                 "amenity/townhall": {
                     "name": "Town Hall",
@@ -50833,7 +50921,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "tourism/artwork": {
                     "name": "Artwork",
-                    "terms": ""
+                    "terms": "mural,sculpture,statue"
                 },
                 "tourism/attraction": {
                     "name": "Tourist Attraction",
