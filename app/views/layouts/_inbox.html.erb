@@ -1,13 +1,3 @@
-<%=
-  link_to(
-    t("layouts.inbox_html",
-      :count => @user.new_messages.size > 0 ?
-                content_tag(
-                  :span, @user.new_messages.size, :class => "count-number"
-                ) :
-                ""
-    ),
-    inbox_path(:display_name => @user.display_name),
-    :id => "inboxanchor"
-  )
-%>
+<span id="inboxanchor" class="count-number">
+  <%= user_thumbnail_tiny(@user, :size => 20, :width => 20, :height => 20) %><span><%= @user.new_messages.size %></span>
+</span>

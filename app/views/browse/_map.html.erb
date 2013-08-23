@@ -35,28 +35,26 @@
   <%= content_tag "div", "", :id => "small_map", :data => data %>
   <span id="loading"><%= t 'browse.map.loading' %></span>
 
-<ul class='secondary-actions clearfix'>
-  <li>
-    <% if map.instance_of? Note -%>
-      <%= link_to t("browse.map.larger.area"),
-                  root_path(:notes => "yes"),
-                  :id => "area_larger_map",
-                  :class => "geolink bbox" %>
-    <% else -%>
-      <%= link_to t("browse.map.larger.area"),
-                  root_path(:box => "yes"),
-                  :id => "area_larger_map",
-                  :class => "geolink bbox" %>
-    <% end -%>
-  </li>
-  <li>
-    <%= link_to h(t("browse.map.edit.area")) + content_tag(:span, "▼", :class => "menuicon"),
-                edit_path,
-                :id => "area_edit",
-                :data => { :editor => preferred_editor },
-                :class => "geolink bbox" %>
-  </li>
-</ul>
+  <ul class='secondary-actions clearfix'>
+    <li>
+      <% if map.instance_of? Note -%>
+        <%= link_to t("browse.map.larger.area"),
+                    root_path(:notes => "yes"),
+                    :id => "area_larger_map",
+                    :class => "geolink bbox" %>
+      <% else -%>
+        <%= link_to t("browse.map.larger.area"),
+                    root_path(:box => "yes"),
+                    :id => "area_larger_map",
+                    :class => "geolink bbox" %>
+      <% end -%>
+    </li>
+    <li>
+      <%= render :partial => 'layouts/edit_menu',
+                 :locals => { :link_text => t("browse.map.edit.area"),
+                              :link_class => 'bbox' } %>
+    </li>
+  </ul>
 
   <% unless map.instance_of? Changeset %>
   <ul class='secondary-actions clearfix'>
@@ -67,11 +65,9 @@
                   :class => "geolink object" %>
     </li>
     <li>
-      <%= link_to h(t("browse.map.edit." + map.class.to_s.downcase)) + content_tag(:span, "▼", :class => "menuicon"),
-                  edit_path,
-                  :id => "object_edit",
-                  :data => { :editor => preferred_editor },
-                  :class => "geolink object" %>
+      <%= render :partial => 'layouts/edit_menu',
+                 :locals => { :link_text => t("browse.map.edit." + map.class.to_s.downcase),
+                              :link_class => 'object' } %>
     </li>
   </ul>
   <% end %>
@@ -79,26 +75,4 @@
   <% else %>
     <%= t 'browse.map.deleted' %>
   <% end %>
-</div>
-
-<div id="area_edit_menu" class="menu">
-  <ul>
-    <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
-      <li><%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")),
-                      edit_path(:editor => editor),
-                      :data => {:editor => editor},
-                      :class => "geolink bbox" %></li>
-    <% end %>
-  </ul>
-</div>
-
-<div id="object_edit_menu" class="menu">
-  <ul>
-    <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
-      <li><%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")),
-                      edit_path(:editor => editor),
-                      :data => {:editor => editor},
-                      :class => "geolink object" %></li>
-    <% end %>
-  </ul>
 </div>
