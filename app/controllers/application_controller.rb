@@ -422,6 +422,24 @@ class ApplicationController < ActionController::Base
     request.body.rewind
   end
 
+  def preferred_editor
+    editor = if params[:editor]
+      params[:editor]
+    elsif @user and @user.preferred_editor
+      @user.preferred_editor
+    else
+      DEFAULT_EDITOR
+    end
+
+    if request.env['HTTP_USER_AGENT'] =~ /MSIE/ and editor == 'id'
+      editor = 'potlatch2'
+    end
+
+    editor
+  end
+
+  helper_method :preferred_editor
+
 private 
 
   # extract authorisation credentials from headers, returns user = nil if none
