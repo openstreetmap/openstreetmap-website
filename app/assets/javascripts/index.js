@@ -113,6 +113,18 @@ $(document).ready(function () {
 
   map.on('moveend layeradd layerremove', updateLocation);
 
+  if (OSM.PIWIK) {
+    map.on('layeradd', function (e) {
+      if (e.layer.options) {
+        var goal = OSM.PIWIK.goals[e.layer.options.keyid];
+
+        if (goal) {
+          $('body').trigger('piwikgoal', goal);
+        }
+      }
+    });
+  }
+
   var marker = L.marker([0, 0], {icon: getUserIcon()});
 
   if (!params.object_zoom) {
