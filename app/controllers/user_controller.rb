@@ -86,7 +86,7 @@ class UserController < ApplicationController
         @user.openid_url = nil if @user.openid_url and @user.openid_url.empty?
 
         if @user.save
-          flash[:piwik_goal] = PIWIK_SIGNUP_GOAL if defined?(PIWIK_SIGNUP_GOAL)
+          flash[:piwik_goal] = PIWIK["goals"]["signup"] if defined?(PIWIK)
 
           referer = welcome_path
 

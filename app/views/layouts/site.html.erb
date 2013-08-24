@@ -126,8 +126,8 @@
         <%= yield %>
       </div>
     </div>
-    <% if defined?(PIWIK_LOCATION) and defined?(PIWIK_SITE) -%>
-    <noscript><p><img src="<%= request.protocol %><%= PIWIK_LOCATION %>/piwik.php?idsite=<%= PIWIK_SITE %>" style="border:0" alt="" /></p></noscript>
+    <% if defined?(PIWIK) -%>
+    <noscript><p><img src="<%= request.protocol %><%= PIWIK['location'] %>/piwik.php?idsite=<%= PIWIK['site'] %>" style="border:0" alt="" /></p></noscript>
     <% end -%>
   </body>
 </html>
