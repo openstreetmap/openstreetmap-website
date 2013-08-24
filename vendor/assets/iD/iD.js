@@ -15203,6 +15203,13 @@ window.iD = function () {
     context.zoomIn = map.zoomIn;
     context.zoomOut = map.zoomOut;
 
+    context.surfaceRect = function() {
+        // Work around a bug in Firefox.
+        //   http://stackoverflow.com/questions/18153989/
+        //   https://bugzilla.mozilla.org/show_bug.cgi?id=530985
+        return context.surface().node().parentNode.getBoundingClientRect();
+    };
+
     /* Presets */
     var presets = iD.presets()
         .load(iD.data.presets);
@@ -15247,7 +15254,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.1.5';
+iD.version = '1.1.6';
 
 (function() {
     var detected = {};
@@ -25096,12 +25103,18 @@ iD.ui.intro = function(context) {
             background = context.background().baseLayerSource(),
             opacity = d3.select('.background-layer').style('opacity'),
             loadedTiles = context.connection().loadedTiles(),
-            baseEntities = context.history().graph().base().entities;
+            baseEntities = context.history().graph().base().entities,
+            introGraph;
 
         // Load semi-real data used in intro
         context.connection().toggle(false).flush();
         context.history().save().reset();
-        context.history().merge(iD.Graph().load(JSON.parse(iD.introGraph)).entities);
+        
+        introGraph = JSON.parse(iD.introGraph);
+        for (var key in introGraph) {
+            introGraph[key] = iD.Entity(introGraph[key]);
+        }
+        context.history().merge(iD.Graph().load(introGraph).entities);
         context.background().bing();
 
         // Block saving
@@ -25183,7 +25196,7 @@ iD.ui.intro = function(context) {
 };
 
 iD.ui.intro.pointBox = function(point, context) {
-    var rect = context.surface().node().getBoundingClientRect();
+    var rect = context.surfaceRect();
     point = context.projection(point);
     return {
         left: point[0] + rect.left - 30,
@@ -25195,7 +25208,7 @@ iD.ui.intro.pointBox = function(point, context) {
 
 iD.ui.intro.pad = function(box, padding, context) {
     if (box instanceof Array) {
-        var rect = context.surface().node().getBoundingClientRect();
+        var rect = context.surfaceRect();
         box = context.projection(box);
         box = {
             left: box[0] + rect.left,
@@ -26038,9 +26051,7 @@ iD.ui.RadialMenu = function(context, operations) {
             .attr('class', 'tooltip-inner radial-menu-tooltip');
 
         function mouseover(d, i) {
-            // Avoid getBoundingClientRect on SVG element; browser implementations
-            // differ: http://stackoverflow.com/questions/18153989/
-            var rect = context.surface().node().parentNode.getBoundingClientRect(),
+            var rect = context.surfaceRect(),
                 angle = a0 + i * a,
                 dx = rect.left - (angle < 0 ? 200 : 0),
                 dy = rect.top;
@@ -27816,8 +27827,8 @@ iD.ui.preset.localized = function(field, context) {
         var innerWrap = wraps.enter()
             .insert('div', ':first-child');
 
-            innerWrap.attr('class', 'entry')
-            .each(function(d) {
+        innerWrap.attr('class', 'entry')
+            .each(function() {
                 var wrap = d3.select(this);
                 var langcombo = d3.combobox().fetcher(fetcher);
 
@@ -27857,26 +27868,22 @@ iD.ui.preset.localized = function(field, context) {
                             .remove();
                     })
                     .append('span').attr('class', 'icon delete');
-
             });
 
-        innerWrap.transition()
-            .style('margin-top','0px')
+        innerWrap
+            .style('margin-top', '0px')
             .style('max-height', '0px')
-            .style('padding', '0px')
             .style('opacity', '0')
-            .style('border-width', '0px')
             .transition()
             .duration(200)
-            .style('margin-top','10px')
-            .style('border-width', '1px')
-            .style('padding', '10px')
+            .style('margin-top', '10px')
             .style('max-height', '240px')
             .style('opacity', '1')
-            .each('end', function(d) {
-                d3.select(this).style('max-height', '');
-                d3.select(this).style('overflow', 'visible');
-            });;
+            .each('end', function() {
+                d3.select(this)
+                    .style('max-height', '')
+                    .style('overflow', 'visible');
+            });
 
         wraps.exit()
             .transition()
@@ -28410,7 +28417,7 @@ iD.ui.intro.line = function(context, reveal) {
 
         var centroid = [-85.62830, 41.95699];
         var midpoint = [-85.62975395449628, 41.95787501510204];
-        var start = [-85.6297754121684, 41.9583158176903];
+        var start = [-85.6297754121684, 41.95805253325314];
         var intersection = [-85.62974496187628, 41.95742515554585];
 
         context.map().centerZoom(start, 18);
@@ -28546,7 +28553,7 @@ iD.ui.intro.navigation = function(context, reveal) {
 
     step.enter = function() {
 
-        var rect = context.surface().node().getBoundingClientRect(),
+        var rect = context.surfaceRect(),
             map = {
                 left: rect.left + 10,
                 top: rect.top + 70,
