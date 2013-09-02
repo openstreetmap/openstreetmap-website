@@ -4,6 +4,7 @@
 # Author: Davio
 # Author: Les Meloures
 # Author: Robby
+# Author: Soued031
 lb: 
   activerecord: 
     attributes: 
@@ -220,12 +221,9 @@ lb:
       max: max
       options: Optiounen
       scale: Maassstab
-      too_large: 
-        heading: Beräich ze grouss
       zoom: Zoom
     start_rjs: 
       export: Exportéieren
-      view_larger_map: Méi grouss Kaart weisen
   geocoder: 
     description: 
       types: 
@@ -292,6 +290,7 @@ lb:
           sauna: Sauna
           school: Schoul
           shop: Geschäft
+          social_facility: Sozial Ariichtung
           studio: Studio
           supermarket: Supermarché
           taxi: Taxi
@@ -307,6 +306,8 @@ lb:
           "yes": Bréck
         building: 
           "yes": Gebai
+        emergency: 
+          phone: Noutruff-Telefon
         highway: 
           footway: Fousswee
           motorway: Autobunn
@@ -317,6 +318,7 @@ lb:
           road: Strooss
           secondary_link: Niewestrooss
           steps: Trap
+          street_lamp: Stroosseluucht
         historic: 
           archaeological_site: Archeologesche Site
           battlefield: Schluechtfeld
@@ -383,6 +385,7 @@ lb:
           houses: Haiser
           island: Insel
           municipality: Gemeng
+          neighbourhood: Noperschaft
           region: Regioun
           sea: Mier
           town: Stad
@@ -391,12 +394,14 @@ lb:
           abandoned: Fréier Eisebunn
           disused: Fréier Eisebunn
           miniature: Miniatur-Eisebunn
+          proposed: Proposéiert Eisebunnslinn
           station: Gare (Eisebunn)
           subway: Metro-Statioun
           tram: Tramvia
         shop: 
           bakery: Bäckerei
           books: Bichergeschäft
+          boutique: Boutique
           car_repair: Garage
           chemist: Apdikt
           clothes: Kleedergeschäft
@@ -410,11 +415,15 @@ lb:
           jewelry: Bijouterie
           laundry: Botzerei
           optician: Optiker
+          pharmacy: Apdikt
           photo: Fotosgeschäft
+          second_hand: Secondhand-Geschäft
           shoes: Schonggeschäft
           sports: Sportsgeschäft
           supermarket: Supermarché
+          tailor: Schneider
           travel_agency: Reesbüro
+          "yes": Geschäft
         tourism: 
           artwork: Konschtwierk
           attraction: Attraktioun
@@ -436,17 +445,32 @@ lb:
     map: 
       base: 
         cycle_map: Vëloskaart
+      locate: 
+        popup: Dir sidd {distance} {unit} vun dësem Punkt ewech
+        title: Weise wou ech sinn
+    share: 
+      custom_dimensions: Personaliséiert Dimensiounen astellen
+      download: Eroflueden
+      embed: HTML
+      format: "Format:"
+      image: Bild
+      link: Link oder HTML
+      long_link: Link
+      scale: "Maassstab:"
+      short_url: Kuerz URL
+      view_larger_map: Méi grouss Kaart weisen
     site: 
       edit_disabled_tooltip: Erazoomen fir d'Kaart z'änneren
       edit_tooltip: Kaart änneren
   layouts: 
     community: Communautéit
     copyright: Copyright & Lizenz
+    data: Donnéeën
     documentation: Dokumentatioun
     documentation_title: Dokumentatioun vum Projet
     donate_link_text: Don
     edit: Änneren
-    export: Exportéieren
+    export_data: Donnéeën exportéieren
     foundation: Fondatioun
     help: Hëllef
     home: Doheem
@@ -455,7 +479,6 @@ lb:
     logo: 
       alt_text: OpenStreetMap Logo
     logout: ausloggen
-    logout_tooltip: Ausloggen
     make_a_donation: 
       text: En Don maachen
       title: Ënnerstëtzt OpenStreetMap mat engem Don
@@ -463,7 +486,6 @@ lb:
     user_diaries: Benotzer Bloggen
     view: Weisen
     view_tooltip: Kaart weisen
-    welcome_user_link_tooltip: Är Benotzersäit
     wiki: Wiki
   license_page: 
     foreign: 
@@ -498,6 +520,7 @@ lb:
       date: Datum
       subject: Sujet
     read: 
+      back: Zréck
       date: Datum
       from: Vum
       reply_button: Äntwerten
@@ -522,15 +545,10 @@ lb:
     lost_password_plain: 
       greeting: Salut,
     message_notification: 
-      footer1: Dir kënnt de Message och op %{readurl} liesen
+      footer_html: Dir kënnt de Message och op %{readurl} liesen an Dir kënnt op %{replyurl} äntwerten
       hi: Salut %{to_user},
     signup_confirm: 
       greeting: Bonjour !
-    signup_confirm_html: 
-      more_videos: Et gëtt nach méi %{more_videos_link}.
-      more_videos_here: méi Videoen hei
-    signup_confirm_plain: 
-      more_videos: "Hei si méi Videoen:"
   oauth_clients: 
     edit: 
       submit: Änneren
@@ -654,7 +672,7 @@ lb:
     account: 
       contributor terms: 
         link text: wat ass dëst?
-      current email address: "Aktuell E-Mailadress:"
+      current email address: "Aktuell E-Mail-Adress:"
       delete image: Dat aktuellt Bild ewechhuelen
       email never displayed publicly: (ni ëffentlech gewisen)
       flash update success: Benotzerinformatioun ass elo aktualiséiert.
@@ -664,7 +682,7 @@ lb:
       keep image: Dat aktuellt Bild behalen
       make edits public button: All meng Ännerunge ëffentlech maachen
       my settings: Meng Astellungen
-      new email address: "Nei E-Mailadress:"
+      new email address: "Nei E-Mail-Adress:"
       new image: E Bild derbäisetzen
       openid: 
         link text: wat ass dat?
@@ -680,8 +698,10 @@ lb:
     confirm: 
       already active: Dëse Kont gouf scho confirméiert.
       button: Confirméieren
-      heading: E Benotzerkont confirméieren
+      heading: Iwwerpréift Är E-Mail!
+      introduction_1: Mir hunn Iech eng Confirmatiouns-E-Mail geschéckt.
       press confirm button: Klickt w.e.g. op de Knäppchen confirméieren fir Äre Benotzerkont z'aktivéieren.
+      unknown token: Dee Confirmatiouns-Code ass ofgelaf oder et gëtt en net.
     confirm_email: 
       button: Confirméieren
       heading: Eng Ännerung vun enger E-Mailadress confirméieren
@@ -698,7 +718,7 @@ lb:
       hide: Erausgesichte Benotzer vrstoppen
       title: Benotzer
     login: 
-      email or username: "E-Mailadress oder Benotzernumm:"
+      email or username: "E-Mail-Adress oder Benotzernumm:"
       heading: Umellen
       login_button: Umellen
       lost password link: Hutt Dir Äert Passwuert vergiess?
@@ -716,10 +736,10 @@ lb:
       logout_button: Ofmellen
       title: Ofmellen
     lost_password: 
-      email address: "E-Mailadress:"
+      email address: "E-Mail-Adress:"
       heading: Passwuert vergiess?
       new password button: Passwuert zrécksetzen
-      notice email cannot find: Déi E-Mailadress konnt net fonnt ginn, pardon
+      notice email cannot find: Déi E-Mail-Adress konnt net fonnt ginn, pardon
       title: Passwuert vergiess
     make_friend: 
       already_a_friend: Dir sidd schonn de Frënd vum %{name}.
@@ -728,15 +748,16 @@ lb:
       heading: "%{user} als Frënd derbäisetzen?"
       success: "%{name} ass elo Äre Frënd!"
     new: 
-      confirm email address: "E-Mailadress confirméieren:"
+      about: 
+        header: Fäi a verännerbar
+      confirm email address: "E-Mail-Adress confirméieren:"
       confirm password: "Passwuert confirméieren:"
-      continue: Weider
+      continue: Mellt Iech un
       display name: Numm weisen
-      email address: "E-Mailadress:"
-      heading: E Benotzerkont uleeën
+      email address: "E-Mail-Adress:"
       no_auto_account_create: Leider kënne mir den Ament kee Benotzerkont automatesch fir Iech opmaachen.
       password: "Passwuert:"
-      title: Benotzerkont opmaachen
+      title: Mellt Iech un
     no_such_user: 
       heading: De Benotzer %{user} gëtt et net
       title: Esou e Benotzer gëtt et net
@@ -776,7 +797,7 @@ lb:
       description: Beschreiwung
       diary: Blog
       edits: Ännerungen
-      email address: "E-Mailadress:"
+      email address: "E-Mail-Adress:"
       hide_user: dëse Benotzer verstoppen
       km away: "%{count} km ewech"
       m away: "%{count} m ewech"
@@ -863,3 +884,11 @@ lb:
       fail: D'Roll '%{role}' konnt met vum Benotzer '%{name}' ewechgeholl ginn. Kuckt w.e.g. no ob de Benotzer an d'Roll allen zwee valabel sinn.
       heading: Confirméiert d'Zréckzéie vun der Roll
       title: Confirméiert d'Zréckzéie vun der Roll
+  welcome_page: 
+    add_a_note: 
+      title: Keng Zäit fir z'änneren? Setzt eng Notiz derbäi!
+    questions: 
+      title: Nach Froen?
+    title: Wëllkomm!
+    whats_on_the_map: 
+      title: Wat ass op der Kaart

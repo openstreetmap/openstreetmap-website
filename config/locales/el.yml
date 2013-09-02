@@ -38,7 +38,7 @@ el:
         latitude: Γεωγραφικό πλάτος
         longitude: Γεωγραφικό μήκος
         name: Όνομα
-        public: Κοινό
+        public: Δημόσιο
         size: Μέγεθος
         user: Χρήστης
         visible: Ορατό
@@ -54,8 +54,8 @@ el:
       changeset: Ομάδα αλλαγών
       changeset_tag: Ετικέτα ομάδας αλλαγών
       country: Χώρα
-      diary_comment: Σχόλιο στο blog
-      diary_entry: Καταχώρηση blog
+      diary_comment: Σχόλιο Ημερολογίου
+      diary_entry: Καταχώρηση Ημερολογίου
       friend: Φίλος
       language: Γλώσσα
       message: Μήνυμα
@@ -79,7 +79,7 @@ el:
       tracetag: Ετικέτα ίχνους
       user: Χρήστης
       user_preference: Προτιμήσεις χρήστη
-      user_token: Τεκμήριο χρήστη
+      user_token: Διακριτικό χρήστη
       way: Διαδρομή
       way_node: Κόμβος Διαδρομής
       way_tag: Ετικέτα Διαδρομής
@@ -87,7 +87,7 @@ el:
     require_cookies: 
       cookies_needed: Φαίνεται ότι έχετε τα cookies απενεργοποιημένα - παρακαλούμε ενεργοποιήστε τα cookies στο πρόγραμμα περιήγησής σας πριν συνεχίσετε.
     require_moderator: 
-      not_a_moderator: Θα πρέπει να είστε μεσολαβητής για να εκτελέσετε αυτή την ενέργεια.
+      not_a_moderator: Θα πρέπει να είστε συντονιστής για να εκτελέσετε αυτή την ενέργεια.
   browse: 
     changeset: 
       changeset: "Ομάδα αλλαγών: %{id}"
@@ -100,16 +100,20 @@ el:
     changeset_details: 
       belongs_to: "Ανήκει στον/στην:"
       bounding_box: "Πλαίσιο οριοθέτησης:"
-      box: κουτί
+      box: πλαίσιο
       closed_at: "Έκλεισε στις:"
       created_at: "Δημιουργήθηκε στις:"
       has_nodes: 
-        one: "Έχει τον επόμενο %{count} κόμβο:"
-        other: "Έχει τους επόμενους %{count} κόμβους:"
-      has_relations: "Έχει τις επόμενες %{count} σχέσεις:"
-      has_ways: "Έχει τις επόμενες %{count} διαδρομές:"
+        one: "Έχει τον ακόλουθο %{count} κόμβο:"
+        other: "Έχει τους ακόλουθους %{count} κόμβους:"
+      has_relations: 
+        one: "Έχει την ακόλουθη %{count} σχέση:"
+        other: "Έχει τις ακόλουθες %{count} σχέσεις:"
+      has_ways: 
+        one: "Έχει την ακόλουθη %{count} διαδρομή:"
+        other: "Έχει τις ακόλουθες %{count} διαδρομές:"
       no_bounding_box: Δεν αποθηκεύτηκε  πλαίσιο οριοθέτησης για αυτή την ομάδα αλλαγών.
-      show_area_box: Δείξε κουτί περιοχής
+      show_area_box: Εμφάνιση Πλαισίου Περιοχής
     common_details: 
       changeset_comment: "Σχόλιο:"
       deleted_at: "Διαγράφηκε στις:"
@@ -130,11 +134,11 @@ el:
         relation: Επεξεργασία σχέσης
         way: Επεξεργασία διαδρομής
       larger: 
-        area: Δες την περιοχή σε μεγαλύτερο χάρτη.
+        area: Προβολή της περιοχής σε μεγαλύτερο χάρτη.
         node: Προβολή του κόμβου σε μεγαλύτερο χάρτη
-        note: Δες την σημείωση σε μεγαλύτερο χάρτη.
-        relation: Δες την σχέση σε μεγαλύτερο χάρτη
-        way: Δες την διαδρομή σε μεγαλύτερο χάρτη.
+        note: Προβολή της σημείωσης σε μεγαλύτερο χάρτη.
+        relation: Προβολή της σχέσης σε μεγαλύτερο χάρτη
+        way: Προβολή της διαδρομής σε μεγαλύτερο χάρτη.
       loading: Φόρτωση...
     navigation: 
       all: 
@@ -156,7 +160,7 @@ el:
           next: "%{id} »"
           prev: « %{id}
       user: 
-        name_changeset_tooltip: Προβολή αλλαγών από %{user}
+        name_changeset_tooltip: Προβολή επεξεργασιών από τον %{user}
         next_changeset_tooltip: Επόμενη επεξεργασία από τον %{user}
         prev_changeset_tooltip: Προηγούμενη επεξεργασία από τον %{user}
     node: 
@@ -195,10 +199,10 @@ el:
       of: από
       showing_page: σελίδα
     redacted: 
-      message_html: Η έκδοση %{version} του %{type} δε μπορεί να φανεί, δεδομένου ότι έχει αναθεωρηθεί. Παρακαλώ δείτε %{redaction_link} για λεπτομέρειες.
+      message_html: Η έκδοση %{version} του %{type} δε μπορεί να εμφανιστεί, δεδομένου ότι έχει αναθεωρηθεί. Παρακαλώ δείτε %{redaction_link} για λεπτομέρειες.
       redaction: Αναθεώρηση %{id}
       type: 
-        node: Κόμβος
+        node: κόμβος
         relation: σχέση
         way: διαδρομή
     relation: 
@@ -229,7 +233,7 @@ el:
       hide_areas: Απόκρυψη περιοχών
       history_for_feature: Ιστορικό για %{feature}
       load_data: Φόρτωση δεδομένων
-      loaded_an_area_with_num_features: "Έχεις φορτώσει μια περιοχή που περιέχει %{num_features} χαρακτηριστικά. Γενικά, μερικοί browsers μπορεί να μην αντέχουν να δείξουν τόσα πολλά στοιχεία. Γενικά, οι browsers δουλεύουν καλύτερα δείχνοντας λιγότερα από %{max_features} χαρακτηριστικά τη φορά: με οτιδήποτε άλλο ο browser μπορεί να γίνει αργός ή να μην αντιδρά. Αν είσαι σίγουρος ότι θες να δεις αυτά τα δεδομένα, κάνε κλικ στο παρακάτω κουμπί."
+      loaded_an_area_with_num_features: "Έχετε φορτώσει μια περιοχή που περιέχει %{num_features} χαρακτηριστικά. Γενικά, μερικοί browsers μπορεί να μην αντέχουν να δείξουν τόσα πολλά στοιχεία. Γενικά, οι browsers δουλεύουν καλύτερα δείχνοντας λιγότερα από %{max_features} χαρακτηριστικά τη φορά: με οτιδήποτε άλλο ο browser μπορεί να γίνει αργός ή να μην αντιδρά. Αν είστε σίγουρος ότι θέλετε να δείτε αυτά τα δεδομένα, κάντε κλικ στο παρακάτω κουμπί."
       loading: Φόρτωση...
       manually_select: Χειροκίνητη επιλογή διαφορετικής περιοχής
       notes_layer_name: Περιήγηση στις σημειώσεις
@@ -266,9 +270,9 @@ el:
       sorry: Λυπάμαι, τα δεδομένα για το/τη %{type} με αναγνωριστικό %{id}, χρειάστηκε πολύ χρόνο για να ανακτηθεί.
       type: 
         changeset: ομάδα αλλαγών
-        node: Κόμβος
+        node: κόμβος
         relation: σχέση
-        way: Διαδρομή
+        way: διαδρομή
     way: 
       download_xml: Λήψη XML
       edit: Επεξεργασία διαδρομής
@@ -313,7 +317,7 @@ el:
       description_user: Ομάδες αλλαγών από %{user}
       description_user_bbox: Ομάδες αλλαγών από %{user} μεταξύ %{bbox}
       empty_anon_html: Δεν έχει γίνει ακόμη καμία επεξεργασία.
-      empty_user_html: Φαίνεται ότι  δεν έχετε κάνει καθόλου αλλαγές ακόμα. Για να ξεκινήσετε, ελέγξτε το <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Οδηγός αρχαρίων</a>.
+      empty_user_html: Φαίνεται ότι δεν έχετε κάνει καθόλου αλλαγές ακόμα. Για να ξεκινήσετε, ελέγξτε τον <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Οδηγό αρχαρίων</a>.
       heading: Ομάδες αλλαγών
       heading_bbox: Ομάδες αλλαγών
       heading_friend: Ομάδες αλλαγών
@@ -371,8 +375,8 @@ el:
         description: Πρόσφατες καταχωρήσεις ημερολογίου από χρήστες του OpenStreetMap στα %{language_name}
         title: Καταχωρήσεις ημερολογίου OpenStreetMap στα %{language_name}
       user: 
-        description: Πρόσφατες καταχωρίσεις ημερολογίου OpenStreetMap από %{user}
-        title: Καταχωρίσεις ημερολογίου OpenStreetMap για %{user}
+        description: Πρόσφατες καταχωρίσεις ημερολογίου OpenStreetMap από τον %{user}
+        title: Καταχωρίσεις ημερολογίου OpenStreetMap για τον %{user}
     list: 
       in_language_title: Καταχωρήσεις Ημερολογίων στα %{language}
       new: Νέα Καταχώρηση Ημερολογίου
@@ -404,6 +408,9 @@ el:
       user_title: ημερολόγιο του %{user}
   editor: 
     default: Προεπιλογή (τώρα είναι %{name})
+    id: 
+      description: iD (επεξεργαστής μέσα στον περιηγητή ιστού)
+      name: iD
     potlatch: 
       description: Potlatch 1 (επεξεργαστής μέσα στο περιηγητή ιστού)
       name: Potlatch 1
@@ -435,8 +442,7 @@ el:
       paste_html: Επικόλληση HTML για ενσωμάτωση στην ιστοσελίδα
       scale: Κλίμακα
       too_large: 
-        body: Αυτή η περιοχή είναι πολύ μεγάλη για να εξαχθεί ως δεδομένα OpenStreetMap XML. Παρακαλώ κάνετε μεγέθυνση ή επιλέξτε μικρότερη περιοχή.
-        heading: Πολύ Μεγάλη Περιοχή
+        other: heading=Περιοχή πολύ μεγάλη
       zoom: Εστίαση
     start_rjs: 
       add_marker: Προσθέστε ένα δείκτη στο χάρτη
@@ -445,7 +451,6 @@ el:
       drag_a_box: Σύρετε ένα πλαίσιο στο χάρτη για να επιλέξετε μια περιοχή
       export: Εξαγωγή
       manually_select: Χειροκίνητη επιλογή διαφορετικής περιοχής
-      view_larger_map: Προβολή Μεγαλύτερου Χάρτη
   geocoder: 
     description: 
       title: 
@@ -465,9 +470,9 @@ el:
       south_west: νοτιοδυτικά
       west: δυτικά
     distance: 
-      one: περίπου 1χλμ
-      other: περίπου %{count}χλμ
-      zero: λιγότερο από 1χλμ
+      one: περίπου 1km
+      other: περίπου %{count}km
+      zero: λιγότερο από 1km
     results: 
       more_results: Περισσότερα αποτελέσματα
       no_results: Δεν βρέθηκε κανένα αποτέλεσμα
@@ -480,14 +485,24 @@ el:
         uk_postcode: Αποτέλεσμα από <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Αποτελέσματα από <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Σύνορο προάστιου
+        level2: Σύνορο χώρας
+        level4: Σύνορο πολιτείας
+        level5: Σύνορο περιοχής
+        level6: Σύνορο κομητείας
+        level8: Σύνορο πόλης
+        level9: Σύνορο χωριού
       prefix: 
+        aerialway: 
+          chair_lift: τελεφερίκ με καθίσματα
         aeroway: 
           aerodrome: Αεροδρόμιο
           apron: Χώρος ελιγμών
           gate: Πύλη
           helipad: Ελικοδρόμιο
           runway: Διάδρομος
-          taxiway: Τροχόδρομος
+          taxiway: Τροχιόδρομος
           terminal: Τερματικός σταθμός
         amenity: 
           WLAN: Πρόσβαση WiFi
@@ -530,7 +545,7 @@ el:
           ferry_terminal: Σταθμός Πορθμείων
           fire_hydrant: Κρουνός πυροσβεστικής
           fire_station: Πυροσβεστικός σταθμός
-          food_court: Προαύλειο Φαγητού \
+          food_court: Προαύλιο Φαγητού \
           fountain: Συντριβάνι
           fuel: Καύσιμα
           grave_yard: Νεκροταφείο
@@ -553,7 +568,7 @@ el:
           park: Πάρκο
           parking: Χώρος στάθμευσης
           pharmacy: Φαρμακείο
-          place_of_worship: Τόπος λατρείας
+          place_of_worship: Τόπος Λατρείας
           police: Αστυνομία
           post_box: Ταχυδρομική Θυρίδα
           post_office: Ταχυδρομείο
@@ -602,6 +617,9 @@ el:
           "yes": Γέφυρα
         building: 
           "yes": Κτίριο
+        emergency: 
+          fire_hydrant: Πυροσβεστικός κρουνός
+          phone: Τηλέφωνο Έκτακτης Ανάγκης
         highway: 
           bridleway: Μονοπάτι για άλογα
           bus_guideway: Καθορισμένη Λωρίδα Λεωφορείου \
@@ -623,6 +641,7 @@ el:
           platform: Πλατφόρμα
           primary: Κύρια Οδός
           primary_link: Κύρια Οδός
+          proposed: Προτεινόμενος δρόμος
           raceway: Αυτοκινητοδρόμιο
           residential: Οικιστική οδός
           rest_area: Περιοχή Ανάπαυσης
@@ -634,8 +653,9 @@ el:
           speed_camera: Κάμερα ταχύτητας
           steps: Σκαλοπάτια
           stile: Στήλη
-          tertiary: Τρίτος Δρόμος \
-          tertiary_link: Τρίτος Δρόμος \
+          street_lamp: Λάμπα του δρόμου
+          tertiary: Τριτεύων Δρόμος
+          tertiary_link: Τριτεύων Δρόμος
           track: Χωματόδρομος
           trail: Μονοπάτι
           trunk: Εθνική Οδός
@@ -649,17 +669,18 @@ el:
           building: Κτίριο
           castle: Κάστρο
           church: Εκκλησία
+          citywalls: Τείχη της πόλης
           fort: Οχυρό
           house: Σπίτι
           icon: Εικονίδιο
-          manor: Έπαυλη \
+          manor: Έπαυλη
           memorial: Μνημείο
           mine: Ορυχείο
           monument: Μνημείο
           museum: Μουσείο
           ruins: Ερείπια
           tower: Πύργος
-          wayside_shrine: Εκκλησάκι δρόμου
+          wayside_shrine: Εικονοστάσιο
           wreck: Ναυάγιο
         landuse: 
           allotments: Λαχανόκηποι
@@ -692,13 +713,13 @@ el:
           road: Περιοχή Δρόμων
           vineyard: Αμπέλι
           wetland: Υγρότοπος
-          wood: Μη προσεγμένο δάσος
+          wood: Φυσικό Δάσος
         leisure: 
           beach_resort: Παραθαλάσσιο θέρετρο
           bird_hide: Καταφύγιο Πουλιών
           common: Κοινόχρηστη γη
           fishing: Αλιευτική Περιοχή
-          fitness_station: Γυμναστήριο \
+          fitness_station: Γυμναστήριο
           garden: Κήπος
           golf_course: Γήπεδο Γκολφ
           ice_rink: Παγοδρόμιο
@@ -714,6 +735,7 @@ el:
           sports_centre: Αθλητικό Κέντρο
           stadium: Στάδιο
           swimming_pool: Πισίνα
+          water_park: Υδάτινο πάρκο
         military: 
           airfield: Στρατιωτικό αεροδρόμιο
           barracks: Στρατώνας
@@ -728,7 +750,7 @@ el:
           channel: Κανάλι
           cliff: Γκρεμός
           crater: Κρατήρας
-          dune: Αμμόλοφος \
+          dune: Αμμόλοφος
           feature: Χαρακτηριστικό
           fjord: Φιόρδ
           forest: Δάσος
@@ -786,6 +808,7 @@ el:
           locality: Τοποθεσία
           moor: Δέστρα
           municipality: Δήμος
+          neighbourhood: Γειτονιά
           postcode: Ταχυδρομικός Κώδικας
           region: Περιοχή
           sea: Θάλασσα
@@ -800,16 +823,20 @@ el:
           disused: Σιδηρόδρομος Εκτός Χρήσης
           disused_station: Σιδηροδρομικός Σταθμός Εκτός Χρήσης
           halt: Σταθμός Τραίνου
-          historic_station: Ιστορική Σιδηροδρομικός Σταθμός
+          historic_station: Ιστορικός Σιδηροδρομικός Σταθμός
           junction: Σιδηροδρομικός Κόμβος
           level_crossing: Ισόπεδη Διάβαση
           light_rail: Ελαφρύ τρένο
+          miniature: Μινιατούρα σιδηρόδρομος
           narrow_gauge: Σιδηρόδρομος Στενής Τροχιάς
           platform: Πλατφόρμα σιδηροδρόμου
           preserved: Διατηρητέος Σιδηρόδρομος
+          proposed: Προτεινόμενος σιδηρόδρομος
           station: Σιδηροδρομικός Σταθμός
+          stop: Σιδηροδρομική στάση
           subway: Σταθμός Μετρό
           subway_entrance: Είσοδος Στο Μετρό
+          switch: Σιδηροδρομικά Σημεία
           tram: Τραμ
           tram_stop: Στάση Τραμ
         shop: 
@@ -820,6 +847,7 @@ el:
           beverages: Κατάστημα ποτών
           bicycle: Κατάστημα Ποδηλάτων
           books: Βιβλιοπωλείο
+          boutique: Μπουτίκ
           butcher: Κρεοπωλείο
           car: Κατάστημα αυτοκινήτων
           car_parts: Εξαρτήματα Αυτοκινήτου
@@ -834,6 +862,7 @@ el:
           copyshop: Κατάστημα φωτοαντιγράφων
           cosmetics: Κατάστημα Καλλυντικών
           department_store: Πολυκατάστημα
+          discount: Εκπτωτικό κατάστημα
           doityourself: Ιδιοκατασκευές
           dry_cleaning: Στεγνό Καθάρισμα
           electronics: Κατάστημα Ηλεκτρονικών
@@ -846,6 +875,7 @@ el:
           furniture: Έπιπλα
           gallery: Γκαλερί
           garden_centre: Κέντρο Κήπου
+          general: Παντοπωλείο
           gift: Κατάστημα Δώρων
           greengrocer: Μανάβης
           grocery: Οπωροπωλείο
@@ -865,16 +895,20 @@ el:
           optician: Οπτικός
           organic: Κατάστημα οργανικών τροφίμων
           pet: Pet Shop
+          pharmacy: Φαρμακείο
           photo: Φωτογραφείο
           salon: Σαλόνι
+          second_hand: Παλαιοπωλείο
           shoes: Κατάστημα Υποδημάτων
           shopping_centre: Εμπορικό κέντρο
           sports: Κατάστημα Αθλητικών
           stationery: Κατάστημα γραφικής ύλης
           supermarket: Σουπερμάρκετ
+          tailor: Ράφτης
           toys: Κατάστημα Παιγνιδιών
           travel_agency: Ταξιδιωτικό Πρακτορείο
           video: Βίντεο κατάστημα
+          "yes": Κατάστημα
         tourism: 
           alpine_hut: Αλπικό Καταφύγιο
           artwork: Έργο τέχνης
@@ -896,46 +930,107 @@ el:
           viewpoint: Οπτική γωνία
           zoo: Ζωολογικός κήπος
         tunnel: 
+          culvert: Οχετός
           "yes": Σήραγγα
         waterway: 
+          artificial: Τεχνητή υδατοδιαδρομή
           boatyard: Ναυπηγείο
           canal: Κανάλι
           dam: Φράγμα
           ditch: Χαντάκι
           dock: Αποβάθρα
           drain: Υπόνομος
+          lock: Κλειδαριά
+          lock_gate: Κλειδαριά Πύλης
+          mineral_spring: Πηγή Μεταλλικού Νερού
           mooring: Αγκυροβόλι
           rapids: Χείμαρροι
           river: Ποτάμι
           riverbank: Όχθη ποταμού
           stream: Ρέμα
+          wadi: Wadi
+          water_point: Σημείο πρόσβασης σε Νερό
           waterfall: Καταρράχτης
       prefix_format: "%{name}"
   javascripts: 
+    close: Κλείσιμο
+    edit_help: Μετακινήστε το χάρτη και να κάνετε ζουμ σε μια τοποθεσία που θέλετε να επεξεργαστείτε, στη συνέχεια, κάντε κλικ εδώ.
+    key: 
+      title: Υπόμνημα
+      tooltip: Υπόμνημα
+      tooltip_disabled: Το υπόμνημα είναι διαθέσιμο μόνο για το κανονικό επίπεδο
     map: 
       base: 
         standard: Κανονικός
         transport_map: Συγκοινωνιακός Χάρτης
+      copyright: © <a href='%{copyright_url}'>Συνεισφέροντες του OpenStreetMap</a>
+      layers: 
+        data: Δεδομένα Χάρτη
+        header: Επίπεδα Χάρτη
+        notes: Σημειώσεις Χάρτη
+        overlays: Ενεργοποίηση επικαλύψεων για την αντιμετώπιση προβλημάτων του χάρτη
+      locate: 
+        popup: Είστε μεταξύ {distance} {unit} από αυτό το σημείο
+        title: Προβολή της Τοποθεσίας μου
+      zoom: 
+        in: Μεγέθυνση
+        out: Σμίκρυνση
+    notes: 
+      new: 
+        add: Προσθήκη Σημείωσης
+        intro: Προκειμένου να βελτιωθεί ο χάρτης οι πληροφορίες που εισάγετε είναι ορατές στους άλλους χαρτογράφους, γιαυτό παρακαλώ να είστε όσο περισσότερο περιγραφικοί και ακριβείς γίνεται όταν μετακινείτε το δείκτη στη σωστή θέση και βάζετε τη σημείωση παρακάτω.
+      show: 
+        anonymous_warning: Αυτό η σημείωση περιλαμβάνει σχόλια από ανώνυμους χρήστες που πρέπει να επαληθεύονται ανεξάρτητα.
+        closed_by: επιλύθηκε από τον <a href='%{user_url}'>%{user}</a> στις %{time}
+        closed_by_anonymous: επιλύθηκε από ανώνυμο στις %{time}
+        comment: Σχολιασμός
+        comment_and_resolve: Σχολιάστε & Επιλύστε
+        commented_by: σχόλιο από τον <a href='%{user_url}'>%{user}</a> στις %{time}
+        commented_by_anonymous: σχόλιο από ανώνυμο στις %{time}
+        hide: Απόκρυψη
+        opened_by: δημιουργήθηκε από τον <a href='%{user_url}'>%{user}</a> στις %{time}
+        opened_by_anonymous: δημιουργήθηκε από ανώνυμο στις %{time}
+        permalink: Μόνιμος σύνδεσμος
+        reactivate: Επανενεργοποίηση
+        reopened_by: επανενεργοποιήθηκε από τον <a href='%{user_url}'>%{user}</a> στις %{time}
+        reopened_by_anonymous: επανενεργοποιήθηκε από ανώνυμο στις %{time}
+        resolve: Επίλυση
+    share: 
+      cancel: Ακύρωση
+      center_marker: Κεντράρισμα χάρτη στο δείκτη
+      custom_dimensions: Ορισμός προσαρμοσμένων διαστάσεων
+      download: Λήψη
+      embed: HTML
+      format: "Μορφή:"
+      image: Εικόνα
+      include_marker: Συμπερίληψη δείκτη
+      link: Σύνδεσμος ή HTML
+      long_link: Σύνδεσμος
+      paste_html: Επικόλληση HTML για ενσωμάτωση στην ιστοσελίδα
+      scale: "Κλίμακα:"
+      short_link: Σύντομος Σύνδεσμος
+      title: Διαμοιρασμός
+      view_larger_map: Προβολή Μεγαλύτερου Χάρτη
     site: 
-      edit_disabled_tooltip: Κάνε μεγέθυνση για να επεξεργαστείς το χάρτη
+      createnote_disabled_tooltip: Μεγεθύνετε για να προσθέσετε μια σημείωση στο χάρτη
+      createnote_tooltip: Προσθέστε μια σημείωση στο χάρτη
+      edit_disabled_tooltip: Κάντε μεγέθυνση για να επεξεργαστείτε το χάρτη
       edit_tooltip: Επεξεργασία του χάρτη
-      edit_zoom_alert: Πρέπει να μεγεθύνεις για να επεξεργαστείς το χάρτη
-      history_disabled_tooltip: Μεγέθυνε για να δεις τις αλλαγές για αυτή την περιοχή
+      history_disabled_tooltip: Μεγεθύνετε για να δείτε τις αλλαγές για αυτή την περιοχή
       history_tooltip: Προβολή αλλαγών για αυτή την περιοχή
-      history_zoom_alert: Πρέπει να μεγεθύνεις για να δεις τις αλλαγές για αυτή την περιοχή
   layouts: 
     community: Κοινότητα
     community_blogs: Ιστολόγια της Κοινότητας
     community_blogs_title: Blogs από τα μέλη της κοινότητας του OpenStreetMap
     copyright: Πνευματικά δικαιώματα & Άδεια χρήσης
+    data: Δεδομένα
     documentation: Τεκμηρίωση
     documentation_title: Τεκμηρίωση για το έργο
     donate: Υποστηρίξτε το OpenStreetMap %{link} στον Έρανο Αναβάθμισης Υλικού.
     donate_link_text: δωρίζοντας
     edit: Επεξεργασία
     edit_with: Επεξεργασία με %{editor}
-    export: Εξαγωγή
-    export_tooltip: Εξαγωγή δεδομένων χάρτη
+    export_data: Εξαγωγή δεδομένων
     foundation: Ίδρυμα
     foundation_title: Το Ίδρυμα OpenStreetMap
     gps_traces: Ίχνη GPS
@@ -945,13 +1040,7 @@ el:
     help_title: Ιστοσελίδα βοήθειας για το έργο
     history: Ιστορικό
     home: σπίτι
-    home_tooltip: Μετάβαση στην τοποθεσία σπιτιού
-    inbox_html: εισερχόμενα %{count}
-    inbox_tooltip: 
-      one: Τα εισερχόμενα σας περιέχουν 1 αδιάβαστο μήνυμα
-      other: Τα εισερχόμενα σας περιέχουν %{count} αδιάβαστα μηνύματα
-      zero: Τα εισερχόμενα σας δεν περιέχουν κανένα αδιάβαστο μήνυμα
-    intro_1: Ο OpenStreetMap είναι δωρεάν, επεξεργάσιμος χάρτης ολόκληρου του κόσμου. Είναι κατασκευασμένος από ανθρώπους σαν κι εσάς.
+    intro_1: Ο OpenStreetMap είναι δωρεάν, επεξεργάσιμος χάρτης ολόκληρου του κόσμου, κατασκευασμένος από ανθρώπους σαν κι εσάς.
     intro_2_create_account: Δημιουργήστε ένα λογαριασμό χρήστη
     intro_2_download: λήψη
     intro_2_html: Τα δεδομένα είναι ελεύθερα για %{download} και %{use} κάτω από την %{license}. %{create_account} για να αναβαθμίσετε τον χάρτη.
@@ -961,8 +1050,7 @@ el:
     log_in_tooltip: Σύνδεση με έναν υπάρχοντα λογαριασμό
     logo: 
       alt_text: Λογότυπο OpenStreetMap
-    logout: έξοδος
-    logout_tooltip: Έξοδος
+    logout: αποσύνδεση
     make_a_donation: 
       text: Κάντε μια Δωρεά
       title: Υποστήριξε το OpenStreetMap με δωρεά χρημάτων
@@ -979,7 +1067,6 @@ el:
     user_diaries_tooltip: Προβολή ημερολογίων χρηστών
     view: Προβολή
     view_tooltip: Προβολή του χάρτη
-    welcome_user_link_tooltip: Η προσωπική σας σελίδα
     wiki: Wiki
     wiki_title: Ιστοσελίδα wiki για το έργο
   license_page: 
@@ -989,13 +1076,21 @@ el:
       title: Σχετικά με αυτή την μετάφραση
     legal_babble: 
       attribution_example: 
+        alt: Παράδειγμα του πως αναφέρεται το OpenStreetMap σε μια ιστοσελίδα
         title: Παράδειγμα αναφοράς δημιουργού
+      contributors_intro_html: "Οι συνεισφέροντες μας είναι χιλιάδες άτομα. Επίσης έχουμε περιλάβει δεδομένα ανοικτής άδειας από εθνικές υπηρεσίες χαρτογράφησης και άλλες πηγές, μεταξύ αυτών:"
       contributors_title_html: Οι συνεισφέροντές μας
+      credit_1_html: "Απαιτείται να χρησιμοποιείτε την αναφορά στο &ldquo;&copy; OpenStreetMap\ncontributors&rdquo;."
+      credit_2_html: "Επίσης πρέπει να κάνετε σαφές ότι τα δεδομένα διατίθενται υπό την άδεια Open\nDatabase License, και αν χρησιμοποιείτε τα πλακίδια χάρτη, ότι η χαρτογραφία είναι υπό την άδεια CC-BY-SA. Μπορείτε να το κάνετε αυτό με σύνδεσμο σε <a href=\"http://www.openstreetmap.org/copyright\">αυτή τη σελίδα δικαιωμάτων</a>.\nΕναλλακτικά, και σαν προαπαιτούμενο εάν διαμοιράζετε δεδομένα OSM, μπορείτε να δώσετε απευθείας σύνδεσμο προς τις άδειες. Σε μέσα στα οποία οι σύνδεσμοι δεν είναι εφικτοί (π.χ. εκτυπώσεις), προτείνουμε να κατευθύνετε τους αναγνώστες σας στο openstreetmap.org (ίσως επεκτείνοντας το 'OpenStreetMap' σε αυτή την πλήρη διεύθυνση), προς opendatacommons.org, και αναλόγως στο creativecommons.org."
+      credit_3_html: "Για έναν ηλεκτρονικά εμφανιζόμενο χάρτη, η αναφορά θα πρέπει να εμφανίζεται στη γωνία του χάρτη.\nΓια παράδειγμα:"
       credit_title_html: Πως να πιστώσετε το OpenStreetMap
+      infringement_1_html: Υπενθυμίζουμε στους συνεισφέροντες του OSM να μην προσθέτουν δεδομένα από πηγές με πνευματικά δικαιώματα (π.χ. Google Maps η έντυπους χάρτες) χωρίς την προηγούμενη άδεια από τους ιδιοκτήτες των δικαιωμάτων.
       infringement_title_html: Παραβιάσεις πνευματικών δικαιωμάτων
-      intro_1_html: Το OpenStreetMap είναι <i>open data</i>, αδειοδοτημένο υπό την <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL).
+      intro_1_html: Το OpenStreetMap είναι <i>ανοικτά δεδομένα</i>, αδειοδοτημένο υπό την <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL).
+      intro_2_html: Είστε ελεύθεροι να αντιγράψετε, να διανείμετε, μεταδώσετε και προσαρμόσετε τα δεδομένα μας εφόσον πιστώνετε το OpenStreetMap και τους συνεισφέροντές του. Εάν αλλοιώσετε ή αξιοποιήσετε τα δεδομένα μας, μπορείτε να διανείμετε το αποτέλεσμα μόνο σύμφωνα με την ίδια άδεια. Ο πλήρης <a href="http://opendatacommons.org/licenses/odbl/1.0/">νομικός κώδικας</a> εξηγεί τα δικαιώματα και τις υποχρεώσεις.
+      intro_3_html: "Η χαρτογράφηση στα πλακίδια χάρτη, και η τεκμηρίωση μας, είναι αδειοδοτημένες υπο την άδεια <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons Attribution-ShareAlike 2.0</a> (CC-BY-SA)."
       more_title_html: Μαθαίνοντας περισσότερα
-      title_html: Πνευματική ιδιοκτησία και άδεια χρήσης
+      title_html: Πνευματική δικαιώματα και άδεια χρήσης
     native: 
       mapping_link: αρχίστε τη χαρτογράφηση
       native_link: ελληνική έκδοση
@@ -1012,12 +1107,12 @@ el:
       new_messages: 
         one: "%{count} νέο μήνυμα"
         other: "%{count} νέα μηνύματα"
-      no_messages_yet: Δεν έχεις μηνύματα ακόμα. Γιατί δεν έρχεσαι σε επαφή με μερικά από τα %{people_mapping_nearby_link}?
+      no_messages_yet: Δεν έχετε μηνύματα ακόμα. Γιατί δεν έρχεστε σε επαφή με μερικά από τα %{people_mapping_nearby_link}?
       old_messages: 
         one: "%{count} παλιό μήνυμα"
         other: "%{count} παλιά μηνύματα"
       outbox: εξερχόμενα
-      people_mapping_nearby: άτομα που χαρτογραφούν κοντά σου
+      people_mapping_nearby: άτομα που χαρτογραφούν κοντά σας
       subject: Θέμα
       title: Εισερχόμενα
     mark: 
@@ -1031,7 +1126,7 @@ el:
     new: 
       back_to_inbox: Πίσω στα Εισερχόμενα
       body: Κείμενο
-      limit_exceeded: Έχεις στείλει πολλά μηνύματα πρόσφατα. Παρακαλώ περίμενε για λίγο πριν δοκιμάσεις να στείλεις ξανά.
+      limit_exceeded: Έχετε στείλει πολλά μηνύματα πρόσφατα. Παρακαλώ περιμένετε λίγο πριν δοκιμάσετε να στείλετε ξανά.
       message_sent: Αποστολή μηνύματος
       send_button: Αποστολή
       send_message_to: Αποστολή νέου μηνύματος προς %{name}
@@ -1048,15 +1143,14 @@ el:
         one: Έχετε %{count} απεσταλμένο μήνυμα
         other: Έχετε %{count} απεσταλμένα μηνύματα
       my_inbox: Τα %{inbox_link} μου
-      no_sent_messages: Δεν έχεις στείλει κανένα μήνυμα ακόμα. Γιατί δεν έρχεσαι σε επαφή με μερικά %{people_mapping_nearby_link}?
+      no_sent_messages: Δεν έχετε στείλει κανένα μήνυμα ακόμα. Γιατί δεν έρχεστε σε επαφή με μερικά %{people_mapping_nearby_link}?
       outbox: εξερχόμενα
-      people_mapping_nearby: άτομα που χαρτογραφούν κοντά σου
+      people_mapping_nearby: άτομα που χαρτογραφούν κοντά σας
       subject: Θέμα
       title: Εξερχόμενα
       to: Προς
     read: 
-      back_to_inbox: Πίσω στα Εισερχόμενα
-      back_to_outbox: Πίσω στα Εξερχόμενα
+      back: Πίσω
       date: Ημ/νία
       from: Από
       reply_button: Απάντηση
@@ -1064,15 +1158,42 @@ el:
       title: Ανάγνωση μηνύματος
       to: Προς
       unread_button: Σήμανση ως αδιάβαστο
-      wrong_user: Έχεις συνδεθεί ως `%{user}' αλλά το μήνυμα που ζητάς να διαβάσεις δεν έχει σταλεί σε εσένα ούτε από εσένα. Παρακαλώ συνδέσου με το σωστό όνομα χρήστη ώστε να μπορέσεις να το διαβάσεις.
+      wrong_user: Έχετε συνδεθεί ως `%{user}' αλλά το μήνυμα που ζητάτε να διαβάσετε δεν έχει σταλεί σε εσάς ούτε από εσάς. Παρακαλώ συνδεθείτε με το σωστό όνομα χρήστη ώστε να μπορέσετε να το διαβάσετε.
     reply: 
-      wrong_user: Έχεις συνδεθεί ως `%{user}' αλλά το μήνυμα που ζητάς να απαντήσεις δεν έχει σταλεί σε αυτόν το χρήστη. Παρακαλώ συνδέσου με το σωστό όνομα χρήστη ώστε να μπορέσεις να απαντήσεις
+      wrong_user: Έχετε συνδεθεί ως `%{user}' αλλά το μήνυμα που ζητάτε να απαντήσετε δεν έχει σταλεί σε αυτόν το χρήστη. Παρακαλώ συνδεθείτε με το σωστό όνομα χρήστη ώστε να μπορέσετε να απαντήσετε.
     sent_message_summary: 
       delete_button: Διαγραφή
   note: 
+    description: 
+      closed_at_by_html: Επιλύθηκε %{when} πριν από τον %{user}
+      closed_at_html: Επιλύθηκε %{when} πριν
+      commented_at_by_html: Ενημερώθηκε %{when} πριν από τον %{user}
+      commented_at_html: Ενημερώθηκε %{when} πριν
+      opened_at_by_html: Δημιουργήθηκε %{when} πριν από τον %{user}
+      opened_at_html: Δημιουργήθηκε %{when} πριν
+      reopened_at_by_html: Επανενεργοποιήθηκε %{when} πριν από τον %{user}
+      reopened_at_html: Επανενεργοποιήθηκε %{when} πριν
+    entry: 
+      comment: Σχόλιο
+      full: Πλήρης σημείωση
     mine: 
+      ago_html: "%{when} πριν"
+      created_at: Δημιουργήθηκε στις
       creator: Δημιουργός
       description: Περιγραφή
+      heading: σημειώσεις του %{user}
+      id: Αναγνωριστικό
+      last_changed: Τελευταία αλλαγή
+      subheading: Σημειώσεις που υποβλήθηκαν ή σχολιάστηκαν από τον %{user}
+      title: Σημειώσεις που υποβλήθηκαν ή σχολιάστηκαν από τον %{user}
+    rss: 
+      closed: κλείσιμο σημείωσης (κοντα στο %{place})
+      commented: νέο σχόλιο (κοντά στο %{place})
+      description_area: Μια λίστα με σημειώσεις, που αναφέρθηκαν, σχολιάστηκαν ή επιλύθηκαν στην περιοχή σας [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: Μια τροφοδοσία rss για τη σημείωση %{id}
+      opened: νέα σημείωση (κοντά στο %{place})
+      reopened: επανενεργοποίηση σημείωσης (κοντά στο %{place})
+      title: Σημειώσεις OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Μπορείτε επίσης να διαβάσετε το σχόλιο στο %{readurl} και μπορείτε να σχολιάσετε στο %{commenturl} ή να απαντήσετε στο %{replyurl}
@@ -1082,14 +1203,18 @@ el:
     email_confirm: 
       subject: "[OpenStreetMap] Επιβεβαιώστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας"
     email_confirm_html: 
+      click_the_link: Εάν είστε εσείς, παρακαλώ πατήστε τον σύνδεσμο από κάτω για να επιβεβαιωθεί η αλλαγή.
       greeting: Γεια,
+      hopefully_you: Κάποιος (ελπίζουμε εσείς) θέλει να αλλάξει την διεύθυνση email στο %{server_url} σε %{new_address}.
     email_confirm_plain: 
+      click_the_link: Εάν είστε εσείς, παρακαλώ πατήστε τον σύνδεσμο από κάτω για να επιβεβαιωθεί η αλλαγή.
       greeting: Γεια,
+      hopefully_you: Κάποιος (ελπίζουμε εσείς) θέλει να αλλάξει την διεύθυνση email στο %{server_url} σε %{new_address}.
     friend_notification: 
       befriend_them: Μπορείτε επίσης να τους προσθέσετε ως φίλους στο %{befriendurl}.
       had_added_you: Ο χρήστης %{user} σας πρόσθεσε ως φίλο στο OpenStreetMap.
       see_their_profile: Μπορείτε να δείτε το προφίλ του στο %{userurl}.
-      subject: "[OpenStreetMap] Ο χρήστης %{user} σας προσθέσε ως φίλο"
+      subject: "[OpenStreetMap] Ο χρήστης %{user} σας πρόσθεσε ως φίλο"
     gpx_notification: 
       and_no_tags: χωρίς ετικέτες
       and_the_tags: και τις παρακάτω ετικέτες
@@ -1103,6 +1228,8 @@ el:
         subject: "[OpenStreetMap] Η εισαγωγή GPX πέτυχε"
       with_description: με περιγραφή
       your_gpx_file: Μοιάζει με δικό σας αρχείο GPX
+    lost_password: 
+      subject: "[OpenStreetMap] Αίτηση επαναφοράς κωδικού"
     lost_password_html: 
       click_the_link: Εάν είστε εσείς, παρακαλώ κάντε κλικ στον παρακάτω σύνδεσμο για να γίνει επαναφορά του κωδικού σας.
       greeting: Γεια,
@@ -1110,69 +1237,76 @@ el:
     lost_password_plain: 
       click_the_link: Εάν πρόκειται για σας, κάντε κλικ στον παρακάτω σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας.
       greeting: Γεια,
+      hopefully_you: Κάποιος (πιθανότατα εσείς) έχει ζητήσει επαναφορά του κωδικού πρόσβασης του λογαριασμού στο openstreetmap.org που αντιστοιχεί σε αυτή τη διεύθυνση email.
     message_notification: 
-      footer1: Μπορείτε επίσης να διαβάσετε το μήνυμα στο %{readurl}
-      footer2: και μπορείτε να απαντήσετε στο %{replyurl}
+      footer_html: Μπορείτε επίσης να διαβάσετε το μήνυμα στο %{readurl} και να απαντήσετε στο %{replyurl}
       header: "Ο χρήστης %{from_user} σάς έχει στείλει ένα μήνυμα μέσω του OpenStreetMap με θέμα %{subject}:"
       hi: Γεια σου %{to_user},
     note_comment_notification: 
       anonymous: Ανώνυμος χρήστης
       commented: 
         subject_own: "[OpenStreetMap] %{commenter} σχολίασε σε κάποια από τις σημειώσεις σας"
+        your_note: Ο %{commenter} άφησε ένα σχόλιο σε μία από τις σημειώσεις χάρτη σας κοντά στο %{place}.
+      details: Περισσότερες λεπτομέρειες σχετικά με τη σημείωση μπορούν να βρεθούν στο %{url}.
       greeting: Γεια,
     signup_confirm: 
-      created: Κάποιος (ας ελπίσουμε εσύ) μόλις δημιούργησες έναν λογαριασμό στο {site_url} %.
+      confirm: "Πριν κάνουμε οτιδήποτε άλλο, πρέπει να επιβεβαιώσουμε ότι η αίτηση ήρθε από εσάς, άρα αν το κάνατε εσείς παρακαλώ πατήστε στο παρακάτω σύνδεσμο για αν επιβεβαιώσετε τον λογαριασμό σας:"
+      created: Κάποιος (ας ελπίσουμε εσύ) μόλις δημιούργησε έναν λογαριασμό στο %{site_url}.
       greeting: Γεια σου!
-      subject: "[OpenStreetMap] Καλωσήλθατε στο OpenStreetMap"
-      welcome: Θα θέλαμε να σας καλωσορίσουμε και να σας δώσουμε κάποιες πρόσθετες πληροφορίες για να ξεκινήσετε.
-    signup_confirm_html: 
-      get_reading: Διάβασε σχετικά με το OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">στο wiki</a>, μείνε ενήμερος με τα τελευταία νέα μέσω του <a href="http://blog.openstreetmap.org/">OpenStreetMap blog</a> ή το <a href="http://twitter.com/openstreetmap">Twitter</a>, ή περιηγήσου στο <a href="http://www.opengeodata.org/">OpenGeoData blog</a> του ιδρυτή του OpenStreetMap Steve Coast για το ιστορικό του project, το οποίο επίσης έχει <a href="http://www.opengeodata.org/?cat=13">podcasts να ακούσεις</a>!
-      introductory_video: Μπορείτε να παρακολουθήσετε ένα %{introductory_video_link}.
-      more_videos: Υπάρχουν {more_videos_link} %.
-      more_videos_here: περισσότερα βίντεο εδώ
-      video_to_openstreetmap: εισαγωγικό βίντεο για το OpenStreetMap
-    signup_confirm_plain: 
-      ask_questions: "Μπορείς να ρωτήσεις για οποιαδήποτε απορία έχεις σχετικά με το OpenStreetMap στην ιστοσελίδα ερωτήσεων και απαντήσεων:"
-      blog_and_twitter: "Μείνε ενήμερος με τα τελευταία νέα μέσω του ιστολογίου του OpenStreetMap ή το Twitter:"
-      introductory_video: "Μπορείς να παρακολουθήσεις ένα εισαγωγικό βίντεο για το OpenStreetMap εδώ:"
-      more_videos: "Υπάρχουν περισσότερα βίντεο εδώ:"
-      the_wiki: "Διάβασε σχετικά με το OpenStreetMap στο wiki:"
-      wiki_signup: "Ίσως θες επίσης να κάνεις εγγραφή στο OpenStreetMap wiki:"
+      subject: "[OpenStreetMap] Καλώς ήλθατε στο OpenStreetMap"
+      welcome: Μετά την επιβεβαίωση του λογαριασμού σας, θα σας δώσουμε κάποιες πρόσθετες πληροφορίες για να ξεκινήσετε.
   oauth: 
     oauthorize: 
-      allow_read_gpx: διαβάστε τα ιδιωτικά σας GPS ίχνη.
-      allow_write_api: τροποποιήστε το χάρτη.
-      allow_write_gpx: ανεβάστε ίχνη GPS.
-      allow_write_notes: τροποποιήστε τις σημειώσεις.
+      allow_read_gpx: διαβάσει τα ιδιωτικά σας GPS ίχνη.
+      allow_read_prefs: διαβάσει τις προτιμήσεις σας.
+      allow_to: "Επιτρέψτε στην εφαρμογή πελάτη να:"
+      allow_write_api: τροποποιήσει το χάρτη.
+      allow_write_diary: δημιουργήσει καταχωρήσεις ημερολογίου, σχόλια και να κάνει φίλους.
+      allow_write_gpx: ανεβάσει ίχνη GPS.
+      allow_write_notes: τροποποιήσει σημειώσεις.
+      allow_write_prefs: τροποποιήσει τις προτιμήσεις χρήστη.
+      request_access: Η εφαρμογή %{app_name} ζητά πρόσβαση στον λογαριασμό σας, %{user}. Παρακαλώ ελέγξτε κατά πόσο θέλετε η εφαρμογή τις παρακάτω δυνατότητες. Μπορείτε να επιλέξετε όσο πολλές ή λίγες θέλετε.
   oauth_clients: 
+    create: 
+      flash: Οι πληροφορίες καταχωρήθηκαν επιτυχώς
     edit: 
       submit: Επεξεργασία
       title: Επεξεργασία της αίτησής σας
     form: 
-      allow_write_api: τροποποιήστε το χάρτη. \
-      allow_write_notes: τροποποιήστε τις σημειώσεις.
-      callback_url: Ανάκληση URL \
+      allow_read_gpx: διαβάσει τα ιδιωτικά τους GPS ίχνη.
+      allow_read_prefs: διαβάσει τις δικές τους προτιμήσεις χρήστη.
+      allow_write_api: τροποποιήσει το χάρτη.
+      allow_write_diary: δημιουργήσει καταχωρήσεις ημερολογίου, σχόλια και να κάνει φίλους.
+      allow_write_gpx: αποστείλει ίχνη GPS.
+      allow_write_notes: τροποποιήσει σημειώσεις
+      allow_write_prefs: τροποποιήσει τις δικές τους προτιμήσεις χρήστη.
+      callback_url: URL Επανάκλησης
       name: Όνομα
       required: Απαιτείται
-      support_url: Υποστήριξη URL \
-      url: URL Κύριας Εφαρμογής \
+      support_url: URL Υποστήριξης
+      url: URL Κύριας Εφαρμογής
     index: 
       application: Όνομα Εφαρμογής
-      register_new: Εγγραφή αίτησής
+      my_apps: Οι Εφαρμογές μου Πελάτη
+      my_tokens: Οι Εξουσιοδοτημένες Εφαρμογές μου
+      register_new: Καταχώρηση της εφαρμογής σας
+      registered_apps: "Έχετε τις παρακάτω εφαρμογές πελάτη καταχωρημένες:"
       revoke: Ανάκληση!
-      title: Οι λεπτομέρειες της OAuth μου \
+      title: Οι λεπτομέρειες του OAuth μου
     new: 
       submit: Εγγραφή
       title: Καταχώρηση νέας εφαρμογής
     show: 
-      allow_read_prefs: διαβάστε τις δικές τους προτιμήσεις χρήστη.
-      allow_write_api: τροποποιήστε το χάρτη.
-      allow_write_diary: δημιουργήστε εγγραφές ημερολογίου, σχόλια και κάντε φίλους.
-      allow_write_gpx: επιφόρτωση ιχνών GPS. \
-      allow_write_prefs: τροποποιήστε τις δικές τους προτιμήσεις χρήστη.
-      confirm: Είστε σίγουροι;
-      delete: Διαγραφή εξυπηρετητή
-      requests: "Ζητά της ακόλουθες πληροφορίες από το χρήστη:"
+      allow_read_prefs: διαβάσει τις δικές τους προτιμήσεις χρήστη.
+      allow_write_api: τροποποιήσει το χάρτη.
+      allow_write_diary: δημιουργήσει εγγραφές ημερολογίου, σχόλια και να κάνει φίλους.
+      allow_write_gpx: αποστείλει ίχνη GPS.
+      allow_write_notes: τροποποιήσει σημειώσεις
+      allow_write_prefs: τροποποιήσει τις δικές τους προτιμήσεις χρήστη.
+      confirm: Είστε σίγουρος;
+      delete: Διαγραφή Πελάτη
+      requests: "Ζητά τα ακόλουθα δικαιώματα από το χρήστη:"
+      title: Λεπτομέρειες OAuth για το %{app_name}
   printable_name: 
     with_version: "%{id}, v%{version}"
   redaction: 
@@ -1206,17 +1340,20 @@ el:
     edit: 
       anon_edits_link_text: Μάθετε γιατί συμβαίνει αυτό.
       flash_player_required: Χρειάζεστε Flash player για να χρησιμοποιήσετε το Potlatch, το Flash πρόγραμμα επεξεργασίας του OpenStreetMap. Μπορείτε να <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">κάνετε λήψη του Flash Player από την τοποθεσία Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Πολλές άλλες επιλογές</a> είναι επίσης διαθέσιμες για επεξεργασία στο OpenStreetMap.
+      id_not_configured: Ο iD δεν έχει ρυθμιστεί
+      no_iframe_support: Ο browser δεν υποστηρίζει HTML iframes, που είναι απαραίτητο για αυτό το χαρακτηριστικό.
       not_public: Δεν έχετε ορίσει τις επεξεργασίες σας να είναι δημόσιες.
+      not_public_description: Δεν μπορείτε πλέον να επεξεργαστείτε το χάρτη αν δεν το κάνετε. Μπορείτε να κάνετε τις επεξεργασίες σας δημόσιες από την %{user_page}.
       potlatch2_unsaved_changes: Έχετε μη αποθηκευμένες αλλαγές. (Για να αποθηκεύσετε στο Potlatch 2, πρέπει να κάνετε κλικ στο «Αποθήκευση».)
-      user_page_link: σελίδα χρήστη
+      user_page_link: σελίδα σας χρήστη
     index: 
-      createnote: Πρόσθηκη σημείωσης
+      createnote: Προσθήκη σημείωσης
       js_1: Είτε χρησιμοποιείτε πρόγραμμα περιήγησης που δεν υποστηρίζει JavaScript ή έχετε απενεργοποιήσει την JavaScript.
       js_2: Το OpenStreetMap χρησιμοποιεί JavaScript για το ολισθαίνοντα χάρτη του.
       license: 
         copyright: Πνευματικά δικαιώματα του  OpenStreetMap και των συντακτών του, υπό ελεύθερη άδεια
       permalink: Μόνιμος σύνδεσμος
-      remote_failed: Η επεξεργασία απέτυχε - βεβαιώσου ότι ο JOSM ή ο Merkaartor έχουν φορτωθεί και η επιλογή τηλεχειρισμού είναι ενεργή
+      remote_failed: Η επεξεργασία απέτυχε - βεβαιωθείτε ότι ο JOSM ή ο Merkaartor έχουν φορτωθεί και η επιλογή τηλεχειρισμού είναι ενεργή
     key: 
       table: 
         entry: 
@@ -1234,8 +1371,11 @@ el:
           centre: Αθλητικό Κέντρο
           commercial: Εμπορική περιοχή
           common: 
-            1: λιβάδι
+            - Κοινόχρηστο
+            - λιβάδι
           construction: Δρόμοι υπό κατασκευή
+          cycleway: Ποδηλατόδρομος
+          destination: Πρόσβαση προορισμού
           farm: Αγρόκτημα
           footway: Μονοπάτι
           forest: Δάσος
@@ -1248,7 +1388,7 @@ el:
           motorway: Αυτοκινητόδρομος
           park: Πάρκο
           permissive: Ανεκτική Πρόσβαση
-          pitch: Γήπεδο Αθλητισμού
+          pitch: Γήπεδο Αθλήματος
           primary: Κύρια Οδός
           private: Ιδιωτική πρόσβαση
           rail: Σιδηρόδρομος
@@ -1271,10 +1411,11 @@ el:
           tram: 
             1: τραμ
           tunnel: Διακεκομμένο περίβλημα = σήραγγα
-          unsurfaced: Δρόμος χωρίς άσφαλτο
+          unclassified: Αταξινόμητη Οδός
+          unsurfaced: Δρόμος χωρίς Επίστρωση
           wood: Φυσικό Δάσος
     markdown_help: 
-      alt: Alt κείμενο
+      alt: Εναλ. κείμενο
       first: Πρώτο στοιχείο
       heading: Επικεφαλίδα
       headings: Επικεφαλίδες
@@ -1284,6 +1425,7 @@ el:
       second: Δεύτερο στοιχείο
       subheading: Υποκεφαλίδα
       text: Κείμενο
+      title_html: Αναλύθηκε με το <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
       unordered: Μη ταξινομημένη λίστα
       url: Διεύθυνση URL
     richtext_area: 
@@ -1315,6 +1457,7 @@ el:
       owner: "Ιδιοκτήτης:"
       points: "Σημεία:"
       save_button: Αποθήκευση Αλλαγών
+      start_coord: "Συντεταγμένες αρχής:"
       tags: "Ετικέτες:"
       tags_help: οριοθετημένο με κόμματα
       title: Επεξεργασία ίχνους %{name}
@@ -1322,21 +1465,27 @@ el:
       visibility: "Ορατότητα:"
       visibility_help: τι σημαίνει αυτό;
     list: 
+      description: Προβολή πρόσφατων μεταφορτώσεων ιχνών GPS
       public_traces: Δημόσια ίχνη GPS
       public_traces_from: Δημόσια ίχνη GPS από τον %{user}
       tagged_with: σεσημασμένα με %{tags}
       your_traces: Τα δικά σου ίχνη GPS
+    offline_warning: 
+      message: Το σύστημα μεταφόρτωσης αρχείων GPX δεν είναι διαθέσιμο προς το παρών
     trace: 
       ago: "%{time_in_words_ago} πριν"
       by: από
       count_points: "%{count} σημεία"
       edit: επεξεργασία
       edit_map: Επεξεργασία Χάρτη
+      identifiable: ΑΝΑΓΝΩΡΊΣΙΜΟ
+      in: σε
       map: χάρτης
       more: περισσότερα
       pending: ΕΚΚΡΕΜΕΙ
       private: ΙΔΙΩΤΙΚΟ
       public: ΔΗΜΟΣΙΟ
+      trace_details: Προβολή Λεπτομερειών Ίχνους
       view_map: Προβολή Χάρτη
     trace_form: 
       description: "Περιγραφή:"
@@ -1350,10 +1499,12 @@ el:
     trace_header: 
       see_all_traces: Δείτε όλα τα ίχνη
       see_your_traces: Δείτε τα ίχνη σας
-      upload_trace: Φόρτωση ίχνους
+      upload_trace: Αποστολή ίχνους
     trace_optionals: 
       tags: Ετικέτες
     trace_paging_nav: 
+      newer: Νεότερα Ίχνη
+      older: Παλαιότερα Ίχνη
       showing_page: Σελίδα %{page}
     view: 
       delete_track: Διαγραφή αυτού του ίχνους
@@ -1362,28 +1513,35 @@ el:
       edit: επεξεργασία
       edit_track: Επεξεργασία αυτού του ίχνους
       filename: "Όνομα αρχείου:"
+      heading: Προβολή ίχνους %{name}
       map: χάρτης
       none: Κανένα
       owner: "Ιδιοκτήτης:"
-      pending: ΣΕ ΕΚΚΡΕΜΌΤΗΤΑ
+      pending: ΕΚΚΡΕΜΕΙ
       points: "Σημεία:"
+      start_coordinates: "Συντεταγμένες αρχής:"
       tags: "Ετικέτες:"
+      title: Προβολή ίχνους %{name}
       trace_not_found: Δεν βρέθηκε ίχνος!
       uploaded: "Μεταφορτώθηκε:"
       visibility: "Ορατότητα:"
+    visibility: 
+      private: Προσωπικό (διαμοιρασμός μόνο σαν ανώνυμος)
+      public: Δημόσιο (Εμφάνιση στη λίστα ιχνών σαν ανώνυμος)
   user: 
     account: 
       contributor terms: 
-        agreed: Έχεις συμφωνήσει με τους νέους Όρους Συνεισφοράς.
+        agreed: Έχετε συμφωνήσει με τους νέους Όρους Συνεισφοράς.
+        agreed_with_pd: Έχετε επίσης δηλώσει ότι θεωρείτε τις επεξεργασίες σας οτι είναι Public Domain.
         heading: "Όροι Συνεισφοράς:"
         link text: τι είναι αυτό;
-        not yet agreed: Δεν έχεις συμφωνήσει με τους νέους Όρους Συνεισφοράς.
-        review link text: Παρακαλώ ακολούθησε αυτό το σύνδεσμο όταν μπορέσεις για να διαβάσεις και να αποδεχθείς τους νέους Όρους Συνεισφοράς.
+        not yet agreed: Δεν έχετε συμφωνήσει με τους νέους Όρους Συνεισφοράς.
+        review link text: Παρακαλώ ακολουθήστε αυτό το σύνδεσμο όταν μπορείτε για να διαβάσετε και να αποδεχθείτε τους νέους Όρους Συνεισφοράς.
       current email address: "Τωρινή Διεύθυνση ηλεκτρονικού ταχυδρομείου:"
       delete image: Αφαίρεση της τρέχουσας εικόνας
       email never displayed publicly: (όχι δημόσια εμφάνιση)
       flash update success: Οι πληροφορίες χρήστη ενημερώθηκαν με επιτυχία.
-      flash update success confirm needed: Οι πληροφορίες του χρήστη ενημερώθηκαν επιτυχώς. Ελέγξτε το email για μια ειδοποίηση για να επιβεβαιώσετε την νέα σας διεύθυνση email.
+      flash update success confirm needed: Οι πληροφορίες του χρήστη ενημερώθηκαν επιτυχώς. Ελέγξτε το email σας για μια ειδοποίηση επιβεβαίωσης της νέας σας διεύθυνσης email.
       gravatar: 
         gravatar: Χρήση Gravatar
         link text: Τι είναι αυτό;
@@ -1397,21 +1555,24 @@ el:
       my settings: Οι ρυθμίσεις μου
       new email address: "Νέα Διεύθυνση ηλεκτρονικού ταχυδρομείου:"
       new image: Προσθήκη εικόνας
-      no home location: Δεν έχεις εισάγει την τοποθεσία του σπιτιού σου.
+      no home location: Δεν έχετε εισάγει την τοποθεσία του σπιτιού σας.
       openid: 
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: τι είναι αυτό;
+        openid: "OpenID:"
       preferred editor: "Προτιμώμενο πρόγραμμα Επεξεργασίας:"
       preferred languages: "Προτιμώμενες γλώσσες:"
-      profile description: "Περιγραφή Λογαριασμού:"
+      profile description: "Περιγραφή Προφίλ:"
       public editing: 
-        disabled: Απενεργοποιήθηκε και δεν μπορείς να επεξεργαστείς δεδομένα, όλες οι προηγούμενες επεξεργασίες είναι ανώνυμες.
+        disabled: Απενεργοποιήθηκε και δεν μπορείτε να επεξεργαστείτε δεδομένα, όλες οι προηγούμενες επεξεργασίες είναι ανώνυμες.
         disabled link text: γιατί δεν μπορώ να επεξεργαστώ τον χάρτη;
-        enabled: Ενεργοποιήθηκε. Δεν είσαι πια ανώνυμος και μπορείς να επεξεργαστείς δεδομένα.
+        enabled: Ενεργοποιήθηκε. Δεν είστε πια ανώνυμος και μπορείτε να επεξεργαστείτε δεδομένα.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: τι είναι αυτό;
         heading: "Δημόσια επεξεργασία:"
       public editing note: 
         heading: "Δημόσια επεξεργασία:"
-        text: Αυτή τη στιγμή οι επεξεργασίες σου είναι ανώνυμες και δεν μπορεί κανείς να σου στείλει μήνυμα ή να δει την τοποθεσία σου. Για να δείξεις τι έχεις επεξεργαστεί και να επιτρέψεις στους άλλους έρθουν σε επαφή μαζί σου μέσω του ιστοχώρου, πάτα το κουμπί από κάτω. <b>Από την αλλαγή σε API 0.6, μόνο οι επώνυμοι χρήστες μπορούν να επεξεργαστούν δεδομένα του χάρτη.</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">μάθε γιατί</a>). <ul><li>Η διεύθυνσή σου ηλεκτρονικού ταχυδρομείου δεν θα αποκαλυφθεί δημόσια. </li><li> Αυτή η ενέργεια δεν μπορεί να αναιρεθεί και όλοι οι νέοι χρήστες είναι επώνυμοι εξ' αρχής.</li></ul>
+        text: Αυτή τη στιγμή οι επεξεργασίες σας είναι ανώνυμες και δεν μπορεί κανείς να σας στείλει μήνυμα ή να δει την τοποθεσία σας. Για να δείξετε τι έχετε επεξεργαστεί και να επιτρέψετε στους άλλους έρθουν σε επαφή μαζί σας μέσω του ιστοχώρου, πατήστε το κουμπί από κάτω. <b>Μετά την αλλαγή σε API 0.6, μόνο οι επώνυμοι χρήστες μπορούν να επεξεργαστούν δεδομένα του χάρτη.</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">μάθετε γιατί</a>). <ul><li>Η διεύθυνσή σας ηλεκτρονικού ταχυδρομείου δεν θα αποκαλυφθεί δημόσια. </li><li> Αυτή η ενέργεια δεν μπορεί να αναιρεθεί και όλοι οι νέοι χρήστες είναι επώνυμοι εξ' αρχής.</li></ul>
       replace image: Αντικατάσταση της τρέχουσας εικόνας
       return to profile: Επιστροφή στο προφίλ
       save changes button: Αποθήκευση Αλλαγών
@@ -1420,37 +1581,48 @@ el:
     confirm: 
       already active: Αυτός ο λογαριασμός έχει ήδη επιβεβαιωθεί.
       button: Επιβεβαίωση
-      heading: Επιβεβαίωση ενός λογαριασμού χρήστη
-      press confirm button: Πάτα το κουμπί "Επιβεβαίωση" για να ενεργοποιήσεις το λογαριασμό σου.
-      success: Επιβεβαιώθηκε ο λογαριασμός σου, σε ευχαριστούμε για την εγγραφή σου!
+      heading: Ελέγξτε το email σας!
+      introduction_1: Σας στείλαμε ένα email επιβεβαίωσης.
+      introduction_2: Επιβεβαιώστε το λογαριασμό σας κάνοντας κλικ στο σύνδεσμο στο email και θα είστε σε θέση να ξεκινήσετε τη χαρτογράφηση.
+      press confirm button: Πατήστε το κουμπί "Επιβεβαίωση" για να ενεργοποιήσετε το λογαριασμό σας.
+      reconfirm_html: Εάν θέλετε να σας ξαναστείλουμε το email επιβεβαίωσης <a href="%{reconfirm}">πατήστε εδώ</a>.
+      unknown token: Αυτός ο κωδικός επιβεβαίωσης έχει λήξει ή δεν υπάρχει.
     confirm_email: 
       button: Επιβεβαίωση
       failure: Μια διεύθυνση ηλεκτρονικού ταχυδρομείου έχει ήδη επιβεβαιωθεί με αυτό το διακριτικό.
       heading: Επιβεβαίωση αλλαγής της διεύθυνσης ηλεκτρονικού ταχυδρομείου
-      press confirm button: Πάτα το κουμπί "Επιβεβαίωση" παρακάτω για να επιβεβαιώσεις τη νέα διεύθυνση ηλεκτρονικού ταχυδρομείου σου.
-      success: Επιβεβαιώθηκε η διεύθυνση ηλεκτρονικού ταχυδρομείου σου, σε ευχαριστούμε για την εγγραφή σου!
+      press confirm button: Πατήστε το κουμπί "Επιβεβαίωση" παρακάτω για να επιβεβαιώσετε τη νέα διεύθυνση ηλεκτρονικού ταχυδρομείου σας.
+      success: Επιβεβαιώθηκε η διεύθυνση ηλεκτρονικού ταχυδρομείου σας, σας ευχαριστούμε για την εγγραφή σας!
     confirm_resend: 
       failure: Ο χρήστης %{name} δεν βρέθηκε.
     filter: 
-      not_an_administrator: Πρέπει να είσαι διαχειριστής για να το κάνεις αυτό.
+      not_an_administrator: Πρέπει να είστε διαχειριστής για να το κάνετε αυτό.
     go_public: 
-      flash success: Όλες οι επεξεργασίες σου είναι τώρα δημόσιες και έχεις τη δυνατότητα να επεξεργαστείς τον χάρτη.
+      flash success: Όλες οι επεξεργασίες σας είναι τώρα δημόσιες και έχετε τη δυνατότητα να επεξεργαστείτε τον χάρτη.
     list: 
-      confirm: Επιβεβαίωση επιλεγμένων χρηστών
+      confirm: Επιβεβαίωση Επιλεγμένων Χρηστών
+      empty: Δεν βρέθηκαν χρήστες που να ταιριάζουν
       heading: Χρήστες
       hide: Απόκρυψη Επιλεγμένων Χρηστών
+      showing: 
+        one: Σελίδα %{page} (%{first_item} από %{items})
+        other: Σελίδα %{page} (%{first_item}-%{last_item} από %{items})
       summary: "%{name} δημιουργήθηκε από την διεύθυνση IP %{ip_address} στις %{date}"
       summary_no_ip: "%{name} δημιουργήθηκε στις %{date}"
       title: Χρήστες
     login: 
-      account not active: Λυπάμαι, ο λογαριασμός σου δεν είναι ενεργός ακόμα.<br />Παρακαλώ χρησιμοποίησε το σύνδεσμο στο email επιβεβαίωσης για να ενεργοποιήσεις το λογαριασμό σου, ή <a href="%{reconfirm}">κάνε αίτηση νέου email επιβεβαίωσης</a>.
-      auth failure: Λυπάμαι, δεν μπορείς να συνδεθείς με αυτές τις λεπτομέρειες.
+      account is suspended: Λυπάμαι, ο λογαριασμός σας έχει ανασταλεί λόγω ύποπτης δραστηριότητας.<br>Παρακαλώ επικοινωνήστε με τον <a href="%{webmaster}">webmaster</a> εάν θέλετε να το συζητήσετε.
+      account not active: Λυπάμαι, ο λογαριασμός σας δεν είναι ενεργός ακόμα.<br />Παρακαλώ χρησιμοποιήστε το σύνδεσμο στο email επιβεβαίωσης για να ενεργοποιήσετε το λογαριασμό σας, ή <a href="%{reconfirm}">κάντε αίτηση νέου email επιβεβαίωσης</a>.
+      auth failure: Λυπάμαι, δεν μπορείτε να συνδεθείτε με αυτές τις λεπτομέρειες.
       create account minute: Δημιούργησε λογαριασμό. Παίρνει μόνο ένα λεπτό.
       email or username: "Διεύθυνση ηλεκτρονικού ταχυδρομείου ή Όνομα χρήστη:"
-      heading: Σύνδεση \
-      login_button: Είσοδος
-      lost password link: Έχασες τον κωδικό σου;
+      heading: Σύνδεση
+      login_button: Σύνδεση
+      lost password link: Χάσατε τον κωδικό σας;
       new to osm: Νέος στο OpenStreetMap;
+      no account: Δεν έχετε λογαριασμό;
+      openid: "%{logo} OpenID:"
+      openid invalid: Λυπάμαι, το OpenID φαίνεται να είναι ακατάλληλο
       openid missing provider: Λυπάμαι, δεν μπορώ να έρθω σε επαφή με τον πάροχο σας OpenID
       openid_logo_alt: Σύνδεση με ένα OpenID
       openid_providers: 
@@ -1473,55 +1645,64 @@ el:
           alt: Σύνδεση με ένα Yahoo OpenID
           title: Σύνδεση με Yahoo
       password: "Κωδικός:"
-      register now: Εγγραφή
-      remember: "Αποθήκευση:"
-      title: Σύνδεση \
+      register now: Εγγραφείτε τώρα
+      remember: Να με θυμάσαι
+      title: Σύνδεση
       to make changes: Για να κάνεις αλλαγές στα δεδομένα του OpenStreetMap, πρέπει να έχεις λογαριασμό.
+      with openid: "Εναλλακτικά, χρήση OpenID για να συνδεθείτε:"
+      with username: "Έχετε ήδη λογαριασμό OpenStreetMap; Παρακαλώ συνδεθείτε με το όνομα χρήστη και κωδικό πρόσβασης:"
     logout: 
-      heading: Έξοδος από το OpenStreetMap
-      logout_button: Έξοδος
-      title: Έξοδος
+      heading: Αποσύνδεση από το OpenStreetMap
+      logout_button: Αποσύνδεση
+      title: Αποσύνδεση
     lost_password: 
       email address: "Διεύθυνση ηλεκτρονικού ταχυδρομείου:"
-      heading: Ξέχασες τον κωδικό σου;
-      help_text: Πληκτρολόγησε τη διεύθυνση ηλεκτρονικού ταχυδρομείου που χρησιμοποίησες για να εγγραφείς, θα στείλουμε ένα σύνδεσμο, όπου μπορείς να χρησιμοποιήσεις για να επαναφέρεις τον κωδικό σου.
+      heading: Ξεχάσατε τον κωδικό σας;
+      help_text: Πληκτρολογήστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου που χρησιμοποιήσατε για να εγγραφείτε, θα στείλουμε ένα σύνδεσμο, όπου μπορείτε να χρησιμοποιήσετε για να επαναφέρετε τον κωδικό σας.
       new password button: Επαναφορά κωδικού
       notice email cannot find: Λυπάμαι, δεν βρέθηκε αυτή η διεύθυνση ηλεκτρονικού ταχυδρομείου.
-      notice email on way: Λυπάμαι που τον έχασες:-(, αλλά ένα μήνυμα ηλεκτρονικού ταχυδρομείου βρίσκεται στο δρόμο, ώστε να μπορέσεις να τον επαναφέρεις σύντομα.
-      title: Έχασες τον κωδικό σου
+      notice email on way: Λυπάμαι που τον χάσατε:-(, αλλά ένα μήνυμα ηλεκτρονικού ταχυδρομείου βρίσκεται στο δρόμο, ώστε να μπορέσετε να τον επαναφέρετε σύντομα.
+      title: Χάσατε τον κωδικό σας
     make_friend: 
       already_a_friend: Είστε ήδη φίλοι με τον χρήστη %{name}.
       button: Προσθήκη ως φίλου
-      failed: Λυπούμαστε, απέτυχε η προσθήκη του χρήστη %{name} ως φίλο.
-      success: "%{name} είναι τώρα φίλος σου!"
+      failed: Λυπούμαστε, απέτυχε η προσθήκη του χρήστη %{name} ως φίλου.
+      heading: Προσθήκη του %{user} ως φίλου;
+      success: Ο %{name} είναι τώρα φίλος σου!
     new: 
-      confirm email address: "Επιβεβαιώση Διεύθυνσης ηλεκτρονικού ταχυδρομείου:"
+      about: 
+        header: Ελεύθερος και επεξεργάσιμος
+        html: "<p>Σε αντίθεση με άλλους χάρτες, Ο OpenStreetMap έχει ολοκληρωτικά φτιαχτεί από ανθρώπους σαν εσάς,\nκαι είναι ανοικτός στον καθένα τον διορθώσει, αναβαθμίσει, κατεβάσει και χρησιμοποιήσει.</p>\n<p>Εγγραφείτε για να αρχίσετε να συνεισφέρετε. Θα σας στείλουμε ένα email για να επιβεβαιώσουμε τον λογαριασμό σας.</p>"
+      confirm email address: "Επιβεβαίωση Διεύθυνσης ηλεκτρονικού ταχυδρομείου:"
       confirm password: "Επιβεβαίωση Κωδικού:"
-      continue: Συνέχεια
+      continue: Εγγραφή
       display name: "Εμφανιζόμενο όνομα:"
+      display name description: Το δημόσια εμφανιζόμενο όνομα χρήστη. Μπορείτε να το αλλάξετε αργότερα από τις προτιμήσεις.
       email address: "Διεύθυνση ηλεκτρονικού ταχυδρομείου:"
-      fill_form: Συμπλήρωσε τη φόρμα και θα σου στείλουμε ένα γρήγορο email για να ενεργοποιήσεις το λογαριασμό σου.
-      heading: Δημιουργία Λογαριασμού Χρήστη
-      license_agreement: Όταν επιβεβαιώσεις το λογαριασμό σου, θα πρέπει να συμφωνήσεις με τους <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">όρους συνεισφοράς</a>.
-      not displayed publicly: Να μην εμφανίζεται δημόσια (δες την <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">πολιτική απορρήτου</a>)
+      license_agreement: Όταν επιβεβαιώσετε το λογαριασμό σας, θα πρέπει να συμφωνήσετε με τους <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">όρους συνεισφοράς</a>.
+      not displayed publicly: Να μην εμφανίζεται δημόσια (δείτε την <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">πολιτική απορρήτου</a>)
+      openid: "%{logo} OpenID:"
       password: "Κωδικός:"
       terms accepted: Ευχαριστούμε για την αποδοχή των νέων όρων συνεισφοράς!
-      terms declined: Λυπούμαστε για το ότι αποφάσισες να μην αποδεχθείς τους νέους όρους συνεισφοράς. Για περισσότερες πληροφορίες, παρακαλούμε δες <a href="%{url}">αυτήν τη σελίδα wiki</a>.
-      title: Δημιουργία λογαριασμού
+      terms declined: Λυπούμαστε για το ότι αποφασίσατε να μην αποδεχθείτε τους νέους όρους συνεισφοράς. Για περισσότερες πληροφορίες, παρακαλούμε δείτε <a href="%{url}">αυτήν τη σελίδα wiki</a>.
+      title: Εγγραφή
+      use openid: "Εναλλακτικά, χρήση %{logo} OpenID για να συνδεθείτε:"
     no_such_user: 
-      body: Λυπάμαι, δεν υπάρχει χρήστης με το όνομα %{user}. Είναι πιθανό να υπάρχουν ορθογραφικά λάθη ή να είναι λάθος ο σύνδεσμος μέσο του οποίου έφτασες σε αυτήν την σελίδα.
+      body: Λυπάμαι, δεν υπάρχει χρήστης με το όνομα %{user}. Είναι πιθανό να υπάρχουν ορθογραφικά λάθη ή να είναι λάθος ο σύνδεσμος μέσω του οποίου φτάσατε σε αυτή τη σελίδα.
       heading: Ο χρήστης %{user} δεν υπάρχει
       title: Άγνωστος χρήστης
     popup: 
       friend: Φίλος
       nearby mapper: Κοντινός χαρτογράφος
-      your location: Η τοποθεσία σου
+      your location: Η τοποθεσία σας
     remove_friend: 
-      not_a_friend: Ο χρήστης %{name} δεν είναι ένας από τους φίλους σου.
-      success: Ο χρήστης %{name} καταργήθηκε από φίλος.
+      button: Αφαίρεση φίλου
+      heading: Αφαίρεση φίλου %{user};
+      not_a_friend: Ο χρήστης %{name} δεν είναι ένας από τους φίλους σας.
+      success: Ο χρήστης %{name} αφαιρέθηκε από φίλος.
     reset_password: 
       confirm password: "Επιβεβαίωση Κωδικού:"
-      flash changed: Ο κωδικός σου αλλάχτηκε.
+      flash changed: Ο κωδικός σας αλλάχτηκε.
       heading: Επαναφορά Κωδικού για τον χρήστη %{user}
       password: "Κωδικός:"
       reset: Επαναφορά Κωδικού
@@ -1529,11 +1710,13 @@ el:
     set_home: 
       flash success: Η τοποθεσία σπιτιού αποθηκεύτηκε επιτυχώς
     suspended: 
-      body: "<p>\nΛυπάμαι, ο λογαριασμός σου έχει αυτόματα ανασταλεί λόγω\nύποπτης δραστηριότητας.\n</p>\n<p>\nΗ παρούσα απόφαση θα εξεταστεί από ένα διαχειριστή σύντομα, ή\nμπορείς να επικοινωνήσεις με τον %{webmaster} αν θέλεις να συζητήσετε αυτό το θέμα.\n</p>"
+      body: "<p>\nΛυπάμαι, ο λογαριασμός σας έχει αυτόματα ανασταλεί λόγω\nύποπτης δραστηριότητας.\n</p>\n<p>\nΗ παρούσα απόφαση θα εξεταστεί από ένα διαχειριστή σύντομα, ή\nμπορείτε να επικοινωνήσετε με τον %{webmaster} αν θέλετε να συζητήσετε αυτό το θέμα.\n</p>"
       heading: Ο Λογαριασμός έχει Ανασταλεί
       title: Ο Λογαριασμός έχει Ανασταλεί
+      webmaster: webmaster
     terms: 
       agree: Συμφωνώ
+      consider_pd: Και επιπρόσθετα στην παραπάνω συμφωνία, θεωρώ τις συνεισφορές μου ως Public Domain
       consider_pd_why: Τι είναι αυτό?
       decline: Διαφωνώ
       heading: Όροι συνεισφοράς
@@ -1541,11 +1724,12 @@ el:
         france: Γαλλία
         italy: Ιταλία
         rest_of_world: Υπόλοιπος κόσμος
-      legale_select: "Παρακαλώ επέλεξε τη χώρα κατοικίας σου:"
+      legale_select: "Παρακαλώ επιλέξτε τη χώρα κατοικίας σας:"
+      read and accept: Παρακαλούμε διαβάστε τη συμφωνία και πατήστε το κουμπί «συμφωνώ» για να επιβεβαιώσετε ότι αποδέχεστε τους όρους αυτής της συμφωνίας για τις υπάρχουσες και τις μέλλουσες συνεισφορές σας.
       title: Όροι συνεισφοράς
-      you need to accept or decline: Παρακαλώ διάβασε και αποδέξου ή απέρριψε τους νέους Όρους Συνεισφοράς για να συνεχίσεις.
+      you need to accept or decline: Παρακαλώ διαβάστε και αποδεχτείτε ή απορρίψτε τους νέους Όρους Συνεισφοράς για να συνεχίσετε.
     view: 
-      activate_user: ενεργοποίηση αυτού του λογαριασμού χρήστη
+      activate_user: ενεργοποίηση αυτού του χρήστη
       add as friend: προσθήκη φίλου
       ago: (%{time_in_words_ago} πριν)
       block_history: φραγές που ελήφθησαν
@@ -1553,14 +1737,14 @@ el:
       blocks on me: φραγές σε εμένα
       comments: σχόλια
       confirm: Επιβεβαίωση
-      confirm_user: επιβεβαίωση αυτού το χρήστη
+      confirm_user: επιβεβαίωση αυτού του χρήστη
       create_block: φραγή αυτού του χρήστη
       created from: "Δημιουργήθηκε από:"
       ct accepted: Αποδοχή %{ago} πριν
       ct declined: Απόρριψη
       ct status: "Όροι Συνεισφοράς:"
       ct undecided: Αναποφάσιστος
-      deactivate_user: απενεργοποίηση αυτού του λογαριασμού χρήστη
+      deactivate_user: απενεργοποίηση αυτού του χρήστη
       delete_user: διαγραφή αυτού του χρήστη
       description: Περιγραφή
       diary: ημερολόγιο
@@ -1569,6 +1753,7 @@ el:
       friends_changesets: ομάδες αλλαγών φίλων
       friends_diaries: καταχωρήσεις ημερολογίου φίλων
       hide_user: απόκρυψη αυτού του χρήστη
+      if set location: Ορίσετε την τοποθεσία του σπιτιού σας στις %{settings_link} για να δείτε κοντινούς χρήστες.
       km away: "%{count}χλμ μακριά"
       latest edit: "Τελευταία επεξεργασία %{ago}:"
       m away: "%{count}μ μακριά"
@@ -1577,13 +1762,14 @@ el:
       my comments: τα σχόλιά μου
       my diary: το ημερολόγιό μου
       my edits: οι επεξεργασίες μου
+      my notes: οι σημειώσεις χάρτη μου
       my settings: οι ρυθμίσεις μου
       my traces: τα ίχνη μου
       nearby users: Άλλοι κοντινοί χρήστες
       nearby_changesets: ομάδες αλλαγών από κοντινούς χρήστες
       nearby_diaries: καταχωρήσεις ημερολογίου από κοντινούς χρήστες
       new diary entry: νέα καταχώρηση ημερολογίου
-      no friends: Δεν έχεις προσθέσει φίλους ακόμα.
+      no friends: Δεν έχετε προσθέσει φίλους ακόμα.
       no nearby users: Δεν υπάρχουν άλλοι χρήστες που παραδέχονται ότι χαρτογραφούν κοντά σου προς το παρόν.
       notes: σημειώσεις χάρτη
       oauth settings: ρυθμίσεις oauth
@@ -1613,15 +1799,21 @@ el:
       empty: Ο %{name} δεν έχει φραχτεί ακόμα.
       heading: Κατάλογος φραγών στον %{name}
       title: Φραγές στον %{name}
+    create: 
+      flash: Δημιουργήθηκε φραγή στον χρήστη %{name}.
     edit: 
       back: Προβολή όλων των φραγών
       heading: Επεξεργασία φραγής στον %{name}
       show: Προβολή αυτής της φραγής
+      submit: Ενημέρωση φραγής
       title: Επεξεργασία φραγής στον %{name}
     helper: 
       time_future: Τελειώνει σε %{time}.
       time_past: Τελείωσε %{time} πριν.
       until_login: Ενεργό έως ότου ο χρήστης συνδεθεί.
+    index: 
+      heading: Λίστα φραγών του χρήστη
+      title: Φραγές χρήστη
     new: 
       back: Προβολή όλων των φραγών
       heading: Δημιουργία φραγής στον %{name}
@@ -1630,7 +1822,7 @@ el:
     not_found: 
       back: Πίσω στο ευρετήριο
     partial: 
-      confirm: Είσαι σίγουρος;
+      confirm: Είστε σίγουρος;
       creator_name: Δημιουργός
       display_name: Υπό Φραγή Χρήστης
       edit: Επεξεργασία
@@ -1651,24 +1843,41 @@ el:
       revoke: Ανάκληση!
     show: 
       back: Προβολή όλων των φραγών
-      confirm: Είσαι σίγουρος?
+      confirm: Είστε σίγουρος?
       edit: Επεξεργασία
       heading: Ο %{block_on} έχει φραχτεί από τον %{block_by}
       reason: "Αιτία φραγής:"
       revoke: Ανάκληση!
+      revoker: "Έκανε την ανάκληση:"
       show: Εμφάνιση
       status: Κατάσταση
       time_future: Τελειώνει σε %{time}
       time_past: Τελείωσε %{time} πριν
       title: Ο %{block_on} έχει φραχτεί από τον %{block_by}
+    update: 
+      only_creator_can_edit: Μόνο ο συντονιστής που δημιούργησε αυτή τη φραγή μπορεί να την επεξεργαστεί.
+      success: Η φραγή ενημερώθηκε.
   user_role: 
     filter: 
       already_has_role: Ο χρήστης έχει ήδη ρόλο %{role}.
       doesnt_have_role: Ο χρήστης δεν έχει ρόλο %{role}.
+      not_a_role: Το αλφαριθμητικό `%{role}' δεν είναι ένας έγκυρος ρόλος.
     grant: 
-      are_you_sure: Είσαι βέβαιος ότι θέλεις να εκχωρήσεις το ρόλο `%{role}' στον χρήστη `%{name}'?
+      are_you_sure: Είστε βέβαιος ότι θέλετε να εκχωρήσετε το ρόλο `%{role}' στον χρήστη `%{name}'?
       confirm: Επιβεβαίωση
       heading: Επιβεβαίωση χορήγησης ρόλου
       title: Επιβεβαίωση χορήγησης ρόλου
     revoke: 
       confirm: Επιβεβαίωση
+  welcome_page: 
+    add_a_note: 
+      paragraph_1_html: Εάν θέλετε κάτι μικρό να διορθωθεί και δεν έχετε χρόνο να εγγραφείτε και να μάθετε πως να επεξεργάζεστε, είναι εύκολο να προσθέσετε μια σημείωση.
+      paragraph_2_html: "Απλά πηγαίνετε <a href='%{map_url}'>στο χάρτη</a> και πατήστε στο εικονίδιο σημείωσης:\n<span class='icon note'></span>. Αυτό θα προσθέσει έναν δείκτη στο χάρτη, τον οποίο μπορείτε να μετακινήσετε τραβώντας τον. Προσθέστε το μήνυμά σας, κατόπιν πατήστε αποθήκευση, και άλλοι χαρτογράφοι θα το διερευνήσουν."
+      title: Δεν Έχετε Χρόνο Για Χαρτογράφηση; Προσθέστε μια Σημείωση!
+    basic_terms: 
+      title: Βασικοί Όροι Για Τη Χαρτογράφηση
+    introduction_html: Σας καλωσορίζουμε στο OpenStreetMap, τον ελεύθερο και επεξεργάσιμο παγκόσμιο χάρτη. Τώρα που έχετε εγγραφεί, είστε πανέτοιμοι να αρχίσετε τη χαρτογράφηση. Εδώ είναι ένας γρήγορος οδηγός με τα περισσότερο σημαντικά πράγματα που χρειάζεται να ξέρετε.
+    start_mapping: Ξεκινήστε τη Χαρτογράφηση
+    title: Καλώς ήρθατε!
+    whats_on_the_map: 
+      title: Τι είναι στον Χάρτη

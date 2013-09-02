@@ -68,7 +68,7 @@ mk:
       tracetag: Ознака за трага
       user: Корисник
       user_preference: Кориснички прилагодувања
-      user_token: Кориснички жетон
+      user_token: Корисничка шифра
       way: Пат
       way_node: Јазол на пат
       way_tag: Ознака на пат
@@ -426,8 +426,7 @@ mk:
       paste_html: Ископирајте го HTML кодот за да го вметнете во страницата.
       scale: Размер
       too_large: 
-        body: Подрачјето е преголемо за да може да се извезе како OpenStreetMap XML податоци. Приближете или изберете помала површина.
-        heading: Подрачјето е преголемо
+        other: heading=Подрачјето е преголемо
       zoom: Приближи
     start_rjs: 
       add_marker: Стави бележник на картата
@@ -436,7 +435,6 @@ mk:
       drag_a_box: Повлечете рамка на картата за да изберете површина
       export: Извоз
       manually_select: Рачно изберете друг простор
-      view_larger_map: Преглед на поголема карта
   geocoder: 
     description: 
       title: 
@@ -480,6 +478,10 @@ mk:
         level8: Градска граница
         level9: Селска граница
       prefix: 
+        aerialway: 
+          chair_lift: Клупна жичарница
+          drag_lift: Влечна жичарница
+          station: Гондолска станица
         aeroway: 
           aerodrome: Аеродром
           apron: Рампа
@@ -573,6 +575,7 @@ mk:
           shower: Туш
           social_centre: Социјален центар
           social_club: Друштвен клуб
+          social_facility: Општествена постројка
           studio: Студио
           supermarket: Супермаркет
           swimming_pool: Базен
@@ -601,6 +604,9 @@ mk:
           "yes": Мост
         building: 
           "yes": Градба
+        emergency: 
+          fire_hydrant: Хидрант
+          phone: Итен телефон
         highway: 
           bridleway: Коњски пат
           bus_guideway: Автобуски шини
@@ -622,6 +628,7 @@ mk:
           platform: Платформа
           primary: Главен пат
           primary_link: Главен пат
+          proposed: Предложен пат
           raceway: Тркачка патека
           residential: Станбен
           rest_area: Одмориште
@@ -633,6 +640,7 @@ mk:
           speed_camera: Брзиноловец
           steps: Скалила
           stile: Тарабен премин
+          street_lamp: Улична светилка
           tertiary: Третостепен пат
           tertiary_link: Третостепен пат
           track: Полски пат
@@ -648,6 +656,7 @@ mk:
           building: Градба
           castle: Замок
           church: Црква
+          citywalls: Градски ѕидини
           fort: Утврдување
           house: Куќа
           icon: Икона
@@ -795,6 +804,7 @@ mk:
           locality: Месност
           moor: Пустара
           municipality: Општина
+          neighbourhood: Соседство
           postcode: Поштенски број
           region: Регион
           sea: Море
@@ -820,8 +830,10 @@ mk:
           narrow_gauge: Теснолинејка
           platform: Железнички перон
           preserved: Зачувана железничка линија
+          proposed: Предложена железница
           spur: Железнички огранок
           station: Железничка станица
+          stop: Железничка постојка
           subway: Метро станица
           subway_entrance: Влез во метро
           switch: Железнички пунктови
@@ -837,6 +849,7 @@ mk:
           beverages: Пијалоци
           bicycle: Продавница за велосипеди
           books: Книжарница
+          boutique: Бутик
           butcher: Месарница
           car: Автосалон
           car_parts: Автоделови
@@ -850,6 +863,7 @@ mk:
           convenience: Бакалница
           copyshop: Фотокопир
           cosmetics: Козметика
+          deli: Гастрономски дуќан
           department_store: Стоковна куќа
           discount: Распродажен дуќан
           doityourself: Направи-сам
@@ -886,17 +900,21 @@ mk:
           organic: Здрава храна
           outdoor: Дуќан на отворено
           pet: Домашни миленици
+          pharmacy: Аптека
           photo: Фотографски дуќан
           salon: Салон
+          second_hand: Половна роба
           shoes: Обувки
           shopping_centre: Трговски центар
           sports: Спортски дуќан
           stationery: Прибор и репроматеријали
           supermarket: Супермаркет
+          tailor: Кројач
           toys: Продавница за играчки
           travel_agency: Туристичка агенција
           video: Видеотека
           wine: Алкохолни пијалоци
+          "yes": Дуќан
         tourism: 
           alpine_hut: Планинска куќарка
           artwork: Уметничко дело
@@ -919,6 +937,7 @@ mk:
           viewpoint: Видиковец
           zoo: Зоолошка
         tunnel: 
+          culvert: Пропусен канал
           "yes": Тунел
         waterway: 
           artificial: Вештачки воден пат
@@ -945,12 +964,30 @@ mk:
   html: 
     dir: ltr
   javascripts: 
+    close: Затвори
+    edit_help: Поместете ја картата и приближете во местото што сакате да го уредите, па стиснете тука.
+    key: 
+      title: Легенда
+      tooltip: Легенда
+      tooltip_disabled: Легендата е достапна само во Стандардниот слој
     map: 
       base: 
         cycle_map: Велосипедска карта
         mapquest: MapQuest Open
         standard: Стандардна
         transport_map: Сообраќајна карта
+      copyright: © <a href='%{copyright_url}'>Учесници во OpenStreetMap</a>
+      layers: 
+        data: Податоци за картата
+        header: Слоеви на картата
+        notes: Белешки на картата
+        overlays: Овозможи облоги за утврдување грешки
+      locate: 
+        popup: Оддалечени сте {distance} {unit} од оваа точка
+        title: Прик. моја местоположба
+      zoom: 
+        in: Приближи
+        out: Оддалечи
     notes: 
       new: 
         add: Додај белешка
@@ -971,29 +1008,44 @@ mk:
         reopened_by: повторно отворена од <a href='%{user_url}'>%{user}</a> во %{time}
         reopened_by_anonymous: повторно отворена од анонимен во %{time}
         resolve: Решена
+    share: 
+      cancel: Откажи
+      center_marker: Сосред. картата на бележникот
+      custom_dimensions: Димензии по ваш избор
+      download: Преземи
+      embed: HTML
+      format: "Формат:"
+      image: Слика
+      image_size: Сликата ќе го покаже стандардниот слој при
+      include_marker: Вклучи го бележникот
+      link: Врска или HTML
+      long_link: Врска
+      paste_html: Ископирајте го HTML-кодот за да го вметнете во страницата.
+      scale: "Размер:"
+      short_link: Кратка врска
+      short_url: Кратка URL
+      title: Сподели
+      view_larger_map: Преглед на поголема карта
     site: 
       createnote_disabled_tooltip: Приближете за да додадете белешка
       createnote_tooltip: Додај белешка на картата
-      createnote_zoom_alert: Ќе мора да ја приближите картата за да можете да додадете белешка
       edit_disabled_tooltip: Приближете за да ја уредите картата
       edit_tooltip: Уредување на картата
-      edit_zoom_alert: Морате да приближите за да можете да ја уредувате картата.
       history_disabled_tooltip: Приближете за да ги видите уредувањата за ова подрачје
       history_tooltip: Преглед на уредувањата во ова подрачје
-      history_zoom_alert: Морате да приближите за да можете да ја видите историјата на уредувања
   layouts: 
     community: Заедница
     community_blogs: Блогови на заедницата
     community_blogs_title: Блогови од членови на заедницата на OpenStreetMap
     copyright: Авторски права и лиценца
+    data: Податоци
     documentation: Документација
     documentation_title: Документација за проектот
     donate: Поддржете ја OpenStreetMap со %{link} за Фондот за обнова на машинската опрема.
     donate_link_text: доброволен прилог
     edit: Уреди
     edit_with: Уреди со %{editor}
-    export: Извези
-    export_tooltip: Извоз на податоци од картата
+    export_data: Извези податоци
     foundation: Фондација
     foundation_title: Фондацијата OpenStreetMap
     gps_traces: GPS-траги
@@ -1003,12 +1055,6 @@ mk:
     help_title: Помошна страница за проектот
     history: Историја
     home: дома
-    home_tooltip: Оди на матичната местоположба
-    inbox_html: пораки (%{count})
-    inbox_tooltip: 
-      one: Имате 1 непрочитана порака во сандачето
-      other: Имате %{count} непрочитани пораки во сандачето
-      zero: Немате непрочитани пораки во сандачето
     intro_1: OpenStreetMap е слободна уредлива карта на целиот свет. Ја прават луѓе како вас.
     intro_2_create_account: Создајте корисничка сметка
     intro_2_download: преземање
@@ -1021,7 +1067,6 @@ mk:
     logo: 
       alt_text: Логотип на OpenStreetMap
     logout: одјава
-    logout_tooltip: Одјава
     make_a_donation: 
       text: Дарувајте
       title: Поддржете ја OpenStreetMap со паричен прилог
@@ -1040,7 +1085,6 @@ mk:
     user_diaries_tooltip: Види кориснички дневници
     view: Карта
     view_tooltip: Види карта
-    welcome_user_link_tooltip: Ваша корисничка страница
     wiki: Вики
     wiki_title: Помошна страница за проектот
     wiki_url: http://wiki.openstreetmap.org/wiki/Mk:Main_Page
@@ -1079,7 +1123,7 @@ mk:
       more_title_html: Повеќе информации
       title_html: Авторски права и лиценца
     native: 
-      mapping_link: почнете со изработка на карти
+      mapping_link: почнете да ги работите картите
       native_link: македонската верзија
       text: Ја гледате англиската верзија на страницата за авторски права. Можете да се вратите на %{native_link} на оваа страница или пак можете да престанете со читање за авторските права и да %{mapping_link}.
       title: За страницава
@@ -1137,8 +1181,7 @@ mk:
       title: За праќање
       to: До
     read: 
-      back_to_inbox: Назад во добиени
-      back_to_outbox: Назад во „за праќање“
+      back: Назад
       date: Датум
       from: Од
       reply_button: Одговори
@@ -1229,8 +1272,7 @@ mk:
       greeting: Здраво,
       hopefully_you: Некој (можеби Вие) побарал да се промени лозинката на сметката на openstreetmap.org која ѝ припаѓа на оваа адреса.
     message_notification: 
-      footer1: Можете да ја прочитате пораката и на %{readurl}
-      footer2: и можете да одговорите на %{replyurl}
+      footer_html: Можете и да ја прочитате пораката на %{readurl}, и да одговорите на %{replyurl}
       header: "%{from_user} ви испрати порака преку OpenStreetMap со насловот %{subject}:"
       hi: Здраво %{to_user},
       subject_header: "[OpenStreetMap] — %{subject}"
@@ -1258,28 +1300,7 @@ mk:
       created: Некој (се надеваме, вие) штотуку направи сметка на %{site_url}.
       greeting: Здраво!
       subject: "[OpenStreetMap] Добредојдовте на OpenStreetMap"
-      welcome: Би сакале да ви пожелиме добредојде и да ви понудиме уште некои информации за да можете да почнете.
-    signup_confirm_html: 
-      ask_questions: Можете да поставувате прашања за OpenStreetMap на нашата <a href="http://help.openstreetmap.org/">страница за прашања и одговори</a>.
-      current_user: На <a href="http://wiki.openstreetmap.org/index.php?title=Category:Users_by_geographical_region&uselang=mk">Category:Users_by_geographical_region</a> ќе најдете список на тековни корисници во категории, зависно од нивната местоположба во светот.
-      get_reading: Читајте за OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">на викито</a>, информирајте се за најновите збиднувања преку <a href="http://blog.openstreetmap.org/">Блогот на OpenStreetMap</a> или на <a href="http://twitter.com/openstreetmap">Twitter</a>.
-      introductory_video: Можете да погледате %{introductory_video_link}.
-      more_videos: Имаме %{more_videos_link}.
-      more_videos_here: повеќе видеоклипови овде
-      user_wiki_page: Се препорачува да направите корисничка вики-страница, на која ќе стојат ознаки за категории кои ќе го означуваат вашето место на живеење, како да речеме <a href="http://wiki.openstreetmap.org/index.php?title=Category:Users_in_Skopje&uselang=mk">[[Category:Users_in_Skopje]]</a>.
-      video_to_openstreetmap: воведен видеоклип за OpenStreetMap
-      wiki_signup: Препорачуваме да <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Mk:Main_Page&uselang=mk">се регистрирате на викито на OpenStreetMap</a>.
-    signup_confirm_plain: 
-      ask_questions: "Можете да поставувате прашања за OpenStreetMap на нашата страница за прашања и одговори:"
-      blog_and_twitter: "Бидете информирани за најновите збиднувања преку блогот на OpenStreetMap blog или Twitter:"
-      current_user: "Тука ќе најдете категориски список на корисници подредени според место:"
-      introductory_video: "Погледајте го воведниот видеоклип за  OpenStreetMap тука:"
-      more_videos: "Повеќе видеоклипови ќе најдете тука:"
-      the_wiki: "Читајте за OpenStreetMap на викито:"
-      the_wiki_url: http://wiki.openstreetmap.org/wiki/MK:Beginners%27_Guide?uselang=mk
-      user_wiki_page: Се препорачува да создадете корисничка страница и да ставите категорија за местото во кое се наоѓате, како на пр. [[Категорија:Корисници од Прилеп]].
-      wiki_signup: "Препорачуваме да се регистрирате на викито на OpenStreetMap на:"
-      wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:UserLogin&type=signup&returnto=MK%3AMain_Page&uselang=mk
+      welcome: Откако ќе ја потврдите сметката, ќе ви дадеме уште напатствија како да почнете со уредување.
   oauth: 
     oauthorize: 
       allow_read_gpx: ви ги чита вашите приватни GPS-траги.
@@ -1292,7 +1313,7 @@ mk:
       allow_write_prefs: ги менува вашите кориснички прилагодувања.
       request_access: Програмскиот прилог %{app_name} бара пристап до вашата сметка, %{user}. Видете дали би сакале прилогот да ги има следните можности. Можете да одберете колку што сакате.
     revoke: 
-      flash: Го поништивте жетонот за %{application}
+      flash: Ja поништивте шифрата за %{application}
   oauth_clients: 
     create: 
       flash: Информациите се успешно регистрирани
@@ -1332,7 +1353,7 @@ mk:
     not_found: 
       sorry: Нажалост, тој %{type} не е пронајден.
     show: 
-      access_url: "URL адреса на пристапниот жетон:"
+      access_url: "URL-адреса на пристапата шифра:"
       allow_read_gpx: им ги чита приватните GPS-траги.
       allow_read_prefs: им ги чита корисничките прилагодувања.
       allow_write_api: ја менува картата.
@@ -1349,7 +1370,7 @@ mk:
       secret: "Потрошувачка тајна:"
       support_notice: Поддржуваме потписи во HMAC-SHA1 (препорачано) и RSA-SHA1.
       title: OAuth податоци за %{app_name}
-      url: "Побарај URL адреса на жетонот:"
+      url: "Побарај URL-адреса на шифрата:"
     update: 
       flash: Клиентските информации се успешно подновени
   printable_name: 
@@ -1659,16 +1680,16 @@ mk:
       update home location on click: Подновувај ја матичната местоположба кога ќе стиснам на картата
     confirm: 
       already active: Оваа сметка е веќе потврдена.
-      before you start: Знаеме дека со нетрпение чекате да почнете со картографска работа, но пред тоа препорачуваме да пополните некои податоци за вас во образецот подолу.
       button: Потврди
-      heading: Потврди корисничка сметка
+      heading: Проверете си ја е-поштата
+      introduction_1: Ви испративме потврдна порака.
+      introduction_2: Потврдете ја сметката на долунаведената врска, па потоа ќе можете да почнете со работа на картите.
       press confirm button: Притиснете го копчето за потврда подолу за да ја активирате сметката.
-      reconfirm: Ако поминало подолго време од последниот пат кога сте се најавиле, ќе треба да <a href="%{reconfirm}">си испратите нова потврдна порака по е-пошта</a>.
-      success: Вашата сметка е потврдена. Ви благодариме што се регистриравте!
-      unknown token: Се чини дека тој жетон не постои.
+      reconfirm_html: Ако сакате повторно да ви ја испратиме потврдната порака, <a href="%{reconfirm}">стиснете тука</a>.
+      unknown token: ПОтврдниот код е истечен или не постои.
     confirm_email: 
       button: Потврди
-      failure: Со овој жетон е потврдена веќе една е-поштенска адреса
+      failure: Со оваа шифра е потврдена веќе една е-поштенска адреса
       heading: Потврди промена на е-пошта
       press confirm button: Притиснете го копчето за потврдување за да ја потврдите новата е-поштенска адреса.
       success: Вашата е-пошта е потврдена. Ви благодариме што се регистриравте!
@@ -1750,17 +1771,16 @@ mk:
       heading: Да го додадам корисникот %{user} како пријател?
       success: Сега сте пријатели со %{name}!
     new: 
+      about: 
+        header: Слободна и уредлива
+        html: "<p>За разлика од некои други карти, OpenStreetMap во целост ја изработуваат луѓе како вас. Секој слободно може да врши поправки, да ја подновува, да ја презема и користи.</p>\n<p>Регистрирајте се за да почнете со ваше учество. Ќе ви испратиме потврда за сметката по е-пошта.</p>"
       confirm email address: "Потврдете ја е-поштата:"
       confirm password: "Потврдете ја лозинката:"
       contact_webmaster: Контактирајте го <a href="mailto:webmaster@openstreetmap.org">управникот</a> за да побарате создавање на сметка - ќе се потрудиме да ве услужиме во најкраток можен рок.
-      continue: Продолжи
+      continue: Регистрација
       display name: "Име за приказ:"
       display name description: Вашето јавно прикажано име. Можете да го смените подоцна во прилагодувањата.
       email address: "Е-пошта:"
-      fill_form: Пополнете го образецот, и ние ќе ви пратиме кратка порака по е-пошта за да си ја активирате сметката.
-      flash create success message: Ви благодариме што се пријавивте. Испративме поврдна порака на %{email}, и штом ќе ја потврдите сметката, ќе можете да почнете со картографска работа.<br /><br />Ако користите систем против спам кој испраќа барања за потврда, тогаш ќе морате да ја дозволите адресата webmaster@openstreetmap.org бидејќи ние немаме начин да одговараме на такви потврди.
-      flash welcome: Ви благодариме што се регистриравте. Ви испративме порака на %{email} со некои совети за тоа како да почнете.
-      heading: Создајте корисничка сметка
       license_agreement: Кога ќе ја потврдите вашата сметка, ќе треба да се согласите со <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">условите за учесници</a>.
       no_auto_account_create: Нажалост моментално не можеме автоматски да ви создадеме сметка.
       not displayed publicly: Не се прикажува јавно (видете <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">правилникот за приватност</a>)
@@ -1771,7 +1791,7 @@ mk:
       terms accepted: Ви благодариме што ги прифативте новите услови за учество!
       terms declined: Жалиме што не се согласувате со новите Услови за учество. Повеќе информации ќе најдете на <a href="%{url}">оваа страница</a>.
       terms declined url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=mk
-      title: Направи сметка
+      title: Регистрација
       use openid: Во друг случај,  најавете се со %{logo} OpenID
     no_such_user: 
       body: Жалиме, но не постои корисник по име %{user}. Проверете да не сте згрешиле во пишувањето, или пак да не сте стиснале на погрешна врска.
@@ -1789,7 +1809,7 @@ mk:
     reset_password: 
       confirm password: "Потврдете ја лозинката:"
       flash changed: Лозинката ви е сменета.
-      flash token bad: Не го пронајдов тој жетон. Проверете ја URL адресата.
+      flash token bad: Не ја пронајдов таа шифра. Проверете ја URL-адресата.
       heading: Смени лозинка за %{user}
       password: "Лозинка:"
       reset: Смени лозинка
@@ -1990,3 +2010,25 @@ mk:
       fail: Не можев да го лишам корисникот`%{name}' од улогата `%{role}'. Проверете дали корисникот и улогата се важечки.
       heading: Потврди лишување од улога
       title: Потврди лишување од улога
+  welcome_page: 
+    add_a_note: 
+      paragraph_1_html: Ако сакате да направите само поситна поправка и немате време да се зачленувате и обучувате, тогаш просто ставете белешка.
+      paragraph_2_html: "Едноставно појдете на <a href='%{map_url}'>картата</a> и стиснете на иконата со белешка:\n<span class='icon note'></span>. Со ова ќе ставите бележник на картата, што потоа можете да го преместувате со влечење. Внесете ја пораката, па зачувајте. Другите кратографи потоа ќе иследат за што станува збор."
+      title: Немате време да уредувате? Ставете белешка.
+    basic_terms: 
+      editor_html: <strong>Уредник</strong> е програм или мрежно место што се користи за уредување на карти.
+      node_html: <strong>Јазол</strong> е точка на картата, како на пр. извесен ресторан или дрво.
+      paragraph_1_html: OpenStreetMap има свој жаргон. Еве некои корисни поими.
+      tag_html: <strong>Ознака</strong> е податок за јазол или пат, како на пр. име на ресторан или дозволената брзина на улица.
+      title: Основни картографски поими
+      way_html: <strong>Пат</strong> е линија или подрачје, како пат, поток, езеро или објект (здание).
+    introduction_html: Добре дојдовте на OpenStreetMap — слободна и уредлива карта на светот. Сега веќе сте регистрирани, што значи дека можете да почнете со работа. Еве мала помош за најважните работи што треба да ги знаете.
+    questions: 
+      paragraph_1_html: "Ви треба картографска помош или не ви е јасно како се користи OpenStreetMap? Прашањата ќе ви ги одговориме на\n<a href='http://help.openstreetmap.org/'>порталот за помош</a>."
+      title: Имате прашања?
+    start_mapping: Почнете да ги работите картите
+    title: Добре дојдовте!
+    whats_on_the_map: 
+      off_html: Она што <em>нема</em> тука да го најдете се судови и вреднувања, историски (поеќе непостоечки) градби, нагаѓања и податоци од извори заштитени со авторски права. Не копирајте и прецртувајте карти од интернет или од книги и атласи, освен ако немате посебна дозвола.
+      on_html: На OpenStreetMap се ставаат најразчични <em>вистински и тековни</em> нешта — милиони објекти и згради, патишта и други поединости за местата. Можете да ставате сè што постои и што ве интересира.
+      title: Што има на картата

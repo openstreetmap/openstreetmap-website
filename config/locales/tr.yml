@@ -10,7 +10,9 @@
 # Author: Katpatuka
 # Author: SalihB
 # Author: Szoszv
+# Author: Talha Samil Cakir
 # Author: Tarikozket
+# Author: 아라
 tr: 
   activerecord: 
     attributes: 
@@ -100,6 +102,7 @@ tr:
       edit: 
         area: Alanı düzenle
         node: Noktayı düzenle
+        note: Notu düzenle
         relation: İlişki düzenle
         way: Yolu düzenle
       larger: 
@@ -118,6 +121,7 @@ tr:
         next_way_tooltip: Sonraki yol
         prev_changeset_tooltip: Önceki değişiklik takımı
         prev_node_tooltip: Önceki nokta
+        prev_note_tooltip: Önceki not
         prev_relation_tooltip: Önceki ilişki
         prev_way_tooltip: Önceki yol
       user: 
@@ -154,12 +158,15 @@ tr:
       last_modified: "Son değişiklik:"
       open_title: "Çözümlenmemiş not: %{note_name}"
       opened: "Açılış tarihi:"
+      title: Not
     paging_nav: 
       of: toplam
       showing_page: sayfa
     redacted: 
       type: 
         node: nokta
+        relation: ilişki
+        way: yol
     relation: 
       download_xml: XML indir
       relation: İlişki
@@ -209,6 +216,7 @@ tr:
       show_areas: Bölgeleri göster
       show_history: Geçmişi görüntüle
       unable_to_load_size: "Yüklenemiyor: alan boyutu %{bbox_size} çok büyük - (%{max_bbox_size}'den küçük olması gerekir)"
+      view_data: Güncel harita görüntüsünün verileri görüntüle
       wait: Bekleyin...
       zoom_or_select: Yakınlaştır ya da haritada bir alan seç
     tag_details: 
@@ -234,7 +242,7 @@ tr:
       part_of: "Ortak parça:"
     way_history: 
       download_xml: XML İndir
-      view_details: ayrıntıları göster
+      view_details: Ayrıntıları göster
       way_history: Yol Geçmişi
       way_history_title: "Yol geçmişi: %{way_name}"
   changeset: 
@@ -295,6 +303,7 @@ tr:
       comment_count: 
         one: 1 yorum
         other: "%{count} yorum"
+        zero: yorumsuz
       comment_link: Bu girdisi yorumla
       confirm: Onayla
       edit_link: Bu girdisi düzenle
@@ -329,7 +338,7 @@ tr:
       newer_entries: Daha yeni kayıtlar
       no_entries: Günlük girdisi yok
       older_entries: Daha eski kayıtlar
-      recent_entries: "Son günlük kayıtları:"
+      recent_entries: Son günlük kayıtları
       title: Kullanıcıların günlükleri
       title_friends: Arkadaşlarının günlükleri
       title_nearby: Yakındaki kullanıcıların günlükleri
@@ -370,7 +379,7 @@ tr:
       area_to_export: Çıkartılacak alan
       embeddable_html: Gömülebilir HTML
       export_button: Çıkart
-      export_details: OpenStreetMap veri, <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0 lisansı</a> altında lisanslanmıştır.
+      export_details: OpenStreetMap verileri, <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database License</a>  (ODbL) altında lisanslanmıştır.
       format: Biçim
       format_to_export: Çıkartma biçimi
       image_size: Resim Boyutu
@@ -385,9 +394,6 @@ tr:
       output: Çıktı
       paste_html: Yukarıdaki HTML kodu kopyalayıp websitesinde yapıştırabilir
       scale: Ölçek
-      too_large: 
-        body: Bu alan OpenStreetMap XML verisi olarak verilmesine kadar büyüktür. Lütfen yakınlaştır veya daha küçük bir alan seç.
-        heading: Alan Çok Büyük
       zoom: Yakınlaştır
     start_rjs: 
       add_marker: Haritaya bir işareti ekle
@@ -396,7 +402,6 @@ tr:
       drag_a_box: Fare kullanarak harita üzerinde bir alan seç
       export: Çıkart
       manually_select: Fare kullanarak farklı bir alan seç
-      view_larger_map: Haritayı daha büyük göster
   geocoder: 
     description: 
       title: 
@@ -535,6 +540,7 @@ tr:
           national_park: Milli Park
         bridge: 
           suspension: Asma köprüsü
+          swing: Asma Köprüsü
           "yes": Köprü
         building: 
           "yes": Bina
@@ -854,10 +860,8 @@ tr:
       createnote_tooltip: Haritaya bir not ekle
       edit_disabled_tooltip: Harita düzenlemek için yakınlaştırmak gerek
       edit_tooltip: Haritayı düzenle
-      edit_zoom_alert: Harita düzenleyebilmek için yakınlaştırman gerek
       history_disabled_tooltip: Bu alandaki değişiklikleri görmek için yakınlaştır
       history_tooltip: Bu alandaki düzenlemeleri göster
-      history_zoom_alert: Bu alandaki düzenlemeleri görmek için yakınlaştırmak gerekiyor
   layouts: 
     community: Topluluk
     community_blogs: Üye Blogları
@@ -869,8 +873,6 @@ tr:
     donate_link_text: Bağış
     edit: Düzenle
     edit_with: "%{editor} kullanarak düzenle"
-    export: Dışalım
-    export_tooltip: Harita verisinin dışalımı
     foundation: Vakıf
     foundation_title: OpenStreetMap Vakfı
     gps_traces: GPS İzleri
@@ -880,12 +882,6 @@ tr:
     help_title: Projenin yardım sayfaları
     history: Geçmiş
     home: konum
-    home_tooltip: Kendin konuma git
-    inbox_html: mesajlar %{count}
-    inbox_tooltip: 
-      one: Bir tane okunmamış mesajın var
-      other: "%{count} okunmamış mesaj var"
-      zero: Okunmamış mesajın yok
     intro_1: OpenStreetMap herkese serbest ve ücretsiz senin gibi insanlar tarafından oluşturduğu bir dünya haritasıdır.
     intro_2_create_account: hesap oluşturunuz
     intro_2_download: indirmesi
@@ -897,7 +893,6 @@ tr:
     logo: 
       alt_text: OpenStreetMap logosu
     logout: çıkış
-    logout_tooltip: Oturumu kapat
     make_a_donation: 
       text: Bir bağışta bulunun
       title: OpenStreetMap para bağışı ile destek verebilirsiniz
@@ -915,7 +910,6 @@ tr:
     user_diaries_tooltip: Kullanıcı günlükleri görüntüle
     view: Harita
     view_tooltip: Haritayı göster
-    welcome_user_link_tooltip: Senin kullanıcı sayfan
     wiki: Viki
     wiki_title: Projenin viki sayfaları
   license_page: 
@@ -927,7 +921,7 @@ tr:
       title_html: Telif Hakkı ve Lisans
     native: 
       mapping_link: harita çizmeye başla
-      native_link: THIS_LANGUAGE_NAME_HERE sürümü
+      native_link: Türkçe sürümü
       title: Sayfa hakkında
   message: 
     delete: 
@@ -971,8 +965,6 @@ tr:
       title: Gönderilmiş Kutusu
       to: Alıcı
     read: 
-      back_to_inbox: Gelen kutusuna dön
-      back_to_outbox: Gönderilmiş kutusuna dön
       date: Tarih
       from: Gönderen
       reply_button: Yanıtla
@@ -1019,20 +1011,12 @@ tr:
       click_the_link: Bu istek sana aitse şifre sıfırlamak için aşağıdaki bağlantıyı tıkla.
       greeting: Merhaba,
     message_notification: 
-      footer1: Ayrıca mesajı %{readurl} tıklayarak okuyabilirsin
-      footer2: ve %{replyurl} üzerinden cevap verebilirsiniz
       header: "OpenStreetMap kullanıcı %{from_user} sana %{subject} konulu bir mesaj gönderdi:"
       hi: Merhaba %{to_user},
     signup_confirm: 
       created: Birisi (umarım sen) %{site_url} sitesinde yeni bir hesap açtı.
       greeting: Merhaba!
       subject: "[OpenStreetMap] e-posta adresi onaylama mesajı"
-    signup_confirm_html: 
-      introductory_video: "%{introductory_video_link} seyretebilirsin."
-      more_videos_here: daha fazla video
-      video_to_openstreetmap: OpenStreetMap tanıtım filmi
-    signup_confirm_plain: 
-      more_videos: "Burada daha fazla video var:"
   oauth_clients: 
     edit: 
       submit: Değiştir
@@ -1309,7 +1293,6 @@ tr:
     confirm: 
       button: Onayla
       heading: Kullanıcı hesabı onayla
-      success: Hesabın onaylandı, teşekkür ve iyi çalışmalar!<br /><br /><a href="http://wiki.openstreetmap.org/wiki/Tr:Main_Page">Hoşgeldin sayfasında</a> Türkiye'deki harita durumu konusunda bilgi alabilirsin.
     confirm_email: 
       button: Onayla
       success: E-posta adresinizi doğrulandı, kaydolduğu için teşekkür ederiz! İyi çalışmaları dileriz!
@@ -1381,8 +1364,6 @@ tr:
       display name: "Görünen Ad:"
       display name description: Herkes tarafından görünen ad. Bu adı istediği zaman 'tercihlerim' bölümünde değiştirebilirsin.
       email address: "E-posta Adresi:"
-      flash create success message: Kayıt olduğunuz için teşekkür ederiz. Şu anda %{email} e-posta adresinize işlemlerin tamamlandığına dair son bir onaylama daha gönderildi. E-posta adresindeki onay işlemlerini gerçekleştirdikten sonra kendi haritalarınıza ulaşabilicek ve oluşturabileceksiniz<br /><br />Eğer siz antispam sistemi kullanıyorsanız, gönderdiğimiz onay e-postasının spam listesine düşmüş olabileceğini unutmayın. Ayrıca doğrulama istek e-postalarınıza cevap veremiyoruz. Bunun yerine sorun için bizimle webmaster@openstreetmap.org e-posta adresinden iletişim kurabilirsiniz.
-      heading: Kullanıcı Hesabı Oluştur
       openid: "%{logo} OpenID:"
       password: "Şifre:"
       terms accepted: Yeni katılımcı şartları kabul ettiğin için teşekkür ederiz!

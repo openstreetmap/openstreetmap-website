@@ -425,8 +425,7 @@ ast:
       paste_html: Pegar el HTML pa empotrar nun sitiu web
       scale: Escala
       too_large: 
-        body: Esti área ye abondo grande pa esportase como Datos XML d'OpenStreetMap. Acerca'l mapa o esbilla un área menor.
-        heading: Área demasiao grande
+        other: heading=Área demasiao grande
       zoom: Zoom
     start_rjs: 
       add_marker: Amestar un marcador al mapa
@@ -435,7 +434,6 @@ ast:
       drag_a_box: Arrastra un cuadru nel mapa pa seleicionar un área
       export: Esportar
       manually_select: Seleiciona manualmente un área distinta
-      view_larger_map: Ver mapa mayor
   geocoder: 
     description: 
       title: 
@@ -479,6 +477,10 @@ ast:
         level8: Frontera de ciudá
         level9: Frontera de villa
       prefix: 
+        aerialway: 
+          chair_lift: Telesilla
+          drag_lift: Telesquí
+          station: Estación de cable
         aeroway: 
           aerodrome: Aeródromu
           apron: Aparcaderu d'aviones
@@ -572,6 +574,7 @@ ast:
           shower: Ducha
           social_centre: Centru social
           social_club: Club social
+          social_facility: Instalación social
           studio: Estudiu
           supermarket: Supermercáu
           swimming_pool: Piscina
@@ -600,6 +603,9 @@ ast:
           "yes": Ponte
         building: 
           "yes": Edificiu
+        emergency: 
+          fire_hydrant: Boca d'incendios
+          phone: Teléfonu d'emerxencia
         highway: 
           bridleway: Caleya
           bus_guideway: Carril bus con guía
@@ -621,6 +627,7 @@ ast:
           platform: Andén
           primary: Carretera primaria
           primary_link: Enllaz de carretera primaria
+          proposed: Carretera propuesta
           raceway: Pista de carreres
           residential: Residencial
           rest_area: Área de descansu
@@ -632,6 +639,7 @@ ast:
           speed_camera: Radar
           steps: Escaleres
           stile: Pasera de muries
+          street_lamp: Farola
           tertiary: Carretera terciaria
           tertiary_link: Carretera terciaria
           track: Pista
@@ -647,6 +655,7 @@ ast:
           building: Edificiu
           castle: Castiellu
           church: Ilesia
+          citywalls: Muralla
           fort: Fuerte
           house: Casa
           icon: Iconu
@@ -794,6 +803,7 @@ ast:
           locality: Llocalidá
           moor: Amarradera
           municipality: Conceyu
+          neighbourhood: Vecindá
           postcode: Códigu postal
           region: Fastera, provincia
           sea: Mar
@@ -819,8 +829,10 @@ ast:
           narrow_gauge: Ferrocarril de vía estrecha
           platform: Andén de ferrocarril
           preserved: Ferrocarril conserváu
+          proposed: Ferrocarril propuestu
           spur: Apartaderu industrial
           station: Estación de tren
+          stop: Apeaderu
           subway: Estación de metro
           subway_entrance: Entrada de metro
           switch: Aguyes de ferrocarril
@@ -836,6 +848,7 @@ ast:
           beverages: Venta de bébores
           bicycle: Tienda de bicicletes
           books: Llibrería
+          boutique: Boutique
           butcher: Carnicería
           car: Automóvil
           car_parts: Repuestos d'automóvil
@@ -849,6 +862,7 @@ ast:
           convenience: Alimentación
           copyshop: Copistería
           cosmetics: Perfumería
+          deli: Tienda gourmet
           department_store: Grandes almacenes
           discount: Productos con descuentu
           doityourself: Bricolax
@@ -885,17 +899,21 @@ ast:
           organic: Comida ecolóxica
           outdoor: Aire llibre
           pet: Paxarería
+          pharmacy: Farmacia
           photo: Fotografía
           salon: Cuidaos corporales
+          second_hand: Tienda d'oxetos usaos
           shoes: Zapatería
           shopping_centre: Centru comercial
           sports: Deportes
           stationery: Papelería
           supermarket: Supermercáu
+          tailor: Sastrería
           toys: Xuguetería
           travel_agency: Axencia de viaxes
           video: Videu club
           wine: Venta de bébores
+          "yes": Tienda
         tourism: 
           alpine_hut: Refuxu de montaña
           artwork: Obra d'arte
@@ -918,6 +936,7 @@ ast:
           viewpoint: Mirador
           zoo: Zoo
         tunnel: 
+          culvert: Cañu
           "yes": Túnel
         waterway: 
           artificial: Vía acuática artificial
@@ -942,12 +961,30 @@ ast:
           waterfall: Saltu d'agua
           weir: Banzáu
   javascripts: 
+    close: Zarrar
+    edit_help: Mueve'l mapa y amplía al llugar que quies editar, llueu calca equí.
+    key: 
+      title: Lleenda del mapa
+      tooltip: Lleenda del mapa
+      tooltip_disabled: Lleenda del Mapa disponible sólo pa la capa estándar
     map: 
       base: 
         cycle_map: Mapa ciclista
         mapquest: MapQuest Open
         standard: Estándar
         transport_map: Mapa de tresportes
+      copyright: © <a href='%{copyright_url}'>collaboradores d'OpenStreetMap</a>
+      layers: 
+        data: Datos del mapa
+        header: Capes del mapa
+        notes: Notes de mapa
+        overlays: Activar les superposiciones pa diagnosticar el mapa
+      locate: 
+        popup: Tas a {distance} {unit} d'esti puntu
+        title: Ver el mio allugamientu
+      zoom: 
+        in: Ampliar
+        out: Amenorgar
     notes: 
       new: 
         add: Amestar nota
@@ -968,29 +1005,44 @@ ast:
         reopened_by: reactivada por <a href='%{user_url}'>%{user}</a> a les %{time}
         reopened_by_anonymous: reactivada por anónimu a les %{time}
         resolve: Resolver
+    share: 
+      cancel: Encaboxar
+      center_marker: Centrar el mapa na marca
+      custom_dimensions: Configurar dimensiones personalizaes
+      download: Descargar
+      embed: HTML
+      format: "Formatu:"
+      image: Imaxe
+      image_size: La imaxe amosará la capa estándar a
+      include_marker: Incluir marcador
+      link: Enllaz o HTML
+      long_link: Enllaz
+      paste_html: Pegar el HTML pa empotrar nun sitiu web
+      scale: "Escala:"
+      short_link: Enllaz curtiu
+      short_url: URL curtia
+      title: Compartir
+      view_larger_map: Ver mapa mayor
     site: 
       createnote_disabled_tooltip: Ampliar p'amestar una nota al mapa
       createnote_tooltip: Amestar una nota al mapa
-      createnote_zoom_alert: Tien d'ampliar p'amestar una nota al mapa
       edit_disabled_tooltip: Aumenta pa editar el mapa
       edit_tooltip: Editar el mapa
-      edit_zoom_alert: Tienes d'acercate pa editar el mapa
       history_disabled_tooltip: Aumenta pa ver les ediciones d'esti área
       history_tooltip: Ver ediciones nesti área
-      history_zoom_alert: Tienes d'aumentar pa ver les ediciones d'esti área
   layouts: 
     community: Comunidá
     community_blogs: Blogues de la Comunidá
     community_blogs_title: Blogues de miembros de la comunidá d'OpenStreetMap
     copyright: Drechos d'autor y llicencia
+    data: Datos
     documentation: Documentación
     documentation_title: Documentación del proyeutu
     donate: Sofita OpenStreetMap %{link} al Fondu pal Anovamientu del Hardware.
     donate_link_text: donando
     edit: Editar
     edit_with: Editar con %{editor}
-    export: Esportar
-    export_tooltip: Esportar datos del mapa
+    export_data: Esportar datos
     foundation: Fundación
     foundation_title: La Fundación OpenStreetMap
     gps_traces: Traces GPS
@@ -1000,12 +1052,6 @@ ast:
     help_title: Sitiu d'ayuda del proyeutu
     history: Historial
     home: entamu
-    home_tooltip: Dir al llugar d'entamu
-    inbox_html: buzón %{count}
-    inbox_tooltip: 
-      one: El to buzón tien 1 mensax ensin lleer
-      other: El to buzón tien %{count} mensaxes ensin lleer
-      zero: El to buzón nun tien mensaxes ensin lleer
     intro_1: OpenStreetMap ye un mapa editable llibre del mundu enteru. Ta fechu por xente como tu.
     intro_2_create_account: Crear una cuenta d'usuariu
     intro_2_download: descargar
@@ -1017,7 +1063,6 @@ ast:
     logo: 
       alt_text: Logo d'OpenStreetMap
     logout: salir
-    logout_tooltip: Salir
     make_a_donation: 
       text: Fai un donativu
       title: Sofita OpenStreetMap con un donativu económicu
@@ -1035,7 +1080,6 @@ ast:
     user_diaries_tooltip: Ver los diarios d'usuariu
     view: Ver
     view_tooltip: Ver el mapa
-    welcome_user_link_tooltip: La to páxina d'usuariu
     wiki: Wiki
     wiki_title: Sitiu wiki del proyeutu
   license_page: 
@@ -1131,8 +1175,7 @@ ast:
       title: Buzón de salida
       to: Pa
     read: 
-      back_to_inbox: Tornar al buzón d'entrada
-      back_to_outbox: Tornar al buzón de salida
+      back: Anterior
       date: Data
       from: De
       reply_button: Contestar
@@ -1222,8 +1265,7 @@ ast:
       greeting: Bones,
       hopefully_you: Dalguién (esperamos que tu) pidió que se-y reanicie la contraseña na cuenta d'openstreetmap.org con estes señes de corréu.
     message_notification: 
-      footer1: Tamién pues lleer el mensax en %{readurl}
-      footer2: y pues contestar en %{replyurl}
+      footer_html: Tamién pue lleer el mensaxe en %{readurl} y pue responder en %{replyurl}
       header: "%{from_user} t'unvió un mensax per OpenStreetMap col asuntu %{subject}:"
       hi: Bones %{to_user},
     note_comment_notification: 
@@ -1250,26 +1292,7 @@ ast:
       created: Dalguién (seique tu) vien de crear una cuenta en %{site_url}.
       greeting: ¡Hola!
       subject: "[OpenStreetMap] Bienllegáu a OpenStreetMap"
-      welcome: Prestanos date la bienvenida y tamién dalguna información más p'ayudate nos primeros pasos.
-    signup_confirm_html: 
-      ask_questions: Pues facer toles entrugues que pudieres tener tocante a OpenStreetMap nel <a href="http://help.openstreetmap.org/">sitiu d'entrugues y rempuestes</a>.
-      current_user: Hai una llista d'usuarios por categoríes, basada nel llugar del mundu onde tan, que ta disponible en<a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
-      get_reading: Hai llectura tocante a OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">na wiki</a> y sigui les caberes noticies nel <a href="http://blog.openstreetmap.org/">blogue d'OpenStreetMap</a> o <a href="http://twitter.com/openstreetmap">per Twitter</a>.
-      introductory_video: Pues ver un %{introductory_video_link}.
-      more_videos: Equí hai %{more_videos_link}.
-      more_videos_here: más videos
-      user_wiki_page: S'encamienta que crees una páxina wiki d'usuariu, qu'incluya etiquetes de categoría pa marcar ú tas, como <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.
-      video_to_openstreetmap: videu d'introducción a OpenStreetMap
-      wiki_signup: Tamién pue ser que t'interese <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">rexistrate na wiki d'OpenStreetMap</a>.
-    signup_confirm_plain: 
-      ask_questions: "Pues facer toles entrugues que pudieres tener tocante a OpenStreetMap nel sitiu d'entrugues y rempuestes:"
-      blog_and_twitter: "Sigui les caberes noticies nel blogue d'OpenStreetMap o per Twitter:"
-      current_user: "La llista usuarios actuales, clasificaos en base al llugar del que son, ta disponible en:"
-      introductory_video: "Pues ver un videu d'introducción a OpenStreetMap equí:"
-      more_videos: "Equí hai más videos:"
-      the_wiki: "Hai llectura tocante a OpenStreetMap na wiki:"
-      user_wiki_page: T'afalamos a crear una páxina wiki d'usuariu, con etiquetes de categoría qu'indiquen de ónde yes, como [[Category:Users_in_Llanes].
-      wiki_signup: "Tamién pue ser que t'interese rexistrate na wiki d'OpenStreetMap en:"
+      welcome: En confirmando la cuenta, daremoste dalguna información más p'ayudate nos primeros pasos.
   oauth: 
     oauthorize: 
       allow_read_gpx: lleer les tos traces GPS privaes.
@@ -1640,13 +1663,13 @@ ast:
       update home location on click: ¿Anovar el llugar d'orixe calcando nel mapa?
     confirm: 
       already active: Esta cuenta yá se confirmó.
-      before you start: Sabemos que probablemente tienes priesa por comenzar a facer mapes, pero enantes seique quieras completar la información tocante a tigo mesmu nel formulariu d'abaxo.
       button: Confirmar
-      heading: Confirmar una cuenta d'usuariu
+      heading: ¡Revisa el corréu!
+      introduction_1: Unviamoste un corréu de confirmación.
+      introduction_2: Confirma la cuenta calcando nel enllaz del corréu y podrás ponete a editar los mapes.
       press confirm button: Calca nel botón de confirmación d'abaxo p'activar la to cuenta.
-      reconfirm: Si yá hai tiempu que te rexistrasti seique necesites <a href="%{reconfirm}">unviate un nuevu corréu de confirmación</a>.
-      success: Cuenta confirmada, ¡gracies por rexistrate!
-      unknown token: Paez qu'esi token nun esiste.
+      reconfirm_html: Si necesites que volvamos a unviate'l corréu de confirmación, <a href="%{reconfirm}">calca equí</a>.
+      unknown token: El códigu de confirmación caducó o nun esiste.
     confirm_email: 
       button: Confirmar
       failure: Yá se confirmó una direición de corréu electrónicu con esti token.
@@ -1731,17 +1754,16 @@ ast:
       heading: ¿Amestar a %{user} a los amigos?
       success: ¡%{name} agora ye'l to amigu!
     new: 
+      about: 
+        header: Llibre y editable
+        html: "<p>De mou distintu a otros mapes, OpenStreetMap ta creáu completamente por persones\ncomo tu, y cualquiera tien llibertá pa igualu, anovalu, descargalu y usalu.</p>\n<p>Date d'alta pa empezar a collaborar. Unviaremoste un corréu pa confirmar la cuenta.</p>"
       confirm email address: "Confirmar direición de corréu:"
       confirm password: "Confirma la contraseña:"
       contact_webmaster: Ponte en contautu col <a href="mailto:webmaster@openstreetmap.org">webmaster</a> p'arreglar la creación d'una cuenta - procuraremos xestionar la solicitú lo más aína que podamos.
-      continue: Siguir
+      continue: Date d'alta
       display name: "Nome a amosar:"
       display name description: El nome d'usuariu que s'amuesa en público. Pue camudalo más sero nes preferencies.
       email address: "Direición de corréu electrónicu:"
-      fill_form: Rellena'l formulariu y t'unviaremos un mensaxe de corréu rápidamente p'activar la to cuenta.
-      flash create success message: Gracies por rexistrate. Venimos d'unvia un corréu de confirmación a %{email} y darréu que confirmes la to cuenta tarás preparáu pa mapear. <br /><br />Si uses un sistema escontra'l corréu puxarra qu'unvia solicitúes de confirmación, asegúrate d'amestar webmaster@openstreetmap.org na llista blanca de remitentes seguros, porque nós nun podemos responder solicitúes de confirmación.
-      flash welcome: Gracies por rexistrate. Acabamos d'unviate un mensaxe de bienvenida a %{email} con dellos gabitos pa los primeros pasos.
-      heading: Crear una cuenta d'usuariu
       license_agreement: Cuando confirmes la to cuenta tendrás d'aceutar los <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">términos de collaboración</a>.
       no_auto_account_create: Por desgracia anguaño nun podemos crear una cuenta por ti automáticamente.
       not displayed publicly: Nun s'amuesa en público (ver la <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="política de protección de datos na wiki, qu'incluye una seición sobro direiciones de corréu">política de protección de datos</a>)
@@ -1751,7 +1773,7 @@ ast:
       password: "Contraseña:"
       terms accepted: ¡Gracies por aceutar les condiciones de collaboración!
       terms declined: Sentimos que decidieres nun aceutar les Condiciones de Collaboración. Pa más información llei <a href="%{url}">esta páxina wiki</a>.
-      title: Crear una cuenta
+      title: Date d'alta
       use openid: Como alternativa, usa %{logo} OpenID pa coneutar
     no_such_user: 
       body: Lo siento, nun hai dengún usuariu col nome %{user}. Comprueba la escritura o si calcasti nun enllaz enquivocáu, seique.
@@ -1968,3 +1990,25 @@ ast:
       fail: Nun pues quita-y el rol "%{role}" al usuariu "%{name}". Comprueba que tanto l'usuariu como'l rol son válidos.
       heading: Confirmar quitar rol
       title: Confirmar quitar rol
+  welcome_page: 
+    add_a_note: 
+      paragraph_1_html: "Si namái quier iguar daqué pequeño y nun tien tiempu pa dase d'alta y deprender cómo editar,\nye fácil amestar una nota."
+      paragraph_2_html: "Namái entre <a href='%{map_url}'>nel mapa</a> y calque nel iconu nota:\n<span class='icon note'></span>. Esto amestará un marcador al mapa, que pue mover\nabasnando. Añada'l mensaxe, calque guardar, y otros mapeadores investigarán."
+      title: ¿Nun tien tiempu pa editar? ¡Amieste una nota!
+    basic_terms: 
+      editor_html: Un <strong>editor</strong> ye un programa o sitiu web que pue usar pa editar el mapa.
+      node_html: Un <strong>noyu</strong> ye un puntu del mapa, como un únicu restaurante o un árbol.
+      paragraph_1_html: OpenStreetMap tien cierta xíriga de so. Estes son delles pallabres importantes que puen ser afayadices.
+      tag_html: "Una <strong>etiqueta</strong> ye una parte de los datos d'un noyu o vía, como'l\nd'un restaurante o la velocidá máxima d'una carretera."
+      title: Términos básicos pa facer mapes
+      way_html: Una <strong>vía</strong> ye una llinia o área, como una carretera, regueru, llagu o edificiu.
+    introduction_html: "Bienveníu a OpenStreetMap, el mapa del mundu llibre y editable. Agora\nqu'anició sesión, yá ta preparáu editar mapes. Esta ye una guía rápida\nde les coses más importantes que necesita saber."
+    questions: 
+      paragraph_1_html: "¿Necesita ayuda col mapa, o nun tien claro cómo usar OpenStreetMap? Alcuentre respuestes\nen <a href='http://help.openstreetmap.org/'>el sitiu web d'ayuda</a>."
+      title: ¿Tien alguna entruga?
+    start_mapping: Principiar col mapéu
+    title: ¡Bienveníu!
+    whats_on_the_map: 
+      off_html: "Lo que <em>nun</em> incluye son datos suxetivos como calificaciones, carauterístiques históriques o hipotétiques, y datos de fontes con drechos d'autor. Si nun tien\nun permisu especial, nun copie de mapes en llinia o en papel."
+      on_html: "OpenStreetMap ye un llugar pa facer mapes de coses que seyan al mesmu tiempu <em>reales y actuales</em> -\nincluye millones d'edificios, carreteres, y otros detalles de llugares. Pue poner nel mapa\ncualquier carauterística del mundu real que-y interese."
+      title: Qué hai nel Mapa

@@ -8,6 +8,7 @@
 # Author: Lafriks
 # Author: Nemo bis
 # Author: Papuass
+# Author: PeterisP
 # Author: Raitisx
 # Author: Ttdnet
 lv: 
@@ -74,7 +75,7 @@ lv:
       tracepoint: Trases punkts
       tracetag: Trases birka
       user: Lietotājs
-      user_preference: Lietāja iestatījums
+      user_preference: Lietotāja iestatījums
       user_token: Lietotāja tiesības
       way: Līnija
       way_node: Līnijas punkts
@@ -186,6 +187,7 @@ lv:
       last_modified: "Pēdejoreiz mainīta:"
       open_title: "Neatrisināta piezīme: %{note_name}"
       opened: "Atvērta:"
+      title: Piezīme
     paging_nav: 
       of: 'no'
       showing_page: lapa
@@ -428,9 +430,6 @@ lv:
       output: Izvade
       paste_html: Ielīmēt HTML mājas lapā
       scale: Mērogs
-      too_large: 
-        body: Šis apgabals ir pārāk liels, lai to eksportētu kā OpenStreetMap XML datus. Lūdzu tuvini vai izvēlies mazāku apgabalu.
-        heading: Apgabals pārāk liels
       zoom: Palielināt
     start_rjs: 
       add_marker: Pievienot atzīmi kartei
@@ -439,7 +438,6 @@ lv:
       drag_a_box: Uzvelciet kvadrātu uz kartes, lai izvēlētos teritoriju
       export: Eksportēt
       manually_select: Manuāli izvēlies citu teritoriju
-      view_larger_map: Skatīt lielāku karti
   geocoder: 
     description: 
       title: 
@@ -474,6 +472,14 @@ lv:
         uk_postcode: Rezultāti no <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Rezultāti no <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Priekšpilsētas robeža
+        level2: Valsts robeža
+        level4: Štata robeža
+        level5: Rajona robeža
+        level6: Pagasta robeža
+        level8: Pilsētas robeža
+        level9: Ciema robeža
       prefix: 
         aeroway: 
           aerodrome: Lidlauks
@@ -596,6 +602,8 @@ lv:
           "yes": Tilts
         building: 
           "yes": Ēka
+        emergency: 
+          fire_hydrant: Hidrants
         highway: 
           bridleway: Izjādes taka
           bus_guideway: Vadāmais Autobuss
@@ -845,6 +853,7 @@ lv:
           convenience: Stūra Veikals
           copyshop: Kopētava
           cosmetics: Kosmētikas veikals
+          deli: Delikatešu veikals
           department_store: Universālveikals
           discount: Atlaižu Veikals
           doityourself: Dari-pats
@@ -892,6 +901,7 @@ lv:
           travel_agency: Tūrisma aģentūra
           video: Video veikals
           wine: Alkohola Veikals
+          "yes": Veikals
         tourism: 
           alpine_hut: Kalnu būda
           artwork: Mākslas darbs
@@ -938,11 +948,23 @@ lv:
           waterfall: Ūdenskritums
           weir: Dambis
   javascripts: 
+    close: Aizvērt
+    key: 
+      title: Apzīmējumi
+      tooltip: Apzīmējumi
     map: 
       base: 
         cycle_map: Velokarte
         standard: Standarta
         transport_map: Transporta karte
+      layers: 
+        header: Kartes slāņi
+        notes: Kartes piezīmes
+      locate: 
+        title: Rādīt manu atrašanās vietu
+      zoom: 
+        in: Palielināt
+        out: Samazināt
     notes: 
       new: 
         add: Pievienot Piezīmi
@@ -962,29 +984,34 @@ lv:
         reopened_by: atkal aktivizēja <a href='%{user_url}'>%{user}</a> @ %{time}
         reopened_by_anonymous: atkal aktivizēja anonīms lietotājs @ %{time}
         resolve: Atrisināt
+    share: 
+      cancel: Atcelt
+      download: Lejupielādēt
+      link: Saite vai HTML
+      long_link: Saite
+      short_link: Īsā saite
+      title: Dalīties
+      view_larger_map: Skatīt lielāku karti
     site: 
       createnote_disabled_tooltip: Pietuvini karti, lai pievienotu piezīmi
       createnote_tooltip: Pievienot piezīmi kartei
-      createnote_zoom_alert: Tev nepieciešams pietuvināt karti, lai pievienotu piezīmi
       edit_disabled_tooltip: Pietuvini, lai rediģētu karti
       edit_tooltip: Rediģēt karti
-      edit_zoom_alert: Tev ir jāpietuvina, lai rediģētu karti
       history_disabled_tooltip: Pietuvini, lai redzētu labojumus šim apgabalam
       history_tooltip: Skatīt labojumus šim apgabalam
-      history_zoom_alert: Tev ir jāpietuvina, lai redzētu labojumus šim apgabalam
   layouts: 
     community: Kopiena
     community_blogs: Kopienas emuāri
     community_blogs_title: OpenStreetMap kopienas locekļu emuāri
     copyright: Autortiesības un licence
+    data: Dati
     documentation: Dokumentācija
     documentation_title: Projekta dokumentācija
     donate: Atbalstiet OpenStreetMap, %{link} aparatūras uzlabošanas fondam.
     donate_link_text: ziedojot
     edit: Labot
     edit_with: Rediģēt ar %{editor}
-    export: Eksportēt
-    export_tooltip: Eksportēt kartes datus
+    export_data: Eksportēt datus
     foundation: Fonds
     foundation_title: OpenStreetMap fonds
     gps_traces: GPS trases
@@ -994,12 +1021,6 @@ lv:
     help_title: Projekta palīdzības vietne
     history: Vēsture
     home: sākums
-    home_tooltip: Doties uz sākumu
-    inbox_html: iesūtne %{count}
-    inbox_tooltip: 
-      one: Tavā iesūtnē ir 1 nelasīts ziņojums
-      other: Tavā iesūtnē ir %{count} nelasīti ziņojumi
-      zero: Tavā iesūtnē nav nelasītu ziņojumu
     intro_1: OpenStreetMap ir atvērta, rediģējama visas pasaules karte. To veido tādi paši cilvēki kā jūs.
     intro_2_create_account: Izveidot lietotāja kontu
     intro_2_download: lejupielādēt
@@ -1012,7 +1033,6 @@ lv:
     logo: 
       alt_text: OpenStreetMap logo
     logout: iziet
-    logout_tooltip: Iziet
     make_a_donation: 
       text: Ziedot attīstībai
       title: Atbalstiet OpenStreetMap ar naudas ziedojumu
@@ -1031,7 +1051,6 @@ lv:
     user_diaries_tooltip: Skatīt lietotāju dienasgrāmatas
     view: Skatīt
     view_tooltip: Skatīti karti
-    welcome_user_link_tooltip: Tava lietotāja lapa
     wiki: Viki
     wiki_title: Projekta viki vietne
   license_page: 
@@ -1127,8 +1146,7 @@ lv:
       title: izsūtne
       to: Kam
     read: 
-      back_to_inbox: Atpakaļ uz iesūtni
-      back_to_outbox: Atpakaļ uz izsūtni
+      back: Atpakaļ
       date: Datums
       from: 'No'
       reply_button: Atbilde
@@ -1204,39 +1222,31 @@ lv:
       click_the_link: Ja tas esat jūs, lūdzu klikšķiniet uz zemāk esošās saites lai atiestatītu savu paroli.
       greeting: Sveicināti,
     message_notification: 
-      footer1: Jūs varat izlasīt ziņojumu arī %{readurl}
-      footer2: un jūs variet atbildēt %{replyurl}
       header: "OpenStreetMap lietotājs %{from_user} ir jums nosūtījis ziņu ar tematu %{subject}:"
       hi: Sveiks %{to_user},
     note_comment_notification: 
       anonymous: "Anonīms lietotājs:"
+      closed: 
+        commented_note: "[OpenStreetMap] %{commenter} ir atrisinājis kādu piezīmi, kur esi komentējis. Piezīme ir netālu no %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} ir atrisinājis kādu piezīmi, kas tevi interesē"
+        subject_own: "[OpenStreetMap] %{commenter} ir atrisinājis kādu no tavām piezīmēm"
+        your_note: "[OpenStreetMap] %{commenter} ir atrisinājis kādu no tavām piezīmēm netālu no %{place}."
+      commented: 
+        commented_note: "%{commenter} ir atstājis komentāru uz kādu no tevis komentētām kartes piezīmēm. Piezīme ir netālu no %{place}."
+        your_note: "%{commenter} ir atstājis komentāru uz kādas no tavām kartes piezīmēm netālu no %{place}."
       details: Vairāk informācijas par piezīmēm var atrast %{url}.
       greeting: Sveiks,
+      reopened: 
+        commented_note: "[OpenStreetMap] %{commenter} ir atkal aktivizējis kādu piezīmi, kur esi komentējis. Piezīme ir netālu no %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} ir atkal aktivizējis kādu piezīmi, kas tevi interesē"
+        subject_own: "[OpenStreetMap] %{commenter} ir atkal aktivizējis kādu no tavām piezīmēm"
+        your_note: "[OpenStreetMap] %{commenter} ir atkal aktivizējis kādu no tavām piezīmēm netālu no %{place}."
     signup_confirm: 
       confirm: "Pirms mēs turpinām, mums vajag pārliecināties, ka pieprasījums nāca no tevis, ja tas nāca, lūdzu uzklikšķini uz zemāk redzamās saites, lai aktivizētu savu lietotāju:"
       created: Kāds (cerams tu) tikko izveidoja lietotāju %{site_url}.
       greeting: Sveicināti!
       subject: "[OpenStreetMap] Laipni lūgti OpenStreetMap"
       welcome: Mēs vēletos tevi sveikt un dot tev papildus informāciju par OpenStreetMap.
-    signup_confirm_html: 
-      ask_questions: Tu vari jautāt jebkurus jautājumus par OpenStreetMap mūsu <a href="http://help.openstreetmap.org/">jautājumu un atbilžu lapā</a>.
-      current_user: Saraksts ar pašreizējiem lietotājiem kategorijās, pamatojoties uz to, kur tie atrodas pasaulē, ir pieejams no <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
-      get_reading: Izlasi par OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">iekš wiki</a>, panāc ar jaunākajām ziņām, izmantojot <a href="http://blog.openstreetmap.org/">OpenStreetMap blogu</a> vai <a href="http://twitter.com/openstreetmap">Twitter</a>, vai pārlūko caur OpenStreetMap dibinātāja Steve Coast's <a href="http://www.opengeodata.org/">OpenGeoData blogu</a> priekš projekta vēstures, kuram ir <a href="http://www.opengeodata.org/?cat=13">podcasti, kurus klausīties</a>!
-      introductory_video: Iespējams noskatīties %{introductory_video_link}.
-      more_videos: Ir vēl citi %{more_videos_link}.
-      more_videos_here: video šeit
-      user_wiki_page: Ir ieteicams izveidot lietotāja wiki lapu, kas satur kategoriju birkas, norādot, kur tu esi, piemēram <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.
-      video_to_openstreetmap: video, kas iepazīstina ar OpenStreetMap
-      wiki_signup: Tu varētu arī vēlēties <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">piereģistrēties OpenStreetMap wiki</a>.
-    signup_confirm_plain: 
-      ask_questions: "Tu vari jautāt jebkurus jautājumus par OpenStreetMap mūsu jautājumu un atbilžu lapā:"
-      blog_and_twitter: "Sekojiet jaunumiem OpenStreetMap emuārā un Twitter:"
-      current_user: "Saraksts ar esošajiem lietotājiem kategorijās, ņemot vērā, kur pasaulē viņi atrodas, ir pieejams:"
-      introductory_video: "Šeit varat noskatīties video, kas iepazīstina ar OpenStreetMap:"
-      more_videos: "Šeit ir vēl citi video:"
-      the_wiki: "Lasiet par OpenStreetMap mūsu viki:"
-      user_wiki_page: Ir ieteicams izveidot lietotājam wiki lapu, kurā atrastos kategoriju birkas, kuras norādīs uz to, kur tu atrodies, piemēram [[Category:Users_in_London]].
-      wiki_signup: Tu arī varētu vēlēties piereģistrēties mūsu OpenStreetMap wiki, šeit
   oauth: 
     oauthorize: 
       allow_read_gpx: lasīt jūsu privātās GPS trases.
@@ -1605,12 +1615,9 @@ lv:
       update home location on click: Atjaunināt māju atrašanās vietu, noklikšķinot uz kartes?
     confirm: 
       already active: Šis lietotājs jau ir apstiprināts.
-      before you start: Mēs zinām, ka jūs esat steigā, lai sāktu kartēt, bet pirms tam, Tu varētu vēlēties aizpildīt nedaudz informācijas par sevi formā zemāk.
       button: Apstiprināt
-      heading: Apstipriniet lietotāja kontu
+      heading: Pārbaudiet savu e-pastu!
       press confirm button: Spied pieņemšanas pogu zemāk, lai aktivizētu savu lietotāju.
-      reconfirm: Ja ir pagājis jau kāds laiciņš pirms tu reģistrējies, tev varētu būt nepieciešams <a href="%{reconfirm}">atsūtīt jaunu pārbaudes e-pastu</a>.
-      success: Jūsu e-pasta adrese ir apstiprināta, paldies par reģistrēšanos!
       unknown token: Šī pilnvara nepastāv.
     confirm_email: 
       button: Apstiprināt
@@ -1699,14 +1706,10 @@ lv:
       confirm email address: "Apstipriniet e-pasta adresi:"
       confirm password: "Parole (pārbaudei):"
       contact_webmaster: Lūdzu kontaktējies ar <a href="mailto:webmaster@openstreetmap.org">tīmekļa pārzini</a>, lai organizētu lietotāja izveidi - mēs centīsimies un tiksim galā ar tavu pieprasījumu, cik ātri vien iespējams.
-      continue: Turpināt
+      continue: Reģistrēties
       display name: "Rādāmais vārds:"
       display name description: Vārds, kas tiks rādīts publiski. Jūs to vēlāk varēsiet izmainīt iestatījumos.
       email address: "E-pasta adrese:"
-      fill_form: Aizpildi šo formu un mēs tev nosūtīsim ātru e-pastu, lai aktivizētu tavu lietotāju.
-      flash create success message: Paldies, ka reģistrējies. Mēs tev nosūtījām pārbaudes e-pastu uz %{email} un tiklīdz tu apstiprināsi savu lietotāju, tu varēsi sākt kartēt.<br /><br />Ja tu lieto pretmēstuļu sistēmu, kura nosūta pārbaudes pieprasījumus, tad pārliecinies, ka esi ielicis webmaster@openstreetmap.org baltajā sarakstā, jo mēs nevaram atbildēt uz pārbaudes pieprasījumiem.
-      flash welcome: Paldies, ka reģistrējies. Mēs tev nosūtījām sveiciena vēstuli uz %{email} ar dažiem ieteikumiem, kā sākt kartes papildināšanu.
-      heading: Izveidot lietotāja kontu
       license_agreement: Kad tu apstiprini savu lietotāju, tev būs nepieciešams pieņemt <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">veidotāju noteikumus</a>.
       no_auto_account_create: Diemžēl mēs šobrīd nevaram izveidot kontu automātiski.
       not displayed publicly: Netiek rādīts publiski (skati <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privātuma politika, iekļaujot nodaļu par e-pasta adresēm">Privātuma politika</a>)
@@ -1716,7 +1719,7 @@ lv:
       password: "Parole:"
       terms accepted: Paldies, ka pieņēmāt jaunos devuma noteikumus!
       terms declined: Mums žēl, ka tu izvēlējies nepieņemt jaunos Veidotāju Noteikumus. Priekš vairāk informācijas, apskati <a href="%{url}">šo wiki lapu</a>.
-      title: Izveidot kontu
+      title: Reģistrēties
       use openid: Alternatīvi, lieto %{logo} OpenID, lai autorizētos
     no_such_user: 
       body: Atvaino, nav lietotāja ar lietotājvārdu %{user}. Lūdzu pārbaudi pareizrakstību, vai varbūt saite, uz kuras Tu uzspiedi, ir nepareiza.
@@ -1933,3 +1936,7 @@ lv:
       fail: Neizdevās atsaukt lomu `%{role}' no lietotāja `%{name}'. Lūdzu pārbaudi, ka tas lietotājs un loma ir derīgi.
       heading: Apstiprināt lomu atcelšanu
       title: Apstiprināt lomu atcelšanu
+  welcome_page: 
+    add_a_note: 
+      title: Nav laika labošanai? Pievienojiet piezīmi!
+    title: Laipni lūdzam!

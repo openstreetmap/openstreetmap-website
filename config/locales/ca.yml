@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: Aleator
+# Author: Alvaro Vidal-Abarca
 # Author: El libre
 # Author: Gemmaa
 # Author: Grondin
@@ -19,6 +20,7 @@
 # Author: Ssola
 # Author: Toniher
 # Author: XVEC
+# Author: 아라
 ca: 
   activerecord: 
     attributes: 
@@ -409,7 +411,7 @@ ca:
   editor: 
     default: Predeterminat (actualment %{name})
     id: 
-      description: iD (editor en el navegador)
+      description: iD (editor al navegador)
       name: iD
     potlatch: 
       description: Potlatch 1 (editor al navegador)
@@ -418,7 +420,7 @@ ca:
       description: Potlatch 2 (editor al navegador)
       name: Potlatch 2
     remote: 
-      description: Comandament a distància (JOSM o Merkaartor)
+      description: Control remot (JOSM o Merkaartor)
       name: Control Remot
   export: 
     start: 
@@ -441,9 +443,6 @@ ca:
       output: Sortida
       paste_html: Enganxa HTML per incloure'l al lloc web
       scale: Escala
-      too_large: 
-        body: Aquesta zona és massa gran per exportar com a dades XML de OpenStreetMap. Si us plau seleccioneu una àrea més petita.
-        heading: L'àrea és massa gran
       zoom: Zoom
     start_rjs: 
       add_marker: Afegeix un marcador al mapa
@@ -452,7 +451,6 @@ ca:
       drag_a_box: Marca un rectangle al mapa per a seleccionar una àrea
       export: Exporta
       manually_select: Selecciona manualment una àrea diferent
-      view_larger_map: Mostra un mapa més gran
   geocoder: 
     description: 
       title: 
@@ -496,6 +494,9 @@ ca:
         level8: Límit de municipi
         level9: Límit de poble
       prefix: 
+        aerialway: 
+          chair_lift: Telecadira
+          station: Estació de telefèric
         aeroway: 
           aerodrome: Aeròdrom
           apron: Autobús de pista
@@ -617,6 +618,9 @@ ca:
           "yes": Pont
         building: 
           "yes": Edifici
+        emergency: 
+          fire_hydrant: Boca d'incendis
+          phone: Telèfon per a emergències
         highway: 
           bridleway: Ferradura
           bus_guideway: Carril Bus
@@ -638,6 +642,7 @@ ca:
           platform: Perron
           primary: Carretera Principal
           primary_link: Carretera principal
+          proposed: Carretera proposada
           raceway: Vial Ràpid
           residential: Residencial
           rest_area: Àrea de descans
@@ -649,6 +654,7 @@ ca:
           speed_camera: Radar
           steps: Graons
           stile: Escala per a travessar reixats
+          street_lamp: Fanal
           tertiary: Carretera terciària
           tertiary_link: Carretera terciària
           track: Pista
@@ -664,6 +670,7 @@ ca:
           building: Edifici
           castle: Castell
           church: Església
+          citywalls: Muralles
           fort: Fortí
           house: Casa
           icon: Icona
@@ -811,6 +818,7 @@ ca:
           locality: Localitat
           moor: Amarrador
           municipality: Municipi
+          neighbourhood: Barri
           postcode: Codi postal
           region: Regió
           sea: Mar
@@ -836,8 +844,10 @@ ca:
           narrow_gauge: Ample ferroviari mètric
           platform: Andana
           preserved: Conservat ferrocarril
+          proposed: Ferrocarril proposat
           spur: Esperó de ferrocarril
           station: Estació de tren
+          stop: Parada de Ferrocarril
           subway: Estació de metro
           subway_entrance: Accés al Metro
           switch: Punts de ferrocarril
@@ -853,6 +863,7 @@ ca:
           beverages: Botiga de begudes
           bicycle: Tenda de bicicletes
           books: Llibreria
+          boutique: Boutique
           butcher: Carnisseria
           car: Venda de Cotxes
           car_parts: Peces de cotxes
@@ -866,6 +877,7 @@ ca:
           convenience: Botiga de conveniència
           copyshop: Copisteria
           cosmetics: Botiga Cosmètica
+          deli: Botiga de comestibles
           department_store: Department Store
           discount: Botiga d'articles de descompte
           doityourself: Bricolatge
@@ -902,17 +914,21 @@ ca:
           organic: Botiga d'aliments orgànics
           outdoor: Botiga exterior
           pet: Botiga d'animals
+          pharmacy: Farmàcia
           photo: Botiga de foto
           salon: Sala d'estar
+          second_hand: Botiga de segona mà
           shoes: Sabateria
           shopping_centre: Centre comercial
           sports: Botiga d'esports
           stationery: Botiga de papereria
           supermarket: Supermercat
+          tailor: Sastreria
           toys: Botiga de joguines
           travel_agency: Agència de viatges
           video: Video de la botiga
           wine: De llicència
+          "yes": Botiga
         tourism: 
           alpine_hut: Cabanya alpina
           artwork: Il·lustració
@@ -935,6 +951,7 @@ ca:
           viewpoint: Mirador
           zoo: Zoològic
         tunnel: 
+          culvert: Canonada
           "yes": Túnel
         waterway: 
           artificial: Curs d'aigua artificial
@@ -959,12 +976,30 @@ ca:
           waterfall: Cascada
           weir: Weir
   javascripts: 
+    close: Tanca
+    edit_help: Moveu el mapa i feu zoom sobre una ubicació que vulgueu editar, i a continuació, feu clic aquí.
+    key: 
+      title: Llegenda
+      tooltip: Llegenda
+      tooltip_disabled: La llegenda només està disponible per a la capa estàndard
     map: 
       base: 
         cycle_map: Cycle Map
         mapquest: MapQuest Open
         standard: Estàndard
         transport_map: Mapa de transports
+      copyright: © <a href='%{copyright_url}'>Col·laboradors d'OpenStreetMap</a>
+      layers: 
+        data: Dades del mapa
+        header: Capes del mapa
+        notes: Notes de mapa
+        overlays: Activar capes extra per als problemes del mapa
+      locate: 
+        popup: Esteu a {distance} {unit} d'aquest punt
+        title: Mostra la meva ubicació
+      zoom: 
+        in: Apropar-se
+        out: Allunyar-se
     notes: 
       new: 
         add: Afegeix una nota
@@ -985,29 +1020,42 @@ ca:
         reopened_by: Reactivat per <a href='%{user_url}'>%{user}</a> a %{time}
         reopened_by_anonymous: Reactivat per un anònim a %{time}
         resolve: Resol
+    share: 
+      cancel: Cancel·la
+      center_marker: Centra el mapa al marcador
+      custom_dimensions: Estableix dimensions personalitzades
+      download: Descàrrega
+      embed: HTML
+      format: "Format:"
+      image: Imatge
+      include_marker: Inclou el marcador
+      link: Enllaç o HTML
+      long_link: Enllaç
+      scale: "Escala:"
+      short_link: Enllaç curt
+      short_url: URL curta
+      title: Comparteix
+      view_larger_map: Mostra un mapa més gran
     site: 
       createnote_disabled_tooltip: Fes zoom per afegir una nota al mapa
       createnote_tooltip: Afegiu una nota al mapa
-      createnote_zoom_alert: Heu de fer zoom per afegir una nota al mapa
       edit_disabled_tooltip: Augmenteu el zoom per modificar el mapa
       edit_tooltip: Modifica el mapa
-      edit_zoom_alert: Heu d'ampliar el zoom per editar el mapa
       history_disabled_tooltip: Amplia per visualitzar les modificacions de l'àrea
       history_tooltip: Mostra les modificacions de l'àrea
-      history_zoom_alert: Heu d'ampliar el zoom per veure les modificacions de l'àrea
   layouts: 
     community: Comunitat
     community_blogs: Blocs de comunitat
     community_blogs_title: Blocs dels membres de la comunitat OpenStreetMap
     copyright: Drets d'autor i llicència
+    data: Dades
     documentation: Documentació
     documentation_title: Documentació del projecte
     donate: Suport OpenStreetMap %{link} el fons de rampa de maquinari.
     donate_link_text: donatius
     edit: Modificació
     edit_with: Modifica amb %{editor}
-    export: Exporta
-    export_tooltip: Exporta les dades del mapa
+    export_data: Exporta les dades
     foundation: Fundació
     foundation_title: La Fundació OpenStreetMap
     gps_traces: Traces de GPS
@@ -1017,12 +1065,6 @@ ca:
     help_title: Lloc d'ajuda per al projecte
     history: Historial
     home: Inici
-    home_tooltip: Vés a la posició inicial
-    inbox_html: rebut %{count}
-    inbox_tooltip: 
-      one: Teniu 1 missatge sense llegir
-      other: Teniu %{count} missatges sense llegir
-      zero: No teniu cap missatge sense llegir
     intro_1: L'OpenStreetMap és un mapa editable i lliure de tot el món. Està fet per gent com vós.
     intro_2_create_account: Crea un compte d'usuari
     intro_2_download: baixades
@@ -1034,7 +1076,6 @@ ca:
     logo: 
       alt_text: logotip de l'OpenStreetMap
     logout: surt
-    logout_tooltip: Tanca la sessió
     make_a_donation: 
       text: Feu una donació
       title: Ajudeu l'OpenStreetMap amb una donació econòmica
@@ -1055,7 +1096,6 @@ ca:
     user_diaries_tooltip: Mostra els diaris d'usuari
     view: Mostra
     view_tooltip: Mostra el mapa
-    welcome_user_link_tooltip: La teva pàgina d'usuari
     wiki: Wiki
     wiki_title: Lloc web de wiki per al projecte
   license_page: 
@@ -1094,7 +1134,7 @@ ca:
       title_html: Drets d'autor i llicència
     native: 
       mapping_link: Inicia el mapatge
-      native_link: versió THIS_LANGUAGE_NAME_HERE
+      native_link: versió català
       text: Esteu veient la versió anglesa de la pàgina de drets d'autor. Podeu tornar a la %{native_link} d'aquesta pàgina o podeu deixar de llegir sobre el copyright i anar a %{mapping_link}.
       title: Sobre aquesta pàgina
   message: 
@@ -1151,8 +1191,7 @@ ca:
       title: Sortida
       to: A
     read: 
-      back_to_inbox: Torna a la safata d'entrada
-      back_to_outbox: Torna a la safata de sortida
+      back: Enrere
       date: Data
       from: De
       reply_button: Respon
@@ -1242,8 +1281,7 @@ ca:
       greeting: Hola,
       hopefully_you: Algú (possiblement vostè) ha demanat que la contrasenya d'aquest compte d'openstreetmap.org li siga reiniciada a la vostra adreça de correu electrònic.
     message_notification: 
-      footer1: També podeu llegir el missatge a %{readurl}
-      footer2: i el podeu contestar a %{replyurl}
+      footer_html: També podeu llegir el missatge a % {readurl} i podeu respondre'l a % {replyurl}
       header: "%{from_user} ha enviat un missatge a través de OpenStreetMap amb el tema %{subject}:"
       hi: Hola %{to_user},
     note_comment_notification: 
@@ -1270,26 +1308,7 @@ ca:
       created: Algú (suposem que vós mateix) acaba de crear un compte a %{site_url}.
       greeting: Hola!
       subject: "[OpenStreetMap] Benvinguts a OpenStreetMap"
-      welcome: Volem donar-vos la benvinguda i oferir-vos informació addicional que us ajudarà a començar.
-    signup_confirm_html: 
-      ask_questions: Podeu fer qualsevol pregunta que tingueu sobre l'OpenStreetMap al nostre <a href="http://help.openstreetmap.org/">lloc de preguntes i respostes</a>.
-      current_user: "Una llista d'usuaris actuals en categories, basades en on en el món que són, està disponible des de <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region\">Categoria: Users_by_geographical_region</a>."
-      get_reading: Obteniu quelcom per llegir sobre OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">al wiki</a>, i poseu-vos al dia amb les últimes notícies via <a href="http://blog.openstreetmap.org/">OpenStreetMap bloc</a> o <a href="http://twitter.com/openstreetmap">Twitter</a>o navegar a través de OpenStreetMap fundador Steve Costa <a href="http://www.opengeodata.org/">OpenGeoData blog</a> per a la breu història del projecte, que disposa de <a href="http://www.opengeodata.org/?cat=13">podcasts d'escoltar</a> !
-      introductory_video: Podeu veure un %{introductory_video_link}.
-      more_videos: Hi ha %{more_videos_link}.
-      more_videos_here: més de vídeos aquí
-      user_wiki_page: "És recomenable que creeu una pàgina d'usuari al wiki, que inclogui etiquetes de categoria assenyalant on sou, per exemple <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_in_London\">[[Categoria: Users_in_London]]</a>."
-      video_to_openstreetmap: vídeo d'introducció a l'OpenStreetMap
-      wiki_signup: Vostè també pot <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">inscriure s a la wiki OpenStreetMap</a>.
-    signup_confirm_plain: 
-      ask_questions: "Podeu fer qualsevol pregunta que tingueu sobre l'OpenStreetMap al nostre lloc de preguntes i respostes:"
-      blog_and_twitter: "Posarà al dia amb les últimes notícies via el blog de OpenStreetMap o Twitter:"
-      current_user: "Una llista dels usuaris classificats en base al lloc on són està disponible a:"
-      introductory_video: "Podeu veure un vídeo d'introducció a OpenStreetMap aquí:"
-      more_videos: "Hi ha més videos aquí:"
-      the_wiki: "Llegiu sobre l'OpenStreetMap al wiki:"
-      user_wiki_page: Us recomanem de crear una pàgina wiki d'usuari, amb etiquetes de categoria que indiquin on sou, com per exemple [[Category:Users_in_Barcelona].
-      wiki_signup: "També us podeu inscriuire a la wiki de l'OpenStreetMap a:"
+      welcome: Després que confirmis el teu compte, et donarem més informació per tal que puguis començar amb els coneixements bàsics.
   oauth: 
     oauthorize: 
       allow_read_gpx: llegir les vostres traces GPS privades.
@@ -1664,13 +1683,13 @@ ca:
       update home location on click: Localització de casa d'actualització quan faig clic al mapa?
     confirm: 
       already active: Aquest compte ja ha estat confirmat.
-      before you start: Sabem que teniu pressa per començar a cartografiar, però abans de fer-ho potser us agradaria omplir una mica més informació sobre vós mateix en el formulari següent.
       button: Confirma
-      heading: Confirma un compte d'usuari
+      heading: Comprova el teu correu electrònic
+      introduction_1: T'hem enviat un correu de confirmació.
+      introduction_2: Confirma el teu compte clicant a l'enllaç que es troba al correu que t'hem enviat i ja podràs començar a editar el mapa.
       press confirm button: Premeu el botó de confirmar sota per activar el compte.
-      reconfirm: Si ha estat una estona ja que s'inscrivia podria necessitar <a href="%{reconfirm}">enviar-se un nou correu electrònic de confirmació</a>.
-      success: Heu confirmat el vostre compte, gràcies per registrar-vos!
-      unknown token: Aquesta mostra no sembla que hi ha.
+      reconfirm_html: Si necessites que et reenviem el correu de confirmació, <a href="%{reconfirm}">clica aquí</a>.
+      unknown token: Aquest codi de confirmació ha expirat o no existeix.
     confirm_email: 
       button: Confirma
       failure: Una adreça de correu electrònic ja ha estat confirmat amb aquesta fitxa.
@@ -1755,17 +1774,15 @@ ca:
       heading: Voleu afegir % {user} com un amic?
       success: "%{name} és ara el vostre amic!"
     new: 
+      about: 
+        header: Lliure i editable
       confirm email address: "Confirmeu l'adreça de correu electrònic:"
       confirm password: "Confirmeu la contrasenya:"
       contact_webmaster: Contacteu amb el <a href="mailto:webmaster@openstreetmap.org">webmestre</a> per gestionar la creació d'un compte - intentarem tractar la sol·licitud tan aviat com sigui possible.
-      continue: Continua
+      continue: Crear un compte
       display name: "Nom visible:"
       display name description: El nom d'usuari que es motrarà públicament. El podeu canviar més endavant a les preferències.
       email address: "Adreça de correu:"
-      fill_form: Ompliu el formulari i us enviarem un correu electrònic per activar el vostre compte.
-      flash create success message: Gràcies per registrar-vos. Hem enviat un bitllet de confirmació a %{email} i tan aviat com confirmeu el vostre compte podreu cartografiar.<br><br>Si utilitzeu un sistema contra el correu brossa que envia sol·licituds de confirmació, assegureu-vos d'autoritzar l'adreça webmaster@openstreetmap.org, ja que no som capaços de respondre qualsevol sol·licitud de confirmació.
-      flash welcome: Gràcies per enregistar-vos. Us hem enviat un missatge de benvinguda a %{email} amb alguns consells sobre com començar.
-      heading: Crea un compte d'usuari
       license_agreement: Quan confirmeu el compte, heu d'acceptar els <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">termes de col·laboracio</a>.
       no_auto_account_create: No us podem crear automàticament un compte.
       not displayed publicly: No es mostrarà públicament (vegeu la <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">política de privacitat</a>)
@@ -1775,7 +1792,7 @@ ca:
       password: "Contrasenya:"
       terms accepted: Gràcies per a l'acceptació de les condicions de col. laborador nou!
       terms declined: Lamentem que vostè ha decidit no acceptar els nous termes de col. laborador. Per a més informació, si us plau vegi <a href="%{url}">aquesta pàgina de wiki</a>.
-      title: Crea un compte
+      title: Crear un compte
       use openid: Alternativament, utilitzeu %{logo} OpenID per iniciar sessió
     no_such_user: 
       body: No hi ha cap usuari amb el nom %{user}. Comproveu l'ortografia, o potser l'enllaç on heu fet clic és incorrecte.
@@ -1992,3 +2009,22 @@ ca:
       fail: No s'ha pogut revocar el paper "%{role}" des de l'usuari "%{name}". Si us plau, comproveu que l'usuari i el paper són vàlids.
       heading: Confirmar revocació de rol
       title: Confirmar revocació de rol
+  welcome_page: 
+    add_a_note: 
+      title: No tens temps per editar? Afegeix una nota!
+    basic_terms: 
+      editor_html: Un <strong>editor</strong> és un programa o pàgina web que pots utilitzar per editar el mapa.
+      node_html: Un <strong>node</strong> és un punt al mapa, com ara un restaurant o un arbre.
+      paragraph_1_html: l'OpenStreetMap té algunes paraules del seu propi argot. Aquí hi han unes quantes paraules clau que et poden venir bé.
+      tag_html: Una <strong>etiqueta</strong> és un recull de dades sobre un node o una via, com ara el nom d'un restaurant o la velocitat màxima d'una carretera.
+      title: Condicions bàsiques per editar el mapa
+      way_html: Una <strong>via</strong> és una línia o àrea, com ara una carretera, sèquia, llac o edifici.
+    introduction_html: Benvingut a OpenStreetMap, el mapa lliure i editable del món. Ara que ja t'has registrat, ja ho tens tot a punt per començar a editar el mapa. Aquí hi ha una guia ràpida amb les coses més importants que necessites saber
+    questions: 
+      title: Alguna pregunta més?
+    start_mapping: Comença a editar el mapa
+    title: Benvingut!
+    whats_on_the_map: 
+      off_html: El que <em>no</em> inclou són dades subjectives com ara puntuacions, característiques històriques o hipotètiques i dades de fonts subjectes a copyright. A no ser que posseeixis un permís especial no copiïs res de mapes de paper o en línia.
+      on_html: L'OpenStreetMap és un lloc per incloure al mapa coses que són <em>reals i normals</em>- això inclou milions d'edificis, carreteres, i altres detalls sobre llocs. Pots cartografiar totes les característiques del món real que et semblin interessants.
+      title: Què hi ha al mapa

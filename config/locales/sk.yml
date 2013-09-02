@@ -115,7 +115,7 @@ sk:
         one: "Obsahuje nasledujúcu %{count} cestu:"
         other: "Obsahuje nasledujúcich %{count} ciest:"
       no_bounding_box: Pre tento počet zmien nie je uložený žiadny rozsah.
-      show_area_box: Zobraziť rám oblasti
+      show_area_box: Zobraziť ohraničenie oblasti
     common_details: 
       changeset_comment: "Komentár:"
       deleted_at: "Odstránené:"
@@ -180,8 +180,12 @@ sk:
         relation: relácia
         way: cesta
     note: 
+      closed: "Zatvorené:"
       closed_title: "Vyriešená chyba: %{note_name}"
+      description: "Popis:"
+      last_modified: "Naposledy upravené:"
       open_title: "Nevyriešená chyba: %{note_name}"
+      opened: "Otvorené:"
       title: Chyba
     paging_nav: 
       of: z
@@ -298,12 +302,12 @@ sk:
       user: Používateľ
     list: 
       description: Posledné zmeny
-      description_bbox: Zmenové súbory vo vnútri %{bbox}
+      description_bbox: Sady zmien v oblasti %{bbox}
       description_friend: Sady zmien vašich priateľov
       description_nearby: Sady zmien používateľov v okolí
-      description_user: Zmenové súbory používateľa %{user}
-      description_user_bbox: Zmenové súbory používateľa %{user} v %{bbox}
-      empty_anon_html: Zatiaľ bez úprav
+      description_user: Sady zmien používateľa %{user}
+      description_user_bbox: Sady zmien používateľa %{user} v oblasti %{bbox}
+      empty_anon_html: Žiadne úpravy ešte neboli vykonané.
       empty_user_html: Zdá sa, že ste zatiaľ nevykonali žiadne úpravy. Ak chete začať, pozrite si <a href='http://wiki.openstreetmap.org/wiki/Sk:Beginners%27_guide'>Príručku pre začiatočníkov</a>.
       heading: Sady zmien
       heading_bbox: Sady zmien
@@ -414,7 +418,7 @@ sk:
       area_to_export: Oblasť pre export
       embeddable_html: Vložiteľné HTML
       export_button: Export
-      export_details: OpenStreetMap dáta sú licencované pod <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL).
+      export_details: Údaje OpenStreetMap sú k dispozícii pod licenciou <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL).
       format: Formát
       format_to_export: Formát pre export
       image_size: Rozmery obrázku
@@ -429,9 +433,6 @@ sk:
       output: Výstup
       paste_html: Pre vloženie do stránky použite toto HTML
       scale: Mierka
-      too_large: 
-        body: Táto oblasť je príliš veľká pre export OpenStreetMap dát. Priblížte prosím mapu, alebo vyberte menšiu oblasť.
-        heading: Príliš veľká oblasť
       zoom: Zväčšenie
     start_rjs: 
       add_marker: Pridať do mapy značku
@@ -440,7 +441,6 @@ sk:
       drag_a_box: Označte myšou na mape zvolenú oblasť
       export: Export
       manually_select: Manuálne vybrať inú oblasť
-      view_larger_map: Zobraziť väčšiu mapu
   geocoder: 
     description: 
       title: 
@@ -475,6 +475,14 @@ sk:
         uk_postcode: Výsledky z <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Výsledky z <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Hranica časti obce
+        level2: Štátna hranica
+        level4: Hranica kraja (state)
+        level5: Hranica regiónu
+        level6: Hranica okresu (county)
+        level8: Hranica mesta
+        level9: Hranica obce
       prefix: 
         aeroway: 
           aerodrome: Aerodróm
@@ -939,18 +947,37 @@ sk:
           waterfall: Vodopád
           weir: Splav
   javascripts: 
+    close: Zavrieť
+    key: 
+      title: Legenda
+      tooltip: Legenda
     map: 
       base: 
         cycle_map: Cyklomapa
         standard: Štandardná
         transport_map: Dopravná mapa
+      layers: 
+        data: Mapové podklady
+        header: Mapové vrstvy
+        notes: Poznámky k mape
+        overlays: Zapnúť vrstvy pre ladenie mapy
+      zoom: 
+        in: Priblížiť
+        out: Oddialiť
+    notes: 
+      show: 
+        hide: Skryť
+    share: 
+      cancel: Zrušiť
+      link: Odkaz
+      long_link: Dlhý odkaz
+      short_link: Krátky odkaz
+      title: Zdieľať
     site: 
       edit_disabled_tooltip: Pre editáciu priblížte mapu
       edit_tooltip: Upraviť mapu
-      edit_zoom_alert: Upravovať mapu môžete len pri väčšom priblížení
       history_disabled_tooltip: Pre zobrazenie úprav tejto oblasti priblížte mapu
       history_tooltip: Zobraziť úpravy tejto oblasti
-      history_zoom_alert: Zobraziť editácie môžete len pri väčšom priblížení
   layouts: 
     community: Komunita
     community_blogs: Komunitné blogy
@@ -962,28 +989,19 @@ sk:
     donate_link_text: príspevkom
     edit: Upraviť
     edit_with: Upraviť pomocou %{editor}
-    export: Export
-    export_tooltip: Export mapových dát
     foundation: Nadácia
     foundation_title: Nadácia OpenStreetMap Foundation
-    gps_traces: GPS Stopy
+    gps_traces: GPS stopy
     gps_traces_tooltip: Správa GPS stôp
     help: Pomoc
     help_centre: Centrum pomoci
     help_title: Stránky s nápovedou k tomuto projektu
     history: História
     home: domov
-    home_tooltip: Prejsť na domovské miesto
-    inbox_html: správy (%{count})
-    inbox_tooltip: 
-      few: V schránke máte %{count} neprečítané správy
-      one: V schránke máte 1 neprečítanú správu
-      other: V schránke máte %{count} neprečítaných správ
-      zero: Nemáte žiadne neprečítané správy
     intro_1: OpenStreetMap je slobodná editovateľná mapa celého sveta. Tvoria ju ľudia ako vy.
     intro_2_create_account: Založte si konto
     intro_2_download: stiahnutie
-    intro_2_html: Dáta sú k dispozícii na %{download} a %{use} pod %{license}. %{create_account} a pomôžte mapu zdokonaliť.
+    intro_2_html: Údaje sú k dispozícii na %{download} a %{use} pod %{license}. %{create_account} a pomôžte mapu zdokonaliť.
     intro_2_license: slobodnou licenciou
     intro_2_use: použitie
     intro_2_use_url: http://wiki.openstreetmap.org/wiki/Using_OpenStreetMap
@@ -992,7 +1010,6 @@ sk:
     logo: 
       alt_text: Logo OpenStreetMap
     logout: odhlásiť
-    logout_tooltip: Odhlásiť
     make_a_donation: 
       text: Darovanie
       title: Podporte OpenStreetMap finančným príspevkom
@@ -1011,7 +1028,6 @@ sk:
     user_diaries_tooltip: Zobraziť denníky používateľov
     view: Zobraziť
     view_tooltip: Zobraziť mapu
-    welcome_user_link_tooltip: Vaša používateľská stránka
     wiki: wiki
     wiki_title: Wiki k projektu
   license_page: 
@@ -1035,7 +1051,7 @@ sk:
       contributors_title_html: Naši prispievatelia
       contributors_za_html: "<strong>Juhoafrická republika</strong>: Obsahuje dáta pochádzajúce z <a href=\"http://www.ngi.gov.za/\">Chief Directorate: National Geo-Spatial Information</a>, State copyright reserved."
       credit_1_html: Vyžadujeme uviesť „<em>© Prispievatelia OpenStreetMap</em>“.
-      credit_2_html: "  Musíte zdôrazniť, že dáta sú dostupné pod licenciu Open Database Licence, a pri používaní mapových tajlov, že tieto sú pod licenciou CC-BY-SA. Môžete to urobiť hypertextovým odkazom na <a href=\"http://www.openstreetmap.org/copyright\">http://www.openstreetmap.org/copyright</a>. Alternatívne, ak distribuujete OSM v dátovej forme, môžete vymenovať licencie a vytvoriť hypertextový odkaz priamo na ne. Pri médiách kde hypertextové odkazy nie sú možné (napr. tlačené práce), odporúčame aby ste nasmerovali čitateľov na openstreetmap.org (napríklad rozšírením slova OpenStreetMap na plnú adresu), na opendatacommons.org a na creativecommons.org (ak je to relevenantné)."
+      credit_2_html: "Musíte tiež zdôrazniť, že údaje sú dostupné pod licenciou Open Database Licence, a pokiaľ používate naše mapové dlaždice, že ich kartografický obsah je licencovaný pod CC-BY-SA. Uvedené môžete splniť hypertextovým odkazom na <a href=\"http://www.openstreetmap.org/copyright\">tuto stránku</a>.\n\nAlternatívne môžete (a ak šírite OSM v dátovej forme, tak musíte) vymenovať licencie a uviesť hypertextové odkazy priamo na ne. Pri médiách, kde hypertextové odkazy nie sú možné (napr. tlačené diela), odporúčame, aby ste nasmerovali čitateľov na openstreetmap.org (napríklad rozšírením slova 'OpenStreetMap' na túto plnú adresu), na opendatacommons.org a na creativecommons.org (ak je to relevenantné)."
       credit_3_html: "V prípade interaktívnej elektronickej mapy by autorstvo malo byť uvedené v rohu mapy.\nNapríklad:"
       credit_title_html: Ako uvádzať OpenStreetMap
       infringement_1_html: Prispievateľom OSM pripomíname, že by nikdy nemali pridávať dáta zo zdrojov chránených autorským právom (napr. Google Maps či tlačené mapy) bez výslovného súhlasu držiteľov práv.
@@ -1110,8 +1126,7 @@ sk:
       title: Odoslaná pošta
       to: Komu
     read: 
-      back_to_inbox: Späť do prijatých správ
-      back_to_outbox: Späť do schránky odoslanej pošty
+      back: Späť
       date: Dátum
       from: Od
       reply_button: Odpovedať
@@ -1124,6 +1139,9 @@ sk:
       wrong_user: Ste prihlásený ako „%{user}“, ale správa, na ktorú chcete odpovedať, nebola odoslaná tomuto používateľovi. Ak na ňu chcete odpovedať, prihláste sa pod správnym kontom.
     sent_message_summary: 
       delete_button: Zmazať
+  note: 
+    mine: 
+      creator: Autor
   notifier: 
     diary_comment_notification: 
       footer: Môžete si tiež prečítať komentár na %{readurl}, komentovať na %{commenturl}, alebo odpovedať na %{replyurl}
@@ -1139,6 +1157,7 @@ sk:
     email_confirm_plain: 
       click_the_link: Ak ste to boli vy, potvrďte prosím zmenu kliknutím na nasledovný odkaz.
       greeting: Ahoj,
+      hopefully_you: Niekto (snáď vy) požiadal o zmenu e-mailovej adresy na serveri %{server_url} na %{new_address}.
     friend_notification: 
       befriend_them: Môžete ich tiež pridať ako priateľov na %{befriendurl}.
       had_added_you: "%{user} vás pridal ako priateľa na OpenStreetMap."
@@ -1167,36 +1186,19 @@ sk:
     lost_password_plain: 
       click_the_link: Ak ste to vy, kliknite prosím na odkaz nižšie pre obnovenie svojho hesla.
       greeting: Ahoj,
+      hopefully_you: Niekto (snáď vy) požiadal o vygenerovanie nového hesla pre používateľa serveru openstreetmap.org s touto e-mailovou adresou.
     message_notification: 
-      footer1: Môžete si tiež prečítať správy na %{readurl}
-      footer2: a môžete odpovedať na %{replyurl}
       header: "%{from_user} vám zaslal správu cez OpenStreetMap s predmetom %{subject}:"
       hi: Ahoj %{to_user},
+    note_comment_notification: 
+      details: Viac podrobností o poznámke môžete nájsť nájsť na % {url}.
+      greeting: Ahoj,
     signup_confirm: 
       confirm: "Predtým, než urobíme čokoľvek ďalšie, potrebujeme potvrdiť, že táto žiadosť prišla od vás. Ak je to tak, kliknutím na nasledovný odkaz potvrdíte svoje konto:"
       created: Niekto (dúfame, že vy) si práve vytvoril konto na %{site_url}.
       greeting: Ahoj!
       subject: "[OpenStreetMap] Vitajte v OpenStreetMap"
       welcome: Dovoľujeme si vás privítať a poskytnúť vám niektoré ďalšie informácie, ktoré vám pomôžu začať.
-    signup_confirm_html: 
-      ask_questions: Prípadné otázky k OpenStreetMap môžete položiť na našom <a href="http://help.openstreetmap.org/">webe otázok a odpovedí</a>.
-      current_user: Zoznam existujúcich používateľov v kategóriách podľa miesta bydliska je dostupný v <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">kategórii Users by geographical region</a>.
-      get_reading: Prečítajte si niečo o OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Sk:Beginners%27_guide">na wiki</a>, sledujte aktuálne dianie na našom <a href="http://blog.openstreetmap.org/">blogu</a> alebo <a href="http://twitter.com/openstreetmap">Twitteri</a>, alebo si prebehnite blog zakladateľa OpenStreetMap Steva Coasta <a href="http://www.opengeodata.org/">OpenGeoData</a> so stručnou históriou projektu aj vo forme <a href="http://www.opengeodata.org/?cat=13">podcastov</a>!
-      introductory_video: Môžete sledovať %{introductory_video_link}.
-      more_videos: Je tam %{more_videos_link}.
-      more_videos_here: viac videí tu
-      user_wiki_page: Odporúčame, aby ste si na wiki založili používateľskú stránku, na ktorej kategóriami označíte odkiaľ pochádzate, napr. <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Bratislava">[[Category:Users in Bratislava]]</a>.
-      video_to_openstreetmap: úvodné inštruktážne video k OpenStreetMap
-      wiki_signup: Môžete sa tiež <a href="http://wiki.openstreetmap.org/w/index.php?title=Special:UserLogin&type=signup&returnto=Sk%3AMain_Page&uselang=sk">zaregistrovať na OpenStreetMap wiki</a>.
-    signup_confirm_plain: 
-      ask_questions: "Prípadné otázky k OpenStreetMap môžete položiť na našom webe otázok a odpovedí:"
-      blog_and_twitter: "Sledujte aktuálne dianie na našom blogu alebo Twitteri:"
-      current_user: "Zoznam existujúcich kategórií pre klasifikáciu používateľov podľa bydliska je k dispozícii na:"
-      introductory_video: "Môžete sledovať úvodné video k OpenStreetMap tu:"
-      more_videos: "Existujú ďalšie videá tu:"
-      the_wiki: "Prečítajte si niečo o OpenStreetMap na wiki:"
-      user_wiki_page: Odporúčame, aby ste si na wiki založili používateľskú stránku, na ktorej si kategóriami označíte, odkiaľ pochádzate, napr. [[Category:Users in Bratislava]].
-      wiki_signup: "Môžete tiež prihlásiť do wiki OpenStreetMap na adrese:"
   oauth: 
     oauthorize: 
       allow_read_gpx: čítať vaše súkromné GPS stopy.
@@ -1301,6 +1303,7 @@ sk:
     edit: 
       anon_edits_link_text: Prečo to tak je?
       flash_player_required: Ak chcete používať Potlatch, flashový editor OpenStreetMap, potrebujete Flash prehrávač. Môžete si <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">stiahnuť Flash Player z Adobe.com</a>. Pre editáciu OpenStreetMap existuje <a href="http://wiki.openstreetmap.org/wiki/Editing">viacero ďalších možností</a>.
+      id_not_configured: iD zatiaľ nie je nakonfigurovaný
       no_iframe_support: Váš prehliadač nepodporuje vložené HTML rámy (iframes), ktoré sú pre túto funkciu nevyhnutné.
       not_public: Nemáte nastavené úpravy na verejné.
       not_public_description: Kým tak neurobíte, nemôžete ďalej editovať mapu. Svoje úpravy môžete nastaviť ako verejné na vašej %{user_page}.
@@ -1309,8 +1312,9 @@ sk:
       potlatch_unsaved_changes: Nemáte uložené zmeny. (V Potlatchu odznačte aktuálnu cestu alebo bod ak editujete v živom režime, alebo kliknite na tlačítko Uložiť (Save) vľavo hore, ak sa tam zobrazuje.)
       user_page_link: stránke používateľa
     index: 
-      js_1: Používate prehliadač, ktorý  nepodporuje JavaScript, alebo máte vypnutý JavaScript.
-      js_2: OpenStreetMap využíva JavaScript pre slippy map.
+      createnote: Pridať poznámku
+      js_1: Používate prehliadač bez podpory JavaScriptu, alebo máte JavaScript vypnutý.
+      js_2: OpenStreetMap používa pre interaktívnu mapu JavaScript.
       license: 
         copyright: Chránené autorskými právami OpenStreetMap a prispievateľov pod slobodnou licenciou
       permalink: Trvalý odkaz
@@ -1562,12 +1566,9 @@ sk:
       update home location on click: Aktualizovať domovské miesto kliknutím na mapu?
     confirm: 
       already active: Toto používateľské konto už bolo potvrdené.
-      before you start: Pravdepodobne sa už nemôžete dočkať, kedy začnete vytvárať mapy, predtým by ste ale mohli chcieť v nasledovnom formulári vyplniť niekoľko informácií o svojej osobe.
       button: Potvrdiť
       heading: Potvrdiť používateľské konto
       press confirm button: Stlačte tlačítko na potvrdenie dole, pre aktiváciu vášho účtu.
-      reconfirm: Ak už od vašej registrácie uplynul dlhší čas, budete si možno musieť <a href="%{reconfirm}">nechať poslať nový potvrdzovací e-mail</a>.
-      success: Váš účet je založený, ďakujeme, že ste sa zapísali!
       unknown token: Zadaný potvrdzovací kód neexistuje.
     confirm_email: 
       button: Potvrdiť
@@ -1660,10 +1661,6 @@ sk:
       display name: "Zobrazované meno:"
       display name description: Vaše verejne zobrazené meno užívateľa. Môžete ho potom zmeniť v nastaveniach.
       email address: "Emailová adresa:"
-      fill_form: Vyplňte formulár a my vám rýchlo pošleme email na aktiváciu vášho účtu.
-      flash create success message: Používateľ bol úspešne vytvorený. Skontrolujte váš email, kvôli potvrdzujúcej správe, a budete môcť mapovať ihneď :-)<br /><br />Majte prosím na pamäti, že nebudete schopný prihlásiť sa až do prijatia a potvrdenie vašej emailovej adresy.<br /><br /> Ak používate antispamový systém, ktorý posiela žiadosť o potvrdenie, potom sa uistite či je emailová adresa webmaster@openstreetmap.org na whiteliste, inak nie sme schopný odpovedať na potvrdenie požiadavky.
-      flash welcome: Vďaka za registráciu. Na %{email} sme poslali uvítanie a niekoľko tipov pre žačiatok.
-      heading: Vytvoriť používateľský účet
       license_agreement: Pri potvrdení konta budete musieť vyjadriť súhlas s <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">Podmienkami prispievania</a>.
       no_auto_account_create: Bohužiaľ teraz nie sme schopný vytvoriť pre vás účet automaticky.
       not displayed publicly: Nezobrazuje sa nikde verejne (pozrite <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="Pravidlá ochrany osobných údajov na wiki, vrátane časti o e-mailových adresách">pravidlá ochrany osobných údajov</a>)
@@ -1720,7 +1717,7 @@ sk:
       you need to accept or decline: Pre pokračovanie si prosím prečítajte a príjmite, alebo odmietnite nové Podmienky prispievania.
     view: 
       activate_user: aktivovať tohoto používateľa
-      add as friend: pridať ako priateľa
+      add as friend: pridať priateľa
       ago: (pred %{time_in_words_ago})
       block_history: prijaté bloky
       blocks by me: blokovať pre mňa
@@ -1761,7 +1758,7 @@ sk:
       no friends: Ešte nemáte pridaných žiadnych priateľov.
       no nearby users: Nie je tu iný používateľ, ktorý priznáva mapovanie v okolí.
       oauth settings: oauth nastavenia
-      remove as friend: odstrániť ako priateľa
+      remove as friend: odstrániť z priateľov
       role: 
         administrator: Tento používateľ je administrátor
         grant: 

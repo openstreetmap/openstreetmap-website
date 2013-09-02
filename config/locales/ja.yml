@@ -12,6 +12,7 @@
 # Author: Miya
 # Author: Nabetaro
 # Author: Nazotoko
+# Author: OKANO Takayoshi
 # Author: Schu
 # Author: Shirayuki
 # Author: Tombi-aburage
@@ -418,7 +419,7 @@ ja:
       area_to_export: エクスポートする領域
       embeddable_html: 埋め込み HTML
       export_button: エクスポート
-      export_details: OpenStreetMap のデータは<a href="http://opendatacommons.org/licenses/odbl/1.0/"Open Data Commons Open Database License</a> (ODbL) の下にライセンスされています。
+      export_details: OpenStreetMap のデータは<a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database License</a> (ODbL) の下にライセンスされています。
       format: ファイル形式
       format_to_export: エクスポートするファイル形式
       image_size: 画像サイズ
@@ -434,8 +435,7 @@ ja:
       paste_html: 以下の HTML をあなたのサイトに貼り付けてください
       scale: 縮尺
       too_large: 
-        body: OpenStreetMap XML データとしてエクスポートするには大きすぎる領域です。拡大するか、より小さい領域を選択してください。
-        heading: 領域が大きすぎます
+        other: heading=領域が広すぎます
       zoom: ズーム
     start_rjs: 
       add_marker: マーカーを地図に追加
@@ -444,7 +444,6 @@ ja:
       drag_a_box: 領域を選択するには地図をドラッグしてください
       export: エクスポート
       manually_select: ドラッグして別の領域を選択
-      view_larger_map: 大きな地図を表示...
   geocoder: 
     description: 
       title: 
@@ -483,10 +482,15 @@ ja:
         level10: 街区境
         level2: 国境
         level4: 道州境
+        level5: 行政境界
         level6: 都道府県境
         level8: 市区町村境
         level9: 村境
       prefix: 
+        aerialway: 
+          chair_lift: チェアリフト
+          drag_lift: 牽引リフト
+          station: 索道駅
         aeroway: 
           aerodrome: 飛行場
           apron: 空港のエプロン
@@ -580,6 +584,7 @@ ja:
           shower: シャワー
           social_centre: 社会センター
           social_club: 社交クラブ
+          social_facility: 公共施設
           studio: スタジオ
           supermarket: スーパーマーケット
           swimming_pool: 水泳用プール
@@ -608,6 +613,9 @@ ja:
           "yes": 橋
         building: 
           "yes": 建造物
+        emergency: 
+          fire_hydrant: 消火栓
+          phone: 緊急電話
         highway: 
           bridleway: 乗馬道
           bus_guideway: 路面バス専用車線
@@ -629,6 +637,7 @@ ja:
           platform: プラットフォーム
           primary: 主要地方道
           primary_link: 主要地方道
+          proposed: 計画中の道路
           raceway: 競技コース
           residential: 住宅
           rest_area: 休憩所
@@ -640,6 +649,7 @@ ja:
           speed_camera: 高速度カメラ
           steps: 階段
           stile: 踏み越し段
+          street_lamp: 街灯
           tertiary: 周辺道路
           tertiary_link: 周辺道路
           track: 農道・林道
@@ -655,6 +665,7 @@ ja:
           building: ビル
           castle: 城
           church: 教会
+          citywalls: 城壁
           fort: 砦
           house: 住宅
           icon: アイコン
@@ -802,6 +813,7 @@ ja:
           locality: 地域
           moor: 沼地
           municipality: 市町村
+          neighbourhood: 小字
           postcode: Postcode
           region: 地域
           sea: 海
@@ -827,8 +839,10 @@ ja:
           narrow_gauge: 狭軌鉄道
           platform: 鉄道プラットフォーム
           preserved: 保存鉄道
+          proposed: 計画中の鉄道
           spur: 支線
           station: 鉄道駅
+          stop: 鉄道駅
           subway: 地下鉄駅
           subway_entrance: 地下鉄駅入口
           switch: 鉄道の分岐器
@@ -844,6 +858,7 @@ ja:
           beverages: 飲料ショップ
           bicycle: 自転車販売店
           books: 書店
+          boutique: ブティック
           butcher: 肉屋
           car: 自動車販売店
           car_parts: 自動車部品販売店
@@ -857,6 +872,7 @@ ja:
           convenience: コンビニエンス ストア
           copyshop: コピー店
           cosmetics: 化粧品販売店
+          deli: デリ
           department_store: デパート
           discount: 安売り店
           doityourself: 日曜大工
@@ -893,17 +909,21 @@ ja:
           organic: 有機食材店
           outdoor: アウトドア ショップ
           pet: ペット ショップ
+          pharmacy: 薬局
           photo: 写真屋
           salon: サロン
+          second_hand: 中古品店
           shoes: 靴屋
           shopping_centre: ショッピング センター
           sports: スポーツ用品専門店
           stationery: 文房具店
           supermarket: スーパーマーケット
+          tailor: 洋服店
           toys: 玩具店
           travel_agency: 旅行代理店
           video: ビデオ ショップ
           wine: 酒屋
+          "yes": 店舗
         tourism: 
           alpine_hut: 高山小屋
           artwork: 芸術作品
@@ -926,6 +946,7 @@ ja:
           viewpoint: 景勝地
           zoo: 動物園
         tunnel: 
+          culvert: 暗渠
           "yes": トンネル
         waterway: 
           artificial: 人工的な水路
@@ -950,11 +971,24 @@ ja:
           waterfall: 滝
           weir: ダム
   javascripts: 
+    close: 閉じる
+    key: 
+      title: 凡例
+      tooltip: 凡例
     map: 
       base: 
         cycle_map: サイクリングマップ
         standard: 標準
         transport_map: 交通マップ
+      copyright: © <a href='%{copyright_url}'>OpenStreetMap への貢献者</a>
+      layers: 
+        data: 地図データ
+        header: 地図のレイヤー
+        notes: 地図メモ
+        overlays: 地図のトラブルシューティングのためオーバーレイを有効にする
+      zoom: 
+        in: 拡大
+        out: 縮小
     notes: 
       new: 
         add: メモを追加
@@ -975,29 +1009,41 @@ ja:
         reopened_by: <a href='%{user_url}'>%{user}</a>が%{time}に再有効化
         reopened_by_anonymous: 匿名ユーザーが %{time} に再度有効化しました
         resolve: 解決
+    share: 
+      cancel: キャンセル
+      download: ダウンロード
+      embed: HTML
+      format: "形式:"
+      image: 画像
+      include_marker: マーカーを含める
+      link: リンクまたは HTML
+      long_link: リンク
+      paste_html: 以下の HTML をあなたのサイトに貼り付けてください
+      scale: "縮尺:"
+      short_link: 短縮 URL
+      short_url: 短縮 URL
+      title: 共有
+      view_larger_map: 大きな地図を表示
     site: 
       createnote_disabled_tooltip: メモを地図に追加するには拡大してください
       createnote_tooltip: 今後の修正のために地図にメモを残す
-      createnote_zoom_alert: メモを地図に追加するには拡大してください
       edit_disabled_tooltip: 地図を編集するには拡大してください
       edit_tooltip: 地図を編集
-      edit_zoom_alert: 地図を編集するには拡大してください
       history_disabled_tooltip: この領域の編集を閲覧するには拡大してください
       history_tooltip: この領域の編集を閲覧
-      history_zoom_alert: この領域の編集を閲覧するには拡大してください
   layouts: 
     community: コミュニティ
     community_blogs: コミュニティ ブログ
     community_blogs_title: OpenStreetMap コミュニティのメンバーからのブログ
     copyright: 著作権とライセンス
+    data: データ
     documentation: 説明書
     documentation_title: プロジェクトのドキュメント
     donate: ハードウェア アップグレード基金への%{link}で、OpenStreetMap を支援します。
     donate_link_text: 寄付
     edit: 編集
     edit_with: "%{editor} で編集"
-    export: エクスポート
-    export_tooltip: 地図データのエクスポート
+    export_data: データをエクスポート
     foundation: 財団
     foundation_title: OpenStreetMap 財団
     gps_traces: GPSトレース
@@ -1007,12 +1053,6 @@ ja:
     help_title: プロジェクトのヘルプサイト
     history: 履歴
     home: ホーム
-    home_tooltip: ホームに戻る
-    inbox_html: 受信箱 %{count}
-    inbox_tooltip: 
-      one: 受信箱に 1 件の未読メッセージがあります
-      other: 受信箱に %{count} 件の未読メッセージがあります
-      zero: 受信箱に未読メッセージはありません
     intro_1: OpenStreetMap は自由に編集できる世界地図です。あなたのような人々が作りました。
     intro_2_create_account: ユーザー アカウントを作成
     intro_2_download: ダウンロード
@@ -1025,7 +1065,6 @@ ja:
     logo: 
       alt_text: OpenStreetMap ロゴ
     logout: ログアウト
-    logout_tooltip: ログアウト
     make_a_donation: 
       text: 寄付
       title: 金銭を寄贈して OpenStreetMap を支援
@@ -1043,16 +1082,17 @@ ja:
     user_diaries_tooltip: ユーザーの日記を閲覧する
     view: 閲覧
     view_tooltip: 地図を閲覧
-    welcome_user_link_tooltip: 自分のユーザー ページ
     wiki: ウィキ
     wiki_title: プロジェクトのウィキサイト
     wiki_url: http://wiki.openstreetmap.org/wiki/JA:Main_Page
   license_page: 
     foreign: 
       english_link: 英語の原文
-      text: 翻訳したページと、%{english_original_link} の間で競合が発生しました。英語版の内容が優先されるでしょう。
+      text: この翻訳版のページと%{english_original_link}の間で競合が発生した場合は、英語版の内容が優先されます
       title: この翻訳について
     legal_babble: 
+      attribution_example: 
+        title: 権利表示の例
       contributors_at_html: "<strong>オーストリア</strong>: <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (ライセンス <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>)、<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg</a>、Land Tirol (ライセンス <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY AT with amendments</a>) によるデータを含みます。"
       contributors_ca_html: "<strong>カナダ</strong>: GeoBase&reg;、GeoGratis (&copy; Department of Natural Resources Canada)、CanVec (&copy; Department of Natural Resources Canada)、StatCan (Geography Division, Statistics Canada) によるデータを含みます。"
       contributors_fr_html: "<strong>フランス</strong>: Direction Générale des Impôts によるデータを含みます。"
@@ -1062,7 +1102,7 @@ ja:
       contributors_nz_html: "<strong>ニュージーランド</strong>: Land Information New Zealand によるデータを含みます。Crown が著作権を保持します。"
       contributors_title_html: 協力者
       contributors_za_html: "<strong>南アフリカ</strong>: <a href=\"http://www.ngi.gov.za/\">Chief Directorate: National Geo-Spatial Information</a>, State によるデータを含み、著作権を保持します。"
-      credit_1_html: 「&copy; OpenStreetMap contributors」のクレジットを使用してください。
+      credit_1_html: 「&copy; OpenStreetMap への貢献者」のクレジットを必ず使用してください。
       credit_3_html: "閲覧可能な電子地図の場合は、地図の隅にクレジットを表示してください。\n例:"
       credit_title_html: OpenStreetMap のクレジット表記の仕方
       infringement_1_html: "OSM の協力者は、著作権者から明確な許諾を得ずに、著作権のある情報源 (例: Google マップや印刷された地図) からデータを持ち込まないよう注意するものとします。"
@@ -1070,11 +1110,12 @@ ja:
       intro_1_html: "OpenStreetMap は<i>オープンデータ</i>であり、<a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data\nCommons Open Database License</a> (ODbL) の下にライセンスされています。"
       intro_2_html: OpenStreetMapとその協力者をクレジットすれば、データを自由にコピー、配布、送信、利用することができます。変更したり翻案したりしたデータは、同じライセンスに従って提供することができます。あなたの権利と責任は、<a href="http://opendatacommons.org/licenses/odbl/1.0/">ライセンス契約</a>の全文で説明しています。
       intro_3_html: "地図タイルの作成法やドキュメントは、<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons Attribution-ShareAlike 2.0</a> ライセンス (CC-BY-SA) に基づいてライセンスされます。"
+      more_title_html: 詳細を見る
       title_html: 著作権とライセンス
     native: 
       mapping_link: マッピングを開始
-      native_link: THIS_LANGUAGE_NAME_HERE バージョン
-      text: あなたは英語版の著作権情報のページを閲覧しています。%{native_link} から戻れます。または %{mapping_link} からマッピングに戻れます。
+      native_link: 日本語版
+      text: 閲覧中のこのページは著作権情報ページの英語版です。このページの%{native_link}に戻れます。または%{mapping_link}からマッピングに戻れます。
       title: このページについて
   message: 
     delete: 
@@ -1127,8 +1168,7 @@ ja:
       title: 送信箱
       to: 宛先
     read: 
-      back_to_inbox: 受信箱に戻る
-      back_to_outbox: 送信箱に戻る
+      back: 戻る
       date: 日付
       from: 差出人
       reply_button: 返信
@@ -1215,8 +1255,7 @@ ja:
       greeting: こんにちは、
       hopefully_you: 誰か (おそらくあなた) が、このメール アドレスの openstreetmap.org アカウントに対するパスワードをリセットするように依頼しました。
     message_notification: 
-      footer1: "%{readurl} でメッセージを読むこともできます。"
-      footer2: また、%{replyurl} で返信することができます。
+      footer_html: メッセージを読むにはこちら %{readurl}、返信するにはこちら %{replyurl}
       header: "%{from_user} さんが、OpenStreetMap であなたに件名 %{subject} のメッセージを送信しました:"
       hi: こんにちは、%{to_user} さん。
     note_comment_notification: 
@@ -1232,24 +1271,7 @@ ja:
       created: 誰か (おそらくあなた) が %{site_url} でアカウントを作成しました。
       greeting: やあ、皆さん!
       subject: "[OpenStreetMap] OpenStreetMapへようこそ"
-    signup_confirm_html: 
-      ask_questions: "<a href=\"http://help.openstreetmap.org/\">質問サイト</a>では、OpenStreetMap についてどんなことでも質問できます:"
-      get_reading: まずは、OpenStreetMap について知るために、<a href="http://wiki.openstreetmap.org/wiki/JA:Beginners%27_guide?uselang=ja">ウィキを読みましょう</a>。そして、最新ニュースを<a href="http://blog.openstreetmap.org/">OpenStreetMap ブログ</a>または<a href="http://twitter.com/openstreetmap">Twitter</a>で追いかけましょう。
-      introductory_video: "%{introductory_video_link} で動画をご覧いただけます。"
-      more_videos: ビデオがあります。%{more_videos_link}.
-      more_videos_here: その他の動画はこちら
-      user_wiki_page: ユーザー ウィキページを作成して、あなたがどこにいるかを示すカテゴリ タグを入れることをお勧めします。例えば、<a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Tokyo">[[Category:Users_in_Tokyo]]</a>などです。
-      video_to_openstreetmap: OpenStreetMap の紹介動画
-      wiki_signup: また、<a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page&uselang=ja">OpenStreetMap ウィキのユーザー登録</a>をすることもできます。
-    signup_confirm_plain: 
-      ask_questions: "質疑用サイトでは、OpenStreetMap について何でもご質問いただけます:"
-      blog_and_twitter: "OpenStreetMap ブログや Twitter では最新のニュースをご覧いただけます:"
-      introductory_video: "OpenStreetMap の紹介動画をこちらでご覧いただけます:"
-      more_videos: "その他の動画がこちらにあります:"
-      the_wiki_url: http://wiki.openstreetmap.org/wiki/JA:Beginners%27_guide?uselang=ja
-      user_wiki_page: ユーザー ウィキページを作成して、あなたがどこにいるかを示すカテゴリ タグを入れることをお勧めします。例えば、[[Category:Users_in_Tokyo]] などです。
-      wiki_signup: "OpenStreetMap ウィキでユーザー登録する場合は:"
-      wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page&uselang=ja
+      welcome: アカウントを確認したあと、開始するための追加情報を提供します。
   oauth: 
     oauthorize: 
       allow_read_gpx: 自分の非公開 GPS トレースを読み込む。
@@ -1384,7 +1406,7 @@ ja:
           byway: 路地
           cable: 
             - ケーブルカー
-            - リフト
+            - チェアリフト
           cemetery: 墓地
           centre: スポーツセンター
           commercial: 商業地域
@@ -1617,12 +1639,12 @@ ja:
       update home location on click: 地図上のクリックした地点をあなたの活動地域として更新しますか?
     confirm: 
       already active: このアカウントは確認済みです。
-      before you start: マッピングを開始するのをお急ぎだと思いますが、以下のフォームであなたの情報をいくつか記入してください。
       button: 確認
-      heading: ユーザー アカウントの確認
+      heading: メールを確認してください
+      introduction_1: 確認メールをお送りしました。
       press confirm button: アカウントを有効にして良ければ、以下の確認ボタンを押してください。
-      success: アカウントを確認しました。登録ありがとうございます!
-      unknown token: このトークンは存在しないようです。
+      reconfirm_html: 確認メールを再送する必要がある場合は、<a href="%{reconfirm}">ここをクリック</a>してください。
+      unknown token: この確認コードは期限切れ、または存在しません。
     confirm_email: 
       button: 確認
       failure: このトークンは、メール アドレスの確認に使用済みです。
@@ -1710,14 +1732,10 @@ ja:
       confirm email address: "メール アドレスの確認:"
       confirm password: "パスワードの確認:"
       contact_webmaster: アカウントを作成できるよう、<a href="mailto:webmaster@openstreetmap.org">webmaster</a>に連絡してください。 できるだけ早期に、あなたの希望に対応するように努めます。
-      continue: 続行
+      continue: ユーザー登録
       display name: "表示名:"
       display name description: 自分の公開ユーザー名です。あとで設定ページで変更できます。
       email address: "メール アドレス:"
-      fill_form: 以下のフォームを埋めてください。アカウントを有効にするためのメールをお送りします。
-      flash create success message: "%{email} に確認メッセージを送信しました。メールを確認してアカウントを有効にし次第、編集を開始できます。<br /><br />あなたの指定したアドレスに確認メールが届くまであなたはログインできません。メールボックスでスパムフィルターを使用している場合は webmaster@openstreetmap.org からの確認メールを受信できるようホワイトリストを設定してください。"
-      flash welcome: 登録ありがとうございます。歓迎メッセージと使い始めるためのヒントを %{email} にお送りしました。
-      heading: ユーザー アカウントの作成
       license_agreement: アカウントを確認するときには <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">contributor terms</a> に同意する必要があります。
       no_auto_account_create: 残念ながら、現在、自動ではアカウントを作成できません。
       not displayed publicly: 非公開です (詳細は <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="メール アドレスの節を含む、ウィキのプライバシー ポリシー">プライバシー ポリシー</a>を参照してください)
@@ -1728,7 +1746,7 @@ ja:
       terms accepted: 新しい投稿規約に同意いただき、ありがとうございます!
       terms declined: 新しい投稿規約に同意いただけず残念です。詳しい情報は、<a href="%{url}">このウィキページ</a>をご覧ください。
       terms declined url: http://wiki.openstreetmap.org/wiki/JA:Contributor_Terms_Declined
-      title: アカウントの作成
+      title: ユーザー登録
       use openid: 代わりに、%{logo} OpenID を使用してログイン
     no_such_user: 
       body: 申し訳ありませんが、%{user} という名前のユーザーは存在しません。スペルを確認してください。またはクリックしたリンクが間違っている可能性があります。
@@ -1770,8 +1788,8 @@ ja:
         france: フランス
         italy: イタリア
         rest_of_world: それ以外の国
-      legale_select: "お住まいの国または地域を選択してください:"
-      read and accept: 下記の同意書を読み、あなたの既存および将来の投稿のために本同意書の条項を承諾することを確認するために同意ボタンを押してください。
+      legale_select: "お住まいの国:"
+      read and accept: 同意書を読み、あなたの既存および将来の投稿のために本同意書の条項を承諾することを確認するために同意ボタンを押してください。
       title: 投稿規約
       you need to accept or decline: 続行するには新しい投稿規約を読んで同意または拒否してください。
     view: 
@@ -1942,3 +1960,11 @@ ja:
       fail: ユーザー「%{name}」の「%{role}」権限を取り消せませんでした。ユーザーおよび権限が両方とも正しいか確認してください。
       heading: 権限取り消しの確認
       title: 権限取り消しの確認
+  welcome_page: 
+    add_a_note: 
+      title: 編集する時間がないためメモを残します
+    basic_terms: 
+      node_html: <strong>ノード</strong>は地図上の点です。1 軒のレストランや 1 本の樹木が該当します。
+      tag_html: <strong>タグ</strong>はノードやウェイについて補足するデータです。レストランの名前、道路の制限速度などが該当します。
+      way_html: <strong>ウェイ</strong>は線または領域です。道路、水路、湖、建物などが該当します。
+    title: ようこそ!

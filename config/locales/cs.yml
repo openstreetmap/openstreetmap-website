@@ -9,6 +9,7 @@
 # Author: Kuvaly
 # Author: Luk
 # Author: Masox
+# Author: Michaelbrabec
 # Author: Mormegil
 # Author: Mr. Richard Bolla
 # Author: Nemo bis
@@ -442,8 +443,7 @@ cs:
       paste_html: Ke vložení na stránku použijte toto HTML
       scale: Měřítko
       too_large: 
-        body: Tato oblast je pro export do XML formátu OpenStreetMap příliš velká. Přejděte na větší měřítko nebo zvolte menší oblast.
-        heading: Příliš velká oblast
+        other: heading=Příliš velká oblast
       zoom: Zoom
     start_rjs: 
       add_marker: Přidat do mapy značku
@@ -452,7 +452,6 @@ cs:
       drag_a_box: Myší na mapě označte zvolenou oblast
       export: Export
       manually_select: Ručně vybrat jinou oblast
-      view_larger_map: Zobrazit větší mapu
   geocoder: 
     description: 
       title: 
@@ -496,6 +495,10 @@ cs:
         level8: Hranice obce
         level9: Hranice vesnice
       prefix: 
+        aerialway: 
+          chair_lift: Sedačková lanovka
+          drag_lift: Vlek
+          station: Stanice lanovky
         aeroway: 
           aerodrome: Letiště
           apron: Odbavovací plocha
@@ -589,6 +592,7 @@ cs:
           shower: Sprchy
           social_centre: Společenské centrum
           social_club: Společenský klub
+          social_facility: Zařízení sociálních služeb
           studio: Studio
           supermarket: Supermarket
           swimming_pool: Bazén
@@ -617,6 +621,9 @@ cs:
           "yes": Most
         building: 
           "yes": Budova
+        emergency: 
+          fire_hydrant: Požární hydrant
+          phone: Nouzový telefon
         highway: 
           bridleway: Koňská stezka
           bus_guideway: Autobusová dráha
@@ -638,6 +645,7 @@ cs:
           platform: Nástupiště
           primary: Silnice první třídy
           primary_link: Silnice první třídy
+          proposed: Navrhovaná silnice
           raceway: Závodní dráha
           residential: Ulice
           rest_area: Odpočívadlo
@@ -649,6 +657,7 @@ cs:
           speed_camera: Radar
           steps: Schody
           stile: Schůdky přes ohradu
+          street_lamp: Pouliční lampa
           tertiary: Silnice třetí třídy
           tertiary_link: Silnice třetí třídy
           track: Cesta
@@ -664,6 +673,7 @@ cs:
           building: Budova
           castle: Hrad
           church: Kostel
+          citywalls: Městské hradby
           fort: Pevnost
           house: Dům
           icon: Ikona
@@ -811,6 +821,7 @@ cs:
           locality: Oblast
           moor: Bažina
           municipality: Obecní úřad
+          neighbourhood: Čtvrť
           postcode: PSČ
           region: Region
           sea: Moře
@@ -836,8 +847,10 @@ cs:
           narrow_gauge: Úzkorozchodná dráha
           platform: Železniční nástupiště
           preserved: Historická železnice
+          proposed: Navrhovaná železnice
           spur: Železniční vlečka
           station: Železniční stanice
+          stop: Železniční zastávka
           subway: Stanice metra
           subway_entrance: Vstup do metra
           switch: Výhybka
@@ -853,6 +866,7 @@ cs:
           beverages: Prodej nápojů
           bicycle: Cykloobchod
           books: Knihkupectví
+          boutique: Butik
           butcher: Řeznictví
           car: Prodej automobilů
           car_parts: Prodej autodílů
@@ -866,6 +880,7 @@ cs:
           convenience: Smíšené zboží
           copyshop: Copycentrum
           cosmetics: Parfumerie
+          deli: Lahůdkářství
           department_store: Obchodní dům
           discount: Diskontní prodejna
           doityourself: Obchod pro kutily
@@ -902,17 +917,21 @@ cs:
           organic: Prodej biopotravin
           outdoor: Outdoorový obchod
           pet: Prodejna pro chovatele
+          pharmacy: Lékárna
           photo: Prodejna foto
           salon: Salón
+          second_hand: Bazar
           shoes: Obuvnictví
           shopping_centre: Nákupní centrum
           sports: Prodejna pro sportovce
           stationery: Papírnictví
           supermarket: Supermarket
+          tailor: Krejčí
           toys: Hračkářství
           travel_agency: Cestovní kancelář
           video: Videopůjčovna, prodej DVD
           wine: Vinárna
+          "yes": Obchod
         tourism: 
           alpine_hut: Vysokohorská chata
           artwork: Umělecké dílo
@@ -935,6 +954,7 @@ cs:
           viewpoint: Místo s dobrým výhledem
           zoo: Zoo
         tunnel: 
+          culvert: Propustek
           "yes": Tunel
         waterway: 
           artificial: Umělý vodní kanál/průplav
@@ -959,12 +979,30 @@ cs:
           waterfall: Vodopád
           weir: Jez
   javascripts: 
+    close: Zavřít
+    edit_help: Posuňte si mapu a zvětšete si místo, které chcete editovat, a klikněte zde.
+    key: 
+      title: Legenda
+      tooltip: Legenda
+      tooltip_disabled: Legenda je dostupná pouze pro vrstvu Standardní
     map: 
       base: 
         cycle_map: Cyklomapa
         mapquest: MapQuest Open
         standard: Standardní
         transport_map: Dopravní mapa
+      copyright: © <a href='%{copyright_url}'>přispěvatelé OpenStreetMap</a>
+      layers: 
+        data: Mapová data
+        header: Mapové vrstvy
+        notes: Poznámky k mapě
+        overlays: Zapnout vrstvy pro ladění mapy
+      locate: 
+        popup: Jste do {distance} {unit} od tohoto bodu
+        title: Ukázat moji polohu
+      zoom: 
+        in: Přiblížit
+        out: Oddálit
     notes: 
       new: 
         add: Přidat poznámku
@@ -985,29 +1023,44 @@ cs:
         reopened_by: reaktivoval <a href='%{user_url}'>%{user}</a> v %{time}
         reopened_by_anonymous: reaktivoval anonym v %{time}
         resolve: Vyřešit
+    share: 
+      cancel: Storno
+      center_marker: Vycentrovat mapu na značku
+      custom_dimensions: Nastavit vlastní rozměry
+      download: Stáhnout
+      embed: HTML
+      format: "Formát:"
+      image: Obrázek
+      image_size: Na obrázku bude standardní vrstva v
+      include_marker: Vložit značku
+      link: Odkaz nebo HTML
+      long_link: Odkaz
+      paste_html: HTML ke vložení na webovou stránku
+      scale: "Měřítko:"
+      short_link: Krátký odkaz
+      short_url: Krátké URL
+      title: Sdílet
+      view_larger_map: Zobrazit větší mapu
     site: 
       createnote_disabled_tooltip: Pro přidání poznámky přejděte na větší měřítko
       createnote_tooltip: Přidat do mapy poznámku
-      createnote_zoom_alert: Pro přidání poznámky do mapy musíte přejít na větší měřítko
       edit_disabled_tooltip: Pro editaci mapy přejděte na větší měřítko
       edit_tooltip: Upravit mapu
-      edit_zoom_alert: Upravovat mapu můžete jen ve větším přiblížení
       history_disabled_tooltip: Pro zobrazení editací této oblasti přejděte na větší měřítko
       history_tooltip: Zobrazit editace této oblasti
-      history_zoom_alert: Zobrazit editace této oblasti můžete jen ve větším přiblížení
   layouts: 
     community: Komunita
     community_blogs: Komunitní blogy
     community_blogs_title: Blogy členů komunity OpenStreetMap
     copyright: Copyright & licence
+    data: Data
     documentation: Dokumentace
     documentation_title: Dokumentace k projektu
     donate: Podpořte OpenStreetMap %{link} Fondu na upgrady hardwaru
     donate_link_text: příspěvkem
     edit: Upravit
     edit_with: Upravit pomocí %{editor}
-    export: Export
-    export_tooltip: Exportovat mapová data
+    export_data: Export dat
     foundation: Nadace
     foundation_title: Nadace OpenStreetMap Foundation
     gps_traces: GPS stopy
@@ -1017,13 +1070,6 @@ cs:
     help_title: Stránky s nápovědou k tomuto projektu
     history: Historie
     home: domů
-    home_tooltip: Přejít na polohu domova
-    inbox_html: pošta %{count}
-    inbox_tooltip: 
-      few: Ve schránce máte %{count} nepřečtené zprávy
-      one: Ve schránce máte 1 nepřečtenou zprávu
-      other: Ve schránce máte %{count} nepřečtených zpráv
-      zero: Nemáte žádné nepřečtené zprávy
     intro_1: OpenStreetMap je svobodná editovatelná mapa celého světa. Tvoří ji lidé jako vy.
     intro_2_create_account: si založíte uživatelský účet
     intro_2_download: stáhnout
@@ -1036,7 +1082,6 @@ cs:
     logo: 
       alt_text: Logo OpenStreetMap
     logout: odhlásit
-    logout_tooltip: Odhlásit
     make_a_donation: 
       text: Pošlete příspěvek
       title: Podpořte OpenStreetMap finančním příspěvkem
@@ -1055,7 +1100,6 @@ cs:
     user_diaries_tooltip: Zobrazit deníčky uživatelů
     view: Zobrazit
     view_tooltip: Zobrazit mapu
-    welcome_user_link_tooltip: Vaše uživatelská stránka
     wiki: wiki
     wiki_title: Wiki k tomuto projektu
     wiki_url: http://wiki.openstreetmap.org/wiki/CS:Main_Page?uselang=cs
@@ -1155,8 +1199,7 @@ cs:
       title: Odeslaná pošta
       to: Komu
     read: 
-      back_to_inbox: Zpět do přijatých zpráv
-      back_to_outbox: Zpět do odeslaných zpráv
+      back: Zpět
       date: Datum
       from: Od
       reply_button: Odpovědět
@@ -1247,8 +1290,7 @@ cs:
       greeting: Ahoj,
       hopefully_you: Někdo (patrně vy) požádal o vygenerování nového hesla pro uživatele serveru openstreetmap.org s touto e-mailovou adresou.
     message_notification: 
-      footer1: Také si můžete zprávu přečíst na %{readurl}
-      footer2: a můžete odpovědět na %{replyurl}
+      footer_html: Zprávu si také můžete přečíst na %{readurl} a odpovědět můžete na %{replyurl}
       header: "%{from_user} vám poslal(a) prostřednictvím OpenStreetMap zprávu s předmětem %{subject}:"
       hi: Dobrý den, uživateli %{to_user},
     note_comment_notification: 
@@ -1275,28 +1317,7 @@ cs:
       created: Někdo (doufáme, že vy) si právě založil účet na %{site_url}.
       greeting: Ahoj!
       subject: "[OpenStreetMap] Vítejte v OpenStreetMap"
-      welcome: Rádi bychom vás přivítali a poskytli vám do začátku trochu dalších informací.
-    signup_confirm_html: 
-      ask_questions: Libovolné otázky k OpenStreetMap můžete klást na našem <a href="http://help.openstreetmap.org/">webu otázek a odpovědí</a>.
-      current_user: Seznam existujících uživatelů v kategoriích podle místa bydliště je dostupný v <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">kategorii Users by geographical region</a>.
-      get_reading: Přečtěte si něco o OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Cs:Beginners%27_guide">na wiki</a> a sledujte aktuální dění na našem <a href="http://blog.openstreetmap.org/">blogu</a> či <a href="http://twitter.com/openstreetmap">Twitteru</a>.
-      introductory_video: Můžete si prohlédnout %{introductory_video_link}.
-      more_videos: Máme i %{more_videos_link}.
-      more_videos_here: další videa
-      user_wiki_page: Doporučujeme, abyste si na wiki založili uživatelskou stránku, na které kategoriemi označíte, odkud pocházíte, například <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Praha">[[Category:Users in Praha]]</a>.
-      video_to_openstreetmap: úvodní video k OpenStreetMap
-      wiki_signup: Také se můžete chtít <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Cz:Main_Page&uselang=cs">zaregistrovat na OpenStreetMap wiki</a>.
-    signup_confirm_plain: 
-      ask_questions: "Libovolné otázky k OpenStreetMap můžete klást na našem webu otázek a odpovědí:"
-      blog_and_twitter: "Sledujte aktuální dění na našem blogu či Twitteru:"
-      current_user: "Seznam stávajících kategorií pro dělení uživatelů podle bydliště je dostupný na:"
-      introductory_video: "Můžete si prohlédnout úvodní video k OpenStreetMap:"
-      more_videos: "Další videa najdete na:"
-      the_wiki: "Přečtěte si něco o OpenStreetMap na wiki:"
-      the_wiki_url: http://wiki.openstreetmap.org/wiki/Cs:Beginners%27_guide?uselang=cs
-      user_wiki_page: Doporučujeme, abyste si na wiki založili uživatelskou stránku, na které kategoriemi označíte, odkud pocházíte, například [[Category:Users in Praha]].
-      wiki_signup: "Také se můžete chtít zaregistrovat na OpenStreetMap wiki:"
-      wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:UserLogin&type=signup&returnto=CS:Main_Page&uselang=cs
+      welcome: Jakmile potvrdíte svůj účet, poskytneme vám do začátku trochu dalších informací.
   oauth: 
     oauthorize: 
       allow_read_gpx: číst vaše soukromé GPS stopy.
@@ -1675,13 +1696,13 @@ cs:
       update home location on click: Upravit pozici domova při kliknutí na mapu?
     confirm: 
       already active: Tento uživatelský účet už byl potvrzen.
-      before you start: Víme, že se asi nemůžete dočkat, až začnete mapovat, ale předtím byste mohli chtít v následujícím formuláři vyplnit několik informaci o sobě.
       button: Potvrdit
-      heading: Potvrzení uživatelského účtu
+      heading: Zkontrolujte si e-mail!
+      introduction_1: Poslali jsme vám potvrzovací e-mail.
+      introduction_2: Potvrďte svůj účet kliknutím na odkaz v e-mailu a budete moci začít mapovat.
       press confirm button: Svůj účet aktivujte stisknutím níže zobrazeného tlačítka.
-      reconfirm: Pokud již od registrace uběhl nějaký čas, možná si budete muset <a href="%{reconfirm}">nechat poslat nový potvrzovací e-mail</a>.
-      success: Účet potvrzen, děkujeme za registraci!
-      unknown token: Zadaný potvrzovací kód neexistuje.
+      reconfirm_html: Pokud potřebujete, abychom vám poslali potvrzovací e-mail znovu, <a href="%{reconfirm}">klikněte zde</a>.
+      unknown token: Zadaný potvrzovací kód vypršel nebo neexistuje.
     confirm_email: 
       button: Potvrdit
       failure: Tento kód byl už pro potvrzení e-mailové adresy použit.
@@ -1766,17 +1787,16 @@ cs:
       heading: Přidat uživatele %{user} jako přítele?
       success: "%{name} je nyní váš přítel!"
     new: 
+      about: 
+        header: Svobodná a editovatelná
+        html: "<p>Na rozdíl od ostatních map je OpenStreetMap vytvořena lidmi jako vy a kdokoli ji může volně opravovat, aktualizovat, stáhnout a používat.</p>\n<p>Zaregistrujte se, abyste mohli začít přispívat. K potvrzení vašeho účtu vám pošleme e-mail.</p>"
       confirm email address: "Potvrdit e-mailovou adresu:"
       confirm password: "Potvrdit heslo:"
       contact_webmaster: Pokud chcete zařídit založení účtu, kontaktujte <a href="mailto:webmaster@openstreetmap.org">webmastera</a> – pokusíme se vaši žádost vyřídit co možná nejrychleji.
-      continue: Pokračovat
+      continue: Zaregistrovat se
       display name: "Zobrazované jméno:"
       display name description: Vaše veřejně zobrazované uživatelské jméno. Můžete si ho později změnit ve svém nastavení.
       email address: "E-mailová adresa:"
-      fill_form: Vyplňte následující formulář a my vám pošleme stručný e-mail, jak si účet aktivovat.
-      flash create success message: Děkujeme za registraci. Na %{email} jsme poslali potvrzovací zprávu, jakmile potvrdíte svůj účet, budete moci začít tvořit mapy.<br /><br />Pokud používáte nějaký protispamový systém, který vyžaduje potvrzení, nezapomeňte zařídit výjimku pro webmaster@openstreetmap.org, neboť na žádosti o potvrzení nejsme schopni reagovat.
-      flash welcome: Děkujeme za registraci. Na %{email} jsme poslali přivítání a několik rad do začátku.
-      heading: Vytvořit uživatelský účet
       license_agreement: Při potvrzení účtu budete muset souhlasit s <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">podmínkami pro přispěvatele</a>.
       no_auto_account_create: Bohužel za vás momentálně nejsme schopni vytvořit účet automaticky.
       not displayed publicly: Nezobrazuje se veřejně (vizte <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="Pravidla ochrany osobních údajů na wiki, včetně části o e-mailových adresách">pravidla ochrany osobních údajů</a>)
@@ -1787,7 +1807,7 @@ cs:
       terms accepted: Děkujeme za odsouhlasení nových podmínek pro přispěvatele!
       terms declined: Je nám líto, že jste se rozhodli nepřijmout nové Podmínky pro přispěvatele. Podrobnější informace najdete na <a href="%{url}">této wikistránce</a>.
       terms declined url: http://wiki.openstreetmap.org/wiki/CS:Contributor_Terms_Declined?uselang=cs
-      title: Vytvořit účet
+      title: Zaregistrovat se
       use openid: Případně se můžete přihlásit pomocí %{logo} OpenID
     no_such_user: 
       body: Je mi líto, ale uživatel %{user} neexistuje. Zkontrolujte překlepy nebo jste možná klikli na chybný odkaz.
@@ -2005,3 +2025,25 @@ cs:
       fail: Nelze odebrat roli `%{role}' uživateli `%{name}'. Zkontrolujte prosím, zda jsou uživatel i role platnými údaji.
       heading: Potvrdit odebrání role
       title: Potvrdit odebrání role
+  welcome_page: 
+    add_a_note: 
+      paragraph_1_html: Pokud chcete jen opravit nějakou drobnost a nemáte čas se registrovat a učit se editovat, můžete jednoduše přidat poznámku.
+      paragraph_2_html: "Stačí jít <a href='%{map_url}'>na mapu</a> a kliknout na ikonku poznámky:\n<span class='icon note'></span>. Tím do mapy přidáte značku, kterou můžete přetáhnout.\nNapište svou zprávu, klikněte na Přidat a ostatní tvůrci mapy se na to podívají."
+      title: Nemáte čas editovat? Přidejte poznámku!
+    basic_terms: 
+      editor_html: <strong>Editor</strong> je program nebo webová stránka, pomocí které editujete mapu.
+      node_html: <strong>Uzel</strong> je bod na mapě jako např. jedna restaurace či strom.
+      paragraph_1_html: OpenStreetMap používá trochu vlastního žargonu. Tady je několik klíčových slov, která se vám budou hodit.
+      tag_html: <strong>Tag</strong> je troška dat o uzlu nebo cestě jako např. název restaurace nebo maximální povolená rychlost na silnici.
+      title: Základní pojmy pro mapování
+      way_html: <strong>Cesta</strong> je linie nebo plocha jako např. silnice, potok, jezero nebo budova.
+    introduction_html: Vítejte v OpenStreetMap, svobodné a editovatelné mapě světa. Teď, když jste se zaregistrovali, můžete začít mapovat. Tady je rychlý přehled nejdůležitějších věcí, které budete potřebovat znát.
+    questions: 
+      paragraph_1_html: Potřebujete pomoc s mapováním nebo vám není jasné, jak OpenStreetMap používat? Odpovědi na své otázky se můžete dozvědět na <a href='http://help.openstreetmap.org/'>webu s nápovědou</a>.
+      title: Nějaké dotazy?
+    start_mapping: Začít mapovat
+    title: Vítejte!
+    whats_on_the_map: 
+      off_html: Co <em>nezahrnuje</em> jsou názory jako hodnocení, dřívější či hypotetické objekty a data ze zdrojů chráněných autorským právem. Pokud nemáte speciální svolení, nekopírujte z online nebo papírových map.
+      on_html: OpenStreetMap je místem pro mapování věcí, které jsou zároveň <em>skutečné a aktuální</em> – zahrnuje miliony budov, silnic a dalších podrobností o místech. Můžete mapovat jakékoli skutečné objekty, které vás zajímají.
+      title: Co patří do mapy

@@ -3,6 +3,7 @@
 # Export driver: syck-pecl
 # Author: Anakmalaysia
 # Author: Mmyangfl
+# Author: Orinx
 # Author: Pesder
 # Author: Shangkuanlc
 # Author: Simon Shek
@@ -133,6 +134,7 @@ zh-TW:
       larger: 
         area: 在較大的地圖檢視區域
         node: 在較大的地圖檢視節點
+        note: 在較大的地圖檢視筆記
         relation: 在較大的地圖檢視關係
         way: 在較大的地圖檢視路徑
       loading: 正在載入...
@@ -140,10 +142,12 @@ zh-TW:
       all: 
         next_changeset_tooltip: 下一個變更組合
         next_node_tooltip: 下一個節點
+        next_note_tooltip: 下一個筆記
         next_relation_tooltip: 下一個關係
         next_way_tooltip: 下一條路徑
         prev_changeset_tooltip: 上一個變更組合
         prev_node_tooltip: 上一個節點
+        prev_note_tooltip: 上一個筆記
         prev_relation_tooltip: 上一個關係
         prev_way_tooltip: 前一條路徑
       user: 
@@ -172,6 +176,14 @@ zh-TW:
         relation: 關係
         way: 路徑
     note: 
+      at_html: "%{when} 前"
+      closed: "已關閉:"
+      closed_title: 已解決的筆記：%{note_name}
+      comments: 評論：
+      description: "描述:"
+      last_modified: "最後修改:"
+      open_title: "未解決的筆記: %{note_name}"
+      opened: "已開啟:"
       title: 註釋
     paging_nav: 
       of: ／
@@ -211,6 +223,7 @@ zh-TW:
       loaded_an_area_with_num_features: 您已經載入了包含 %{num_features} 項功能的區域。通常，有些瀏覽器無法正常顯示這個數量的資料。一般而言，瀏覽器在一次顯示 100 個以下的功能時最適當：超過這個數量會使您的瀏覽器變慢/停止回應。如果確定要顯示這個資料，請按下面的按鈕。
       loading: 正在載入...
       manually_select: 手動選擇不同的區域
+      notes_layer_name: 檢視筆記
       object_list: 
         api: 從 API 取回這個區域
         back: 回到物件清單
@@ -382,6 +395,9 @@ zh-TW:
       user_title: "%{user}的日記"
   editor: 
     default: 預設 (目前 %{name})
+    id: 
+      description: iD (網頁版編輯器)
+      name: iD
     potlatch: 
       description: Potlatch 1 (瀏覽器內編輯)
       name: Potlatch 1
@@ -412,9 +428,6 @@ zh-TW:
       output: 輸出
       paste_html: 貼上 HTML 內嵌於網站
       scale: 比例
-      too_large: 
-        body: 這個區域太大，無法匯出 OpenStreetMap XML 資料。請拉近或選擇一個較小的區域。
-        heading: 區域太大
       zoom: 變焦
     start_rjs: 
       add_marker: 加入標記至地圖
@@ -423,7 +436,6 @@ zh-TW:
       drag_a_box: 在地圖上拖曳出一個方塊以選擇區域
       export: 匯出
       manually_select: 手動選擇不同的區域
-      view_larger_map: 檢視較大的地圖
   geocoder: 
     description: 
       title: 
@@ -466,7 +478,9 @@ zh-TW:
           helipad: 直升機停機坪
           runway: 跑道
           taxiway: 滑行道
+          terminal: 終端
         amenity: 
+          WLAN: 無線網路
           airport: 機場
           arts_centre: 藝術中心
           artwork: 藝術品
@@ -545,6 +559,7 @@ zh-TW:
           shopping: 購物
           shower: 淋浴
           social_centre: 社區中心
+          social_club: 社交場合
           studio: 錄音室
           supermarket: 超級市場
           swimming_pool: 游泳池
@@ -558,6 +573,7 @@ zh-TW:
           veterinary: 獸醫
           village_hall: 村公所
           waste_basket: 垃圾桶
+          wifi: 無線網路
           youth_centre: 青少年中心
         boundary: 
           administrative: 行政區邊界
@@ -576,6 +592,10 @@ zh-TW:
           milestone: 里程碑
           residential: 住宅
           rest_area: 休息區
+          road: 道路
+          secondary: 次要道路
+          speed_camera: 測速照相機
+          steps: 步驟
         historic: 
           battlefield: 戰場
           boundary_stone: 界碑
@@ -584,8 +604,10 @@ zh-TW:
           church: 教堂
           fort: 堡
           house: 房屋
+          icon: 圖示
           memorial: 紀念館
           museum: 博物館
+          tower: 塔
         landuse: 
           cemetery: 墳場
           commercial: 商業區
@@ -616,7 +638,10 @@ zh-TW:
           sauna: 桑拿
           swimming_pool: 游泳池
         natural: 
+          rock: 岩石
+          tree: 樹
           volcano: 火山
+          water: 水
         office: 
           company: 公司
           employment_agency: 就業中介
@@ -637,8 +662,14 @@ zh-TW:
           house: 房屋
           houses: 房屋
           island: 島
+          region: 區域
+          sea: 海
+          state: 狀態
+          town: 鄉鎮
+          village: 村落
         railway: 
           construction: 建造中鐵路
+          halt: 列車站
           light_rail: 輕鐵
           monorail: 單軌
           platform: 鐵路月臺
@@ -688,8 +719,11 @@ zh-TW:
           insurance: 保險
           jewelry: 珠寶店
           laundry: 洗衣房
+          mall: 購物商場
+          market: 市集
           mobile_phone: 手機店
           motorcycle: 摩托車店
+          music: 唱片行
           optician: 驗眼師
           organic: 有機食品店
           outdoor: 戶外店
@@ -719,6 +753,7 @@ zh-TW:
           "yes": 隧道
         waterway: 
           dam: 水壩
+          lock: 鎖
           waterfall: 瀑布
   javascripts: 
     map: 
@@ -729,10 +764,8 @@ zh-TW:
     site: 
       edit_disabled_tooltip: 拉近以編輯地圖
       edit_tooltip: 編輯地圖
-      edit_zoom_alert: 您必須拉近以編輯地圖
       history_disabled_tooltip: 拉近以編輯這個區域
       history_tooltip: 檢視對這個區域的編輯
-      history_zoom_alert: 您必須先拉近才能編輯這個區域
   layouts: 
     community: 社群
     community_blogs: 社群部落格
@@ -744,8 +777,6 @@ zh-TW:
     donate_link_text: 捐獻
     edit: 編輯
     edit_with: 以 %{editor} 編輯
-    export: 匯出
-    export_tooltip: 匯出地圖資料
     foundation: 基金會
     foundation_title: OpenStreetMap 基金會
     gps_traces: GPS 軌跡
@@ -755,12 +786,6 @@ zh-TW:
     help_title: 專案的說明網站
     history: 歷史
     home: 家
-    home_tooltip: 移至家位置
-    inbox_html: 收件匣 %{count}
-    inbox_tooltip: 
-      one: 您的收件匣有 1 個未閱讀的訊息
-      other: 您的收件匣有 %{count} 個未閱讀的訊息
-      zero: 您的收件匣沒有未閱讀的訊息
     intro_1: OpenStreetMap 是一個自由、可編輯的全世界地圖。它是由像您這樣的人所製作的。
     intro_2_create_account: 建立使用者帳號
     intro_2_download: 下載
@@ -772,7 +797,6 @@ zh-TW:
     logo: 
       alt_text: OpenStreetMap 標誌
     logout: 登出
-    logout_tooltip: 登出
     make_a_donation: 
       text: 進行捐款
       title: 以捐贈金錢來支持 OpenStreetMap
@@ -790,7 +814,6 @@ zh-TW:
     user_diaries_tooltip: 檢視日記
     view: 檢視
     view_tooltip: 檢視地圖
-    welcome_user_link_tooltip: 您的使用者頁面
     wiki: Wiki
     wiki_title: 專案的 Wiki 網站
   license_page: 
@@ -853,8 +876,6 @@ zh-TW:
       title: 寄件匣
       to: 收件者
     read: 
-      back_to_inbox: 回到收件匣
-      back_to_outbox: 回到寄件匣
       date: 日期
       from: 寄件者
       reply_button: 回覆
@@ -911,28 +932,11 @@ zh-TW:
       click_the_link: 如果這是您，請按下列連結重設您的密碼。
       greeting: 您好，
     message_notification: 
-      footer1: 您也可以在 %{readurl} 閱讀訊息，
-      footer2: 並在 %{replyurl} 回覆
       header: "%{from_user} 透過 OpenStreetMap 寄給您主旨為 %{subject} 的訊息："
       hi: "%{to_user}您好，"
     signup_confirm: 
       greeting: 您好！
       subject: "[OpenStreetMap] 歡迎加入OpenStreetMap"
-    signup_confirm_html: 
-      current_user: 一份目前使用者的清單，以他們在世界上何處為基礎的分類，可在這裡取得：<a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>。
-      get_reading: 在<a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide"> wiki 中</a>閱讀更多關於 OpenStreetMap 的資料或透過 <a href="http://blog.openstreetmap.org/">OpenStreetMap 部落格</a>及 <a href="http://twitter.com/openstreetmap">Twitter</a> 了解最新的消息。或是瀏覽 OpenStreetMap 創始人 Steve Coast 的 <a href="http://www.opengeodata.org/">OpenGeoData blog</a> 了解這個計畫的歷史，其中也有 <a href="http://www.opengeodata.org/?cat=13">podcasts 可以聽</a>！
-      introductory_video: 您可以在 %{introductory_video_link}。
-      more_videos: 這裡還有更多 %{more_videos_link}。
-      more_videos_here: 影片
-      user_wiki_page: 建議您建立一個使用者 wiki 頁面，其中包含註記您住哪裡的分類標籤，如 <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>。
-      video_to_openstreetmap: 觀看 OpenStreetMap 的導覽影片
-      wiki_signup: 您可能也想在 <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page"> OpenStreetMap wiki 註冊</a>。
-    signup_confirm_plain: 
-      blog_and_twitter: 透過 OpenStreetMap部落格或 Twitter 了解最新消息：
-      introductory_video: 您可以在這裡觀看 OpenStreetMap 的導覽影片：
-      more_videos: 這裡還有更多影片：
-      the_wiki: 在 wiki 中閱讀更多 OpenStreetMap 訊息：
-      wiki_signup: 您可能也想在 OpenStreetMap wiki 註冊：
   oauth: 
     oauthorize: 
       allow_read_gpx: 讀取您的私人 GPS 軌跡。
@@ -1242,6 +1246,7 @@ zh-TW:
         link: HTTP://wiki.openstreetmap.org/wiki/OpenID
         link text: 這是什麼？
         openid: OpenID：
+      preferred editor: "偏好編輯器:"
       preferred languages: 偏好的語言：
       profile description: 個人檔案描述：
       public editing: 
@@ -1263,7 +1268,6 @@ zh-TW:
       button: 確認
       heading: 確認使用者帳號
       press confirm button: 按下確認按鈕以啟用您的帳號。
-      success: 已確認您的帳號，感謝您的註冊！
     confirm_email: 
       button: 確認
       failure: 具有此記號的電子郵件位址已經確認過了。
@@ -1354,9 +1358,6 @@ zh-TW:
       display name: 顯示名稱：
       display name description: 您公開顯示的使用者名稱。您可以稍後在偏好設定中改變它。
       email address: 電子郵件位址：
-      fill_form: 填好下列表單，我們會寄給您一封電子郵件來啟用您的帳號。
-      flash create success message: 感謝您的註冊。我們已經寄出確認信到 %{email}，只要您確認您的帳號後就可以製作地圖了。<br /><br />如果您使用會送出確認要求的防垃圾信系統，請確定您將 webmaster@openstreetmap.org 加入白名單中，因為我們無法回覆任何確認要求。
-      heading: 建立使用者帳號
       license_agreement: 當您確認您的帳號，您需要同意<a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">貢獻者條款</a> 。
       no_auto_account_create: 很不幸的我們現在無法自動為您建立帳號。
       not displayed publicly: 不要公開顯示 (請看 <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">隱私權政策</a>)
