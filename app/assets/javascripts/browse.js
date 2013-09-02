@@ -48,6 +48,45 @@ $(document).ready(function () {
     });
 
     updatelinks(params, 16, null, bbox, object);
+
+    function updateNoteCommentButtons() {
+      if ($("textarea.comment").val() == "") {
+        $("input[name=close]").val(I18n.t("javascripts.notes.show.resolve"));
+        $("input[name=reopen]").val(I18n.t("javascripts.notes.show.reactivate"));
+        $("input[name=comment]").prop("disabled", true);
+      } else {
+        $("input[name=close]").val(I18n.t("javascripts.notes.show.comment_and_resolve"));
+        $("input[name=reopen]").val(I18n.t("javascripts.notes.show.comment_and_reactivate"));
+        $("input[name=comment]").prop("disabled", false);
+      }
+    }
+
+    $("textarea.comment").on("input", updateNoteCommentButtons);
+
+    $(".buttons input[type=submit]").on("click", function (e) {
+      e.preventDefault();
+      var data = $(e.target).data();
+      
+      $(".buttons input[type=submit]").prop("disabled", true);
+
+      $.ajax({
+        url: data.url,
+        type: data.method,
+        oauth: true,
+        data: {
+          text: $("textarea.comment").val()
+        },
+        success: function (feature) {
+          $(".browse-section").removeClass('hidden');
+          var last_comment = feature.properties.comments.pop();
+          $("<li>"+last_comment.html+"<small class='deemphasize'>Just now</small></li>").insertBefore($(".browse-section ul li:last-child"));
+          $("textarea.comment").val("");
+          $(".buttons input[type=submit]").prop("disabled", false);
+          updateNoteCommentButtons();
+        }
+      });
+    });
+
   } else {
     $("#object_larger_map, #object_edit").hide();
 
