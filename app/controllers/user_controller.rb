@@ -732,7 +732,7 @@ private
 
       cookies.permanent["_osm_username"] = user.display_name
 
-      if user.new_email.blank?
+      if user.new_email.blank? or user.new_email == user.email
         flash.now[:notice] = t 'user.account.flash update success'
       else
         user.email = user.new_email
