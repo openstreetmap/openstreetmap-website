@@ -208,7 +208,7 @@ class UserController < ApplicationController
     @title = t 'user.new.title'
     @referer = params[:referer] || session[:referer]
 
-    if using_open_id?
+    if using_federated_login?
       # The redirect from the OpenID provider reenters here
       # again and we need to pass the parameters through to
       # the open_id_authentication function
