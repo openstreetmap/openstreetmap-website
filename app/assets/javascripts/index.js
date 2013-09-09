@@ -51,12 +51,23 @@ $(document).ready(function () {
     })
   ];
 
-  for (var i = layers.length - 1; i >= 0; i--) {
-    if (i === 0 || params.layers.indexOf(layers[i].options.code) >= 0) {
-      map.addLayer(layers[i]);
-      break;
+  function updateLayers(params) {
+    var layerParam = params.layers || "M";
+
+    for (var i = layers.length - 1; i >= 0; i--) {
+      if (layerParam.indexOf(layers[i].options.code) >= 0) {
+        map.addLayer(layers[i]);
+      } else {
+        map.removeLayer(layers[i]);
+      }
     }
   }
+
+  updateLayers(params);
+
+  $(window).on("hashchange", function () {
+    updateLayers(OSM.mapParams());
+  });
 
   map.noteLayer = new L.LayerGroup();
   map.noteLayer.options = {code: 'N'};
