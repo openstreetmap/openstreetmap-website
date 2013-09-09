@@ -53,13 +53,19 @@ $(document).ready(function () {
 
   function updateLayers(params) {
     var layerParam = params.layers || "M";
+    var layersAdded = "";
 
     for (var i = layers.length - 1; i >= 0; i--) {
       if (layerParam.indexOf(layers[i].options.code) >= 0) {
         map.addLayer(layers[i]);
+        layersAdded = layersAdded + layers[i].options.code;
       } else {
         map.removeLayer(layers[i]);
       }
+    }
+
+    if (layersAdded == "") {
+      map.addLayer(layers[0]);
     }
   }
 
