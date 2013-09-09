@@ -112,7 +112,7 @@ class Trace < ActiveRecord::Base
     elsif zipped
       mimetype = "application/x-zip"
     else
-      mimetype = "text/xml"
+      mimetype = "application/gpx+xml"
     end
 
     return mimetype
