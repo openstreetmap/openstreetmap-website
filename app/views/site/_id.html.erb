@@ -9,7 +9,11 @@
     if (mapParams.object) {
       params.id = mapParams.object.type[0] + mapParams.object.id;
     } else {
+<% if @lat && @lon -%>
+      params.map = '16/<%= @lon %>/<%= @lat %>';
+<% else -%>
       params.map = (mapParams.zoom || 17) + '/' + mapParams.lon + '/' + mapParams.lat;
+<% end -%>
     }
 
     var hashParams = OSM.params(location.hash.substring(1));
