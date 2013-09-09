@@ -40,11 +40,24 @@ sudo apt-get install ruby libruby ruby-dev rdoc ri ruby-bundler rubygems \
 For Fedora, you can install the minimum requirements with:
 
 ```
-sudo yum install ruby libruby ruby-dev rdoc ri ruby-bundler rubygems \
-                     libmagickwand-dev libxml2-dev libxslt1-dev \
-                     apache2 apache2-threaded-dev build-essential git-core \
-                     postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
-                     libsasl2-dev
+sudo yum install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
+                 libxml2-devel \
+                 gcc gcc-c++ git \
+                 postgresql postgresql-server postgresql-contrib postgresql-devel \
+                 perl-podlators
+```
+
+If you didn't already have Postgres installed then create a Postgres instance and start the server:
+
+```
+sudo postgresql-setup initdb
+sudo systemctl start postgresql.service
+```
+
+Optionally set Postgres to start on boot:
+
+```
+sudo systemctl enable postgresql.service
 ```
 
 #### MacOSX
