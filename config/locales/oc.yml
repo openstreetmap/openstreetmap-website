@@ -978,7 +978,7 @@ oc:
     help_centre: Centre d'ajuda
     help_title: site d’ajuda pel projècte
     history: Istoric
-    home: En çò meu
+    home: Anar a l'emplaçament de mon domicili
     intro_1: OpenStreetMap es una mapa del mond liurament modificable, facha per de monde coma vos.
     intro_2_create_account: Creatz un compte d'utilizaire
     intro_2_download: telecargadas
@@ -989,7 +989,7 @@ oc:
     log_in_tooltip: Se connectar amb un compte existent
     logo: 
       alt_text: Lògo d'OpenStreetMap
-    logout: Desconnexion
+    logout: Se desconnectar
     make_a_donation: 
       text: Far un don
       title: Sostenètz OpenStreetMap amb un don financièr
@@ -1123,11 +1123,27 @@ oc:
   oauth: 
     oauthorize: 
       allow_write_api: modificar la mapa.
+      allow_write_notes: modificar las nòtas.
+      allow_write_prefs: modificar vòstras preferéncias d'utilizaire.
   oauth_clients: 
     form: 
       allow_write_api: modificar la mapa.
+      allow_write_notes: modificar las nòtas.
+      allow_write_prefs: modificar sas preferéncias d'utilizaire.
+    index: 
+      application: Nom de l'aplicacion
+      my_apps: Mas aplicacions clientas
+      my_tokens: Mas aplicacions enregistradas
+      register_new: Enregistratz vòstra aplicacion
+      revoke: Revocar !
+      title: Mos detalhs OAuth
     show: 
       allow_write_api: modificar la mapa.
+      allow_write_notes: modificar las nòtas.
+      allow_write_prefs: modificar sas preferéncias d'utilizaire.
+  redaction: 
+    edit: 
+      submit: Enregistrar l'amagatge
   site: 
     edit: 
       anon_edits_link_text: Trobatz perqué aicí.
@@ -1221,6 +1237,7 @@ oc:
       preview: Apercebut
     search: 
       search: Recèrca
+      search_help: "exemples : « Ouagadougou », « Place Grenette, Grenoble », « H2Y 1C6 », o « post office near Alger »<a href='http://wiki.openstreetmap.org/wiki/Search'>Autres exemples...</a>"
       submit_text: Validar
       where_am_i: Ont soi ?
     sidebar: 
@@ -1312,15 +1329,19 @@ oc:
         link text: qu’es aquò ?
       current email address: "Adreça de corrièr electronic actuala:"
       delete image: Suprimir l'imatge actual
+      email never displayed publicly: (pas jamai afichat publicament)
+      flash update success confirm needed: Informacions sus l'utilizaire mesas a jorn amb succès. Verificatz vòstra bóstia mail per tal de validar la verificacion de vòstre novèla adreça e-mail.
       gravatar: 
         gravatar: Utilizar Gravatar
         link text: qu’es aquò ?
+      home location: "Emplaçament del domicili :"
       image: "Imatge :"
+      image size hint: (los imatges carrats d'al mens 100×100 pixèls foncionan melhor)
       keep image: Gardar l'imatge actual
       latitude: "Latitud :"
       longitude: "Longitud :"
       my settings: Mas opcions
-      new email address: "Novela adreça de corrièr electronic :"
+      new email address: "Novèla adreça de corrièr electronic :"
       new image: Apondre un imatge
       openid: 
         link: http://wiki.openstreetmap.org/wiki/OpenID
@@ -1331,12 +1352,16 @@ oc:
       profile description: "Descripcion del perfil :"
       public editing: 
         disabled link text: perqué pòdi pas modificar ?
+        enabled: Activat. Pas anonim e pòt modificar las donadas.
         enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits
         enabled link text: qu’es aquò ?
         heading: "Modificacion publica :"
       public editing note: 
         heading: Modificacion publica
+      return to profile: Tornar al perfil
+      save changes button: Enregistrar las modificacions
       title: Modificar lo compte
+      update home location on click: Metre a jorn l'emplaçament de vòstre domicili quand clicatz sus la mapa ?
     confirm: 
       button: Confirmar
     list: 
@@ -1344,9 +1369,11 @@ oc:
         one: Afichatge de la pagina %{page} (%{first_item} sus %{items})
         other: Afichatge de la pagina %{page} (%{first_item}-%{last_item} sus %{items})
     login: 
+      email or username: "Adreça e-mail o nom d'utilizaire :"
       heading: Connexion
       login_button: Se connectar
       lost password link: Avètz perdut vòstre senhal ?
+      no account: Avètz pas de compte ?
       openid: "%{logo} OpenID :"
       openid_logo_alt: Se connectar amb un OpenID
       openid_providers: 
@@ -1369,8 +1396,10 @@ oc:
           alt: Connexion amb un OpenID Yahoo
           title: Connexion amb Yahoo
       password: "Senhal :"
+      register now: S'inscriure ara
       remember: Se remembrar de ieu
       title: Se connectar
+      with openid: "Tanben podètz utilizar OpenID per vos connectar :"
     logout: 
       heading: Desconnexion d'OpenStreetMap
       logout_button: Desconnexion
@@ -1417,11 +1446,11 @@ oc:
       title: Tèrmes del contributor
     view: 
       activate_user: activar aqueste utilizaire
-      add as friend: apondre en tant qu'amic
+      add as friend: Apondre en tant qu'amic
       ago: (i a %{time_in_words_ago})
       blocks by me: blocatges donats
-      blocks on me: mos blocatges
-      comments: comentaris
+      blocks on me: Mos blocatges
+      comments: Comentaris
       confirm: Confirmar
       confirm_user: confirmar aqueste utilizaire
       create_block: blocar aqueste utilizaire
@@ -1430,8 +1459,8 @@ oc:
       deactivate_user: desactivar aqueste utilizaire
       delete_user: suprimir aqueste utilizaire
       description: Descripcion
-      diary: jornal
-      edits: modificacions
+      diary: Jornal
+      edits: Modificacions
       email address: "Adreça de corrièr electronic :"
       friends_changesets: Percórrer totes los gropes de modificacions dels amics
       friends_diaries: Entradas de jornal dels amics
@@ -1439,26 +1468,34 @@ oc:
       km away: "%{count} km"
       m away: distant de %{count} m
       mapper since: "Mapaire dempuèi :"
-      my comments: mos comentaris
-      my diary: mon jornal
-      my edits: mas modificacions
-      my notes: mas nòtas de mapa
-      my settings: mas opcions
-      my traces: mas traças
+      my comments: Mos comentaris
+      my diary: Mon jornal
+      my edits: Mas modificacions
+      my notes: Mas nòtas de mapa
+      my profile: Mon perfil
+      my settings: Mas opcions
+      my traces: Mas traças
       nearby users: Autres utilizaires a proximitat
       nearby_changesets: Percórrer totes los gropes de modificacions dels utilizaires a proximitat
       new diary entry: novèla entrada dins lo jornal
-      notes: nòtas de mapa
+      notes: Nòtas de mapa
       oauth settings: paramètres OAuth
-      remove as friend: levar en tant qu'amic
-      send message: mandar un messatge
+      remove as friend: Suprimir en tant qu'amic
+      send message: Mandar un messatge
       settings_link_text: opcions
       spam score: "Nòta pel spam :"
       status: "Estatut :"
-      traces: traças
+      traces: Traças
       unhide_user: reafichar aqueste utilizaire
       user location: Emplaçament de l'utilizaire
       your friends: Vòstres amics
+  user_block: 
+    partial: 
+      revoke: Revocar !
+    revoke: 
+      revoke: Revocar !
+    show: 
+      revoke: Revocar !
   welcome_page: 
     add_a_note: 
       title: Pas lo temps d'editar ? Apodètz una nòta !
