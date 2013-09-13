@@ -59,13 +59,11 @@ $(document).ready(function () {
       if (layerParam.indexOf(layers[i].options.code) >= 0) {
         map.addLayer(layers[i]);
         layersAdded = layersAdded + layers[i].options.code;
+      } else if (i == 0 && layersAdded == "") {
+        map.addLayer(layers[i]);
       } else {
         map.removeLayer(layers[i]);
       }
-    }
-
-    if (layersAdded == "") {
-      map.addLayer(layers[0]);
     }
   }
 
