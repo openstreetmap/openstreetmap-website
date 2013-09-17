@@ -17,7 +17,7 @@ of packages required before you can get the various gems installed.
 
 ## Minimum requirements
 
-* Ruby 1.8.7 or 1.9.3
+* Ruby 1.9.3
 * RubyGems 1.3.1+
 * Postgres 8.3+
 * ImageMagick
@@ -26,12 +26,15 @@ of packages required before you can get the various gems installed.
 These can be installed on Ubuntu 10.10 or later with:
 
 ```
-sudo apt-get install ruby libruby ruby-dev rdoc ri ruby-bundler rubygems \
+sudo apt-get install ruby1.9.1 libruby1.9.1 ruby1.9.1-dev ri1.9.1 \
                      libmagickwand-dev libxml2-dev libxslt1-dev \
                      apache2 apache2-threaded-dev build-essential git-core \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
                      libsasl2-dev
+gem1.9.1 install bundle
 ```
+
+Note that the "1.9.1" Ubuntu packages do in fact contain ruby 1.9.3.
 
 ### Alternative platforms
 
