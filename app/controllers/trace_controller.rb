@@ -203,27 +203,19 @@ class TraceController < ApplicationController
   end
 
   def georss
-    traces = Trace.public.visible
+    @traces = Trace.public.visible
 
     if params[:display_name]
-      traces = traces.joins(:user).where(:users => {:display_name => params[:display_name]})
+      @traces = @traces.joins(:user).where(:users => {:display_name => params[:display_name]})
     end
 
     if params[:tag]
-      traces = traces.tagged(params[:tag])
+      @traces = @traces.tagged(params[:tag])
     end
 
-    traces = traces.order("timestamp DESC")
-    traces = traces.limit(20)
-    traces = traces.includes(:user)
-
-    rss = OSM::GeoRSS.new
-
-    traces.each do |trace|
-      rss.add(trace.latitude, trace.longitude, trace.name, trace.user.display_name, url_for({:controller => 'trace', :action => 'view', :id => trace.id, :display_name => trace.user.display_name}), "<img src='#{url_for({:controller => 'trace', :action => 'icon', :id => trace.id, :display_name => trace.user.display_name})}'> GPX file with #{trace.size} points from #{trace.user.display_name}", trace.timestamp)
-    end
-
-    render :text => rss.to_s, :content_type => "application/rss+xml"
+    @traces = @traces.order("timestamp DESC")
+    @traces = @traces.limit(20)
+    @traces = @traces.includes(:user)
   end
 
   def picture
