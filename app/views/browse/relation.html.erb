@@ -8,13 +8,13 @@
 
 <% content_for :heading do %>
   <h2><%= t'browse.relation.relation_title', :relation_name => @name %></h2>
+  <%= render :partial => "navigation" %>
 
   <%= render :partial => "common_editsummary", :object => @relation %>
 
   (<%= link_to(t('browse.relation.view_history'), :action => "relation_history") %>)
 
 <% end %>
-<%= render :partial => "navigation" %>
 <%= render :partial => "map", :object => @relation %>
 
 <div class='column-1'>

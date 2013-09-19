@@ -4,9 +4,8 @@
 
 <% content_for :heading do %>
   <h2><%= t 'browse.changeset.changeset', :id => @changeset.id %></h2>
+  <%= render :partial => "navigation" %>
 <% end %>
-
-<%= render :partial => "navigation" %>
 
 <% if @changeset.has_valid_bbox? %>
 <%= render :partial => "map", :object => @changeset %>
