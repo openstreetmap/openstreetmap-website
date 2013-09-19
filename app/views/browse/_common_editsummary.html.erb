@@ -1,0 +1,23 @@
+    <% if common_editsummary.visible? %>
+      <%= t 'browse.common_details.edited_at' %>
+    <% else %>
+      <%= t 'browse.common_details.deleted_at' %>
+    <% end %>
+    <%= l common_editsummary.timestamp %>
+
+  <% if common_editsummary.changeset.user.data_public? %>
+      <% if common_editsummary.visible? %>
+        <%= t 'browse.common_details.edited_by' %>
+      <% else %>
+        <%= t 'browse.common_details.deleted_by' %>
+      <% end %>
+      <%= link_to h(common_editsummary.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_editsummary.changeset.user.display_name %>
+  <% end %>
+
+  &middot;
+
+    <%= t 'browse.common_details.version' %>
+    <%= h(common_editsummary.version) %>
+    <%= t 'browse.common_details.in_changeset' %>
+    <%= link_to common_editsummary.changeset_id, :action => :changeset, :id => common_editsummary.changeset_id %>
+

@@ -8,9 +8,11 @@
 
 <% content_for :heading do %>
   <h2><%= t'browse.relation.relation_title', :relation_name => @name %></h2>
-  <ul class='secondary-actions clearfix'>
-    <li><%= link_to(t('browse.relation.view_history'), :action => "relation_history") %></li>
-  </ul>
+
+  <%= render :partial => "common_editsummary", :object => @relation %>
+
+  (<%= link_to(t('browse.relation.view_history'), :action => "relation_history") %>)
+
 <% end %>
 <%= render :partial => "navigation" %>
 <%= render :partial => "map", :object => @relation %>
