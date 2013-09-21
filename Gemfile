@@ -9,6 +9,9 @@ gem 'bigdecimal', "~> 1.1.0", :platforms => :ruby_19
 # Require things which have moved to gems in ruby 2.0
 gem 'psych', :platforms => :ruby_20
 
+# Require json for multi_json
+gem 'json'
+
 # Use postgres as the database
 gem 'pg'
 
@@ -45,7 +48,7 @@ gem 'openstreetmap-oauth-plugin', '>= 0.4.1.1', :require => 'oauth-plugin'
 gem 'open_id_authentication', '>= 1.1.0'
 gem 'validates_email_format_of', '>= 1.5.1'
 gem 'composite_primary_keys', '>= 6.0.0'
-gem 'http_accept_language', '>= 1.0.2'
+gem 'http_accept_language', '~> 1.0.2'
 gem 'paperclip', '~> 2.0'
 gem 'deadlock_retry', '>= 1.2.0'
 gem 'openstreetmap-i18n-js', '>= 3.0.0.rc5.2', :require => 'i18n-js'
