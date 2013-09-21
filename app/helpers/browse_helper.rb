@@ -3,24 +3,37 @@ module BrowseHelper
     return link_to(page, page_param => page)
   end
 
-  def printable_name(object, version=false)
+  def printable_name(object, type, version=false)
     if object.id.is_a?(Array)
       id = object.id[0]
     else
       id = object.id
     end
-    name = t 'printable_name.with_id', :id => id.to_s
+    name = t 'printable_name.with_id', :id => id.to_s, :type => type
     if version
-      name = t 'printable_name.with_version', :id => name, :version => object.version.to_s
+      name = t 'printable_name.with_version', :id => name, :type => type, :version => object.version.to_s
     end
 
     # don't look at object tags if redacted, so as to avoid giving
     # away redacted version tag information.
     unless object.redacted?
+      nametag = false
       if object.tags.include? "name:#{I18n.locale}"
-        name = t 'printable_name.with_name',  :name => object.tags["name:#{I18n.locale}"].to_s, :id => name
+        nametag = object.tags["name:#{I18n.locale}"].to_s
       elsif object.tags.include? 'name'
-        name = t 'printable_name.with_name',  :name => object.tags['name'].to_s, :id => name
+        nametag = object.tags['name'].to_s
+      end
+
+      if nametag
+        if type
+          name = t 'printable_name.with_name_type',  :name => nametag, :type => type, :id => name
+        else
+          name = t 'printable_name.with_name',  :name => nametag, :id => name
+        end
+      else
+        if type
+          name = t 'printable_name.with_type',  :type => type, :id => name
+        end
       end
     end
 
