@@ -1,9 +1,9 @@
-<% if common_details.changeset.tags['comment'].present? %>
-  <div class='browse-section common'>
-    <div>
+<div class='browse-section common'>
+  <div>
+    <%= render :partial => "tag_details", :object => common_details %>
+    <% if common_details.changeset.tags['comment'].present? %>
       <h4><%= t 'browse.common_details.changeset_comment' %></h4>
       <p><%= linkify(h(common_details.changeset.tags['comment'])) %></p>
-    </div>
+    <% end %>
   </div>
-<% end %>
-<%= render :partial => "tag_details", :object => common_details %>
+</div>
