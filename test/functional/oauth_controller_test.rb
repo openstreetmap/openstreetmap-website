@@ -5,8 +5,16 @@ class OauthControllerTest < ActionController::TestCase
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
+      { :path => "/oauth/revoke", :method => :get },
+      { :controller => "oauth", :action => "revoke" }
+    )
+    assert_routing(
       { :path => "/oauth/revoke", :method => :post },
       { :controller => "oauth", :action => "revoke" }
+    )
+    assert_routing(
+      { :path => "/oauth/authorize", :method => :get },
+      { :controller => "oauth", :action => "authorize" }
     )
     assert_routing(
       { :path => "/oauth/authorize", :method => :post },
