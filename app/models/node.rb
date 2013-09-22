@@ -9,7 +9,7 @@ class Node < ActiveRecord::Base
 
   belongs_to :changeset
 
-  has_many :old_nodes, :order => :version
+  has_many :old_nodes, -> { order(:version) }
 
   has_many :way_nodes
   has_many :ways, :through => :way_nodes
@@ -31,8 +31,8 @@ class Node < ActiveRecord::Base
   validate :validate_position
   validates_associated :changeset
 
-  scope :visible, where(:visible => true)
-  scope :invisible, where(:visible => false)
+  scope :visible, -> { where(:visible => true) }
+  scope :invisible, -> { where(:visible => false) }
 
   # Sanity check the latitude and longitude and add an error if it's broken
   def validate_position

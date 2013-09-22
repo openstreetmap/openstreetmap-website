@@ -130,7 +130,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal true, Message.find(messages(:unread_message).id).message_read
 
     # Asking to reply to a message with no ID should fail
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :reply
     end
 
@@ -177,7 +177,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal true, Message.find(messages(:unread_message).id).message_read
 
     # Asking to read a message with no ID should fail
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :read
     end
 
@@ -280,7 +280,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal false, Message.find(messages(:unread_message).id).message_read
 
     # Asking to mark a message with no ID should fail
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       post :mark
     end
 
@@ -327,7 +327,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal true, m.to_user_visible
 
     # Asking to delete a message with no ID should fail
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       post :delete
     end
 

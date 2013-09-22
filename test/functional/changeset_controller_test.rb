@@ -45,7 +45,7 @@ class ChangesetControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/user/name/edits/feed", :method => :get },
-      { :controller => "changeset", :action => "feed", :display_name => "name", :format => :atom }
+      { :controller => "changeset", :action => "feed", :display_name => "name" }
     )
     assert_routing(
       { :path => "/browse/friends", :method => :get },
@@ -61,7 +61,7 @@ class ChangesetControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/browse/changesets/feed", :method => :get },
-      { :controller => "changeset", :action => "feed", :format => :atom }
+      { :controller => "changeset", :action => "feed" }
     )
     assert_recognizes(
       { :controller => "changeset", :action => "list" },
@@ -72,7 +72,7 @@ class ChangesetControllerTest < ActionController::TestCase
       { :path => "/history", :method => :get }
     )
     assert_recognizes(
-      { :controller => "changeset", :action => "feed", :format => :atom },
+      { :controller => "changeset", :action => "feed" },
       { :path => "/history/feed", :method => :get }
     )
   end
@@ -175,7 +175,7 @@ class ChangesetControllerTest < ActionController::TestCase
       begin
         get :read, :id => id
         assert_response :not_found, "should get a not found"
-      rescue ActionController::RoutingError => ex
+      rescue ActionController::UrlGenerationError => ex
         assert_match /No route matches/, ex.to_s
       end
     end
@@ -241,7 +241,7 @@ class ChangesetControllerTest < ActionController::TestCase
       begin
         put :close, :id => id
         assert_response :unauthorized, "Shouldn't be able close the non-existant changeset #{id}, when not authorized"
-      rescue ActionController::RoutingError => ex
+      rescue ActionController::UrlGenerationError => ex
         assert_match /No route matches/, ex.to_s
       end
     end
@@ -252,7 +252,7 @@ class ChangesetControllerTest < ActionController::TestCase
       begin
         put :close, :id => id
         assert_response :not_found, "The changeset #{id} doesn't exist, so can't be closed"
-      rescue ActionController::RoutingError => ex
+      rescue ActionController::UrlGenerationError => ex
         assert_match /No route matches/, ex.to_s
       end
     end
@@ -1728,7 +1728,7 @@ EOF
   ##
   # This should display the last 20 changesets closed.
   def test_list
-    changesets = Changeset.find(:all, :order => "created_at DESC", :conditions => ['num_changes > 0'], :limit=> 20)
+    changesets = Changeset.where("num_changes > 0").order(:created_at => :desc).limit(20)
     assert changesets.size <= 20
     get :list, {:format => "html"}
     assert_response :success
@@ -1762,7 +1762,7 @@ EOF
   ##
   # This should display the last 20 changesets closed.
   def test_feed
-    changesets = Changeset.find(:all, :order => "created_at DESC", :conditions => ['num_changes > 0'], :limit=> 20)
+    changesets = Changeset.where("num_changes > 0").order(:created_at => :desc).limit(20)
     assert changesets.size <= 20
     get :feed, {:format => "atom"}
     assert_response :success

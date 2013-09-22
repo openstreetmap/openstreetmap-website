@@ -17,7 +17,7 @@ class MessageController < ApplicationController
       if @user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= MAX_MESSAGES_PER_HOUR
         flash[:error] = t 'message.new.limit_exceeded'
       else
-        @message = Message.new(params[:message])
+        @message = Message.new(message_params)
         @message.to_user_id = @this_user.id
         @message.from_user_id = @user.id
         @message.sent_on = Time.now.getutc
@@ -126,5 +126,11 @@ class MessageController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     @title = t'message.no_such_message.title'
     render :action => 'no_such_message', :status => :not_found
+  end
+private
+  ##
+  # return permitted message parameters
+  def message_params
+    params.require(:message).permit(:title, :body)
   end
 end

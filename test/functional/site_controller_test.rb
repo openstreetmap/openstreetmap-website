@@ -59,7 +59,7 @@ class SiteControllerTest < ActionController::TestCase
       { :controller => "site", :action => "permalink", :code => "shortcode" }
     )
     assert_routing(
-      { :path => "/preview/formatname", :method => :get },
+      { :path => "/preview/formatname", :method => :post },
       { :controller => "site", :action => "preview", :format => "formatname" }
     )
     assert_routing(

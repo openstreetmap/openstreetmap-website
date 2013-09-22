@@ -31,15 +31,15 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
     assert_routing(
       { :path => "/diary/rss", :method => :get },
-      { :controller => "diary_entry", :action => "rss", :format => :rss }
+      { :controller => "diary_entry", :action => "rss" }
     )
     assert_routing(
       { :path => "/diary/language/rss", :method => :get },
-      { :controller => "diary_entry", :action => "rss", :language => "language", :format => :rss }
+      { :controller => "diary_entry", :action => "rss", :language => "language" }
     )
     assert_routing(
       { :path => "/user/username/diary/rss", :method => :get },
-      { :controller => "diary_entry", :action => "rss", :display_name => "username", :format => :rss }
+      { :controller => "diary_entry", :action => "rss", :display_name => "username" }
     )
 
     assert_routing(
@@ -201,7 +201,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       assert_select "body", :count => 1 do
         assert_select "div.wrapper", :count => 1 do
           assert_select "div.content-heading", :count => 1 do
-            assert_select "h2", :text => /#{entry.user.display_name}&#x27;s diary/, :count => 1
+            assert_select "h2", :text => /#{entry.user.display_name}&#39;s diary/, :count => 1
           end
           assert_select "div#content", :count => 1 do
             assert_select "div.post_heading", :text => /#{new_title}/, :count => 1
@@ -230,7 +230,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
       assert_select "body", :count => 1 do
         assert_select "div.wrapper", :count => 1 do
           assert_select "div.content-heading", :count => 1 do
-            assert_select "h2", :text => /#{users(:normal_user).display_name}&#x27;s diary/, :count => 1
+            assert_select "h2", :text => /#{users(:normal_user).display_name}&#39;s diary/, :count => 1
           end
           assert_select "div#content", :count => 1 do
             assert_select "div.post_heading", :text => /#{new_title}/, :count => 1

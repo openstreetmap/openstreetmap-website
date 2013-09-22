@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class UserCreationTest < ActionController::IntegrationTest
+class UserCreationTest < ActionDispatch::IntegrationTest
   fixtures :users
 
   def setup

@@ -78,11 +78,11 @@ class CreateOsmDb < ActiveRecord::Migration
 
     create_table "gps_points", myisam_table do |t|
       t.column "altitude",  :float
-      t.column "user_id",   :integer,  :limit => 20
+      t.column "user_id",   :integer
       t.column "trackid",   :integer
       t.column "latitude",  :integer
       t.column "longitude", :integer
-      t.column "gpx_id",    :integer,  :limit => 20
+      t.column "gpx_id",    :integer
       t.column "timestamp", :datetime
     end
 

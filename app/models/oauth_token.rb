@@ -2,7 +2,7 @@ class OauthToken < ActiveRecord::Base
   belongs_to :client_application
   belongs_to :user
 
-  scope :authorized, where("authorized_at IS NOT NULL and invalidated_at IS NULL")
+  scope :authorized, -> { where("authorized_at IS NOT NULL and invalidated_at IS NULL") }
 
   validates_uniqueness_of :token
   validates_presence_of :client_application, :token
@@ -14,9 +14,7 @@ class OauthToken < ActiveRecord::Base
   end
   
   def invalidate!
-    update_attributes({
-      :invalidated_at => Time.now
-    }, :without_protection => true)
+    update_attributes(:invalidated_at => Time.now)
   end
   
   def authorized?

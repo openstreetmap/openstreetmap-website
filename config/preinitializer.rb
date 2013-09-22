@@ -1,6 +1,11 @@
 require 'yaml'
 
-env = ENV['RAILS_ENV'] || 'development'
+if defined?(Rake.application) && Rake.application.top_level_tasks.grep(/^(default$|test(:|$))/).any?
+  env = "test"
+else
+  env = ENV['RAILS_ENV'] || 'development'
+end
+
 config = YAML.load_file(File.expand_path(env == "test" ? "../example.application.yml" : "../application.yml", __FILE__))
 
 ENV.each do |key,value|

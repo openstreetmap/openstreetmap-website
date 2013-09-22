@@ -30,7 +30,7 @@ class NotesController < ApplicationController
     end
 
     # Get any conditions that need to be applied
-    notes = closed_condition(Note.scoped)
+    notes = closed_condition(Note.all)
 
     # Check that the boundaries are valid
     bbox.check_boundaries
@@ -176,7 +176,7 @@ class NotesController < ApplicationController
   # Get a feed of recent notes and comments
   def feed
     # Get any conditions that need to be applied
-    notes = closed_condition(Note.scoped)
+    notes = closed_condition(Note.all)
 
     # Process any bbox
     if params[:bbox]
@@ -254,7 +254,7 @@ class NotesController < ApplicationController
     raise OSM::APIBadUserInput.new("No query string was given") unless params[:q]
 
     # Get any conditions that need to be applied
-    @notes = closed_condition(Note.scoped)
+    @notes = closed_condition(Note.all)
     @notes = @notes.joins(:comments).where("note_comments.body ~ ?", params[:q])
 
     # Find the notes we want to return
@@ -279,7 +279,7 @@ class NotesController < ApplicationController
         @description = t 'note.mine.subheading', :user => render_to_string(:partial => "user", :object => @this_user)
         @page = (params[:page] || 1).to_i 
         @page_size = 10
-        @notes = @this_user.notes.order("updated_at DESC, id").uniq.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author).all
+        @notes = @this_user.notes.order("updated_at DESC, id").uniq.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author).to_a
       else
         @title = t 'user.no_such_user.title' 
         @not_found_user = params[:display_name] 
@@ -347,7 +347,7 @@ private
       attributes[:author_ip] = request.remote_ip
     end
 
-    comment = note.comments.create(attributes, :without_protection => true)
+    comment = note.comments.create(attributes)
 
     note.comments.map { |c| c.author }.uniq.each do |user|
       if notify and user and user != @user

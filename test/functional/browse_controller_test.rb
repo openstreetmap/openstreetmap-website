@@ -131,10 +131,10 @@ class BrowseControllerTest < ActionController::TestCase
   # then we check that we get the correct 404 when a non-existant id is passed
   # then we check that it will get a successful response, when we do pass an id
   def browse_check(type, id)
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get type
     end
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get type, {:id => -10} # we won't have an id that's negative
     end
     get type, {:id => id}

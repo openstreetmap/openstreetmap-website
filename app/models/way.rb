@@ -8,10 +8,10 @@ class Way < ActiveRecord::Base
   
   belongs_to :changeset
 
-  has_many :old_ways, :order => 'version'
+  has_many :old_ways, -> { order(:version) }
 
-  has_many :way_nodes, :order => 'sequence_id'
-  has_many :nodes, :through => :way_nodes, :order => 'sequence_id'
+  has_many :way_nodes, -> { order(:sequence_id) }
+  has_many :nodes, -> { order("sequence_id") }, :through => :way_nodes
 
   has_many :way_tags
 
@@ -26,8 +26,8 @@ class Way < ActiveRecord::Base
   validates_numericality_of :id, :on => :update, :integer_only => true
   validates_associated :changeset
 
-  scope :visible, where(:visible => true)
-  scope :invisible, where(:visible => false)
+  scope :visible, -> { where(:visible => true) }
+    scope :invisible, -> { where(:visible => false) }
 
   # Read in xml as text and return it's Way object representation
   def self.from_xml(xml, create=false)

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class UserBlocksTest < ActionController::IntegrationTest
+class UserBlocksTest < ActionDispatch::IntegrationTest
   fixtures :users, :user_blocks, :user_roles
 
   def auth_header(user, pass)
@@ -17,12 +17,12 @@ class UserBlocksTest < ActionController::IntegrationTest
     assert_response :success
 
     # now block the user
-    UserBlock.create({
+    UserBlock.create(
       :user_id => blocked_user.id,
       :creator_id => users(:moderator_user).id,
       :reason => "testing",
       :ends_at => Time.now.getutc + 5.minutes
-    }, :without_protection => true)
+    )
     get "/api/#{API_VERSION}/user/details", nil, auth_header(blocked_user.display_name, "test")
     assert_response :forbidden
   end
@@ -31,12 +31,12 @@ class UserBlocksTest < ActionController::IntegrationTest
     blocked_user = users(:public_user)
     moderator = users(:moderator_user)
 
-    block = UserBlock.create({
+    block = UserBlock.create(
       :user_id => blocked_user.id,
       :creator_id => moderator.id,
       :reason => "testing",
       :ends_at => Time.now.getutc + 5.minutes
-    }, :without_protection => true)
+    )
     get "/api/#{API_VERSION}/user/details", nil, auth_header(blocked_user.display_name, "test")
     assert_response :forbidden
 

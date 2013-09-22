@@ -1,7 +1,6 @@
 module Paperclip
   class AssetUrlGenerator < UrlGenerator
-    include Sprockets::Helpers::IsolatedHelper
-    include Sprockets::Helpers::RailsHelper
+    include Sprockets::Rails::Helper
 
     def for(style_name, options)
       url = super(style_name, options)

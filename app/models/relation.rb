@@ -8,9 +8,9 @@ class Relation < ActiveRecord::Base
 
   belongs_to :changeset
 
-  has_many :old_relations, :order => 'version'
+  has_many :old_relations, -> { order(:version) }
 
-  has_many :relation_members, :order => 'sequence_id'
+  has_many :relation_members, -> { order(:sequence_id) }
   has_many :relation_tags
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
@@ -24,11 +24,11 @@ class Relation < ActiveRecord::Base
   validates_numericality_of :changeset_id, :version, :integer_only => true
   validates_associated :changeset
   
-  scope :visible, where(:visible => true)
-  scope :invisible, where(:visible => false)
-  scope :nodes, lambda { |*ids| joins(:relation_members).where(:current_relation_members => { :member_type => "Node", :member_id => ids }) }
-  scope :ways, lambda { |*ids| joins(:relation_members).where(:current_relation_members => { :member_type => "Way", :member_id => ids }) }
-  scope :relations, lambda { |*ids| joins(:relation_members).where(:current_relation_members => { :member_type => "Relation", :member_id => ids }) }
+  scope :visible, -> { where(:visible => true) }
+  scope :invisible, -> { where(:visible => false) }
+  scope :nodes, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Node", :member_id => ids.flatten }) }
+  scope :ways, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Way", :member_id => ids.flatten }) }
+  scope :relations, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Relation", :member_id => ids.flatten }) }
 
   TYPES = ["node", "way", "relation"]
 

@@ -13,12 +13,6 @@ class ClientApplication < ActiveRecord::Base
   validates_format_of :support_url, :with => /\Ahttp(s?):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i, :allow_blank=>true
   validates_format_of :callback_url, :with => /\A[a-z][a-z0-9.+-]*:\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i, :allow_blank=>true
 
-  attr_accessible :name, :url, :support_url, :callback_url,
-                  :allow_read_prefs, :allow_write_prefs,
-                  :allow_write_diary, :allow_write_api,
-                  :allow_read_gpx, :allow_write_gpx,
-                  :allow_write_notes
-
   before_validation :generate_keys, :on => :create
 
   attr_accessor :token_callback_url
@@ -60,7 +54,7 @@ class ClientApplication < ActiveRecord::Base
     permissions.each do |p|
       params[p] = true
     end
-    RequestToken.create(params, :without_protection => true)
+    RequestToken.create(params)
   end
 
   def access_token_for_user(user)
@@ -71,7 +65,7 @@ class ClientApplication < ActiveRecord::Base
         params[p] = true
       end
 
-      token = access_tokens.create(params, :without_protection => true)
+      token = access_tokens.create(params)
     end
     
     token

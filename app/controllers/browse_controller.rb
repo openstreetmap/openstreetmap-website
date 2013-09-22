@@ -27,7 +27,7 @@ class BrowseController < ApplicationController
   
   def way
     @type = "way"
-    @way = Way.find(params[:id], :include => [:way_tags, {:changeset => :user}, {:nodes => [:node_tags, {:ways => :way_tags}]}, :containing_relation_members])
+    @way = Way.preload(:way_tags, :containing_relation_members, :changeset => :user, :nodes => [:node_tags, :ways => :way_tags]).find(params[:id])
     @next = Way.visible.where("id > ?", @way.id).order("id ASC").first
     @prev = Way.visible.where("id < ?", @way.id).order("id DESC").first
   rescue ActiveRecord::RecordNotFound
@@ -36,7 +36,7 @@ class BrowseController < ApplicationController
   
   def way_history
     @type = "way"
-    @way = Way.find(params[:id], :include => [:way_tags, {:old_ways => {:changeset => :user}}])
+    @way = Way.preload(:way_tags, :old_ways => { :changeset => :user }).find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
