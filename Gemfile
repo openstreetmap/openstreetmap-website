@@ -77,8 +77,9 @@ gem 'SystemTimer', '>= 1.1.3', :require => 'system_timer', :platforms => :ruby_1
 # Load httpclient for SOAP support for Quova GeoIP queries
 gem 'httpclient'
 
-# Load memcache in case we are using it
-gem 'memcached', '>= 1.4.1'
+# Load memcache client in case we are using it
+gem 'dalli'
+gem 'kgio'
 
 # Gems useful for development
 group :development do

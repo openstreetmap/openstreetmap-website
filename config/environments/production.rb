@@ -58,7 +58,7 @@ OpenStreetMap::Application.configure do
 
   # Use a different cache store in production.
   if defined?(MEMCACHE_SERVERS)
-    config.cache_store = :mem_cache_store, MemCache.new(:namespace => "rails:cache", :no_block => true, :buffer_requests => true, :noreply => true)
+    config.cache_store = :mem_cache_store, MEMCACHE_SERVERS, { :namespace => "rails:cache" }
   end
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
