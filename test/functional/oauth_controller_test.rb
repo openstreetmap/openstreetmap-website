@@ -29,7 +29,15 @@ class OauthControllerTest < ActionController::TestCase
       { :controller => "oauth", :action => "request_token" }
     )
     assert_routing(
+      { :path => "/oauth/request_token", :method => :post },
+      { :controller => "oauth", :action => "request_token" }
+    )
+    assert_routing(
       { :path => "/oauth/access_token", :method => :get },
+      { :controller => "oauth", :action => "access_token" }
+    )
+    assert_routing(
+      { :path => "/oauth/access_token", :method => :post },
       { :controller => "oauth", :action => "access_token" }
     )
     assert_routing(

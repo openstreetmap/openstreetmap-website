@@ -247,8 +247,8 @@ OpenStreetMap::Application.routes.draw do
   match '/oauth/revoke' => 'oauth#revoke', :via => [:get, :post]
   match '/oauth/authorize' => 'oauth#authorize', :via => [:get, :post], :as => :authorize
   match '/oauth/token' => 'oauth#token', :via => :get, :as => :token
-  match '/oauth/request_token' => 'oauth#request_token', :via => :get, :as => :request_token
-  match '/oauth/access_token' => 'oauth#access_token', :via => :get, :as => :access_token
+  match '/oauth/request_token' => 'oauth#request_token', :via => [:get, :post], :as => :request_token
+  match '/oauth/access_token' => 'oauth#access_token', :via => [:get, :post], :as => :access_token
   match '/oauth/test_request' => 'oauth#test_request', :via => :get, :as => :test_request
 
   # roles and banning pages
