@@ -48,6 +48,12 @@ $(document).ready(function () {
       code: "Q",
       keyid: "mapquest",
       name: I18n.t("javascripts.map.base.mapquest")
+    }),
+    new L.OSM.HOT({
+      attribution: copyright + ". Tiles courtesy of <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>",
+      code: "H",
+      keyid: "hot",
+      name: I18n.t("javascripts.map.base.hot")
     })
   ];
 

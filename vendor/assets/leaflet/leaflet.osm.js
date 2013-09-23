@@ -39,6 +39,15 @@ L.OSM.MapQuestOpen = L.OSM.TileLayer.extend({
   }
 });
 
+L.OSM.HOT = L.OSM.TileLayer.extend({
+  options: {
+    url: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+    maxZoom: 20,
+    subdomains: 'abc',
+    attribution: "Tiles courtesy of <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>"
+  }
+});
+
 L.OSM.DataLayer = L.FeatureGroup.extend({
   options: {
     areaTags: ['area', 'building', 'leisure', 'tourism', 'ruins', 'historic', 'landuse', 'military', 'natural', 'sport'],
