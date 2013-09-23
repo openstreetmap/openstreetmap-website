@@ -73,6 +73,12 @@ $(document).ready(function () {
     updateLayers(OSM.mapParams());
   });
 
+  map.on("baselayerchange", function (e) {
+    if (map.getZoom() > e.layer.options.maxZoom) {
+      map.setView(map.getCenter(), e.layer.options.maxZoom, { reset: true });
+    }
+  });
+
   map.noteLayer = new L.LayerGroup();
   map.noteLayer.options = {code: 'N'};
 
