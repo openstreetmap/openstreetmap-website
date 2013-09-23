@@ -45,7 +45,7 @@ class ChangesetControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/user/name/edits/feed", :method => :get },
-      { :controller => "changeset", :action => "feed", :display_name => "name" }
+      { :controller => "changeset", :action => "feed", :display_name => "name", :format => :atom }
     )
     assert_routing(
       { :path => "/browse/friends", :method => :get },
@@ -61,7 +61,7 @@ class ChangesetControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/browse/changesets/feed", :method => :get },
-      { :controller => "changeset", :action => "feed" }
+      { :controller => "changeset", :action => "feed", :format => :atom }
     )
     assert_recognizes(
       { :controller => "changeset", :action => "list" },
@@ -72,7 +72,7 @@ class ChangesetControllerTest < ActionController::TestCase
       { :path => "/history", :method => :get }
     )
     assert_recognizes(
-      { :controller => "changeset", :action => "feed" },
+      { :controller => "changeset", :action => "feed", :format => :atom },
       { :path => "/history/feed", :method => :get }
     )
   end

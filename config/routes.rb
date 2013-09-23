@@ -112,12 +112,12 @@ OpenStreetMap::Application.routes.draw do
   match '/browse/changeset/:id' => 'browse#changeset', :via => :get, :as => :changeset, :id => /\d+/
   match '/browse/note/:id' => 'browse#note', :via => :get, :id => /\d+/, :as => "browse_note"
   match '/user/:display_name/edits' => 'changeset#list', :via => :get
-  match '/user/:display_name/edits/feed' => 'changeset#feed', :via => :get, :format => :atom
+  match '/user/:display_name/edits/feed' => 'changeset#feed', :via => :get, :defaults => { :format => :atom }
   match '/user/:display_name/notes' => 'notes#mine', :via => :get
   match '/browse/friends' => 'changeset#list', :via => :get, :friends => true, :as => "friend_changesets"
   match '/browse/nearby' => 'changeset#list', :via => :get, :nearby => true, :as => "nearby_changesets"
   match '/browse/changesets' => 'changeset#list', :via => :get
-  match '/browse/changesets/feed' => 'changeset#feed', :via => :get, :format => :atom
+  match '/browse/changesets/feed' => 'changeset#feed', :via => :get, :defaults => { :format => :atom }
   match '/browse' => 'changeset#list', :via => :get
 
   # web site
@@ -127,7 +127,7 @@ OpenStreetMap::Application.routes.draw do
   match '/copyright' => 'site#copyright', :via => :get
   match '/welcome' => 'site#welcome', :via => :get, :as => :welcome
   match '/history' => 'changeset#list', :via => :get
-  match '/history/feed' => 'changeset#feed', :via => :get, :format => :atom
+  match '/history/feed' => 'changeset#feed', :via => :get, :defaults => { :format => :atom }
   match '/export' => 'site#index', :export => true, :via => :get
   match '/login' => 'user#login', :via => [:get, :post]
   match '/logout' => 'user#logout', :via => [:get, :post]
