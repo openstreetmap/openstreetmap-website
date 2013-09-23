@@ -162,8 +162,8 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/traces/tag/:tag' => 'trace#list', :via => :get
   match '/user/:display_name/traces/page/:page' => 'trace#list', :via => :get
   match '/user/:display_name/traces' => 'trace#list', :via => :get
-  match '/user/:display_name/traces/tag/:tag/rss' => 'trace#georss', :via => :get, :format => :rss
-  match '/user/:display_name/traces/rss' => 'trace#georss', :via => :get, :format => :rss
+  match '/user/:display_name/traces/tag/:tag/rss' => 'trace#georss', :via => :get, :defaults => { :format => :rss }
+  match '/user/:display_name/traces/rss' => 'trace#georss', :via => :get, :defaults => { :format => :rss }
   match '/user/:display_name/traces/:id' => 'trace#view', :via => :get
   match '/user/:display_name/traces/:id/picture' => 'trace#picture', :via => :get
   match '/user/:display_name/traces/:id/icon' => 'trace#icon', :via => :get
@@ -171,8 +171,8 @@ OpenStreetMap::Application.routes.draw do
   match '/traces/tag/:tag' => 'trace#list', :via => :get
   match '/traces/page/:page' => 'trace#list', :via => :get
   match '/traces' => 'trace#list', :via => :get
-  match '/traces/tag/:tag/rss' => 'trace#georss', :via => :get, :format => :rss
-  match '/traces/rss' => 'trace#georss', :via => :get, :format => :rss
+  match '/traces/tag/:tag/rss' => 'trace#georss', :via => :get, :defaults => { :format => :rss }
+  match '/traces/rss' => 'trace#georss', :via => :get, :defaults => { :format => :rss }
   match '/traces/mine/tag/:tag/page/:page' => 'trace#mine', :via => :get
   match '/traces/mine/tag/:tag' => 'trace#mine', :via => :get
   match '/traces/mine/page/:page' => 'trace#mine', :via => :get
@@ -186,9 +186,9 @@ OpenStreetMap::Application.routes.draw do
   match '/diary/new' => 'diary_entry#new', :via => [:get, :post]
   match '/diary/friends' => 'diary_entry#list', :friends => true, :via => :get, :as => "friend_diaries"
   match '/diary/nearby' => 'diary_entry#list', :nearby => true, :via => :get, :as => "nearby_diaries"
-  match '/user/:display_name/diary/rss' => 'diary_entry#rss', :via => :get, :format => :rss
-  match '/diary/:language/rss' => 'diary_entry#rss', :via => :get, :format => :rss
-  match '/diary/rss' => 'diary_entry#rss', :via => :get, :format => :rss
+  match '/user/:display_name/diary/rss' => 'diary_entry#rss', :via => :get, :defaults => { :format => :rss }
+  match '/diary/:language/rss' => 'diary_entry#rss', :via => :get, :defaults => { :format => :rss }
+  match '/diary/rss' => 'diary_entry#rss', :via => :get, :defaults => { :format => :rss }
   match '/user/:display_name/diary/comments/:page' => 'diary_entry#comments', :via => :get, :page => /\d+/
   match '/user/:display_name/diary/comments/' => 'diary_entry#comments', :via => :get
   match '/user/:display_name/diary' => 'diary_entry#list', :via => :get
