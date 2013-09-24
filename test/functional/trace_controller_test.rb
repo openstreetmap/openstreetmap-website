@@ -88,19 +88,19 @@ class TraceControllerTest < ActionController::TestCase
 
     assert_routing(
       { :path => "/traces/rss", :method => :get },
-      { :controller => "trace", :action => "georss" }
+      { :controller => "trace", :action => "georss", :format => :rss }
     )
     assert_routing(
       { :path => "/traces/tag/tagname/rss", :method => :get },
-      { :controller => "trace", :action => "georss", :tag => "tagname" }
+      { :controller => "trace", :action => "georss", :tag => "tagname", :format => :rss }
     )
     assert_routing(
       { :path => "/user/username/traces/rss", :method => :get },
-      { :controller => "trace", :action => "georss", :display_name => "username" }
+      { :controller => "trace", :action => "georss", :display_name => "username", :format => :rss }
     )
     assert_routing(
       { :path => "/user/username/traces/tag/tagname/rss", :method => :get },
-      { :controller => "trace", :action => "georss", :display_name => "username", :tag => "tagname" }
+      { :controller => "trace", :action => "georss", :display_name => "username", :tag => "tagname", :format => :rss }
     )
 
     assert_routing(
@@ -205,16 +205,16 @@ class TraceControllerTest < ActionController::TestCase
 
   # Check that the rss loads
   def test_rss
-    get :georss
+    get :georss, :format => :rss
     check_trace_feed Trace.public
 
-    get :georss, :tag => "London"
+    get :georss, :tag => "London", :format => :rss
     check_trace_feed Trace.tagged("London").public
 
-    get :georss, :display_name => users(:public_user).display_name
+    get :georss, :display_name => users(:public_user).display_name, :format => :rss
     check_trace_feed users(:public_user).traces.public
 
-    get :georss, :display_name => users(:public_user).display_name, :tag => "Birmingham"
+    get :georss, :display_name => users(:public_user).display_name, :tag => "Birmingham", :format => :rss
     check_trace_feed users(:public_user).traces.tagged("Birmingham").public
   end
 
@@ -345,7 +345,7 @@ private
 
   def check_trace_feed(traces)
     assert_response :success
-    assert_template nil
+    assert_template "georss"
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
@@ -359,7 +359,7 @@ private
             assert_select item, "link", "http://test.host/user/#{trace.user.display_name}/traces/#{trace.id}"
             assert_select item, "guid", "http://test.host/user/#{trace.user.display_name}/traces/#{trace.id}"
             assert_select item, "description"
-            assert_select item, "author", trace.user.display_name
+#            assert_select item, "dc:creator", trace.user.display_name
             assert_select item, "pubDate", trace.timestamp.rfc822
           end
         end

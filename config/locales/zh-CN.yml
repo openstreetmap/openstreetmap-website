@@ -436,9 +436,6 @@ zh-CN:
       output: 输出
       paste_html: 在网页上粘贴 HTML
       scale: 比率
-      too_large: 
-        body: 这个区域太大，无法导出 OpenStreetMap XML 数据。请放大或选择一个较小的区域。
-        heading: 区域太大
       zoom: 变焦
     start_rjs: 
       add_marker: 标记地图
@@ -447,7 +444,6 @@ zh-CN:
       drag_a_box: 通过拖曳窗口来选择区域
       export: 输出
       manually_select: 手动选择一个不同区域
-      view_larger_map: 查看放大地图
   geocoder: 
     description: 
       title: 
@@ -769,7 +765,7 @@ zh-CN:
           scrub: 灌木
           shoal: 浅滩
           spring: 泉
-          stone: 商店
+          stone: 石头
           strait: 海峡
           tree: 树
           valley: 山谷
@@ -957,12 +953,24 @@ zh-CN:
   html: 
     dir: ltr
   javascripts: 
+    close: 关闭
+    key: 
+      title: 图例
+      tooltip: 图例
     map: 
       base: 
         cycle_map: Cycle Map
         mapquest: MapQuest Open
         standard: 标准
-        transport_map: Transport Map
+        transport_map: 交通图
+      layers: 
+        data: 地图数据
+        header: 地图图层
+        notes: 地图注释
+        overlays: 启用覆盖地图叠加
+      zoom: 
+        in: 放大
+        out: 缩小
     notes: 
       new: 
         add: 添加注释
@@ -983,16 +991,19 @@ zh-CN:
         reopened_by: 由 <a href='%{user_url}'>%{user}</a> 于 %{time} 重开
         reopened_by_anonymous: 由匿名于 %{time} 重开
         resolve: 解决
+    share: 
+      cancel: 取消
+      link: 链接
+      long_link: 长链接
+      short_link: 短链接
+      title: 分享
     site: 
       createnote_disabled_tooltip: 放大以向地图添加一个注释
       createnote_tooltip: 向地图添加一个注释
-      createnote_zoom_alert: 您必须放大，才能向地图添加一个注释
       edit_disabled_tooltip: 放大以编辑地图
       edit_tooltip: 编辑地图
-      edit_zoom_alert: 您必须先放大才能编辑地图
       history_disabled_tooltip: 放大以编辑此区域
       history_tooltip: 查看对此区域的编辑
-      history_zoom_alert: 您必须先放大才能编辑此区域
   layouts: 
     community: 社区
     community_blogs: 社区博客
@@ -1004,8 +1015,6 @@ zh-CN:
     donate_link_text: 捐款
     edit: 编辑
     edit_with: 使用 %{editor} 编辑
-    export: 输出
-    export_tooltip: 输出地图数据
     foundation: 基金会
     foundation_title: OpenStreetMap 基金会
     gps_traces: GPS 轨迹
@@ -1016,12 +1025,6 @@ zh-CN:
     help_url: http://help.openstreetmap.org/
     history: 历史
     home: 主页
-    home_tooltip: 回到主页位置
-    inbox_html: 收件箱 %{count}
-    inbox_tooltip: 
-      one: 您的收件箱有 1 封未读消息
-      other: 您的收件箱有 %{count} 封未读消息
-      zero: 您的收件箱中没有未读消息
     intro_1: OpenStreetMap 是一个可供自由编辑的世界地图，它是由像您这样的用户创造的。
     intro_2_create_account: 创建用户帐户
     intro_2_download: 下载
@@ -1033,7 +1036,6 @@ zh-CN:
     logo: 
       alt_text: OpenStreetMap 标志
     logout: 退出
-    logout_tooltip: 退出
     make_a_donation: 
       text: 捐款
       title: 捐款支持 OpenStreetMap
@@ -1054,7 +1056,6 @@ zh-CN:
     user_diaries_tooltip: 查看用户日记
     view: 查看
     view_tooltip: 查看地图
-    welcome_user_link_tooltip: 您的用户页面
     wiki: 维基
     wiki_title: 项目的维基网站
     wiki_url: http://wiki.openstreetmap.org/
@@ -1145,8 +1146,7 @@ zh-CN:
       title: 发件箱
       to: 给
     read: 
-      back_to_inbox: 返回收件箱
-      back_to_outbox: 返回发件箱
+      back: 返回
       date: 日期
       from: 来自
       reply_button: 回复
@@ -1237,8 +1237,7 @@ zh-CN:
       greeting: 您好，
       hopefully_you: 某人(可能是您)已要求重置该电子邮件地址上的 openstreetmap.org 帐户密码。
     message_notification: 
-      footer1: 您可以在 %{readurl} 阅读这条消息
-      footer2: 并且您可以在 %{replyurl} 回复
+      footer_html: 您还可以阅读%{readurl}的消息且您可以在%{replyurl}回复
       header: "%{from_user} 已经通过 OpenStreetMap 向您发送标题为 %{subject} 的消息："
       hi: "%{to_user} 您好，"
       subject_header: "[OpenStreetMap] %{subject}"
@@ -1267,27 +1266,6 @@ zh-CN:
       greeting: 您好！
       subject: "[OpenStreetMap] 欢迎加入 OpenStreetMap"
       welcome: 我们欢迎您，并提供一些额外的信息，帮助您开始使用。
-    signup_confirm_html: 
-      ask_questions: 您可以在我们的<a href="http://help.openstreetmap.org/">问答站点</a>问关于 OpenStreetMap 的任何问题。
-      current_user: 一个基于其所处位置的，当前用户分类列表可从这里获得：<a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
-      get_reading: 在<a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">维基中</a>阅读更多关于 OpenStreetMap 的资料或通过 <a href="http://blog.openstreetmap .org/">OpenStreetMap 博客</a>及 <a href="http://twitter.com/openstreetmap">Twitter</a> 了解最新的消息，或者浏览 OpenStreetMap 创始人 Steve Coast 的 <a href="http://www.opengeodata.org/">OpenGeoData 博客</a>了解这个计划的历史，其中也有<a href="http:// www.opengeodata.org/?cat=13">播客</a>可以听！
-      introductory_video: 您可以观看一部%{introductory_video_link}。
-      more_videos: 这里有%{more_videos_link}。
-      more_videos_here: 更多的影片
-      user_wiki_page: 推荐您创立一个用户维基页面，它包括分类标签，用来提醒您所在位置，例如 <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>。
-      video_to_openstreetmap: OpenStreetMap 的介绍片
-      wiki_signup: 您可能也想要<a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">注册到 OpenStreetMap 维基</a>。
-    signup_confirm_plain: 
-      ask_questions: 您可以在我们的问答站点问关于 OpenStreetMap 的任何问题：
-      blog_and_twitter: 通过 OpenStreetMap 的博客或 Twitter 以了解最新消息：
-      current_user: 一个基于其所处位置的，当前用户分类列表可从这里获得：
-      introductory_video: 您可以在这里观看 OpenStreetMap 的介绍视频：
-      more_videos: 更多的视频请看这里：
-      the_wiki: 在维基上阅读 OpenStreetMap 的介绍：
-      the_wiki_url: http://wiki.openstreetmap.org/wiki/Beginners%27_guide
-      user_wiki_page: 推荐您创立一个用户维基页面，它包括分类标签，用来提醒您所在位置，例如[[Category:Users_in_London]。
-      wiki_signup: 您可能也想在 OpenStreetMap 维基上注册：
-      wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page
   oauth: 
     oauthorize: 
       allow_read_gpx: 读取您的私人 GPS 轨迹。
@@ -1363,13 +1341,27 @@ zh-CN:
   printable_name: 
     with_version: "%{id}，版本 %{version}"
   redaction: 
+    create: 
+      flash: 节点被创建。
     edit: 
       description: 描述
+      heading: 编辑节点
+      submit: 保存修改
+      title: 编辑节点
+    index: 
+      empty: 没有可显示的修改。
+      heading: 修改列表
+      title: 修改列表
     new: 
       description: 描述
+      heading: 输入新修改的信息
+      submit: 创建修改
+      title: 正在创建新的修改
     show: 
       confirm: 您确定吗？
       description: 描述：
+      destroy: 移除此节点
+      edit: 编辑此节点
       user: "创建者:"
     update: 
       flash: 更改已保存。
@@ -1644,12 +1636,9 @@ zh-CN:
       update home location on click: 点击地图时更新所在位置？
     confirm: 
       already active: 已确认此帐户。
-      before you start: 我们知道您可能急于开始制图，但在此之前，您可能希望在下面的表单中填写一些有关自己的信息。
       button: 确认
       heading: 确认用户帐户
       press confirm button: 按下面的确认键激活您的帐户。
-      reconfirm: 如果您注册已经有一段时间了，您可能需要<a href="%{reconfirm}">发送一封新的确认电子邮件</a>。
-      success: 已确认您的账号，感谢您的注册！
       unknown token: 该标记似乎不存在。
     confirm_email: 
       button: 确认
@@ -1742,10 +1731,6 @@ zh-CN:
       display name: 显示姓名：
       display name description: 您公开显示的用户名。您可以稍后在首选项中更改。
       email address: 邮箱：
-      fill_form: 填写表格，我们将尽快向您发送一封邮件来激活您的帐户。
-      flash create success message: 感谢您的注册。我们已经寄出确认邮件到 %{email}，只要您确认您的帐户后就可以制作地图了。 <br /><br />如果您使用会送出确认要求的防垃圾信系统，请确定您将 webmaster@openstreetmap.org 加入白名单中，因为我们无法回复任何确认请求。
-      flash welcome: 感谢您的注册。我们已经寄出确认邮件到 %{email}，并附有一些使用提示。
-      heading: 创建用户帐户
       license_agreement: 当您确认您的帐户时，您需要同意<a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">贡献者条款</a>。
       no_auto_account_create: 很遗憾，我们目前无法为您自动创建一个帐户。
       not displayed publicly: 不公开显示(参阅<a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">隐私政策</a>)

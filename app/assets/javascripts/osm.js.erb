@@ -1,7 +1,6 @@
 OSM = {
-<% if defined?(PIWIK_LOCATION) and defined?(PIWIK_SITE) %>
-  PIWIK_LOCATION:        <%= PIWIK_LOCATION.to_json %>,
-  PIWIK_SITE:            <%= PIWIK_SITE.to_json %>,
+<% if defined?(PIWIK) %>
+  PIWIK:                 <%= PIWIK.to_json %>,
 <% end %>
 
   MAX_REQUEST_AREA:      <%= MAX_REQUEST_AREA.to_json %>,
@@ -22,8 +21,8 @@ OSM = {
     return url;
   },
 
-  mapParams: function (search) {
-    var params = {}, mapParams = {}, bounds, loc;
+  params: function(search) {
+    var params = {};
 
     search = (search || window.location.search).replace('?', '').split(/&|;/);
 
@@ -34,6 +33,12 @@ OSM = {
         val = pair.slice(++j);
       params[key] = decodeURIComponent(val);
     }
+
+    return params;
+  },
+
+  mapParams: function (search) {
+    var params = OSM.params(search), mapParams = {}, bounds, loc;
 
     if (params.mlon && params.mlat) {
       mapParams.marker = true;

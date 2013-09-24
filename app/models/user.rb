@@ -73,7 +73,14 @@ class User < ActiveRecord::Base
         end
       end
 
-      user = nil if user and user.pass_crypt != OSM::encrypt_password(options[:password], user.pass_salt)
+      if user and PasswordHash.check(user.pass_crypt, user.pass_salt, options[:password])
+        if PasswordHash.upgrade?(user.pass_crypt, user.pass_salt)
+          user.pass_crypt, user.pass_salt = PasswordHash.create(options[:password])
+          user.save
+        end
+      else
+        user = nil
+      end
     elsif options[:token]
       token = UserToken.find_by_token(options[:token])
       user = token.user if token
@@ -243,8 +250,7 @@ private
 
   def encrypt_password
     if pass_crypt_confirmation
-      self.pass_salt = OSM::make_token(8)
-      self.pass_crypt = OSM::encrypt_password(pass_crypt, pass_salt)
+      self.pass_crypt, self.pass_salt = PasswordHash.create(pass_crypt)
       self.pass_crypt_confirmation = nil
     end
   end

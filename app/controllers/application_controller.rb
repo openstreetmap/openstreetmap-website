@@ -370,7 +370,7 @@ class ApplicationController < ActionController::Base
   rescue ActionView::Template::Error => ex
     ex = ex.original_exception
 
-    if ex.is_a?(ActiveRecord::StatementInvalid) and ex.message =~ /^Timeout::Error/
+    if ex.is_a?(ActiveRecord::StatementInvalid) and ex.message =~ /execution expired/
       ex = Timeout::Error.new
     end
 
@@ -421,6 +421,24 @@ class ApplicationController < ActionController::Base
   def fetch_body
     request.body.rewind
   end
+
+  def preferred_editor
+    editor = if params[:editor]
+      params[:editor]
+    elsif @user and @user.preferred_editor
+      @user.preferred_editor
+    else
+      DEFAULT_EDITOR
+    end
+
+    if request.env['HTTP_USER_AGENT'] =~ /MSIE/ and editor == 'id'
+      editor = 'potlatch2'
+    end
+
+    editor
+  end
+
+  helper_method :preferred_editor
 
 private 
 

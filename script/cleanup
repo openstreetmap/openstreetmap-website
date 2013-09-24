@@ -2,29 +2,6 @@
 
 require File.dirname(__FILE__) + '/../config/environment'
 
-last_session_id = 0
-
-begin
-  sessions = Session.find(:all,
-                          :conditions => ["updated_at < ? and id > ?", 1.week.ago, last_session_id],
-                          :order => :id, :limit => 1000)
-
-  sessions.each do |session|
-    last_session_id = session.id
-
-    begin
-      if session[:user] and User.find(session[:user])
-        session.destroy if session.updated_at < 1.month.ago
-      else
-        session.destroy
-      end
-    rescue Exception => ex
-      puts "Invalid session #{session.session_id}: #{ex.to_s}"
-      session.destroy
-    end
-  end
-end while sessions.length > 0
-
 UserToken.delete_all("expiry < NOW()")
 
 exit 0

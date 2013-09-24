@@ -51,12 +51,27 @@ $(document).ready(function () {
     })
   ];
 
-  for (var i = layers.length - 1; i >= 0; i--) {
-    if (i === 0 || params.layers.indexOf(layers[i].options.code) >= 0) {
-      map.addLayer(layers[i]);
-      break;
+  function updateLayers(params) {
+    var layerParam = params.layers || "M";
+    var layersAdded = "";
+
+    for (var i = layers.length - 1; i >= 0; i--) {
+      if (layerParam.indexOf(layers[i].options.code) >= 0) {
+        map.addLayer(layers[i]);
+        layersAdded = layersAdded + layers[i].options.code;
+      } else if (i == 0 && layersAdded == "") {
+        map.addLayer(layers[i]);
+      } else {
+        map.removeLayer(layers[i]);
+      }
     }
   }
+
+  updateLayers(params);
+
+  $(window).on("hashchange", function () {
+    updateLayers(OSM.mapParams());
+  });
 
   map.noteLayer = new L.LayerGroup();
   map.noteLayer.options = {code: 'N'};
@@ -113,6 +128,18 @@ $(document).ready(function () {
 
   map.on('moveend layeradd layerremove', updateLocation);
 
+  if (OSM.PIWIK) {
+    map.on('layeradd', function (e) {
+      if (e.layer.options) {
+        var goal = OSM.PIWIK.goals[e.layer.options.keyid];
+
+        if (goal) {
+          $('body').trigger('piwikgoal', goal);
+        }
+      }
+    });
+  }
+
   var marker = L.marker([0, 0], {icon: getUserIcon()});
 
   if (!params.object_zoom) {
@@ -156,6 +183,20 @@ $(document).ready(function () {
 
   if (OSM.preferred_editor == "remote" && $('body').hasClass("site-edit")) {
     remoteEditHandler(map.getBounds());
+  }
+
+  if (OSM.params().edit_help) {
+    $('#editanchor')
+      .removeAttr('title')
+      .tooltip({
+        placement: 'bottom',
+        title: I18n.t('javascripts.edit_help')
+      })
+      .tooltip('show');
+
+    $('body').one('click', function() {
+      $('#editanchor').tooltip('hide');
+    });
   }
 
   initializeSearch(map);

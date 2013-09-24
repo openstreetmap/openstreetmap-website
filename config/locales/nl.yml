@@ -7,6 +7,7 @@
 # Author: Greencaps
 # Author: Ldp
 # Author: McDutchie
+# Author: Pje335
 # Author: SPQRobin
 # Author: Siebrand
 # Author: Tjcool007
@@ -432,9 +433,6 @@ nl:
       output: Uitvoer
       paste_html: Kopieer de HTML-code en voeg deze toe aan uw website
       scale: Schaal
-      too_large: 
-        body: Dit gebied is te groot om als OpenStreetMap XML-gegevens te exporteren. Zoom in of selecteer een kleiner gebied.
-        heading: Gebied te groot
       zoom: Zoom
     start_rjs: 
       add_marker: Marker op de kaart zetten
@@ -443,7 +441,6 @@ nl:
       drag_a_box: Sleep een selectiekader op de kaart om een gebied te selecteren
       export: Exporteren
       manually_select: Handmatig een ander gebied selecteren
-      view_larger_map: Grotere kaart bekijken
   geocoder: 
     description: 
       title: 
@@ -487,6 +484,10 @@ nl:
         level8: Stadsgrens
         level9: Dorpsgrens
       prefix: 
+        aerialway: 
+          chair_lift: Stoeltjeslift
+          drag_lift: Sleeplift
+          station: Kabelbaanstation
         aeroway: 
           aerodrome: Luchtvaartterrein
           apron: Platform
@@ -580,6 +581,7 @@ nl:
           shower: Douche
           social_centre: Sociaal centrum
           social_club: Sociale club
+          social_facility: Sociale voorziening
           studio: Eenkamerappartement
           supermarket: Supermarkt
           swimming_pool: Zwembad
@@ -608,6 +610,9 @@ nl:
           "yes": Brug
         building: 
           "yes": Gebouw
+        emergency: 
+          fire_hydrant: Brandkraan
+          phone: Noodtelefoon
         highway: 
           bridleway: Ruiterpad
           bus_guideway: Vrijliggende busbaan
@@ -629,6 +634,7 @@ nl:
           platform: Perron
           primary: Primaire weg
           primary_link: Primaire weg
+          proposed: Voorgestelde weg
           raceway: Racecircuit
           residential: Straat
           rest_area: Rustplaats
@@ -640,6 +646,7 @@ nl:
           speed_camera: Snelheidscamera
           steps: Trap
           stile: Overstap
+          street_lamp: Straatlantaarn
           tertiary: Tertiaire weg
           tertiary_link: Tertiaire weg
           track: Pad
@@ -655,6 +662,7 @@ nl:
           building: Gebouw
           castle: Kasteel
           church: Kerk
+          citywalls: Stadsmuren
           fort: Fort
           house: Huis
           icon: Icoon
@@ -664,6 +672,7 @@ nl:
           monument: Monument
           museum: Museum
           ruins: Ruïne
+          tomb: Graf
           tower: Toren
           wayside_cross: Kruis langs de weg
           wayside_shrine: Altaar langs de weg
@@ -802,6 +811,7 @@ nl:
           locality: Plaats
           moor: Veen
           municipality: Gemeente
+          neighbourhood: Wijk
           postcode: Postcode
           region: Regio
           sea: Zee
@@ -827,8 +837,10 @@ nl:
           narrow_gauge: Smalspoor
           platform: Spoorwegplatform
           preserved: Historisch spoor
+          proposed: Voorgestelde spoorlijn
           spur: Parallelspoorweg
           station: Spoorwegstation
+          stop: Spoorhalte
           subway: Metrostation
           subway_entrance: Metroingang
           switch: Wissel
@@ -844,6 +856,7 @@ nl:
           beverages: Frisdrankverkooppunt
           bicycle: Fietsenwinkel
           books: Boekenwinkel
+          boutique: Boetiek
           butcher: Slagerij
           car: Automaterialenwinkel
           car_parts: Autoonderdelen
@@ -857,6 +870,7 @@ nl:
           convenience: Gemakswinkel
           copyshop: Copyshop
           cosmetics: Cosmeticawinkel
+          deli: Speciaalzaak
           department_store: Warenhuis
           discount: Discountwinkel
           doityourself: Doe-het-zelf-winkel
@@ -893,17 +907,21 @@ nl:
           organic: Organische winkel
           outdoor: Buitensportwinkel
           pet: Dierenwinkel
+          pharmacy: Apotheek
           photo: Fotowinkel
           salon: Schoonheidssalon
+          second_hand: Kringloopwinkel
           shoes: Schoenenzaak
           shopping_centre: Winkelcentrum
           sports: Sportwinkel
           stationery: Kantoorartikelenwinkel
           supermarket: Supermarkt
+          tailor: Kleermaker
           toys: Speelgoedwinkel
           travel_agency: Reisbureau
           video: Videotheek
           wine: Slijterij
+          "yes": Winkel
         tourism: 
           alpine_hut: Berghut
           artwork: Kunst
@@ -926,6 +944,7 @@ nl:
           viewpoint: Bijzonder uitzicht
           zoo: Dierentuin
         tunnel: 
+          culvert: Duiker
           "yes": Tunnel
         waterway: 
           artificial: Kunstmatige waterweg
@@ -951,17 +970,26 @@ nl:
           weir: Stuwdam
   javascripts: 
     close: Sluiten
+    edit_help: Verplaats de kaar en zoom in op een plaats die u wilt bewerken. Klik er daarna op.
+    key: 
+      title: Toets toewijzen
+      tooltip: Toets toewijzen
+      tooltip_disabled: Kaart sleutel is alleen beschikbaar voor standaardlaag
     map: 
       base: 
         cycle_map: Fietskaart
         mapquest: MapQuest Open
         standard: Standaard
         transport_map: Transport Map
+      copyright: © <a href='%{copyright_url}'>OpenStreetMapbijdragers</a>
       layers: 
         data: Kaartgegevens
         header: Kaartlagen
         notes: Opmerkingen bij kaarten
         overlays: Overlays inschakelen om fouten in de kaart te kunnen identificeren
+      locate: 
+        popup: U bent binnen {distance} {unit} van dit punt
+        title: Uw locatie weergeven
       zoom: 
         in: Inzoomen
         out: Uitzoomen
@@ -987,33 +1015,42 @@ nl:
         resolve: Oplossen
     share: 
       cancel: Annuleren
-      link: Koppeling
-      long_link: Volledige koppeling
+      center_marker: Kaart centreren op de marker
+      custom_dimensions: Aangepaste afmetingen instellen
+      download: Downloaden
+      embed: HTML
+      format: "Formaat:"
+      image: Afbeelding
+      image_size: Afbeelding geeft standaardlaag weer op
+      include_marker: Marker opnemen
+      link: Koppeling of HTML
+      long_link: Koppeling
+      paste_html: Plak de HTML om op te nemen in website
+      scale: "Schaal:"
       short_link: Korte koppeling
+      short_url: Korte URL
       title: Delen
+      view_larger_map: Grotere kaart bekijken
     site: 
       createnote_disabled_tooltip: Zoom in om een opmerking bij de kaart te maken
       createnote_tooltip: Opmerking bij kaart maken
-      createnote_zoom_alert: U moet inzoomen om een opmerking aan de kaart toe te voegen
       edit_disabled_tooltip: Zoom in om de kaart te bewerken
       edit_tooltip: Kaart bewerken
-      edit_zoom_alert: U moet inzoomen om de kaart te bewerken
       history_disabled_tooltip: Zoom in om de bewerkingen voor dit gebied te bekijken
       history_tooltip: Bewerkingen voor dit gebied bekijken
-      history_zoom_alert: U moet inzoomen om de kaart te bewerkingsgeschiedenis te bekijken
   layouts: 
     community: Gemeenschap
     community_blogs: Gemeenschapsblogs
     community_blogs_title: Blogs van leden van de OpenStreetMap-gemeenschap
     copyright: Auteursrechten & licentie
+    data: Gegevens
     documentation: Documentatie
     documentation_title: Projectdocumentatie
     donate: Ondersteun OpenStreetMap door te %{link} aan het Hardware Upgrade-fonds.
     donate_link_text: doneren
     edit: Bewerken
     edit_with: Bewerken met %{editor}
-    export: Exporteren
-    export_tooltip: Kaartgegevens exporteren
+    export_data: Gegevens exporteren
     foundation: Stichting
     foundation_title: De OpenStreetMap Foundation
     gps_traces: GPS-traces
@@ -1022,13 +1059,7 @@ nl:
     help_centre: Helpcentrum
     help_title: Helpsite voor dit project
     history: Geschiedenis
-    home: home
-    home_tooltip: Naar thuislocatie gaan
-    inbox_html: Postvak IN %{count}
-    inbox_tooltip: 
-      one: Uw Postvak IN bevat één ongelezen bericht
-      other: Uw Postvak IN bevat %{count} ongelezen berichten
-      zero: Uw Postvak IN bevat geen nieuwe berichten
+    home: Naar thuislocatie gaan
     intro_1: OpenStreetMap is een vrij bewerkbare kaart van de hele wereld. Hij wordt gemaakt door mensen zoals u.
     intro_2_create_account: Maak een gebruiker aan
     intro_2_download: downloaden
@@ -1040,8 +1071,7 @@ nl:
     log_in_tooltip: Aanmelden met bestaande gebruiker
     logo: 
       alt_text: Logo OpenStreetMap
-    logout: afmelden
-    logout_tooltip: Afmelden
+    logout: Afmelden
     make_a_donation: 
       text: Doneren
       title: Steun OpenStreetMap met een donatie
@@ -1059,7 +1089,6 @@ nl:
     user_diaries_tooltip: Gebruikersdagboeken bekijken
     view: Bekijken
     view_tooltip: Kaart bekijken
-    welcome_user_link_tooltip: Uw gebruikerspagina
     wiki: wiki
     wiki_title: Wikisite voor het project
   license_page: 
@@ -1155,8 +1184,7 @@ nl:
       title: Postvak UIT
       to: Aan
     read: 
-      back_to_inbox: Terug naar Postvak IN
-      back_to_outbox: Terug naar Postvak UIT
+      back: Terug
       date: Datum
       from: Van
       reply_button: Antwoorden
@@ -1246,8 +1274,7 @@ nl:
       greeting: Hallo,
       hopefully_you: Iemand - mogelijk u - heeft aangevraagd om het wachtwoord opnieuw in te stellen voor de gebruiker met dit e-mailadres op openstreetmap.org.
     message_notification: 
-      footer1: U kunt het bericht ook lezen op %{readurl}
-      footer2: en u kunt antwoorden op %{replyurl}
+      footer_html: U kunt het bericht ook lezen op %{readurl} en u kunt antwoorden op %{replyurl}
       header: "%{from_user} heeft u een bericht gezonden via OpenStreetMap met het onderwerp %{subject}:"
       hi: Hallo %{to_user},
     note_comment_notification: 
@@ -1274,26 +1301,7 @@ nl:
       created: Iemand (hopelijk u) heeft zojuist een gebruiker aangemaakt op %{site_url}.
       greeting: Hallo!
       subject: "[OpenStreetMap] Welkom bij OpenStreetMap"
-      welcome: Van harte welkom. We willen u graag wat extra informatie geven zodat u aan de slag kunt.
-    signup_confirm_html: 
-      ask_questions: U kunt vragen stellen over OpenStreetMap op onze <a href="http://help.openstreetmap.org/">vraag en antwoordsite</a>.
-      current_user: Een lijst van gebruikers, gesorteerd op woonplaats, is te zien op <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
-      get_reading: Lees over OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">op de wiki</a>, volg het laatste nieuws op de <a href="http://blog.openstreetmap.org/">OpenStreetMap-blog</a> of via <a href="http://twitter.com/openstreetmap">Twitter</a>.
-      introductory_video: U kunt een %{introductory_video_link}.
-      more_videos: Er zijn %{more_videos_link}.
-      more_videos_here: Er zijn nog meer video's
-      user_wiki_page: We adviseren u een gebruikerspagina aan te maken met onder andere categorieën die aangeven waar u verblijft, zoals <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_Amsterdam">[[Category:Users_in_Amsterdam]]</a>.
-      video_to_openstreetmap: introductievideo over OpenStreetMap bekijken
-      wiki_signup: U kunt zich ook <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">registreren op de OpenStreetMap-wiki</a>.
-    signup_confirm_plain: 
-      ask_questions: "U kunt vragen stellen over OpenStreetMap op onze vraag en antwoordsite:"
-      blog_and_twitter: "Volg het laatste nieuws via de OpenStreetMap-blog of Twitter:"
-      current_user: "Hier is een lijst te vinden met de labels voor huidige gebruikers:"
-      introductory_video: "Er is een introductievideo over OpenStreetMap:"
-      more_videos: "Via de volgende koppeling zijn meer video's beschikbaar:"
-      the_wiki: "Lees meer over OpenStreetMap op de wiki:"
-      user_wiki_page: Het is aan te raden om een gebruikerspagina op de wiki aan te maken, waar u categorielabels aan kunt toevoegen, zoals [[Category:Users_in_London]].
-      wiki_signup: "U kunt zich ook registreren bij de OpenStreetMap-wiki:"
+      welcome: Nadat u uw gebruiker hebt bevestigd, geven we u graag wat extra informatie zodat u aan de slag kunt.
   oauth: 
     oauthorize: 
       allow_read_gpx: uw privé-GPS-tracks lezen
@@ -1666,13 +1674,13 @@ nl:
       update home location on click: Thuislocatie aanpassen bij klikken op de kaart
     confirm: 
       already active: Deze gebruiker is al bevestigd.
-      before you start: We weten dat u waarschijnlijk snel met mappen wilt beginnen, maar geef eerst wat informatie over uzelf in het onderstaande formulier.
       button: Bevestigen
-      heading: Gebruikers bevestigen
+      heading: Controleer uw e-mail
+      introduction_1: Wij u een bevestiging per e-mail gestuurd.
+      introduction_2: Bevestig uw gebruiker door op de koppeling in de e-mail te klikken en dan kunt u kaarten gaan maken.
       press confirm button: Klik op de knop "Bevestigen" hieronder om uw gebruiker te activeren.
-      reconfirm: Als het al weer een tijdje geleden is sinds u zich hebt geregistreerd, dan kunt u zich een <a href="%{reconfirm}">nieuwe bevestigingse-mail laten sturen</a>.
-      success: De gebruiker is geactiveerd. Dank u wel voor het registreren!
-      unknown token: Dat token bestaat niet.
+      reconfirm_html: Als nodig, kunt u <a href="%{reconfirm}">de bevestigingscode opnieuw laten verzenden</a>.
+      unknown token: De opgegeven bevestigingscode is verlopen of bestaat niet.
     confirm_email: 
       button: Bevestigen
       failure: Er is al een e-mailadres bevestigd met dit token.
@@ -1757,17 +1765,16 @@ nl:
       heading: "%{user} als vriend toevoegen?"
       success: "%{name} is nu uw vriend."
     new: 
+      about: 
+        header: Open en te bewerken
+        html: "<p>In tegenstelling tot andere kaarten, is OpenStreetMap volledig gemaakt door mensen net als u en iedereen kan correcties maken, en de kaart bijwerken of downloaden en gebruiken.</p>\n<p>Registreer u om te beginnen met bijdragen. We sturen een e-mail om uw registratie te bevestigen.</p>"
       confirm email address: "E-mailadres bevestigen:"
       confirm password: "Wachtwoord bevestigen:"
       contact_webmaster: Neem contact op met de <a href="mailto:webmaster@openstreetmap.org">webmaster</a> om een gebruiker te laten maken. We proberen uw aanvraag dan zo snel mogelijk af te handelen.
-      continue: Doorgaan
+      continue: Registreren
       display name: "Weergavenaam:"
       display name description: Uw openbare gebruikersnaam. U kunt deze later in uw voorkeuren wijzigen.
       email address: "E-mailadres:"
-      fill_form: Vul het formulier in en we sturen u dan zo snel mogelijk een e-mail met gegevens over hoe u uw gebruiker kunt activeren.
-      flash create success message: Bedankt voor uw aanmelding. Er is een bevestigingse-mail verstuurd naar %{email} en als u uw gebruiker hebt bevestigd, kunt u gaan mappen.<br /><br />Als u een spamfilter gebruikt die bevestigingse-mails stuurt, zorg er dan voor dat u webmaster@openstreetmap.org toestaat. Dit systeem stuurt geen antwoord op bevestigingsverzoeken.
-      flash welcome: Dan u wel voor uw registratie. We hebben een welkomstbericht verzonden aan %{email} met wat tips om aan de slag te gaan.
-      heading: Gebruiker aanmaken
       license_agreement: Als u een gebruiker aan wilt maken, moet u akkoord gaan met de <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">voorwaarden voor bijdragen</a>.
       no_auto_account_create: Helaas is het niet mogelijk om automatisch een gebruiker voor u aan te maken.
       not displayed publicly: Niet openbaar gemaakt. Zie <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacyovereenkomst met een sectie over e-mailadressen">Privacyovereenkomst</a>.
@@ -1824,12 +1831,12 @@ nl:
       you need to accept or decline: Lees de nieuwe Bijdragersvoorwaarden en besluit daarna deze te accepteren of te verwerpen voordat u door kunt gaan.
     view: 
       activate_user: gebruiker actief maken
-      add as friend: vriend toevoegen
+      add as friend: Vriend toevoegen
       ago: (%{time_in_words_ago} geleden)
       block_history: blokkades voor mij
-      blocks by me: blokkades door mij
-      blocks on me: blokkades door mij
-      comments: opmerkingen
+      blocks by me: Blokkades door u
+      blocks on me: Blokkades voor u
+      comments: Reacties
       confirm: Bevestigen
       confirm_user: deze gebruiker bevestigen
       create_block: gebruiker blokkeren
@@ -1841,8 +1848,8 @@ nl:
       deactivate_user: gebruiker inactief maken
       delete_user: gebruiker verwijderen
       description: Beschrijving
-      diary: dagboek
-      edits: bewerkingen
+      diary: Dagboek
+      edits: Bewerkingen
       email address: "E-mailadres:"
       friends_changesets: wijzigingensets van vrienden
       friends_diaries: dagboekberichten van vrienden
@@ -1853,21 +1860,22 @@ nl:
       m away: "%{count} m verwijderd"
       mapper since: "Mapper sinds:"
       moderator_history: ingestelde blokkades
-      my comments: mijn opmerkingen
-      my diary: mijn dagboek
-      my edits: mijn bewerkingen
-      my notes: mijn opmerkingen kaarten
-      my settings: mijn instellingen
-      my traces: mijn traces
+      my comments: Opmerkingen
+      my diary: Dagboek
+      my edits: Bewerkingen
+      my notes: Opmerkingen
+      my profile: Profiel
+      my settings: Instellingen
+      my traces: Traces
       nearby users: Andere dichtbijzijnde gebruikers
       nearby_changesets: wijzigingensets van gebruikers in de buurt
       nearby_diaries: dagboekberichten van gebruikers in de buurt
       new diary entry: nieuw dagboekbericht
       no friends: U hebt nog geen vrienden toegevoegd.
       no nearby users: Er zijn geen andere gebruikers die hebben opgegeven in de buurt te mappen.
-      notes: opmerkingen bij kaarten
+      notes: Opmerkingen bij kaarten
       oauth settings: Oauth-instellingen
-      remove as friend: vriend verwijderen
+      remove as friend: Vriend verwijderen
       role: 
         administrator: Deze gebruiker is beheerder
         grant: 
@@ -1877,11 +1885,11 @@ nl:
         revoke: 
           administrator: Beheerdersrechten intrekken
           moderator: Moderatorrechten intrekken
-      send message: bericht verzenden
+      send message: Bericht verzenden
       settings_link_text: voorkeuren
       spam score: "Spamscore:"
       status: "Status:"
-      traces: traces
+      traces: Traces
       unhide_user: gebruiker weer zichtbaar maken
       user location: Gebruikerslocatie
       your friends: Uw vrienden
@@ -1994,3 +2002,22 @@ nl:
       fail: Het was niet mogelijk de rol "%{role}" voor gebruiker "%{name}" in te trekken. Controleer of de gebruikersnaam en rolnaam correct waren.
       heading: Intrekken rechten bevestigen
       title: Intrekken rechten bevestigen
+  welcome_page: 
+    add_a_note: 
+      title: Geen tijd om te bewerken? Voeg een notitie toe!
+    basic_terms: 
+      editor_html: Een <strong>editor</strong> is een programma of website die u kunt gebruiken om de kaart te bewerken.
+      node_html: Een <strong>node</strong> is een punt op de kaart, zoals een enkel restaurant of een boom.
+      paragraph_1_html: OpenStreetMap heeft een eigen jargon. Hier volgen een aantal woorden die van pas gaan komen.
+      tag_html: Een <strong>label</strong> (tag) is een eigenschap over een node of een weg, zoals de naam van een restaurant of de maximum snelheid voor een weg.
+      title: Basisbegrippen voor cartografie
+      way_html: Een <strong>weg</strong> (way) is een lijn of gebied, zoals een weg, een rivier, een meer of een gebouw.
+    introduction_html: Welkom bij OpenStreetMap, de open en te bewerken kaart van de wereld. Nu u bent aangemeld, kunt u kaarten gaan maken. Hier zijn een aantal dingen die belangrijk zijn om te weten.
+    questions: 
+      title: Nog vragen?
+    start_mapping: Beginnen met kaarten maken
+    title: Welkom!
+    whats_on_the_map: 
+      off_html: "<em>Geen onderdeel</em> van de kaart zijn subjectieve gegevens zoals waarderingen, historische of hypothetische eigenschappen en gegevens uit bronnen die auteursrechtelijk beschermd zijn. Tenzij u bijzondere toestemming hebt,\nkunt u niet kopiëren uit kaarten die u online of op papier kunt vinden."
+      on_html: "OpenStreetMap is plaats voor het in kaart brengen van dingen die <em>echt en actueel</em> zijn -\nwe hebben een kaart met miljoenen gebouwen, wegen en andere details over plaatsen.\nU kunt alles uit de echte wereld waar u interesse in hebt in kaart brengen."
+      title: Wat is er op de kaart?

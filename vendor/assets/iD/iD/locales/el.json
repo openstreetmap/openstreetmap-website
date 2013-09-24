@@ -1,0 +1,1433 @@
+{
+    "modes": {
+        "add_area": {
+            "title": "Περιοχή",
+            "description": "Προσθήκη πάρκων, λιμνών ή άλλων περιοχών στο χάρτη.",
+            "tail": "Πατήστε στο χάρτη για να αρχίσετε τη σχεδίαση μιας περιοχής, όπως πάρκο, λίμνη ή κτήριο."
+        },
+        "add_line": {
+            "title": "Γραμμή",
+            "description": "Προσθήκη λεωφόρων, οδών, πεζόδρομων, καναλιών ή άλλων γραμμών στο χάρτη.",
+            "tail": "Πατήστε στο χάρτη για να αρχίσετε τη σχεδίαση ενός δρόμου, μονοπατιού ή διαδρομής."
+        },
+        "add_point": {
+            "title": "Σημείο",
+            "description": "Προσθήκη εστιατορίων, μνημείων, γραμματοκιβωτίων ή άλλων σημείων στο χάρτη.",
+            "tail": "Πατήστε στο χάρτη για να προσθέσετε ένα σημείο."
+        },
+        "browse": {
+            "title": "Επισκόπηση",
+            "description": "Μετακίνηση και εστίαση του χάρτη."
+        }
+    },
+    "operations": {
+        "add": {
+            "annotation": {
+                "point": "Προστέθηκε ένα σημείο.",
+                "vertex": "Προστέθηκε κόμβος σε διαδρομή.",
+                "relation": "Προστέθηκε μια σχέση."
+            }
+        },
+        "start": {
+            "annotation": {
+                "line": "Άρχησε μια γραμμή.",
+                "area": "Άρχισε μια περιοχή."
+            }
+        },
+        "continue": {
+            "annotation": {
+                "line": "Συνέχιση μιας γραμμής.",
+                "area": "Συνέχιση μιας περιοχής."
+            }
+        },
+        "cancel_draw": {
+            "annotation": "Ακύρωση σχεδίασης."
+        },
+        "change_role": {
+            "annotation": "Αλλάχτηκε ο ρόλος ενός μέλους σχέσης."
+        },
+        "change_tags": {
+            "annotation": "Αλάχτικαν ετικέτες."
+        },
+        "circularize": {
+            "title": "Σχηματισμός κύκλου",
+            "description": {
+                "line": "Κάντε αυτή τη γραμμή κυκλική.",
+                "area": "Κάντε αυτή την περιοχή κυκλική."
+            },
+            "key": "Ο",
+            "annotation": {
+                "line": "Κάντε μια γραμμή κυκλική.",
+                "area": "Κάντε μια περιοχή κυκλική."
+            },
+            "not_closed": "Αυτό δεν μπορεί να γίνει κυκλικό επειδή δεν είναι βρόγχος."
+        },
+        "orthogonalize": {
+            "title": "Ορθογωνισμός",
+            "description": "Τετραγωνισμός των γωνιών",
+            "key": "Q",
+            "annotation": {
+                "line": "Τετραγωνισμός των γωνιών μιας γραμμής.",
+                "area": "Τετραγωνίστηκαν οι γωνίες μιας περιοχής"
+            },
+            "not_closed": "Αυτό δεν μπορεί να γίνει τετράγωνο επειδή δεν είναι βρόγχος."
+        },
+        "delete": {
+            "title": "Διαγραφή",
+            "description": "Αφαιρέστε αυτό από το χάρτη.",
+            "annotation": {
+                "point": "Διαγραφή ενός σημείου.",
+                "vertex": "Διαγράφηκε ένας κόμβος από μια διαδρομή.",
+                "line": "Διαγράφηκε μια γραμμή.",
+                "area": "Διαγράφηκε μια περιοχή.",
+                "relation": "Διαγράφηκε μια σχέση.",
+                "multiple": "Διαγράφηκαν {n} αντικείμενα."
+            }
+        },
+        "add_member": {
+            "annotation": "Προστέθηκε ένα μέλος σε μία σχέση."
+        },
+        "delete_member": {
+            "annotation": "Αφαιρέθηκε ένα μέλος από μια σχέση."
+        },
+        "connect": {
+            "annotation": {
+                "point": "Συνδέθηκε μια διαδρομή σε ένα σημείο.",
+                "vertex": "Συνδέθηκε μια διαδρομή σε μια άλλη.",
+                "line": "Συνδέθηκε μια διαδρομή σε μια γραμμή.",
+                "area": "Συνδέθηκε μια διαδρομή σε μια περιοχή."
+            }
+        },
+        "disconnect": {
+            "title": "Αποσύνδεση",
+            "key": "D",
+            "not_connected": "Δεν υπάρχουν αρκετές γραμμές/περιοχές εδώ για αποσύνδεση."
+        },
+        "merge": {
+            "title": "Συγχώνευση",
+            "description": "Συγχώνευση αυτών των γραμμών.",
+            "key": "C",
+            "annotation": "Συγχωνεύτηκαν {n} γραμμές.",
+            "not_adjacent": "Αυτές οι γραμμές δεν μπορούν να συγχωνευτούν επειδή δεν είναι ενωμένες."
+        },
+        "move": {
+            "title": "Μετακίνηση",
+            "description": "Μετακίνηση σε διαφορετική τοποθεσία.",
+            "key": "M",
+            "annotation": {
+                "point": "Μετακινήθηκε ένα σημείο.",
+                "vertex": "Μετακινήθηκε ένας κόμβος σε μια διαδρομή.",
+                "line": "Μετακινήθηκε μια γραμμή.",
+                "area": "Μετακινήθηκε μια περιοχή.",
+                "multiple": "Μετακινήθηκαν πολλαπλά αντικείμενα."
+            }
+        },
+        "rotate": {
+            "title": "Περιστροφή",
+            "description": "Περιστρέψτε αυτό το αντικείμενο γύρω από το κέντρο του.",
+            "key": "R",
+            "annotation": {
+                "line": "Περιστράφηκε μια γραμμή.",
+                "area": "Περιστράφηκε μια περιοχή."
+            }
+        },
+        "reverse": {
+            "title": "Αντιστροφή",
+            "description": "Κάντε αυτή τη γραμμή να πάει προς την αντίθετη κατεύθυνση.",
+            "key": "V",
+            "annotation": "Αντιστράφηκε μια γραμμή."
+        },
+        "split": {
+            "title": "Διαχωρισμός",
+            "key": "X"
+        }
+    },
+    "undo": {
+        "tooltip": "Αναίρεση: {action}",
+        "nothing": "Τίποτα προς αναίρεση."
+    },
+    "redo": {
+        "tooltip": "Επαναφορά: {action}",
+        "nothing": "Τίποτα προς επαναφορά."
+    },
+    "browser_notice": "Αυτός ο επεξεργαστής υποστηρίζεται στον Firefox, Chrome, Safari, Opera, και Internet Explorer 9 ή νεότερο. Παρακαλώ αναβαθμίστε τον φυλλομετρητή σας ή χρησιμοποιήστε το Potlatch 2 για να επεξεργαστείτε το χάρτη.",
+    "translate": {
+        "translate": "Μεταφράστε",
+        "localized_translation_language": "Επιλογή γλώσσας",
+        "localized_translation_name": "Όνομα"
+    },
+    "zoom_in_edit": "Μεγεθύνετε για να Επεξεργαστείτε",
+    "logout": "Αποσύνδεση",
+    "loading_auth": "Σύνδεση στο OpenStreetMap...",
+    "report_a_bug": "αναφορά σφάλματος",
+    "commit": {
+        "title": "Αποθήκευση Αλλαγών",
+        "description_placeholder": "Σύντομη περιγραφή των συνεισφορών σας",
+        "message_label": "Υποβολή μηνύματος",
+        "save": "Αποθήκευση",
+        "cancel": "Ακύρωση",
+        "warnings": "Προειδοποιήσεις",
+        "modified": "Τροποποιήθηκε",
+        "deleted": "Διαγράφηκε",
+        "created": "Δημιουργήθηκε"
+    },
+    "contributors": {
+        "list": "Επεξεργασίες από {users}",
+        "truncated_list": "Επεξεργασίες από {users} και {count} άλλους"
+    },
+    "geocoder": {
+        "no_results_worldwide": "Δεν βρέθηκαν αποτελέσματα"
+    },
+    "geolocate": {
+        "title": "Εμφάνισε την Τοποθεσία μου"
+    },
+    "inspector": {
+        "no_documentation_combination": "Δεν υπάρχει διαθέσιμη τεκμηρίωση για αυτό το συνδυασμό ετικετών",
+        "no_documentation_key": "Δεν υπάρχει διαθέσιμη τεκμηρίωση για αυτό το κλειδί",
+        "show_more": "Εμφάνιση Περισσότερων",
+        "all_members": "Όλα τα μέλη",
+        "all_relations": "Όλες οι σχέσεις",
+        "new_relation": "Νέα σχέση",
+        "role": "Ρόλος",
+        "choose": "Επιλογή τύπου χαρακτηριστικού",
+        "results": "{n} αποτελέσματα για {search}",
+        "remove": "Αφαίρεση",
+        "search": "Αναζήτηση",
+        "unknown": "Άγνωστο"
+    },
+    "background": {
+        "title": "Παρασκήνιο",
+        "description": "Ρυθμίσεις παρασκηνίου",
+        "percent_brightness": "{opacity}% φωτεινότητα",
+        "fix_misalignment": "Διόρθωση ευθυγράμμισης",
+        "reset": "Μηδενισμός"
+    },
+    "restore": {
+        "heading": "Έχετε μη αποθηκευμένες αλλαγές",
+        "restore": "Επαναφορά"
+    },
+    "save": {
+        "title": "Αποθήκευση",
+        "help": "Αποθήκευση των αλλαγών στο OpenStreetMap, κάντε τες ορατές στου άλλους χρήστες.",
+        "no_changes": "Δεν υπάρχουν αλλαγές για αποθήκευση.",
+        "error": "Παρουσιάστηκε ένα σφάλμα κατά την προσπάθεια αποθήκευσης",
+        "uploading": "Αποστολή αλλαγών στο OpenStreetMap.",
+        "unsaved_changes": "Έχετε μη αποθηκευμένες αλλαγές"
+    },
+    "success": {
+        "just_edited": "Μόλις επεξεργαστήκατε το OpenStreetMap!"
+    },
+    "splash": {
+        "welcome": "Καλώς ήλθατε στον iD, επεξεργαστή για το OpenStreetMap",
+        "start": "Επεξεργασία Τώρα"
+    },
+    "source_switch": {
+        "lose_changes": "Έχετε μη αποθηκευμένες αλλαγές. Αλλάζοντας τον διακομιστή χάρτη θα τις απορρίψετε. Είστε σίγουρος ότι θέλετε να αλλάξετε διακομιστή;"
+    },
+    "tag_reference": {
+        "description": "Περιγραφή",
+        "on_wiki": "{tag} στο wiki.osm.org"
+    },
+    "validations": {
+        "untagged_line": "Γραμμή χωρίς ετικέτα",
+        "untagged_area": "Περιοχή χωρίς ετικέτα",
+        "many_deletions": "Διαγράφετε {n} αντικείμενα. Είστε σίγουρος ότι θέλετε να το κάνετε αυτό; Αυτό θα τα διαγράψει από το χάρτη πού όλοι οι άλλοι βλέπουν στο openstreetmap.org.",
+        "tag_suggests_area": "Η ετικέτα {tag} προτείνει η γραμμή πρέπει να είναι περιοχή, αλλά δεν είναι περιοχή",
+        "deprecated_tags": "Παρωχημένες ετικέτες: {tags}"
+    },
+    "zoom": {
+        "in": "Μεγέθυνση",
+        "out": "Σμίκρυνση"
+    },
+    "gpx": {
+        "local_layer": "Τοπικό αρχείο GPX"
+    },
+    "help": {
+        "title": "Βοήθεια",
+        "help": "# Βοήθεια\n\nΑυτός είναι ένας επεξεργαστής για το [OpenStreetMap](http://www.openstreetmap.org/),\n τον ελεύθερο και επεξεργάσιμο παγκόσμιο χάρτη. Μπορείτε να τον χρησιμοποιήσετε για\n προσθήκη ή ενημέρωση δεδομένων στην περιοχή σας, φτιάχνοντας έναν ανοικτού-κώδικα\n και ανοικτών-δεδομένων παγκόσμιο χάρτη καλύτερο για όλους.\n\nΟι διορθώσεις που κάνετε σε αυτό το χάρτη θα είναι ορατές σε όλους όσους \nχρησιμοποιούν το OpenStreetMap. Για να είναι δυνατόν να κάνετε κάποια \nδιόρθωση, χρειάζεστε ένα \n[δωρεάν λογαριασμό OpenStreetMap](https://www.openstreetmap.org/user/new).\n\nΟ [iD editor](http://ideditor.com/) είναι ένα συνεργατικό έργο με τον [πηγαίο κώδικα\nδιαθέσιμο στο GitHub](https://github.com/systemed/iD).\n"
+    },
+    "intro": {
+        "points": {
+            "title": "Σημεία"
+        },
+        "areas": {
+            "title": "Περιοχές",
+            "search": "**Αναζήτηση για '{name}'.**"
+        },
+        "lines": {
+            "title": "Γραμμές"
+        },
+        "startediting": {
+            "title": "Εκκίνηση Επεξεργασίας",
+            "start": "Αρχίστε να χαρτογραφείτε!"
+        }
+    },
+    "presets": {
+        "categories": {
+            "category-landuse": {
+                "name": "Χρήση Γης"
+            },
+            "category-rail": {
+                "name": "Σιδηροδρομική Γραμμή"
+            },
+            "category-road": {
+                "name": "Δρόμος"
+            },
+            "category-route": {
+                "name": "Διαδρομή"
+            },
+            "category-water": {
+                "name": "Νερό"
+            }
+        },
+        "fields": {
+            "access": {
+                "label": "Πρόσβαση",
+                "placeholder": "Άγνωστο",
+                "types": {
+                    "access": "Γενική",
+                    "foot": "Πεζοί",
+                    "motor_vehicle": "Μηχανοκίνητα",
+                    "bicycle": "Ποδήλατα",
+                    "horse": "Άλογα"
+                },
+                "options": {
+                    "yes": {
+                        "title": "Επιτρέπεται",
+                        "description": "Η πρόσβαση επιτρέπεται νόμιμα, Δικαίωμα διέλευσης"
+                    },
+                    "no": {
+                        "title": "Απαγορεύεται",
+                        "description": "Η πρόσβαση δεν επιτρέπεται στο ευρύ κοινό"
+                    },
+                    "permissive": {
+                        "title": "Ανεκτική",
+                        "description": "Η πρόσβαση επιτρέπεται μέχρι ο ιδιοκτήτης αναιρέσει την άδεια"
+                    },
+                    "private": {
+                        "title": "Ιδιωτική",
+                        "description": "Η πρόσβαση επιτρέπεται μόνο με άδεια από τον ιδιοκτήτη σε ατομική βάση"
+                    },
+                    "designated": {
+                        "title": "Καθορισμένο",
+                        "description": "Η πρόσβαση επιτρέπεται βάσει πινακίδων ή συγκεκριμένων τοπικών νόμων"
+                    },
+                    "destination": {
+                        "title": "Προορισμός",
+                        "description": "Η πρόσβαση επιτρέπεται μόνο για για να φτάσετε σε κάποιο προορισμό"
+                    }
+                }
+            },
+            "address": {
+                "label": "Διεύθυνση",
+                "placeholders": {
+                    "housename": "Όνομα Σπιτιού",
+                    "number": "123",
+                    "street": "Οδός",
+                    "city": "Πόλη",
+                    "postcode": "Ταχυδρομικός Κώδικας"
+                }
+            },
+            "admin_level": {
+                "label": "Δοιηκητική Βαθμίδα"
+            },
+            "aeroway": {
+                "label": "Είδος"
+            },
+            "amenity": {
+                "label": "Είδος"
+            },
+            "atm": {
+                "label": "ATM"
+            },
+            "barrier": {
+                "label": "Είδος"
+            },
+            "boundary": {
+                "label": "Είδος"
+            },
+            "building": {
+                "label": "Κτίριο"
+            },
+            "building_area": {
+                "label": "Κτίριο"
+            },
+            "building_yes": {
+                "label": "Κτίριο"
+            },
+            "capacity": {
+                "label": "Χωρητικότητα",
+                "placeholder": "50, 100, 200..."
+            },
+            "cardinal_direction": {
+                "label": "Κατεύθυνση"
+            },
+            "clock_direction": {
+                "label": "Κατεύθυνση",
+                "options": {
+                    "clockwise": "Δεξιόστροφα",
+                    "anticlockwise": "Αριστερόστροφα"
+                }
+            },
+            "construction": {
+                "label": "Είδος"
+            },
+            "country": {
+                "label": "Χώρα"
+            },
+            "crossing": {
+                "label": "Είδος"
+            },
+            "cuisine": {
+                "label": "Κουζίνα"
+            },
+            "denomination": {
+                "label": "Δόγμα"
+            },
+            "description": {
+                "label": "Περιγραφή"
+            },
+            "emergency": {
+                "label": "Επείγοντα"
+            },
+            "entrance": {
+                "label": "Είδος"
+            },
+            "fax": {
+                "placeholder": "+31 42 123 4567"
+            },
+            "fee": {
+                "label": "Αμοιβή"
+            },
+            "fire_hydrant/type": {
+                "label": "Τύπος"
+            },
+            "generator/method": {
+                "label": "Μέθοδος"
+            },
+            "generator/source": {
+                "label": "Πηγή"
+            },
+            "generator/type": {
+                "label": "Τύπος"
+            },
+            "highway": {
+                "label": "Είδος"
+            },
+            "historic": {
+                "label": "Είδος"
+            },
+            "iata": {
+                "label": "IATA"
+            },
+            "incline": {
+                "label": "Κλήση"
+            },
+            "internet_access": {
+                "label": "Πρόσβαση Στο Διαδίκτυο",
+                "options": {
+                    "wlan": "Ασύρματο Δίκτυο",
+                    "wired": "Ενσύρματο δύκτυο",
+                    "terminal": "Τερματικό"
+                }
+            },
+            "lanes": {
+                "label": "Λωρίδες",
+                "placeholder": "1, 2, 3..."
+            },
+            "layer": {
+                "label": "Στρώση"
+            },
+            "leisure": {
+                "label": "Είδος"
+            },
+            "levels": {
+                "label": "Επίπεδα",
+                "placeholder": "2, 4, 6..."
+            },
+            "location": {
+                "label": "Τοποθεσία"
+            },
+            "man_made": {
+                "label": "Είδος"
+            },
+            "maxspeed": {
+                "label": "Όριο Ταχύτητας",
+                "placeholder": "40, 50, 60..."
+            },
+            "name": {
+                "label": "Όνομα",
+                "placeholder": "Κοινό Όνομα (αν υπάρχει)"
+            },
+            "natural": {
+                "label": "Φυσικό"
+            },
+            "network": {
+                "label": "Δίκτυο"
+            },
+            "note": {
+                "label": "Σημείωση"
+            },
+            "office": {
+                "label": "Είδος"
+            },
+            "oneway": {
+                "label": "Μονόδρομος"
+            },
+            "oneway_yes": {
+                "label": "Μονόδρομος"
+            },
+            "opening_hours": {
+                "label": "Ωράριο"
+            },
+            "operator": {
+                "label": "Διαχειριστής"
+            },
+            "parking": {
+                "label": "Είδος"
+            },
+            "phone": {
+                "label": "Τηλέφωνο",
+                "placeholder": "+31 42 123 4567"
+            },
+            "place": {
+                "label": "Είδος"
+            },
+            "power": {
+                "label": "Είδος"
+            },
+            "railway": {
+                "label": "Είδος"
+            },
+            "relation": {
+                "label": "Είδος"
+            },
+            "religion": {
+                "label": "Θρησκεία",
+                "options": {
+                    "christian": "Χριστιανισμός",
+                    "muslim": "Μουσουλμάνισμος",
+                    "buddhist": "Βουδισμός",
+                    "jewish": "Ιουδαϊσμός",
+                    "hindu": "Ινδουισμός",
+                    "taoist": "Ταοϊσμός"
+                }
+            },
+            "restriction": {
+                "label": "Είδος"
+            },
+            "route": {
+                "label": "Είδος"
+            },
+            "route_master": {
+                "label": "Είδος"
+            },
+            "sac_scale": {
+                "label": "Δυσκολία Μονοπατιού"
+            },
+            "shelter": {
+                "label": "Καταφύγιο"
+            },
+            "shop": {
+                "label": "Είδος"
+            },
+            "source": {
+                "label": "Πηγή"
+            },
+            "sport": {
+                "label": "Άθλημα"
+            },
+            "structure": {
+                "placeholder": "Άγνωστο",
+                "options": {
+                    "bridge": "Γέφυρα",
+                    "tunnel": "Σήραγγα",
+                    "embankment": "Ανάχωμα",
+                    "cutting": "Ανασκαφή"
+                }
+            },
+            "supervised": {
+                "label": "Επιτηρείται"
+            },
+            "surface": {
+                "label": "Επιφάνεια"
+            },
+            "towertype": {
+                "label": "Τύπος Πύργου"
+            },
+            "tracktype": {
+                "label": "Είδος"
+            },
+            "trail_visibility": {
+                "label": "Ορατότητα Μονοπατιού"
+            },
+            "water": {
+                "label": "Είδος"
+            },
+            "waterway": {
+                "label": "Είδος"
+            },
+            "website": {
+                "label": "Ιστοσελίδα",
+                "placeholder": "http://example.com/"
+            },
+            "wetland": {
+                "label": "Είδος"
+            },
+            "wheelchair": {
+                "label": "Πρόσβαση Σε Αναπηρικό Καροτσάκι"
+            },
+            "wikipedia": {
+                "label": "Wikipedia"
+            },
+            "wood": {
+                "label": "Είδος"
+            }
+        },
+        "presets": {
+            "address": {
+                "name": "Διεύθυνση"
+            },
+            "aeroway": {
+                "name": "Αεροδιάδρομος"
+            },
+            "aeroway/aerodrome": {
+                "name": "Αεροδρόμιο"
+            },
+            "aeroway/gate": {
+                "name": "Πύλη Αεροδρομίου"
+            },
+            "aeroway/hangar": {
+                "name": "Υπόστεγο Αεροσκαφών"
+            },
+            "aeroway/helipad": {
+                "name": "Ελικοδρόμιο"
+            },
+            "aeroway/runway": {
+                "name": "Διάδρομος"
+            },
+            "aeroway/taxiway": {
+                "name": "Τροχιόδρομος"
+            },
+            "amenity/atm": {
+                "name": "ATM"
+            },
+            "amenity/bank": {
+                "name": "Τράπεζα"
+            },
+            "amenity/bar": {
+                "name": "Μπαρ"
+            },
+            "amenity/bench": {
+                "name": "Παγκάκι"
+            },
+            "amenity/bicycle_parking": {
+                "name": "Χώρος Στάθμευσης Ποδηλάτων"
+            },
+            "amenity/bicycle_rental": {
+                "name": "Ενοικίαση Ποδηλάτων"
+            },
+            "amenity/cafe": {
+                "name": "Καφετέρια"
+            },
+            "amenity/car_rental": {
+                "name": "Ενοικίαση Αυτοκινήτων"
+            },
+            "amenity/car_wash": {
+                "name": "Πλυντήριο Αυτοκινήτων"
+            },
+            "amenity/childcare": {
+                "name": "Φροντίδα Παιδιών"
+            },
+            "amenity/cinema": {
+                "name": "Κινηματογράφος"
+            },
+            "amenity/college": {
+                "name": "Κολλέγιο"
+            },
+            "amenity/courthouse": {
+                "name": "Δικαστήριο"
+            },
+            "amenity/drinking_water": {
+                "name": "Πόσιμο Νερό"
+            },
+            "amenity/embassy": {
+                "name": "Πρεσβεία"
+            },
+            "amenity/fast_food": {
+                "name": "Ταχυφαγείο"
+            },
+            "amenity/fire_station": {
+                "name": "Πυροσβεστική"
+            },
+            "amenity/fountain": {
+                "name": "Συντριβάνι"
+            },
+            "amenity/fuel": {
+                "name": "Βενζινάδικο"
+            },
+            "amenity/grave_yard": {
+                "name": "Κοιμητήριο"
+            },
+            "amenity/hospital": {
+                "name": "Νοσοκομείο"
+            },
+            "amenity/kindergarten": {
+                "name": "Νηπιαγωγείο"
+            },
+            "amenity/library": {
+                "name": "Βιβλιοθήκη"
+            },
+            "amenity/marketplace": {
+                "name": "Αγορά"
+            },
+            "amenity/parking": {
+                "name": "Χώρος Στάθμευσης"
+            },
+            "amenity/pharmacy": {
+                "name": "Φαρμακείο"
+            },
+            "amenity/place_of_worship": {
+                "name": "Χώρος Λατρείας"
+            },
+            "amenity/place_of_worship/buddhist": {
+                "name": "Βουδιστικός Ναός"
+            },
+            "amenity/place_of_worship/christian": {
+                "name": "Εκκλησία"
+            },
+            "amenity/place_of_worship/jewish": {
+                "name": "Συναγωγή"
+            },
+            "amenity/place_of_worship/muslim": {
+                "name": "Τζαμί"
+            },
+            "amenity/police": {
+                "name": "Αστυνομία"
+            },
+            "amenity/post_box": {
+                "name": "Γραμματοκιβώτιο"
+            },
+            "amenity/post_office": {
+                "name": "Ταχυδρομείο"
+            },
+            "amenity/pub": {
+                "name": "Παμπ"
+            },
+            "amenity/restaurant": {
+                "name": "Εστιατόριο"
+            },
+            "amenity/school": {
+                "name": "Σχολείο"
+            },
+            "amenity/swimming_pool": {
+                "name": "Πισίνα"
+            },
+            "amenity/taxi": {
+                "name": "Πιάτσα Ταξί"
+            },
+            "amenity/telephone": {
+                "name": "Τηλέφωνο"
+            },
+            "amenity/theatre": {
+                "name": "Θέατρο"
+            },
+            "amenity/toilets": {
+                "name": "Τουαλέτες"
+            },
+            "amenity/townhall": {
+                "name": "Δημαρχείο"
+            },
+            "amenity/university": {
+                "name": "Πανεπιστήμιο"
+            },
+            "amenity/waste_basket": {
+                "name": "Κάδος Απορριμάτων"
+            },
+            "area": {
+                "name": "Περιοχή"
+            },
+            "barrier": {
+                "name": "Εμπόδιο"
+            },
+            "barrier/bollard": {
+                "name": "Στύλος"
+            },
+            "barrier/cattle_grid": {
+                "name": "Συρματόπλεγμα"
+            },
+            "barrier/city_wall": {
+                "name": "Τείχη Πόλης"
+            },
+            "barrier/cycle_barrier": {
+                "name": "Κυκλικός Φράκτης"
+            },
+            "barrier/ditch": {
+                "name": "Χαντάκι"
+            },
+            "barrier/entrance": {
+                "name": "Είσοδος"
+            },
+            "barrier/fence": {
+                "name": "Φράκτης"
+            },
+            "barrier/gate": {
+                "name": "Πύλη"
+            },
+            "barrier/hedge": {
+                "name": "Περίφραξη"
+            },
+            "barrier/lift_gate": {
+                "name": "Ανυψούμενη Πύλη"
+            },
+            "barrier/retaining_wall": {
+                "name": "Διατηρητέα Τείχη"
+            },
+            "barrier/stile": {
+                "name": "Στύλος"
+            },
+            "barrier/toll_booth": {
+                "name": "Διόδια"
+            },
+            "barrier/wall": {
+                "name": "Τοίχος"
+            },
+            "boundary/administrative": {
+                "name": "Δοιηκητικό Όριο"
+            },
+            "building": {
+                "name": "Κτίριο"
+            },
+            "building/apartments": {
+                "name": "Διαμερίσματα"
+            },
+            "building/commercial": {
+                "name": "Εμπορικό Κτίριο"
+            },
+            "building/entrance": {
+                "name": "Είσοδος"
+            },
+            "building/house": {
+                "name": "Σπίτι"
+            },
+            "building/hut": {
+                "name": "Καλύβα"
+            },
+            "building/industrial": {
+                "name": "Βιομηχανικό Κτήριο"
+            },
+            "building/residential": {
+                "name": "Κτίριο Κατοικιών"
+            },
+            "emergency/ambulance_station": {
+                "name": "Σταθμός Ασθενοφόρων"
+            },
+            "emergency/fire_hydrant": {
+                "name": "Πυροσβεστικός Κρουνός"
+            },
+            "emergency/phone": {
+                "name": "Τηλέφωνο Ανάγκης"
+            },
+            "entrance": {
+                "name": "Είσοδος"
+            },
+            "highway": {
+                "name": "Αυτοκινητόδρομος"
+            },
+            "highway/bridleway": {
+                "name": "Μονοπάτι Αλόγων"
+            },
+            "highway/bus_stop": {
+                "name": "Στάση Λεωφορείων"
+            },
+            "highway/crossing": {
+                "name": "Διασταύρωση"
+            },
+            "highway/cycleway": {
+                "name": "Ποδηλατόδρομος"
+            },
+            "highway/footway": {
+                "name": "Μονοπάτι"
+            },
+            "highway/mini_roundabout": {
+                "name": "Μικρός Κυκλικός Κόμβος"
+            },
+            "highway/motorway": {
+                "name": "Αυτοκινητόδρομος"
+            },
+            "highway/motorway_junction": {
+                "name": "Διασταύρωση Αυτοκινητόδρομου"
+            },
+            "highway/motorway_link": {
+                "name": "Σύνδεση Αυτοκινητόδρομου"
+            },
+            "highway/path": {
+                "name": "Μονοπάτι"
+            },
+            "highway/pedestrian": {
+                "name": "Πεζόδρομος"
+            },
+            "highway/primary": {
+                "name": "Πρωτεύων Δρόμος"
+            },
+            "highway/primary_link": {
+                "name": "Σύνδεση Πρωτεύοντος"
+            },
+            "highway/residential": {
+                "name": "Οικιστική Οδός"
+            },
+            "highway/road": {
+                "name": "Άγνωστος Δρόμος"
+            },
+            "highway/secondary": {
+                "name": "Δευτερεύων Δρόμος"
+            },
+            "highway/secondary_link": {
+                "name": "Σύνδεση Δευτερεύοντος"
+            },
+            "highway/service/alley": {
+                "name": "Δρομάκι"
+            },
+            "highway/service/emergency_access": {
+                "name": "Πρόσβαση Εκτάκτου Ανάγκης"
+            },
+            "highway/service/parking_aisle": {
+                "name": "Διάδρομος Στάθμευσης"
+            },
+            "highway/steps": {
+                "name": "Σκαλοπάτια"
+            },
+            "highway/tertiary": {
+                "name": "Τριτεύων Δρόμος"
+            },
+            "highway/track": {
+                "name": "Χωματόδρομος"
+            },
+            "highway/traffic_signals": {
+                "name": "Φανάρια"
+            },
+            "highway/unclassified": {
+                "name": "Μη κατηγοριοποιημένος Δρόμος"
+            },
+            "historic": {
+                "name": "Ιστορική τοποθεσία"
+            },
+            "historic/archaeological_site": {
+                "name": "Αρχαιολογικός Χώρος"
+            },
+            "historic/boundary_stone": {
+                "name": "Βράχος Ορόσημο"
+            },
+            "historic/castle": {
+                "name": "Κάστρο"
+            },
+            "historic/memorial": {
+                "name": "Μνημείο"
+            },
+            "historic/monument": {
+                "name": "Μνημείο"
+            },
+            "historic/ruins": {
+                "name": "Ερείπια"
+            },
+            "landuse": {
+                "name": "Χρήση γης"
+            },
+            "landuse/basin": {
+                "name": "Κανάλι Αποστράγγισης"
+            },
+            "landuse/cemetery": {
+                "name": "Κοιμητήριο"
+            },
+            "landuse/commercial": {
+                "name": "Εμπορική"
+            },
+            "landuse/construction": {
+                "name": "Κατασκευές"
+            },
+            "landuse/farm": {
+                "name": "Αγρο"
+            },
+            "landuse/farmyard": {
+                "name": "Αγροτεμάχιο"
+            },
+            "landuse/forest": {
+                "name": "Δάσος"
+            },
+            "landuse/grass": {
+                "name": "Γρασίδι"
+            },
+            "landuse/industrial": {
+                "name": "Βιομηχανική"
+            },
+            "landuse/meadow": {
+                "name": "Λιβάδι"
+            },
+            "landuse/orchard": {
+                "name": "Περιβόλι"
+            },
+            "landuse/quarry": {
+                "name": "Λατομείο"
+            },
+            "landuse/residential": {
+                "name": "Οικιστική"
+            },
+            "landuse/retail": {
+                "name": "Λιανικό Εμπόριο"
+            },
+            "landuse/vineyard": {
+                "name": "Αμπελώνας"
+            },
+            "leisure": {
+                "name": "Αναψυχή"
+            },
+            "leisure/dog_park": {
+                "name": "Πάρκο Σκύλων"
+            },
+            "leisure/garden": {
+                "name": "Κήπος"
+            },
+            "leisure/golf_course": {
+                "name": "Γήπεδο Γκολφ"
+            },
+            "leisure/marina": {
+                "name": "Μαρίνα"
+            },
+            "leisure/park": {
+                "name": "Πάρκο"
+            },
+            "leisure/pitch": {
+                "name": "Γήπεδο"
+            },
+            "leisure/pitch/american_football": {
+                "name": "Γήπεδο Αμερικάνικου Ποδοσφαίρου"
+            },
+            "leisure/pitch/baseball": {
+                "name": "Γήπεδο Μπέιζμπολ"
+            },
+            "leisure/pitch/basketball": {
+                "name": "Γήπεδο Μπάσκετ"
+            },
+            "leisure/pitch/soccer": {
+                "name": "Γήπεδο Ποδοσφαίρου"
+            },
+            "leisure/pitch/tennis": {
+                "name": "Γήπεδο Τέννις"
+            },
+            "leisure/pitch/volleyball": {
+                "name": "Γήπεδο Βόλεϋ"
+            },
+            "leisure/playground": {
+                "name": "Παιδική Χαρά"
+            },
+            "leisure/slipway": {
+                "name": "Γλύστρα"
+            },
+            "leisure/stadium": {
+                "name": "Στάδιο"
+            },
+            "leisure/swimming_pool": {
+                "name": "Πισίνα"
+            },
+            "leisure/track": {
+                "name": "Πίστα Αγώνων"
+            },
+            "line": {
+                "name": "Γραμμή"
+            },
+            "man_made": {
+                "name": "Ανθρώπινες Κατασκευές"
+            },
+            "man_made/breakwater": {
+                "name": "Κυματοθραύστης"
+            },
+            "man_made/lighthouse": {
+                "name": "Φάρος"
+            },
+            "man_made/pier": {
+                "name": "Αποβάθρα"
+            },
+            "man_made/tower": {
+                "name": "Πύργος"
+            },
+            "man_made/wastewater_plant": {
+                "name": "Βιολογικός Καθαρισμός"
+            },
+            "man_made/water_tower": {
+                "name": "Δεξαμενή Νερού"
+            },
+            "man_made/water_well": {
+                "name": "Πηγάδι Νερού"
+            },
+            "natural": {
+                "name": "Φυσικό"
+            },
+            "natural/bay": {
+                "name": "Κόλπος"
+            },
+            "natural/beach": {
+                "name": "Παραλία"
+            },
+            "natural/cliff": {
+                "name": "Γκρεμός"
+            },
+            "natural/coastline": {
+                "name": "Ακτογραμμή"
+            },
+            "natural/glacier": {
+                "name": "Παγετώνας"
+            },
+            "natural/grassland": {
+                "name": "Χορτολιβαδική Έκταση"
+            },
+            "natural/peak": {
+                "name": "Κορυφή"
+            },
+            "natural/scrub": {
+                "name": "Θαμνότοπος"
+            },
+            "natural/spring": {
+                "name": "Πηγή"
+            },
+            "natural/tree": {
+                "name": "Δέντρο"
+            },
+            "natural/water": {
+                "name": "Νερό"
+            },
+            "natural/water/lake": {
+                "name": "Λίμνη"
+            },
+            "natural/water/pond": {
+                "name": "Λιμνούλα"
+            },
+            "natural/water/reservoir": {
+                "name": "Ταμιευτήρας"
+            },
+            "natural/wetland": {
+                "name": "Έλος"
+            },
+            "natural/wood": {
+                "name": "Δάσος"
+            },
+            "office": {
+                "name": "Γραφείο"
+            },
+            "place": {
+                "name": "Τόπος"
+            },
+            "place/city": {
+                "name": "Πόλη"
+            },
+            "place/hamlet": {
+                "name": "Χωριουδάκι"
+            },
+            "place/island": {
+                "name": "Νησί"
+            },
+            "place/isolated_dwelling": {
+                "name": "Απομονωμένες Κατοικίες"
+            },
+            "place/locality": {
+                "name": "Τοποθεσία"
+            },
+            "place/town": {
+                "name": "Κωμόπολη"
+            },
+            "place/village": {
+                "name": "Χωριό"
+            },
+            "point": {
+                "name": "Σημείο"
+            },
+            "power": {
+                "name": "Ενέργεια"
+            },
+            "power/generator": {
+                "name": "Γενήτρια Ρεύματος"
+            },
+            "power/line": {
+                "name": "Καλώδιο Ρεύματος"
+            },
+            "power/pole": {
+                "name": "Κολόνα Ρεύματος"
+            },
+            "power/sub_station": {
+                "name": "Υποσταθμός "
+            },
+            "power/tower": {
+                "name": "Κολόνα Υψηλής Τάσης"
+            },
+            "power/transformer": {
+                "name": "Μετασχηματιστής"
+            },
+            "railway": {
+                "name": "Σιδηροδρομικός Διάδρομος"
+            },
+            "railway/abandoned": {
+                "name": "Εγκαταλελειμμένη Σιδηροδρομική Γραμμή"
+            },
+            "railway/disused": {
+                "name": "Σιδηροτροχιά εκτός Χρήσης"
+            },
+            "railway/level_crossing": {
+                "name": "Ισόπεδη διάβαση"
+            },
+            "railway/platform": {
+                "name": "Σιδηροδρομική Αποβάθρα"
+            },
+            "railway/rail": {
+                "name": "Σιδηροδρομική Γραμμή"
+            },
+            "railway/station": {
+                "name": "Σιδηροδρομικός Σταθμός"
+            },
+            "railway/subway": {
+                "name": "Μετρό"
+            },
+            "railway/subway_entrance": {
+                "name": "Είσοδος Μετρό"
+            },
+            "railway/tram": {
+                "name": "Τραμ"
+            },
+            "relation": {
+                "name": "Σχέση"
+            },
+            "route/ferry": {
+                "name": "Διαδρομή Πορθμείου"
+            },
+            "shop": {
+                "name": "Κατάστημα"
+            },
+            "shop/alcohol": {
+                "name": "Κάβα Ποτών"
+            },
+            "shop/bakery": {
+                "name": "Αρτοποιείο"
+            },
+            "shop/beauty": {
+                "name": "Κατάστημα Ομορφιάς"
+            },
+            "shop/beverages": {
+                "name": "Αναψυκτήριο"
+            },
+            "shop/bicycle": {
+                "name": "Κατάστημα Ποδηλάτων"
+            },
+            "shop/books": {
+                "name": "Βιβλιοπωλείο"
+            },
+            "shop/boutique": {
+                "name": "Μπουτίκ"
+            },
+            "shop/butcher": {
+                "name": "Κρεοπωλείο"
+            },
+            "shop/car": {
+                "name": "Εμπορία Αυτοκινήτων"
+            },
+            "shop/car_parts": {
+                "name": "Ανταλακτικά Αυτοκινήτων"
+            },
+            "shop/car_repair": {
+                "name": "Συνεργείο Αυτοκινήτων"
+            },
+            "shop/chemist": {
+                "name": "Χημείο"
+            },
+            "shop/clothes": {
+                "name": "Κατάστημα Ένδυσης"
+            },
+            "shop/computer": {
+                "name": "Κατάστημα Υπολογιστών"
+            },
+            "shop/confectionery": {
+                "name": "Ζαχαροπλαστείο"
+            },
+            "shop/convenience": {
+                "name": "Παντοπωλείο"
+            },
+            "shop/department_store": {
+                "name": "Πολυκατάστημα"
+            },
+            "shop/dry_cleaning": {
+                "name": "Στεγνοκαθαριστήριο"
+            },
+            "shop/electronics": {
+                "name": "Κατάστημα Ηλεκτρονικών"
+            },
+            "shop/fishmonger": {
+                "name": "Ψαράδικο"
+            },
+            "shop/florist": {
+                "name": "Ανθοπωλείο"
+            },
+            "shop/furniture": {
+                "name": "Κατάστημα Επίπλων"
+            },
+            "shop/gift": {
+                "name": "Κατάστημα Δώρων"
+            },
+            "shop/greengrocer": {
+                "name": "Οπωροπωλείο"
+            },
+            "shop/hairdresser": {
+                "name": "Κομμωτήριο"
+            },
+            "shop/hardware": {
+                "name": "Σιδηροπωλείο"
+            },
+            "shop/hifi": {
+                "name": "Κατάστημα Hifi"
+            },
+            "shop/jewelry": {
+                "name": "Κοσμηματοπωλείο"
+            },
+            "shop/kiosk": {
+                "name": "Περίπτερο"
+            },
+            "shop/laundry": {
+                "name": "Καθαριστήριο"
+            },
+            "shop/mall": {
+                "name": "Εμπορικό Κέντρο"
+            },
+            "shop/mobile_phone": {
+                "name": "Κατάστημα Κινητής Τηλεφωνίας"
+            },
+            "shop/motorcycle": {
+                "name": "Εμπόριο Μοτοσυκλετών"
+            },
+            "shop/music": {
+                "name": "Κατάστημα Μουσικής"
+            },
+            "shop/newsagent": {
+                "name": "Πρακτορείο τύπου"
+            },
+            "shop/optician": {
+                "name": "Οπτικός"
+            },
+            "shop/outdoor": {
+                "name": "Κατάστημα Υπαίθριων"
+            },
+            "shop/pet": {
+                "name": "Κατάστημα Κατοικίδιων"
+            },
+            "shop/shoes": {
+                "name": "Κατάστημα Υπόδησης"
+            },
+            "shop/sports": {
+                "name": "Κατάστημα Αθλητικών Ειδών"
+            },
+            "shop/stationery": {
+                "name": "Κατάστημα Γραφικής Ύλης"
+            },
+            "shop/toys": {
+                "name": "Κατάστημα Παιχνιδιών"
+            },
+            "shop/travel_agency": {
+                "name": "Ταξιδιωτικό Γραφείο"
+            },
+            "shop/tyres": {
+                "name": "Βουλκανιζατέρ"
+            },
+            "shop/video": {
+                "name": "Βιντεοκλάμπ"
+            },
+            "tourism": {
+                "name": "Τουρισμός"
+            },
+            "tourism/attraction": {
+                "name": "Τ"
+            },
+            "tourism/camp_site": {
+                "name": "Χώρος Κατασκήνωσης"
+            },
+            "tourism/caravan_site": {
+                "name": "Πάρκο τροχόσπιτων"
+            },
+            "tourism/chalet": {
+                "name": "Σαλέ"
+            },
+            "tourism/guest_house": {
+                "name": "Ξενώνας"
+            },
+            "tourism/hotel": {
+                "name": "Ξενοδοχείο"
+            },
+            "tourism/information": {
+                "name": "Πληροφορίες"
+            },
+            "tourism/motel": {
+                "name": "Μοτέλ"
+            },
+            "tourism/museum": {
+                "name": "Μουσείο"
+            },
+            "tourism/picnic_site": {
+                "name": "Χώρος πικ νικ"
+            },
+            "tourism/theme_park": {
+                "name": "Θεματικό Πάρκο"
+            },
+            "tourism/viewpoint": {
+                "name": "Σημείο θέασης"
+            },
+            "tourism/zoo": {
+                "name": "Ζωολογικός Κήπος"
+            },
+            "type/boundary": {
+                "name": "Όριο"
+            },
+            "type/boundary/administrative": {
+                "name": "Διοικητικό Όριο"
+            },
+            "type/multipolygon": {
+                "name": "Πολύ-Πολύγωνο"
+            },
+            "type/restriction": {
+                "name": "Περιορισμός"
+            },
+            "type/route": {
+                "name": "Δρομολόγιο"
+            },
+            "type/route/bus": {
+                "name": "Διαδρομή Λεωφορείων"
+            },
+            "type/route/ferry": {
+                "name": "Διαδρομή Πορθμείου"
+            },
+            "type/route/train": {
+                "name": "Γραμμή Τραίνων"
+            },
+            "vertex": {
+                "name": "Άλλο"
+            },
+            "waterway": {
+                "name": "Διαδρομή νερού"
+            },
+            "waterway/canal": {
+                "name": "Κανάλι"
+            },
+            "waterway/dam": {
+                "name": "Φράγμα"
+            },
+            "waterway/ditch": {
+                "name": "Χαντάκι"
+            },
+            "waterway/river": {
+                "name": "Ποταμός"
+            },
+            "waterway/riverbank": {
+                "name": "Όχθη Ποταμιού"
+            },
+            "waterway/stream": {
+                "name": "Ρέμα"
+            },
+            "waterway/weir": {
+                "name": "Υδατοφράκτης"
+            }
+        }
+    }
+}

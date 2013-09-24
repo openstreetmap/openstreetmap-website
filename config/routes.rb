@@ -122,9 +122,10 @@ OpenStreetMap::Application.routes.draw do
 
   # web site
   root :to => 'site#index', :via => [:get, :post]
-  match '/edit' => 'site#edit', :via => :get
+  match '/edit' => 'site#edit', :via => :get, :as => :edit
   match '/copyright/:copyright_locale' => 'site#copyright', :via => :get
   match '/copyright' => 'site#copyright', :via => :get
+  match '/welcome' => 'site#welcome', :via => :get, :as => :welcome
   match '/history' => 'changeset#list', :via => :get
   match '/history/feed' => 'changeset#feed', :via => :get, :format => :atom
   match '/export' => 'site#index', :export => true, :via => :get
@@ -161,8 +162,8 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/traces/tag/:tag' => 'trace#list', :via => :get
   match '/user/:display_name/traces/page/:page' => 'trace#list', :via => :get
   match '/user/:display_name/traces' => 'trace#list', :via => :get
-  match '/user/:display_name/traces/tag/:tag/rss' => 'trace#georss', :via => :get
-  match '/user/:display_name/traces/rss' => 'trace#georss', :via => :get
+  match '/user/:display_name/traces/tag/:tag/rss' => 'trace#georss', :via => :get, :format => :rss
+  match '/user/:display_name/traces/rss' => 'trace#georss', :via => :get, :format => :rss
   match '/user/:display_name/traces/:id' => 'trace#view', :via => :get
   match '/user/:display_name/traces/:id/picture' => 'trace#picture', :via => :get
   match '/user/:display_name/traces/:id/icon' => 'trace#icon', :via => :get
@@ -170,8 +171,8 @@ OpenStreetMap::Application.routes.draw do
   match '/traces/tag/:tag' => 'trace#list', :via => :get
   match '/traces/page/:page' => 'trace#list', :via => :get
   match '/traces' => 'trace#list', :via => :get
-  match '/traces/tag/:tag/rss' => 'trace#georss', :via => :get
-  match '/traces/rss' => 'trace#georss', :via => :get
+  match '/traces/tag/:tag/rss' => 'trace#georss', :via => :get, :format => :rss
+  match '/traces/rss' => 'trace#georss', :via => :get, :format => :rss
   match '/traces/mine/tag/:tag/page/:page' => 'trace#mine', :via => :get
   match '/traces/mine/tag/:tag' => 'trace#mine', :via => :get
   match '/traces/mine/page/:page' => 'trace#mine', :via => :get

@@ -5,6 +5,10 @@ class UserToken < ActiveRecord::Base
 
   after_initialize :set_defaults
 
+  def expired?
+    expiry < Time.now
+  end
+
 private
 
   def set_defaults

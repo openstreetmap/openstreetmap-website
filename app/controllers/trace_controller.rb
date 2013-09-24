@@ -151,8 +151,8 @@ class TraceController < ApplicationController
     if trace.visible? and (trace.public? or (@user and @user == trace.user))
       if Acl.no_trace_download(request.remote_ip)
         render :text => "", :status => :forbidden
-      elsif request.format == Mime::XML
-        send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => Mime::XML.to_s, :disposition => 'attachment')
+      elsif request.format == Mime::XML or request.format == Mime::GPX
+        send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => 'attachment')
       else
         send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
       end
@@ -203,27 +203,19 @@ class TraceController < ApplicationController
   end
 
   def georss
-    traces = Trace.public.visible
+    @traces = Trace.public.visible
 
     if params[:display_name]
-      traces = traces.joins(:user).where(:users => {:display_name => params[:display_name]})
+      @traces = @traces.joins(:user).where(:users => {:display_name => params[:display_name]})
     end
 
     if params[:tag]
-      traces = traces.tagged(params[:tag])
+      @traces = @traces.tagged(params[:tag])
     end
 
-    traces = traces.order("timestamp DESC")
-    traces = traces.limit(20)
-    traces = traces.includes(:user)
-
-    rss = OSM::GeoRSS.new
-
-    traces.each do |trace|
-      rss.add(trace.latitude, trace.longitude, trace.name, trace.user.display_name, url_for({:controller => 'trace', :action => 'view', :id => trace.id, :display_name => trace.user.display_name}), "<img src='#{url_for({:controller => 'trace', :action => 'icon', :id => trace.id, :display_name => trace.user.display_name})}'> GPX file with #{trace.size} points from #{trace.user.display_name}", trace.timestamp)
-    end
-
-    render :text => rss.to_s, :content_type => "application/rss+xml"
+    @traces = @traces.order("timestamp DESC")
+    @traces = @traces.limit(20)
+    @traces = @traces.includes(:user)
   end
 
   def picture
@@ -308,8 +300,8 @@ class TraceController < ApplicationController
     trace = Trace.find(params[:id])
 
     if trace.public? or trace.user == @user
-      if request.format == Mime::XML
-        send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => Mime::XML.to_s, :disposition => 'attachment')
+      if request.format == Mime::XML or request.format == Mime::GPX
+        send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => 'attachment')
       else
         send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
       end
