@@ -1,5 +1,5 @@
 <% if @user.groups.include?(group) %>
-  <li><%= link_to t('group.leave.action'), leave_group_path(group), :method => :post, :data => { :confirm => t('group.leave.confirm') } %></li>
+  <li><%= link_to t('group.leave.action'), leave_group_path(group), :method => :post, :data => { :confirm => t('group.leave.confirm', :title => group.title) } %></li>
 <% else %>
-  <li><%= link_to t('group.join.action'), join_group_path(group), :method => :post, :data => { :confirm => t('group.join.confirm') } %></li>
+  <li><%= link_to t('group.join.action'), join_group_path(group), :method => :post, :data => { :confirm => t('group.join.confirm', :title => group.title) } %></li>
 <% end %>

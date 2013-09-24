@@ -9,9 +9,9 @@
       <% if @group.leadership_includes?(@user) %>
         <li><%= link_to t('group.message.action'), new_message_to_group_path(@group) %></li>
         <li><%= link_to t('group.edit.action'), edit_group_path(@group) %></li>
-        <li><%= link_to t('group.resign.action'), resign_leader_group_path(@group), :method => :post, :data => { :confirm => t('group.resign.confirm') } %></li>
+        <li><%= link_to t('group.resign.action'), resign_leader_group_path(@group), :method => :post, :data => { :confirm => t('group.resign.confirm', :title => @group.title) } %></li>
       <% elsif @group.users.include?(@user) && @group.leaders.count == 0 %>
-        <li><%= link_to t('group.lead.action'), become_leader_group_path(@group), :method => :post, :data => { :confirm => t('group.lead.confirm') } %></li>
+        <li><%= link_to t('group.lead.action'), become_leader_group_path(@group), :method => :post, :data => { :confirm => t('group.lead.confirm', :title => @group.title) } %></li>
       <% end %>
       <%= render :partial => 'join_or_leave_links', :locals => { :group => @group } %>
     </ul>
