@@ -172,27 +172,8 @@
 <% end %>
 
   <% if @user and @this_user.id == @user.id %>
-    <% if @this_user.home_lat.nil? or @this_user.home_lon.nil? %>
-      <div id="map" class="content_map">
-        <p id="no_home_location"><%= raw(t 'user.view.if set location', :settings_link => (link_to t('user.view.settings_link_text'), :controller => 'user', :action => 'account', :display_name => @user.display_name)) %></p>
-      </div>
-    <% else %>
-      <% content_for :head do %>
-        <%= javascript_include_tag "user" %>
-      <% end %>
-      <%
-        user_data = {
-          :lon => @user.home_lon,
-          :lat => @user.home_lat,
-          :icon => image_path("marker-red.png"),
-          :description => render(:partial => "popup", :object => @user, :locals => {:type => "your location"})
-        }
-      %>
-      <%= content_tag "div", "", :id => "map", :class => "content_map", :data => {:user => user_data} %>
-    <% end %>
 
     <% friends = @this_user.friends.collect { |f| f.befriendee } %>
-    <% nearby = @this_user.nearby - friends %>
 
   <div class="activity-block column-1">
     <h3><%= t 'user.view.your friends' %></h3>
@@ -210,19 +191,4 @@
     <% end %>
   </div>
 
-  <div class="activity-block column-1">
-    <h3><%= t 'user.view.nearby users' %></h3>
-
-    <% if nearby.empty? %>
-      <%= t 'user.view.no nearby users' %>
-    <% else %>
-      <ul class='secondary-actions clearfix'>
-        <li><%= link_to t('user.view.nearby_changesets'), nearby_changesets_path %></li>
-        <li><%= link_to t('user.view.nearby_diaries'), nearby_diaries_path %></li>
-      </ul>
-      <div id="nearbyusers">
-        <%= render :partial => "contact", :collection => nearby, :locals => {:type => "nearby mapper"} %>
-      </div>
-    <% end %>
-  </div>
 <% end %>
