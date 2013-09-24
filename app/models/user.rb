@@ -242,9 +242,7 @@ private
   end
 
   def encrypt_password
-logger.info "XXX"
     if pass_crypt_confirmation
-logger.info "YYY"
       self.pass_crypt, self.pass_salt = PasswordHash.create(pass_crypt)
       self.pass_crypt_confirmation = nil
     end
