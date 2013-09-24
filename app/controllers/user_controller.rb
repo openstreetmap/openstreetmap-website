@@ -79,7 +79,7 @@ class UserController < ApplicationController
         @user.data_public = true
         @user.description = "" if @user.description.nil?
         @user.creation_ip = request.remote_ip
-        @user.languages = request.user_preferred_languages
+        @user.languages = http_accept_language.user_preferred_languages
         @user.terms_agreed = Time.now.getutc
         @user.terms_seen = true
         @user.openid_url = nil if @user.openid_url and @user.openid_url.empty?

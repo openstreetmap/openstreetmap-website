@@ -284,14 +284,14 @@ class ApplicationController < ActionController::Base
     response.header['Vary'] = 'Accept-Language'
 
     if @user && !@user.languages.empty?
-      request.user_preferred_languages = @user.languages
+      http_accept_language.user_preferred_languages = @user.languages
       response.header['Vary'] = '*'
     end
 
     I18n.locale = select_locale
 
-    if @user && @user.languages.empty? && !request.user_preferred_languages.empty?
-      @user.languages = request.user_preferred_languages
+    if @user && @user.languages.empty? && !http_accept_language.user_preferred_languages.empty?
+      @user.languages = http_accept_language.user_preferred_languages
       @user.save
     end
 
@@ -300,11 +300,11 @@ class ApplicationController < ActionController::Base
 
   def select_locale(locales = I18n.available_locales)
     if params[:locale]
-      request.user_preferred_languages = [ params[:locale] ]
+      http_accept_language.user_preferred_languages = [ params[:locale] ]
     end
 
-    if request.compatible_language_from(locales).nil?
-      request.user_preferred_languages = request.user_preferred_languages.collect do |pl|
+    if http_accept_language.compatible_language_from(locales).nil?
+      http_accept_language.user_preferred_languages = http_accept_language.user_preferred_languages.collect do |pl|
         pls = [ pl ]
 
         while pl.match(/^(.*)-[^-]+$/)
@@ -316,7 +316,7 @@ class ApplicationController < ActionController::Base
       end.flatten
     end
 
-    request.compatible_language_from(locales) || I18n.default_locale
+    http_accept_language.compatible_language_from(locales) || I18n.default_locale
   end
 
   helper_method :select_locale
