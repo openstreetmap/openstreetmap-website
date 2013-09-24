@@ -51,7 +51,7 @@ class MessageController < ApplicationController
 
           ---
 
-          This message was sent to all members of [#{@group.title}](#{group_url(@group)}).
+          #{t 'message.new.footer_on_messages_to_group', :title => @group.title, :url => group_url(@group)}
           FOOTER
           @message.to_user_id = user.id
           @message.from_user_id = @user.id
