@@ -4,6 +4,7 @@
 # Author: Anakmalaysia
 # Author: Dimension
 # Author: Hydra
+# Author: Jiwei
 # Author: Liangent
 # Author: Liuxinyu970226
 # Author: Mmyangfl
@@ -65,7 +66,7 @@ zh-CN:
       old_node: 旧节点
       old_node_tag: 旧节点标签
       old_relation: 旧关系
-      old_relation_member: 旧关系对象
+      old_relation_member: 旧关系成员
       old_relation_tag: 旧关系标签
       old_way: 旧路径
       old_way_node: 旧路径节点
@@ -436,6 +437,21 @@ zh-CN:
       output: 输出
       paste_html: 在网页上粘贴 HTML
       scale: 比率
+      too_large: 
+        body: 这个区域太大，无法导出 OpenStreetMap XML 数据。请放大或选择一个较小的区域。
+        geofabrik: 
+          description: 定期更新提取物大洲、 国家、 和选定的城市
+          title: Geofabrik 下载
+        heading: 区域太大
+        metro: 
+          description: 世界主要城市和周边地区的地图包
+          title: 大城市地图包
+        other: 
+          description: OpenStreetMap Wiki上列出的其他资源
+          title: 其他来源
+        planet: 
+          description: 定期更新所有OpenStreetMap的数据
+          title: OSM星球
       zoom: 变焦
     start_rjs: 
       add_marker: 标记地图
@@ -487,6 +503,10 @@ zh-CN:
         level8: 市界
         level9: 村界
       prefix: 
+        aerialway: 
+          chair_lift: 升降椅
+          drag_lift: 拖动电梯
+          station: 火车站
         aeroway: 
           aerodrome: 机场
           apron: 机坪
@@ -580,6 +600,7 @@ zh-CN:
           shower: 淋浴
           social_centre: 社区中心
           social_club: 社交俱乐部
+          social_facility: 公共设施
           studio: 工作室
           supermarket: 超市
           swimming_pool: 游泳池
@@ -608,6 +629,9 @@ zh-CN:
           "yes": 桥
         building: 
           "yes": 建筑物
+        emergency: 
+          fire_hydrant: 消防栓
+          phone: 紧急电话
         highway: 
           bridleway: 马道
           bus_guideway: 导轨公交专用道
@@ -629,6 +653,7 @@ zh-CN:
           platform: 站台
           primary: 一级道路
           primary_link: 一级道路
+          proposed: 建议路线
           raceway: 滚道
           residential: 住宅
           rest_area: 休息区
@@ -640,6 +665,7 @@ zh-CN:
           speed_camera: 超速照相机
           steps: 楼梯
           stile: 跨越围栏的台阶
+          street_lamp: 路灯
           tertiary: 三级道路
           tertiary_link: 三级道路
           track: 辙迹
@@ -655,6 +681,7 @@ zh-CN:
           building: 建筑物
           castle: 城堡
           church: 教堂
+          citywalls: 城墙
           fort: 堡
           house: 房屋
           icon: 圣像画
@@ -664,6 +691,7 @@ zh-CN:
           monument: 纪念碑
           museum: 博物馆
           ruins: 遗迹
+          tomb: 墓地
           tower: 塔
           wayside_cross: 十字路旁
           wayside_shrine: 路旁的神社
@@ -802,6 +830,7 @@ zh-CN:
           locality: 地区
           moor: 系泊
           municipality: 都市
+          neighbourhood: 邻居
           postcode: 邮编
           region: 区
           sea: 海
@@ -827,8 +856,10 @@ zh-CN:
           narrow_gauge: 窄轨铁路
           platform: 站台
           preserved: 保留铁路
+          proposed: 规划中的铁路
           spur: 铁路支线
           station: 火车站
+          stop: 火车岔口
           subway: 地铁站
           subway_entrance: 地铁入口
           switch: 铁路点
@@ -844,6 +875,7 @@ zh-CN:
           beverages: 饮料店
           bicycle: 自行车店
           books: 书店
+          boutique: 商店
           butcher: 屠宰
           car: 车店
           car_parts: 汽车零件
@@ -857,6 +889,7 @@ zh-CN:
           convenience: 便利店
           copyshop: 复印店
           cosmetics: 化妆品店
+          deli: 熟食店
           department_store: 百货商店
           discount: 折扣精品店
           doityourself: DIY
@@ -893,17 +926,21 @@ zh-CN:
           organic: 有机食品店
           outdoor: 户外店
           pet: 宠物店
+          pharmacy: 药房
           photo: 照相馆
           salon: 沙龙
+          second_hand: 二手商店
           shoes: 鞋店
           shopping_centre: 购物中心
           sports: 体育用品店
           stationery: 文具店
           supermarket: 超市
+          tailor: 裁缝店
           toys: 玩具店
           travel_agency: 旅行社
           video: 影视店
           wine: 无许可证
+          "yes": 商店
         tourism: 
           alpine_hut: 高山小屋
           artwork: 艺术品
@@ -926,6 +963,7 @@ zh-CN:
           viewpoint: 景点
           zoo: 动物园
         tunnel: 
+          culvert: 涵洞
           "yes": 隧道
         waterway: 
           artificial: 运河
@@ -954,20 +992,26 @@ zh-CN:
     dir: ltr
   javascripts: 
     close: 关闭
+    edit_help: 移动地图并在你想编辑的地方放大，然后点击这里。
     key: 
       title: 图例
       tooltip: 图例
+      tooltip_disabled: 地图键仅仅在标准层可用。
     map: 
       base: 
         cycle_map: Cycle Map
         mapquest: MapQuest Open
         standard: 标准
         transport_map: 交通图
+      copyright: © <a href='%{copyright_url}'>OpenStreetMap 贡献者</a>
       layers: 
         data: 地图数据
         header: 地图图层
         notes: 地图注释
         overlays: 启用覆盖地图叠加
+      locate: 
+        popup: 你离该点还有{distance}{unit}
+        title: 显示我的位置
       zoom: 
         in: 放大
         out: 缩小
@@ -993,10 +1037,22 @@ zh-CN:
         resolve: 解决
     share: 
       cancel: 取消
-      link: 链接
-      long_link: 长链接
+      center_marker: 以标记居中
+      custom_dimensions: 设置自定义尺寸
+      download: 下载
+      embed: HTML
+      format: 格式：
+      image: 图片
+      image_size: 图片将显示在
+      include_marker: 包含标记
+      link: 链接或 HTML
+      long_link: 链接
+      paste_html: 在网页上粘贴 HTML
+      scale: 比例尺：
       short_link: 短链接
+      short_url: 短链接
       title: 分享
+      view_larger_map: 查看放大地图
     site: 
       createnote_disabled_tooltip: 放大以向地图添加一个注释
       createnote_tooltip: 向地图添加一个注释
@@ -1009,12 +1065,14 @@ zh-CN:
     community_blogs: 社区博客
     community_blogs_title: OpenStreetMap 社区成员的博客
     copyright: 版权及许可
+    data: 数据
     documentation: 文档
     documentation_title: 该项目的文档
     donate: 给硬件升级基金会%{link}以支持 OpenStreetMap。
     donate_link_text: 捐款
     edit: 编辑
     edit_with: 使用 %{editor} 编辑
+    export_data: 导出数据
     foundation: 基金会
     foundation_title: OpenStreetMap 基金会
     gps_traces: GPS 轨迹
@@ -1024,7 +1082,7 @@ zh-CN:
     help_title: 项目的帮助网站
     help_url: http://help.openstreetmap.org/
     history: 历史
-    home: 主页
+    home: 返回主页
     intro_1: OpenStreetMap 是一个可供自由编辑的世界地图，它是由像您这样的用户创造的。
     intro_2_create_account: 创建用户帐户
     intro_2_download: 下载
@@ -1265,7 +1323,7 @@ zh-CN:
       created: 某人(希望是您)刚在%{site_url}创建了一个帐户。
       greeting: 您好！
       subject: "[OpenStreetMap] 欢迎加入 OpenStreetMap"
-      welcome: 我们欢迎您，并提供一些额外的信息，帮助您开始使用。
+      welcome: 等你确认帐号后，我们将提供一些额外的信息以帮助你开始使用。
   oauth: 
     oauthorize: 
       allow_read_gpx: 读取您的私人 GPS 轨迹。
@@ -1343,6 +1401,10 @@ zh-CN:
   redaction: 
     create: 
       flash: 节点被创建。
+    destroy: 
+      error: 销毁这个版本是出错了。
+      flash: 版本销毁了。
+      not_empty: 版本非空。请先清空所有版本后在销毁它。
     edit: 
       description: 描述
       heading: 编辑节点
@@ -1362,6 +1424,8 @@ zh-CN:
       description: 描述：
       destroy: 移除此节点
       edit: 编辑此节点
+      heading: 显示修订 "%{title}"
+      title: 显示修订
       user: "创建者:"
     update: 
       flash: 更改已保存。
@@ -1637,9 +1701,12 @@ zh-CN:
     confirm: 
       already active: 已确认此帐户。
       button: 确认
-      heading: 确认用户帐户
+      heading: 检查你的电子邮件！
+      introduction_1: 我们刚刚已经给你发送了确认邮件。
+      introduction_2: 点击电子邮件内的链接来确认您的账号后，你就可以开始画地图了。
       press confirm button: 按下面的确认键激活您的帐户。
-      unknown token: 该标记似乎不存在。
+      reconfirm_html: 如果你需要我们重新发送确认邮件，请点击<a href="%{reconfirm}">这里</a>。
+      unknown token: 该确认号已经过期或者不存在。
     confirm_email: 
       button: 确认
       failure: 具有此令牌的电子邮件地址已经确认过了。
@@ -1724,10 +1791,13 @@ zh-CN:
       heading: 将 %{user} 加为好友？
       success: "%{name}现在是您的好友！"
     new: 
+      about: 
+        header: 免费而且可编辑
+        html: "<p>不同于其他地图，OpenStreetMap是完全由像你一样的人创建的，并且免费提供给任何人用以修正、更新、下载和使用。</p>\n<p>登录来贡献你的力量吧。我们将发送一份邮件来确认您的账号。</p>"
       confirm email address: 确认邮箱：
       confirm password: 确认密码：
       contact_webmaster: 请联系<a href="mailto:webmaster@openstreetmap.org">网站管理员</a>来安排创建一个账户 - 我们将尽快尝试处理您的请求。
-      continue: 继续
+      continue: 登录
       display name: 显示姓名：
       display name description: 您公开显示的用户名。您可以稍后在首选项中更改。
       email address: 邮箱：
@@ -1741,7 +1811,7 @@ zh-CN:
       terms accepted: 感谢您接受新的贡献条款！
       terms declined: 我们很遗憾您已决定不接受新的贡献者条款。有关详细信息，请参阅<a href="%{url}">此维基页面</a>.
       terms declined url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
-      title: 创建帐户
+      title: 登录
       use openid: 或者，使用 %{logo} OpenID 登录
     no_such_user: 
       body: 对不起，没有名为 %{user} 的用户。请检查您的拼写，或者可能是点击了错误的链接。
@@ -1793,8 +1863,8 @@ zh-CN:
       add as friend: 添加好友
       ago: (%{time_in_words_ago}之前)
       block_history: 接受的封禁
-      blocks by me: 被我所封禁
-      blocks on me: 对我的封禁
+      blocks by me: 被我屏蔽的
+      blocks on me: 屏蔽我的
       comments: 注释
       confirm: 确认
       confirm_user: 确认此用户
@@ -1822,7 +1892,8 @@ zh-CN:
       my comments: 我的评论
       my diary: 我的日记
       my edits: 我的编辑
-      my notes: 我的地图注释
+      my notes: 我的注释
+      my profile: 我的资料
       my settings: 我的设置
       my traces: 我的轨迹
       nearby users: 附近的其他用户
@@ -1960,3 +2031,25 @@ zh-CN:
       fail: 无法吊销用户 '%{name}' 角色 '%{role}'。请检查用户和角色是否都正确。
       heading: 确认角色吊销
       title: 确认角色吊销
+  welcome_page: 
+    add_a_note: 
+      paragraph_1_html: 如果你这是想做一些微小改动而没有时间登录来学习如何编辑，那做一些注释是非常容易的。
+      paragraph_2_html: 只要去<a href='%{map_url}'>地图</a>并单击注释图标： <span class='icon note'></span>。这将在地图上添加一个标记，你可以拖动它，并添加您的注释，然后单击保存，其他人可以确认是否正确。
+      title: 没有时间编辑吗？添加注释 ！
+    basic_terms: 
+      editor_html: <Strong>editor</strong>是一个程序或网页，你可以用它来使用和编辑地图。
+      node_html: <strong>node</strong>就是地图上的一个点，譬如一个小饭店或者一棵树。
+      paragraph_1_html: OpenStreetMap 有它自己的术语。这里列出几个有用的关键词。
+      tag_html: <strong>tag</strong>是关于node或way的一些数据，就像一个饭店的名字或者一条路的限速。
+      title: 画图的基本术语
+      way_html: <strong>way</strong>是一条线或一个区域，就像一条路、一条小溪、一个湖泊或者一栋建筑。
+    introduction_html: 欢迎来到OpenStreeMap：全世界免费而且可编辑的地图。现在你可以登录，开始画地图吧。这里是快速上手指南包含您需要知道的最重要的内容。
+    questions: 
+      paragraph_1_html: 需要协助画地图，或者对如何使用OpenStreetMap不是很清楚？在<a href='http://help.openstreetmap.org/'>帮助网站</a>得到你想要的答案。
+      title: 还有问题吗？
+    start_mapping: 开始画图
+    title: 欢迎！
+    whats_on_the_map: 
+      off_html: 当然它<em>不包含</em>一些激进的数据，譬如评分、历史或者假设的特性，以及有版权的来源。除非你具有特殊权利，否则不要复制在线的或者纸质地图。
+      on_html: OpenStreetMap是一个<em>真实而且最新</em>的地图，它包含数百万的建筑、道路以及其他的位置细节。你基本可以编辑现实世界中你感兴趣的任何东西。
+      title: 地图上有什么

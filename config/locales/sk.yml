@@ -6,6 +6,7 @@
 # Author: Kusavica
 # Author: Lesny skriatok
 # Author: MichalP
+# Author: Mimarik
 # Author: Nemo bis
 # Author: Rudko
 # Author: Teslaton
@@ -182,6 +183,7 @@ sk:
     note: 
       closed: "Zatvorené:"
       closed_title: "Vyriešená chyba: %{note_name}"
+      comments: Komentáre
       description: "Popis:"
       last_modified: "Naposledy upravené:"
       open_title: "Nevyriešená chyba: %{note_name}"
@@ -433,6 +435,21 @@ sk:
       output: Výstup
       paste_html: Pre vloženie do stránky použite toto HTML
       scale: Mierka
+      too_large: 
+        body: Táto oblasť je príliš veľká pre export OpenStreetMap XML dát. Priblížte prosím mapu, alebo vyberte menšiu oblasť.
+        geofabrik: 
+          description: Pravidelne aktualizované extrakty svetadielov, krajín a vybraných miest
+          title: Geofabrik na stiahnutie
+        heading: Príliš veľká oblasť
+        metro: 
+          description: Extrakty pre hlavné svetové mestá a ich okolie
+          title: Metro extrakty
+        other: 
+          description: Ďalšie zdroje sú uvedené na OpenStreetMap wiki
+          title: Iné zdroje
+        planet: 
+          description: Pravidelne aktualizované kópie kompletnej databázy OpenStreetMap
+          title: Planéta OSM
       zoom: Zväčšenie
     start_rjs: 
       add_marker: Pridať do mapy značku
@@ -484,6 +501,10 @@ sk:
         level8: Hranica mesta
         level9: Hranica obce
       prefix: 
+        aerialway: 
+          chair_lift: Sedačková lanovka
+          drag_lift: Vlek
+          station: Lanovková stanica
         aeroway: 
           aerodrome: Aerodróm
           apron: Letisková parkovacia plocha
@@ -577,6 +598,7 @@ sk:
           shower: Sprchy
           social_centre: Komunitné centrum
           social_club: Spoločenský klub
+          social_facility: Sociálne zariadenie
           studio: Ateliér
           supermarket: Supermarket
           swimming_pool: Plaváreň, kúpalisko
@@ -605,6 +627,9 @@ sk:
           "yes": Most
         building: 
           "yes": Budova
+        emergency: 
+          fire_hydrant: Požiarny hydrant
+          phone: Núdzový telefón
         highway: 
           bridleway: Cesta pre kone
           bus_guideway: Bus so sprievodcom
@@ -626,6 +651,7 @@ sk:
           platform: Nástupište
           primary: Cesta I. triedy
           primary_link: Cesta I. triedy
+          proposed: Navrhovaná cesta
           raceway: Pretekárska dráha
           residential: Ulica
           rest_area: Odpočívadlo
@@ -637,6 +663,7 @@ sk:
           speed_camera: Radar
           steps: Schody
           stile: Schodíky cez ohradu
+          street_lamp: Pouličná lampa
           tertiary: Cesta III. triedy
           tertiary_link: Cesta III. triedy
           track: Nespevnená cesta
@@ -652,6 +679,7 @@ sk:
           building: Budova
           castle: Hrad
           church: Kostol
+          citywalls: Mestské hradby
           fort: Pevnosť
           house: Dom
           icon: Ikona
@@ -661,6 +689,7 @@ sk:
           monument: Pamätník
           museum: Múzeum
           ruins: Ruina
+          tomb: Náhrobok
           tower: Veža
           wayside_cross: Božie muky
           wayside_shrine: Malá kaplnka pri ceste
@@ -799,6 +828,7 @@ sk:
           locality: Oblasť
           moor: Močiar
           municipality: Obecný úrad
+          neighbourhood: Štvrť
           postcode: PSČ
           region: Región
           sea: More
@@ -824,8 +854,10 @@ sk:
           narrow_gauge: Úzkokoľajná železnica
           platform: Železničné nástupište
           preserved: Historická železnica
+          proposed: Navrhovaná železnica
           spur: Železničná vlečka
           station: Železničná stanica
+          stop: Železničná zastávka
           subway: Stanica metra
           subway_entrance: Vchod do metra
           switch: Železničná výhybka
@@ -841,6 +873,7 @@ sk:
           beverages: Občerstvenie
           bicycle: Obchod s bicyklami
           books: Kníhkupectvo
+          boutique: Butik
           butcher: Mäsiarstvo
           car: Predajňa automobilov
           car_parts: Mototechna
@@ -854,6 +887,7 @@ sk:
           convenience: Rozličný tovar
           copyshop: Copy centrum
           cosmetics: Parfuméria
+          deli: Lahôdky
           department_store: Obchodný dom
           discount: Diskontná predajňa
           doityourself: Urob si sám
@@ -890,17 +924,21 @@ sk:
           organic: Obchod so zdravou výživou
           outdoor: Turistický obchod
           pet: Chovprodukt
+          pharmacy: Lekáreň
           photo: Fotokino
           salon: Salón
+          second_hand: Bazár
           shoes: Obuv
           shopping_centre: Nákupné stredisko
           sports: Športový obchod
           stationery: Papierníctvo
           supermarket: Supermarket
+          tailor: Krajčír
           toys: Hračkárstvo
           travel_agency: Cestovná kancelária
           video: Videopožičovňa, predaj DVD
           wine: Mimo povolenia
+          "yes": Obchod
         tourism: 
           alpine_hut: Vysokohorská chata
           artwork: Umelecké dielo
@@ -969,8 +1007,8 @@ sk:
         hide: Skryť
     share: 
       cancel: Zrušiť
-      link: Odkaz
-      long_link: Dlhý odkaz
+      link: Odkaz alebo HTML
+      long_link: Odkaz
       short_link: Krátky odkaz
       title: Zdieľať
     site: 
@@ -983,12 +1021,14 @@ sk:
     community_blogs: Komunitné blogy
     community_blogs_title: Blogy členov komunity OpenStreetMap
     copyright: Autorské práva a licencia
+    data: Údaje
     documentation: Dokumentácia
     documentation_title: Dokumentácia k projektu
     donate: Podporte OpenStreetMap %{link} Fondu na obnovu hardwaru
     donate_link_text: príspevkom
     edit: Upraviť
     edit_with: Upraviť pomocou %{editor}
+    export_data: Export údajov
     foundation: Nadácia
     foundation_title: Nadácia OpenStreetMap Foundation
     gps_traces: GPS stopy
@@ -996,8 +1036,9 @@ sk:
     help: Pomoc
     help_centre: Centrum pomoci
     help_title: Stránky s nápovedou k tomuto projektu
+    help_url: http://help.openstreetmap.org/
     history: História
-    home: domov
+    home: Domov
     intro_1: OpenStreetMap je slobodná editovateľná mapa celého sveta. Tvoria ju ľudia ako vy.
     intro_2_create_account: Založte si konto
     intro_2_download: stiahnutie
@@ -1009,7 +1050,7 @@ sk:
     log_in_tooltip: Prihlásiť sa k existujúcemu kontu
     logo: 
       alt_text: Logo OpenStreetMap
-    logout: odhlásiť
+    logout: Odhlásiť sa
     make_a_donation: 
       text: Darovanie
       title: Podporte OpenStreetMap finančným príspevkom
@@ -1030,6 +1071,7 @@ sk:
     view_tooltip: Zobraziť mapu
     wiki: wiki
     wiki_title: Wiki k projektu
+    wiki_url: http://wiki.openstreetmap.org/
   license_page: 
     foreign: 
       english_link: anglickým originálom
@@ -1567,7 +1609,7 @@ sk:
     confirm: 
       already active: Toto používateľské konto už bolo potvrdené.
       button: Potvrdiť
-      heading: Potvrdiť používateľské konto
+      heading: Skontrolujte vašu emailovú adresu!
       press confirm button: Stlačte tlačítko na potvrdenie dole, pre aktiváciu vášho účtu.
       unknown token: Zadaný potvrdzovací kód neexistuje.
     confirm_email: 
@@ -1758,7 +1800,7 @@ sk:
       no friends: Ešte nemáte pridaných žiadnych priateľov.
       no nearby users: Nie je tu iný používateľ, ktorý priznáva mapovanie v okolí.
       oauth settings: oauth nastavenia
-      remove as friend: odstrániť z priateľov
+      remove as friend: Odstrániť z priateľov
       role: 
         administrator: Tento používateľ je administrátor
         grant: 
@@ -1886,3 +1928,24 @@ sk:
       fail: Nemôžem zrušiť úlohu `%{role}' od používateľa `%{name}'. Prosím skontrolujte aby používateľ a úloha boli oprávnené.
       heading: Potvrdiť zrušenie funkcie
       title: Potvrdiť zrušenie funkcie
+  welcome_page: 
+    add_a_note: 
+      paragraph_1_html: Pokiaľ chcete len opraviť nejakú drobnosť a nemáte čas sa registrovať a učiť sa upravovať, môžete jednoducho pridať poznámku.
+      title: Nie je čas upravovať? Pridajte poznámku!
+    basic_terms: 
+      editor_html: <strong>Editor</strong> je program alebo webovej stránky pomocou ktorej upravujete mapu.
+      node_html: <Strong>uzol</strong> je bod na mape, napr. jedna reštaurácia alebo strom.
+      paragraph_1_html: OpenStreetMap má svoj vlastný žargón. Tu je niekoľko kľúčových slov, ktoré vám prídu vhod.
+      tag_html: <strong>Značka</strong> je trochu údajov o uzle alebo ceste, napr. názov reštaurácie alebo rýchlostný limit cesty.
+      title: Základné pojmy pre mapovanie
+      way_html: <strong>Cesta</strong> je čiara alebo oblasť, ako cesty, vodné toky, jazerá alebo budovy.
+    introduction_html: Vitajte na OpenStreetMap, slobodnej a upravovateľnej mape sveta. Teraz, keď ste zaregistrovaní, môžete začať mapovať. Tu je stručný prehľad najdôležitejších, ktoré potrebujete vedieť.
+    questions: 
+      paragraph_1_html: Potrebujete pomoc s mapovaním alebo vám nie je jasné, ako OpenStreetMap používať? Odpovede na svoje otázky môžete získať na <a href='http://help.openstreetmap.org/'>webe s nápovedou</a>.
+      title: Akékoľvek otázky?
+    start_mapping: Začať mapovať
+    title: Vitajte!
+    whats_on_the_map: 
+      off_html: Čo <em>nezahŕňa</em> sú názory ako hodnotenia, historické či hypotetické objekty a údaje zo zdrojov chránených autorským právom. Pokiaľ nemáte špeciálne oprávnenie, nekopírujte z online nebo papierových máp.
+      on_html: OpenStreetMap je miesto pre mapovanie vecí, ktoré sú zároveň <em>reálne aj aktuálne</em> - obsahuje milióny budov, ciest a ďalšie podrobnosti o miestach. Môžete mapovať čokoľvek, čo vás zaujíma.
+      title: Čo patrí do mapy

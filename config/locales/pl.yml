@@ -10,6 +10,7 @@
 # Author: Deejay1
 # Author: Ireun
 # Author: Kaligula
+# Author: Kocio
 # Author: Nemo bis
 # Author: Odie2
 # Author: Przemub
@@ -21,6 +22,7 @@
 # Author: Woytecr
 # Author: Wpedzich
 # Author: Yarl
+# Author: Zbigniew.czernik
 pl: 
   activerecord: 
     attributes: 
@@ -143,13 +145,13 @@ pl:
       edit: 
         area: Edytuj obszar
         node: Edytuj węzeł
-        note: Edytuj notatkę
+        note: Edytuj uwagę
         relation: Edytuj relację
         way: Edytuj drogę
       larger: 
         area: Zobacz obszar na większej mapie
         node: Zobacz punkt na większej mapie
-        note: Zobacz notatkę na większej mapie
+        note: Zobacz uwagę na większej mapie
         relation: Zobacz relację na większej mapie
         way: Pokaż drogę na większej mapie
       loading: Wczytywanie…
@@ -157,12 +159,12 @@ pl:
       all: 
         next_changeset_tooltip: Następny zestaw zmian
         next_node_tooltip: Następny węzeł
-        next_note_tooltip: Następna notatka
+        next_note_tooltip: Następna uwaga
         next_relation_tooltip: Poprzednia relacja
         next_way_tooltip: Następna droga
         prev_changeset_tooltip: Poprzedni zestaw zmian
         prev_node_tooltip: Poprzedni węzeł
-        prev_note_tooltip: Poprzednia notatka
+        prev_note_tooltip: Poprzednia uwaga
         prev_relation_tooltip: Poprzednia relacja
         prev_way_tooltip: Poprzednia droga
       user: 
@@ -194,11 +196,11 @@ pl:
       at_by_html: "%{when} temu przez użytkownika %{user}"
       at_html: "%{when} temu"
       closed: "Zamknięto:"
-      closed_title: "Rozwiązana notatka: %{note_name}"
+      closed_title: "Rozwiązana uwaga: %{note_name}"
       comments: "Komentarze:"
       description: "Opis:"
       last_modified: "Ostatnio zmodyfikowano:"
-      open_title: "Nierozwiązana notatka: %{note_name}"
+      open_title: "Nierozwiązana uwaga: %{note_name}"
       opened: "Utworzono:"
       title: Uwaga
     paging_nav: 
@@ -445,10 +447,16 @@ pl:
       options: Opcje
       osm_xml_data: Dane XML OpenStreetMap
       output: Wynik
-      paste_html: Użyj podanego kodu HTML, aby umieścić na stronie
+      paste_html: Wklej podany kod HTML do swojej strony
       scale: Skala
       too_large: 
-        other: heading=Obszar za duży
+        body: "Ten obszar jest zbyt duży, aby go wyeksportować jako dane XML OpenStreetMap. Przybliż się, wybierz mniejszy obszar, lub użyj jednego ze następujących źródeł aby objąć pobierane dane:"
+        heading: Obszar zbyt duży
+        other: 
+          title: Inne źródła
+        planet: 
+          description: Regularnie aktualizowane kopie całej bazy danych OpenStreetMap
+          title: Planeta OSM
       zoom: Zoom
     start_rjs: 
       add_marker: Dodaj pinezkę na mapie
@@ -725,7 +733,7 @@ pl:
           residential: Zabudowa mieszkaniowa
           retail: Handel detaliczny
           road: Obszar drogowy
-          village_green: Park miejski
+          village_green: Nawsie
           vineyard: Winnica
           wetland: Tereny podmokłe
           wood: Puszcza
@@ -987,8 +995,9 @@ pl:
   javascripts: 
     close: Zamknij
     key: 
-      title: Klucz mapy
-      tooltip: Klucz mapy
+      title: Legenda
+      tooltip: Legenda
+      tooltip_disabled: Legenda jest dostępna tylko dla warstwy podstawowej
     map: 
       base: 
         cycle_map: Mapa rowerowa
@@ -998,7 +1007,7 @@ pl:
       layers: 
         data: Dane mapy
         header: Warstwy mapy
-        notes: Notatki
+        notes: Uwagi
         overlays: Włącz nakładki do rozwiązywania problemów na mapie
       locate: 
         title: Pokaż moje położenie
@@ -1007,10 +1016,10 @@ pl:
         out: Pomniejsz
     notes: 
       new: 
-        add: Dodaj notatkę
+        add: Dodaj uwagę
         intro: Informacja, którą wprowadzasz, będzie wyświetlana dla innych użytkowników w celu poprawy jakości mapy. Podaj więc jak najwięcej szczegółów oraz ustal pozycję markera tak dokładnie, jak to możliwe.
       show: 
-        anonymous_warning: Notatka zawiera komentarze anonimowych użytkowników, które powinny być niezależnie zweryfikowane.
+        anonymous_warning: Uwaga zawiera komentarze anonimowych użytkowników, które powinny być niezależnie zweryfikowane.
         closed_by: rozwiązana przez <a href='%{user_url}'>%{user}</a> o %{time}
         closed_by_anonymous: rozwiązana przez anonima o %{time}
         comment: Dodaj komentarz
@@ -1028,19 +1037,23 @@ pl:
     share: 
       cancel: Anuluj
       center_marker: Wyśrodkuj mapę na znaczniku
+      custom_dimensions: Ustaw własne wymiary
       download: Pobierz
       embed: HTML
       format: "Format:"
       image: Obraz
+      include_marker: Dołącz pinezkę
       link: Link lub HTML
       long_link: Link
+      paste_html: Wklej podany kod HTML do swojej strony
       scale: "Skala:"
       short_link: Krótki link
       short_url: Krótki URL
       title: Udostępnij
+      view_larger_map: Większy widok mapy
     site: 
-      createnote_disabled_tooltip: Przybliż mapę, aby dodać notatkę
-      createnote_tooltip: Dodaj notatkę na mapie
+      createnote_disabled_tooltip: Przybliż mapę, by dodać uwagę
+      createnote_tooltip: Dodaj uwagę na mapie
       edit_disabled_tooltip: Powiększ, aby edytować mapę
       edit_tooltip: Edytuje mapę
       history_disabled_tooltip: Powiększ, aby zobaczyć zmiany w tym obszarze
@@ -1219,25 +1232,25 @@ pl:
       reopened_at_html: Ponownie aktywowano %{when} temu
     entry: 
       comment: Komentarz
-      full: Pełna notatka
+      full: Pełna treść uwagi
     mine: 
       ago_html: "%{when} temu"
       created_at: Utworzono w dniu
       creator: Autor
       description: Opis
-      heading: Notatki użytkownika %{user}
+      heading: Uwagi użytkownika %{user}
       id: Identyfikator
       last_changed: Ostatnio zmieniono
-      subheading: Notatki stworzone lub skomentowane przez użytkownika %{user}
-      title: Notatki stworzone lub skomentowane przez użytkownika %{user}
+      subheading: Uwagi utworzone lub skomentowane przez użytkownika %{user}
+      title: Uwagi utworzone lub skomentowane przez użytkownika %{user}
     rss: 
-      closed: zamknięta notatka (w pobliżu %{place})
+      closed: "zamknięta uwaga (w lokalizacji: %{place})"
       commented: nowy komentarz (w pobliżu %{place})
       description_area: Lista notatek stworzonych, skomentowanych lub zamkniętych w Twojej okolicy [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-      description_item: Kanał RSS dla notatki %{id}
-      opened: nowa notatka (w pobliżu %{place})
-      reopened: ponownie aktywowana notatka (w pobliżu %{place})
-      title: Notatki OpenStreetMap
+      description_item: Kanał RSS dla uwagi %{id}
+      opened: "nowa uwaga (w lokalizacji: %{place})"
+      reopened: "ponownie aktywowana uwaga (w lokalizacji: %{place})"
+      title: Uwagi OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Możesz również przeczytać komentarz pod %{readurl}, skomentować go pod %{commenturl} lub odpowiedzieć pod %{replyurl}
@@ -1290,20 +1303,20 @@ pl:
     note_comment_notification: 
       anonymous: Anonimowy użytkownik
       closed: 
-        commented_note: "%{commenter} rozwiązał notatkę, którą skomentowałeś. Notatka jest w pobliżu %{place}."
-        subject_other: "[OpenStreetMap] %{commenter} rozwiązał interesującą cię notatkę"
-        subject_own: "[OpenStreetMap] %{commenter} rozwiązał Twoją notatkę"
+        commented_note: "%{commenter} rozwiązał uwagę, którą skomentowałeś. Notatka znajduje się w lokalizacji: %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} rozwiązał interesującą cię uwagę"
+        subject_own: "[OpenStreetMap] %{commenter} rozwiązał Twoją uwagę"
         your_note: "%{commenter} rozwiązał jedną z twoich notatek na mapie w pobliżu %{place}."
       commented: 
-        commented_note: "%{commenter} zostawił komentarz do notatki, którą skomentowałeś. Notatka jest w pobliżu %{place}."
-        subject_other: "[OpenStreetMap] %{commenter} skomentował interesującą cię notatkę"
-        subject_own: "[OpenStreetMap] %{commenter} skomentował Twoją notatkę"
+        commented_note: "%{commenter} zostawił komentarz do uwagi, którą skomentowałeś. Notatka znajduje się w lokalizacji: %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} skomentował interesującą cię uwagę"
+        subject_own: "[OpenStreetMap] %{commenter} skomentował Twoją uwagę"
         your_note: "%{commenter} zostawił komentarz do jednej z twoich notatek na mapie w pobliżu %{place}."
-      details: Więcej informacji na temat notatki można znaleźć na %{url}.
+      details: Więcej informacji na temat uwagi można znaleźć na %{url}.
       greeting: Witaj,
       reopened: 
-        commented_note: "%{commenter} ponownie aktywował notatkę, którą skomentowałeś. Notatka jest w pobliżu %{place}."
-        subject_other: "[OpenStreetMap] %{commenter} ponownie aktywował interesującą cię notatkę"
+        commented_note: "%{commenter} ponownie aktywował uwagę, którą skomentowałeś. Notatka znajduje się w lokalizacji: %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} ponownie aktywował interesującą cię uwagę"
         subject_own: "[OpenStreetMap] %{commenter} ponownie aktywował jedną z Twoich notatek"
         your_note: "%{commenter} ponownie aktywował jedną z twoich notatek na mapie w pobliżu %{place}"
     signup_confirm: 
@@ -1428,7 +1441,7 @@ pl:
       potlatch_unsaved_changes: Masz niezapisane zmiany. (Aby zapisać zmiany w Potlatchu, kliknij przycisk „Zapisz”, bądź też, jeśli edytujesz w trybie „na żywo”, odznacz aktualnie zaznaczony obiekt.)
       user_page_link: stronie użytkownika
     index: 
-      createnote: Dodaj notatkę
+      createnote: Dodaj uwagę
       js_1: Twoja przeglądarka internetowa nie obsługuje JavaScriptu, bądź też masz wyłączoną jego obsługę.
       js_2: OpenStreetMap używa JavaScriptu do wyświetlania tej mapy.
       license: 
@@ -1839,12 +1852,12 @@ pl:
       you need to accept or decline: Prosimy przeczytać i następnie przyjąć lub odrzucić nowe Warunki uczestnictwa, aby kontynuować.
     view: 
       activate_user: aktywuj tego użytkownika
-      add as friend: dodaj do znajomych
+      add as friend: Dodaj do znajomych
       ago: (%{time_in_words_ago} temu)
       block_history: otrzymane blokady
       blocks by me: nałożone blokady
       blocks on me: otrzymane blokady
-      comments: komentarze
+      comments: Komentazre
       confirm: Potwierdź
       confirm_user: zatwierdź tego użytkownika
       create_block: zablokuj tego użytkownika
@@ -1856,8 +1869,8 @@ pl:
       deactivate_user: dezaktywuj tego użytkownika
       delete_user: usuń to konto
       description: Opis
-      diary: dziennik
-      edits: edycje
+      diary: Dziennik
+      edits: Edycje
       email address: Adres e‐mail
       friends_changesets: zestawy zmian znajomych
       friends_diaries: wpisy w dziennikach znajomych
@@ -1868,21 +1881,22 @@ pl:
       m away: "%{count}m stąd"
       mapper since: "Mapuje od:"
       moderator_history: nałożone blokady
-      my comments: moje komentarze
-      my diary: mój dziennik
-      my edits: moje zmiany
-      my notes: moje notatki
-      my settings: moje ustawienia
-      my traces: moje ślady
+      my comments: Moje Komentarze
+      my diary: Mój Dziennik
+      my edits: Moje Zmiany
+      my notes: Moje uwagi
+      my profile: Mój profil
+      my settings: Moje Ustawienia
+      my traces: Moje Ślady
       nearby users: Najbliżsi użytkownicy
       nearby_changesets: pobliskie zestawy zmian
       nearby_diaries: pobliskie wpisy w dziennikach
       new diary entry: nowy wpis w dzienniku
       no friends: Nie masz jeszcze dodanych żadnych znajomych.
       no nearby users: Nie ma innych użytkowników, którzy przyznają się do mapowania w tej okolicy.
-      notes: notatki
+      notes: Uwagi
       oauth settings: ustawienia oauth
-      remove as friend: usuń ze znajomych
+      remove as friend: Usuń ze znajomych
       role: 
         administrator: Ten użytkownik jest administratorem
         grant: 
@@ -1892,11 +1906,11 @@ pl:
         revoke: 
           administrator: Cofnij dostęp administratora
           moderator: Cofnij dostęp moderatora
-      send message: wyślij wiadomość
+      send message: Wyślij Wiadomość
       settings_link_text: stronie ustawień
       spam score: "Punktacja spamu:"
       status: "Stan:"
-      traces: ślady
+      traces: Ślady
       unhide_user: odkryj tego użytkownika
       user location: Lokalizacja użytkownika
       your friends: Twoi znajomi
@@ -2011,7 +2025,14 @@ pl:
       title: Potwierdź cofanie roli
   welcome_page: 
     add_a_note: 
-      title: Nie masz czasu na edycję? Dodaj notatkę!
+      title: Nie masz czasu na edycję? Zgłoś błąd dodając uwagę!
+    basic_terms: 
+      editor_html: <strong>Edytor</strong> to program lub strona która pozwala na edycję mapy.
+      node_html: <strong>Węzeł</strong> to punkt na mapie, np. latarnia lub drzewo.
+      paragraph_1_html: OpenStreetMap ma własny slang. Oto kilka słów które ci się przydadzą.
+      tag_html: <strong>Tag</strong> to część danych opisująca linię lub węzeł, np. Nazwa ulicy lub jej  ograniczenie prędkości.
+      title: Podstawowe Zasady do Mapowania
+      way_html: <strong>Linia</strong> to droga lub obszar, np. ulica, rzeka, jezioro lub budynek.
     introduction_html: Witamy w OpenStreetMap, wolnej mapie świata. Teraz gdy masz już konto, możesz przystąpić do mapowania. Oto krótki przewodnik z najważniejszymi rzeczami, o których musisz wiedzieć.
     questions: 
       title: Jakieś pytania?
