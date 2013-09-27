@@ -77,27 +77,32 @@
       </div>
     </div>
     <div id='top-bar'>
-      <ul class='secondary-actions'>
-        <li><%= link_to t('layouts.help'), help_path %></li>
-      </ul>
-      <% if @user and @user.id %>
-        <%= render :partial => "layouts/user_menu" %>
-      <% else %>
-        <ul class='secondary-actions' id='greeting'>
-          <li><%= link_to t('layouts.log_in'), login_path(:referer => request.fullpath), {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %></li>
-          <li><%= link_to t('layouts.sign_up'), user_new_path, {:id => 'registeranchor', :title => t('layouts.sign_up_tooltip')} %></li>
+      <nav class='primary'>
+        <ul>
+          <li id="view_tab">
+            <%= link_to t('layouts.view'), root_path, :class => 'tab geolink llz layers' %>
+          </li><li id="edit_tab">
+            <%= render :partial => 'layouts/edit_menu',
+                       :locals => { :link_text => t('layouts.edit'), :link_class => 'llz object' }%>
+          </li><li id="history_tab">
+            <%= link_to t('layouts.history'), browse_changesets_path, :class => 'tab geolink bbox' %>
+          </li>
         </ul>
-      <% end %>
-      <ul id="tabnav">
-        <li id="view_tab">
-          <%= link_to t('layouts.view'), root_path, :class => 'tab geolink llz layers' %>
-        </li><li id="edit_tab">
-          <%= render :partial => 'layouts/edit_menu',
-                     :locals => { :link_text => t('layouts.edit'), :link_class => 'llz object' }%>
-        </li><li id="history_tab">
-          <%= link_to t('layouts.history'), browse_changesets_path, :class => 'tab geolink bbox' %>
-        </li>
-      </ul>
+      </nav>
+      <nav class='secondary'>
+        <% if @user and @user.id %>
+          <ul>
+            <li><%= link_to t('layouts.help'), help_path %></li>
+          </ul>
+          <%= render :partial => "layouts/user_menu" %>
+        <% else %>
+          <ul class="secondary-actions">
+            <li><%= link_to t('layouts.help'), help_path %></li>
+            <li><%= link_to t('layouts.log_in'), login_path(:referer => request.fullpath), {:id => 'loginanchor', :title => t('layouts.log_in_tooltip')} %></li>
+            <li><%= link_to t('layouts.sign_up'), user_new_path, {:id => 'registeranchor', :title => t('layouts.sign_up_tooltip')} %></li>
+          </ul>
+        <% end %>
+      </nav>
     </div>
     <div class="wrapper">
       <%= render :partial => "layouts/flash", :locals => { :flash => flash } %>
