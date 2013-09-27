@@ -493,15 +493,21 @@ a.donate {
   right: 0;
 }
 
-#tabnav {
+#top-bar nav > ul {
   height: 29px;
   margin-bottom: 0;
+}
 
-  > li {
-    float: left;
+nav.primary {
+  float: left;
 
-    > * {
-      padding: 3px $lineheight/2;
+  > ul {
+    > li {
+      float: left;
+
+      > * {
+        padding: 3px $lineheight/2;
+      }
     }
   }
 
@@ -546,28 +552,17 @@ a.donate {
   color: #000;
 }
 
-/* Utility for styling notification numbers */
-
-.count-number {
-  padding: 2px $lineheight/4;
-  border-radius: 2px;
-  background: #d7d7ff;
-  margin: 0 2px;
-  font-size: 11px;
-  color: #333;
-}
-
-/* Rules for greeting bar in the top right corner */
-
-#greeting {
+nav.secondary {
   float: right;
   height: 100%;
 
-  &.secondary-actions {
+  > ul {
+    display: inline-block;
     padding: 3px $lineheight/2;
   }
 
-  &.dropdown {
+  .dropdown {
+    display: inline-block;
     background-color: #EEE;
     &:hover {
       background-color: #CCC;
@@ -607,6 +602,17 @@ a.donate {
       margin: 0;
     }
   }
+}
+
+/* Utility for styling notification numbers */
+
+.count-number {
+  padding: 2px $lineheight/4;
+  border-radius: 2px;
+  background: #d7d7ff;
+  margin: 0 2px;
+  font-size: 11px;
+  color: #333;
 }
 
 /* Rules for the message shown in place of the map when javascript is disabled */
