@@ -97,7 +97,15 @@ class SiteController < ApplicationController
       anchor << "layers=N"
     end
 
-    if anchor.present?
+    if params[:node]
+      redirect_to node_path(params[:node])
+    elsif params[:way]
+      redirect_to way_path(params[:way])
+    elsif params[:relation]
+      redirect_to relation_path(params[:relation])
+    elsif params[:note]
+      redirect_to browse_note_path(params[:note])
+    elsif anchor.present?
       redirect_to params.merge(:anchor => anchor.join('&'))
     end
   end

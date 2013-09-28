@@ -103,11 +103,11 @@ OpenStreetMap::Application.routes.draw do
 
   # Data browsing
   match '/browse/start' => 'browse#start', :via => :get
-  match '/browse/way/:id' => 'browse#way', :via => :get, :id => /\d+/
+  match '/browse/way/:id' => 'browse#way', :via => :get, :id => /\d+/, :as => :way
   match '/browse/way/:id/history' => 'browse#way_history', :via => :get, :id => /\d+/
-  match '/browse/node/:id' => 'browse#node', :via => :get, :id => /\d+/
+  match '/browse/node/:id' => 'browse#node', :via => :get, :id => /\d+/, :as => :node
   match '/browse/node/:id/history' => 'browse#node_history', :via => :get, :id => /\d+/
-  match '/browse/relation/:id' => 'browse#relation', :via => :get, :id => /\d+/
+  match '/browse/relation/:id' => 'browse#relation', :via => :get, :id => /\d+/, :as => :relation
   match '/browse/relation/:id/history' => 'browse#relation_history', :via => :get, :id => /\d+/
   match '/browse/changeset/:id' => 'browse#changeset', :via => :get, :as => :changeset, :id => /\d+/
   match '/browse/note/:id' => 'browse#note', :via => :get, :id => /\d+/, :as => "browse_note"
