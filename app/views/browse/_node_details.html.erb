@@ -18,7 +18,7 @@
       <h4><%= t 'browse.node_details.part_of' %></h4>
       <ul>
           <% node_details.ways.each do |way| %>
-            <li><%= link_to h(printable_name(way, t('browse.way.way'))), { :action => "way", :id => way.id.to_s }, :class => link_class('way', way), :title => link_title(way) %></li>
+            <li><%= link_to h(printable_name(way, {:type => t('browse.way.way')})), { :action => "way", :id => way.id.to_s }, :class => link_class('way', way), :title => link_title(way) %></li>
           <% end %>
           <%= render :partial => "containing_relation", :collection => node_details.containing_relation_members %>
       </ul>

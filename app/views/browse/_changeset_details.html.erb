@@ -41,7 +41,7 @@
       <h4><%= t 'browse.changeset_details.has_nodes', :count => @node_pages.item_count %></h4>
       <ul>
           <% @nodes.each do |node| %>
-            <li><%= link_to h(printable_name(node, false, true)), { :action => "node", :id => node.node_id.to_s }, :class => link_class('node', node), :title => link_title(node) %></li>
+            <li><%= link_to h(printable_name(node, {:version => true})), { :action => "node", :id => node.node_id.to_s }, :class => link_class('node', node), :title => link_title(node) %></li>
           <% end %>
       </ul>
     </div>
@@ -53,7 +53,7 @@
       <h4><%= t 'browse.changeset_details.has_ways', :count => @way_pages.item_count %></h4>
       <ul>
           <% @ways.each do |way| %>
-          <li><%= link_to h(printable_name(way, false, true)), { :action => "way", :id => way.way_id.to_s }, :class => link_class('way', way), :title => link_title(way) %></li>
+          <li><%= link_to h(printable_name(way, {:version => true})), { :action => "way", :id => way.way_id.to_s }, :class => link_class('way', way), :title => link_title(way) %></li>
           <% end %>
           <%=
           #render :partial => "containing_relation", :collection => changeset_details.containing_relation_members
@@ -68,7 +68,7 @@
       <h4><%= t 'browse.changeset_details.has_relations', :count => @relation_pages.item_count %></h4>
         <ul>
           <% @relations.each do |relation| %>
-          <li><%= link_to h(printable_name(relation, false, true)), { :action => "relation", :id => relation.relation_id.to_s }, :class => link_class('relation', relation), :title => link_title(relation) %></li>
+          <li><%= link_to h(printable_name(relation, {:version => true})), { :action => "relation", :id => relation.relation_id.to_s }, :class => link_class('relation', relation), :title => link_title(relation) %></li>
           <% end %>
         </ul>
     </div>
