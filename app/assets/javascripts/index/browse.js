@@ -63,10 +63,7 @@ function initializeBrowse(map, params) {
 
     locationFilter.on("change", getData);
 
-    $("#sidebar_title").html(I18n.t('browse.start_rjs.data_frame_title'));
     $("#sidebar_content").html(sidebarHtml);
-
-    openSidebar();
 
     if (browseObjectList) loadObjectList();
 

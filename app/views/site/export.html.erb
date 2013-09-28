@@ -3,10 +3,11 @@
 <% end %>
 
 <% content_for :sidebar do %>
+  <h2><%= t 'export.start_rjs.export' %></h2>
   <%= form_tag :controller => "export", :action => "finish" do %>
     <%= hidden_field_tag 'format', 'osm' %>
 
-    <div class="export_bounds inner12">
+    <div class="export_bounds inner22">
       <div class='export_area_inputs'>
         <%= text_field_tag('maxlat', nil, :size => 10, :class => "export_bound") %>
         <br/>
@@ -21,14 +22,14 @@
     <div id="export_osm">
       <h4><%= t'export.start.licence' %></h4>
 
-      <div class="export_details inner12">
+      <div class="export_details">
         <p><%= raw t'export.start.export_details' %></p>
       </div>
 
       <div  id="export_osm_too_large">
         <h4><%= t'export.start.too_large.heading' %></h4>
 
-        <div class="export_details inner12">
+        <div class="export_details">
           <p><%= t'export.start.too_large.body' %></p>
           <dl>
             <dt><a href="http://planet.openstreetmap.org/"><%= t'export.start.too_large.planet.title' %></a></dt>
@@ -47,7 +48,7 @@
       </div>
     </div>
 
-    <div class="inner12">
+    <div class="inner22">
       <%= submit_tag t('export.start.export_button'), :id => "export_commit" %>
     </div>
   <% end %>

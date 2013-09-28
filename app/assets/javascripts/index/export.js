@@ -9,17 +9,15 @@ function initializeExport(map) {
       adjustButton: false
     }).addTo(map);
 
+    update();
+
     locationFilter.on("change", update);
 
     map.on("moveend", update);
 
-    $("#sidebar_title").html(I18n.t('export.start_rjs.export'));
-
     $("#maxlat,#minlon,#maxlon,#minlat").change(boundsChanged);
 
     $("#drag_box").click(enableFilter);
-
-    openSidebar();
 
     setBounds(map.getBounds());
 

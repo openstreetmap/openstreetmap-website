@@ -91,10 +91,6 @@ $(document).ready(function () {
   map.dataLayer = new L.OSM.DataLayer(null);
   map.dataLayer.options.code = 'D';
 
-  $("#sidebar").on("opened closed", function () {
-    map.invalidateSize();
-  });
-
   var position = $('html').attr('dir') === 'rtl' ? 'topleft' : 'topright';
 
   L.OSM.zoom({position: position})

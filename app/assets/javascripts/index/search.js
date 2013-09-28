@@ -21,7 +21,6 @@ function initializeSearch(map) {
 
     var bounds = map.getBounds();
 
-    $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
     $("#sidebar_content").load($(this).attr("action"), {
       query: $("#query").val(),
       zoom: map.getZoom(),
@@ -30,8 +29,6 @@ function initializeSearch(map) {
       maxlon: bounds.getEast(),
       maxlat: bounds.getNorth()
     });
-
-    openSidebar();
 
     $("#sidebar").one("closed", function () {
       map.removeLayer(marker);
@@ -67,11 +64,10 @@ function initializeSearch(map) {
     var center = map.getCenter(),
       zoom = map.getZoom();
 
-    $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
     $("#sidebar_content").load($(this).attr("href"), {
       lat: center.lat,
       lon: center.lng,
       zoom: zoom
-    }, openSidebar);    
+    });
   }
 }
