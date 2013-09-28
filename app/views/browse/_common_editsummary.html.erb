@@ -1,25 +1,22 @@
-    <% if common_editsummary.visible? %>
-      <%= t 'browse.common_details.edited_at' %>
-    <% else %>
-      <%= t 'browse.common_details.deleted_at' %>
-    <% end %>
+<%
+@agohtml = "<abbr title='%s'>%s</abbr>" % [l(common_editsummary.timestamp), t('browse.common_details.ago', :time_in_words_ago => time_ago_in_words(common_editsummary.timestamp))]
 
-    <abbr title="<%= l common_editsummary.timestamp %>"><%= t 'browse.common_details.ago', :time_in_words_ago => time_ago_in_words(common_editsummary.timestamp) %></abbr>
-
-
-  <% if common_editsummary.changeset.user.data_public? %>
-      <% if common_editsummary.visible? %>
-        <%= t 'browse.common_details.edited_by' %>
-      <% else %>
-        <%= t 'browse.common_details.deleted_by' %>
-      <% end %>
-      <%= link_to h(common_editsummary.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_editsummary.changeset.user.display_name %>
+if common_editsummary.changeset.user.data_public?
+  @userhtml = link_to h(common_editsummary.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_editsummary.changeset.user.display_name
+  if common_editsummary.visible? %>
+      <%= raw t 'browse.common_details.edited_ago_by', :time_in_words_ago => @agohtml, :user => @userhtml %>
+  <% else %>
+      <%= raw t 'browse.common_details.deleted_ago_by', :time_in_words_ago => @agohtml, :user => @userhtml %>
   <% end %>
+<% else %>
+  <% if common_editsummary.visible? %>
+      <%= raw t 'browse.common_details.edited_ago', :time_in_words_ago => @agohtml %>
+  <% else %>
+      <%= raw t 'browse.common_details.deleted_ago', :time_in_words_ago => @agohtml %>
+  <% end %>
+<% end %>
 
   &middot;
 
-    <%= t 'browse.common_details.version' %>
-    <%= h(common_editsummary.version) %>
-    <%= t 'browse.common_details.in_changeset' %>
-    <%= link_to common_editsummary.changeset_id, :action => :changeset, :id => common_editsummary.changeset_id %>
+    <%= raw t 'browse.common_details.version_in_changeset', :version => common_editsummary.version, :changeset => link_to(common_editsummary.changeset_id, :action => :changeset, :id => common_editsummary.changeset_id) %>
 
