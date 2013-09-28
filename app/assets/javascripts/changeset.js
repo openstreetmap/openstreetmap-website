@@ -1,13 +1,5 @@
-$(document).ready(function () {
+function initializeChangesets(map) {
   var changesets = [], rects = {};
-
-  var map = L.map("changeset_list_map", {
-    attributionControl: false,
-    zoomControl: false
-  }).addLayer(new L.OSM.Mapnik());
-
-  L.OSM.zoom()
-    .addTo(map);
 
   var group = L.featureGroup().addTo(map);
 
@@ -60,14 +52,4 @@ $(document).ready(function () {
       unHighlightChangeset($(this).data("changeset").id);
     }
   });
-
-  $(window).scroll(function() {
-        if ($(window).scrollTop() > $('.content-heading').outerHeight() + $('#top-bar').outerHeight() ) {
-            $('#changeset_list_map_wrapper').addClass('scrolled');
-        } else {
-            $('#changeset_list_map_wrapper').removeClass('scrolled');
-        }
-  });
-
-  map.fitBounds(OSM.mapParams().bounds || group.getBounds());
-});
+}

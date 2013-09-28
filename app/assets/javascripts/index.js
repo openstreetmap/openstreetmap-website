@@ -211,6 +211,8 @@ $(document).ready(function () {
   initializeExport(map);
   initializeBrowse(map, params);
   initializeNotes(map, params);
+
+  if ('undefined' !== typeof initializeChangesets) initializeChangesets(map);
 });
 
 function updateLocation() {

@@ -1,37 +1,23 @@
 <% content_for :head do -%>
+  <%= javascript_include_tag "index" %>
   <%= javascript_include_tag "changeset" %>
-<% end -%>
 
-<% content_for :heading do %>
-
-  <h1><%= @heading %></h1>
-  <ul class='secondary-actions clearfix'>
-    <li><%= raw(@description) %></li>
-    <% unless params[:friends] or params[:nearby] -%>
-      <li><%= atom_link_to params.merge({ :page => nil, :action => :feed }) %></li>
-    <% end -%>
-  </ul>
-
-<% end %>
-
-<%= render :partial => 'changeset_paging_nav' %>
-
-<% if @edits.size > 0 %>
-  <div id='changeset_list_map_wrapper'>
-    <%= render :partial => 'map' %>
-  </div>
-  <div class='column-1'>
-    <%= render :partial => 'changesets', :locals => { :showusername => !params.has_key?(:display_name) } %>
-  </div>
-  <%= render :partial => 'changeset_paging_nav' %>
-<% elsif @user and @user.display_name == params[:display_name] %>
-  <h4><%= t('changeset.list.empty_user_html') %></h4>
-<% else %>
-  <h4><%= t('changeset.list.empty_anon_html') %></h4>
-<% end %>
-
-<% unless params[:friends] or params[:nearby] -%>
-  <% content_for :head do -%>
+  <% unless params[:friends] or params[:nearby] -%>
     <%= auto_discovery_link_tag :atom, params.merge({ :page => nil, :action => :feed }) %>
   <% end -%>
 <% end -%>
+
+<% content_for :sidebar do %>
+  <h2><%= @heading %></h2>
+
+  <% if @edits.size > 0 %>
+    <%= render :partial => 'changesets', :locals => { :showusername => !params.has_key?(:display_name) } %>
+    <%= render :partial => 'changeset_paging_nav' %>
+  <% elsif @user and @user.display_name == params[:display_name] %>
+    <h4><%= t('changeset.list.empty_user_html') %></h4>
+  <% else %>
+    <h4><%= t('changeset.list.empty_anon_html') %></h4>
+  <% end %>
+<% end %>
+
+<%= render :template => 'layouts/map' %>

@@ -296,7 +296,6 @@ class ChangesetController < ApplicationController
 
       if bbox
         changesets = conditions_bbox(changesets, bbox)
-        bbox_link = render_to_string :partial => "bbox", :object => bbox
       end
 
       if user
@@ -305,28 +304,16 @@ class ChangesetController < ApplicationController
 
       if params[:friends] and @user
         @title =  t 'changeset.list.title_friend'
-        @heading =  t 'changeset.list.heading_friend'
-        @description = t 'changeset.list.description_friend'
+        @heading =  t 'changeset.list.title_friend'
       elsif params[:nearby] and @user
         @title = t 'changeset.list.title_nearby'
-        @heading = t 'changeset.list.heading_nearby'
-        @description = t 'changeset.list.description_nearby'
-      elsif user and bbox
-        @title =  t 'changeset.list.title_user_bbox', :user => user.display_name, :bbox => bbox.to_s
-        @heading =  t 'changeset.list.heading_user_bbox', :user => user.display_name, :bbox => bbox.to_s
-        @description = t 'changeset.list.description_user_bbox', :user => user_link, :bbox => bbox_link
+        @heading = t 'changeset.list.title_nearby'
       elsif user
         @title =  t 'changeset.list.title_user', :user => user.display_name
-        @heading =  t 'changeset.list.heading_user', :user => user.display_name
-        @description = t 'changeset.list.description_user', :user => user_link
-      elsif bbox
-        @title =  t 'changeset.list.title_bbox', :bbox => bbox.to_s
-        @heading =  t 'changeset.list.heading_bbox', :bbox => bbox.to_s
-        @description = t 'changeset.list.description_bbox', :bbox => bbox_link
+        @heading =  t('changeset.list.title_user', :user => user_link).html_safe
       else
         @title =  t 'changeset.list.title'
-        @heading =  t 'changeset.list.heading'
-        @description = t 'changeset.list.description'
+        @heading =  t 'changeset.list.title'
       end
 
       @page = (params[:page] || 1).to_i
