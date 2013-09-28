@@ -158,14 +158,6 @@ $(document).ready(function () {
     }
   }
 
-  if (params.box) {
-    L.rectangle(params.box, {
-      weight: 2,
-      color: '#e90',
-      fillOpacity: 0
-    }).addTo(map);
-  }
-
   if (params.marker) {
     marker.setLatLng([params.mlat, params.mlon]).addTo(map);
   }

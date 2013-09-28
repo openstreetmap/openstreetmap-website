@@ -12,7 +12,7 @@ OSM = {
   apiUrl: function (object) {
     var url = "/api/" + OSM.API_VERSION + "/" + object.type + "/" + object.id;
 
-    if (object.type != "node") {
+    if (object.type === "way" || object.type === "relation") {
       url += "/full";
     } else if (object.version) {
       url += "/" + object.version;
@@ -38,7 +38,7 @@ OSM = {
   },
 
   mapParams: function (search) {
-    var params = OSM.params(search), mapParams = {}, bounds, loc;
+    var params = OSM.params(search), mapParams = {}, bounds, loc, match;
 
     if (params.mlon && params.mlat) {
       mapParams.marker = true;
@@ -46,7 +46,11 @@ OSM = {
       mapParams.mlat = parseFloat(params.mlat);
     }
 
-    if (params.node || params.way || params.relation) {
+    match = window.location.pathname.match(/\/browse\/(node|way|relation|changeset)\/(\d+)/);
+    if (match) {
+      mapParams.object_zoom = true;
+      mapParams.object = {type: match[1], id: parseInt(match[2])};
+    } else if (params.node || params.way || params.relation || params.note) {
       mapParams.object_zoom = true;
 
       if (params.node) {
@@ -56,6 +60,13 @@ OSM = {
       } else if (params.relation) {
         mapParams.object = {type: 'relation', id: parseInt(params.relation)};
       }
+    }
+
+    match = window.location.pathname.match(/\/browse\/note\/(\d+)/);
+    if (match) {
+      mapParams.note = parseInt(match[1]);
+    } else if (params.note) {
+      mapParams.note = parseInt(params.note);
     }
 
     if (params.bbox) {
@@ -71,10 +82,6 @@ OSM = {
          parseFloat(params.minlon)],
         [parseFloat(params.maxlat),
          parseFloat(params.maxlon)]);
-    }
-
-    if (params.box === 'yes') {
-      mapParams.box = bounds;
     }
 
     var hash = OSM.parseHash(location.hash);
@@ -122,10 +129,6 @@ OSM = {
     }
 
     mapParams.layers = hash.layers || (loc && loc[3]) || '';
-
-    if (params.note) {
-      mapParams.note = parseInt(params.note);
-    }
 
     var scale = parseFloat(params.scale);
     if (scale > 0) {
