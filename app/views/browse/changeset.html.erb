@@ -1,18 +1,72 @@
 <% content_for :head do %>
-<%= stylesheet_link_tag 'browse' %>
+  <%= stylesheet_link_tag 'browse' %>
+  <%= javascript_include_tag 'index' %>
 <% end %>
 
-<% content_for :heading do %>
+<% content_for :sidebar do %>
   <h2><%= t 'browse.changeset.changeset', :id => @changeset.id %></h2>
+
+  <div class='browse-section common'>
+    <div class='browse-field'>
+      <h4><%= t 'browse.changeset_details.created_at' %></h4>
+      <p><%= l @changeset.created_at %></p>
+    </div>
+
+    <div class='browse-field'>
+      <h4><%= t 'browse.changeset_details.closed_at' %></h4>
+      <p><%= l @changeset.closed_at %></p>
+    </div>
+
+    <% if @changeset.user.data_public? %>
+      <div class='browse-field'>
+        <h4><%= t 'browse.changeset_details.belongs_to' %></h4>
+        <p><%= link_to h(@changeset.user.display_name), :controller => "user", :action => "view", :display_name => @changeset.user.display_name %></p>
+      </div>
+    <% end %>
+  </div>
+
+  <%= render :partial => "tag_details", :object => @changeset %>
+
+  <% unless @nodes.empty? %>
+    <div class='browse-section clearfix'>
+      <h4><%= t 'browse.changeset_details.has_nodes', :count => @node_pages.item_count %></h4>
+      <ul>
+        <% @nodes.each do |node| %>
+          <li><%= link_to h(printable_name(node, true)), { :action => "node", :id => node.node_id.to_s }, :class => link_class('node', node), :title => link_title(node) %></li>
+        <% end %>
+      </ul>
+    </div>
+    <%= render :partial => 'paging_nav', :locals => { :pages => @node_pages, :page_param => "node_page"} %>
+  <% end %>
+
+  <% unless @ways.empty? %>
+    <div class='browse-section clearfix'>
+      <h4><%= t 'browse.changeset_details.has_ways', :count => @way_pages.item_count %></h4>
+      <ul>
+        <% @ways.each do |way| %>
+          <li><%= link_to h(printable_name(way, true)), { :action => "way", :id => way.way_id.to_s }, :class => link_class('way', way), :title => link_title(way) %></li>
+        <% end %>
+      </ul>
+    </div>
+    <%= render :partial => 'paging_nav', :locals => { :pages => @way_pages, :page_param => "way_page" } %>
+  <% end %>
+
+  <% unless @relations.empty? %>
+    <div class='browse-section clearfix'>
+      <h4><%= t 'browse.changeset_details.has_relations', :count => @relation_pages.item_count %></h4>
+        <ul>
+          <% @relations.each do |relation| %>
+            <li><%= link_to h(printable_name(relation, true)), { :action => "relation", :id => relation.relation_id.to_s }, :class => link_class('relation', relation), :title => link_title(relation) %></li>
+          <% end %>
+        </ul>
+    </div>
+    <%= render :partial => 'paging_nav', :locals => { :pages => @relation_pages, :page_param => "relation_page" } %>
+  <% end %>
+
   <ul class='secondary-actions clearfix'>
     <li><%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %></li>
     <li><%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %></li>
   </ul>
 <% end %>
 
-<%= render :partial => "navigation" %>
-
-<% if @changeset.has_valid_bbox? %>
-<%= render :partial => "map", :object => @changeset %>
-<% end %>
-<%= render :partial => "changeset_details", :object => @changeset %>
+<%= render :template => 'layouts/map' %>

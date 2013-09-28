@@ -1,19 +1,10 @@
 <% content_for :head do %>
-<%= stylesheet_link_tag 'browse' %>
+  <%= stylesheet_link_tag 'browse' %>
+  <%= javascript_include_tag 'index' %>
 <% end %>
 
-<% content_for :heading do %>
-  <h2>
-    <%= image_tag "#{@note.status}_note_marker.png", :alt => @note.status %>
-    <%= t "browse.note.#{@note.status}_title", :note_name => @note.id %>
-  </h2>
-<% end %>
-
-<%= render :partial => "navigation" %>
-
-<%= render :partial => "map", :object => @note %>
-
-<div class='column-1'>
+<% content_for :sidebar do %>
+  <h2><%= t "browse.note.#{@note.status}_title", :note_name => @note.id %></h2>
 
   <% if @note.comments.find { |comment| comment.author.nil? } -%>
   <div class='browse-section common'>
@@ -22,29 +13,29 @@
   <% end -%>
 
   <div class='browse-section common'>
-    <div>
+    <div class='browse-field'>
       <h4><%= t "browse.note.opened" %></h4>
       <p><%= note_event(@note.created_at, @note.author) %></p>
     </div>
 
     <% if @note.status == "closed" %>
-      <div>
+      <div class='browse-field'>
         <h4><%= t "browse.note.closed" %></h4>
         <p><%= note_event(@note.closed_at, @note.comments.last.author) %></p>
-      </div>  
+      </div>
     <% elsif @note.comments.length > 1 %>
-      <div>
+      <div class='browse-field'>
         <h4><%= t "browse.note.last_modified" %></h4>
         <p><%= note_event(@note.updated_at, @note.comments.last.author) %></p>
-      </div>  
+      </div>
     <% end %>
 
-    <div id="c<%= @note.comments.first.id %>">
+    <div class='browse-field' id="c<%= @note.comments.first.id %>">
       <h4><%= t "browse.note.description" %></h4>
       <p><%= h(@note.comments.first.body.to_html) %></p>
     </div>
 
-    <div>
+    <div class='browse-field'>
       <h4><%= t "browse.node_details.coordinates" %></h4>
       <p class="geo"><%= link_to ("<span class='latitude'>#{number_with_delimiter(@note.lat)}</span>, <span class='longitude'>#{number_with_delimiter(@note.lon)}</span>".html_safe), {:controller => 'site', :action => 'index', :lat => h(@note.lat), :lon => h(@note.lon), :zoom => "18"} %></p>
     </div>
@@ -63,5 +54,6 @@
       </ul>
     </div>
   <% end %>
+<% end %>
 
-</div>
+<%= render :template => 'layouts/map' %>

@@ -2,12 +2,17 @@
 @name = printable_name @node
 @title = t('browse.node.node') + ' | ' + @name
 %>
+
 <% content_for :head do %>
-<%= stylesheet_link_tag 'browse' %>
+  <%= stylesheet_link_tag 'browse' %>
+  <%= javascript_include_tag 'index' %>
 <% end %>
 
-<% content_for :heading do %>
+<% content_for :sidebar do %>
   <h2><%= t'browse.node.node_title', :node_name => @name %></h2>
+
+  <%= render :partial => "node_details", :object => @node %>
+
   <ul class='secondary-actions clearfix'>
     <li><%= link_to(t('browse.node.download_xml'), :controller => "node", :action => "read") %></li>
     <li><%= link_to(t('browse.node.view_history'), :action => "node_history") %></li>
@@ -16,12 +21,5 @@
     <% end -%>
   </ul>
 <% end %>
-<%= render :partial => "navigation" %>
 
-<% if @node.visible -%>
-<%= render :partial => "map", :object => @node %>
-<% end -%>
-
-<div class='column-1'>
-  <%= render :partial => "node_details", :object => @node %>
-</div>
+<%= render :template => 'layouts/map' %>

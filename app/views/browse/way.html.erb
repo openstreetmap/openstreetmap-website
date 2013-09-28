@@ -2,12 +2,17 @@
 @name = printable_name @way
 @title = t('browse.way.way') + ' | ' + @name
 %>
+
 <% content_for :head do %>
-<%= stylesheet_link_tag 'browse' %>
+  <%= stylesheet_link_tag 'browse' %>
+  <%= javascript_include_tag 'index' %>
 <% end %>
 
-<% content_for :heading do %>
+<% content_for :sidebar do %>
   <h2><%= t'browse.way.way_title', :way_name => @name %></h2>
+
+  <%= render :partial => "way_details", :object => @way %>
+
   <ul class='secondary-actions clearfix'>
     <li><%= link_to(t('browse.way.download_xml'), :controller => "way", :action => "read") %></li>
     <li><%= link_to(t('browse.way.view_history'), :action => "way_history") %></li>
@@ -15,9 +20,4 @@
   </ul>
 <% end %>
 
-<%= render :partial => "navigation" %>
-<%= render :partial => "map", :object => @way %>
-
-<div class='column-1'>
-  <%= render :partial => "way_details", :object => @way %>
-</div>
+<%= render :template => 'layouts/map' %>

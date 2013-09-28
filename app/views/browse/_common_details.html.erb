@@ -1,5 +1,5 @@
 <div class='browse-section common'>
-  <div>
+  <div class='browse-field'>
     <% if common_details.visible? %>
       <h4><%= t 'browse.common_details.edited_at' %></h4>
     <% else %>
@@ -9,7 +9,7 @@
   </div>
 
   <% if common_details.changeset.user.data_public? %>
-    <div>
+    <div class='browse-field'>
       <% if common_details.visible? %>
         <h4><%= t 'browse.common_details.edited_by' %></h4>
       <% else %>
@@ -19,18 +19,18 @@
     </div>
   <% end %>
 
-  <div>
+  <div class='browse-field'>
     <h4><%= t 'browse.common_details.version' %></h4>
     <p><%= h(common_details.version) %></p>
   </div>
 
-  <div>
+  <div class='browse-field'>
     <h4><%= t 'browse.common_details.in_changeset' %></h4>
     <p><%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %></p>
   </div>
 
   <% if common_details.changeset.tags['comment'].present? %>
-    <div>
+    <div class='browse-field'>
       <h4><%= t 'browse.common_details.changeset_comment' %></h4>
       <p><%= linkify(h(common_details.changeset.tags['comment'])) %></p>
     </div>

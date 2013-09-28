@@ -23,7 +23,6 @@ $(document).ready(function () {
     }).addTo(map);
 
     $("#loading").hide();
-    $("#browse_map .secondary-actions").show();
 
     $("a[data-editor=remote]").click(function () {
       return remoteEditHandler(bbox);
@@ -41,7 +40,6 @@ $(document).ready(function () {
     bbox = map.getBounds();
 
     $("#loading").hide();
-    $("#browse_map .secondary-actions").show();
 
     $("a[data-editor=remote]").click(function () {
       return remoteEditHandler(bbox);

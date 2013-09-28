@@ -2,24 +2,23 @@
 @name = printable_name @node
 @title = t('browse.node_history.node_history') + ' | ' + @name
 %>
+
 <% content_for :head do %>
-<%= stylesheet_link_tag 'browse' %>
+  <%= stylesheet_link_tag 'browse' %>
+  <%= javascript_include_tag 'index' %>
 <% end %>
 
-<% content_for :heading do %>
+<% content_for :sidebar do %>
   <h2><%= raw t'browse.node_history.node_history_title', :node_name => link_to(h(@name), :action => "node", :id => @node.id) %></h2>
+
+  <% @node.old_nodes.reverse.each do |node| %>
+    <%= render :partial => "node_details", :object => node %>
+  <% end %>
+
   <ul class='secondary-actions clearfix'>
     <li><%= link_to(t('browse.node_history.download_xml'), :controller => "old_node", :action => "history") %></li>
     <li><%= link_to(t('browse.node_history.view_details'), :action => "node") %></li>
   </ul>
 <% end %>
 
-<% if @node.visible -%>
-  <%= render :partial => "map", :object => @node %>
-<% end -%>
-
-<div class='column-1'>
-  <% @node.old_nodes.reverse.each do |node| %>
-    <%= render :partial => "node_details", :object => node %>
-  <% end %>
-</div>
+<%= render :template => 'layouts/map' %>

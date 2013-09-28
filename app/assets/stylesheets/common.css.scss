@@ -926,7 +926,8 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 .site-index,
 .site-export,
 .site-edit,
-.changeset-list {
+.changeset-list,
+.browse {
   #content {
     position: absolute;
     top: $headerHeight;
@@ -1083,59 +1084,71 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 /* Rules for the data browser */
 
-.browse-section {
-  border-top: 1px solid #ccc;
-  margin-top: $lineheight/2;
-  padding-top: $lineheight/2;
-  &:first-child {
-    margin-top: 0;
-  }
-  .warning {
-    background-color: #ffe0cc;
-    margin: 0px;
-    padding: 4px 6px;
-    max-width: 100%;
-  }
-  h4, p {
-    margin-bottom: $lineheight/4;
-  }
-  ul, .bbox, .geo {
-    display: inline-block;
-    vertical-align: top;
-    max-width: 65%;
-  }
-  ul p {
-    margin-left: 0;
-    margin-bottom: 0;
-  }
-  h4 {
-    float: left;
-    width: 33.3333%;
-    display: inline-block;
-    vertical-align: top;
-  }
-}
+body.browse #sidebar_content {
+  .browse-section {
+    padding: 20px;
+    border-bottom: 1px solid #CCC;
 
-.bbox {
-  div {
-    width: 33.3333%;
-    text-align: center;
-    padding: $lineheight/4 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    float: left;
+    ul {
+      margin: 0;
+    }
   }
-  .max_lat,
-  .min_lat {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-  }
-}
 
-#browse_map .secondary-actions {
-  display: none;
-  margin-bottom: $lineheight/2;
+  .browse-field {
+    margin-bottom: 10px;
+
+    h4 {
+      margin: 0;
+      padding: 5px 0 5px 10px;
+      font-size: 12px;
+      border: 1px solid #CCC;
+      border-radius: 4px 4px 0 0;
+      background-color: #F6F6F6;
+    }
+
+    p {
+      margin: 0;
+      padding: 7px 10px;
+      font-size: 12px;
+      background-color: #FFF;
+      border: 1px solid #CCC;
+      border-top: 0;
+      border-radius: 0 0 4px 4px;
+    }
+  }
+
+  .browse-tag-list {
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    font-size: 12px;
+
+    li {
+      border-bottom: 1px solid #CCC;
+    }
+
+    li:last-child {
+      border-bottom: 0;
+    }
+
+    .browse-tag-k,
+    .browse-tag-v {
+      display: inline-block;
+      width: 50%;
+      height: 30px;
+      float: left;
+      padding: 9px 10px;
+    }
+
+    .browse-tag-k {
+      font-weight: bold;
+      background-color: #F6F6F6;
+      border-radius: 4px 0 0 4px;
+    }
+
+    .browse-tag-v {
+      border-left: 1px solid #CCC;
+    }
+  }
 }
 
 /* Rules for the trace list shown by the traces tab etc */

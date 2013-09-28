@@ -6,13 +6,6 @@
 <% else %>
   <%= render :partial => "common_details", :object => node_details %>
 
-  <% if node_details.visible -%>
-  <div class='browse-section'>
-    <h4><%= t 'browse.node_details.coordinates' %></h4>
-    <div class="geo"><%= link_to(content_tag(:span, number_with_delimiter(node_details.lat), :class => "latitude") + ", " + content_tag(:span, number_with_delimiter(node_details.lon), :class => "longitude"), {:controller => 'site', :action => 'index', :lat => h(node_details.lat), :lon => h(node_details.lon), :zoom => "18"}) %></div>
-  </div>
-  <% end -%>
-
   <% unless node_details.ways.empty? and node_details.containing_relation_members.empty? %>
     <div class='browse-section'>
       <h4><%= t 'browse.node_details.part_of' %></h4>
