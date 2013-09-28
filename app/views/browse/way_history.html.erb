@@ -16,6 +16,11 @@
 <%= render :partial => "map", :object => @way %>
 <div class='column-1'>
 <% @way.old_ways.reverse.each do |way| %>
+  <div class="browse_details">
+    <div class='browse-section common'>
+      <div class='browse-section'>  <%= render :partial => "common_editsummary", :object => way %></div>
+    </div>
+  </div>
   <%= render :partial => "way_details", :object => way %>
 <% end %>
 </div>
