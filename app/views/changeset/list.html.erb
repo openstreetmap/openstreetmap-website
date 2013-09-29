@@ -11,8 +11,17 @@
   <h2><%= @heading %></h2>
 
   <% if @edits.size > 0 %>
-    <%= render :partial => 'changesets', :locals => { :showusername => !params.has_key?(:display_name) } %>
-    <%= render :partial => 'changeset_paging_nav' %>
+    <ol class="changesets">
+      <%= render :partial => 'changeset',
+                 :collection => @edits %>
+    </ol>
+
+    <div class="search_more">
+      <div class="inner12 search_results_entry">
+        <%= link_to t('geocoder.results.more_results'), '#', :class => "button" %>
+      </div>
+      <%= image_tag "searching.gif", :class => ["search_searching", "hidden"] %>
+    </div>
   <% elsif @user and @user.display_name == params[:display_name] %>
     <h4><%= t('changeset.list.empty_user_html') %></h4>
   <% else %>
