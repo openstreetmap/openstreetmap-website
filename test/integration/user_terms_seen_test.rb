@@ -3,12 +3,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 class UserTermsSeenTest < ActionDispatch::IntegrationTest
   fixtures :users
 
-  def auth_header(user, pass)
-    {"HTTP_AUTHORIZATION" => "Basic %s" % Base64.encode64("#{user}:#{pass}")}
-  end
-
   def test_api_blocked
-    if REQUIRE_TERMS_SEEN
+    with_terms_seen(true) do
       user = users(:terms_not_seen_user)
 
       get "/api/#{API_VERSION}/user/preferences", nil, auth_header(user.display_name, "test")
@@ -24,7 +20,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
   end
 
   def test_terms_presented_at_login
-    if REQUIRE_TERMS_SEEN
+    with_terms_seen(true) do
       user = users(:terms_not_seen_user)
 
       # try to log in
@@ -42,7 +38,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       post "/user/save", {'decline' => 'decline', 'referer' => '/'}
       assert_redirected_to "/"
       follow_redirect!
-      
+    
       # should be carried through to a normal login with a message
       assert_response :success
       assert !flash[:notice].nil?
@@ -50,7 +46,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
   end
 
   def test_terms_cant_be_circumvented
-    if REQUIRE_TERMS_SEEN
+    with_terms_seen(true) do
       user = users(:terms_not_seen_user)
 
       # try to log in
@@ -69,5 +65,21 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       get "/traces/mine"
       assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/traces/mine"
     end
+  end
+
+private
+
+  def auth_header(user, pass)
+    {"HTTP_AUTHORIZATION" => "Basic %s" % Base64.encode64("#{user}:#{pass}")}
+  end
+
+  def with_terms_seen(value)
+    require_terms_seen = Object.send("remove_const", "REQUIRE_TERMS_SEEN")
+    Object.const_set("REQUIRE_TERMS_SEEN", value)
+
+    yield
+
+    Object.send("remove_const", "REQUIRE_TERMS_SEEN")
+    Object.const_set("REQUIRE_TERMS_SEEN", require_terms_seen)
   end
 end
