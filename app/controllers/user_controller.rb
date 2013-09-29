@@ -30,7 +30,7 @@ class UserController < ApplicationController
       if @user and @user.terms_agreed?
         # Already agreed to terms, so just show settings
         redirect_to :action => :account, :display_name => @user.display_name
-      elsif session[:new_user].nil?
+      elsif @user.nil? and session[:new_user].nil?
         redirect_to :action => :login, :referer => request.fullpath
       end
     end
