@@ -10,7 +10,7 @@ L.OSM.layers = function(options) {
     var button = $('<a>')
       .attr('class', 'control-button')
       .attr('href', '#')
-      .attr('title', 'Layers')
+      .attr('title', I18n.t('javascripts.map.layers.title'))
       .html('<span class="icon layers"></span>')
       .on('click', toggle)
       .appendTo($container);
