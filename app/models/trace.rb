@@ -289,10 +289,10 @@ class Trace < ActiveRecord::Base
     end
 
     if gpx.actual_points > 0
-      max_lat = Tracepoint.maximum('latitude', :conditions => ['gpx_id = ?', id])
-      min_lat = Tracepoint.minimum('latitude', :conditions => ['gpx_id = ?', id])
-      max_lon = Tracepoint.maximum('longitude', :conditions => ['gpx_id = ?', id])
-      min_lon = Tracepoint.minimum('longitude', :conditions => ['gpx_id = ?', id])
+      max_lat = Tracepoint.where(:gpx_id => id).maximum(:latitude)
+      min_lat = Tracepoint.where(:gpx_id => id).minimum(:latitude)
+      max_lon = Tracepoint.where(:gpx_id => id).maximum(:longitude)
+      min_lon = Tracepoint.where(:gpx_id => id).minimum(:longitude)
 
       max_lat = max_lat.to_f / 10000000
       min_lat = min_lat.to_f / 10000000
