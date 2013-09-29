@@ -304,6 +304,7 @@ header {
   height: $headerHeight;
   position: relative;
   border-bottom: $keyline;
+  z-index: 1001;
 
   h1, nav, nav > ul, nav > ul > li, .dropdown {
     display: inline-block;
@@ -580,13 +581,12 @@ nav.secondary {
   border-radius: 4px 0 0 0;
 }
 
-.site .leaflet-control .zoomout,
+.leaflet-control .zoomout,
 .control-key .control-button {
   margin-bottom: 0;
   border-radius: 0;
 }
 
-.leaflet-control .zoomout, // For non-main page maps
 .control-locate .control-button,
 .control-share .control-button {
   border-radius: 0 0 0 4px;
@@ -768,6 +768,8 @@ nav.secondary {
 /* Rules for the sidebar */
 
 #sidebar {
+  border-right: $keyline;
+
   .alert {
     background: #e00;
   }
@@ -775,6 +777,10 @@ nav.secondary {
   h2, h3, h4 {
     padding: $lineheight;
     border-bottom: $keyline;
+  }
+
+  h4 {
+    font-weight: normal;
   }
 
   .icon.close {
@@ -1071,12 +1077,6 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   border: 1px solid #ccc;
   margin-bottom: $lineheight;
   float: right;
-}
-
-.content_map #small_map {
-  height: 100%;
-  width: 100%;
-  margin-bottom: $lineheight;
 }
 
 /* Rules for the changeset list shown by the history tab etc */

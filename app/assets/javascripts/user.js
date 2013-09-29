@@ -1,3 +1,5 @@
+//= require leaflet.locate
+
 $(document).ready(function () {
   var map = L.map("map", {
     attributionControl: false,
@@ -6,6 +8,13 @@ $(document).ready(function () {
 
   L.OSM.zoom()
     .addTo(map);
+
+  L.control.locate({
+    strings: {
+      title: I18n.t('javascripts.map.locate.title'),
+      popup: I18n.t('javascripts.map.locate.popup')
+    }
+  }).addTo(map);
 
   if (OSM.home) {
     map.setView([OSM.home.lat, OSM.home.lon], 12);
