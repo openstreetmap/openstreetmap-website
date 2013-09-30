@@ -18,27 +18,27 @@ class UserTest < ActiveSupport::TestCase
   end
   
   def test_unique_email
-    new_user = User.new({
+    new_user = User.new(
       :email => users(:normal_user).email,
       :status => "active", 
       :pass_crypt => Digest::MD5.hexdigest('test'),
       :display_name => "new user",
       :data_public => 1,
       :description => "desc"
-    }, :without_protection => true)
+    )
     assert !new_user.save
     assert new_user.errors[:email].include?("has already been taken")
   end
   
   def test_unique_display_name
-    new_user = User.new({
+    new_user = User.new(
       :email => "tester@openstreetmap.org",
       :status => "pending",
       :pass_crypt => Digest::MD5.hexdigest('test'),
       :display_name => users(:normal_user).display_name, 
       :data_public => 1,
       :description => "desc"
-    }, :without_protection => true)
+    )
     assert !new_user.save
     assert new_user.errors[:display_name].include?("has already been taken")
   end
@@ -102,12 +102,12 @@ class UserTest < ActiveSupport::TestCase
   end
   
   def test_friend_with
-    assert_equal true, users(:normal_user).is_friends_with?(users(:public_user))
-    assert_equal false, users(:normal_user).is_friends_with?(users(:inactive_user))
-    assert_equal false, users(:public_user).is_friends_with?(users(:normal_user))
-    assert_equal false, users(:public_user).is_friends_with?(users(:inactive_user))
-    assert_equal false, users(:inactive_user).is_friends_with?(users(:normal_user))
-    assert_equal false, users(:inactive_user).is_friends_with?(users(:public_user))
+    assert users(:normal_user).is_friends_with?(users(:public_user))
+    assert !users(:normal_user).is_friends_with?(users(:inactive_user))
+    assert !users(:public_user).is_friends_with?(users(:normal_user))
+    assert !users(:public_user).is_friends_with?(users(:inactive_user))
+    assert !users(:inactive_user).is_friends_with?(users(:normal_user))
+    assert !users(:inactive_user).is_friends_with?(users(:public_user))
   end
   
   def test_users_nearby
@@ -132,13 +132,13 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [sec], norm.nearby
     assert_equal 1, norm.nearby.size
     assert_equal 1, Friend.count
-    assert_equal true, norm.is_friends_with?(sec)
-    assert_equal false, sec.is_friends_with?(norm)
-    assert_equal false, users(:normal_user).is_friends_with?(users(:inactive_user))
-    assert_equal false, users(:public_user).is_friends_with?(users(:normal_user))
-    assert_equal false, users(:public_user).is_friends_with?(users(:inactive_user))
-    assert_equal false, users(:inactive_user).is_friends_with?(users(:normal_user))
-    assert_equal false, users(:inactive_user).is_friends_with?(users(:public_user))
+    assert norm.is_friends_with?(sec)
+    assert !sec.is_friends_with?(norm)
+    assert !users(:normal_user).is_friends_with?(users(:inactive_user))
+    assert !users(:public_user).is_friends_with?(users(:normal_user))
+    assert !users(:public_user).is_friends_with?(users(:inactive_user))
+    assert !users(:inactive_user).is_friends_with?(users(:normal_user))
+    assert !users(:inactive_user).is_friends_with?(users(:public_user))
     #Friend.delete(friend)
     #assert_equal 0, Friend.count
   end
@@ -231,7 +231,7 @@ class UserTest < ActiveSupport::TestCase
     user = users(:normal_user)
     user.delete
     assert_equal "user_#{user.id}", user.display_name
-    assert_blank user.description
+    assert user.description.blank?
     assert_equal nil, user.home_lat
     assert_equal nil, user.home_lon
     assert_equal false, user.image.file?

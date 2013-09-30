@@ -9,8 +9,6 @@ class Message < ActiveRecord::Base
   validates_inclusion_of :message_read, :in => [ true, false ]
   validates_as_utf8 :title
 
-  attr_accessible :title, :body
-
   after_initialize :set_defaults
 
   def self.from_mail(mail, from, to)
@@ -26,14 +24,14 @@ class Message < ActiveRecord::Base
       body = mail.decoded
     end
 
-    message = Message.new({
+    message = Message.new(
       :sender => from,
       :recipient => to,
       :sent_on => mail.date.new_offset(0),
       :title => mail.subject.sub(/\[OpenStreetMap\] */, ""),
       :body => body,
       :body_format => "text"
-    }, :without_protection => true)
+    )
   end
 
   def body

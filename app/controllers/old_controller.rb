@@ -39,7 +39,7 @@ class OldController < ApplicationController
   
   def version
     if @old_element.redacted? and not show_redactions?
-      render :nothing => true, :status => :forbidden
+      render :text => "", :status => :forbidden
 
     else
       response.last_modified = @old_element.timestamp
@@ -66,7 +66,7 @@ class OldController < ApplicationController
     end
     
     # just return an empty 200 OK for success
-    render :nothing => true
+    render :text => ""
   end
 
   private

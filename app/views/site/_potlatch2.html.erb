@@ -10,7 +10,7 @@
 <script type="text/javascript">alert("<%= t 'site.edit.potlatch2_not_configured' %>")</script>
 <% end %>
 
-<% locale = request.compatible_language_from(Potlatch2::LOCALES.keys) || "en" %>
+<% locale = select_locale(Potlatch2::LOCALES.keys).to_s %>
 
 <script type="text/javascript" defer="defer">
   var changesaved=true;
@@ -32,6 +32,8 @@
     flashvars.font_library = "<%= asset_path "potlatch2/FontLibrary.swf" %>";
     flashvars.locale = "<%= Potlatch2::LOCALES[locale] %>";
     flashvars.locale_paths = "<%= Potlatch2::LOCALES[locale] %>=<%= asset_path("potlatch2/locales/#{Potlatch2::LOCALES[locale]}.swf") %>";
+    flashvars.intro_image = "<%= asset_path "help/introduction.jpg" %>";
+    flashvars.intro_video = "<%= asset_path "help/introduction.mp4" %>";
     <% if params['gpx'] %>
     flashvars.gpx = '<%= h(params['gpx']) %>';
     <% end %>
@@ -62,6 +64,10 @@
 
     swfobject.embedSWF("<%= asset_path("potlatch2.swf") %>", "potlatch", "100%", "100%", "10.1.102","<%= asset_path("expressInstall.swf") %>", flashvars, params, attributes);
     // 700,600 for fixed size, 100%,100% for resizable
+
+    if (lat && lon) {
+      updatelinks({ lon: lon, lat: lat }, zoom);
+    }
   }
 
   <% if @lat && @lon -%>
@@ -71,17 +77,22 @@
   doSWF(params.lat, params.lon, params.zoom || 17);
   <% end -%>
 
-  $(document).ready(function () {
-    $("body").on("click", "a.set_position", function () {
-      var data = $(this).data();
+  $("body").on("click", "a.set_position", function (e) {
+    e.preventDefault();
 
-      $("#potlatch").each(function () {
-        this.setPosition(data.lat, data.lon, Math.max(data.zoom || 15, 13));
-      });
+    var data = $(this).data();
+
+    $("#potlatch").each(function () {
+      this.setPosition(data.lat, data.lon, Math.max(data.zoom || 15, 13));
     });
   });
 
-  function mapMoved(lon, lat, zoom, minlon, minlat, maxlon, maxlat) {
-    updatelinks(lon, lat, zoom, null, minlon, minlat, maxlon, maxlat);
-  }
+  var mapMoved = $.throttle(250, function(lon, lat, zoom, minlon, minlat, maxlon, maxlat) {
+    updatelinks({ lon: lon, lat: lat }, zoom, null, [[minlat, minlon], [maxlat, maxlon]]);
+
+    var hash = OSM.formatHash({ lon: lon, lat: lat, zoom: zoom });
+    if (hash !== location.hash) {
+      location.replace(hash);
+    }
+  });
 </script>

@@ -26,8 +26,10 @@ class NodeController < ApplicationController
   # Dump the details on a node given in params[:id]
   def read
     node = Node.find(params[:id])
-    if node.visible?
-      response.last_modified = node.timestamp
+
+    response.last_modified = node.timestamp
+
+    if node.visible
       render :text => node.to_xml.to_s, :content_type => "text/xml"
     else
       render :text => "", :status => :gone
@@ -62,6 +64,10 @@ class NodeController < ApplicationController
 
   # Dump the details on many nodes whose ids are given in the "nodes" parameter.
   def nodes
+    if not params['nodes']
+      raise OSM::APIBadUserInput.new("The parameter nodes is required, and must be of the form nodes=id[,id[,id...]]")
+    end
+
     ids = params['nodes'].split(',').collect { |n| n.to_i }
 
     if ids.length == 0

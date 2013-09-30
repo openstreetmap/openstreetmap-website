@@ -11,10 +11,16 @@
     <%= stylesheet_link_tag "large-#{dir}", :media => "screen" %>
   <![endif]-->
   <%= favicon_link_tag "favicon.ico" %>
-  <%= favicon_link_tag "osm_logo.png", :rel => "apple-touch-icon", :type => "image/png" %>
+  <%= favicon_link_tag "osm_logo_57.png", :rel => "apple-touch-icon", :sizes => "57x57", :type => "image/png" %>
+  <%= favicon_link_tag "osm_logo_72.png", :rel => "apple-touch-icon", :sizes => "72x72", :type => "image/png" %>
+  <%= favicon_link_tag "osm_logo_114.png", :rel => "apple-touch-icon", :sizes => "114x114", :type => "image/png" %>
+  <%= favicon_link_tag "osm_logo_144.png", :rel => "apple-touch-icon", :sizes => "144x144", :type => "image/png" %>
+  <%= favicon_link_tag "osm_logo_228.png", :rel => "icon", :sizes => "228x228", :type => "image/png" %>
+  <%= tag("meta", { :name => "msapplication-TileImage", :content => image_path("osm_logo_144.png") }) %>
   <%= tag("link", { :rel => "publisher", :href => "https://plus.google.com/111953119785824514010" }) %>
   <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => asset_path("osm.xml") }) %>
   <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
+  <%= tag("meta", :property => "og:image", :content => image_path("osm_logo.png")) %>
   <% if flash[:piwik_goal] -%>
   <%= tag("meta", :name => "piwik-goal", :content => flash[:piwik_goal]) %>
   <% end -%>  
@@ -25,16 +31,19 @@
     I18n.defaultLocale = "<%= I18n.default_locale %>";
     I18n.locale = "<%= I18n.locale %>";
     I18n.fallbacks = true;
-
-    <% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
+    <% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? -%>
     OSM.home = <%= { :lat => @user.home_lat, :lon => @user.home_lon }.to_json.html_safe %>;
-    <% end %>
-
-    <% if session[:location] %>
+    <% end -%>
+    <% if session[:location] -%>
     OSM.location = <%= session[:location].to_json.html_safe %>;
-    <% end %>
-
+    <% end -%>
     OSM.preferred_editor = <%= preferred_editor.to_json.html_safe %>;
+    <% if @oauth -%>
+    OSM.oauth_token = "<%= @oauth.token %>";
+    OSM.oauth_token_secret = "<%= @oauth.secret %>";
+    OSM.oauth_consumer_key = "<%= @oauth.client_application.key %>";
+    OSM.oauth_consumer_secret = "<%= @oauth.client_application.secret %>";
+    <% end -%>
   </script>
   <title><%= t 'layouts.project_name.title' %><%= ' | '+ @title if @title %></title>
 </head>

@@ -154,7 +154,7 @@ class GeocoderController < ApplicationController
     end
 
     # ask nominatim
-    response = fetch_xml("#{NOMINATIM_URL}search?format=xml&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{request.user_preferred_languages.join(',')}")
+    response = fetch_xml("#{NOMINATIM_URL}search?format=xml&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
 
     # create result array
     @results = Array.new
@@ -174,12 +174,19 @@ class GeocoderController < ApplicationController
       name = place.attributes["display_name"].to_s
       min_lat,max_lat,min_lon,max_lon = place.attributes["boundingbox"].to_s.split(",")
       prefix_name = t "geocoder.search_osm_nominatim.prefix.#{klass}.#{type}", :default => type.gsub("_", " ").capitalize
+      if klass == 'boundary' and type == 'administrative'
+        rank = (place.attributes["place_rank"].to_i + 1) / 2
+        prefix_name = t "geocoder.search_osm_nominatim.admin_levels.level#{rank}", :default => prefix_name
+      end
       prefix = t "geocoder.search_osm_nominatim.prefix_format", :name => prefix_name
+      object_type = place.attributes["osm_type"]
+      object_id = place.attributes["osm_id"]
 
       @results.push({:lat => lat, :lon => lon,
                      :min_lat => min_lat, :max_lat => max_lat,
                      :min_lon => min_lon, :max_lon => max_lon,
-                     :prefix => prefix, :name => name})
+                     :prefix => prefix, :name => name,
+                     :type => object_type, :id => object_id})
       @more_params[:exclude].push(place.attributes["place_id"].to_s)
     end
 
@@ -234,7 +241,7 @@ class GeocoderController < ApplicationController
     @results = Array.new
 
     # ask nominatim
-    response = fetch_xml("#{NOMINATIM_URL}reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{request.user_preferred_languages.join(',')}")
+    response = fetch_xml("#{NOMINATIM_URL}reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
 
     # parse the response
     response.elements.each("reversegeocode/result") do |result|
@@ -341,8 +348,8 @@ private
   def nsew_to_decdeg(captures)
     begin
       Float(captures[0])
-      captures[1].downcase != 's' ? lat = captures[0].to_f : lat = -(captures[0].to_f)
-      captures[4].downcase != 'w' ? lon = captures[3].to_f : lon = -(captures[3].to_f)
+      captures[2].downcase != 's' ? lat = captures[0].to_f : lat = -(captures[0].to_f)
+      captures[5].downcase != 'w' ? lon = captures[3].to_f : lon = -(captures[3].to_f)
     rescue
       captures[0].downcase != 's' ? lat = captures[1].to_f : lat = -(captures[1].to_f)
       captures[3].downcase != 'w' ? lon = captures[4].to_f : lon = -(captures[4].to_f)

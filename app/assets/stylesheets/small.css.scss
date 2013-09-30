@@ -74,39 +74,15 @@ h2, h3, h4 {
 /* Rules for the site name - shown when left sidebar is hidden */
 
 #small-title {
-  font-size: 12px;
-  line-height: 14px;
-  height: 16px;
+  font-size: 10px;
   display: block;
   position: absolute;
   left: 5px;
   top: 5px;
-  padding: 2px;
-  width: 110px;
-  background-color: #fff;
-  z-index: 100;
-}
-
-#small-title img {
-  position: absolute;
-}
-
-#small-title h1 {
-  position: absolute;
-  font-size: 10px;
-  line-height: 18px;
   margin: 0;
-  left: 22px;
 }
 
 /* Rules for greeting bar in the top right corner */
-
-#greeting {
-  position: absolute;
-  right: 0;
-  top: 0;
-  background: none;
-}
 
 #browse_map ul.secondary-actions {
   float: right;
@@ -168,30 +144,25 @@ p.search_results_entry {
   padding: 2px 0px;
 }
 
-/* Rules for the signup form */
+/* Rules for the map UI */
 
-#signupForm input[type="text"], #signupForm input[type="password"] {
-  width: 100%;
-}
+.layers-ui {
+  .leaflet-container {
+    display: none;
+  }
 
-#signupForm input#user_email {
-  max-width: 30em;
-}
+  li {
+    border-radius: 0;
+    margin-bottom: 0;
 
-#signupForm input#user_email_confirmation {
-  max-width: 30em;
-}
+    &:first-child {
+      border-radius: 4px 4px 0 0;
+    }
 
-#signupForm input#user_display_name {
-  max-width: 20em;
-}
-
-#signupForm input#user_pass_crypt {
-  max-width: 20em;
-}
-
-#signupForm input#user_pass_crypt_confirmation {
-  max-width: 20em;
+    &:last-child {
+      border-radius: 0 0 4px 4px;
+    }
+  }
 }
 
 /* Rules for the login form */
@@ -276,4 +247,17 @@ p.search_results_entry {
 
 #message_title, #message_body {
   width: 100% !important;
+}
+
+/* Rules for the sign-up page */
+
+.user-new,
+.user-create {
+  .col6 {
+    width: 100%;
+  }
+
+  .aside {
+    display: none;
+  }
 }

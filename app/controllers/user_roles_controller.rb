@@ -10,9 +10,7 @@ class UserRolesController < ApplicationController
   before_filter :in_role, :only => [:revoke]
 
   def grant
-    @this_user.roles.create({
-      :role => @role, :granter_id => @user.id
-    }, :without_protection => true)
+    @this_user.roles.create(:role => @role, :granter_id => @user.id)
     redirect_to :controller => 'user', :action => 'view', :display_name => @this_user.display_name
   end
 

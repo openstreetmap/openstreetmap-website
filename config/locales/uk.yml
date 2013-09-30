@@ -2,18 +2,21 @@
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: AS
+# Author: Andriykopanytsia
 # Author: Andygol
 # Author: Arturyatsko
 # Author: Base
 # Author: Dim Grits
 # Author: Dittaeva
 # Author: Dubyk
+# Author: Dudka
 # Author: KEL
 # Author: Nemo bis
 # Author: Olvin
 # Author: Prima klasy4na
 # Author: Riwnodennyk
 # Author: Sev
+# Author: SteveR
 # Author: Yurkoy
 # Author: Тест
 uk: 
@@ -47,7 +50,7 @@ uk:
       user: 
         active: Активний
         description: Опис
-        display_name: "Видиме ім’я:"
+        display_name: "Прізвисько:"
         email: Ел. пошта
         languages: Мови
         pass_crypt: Пароль
@@ -138,11 +141,13 @@ uk:
       edit: 
         area: Редагувати область
         node: Редагувати точку
+        note: Редагувати нотатку
         relation: Редагувати зв’язок
         way: Редагувати лінію
       larger: 
         area: Перегляд ділянки на більшій мапі
         node: Перегляд точки на більшій мапі
+        note: Переглянути нотатку на великій мапі
         relation: Перегляд зв’язку на більшій мапі
         way: Перегляд лінії на більшій мапі
       loading: Завантаження…
@@ -150,10 +155,12 @@ uk:
       all: 
         next_changeset_tooltip: Наступний набір змін
         next_node_tooltip: Наступна точка
+        next_note_tooltip: Наступна нотатка
         next_relation_tooltip: Наступний зв'язок
         next_way_tooltip: Наступна лінія
         prev_changeset_tooltip: Попередній набір змін
         prev_node_tooltip: Попередня точка
+        prev_note_tooltip: Попередня нотатка
         prev_relation_tooltip: Попередній зв’язок
         prev_way_tooltip: Попередня лінія
       user: 
@@ -181,6 +188,17 @@ uk:
         node: точка
         relation: зв’язок
         way: лінія
+    note: 
+      at_by_html: "%{when} тому учасником %{user}"
+      at_html: "%{when} тому"
+      closed: "Закрита:"
+      closed_title: "Опрацьована нотатка: %{note_name}"
+      comments: "Коментарі:"
+      description: "Опис:"
+      last_modified: "Остання зміна:"
+      open_title: "Неопрацьована нотатка: %{note_name}"
+      opened: "Відкрито:"
+      title: Нотатка
     paging_nav: 
       of: з
       showing_page: сторінка
@@ -221,6 +239,7 @@ uk:
       loaded_an_area_with_num_features: "Ви завантажили ділянку, яка містить %{num_features} об’єктів. Загалом, деякі оглядачі можуть не впоратися з відображенням такої кількості даних. Зазвичай, оглядачі працюють краще, коли водночас показується не більше %{max_features} об'єктів: якщо ж ви робите інакше, це може спричинити  сповільнення чи взагалі відсутність відгуку у вашому оглядачі. Коли ви впевнені, що слід показати ці дані, можете натиснути кнопку нижче."
       loading: Завантаження…
       manually_select: Виберіть іншу ділянку
+      notes_layer_name: Огляд нотаток
       object_list: 
         api: Отримати цю ділянку з API
         back: Повернутися до списку об’єктів
@@ -237,7 +256,7 @@ uk:
         type: 
           node: Точка
           way: Лінія
-      private_user: приватний користувч
+      private_user: приватний користувач
       show_areas: Показати ділянки
       show_history: Показати історію
       unable_to_load_size: "Неможливо завантажити: розмір  %{bbox_size} завеликий (має бути менше, ніж %{max_bbox_size})"
@@ -393,6 +412,9 @@ uk:
       user_title: Щоденник користувача %{user}
   editor: 
     default: Типовий (зараз %{name})
+    id: 
+      description: iD (редактор в оглядачі)
+      name: iD
     potlatch: 
       description: Потлач 1 (редактор в оглядачі)
       name: Потлач 1
@@ -424,8 +446,20 @@ uk:
       paste_html: HTML-код для вбудовування до сайту
       scale: Масштаб
       too_large: 
-        body: Ця ділянка дуже велика для експорту у вигляді XML-даних OpenStreetMap. Будь ласка наблизьтесь або виберіть меншу ділянку.
+        body: "Ця ділянка дуже велика для експорту у вигляді XML-даних OpenStreetMap. Будь ласка наблизьтесь або виберіть меншу ділянку, або скористайтеся одним з наступних джерел для завантаження великого обсягу даних:"
+        geofabrik: 
+          description: Регулярно оновлювані вибірки континентів, країн і деяких міст
+          title: Завантаження Geofabrik
         heading: Завелика площа
+        metro: 
+          description: Вибірки даних для великих міст світу і прилеглих до них територій
+          title: Mегаполіси
+        other: 
+          description: Додаткові джерела перераховані у вікі OpenStreetMap
+          title: Інші джерела
+        planet: 
+          description: Регулярно оновлювані копії усієї бази даних OpenStreetMap
+          title: Планета OSM
       zoom: Збільшити
     start_rjs: 
       add_marker: Додати маркер на мапу
@@ -434,7 +468,6 @@ uk:
       drag_a_box: Для вибору ділянки розтягніть рамку на мапі
       export: Експорт
       manually_select: Виділіть іншу ділянку
-      view_larger_map: Збільшити мапу
   geocoder: 
     description: 
       title: 
@@ -469,7 +502,19 @@ uk:
         uk_postcode: Результати від <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Результати від <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Межа передмістя
+        level2: Державний кордон
+        level4: Межа краю, штату, республіки
+        level5: Межа області
+        level6: Межа району, графства
+        level8: Межа міста
+        level9: Межа села
       prefix: 
+        aerialway: 
+          chair_lift: Крісельний підйомник
+          drag_lift: Бугельний підйомник
+          station: Канатна станція
         aeroway: 
           aerodrome: Аеродром
           apron: Перон
@@ -563,6 +608,7 @@ uk:
           shower: Душ
           social_centre: Суспільний центр
           social_club: Клуб за інтересами
+          social_facility: Соціальна установа
           studio: Студія
           supermarket: Супермаркет
           swimming_pool: Басейн
@@ -591,12 +637,15 @@ uk:
           "yes": Міст
         building: 
           "yes": Будівля
+        emergency: 
+          fire_hydrant: Пожежний гідрант
+          phone: Телефон для екстрених викликів
         highway: 
-          bridleway: Дорога для їзди верхи
+          bridleway: Дорога для їзди кіньми
           bus_guideway: Рейковий автобус
           bus_stop: Автобусна зупинка
           byway: Боковий шлях
-          construction: Будівництво автомагітсралі
+          construction: Будівництво автомагістралі
           cycleway: Велосипедна доріжка
           emergency_access_point: Пункт швидкої допомоги
           footway: Пішохідна доріжка
@@ -607,13 +656,14 @@ uk:
           motorway: Автомагістраль
           motorway_junction: В’їзд на автомагістраль
           motorway_link: З’єднання з автомагістраллю
-          path: алея
+          path: Стежка
           pedestrian: Пішохідна дорога
           platform: Платформа
           primary: Головна дорога
           primary_link: З’єднання з головною дорогою
+          proposed: Пропонована дорога
           raceway: Гоночна траса
-          residential: Жила вулиця
+          residential: Вулиця місцевого значення
           rest_area: Зона відпочинку
           road: Дорога
           secondary: Другорядна дорога
@@ -621,11 +671,12 @@ uk:
           service: Службова дорога
           services: Придорожній сервіс
           speed_camera: Камера контролю швидкості
-          steps: Стежка
+          steps: Сходи
           stile: Турнікет
-          tertiary: Третьорядна дорога
-          tertiary_link: Третинна дорога
-          track: Неасфальтований шлях.
+          street_lamp: Вуличний ліхтар
+          tertiary: Третинна дорога
+          tertiary_link: Виїзд на третинну дорогу
+          track: Путівець
           trail: Стежка
           trunk: Шосе
           trunk_link: З’їзд з/на шосе
@@ -638,6 +689,7 @@ uk:
           building: Будівля
           castle: За́мок
           church: Храм
+          citywalls: Міські стіни
           fort: Форт
           house: Дім
           icon: Ікона
@@ -647,6 +699,7 @@ uk:
           monument: Пам’ятник
           museum: Музей
           ruins: Руїни
+          tomb: Гробниця
           tower: Башта
           wayside_cross: Придорожній хрест
           wayside_shrine: Придорожній храм
@@ -661,7 +714,7 @@ uk:
           construction: Будівництво
           farm: Ферма
           farmland: Рілля
-          farmyard: Фермерське подвір'я
+          farmyard: Територія ферми
           forest: Ліс
           garages: Гаражі
           grass: Трава
@@ -686,7 +739,7 @@ uk:
           village_green: Сільська галявина
           vineyard: Виноградник
           wetland: Болота
-          wood: Гай
+          wood: Дерева
         leisure: 
           beach_resort: Пляжний курорт
           bird_hide: Засідка (пункт спостереження за птахами)
@@ -709,7 +762,7 @@ uk:
           stadium: Стадіон
           swimming_pool: Басейн
           track: Бігова доріжка
-          water_park: Аквапарку
+          water_park: Аквапарк
         military: 
           airfield: Військовий аеродром
           barracks: Казарма
@@ -720,7 +773,7 @@ uk:
           bay: Затока
           beach: Пляж
           cape: Мис
-          cave_entrance: Входу в печеру
+          cave_entrance: Вхід до печери
           channel: Канал
           cliff: Скеля
           crater: Кратер
@@ -754,9 +807,9 @@ uk:
           valley: Долина
           volcano: Вулкан
           water: Вода
-          wetland: Болото
+          wetland: Заболочені землі
           wetlands: Водно-болотні угіддя
-          wood: Гай
+          wood: Дерева
         office: 
           accountant: Бухгалтер
           architect: Архітектор
@@ -785,6 +838,7 @@ uk:
           locality: Населений пункт
           moor: Мур
           municipality: Муніципалітет
+          neighbourhood: Околиці
           postcode: Індекс
           region: Район
           sea: Море
@@ -795,7 +849,7 @@ uk:
           unincorporated_area: Неприєднанні території
           village: Село
         railway: 
-          abandoned: Кинуті колії
+          abandoned: Занедбані колії
           construction: Будівництво колії
           disused: Покинута колія
           disused_station: Покинута залізнична станція
@@ -810,8 +864,10 @@ uk:
           narrow_gauge: Вузькоколійка
           platform: Залізнична платформа
           preserved: Законсервовані колії
+          proposed: Пропоновані залізничні колії
           spur: Залізнична гілка
           station: Залізнична станція
+          stop: Залізнична зупинка
           subway: Станція метро
           subway_entrance: Вхід в метро
           switch: Стрілка
@@ -827,6 +883,7 @@ uk:
           beverages: Напої
           bicycle: Веломагазин
           books: Книгарня
+          boutique: Бутік
           butcher: М’ясо
           car: Автомагазин
           car_parts: Автозапчастини
@@ -840,13 +897,14 @@ uk:
           convenience: Мінімаркет
           copyshop: Послуги копіювання
           cosmetics: Магазин косметики
+          deli: Магазин делікатесів
           department_store: Універмаг
           discount: Уцінені товари
           doityourself: Зроби сам
           dry_cleaning: Хімчистка
           electronics: Магазин електроніки
           estate_agent: Агентство нерухомості
-          farm: Сільпо
+          farm: Фермерський магазин
           fashion: Модний одяг
           fish: Риба
           florist: Квіти
@@ -873,20 +931,24 @@ uk:
           music: Музика
           newsagent: Газетний кіоск
           optician: Оптика
-          organic: Продовольчий магазин
+          organic: Органічні Продукти
           outdoor: Виносна торгівля
           pet: Зоомагазин
+          pharmacy: Аптека
           photo: Фотомагазин
           salon: Салон
+          second_hand: Комісійний магазин
           shoes: Взуття
           shopping_centre: Торговий центр
           sports: Спортивні товари
           stationery: Канцтовари
           supermarket: Супермаркет
+          tailor: Кравець
           toys: Іграшки
           travel_agency: Туристична агенція
           video: Відео
           wine: Вино
+          "yes": Крамниця
         tourism: 
           alpine_hut: Гірський притулок
           artwork: Образотворче мистецтво
@@ -909,6 +971,7 @@ uk:
           viewpoint: Оглядовий майданчик
           zoo: Зоопарк
         tunnel: 
+          culvert: Кульверт
           "yes": Тунель
         waterway: 
           artificial: Штучні водний шлях
@@ -931,34 +994,91 @@ uk:
           wadi: Ваді
           water_point: Пункт водопостачання
           waterfall: Водоспад
-          weir: Ставок
+          weir: Гребля
   javascripts: 
+    close: Закрити
+    edit_help: Перемістіть мапу і наблизьтесь до місця, яке ви бажаєте змінити, потім клацніть тут.
+    key: 
+      title: Умовні знаки
+      tooltip: Умовні знаки
+      tooltip_disabled: Легенда мапи доступна лише для Стандартного шару
     map: 
       base: 
         cycle_map: Мапа для велосипедистів
+        hot: Гуманітарне
         mapquest: MapQuest Open
         standard: Стандартний
         transport_map: Мапа Транспорту
+      copyright: © <a href='%{copyright_url}'>Учасники OpenStreetMap</a>
+      layers: 
+        data: Дані
+        header: Шари мапи
+        notes: Нотатки
+        overlays: Увімкніть наступні шари для пошуку і усунення помилок на мапі
+      locate: 
+        popup: Ви знаходитесь в межах {distance} {unit} від цієї точки
+        title: Показати моє місцезнаходження
+      zoom: 
+        in: Збільшити
+        out: Зменшити
+    notes: 
+      new: 
+        add: Додати нотатку
+        intro: Введена вами інформація буде доступна іншим користувачам, можливо, вона допоможе поліпшити мапу. Будь ласка, додайте в нотатку чіткий опис, встановіть маркер в точне місце на мапі.
+      show: 
+        anonymous_warning: Ця нотатка містить коментарі від анонімних користувачів. Потрібна незалежна перевірка відомостей.
+        closed_by: опрацював <a href='%{user_url}'>%{user}</a> %{time}
+        closed_by_anonymous: розв’язано анонімним користувачем %{time}
+        comment: Коментар
+        comment_and_resolve: Прокоментувати та Опрацювати
+        commented_by: коментар <a href='%{user_url}'>%{user}</a> %{time}
+        commented_by_anonymous: коментар анонімного користувача %{time}
+        hide: Приховати
+        opened_by: створив(ла) <a href='%{user_url}'>%{user}</a> %{time}
+        opened_by_anonymous: створена анонімним користувачем %{time}
+        permalink: Постійне посилання
+        reactivate: Поновити
+        reopened_by: відновив <a href='%{user_url}'>%{user}</a> %{time}
+        reopened_by_anonymous: відновив анонімний користувач %{time}
+        resolve: Опрацьовано
+    share: 
+      cancel: Скасувати
+      center_marker: Центрувати мапу на маркері
+      custom_dimensions: Встановити власні розміри
+      download: Завантажити
+      embed: HTML
+      format: "Формат:"
+      image: Зображення
+      image_size: Зображення буде містити стандартний шар у
+      include_marker: Включати маркер
+      link: Посилання або HTML
+      long_link: Посилання
+      paste_html: HTML-код для вбудування у сайт
+      scale: "Масштаб:"
+      short_link: Коротке посилання
+      short_url: Скорочене URL-посилання
+      title: Поділитись
+      view_larger_map: Переглянути більшу мапу
     site: 
+      createnote_disabled_tooltip: Треба наблизитись для додання нотатки
+      createnote_tooltip: Додати нотатку на мапу
       edit_disabled_tooltip: Збільшить масштаб для редагування мапи
       edit_tooltip: Редагування мапи
-      edit_zoom_alert: Потрібно збільшити масштаб мапи для її редагування
       history_disabled_tooltip: Збільшить масштаб для перегляду правок на цій ділянці
       history_tooltip: Перегляд правок для цієї ділянки
-      history_zoom_alert: Потрібно збільшити масштаб мапи, щоб побачити історію правок
   layouts: 
     community: Спільнота
     community_blogs: Блоги спільноти
     community_blogs_title: Блоги членів спільноти OpenStreetMap
     copyright: Авторські права та Ліцензування
+    data: Дані
     documentation: Документація
     documentation_title: Документація проекту
     donate: Підтримайте OpenStreetMap %{link} у Фонді оновлення обладнання.
     donate_link_text: пожертвування
     edit: Правка
     edit_with: Правити у %{editor}
-    export: Експорт
-    export_tooltip: Експортувати картографічні дані
+    export_data: Експортувати дані
     foundation: Фонд
     foundation_title: Фонд OpenStreetMap
     gps_traces: GPS-треки
@@ -967,14 +1087,7 @@ uk:
     help_centre: Довідковий центр
     help_title: Питання та відповіді
     history: Історія
-    home: додому
-    home_tooltip: Показати моє місце знаходження
-    inbox_html: вхідні (%{count})
-    inbox_tooltip: 
-      few: У вас %{count} непрочитаних повідомлення
-      one: У вас %{count} непрочитане повідомлення
-      other: У вас %{count} непрочитаних повідомлень
-      zero: У вас немає непрочитаних повідомлень
+    home: Додому
     intro_1: OpenStreetMap — це мапа Світу, яку можна вільно редагувати. Вона зроблена такими ж людьми, як і ви.
     intro_2_create_account: Створіть обліковий запис
     intro_2_download: завантажити
@@ -986,8 +1099,7 @@ uk:
     log_in_tooltip: Увійти під існуючим обліковим записом
     logo: 
       alt_text: Логотип OpenStreetMap
-    logout: вийти
-    logout_tooltip: Вийти
+    logout: Вийти
     make_a_donation: 
       text: Підтримайте проект
       title: Підтримайте OpenStreetMap грошима
@@ -1005,7 +1117,6 @@ uk:
     user_diaries_tooltip: Подивитись щоденники
     view: Мапа
     view_tooltip: Переглянути мапу
-    welcome_user_link_tooltip: Ваша сторінка користувача
     wiki: Вікі
     wiki_title: Вікі-сайт проекту
     wiki_url: http://wiki.openstreetmap.org/wiki/Uk:Main_Page
@@ -1102,8 +1213,7 @@ uk:
       title: Вихідні
       to: Кому
     read: 
-      back_to_inbox: Назад до вхідних
-      back_to_outbox: Назад до вихідних
+      back: Назад
       date: Дата
       from: Від
       reply_button: Відповісти
@@ -1116,6 +1226,37 @@ uk:
       wrong_user: Ви увійшли як `%{user}', але повідомлення, на яке ви хочете відповісти, було відправлено не цьому користувачу. Будь ласка, увійдіть з правильним ім’ям користувача щоб відповісти.
     sent_message_summary: 
       delete_button: Вилучити
+  note: 
+    description: 
+      closed_at_by_html: Розв’язано %{when} тому користувачем %{user}
+      closed_at_html: Опрацьовано %{when} тому
+      commented_at_by_html: Оновлено %{when} тому користувачем %{user}
+      commented_at_html: Оновлено %{when} тому
+      opened_at_by_html: Створено %{when} тому користувачем %{user}
+      opened_at_html: Створено %{when} тому
+      reopened_at_by_html: Відновлено %{when} тому користувачем %{user}
+      reopened_at_html: Відновлено %{when} тому
+    entry: 
+      comment: Коментар
+      full: Повний текст
+    mine: 
+      ago_html: "%{when} тому"
+      created_at: Створено
+      creator: Автор
+      description: Опис
+      heading: Нотатки користувача %{user}
+      id: Номер
+      last_changed: Остання зміна
+      subheading: Нотатки, створені чи прокоментовані користувачем %{user}
+      title: Нотатки створені чи прокоментовані користувачем %{user}
+    rss: 
+      closed: закрита нотатка (біля %{place})
+      commented: новий коментар (біля %{place})
+      description_area: Перелік нотаток, створених, прокоментованих чи закритих біля вас [(%{min_lat}|%{min_lon}) — (%{max_lat}|%{max_lon})]
+      description_item: Rss-канал нотаток %{id}
+      opened: нова нотатка (біля %{place})
+      reopened: поновлена нотатка (біля %{place})
+      title: Нотатки OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Ви можете також прочитати коментар — %{readurl}, залишити свій — %{commenturl} або відповісти — %{replyurl}
@@ -1131,8 +1272,7 @@ uk:
     email_confirm_plain: 
       click_the_link: Якщо це ви, будь ласка, клацніть на посилання нижче, щоб підтвердити зміни.
       greeting: Привіт,
-      hopefully_you_1: Хтось (сподіваємось, ви) хоче змінити адресу електронної пошти з
-      hopefully_you_2: "%{server_url} на адресу: %{new_address}."
+      hopefully_you: "Хтось (сподіваємось, що ви) хоче змінити свою адресу електронної пошти в %{server_url} на адресу: %{new_address}."
     friend_notification: 
       befriend_them: Ви також можете додати їх у якості друзів %{befriendurl}.
       had_added_you: "%{user} додав Вас як друга у OpenStreetMap."
@@ -1161,41 +1301,36 @@ uk:
     lost_password_plain: 
       click_the_link: Якщо це ви, будь ласка, клацніть на посилання нижче, щоб змінити свій пароль.
       greeting: Привіт,
-      hopefully_you_1: Хтось (можливо, ви) запросив зміну паролю для цієї
-      hopefully_you_2: адреси ел.пошти зареєстрованої на openstreetmap.org
+      hopefully_you: Хтось (сподіваємось, що ви) замовив зміну пароля для цієї адреси електронної пошти, зареєстрованої на openstreetmap.org.
     message_notification: 
-      footer1: Ви також можете прочитати повідомлення %{readurl}
-      footer2: і ви можете відповісти на %{replyurl}
+      footer_html: Ви також можете прочитати повідомлення в %{readurl} і ви можете відповісти на %{replyurl}
       header: "%{from_user} надіслав вам повідомлення через OpenStreetMap з темою %{subject}:"
       hi: Привіт, %{to_user},
+    note_comment_notification: 
+      anonymous: Анонімний користувач
+      closed: 
+        commented_note: "%{commenter} розв’язав нотатку, прокоментовану вами, що знаходиться біля %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} розв’язав нотатку до якови ви виявили зацікавленість"
+        subject_own: "[OpenStreetMap] %{commenter} опрацював одну з ваших нотаток"
+        your_note: "%{commenter} опрацював одну з ваших нотаток на мапі біля %{place}."
+      commented: 
+        commented_note: "%{commenter} залишив коментар до однієї з прокоментованих вами нотаток, що знаходиться біля %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} прокоментував цікаву вам нотатку"
+        subject_own: "[OpenStreetMap] %{commenter} прокоментував одну з ваших нотаток"
+        your_note: "%{commenter} залишив коментар до однієї з ваших нотаток на мапі біля %{place}."
+      details: Докладніше про нотатку %{url}.
+      greeting: Привіт,
+      reopened: 
+        commented_note: "%{commenter} поновив нотатку, прокоментовану вами, що знаходиться біля %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} поновив  нотатку до якови ви виявили зацікавленість"
+        subject_own: "[OpenStreetMap] %{commenter} поновив одну з ваших нотаток"
+        your_note: "%{commenter} поновив одну з ваших нотаток на мапі біля %{place}."
     signup_confirm: 
       confirm: "Перш ніж ми щось зробимо, ми повинні впевнитись, що запит надійшов від Вас; тож якщо це були Ви, будь ласка, натисніть на посилання нижче, щоб підтвердити Ваш обліковий запис:"
       created: Хтось (сподіваємось Ви) щойно створив обліковий запис на % {site_url}.
       greeting: Привіт!
       subject: "[OpenStreetMap] Ласкаво просимо до OpenStreetMap"
-      welcome: Ми хочемо привітати Вас і надати Вам деяку додаткову інформацію для початку.
-    signup_confirm_html: 
-      ask_questions: Ви можете задати питання про OpenStreetMap на нашому <a href="http://help.openstreetmap.org/">сайті питань і відповідей</a>.
-      current_user: "Перелік користувачів, за їх місцем знаходження, можна отримати тут: <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region\">Category:Users_by_geographical_region</a>."
-      get_reading: Прочитайте про OpenStreetMap <a href="http://wiki.openstreetmap.org/wiki/Uk:Beginners%27_Guide">у Вікі</a>, дізнайтесь про останні новини у <a href="http://blog.openstreetmap.org/">Блозі OpenStreetMap</a> або <a href="http://twitter.com/openstreetmap">Twitter</a>, чи перегляньте <a href="http://www.opengeodata.org/">OpenGeoData blog</a> — блог засновника OpenStreetMap Стіва Коуста (Steve Coast) у якому змальовано історію розвитку проекту та є підкасти, які також можливо <a href="http://www.opengeodata.org/?cat=13">послухати</a>!
-      introductory_video: Ви можете переглянути %{introductory_video_link}.
-      more_videos: Перегляньте %{more_videos_link}.
-      more_videos_here: більше відео тут
-      user_wiki_page: "Радимо створити власну вікі-сторінку, включивши до неї теґи категорій, що пояснюють ваше місце знаходження, наприклад: <a href=\"http://wiki.openstreetmap.org/wiki/Category:Users_in_Дніпропетровськ\">[[Category:Users in Дніпропетровськ]]</a>."
-      video_to_openstreetmap: відео-вступ до OpenStreetMap
-      wiki_signup: Ви маєте змогу <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Uk:Main_Page">зареєструватись у Вікі проекту OpenStreetMap</a>.
-    signup_confirm_plain: 
-      ask_questions: "Ви можете задати питання про OpenStreetMap на нашому сайті питань та і відповідей:"
-      blog_and_twitter: "Ознайомитися з останніми новинами через блог OpenStreetMap або Twitter:"
-      current_user: "Список поточних коростувачів у категоріях, основаних на тому, де в світі вони перебувають, доступних з:"
-      introductory_video: "Ви можете подивитися відео-вступ про OpenStreetMap тут:"
-      more_videos: "Ще більше відео тут:"
-      opengeodata: "OpenGeoData.org — це блог засновника OpenStreetMap — Стіва Коуста (Steve Coast), тут також можна знайти підкасти:"
-      the_wiki: "Почитати про OpenStreetMap у Вікі:"
-      the_wiki_url: http://wiki.openstreetmap.org/wiki/Uk:Beginners%27_Guide
-      user_wiki_page: Рекомендовано створити вікі-сторінку користувача, до якої включити категорії, що вказують на те, де Ви перебуваєте, такі як [[Category:Users_in_London]].
-      wiki_signup: "Ви також можете зареєструватися в вікі OpenStreetMap тут:"
-      wiki_signup_url: http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Uk:Main_Page
+      welcome: Після того, як ви підтвердите свій обліковий запис, ми надамо вам додаткову інформацію, щоб ви розпочали роботу.
   oauth: 
     oauthorize: 
       allow_read_gpx: читати ваші приватні GPS-треки.
@@ -1204,6 +1339,7 @@ uk:
       allow_write_api: змінювати мапу
       allow_write_diary: створювати записи у щоденнику, коментарі та заводити друзів.
       allow_write_gpx: передавати GPS-треки на сервер.
+      allow_write_notes: змінювати нотатки.
       allow_write_prefs: змінювати ваші налаштування користувача.
       request_access: Застосунок %{app_name} намагається отримати доступ до вашого облікового запису, %{user}. Будь ласка, перевірте чи бажаєте ви, щоб застосунок мав наступні можливості. Ви можете обрати будь-яку кількість.
     revoke: 
@@ -1222,6 +1358,7 @@ uk:
       allow_write_api: правити мапу.
       allow_write_diary: створити записи щоденника, коментарі та завести нових друзів.
       allow_write_gpx: передавати GPS-треки на сервер.
+      allow_write_notes: змінювати нотатки.
       allow_write_prefs: змінювати налаштування користувача.
       callback_url: URL зворотного виклику
       name: Ім’я
@@ -1252,6 +1389,7 @@ uk:
       allow_write_api: правити мапу.
       allow_write_diary: створити записи щоденника, коментарі та завести нових друзів.
       allow_write_gpx: передавати GPS-треки на сервер.
+      allow_write_notes: змінювати нотатки.
       allow_write_prefs: змінювати налаштування користувача.
       authorize_url: "URL автентифікації:"
       confirm: Ви впевнені?
@@ -1260,7 +1398,7 @@ uk:
       key: "Позначки абонента:"
       requests: "Запит наступних дозволів з боку користувача:"
       secret: "Секретна фраза абонента:"
-      support_notice: Ми підтримуємо HMAC-SHA1 (рекомендується) і підписи RSA-SHA1.
+      support_notice: Ми підтримуємо підписи HMAC-SHA1 (рекомендується) і RSA-SHA1.
       title: Подробиці OAuth для %{app_name}
       url: "URL маркеру запита:"
     update: 
@@ -1300,6 +1438,7 @@ uk:
     edit: 
       anon_edits_link_text: З’ясувати в чому справа.
       flash_player_required: Для використання редактора Potlatch потрібний Flash-плеєр. Ви можете <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">завантажити Flash-плеєр з Adobe.com</a>. Існують й <a href="http://wiki.openstreetmap.org/wiki/Uk:Editing">інші можливості</a> для правки в OpenStreetMap.
+      id_not_configured: iD не був налаштований
       no_iframe_support: Ваш оглядач не підтримує фрейми HTML, які необхідні для цієї функції.
       not_public: Ви не зробили свої правки загальнодоступними.
       not_public_description: "Ви не можете більше анонімно редагувати мапу. Ви можете зробити ваші редагування загальнодоступними тут: %{user_page}."
@@ -1308,6 +1447,7 @@ uk:
       potlatch_unsaved_changes: Є незбережені зміни. (Для збереження в Potlatch зніміть виділення з колії або точки, якщо редагуєте «вживу», або натисніть кнопку «зберегти», якщо ви в режимі відкладеного збереження.)
       user_page_link: сторінка користувача
     index: 
+      createnote: Додати нотатку
       js_1: Ви користуєтесь оглядачем, в якому не підтримується або відключений JavaScript.
       js_2: OpenStreetMap використовує JavaScript для мапи.
       license: 
@@ -1316,8 +1456,6 @@ uk:
       remote_failed: Редагування не вдалося — переконайтеся, що JOSM або Merkaartor завантажений та втулок дистанційного керування увімкнений.
       shortlink: Коротке посилання
     key: 
-      map_key: Умовні знаки
-      map_key_tooltip: Легенда мапи
       table: 
         entry: 
           admin: Адміністративна межа
@@ -1326,7 +1464,7 @@ uk:
             - Перон аеропорту
             - термінал
           bridge: Міст (жирна лінія)
-          bridleway: Дорога для їзди верхи
+          bridleway: Дорога для їзди кіньми
           brownfield: Покинута зона
           building: Значна споруда
           byway: Стежка
@@ -1338,7 +1476,7 @@ uk:
           commercial: Бізнесова зона
           common: 
             - Суспільні землі
-            - луг
+            - левада
           construction: Будівництво дороги
           cycleway: Вело-доріжка
           destination: Цільовий доступ
@@ -1383,7 +1521,7 @@ uk:
           tunnel: Тунель (пунктиром)
           unclassified: Дорога без класифікації
           unsurfaced: Дорога без покриття
-          wood: Гай
+          wood: Дерева
     markdown_help: 
       alt: Alt текст
       first: Перший елемент
@@ -1419,6 +1557,11 @@ uk:
       upload_trace: Надіслати GPS-трек на сервер
     delete: 
       scheduled_for_deletion: Заплановано для вилучення
+    description: 
+      description_with_count: 
+        one: Файл GPX з %{count} точкою від %{user}
+        other: Файл GPX з %{count} точками від %{user}
+      description_without_count: GPX файл від %{user}
     edit: 
       description: "Опис:"
       download: завантажити
@@ -1427,7 +1570,7 @@ uk:
       heading: Правка треку %{name}
       map: мапа
       owner: "Власник:"
-      points: "Точок:"
+      points: "Кількість точок:"
       save_button: Зберегти зміни
       start_coord: "Координати початку:"
       tags: "Теґи:"
@@ -1436,6 +1579,8 @@ uk:
       uploaded_at: "Завантажено на сервер:"
       visibility: "Видимість:"
       visibility_help: ще це означає?
+    georss: 
+      title: Треки OpenStreetMap GPS
     list: 
       description: Огляд останніх завантажених треків GPS
       empty_html: Досі нічого не має. <a href='%{upload_link}'>Завантажте нові треки</a> або дізнайтесь більше про створення GPS-треків на <a href='http://wiki.openstreetmap.org/wiki/Uk:Beginners_Guide_1.2'>сторінці вікі</a>.
@@ -1479,7 +1624,6 @@ uk:
     trace_header: 
       see_all_traces: Показати всі треки
       see_your_traces: Показати всі ваші треки
-      traces_waiting: "%{count} з ваших треків очікують завантаження на сервер. Будь ласка, дочекайтесь завершення їх завантаження перед завантаженням на сервер інших треків, що дозволить іншим користувачам також надіслати свої треки."
       upload_trace: Надіслати GPS-трек на сервер
     trace_optionals: 
       tags: "Теґи:"
@@ -1499,7 +1643,7 @@ uk:
       none: Нічого
       owner: "Власник:"
       pending: ОЧІКУЄ
-      points: "Точок:"
+      points: "Кількість точок:"
       start_coordinates: "Координати початку:"
       tags: "Теґи:"
       title: Перегляд треку %{name}
@@ -1564,13 +1708,13 @@ uk:
       update home location on click: Оновлювати моє місце розташування, коли я клацаю на мапу?
     confirm: 
       already active: Цей обліковий запис вже підтверджений.
-      before you start: Ми знаємо, Ви, ймовірно, хочете якнайшвидше почати картографування, але, перш ніж ви почнете, не хотіли б Ви заповнити деякі додаткові відомості про себе у формі нижче.
       button: Підтвердити
-      heading: Підтвердити обліковий запис користувача
+      heading: Перевірте вашу електронну пошту!
+      introduction_1: Ми надіслали вам підтвердження електронною поштою.
+      introduction_2: Підтвердіть ваш обліковий запис, натиснувши на посилання в листі, і ви зможете почати картографувати.
       press confirm button: Натисніть на кнопку підтвердження нижче, щоб активувати ваш профіль.
-      reconfirm: Якщо пройшло достатньо часу з моменту Вашої реєстрації, Вам,  можливо, необхідно <a href="%{reconfirm}">відправити собі нове підтвердження по електронній пошті</a> .
-      success: Ваш обліковий запис підтверджено, дякуємо за реєстрацію!
-      unknown token: Цей маркер, здається, не існує.
+      reconfirm_html: Якщо ви бажаєте, аби ми повторно надіслали ще одне підтвердження електронною поштою, то <a href="%{reconfirm}">натисніть тут</a>.
+      unknown token: Термін дії коду підтвердження вже минув або він не існує.
     confirm_email: 
       button: Підтвердити
       failure: Електронна адреса вже була підтверджена цим посиланням.
@@ -1655,17 +1799,16 @@ uk:
       heading: Додати %{user} як друга?
       success: Тепер %{name} є вашим другом!
     new: 
+      about: 
+        header: Вільний і доступний для редагування
+        html: "<p>На відміну від інших мап, мапи OpenStreetMap повністю створюються такими ж людьми як ви,\nвони доступні всім для виправлення, оновлення, завантаження і використання.</p>\n<p>Зареєструйтесь, аби зробити свій внесок. Ми надішлемо вам лист для підтвердження вашого облікового запису.</p>"
       confirm email address: "Підтвердити адресу ел. пошти:"
       confirm password: "Повторіть пароль:"
       contact_webmaster: Будь-ласка, зверніться до <a href="mailto:webmaster@openstreetmap.org">вебмастера</a> з проханням створити подібний обліковий запис. Ми спробуємо це зробити  і відповісти настільки швидко, наскільки це можливо.
-      continue: Продовжити
+      continue: Зареєструватись
       display name: "Показувати ім’я:"
       display name description: Ваше загальнодоступне ім’я. Ви можете змінити його потім у ваших налаштуваннях.
       email address: "Адреса ел. пошти:"
-      fill_form: Заповніть форму, і ми надішлемо вам на електронну пошту листа з інструкцією по активацію вашого облікового запису.
-      flash create success message: Користувача успішно зареєстровано. Перевірте вашу електрону пошту (%{email}) на наявність листа з підтвердженням, натисніть на посилання в ньому та можете негайно починати редагувати мапу :-).<br /><br /> Зауважте, що ви не зможете увійти, доки ви не підтвердите адресу вашої електронної пошти. <br /><br />Якщо ви користуєтесь системою анти-спаму, що надсилає запити на підтвердження, внесіть до «білого» списку адресу webmaster@openstreetmap.org, так як ми не в змозі відповідати на такі запити.
-      flash welcome: Дякуємо за реєстрацію. Ми надіслали привітання з деякими порадами для початку на адресу %{email}.
-      heading: Створення облікового запису користувача
       license_agreement: Створюючи обліковий запис, вам треба погодитись з <a href="http://wiki.openstreetmap.org/wiki/Uk:Open_Database_License/Contributor_Terms">Умовами Співпраці</a>.
       no_auto_account_create: На жаль, ми в даний час не в змозі створити для вас обліковий запис автоматично.
       not displayed publicly: Не показується загальнодоступно (див. <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="Вікі про політику конфіденційності, включаючи розділ про адреси електронної пошти"> політику конфіденційності</a>)
@@ -1722,12 +1865,12 @@ uk:
       you need to accept or decline: Будь ласка, прочитайте, а потім або прийміть або відхиліть нові Умови Участі.
     view: 
       activate_user: активувати цього користувача
-      add as friend: додати до списку друзів
+      add as friend: Додати до списку друзів
       ago: (%{time_in_words_ago} тому)
       block_history: отримані блокування
-      blocks by me: заблоковано мною
-      blocks on me: мої блокування
-      comments: коментарі
+      blocks by me: Заблоковано мною
+      blocks on me: Мої блокування
+      comments: Коментарі
       confirm: Підтвердити
       confirm_user: підтвердити користувача
       create_block: блокувати користувача
@@ -1739,8 +1882,8 @@ uk:
       deactivate_user: де-активувати цього користувача
       delete_user: вилучити цього користувача
       description: Опис
-      diary: щоденник
-      edits: правки
+      diary: Щоденник
+      edits: Правки
       email address: "Адреса Е-пошти:"
       friends_changesets: набори змін друзів
       friends_diaries: записи в щоденниках друзів
@@ -1751,19 +1894,22 @@ uk:
       m away: "%{count} м від вас"
       mapper since: "Зареєстрований:"
       moderator_history: створені блокування
-      my comments: мої коментарі
-      my diary: мій щоденник
-      my edits: мої правки
-      my settings: мої налаштування
-      my traces: мої треки
+      my comments: Мої коментарі
+      my diary: Мій щоденник
+      my edits: Мої правки
+      my notes: Мої нотатки
+      my profile: Мій профіль
+      my settings: Мої налаштування
+      my traces: Мої треки
       nearby users: Інші користувачі поруч
       nearby_changesets: набори змін користувачів, що знаходяться поруч з вами
       nearby_diaries: записи в щоденниках користувачів, що знаходяться поруч з вами
       new diary entry: новий запис
       no friends: Ви не додали ще жодного друга.
       no nearby users: Поблизу поки немає користувачів, які займаються складанням мапи.
+      notes: Нотатки
       oauth settings: налаштування OAuth
-      remove as friend: вилучити із списку друзів
+      remove as friend: Вилучити із списку друзів
       role: 
         administrator: Цей користувач є адміністратором
         grant: 
@@ -1773,11 +1919,11 @@ uk:
         revoke: 
           administrator: Відкликати права адміністратора
           moderator: Відкликати права модератора
-      send message: відправити повідомлення
+      send message: Надіслати повідомлення
       settings_link_text: налаштування
       spam score: "Оцінка Спаму:"
       status: "Статус:"
-      traces: треки
+      traces: Треки
       unhide_user: показати цього користувача
       user location: Місце знаходження користувача
       your friends: Ваші друзі
@@ -1891,3 +2037,25 @@ uk:
       fail: Не вдалося відкликати роль «%{role}» у користувача «%{name}». Будь ласка, перевірте, що користувач і роль є дійсними.
       heading: Підтвердження відкликання ролі
       title: Підтвердження відкликання ролі
+  welcome_page: 
+    add_a_note: 
+      paragraph_1_html: Якщо потрібно внести дрібне уточнення, заради якого немає потреби витрачати час на реєстрацію та вивчення правил редагування, то можна просто додати нотатку.
+      paragraph_2_html: "Перейдіть до <a href='%{map_url}'>мапи</a> та натисніть піктограму нотатки:\n<span class='icon note'></span>. Це дозволить додати маркер на мапу, який ви зможете перетягнути мишею. Додайте ваше повідомлення, натисніть „зберегти“, і інші учасники побачать його та, у разі потреби, внесуть зміни на мапу."
+      title: Немає часу, щоб виправити мапу? Додайте нотатку!
+    basic_terms: 
+      editor_html: <strong>Редактор</strong> — це програма або веб-сайт, який можна використовувати для редагування мапи.
+      node_html: <strong>Точка</strong> — це позначка на мапі, на кшталт  ресторану або дерева.
+      paragraph_1_html: OpenStreetMap має власну термінологію. Ось кілька важливих слів, які можуть знадобитися.
+      tag_html: <strong>Теґ</strong> — одиниця опису точки чи лінії на кшталт назви ресторану або обмеження швидкості на дорозі.
+      title: Основні Терміни Для Картографування
+      way_html: <strong>Лінія</strong> — це відкрита або замкнена ламана на кшталт дороги, струмка, озера або будівлі.
+    introduction_html: Ласкаво просимо до OpenStreetMap, безкоштовної та доступної для редагування мапи світу. Тепер, коли ви увійшли, все готово для початку редагування. Ось короткий посібник з найважливішими речами, які ви повинні знати.
+    questions: 
+      paragraph_1_html: Потрібна допомога з картографуванням або не зрозуміло як використовувати OpenStreetMap? Знайдіть відповідь на ваше питання на <a href='http://help.openstreetmap.org/'>сайті допомоги (англ.)</a>.
+      title: Є питання?
+    start_mapping: Розпочати картографування
+    title: Ласкаво просимо!
+    whats_on_the_map: 
+      off_html: Мапа <em>не</em> включає суб’єктивні дані на кшталт оцінок, історичних або гіпотетичних характеристик та дані з джерел, які захищені авторським правом. Якщо ви не маєте спеціального дозволу, не копіюйте з паперових мап або з мап в інтернеті.
+      on_html: "На мапі OpenStreetMap розташовані об’єкти, які <em>існують в поточний момент</em> — тобто, це\nмільйони будинків, доріг та інших елементів місцевості. Ви можете наносити на мапу будь-які  об’єкти навколишнього світу, цікаві для вас."
+      title: Що на мапі

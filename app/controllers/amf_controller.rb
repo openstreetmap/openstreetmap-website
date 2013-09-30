@@ -185,10 +185,10 @@ class AmfController < ApplicationController
     user = getuser(usertoken)
 
     if user && !user.languages.empty?
-      request.user_preferred_languages = user.languages
+      http_accept_language.user_preferred_languages = user.languages
     end
 
-    lang = request.compatible_language_from(getlocales)
+    lang = http_accept_language.compatible_language_from(getlocales)
     (real_lang, localised) = getlocalized(lang)
 
     # Tell Potlatch what language it's using

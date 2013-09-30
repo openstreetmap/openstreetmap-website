@@ -4,23 +4,19 @@
 
 <%= error_messages_for 'message' %>
 
-<%= form_for :message, :url => { :action => "new", :display_name => @this_user.display_name } do |f| %>
-  <table>
-    <tr valign="top">
-      <td class="fieldName"><%= t'message.new.subject' %></td>
-      <td><%= f.text_field :title, :size => 60, :value => @subject %></td>
-    </tr>
-    <tr valign="top">
-      <td class="fieldName"><%= t'message.new.body' %></td>
-      <td><%= richtext_area :message, :body, :cols => 80, :value => @body %></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><%= submit_tag t('message.new.send_button') %></td>
-    </tr>
-  </table>
+<%= form_for :message, :html => { :class => 'standard-form' }, :url => { :action => "new", :display_name => @this_user.display_name } do |f| %>
+  <fieldset>
+    <div class='form-row'>
+      <label class="standard-label"><%= t'message.new.subject' %></label>
+      <%= f.text_field :title, :size => 60, :value => @subject %>
+    </div>
+    <div class='form-row'>
+      <label class="standard-label"><%= t'message.new.body' %></label>
+      <%= richtext_area :message, :body, :cols => 80, :rows => 20, :value => @body %>
+    </div>
+    <div class='buttons'>
+      <%= submit_tag t('message.new.send_button') %>
+      <%= link_to t('message.new.back'), { :controller => 'message', :action => 'inbox', :display_name => @user.display_name }, :class => 'deemphasize button' %>
+    </div>
+  </fieldset>
 <% end %>
-
-<br />
-
-<%= link_to t('message.new.back_to_inbox'), :controller => 'message', :action => 'inbox', :display_name => @user.display_name %>

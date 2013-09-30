@@ -3,12 +3,15 @@
 # Export driver: syck-pecl
 # Author: Airon90
 # Author: Cfoucher
+# Author: KuboF
 # Author: Lucas
+# Author: Luckas
 # Author: LyzTyphone
 # Author: Michawiki
 # Author: Objectivesea
 # Author: Petrus Adamus
 # Author: Timsk
+# Author: Tradukisto
 # Author: Yekrats
 eo: 
   activerecord: 
@@ -43,6 +46,7 @@ eo:
         languages: Lingvoj
         pass_crypt: Pasvorto
     models: 
+      acl: Listo de kontrolo de akiroj
       changeset: Ŝanĝaro
       changeset_tag: Etikedo de ŝanĝaro
       country: Lando
@@ -111,11 +115,13 @@ eo:
       edit: 
         area: Redakti areon
         node: Redakti nodon
+        note: Redakti noton
         relation: Redakti rilaton
         way: Redakti vojon
       larger: 
         area: Vidi la areon en pli granda mapo
         node: Vidi la nodon en pli granda mapo
+        note: Vidi la noton en pli granda mapo
         relation: Vidi la rilaton en pli granda mapo
         way: Vidi la vojon en pli granda mapo
       loading: Ŝarĝante...
@@ -123,10 +129,12 @@ eo:
       all: 
         next_changeset_tooltip: Sekvanta ŝanĝaro
         next_node_tooltip: Sekva nodo
+        next_note_tooltip: Sekva noto
         next_relation_tooltip: Sekva rilato
         next_way_tooltip: Sekva vojo
         prev_changeset_tooltip: Antaŭa ŝanĝaro
         prev_node_tooltip: Antaŭa nodo
+        prev_note_tooltip: Antaŭa noto
         prev_relation_tooltip: Antaŭa rilato
         prev_way_tooltip: Antaŭa vojo
       user: 
@@ -135,10 +143,10 @@ eo:
         prev_changeset_tooltip: Antaŭa redakto de %{user}
     node: 
       download_xml: Elŝuti XML
-      edit: redakti
+      edit: Redakti nodon
       node: Nodo
       node_title: "Nodo: %{node_name}"
-      view_history: vidi historion
+      view_history: Vidi historion
     node_details: 
       coordinates: "Koordinatoj:"
       part_of: "Parto de:"
@@ -146,7 +154,7 @@ eo:
       download_xml: Elŝuti XML
       node_history: Historio de la nodo
       node_history_title: "Historio de la nodo: %{node_name}"
-      view_details: vidi detalojn
+      view_details: Vidi detalojn
     not_found: 
       sorry: Bedaŭrinde, la %{type} kun id %{id}, ne troveblas.
       type: 
@@ -154,9 +162,12 @@ eo:
         node: nodo
         relation: rilato
         way: vojo
+    note: 
+      description: "Priskribo:"
+      last_modified: Laste ŝanĝita
     paging_nav: 
       of: de
-      showing_page: Montrante paĝon
+      showing_page: paĝo
     redacted: 
       message_html: Ne eblas montri la version %{version} de tiu ĉi %{type} ĉar ĝi estas redaktita. Vidu %{redaction_link} por pli da detaloj.
       redaction: Redakto %{id}
@@ -168,7 +179,7 @@ eo:
       download_xml: Elŝuti XML
       relation: Rilato
       relation_title: "Rilato: %{relation_name}"
-      view_history: vidi historion
+      view_history: Vidi historion
     relation_details: 
       members: "Anoj:"
       part_of: "Parto de:"
@@ -176,7 +187,7 @@ eo:
       download_xml: Elŝuti XML
       relation_history: Historio de la rilato
       relation_history_title: "Historio de la rilato: %{relation_name}"
-      view_details: vidi detalojn
+      view_details: Vidi detalojn
     relation_member: 
       entry_role: "%{type} %{name} kiel %{role}"
       type: 
@@ -185,7 +196,7 @@ eo:
         way: Vojo
     start_rjs: 
       data_frame_title: Datumo
-      data_layer_name: Datumo
+      data_layer_name: Foliumi mapajn datumojn
       details: Detaloj
       edited_by_user_at_timestamp: Redaktita de %{user} je %{timestamp}
       hide_areas: Kaŝi areojn
@@ -195,7 +206,7 @@ eo:
       manually_select: Mane elektu alian areon
       object_list: 
         api: Obteni tiun areon el la API
-        back: Vidigi objektliston
+        back: Reen al listo de objektoj
         details: Detaloj
         heading: Objektlisto
         history: 
@@ -226,8 +237,8 @@ eo:
         way: vojo
     way: 
       download_xml: Elŝuti XML
-      edit: redakti
-      view_history: vidi historion
+      edit: Redakti vojon
+      view_history: Vidi historion
       way: Vojo
       way_title: "Vojo: %{way_name}"
     way_details: 
@@ -238,7 +249,7 @@ eo:
       part_of: "Parto de:"
     way_history: 
       download_xml: Elŝuti XML
-      view_details: vidi detalojn
+      view_details: Vidi detalojn
       way_history: Historio de vojo
       way_history_title: Historio de vojo
   changeset: 
@@ -251,7 +262,7 @@ eo:
     changeset_paging_nav: 
       next: Sekvanta »
       previous: « Antaŭa
-      showing_page: Montrante paĝon %{page}
+      showing_page: Paĝo %{page}
     changesets: 
       area: Areo
       comment: Komento
@@ -259,15 +270,16 @@ eo:
       saved_at: Konservita la
       user: Uzanto
     list: 
-      description: Ĵusaj ŝanĝoj
+      description: Foliumi lastajn ŝanĝojn en la mapo
   diary_entry: 
     diary_comment: 
       confirm: Konfirmi
       hide_link: Kaši ĉi tiun komenton
     diary_entry: 
       comment_count: 
-        one: 1 komento
+        one: "%{count} komento"
         other: "%{count} komentoj"
+        zero: Sen komentoj
       confirm: Konfirmi
       edit_link: Redakti ĉi tiun enskribon
     edit: 
@@ -283,6 +295,7 @@ eo:
       title: Uzantĵurnaloj
       user_title: Ĵurnalo de %{user}
     view: 
+      leave_a_comment: Komenti
       login: Ensaluti
       save_button: Konservi
       title: Uzantĵurnaloj | %{user}
@@ -320,7 +333,6 @@ eo:
       click_add_marker: Kliku al la mapo por aldoni markon
       export: Eksporti
       manually_select: Mane elekti alian aeron.
-      view_larger_map: Vidi pligrandan mapon
   geocoder: 
     description: 
       title: 
@@ -355,9 +367,69 @@ eo:
         us_postcode: Rezultoj el <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
       prefix: 
+        amenity: 
+          bank: Banko
+          bar: Bufedo
+          bus_station: Bus-stacio
+          cafe: Kafejo
+          car_rental: Aŭtomobil-pruntejo
+          car_wash: Aŭtopurigejo
+          casino: Kazino
+          cinema: Kinejo
+          clinic: Kliniko
+          club: Klubo
+          dentist: Dentisto
+          embassy: Ambasadorejo
+          fountain: Fontano
+          hospital: Hostpitalo
+          hotel: Hotelo
+          library: Libraro
+          market: Bazaro
+          nightclub: Nokta klubo
+          park: Parko
+          pharmacy: Apoteko
+          police: Polico
+          prison: Malliberejo
+          restaurant: Restoracio
+          school: Lernejo
+          shop: Vendejo
+          supermarket: Superbazaro
+          telephone: Publika telefono
+          theatre: Teatro
+          university: Universitato
+          wifi: WiFi-atingo
+        boundary: 
+          national_park: Nacia parko
+        bridge: 
+          aqueduct: Akvedukto
+          viaduct: Viadukto
+          "yes": Ponto
+        building: 
+          "yes": Konstruaĵo
+        highway: 
+          bus_stop: Bus-haltejo
+          path: Vojo
+          primary_link: Strato de unua ordo
+          road: Vojo
+        historic: 
+          house: Domo
+          monument: Monumento
+          museum: Muzeo
+          tower: Turo
+        landuse: 
+          mine: Minejo
+          park: Parko
+          railway: Fervojo
+          wood: Arbaro
         natural: 
+          fjord: Fjordo
+          forest: Arbaro
           hill: Monteto
+          island: Insulo
+          land: Lando
+          river: Rivero
           tree: Arbo
+          volcano: Vulkano
           water: Akvo
         place: 
           city: Urbego
@@ -367,30 +439,31 @@ eo:
           houses: Domoj
           region: Regiono
           sea: Maro
+          state: Ŝtato
           town: Urbo
+        railway: 
+          tram: Tramlinio
+          tram_stop: Tram-haltejo
+        shop: 
+          books: Libro-vendejo
+          computer: Komputil-vendejo
+          hifi: Hi-Fi
+          music: Muzik-vendejo
         tourism: 
           museum: Muzeo
   layouts: 
     donate: Subtenu OpenStreetMap %{link} al Fonduso de Ĝisdatigo de Aparataro.
     donate_link_text: donacante
     edit: Redakti
-    export: Eksporti
-    export_tooltip: Eksporti mapajn datumojn
     gps_traces: GPS spuroj
     gps_traces_tooltip: Manipuli la GPS-spurojn
     history: Historio
     home: hejmo
-    home_tooltip: Iri al hejmloko
-    inbox_tooltip: 
-      one: Via leterkesto enhavas 1 nelegitan mesaĝon
-      other: Via leterkesto enhavas %{count} nelegitajn mesaĝojn
-      zero: Via leterkesto ne enhavas nelegitajn mesaĝojn
     log_in: ensaluti
     log_in_tooltip: Ensaluti kun ekzistanta konto
     logo: 
       alt_text: Emblemo de OpenStreetMap
     logout: elsaluti
-    logout_tooltip: Elsaluti
     make_a_donation: 
       text: Donaci
       title: Subteni OpenStreetMap per mondonaco
@@ -401,7 +474,6 @@ eo:
     user_diaries_tooltip: Vidi uzantĵurnalojn
     view: Vidi
     view_tooltip: Vidi la mapon
-    welcome_user_link_tooltip: Via uzantpaĝo
   license_page: 
     foreign: 
       title: Pri ĉi tiu traduko
@@ -434,7 +506,6 @@ eo:
       subject: Temo
       to: Al
     read: 
-      back_to_inbox: Reen al mesaĝejo
       date: Dato
       from: De
       reply_button: Respondi
@@ -444,6 +515,9 @@ eo:
       unread_button: Marki kiel nelegita
     sent_message_summary: 
       delete_button: Forigi
+  note: 
+    mine: 
+      description: Priskribo
   notifier: 
     diary_comment_notification: 
       hi: Saluton %{to_user},
@@ -464,12 +538,6 @@ eo:
       greeting: Saluton,
     message_notification: 
       hi: Saluton %{to_user},
-    signup_confirm_html: 
-      introductory_video: Vipovas spekti %{introductory_video_link}.
-      more_videos_here: pliaj filmetoj ĉi tie
-      video_to_openstreetmap: enkondukan videon de OpenStreetMap
-    signup_confirm_plain: 
-      more_videos: "Pliaj videoj estas ĉi tie:"
   oauth_clients: 
     edit: 
       submit: Redakti
@@ -490,11 +558,17 @@ eo:
     show: 
       edit: Redakti detalojn
       title: OAuth-detaloj por %{app_name}
+  redaction: 
+    edit: 
+      description: Priskribo
+    new: 
+      description: Priskribo
+    show: 
+      description: "Priskribo:"
   site: 
     edit: 
       user_page_link: uzantpaĝo
     key: 
-      map_key: Klarigo de signoj
       table: 
         entry: 
           admin: Administra limo
@@ -668,7 +742,6 @@ eo:
       button: Konfirmi
       heading: Konfirmi uzantan konton
       press confirm button: Premu la konfirmbutonon sube por aktivigi vian konton.
-      success: Via konto estas konfirmita, multan dankon por vi registrado!
     confirm_email: 
       button: Konfirmi
       failure: Retadreso jam estis konfirmita per tiu ĵetono.
@@ -703,8 +776,6 @@ eo:
       continue: Pli...
       display name: "Montrita Nomo:"
       email address: "Retpoŝtadreso:"
-      fill_form: Plenigu la formularon kaj ni tuj sendos al vi retleteron, por ke vi aktivigu vian konton.
-      heading: Krei uzantkonton
       no_auto_account_create: Bedaŭrinde ni nun ne povas aŭtomate krei konton por vi.
       password: "Pasvorto:"
       title: Krei konton
@@ -749,10 +820,10 @@ eo:
       my edits: miaj redaktoj
       my settings: miaj agordoj
       my traces: miaj spuroj
-      nearby users: "Proksimaj uzantoj:"
+      nearby users: "Pliaj proksimaj uzantoj:"
       new diary entry: nova ĵurnalrikordo
       no friends: Vi jam ne aldonis neniun amikon.
-      remove as friend: forviŝu kiel amiko
+      remove as friend: eksamikigi
       role: 
         administrator: Ĉi tiu uzanto estas administranto
         moderator: Ĉi tiu uzanto estas kontrolanto

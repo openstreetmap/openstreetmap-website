@@ -12,7 +12,7 @@ var initialized = false;
 var gotMoreChangesets = true;
 var loadingInProgress = false;
 
-function initOwlLayer() {
+function initOwlLayer(map) {
   if (initialized) {
     return;
   }
@@ -118,7 +118,7 @@ function initOwlLayer() {
   map.addLayer(owlGeoJsonLayer);
 }
 
-function destroyOwlLayer() {
+function destroyOwlLayer(map) {
   map.hasLayer(owlGeoJsonLayer) && map.removeLayer(owlGeoJsonLayer);
   owlGeoJsonLayer = null;
   initialized = false;

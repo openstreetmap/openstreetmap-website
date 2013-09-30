@@ -122,11 +122,13 @@ ia:
       edit: 
         area: Modificar area
         node: Modificar nodo
+        note: Modificar nota
         relation: Modificar relation
         way: Modificar via
       larger: 
         area: Vider le area in un carta plus grande
         node: Vider le nodo in un carta plus grande
+        note: Vider le nota in un carta plus grande
         relation: Vider le relation in un carta plus grande
         way: Vider le via in un carta plus grande
       loading: Cargamento...
@@ -134,10 +136,12 @@ ia:
       all: 
         next_changeset_tooltip: Gruppo de modificationes sequente
         next_node_tooltip: Nodo sequente
+        next_note_tooltip: Nota sequente
         next_relation_tooltip: Relation sequente
         next_way_tooltip: Via sequente
         prev_changeset_tooltip: Gruppo de modificationes precedente
         prev_node_tooltip: Nodo precedente
+        prev_note_tooltip: Nota precedente
         prev_relation_tooltip: Relation precedente
         prev_way_tooltip: Via precedente
       user: 
@@ -165,6 +169,17 @@ ia:
         node: nodo
         relation: relation
         way: via
+    note: 
+      at_by_html: "%{when} retro per %{user}"
+      at_html: "%{when} retro"
+      closed: "Claudite:"
+      closed_title: "Nota resolvite: %{note_name}"
+      comments: "Commentos:"
+      description: "Description:"
+      last_modified: "Ultime modification:"
+      open_title: "Nota non resolvite: %{note_name}"
+      opened: "Aperite:"
+      title: Nota
     paging_nav: 
       of: de
       showing_page: pagina
@@ -205,6 +220,7 @@ ia:
       loaded_an_area_with_num_features: Tu ha cargate un area que contine %{num_features} elementos. In general, alcun navigatores del web pote haber problemas in presentar un tal quantitate de datos. Generalmente, un navigator functiona melio monstrante minus de %{max_features} elementos per vice; alteremente, illo pote devenir lente o non responder. Si tu es secur de voler visualisar iste datos, tu pote cliccar super le button a basso.
       loading: Cargamento...
       manually_select: Seliger manualmente un altere area
+      notes_layer_name: Percurrer notas
       object_list: 
         api: Obtener iste area per medio del API
         back: Retornar al lista de objectos
@@ -376,6 +392,9 @@ ia:
       user_title: Diario de %{user}
   editor: 
     default: Predefinite (actualmente %{name})
+    id: 
+      description: iD (editor in navigator)
+      name: iD
     potlatch: 
       description: Potlatch 1 (editor in navigator del web)
       name: Potlatch 1
@@ -417,7 +436,6 @@ ia:
       drag_a_box: Designa un quadro super le carta pro seliger un area
       export: Exportar
       manually_select: Seliger manualmente un altere area
-      view_larger_map: Vider un carta plus grande
   geocoder: 
     description: 
       title: 
@@ -452,6 +470,14 @@ ia:
         uk_postcode: Resultatos de <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultatos de <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Limite de suburbio
+        level2: Frontiera de pais
+        level4: Frontiera de stato
+        level5: Frontiera de region
+        level6: Frontiera de contato
+        level8: Limite de citate
+        level9: Limite de village
       prefix: 
         aeroway: 
           aerodrome: Aerodromo
@@ -922,13 +948,33 @@ ia:
         mapquest: MapQuest Open
         standard: Standard
         transport_map: Carta de transporto
+    notes: 
+      new: 
+        add: Adder nota
+        intro: Pro meliorar le carta, le information que tu scribe es monstrate a altere cartographos. Dunque, per favor sia tanto descriptive e precise como possibile quando tu positiona le marcator e scribe tu nota hic infra.
+      show: 
+        anonymous_warning: Iste nota include commentos de usatores anonyme que debe esser verificate independentemente.
+        closed_by: resolvite per <a href='%{user_url}'>%{user}</a> a %{time}
+        closed_by_anonymous: resolvite per anonymo a %{time}
+        comment: Commento
+        comment_and_resolve: Commentar e resolver
+        commented_by: commento de <a href='%{user_url}'>%{user}</a> a %{time}
+        commented_by_anonymous: commento de anonymo a %{time}
+        hide: Celar
+        opened_by: create per <a href='%{user_url}'>%{user}</a> a %{time}
+        opened_by_anonymous: create per anonymo a %{time}
+        permalink: Permaligamine
+        reactivate: Reactivar
+        reopened_by: reactivate per <a href='%{user_url}'>%{user}</a> a %{time}
+        reopened_by_anonymous: reactivate per anonymo a %{time}
+        resolve: Resolver
     site: 
+      createnote_disabled_tooltip: Face zoom avante pro adder un nota al carta
+      createnote_tooltip: Adder un nota al carta
       edit_disabled_tooltip: Face zoom avante pro modificar le carta
       edit_tooltip: Modificar le carta
-      edit_zoom_alert: Tu debe facer zoom avante pro modificar le carta
       history_disabled_tooltip: Face zoom avante pro vider le modificationes de iste area
       history_tooltip: Vider le modificationes de iste area
-      history_zoom_alert: Tu debe facer zoom avante pro vider le historia de modification
   layouts: 
     community: Communitate
     community_blogs: Blogs del communitate
@@ -940,8 +986,6 @@ ia:
     donate_link_text: donation
     edit: Modificar
     edit_with: Modificar con %{editor}
-    export: Exportar
-    export_tooltip: Exportar datos cartographic
     foundation: Fundation
     foundation_title: Le fundation OpenStreetMap
     gps_traces: Tracias GPS
@@ -951,12 +995,6 @@ ia:
     help_title: Sito de adjuta pro le projecto
     history: Historia
     home: initio
-    home_tooltip: Ir al position de origine
-    inbox_html: cassa de entrata %{count}
-    inbox_tooltip: 
-      one: Tu cassa de entrata contine 1 message non legite
-      other: Tu cassa de entrata contine %{count} messages non legite
-      zero: Tu cassa de entrata non contine messages non legite
     intro_1: OpenStreetMap es un carta libere e modificabile del mundo integre. Illo es facite per gente como tu.
     intro_2_create_account: Crea un conto de usator
     intro_2_download: discargar
@@ -969,7 +1007,6 @@ ia:
     logo: 
       alt_text: Logo de OpenStreetMap
     logout: clauder session
-    logout_tooltip: Clauder session
     make_a_donation: 
       text: Facer un donation
       title: Supporta OpenStreetMap con un donation monetari
@@ -988,7 +1025,6 @@ ia:
     user_diaries_tooltip: Leger diarios de usatores
     view: Vider
     view_tooltip: Vider le carta
-    welcome_user_link_tooltip: Tu pagina de usator
     wiki: Wiki
     wiki_title: Sito wiki pro le projecto
   license_page: 
@@ -1005,8 +1041,8 @@ ia:
       contributors_footer_1_html: "Pro ulterior detalios de iste e altere fontes que ha essite usate\npro adjutar a meliorar OpenStreetMap, vide le <a\nhref=\"\"http://wiki.openstreetmap.org/wiki/Contributors\">pagina\nde contributores</a> in le wiki de OpenStreetMap."
       contributors_footer_2_html: "  Le inclusion de datos in OpenStreetMap non implica que le fornitor\n  original del datos indorsa OpenStreetMap, forni alcun garantia, o\n  accepta alcun responsabilitate."
       contributors_fr_html: "<strong>Francia</strong>: Contine datos fornite per le\n   Direction Générale des Impôts."
-      contributors_gb_html: "<strong>Regno Unite</strong>: Contine datos de Ordnance\n   Survey &copy; copyright del Corona e derecto de base de datos\n   2010."
-      contributors_intro_html: "  Nostre licentia CC BY-SA require que vos &ldquo;recognosce le Autor\n  Original de maniera rationabile pro le medio que Vos\n  utilisa&rdquo;. Le cartographos individual de OSM non requesta un\n  recognoscentia excedente illo del &ldquo;Contributores de\n  OpenStreetMap&rdquo;, sed ubi datos de un agentia cartographic\n  national o altere fonte major ha essite includite in\n  OpenStreetMap, il pote esser rationabile recognoscer les per\n  directemente reproducer lor recognoscentia o per ligar a illo in iste pagina."
+      contributors_gb_html: "<strong>Regno Unite</strong>: Contine datos de Ordnance\n   Survey &copy; copyright del Corona e derecto de base de datos\n   2010-12."
+      contributors_intro_html: "Nostre contributores es milles de personas. Nos include anque le datos sub licentia aperte de agentias cartographic national e de altere fontes, inter le quales:"
       contributors_nl_html: "<strong>Nederlandia</strong>: Contine datos &copy; AND, 2007\n(<a href=\"http://www.and.com\">www.and.com</a>)"
       contributors_nz_html: "<strong>Nove Zelandia</strong>: Contine datos proveniente de\n   Land Information New Zealand. Crown Copyright reservate."
       contributors_title_html: Nostre contributores
@@ -1015,11 +1051,14 @@ ia:
       credit_2_html: Vos debe anque clarificar que le datos es disponibile sub Open Database License, e si vos usa nostre tegulas cartographic, que le cartographia es licentiate sub CC-BY-SA. Vos pote facer isto con un ligamine a <a href="http://www.openstreetmap.org/copyright">iste pagina de copyright</a>. Alternativemente, e obligatorimente si vos distribue OSM in forma de datos, vos pote nominar e ligar directemente al licentia(s). Si vos usa un medio de communication in le qual le ligamines non es possibile (p.ex. un obra imprimite), nos suggere que vos dirige vostre lectores a www.openstreetmap.org (forsan per inserer iste adresse complete in loco del parola &lsquo;OpenStreetMap&rsquo;), a www.opendatacommosn.org, e (si relevante) a www.creativecommons.org.
       credit_3_html: "Pro un carta electronic navigabile, le recognoscentia debe apparer in le angulo del carta. Per exemplo:"
       credit_title_html: Como dar recognoscentia a OpenStreetMap
-      intro_1_html: "OpenStreetMap is <i>open data</i>, licensed under the <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data\nCommons Open Database License</a> (ODbL)."
+      infringement_1_html: "  Nos rememora al contributores de OSM de nunquam adder datos de alcun\n  fonte sub derecto de autor (p.ex. Google Maps o cartas imprimite)\n  sin explicite permission del titulares del derecto de autor."
+      infringement_2_html: Si vos crede que material sub copyright ha essite inserite inappropriatemente in le base de datos de OpenStreetMap o in iste sito, per favor consulta nostre <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">procedura de remotion</a> o submitte un plancto immediate usante nostre <a href="http://dmca.openstreetmap.org/">formulario in linea</a>.
+      infringement_title_html: Violation de copyright
+      intro_1_html: "OpenStreetMap es <i>datos aperte</i>, licentiate sub le <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data\nCommons Open Database License</a> (ODbL)."
       intro_2_html: "  Vos es libere de copiar, distribuer, transmitter e adaptar nostre cartas\n  e datos, a condition que vos da recognoscentia a OpenStreetMap e su\n  contributores. Si vos altera o extende nostre cartas e datos, vos\n  pote distribuer le resultato solmente sub le mesme licentia. Le\n  complete <a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">codice\n  legal</a> explica vostre derectos e responsabilitates."
       intro_3_html: "Le cartographia in nostre tegulas de carta, e nostre documentation, son\npublicate sub licentia <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons Attribution-ShareAlike 2.0</a> (CC-BY-SA)."
-      more_1_html: "  Lege plus super le uso de nostre datos al <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">FAQ\n  Legal</a>."
-      more_2_html: "  Nos rememora al contributores de OSM de nunquam adder datos de alcun\n  fonte sub derecto de autor (p.ex. Google Maps o cartas imprimite)\n  sin explicite permission del titulares del derecto de autor."
+      more_1_html: "  Lege plus super le uso de nostre datos, e como recognoscer nos, al <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">FAQ\n  Legal</a>."
+      more_2_html: "Ben que OpenStreetMap es datos aperte, nos non pote fornir un API cartographic gratuite pro disveloppatores tertie. Vide nostre <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">politica pro le uso del API</a>,\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">politica pro le uso de tegulas</a>\ne <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">politica pro le uso de Nominatim</a>."
       more_title_html: Pro saper plus
       title_html: Copyright e Licentia
     native: 
@@ -1081,8 +1120,6 @@ ia:
       title: Cassa de exito
       to: A
     read: 
-      back_to_inbox: Retornar al cassa de entrata
-      back_to_outbox: Retornar al cassa de exito
       date: Data
       from: De
       reply_button: Responder
@@ -1095,6 +1132,34 @@ ia:
       wrong_user: Tu es authenticate como "%{user}", ma le message al qual tu vole responder non ha essite inviate a iste usator. Per favor aperi un session como le usator correcte pro poter responder.
     sent_message_summary: 
       delete_button: Deler
+  note: 
+    description: 
+      closed_at_by_html: Resolvite %{when} retro per %{user}
+      closed_at_html: Resolvite %{when} retro
+      commented_at_by_html: Actualisate %{when} retro per %{user}
+      commented_at_html: Actualisate %{when} retro
+      opened_at_by_html: Create %{when} retro per %{user}
+      opened_at_html: Create %{when} retro
+      reopened_at_by_html: Reactivate %{when} retro per %{user}
+      reopened_at_html: Reactivate %{when} retro
+    entry: 
+      comment: Commento
+      full: Nota complete
+    mine: 
+      ago_html: "%{when} retro"
+      created_at: Create a
+      creator: Creator
+      description: Description
+      heading: Notas de %{user}
+      id: ID
+      last_changed: Ultime modification
+      subheading: Notas submittite o commentate per %{user}
+      title: Notas submittite o commentate per %{user}
+    rss: 
+      closed: nota claudite (a presso de %{place})
+      description_area: Un lista de notas reportate, commentate o claudite in tu area [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: Syndication RSS pro le nota %{id}
+      title: Notas de OpenStreetMap
   notifier: 
     diary_comment_notification: 
       footer: Tu pote tamben leger le commento a %{readurl} e tu pote commentar a %{commenturl} o responder a %{replyurl}
@@ -1110,8 +1175,7 @@ ia:
     email_confirm_plain: 
       click_the_link: Si isto es tu, per favor clicca super le ligamine ci infra pro confirmar le alteration.
       greeting: Salute,
-      hopefully_you_1: Alcuno (sperabilemente tu) vole cambiar su adresse de e-mail a
-      hopefully_you_2: "%{server_url} a %{new_address}."
+      hopefully_you: Alcuno (probabilemente tu) vole cambiar su adresse de e-mail in %{server_url} a %{new_address}.
     friend_notification: 
       befriend_them: Tu pote equalmente adder le/la como amico a %{befriendurl}.
       had_added_you: "%{user} te ha addite como amico in OpenStreetMap."
@@ -1140,33 +1204,34 @@ ia:
     lost_password_plain: 
       click_the_link: Si isto es tu, per favor clicca super le ligamine ci infra pro reinitialisar tu contrasigno.
       greeting: Salute,
-      hopefully_you_1: Alcuno (possibilemente tu) ha demandate de reinitialisar le contrasigno del
-      hopefully_you_2: conto openstreetmap.org con iste adresse de e-mail.
+      hopefully_you: Alcuno (probabilemente tu) ha demandate que le contrasigno del conto openstreetmap.org associate con iste adresse de e-mail sia reinitialisate.
     message_notification: 
-      footer1: Tu pote tamben leger le message at %{readurl}
-      footer2: e tu pote responder a %{replyurl}
+      footer_html: Tu pote anque leger le message a %{readurl} e tu pote responder a %{replyurl}
       header: "%{from_user} te ha inviate un message per OpenStreetMap con le subjecto %{subject}:"
       hi: Salute %{to_user},
+    note_comment_notification: 
+      anonymous: Un usator anonyme
+      closed: 
+        commented_note: "%{commenter} ha resolvite un nota de carta que tu ha commentate. Le nota es in le vicinitate de %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} ha resolvite un nota que te interessa"
+        subject_own: "[OpenStreetMap] %{commenter} ha resolvite un de tu notas"
+        your_note: "%{commenter} ha resolvite un de tu notas de carta in le vicinitate de %{place}."
+      commented: 
+        commented_note: "%{commenter} ha lassate un commento sur un nota de carta que tu ha commentate. Le nota es in le vicinitate de %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} ha commentate un nota que te interessa"
+        subject_own: "[OpenStreetMap] %{commenter} ha commentate un de tu notas"
+        your_note: "%{commenter} ha lassate un commento sur un de tu notas de carta in le vicinitate de %{place}."
+      details: Plus detalios sur le nota pote esser trovate a %{url}.
+      greeting: Salute,
+      reopened: 
+        subject_other: "[OpenStreetMap] %{commenter} ha reactivate un nota de tu interesse"
+        subject_own: "[OpenStreetMap] %{commenter} ha reactivate un de tu notas"
     signup_confirm: 
-      subject: "[OpenStreetMap] Confirma tu adresse de e-mail"
-    signup_confirm_html: 
-      ask_questions: Tu pote poner qualcunque questiones super OpenStreetMap a nostre <a href="http://help.openstreetmap.org/">sito de questiones e responsas</a>.
-      current_user: Un lista de usatores actual in categorias, a base de lor position geographic, es disponibile de <a href="http://wiki.openstreetmap.org/wiki/Category:Users_by_geographical_region">Category:Users_by_geographical_region</a>.
-      get_reading: Informa te super OpenStreetMap per <a href="http://wiki.openstreetmap.org/wiki/Beginners%27_Guide">leger le wiki</a>, tene te al currente con le ultime novas via le <a href="http://blog.openstreetmap.org/">blog de OpenStreetMap</a> o con <a href="http://twitter.com/openstreetmap">Twitter</a>, o percurre le <a href="http://www.opengeodata.org/">blog OpenGeoData</a> del fundator de OpenStreetMap Steve Coast pro le historia compendiose del projecto, le qual include tamben <a href="http://www.opengeodata.org/?cat=13">podcasts a ascoltar</a>!
-      introductory_video: Tu pote reguardar un %{introductory_video_link}.
-      more_videos: Il ha %{more_videos_link}.
-      more_videos_here: plus videos hic
-      user_wiki_page: Es recommendate que tu crea un pagina wiki de usator, que include etiquettas de categoria indicante ubi tu es, como <a href="http://wiki.openstreetmap.org/wiki/Category:Users_in_London">[[Category:Users_in_London]]</a>.
-      video_to_openstreetmap: video de introduction a OpenStreetMap
-      wiki_signup: Considera tamben <a href="http://wiki.openstreetmap.org/index.php?title=Special:Userlogin&type=signup&returnto=Main_Page">inscriber te al wiki de OpenStreetMap</a>.
-    signup_confirm_plain: 
-      ask_questions: "Tu pote poner qualcunque questiones super OpenStreetMap a nostre sito de questiones e responsas:"
-      blog_and_twitter: "Tene te al currente con le ultime novas al blog de OpenStreetMap o con Twitter:"
-      introductory_video: "Tu pote reguardar un video de introduction a OpenStreetMap hic:"
-      more_videos: "Il ha plus videos hic:"
-      opengeodata: "OpenGeoData.org es le blog del fundator de OpenStreetMap, Steve Coast, e illo include tamben podcasts:"
-      the_wiki: "Informa te super OpenStreetMap al wiki:"
-      wiki_signup: "Considera tamben crear un conto al wiki de OpenStreetMap a:"
+      confirm: "Ante de facer altere cosa, nos debe confirmar que iste requesta proveniva de te. Dunque, si tu lo faceva, per favor clicca sur le ligamine sequente pro confirmar tu conto:"
+      created: Un persona (probabilemente tu) ha justo create un conto a %{site_url}.
+      greeting: Bon die!
+      subject: "[OpenStreetMap] Benvenite a OpenStreetMap"
+      welcome: Benvenite! Ecce alcun information supplementari pro adjutar te a comenciar.
   oauth: 
     oauthorize: 
       allow_read_gpx: leger tu tracias GPS private.
@@ -1175,6 +1240,7 @@ ia:
       allow_write_api: modificar le carta.
       allow_write_diary: crear entratas de diario, commentos e adder amicos.
       allow_write_gpx: incargar tracias GPS.
+      allow_write_notes: modificar notas.
       allow_write_prefs: modificar tu preferentias de usator.
       request_access: Le application %{app_name} requesta accesso a tu conto "%{user}". Per favor verifica si tu vole que le application ha le sequente possibilitates. Tu pote seliger tantes o si poches como tu vole.
     revoke: 
@@ -1193,6 +1259,7 @@ ia:
       allow_write_api: modificar le carta.
       allow_write_diary: crear entratas de diario, commentos e adder amicos.
       allow_write_gpx: incargar tracias GPS.
+      allow_write_notes: modificar notas.
       allow_write_prefs: modificar su preferentias de usator.
       callback_url: URL de retorno
       name: Nomine
@@ -1223,6 +1290,7 @@ ia:
       allow_write_api: modificar le carta.
       allow_write_diary: crear entratas de diario, commentos e adder amicos.
       allow_write_gpx: incargar tracias GPS.
+      allow_write_notes: modificar notas.
       allow_write_prefs: modificar su preferentias de usator.
       authorize_url: "URL de autorisation:"
       confirm: Es tu secur?
@@ -1231,7 +1299,7 @@ ia:
       key: "Clave de consumitor:"
       requests: "Le sequente permissiones es requestate del usator:"
       secret: "Secreto de consumitor:"
-      support_notice: Nos supporta HMAC-SHA1 (recommendate) e texto simple in modo SSL.
+      support_notice: Nos supporta le signaturas HMAC-SHA1 (recommendate) e RSA-SHA1.
       title: Detalios OAuth pro %{app_name}
       url: "URL del indicio de requesta:"
     update: 
@@ -1271,6 +1339,7 @@ ia:
     edit: 
       anon_edits_link_text: Lege proque isto es le caso.
       flash_player_required: Es necessari haber un reproductor Flash pro usar Potlatch, le editor Flash de OpenStreetMap. Tu pote <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">discargar Flash Player a Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Plure altere optiones</a> es tamben disponibile pro modificar OpenStreetMap.
+      id_not_configured: iD non ha essite configurate
       no_iframe_support: Tu navigator non supporta le iframes in HTML, necessari pro iste functionalitate.
       not_public: Tu non ha configurate tu modificationes pro esser public.
       not_public_description: Tu non potera plus modificar le carta si tu non lo face. Tu pote configurar tu modificationes como public a partir de tu %{user_page}.
@@ -1279,14 +1348,15 @@ ia:
       potlatch_unsaved_changes: Tu ha modificationes non salveguardate. (Pro salveguardar in Potlatch, tu debe deseliger le via o puncto actual si tu modifica in modo directe, o cliccar super le button Salveguardar si presente.)
       user_page_link: pagina de usator
     index: 
+      createnote: Adder un nota
       js_1: O tu usa un navigator que non supporta JavaScript, o tu ha disactivate JavaScript.
       js_2: OpenStreetMap usa JavaScript pro su carta glissante.
+      license: 
+        copyright: Copyright OpenStreetMap e contributores, sub licentia aperte
       permalink: Permaligamine
       remote_failed: Modification fallite - assecura te que JOSM o Merkaartor es cargate e que le plug-in de controlo remote es activate
       shortlink: Ligamine curte
     key: 
-      map_key: Legenda
-      map_key_tooltip: Legenda del carta
       table: 
         entry: 
           admin: Limite administrative
@@ -1406,6 +1476,7 @@ ia:
       visibility: "Visibilitate:"
       visibility_help: que significa isto?
     list: 
+      description: Percurrer le tracias GPS incargate recentemente
       empty_html: Ancora nihil a vider hic. <a href='%{upload_link}'>Incarga un nove tracia</a> o lege plus sur le traciamento GPS in le <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>pagina wiki</a>.
       public_traces: Tracias GPS public
       public_traces_from: Tracias GPS public de %{user}
@@ -1446,14 +1517,16 @@ ia:
     trace_header: 
       see_all_traces: Vider tote le tracias
       see_your_traces: Vider tote tu tracias
-      traces_waiting: Tu ha %{count} tracias attendente incargamento. Per favor considera attender le completion de istes ante de incargar alteres, pro non blocar le cauda pro altere usatores.
+      traces_waiting: 
+        one: Tu ha %{count} tracia attendente incargamento. Per favor considera attender le completion de iste ante de incargar alteres, pro non blocar le cauda pro altere usatores.
+        other: Tu ha %{count} tracias attendente incargamento. Per favor considera attender le completion de istes ante de incargar alteres, pro non blocar le cauda pro altere usatores.
       upload_trace: Incargar un tracia
     trace_optionals: 
       tags: Etiquettas
     trace_paging_nav: 
       newer: Tracias plus nove
       older: Tracias plus ancian
-      showing_page: Pagina %{page} monstrate
+      showing_page: Pagina %{page}
     view: 
       delete_track: Deler iste tracia
       description: "Description:"
@@ -1492,6 +1565,9 @@ ia:
       email never displayed publicly: (nunquam monstrate publicamente)
       flash update success: Informationes del usator actualisate con successo.
       flash update success confirm needed: Informationes del usator actualisate con successo. Tu recipera in e-mail un nota pro confirmar tu nove adresse de e-mail.
+      gravatar: 
+        gravatar: Usar Gravatar
+        link text: que es isto?
       home location: "Position de origine:"
       image: "Imagine:"
       image size hint: (imagines quadrate de al minus 100×100 functiona melio)
@@ -1527,12 +1603,9 @@ ia:
       update home location on click: Actualisar le position de origine quando io clicca super le carta?
     confirm: 
       already active: Iste conto ha ja essite confirmate.
-      before you start: Nos sape que tu es probabilemente impatiente de comenciar le cartographia, ma antea tu vole forsan inserer plus information super te in le formulario hic infra.
       button: Confirmar
       heading: Confirmar un conto de usator
       press confirm button: Preme le button de confirmation ci infra pro activar tu conto.
-      reconfirm: Si alcun tempore passava post que tu creava le conto, pote esser que tu debe <a href="%{reconfirm}">facer inviar te un nove e-mail de confirmation</a>.
-      success: Tu conto ha essite confirmate, gratias pro inscriber te!
       unknown token: Iste indicio non pare exister.
     confirm_email: 
       button: Confirmar
@@ -1553,8 +1626,8 @@ ia:
       heading: Usatores
       hide: Celar usatores seligite
       showing: 
-        one: Presentation del pagina %{page} (%{first_item} de %{items})
-        other: Presentation del pagina %{page} (%{first_item}-%{last_item} de %{items})
+        one: Pagina %{page} (%{first_item} de %{items})
+        other: Pagina %{page} (%{first_item}-%{last_item} de %{items})
       summary: "%{name} create ab %{ip_address} le %{date}"
       summary_no_ip: "%{name} create le %{date}"
       title: Usatores
@@ -1616,7 +1689,7 @@ ia:
       button: Adder como amico
       failed: Pardono, non poteva adder %{name} como amico.
       heading: Adder %{user} como amico?
-      success: "%{name} es ora tu amico."
+      success: "%{name} es ora tu amico!"
     new: 
       confirm email address: "Confirmar adresse de e-mail:"
       confirm password: "Confirmar contrasigno:"
@@ -1625,9 +1698,6 @@ ia:
       display name: "Nomine public:"
       display name description: Tu nomine de usator monstrate publicamente. Tu pote cambiar lo plus tarde in le preferentias.
       email address: "Adresse de e-mail:"
-      fill_form: Completa le formulario e nos te inviara promptemente un e-mail pro activar tu conto.
-      flash create success message: Gratias pro crear un conto. Nos ha inviate un message de confirmation a %{email} e si tosto que tu confirma le conto, tu potera comenciar a cartographiar.<br /><br />Si tu usa un systema anti-spam que invia requestas de confirmation, alora per favor assecura te de adder webmaster@openstreetmap.org al lista blanc, post que nos non pote responder a requestas de confirmation.
-      heading: Crear un conto de usator
       license_agreement: Quando tu confirma tu conto, tu debera acceptar le <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">conditiones de contributor</a>.
       no_auto_account_create: Infortunatemente in iste momento non es possibile crear un conto pro te automaticamente.
       not displayed publicly: Non monstrate publicamente (vide le <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="politica de confidentialitate del wiki includente un section super adresses de e-mail">politica de confidentialitate</a>)
@@ -1648,7 +1718,7 @@ ia:
       nearby mapper: Cartographo vicin
       your location: Tu position
     remove_friend: 
-      button: Remover como amico
+      button: Remover amico
       heading: Remover %{user} como amico?
       not_a_friend: "%{name} non es un de tu amicos."
       success: "%{name} ha essite removite de tu amicos."
@@ -1684,7 +1754,7 @@ ia:
       you need to accept or decline: Per favor lege e postea accepta o declina le nove Conditiones del Contributor pro continuar.
     view: 
       activate_user: activar iste usator
-      add as friend: adder como amico
+      add as friend: adder amico
       ago: (%{time_in_words_ago} retro)
       block_history: blocadas recipite
       blocks by me: blocadas per me
@@ -1704,10 +1774,10 @@ ia:
       diary: diario
       edits: modificationes
       email address: "Adresse de e-mail:"
-      friends_changesets: Percurrer tote le gruppos de modificationes per amicos
-      friends_diaries: Navigar per tote le articulos de diario per amicos
+      friends_changesets: gruppos de modificationes de tu amicos
+      friends_diaries: articulos de diario de tu amicos
       hide_user: celar iste usator
-      if set location: Si tu ha definite tu position, il apparera ci infra un elegante carta e altere cosas. Tu pote definir tu position de origine in tu pagina de %{settings_link}.
+      if set location: Defini tu position de origine in le %{settings_link} pro vider le usatores a proximitate.
       km away: a %{count} km de distantia
       latest edit: "Ultime modification %{ago}:"
       m away: a %{count} m de distantia
@@ -1716,16 +1786,18 @@ ia:
       my comments: mi commentos
       my diary: mi diario
       my edits: mi modificationes
+      my notes: mi notas de carta
       my settings: mi configurationes
       my traces: mi tracias
       nearby users: Altere usatores vicin
-      nearby_changesets: Navigar per tote le gruppos de modificationes per usatores vicin
-      nearby_diaries: Navigar per tote le articulos de diario per usatores vicin
+      nearby_changesets: gruppos de modificationes de usatores a proximitate
+      nearby_diaries: articulos de diario per usatores a proximitate
       new diary entry: nove entrata de diario
       no friends: Tu non ha ancora addite alcun amico.
       no nearby users: Il non ha ancora altere cartographos in le vicinitate.
+      notes: notas de carta
       oauth settings: configuration oauth
-      remove as friend: remover como amico
+      remove as friend: remover amico
       role: 
         administrator: Iste usator es un administrator
         grant: 
@@ -1804,7 +1876,7 @@ ia:
       revoke: Revocar!
       revoker_name: Revocate per
       show: Monstrar
-      showing_page: Pagina %{page} monstrate
+      showing_page: Pagina %{page}
       status: Stato
     period: 
       one: 1 hora

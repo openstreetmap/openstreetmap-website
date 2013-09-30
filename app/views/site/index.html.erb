@@ -3,10 +3,6 @@
   <%= stylesheet_link_tag 'browse' %>
 <% end %>
 
-<% content_for :left_menu do %>
-  <li><h4><%= link_to t("site.key.map_key"), {:action => :key}, :id => "open_map_key", :title => t("site.key.map_key_tooltip") %></h4></li>
-<% end %>
-
 <%= render :partial => 'home_link' %>
 <%= render :partial => 'sidebar' %>
 <%= render :partial => 'search' %>
@@ -18,22 +14,18 @@
   </div>
 </noscript>
 
-<div id="map">
-  <div id="permalink">
-    <a href="/" id="permalinkanchor" class="geolink llz layers object"><%= t 'site.index.permalink' %></a>
-    <a href="/" id="shortlinkanchor"><%= t 'site.index.shortlink' %></a>
-  </div>
-
   <div id="owl-beta-info">
     Welcome to New History Tab beta! Feel free to
     <a href="https://github.com/ppawel/openstreetmap-website/issues/new" target="_blank">report a problem or suggestion</a>.
     <br>
     Current status: <span style="color: green">OWL API OK - HISTORY PROCESSING IN PROGRESS</span>
   </div>
+
+<div id="map-ui">
 </div>
 
-<iframe id="linkloader" style="display: none">
-</iframe>
+<div id="map" tabindex="2">
+</div>
 
 <div id="attribution">
   <table width="100%">
@@ -46,3 +38,4 @@
     </tr>
   </table>
 </div>
+ 

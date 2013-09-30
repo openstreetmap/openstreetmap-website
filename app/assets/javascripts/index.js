@@ -1,152 +1,246 @@
 //= require_self
-//= require jquery.scrollIntoView
+//= require leaflet.sidebar
+//= require leaflet.locate
+//= require leaflet.layers
+//= require leaflet.key
+//= require leaflet.note
+//= require leaflet.share
+//= require index/search
 //= require index/browse
 //= require index/export
-//= require index/key
+//= require index/notes
 //= require owl/owl
 
 $(document).ready(function () {
-  var permalinks = $("#permalink").detach().html();
-  var marker;
   var params = OSM.mapParams();
-  var map = createMap("map");
 
-  L.control.scale().addTo(map);
+  var map = L.map("map", {
+    zoomControl: false,
+    layerControl: false
+  });
 
-  map.attributionControl.setPrefix(permalinks);
+  map.attributionControl.setPrefix('');
 
-  map.on("moveend baselayerchange", updateLocation);
+  map.hash = L.hash(map);
+
+  var copyright = I18n.t('javascripts.map.copyright', {copyright_url: '/copyright'});
+
+  var layers = [
+    new L.OSM.Mapnik({
+      attribution: copyright,
+      code: "M",
+      keyid: "mapnik",
+      name: I18n.t("javascripts.map.base.standard")
+    }),
+    new L.OSM.CycleMap({
+      attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+      code: "C",
+      keyid: "cyclemap",
+      name: I18n.t("javascripts.map.base.cycle_map")
+    }),
+    new L.OSM.TransportMap({
+      attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+      code: "T",
+      keyid: "transportmap",
+      name: I18n.t("javascripts.map.base.transport_map")
+    }),
+    new L.OSM.MapQuestOpen({
+      attribution: copyright + ". Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
+      code: "Q",
+      keyid: "mapquest",
+      name: I18n.t("javascripts.map.base.mapquest")
+    }),
+    new L.OSM.HOT({
+      attribution: copyright + ". Tiles courtesy of <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>",
+      code: "H",
+      keyid: "hot",
+      name: I18n.t("javascripts.map.base.hot")
+    })
+  ];
+
+  function updateLayers(params) {
+    var layerParam = params.layers || "M";
+    var layersAdded = "";
+
+    for (var i = layers.length - 1; i >= 0; i--) {
+      if (layerParam.indexOf(layers[i].options.code) >= 0) {
+        map.addLayer(layers[i]);
+        layersAdded = layersAdded + layers[i].options.code;
+      } else if (i == 0 && layersAdded == "") {
+        map.addLayer(layers[i]);
+      } else {
+        map.removeLayer(layers[i]);
+      }
+    }
+  }
+
+  updateLayers(params);
+
+  $(window).on("hashchange", function () {
+    updateLayers(OSM.mapParams());
+  });
+
+  map.on("baselayerchange", function (e) {
+    if (map.getZoom() > e.layer.options.maxZoom) {
+      map.setView(map.getCenter(), e.layer.options.maxZoom, { reset: true });
+    }
+  });
+
+  map.noteLayer = new L.LayerGroup();
+  map.noteLayer.options = {code: 'N'};
+
+  map.dataLayer = new L.OSM.DataLayer(null);
+  map.dataLayer.options.code = 'D';
+
+  $("#sidebar").on("opened closed", function () {
+    map.invalidateSize();
+  });
+
+  var position = $('html').attr('dir') === 'rtl' ? 'topleft' : 'topright';
+
+  L.OSM.zoom({position: position})
+    .addTo(map);
+
+  L.control.locate({
+    position: position,
+    strings: {
+      title: I18n.t('javascripts.map.locate.title'),
+      popup: I18n.t('javascripts.map.locate.popup')
+    }
+  }).addTo(map);
+
+  var sidebar = L.OSM.sidebar('#map-ui')
+    .addTo(map);
+
+  L.OSM.layers({
+    position: position,
+    layers: layers,
+    sidebar: sidebar
+  }).addTo(map);
+
+  L.OSM.key({
+    position: position,
+    sidebar: sidebar
+  }).addTo(map);
+
+  L.OSM.share({
+    position: position,
+    sidebar: sidebar,
+    short: true
+  }).addTo(map);
+
+  L.OSM.note({
+    position: position,
+    sidebar: sidebar
+  }).addTo(map);
+
+  L.control.scale()
+    .addTo(map);
+
+  $('.leaflet-control .control-button').tooltip({placement: 'left', container: 'body'});
+
+  map.on('moveend layeradd layerremove', updateLocation);
+
+  if (OSM.PIWIK) {
+    map.on('layeradd', function (e) {
+      if (e.layer.options) {
+        var goal = OSM.PIWIK.goals[e.layer.options.keyid];
+
+        if (goal) {
+          $('body').trigger('piwikgoal', goal);
+        }
+      }
+    });
+  }
+
+  var marker = L.marker([0, 0], {icon: getUserIcon()});
 
   if (!params.object_zoom) {
-    if (params.bbox) {
-      var bbox = L.latLngBounds([params.minlat, params.minlon],
-                                [params.maxlat, params.maxlon]);
-
-      map.fitBounds(bbox);
-
-      if (params.box) {
-        addBoxToMap(bbox);
-      }
+    if (params.bounds) {
+      map.fitBounds(params.bounds);
     } else {
       map.setView([params.lat, params.lon], params.zoom);
     }
   }
 
-  if (params.layers) {
-    setMapLayers(params.layers);
+  if (params.box) {
+    L.rectangle(params.box, {
+      weight: 2,
+      color: '#e90',
+      fillOpacity: 0
+    }).addTo(map);
   }
 
   if (params.marker) {
-    marker = L.marker([params.mlat, params.mlon], {icon: getUserIcon()}).addTo(map);
+    marker.setLatLng([params.mlat, params.mlon]).addTo(map);
   }
 
   if (params.object) {
-    addObjectToMap(params.object, params.object_zoom);
+    map.addObject(params.object, { zoom: params.object_zoom });
   }
 
-  handleResize();
-
-  $("body").on("click", "a.set_position", function (e) {
+  $("#homeanchor").on("click", function(e) {
     e.preventDefault();
 
-    var data = $(this).data();
-    var centre = L.latLng(data.lat, data.lon);
+    var data = $(this).data(),
+      center = L.latLng(data.lat, data.lon);
 
-    if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
-      map.fitBounds([[data.minLat, data.minLon],
-                     [data.maxLat, data.maxLon]]);
-    } else {
-      map.setView(centre, data.zoom);
-    }
-
-    if (marker) {
-      map.removeLayer(marker);
-    }
-
-    marker = L.marker(centre, {icon: getUserIcon()}).addTo(map);
+    map.setView(center, data.zoom);
+    marker.setLatLng(center).addTo(map);
   });
 
-  function updateLocation() {
-    var center = map.getCenter().wrap();
-    var zoom = map.getZoom();
-    var layers = getMapLayers();
-    var extents = map.getBounds().wrap();
-
-    updatelinks(center.lng,
-                center.lat,
-                zoom,
-                layers,
-                extents.getWestLng(),
-                extents.getSouthLat(),
-                extents.getEastLng(),
-                extents.getNorthLat(),
-                params.object);
-
-    var expiry = new Date();
-    expiry.setYear(expiry.getFullYear() + 10);
-    $.cookie("_osm_location", [center.lng, center.lat, zoom, layers].join("|"), {expires: expiry});
-  }
-
-  function remoteEditHandler() {
-    var extent = map.getBounds();
-    var loaded = false;
-
-    $("#linkloader").load(function () { loaded = true; });
-    $("#linkloader").attr("src", "http://127.0.0.1:8111/load_and_zoom?left=" + extent.getWestLng()
-                                                                   + "&bottom=" + extent.getSouthLat()
-                                                                   + "&right=" + extent.getEastLng()
-                                                                   + "&top=" + extent.getNorthLat());
-
-    setTimeout(function () {
-      if (!loaded) alert(I18n.t('site.index.remote_failed'));
-    }, 1000);
-
-    return false;
-  }
-
-  $("a[data-editor=remote]").click(remoteEditHandler);
+  $("a[data-editor=remote]").click(function(e) {
+      remoteEditHandler(map.getBounds());
+      e.preventDefault();
+  });
 
   if (OSM.preferred_editor == "remote" && $('body').hasClass("site-edit")) {
-    remoteEditHandler();
-  }
-
-  $(window).resize(handleResize);
-
-  $("#search_form").submit(function () {
-    var bounds = map.getBounds();
-
-    $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
-    $("#sidebar_content").load($(this).attr("action"), {
-      query: $("#query").val(),
-      minlon: bounds.getWestLng(),
-      minlat: bounds.getSouthLat(),
-      maxlon: bounds.getEastLng(),
-      maxlat: bounds.getNorthLat()
-    }, openSidebar);
-
-    return false;
-  });
-
-  if ($("#query").val()) {
-    $("#search_form").submit();
+    remoteEditHandler(map.getBounds());
   }
 
   // Setup History tab.
   OWL.initTagSymbols();
-  $("a[id=historyanchor]").click(function (e) {
-    $("body").removeClass("site-index").addClass("site-history");
+  $("li[id=history_tab]").click(function (e) {
+    // TODO highlight History tab $("body").removeClass("site-index").addClass("site-history");
     openSidebar({title: I18n.t('site.sidebar.history')});
     $("a[class=sidebar_close]").click(function (e) {
-      destroyOwlLayer();
+      destroyOwlLayer(map);
       $("body").removeClass("site-history").addClass("site-index");
     });
-    initOwlLayer();
+    initOwlLayer(map);
     return false;
   });
 
-  // Focus the search field for browsers that don't support
-  // the HTML5 'autofocus' attribute
-  if (!("autofocus" in document.createElement("input"))) {
-    $("#query").focus();
+  if (OSM.params().edit_help) {
+    $('#editanchor')
+      .removeAttr('title')
+      .tooltip({
+        placement: 'bottom',
+        title: I18n.t('javascripts.edit_help')
+      })
+      .tooltip('show');
+
+    $('body').one('click', function() {
+      $('#editanchor').tooltip('hide');
+    });
   }
+
+  initializeSearch(map);
+  initializeExport(map);
+  initializeBrowse(map, params);
+  initializeNotes(map, params);
 });
+
+function updateLocation() {
+  updatelinks(this.getCenter().wrap(),
+      this.getZoom(),
+      this.getLayersCode(),
+      this.getBounds().wrap());
+
+  var expiry = new Date();
+  expiry.setYear(expiry.getFullYear() + 10);
+  $.cookie("_osm_location", cookieContent(this), { expires: expiry });
+
+  // Trigger hash update on layer changes.
+  this.hash.onMapMove();
+}

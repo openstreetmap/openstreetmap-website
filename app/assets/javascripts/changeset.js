@@ -1,6 +1,14 @@
 $(document).ready(function () {
   var changesets = [], rects = {};
-  var map = createMap("changeset_list_map");
+
+  var map = L.map("changeset_list_map", {
+    attributionControl: false,
+    zoomControl: false
+  }).addLayer(new L.OSM.Mapnik());
+
+  L.OSM.zoom()
+    .addTo(map);
+
   var group = L.featureGroup().addTo(map);
 
   $("[data-changeset]").each(function () {
@@ -53,11 +61,13 @@ $(document).ready(function () {
     }
   });
 
-  var params = OSM.mapParams();
-  if (params.bbox) {
-    map.fitBounds([[params.minlat, params.minlon],
-                   [params.maxlat, params.maxlon]]);
-  } else {
-    map.fitBounds(group.getBounds());
-  }
+  $(window).scroll(function() {
+        if ($(window).scrollTop() > $('.content-heading').outerHeight() + $('#top-bar').outerHeight() ) {
+            $('#changeset_list_map_wrapper').addClass('scrolled');
+        } else {
+            $('#changeset_list_map_wrapper').removeClass('scrolled');
+        }
+  });
+
+  map.fitBounds(OSM.mapParams().bounds || group.getBounds());
 });

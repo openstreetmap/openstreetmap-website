@@ -1,10 +1,22 @@
 folder 'vendor/assets' do
+  folder 'jquery' do
+    file 'jquery.throttle-debounce.js', 'https://raw.github.com/cowboy/jquery-throttle-debounce/v1.1/jquery.ba-throttle-debounce.js'
+  end
+
+  folder 'bootstrap' do
+    file 'bootstrap.tooltip.js', 'https://raw.github.com/twbs/bootstrap/v2.3.2/js/bootstrap-tooltip.js'
+    file 'bootstrap.dropdown.js', 'https://raw.github.com/twbs/bootstrap/v2.3.2/js/bootstrap-dropdown.js'
+  end
+
   folder 'leaflet' do
-    from 'git://github.com/Leaflet/Leaflet.git', :tag => 'v0.5' do
-      file 'leaflet.css', 'dist/leaflet.css'
-      file 'leaflet.ie.css', 'dist/leaflet.ie.css'
-      file 'leaflet.js', 'dist/leaflet-src.js'
-      folder 'images', 'dist/images'
+    file 'leaflet.js', 'http://cdn.leafletjs.com/leaflet-0.6.3/leaflet-src.js'
+    file 'leaflet.css', 'http://cdn.leafletjs.com/leaflet-0.6.3/leaflet.css'
+    file 'leaflet.ie.css', 'http://cdn.leafletjs.com/leaflet-0.6.3/leaflet.ie.css'
+
+    [ 'layers.png', 'layers-2x.png',
+      'marker-icon.png', 'marker-icon-2x.png',
+      'marker-shadow.png' ].each do |image|
+      file "images/#{image}", "http://cdn.leafletjs.com/leaflet-0.6.3/images/#{image}"
     end
 
     from 'git://github.com/kajic/leaflet-locationfilter.git' do
@@ -13,16 +25,33 @@ folder 'vendor/assets' do
       folder 'img', 'src/img'
     end
 
-    from 'git://github.com/kartena/Leaflet.Pancontrol.git' do
-      file 'leaflet.pan.js', 'src/L.Control.Pan.js'
-    end
-
-    from 'git://github.com/kartena/Leaflet.zoomslider.git' do
-      file 'leaflet.zoom.js', 'src/L.Control.Zoomslider.js'
+    from 'git://github.com/domoritz/leaflet-locatecontrol.git' do
+      file 'leaflet.locate.js', 'src/L.Control.Locate.js'
     end
 
     from 'git://github.com/jfirebaugh/leaflet-osm.git' do
       file 'leaflet.osm.js', 'leaflet-osm.js'
+    end
+
+    from 'git://github.com/mlevans/leaflet-hash.git' do
+      file 'leaflet.hash.js', 'leaflet-hash.js'
+    end
+  end
+
+  folder 'ohauth' do
+    from 'git://github.com/osmlab/ohauth.git' do
+      file 'ohauth.js'
+    end
+  end
+
+  folder 'iD' do
+    from 'git://github.com/systemed/iD', :branch => 'release' do
+      folder 'iD/img', 'dist/img'
+      folder 'iD/locales', 'dist/locales'
+      file 'iD.css.erb', 'dist/iD.css' do |path|
+        rewrite(path) { |content| content.gsub(/url\('?(img\/[^')]+)'?\)/, 'url(<%= asset_path("iD/\1") %>)') }
+      end
+      file 'iD.js', 'dist/iD.js'
     end
   end
 end

@@ -4,7 +4,7 @@ class TracetagTest < ActiveSupport::TestCase
   api_fixtures
   
   def test_tracetag_count
-    assert_equal 1, Tracetag.count
+    assert_equal 4, Tracetag.count
   end
 
   def test_validations
@@ -24,8 +24,8 @@ class TracetagTest < ActiveSupport::TestCase
 private
 
   def tracetag_valid(attrs, result = true)
-    entry = Tracetag.new(gpx_file_tags(:first_trace_1).attributes, :without_protection => true)
-    entry.assign_attributes(attrs, :without_protection => true)
+    entry = Tracetag.new(gpx_file_tags(:first_trace_1).attributes)
+    entry.assign_attributes(attrs)
     assert_equal result, entry.valid?, "Expected #{attrs.inspect} to be #{result}"
   end
 end

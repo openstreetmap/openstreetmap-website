@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class UserDiariesTest < ActionController::IntegrationTest
+class UserDiariesTest < ActionDispatch::IntegrationTest
   fixtures :users, :diary_entries
 
   # Test the creation of a diary entry, making sure that you are redirected to 

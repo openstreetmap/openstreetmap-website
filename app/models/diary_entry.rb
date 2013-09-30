@@ -2,18 +2,10 @@ class DiaryEntry < ActiveRecord::Base
   belongs_to :user, :counter_cache => true
   belongs_to :language, :foreign_key => 'language_code'
 
-  has_many :comments, :class_name => "DiaryComment",
-                      :include => :user,
-                      :order => "diary_comments.id"
-  has_many :visible_comments, :class_name => "DiaryComment",
-                              :include => :user,
-                              :conditions => {
-                                :users => { :status => ["active", "confirmed" ] },
-                                :visible => true
-                              },
-                              :order => "diary_comments.id"
+  has_many :comments, -> { order(:id).preload(:user) }, :class_name => "DiaryComment"
+  has_many :visible_comments, -> { joins(:user).where(:visible => true, :users => { :status => ["active", "confirmed"] }).order(:id) }, :class_name => "DiaryComment"
 
-  scope :visible, where(:visible => true)
+  scope :visible, -> { where(:visible => true) }
 
   validates_presence_of :title, :body
   validates_length_of :title, :within => 1..255
@@ -24,9 +16,8 @@ class DiaryEntry < ActiveRecord::Base
                             :greater_than_or_equal_to => -180, :less_than_or_equal_to => 180
   validates_associated :language
 
-  attr_accessible :title, :body, :language_code, :latitude, :longitude
-
   after_initialize :set_defaults
+  after_save :spam_check
 
   def body
     RichText.new(read_attribute(:body_format), read_attribute(:body))
@@ -36,5 +27,9 @@ private
 
   def set_defaults
     self.body_format = "markdown" unless self.attribute_present?(:body_format)
+  end
+
+  def spam_check
+    user.spam_check
   end
 end

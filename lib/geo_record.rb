@@ -5,7 +5,7 @@ module GeoRecord
   SCALE = 10000000
   
   def self.included(base)
-    base.scope :bbox, lambda { |bbox| base.where(OSM.sql_for_area(bbox)) }
+    base.scope :bbox, ->(bbox) { base.where(OSM.sql_for_area(bbox)) }
     base.before_save :update_tile
   end
 
@@ -45,4 +45,3 @@ private
     180/Math::PI * Math.log(Math.tan(Math::PI/4+a*(Math::PI/180)/2))
   end
 end
-

@@ -12,7 +12,7 @@ class OldRelation < ActiveRecord::Base
   belongs_to :redaction
   belongs_to :current_relation, :class_name => "Relation", :foreign_key => "relation_id"
 
-  has_many :old_members, :class_name => 'OldRelationMember', :foreign_key => [:relation_id, :version], :order => :sequence_id
+  has_many :old_members, -> { order(:sequence_id) }, :class_name => 'OldRelationMember', :foreign_key => [:relation_id, :version]
   has_many :old_tags, :class_name => 'OldRelationTag', :foreign_key => [:relation_id, :version]
   
   validates_associated :changeset
@@ -93,17 +93,34 @@ class OldRelation < ActiveRecord::Base
     return doc
   end
 
-  def to_xml_node
+  def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'relation'
     el1['id'] = self.relation_id.to_s
     el1['visible'] = self.visible.to_s
     el1['timestamp'] = self.timestamp.xmlschema
-    if self.changeset.user.data_public?
-      el1['user'] = self.changeset.user.display_name
-      el1['uid'] = self.changeset.user.id.to_s
-    end
     el1['version'] = self.version.to_s
     el1['changeset'] = self.changeset_id.to_s
+
+    if changeset_cache.key?(self.changeset_id)
+      # use the cache if available
+    else
+      changeset_cache[self.changeset_id] = self.changeset.user_id
+    end
+
+    user_id = changeset_cache[self.changeset_id]
+
+    if user_display_name_cache.key?(user_id)
+      # use the cache if available
+    elsif self.changeset.user.data_public?
+      user_display_name_cache[user_id] = self.changeset.user.display_name
+    else
+      user_display_name_cache[user_id] = nil
+    end
+
+    if not user_display_name_cache[user_id].nil?
+      el1['user'] = user_display_name_cache[user_id]
+      el1['uid'] = user_id.to_s
+    end
     
     el1['redacted'] = self.redaction.id.to_s if self.redacted?
     

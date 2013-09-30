@@ -122,6 +122,22 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :bad_request, "node upload did not return bad_request status"
     assert_equal "Cannot parse valid node from xml string <node lat=\"3.434\" changeset=\"#{changeset.id}\"/>. lon missing", @response.body
 
+    # test that the upload is rejected when lat is non-numeric
+    # create a minimal xml file
+    content("<osm><node lat='abc' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
+    put :create
+    # hope for success
+    assert_response :bad_request, "node upload did not return bad_request status"
+    assert_equal "Cannot parse valid node from xml string <node lat=\"abc\" lon=\"#{lon}\" changeset=\"#{changeset.id}\"/>. lat not a number", @response.body
+
+    # test that the upload is rejected when lon is non-numeric
+    # create a minimal xml file
+    content("<osm><node lat='#{lat}' lon='abc' changeset='#{changeset.id}'/></osm>")
+    put :create
+    # hope for success
+    assert_response :bad_request, "node upload did not return bad_request status"
+    assert_equal "Cannot parse valid node from xml string <node lat=\"#{lat}\" lon=\"abc\" changeset=\"#{changeset.id}\"/>. lon not a number", @response.body
+
     # test that the upload is rejected when we have a tag which is too long
     content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'><tag k='foo' v='#{'x'*256}'/></node></osm>")
     put :create
@@ -400,6 +416,34 @@ class NodeControllerTest < ActionController::TestCase
     content current_nodes(:public_visible_node).to_xml
     put :update, :id => current_nodes(:public_visible_node).id
     assert_response :success, "a valid update request failed"
+  end
+
+  ##
+  # test fetching multiple nodes
+  def test_nodes
+    # check error when no parameter provided
+    get :nodes
+    assert_response :bad_request
+
+    # check error when no parameter value provided
+    get :nodes, :nodes => ""
+    assert_response :bad_request
+
+    # test a working call
+    get :nodes, :nodes => "1,2,4,15,17"
+    assert_response :success
+    assert_select "osm" do
+      assert_select "node", :count => 5
+      assert_select "node[id=1][visible=true]", :count => 1
+      assert_select "node[id=2][visible=false]", :count => 1
+      assert_select "node[id=4][visible=true]", :count => 1
+      assert_select "node[id=15][visible=true]", :count => 1
+      assert_select "node[id=17][visible=false]", :count => 1
+    end
+
+    # check error when a non-existent node is included
+    get :nodes, :nodes => "1,2,4,15,17,400"
+    assert_response :not_found
   end
 
   ##

@@ -59,11 +59,14 @@ class GeocoderControllerTest < ActionController::TestCase
   end
 
   ##
-  # test the regular expressions that split search queries into 'latlon', 'us_postcode', and the like
-
-  # latlon examples/motivation from https://trac.openstreetmap.org/ticket/4730 & https://trac.openstreetmap.org/ticket/4748
-  def test_identify_latlon_degdec
-    ['50.06773 14.37742', '50.06773, 14.37742', '+50.06773 +14.37742', '+50.06773, +14.37742'].each do |code|
+  # Test identification of basic lat/lon pairs
+  def test_identify_latlon_basic
+    [
+     '50.06773 14.37742',
+     '50.06773, 14.37742',
+     '+50.06773 +14.37742',
+     '+50.06773, +14.37742'
+    ].each do |code|
       post :search, :query => code
       assert_response :success
       assert_equal ['latlon'], assigns(:sources)
@@ -72,159 +75,270 @@ class GeocoderControllerTest < ActionController::TestCase
   end
 
   ##
-  # this is a test helper for rounding latlon strings to a specified precision, e.g., at a precision 
-  # of 5, "50.06773333333334, -14.377416666666667" will become "50.06773, -14.37742"
-  def assert_latlon_equal_round(expected, actual, precision)
-    assert_equal expected.split(',').map {|i| i.to_f.round(precision)}.join(', '), actual.split(',').map {|i| i.to_f.round(precision)}.join(', ')
-  end
-
-  def test_identify_latlon_degdec_nsew
-    target = '50.06773, 14.37742'
+  # Test identification of lat/lon pairs using N/E with degrees
+  def test_identify_latlon_ne_d
     [
-        'N50.06773 E14.37742',
-        'N50.06773, E14.37742',
-        '50.06773N 14.37742E',
-        '50.06773N, 14.37742E'
+     'N50.06773 E14.37742',
+     'N50.06773, E14.37742',
+     '50.06773N 14.37742E',
+     '50.06773N, 14.37742E'
     ].each do |code|
       post :search, :query => code
       assert_response :success
       assert_equal ['latlon'], assigns(:sources)
-      assert_equal target, assigns(:query)
+      assert_equal "50.06773, 14.37742", assigns(:query)
     end
   end
 
-  def test_identify_latlon_ddm
-    target = '50.06773, 14.37742'
+  ##
+  # Test identification of lat/lon pairs using N/W with degrees
+  def test_identify_latlon_nw_d
     [
-        'N 50° 04.064 E 014° 22.645',
-        "N 50° 04.064' E 014° 22.645",
-        "N 50° 04.064', E 014° 22.645'",
-        'N50° 04.064 E14° 22.645',
-        'N 50 04.064 E 014 22.645',
-        'N50 4.064 E14 22.645',
-        "50° 04.064' N, 014° 22.645' E"
+     'N50.06773 W14.37742',
+     'N50.06773, W14.37742',
+     '50.06773N 14.37742W',
+     '50.06773N, 14.37742W'
     ].each do |code|
       post :search, :query => code
       assert_response :success
       assert_equal ['latlon'], assigns(:sources)
-      assert_latlon_equal_round(target, assigns(:query), 5)
+      assert_equal "50.06773, -14.37742", assigns(:query)
     end
   end
 
-  def test_identify_latlon_dms
-    target = '50.06773, 14.37742'
+  ##
+  # Test identification of lat/lon pairs using S/E with degrees
+  def test_identify_latlon_se_d
     [
-        "N 50° 4' 03.828\" E 14° 22' 38.712\"",
-        "N 50° 4' 03.828\", E 14° 22' 38.712\"",
-        'N50 4 03.828 E14 22 38.712',
-        'N50 4 03.828, E14 22 38.712',
-        "50°4'3.828\"N 14°22'38.712\"E"
+     'S50.06773 E14.37742',
+     'S50.06773, E14.37742',
+     '50.06773S 14.37742E',
+     '50.06773S, 14.37742E'
     ].each do |code|
       post :search, :query => code
       assert_response :success
       assert_equal ['latlon'], assigns(:sources)
-      assert_equal target, assigns(:query)
+      assert_equal "-50.06773, 14.37742", assigns(:query)
     end
   end
 
+  ##
+  # Test identification of lat/lon pairs using S/W with degrees
+  def test_identify_latlon_sw_d
+    [
+     'S50.06773 W14.37742',
+     'S50.06773, W14.37742',
+     '50.06773S 14.37742W',
+     '50.06773S, 14.37742W'
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_equal "-50.06773, -14.37742", assigns(:query)
+    end
+  end
+
+  ##
+  # Test identification of lat/lon pairs using N/E with degrees/mins
+  def test_identify_latlon_ne_dm
+    [
+     'N 50° 04.064 E 014° 22.645',
+     "N 50° 04.064' E 014° 22.645",
+     "N 50° 04.064', E 014° 22.645'",
+     'N50° 04.064 E14° 22.645',
+     'N 50 04.064 E 014 22.645',
+     'N50 4.064 E14 22.645',
+     "50° 04.064' N, 014° 22.645' E"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_latlon_equal_round "50.06773, 14.37742", assigns(:query), 5
+    end
+  end
+
+  ##
+  # Test identification of lat/lon pairs using N/W with degrees/mins
+  def test_identify_latlon_nw_dm
+    [
+     'N 50° 04.064 W 014° 22.645',
+     "N 50° 04.064' W 014° 22.645",
+     "N 50° 04.064', W 014° 22.645'",
+     'N50° 04.064 W14° 22.645',
+     'N 50 04.064 W 014 22.645',
+     'N50 4.064 W14 22.645',
+     "50° 04.064' N, 014° 22.645' W"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_latlon_equal_round "50.06773, -14.37742", assigns(:query), 5
+    end
+  end
+
+  ##
+  # Test identification of lat/lon pairs using S/E with degrees/mins
+  def test_identify_latlon_se_dm
+    [
+     'S 50° 04.064 E 014° 22.645',
+     "S 50° 04.064' E 014° 22.645",
+     "S 50° 04.064', E 014° 22.645'",
+     'S50° 04.064 E14° 22.645',
+     'S 50 04.064 E 014 22.645',
+     'S50 4.064 E14 22.645',
+     "50° 04.064' S, 014° 22.645' E"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_latlon_equal_round "-50.06773, 14.37742", assigns(:query), 5
+    end
+  end
+
+  ##
+  # Test identification of lat/lon pairs using S/W with degrees/mins
+  def test_identify_latlon_sw_dm
+    [
+     'S 50° 04.064 W 014° 22.645',
+     "S 50° 04.064' W 014° 22.645",
+     "S 50° 04.064', W 014° 22.645'",
+     'S50° 04.064 W14° 22.645',
+     'S 50 04.064 W 014 22.645',
+     'S50 4.064 W14 22.645',
+     "50° 04.064' S, 014° 22.645' W"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_latlon_equal_round "-50.06773, -14.37742", assigns(:query), 5
+    end
+  end
+
+  ##
+  # Test identification of lat/lon pairs using N/E with degrees/mins/secs
+  def test_identify_latlon_ne_dms
+    [
+     "N 50° 4' 03.828\" E 14° 22' 38.712\"",
+     "N 50° 4' 03.828\", E 14° 22' 38.712\"",
+     "N 50° 4′ 03.828″, E 14° 22′ 38.712″",
+     'N50 4 03.828 E14 22 38.712',
+     'N50 4 03.828, E14 22 38.712',
+     "50°4'3.828\"N 14°22'38.712\"E"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_equal "50.06773, 14.37742", assigns(:query)
+    end
+  end
+
+  ##
+  # Test identification of lat/lon pairs using N/W with degrees/mins/secs
+  def test_identify_latlon_nw_dms
+    [
+     "N 50° 4' 03.828\" W 14° 22' 38.712\"",
+     "N 50° 4' 03.828\", W 14° 22' 38.712\"",
+     "N 50° 4′ 03.828″, W 14° 22′ 38.712″",
+     'N50 4 03.828 W14 22 38.712',
+     'N50 4 03.828, W14 22 38.712',
+     "50°4'3.828\"N 14°22'38.712\"W"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_equal "50.06773, -14.37742", assigns(:query)
+    end
+  end
+
+  ##
+  # Test identification of lat/lon pairs using S/E with degrees/mins/secs
+  def test_identify_latlon_se_dms
+    [
+     "S 50° 4' 03.828\" E 14° 22' 38.712\"",
+     "S 50° 4' 03.828\", E 14° 22' 38.712\"",
+     "S 50° 4′ 03.828″, E 14° 22′ 38.712″",
+     'S50 4 03.828 E14 22 38.712',
+     'S50 4 03.828, E14 22 38.712',
+     "50°4'3.828\"S 14°22'38.712\"E"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_equal "-50.06773, 14.37742", assigns(:query)
+    end
+  end
+
+  ##
+  # Test identification of lat/lon pairs using S/W with degrees/mins/secs
+  def test_identify_latlon_sw_dms
+    [
+     "S 50° 4' 03.828\" W 14° 22' 38.712\"",
+     "S 50° 4' 03.828\", W 14° 22' 38.712\"",
+     "S 50° 4′ 03.828″, W 14° 22′ 38.712″",
+     'S50 4 03.828 W14 22 38.712',
+     'S50 4 03.828, W14 22 38.712',
+     "50°4'3.828\"S 14°22'38.712\"W"
+    ].each do |code|
+      post :search, :query => code
+      assert_response :success
+      assert_equal ['latlon'], assigns(:sources)
+      assert_equal "-50.06773, -14.37742", assigns(:query)
+    end
+  end
+
+  ##
+  # Test identification of US zipcodes
   def test_identify_us_postcode
-    ['12345', '12345-6789'].each do |code|
+    [
+     '12345',
+     '12345-6789'
+    ].each do |code|
       post :search, query: code
       assert_response :success
       assert_equal ['us_postcode', 'osm_nominatim'], assigns(:sources)
     end
   end
 
+  ##
+  # Test identification of UK postcodes using examples from 
+  # http://en.wikipedia.org/wiki/Postcodes_in_the_United_Kingdom
   def test_identify_uk_postcode
-    # examples from http://en.wikipedia.org/wiki/Postcodes_in_the_United_Kingdom
-    ['EC1A 1BB', 'W1A 1HQ', 'M1 1AA', 'B33 8TH', 'CR2 6XH', 'DN55 1PT'].each do |code|
+    [
+     'EC1A 1BB',
+     'W1A 1HQ',
+     'M1 1AA',
+     'B33 8TH',
+     'CR2 6XH',
+     'DN55 1PT'
+    ].each do |code|
       post :search, query: code
       assert_response :success
       assert_equal ['uk_postcode', 'osm_nominatim'], assigns(:sources)
     end
   end
 
+  ##
+  # Test identification of Canadian postcodes
   def test_identify_ca_postcode
     post :search, query: 'A1B 2C3'
     assert_response :success
     assert_equal ['ca_postcode', 'osm_nominatim'], assigns(:sources)
   end
 
-  def test_identify_fall_through_no_geonames
+  ##
+  # Test identification fall through to the default case
+  def test_identify_default
     post :search, query: 'foo bar baz'
     assert_response :success
     assert_equal ['osm_nominatim'], assigns(:sources)
   end
 
-  def test_ne
-    target = '50.06773, 14.37742'
-    [
-        "N 50° 04.064', E 014° 22.645'",
-        "N 50° 4' 03.828\", E 14° 22' 38.712\"",
-        "50°4'3.828\"N 14°22'38.712\"E",
-        "50° 04.064' N, 014° 22.645' E"
-    ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_latlon_equal_round(target, assigns(:query), 5)
-    end
-  end
+private
 
-  def test_nw
-    target = '50.06773, -14.37742'
-    [
-        "N 50° 04.064', W 014° 22.645'",
-        "N 50° 4' 03.828\", W 14° 22' 38.712\"",
-        "50°4'3.828\"N 14°22'38.712\"W",
-        "50° 04.064' N, 014° 22.645' W"
-    ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_latlon_equal_round(target, assigns(:query), 5)
-    end
-  end
-
-  def test_se
-    target = '-50.06773, 14.37742'
-    [
-        "S 50° 04.064', E 014° 22.645'",
-        "S 50° 4' 03.828\", E 14° 22' 38.712\"",
-        "50°4'3.828\"S 14°22'38.712\"E",
-        "50° 04.064' S, 014° 22.645' E"
-    ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_latlon_equal_round(target, assigns(:query), 5)
-    end
-  end
-
-  def test_sw
-    target = '-50.06773, -14.37742'
-    [
-        "S 50° 04.064', W 014° 22.645'",
-        "S 50° 4' 03.828\", W 14° 22' 38.712\"",
-        "50°4'3.828\"S 14°22'38.712\"W",
-        "50° 04.064' S, 014° 22.645' W"
-    ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_latlon_equal_round(target, assigns(:query), 5)
-    end
-  end
-
-  def test_primes_and_double_primes
-    target = '50.06773, -14.37742'
-    [
-        "N 50° 4′ 03.828″, W 14° 22′ 38.712″"
-    ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_equal target, assigns(:query)
-    end
+  ##
+  # this is a test helper for rounding latlon strings to a specified precision, e.g., at a precision 
+  # of 5, "50.06773333333334, -14.377416666666667" will become "50.06773, -14.37742"
+  def assert_latlon_equal_round(expected, actual, precision)
+    assert_equal expected.split(',').map {|i| i.to_f.round(precision)}.join(', '), actual.split(',').map {|i| i.to_f.round(precision)}.join(', ')
   end
 end

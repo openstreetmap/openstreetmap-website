@@ -44,8 +44,8 @@ class DiaryEntryTest < ActiveSupport::TestCase
 private
 
   def diary_entry_valid(attrs, result = true)
-    entry = DiaryEntry.new(diary_entries(:normal_user_entry_1).attributes, :without_protection => true)
-    entry.assign_attributes(attrs, :without_protection => true)
+    entry = DiaryEntry.new(diary_entries(:normal_user_entry_1).attributes)
+    entry.assign_attributes(attrs)
     assert_equal result, entry.valid?, "Expected #{attrs.inspect} to be #{result}"
   end  
 end

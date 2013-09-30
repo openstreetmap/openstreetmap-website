@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class UserRolesTest < ActionController::IntegrationTest
+class UserRolesTest < ActionDispatch::IntegrationTest
   fixtures :users, :user_roles
 
   test "grant" do
