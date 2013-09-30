@@ -82,7 +82,7 @@ class BrowseController < ApplicationController
     @note = Note.find(params[:id])
     @title = "#{I18n.t('browse.note.title')} | #{@note.id}"
     @next = Note.where("status != 'hidden' AND id > ?", @note.id).order(:id).first
-    @prev = Note.where("status != 'hidden' AND id < ?", @note.id).order(:id => @desc).first
+    @prev = Note.where("status != 'hidden' AND id < ?", @note.id).order(:id => :desc).first
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
