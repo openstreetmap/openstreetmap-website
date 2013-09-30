@@ -12,8 +12,8 @@ class BrowseController < ApplicationController
   def relation
     @type = "relation"
     @relation = Relation.find(params[:id])
-    @next = Relation.visible.where("id > ?", @relation.id).order("id ASC").first
-    @prev = Relation.visible.where("id < ?", @relation.id).order("id DESC").first
+    @next = Relation.visible.where("id > ?", @relation.id).order(:id => :asc).first
+    @prev = Relation.visible.where("id < ?", @relation.id).order(:id => :desc).first
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
@@ -28,8 +28,8 @@ class BrowseController < ApplicationController
   def way
     @type = "way"
     @way = Way.preload(:way_tags, :containing_relation_members, :changeset => :user, :nodes => [:node_tags, :ways => :way_tags]).find(params[:id])
-    @next = Way.visible.where("id > ?", @way.id).order("id ASC").first
-    @prev = Way.visible.where("id < ?", @way.id).order("id DESC").first
+    @next = Way.visible.where("id > ?", @way.id).order(:id => :asc).first
+    @prev = Way.visible.where("id < ?", @way.id).order(:id => :desc).first
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
@@ -44,8 +44,8 @@ class BrowseController < ApplicationController
   def node
     @type = "node"
     @node = Node.find(params[:id])
-    @next = Node.visible.where("id > ?", @node.id).order("id ASC").first
-    @prev = Node.visible.where("id < ?", @node.id).order("id DESC").first
+    @next = Node.visible.where("id > ?", @node.id).order(:id => :asc).first
+    @prev = Node.visible.where("id < ?", @node.id).order(:id => :desc).first
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
@@ -66,12 +66,12 @@ class BrowseController < ApplicationController
     @relation_pages, @relations = paginate(:old_relations, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'relation_page')
       
     @title = "#{I18n.t('browse.changeset.title')} | #{@changeset.id}"
-    @next = Changeset.where("id > ?", @changeset.id).order("id ASC").first
-    @prev = Changeset.where("id < ?", @changeset.id).order("id DESC").first
+    @next = Changeset.where("id > ?", @changeset.id).order(:id => :asc).first
+    @prev = Changeset.where("id < ?", @changeset.id).order(:id => :desc).first
 
     if @changeset.user.data_public?
-      @next_by_user = Changeset.where("user_id = ? AND id > ?", @changeset.user_id, @changeset.id).order("id ASC").first
-      @prev_by_user = Changeset.where("user_id = ? AND id < ?", @changeset.user_id, @changeset.id).order("id DESC").first
+      @next_by_user = @changeset.user.changesets.where("id > ?", @changeset.id).order(:id => :asc).first
+      @prev_by_user = @changeset.user.changesets.where("id < ?", @changeset.id).order(:id => :desc).first
     end
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
@@ -81,8 +81,8 @@ class BrowseController < ApplicationController
     @type = "note"
     @note = Note.find(params[:id])
     @title = "#{I18n.t('browse.note.title')} | #{@note.id}"
-    @next = Note.where("status != 'hidden' AND id > ?", @note.id).order(:id).first
-    @prev = Note.where("status != 'hidden' AND id < ?", @note.id).order(:id => :desc).first
+    @next = Note.visible.where("id > ?", @note.id).order(:id => :asc).first
+    @prev = Note.visible.where("id < ?", @note.id).order(:id => :desc).first
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
