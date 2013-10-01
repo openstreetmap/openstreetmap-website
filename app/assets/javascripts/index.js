@@ -1,4 +1,5 @@
 //= require_self
+//= require jquery.scrollIntoView
 //= require leaflet.sidebar
 //= require leaflet.locate
 //= require leaflet.layers
