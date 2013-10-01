@@ -11,9 +11,21 @@
         <%= link_to t('layouts.history'), browse_changesets_path, :class => 'tab geolink llz' %>
       </li><li id="export_tab">
         <%= link_to t('layouts.export'), export_path, :class => 'tab geolink llz' %>
-      </li><li id="edit_tab">
-        <%= render :partial => 'layouts/edit_menu',
-                   :locals => { :link_text => t('layouts.edit'), :link_class => 'llz object' }%>
+      </li><li id="edit_tab" class="dropdown">
+        <%= link_to t('layouts.edit'), edit_path, :class => "tab geolink llz object",
+                    :id => 'editanchor',
+                    :data => { :editor => preferred_editor }
+        %><a class='dropdown-toggle' data-toggle='dropdown' href='#'><b class="caret"></b></a>
+        <ul class='dropdown-menu'>
+          <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
+            <li>
+              <%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")),
+                          edit_path(:editor => editor),
+                          :data => { :editor => editor },
+                          :class => "geolink llz object" %>
+            </li>
+          <% end %>
+        </ul>
       </li>
     </ul>
   </nav>
