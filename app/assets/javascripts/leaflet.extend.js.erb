@@ -140,8 +140,10 @@ L.extend(L.Map.prototype, {
 
         map._objectLayer.addData(xml);
 
-        if (options.zoom) map.fitBounds(map._objectLayer.getBounds());
-        if (options.callback) options.callback(map._objectLayer.getBounds());
+        var bounds = map._objectLayer.getBounds();
+
+        if (options.zoom && bounds.isValid()) map.fitBounds(bounds);
+        if (options.callback) options.callback(bounds);
 
         map._objectLayer.addTo(map);
       }
