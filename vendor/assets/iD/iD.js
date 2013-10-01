@@ -5665,7 +5665,7 @@ d3.combobox = function() {
 
     var fetcher = function(val, cb) {
         cb(data.filter(function(d) {
-            return d.title
+            return d.value
                 .toString()
                 .toLowerCase()
                 .indexOf(val.toLowerCase()) !== -1;
@@ -15199,11 +15199,6 @@ window.iD = function () {
 
     /* History */
     context.graph = history.graph;
-    context.perform = history.perform;
-    context.replace = history.replace;
-    context.pop = history.pop;
-    context.undo = history.undo;
-    context.redo = history.redo;
     context.changes = history.changes;
     context.intersects = history.intersects;
 
@@ -15226,6 +15221,23 @@ window.iD = function () {
         history.reset();
         return context;
     };
+
+    // Debounce save, since it's a synchronous localStorage write,
+    // and history changes can happen frequently (e.g. when dragging).
+    var debouncedSave = _.debounce(context.save, 350);
+    function withDebouncedSave(fn) {
+        return function() {
+            var result = fn.apply(history, arguments);
+            debouncedSave();
+            return result;
+        }
+    }
+
+    context.perform = withDebouncedSave(history.perform);
+    context.replace = withDebouncedSave(history.replace);
+    context.pop = withDebouncedSave(history.pop);
+    context.undo = withDebouncedSave(history.undo);
+    context.redo = withDebouncedSave(history.redo);
 
     /* Graph */
     context.hasEntity = function(id) {
@@ -15376,7 +15388,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.2.0';
+iD.version = '1.2.1';
 
 (function() {
     var detected = {};
@@ -15529,7 +15541,12 @@ iD.taginfo = function() {
     taginfo.docs = function(parameters, callback) {
         var debounce = parameters.debounce;
         parameters = clean(setSort(parameters));
-        request(endpoint + (parameters.value ? 'tag/wiki_pages?' : 'key/wiki_pages?') +
+
+        var path = 'key/wiki_pages?';
+        if (parameters.value) path = 'tag/wiki_pages?';
+        else if (parameters.rtype) path = 'relation/wiki_pages?';
+
+        request(endpoint + path +
             iD.util.qsString(parameters), debounce, callback);
     };
 
@@ -15750,6 +15767,13 @@ iD.util.asyncMap = function(inputs, func, callback) {
         });
     });
 };
+
+// wraps an index to an interval [0..length-1]
+iD.util.wrap = function(index, length) {
+    if (index < 0)
+        index += Math.ceil(-index/length)*length;
+    return index % length;
+};
 iD.geo = {};
 
 iD.geo.roundCoords = function(c) {
@@ -15762,9 +15786,15 @@ iD.geo.interp = function(p1, p2, t) {
 };
 
 // http://jsperf.com/id-dist-optimization
-iD.geo.dist = function(a, b) {
+iD.geo.euclideanDistance = function(a, b) {
     var x = a[0] - b[0], y = a[1] - b[1];
     return Math.sqrt((x * x) + (y * y));
+};
+// Equirectangular approximation of spherical distances on Earth
+iD.geo.sphericalDistance = function(a, b) {
+    var x = Math.cos(a[1]*Math.PI/180) * (a[0] - b[0]),
+        y = a[1] - b[1];
+    return 6.3710E6 * Math.sqrt((x * x) + (y * y)) * Math.PI/180;
 };
 
 // Choose the edge with the minimal distance from `point` to its orthogonal
@@ -15772,7 +15802,7 @@ iD.geo.dist = function(a, b) {
 // the closest vertex on that edge. Returns an object with the `index` of the
 // chosen edge, the chosen `loc` on that edge, and the `distance` to to it.
 iD.geo.chooseEdge = function(nodes, point, projection) {
-    var dist = iD.geo.dist,
+    var dist = iD.geo.euclideanDistance,
         points = nodes.map(function(n) { return projection(n.loc); }),
         min = Infinity,
         idx, loc;
@@ -16215,62 +16245,104 @@ iD.actions.ChangeTags = function(entityId, tags) {
         return graph.replace(entity.update({tags: tags}));
     };
 };
-iD.actions.Circularize = function(wayId, projection, count) {
-    count = count || 12;
-
-    function closestIndex(nodes, loc) {
-        var idx, min = Infinity, dist;
-        for (var i = 0; i < nodes.length; i++) {
-            dist = iD.geo.dist(nodes[i].loc, loc);
-            if (dist < min) {
-                min = dist;
-                idx = i;
-            }
-        }
-        return idx;
-    }
+iD.actions.Circularize = function(wayId, projection, maxAngle) {
+    maxAngle = (maxAngle || 20) * Math.PI / 180;
 
     var action = function(graph) {
         var way = graph.entity(wayId),
             nodes = _.uniq(graph.childNodes(way)),
+            keyNodes = nodes.filter(function(n) { return graph.parentWays(n).length != 1; }),
             points = nodes.map(function(n) { return projection(n.loc); }),
+            keyPoints = keyNodes.map(function(n) { return projection(n.loc); }),
             centroid = d3.geom.polygon(points).centroid(),
-            radius = d3.median(points, function(p) {
-                return iD.geo.dist(centroid, p);
-            }),
-            ids = [],
-            sign = d3.geom.polygon(points).area() > 0 ? -1 : 1;
+            radius = d3.median(points, function(p) { return iD.geo.euclideanDistance(centroid, p); }),
+            sign = d3.geom.polygon(points).area() > 0 ? 1 : -1,
+            ids;
 
-        for (var i = 0; i < count; i++) {
-            var node,
-                loc = projection.invert([
-                    centroid[0] + Math.cos(sign * (i / 12) * Math.PI * 2) * radius,
-                    centroid[1] + Math.sin(sign * (i / 12) * Math.PI * 2) * radius]);
+        // we need atleast two key nodes for the algorithm to work
+        if (!keyNodes.length) {
+            keyNodes = [nodes[0]];
+            keyPoints = [points[0]];
+        }
 
-            if (nodes.length) {
-                var idx = closestIndex(nodes, loc);
-                node = nodes[idx];
-                nodes.splice(idx, 1);
-            } else {
-                node = iD.Node();
+        if (keyNodes.length == 1) {
+            var index = nodes.indexOf(keyNodes[0]),
+                oppositeIndex = Math.floor((index + nodes.length / 2) % nodes.length);
+
+            keyNodes.push(nodes[oppositeIndex]);
+            keyPoints.push(points[oppositeIndex]);
+        }
+
+        // key points and nodes are those connected to the ways,
+        // they are projected onto the circle, inbetween nodes are moved
+        // to constant internals between key nodes, extra inbetween nodes are
+        // added if necessary.
+        for (var i = 0; i < keyPoints.length; i++) {
+            var nextKeyNodeIndex = (i + 1) % keyNodes.length,
+                startNodeIndex = nodes.indexOf(keyNodes[i]),
+                endNodeIndex = nodes.indexOf(keyNodes[nextKeyNodeIndex]),
+                numberNewPoints = -1,
+                indexRange = endNodeIndex - startNodeIndex,
+                distance, totalAngle, eachAngle, startAngle, endAngle,
+                angle, loc, node, j;
+
+            if (indexRange < 0) {
+                indexRange += nodes.length;
             }
 
-            ids.push(node.id);
-            graph = graph.replace(node.move(loc));
+            // position this key node
+            distance = iD.geo.euclideanDistance(centroid, keyPoints[i]);
+            keyPoints[i] = [
+                centroid[0] + (keyPoints[i][0] - centroid[0]) / distance * radius,
+                centroid[1] + (keyPoints[i][1] - centroid[1]) / distance * radius];
+            graph = graph.replace(keyNodes[i].move(projection.invert(keyPoints[i])));
+
+            // figure out the between delta angle we want to match to
+            startAngle = Math.atan2(keyPoints[i][1] - centroid[1], keyPoints[i][0] - centroid[0]);
+            endAngle = Math.atan2(keyPoints[nextKeyNodeIndex][1] - centroid[1], keyPoints[nextKeyNodeIndex][0] - centroid[0]);
+            totalAngle = endAngle - startAngle;
+
+            // detects looping around -pi/pi
+            if (totalAngle*sign > 0) {
+                totalAngle = -sign * (2 * Math.PI - Math.abs(totalAngle));
+            }
+
+            do {
+                numberNewPoints++;
+                eachAngle = totalAngle / (indexRange + numberNewPoints);
+            } while (Math.abs(eachAngle) > maxAngle);
+
+            // move existing points
+            for (j = 1; j < indexRange; j++) {
+                angle = startAngle + j * eachAngle;
+                loc = projection.invert([
+                    centroid[0] + Math.cos(angle)*radius,
+                    centroid[1] + Math.sin(angle)*radius]);
+
+                node = nodes[(j + startNodeIndex) % nodes.length].move(loc);
+                graph = graph.replace(node);
+            }
+
+            // add new inbetween nodes if necessary
+            for (j = 0; j < numberNewPoints; j++) {
+                angle = startAngle + (indexRange + j) * eachAngle;
+                loc = projection.invert([
+                    centroid[0] + Math.cos(angle) * radius,
+                    centroid[1] + Math.sin(angle) * radius]);
+
+                node = iD.Node({loc: loc});
+                graph = graph.replace(node);
+
+                nodes.splice(endNodeIndex + j, 0, node);
+            }
         }
 
+        // update the way to have all the new nodes
+        ids = nodes.map(function(n) { return n.id; });
         ids.push(ids[0]);
+
         way = way.update({nodes: ids});
         graph = graph.replace(way);
-
-        for (i = 0; i < nodes.length; i++) {
-            graph.parentWays(nodes[i]).forEach(function(parent) {
-                graph = graph.replace(parent.replaceNode(nodes[i].id,
-                    ids[closestIndex(graph.childNodes(way), nodes[i].loc)]));
-            });
-
-            graph = iD.actions.DeleteNode(nodes[i].id)(graph);
-        }
 
         return graph;
     };
@@ -16865,20 +16937,24 @@ iD.actions.Noop = function() {
  */
 
 iD.actions.Orthogonalize = function(wayId, projection) {
+    var threshold = 7, // degrees within right or straight to alter
+        lowerThreshold = Math.cos((90 - threshold) * Math.PI / 180),
+        upperThreshold = Math.cos(threshold * Math.PI / 180);
+
     var action = function(graph) {
         var way = graph.entity(wayId),
             nodes = graph.childNodes(way),
+            points = _.uniq(nodes).map(function(n) { return projection(n.loc); }),
             corner = {i: 0, dotp: 1},
-            points, i, j, score, motions;
+            epsilon = 1e-4,
+            i, j, score, motions;
 
         if (nodes.length === 4) {
-            points = _.uniq(nodes).map(function(n) { return projection(n.loc); });
-
             for (i = 0; i < 1000; i++) {
                 motions = points.map(calcMotion);
                 points[corner.i] = addPoints(points[corner.i],motions[corner.i]);
                 score = corner.dotp;
-                if (score < 1.0e-8) {
+                if (score < epsilon) {
                     break;
                 }
             }
@@ -16886,21 +16962,21 @@ iD.actions.Orthogonalize = function(wayId, projection) {
             graph = graph.replace(graph.entity(nodes[corner.i].id)
                 .move(projection.invert(points[corner.i])));
         } else {
-            var best;
-            points = _.uniq(nodes).map(function(n) { return projection(n.loc); });
-            score = squareness();
+            var best,
+                originalPoints = _.clone(points);
+            score = Infinity;
 
             for (i = 0; i < 1000; i++) {
                 motions = points.map(calcMotion);
                 for (j = 0; j < motions.length; j++) {
                     points[j] = addPoints(points[j],motions[j]);
                 }
-                var newScore = squareness();
+                var newScore = squareness(points);
                 if (newScore < score) {
                     best = _.clone(points);
                     score = newScore;
                 }
-                if (score < 1.0e-8) {
+                if (score < epsilon) {
                     break;
                 }
             }
@@ -16908,8 +16984,28 @@ iD.actions.Orthogonalize = function(wayId, projection) {
             points = best;
 
             for (i = 0; i < points.length; i++) {
-                graph = graph.replace(graph.entity(nodes[i].id)
-                    .move(projection.invert(points[i])));
+                // only move the points that actually moved
+                if (originalPoints[i][0] != points[i][0] || originalPoints[i][1] != points[i][1]) {
+                    graph = graph.replace(graph.entity(nodes[i].id)
+                        .move(projection.invert(points[i])));
+                }
+            }
+
+            // remove empty nodes on straight sections
+            for (i = 0; i < points.length; i++) {
+                var node = nodes[i];
+
+                if (graph.parentWays(node).length > 1 || 
+                    graph.parentRelations(node).length || 
+                    node.hasInterestingTags()) {
+
+                    continue;
+                }
+
+                var dotp = normalizedDotProduct(i, points);
+                if (dotp < -1 + epsilon) {
+                    graph = iD.actions.DeleteNode(nodes[i].id)(graph);
+                }
             }
         }
 
@@ -16919,78 +17015,91 @@ iD.actions.Orthogonalize = function(wayId, projection) {
             var a = array[(i - 1 + array.length) % array.length],
                 c = array[(i + 1) % array.length],
                 p = subtractPoints(a, b),
-                q = subtractPoints(c, b);
+                q = subtractPoints(c, b),
+                scale, dotp;
 
-            var scale = 2*Math.min(iD.geo.dist(p, [0, 0]), iD.geo.dist(q, [0, 0]));
+            scale = 2 * Math.min(iD.geo.euclideanDistance(p, [0, 0]), iD.geo.euclideanDistance(q, [0, 0]));
             p = normalizePoint(p, 1.0);
             q = normalizePoint(q, 1.0);
 
-            var dotp = p[0] * q[0] + p[1] * q[1];
+            dotp = filterDotProduct(p[0] * q[0] + p[1] * q[1]);
 
             // nasty hack to deal with almost-straight segments (angle is closer to 180 than to 90/270).
             if (array.length > 3) {
                 if (dotp < -0.707106781186547) {
                     dotp += 1.0;
                 }
-            } else if (Math.abs(dotp) < corner.dotp) {
+            } else if (dotp && Math.abs(dotp) < corner.dotp) {
                 corner.i = i;
                 corner.dotp = Math.abs(dotp);
             }
 
             return normalizePoint(addPoints(p, q), 0.1 * dotp * scale);
         }
-
-        function squareness() {
-            var g = 0.0;
-            for (var i = 1; i < points.length - 1; i++) {
-                var score = scoreOfPoints(points[i - 1], points[i], points[i + 1]);
-                g += score;
-            }
-            var startScore = scoreOfPoints(points[points.length - 1], points[0], points[1]);
-            var endScore = scoreOfPoints(points[points.length - 2], points[points.length - 1], points[0]);
-            g += startScore;
-            g += endScore;
-            return g;
-        }
-
-        function scoreOfPoints(a, b, c) {
-            var p = subtractPoints(a, b),
-                q = subtractPoints(c, b);
-
-            p = normalizePoint(p, 1.0);
-            q = normalizePoint(q, 1.0);
-
-            var dotp = p[0] * q[0] + p[1] * q[1];
-            // score is constructed so that +1, -1 and 0 are all scored 0, any other angle
-            // is scored higher.
-            return 2.0 * Math.min(Math.abs(dotp - 1.0), Math.min(Math.abs(dotp), Math.abs(dotp + 1)));
-        }
-
-        function subtractPoints(a, b) {
-            return [a[0] - b[0], a[1] - b[1]];
-        }
-
-        function addPoints(a, b) {
-            return [a[0] + b[0], a[1] + b[1]];
-        }
-
-        function normalizePoint(point, scale) {
-            var vector = [0, 0];
-            var length = Math.sqrt(point[0] * point[0] + point[1] * point[1]);
-            if (length !== 0) {
-                vector[0] = point[0] / length;
-                vector[1] = point[1] / length;
-            }
-
-            vector[0] *= scale;
-            vector[1] *= scale;
-
-            return vector;
-        }
     };
 
+    function squareness(points) {
+        return points.reduce(function(sum, val, i, array) {
+            var dotp = normalizedDotProduct(i, array);
+
+            dotp = filterDotProduct(dotp);
+            return sum + 2.0 * Math.min(Math.abs(dotp - 1.0), Math.min(Math.abs(dotp), Math.abs(dotp + 1)));
+        }, 0);
+    }
+
+    function normalizedDotProduct(i, points) {
+        var a = points[(i - 1 + points.length) % points.length],
+            b = points[i],
+            c = points[(i + 1) % points.length],
+            p = subtractPoints(a, b),
+            q = subtractPoints(c, b);
+
+        p = normalizePoint(p, 1.0);
+        q = normalizePoint(q, 1.0);
+
+        return p[0] * q[0] + p[1] * q[1];
+    }
+
+    function subtractPoints(a, b) {
+        return [a[0] - b[0], a[1] - b[1]];
+    }
+
+    function addPoints(a, b) {
+        return [a[0] + b[0], a[1] + b[1]];
+    }
+
+    function normalizePoint(point, scale) {
+        var vector = [0, 0];
+        var length = Math.sqrt(point[0] * point[0] + point[1] * point[1]);
+        if (length !== 0) {
+            vector[0] = point[0] / length;
+            vector[1] = point[1] / length;
+        }
+
+        vector[0] *= scale;
+        vector[1] *= scale;
+
+        return vector;
+    }
+
+    function filterDotProduct(dotp) {
+        if (lowerThreshold > Math.abs(dotp) || Math.abs(dotp) > upperThreshold) {
+            return dotp;
+        }
+
+        return 0;
+    }
+
     action.disabled = function(graph) {
-        return false;
+        var way = graph.entity(wayId),
+            nodes = graph.childNodes(way),
+            points = _.uniq(nodes).map(function(n) { return projection(n.loc); });
+
+        if (squareness(points)) {
+            return false;
+        }
+
+        return 'not_squarish';
     };
 
     return action;
@@ -17114,19 +17223,70 @@ iD.actions.RotateWay = function(wayId, pivot, angle, projection) {
 iD.actions.Split = function(nodeId, newWayIds) {
     var wayIds;
 
+    // if the way is closed, we need to search for a partner node
+    // to split the way at.
+    //
+    // The following looks for a node that is both far away from
+    // the initial node in terms of way segment length and nearby
+    // in terms of beeline-distance. This assures that areas get
+    // split on the most "natural" points (independent of the number
+    // of nodes).
+    // For example: bone-shaped areas get split across their waist
+    // line, circles across the diameter.
+    function splitArea(nodes, idxA, graph) {
+        var lengths = new Array(nodes.length),
+            length,
+            i,
+            best = 0,
+            idxB;
+
+        function wrap(index) {
+            return iD.util.wrap(index, nodes.length);
+        }
+
+        function dist(nA, nB) {
+            return iD.geo.sphericalDistance(graph.entity(nA).loc, graph.entity(nB).loc);
+        }
+
+        // calculate lengths
+        length = 0;
+        for (i = wrap(idxA+1); i != idxA; i = wrap(i+1)) {
+            length += dist(nodes[i], nodes[wrap(i-1)]);
+            lengths[i] = length;
+        }
+
+        length = 0;
+        for (i = wrap(idxA-1); i != idxA; i = wrap(i-1)) {
+            length += dist(nodes[i], nodes[wrap(i+1)]);
+            if (length < lengths[i])
+                lengths[i] = length;
+        }
+
+        // determine best opposite node to split
+        for (i = 0; i < nodes.length; i++) {
+            var cost = lengths[i] / dist(nodes[idxA], nodes[i]);
+            if (cost > best) {
+                idxB = i;
+                best = cost;
+            }
+        }
+
+        return idxB;
+    }
+
     function split(graph, wayA, newWayId) {
         var wayB = iD.Way({id: newWayId, tags: wayA.tags}),
             nodesA,
             nodesB,
-            isArea = wayA.isArea();
+            isArea = wayA.isArea(),
+            isOuter = iD.geo.isSimpleMultipolygonOuterMember(wayA, graph);
 
         if (wayA.isClosed()) {
             var nodes = wayA.nodes.slice(0, -1),
                 idxA = _.indexOf(nodes, nodeId),
-                idxB = idxA + Math.floor(nodes.length / 2);
+                idxB = splitArea(nodes, idxA, graph);
 
-            if (idxB >= nodes.length) {
-                idxB %= nodes.length;
+            if (idxB < idxA) {
                 nodesA = nodes.slice(idxA).concat(nodes.slice(0, idxB + 1));
                 nodesB = nodes.slice(idxB, idxA + 1);
             } else {
@@ -17153,24 +17313,23 @@ iD.actions.Split = function(nodeId, newWayIds) {
                     graph = graph.replace(relation);
                 }
             } else {
-                var role = relation.memberById(wayA.id).role,
-                    last = wayB.last(),
-                    i = relation.memberById(wayA.id).index,
-                    j;
-
-                for (j = 0; j < relation.members.length; j++) {
-                    var entity = graph.hasEntity(relation.members[j].id);
-                    if (entity && entity.type === 'way' && entity.contains(last)) {
-                        break;
-                    }
+                if (relation === isOuter) {
+                    graph = graph.replace(relation.mergeTags(wayA.tags));
+                    graph = graph.replace(wayA.update({tags: {}}));
+                    graph = graph.replace(wayB.update({tags: {}}));
                 }
 
-                relation = relation.addMember({id: wayB.id, type: 'way', role: role}, i <= j ? i + 1 : i);
-                graph = graph.replace(relation);
+                var member = {
+                    id: wayB.id,
+                    type: 'way',
+                    role: relation.memberById(wayA.id).role
+                };
+
+                graph = iD.actions.AddMember(relation.id, member)(graph);
             }
         });
 
-        if (isArea) {
+        if (!isOuter && isArea) {
             var multipolygon = iD.Relation({
                 tags: _.extend({}, wayA.tags, {type: 'multipolygon'}),
                 members: [
@@ -17196,10 +17355,14 @@ iD.actions.Split = function(nodeId, newWayIds) {
 
     action.ways = function(graph) {
         var node = graph.entity(nodeId),
-            parents = graph.parentWays(node);
+            parents = graph.parentWays(node),
+            hasLines = _.any(parents, function(parent) { return parent.geometry(graph) === 'line'; });
 
         return parents.filter(function(parent) {
             if (wayIds && wayIds.indexOf(parent.id) === -1)
+                return false;
+
+            if (!wayIds && hasLines && parent.geometry(graph) !== 'line')
                 return false;
 
             if (parent.isClosed()) {
@@ -17253,7 +17416,10 @@ iD.actions.Straighten = function(wayId, projection) {
             var node = nodes[i], 
                 point = points[i];
 
-            if (graph.parentWays(node).length > 1 || (node.tags && Object.keys(node.tags).length)) {
+            if (graph.parentWays(node).length > 1 || 
+                graph.parentRelations(node).length || 
+                node.hasInterestingTags()) {
+
                 var u = positionAlongWay(point, startPoint, endPoint),
                     p0 = startPoint[0] + u * (endPoint[0] - startPoint[0]),
                     p1 = startPoint[1] + u * (endPoint[1] - startPoint[1]),
@@ -17572,8 +17738,8 @@ iD.behavior.Draw = function(context) {
 
         d3.select(window).on('mouseup.draw', function() {
             element.on('mousemove.draw', mousemove);
-            if (iD.geo.dist(pos, point()) < closeTolerance ||
-                (iD.geo.dist(pos, point()) < tolerance &&
+            if (iD.geo.euclideanDistance(pos, point()) < closeTolerance ||
+                (iD.geo.euclideanDistance(pos, point()) < tolerance &&
                 (+new Date() - time) < 500)) {
 
                 // Prevent a quick second click
@@ -18501,8 +18667,6 @@ iD.modes.Browse = function(context) {
         iD.modes.DragNode(context).behavior];
 
     mode.enter = function() {
-        context.save();
-
         behaviors.forEach(function(behavior) {
             context.install(behavior);
         });
@@ -18578,8 +18742,8 @@ iD.modes.DragNode = function(context) {
         return t('operations.move.annotation.' + entity.geometry(context.graph()));
     }
 
-    function connectAnnotation(datum) {
-        return t('operations.connect.annotation.' + datum.geometry(context.graph()));
+    function connectAnnotation(entity) {
+        return t('operations.connect.annotation.' + entity.geometry(context.graph()));
     }
 
     function origin(entity) {
@@ -18648,7 +18812,7 @@ iD.modes.DragNode = function(context) {
 
         context.replace(
             iD.actions.MoveNode(entity.id, loc),
-            t('operations.move.annotation.' + entity.geometry(context.graph())));
+            moveAnnotation(entity));
     }
 
     function end(entity) {
@@ -19186,8 +19350,6 @@ iD.modes.Select = function(context, selectedIDs) {
     };
 
     mode.enter = function() {
-        context.save();
-
         behaviors.forEach(function(behavior) {
             context.install(behavior);
         });
@@ -19431,8 +19593,8 @@ iD.operations.Delete = function(selectedIDs, context) {
                 } else if (i === nodes.length - 1) {
                     i--;
                 } else {
-                    var a = iD.geo.dist(entity.loc, context.entity(nodes[i - 1]).loc),
-                        b = iD.geo.dist(entity.loc, context.entity(nodes[i + 1]).loc);
+                    var a = iD.geo.sphericalDistance(entity.loc, context.entity(nodes[i - 1]).loc),
+                        b = iD.geo.sphericalDistance(entity.loc, context.entity(nodes[i + 1]).loc);
                     i = a < b ? i - 1 : i + 1;
                 }
 
@@ -21636,23 +21798,26 @@ _.extend(iD.Way.prototype, {
 // of the following keys, and the value is _not_ one of the associated
 // values for the respective key.
 iD.Way.areaKeys = {
+    aeroway: { taxiway: true},
+    amenity: {},
     area: {},
+    'area:highway': {},
     building: {},
-    leisure: {},
-    tourism: {},
-    ruins: {},
+    'building:part': {},
     historic: {},
     landuse: {},
+    leisure: {},
+    man_made: { cutline: true, embankment: true, pipeline: true},
     military: {},
     natural: { coastline: true },
-    amenity: {},
-    shop: {},
-    man_made: {},
-    public_transport: {},
+    office: {},
     place: {},
-    aeroway: {},
-    waterway: {},
-    power: {}
+    power: {},
+    public_transport: {},
+    ruins: {},
+    shop: {},
+    tourism: {},
+    waterway: {}
 };
 iD.Background = function(context) {
     var dispatch = d3.dispatch('change'),
@@ -22750,7 +22915,7 @@ iD.svg = {
                     b = [x, y];
 
                     if (a) {
-                        var span = iD.geo.dist(a, b) - offset;
+                        var span = iD.geo.euclideanDistance(a, b) - offset;
 
                         if (span >= 0) {
                             var angle = Math.atan2(b[1] - a[1], b[0] - a[0]),
@@ -23468,7 +23633,7 @@ iD.svg.Midpoints = function(projection, context) {
                 // If neither of the nodes changed, no need to redraw midpoint
                 if (!midpoints[id] && (filter(a) || filter(b))) {
                     var loc = iD.geo.interp(a.loc, b.loc, 0.5);
-                    if (extent.intersects(loc) && iD.geo.dist(projection(a.loc), projection(b.loc)) > 40) {
+                    if (extent.intersects(loc) && iD.geo.euclideanDistance(projection(a.loc), projection(b.loc)) > 40) {
                         midpoints[id] = {
                             type: 'midpoint',
                             id: id,
@@ -25097,7 +25262,7 @@ iD.ui.EntityEditor = function(context) {
         if (!arguments.length) return preset;
         if (_ !== preset) {
             preset = _;
-            reference = iD.ui.TagReference(preset.reference())
+            reference = iD.ui.TagReference(preset.reference(context.geometry(id)))
                 .showing(false);
         }
         return entityEditor;
@@ -26477,7 +26642,7 @@ iD.ui.PresetList = function(context) {
         };
 
         item.preset = preset;
-        item.reference = iD.ui.TagReference(preset.reference());
+        item.reference = iD.ui.TagReference(preset.reference(context.geometry(id)));
 
         return item;
     }
@@ -26787,7 +26952,7 @@ iD.ui.RawMembershipEditor = function(context) {
             graph = context.graph();
 
         context.intersects(context.extent()).forEach(function(entity) {
-            if (entity.type !== 'relation')
+            if (entity.type !== 'relation' || entity.id === id)
                 return;
 
             var presetName = context.presets().match(entity, graph).name(),
@@ -27175,12 +27340,12 @@ iD.ui.Restore = function(context) {
         introModal.append('div')
             .attr('class', 'modal-section')
             .append('h3')
-                .text(t('restore.heading'));
+            .text(t('restore.heading'));
 
         introModal.append('div')
             .attr('class','modal-section')
             .append('p')
-                .text(t('restore.description'));
+            .text(t('restore.description'));
 
         var buttonWrap = introModal.append('div')
             .attr('class', 'modal-actions cf');
@@ -27203,8 +27368,6 @@ iD.ui.Restore = function(context) {
 
         restore.node().focus();
     };
-        modal.select('button.close').attr('class','hide');
-
 };
 iD.ui.Save = function(context) {
     var history = context.history(),
@@ -27877,7 +28040,6 @@ iD.ui.preset.access = function(field, context) {
             .attr('class', 'col6 preset-input-access-wrap')
             .append('input')
             .attr('type', 'text')
-            .attr('placeholder', field.placeholder())
             .attr('class', 'preset-input-access')
             .attr('id', function(d) { return 'preset-input-access-' + d; })
             .each(function(d) {
@@ -27922,7 +28084,10 @@ iD.ui.preset.access = function(field, context) {
 
     access.tags = function(tags) {
         items.selectAll('.preset-input-access')
-            .value(function(d) { return tags[d] || ''; });
+            .value(function(d) { return tags[d] || ''; })
+            .attr('placeholder', function(d) {
+                return d !== 'access' && tags.access ? tags.access : field.placeholder();
+            });
     };
 
     access.focus = function() {
@@ -29651,14 +29816,17 @@ iD.presets.Preset = function(id, preset, fields) {
         return Object.keys(preset.tags).length === 0;
     };
 
-    preset.reference = function() {
-        var reference = {key: Object.keys(preset.tags)[0]};
+    preset.reference = function(geometry) {
+        var key = Object.keys(preset.tags)[0],
+            value = preset.tags[key];
 
-        if (preset.tags[reference.key] !== '*') {
-            reference.value = preset.tags[reference.key];
+        if (geometry === 'relation' && key === 'type') {
+            return { rtype: value };
+        } else if (value === '*') {
+            return { key: key };
+        } else {
+            return { key: key, value: value };
         }
-
-        return reference;
     };
 
     var removeTags = preset.removeTags || preset.tags;
@@ -58743,7 +58911,6 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "icon": "shop",
                 "fields": [
                     "address",
-                    "building_area",
                     "opening_hours"
                 ],
                 "geometry": [
@@ -72767,7 +72934,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "annotation": {
                     "line": "Squared the corners of a line.",
                     "area": "Squared the corners of an area."
-                }
+                },
+                "not_squarish": "This can't be made square because it is not squarish."
             },
             "straighten": {
                 "title": "Straighten",
