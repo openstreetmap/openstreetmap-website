@@ -74,6 +74,9 @@ class SiteController < ApplicationController
   def help
   end
 
+  def about
+  end
+
   def preview
     render :text => RichText.new(params[:format], params[:text]).to_html
   end
