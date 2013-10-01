@@ -1,15 +1,7 @@
 <% $.each(changeset.changes, function (index, change) { %>
   <div class="change" data-change-id="<%- change.id %>">
     <span>
-      <% if (change.el_action == 'CREATE') { %>
-      created
-      <% } else if (change.el_action == 'DELETE') { %>
-      deleted
-      <% } else if (change.el_action == 'MODIFY' || change.el_action == 'AFFECT') { %>
-      modified
-      <% } %>
-
-      <a href="<%- hrefForChange(change) %>" class="change-link <%- cssClassForChange(change) %>">
+      <a href="<%- hrefForChange(change) %>" class="change-link change-action-<%- change.el_action %> <%- cssClassForChange(change) %>">
         <%- nameForChange(change) %>
       </a>
 
