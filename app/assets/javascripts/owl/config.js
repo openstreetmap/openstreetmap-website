@@ -54,17 +54,17 @@ var OWL = {
 
   // Goes through CSS rules and extracts tag=value and image URL information (see browse.css.scss)
   // to the tagSymbols hash.
-  initTagSymbols: function () {
+  initTagSymbols: function() {
     var symbols = this.tagSymbols;
-    $.each(document.styleSheets, function (index, stylesheet) {
-      $.each(stylesheet.rules || stylesheet.cssRules, function (index, rule) {
-          var text = rule.cssText || rule.style.cssText;
-          if (text.search(/browse\/.*?\.png/) != -1) {
-            // It's a rule for a tag symbol, let's process it!
-            var key = text.substring(1, text.indexOf(" {")).replace('.', '=').replace('::before', '');
-            var value = text.match(/\([\"]*(.*?browse\/.*?\.png)/)[1];
-            symbols[key] = value;
-          }
+    $.each(document.styleSheets, function(index, stylesheet) {
+      $.each(stylesheet.rules || stylesheet.cssRules, function(index, rule) {
+        var text = rule.cssText || rule.style.cssText;
+        if (text.search(/browse\/.*?\.png/) != -1) {
+          // It's a rule for a tag symbol, let's process it!
+          var key = text.substring(1, text.indexOf(" {")).replace('.', '=').replace('::before', '').replace(':before', '');
+          var value = text.match(/\([\"]*(.*?browse\/.*?\.png)/)[1];
+          symbols[key] = value;
+        }
       });
     });
   }
