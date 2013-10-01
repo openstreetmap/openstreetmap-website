@@ -61,12 +61,11 @@ var OWL = {
           var text = rule.cssText || rule.style.cssText;
           if (text.search(/browse\/.*?\.png/) != -1) {
             // It's a rule for a tag symbol, let's process it!
-            var key = text.substring(1, text.indexOf(" {")).replace('.', '=');
+            var key = text.substring(1, text.indexOf(" {")).replace('.', '=').replace('::before', '');
             var value = text.match(/\([\"]*(.*?browse\/.*?\.png)/)[1];
             symbols[key] = value;
           }
       });
     });
-    //console.log(this.tagSymbols);
   }
 };
