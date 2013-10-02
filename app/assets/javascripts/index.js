@@ -139,7 +139,6 @@ $(document).ready(function () {
       map.getCenter().wrap(),
       map.getZoom(),
       map.getLayersCode(),
-      map.getBounds().wrap(),
       map._object);
 
       var expiry = new Date();

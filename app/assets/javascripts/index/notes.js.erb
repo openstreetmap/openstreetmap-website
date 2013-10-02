@@ -190,7 +190,7 @@ function initializeNotes(map, params) {
       notes[feature.properties.id] = updateMarker(marker, feature);
       newNote = null;
 
-      addNoteButton.removeClass("active").addClass("geolink");
+      addNoteButton.removeClass("active");
     }
   }
 
@@ -226,7 +226,7 @@ function initializeNotes(map, params) {
     if (addNoteButton.hasClass("disabled")) return;
     if (addNoteButton.hasClass("active")) return;
 
-    addNoteButton.removeClass("geolink").addClass("active");
+    addNoteButton.addClass("active");
 
     map.addLayer(noteLayer);
 
@@ -263,7 +263,7 @@ function initializeNotes(map, params) {
     newNote.addTo(noteLayer).bindPopup(popupContent[0], popupOptions()).openPopup();
 
     newNote.on("remove", function (e) {
-      addNoteButton.removeClass("active").addClass("geolink");
+      addNoteButton.removeClass("active");
     }).on("dragstart", function (e) {
       $(newNote).stopTime("removenote");
     }).on("dragend", function (e) {

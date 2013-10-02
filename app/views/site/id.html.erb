@@ -33,24 +33,15 @@
       });
 
     id.map().on('move.embed', parent.$.throttle(250, function() {
-      var extent = id.map().extent(),
-          zoom = ~~id.map().zoom(),
-          center = id.map().center();
+      var zoom = ~~id.map().zoom(),
+        center = id.map().center(),
+        llz = { lon: center[0], lat: center[1], zoom: zoom };
 
-      parent.updatelinks({
-          lon: center[0],
-          lat: center[1]
-        },
-        zoom,
-        null,
-        [[extent[0][1],
-        extent[0][0]],
-        [extent[1][1],
-        extent[1][0]]]);
+      parent.updatelinks(llz, zoom);
 
       // Manually resolve URL to avoid iframe JS context weirdness.
       // http://bl.ocks.org/jfirebaugh/5439412
-      var hash = parent.OSM.formatHash({ lon: center[0], lat: center[1], zoom: zoom });
+      var hash = parent.OSM.formatHash(llz);
       if (hash !== parent.location.hash) {
         parent.location.replace(parent.location.href.replace(/(#.*|$)/, hash));
       }

@@ -28,13 +28,6 @@ function zoomPrecision(zoom) {
     return Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
 }
 
-function normalBounds(bounds) {
-    if (bounds instanceof L.LatLngBounds) return bounds;
-    return new L.LatLngBounds(
-        new L.LatLng(bounds[0][0], bounds[0][1]),
-        new L.LatLng(bounds[1][0], bounds[1][1]));
-}
-
 function remoteEditHandler(bbox, select) {
   var loaded = false,
       query = {
@@ -69,30 +62,27 @@ function remoteEditHandler(bbox, select) {
  * Called as the user scrolls/zooms around to maniplate hrefs of the
  * view tab and various other links
  */
-function updatelinks(loc, zoom, layers, bounds, object) {
+function updatelinks(loc, zoom, layers, object) {
   $(".geolink").each(function(index, link) {
     var href = link.href.split(/[?#]/)[0],
         args = querystring.parse(link.search.substring(1));
 
-    if (bounds && $(link).hasClass("bbox")) args.bbox = normalBounds(bounds).toBBoxString();
     if (object && $(link).hasClass("object")) args[object.type] = object.id;
 
     var query = querystring.stringify(args);
     if (query) href += '?' + query;
 
-    if ($(link).hasClass("llz")) {
-      args = {
-        lat: loc.lat,
-        lon: loc.lon || loc.lng,
-        zoom: zoom
-      };
+    args = {
+      lat: loc.lat,
+      lon: loc.lon || loc.lng,
+      zoom: zoom
+    };
 
-      if (layers && $(link).hasClass("layers")) {
-        args.layers = layers;
-      }
-
-      href += OSM.formatHash(args);
+    if (layers && $(link).hasClass("layers")) {
+      args.layers = layers;
     }
+
+    href += OSM.formatHash(args);
 
     link.href = href;
   });
