@@ -18,18 +18,20 @@ function initOwlLayer(map) {
   }
   initialized = true;
 
-  owlGeoJsonLayer = new L.OWL.GeoJSON({styles: OWL.geoJsonStyles});
+  owlGeoJsonLayer = new L.OWL.GeoJSON({
+    styles: OWL.geoJsonStyles
+  });
 
-  owlGeoJsonLayer.on('notloading', function (geojson) {
+  owlGeoJsonLayer.on('notloading', function(geojson) {
     $("#sidebar_content").html('<span class="pleasezoomin">Please zoom in<br>to see history</span>');
   });
 
-  owlGeoJsonLayer.on('loading', function (geojson) {
+  owlGeoJsonLayer.on('loading', function(geojson) {
     $('#history-sidebar-loadmore').show();
     loadingInProgress = true;
   });
 
-  owlGeoJsonLayer.on('reset', function (geojson) {
+  owlGeoJsonLayer.on('reset', function(geojson) {
     $('#sidebar_content').html(JST["templates/owl/sidebar_layout"]());
     gotMoreChangesets = true;
     loadingInProgress = false;
@@ -37,7 +39,7 @@ function initOwlLayer(map) {
 
   owlGeoJsonLayer.on('change_clicked', onChangeClicked);
 
-  owlGeoJsonLayer.on('loaded', function (data) {
+  owlGeoJsonLayer.on('loaded', function(data) {
     $('#history-sidebar-loadmore').hide();
     gotMoreChangesets = data.gotMore;
     loadingInProgress = false;
@@ -49,12 +51,12 @@ function initOwlLayer(map) {
     var changesets = owlGeoJsonLayer.changesets;
     var userIds = [];
 
-    $.each(changesets, function (index, changeset) {
+    $.each(changesets, function(index, changeset) {
       prepareChangesetInfo(changeset);
       userIds.push(changeset.user_id);
     });
 
-    fetchUserDetails($.unique(userIds), function (user) {
+    fetchUserDetails($.unique(userIds), function(user) {
       $('.user_avatar_' + user.user_id).attr('src', user.img_href);
     });
 
@@ -66,38 +68,34 @@ function initOwlLayer(map) {
       })
     );
 
-    $('.changeset-comment').click(function (e) {
-      var changesetId = findChangesetId(e.target);
-      if (changesetId != currentlyShownChangeset) {
-        showChanges(changesetId, null);
-      } else {
-        hideChanges(changesetId);
-      }
+    $('.changeset-info').click(function(e) {
+      toggleChanges(findChangesetId(e.target));
+      return false;
+    });
+
+    $('.changeset-comment').click(function(e) {
+      toggleChanges(findChangesetId(e.target));
+      return false;
+    });
+
+    $('.show-changes').click(function(e) {
+      toggleChanges(findChangesetId(e.target));
       return false;
     });
 
     $('abbr.timeago').timeago();
 
-    $('#sidebar_content').scroll(function (e) {
+    $('#sidebar_content').scroll(function(e) {
       if (isLoadMoreInView() && gotMoreChangesets && !loadingInProgress) {
         owlGeoJsonLayer.nextPage();
       }
     });
 
-    $('.changeset-info').click(function (e) {
-      var changesetId = findChangesetId(e.target);
-      if (changesetId != currentlyShownChangeset) {
-        showChanges(changesetId, null);
-      } else {
-        hideChanges(changesetId);
-      }
-    });
-
     $('.changeset-info').hover(
-      function (e) {
+      function(e) {
         owlGeoJsonLayer.highlightChangesetFeatures(findChangesetId(e.target));
       },
-      function (e) {
+      function(e) {
         owlGeoJsonLayer.unhighlightChangesetFeatures(findChangesetId(e.target));
       }
     );
@@ -105,12 +103,12 @@ function initOwlLayer(map) {
     owlUpdateFeedLink();
   });
 
-  owlGeoJsonLayer.on('changemouseover', function (data) {
+  owlGeoJsonLayer.on('changemouseover', function(data) {
     highlightChangesetItem(data.change.changeset_id);
     highlightChange(data.change.id, false, false);
   });
 
-  owlGeoJsonLayer.on('changemouseout', function (data) {
+  owlGeoJsonLayer.on('changemouseout', function(data) {
     unhighlightChangesetItem(data.change.changeset_id);
     unhighlightChange(false);
   });
@@ -164,33 +162,33 @@ function showChanges(changesetId, changeToHighlight) {
   }
   currentlyShownChangeset = changesetId;
   $('div[data-changeset-id=' + changesetId + '] > div[class=change-list]').html(JST["templates/owl/changes"]({
-      changeset: owlGeoJsonLayer.changesets[changesetId]
+    changeset: owlGeoJsonLayer.changesets[changesetId]
   }));
 
   $("abbr.timeago").timeago();
 
-  $('.show-prev-geom').hover(function (e) {
+  $('.show-prev-geom').hover(function(e) {
     owlGeoJsonLayer.showPrevGeom(findChangeId(e.target));
-  }, function (e) {
+  }, function(e) {
     owlGeoJsonLayer.showCurrentGeom(findChangeId(e.target));
   });
 
-  $('.change').click(function (e) {
+  $('.change').click(function(e) {
     highlightChange(findChangeId(e.target), false, true);
   });
 
-  $('.change').hover(function (e) {
+  $('.change').hover(function(e) {
     owlGeoJsonLayer.highlightChangeFeature(findChangeId(e.target));
-  }, function (e) {
+  }, function(e) {
     owlGeoJsonLayer.unhighlightChangeFeature(findChangeId(e.target));
   });
 
-  $('.more_link > a').click(function (e) {
+  $('.more_link > a').click(function(e) {
     owlGeoJsonLayer.nextPage();
     return false;
   });
 
-  $('div[data-changeset-id=' + changesetId + '] > div[class=change-list]').show('fast', function () {
+  $('div[data-changeset-id=' + changesetId + '] > div[class=change-list]').show('fast', function() {
     if (changeToHighlight) {
       highlightChange(changeToHighlight, true, true);
       $('div[data-change-id=' + changeToHighlight + ']').scrollIntoView(false);
@@ -201,9 +199,17 @@ function showChanges(changesetId, changeToHighlight) {
 function hideChanges(changesetId) {
   unhighlightChange(true);
   currentlyShownChangeset = null;
-  $('div[data-changeset-id=' + changesetId + '] > div[class=change-list]').hide('fast', function () {
+  $('div[data-changeset-id=' + changesetId + '] > div[class=change-list]').hide('fast', function() {
     $('div[data-changeset-id=' + changesetId + '] > div[class=change-list]').html('');
   });
+}
+
+function toggleChanges(changesetId) {
+  if (changesetId != currentlyShownChangeset) {
+    showChanges(changesetId, null);
+  } else {
+    hideChanges(changesetId);
+  }
 }
 
 function onChangeClicked(data) {
@@ -211,6 +217,7 @@ function onChangeClicked(data) {
 }
 
 // Updates feed link by generating the URL based on tile range for the currently visible viewport.
+
 function owlUpdateFeedLink() {
   $('#history-sidebar-footer .feed_link').attr('href', owlGeoJsonLayer.getAtomUrlForTilerange());
 }
