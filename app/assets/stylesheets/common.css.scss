@@ -319,40 +319,53 @@ header {
     float: left;
   }
 
+  a, a:hover {
+    text-decoration: none;
+  }
+
   img.logo {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     vertical-align: middle;
   }
 
   h1 {
     margin: 0;
     border-right: $keyline;
+
+    a {
+      color: #000;
+    }
   }
 }
 
 nav.primary {
   > ul {
-    border: 1px solid darken($green, 20%);
+    $border: 1px solid darken($green, 20%);
+
+    border: $border;
     border-radius: 4px;
+
+    > li {
+      border-right: $border;
+      &:last-child { border-right: 0; }
+    }
   }
 
-  a.tab {
+  a.tab,
+  .dropdown-toggle {
     display: inline-block;
     font-weight: bold;
-    text-decoration: none;
     color: $green;
     padding: 5px 15px;
-    border-right: 1px solid darken($green, 20%);
+  }
+
+  .dropdown-toggle {
+    padding: 5px 10px;
   }
 
   #edit_tab a.tab {
     border-right: 1px solid lighten($green, 20%);
-  }
-
-  .dropdown-toggle {
-    display: inline-block;
-    padding: 6px 10px 4px 10px;
   }
 
   .caret {
@@ -392,10 +405,6 @@ nav.secondary {
   position: absolute;
   right: 0;
 
-  > ul {
-    margin-right: 10px;
-  }
-
   > ul a,
   .dropdown-toggle {
     display: inline-block;
@@ -405,21 +414,32 @@ nav.secondary {
     padding: 5px 5px;
   }
 
-  .dropdown {
-    border: 1px solid $grey;
+  .user-menu {
+    $border: 1px solid $grey;
+
+    border: $border;
     border-radius: 4px;
+    margin-left: 10px;
+
+    > li {
+      border-right: $border;
+      &:last-child { border-right: 0; }
+    }
+
+    a {
+      padding: 5px 15px;
+    }
   }
 
   .caret {
     border-top-color: $grey;
     margin-top: 10px;
-    margin-right: 5px;
   }
 
   img.user_thumbnail_tiny {
     border: 0;
     vertical-align: top;
-    margin: 2px 0 0 3px;
+    margin-top: 2px;
     border-radius: 2px 0 0 2px;
   }
 
