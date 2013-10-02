@@ -6,11 +6,13 @@ function initializeSearch(map) {
     $("#search_form").submit();
   }
 
-  // Focus the search field for browsers that don't support
-  // the HTML5 'autofocus' attribute
-  if (!("autofocus" in document.createElement("input"))) {
-    $("#query").focus();
-  }
+  $("#query")
+    .on("focus", function() {
+      $("#describe_location").fadeOut(100);
+    })
+    .on("blur", function() {
+      $("#describe_location").fadeIn(100);
+    });
 
   $("#sidebar_content").on("click", ".search_results_entry a.set_position", clickSearchResult);
 
