@@ -17,7 +17,6 @@
 //= require oauth
 //= require piwik
 //= require map
-//= require sidebar
 //= require richtext
 //= require geocoder
 //= require querystring

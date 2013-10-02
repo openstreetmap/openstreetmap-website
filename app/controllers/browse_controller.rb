@@ -1,5 +1,5 @@
 class BrowseController < ApplicationController
-  layout 'map'
+  layout :map_layout
 
   before_filter :authorize_web  
   before_filter :set_locale 

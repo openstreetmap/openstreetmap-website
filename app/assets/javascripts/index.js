@@ -9,6 +9,8 @@
 //= require index/browse
 //= require index/export
 //= require index/notes
+//= require index/changeset
+//= require router
 
 $(document).ready(function () {
   var params = OSM.mapParams();
@@ -141,12 +143,12 @@ $(document).ready(function () {
       map.getLayersCode(),
       map._object);
 
-      var expiry = new Date();
-      expiry.setYear(expiry.getFullYear() + 10);
-      $.cookie("_osm_location", cookieContent(map), { expires: expiry });
+    var expiry = new Date();
+    expiry.setYear(expiry.getFullYear() + 10);
+    $.cookie("_osm_location", cookieContent(map), { expires: expiry });
 
-      // Trigger hash update on layer changes.
-      map.hash.onMapMove();
+    // Trigger hash update on layer changes.
+    map.hash.onMapMove();
   });
 
   if (OSM.PIWIK) {
@@ -173,10 +175,6 @@ $(document).ready(function () {
 
   if (params.marker) {
     marker.setLatLng([params.mlat, params.mlon]).addTo(map);
-  }
-
-  if (params.object) {
-    map.addObject(params.object, { zoom: params.object_zoom });
   }
 
   $("#homeanchor").on("click", function(e) {
@@ -213,9 +211,50 @@ $(document).ready(function () {
   }
 
   initializeSearch(map);
-  initializeExport(map);
   initializeBrowse(map, params);
   initializeNotes(map, params);
 
-  if ('undefined' !== typeof initializeChangesets) initializeChangesets(map);
+  OSM.Index = function(map) {
+    var page = {};
+
+    page.pushstate = page.popstate = function(path) {
+      $("#view_tab").addClass("current");
+      $('#sidebar_content').load(path);
+    };
+
+    page.unload = function() {
+      $("#view_tab").removeClass("current");
+    };
+
+    return page;
+  };
+
+  OSM.Browse = function(map) {
+    var page = {};
+
+    page.pushstate = page.popstate = function(path) {
+      $('#sidebar_content').load(path, page.load);
+    };
+
+    page.load = function() {
+      map.addObject(OSM.mapParams().object, {zoom: true});
+    };
+
+    page.unload = function() {
+      map.removeObject();
+    };
+
+    return page;
+  };
+
+  var router = OSM.Router({
+    "/":                           OSM.Index(map),
+    "/export":                     OSM.Export(map),
+    "/browse/changesets":          OSM.ChangesetList(map),
+    "/browse/:type/:id(/history)": OSM.Browse(map)
+  });
+
+  $(document).on("click", "a", function(e) {
+    if (router(this.pathname + this.search + this.hash)) e.preventDefault();
+  });
 });

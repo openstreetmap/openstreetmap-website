@@ -1,6 +1,4 @@
 <% content_for :head do -%>
-  <%= javascript_include_tag "changeset" %>
-
   <% unless params[:friends] or params[:nearby] -%>
     <%= auto_discovery_link_tag :atom, params.merge({ :page => nil, :action => :feed }) %>
   <% end -%>

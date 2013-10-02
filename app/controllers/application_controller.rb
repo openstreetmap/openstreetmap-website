@@ -422,6 +422,10 @@ class ApplicationController < ActionController::Base
     request.body.rewind
   end
 
+  def map_layout
+    request.xhr? ? false : 'map'
+  end
+
   def preferred_editor
     editor = if params[:editor]
       params[:editor]
