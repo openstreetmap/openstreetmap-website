@@ -130,10 +130,6 @@ h2, h3 {
   font-size: 16px;
 }
 
-p {
-  margin-bottom: $lineheight;
-}
-
 p > img {
   width: auto;
   max-width: 100%;
@@ -660,7 +656,7 @@ nav.secondary {
 
 .layers-ui,
 .share-ui {
-  ul, li:last-child, p:last-child {
+  li:last-child {
     margin-bottom: 0;
   }
 }
@@ -804,10 +800,6 @@ nav.secondary {
     right: $lineheight;
   }
 
-  p {
-    margin: 0;
-  }
-
   .footer {
     position: absolute;
     bottom: 0;
@@ -828,9 +820,6 @@ nav.secondary {
   padding: $lineheight/2 $lineheight;
   background: $offwhite;
   border-bottom: 1px solid #ccc;
-  h4 {
-    margin: 0;
-  }
 }
 
 .sidebar_close {
@@ -970,13 +959,24 @@ nav.secondary {
 }
 
 .content-heading {
-  position: relative;
-  padding: $lineheight;
   background: $lightgrey;
   border-bottom: $keyline;
 }
 
 .content-body {
+  h1, h2, h3, p {
+    margin-bottom: $lineheight;
+  }
+
+  h1, h2, h3 {
+    margin-top: $lineheight/2;
+  }
+}
+
+.content-inner {
+  position: relative;
+  max-width: 900px;
+  margin: auto;
   padding: $lineheight;
 }
 
@@ -984,18 +984,18 @@ nav.secondary {
 
 .user-new,
 .user-create,
-.user-terms,
-.user-confirm {
-  .content-heading {
-    height: 200px;
+.user-terms {
+  .content-body .content-inner {
+    padding: 0;
   }
 }
 
 .user-new,
 .user-create,
-.user-terms {
-  .content-body {
-    padding: 0;
+.user-terms,
+.user-confirm {
+  .content-heading .content-inner {
+    height: 200px;
   }
 }
 
@@ -1026,16 +1026,14 @@ nav.secondary {
     left: 260px;
     top: 160px;
     background-image: image-url("sign-up-illustration-arm.png");
+    z-index: 100;
   }
 }
 
 @media only screen and (max-width:900px) {
-  .header-illustration.new-user-arm { display: none;}
-.wrapper {
-  margin-left: $sidebarWidth;
-  text-align: left;
-}
-
+  .header-illustration.new-user-arm {
+    display: none;
+  }
 }
 
 #content.maximised {
@@ -1101,10 +1099,6 @@ nav.secondary {
     padding: $lineheight;
     border-bottom: $keyline;
   }
-
-  p {
-    padding: 0;
-  }
 }
 
 /* Rules for the data browser */
@@ -1113,17 +1107,12 @@ body.browse #sidebar_content {
   .browse-section {
     padding: 20px;
     border-bottom: 1px solid #CCC;
-
-    ul {
-      margin: 0;
-    }
   }
 
   .browse-field {
     margin-bottom: 10px;
 
     h4 {
-      margin: 0;
       padding: 5px 0 5px 10px;
       font-size: 12px;
       border: 1px solid #CCC;
@@ -1132,7 +1121,6 @@ body.browse #sidebar_content {
     }
 
     p {
-      margin: 0;
       padding: 7px 10px;
       font-size: 12px;
       background-color: #FFF;
@@ -1314,44 +1302,38 @@ body.browse #sidebar_content {
 
 /* Rules for the diary list page */
 
-.diary_entry-list img.user_thumbnail {
-  float: left;
-}
-
 .diary_post {
-  max-width: 740px;
   position: relative;
   margin-top: $lineheight/2;
   padding-top: $lineheight;
   border-top: 1px solid #ccc;
 
-  &:first-child {
-    margin-top: 0;
-    border-top: 0;
-    padding-top: 0;
+  .post_heading {
+    margin-bottom: $lineheight;
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: $lineheight/2;
+      font-size: 24px;
+    }
   }
-  h1, h2 {
-    font-size: 21px;
-    line-height: 1em;
+
+  img.user_thumbnail {
+    float: left;
   }
+
   small.deemphasize {
     float: left;
     display: block;
   }
-  ul.secondary-actions { display: inline-block;}
+
+  ul.secondary-actions {
+    display: inline-block;
+  }
 }
 
 .content-heading .hide_unless_logged_in { // hacky selector, better to just add a new class to this div
   display: inline;
-}
-
-#content  .post_heading {
-  margin-bottom: $lineheight;
-  h2 {
-    margin-top: 0;
-    margin-bottom: $lineheight/2;
-    font-size: 24px;
-  }
 }
 
 /* Rules for the diary entry page */
@@ -2388,12 +2370,9 @@ a.button {
     background-color: rgba(0, 0, 0, 0.5);
   }
 
-  #content-body {
-    display: block;
+  .content-inner {
     position: relative;
-    margin: auto;
     color: #333;
-    width: 50%;
     min-width: 320px;
     max-width: 640px;
 

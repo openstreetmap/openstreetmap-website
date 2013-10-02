@@ -5,11 +5,15 @@
     <%= render :partial => "layouts/flash", :locals => { :flash => flash } %>
     <% if content_for? :heading %>
       <div class="content-heading">
-        <%= yield :heading %>
+        <div class="content-inner">
+          <%= yield :heading %>
+        </div>
       </div>
     <% end %>
     <div class="content-body">
-      <%= yield %>
+      <div class="content-inner">
+        <%= yield %>
+      </div>
     </div>
   <% end %>
 </div>
