@@ -96,4 +96,8 @@ module ApplicationHelper
   def body_class
     [params[:controller], "#{params[:controller]}-#{params[:action]}", @extra_body_class].compact.join(" ")
   end
+
+  def current_page_class(path)
+    :current if current_page?(path)
+  end
 end

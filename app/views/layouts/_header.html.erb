@@ -7,9 +7,9 @@
   </h1>
   <nav class='primary'>
     <ul>
-      <li id="view_tab">
+      <li id="view_tab" class="<%= current_page_class(root_path) %>">
         <%= link_to t('layouts.view'), root_path, :class => 'tab geolink llz layers' %>
-      </li><li id="edit_tab" class="dropdown">
+      </li><li id="edit_tab" class="dropdown <%= current_page_class(edit_path) %>">
       <%= link_to t('layouts.edit'), edit_path, :class => "tab geolink llz object",
                   :id => 'editanchor',
                   :data => { :editor => preferred_editor }
@@ -24,19 +24,19 @@
           </li>
         <% end %>
       </ul>
-      </li><li id="history_tab">
+      </li><li id="history_tab" class="<%= current_page_class(browse_changesets_path) %>">
         <%= link_to t('layouts.history'), browse_changesets_path, :class => 'tab geolink llz' %>
-      </li><li id="export_tab">
+      </li><li id="export_tab" class="<%= current_page_class(export_path) %>">
         <%= link_to t('layouts.export'), export_path, :class => 'tab geolink llz' %>
       </li>
     </ul>
   </nav>
   <nav class='secondary'>
     <ul>
-      <li><%= link_to t('layouts.gps_traces'), traces_path %></li>
-      <li><%= link_to t('layouts.user_diaries'), diary_path %></li>
-      <li><%= link_to t('layouts.help'), help_path %></li>
-      <li><%= link_to t('layouts.about'), about_path %></li>
+      <li class="<%= current_page_class(traces_path) %>"><%= link_to t('layouts.gps_traces'), traces_path %></li>
+      <li class="<%= current_page_class(diary_path) %>"><%= link_to t('layouts.user_diaries'), diary_path %></li>
+      <li class="<%= current_page_class(help_path) %>"><%= link_to t('layouts.help'), help_path %></li>
+      <li class="<%= current_page_class(about_path) %>"><%= link_to t('layouts.about'), about_path %></li>
     </ul>
     <% if @user %>
       <div class='dropdown user-menu'>
