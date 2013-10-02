@@ -10,6 +10,9 @@
         <%= text_field_tag :query, params[:query],
                            :placeholder => t('site.search.search'),
                            :autofocus => "autofocus" %>
+        <%= link_to t('site.search.where_am_i'),
+                    { :controller => :geocoder, :action => :description },
+                    { :id => "describe_location", :title => t('site.search.where_am_i_title') } %>
       </div>
     <% end %>
 
