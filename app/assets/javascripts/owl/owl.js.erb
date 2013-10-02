@@ -100,6 +100,8 @@ function initOwlLayer(map) {
       }
     );
 
+    $('#sidebar_title').html('History <a target="_blank" href="" class="rsssmall owl_feed_link"><img alt="RSS" border="0" height="16" src="/assets/RSS.png" width="16"></a>');
+
     owlUpdateFeedLink();
   });
 
@@ -219,5 +221,5 @@ function onChangeClicked(data) {
 // Updates feed link by generating the URL based on tile range for the currently visible viewport.
 
 function owlUpdateFeedLink() {
-  $('#history-sidebar-footer .feed_link').attr('href', owlGeoJsonLayer.getAtomUrlForTilerange());
+  $('.owl_feed_link').attr('href', owlGeoJsonLayer.getAtomUrlForTilerange());
 }
