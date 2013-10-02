@@ -105,15 +105,6 @@ function updatelinks(loc, zoom, layers, bounds, object) {
     .toggleClass('disabled', editDisabled)
     .attr('data-original-title', editDisabled ?
       I18n.t('javascripts.site.edit_disabled_tooltip') : '');
-
-  var historyDisabled = zoom < 11;
-  $('#history_tab')
-    .tooltip({placement: 'bottom'})
-    .off('click.minzoom')
-    .on('click.minzoom', function() { return !historyDisabled; })
-    .toggleClass('disabled', historyDisabled)
-    .attr('data-original-title', historyDisabled ?
-      I18n.t('javascripts.site.history_disabled_tooltip') : '');
 }
 
 // generate a cookie-safe string of map state
