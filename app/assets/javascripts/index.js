@@ -134,7 +134,21 @@ $(document).ready(function () {
 
   $('.leaflet-control .control-button').tooltip({placement: 'left', container: 'body'});
 
-  map.on('moveend layeradd layerremove', updateLocation);
+  map.on('moveend layeradd layerremove', function() {
+    updatelinks(
+      map.getCenter().wrap(),
+      map.getZoom(),
+      map.getLayersCode(),
+      map.getBounds().wrap(),
+      map._object);
+
+      var expiry = new Date();
+      expiry.setYear(expiry.getFullYear() + 10);
+      $.cookie("_osm_location", cookieContent(map), { expires: expiry });
+
+      // Trigger hash update on layer changes.
+      map.hash.onMapMove();
+  });
 
   if (OSM.PIWIK) {
     map.on('layeradd', function (e) {
@@ -206,17 +220,3 @@ $(document).ready(function () {
 
   if ('undefined' !== typeof initializeChangesets) initializeChangesets(map);
 });
-
-function updateLocation() {
-  updatelinks(this.getCenter().wrap(),
-      this.getZoom(),
-      this.getLayersCode(),
-      this.getBounds().wrap());
-
-  var expiry = new Date();
-  expiry.setYear(expiry.getFullYear() + 10);
-  $.cookie("_osm_location", cookieContent(this), { expires: expiry });
-
-  // Trigger hash update on layer changes.
-  this.hash.onMapMove();
-}
