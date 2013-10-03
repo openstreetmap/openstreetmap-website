@@ -116,6 +116,14 @@ function escapeHTML(string) {
   });
 }
 
+function maximiseMap() {
+  $("#content").addClass("maximised");
+}
+
+function minimiseMap() {
+  $("#content").removeClass("maximised");
+}
+
 /*
  * Forms which have been cached by rails may have the wrong
  * authenticity token, so patch up any forms with the correct
