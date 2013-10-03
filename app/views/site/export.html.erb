@@ -1,53 +1,50 @@
-<% content_for :sidebar do %>
-  <h2><%= t 'export.start_rjs.export' %></h2>
-  <%= form_tag :controller => "export", :action => "finish" do %>
-    <%= hidden_field_tag 'format', 'osm' %>
+<h2><%= t 'export.start_rjs.export' %></h2>
 
-    <div class="export_bounds inner22">
-      <div class='export_area_inputs'>
-        <%= text_field_tag('maxlat', nil, :size => 10, :class => "export_bound") %>
-        <br/>
-        <%= text_field_tag('minlon', nil, :size => 10, :class => "export_bound") %>
-        <%= text_field_tag('maxlon', nil, :size => 10, :class => "export_bound") %>
-        <br/>
-        <%= text_field_tag('minlat', nil, :size => 10, :class => "export_bound") %>
-      </div>
-      <a id="drag_box" class='export_hint button' href="#"><%= t'export.start.manually_select' %></a>
+<%= form_tag :controller => "export", :action => "finish" do %>
+  <%= hidden_field_tag 'format', 'osm' %>
+
+  <div class="export_bounds inner22">
+    <div class='export_area_inputs'>
+      <%= text_field_tag('maxlat', nil, :size => 10, :class => "export_bound") %>
+      <br/>
+      <%= text_field_tag('minlon', nil, :size => 10, :class => "export_bound") %>
+      <%= text_field_tag('maxlon', nil, :size => 10, :class => "export_bound") %>
+      <br/>
+      <%= text_field_tag('minlat', nil, :size => 10, :class => "export_bound") %>
+    </div>
+    <a id="drag_box" class='export_hint button' href="#"><%= t'export.start.manually_select' %></a>
+  </div>
+
+  <div id="export_osm">
+    <h4><%= t'export.start.licence' %></h4>
+
+    <div class="export_details inner22">
+      <p><%= raw t'export.start.export_details' %></p>
     </div>
 
-    <div id="export_osm">
-      <h4><%= t'export.start.licence' %></h4>
+    <div  id="export_osm_too_large">
+      <h4><%= t'export.start.too_large.heading' %></h4>
 
       <div class="export_details inner22">
-        <p><%= raw t'export.start.export_details' %></p>
-      </div>
+        <p><%= t'export.start.too_large.body' %></p>
+        <dl>
+          <dt><a href="http://planet.openstreetmap.org/"><%= t'export.start.too_large.planet.title' %></a></dt>
+          <dd><%= t'export.start.too_large.planet.description' %></dd>
 
-      <div  id="export_osm_too_large">
-        <h4><%= t'export.start.too_large.heading' %></h4>
+          <dt><a href="http://download.geofabrik.de/"><%= t'export.start.too_large.geofabrik.title' %></a></dt>
+          <dd><%= t'export.start.too_large.geofabrik.description' %></dd>
 
-        <div class="export_details inner22">
-          <p><%= t'export.start.too_large.body' %></p>
-          <dl>
-            <dt><a href="http://planet.openstreetmap.org/"><%= t'export.start.too_large.planet.title' %></a></dt>
-            <dd><%= t'export.start.too_large.planet.description' %></dd>
+          <dt><a href="http://metro.teczno.com/"><%= t'export.start.too_large.metro.title' %></a></dt>
+          <dd><%= t'export.start.too_large.metro.description' %></dd>
 
-            <dt><a href="http://download.geofabrik.de/"><%= t'export.start.too_large.geofabrik.title' %></a></dt>
-            <dd><%= t'export.start.too_large.geofabrik.description' %></dd>
-
-            <dt><a href="http://metro.teczno.com/"><%= t'export.start.too_large.metro.title' %></a></dt>
-            <dd><%= t'export.start.too_large.metro.description' %></dd>
-
-            <dt><a href="http://wiki.openstreetmap.org/wiki/Download"><%= t'export.start.too_large.other.title' %></a></dt>
-            <dd><%= t'export.start.too_large.other.description' %></dd>
-          </dl>
-        </div>
+          <dt><a href="http://wiki.openstreetmap.org/wiki/Download"><%= t'export.start.too_large.other.title' %></a></dt>
+          <dd><%= t'export.start.too_large.other.description' %></dd>
+        </dl>
       </div>
     </div>
+  </div>
 
-    <div class="inner12">
-      <%= submit_tag t('export.start.export_button'), :id => "export_commit" %>
-    </div>
-  <% end %>
+  <div class="inner12">
+    <%= submit_tag t('export.start.export_button'), :id => "export_commit" %>
+  </div>
 <% end %>
-
-<%= render :template => 'layouts/map' %>

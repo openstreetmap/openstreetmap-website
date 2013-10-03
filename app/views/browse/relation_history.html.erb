@@ -7,17 +7,13 @@
   <%= stylesheet_link_tag 'browse' %>
 <% end %>
 
-<% content_for :sidebar do %>
-  <h2><%= raw t'browse.relation_history.relation_history_title', :relation_name => link_to(h(@name), :action => "relation", :id => @relation.id) %></h2>
+<h2><%= raw t'browse.relation_history.relation_history_title', :relation_name => link_to(h(@name), :action => "relation", :id => @relation.id) %></h2>
 
-  <% @relation.old_relations.reverse.each do |relation| %>
-    <%= render :partial => "relation_details", :object => relation %>
-  <% end %>
-
-  <ul class='secondary-actions clearfix'>
-    <li><%= link_to(t('browse.relation_history.download_xml'), :controller => "old_relation", :action => "history") %></li>
-    <li><%= link_to(t('browse.relation_history.view_details'), :action => "relation") %></li>
-  </ul>
+<% @relation.old_relations.reverse.each do |relation| %>
+  <%= render :partial => "relation_details", :object => relation %>
 <% end %>
 
-<%= render :template => 'layouts/map' %>
+<ul class='secondary-actions clearfix'>
+  <li><%= link_to(t('browse.relation_history.download_xml'), :controller => "old_relation", :action => "history") %></li>
+  <li><%= link_to(t('browse.relation_history.view_details'), :action => "relation") %></li>
+</ul>

@@ -6,26 +6,22 @@
   <% end -%>
 <% end -%>
 
-<% content_for :sidebar do %>
-  <h2><%= @heading %></h2>
+<h2><%= @heading %></h2>
 
-  <% if @edits.size > 0 %>
-    <ol class="changesets">
-      <%= render :partial => 'changeset',
-                 :collection => @edits %>
-    </ol>
+<% if @edits.size > 0 %>
+  <ol class="changesets">
+    <%= render :partial => 'changeset',
+               :collection => @edits %>
+  </ol>
 
-    <div class="search_more">
-      <div class="inner12 search_results_entry">
-        <%= link_to t('geocoder.results.more_results'), '#', :class => "button" %>
-      </div>
-      <%= image_tag "searching.gif", :class => ["search_searching", "hidden"] %>
+  <div class="search_more">
+    <div class="inner12 search_results_entry">
+      <%= link_to t('geocoder.results.more_results'), '#', :class => "button" %>
     </div>
-  <% elsif @user and @user.display_name == params[:display_name] %>
-    <h4><%= t('changeset.list.empty_user_html') %></h4>
-  <% else %>
-    <h4><%= t('changeset.list.empty_anon_html') %></h4>
-  <% end %>
+    <%= image_tag "searching.gif", :class => ["search_searching", "hidden"] %>
+  </div>
+<% elsif @user and @user.display_name == params[:display_name] %>
+  <h4><%= t('changeset.list.empty_user_html') %></h4>
+<% else %>
+  <h4><%= t('changeset.list.empty_anon_html') %></h4>
 <% end %>
-
-<%= render :template => 'layouts/map' %>

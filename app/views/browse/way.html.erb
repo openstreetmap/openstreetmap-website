@@ -7,15 +7,11 @@
   <%= stylesheet_link_tag 'browse' %>
 <% end %>
 
-<% content_for :sidebar do %>
-  <h2><%= t'browse.way.way_title', :way_name => @name %></h2>
+<h2><%= t'browse.way.way_title', :way_name => @name %></h2>
 
-  <%= render :partial => "way_details", :object => @way %>
+<%= render :partial => "way_details", :object => @way %>
 
-  <ul class='secondary-actions clearfix'>
-    <li><%= link_to(t('browse.way.download_xml'), :controller => "way", :action => "read") %></li>
-    <li><%= link_to(t('browse.way.view_history'), :action => "way_history") %></li>
-  </ul>
-<% end %>
-
-<%= render :template => 'layouts/map' %>
+<ul class='secondary-actions clearfix'>
+  <li><%= link_to(t('browse.way.download_xml'), :controller => "way", :action => "read") %></li>
+  <li><%= link_to(t('browse.way.view_history'), :action => "way_history") %></li>
+</ul>

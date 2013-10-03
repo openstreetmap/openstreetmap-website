@@ -1,14 +1,15 @@
 class BrowseController < ApplicationController
-  layout 'site', :except => [ :start ]
+  layout 'map'
 
   before_filter :authorize_web  
   before_filter :set_locale 
   before_filter { |c| c.check_database_readable(true) }
   around_filter :web_timeout, :except => [:start]
 
-  def start 
+  def start
+    render :layout => false
   end
-  
+
   def relation
     @type = "relation"
     @relation = Relation.find(params[:id])

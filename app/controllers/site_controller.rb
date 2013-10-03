@@ -1,6 +1,6 @@
 class SiteController < ApplicationController
-  layout 'site', :except => [:key, :permalink]
-  layout false, :only => [:key, :permalink]
+  layout 'site'
+  layout 'map', :only => [:index, :export]
 
   before_filter :authorize_web
   before_filter :set_locale
@@ -34,6 +34,7 @@ class SiteController < ApplicationController
 
   def key
     expires_in 7.days, :public => true
+    render :layout => false
   end
 
   def edit

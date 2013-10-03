@@ -7,17 +7,13 @@
   <%= stylesheet_link_tag 'browse' %>
 <% end %>
 
-<% content_for :sidebar do %>
-  <h2><%= raw t'browse.node_history.node_history_title', :node_name => link_to(h(@name), :action => "node", :id => @node.id) %></h2>
+<h2><%= raw t'browse.node_history.node_history_title', :node_name => link_to(h(@name), :action => "node", :id => @node.id) %></h2>
 
-  <% @node.old_nodes.reverse.each do |node| %>
-    <%= render :partial => "node_details", :object => node %>
-  <% end %>
-
-  <ul class='secondary-actions clearfix'>
-    <li><%= link_to(t('browse.node_history.download_xml'), :controller => "old_node", :action => "history") %></li>
-    <li><%= link_to(t('browse.node_history.view_details'), :action => "node") %></li>
-  </ul>
+<% @node.old_nodes.reverse.each do |node| %>
+  <%= render :partial => "node_details", :object => node %>
 <% end %>
 
-<%= render :template => 'layouts/map' %>
+<ul class='secondary-actions clearfix'>
+  <li><%= link_to(t('browse.node_history.download_xml'), :controller => "old_node", :action => "history") %></li>
+  <li><%= link_to(t('browse.node_history.view_details'), :action => "node") %></li>
+</ul>
