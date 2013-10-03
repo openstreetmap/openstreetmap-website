@@ -8,6 +8,7 @@ L.OSM.note = function (options) {
     var link = $('<a>')
       .attr('class', 'control-button')
       .attr('href', '#')
+      .attr('accesskey', 'n')
       .html('<span class="icon note"></span>')
       .appendTo($container);
 
