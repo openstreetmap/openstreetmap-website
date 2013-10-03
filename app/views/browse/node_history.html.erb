@@ -3,10 +3,6 @@
 @title = t('browse.node_history.node_history') + ' | ' + @name
 %>
 
-<% content_for :head do %>
-  <%= stylesheet_link_tag 'browse' %>
-<% end %>
-
 <h2><%= raw t'browse.node_history.node_history_title', :node_name => link_to(h(@name), :action => "node", :id => @node.id) %></h2>
 
 <% @node.old_nodes.reverse.each do |node| %>
