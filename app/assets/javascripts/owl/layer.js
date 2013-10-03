@@ -1,6 +1,6 @@
 L.OWL = {};
 
-L.OWL.GeoJSON = L.FeatureGroup.extend({
+L.OWL.Layer = L.FeatureGroup.extend({
   minZoomLevel: 12,
   pageSize: 15,
   currentOffset: 0,
@@ -9,25 +9,28 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   styles: {},
   currentUrl: null,
   osmElements: {},
+  tileLayer: null,
 
   initialize: function (options) {
     this.styles = options.styles;
-    L.FeatureGroup.prototype.initialize.apply(this, arguments);
+    L.LayerGroup.prototype.initialize.apply(this, arguments);
+    this.tileLayer = new L.TileLayer.Ajax(OSM.OWL_API_URL + 'changesets/{z}/{x}/{y}.json');
+
+    this.tileLayer.on('tileload', function (tile) {
+      console.log(tile.tile.datum);
+    });
   },
 
   onAdd: function (map) {
     this._map = map;
+    map.addLayer(this.tileLayer);
     map.on('moveend', this._handleMapChange, this);
   },
 
   onRemove: function (map) {
     map.off('moveend', this._handleMapChange, this);
+    map.removeLayer(this.tileLayer);
     this._removeObjectLayers();
-  },
-
-  nextPage: function() {
-    this.currentOffset += this.pageSize;
-    this._loadMore();
   },
 
   showCurrentGeom: function (changeId) {
@@ -185,6 +188,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
         var change = layer.changesets[changeFeature.properties.changeset_id].changes[changeFeature.properties.change_id];
         if (changeFeature.features.length > 0) {
           var geojson = null, prevGeojson = null;
+
           if (changeFeature.features[0].properties.type == 'prev') {
             prevGeojson = changeFeature.features[0];
           } else {
@@ -193,6 +197,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
               prevGeojson = changeFeature.features[1];
             }
           }
+
           layer.addChangeFeatureLayer(change, geojson, prevGeojson);
         }
       });
@@ -209,7 +214,7 @@ L.OWL.GeoJSON = L.FeatureGroup.extend({
   addChangeFeatureLayer: function (change, geojson, prev_geojson) {
     if (change.id != this.osmElements[change.el_id].id) {
       // Display only the latest change for each element.
-      return;
+      //return;
     }
 
     var layer = this;

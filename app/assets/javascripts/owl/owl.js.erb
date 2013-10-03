@@ -1,5 +1,6 @@
 //= require owl/config
-//= require owl/geojson-layer
+//= require owl/TileLayer.GeoJSON
+//= require owl/layer
 //= require owl/utils
 //= require templates/owl/sidebar_layout
 //= require templates/owl/changeset_list
@@ -18,7 +19,7 @@ function initOwlLayer(map) {
   }
   initialized = true;
 
-  owlGeoJsonLayer = new L.OWL.GeoJSON({
+  owlGeoJsonLayer = new L.OWL.Layer({
     styles: OWL.geoJsonStyles
   });
 
