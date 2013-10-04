@@ -94,24 +94,14 @@ module ApplicationHelper
   end
 
   def body_class
-    [
-        params[:controller],
-        "#{params[:controller]}-#{params[:action]}",
-        "#{current_layout}-layout",
-        @extra_body_class
-    ].compact.join(" ")
+    if content_for? :body_class
+      content_for :body_class
+    else
+      "#{params[:controller]} #{params[:controller]}-#{params[:action]}"
+    end
   end
 
   def current_page_class(path)
     :current if current_page?(path)
-  end
-
-  def current_layout
-    layout = controller.send(:_layout)
-    if layout.instance_of? String
-      layout
-    else
-      File.basename(layout.identifier).split('.').first
-    end
   end
 end
