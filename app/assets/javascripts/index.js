@@ -173,15 +173,13 @@ $(document).ready(function () {
     });
   }
 
-  var marker = L.marker([0, 0], {icon: getUserIcon()});
-
-  if (!params.object_zoom) {
-    if (params.bounds) {
-      map.fitBounds(params.bounds);
-    } else {
-      map.setView([params.lat, params.lon], params.zoom);
-    }
+  if (params.bounds) {
+    map.fitBounds(params.bounds);
+  } else {
+    map.setView([params.lat, params.lon], params.zoom);
   }
+
+  var marker = L.marker([0, 0], {icon: getUserIcon()});
 
   if (params.marker) {
     marker.setLatLng([params.mlat, params.mlon]).addTo(map);
@@ -220,8 +218,8 @@ $(document).ready(function () {
     });
   }
 
-  initializeBrowse(map, params);
-  initializeNotes(map, params);
+  initializeBrowse(map);
+  initializeNotes(map);
 
   OSM.Index = function(map) {
     var page = {};
@@ -241,12 +239,20 @@ $(document).ready(function () {
   OSM.Browse = function(map) {
     var page = {};
 
-    page.pushstate = page.popstate = function(path) {
-      $('#sidebar_content').load(path, page.load);
+    page.pushstate = page.popstate = function(path, type, id) {
+      $('#sidebar_content').load(path, function() {
+        page.load(path, type, id);
+      });
     };
 
-    page.load = function() {
-      map.addObject(OSM.mapParams().object, {zoom: true});
+    page.load = function(path, type, id) {
+      if (OSM.STATUS === 'api_offline' || OSM.STATUS === 'database_offline') return;
+
+      if (type === 'note') {
+        map.noteLayer.showNote(parseInt(id));
+      } else {
+        map.addObject({type: type, id: parseInt(id)}, {zoom: true});
+      }
     };
 
     page.unload = function() {

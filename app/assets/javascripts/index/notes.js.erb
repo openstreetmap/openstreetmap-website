@@ -1,7 +1,7 @@
 //= require templates/notes/show
 //= require templates/notes/new
 
-function initializeNotes(map, params) {
+function initializeNotes(map) {
   var noteLayer = map.noteLayer,
       notes = {},
       newNote;
@@ -48,19 +48,17 @@ function initializeNotes(map, params) {
     }
   });
 
-  if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
-    if (params.note) {
-      $.ajax({
-        url: "/api/" + OSM.API_VERSION + "/notes/" + params.note + ".json",
-        success: function (feature) {
-          var marker = updateMarker(notes[feature.properties.id], feature);
-          notes[feature.properties.id] = marker;
-          map.addLayer(noteLayer);
-          marker.openPopup();
-        }
-      });
-    }
-  }
+  noteLayer.showNote = function(id) {
+    $.ajax({
+      url: "/api/" + OSM.API_VERSION + "/notes/" + id + ".json",
+      success: function (feature) {
+        var marker = updateMarker(notes[feature.properties.id], feature);
+        notes[feature.properties.id] = marker;
+        map.addLayer(noteLayer);
+        marker.openPopup();
+      }
+    });
+  };
 
   function updateMarker(marker, feature) {
     if (marker) {

@@ -46,27 +46,12 @@ OSM = {
       mapParams.mlat = parseFloat(params.mlat);
     }
 
-    match = window.location.pathname.match(/\/browse\/(node|way|relation|changeset)\/(\d+)/);
-    if (match) {
-      mapParams.object_zoom = true;
-      mapParams.object = {type: match[1], id: parseInt(match[2])};
-    } else if (params.node || params.way || params.relation || params.note) {
-      mapParams.object_zoom = true;
-
-      if (params.node) {
-        mapParams.object = {type: 'node', id: parseInt(params.node)};
-      } else if (params.way) {
-        mapParams.object = {type: 'way', id: parseInt(params.way)};
-      } else if (params.relation) {
-        mapParams.object = {type: 'relation', id: parseInt(params.relation)};
-      }
-    }
-
-    match = window.location.pathname.match(/\/browse\/note\/(\d+)/);
-    if (match) {
-      mapParams.note = parseInt(match[1]);
-    } else if (params.note) {
-      mapParams.note = parseInt(params.note);
+    if (params.node) {
+      mapParams.object = {type: 'node', id: parseInt(params.node)};
+    } else if (params.way) {
+      mapParams.object = {type: 'way', id: parseInt(params.way)};
+    } else if (params.relation) {
+      mapParams.object = {type: 'relation', id: parseInt(params.relation)};
     }
 
     var hash = OSM.parseHash(location.hash);
@@ -76,17 +61,14 @@ OSM = {
       mapParams.lon = hash.center.lng;
       mapParams.lat = hash.center.lat;
       mapParams.zoom = hash.zoom;
-      mapParams.object_zoom = false;
     } else if (params.lon && params.lat) {
       mapParams.lon = parseFloat(params.lon);
       mapParams.lat = parseFloat(params.lat);
       mapParams.zoom = parseInt(params.zoom || 5);
-      mapParams.object_zoom = false;
     } else if (params.mlon && params.mlat) {
       mapParams.lon = parseFloat(params.mlon);
       mapParams.lat = parseFloat(params.mlat);
       mapParams.zoom = parseInt(params.zoom || 12);
-      mapParams.object_zoom = false;
     } else if (loc = $.cookie('_osm_location')) {
       loc = loc.split("|");
       mapParams.lon = parseFloat(loc[0]);
