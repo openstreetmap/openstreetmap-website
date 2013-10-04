@@ -215,78 +215,12 @@ table {
   }
 }
 
-/* Rules for the search box */
-
-#search_form {
-  position: relative;
-  padding: $lineheight;
-  background-color: $lightgrey;
-  border-bottom: $keyline;
-
-  #query_wrapper {
-    position: relative;
-    overflow: hidden;
-  }
-
-  input {
-    width: 100%;
-    height: 30px;
-    border-right: none;
-    border-radius: 2px 0 0 2px;
-
-    transition: 300ms linear;
-    -webkit-transition: 300ms linear;
-    -moz-transition: 300ms linear;
-  }
-
-  input:focus {
-    outline: none;
-    box-shadow: 0px 0px 7px #9ED485;
-  }
-
-  input[type=submit] {
-    float: right;
-    width: auto;
-    min-width: 0;
-    border-radius: 0 2px 2px 0;
-  }
-
-  #describe_location {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    font-size: 10px;
-    color: $blue;
-  }
-}
-
 /* Utility for de-emphasizing content */
 
 .deemphasize {
   color: #999;
   a {
     color: $blue;
-  }
-}
-
-/* Rules for donation request box */
-
-a.donate {
-  display: block;
-  width: 163px;
-  padding: $lineheight/4;
-  border: 1px solid #AED1A0;
-  background: #cbeea7;
-  font-size: $typeheight;
-  line-height: 1.4;
-  text-align: center;
-  border-radius: 2px;
-  color: #222;
-  margin: $lineheight/2 auto;
-
-  &:hover {
-    background: #9ed485;
-    text-decoration: none;
   }
 }
 
@@ -605,34 +539,88 @@ nav.secondary {
   border-radius: 0 0 0 4px;
 }
 
-/* Rules for the home page */
+/* Rules for the sidebar and main map area */
 
-#map {
-  height: 100%;
-  overflow: hidden;
-}
-
-#map-ui {
-  display: none;
-  position: relative;
-  float: right;
-  width: 250px;
-  height: 100%;
-  background: white;
-  overflow: auto;
-
-  .section {
-    border-bottom: 1px solid #DDD;
-    padding: 15px;
+.map-layout {
+  #content {
+    position: absolute;
+    top: $headerHeight;
+    bottom: 0;
+    width: 100%;
   }
 
-  a.close-button {
+  #sidebar, #map {
+    position: relative;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  #sidebar {
+    float: left;
+    width: $sidebarWidth;
+    border-right: $keyline;
+
+    .alert {
+      background: #e00;
+    }
+
+    h2, h3, h4 {
+      padding: $lineheight;
+      border-bottom: $keyline;
+    }
+
+    h4 {
+      font-weight: normal;
+    }
+
+    .icon.close {
+      position: absolute;
+      right: $lineheight;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+    }
+
+    p.credits {
+      font-size: 11px;
+      color: #999;
+
+      a {
+        color: #666;
+      }
+    }
+  }
+
+  #map {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #map-ui {
+    display: none;
+    position: relative;
     float: right;
-    padding:5px;
-    font-size:20px;
-    line-height:10px;
-    color:#222;
-    border:1px solid #ddd;
+    width: 250px;
+    height: 100%;
+    background: white;
+    overflow: auto;
+
+    .section {
+      border-bottom: 1px solid #DDD;
+      padding: 15px;
+    }
+
+    a.close-button {
+      float: right;
+      padding:5px;
+      font-size:20px;
+      line-height:10px;
+      color:#222;
+      border:1px solid #ddd;
+    }
   }
 }
 
@@ -761,42 +749,6 @@ nav.secondary {
 
 /* Rules for the sidebar */
 
-#sidebar {
-  border-right: $keyline;
-
-  .alert {
-    background: #e00;
-  }
-
-  h2, h3, h4 {
-    padding: $lineheight;
-    border-bottom: $keyline;
-  }
-
-  h4 {
-    font-weight: normal;
-  }
-
-  .icon.close {
-    position: absolute;
-    right: $lineheight;
-  }
-
-  .footer {
-    position: absolute;
-    bottom: 0;
-  }
-
-  p.credits {
-    font-size: 11px;
-    color: #999;
-
-    a {
-      color: #666;
-    }
-  }
-}
-
 .sidebar_heading {
   position: relative;
   padding: $lineheight/2 $lineheight;
@@ -819,6 +771,95 @@ nav.secondary {
   bottom: 0;
   width: 100%;
   overflow-y: auto;
+}
+
+/* Rules for the search box */
+
+#search_form {
+  position: relative;
+  padding: $lineheight;
+  background-color: $lightgrey;
+  border-bottom: $keyline;
+
+  #query_wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  input {
+    width: 100%;
+    height: 30px;
+    border-right: none;
+    border-radius: 2px 0 0 2px;
+
+    transition: 300ms linear;
+    -webkit-transition: 300ms linear;
+    -moz-transition: 300ms linear;
+  }
+
+  input:focus {
+    outline: none;
+    box-shadow: 0px 0px 7px #9ED485;
+  }
+
+  input[type=submit] {
+    float: right;
+    width: auto;
+    min-width: 0;
+    border-radius: 0 2px 2px 0;
+  }
+
+  #describe_location {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 10px;
+    color: $blue;
+  }
+}
+
+/* Rules for donation request box */
+
+a.donate {
+  display: block;
+  width: 163px;
+  padding: $lineheight/4;
+  border: 1px solid #AED1A0;
+  background: #cbeea7;
+  font-size: $typeheight;
+  line-height: 1.4;
+  text-align: center;
+  border-radius: 2px;
+  color: #222;
+  margin: $lineheight/2 auto;
+
+  &:hover {
+    background: #9ed485;
+    text-decoration: none;
+  }
+}
+
+/* Rules for rotating sidebar ads */
+
+.ad-container {
+  display: block;
+  height: 120px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid #ccc;
+
+  a {
+    display: block;
+    width: 165px;
+    margin: auto;
+  }
+
+  .ad {
+    height: 100px;
+    border: 0;
+    background: #fff;
+  }
 }
 
 /* Rules for the map key which appears in the popout sidebar */
@@ -895,6 +936,78 @@ nav.secondary {
   display: none;
 }
 
+/* Rules for the changeset list shown by the history tab */
+
+#sidebar .changesets {
+  li {
+    padding: $lineheight;
+    border-bottom: $keyline;
+  }
+}
+
+/* Rules for the data browser */
+
+body.browse #sidebar_content {
+  .browse-section {
+    padding: 20px;
+    border-bottom: 1px solid #CCC;
+  }
+
+  .browse-field {
+    margin-bottom: 10px;
+
+    h4 {
+      padding: 5px 0 5px 10px;
+      font-size: 12px;
+      border: 1px solid #CCC;
+      border-radius: 4px 4px 0 0;
+      background-color: #F6F6F6;
+    }
+
+    p {
+      padding: 7px 10px;
+      font-size: 12px;
+      background-color: #FFF;
+      border: 1px solid #CCC;
+      border-top: 0;
+      border-radius: 0 0 4px 4px;
+    }
+  }
+
+  .browse-tag-list {
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    font-size: 12px;
+
+    li {
+      border-bottom: 1px solid #CCC;
+    }
+
+    li:last-child {
+      border-bottom: 0;
+    }
+
+    .browse-tag-k,
+    .browse-tag-v {
+      display: inline-block;
+      width: 50%;
+      height: 30px;
+      float: left;
+      padding: 9px 10px;
+    }
+
+    .browse-tag-k {
+      font-weight: bold;
+      background-color: #F6F6F6;
+      border-radius: 4px 0 0 4px;
+    }
+
+    .browse-tag-v {
+      border-left: 1px solid #CCC;
+    }
+  }
+}
+
 /* Rules for export information which appears in the popout sidebar */
 
 .export_bounds {
@@ -913,28 +1026,7 @@ nav.secondary {
   margin: $lineheight/4;
 }
 
-/* Rules for the sidebar and main content area */
-
-.map-layout {
-  #content {
-    position: absolute;
-    top: $headerHeight;
-    bottom: 0;
-    width: 100%;
-  }
-
-  #sidebar, #map {
-    position: relative;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-
-  #sidebar {
-    float: left;
-    width: $sidebarWidth;
-  }
-}
+/* Rules for non-map content pages */
 
 .content-heading {
   background: $lightgrey;
@@ -1068,78 +1160,6 @@ nav.secondary {
   border: 1px solid #ccc;
   margin-bottom: $lineheight;
   float: right;
-}
-
-/* Rules for the changeset list shown by the history tab */
-
-#sidebar .changesets {
-  li {
-    padding: $lineheight;
-    border-bottom: $keyline;
-  }
-}
-
-/* Rules for the data browser */
-
-body.browse #sidebar_content {
-  .browse-section {
-    padding: 20px;
-    border-bottom: 1px solid #CCC;
-  }
-
-  .browse-field {
-    margin-bottom: 10px;
-
-    h4 {
-      padding: 5px 0 5px 10px;
-      font-size: 12px;
-      border: 1px solid #CCC;
-      border-radius: 4px 4px 0 0;
-      background-color: #F6F6F6;
-    }
-
-    p {
-      padding: 7px 10px;
-      font-size: 12px;
-      background-color: #FFF;
-      border: 1px solid #CCC;
-      border-top: 0;
-      border-radius: 0 0 4px 4px;
-    }
-  }
-
-  .browse-tag-list {
-    border: 1px solid #CCC;
-    border-radius: 4px;
-    font-size: 12px;
-
-    li {
-      border-bottom: 1px solid #CCC;
-    }
-
-    li:last-child {
-      border-bottom: 0;
-    }
-
-    .browse-tag-k,
-    .browse-tag-v {
-      display: inline-block;
-      width: 50%;
-      height: 30px;
-      float: left;
-      padding: 9px 10px;
-    }
-
-    .browse-tag-k {
-      font-weight: bold;
-      background-color: #F6F6F6;
-      border-radius: 4px 0 0 4px;
-    }
-
-    .browse-tag-v {
-      border-left: 1px solid #CCC;
-    }
-  }
 }
 
 /* Rules for the trace list shown by the traces tab etc */
@@ -2062,35 +2082,11 @@ a.button {
   }
 }
 
-/*
- * Rules for the iD editor
- */
+/* Rules for the iD editor */
 
 .id-embed {
   width: 100%;
   height: 100%;
-}
-
-/* Rules for rotating sidebar ads */
-.ad-container {
-  display: block;
-  height: 120px;
-  margin: auto;
-  overflow: hidden;
-  position: relative;
-  border-bottom: 1px solid #ccc;
-
-  a {
-    display: block;
-    width: 165px;
-    margin: auto;
-  }
-
-  .ad {
-    height: 100px;
-    border: 0;
-    background: #fff;
-  }
 }
 
 /* Rules for dropdown menus */
