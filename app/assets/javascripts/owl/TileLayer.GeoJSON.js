@@ -57,6 +57,8 @@ L.TileLayer.GeoJSON = L.TileLayer.Ajax.extend({
     // Used to calculate svg path string for clip path elements
     _clipPathRectangles: {},
 
+    geojsonLayer: null,
+
     initialize: function (url, options, geojsonOptions) {
         L.TileLayer.Ajax.prototype.initialize.call(this, url, options);
         this.geojsonLayer = new L.GeoJSON(null, geojsonOptions);

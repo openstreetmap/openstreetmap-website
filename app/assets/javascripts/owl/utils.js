@@ -1,3 +1,27 @@
+// Calculates a diff between two hashes containing tags.
+function diffTags(tags, prev_tags) {
+  var result = {added: {}, removed: {}, same: {}, modified: {}};
+  $.each(tags, function (k, v) {
+    if (prev_tags && k in prev_tags) {
+      if (v == prev_tags[k]) {
+        result.same[k] = v;
+      } else {
+        result.modified[k] = [v, prev_tags[k]];
+      }
+    } else {
+      result.added[k] = v;
+    }
+  });
+  if (prev_tags) {
+    $.each(prev_tags, function (k, v) {
+      if (!(k in tags)) {
+        result.removed[k] = v;
+      }
+    });
+  }
+  return result;
+}
+
 function hrefForChange(change) {
   return OSM.OWL_LINKS_BASE_URL
     + 'browse/'
