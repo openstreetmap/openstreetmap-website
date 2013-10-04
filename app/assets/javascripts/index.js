@@ -93,6 +93,16 @@ $(document).ready(function () {
   map.dataLayer = new L.OSM.DataLayer(null);
   map.dataLayer.options.code = 'D';
 
+  if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
+    if (params.layers.indexOf(map.noteLayer.options.code) >= 0) {
+      map.addLayer(map.noteLayer);
+    }
+
+    if (params.layers.indexOf(map.dataLayer.options.code) >= 0) {
+      map.addLayer(map.dataLayer);
+    }
+  }
+
   var position = $('html').attr('dir') === 'rtl' ? 'topleft' : 'topright';
 
   L.OSM.zoom({position: position})

@@ -2,7 +2,7 @@
 //= require templates/browse/feature_list
 //= require templates/browse/feature_history
 
-function initializeBrowse(map, params) {
+function initializeBrowse(map) {
   var browseBounds;
   var layersById;
   var selectedLayer;
@@ -48,12 +48,6 @@ function initializeBrowse(map, params) {
       closeSidebar();
     }
   });
-
-  if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
-    if (params.layers.indexOf(dataLayer.options.code) >= 0) {
-      map.addLayer(dataLayer);
-    }
-  }
 
   function startBrowse(sidebarHtml) {
     locationFilter = new L.LocationFilter({

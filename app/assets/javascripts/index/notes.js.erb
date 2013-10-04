@@ -49,10 +49,6 @@ function initializeNotes(map, params) {
   });
 
   if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
-    if (params.layers.indexOf(noteLayer.options.code) >= 0) {
-      map.addLayer(noteLayer);
-    }
-
     if (params.note) {
       $.ajax({
         url: "/api/" + OSM.API_VERSION + "/notes/" + params.note + ".json",
