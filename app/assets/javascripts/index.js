@@ -210,7 +210,6 @@ $(document).ready(function () {
     });
   }
 
-  initializeSearch(map);
   initializeBrowse(map, params);
   initializeNotes(map, params);
 
@@ -249,6 +248,7 @@ $(document).ready(function () {
 
   var router = OSM.Router({
     "/":                           OSM.Index(map),
+    "/search":                     OSM.Search(map),
     "/export":                     OSM.Export(map),
     "/browse/changesets":          OSM.ChangesetList(map),
     "/browse/:type/:id(/history)": OSM.Browse(map)
@@ -256,5 +256,15 @@ $(document).ready(function () {
 
   $(document).on("click", "a", function(e) {
     if (router(this.pathname + this.search + this.hash)) e.preventDefault();
+  });
+
+  $("#search_form").on("submit", function(e) {
+    e.preventDefault();
+    router("/search?query=" + encodeURIComponent($("#query").val()) + OSM.formatHash(map));
+  });
+
+  $("#describe_location").on("click", function(e) {
+    e.preventDefault();
+    router("/search?query=" + encodeURIComponent(map.getCenter().lat + "," + map.getCenter().lng));
   });
 });

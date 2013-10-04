@@ -11,7 +11,7 @@ OSM.Router = function(rts) {
         .replace(namedParam, function(match, optional){
           return optional ? match : '([^\/]+)';
         })
-        .replace(splatParam, '(.*?)') + '(?:$|[?#])');
+        .replace(splatParam, '(.*?)') + '(?:\\?.*)?$');
 
     var route = {};
 
@@ -44,14 +44,14 @@ OSM.Router = function(rts) {
     }
   };
 
-  var currentPath = window.location.pathname,
+  var currentPath = window.location.pathname + window.location.search,
     currentRoute = routes.recognize(currentPath);
 
   currentRoute.run('load', currentPath);
 
   if (window.history && window.history.pushState) {
     $(window).on('popstate', function() {
-      var path = window.location.pathname;
+      var path = window.location.pathname + window.location.search;
       if (path === currentPath) return;
       currentRoute.run('unload');
       currentPath = path;

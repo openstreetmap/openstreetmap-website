@@ -28,6 +28,8 @@ class GeocoderController < ApplicationController
       @sources.push "osm_nominatim"
       @sources.push "geonames" if defined?(GEONAMES_USERNAME)
     end
+
+    render :layout => map_layout
   end
 
   def search_us_postcode

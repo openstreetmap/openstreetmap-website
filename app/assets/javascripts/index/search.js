@@ -1,11 +1,4 @@
-function initializeSearch(map) {
-  $("#search_form").submit(submitSearch);
-  $("#describe_location").click(describeLocation);
-
-  if ($("#query").val()) {
-    $("#search_form").submit();
-  }
-
+OSM.Search = function(map) {
   $("#query")
     .on("focus", function() {
       $("#describe_location").fadeOut(100);
@@ -16,28 +9,6 @@ function initializeSearch(map) {
 
   $("#sidebar_content").on("click", ".search_results_entry a.set_position", clickSearchResult);
 
-  var marker = L.marker([0, 0], {icon: getUserIcon()});
-
-  function submitSearch(e) {
-    e.preventDefault();
-
-    var bounds = map.getBounds();
-
-    $("#sidebar_content").load($(this).attr("action"), {
-      query: $("#query").val(),
-      zoom: map.getZoom(),
-      minlon: bounds.getWest(),
-      minlat: bounds.getSouth(),
-      maxlon: bounds.getEast(),
-      maxlat: bounds.getNorth()
-    });
-
-    $("#sidebar").one("closed", function () {
-      map.removeLayer(marker);
-      map.removeObject();
-    });
-  }
-
   function clickSearchResult(e) {
     e.preventDefault();
 
@@ -46,7 +17,7 @@ function initializeSearch(map) {
 
     if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
       map.fitBounds([[data.minLat, data.minLon],
-                     [data.maxLat, data.maxLon]]);
+        [data.maxLat, data.maxLon]]);
     } else {
       map.setView(center, data.zoom);
     }
@@ -60,16 +31,41 @@ function initializeSearch(map) {
     }
   }
 
-  function describeLocation(e) {
-    e.preventDefault();
+  var marker = L.marker([0, 0], {icon: getUserIcon()});
 
-    var center = map.getCenter(),
-      zoom = map.getZoom();
+  var page = {};
 
-    $("#sidebar_content").load($(this).attr("href"), {
-      lat: center.lat,
-      lon: center.lng,
-      zoom: zoom
+  page.pushstate = page.popstate = function(path) {
+    var params = querystring.parse(path.substring(path.indexOf('?') + 1));
+    $("#query").val(params.query);
+    $("#sidebar_content").load(path, page.load);
+  };
+
+  page.load = function() {
+    $(".search_results_entry").each(function() {
+      var entry = $(this);
+      $.ajax({
+        url: entry.data("href"),
+        method: 'GET',
+        data: {
+          zoom: map.getZoom(),
+          minlon: map.getBounds().getWest(),
+          minlat: map.getBounds().getSouth(),
+          maxlon: map.getBounds().getEast(),
+          maxlat: map.getBounds().getNorth()
+        },
+        success: function(html) {
+          entry.html(html);
+        }
+      });
     });
-  }
-}
+  };
+
+  page.unload = function() {
+    map.removeLayer(marker);
+    map.removeObject();
+    $("#query").val("");
+  };
+
+  return page;
+};
