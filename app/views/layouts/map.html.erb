@@ -17,10 +17,12 @@
 
     <div id="sidebar_content">
       <% if STATUS == :database_offline or STATUS == :api_offline %>
-        <p class="alert"><%= t 'layouts.osm_offline' %></p>
+        <p class="error"><%= t 'layouts.osm_offline' %></p>
       <% elsif STATUS == :database_readonly or STATUS == :api_readonly %>
-        <p class="alert"><%= t 'layouts.osm_read_only' %></p>
+        <p class="error"><%= t 'layouts.osm_read_only' %></p>
       <% end %>
+
+      <%= render :partial => "layouts/flash" %>
 
       <%= yield %>
     </div>
