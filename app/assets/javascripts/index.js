@@ -222,9 +222,11 @@ $(document).ready(function () {
   initializeNotes(map);
 
   OSM.Index = function(map) {
-    var page = {};
+    var page = {}, minimized = false;
 
     page.pushstate = page.popstate = function(path) {
+      if (minimized) $("#sidebar").addClass("minimized");
+      map.invalidateSize();
       $("#view_tab").addClass("current");
       $('#sidebar_content').load(path);
     };
@@ -233,6 +235,14 @@ $(document).ready(function () {
       $("#view_tab").removeClass("current");
     };
 
+    page.minimizeSidebar = function() {
+      $("#sidebar").addClass("minimized");
+      map.invalidateSize();
+      minimized = true;
+    };
+
+    $(document).on("click", "#sidebar_content .close", page.minimizeSidebar);
+
     return page;
   };
 
@@ -240,6 +250,8 @@ $(document).ready(function () {
     var page = {};
 
     page.pushstate = page.popstate = function(path, type, id) {
+      $("#sidebar").removeClass("minimized");
+      map.invalidateSize();
       $('#sidebar_content').load(path, function() {
         page.load(path, type, id);
       });

@@ -38,6 +38,8 @@ OSM.Search = function(map) {
   page.pushstate = page.popstate = function(path) {
     var params = querystring.parse(path.substring(path.indexOf('?') + 1));
     $("#query").val(params.query);
+    $("#sidebar").removeClass("minimized");
+    map.invalidateSize();
     $("#sidebar_content").load(path, page.load);
   };
 

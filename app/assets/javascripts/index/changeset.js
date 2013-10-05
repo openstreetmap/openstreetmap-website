@@ -27,6 +27,8 @@ OSM.ChangesetList = function(map) {
 
   page.pushstate = page.popstate = function(path) {
     $("#history_tab").addClass("current");
+    $("#sidebar").removeClass("minimized");
+    map.invalidateSize();
     $('#sidebar_content').load(path, page.load);
   };
 
