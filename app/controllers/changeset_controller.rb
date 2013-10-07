@@ -252,6 +252,8 @@ class ChangesetController < ApplicationController
   def list
     if request.format == :atom and params[:page]
       redirect_to params.merge({ :page => nil }), :status => :moved_permanently
+    elsif request.format == :html and !params[:bbox]
+      render :action => :history, :layout => map_layout
     else
       changesets = conditions_nonempty(Changeset.all)
 
@@ -289,39 +291,16 @@ class ChangesetController < ApplicationController
       end
 
       if params[:bbox]
-        bbox = BoundingBox.from_bbox_params(params)
-      elsif params[:minlon] and params[:minlat] and params[:maxlon] and params[:maxlat]
-        bbox = BoundingBox.from_lon_lat_params(params)
+        changesets = conditions_bbox(changesets, BoundingBox.from_bbox_params(params))
       end
 
-      if bbox
-        changesets = conditions_bbox(changesets, bbox)
+      if params[:max_id]
+        changesets = changesets.where("changesets.id <= ?", params[:max_id])
       end
 
-      if user
-        user_link = render_to_string :partial => "user", :object => user
-      end
+      @edits = changesets.order("changesets.created_at DESC").limit(20).preload(:user, :changeset_tags)
 
-      if params[:friends] and @user
-        @title =  t 'changeset.list.title_friend'
-        @heading =  t 'changeset.list.title_friend'
-      elsif params[:nearby] and @user
-        @title = t 'changeset.list.title_nearby'
-        @heading = t 'changeset.list.title_nearby'
-      elsif user
-        @title =  t 'changeset.list.title_user', :user => user.display_name
-        @heading =  t('changeset.list.title_user', :user => user_link).html_safe
-      else
-        @title =  t 'changeset.list.title'
-        @heading =  t 'changeset.list.title'
-      end
-
-      @page = (params[:page] || 1).to_i
-      @page_size = 20
-
-      @edits = changesets.order("changesets.created_at DESC").offset((@page - 1) * @page_size).limit(@page_size).preload(:user, :changeset_tags)
-
-      render :action => :list, :layout => map_layout
+      render :action => :list, :layout => false
     end
   end
 

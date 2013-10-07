@@ -4,12 +4,6 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
           "xmlns:georss" => "http://www.georss.org/georss") do |feed|
   feed.title @title
 
-  feed.subtitle :type => 'xhtml' do |xhtml|
-    xhtml.p do |p|
-      p << @description
-    end
-  end
-
   feed.updated @edits.map {|e|  [e.created_at, e.closed_at].max }.max
   feed.icon "http://#{SERVER_URL}/favicon.ico"
   feed.logo "http://#{SERVER_URL}/images/mag_map-rss2.0.png"

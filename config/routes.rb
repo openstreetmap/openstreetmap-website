@@ -116,9 +116,10 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/notes' => 'notes#mine', :via => :get
   match '/browse/friends' => 'changeset#list', :via => :get, :friends => true, :as => "friend_changesets"
   match '/browse/nearby' => 'changeset#list', :via => :get, :nearby => true, :as => "nearby_changesets"
-  match '/browse/changesets' => 'changeset#list', :via => :get
-  match '/browse/changesets/feed' => 'changeset#feed', :via => :get, :defaults => { :format => :atom }
-  match '/browse' => 'changeset#list', :via => :get
+
+  get '/browse/changesets/feed', :to => redirect('/history/feed')
+  get '/browse/changesets',      :to => redirect('/history')
+  get '/browse',                 :to => redirect('/history')
 
   # web site
   root :to => 'site#index', :via => [:get, :post]

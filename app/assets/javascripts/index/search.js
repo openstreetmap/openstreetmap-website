@@ -17,8 +17,8 @@ OSM.Search = function(map) {
 
     var div = $(this).parents(".search_more");
 
-    div.find(".search_results_entry").hide();
-    div.find(".search_searching").show();
+    $(this).hide();
+    div.find(".loader").show();
 
     $.get($(this).attr("href"), function(data) {
       div.replaceWith(data);
