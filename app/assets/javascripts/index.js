@@ -283,6 +283,7 @@ $(document).ready(function () {
   });
 
   $(document).on("click", "a", function(e) {
+    if (e.isPropagationStopped()) return;
     if (router(this.pathname + this.search + this.hash)) e.preventDefault();
   });
 
