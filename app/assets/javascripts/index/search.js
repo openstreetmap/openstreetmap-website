@@ -27,6 +27,7 @@ OSM.Search = function(map) {
 
   function clickSearchResult(e) {
     e.preventDefault();
+    e.stopPropagation();
 
     var data = $(this).data(),
       center = L.latLng(data.lat, data.lon);
