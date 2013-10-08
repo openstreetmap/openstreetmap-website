@@ -1,0 +1,24 @@
+<div class="edit_summary_chunk">
+<%
+@agohtml = "<abbr title='%s'>%s</abbr>" % [l(common_editsummary.timestamp), t('browse.common_details.ago', :time_in_words_ago => time_ago_in_words(common_editsummary.timestamp))]
+
+if common_editsummary.changeset.user.data_public?
+  @userhtml = link_to h(common_editsummary.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_editsummary.changeset.user.display_name
+  if common_editsummary.visible? %>
+      <%= raw t 'browse.common_details.edited_ago_by', :time_in_words_ago => @agohtml, :user => @userhtml %>
+  <% else %>
+      <%= raw t 'browse.common_details.deleted_ago_by', :time_in_words_ago => @agohtml, :user => @userhtml %>
+  <% end %>
+<% else %>
+  <% if common_editsummary.visible? %>
+      <%= raw t 'browse.common_details.edited_ago', :time_in_words_ago => @agohtml %>
+  <% else %>
+      <%= raw t 'browse.common_details.deleted_ago', :time_in_words_ago => @agohtml %>
+  <% end %>
+<% end %>
+</div>
+
+  &middot;
+
+    <div class="edit_summary_chunk"><%= raw t 'browse.common_details.version_in_changeset', :version => common_editsummary.version, :changeset => link_to(common_editsummary.changeset_id, :action => :changeset, :id => common_editsummary.changeset_id) %></div>
+

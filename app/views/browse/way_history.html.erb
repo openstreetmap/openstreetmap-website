@@ -1,5 +1,5 @@
 <%
-@name = printable_name @way
+@name = printable_name @way, {:type => t('browse.way.way')}
 @title = t('browse.way_history.way_history') + ' | ' + @name
 %>
 <% content_for :head do %>
@@ -9,7 +9,6 @@
 <% content_for :heading do %>
   <h2><%= raw t'browse.way_history.way_history_title', :way_name => link_to(h(@name), :action => "way", :id => @way.id) %></h2>
   <ul class='secondary-actions clearfix'>
-    <li><%= link_to(t('browse.way_history.download_xml'), :controller => "old_way", :action => "history") %></li>
     <li><%= link_to(t('browse.way_history.view_details'), :action => "way") %></li>
   </ul>
 <% end %>
@@ -17,6 +16,11 @@
 <%= render :partial => "map", :object => @way %>
 <div class='column-1'>
 <% @way.old_ways.reverse.each do |way| %>
+  <div class="browse_details">
+    <div class='browse-section common'>
+      <div class='browse-section'>  <%= render :partial => "common_editsummary", :object => way %></div>
+    </div>
+  </div>
   <%= render :partial => "way_details", :object => way %>
 <% end %>
 </div>

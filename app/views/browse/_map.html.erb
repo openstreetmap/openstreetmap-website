@@ -72,6 +72,41 @@
   </ul>
   <% end %>
 
+  <%
+     if map.instance_of? Changeset
+	%>
+        <ul class='secondary-actions clearfix'>
+          <li><%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %></li>
+          <li><%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %></li>
+        </ul>
+        <%
+     elsif map.instance_of? OldNode
+	%>
+        <ul class='secondary-actions clearfix'>
+          <li><%= link_to(t('browse.node.history.download_xml'), :controller => "old_node", :action => "history") %></li>
+        </ul>
+        <%
+     elsif map.instance_of? OldWay
+	%>
+        <ul class='secondary-actions clearfix'>
+          <li><%= link_to(t('browse.way_history.download_xml'), :controller => "old_way", :action => "history") %></li>
+        </ul>
+        <%
+     elsif map.instance_of? OldRelation
+	%>
+        <ul class='secondary-actions clearfix'>
+          <li><%= link_to(t('browse.relation_history.download_xml'), :controller => "old_relation", :action => "history") %></li>
+        </ul>
+        <%
+     elsif !(map.instance_of? Note)
+	%>
+        <ul class='secondary-actions clearfix'>
+          <li><%= link_to(t('browse.' + map.class.to_s.downcase + '.download_xml'), :controller => map.class.to_s.downcase, :action => "read") %></li>
+        </ul>
+        <%
+     end
+  %>
+
   <% else %>
     <%= t 'browse.map.deleted' %>
   <% end %>

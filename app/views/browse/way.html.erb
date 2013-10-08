@@ -1,5 +1,5 @@
 <%
-@name = printable_name @way
+@name = printable_name @way, {:type => t('browse.way.way')}
 @title = t('browse.way.way') + ' | ' + @name
 %>
 <% content_for :head do %>
@@ -7,15 +7,14 @@
 <% end %>
 
 <% content_for :heading do %>
-  <h2><%= t'browse.way.way_title', :way_name => @name %></h2>
-  <ul class='secondary-actions clearfix'>
-    <li><%= link_to(t('browse.way.download_xml'), :controller => "way", :action => "read") %></li>
-    <li><%= link_to(t('browse.way.view_history'), :action => "way_history") %></li>
-    <li><%= link_to(t('browse.way.edit'), :controller => "site", :action => "edit", :way => @way.id) %></li>
-  </ul>
+  <h2><%= @name %></h2>
+  <%= render :partial => "navigation" %>
+
+  <%= render :partial => "common_editsummary", :object => @way %>
+
+  <div class="edit_summary_chunk">(<%= link_to(t('browse.way.view_history'), :action => "way_history") %>)</div>
 <% end %>
 
-<%= render :partial => "navigation" %>
 <%= render :partial => "map", :object => @way %>
 
 <div class='column-1'>

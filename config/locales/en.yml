@@ -80,6 +80,8 @@ en:
     with_id: "%{id}"
     with_version: "%{id}, v%{version}"
     with_name: "%{name} (%{id})"
+    with_type: "%{type} %{id}"
+    with_name_type: "%{name} (%{type} %{id})"
   editor:
     default: "Default (currently %{name})"
     potlatch:
@@ -135,21 +137,21 @@ en:
       show_area_box: "Show Area Box"
       box: "box"
       has_nodes:
-        one: "Has the following %{count} node:"
-        other: "Has the following %{count} nodes:"
+        one: "Has %{count} node:"
+        other: "Has %{count} nodes:"
       has_ways:
-        one:  "Has the following %{count} way:"
-        other: "Has the following %{count} ways:"
+        one:  "Has %{count} way:"
+        other: "Has %{count} ways:"
       has_relations:
-        one:  "Has the following %{count} relation:"
-        other: "Has the following %{count} relations:"
+        one:  "Has %{count} relation:"
+        other: "Has %{count} relations:"
     common_details:
-      edited_at: "Edited at:"
-      edited_by: "Edited by:"
-      deleted_at: "Deleted at:"
-      deleted_by: "Deleted by:"
-      version: "Version:"
-      in_changeset: "In changeset:"
+      ago: "%{time_in_words_ago} ago"
+      edited_ago_by:  "Edited %{time_in_words_ago} by %{user}"
+      edited_ago:     "Edited %{time_in_words_ago}"
+      deleted_ago_by: "Deleted %{time_in_words_ago} by %{user}"
+      deleted_ago:    "Deleted %{time_in_words_ago}"
+      version_in_changeset: "Version %{version} in changeset %{changeset}"
       changeset_comment: "Comment:"
     containing_relation:
       entry: "Relation %{relation_name}"
@@ -179,7 +181,6 @@ en:
       view_details: "View details"
     node:
       node: "Node"
-      node_title: "Node: %{node_name}"
       download_xml: "Download XML"
       view_history: "View history"
       edit: "Edit node"
@@ -224,7 +225,6 @@ en:
         relation: "Relation"
     relation:
       relation: "Relation"
-      relation_title: "Relation: %{relation_name}"
       download_xml: "Download XML"
       view_history: "View history"
     start_rjs:
@@ -284,7 +284,6 @@ en:
       view_details: "View details"
     way:
       way: "Way"
-      way_title: "Way: %{way_name}"
       download_xml: "Download XML"
       view_history: "View history"
       edit: "Edit way"

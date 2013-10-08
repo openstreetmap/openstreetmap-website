@@ -1,5 +1,5 @@
 <%
-@name = printable_name @node
+@name = printable_name @node, {:type => t('browse.node.node')}
 @title = t('browse.node_history.node_history') + ' | ' + @name
 %>
 <% content_for :head do %>
@@ -9,7 +9,6 @@
 <% content_for :heading do %>
   <h2><%= raw t'browse.node_history.node_history_title', :node_name => link_to(h(@name), :action => "node", :id => @node.id) %></h2>
   <ul class='secondary-actions clearfix'>
-    <li><%= link_to(t('browse.node_history.download_xml'), :controller => "old_node", :action => "history") %></li>
     <li><%= link_to(t('browse.node_history.view_details'), :action => "node") %></li>
   </ul>
 <% end %>
@@ -20,6 +19,11 @@
 
 <div class='column-1'>
   <% @node.old_nodes.reverse.each do |node| %>
+  <div class="browse_details">
+    <div class='browse-section common'>
+      <div class='browse-section'>  <%= render :partial => "common_editsummary", :object => node %></div>
+    </div>
+  </div>
     <%= render :partial => "node_details", :object => node %>
   <% end %>
 </div>
