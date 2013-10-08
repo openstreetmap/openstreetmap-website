@@ -24,6 +24,10 @@ $(document).ready(function () {
 
   map.hash = L.hash(map);
 
+  $(window).on('popstate', function() {
+    map.hash.update();
+  });
+
   var copyright = I18n.t('javascripts.map.copyright', {copyright_url: '/copyright'});
 
   var layers = [
