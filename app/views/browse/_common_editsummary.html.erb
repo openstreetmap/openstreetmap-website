@@ -1,3 +1,4 @@
+<% if !common_editsummary.redacted? %>
 <div class="edit_summary_chunk">
 <%
 @agohtml = "<abbr title='%s'>%s</abbr>" % [l(common_editsummary.timestamp), t('browse.common_details.ago', :time_in_words_ago => time_ago_in_words(common_editsummary.timestamp))]
@@ -21,4 +22,4 @@ if common_editsummary.changeset.user.data_public?
   &middot;
 
     <div class="edit_summary_chunk"><%= raw t 'browse.common_details.version_in_changeset', :version => common_editsummary.version, :changeset => link_to(common_editsummary.changeset_id, :action => :changeset, :id => common_editsummary.changeset_id) %></div>
-
+<% end %>
