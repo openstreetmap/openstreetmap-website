@@ -7,7 +7,23 @@ OSM.Search = function(map) {
       $("#describe_location").fadeIn(100);
     });
 
-  $("#sidebar_content").on("click", ".search_results_entry a.set_position", clickSearchResult);
+  $("#sidebar_content")
+    .on("click", ".search_more a", clickSearchMore)
+    .on("click", ".search_results_entry a.set_position", clickSearchResult);
+
+  function clickSearchMore(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    var div = $(this).parents(".search_more");
+
+    div.find(".search_results_entry").hide();
+    div.find(".search_searching").show();
+
+    $.get($(this).attr("href"), function(data) {
+      div.replaceWith(data);
+    });
+  }
 
   function clickSearchResult(e) {
     e.preventDefault();

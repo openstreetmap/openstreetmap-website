@@ -18,7 +18,6 @@
 //= require piwik
 //= require map
 //= require richtext
-//= require geocoder
 //= require querystring
 
 var querystring = require('querystring-component');
