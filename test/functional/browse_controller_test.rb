@@ -93,9 +93,10 @@ class BrowseControllerTest < ActionController::TestCase
 
     # there are 2 revisions of the redacted node, but only one
     # should be showing details here.
-    assert_select "body div#content div.browse_details", 2
-    assert_select "body div#content div.browse_details[id=1] div.common", 0
-    assert_select "body div#content div.browse_details[id=2] div.common", 1
+    assert_select "body div#content div.browse_details", 4
+    assert_select "body div#content div.browse_details[id=1] div.redacted", 1
+    assert_select "body div#content div.browse_details[id=1] div.geo", 0
+    assert_select "body div#content div.browse_details[id=2] div.redacted", 0
   end
 
   def test_redacted_way_history
@@ -105,11 +106,13 @@ class BrowseControllerTest < ActionController::TestCase
 
     # there are 4 revisions of the redacted way, but only 2
     # should be showing details here.
-    assert_select "body div#content div.browse_details", 4
-    assert_select "body div#content div.browse_details[id=1] div.common", 1
-    assert_select "body div#content div.browse_details[id=2] div.common", 0
-    assert_select "body div#content div.browse_details[id=3] div.common", 0
-    assert_select "body div#content div.browse_details[id=4] div.common", 1
+    assert_select "body div#content div.browse_details", 8
+    assert_select "body div#content div.browse_details[id=1] div.redacted", 0
+    assert_select "body div#content div.browse_details[id=2] div.redacted", 1
+    assert_select "body div#content div.browse_details[id=2] ul", 0
+    assert_select "body div#content div.browse_details[id=3] div.redacted", 1
+    assert_select "body div#content div.browse_details[id=3] ul", 0
+    assert_select "body div#content div.browse_details[id=4] div.redacted", 0
   end
 
   def test_redacted_relation_history
@@ -119,11 +122,11 @@ class BrowseControllerTest < ActionController::TestCase
 
     # there are 4 revisions of the redacted relation, but only 2
     # should be showing details here.
-    assert_select "body div#content div.browse_details", 4
-    assert_select "body div#content div.browse_details[id=1] div.common", 1
-    assert_select "body div#content div.browse_details[id=2] div.common", 0
-    assert_select "body div#content div.browse_details[id=3] div.common", 0
-    assert_select "body div#content div.browse_details[id=4] div.common", 1
+    assert_select "body div#content div.browse_details", 8
+    assert_select "body div#content div.browse_details[id=1] div.redacted", 0
+    assert_select "body div#content div.browse_details[id=2] div.redacted", 1
+    assert_select "body div#content div.browse_details[id=3] div.redacted", 1
+    assert_select "body div#content div.browse_details[id=4] div.redacted", 0
   end
 
   # This is a convenience method for most of the above checks
