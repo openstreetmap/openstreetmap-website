@@ -28,10 +28,6 @@ class GeocoderControllerTest < ActionController::TestCase
       { :controller => "geocoder", :action => "search_ca_postcode" }
     )
     assert_routing(
-      { :path => "/geocoder/search_osm_namefinder", :method => :get },
-      { :controller => "geocoder", :action => "search_osm_namefinder" }
-    )
-    assert_routing(
       { :path => "/geocoder/search_osm_nominatim", :method => :get },
       { :controller => "geocoder", :action => "search_osm_nominatim" }
     )
@@ -43,10 +39,6 @@ class GeocoderControllerTest < ActionController::TestCase
     assert_routing(
       { :path => "/geocoder/description", :method => :post },
       { :controller => "geocoder", :action => "description" }
-    )
-    assert_routing(
-      { :path => "/geocoder/description_osm_namefinder", :method => :get },
-      { :controller => "geocoder", :action => "description_osm_namefinder" }
     )
     assert_routing(
       { :path => "/geocoder/description_osm_nominatim", :method => :get },
