@@ -24,6 +24,7 @@ function initializeSearch(map) {
     $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
     $("#sidebar_content").load($(this).attr("action"), {
       query: $("#query").val(),
+      zoom: map.getZoom(),
       minlon: bounds.getWest(),
       minlat: bounds.getSouth(),
       maxlon: bounds.getEast(),

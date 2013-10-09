@@ -214,15 +214,13 @@ OpenStreetMap::Application.routes.draw do
 
   # geocoder
   match '/geocoder/search' => 'geocoder#search', :via => :post
-  match '/geocoder/search_latlon' => 'geocoder#search_latlon', :via => :get
   match '/geocoder/search_us_postcode' => 'geocoder#search_us_postcode', :via => :get
   match '/geocoder/search_uk_postcode' => 'geocoder#search_uk_postcode', :via => :get
   match '/geocoder/search_ca_postcode' => 'geocoder#search_ca_postcode', :via => :get
   match '/geocoder/search_osm_nominatim' => 'geocoder#search_osm_nominatim', :via => :get
   match '/geocoder/search_geonames' => 'geocoder#search_geonames', :via => :get
-  match '/geocoder/description' => 'geocoder#description', :via => :post
-  match '/geocoder/description_osm_nominatim' => 'geocoder#description_osm_nominatim', :via => :get
-  match '/geocoder/description_geonames' => 'geocoder#description_geonames', :via => :get
+  match '/geocoder/search_osm_nominatim_reverse' => 'geocoder#search_osm_nominatim_reverse', :via => :get
+  match '/geocoder/search_geonames_reverse' => 'geocoder#search_geonames_reverse', :via => :get
 
   # export
   match '/export/start' => 'export#start', :via => :get

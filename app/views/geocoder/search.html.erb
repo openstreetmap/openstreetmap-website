@@ -4,6 +4,6 @@
     <%= image_tag "searching.gif", :class => "search_searching" %>
   </div>
   <script type="text/javascript">
-    $("#search_<%= source %>").load("<%= raw url_for :action => "search_#{source}", :query => @query, :minlat => params[:minlat], :minlon => params[:minlon], :maxlat => params[:maxlat], :maxlon => params[:maxlon] %>");
+    $("#search_<%= source %>").load("<%= raw url_for params.merge(:action => "search_#{source}") %>");
   </script>
 <% end %>
