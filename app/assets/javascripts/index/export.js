@@ -22,12 +22,12 @@ OSM.Export = function(map) {
     validateControls();
   }
 
-  function enableFilter() {
-    if (!locationFilter.getBounds().isValid()) {
-      locationFilter.setBounds(map.getBounds().pad(-0.2));
-    }
+  function enableFilter(e) {
+    e.preventDefault();
 
     $("#drag_box").hide();
+
+    locationFilter.setBounds(map.getBounds().pad(-0.2));
     locationFilter.enable();
   }
 

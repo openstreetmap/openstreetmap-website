@@ -292,7 +292,7 @@ $(document).ready(function () {
   });
 
   $(document).on("click", "a", function(e) {
-    if (e.isPropagationStopped()) return;
+    if (e.isDefaultPrevented() || e.isPropagationStopped()) return;
     if (this.host === window.location.host && OSM.route(this.pathname + this.search + this.hash)) e.preventDefault();
   });
 

@@ -114,7 +114,6 @@ L.LocationFilter = L.Class.extend({
 
     onAdd: function(map) {
         this._map = map;
-        this._layer = new L.LayerGroup();
 
         if (this.options.enableButton || this.options.adjustButton) {
             this._initializeButtonContainer();
@@ -284,6 +283,8 @@ L.LocationFilter = L.Class.extend({
         if (this._initialDrawCalled) {
             return;
         }
+
+        this._layer = new L.LayerGroup();
 
         // Calculate filter bounds
         this._calculateBounds();
