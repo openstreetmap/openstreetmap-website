@@ -128,9 +128,6 @@ class ApiController < ApplicationController
     end
 
     @nodes = Node.bbox(bbox).where(:visible => true).includes(:node_tags).limit(MAX_NUMBER_OF_NODES+1)
-    # get all the nodes, by tag not yet working, waiting for change from NickB
-    # need to be @nodes (instance var) so tests in /spec can be performed
-    #@nodes = Node.search(bbox, params[:tag])
 
     node_ids = @nodes.collect(&:id)
     if node_ids.length > MAX_NUMBER_OF_NODES
