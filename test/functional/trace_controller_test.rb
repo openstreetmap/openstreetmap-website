@@ -218,6 +218,66 @@ class TraceControllerTest < ActionController::TestCase
     check_trace_feed users(:public_user).traces.tagged("Birmingham").public
   end
 
+  # Test viewing a trace
+  def test_view
+    # First with no auth, which should work since the trace is public
+    get :view, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}
+    check_trace_view gpx_files(:public_trace_file)
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # Now with some other user, which should work since the trace is public
+    get :view, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:public_user).id}
+    check_trace_view gpx_files(:public_trace_file)
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # And finally we should be able to do it with the owner of the trace
+    get :view, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:normal_user).id}
+    check_trace_view gpx_files(:public_trace_file)
+  end
+
+  # Check an anonymous trace can't be viewed by another user
+  def test_view_anon
+    # First with no auth
+    get :view, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}
+    assert_response :redirect
+    assert_redirected_to :action => :list
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Now with some other user, which should work since the trace is anon
+    get :view, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :list
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # And finally we should be able to do it with the owner of the trace
+    get :view, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}, {:user => users(:public_user).id}
+    check_trace_view gpx_files(:anon_trace_file)
+  end
+
+  # Test viewing a trace that doesn't exist
+  def test_view_not_found
+    # First with no auth, which should work since the trace is public
+    get :view, {:display_name => users(:public_user).display_name, :id => 0}
+    assert_response :redirect
+    assert_redirected_to :action => :list
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # Now with some other user, which should work since the trace is public
+    get :view, {:display_name => users(:public_user).display_name, :id => 0}, {:user => users(:public_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :list
+
+    # And finally we should be able to do it with the owner of the trace
+    get :view, {:display_name => users(:public_user).display_name, :id => 5}, {:user => users(:public_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :list
+  end
+
   # Check getting a specific trace through the api
   def test_api_read
     # First with no auth
@@ -383,6 +443,17 @@ private
       end
     else
       assert_select "h4", /Nothing here yet/
+    end
+  end
+
+  def check_trace_view(trace)
+    assert_response :success
+    assert_template "view"
+
+    assert_select "table", :count => 1 do
+      assert_select "td", /^#{Regexp.quote(trace.name)} /
+      assert_select "td", trace.user.display_name
+      assert_select "td", trace.description
     end
   end
 end
