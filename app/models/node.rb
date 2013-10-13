@@ -39,30 +39,6 @@ class Node < ActiveRecord::Base
     errors.add(:base, "Node is not in the world") unless in_world?
   end
 
-  #
-  # Search for nodes matching tags within bounding_box
-  #
-  # Also adheres to limitations such as within max_number_of_nodes
-  #
-  def self.search(bounding_box, tags = {})
-    # @fixme a bit of a hack to search for only visible nodes
-    # couldn't think of another to add to tags condition
-    #conditions_hash = tags.merge({ 'visible' => 1 })
-  
-    # using named placeholders http://www.robbyonrails.com/articles/2005/10/21/using-named-placeholders-in-ruby
-    #keys = []
-    #values = {}
-
-    #conditions_hash.each do |key,value|
-    #  keys <<  "#{key} = :#{key}"
-    #  values[key.to_sym] = value
-    #end 
-    #conditions = keys.join(' AND ')
- 
-    find_by_area(bounding_box, :conditions => {:visible => true},
-                       :limit => MAX_NUMBER_OF_NODES+1)
-  end
-
   # Read in xml as text and return it's Node object representation
   def self.from_xml(xml, create=false)
     begin

@@ -61,9 +61,10 @@ $(document).ready(function () {
       zoom: true,
       callback: function(extent) {
         $("#loading").hide();
-        $("#browse_map .secondary-actions").show();
 
-        if (extent) {
+        if (extent && extent.isValid()) {
+          $("#browse_map .secondary-actions").show();
+
           $("a.bbox[data-editor=remote]").click(function () {
             return remoteEditHandler(extent);
           });
@@ -76,8 +77,6 @@ $(document).ready(function () {
           $("#object_edit").show();
 
           updatelinks(map.getCenter(), 16, null, extent, object);
-        } else {
-          $("#small_map").hide();
         }
       }
     });

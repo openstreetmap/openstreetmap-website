@@ -73,9 +73,7 @@ class UserController < ApplicationController
     else
       @user = session.delete(:new_user)
 
-      if Acl.no_account_creation(request.remote_ip, @user.email.split("@").last)
-        render :action => 'blocked'
-      else
+      if check_signup_allowed(@user.email)
         @user.data_public = true
         @user.description = "" if @user.description.nil?
         @user.creation_ip = request.remote_ip
@@ -238,19 +236,17 @@ class UserController < ApplicationController
                        :openid_url => params[:openid])
 
       flash.now[:notice] = t 'user.new.openid association'
-    elsif Acl.no_account_creation(request.remote_ip)
-      render :action => 'blocked'
+    else
+      check_signup_allowed
     end
   end
 
   def create
-    if params[:user] and Acl.no_account_creation(request.remote_ip, params[:user][:email].split("@").last)
-      render :action => 'blocked'
+    @user = User.new(user_params)
 
-    else
+    if check_signup_allowed(@user.email)
       session[:referer] = params[:referer]
 
-      @user = User.new(user_params)
       @user.status = "pending"
 
       if @user.openid_url.present? && @user.pass_crypt.empty?
@@ -813,5 +809,23 @@ private
   # return permitted user parameters
   def user_params
     params.require(:user).permit(:email, :email_confirmation, :display_name, :openid_url, :pass_crypt, :pass_crypt_confirmation)
+  end
+
+  ##
+  # check signup acls
+  def check_signup_allowed(email = nil)
+    if email.nil?
+      domain = nil
+    else
+      domain = email.split("@").last
+    end
+
+    if blocked = Acl.no_account_creation(request.remote_ip, domain)
+      logger.info "Blocked signup from #{request.remote_ip} for #{email}"
+
+      render :action => 'blocked'
+    end
+
+    not blocked
   end
 end

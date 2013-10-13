@@ -78,6 +78,10 @@ class BrowseControllerTest < ActionController::TestCase
     browse_check 'changeset', changesets(:normal_user_first_change).id
   end
 
+  def test_read_note
+    browse_check 'note', notes(:open_note).id
+  end
+
   ##
   #  Methods to check redaction.
   #
@@ -125,6 +129,8 @@ class BrowseControllerTest < ActionController::TestCase
     assert_select "body div#content div.browse_details[id=3] div.common", 0
     assert_select "body div#content div.browse_details[id=4] div.common", 1
   end
+
+private
 
   # This is a convenience method for most of the above checks
   # First we check that when we don't have an id, it will correctly return a 404

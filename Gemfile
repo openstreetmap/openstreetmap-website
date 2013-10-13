@@ -38,7 +38,7 @@ gem 'r2'
 gem 'ejs'
 
 # Load rails plugins
-gem 'rails-i18n', ">= 0.6.3"
+gem 'rails-i18n', "~> 4.0.0"
 gem 'dynamic_form'
 gem 'rinku', '>= 1.2.2', :require => 'rails_rinku'
 gem 'oauth-plugin', '>= 0.5.1'
