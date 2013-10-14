@@ -341,6 +341,36 @@ class TraceControllerTest < ActionController::TestCase
     assert_equal new_details[:visibility], trace.visibility
   end
 
+  # Test deleting a trace
+  def test_delete
+    # First with no auth
+    post :delete, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id,}
+    assert_response :forbidden
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # Now with some other user, which should fail
+    post :delete, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:public_user).id}
+    assert_response :forbidden
+
+    # Now with a trace which doesn't exist
+    post :delete, {:display_name => users(:public_user).display_name, :id => 0}, {:user => users(:public_user).id}
+    assert_response :not_found
+
+    # Now with a trace has already been deleted
+    post :delete, {:display_name => users(:public_user).display_name, :id => gpx_files(:deleted_trace_file).id}, {:user => users(:public_user).id}
+    assert_response :not_found
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Finally with a trace that we are allowed to delete
+    post :delete, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :list, :display_name => users(:normal_user).display_name
+    trace = Trace.find(gpx_files(:public_trace_file).id)
+    assert_equal false, trace.visible
+  end
+
   # Check getting a specific trace through the api
   def test_api_read
     # First with no auth
