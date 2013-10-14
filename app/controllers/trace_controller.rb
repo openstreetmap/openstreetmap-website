@@ -166,8 +166,13 @@ class TraceController < ApplicationController
   def edit
     @trace = Trace.find(params[:id])
 
-    if @user and @trace.user == @user
+    if not @trace.visible?
+      render :text => "", :status => :not_found
+    elsif @user.nil? or @trace.user != @user
+      render :text => "", :status => :forbidden
+    else
       @title = t 'trace.edit.title', :name => @trace.name
+
       if params[:trace]
         @trace.description = params[:trace][:description]
         @trace.tagstring = params[:trace][:tagstring]
@@ -176,8 +181,6 @@ class TraceController < ApplicationController
           redirect_to :action => 'view', :display_name => @user.display_name
         end
       end
-    else
-      render :text => "", :status => :forbidden
     end
   rescue ActiveRecord::RecordNotFound
     render :text => "", :status => :not_found
@@ -186,17 +189,15 @@ class TraceController < ApplicationController
   def delete
     trace = Trace.find(params[:id])
 
-    if @user and trace.user == @user
-      if trace.visible?
-        trace.visible = false
-        trace.save
-        flash[:notice] = t 'trace.delete.scheduled_for_deletion'
-        redirect_to :action => :list, :display_name => @user.display_name
-      else
-        render :text => "", :status => :not_found
-      end
-    else
+    if not trace.visible?
+      render :text => "", :status => :not_found
+    elsif @user.nil? or trace.user != @user
       render :text => "", :status => :forbidden
+    else
+      trace.visible = false
+      trace.save
+      flash[:notice] = t 'trace.delete.scheduled_for_deletion'
+      redirect_to :action => :list, :display_name => @user.display_name
     end
   rescue ActiveRecord::RecordNotFound
     render :text => "", :status => :not_found
