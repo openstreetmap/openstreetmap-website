@@ -278,6 +278,69 @@ class TraceControllerTest < ActionController::TestCase
     assert_redirected_to :action => :list
   end
 
+  # Test fetching the edit page for a trace
+  def test_edit_get
+    # First with no auth
+    get :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :referer => trace_edit_path(:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id)
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # Now with some other user, which should fail
+    get :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:public_user).id}
+    assert_response :forbidden
+
+    # Now with a trace which doesn't exist
+    get :edit, {:display_name => users(:public_user).display_name, :id => 0}, {:user => users(:public_user).id}
+    assert_response :not_found
+
+    # Now with a trace which has been deleted
+    get :edit, {:display_name => users(:public_user).display_name, :id => gpx_files(:deleted_trace_file).id}, {:user => users(:public_user).id}
+    assert_response :not_found
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Finally with a trace that we are allowed to edit
+    get :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:normal_user).id}
+    assert_response :success
+  end
+
+  # Test saving edits to a trace
+  def test_edit_post
+    # New details
+    new_details = { :description => "Changed description", :tagstring => "new_tag", :visibility => "private" }
+
+    # First with no auth
+    post :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id, :trace => new_details}
+    assert_response :forbidden
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # Now with some other user, which should fail
+    post :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id, :trace => new_details}, {:user => users(:public_user).id}
+    assert_response :forbidden
+
+    # Now with a trace which doesn't exist
+    post :edit, {:display_name => users(:public_user).display_name, :id => 0}, {:user => users(:public_user).id, :trace => new_details}
+    assert_response :not_found
+
+    # Now with a trace which has been deleted
+    post :edit, {:display_name => users(:public_user).display_name, :id => gpx_files(:deleted_trace_file).id, :trace => new_details}, {:user => users(:public_user).id}
+    assert_response :not_found
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Finally with a trace that we are allowed to edit
+    post :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id, :trace => new_details}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
+    trace = Trace.find(gpx_files(:public_trace_file).id)
+    assert_equal new_details[:description], trace.description
+    assert_equal new_details[:tagstring], trace.tagstring
+    assert_equal new_details[:visibility], trace.visibility
+  end
+
   # Check getting a specific trace through the api
   def test_api_read
     # First with no auth
