@@ -1,5 +1,5 @@
 <% $.each(changeset.changes, function (index, change) { %>
-  <div class="change" data-change-id="<%- change.id %>">
+  <div class="change" data-change-id="<%- change.uid %>">
     <span>
       <a target="_blank" href="<%- hrefForChange(change) %>" class="change-link change-action-<%- change.el_action %> <%- cssClassForChange(change) %>">
         <%- nameForChange(change) %>
@@ -7,7 +7,7 @@
 
       <span class="change-actions">
         <% if (change.el_action == 'MODIFY' && change.prevGeomLayer) { %>
-          <a class="show-prev-geom" data-change-id="<%- change.id %>"><img src="/assets/undo.png"></a>
+          <a class="show-prev-geom" data-change-id="<%- change.uid %>"><img src="/assets/undo.png"></a>
         <% } %>
         <!--<img src="/assets/info.png">-->
       </span>

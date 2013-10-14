@@ -136,9 +136,6 @@ function findDataValue(el, key) {
         return false;
       }
   });
-  if (result) {
-    result = parseInt(result);
-  }
   return result;
 }
 
