@@ -425,6 +425,34 @@ class UserControllerTest < ActionController::TestCase
     assert_equal users(:public_user).email, ActionMailer::Base.deliveries.last.to[0]
   end
 
+  def test_reset_password
+    # Test a request with no token
+    get :reset_password
+    assert_response :bad_request
+
+    # Test a request with a bogus token
+    get :reset_password, :token => "made_up_token"
+    assert_response :redirect
+    assert_redirected_to :action => :lost_password
+
+    # Create a valid token for a user
+    token = User.find(users(:inactive_user).id).tokens.create
+
+    # Test a request with a valid token
+    get :reset_password, :token => token.token
+    assert_response :success
+    assert_template :reset_password
+
+    # Test setting a new password
+    post :reset_password, :token => token.token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "new_password" }
+    assert_response :redirect
+    assert_redirected_to :action => :login
+    user = User.find(users(:inactive_user).id)
+    assert_equal "active", user.status
+    assert_equal true, user.email_valid
+    assert_equal user, User.authenticate(:username => "inactive@openstreetmap.org", :password => "new_password")
+  end
+
   def test_user_update
     # Get a user to work with - note that this user deliberately
     # conflicts with uppercase_user in the email and display name
