@@ -198,6 +198,8 @@ class UserController < ApplicationController
         flash[:error] = t 'user.reset_password.flash token bad'
         redirect_to :action => 'lost_password'
       end
+    else
+      render :text => "", :status => :bad_request
     end
   end
 
