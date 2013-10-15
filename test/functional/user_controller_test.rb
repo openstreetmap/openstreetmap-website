@@ -359,6 +359,15 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to :action => :account, :display_name => user.display_name
   end
 
+  def test_user_go_public
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    post :go_public, {}, { :user => users(:normal_user) }
+    assert_response :redirect
+    assert_redirected_to :action => :account, :display_name => users(:normal_user).display_name
+    assert_equal true, User.find(users(:normal_user).id).data_public
+  end
+
   def test_user_lost_password
     # Test fetching the lost password page
     get :lost_password
