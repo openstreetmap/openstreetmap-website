@@ -831,4 +831,26 @@ class UserControllerTest < ActionController::TestCase
     assert_match /is not one of your friends/, flash[:error]
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
   end
+
+  def test_set_status
+    # Try without logging in
+    get :set_status, {:display_name => users(:normal_user).display_name, :status => "suspended"}
+    assert_response :redirect
+    assert_redirected_to :action => :login, :referer => set_status_user_path(:status => "suspended")
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Now try as a normal user
+    get :set_status, {:display_name => users(:normal_user).display_name, :status => "suspended"}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
+
+    @request.cookies["_osm_username"] = users(:administrator_user).display_name
+
+    # Finally try as an administrator
+    get :set_status, {:display_name => users(:normal_user).display_name, :status => "suspended"}, {:user => users(:administrator_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
+    assert_equal "suspended", User.find(users(:normal_user).id).status
+  end
 end
