@@ -430,4 +430,50 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'view'
   end
+
+  def test_hide
+    # Try without logging in
+    post :hide, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}
+    assert_response :forbidden
+    assert_equal true, DiaryEntry.find(diary_entries(:normal_user_entry_1).id).visible
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Now try as a normal user
+    post :hide, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id
+    assert_equal true, DiaryEntry.find(diary_entries(:normal_user_entry_1).id).visible
+
+    @request.cookies["_osm_username"] = users(:administrator_user).display_name
+
+    # Finally try as an administrator
+    post :hide, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}, {:user => users(:administrator_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :list, :display_name => users(:normal_user).display_name
+    assert_equal false, DiaryEntry.find(diary_entries(:normal_user_entry_1).id).visible
+  end
+
+  def test_hidecomment
+    # Try without logging in
+    post :hidecomment, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id, :comment => diary_comments(:comment_for_geo_post).id}
+    assert_response :forbidden
+    assert_equal true, DiaryComment.find(diary_comments(:comment_for_geo_post).id).visible
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Now try as a normal user
+    post :hidecomment, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id, :comment => diary_comments(:comment_for_geo_post).id}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id
+    assert_equal true, DiaryComment.find(diary_comments(:comment_for_geo_post).id).visible
+
+    @request.cookies["_osm_username"] = users(:administrator_user).display_name
+
+    # Finally try as an administrator
+    post :hidecomment, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id, :comment => diary_comments(:comment_for_geo_post).id}, {:user => users(:administrator_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id
+    assert_equal false, DiaryComment.find(diary_comments(:comment_for_geo_post).id).visible
+  end
 end
