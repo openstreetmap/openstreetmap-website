@@ -12,6 +12,10 @@ class GeocoderControllerTest < ActionController::TestCase
       { :controller => "geocoder", :action => "search" }
     )
     assert_routing(
+     { :path => "/geocoder/search_latlon", :method => :get },
+     { :controller => "geocoder", :action => "search_latlon" }
+    )
+    assert_routing(
       { :path => "/geocoder/search_us_postcode", :method => :get },
       { :controller => "geocoder", :action => "search_us_postcode" }
     )
@@ -52,7 +56,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
       assert_nil @controller.params[:query]
       assert_in_delta 50.06773, @controller.params[:lat]
       assert_in_delta 14.37742, @controller.params[:lon]
@@ -70,7 +74,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
       assert_nil @controller.params[:query]
       assert_in_delta 50.06773, @controller.params[:lat]
       assert_in_delta 14.37742, @controller.params[:lon]
@@ -88,7 +92,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
       assert_nil @controller.params[:query]
       assert_in_delta 50.06773, @controller.params[:lat]
       assert_in_delta -14.37742, @controller.params[:lon]
@@ -106,7 +110,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
       assert_nil @controller.params[:query]
       assert_in_delta -50.06773, @controller.params[:lat]
       assert_in_delta 14.37742, @controller.params[:lon]
@@ -124,7 +128,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
       assert_nil @controller.params[:query]
       assert_in_delta -50.06773, @controller.params[:lat]
       assert_in_delta -14.37742, @controller.params[:lon]
@@ -145,7 +149,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
       assert_nil @controller.params[:query]
       assert_in_delta 50.06773, @controller.params[:lat]
       assert_in_delta 14.37742, @controller.params[:lon]
@@ -166,7 +170,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
       assert_nil @controller.params[:query]
       assert_in_delta 50.06773, @controller.params[:lat]
       assert_in_delta -14.37742, @controller.params[:lon]
@@ -187,7 +191,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
       assert_nil @controller.params[:query]
       assert_in_delta -50.06773, @controller.params[:lat]
       assert_in_delta 14.37742, @controller.params[:lon]
@@ -208,7 +212,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
       assert_nil @controller.params[:query]
       assert_in_delta -50.06773, @controller.params[:lat]
       assert_in_delta -14.37742, @controller.params[:lon]
@@ -228,7 +232,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
       assert_nil @controller.params[:query]
       assert_in_delta 50.06773, @controller.params[:lat]
       assert_in_delta 14.37742, @controller.params[:lon]
@@ -248,7 +252,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
       assert_nil @controller.params[:query]
       assert_in_delta 50.06773, @controller.params[:lat]
       assert_in_delta -14.37742, @controller.params[:lon]
@@ -268,7 +272,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
       assert_nil @controller.params[:query]
       assert_in_delta -50.06773, @controller.params[:lat]
       assert_in_delta 14.37742, @controller.params[:lon]
@@ -288,7 +292,7 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
       assert_nil @controller.params[:query]
       assert_in_delta -50.06773, @controller.params[:lat]
       assert_in_delta -14.37742, @controller.params[:lon]

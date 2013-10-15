@@ -214,6 +214,7 @@ OpenStreetMap::Application.routes.draw do
 
   # geocoder
   match '/geocoder/search' => 'geocoder#search', :via => :post
+  match '/geocoder/search_latlon' => 'geocoder#search_latlon', :via => :get
   match '/geocoder/search_us_postcode' => 'geocoder#search_us_postcode', :via => :get
   match '/geocoder/search_uk_postcode' => 'geocoder#search_uk_postcode', :via => :get
   match '/geocoder/search_ca_postcode' => 'geocoder#search_ca_postcode', :via => :get
