@@ -151,8 +151,10 @@ class TraceController < ApplicationController
     if trace.visible? and (trace.public? or (@user and @user == trace.user))
       if Acl.no_trace_download(request.remote_ip)
         render :text => "", :status => :forbidden
-      elsif request.format == Mime::XML or request.format == Mime::GPX
+      elsif request.format == Mime::XML
         send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => 'attachment')
+      elsif request.format == Mime::GPX
+        send_file(trace.xml_file, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => 'attachment')
       else
         send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
       end
