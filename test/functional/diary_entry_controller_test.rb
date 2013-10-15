@@ -476,4 +476,30 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id
     assert_equal false, DiaryComment.find(diary_comments(:comment_for_geo_post).id).visible
   end
+
+  def test_comments
+    # Test a user with no comments
+    get :comments, :display_name => users(:normal_user).display_name
+    assert_response :success
+    assert_template :comments
+    assert_select "table.messages" do
+      assert_select "tr", :count => 1 # header, no comments
+    end
+
+    # Test a user with a comment
+    get :comments, :display_name => users(:public_user).display_name
+    assert_response :success
+    assert_template :comments
+    assert_select "table.messages" do
+      assert_select "tr", :count => 2 # header and one comment
+    end
+
+    # Test a suspended user
+    get :comments, :display_name => users(:suspended_user).display_name
+    assert_response :not_found
+
+    # Test a deleted user
+    get :comments, :display_name => users(:deleted_user).display_name
+    assert_response :not_found
+  end
 end
