@@ -853,4 +853,37 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
     assert_equal "suspended", User.find(users(:normal_user).id).status
   end
+
+  def test_delete
+    # Try without logging in
+    get :delete, {:display_name => users(:normal_user).display_name, :status => "suspended"}
+    assert_response :redirect
+    assert_redirected_to :action => :login, :referer => delete_user_path(:status => "suspended")
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Now try as a normal user
+    get :delete, {:display_name => users(:normal_user).display_name, :status => "suspended"}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
+
+    @request.cookies["_osm_username"] = users(:administrator_user).display_name
+
+    # Finally try as an administrator
+    get :delete, {:display_name => users(:normal_user).display_name, :status => "suspended"}, {:user => users(:administrator_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
+
+    # Check that the user was deleted properly
+    user = User.find(users(:normal_user).id)
+    assert_equal "user_1", user.display_name
+    assert_equal "", user.description
+    assert_nil user.home_lat
+    assert_nil user.home_lon
+    assert_equal false, user.image.file?
+    assert_equal false, user.email_valid
+    assert_nil user.new_email
+    assert_nil user.openid_url
+    assert_equal "deleted", user.status
+  end
 end
