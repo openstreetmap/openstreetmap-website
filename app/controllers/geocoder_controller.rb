@@ -13,6 +13,7 @@ class GeocoderController < ApplicationController
 
     @sources = []
     if params[:lat] && params[:lon]
+      @sources.push "latlon"
       @sources.push "osm_nominatim_reverse"
       @sources.push "geonames_reverse"
     elsif params[:query].match(/^\d{5}(-\d{4})?$/)
@@ -27,6 +28,24 @@ class GeocoderController < ApplicationController
     else
       @sources.push "osm_nominatim"
       @sources.push "geonames" if defined?(GEONAMES_USERNAME)
+    end
+  end
+
+  def search_latlon
+    lat = params[:lat].to_f
+    lon = params[:lon].to_f
+    if lat < -90 or lat > 90
+      @error = "Latitude #{lat} out of range"
+      render :action => "error"
+    elsif lon < -180 or lon > 180
+      @error = "Longitude #{lon} out of range"
+      render :action => "error"
+    else
+      @results = [{:lat => lat, :lon => lon,
+                   :zoom => params[:zoom],
+                   :name => "#{lat}, #{lon}"}]
+
+      render :action => "results"
     end
   end
 
