@@ -20,7 +20,7 @@ zh-CN:
   activerecord: 
     attributes: 
       diary_comment: 
-        body: 内容
+        body: 正文
       diary_entry: 
         language: 语言
         latitude: 纬度
@@ -31,30 +31,30 @@ zh-CN:
         friend: 朋友
         user: 用户
       message: 
-        body: 内容
+        body: 正文
         recipient: 收件人
-        sender: 发送人
+        sender: 发件人
         title: 标题
       trace: 
-        description: 描述
+        description: 说明
         latitude: 纬度
         longitude: 经度
         name: 姓名
-        public: 公共
+        public: 公开
         size: 大小
         user: 用户
-        visible: 可见性
+        visible: 可见
       user: 
         active: 激活
-        description: 描述
+        description: 说明
         display_name: 显示姓名
-        email: 邮件
+        email: 电子邮件
         languages: 语言
         pass_crypt: 密码
     models: 
       acl: 访问控制列表
-      changeset: 修改集合
-      changeset_tag: 修改集合标签
+      changeset: 变更集
+      changeset_tag: 变更集标签
       country: 国家
       diary_comment: 日记评论
       diary_entry: 日记条目
@@ -63,7 +63,7 @@ zh-CN:
       message: 信息
       node: 节点
       node_tag: 节点标签
-      notifier: 通知
+      notifier: 通知人
       old_node: 旧节点
       old_node_tag: 旧节点标签
       old_relation: 旧关系
@@ -95,35 +95,41 @@ zh-CN:
       need_to_see_terms: 您对 API 的访问已暂时中止。请登录到网站以查看贡献者条款。您不需要同意，但必须查看它们。
   browse: 
     changeset: 
-      changeset: 修改集合：%{id}
-      changesetxml: 修改集合 XML
+      changeset: 变更集：%{id}
+      changesetxml: 变更集XML
       feed: 
-        title: 修改集合 %{id}
-        title_comment: 修改集合 %{id} - %{comment}
+        title: 变更集%{id}
+        title_comment: 变更集%{id} - %{comment}
       osmchangexml: osmChange XML
-      title: 修改集合
+      title: 变更集
     changeset_details: 
       belongs_to: 属于：
-      bounding_box: 限定边框：
-      box: 窗口
-      closed_at: 关闭于：
+      bounding_box: 边界框：
+      box: 框
+      closed_at: 结束于：
       created_at: 创建于：
-      has_nodes: 有如下 %{count} 个节点：
-      has_relations: 有如下 %{count} 种关系：
-      has_ways: 有如下 %{count} 条路径：
-      no_bounding_box: 没有为该修改集合所储存的限定边框。
-      show_area_box: 显示区域窗口
+      has_nodes: 
+        one: 有以下%{count}个节点：
+        other: 有以下%{count}个节点：
+      has_relations: 
+        one: 有以下%{count}个关系：
+        other: 有以下%{count}个关系：
+      has_ways: 
+        one: 有以下%{count}个路径：
+        other: 有以下%{count}个路径：
+      no_bounding_box: 该变更集没有储存的边界框。
+      show_area_box: 显示区域框
     common_details: 
       changeset_comment: 评论：
       deleted_at: 删除于：
-      deleted_by: 删除由：
+      deleted_by: 删除者：
       edited_at: 编辑于：
-      edited_by: 编辑由：
-      in_changeset: 在修改集合中：
+      edited_by: 编辑者：
+      in_changeset: 属于变更集：
       version: 版本：
     containing_relation: 
-      entry: 关系 %{relation_name}
-      entry_role: 关系 %{relation_name}(作为 %{relation_role})
+      entry: 关系%{relation_name}
+      entry_role: 关系%{relation_name}（作为%{relation_role}）
     map: 
       deleted: 删除
       edit: 
@@ -133,24 +139,24 @@ zh-CN:
         relation: 编辑关系
         way: 编辑路径
       larger: 
-        area: 在较大的地图查看区域
-        node: 在较大的地图查看节点
-        note: 在较大的地图查看注释
-        relation: 在较大的地图查看关系
-        way: 在较大的地图查看路径
-      loading: 载入中...
+        area: 在更大的地图上查看区域
+        node: 在更大的地图上查看节点
+        note: 在更大的地图上查看注释
+        relation: 在更大的地图上查看关系
+        way: 在更大的地图上查看路径
+      loading: 正在载入...
     navigation: 
       all: 
-        next_changeset_tooltip: 下个修改集合
-        next_node_tooltip: 下个节点
-        next_note_tooltip: 下个注释
-        next_relation_tooltip: 下个关系
-        next_way_tooltip: 下个路径
-        prev_changeset_tooltip: 上个修改集合
-        prev_node_tooltip: 上个节点
-        prev_note_tooltip: 上个注释
-        prev_relation_tooltip: 上个关系
-        prev_way_tooltip: 上个路径
+        next_changeset_tooltip: 下一变更集
+        next_node_tooltip: 下一节点
+        next_note_tooltip: 下一注释
+        next_relation_tooltip: 下一关系
+        next_way_tooltip: 下一路径
+        prev_changeset_tooltip: 上一变更集
+        prev_node_tooltip: 上一节点
+        prev_note_tooltip: 上一注释
+        prev_relation_tooltip: 上一关系
+        prev_way_tooltip: 上一路径
       paging: 
         all: 
           next: "%{id} »"
@@ -159,67 +165,67 @@ zh-CN:
           next: "%{id} »"
           prev: « %{id}
       user: 
-        name_changeset_tooltip: 查看 %{user} 的编辑
-        next_changeset_tooltip: 下一个 %{user} 的编辑
-        prev_changeset_tooltip: 上一个 %{user} 的编辑
+        name_changeset_tooltip: 查看%{user}的编辑
+        next_changeset_tooltip: 下一个%{user}的编辑
+        prev_changeset_tooltip: 上一个%{user}的编辑
     node: 
-      download_xml: 下载 XML
+      download_xml: 下载XML
       edit: 编辑节点
       node: 节点
       node_title: 节点：%{node_name}
       view_history: 查看历史
     node_details: 
       coordinates: 坐标：
-      part_of: 部分：
+      part_of: 属于：
     node_history: 
-      download_xml: 下载 XML
+      download_xml: 下载XML
       node_history: 节点历史
       node_history_title: 节点历史：%{node_name}
       view_details: 查看详细信息
     not_found: 
-      sorry: 对不起，无法找到 id 为 %{id} 的%{type}。
+      sorry: 对不起，无法找到id为%{id}的%{type}。
       type: 
-        changeset: 修改集合
+        changeset: 变更集
         node: 节点
         relation: 关系
         way: 路径
     note: 
-      at_by_html: 由 %{user} 于%{when}前
+      at_by_html: "%{when}前被%{user}"
       at_html: "%{when}前"
-      closed: 关闭：
+      closed: 结束：
       closed_title: 已解决的注释：%{note_name}
       comments: 评论：
-      description: 描述：
+      description: 说明：
       last_modified: 最后修改：
       open_title: 未解决的注释：%{note_name}
-      opened: 创建：
+      opened: 开始：
       title: 注释
     paging_nav: 
       of: /
       showing_page: 页面
     redacted: 
-      message_html: 该%{type}的版本%{version}无法显示，其已被删节。详情请见%{redaction_link}。
-      redaction: 删节 %{id}
+      message_html: 该%{type}的版本%{version}无法显示，因为其已被编辑。详情请见%{redaction_link}。
+      redaction: 编辑%{id}
       type: 
         node: 节点
         relation: 关系
         way: 路径
     relation: 
-      download_xml: 下载 XML
+      download_xml: 下载XML
       relation: 关系
       relation_title: 关系：%{relation_name}
       view_history: 查看历史
     relation_details: 
       members: 成员：
-      part_of: 部分：
+      part_of: 属于：
     relation_history: 
-      download_xml: 下载 XML
+      download_xml: 下载XML
       relation_history: 关系历史
       relation_history_title: 关系历史：%{relation_name}
       view_details: 查看详细信息
     relation_member: 
-      entry: "%{type} %{name}"
-      entry_role: "%{type} %{name} 作为 %{role}"
+      entry: "%{type}%{name}"
+      entry_role: "%{type}%{name}作为%{role}"
       type: 
         node: 节点
         relation: 关系
@@ -228,74 +234,76 @@ zh-CN:
       data_frame_title: 数据
       data_layer_name: 浏览地图数据
       details: 详细信息
-      edited_by_user_at_timestamp: 由 %{user} 于 %{timestamp} 编辑
+      edited_by_user_at_timestamp: 被%{user}于%{timestamp}编辑
       hide_areas: 隐藏区域
-      history_for_feature: 历史 %{feature}
-      load_data: 加载数据
-      loaded_an_area_with_num_features: 您已选择了包含 %{num_features} 项特征的区域。通常，有些浏览器无法正常显示这么多的数据。一般而言，浏览器一次显示少于 %{max_features} 项特征时效果最好：执行其他任务会使您的浏览器变慢/无响应。如果确定要显示这些数据，请按下面的按钮。
-      loading: 载入中...
-      manually_select: 手动选择一个不同区域
+      history_for_feature: "%{feature}的历史"
+      load_data: 载入数据
+      loaded_an_area_with_num_features: 你已经载入一个包含%{num_features}个特征的区域。一般而言，一些浏览器无法正常显示这一数量的数据。通常，浏览器可以较好地显示少于%{max_features}个特征，超过这一数量则会使你的浏览器变慢/无响应。如果你确定你想要显示这些数据，请单击下面的按钮。
+      loading: 正在载入...
+      manually_select: 手动选择不同的区域
       notes_layer_name: 浏览注释
       object_list: 
-        api: 从 API 取回这一区域
-        back: 回到对象列表
+        api: 从API检索这一区域
+        back: 返回对象列表
         details: 详细信息
         heading: 对象列表
         history: 
           type: 
-            node: 节点 %{id}
-            way: 路径 %{id}
+            node: 节点%{id}
+            way: 路径%{id}
         selected: 
           type: 
-            node: 节点 %{id}
-            way: 路径 %{id}
+            node: 节点%{id}
+            way: 路径%{id}
         type: 
           node: 节点
           way: 路径
-      private_user: 个人用户
+      private_user: 私人用户
       show_areas: 显示区域
       show_history: 显示历史
-      unable_to_load_size: 无法读取：限定边框的大小 %{bbox_size} 过大(需小于 %{max_bbox_size})
+      unable_to_load_size: 无法载入：边界框的尺寸%{bbox_size}过大（需小于%{max_bbox_size}）
       view_data: 查看当前地图视图的数据
-      wait: 请稍等...
-      zoom_or_select: 放大或选择查看一个地图区域
+      wait: 请稍候...
+      zoom_or_select: 放大或选择要查看的地图区域
     tag_details: 
       tags: 标签：
       wiki_link: 
-        key: "%{key} 标签的 wiki 描述页面"
-        tag: "%{key}=%{value} 标签的 wiki 描述页面"
-      wikipedia_link: 维基百科上的 %{page} 文章
+        key: "%{key}标签的wiki说明页面"
+        tag: "%{key}=%{value}标签的wiki说明页面"
+      wikipedia_link: 维基百科的%{page}条目
     timeout: 
-      sorry: 对不起，取得 ID 为 %{id} 的%{type}资料花了太长的时间。
+      sorry: 对不起，检索id为%{id}的%{type}的数据耗费时间过长。
       type: 
-        changeset: 修改集合
+        changeset: 变更集
         node: 节点
         relation: 关系
         way: 路径
     way: 
-      download_xml: 下载 XML
+      download_xml: 下载XML
       edit: 编辑路径
       view_history: 查看历史
       way: 路径
       way_title: 路径：%{way_name}
     way_details: 
-      also_part_of: 也是路径 %{related_ways} 的一部分
+      also_part_of: 
+        one: 属于路径%{related_ways}
+        other: 属于路径%{related_ways}
       nodes: 节点：
-      part_of: 部分：
+      part_of: 属于：
     way_history: 
-      download_xml: 下载 XML
+      download_xml: 下载XML
       view_details: 查看详细信息
       way_history: 路径历史
       way_history_title: 路径历史：%{way_name}
   changeset: 
     changeset: 
       anonymous: 匿名
-      big_area: (大)
-      no_comment: (空)
-      no_edits: (没有编辑)
-      show_area_box: 显示区域窗口
-      still_editing: (仍在编辑中)
-      view_changeset_details: 查看详细变更
+      big_area: （大）
+      no_comment: （无）
+      no_edits: （没有编辑）
+      show_area_box: 显示区域框
+      still_editing: （仍在编辑）
+      view_changeset_details: 查看变更集详细信息
     changeset_paging_nav: 
       next: 下一页 »
       previous: « 上一页
@@ -304,60 +312,60 @@ zh-CN:
       area: 区域
       comment: 评论
       id: ID
-      saved_at: 保存时间
+      saved_at: 保存于
       user: 用户
     list: 
-      description: 浏览最近对地图的更改
-      description_bbox: "%{bbox} 内的修改集合"
-      description_friend: 您的朋友的修改集合
-      description_nearby: 附近用户的修改集合
-      description_user: "%{user} 的修改集合"
-      description_user_bbox: "%{user} 在 %{bbox} 内的修改集合"
-      empty_anon_html: 尚未编辑。
-      empty_user_html: 看起来您尚未编辑。若要开始，请参考<a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>初学者指南</a>。
-      heading: 修改集合
-      heading_bbox: 修改集合
-      heading_friend: 修改集合
-      heading_nearby: 修改集合
-      heading_user: 修改集合
-      heading_user_bbox: 修改集合
-      title: 修改集合
-      title_bbox: "%{bbox} 内的修改集合"
-      title_friend: 您的朋友的修改集合
-      title_nearby: 附近用户的修改集合
-      title_user: "%{user} 的修改集合"
-      title_user_bbox: "%{user} 在 %{bbox} 内的修改集合"
+      description: 浏览最近对地图的贡献
+      description_bbox: "%{bbox}内的变更集"
+      description_friend: 你的朋友的变更集
+      description_nearby: 附近用户的变更集
+      description_user: "%{user}的变更集"
+      description_user_bbox: "%{user}在%{bbox}内的变更集"
+      empty_anon_html: 还没有编辑。
+      empty_user_html: 看起来你还没有进行过任何编辑。要开始编辑，请查看<a href='http://wiki.openstreetmap.org/wiki/Zh-hans:Beginners_Guide_1.3'>初学者指南</a>。
+      heading: 变更集
+      heading_bbox: 变更集
+      heading_friend: 变更集
+      heading_nearby: 变更集
+      heading_user: 变更集
+      heading_user_bbox: 变更集
+      title: 变更集
+      title_bbox: "%{bbox}内的变更集"
+      title_friend: 你的朋友的变更集
+      title_nearby: 附近用户的变更集
+      title_user: "%{user}的变更集"
+      title_user_bbox: "%{user}在%{bbox}内的变更集"
     timeout: 
-      sorry: 对不起，取得您要求的修改集合列表时花了太长的时间。
+      sorry: 对不起，检索你请求的变更集的列表耗费时间过长。
   diary_entry: 
     comments: 
       ago: "%{ago}前"
       comment: 评论
-      has_commented_on: "%{display_name} 在以下的日记中发表了评论"
-      newer_comments: 新的评论
-      older_comments: 旧的评论
-      post: 发布
-      when: 于
+      has_commented_on: "%{display_name}已经评论以下日记条目"
+      newer_comments: 新评论
+      older_comments: 旧评论
+      post: 发表
+      when: 时间
     diary_comment: 
-      comment_from: 由 %{link_user} 于 %{comment_created_at} 发表的评论
+      comment_from: "%{link_user}于%{comment_created_at}发表的评论"
       confirm: 确认
-      hide_link: 隐藏此评论
+      hide_link: 隐藏该评论
     diary_entry: 
       comment_count: 
-        one: 一个回复
-        other: "%{count}个回复"
-        zero: 无回复
-      comment_link: 关于此篇评论
+        one: "%{count}个评论"
+        other: "%{count}个评论"
+        zero: 没有评论
+      comment_link: 关于该条目的评论
       confirm: 确认
-      edit_link: 编辑此篇
-      hide_link: 隐藏此项目
-      posted_by: 由 %{link_user} 于 %{created} 以 %{language_link} 发表
-      reply_link: 对此篇进行回复
+      edit_link: 编辑该条目
+      hide_link: 隐藏该条目
+      posted_by: "%{link_user}于%{created}以%{language_link}发表"
+      reply_link: 回复该条目
     edit: 
       body: 正文：
       language: 语言：
       latitude: 纬度：
-      location: 位置：
+      location: 地点：
       longitude: 经度：
       marker_text: 日记条目位置
       save_button: 保存
@@ -366,18 +374,18 @@ zh-CN:
       use_map_link: 使用地图
     feed: 
       all: 
-        description: 用户最近的 OpenStreetMap 日记
-        title: OpenStreetMap 日记
+        description: 最近的OpenStreetMap用户日记条目
+        title: OpenStreetMap日记条目
       language: 
-        description: 用户最近的 OpenStreetMap 日记(语言为 %{language_name})
-        title: OpenStreetMap 日记(语言为 %{language_name})
+        description: 最近的%{language_name}OpenStreetMap用户日记条目
+        title: "%{language_name}OpenStreetMap日记条目"
       user: 
-        description: "%{user} 最近的 OpenStreetMap 日记"
-        title: "%{user} 的 OpenStreetMap 日记"
+        description: "%{user}最近的OpenStreetMap日记条目"
+        title: "%{user}的OpenStreetMap日记条目"
     list: 
-      in_language_title: 日记(语言为 %{language})
-      new: 新日志条目
-      new_title: 在您的用户日记中创建一个新条目
+      in_language_title: "%{language}日记条目"
+      new: 新日记条目
+      new_title: 在你的用户日记中撰写新条目
       newer_entries: 更新的条目
       no_entries: 没有日记条目
       older_entries: 更早的条目
@@ -385,82 +393,82 @@ zh-CN:
       title: 用户的日记
       title_friends: 朋友的日记
       title_nearby: 附近用户的日记
-      user_title: "%{user} 的日记"
+      user_title: "%{user}的日记"
     location: 
       edit: 编辑
-      location: 位置：
+      location: 地点：
       view: 查看
     new: 
       title: 新日记条目
     no_such_entry: 
-      body: 对不起，没有 id 为 %{id} 的日记条目或者评论。请检查拼写，或者您点击的链接有误。
-      heading: 关于此 id：%{id} 没有条目
+      body: 对不起，没有id为%{id}的日记条目或评论。请检查你的拼写，或是你可能点击了错误的链接。
+      heading: 没有条目id为：%{id}
       title: 没有这个日记条目
     view: 
       leave_a_comment: 留下评论
       login: 登录
-      login_to_leave_a_comment: "%{login_link} 以留下评论"
+      login_to_leave_a_comment: "%{login_link}以留下评论"
       save_button: 保存
-      title: "%{user} 的日记 | %{title}"
-      user_title: "%{user} 的日记"
+      title: "%{user}的日记 | %{title}"
+      user_title: "%{user}的日记"
   editor: 
-    default: 默认(目前为 %{name})
+    default: 默认（目前为%{name}）
     id: 
-      description: iD(在浏览器中编辑)
+      description: iD（浏览器内编辑器）
       name: iD
     potlatch: 
-      description: Potlatch 1(在浏览器中编辑)
+      description: Potlatch 1（浏览器内编辑器）
       name: Potlatch 1
     potlatch2: 
-      description: Potlatch 2(在浏览器中编辑)
+      description: Potlatch 2（浏览器内编辑器）
       name: Potlatch 2
     remote: 
-      description: 远程控制(JOSM 或 Merkaartor)
+      description: 远程控制（JOSM或Merkaartor）
       name: 远程控制
   export: 
     start: 
-      add_marker: 对地图添加一个标记
-      area_to_export: 输出区域
-      embeddable_html: 嵌入 HTML
-      export_button: 输出
-      export_details: OpenStreetMap数据以<a href="http://opendatacommons.org/licenses/odbl/1.0/">开放式数据共享开放式数据库许可</a>（ODbL）授权。
+      add_marker: 添加标记至地图
+      area_to_export: 要导出的区域
+      embeddable_html: 可嵌入HTML
+      export_button: 导出
+      export_details: OpenStreetMap数据采用<a href="http://opendatacommons.org/licenses/odbl/1.0/">开放数据共享开放数据库许可协议</a>（ODbL）授权。
       format: 格式
-      format_to_export: 输出格式
-      image_size: 图像尺寸
+      format_to_export: 要导出的格式
+      image_size: 图像大小
       latitude: 纬度：
-      licence: 协议
+      licence: 许可协议
       longitude: 经度：
-      manually_select: 手动选择一个不同的区域
-      map_image: 地图图片(显示于标准图层)
+      manually_select: 手动选择不同的区域
+      map_image: 地图图像（显示标准图层）
       max: 最大
       options: 选项
-      osm_xml_data: OpenStreetMap XML 数据
+      osm_xml_data: OpenStreetMap XML数据
       output: 输出
-      paste_html: 在网页上粘贴 HTML
-      scale: 比率
+      paste_html: 粘贴可嵌入网站的HTML
+      scale: 比例
       too_large: 
-        body: 这个区域太大，无法导出 OpenStreetMap XML 数据。请放大或选择一个较小的区域。
+        body: 该区域过大，不能导出为OpenStreetMap XML数据。请放大或选择一个更小的区域，或使用以下大量数据下载来源之一：
         geofabrik: 
-          description: 定期更新提取物大洲、 国家、 和选定的城市
-          title: Geofabrik 下载
-        heading: 区域太大
+          description: 定期更新的洲、 国家和特定城市的摘录
+          title: Geofabrik下载
+        heading: 区域过大
         metro: 
-          description: 世界主要城市和周边地区的地图包
-          title: 大城市地图包
+          description: 世界主要城市和周边地区的摘录
+          title: 大城市摘录
         other: 
-          description: OpenStreetMap Wiki上列出的其他资源
+          description: OpenStreetMap wiki上列出的其他来源
           title: 其他来源
         planet: 
-          description: 定期更新所有OpenStreetMap的数据
-          title: OSM星球
-      zoom: 变焦
+          description: 定期更新的完整OpenStreetMap数据库副本
+          title: 地球OSM
+      zoom: 缩放
     start_rjs: 
-      add_marker: 标记地图
+      add_marker: 添加标记至地图
       change_marker: 更改标记位置
-      click_add_marker: 点击地图来添加一个标记
-      drag_a_box: 通过拖曳窗口来选择区域
-      export: 输出
-      manually_select: 手动选择一个不同区域
+      click_add_marker: 单击地图以添加标记
+      drag_a_box: 在地图上拖曳出一个框以选择区域
+      export: 导出
+      manually_select: 手动选择不同的区域
   geocoder: 
     description: 
       title: 
@@ -488,11 +496,14 @@ zh-CN:
       no_results: 没有发现结果
     search: 
       title: 
-        ca_postcode: 来自 <a href="http://geocoder.ca/">Geocoder.CA</a> 的结果
-        geonames: 来自 <a href="http://www.geonames.org/">GeoNames</a> 的结果
-        osm_nominatim: 来自 <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> 的结果
-        uk_postcode: 来自 <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a> 的结果
-        us_postcode: 来自 <a href="http://geocoder.us/">Geocoder.us</a> 的结果
+        ca_postcode: 来自<a href="http://geocoder.ca/">Geocoder.CA</a>的结果
+        geonames: 来自<a href="http://www.geonames.org/">GeoNames</a>的结果
+        geonames_reverse: 来自<a href="http://www.geonames.org/">GeoNames</a>的结果
+        latlon: 来自 <a href="http://openstreetmap.org/">内部</a> 的结果
+        osm_nominatim: 来自<a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>的结果
+        osm_nominatim_reverse: 来自<a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>的结果
+        uk_postcode: 来自<a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>的结果
+        us_postcode: 来自<a href="http://geocoder.us/">Geocoder.us</a>的结果
     search_osm_nominatim: 
       admin_levels: 
         level10: 郊区界
@@ -504,13 +515,13 @@ zh-CN:
         level9: 村界
       prefix: 
         aerialway: 
-          chair_lift: 升降椅
-          drag_lift: 拖动电梯
-          station: 火车站
+          chair_lift: 登山吊椅
+          drag_lift: 上山牵引机
+          station: 缆车站台
         aeroway: 
-          aerodrome: 机场
-          apron: 机坪
-          gate: 门
+          aerodrome: 小型飞机场
+          apron: 停机坪
+          gate: 登机口
           helipad: 直升机停机坪
           runway: 跑道
           taxiway: 滑行道
@@ -520,13 +531,13 @@ zh-CN:
           airport: 机场
           arts_centre: 艺术中心
           artwork: 艺术品
-          atm: 自动取款机(ATM)
+          atm: 自动提款机（ATM）
           auditorium: 礼堂
           bank: 银行
           bar: 酒吧
           bbq: 烧烤
-          bench: 长凳
-          bicycle_parking: 自行车停车
+          bench: 长椅
+          bicycle_parking: 自行车停车处
           bicycle_rental: 自行车租赁
           biergarten: 啤酒花园
           brothel: 妓院
@@ -1399,7 +1410,7 @@ zh-CN:
     update: 
       flash: 更新客户端信息成功
   printable_name: 
-    with_version: "%{id}，版本 %{version}"
+    with_version: "%{id}，版本%{version}"
   redaction: 
     create: 
       flash: 节点被创建。
@@ -1556,6 +1567,9 @@ zh-CN:
     delete: 
       scheduled_for_deletion: 计划被删除的路径
     description: 
+      description_with_count: 
+        one: GPX file with %{count} point from %{user}
+        other: 来自%{user}的带%{count}点的GPX文件
       description_without_count: "%{user}的GPX文件"
     edit: 
       description: 描述：
@@ -1575,6 +1589,8 @@ zh-CN:
       visibility: 可见性：
       visibility_help: 这是什么意思？
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
+    georss: 
+      title: OpenStreetMap GPS跟踪
     list: 
       description: 浏览最近上传的GPS轨迹
       empty_html: 尚无轨迹。<a href='%{upload_link}'>上传新轨迹</a>或在<a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>维基页面</a>上了解 GPS 轨迹。
