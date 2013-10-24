@@ -175,7 +175,7 @@
 
 })(this);
 d3 = (function(){
-  var d3 = {version: "3.2.7"}; // semver
+  var d3 = {version: "3.3.8"}; // semver
 d3.ascending = function(a, b) {
   return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
 };
@@ -313,11 +313,14 @@ d3.shuffle = function(array) {
   return array;
 };
 d3.permute = function(array, indexes) {
-  var permutes = [],
-      i = -1,
-      n = indexes.length;
-  while (++i < n) permutes[i] = array[indexes[i]];
+  var i = indexes.length, permutes = new Array(i);
+  while (i--) permutes[i] = array[indexes[i]];
   return permutes;
+};
+d3.pairs = function(array) {
+  var i = 0, n = array.length - 1, p0, p1 = array[0], pairs = new Array(n < 0 ? 0 : n);
+  while (i < n) pairs[i] = [p0 = p1, p1 = array[++i]];
+  return pairs;
 };
 
 d3.zip = function() {
@@ -353,8 +356,28 @@ d3.entries = function(map) {
   return entries;
 };
 d3.merge = function(arrays) {
-  return Array.prototype.concat.apply([], arrays);
+  var n = arrays.length,
+      m,
+      i = -1,
+      j = 0,
+      merged,
+      array;
+
+  while (++i < n) j += arrays[i].length;
+  merged = new Array(j);
+
+  while (--n >= 0) {
+    array = arrays[n];
+    m = array.length;
+    while (--m >= 0) {
+      merged[--j] = array[m];
+    }
+  }
+
+  return merged;
 };
+var abs = Math.abs;
+
 d3.range = function(start, stop, step) {
   if (arguments.length < 3) {
     step = 1;
@@ -365,7 +388,7 @@ d3.range = function(start, stop, step) {
   }
   if ((stop - start) / step === Infinity) throw new Error("infinite range");
   var range = [],
-       k = d3_range_integerScale(Math.abs(step)),
+       k = d3_range_integerScale(abs(step)),
        i = -1,
        j;
   start *= k, stop *= k, step *= k;
@@ -394,7 +417,8 @@ function d3_class(ctor, properties) {
 
 d3.map = function(object) {
   var map = new d3_Map;
-  for (var key in object) map.set(key, object[key]);
+  if (object instanceof d3_Map) object.forEach(function(key, value) { map.set(key, value); });
+  else for (var key in object) map.set(key, object[key]);
   return map;
 };
 
@@ -538,8 +562,8 @@ d3.nest = function() {
 };
 
 d3.set = function(array) {
-  var set = new d3_Set();
-  if (array) for (var i = 0; i < array.length; i++) set.add(array[i]);
+  var set = new d3_Set;
+  if (array) for (var i = 0, n = array.length; i < n; ++i) set.add(array[i]);
   return set;
 };
 
@@ -573,9 +597,23 @@ d3_class(d3_Set, {
   }
 });
 d3.behavior = {};
+var d3_arraySlice = [].slice,
+    d3_array = function(list) { return d3_arraySlice.call(list); }; // conversion for NodeLists
+
 var d3_document = document,
     d3_documentElement = d3_document.documentElement,
     d3_window = window;
+
+// Redefine d3_array if the browser doesn’t support slice-based conversion.
+try {
+  d3_array(d3_documentElement.childNodes)[0].nodeType;
+} catch(e) {
+  d3_array = function(list) {
+    var i = list.length, array = new Array(i);
+    while (i--) array[i] = list[i];
+    return array;
+  };
+}
 // Copies a variable number of methods from source to target.
 d3.rebind = function(target, source) {
   var i = 1, n = arguments.length, method;
@@ -603,24 +641,6 @@ function d3_vendorSymbol(object, name) {
 }
 
 var d3_vendorPrefixes = ["webkit", "ms", "moz", "Moz", "o", "O"];
-
-var d3_array = d3_arraySlice; // conversion for NodeLists
-
-function d3_arrayCopy(pseudoarray) {
-  var i = -1, n = pseudoarray.length, array = [];
-  while (++i < n) array.push(pseudoarray[i]);
-  return array;
-}
-
-function d3_arraySlice(pseudoarray) {
-  return Array.prototype.slice.call(pseudoarray);
-}
-
-try {
-  d3_array(d3_documentElement.childNodes)[0].nodeType;
-} catch(e) {
-  d3_array = d3_arrayCopy;
-}
 function d3_noop() {}
 
 d3.dispatch = function() {
@@ -1118,15 +1138,15 @@ d3_selectionPrototype.append = function(name) {
 
 function d3_selection_creator(name) {
   return typeof name === "function" ? name
-      : (name = d3.ns.qualify(name)).local ? function() { return d3_document.createElementNS(name.space, name.local); }
-      : function() { return d3_document.createElementNS(this.namespaceURI, name); };
+      : (name = d3.ns.qualify(name)).local ? function() { return this.ownerDocument.createElementNS(name.space, name.local); }
+      : function() { return this.ownerDocument.createElementNS(this.namespaceURI, name); };
 }
 
 d3_selectionPrototype.insert = function(name, before) {
   name = d3_selection_creator(name);
   before = d3_selection_selector(before);
   return this.select(function() {
-    return this.insertBefore(name.apply(this, arguments), before.apply(this, arguments));
+    return this.insertBefore(name.apply(this, arguments), before.apply(this, arguments) || null);
   });
 };
 
@@ -1310,7 +1330,7 @@ d3_selectionPrototype.sort = function(comparator) {
 function d3_selection_sortComparator(comparator) {
   if (!arguments.length) comparator = d3.ascending;
   return function(a, b) {
-    return (!a - !b) || comparator(a.__data__, b.__data__);
+    return a && b ? comparator(a.__data__, b.__data__) : !a - !b;
   };
 }
 
@@ -1415,6 +1435,8 @@ function d3_selection_enterInsertBefore(enter) {
   };
 }
 
+// import "../transition/transition";
+
 d3_selectionPrototype.transition = function() {
   var id = d3_transitionInheritId || ++d3_transitionId,
       subgroups = [],
@@ -1432,6 +1454,16 @@ d3_selectionPrototype.transition = function() {
 
   return d3_transition(subgroups, id);
 };
+// import "../transition/transition";
+
+d3_selectionPrototype.interrupt = function() {
+  return this.each(d3_selection_interrupt);
+};
+
+function d3_selection_interrupt() {
+  var lock = this.__transition__;
+  if (lock) ++lock.active;
+}
 
 // TODO fast singleton implementation?
 d3.select = function(node) {
@@ -1578,6 +1610,7 @@ d3.mouse = function(container) {
 var d3_mouse_bug44083 = /WebKit/.test(d3_window.navigator.userAgent) ? -1 : 0;
 
 function d3_mousePoint(container, e) {
+  if (e.changedTouches) e = e.changedTouches[0];
   var svg = container.ownerSVGElement || container;
   if (svg.createSVGPoint) {
     var point = svg.createSVGPoint();
@@ -1594,13 +1627,8 @@ function d3_mousePoint(container, e) {
       d3_mouse_bug44083 = !(ctm.f || ctm.e);
       svg.remove();
     }
-    if (d3_mouse_bug44083) {
-      point.x = e.pageX;
-      point.y = e.pageY;
-    } else {
-      point.x = e.clientX;
-      point.y = e.clientY;
-    }
+    if (d3_mouse_bug44083) point.x = e.pageX, point.y = e.pageY;
+    else point.x = e.clientX, point.y = e.clientY;
     point = point.matrixTransform(container.getScreenCTM().inverse());
     return [point.x, point.y];
   }
@@ -1616,47 +1644,180 @@ d3.touches = function(container, touches) {
     return point;
   }) : [];
 };
+var π = Math.PI,
+    τ = 2 * π,
+    halfπ = π / 2,
+    ε = 1e-6,
+    ε2 = ε * ε,
+    d3_radians = π / 180,
+    d3_degrees = 180 / π;
+
+function d3_sgn(x) {
+  return x > 0 ? 1 : x < 0 ? -1 : 0;
+}
+
+function d3_acos(x) {
+  return x > 1 ? 0 : x < -1 ? π : Math.acos(x);
+}
+
+function d3_asin(x) {
+  return x > 1 ? halfπ : x < -1 ? -halfπ : Math.asin(x);
+}
+
+function d3_sinh(x) {
+  return ((x = Math.exp(x)) - 1 / x) / 2;
+}
+
+function d3_cosh(x) {
+  return ((x = Math.exp(x)) + 1 / x) / 2;
+}
+
+function d3_tanh(x) {
+  return ((x = Math.exp(2 * x)) - 1) / (x + 1);
+}
+
+function d3_haversin(x) {
+  return (x = Math.sin(x / 2)) * x;
+}
+
+var ρ = Math.SQRT2,
+    ρ2 = 2,
+    ρ4 = 4;
+
+// p0 = [ux0, uy0, w0]
+// p1 = [ux1, uy1, w1]
+d3.interpolateZoom = function(p0, p1) {
+  var ux0 = p0[0], uy0 = p0[1], w0 = p0[2],
+      ux1 = p1[0], uy1 = p1[1], w1 = p1[2];
+
+  var dx = ux1 - ux0,
+      dy = uy1 - uy0,
+      d2 = dx * dx + dy * dy,
+      d1 = Math.sqrt(d2),
+      b0 = (w1 * w1 - w0 * w0 + ρ4 * d2) / (2 * w0 * ρ2 * d1),
+      b1 = (w1 * w1 - w0 * w0 - ρ4 * d2) / (2 * w1 * ρ2 * d1),
+      r0 = Math.log(Math.sqrt(b0 * b0 + 1) - b0),
+      r1 = Math.log(Math.sqrt(b1 * b1 + 1) - b1),
+      dr = r1 - r0,
+      S = (dr || Math.log(w1 / w0)) / ρ;
+
+  function interpolate(t) {
+    var s = t * S;
+    if (dr) {
+      // General case.
+      var coshr0 = d3_cosh(r0),
+          u = w0 / (ρ2 * d1) * (coshr0 * d3_tanh(ρ * s + r0) - d3_sinh(r0));
+      return [
+        ux0 + u * dx,
+        uy0 + u * dy,
+        w0 * coshr0 / d3_cosh(ρ * s + r0)
+      ];
+    }
+    // Special case for u0 ~= u1.
+    return [
+      ux0 + t * dx,
+      uy0 + t * dy,
+      w0 * Math.exp(ρ * s)
+    ];
+  }
+
+  interpolate.duration = S * 1000;
+
+  return interpolate;
+};
 
 d3.behavior.zoom = function() {
-  var translate = [0, 0],
+  var view = {x: 0, y: 0, k: 1},
       translate0, // translate when we started zooming (to avoid drift)
-      scale = 1,
+      center, // desired position of translate0 after zooming
+      size = [960, 500], // viewport size; required for zoom interpolation
       scaleExtent = d3_behavior_zoomInfinity,
       mousedown = "mousedown.zoom",
       mousemove = "mousemove.zoom",
       mouseup = "mouseup.zoom",
-      event = d3_eventDispatch(zoom, "zoom"),
+      mousewheelTimer,
+      touchstart = "touchstart.zoom",
+      touchtime, // time of last touchstart (to detect double-tap)
+      event = d3_eventDispatch(zoom, "zoomstart", "zoom", "zoomend"),
       x0,
       x1,
       y0,
-      y1,
-      touchtime; // time of last touchstart (to detect double-tap)
+      y1;
 
-  function zoom() {
-    this.on(mousedown, mousedowned)
+  function zoom(g) {
+    g   .on(mousedown, mousedowned)
         .on(d3_behavior_zoomWheel + ".zoom", mousewheeled)
         .on(mousemove, mousewheelreset)
         .on("dblclick.zoom", dblclicked)
-        .on("touchstart.zoom", touchstarted);
+        .on(touchstart, touchstarted);
   }
 
-  zoom.translate = function(x) {
-    if (!arguments.length) return translate;
-    translate = x.map(Number);
+  zoom.event = function(g) {
+    g.each(function() {
+      var event_ = event.of(this, arguments),
+          view1 = view;
+      if (d3_transitionInheritId) {
+          d3.select(this).transition()
+              .each("start.zoom", function() {
+                view = this.__chart__ || {x: 0, y: 0, k: 1}; // pre-transition state
+                zoomstarted(event_);
+              })
+              .tween("zoom:zoom", function() {
+                var dx = size[0],
+                    dy = size[1],
+                    cx = dx / 2,
+                    cy = dy / 2,
+                    i = d3.interpolateZoom(
+                      [(cx - view.x) / view.k, (cy - view.y) / view.k, dx / view.k],
+                      [(cx - view1.x) / view1.k, (cy - view1.y) / view1.k, dx / view1.k]
+                    );
+                return function(t) {
+                  var l = i(t), k = dx / l[2];
+                  this.__chart__ = view = {x: cx - l[0] * k, y: cy - l[1] * k, k: k};
+                  zoomed(event_);
+                };
+              })
+              .each("end.zoom", function() {
+                zoomended(event_);
+              });
+      } else {
+        this.__chart__ = view;
+        zoomstarted(event_);
+        zoomed(event_);
+        zoomended(event_);
+      }
+    });
+  }
+
+  zoom.translate = function(_) {
+    if (!arguments.length) return [view.x, view.y];
+    view = {x: +_[0], y: +_[1], k: view.k}; // copy-on-write
     rescale();
     return zoom;
   };
 
-  zoom.scale = function(x) {
-    if (!arguments.length) return scale;
-    scale = +x;
+  zoom.scale = function(_) {
+    if (!arguments.length) return view.k;
+    view = {x: view.x, y: view.y, k: +_}; // copy-on-write
     rescale();
     return zoom;
   };
 
-  zoom.scaleExtent = function(x) {
+  zoom.scaleExtent = function(_) {
     if (!arguments.length) return scaleExtent;
-    scaleExtent = x == null ? d3_behavior_zoomInfinity : x.map(Number);
+    scaleExtent = _ == null ? d3_behavior_zoomInfinity : [+_[0], +_[1]];
+    return zoom;
+  };
+
+  zoom.center = function(_) {
+    if (!arguments.length) return center;
+    center = _ && [+_[0], +_[1]];
+    return zoom;
+  };
+
+  zoom.size = function(_) {
+    if (!arguments.length) return size;
+    size = _ && [+_[0], +_[1]];
     return zoom;
   };
 
@@ -1664,8 +1825,7 @@ d3.behavior.zoom = function() {
     if (!arguments.length) return x1;
     x1 = z;
     x0 = z.copy();
-    translate = [0, 0];
-    scale = 1;
+    view = {x: 0, y: 0, k: 1}; // copy-on-write
     return zoom;
   };
 
@@ -1673,37 +1833,44 @@ d3.behavior.zoom = function() {
     if (!arguments.length) return y1;
     y1 = z;
     y0 = z.copy();
-    translate = [0, 0];
-    scale = 1;
+    view = {x: 0, y: 0, k: 1}; // copy-on-write
     return zoom;
   };
 
   function location(p) {
-    return [(p[0] - translate[0]) / scale, (p[1] - translate[1]) / scale];
+    return [(p[0] - view.x) / view.k, (p[1] - view.y) / view.k];
   }
 
   function point(l) {
-    return [l[0] * scale + translate[0], l[1] * scale + translate[1]];
+    return [l[0] * view.k + view.x, l[1] * view.k + view.y];
   }
 
   function scaleTo(s) {
-    scale = Math.max(scaleExtent[0], Math.min(scaleExtent[1], s));
+    view.k = Math.max(scaleExtent[0], Math.min(scaleExtent[1], s));
   }
 
   function translateTo(p, l) {
     l = point(l);
-    translate[0] += p[0] - l[0];
-    translate[1] += p[1] - l[1];
+    view.x += p[0] - l[0];
+    view.y += p[1] - l[1];
   }
 
   function rescale() {
-    if (x1) x1.domain(x0.range().map(function(x) { return (x - translate[0]) / scale; }).map(x0.invert));
-    if (y1) y1.domain(y0.range().map(function(y) { return (y - translate[1]) / scale; }).map(y0.invert));
+    if (x1) x1.domain(x0.range().map(function(x) { return (x - view.x) / view.k; }).map(x0.invert));
+    if (y1) y1.domain(y0.range().map(function(y) { return (y - view.y) / view.k; }).map(y0.invert));
   }
 
-  function dispatch(event) {
+  function zoomstarted(event) {
+    event({type: "zoomstart"});
+  }
+
+  function zoomed(event) {
     rescale();
-    event({type: "zoom", scale: scale, translate: translate});
+    event({type: "zoom", scale: view.k, translate: [view.x, view.y]});
+  }
+
+  function zoomended(event) {
+    event({type: "zoomend"});
   }
 
   function mousedowned() {
@@ -1715,62 +1882,92 @@ d3.behavior.zoom = function() {
         l = location(d3.mouse(target)),
         dragRestore = d3_event_dragSuppress();
 
+    d3_selection_interrupt.call(target);
+    zoomstarted(event_);
+
     function moved() {
       dragged = 1;
       translateTo(d3.mouse(target), l);
-      dispatch(event_);
+      zoomed(event_);
     }
 
     function ended() {
       w.on(mousemove, d3_window === target ? mousewheelreset : null).on(mouseup, null);
       dragRestore(dragged && d3.event.target === eventTarget);
+      zoomended(event_);
     }
   }
 
+  // These closures persist for as long as at least one touch is active.
   function touchstarted() {
     var target = this,
         event_ = event.of(target, arguments),
-        touches = d3.touches(target),
-        locations = {},
+        locations0 = {}, // touchstart locations
         distance0 = 0, // distance² between initial touches
-        scale0 = scale, // scale when we started touching
-        now = Date.now(),
-        name = "zoom-" + d3.event.changedTouches[0].identifier,
-        touchmove = "touchmove." + name,
-        touchend = "touchend." + name,
+        scale0, // scale when we started touching
+        eventId = d3.event.changedTouches[0].identifier,
+        touchmove = "touchmove.zoom-" + eventId,
+        touchend = "touchend.zoom-" + eventId,
         w = d3.select(d3_window).on(touchmove, moved).on(touchend, ended),
-        t = d3.select(target).on(mousedown, null), // prevent duplicate events
+        t = d3.select(target).on(mousedown, null).on(touchstart, started), // prevent duplicate events
         dragRestore = d3_event_dragSuppress();
 
-    touches.forEach(function(t) { locations[t.identifier] = location(t); });
+    d3_selection_interrupt.call(target);
+    started();
+    zoomstarted(event_);
 
-    if (touches.length === 1) {
-      if (now - touchtime < 500) { // dbltap
-        var p = touches[0], l = location(touches[0]);
-        scaleTo(scale * 2);
-        translateTo(p, l);
-        d3_eventPreventDefault();
-        dispatch(event_);
+    // Updates locations of any touches in locations0.
+    function relocate() {
+      var touches = d3.touches(target);
+      scale0 = view.k;
+      touches.forEach(function(t) {
+        if (t.identifier in locations0) locations0[t.identifier] = location(t);
+      });
+      return touches;
+    }
+
+    // Temporarily override touchstart while gesture is active.
+    function started() {
+      // Only track touches started on the target element.
+      var changed = d3.event.changedTouches;
+      for (var i = 0, n = changed.length; i < n; ++i) {
+        locations0[changed[i].identifier] = null;
       }
-      touchtime = now;
-    } else if (touches.length > 1) {
-      var p = touches[0], q = touches[1],
-          dx = p[0] - q[0], dy = p[1] - q[1];
-      distance0 = dx * dx + dy * dy;
+
+      var touches = relocate(),
+          now = Date.now();
+
+      if (touches.length === 1) {
+        if (now - touchtime < 500) { // dbltap
+          var p = touches[0], l = locations0[p.identifier];
+          scaleTo(view.k * 2);
+          translateTo(p, l);
+          d3_eventPreventDefault();
+          zoomed(event_);
+        }
+        touchtime = now;
+      } else if (touches.length > 1) {
+        var p = touches[0], q = touches[1],
+            dx = p[0] - q[0], dy = p[1] - q[1];
+        distance0 = dx * dx + dy * dy;
+      }
     }
 
     function moved() {
       var touches = d3.touches(target),
-          p0 = touches[0],
-          l0 = locations[p0.identifier];
-
-      if (p1 = touches[1]) {
-        var p1, l1 = locations[p1.identifier],
-            scale1 = d3.event.scale;
-        if (scale1 == null) {
-          var distance1 = (distance1 = p1[0] - p0[0]) * distance1 + (distance1 = p1[1] - p0[1]) * distance1;
-          scale1 = distance0 && Math.sqrt(distance1 / distance0);
+          p0, l0,
+          p1, l1;
+      for (var i = 0, n = touches.length; i < n; ++i, l1 = null) {
+        p1 = touches[i];
+        if (l1 = locations0[p1.identifier]) {
+          if (l0) break;
+          p0 = p1, l0 = l1;
         }
+      }
+
+      if (l1) {
+        var distance1 = (distance1 = p1[0] - p0[0]) * distance1 + (distance1 = p1[1] - p0[1]) * distance1,
+            scale1 = distance0 && Math.sqrt(distance1 / distance0);
         p0 = [(p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2];
         l0 = [(l0[0] + l1[0]) / 2, (l0[1] + l1[1]) / 2];
         scaleTo(scale1 * scale0);
@@ -1778,22 +1975,42 @@ d3.behavior.zoom = function() {
 
       touchtime = null;
       translateTo(p0, l0);
-      dispatch(event_);
+      zoomed(event_);
     }
 
     function ended() {
+      // If there are any globally-active touches remaining, remove the ended
+      // touches from locations0.
+      if (d3.event.touches.length) {
+        var changed = d3.event.changedTouches;
+        for (var i = 0, n = changed.length; i < n; ++i) {
+          delete locations0[changed[i].identifier];
+        }
+        // If locations0 is not empty, then relocate and continue listening for
+        // touchmove and touchend.
+        for (var identifier in locations0) {
+          return void relocate(); // locations may have detached due to rotation
+        }
+      }
+      // Otherwise, remove touchmove and touchend listeners.
       w.on(touchmove, null).on(touchend, null);
-      t.on(mousedown, mousedowned);
+      t.on(mousedown, mousedowned).on(touchstart, touchstarted);
       dragRestore();
+      zoomended(event_);
     }
   }
 
   function mousewheeled() {
+    var event_ = event.of(this, arguments);
+    if (mousewheelTimer) clearTimeout(mousewheelTimer);
+    else d3_selection_interrupt.call(this), zoomstarted(event_);
+    mousewheelTimer = setTimeout(function() { mousewheelTimer = null; zoomended(event_); }, 50);
     d3_eventPreventDefault();
-    if (!translate0) translate0 = location(d3.mouse(this));
-    scaleTo(Math.pow(2, d3_behavior_zoomDelta() * .002) * scale);
-    translateTo(d3.mouse(this), translate0);
-    dispatch(event.of(this, arguments));
+    var point = center || d3.mouse(this);
+    if (!translate0) translate0 = location(point);
+    scaleTo(Math.pow(2, d3_behavior_zoomDelta() * .002) * view.k);
+    translateTo(point, translate0);
+    zoomed(event_);
   }
 
   function mousewheelreset() {
@@ -1801,10 +2018,15 @@ d3.behavior.zoom = function() {
   }
 
   function dblclicked() {
-    var p = d3.mouse(this), l = location(p), k = Math.log(scale) / Math.LN2;
+    var event_ = event.of(this, arguments),
+        p = d3.mouse(this),
+        l = location(p),
+        k = Math.log(view.k) / Math.LN2;
+    zoomstarted(event_);
     scaleTo(Math.pow(2, d3.event.shiftKey ? Math.ceil(k) - 1 : Math.floor(k) + 1));
     translateTo(p, l);
-    dispatch(event.of(this, arguments));
+    zoomed(event_);
+    zoomended(event_);
   }
 
   return d3.rebind(zoom, event, "on");
@@ -1837,8 +2059,8 @@ d3.timer = function(callback, delay, then) {
   if (n < 3) then = Date.now();
 
   // Add the callback to the tail of the queue.
-  var time = then + delay, timer = {callback: callback, time: time, next: null};
-  if (d3_timer_queueTail) d3_timer_queueTail.next = timer;
+  var time = then + delay, timer = {c: callback, t: time, f: false, n: null};
+  if (d3_timer_queueTail) d3_timer_queueTail.n = timer;
   else d3_timer_queueHead = timer;
   d3_timer_queueTail = timer;
 
@@ -1870,20 +2092,12 @@ d3.timer.flush = function() {
   d3_timer_sweep();
 };
 
-function d3_timer_replace(callback, delay, then) {
-  var n = arguments.length;
-  if (n < 2) delay = 0;
-  if (n < 3) then = Date.now();
-  d3_timer_active.callback = callback;
-  d3_timer_active.time = then + delay;
-}
-
 function d3_timer_mark() {
   var now = Date.now();
   d3_timer_active = d3_timer_queueHead;
   while (d3_timer_active) {
-    if (now >= d3_timer_active.time) d3_timer_active.flush = d3_timer_active.callback(now - d3_timer_active.time);
-    d3_timer_active = d3_timer_active.next;
+    if (now >= d3_timer_active.t) d3_timer_active.f = d3_timer_active.c(now - d3_timer_active.t);
+    d3_timer_active = d3_timer_active.n;
   }
   return now;
 }
@@ -1895,44 +2109,15 @@ function d3_timer_sweep() {
       t1 = d3_timer_queueHead,
       time = Infinity;
   while (t1) {
-    if (t1.flush) {
-      t1 = t0 ? t0.next = t1.next : d3_timer_queueHead = t1.next;
+    if (t1.f) {
+      t1 = t0 ? t0.n = t1.n : d3_timer_queueHead = t1.n;
     } else {
-      if (t1.time < time) time = t1.time;
-      t1 = (t0 = t1).next;
+      if (t1.t < time) time = t1.t;
+      t1 = (t0 = t1).n;
     }
   }
   d3_timer_queueTail = t0;
   return time;
-}
-var π = Math.PI,
-    ε = 1e-6,
-    ε2 = ε * ε,
-    d3_radians = π / 180,
-    d3_degrees = 180 / π;
-
-function d3_sgn(x) {
-  return x > 0 ? 1 : x < 0 ? -1 : 0;
-}
-
-function d3_acos(x) {
-  return x > 1 ? 0 : x < -1 ? π : Math.acos(x);
-}
-
-function d3_asin(x) {
-  return x > 1 ? π / 2 : x < -1 ? -π / 2 : Math.asin(x);
-}
-
-function d3_sinh(x) {
-  return (Math.exp(x) - Math.exp(-x)) / 2;
-}
-
-function d3_cosh(x) {
-  return (Math.exp(x) + Math.exp(-x)) / 2;
-}
-
-function d3_haversin(x) {
-  return (x = Math.sin(x / 2)) * x;
 }
 d3.geo = {};
 function d3_identity(d) {
@@ -1950,13 +2135,13 @@ function d3_geo_spherical(cartesian) {
 }
 
 function d3_geo_sphericalEqual(a, b) {
-  return Math.abs(a[0] - b[0]) < ε && Math.abs(a[1] - b[1]) < ε;
+  return abs(a[0] - b[0]) < ε && abs(a[1] - b[1]) < ε;
 }
 
 // General spherical polygon clipping algorithm: takes a polygon, cuts it into
 // visible line segments and rejoins the segments by interpolating along the
 // clip edge.
-function d3_geo_clipPolygon(segments, compare, inside, interpolate, listener) {
+function d3_geo_clipPolygon(segments, compare, clipStartInside, interpolate, listener) {
   var subject = [],
       clip = [];
 
@@ -1975,14 +2160,14 @@ function d3_geo_clipPolygon(segments, compare, inside, interpolate, listener) {
       return;
     }
 
-    var a = {point: p0, points: segment, other: null, visited: false, entry: true, subject: true},
-        b = {point: p0, points: [p0], other: a, visited: false, entry: false, subject: false};
-    a.other = b;
+    var a = new d3_geo_clipPolygonIntersection(p0, segment, null, true),
+        b = new d3_geo_clipPolygonIntersection(p0, null, a, false);
+    a.o = b;
     subject.push(a);
     clip.push(b);
-    a = {point: p1, points: [p1], other: null, visited: false, entry: false, subject: true};
-    b = {point: p1, points: [p1], other: a, visited: false, entry: true, subject: false};
-    a.other = b;
+    a = new d3_geo_clipPolygonIntersection(p1, segment, null, false);
+    b = new d3_geo_clipPolygonIntersection(p1, null, a, true);
+    a.o = b;
     subject.push(a);
     clip.push(b);
   });
@@ -1991,41 +2176,42 @@ function d3_geo_clipPolygon(segments, compare, inside, interpolate, listener) {
   d3_geo_clipPolygonLinkCircular(clip);
   if (!subject.length) return;
 
-  if (inside) for (var i = 1, e = !inside(clip[0].point), n = clip.length; i < n; ++i) {
-    clip[i].entry = (e = !e);
+  for (var i = 0, entry = clipStartInside, n = clip.length; i < n; ++i) {
+    clip[i].e = entry = !entry;
   }
 
   var start = subject[0],
-      current,
       points,
       point;
   while (1) {
     // Find first unvisited intersection.
-    current = start;
-    while (current.visited) if ((current = current.next) === start) return;
-    points = current.points;
+    var current = start,
+        isSubject = true;
+    while (current.v) if ((current = current.n) === start) return;
+    points = current.z;
     listener.lineStart();
     do {
-      current.visited = current.other.visited = true;
-      if (current.entry) {
-        if (current.subject) {
-          for (var i = 0; i < points.length; i++) listener.point((point = points[i])[0], point[1]);
+      current.v = current.o.v = true;
+      if (current.e) {
+        if (isSubject) {
+          for (var i = 0, n = points.length; i < n; ++i) listener.point((point = points[i])[0], point[1]);
         } else {
-          interpolate(current.point, current.next.point, 1, listener);
+          interpolate(current.x, current.n.x, 1, listener);
         }
-        current = current.next;
+        current = current.n;
       } else {
-        if (current.subject) {
-          points = current.prev.points;
-          for (var i = points.length; --i >= 0;) listener.point((point = points[i])[0], point[1]);
+        if (isSubject) {
+          points = current.p.z;
+          for (var i = points.length - 1; i >= 0; --i) listener.point((point = points[i])[0], point[1]);
         } else {
-          interpolate(current.point, current.prev.point, -1, listener);
+          interpolate(current.x, current.p.x, -1, listener);
         }
-        current = current.prev;
+        current = current.p;
       }
-      current = current.other;
-      points = current.points;
-    } while (!current.visited);
+      current = current.o;
+      points = current.z;
+      isSubject = !isSubject;
+    } while (!current.v);
     listener.lineEnd();
   }
 }
@@ -2037,17 +2223,27 @@ function d3_geo_clipPolygonLinkCircular(array) {
       a = array[0],
       b;
   while (++i < n) {
-    a.next = b = array[i];
-    b.prev = a;
+    a.n = b = array[i];
+    b.p = a;
     a = b;
   }
-  a.next = b = array[0];
-  b.prev = a;
+  a.n = b = array[0];
+  b.p = a;
 }
 
-function d3_geo_clip(pointVisible, clipLine, interpolate, polygonContains) {
-  return function(listener) {
-    var line = clipLine(listener);
+function d3_geo_clipPolygonIntersection(point, points, other, entry) {
+  this.x = point;
+  this.z = points;
+  this.o = other; // another intersection
+  this.e = entry; // is an entry?
+  this.v = false; // visited
+  this.n = this.p = null; // next & previous
+}
+
+function d3_geo_clip(pointVisible, clipLine, interpolate, clipStart) {
+  return function(rotate, listener) {
+    var line = clipLine(listener),
+        rotatedClipStart = rotate.invert(clipStart[0], clipStart[1]);
 
     var clip = {
       point: point,
@@ -2067,9 +2263,10 @@ function d3_geo_clip(pointVisible, clipLine, interpolate, polygonContains) {
         clip.lineEnd = lineEnd;
 
         segments = d3.merge(segments);
+        var clipStartInside = d3_geo_pointInPolygon(rotatedClipStart, polygon);
         if (segments.length) {
-          d3_geo_clipPolygon(segments, d3_geo_clipSort, null, interpolate, listener);
-        } else if (polygonContains(polygon)) {
+          d3_geo_clipPolygon(segments, d3_geo_clipSort, clipStartInside, interpolate, listener);
+        } else if (clipStartInside) {
           listener.lineStart();
           interpolate(null, null, 1, listener);
           listener.lineEnd();
@@ -2086,8 +2283,14 @@ function d3_geo_clip(pointVisible, clipLine, interpolate, polygonContains) {
       }
     };
 
-    function point(λ, φ) { if (pointVisible(λ, φ)) listener.point(λ, φ); }
-    function pointLine(λ, φ) { line.point(λ, φ); }
+    function point(λ, φ) {
+      var point = rotate(λ, φ);
+      if (pointVisible(λ = point[0], φ = point[1])) listener.point(λ, φ);
+    }
+    function pointLine(λ, φ) {
+      var point = rotate(λ, φ);
+      line.point(point[0], point[1]);
+    }
     function lineStart() { clip.point = pointLine; line.lineStart(); }
     function lineEnd() { clip.point = point; line.lineEnd(); }
 
@@ -2099,8 +2302,9 @@ function d3_geo_clip(pointVisible, clipLine, interpolate, polygonContains) {
         ring;
 
     function pointRing(λ, φ) {
-      ringListener.point(λ, φ);
       ring.push([λ, φ]);
+      var point = rotate(λ, φ);
+      ringListener.point(point[0], point[1]);
     }
 
     function ringStart() {
@@ -2172,8 +2376,8 @@ function d3_geo_clipBufferListener() {
 // Intersection points are sorted along the clip edge. For both antimeridian
 // cutting and circle clipping, the same comparison is used.
 function d3_geo_clipSort(a, b) {
-  return ((a = a.point)[0] < 0 ? a[1] - π / 2 - ε : π / 2 - a[1])
-       - ((b = b.point)[0] < 0 ? b[1] - π / 2 - ε : π / 2 - b[1]);
+  return ((a = a.x)[0] < 0 ? a[1] - halfπ - ε : halfπ - a[1])
+       - ((b = b.x)[0] < 0 ? b[1] - halfπ - ε : halfπ - b[1]);
 }
 // Adds floating point numbers with twice the normal precision.
 // Reference: J. R. Shewchuk, Adaptive Precision Floating-Point Arithmetic and
@@ -2239,12 +2443,12 @@ var d3_geo_streamGeometryType = {
     listener.sphere();
   },
   Point: function(object, listener) {
-    var coordinate = object.coordinates;
-    listener.point(coordinate[0], coordinate[1]);
+    object = object.coordinates;
+    listener.point(object[0], object[1], object[2]);
   },
   MultiPoint: function(object, listener) {
-    var coordinates = object.coordinates, i = -1, n = coordinates.length, coordinate;
-    while (++i < n) coordinate = coordinates[i], listener.point(coordinate[0], coordinate[1]);
+    var coordinates = object.coordinates, i = -1, n = coordinates.length;
+    while (++i < n) object = coordinates[i], listener.point(object[0], object[1], object[2]);
   },
   LineString: function(object, listener) {
     d3_geo_streamLine(object.coordinates, listener, 0);
@@ -2269,7 +2473,7 @@ var d3_geo_streamGeometryType = {
 function d3_geo_streamLine(coordinates, listener, closed) {
   var i = -1, n = coordinates.length - closed, coordinate;
   listener.lineStart();
-  while (++i < n) coordinate = coordinates[i], listener.point(coordinate[0], coordinate[1]);
+  while (++i < n) coordinate = coordinates[i], listener.point(coordinate[0], coordinate[1], coordinate[2]);
   listener.lineEnd();
 }
 
@@ -2394,8 +2598,6 @@ function d3_geo_pointInPolygon(point, polygon) {
       parallel = point[1],
       meridianNormal = [Math.sin(meridian), -Math.cos(meridian), 0],
       polarAngle = 0,
-      polar = false,
-      southPole = false,
       winding = 0;
   d3_geo_areaRingSum.reset();
 
@@ -2418,12 +2620,11 @@ function d3_geo_pointInPolygon(point, polygon) {
           sinφ = Math.sin(φ),
           cosφ = Math.cos(φ),
           dλ = λ - λ0,
-          antimeridian = Math.abs(dλ) > π,
+          antimeridian = abs(dλ) > π,
           k = sinφ0 * sinφ;
       d3_geo_areaRingSum.add(Math.atan2(k * Math.sin(dλ), cosφ0 * cosφ + k * Math.cos(dλ)));
 
-      if (Math.abs(φ) < ε) southPole = true;
-      polarAngle += antimeridian ? dλ + (dλ >= 0 ? 2 : -2) * π : dλ;
+      polarAngle += antimeridian ? dλ + (dλ >= 0 ? τ : -τ): dλ;
 
       // Are the longitudes either side of the point's meridian, and are the
       // latitudes smaller than the parallel?
@@ -2433,34 +2634,34 @@ function d3_geo_pointInPolygon(point, polygon) {
         var intersection = d3_geo_cartesianCross(meridianNormal, arc);
         d3_geo_cartesianNormalize(intersection);
         var φarc = (antimeridian ^ dλ >= 0 ? -1 : 1) * d3_asin(intersection[2]);
-        if (parallel > φarc) {
+        if (parallel > φarc || parallel === φarc && (arc[0] || arc[1])) {
           winding += antimeridian ^ dλ >= 0 ? 1 : -1;
         }
       }
       if (!j++) break;
       λ0 = λ, sinφ0 = sinφ, cosφ0 = cosφ, point0 = point;
     }
-    if (Math.abs(polarAngle) > ε) polar = true;
   }
 
   // First, determine whether the South pole is inside or outside:
   //
   // It is inside if:
-  // * the polygon doesn't wind around it, and its area is negative (counter-clockwise).
-  // * otherwise, if the polygon winds around it in a clockwise direction.
+  // * the polygon winds around it in a clockwise direction.
+  // * the polygon does not (cumulatively) wind around it, but has a negative
+  //   (counter-clockwise) area.
   //
   // Second, count the (signed) number of times a segment crosses a meridian
   // from the point to the South pole.  If it is zero, then the point is the
   // same side as the South pole.
 
-  return (!southPole && !polar && d3_geo_areaRingSum < 0 || polarAngle < -ε) ^ (winding & 1);
+  return (polarAngle < -ε || polarAngle < ε && d3_geo_areaRingSum < 0) ^ (winding & 1);
 }
 
 var d3_geo_clipAntimeridian = d3_geo_clip(
     d3_true,
     d3_geo_clipAntimeridianLine,
     d3_geo_clipAntimeridianInterpolate,
-    d3_geo_clipAntimeridianPolygonContains);
+    [-π, -π / 2]);
 
 // Takes a line and cuts into visible segments. Return values:
 //   0: there were intersections or the line was empty.
@@ -2480,9 +2681,9 @@ function d3_geo_clipAntimeridianLine(listener) {
     },
     point: function(λ1, φ1) {
       var sλ1 = λ1 > 0 ? π : -π,
-          dλ = Math.abs(λ1 - λ0);
-      if (Math.abs(dλ - π) < ε) { // line crosses a pole
-        listener.point(λ0, φ0 = (φ0 + φ1) / 2 > 0 ? π / 2 : -π / 2);
+          dλ = abs(λ1 - λ0);
+      if (abs(dλ - π) < ε) { // line crosses a pole
+        listener.point(λ0, φ0 = (φ0 + φ1) / 2 > 0 ? halfπ : -halfπ);
         listener.point(sλ0, φ0);
         listener.lineEnd();
         listener.lineStart();
@@ -2491,8 +2692,8 @@ function d3_geo_clipAntimeridianLine(listener) {
         clean = 0;
       } else if (sλ0 !== sλ1 && dλ >= π) { // line crosses antimeridian
         // handle degeneracies
-        if (Math.abs(λ0 - sλ0) < ε) λ0 -= sλ0 * ε;
-        if (Math.abs(λ1 - sλ1) < ε) λ1 -= sλ1 * ε;
+        if (abs(λ0 - sλ0) < ε) λ0 -= sλ0 * ε;
+        if (abs(λ1 - sλ1) < ε) λ1 -= sλ1 * ε;
         φ0 = d3_geo_clipAntimeridianIntersect(λ0, φ0, λ1, φ1);
         listener.point(sλ0, φ0);
         listener.lineEnd();
@@ -2516,7 +2717,7 @@ function d3_geo_clipAntimeridianIntersect(λ0, φ0, λ1, φ1) {
   var cosφ0,
       cosφ1,
       sinλ0_λ1 = Math.sin(λ0 - λ1);
-  return Math.abs(sinλ0_λ1) > ε
+  return abs(sinλ0_λ1) > ε
       ? Math.atan((Math.sin(φ0) * (cosφ1 = Math.cos(φ1)) * Math.sin(λ1)
                  - Math.sin(φ1) * (cosφ0 = Math.cos(φ0)) * Math.sin(λ0))
                  / (cosφ0 * cosφ1 * sinλ0_λ1))
@@ -2526,7 +2727,7 @@ function d3_geo_clipAntimeridianIntersect(λ0, φ0, λ1, φ1) {
 function d3_geo_clipAntimeridianInterpolate(from, to, direction, listener) {
   var φ;
   if (from == null) {
-    φ = direction * π / 2;
+    φ = direction * halfπ;
     listener.point(-π,  φ);
     listener.point( 0,  φ);
     listener.point( π,  φ);
@@ -2536,8 +2737,8 @@ function d3_geo_clipAntimeridianInterpolate(from, to, direction, listener) {
     listener.point(-π, -φ);
     listener.point(-π,  0);
     listener.point(-π,  φ);
-  } else if (Math.abs(from[0] - to[0]) > ε) {
-    var s = (from[0] < to[0] ? 1 : -1) * π;
+  } else if (abs(from[0] - to[0]) > ε) {
+    var s = from[0] < to[0] ? π : -π;
     φ = direction * s / 2;
     listener.point(-s, φ);
     listener.point( 0, φ);
@@ -2545,12 +2746,6 @@ function d3_geo_clipAntimeridianInterpolate(from, to, direction, listener) {
   } else {
     listener.point(to[0], to[1]);
   }
-}
-
-var d3_geo_clipAntimeridianPoint = [-π, 0];
-
-function d3_geo_clipAntimeridianPolygonContains(polygon) {
-  return d3_geo_pointInPolygon(d3_geo_clipAntimeridianPoint, polygon);
 }
 
 function d3_geo_equirectangular(λ, φ) {
@@ -2577,17 +2772,23 @@ d3.geo.rotation = function(rotate) {
   return forward;
 };
 
+function d3_geo_identityRotation(λ, φ) {
+  return [λ > π ? λ - τ : λ < -π ? λ + τ : λ, φ];
+}
+
+d3_geo_identityRotation.invert = d3_geo_equirectangular;
+
 // Note: |δλ| must be < 2π
 function d3_geo_rotation(δλ, δφ, δγ) {
   return δλ ? (δφ || δγ ? d3_geo_compose(d3_geo_rotationλ(δλ), d3_geo_rotationφγ(δφ, δγ))
     : d3_geo_rotationλ(δλ))
     : (δφ || δγ ? d3_geo_rotationφγ(δφ, δγ)
-    : d3_geo_equirectangular);
+    : d3_geo_identityRotation);
 }
 
 function d3_geo_forwardRotationλ(δλ) {
   return function(λ, φ) {
-    return λ += δλ, [λ > π ? λ - 2 * π : λ < -π ? λ + 2 * π : λ, φ];
+    return λ += δλ, [λ > π ? λ - τ : λ < -π ? λ + τ : λ, φ];
   };
 }
 
@@ -2678,16 +2879,16 @@ function d3_geo_circleInterpolate(radius, precision) {
   var cr = Math.cos(radius),
       sr = Math.sin(radius);
   return function(from, to, direction, listener) {
+    var step = direction * precision;
     if (from != null) {
       from = d3_geo_circleAngle(cr, from);
       to = d3_geo_circleAngle(cr, to);
-      if (direction > 0 ? from < to: from > to) from += direction * 2 * π;
+      if (direction > 0 ? from < to: from > to) from += direction * τ;
     } else {
-      from = radius + direction * 2 * π;
-      to = radius;
+      from = radius + direction * τ;
+      to = radius - .5 * step;
     }
-    var point;
-    for (var step = direction * precision, t = from; direction > 0 ? t > to : t < to; t -= step) {
+    for (var point, t = from; direction > 0 ? t > to : t < to; t -= step) {
       listener.point((point = d3_geo_spherical([
         cr,
         -sr * Math.cos(t),
@@ -2710,11 +2911,10 @@ function d3_geo_circleAngle(cr, point) {
 function d3_geo_clipCircle(radius) {
   var cr = Math.cos(radius),
       smallRadius = cr > 0,
-      point = [radius, 0],
-      notHemisphere = Math.abs(cr) > ε, // TODO optimise for this common case
+      notHemisphere = abs(cr) > ε, // TODO optimise for this common case
       interpolate = d3_geo_circleInterpolate(radius, 6 * d3_radians);
 
-  return d3_geo_clip(visible, clipLine, interpolate, polygonContains);
+  return d3_geo_clip(visible, clipLine, interpolate, smallRadius ? [0, -radius] : [-π, radius - π]);
 
   function visible(λ, φ) {
     return Math.cos(λ) * Math.cos(φ) > cr;
@@ -2848,7 +3048,7 @@ function d3_geo_clipCircle(radius) {
         z;
     if (λ1 < λ0) z = λ0, λ0 = λ1, λ1 = z;
     var δλ = λ1 - λ0,
-        polar = Math.abs(δλ - π) < ε,
+        polar = abs(δλ - π) < ε,
         meridian = polar || δλ < ε;
 
     if (!polar && φ1 < φ0) z = φ0, φ0 = φ1, φ1 = z;
@@ -2856,7 +3056,7 @@ function d3_geo_clipCircle(radius) {
     // Check that the first point is between a and b.
     if (meridian
         ? polar
-          ? φ0 + φ1 > 0 ^ q[1] < (Math.abs(q[0] - λ0) < ε ? φ0 : φ1)
+          ? φ0 + φ1 > 0 ^ q[1] < (abs(q[0] - λ0) < ε ? φ0 : φ1)
           : φ0 <= q[1] && q[1] <= φ1
         : δλ > π ^ (λ0 <= q[0] && q[0] <= λ1)) {
       var q1 = d3_geo_cartesianScale(u, (-w + t) / uu);
@@ -2876,18 +3076,101 @@ function d3_geo_clipCircle(radius) {
     else if (φ > r) code |= 8; // above
     return code;
   }
-
-  function polygonContains(polygon) {
-    return d3_geo_pointInPolygon(point, polygon);
-  }
 }
 
-var d3_geo_clipViewMAX = 1e9;
+// Liang–Barsky line clipping.
+function d3_geom_clipLine(x0, y0, x1, y1) {
+  return function(line) {
+    var a = line.a,
+        b = line.b,
+        ax = a.x,
+        ay = a.y,
+        bx = b.x,
+        by = b.y,
+        t0 = 0,
+        t1 = 1,
+        dx = bx - ax,
+        dy = by - ay,
+        r;
 
-function d3_geo_clipView(x0, y0, x1, y1) {
+    r = x0 - ax;
+    if (!dx && r > 0) return;
+    r /= dx;
+    if (dx < 0) {
+      if (r < t0) return;
+      if (r < t1) t1 = r;
+    } else if (dx > 0) {
+      if (r > t1) return;
+      if (r > t0) t0 = r;
+    }
+
+    r = x1 - ax;
+    if (!dx && r < 0) return;
+    r /= dx;
+    if (dx < 0) {
+      if (r > t1) return;
+      if (r > t0) t0 = r;
+    } else if (dx > 0) {
+      if (r < t0) return;
+      if (r < t1) t1 = r;
+    }
+
+    r = y0 - ay;
+    if (!dy && r > 0) return;
+    r /= dy;
+    if (dy < 0) {
+      if (r < t0) return;
+      if (r < t1) t1 = r;
+    } else if (dy > 0) {
+      if (r > t1) return;
+      if (r > t0) t0 = r;
+    }
+
+    r = y1 - ay;
+    if (!dy && r < 0) return;
+    r /= dy;
+    if (dy < 0) {
+      if (r > t1) return;
+      if (r > t0) t0 = r;
+    } else if (dy > 0) {
+      if (r < t0) return;
+      if (r < t1) t1 = r;
+    }
+
+    if (t0 > 0) line.a = {x: ax + t0 * dx, y: ay + t0 * dy};
+    if (t1 < 1) line.b = {x: ax + t1 * dx, y: ay + t1 * dy};
+    return line;
+  };
+}
+
+var d3_geo_clipExtentMAX = 1e9;
+
+d3.geo.clipExtent = function() {
+  var x0, y0, x1, y1,
+      stream,
+      clip,
+      clipExtent = {
+        stream: function(output) {
+          if (stream) stream.valid = false;
+          stream = clip(output);
+          stream.valid = true; // allow caching by d3.geo.path
+          return stream;
+        },
+        extent: function(_) {
+          if (!arguments.length) return [[x0, y0], [x1, y1]];
+          clip = d3_geo_clipExtent(x0 = +_[0][0], y0 = +_[0][1], x1 = +_[1][0], y1 = +_[1][1]);
+          if (stream) stream.valid = false, stream = null;
+          return clipExtent;
+        }
+      };
+  return clipExtent.extent([[0, 0], [960, 500]]);
+};
+
+function d3_geo_clipExtent(x0, y0, x1, y1) {
   return function(listener) {
     var listener_ = listener,
         bufferListener = d3_geo_clipBufferListener(),
+        clipLine = d3_geom_clipLine(x0, y0, x1, y1),
         segments,
         polygon,
         ring;
@@ -2900,27 +3183,29 @@ function d3_geo_clipView(x0, y0, x1, y1) {
         listener = bufferListener;
         segments = [];
         polygon = [];
+        clean = true;
       },
       polygonEnd: function() {
         listener = listener_;
-        if ((segments = d3.merge(segments)).length) {
+        segments = d3.merge(segments);
+        var clipStartInside = insidePolygon([x0, y1]),
+            inside = clean && clipStartInside,
+            visible = segments.length;
+        if (inside || visible) {
           listener.polygonStart();
-          d3_geo_clipPolygon(segments, compare, inside, interpolate, listener);
+          if (inside) {
+            listener.lineStart();
+            interpolate(null, null, 1, listener);
+            listener.lineEnd();
+          }
+          if (visible) {
+            d3_geo_clipPolygon(segments, compare, clipStartInside, interpolate, listener);
+          }
           listener.polygonEnd();
-        } else if (insidePolygon([x0, y0])) {
-          listener.polygonStart(), listener.lineStart();
-          interpolate(null, null, 1, listener);
-          listener.lineEnd(), listener.polygonEnd();
         }
         segments = polygon = ring = null;
       }
     };
-
-    function inside(point) {
-      var a = corner(point, -1),
-          i = insidePolygon([a === 0 || a === 3 ? x0 : x1, a > 1 ? y1 : y0]);
-      return i;
-    }
 
     function insidePolygon(p) {
       var wn = 0, // the winding number counter
@@ -2958,17 +3243,18 @@ function d3_geo_clipView(x0, y0, x1, y1) {
       }
     }
 
-    function visible(x, y) {
+    function pointVisible(x, y) {
       return x0 <= x && x <= x1 && y0 <= y && y <= y1;
     }
 
     function point(x, y) {
-      if (visible(x, y)) listener.point(x, y);
+      if (pointVisible(x, y)) listener.point(x, y);
     }
 
     var x__, y__, v__, // first point
         x_, y_, v_, // previous point
-        first;
+        first,
+        clean;
 
     function lineStart() {
       clip.point = linePoint;
@@ -2992,9 +3278,9 @@ function d3_geo_clipView(x0, y0, x1, y1) {
     }
 
     function linePoint(x, y) {
-      x = Math.max(-d3_geo_clipViewMAX, Math.min(d3_geo_clipViewMAX, x));
-      y = Math.max(-d3_geo_clipViewMAX, Math.min(d3_geo_clipViewMAX, y));
-      var v = visible(x, y);
+      x = Math.max(-d3_geo_clipExtentMAX, Math.min(d3_geo_clipExtentMAX, x));
+      y = Math.max(-d3_geo_clipExtentMAX, Math.min(d3_geo_clipExtentMAX, y));
+      var v = pointVisible(x, y);
       if (polygon) ring.push([x, y]);
       if (first) {
         x__ = x, y__ = y, v__ = v;
@@ -3006,18 +3292,19 @@ function d3_geo_clipView(x0, y0, x1, y1) {
       } else {
         if (v && v_) listener.point(x, y);
         else {
-          var a = [x_, y_],
-              b = [x, y];
-          if (clipLine(a, b)) {
+          var l = {a: {x: x_, y: y_}, b: {x: x, y: y}};
+          if (clipLine(l)) {
             if (!v_) {
               listener.lineStart();
-              listener.point(a[0], a[1]);
+              listener.point(l.a.x, l.a.y);
             }
-            listener.point(b[0], b[1]);
+            listener.point(l.b.x, l.b.y);
             if (!v) listener.lineEnd();
+            clean = false;
           } else if (v) {
             listener.lineStart();
             listener.point(x, y);
+            clean = false;
           }
         }
       }
@@ -3028,14 +3315,14 @@ function d3_geo_clipView(x0, y0, x1, y1) {
   };
 
   function corner(p, direction) {
-    return Math.abs(p[0] - x0) < ε ? direction > 0 ? 0 : 3
-        : Math.abs(p[0] - x1) < ε ? direction > 0 ? 2 : 1
-        : Math.abs(p[1] - y0) < ε ? direction > 0 ? 1 : 0
-        : direction > 0 ? 3 : 2; // Math.abs(p[1] - y1) < ε
+    return abs(p[0] - x0) < ε ? direction > 0 ? 0 : 3
+        : abs(p[0] - x1) < ε ? direction > 0 ? 2 : 1
+        : abs(p[1] - y0) < ε ? direction > 0 ? 1 : 0
+        : direction > 0 ? 3 : 2; // abs(p[1] - y1) < ε
   }
 
   function compare(a, b) {
-    return comparePoints(a.point, b.point);
+    return comparePoints(a.x, b.x);
   }
 
   function comparePoints(a, b) {
@@ -3047,47 +3334,6 @@ function d3_geo_clipView(x0, y0, x1, y1) {
         : ca === 2 ? a[1] - b[1]
         : b[0] - a[0];
   }
-
-  // Liang–Barsky line clipping.
-  function clipLine(a, b) {
-    var dx = b[0] - a[0],
-        dy = b[1] - a[1],
-        t = [0, 1];
-
-    if (Math.abs(dx) < ε && Math.abs(dy) < ε) return x0 <= a[0] && a[0] <= x1 && y0 <= a[1] && a[1] <= y1;
-
-    if (d3_geo_clipViewT(x0 - a[0],  dx, t) &&
-        d3_geo_clipViewT(a[0] - x1, -dx, t) &&
-        d3_geo_clipViewT(y0 - a[1],  dy, t) &&
-        d3_geo_clipViewT(a[1] - y1, -dy, t)) {
-      if (t[1] < 1) {
-        b[0] = a[0] + t[1] * dx;
-        b[1] = a[1] + t[1] * dy;
-      }
-      if (t[0] > 0) {
-        a[0] += t[0] * dx;
-        a[1] += t[0] * dy;
-      }
-      return true;
-    }
-
-    return false;
-  }
-}
-
-function d3_geo_clipViewT(num, denominator, t) {
-  if (Math.abs(denominator) < ε) return num <= 0;
-
-  var u = num / denominator;
-
-  if (denominator > 0) {
-    if (u > t[1]) return false;
-    if (u > t[0]) t[0] = u;
-  } else {
-    if (u < t[0]) return false;
-    if (u < t[1]) t[1] = u;
-  }
-  return true;
 }
 function d3_geo_compose(a, b) {
 
@@ -3330,7 +3576,7 @@ d3.geo.bounds = (function() {
       var dλ = λ - λ_,
           s = dλ > 0 ? 1 : -1,
           λi = inflection[0] * d3_degrees * s,
-          antimeridian = Math.abs(dλ) > 180;
+          antimeridian = abs(dλ) > 180;
       if (antimeridian ^ (s * λ_ < λi && λi < s * λ)) {
         var φi = inflection[1] * d3_degrees;
         if (φi > φ1) φ1 = φi;
@@ -3375,7 +3621,7 @@ d3.geo.bounds = (function() {
   function ringPoint(λ, φ) {
     if (p0) {
       var dλ = λ - λ_;
-      dλSum += Math.abs(dλ) > 180 ? dλ + (dλ > 0 ? 360 : -360) : dλ;
+      dλSum += abs(dλ) > 180 ? dλ + (dλ > 0 ? 360 : -360) : dλ;
     } else λ__ = λ, φ__ = φ;
     d3_geo_area.point(λ, φ);
     linePoint(λ, φ);
@@ -3388,7 +3634,7 @@ d3.geo.bounds = (function() {
   function ringEnd() {
     ringPoint(λ__, φ__);
     d3_geo_area.lineEnd();
-    if (Math.abs(dλSum) > ε) λ0 = -(λ1 = 180);
+    if (abs(dλSum) > ε) λ0 = -(λ1 = 180);
     range[0] = λ0, range[1] = λ1;
     p0 = null;
   }
@@ -3601,7 +3847,7 @@ var d3_geo_pathAreaSum, d3_geo_pathAreaPolygon, d3_geo_pathArea = {
   },
   polygonEnd: function() {
     d3_geo_pathArea.lineStart = d3_geo_pathArea.lineEnd = d3_geo_pathArea.point = d3_noop;
-    d3_geo_pathAreaSum += Math.abs(d3_geo_pathAreaPolygon / 2);
+    d3_geo_pathAreaSum += abs(d3_geo_pathAreaPolygon / 2);
   }
 };
 
@@ -3806,7 +4052,7 @@ function d3_geo_pathContext(context) {
 
   function point(x, y) {
     context.moveTo(x, y);
-    context.arc(x, y, pointRadius, 0, 2 * π);
+    context.arc(x, y, pointRadius, 0, τ);
   }
 
   function pointLineStart(x, y) {
@@ -3898,7 +4144,7 @@ function d3_geo_resample(project) {
           c = c0 + c1,
           m = Math.sqrt(a * a + b * b + c * c),
           φ2 = Math.asin(c /= m),
-          λ2 = Math.abs(Math.abs(c) - 1) < ε ? (λ0 + λ1) / 2 : Math.atan2(b, a),
+          λ2 = abs(abs(c) - 1) < ε ? (λ0 + λ1) / 2 : Math.atan2(b, a),
           p = project(λ2, φ2),
           x2 = p[0],
           y2 = p[1],
@@ -3906,7 +4152,7 @@ function d3_geo_resample(project) {
           dy2 = y2 - y0,
           dz = dy * dx2 - dx * dy2;
       if (dz * dz / d2 > δ2 // perpendicular projected distance
-          || Math.abs((dx * dx2 + dy * dy2) / d2 - .5) > .3 // midpoint close to an end
+          || abs((dx * dx2 + dy * dy2) / d2 - .5) > .3 // midpoint close to an end
           || a0 * a1 + b0 * b1 + c0 * c1 < cosMinDistance) { // angular distance
         resampleLineTo(x0, y0, λ0, a0, b0, c0, x2, y2, λ2, a /= m, b /= m, c, depth, stream);
         stream.point(x2, y2);
@@ -3923,6 +4169,29 @@ function d3_geo_resample(project) {
 
   return resample;
 }
+
+d3.geo.transform = function(methods) {
+  return {
+    stream: function(stream) {
+      var transform = new d3_geo_transform(stream);
+      for (var k in methods) transform[k] = methods[k];
+      return transform;
+    }
+  };
+};
+
+function d3_geo_transform(stream) {
+  this.stream = stream;
+}
+
+d3_geo_transform.prototype = {
+  point: function(x, y) { this.stream.point(x, y); },
+  sphere: function() { this.stream.sphere(); },
+  lineStart: function() { this.stream.lineStart(); },
+  lineEnd: function() { this.stream.lineEnd(); },
+  polygonStart: function() { this.stream.polygonStart(); },
+  polygonEnd: function() { this.stream.polygonEnd(); }
+};
 
 d3.geo.path = function() {
   var pointRadius = 4.5,
@@ -3992,17 +4261,11 @@ d3.geo.path = function() {
 };
 
 function d3_geo_pathProjectStream(project) {
-  var resample = d3_geo_resample(function(λ, φ) { return project([λ * d3_degrees, φ * d3_degrees]); });
+  var resample = d3_geo_resample(function(x, y) { return project([x * d3_degrees, y * d3_degrees]); });
   return function(stream) {
-    stream = resample(stream);
-    return {
-      point: function(λ, φ) { stream.point(λ * d3_radians, φ * d3_radians); },
-      sphere: function() { stream.sphere(); },
-      lineStart: function() { stream.lineStart(); },
-      lineEnd: function() { stream.lineEnd(); },
-      polygonStart: function() { stream.polygonStart(); },
-      polygonEnd: function() { stream.polygonEnd(); }
-    };
+    var transform = new d3_geo_transform(stream = resample(stream));
+    transform.point = function(x, y) { stream.point(x * d3_radians, y * d3_radians); };
+    return transform;
   };
 }
 
@@ -4041,7 +4304,7 @@ function d3_geo_projectionMutator(projectAt) {
 
   projection.stream = function(output) {
     if (stream) stream.valid = false;
-    stream = d3_geo_projectionRadiansRotate(rotate, preclip(projectResample(postclip(output))));
+    stream = d3_geo_projectionRadians(preclip(rotate, projectResample(postclip(output))));
     stream.valid = true; // allow caching by d3.geo.path
     return stream;
   };
@@ -4055,7 +4318,7 @@ function d3_geo_projectionMutator(projectAt) {
   projection.clipExtent = function(_) {
     if (!arguments.length) return clipExtent;
     clipExtent = _;
-    postclip = _ == null ? d3_identity : d3_geo_clipView(_[0][0], _[0][1], _[1][0], _[1][1]);
+    postclip = _ ? d3_geo_clipExtent(_[0][0], _[0][1], _[1][0], _[1][1]) : d3_identity;
     return invalidate();
   };
 
@@ -4098,10 +4361,7 @@ function d3_geo_projectionMutator(projectAt) {
   }
 
   function invalidate() {
-    if (stream) {
-      stream.valid = false;
-      stream = null;
-    }
+    if (stream) stream.valid = false, stream = null;
     return projection;
   }
 
@@ -4112,18 +4372,12 @@ function d3_geo_projectionMutator(projectAt) {
   };
 }
 
-function d3_geo_projectionRadiansRotate(rotate, stream) {
-  return {
-    point: function(x, y) {
-      y = rotate(x * d3_radians, y * d3_radians), x = y[0];
-      stream.point(x > π ? x - 2 * π : x < -π ? x + 2 * π : x, y[1]);
-    },
-    sphere: function() { stream.sphere(); },
-    lineStart: function() { stream.lineStart(); },
-    lineEnd: function() { stream.lineEnd(); },
-    polygonStart: function() { stream.polygonStart(); },
-    polygonEnd: function() { stream.polygonEnd(); }
+function d3_geo_projectionRadians(stream) {
+  var transform = new d3_geo_transform(stream);
+  transform.point = function(λ, φ) {
+    stream.point(λ * d3_radians, φ * d3_radians);
   };
+  return transform;
 }
 
 function d3_geo_mercator(λ, φ) {
@@ -4131,7 +4385,7 @@ function d3_geo_mercator(λ, φ) {
 }
 
 d3_geo_mercator.invert = function(x, y) {
-  return [x, 2 * Math.atan(Math.exp(y)) - π / 2];
+  return [x, 2 * Math.atan(Math.exp(y)) - halfπ];
 };
 
 function d3_geo_mercatorProjection(project) {
@@ -4303,7 +4557,7 @@ d3.ease = function(name) {
       m = i >= 0 ? name.substring(i + 1) : "in";
   t = d3_ease.get(t) || d3_ease_default;
   m = d3_ease_mode.get(m) || d3_identity;
-  return d3_ease_clamp(m(t.apply(null, Array.prototype.slice.call(arguments, 1))));
+  return d3_ease_clamp(m(t.apply(null, d3_arraySlice.call(arguments, 1))));
 };
 
 function d3_ease_clamp(f) {
@@ -4347,7 +4601,7 @@ function d3_ease_poly(e) {
 }
 
 function d3_ease_sin(t) {
-  return 1 - Math.cos(t * π / 2);
+  return 1 - Math.cos(t * halfπ);
 }
 
 function d3_ease_exp(t) {
@@ -4361,10 +4615,10 @@ function d3_ease_circle(t) {
 function d3_ease_elastic(a, p) {
   var s;
   if (arguments.length < 2) p = 0.45;
-  if (arguments.length) s = p / (2 * π) * Math.asin(1 / a);
+  if (arguments.length) s = p / τ * Math.asin(1 / a);
   else a = 1, s = p / 4;
   return function(t) {
-    return 1 + a * Math.pow(2, 10 * -t) * Math.sin((t - s) * 2 * π / p);
+    return 1 + a * Math.pow(2, -10 * t) * Math.sin((t - s) * τ / p);
   };
 }
 
@@ -5379,7 +5633,7 @@ function d3_transition_text(b) {
 d3_transitionPrototype.remove = function() {
   return this.each("end.transition", function() {
     var p;
-    if (!this.__transition__ && (p = this.parentNode)) p.removeChild(this);
+    if (this.__transition__.count < 2 && (p = this.parentNode)) p.removeChild(this);
   });
 };
 
@@ -5393,15 +5647,15 @@ d3_transitionPrototype.ease = function(value) {
 d3_transitionPrototype.delay = function(value) {
   var id = this.id;
   return d3_selection_each(this, typeof value === "function"
-      ? function(node, i, j) { node.__transition__[id].delay = value.call(node, node.__data__, i, j) | 0; }
-      : (value |= 0, function(node) { node.__transition__[id].delay = value; }));
+      ? function(node, i, j) { node.__transition__[id].delay = +value.call(node, node.__data__, i, j); }
+      : (value = +value, function(node) { node.__transition__[id].delay = value; }));
 };
 
 d3_transitionPrototype.duration = function(value) {
   var id = this.id;
   return d3_selection_each(this, typeof value === "function"
-      ? function(node, i, j) { node.__transition__[id].duration = Math.max(1, value.call(node, node.__data__, i, j) | 0); }
-      : (value = Math.max(1, value | 0), function(node) { node.__transition__[id].duration = value; }));
+      ? function(node, i, j) { node.__transition__[id].duration = Math.max(1, value.call(node, node.__data__, i, j)); }
+      : (value = Math.max(1, value), function(node) { node.__transition__[id].duration = value; }));
 };
 
 d3_transitionPrototype.each = function(type, listener) {
@@ -5471,10 +5725,12 @@ function d3_transitionNode(node, i, id, inherit) {
           ease = transition.ease,
           delay = transition.delay,
           duration = transition.duration,
+          timer = d3_timer_active,
           tweened = [];
 
-      if (delay <= elapsed) return start(elapsed);
-      d3_timer_replace(start, delay, time);
+      timer.t = delay + time;
+      if (delay <= elapsed) return start(elapsed - delay);
+      timer.c = start;
 
       function start(elapsed) {
         if (lock.active > id) return stop();
@@ -5487,14 +5743,16 @@ function d3_transitionNode(node, i, id, inherit) {
           }
         });
 
-        if (tick(elapsed)) return 1;
-        d3_timer_replace(tick, 0, time);
+        d3.timer(function() { // defer to end of current frame
+          timer.c = tick(elapsed || 1) ? d3_true : tick;
+          return 1;
+        }, 0, time);
       }
 
       function tick(elapsed) {
         if (lock.active !== id) return stop();
 
-        var t = (elapsed - delay) / duration,
+        var t = elapsed / duration,
             e = ease(t),
             n = tweened.length;
 
@@ -5503,9 +5761,8 @@ function d3_transitionNode(node, i, id, inherit) {
         }
 
         if (t >= 1) {
-          stop();
           transition.event && transition.event.end.call(node, d, i);
-          return 1;
+          return stop();
         }
       }
 
@@ -5529,7 +5786,7 @@ function d3_xhrType(response) {
 
 function d3_xhr(url, mimeType, response, callback) {
   var xhr = {},
-      dispatch = d3.dispatch("progress", "load", "error"),
+      dispatch = d3.dispatch("beforesend", "progress", "load", "error"),
       headers = {},
       request = new XMLHttpRequest,
       responseType = null;
@@ -5611,6 +5868,7 @@ function d3_xhr(url, mimeType, response, callback) {
     if (mimeType != null && request.overrideMimeType) request.overrideMimeType(mimeType);
     if (responseType != null) request.responseType = responseType;
     if (callback != null) xhr.on("error", callback).on("load", function(request) { callback(null, request); });
+    dispatch.beforesend.call(xhr, request);
     request.send(data == null ? null : data);
     return xhr;
   };
@@ -5690,25 +5948,26 @@ d3.combobox = function() {
                 var parent = this.parentNode,
                     sibling = this.nextSibling;
 
-                var carat = d3.select(parent).selectAll('.combobox-carat')
+                var caret = d3.select(parent).selectAll('.combobox-caret')
                     .filter(function(d) { return d === input.node(); })
                     .data([input.node()]);
 
-                carat.enter().insert('div', function() { return sibling; })
-                    .attr('class', 'combobox-carat');
+                caret.enter().insert('div', function() { return sibling; })
+                    .attr('class', 'combobox-caret');
 
-                carat
+                caret
                     .on('mousedown', function () {
                         // prevent the form element from blurring. it blurs
                         // on mousedown
                         d3.event.stopPropagation();
                         d3.event.preventDefault();
                         input.node().focus();
+                        fetch('', render);
                     });
             });
 
         function focus() {
-            fetch(render);
+            fetch(value(), render);
         }
 
         function blur() {
@@ -5798,7 +6057,7 @@ d3.combobox = function() {
         }
 
         function change() {
-            fetch(function() {
+            fetch(value(), function() {
                 autocomplete();
                 render();
             });
@@ -5823,8 +6082,8 @@ d3.combobox = function() {
             return value;
         }
 
-        function fetch(cb) {
-            fetcher.call(input, value(), function(_) {
+        function fetch(v, cb) {
+            fetcher.call(input, v, function(_) {
                 suggestions = _;
                 cb();
             });
@@ -5849,7 +6108,7 @@ d3.combobox = function() {
         }
 
         function render() {
-            if (suggestions.length && document.activeElement === input.node()) {
+            if (suggestions.length > 1 && document.activeElement === input.node()) {
                 show();
             } else {
                 hide();
@@ -15318,9 +15577,52 @@ window.iD = function () {
     };
 
     /* Projection */
-    context.projection = d3.geo.mercator()
-        .scale(512 / Math.PI)
-        .precision(0);
+    function rawMercator() {
+        var project = d3.geo.mercator.raw,
+            k = 512 / Math.PI, // scale
+            x = 0, y = 0, // translate
+            clipExtent = [[0, 0], [0, 0]];
+
+        function projection(point) {
+            point = project(point[0] * Math.PI / 180, point[1] * Math.PI / 180);
+            return [point[0] * k + x, y - point[1] * k];
+        }
+
+        projection.invert = function(point) {
+            point = project.invert((point[0] - x) / k, (y - point[1]) / k);
+            return point && [point[0] * 180 / Math.PI, point[1] * 180 / Math.PI];
+        };
+
+        projection.scale = function(_) {
+            if (!arguments.length) return k;
+            k = +_;
+            return projection;
+        };
+
+        projection.translate = function(_) {
+            if (!arguments.length) return [x, y];
+            x = +_[0];
+            y = +_[1];
+            return projection;
+        };
+
+        projection.clipExtent = function(_) {
+            if (!arguments.length) return clipExtent;
+            clipExtent = _;
+            return projection;
+        };
+
+        projection.stream = d3.geo.transform({
+            point: function(x, y) {
+                x = projection([x, y]);
+                this.stream.point(x[0], x[1]);
+            }
+        }).stream;
+
+        return projection;
+    }
+
+    context.projection = rawMercator();
 
     /* Background */
     var background = iD.Background(context);
@@ -15388,7 +15690,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.2.1';
+iD.version = '1.3.0';
 
 (function() {
     var detected = {};
@@ -15774,6 +16076,42 @@ iD.util.wrap = function(index, length) {
         index += Math.ceil(-index/length)*length;
     return index % length;
 };
+// A per-domain session mutex backed by a cookie and dead man's
+// switch. If the session crashes, the mutex will auto-release
+// after 5 seconds.
+
+iD.util.SessionMutex = function(name) {
+    var mutex = {},
+        intervalID;
+
+    function renew() {
+        var expires = new Date();
+        expires.setSeconds(expires.getSeconds() + 5);
+        document.cookie = name + '=1; expires=' + expires.toUTCString();
+    }
+
+    mutex.lock = function() {
+        if (intervalID) return true;
+        var cookie = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + name + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1");
+        if (cookie) return false;
+        renew();
+        intervalID = window.setInterval(renew, 4000);
+        return true;
+    };
+
+    mutex.unlock = function() {
+        if (!intervalID) return;
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        clearInterval(intervalID);
+        intervalID = null;
+    };
+
+    mutex.locked = function() {
+        return !!intervalID;
+    };
+
+    return mutex;
+};
 iD.geo = {};
 
 iD.geo.roundCoords = function(c) {
@@ -15795,6 +16133,11 @@ iD.geo.sphericalDistance = function(a, b) {
     var x = Math.cos(a[1]*Math.PI/180) * (a[0] - b[0]),
         y = a[1] - b[1];
     return 6.3710E6 * Math.sqrt((x * x) + (y * y)) * Math.PI/180;
+};
+
+iD.geo.edgeEqual = function(a, b) {
+    return (a[0] === b[0] && a[1] === b[1]) ||
+        (a[0] === b[1] && a[1] === b[0]);
 };
 
 // Choose the edge with the minimal distance from `point` to its orthogonal
@@ -16200,10 +16543,7 @@ iD.actions.AddMidpoint = function(midpoint, node) {
 
         parents.forEach(function(way) {
             for (var i = 0; i < way.nodes.length - 1; i++) {
-                if ((way.nodes[i]     === midpoint.edge[0] &&
-                     way.nodes[i + 1] === midpoint.edge[1]) ||
-                    (way.nodes[i]     === midpoint.edge[1] &&
-                     way.nodes[i + 1] === midpoint.edge[0])) {
+                if (iD.geo.edgeEqual([way.nodes[i], way.nodes[i + 1]], midpoint.edge)) {
                     graph = graph.replace(graph.entity(way.id).addNode(node.id, i + 1));
 
                     // Add only one midpoint on doubled-back segments,
@@ -17569,7 +17909,7 @@ iD.behavior.drag = function() {
             touchId = d3.event.touches ? d3.event.changedTouches[0].identifier : null,
             offset,
             origin_ = point(),
-            moved = 0,
+            started = false,
             selectEnable = d3_event_userSelectSuppress(touchId != null ? "drag-" + touchId : "drag");
 
         var w = d3.select(window)
@@ -17598,13 +17938,13 @@ iD.behavior.drag = function() {
                 dx = p[0] - origin_[0],
                 dy = p[1] - origin_[1];
 
-            if (!moved) {
+            if (!started) {
+                started = true;
                 event_({
                     type: "start"
                 });
             }
 
-            moved |= dx | dy;
             origin_ = p;
             d3_eventCancel();
 
@@ -17616,7 +17956,7 @@ iD.behavior.drag = function() {
         }
 
         function dragend() {
-            if (moved) {
+            if (started) {
                 event_({
                     type: "end"
                 });
@@ -17971,12 +18311,13 @@ iD.behavior.DrawWay = function(context, wayId, index, mode, baseGraph) {
 
     // Connect the way to an existing way.
     drawWay.addWay = function(loc, edge) {
+        var previousEdge = startIndex ?
+            [way.nodes[startIndex], way.nodes[startIndex - 1]] :
+            [way.nodes[0], way.nodes[1]];
 
         // Avoid creating duplicate segments
-        if (!isArea) {
-            if (edge[0] === way.nodes[way.nodes.length - 1] ||
-                edge[1] === way.nodes[way.nodes.length - 1]) return;
-        }
+        if (!isArea && iD.geo.edgeEqual(edge, previousEdge))
+            return;
 
         var newNode = iD.Node({ loc: loc });
 
@@ -18806,7 +19147,7 @@ iD.modes.DragNode = function(context) {
         var d = datum();
         if (d.type === 'node' && d.id !== entity.id) {
             loc = d.loc;
-        } else if (d.type === 'way') {
+        } else if (d.type === 'way' && !d3.select(d3.event.sourceEvent.target).classed('fill')) {
             loc = iD.geo.chooseEdge(context.childNodes(d), context.mouse(), context.projection).loc;
         }
 
@@ -19193,16 +19534,10 @@ iD.modes.RotateWay = function(context, wayId) {
 iD.modes.Save = function(context) {
     var ui = iD.ui.Commit(context)
         .on('cancel', cancel)
-        .on('fix', fix)
         .on('save', save);
 
     function cancel() {
         context.enter(iD.modes.Browse(context));
-    }
-
-    function fix(d) {
-        context.map().zoomTo(d.entity);
-        context.enter(iD.modes.Select(context, [d.entity.id]));
     }
 
     function save(e) {
@@ -19451,6 +19786,11 @@ iD.modes.Select = function(context, selectedIDs) {
             context.surface()
                 .on('dblclick.select', dblclick);
         }, 200);
+
+        if (selectedIDs.length > 1) {
+            var entities = iD.ui.SelectionList(context, selectedIDs);
+            context.ui().sidebar.show(entities);
+        }
     };
 
     mode.exit = function() {
@@ -19478,6 +19818,7 @@ iD.modes.Select = function(context, selectedIDs) {
             .classed('selected', false);
 
         context.map().on('drawn.select', null);
+        context.ui().sidebar.hide();
     };
 
     return mode;
@@ -20414,12 +20755,60 @@ iD.Difference = function(base, head) {
     };
 
     difference.addParents = function(entities) {
-
         for (var i in entities) {
             addParents(head.parentWays(entities[i]), entities);
             addParents(head.parentRelations(entities[i]), entities);
         }
         return entities;
+    };
+
+    difference.summary = function() {
+        var relevant = {};
+
+        function addEntity(entity, graph, changeType) {
+            relevant[entity.id] = {
+                entity: entity,
+                graph: graph,
+                changeType: changeType
+            };
+        }
+
+        function addParents(entity) {
+            var parents = head.parentWays(entity);
+            for (var j = parents.length - 1; j >= 0; j--) {
+                var parent = parents[j];
+                if (!(parent.id in relevant)) addEntity(parent, head, 'modified');
+            }
+        }
+
+        _.each(changes, function(change) {
+            if (change.head && change.head.geometry(head) !== 'vertex') {
+                addEntity(change.head, head, change.base ? 'modified' : 'created');
+
+            } else if (change.base && change.base.geometry(base) !== 'vertex') {
+                addEntity(change.base, base, 'deleted');
+
+            } else if (change.base && change.head) { // modified vertex
+                var moved    = !_.isEqual(change.base.loc,  change.head.loc),
+                    retagged = !_.isEqual(change.base.tags, change.head.tags);
+
+                if (moved) {
+                    addParents(change.head);
+                }
+
+                if (retagged || (moved && change.head.hasInterestingTags())) {
+                    addEntity(change.head, head, 'modified');
+                }
+
+            } else if (change.head && change.head.hasInterestingTags()) { // created vertex
+                addEntity(change.head, head, 'created');
+
+            } else if (change.base && change.base.hasInterestingTags()) { // deleted vertex
+                addEntity(change.base, base, 'deleted');
+            }
+        });
+
+        return d3.values(relevant);
     };
 
     difference.complete = function(extent) {
@@ -20881,7 +21270,7 @@ iD.History = function(context) {
     var stack, index, tree,
         imageryUsed = ['Bing'],
         dispatch = d3.dispatch('change', 'undone', 'redone'),
-        lock = false;
+        lock = iD.util.SessionMutex('lock');
 
     function perform(actions) {
         actions = Array.prototype.slice.call(actions);
@@ -21037,10 +21426,6 @@ iD.History = function(context) {
             return this.difference().length() > 0;
         },
 
-        numChanges: function() {
-            return this.difference().length();
-        },
-
         imageryUsed: function(sources) {
             if (sources) {
                 imageryUsed = sources;
@@ -21152,39 +21537,37 @@ iD.History = function(context) {
         },
 
         save: function() {
-            if (!lock) return history;
-            context.storage(getKey('lock'), null);
-            context.storage(getKey('saved_history'), this.toJSON() || null);
+            if (lock.locked()) context.storage(getKey('saved_history'), history.toJSON() || null);
             return history;
         },
 
         clearSaved: function() {
-            if (!lock) return;
-            context.storage(getKey('saved_history'), null);
+            if (lock.locked()) context.storage(getKey('saved_history'), null);
+            return history;
         },
 
         lock: function() {
-            if (context.storage(getKey('lock'))) return false;
-            context.storage(getKey('lock'), true);
-            lock = true;
-            return lock;
+            return lock.lock();
+        },
+
+        unlock: function() {
+            lock.unlock();
         },
 
         // is iD not open in another window and it detects that
         // there's a history stored in localStorage that's recoverable?
         restorableChanges: function() {
-            return lock && !!context.storage(getKey('saved_history'));
+            return lock.locked() && !!context.storage(getKey('saved_history'));
         },
 
         // load history from a version stored in localStorage
         restore: function() {
-            if (!lock) return;
+            if (!lock.locked()) return;
 
             var json = context.storage(getKey('saved_history'));
-            if (json) this.fromJSON(json);
+            if (json) history.fromJSON(json);
 
             context.storage(getKey('saved_history', null));
-
         },
 
         _getKey: getKey
@@ -21252,12 +21635,8 @@ _.extend(iD.Node.prototype, {
 
     asGeoJSON: function() {
         return {
-            type: 'Feature',
-            properties: this.tags,
-            geometry: {
-                type: 'Point',
-                coordinates: this.loc
-            }
+            type: 'Point',
+            coordinates: this.loc
         };
     }
 });
@@ -21404,12 +21783,8 @@ _.extend(iD.Relation.prototype, {
         return resolver.transient(this, 'GeoJSON', function () {
             if (this.isMultipolygon()) {
                 return {
-                    type: 'Feature',
-                    properties: this.tags,
-                    geometry: {
-                        type: 'MultiPolygon',
-                        coordinates: this.multipolygon(resolver)
-                    }
+                    type: 'MultiPolygon',
+                    coordinates: this.multipolygon(resolver)
                 };
             } else {
                 return {
@@ -21765,29 +22140,21 @@ _.extend(iD.Way.prototype, {
                 }
 
                 var json = {
-                    type: 'Feature',
-                    properties: this.tags,
-                    geometry: {
-                        type: 'Polygon',
-                        coordinates: [_.pluck(nodes, 'loc')]
-                    }
+                    type: 'Polygon',
+                    coordinates: [_.pluck(nodes, 'loc')]
                 };
 
                 // Heuristic for detecting counterclockwise winding order. Assumes
                 // that OpenStreetMap polygons are not hemisphere-spanning.
                 if (d3.geo.area(json) > 2 * Math.PI) {
-                    json.geometry.coordinates[0] = json.geometry.coordinates[0].reverse();
+                    json.coordinates[0] = json.coordinates[0].reverse();
                 }
 
                 return json;
             } else {
                 return {
-                    type: 'Feature',
-                    properties: this.tags,
-                    geometry: {
-                        type: 'LineString',
-                        coordinates: _.pluck(nodes, 'loc')
-                    }
+                    type: 'LineString',
+                    coordinates: _.pluck(nodes, 'loc')
                 };
             }
         });
@@ -21834,6 +22201,8 @@ iD.Background = function(context) {
             return iD.BackgroundSource(source);
         }
     });
+
+    backgroundSources.unshift(iD.BackgroundSource.None());
 
     function findSource(id) {
         return _.find(backgroundSources, function(d) {
@@ -21954,6 +22323,23 @@ iD.Background = function(context) {
         return background.hasGpxLayer() && gpxLayer.enable();
     };
 
+    function toDom(x) {
+        return (new DOMParser()).parseFromString(x, 'text/xml');
+    }
+
+    background.gpxLayerFiles = function(fileList) {
+        var f = fileList[0],
+            reader = new FileReader();
+
+        reader.onload = function(e) {
+            gpxLayer.geojson(toGeoJSON.gpx(toDom(e.target.result)));
+            dispatch.change();
+            context.map().pan([0, 0]);
+        };
+
+        reader.readAsText(f);
+    };
+
     background.zoomToGpxLayer = function() {
         if (background.hasGpxLayer()) {
             context.map()
@@ -21970,6 +22356,10 @@ iD.Background = function(context) {
         return d === baseLayer.source() ||
             (d.name === 'Custom' && baseLayer.source().name === 'Custom') ||
             overlayLayers.some(function(l) { return l.source() === d; });
+    };
+
+    background.overlayLayerSources = function() {
+        return overlayLayers.map(function (l) { return l.source(); });
     };
 
     background.toggleOverlayLayer = function(d) {
@@ -22150,6 +22540,10 @@ iD.BackgroundSource.Bing = function(data, dispatch) {
 
     return bing;
 };
+
+iD.BackgroundSource.None = function() {
+    return iD.BackgroundSource({ name: t('background.none'), id: 'None', template: '' });
+};
 iD.GpxLayer = function(context, dispatch) {
     var projection,
         gj = {},
@@ -22205,10 +22599,6 @@ iD.GpxLayer = function(context, dispatch) {
         }
     }
 
-    function toDom(x) {
-        return (new DOMParser()).parseFromString(x, 'text/xml');
-    }
-
     render.projection = function(_) {
         if (!arguments.length) return projection;
         projection = _;
@@ -22247,16 +22637,7 @@ iD.GpxLayer = function(context, dispatch) {
             d3.event.stopPropagation();
             d3.event.preventDefault();
             if (!iD.detect().filedrop) return;
-            var f = d3.event.dataTransfer.files[0],
-                reader = new FileReader();
-
-            reader.onload = function(e) {
-                render.geojson(toGeoJSON.gpx(toDom(e.target.result)));
-                dispatch.change();
-                context.map().pan([0, 0]);
-            };
-
-            reader.readAsText(f);
+            context.background().gpxLayerFiles(d3.event.dataTransfer.files);
         })
         .on('dragenter.localgpx', over)
         .on('dragexit.localgpx', over)
@@ -22282,9 +22663,9 @@ iD.Map = function(context) {
         points = iD.svg.Points(roundedProjection, context),
         vertices = iD.svg.Vertices(roundedProjection, context),
         lines = iD.svg.Lines(projection),
-        areas = iD.svg.Areas(roundedProjection),
+        areas = iD.svg.Areas(projection),
         midpoints = iD.svg.Midpoints(roundedProjection, context),
-        labels = iD.svg.Labels(roundedProjection, context),
+        labels = iD.svg.Labels(projection, context),
         supersurface, surface,
         mouse,
         mousemove;
@@ -22535,10 +22916,10 @@ iD.Map = function(context) {
         return map;
     };
 
-    function setZoom(z, force) {
-        if (z === map.zoom() && !force)
+    function setZoom(_, force) {
+        if (_ === map.zoom() && !force)
             return false;
-        var scale = 256 * Math.pow(2, z),
+        var scale = 256 * Math.pow(2, _),
             center = pxCenter(),
             l = pointLocation(center);
         scale = Math.max(1024, Math.min(256 * Math.pow(2, 24), scale));
@@ -22553,15 +22934,16 @@ iD.Map = function(context) {
         return true;
     }
 
-    function setCenter(loc) {
-        var t = projection.translate(),
-            c = pxCenter(),
-            ll = projection(loc);
-        if (ll[0] === c[0] && ll[1] === c[1])
+    function setCenter(_) {
+        var c = map.center();
+        if (_[0] === c[0] && _[1] === c[1])
             return false;
+        var t = projection.translate(),
+            pxC = pxCenter(),
+            ll = projection(_);
         projection.translate([
-            t[0] - ll[0] + c[0],
-            t[1] - ll[1] + c[1]]);
+            t[0] - ll[0] + pxC[0],
+            t[1] - ll[1] + pxC[1]]);
         zoom.translate(projection.translate());
         return true;
     }
@@ -22757,6 +23139,7 @@ iD.TileLayer = function() {
         if (source.validZoom(z)) {
             tile().forEach(function(d) {
                 addSource(d);
+                if (d[3] === '') return;
                 requests.push(d);
                 if (cache[d[3]] === false && lookUp(d)) {
                     requests.push(addSource(lookUp(d)));
@@ -22865,29 +23248,27 @@ iD.svg = {
         };
     },
 
+    Round: function () {
+        return d3.geo.transform({
+            point: function(x, y) { return this.stream.point(Math.floor(x), Math.floor(y)); }
+        });
+    },
+
     Path: function(projection, graph, polygon) {
         var cache = {},
-            path = d3.geo.path().projection(projection);
+            round = iD.svg.Round().stream,
+            clip = d3.geo.clipExtent().extent(projection.clipExtent()).stream,
+            project = projection.stream,
+            path = d3.geo.path()
+                .projection({stream: function(output) { return polygon ? project(round(output)) : project(clip(round(output))); }});
 
-        function result(entity) {
-            if (entity.id in cache) return cache[entity.id];
-
-            var buffer = '';
-
-            path.context({
-                beginPath: function() {},
-                moveTo: function(x, y) { buffer += 'M' + Math.floor(x) + ',' + Math.floor(y); },
-                lineTo: function(x, y) { buffer += 'L' + Math.floor(x) + ',' + Math.floor(y); },
-                arc: function() {},
-                closePath: function() { buffer += 'Z'; }
-            });
-
-            path(entity.asGeoJSON(graph, polygon));
-
-            return cache[entity.id] = buffer;
-        }
-
-        return result;
+        return function(entity) {
+            if (entity.id in cache) {
+                return cache[entity.id];
+            } else {
+                return cache[entity.id] = path(entity.asGeoJSON(graph, polygon));
+            }
+        };
     },
 
     OneWaySegments: function(projection, graph, dt) {
@@ -22962,7 +23343,8 @@ iD.svg = {
     }
 };
 iD.svg.Areas = function(projection) {
-    // Patterns only work in Firefox when set directly on element
+    // Patterns only work in Firefox when set directly on element.
+    // (This is not a bug: https://bugzilla.mozilla.org/show_bug.cgi?id=750632)
     var patterns = {
         wetland: 'wetland',
         beach: 'beach',
@@ -23024,22 +23406,27 @@ iD.svg.Areas = function(projection) {
             fill: areas
         };
 
+        var paths = surface.selectAll('.layer-shadow, .layer-stroke, .layer-fill')
+            .selectAll('path.area')
+            .filter(filter)
+            .data(function(layer) { return data[layer]; }, iD.Entity.key);
+
+        // Remove exiting areas first, so they aren't included in the `fills`
+        // array used for sorting below (https://github.com/systemed/iD/issues/1903).
+        paths.exit()
+            .remove();
+
+        var fills = surface.selectAll('.layer-fill path.area')[0];
+
         var bisect = d3.bisector(function(node) {
             return -node.__data__.area(graph);
         }).left;
-
-        var fills = surface.selectAll('.layer-fill path.area')[0];
 
         function sortedByArea(entity) {
             if (this.__data__ === 'fill') {
                 return fills[bisect(fills, -entity.area(graph))];
             }
         }
-
-        var paths = surface.selectAll('.layer-shadow, .layer-stroke, .layer-fill')
-            .selectAll('path.area')
-            .filter(filter)
-            .data(function(layer) { return data[layer]; }, iD.Entity.key);
 
         paths.enter()
             .insert('path', sortedByArea)
@@ -23056,12 +23443,10 @@ iD.svg.Areas = function(projection) {
 
         paths
             .attr('d', path);
-
-        paths.exit()
-            .remove();
     };
 };
 iD.svg.Labels = function(projection, context) {
+    var path = d3.geo.path().projection(projection);
 
     // Replace with dict and iterate over entities tags instead?
     var label_stack = [
@@ -23431,8 +23816,7 @@ iD.svg.Labels = function(projection, context) {
         }
 
         function getAreaLabel(entity, width, height) {
-            var path = d3.geo.path().projection(projection),
-                centroid = path.centroid(entity.asGeoJSON(graph, true)),
+            var centroid = path.centroid(entity.asGeoJSON(graph, true)),
                 extent = entity.extent(graph),
                 entitywidth = projection(extent[1])[0] - projection(extent[0])[0],
                 rect;
@@ -23934,11 +24318,15 @@ iD.svg.Surface = function(context) {
     };
 };
 iD.svg.TagClasses = function() {
-    var keys = d3.set([
-        'highway', 'railway', 'waterway', 'power', 'motorway', 'amenity',
-        'natural', 'landuse', 'building', 'oneway', 'bridge', 'boundary',
-        'tunnel', 'leisure', 'construction', 'place', 'aeroway'
-    ]), tagClassRe = /^tag-/,
+    var primary = [
+            'highway', 'railway', 'waterway', 'aeroway', 'motorway',
+            'power', 'amenity', 'natural', 'landuse', 'building', 'leisure',
+            'place', 'boundary'
+        ],
+        secondary = [
+            'oneway', 'bridge', 'tunnel', 'construction'
+        ],
+        tagClassRe = /^tag-/,
         tags = function(entity) { return entity.tags; };
 
     var tagClasses = function(selection) {
@@ -23951,10 +24339,21 @@ iD.svg.TagClasses = function() {
                 return name.length && !tagClassRe.test(name);
             }).join(' ');
 
-            var t = tags(entity);
-            for (var k in t) {
-                if (!keys.has(k) || t[k] === 'no') continue;
-                classes += ' tag-' + k + ' tag-' + k + '-' + t[k];
+            var t = tags(entity), i, k, v;
+
+            for (i = 0; i < primary.length; i++) {
+                k = primary[i];
+                v = t[k];
+                if (!v || v === 'no') continue;
+                classes += ' tag-' + k + ' tag-' + k + '-' + v;
+                break;
+            }
+
+            for (i = 0; i < secondary.length; i++) {
+                k = secondary[i];
+                v = t[k];
+                if (!v || v === 'no') continue;
+                classes += ' tag-' + k + ' tag-' + k + '-' + v;
             }
 
             classes = classes.trim();
@@ -24175,9 +24574,7 @@ iD.ui = function(context) {
             .attr('class', 'spinner')
             .call(iD.ui.Spinner(context));
 
-        content.append('div')
-            .attr('class', 'attribution')
-            .attr('tabindex', -1)
+        content
             .call(iD.ui.Attribution(context));
 
         content.append('div')
@@ -24248,6 +24645,10 @@ iD.ui = function(context) {
 
         window.onbeforeunload = function() {
             return context.save();
+        };
+
+        window.onunload = function() {
+            context.history().unlock();
         };
 
         d3.select(window).on('resize.editor', function() {
@@ -24363,19 +24764,27 @@ iD.ui.Account = function(context) {
 iD.ui.Attribution = function(context) {
     var selection;
 
-    function update() {
-        if (!context.background().baseLayerSource()) {
-            selection.html('');
-            return;
-        }
+    function attribution(data, klass) {
+        var div = selection.selectAll('.' + klass)
+            .data([0]);
 
-        var attribution = selection.selectAll('.provided-by')
-            .data([context.background().baseLayerSource()], function(d) { return d.name; });
+        div.enter()
+            .append('div')
+            .attr('class', klass);
 
-        attribution.enter()
+        var background = div.selectAll('.attribution')
+            .data(data, function(d) { return d.name; });
+
+        background.enter()
             .append('span')
-            .attr('class', 'provided-by')
+            .attr('class', 'attribution')
             .each(function(d) {
+                if (d.terms_html) {
+                    d3.select(this)
+                        .html(d.terms_html);
+                    return;
+                }
+
                 var source = d.terms_text || d.id || d.name;
 
                 if (d.logo) {
@@ -24394,10 +24803,10 @@ iD.ui.Attribution = function(context) {
                 }
             });
 
-        attribution.exit()
+        background.exit()
             .remove();
 
-        var copyright = attribution.selectAll('.copyright-notice')
+        var copyright = background.selectAll('.copyright-notice')
             .data(function(d) {
                 var notice = d.copyrightNotices(context.map().zoom(), context.map().extent());
                 return notice ? [notice] : [];
@@ -24411,6 +24820,13 @@ iD.ui.Attribution = function(context) {
 
         copyright.exit()
             .remove();
+    }
+
+    function update() {
+        attribution([context.background().baseLayerSource()], 'base-layer-attribution');
+        attribution(context.background().overlayLayerSources().filter(function (s) {
+            return s.validZoom(context.map().zoom());
+        }), 'overlay-layer-attribution');
     }
 
     return function(select) {
@@ -24427,13 +24843,13 @@ iD.ui.Attribution = function(context) {
 };
 iD.ui.Background = function(context) {
     var key = 'b',
-        opacities = [1, 0.5, 0],
+        opacities = [1, 0.75, 0.5, 0.25],
         directions = [
             ['left', [1, 0]],
             ['top', [0, -1]],
             ['right', [-1, 0]],
             ['bottom', [0, 1]]],
-        opacityDefault = (context.storage('background-opacity') != undefined) ?
+        opacityDefault = (context.storage('background-opacity') !== undefined) ?
             (+context.storage('background-opacity')) : 0.5;
 
     function background(selection) {
@@ -24455,7 +24871,7 @@ iD.ui.Background = function(context) {
                 return context.background().showsLayer(d);
             }
 
-            content.selectAll('label.layer, label.custom_layer')
+            content.selectAll('.layer, .custom_layer')
                 .classed('active', active)
                 .selectAll('input')
                 .property('checked', active);
@@ -24470,7 +24886,9 @@ iD.ui.Background = function(context) {
         function clickCustom() {
             d3.event.preventDefault();
             var template = window.prompt(t('background.custom_prompt'));
-            if (!template) {
+            if (!template || template.indexOf('google.com') !== -1 ||
+               template.indexOf('googleapis.com') !== -1 ||
+               template.indexOf('google.ru') !== -1) {
                 selectLayer();
                 return;
             }
@@ -24497,33 +24915,33 @@ iD.ui.Background = function(context) {
                 .sources(context.map().extent())
                 .filter(filter);
 
-            var layerLinks = layerList.selectAll('label.layer')
+            var layerLinks = layerList.selectAll('li.layer')
                 .data(sources, function(d) { return d.name; });
 
-            var layerInner = layerLinks.enter()
-                .insert('label', '.custom_layer')
+            var enter = layerLinks.enter()
+                .insert('li', '.custom_layer')
                 .attr('class', 'layer');
 
             // only set tooltips for layers with tooltips
-            layerInner
-                .filter(function(d) { return d.description; })
+            enter.filter(function(d) { return d.description; })
                 .call(bootstrap.tooltip()
                     .title(function(d) { return d.description; })
                     .placement('left'));
 
-            layerInner.append('input')
+            var label = enter.append('label');
+
+            label.append('input')
                 .attr('type', type)
                 .attr('name', 'layers')
-                .attr('value', function(d) { return d.name; })
                 .on('change', change);
 
-            layerInner.append('span')
+            label.append('span')
                 .text(function(d) { return d.name; });
 
             layerLinks.exit()
                 .remove();
 
-            layerList.style('display', layerList.selectAll('label.layer').data().length > 0 ? 'block' : 'none');
+            layerList.style('display', layerList.selectAll('li.layer').data().length > 0 ? 'block' : 'none');
         }
 
         function update() {
@@ -24575,9 +24993,7 @@ iD.ui.Background = function(context) {
         function toggle() {
             if (d3.event) d3.event.preventDefault();
             tooltip.hide(button);
-            var visible = !button.classed('active');
-            setVisible(visible);
-            if (visible) content.selectAll('.toggle-list label:first-child').node().focus();
+            setVisible(!button.classed('active'));
         }
 
         function setVisible(show) {
@@ -24641,59 +25057,75 @@ iD.ui.Background = function(context) {
             .attr('class', 'opacity')
             .style('opacity', String);
 
-        var backgroundList = content
-            .append('div')
-            .attr('class', 'toggle-list layer-list');
+        var backgroundList = content.append('ul')
+            .attr('class', 'layer-list');
 
-        var custom = backgroundList
-            .append('label')
+        var custom = backgroundList.append('li')
             .attr('class', 'custom_layer')
             .datum({name: 'Custom'});
 
-        custom.append('input')
+        var label = custom.append('label');
+
+        label.append('input')
             .attr('type', 'radio')
             .attr('name', 'layers')
             .on('change', clickCustom);
 
-        custom.append('span')
+        label.append('span')
             .text(t('background.custom'));
 
-        var overlayList = content
-            .append('div')
-            .attr('class', 'toggle-list layer-list');
+        var overlayList = content.append('ul')
+            .attr('class', 'layer-list');
 
-        var gpxLayerItem = content
-            .append('div')
+        var gpxLayerItem = content.append('ul')
             .style('display', iD.detect().filedrop ? 'block' : 'none')
-            .attr('class', 'toggle-list layer-list')
-            .append('label')
+            .attr('class', 'layer-list')
+            .append('li')
             .classed('layer-toggle-gpx', true);
 
-        gpxLayerItem.call(bootstrap.tooltip()
-            .title(t('gpx.drag_drop'))
-            .placement('left'));
-
-        gpxLayerItem.append('input')
-            .attr('type', 'checkbox')
-            .property('disabled', true)
-            .on('change', clickGpx);
-
-        gpxLayerItem.append('span')
-            .text(t('gpx.local_layer'));
-
-        gpxLayerItem
-            .append('button')
-            .attr('class', 'minor layer-extent')
+        gpxLayerItem.append('button')
+            .attr('class', 'layer-extent')
+            .call(bootstrap.tooltip()
+                .title(t('gpx.zoom'))
+                .placement('left'))
             .on('click', function() {
                 d3.event.preventDefault();
                 d3.event.stopPropagation();
                 context.background().zoomToGpxLayer();
             })
             .append('span')
-                .attr('class', 'icon geocode' );
+            .attr('class', 'icon geolocate');
 
-        var adjustments = content
-            .append('div')
+        gpxLayerItem.append('button')
+            .attr('class', 'layer-browse')
+            .call(bootstrap.tooltip()
+                .title(t('gpx.browse'))
+                .placement('left'))
+            .on('click', function() {
+                d3.select(document.createElement('input'))
+                    .attr('type', 'file')
+                    .on('change', function() {
+                        context.background().gpxLayerFiles(d3.event.target.files);
+                    })
+                    .node().click();
+            })
+            .append('span')
+            .attr('class', 'icon geocode');
+
+        label = gpxLayerItem.append('label')
+            .call(bootstrap.tooltip()
+                .title(t('gpx.drag_drop'))
+                .placement('left'));
+
+        label.append('input')
+            .attr('type', 'checkbox')
+            .property('disabled', true)
+            .on('change', clickGpx);
+
+        label.append('span')
+            .text(t('gpx.local_layer'));
+
+        var adjustments = content.append('div')
             .attr('class', 'adjustments');
 
         adjustments.append('a')
@@ -24708,8 +25140,7 @@ iD.ui.Background = function(context) {
                 d3.event.preventDefault();
             });
 
-        var nudgeContainer = adjustments
-            .append('div')
+        var nudgeContainer = adjustments.append('div')
             .attr('class', 'nudge-container cf')
             .style('display', 'none');
 
@@ -24779,33 +25210,22 @@ iD.ui.cmd = function(code) {
     return keys.join('+');
 };
 iD.ui.Commit = function(context) {
-    var event = d3.dispatch('cancel', 'save', 'fix'),
-        presets = context.presets();
-
-    function zipSame(d) {
-        var c = {}, n = -1;
-        for (var i = 0; i < d.length; i++) {
-            var desc = {
-                name: d[i].tags.name || presets.match(d[i], context.graph()).name(),
-                geometry: d[i].geometry(context.graph()),
-                count: 1,
-                tagText: iD.util.tagText(d[i])
-            };
-
-            var fingerprint = desc.name + desc.tagText;
-            if (c[fingerprint]) {
-                c[fingerprint].count++;
-            } else {
-                c[fingerprint] = desc;
-            }
-        }
-        return _.values(c);
-    }
+    var event = d3.dispatch('cancel', 'save');
 
     function commit(selection) {
-        var changes = context.history().changes();
+        var changes = context.history().changes(),
+            summary = context.history().difference().summary();
 
-        function changesLength(d) { return changes[d].length; }
+        function zoomToEntity(change) {
+            var entity = change.entity;
+            if (change.changeType !== 'deleted' &&
+                context.graph().entity(entity.id).geometry(context.graph()) !== 'vertex') {
+                context.map().zoomTo(entity);
+                context.surface().selectAll(
+                    iD.util.entityOrMemberSelector([entity.id], context.graph()))
+                    .classed('hover', true);
+            }
+        }
 
         var header = selection.append('div')
             .attr('class', 'header fillL');
@@ -24870,7 +25290,7 @@ iD.ui.Commit = function(context) {
 
         // Confirm Button
         var saveButton = saveSection.append('button')
-            .attr('class', 'action col3 button')
+            .attr('class', 'action col4 button')
             .on('click.save', function() {
                 event.save({
                     comment: commentField.node().value
@@ -24881,11 +25301,13 @@ iD.ui.Commit = function(context) {
             .attr('class', 'label')
             .text(t('commit.save'));
 
+        // Warnings
         var warnings = body.selectAll('div.warning-section')
-            .data(iD.validate(changes, context.graph()))
+            .data([iD.validate(changes, context.graph())])
             .enter()
             .append('div')
-            .attr('class', 'modal-section warning-section fillL2');
+            .attr('class', 'modal-section warning-section fillL2')
+            .style('display', function(d) { return _.isEmpty(d) ? 'none' : null; });
 
         warnings.append('h3')
             .text(t('commit.warnings'));
@@ -24895,52 +25317,90 @@ iD.ui.Commit = function(context) {
             .selectAll('li')
             .data(function(d) { return d; })
             .enter()
-            .append('li');
+            .append('li')
+            .on('mouseover', mouseover)
+            .on('mouseout', mouseout)
+            .on('click', warningClick);
 
-        // only show the fix icon when an entity is given
-        warningLi.filter(function(d) { return d.entity; })
-            .append('button')
-            .attr('class', 'minor')
-            .on('click', event.fix)
-            .append('span')
-            .attr('class', 'icon warning');
+        warningLi.append('span')
+            .attr('class', 'alert icon icon-pre-text');
 
         warningLi.append('strong').text(function(d) {
             return d.message;
         });
 
-        var section = body.selectAll('div.commit-section')
-            .data(['modified', 'deleted', 'created'].filter(changesLength))
+        var changeSection = body.selectAll('div.commit-section')
+            .data([0])
             .enter()
             .append('div')
             .attr('class', 'commit-section modal-section fillL2');
 
-        section.append('h3')
-            .text(function(d) { return t('commit.' + d); })
-            .append('small')
-            .attr('class', 'count')
-            .text(changesLength);
+        changeSection.append('h3')
+            .text(summary.length + ' Changes');
 
-        var li = section.append('ul')
+        var li = changeSection.append('ul')
             .attr('class', 'changeset-list')
             .selectAll('li')
-            .data(function(d) { return zipSame(changes[d]); })
+            .data(summary)
             .enter()
-            .append('li');
+            .append('li')
+            .on('mouseover', mouseover)
+            .on('mouseout', mouseout)
+            .on('click', zoomToEntity);
 
-        li.append('strong')
-            .text(function(d) {
-                return d.geometry + ' ';
+        li.append('span')
+            .attr('class', function(d) {
+                return d.entity.geometry(d.graph) + ' ' + d.changeType + ' icon icon-pre-text';
             });
 
         li.append('span')
-            .text(function(d) { return d.name; })
-            .attr('title', function(d) { return d.tagText; });
+            .attr('class', 'change-type')
+            .text(function(d) {
+                return d.changeType + ' ';
+            });
 
-        li.filter(function(d) { return d.count > 1; })
-            .append('span')
-            .attr('class', 'count')
-            .text(function(d) { return d.count; });
+        li.append('strong')
+            .attr('class', 'entity-type')
+            .text(function(d) {
+                return context.presets().match(d.entity, d.graph).name();
+            });
+
+        li.append('span')
+            .attr('class', 'entity-name')
+            .text(function(d) {
+                var name = iD.util.displayName(d.entity) || '',
+                    string = '';
+                if (name !== '') string += ':';
+                return string += ' ' + name;
+            });
+
+        li.style('opacity', 0)
+            .transition()
+            .style('opacity', 1);
+
+        li.style('opacity', 0)
+            .transition()
+            .style('opacity', 1);
+
+        function mouseover(d) {
+            if (d.entity) {
+                context.surface().selectAll(
+                    iD.util.entityOrMemberSelector([d.entity.id], context.graph())
+                ).classed('hover', true);
+            }
+        }
+
+        function mouseout() {
+            context.surface().selectAll('.hover')
+                .classed('hover', false);
+        }
+
+        function warningClick(d) {
+            if (d.entity) {
+                context.map().zoomTo(d.entity);
+                context.enter(iD.modes.Select(context, [d.entity.id]));
+            }
+        }
     }
 
     return d3.rebind(commit, event, 'on');
@@ -25356,15 +25816,18 @@ iD.ui.FeatureList = function(context) {
             }
 
             (geocodeResults || []).forEach(function(d) {
-                result.push({
-                    id: iD.Entity.id.fromOSM(d.osm_type, d.osm_id),
-                    geometry: d.osm_type === 'relation' ? 'relation' : d.osm_type === 'way' ? 'line' : 'point',
-                    type: (d.type.charAt(0).toUpperCase() + d.type.slice(1)).replace('_', ' '),
-                    name: d.display_name,
-                    extent: new iD.geo.Extent(
-                        [parseFloat(d.boundingbox[3]), parseFloat(d.boundingbox[0])],
-                        [parseFloat(d.boundingbox[2]), parseFloat(d.boundingbox[1])])
-                })
+                // https://github.com/systemed/iD/issues/1890
+                if (d.osm_type && d.osm_id) {
+                    result.push({
+                        id: iD.Entity.id.fromOSM(d.osm_type, d.osm_id),
+                        geometry: d.osm_type === 'relation' ? 'relation' : d.osm_type === 'way' ? 'line' : 'point',
+                        type: (d.type.charAt(0).toUpperCase() + d.type.slice(1)).replace('_', ' '),
+                        name: d.display_name,
+                        extent: new iD.geo.Extent(
+                            [parseFloat(d.boundingbox[3]), parseFloat(d.boundingbox[0])],
+                            [parseFloat(d.boundingbox[2]), parseFloat(d.boundingbox[1])])
+                    });
+                }
             });
 
             return result;
@@ -25795,7 +26258,7 @@ iD.ui.intro = function(context) {
 
         // Load semi-real data used in intro
         context.connection().toggle(false).flush();
-        context.history().save().reset();
+        context.history().reset();
         
         introGraph = JSON.parse(iD.introGraph);
         for (var key in introGraph) {
@@ -26216,6 +26679,20 @@ iD.ui.preset = function(context) {
             return t;
         };
 
+        field.present = function() {
+            return _.any(field.keys, function(key) {
+                return tags[key];
+            });
+        };
+
+        field.remove = function() {
+            var t = {};
+            field.keys.forEach(function(key) {
+                t[key] = undefined;
+            });
+            return t;
+        };
+
         return field;
     }
 
@@ -26268,20 +26745,34 @@ iD.ui.preset = function(context) {
             .attr('for', function(field) { return 'preset-input-' + field.id; })
             .text(function(field) { return field.label(); });
 
-        $label.append('button')
-            .attr('class', 'modified-icon minor')
+        var wrap = $label.append('div')
+            .attr('class', 'form-label-button-wrap');
+
+        wrap.append('button')
+            .attr('class', 'remove-icon')
+            .append('span').attr('class', 'icon delete');
+
+        wrap.append('button')
+            .attr('class', 'modified-icon')
             .attr('tabindex', -1)
             .append('div')
             .attr('class', 'icon undo');
 
         // Update
 
+        $fields.select('.form-label-button-wrap .remove-icon')
+            .on('click', remove);
+
         $fields.select('.modified-icon')
             .on('click', revert);
 
         $fields
+            .order()
             .classed('modified', function(field) {
                 return field.modified();
+            })
+            .classed('present', function(field) {
+                return field.present();
             })
             .each(function(field) {
                 var reference = iD.ui.TagReference({key: field.key});
@@ -26293,7 +26784,7 @@ iD.ui.preset = function(context) {
                 d3.select(this)
                     .call(field.input)
                     .call(reference.body)
-                    .select('.form-label')
+                    .select('.form-label-button-wrap')
                     .call(reference.button);
 
                 field.input.tags(tags);
@@ -26335,6 +26826,12 @@ iD.ui.preset = function(context) {
             d3.event.stopPropagation();
             d3.event.preventDefault();
             event.change(field.revert());
+        }
+
+        function remove(field) {
+            d3.event.stopPropagation();
+            d3.event.preventDefault();
+            event.change(field.remove());
         }
     }
 
@@ -26723,6 +27220,7 @@ iD.ui.RadialMenu = function(context, operations) {
             .attr('r', 15)
             .classed('disabled', function(d) { return d.disabled(); })
             .on('click', click)
+            .on('mousedown', mousedown)
             .on('mouseover', mouseover)
             .on('mouseout', mouseout);
 
@@ -26734,6 +27232,10 @@ iD.ui.RadialMenu = function(context, operations) {
         tooltip = d3.select(document.body)
             .append('div')
             .attr('class', 'tooltip-inner radial-menu-tooltip');
+
+        function mousedown() {
+            d3.event.stopPropagation(); // https://github.com/systemed/iD/issues/1869
+        }
 
         function mouseover(d, i) {
             var rect = context.surfaceRect(),
@@ -26795,6 +27297,7 @@ iD.ui.RawMemberEditor = function(context) {
     var id;
 
     function selectMember(d) {
+        d3.event.preventDefault();
         context.enter(iD.modes.Select(context, [d.id]));
     }
 
@@ -26851,7 +27354,8 @@ iD.ui.RawMemberEditor = function(context) {
                 });
 
             var $enter = $items.enter().append('li')
-                .attr('class', 'member-row form-field');
+                .attr('class', 'member-row form-field')
+                .classed('member-incomplete', function(d) { return !d.member; });
 
             $enter.each(function(d) {
                 if (d.member) {
@@ -26871,7 +27375,7 @@ iD.ui.RawMemberEditor = function(context) {
 
                 } else {
                     d3.select(this).append('label')
-                        .attr('class', 'form-label member-incomplete')
+                        .attr('class', 'form-label')
                         .text(t('inspector.incomplete'));
                 }
             });
@@ -26908,6 +27412,7 @@ iD.ui.RawMembershipEditor = function(context) {
     var id, showBlank;
 
     function selectRelation(d) {
+        d3.event.preventDefault();
         context.enter(iD.modes.Select(context, [d.relation.id]));
     }
 
@@ -27413,13 +27918,13 @@ iD.ui.Save = function(context) {
         var numChanges = 0;
 
         context.history().on('change.save', function() {
-            var _ = history.numChanges();
+            var _ = history.difference().summary().length;
             if (_ === numChanges)
                 return;
             numChanges = _;
 
             tooltip.title(iD.ui.tooltipHtml(t(numChanges > 0 ?
-                    'save.help' : 'save.no_changes'), key))
+                    'save.help' : 'save.no_changes'), key));
 
             button
                 .classed('disabled', numChanges === 0)
@@ -27434,6 +27939,75 @@ iD.ui.Save = function(context) {
             if (saving()) button.call(tooltip.hide);
         });
     };
+};
+iD.ui.SelectionList = function(context, selectedIDs) {
+
+    function selectionList(selection) {
+        selection.classed('selection-list-pane', true);
+
+        var header = selection.append('div')
+            .attr('class', 'header fillL cf');
+
+        header.append('h3')
+            .text(t('inspector.multiselect'));
+
+        var listWrap = selection.append('div')
+            .attr('class', 'inspector-body');
+
+        var list = listWrap.append('div')
+            .attr('class', 'feature-list cf');
+
+        context.history().on('change.selection-list', drawList);
+        drawList();
+
+        function drawList() {
+            var entities = selectedIDs
+                .map(function(id) { return context.hasEntity(id); })
+                .filter(function(entity) { return entity; });
+
+            var items = list.selectAll('.feature-list-item')
+                .data(entities, iD.Entity.key);
+
+            var enter = items.enter().append('button')
+                .attr('class', 'feature-list-item')
+                .on('click', function(entity) {
+                    context.enter(iD.modes.Select(context, [entity.id]));
+                });
+
+            // Enter
+
+            var label = enter.append('div')
+                .attr('class', 'label');
+
+            label.append('span')
+                .attr('class', 'icon icon-pre-text');
+
+            label.append('span')
+                .attr('class', 'entity-type');
+
+            label.append('span')
+                .attr('class', 'entity-name');
+
+            // Update
+
+            items.selectAll('.icon')
+                .attr('class', function(entity) { return context.geometry(entity.id) + ' icon icon-pre-text'; });
+
+            items.selectAll('.entity-type')
+                .text(function(entity) { return context.presets().match(entity, context.graph()).name(); });
+
+            items.selectAll('.entity-name')
+                .text(function(entity) { return iD.util.displayName(entity); });
+
+            // Exit
+
+            items.exit()
+                .remove();
+        }
+    }
+
+    return selectionList;
+
 };
 iD.ui.Sidebar = function(context) {
     var inspector = iD.ui.Inspector(context),
@@ -27675,7 +28249,7 @@ iD.ui.Success = function(context) {
             .text(t('success.just_edited'));
 
         var body = selection.append('div')
-            .attr('class', 'body save-success');
+            .attr('class', 'body save-success fillL');
 
         body.append('p')
             .html(t('success.help_html'));
@@ -27819,7 +28393,7 @@ iD.ui.TagReference = function(tag) {
 
         var enter = button.enter().append('button')
             .attr('tabindex', -1)
-            .attr('class', 'tag-reference-button minor');
+            .attr('class', 'tag-reference-button');
 
         enter.append('span')
             .attr('class', 'icon inspect');
@@ -28107,7 +28681,6 @@ iD.ui.preset.address = function(field, context) {
         entity;
 
     function getStreets() {
-
         var extent = entity.extent(context.graph()),
             l = extent.center(),
             box = iD.geo.Extent(l).padByMeters(200);
@@ -28130,6 +28703,62 @@ iD.ui.preset.address = function(field, context) {
 
         function isAddressable(d) {
             return d.tags.highway && d.tags.name && d.type === 'way';
+        }
+    }
+
+    function getCities() {
+        var extent = entity.extent(context.graph()),
+            l = extent.center(),
+            box = iD.geo.Extent(l).padByMeters(200);
+
+        return context.intersects(box)
+            .filter(isAddressable)
+            .map(function(d) {
+                return {
+                    title: d.tags['addr:city'] || d.tags.name,
+                    value: d.tags['addr:city'] || d.tags.name,
+                    dist: iD.geo.sphericalDistance(d.extent(context.graph()).center(), l)
+                };
+            }).sort(function(a, b) {
+                return a.dist - b.dist;
+            });
+
+        function isAddressable(d) {
+            if (d.tags.name &&
+                (d.tags.admin_level === '8' || d.tags.border_type === 'city'))
+                return true;
+
+            if (d.tags.place && d.tags.name && (
+                    d.tags.place === 'city' ||
+                    d.tags.place === 'town' ||
+                    d.tags.place === 'village'))
+                return true;
+
+            if (d.tags['addr:city']) return true;
+
+            return false;
+        }
+    }
+
+    function getPostCodes() {
+        var extent = entity.extent(context.graph()),
+            l = extent.center(),
+            box = iD.geo.Extent(l).padByMeters(200);
+
+        return context.intersects(box)
+            .filter(isAddressable)
+            .map(function(d) {
+                return {
+                    title: d.tags['addr:postcode'],
+                    value: d.tags['addr:postcode'],
+                    dist: iD.geo.sphericalDistance(d.extent(context.graph()).center(), l)
+                };
+            }).sort(function(a, b) {
+                return a.dist - b.dist;
+            });
+
+        function isAddressable(d) {
+            return d.tags['addr:postcode'];
         }
     }
 
@@ -28184,6 +28813,18 @@ iD.ui.preset.address = function(field, context) {
             .call(d3.combobox()
                 .fetcher(function(value, callback) {
                     callback(getStreets());
+                }));
+
+        city
+            .call(d3.combobox()
+                .fetcher(function(value, callback) {
+                    callback(getCities());
+                }));
+
+        postcode
+            .call(d3.combobox()
+                .fetcher(function(value, callback) {
+                    callback(getPostCodes());
                 }));
     }
 
@@ -28258,7 +28899,7 @@ iD.ui.preset.check = function(field) {
         value = tags[field.key];
         box.property('indeterminate', !value);
         box.property('checked', value === 'yes');
-        text.text(value || t('inspector.unknown'));
+        text.text(value ? t('inspector.check.' + value, {default: value}) : t('inspector.unknown'));
         label.classed('set', !!value);
     };
 
@@ -28268,7 +28909,8 @@ iD.ui.preset.check = function(field) {
 
     return d3.rebind(check, event, 'on');
 };
-iD.ui.preset.combo = function(field) {
+iD.ui.preset.combo =
+iD.ui.preset.typeCombo = function(field) {
     var event = d3.dispatch('change'),
         input;
 
@@ -28313,13 +28955,18 @@ iD.ui.preset.combo = function(field) {
     }
 
     function change() {
+        var value = input.value().replace(' ', '_');
+        if (field.type === 'typeCombo' && !value) value = 'yes';
+
         var t = {};
-        t[field.key] = input.value().replace(' ', '_') || undefined;
+        t[field.key] = value || undefined;
         event.change(t);
     }
 
     combo.tags = function(tags) {
-        input.value(tags[field.key] || '');
+        var value = tags[field.key] || '';
+        if (field.type === 'typeCombo' && value === 'yes') value = '';
+        input.value(value);
     };
 
     combo.focus = function() {
@@ -28480,35 +29127,38 @@ iD.ui.preset.localized = function(field, context) {
     function key(lang) { return field.key + ':' + lang; }
 
     function changeLang(d) {
-        var value = d3.select(this).value(),
+        var lang = d3.select(this).value(),
             t = {},
             language = _.find(iD.data.wikipedia, function(d) {
-                return d[0].toLowerCase() === value.toLowerCase() ||
-                    d[1].toLowerCase() === value.toLowerCase();
+                return d[0].toLowerCase() === lang.toLowerCase() ||
+                    d[1].toLowerCase() === lang.toLowerCase();
             });
 
-        if (language) value = language[2];
+        if (language) lang = language[2];
 
-        if (d.lang) {
-            t[key(d.lang)] = '';
+        if (d.lang && d.lang !== lang) {
+            t[key(d.lang)] = undefined;
         }
 
-        if (d.value) {
-            t[key(value)] = d.value;
-        } else if (wikiTitles && wikiTitles[d.lang]) {
-            t[key(value)] = wikiTitles[d.lang];
+        var value = d3.select(this.parentNode)
+            .selectAll('.localized-value')
+            .value();
+
+        if (lang && value) {
+            t[key(lang)] = value;
+        } else if (lang && wikiTitles && wikiTitles[d.lang]) {
+            t[key(lang)] = wikiTitles[d.lang];
         }
 
+        d.lang = lang;
         event.change(t);
-
-        d.lang = value;
     }
 
     function changeValue(d) {
+        if (!d.lang) return;
         var t = {};
-        t[key(d.lang)] = d3.select(this).value() || '';
+        t[key(d.lang)] = d3.select(this).value() || undefined;
         event.change(t);
-
     }
 
     function fetcher(value, cb) {
@@ -28535,10 +29185,27 @@ iD.ui.preset.localized = function(field, context) {
                 var wrap = d3.select(this);
                 var langcombo = d3.combobox().fetcher(fetcher);
 
-                wrap.append('label')
+                var label = wrap.append('label')
                     .attr('class','form-label')
                     .text(t('translate.localized_translation_label'))
                     .attr('for','localized-lang');
+
+                label.append('button')
+                    .attr('class', 'minor remove')
+                    .on('click', function(d){
+                        d3.event.preventDefault();
+                        var t = {};
+                        t[key(d.lang)] = undefined;
+                        event.change(t);
+                        d3.select(this.parentNode.parentNode)
+                            .style('top','0')
+                            .style('max-height','240px')
+                            .transition()
+                            .style('opacity', '0')
+                            .style('max-height','0px')
+                            .remove();
+                    })
+                    .append('span').attr('class', 'icon delete');
 
                 wrap.append('input')
                     .attr('class', 'localized-lang')
@@ -28554,23 +29221,6 @@ iD.ui.preset.localized = function(field, context) {
                     .attr('type', 'text')
                     .attr('placeholder', t('translate.localized_translation_name'))
                     .attr('class', 'localized-value');
-
-                wrap.append('button')
-                    .attr('class', 'minor button-input-action remove')
-                    .on('click', function(d) {
-                        d3.event.preventDefault();
-                        var t = {};
-                        t[key(d.lang)] = undefined;
-                        event.change(t);
-                        d3.select(this.parentNode)
-                            .style('top','0')
-                            .style('max-height','240px')
-                            .transition()
-                            .style('opacity', '0')
-                            .style('max-height','0px')
-                            .remove();
-                    })
-                    .append('span').attr('class', 'icon delete');
             });
 
         innerWrap
@@ -28596,16 +29246,16 @@ iD.ui.preset.localized = function(field, context) {
             .style('top','-10px')
             .remove();
 
-        selection.selectAll('.entry').select('.localized-lang').value(function(d) {
-            var lang = _.find(iD.data.wikipedia, function(lang) {
-                return lang[2] === d.lang;
-            });
-            return lang ? lang[1] : d.lang;
-        });
+        var entry = selection.selectAll('.entry');
 
-        selection.selectAll('.entry').select('.localized-value').value(function(d) {
-            return d.value;
-        });
+        entry.select('.localized-lang')
+            .value(function(d) {
+                var lang = _.find(iD.data.wikipedia, function(lang) { return lang[2] === d.lang; });
+                return lang ? lang[1] : d.lang;
+            });
+
+        entry.select('.localized-value')
+            .value(function(d) { return d.value; });
     }
 
     i.tags = function(tags) {
@@ -28754,7 +29404,7 @@ iD.ui.preset.maxspeed = function(field, context) {
 iD.ui.preset.radio = function(field) {
 
     var event = d3.dispatch('change'),
-        labels, radios;
+        labels, radios, placeholder;
 
     function radio(selection) {
         selection.classed('preset-radio', true);
@@ -28764,6 +29414,11 @@ iD.ui.preset.radio = function(field) {
 
         var buttonWrap = wrap.enter().append('div')
             .attr('class', 'preset-input-wrap toggle-list');
+
+        buttonWrap.append('span')
+            .attr('class', 'placeholder');
+
+        placeholder = selection.selectAll('.placeholder');
 
         labels = wrap.selectAll('label')
             .data(field.options || field.keys);
@@ -28781,29 +29436,6 @@ iD.ui.preset.radio = function(field) {
 
         radios = labels.selectAll('input')
             .on('change', change);
-
-        buttonWrap.append('span')
-            .attr('class', 'placeholder')
-            .text(field.placeholder());
-
-        var remove = wrap.selectAll('label.remove')
-            .data([0]);
-
-        var removeButton = remove.enter().append('label')
-            .attr('class', 'remove');
-
-        removeButton.append('span')
-            .attr('class', 'icon remove');
-
-        removeButton.append('span')
-            .text(t('inspector.remove'));
-
-        remove
-            .on('click', function() {
-                d3.event.preventDefault();
-                radios.property('checked', false);
-                change();
-            });
     }
 
     function change() {
@@ -28831,6 +29463,12 @@ iD.ui.preset.radio = function(field) {
 
         labels.classed('active', checked);
         radios.property('checked', checked);
+        var selection = radios.filter(function() { return this.checked; });
+        if (selection.empty()) {
+            placeholder.text(t('inspector.none'));
+        } else {
+            placeholder.text(selection.attr('value'));
+        }
     };
 
     radio.focus = function() {
@@ -28878,7 +29516,6 @@ iD.ui.preset.wikipedia = function(field, context) {
 
     var event = d3.dispatch('change'),
         wikipedia = iD.wikipedia(),
-        language = iD.data.wikipedia[0],
         link, entity, lang, title;
 
     function i(selection) {
@@ -28902,7 +29539,7 @@ iD.ui.preset.wikipedia = function(field, context) {
                 if (!value) value = context.entity(entity.id).tags.name || '';
                 var searchfn = value.length > 7 ? wikipedia.search : wikipedia.suggestions;
 
-                searchfn(language && language[2], value, function(query, data) {
+                searchfn(language()[2], value, function(query, data) {
                     cb(data.map(function(d) {
                         return { value: d };
                     }));
@@ -28914,7 +29551,8 @@ iD.ui.preset.wikipedia = function(field, context) {
 
         lang.enter().append('input')
             .attr('type', 'text')
-            .attr('class', 'wiki-lang');
+            .attr('class', 'wiki-lang')
+            .value('English');
 
         lang
             .on('blur', changeLang)
@@ -28944,63 +29582,53 @@ iD.ui.preset.wikipedia = function(field, context) {
             .attr('class', 'icon out-link');
     }
 
-    function changeLang() {
+    function language() {
         var value = lang.value().toLowerCase();
-        language = _.find(iD.data.wikipedia, function(d) {
+        return _.find(iD.data.wikipedia, function(d) {
             return d[0].toLowerCase() === value ||
                 d[1].toLowerCase() === value ||
                 d[2].toLowerCase() === value;
         }) || iD.data.wikipedia[0];
+    }
 
-        if (value !== language[0]) {
-            lang.value(language[1]);
-        }
-
+    function changeLang() {
+        lang.value(language()[1]);
         change();
     }
 
     function change() {
-        var t = {};
+        var value = title.value(),
+            m = value.match(/http:\/\/([a-z]+)\.wikipedia\.org\/wiki\/(.+)/),
+            l = m && _.find(iD.data.wikipedia, function(d) { return m[1] === d[2]; });
 
-        var value = title.value();
-
-        var m = value.match('http://([a-z]+)\\.wikipedia.org/wiki/(.*)'),
-            newlanguage = m && m[1] && m[2] && _.find(iD.data.wikipedia, function(d) {
-                return m[1] === d[2];
-            });
-
-        if (newlanguage) {
+        if (l) {
             // Normalize title http://www.mediawiki.org/wiki/API:Query#Title_normalization
             value = m[2].replace(/_/g, ' ');
             value = value.slice(0, 1).toUpperCase() + value.slice(1);
-            language = newlanguage;
-            lang.value(language[0]);
+            lang.value(l[1]);
+            title.value(value);
         }
 
-        t[field.key] = value ? language[2] + ':' + value : undefined;
+        var t = {};
+        t[field.key] = value ? language()[2] + ':' + value : undefined;
         event.change(t);
-        link.attr('href', 'http://' + language[2] + '.wikipedia.org/wiki/' + (value || ''));
     }
 
     i.tags = function(tags) {
-        var m = tags[field.key] ? tags[field.key].match(/([^:]+):(.+)/) : null;
-
-        var language = m && m[1] && m[2] && _.find(iD.data.wikipedia, function(d) {
-            return m[1] === d[2];
-        });
+        var value = tags[field.key] || '',
+            m = value.match(/([^:]+):(.+)/),
+            l = m && _.find(iD.data.wikipedia, function(d) { return m[1] === d[2]; });
 
         // value in correct format
-        if (language) {
-            lang.value(language[1]);
+        if (l) {
+            lang.value(l[1]);
             title.value(m[2]);
             link.attr('href', 'http://' + m[1] + '.wikipedia.org/wiki/' + m[2]);
 
         // unrecognized value format
         } else {
-            lang.value('English');
-            title.value(tags[field.key] || '');
-            language = iD.data.wikipedia[0];
-            link.attr('href', 'http://en.wikipedia.org/wiki/Special:Search?search=' + tags[field.key]);
+            title.value(value);
+            link.attr('href', 'http://en.wikipedia.org/wiki/Special:Search?search=' + value);
         }
     };
 
@@ -29843,7 +30471,7 @@ iD.presets.Preset = function(id, preset, fields) {
         return tags;
     };
 
-    var applyTags = preset.applyTags || preset.tags;
+    var applyTags = preset.addTags || preset.tags;
     preset.applyTags = function(tags, geometry) {
         tags = _.clone(tags);
 
@@ -29868,7 +30496,7 @@ iD.presets.Preset = function(id, preset, fields) {
     return preset;
 };
 iD.validate = function(changes, graph) {
-    var warnings = [], change;
+    var warnings = [];
 
     // https://github.com/openstreetmap/josm/blob/mirror/src/org/
     // openstreetmap/josm/data/validation/tests/UnclosedWays.java#L80
@@ -29891,18 +30519,14 @@ iD.validate = function(changes, graph) {
     }
 
     for (var i = 0; i < changes.created.length; i++) {
-        change = changes.created[i];
+        var change = changes.created[i],
+            geometry = change.geometry(graph);
 
-        if (change.geometry(graph) === 'point' && _.isEmpty(change.tags)) {
+        if ((geometry === 'point' || geometry === 'line' || geometry === 'area') && !change.isUsed(graph)) {
             warnings.push({
-                message: t('validations.untagged_point'),
+                message: t('validations.untagged_' + geometry),
                 entity: change
             });
-        }
-
-        if (change.geometry(graph) === 'line' && _.isEmpty(change.tags) &&
-                graph.parentRelations(change).length === 0) {
-            warnings.push({ message: t('validations.untagged_line'), entity: change });
         }
 
         var deprecatedTags = change.deprecatedTags();
@@ -29913,11 +30537,7 @@ iD.validate = function(changes, graph) {
                 }), entity: change });
         }
 
-        if (change.geometry(graph) === 'area' && _.isEmpty(change.tags)) {
-            warnings.push({ message: t('validations.untagged_area'), entity: change });
-        }
-
-        if (change.geometry(graph) === 'line' && tagSuggestsArea(change)) {
+        if (geometry === 'line' && tagSuggestsArea(change)) {
             warnings.push({
                 message: t('validations.tag_suggests_area', {tag: tagSuggestsArea(change)}),
                 entity: change
@@ -29925,7 +30545,7 @@ iD.validate = function(changes, graph) {
         }
     }
 
-    return warnings.length ? [warnings] : [];
+    return warnings;
 };
 })();
 window.locale = { _current: 'en' };
@@ -37777,6 +38397,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         {
             "name": "Locator Overlay",
             "type": "tms",
+            "description": "Shows major features to help orient you.",
             "template": "http://{switch:a,b,c}.tiles.mapbox.com/v3/openstreetmap.map-btyhiati/{zoom}/{x}/{y}.png",
             "scaleExtent": [
                 0,
@@ -37805,6 +38426,41 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "type": "tms",
             "template": "http://oatile{switch:1,2,3,4}.mqcdn.com/tiles/1.0.0/sat/{zoom}/{x}/{y}.png",
             "default": true
+        },
+        {
+            "name": "NLS - Bartholomew Half Inch, 1897-1907",
+            "type": "tms",
+            "template": "http://geo.nls.uk/mapdata2/bartholomew/great_britain/{zoom}/{x}/{-y}.png",
+            "scaleExtent": [
+                0,
+                15
+            ],
+            "polygon": [
+                [
+                    [
+                        -9,
+                        49.8
+                    ],
+                    [
+                        -9,
+                        61.1
+                    ],
+                    [
+                        1.9,
+                        61.1
+                    ],
+                    [
+                        1.9,
+                        49.8
+                    ],
+                    [
+                        -9,
+                        49.8
+                    ]
+                ]
+            ],
+            "terms_url": "http://geo.nls.uk/maps/",
+            "terms_text": "National Library of Scotland Historic Maps"
         },
         {
             "name": "NLS - OS 1-inch 7th Series 1955-61",
@@ -44030,6 +44686,20 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "terms_url": "http://openstreetmap.org/",
             "terms_text": "© OpenStreetMap contributors, CC-BY-SA",
             "default": true
+        },
+        {
+            "name": "OpenStreetMap GPS traces",
+            "type": "tms",
+            "description": "Public GPS traces uploaded to OpenStreetMap.",
+            "template": "http://{switch:a,b,c}.gps-tile.openstreetmap.org/lines/{zoom}/{x}/{y}.png",
+            "scaleExtent": [
+                0,
+                20
+            ],
+            "terms_url": "http://www.openstreetmap.org/copyright",
+            "terms_text": "© OpenStreetMap contributors",
+            "terms_html": "© <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>. North: <span style='display: inline-block; width: 10px; height: 10px; background-color: #7fed11;'></span> South: <span style='display: inline-block; width: 10px; height: 10px; background-color: #7f11ed;'></span> East: <span style='display: inline-block; width: 10px; height: 10px; background-color: #ff3f3f;'></span> West: <span style='display: inline-block; width: 10px; height: 10px; background-color: #00bfbf;'></span>",
+            "overlay": true
         },
         {
             "name": "Pangasinán/Bulacan (Phillipines HiRes)",
@@ -55034,6 +55704,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "addr:housenumber": "*"
                 },
+                "addTags": {},
                 "matchScore": 0.2,
                 "name": "Address"
             },
@@ -57635,6 +58306,19 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "name": "Leisure"
             },
+            "leisure/common": {
+                "geometry": [
+                    "point",
+                    "area"
+                ],
+                "terms": [
+                    "open space"
+                ],
+                "tags": {
+                    "leisure": "common"
+                },
+                "name": "Common"
+            },
             "leisure/dog_park": {
                 "geometry": [
                     "point",
@@ -57972,6 +58656,21 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "man_made": "lighthouse"
                 },
                 "name": "Lighthouse"
+            },
+            "man_made/observation": {
+                "geometry": [
+                    "point",
+                    "area"
+                ],
+                "terms": [
+                    "lookout tower",
+                    "fire tower"
+                ],
+                "tags": {
+                    "man_made": "tower",
+                    "tower:type": "observation"
+                },
+                "name": "Observation Tower"
             },
             "man_made/pier": {
                 "geometry": [
@@ -59355,6 +60054,26 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "name": "Laundry"
             },
+            "shop/locksmith": {
+                "icon": "shop",
+                "fields": [
+                    "address",
+                    "building_area",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "terms": [
+                    "keys"
+                ],
+                "tags": {
+                    "shop": "locksmith"
+                },
+                "name": "Locksmith"
+            },
             "shop/mall": {
                 "icon": "shop",
                 "fields": [
@@ -59564,6 +60283,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "five-and-dime",
                     "flea market",
                     "galleria",
+                    "grocery store",
                     "mall",
                     "mart",
                     "outlet",
@@ -60614,12 +61334,12 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "aeroway": {
                 "key": "aeroway",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "amenity": {
                 "key": "amenity",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "artist": {
@@ -60644,7 +61364,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "barrier": {
                 "key": "barrier",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "bicycle_parking": {
@@ -60659,7 +61379,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "building": {
                 "key": "building",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Building"
             },
             "building_area": {
@@ -60773,7 +61493,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "entrance": {
                 "key": "entrance",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "fax": {
@@ -60820,12 +61540,12 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "highway": {
                 "key": "highway",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "historic": {
                 "key": "historic",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "iata": {
@@ -60866,7 +61586,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "landuse": {
                 "key": "landuse",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "lanes": {
@@ -60882,7 +61602,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "leisure": {
                 "key": "leisure",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "levels": {
@@ -60903,7 +61623,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "man_made": {
                 "key": "man_made",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "maxspeed": {
@@ -60920,7 +61640,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "natural": {
                 "key": "natural",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Natural"
             },
             "network": {
@@ -60937,7 +61657,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "office": {
                 "key": "office",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "oneway": {
@@ -60990,17 +61710,17 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "place": {
                 "key": "place",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "power": {
                 "key": "power",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "railway": {
                 "key": "railway",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "ref": {
@@ -61077,7 +61797,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "shop": {
                 "key": "shop",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "source": {
@@ -61128,7 +61848,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "tourism": {
                 "key": "tourism",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "towertype": {
@@ -61158,7 +61878,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "waterway": {
                 "key": "waterway",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "website": {
@@ -72804,6 +73524,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
     "locales": [
         "af",
         "ar",
+        "ar-AA",
         "ast",
         "bn",
         "bs",
@@ -72833,6 +73554,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "lt",
         "no",
         "nn",
+        "fa",
         "pl",
         "pt",
         "pt-BR",
@@ -73098,15 +73820,22 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "back_tooltip": "Change feature",
             "remove": "Remove",
             "search": "Search",
+            "multiselect": "Selected items",
             "unknown": "Unknown",
             "incomplete": "<not downloaded>",
             "feature_list": "Search features",
-            "edit": "Edit feature"
+            "edit": "Edit feature",
+            "check": {
+                "yes": "Yes",
+                "no": "No"
+            },
+            "none": "None"
         },
         "background": {
             "title": "Background",
             "description": "Background settings",
             "percent_brightness": "{opacity}% brightness",
+            "none": "None",
             "custom": "Custom",
             "custom_prompt": "Enter a tile template. Valid tokens are {z}, {x}, {y} for Z/X/Y scheme and {u} for quadtile scheme.",
             "fix_misalignment": "Fix misalignment",
@@ -73169,7 +73898,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "cannot_zoom": "Cannot zoom out further in current mode.",
         "gpx": {
             "local_layer": "Local GPX file",
-            "drag_drop": "Drag and drop a .gpx file on the page"
+            "drag_drop": "Drag and drop a .gpx file on the page, or click the button to the right to browse",
+            "zoom": "Zoom to GPX track",
+            "browse": "Browse for a .gpx file"
         },
         "help": {
             "title": "Help",
@@ -73177,9 +73908,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "editing_saving": "# Editing & Saving\n\nThis editor is designed to work primarily online, and you're accessing\nit through a website right now.\n\n### Selecting Features\n\nTo select a map feature, like a road or point of interest, click\non it on the map. This will highlight the selected feature, open a panel with\ndetails about it, and show a menu of things you can do with the feature.\n\nTo select multiple features, hold down the 'Shift' key. Then either click\non the features you want to select, or drag on the map to draw a rectangle.\nThis will draw a box and select all the points within it.\n\n### Saving Edits\n\nWhen you make changes like editing roads, buildings, and places, these are\nstored locally until you save them to the server. Don't worry if you make\na mistake - you can undo changes by clicking the undo button, and redo\nchanges by clicking the redo button.\n\nClick 'Save' to finish a group of edits - for instance, if you've completed\nan area of town and would like to start on a new area. You'll have a chance\nto review what you've done, and the editor supplies helpful suggestions\nand warnings if something doesn't seem right about the changes.\n\nIf everything looks good, you can enter a short comment explaining the change\nyou made, and click 'Save' again to post the changes\nto [OpenStreetMap.org](http://www.openstreetmap.org/), where they are visible\nto all other users and available for others to build and improve upon.\n\nIf you can't finish your edits in one sitting, you can leave the editor\nwindow and come back (on the same browser and computer), and the\neditor application will offer to restore your work.\n",
             "roads": "# Roads\n\nYou can create, fix, and delete roads with this editor. Roads can be all\nkinds: paths, highways, trails, cycleways, and more - any often-crossed\nsegment should be mappable.\n\n### Selecting\n\nClick on a road to select it. An outline should become visible, along\nwith a small tools menu on the map and a sidebar showing more information\nabout the road.\n\n### Modifying\n\nOften you'll see roads that aren't aligned to the imagery behind them\nor to a GPS track. You can adjust these roads so they are in the correct\nplace.\n\nFirst click on the road you want to change. This will highlight it and show\ncontrol points along it that you can drag to better locations. If\nyou want to add new control points for more detail, double-click a part\nof the road without a node, and one will be added.\n\nIf the road connects to another road, but doesn't properly connect on\nthe map, you can drag one of its control points onto the other road in\norder to join them. Having roads connect is important for the map\nand essential for providing driving directions.\n\nYou can also click the 'Move' tool or press the `M` shortcut key to move the entire road at\none time, and then click again to save that movement.\n\n### Deleting\n\nIf a road is entirely incorrect - you can see that it doesn't exist in satellite\nimagery and ideally have confirmed locally that it's not present - you can delete\nit, which removes it from the map. Be cautious when deleting features -\nlike any other edit, the results are seen by everyone and satellite imagery\nis often out of date, so the road could simply be newly built.\n\nYou can delete a road by clicking on it to select it, then clicking the\ntrash can icon or pressing the 'Delete' key.\n\n### Creating\n\nFound somewhere there should be a road but there isn't? Click the 'Line'\nicon in the top-left of the editor or press the shortcut key `2` to start drawing\na line.\n\nClick on the start of the road on the map to start drawing. If the road\nbranches off from an existing road, start by clicking on the place where they connect.\n\nThen click on points along the road so that it follows the right path, according\nto satellite imagery or GPS. If the road you are drawing crosses another road, connect\nit by clicking on the intersection point. When you're done drawing, double-click\nor press 'Return' or 'Enter' on your keyboard.\n",
             "gps": "# GPS\n\nGPS data is the most trusted source of data for OpenStreetMap. This editor\nsupports local traces - `.gpx` files on your local computer. You can collect\nthis kind of GPS trace with a number of smartphone applications as well as\npersonal GPS hardware.\n\nFor information on how to perform a GPS survey, read\n[Surveying with a GPS](http://learnosm.org/en/beginner/using-gps/).\n\nTo use a GPX track for mapping, drag and drop the GPX file onto the map\neditor. If it's recognized, it will be added to the map as a bright green\nline. Click on the 'Background Settings' menu on the right side to enable,\ndisable, or zoom to this new GPX-powered layer.\n\nThe GPX track isn't directly uploaded to OpenStreetMap - the best way to\nuse it is to draw on the map, using it as a guide for the new features that\nyou add, and also to [upload it to OpenStreetMap](http://www.openstreetmap.org/trace/create)\nfor other users to use.\n",
-            "imagery": "# Imagery\n\nAerial imagery is an important resource for mapping. A combination of\nairplane flyovers, satellite views, and freely-compiled sources are available\nin the editor under the 'Background Settings' menu on the left.\n\nBy default a [Bing Maps](http://www.bing.com/maps/) satellite layer is\npresented in the editor, but as you pan and zoom the map to new geographical\nareas, new sources will become available. Some countries, like the United\nStates, France, and Denmark have very high-quality imagery available for some areas.\n\nImagery is sometimes offset from the map data because of a mistake on the\nimagery provider's side. If you see a lot of roads shifted from the background,\ndon't immediately move them all to match the background. Instead you can adjust\nthe imagery so that it matches the existing data by clicking 'Fix alignment' at\nthe bottom of the Background Settings UI.\n",
+            "imagery": "# Imagery\n\nAerial imagery is an important resource for mapping. A combination of\nairplane flyovers, satellite views, and freely-compiled sources are available\nin the editor under the 'Background Settings' menu on the right.\n\nBy default a [Bing Maps](http://www.bing.com/maps/) satellite layer is\npresented in the editor, but as you pan and zoom the map to new geographical\nareas, new sources will become available. Some countries, like the United\nStates, France, and Denmark have very high-quality imagery available for some areas.\n\nImagery is sometimes offset from the map data because of a mistake on the\nimagery provider's side. If you see a lot of roads shifted from the background,\ndon't immediately move them all to match the background. Instead you can adjust\nthe imagery so that it matches the existing data by clicking 'Fix alignment' at\nthe bottom of the Background Settings UI.\n",
             "addresses": "# Addresses\n\nAddresses are some of the most useful information for the map.\n\nAlthough addresses are often represented as parts of streets, in OpenStreetMap\nthey're recorded as attributes of buildings and places along streets.\n\nYou can add address information to places mapped as building outlines\nas well as those mapped as single points. The optimal source of address\ndata is from an on-the-ground survey or personal knowledge - as with any\nother feature, copying from commercial sources like Google Maps is strictly\nforbidden.\n",
-            "inspector": "# Using the Inspector\n\nThe inspector is the user interface element on the right-hand side of the\npage that appears when a feature is selected and allows you to edit its details.\n\n### Selecting a Feature Type\n\nAfter you add a point, line, or area, you can choose what type of feature it\nis, like whether it's a highway or residential road, supermarket or cafe.\nThe inspector will display buttons for common feature types, and you can\nfind others by typing what you're looking for in the search box.\n\nClick the 'i' in the bottom-right-hand corner of a feature type button to\nlearn more about it. Click a button to choose that type.\n\n### Using Forms and Editing Tags\n\nAfter you choose a feature type, or when you select a feature that already\nhas a type assigned, the inspector will display fields with details about\nthe feature like its name and address.\n\nBelow the fields you see, you can click icons to add other details,\nlike [Wikipedia](http://www.wikipedia.org/) information, wheelchair\naccess, and more.\n\nAt the bottom of the inspector, click 'Additional tags' to add arbitrary\nother tags to the element. [Taginfo](http://taginfo.openstreetmap.org/) is a\ngreat resource for learn more about popular tag combinations.\n\nChanges you make in the inspector are automatically applied to the map.\nYou can undo them at any time by clicking the 'Undo' button.\n\n### Closing the Inspector\n\nYou can close the inspector by clicking the close button in the top-right,\npressing the 'Escape' key, or clicking on the map.\n",
+            "inspector": "# Using the Inspector\n\nThe inspector is the section on the left side of the page that allows you to\nedit the details of the selected feature.\n\n### Selecting a Feature Type\n\nAfter you add a point, line, or area, you can choose what type of feature it\nis, like whether it's a highway or residential road, supermarket or cafe.\nThe inspector will display buttons for common feature types, and you can\nfind others by typing what you're looking for in the search box.\n\nClick the 'i' in the bottom-right-hand corner of a feature type button to\nlearn more about it. Click a button to choose that type.\n\n### Using Forms and Editing Tags\n\nAfter you choose a feature type, or when you select a feature that already\nhas a type assigned, the inspector will display fields with details about\nthe feature like its name and address.\n\nBelow the fields you see, you can click icons to add other details,\nlike [Wikipedia](http://www.wikipedia.org/) information, wheelchair\naccess, and more.\n\nAt the bottom of the inspector, click 'Additional tags' to add arbitrary\nother tags to the element. [Taginfo](http://taginfo.openstreetmap.org/) is a\ngreat resource for learn more about popular tag combinations.\n\nChanges you make in the inspector are automatically applied to the map.\nYou can undo them at any time by clicking the 'Undo' button.\n",
             "buildings": "# Buildings\n\nOpenStreetMap is the world's largest database of buildings. You can create\nand improve this database.\n\n### Selecting\n\nYou can select a building by clicking on its border. This will highlight the\nbuilding and open a small tools menu and a sidebar showing more information\nabout the building.\n\n### Modifying\n\nSometimes buildings are incorrectly placed or have incorrect tags.\n\nTo move an entire building, select it, then click the 'Move' tool. Move your\nmouse to shift the building, and click when it's correctly placed.\n\nTo fix the specific shape of a building, click and drag the nodes that form\nits border into better places.\n\n### Creating\n\nOne of the main questions around adding buildings to the map is that\nOpenStreetMap records buildings both as shapes and points. The rule of thumb\nis to _map a building as a shape whenever possible_, and map companies, homes,\namenities, and other things that operate out of buildings as points placed\nwithin the building shape.\n\nStart drawing a building as a shape by clicking the 'Area' button in the top\nleft of the interface, and end it either by pressing 'Return' on your keyboard\nor clicking on the first node drawn to close the shape.\n\n### Deleting\n\nIf a building is entirely incorrect - you can see that it doesn't exist in satellite\nimagery and ideally have confirmed locally that it's not present - you can delete\nit, which removes it from the map. Be cautious when deleting features -\nlike any other edit, the results are seen by everyone and satellite imagery\nis often out of date, so the building could simply be newly built.\n\nYou can delete a building by clicking on it to select it, then clicking the\ntrash can icon or pressing the 'Delete' key.\n",
             "relations": "# Relations\n\nA relation is a special type of feature in OpenStreetMap that groups together\nother features. For example, two common types of relations are *route relations*,\nwhich group together sections of road that belong to a specific freeway or\nhighway, and *multipolygons*, which group together several lines that define\na complex area (one with several pieces or holes in it like a donut).\n\nThe group of features in a relation are called *members*. In the sidebar, you can\nsee which relations a feature is a member of, and click on a relation there\nto select the it. When the relation is selected, you can see all of its\nmembers listed in the sidebar and highlighted on the map.\n\nFor the most part, iD will take care of maintaining relations automatically\nwhile you edit. The main thing you should be aware of is that if you delete a\nsection of road to redraw it more accurately, you should make sure that the\nnew section is a member of the same relations as the original.\n\n## Editing Relations\n\nIf you want to edit relations, here are the basics.\n\nTo add a feature to a relation, select the feature, click the \"+\" button in the\n\"All relations\" section of the sidebar, and select or type the name of the relation.\n\nTo create a new relation, select the first feature that should be a member,\nclick the \"+\" button in the \"All relations\" section, and select \"New relation...\".\n\nTo remove a feature from a relation, select the feature and click the trash\nbutton next to the relation you want to remove it from.\n\nYou can create multipolygons with holes using the \"Merge\" tool. Draw two areas (inner\nand outer), hold the Shift key and click on each of them to select them both, and then\nclick the \"Merge\" (+) button.\n"
         },
@@ -74237,6 +74968,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Leisure",
                     "terms": ""
                 },
+                "leisure/common": {
+                    "name": "Common",
+                    "terms": "open space"
+                },
                 "leisure/dog_park": {
                     "name": "Dog Park",
                     "terms": ""
@@ -74332,6 +75067,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "man_made/lighthouse": {
                     "name": "Lighthouse",
                     "terms": ""
+                },
+                "man_made/observation": {
+                    "name": "Observation Tower",
+                    "terms": "lookout tower,fire tower"
                 },
                 "man_made/pier": {
                     "name": "Pier",
@@ -74709,6 +75448,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Laundry",
                     "terms": ""
                 },
+                "shop/locksmith": {
+                    "name": "Locksmith",
+                    "terms": "keys"
+                },
                 "shop/mall": {
                     "name": "Mall",
                     "terms": ""
@@ -74755,7 +75498,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "shop/supermarket": {
                     "name": "Supermarket",
-                    "terms": "bazaar,boutique,chain,co-op,cut-rate store,discount store,five-and-dime,flea market,galleria,mall,mart,outlet,outlet store,shop,shopping center,shopping centre,shopping plaza,stand,store,supermarket,thrift shop"
+                    "terms": "bazaar,boutique,chain,co-op,cut-rate store,discount store,five-and-dime,flea market,galleria,grocery store,mall,mart,outlet,outlet store,shop,shopping center,shopping centre,shopping plaza,stand,store,supermarket,thrift shop"
                 },
                 "shop/toys": {
                     "name": "Toy Store",
