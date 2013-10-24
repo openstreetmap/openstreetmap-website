@@ -1396,7 +1396,6 @@ input[type=email] {
     width: 100%;
     border-radius:4px;
     text-overflow: ellipsis;
-    overflow: hidden;
     -webkit-transition: all 200ms;
        -moz-transition: all 200ms;
          -o-transition: all 200ms;
@@ -1464,17 +1463,11 @@ table.tags, table.tags td, table.tags th {
 
 ul li { list-style: none;}
 
-.toggle-list {
-    border-radius: 4px;
-    border: 1px solid #CCC;
-}
-
 .toggle-list > label {
     position: relative;
     padding: 5px 10px;
-    display:block;
+    display: block;
     height: 30px;
-    border-bottom: 1px solid #ccc;
     background-color: white;
     color: #7092FF;
     cursor: pointer;
@@ -1487,32 +1480,19 @@ ul li { list-style: none;}
     background-color: #ececec;
 }
 
-.toggle-list > label:first-child {
-    border-radius: 3px 3px 0 0;
+.toggle-list > label:not(:last-child) {
+    border-bottom: 1px solid #ccc;
 }
 
 .toggle-list > label:last-child {
     border-radius: 0 0 3px 3px;
-    border-bottom-width: 0;
 }
 
-.toggle-list > label:only-child {
-    border-radius: 3px;
-}
-
-.toggle-list label > span { 
+.toggle-list label > span {
     display: block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-}
-
-.toggle-list > label.remove span.icon {
-    display: block;
-    width: 14px;
-    float: left;
-    margin-right: 5px;
-    background-position: -204px 0;
 }
 
 .toggle-list > label.active {
@@ -1781,6 +1761,7 @@ button.save.has-count .count::before {
 .icon.relation    { background-position: -520px 0;}
 .icon.relation.route         { background-position: -540px 0;}
 .icon.relation.multipolygon  { background-position: -560px 0;}
+.icon.vertex     { background-position: -580px 0;}
 
 .icon.inspect.light    { background-position: -220px -20px;}
 .icon.plus.light       { background-position: -240px -20px;}
@@ -1814,6 +1795,18 @@ button[disabled] .icon.geocode    { background-position: -280px -40px;}
 button[disabled] .icon.layers     { background-position: -300px -40px;}
 button[disabled] .icon.avatar     { background-position: -320px -40px;}
 button[disabled] .icon.nearby     { background-position: -340px -40px;}
+
+.icon.point.deleted  { background-position: -302px -80px;}
+.icon.line.deleted   { background-position: -320px -80px;}
+.icon.area.deleted   { background-position: -340px -80px;}
+
+.icon.point.created  { background-position: -302px -100px;}
+.icon.line.created   { background-position: -320px -100px;}
+.icon.area.created   { background-position: -340px -100px;}
+
+.icon.point.modified  { background-position: -24px 0; }
+
+.icon.modified { opacity: .5; }
 
 /* Out link is special */
 
@@ -1956,6 +1949,10 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 }
 
 .entity-editor-pane .inspector-body {
+    top: 60px;
+}
+
+.selection-list-pane .inspector-body {
     top: 60px;
 }
 
@@ -2104,6 +2101,15 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     height: 100%;
     border: 1px solid #CCC;
     border-radius: 0 3px 3px 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10%;
+    background: #fafafa;
+}
+
+.preset-list-item button.tag-reference-button .icon {
+    opacity: .5;
 }
 
 .current .preset-list-button,
@@ -2232,26 +2238,39 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     background: #f6f6f6;
     display: block;
     border-radius: 4px 4px 0 0;
+    overflow: hidden;
+}
+
+.form-label-button-wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    text-align: right;
+}
+
+.form-label-button-wrap .icon {
+    opacity: .5;
 }
 
 .form-label button {
     border-left: 1px solid #CCC;
+    width: 10%;
+    height: 100%;
+    border-radius: 0;
+    background: #fafafa;
 }
 
-.form-label .modified-icon {
-    border-right: 0;
-    opacity: 0;
-    z-index: -10;
-    right: 10%;
+.form-label .modified-icon,
+.form-field .remove-icon {
+    display: none;
 }
 
-.modified .form-label .modified-icon {
-    opacity: 1;
-    z-index: 1;
-}
-
-.form-label button.tag-reference-button {
-    border-top-right-radius: 3px;
+.modified .form-label .modified-icon,
+.present .form-label .remove-icon {
+    display: inline-block;
 }
 
 .form-field > input,
@@ -2261,15 +2280,10 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     min-height: 30px;
     border-top: 0;
     border-radius: 0 0 4px 4px;
-    overflow: hidden;
 }
 
 .form-field textarea {
     height: 65px;
-}
-
-.form-field button.remove {
-    border-radius: 0 0 4px 0;
 }
 
 .inspector-border {
@@ -2294,7 +2308,7 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 .inspector-hidden,
 .inspector-hover label input[type="checkbox"],
 .inspector-hover label input[type="radio"],
-.inspector-hover .toggle-list label:not(.active),
+.inspector-hover .toggle-list label,
 .inspector-hover .toggle-list label span,
 .inspector-hover .inspector-inner .add-tag,
 .inspector-hover .inspector-inner .add-relation,
@@ -2309,13 +2323,14 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 }
 
 /* hide but preserve in layout */
-.inspector-hover .modified .form-label .modified-icon,
 .inspector-hover .entity-editor-pane button.minor,
-.inspector-hover .combobox-carat,
+.inspector-hover .combobox-caret,
 .inspector-hover .entity-editor-pane .header button,
 .inspector-hover .spin-control,
 .inspector-hover .hide-toggle:before,
 .inspector-hover .more-buttons,
+.inspector-hover .form-label-button-wrap,
+.inspector-hover .tag-reference-button,
 .inspector-hover .view-on-osm {
     opacity: 0;
 }
@@ -2403,9 +2418,8 @@ input,
             transition: opacity 200ms 200ms, width 200ms 200ms, margin-right 200ms 200ms;
 }
 
-.modified .form-label .modified-icon,
 .entity-editor-pane button.minor,
-.combobox-carat,
+.combobox-caret,
 .entity-editor-pane .header button,
 .toggle-list label span,
 .spin-control,
@@ -2634,7 +2648,7 @@ input[type=number] {
     padding-right: 10%;
 }
 
-.form-field .wiki-title ~ .combobox-carat {
+.form-field .wiki-title ~ .combobox-caret {
     margin-left: -18%;
     margin-right: 9%;
 }
@@ -2708,9 +2722,12 @@ input[type=number] {
 }
 
 .form-field .localized-wrap .entry .localized-value {
-    padding-right: 10%;
     border-top-width: 0;
     border-radius: 0 0 4px 4px;
+}
+
+.form-field .localized-wrap .form-label button {
+    border-top-right-radius: 3px;
 }
 
 /* Preset form address */
@@ -2782,10 +2799,21 @@ div.combobox {
     border-top: 0;
 }
 
-.combobox-carat {
-    margin-left: -20px;
-    margin-right: 10px;
-    display:inline-block;
+.combobox-caret {
+    display: inline-block;
+    position: relative;
+    height: 30px;
+    width: 30px;
+    margin-left: -30px;
+    vertical-align: top;
+}
+
+.combobox-caret::after {
+    content:"";
+    height: 0; width: 0;
+    position: absolute;
+    left: 0; right: 0; bottom: 0; top: 0;
+    margin: auto;
     border-top: 5px solid #ccc;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
@@ -2871,6 +2899,10 @@ div.combobox {
 
 .tag-row .tag-reference-button {
     right: 0;
+    border-radius: 0;
+    width: 10%;
+    top: 0;
+    background: #fafafa;
 }
 
 /* Adding form fields to tag editor */
@@ -2978,6 +3010,10 @@ img.wiki-image {
     padding-left: 10px;
 }
 
+.member-incomplete .member-delete {
+    display: none;
+}
+
 .member-row-new .member-entity-input {
     border-radius: 4px 4px 0 0;
     border: 1px solid #cfcfcf;
@@ -3038,15 +3074,9 @@ img.wiki-image {
 
 /* Background Settings */
 
-
-.toggle-list.layer-list {
-    margin-bottom: 10px;
-}
-
 .background-control button {
     border-radius: 4px 0 0 0;
 }
-
 
 .background-control button.active {
     border-radius: 0;
@@ -3072,6 +3102,56 @@ img.wiki-image {
 
 .background-control .hide-toggle  {
     padding-bottom: 10px;
+}
+
+.layer-list {
+    margin-bottom: 10px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+}
+
+.layer-list li {
+    position: relative;
+    height: 30px;
+    background-color: white;
+    color: #7092FF;
+}
+
+.layer-list > li:first-child {
+    border-radius: 3px 3px 0 0;
+}
+
+.layer-list > li:last-child {
+    border-radius: 0 0 3px 3px;
+}
+
+.layer-list > li:only-child {
+    border-radius: 3px;
+}
+
+.layer-list li:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+
+.layer-list li:hover {
+    background-color: #ececec;
+}
+
+.layer-list li.active {
+    background: #E8EBFF;
+}
+
+.layer-list label {
+    display: block;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.layer-list label > span {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .hide-toggle {
@@ -3146,7 +3226,7 @@ img.wiki-image {
 .opacity-options {
     background: url(<%= asset_path("iD/img/background-pattern-opacity.png") %>) 0 0 repeat;
     height:20px;
-    width:62px;
+    width:82px;
     position: absolute;
     right: 10px;
     top: 10px;
@@ -3185,13 +3265,20 @@ img.wiki-image {
     height:18px;
 }
 
-.background-control .layer-toggle-gpx .layer-extent {
+.background-control .layer-toggle-gpx button {
+    float: right;
+    height: 100%;
+    width: 10%;
     border-left: 1px solid #CCC;
-    border-radius: 0 4px 4px 0;
+    border-radius: 0;
 }
 
-.background-control .layer-toggle-gpx.selected .layer-extent {
-    display:inline-block;
+.background-control .layer-toggle-gpx button .icon {
+    opacity: 0.5;
+}
+
+.background-control .layer-toggle-gpx button.layer-extent {
+    border-radius: 0 3px 3px 0;
 }
 
 /* Geolocator */
@@ -3361,12 +3448,24 @@ img.wiki-image {
 }
 
 /* Attribution overlay */
-.attribution {
+.base-layer-attribution,
+.overlay-layer-attribution {
     position: absolute;
     bottom: 35px;
-    left:10px;
-    color:#888;
-    font-size:10px;
+    color: #888;
+    font-size: 10px;
+}
+
+.base-layer-attribution {
+    left: 10px;
+}
+
+.overlay-layer-attribution {
+    right: 10px;
+}
+
+.overlay-layer-attribution .attribution:not(:last-child):after {
+    content: '; ';
 }
 
 .source-image {
@@ -3558,6 +3657,8 @@ img.wiki-image {
     float: none;
     margin: auto;
     display: block;
+    color: white;
+    font-size: 14px;
 }
 
 .mode-save .user-info img {
@@ -3578,12 +3679,15 @@ img.wiki-image {
     color:#fff;
 }
 
+.mode-save .commit-info {
+    margin-bottom: 10px;
+}
+
 .mode-save .changeset-list {
     overflow: auto;
     border:1px solid #ccc;
     border-radius: 4px;
     background:#fff;
-    max-height: 160px;
 }
 
 .mode-save .warning-section .changeset-list button {
@@ -3594,11 +3698,24 @@ img.wiki-image {
     position: relative;
     border-top:1px solid #ccc;
     padding:5px 10px;
+    cursor: pointer;
+}
+
+.mode-save .changeset-list li:hover {
+    background-color: #ececec;
+}
+
+.mode-save .changeset-list .alert {
+    opacity: 0.5;
 }
 
 .changeset-list li span.count {
     font-size:10px;
     color:#555;
+}
+
+.mode-save .commit-section .changeset-list button {
+    border-left: 1px solid #CCC;
 }
 
 .changeset-list li span.count:before { content: '('; }
@@ -3838,7 +3955,7 @@ img.wiki-image {
 }
 /* Move over tooltips that are near the edge of screen */
 .add-point .tooltip {
-    left: 33.3333% !important; 
+    left: 33.3333% !important;
 }
 
 .curtain-tooltip.intro-points-add .tooltip-arrow,
