@@ -4,6 +4,16 @@ class TraceControllerTest < ActionController::TestCase
   fixtures :users, :gpx_files
   set_fixture_class :gpx_files => 'Trace'
 
+  def setup
+    @gpx_trace_dir = Object.send("remove_const", "GPX_TRACE_DIR")
+    Object.const_set("GPX_TRACE_DIR", File.dirname(__FILE__) + "/../traces")
+  end
+
+  def teardown
+    Object.send("remove_const", "GPX_TRACE_DIR")
+    Object.const_set("GPX_TRACE_DIR", @gpx_trace_dir)
+  end
+
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -218,6 +228,229 @@ class TraceControllerTest < ActionController::TestCase
     check_trace_feed users(:public_user).traces.tagged("Birmingham").public
   end
 
+  # Test viewing a trace
+  def test_view
+    # First with no auth, which should work since the trace is public
+    get :view, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}
+    check_trace_view gpx_files(:public_trace_file)
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # Now with some other user, which should work since the trace is public
+    get :view, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:public_user).id}
+    check_trace_view gpx_files(:public_trace_file)
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # And finally we should be able to do it with the owner of the trace
+    get :view, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:normal_user).id}
+    check_trace_view gpx_files(:public_trace_file)
+  end
+
+  # Check an anonymous trace can't be viewed by another user
+  def test_view_anon
+    # First with no auth
+    get :view, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}
+    assert_response :redirect
+    assert_redirected_to :action => :list
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Now with some other user, which should work since the trace is anon
+    get :view, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :list
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # And finally we should be able to do it with the owner of the trace
+    get :view, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}, {:user => users(:public_user).id}
+    check_trace_view gpx_files(:anon_trace_file)
+  end
+
+  # Test viewing a trace that doesn't exist
+  def test_view_not_found
+    # First with no auth, which should work since the trace is public
+    get :view, {:display_name => users(:public_user).display_name, :id => 0}
+    assert_response :redirect
+    assert_redirected_to :action => :list
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # Now with some other user, which should work since the trace is public
+    get :view, {:display_name => users(:public_user).display_name, :id => 0}, {:user => users(:public_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :list
+
+    # And finally we should be able to do it with the owner of the trace
+    get :view, {:display_name => users(:public_user).display_name, :id => 5}, {:user => users(:public_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :list
+  end
+
+  # Test downloading a trace
+  def test_data
+    # First with no auth, which should work since the trace is public
+    get :data, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}
+    check_trace_data gpx_files(:public_trace_file)
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # Now with some other user, which should work since the trace is public
+    get :data, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:public_user).id}
+    check_trace_data gpx_files(:public_trace_file)
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # And finally we should be able to do it with the owner of the trace
+    get :data, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:normal_user).id}
+    check_trace_data gpx_files(:public_trace_file)
+  end
+
+  # Test downloading a compressed trace
+  def test_data_compressed
+    # First get the data as is
+    get :data, {:display_name => users(:public_user).display_name, :id => gpx_files(:identifiable_trace_file).id}
+    check_trace_data gpx_files(:identifiable_trace_file), "application/x-gzip", "gpx.gz"
+
+    # Now ask explicitly for XML format
+    get :data, {:display_name => users(:public_user).display_name, :id => gpx_files(:identifiable_trace_file).id, :format => "xml"}
+    check_trace_data gpx_files(:identifiable_trace_file), "application/xml", "xml"
+
+    # Now ask explicitly for GPX format
+    get :data, {:display_name => users(:public_user).display_name, :id => gpx_files(:identifiable_trace_file).id, :format => "gpx"}
+    check_trace_data gpx_files(:identifiable_trace_file)
+  end
+
+  # Check an anonymous trace can't be downloaded by another user
+  def test_data_anon
+    # First with no auth
+    get :data, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}
+    assert_response :not_found
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Now with some other user, which should work since the trace is anon
+    get :data, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}, {:user => users(:normal_user).id}
+    assert_response :not_found
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # And finally we should be able to do it with the owner of the trace
+    get :data, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}, {:user => users(:public_user).id}
+    check_trace_data gpx_files(:anon_trace_file)
+  end
+
+  # Test downloading a trace that doesn't exist
+  def test_data_not_found
+    # First with no auth, which should work since the trace is public
+    get :data, {:display_name => users(:public_user).display_name, :id => 0}
+    assert_response :not_found
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # Now with some other user, which should work since the trace is public
+    get :data, {:display_name => users(:public_user).display_name, :id => 0}, {:user => users(:public_user).id}
+    assert_response :not_found
+
+    # And finally we should be able to do it with the owner of the trace
+    get :data, {:display_name => users(:public_user).display_name, :id => 5}, {:user => users(:public_user).id}
+    assert_response :not_found
+  end
+
+  # Test fetching the edit page for a trace
+  def test_edit_get
+    # First with no auth
+    get :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :referer => trace_edit_path(:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id)
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # Now with some other user, which should fail
+    get :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:public_user).id}
+    assert_response :forbidden
+
+    # Now with a trace which doesn't exist
+    get :edit, {:display_name => users(:public_user).display_name, :id => 0}, {:user => users(:public_user).id}
+    assert_response :not_found
+
+    # Now with a trace which has been deleted
+    get :edit, {:display_name => users(:public_user).display_name, :id => gpx_files(:deleted_trace_file).id}, {:user => users(:public_user).id}
+    assert_response :not_found
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Finally with a trace that we are allowed to edit
+    get :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:normal_user).id}
+    assert_response :success
+  end
+
+  # Test saving edits to a trace
+  def test_edit_post
+    # New details
+    new_details = { :description => "Changed description", :tagstring => "new_tag", :visibility => "private" }
+
+    # First with no auth
+    post :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id, :trace => new_details}
+    assert_response :forbidden
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # Now with some other user, which should fail
+    post :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id, :trace => new_details}, {:user => users(:public_user).id}
+    assert_response :forbidden
+
+    # Now with a trace which doesn't exist
+    post :edit, {:display_name => users(:public_user).display_name, :id => 0}, {:user => users(:public_user).id, :trace => new_details}
+    assert_response :not_found
+
+    # Now with a trace which has been deleted
+    post :edit, {:display_name => users(:public_user).display_name, :id => gpx_files(:deleted_trace_file).id, :trace => new_details}, {:user => users(:public_user).id}
+    assert_response :not_found
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Finally with a trace that we are allowed to edit
+    post :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id, :trace => new_details}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
+    trace = Trace.find(gpx_files(:public_trace_file).id)
+    assert_equal new_details[:description], trace.description
+    assert_equal new_details[:tagstring], trace.tagstring
+    assert_equal new_details[:visibility], trace.visibility
+  end
+
+  # Test deleting a trace
+  def test_delete
+    # First with no auth
+    post :delete, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id,}
+    assert_response :forbidden
+
+    @request.cookies["_osm_username"] = users(:public_user).display_name
+
+    # Now with some other user, which should fail
+    post :delete, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:public_user).id}
+    assert_response :forbidden
+
+    # Now with a trace which doesn't exist
+    post :delete, {:display_name => users(:public_user).display_name, :id => 0}, {:user => users(:public_user).id}
+    assert_response :not_found
+
+    # Now with a trace has already been deleted
+    post :delete, {:display_name => users(:public_user).display_name, :id => gpx_files(:deleted_trace_file).id}, {:user => users(:public_user).id}
+    assert_response :not_found
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Finally with a trace that we are allowed to delete
+    post :delete, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :list, :display_name => users(:normal_user).display_name
+    trace = Trace.find(gpx_files(:public_trace_file).id)
+    assert_equal false, trace.visible
+  end
+
   # Check getting a specific trace through the api
   def test_api_read
     # First with no auth
@@ -384,5 +617,22 @@ private
     else
       assert_select "h4", /Nothing here yet/
     end
+  end
+
+  def check_trace_view(trace)
+    assert_response :success
+    assert_template "view"
+
+    assert_select "table", :count => 1 do
+      assert_select "td", /^#{Regexp.quote(trace.name)} /
+      assert_select "td", trace.user.display_name
+      assert_select "td", trace.description
+    end
+  end
+
+  def check_trace_data(trace, content_type = "application/gpx+xml", extension = "gpx")
+    assert_response :success
+    assert_equal content_type, @response.content_type
+    assert_equal "attachment; filename=\"#{trace.id}.#{extension}\"", @response.header["Content-Disposition"]
   end
 end

@@ -5,6 +5,6 @@ class DiaryCommentTest < ActiveSupport::TestCase
   fixtures :diary_comments
   
   def test_diary_comment_count
-    assert_equal 3, DiaryComment.count
+    assert_equal 4, DiaryComment.count
   end
 end

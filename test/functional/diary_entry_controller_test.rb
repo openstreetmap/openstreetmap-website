@@ -310,7 +310,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     end
     assert_response :redirect
     assert_redirected_to :action => :list, :display_name => users(:normal_user).display_name
-    entry = DiaryEntry.find(4)
+    entry = DiaryEntry.find(6)
     assert_equal users(:normal_user).id, entry.user_id
     assert_equal new_title, entry.title
     assert_equal new_body, entry.body
@@ -354,7 +354,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_match /New comment/, email.text_part.decoded
     assert_match /New comment/, email.html_part.decoded
     ActionMailer::Base.deliveries.clear
-    comment = DiaryComment.find(4)
+    comment = DiaryComment.find(5)
     assert_equal entry.id, comment.diary_entry_id
     assert_equal users(:public_user).id, comment.user_id
     assert_equal "New comment", comment.body
@@ -363,7 +363,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     get :view, :display_name => entry.user.display_name, :id => entry.id
     assert_response :success
     assert_select ".diary-comment", :count => 1 do
-      assert_select "#comment4", :count => 1 do
+      assert_select "#comment5", :count => 1 do
         assert_select "a[href='/user/#{users(:public_user).display_name}']", :text => users(:public_user).display_name, :count => 1
       end
       assert_select ".richtext", :text => /New comment/, :count => 1
@@ -421,13 +421,120 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
   
   def test_rss_nonexisting_user
+    # Try a user that has never existed
     get :rss, {:display_name => 'fakeUsername76543', :format => :rss}
     assert_response :not_found, "Should not be able to get a nonexisting users diary RSS"
+
+    # Try a suspended user
+    get :rss, {:display_name => users(:suspended_user).display_name, :format => :rss}
+    assert_response :not_found, "Should not be able to get a suspended users diary RSS"
+
+    # Try a deleted user
+    get :rss, {:display_name => users(:deleted_user).display_name, :format => :rss}
+    assert_response :not_found, "Should not be able to get a deleted users diary RSS"
   end
 
   def test_viewing_diary_entry
+    # Try a normal entry that should work
     get :view, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}
     assert_response :success
-    assert_template 'view'
+    assert_template :view
+
+    # Try a deleted entry
+    get :view, {:display_name => users(:normal_user).display_name, :id => diary_entries(:deleted_entry).id}
+    assert_response :not_found
+
+    # Try an entry by a suspended user
+    get :view, {:display_name => users(:suspended_user).display_name, :id => diary_entries(:entry_by_suspended_user).id}
+    assert_response :not_found
+
+    # Try an entry by a deleted user
+    get :view, {:display_name => users(:deleted_user).display_name, :id => diary_entries(:entry_by_deleted_user).id}
+    assert_response :not_found
+  end
+
+  def test_viewing_hidden_comments
+    # Get a diary entry that has hidden comments
+    get :view, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id}
+    assert_response :success
+    assert_template :view
+    assert_select "div.comments" do
+      assert_select "p#comment1", :count => 1 # visible comment
+      assert_select "p#comment2", :count => 0 # comment by suspended user
+      assert_select "p#comment3", :count => 0 # comment by deleted user
+      assert_select "p#comment4", :count => 0 # hidden comment
+    end
+  end
+
+  def test_hide
+    # Try without logging in
+    post :hide, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}
+    assert_response :forbidden
+    assert_equal true, DiaryEntry.find(diary_entries(:normal_user_entry_1).id).visible
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Now try as a normal user
+    post :hide, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id
+    assert_equal true, DiaryEntry.find(diary_entries(:normal_user_entry_1).id).visible
+
+    @request.cookies["_osm_username"] = users(:administrator_user).display_name
+
+    # Finally try as an administrator
+    post :hide, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}, {:user => users(:administrator_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :list, :display_name => users(:normal_user).display_name
+    assert_equal false, DiaryEntry.find(diary_entries(:normal_user_entry_1).id).visible
+  end
+
+  def test_hidecomment
+    # Try without logging in
+    post :hidecomment, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id, :comment => diary_comments(:comment_for_geo_post).id}
+    assert_response :forbidden
+    assert_equal true, DiaryComment.find(diary_comments(:comment_for_geo_post).id).visible
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Now try as a normal user
+    post :hidecomment, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id, :comment => diary_comments(:comment_for_geo_post).id}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id
+    assert_equal true, DiaryComment.find(diary_comments(:comment_for_geo_post).id).visible
+
+    @request.cookies["_osm_username"] = users(:administrator_user).display_name
+
+    # Finally try as an administrator
+    post :hidecomment, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id, :comment => diary_comments(:comment_for_geo_post).id}, {:user => users(:administrator_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id
+    assert_equal false, DiaryComment.find(diary_comments(:comment_for_geo_post).id).visible
+  end
+
+  def test_comments
+    # Test a user with no comments
+    get :comments, :display_name => users(:normal_user).display_name
+    assert_response :success
+    assert_template :comments
+    assert_select "table.messages" do
+      assert_select "tr", :count => 1 # header, no comments
+    end
+
+    # Test a user with a comment
+    get :comments, :display_name => users(:public_user).display_name
+    assert_response :success
+    assert_template :comments
+    assert_select "table.messages" do
+      assert_select "tr", :count => 2 # header and one comment
+    end
+
+    # Test a suspended user
+    get :comments, :display_name => users(:suspended_user).display_name
+    assert_response :not_found
+
+    # Test a deleted user
+    get :comments, :display_name => users(:deleted_user).display_name
+    assert_response :not_found
   end
 end
