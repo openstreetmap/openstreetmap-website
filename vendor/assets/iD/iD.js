@@ -15378,6 +15378,7 @@ if (typeof exports === 'object') {
 }).call(function() {
   return this || (typeof window !== 'undefined' ? window : global);
 }());
+/* jshint ignore:start */
 (function () {
 'use strict';
 window.iD = function () {
@@ -15406,7 +15407,9 @@ window.iD = function () {
             else storage.setItem(k, v);
         } catch(e) {
             // localstorage quota exceeded
+            /* jshint devel:true */
             if (typeof console !== 'undefined') console.error('localStorage quota exceeded');
+            /* jshint devel:false */
         }
     };
 
@@ -15489,7 +15492,7 @@ window.iD = function () {
             var result = fn.apply(history, arguments);
             debouncedSave();
             return result;
-        }
+        };
     }
 
     context.perform = withDebouncedSave(history.perform);
@@ -15690,13 +15693,13 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.3.0';
+iD.version = '1.3.1';
 
 (function() {
     var detected = {};
 
     var ua = navigator.userAgent,
-        msie = new RegExp("MSIE ([0-9]{1,}[\\.0-9]{0,})");
+        msie = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})');
 
     if (msie.exec(ua) !== null) {
         var rv = parseFloat(RegExp.$1);
@@ -15940,7 +15943,7 @@ iD.util.entityOrMemberSelector = function(ids, graph) {
         var entity = graph.hasEntity(id);
         if (entity && entity.type === 'relation') {
             entity.members.forEach(function(member) {
-                s += ',.' + member.id
+                s += ',.' + member.id;
             });
         }
     });
@@ -16025,7 +16028,7 @@ iD.util.editDistance = function(a, b) {
     for (var j = 0; j <= a.length; j++) { matrix[0][j] = j; }
     for (i = 1; i <= b.length; i++) {
         for (j = 1; j <= a.length; j++) {
-            if (b.charAt(i-1) == a.charAt(j-1)) {
+            if (b.charAt(i-1) === a.charAt(j-1)) {
                 matrix[i][j] = matrix[i-1][j-1];
             } else {
                 matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, // substitution
@@ -16053,6 +16056,7 @@ iD.util.fastMouse = function(container) {
     };
 };
 
+/* jshint -W103 */
 iD.util.getPrototypeOf = Object.getPrototypeOf || function(obj) { return obj.__proto__; };
 
 iD.util.asyncMap = function(inputs, func, callback) {
@@ -16092,7 +16096,7 @@ iD.util.SessionMutex = function(name) {
 
     mutex.lock = function() {
         if (intervalID) return true;
-        var cookie = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + name + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1");
+        var cookie = document.cookie.replace(new RegExp('(?:(?:^|.*;)\\s*' + name + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1');
         if (cookie) return false;
         renew();
         intervalID = window.setInterval(renew, 4000);
@@ -16204,7 +16208,7 @@ iD.geo.pointInPolygon = function(point, polygon) {
         var xi = polygon[i][0], yi = polygon[i][1];
         var xj = polygon[j][0], yj = polygon[j][1];
 
-        var intersect = ((yi > y) != (yj > y)) &&
+        var intersect = ((yi > y) !== (yj > y)) &&
             (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
         if (intersect) inside = !inside;
     }
@@ -16270,7 +16274,7 @@ _.extend(iD.geo.Extent.prototype, {
             [this[1][0], this[1][1]],
             [this[1][0], this[0][1]],
             [this[0][0], this[0][1]]
-        ]
+        ];
     },
 
     intersects: function(obj) {
@@ -16531,7 +16535,7 @@ iD.actions.AddMember = function(relationId, member, memberIndex) {
         }
 
         return graph.replace(relation.addMember(member, memberIndex));
-    }
+    };
 };
 iD.actions.AddMidpoint = function(midpoint, node) {
     return function(graph) {
@@ -16565,7 +16569,7 @@ iD.actions.AddVertex = function(wayId, nodeId, index) {
 iD.actions.ChangeMember = function(relationId, member, memberIndex) {
     return function(graph) {
         return graph.replace(graph.entity(relationId).updateMember(member, memberIndex));
-    }
+    };
 };
 iD.actions.ChangePreset = function(entityId, oldPreset, newPreset) {
     return function(graph) {
@@ -16591,7 +16595,7 @@ iD.actions.Circularize = function(wayId, projection, maxAngle) {
     var action = function(graph) {
         var way = graph.entity(wayId),
             nodes = _.uniq(graph.childNodes(way)),
-            keyNodes = nodes.filter(function(n) { return graph.parentWays(n).length != 1; }),
+            keyNodes = nodes.filter(function(n) { return graph.parentWays(n).length !== 1; }),
             points = nodes.map(function(n) { return projection(n.loc); }),
             keyPoints = keyNodes.map(function(n) { return projection(n.loc); }),
             centroid = d3.geom.polygon(points).centroid(),
@@ -16605,7 +16609,7 @@ iD.actions.Circularize = function(wayId, projection, maxAngle) {
             keyPoints = [points[0]];
         }
 
-        if (keyNodes.length == 1) {
+        if (keyNodes.length === 1) {
             var index = nodes.indexOf(keyNodes[0]),
                 oppositeIndex = Math.floor((index + nodes.length / 2) % nodes.length);
 
@@ -16715,6 +16719,7 @@ iD.actions.Connect = function(nodeIds) {
         for (var i = 0; i < nodeIds.length - 1; i++) {
             var node = graph.entity(nodeIds[i]);
 
+            /*jshint -W083 */
             graph.parentWays(node).forEach(function(parent) {
                 if (!parent.areAdjacent(node.id, survivor.id)) {
                     graph = graph.replace(parent.replaceNode(node.id, survivor.id));
@@ -16724,6 +16729,7 @@ iD.actions.Connect = function(nodeIds) {
             graph.parentRelations(node).forEach(function(parent) {
                 graph = graph.replace(parent.replaceMember(node, survivor));
             });
+            /*jshint +W083 */
 
             survivor = survivor.mergeTags(node.tags);
             graph = iD.actions.DeleteNode(node.id)(graph);
@@ -16929,7 +16935,7 @@ iD.actions.DiscardTags = function(difference) {
         difference.created().forEach(discardTags);
 
         return graph;
-    }
+    };
 };
 // Disconect the ways at the given node.
 //
@@ -17168,7 +17174,7 @@ iD.actions.MergePolygon = function(ids, newRelationId) {
             return _.any(contained[i]);
         }
 
-        function filterContained(d, i) {
+        function filterContained(d) {
             return d.filter(isContained);
         }
 
@@ -17325,7 +17331,7 @@ iD.actions.Orthogonalize = function(wayId, projection) {
 
             for (i = 0; i < points.length; i++) {
                 // only move the points that actually moved
-                if (originalPoints[i][0] != points[i][0] || originalPoints[i][1] != points[i][1]) {
+                if (originalPoints[i][0] !== points[i][0] || originalPoints[i][1] !== points[i][1]) {
                     graph = graph.replace(graph.entity(nodes[i].id)
                         .move(projection.invert(points[i])));
                 }
@@ -17335,8 +17341,8 @@ iD.actions.Orthogonalize = function(wayId, projection) {
             for (i = 0; i < points.length; i++) {
                 var node = nodes[i];
 
-                if (graph.parentWays(node).length > 1 || 
-                    graph.parentRelations(node).length || 
+                if (graph.parentWays(node).length > 1 ||
+                    graph.parentRelations(node).length ||
                     node.hasInterestingTags()) {
 
                     continue;
@@ -17490,9 +17496,9 @@ iD.actions.Reverse = function(wayId) {
     }
 
     function reverseValue(key, value) {
-        if (key === "incline" && numeric.test(value)) {
+        if (key === 'incline' && numeric.test(value)) {
             return value.replace(numeric, function(_, sign) { return sign === '-' ? '' : '-'; });
-        } else if (key === "incline" || key === "direction") {
+        } else if (key === 'incline' || key === 'direction') {
             return {up: 'down', down: 'up'}[value] || value;
         } else {
             return {left: 'right', right: 'left'}[value] || value;
@@ -17590,13 +17596,13 @@ iD.actions.Split = function(nodeId, newWayIds) {
 
         // calculate lengths
         length = 0;
-        for (i = wrap(idxA+1); i != idxA; i = wrap(i+1)) {
+        for (i = wrap(idxA+1); i !== idxA; i = wrap(i+1)) {
             length += dist(nodes[i], nodes[wrap(i-1)]);
             lengths[i] = length;
         }
 
         length = 0;
-        for (i = wrap(idxA-1); i != idxA; i = wrap(i-1)) {
+        for (i = wrap(idxA-1); i !== idxA; i = wrap(i-1)) {
             length += dist(nodes[i], nodes[wrap(i+1)]);
             if (length < lengths[i])
                 lengths[i] = length;
@@ -17753,22 +17759,22 @@ iD.actions.Straighten = function(wayId, projection) {
             i;
 
         for (i = 1; i < points.length-1; i++) {
-            var node = nodes[i], 
+            var node = nodes[i],
                 point = points[i];
 
-            if (graph.parentWays(node).length > 1 || 
-                graph.parentRelations(node).length || 
+            if (graph.parentWays(node).length > 1 ||
+                graph.parentRelations(node).length ||
                 node.hasInterestingTags()) {
 
                 var u = positionAlongWay(point, startPoint, endPoint),
                     p0 = startPoint[0] + u * (endPoint[0] - startPoint[0]),
-                    p1 = startPoint[1] + u * (endPoint[1] - startPoint[1]),
+                    p1 = startPoint[1] + u * (endPoint[1] - startPoint[1]);
 
                 graph = graph.replace(graph.entity(node.id)
                     .move(projection.invert([p0, p1])));
             } else {
                 // safe to delete
-                if (toDelete.indexOf(node) == -1) {
+                if (toDelete.indexOf(node) === -1) {
                     toDelete.push(node);
                 }
             }
@@ -17792,7 +17798,7 @@ iD.actions.Straighten = function(wayId, projection) {
             i;
 
         for (i = 1; i < points.length-1; i++) {
-            var point = points[i], 
+            var point = points[i],
                 u = positionAlongWay(point, startPoint, endPoint),
                 p0 = startPoint[0] + u * (endPoint[0] - startPoint[0]),
                 p1 = startPoint[1] + u * (endPoint[1] - startPoint[1]),
@@ -17866,7 +17872,7 @@ iD.behavior.drag = function() {
       d3.event.preventDefault();
     }
 
-    var event = d3.dispatch("start", "move", "end"),
+    var event = d3.dispatch('start', 'move', 'end'),
         origin = null,
         selector = '',
         filter = null,
@@ -17874,10 +17880,10 @@ iD.behavior.drag = function() {
 
     event.of = function(thiz, argumentz) {
       return function(e1) {
+        var e0 = e1.sourceEvent = d3.event;
+        e1.target = drag;
+        d3.event = e1;
         try {
-          var e0 = e1.sourceEvent = d3.event;
-          e1.target = drag;
-          d3.event = e1;
           event[e1.type].apply(thiz, argumentz);
         } finally {
           d3.event = e0;
@@ -17885,7 +17891,7 @@ iD.behavior.drag = function() {
       };
     };
 
-    var d3_event_userSelectProperty = iD.util.prefixCSSProperty("UserSelect"),
+    var d3_event_userSelectProperty = iD.util.prefixCSSProperty('UserSelect'),
         d3_event_userSelectSuppress = d3_event_userSelectProperty ?
             function () {
                 var selection = d3.selection(),
@@ -17896,9 +17902,9 @@ iD.behavior.drag = function() {
                 };
             } :
             function (type) {
-                var w = d3.select(window).on("selectstart." + type, d3_eventCancel);
+                var w = d3.select(window).on('selectstart.' + type, d3_eventCancel);
                 return function () {
-                    w.on("selectstart." + type, null);
+                    w.on('selectstart.' + type, null);
                 };
             };
 
@@ -17910,11 +17916,11 @@ iD.behavior.drag = function() {
             offset,
             origin_ = point(),
             started = false,
-            selectEnable = d3_event_userSelectSuppress(touchId != null ? "drag-" + touchId : "drag");
+            selectEnable = d3_event_userSelectSuppress(touchId !== null ? 'drag-' + touchId : 'drag');
 
         var w = d3.select(window)
-            .on(touchId !== null ? "touchmove.drag-" + touchId : "mousemove.drag", dragmove)
-            .on(touchId !== null ? "touchend.drag-" + touchId : "mouseup.drag", dragend, true);
+            .on(touchId !== null ? 'touchmove.drag-' + touchId : 'mousemove.drag', dragmove)
+            .on(touchId !== null ? 'touchend.drag-' + touchId : 'mouseup.drag', dragend, true);
 
         if (origin) {
             offset = origin.apply(target, arguments);
@@ -17941,7 +17947,7 @@ iD.behavior.drag = function() {
             if (!started) {
                 started = true;
                 event_({
-                    type: "start"
+                    type: 'start'
                 });
             }
 
@@ -17949,7 +17955,7 @@ iD.behavior.drag = function() {
             d3_eventCancel();
 
             event_({
-                type: "move",
+                type: 'move',
                 point: [p[0] + offset[0],  p[1] + offset[1]],
                 delta: [dx, dy]
             });
@@ -17958,21 +17964,21 @@ iD.behavior.drag = function() {
         function dragend() {
             if (started) {
                 event_({
-                    type: "end"
+                    type: 'end'
                 });
 
                 d3_eventCancel();
-                if (d3.event.target === eventTarget) w.on("click.drag", click, true);
+                if (d3.event.target === eventTarget) w.on('click.drag', click, true);
             }
 
-            w.on(touchId !== null ? "touchmove.drag-" + touchId : "mousemove.drag", null)
-                .on(touchId !== null ? "touchend.drag-" + touchId : "mouseup.drag", null);
+            w.on(touchId !== null ? 'touchmove.drag-' + touchId : 'mousemove.drag', null)
+                .on(touchId !== null ? 'touchend.drag-' + touchId : 'mouseup.drag', null);
             selectEnable();
         }
 
         function click() {
             d3_eventCancel();
-            w.on("click.drag", null);
+            w.on('click.drag', null);
         }
     }
 
@@ -17993,13 +17999,13 @@ iD.behavior.drag = function() {
             };
         }
 
-        selection.on("mousedown.drag" + selector, delegate)
-            .on("touchstart.drag" + selector, delegate);
+        selection.on('mousedown.drag' + selector, delegate)
+            .on('touchstart.drag' + selector, delegate);
     }
 
     drag.off = function(selection) {
-        selection.on("mousedown.drag" + selector, null)
-            .on("touchstart.drag" + selector, null);
+        selection.on('mousedown.drag' + selector, null)
+            .on('touchstart.drag' + selector, null);
     };
 
     drag.delegate = function(_) {
@@ -18022,8 +18028,8 @@ iD.behavior.drag = function() {
 
     drag.cancel = function() {
         d3.select(window)
-            .on("mousemove.drag", null)
-            .on("mouseup.drag", null);
+            .on('mousemove.drag', null)
+            .on('mouseup.drag', null);
         return drag;
     };
 
@@ -18040,7 +18046,7 @@ iD.behavior.drag = function() {
         return drag;
     };
 
-    return d3.rebind(drag, event, "on");
+    return d3.rebind(drag, event, 'on');
 };
 iD.behavior.Draw = function(context) {
     var event = d3.dispatch('move', 'click', 'clickWay',
@@ -18068,8 +18074,7 @@ iD.behavior.Draw = function(context) {
             })[0] : d3.mouse(p);
         }
 
-        var eventTarget = d3.event.target,
-            element = d3.select(this),
+        var element = d3.select(this),
             touchId = d3.event.touches ? d3.event.changedTouches[0].identifier : null,
             time = +new Date(),
             pos = point();
@@ -18404,7 +18409,7 @@ iD.behavior.Hash = function(context) {
 
     var parser = function(map, s) {
         var q = iD.util.stringQs(s);
-        var args = (q.map || '').split("/").map(Number);
+        var args = (q.map || '').split('/').map(Number);
         if (args.length < 3 || args.some(isNaN)) {
             return true; // replace bogus hash
         } else if (s !== formatter(map).slice(1)) {
@@ -18459,7 +18464,7 @@ iD.behavior.Hash = function(context) {
         d3.select(window)
             .on('hashchange.hash', null);
 
-        location.hash = "";
+        location.hash = '';
     };
 
     return hash;
@@ -18473,7 +18478,7 @@ iD.behavior.Hash = function(context) {
    Only one of these elements can have the :hover pseudo-class, but all of them will
    have the .hover class.
  */
-iD.behavior.Hover = function(context) {
+iD.behavior.Hover = function() {
     var dispatch = d3.dispatch('hover'),
         selection,
         altDisables,
@@ -18547,7 +18552,7 @@ iD.behavior.Hover = function(context) {
         function mousedown() {
             down = true;
             d3.select(window)
-                .on('mouseup.hover', mouseup)
+                .on('mouseup.hover', mouseup);
         }
 
         function mouseup() {
@@ -18580,7 +18585,7 @@ iD.behavior.Hover = function(context) {
         d3.select(window)
             .on('keydown.hover', null)
             .on('keyup.hover', null)
-            .on('mouseup.hover', null)
+            .on('mouseup.hover', null);
     };
 
     hover.altDisables = function(_) {
@@ -18728,25 +18733,25 @@ iD.behavior.Tail = function() {
     var text,
         container,
         xmargin = 25,
-        tooltip_size = [0, 0],
-        selection_size = [0, 0],
+        tooltipSize = [0, 0],
+        selectionSize = [0, 0],
         transformProp = iD.util.prefixCSSProperty('Transform');
 
     function tail(selection) {
         if (!text) return;
 
         d3.select(window)
-            .on('resize.tail', function() { selection_size = selection.dimensions(); });
+            .on('resize.tail', function() { selectionSize = selection.dimensions(); });
 
         function show() {
             container.style('display', 'block');
-            tooltip_size = container.dimensions();
+            tooltipSize = container.dimensions();
         }
 
         function mousemove() {
             if (container.style('display') === 'none') show();
-            var xoffset = ((d3.event.clientX + tooltip_size[0] + xmargin) > selection_size[0]) ?
-                -tooltip_size[0] - xmargin : xmargin;
+            var xoffset = ((d3.event.clientX + tooltipSize[0] + xmargin) > selectionSize[0]) ?
+                -tooltipSize[0] - xmargin : xmargin;
             container.classed('left', xoffset > 0);
             container.style(transformProp, 'translate(' +
                 (~~d3.event.clientX + xoffset) + 'px,' +
@@ -18781,8 +18786,8 @@ iD.behavior.Tail = function() {
         container
             .on('mousemove.tail', mousemove);
 
-        tooltip_size = container.dimensions();
-        selection_size = selection.dimensions();
+        tooltipSize = container.dimensions();
+        selectionSize = selection.dimensions();
     }
 
     tail.off = function(selection) {
@@ -18969,7 +18974,7 @@ iD.modes.AddPoint = function(context) {
                 .newFeature(true));
     }
 
-    function addWay(loc, edge) {
+    function addWay(loc) {
         add(loc);
     }
 
@@ -19013,7 +19018,7 @@ iD.modes.Browse = function(context) {
         });
 
         // Get focus on the body.
-        if (document.activeElement) {
+        if (document.activeElement && document.activeElement.blur) {
             document.activeElement.blur();
         }
 
@@ -19207,7 +19212,7 @@ iD.modes.DragNode = function(context) {
     }
 
     var behavior = iD.behavior.drag()
-        .delegate("g.node, g.point, g.midpoint")
+        .delegate('g.node, g.point, g.midpoint')
         .surface(context.surface().node())
         .origin(origin)
         .on('start', start)
@@ -19598,7 +19603,7 @@ iD.modes.Save = function(context) {
             context.install(behavior);
         });
 
-        context.connection().authenticate(function(err) {
+        context.connection().authenticate(function() {
             context.ui().sidebar.show(ui);
         });
     };
@@ -19814,7 +19819,7 @@ iD.modes.Select = function(context, selectedIDs) {
         context.surface()
             .call(radialMenu.close)
             .on('dblclick.select', null)
-            .selectAll(".selected")
+            .selectAll('.selected')
             .classed('selected', false);
 
         context.map().on('drawn.select', null);
@@ -19850,7 +19855,7 @@ iD.operations.Circularize = function(selectedIDs, context) {
             t('operations.circularize.description.' + geometry);
     };
 
-    operation.id = "circularize";
+    operation.id = 'circularize';
     operation.keys = [t('operations.circularize.key')];
     operation.title = t('operations.circularize.title');
 
@@ -19899,7 +19904,7 @@ iD.operations.Continue = function(selectedIDs, context) {
             t('operations.continue.description');
     };
 
-    operation.id = "continue";
+    operation.id = 'continue';
     operation.keys = [t('operations.continue.key')];
     operation.title = t('operations.continue.title');
 
@@ -19969,7 +19974,7 @@ iD.operations.Delete = function(selectedIDs, context) {
             t('operations.delete.description');
     };
 
-    operation.id = "delete";
+    operation.id = 'delete';
     operation.keys = [iD.ui.cmd('⌘⌫'), iD.ui.cmd('⌘⌦')];
     operation.title = t('operations.delete.title');
 
@@ -20006,7 +20011,7 @@ iD.operations.Disconnect = function(selectedIDs, context) {
             t('operations.disconnect.description');
     };
 
-    operation.id = "disconnect";
+    operation.id = 'disconnect';
     operation.keys = [t('operations.disconnect.key')];
     operation.title = t('operations.disconnect.title');
 
@@ -20058,7 +20063,7 @@ iD.operations.Merge = function(selectedIDs, context) {
         return t('operations.merge.description');
     };
 
-    operation.id = "merge";
+    operation.id = 'merge';
     operation.keys = [t('operations.merge.key')];
     operation.title = t('operations.merge.title');
 
@@ -20086,7 +20091,7 @@ iD.operations.Move = function(selectedIDs, context) {
             t('operations.move.description');
     };
 
-    operation.id = "move";
+    operation.id = 'move';
     operation.keys = [t('operations.move.key')];
     operation.title = t('operations.move.title');
 
@@ -20121,7 +20126,7 @@ iD.operations.Orthogonalize = function(selectedIDs, context) {
             t('operations.orthogonalize.description.' + geometry);
     };
 
-    operation.id = "orthogonalize";
+    operation.id = 'orthogonalize';
     operation.keys = [t('operations.orthogonalize.key')];
     operation.title = t('operations.orthogonalize.title');
 
@@ -20149,7 +20154,7 @@ iD.operations.Reverse = function(selectedIDs, context) {
         return t('operations.reverse.description');
     };
 
-    operation.id = "reverse";
+    operation.id = 'reverse';
     operation.keys = [t('operations.reverse.key')];
     operation.title = t('operations.reverse.title');
 
@@ -20176,7 +20181,7 @@ iD.operations.Rotate = function(selectedIDs, context) {
         return t('operations.rotate.description');
     };
 
-    operation.id = "rotate";
+    operation.id = 'rotate';
     operation.keys = [t('operations.rotate.key')];
     operation.title = t('operations.rotate.title');
 
@@ -20230,7 +20235,7 @@ iD.operations.Split = function(selectedIDs, context) {
         }
     };
 
-    operation.id = "split";
+    operation.id = 'split';
     operation.keys = [t('operations.split.key')];
     operation.title = t('operations.split.title');
 
@@ -20264,7 +20269,7 @@ iD.operations.Straighten = function(selectedIDs, context) {
             t('operations.straighten.description');
     };
 
-    operation.id = "straighten";
+    operation.id = 'straighten';
     operation.keys = [t('operations.straighten.key')];
     operation.title = t('operations.straighten.title');
 
@@ -20306,7 +20311,7 @@ iD.Connection = function() {
     };
 
     connection.userURL = function(username) {
-        return url + "/user/" + username;
+        return url + '/user/' + username;
     };
 
     connection.loadFromURL = function(url, callback) {
@@ -20587,7 +20592,7 @@ iD.Connection = function() {
                     extent: iD.geo.Extent(
                         projection.invert([x, y + ts]),
                         projection.invert([x + ts, y]))
-                }
+                };
             });
 
         function bboxUrl(tile) {
@@ -20965,10 +20970,10 @@ iD.Entity.prototype = {
 
     hasInterestingTags: function() {
         return _.keys(this.tags).some(function(key) {
-            return key != 'attribution' &&
-                key != 'created_by' &&
-                key != 'source' &&
-                key != 'odbl' &&
+            return key !== 'attribution' &&
+                key !== 'created_by' &&
+                key !== 'source' &&
+                key !== 'odbl' &&
                 key.indexOf('tiger:') !== 0;
         });
     },
@@ -20980,8 +20985,8 @@ iD.Entity.prototype = {
         iD.data.deprecated.forEach(function(d) {
             var match = _.pairs(d.old)[0];
             tags.forEach(function(t) {
-                if (t[0] == match[0] &&
-                    (t[1] == match[1] || match[1] == '*')) {
+                if (t[0] === match[0] &&
+                    (t[1] === match[1] || match[1] === '*')) {
                     deprecated[t[0]] = t[1];
                 }
             });
@@ -21172,7 +21177,6 @@ iD.Graph.prototype = {
                 ways.push(entity.id);
                 parentWays[added[i]] = ways;
             }
-        } else if (type === 'node') {
 
         } else if (type === 'relation') {
 
@@ -21501,14 +21505,18 @@ iD.History = function(context) {
                 stack = h.stack.map(function(d) {
                     var entities = {}, entity;
 
-                    d.modified && d.modified.forEach(function(key) {
-                        entity = allEntities[key];
-                        entities[entity.id] = entity;
-                    });
+                    if (d.modified) {
+                        d.modified.forEach(function(key) {
+                            entity = allEntities[key];
+                            entities[entity.id] = entity;
+                        });
+                    }
 
-                    d.deleted && d.deleted.forEach(function(id) {
-                        entities[id] = undefined;
-                    });
+                    if (d.deleted) {
+                        d.deleted.forEach(function(id) {
+                            entities[id] = undefined;
+                        });
+                    }
 
                     return {
                         graph: iD.Graph(stack[0].graph).load(entities),
@@ -21589,7 +21597,7 @@ iD.Node = iD.Entity.node = function iD_Node() {
 iD.Node.prototype = Object.create(iD.Entity.prototype);
 
 _.extend(iD.Node.prototype, {
-    type: "node",
+    type: 'node',
 
     extent: function() {
         return new iD.geo.Extent(this.loc);
@@ -21651,7 +21659,7 @@ iD.Relation = iD.Entity.relation = function iD_Relation() {
 iD.Relation.prototype = Object.create(iD.Entity.prototype);
 
 _.extend(iD.Relation.prototype, {
-    type: "relation",
+    type: 'relation',
     members: [],
 
     extent: function(resolver) {
@@ -21682,7 +21690,7 @@ _.extend(iD.Relation.prototype, {
     indexedMembers: function() {
         var result = new Array(this.members.length);
         for (var i = 0; i < this.members.length; i++) {
-            result[i] = _.extend({}, this.members[i], {index: i})
+            result[i] = _.extend({}, this.members[i], {index: i});
         }
         return result;
     },
@@ -21998,7 +22006,7 @@ iD.Way = iD.Entity.way = function iD_Way() {
 iD.Way.prototype = Object.create(iD.Entity.prototype);
 
 _.extend(iD.Way.prototype, {
-    type: "way",
+    type: 'way',
     nodes: [],
 
     extent: function(resolver) {
@@ -22100,13 +22108,13 @@ _.extend(iD.Way.prototype, {
 
         for (var i = 0; i < this.nodes.length; i++) {
             var node = this.nodes[i];
-            if (node != id && nodes[nodes.length - 1] != node) {
+            if (node !== id && nodes[nodes.length - 1] !== node) {
                 nodes.push(node);
             }
         }
 
         // Preserve circularity
-        if (this.nodes.length > 1 && this.first() === id && this.last() === id && nodes[nodes.length - 1] != nodes[0]) {
+        if (this.nodes.length > 1 && this.first() === id && this.last() === id && nodes[nodes.length - 1] !== nodes[0]) {
             nodes.push(nodes[0]);
         }
 
@@ -22273,7 +22281,7 @@ iD.Background = function(context) {
         gpx.call(gpxLayer);
 
         var overlays = selection.selectAll('.overlay-layer')
-            .data(overlayLayers, function(d) { return d.source().name });
+            .data(overlayLayers, function(d) { return d.source().name; });
 
         overlays.enter().insert('div', '.layer-data')
             .attr('class', 'layer-layer overlay-layer');
@@ -22312,7 +22320,7 @@ iD.Background = function(context) {
     };
 
     background.bing = function() {
-        background.baseLayerSource(findSource("Bing"));
+        background.baseLayerSource(findSource('Bing'));
     };
 
     background.hasGpxLayer = function() {
@@ -22407,7 +22415,7 @@ iD.Background = function(context) {
             name: 'Custom'
         }));
     } else {
-        background.baseLayerSource(findSource(chosen) || findSource("Bing"));
+        background.baseLayerSource(findSource(chosen) || findSource('Bing'));
     }
 
     var locator = _.find(backgroundSources, function(d) {
@@ -22503,7 +22511,7 @@ iD.BackgroundSource.Bing = function(data, dispatch) {
         dispatch.change();
     });
 
-    var template = "http://ecn.t{t}.tiles.virtualearth.net/tiles/a{u}.jpeg?g=587&mkt=en-gb&n=z",
+    var template = 'http://ecn.t{t}.tiles.virtualearth.net/tiles/a{u}.jpeg?g=587&mkt=en-gb&n=z',
         subdomains = [0, 1, 2, 3];
 
     bing.url = function(coord) {
@@ -22535,8 +22543,8 @@ iD.BackgroundSource.Bing = function(data, dispatch) {
         }).join(', ');
     };
 
-    bing.logo = "bing_maps.png";
-    bing.terms_url = "http://opengeodata.org/microsoft-imagery-details";
+    bing.logo = 'bing_maps.png';
+    bing.terms_url = 'http://opengeodata.org/microsoft-imagery-details';
 
     return bing;
 };
@@ -22544,7 +22552,7 @@ iD.BackgroundSource.Bing = function(data, dispatch) {
 iD.BackgroundSource.None = function() {
     return iD.BackgroundSource({ name: t('background.none'), id: 'None', template: '' });
 };
-iD.GpxLayer = function(context, dispatch) {
+iD.GpxLayer = function(context) {
     var projection,
         gj = {},
         enable = true,
@@ -22690,7 +22698,7 @@ iD.Map = function(context) {
 
         map.surface = surface = dataLayer.append('svg')
             .on('mousedown.zoom', function() {
-                if (d3.event.button == 2) {
+                if (d3.event.button === 2) {
                     d3.event.stopPropagation();
                 }
             }, true)
@@ -22902,7 +22910,7 @@ iD.Map = function(context) {
 
     map.mouse = function() {
         var e = mousemove || d3.event, s;
-        while (s = e.sourceEvent) e = s;
+        while ((s = e.sourceEvent)) e = s;
         return mouse(e);
     };
 
@@ -23027,7 +23035,7 @@ iD.Map = function(context) {
         d3.timer(function() {
             if (stop) return true;
             map.center(iD.geo.interp(from, loc, (t += 1) / 10));
-            return t == 10;
+            return t === 10;
         }, 20);
         return map;
     };
@@ -23266,7 +23274,7 @@ iD.svg = {
             if (entity.id in cache) {
                 return cache[entity.id];
             } else {
-                return cache[entity.id] = path(entity.asGeoJSON(graph, polygon));
+                return cache[entity.id] = path(entity.asGeoJSON(graph, polygon)); // jshint ignore:line
             }
         };
     },
@@ -23379,7 +23387,8 @@ iD.svg.Areas = function(projection) {
             var entity = entities[i];
             if (entity.geometry(graph) !== 'area') continue;
 
-            if (multipolygon = iD.geo.isSimpleMultipolygonOuterMember(entity, graph)) {
+            multipolygon = iD.geo.isSimpleMultipolygonOuterMember(entity, graph);
+            if (multipolygon) {
                 areas[multipolygon.id] = {
                     entity: multipolygon.mergeTags(entity.tags),
                     area: Math.abs(entity.area(graph))
@@ -23481,11 +23490,11 @@ iD.svg.Labels = function(projection, context) {
 
     var font_sizes = label_stack.map(function(d) {
         var style = iD.util.getStyle('text.' + d[0] + '.tag-' + d[1]),
-            m = style && style.cssText.match("font-size: ([0-9]{1,2})px;");
+            m = style && style.cssText.match('font-size: ([0-9]{1,2})px;');
         if (m) return parseInt(m[1], 10);
 
         style = iD.util.getStyle('text.' + d[0]);
-        m = style && style.cssText.match("font-size: ([0-9]{1,2})px;");
+        m = style && style.cssText.match('font-size: ([0-9]{1,2})px;');
         if (m) return parseInt(m[1], 10);
 
         return default_size;
@@ -23538,19 +23547,18 @@ iD.svg.Labels = function(projection, context) {
     }
 
     function drawLineLabels(group, entities, filter, classes, labels) {
-
         var texts = group.selectAll('text.' + classes)
             .filter(filter)
             .data(entities, iD.Entity.key);
 
-        var tp = texts.enter()
+        texts.enter()
             .append('text')
             .attr('class', function(d, i) { return classes + ' ' + labels[i].classes + ' ' + d.id; })
             .append('textPath')
             .attr('class', 'textpath');
 
 
-        var tps = texts.selectAll('.textpath')
+        texts.selectAll('.textpath')
             .filter(filter)
             .data(entities, iD.Entity.key)
             .attr({
@@ -23560,11 +23568,9 @@ iD.svg.Labels = function(projection, context) {
             .text(iD.util.displayName);
 
         texts.exit().remove();
-
     }
 
     function drawLinePaths(group, entities, filter, classes, labels) {
-
         var halos = group.selectAll('path')
             .filter(filter)
             .data(entities, iD.Entity.key);
@@ -24153,7 +24159,7 @@ iD.svg.Restrictions = function(context) {
     }
 
     drawRestrictions.turns = function (graph, selectedIDs) {
-        if (selectedIDs.length != 1)
+        if (selectedIDs.length !== 1)
             return [];
 
         var from = graph.entity(selectedIDs[0]);
@@ -24194,7 +24200,7 @@ iD.svg.Restrictions = function(context) {
             to: to,
             restriction: restriction,
             angle: Math.atan2(b[1] - a[1], b[0] - a[0])
-        }
+        };
     };
 
     return drawRestrictions;
@@ -24222,7 +24228,7 @@ iD.svg.Surface = function(context) {
                 .data(data)
                 .enter().append('use')
                 .attr('id', function(d) { return d.key; })
-                .attr('transform', function(d) { return "translate(-" + d.value[0] + ",-" + d.value[1] + ")"; })
+                .attr('transform', function(d) { return 'translate(-' + d.value[0] + ',-' + d.value[1] + ')'; })
                 .attr('xlink:href', '#' + id);
         };
     }
@@ -24320,8 +24326,8 @@ iD.svg.Surface = function(context) {
 iD.svg.TagClasses = function() {
     var primary = [
             'highway', 'railway', 'waterway', 'aeroway', 'motorway',
-            'power', 'amenity', 'natural', 'landuse', 'building', 'leisure',
-            'place', 'boundary'
+            'boundary', 'power', 'amenity', 'natural', 'landuse',
+            'building', 'leisure', 'place'
         ],
         secondary = [
             'oneway', 'bridge', 'tunnel', 'construction'
@@ -24434,9 +24440,10 @@ iD.svg.Vertices = function(projection, context) {
         var icons = {};
         function icon(entity) {
             if (entity.id in icons) return icons[entity.id];
-            return icons[entity.id] = (zoom !== 0 &&
+            icons[entity.id] = zoom !== 0 &&
                 entity.hasInterestingTags() &&
-                context.presets().match(entity, graph).icon);
+                context.presets().match(entity, graph).icon;
+            return icons[entity.id];
         }
 
         function circle(klass) {
@@ -24449,7 +24456,7 @@ iD.svg.Vertices = function(projection, context) {
                 this.setAttribute('cx', c);
                 this.setAttribute('cy', -c);
                 this.setAttribute('r', r);
-            }
+            };
         }
 
         var enter = groups.enter().append('g')
@@ -24494,7 +24501,7 @@ iD.svg.Vertices = function(projection, context) {
             if (entity.id in selected ||
                 entity.hasInterestingTags() ||
                 entity.isIntersection(graph)) {
-                vertices.push(entity)
+                vertices.push(entity);
             }
         }
 
@@ -24523,8 +24530,7 @@ iD.svg.Vertices = function(projection, context) {
 };
 iD.ui = function(context) {
     function render(container) {
-        var history = context.history(),
-            map = context.map();
+        var map = context.map();
 
         if (iD.detect().opera) container.classed('opera', true);
 
@@ -24552,7 +24558,7 @@ iD.ui = function(context) {
             .attr('id', 'map')
             .call(map);
 
-        var spacer = bar.append('div')
+        bar.append('div')
             .attr('class', 'spacer col4');
 
         var limiter = bar.append('div')
@@ -24849,7 +24855,7 @@ iD.ui.Background = function(context) {
             ['top', [0, -1]],
             ['right', [-1, 0]],
             ['bottom', [0, 1]]],
-        opacityDefault = (context.storage('background-opacity') !== undefined) ?
+        opacityDefault = (context.storage('background-opacity') !== null) ?
             (+context.storage('background-opacity')) : 0.5;
 
     function background(selection) {
@@ -25050,7 +25056,7 @@ iD.ui.Background = function(context) {
                 return t('background.percent_brightness', { opacity: (d * 100) });
             })
             .on('click.set-opacity', setOpacity)
-            .html("<div class='select-box'></div>")
+            .html('<div class="select-box"></div>')
             .call(bootstrap.tooltip()
                 .placement('top'))
             .append('div')
@@ -25413,16 +25419,16 @@ iD.ui.confirm = function(selection) {
 
     var section = modal.select('.content');
 
-    var modalHeader = section.append('div')
+    section.append('div')
         .attr('class', 'modal-section header');
 
-    var description = section.append('div')
+    section.append('div')
         .attr('class', 'modal-section message-text');
 
     var buttonwrap = section.append('div')
         .attr('class', 'modal-section buttons cf');
 
-    var okbutton = buttonwrap.append('button')
+    buttonwrap.append('button')
         .attr('class', 'col2 action')
         .on('click.confirm', function() {
             modal.remove();
@@ -26514,7 +26520,7 @@ iD.ui.modal = function(selection, blocking) {
         .attr('class', 'modal fillL col6');
 
         shaded.on('click.remove-modal', function() {
-            if (d3.event.target == this && !blocking) shaded.close();
+            if (d3.event.target === this && !blocking) shaded.close();
         });
 
     modal.append('button')
@@ -26587,12 +26593,12 @@ iD.ui.Modes = function(context) {
         context.on('enter.editor', function(entered) {
             buttons.classed('active', function(mode) { return entered.button === mode.button; });
             context.container()
-                .classed("mode-" + entered.id, true);
+                .classed('mode-' + entered.id, true);
         });
 
         context.on('exit.editor', function(exited) {
             context.container()
-                .classed("mode-" + exited.id, false);
+                .classed('mode-' + exited.id, false);
         });
 
         var keybinding = d3.keybinding('mode-buttons');
@@ -27029,7 +27035,7 @@ iD.ui.PresetList = function(context) {
 
     function drawList(list, presets) {
         var collection = presets.collection.map(function(preset) {
-            return preset.members ? CategoryItem(preset) : PresetItem(preset)
+            return preset.members ? CategoryItem(preset) : PresetItem(preset);
         });
 
         var items = list.selectAll('.preset-list-item')
@@ -27186,7 +27192,7 @@ iD.ui.RadialMenu = function(context, operations) {
 
         menu = selection.append('g')
             .attr('class', 'radial-menu')
-            .attr('transform', "translate(" + center + ")")
+            .attr('transform', 'translate(' + center + ')')
             .attr('opacity', 0);
 
         menu.transition()
@@ -27485,7 +27491,7 @@ iD.ui.RawMembershipEditor = function(context) {
                 if (member.id === entity.id) {
                     memberships.push({relation: relation, member: member, index: index});
                 }
-            })
+            });
         });
 
         selection.call(iD.ui.Disclosure()
@@ -28243,7 +28249,7 @@ iD.ui.Success = function(context) {
             .attr('class', 'fr')
             .append('span')
             .attr('class', 'icon close')
-            .on('click', function() { event.cancel(success) });
+            .on('click', function() { event.cancel(success); });
 
         header.append('h3')
             .text(t('success.just_edited'));
@@ -28340,7 +28346,7 @@ iD.ui.TagReference = function(tag) {
                 body
                     .append('img')
                     .attr('class', 'wiki-image')
-                    .attr('src', docs.image.thumb_url_prefix + "100" + docs.image.thumb_url_suffix)
+                    .attr('src', docs.image.thumb_url_prefix + '100' + docs.image.thumb_url_suffix)
                     .on('load', function() { show(); })
                     .on('error', function() { d3.select(this).remove(); show(); });
             } else {
@@ -28584,7 +28590,7 @@ iD.ui.Zoom = function(context) {
             .call(keybinding);
     };
 };
-iD.ui.preset.access = function(field, context) {
+iD.ui.preset.access = function(field) {
     var event = d3.dispatch('change'),
         entity,
         items;
@@ -28638,7 +28644,7 @@ iD.ui.preset.access = function(field, context) {
     access.options = function(type) {
         var options = ['no', 'permissive', 'private', 'designated', 'destination'];
 
-        if (type != 'access') {
+        if (type !== 'access') {
             options.unshift('yes');
         }
 
@@ -29027,7 +29033,7 @@ iD.ui.preset.url = function(field) {
             .on('blur', change)
             .on('change', change);
 
-        if (field.type == 'number') {
+        if (field.type === 'number') {
             input.attr('type', 'text');
 
             var spinControl = selection.selectAll('.spin-control')
@@ -29070,7 +29076,7 @@ iD.ui.preset.url = function(field) {
 
     return d3.rebind(i, event, 'on');
 };
-iD.ui.preset.localized = function(field, context) {
+iD.ui.preset.localized = function(field) {
 
     var event = d3.dispatch('change'),
         wikipedia = iD.wikipedia(),
@@ -29285,7 +29291,7 @@ iD.ui.preset.localized = function(field, context) {
     };
 
     i.focus = function() {
-        title.node().focus();
+        input.node().focus();
     };
 
     return d3.rebind(i, event, 'on');
@@ -29736,10 +29742,6 @@ iD.ui.intro.line = function(context, reveal) {
         title: 'intro.lines.title'
     };
 
-    function one(target, e, f) {
-        d3.selection.prototype.one.call(target, e, f);
-    }
-
     function timeout(f, t) {
         timeouts.push(window.setTimeout(f, t));
     }
@@ -29848,7 +29850,7 @@ iD.ui.intro.line = function(context, reveal) {
         }
 
         // selected wrong road type
-        function retryPreset(mode) {
+        function retryPreset() {
             timeout(function() {
                 var preset = d3.select('.entity-editor-pane .preset-list-button');
                 reveal(preset.node(), t('intro.lines.wrong_preset'));
@@ -30547,6 +30549,7 @@ iD.validate = function(changes, graph) {
 
     return warnings;
 };
+/* jshint ignore:start */
 })();
 window.locale = { _current: 'en' };
 
@@ -58185,7 +58188,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "landuse": "farmyard"
                 },
                 "terms": [],
-                "name": "Farmyard"
+                "name": "Farmyard",
+                "icon": "farm"
             },
             "landuse/forest": {
                 "fields": [
@@ -58328,7 +58332,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "leisure": "dog_park"
                 },
-                "name": "Dog Park"
+                "name": "Dog Park",
+                "icon": "dog-park"
             },
             "leisure/garden": {
                 "icon": "garden",
@@ -58655,7 +58660,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "man_made": "lighthouse"
                 },
-                "name": "Lighthouse"
+                "name": "Lighthouse",
+                "icon": "lighthouse"
             },
             "man_made/observation": {
                 "geometry": [
@@ -59482,7 +59488,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Liquor Store"
             },
             "shop/bakery": {
-                "icon": "shop",
+                "icon": "bakery",
                 "fields": [
                     "address",
                     "building_area",
@@ -59674,7 +59680,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Chemist"
             },
             "shop/clothes": {
-                "icon": "shop",
+                "icon": "clothing-store",
                 "fields": [
                     "address",
                     "building_area",
@@ -60194,7 +60200,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Outdoor Store"
             },
             "shop/pet": {
-                "icon": "shop",
+                "icon": "dog-park",
                 "fields": [
                     "address",
                     "building_area",
@@ -60209,6 +60215,23 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "shop": "pet"
                 },
                 "name": "Pet Store"
+            },
+            "shop/photo": {
+                "icon": "camera",
+                "fields": [
+                    "address",
+                    "building_area",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "shop": "photo"
+                },
+                "name": "Photography Store"
             },
             "shop/shoes": {
                 "icon": "shop",
@@ -71792,1310 +71815,1422 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         ]
     },
     "featureIcons": {
-        "airfield": {
+        "circle-stroked": {
             "12": [
-                0,
+                42,
                 0
             ],
             "18": [
-                0,
-                14
+                24,
+                0
             ],
             "24": [
                 0,
-                34
-            ]
-        },
-        "airport": {
-            "12": [
-                0,
-                60
-            ],
-            "18": [
-                0,
-                74
-            ],
-            "24": [
-                0,
-                94
-            ]
-        },
-        "alcohol-shop": {
-            "12": [
-                0,
-                120
-            ],
-            "18": [
-                0,
-                134
-            ],
-            "24": [
-                0,
-                154
-            ]
-        },
-        "america-football": {
-            "12": [
-                0,
-                180
-            ],
-            "18": [
-                0,
-                194
-            ],
-            "24": [
-                0,
-                214
-            ]
-        },
-        "art-gallery": {
-            "12": [
-                0,
-                240
-            ],
-            "18": [
-                0,
-                254
-            ],
-            "24": [
-                0,
-                274
-            ]
-        },
-        "bank": {
-            "12": [
-                0,
-                300
-            ],
-            "18": [
-                0,
-                314
-            ],
-            "24": [
-                0,
-                334
-            ]
-        },
-        "bar": {
-            "12": [
-                0,
-                360
-            ],
-            "18": [
-                0,
-                374
-            ],
-            "24": [
-                0,
-                394
-            ]
-        },
-        "baseball": {
-            "12": [
-                0,
-                420
-            ],
-            "18": [
-                0,
-                434
-            ],
-            "24": [
-                0,
-                454
-            ]
-        },
-        "basketball": {
-            "12": [
-                0,
-                480
-            ],
-            "18": [
-                0,
-                494
-            ],
-            "24": [
-                0,
-                514
-            ]
-        },
-        "beer": {
-            "12": [
-                0,
-                540
-            ],
-            "18": [
-                0,
-                554
-            ],
-            "24": [
-                0,
-                574
-            ]
-        },
-        "bicycle": {
-            "12": [
-                0,
-                600
-            ],
-            "18": [
-                0,
-                614
-            ],
-            "24": [
-                0,
-                634
-            ]
-        },
-        "building": {
-            "12": [
-                0,
-                660
-            ],
-            "18": [
-                0,
-                674
-            ],
-            "24": [
-                0,
-                694
-            ]
-        },
-        "bus": {
-            "12": [
-                0,
-                720
-            ],
-            "18": [
-                0,
-                734
-            ],
-            "24": [
-                0,
-                754
-            ]
-        },
-        "cafe": {
-            "12": [
-                0,
-                780
-            ],
-            "18": [
-                0,
-                794
-            ],
-            "24": [
-                0,
-                814
-            ]
-        },
-        "campsite": {
-            "12": [
-                0,
-                840
-            ],
-            "18": [
-                0,
-                854
-            ],
-            "24": [
-                0,
-                874
-            ]
-        },
-        "cemetery": {
-            "12": [
-                0,
-                900
-            ],
-            "18": [
-                0,
-                914
-            ],
-            "24": [
-                0,
-                934
-            ]
-        },
-        "cinema": {
-            "12": [
-                0,
-                960
-            ],
-            "18": [
-                0,
-                974
-            ],
-            "24": [
-                0,
-                994
+                0
             ]
         },
         "circle": {
             "12": [
-                0,
-                1020
+                96,
+                0
             ],
             "18": [
-                0,
-                1034
+                78,
+                0
             ],
             "24": [
-                0,
-                1054
+                54,
+                0
             ]
         },
-        "circle-stroked": {
+        "square-stroked": {
             "12": [
-                0,
-                1080
+                150,
+                0
             ],
             "18": [
-                0,
-                1094
+                132,
+                0
             ],
             "24": [
-                0,
-                1114
+                108,
+                0
             ]
         },
-        "city": {
+        "square": {
             "12": [
-                0,
-                1140
+                204,
+                0
             ],
             "18": [
-                0,
-                1154
+                186,
+                0
             ],
             "24": [
-                0,
-                1174
+                162,
+                0
             ]
         },
-        "college": {
+        "triangle-stroked": {
             "12": [
-                0,
-                1200
+                258,
+                0
             ],
             "18": [
-                0,
-                1214
+                240,
+                0
             ],
             "24": [
-                0,
-                1234
+                216,
+                0
             ]
         },
-        "commercial": {
+        "triangle": {
             "12": [
-                0,
-                1260
+                42,
+                24
             ],
             "18": [
-                0,
-                1274
+                24,
+                24
             ],
             "24": [
                 0,
-                1294
+                24
             ]
         },
-        "cricket": {
+        "star-stroked": {
             "12": [
-                0,
-                1320
+                96,
+                24
             ],
             "18": [
-                0,
-                1334
+                78,
+                24
             ],
             "24": [
-                0,
-                1354
+                54,
+                24
+            ]
+        },
+        "star": {
+            "12": [
+                150,
+                24
+            ],
+            "18": [
+                132,
+                24
+            ],
+            "24": [
+                108,
+                24
             ]
         },
         "cross": {
             "12": [
-                0,
-                1380
+                204,
+                24
             ],
             "18": [
-                0,
-                1394
+                186,
+                24
             ],
             "24": [
-                0,
-                1414
+                162,
+                24
             ]
         },
-        "dam": {
+        "marker-stroked": {
             "12": [
-                0,
-                1440
+                258,
+                24
             ],
             "18": [
-                0,
-                1454
+                240,
+                24
             ],
             "24": [
-                0,
-                1474
+                216,
+                24
             ]
         },
-        "danger": {
+        "marker": {
             "12": [
-                0,
-                1500
+                42,
+                48
             ],
             "18": [
-                0,
-                1514
+                24,
+                48
             ],
             "24": [
                 0,
-                1534
+                48
             ]
         },
-        "disability": {
+        "religious-jewish": {
             "12": [
-                0,
-                1560
+                96,
+                48
             ],
             "18": [
-                0,
-                1574
+                78,
+                48
             ],
             "24": [
-                0,
-                1594
+                54,
+                48
             ]
         },
-        "embassy": {
+        "religious-christian": {
             "12": [
-                0,
-                1620
+                150,
+                48
             ],
             "18": [
-                0,
-                1634
+                132,
+                48
             ],
             "24": [
-                0,
-                1654
+                108,
+                48
             ]
         },
-        "emergency-telephone": {
+        "religious-muslim": {
             "12": [
-                0,
-                1680
+                204,
+                48
             ],
             "18": [
-                0,
-                1694
+                186,
+                48
             ],
             "24": [
-                0,
-                1714
+                162,
+                48
             ]
         },
-        "farm": {
+        "cemetery": {
             "12": [
-                0,
-                1740
+                258,
+                48
             ],
             "18": [
-                0,
-                1754
+                240,
+                48
             ],
             "24": [
-                0,
-                1774
+                216,
+                48
             ]
         },
-        "fast-food": {
+        "rocket": {
             "12": [
-                0,
-                1800
+                42,
+                72
             ],
             "18": [
-                0,
-                1814
+                24,
+                72
             ],
             "24": [
                 0,
-                1834
+                72
+            ]
+        },
+        "airport": {
+            "12": [
+                96,
+                72
+            ],
+            "18": [
+                78,
+                72
+            ],
+            "24": [
+                54,
+                72
+            ]
+        },
+        "heliport": {
+            "12": [
+                150,
+                72
+            ],
+            "18": [
+                132,
+                72
+            ],
+            "24": [
+                108,
+                72
+            ]
+        },
+        "rail": {
+            "12": [
+                204,
+                72
+            ],
+            "18": [
+                186,
+                72
+            ],
+            "24": [
+                162,
+                72
+            ]
+        },
+        "rail-underground": {
+            "12": [
+                258,
+                72
+            ],
+            "18": [
+                240,
+                72
+            ],
+            "24": [
+                216,
+                72
+            ]
+        },
+        "rail-above": {
+            "12": [
+                42,
+                96
+            ],
+            "18": [
+                24,
+                96
+            ],
+            "24": [
+                0,
+                96
+            ]
+        },
+        "bus": {
+            "12": [
+                96,
+                96
+            ],
+            "18": [
+                78,
+                96
+            ],
+            "24": [
+                54,
+                96
+            ]
+        },
+        "fuel": {
+            "12": [
+                150,
+                96
+            ],
+            "18": [
+                132,
+                96
+            ],
+            "24": [
+                108,
+                96
+            ]
+        },
+        "parking": {
+            "12": [
+                204,
+                96
+            ],
+            "18": [
+                186,
+                96
+            ],
+            "24": [
+                162,
+                96
+            ]
+        },
+        "parking-garage": {
+            "12": [
+                258,
+                96
+            ],
+            "18": [
+                240,
+                96
+            ],
+            "24": [
+                216,
+                96
+            ]
+        },
+        "airfield": {
+            "12": [
+                42,
+                120
+            ],
+            "18": [
+                24,
+                120
+            ],
+            "24": [
+                0,
+                120
+            ]
+        },
+        "roadblock": {
+            "12": [
+                96,
+                120
+            ],
+            "18": [
+                78,
+                120
+            ],
+            "24": [
+                54,
+                120
             ]
         },
         "ferry": {
             "12": [
-                0,
-                1860
+                150,
+                120
             ],
             "18": [
-                0,
-                1874
+                132,
+                120
             ],
             "24": [
-                0,
-                1894
+                108,
+                120
             ],
             "line": [
                 2240,
                 25
             ]
         },
-        "fire-station": {
-            "12": [
-                0,
-                1920
-            ],
-            "18": [
-                0,
-                1934
-            ],
-            "24": [
-                0,
-                1954
-            ]
-        },
-        "fuel": {
-            "12": [
-                0,
-                1980
-            ],
-            "18": [
-                0,
-                1994
-            ],
-            "24": [
-                0,
-                2014
-            ]
-        },
-        "garden": {
-            "12": [
-                0,
-                2040
-            ],
-            "18": [
-                0,
-                2054
-            ],
-            "24": [
-                0,
-                2074
-            ]
-        },
-        "golf": {
-            "12": [
-                0,
-                2100
-            ],
-            "18": [
-                0,
-                2114
-            ],
-            "24": [
-                0,
-                2134
-            ]
-        },
-        "grocery": {
-            "12": [
-                0,
-                2160
-            ],
-            "18": [
-                0,
-                2174
-            ],
-            "24": [
-                0,
-                2194
-            ]
-        },
         "harbor": {
             "12": [
-                0,
-                2220
+                204,
+                120
             ],
             "18": [
-                0,
-                2234
+                186,
+                120
             ],
             "24": [
-                0,
-                2254
+                162,
+                120
             ]
         },
-        "heliport": {
+        "bicycle": {
             "12": [
-                0,
-                2280
+                258,
+                120
             ],
             "18": [
-                0,
-                2294
+                240,
+                120
             ],
             "24": [
-                0,
-                2314
-            ]
-        },
-        "hospital": {
-            "12": [
-                0,
-                2340
-            ],
-            "18": [
-                0,
-                2354
-            ],
-            "24": [
-                0,
-                2374
-            ]
-        },
-        "industrial": {
-            "12": [
-                0,
-                2400
-            ],
-            "18": [
-                0,
-                2414
-            ],
-            "24": [
-                0,
-                2434
-            ]
-        },
-        "land-use": {
-            "12": [
-                0,
-                2460
-            ],
-            "18": [
-                0,
-                2474
-            ],
-            "24": [
-                0,
-                2494
-            ]
-        },
-        "library": {
-            "12": [
-                0,
-                2520
-            ],
-            "18": [
-                0,
-                2534
-            ],
-            "24": [
-                0,
-                2554
-            ]
-        },
-        "lodging": {
-            "12": [
-                0,
-                2580
-            ],
-            "18": [
-                0,
-                2594
-            ],
-            "24": [
-                0,
-                2614
-            ]
-        },
-        "logging": {
-            "12": [
-                0,
-                2640
-            ],
-            "18": [
-                0,
-                2654
-            ],
-            "24": [
-                0,
-                2674
-            ]
-        },
-        "marker": {
-            "12": [
-                0,
-                2700
-            ],
-            "18": [
-                0,
-                2714
-            ],
-            "24": [
-                0,
-                2734
-            ]
-        },
-        "marker-stroked": {
-            "12": [
-                0,
-                2760
-            ],
-            "18": [
-                0,
-                2774
-            ],
-            "24": [
-                0,
-                2794
-            ]
-        },
-        "monument": {
-            "12": [
-                0,
-                2820
-            ],
-            "18": [
-                0,
-                2834
-            ],
-            "24": [
-                0,
-                2854
-            ]
-        },
-        "museum": {
-            "12": [
-                0,
-                2880
-            ],
-            "18": [
-                0,
-                2894
-            ],
-            "24": [
-                0,
-                2914
-            ]
-        },
-        "music": {
-            "12": [
-                0,
-                2940
-            ],
-            "18": [
-                0,
-                2954
-            ],
-            "24": [
-                0,
-                2974
-            ]
-        },
-        "oil-well": {
-            "12": [
-                0,
-                3000
-            ],
-            "18": [
-                0,
-                3014
-            ],
-            "24": [
-                0,
-                3034
+                216,
+                120
             ]
         },
         "park": {
             "12": [
-                0,
-                3060
+                42,
+                144
             ],
             "18": [
-                0,
-                3074
+                24,
+                144
             ],
             "24": [
                 0,
-                3094
+                144
             ]
         },
         "park2": {
             "12": [
-                0,
-                3120
+                96,
+                144
             ],
             "18": [
-                0,
-                3134
+                78,
+                144
             ],
             "24": [
-                0,
-                3154
+                54,
+                144
             ]
         },
-        "parking": {
+        "museum": {
             "12": [
-                0,
-                3180
+                150,
+                144
             ],
             "18": [
-                0,
-                3194
+                132,
+                144
             ],
             "24": [
-                0,
-                3214
+                108,
+                144
             ]
         },
-        "parking-garage": {
+        "lodging": {
             "12": [
-                0,
-                3240
+                204,
+                144
             ],
             "18": [
-                0,
-                3254
+                186,
+                144
             ],
             "24": [
-                0,
-                3274
+                162,
+                144
             ]
         },
-        "pharmacy": {
+        "monument": {
             "12": [
-                0,
-                3300
+                258,
+                144
             ],
             "18": [
-                0,
-                3314
+                240,
+                144
             ],
             "24": [
-                0,
-                3334
-            ]
-        },
-        "pitch": {
-            "12": [
-                0,
-                3360
-            ],
-            "18": [
-                0,
-                3374
-            ],
-            "24": [
-                0,
-                3394
-            ]
-        },
-        "place-of-worship": {
-            "12": [
-                0,
-                3420
-            ],
-            "18": [
-                0,
-                3434
-            ],
-            "24": [
-                0,
-                3454
-            ]
-        },
-        "police": {
-            "12": [
-                0,
-                3480
-            ],
-            "18": [
-                0,
-                3494
-            ],
-            "24": [
-                0,
-                3514
-            ]
-        },
-        "post": {
-            "12": [
-                0,
-                3540
-            ],
-            "18": [
-                0,
-                3554
-            ],
-            "24": [
-                0,
-                3574
-            ]
-        },
-        "prison": {
-            "12": [
-                0,
-                3600
-            ],
-            "18": [
-                0,
-                3614
-            ],
-            "24": [
-                0,
-                3634
-            ]
-        },
-        "rail": {
-            "12": [
-                0,
-                3660
-            ],
-            "18": [
-                0,
-                3674
-            ],
-            "24": [
-                0,
-                3694
-            ]
-        },
-        "rail-above": {
-            "12": [
-                0,
-                3720
-            ],
-            "18": [
-                0,
-                3734
-            ],
-            "24": [
-                0,
-                3754
-            ]
-        },
-        "rail-underground": {
-            "12": [
-                0,
-                3780
-            ],
-            "18": [
-                0,
-                3794
-            ],
-            "24": [
-                0,
-                3814
-            ]
-        },
-        "religious-christian": {
-            "12": [
-                0,
-                3840
-            ],
-            "18": [
-                0,
-                3854
-            ],
-            "24": [
-                0,
-                3874
-            ]
-        },
-        "religious-jewish": {
-            "12": [
-                0,
-                3900
-            ],
-            "18": [
-                0,
-                3914
-            ],
-            "24": [
-                0,
-                3934
-            ]
-        },
-        "religious-muslim": {
-            "12": [
-                0,
-                3960
-            ],
-            "18": [
-                0,
-                3974
-            ],
-            "24": [
-                0,
-                3994
-            ]
-        },
-        "restaurant": {
-            "12": [
-                0,
-                4020
-            ],
-            "18": [
-                0,
-                4034
-            ],
-            "24": [
-                0,
-                4054
-            ]
-        },
-        "roadblock": {
-            "12": [
-                0,
-                4080
-            ],
-            "18": [
-                0,
-                4094
-            ],
-            "24": [
-                0,
-                4114
-            ]
-        },
-        "school": {
-            "12": [
-                0,
-                4140
-            ],
-            "18": [
-                0,
-                4154
-            ],
-            "24": [
-                0,
-                4174
-            ]
-        },
-        "shop": {
-            "12": [
-                0,
-                4200
-            ],
-            "18": [
-                0,
-                4214
-            ],
-            "24": [
-                0,
-                4234
-            ]
-        },
-        "skiing": {
-            "12": [
-                0,
-                4260
-            ],
-            "18": [
-                0,
-                4274
-            ],
-            "24": [
-                0,
-                4294
-            ]
-        },
-        "slaughterhouse": {
-            "12": [
-                0,
-                4320
-            ],
-            "18": [
-                0,
-                4334
-            ],
-            "24": [
-                0,
-                4354
-            ]
-        },
-        "soccer": {
-            "12": [
-                0,
-                4380
-            ],
-            "18": [
-                0,
-                4394
-            ],
-            "24": [
-                0,
-                4414
-            ]
-        },
-        "square": {
-            "12": [
-                0,
-                4440
-            ],
-            "18": [
-                0,
-                4454
-            ],
-            "24": [
-                0,
-                4474
-            ]
-        },
-        "square-stroked": {
-            "12": [
-                0,
-                4500
-            ],
-            "18": [
-                0,
-                4514
-            ],
-            "24": [
-                0,
-                4534
-            ]
-        },
-        "star": {
-            "12": [
-                0,
-                4560
-            ],
-            "18": [
-                0,
-                4574
-            ],
-            "24": [
-                0,
-                4594
-            ]
-        },
-        "star-stroked": {
-            "12": [
-                0,
-                4620
-            ],
-            "18": [
-                0,
-                4634
-            ],
-            "24": [
-                0,
-                4654
-            ]
-        },
-        "swimming": {
-            "12": [
-                0,
-                4680
-            ],
-            "18": [
-                0,
-                4694
-            ],
-            "24": [
-                0,
-                4714
-            ]
-        },
-        "telephone": {
-            "12": [
-                0,
-                4740
-            ],
-            "18": [
-                0,
-                4754
-            ],
-            "24": [
-                0,
-                4774
-            ]
-        },
-        "tennis": {
-            "12": [
-                0,
-                4800
-            ],
-            "18": [
-                0,
-                4814
-            ],
-            "24": [
-                0,
-                4834
-            ]
-        },
-        "theatre": {
-            "12": [
-                0,
-                4860
-            ],
-            "18": [
-                0,
-                4874
-            ],
-            "24": [
-                0,
-                4894
-            ]
-        },
-        "toilets": {
-            "12": [
-                0,
-                4920
-            ],
-            "18": [
-                0,
-                4934
-            ],
-            "24": [
-                0,
-                4954
-            ]
-        },
-        "town": {
-            "12": [
-                0,
-                4980
-            ],
-            "18": [
-                0,
-                4994
-            ],
-            "24": [
-                0,
-                5014
-            ]
-        },
-        "town-hall": {
-            "12": [
-                0,
-                5040
-            ],
-            "18": [
-                0,
-                5054
-            ],
-            "24": [
-                0,
-                5074
-            ]
-        },
-        "triangle": {
-            "12": [
-                0,
-                5100
-            ],
-            "18": [
-                0,
-                5114
-            ],
-            "24": [
-                0,
-                5134
-            ]
-        },
-        "triangle-stroked": {
-            "12": [
-                0,
-                5160
-            ],
-            "18": [
-                0,
-                5174
-            ],
-            "24": [
-                0,
-                5194
-            ]
-        },
-        "village": {
-            "12": [
-                0,
-                5220
-            ],
-            "18": [
-                0,
-                5234
-            ],
-            "24": [
-                0,
-                5254
-            ]
-        },
-        "warehouse": {
-            "12": [
-                0,
-                5280
-            ],
-            "18": [
-                0,
-                5294
-            ],
-            "24": [
-                0,
-                5314
-            ]
-        },
-        "waste-basket": {
-            "12": [
-                0,
-                5340
-            ],
-            "18": [
-                0,
-                5354
-            ],
-            "24": [
-                0,
-                5374
-            ]
-        },
-        "water": {
-            "12": [
-                0,
-                5400
-            ],
-            "18": [
-                0,
-                5414
-            ],
-            "24": [
-                0,
-                5434
-            ]
-        },
-        "wetland": {
-            "12": [
-                0,
-                5460
-            ],
-            "18": [
-                0,
-                5474
-            ],
-            "24": [
-                0,
-                5494
+                216,
+                144
             ]
         },
         "zoo": {
             "12": [
-                0,
-                5520
+                42,
+                168
             ],
             "18": [
-                0,
-                5534
+                24,
+                168
             ],
             "24": [
                 0,
-                5554
+                168
+            ]
+        },
+        "garden": {
+            "12": [
+                96,
+                168
+            ],
+            "18": [
+                78,
+                168
+            ],
+            "24": [
+                54,
+                168
+            ]
+        },
+        "campsite": {
+            "12": [
+                150,
+                168
+            ],
+            "18": [
+                132,
+                168
+            ],
+            "24": [
+                108,
+                168
+            ]
+        },
+        "theatre": {
+            "12": [
+                204,
+                168
+            ],
+            "18": [
+                186,
+                168
+            ],
+            "24": [
+                162,
+                168
+            ]
+        },
+        "art-gallery": {
+            "12": [
+                258,
+                168
+            ],
+            "18": [
+                240,
+                168
+            ],
+            "24": [
+                216,
+                168
+            ]
+        },
+        "pitch": {
+            "12": [
+                42,
+                192
+            ],
+            "18": [
+                24,
+                192
+            ],
+            "24": [
+                0,
+                192
+            ]
+        },
+        "soccer": {
+            "12": [
+                96,
+                192
+            ],
+            "18": [
+                78,
+                192
+            ],
+            "24": [
+                54,
+                192
+            ]
+        },
+        "america-football": {
+            "12": [
+                150,
+                192
+            ],
+            "18": [
+                132,
+                192
+            ],
+            "24": [
+                108,
+                192
+            ]
+        },
+        "tennis": {
+            "12": [
+                204,
+                192
+            ],
+            "18": [
+                186,
+                192
+            ],
+            "24": [
+                162,
+                192
+            ]
+        },
+        "basketball": {
+            "12": [
+                258,
+                192
+            ],
+            "18": [
+                240,
+                192
+            ],
+            "24": [
+                216,
+                192
+            ]
+        },
+        "baseball": {
+            "12": [
+                42,
+                216
+            ],
+            "18": [
+                24,
+                216
+            ],
+            "24": [
+                0,
+                216
+            ]
+        },
+        "golf": {
+            "12": [
+                96,
+                216
+            ],
+            "18": [
+                78,
+                216
+            ],
+            "24": [
+                54,
+                216
+            ]
+        },
+        "swimming": {
+            "12": [
+                150,
+                216
+            ],
+            "18": [
+                132,
+                216
+            ],
+            "24": [
+                108,
+                216
+            ]
+        },
+        "cricket": {
+            "12": [
+                204,
+                216
+            ],
+            "18": [
+                186,
+                216
+            ],
+            "24": [
+                162,
+                216
+            ]
+        },
+        "skiing": {
+            "12": [
+                258,
+                216
+            ],
+            "18": [
+                240,
+                216
+            ],
+            "24": [
+                216,
+                216
+            ]
+        },
+        "school": {
+            "12": [
+                42,
+                240
+            ],
+            "18": [
+                24,
+                240
+            ],
+            "24": [
+                0,
+                240
+            ]
+        },
+        "college": {
+            "12": [
+                96,
+                240
+            ],
+            "18": [
+                78,
+                240
+            ],
+            "24": [
+                54,
+                240
+            ]
+        },
+        "library": {
+            "12": [
+                150,
+                240
+            ],
+            "18": [
+                132,
+                240
+            ],
+            "24": [
+                108,
+                240
+            ]
+        },
+        "post": {
+            "12": [
+                204,
+                240
+            ],
+            "18": [
+                186,
+                240
+            ],
+            "24": [
+                162,
+                240
+            ]
+        },
+        "fire-station": {
+            "12": [
+                258,
+                240
+            ],
+            "18": [
+                240,
+                240
+            ],
+            "24": [
+                216,
+                240
+            ]
+        },
+        "town-hall": {
+            "12": [
+                42,
+                264
+            ],
+            "18": [
+                24,
+                264
+            ],
+            "24": [
+                0,
+                264
+            ]
+        },
+        "police": {
+            "12": [
+                96,
+                264
+            ],
+            "18": [
+                78,
+                264
+            ],
+            "24": [
+                54,
+                264
+            ]
+        },
+        "prison": {
+            "12": [
+                150,
+                264
+            ],
+            "18": [
+                132,
+                264
+            ],
+            "24": [
+                108,
+                264
+            ]
+        },
+        "embassy": {
+            "12": [
+                204,
+                264
+            ],
+            "18": [
+                186,
+                264
+            ],
+            "24": [
+                162,
+                264
+            ]
+        },
+        "beer": {
+            "12": [
+                258,
+                264
+            ],
+            "18": [
+                240,
+                264
+            ],
+            "24": [
+                216,
+                264
+            ]
+        },
+        "restaurant": {
+            "12": [
+                42,
+                288
+            ],
+            "18": [
+                24,
+                288
+            ],
+            "24": [
+                0,
+                288
+            ]
+        },
+        "cafe": {
+            "12": [
+                96,
+                288
+            ],
+            "18": [
+                78,
+                288
+            ],
+            "24": [
+                54,
+                288
+            ]
+        },
+        "shop": {
+            "12": [
+                150,
+                288
+            ],
+            "18": [
+                132,
+                288
+            ],
+            "24": [
+                108,
+                288
+            ]
+        },
+        "fast-food": {
+            "12": [
+                204,
+                288
+            ],
+            "18": [
+                186,
+                288
+            ],
+            "24": [
+                162,
+                288
+            ]
+        },
+        "bar": {
+            "12": [
+                258,
+                288
+            ],
+            "18": [
+                240,
+                288
+            ],
+            "24": [
+                216,
+                288
+            ]
+        },
+        "bank": {
+            "12": [
+                42,
+                312
+            ],
+            "18": [
+                24,
+                312
+            ],
+            "24": [
+                0,
+                312
+            ]
+        },
+        "grocery": {
+            "12": [
+                96,
+                312
+            ],
+            "18": [
+                78,
+                312
+            ],
+            "24": [
+                54,
+                312
+            ]
+        },
+        "cinema": {
+            "12": [
+                150,
+                312
+            ],
+            "18": [
+                132,
+                312
+            ],
+            "24": [
+                108,
+                312
+            ]
+        },
+        "pharmacy": {
+            "12": [
+                204,
+                312
+            ],
+            "18": [
+                186,
+                312
+            ],
+            "24": [
+                162,
+                312
+            ]
+        },
+        "hospital": {
+            "12": [
+                258,
+                312
+            ],
+            "18": [
+                240,
+                312
+            ],
+            "24": [
+                216,
+                312
+            ]
+        },
+        "danger": {
+            "12": [
+                42,
+                336
+            ],
+            "18": [
+                24,
+                336
+            ],
+            "24": [
+                0,
+                336
+            ]
+        },
+        "industrial": {
+            "12": [
+                96,
+                336
+            ],
+            "18": [
+                78,
+                336
+            ],
+            "24": [
+                54,
+                336
+            ]
+        },
+        "warehouse": {
+            "12": [
+                150,
+                336
+            ],
+            "18": [
+                132,
+                336
+            ],
+            "24": [
+                108,
+                336
+            ]
+        },
+        "commercial": {
+            "12": [
+                204,
+                336
+            ],
+            "18": [
+                186,
+                336
+            ],
+            "24": [
+                162,
+                336
+            ]
+        },
+        "building": {
+            "12": [
+                258,
+                336
+            ],
+            "18": [
+                240,
+                336
+            ],
+            "24": [
+                216,
+                336
+            ]
+        },
+        "place-of-worship": {
+            "12": [
+                42,
+                360
+            ],
+            "18": [
+                24,
+                360
+            ],
+            "24": [
+                0,
+                360
+            ]
+        },
+        "alcohol-shop": {
+            "12": [
+                96,
+                360
+            ],
+            "18": [
+                78,
+                360
+            ],
+            "24": [
+                54,
+                360
+            ]
+        },
+        "logging": {
+            "12": [
+                150,
+                360
+            ],
+            "18": [
+                132,
+                360
+            ],
+            "24": [
+                108,
+                360
+            ]
+        },
+        "oil-well": {
+            "12": [
+                204,
+                360
+            ],
+            "18": [
+                186,
+                360
+            ],
+            "24": [
+                162,
+                360
+            ]
+        },
+        "slaughterhouse": {
+            "12": [
+                258,
+                360
+            ],
+            "18": [
+                240,
+                360
+            ],
+            "24": [
+                216,
+                360
+            ]
+        },
+        "dam": {
+            "12": [
+                42,
+                384
+            ],
+            "18": [
+                24,
+                384
+            ],
+            "24": [
+                0,
+                384
+            ]
+        },
+        "water": {
+            "12": [
+                96,
+                384
+            ],
+            "18": [
+                78,
+                384
+            ],
+            "24": [
+                54,
+                384
+            ]
+        },
+        "wetland": {
+            "12": [
+                150,
+                384
+            ],
+            "18": [
+                132,
+                384
+            ],
+            "24": [
+                108,
+                384
+            ]
+        },
+        "disability": {
+            "12": [
+                204,
+                384
+            ],
+            "18": [
+                186,
+                384
+            ],
+            "24": [
+                162,
+                384
+            ]
+        },
+        "telephone": {
+            "12": [
+                258,
+                384
+            ],
+            "18": [
+                240,
+                384
+            ],
+            "24": [
+                216,
+                384
+            ]
+        },
+        "emergency-telephone": {
+            "12": [
+                42,
+                408
+            ],
+            "18": [
+                24,
+                408
+            ],
+            "24": [
+                0,
+                408
+            ]
+        },
+        "toilets": {
+            "12": [
+                96,
+                408
+            ],
+            "18": [
+                78,
+                408
+            ],
+            "24": [
+                54,
+                408
+            ]
+        },
+        "waste-basket": {
+            "12": [
+                150,
+                408
+            ],
+            "18": [
+                132,
+                408
+            ],
+            "24": [
+                108,
+                408
+            ]
+        },
+        "music": {
+            "12": [
+                204,
+                408
+            ],
+            "18": [
+                186,
+                408
+            ],
+            "24": [
+                162,
+                408
+            ]
+        },
+        "land-use": {
+            "12": [
+                258,
+                408
+            ],
+            "18": [
+                240,
+                408
+            ],
+            "24": [
+                216,
+                408
+            ]
+        },
+        "city": {
+            "12": [
+                42,
+                432
+            ],
+            "18": [
+                24,
+                432
+            ],
+            "24": [
+                0,
+                432
+            ]
+        },
+        "town": {
+            "12": [
+                96,
+                432
+            ],
+            "18": [
+                78,
+                432
+            ],
+            "24": [
+                54,
+                432
+            ]
+        },
+        "village": {
+            "12": [
+                150,
+                432
+            ],
+            "18": [
+                132,
+                432
+            ],
+            "24": [
+                108,
+                432
+            ]
+        },
+        "farm": {
+            "12": [
+                204,
+                432
+            ],
+            "18": [
+                186,
+                432
+            ],
+            "24": [
+                162,
+                432
+            ]
+        },
+        "bakery": {
+            "12": [
+                258,
+                432
+            ],
+            "18": [
+                240,
+                432
+            ],
+            "24": [
+                216,
+                432
+            ]
+        },
+        "dog-park": {
+            "12": [
+                42,
+                456
+            ],
+            "18": [
+                24,
+                456
+            ],
+            "24": [
+                0,
+                456
+            ]
+        },
+        "lighthouse": {
+            "12": [
+                96,
+                456
+            ],
+            "18": [
+                78,
+                456
+            ],
+            "24": [
+                54,
+                456
+            ]
+        },
+        "clothing-store": {
+            "12": [
+                150,
+                456
+            ],
+            "18": [
+                132,
+                456
+            ],
+            "24": [
+                108,
+                456
+            ]
+        },
+        "london-underground": {
+            "12": [
+                204,
+                456
+            ],
+            "18": [
+                186,
+                456
+            ],
+            "24": [
+                162,
+                456
+            ]
+        },
+        "minefield": {
+            "12": [
+                258,
+                456
+            ],
+            "18": [
+                240,
+                456
+            ],
+            "24": [
+                216,
+                456
+            ]
+        },
+        "camera": {
+            "12": [
+                42,
+                480
+            ],
+            "18": [
+                24,
+                480
+            ],
+            "24": [
+                0,
+                480
             ]
         },
         "highway-motorway": {
@@ -73838,7 +73973,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "none": "None",
             "custom": "Custom",
             "custom_prompt": "Enter a tile template. Valid tokens are {z}, {x}, {y} for Z/X/Y scheme and {u} for quadtile scheme.",
-            "fix_misalignment": "Fix misalignment",
+            "fix_misalignment": "Fix alignment",
             "reset": "reset"
         },
         "restore": {
@@ -75482,6 +75617,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "shop/pet": {
                     "name": "Pet Store",
+                    "terms": ""
+                },
+                "shop/photo": {
+                    "name": "Photography Store",
                     "terms": ""
                 },
                 "shop/shoes": {
