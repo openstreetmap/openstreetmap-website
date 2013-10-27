@@ -5,6 +5,21 @@
 <% content_for :heading do %>
   <h2><%= t 'browse.changeset.changeset', :id => @changeset.id %></h2>
   <%= render :partial => "navigation" %>
+
+  <div class="edit_summary_chunk"><%
+  # this div is analogous to _common_editsummary.html.erb
+@createdagohtml = "<abbr title='%s'>%s</abbr>" % [l(@changeset.created_at), t('browse.common_details.ago', :time_in_words_ago => time_ago_in_words(@changeset.created_at))]
+@closedagohtml  = "<abbr title='%s'>%s</abbr>" % [l(@changeset.closed_at),  t('browse.common_details.ago', :time_in_words_ago => time_ago_in_words(@changeset.closed_at ))]
+
+if @changeset.user.data_public?
+  @userhtml = link_to h(@changeset.user.display_name), :controller => "user", :action => "view", :display_name => @changeset.user.display_name  %>
+  <%= raw t 'browse.changeset.created_closed_ago_by', :created_in_words_ago => @createdagohtml, :closed_in_words_ago => @closedagohtml, :user => @userhtml %>
+<% else %>
+  <%= raw t 'browse.changeset.created_closed_ago',    :created_in_words_ago => @createdagohtml, :closed_in_words_ago => @closedagohtml %>
+<% end %>
+</div>
+  <!-- end equiv to common_editsummary -->
+
 <% end %>
 
 <% if @changeset.has_valid_bbox? %>
