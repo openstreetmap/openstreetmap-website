@@ -8,6 +8,7 @@ L.OSM.key = function (options) {
     var button = $('<a>')
       .attr('class', 'control-button')
       .attr('href', '#')
+      .attr('accesskey', 'k')
       .html('<span class="icon key"></span>')
       .on('click', toggle)
       .appendTo($container);

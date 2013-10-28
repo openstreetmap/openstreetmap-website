@@ -107,6 +107,7 @@ $(document).ready(function () {
       popup: I18n.t('javascripts.map.locate.popup')
     }
   }).addTo(map);
+  $('.control-button .geolocate').parent().attr('accesskey', 'g');
 
   var sidebar = L.OSM.sidebar('#map-ui')
     .addTo(map);
