@@ -39,6 +39,7 @@ class SiteController < ApplicationController
     editor = preferred_editor
 
     if editor == "remote"
+      require_oauth
       render :action => :index
       return
     end
