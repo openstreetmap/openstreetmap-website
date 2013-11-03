@@ -10,10 +10,7 @@
   <h2><%= @name %></h2>
   <%= render :partial => "navigation" %>
 
-  <%= render :partial => "common_editsummary", :object => @relation %>
-
-  <div class="edit_summary_chunk">(<%= link_to(t('browse.relation.view_history'), :action => "relation_history") %>)</div>
-
+  <%= render :partial => "common_editsummary", :object => @relation, :locals => {historylink: link_to(t('browse.relation.view_history'), :action => "relation_history")} %>
 <% end %>
 <%= render :partial => "map", :object => @relation %>
 
