@@ -70,8 +70,8 @@ class BrowseController < ApplicationController
     @prev = Changeset.where("id < ?", @changeset.id).order(:id => :desc).first
 
     if @changeset.user.data_public?
-      @next_by_user = @changeset.user.changesets.where("id > ?", @changeset.id).order(:id => :asc).first
-      @prev_by_user = @changeset.user.changesets.where("id < ?", @changeset.id).order(:id => :desc).first
+      @next_by_user = @changeset.user.changesets.where("id > ?", @changeset.id).reorder(:id => :asc).first
+      @prev_by_user = @changeset.user.changesets.where("id < ?", @changeset.id).reorder(:id => :desc).first
     end
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
