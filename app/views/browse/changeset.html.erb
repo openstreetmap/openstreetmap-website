@@ -1,24 +1,23 @@
-<h2><%= t 'browse.changeset.changeset', :id => @changeset.id %></h2>
-
-<div class='browse-section common'>
-  <div class='browse-field'>
-    <h4><%= t 'browse.changeset_details.created_at' %></h4>
-    <p><%= l @changeset.created_at %></p>
-  </div>
-
-  <div class='browse-field'>
-    <h4><%= t 'browse.changeset_details.closed_at' %></h4>
-    <p><%= l @changeset.closed_at %></p>
-  </div>
-
-  <% if @changeset.user.data_public? %>
-    <div class='browse-field'>
-      <h4><%= t 'browse.changeset_details.belongs_to' %></h4>
-      <p><%= link_to h(@changeset.user.display_name), :controller => "user", :action => "view", :display_name => @changeset.user.display_name %></p>
-    </div>
-  <% end %>
+<div class="browse-section header">
+  <h2><%= t 'browse.changeset.changeset', :id => @changeset.id %></h2>
+    <p>
+      <% 
+      created_at = distance_of_time_in_words_to_now(@changeset.created_at)
+      closed_at = distance_of_time_in_words_to_now(@changeset.closed_at)
+      if created_at == closed_at %>
+        <%= t 'browse.changeset_details.closed_at' %> 
+        <abbr title="<%= t 'browse.changeset_details.created_at' %>: <%= @changeset.created_at %> &#10;<%= t 'browse.changeset_details.closed_at' %>: <%= @changeset.closed_at %>">
+        <%= created_at %> ago</abbr> 
+      <% else %>
+        <%= t 'browse.changeset_details.created_at' %> <abbr title="<%= l @changeset.created_at %>"><%= created_at %> ago</abbr>, 
+        <%= t 'browse.changeset_details.closed_at' %> <abbr title="<%= l @changeset.closed_at %>"><%= closed_at %> ago<abbr> 
+      <% end %>
+      <% if @changeset.user.data_public? %>
+        by <%= link_to h(@changeset.user.display_name), :controller => "user", :action => "view", :display_name => @changeset.user.display_name %>
+      <% end %>
+    </p>
 </div>
-
+  
 <%= render :partial => "tag_details", :object => @changeset %>
 
 <% unless @nodes.empty? %>
