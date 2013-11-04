@@ -10,9 +10,10 @@ $grey: #CCC;
 $lightgrey: #EEE;
 $darkgrey: #AAA;
 $hovercolor: 20%;
-$headerHeight: 75px;
+$headerHeight: 54px;
 $sidebarWidth: 350px;
 $keyline: 1px solid $grey;
+$border-radius: 3px;
 
 /* Styles common to large and small screens */
 
@@ -118,7 +119,7 @@ body.slim {
 }
 
 h1, h2, h3 {
-  font-weight: bold;
+  font-weight: 500;
   line-height: 1.2;
 }
 
@@ -182,6 +183,8 @@ small, aside {
 a {
   color: #00f;
   text-decoration: none;
+  -webkit-appearance: none;
+  outline: 0;
   &:hover {
     text-decoration: underline;
   }
@@ -207,7 +210,7 @@ table {
     line-height: $lineheight;
   }
   th {
-    font-weight: bold;
+    font-weight: 500;
     vertical-align: top;
   }
   td {
@@ -229,8 +232,9 @@ table {
 header {
   height: $headerHeight;
   position: relative;
-  border-bottom: $keyline;
+  // border-bottom: $keyline;
   z-index: 1001;
+  font-size: 13px;
 
   h1, nav, nav > ul, nav > ul > li, .dropdown {
     display: inline-block;
@@ -238,7 +242,7 @@ header {
 
   > * {
     height: 100%;
-    padding: $lineheight;
+    padding: $lineheight/2 $lineheight;
   }
 
   h1, nav.primary {
@@ -250,14 +254,15 @@ header {
   }
 
   img.logo {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
+    margin-top: -4px;
     vertical-align: middle;
   }
 
   h1 {
     margin: 0;
-    border-right: $keyline;
+    padding: ($lineheight - 3) $lineheight ($lineheight + 3);
 
     a {
       color: #000;
@@ -267,35 +272,43 @@ header {
 
 nav.primary {
   > ul {
-    $border: 1px solid darken($green, 20%);
+    $border: 1px solid $green;
 
     border: $border;
-    border-radius: 4px;
+    border-radius: $border-radius;
 
     > li {
       border-right: $border;
-      &:last-child { border-right: 0; }
+      &:last-child { 
+        border-right: 0;
+        > a { border-radius: 0 $border-radius $border-radius 0; } 
+      }
+      &:first-child > a { border-radius: $border-radius 0 0 $border-radius; }
+      > a:hover { background: lighten($green, 30%); }
+      &.current > a:hover { background: $green; }
+      &.disabled > a:hover { background: lighten($green, 38%); }
+      &.dropdown {
+        > a.tab { border-right: 1px solid lighten($green, 30%); }
+        &.current > a.tab { border-right: 1px solid lighten($green, 10%); }
+      }
     }
   }
 
   a.tab,
   .dropdown-toggle {
     display: inline-block;
-    font-weight: bold;
+    font-weight: 500;
     color: $green;
     padding: 5px 15px;
   }
 
   .dropdown-toggle {
-    padding: 5px 10px;
-  }
-
-  #edit_tab a.tab {
-    border-right: 1px solid lighten($green, 20%);
+    padding: 5px 6px;
   }
 
   .caret {
     border-top-color: $green;
+    margin-top: 10px;
   }
 
   .disabled a {
@@ -327,10 +340,11 @@ nav.secondary {
   > ul a,
   .dropdown-toggle {
     display: inline-block;
-    font-weight: bold;
     text-decoration: none;
     color: $darkgrey;
-    padding: 5px 5px;
+    padding: 5px;
+
+    &:hover { color: darken($darkgrey, 10%); }
   }
 
   > ul li.current a {
@@ -340,39 +354,58 @@ nav.secondary {
   .user-menu {
     $border: 1px solid $grey;
 
+    font-weight: 500;
     border: $border;
-    border-radius: 4px;
+    border-radius: $border-radius;
     margin-left: 10px;
 
     > li {
       border-right: $border;
-      &:last-child { border-right: 0; }
+      &:last-child { 
+        border-right: 0;
+
+        > a {
+          border-radius: 0 $border-radius $border-radius 0;
+        } 
+      }
+      &:first-child > a { border-radius: $border-radius 0 0 $border-radius; }
+      &:hover a { background: lighten($darkgrey, 30%); }
     }
 
     a {
       padding: 5px 15px;
     }
+
+    &.logged-in > a {
+      padding: 0;
+      > .user-button {
+        padding: 5px 10px 5px 6px;
+        display: inline-block;
+      }
+    }
   }
 
   .caret {
     border-top-color: $grey;
-    margin-top: 10px;
+    margin-top: 9px;
   }
 
   img.user_thumbnail_tiny {
     border: 0;
     vertical-align: top;
-    margin-top: 2px;
-    border-radius: 2px 0 0 2px;
+    margin-top: 0px;
+    margin: 3px 0 0 3px;
+    border-radius: 2px;
   }
 
   #inboxanchor {
     display: inline-block;
     vertical-align: top;
-    height: 20px;
-    margin: 2px 7px 0 0;
-    background-color: $grey;
-    border-radius: 0 2px 2px 0;
+    height: 25px;
+    margin: 3px 0 3px 3px;
+    background-color: lighten($grey, 10%);
+    line-height: 20px;
+    border-radius: 2;
   }
 
   .dropdown-menu {
@@ -1002,7 +1035,7 @@ a.donate {
     }
 
     .browse-tag-k {
-      font-weight: bold;
+      font-weight: 500;
       background-color: #F6F6F6;
       border-radius: 4px 0 0 4px;
     }
@@ -1064,7 +1097,7 @@ a.donate {
 
 .content-heading {
   background: $lightgrey;
-  border-bottom: $keyline;
+  // border-bottom: $keyline;
 }
 
 .content-body {
@@ -1620,7 +1653,7 @@ a.donate {
   h2 {
     margin: 0 -10px 10px -10px;
     padding: $lineheight/4 $lineheight/4 $lineheight/4 15px;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 12px;
     background-color: #c00;
     color: #fff;
@@ -1653,7 +1686,7 @@ a.donate {
     display: block;
     margin-bottom: $lineheight/4;
     font-size: $typeheight;
-    font-weight: bold;
+    font-weight: 500;
     line-height: 1.5;
   }
   label.standard-label.secondary {
@@ -2165,7 +2198,7 @@ a.button {
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: -1px;
   z-index: 1000;
   display: none;
   float: left;
@@ -2443,7 +2476,7 @@ a.button {
       width: 240px;
       height: 150px;
       padding: 20px 20px 20px 40px;
-      font: bold 24px/25px Helvetica, Arial, sans-serif;
+      font: 500 24px/25px Helvetica, Arial, sans-serif;
       white-space: nowrap;
       color: #fff;
       background: #76c551
