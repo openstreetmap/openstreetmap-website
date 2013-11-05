@@ -1,4 +1,11 @@
 <div class='browse-section common'>
+  <% if common_details.changeset.tags['comment'].present? %>
+    <div style="font-weight: bold; margin-bottom: 5px;">
+      <%= linkify(h(common_details.changeset.tags['comment'])) %>
+    </div>
+  <% else %>
+    <div style="font-weight: bold; margin-bottom: 5px;">(no comment)</div>
+  <% end %>
   <div>
     <% if common_details.visible? %>
       <%= t 'browse.common_details.edited' %> 
@@ -20,13 +27,6 @@
     <%= t 'browse.common_details.in_changeset' %> 
     #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
   </div>
-
-  <% if common_details.changeset.tags['comment'].present? %>
-    <div>
-      <%= t 'browse.common_details.changeset_comment' %>:
-      <%= linkify(h(common_details.changeset.tags['comment'])) %>
-    </div>
-  <% end %>
 </div>
 
 <%= render :partial => "tag_details", :object => common_details %>
