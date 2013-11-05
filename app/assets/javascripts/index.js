@@ -303,6 +303,9 @@ $(document).ready(function () {
 
   $("#describe_location").on("click", function(e) {
     e.preventDefault();
-    OSM.route("/search?query=" + encodeURIComponent(map.getCenter().lat + "," + map.getCenter().lng));
+    var precision = zoomPrecision(map.getZoom());
+    OSM.route("/search?query=" + encodeURIComponent(
+      map.getCenter().lat.toFixed(precision) + "," +
+      map.getCenter().lng.toFixed(precision)));
   });
 });
