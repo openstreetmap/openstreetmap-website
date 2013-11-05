@@ -83,10 +83,10 @@ L.OSM.layers = function(options) {
       var label = $('<label>')
         .appendTo(item);
 
-      // var input = $('<input>')
-      //   .attr('type', 'radio')
-      //   .prop('checked', map.hasLayer(layer))
-      //   .appendTo(label);
+      var input = $('<input>')
+         .attr('type', 'radio')
+         .prop('checked', map.hasLayer(layer))
+         .appendTo(label);
 
       label.append(layer.options.name);
 
