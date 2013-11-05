@@ -11,8 +11,8 @@ $lightgrey: #EEE;
 $darkgrey: #AAA;
 $hovercolor: 20%;
 $headerHeight: 54px;
-$sidebarWidth: 350px;
-$keyline: 1px solid $grey;
+$sidebarWidth: 300px;
+$keyline: 1px solid $lightgrey;
 $border-radius: 3px;
 
 /* Styles common to large and small screens */
@@ -595,11 +595,13 @@ nav.secondary {
     border-right: $keyline;
 
     h2, h3, h4 {
-      padding: $lineheight;
+      padding: $lineheight $lineheight $lineheight/2;
     }
 
     h4 {
       font-weight: normal;
+      color: #666;
+      font-size: 12px;
     }
 
     .icon.close {
@@ -620,15 +622,27 @@ nav.secondary {
         color: #666;
       }
     }
+
+    p.large-text {
+      font-size: 1.7em;
+      line-height: 1.4em;
+      font-weight: 300;
+    }
   }
 
   #sidebar.minimized {
     position: absolute;
     z-index: 1000;
     height: auto;
+    border-right: none;
 
     #sidebar_content {
       display: none;
+    }
+
+    #search_form {
+      background: none;
+      width: 78%;
     }
   }
 
@@ -805,7 +819,7 @@ nav.secondary {
 
 #sidebar_content {
   position: absolute;
-  top: 72px;
+  top: 50px;
   bottom: 0;
   width: 100%;
   overflow-y: auto;
@@ -823,9 +837,8 @@ nav.secondary {
 
 #search_form {
   position: relative;
-  padding: $lineheight;
+  padding: $lineheight/2 $lineheight;
   background-color: $lightgrey;
-  border-bottom: $keyline;
 
   #query_wrapper {
     position: relative;
@@ -925,7 +938,8 @@ a.donate {
 
 .search_results_entry {
   ul li {
-    border-bottom: 1px solid #ccc;
+    border-bottom: $keyline;
+    &:first-child { border-top: $keyline; }
   }
 
   .search_details {
