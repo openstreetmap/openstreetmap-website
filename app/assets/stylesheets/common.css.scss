@@ -7,6 +7,7 @@ $blue: #7092FF;
 $lightblue: #B8C5F0;
 $green: #7ebc6f;
 $grey: #CCC;
+$red: red;
 $lightgrey: #EEE;
 $darkgrey: #AAA;
 $hovercolor: 20%;
@@ -50,6 +51,8 @@ abbr, acronym {
   border-bottom: .1em dotted;
   cursor: help;
 }
+
+strong { font-weight: 500; }
 
 /* Micro Clearfix | Details: http://nicolasgallagher.com/micro-clearfix-hack/ */
 
@@ -123,6 +126,8 @@ h1, h2, h3 {
   line-height: 1.2;
 }
 
+h4, h5 { font-weight: 500; }
+
 h1 {
   font-size: 18px;
 }
@@ -149,6 +154,8 @@ small, aside {
   vertical-align: middle;
   margin-right: $lineheight/4;
 }
+
+.red { color: $red; }
 
 /* Rules for icons */
 
@@ -592,7 +599,6 @@ nav.secondary {
   #sidebar {
     float: left;
     width: $sidebarWidth;
-    border-right: $keyline;
 
     h2, h3, h4 {
       padding: $lineheight $lineheight $lineheight/2;
@@ -662,7 +668,7 @@ nav.secondary {
 
     .section {
       border-bottom: 1px solid #DDD;
-      padding: 15px;
+      padding: 10px 20px;
     }
 
     a.close-button {
@@ -685,20 +691,36 @@ nav.secondary {
 
 .layers-ui {
   li {
-    border-radius: 4px;
     overflow: hidden;
-    margin-bottom: 10px;
+    border-radius: 3px;
+    border: 3px solid #fff;
+    margin-bottom: 8px;
+    position: relative;
+    transition: border-color 0.08s ease-in;
   }
 
   label {
-    display: block;
-    padding: 5px 5px 5px 7px;
-    background-color: #eee;
+    position: absolute;
+    top: 12px;
+    left: 10px;
     cursor: pointer;
+    font-weight: 500;
+    font-size: 16px;
+    text-stroke: 2px #fff;
+    text-shadow:
+     -2px -2px 1px #fff,  
+      2px -2px 1px #fff,
+      -2px 2px 1px #fff,
+       2px 2px 1px #fff;
   }
 
-  li.active label {
-    background-color: #ccc;
+  li.active {
+    border-color: darken($green, 10%);
+  }
+
+  li:hover {
+    border-color: $grey;
+    &.active { border-color: darken($green, 20%); }
   }
 
   .base-layers {
@@ -804,17 +826,13 @@ nav.secondary {
 .sidebar_heading {
   position: relative;
   padding: $lineheight/2 $lineheight;
-  background: $offwhite;
-  border-bottom: 1px solid #ccc;
-}
-
-.sidebar_close {
-  position: absolute;
-  height: $lineheight;
-  top: 0px;
-  bottom: 0;
-  right: $lineheight;
-  margin: auto;
+  // background: $offwhite;
+  // border-bottom: 1px solid #ccc;
+  > .close { 
+    float: right;
+    margin-top: 2px;
+    cursor: pointer; 
+  }
 }
 
 #sidebar_content {
@@ -1104,6 +1122,25 @@ a.donate {
   margin: $lineheight/4;
 }
 
+#export_osm {
+  span.small-title { 
+    font-weight: 500;
+    display: block;
+    font-size: 14px;
+    padding-bottom: 5px; 
+  }
+
+  dl {
+    padding-left: 30px;
+    font-size: 13px;
+    color: #666;
+    dd {
+      margin-left: 0;
+      margin-bottom: 10px;
+    }
+  }
+}
+
 /* Rules for edit pages */
 
 .site-edit {
@@ -1123,7 +1160,8 @@ a.donate {
 
 .content-heading {
   background: $lightgrey;
-  // border-bottom: $keyline;
+  
+  h1 { font-size: 22px; }
 }
 
 .content-body {
@@ -1810,7 +1848,7 @@ abbr.geo {
 
 .rsssmall {
   position: relative;
-  top: 5px;
+  top: 3px;
 }
 
 /* General styles for action lists / subnavs / pager navs */
@@ -1828,8 +1866,8 @@ ul.secondary-actions {
     float: left;
     list-style: none;
     border-left: 1px solid #ccc;
-    padding-left: $lineheight/4;
-    margin-right: $lineheight/4;
+    padding-left: $lineheight/2;
+    margin-right: $lineheight/2;
     &:first-child {
       border-left: 0;
       padding-left: 0;
@@ -2414,13 +2452,14 @@ a.button {
 
   .caption {
     max-width: 200px;
-    font: italic 14px/20px 'Times New Roman', serif;
+    font: 13px/20px Helvetica, Arial, sans-serif;
     position: fixed;
     text-align: right;
     right: 20px;
     bottom: 60px;
     text-shadow: #000 0px 1px 5px;
-    color: #fff;
+    color: #eee;
+    opacity: 0.8;
     display: none;
   }
 
@@ -2467,15 +2506,17 @@ a.button {
 
   .attr {
     position: relative;
-    padding: 170px 20px 20px 20px;
+    padding: 170px 40px 20px;
     background: #333;
     background: rgba(0, 0, 0, .8);
     margin-bottom: 0;
+    margin-top: -20px;
 
-    strong {
+    h1 {
       display: block;
       color: white;
-      font-size: 25px;
+      font-weight: 300;
+      font-size: 34px;
       span {
         color: #76c551;
       }
@@ -2502,16 +2543,16 @@ a.button {
       width: 240px;
       height: 150px;
       padding: 20px 20px 20px 40px;
-      font: 500 24px/25px Helvetica, Arial, sans-serif;
+      font: 500 20px/24px Helvetica, Arial, sans-serif;
       white-space: nowrap;
       color: #fff;
-      background: #76c551
+      background: #76c551;
     }
 
     .byosm span {
       display: inline-block;
-      width: 25px;
-      margin-left: -25px;
+      width: 20px;
+      margin-left: -20px;
     }
   }
 
