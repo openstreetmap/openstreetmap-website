@@ -1,5 +1,20 @@
 <div class='browse-section header'>
   <h2><%= t "browse.note.#{@note.status}_title", :note_name => @note.id %></h2>
+  <span>
+    <%= t "browse.note.opened" %>: 
+    <abbr><%= note_event(@note.created_at, @note.author) %></abbr> by 
+    <% if @note.author.nil? %>
+      <%= t "browse.note.anonymous" %>
+    <% else %>
+      <%= note_author(@note.author) %>
+    <% end %>
+    <% if @note.status == "closed" %>
+      </span><span>
+      <%= t "browse.note.closed" %>:
+      <abbr><%= note_event(@note.closed_at, @note.author) %></abbr> by 
+      <%= @note.comments.last.author %>
+    <% end %>
+  </span>
 </div>
 
 <% if @note.comments.find { |comment| comment.author.nil? } -%>
@@ -9,11 +24,6 @@
 <% end -%>
 
 <div class='browse-section common'>
-  <div class='browse-field'>
-    <h4><%= t "browse.note.opened" %></h4>
-    <p><%= note_event(@note.created_at, @note.author) %></p>
-  </div>
-
   <% if @note.status == "closed" %>
     <div class='browse-field'>
       <h4><%= t "browse.note.closed" %></h4>
@@ -28,7 +38,8 @@
 
   <div class='browse-field' id="c<%= @note.comments.first.id %>">
     <h4><%= t "browse.note.description" %></h4>
-    <p><%= h(@note.comments.first.body.to_html) %></p>
+    <%= h(@note.comments.first.body.to_html) %>
+    <!-- this provides it's own <p> tags -->
   </div>
 
   <div class='browse-field'>
@@ -38,7 +49,7 @@
 </div>
 
 <% if @note.comments.length > 1 %>
-  <div class='browse-section clearfix'>
+  <div class='browse-section clearfix note-comments'>
     <h4><%= t "browse.note.comments" %></h4>
     <ul>
       <% @note.comments[1..-1].each do |comment| %>
