@@ -22,10 +22,9 @@ L.OSM.layers = function(options) {
       .attr('class', 'sidebar_heading')
       .appendTo($ui)
       .append(
-        $('<a>')
+        $('<span>')
           .text(I18n.t('javascripts.close'))
-          .attr('class', 'sidebar_close')
-          .attr('href', '#')
+          .attr('class', 'icon close')
           .bind('click', toggle))
       .append(
         $('<h4>')
@@ -84,10 +83,10 @@ L.OSM.layers = function(options) {
       var label = $('<label>')
         .appendTo(item);
 
-      var input = $('<input>')
-        .attr('type', 'radio')
-        .prop('checked', map.hasLayer(layer))
-        .appendTo(label);
+      // var input = $('<input>')
+      //   .attr('type', 'radio')
+      //   .prop('checked', map.hasLayer(layer))
+      //   .appendTo(label);
 
       label.append(layer.options.name);
 
