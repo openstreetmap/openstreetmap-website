@@ -102,6 +102,11 @@ module RichText
           "<a rel=\"nofollow\" href=\"#{link}\">#{link}</a>"
         end
       end 
+
+      def postprocess(document)
+        document.gsub(/\[map(.*?)\[\/map\]/){|m, id = SecureRandom.uuid|"<div class=\"map\" id=\"map#{id}\">[map#{$1}[/map]</div>\n<script language=\"javascript\">if(mapBBcode) mapBBcode.show('map#{id}');</script>"}
+      end
+
     end
   end
 

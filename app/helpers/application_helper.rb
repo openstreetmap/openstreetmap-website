@@ -72,7 +72,7 @@ module ApplicationHelper
       end
 
       output_buffer << content_tag(:div, :id => "#{id}_help", :class => "richtext_help") do
-        output_buffer << render("site/#{format}_help")
+        output_buffer << render("site/#{format}_help", :richedit_textarea_id => "#{object_name}_body")
         output_buffer << content_tag(:div, :class => "buttons") do
           output_buffer << submit_tag(I18n.t("site.richtext_area.edit"), :id => "#{id}_doedit", :class => "richtext_doedit deemphasize", :disabled => true)
           output_buffer << submit_tag(I18n.t("site.richtext_area.preview"), :id => "#{id}_dopreview", :class => "richtext_dopreview deemphasize")

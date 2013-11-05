@@ -80,6 +80,10 @@ class SiteController < ApplicationController
     render "id", :layout => false
   end
 
+  def mapbbeditor
+    render "mapbbeditor", :layout => false
+  end
+
   private
 
   def redirect_map_params

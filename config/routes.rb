@@ -151,6 +151,8 @@ OpenStreetMap::Application.routes.draw do
   match '/create-account.html' => 'user#new', :via => :get
   match '/forgot-password.html' => 'user#lost_password', :via => :get
 
+  match '/site/mapbbeditor' => 'site#mapbbeditor', :via => :get
+
   # permalink
   match '/go/:code' => 'site#permalink', :via => :get, :code => /[a-zA-Z0-9_@~]+[=-]*/
 
