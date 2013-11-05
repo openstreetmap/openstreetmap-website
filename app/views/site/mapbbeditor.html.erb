@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MapBBCode Editor</title>
+<%= stylesheet_link_tag "leaflet" %>
+<%= stylesheet_link_tag "leaflet.draw" %>
+<!--[if lte IE 8]>
+    <%= stylesheet_link_tag "leaflet.ie" %>
+    <%= stylesheet_link_tag "leaflet.draw.ie" %>
+<![endif]-->
+<%= javascript_include_tag "leaflet" %>
+<%= javascript_include_tag "leaflet.draw" %>
+<%= javascript_include_tag "Bing" %>
+<%= javascript_include_tag "mapbbcode-config" %>
+<%= javascript_include_tag "mapbbcode" %>
+<style>html, body, #edit, .leaflet-container { margin: 0; height: 100%; }</style>
+</head>
+<body onload="javascript: edit();">
+<div id="edit"></div>
+<script>
+<!--
+function edit() {
+    var stored = opener.storedMapBB;
+    var mapBB = new MapBBCode(stored.caller.options);
+    mapBB.setStrings(stored.caller.strings);
+    mapBB.options.editorHeight = 0;
+    mapBB.editor('edit', stored.bbcode, function(res) {
+        window.close();
+        if( stored.callback )
+            stored.callback.call(stored.context, res);
+        opener.storedMapBB = null;
+    }, this);
+}
+// -->
+</script>
+</body>
+</html>

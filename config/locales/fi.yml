@@ -15,6 +15,7 @@
 # Author: Silvonen
 # Author: Snidata
 # Author: Str4nd
+# Author: Susannaanas
 # Author: Tomi Toivio
 # Author: Usp
 # Author: ZeiP
@@ -98,7 +99,7 @@ fi:
   browse: 
     changeset: 
       changeset: "Muutoskokoelma: %{id}"
-      changesetxml: muutoskokoelman XML
+      changesetxml: Muutoskokoelman XML
       feed: 
         title: Muutoskokoelma %{id}
         title_comment: Muutoskokoelma %{id} - %{comment}
@@ -441,11 +442,18 @@ fi:
       scale: Mittakaava
       too_large: 
         body: "Näin suurta aluetta ei voi viedä OpenStreetMap XML-tiedostona. Lähennä karttaa tai valitse pienempi alue, tai vaihtoehtoisesti lataa tiedosto joltakin seuraavista:"
+        geofabrik: 
+          description: Säännöllisesti päivitetyt otteet maanosista, maista ja valituista kaupungeista
+          title: Geofabrik-lataukset
         heading: Liian suuri alue
+        metro: 
+          description: Otteita maailman suurista kaupungeista ja niitä ympäröivistä alueista
+          title: Metro-otteet
         other: 
           description: Muut lähteet ovat esillä OpenStreetMap-wikissä
           title: Muut lähteet
         planet: 
+          description: Säännöllisesti päivitettyjä kopioita täydellisestö OpenStreetMap-tietokannasta
           title: Planet OSM
       zoom: Zoom-taso
     start_rjs: 
@@ -495,12 +503,14 @@ fi:
         level10: Asuinalueen raja
         level2: Valtion raja
         level4: Osavaltion raja
+        level5: Alueen raja
         level6: Maan raja
         level8: Kunnan raja
         level9: Kylän raja
       prefix: 
         aerialway: 
           chair_lift: Tuolihissi
+          drag_lift: Vetohissi
         aeroway: 
           aerodrome: Lentokenttä
           apron: Asemataso
@@ -674,6 +684,7 @@ fi:
           building: Rakennus
           castle: Linna
           church: Kirkko
+          citywalls: Kaupunginmuurit
           fort: Linnake
           house: Talo
           icon: Ikoni
@@ -867,6 +878,7 @@ fi:
           beverages: Juomakauppa
           bicycle: Polkupyöräkauppa
           books: Kirjakauppa
+          boutique: Puoti
           butcher: Lihakauppa
           car: Autokauppa
           car_parts: Auton osia
@@ -880,6 +892,7 @@ fi:
           convenience: Lähikauppa
           copyshop: Kopiointipalvelu
           cosmetics: Kosmetiikkakauppa
+          deli: Herkkukauppa
           department_store: Tavaratalo
           discount: Alennusmyymälä
           doityourself: Tee-se-itse
@@ -953,6 +966,7 @@ fi:
           viewpoint: Näköalapaikka
           zoo: Eläintarha
         tunnel: 
+          culvert: Siltarumpu
           "yes": Tunneli
         waterway: 
           artificial: Kanava
@@ -1052,6 +1066,7 @@ fi:
     community_blogs: Yhteisöblogit
     community_blogs_title: OpenStreetMap-yhteisön jäsenten blogit
     copyright: Tekijänoikeudet ja lisenssit
+    data: Tiedot
     documentation: Wiki
     documentation_title: Projektin ohjeet
     donate: Tue OpenStreetMapia %{link} laitteistopäivitysrahastoon.
@@ -1207,10 +1222,13 @@ fi:
       delete_button: Poista
   note: 
     description: 
+      closed_at_by_html: "%{user} ratkaissut %{when} sitten"
       closed_at_html: Ratkaistu %{when} sitten
       commented_at_by_html: "%{user} päivittänyt %{when} sitten"
       commented_at_html: Päivitetty %{when} sitten
+      opened_at_by_html: "%{user} luonut %{when} sitten"
       opened_at_html: Luotu %{when} sitten
+      reopened_at_by_html: "%{user} aktivoinut uudelleen %{when} sitten"
       reopened_at_html: Avattu uudelleen %{when} sitten
     entry: 
       comment: Kommentti
@@ -1218,13 +1236,19 @@ fi:
     mine: 
       ago_html: "%{when} sitten"
       created_at: Luotu
+      creator: Tekijä
       description: Kuvaus
       heading: Käyttäjän %{user} karttailmoitukset
+      id: Tunniste
       last_changed: Viimeksi muutettu
       subheading: Käyttäjän %{user} kommentoimat ja luomat karttailmoitukset
+      title: Käyttäjän %{user} kommentoimat ja luomat huomautukset
     rss: 
       closed: suljettu karttailmoitus (lähellä paikkaa %{place})
+      commented: uusi kommentti (lähellä kohdetta %{place})
+      description_area: Luettelo raportoiduista, kommentoiduista tai suljetuista huomautuksista omalla alueellasi [( %{min_lat}|%{min_lon})--( %{max_lat}|%{max_lon})]
       description_item: Karttailmoituksen %{id} RSS-syöte
+      opened: uusi huomautus (lähellä kohdetta %{place})
       reopened: uudelleenavattu karttailmoitus (lähellä paikka %{place})
       title: OpenStreetMapin karttailmoitukset
   notifier: 
@@ -1309,6 +1333,7 @@ fi:
       allow_write_api: muokata karttaa
       allow_write_diary: kirjoita päiväkirjamerkintöjä, kommentoi ja löydä ystäviä.
       allow_write_gpx: tallenna GPS-jälkiä.
+      allow_write_notes: Muokkaa muistiinpanoja.
       allow_write_prefs: muokata käyttäjäsi asetuksia
       request_access: Sovellus %{app_name} pyytää pääsyä käyttäjätiliisi %{user}. Tarkasta oikeudet, jotka tahdot antaa sovellukselle. Voit valita mielestäsi sopivat oikeudet.
     revoke: 
@@ -1327,6 +1352,7 @@ fi:
       allow_write_api: kartan muokkaaminen.
       allow_write_diary: päiväkirjamerkintöjen luominen ja kommentointi sekä kaveripyynnöt.
       allow_write_gpx: GPS-jälkien tallentaminen.
+      allow_write_notes: Muokkaa muistiinpanoja.
       allow_write_prefs: käyttäjäasetusten muuttaminen.
       callback_url: Takaisinsoiton verkko-osoite
       name: Nimi
@@ -1357,6 +1383,7 @@ fi:
       allow_write_api: muokata karttaa
       allow_write_diary: kirjoita päiväkirjamerkintöjä, kommentoi ja löydä ystäviä.
       allow_write_gpx: tallentaa GPS-jälkiä
+      allow_write_notes: Muokkaa muistiinpanoja.
       allow_write_prefs: muokata heidän käyttäjäasetuksiaan
       authorize_url: "Valtuuta URL-osoite:"
       confirm: Oletko varma?
@@ -1525,6 +1552,9 @@ fi:
     delete: 
       scheduled_for_deletion: Jälki on poistojonossa.
     description: 
+      description_with_count: 
+        one: GPX-tiedosto, jossa on %{count} piste käyttäjältä %{user}
+        other: GPX-tiedosto, jossa on %{count} pistettä käyttäjältä %{user}
       description_without_count: GPX-tiedosto käyttäjältä %{user}
     edit: 
       description: "Kuvaus:"
@@ -1675,9 +1705,12 @@ fi:
     confirm: 
       already active: Tämä tunnus on jo vahvistettu.
       button: Vahvista
-      heading: Vahvista käyttäjätunnuksen luominen
+      heading: Tarkista sähköpostisi!
       introduction_1: Vahvistusviesti lähetetty.
+      introduction_2: Vahvista tilisi klikkaamalla sähköpostissa olevaa linkkiä ja voit aloittaa kartoituksen.
       press confirm button: Aktivoi uusi käyttäjätunnuksesi valitsemalla Vahvista.
+      reconfirm_html: Tarvittaessa voimme lähettää vahvistuksen sähköpostitse, <a href="%{reconfirm}">klikkaa tästä</a>.
+      unknown token: Vahvistuskoodi on vanhentunut tai sitä ei ole.
     confirm_email: 
       button: Vahvista
       failure: Tällä tunnisteella on jo vahvistettu sähköpostiosoite.
@@ -1699,6 +1732,8 @@ fi:
       showing: 
         one: Näytetään sivu %{page} (%{first_item}/%{items})
         other: Näytetään sivu %{page} (%{first_item}-%{last_item} / %{items})
+      summary: "%{name} luotu %{date} osoitteesta %{ip_address}"
+      summary_no_ip: "%{name} luotu %{date}"
       title: Käyttäjät
     login: 
       account is suspended: Valitettavasti käyttäjätilisi on jäädytetty epäilyttävän toiminnan seurauksena.<br />Ole hyvä ja ota yhteyttä <a href="%{webmaster}">webmasteriin</a> jos haluat keskustella tästä.
@@ -1813,6 +1848,7 @@ fi:
       consider_pd: Edellisen sopimuksen lisäksi katson lisäyksieni olevan Public Domainissa
       consider_pd_why: mikä tämä on?
       decline: En hyväksy
+      guidance: "Tietoa, joka auttaa ymmärtämään nämä käsitteet: a <a href=\"%{summary}\">ihmisluettava yhteenveto</a> ja joitain <a href=\"%{translations}\">epävirallisia käännöksiä</a>"
       heading: Osallistujaehdot
       legale_names: 
         france: Ranska
@@ -1827,8 +1863,8 @@ fi:
       add as friend: Lisää kaveriksi
       ago: (%{time_in_words_ago} sitten)
       block_history: saadut estot
-      blocks by me: tekemäni estot
-      blocks on me: saadut estot
+      blocks by me: Tekemäni estot
+      blocks on me: Saadut estot
       comments: Kommentit
       confirm: Vahvista
       confirm_user: vahvista tämä käyttäjä
@@ -1842,7 +1878,7 @@ fi:
       delete_user: poista käyttäjä
       description: Kuvaus
       diary: Päiväkirja
-      edits: muokkaukset
+      edits: Muokkaukset
       email address: "Sähköpostiosoite:"
       friends_changesets: kaverien muutoskokoelmat
       friends_diaries: kaverien päiväkirjamerkinnät
@@ -1853,13 +1889,13 @@ fi:
       m away: "%{count} metrin päässä"
       mapper since: "Liittyi palveluun:"
       moderator_history: tehdyt estot
-      my comments: omat kommentit
-      my diary: oma päiväkirja
+      my comments: Omat kommentit
+      my diary: Oma päiväkirja
       my edits: Omat muokkaukset
-      my notes: omat karttailmoitukset
+      my notes: Omat karttailmoitukset
       my profile: Profiili
       my settings: Asetukset
-      my traces: omat jäljet
+      my traces: Omat jäljet
       nearby users: Muut lähialueen käyttäjät
       nearby_changesets: lähialueen käyttäjien muutoskokoelmat
       nearby_diaries: lähialueen käyttäjien päiväkirjamerkinnät
@@ -1868,7 +1904,7 @@ fi:
       no nearby users: Valitun sijainnin lähellä ei ole tiedossa muita käyttäjiä.
       notes: Karttailmoitukset
       oauth settings: oauth-asetukset
-      remove as friend: poista kavereista
+      remove as friend: Poista kavereista
       role: 
         administrator: Tämä käyttäjä on ylläpitäjä.
         grant: 
@@ -1881,7 +1917,7 @@ fi:
       send message: Lähetä viesti
       settings_link_text: asetussivulla
       status: "Tila:"
-      traces: jäljet
+      traces: Jäljet
       unhide_user: piilota tämä käyttäjä
       user location: Käyttäjän sijainti
       your friends: Kaverit
@@ -2012,3 +2048,7 @@ fi:
       title: Kysyttävää?
     start_mapping: Aloita kartan muokkaaminen
     title: Tervetuloa!
+    whats_on_the_map: 
+      off_html: Se <em>ei</em> sisällä mielipiteitä, kuten arvioita, historiallisia tai hypoteettisia ominaisuuksia, eikä tietoja tekijänoikeuksin suojatuista lähteistä. Ellei sinulla ole erityistä lupaa, älä kopioi verkko- tai paperikarttoja.
+      on_html: OpenStreetMap on paikka kartoittaa asioita, jotka ovat sekä <em>todellisia että nykyisiä</em> - se sisältää miljoonia rakennuksia, teitä ja muita yksityiskohtia paikoista. Voit kartoittaa mitä tahansa reaalimaailman piirteitä, jotka sinua kiinnostavat.
+      title: Mitä on kartalla
