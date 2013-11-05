@@ -114,6 +114,7 @@ L.OSM.layers = function(options) {
 
       $('<p>')
         .text(I18n.t('javascripts.map.layers.overlays'))
+        .attr("class", "deemphasize")
         .appendTo(overlaySection);
 
       var list = $('<ul>')
