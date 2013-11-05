@@ -1,4 +1,4 @@
-<div class="browse-section header">
+<div class='browse-section header'>
   <h2><%= t 'browse.changeset.changeset', :id => @changeset.id %></h2>
     <p>
       <% 
@@ -56,7 +56,8 @@
   <%= render :partial => 'paging_nav', :locals => { :pages => @relation_pages, :page_param => "relation_page" } %>
 <% end %>
 
-<ul class='secondary-actions clearfix'>
-  <li><%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %></li>
-  <li><%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %></li>
-</ul>
+<div class='browse-section secondary-actions clearfix'> 
+  <span><%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %>
+  &middot;
+  <%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %></span>
+</div>

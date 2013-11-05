@@ -3,13 +3,15 @@
 @title = t('browse.relation_history.relation_history') + ' | ' + @name
 %>
 
-<h2><%= raw t'browse.relation_history.relation_history_title', :relation_name => link_to(h(@name), :action => "relation", :id => @relation.id) %></h2>
+<div class='browse-section header'>
+    <h2><%= raw t'browse.relation_history.relation_history_title', :relation_name => link_to(h(@name), :action => "relation", :id => @relation.id) %></h2>
+</div>
 
 <% @relation.old_relations.reverse.each do |relation| %>
   <%= render :partial => "relation_details", :object => relation %>
 <% end %>
 
-<ul class='secondary-actions clearfix'>
-  <li><%= link_to(t('browse.relation_history.download_xml'), :controller => "old_relation", :action => "history") %></li>
-  <li><%= link_to(t('browse.relation_history.view_details'), :action => "relation") %></li>
-</ul>
+<div class='secondary-actions clearfix'>
+  <span><%= link_to(t('browse.relation_history.download_xml'), :controller => "old_relation", :action => "history") %>
+  <%= link_to(t('browse.relation_history.view_details'), :action => "relation") %></span>
+</div>

@@ -3,11 +3,13 @@
 @title = t('browse.relation.relation') + ' | ' + @name
 %>
 
-<h2><%= t'browse.relation.relation_title', :relation_name => @name %></h2>
+<div class="browse-section header">
+    <h2><%= t'browse.relation.relation_title', :relation_name => @name %></h2>
+</div>
 
 <%= render :partial => "relation_details", :object => @relation %>
 
-<ul class='secondary-actions clearfix'>
-  <li><%= link_to(t('browse.relation.download_xml'), :controller => "relation", :action => "read") %></li>
-  <li><%= link_to(t('browse.relation.view_history'), :action => "relation_history") %></li>
-</ul>
+<div class='secondary-actions clearfix'>
+  <span><%= link_to(t('browse.relation.download_xml'), :controller => "relation", :action => "read") %>
+  <%= link_to(t('browse.relation.view_history'), :action => "relation_history") %></span>
+</div>

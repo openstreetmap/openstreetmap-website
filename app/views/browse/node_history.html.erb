@@ -3,13 +3,16 @@
 @title = t('browse.node_history.node_history') + ' | ' + @name
 %>
 
-<h2><%= raw t'browse.node_history.node_history_title', :node_name => link_to(h(@name), :action => "node", :id => @node.id) %></h2>
+<div class='browse-section header'>
+    <h2><%= raw t'browse.node_history.node_history_title', :node_name => link_to(h(@name), :action => "node", :id => @node.id) %></h2>
+</div>
 
 <% @node.old_nodes.reverse.each do |node| %>
   <%= render :partial => "node_details", :object => node %>
 <% end %>
 
-<ul class='secondary-actions clearfix'>
-  <li><%= link_to(t('browse.node_history.download_xml'), :controller => "old_node", :action => "history") %></li>
-  <li><%= link_to(t('browse.node_history.view_details'), :action => "node") %></li>
-</ul>
+<div class='browse-section secondary-actions clearfix'> 
+  <span><%= link_to(t('browse.node_history.download_xml'), :controller => "old_node", :action => "history") %>
+    &middot;
+  <%= link_to(t('browse.node_history.view_details'), :action => "node") %></span>
+</div>

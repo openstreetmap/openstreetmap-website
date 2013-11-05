@@ -1,8 +1,10 @@
-<h2><%= t "browse.note.#{@note.status}_title", :note_name => @note.id %></h2>
+<div class='browse-section header'>
+  <h2><%= t "browse.note.#{@note.status}_title", :note_name => @note.id %></h2>
+</div>
 
 <% if @note.comments.find { |comment| comment.author.nil? } -%>
 <div class='browse-section common'>
-  <p class="warning"><%= t "javascripts.notes.show.anonymous_warning" %></p>
+  <p class='warning'><%= t "javascripts.notes.show.anonymous_warning" %></p>
 </div>
 <% end -%>
 
@@ -31,7 +33,7 @@
 
   <div class='browse-field'>
     <h4><%= t "browse.node_details.coordinates" %></h4>
-    <p class="geo"><%= link_to ("<span class='latitude'>#{number_with_delimiter(@note.lat)}</span>, <span class='longitude'>#{number_with_delimiter(@note.lon)}</span>".html_safe), {:controller => 'site', :action => 'index', :lat => h(@note.lat), :lon => h(@note.lon), :zoom => "18"} %></p>
+    <p class='geo'><%= link_to ("<span class='latitude'>#{number_with_delimiter(@note.lat)}</span>, <span class='longitude'>#{number_with_delimiter(@note.lon)}</span>".html_safe), {:controller => 'site', :action => 'index', :lat => h(@note.lat), :lon => h(@note.lon), :zoom => "18"} %></p>
   </div>
 </div>
 
@@ -42,7 +44,7 @@
       <% @note.comments[1..-1].each do |comment| %>
         <li id="c<%= comment.id %>">
           <%= comment.body.to_html %>
-          <small class="deemphasize"><%= note_event(comment.created_at, comment.author) %></small>
+          <small class='deemphasize'><%= note_event(comment.created_at, comment.author) %></small>
         </li>
       <% end %>
     </ul>

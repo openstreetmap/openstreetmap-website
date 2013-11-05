@@ -3,11 +3,15 @@
 @title = t('browse.node.node') + ' | ' + @name
 %>
 
-<h2><%= t'browse.node.node_title', :node_name => @name %></h2>
+<div class='browse-section header'>
+    <h2><%= t'browse.node.node_title', :node_name => @name %></h2>
+</div>
 
 <%= render :partial => "node_details", :object => @node %>
 
-<ul class='secondary-actions clearfix'>
-  <li><%= link_to(t('browse.node.download_xml'), :controller => "node", :action => "read") %></li>
-  <li><%= link_to(t('browse.node.view_history'), :action => "node_history") %></li>
-</ul>
+<div class='browse-section secondary-actions clearfix'> 
+  <span><%= link_to(t('browse.node.download_xml'), :controller => "node", :action => "read") %>
+    &middot;
+  <%= link_to(t('browse.node.view_history'), :action => "node_history") %>
+    </span>
+</div>
