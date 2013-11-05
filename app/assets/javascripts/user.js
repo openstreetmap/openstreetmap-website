@@ -6,10 +6,13 @@ $(document).ready(function () {
     zoomControl: false
   }).addLayer(new L.OSM.Mapnik());
 
-  L.OSM.zoom()
+  var position = $('html').attr('dir') === 'rtl' ? 'topleft' : 'topright';
+
+  L.OSM.zoom({position: position})
     .addTo(map);
 
   L.control.locate({
+    position: position,
     strings: {
       title: I18n.t('javascripts.map.locate.title'),
       popup: I18n.t('javascripts.map.locate.popup')
