@@ -21,39 +21,39 @@
 <%= render :partial => "tag_details", :object => @changeset %>
 
 <% unless @nodes.empty? %>
-  <div class='browse-section clearfix'>
+  <div class='browse-section clearfix paginate'>
     <h4><%= t 'browse.changeset_details.has_nodes', :count => @node_pages.item_count %></h4>
     <ul>
       <% @nodes.each do |node| %>
         <li><%= link_to h(printable_name(node, true)), { :action => "node", :id => node.node_id.to_s }, :class => link_class('node', node), :title => link_title(node) %></li>
       <% end %>
     </ul>
+    <%= render :partial => 'paging_nav', :locals => { :pages => @node_pages, :page_param => "node_page"} %>
   </div>
-  <%= render :partial => 'paging_nav', :locals => { :pages => @node_pages, :page_param => "node_page"} %>
 <% end %>
 
 <% unless @ways.empty? %>
-  <div class='browse-section clearfix'>
+  <div class='browse-section clearfix  paginate'>
     <h4><%= t 'browse.changeset_details.has_ways', :count => @way_pages.item_count %></h4>
     <ul>
       <% @ways.each do |way| %>
         <li><%= link_to h(printable_name(way, true)), { :action => "way", :id => way.way_id.to_s }, :class => link_class('way', way), :title => link_title(way) %></li>
       <% end %>
     </ul>
+    <%= render :partial => 'paging_nav', :locals => { :pages => @way_pages, :page_param => "way_page" } %>
   </div>
-  <%= render :partial => 'paging_nav', :locals => { :pages => @way_pages, :page_param => "way_page" } %>
 <% end %>
 
 <% unless @relations.empty? %>
-  <div class='browse-section clearfix'>
+  <div class='browse-section clearfix  paginate'>
     <h4><%= t 'browse.changeset_details.has_relations', :count => @relation_pages.item_count %></h4>
       <ul>
         <% @relations.each do |relation| %>
           <li><%= link_to h(printable_name(relation, true)), { :action => "relation", :id => relation.relation_id.to_s }, :class => link_class('relation', relation), :title => link_title(relation) %></li>
         <% end %>
       </ul>
+      <%= render :partial => 'paging_nav', :locals => { :pages => @relation_pages, :page_param => "relation_page" } %>
   </div>
-  <%= render :partial => 'paging_nav', :locals => { :pages => @relation_pages, :page_param => "relation_page" } %>
 <% end %>
 
 <div class='browse-section secondary-actions clearfix'> 
