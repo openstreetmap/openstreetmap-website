@@ -13,13 +13,14 @@
 %>
 
 <%= content_tag "li", :id => "changeset_#{changeset.id}", :data => {:changeset => changeset_data} do %>
-  <%= link_to(changeset.id, changeset_path(changeset.id), :class => :changeset_id) %>
+  #<%= link_to(changeset.id, changeset_path(changeset.id), :class => :changeset_id) %>
 
   <span class='date'>
     <% if changeset.closed_at > DateTime.now %>
       <%= t 'changeset.changeset.still_editing' %>
     <% else %>
-      <%= l changeset.closed_at, :format => :long %>
+      <% closed_at = l changeset.closed_at, :format => :long %>
+      <abbr title='<%= closed_at %>'><%= distance_of_time_in_words_to_now(closed_at) %></abbr>
     <% end %>
   </span>
 
