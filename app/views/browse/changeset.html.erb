@@ -11,7 +11,7 @@
       end
     %>
   </p>
-  <span>
+  <h4>
     <%
       created_at = distance_of_time_in_words_to_now(@changeset.created_at)
       closed_at = distance_of_time_in_words_to_now(@changeset.closed_at)
@@ -27,7 +27,7 @@
     <% if @changeset.user.data_public? %>
       by <%= link_to h(@changeset.user.display_name), :controller => "user", :action => "view", :display_name => @changeset.user.display_name %>
     <% end %>
-  </span>
+  </h4>
 </div>
   
 <%=
@@ -71,7 +71,7 @@
 <% end %>
 
 <div class='browse-section secondary-actions'> 
-  <span><%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %>
+  <h4><%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %>
   &middot;
-  <%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %></span>
+  <%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %></h4>
 </div>
