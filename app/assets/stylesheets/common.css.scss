@@ -397,6 +397,7 @@ nav.secondary {
 
     a {
       padding: 5px 15px;
+
     }
 
     &.logged-in > a {
@@ -404,7 +405,9 @@ nav.secondary {
       > .user-button {
         padding: 5px 10px 5px 6px;
         display: inline-block;
+        color: $darkgrey;
       }
+      &:hover > .user-button { color: darken($darkgrey, 5%); }
     }
   }
 
@@ -433,7 +436,8 @@ nav.secondary {
 
   .dropdown-menu {
     left: auto;
-    right: 0;
+    right: -1px;
+    border-radius: 3px 0 3px 3px;
 
     .count-number {
       float: right;
@@ -442,6 +446,25 @@ nav.secondary {
     }
   }
 }
+
+#compact-secondary-nav {
+  display: none;
+  ul li a {
+    width: 100%;
+    color: #333;
+    &:hover { color: #fff; }
+  }
+}
+
+@media only screen and (max-width:960px) {
+  #compact-secondary-nav {
+    display: inline-block;
+  }
+  .compact-hide {
+    display: none;
+  }
+}
+
 
 /* Utility for styling notification numbers */
 
@@ -2281,6 +2304,7 @@ a.button {
   list-style: none;
   background-color: #ffffff;
   border: 1px solid #ccc;
+  border-radius: 0 3px 3px;
   *border-right-width: 2px;
   *border-bottom-width: 2px;
   -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
