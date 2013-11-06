@@ -29,7 +29,7 @@ OSM.History = function(map) {
   };
 
   function highlightChangeset(id) {
-    group.getLayer(id).setStyle({fillOpacity: 0.5});
+    group.getLayer(id).setStyle({fillOpacity: 0.3});
     $("#changeset_" + id).addClass("selected");
   }
 
