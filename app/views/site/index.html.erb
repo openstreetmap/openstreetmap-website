@@ -1,11 +1,14 @@
 <h2>
-  <%= t 'layouts.intro_header' %>
-  <span class="icon close"></span>
+  <% if !@user %>
+    <%= t 'layouts.intro_header' %>
+  <% else %>
+    <span class="icon close"></span>
+  <% end %>
 </h2>
 
-<p class="inner12 large-text"><%= t 'layouts.intro_text' %></p>
-
 <% if !@user %>
+  <p class="inner12 large-text"><%= t 'layouts.intro_text' %></p>
+
   <div style="text-align: center;">
     <a class="button" href="<%= about_path %>"><%= t('layouts.learn_more') %></a>
     <a class="button" href="<%= user_new_path %>"><%= t('layouts.sign_up') %></a>
