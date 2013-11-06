@@ -7,9 +7,9 @@
     if (!isNaN(parseInt(h[1], 10))) num = h[1];
   }
 
-  $(document).ready(function () {
-    $('#content').attr('class', 'photo-' + num);
-  });
+  // $(document).ready(function () {
+  //   $('#content').attr('class', 'photo-' + num);
+  // });
 
   $(document).on('click', '#next-photo', function () {
     num = (num + 1) % 6;
