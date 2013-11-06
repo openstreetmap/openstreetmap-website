@@ -1,6 +1,5 @@
-<div>
+<h4 class="paginate">
 <% current_page = pages.current_page %>
-
 <% if pages.page_count > 1 %>
     <%= t'browse.paging_nav.showing_page' %>
     <%= current_page.number %> (<%= current_page.first_item %><%
@@ -9,7 +8,6 @@
     end %>
     <%= t'browse.paging_nav.of'%> <%= pages.item_count %>)
 
-&middot;
-<%= raw pagination_links_each(pages, {}) { |n| link_to_page(n, page_param) } %>
+<span><%= raw pagination_links_each(pages, {}) { |n| link_to_page(n, page_param) } %></span>
 <% end %>
-</div>
+</h4>
