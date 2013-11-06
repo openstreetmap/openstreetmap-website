@@ -4,30 +4,10 @@
 <div class="browse-section">
   <p>
     <%=
-      if @changeset.tags['comment'].to_s != ''
-        @changeset.tags['comment'].to_s
-      else
-        t ('browse.changeset_details.no_comment')
-      end
+        @changeset.tags['comment'].to_s.presence || t('browse.changeset_details.no_comment')
     %>
   </p>
-  <h4>
-    <%
-      created_at = distance_of_time_in_words_to_now(@changeset.created_at)
-      closed_at = distance_of_time_in_words_to_now(@changeset.closed_at)
-      if created_at == closed_at
-    %>
-      <%= t 'browse.changeset_details.closed_at' %> 
-      <abbr title="<%= t 'browse.changeset_details.created_at' %>: <%= l @changeset.created_at %> &#10;<%= t 'browse.changeset_details.closed_at' %>: <%= l @changeset.closed_at %>">
-      <%= t('browse.changeset_details.ago', :ago => created_at) %></abbr> 
-    <% else %>
-      <%= t 'browse.changeset_details.created_at' %> <abbr title="<%= l @changeset.created_at %>"><%= t('browse.changeset_details.ago', :ago => created_at) %></abbr>, 
-      <%= t 'browse.changeset_details.closed_at' %> <abbr title="<%= l @changeset.closed_at %>"><%= t('browse.changeset_details.ago', :ago => closed_at) %><abbr>
-    <% end %>
-    <% if @changeset.user.data_public? %>
-      by <%= link_to h(@changeset.user.display_name), :controller => "user", :action => "view", :display_name => @changeset.user.display_name %>
-    <% end %>
-  </h4>
+  <span><%= changeset_time_ago(@changeset) %></span>
 </div>
   
 <%=
