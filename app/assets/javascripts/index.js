@@ -24,8 +24,12 @@ $(document).ready(function () {
 
   map.hash = L.hash(map);
 
-  $(window).on('popstate', function() {
-    map.hash.update();
+  $(window).on('popstate', function(e) {
+    // popstate is triggered when the hash changes as well as on actual navigation
+    // events. We want to update the hash on the latter and not the former.
+    if (e.originalEvent.state) {
+      map.hash.update();
+    }
   });
 
   var copyright = I18n.t('javascripts.map.copyright', {copyright_url: '/copyright'});
