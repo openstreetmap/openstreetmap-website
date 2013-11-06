@@ -1,29 +1,41 @@
-<div class='browse-section header'>
-  <h2><%= t 'browse.changeset.changeset', :id => @changeset.id %>
-    <span class="icon close"></span>
-  </h2>
-    <p>
-      <% 
+<h2><%= t 'browse.changeset.changeset', :id => @changeset.id %>
+  <span class="icon close"></span>
+</h2>
+<div class="browse-section">
+  <p>
+    <%=
+      if @changeset.tags['comment'].to_s != ''
+        @changeset.tags['comment'].to_s
+      else
+        t ('browse.changeset_details.no_comment')
+      end
+    %>
+  </p>
+  <span>
+    <%
       created_at = distance_of_time_in_words_to_now(@changeset.created_at)
       closed_at = distance_of_time_in_words_to_now(@changeset.closed_at)
-      if created_at == closed_at %>
-        <%= t 'browse.changeset_details.closed_at' %> 
-        <abbr title="<%= t 'browse.changeset_details.created_at' %>: <%= @changeset.created_at %> &#10;<%= t 'browse.changeset_details.closed_at' %>: <%= @changeset.closed_at %>">
-        <%= created_at %> ago</abbr> 
-      <% else %>
-        <%= t 'browse.changeset_details.created_at' %> <abbr title="<%= l @changeset.created_at %>"><%= created_at %> ago</abbr>, 
-        <%= t 'browse.changeset_details.closed_at' %> <abbr title="<%= l @changeset.closed_at %>"><%= closed_at %> ago<abbr> 
-      <% end %>
-      <% if @changeset.user.data_public? %>
-        by <%= link_to h(@changeset.user.display_name), :controller => "user", :action => "view", :display_name => @changeset.user.display_name %>
-      <% end %>
-    </p>
+      if created_at == closed_at
+    %>
+      <%= t 'browse.changeset_details.closed_at' %> 
+      <abbr title="<%= t 'browse.changeset_details.created_at' %>: <%= l @changeset.created_at %> &#10;<%= t 'browse.changeset_details.closed_at' %>: <%= l @changeset.closed_at %>">
+      <%= t('browse.changeset_details.ago', :ago => created_at) %></abbr> 
+    <% else %>
+      <%= t 'browse.changeset_details.created_at' %> <abbr title="<%= l @changeset.created_at %>"><%= t('browse.changeset_details.ago', :ago => created_at) %></abbr>, 
+      <%= t 'browse.changeset_details.closed_at' %> <abbr title="<%= l @changeset.closed_at %>"><%= t('browse.changeset_details.ago', :ago => closed_at) %><abbr>
+    <% end %>
+    <% if @changeset.user.data_public? %>
+      by <%= link_to h(@changeset.user.display_name), :controller => "user", :action => "view", :display_name => @changeset.user.display_name %>
+    <% end %>
+  </span>
 </div>
   
-<%= render :partial => "tag_details", :object => @changeset %>
+<%=
+  render :partial => "tag_details", :object => @changeset.tags.except('comment')
+%>
 
 <% unless @nodes.empty? %>
-  <div class='browse-section clearfix paginate'>
+  <div class='browse-section paginate'>
     <h4><%= t 'browse.changeset_details.has_nodes', :count => @node_pages.item_count %></h4>
     <ul>
       <% @nodes.each do |node| %>
@@ -35,7 +47,7 @@
 <% end %>
 
 <% unless @ways.empty? %>
-  <div class='browse-section clearfix  paginate'>
+  <div class='browse-section  paginate'>
     <h4><%= t 'browse.changeset_details.has_ways', :count => @way_pages.item_count %></h4>
     <ul>
       <% @ways.each do |way| %>
@@ -47,7 +59,7 @@
 <% end %>
 
 <% unless @relations.empty? %>
-  <div class='browse-section clearfix  paginate'>
+  <div class='browse-section  paginate'>
     <h4><%= t 'browse.changeset_details.has_relations', :count => @relation_pages.item_count %></h4>
       <ul>
         <% @relations.each do |relation| %>
@@ -58,7 +70,7 @@
   </div>
 <% end %>
 
-<div class='browse-section secondary-actions clearfix'> 
+<div class='browse-section secondary-actions'> 
   <span><%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %>
   &middot;
   <%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %></span>
