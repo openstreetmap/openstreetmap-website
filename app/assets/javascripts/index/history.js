@@ -91,7 +91,7 @@ OSM.History = function(map) {
     for (var i = 0; i < changesets.length; ++i) {
       var changeset = changesets[i],
         rect = L.rectangle(changeset.bounds,
-          {weight: 2, color: "#ee9900", fillColor: "#ffff55", fillOpacity: 0});
+          {weight: 1, color: "#FF9500", opacity: 1, fillColor: "#FFFFBF", fillOpacity: 0});
       rect.id = changeset.id;
       rect.addTo(group);
     }
