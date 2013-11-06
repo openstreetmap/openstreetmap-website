@@ -238,7 +238,7 @@ table {
 /* Rules for the header */
 
 #menu-icon { 
-  display: none;
+  display: none !important;
   float: right;
   background: url("/assets/menu-icon.png") no-repeat;
   background-size: 30px 30px;
@@ -252,7 +252,6 @@ table {
 header {
   height: $headerHeight;
   position: relative;
-  // border-bottom: $keyline;
   z-index: 1001;
   font-size: 13px;
 
@@ -357,14 +356,16 @@ nav.secondary {
   position: absolute;
   right: 0;
 
-  > ul a,
-  .dropdown-toggle {
-    display: inline-block;
-    text-decoration: none;
-    color: $darkgrey;
-    padding: 5px;
+  > ul {
+    vertical-align: middle;
+    a, .dropdown-toggle {
+      display: inline-block;
+      text-decoration: none;
+      color: $darkgrey;
+      padding: 5px;
 
-    &:hover { color: darken($darkgrey, 10%); }
+      &:hover { color: darken($darkgrey, 10%); }
+    }
   }
 
   > ul li.current a {
@@ -381,6 +382,7 @@ nav.secondary {
 
     > li {
       border-right: $border;
+      float: left;
       &:last-child { 
         border-right: 0;
 
