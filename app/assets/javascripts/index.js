@@ -33,8 +33,15 @@ $(document).ready(function () {
   });
 
   var copyright = I18n.t('javascripts.map.copyright', {copyright_url: '/copyright'});
+  var donate = I18n.t('javascripts.map.donate_link_text', {donate_url: 'http://donate.openstreetmap.org'});
 
   var layers = [
+    new L.OSM.Mapnik({
+      attribution: donate,
+      code: "M",
+      keyid: "mapnik",
+      name: I18n.t("javascripts.map.base.standard")
+    }),
     new L.OSM.Mapnik({
       attribution: copyright,
       code: "M",
