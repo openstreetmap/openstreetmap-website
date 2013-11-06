@@ -13,7 +13,15 @@
 %>
 
 <%= content_tag "li", :id => "changeset_#{changeset.id}", :data => {:changeset => changeset_data} do %>
-  #<%= link_to(changeset.id, changeset_path(changeset.id), :class => :changeset_id) %>
+  <p class="comment">
+      <a class="changeset_id" href="<%= changeset_path(changeset.id) %>">
+        <% if changeset.tags['comment'].to_s != '' %>
+          <%= linkify(h(changeset.tags['comment'])) %>
+        <% else %>
+          <%= t 'changeset.changeset.no_comment' %>
+        <% end %>
+      </a>
+  </p>
 
   <span class='date'>
     <% if changeset.closed_at > DateTime.now %>
@@ -25,7 +33,7 @@
   </span>
 
   <% unless params.key?(:display_name) %>
-    <span class="user">
+    <span class="user"> by 
       <% if changeset.user.data_public? %>
         <%= link_to changeset.user.display_name, user_path(changeset.user.display_name) %>
       <% else %>
@@ -33,12 +41,4 @@
       <% end %>
     </span>
   <% end %>
-
-  <p class="comment deemphasize">
-    <% if changeset.tags['comment'].to_s != '' %>
-      <%= linkify(h(changeset.tags['comment'])) %>
-    <% else %>
-      <%= t 'changeset.changeset.no_comment' %>
-    <% end %>
-  </p>
 <% end %>
