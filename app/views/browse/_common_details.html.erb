@@ -1,12 +1,10 @@
 <div class='browse-section common'>
   <% if common_details.changeset.tags['comment'].present? %>
-    <div style="font-weight: bold; margin-bottom: 5px;">
-      <%= linkify(h(common_details.changeset.tags['comment'])) %>
-    </div>
+    <%= linkify(h(common_details.changeset.tags['comment'])) %>
   <% else %>
-    <div style="font-weight: bold; margin-bottom: 5px;">(no comment)</div>
+    (no comment)
   <% end %>
-  <div>
+  <h4>
     <% if common_details.visible? %>
       <%= t 'browse.common_details.edited' %> 
     <% else %>
@@ -18,15 +16,15 @@
       <%= t 'browse.common_details.by' %>
       <%= link_to h(common_details.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_details.changeset.user.display_name %>
     <% end %>
-  </div>
+  </h4>
 
-  <div>
+  <h4>
     <%= t 'browse.common_details.version' %> 
     #<%= h(common_details.version) %>
     &middot;
     <%= t 'browse.common_details.in_changeset' %> 
     #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
-  </div>
+  </h4>
 </div>
 
 <%= render :partial => "tag_details", :object => common_details.tags %>
