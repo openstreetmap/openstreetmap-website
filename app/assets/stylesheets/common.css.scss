@@ -115,6 +115,7 @@ body {
   margin: 0px;
   padding: 0px;
   text-align: left;
+  height: 100%;
 }
 
 body.slim {
@@ -144,6 +145,8 @@ p > img {
 small, aside {
   font-size: 12px;
 }
+
+#container { position: relative; }
 
 .column-1 {
   width: 50%;
@@ -240,7 +243,7 @@ table {
 #menu-icon { 
   display: none !important;
   float: right;
-  background: url("/assets/menu-icon.png") no-repeat;
+  background: image-url("menu-icon.png") no-repeat;
   background-size: 30px 30px;
   display: block;
   width: 30px;
@@ -444,6 +447,30 @@ nav.secondary {
       padding: 0 5px;
       margin: 0;
     }
+  }
+}
+
+a#ad {
+  width: 100%;
+  display: block;
+  background: rgb(240,151,53);
+  z-index: 999;
+  padding: 1px $lineheight;
+  color: #fff;
+  font-size: 11px;
+  text-transform: uppercase;
+  span.close {
+    float: right;
+    color: #fff;
+    font-size: 10px;
+    line-height: 18px;
+    opacity: .5;
+    text-transform: none;
+    &:hover { opacity: .9; }
+  }
+  &:hover { 
+    background: rgb(220,151,53);
+    text-decoration: none; 
   }
 }
 
@@ -690,6 +717,13 @@ nav.secondary {
       background: none;
       width: 78%;
     }
+
+    a#ad {
+      margin: 0 $lineheight;
+      width: 64%;
+      padding: 0 6px;
+      border-radius: 3px;
+    }
   }
 
   #map {
@@ -885,6 +919,10 @@ nav.secondary {
     margin-top: 2px;
     cursor: pointer; 
   }
+}
+
+#ad + #sidebar_content {
+  top: 70px;
 }
 
 #sidebar_content {
