@@ -5,10 +5,12 @@
 
 <p class="inner12 large-text"><%= t 'layouts.intro_text' %></p>
 
-<div style="text-align: center;">
-  <a class="button" href="">Learn More</a>
-  <a class="button" href="">Sign Up</a>
-</div>
+<% if !@user %>
+  <div style="text-align: center;">
+    <a class="button" href="<%= about_path %>"><%= t('layouts.learn_more') %></a>
+    <a class="button" href="<%= user_new_path %>"><%= t('layouts.sign_up') %></a>
+  </div>
+<% end %>
 
 <div class='footer'>
   <a title="<%= t('layouts.make_a_donation.title') %>" href="http://donate.openstreetmap.org/" class="donate">
