@@ -8,10 +8,6 @@ class BrowseControllerTest < ActionController::TestCase
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/browse/start", :method => :get },
-      { :controller => "browse", :action => "start" }
-    )
-    assert_routing(
       { :path => "/browse/node/1", :method => :get },
       { :controller => "browse", :action => "node", :id => "1" }
     )
