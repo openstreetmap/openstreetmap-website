@@ -130,4 +130,8 @@ function minimiseMap() {
 $(document).ready(function () {
   var auth_token = $("meta[name=csrf-token]").attr("content");
   $("form input[name=authenticity_token]").val(auth_token);
+
+  $("#menu-icon").on("click", function() {
+    $("header").toggleClass("closed");
+  });
 });

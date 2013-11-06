@@ -1,11 +1,11 @@
-<header>
+<header class="closed">
   <h1>
     <a href="<%= root_path %>" class="geolink layers">
       <%= image_tag "osm_logo.png", :alt => t('layouts.logo.alt_text'), :class => 'logo' %>
       <%= t 'layouts.project_name.h1' %>
     </a>
   </h1>
-  <a href="#" id="menu-icon">menu</a>
+  <a href="#" id="menu-icon"></a>
   <nav class='primary'>
     <ul>
       <li id="view_tab" class="<%= current_page_class(root_path) %>">
@@ -28,7 +28,7 @@
       </ul>
       </li><li id="history_tab" class="<%= current_page_class(history_path) %>">
         <%= link_to t('layouts.history'), history_path, :class => 'tab geolink' %>
-      </li><li id="export_tab" class="<%= current_page_class(export_path) %>">
+      </li><li id="export_tab" class="mobile-hide <%= current_page_class(export_path) %>">
         <%= link_to t('layouts.export'), export_path, :class => 'tab geolink' %>
       </li>
     </ul>

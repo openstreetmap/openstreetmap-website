@@ -309,7 +309,4 @@ $(document).ready(function () {
       map.getCenter().lng.toFixed(precision)));
   });
 
-  $("#menu-icon").on("click", function() {
-    $("header").toggleClass("closed");
-  });
 });
