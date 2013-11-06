@@ -102,7 +102,6 @@ OpenStreetMap::Application.routes.draw do
   end
 
   # Data browsing
-  match '/browse/start' => 'browse#start', :via => :get
   match '/browse/way/:id' => 'browse#way', :via => :get, :id => /\d+/, :as => :way
   match '/browse/way/:id/history' => 'browse#way_history', :via => :get, :id => /\d+/
   match '/browse/node/:id' => 'browse#node', :via => :get, :id => /\d+/, :as => :node
@@ -226,7 +225,6 @@ OpenStreetMap::Application.routes.draw do
   match '/geocoder/search_geonames_reverse' => 'geocoder#search_geonames_reverse', :via => :get
 
   # export
-  match '/export/start' => 'export#start', :via => :get
   match '/export/finish' => 'export#finish', :via => :post
   match '/export/embed' => 'export#embed', :via => :get
 
