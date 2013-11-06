@@ -1,5 +1,7 @@
 /* Styles specific to a small screen, such as iPhone, Android, etc... */
 
+* { -webkit-appearance: none; }
+
 /* Default rules for the body of every page */
 
 .column-1 {
@@ -8,10 +10,74 @@
 
 /* Rules for the whole left sidebar, including the logo */
 
+#menu-icon {
+  display: inline-block;
+}
+
+
 nav.primary,
-nav.secondary,
-#sidebar {
-  display: none;
+nav.secondary {
+  float: none !important;
+  position: relative;
+  display: block;
+  clear: both;
+}
+
+header {
+  min-height: 54px;
+  height: 100%;
+  background: #fff;
+  clear: both;
+  h1 { padding-bottom: 17px; }
+  &.closed {
+    nav.primary,
+    nav.secondary {
+      display: none;
+    }
+  }
+}
+
+.mobile-hide { display: none !important; }
+
+nav.primary {
+  padding: 0;
+  ul, li {
+    border: none;
+    border-radius: 0;
+    width: 100%;
+  }
+  ul {
+    border-top: 1px solid #eee;
+    li {
+      border-bottom: 1px solid #eee;
+      border-right: none;
+      > a {
+        border-radius: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+nav.secondary {
+  .user-menu {
+    display: block;
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+.map-layout {
+  #sidebar {
+    width: 60%;
+  }
+  #content {
+    position: static;
+    display: block;
+    height: 600px;
+  }
 }
 
 .content_map {

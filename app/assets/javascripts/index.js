@@ -308,4 +308,8 @@ $(document).ready(function () {
       map.getCenter().lat.toFixed(precision) + "," +
       map.getCenter().lng.toFixed(precision)));
   });
+
+  $("#menu-icon").on("click", function() {
+    $("header").toggleClass("closed");
+  });
 });
