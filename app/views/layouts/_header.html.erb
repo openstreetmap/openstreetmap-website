@@ -12,23 +12,25 @@
         <%= link_to t('layouts.view'), root_path, :class => 'tab geolink layers' %>
       </li>
       <li id="edit_tab" class="mobile-hide dropdown <%= current_page_class(edit_path) %>">
-      <%= link_to t('layouts.edit'), edit_path, :class => "tab geolink object",
-                  :id => 'editanchor',
-                  :data => { :editor => preferred_editor }
-      %><a class='dropdown-toggle' data-toggle='dropdown' href='#'><b class="caret"></b></a>
-      <ul class='dropdown-menu'>
-        <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
-          <li>
-            <%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")),
-                        edit_path(:editor => editor),
-                        :data => { :editor => editor },
-                        :class => "geolink object" %>
-          </li>
-        <% end %>
-      </ul>
-      </li><li id="history_tab" class="<%= current_page_class(history_path) %>">
+        <%= link_to t('layouts.edit'), edit_path, :class => "tab geolink object",
+                    :id => 'editanchor',
+                    :data => { :editor => preferred_editor }
+        %><a class='dropdown-toggle' data-toggle='dropdown' href='#'><b class="caret"></b></a>
+        <ul class='dropdown-menu'>
+          <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
+            <li>
+              <%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")),
+                          edit_path(:editor => editor),
+                          :data => { :editor => editor },
+                          :class => "geolink object" %>
+            </li>
+          <% end %>
+        </ul>
+      </li>
+      <li id="history_tab" class="<%= current_page_class(history_path) %>">
         <%= link_to t('layouts.history'), history_path, :class => 'tab geolink' %>
-      </li><li id="export_tab" class="mobile-hide <%= current_page_class(export_path) %>">
+      </li>
+      <li id="export_tab" class="mobile-hide <%= current_page_class(export_path) %>">
         <%= link_to t('layouts.export'), export_path, :class => 'tab geolink' %>
       </li>
     </ul>
