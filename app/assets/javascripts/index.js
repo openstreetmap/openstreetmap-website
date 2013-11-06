@@ -37,13 +37,7 @@ $(document).ready(function () {
 
   var layers = [
     new L.OSM.Mapnik({
-      attribution: donate,
-      code: "M",
-      keyid: "mapnik",
-      name: I18n.t("javascripts.map.base.standard")
-    }),
-    new L.OSM.Mapnik({
-      attribution: copyright,
+      attribution: copyright + ' ' + donate,
       code: "M",
       keyid: "mapnik",
       name: I18n.t("javascripts.map.base.standard")
