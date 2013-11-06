@@ -104,6 +104,9 @@ OSM = {
     if (hash.indexOf('#') === 0) {
       hash = hash.substr(1);
     }
+    if (hash === '') {
+      return false;
+    }
     hash = querystring.parse(hash);
     var args = L.Hash.parseHash(hash.map || '') || {};
     if (hash.layers) args.layers = hash.layers;
