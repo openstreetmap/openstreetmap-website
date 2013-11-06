@@ -4,6 +4,18 @@
 
 <% content_for(:body_class) { "map-layout" } %>
 
+<% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
+  <% content_for :greeting do %>
+    <%= link_to t("layouts.home"),
+                "#",
+                :id => "homeanchor",
+                :class => "set_position",
+                :data => { :lat => @user.home_lat,
+                           :lon => @user.home_lon,
+                           :zoom => 15 } %>
+  <% end %>
+<% end %>
+
 <% content_for :content do %>
   <div id="sidebar">
     <%= form_tag search_path, :id => "search_form" do %>
