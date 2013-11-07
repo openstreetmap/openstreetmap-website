@@ -46,6 +46,7 @@ OSM.Export = function(map) {
 
   function validateControls() {
     $("#export_osm_too_large").toggle(getBounds().getSize() > OSM.MAX_REQUEST_AREA);
+    $("#export_commit").toggle(getBounds().getSize() < OSM.MAX_REQUEST_AREA);
   }
 
   page.pushstate = page.popstate = function(path) {
