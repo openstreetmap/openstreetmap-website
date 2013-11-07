@@ -52,16 +52,18 @@ OSM.Export = function(map) {
     $("#export_tab").addClass("current");
     $("#sidebar").removeClass("minimized");
     map.invalidateSize();
-    $('#sidebar_content').load(path, page.load);
+    $("#sidebar_content").load(path, page.load);
   };
 
   page.load = function() {
+    $("#sidebar").removeClass("minimized");
     map
       .addLayer(locationFilter)
       .on("moveend", update);
 
     $("#maxlat, #minlon, #maxlon, #minlat").change(boundsChanged);
     $("#drag_box").click(enableFilter);
+    $("#sidebar_content .close").on("click", page.minimizeSidebar);
 
     update();
   };
