@@ -134,4 +134,8 @@ $(document).ready(function () {
   $("#menu-icon").on("click", function() {
     $("header").toggleClass("closed");
   });
+
+  $("nav.primary li a").on("click", function() {
+    $("header").toggleClass("closed");
+  });
 });
