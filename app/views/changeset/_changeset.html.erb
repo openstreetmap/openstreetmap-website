@@ -22,23 +22,5 @@
         <% end %>
       </a>
   </p>
-
-  <span class='date'>
-    <% if changeset.closed_at > DateTime.now %>
-      <%= t 'changeset.changeset.still_editing' %>
-    <% else %>
-      <% closed_at = l changeset.closed_at, :format => :long %>
-      <abbr title='<%= closed_at %>'><%= distance_of_time_in_words_to_now(closed_at) %></abbr>
-    <% end %>
-  </span>
-
-  <% unless params.key?(:display_name) %>
-    <span class="user"> by 
-      <% if changeset.user.data_public? %>
-        <%= link_to changeset.user.display_name, user_path(changeset.user.display_name) %>
-      <% else %>
-        <i><%= t 'changeset.changeset.anonymous' %></i>
-      <% end %>
-    </span>
-  <% end %>
+  <h4><%= changeset_details(changeset) %></h4>
 <% end %>
