@@ -231,7 +231,7 @@ $(document).ready(function () {
   initializeNotes(map);
 
   OSM.Index = function(map) {
-    var page = {}, minimized = false;
+    var page = {}, minimized = $('#sidebar').hasClass('minimized');
 
     page.pushstate = page.popstate = function(path) {
       if (minimized) $("#sidebar").addClass("minimized");
@@ -243,14 +243,6 @@ $(document).ready(function () {
     page.unload = function() {
       $("#view_tab").removeClass("current");
     };
-
-    page.minimizeSidebar = function() {
-      $("#sidebar").addClass("minimized");
-      map.invalidateSize();
-      minimized = true;
-    };
-
-    $(document).on("click", "#sidebar_content .close", page.minimizeSidebar);
 
     return page;
   };

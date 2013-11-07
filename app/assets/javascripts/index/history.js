@@ -99,12 +99,12 @@ OSM.History = function(map) {
 
   page.pushstate = page.popstate = function(path) {
     $("#history_tab").addClass("current");
-    $("#sidebar").removeClass("minimized");
     map.invalidateSize();
     $("#sidebar_content").load(path, page.load);
   };
 
   page.load = function() {
+    $("#sidebar").removeClass("minimized");
     map
       .on("moveend", loadData)
       .addLayer(group);
