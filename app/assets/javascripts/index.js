@@ -236,12 +236,7 @@ $(document).ready(function () {
     page.pushstate = page.popstate = function(path) {
       if (minimized) $("#sidebar").addClass("minimized");
       map.invalidateSize();
-      $("#view_tab").addClass("current");
       $('#sidebar_content').load(path);
-    };
-
-    page.unload = function() {
-      $("#view_tab").removeClass("current");
     };
 
     return page;
