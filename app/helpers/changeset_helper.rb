@@ -1,23 +1,32 @@
 module ChangesetHelper
-  def changeset_time_ago(changeset)
+  def changeset_details(changeset)
     out = ''
     created_at = distance_of_time_in_words_to_now(changeset.created_at)
     closed_at = distance_of_time_in_words_to_now(changeset.closed_at)
-    if created_at == closed_at
-      out << t('browse.changeset_details.closed_at') + ' '
+    date = ''
+    if changeset.closed_at > DateTime.now
+      date << t('browse.changeset_details.created_at') + ' '
+      date << content_tag(:abbr, t('browse.changeset_details.ago', :ago => created_at), title: l(changeset.created_at))
+    else
+      date << t('browse.changeset_details.closed_at') + ' '
       both_times = t('browse.changeset_details.created_at') + ': ' + l(changeset.created_at)
       both_times << '&#10;'
       both_times << t('browse.changeset_details.closed_at') + ': ' + l(changeset.closed_at)
-      out << content_tag(:abbr, t('browse.changeset_details.ago', :ago => created_at), title: both_times.html_safe)
-    else
-      out << t('browse.changeset_details.created_at') + ' '
-      out << content_tag(:abbr, t('browse.changeset_details.ago', :ago => created_at), title: l(changeset.created_at))
-      out << t('browse.changeset_details.closed_at') + ' '
-      out << content_tag(:abbr, t('browse.changeset_details.ago', :ago => closed_at), title: l(changeset.closed_at))
+      date << content_tag(:abbr, t('browse.changeset_details.ago', :ago => created_at), title: both_times.html_safe)
     end
-    if changeset.user.data_public?
-      out << ' ' + t('browse.changeset_details.by') + ' '
-      out << link_to(h(changeset.user.display_name), :controller => "user", :action => "view", :display_name => changeset.user.display_name)
+    out << content_tag(:span, date.html_safe, class: 'date')
+    unless params.key?(:display_name)
+      userspan = ''
+      if changeset.user.data_public?
+        userspan << ' ' + t('browse.changeset_details.by') + ' '
+        if changeset.user.data_public?
+          user = link_to changeset.user.display_name, user_path(changeset.user.display_name)
+        else
+          user = t('changeset.changeset.anonymous')
+        end
+        userspan << content_tag(:span, user, class: 'user')
+      end
+      out << content_tag(:span, userspan.html_safe, class: 'user')
     end
     return out.html_safe
   end
