@@ -6,7 +6,7 @@ L.OSM.key = function (options) {
       .attr('class', 'control-key');
 
     var button = $('<a>')
-      .attr('class', 'control-button mobile-hide')
+      .attr('class', 'control-button')
       .attr('href', '#')
       .html('<span class="icon key"></span>')
       .on('click', toggle)

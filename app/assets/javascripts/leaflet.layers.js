@@ -8,7 +8,7 @@ L.OSM.layers = function(options) {
       .attr('class', 'control-layers');
 
     var button = $('<a>')
-      .attr('class', 'control-button mobile-hide')
+      .attr('class', 'control-button')
       .attr('href', '#')
       .attr('title', I18n.t('javascripts.map.layers.title'))
       .html('<span class="icon layers"></span>')
