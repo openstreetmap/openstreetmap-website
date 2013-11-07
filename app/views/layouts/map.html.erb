@@ -17,7 +17,7 @@
 <% end %>
 
 <% content_for :content do %>
-  <div id="sidebar" class="<%= 'minimized' if @user %>">
+  <div id="sidebar" class="minimized">
     <%= form_tag search_path, :id => "search_form" do %>
       <%= submit_tag t('site.search.submit_text') %>
       <div id='query_wrapper'>
@@ -27,15 +27,14 @@
       </div>
     <% end %>
 
+    <% if STATUS == :database_offline or STATUS == :api_offline %>
+      <p class="error"><%= t 'layouts.osm_offline' %></p>
+    <% elsif STATUS == :database_readonly or STATUS == :api_readonly %>
+      <p class="error"><%= t 'layouts.osm_read_only' %></p>
+    <% end %>
+
     <div id="sidebar_content">
-      <% if STATUS == :database_offline or STATUS == :api_offline %>
-        <p class="error"><%= t 'layouts.osm_offline' %></p>
-      <% elsif STATUS == :database_readonly or STATUS == :api_readonly %>
-        <p class="error"><%= t 'layouts.osm_read_only' %></p>
-      <% end %>
-
       <%= render :partial => "layouts/flash" %>
-
       <%= yield %>
     </div>
   </div>
