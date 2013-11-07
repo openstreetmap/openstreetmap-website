@@ -254,6 +254,8 @@ $(document).ready(function () {
     };
 
     page.load = function(path, type, id) {
+      $("#sidebar").removeClass("minimized");
+
       if (OSM.STATUS === 'api_offline' || OSM.STATUS === 'database_offline') return;
 
       if (type === 'note') {
