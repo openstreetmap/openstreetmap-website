@@ -303,4 +303,16 @@ $(document).ready(function () {
       map.getCenter().lng.toFixed(precision)));
   });
 
+  function removeSidebar() {
+    if ($(window).width() < 721) {
+      $('#sidebar').addClass("minimized");
+    }
+  }
+
+  $(window).resize(function() {
+    removeSidebar();
+  });
+
+  removeSidebar();
+
 });
