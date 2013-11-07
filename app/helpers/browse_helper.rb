@@ -1,8 +1,4 @@
 module BrowseHelper
-  def link_to_page(page, page_param)
-    return link_to(page, page_param => page)
-  end
-
   def printable_name(object, version=false)
     if object.id.is_a?(Array)
       id = object.id[0]
@@ -58,6 +54,18 @@ module BrowseHelper
       link_to h(value), url, :title => t('browse.tag_details.wiki_link.tag', :key => key, :value => value)
     else
       linkify h(value)
+    end
+  end
+
+  def type_and_paginated_count(type, pages)
+    if pages.page_count == 1
+      t "browse.changeset_details.#{type}",
+        :count => pages.item_count
+    else
+      t "browse.changeset_details.#{type}_paginated",
+        :x => pages.current_page.first_item,
+        :y => pages.current_page.last_item,
+        :count => pages.item_count
     end
   end
 
