@@ -1,16 +1,8 @@
-<h2>
-  <% if !@user %>
-    <%= t 'layouts.intro_header' %>
-  <% else %>
-    <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <% end %>
-</h2>
-
-<% if !@user %>
-  <p class="inner12 large-text"><%= t 'layouts.intro_text' %></p>
-
-  <div class="inner12">
-    <a class="button" href="<%= about_path %>"><%= t('layouts.learn_more') %></a>
-    <a class="button" href="<%= user_new_path %>"><%= t('layouts.sign_up') %></a>
+<% unless @user %>
+  <div class="welcome">
+    <h2><%= t 'layouts.intro_header' %></h2>
+    <p><%= t 'layouts.intro_text' %></p>
+    <a class="button learn-more" href="<%= about_path %>"><%= t('layouts.learn_more') %></a>
+    <a class="button sign-up" href="<%= user_new_path %>"><%= t('layouts.sign_up') %></a>
   </div>
 <% end %>

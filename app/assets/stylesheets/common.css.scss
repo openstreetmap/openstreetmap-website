@@ -466,7 +466,6 @@ nav.secondary {
   }
 }
 
-
 /* Utility for styling notification numbers */
 
 .count-number {
@@ -639,6 +638,7 @@ nav.secondary {
   #sidebar {
     float: left;
     width: $sidebarWidth;
+    background: #fff;
 
     h2, h3, h4 {
       padding: $lineheight $lineheight $lineheight/2;
@@ -656,26 +656,39 @@ nav.secondary {
       cursor: pointer;
     }
 
-    p.large-text {
-      font-size: 1.7em;
-      line-height: 1.4em;
-      font-weight: 300;
-    }
+    -webkit-transition: margin 300ms linear;
+       -moz-transition: margin 300ms linear;
+            transition: margin 300ms linear;
   }
 
   #sidebar.minimized {
     position: absolute;
     z-index: 1000;
     height: auto;
-    border-right: none;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: $typeheight;
+    margin-left: $typeheight;
+  }
 
-    #sidebar_content {
-      display: none;
+  .welcome {
+    p {
+      padding: $lineheight/2 $lineheight $lineheight;
+      font-size: 110%;
+      font-weight: 300;
     }
 
-    #search_form {
-      background: none;
-      width: 78%;
+    .button {
+      width: 50%;
+      float: left;
+      margin: 0;
+      border-radius: 0;
+      font-weight: 400;
+      padding: .6em;
+
+      &.learn-more {
+        border-right: 1px solid #fff;
+      }
     }
   }
 
@@ -875,12 +888,6 @@ nav.secondary {
 }
 
 #sidebar_content {
-  position: absolute;
-  top: 50px;
-  bottom: 0;
-  width: 100%;
-  overflow-y: auto;
-
   .loader,
   .load_more {
     text-align: center;
@@ -894,7 +901,7 @@ nav.secondary {
 
 #search_form {
   position: relative;
-  padding: $lineheight/2 $lineheight;
+  padding: $lineheight/2;
   background-color: $lightgrey;
 
   #query_wrapper {
