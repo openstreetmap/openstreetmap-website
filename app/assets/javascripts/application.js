@@ -134,6 +134,4 @@ $(document).ready(function () {
   $("#menu-icon").on("click", function() {
     $("header").toggleClass("closed");
   });
-
-  $('#ad .close').on("click", function() { $('#ad').remove(); });
 });
