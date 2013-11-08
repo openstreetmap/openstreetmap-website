@@ -50,7 +50,12 @@ OSM.Router = function(rts) {
   currentRoute.run('load', currentPath);
 
   if (window.history && window.history.pushState) {
-    $(window).on('popstate', function() {
+    // Set a non-null initial state, so that the e.originalEvent.state
+    // check below works correctly when going back to the initial page.
+    window.history.replaceState({}, document.title, window.location);
+
+    $(window).on('popstate', function(e) {
+      if (!e.originalEvent.state) return; // Is it a real popstate event or just a hash change?
       var path = window.location.pathname + window.location.search;
       if (path === currentPath) return;
       currentRoute.run('unload');
