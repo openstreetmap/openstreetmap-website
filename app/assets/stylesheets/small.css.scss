@@ -1,20 +1,17 @@
 /* Styles specific to a small screen, such as iPhone, Android, etc... */
 
 input[type="submit"],
-input[type="text"] { -webkit-appearance: none; }
-
-/* Default rules for the body of every page */
+input[type="text"] {
+  -webkit-appearance: none;
+}
 
 .column-1 {
   width: 100%;
 }
 
-/* Rules for the whole left sidebar, including the logo */
-
 #menu-icon {
   display: inline-block !important;
 }
-
 
 nav.primary,
 nav.secondary {
@@ -25,32 +22,32 @@ nav.secondary {
 }
 
 header {
-  min-height: 54px;
   height: auto;
   background: #fff;
-  border-bottom: 1px solid #ddd;
-  clear: both;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  h1 { padding-bottom: 15px; }
-  &.closed {
-    nav.primary,
-    nav.secondary {
-      display: none;
-    }
+
+  h1 {
+    padding-bottom: 15px;
+  }
+
+  &.closed nav {
+    display: none;
   }
 }
 
-.mobile-hide { display: none !important; }
+#edit_tab,
+#export_tab {
+  display: none;
+}
 
 nav.primary {
   padding: 0;
+
   ul, li {
     border: none;
     border-radius: 0;
     width: 100%;
   }
+
   ul {
     border-top: 1px solid #eee;
     li {
@@ -67,6 +64,8 @@ nav.primary {
 }
 
 nav.secondary {
+  border-bottom: 1px solid #eee;
+
   .user-menu {
     display: block;
     width: 100%;
@@ -84,42 +83,29 @@ nav.secondary {
 #compact-secondary-nav {
   display: none;
 }
+
 .compact-hide {
   display: inline-block;
 }
 
-#content { margin-top: 58px; }
-
 .map-layout {
-  #sidebar {
-    width: 100%;
-    position: fixed;
-    top: 58px;
-    height: 240px;
+  #sidebar, #map {
+    position: relative;
     overflow-x: hidden;
-    z-index: 1;
-    background: #fff;
-    p.large-text {
-      font-size: 1.2em;
-      line-height: 1.4em;
-    }
-    &.minimized {
-      background: none;
-    }
-  }
-  #content {
-    position: fixed;
-    top: 0;
-    display: block;
-    height: 100%;
-    margin-top: 0;
-    padding-top: 58px;
-  }
-  #map {
     width: 100%;
-    // height: 100%;
-    // position: fixed;
+    height: 50%;
   }
+
+  .overlay-sidebar {
+    #sidebar {
+      width: 300px;
+    }
+
+    #map {
+      height: 100%;
+    }
+  }
+
   #map-ui {
     z-index: 9999;
     width: 100%;

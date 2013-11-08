@@ -234,9 +234,14 @@ $(document).ready(function () {
     var page = {};
 
     page.pushstate = page.popstate = function(path) {
-      $("#sidebar").addClass("minimized");
+      $("#content").addClass("overlay-sidebar");
       map.invalidateSize();
       $('#sidebar_content').load(path);
+    };
+
+    page.unload = function() {
+      $("#content").removeClass("overlay-sidebar");
+      map.invalidateSize();
     };
 
     return page;
@@ -246,16 +251,12 @@ $(document).ready(function () {
     var page = {};
 
     page.pushstate = page.popstate = function(path, type, id) {
-      $("#sidebar").removeClass("minimized");
-      map.invalidateSize();
       $('#sidebar_content').load(path, function() {
         page.load(path, type, id);
       });
     };
 
     page.load = function(path, type, id) {
-      $("#sidebar").removeClass("minimized");
-
       if (OSM.STATUS === 'api_offline' || OSM.STATUS === 'database_offline') return;
 
       if (type === 'note') {
@@ -302,17 +303,4 @@ $(document).ready(function () {
       map.getCenter().lat.toFixed(precision) + "," +
       map.getCenter().lng.toFixed(precision)));
   });
-
-  function removeSidebar() {
-    if ($(window).width() < 721) {
-      $('#sidebar').addClass("minimized");
-    }
-  }
-
-  $(window).resize(function() {
-    removeSidebar();
-  });
-
-  removeSidebar();
-
 });
