@@ -1,6 +1,6 @@
 <header class="closed">
   <h1>
-    <a href="<%= root_path %>" class="geolink layers">
+    <a href="<%= root_path %>" class="geolink">
       <%= image_tag "osm_logo.png", :alt => t('layouts.logo.alt_text'), :class => 'logo' %>
       <%= t 'layouts.project_name.h1' %>
     </a>
@@ -9,7 +9,7 @@
   <nav class='primary'>
     <ul>
       <li id="edit_tab" class="dropdown <%= current_page_class(edit_path) %>">
-        <%= link_to t('layouts.edit'), edit_path, :class => "tab geolink object",
+        <%= link_to t('layouts.edit'), edit_path, :class => "tab geolink editlink",
                     :id => 'editanchor',
                     :data => { :editor => preferred_editor }
         %><a class='dropdown-toggle' data-toggle='dropdown' href='#'><b class="caret"></b></a>
@@ -19,7 +19,7 @@
               <%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")),
                           edit_path(:editor => editor),
                           :data => { :editor => editor },
-                          :class => "geolink object" %>
+                          :class => "geolink editlink" %>
             </li>
           <% end %>
         </ul>
