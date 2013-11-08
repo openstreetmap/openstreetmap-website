@@ -103,10 +103,12 @@ $(document).ready(function () {
   map.dataLayer.options.code = 'D';
 
   if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
+    initializeNotes(map);
     if (params.layers.indexOf(map.noteLayer.options.code) >= 0) {
       map.addLayer(map.noteLayer);
     }
 
+    initializeBrowse(map);
     if (params.layers.indexOf(map.dataLayer.options.code) >= 0) {
       map.addLayer(map.dataLayer);
     }
@@ -226,9 +228,6 @@ $(document).ready(function () {
       $('#editanchor').tooltip('hide');
     });
   }
-
-  initializeBrowse(map);
-  initializeNotes(map);
 
   OSM.Index = function(map) {
     var page = {};

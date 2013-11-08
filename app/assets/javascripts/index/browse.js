@@ -36,6 +36,7 @@ function initializeBrowse(map) {
   map.on('layerremove', function (e) {
     if (e.layer === dataLayer) {
       map.off("moveend", updateData);
+      clearStatus();
     }
   });
 
@@ -46,28 +47,19 @@ function initializeBrowse(map) {
         browseBounds = bounds;
         getData();
       }
-    } else {
-      setStatus(I18n.t('browse.start_rjs.zoom_or_select'));
     }
   }
 
   function displayFeatureWarning(count, limit, callback) {
     clearStatus();
 
-    var div = document.createElement("div");
-
-    var p = document.createElement("p");
-    p.appendChild(document.createTextNode(I18n.t("browse.start_rjs.loaded_an_area_with_num_features", { num_features: count, max_features: limit })));
-    div.appendChild(p);
-
-    var input = document.createElement("input");
-    input.type = "submit";
-    input.value = I18n.t('browse.start_rjs.load_data');
-    input.onclick = callback;
-    div.appendChild(input);
-
-    $("#browse_content").html("");
-    $("#browse_content").append(div);
+    $('#browse_status').append(
+      $("<p class='warning'></p>")
+        .text(I18n.t("browse.start_rjs.loaded_an_area_with_num_features", { num_features: count, max_features: limit }))
+        .append(
+          $("<input type='submit'>")
+            .val(I18n.t('browse.start_rjs.load_data'))
+            .click(callback)));
   }
 
   var dataLoader;
@@ -105,14 +97,13 @@ function initializeBrowse(map) {
     dataLoader = $.ajax({
       url: url,
       success: function (xml) {
-        clearStatus();
-
         dataLayer.clearLayers();
         selectedLayer = null;
 
         var features = dataLayer.buildFeatures(xml);
 
         function addFeatures() {
+          clearStatus();
           dataLayer.addData(features);
         }
 
@@ -144,8 +135,10 @@ function initializeBrowse(map) {
   }
 
   function setStatus(status) {
+    $('#browse_status').append($('<p></p>').text(status));
   }
 
   function clearStatus() {
+    $('#browse_status').empty();
   }
 }
