@@ -102,18 +102,6 @@ $(document).ready(function () {
   map.dataLayer = new L.OSM.DataLayer(null);
   map.dataLayer.options.code = 'D';
 
-  if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
-    initializeNotes(map);
-    if (params.layers.indexOf(map.noteLayer.options.code) >= 0) {
-      map.addLayer(map.noteLayer);
-    }
-
-    initializeBrowse(map);
-    if (params.layers.indexOf(map.dataLayer.options.code) >= 0) {
-      map.addLayer(map.dataLayer);
-    }
-  }
-
   var position = $('html').attr('dir') === 'rtl' ? 'topleft' : 'topright';
 
   L.OSM.zoom({position: position})
@@ -154,6 +142,18 @@ $(document).ready(function () {
 
   L.control.scale()
     .addTo(map);
+
+  if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
+    initializeNotes(map);
+    if (params.layers.indexOf(map.noteLayer.options.code) >= 0) {
+      map.addLayer(map.noteLayer);
+    }
+
+    initializeBrowse(map);
+    if (params.layers.indexOf(map.dataLayer.options.code) >= 0) {
+      map.addLayer(map.dataLayer);
+    }
+  }
 
   $('.leaflet-control .control-button').tooltip({placement: 'left', container: 'body'});
 
