@@ -3,8 +3,9 @@
 @title = t('browse.way_history.way_history') + ' | ' + @name
 %>
 
-<h2><%= raw t'browse.way_history.way_history_title', :way_name => link_to(h(@name), :action => "way", :id => @way.id) %>
+<h2>
     <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
+    <%= raw t'browse.way_history.way_history_title', :way_name => link_to(h(@name), :action => "way", :id => @way.id) %>
 </h2>
 
 <% @way.old_ways.reverse.each do |way| %>

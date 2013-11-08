@@ -3,8 +3,9 @@
 @title = t('browse.relation_history.relation_history') + ' | ' + @name
 %>
 
-<h2><%= raw t'browse.relation_history.relation_history_title', :relation_name => link_to(h(@name), :action => "relation", :id => @relation.id) %>
+<h2>
     <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
+    <%= raw t'browse.relation_history.relation_history_title', :relation_name => link_to(h(@name), :action => "relation", :id => @relation.id) %>
 </h2>
 
 <% @relation.old_relations.reverse.each do |relation| %>
