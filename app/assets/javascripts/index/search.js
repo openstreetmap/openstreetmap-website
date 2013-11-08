@@ -49,12 +49,10 @@ OSM.Search = function(map) {
   page.pushstate = page.popstate = function(path) {
     var params = querystring.parse(path.substring(path.indexOf('?') + 1));
     $("#query").val(params.query);
-    map.invalidateSize();
     $("#sidebar_content").load(path, page.load);
   };
 
   page.load = function() {
-    $("#sidebar").removeClass("minimized");
     $(".search_results_entry").each(function() {
       var entry = $(this);
       $.ajax({

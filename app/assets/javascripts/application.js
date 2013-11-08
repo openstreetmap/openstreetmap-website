@@ -131,7 +131,8 @@ $(document).ready(function () {
   var auth_token = $("meta[name=csrf-token]").attr("content");
   $("form input[name=authenticity_token]").val(auth_token);
 
-  $("#menu-icon").on("click", function() {
+  $("#menu-icon").on("click", function(e) {
+    e.preventDefault();
     $("header").toggleClass("closed");
   });
 
