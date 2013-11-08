@@ -231,10 +231,10 @@ $(document).ready(function () {
   initializeNotes(map);
 
   OSM.Index = function(map) {
-    var page = {}, minimized = $('#sidebar').hasClass('minimized');
+    var page = {};
 
     page.pushstate = page.popstate = function(path) {
-      if (minimized) $("#sidebar").addClass("minimized");
+      $("#sidebar").addClass("minimized");
       map.invalidateSize();
       $('#sidebar_content').load(path);
     };
