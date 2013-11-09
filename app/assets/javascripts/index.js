@@ -158,19 +158,31 @@ $(document).ready(function () {
   OSM.Index = function(map) {
     var page = {};
 
-    page.pushstate = page.popstate = function(path) {
-      $("#content").addClass("overlay-sidebar");
-      map.invalidateSize();
+    function loadContent(path) {
       $('#sidebar_content').load(path + "?xhr=1", function(a, b, xhr) {
         if (xhr.getResponseHeader('X-Page-Title')) {
           document.title = xhr.getResponseHeader('X-Page-Title');
         }
       });
+    }
+
+    page.pushstate = function(path) {
+      $("#content").addClass("overlay-sidebar");
+      map.invalidateSize({pan: false})
+        .panBy([-300, 0], {animate: false});
+      loadContent(path);
+    };
+
+    page.popstate = function(path) {
+      $("#content").addClass("overlay-sidebar");
+      map.invalidateSize({pan: false});
+      loadContent(path);
     };
 
     page.unload = function() {
+      map.panBy([300, 0], {animate: false});
       $("#content").removeClass("overlay-sidebar");
-      map.invalidateSize();
+      map.invalidateSize({pan: false});
     };
 
     return page;
