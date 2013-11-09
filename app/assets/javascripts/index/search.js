@@ -49,7 +49,12 @@ OSM.Search = function(map) {
   page.pushstate = page.popstate = function(path) {
     var params = querystring.parse(path.substring(path.indexOf('?') + 1));
     $("#query").val(params.query);
-    $("#sidebar_content").load(path, page.load);
+    $("#sidebar_content").load(path, function() {
+      if (xhr.getResponseHeader('X-Page-Title')) {
+        document.title = xhr.getResponseHeader('X-Page-Title');
+      }
+      page.load();
+    });
   };
 
   page.load = function() {
