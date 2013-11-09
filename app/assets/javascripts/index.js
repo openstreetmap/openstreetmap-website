@@ -235,7 +235,7 @@ $(document).ready(function () {
     page.pushstate = page.popstate = function(path) {
       $("#content").addClass("overlay-sidebar");
       map.invalidateSize();
-      $('#sidebar_content').load(path, function(a, b, xhr) {
+      $('#sidebar_content').load(path + "?xhr=1", function(a, b, xhr) {
         if (xhr.getResponseHeader('X-Page-Title')) {
           document.title = xhr.getResponseHeader('X-Page-Title');
         }
@@ -254,7 +254,7 @@ $(document).ready(function () {
     var page = {};
 
     page.pushstate = page.popstate = function(path, type, id) {
-      $('#sidebar_content').load(path, function(a, b, xhr) {
+      $('#sidebar_content').load(path + "?xhr=1", function(a, b, xhr) {
         if (xhr.getResponseHeader('X-Page-Title')) {
           document.title = xhr.getResponseHeader('X-Page-Title');
         }
