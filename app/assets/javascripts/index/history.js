@@ -47,7 +47,7 @@ OSM.History = function(map) {
       url: window.location.pathname,
       method: "GET",
       data: {bbox: map.getBounds().toBBoxString()},
-      success: function(html) {
+      success: function(html, status, xhr) {
         $('#sidebar_content .changesets').html(html);
         updateMap();
       }
@@ -99,7 +99,12 @@ OSM.History = function(map) {
 
   page.pushstate = page.popstate = function(path) {
     $("#history_tab").addClass("current");
-    $("#sidebar_content").load(path, page.load);
+    $("#sidebar_content").load(path, function(a, b, xhr) {
+      if (xhr.getResponseHeader('X-Page-Title')) {
+        document.title = xhr.getResponseHeader('X-Page-Title');
+      }
+      page.load();
+    });
   };
 
   page.load = function() {

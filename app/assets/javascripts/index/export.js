@@ -51,7 +51,12 @@ OSM.Export = function(map) {
 
   page.pushstate = page.popstate = function(path) {
     $("#export_tab").addClass("current");
-    $("#sidebar_content").load(path, page.load);
+    $("#sidebar_content").load(path, function(a, b, xhr) {
+      if (xhr.getResponseHeader('X-Page-Title')) {
+        document.title = xhr.getResponseHeader('X-Page-Title');
+      }
+      page.load();
+    });
   };
 
   page.load = function() {

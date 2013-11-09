@@ -62,7 +62,6 @@ class BrowseController < ApplicationController
     @way_pages, @ways = paginate(:old_ways, :conditions => {:changeset_id => @changeset.id}, :per_page => 10, :parameter => 'way_page')
     @relation_pages, @relations = paginate(:old_relations, :conditions => {:changeset_id => @changeset.id}, :per_page => 10, :parameter => 'relation_page')
       
-    @title = "#{I18n.t('browse.changeset.title')} | #{@changeset.id}"
     @next = Changeset.where("id > ?", @changeset.id).order(:id => :asc).first
     @prev = Changeset.where("id < ?", @changeset.id).order(:id => :desc).first
 
@@ -77,7 +76,6 @@ class BrowseController < ApplicationController
   def note
     @type = "note"
     @note = Note.find(params[:id])
-    @title = "#{I18n.t('browse.note.title')} | #{@note.id}"
     @next = Note.visible.where("id > ?", @note.id).order(:id => :asc).first
     @prev = Note.visible.where("id < ?", @note.id).order(:id => :desc).first
   rescue ActiveRecord::RecordNotFound
