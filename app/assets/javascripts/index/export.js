@@ -51,7 +51,7 @@ OSM.Export = function(map) {
 
   page.pushstate = page.popstate = function(path) {
     $("#export_tab").addClass("current");
-    $("#sidebar_content").load(path, function(a, b, xhr) {
+    $("#sidebar_content").load(path + "?xhr=1", function(a, b, xhr) {
       if (xhr.getResponseHeader('X-Page-Title')) {
         document.title = xhr.getResponseHeader('X-Page-Title');
       }

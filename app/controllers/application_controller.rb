@@ -423,7 +423,6 @@ class ApplicationController < ActionController::Base
   end
 
   def map_layout
-    response.headers['Vary'] = 'X-Requested-With'
     request.xhr? ? false : 'map'
   end
 
