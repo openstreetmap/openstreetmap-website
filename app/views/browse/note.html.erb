@@ -5,21 +5,14 @@
   <%= t "browse.note.#{@note.status}_title", :note_name => @note.id %>
 </h2>
 <div class="browse-section">
-  <span>
-    <%= t "browse.note.opened" %>: 
-    <abbr><%= note_event(@note.created_at, @note.author) %></abbr> by 
-    <% if @note.author.nil? %>
-      <%= t "browse.note.anonymous" %>
-    <% else %>
-      <%= note_author(@note.author) %>
-    <% end %>
+  <h4>
+    <%= @note.author %>
+    <%= note_event(@note.status, @note.created_at, @note.author) %>
     <% if @note.status == "closed" %>
-      </span><span>
-      <%= t "browse.note.closed" %>:
-      <abbr><%= note_event(@note.closed_at, @note.author) %></abbr> by 
-      <%= @note.comments.last.author %>
+      <br/>
+      <%= note_event(@note.status, @note.closed_at, @note.comments.last.author) %>
     <% end %>
-  </span>
+  </h4>
 </div>
 
 <% if @note.comments.find { |comment| comment.author.nil? } -%>
@@ -29,22 +22,9 @@
 <% end -%>
 
 <div class='browse-section common'>
-  <% if @note.status == "closed" %>
-    <div class='browse-field'>
-      <h4><%= t "browse.note.closed" %></h4>
-      <p><%= note_event(@note.closed_at, @note.comments.last.author) %></p>
-    </div>
-  <% elsif @note.comments.length > 1 %>
-    <div class='browse-field'>
-      <h4><%= t "browse.note.last_modified" %></h4>
-      <p><%= note_event(@note.updated_at, @note.comments.last.author) %></p>
-    </div>
-  <% end %>
-
   <div class='browse-field' id="c<%= @note.comments.first.id %>">
     <h4><%= t "browse.note.description" %></h4>
     <%= h(@note.comments.first.body.to_html) %>
-    <!-- this provides it's own <p> tags -->
   </div>
 
   <div class='browse-field'>
@@ -59,8 +39,8 @@
     <ul>
       <% @note.comments[1..-1].each do |comment| %>
         <li id="c<%= comment.id %>">
+          <small class='deemphasize'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
           <%= comment.body.to_html %>
-          <small class='deemphasize'><%= note_event(comment.created_at, comment.author) %></small>
         </li>
       <% end %>
     </ul>
