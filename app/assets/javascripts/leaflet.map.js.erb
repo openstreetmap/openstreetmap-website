@@ -10,6 +10,68 @@ L.extend(L.LatLngBounds.prototype, {
 });
 
 L.OSM.Map = L.Map.extend({
+  initialize: function(id, options) {
+    L.Map.prototype.initialize.call(this, id, options);
+
+    var copyright = I18n.t('javascripts.map.copyright', {copyright_url: '/copyright'});
+    var donate = I18n.t('javascripts.map.donate_link_text', {donate_url: 'http://donate.openstreetmap.org'});
+
+    this.baseLayers = [
+      new L.OSM.Mapnik({
+        attribution: copyright + " &hearts; " + donate,
+        code: "M",
+        keyid: "mapnik",
+        name: I18n.t("javascripts.map.base.standard")
+      }),
+      new L.OSM.CycleMap({
+        attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+        code: "C",
+        keyid: "cyclemap",
+        name: I18n.t("javascripts.map.base.cycle_map")
+      }),
+      new L.OSM.TransportMap({
+        attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+        code: "T",
+        keyid: "transportmap",
+        name: I18n.t("javascripts.map.base.transport_map")
+      }),
+      new L.OSM.MapQuestOpen({
+        attribution: copyright + ". Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
+        code: "Q",
+        keyid: "mapquest",
+        name: I18n.t("javascripts.map.base.mapquest")
+      }),
+      new L.OSM.HOT({
+        attribution: copyright + ". Tiles courtesy of <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>",
+        code: "H",
+        keyid: "hot",
+        name: I18n.t("javascripts.map.base.hot")
+      })
+    ];
+
+    this.noteLayer = new L.LayerGroup();
+    this.noteLayer.options = {code: 'N'};
+
+    this.dataLayer = new L.OSM.DataLayer(null);
+    this.dataLayer.options.code = 'D';
+  },
+
+  updateLayers: function(params) {
+    var layerParam = params.layers || "M";
+    var layersAdded = "";
+
+    for (var i = this.baseLayers.length - 1; i >= 0; i--) {
+      if (layerParam.indexOf(this.baseLayers[i].options.code) >= 0) {
+        this.addLayer(this.baseLayers[i]);
+        layersAdded = layersAdded + this.baseLayers[i].options.code;
+      } else if (i == 0 && layersAdded == "") {
+        this.addLayer(this.baseLayers[i]);
+      } else {
+        this.removeLayer(this.baseLayers[i]);
+      }
+    }
+  },
+
   getLayersCode: function () {
     var layerConfig = '';
     for (var i in this._layers) { // TODO: map.eachLayer
