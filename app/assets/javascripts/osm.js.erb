@@ -101,15 +101,41 @@ OSM = {
   },
 
   parseHash: function(hash) {
-    if (hash.indexOf('#') === 0) {
-      hash = hash.substr(1);
+    var i = hash.indexOf('#');
+    if (i < 0) {
+      return false;
     }
+
+    hash = hash.substr(i + 1);
+
     if (hash === '') {
       return false;
     }
+
     hash = querystring.parse(hash);
-    var args = L.Hash.parseHash(hash.map || '') || {};
-    if (hash.layers) args.layers = hash.layers;
+
+    var args = hash.map.split("/");
+    if (args.length !== 3) {
+      return false;
+    }
+
+    var zoom = parseInt(args[0], 10),
+      lat = parseFloat(args[1]),
+      lon = parseFloat(args[2]);
+
+    if (isNaN(zoom) || isNaN(lat) || isNaN(lon)) {
+      return false;
+    }
+
+    args = {
+      center: new L.LatLng(lat, lon),
+      zoom: zoom
+    };
+
+    if (hash.layers) {
+      args.layers = hash.layers;
+    }
+
     return args;
   },
 

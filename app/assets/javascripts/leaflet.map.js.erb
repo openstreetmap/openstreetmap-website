@@ -56,8 +56,8 @@ L.OSM.Map = L.Map.extend({
     this.dataLayer.options.code = 'D';
   },
 
-  updateLayers: function(params) {
-    var layerParam = params.layers || "M";
+  updateLayers: function(layerParam) {
+    layerParam = layerParam || "M";
     var layersAdded = "";
 
     for (var i = this.baseLayers.length - 1; i >= 0; i--) {
@@ -242,9 +242,6 @@ L.extend(L.Icon.Default.prototype, {
     return L.Icon.Default.imageUrls[url];
   }
 });
-
-L.Hash.prototype.parseHash = OSM.parseHash;
-L.Hash.prototype.formatHash = OSM.formatHash;
 
 function getUserIcon(url) {
   return L.icon({
