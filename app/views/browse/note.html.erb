@@ -44,3 +44,23 @@
     </ul>
   </div>
 <% end %>
+<div class="browse-section">
+  <% if @note.status == "open" %>
+  <form action="#">
+    <textarea class="comment" name="text" cols="40" rows="5"></textarea>
+    <div class="buttons clearfix">
+      <input type="submit" name="hide" value="<%= t('javascripts.notes.show.hide') %>" class="hide_unless_moderator deemphasize" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, 'json') %>">
+      <input type="submit" name="close" value="<%= t('javascripts.notes.show.resolve') %>" class="hide_unless_logged_in" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= close_note_url(@note, 'json') %>">
+      <input type="submit" name="comment" value="<%= t('javascripts.notes.show.comment') %>" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= comment_note_url(@note, 'json') %>" disabled="1">
+    </div>
+  </form>
+  <% else %>
+  <form action="#">
+    <input type="hidden" name="text" value="">
+    <div class="buttons clearfix">
+      <input type="submit" name="hide" value="<%= t('javascripts.notes.show.hide') %>" class="hide_unless_moderator deemphasize" data-note-id="<%= @note.id %>" data-method="DELETE" data-url="<%= note_url(@note, 'json') %>">
+      <input type="submit" name="reopen" value="<%= t('javascripts.notes.show.reactivate') %>" class="hide_unless_logged_in" data-note-id="<%= @note.id %>" data-method="POST" data-url="<%= reopen_note_url(@note, 'json') %>">
+    </div>
+  </form>
+  <% end %>
+</div>
