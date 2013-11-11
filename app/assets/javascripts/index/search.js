@@ -1,10 +1,10 @@
 OSM.Search = function(map) {
-  $("#query")
+  $(".search_form input[name=query]")
     .on("focus", function() {
-      $("#describe_location").fadeOut(100);
+      $(".describe_location").fadeOut(100);
     })
     .on("blur", function() {
-      $("#describe_location").fadeIn(100);
+      $(".describe_location").fadeIn(100);
     });
 
   $("#sidebar_content")
@@ -48,7 +48,8 @@ OSM.Search = function(map) {
 
   page.pushstate = page.popstate = function(path) {
     var params = querystring.parse(path.substring(path.indexOf('?') + 1));
-    $("#query").val(params.query);
+    $(".search_form input[name=query]").val(params.query);
+    map.invalidateSize();
     $("#sidebar_content").load(path, function() {
       if (xhr.getResponseHeader('X-Page-Title')) {
         document.title = xhr.getResponseHeader('X-Page-Title');
@@ -80,7 +81,7 @@ OSM.Search = function(map) {
   page.unload = function() {
     map.removeLayer(marker);
     map.removeObject();
-    $("#query").val("");
+    $(".search_form input[name=query]").val("");
   };
 
   return page;

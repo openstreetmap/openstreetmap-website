@@ -297,12 +297,13 @@ $(document).ready(function () {
     if (this.host === window.location.host && OSM.route(this.pathname + this.search + this.hash)) e.preventDefault();
   });
 
-  $("#search_form").on("submit", function(e) {
+  $(".search_form").on("submit", function(e) {
     e.preventDefault();
-    OSM.route("/search?query=" + encodeURIComponent($("#query").val()) + OSM.formatHash(map));
+    $("header").addClass("closed");
+    OSM.route("/search?query=" + encodeURIComponent($(this).find("input[name=query]").val()) + OSM.formatHash(map));
   });
 
-  $("#describe_location").on("click", function(e) {
+  $(".describe_location").on("click", function(e) {
     e.preventDefault();
     var precision = zoomPrecision(map.getZoom());
     OSM.route("/search?query=" + encodeURIComponent(

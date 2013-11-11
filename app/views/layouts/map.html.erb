@@ -18,14 +18,7 @@
 
 <% content_for :content do %>
   <div id="sidebar">
-    <%= form_tag search_path, :id => "search_form" do %>
-      <%= submit_tag t('site.search.submit_text') %>
-      <div id='query_wrapper'>
-        <%= text_field_tag :query, params[:query],
-                           :placeholder => t('site.search.search') %>
-        <%= link_to t('site.search.where_am_i'), '#', { :id => "describe_location", :title => t('site.search.where_am_i_title') } %>
-      </div>
-    <% end %>
+    <%= render :partial => "layouts/search" %>
 
     <% if STATUS == :database_offline or STATUS == :api_offline %>
       <p class="error"><%= t 'layouts.osm_offline' %></p>
