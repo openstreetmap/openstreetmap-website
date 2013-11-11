@@ -33,62 +33,10 @@ $(document).ready(function () {
     }
   });
 
-  var copyright = I18n.t('javascripts.map.copyright', {copyright_url: '/copyright'});
-  var donate = I18n.t('javascripts.map.donate_link_text', {donate_url: 'http://donate.openstreetmap.org'});
-
-  var layers = [
-    new L.OSM.Mapnik({
-      attribution: copyright + " &hearts; " + donate,
-      code: "M",
-      keyid: "mapnik",
-      name: I18n.t("javascripts.map.base.standard")
-    }),
-    new L.OSM.CycleMap({
-      attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-      code: "C",
-      keyid: "cyclemap",
-      name: I18n.t("javascripts.map.base.cycle_map")
-    }),
-    new L.OSM.TransportMap({
-      attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-      code: "T",
-      keyid: "transportmap",
-      name: I18n.t("javascripts.map.base.transport_map")
-    }),
-    new L.OSM.MapQuestOpen({
-      attribution: copyright + ". Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
-      code: "Q",
-      keyid: "mapquest",
-      name: I18n.t("javascripts.map.base.mapquest")
-    }),
-    new L.OSM.HOT({
-      attribution: copyright + ". Tiles courtesy of <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>",
-      code: "H",
-      keyid: "hot",
-      name: I18n.t("javascripts.map.base.hot")
-    })
-  ];
-
-  function updateLayers(params) {
-    var layerParam = params.layers || "M";
-    var layersAdded = "";
-
-    for (var i = layers.length - 1; i >= 0; i--) {
-      if (layerParam.indexOf(layers[i].options.code) >= 0) {
-        map.addLayer(layers[i]);
-        layersAdded = layersAdded + layers[i].options.code;
-      } else if (i == 0 && layersAdded == "") {
-        map.addLayer(layers[i]);
-      } else {
-        map.removeLayer(layers[i]);
-      }
-    }
-  }
-
-  updateLayers(params);
+  map.updateLayers(params);
 
   $(window).on("hashchange", function () {
-    updateLayers(OSM.mapParams());
+    map.updateLayers(OSM.mapParams());
   });
 
   map.on("baselayerchange", function (e) {
@@ -96,12 +44,6 @@ $(document).ready(function () {
       map.setView(map.getCenter(), e.layer.options.maxZoom, { reset: true });
     }
   });
-
-  map.noteLayer = new L.LayerGroup();
-  map.noteLayer.options = {code: 'N'};
-
-  map.dataLayer = new L.OSM.DataLayer(null);
-  map.dataLayer.options.code = 'D';
 
   var position = $('html').attr('dir') === 'rtl' ? 'topleft' : 'topright';
 
@@ -121,7 +63,7 @@ $(document).ready(function () {
 
   L.OSM.layers({
     position: position,
-    layers: layers,
+    layers: map.baseLayers,
     sidebar: sidebar
   }).addTo(map);
 
