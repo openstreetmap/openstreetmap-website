@@ -10,6 +10,7 @@
 //= require index/export
 //= require index/notes
 //= require index/history
+//= require index/note
 //= require router
 
 $(document).ready(function () {
@@ -279,7 +280,8 @@ $(document).ready(function () {
     return page;
   };
 
-  var history = OSM.History(map);
+  var history = OSM.History(map),
+    note = OSM.Note(map);
 
   OSM.route = OSM.Router({
     "/":                           OSM.Index(map),
@@ -289,6 +291,7 @@ $(document).ready(function () {
     "/user/:display_name/edits":   history,
     "/browse/friends":             history,
     "/browse/nearby":              history,
+    "/browse/note/:id":            note,
     "/browse/:type/:id(/history)": OSM.Browse(map)
   });
 

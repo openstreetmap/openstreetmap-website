@@ -72,6 +72,7 @@ function initializeNotes(map) {
         icon: noteIcons[feature.properties.status],
         opacity: 0.9
       });
+      marker.id = feature.properties.id;
       marker.addTo(noteLayer).bindPopup(
         createPopupContent(marker, feature.properties),
         popupOptions()
@@ -79,6 +80,10 @@ function initializeNotes(map) {
     }
     return marker;
   }
+
+  noteLayer.getLayerId = function(marker) {
+    return marker.id;
+  };
 
   var noteLoader;
 
