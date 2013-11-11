@@ -1,4 +1,4 @@
-OSM.Router = function(rts) {
+OSM.Router = function(map, rts) {
   var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
   var optionalParam = /\((.*?)\)/g;
   var namedParam    = /(\(\?)?:\w+/g;
@@ -45,14 +45,39 @@ OSM.Router = function(rts) {
   };
 
   var currentPath = window.location.pathname + window.location.search,
-    currentRoute = routes.recognize(currentPath);
+    currentRoute = routes.recognize(currentPath),
+    currentHash = location.hash || OSM.formatHash(map);
 
   currentRoute.run('load', currentPath);
 
+  var stateChange;
+
+  map.on('moveend baselayerchange overlaylayerchange', function() {
+    var hash = OSM.formatHash(map);
+    if (hash === currentHash) return;
+    currentHash = hash;
+    stateChange(OSM.parseHash(hash), hash);
+  });
+
+  $(window).on('hashchange', function() {
+    var hash = location.hash;
+    if (hash === currentHash) return;
+    currentHash = hash;
+    var state = OSM.parseHash(hash);
+    if (!state) return;
+    map.setView(state.center, state.zoom);
+    map.updateLayers(state.layers);
+    stateChange(state, hash);
+  });
+
   if (window.history && window.history.pushState) {
+    stateChange = function(state, hash) {
+      window.history.replaceState(state, document.title, hash);
+    };
+
     // Set a non-null initial state, so that the e.originalEvent.state
     // check below works correctly when going back to the initial page.
-    window.history.replaceState({}, document.title, window.location);
+    stateChange(OSM.parseHash(currentHash), currentPath + currentHash);
 
     $(window).on('popstate', function(e) {
       if (!e.originalEvent.state) return; // Is it a real popstate event or just a hash change?
@@ -62,13 +87,16 @@ OSM.Router = function(rts) {
       currentPath = path;
       currentRoute = routes.recognize(currentPath);
       currentRoute.run('popstate', currentPath);
+      var state = e.originalEvent.state;
+      map.setView(state.center, state.zoom);
+      map.updateLayers(state.layers);
     });
 
     return function (url) {
       var path = url.replace(/#.*/, ''),
         route = routes.recognize(path);
       if (!route) return false;
-      window.history.pushState({}, document.title, url);
+      window.history.pushState(OSM.parseHash(url) || {}, document.title, url);
       currentRoute.run('unload');
       currentPath = path;
       currentRoute = route;
@@ -76,6 +104,10 @@ OSM.Router = function(rts) {
       return true;
     }
   } else {
+    stateChange = function(state, hash) {
+      window.location.replace(hash);
+    };
+
     return function (url) {
       window.location.assign(url);
     }

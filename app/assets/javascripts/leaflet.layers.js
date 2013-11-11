@@ -140,6 +140,7 @@ L.OSM.layers = function(options) {
           } else {
             map.removeLayer(layer);
           }
+          map.fire('overlaylayerchange', {layer: layer});
         });
 
         map.on('layeradd layerremove', function() {

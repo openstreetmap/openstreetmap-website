@@ -23,21 +23,7 @@ $(document).ready(function () {
 
   map.attributionControl.setPrefix('');
 
-  map.hash = L.hash(map);
-
-  $(window).on('popstate', function(e) {
-    // popstate is triggered when the hash changes as well as on actual navigation
-    // events. We want to update the hash on the latter and not the former.
-    if (e.originalEvent.state) {
-      map.hash.update();
-    }
-  });
-
-  map.updateLayers(params);
-
-  $(window).on("hashchange", function () {
-    map.updateLayers(OSM.mapParams());
-  });
+  map.updateLayers(params.layers);
 
   map.on("baselayerchange", function (e) {
     if (map.getZoom() > e.layer.options.maxZoom) {
@@ -110,9 +96,6 @@ $(document).ready(function () {
     var expiry = new Date();
     expiry.setYear(expiry.getFullYear() + 10);
     $.cookie("_osm_location", cookieContent(map), { expires: expiry });
-
-    // Trigger hash update on layer changes.
-    map.hash.onMapMove();
   });
 
   if (OSM.PIWIK) {
@@ -225,7 +208,7 @@ $(document).ready(function () {
   var history = OSM.History(map),
     note = OSM.Note(map);
 
-  OSM.route = OSM.Router({
+  OSM.route = OSM.Router(map, {
     "/":                           OSM.Index(map),
     "/search":                     OSM.Search(map),
     "/export":                     OSM.Export(map),
