@@ -16,7 +16,7 @@
 $(document).ready(function () {
   var params = OSM.mapParams();
 
-  var map = L.map("map", {
+  var map = new L.OSM.Map("map", {
     zoomControl: false,
     layerControl: false
   });
