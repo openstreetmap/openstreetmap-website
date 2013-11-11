@@ -6,8 +6,7 @@
 </h2>
 <div class="browse-section">
   <h4>
-    <%= @note.author %>
-    <%= note_event(@note.status, @note.created_at, @note.author) %>
+    <%= note_event('open', @note.created_at, @note.author) %>
     <% if @note.status == "closed" %>
       <br/>
       <%= note_event(@note.status, @note.closed_at, @note.comments.last.author) %>
@@ -35,7 +34,6 @@
 
 <% if @note.comments.length > 1 %>
   <div class='browse-section clearfix note-comments'>
-    <h4><%= t "browse.note.comments" %></h4>
     <ul>
       <% @note.comments[1..-1].each do |comment| %>
         <li id="c<%= comment.id %>">
