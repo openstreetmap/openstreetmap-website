@@ -10,13 +10,12 @@
 //= require leaflet
 //= require leaflet.osm
 //= require leaflet.hash
+//= require leaflet.map
 //= require leaflet.zoom
-//= require leaflet.extend
 //= require leaflet.locationfilter
 //= require i18n/translations
 //= require oauth
 //= require piwik
-//= require map
 //= require richtext
 //= require querystring
 
