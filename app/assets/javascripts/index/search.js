@@ -50,7 +50,7 @@ OSM.Search = function(map) {
     var params = querystring.parse(path.substring(path.indexOf('?') + 1));
     $(".search_form input[name=query]").val(params.query);
     map.invalidateSize();
-    $("#sidebar_content").load(path, function() {
+    $("#sidebar_content").load(path, function(a, b, xhr) {
       if (xhr.getResponseHeader('X-Page-Title')) {
         document.title = xhr.getResponseHeader('X-Page-Title');
       }
