@@ -41,42 +41,24 @@ function initializeNotes(map) {
         map.removeLayer(newNote);
         newNote = null;
       });
-    }
-  }).on("popupopen", function (e) {
-    if (!('ontouchstart' in document.documentElement)) {
-      $(e.popup._container).find(".comment").focus();
-    }
-  });
+    } 
+  })
 
-  noteLayer.showNote = function(id) {
-    $.ajax({
-      url: "/api/" + OSM.API_VERSION + "/notes/" + id + ".json",
-      success: function (feature) {
-        var marker = updateMarker(notes[feature.properties.id], feature);
-        notes[feature.properties.id] = marker;
-        map.addLayer(noteLayer);
-        marker.openPopup();
-      }
-    });
-  };
+  noteLayer.on('click', function(e) {
+    OSM.route('/browse/note/' + e.layer.id);
+  })
 
   function updateMarker(marker, feature) {
     if (marker) {
       marker.setIcon(noteIcons[feature.properties.status]);
-      marker.setPopupContent(createPopupContent(
-        marker, feature.properties,
-        $(marker._popup._content).find("textarea").val()
-      ));
     } else {
       marker = L.marker(feature.geometry.coordinates.reverse(), {
         icon: noteIcons[feature.properties.status],
-        opacity: 0.9
+        opacity: 0.9,
+        clickable: true
       });
       marker.id = feature.properties.id;
-      marker.addTo(noteLayer).bindPopup(
-        createPopupContent(marker, feature.properties),
-        popupOptions()
-      );
+      marker.addTo(noteLayer);
     }
     return marker;
   }
@@ -180,15 +162,19 @@ function initializeNotes(map) {
         lon: location.lng,
         text: $(form.text).val()
       },
-      success: noteCreated
+      success: function(feature) {
+        noteCreated(feature, marker);
+      }
     });
 
-    function noteCreated(feature) {
+    function noteCreated(feature, marker) {
       $(marker._popup._content).find("textarea").val("");
 
-      notes[feature.properties.id] = updateMarker(marker, feature);
+      notes[feature.properties.id] = updateMarker(false, feature);
+      OSM.route('/browse/note/' + feature.properties.id);
       newNote = null;
-
+      marker.closePopup();
+      noteLayer.removeLayer(marker);
       addNoteButton.removeClass("active");
     }
   }
