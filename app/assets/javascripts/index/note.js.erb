@@ -1,7 +1,8 @@
 OSM.Note = function(map) {
     var noteLayer = map.noteLayer,
         content = $('#sidebar_content'),
-        page = {};
+        page = {},
+        marker;
 
     var noteIcons = {
         "new": L.icon({
@@ -67,7 +68,7 @@ OSM.Note = function(map) {
         page.load();
     };
 
-    page.load = function() {
+    page.load = function(path, id) {
         var loadTimer = setTimeout(setLoading, 250);
         $('#sidebar_content').load(window.location.pathname + "?xhr=1", function(a, b, xhr) {
             if (xhr.getResponseHeader('X-Page-Title')) {
@@ -76,7 +77,14 @@ OSM.Note = function(map) {
             bind();
             clearTimeout(loadTimer);
             clearLoading();
+
+            if (!map.hasLayer(noteLayer)) map.addLayer(noteLayer);
+            if (window.location.hash == "") map.panTo($('.details').data().coordinates.split(','));
         });
+    };
+
+    page.unload = function() {
+        if (marker) map.removeLayer(marker);
     };
 
     function setLoading() {

@@ -204,7 +204,7 @@ $(document).ready(function () {
     page.load = function(path, type, id) {
       if (OSM.STATUS === 'api_offline' || OSM.STATUS === 'database_offline') return;
 
-      map.addObject({type: type, id: parseInt(id)}, {zoom: true});
+      map.addObject({type: type, id: parseInt(id)}, {zoom: window.location.hash == ""});
     };
 
     page.unload = function() {
