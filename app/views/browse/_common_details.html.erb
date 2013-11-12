@@ -7,18 +7,12 @@
 </h4>
 
 <div class="details">
-  <% if common_details.visible? %>
-    <%= t 'browse.edited' %>
-  <% else %>
-    <%= t 'browse.deleted' %>
-  <% end %>
-
-  <abbr><%= distance_of_time_in_words_to_now(common_details.timestamp) %> ago</abbr>
-
-  <% if common_details.changeset.user.data_public? %>
-    <%= t 'browse.by' %>
-    <%= link_to h(common_details.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_details.changeset.user.display_name %>
-  <% end %>
+  <%=
+      t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
+        :time => distance_of_time_in_words_to_now(common_details.timestamp),
+        :user => changeset_user_link(common_details.changeset),
+        :title => l(common_details.timestamp)
+  %>
 </div>
 
 <div class="details">
