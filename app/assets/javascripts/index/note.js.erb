@@ -1,101 +1,101 @@
-OSM.Note = function(map) {
-    var noteLayer = map.noteLayer,
-        content = $('#sidebar_content'),
-        page = {},
-        marker;
+OSM.Note = function (map) {
+  var noteLayer = map.noteLayer,
+    content = $('#sidebar_content'),
+    page = {},
+    marker;
 
-    var noteIcons = {
-        "new": L.icon({
-            iconUrl: "<%= image_path('new_note_marker.png') %>",
-            iconSize: [25, 40],
-            iconAnchor: [12, 40]
-        }),
-        "open": L.icon({
-            iconUrl: "<%= image_path('open_note_marker.png') %>",
-            iconSize: [25, 40],
-            iconAnchor: [12, 40]
-        }),
-        "closed": L.icon({
-            iconUrl: "<%= image_path('closed_note_marker.png') %>",
-            iconSize: [25, 40],
-            iconAnchor: [12, 40]
-        })
-    };
+  var noteIcons = {
+    "new": L.icon({
+      iconUrl: "<%= image_path('new_note_marker.png') %>",
+      iconSize: [25, 40],
+      iconAnchor: [12, 40]
+    }),
+    "open": L.icon({
+      iconUrl: "<%= image_path('open_note_marker.png') %>",
+      iconSize: [25, 40],
+      iconAnchor: [12, 40]
+    }),
+    "closed": L.icon({
+      iconUrl: "<%= image_path('closed_note_marker.png') %>",
+      iconSize: [25, 40],
+      iconAnchor: [12, 40]
+    })
+  };
 
-    function updateNote(marker, form, method, url) {
-        $(form).find("input[type=submit]").prop("disabled", true);
+  function updateNote(marker, form, method, url) {
+    $(form).find("input[type=submit]").prop("disabled", true);
 
-        $.ajax({
-            url: url,
-            type: method,
-            oauth: true,
-            data: {text: $(form.text).val()},
-            success: function (feature) {
-                marker = noteLayer.getLayer(marker);
-                if (feature.properties.status == "hidden") {
-                    noteLayer.removeLayer(marker);
-                } else {
-                    marker.setIcon(noteIcons[feature.properties.status]);
-                    page.load();
-                }
-            }
-        });
-    }
-
-    function bind() {
-        content.find("input[type=submit]").on("click", function (e) {
-            e.preventDefault();
-            var data = $(e.target).data();
-            updateNote(data.noteId, e.target.form, data.method, data.url);
-        });
-
-        content.find("textarea").on("input", function (e) {
-            var form = e.target.form;
-
-            if ($(e.target).val() == "") {
-                $(form.close).val(I18n.t("javascripts.notes.show.resolve"));
-                $(form.comment).prop("disabled", true);
-            } else {
-                $(form.close).val(I18n.t("javascripts.notes.show.comment_and_resolve"));
-                $(form.comment).prop("disabled", false);
-            }
-        });
-
-        content.find("textarea").val('').trigger("input");
-    }
-
-    page.pushstate = page.popstate = function() {
-        page.load();
-    };
-
-    page.load = function(path, id) {
-        var loadTimer = setTimeout(setLoading, 250);
-        $('#sidebar_content').load(window.location.pathname + "?xhr=1", function(a, b, xhr) {
-            if (xhr.getResponseHeader('X-Page-Title')) {
-                document.title = xhr.getResponseHeader('X-Page-Title');
-            }
-            bind();
-            clearTimeout(loadTimer);
-            clearLoading();
-
-            if (!map.hasLayer(noteLayer)) map.addLayer(noteLayer);
-            if (window.location.hash == "") map.panTo($('.details').data().coordinates.split(','));
-        });
-    };
-
-    page.unload = function() {
-        if (marker) map.removeLayer(marker);
-    };
-
-    function setLoading() {
-      if($('#browse_status').is(':empty')) {
-        $('#browse_status').append($('<p></p>').text(I18n.t('browse.start_rjs.loading')));
+    $.ajax({
+      url: url,
+      type: method,
+      oauth: true,
+      data: {text: $(form.text).val()},
+      success: function (feature) {
+        marker = noteLayer.getLayer(marker);
+        if (feature.properties.status == "hidden") {
+          noteLayer.removeLayer(marker);
+        } else {
+          marker.setIcon(noteIcons[feature.properties.status]);
+          page.load();
+        }
       }
-    }
+    });
+  }
 
-    function clearLoading() {
-      $('#browse_status').empty();
-    }
+  function bind() {
+    content.find("input[type=submit]").on("click", function (e) {
+      e.preventDefault();
+      var data = $(e.target).data();
+      updateNote(data.noteId, e.target.form, data.method, data.url);
+    });
 
-    return page;
+    content.find("textarea").on("input", function (e) {
+      var form = e.target.form;
+
+      if ($(e.target).val() == "") {
+        $(form.close).val(I18n.t("javascripts.notes.show.resolve"));
+        $(form.comment).prop("disabled", true);
+      } else {
+        $(form.close).val(I18n.t("javascripts.notes.show.comment_and_resolve"));
+        $(form.comment).prop("disabled", false);
+      }
+    });
+
+    content.find("textarea").val('').trigger("input");
+  }
+
+  page.pushstate = page.popstate = function () {
+    page.load();
+  };
+
+  page.load = function () {
+    var loadTimer = setTimeout(setLoading, 250);
+    $('#sidebar_content').load(window.location.pathname + "?xhr=1", function (a, b, xhr) {
+      if (xhr.getResponseHeader('X-Page-Title')) {
+        document.title = xhr.getResponseHeader('X-Page-Title');
+      }
+      bind();
+      clearTimeout(loadTimer);
+      clearLoading();
+
+      if (!map.hasLayer(noteLayer)) map.addLayer(noteLayer);
+      if (window.location.hash == "") map.panTo($('.details').data().coordinates.split(','));
+    });
+  };
+
+  page.unload = function () {
+    if (marker) map.removeLayer(marker);
+  };
+
+  function setLoading() {
+    if ($('#browse_status').is(':empty')) {
+      $('#browse_status').append($('<p></p>').text(I18n.t('browse.start_rjs.loading')));
+    }
+  }
+
+  function clearLoading() {
+    $('#browse_status').empty();
+  }
+
+  return page;
 };
