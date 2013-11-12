@@ -13,14 +13,14 @@
 %>
 
 <%= content_tag "li", :id => "changeset_#{changeset.id}", :data => {:changeset => changeset_data} do %>
-  <p class="comment">
-      <a class="changeset_id" href="<%= changeset_path(changeset.id) %>">
-        <% if changeset.tags['comment'].to_s != '' %>
-          <%= linkify(h(changeset.tags['comment'])) %>
-        <% else %>
-          <%= t 'changeset.changeset.no_comment' %>
-        <% end %>
-      </a>
-  </p>
-  <h4><%= changeset_details(changeset) %></h4>
+  <h4>
+    <a class="changeset_id" href="<%= changeset_path(changeset.id) %>">
+      <% if changeset.tags['comment'].to_s != '' %>
+        <%= linkify(h(changeset.tags['comment'])) %>
+      <% else %>
+        <%= t 'changeset.changeset.no_comment' %>
+      <% end %>
+    </a>
+  </h4>
+  <div class="details"><%= changeset_details(changeset) %></div>
 <% end %>

@@ -1,16 +1,17 @@
 <%
-@name = printable_name @relation
-set_title(t('browse.relation.relation') + ' | ' + @name)
+  @name = printable_name @relation
+  set_title(t('browse.relation.relation') + ' | ' + @name)
 %>
 
 <h2>
-    <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-    <%= t'browse.relation.relation_title', :relation_name => @name %>
+  <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
+  <%= t'browse.relation.relation_title', :relation_name => @name %>
 </h2>
 
 <%= render :partial => "relation_details", :object => @relation %>
 
-<div class='secondary-actions clearfix'>
-  <span><%= link_to(t('browse.relation.download_xml'), :controller => "relation", :action => "read") %>
-  <%= link_to(t('browse.relation.view_history'), :action => "relation_history") %></span>
+<div class='secondary-actions'>
+  <%= link_to(t('browse.relation.download_xml'), :controller => "relation", :action => "read") %>
+  &middot;
+  <%= link_to(t('browse.relation.view_history'), :action => "relation_history") %>
 </div>
