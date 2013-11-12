@@ -1,11 +1,11 @@
 <%
   @name = printable_name @node
-  set_title(t('browse.node_history.node_history') + ' | ' + @name)
+  set_title(t('browse.node.node_history') + ' | ' + @name)
 %>
 
 <h2>
   <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= raw t'browse.node_history.node_history_title', :node_name => link_to(h(@name), :action => "node", :id => @node.id) %>
+  <%= raw t'browse.node.node_history_title', :node_name => link_to(h(@name), :action => "node", :id => @node.id) %>
 </h2>
 
 <% @node.old_nodes.reverse.each do |node| %>
@@ -13,7 +13,7 @@
 <% end %>
 
 <div class='secondary-actions'>
-  <%= link_to(t('browse.node_history.download_xml'), :controller => "old_node", :action => "history") %>
+  <%= link_to(t('browse.download_xml'), :controller => "old_node", :action => "history") %>
   &middot;
-  <%= link_to(t('browse.node_history.view_details'), :action => "node") %>
+  <%= link_to(t('browse.view_details'), :action => "node") %>
 </div>

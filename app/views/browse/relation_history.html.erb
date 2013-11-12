@@ -1,11 +1,11 @@
 <%
   @name = printable_name @relation
-  set_title(t('browse.relation_history.relation_history') + ' | ' + @name)
+  set_title(t('browse.relation.relation_history') + ' | ' + @name)
 %>
 
 <h2>
   <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= raw t'browse.relation_history.relation_history_title', :relation_name => link_to(h(@name), :action => "relation", :id => @relation.id) %>
+  <%= raw t'browse.relation.relation_history_title', :relation_name => link_to(h(@name), :action => "relation", :id => @relation.id) %>
 </h2>
 
 <% @relation.old_relations.reverse.each do |relation| %>
@@ -13,7 +13,7 @@
 <% end %>
 
 <div class='secondary-actions'>
-  <%= link_to(t('browse.relation_history.download_xml'), :controller => "old_relation", :action => "history") %>
+  <%= link_to(t('browse.download_xml'), :controller => "old_relation", :action => "history") %>
   &middot;
-  <%= link_to(t('browse.relation_history.view_details'), :action => "relation") %>
+  <%= link_to(t('browse.view_details'), :action => "relation") %>
 </div>

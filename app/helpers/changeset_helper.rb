@@ -5,20 +5,20 @@ module ChangesetHelper
     closed_at = distance_of_time_in_words_to_now(changeset.closed_at)
     date = ''
     if changeset.closed_at > DateTime.now
-      date << t('browse.changeset_details.created_at') + ' '
-      date << content_tag(:abbr, t('browse.changeset_details.ago', :ago => created_at), title: l(changeset.created_at))
+      date << t('browse.created') + ' '
+      date << content_tag(:abbr, t('browse.ago', :ago => created_at), title: l(changeset.created_at))
     else
-      date << t('browse.changeset_details.closed_at') + ' '
-      both_times = t('browse.changeset_details.created_at') + ': ' + l(changeset.created_at)
+      date << t('browse.closed') + ' '
+      both_times = t('browse.created') + ': ' + l(changeset.created_at)
       both_times << '&#10;'
-      both_times << t('browse.changeset_details.closed_at') + ': ' + l(changeset.closed_at)
-      date << content_tag(:abbr, t('browse.changeset_details.ago', :ago => created_at), title: both_times.html_safe)
+      both_times << t('browse.closed') + ': ' + l(changeset.closed_at)
+      date << content_tag(:abbr, t('browse.ago', :ago => created_at), title: both_times.html_safe)
     end
     out << content_tag(:span, date.html_safe, class: 'date')
     unless params.key?(:display_name)
       userspan = ''
       if changeset.user.data_public?
-        userspan << ' ' + t('browse.changeset_details.by') + ' '
+        userspan << ' ' + t('browse.by') + ' '
         if changeset.user.data_public?
           user = link_to changeset.user.display_name, user_path(changeset.user.display_name)
         else

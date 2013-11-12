@@ -2,30 +2,30 @@
   <% if common_details.changeset.tags['comment'].present? %>
     <%= linkify(h(common_details.changeset.tags['comment'])) %>
   <% else %>
-    <%= t 'browse.changeset_details.no_comment' %>
+    <%= t 'browse.no_comment' %>
   <% end %>
 </h4>
 
 <div class="details">
   <% if common_details.visible? %>
-    <%= t 'browse.common_details.edited' %>
+    <%= t 'browse.edited' %>
   <% else %>
-    <%= t 'browse.common_details.deleted' %>
+    <%= t 'browse.deleted' %>
   <% end %>
 
   <abbr><%= distance_of_time_in_words_to_now(common_details.timestamp) %> ago</abbr>
 
   <% if common_details.changeset.user.data_public? %>
-    <%= t 'browse.common_details.by' %>
+    <%= t 'browse.by' %>
     <%= link_to h(common_details.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_details.changeset.user.display_name %>
   <% end %>
 </div>
 
 <div class="details">
-  <%= t 'browse.common_details.version' %>
+  <%= t 'browse.version' %>
   #<%= h(common_details.version) %>
   &middot;
-  <%= t 'browse.common_details.in_changeset' %>
+  <%= t 'browse.in_changeset' %>
   #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
 </div>
 
