@@ -624,15 +624,15 @@ nav.secondary {
     float: left;
     width: $sidebarWidth;
     background: #fff;
+    font-size: 13px;
 
-    h2, h3, h4 {
+    h2 {
       padding: $lineheight $lineheight $lineheight/2;
     }
 
-    h4 {
-      font-weight: normal;
-      color: #666;
-      font-size: 12px;
+    h3, h4 {
+      margin-top: $lineheight;
+      margin-bottom: $lineheight/2;
     }
 
     .icon.close {
@@ -937,7 +937,7 @@ header .search_form {
   }
 }
 
-/* Rules for search results which appear in the popout sidebar */
+/* Rules for search sidebar */
 
 .search_results_entry {
   ul li {
@@ -959,6 +959,7 @@ header .search_form {
 }
 
 /* Rules for entity history */
+
 #sidebar_content {
   .browse_details {
     position: relative;
@@ -970,7 +971,7 @@ header .search_form {
   display: none;
 }
 
-/* Rules for the changeset list shown by the history tab */
+/* Rules for the history sidebar */
 
 #sidebar .changesets {
   li {
@@ -980,34 +981,32 @@ header .search_form {
 
     &.selected { background: #FFFFE6; }
     /* color is derived from changeset bbox fillColor in history.js */
-
-    h4 {
-      padding: 0;
-    }
   }
 
-  .comment a {
-    font-weight: 500;
-    color: #000;
+  h4 {
+    margin-top: 0;
+    a {
+      color: #000;
+    }
   }
 }
 
-/* Rules for the data browser */
+/* Rules for the browse sidebar */
 
 #sidebar_content {
   .browse-section {
-    padding: 10px 20px;
+    padding: $lineheight;
 
-    h4 {
-      padding: 0;
+    h4:first-child {
+      margin-top: 0;
     }
+  }
 
-    .paginate {
-      float: right;
-      padding: 1px 6px;
-      border: 1px solid #eee;
-      border-radius: 3px;
-    }
+  .paginate {
+    float: right;
+    padding: 1px 6px;
+    border: 1px solid #eee;
+    border-radius: 3px;
   }
 
   .paginate ul {
@@ -1037,11 +1036,9 @@ header .search_form {
 
   .browse-tag-list {
     background-color: #F6F6F6;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
+    border: 1px solid #ddd;
+    border-radius: 3px;
     font-size: 12px;
-    margin-left: -$lineheight;
-    margin-right: -$lineheight;
 
     li {
       border-bottom: 1px solid #ddd;
@@ -1056,7 +1053,7 @@ header .search_form {
       display: inline-block;
       width: 50%;
       float: left;
-      padding: 6px 10px 6px $lineheight;
+      padding: 6px 10px;
     }
 
     .browse-tag-k {
@@ -1069,38 +1066,46 @@ header .search_form {
       background-color: #fff;
     }
   }
-}
 
-/* Rules for export information which appears in the popout sidebar */
+  .warning {
+    margin: $lineheight/2 0;
+    padding: $lineheight/2;
+    font-size: 90%;
+  }
 
-.export_bounds, .export_button {
-  text-align: center;
-}
-
-.export_area_inputs {
-  margin-bottom: $lineheight/2;
-  input[type="text"] {
-    width: 80px;
-    margin-bottom: 5px;
+  .note-comments li {
+    margin: $lineheight/2 0;
   }
 }
 
-.export_bound {
-  margin: $lineheight/4;
-}
+/* Rules for export sidebar */
 
-#export_osm {
-  span.small-title { 
-    font-weight: 500;
-    display: block;
-    font-size: 14px;
-    padding-bottom: 5px; 
+.export_form {
+  padding: $lineheight;
+
+  .export_area_inputs,
+  .export_button {
+    text-align: center;
+  }
+
+  .export_area_inputs {
+    margin-bottom: $lineheight/2;
+    input[type="text"] {
+      width: 80px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .export_bound {
+    margin: $lineheight/4;
+  }
+
+  .export_button {
+    margin-top: $lineheight;
   }
 
   dl {
-    padding-left: 30px;
-    font-size: 13px;
-    color: #666;
+    padding-left: $lineheight/2;
     dd {
       margin-left: 0;
       margin-bottom: 10px;
@@ -2119,66 +2124,6 @@ a.button {
 
   p {
     margin-bottom: 0px;
-  }
-}
-
-/* Rules for the notes interface */
-
-.leaflet-popup-content .note {
-  padding-top: $lineheight/2;
-}
-
-.leaflet-popup-content .note {
-  h2 {
-    margin-bottom: $lineheight/2;
-  }
-
-  div {
-    margin-top: $lineheight/2;
-  }
-
-  .permalink {
-    position: absolute;
-    top: $lineheight/4;
-    left: $lineheight/4;
-    min-width: 15px;
-    min-height: 15px;
-  }
-
-  .permalink span {
-    display: none;
-    padding-left: $lineheight;
-  }
-
-  .permalink:hover span {
-    display: block;
-  }
-
-  .warning {
-    display: block;
-    background-color: #ffe0cc;
-    padding: 4px 6px;
-    margin-bottom: $lineheight/2;
-  }
-
-  .comment_body {
-    margin-top: 2px;
-    margin-bottom: 2px;
-
-    p {
-      margin-top: 0px;
-      margin-bottom: 0px;
-    }
-  }
-
-  .comment {
-    width: 100%;
-    height: 100px;
-  }
-
-  .buttons {
-    margin-top: $lineheight/4;
-    text-align: right;
   }
 }
 

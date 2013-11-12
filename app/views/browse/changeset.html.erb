@@ -6,14 +6,12 @@
 </h2>
 
 <div class="browse-section">
-  <p><%= @changeset.tags['comment'].to_s.presence || t('browse.changeset_details.no_comment') %></p>
-  <h4><%= changeset_details(@changeset) %></h4>
-</div>
+  <h4><%= @changeset.tags['comment'].to_s.presence || t('browse.changeset_details.no_comment') %></h4>
+  <div class="details"><%= changeset_details(@changeset) %></div>
 
-<%= render :partial => "tag_details", :object => @changeset.tags.except('comment') %>
+  <%= render :partial => "tag_details", :object => @changeset.tags.except('comment') %>
 
-<% unless @nodes.empty? %>
-  <div class='browse-section paginate'>
+  <% unless @nodes.empty? %>
     <h4>
       <%= type_and_paginated_count('node', @node_pages) %>
       <%= render :partial => 'paging_nav', :locals => { :pages => @node_pages, :page_param => "node_page"} %>
@@ -23,11 +21,9 @@
         <li><%= link_to h(printable_name(node, true)), { :action => "node", :id => node.node_id.to_s }, :class => link_class('node', node), :title => link_title(node) %></li>
       <% end %>
     </ul>
-  </div>
-<% end %>
+  <% end %>
 
-<% unless @ways.empty? %>
-  <div class='browse-section  paginate'>
+  <% unless @ways.empty? %>
     <h4>
       <%= type_and_paginated_count('way', @way_pages) %>
       <%= render :partial => 'paging_nav', :locals => { :pages => @way_pages, :page_param => "way_page" } %>
@@ -37,11 +33,9 @@
         <li><%= link_to h(printable_name(way, true)), { :action => "way", :id => way.way_id.to_s }, :class => link_class('way', way), :title => link_title(way) %></li>
       <% end %>
     </ul>
-  </div>
-<% end %>
+  <% end %>
 
-<% unless @relations.empty? %>
-  <div class='browse-section  paginate'>
+  <% unless @relations.empty? %>
     <h4>
       <%= type_and_paginated_count('relation', @relation_pages) %>
       <%= render :partial => 'paging_nav', :locals => { :pages => @relation_pages, :page_param => "relation_page" } %>
@@ -51,11 +45,11 @@
         <li><%= link_to h(printable_name(relation, true)), { :action => "relation", :id => relation.relation_id.to_s }, :class => link_class('relation', relation), :title => link_title(relation) %></li>
       <% end %>
     </ul>
-  </div>
-<% end %>
+  <% end %>
+</div>
 
-<div class='browse-section secondary-actions'> 
-  <h4><%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %>
+<div class='secondary-actions'>
+  <%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %>
   &middot;
-  <%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %></h4>
+  <%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %>
 </div>

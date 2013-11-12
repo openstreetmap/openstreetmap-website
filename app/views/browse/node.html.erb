@@ -1,18 +1,17 @@
 <%
-@name = printable_name @node
-set_title(t('browse.node.node') + ' | ' + @name)
+ @name = printable_name @node
+  set_title(t('browse.node.node') + ' | ' + @name)
 %>
 
 <h2>
-    <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-    <%= t'browse.node.node_title', :node_name => @name %>
+  <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
+  <%= t'browse.node.node_title', :node_name => @name %>
 </h2>
 
 <%= render :partial => "node_details", :object => @node %>
 
-<div class='browse-section secondary-actions clearfix'> 
-  <h4><%= link_to(t('browse.node.download_xml'), :controller => "node", :action => "read") %>
-    &middot;
+<div class='secondary-actions'>
+  <%= link_to(t('browse.node.download_xml'), :controller => "node", :action => "read") %>
+  &middot;
   <%= link_to(t('browse.node.view_history'), :action => "node_history") %>
-    </h4>
 </div>
