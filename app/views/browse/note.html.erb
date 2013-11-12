@@ -2,12 +2,13 @@
 
 <h2>
   <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <%= t "browse.note.#{@note.status}_title", :note_name => @note.id %>
+  <%= h(@note.comments.first.body.to_html) %>
 </h2>
 
 <div class="browse-section">
-  <h4><%= h(@note.comments.first.body.to_html) %></h4>
   <div class="details">
+    <%= t "browse.note.#{@note.status}_title", :note_name => @note.id %>
+      <br/>
     <%= note_event('open', @note.created_at, @note.author) %>
     <% if @note.status == "closed" %>
       <br/>
