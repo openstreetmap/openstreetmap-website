@@ -1,0 +1,14 @@
+<% set_title(t("browse.#{@type}.title", :name => printable_name(@feature))) %>
+
+<h2>
+  <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
+  <%= t("browse.#{@type}.title", :name => printable_name(@feature)) %>
+</h2>
+
+<%= render :partial => @type, :object => @feature %>
+
+<div class='secondary-actions'>
+  <%= link_to(t('browse.download_xml'), :controller => @type, :action => "read") %>
+  &middot;
+  <%= link_to(t('browse.view_history'), :action => "#{@type}_history") %>
+</div>
