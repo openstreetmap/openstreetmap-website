@@ -135,7 +135,9 @@ function initializeBrowse(map) {
   }
 
   function setStatus(status) {
-    $('#browse_status').append($('<p></p>').text(status));
+    if($('#browse_status').is(':empty')) {
+      $('#browse_status').append($('<p></p>').text(status));
+    }
   }
 
   function clearStatus() {

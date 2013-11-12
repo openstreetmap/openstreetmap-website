@@ -68,13 +68,26 @@ OSM.Note = function(map) {
     };
 
     page.load = function() {
+        var loadTimer = setTimeout(setLoading, 250);
         $('#sidebar_content').load(window.location.pathname + "?xhr=1", function(a, b, xhr) {
             if (xhr.getResponseHeader('X-Page-Title')) {
                 document.title = xhr.getResponseHeader('X-Page-Title');
             }
             bind();
+            clearTimeout(loadTimer);
+            clearLoading();
         });
     };
+
+    function setLoading() {
+      if($('#browse_status').is(':empty')) {
+        $('#browse_status').append($('<p></p>').text(I18n.t('browse.start_rjs.loading')));
+      }
+    }
+
+    function clearLoading() {
+      $('#browse_status').empty();
+    }
 
     return page;
 };
