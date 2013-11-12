@@ -203,11 +203,7 @@ $(document).ready(function () {
     page.load = function(path, type, id) {
       if (OSM.STATUS === 'api_offline' || OSM.STATUS === 'database_offline') return;
 
-      if (type === 'note') {
-        map.noteLayer.showNote(parseInt(id));
-      } else {
-        map.addObject({type: type, id: parseInt(id)}, {zoom: true});
-      }
+      map.addObject({type: type, id: parseInt(id)}, {zoom: true});
     };
 
     page.unload = function() {
