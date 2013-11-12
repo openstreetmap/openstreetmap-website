@@ -40,16 +40,16 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
         xhtml.style "th { text-align: left } tr { vertical-align: top }"
         xhtml.table do |table|
           table.tr do |tr|
-            tr.th t("browse.changeset_details.created_at")
+            tr.th t("browse.created")
             tr.td l(changeset.created_at)
           end
           table.tr do |tr|
-            tr.th t("browse.changeset_details.closed_at")
+            tr.th t("browse.closed")
             tr.td l(changeset.closed_at)
           end
           if changeset.user.data_public?
             table.tr do |tr|
-              tr.th t("browse.changeset_details.belongs_to")
+              tr.th t("browse.changeset.belongs_to")
               tr.td do |td|
                 td.a h(changeset.user.display_name), :href => url_for(:controller => "user", :action => "view", :display_name => changeset.user.display_name, :only_path => false)
               end
