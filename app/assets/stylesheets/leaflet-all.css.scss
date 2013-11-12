@@ -25,3 +25,34 @@ div.leaflet-marker-icon.location-filter.move-marker {
 .site .leaflet-popup p {
   margin: 0 0 20px 0;
 }
+
+img.leaflet-marker-icon:after {
+  content:'';
+  position:absolute; left:50%; top:50%;
+  margin:-30px 0 0 -30px;
+  width:59px;
+  height:59px;
+  display:block;
+  background:rgba(0,0,0,0.2);
+  border:2px solid rgba(0,0,0,0.6);
+  border-radius:50%;
+  opacity:0;
+  -webkit-animation:place-tmp 2000ms infinite;
+     -moz-animation:place-tmp 2000ms infinite;
+          animation:place-tmp 2000ms infinite;
+  @-webkit-keyframes place-tmp {
+    0%   { opacity:1; -webkit-transform:scale(0); }
+    50%  { opacity:0; -webkit-transform:scale(1); }
+    100% { opacity:0; -webkit-transform:scale(1); }
+  }
+  @-moz-keyframes place-tmp {
+    0%   { opacity:1; -moz-transform:scale(0); }
+    50%  { opacity:0; -moz-transform:scale(1); }
+    100% { opacity:0; -moz-transform:scale(1); }
+  }
+  @keyframes place-tmp {
+    0%   { opacity:1; transform:scale(0); }
+    50%  { opacity:0; transform:scale(1); }
+    100% { opacity:0; transform:scale(1); }
+  }
+}
