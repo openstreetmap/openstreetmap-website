@@ -11,6 +11,7 @@
 //= require index/notes
 //= require index/history
 //= require index/note
+//= require index/new_note
 //= require router
 
 $(document).ready(function () {
@@ -221,6 +222,7 @@ $(document).ready(function () {
     "/search":                     OSM.Search(map),
     "/export":                     OSM.Export(map),
     "/history":                    history,
+    "/new_note":                   OSM.NewNote(map),
     "/user/:display_name/edits":   history,
     "/browse/friends":             history,
     "/browse/nearby":              history,

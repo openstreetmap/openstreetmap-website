@@ -1,6 +1,3 @@
-//= require templates/notes/show
-//= require templates/notes/new
-
 OSM.Note = function(map) {
     var noteLayer = map.noteLayer,
         content = $('#sidebar_content'),
@@ -66,7 +63,7 @@ OSM.Note = function(map) {
         content.find("textarea").val('').trigger("input");
     }
 
-    page.pushstate = page.popstate = function(path) {
+    page.pushstate = page.popstate = function() {
         page.load();
     };
 

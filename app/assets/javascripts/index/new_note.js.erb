@@ -1,0 +1,144 @@
+OSM.NewNote = function(map) {
+    var noteLayer = map.noteLayer,
+        content = $('#sidebar_content'),
+        page = {},
+        addNoteButton = $(".control-note .control-button"),
+        newNote;
+
+    var noteIcons = {
+      "new": L.icon({
+        iconUrl: "<%= image_path 'new_note_marker.png' %>",
+        iconSize: [25, 40],
+        iconAnchor: [12, 40]
+      }),
+      "open": L.icon({
+        iconUrl: "<%= image_path 'open_note_marker.png' %>",
+        iconSize: [25, 40],
+        iconAnchor: [12, 40]
+      }),
+      "closed": L.icon({
+        iconUrl: "<%= image_path 'closed_note_marker.png' %>",
+        iconSize: [25, 40],
+        iconAnchor: [12, 40]
+      })
+    };
+
+    page.pushstate = page.popstate = function() {
+        page.load();
+    };
+
+    addNoteButton.on("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      OSM.route('/new_note');
+    });
+
+    function createNote(marker, form, url) {
+      var location = marker.getLatLng();
+
+      marker.options.draggable = false;
+      marker.dragging.disable();
+
+      $(form).find("input[type=submit]").prop("disabled", true);
+
+      $.ajax({
+        url: url,
+        type: "POST",
+        oauth: true,
+        data: {
+          lat: location.lat,
+          lon: location.lng,
+          text: $(form.text).val()
+        },
+        success: function(feature) {
+          noteCreated(feature, marker);
+        }
+      });
+
+      function noteCreated(feature, marker) {
+        content.find("textarea").val("");
+        updateMarker(feature);
+        newNote = null;
+        noteLayer.removeLayer(marker);
+        addNoteButton.removeClass("active");
+        OSM.route('/browse/note/' + feature.properties.id);
+      }
+    }
+
+    function updateMarker(feature) {
+        marker = L.marker(feature.geometry.coordinates.reverse(), {
+            icon: noteIcons[feature.properties.status],
+            opacity: 0.9,
+            clickable: true
+        });
+        marker.id = feature.properties.id;
+        marker.addTo(noteLayer);
+        return marker;
+    }
+
+    function initialize() {
+        if (addNoteButton.hasClass("disabled")) return;
+        if (addNoteButton.hasClass("active")) return;
+
+        addNoteButton.addClass("active");
+
+        map.addLayer(noteLayer);
+
+        var mapSize = map.getSize();
+        var markerPosition;
+
+        if (mapSize.y > 800) {
+          markerPosition = [mapSize.x / 2, mapSize.y / 2];
+        } else if (mapSize.y > 400) {
+          markerPosition = [mapSize.x / 2, 400];
+        } else {
+          markerPosition = [mapSize.x / 2, mapSize.y];
+        }
+
+        newNote = L.marker(map.containerPointToLatLng(markerPosition), {
+          icon: noteIcons["new"],
+          opacity: 0.9,
+          draggable: true
+        });
+
+        newNote.addTo(noteLayer)
+
+        newNote.on("remove", function (e) {
+          addNoteButton.removeClass("active");
+        }).on("dragstart", function (e) {
+          $(newNote).stopTime("removenote");
+        }).on("dragend", function (e) {
+          content.find("textarea").focus();
+        });
+
+        content.find("textarea")
+            .on("input", disableWhenBlank)
+            .focus();
+
+        function disableWhenBlank(e) {
+          $(e.target.form.add).prop("disabled", $(e.target).val() === "");
+        }
+
+        content.find('input[type=submit]').on('click', function(e) {
+            e.preventDefault();
+            createNote(newNote, e.target.form, '/api/0.6/notes.json');
+        });
+    }
+
+    page.load = function() {
+        content.load(window.location.pathname + "?xhr=1", function(a, b, xhr) {
+            if (xhr.getResponseHeader('X-Page-Title')) {
+                document.title = xhr.getResponseHeader('X-Page-Title');
+            }
+            initialize();
+        });
+    }
+
+    page.unload = function() {
+        noteLayer.removeLayer(newNote);
+        addNoteButton.removeClass("active");
+    }
+
+    return page;
+}
