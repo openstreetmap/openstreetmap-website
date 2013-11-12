@@ -33,7 +33,7 @@ class BrowseController < ApplicationController
   def way_history
     @type = "way"
     @feature = Way.preload(:way_tags, :old_ways => { :changeset => :user }).find(params[:id])
-    render 'feature'
+    render 'history'
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
