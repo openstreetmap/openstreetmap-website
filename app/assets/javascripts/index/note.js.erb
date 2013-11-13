@@ -35,10 +35,10 @@ OSM.Note = function (map) {
         marker = noteLayer.getLayer(marker);
         if (feature.properties.status == "hidden") {
           noteLayer.removeLayer(marker);
-        } else {
+        } else if (marker) {
           marker.setIcon(noteIcons[feature.properties.status]);
-          page.load();
         }
+        page.load();
       }
     });
   }
