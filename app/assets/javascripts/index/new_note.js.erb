@@ -27,6 +27,8 @@ OSM.NewNote = function(map) {
     e.preventDefault();
     e.stopPropagation();
 
+    if ($(this).hasClass('disabled')) return;
+
     OSM.route('/new_note');
   });
 
