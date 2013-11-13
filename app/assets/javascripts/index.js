@@ -260,7 +260,12 @@ $(document).ready(function () {
   $(".search_form").on("submit", function(e) {
     e.preventDefault();
     $("header").addClass("closed");
-    OSM.route("/search?query=" + encodeURIComponent($(this).find("input[name=query]").val()) + OSM.formatHash(map));
+    var query = $(this).find("input[name=query]").val();
+    if (query) {
+      OSM.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
+    } else {
+      OSM.route("/" + OSM.formatHash(map));
+    }
   });
 
   $(".describe_location").on("click", function(e) {
