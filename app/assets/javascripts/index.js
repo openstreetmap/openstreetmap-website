@@ -33,17 +33,22 @@
     }
 
     $('#sidebar_content')
-      .empty()
-      .load(path, function(a, b, xhr) {
+      .empty();
+
+    $.ajax({
+      url: path,
+      complete: function(xhr) {
         clearTimeout(loaderTimeout);
         $('#sidebar_loader').hide();
+        $('#sidebar_content').html(xhr.responseText);
         if (xhr.getResponseHeader('X-Page-Title')) {
           document.title = xhr.getResponseHeader('X-Page-Title');
         }
         if (callback) {
           callback();
         }
-      });
+      }
+    });
   };
 })();
 
