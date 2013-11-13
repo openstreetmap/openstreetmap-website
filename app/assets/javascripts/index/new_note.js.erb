@@ -3,7 +3,8 @@ OSM.NewNote = function(map) {
     content = $('#sidebar_content'),
     page = {},
     addNoteButton = $(".control-note .control-button"),
-    newNote;
+    newNote,
+    halo;
 
   var noteIcons = {
     "new": L.icon({
@@ -106,6 +107,15 @@ OSM.NewNote = function(map) {
 
     newNote.addTo(noteLayer);
 
+    halo = L.circleMarker(map.containerPointToLatLng(markerPosition), {
+      weight: 2.5,
+      radius: 20,
+      fillOpacity: 0.5,
+      color: "#FF6200"
+    });
+
+    map.addLayer(halo);
+
     newNote.on("remove", function () {
       addNoteButton.removeClass("active");
     }).on("dragstart",function () {
@@ -130,6 +140,7 @@ OSM.NewNote = function(map) {
 
   page.unload = function () {
     noteLayer.removeLayer(newNote);
+    map.removeLayer(halo);
     addNoteButton.removeClass("active");
   };
 
