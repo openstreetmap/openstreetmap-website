@@ -36,7 +36,7 @@ function initializeBrowse(map) {
   map.on('layerremove', function (e) {
     if (e.layer === dataLayer) {
       map.off("moveend", updateData);
-      clearStatus();
+      $('#browse_status').empty();
     }
   });
 
@@ -51,9 +51,7 @@ function initializeBrowse(map) {
   }
 
   function displayFeatureWarning(count, limit, callback) {
-    clearStatus();
-
-    $('#browse_status').append(
+    $('#browse_status').html(
       $("<p class='warning'></p>")
         .text(I18n.t("browse.start_rjs.loaded_an_area_with_num_features", { num_features: count, max_features: limit }))
         .append(
@@ -69,11 +67,11 @@ function initializeBrowse(map) {
     var size = bounds.getSize();
 
     if (size > OSM.MAX_REQUEST_AREA) {
-      setStatus(I18n.t("browse.start_rjs.unable_to_load_size", { max_bbox_size: OSM.MAX_REQUEST_AREA, bbox_size: size }));
+      $('#browse_status').html(
+        $("<p class='warning'></p>")
+          .text(I18n.t("browse.start_rjs.unable_to_load_size", { max_bbox_size: OSM.MAX_REQUEST_AREA, bbox_size: size })));
       return;
     }
-
-    setStatus(I18n.t('browse.start_rjs.loading'));
 
     var url = "/api/" + OSM.API_VERSION + "/map?bbox=" + bounds.toBBoxString();
 
@@ -103,7 +101,7 @@ function initializeBrowse(map) {
         var features = dataLayer.buildFeatures(xml);
 
         function addFeatures() {
-          clearStatus();
+          $('#browse_status').empty();
           dataLayer.addData(features);
         }
 
@@ -132,15 +130,5 @@ function initializeBrowse(map) {
 
     // Stash the currently drawn feature
     selectedLayer = layer;
-  }
-
-  function setStatus(status) {
-    if($('#browse_status').is(':empty')) {
-      $('#browse_status').append($('<p></p>').text(status));
-    }
-  }
-
-  function clearStatus() {
-    $('#browse_status').empty();
   }
 }
