@@ -2,7 +2,8 @@ OSM.Note = function (map) {
   var noteLayer = map.noteLayer,
     content = $('#sidebar_content'),
     page = {},
-    marker;
+    noteState = map.hasLayer(noteLayer),
+    halo;
 
   var noteIcons = {
     "new": L.icon({
@@ -78,13 +79,23 @@ OSM.Note = function (map) {
       clearTimeout(loadTimer);
       clearLoading();
 
-      if (!map.hasLayer(noteLayer)) map.addLayer(noteLayer);
-      if (window.location.hash == "") map.panTo($('.details').data().coordinates.split(','));
-    });
+      var data = $('.details').data();
+      if (!noteState) map.addLayer(noteLayer);
+      if (window.location.hash == "") map.panTo(data.coordinates.split(','));
+
+      if (!map.hasLayer(halo)) {
+          halo = L.circleMarker(data.coordinates.split(','), {
+            weight: 2.5,
+            radius: 20
+          });
+        map.addLayer(halo);
+      }
+  });
   };
 
   page.unload = function () {
-    if (marker) map.removeLayer(marker);
+    if (map.hasLayer(halo)) map.removeLayer(halo);
+    if (!noteState) map.removeLayer(noteLayer);
   };
 
   function setLoading() {
