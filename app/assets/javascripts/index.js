@@ -37,6 +37,7 @@
 
     $.ajax({
       url: path,
+      dataType: "html",
       complete: function(xhr) {
         clearTimeout(loaderTimeout);
         $('#sidebar_loader').hide();
