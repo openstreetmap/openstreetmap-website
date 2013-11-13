@@ -70,7 +70,10 @@ OSM.Note = function (map) {
 
     var data = $('.details').data();
     if (!noteState) map.addLayer(noteLayer);
-    if (window.location.hash == "") map.panTo(data.coordinates.split(','));
+    if (window.location.hash == "") {
+      var coords = data.coordinates.split(',');
+      map.getZoom() > 15 ? map.panTo(coords) : map.setView(coords, 16);
+    }
 
     if (!map.hasLayer(halo)) {
       halo = L.circleMarker(data.coordinates.split(','), {
