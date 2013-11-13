@@ -99,12 +99,7 @@ OSM.History = function(map) {
 
   page.pushstate = page.popstate = function(path) {
     $("#history_tab").addClass("current");
-    $("#sidebar_content").load(path + "?xhr=1", function(a, b, xhr) {
-      if (xhr.getResponseHeader('X-Page-Title')) {
-        document.title = xhr.getResponseHeader('X-Page-Title');
-      }
-      page.load();
-    });
+    OSM.loadSidebarContent(path, page.load);
   };
 
   page.load = function() {

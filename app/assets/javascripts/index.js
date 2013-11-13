@@ -14,6 +14,39 @@
 //= require index/new_note
 //= require router
 
+(function() {
+  var loaderTimeout;
+
+  OSM.loadSidebarContent = function(path, callback) {
+    clearTimeout(loaderTimeout);
+
+    loaderTimeout = setTimeout(function() {
+      $('#sidebar_loader').show();
+    }, 200);
+
+    // IE<10 doesn't respect Vary: X-Requested-With header, so
+    // prevent caching the XHR response as a full-page URL.
+    if (path.indexOf('?') >= 0) {
+      path += '&xhr=1'
+    } else {
+      path += '?xhr=1'
+    }
+
+    $('#sidebar_content')
+      .empty()
+      .load(path, function(a, b, xhr) {
+        clearTimeout(loaderTimeout);
+        $('#sidebar_loader').hide();
+        if (xhr.getResponseHeader('X-Page-Title')) {
+          document.title = xhr.getResponseHeader('X-Page-Title');
+        }
+        if (callback) {
+          callback();
+        }
+      });
+  };
+})();
+
 $(document).ready(function () {
   var params = OSM.mapParams();
 
@@ -159,25 +192,17 @@ $(document).ready(function () {
   OSM.Index = function(map) {
     var page = {};
 
-    function loadContent(path) {
-      $('#sidebar_content').load(path + "?xhr=1", function(a, b, xhr) {
-        if (xhr.getResponseHeader('X-Page-Title')) {
-          document.title = xhr.getResponseHeader('X-Page-Title');
-        }
-      });
-    }
-
     page.pushstate = function(path) {
       $("#content").addClass("overlay-sidebar");
       map.invalidateSize({pan: false})
         .panBy([-300, 0], {animate: false});
-      loadContent(path);
+      OSM.loadSidebarContent(path);
     };
 
     page.popstate = function(path) {
       $("#content").addClass("overlay-sidebar");
       map.invalidateSize({pan: false});
-      loadContent(path);
+      OSM.loadSidebarContent(path);
     };
 
     page.unload = function() {
@@ -193,10 +218,7 @@ $(document).ready(function () {
     var page = {};
 
     page.pushstate = page.popstate = function(path, type, id) {
-      $('#sidebar_content').load(path + "?xhr=1", function(a, b, xhr) {
-        if (xhr.getResponseHeader('X-Page-Title')) {
-          document.title = xhr.getResponseHeader('X-Page-Title');
-        }
+      OSM.loadSidebarContent(path, function() {
         page.load(path, type, id);
       });
     };
