@@ -1,7 +1,6 @@
 function initializeNotes(map) {
   var noteLayer = map.noteLayer,
-      notes = {},
-      newNote;
+      notes = {};
 
   var noteIcons = {
     "new": L.icon({
@@ -32,13 +31,6 @@ function initializeNotes(map) {
       noteLayer.clearLayers();
       notes = {};
     }
-  }).on("popupclose", function (e) {
-    if (newNote && e.popup == newNote._popup) {
-      $(newNote).oneTime(10, "removenote", function () {
-        map.removeLayer(newNote);
-        newNote = null;
-      });
-    } 
   });
 
   noteLayer.on('click', function(e) {
@@ -92,7 +84,7 @@ function initializeNotes(map) {
         notes[feature.properties.id] = updateMarker(marker, feature);
       }
 
-      for (id in oldNotes) {
+      for (var id in oldNotes) {
         noteLayer.removeLayer(oldNotes[id]);
       }
 
