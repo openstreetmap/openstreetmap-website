@@ -88,8 +88,10 @@ OSM.Router = function(map, rts) {
       currentRoute = routes.recognize(currentPath);
       currentRoute.run('popstate', currentPath);
       var state = e.originalEvent.state;
-      map.setView(state.center, state.zoom, {animate: false});
-      map.updateLayers(state.layers);
+      if (state.center) {
+        map.setView(state.center, state.zoom, {animate: false});
+        map.updateLayers(state.layers);
+      }
     });
 
     return function (url) {
