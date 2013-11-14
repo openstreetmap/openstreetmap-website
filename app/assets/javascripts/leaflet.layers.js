@@ -120,8 +120,13 @@ L.OSM.layers = function(options) {
       var list = $('<ul>')
         .appendTo(overlaySection);
 
-      function addOverlay(layer, name) {
+      function addOverlay(layer, name, minZoom) {
+        var refName = name.split(' ').join('_').toLowerCase();
         var item = $('<li>')
+          .attr('class', refName)
+          .tooltip({
+            placement: 'top'
+          })
           .appendTo(list);
 
         var label = $('<label>')
@@ -146,10 +151,18 @@ L.OSM.layers = function(options) {
         map.on('layeradd layerremove', function() {
           input.prop('checked', map.hasLayer(layer));
         });
+
+        map.on('zoomend', function() {
+          var disabled = map.getZoom() < minZoom + 1;
+          $(input).prop('disabled', disabled);
+          disabled ? $(item).attr('class', 'disabled') : $(item).attr('class', '');
+          item.attr('data-original-title', disabled ?
+            'Zoom in to see ' + name.toLowerCase() : '');
+        });
       }
 
-      addOverlay(map.noteLayer, I18n.t('javascripts.map.layers.notes'));
-      addOverlay(map.dataLayer, I18n.t('javascripts.map.layers.data'));
+      addOverlay(map.noteLayer, I18n.t('javascripts.map.layers.notes'), 10);
+      addOverlay(map.dataLayer, I18n.t('javascripts.map.layers.data'), 15);
     }
 
     options.sidebar.addPane($ui);
