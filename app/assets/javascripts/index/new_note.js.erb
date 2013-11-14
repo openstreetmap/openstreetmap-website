@@ -80,6 +80,23 @@ OSM.NewNote = function(map) {
     OSM.loadSidebarContent(path, page.load);
   };
 
+  function newHalo(loc, a) {
+    if (a == 'dragstart' && map.hasLayer(halo)) {
+      map.removeLayer(halo);
+    } else {
+      if (map.hasLayer(halo)) map.removeLayer(halo);
+
+      halo = L.circleMarker(loc, {
+        weight: 2.5,
+        radius: 20,
+        fillOpacity: 0.5,
+        color: "#FF6200"
+      });
+
+      map.addLayer(halo);
+    }
+  }
+
   page.load = function () {
     if (addNoteButton.hasClass("disabled")) return;
     if (addNoteButton.hasClass("active")) return;
@@ -105,16 +122,13 @@ OSM.NewNote = function(map) {
       draggable: true
     });
 
-    newNote.addTo(noteLayer);
-
-    halo = L.circleMarker(map.containerPointToLatLng(markerPosition), {
-      weight: 2.5,
-      radius: 20,
-      fillOpacity: 0.5,
-      color: "#FF6200"
+    newNote.on("dragstart dragend", function(a) {
+      console.log(a);
+      newHalo(newNote.getLatLng(), a.type);
     });
 
-    map.addLayer(halo);
+    newNote.addTo(noteLayer);
+    newHalo(newNote.getLatLng());
 
     newNote.on("remove", function () {
       addNoteButton.removeClass("active");
