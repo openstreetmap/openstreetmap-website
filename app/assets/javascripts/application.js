@@ -132,10 +132,10 @@ $(document).ready(function () {
 
   $("#menu-icon").on("click", function(e) {
     e.preventDefault();
-    $("header").toggleClass("closed");
+    $("#header").toggleClass("closed");
   });
 
-  $("nav.primary li a").on("click", function() {
-    $("header").toggleClass("closed");
+  $(".nav.primary li a").on("click", function() {
+    $("#header").toggleClass("closed");
   });
 });
