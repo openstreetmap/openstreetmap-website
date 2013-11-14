@@ -230,19 +230,7 @@ $(document).ready(function () {
     };
 
     page.load = function(path, type, id) {
-      if (OSM.STATUS === 'api_offline' || OSM.STATUS === 'database_offline') return;
-
-      map.addObject({type: type, id: parseInt(id)},
-        {
-          zoom: window.location.hash == "",
-          style: {
-            color: "#FF6200",
-            weight: 4,
-            opacity: 1,
-            fillOpacity: 0.5
-          }
-        }
-      );
+      map.addObject({type: type, id: parseInt(id)});
     };
 
     page.unload = function() {
