@@ -155,9 +155,9 @@ L.OSM.layers = function(options) {
         map.on('zoomend', function() {
           var disabled = map.getZoom() < minZoom + 1;
           $(input).prop('disabled', disabled);
-          disabled ? $(item).attr('class', 'disabled') : $(item).attr('class', '');
+          $(item).attr('class', disabled ? 'disabled' : '');
           item.attr('data-original-title', disabled ?
-            'Zoom in to see ' + name.toLowerCase() : '');
+            I18n.t('javascripts.site.' + refName + '_zoom_in_tooltip') : '');
         });
       }
 
