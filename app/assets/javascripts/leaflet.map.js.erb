@@ -169,7 +169,21 @@ L.OSM.Map = L.Map.extend({
     return str;
   },
 
-  addObject: function(object, options) {
+  addObject: function(object) {
+    var objectStyle = {
+      color: "#FF6200",
+      weight: 4,
+      opacity: 1,
+      fillOpacity: 0.5
+    };
+
+    var changesetStyle = {
+      weight: 1,
+      color: '#FF9500',
+      opacity: 1,
+      fillOpacity: 0
+    };
+
     this._object = object;
 
     if (this._objectLoader) this._objectLoader.abort();
@@ -182,15 +196,10 @@ L.OSM.Map = L.Map.extend({
       success: function (xml) {
         map._objectLayer = new L.OSM.DataLayer(null, {
           styles: {
-            node: options.style,
-            way: options.style,
-            area: options.style,
-            changeset: {
-              weight: 1,
-              color: '#FF9500',
-              opacity: 1,
-              fillOpacity: 0
-            }
+            node: objectStyle,
+            way: objectStyle,
+            area: objectStyle,
+            changeset: changesetStyle
           }
         });
 
@@ -207,13 +216,12 @@ L.OSM.Map = L.Map.extend({
         };
 
         map._objectLayer.addData(xml);
+        map._objectLayer.addTo(map);
 
         var bounds = map._objectLayer.getBounds();
-
-        if (options.zoom && bounds.isValid()) map.fitBounds(bounds);
-        if (options.callback) options.callback(bounds);
-
-        map._objectLayer.addTo(map);
+        if (bounds.isValid()) {
+          map.fitBounds(bounds);
+        }
       }
     });
   },
