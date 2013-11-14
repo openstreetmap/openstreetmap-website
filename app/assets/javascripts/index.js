@@ -263,7 +263,7 @@ $(document).ready(function () {
 
   $(".search_form").on("submit", function(e) {
     e.preventDefault();
-    $("header").addClass("closed");
+    $("#header").addClass("closed");
     var query = $(this).find("input[name=query]").val();
     if (query) {
       OSM.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
