@@ -120,7 +120,7 @@ L.OSM.layers = function(options) {
       var list = $('<ul>')
         .appendTo(overlaySection);
 
-      function addOverlay(layer, name, minZoom) {
+      function addOverlay(layer, name, maxArea) {
         var refName = name.split(' ').join('_').toLowerCase();
         var item = $('<li>')
           .attr('class', refName)
@@ -153,7 +153,7 @@ L.OSM.layers = function(options) {
         });
 
         map.on('zoomend', function() {
-          var disabled = map.getZoom() < minZoom + 1;
+          var disabled = map.getBounds().getSize() >= maxArea;
           $(input).prop('disabled', disabled);
           $(item).attr('class', disabled ? 'disabled' : '');
           item.attr('data-original-title', disabled ?
@@ -161,8 +161,8 @@ L.OSM.layers = function(options) {
         });
       }
 
-      addOverlay(map.noteLayer, I18n.t('javascripts.map.layers.notes'), 10);
-      addOverlay(map.dataLayer, I18n.t('javascripts.map.layers.data'), 15);
+      addOverlay(map.noteLayer, I18n.t('javascripts.map.layers.notes'), OSM.MAX_NOTE_REQUEST_AREA);
+      addOverlay(map.dataLayer, I18n.t('javascripts.map.layers.data'), OSM.MAX_REQUEST_AREA);
     }
 
     options.sidebar.addPane($ui);
