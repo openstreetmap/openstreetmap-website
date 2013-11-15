@@ -5,6 +5,7 @@
 <p class='introduction'><%= t "help_page.introduction" %></p>
 
 <% ['welcome', 'help', 'wiki'].each do |site| %>
+  <% unless site == 'welcome' && !@user %>
   <div class='<%= site %> help-item'>
   <h3>
     <a href='<%= t "help_page.#{site}.url" %>'>
@@ -13,4 +14,5 @@
   </h3>
   <p><%= t "help_page.#{site}.description" %></p>
   </div>
+  <% end %>
 <% end %>
