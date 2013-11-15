@@ -171,6 +171,7 @@ L.OSM.layers = function(options) {
       e.stopPropagation();
       e.preventDefault();
       options.sidebar.togglePane($ui, button);
+      $('.leaflet-control .control-button').tooltip('hide');
     }
 
     return $container[0];

@@ -56,6 +56,7 @@ L.OSM.key = function (options) {
       if (!button.hasClass('disabled')) {
         options.sidebar.togglePane($ui, button);
       }
+      $('.leaflet-control .control-button').tooltip('hide');
     }
 
     function updateButton() {

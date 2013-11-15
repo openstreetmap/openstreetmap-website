@@ -230,6 +230,7 @@ L.OSM.share = function (options) {
 
       update();
       options.sidebar.togglePane($ui, button);
+      $('.leaflet-control .control-button').tooltip('hide');
     }
 
     function toggleMarker() {
