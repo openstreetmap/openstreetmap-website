@@ -15693,7 +15693,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.3.1';
+iD.version = '1.3.2';
 
 (function() {
     var detected = {};
@@ -16115,6 +16115,34 @@ iD.util.SessionMutex = function(name) {
     };
 
     return mutex;
+};
+iD.util.SuggestNames = function(preset, suggestions) {
+    preset = preset.id.split('/', 2);
+    var k = preset[0],
+        v = preset[1];
+
+    return function(value, callback) {
+        var result = [];
+        if (value && value.length > 2) {
+            if (suggestions[k] && suggestions[k][v]) {
+                for (var sugg in suggestions[k][v]) {
+                    var dist = iD.util.editDistance(value, sugg.substring(0, value.length));
+                    if (dist < 3) {
+                        result.push({
+                            title: sugg,
+                            value: sugg,
+                            dist: dist
+                        });
+                    }
+                }
+            }
+            result.sort(function(a, b) {
+                return a.dist - b.dist;
+            });
+        }
+        result = result.slice(0,3);
+        callback(result);
+    };
 };
 iD.geo = {};
 
@@ -16961,7 +16989,7 @@ iD.actions.Disconnect = function(nodeId, newNodeId) {
         replacements.forEach(function(replacement) {
             var newNode = iD.Node({id: newNodeId, loc: node.loc, tags: node.tags});
             graph = graph.replace(newNode);
-            graph = graph.replace(replacement.way.updateNode(newNode.id, replacement.index));
+            graph = graph.replace(graph.entity(replacement.wayID).updateNode(newNode.id, replacement.index));
         });
 
         return graph;
@@ -16980,7 +17008,7 @@ iD.actions.Disconnect = function(nodeId, newNodeId) {
 
             parent.nodes.forEach(function(waynode, index) {
                 if (waynode === nodeId) {
-                    candidates.push({way: parent, index: index});
+                    candidates.push({wayID: parent.id, index: index});
                 }
             });
         });
@@ -20329,7 +20357,7 @@ iD.Connection = function() {
             url + '/api/0.6/' + type + '/' + osmID + (type !== 'node' ? '/full' : ''),
             function(err, entities) {
                 event.load(err, {data: entities});
-                if (callback) callback(err, entities && entities[id]);
+                if (callback) callback(err, entities && _.find(entities, function(e) { return e.id === id; }));
             });
     };
 
@@ -20414,15 +20442,13 @@ iD.Connection = function() {
 
         var root = dom.childNodes[0],
             children = root.childNodes,
-            entities = {};
+            entities = [];
 
-        var i, o, l;
-        for (i = 0, l = children.length; i < l; i++) {
+        for (var i = 0, l = children.length; i < l; i++) {
             var child = children[i],
                 parser = parsers[child.nodeName];
             if (parser) {
-                o = parser(child);
-                entities[o.id] = o;
+                entities.push(parser(child));
             }
         }
 
@@ -20759,14 +20785,6 @@ iD.Difference = function(base, head) {
         return result;
     };
 
-    difference.addParents = function(entities) {
-        for (var i in entities) {
-            addParents(head.parentWays(entities[i]), entities);
-            addParents(head.parentRelations(entities[i]), entities);
-        }
-        return entities;
-    };
-
     difference.summary = function() {
         var relevant = {};
 
@@ -20962,12 +20980,6 @@ iD.Entity.prototype = {
             resolver.parentRelations(this).length > 0;
     },
 
-    area: function(resolver) {
-        return resolver.transient(this, 'area', function() {
-            return d3.geo.area(this.asGeoJSON(resolver, true));
-        });
-    },
-
     hasInterestingTags: function() {
         return _.keys(this.tags).some(function(key) {
             return key !== 'attribution' &&
@@ -21006,17 +21018,10 @@ iD.Graph = function(other, mutable) {
         this.inherited = true;
 
     } else {
-        if (Array.isArray(other)) {
-            var entities = {};
-            for (var i = 0; i < other.length; i++) {
-                entities[other[i].id] = other[i];
-            }
-            other = entities;
-        }
         this.entities = Object.create({});
         this._parentWays = Object.create({});
         this._parentRels = Object.create({});
-        this.rebase(other || {});
+        this.rebase(other || []);
     }
 
     this.transients = {};
@@ -21105,11 +21110,12 @@ iD.Graph.prototype = {
 
         // Merging of data only needed if graph is the base graph
         if (!this.inherited) {
-            for (i in entities) {
-                if (!base.entities[i]) {
-                    base.entities[i] = entities[i];
-                    this._updateCalculated(undefined, entities[i],
-                            base.parentWays, base.parentRels);
+            for (i = 0; i < entities.length; i++) {
+                var entity = entities[i];
+                if (!base.entities[entity.id]) {
+                    base.entities[entity.id] = entity;
+                    this._updateCalculated(undefined, entity,
+                        base.parentWays, base.parentRels);
                 }
             }
         }
@@ -21239,24 +21245,6 @@ iD.Graph.prototype = {
         return this;
     },
 
-    hasAllChildren: function(entity) {
-        // we're only checking changed entities, since we assume fetched data
-        // must have all children present
-        var i;
-        if (this.entities.hasOwnProperty(entity.id)) {
-            if (entity.type === 'way') {
-                for (i = 0; i < entity.nodes.length; i++) {
-                    if (!this.entities[entity.nodes[i]]) return false;
-                }
-            } else if (entity.type === 'relation') {
-                for (i = 0; i < entity.members.length; i++) {
-                    if (!this.entities[entity.members[i].id]) return false;
-                }
-            }
-        }
-        return true;
-    },
-
     // Obliterates any existing entities
     load: function(entities) {
         var base = this.base();
@@ -21314,17 +21302,11 @@ iD.History = function(context) {
         },
 
         merge: function(entities, extent) {
-
-            var base = stack[0].graph.base(),
-                newentities = Object.keys(entities).filter(function(i) {
-                    return !base.entities[i];
-                });
-
             for (var i = 0; i < stack.length; i++) {
                 stack[i].graph.rebase(entities);
             }
 
-            tree.rebase(newentities);
+            tree.rebase(entities);
 
             dispatch.change(undefined, extent);
         },
@@ -21806,6 +21788,12 @@ _.extend(iD.Relation.prototype, {
         });
     },
 
+    area: function(resolver) {
+        return resolver.transient(this, 'area', function() {
+            return d3.geo.area(this.asGeoJSON(resolver));
+        });
+    },
+
     isMultipolygon: function() {
         return this.tags.type === 'multipolygon';
     },
@@ -21882,14 +21870,9 @@ _.extend(iD.Relation.prototype, {
         return result;
     }
 });
-iD.Tree = function(graph) {
-
+iD.Tree = function(head) {
     var rtree = rbush(),
-        head = graph,
-        queuedCreated = [],
-        queuedModified = [],
-        rectangles = {},
-        rebased;
+        rectangles = {};
 
     function extentRectangle(extent) {
         return [
@@ -21907,90 +21890,69 @@ iD.Tree = function(graph) {
         return rect;
     }
 
-    function remove(entity) {
-        rtree.remove(rectangles[entity.id]);
-        delete rectangles[entity.id];
-    }
-
-    function bulkInsert(entities) {
-        for (var i = 0, rects = []; i < entities.length; i++) {
-            rects.push(entityRectangle(entities[i]));
-        }
-        rtree.load(rects);
-    }
-
-    function bulkReinsert(entities) {
-        entities.forEach(remove);
-        bulkInsert(entities);
-    }
-
-    var tree = {
-
-        rebase: function(entities) {
-            for (var i = 0, inserted = []; i < entities.length; i++) {
-                if (!graph.entities.hasOwnProperty(entities[i])) {
-                    inserted.push(graph.entity(entities[i]));
-                }
+    function updateParents(entity, insertions) {
+        head.parentWays(entity).forEach(function(parent) {
+            if (rectangles[parent.id]) {
+                rtree.remove(rectangles[parent.id]);
+                insertions.push(entityRectangle(parent));
             }
-            bulkInsert(inserted);
-            rebased = true;
-            return tree;
-        },
+        });
 
-        intersects: function(extent, g) {
-
-            head = g;
-
-            if (graph !== head || rebased) {
-                var diff = iD.Difference(graph, head),
-                    modified = {};
-
-                diff.modified().forEach(function(d) {
-                    var loc = graph.entities[d.id].loc;
-                    if (!loc || loc[0] !== d.loc[0] || loc[1] !== d.loc[1]) {
-                        modified[d.id] = d;
-                    }
-                });
-
-                var created = diff.created().concat(queuedCreated);
-                modified = d3.values(diff.addParents(modified))
-                    // some parents might be created, not modified
-                    .filter(function(d) { return !!graph.hasEntity(d.id); })
-                    .concat(queuedModified);
-                queuedCreated = [];
-                queuedModified = [];
-
-                var reinserted = [],
-                    inserted = [];
-
-                modified.forEach(function(d) {
-                    if (head.hasAllChildren(d)) reinserted.push(d);
-                    else queuedModified.push(d);
-                });
-
-                created.forEach(function(d) {
-                    if (head.hasAllChildren(d)) inserted.push(d);
-                    else queuedCreated.push(d);
-                });
-
-                bulkReinsert(reinserted);
-                bulkInsert(inserted);
-
-                diff.deleted().forEach(remove);
-
-                graph = head;
-                rebased = false;
+        head.parentRelations(entity).forEach(function(parent) {
+            if (rectangles[parent.id]) {
+                rtree.remove(rectangles[parent.id]);
+                insertions.push(entityRectangle(parent));
             }
+            updateParents(parent, insertions);
+        });
+    }
 
-            return rtree.search(extentRectangle(extent)).map(function (rect) {
-                return graph.entities[rect.id];
+    var tree = {};
+
+    tree.rebase = function(entities) {
+        var insertions = [];
+
+        entities.forEach(function(entity) {
+            if (head.entities.hasOwnProperty(entity.id) || rectangles[entity.id])
+                return;
+
+            insertions.push(entityRectangle(entity));
+            updateParents(entity, insertions);
+        });
+
+        rtree.load(insertions);
+
+        return tree;
+    };
+
+    tree.intersects = function(extent, graph) {
+        if (graph !== head) {
+            var diff = iD.Difference(head, graph),
+                insertions = [];
+
+            head = graph;
+
+            diff.deleted().forEach(function(entity) {
+                rtree.remove(rectangles[entity.id]);
+                delete rectangles[entity.id];
             });
-        },
 
-        graph: function() {
-            return graph;
+            diff.modified().forEach(function(entity) {
+                rtree.remove(rectangles[entity.id]);
+                insertions.push(entityRectangle(entity));
+                updateParents(entity, insertions);
+            });
+
+            diff.created().forEach(function(entity) {
+                insertions.push(entityRectangle(entity));
+            });
+
+            rtree.load(insertions);
         }
 
+        return rtree.search(extentRectangle(extent)).map(function(rect) {
+            return head.entity(rect.id);
+        });
     };
 
     return tree;
@@ -22012,7 +21974,12 @@ _.extend(iD.Way.prototype, {
     extent: function(resolver) {
         return resolver.transient(this, 'extent', function() {
             return this.nodes.reduce(function(extent, id) {
-                return extent.extend(resolver.entity(id).extent(resolver));
+                var node = resolver.hasEntity(id);
+                if (node) {
+                    return extent.extend(node.extent());
+                } else {
+                    return extent;
+                }
             }, iD.geo.Extent());
         });
     },
@@ -22138,33 +22105,46 @@ _.extend(iD.Way.prototype, {
         return r;
     },
 
-    asGeoJSON: function(resolver, polygon) {
+    asGeoJSON: function(resolver) {
         return resolver.transient(this, 'GeoJSON', function() {
-            var nodes = resolver.childNodes(this);
-
-            if (this.isArea() && polygon && nodes.length >= 4) {
-                if (!this.isClosed()) {
-                    nodes = nodes.concat([nodes[0]]);
-                }
-
-                var json = {
+            var coordinates = _.pluck(resolver.childNodes(this), 'loc');
+            if (this.isArea() && this.isClosed()) {
+                return {
                     type: 'Polygon',
-                    coordinates: [_.pluck(nodes, 'loc')]
+                    coordinates: [coordinates]
                 };
-
-                // Heuristic for detecting counterclockwise winding order. Assumes
-                // that OpenStreetMap polygons are not hemisphere-spanning.
-                if (d3.geo.area(json) > 2 * Math.PI) {
-                    json.coordinates[0] = json.coordinates[0].reverse();
-                }
-
-                return json;
             } else {
                 return {
                     type: 'LineString',
-                    coordinates: _.pluck(nodes, 'loc')
+                    coordinates: coordinates
                 };
             }
+        });
+    },
+
+    area: function(resolver) {
+        return resolver.transient(this, 'area', function() {
+            var nodes = resolver.childNodes(this);
+
+            if (!this.isClosed() && nodes.length) {
+                nodes = nodes.concat([nodes[0]]);
+            }
+
+            var json = {
+                type: 'Polygon',
+                coordinates: [_.pluck(nodes, 'loc')]
+            };
+
+            var area = d3.geo.area(json);
+
+            // Heuristic for detecting counterclockwise winding order. Assumes
+            // that OpenStreetMap polygons are not hemisphere-spanning.
+            if (d3.geo.area(json) > 2 * Math.PI) {
+                json.coordinates[0] = json.coordinates[0].reverse();
+                area = d3.geo.area(json);
+            }
+
+            return isNaN(area) ? 0 : area;
         });
     }
 });
@@ -22224,7 +22204,7 @@ iD.Background = function(context) {
             q = iD.util.stringQs(location.hash.substring(1));
 
         var id = b.id;
-        if (!id && b.name === 'Custom') {
+        if (id === 'custom') {
             id = 'custom:' + b.template;
         }
 
@@ -22242,17 +22222,12 @@ iD.Background = function(context) {
 
         location.replace('#' + iD.util.qsString(q, true));
 
-        var imageryUsed = [];
-        if (b.name === 'Custom') {
-            imageryUsed.push('Custom (' + b.template + ')');
-        } else {
-            imageryUsed.push(b.id || b.name);
-        }
+        var imageryUsed = [b.imageryUsed()];
 
         overlayLayers.forEach(function (d) {
             var source = d.source();
             if (!source.isLocatorOverlay()) {
-                imageryUsed.push(source.id || source.name);
+                imageryUsed.push(source.imageryUsed());
             }
         });
 
@@ -22281,7 +22256,7 @@ iD.Background = function(context) {
         gpx.call(gpxLayer);
 
         var overlays = selection.selectAll('.overlay-layer')
-            .data(overlayLayers, function(d) { return d.source().name; });
+            .data(overlayLayers, function(d) { return d.source().name(); });
 
         overlays.enter().insert('div', '.layer-data')
             .attr('class', 'layer-layer overlay-layer');
@@ -22362,7 +22337,7 @@ iD.Background = function(context) {
 
     background.showsLayer = function(d) {
         return d === baseLayer.source() ||
-            (d.name === 'Custom' && baseLayer.source().name === 'Custom') ||
+            (d.id === 'custom' && baseLayer.source().id === 'custom') ||
             overlayLayers.some(function(l) { return l.source() === d; });
     };
 
@@ -22410,10 +22385,7 @@ iD.Background = function(context) {
         chosen = q.background || q.layer;
 
     if (chosen && chosen.indexOf('custom:') === 0) {
-        background.baseLayerSource(iD.BackgroundSource({
-            template: chosen.replace(/^custom:/, ''),
-            name: 'Custom'
-        }));
+        background.baseLayerSource(iD.BackgroundSource.Custom(chosen.replace(/^custom:/, '')));
     } else {
         background.baseLayerSource(findSource(chosen) || findSource('Bing'));
     }
@@ -22436,7 +22408,8 @@ iD.Background = function(context) {
 };
 iD.BackgroundSource = function(data) {
     var source = _.clone(data),
-        offset = [0, 0];
+        offset = [0, 0],
+        name = source.name;
 
     source.scaleExtent = data.scaleExtent || [0, 20];
 
@@ -22450,6 +22423,14 @@ iD.BackgroundSource = function(data) {
         offset[0] += _[0] / Math.pow(2, zoomlevel);
         offset[1] += _[1] / Math.pow(2, zoomlevel);
         return source;
+    };
+
+    source.name = function() {
+        return name;
+    };
+
+    source.imageryUsed = function() {
+        return source.id || name;
     };
 
     source.url = function(coord) {
@@ -22478,7 +22459,7 @@ iD.BackgroundSource = function(data) {
     };
 
     source.isLocatorOverlay = function() {
-        return source.name === 'Locator Overlay';
+        return name === 'Locator Overlay';
     };
 
     source.copyrightNotices = function() {};
@@ -22550,7 +22531,31 @@ iD.BackgroundSource.Bing = function(data, dispatch) {
 };
 
 iD.BackgroundSource.None = function() {
-    return iD.BackgroundSource({ name: t('background.none'), id: 'None', template: '' });
+    var source = iD.BackgroundSource({id: 'none', template: ''});
+
+    source.name = function() {
+        return t('background.none');
+    };
+
+    source.imageryUsed = function() {
+        return 'None';
+    };
+
+    return source;
+};
+
+iD.BackgroundSource.Custom = function(template) {
+    var source = iD.BackgroundSource({id: 'custom', template: template});
+
+    source.name = function() {
+        return t('background.custom');
+    };
+
+    source.imageryUsed = function() {
+        return 'Custom (' + template + ')';
+    };
+
+    return source;
 };
 iD.GpxLayer = function(context) {
     var projection,
@@ -22869,7 +22874,8 @@ iD.Map = function(context) {
 
         var zoom = String(~~map.zoom());
         if (surface.attr('data-zoom') !== zoom) {
-            surface.attr('data-zoom', zoom);
+            surface.attr('data-zoom', zoom)
+                .classed('low-zoom', zoom <= 16);
         }
 
         if (!difference) {
@@ -23274,7 +23280,7 @@ iD.svg = {
             if (entity.id in cache) {
                 return cache[entity.id];
             } else {
-                return cache[entity.id] = path(entity.asGeoJSON(graph, polygon)); // jshint ignore:line
+                return cache[entity.id] = path(entity.asGeoJSON(graph)); // jshint ignore:line
             }
         };
     },
@@ -24585,7 +24591,7 @@ iD.ui = function(context) {
 
         content.append('div')
             .style('display', 'none')
-            .attr('class', 'help-wrap fillL col5 content');
+            .attr('class', 'help-wrap map-overlay fillL col5 content');
 
         var controls = bar.append('div')
             .attr('class', 'map-controls');
@@ -24779,7 +24785,7 @@ iD.ui.Attribution = function(context) {
             .attr('class', klass);
 
         var background = div.selectAll('.attribution')
-            .data(data, function(d) { return d.name; });
+            .data(data, function(d) { return d.name(); });
 
         background.enter()
             .append('span')
@@ -24791,7 +24797,7 @@ iD.ui.Attribution = function(context) {
                     return;
                 }
 
-                var source = d.terms_text || d.id || d.name;
+                var source = d.terms_text || d.id || d.name();
 
                 if (d.logo) {
                     source = '<img class="source-image" src="' + context.imagePath(d.logo) + '">';
@@ -24858,6 +24864,9 @@ iD.ui.Background = function(context) {
         opacityDefault = (context.storage('background-opacity') !== null) ?
             (+context.storage('background-opacity')) : 0.5;
 
+    // Can be 0 from <1.3.0 use or due to issue #1923.
+    if (opacityDefault === 0) opacityDefault = 0.5;
+
     function background(selection) {
 
         function setOpacity(d) {
@@ -24898,10 +24907,7 @@ iD.ui.Background = function(context) {
                 selectLayer();
                 return;
             }
-            context.background().baseLayerSource(iD.BackgroundSource({
-                template: template,
-                name: 'Custom'
-            }));
+            context.background().baseLayerSource(iD.BackgroundSource.Custom(template));
             selectLayer();
         }
 
@@ -24922,7 +24928,7 @@ iD.ui.Background = function(context) {
                 .filter(filter);
 
             var layerLinks = layerList.selectAll('li.layer')
-                .data(sources, function(d) { return d.name; });
+                .data(sources, function(d) { return d.name(); });
 
             var enter = layerLinks.enter()
                 .insert('li', '.custom_layer')
@@ -24932,7 +24938,7 @@ iD.ui.Background = function(context) {
             enter.filter(function(d) { return d.description; })
                 .call(bootstrap.tooltip()
                     .title(function(d) { return d.description; })
-                    .placement('left'));
+                    .placement('top'));
 
             var label = enter.append('label');
 
@@ -24942,7 +24948,7 @@ iD.ui.Background = function(context) {
                 .on('change', change);
 
             label.append('span')
-                .text(function(d) { return d.name; });
+                .text(function(d) { return d.name(); });
 
             layerLinks.exit()
                 .remove();
@@ -24988,7 +24994,7 @@ iD.ui.Background = function(context) {
         }
 
         var content = selection.append('div')
-                .attr('class', 'fillL map-overlay content hide'),
+                .attr('class', 'fillL map-overlay col3 content hide'),
             tooltip = bootstrap.tooltip()
                 .placement('left')
                 .html(true)
@@ -25012,16 +25018,16 @@ iD.ui.Background = function(context) {
                         return d3.event.stopPropagation();
                     });
                     content.style('display', 'block')
-                        .style('left', '0px')
+                        .style('right', '-300px')
                         .transition()
                         .duration(200)
-                        .style('left', '-260px');
+                        .style('right', '0px');
                 } else {
                     content.style('display', 'block')
-                        .style('left', '-260px')
+                        .style('right', '0px')
                         .transition()
                         .duration(200)
-                        .style('left', '0px')
+                        .style('right', '-300px')
                         .each('end', function() {
                             d3.select(this).style('display', 'none');
                         });
@@ -25058,7 +25064,7 @@ iD.ui.Background = function(context) {
             .on('click.set-opacity', setOpacity)
             .html('<div class="select-box"></div>')
             .call(bootstrap.tooltip()
-                .placement('top'))
+                .placement('left'))
             .append('div')
             .attr('class', 'opacity')
             .style('opacity', String);
@@ -25068,7 +25074,7 @@ iD.ui.Background = function(context) {
 
         var custom = backgroundList.append('li')
             .attr('class', 'custom_layer')
-            .datum({name: 'Custom'});
+            .datum(iD.BackgroundSource.Custom());
 
         var label = custom.append('label');
 
@@ -25121,7 +25127,7 @@ iD.ui.Background = function(context) {
         label = gpxLayerItem.append('label')
             .call(bootstrap.tooltip()
                 .title(t('gpx.drag_drop'))
-                .placement('left'));
+                .placement('top'));
 
         label.append('input')
             .attr('type', 'checkbox')
@@ -25165,10 +25171,6 @@ iD.ui.Background = function(context) {
 
         resetButton.append('div')
             .attr('class', 'icon undo');
-
-        resetButton.call(bootstrap.tooltip()
-            .title(t('background.reset'))
-            .placement('bottom'));
 
         context.map()
             .on('move.background-update', _.debounce(update, 1000));
@@ -26143,9 +26145,6 @@ iD.ui.Help = function(context) {
             return d3.event.stopPropagation();
         });
 
-        selection.on('mousedown.help-inside', function() {
-            return d3.event.stopPropagation();
-        });
     }
 
     return help;
@@ -26270,7 +26269,7 @@ iD.ui.intro = function(context) {
         for (var key in introGraph) {
             introGraph[key] = iD.Entity(introGraph[key]);
         }
-        context.history().merge(iD.Graph().load(introGraph).entities);
+        context.history().merge(d3.values(iD.Graph().load(introGraph).entities));
         context.background().bing();
 
         // Block saving
@@ -26306,7 +26305,7 @@ iD.ui.intro = function(context) {
             navwrap.remove();
             d3.select('.background-layer').style('opacity', opacity);
             context.connection().toggle(true).flush().loadedTiles(loadedTiles);
-            context.history().reset().merge(baseEntities);
+            context.history().reset().merge(d3.values(baseEntities));
             context.background().baseLayerSource(background);
             if (history) context.history().fromJSON(history);
             window.location.replace(hash);
@@ -26655,11 +26654,7 @@ iD.ui.preset = function(context) {
         field.input = iD.ui.preset[field.type](field, context)
             .on('change', event.change);
 
-        if (field.type === 'address' ||
-            field.type === 'wikipedia' ||
-            field.type === 'maxspeed') {
-            field.input.entity(entity);
-        }
+        if (field.input.entity) field.input.entity(entity);
 
         field.keys = field.keys || [field.key];
 
@@ -28592,7 +28587,6 @@ iD.ui.Zoom = function(context) {
 };
 iD.ui.preset.access = function(field) {
     var event = d3.dispatch('change'),
-        entity,
         items;
 
     function access(selection) {
@@ -28656,18 +28650,84 @@ iD.ui.preset.access = function(field) {
         });
     };
 
-    access.entity = function(_) {
-        if (!arguments.length) return entity;
-        entity = _;
-        return access;
+    var placeholders = {
+        footway: {
+            foot: 'yes',
+            motor_vehicle: 'no'
+        },
+        steps: {
+            foot: 'yes',
+            motor_vehicle: 'no'
+        },
+        pedestrian: {
+            foot: 'yes',
+            motor_vehicle: 'no'
+        },
+        cycleway: {
+            bicycle: 'yes',
+            motor_vehicle: 'no'
+        },
+        bridleway: {
+            horse: 'yes'
+        },
+        path: {
+            motor_vehicle: 'no'
+        },
+        motorway: {
+            motor_vehicle: 'yes'
+        },
+        trunk: {
+            motor_vehicle: 'yes'
+        },
+        primary: {
+            motor_vehicle: 'yes'
+        },
+        secondary: {
+            motor_vehicle: 'yes'
+        },
+        tertiary: {
+            motor_vehicle: 'yes'
+        },
+        residential: {
+            motor_vehicle: 'yes'
+        },
+        unclassified: {
+            motor_vehicle: 'yes'
+        },
+        service: {
+            motor_vehicle: 'yes'
+        },
+        motorway_link: {
+            motor_vehicle: 'yes'
+        },
+        trunk_link: {
+            motor_vehicle: 'yes'
+        },
+        primary_link: {
+            motor_vehicle: 'yes'
+        },
+        secondary_link: {
+            motor_vehicle: 'yes'
+        },
+        tertiary_link: {
+            motor_vehicle: 'yes'
+        }
     };
 
     access.tags = function(tags) {
         items.selectAll('.preset-input-access')
             .value(function(d) { return tags[d] || ''; })
-            .attr('placeholder', function(d) {
-                return d !== 'access' && tags.access ? tags.access : field.placeholder();
+            .attr('placeholder', function() {
+                return tags.access ? tags.access : field.placeholder();
             });
+
+        items.selectAll('#preset-input-access-access')
+            .attr('placeholder', 'yes');
+
+        _.forEach(placeholders[tags.highway], function(value, key) {
+            items.selectAll('#preset-input-access-' + key)
+                .attr('placeholder', value);
+        });
     };
 
     access.focus = function() {
@@ -29076,11 +29136,12 @@ iD.ui.preset.url = function(field) {
 
     return d3.rebind(i, event, 'on');
 };
-iD.ui.preset.localized = function(field) {
+iD.ui.preset.localized = function(field, context) {
 
     var event = d3.dispatch('change'),
         wikipedia = iD.wikipedia(),
-        input, localizedInputs, wikiTitles;
+        input, localizedInputs, wikiTitles,
+        entity;
 
     function i(selection) {
         input = selection.selectAll('.localized-main')
@@ -29095,6 +29156,13 @@ iD.ui.preset.localized = function(field) {
         input
             .on('blur', change)
             .on('change', change);
+
+        if (field.id === 'name') {
+            var preset = context.presets().match(entity, context.graph());
+            input.call(d3.combobox().fetcher(
+                iD.util.SuggestNames(preset, iD.data.suggestions)
+            ));
+        }
 
         var translateButton = selection.selectAll('.localized-add')
             .data([0]);
@@ -29292,6 +29360,10 @@ iD.ui.preset.localized = function(field) {
 
     i.focus = function() {
         input.node().focus();
+    };
+
+    i.entity = function(_) {
+        entity = _;
     };
 
     return d3.rebind(i, event, 'on');
@@ -29604,7 +29676,7 @@ iD.ui.preset.wikipedia = function(field, context) {
 
     function change() {
         var value = title.value(),
-            m = value.match(/http:\/\/([a-z]+)\.wikipedia\.org\/wiki\/(.+)/),
+            m = value.match(/https?:\/\/([a-z]+)\.wikipedia\.org\/wiki\/(.+)/),
             l = m && _.find(iD.data.wikipedia, function(d) { return m[1] === d[2]; });
 
         if (l) {
@@ -33488,6 +33560,777 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             ],
             "terms_url": "http://wiki.openstreetmap.org/wiki/Fugro",
             "terms_text": "Fugro Aerial Mapping"
+        },
+        {
+            "name": "Geoimage.at MaxRes",
+            "type": "tms",
+            "template": "http://geoimage.openstreetmap.at/4d80de696cd562a63ce463a58a61488d/{zoom}/{x}/{y}.jpg",
+            "polygon": [
+                [
+                    [
+                        16.5073284,
+                        46.9929304
+                    ],
+                    [
+                        16.283417,
+                        46.9929304
+                    ],
+                    [
+                        16.135839,
+                        46.8713046
+                    ],
+                    [
+                        15.9831722,
+                        46.8190947
+                    ],
+                    [
+                        16.0493278,
+                        46.655175
+                    ],
+                    [
+                        15.8610387,
+                        46.7180116
+                    ],
+                    [
+                        15.7592608,
+                        46.6900933
+                    ],
+                    [
+                        15.5607938,
+                        46.6796202
+                    ],
+                    [
+                        15.5760605,
+                        46.6342132
+                    ],
+                    [
+                        15.4793715,
+                        46.6027553
+                    ],
+                    [
+                        15.4335715,
+                        46.6516819
+                    ],
+                    [
+                        15.2249267,
+                        46.6342132
+                    ],
+                    [
+                        15.0468154,
+                        46.6481886
+                    ],
+                    [
+                        14.9908376,
+                        46.5887681
+                    ],
+                    [
+                        14.9603042,
+                        46.6237293
+                    ],
+                    [
+                        14.8534374,
+                        46.6027553
+                    ],
+                    [
+                        14.8330818,
+                        46.5012666
+                    ],
+                    [
+                        14.7516595,
+                        46.4977636
+                    ],
+                    [
+                        14.6804149,
+                        46.4381781
+                    ],
+                    [
+                        14.6142593,
+                        46.4381781
+                    ],
+                    [
+                        14.578637,
+                        46.3785275
+                    ],
+                    [
+                        14.4412369,
+                        46.4311638
+                    ],
+                    [
+                        14.1613476,
+                        46.4276563
+                    ],
+                    [
+                        14.1257253,
+                        46.4767409
+                    ],
+                    [
+                        14.0188585,
+                        46.4767409
+                    ],
+                    [
+                        13.9119917,
+                        46.5257813
+                    ],
+                    [
+                        13.8254805,
+                        46.5047694
+                    ],
+                    [
+                        13.4438134,
+                        46.560783
+                    ],
+                    [
+                        13.3064132,
+                        46.5502848
+                    ],
+                    [
+                        13.1283019,
+                        46.5887681
+                    ],
+                    [
+                        12.8433237,
+                        46.6132433
+                    ],
+                    [
+                        12.7262791,
+                        46.6412014
+                    ],
+                    [
+                        12.5125455,
+                        46.6656529
+                    ],
+                    [
+                        12.3598787,
+                        46.7040543
+                    ],
+                    [
+                        12.3649676,
+                        46.7703197
+                    ],
+                    [
+                        12.2886341,
+                        46.7772902
+                    ],
+                    [
+                        12.2733674,
+                        46.8852187
+                    ],
+                    [
+                        12.2072118,
+                        46.8747835
+                    ],
+                    [
+                        12.1308784,
+                        46.9026062
+                    ],
+                    [
+                        12.1156117,
+                        46.9998721
+                    ],
+                    [
+                        12.2530119,
+                        47.0657733
+                    ],
+                    [
+                        12.2123007,
+                        47.0934969
+                    ],
+                    [
+                        11.9833004,
+                        47.0449712
+                    ],
+                    [
+                        11.7339445,
+                        46.9616816
+                    ],
+                    [
+                        11.6321666,
+                        47.010283
+                    ],
+                    [
+                        11.5405665,
+                        46.9755722
+                    ],
+                    [
+                        11.4998553,
+                        47.0068129
+                    ],
+                    [
+                        11.418433,
+                        46.9651546
+                    ],
+                    [
+                        11.2555884,
+                        46.9755722
+                    ],
+                    [
+                        11.1130993,
+                        46.913036
+                    ],
+                    [
+                        11.0418548,
+                        46.7633482
+                    ],
+                    [
+                        10.8891879,
+                        46.7598621
+                    ],
+                    [
+                        10.7416099,
+                        46.7842599
+                    ],
+                    [
+                        10.7059877,
+                        46.8643462
+                    ],
+                    [
+                        10.5787653,
+                        46.8399847
+                    ],
+                    [
+                        10.4566318,
+                        46.8504267
+                    ],
+                    [
+                        10.4769874,
+                        46.9269392
+                    ],
+                    [
+                        10.3853873,
+                        46.9894592
+                    ],
+                    [
+                        10.2327204,
+                        46.8643462
+                    ],
+                    [
+                        10.1207647,
+                        46.8330223
+                    ],
+                    [
+                        9.8663199,
+                        46.9408389
+                    ],
+                    [
+                        9.9019422,
+                        47.0033426
+                    ],
+                    [
+                        9.6831197,
+                        47.0588402
+                    ],
+                    [
+                        9.6118752,
+                        47.0380354
+                    ],
+                    [
+                        9.6322307,
+                        47.128131
+                    ],
+                    [
+                        9.5813418,
+                        47.1662025
+                    ],
+                    [
+                        9.5406306,
+                        47.2664422
+                    ],
+                    [
+                        9.6067863,
+                        47.3492559
+                    ],
+                    [
+                        9.6729419,
+                        47.369939
+                    ],
+                    [
+                        9.6424085,
+                        47.4457079
+                    ],
+                    [
+                        9.5660751,
+                        47.4801122
+                    ],
+                    [
+                        9.7136531,
+                        47.5282405
+                    ],
+                    [
+                        9.7848976,
+                        47.5969187
+                    ],
+                    [
+                        9.8357866,
+                        47.5454185
+                    ],
+                    [
+                        9.9477423,
+                        47.538548
+                    ],
+                    [
+                        10.0902313,
+                        47.4491493
+                    ],
+                    [
+                        10.1105869,
+                        47.3664924
+                    ],
+                    [
+                        10.2428982,
+                        47.3871688
+                    ],
+                    [
+                        10.1869203,
+                        47.2698953
+                    ],
+                    [
+                        10.3243205,
+                        47.2975125
+                    ],
+                    [
+                        10.4820763,
+                        47.4491493
+                    ],
+                    [
+                        10.4311873,
+                        47.4869904
+                    ],
+                    [
+                        10.4413651,
+                        47.5900549
+                    ],
+                    [
+                        10.4871652,
+                        47.5522881
+                    ],
+                    [
+                        10.5482319,
+                        47.5351124
+                    ],
+                    [
+                        10.5991209,
+                        47.5660246
+                    ],
+                    [
+                        10.7568766,
+                        47.5316766
+                    ],
+                    [
+                        10.8891879,
+                        47.5454185
+                    ],
+                    [
+                        10.9400769,
+                        47.4869904
+                    ],
+                    [
+                        10.9960547,
+                        47.3906141
+                    ],
+                    [
+                        11.2352328,
+                        47.4422662
+                    ],
+                    [
+                        11.2810328,
+                        47.3975039
+                    ],
+                    [
+                        11.4235219,
+                        47.5144941
+                    ],
+                    [
+                        11.5761888,
+                        47.5076195
+                    ],
+                    [
+                        11.6067221,
+                        47.5900549
+                    ],
+                    [
+                        11.8357224,
+                        47.5866227
+                    ],
+                    [
+                        12.003656,
+                        47.6243647
+                    ],
+                    [
+                        12.2072118,
+                        47.6037815
+                    ],
+                    [
+                        12.1614117,
+                        47.6963421
+                    ],
+                    [
+                        12.2581008,
+                        47.7442718
+                    ],
+                    [
+                        12.2530119,
+                        47.6792136
+                    ],
+                    [
+                        12.4311232,
+                        47.7100408
+                    ],
+                    [
+                        12.4921899,
+                        47.631224
+                    ],
+                    [
+                        12.5685234,
+                        47.6277944
+                    ],
+                    [
+                        12.6295901,
+                        47.6894913
+                    ],
+                    [
+                        12.7720792,
+                        47.6689338
+                    ],
+                    [
+                        12.8331459,
+                        47.5419833
+                    ],
+                    [
+                        12.975635,
+                        47.4732332
+                    ],
+                    [
+                        13.0417906,
+                        47.4938677
+                    ],
+                    [
+                        13.0367017,
+                        47.5557226
+                    ],
+                    [
+                        13.0977685,
+                        47.6415112
+                    ],
+                    [
+                        13.0316128,
+                        47.7100408
+                    ],
+                    [
+                        12.9043905,
+                        47.7203125
+                    ],
+                    [
+                        13.0061684,
+                        47.84683
+                    ],
+                    [
+                        12.9451016,
+                        47.9355501
+                    ],
+                    [
+                        12.8636793,
+                        47.9594103
+                    ],
+                    [
+                        12.8636793,
+                        48.0036929
+                    ],
+                    [
+                        12.7517236,
+                        48.0989418
+                    ],
+                    [
+                        12.8738571,
+                        48.2109733
+                    ],
+                    [
+                        12.9603683,
+                        48.2109733
+                    ],
+                    [
+                        13.0417906,
+                        48.2652035
+                    ],
+                    [
+                        13.1842797,
+                        48.2990682
+                    ],
+                    [
+                        13.2606131,
+                        48.2922971
+                    ],
+                    [
+                        13.3980133,
+                        48.3565867
+                    ],
+                    [
+                        13.4438134,
+                        48.417418
+                    ],
+                    [
+                        13.4387245,
+                        48.5523383
+                    ],
+                    [
+                        13.509969,
+                        48.5860123
+                    ],
+                    [
+                        13.6117469,
+                        48.5725454
+                    ],
+                    [
+                        13.7287915,
+                        48.5118999
+                    ],
+                    [
+                        13.7847694,
+                        48.5725454
+                    ],
+                    [
+                        13.8203916,
+                        48.6263915
+                    ],
+                    [
+                        13.7949471,
+                        48.7171267
+                    ],
+                    [
+                        13.850925,
+                        48.7741724
+                    ],
+                    [
+                        14.0595697,
+                        48.6633774
+                    ],
+                    [
+                        14.0137696,
+                        48.6331182
+                    ],
+                    [
+                        14.0748364,
+                        48.5927444
+                    ],
+                    [
+                        14.2173255,
+                        48.5961101
+                    ],
+                    [
+                        14.3649034,
+                        48.5489696
+                    ],
+                    [
+                        14.4666813,
+                        48.6499311
+                    ],
+                    [
+                        14.5582815,
+                        48.5961101
+                    ],
+                    [
+                        14.5989926,
+                        48.6263915
+                    ],
+                    [
+                        14.7211261,
+                        48.5759124
+                    ],
+                    [
+                        14.7211261,
+                        48.6868997
+                    ],
+                    [
+                        14.822904,
+                        48.7271983
+                    ],
+                    [
+                        14.8178151,
+                        48.777526
+                    ],
+                    [
+                        14.9647227,
+                        48.7851754
+                    ],
+                    [
+                        14.9893637,
+                        49.0126611
+                    ],
+                    [
+                        15.1485933,
+                        48.9950306
+                    ],
+                    [
+                        15.1943934,
+                        48.9315502
+                    ],
+                    [
+                        15.3063491,
+                        48.9850128
+                    ],
+                    [
+                        15.3928603,
+                        48.9850128
+                    ],
+                    [
+                        15.4844604,
+                        48.9282069
+                    ],
+                    [
+                        15.749083,
+                        48.8545973
+                    ],
+                    [
+                        15.8406831,
+                        48.8880697
+                    ],
+                    [
+                        16.0086166,
+                        48.7808794
+                    ],
+                    [
+                        16.2070835,
+                        48.7339115
+                    ],
+                    [
+                        16.3953727,
+                        48.7372678
+                    ],
+                    [
+                        16.4920617,
+                        48.8110498
+                    ],
+                    [
+                        16.6905286,
+                        48.7741724
+                    ],
+                    [
+                        16.7057953,
+                        48.7339115
+                    ],
+                    [
+                        16.8991733,
+                        48.713769
+                    ],
+                    [
+                        16.9755067,
+                        48.515271
+                    ],
+                    [
+                        16.8482844,
+                        48.4511817
+                    ],
+                    [
+                        16.8533733,
+                        48.3464411
+                    ],
+                    [
+                        16.9551512,
+                        48.2516513
+                    ],
+                    [
+                        16.9907734,
+                        48.1498955
+                    ],
+                    [
+                        17.0925513,
+                        48.1397088
+                    ],
+                    [
+                        17.0823736,
+                        48.0241182
+                    ],
+                    [
+                        17.1739737,
+                        48.0207146
+                    ],
+                    [
+                        17.0823736,
+                        47.8741447
+                    ],
+                    [
+                        16.9856845,
+                        47.8673174
+                    ],
+                    [
+                        17.0823736,
+                        47.8092489
+                    ],
+                    [
+                        17.0925513,
+                        47.7031919
+                    ],
+                    [
+                        16.7414176,
+                        47.6792136
+                    ],
+                    [
+                        16.7057953,
+                        47.7511153
+                    ],
+                    [
+                        16.5378617,
+                        47.7545368
+                    ],
+                    [
+                        16.5480395,
+                        47.7066164
+                    ],
+                    [
+                        16.4208172,
+                        47.6689338
+                    ],
+                    [
+                        16.573484,
+                        47.6175045
+                    ],
+                    [
+                        16.670173,
+                        47.631224
+                    ],
+                    [
+                        16.7108842,
+                        47.538548
+                    ],
+                    [
+                        16.6599952,
+                        47.4491493
+                    ],
+                    [
+                        16.5429506,
+                        47.3940591
+                    ],
+                    [
+                        16.4615283,
+                        47.3940591
+                    ],
+                    [
+                        16.4920617,
+                        47.276801
+                    ],
+                    [
+                        16.425906,
+                        47.1973317
+                    ],
+                    [
+                        16.4717061,
+                        47.1489007
+                    ],
+                    [
+                        16.5480395,
+                        47.1489007
+                    ],
+                    [
+                        16.476795,
+                        47.0796369
+                    ],
+                    [
+                        16.527684,
+                        47.0588402
+                    ]
+                ]
+            ],
+            "terms_text": "geoimage.at",
+            "id": "geoimage.at"
         },
         {
             "name": "Imagerie Drone (Haiti)",
@@ -56044,6 +56887,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Cafe"
             },
             "amenity/car_rental": {
+                "icon": "car",
                 "geometry": [
                     "point",
                     "area"
@@ -56057,6 +56901,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Car Rental"
             },
             "amenity/car_sharing": {
+                "icon": "car",
                 "geometry": [
                     "point",
                     "area"
@@ -56390,7 +57235,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "amenity": "parking"
                 },
                 "terms": [],
-                "name": "Parking"
+                "name": "Car Parking"
             },
             "amenity/pharmacy": {
                 "icon": "pharmacy",
@@ -56686,7 +57531,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "visitor centre",
                     "permit center",
                     "permit centre",
-                    "backcountry office"
+                    "backcountry office",
+                    "warden office",
+                    "warden center"
                 ],
                 "tags": {
                     "amenity": "ranger_station"
@@ -56778,6 +57625,23 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "amenity": "school"
                 },
                 "name": "School"
+            },
+            "amenity/shelter": {
+                "fields": [
+                    "shelter_type"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "amenity": "shelter"
+                },
+                "terms": [
+                    "lean-to"
+                ],
+                "name": "Shelter"
             },
             "amenity/swimming_pool": {
                 "geometry": [
@@ -56953,7 +57817,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "geometry": [
                     "area"
-                ]
+                ],
+                "matchScore": 0.1
             },
             "barrier": {
                 "geometry": [
@@ -57039,6 +57904,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Ditch"
             },
             "barrier/entrance": {
+                "icon": "entrance",
                 "geometry": [
                     "vertex"
                 ],
@@ -57210,6 +58076,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Commercial Building"
             },
             "building/entrance": {
+                "icon": "entrance",
                 "geometry": [
                     "vertex"
                 ],
@@ -57228,7 +58095,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "building": "garage"
                 },
-                "name": "Garage"
+                "name": "Garage",
+                "icon": "warehouse"
             },
             "building/house": {
                 "icon": "building",
@@ -57330,6 +58198,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Emergency Phone"
             },
             "entrance": {
+                "icon": "entrance",
                 "geometry": [
                     "vertex"
                 ],
@@ -57341,6 +58210,39 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "address"
                 ],
                 "name": "Entrance"
+            },
+            "footway/crossing": {
+                "fields": [
+                    "crossing"
+                ],
+                "geometry": [
+                    "line"
+                ],
+                "tags": {
+                    "highway": "footway",
+                    "footway": "crossing"
+                },
+                "terms": [
+                    "crosswalk",
+                    "zebra crossing"
+                ],
+                "name": "Crossing"
+            },
+            "footway/sidewalk": {
+                "fields": [
+                    "surface",
+                    "lit",
+                    "access"
+                ],
+                "geometry": [
+                    "line"
+                ],
+                "tags": {
+                    "highway": "footway",
+                    "footway": "sidewalk"
+                },
+                "terms": [],
+                "name": "Sidewalk"
             },
             "highway": {
                 "fields": [
@@ -58534,6 +59436,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Volleyball Court"
             },
             "leisure/playground": {
+                "icon": "playground",
                 "geometry": [
                     "point",
                     "area"
@@ -58616,7 +59519,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {},
                 "geometry": [
                     "line"
-                ]
+                ],
+                "matchScore": 0.1
             },
             "man_made": {
                 "fields": [
@@ -58947,6 +59851,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "natural/tree": {
                 "fields": [
+                    "tree_type",
                     "denotation"
                 ],
                 "icon": "park",
@@ -59066,6 +59971,347 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "terms": [],
                 "name": "Office"
             },
+            "office/accountant": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "accountant"
+                },
+                "terms": [],
+                "name": "Accountant"
+            },
+            "office/administrative": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "administrative"
+                },
+                "terms": [],
+                "name": "Administrative Office"
+            },
+            "office/architect": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "architect"
+                },
+                "terms": [],
+                "name": "Architect"
+            },
+            "office/company": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "company"
+                },
+                "terms": [],
+                "name": "Company Office"
+            },
+            "office/educational_institution": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "educational_institution"
+                },
+                "terms": [],
+                "name": "Educational Institution"
+            },
+            "office/employment_agency": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "employment_agency"
+                },
+                "terms": [],
+                "name": "Employment Agency"
+            },
+            "office/estate_agent": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "estate_agent"
+                },
+                "terms": [],
+                "name": "Real Estate Office"
+            },
+            "office/financial": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "financial"
+                },
+                "terms": [],
+                "name": "Financial Office"
+            },
+            "office/government": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "government"
+                },
+                "terms": [],
+                "name": "Government Office"
+            },
+            "office/insurance": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "insurance"
+                },
+                "terms": [],
+                "name": "Insurance Office"
+            },
+            "office/it": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "it"
+                },
+                "terms": [],
+                "name": "IT Office"
+            },
+            "office/lawyer": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "lawyer"
+                },
+                "terms": [],
+                "name": "Law Office"
+            },
+            "office/newspaper": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "newspaper"
+                },
+                "terms": [],
+                "name": "Newspaper"
+            },
+            "office/ngo": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "ngo"
+                },
+                "terms": [],
+                "name": "NGO Office"
+            },
+            "office/physician": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "physician"
+                },
+                "terms": [],
+                "name": "Physician"
+            },
+            "office/political_party": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "political_party"
+                },
+                "terms": [],
+                "name": "Political Party"
+            },
+            "office/research": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "research"
+                },
+                "terms": [],
+                "name": "Research Office"
+            },
+            "office/telecommunication": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "telecommunication"
+                },
+                "terms": [],
+                "name": "Telecom Office"
+            },
+            "office/therapist": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "therapist"
+                },
+                "terms": [],
+                "name": "Therapist"
+            },
+            "office/travel_agent": {
+                "icon": "suitcase",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "travel_agent"
+                },
+                "terms": [],
+                "name": "Travel Agency",
+                "searchable": false
+            },
             "place": {
                 "fields": [
                     "place"
@@ -59170,7 +60416,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {},
                 "geometry": [
                     "point"
-                ]
+                ],
+                "matchScore": 0.1
             },
             "power": {
                 "geometry": [
@@ -59211,6 +60458,16 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "power": "line"
                 },
                 "name": "Power Line",
+                "icon": "power-line"
+            },
+            "power/minor_line": {
+                "geometry": [
+                    "line"
+                ],
+                "tags": {
+                    "power": "minor_line"
+                },
+                "name": "Minor Power Line",
                 "icon": "power-line"
             },
             "power/pole": {
@@ -59385,6 +60642,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "railway": "station"
                 },
+                "terms": [
+                    "train station",
+                    "station"
+                ],
                 "name": "Railway Station"
             },
             "railway/subway": {
@@ -59402,7 +60663,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Subway"
             },
             "railway/subway_entrance": {
-                "icon": "rail-underground",
+                "icon": "rail-metro",
                 "geometry": [
                     "point"
                 ],
@@ -59613,7 +60874,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Butcher"
             },
             "shop/car": {
-                "icon": "shop",
+                "icon": "car",
                 "fields": [
                     "address",
                     "opening_hours"
@@ -60044,7 +61305,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Kiosk"
             },
             "shop/laundry": {
-                "icon": "shop",
+                "icon": "laundry",
                 "fields": [
                     "address",
                     "building_area",
@@ -60343,7 +61604,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Toy Store"
             },
             "shop/travel_agency": {
-                "icon": "shop",
+                "icon": "suitcase",
                 "fields": [
                     "address",
                     "building_area",
@@ -60505,7 +61766,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "vertex",
                     "area"
                 ],
-                "terms": [],
+                "terms": [
+                    "camping"
+                ],
                 "tags": {
                     "tourism": "camp_site"
                 },
@@ -60978,7 +62241,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {},
                 "geometry": [
                     "vertex"
-                ]
+                ],
+                "matchScore": 0.1
             },
             "waterway": {
                 "fields": [
@@ -61128,9 +62392,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "defaults": {
             "area": [
                 "category-landuse",
-                "building",
+                "category-building",
+                "category-water-area",
                 "leisure/park",
-                "natural/water",
                 "amenity/hospital",
                 "amenity/place_of_worship",
                 "amenity/cafe",
@@ -61141,7 +62405,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "category-road",
                 "category-rail",
                 "category-path",
-                "category-water",
+                "category-water-line",
                 "power/line",
                 "line"
             ],
@@ -61174,6 +62438,19 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             ]
         },
         "categories": {
+            "category-building": {
+                "geometry": "area",
+                "name": "Building",
+                "icon": "building",
+                "members": [
+                    "building/house",
+                    "building/apartments",
+                    "building/commercial",
+                    "building/industrial",
+                    "building/residential",
+                    "building"
+                ]
+            },
             "category-landuse": {
                 "geometry": "area",
                 "name": "Land Use",
@@ -61257,7 +62534,18 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "type/route"
                 ]
             },
-            "category-water": {
+            "category-water-area": {
+                "geometry": "area",
+                "name": "Water",
+                "icon": "water",
+                "members": [
+                    "natural/water/lake",
+                    "natural/water/pond",
+                    "natural/water/reservoir",
+                    "natural/water"
+                ]
+            },
+            "category-water-line": {
                 "geometry": "line",
                 "name": "Water",
                 "icon": "category-water",
@@ -61818,6 +63106,20 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "type": "check",
                 "label": "Shelter"
             },
+            "shelter_type": {
+                "key": "shelter_type",
+                "type": "combo",
+                "options": [
+                    "public_transport",
+                    "picnic_shelter",
+                    "weather_shelter",
+                    "lean_to",
+                    "basic_hut",
+                    "field_shelter",
+                    "rock_shelter"
+                ],
+                "label": "Type"
+            },
             "shop": {
                 "key": "shop",
                 "type": "typeCombo",
@@ -61888,6 +63190,16 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "key": "trail_visibility",
                 "type": "combo",
                 "label": "Trail Visibility"
+            },
+            "tree_type": {
+                "key": "type",
+                "type": "combo",
+                "options": [
+                    "broad_leaved",
+                    "conifer",
+                    "palm"
+                ],
+                "label": "Type"
             },
             "vending": {
                 "key": "vending",
@@ -72081,7 +73393,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 72
             ]
         },
-        "rail-underground": {
+        "rail-metro": {
             "12": [
                 258,
                 72
@@ -72095,7 +73407,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 72
             ]
         },
-        "rail-above": {
+        "rail-light": {
             "12": [
                 42,
                 96
@@ -73191,7 +74503,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 456
             ]
         },
-        "london-underground": {
+        "polling-place": {
             "12": [
                 204,
                 456
@@ -73205,7 +74517,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 456
             ]
         },
-        "minefield": {
+        "playground": {
             "12": [
                 258,
                 456
@@ -73219,7 +74531,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 456
             ]
         },
-        "camera": {
+        "entrance": {
             "12": [
                 42,
                 480
@@ -73231,6 +74543,132 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "24": [
                 0,
                 480
+            ]
+        },
+        "heart": {
+            "12": [
+                96,
+                480
+            ],
+            "18": [
+                78,
+                480
+            ],
+            "24": [
+                54,
+                480
+            ]
+        },
+        "london-underground": {
+            "12": [
+                150,
+                480
+            ],
+            "18": [
+                132,
+                480
+            ],
+            "24": [
+                108,
+                480
+            ]
+        },
+        "minefield": {
+            "12": [
+                204,
+                480
+            ],
+            "18": [
+                186,
+                480
+            ],
+            "24": [
+                162,
+                480
+            ]
+        },
+        "rail-underground": {
+            "12": [
+                258,
+                480
+            ],
+            "18": [
+                240,
+                480
+            ],
+            "24": [
+                216,
+                480
+            ]
+        },
+        "rail-above": {
+            "12": [
+                42,
+                504
+            ],
+            "18": [
+                24,
+                504
+            ],
+            "24": [
+                0,
+                504
+            ]
+        },
+        "camera": {
+            "12": [
+                96,
+                504
+            ],
+            "18": [
+                78,
+                504
+            ],
+            "24": [
+                54,
+                504
+            ]
+        },
+        "laundry": {
+            "12": [
+                150,
+                504
+            ],
+            "18": [
+                132,
+                504
+            ],
+            "24": [
+                108,
+                504
+            ]
+        },
+        "car": {
+            "12": [
+                204,
+                504
+            ],
+            "18": [
+                186,
+                504
+            ],
+            "24": [
+                162,
+                504
+            ]
+        },
+        "suitcase": {
+            "12": [
+                258,
+                504
+            ],
+            "18": [
+                240,
+                504
+            ],
+            "24": [
+                216,
+                504
             ]
         },
         "highway-motorway": {
@@ -73669,6 +75107,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "zh-CN",
         "zh-CN.GB2312",
         "zh-TW",
+        "yue",
         "hr",
         "cs",
         "da",
@@ -74100,6 +75539,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         },
         "presets": {
             "categories": {
+                "category-building": {
+                    "name": "Building"
+                },
                 "category-landuse": {
                     "name": "Land Use"
                 },
@@ -74115,7 +75557,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "category-route": {
                     "name": "Route"
                 },
-                "category-water": {
+                "category-water-area": {
+                    "name": "Water"
+                },
+                "category-water-line": {
                     "name": "Water"
                 }
             },
@@ -74416,6 +75861,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "shelter": {
                     "label": "Shelter"
                 },
+                "shelter_type": {
+                    "label": "Type"
+                },
                 "shop": {
                     "label": "Type"
                 },
@@ -74455,6 +75903,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "trail_visibility": {
                     "label": "Trail Visibility"
+                },
+                "tree_type": {
+                    "label": "Type"
                 },
                 "vending": {
                     "label": "Type of Goods"
@@ -74636,7 +76087,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "terms": ""
                 },
                 "amenity/parking": {
-                    "name": "Parking",
+                    "name": "Car Parking",
                     "terms": ""
                 },
                 "amenity/pharmacy": {
@@ -74681,7 +76132,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "amenity/ranger_station": {
                     "name": "Ranger Station",
-                    "terms": "visitor center,visitor centre,permit center,permit centre,backcountry office"
+                    "terms": "visitor center,visitor centre,permit center,permit centre,backcountry office,warden office,warden center"
                 },
                 "amenity/restaurant": {
                     "name": "Restaurant",
@@ -74690,6 +76141,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "amenity/school": {
                     "name": "School",
                     "terms": "academy,alma mater,blackboard,college,department,discipline,establishment,faculty,hall,halls of ivy,institute,institution,jail*,schoolhouse,seminary,university"
+                },
+                "amenity/shelter": {
+                    "name": "Shelter",
+                    "terms": "lean-to"
                 },
                 "amenity/swimming_pool": {
                     "name": "Swimming Pool",
@@ -74853,6 +76308,14 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "entrance": {
                     "name": "Entrance",
+                    "terms": ""
+                },
+                "footway/crossing": {
+                    "name": "Crossing",
+                    "terms": "crosswalk,zebra crossing"
+                },
+                "footway/sidewalk": {
+                    "name": "Sidewalk",
                     "terms": ""
                 },
                 "highway": {
@@ -75323,6 +76786,86 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Office",
                     "terms": ""
                 },
+                "office/accountant": {
+                    "name": "Accountant",
+                    "terms": ""
+                },
+                "office/administrative": {
+                    "name": "Administrative Office",
+                    "terms": ""
+                },
+                "office/architect": {
+                    "name": "Architect",
+                    "terms": ""
+                },
+                "office/company": {
+                    "name": "Company Office",
+                    "terms": ""
+                },
+                "office/educational_institution": {
+                    "name": "Educational Institution",
+                    "terms": ""
+                },
+                "office/employment_agency": {
+                    "name": "Employment Agency",
+                    "terms": ""
+                },
+                "office/estate_agent": {
+                    "name": "Real Estate Office",
+                    "terms": ""
+                },
+                "office/financial": {
+                    "name": "Financial Office",
+                    "terms": ""
+                },
+                "office/government": {
+                    "name": "Government Office",
+                    "terms": ""
+                },
+                "office/insurance": {
+                    "name": "Insurance Office",
+                    "terms": ""
+                },
+                "office/it": {
+                    "name": "IT Office",
+                    "terms": ""
+                },
+                "office/lawyer": {
+                    "name": "Law Office",
+                    "terms": ""
+                },
+                "office/newspaper": {
+                    "name": "Newspaper",
+                    "terms": ""
+                },
+                "office/ngo": {
+                    "name": "NGO Office",
+                    "terms": ""
+                },
+                "office/physician": {
+                    "name": "Physician",
+                    "terms": ""
+                },
+                "office/political_party": {
+                    "name": "Political Party",
+                    "terms": ""
+                },
+                "office/research": {
+                    "name": "Research Office",
+                    "terms": ""
+                },
+                "office/telecommunication": {
+                    "name": "Telecom Office",
+                    "terms": ""
+                },
+                "office/therapist": {
+                    "name": "Therapist",
+                    "terms": ""
+                },
+                "office/travel_agent": {
+                    "name": "Travel Agency",
+                    "terms": ""
+                },
                 "place": {
                     "name": "Place",
                     "terms": ""
@@ -75369,6 +76912,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "power/line": {
                     "name": "Power Line",
+                    "terms": ""
+                },
+                "power/minor_line": {
+                    "name": "Minor Power Line",
                     "terms": ""
                 },
                 "power/pole": {
@@ -75421,7 +76968,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "railway/station": {
                     "name": "Railway Station",
-                    "terms": ""
+                    "terms": "train station,station"
                 },
                 "railway/subway": {
                     "name": "Subway",
@@ -75681,7 +77228,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "tourism/camp_site": {
                     "name": "Camp Site",
-                    "terms": ""
+                    "terms": "camping"
                 },
                 "tourism/caravan_site": {
                     "name": "RV Park",
@@ -75838,6 +77385,4571 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "waterway/weir": {
                     "name": "Weir",
                     "terms": ""
+                }
+            }
+        }
+    },
+    "suggestions": {
+        "amenity": {
+            "bank": {
+                "ABN AMRO": {
+                    "count": 129
+                },
+                "ABSA": {
+                    "count": 88
+                },
+                "AIB": {
+                    "count": 71
+                },
+                "ANZ": {
+                    "count": 199
+                },
+                "AXA": {
+                    "count": 66
+                },
+                "Alior Bank": {
+                    "count": 71
+                },
+                "Allied Bank": {
+                    "count": 115
+                },
+                "Alpha Bank": {
+                    "count": 94
+                },
+                "Argenta": {
+                    "count": 84
+                },
+                "Axis Bank": {
+                    "count": 52
+                },
+                "BAWAG PSK": {
+                    "count": 105
+                },
+                "BB&T": {
+                    "count": 126
+                },
+                "BBK": {
+                    "count": 69
+                },
+                "BBVA": {
+                    "count": 574
+                },
+                "BCI": {
+                    "count": 57
+                },
+                "BCR": {
+                    "count": 137
+                },
+                "BDO": {
+                    "count": 275
+                },
+                "BES": {
+                    "count": 68
+                },
+                "BMO": {
+                    "count": 160
+                },
+                "BNL": {
+                    "count": 78
+                },
+                "BNP": {
+                    "count": 109
+                },
+                "BNP Paribas": {
+                    "count": 574
+                },
+                "BNP Paribas Fortis": {
+                    "count": 204
+                },
+                "BPI": {
+                    "count": 393
+                },
+                "BRD": {
+                    "count": 179
+                },
+                "BW-Bank": {
+                    "count": 97
+                },
+                "BZ WBK": {
+                    "count": 65
+                },
+                "Banamex": {
+                    "count": 130
+                },
+                "Banca Intesa": {
+                    "count": 58
+                },
+                "Banca Popolare di Novara": {
+                    "count": 51
+                },
+                "Banca Popolare di Vicenza": {
+                    "count": 67
+                },
+                "Banca Transilvania": {
+                    "count": 131
+                },
+                "Bancaja": {
+                    "count": 58
+                },
+                "Banco BCI": {
+                    "count": 51
+                },
+                "Banco Estado": {
+                    "count": 67
+                },
+                "Banco G&T Continental": {
+                    "count": 62
+                },
+                "Banco Itaú": {
+                    "count": 82
+                },
+                "Banco Nación": {
+                    "count": 59
+                },
+                "Banco Pastor": {
+                    "count": 62
+                },
+                "Banco Popular": {
+                    "count": 262
+                },
+                "Banco Provincia": {
+                    "count": 62
+                },
+                "Banco Santander": {
+                    "count": 91
+                },
+                "Banco de Chile": {
+                    "count": 95
+                },
+                "Banco de Costa Rica": {
+                    "count": 64
+                },
+                "Banco de Desarrollo Banrural": {
+                    "count": 74
+                },
+                "Banco de la Nación": {
+                    "count": 93
+                },
+                "Banco do Brasil": {
+                    "count": 440
+                },
+                "BancoEstado": {
+                    "count": 79
+                },
+                "Bancolombia": {
+                    "count": 85
+                },
+                "Bancomer": {
+                    "count": 96
+                },
+                "Bancpost": {
+                    "count": 51
+                },
+                "Banesco": {
+                    "count": 86
+                },
+                "Banesto": {
+                    "count": 198
+                },
+                "Bank Austria": {
+                    "count": 174
+                },
+                "Bank Mandiri": {
+                    "count": 56
+                },
+                "Bank Spółdzielczy": {
+                    "count": 142
+                },
+                "Bank of America": {
+                    "count": 836
+                },
+                "Bank of Ireland": {
+                    "count": 109
+                },
+                "Bank of Montreal": {
+                    "count": 111
+                },
+                "Bank of Scotland": {
+                    "count": 85
+                },
+                "Bank of the West": {
+                    "count": 86
+                },
+                "Bankia": {
+                    "count": 108
+                },
+                "Bankinter": {
+                    "count": 54
+                },
+                "Banorte": {
+                    "count": 65
+                },
+                "Banque Nationale": {
+                    "count": 56
+                },
+                "Banque Populaire": {
+                    "count": 399
+                },
+                "Barclays": {
+                    "count": 925
+                },
+                "Belfius": {
+                    "count": 219
+                },
+                "Bendigo Bank": {
+                    "count": 88
+                },
+                "Berliner Sparkasse": {
+                    "count": 61
+                },
+                "Berliner Volksbank": {
+                    "count": 79
+                },
+                "Bicentenario": {
+                    "count": 183
+                },
+                "Bradesco": {
+                    "count": 236
+                },
+                "CIBC": {
+                    "count": 306
+                },
+                "CIC": {
+                    "count": 393
+                },
+                "Caisse d'Épargne": {
+                    "count": 801
+                },
+                "Caixa": {
+                    "count": 99
+                },
+                "Caixa Econômica Federal": {
+                    "count": 131
+                },
+                "Caixa Geral de Depósitos": {
+                    "count": 119
+                },
+                "Caja Círculo": {
+                    "count": 65
+                },
+                "Caja Duero": {
+                    "count": 58
+                },
+                "Caja Madrid": {
+                    "count": 115
+                },
+                "Caja Rural": {
+                    "count": 87
+                },
+                "Caja de Burgos": {
+                    "count": 58
+                },
+                "Cajamar": {
+                    "count": 61
+                },
+                "Cajero Automatico Bancared": {
+                    "count": 147
+                },
+                "Canara Bank": {
+                    "count": 82
+                },
+                "Cassa di Risparmio del Veneto": {
+                    "count": 58
+                },
+                "Chase": {
+                    "count": 623
+                },
+                "China Bank": {
+                    "count": 59
+                },
+                "Chinabank": {
+                    "count": 54
+                },
+                "Citibank": {
+                    "count": 249
+                },
+                "Citizens Bank": {
+                    "count": 107
+                },
+                "CityCommerce Bank": {
+                    "count": 53
+                },
+                "Commercial Bank of Ceylon PLC": {
+                    "count": 80
+                },
+                "Commerzbank": {
+                    "count": 799
+                },
+                "Commonwealth Bank": {
+                    "count": 218
+                },
+                "Credit Agricole": {
+                    "count": 143
+                },
+                "Credit Suisse": {
+                    "count": 69
+                },
+                "Crédit Agricole": {
+                    "count": 1160
+                },
+                "Crédit Mutuel": {
+                    "count": 648
+                },
+                "Crédit Mutuel de Bretagne": {
+                    "count": 335
+                },
+                "Crédit du Nord": {
+                    "count": 88
+                },
+                "Danske Bank": {
+                    "count": 130
+                },
+                "Davivienda": {
+                    "count": 83
+                },
+                "De Venezuela": {
+                    "count": 127
+                },
+                "Del Tesoro": {
+                    "count": 94
+                },
+                "Deutsche Bank": {
+                    "count": 836
+                },
+                "Dresdner Bank": {
+                    "count": 77
+                },
+                "Ecobank": {
+                    "count": 54
+                },
+                "Erste Bank": {
+                    "count": 178
+                },
+                "Eurobank": {
+                    "count": 89
+                },
+                "FNB": {
+                    "count": 90
+                },
+                "Fifth Third Bank": {
+                    "count": 66
+                },
+                "First National Bank": {
+                    "count": 76
+                },
+                "GE Money Bank": {
+                    "count": 72
+                },
+                "HDFC Bank": {
+                    "count": 85
+                },
+                "HSBC": {
+                    "count": 1039
+                },
+                "Halifax": {
+                    "count": 214
+                },
+                "Hamburger Sparkasse": {
+                    "count": 157
+                },
+                "Handelsbanken": {
+                    "count": 178
+                },
+                "HypoVereinsbank": {
+                    "count": 570
+                },
+                "ICICI Bank": {
+                    "count": 78
+                },
+                "ING": {
+                    "count": 468
+                },
+                "ING Bank Śląski": {
+                    "count": 64
+                },
+                "Ibercaja": {
+                    "count": 58
+                },
+                "Intesa San Paolo": {
+                    "count": 60
+                },
+                "Itaú": {
+                    "count": 278
+                },
+                "KBC": {
+                    "count": 194
+                },
+                "Key Bank": {
+                    "count": 139
+                },
+                "Komerční banka": {
+                    "count": 136
+                },
+                "Kreissparkasse": {
+                    "count": 579
+                },
+                "Kreissparkasse Köln": {
+                    "count": 67
+                },
+                "LCL": {
+                    "count": 508
+                },
+                "La Banque Postale": {
+                    "count": 61
+                },
+                "La Caixa": {
+                    "count": 513
+                },
+                "Landbank": {
+                    "count": 79
+                },
+                "Lloyds Bank": {
+                    "count": 541
+                },
+                "M&T Bank": {
+                    "count": 80
+                },
+                "Maybank": {
+                    "count": 81
+                },
+                "Mercantil": {
+                    "count": 220
+                },
+                "Metrobank": {
+                    "count": 253
+                },
+                "Millenium Bank": {
+                    "count": 60
+                },
+                "Millennium Bank": {
+                    "count": 415
+                },
+                "Monte dei Paschi di Siena": {
+                    "count": 126
+                },
+                "NAB": {
+                    "count": 123
+                },
+                "NatWest": {
+                    "count": 606
+                },
+                "National Bank": {
+                    "count": 87
+                },
+                "Nationwide": {
+                    "count": 193
+                },
+                "Nedbank": {
+                    "count": 74
+                },
+                "Nordea": {
+                    "count": 312
+                },
+                "OLB": {
+                    "count": 52
+                },
+                "OTP": {
+                    "count": 184
+                },
+                "Oberbank": {
+                    "count": 87
+                },
+                "Oldenburgische Landesbank": {
+                    "count": 56
+                },
+                "Osuuspankki": {
+                    "count": 74
+                },
+                "PKO BP": {
+                    "count": 239
+                },
+                "PNB": {
+                    "count": 106
+                },
+                "PNC Bank": {
+                    "count": 215
+                },
+                "PSBank": {
+                    "count": 57
+                },
+                "Pekao SA": {
+                    "count": 53
+                },
+                "Peoples Bank": {
+                    "count": 55
+                },
+                "Postbank": {
+                    "count": 433
+                },
+                "RBC": {
+                    "count": 220
+                },
+                "RBS": {
+                    "count": 136
+                },
+                "RCBC": {
+                    "count": 117
+                },
+                "Rabobank": {
+                    "count": 619
+                },
+                "Raiffeisenbank": {
+                    "count": 2028
+                },
+                "Regions Bank": {
+                    "count": 59
+                },
+                "Royal Bank": {
+                    "count": 65
+                },
+                "Royal Bank of Scotland": {
+                    "count": 108
+                },
+                "SEB": {
+                    "count": 129
+                },
+                "Santander": {
+                    "count": 1181
+                },
+                "Santander Consumer Bank": {
+                    "count": 81
+                },
+                "Santander Totta": {
+                    "count": 63
+                },
+                "Sberbank": {
+                    "count": 61
+                },
+                "Scotiabank": {
+                    "count": 379
+                },
+                "Security Bank": {
+                    "count": 71
+                },
+                "Slovenská sporiteľňa": {
+                    "count": 127
+                },
+                "Société Générale": {
+                    "count": 592
+                },
+                "Sparda-Bank": {
+                    "count": 313
+                },
+                "Sparkasse": {
+                    "count": 4521
+                },
+                "Sparkasse Aachen": {
+                    "count": 58
+                },
+                "Sparkasse KölnBonn": {
+                    "count": 55
+                },
+                "Stadtsparkasse": {
+                    "count": 86
+                },
+                "Standard Bank": {
+                    "count": 100
+                },
+                "State Bank of India": {
+                    "count": 132
+                },
+                "SunTrust": {
+                    "count": 63
+                },
+                "SunTrust Bank": {
+                    "count": 66
+                },
+                "Swedbank": {
+                    "count": 219
+                },
+                "TD Bank": {
+                    "count": 178
+                },
+                "TD Canada Trust": {
+                    "count": 421
+                },
+                "TSB": {
+                    "count": 51
+                },
+                "Targobank": {
+                    "count": 167
+                },
+                "Tatra banka": {
+                    "count": 65
+                },
+                "UBS": {
+                    "count": 129
+                },
+                "UCPB": {
+                    "count": 87
+                },
+                "US Bank": {
+                    "count": 214
+                },
+                "Ulster Bank": {
+                    "count": 85
+                },
+                "UniCredit Bank": {
+                    "count": 376
+                },
+                "Unicredit Banca": {
+                    "count": 224
+                },
+                "Unicaja": {
+                    "count": 74
+                },
+                "Union Bank": {
+                    "count": 110
+                },
+                "VR-Bank": {
+                    "count": 421
+                },
+                "Volksbank": {
+                    "count": 2573
+                },
+                "VÚB": {
+                    "count": 108
+                },
+                "Wachovia": {
+                    "count": 61
+                },
+                "Wells Fargo": {
+                    "count": 781
+                },
+                "Western Union": {
+                    "count": 84
+                },
+                "Westpac": {
+                    "count": 194
+                },
+                "Yorkshire Bank": {
+                    "count": 60
+                },
+                "ČSOB": {
+                    "count": 157
+                },
+                "Česká spořitelna": {
+                    "count": 207
+                },
+                "Альфа-Банк": {
+                    "count": 183
+                },
+                "Банк Москвы": {
+                    "count": 116
+                },
+                "Белагропромбанк": {
+                    "count": 66
+                },
+                "Беларусбанк": {
+                    "count": 223
+                },
+                "ВТБ": {
+                    "count": 54
+                },
+                "ВТБ24": {
+                    "count": 298
+                },
+                "Возрождение": {
+                    "count": 56
+                },
+                "Газпромбанк": {
+                    "count": 93
+                },
+                "Ощадбанк": {
+                    "count": 292
+                },
+                "ПриватБанк": {
+                    "count": 480
+                },
+                "Промсвязьбанк": {
+                    "count": 86
+                },
+                "Райффайзен Банк Аваль": {
+                    "count": 57
+                },
+                "Росбанк": {
+                    "count": 172
+                },
+                "Россельхозбанк": {
+                    "count": 181
+                },
+                "Сбербанк": {
+                    "count": 4579
+                },
+                "Совкомбанк": {
+                    "count": 51
+                },
+                "УкрСиббанк": {
+                    "count": 125
+                },
+                "Уралсиб": {
+                    "count": 83
+                },
+                "ლიბერთი ბანკი (Liberty Bank)": {
+                    "count": 55
+                },
+                "みずほ銀行": {
+                    "count": 68
+                },
+                "りそな銀行": {
+                    "count": 227
+                },
+                "三井住友銀行": {
+                    "count": 122
+                },
+                "三菱東京UFJ銀行": {
+                    "count": 149
+                },
+                "中国银行": {
+                    "count": 65
+                },
+                "광주은행 (Gwangju Bank)": {
+                    "count": 55
+                },
+                "국민은행": {
+                    "count": 167
+                },
+                "농협": {
+                    "count": 51
+                },
+                "신한은행": {
+                    "count": 218
+                },
+                "우리은행": {
+                    "count": 293
+                },
+                "중소기업은행 (Industrial Bank of Korea)": {
+                    "count": 53
+                },
+                "하나은행": {
+                    "count": 78
+                }
+            },
+            "cafe": {
+                "Cafe Amazon": {
+                    "count": 51
+                },
+                "Cafe Coffee Day": {
+                    "count": 103
+                },
+                "Cafeteria": {
+                    "count": 69
+                },
+                "Caffè Nero": {
+                    "count": 159
+                },
+                "Café Central": {
+                    "count": 58
+                },
+                "Caribou Coffee": {
+                    "count": 92
+                },
+                "Coffee Time": {
+                    "count": 94
+                },
+                "Costa": {
+                    "count": 548
+                },
+                "Dunkin Donuts": {
+                    "count": 365
+                },
+                "Eiscafe": {
+                    "count": 115
+                },
+                "Eiscafe Venezia": {
+                    "count": 176
+                },
+                "Eisdiele": {
+                    "count": 64
+                },
+                "Panera Bread": {
+                    "count": 72
+                },
+                "Pret A Manger": {
+                    "count": 115
+                },
+                "Second Cup": {
+                    "count": 170
+                },
+                "Segafredo": {
+                    "count": 67
+                },
+                "Starbucks": {
+                    "count": 3837
+                },
+                "Subway": {
+                    "count": 61
+                },
+                "Tchibo": {
+                    "count": 91
+                },
+                "Tim Hortons": {
+                    "count": 940
+                },
+                "Traveler's Coffee": {
+                    "count": 59
+                },
+                "Кафе": {
+                    "count": 244
+                },
+                "Кофе Хауз": {
+                    "count": 99
+                },
+                "Столовая": {
+                    "count": 320
+                },
+                "Шашлычная": {
+                    "count": 51
+                },
+                "Шоколадница": {
+                    "count": 124
+                },
+                "คาเฟ่ อเมซอน": {
+                    "count": 63
+                },
+                "カフェ・ド・クリエ (Cafe de CRIE)": {
+                    "count": 68
+                },
+                "スターバックス": {
+                    "count": 54,
+                    "name:en": "Starbucks"
+                },
+                "スターバックス (Starbucks)": {
+                    "count": 191
+                },
+                "ドトール": {
+                    "count": 163
+                }
+            },
+            "car_rental": {
+                "Avis": {
+                    "count": 263
+                },
+                "Budget": {
+                    "count": 81
+                },
+                "Enterprise": {
+                    "count": 173
+                },
+                "Europcar": {
+                    "count": 271
+                },
+                "Hertz": {
+                    "count": 276
+                },
+                "Sixt": {
+                    "count": 150
+                },
+                "stadtmobil CarSharing-Station": {
+                    "count": 162
+                }
+            },
+            "fast_food": {
+                "A&W": {
+                    "count": 255
+                },
+                "Ali Baba": {
+                    "count": 57
+                },
+                "Arby's": {
+                    "count": 714
+                },
+                "Asia Imbiss": {
+                    "count": 103
+                },
+                "Baskin Robbins": {
+                    "count": 69
+                },
+                "Boston Market": {
+                    "count": 57
+                },
+                "Burger King": {
+                    "count": 3449
+                },
+                "Carl's Jr.": {
+                    "count": 272
+                },
+                "Chick-fil-A": {
+                    "count": 214
+                },
+                "Chipotle": {
+                    "count": 260
+                },
+                "Chowking": {
+                    "count": 138
+                },
+                "Church's Chicken": {
+                    "count": 86
+                },
+                "Culver's": {
+                    "count": 427
+                },
+                "Dairy Queen": {
+                    "count": 722
+                },
+                "Del Taco": {
+                    "count": 137
+                },
+                "Domino's Pizza": {
+                    "count": 896
+                },
+                "Dunkin Donuts": {
+                    "count": 411
+                },
+                "Döner": {
+                    "count": 221
+                },
+                "El Pollo Loco": {
+                    "count": 61
+                },
+                "Fish & Chips": {
+                    "count": 82
+                },
+                "Five Guys": {
+                    "count": 124
+                },
+                "Greggs": {
+                    "count": 77
+                },
+                "Hallo Pizza": {
+                    "count": 76
+                },
+                "Hardee's": {
+                    "count": 242
+                },
+                "Harvey's": {
+                    "count": 83
+                },
+                "Hesburger": {
+                    "count": 97
+                },
+                "Hungry Jacks": {
+                    "count": 163
+                },
+                "Imbiss": {
+                    "count": 181
+                },
+                "In-N-Out Burger": {
+                    "count": 58
+                },
+                "Istanbul": {
+                    "count": 52
+                },
+                "Jack in the Box": {
+                    "count": 517
+                },
+                "Jamba Juice": {
+                    "count": 60
+                },
+                "Jimmy John's": {
+                    "count": 119
+                },
+                "Jollibee": {
+                    "count": 384
+                },
+                "KFC": {
+                    "count": 2975
+                },
+                "Kebab": {
+                    "count": 167
+                },
+                "Kochlöffel": {
+                    "count": 69
+                },
+                "Kotipizza": {
+                    "count": 75
+                },
+                "Little Caesars": {
+                    "count": 61
+                },
+                "Long John Silver's": {
+                    "count": 76
+                },
+                "Mang Inasal": {
+                    "count": 66
+                },
+                "McDonald's": {
+                    "count": 11760
+                },
+                "Mr. Sub": {
+                    "count": 108
+                },
+                "Nando's": {
+                    "count": 58
+                },
+                "Nordsee": {
+                    "count": 159
+                },
+                "Panda Express": {
+                    "count": 212
+                },
+                "Panera Bread": {
+                    "count": 59
+                },
+                "Papa John's": {
+                    "count": 274
+                },
+                "Pizza Express": {
+                    "count": 65
+                },
+                "Pizza Hut": {
+                    "count": 1010
+                },
+                "Pizza Nova": {
+                    "count": 57
+                },
+                "Pizza Pizza": {
+                    "count": 202
+                },
+                "Pollo Campero": {
+                    "count": 63
+                },
+                "Popeye's": {
+                    "count": 147
+                },
+                "Quick": {
+                    "count": 484
+                },
+                "Quiznos": {
+                    "count": 262
+                },
+                "Red Rooster": {
+                    "count": 145
+                },
+                "Sibylla": {
+                    "count": 61
+                },
+                "Sonic": {
+                    "count": 506
+                },
+                "Steers": {
+                    "count": 139
+                },
+                "Subway": {
+                    "count": 5113
+                },
+                "Taco Bell": {
+                    "count": 1257
+                },
+                "Taco John's": {
+                    "count": 64
+                },
+                "Taco Time": {
+                    "count": 82
+                },
+                "Telepizza": {
+                    "count": 188
+                },
+                "Tim Hortons": {
+                    "count": 292
+                },
+                "Wendy's": {
+                    "count": 1487
+                },
+                "Whataburger": {
+                    "count": 147
+                },
+                "White Castle": {
+                    "count": 74
+                },
+                "Wimpy": {
+                    "count": 136
+                },
+                "Макдоналдс": {
+                    "count": 309,
+                    "name:en": "McDonald's"
+                },
+                "Робин Сдобин": {
+                    "count": 72
+                },
+                "Русский Аппетит": {
+                    "count": 65
+                },
+                "Столовая": {
+                    "count": 189
+                },
+                "Теремок": {
+                    "count": 63
+                },
+                "すき家": {
+                    "count": 245
+                },
+                "なか卯": {
+                    "count": 52
+                },
+                "ケンタッキーフライドチキン": {
+                    "count": 54,
+                    "name:en": "KFC"
+                },
+                "ケンタッキーフライドチキン (Kentucky Fried Chicken)": {
+                    "count": 104
+                },
+                "マクドナルド": {
+                    "count": 632,
+                    "name:en": "McDonald's"
+                },
+                "モスバーガー": {
+                    "count": 237
+                },
+                "吉野家": {
+                    "count": 172
+                },
+                "松屋": {
+                    "count": 224
+                },
+                "肯德基": {
+                    "count": 81
+                },
+                "麥當勞": {
+                    "count": 51
+                }
+            },
+            "fuel": {
+                "76": {
+                    "count": 282
+                },
+                "1-2-3": {
+                    "count": 71
+                },
+                "7-Eleven": {
+                    "count": 422
+                },
+                "ABC": {
+                    "count": 80
+                },
+                "Agip": {
+                    "count": 2654
+                },
+                "ANP": {
+                    "count": 65
+                },
+                "ARAL": {
+                    "count": 371
+                },
+                "AVIA": {
+                    "count": 257
+                },
+                "Afriquia": {
+                    "count": 90
+                },
+                "Agrola": {
+                    "count": 72
+                },
+                "Api": {
+                    "count": 313
+                },
+                "Aral": {
+                    "count": 1334
+                },
+                "Arco": {
+                    "count": 153
+                },
+                "Auchan": {
+                    "count": 52
+                },
+                "Avanti": {
+                    "count": 92
+                },
+                "Avia": {
+                    "count": 614
+                },
+                "BFT": {
+                    "count": 88
+                },
+                "BP": {
+                    "count": 2330
+                },
+                "BR": {
+                    "count": 81
+                },
+                "Benzina": {
+                    "count": 70
+                },
+                "Bliska": {
+                    "count": 149
+                },
+                "C. C. E. Leclerc": {
+                    "count": 84
+                },
+                "CAMPSA": {
+                    "count": 630
+                },
+                "CARREFOUR": {
+                    "count": 75
+                },
+                "CEPSA": {
+                    "count": 1020
+                },
+                "COSMO": {
+                    "count": 65
+                },
+                "Caltex": {
+                    "count": 948
+                },
+                "Canadian Tire": {
+                    "count": 63
+                },
+                "Carrefour": {
+                    "count": 196
+                },
+                "Casey's General Store": {
+                    "count": 162
+                },
+                "Cenex": {
+                    "count": 106
+                },
+                "Cepsa": {
+                    "count": 75
+                },
+                "Chevron": {
+                    "count": 825
+                },
+                "Circle K": {
+                    "count": 149
+                },
+                "Citgo": {
+                    "count": 246
+                },
+                "Coles Express": {
+                    "count": 99
+                },
+                "Conoco": {
+                    "count": 169
+                },
+                "Coop": {
+                    "count": 55
+                },
+                "Copec": {
+                    "count": 496
+                },
+                "E.Leclerc": {
+                    "count": 250
+                },
+                "EKO": {
+                    "count": 61
+                },
+                "ENEOS": {
+                    "count": 644
+                },
+                "ERG": {
+                    "count": 74
+                },
+                "Esso": {
+                    "count": 3566
+                },
+                "Eko": {
+                    "count": 58
+                },
+                "Elan": {
+                    "count": 114
+                },
+                "Elf": {
+                    "count": 138
+                },
+                "Eneos": {
+                    "count": 97
+                },
+                "Engen": {
+                    "count": 224
+                },
+                "Eni": {
+                    "count": 199
+                },
+                "Erg": {
+                    "count": 609
+                },
+                "Esso Express": {
+                    "count": 81
+                },
+                "Exxon": {
+                    "count": 435
+                },
+                "Flying V": {
+                    "count": 130
+                },
+                "Freie Tankstelle": {
+                    "count": 210
+                },
+                "GALP": {
+                    "count": 582
+                },
+                "Gulf": {
+                    "count": 184
+                },
+                "HEM": {
+                    "count": 216
+                },
+                "HP": {
+                    "count": 59
+                },
+                "Hess": {
+                    "count": 110
+                },
+                "Holiday": {
+                    "count": 96
+                },
+                "Husky": {
+                    "count": 115
+                },
+                "IDEMITSU": {
+                    "count": 79
+                },
+                "IES": {
+                    "count": 62
+                },
+                "INA": {
+                    "count": 118
+                },
+                "IP": {
+                    "count": 830
+                },
+                "Indian Oil": {
+                    "count": 134
+                },
+                "Indipend.": {
+                    "count": 178
+                },
+                "Intermarché": {
+                    "count": 417
+                },
+                "Ipiranga": {
+                    "count": 79
+                },
+                "Irving": {
+                    "count": 79
+                },
+                "JET": {
+                    "count": 177
+                },
+                "JOMO": {
+                    "count": 65
+                },
+                "Jet": {
+                    "count": 439
+                },
+                "Kum & Go": {
+                    "count": 76
+                },
+                "Kwik Trip": {
+                    "count": 100
+                },
+                "LPG": {
+                    "count": 151
+                },
+                "Lotos": {
+                    "count": 168
+                },
+                "Lukoil": {
+                    "count": 667
+                },
+                "MEROIL": {
+                    "count": 80
+                },
+                "MOL": {
+                    "count": 216
+                },
+                "Marathon": {
+                    "count": 154
+                },
+                "Metano": {
+                    "count": 205
+                },
+                "Migrol": {
+                    "count": 66
+                },
+                "Mobil": {
+                    "count": 564
+                },
+                "Mol": {
+                    "count": 58
+                },
+                "Morrisons": {
+                    "count": 104
+                },
+                "Neste": {
+                    "count": 197
+                },
+                "Neste A24": {
+                    "count": 58
+                },
+                "OIL!": {
+                    "count": 57
+                },
+                "OK": {
+                    "count": 159
+                },
+                "OKKO": {
+                    "count": 56
+                },
+                "OKQ8": {
+                    "count": 186
+                },
+                "OMV": {
+                    "count": 718
+                },
+                "Oilibya": {
+                    "count": 65
+                },
+                "Orlen": {
+                    "count": 541
+                },
+                "Pemex": {
+                    "count": 357
+                },
+                "PETRONOR": {
+                    "count": 209
+                },
+                "PTT": {
+                    "count": 175
+                },
+                "Pertamina": {
+                    "count": 176
+                },
+                "Petro-Canada": {
+                    "count": 466
+                },
+                "Petrobras": {
+                    "count": 256
+                },
+                "Petrom": {
+                    "count": 253
+                },
+                "Petron": {
+                    "count": 824
+                },
+                "Petronas": {
+                    "count": 143
+                },
+                "Phillips 66": {
+                    "count": 193
+                },
+                "Phoenix": {
+                    "count": 138
+                },
+                "Q8": {
+                    "count": 1137
+                },
+                "QuikTrip": {
+                    "count": 84
+                },
+                "REPSOL": {
+                    "count": 1610
+                },
+                "Raiffeisenbank": {
+                    "count": 118
+                },
+                "Repsol": {
+                    "count": 390
+                },
+                "Rompetrol": {
+                    "count": 161
+                },
+                "Shell": {
+                    "count": 7936
+                },
+                "Sainsbury's": {
+                    "count": 55
+                },
+                "Sasol": {
+                    "count": 55
+                },
+                "Sheetz": {
+                    "count": 95
+                },
+                "Shell Express": {
+                    "count": 133
+                },
+                "Sinclair": {
+                    "count": 78
+                },
+                "Slovnaft": {
+                    "count": 217
+                },
+                "Sokimex": {
+                    "count": 59
+                },
+                "Speedway": {
+                    "count": 124
+                },
+                "St1": {
+                    "count": 100
+                },
+                "Stacja paliw": {
+                    "count": 84
+                },
+                "Star": {
+                    "count": 316
+                },
+                "Total": {
+                    "count": 2498
+                },
+                "Statoil": {
+                    "count": 588
+                },
+                "Stewart's": {
+                    "count": 62
+                },
+                "Sunoco": {
+                    "count": 307
+                },
+                "Super U": {
+                    "count": 122
+                },
+                "Tamoil": {
+                    "count": 864
+                },
+                "Tango": {
+                    "count": 119
+                },
+                "Tankstelle": {
+                    "count": 114
+                },
+                "Teboil": {
+                    "count": 119
+                },
+                "Tela": {
+                    "count": 113
+                },
+                "Terpel": {
+                    "count": 255
+                },
+                "Tesco": {
+                    "count": 192
+                },
+                "Texaco": {
+                    "count": 645
+                },
+                "Tinq": {
+                    "count": 218
+                },
+                "Topaz": {
+                    "count": 78
+                },
+                "TotalErg": {
+                    "count": 71
+                },
+                "Turmöl": {
+                    "count": 57
+                },
+                "Ultramar": {
+                    "count": 119
+                },
+                "United": {
+                    "count": 83
+                },
+                "Valero": {
+                    "count": 328
+                },
+                "WOG": {
+                    "count": 139
+                },
+                "Wawa": {
+                    "count": 78
+                },
+                "Westfalen": {
+                    "count": 97
+                },
+                "YPF": {
+                    "count": 141
+                },
+                "Z": {
+                    "count": 76
+                },
+                "bft": {
+                    "count": 168
+                },
+                "ÖMV": {
+                    "count": 100
+                },
+                "АГЗС": {
+                    "count": 471
+                },
+                "АЗС": {
+                    "count": 1012
+                },
+                "Башнефть": {
+                    "count": 52
+                },
+                "Белоруснефть": {
+                    "count": 55
+                },
+                "Газпромнефть": {
+                    "count": 727
+                },
+                "Лукойл": {
+                    "count": 1472
+                },
+                "Макпетрол": {
+                    "count": 110
+                },
+                "НК Альянс": {
+                    "count": 89
+                },
+                "ОККО": {
+                    "count": 112
+                },
+                "ОМВ": {
+                    "count": 57
+                },
+                "ПТК": {
+                    "count": 82
+                },
+                "Петрол": {
+                    "count": 82
+                },
+                "Роснефть": {
+                    "count": 594
+                },
+                "Славнефть": {
+                    "count": 53
+                },
+                "Сургутнефтегаз": {
+                    "count": 60
+                },
+                "ТНК": {
+                    "count": 503
+                },
+                "Татнефтепродукт": {
+                    "count": 55
+                },
+                "Татнефть": {
+                    "count": 250
+                },
+                "บางจาก": {
+                    "count": 60
+                },
+                "ป ต ท": {
+                    "count": 154
+                },
+                "ปตท": {
+                    "count": 89
+                },
+                "コスモ石油 (COSMO)": {
+                    "count": 132
+                },
+                "出光": {
+                    "count": 205
+                },
+                "昭和シェル (Showa-shell)": {
+                    "count": 93
+                }
+            },
+            "pharmacy": {
+                "36,6": {
+                    "count": 107
+                },
+                "Adler Apotheke": {
+                    "count": 302
+                },
+                "Alte Apotheke": {
+                    "count": 85
+                },
+                "Apotheke": {
+                    "count": 167
+                },
+                "Apotheke am Markt": {
+                    "count": 62
+                },
+                "Apteka": {
+                    "count": 335
+                },
+                "Bahnhof-Apotheke": {
+                    "count": 64
+                },
+                "Boots": {
+                    "count": 809
+                },
+                "Brunnen-Apotheke": {
+                    "count": 52
+                },
+                "Burg-Apotheke": {
+                    "count": 56
+                },
+                "Bären-Apotheke": {
+                    "count": 72
+                },
+                "CVS": {
+                    "count": 1400
+                },
+                "Clicks": {
+                    "count": 110
+                },
+                "Cruz Verde": {
+                    "count": 96
+                },
+                "Engel-Apotheke": {
+                    "count": 126
+                },
+                "Eurovaistinė": {
+                    "count": 60
+                },
+                "Farmacia Comunale": {
+                    "count": 103
+                },
+                "Farmacias Ahumada": {
+                    "count": 101
+                },
+                "Farmacias Cruz Verde": {
+                    "count": 84
+                },
+                "Farmacias SalcoBrand": {
+                    "count": 133
+                },
+                "Farmacity": {
+                    "count": 62
+                },
+                "Farmahorro": {
+                    "count": 61
+                },
+                "Farmatodo": {
+                    "count": 133
+                },
+                "Gintarinė vaistinė": {
+                    "count": 100
+                },
+                "Hirsch-Apotheke": {
+                    "count": 80
+                },
+                "Hubertus Apotheke": {
+                    "count": 103
+                },
+                "Jean Coutu": {
+                    "count": 56
+                },
+                "Kinney Drugs": {
+                    "count": 67
+                },
+                "Linden-Apotheke": {
+                    "count": 210
+                },
+                "Ljekarna": {
+                    "count": 55
+                },
+                "Lloyds Pharmacy": {
+                    "count": 286
+                },
+                "Löwen-Apotheke": {
+                    "count": 354
+                },
+                "Marien-Apotheke": {
+                    "count": 315
+                },
+                "Markt-Apotheke": {
+                    "count": 161
+                },
+                "Mercury Drug": {
+                    "count": 401
+                },
+                "Neue Apotheke": {
+                    "count": 111
+                },
+                "Pharmacie Centrale": {
+                    "count": 60
+                },
+                "Pharmaprix": {
+                    "count": 57
+                },
+                "Pharmasave": {
+                    "count": 63
+                },
+                "Rathaus-Apotheke": {
+                    "count": 130
+                },
+                "Rats-Apotheke": {
+                    "count": 85
+                },
+                "Rite Aid": {
+                    "count": 659
+                },
+                "Rosen-Apotheke": {
+                    "count": 208
+                },
+                "Rowlands Pharmacy": {
+                    "count": 68
+                },
+                "SalcoBrand": {
+                    "count": 88
+                },
+                "Shoppers Drug Mart": {
+                    "count": 396
+                },
+                "Sonnen-Apotheke": {
+                    "count": 306
+                },
+                "Stadt-Apotheke": {
+                    "count": 300
+                },
+                "Stern-Apotheke": {
+                    "count": 67
+                },
+                "Superdrug": {
+                    "count": 108
+                },
+                "The Generics Pharmacy": {
+                    "count": 82
+                },
+                "Walgreens": {
+                    "count": 1447
+                },
+                "Айболит": {
+                    "count": 51
+                },
+                "Аптека": {
+                    "count": 1879
+                },
+                "Аптека 36,6": {
+                    "count": 113
+                },
+                "Аптечный пункт": {
+                    "count": 136
+                },
+                "Вита": {
+                    "count": 107
+                },
+                "Имплозия": {
+                    "count": 59
+                },
+                "Классика": {
+                    "count": 66
+                },
+                "Невис": {
+                    "count": 58
+                },
+                "Первая помощь": {
+                    "count": 73
+                },
+                "Радуга": {
+                    "count": 69
+                },
+                "Ригла": {
+                    "count": 109
+                },
+                "Фармакор": {
+                    "count": 71
+                },
+                "Фармация": {
+                    "count": 118
+                },
+                "Фармленд": {
+                    "count": 80
+                },
+                "аптека": {
+                    "count": 100
+                },
+                "ავერსი (Aversi)": {
+                    "count": 63
+                },
+                "サンドラッグ": {
+                    "count": 52
+                },
+                "スギ薬局": {
+                    "count": 76
+                },
+                "トモズ (Tomod's)": {
+                    "count": 82
+                },
+                "ドラッグてらしま (Drug Terashima)": {
+                    "count": 96
+                },
+                "マツモトキヨシ": {
+                    "count": 107
+                }
+            },
+            "pub": {
+                "Cross Keys": {
+                    "count": 59
+                },
+                "Irish Pub": {
+                    "count": 82
+                },
+                "Kings Arms": {
+                    "count": 68
+                },
+                "Kings Head": {
+                    "count": 56
+                },
+                "New Inn": {
+                    "count": 89
+                },
+                "Prince of Wales": {
+                    "count": 76
+                },
+                "Red Lion": {
+                    "count": 201
+                },
+                "Rose & Crown": {
+                    "count": 51
+                },
+                "Rose and Crown": {
+                    "count": 77
+                },
+                "Royal Hotel": {
+                    "count": 52
+                },
+                "Royal Oak": {
+                    "count": 149
+                },
+                "The Anchor": {
+                    "count": 64
+                },
+                "The Angel": {
+                    "count": 55
+                },
+                "The Bell": {
+                    "count": 121
+                },
+                "The Black Horse": {
+                    "count": 94
+                },
+                "The Bull": {
+                    "count": 67
+                },
+                "The Castle": {
+                    "count": 56
+                },
+                "The Chequers": {
+                    "count": 65
+                },
+                "The Cross Keys": {
+                    "count": 55
+                },
+                "The Crown": {
+                    "count": 239
+                },
+                "The Crown Inn": {
+                    "count": 69
+                },
+                "The Fox": {
+                    "count": 78
+                },
+                "The George": {
+                    "count": 109
+                },
+                "The Green Man": {
+                    "count": 52
+                },
+                "The Greyhound": {
+                    "count": 97
+                },
+                "The Kings Arms": {
+                    "count": 59
+                },
+                "The Kings Head": {
+                    "count": 54
+                },
+                "The New Inn": {
+                    "count": 105
+                },
+                "The Plough": {
+                    "count": 173
+                },
+                "The Prince of Wales": {
+                    "count": 51
+                },
+                "The Queens Head": {
+                    "count": 51
+                },
+                "The Railway": {
+                    "count": 100
+                },
+                "The Red Lion": {
+                    "count": 230
+                },
+                "The Rising Sun": {
+                    "count": 70
+                },
+                "The Royal Oak": {
+                    "count": 207
+                },
+                "The Ship": {
+                    "count": 89
+                },
+                "The Ship Inn": {
+                    "count": 80
+                },
+                "The Star": {
+                    "count": 74
+                },
+                "The Swan": {
+                    "count": 148
+                },
+                "The Victoria": {
+                    "count": 68
+                },
+                "The Wheatsheaf": {
+                    "count": 120
+                },
+                "The White Hart": {
+                    "count": 223
+                },
+                "The White Horse": {
+                    "count": 201
+                },
+                "The White Lion": {
+                    "count": 117
+                }
+            },
+            "recycling": {
+                "Altglas": {
+                    "count": 98
+                },
+                "Déchèterie": {
+                    "count": 244
+                },
+                "Glas": {
+                    "count": 106
+                },
+                "Glascontainer": {
+                    "count": 144
+                },
+                "Recyclinghof": {
+                    "count": 131
+                },
+                "Wertstoffhof": {
+                    "count": 262
+                }
+            },
+            "restaurant": {
+                "Adler": {
+                    "count": 154
+                },
+                "Akropolis": {
+                    "count": 149
+                },
+                "Alte Post": {
+                    "count": 62
+                },
+                "Applebee's": {
+                    "count": 467
+                },
+                "Athen": {
+                    "count": 65
+                },
+                "Bella Italia": {
+                    "count": 125
+                },
+                "Bob Evans": {
+                    "count": 99
+                },
+                "Boston Market": {
+                    "count": 57
+                },
+                "Boston Pizza": {
+                    "count": 148
+                },
+                "Buffalo Grill": {
+                    "count": 192
+                },
+                "Buffalo Wild Wings": {
+                    "count": 147
+                },
+                "Burger King": {
+                    "count": 141
+                },
+                "Bären": {
+                    "count": 58
+                },
+                "California Pizza Kitchen": {
+                    "count": 56
+                },
+                "Chili's": {
+                    "count": 294
+                },
+                "China Garden": {
+                    "count": 64
+                },
+                "China Town": {
+                    "count": 70
+                },
+                "Chipotle": {
+                    "count": 125
+                },
+                "Chowking": {
+                    "count": 53
+                },
+                "Courtepaille": {
+                    "count": 95
+                },
+                "Cracker Barrel": {
+                    "count": 162
+                },
+                "Da Vinci": {
+                    "count": 53
+                },
+                "Dairy Queen": {
+                    "count": 92
+                },
+                "Delphi": {
+                    "count": 86
+                },
+                "Denny's": {
+                    "count": 395
+                },
+                "Deutsches Haus": {
+                    "count": 88
+                },
+                "Dionysos": {
+                    "count": 68
+                },
+                "Dolce Vita": {
+                    "count": 74
+                },
+                "Domino's Pizza": {
+                    "count": 98
+                },
+                "El Greco": {
+                    "count": 80
+                },
+                "Flunch": {
+                    "count": 71
+                },
+                "Frankie & Benny's": {
+                    "count": 58
+                },
+                "Friendly's": {
+                    "count": 72
+                },
+                "Gasthaus Adler": {
+                    "count": 51
+                },
+                "Gasthaus Krone": {
+                    "count": 54
+                },
+                "Gasthof zur Post": {
+                    "count": 72
+                },
+                "Golden Corral": {
+                    "count": 91
+                },
+                "Grüner Baum": {
+                    "count": 116
+                },
+                "Hard Rock Cafe": {
+                    "count": 66
+                },
+                "Hellas": {
+                    "count": 54
+                },
+                "Hippopotamus": {
+                    "count": 91
+                },
+                "Hirsch": {
+                    "count": 77
+                },
+                "Hirschen": {
+                    "count": 83
+                },
+                "Hong Kong": {
+                    "count": 81
+                },
+                "Hooters": {
+                    "count": 94
+                },
+                "IHOP": {
+                    "count": 286
+                },
+                "KFC": {
+                    "count": 191
+                },
+                "Kantine": {
+                    "count": 52
+                },
+                "Kelsey's": {
+                    "count": 56
+                },
+                "Kirchenwirt": {
+                    "count": 79
+                },
+                "Kreuz": {
+                    "count": 75
+                },
+                "Krone": {
+                    "count": 173
+                },
+                "La Cantina": {
+                    "count": 54
+                },
+                "La Dolce Vita": {
+                    "count": 68
+                },
+                "La Perla": {
+                    "count": 66
+                },
+                "La Piazza": {
+                    "count": 67
+                },
+                "Lamm": {
+                    "count": 67
+                },
+                "Linde": {
+                    "count": 102
+                },
+                "Lindenhof": {
+                    "count": 82
+                },
+                "Little Chef": {
+                    "count": 68
+                },
+                "Longhorn Steakhouse": {
+                    "count": 56
+                },
+                "Lotus": {
+                    "count": 64
+                },
+                "Löwen": {
+                    "count": 114
+                },
+                "Mamma Mia": {
+                    "count": 61
+                },
+                "Mandarin": {
+                    "count": 64
+                },
+                "Mang Inasal": {
+                    "count": 81
+                },
+                "McDonald's": {
+                    "count": 297
+                },
+                "Mensa": {
+                    "count": 87
+                },
+                "Milano": {
+                    "count": 52
+                },
+                "Mykonos": {
+                    "count": 59
+                },
+                "Nando's": {
+                    "count": 219
+                },
+                "Ochsen": {
+                    "count": 93
+                },
+                "Olive Garden": {
+                    "count": 241
+                },
+                "Olympia": {
+                    "count": 78
+                },
+                "Outback Steakhouse": {
+                    "count": 189
+                },
+                "Panda Express": {
+                    "count": 53
+                },
+                "Panera Bread": {
+                    "count": 171
+                },
+                "Panorama": {
+                    "count": 60
+                },
+                "Peking": {
+                    "count": 54
+                },
+                "Perkins": {
+                    "count": 96
+                },
+                "Pizza Express": {
+                    "count": 241
+                },
+                "Pizza Hut": {
+                    "count": 1038
+                },
+                "Poseidon": {
+                    "count": 111
+                },
+                "Prezzo": {
+                    "count": 68
+                },
+                "Ratskeller": {
+                    "count": 148
+                },
+                "Red Lobster": {
+                    "count": 205
+                },
+                "Red Robin": {
+                    "count": 169
+                },
+                "Rhodos": {
+                    "count": 80
+                },
+                "Roma": {
+                    "count": 60
+                },
+                "Ruby Tuesday": {
+                    "count": 137
+                },
+                "Rössli": {
+                    "count": 68
+                },
+                "Sakura": {
+                    "count": 69
+                },
+                "San Marco": {
+                    "count": 66
+                },
+                "Schwarzer Adler": {
+                    "count": 58
+                },
+                "Schützenhaus": {
+                    "count": 129
+                },
+                "Seeblick": {
+                    "count": 51
+                },
+                "Shanghai": {
+                    "count": 79
+                },
+                "Shari's": {
+                    "count": 63
+                },
+                "Sonne": {
+                    "count": 123
+                },
+                "Sportheim": {
+                    "count": 57
+                },
+                "Spur": {
+                    "count": 60
+                },
+                "Sternen": {
+                    "count": 78
+                },
+                "Subway": {
+                    "count": 470
+                },
+                "Swiss Chalet": {
+                    "count": 101
+                },
+                "TGI Friday's": {
+                    "count": 138
+                },
+                "Taco Bell": {
+                    "count": 82
+                },
+                "Taj Mahal": {
+                    "count": 101
+                },
+                "Texas Roadhouse": {
+                    "count": 96
+                },
+                "The Keg": {
+                    "count": 52
+                },
+                "Traube": {
+                    "count": 65
+                },
+                "Vapiano": {
+                    "count": 81
+                },
+                "Village Inn": {
+                    "count": 88
+                },
+                "Vips": {
+                    "count": 51
+                },
+                "Waffle House": {
+                    "count": 182
+                },
+                "Wagamama": {
+                    "count": 58
+                },
+                "Waldschänke": {
+                    "count": 55
+                },
+                "Wendy's": {
+                    "count": 86
+                },
+                "Zizzi": {
+                    "count": 62
+                },
+                "Zum Löwen": {
+                    "count": 82
+                },
+                "Zur Krone": {
+                    "count": 92
+                },
+                "Zur Linde": {
+                    "count": 200
+                },
+                "Zur Post": {
+                    "count": 117
+                },
+                "Zur Sonne": {
+                    "count": 73
+                },
+                "Евразия": {
+                    "count": 98
+                },
+                "Столовая": {
+                    "count": 126
+                },
+                "Якитория": {
+                    "count": 74
+                },
+                "ガスト": {
+                    "count": 204
+                },
+                "サイゼリヤ": {
+                    "count": 81
+                },
+                "ジョナサン": {
+                    "count": 56
+                },
+                "デニーズ": {
+                    "count": 73
+                },
+                "바다횟집 (Bada Fish Restaurant)": {
+                    "count": 55
+                }
+            }
+        },
+        "shop": {
+            "alcohol": {
+                "Alko": {
+                    "count": 141
+                },
+                "BWS": {
+                    "count": 58
+                },
+                "Bargain Booze": {
+                    "count": 59
+                },
+                "Botilleria": {
+                    "count": 75
+                },
+                "Gall & Gall": {
+                    "count": 514
+                },
+                "LCBO": {
+                    "count": 214
+                },
+                "Nicolas": {
+                    "count": 109
+                },
+                "SAQ": {
+                    "count": 66
+                },
+                "Systembolaget": {
+                    "count": 199
+                },
+                "The Beer Store": {
+                    "count": 141
+                },
+                "Ароматный мир": {
+                    "count": 56
+                },
+                "Живое пиво": {
+                    "count": 62
+                }
+            },
+            "bakery": {
+                "Anker": {
+                    "count": 65
+                },
+                "Backwerk": {
+                    "count": 94
+                },
+                "Boulangerie": {
+                    "count": 232
+                },
+                "Boulangerie Patisserie": {
+                    "count": 76
+                },
+                "Bäcker": {
+                    "count": 65
+                },
+                "Bäckerei": {
+                    "count": 163
+                },
+                "Bäckerei Schmidt": {
+                    "count": 56
+                },
+                "Dat Backhus": {
+                    "count": 62
+                },
+                "Der Beck": {
+                    "count": 97
+                },
+                "Goeken backen": {
+                    "count": 52
+                },
+                "Goldilocks": {
+                    "count": 55
+                },
+                "Greggs": {
+                    "count": 255
+                },
+                "Hofpfisterei": {
+                    "count": 108
+                },
+                "Ihle": {
+                    "count": 76
+                },
+                "K&U": {
+                    "count": 54
+                },
+                "Kamps": {
+                    "count": 252
+                },
+                "Müller": {
+                    "count": 91
+                },
+                "Oebel": {
+                    "count": 57
+                },
+                "Panaderia": {
+                    "count": 154
+                },
+                "Panificio": {
+                    "count": 63
+                },
+                "Paul": {
+                    "count": 74
+                },
+                "Piekarnia": {
+                    "count": 52
+                },
+                "Stadtbäckerei": {
+                    "count": 58
+                },
+                "Stadtbäckerei Junge": {
+                    "count": 53
+                },
+                "Steinecke": {
+                    "count": 135
+                },
+                "Thürmann": {
+                    "count": 57
+                },
+                "Хлеб": {
+                    "count": 81
+                }
+            },
+            "books": {
+                "Barnes & Noble": {
+                    "count": 239
+                },
+                "Bruna": {
+                    "count": 55
+                },
+                "Libro": {
+                    "count": 59
+                },
+                "Thalia": {
+                    "count": 122
+                },
+                "Waterstones": {
+                    "count": 85
+                },
+                "Weltbild": {
+                    "count": 72
+                },
+                "Книги": {
+                    "count": 110
+                }
+            },
+            "car_repair": {
+                "ATU": {
+                    "count": 257
+                },
+                "AutoZone": {
+                    "count": 51
+                },
+                "Carglass": {
+                    "count": 99
+                },
+                "Euromaster": {
+                    "count": 80
+                },
+                "Feu Vert": {
+                    "count": 104
+                },
+                "Firestone": {
+                    "count": 77
+                },
+                "Jiffy Lube": {
+                    "count": 178
+                },
+                "Kwik Fit": {
+                    "count": 73
+                },
+                "Midas": {
+                    "count": 171
+                },
+                "Norauto": {
+                    "count": 141
+                },
+                "O'Reilly Auto Parts": {
+                    "count": 62
+                },
+                "Peugeot": {
+                    "count": 80
+                },
+                "Pit Stop": {
+                    "count": 55
+                },
+                "Renault": {
+                    "count": 158
+                },
+                "Roady": {
+                    "count": 52
+                },
+                "Speedy": {
+                    "count": 104
+                },
+                "ÖAMTC": {
+                    "count": 51
+                },
+                "Автозапчасти": {
+                    "count": 172
+                },
+                "Автосервис": {
+                    "count": 314
+                },
+                "СТО": {
+                    "count": 338
+                },
+                "Шиномонтаж": {
+                    "count": 995
+                }
+            },
+            "car": {
+                "Audi": {
+                    "count": 101
+                },
+                "BMW": {
+                    "count": 139
+                },
+                "Chevrolet": {
+                    "count": 75
+                },
+                "Citroen": {
+                    "count": 259
+                },
+                "Fiat": {
+                    "count": 83
+                },
+                "Ford": {
+                    "count": 216
+                },
+                "Honda": {
+                    "count": 134
+                },
+                "Hyundai": {
+                    "count": 146
+                },
+                "Mazda": {
+                    "count": 96
+                },
+                "Mercedes-Benz": {
+                    "count": 218
+                },
+                "Mitsubishi": {
+                    "count": 66
+                },
+                "Nissan": {
+                    "count": 173
+                },
+                "Opel": {
+                    "count": 161
+                },
+                "Peugeot": {
+                    "count": 291
+                },
+                "Renault": {
+                    "count": 356
+                },
+                "Skoda": {
+                    "count": 92
+                },
+                "Suzuki": {
+                    "count": 73
+                },
+                "Toyota": {
+                    "count": 238
+                },
+                "Volkswagen": {
+                    "count": 200
+                },
+                "Volvo": {
+                    "count": 82
+                },
+                "Автозапчасти": {
+                    "count": 290
+                },
+                "Автомагазин": {
+                    "count": 64
+                },
+                "Шиномонтаж": {
+                    "count": 263
+                }
+            },
+            "chemist": {
+                "Bipa": {
+                    "count": 276
+                },
+                "Boots": {
+                    "count": 94
+                },
+                "dm": {
+                    "count": 873
+                },
+                "Douglas": {
+                    "count": 62
+                },
+                "Etos": {
+                    "count": 465
+                },
+                "Ihr Platz": {
+                    "count": 76
+                },
+                "Kruidvat": {
+                    "count": 114
+                },
+                "Müller": {
+                    "count": 195
+                },
+                "Rossmann": {
+                    "count": 1623
+                },
+                "Schlecker": {
+                    "count": 201
+                },
+                "Superdrug": {
+                    "count": 64
+                }
+            },
+            "clothes": {
+                "AWG": {
+                    "count": 62
+                },
+                "Ackermans": {
+                    "count": 91
+                },
+                "Adidas": {
+                    "count": 81
+                },
+                "Adler": {
+                    "count": 53
+                },
+                "American Apparel": {
+                    "count": 53
+                },
+                "Benetton": {
+                    "count": 96
+                },
+                "Bonita": {
+                    "count": 143
+                },
+                "C&A": {
+                    "count": 484
+                },
+                "Calzedonia": {
+                    "count": 56
+                },
+                "Cecil": {
+                    "count": 51
+                },
+                "Celio": {
+                    "count": 71
+                },
+                "Charles Vögele": {
+                    "count": 63
+                },
+                "Deichmann": {
+                    "count": 61
+                },
+                "Dorothy Perkins": {
+                    "count": 51
+                },
+                "Edgars": {
+                    "count": 111
+                },
+                "Ernsting's family": {
+                    "count": 286
+                },
+                "Esprit": {
+                    "count": 209
+                },
+                "Etam": {
+                    "count": 51
+                },
+                "Gap": {
+                    "count": 74
+                },
+                "Gerry Weber": {
+                    "count": 68
+                },
+                "H&M": {
+                    "count": 607
+                },
+                "Jack & Jones": {
+                    "count": 51
+                },
+                "Jack Wolfskin": {
+                    "count": 55
+                },
+                "Jet": {
+                    "count": 62
+                },
+                "Jules": {
+                    "count": 61
+                },
+                "KiK": {
+                    "count": 1148
+                },
+                "Kiabi": {
+                    "count": 139
+                },
+                "Kohl's": {
+                    "count": 101
+                },
+                "Lacoste": {
+                    "count": 66
+                },
+                "Levi's": {
+                    "count": 58
+                },
+                "Lindex": {
+                    "count": 70
+                },
+                "Mango": {
+                    "count": 115
+                },
+                "Matalan": {
+                    "count": 83
+                },
+                "Mexx": {
+                    "count": 65
+                },
+                "Mr Price": {
+                    "count": 86
+                },
+                "NKD": {
+                    "count": 444
+                },
+                "New Look": {
+                    "count": 115
+                },
+                "New Yorker": {
+                    "count": 173
+                },
+                "Next": {
+                    "count": 163
+                },
+                "Old Navy": {
+                    "count": 154
+                },
+                "Orsay": {
+                    "count": 71
+                },
+                "Peacocks": {
+                    "count": 86
+                },
+                "Pep": {
+                    "count": 136
+                },
+                "Pimkie": {
+                    "count": 72
+                },
+                "Primark": {
+                    "count": 87
+                },
+                "Promod": {
+                    "count": 71
+                },
+                "River Island": {
+                    "count": 56
+                },
+                "Ross": {
+                    "count": 77
+                },
+                "Street One": {
+                    "count": 74
+                },
+                "TK Maxx": {
+                    "count": 73
+                },
+                "Takko": {
+                    "count": 476
+                },
+                "Tally Weijl": {
+                    "count": 67
+                },
+                "Tommy Hilfiger": {
+                    "count": 65
+                },
+                "Truworths": {
+                    "count": 64
+                },
+                "Ulla Popken": {
+                    "count": 59
+                },
+                "United Colors of Benetton": {
+                    "count": 90
+                },
+                "Urban Outfitters": {
+                    "count": 61
+                },
+                "Vero Moda": {
+                    "count": 89
+                },
+                "Vögele": {
+                    "count": 129
+                },
+                "Winners": {
+                    "count": 59
+                },
+                "Woolworths": {
+                    "count": 116
+                },
+                "Zara": {
+                    "count": 199
+                },
+                "Zeeman": {
+                    "count": 108
+                },
+                "s.Oliver": {
+                    "count": 53
+                },
+                "Одежда": {
+                    "count": 68
+                },
+                "洋服の青山": {
+                    "count": 86
+                }
+            },
+            "computer": {
+                "DNS": {
+                    "count": 119
+                },
+                "PC World": {
+                    "count": 58
+                }
+            },
+            "convenience": {
+                "24 часа": {
+                    "count": 56
+                },
+                "7-Eleven": {
+                    "count": 3898
+                },
+                "8 à Huit": {
+                    "count": 57
+                },
+                "ABC": {
+                    "count": 138
+                },
+                "Alepa": {
+                    "count": 63
+                },
+                "Alfamart": {
+                    "count": 74
+                },
+                "Almacen": {
+                    "count": 201
+                },
+                "BP": {
+                    "count": 157
+                },
+                "Biedronka": {
+                    "count": 67
+                },
+                "Boutique": {
+                    "count": 59
+                },
+                "CBA": {
+                    "count": 122
+                },
+                "COOP": {
+                    "count": 122
+                },
+                "COOP Jednota": {
+                    "count": 160
+                },
+                "CVS": {
+                    "count": 64
+                },
+                "Carrefour City": {
+                    "count": 54
+                },
+                "Carrefour Express": {
+                    "count": 73
+                },
+                "Casey's General Store": {
+                    "count": 80
+                },
+                "Casino": {
+                    "count": 85
+                },
+                "Centra": {
+                    "count": 112
+                },
+                "Central Convenience Store": {
+                    "count": 52
+                },
+                "Chevron": {
+                    "count": 57
+                },
+                "Circle K": {
+                    "count": 269
+                },
+                "Citgo": {
+                    "count": 63
+                },
+                "Coop": {
+                    "count": 505
+                },
+                "Coop Jednota": {
+                    "count": 58
+                },
+                "Costcutter": {
+                    "count": 272
+                },
+                "Cumberland Farms": {
+                    "count": 62
+                },
+                "Delikatesy": {
+                    "count": 77
+                },
+                "Dollar General": {
+                    "count": 101
+                },
+                "Dorfladen": {
+                    "count": 76
+                },
+                "Epicerie": {
+                    "count": 64
+                },
+                "Esso": {
+                    "count": 64
+                },
+                "FamilyMart": {
+                    "count": 489
+                },
+                "Food Mart": {
+                    "count": 88
+                },
+                "Four Square": {
+                    "count": 51
+                },
+                "Franprix": {
+                    "count": 64
+                },
+                "Groszek": {
+                    "count": 57
+                },
+                "Hasty Market": {
+                    "count": 53
+                },
+                "Indomaret": {
+                    "count": 126
+                },
+                "Jednota": {
+                    "count": 56
+                },
+                "K-Market": {
+                    "count": 57
+                },
+                "Kiosk": {
+                    "count": 57
+                },
+                "Konzum": {
+                    "count": 164
+                },
+                "Kum & Go": {
+                    "count": 55
+                },
+                "Kwik Trip": {
+                    "count": 69
+                },
+                "LAWSON": {
+                    "count": 397
+                },
+                "Lewiatan": {
+                    "count": 111
+                },
+                "Lidl": {
+                    "count": 81
+                },
+                "Londis": {
+                    "count": 341
+                },
+                "Mac's": {
+                    "count": 147
+                },
+                "Mace": {
+                    "count": 111
+                },
+                "McColl's": {
+                    "count": 97
+                },
+                "Mercator": {
+                    "count": 59
+                },
+                "Mini Market": {
+                    "count": 190
+                },
+                "Mini Stop": {
+                    "count": 210
+                },
+                "Mobil": {
+                    "count": 63
+                },
+                "Nisa": {
+                    "count": 52
+                },
+                "Nisa Local": {
+                    "count": 71
+                },
+                "Oxxo": {
+                    "count": 614
+                },
+                "One Stop": {
+                    "count": 142
+                },
+                "Petit Casino": {
+                    "count": 227
+                },
+                "Picard": {
+                    "count": 53
+                },
+                "Potraviny": {
+                    "count": 243
+                },
+                "Premier": {
+                    "count": 123
+                },
+                "Proxi": {
+                    "count": 114
+                },
+                "QuikTrip": {
+                    "count": 59
+                },
+                "Rossmann": {
+                    "count": 62
+                },
+                "SPAR": {
+                    "count": 185
+                },
+                "Sainsbury's Local": {
+                    "count": 96
+                },
+                "Sale": {
+                    "count": 80
+                },
+                "Select": {
+                    "count": 58
+                },
+                "Shell": {
+                    "count": 241
+                },
+                "Siwa": {
+                    "count": 212
+                },
+                "Sklep spożywczy": {
+                    "count": 235
+                },
+                "Spar": {
+                    "count": 888
+                },
+                "Społem": {
+                    "count": 84
+                },
+                "Spożywczy": {
+                    "count": 67
+                },
+                "Statoil": {
+                    "count": 69
+                },
+                "Stewart's": {
+                    "count": 254
+                },
+                "Stores": {
+                    "count": 61
+                },
+                "Studenac": {
+                    "count": 74
+                },
+                "Sunkus": {
+                    "count": 63
+                },
+                "Tchibo": {
+                    "count": 54
+                },
+                "Tesco": {
+                    "count": 55
+                },
+                "Tesco Express": {
+                    "count": 415
+                },
+                "The Co-operative Food": {
+                    "count": 109
+                },
+                "Valintatalo": {
+                    "count": 62
+                },
+                "Vival": {
+                    "count": 182
+                },
+                "Volg": {
+                    "count": 110
+                },
+                "Walgreens": {
+                    "count": 89
+                },
+                "Wawa": {
+                    "count": 129
+                },
+                "abc": {
+                    "count": 61
+                },
+                "Żabka": {
+                    "count": 497
+                },
+                "Авоська": {
+                    "count": 53
+                },
+                "Березка": {
+                    "count": 71
+                },
+                "Весна": {
+                    "count": 56
+                },
+                "Визит": {
+                    "count": 55
+                },
+                "Виктория": {
+                    "count": 67
+                },
+                "Гастроном": {
+                    "count": 136
+                },
+                "Дикси": {
+                    "count": 118
+                },
+                "Кировский": {
+                    "count": 69
+                },
+                "Копеечка": {
+                    "count": 56
+                },
+                "Кулинария": {
+                    "count": 53
+                },
+                "Магазин": {
+                    "count": 760
+                },
+                "Магнит": {
+                    "count": 645
+                },
+                "Мария-Ра": {
+                    "count": 76
+                },
+                "Мечта": {
+                    "count": 53
+                },
+                "Минимаркет": {
+                    "count": 97
+                },
+                "Монетка": {
+                    "count": 59
+                },
+                "Надежда": {
+                    "count": 54
+                },
+                "Перекресток": {
+                    "count": 51
+                },
+                "Продукти": {
+                    "count": 153
+                },
+                "Продуктовый": {
+                    "count": 65
+                },
+                "Продуктовый магазин": {
+                    "count": 87
+                },
+                "Продукты": {
+                    "count": 3813
+                },
+                "Пятёрочка": {
+                    "count": 377
+                },
+                "Радуга": {
+                    "count": 80
+                },
+                "Смак": {
+                    "count": 70
+                },
+                "Теремок": {
+                    "count": 53
+                },
+                "Универсам": {
+                    "count": 75
+                },
+                "магазин": {
+                    "count": 102
+                },
+                "продукты": {
+                    "count": 113
+                },
+                "เซเว่นอีเลฟเว่น": {
+                    "count": 193
+                },
+                "მარკეტი (Market)": {
+                    "count": 145
+                },
+                "サンクス": {
+                    "count": 517
+                },
+                "サークルK": {
+                    "count": 450,
+                    "name:en": "Circle K"
+                },
+                "スリーエフ": {
+                    "count": 84
+                },
+                "セイコーマート (Seicomart)": {
+                    "count": 52
+                },
+                "セブンイレブン": {
+                    "count": 2742
+                },
+                "デイリーヤマザキ": {
+                    "count": 124
+                },
+                "ファミリーマート": {
+                    "count": 1352,
+                    "name:en": "FamilyMart"
+                },
+                "ミニストップ": {
+                    "count": 282
+                },
+                "ローソン": {
+                    "count": 1399,
+                    "name:en": "LAWSON"
+                },
+                "ローソンストア100": {
+                    "count": 65
+                },
+                "ローソンストア100 (LAWSON STORE 100)": {
+                    "count": 84
+                },
+                "全家": {
+                    "count": 60
+                },
+                "全家便利商店": {
+                    "count": 104
+                }
+            },
+            "department_store": {
+                "Big W": {
+                    "count": 51
+                },
+                "Canadian Tire": {
+                    "count": 69
+                },
+                "Costco": {
+                    "count": 79
+                },
+                "Debenhams": {
+                    "count": 65
+                },
+                "Galeria Kaufhof": {
+                    "count": 57
+                },
+                "Karstadt": {
+                    "count": 62
+                },
+                "Kmart": {
+                    "count": 120
+                },
+                "Kohl's": {
+                    "count": 123
+                },
+                "Macy's": {
+                    "count": 119
+                },
+                "Marks & Spencer": {
+                    "count": 59
+                },
+                "Sears": {
+                    "count": 208
+                },
+                "Target": {
+                    "count": 468
+                },
+                "Walmart": {
+                    "count": 456
+                },
+                "Walmart Supercenter": {
+                    "count": 67
+                },
+                "Woolworth": {
+                    "count": 74
+                },
+                "Универмаг": {
+                    "count": 57
+                }
+            },
+            "doityourself": {
+                "Ace Hardware": {
+                    "count": 130
+                },
+                "B&Q": {
+                    "count": 222
+                },
+                "Bauhaus": {
+                    "count": 178
+                },
+                "Baumax": {
+                    "count": 94
+                },
+                "Brico": {
+                    "count": 99
+                },
+                "Bricomarché": {
+                    "count": 213
+                },
+                "Bricorama": {
+                    "count": 59
+                },
+                "Bunnings Warehouse": {
+                    "count": 87
+                },
+                "Canadian Tire": {
+                    "count": 92
+                },
+                "Castorama": {
+                    "count": 160
+                },
+                "Gamma": {
+                    "count": 105
+                },
+                "Hagebau": {
+                    "count": 61
+                },
+                "Hagebaumarkt": {
+                    "count": 109
+                },
+                "Hellweg": {
+                    "count": 62
+                },
+                "Home Depot": {
+                    "count": 789
+                },
+                "Home Hardware": {
+                    "count": 66
+                },
+                "Homebase": {
+                    "count": 224
+                },
+                "Hornbach": {
+                    "count": 124
+                },
+                "Hubo": {
+                    "count": 72
+                },
+                "Lagerhaus": {
+                    "count": 71
+                },
+                "Leroy Merlin": {
+                    "count": 197
+                },
+                "Lowes": {
+                    "count": 1131
+                },
+                "Max Bahr": {
+                    "count": 86
+                },
+                "Menards": {
+                    "count": 62
+                },
+                "Mr Bricolage": {
+                    "count": 87
+                },
+                "OBI": {
+                    "count": 418
+                },
+                "Praktiker": {
+                    "count": 187
+                },
+                "Rona": {
+                    "count": 57
+                },
+                "Toom": {
+                    "count": 69
+                },
+                "Toom Baumarkt": {
+                    "count": 65
+                },
+                "Weldom": {
+                    "count": 70
+                },
+                "Wickes": {
+                    "count": 120
+                },
+                "Стройматериалы": {
+                    "count": 165
+                },
+                "Хозтовары": {
+                    "count": 68
+                }
+            },
+            "electronics": {
+                "Best Buy": {
+                    "count": 297
+                },
+                "Comet": {
+                    "count": 62
+                },
+                "Currys": {
+                    "count": 80
+                },
+                "Darty": {
+                    "count": 71
+                },
+                "Euronics": {
+                    "count": 109
+                },
+                "Expert": {
+                    "count": 117
+                },
+                "Future Shop": {
+                    "count": 69
+                },
+                "Maplin": {
+                    "count": 63
+                },
+                "Media Markt": {
+                    "count": 273
+                },
+                "Radio Shack": {
+                    "count": 226
+                },
+                "Saturn": {
+                    "count": 147
+                },
+                "М.Видео": {
+                    "count": 74
+                },
+                "Эльдорадо": {
+                    "count": 171
+                }
+            },
+            "furniture": {
+                "But": {
+                    "count": 58
+                },
+                "Conforama": {
+                    "count": 90
+                },
+                "Dänisches Bettenlager": {
+                    "count": 290
+                },
+                "IKEA": {
+                    "count": 162
+                },
+                "Jysk": {
+                    "count": 92
+                },
+                "Matratzen Concord": {
+                    "count": 51
+                },
+                "Roller": {
+                    "count": 77
+                },
+                "Мебель": {
+                    "count": 190
+                }
+            },
+            "hairdresser": {
+                "Coiffeur": {
+                    "count": 60
+                },
+                "Franck Provost": {
+                    "count": 64
+                },
+                "Friseur": {
+                    "count": 127
+                },
+                "Great Clips": {
+                    "count": 155
+                },
+                "Klier": {
+                    "count": 105
+                },
+                "Peluqueria": {
+                    "count": 56
+                },
+                "Supercuts": {
+                    "count": 89
+                },
+                "Парикмахерская": {
+                    "count": 485
+                },
+                "Салон красоты": {
+                    "count": 65
+                }
+            },
+            "hardware": {
+                "1000 мелочей": {
+                    "count": 53
+                },
+                "Ace Hardware": {
+                    "count": 82
+                },
+                "Home Depot": {
+                    "count": 81
+                },
+                "Хозтовары": {
+                    "count": 143
+                }
+            },
+            "hifi": {
+                "Best Buy": {
+                    "count": 94
+                },
+                "Media Markt": {
+                    "count": 57
+                }
+            },
+            "jewelry": {
+                "Bijou Brigitte": {
+                    "count": 53
+                },
+                "Christ": {
+                    "count": 55
+                },
+                "Swarovski": {
+                    "count": 70
+                }
+            },
+            "mobile_phone": {
+                "AT&T": {
+                    "count": 95
+                },
+                "Bell": {
+                    "count": 191
+                },
+                "Bitė": {
+                    "count": 73
+                },
+                "Carphone Warehouse": {
+                    "count": 109
+                },
+                "Movistar": {
+                    "count": 55
+                },
+                "O2": {
+                    "count": 180
+                },
+                "Orange": {
+                    "count": 220
+                },
+                "SFR": {
+                    "count": 70
+                },
+                "Sprint": {
+                    "count": 91
+                },
+                "T-Mobile": {
+                    "count": 158
+                },
+                "The Phone House": {
+                    "count": 81
+                },
+                "Verizon Wireless": {
+                    "count": 97
+                },
+                "Vodafone": {
+                    "count": 311
+                },
+                "au": {
+                    "count": 56
+                },
+                "Билайн": {
+                    "count": 113
+                },
+                "Евросеть": {
+                    "count": 466
+                },
+                "МТС": {
+                    "count": 311
+                },
+                "Мегафон": {
+                    "count": 227
+                },
+                "Связной": {
+                    "count": 396
+                },
+                "ソフトバンクショップ (SoftBank shop)": {
+                    "count": 256
+                },
+                "ドコモショップ (docomo shop)": {
+                    "count": 113
+                }
+            },
+            "motorcycle": {
+                "Honda": {
+                    "count": 56
+                },
+                "Yamaha": {
+                    "count": 58
+                }
+            },
+            "optician": {
+                "Alain Afflelou": {
+                    "count": 68
+                },
+                "Apollo Optik": {
+                    "count": 142
+                },
+                "Fielmann": {
+                    "count": 219
+                },
+                "Krys": {
+                    "count": 65
+                },
+                "Optic 2000": {
+                    "count": 87
+                },
+                "Specsavers": {
+                    "count": 109
+                },
+                "Vision Express": {
+                    "count": 54
+                },
+                "Оптика": {
+                    "count": 165
+                }
+            },
+            "pet": {
+                "Das Futterhaus": {
+                    "count": 61
+                },
+                "Fressnapf": {
+                    "count": 300
+                },
+                "PetSmart": {
+                    "count": 150
+                },
+                "Petco": {
+                    "count": 79
+                },
+                "Pets at Home": {
+                    "count": 53
+                },
+                "Зоомагазин": {
+                    "count": 95
+                }
+            },
+            "shoes": {
+                "Bata": {
+                    "count": 88
+                },
+                "Brantano": {
+                    "count": 67
+                },
+                "Clarks": {
+                    "count": 97
+                },
+                "Deichmann": {
+                    "count": 574
+                },
+                "Ecco": {
+                    "count": 53
+                },
+                "Foot Locker": {
+                    "count": 74
+                },
+                "La Halle aux Chaussures": {
+                    "count": 63
+                },
+                "Payless Shoe Source": {
+                    "count": 52
+                },
+                "Quick Schuh": {
+                    "count": 69
+                },
+                "Reno": {
+                    "count": 170
+                },
+                "Salamander": {
+                    "count": 52
+                },
+                "Обувь": {
+                    "count": 93
+                }
+            },
+            "sports": {
+                "Decathlon": {
+                    "count": 286
+                },
+                "Dick's Sporting Goods": {
+                    "count": 58
+                },
+                "Intersport": {
+                    "count": 265
+                },
+                "Sport 2000": {
+                    "count": 83
+                },
+                "Sports Authority": {
+                    "count": 63
+                },
+                "Спортмастер": {
+                    "count": 80
+                }
+            },
+            "stationery": {
+                "McPaper": {
+                    "count": 79
+                },
+                "Office Depot": {
+                    "count": 83
+                },
+                "Staples": {
+                    "count": 262
+                },
+                "Канцтовары": {
+                    "count": 57
+                }
+            },
+            "supermarket": {
+                "AD Delhaize": {
+                    "count": 66
+                },
+                "ADEG": {
+                    "count": 64
+                },
+                "ALDI": {
+                    "count": 5182
+                },
+                "Aldi Süd": {
+                    "count": 589
+                },
+                "ASDA": {
+                    "count": 178
+                },
+                "Albert": {
+                    "count": 185
+                },
+                "Albert Heijn": {
+                    "count": 445
+                },
+                "Albertson's": {
+                    "count": 96
+                },
+                "Albertsons": {
+                    "count": 133
+                },
+                "Aldi Nord": {
+                    "count": 194
+                },
+                "Alimerka": {
+                    "count": 58
+                },
+                "Asda": {
+                    "count": 221
+                },
+                "Auchan": {
+                    "count": 144
+                },
+                "Billa": {
+                    "count": 1417
+                },
+                "Biedronka": {
+                    "count": 1227
+                },
+                "Bodega Aurrera": {
+                    "count": 70
+                },
+                "Budgens": {
+                    "count": 86
+                },
+                "C1000": {
+                    "count": 332
+                },
+                "CBA": {
+                    "count": 160
+                },
+                "COOP": {
+                    "count": 187
+                },
+                "COOP Jednota": {
+                    "count": 67
+                },
+                "Caprabo": {
+                    "count": 96
+                },
+                "Carrefour": {
+                    "count": 1575
+                },
+                "Carrefour City": {
+                    "count": 109
+                },
+                "Carrefour Contact": {
+                    "count": 73
+                },
+                "Carrefour Express": {
+                    "count": 314
+                },
+                "Carrefour Market": {
+                    "count": 79
+                },
+                "Casino": {
+                    "count": 254
+                },
+                "Centra": {
+                    "count": 51
+                },
+                "Champion": {
+                    "count": 63
+                },
+                "Checkers": {
+                    "count": 124
+                },
+                "Coop": {
+                    "count": 1860
+                },
+                "Coles": {
+                    "count": 381
+                },
+                "Colruyt": {
+                    "count": 186
+                },
+                "Combi": {
+                    "count": 56
+                },
+                "Conad": {
+                    "count": 294
+                },
+                "Condis": {
+                    "count": 65
+                },
+                "Consum": {
+                    "count": 123
+                },
+                "Continente": {
+                    "count": 66
+                },
+                "Coop Jednota": {
+                    "count": 68
+                },
+                "Coop Konsum": {
+                    "count": 78
+                },
+                "Costco": {
+                    "count": 133
+                },
+                "Costcutter": {
+                    "count": 62
+                },
+                "Countdown": {
+                    "count": 90
+                },
+                "Dia": {
+                    "count": 749
+                },
+                "dm": {
+                    "count": 108
+                },
+                "Delhaize": {
+                    "count": 219
+                },
+                "Delikatesy Centrum": {
+                    "count": 56
+                },
+                "Denner": {
+                    "count": 256
+                },
+                "Despar": {
+                    "count": 143
+                },
+                "Diska": {
+                    "count": 69
+                },
+                "Dunnes Stores": {
+                    "count": 70
+                },
+                "E-Center": {
+                    "count": 67
+                },
+                "E.Leclerc": {
+                    "count": 341
+                },
+                "EDEKA": {
+                    "count": 498
+                },
+                "Edeka": {
+                    "count": 1811
+                },
+                "El Árbol": {
+                    "count": 71
+                },
+                "Eroski": {
+                    "count": 203
+                },
+                "Esselunga": {
+                    "count": 82
+                },
+                "Eurospar": {
+                    "count": 260
+                },
+                "Eurospin": {
+                    "count": 153
+                },
+                "Extra": {
+                    "count": 74
+                },
+                "Fakta": {
+                    "count": 215
+                },
+                "Famiglia Cooperativa": {
+                    "count": 62
+                },
+                "Famila": {
+                    "count": 127
+                },
+                "Farmfoods": {
+                    "count": 63
+                },
+                "Feneberg": {
+                    "count": 61
+                },
+                "Food Basics": {
+                    "count": 73
+                },
+                "Food Lion": {
+                    "count": 175
+                },
+                "Foodland": {
+                    "count": 92
+                },
+                "Foodworks": {
+                    "count": 55
+                },
+                "Franprix": {
+                    "count": 298
+                },
+                "Fred Meyer": {
+                    "count": 63
+                },
+                "Fressnapf": {
+                    "count": 66
+                },
+                "Føtex": {
+                    "count": 67
+                },
+                "Game": {
+                    "count": 53
+                },
+                "Giant": {
+                    "count": 187
+                },
+                "Giant Eagle": {
+                    "count": 69
+                },
+                "Géant Casino": {
+                    "count": 53
+                },
+                "HEB": {
+                    "count": 75
+                },
+                "HIT": {
+                    "count": 62
+                },
+                "Hannaford": {
+                    "count": 55
+                },
+                "Harris Teeter": {
+                    "count": 84
+                },
+                "Hemköp": {
+                    "count": 83
+                },
+                "Hofer": {
+                    "count": 451
+                },
+                "Hoogvliet": {
+                    "count": 52
+                },
+                "Hy-Vee": {
+                    "count": 67
+                },
+                "ICA": {
+                    "count": 195
+                },
+                "IGA": {
+                    "count": 333
+                },
+                "Iceland": {
+                    "count": 297
+                },
+                "Intermarche": {
+                    "count": 107
+                },
+                "Intermarché": {
+                    "count": 1155
+                },
+                "Interspar": {
+                    "count": 142
+                },
+                "Irma": {
+                    "count": 61
+                },
+                "Jumbo": {
+                    "count": 175
+                },
+                "K+K": {
+                    "count": 104
+                },
+                "Kaiser's": {
+                    "count": 255
+                },
+                "Kaufland": {
+                    "count": 996
+                },
+                "Kaufpark": {
+                    "count": 100
+                },
+                "King Soopers": {
+                    "count": 69
+                },
+                "Kiwi": {
+                    "count": 164
+                },
+                "Konsum": {
+                    "count": 139
+                },
+                "Konzum": {
+                    "count": 225
+                },
+                "Kroger": {
+                    "count": 280
+                },
+                "Kvickly": {
+                    "count": 54
+                },
+                "LIDL": {
+                    "count": 901
+                },
+                "Leader Price": {
+                    "count": 242
+                },
+                "Leclerc": {
+                    "count": 132
+                },
+                "Lewiatan": {
+                    "count": 88
+                },
+                "Lider": {
+                    "count": 65
+                },
+                "Lidl": {
+                    "count": 6116
+                },
+                "M-Preis": {
+                    "count": 81
+                },
+                "MPreis": {
+                    "count": 54
+                },
+                "Makro": {
+                    "count": 130
+                },
+                "Markant": {
+                    "count": 91
+                },
+                "Marktkauf": {
+                    "count": 133
+                },
+                "Match": {
+                    "count": 146
+                },
+                "Maxi": {
+                    "count": 100
+                },
+                "Maxima": {
+                    "count": 107
+                },
+                "Maxima X": {
+                    "count": 111
+                },
+                "Meijer": {
+                    "count": 74
+                },
+                "Mercadona": {
+                    "count": 707
+                },
+                "Mercator": {
+                    "count": 119
+                },
+                "Merkur": {
+                    "count": 113
+                },
+                "Metro": {
+                    "count": 250
+                },
+                "Migros": {
+                    "count": 433
+                },
+                "Minipreço": {
+                    "count": 99
+                },
+                "Monoprix": {
+                    "count": 194
+                },
+                "Morrisons": {
+                    "count": 405
+                },
+                "Netto": {
+                    "count": 4309
+                },
+                "NORMA": {
+                    "count": 113
+                },
+                "NP": {
+                    "count": 153
+                },
+                "Nah & Frisch": {
+                    "count": 76
+                },
+                "Nahkauf": {
+                    "count": 166
+                },
+                "Neukauf": {
+                    "count": 81
+                },
+                "New World": {
+                    "count": 67
+                },
+                "No Frills": {
+                    "count": 101
+                },
+                "Norma": {
+                    "count": 1054
+                },
+                "PENNY": {
+                    "count": 78
+                },
+                "Pam": {
+                    "count": 53
+                },
+                "Penny": {
+                    "count": 1766
+                },
+                "Penny Market": {
+                    "count": 397
+                },
+                "Penny Markt": {
+                    "count": 464
+                },
+                "Petit Casino": {
+                    "count": 106
+                },
+                "Pick n Pay": {
+                    "count": 237
+                },
+                "Piggly Wiggly": {
+                    "count": 53
+                },
+                "Pingo Doce": {
+                    "count": 238
+                },
+                "Piotr i Paweł": {
+                    "count": 52
+                },
+                "Plodine": {
+                    "count": 52
+                },
+                "Plus": {
+                    "count": 138
+                },
+                "Polo Market": {
+                    "count": 81
+                },
+                "Price Chopper": {
+                    "count": 96
+                },
+                "Profi": {
+                    "count": 55
+                },
+                "Publix": {
+                    "count": 312
+                },
+                "REWE": {
+                    "count": 1440
+                },
+                "Real": {
+                    "count": 337
+                },
+                "Reliance Fresh": {
+                    "count": 63
+                },
+                "Rema 1000": {
+                    "count": 360
+                },
+                "Rewe": {
+                    "count": 1194
+                },
+                "Rimi": {
+                    "count": 103
+                },
+                "Rossmann": {
+                    "count": 88
+                },
+                "S-Market": {
+                    "count": 107
+                },
+                "SPAR": {
+                    "count": 275
+                },
+                "Safeway": {
+                    "count": 436
+                },
+                "Sainsbury's": {
+                    "count": 538
+                },
+                "Sainsbury's Local": {
+                    "count": 101
+                },
+                "Sam's Club": {
+                    "count": 125
+                },
+                "Santa Isabel": {
+                    "count": 123
+                },
+                "Shopi": {
+                    "count": 57
+                },
+                "Shoprite": {
+                    "count": 235
+                },
+                "Simply Market": {
+                    "count": 310
+                },
+                "Sobeys": {
+                    "count": 117
+                },
+                "Soriana": {
+                    "count": 91
+                },
+                "Spar": {
+                    "count": 2028
+                },
+                "Społem": {
+                    "count": 54
+                },
+                "Stokrotka": {
+                    "count": 84
+                },
+                "Stop & Shop": {
+                    "count": 55
+                },
+                "Super Brugsen": {
+                    "count": 63
+                },
+                "Super U": {
+                    "count": 462
+                },
+                "SuperBrugsen": {
+                    "count": 68
+                },
+                "Tesco": {
+                    "count": 1285
+                },
+                "Target": {
+                    "count": 199
+                },
+                "tegut": {
+                    "count": 220
+                },
+                "Tengelmann": {
+                    "count": 191
+                },
+                "Tesco Express": {
+                    "count": 373
+                },
+                "Tesco Extra": {
+                    "count": 118
+                },
+                "Tesco Metro": {
+                    "count": 125
+                },
+                "The Co-operative": {
+                    "count": 60
+                },
+                "The Co-operative Food": {
+                    "count": 113
+                },
+                "Trader Joe's": {
+                    "count": 182
+                },
+                "Treff 3000": {
+                    "count": 95
+                },
+                "Unimarc": {
+                    "count": 169
+                },
+                "Unimarkt": {
+                    "count": 80
+                },
+                "Volg": {
+                    "count": 127
+                },
+                "Waitrose": {
+                    "count": 252
+                },
+                "Walmart": {
+                    "count": 600
+                },
+                "Walmart Supercenter": {
+                    "count": 103
+                },
+                "Wasgau": {
+                    "count": 60
+                },
+                "Whole Foods": {
+                    "count": 191
+                },
+                "Willys": {
+                    "count": 54
+                },
+                "Woolworths": {
+                    "count": 519
+                },
+                "Zielpunkt": {
+                    "count": 240
+                },
+                "coop": {
+                    "count": 71
+                },
+                "nahkauf": {
+                    "count": 79
+                },
+                "sky": {
+                    "count": 100
+                },
+                "АТБ": {
+                    "count": 289
+                },
+                "Десяточка": {
+                    "count": 51
+                },
+                "Дикси": {
+                    "count": 562
+                },
+                "Евроопт": {
+                    "count": 57
+                },
+                "Карусель": {
+                    "count": 55
+                },
+                "Квартал": {
+                    "count": 93
+                },
+                "Копейка": {
+                    "count": 96
+                },
+                "Магазин": {
+                    "count": 113
+                },
+                "Магнит": {
+                    "count": 1635
+                },
+                "Магнолия": {
+                    "count": 70
+                },
+                "Мария-Ра": {
+                    "count": 94
+                },
+                "Монетка": {
+                    "count": 163
+                },
+                "Народная 7Я семьЯ": {
+                    "count": 147
+                },
+                "Перекресток": {
+                    "count": 310
+                },
+                "Полушка": {
+                    "count": 133
+                },
+                "Продукты": {
+                    "count": 96
+                },
+                "Пятёрочка": {
+                    "count": 1232
+                },
+                "Седьмой континент": {
+                    "count": 81
+                },
+                "Семья": {
+                    "count": 61
+                },
+                "Сільпо": {
+                    "count": 118
+                },
+                "Фора": {
+                    "count": 52
+                },
+                "Фуршет": {
+                    "count": 76
+                },
+                "マルエツ": {
+                    "count": 52
+                },
+                "ヨークマート (YorkMart)": {
+                    "count": 62
+                },
+                "西友 (SEIYU)": {
+                    "count": 55
+                }
+            },
+            "toys": {
+                "La Grande Récré": {
+                    "count": 55
+                },
+                "Toys R Us": {
+                    "count": 135
+                },
+                "Детский мир": {
+                    "count": 81
+                }
+            },
+            "travel_agency": {
+                "Flight Centre": {
+                    "count": 85
+                },
+                "Thomas Cook": {
+                    "count": 100
+                }
+            },
+            "variety_store": {
+                "Dollar General": {
+                    "count": 53
+                },
+                "Dollar Tree": {
+                    "count": 76
+                },
+                "Dollarama": {
+                    "count": 90
+                },
+                "Tedi": {
+                    "count": 138
+                }
+            },
+            "video": {
+                "Blockbuster": {
+                    "count": 197
+                },
+                "World of Video": {
+                    "count": 66
                 }
             }
         }
