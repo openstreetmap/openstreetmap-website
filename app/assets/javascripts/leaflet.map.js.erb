@@ -218,12 +218,13 @@ L.OSM.Map = L.Map.extend({
         map._objectLayer.addData(xml);
         map._objectLayer.addTo(map);
 
-        var bounds = map._objectLayer.getBounds();
-        if (bounds.isValid()) {
-          OSM.route.moveListenerOff();
-          map.once('moveend', OSM.route.moveListenerOn);
-
-          map.fitBounds(bounds);
+        if (!window.location.hash) {
+          var bounds = map._objectLayer.getBounds();
+          if (bounds.isValid()) {
+            OSM.route.moveListenerOff();
+            map.once('moveend', OSM.route.moveListenerOn);
+            map.fitBounds(bounds);
+          }
         }
       }
     });
