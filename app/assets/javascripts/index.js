@@ -203,6 +203,11 @@ $(document).ready(function () {
       map.invalidateSize({pan: false})
         .panBy([-300, 0], {animate: false});
       OSM.loadSidebarContent(path);
+      page.load();
+    };
+
+    page.load = function() {
+      return map.getState();
     };
 
     page.popstate = function(path) {
@@ -255,6 +260,8 @@ $(document).ready(function () {
     "/browse/note/:id":            note,
     "/browse/:type/:id(/history)": OSM.Browse(map)
   });
+
+  OSM.route.load();
 
   $(document).on("click", "a", function(e) {
     if (e.isDefaultPrevented() || e.isPropagationStopped()) return;

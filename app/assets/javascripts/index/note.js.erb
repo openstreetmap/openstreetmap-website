@@ -72,6 +72,9 @@ OSM.Note = function (map) {
     if (!noteState) map.addLayer(noteLayer);
     if (window.location.hash == "") {
       var coords = data.coordinates.split(',');
+      OSM.route.moveListenerOff();
+      map.once('moveend', OSM.route.moveListenerOn);
+
       map.getZoom() > 15 ? map.panTo(coords) : map.setView(coords, 16);
     }
 
