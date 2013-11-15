@@ -75,6 +75,7 @@ OpenStreetMap::Application.configure do
   config.assets.precompile += %w( large-rtl.css small-rtl.css print-rtl.css )
   config.assets.precompile += %w( leaflet-all.css leaflet.ie.css )
   config.assets.precompile += %w( embed.js embed.css )
+  config.assets.precompile += %w( html5shiv.js )
   config.assets.precompile += %w( images/marker-*.png img/*-handle.png )
   config.assets.precompile += %w( potlatch2.swf )
   config.assets.precompile += %w( potlatch2/assets.zip )
