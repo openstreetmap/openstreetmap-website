@@ -41,41 +41,36 @@ class BrowseControllerTest < ActionController::TestCase
     )
   end
 
-  def test_start
-    xhr :get, :start
-    assert_response :success
-  end
-
   def test_read_relation
-    browse_check 'relation', relations(:visible_relation).relation_id
+    browse_check 'relation', relations(:visible_relation).relation_id, 'browse/feature'
   end
 
   def test_read_relation_history
-    browse_check 'relation_history', relations(:visible_relation).relation_id
+    browse_check 'relation_history', relations(:visible_relation).relation_id, 'browse/history'
   end
 
   def test_read_way
-    browse_check 'way', ways(:visible_way).way_id
+    browse_check 'way', ways(:visible_way).way_id, 'browse/feature'
   end
 
   def test_read_way_history
-    browse_check 'way_history', ways(:visible_way).way_id
+    browse_check 'way_history', ways(:visible_way).way_id, 'browse/history'
   end
 
   def test_read_node
-    browse_check 'node', nodes(:visible_node).node_id
+    browse_check 'node', nodes(:visible_node).node_id, 'browse/feature'
   end
 
   def test_read_node_history
-    browse_check 'node_history', nodes(:visible_node).node_id
+    browse_check 'node_history', nodes(:visible_node).node_id, 'browse/history'
   end
 
   def test_read_changeset
-    browse_check 'changeset', changesets(:normal_user_first_change).id
+    browse_check 'changeset', changesets(:normal_user_first_change).id, 'browse/changeset'
   end
 
   def test_read_note
-    browse_check 'note', notes(:open_note).id
+    browse_check 'note', notes(:open_note).id, 'browse/note'
   end
 
   ##
@@ -89,41 +84,37 @@ class BrowseControllerTest < ActionController::TestCase
   def test_redacted_node_history
     get :node_history, :id => nodes(:redacted_node_redacted_version).node_id
     assert_response :success
-    assert_template 'node_history'
+    assert_template 'browse/history'
 
     # there are 2 revisions of the redacted node, but only one
     # should be showing details here.
-    assert_select "body div#content div.browse_details", 2
-    assert_select "body div#content div.browse_details[id=1] div.common", 0
-    assert_select "body div#content div.browse_details[id=2] div.common", 1
+    assert_select ".browse-section", 2
+    assert_select ".browse-section.browse-redacted", 1
+    assert_select ".browse-section.browse-node", 1
   end
 
   def test_redacted_way_history
     get :way_history, :id => ways(:way_with_redacted_versions_v1).way_id
     assert_response :success
-    assert_template 'way_history'
+    assert_template 'browse/history'
 
     # there are 4 revisions of the redacted way, but only 2
     # should be showing details here.
-    assert_select "body div#content div.browse_details", 4
-    assert_select "body div#content div.browse_details[id=1] div.common", 1
-    assert_select "body div#content div.browse_details[id=2] div.common", 0
-    assert_select "body div#content div.browse_details[id=3] div.common", 0
-    assert_select "body div#content div.browse_details[id=4] div.common", 1
+    assert_select ".browse-section", 4
+    assert_select ".browse-section.browse-redacted", 2
+    assert_select ".browse-section.browse-way", 2
   end
 
   def test_redacted_relation_history
     get :relation_history, :id => relations(:relation_with_redacted_versions_v1).relation_id
     assert_response :success
-    assert_template 'relation_history'
+    assert_template 'browse/history'
 
     # there are 4 revisions of the redacted relation, but only 2
     # should be showing details here.
-    assert_select "body div#content div.browse_details", 4
-    assert_select "body div#content div.browse_details[id=1] div.common", 1
-    assert_select "body div#content div.browse_details[id=2] div.common", 0
-    assert_select "body div#content div.browse_details[id=3] div.common", 0
-    assert_select "body div#content div.browse_details[id=4] div.common", 1
+    assert_select ".browse-section", 4
+    assert_select ".browse-section.browse-redacted", 2
+    assert_select ".browse-section.browse-relation", 2
   end
 
 private
@@ -132,7 +123,7 @@ private
   # First we check that when we don't have an id, it will correctly return a 404
   # then we check that we get the correct 404 when a non-existant id is passed
   # then we check that it will get a successful response, when we do pass an id
-  def browse_check(type, id)
+  def browse_check(type, id, template)
     assert_raise ActionController::UrlGenerationError do
       get type
     end
@@ -141,6 +132,6 @@ private
     end
     get type, {:id => id}
     assert_response :success
-    assert_template type
+    assert_template template
   end
 end

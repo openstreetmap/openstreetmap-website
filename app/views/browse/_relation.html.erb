@@ -1,11 +1,13 @@
-<div class='browse-section'>
-  <% if relation.redacted? %>
+<% if relation.redacted? %>
+  <div class='browse-section browse-redacted'>
     <%= t 'browse.redacted.message_html',
           :type => t('browse.redacted.type.relation'),
           :version => relation.version,
           :redaction_link => link_to(t('browse.redacted.redaction',
                                        :id => relation.redaction.id), relation.redaction) %><
-  <% else %>
+  </div>
+<% else %>
+  <div class='browse-section browse-relation'>
     <%= render :partial => "common_details", :object => relation %>
 
     <% unless relation.relation_members.empty? %>
@@ -17,5 +19,5 @@
       <h4><%= t'browse.part_of' %></h4>
       <ul><%= render :partial => "containing_relation", :collection => relation.containing_relation_members %></ul>
     <% end %>
-  <% end %>
-</div>
+  </div>
+<% end %>

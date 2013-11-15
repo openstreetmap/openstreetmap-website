@@ -8,7 +8,7 @@ class GeocoderControllerTest < ActionController::TestCase
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/geocoder/search", :method => :post },
+      { :path => "/search", :method => :get },
       { :controller => "geocoder", :action => "search" }
     )
     assert_routing(

@@ -79,27 +79,16 @@ class ClientApplicationTest < ActionDispatch::IntegrationTest
   ##
   # utility method to make the HTML screening easier to read.
   def assert_in_heading
-    assert_select "html:root" do
-      assert_select "body" do
-        assert_select "div.wrapper" do
-          assert_select "div.content-heading" do
-            yield
-          end
-        end
-      end
+    assert_select "div.content-heading" do
+      yield
     end
   end
 
   ##
   # utility method to make the HTML screening easier to read.
   def assert_in_body
-    assert_select "html:root" do
-      assert_select "body" do
-        assert_select "div#content" do
-          yield
-        end
-      end
+    assert_select "div#content" do
+      yield
     end
   end
-
 end

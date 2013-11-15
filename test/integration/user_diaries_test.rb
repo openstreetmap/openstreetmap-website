@@ -36,21 +36,13 @@ class UserDiariesTest < ActionDispatch::IntegrationTest
     # functional tests rather than this integration test
     # There are some things that are specific to the integratio
     # that need to be tested, which can't be tested in the functional tests
-    assert_select "html:root" do
-      assert_select "body" do
-        assert_select "div.wrapper", :count => 1 do
-          assert_select "div.content-heading", :count => 1 do
-            assert_select "h1", "New Diary Entry" 
-          end
-          assert_select "div#content" do
-            assert_select "form[action='/diary/new']" do
-              assert_select "input[id=diary_entry_title]"
-            end
-          end
-        end
+    assert_select "div.content-heading", :count => 1 do
+      assert_select "h1", "New Diary Entry"
+    end
+    assert_select "div#content" do
+      assert_select "form[action='/diary/new']" do
+        assert_select "input[id=diary_entry_title]"
       end
     end
-    
-    
   end
 end

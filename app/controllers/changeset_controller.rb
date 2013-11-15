@@ -252,42 +252,41 @@ class ChangesetController < ApplicationController
   def list
     if request.format == :atom and params[:page]
       redirect_to params.merge({ :page => nil }), :status => :moved_permanently
-    elsif request.format == :html and !params[:bbox]
+      return
+    end
+
+    if params[:display_name]
+      user = User.find_by_display_name(params[:display_name])
+      if !user || !user.active?
+        render_unknown_user params[:display_name]
+        return
+      end
+    end
+
+    if (params[:friends] || params[:nearby]) && !@user && request.format == :html
+      require_user
+      return
+    end
+
+    if request.format == :html and !params[:bbox]
       render :action => :history, :layout => map_layout
     else
       changesets = conditions_nonempty(Changeset.all)
 
       if params[:display_name]
-        user = User.find_by_display_name(params[:display_name])
-
-        if user and user.active?
-          if user.data_public? or user == @user
-            changesets = changesets.where(:user_id => user.id)
-          else
-            changesets = changesets.where("false")
-          end
+        if user.data_public? or user == @user
+          changesets = changesets.where(:user_id => user.id)
         else
-          render_unknown_user params[:display_name]
-          return
+          changesets = changesets.where("false")
         end
       end
 
-      if params[:friends]
-        if @user
-          changesets = changesets.where(:user_id => @user.friend_users.public)
-        elsif request.format == :html
-          require_user
-          return
-        end
+      if params[:friends] && @user
+        changesets = changesets.where(:user_id => @user.friend_users.public)
       end
 
-      if params[:nearby]
-        if @user
-          changesets = changesets.where(:user_id => @user.nearby)
-        elsif request.format == :html
-          require_user
-          return
-        end
+      if params[:nearby] && @user
+        changesets = changesets.where(:user_id => @user.nearby)
       end
 
       if params[:bbox]
