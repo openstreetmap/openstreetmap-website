@@ -397,7 +397,7 @@ class UserControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_template :lost_password
-    assert_select "div#error", /^Could not find that email address/
+    assert_select ".error", /^Could not find that email address/
 
     # Test resetting using the address as recorded for a user that has an
     # address which is case insensitively unique
@@ -476,7 +476,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
-    assert_select "div#notice", /^User information updated successfully/
+    assert_select ".notice", /^User information updated successfully/
     assert_select "form#accountForm > fieldset > div.form-row > div#user_description_container > div#user_description_content > textarea#user_description", user.description
 
     # Changing name to one that exists should fail
@@ -484,7 +484,7 @@ class UserControllerTest < ActionController::TestCase
     post :account, { :display_name => user.display_name, :user => new_attributes }, { "user" => user.id }
     assert_response :success
     assert_template :account
-    assert_select "div#notice", false
+    assert_select ".notice", false
     assert_select "div#errorExplanation"
     assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
 
@@ -493,7 +493,7 @@ class UserControllerTest < ActionController::TestCase
     post :account, { :display_name => user.display_name, :user => new_attributes }, { "user" => user.id }
     assert_response :success
     assert_template :account
-    assert_select "div#notice", false
+    assert_select ".notice", false
     assert_select "div#errorExplanation"
     assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
 
@@ -503,7 +503,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
-    assert_select "div#notice", /^User information updated successfully/
+    assert_select ".notice", /^User information updated successfully/
     assert_select "form#accountForm > fieldset > div.form-row > input#user_display_name[value=?]", "new tester"
 
     # Record the change of name
@@ -514,7 +514,7 @@ class UserControllerTest < ActionController::TestCase
     post :account, { :display_name => user.display_name, :user => user.attributes }, { "user" => user.id }
     assert_response :success
     assert_template :account
-    assert_select "div#notice", false
+    assert_select ".notice", false
     assert_select "div#errorExplanation"
     assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_new_email"
 
@@ -523,7 +523,7 @@ class UserControllerTest < ActionController::TestCase
     post :account, { :display_name => user.display_name, :user => user.attributes }, { "user" => user.id }
     assert_response :success
     assert_template :account
-    assert_select "div#notice", false
+    assert_select ".notice", false
     assert_select "div#errorExplanation"
     assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_new_email"
 
@@ -533,7 +533,7 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
-    assert_select "div#notice", /^User information updated successfully/
+    assert_select ".notice", /^User information updated successfully/
     assert_select "form#accountForm > fieldset > div.form-row > input#user_new_email[value=?]", user.new_email
   end
   
@@ -548,7 +548,7 @@ class UserControllerTest < ActionController::TestCase
     get :view, {:display_name => "test"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href=/user/test/edits]", 1
+      assert_select "a[href^=/user/test/edits]", 1
       assert_select "a[href=/user/test/traces]", 1
       assert_select "a[href=/user/test/diary]", 1
       assert_select "a[href=/user/test/diary/comments]", 1
@@ -562,7 +562,7 @@ class UserControllerTest < ActionController::TestCase
     get :view, {:display_name => "blocked"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href=/user/blocked/edits]", 1
+      assert_select "a[href^=/user/blocked/edits]", 1
       assert_select "a[href=/user/blocked/traces]", 1
       assert_select "a[href=/user/blocked/diary]", 1
       assert_select "a[href=/user/blocked/diary/comments]", 1
@@ -576,7 +576,7 @@ class UserControllerTest < ActionController::TestCase
     get :view, {:display_name => "moderator"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href=/user/moderator/edits]", 1
+      assert_select "a[href^=/user/moderator/edits]", 1
       assert_select "a[href=/user/moderator/traces]", 1
       assert_select "a[href=/user/moderator/diary]", 1
       assert_select "a[href=/user/moderator/diary/comments]", 1
@@ -593,7 +593,7 @@ class UserControllerTest < ActionController::TestCase
     get :view, {:display_name => "test"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href=/user/test/edits]", 1
+      assert_select "a[href^=/user/test/edits]", 1
       assert_select "a[href=/traces/mine]", 1
       assert_select "a[href=/user/test/diary]", 1
       assert_select "a[href=/user/test/diary/comments]", 1
@@ -610,7 +610,7 @@ class UserControllerTest < ActionController::TestCase
     get :view, {:display_name => "test"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href=/user/test/edits]", 1
+      assert_select "a[href^=/user/test/edits]", 1
       assert_select "a[href=/user/test/traces]", 1
       assert_select "a[href=/user/test/diary]", 1
       assert_select "a[href=/user/test/diary/comments]", 1

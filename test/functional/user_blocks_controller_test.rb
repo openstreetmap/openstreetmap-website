@@ -141,13 +141,13 @@ class UserBlocksControllerTest < ActionController::TestCase
     get :new
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user  does not exist"
+    assert_select "h1", "The user  does not exist"
 
     # We should get an error if the user doesn't exist
     get :new, :display_name => "non_existent_user"
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user non_existent_user does not exist"
+    assert_select "h1", "The user non_existent_user does not exist"
   end
 
   ##
@@ -238,13 +238,13 @@ class UserBlocksControllerTest < ActionController::TestCase
     post :create
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user  does not exist"
+    assert_select "h1", "The user  does not exist"
 
     # We should get an error if the user doesn't exist
     post :create, :display_name => "non_existent_user"
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user non_existent_user does not exist"
+    assert_select "h1", "The user non_existent_user does not exist"
   end
 
   ##
@@ -369,7 +369,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     get :blocks_on, :display_name => "non_existent_user"
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user non_existent_user does not exist"
+    assert_select "h1", "The user non_existent_user does not exist"
 
     # Check the list of blocks for a user that has never been blocked
     get :blocks_on, :display_name => users(:normal_user).display_name
@@ -407,7 +407,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     get :blocks_by, :display_name => "non_existent_user"
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user non_existent_user does not exist"
+    assert_select "h1", "The user non_existent_user does not exist"
 
     # Check the list of blocks given by one moderator
     get :blocks_by, :display_name => users(:moderator_user).display_name

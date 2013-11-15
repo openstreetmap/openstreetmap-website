@@ -1,11 +1,13 @@
-<div class='browse-section'>
-  <% if way.redacted? %>
+<% if way.redacted? %>
+  <div class='browse-section browse-redacted'>
     <%= t 'browse.redacted.message_html',
           :type => t('browse.redacted.type.way'),
           :version => way.version,
           :redaction_link => link_to(t('browse.redacted.redaction',
                                        :id => way.redaction.id), way.redaction) %>
-  <% else %>
+  </div>
+<% else %>
+  <div class='browse-section browse-way'>
     <%= render :partial => "common_details", :object => way %>
 
     <% unless way.way_nodes.empty? %>
@@ -29,5 +31,5 @@
         <%= render :partial => "containing_relation", :collection => way.containing_relation_members %>
       </ul>
     <% end %>
-  <% end %>
-</div>
+  </div>
+<% end %>
