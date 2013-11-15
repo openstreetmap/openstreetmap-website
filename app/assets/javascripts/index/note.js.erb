@@ -70,7 +70,7 @@ OSM.Note = function (map) {
 
     var data = $('.details').data();
     if (!noteState) map.addLayer(noteLayer);
-    if (window.location.hash == "") {
+    if (!window.location.hash) {
       var coords = data.coordinates.split(',');
       OSM.route.moveListenerOff();
       map.once('moveend', OSM.route.moveListenerOn);
