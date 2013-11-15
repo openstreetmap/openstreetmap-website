@@ -70,6 +70,8 @@ OSM.Search = function(map) {
         }
       });
     });
+
+    return map.getState();
   };
 
   page.unload = function() {

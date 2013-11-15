@@ -220,6 +220,9 @@ L.OSM.Map = L.Map.extend({
 
         var bounds = map._objectLayer.getBounds();
         if (bounds.isValid()) {
+          OSM.route.moveListenerOff();
+          map.once('moveend', OSM.route.moveListenerOn);
+
           map.fitBounds(bounds);
         }
       }
@@ -230,6 +233,14 @@ L.OSM.Map = L.Map.extend({
     this._object = null;
     if (this._objectLoader) this._objectLoader.abort();
     if (this._objectLayer) this.removeLayer(this._objectLayer);
+  },
+
+  getState: function() {
+    return {
+      center: this.getCenter().wrap(),
+      zoom: this.getZoom(),
+      layers: this.getLayersCode()
+    }
   }
 });
 

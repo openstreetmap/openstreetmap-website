@@ -64,6 +64,7 @@ OSM.Export = function(map) {
     $("#sidebar_content .close").on("click", page.minimizeSidebar);
 
     update();
+    return map.getState();
   };
 
   page.unload = function() {
