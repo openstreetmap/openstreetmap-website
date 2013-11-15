@@ -572,13 +572,13 @@ path.stroke.tag-highway {
     stroke-width:8;
 }
 
-svg[data-zoom="16"] path.shadow.tag-highway {
+.low-zoom path.shadow.tag-highway {
     stroke-width:12;
 }
-svg[data-zoom="16"] path.casing.tag-highway {
+.low-zoom path.casing.tag-highway {
     stroke-width:6;
 }
-svg[data-zoom="16"] path.stroke.tag-highway {
+.low-zoom path.stroke.tag-highway {
     stroke-width:4;
 }
 
@@ -691,10 +691,10 @@ path.casing.tag-highway-service {
     stroke:#666;
     stroke-width:6;
 }
-svg[data-zoom="16"] path.stroke.tag-highway-service {
+.low-zoom path.stroke.tag-highway-service {
     stroke-width:2;
 }
-svg[data-zoom="16"] path.casing.tag-highway-service {
+.low-zoom path.casing.tag-highway-service {
     stroke-width:4;
 }
 
@@ -708,10 +708,10 @@ path.casing.tag-highway-track {
     stroke-linecap: butt;
     stroke-dasharray: 6, 6;
 }
-svg[data-zoom="16"] path.stroke.tag-highway-track {
+.low-zoom path.stroke.tag-highway-track {
     stroke-width:2;
 }
-svg[data-zoom="16"] path.casing.tag-highway-track {
+.low-zoom path.casing.tag-highway-track {
     stroke-width:4;
 }
 
@@ -740,14 +740,14 @@ path.casing.tag-highway-bridleway {
     stroke: #fff;
 }
 
-svg[data-zoom="16"] path.stroke.tag-highway-footway,
-svg[data-zoom="16"] path.stroke.tag-highway-cycleway,
-svg[data-zoom="16"] path.stroke.tag-highway-bridleway {
+.low-zoom path.stroke.tag-highway-footway,
+.low-zoom path.stroke.tag-highway-cycleway,
+.low-zoom path.stroke.tag-highway-bridleway {
     stroke-width: 2;
 }
-svg[data-zoom="16"] path.casing.tag-highway-footway,
-svg[data-zoom="16"] path.casing.tag-highway-cycleway,
-svg[data-zoom="16"] path.casing.tag-highway-bridleway {
+.low-zoom path.casing.tag-highway-footway,
+.low-zoom path.casing.tag-highway-cycleway,
+.low-zoom path.casing.tag-highway-bridleway {
     stroke-width: 4;
 }
 
@@ -862,8 +862,8 @@ path.casing.tag-highway-construction {
 
 /* construction */
 
-svg[data-zoom="16"] path.stroke.tag-highway-construction,
-svg[data-zoom="16"] path.casing.tag-highway-construction {
+.low-zoom path.stroke.tag-highway-construction,
+.low-zoom path.casing.tag-highway-construction {
     stroke-linecap: butt;
     stroke-dasharray: 5, 5;
 }
@@ -923,13 +923,6 @@ path.stroke.tag-waterway-river {
     stroke-width: 4;
 }
 path.casing.tag-waterway-river {
-    stroke-width: 6;
-}
-
-svg[data-zoom="16"] path.stroke.tag-waterway-river {
-    stroke-width: 4;
-}
-svg[data-zoom="16"] path.casing.tag-waterway-river {
     stroke-width: 6;
 }
 
@@ -1804,7 +1797,7 @@ button[disabled] .icon.nearby     { background-position: -340px -40px;}
 .icon.line.created   { background-position: -320px -100px;}
 .icon.area.created   { background-position: -340px -100px;}
 
-.icon.point.modified  { background-position: -24px 0; }
+.icon.point.modified  { background-position: -22px 0; }
 
 .icon.modified { opacity: .5; }
 
@@ -3051,19 +3044,9 @@ img.wiki-image {
     background: rgba(0, 0, 0, .8);
 }
 
+.map-control > button.active,
 .map-control > button.active:hover {
     background: #7092ff;
-}
-
-.map-overlay {
-    z-index: -1;
-    right: 75%;
-    max-width: 260px;
-    min-width: 210px;
-    position: fixed;
-    left: 30px;
-    display: block;
-    padding: 10px 10px 0 10px;
 }
 
 /* Zoomer */
@@ -3078,22 +3061,12 @@ img.wiki-image {
     border-radius: 4px 0 0 0;
 }
 
-.background-control button.active {
-    border-radius: 0;
-}
-
 .background-control {
     position: relative;
 }
 
-.background-control .map-overlay {
-    position: absolute;
-    top: 0;
-}
-
 .nudge-container {
-    border-top: 1px solid #CCC;
-    margin: 0 -10px;
+    border: 1px solid #CCC;
 }
 
 .background-control .adjustments button:last-child {
@@ -3184,7 +3157,6 @@ img.wiki-image {
     float: left;
     display: block;
     width:20%;
-    border-radius: 0;
     border-right: 1px solid #CCC;
     position: relative;
 }
@@ -3228,8 +3200,8 @@ img.wiki-image {
     height:20px;
     width:82px;
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 50px;
+    top: 20px;
     border: 1px solid #ccc;
 }
 
@@ -3291,19 +3263,22 @@ img.wiki-image {
     border-radius: 0 0 0 4px;
 }
 
-/* Help */
-
-.help-control button {
-    border-radius: 0 0 0 4px;
-}
-
-.help-wrap {
+.map-overlay.content {
     position: fixed;
     top:60px;
     bottom: 30px;
     padding: 20px 50px 20px 20px;
     right: 0;
-    overflow-y: scroll;
+    overflow: auto;
+}
+
+.background-control .map-overlay {
+    z-index: -1;
+}
+/* Help */
+
+.help-control button {
+    border-radius: 0 0 0 4px;
 }
 
 .help-wrap p {
@@ -3927,23 +3902,28 @@ img.wiki-image {
 
 /* Exceptions for tooltip layouts */
 
-/* make tooltips in editor pane dark */
+/* make tooltips in panels dark */
+.map-overlay .tooltip.top .tooltip-arrow,
 .entity-editor-pane .tooltip.top .tooltip-arrow {
     border-top-color: #000;
 }
 
+.map-overlay .tooltip.bottom .tooltip-arrow,
 .entity-editor-pane .tooltip.bottom .tooltip-arrow {
     border-bottom-color: #000;
 }
 
+.map-overlay .tooltip.left .tooltip-arrow,
 .entity-editor-pane .tooltip.left .tooltip-arrow {
     border-left-color: #000;
 }
 
+.map-overlay .tooltip.right .tooltip-arrow,
 .entity-editor-pane .tooltip.right .tooltip-arrow {
     border-right-color: #000;
 }
 
+.map-overlay .tooltip-inner,
 .entity-editor-pane .tooltip-inner {
     background: #000;
     color: #ccc;
@@ -4164,8 +4144,8 @@ img.wiki-image {
 .feature-airport{background-position:-54px -72px;}
 .feature-heliport{background-position:-108px -72px;}
 .feature-rail{background-position:-162px -72px;}
-.feature-rail-underground{background-position:-216px -72px;}
-.feature-rail-above{background-position:-0px -96px;}
+.feature-rail-metro{background-position:-216px -72px;}
+.feature-rail-light{background-position:-0px -96px;}
 .feature-bus{background-position:-54px -96px;}
 .feature-fuel{background-position:-108px -96px;}
 .feature-parking{background-position:-162px -96px;}
@@ -4243,9 +4223,18 @@ img.wiki-image {
 .feature-dog-park{background-position:-0px -456px;}
 .feature-lighthouse{background-position:-54px -456px;}
 .feature-clothing-store{background-position:-108px -456px;}
-.feature-london-underground{background-position:-162px -456px;}
-.feature-minefield{background-position:-216px -456px;}
-.feature-camera{background-position:-0px -480px;}
+.feature-polling-place{background-position:-162px -456px;}
+.feature-playground{background-position:-216px -456px;}
+.feature-entrance{background-position:-0px -480px;}
+.feature-heart{background-position:-54px -480px;}
+.feature-london-underground{background-position:-108px -480px;}
+.feature-minefield{background-position:-162px -480px;}
+.feature-rail-underground{background-position:-216px -480px;}
+.feature-rail-above{background-position:-0px -504px;}
+.feature-camera{background-position:-54px -504px;}
+.feature-laundry{background-position:-108px -504px;}
+.feature-car{background-position:-162px -504px;}
+.feature-suitcase{background-position:-216px -504px;}
 .preset-icon-line.feature-highway-motorway{background-position:-20px -25px;}
 .preset-icon-line.feature-highway-trunk{background-position:-80px -25px;}
 .preset-icon-line.feature-highway-primary{background-position:-140px -25px;}
