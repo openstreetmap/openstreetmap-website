@@ -572,13 +572,13 @@ path.stroke.tag-highway {
     stroke-width:8;
 }
 
-svg[data-zoom="16"] path.shadow.tag-highway {
+.low-zoom path.shadow.tag-highway {
     stroke-width:12;
 }
-svg[data-zoom="16"] path.casing.tag-highway {
+.low-zoom path.casing.tag-highway {
     stroke-width:6;
 }
-svg[data-zoom="16"] path.stroke.tag-highway {
+.low-zoom path.stroke.tag-highway {
     stroke-width:4;
 }
 
@@ -691,10 +691,10 @@ path.casing.tag-highway-service {
     stroke:#666;
     stroke-width:6;
 }
-svg[data-zoom="16"] path.stroke.tag-highway-service {
+.low-zoom path.stroke.tag-highway-service {
     stroke-width:2;
 }
-svg[data-zoom="16"] path.casing.tag-highway-service {
+.low-zoom path.casing.tag-highway-service {
     stroke-width:4;
 }
 
@@ -708,10 +708,10 @@ path.casing.tag-highway-track {
     stroke-linecap: butt;
     stroke-dasharray: 6, 6;
 }
-svg[data-zoom="16"] path.stroke.tag-highway-track {
+.low-zoom path.stroke.tag-highway-track {
     stroke-width:2;
 }
-svg[data-zoom="16"] path.casing.tag-highway-track {
+.low-zoom path.casing.tag-highway-track {
     stroke-width:4;
 }
 
@@ -740,14 +740,14 @@ path.casing.tag-highway-bridleway {
     stroke: #fff;
 }
 
-svg[data-zoom="16"] path.stroke.tag-highway-footway,
-svg[data-zoom="16"] path.stroke.tag-highway-cycleway,
-svg[data-zoom="16"] path.stroke.tag-highway-bridleway {
+.low-zoom path.stroke.tag-highway-footway,
+.low-zoom path.stroke.tag-highway-cycleway,
+.low-zoom path.stroke.tag-highway-bridleway {
     stroke-width: 2;
 }
-svg[data-zoom="16"] path.casing.tag-highway-footway,
-svg[data-zoom="16"] path.casing.tag-highway-cycleway,
-svg[data-zoom="16"] path.casing.tag-highway-bridleway {
+.low-zoom path.casing.tag-highway-footway,
+.low-zoom path.casing.tag-highway-cycleway,
+.low-zoom path.casing.tag-highway-bridleway {
     stroke-width: 4;
 }
 
@@ -862,8 +862,8 @@ path.casing.tag-highway-construction {
 
 /* construction */
 
-svg[data-zoom="16"] path.stroke.tag-highway-construction,
-svg[data-zoom="16"] path.casing.tag-highway-construction {
+.low-zoom path.stroke.tag-highway-construction,
+.low-zoom path.casing.tag-highway-construction {
     stroke-linecap: butt;
     stroke-dasharray: 5, 5;
 }
@@ -923,13 +923,6 @@ path.stroke.tag-waterway-river {
     stroke-width: 4;
 }
 path.casing.tag-waterway-river {
-    stroke-width: 6;
-}
-
-svg[data-zoom="16"] path.stroke.tag-waterway-river {
-    stroke-width: 4;
-}
-svg[data-zoom="16"] path.casing.tag-waterway-river {
     stroke-width: 6;
 }
 
@@ -1396,7 +1389,6 @@ input[type=email] {
     width: 100%;
     border-radius:4px;
     text-overflow: ellipsis;
-    overflow: hidden;
     -webkit-transition: all 200ms;
        -moz-transition: all 200ms;
          -o-transition: all 200ms;
@@ -1464,17 +1456,11 @@ table.tags, table.tags td, table.tags th {
 
 ul li { list-style: none;}
 
-.toggle-list {
-    border-radius: 4px;
-    border: 1px solid #CCC;
-}
-
 .toggle-list > label {
     position: relative;
     padding: 5px 10px;
-    display:block;
+    display: block;
     height: 30px;
-    border-bottom: 1px solid #ccc;
     background-color: white;
     color: #7092FF;
     cursor: pointer;
@@ -1487,32 +1473,19 @@ ul li { list-style: none;}
     background-color: #ececec;
 }
 
-.toggle-list > label:first-child {
-    border-radius: 3px 3px 0 0;
+.toggle-list > label:not(:last-child) {
+    border-bottom: 1px solid #ccc;
 }
 
 .toggle-list > label:last-child {
     border-radius: 0 0 3px 3px;
-    border-bottom-width: 0;
 }
 
-.toggle-list > label:only-child {
-    border-radius: 3px;
-}
-
-.toggle-list label > span { 
+.toggle-list label > span {
     display: block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-}
-
-.toggle-list > label.remove span.icon {
-    display: block;
-    width: 14px;
-    float: left;
-    margin-right: 5px;
-    background-position: -204px 0;
 }
 
 .toggle-list > label.active {
@@ -1781,6 +1754,7 @@ button.save.has-count .count::before {
 .icon.relation    { background-position: -520px 0;}
 .icon.relation.route         { background-position: -540px 0;}
 .icon.relation.multipolygon  { background-position: -560px 0;}
+.icon.vertex     { background-position: -580px 0;}
 
 .icon.inspect.light    { background-position: -220px -20px;}
 .icon.plus.light       { background-position: -240px -20px;}
@@ -1814,6 +1788,18 @@ button[disabled] .icon.geocode    { background-position: -280px -40px;}
 button[disabled] .icon.layers     { background-position: -300px -40px;}
 button[disabled] .icon.avatar     { background-position: -320px -40px;}
 button[disabled] .icon.nearby     { background-position: -340px -40px;}
+
+.icon.point.deleted  { background-position: -302px -80px;}
+.icon.line.deleted   { background-position: -320px -80px;}
+.icon.area.deleted   { background-position: -340px -80px;}
+
+.icon.point.created  { background-position: -302px -100px;}
+.icon.line.created   { background-position: -320px -100px;}
+.icon.area.created   { background-position: -340px -100px;}
+
+.icon.point.modified  { background-position: -22px 0; }
+
+.icon.modified { opacity: .5; }
 
 /* Out link is special */
 
@@ -1956,6 +1942,10 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 }
 
 .entity-editor-pane .inspector-body {
+    top: 60px;
+}
+
+.selection-list-pane .inspector-body {
     top: 60px;
 }
 
@@ -2104,6 +2094,15 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     height: 100%;
     border: 1px solid #CCC;
     border-radius: 0 3px 3px 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10%;
+    background: #fafafa;
+}
+
+.preset-list-item button.tag-reference-button .icon {
+    opacity: .5;
 }
 
 .current .preset-list-button,
@@ -2232,26 +2231,39 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     background: #f6f6f6;
     display: block;
     border-radius: 4px 4px 0 0;
+    overflow: hidden;
+}
+
+.form-label-button-wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    text-align: right;
+}
+
+.form-label-button-wrap .icon {
+    opacity: .5;
 }
 
 .form-label button {
     border-left: 1px solid #CCC;
+    width: 10%;
+    height: 100%;
+    border-radius: 0;
+    background: #fafafa;
 }
 
-.form-label .modified-icon {
-    border-right: 0;
-    opacity: 0;
-    z-index: -10;
-    right: 10%;
+.form-label .modified-icon,
+.form-field .remove-icon {
+    display: none;
 }
 
-.modified .form-label .modified-icon {
-    opacity: 1;
-    z-index: 1;
-}
-
-.form-label button.tag-reference-button {
-    border-top-right-radius: 3px;
+.modified .form-label .modified-icon,
+.present .form-label .remove-icon {
+    display: inline-block;
 }
 
 .form-field > input,
@@ -2261,15 +2273,10 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     min-height: 30px;
     border-top: 0;
     border-radius: 0 0 4px 4px;
-    overflow: hidden;
 }
 
 .form-field textarea {
     height: 65px;
-}
-
-.form-field button.remove {
-    border-radius: 0 0 4px 0;
 }
 
 .inspector-border {
@@ -2294,7 +2301,7 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 .inspector-hidden,
 .inspector-hover label input[type="checkbox"],
 .inspector-hover label input[type="radio"],
-.inspector-hover .toggle-list label:not(.active),
+.inspector-hover .toggle-list label,
 .inspector-hover .toggle-list label span,
 .inspector-hover .inspector-inner .add-tag,
 .inspector-hover .inspector-inner .add-relation,
@@ -2309,13 +2316,14 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 }
 
 /* hide but preserve in layout */
-.inspector-hover .modified .form-label .modified-icon,
 .inspector-hover .entity-editor-pane button.minor,
-.inspector-hover .combobox-carat,
+.inspector-hover .combobox-caret,
 .inspector-hover .entity-editor-pane .header button,
 .inspector-hover .spin-control,
 .inspector-hover .hide-toggle:before,
 .inspector-hover .more-buttons,
+.inspector-hover .form-label-button-wrap,
+.inspector-hover .tag-reference-button,
 .inspector-hover .view-on-osm {
     opacity: 0;
 }
@@ -2403,9 +2411,8 @@ input,
             transition: opacity 200ms 200ms, width 200ms 200ms, margin-right 200ms 200ms;
 }
 
-.modified .form-label .modified-icon,
 .entity-editor-pane button.minor,
-.combobox-carat,
+.combobox-caret,
 .entity-editor-pane .header button,
 .toggle-list label span,
 .spin-control,
@@ -2634,7 +2641,7 @@ input[type=number] {
     padding-right: 10%;
 }
 
-.form-field .wiki-title ~ .combobox-carat {
+.form-field .wiki-title ~ .combobox-caret {
     margin-left: -18%;
     margin-right: 9%;
 }
@@ -2708,9 +2715,12 @@ input[type=number] {
 }
 
 .form-field .localized-wrap .entry .localized-value {
-    padding-right: 10%;
     border-top-width: 0;
     border-radius: 0 0 4px 4px;
+}
+
+.form-field .localized-wrap .form-label button {
+    border-top-right-radius: 3px;
 }
 
 /* Preset form address */
@@ -2782,10 +2792,21 @@ div.combobox {
     border-top: 0;
 }
 
-.combobox-carat {
-    margin-left: -20px;
-    margin-right: 10px;
-    display:inline-block;
+.combobox-caret {
+    display: inline-block;
+    position: relative;
+    height: 30px;
+    width: 30px;
+    margin-left: -30px;
+    vertical-align: top;
+}
+
+.combobox-caret::after {
+    content:"";
+    height: 0; width: 0;
+    position: absolute;
+    left: 0; right: 0; bottom: 0; top: 0;
+    margin: auto;
     border-top: 5px solid #ccc;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
@@ -2871,6 +2892,10 @@ div.combobox {
 
 .tag-row .tag-reference-button {
     right: 0;
+    border-radius: 0;
+    width: 10%;
+    top: 0;
+    background: #fafafa;
 }
 
 /* Adding form fields to tag editor */
@@ -2978,6 +3003,10 @@ img.wiki-image {
     padding-left: 10px;
 }
 
+.member-incomplete .member-delete {
+    display: none;
+}
+
 .member-row-new .member-entity-input {
     border-radius: 4px 4px 0 0;
     border: 1px solid #cfcfcf;
@@ -3015,19 +3044,9 @@ img.wiki-image {
     background: rgba(0, 0, 0, .8);
 }
 
+.map-control > button.active,
 .map-control > button.active:hover {
     background: #7092ff;
-}
-
-.map-overlay {
-    z-index: -1;
-    right: 75%;
-    max-width: 260px;
-    min-width: 210px;
-    position: fixed;
-    left: 30px;
-    display: block;
-    padding: 10px 10px 0 10px;
 }
 
 /* Zoomer */
@@ -3038,32 +3057,16 @@ img.wiki-image {
 
 /* Background Settings */
 
-
-.toggle-list.layer-list {
-    margin-bottom: 10px;
-}
-
 .background-control button {
     border-radius: 4px 0 0 0;
-}
-
-
-.background-control button.active {
-    border-radius: 0;
 }
 
 .background-control {
     position: relative;
 }
 
-.background-control .map-overlay {
-    position: absolute;
-    top: 0;
-}
-
 .nudge-container {
-    border-top: 1px solid #CCC;
-    margin: 0 -10px;
+    border: 1px solid #CCC;
 }
 
 .background-control .adjustments button:last-child {
@@ -3072,6 +3075,56 @@ img.wiki-image {
 
 .background-control .hide-toggle  {
     padding-bottom: 10px;
+}
+
+.layer-list {
+    margin-bottom: 10px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+}
+
+.layer-list li {
+    position: relative;
+    height: 30px;
+    background-color: white;
+    color: #7092FF;
+}
+
+.layer-list > li:first-child {
+    border-radius: 3px 3px 0 0;
+}
+
+.layer-list > li:last-child {
+    border-radius: 0 0 3px 3px;
+}
+
+.layer-list > li:only-child {
+    border-radius: 3px;
+}
+
+.layer-list li:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+
+.layer-list li:hover {
+    background-color: #ececec;
+}
+
+.layer-list li.active {
+    background: #E8EBFF;
+}
+
+.layer-list label {
+    display: block;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.layer-list label > span {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .hide-toggle {
@@ -3104,7 +3157,6 @@ img.wiki-image {
     float: left;
     display: block;
     width:20%;
-    border-radius: 0;
     border-right: 1px solid #CCC;
     position: relative;
 }
@@ -3146,10 +3198,10 @@ img.wiki-image {
 .opacity-options {
     background: url(<%= asset_path("iD/img/background-pattern-opacity.png") %>) 0 0 repeat;
     height:20px;
-    width:62px;
+    width:82px;
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 50px;
+    top: 20px;
     border: 1px solid #ccc;
 }
 
@@ -3185,13 +3237,20 @@ img.wiki-image {
     height:18px;
 }
 
-.background-control .layer-toggle-gpx .layer-extent {
+.background-control .layer-toggle-gpx button {
+    float: right;
+    height: 100%;
+    width: 10%;
     border-left: 1px solid #CCC;
-    border-radius: 0 4px 4px 0;
+    border-radius: 0;
 }
 
-.background-control .layer-toggle-gpx.selected .layer-extent {
-    display:inline-block;
+.background-control .layer-toggle-gpx button .icon {
+    opacity: 0.5;
+}
+
+.background-control .layer-toggle-gpx button.layer-extent {
+    border-radius: 0 3px 3px 0;
 }
 
 /* Geolocator */
@@ -3204,19 +3263,22 @@ img.wiki-image {
     border-radius: 0 0 0 4px;
 }
 
-/* Help */
-
-.help-control button {
-    border-radius: 0 0 0 4px;
-}
-
-.help-wrap {
+.map-overlay.content {
     position: fixed;
     top:60px;
     bottom: 30px;
     padding: 20px 50px 20px 20px;
     right: 0;
-    overflow-y: scroll;
+    overflow: auto;
+}
+
+.background-control .map-overlay {
+    z-index: -1;
+}
+/* Help */
+
+.help-control button {
+    border-radius: 0 0 0 4px;
 }
 
 .help-wrap p {
@@ -3361,12 +3423,24 @@ img.wiki-image {
 }
 
 /* Attribution overlay */
-.attribution {
+.base-layer-attribution,
+.overlay-layer-attribution {
     position: absolute;
     bottom: 35px;
-    left:10px;
-    color:#888;
-    font-size:10px;
+    color: #888;
+    font-size: 10px;
+}
+
+.base-layer-attribution {
+    left: 10px;
+}
+
+.overlay-layer-attribution {
+    right: 10px;
+}
+
+.overlay-layer-attribution .attribution:not(:last-child):after {
+    content: '; ';
 }
 
 .source-image {
@@ -3558,6 +3632,8 @@ img.wiki-image {
     float: none;
     margin: auto;
     display: block;
+    color: white;
+    font-size: 14px;
 }
 
 .mode-save .user-info img {
@@ -3578,12 +3654,15 @@ img.wiki-image {
     color:#fff;
 }
 
+.mode-save .commit-info {
+    margin-bottom: 10px;
+}
+
 .mode-save .changeset-list {
     overflow: auto;
     border:1px solid #ccc;
     border-radius: 4px;
     background:#fff;
-    max-height: 160px;
 }
 
 .mode-save .warning-section .changeset-list button {
@@ -3594,11 +3673,24 @@ img.wiki-image {
     position: relative;
     border-top:1px solid #ccc;
     padding:5px 10px;
+    cursor: pointer;
+}
+
+.mode-save .changeset-list li:hover {
+    background-color: #ececec;
+}
+
+.mode-save .changeset-list .alert {
+    opacity: 0.5;
 }
 
 .changeset-list li span.count {
     font-size:10px;
     color:#555;
+}
+
+.mode-save .commit-section .changeset-list button {
+    border-left: 1px solid #CCC;
 }
 
 .changeset-list li span.count:before { content: '('; }
@@ -3810,23 +3902,28 @@ img.wiki-image {
 
 /* Exceptions for tooltip layouts */
 
-/* make tooltips in editor pane dark */
+/* make tooltips in panels dark */
+.map-overlay .tooltip.top .tooltip-arrow,
 .entity-editor-pane .tooltip.top .tooltip-arrow {
     border-top-color: #000;
 }
 
+.map-overlay .tooltip.bottom .tooltip-arrow,
 .entity-editor-pane .tooltip.bottom .tooltip-arrow {
     border-bottom-color: #000;
 }
 
+.map-overlay .tooltip.left .tooltip-arrow,
 .entity-editor-pane .tooltip.left .tooltip-arrow {
     border-left-color: #000;
 }
 
+.map-overlay .tooltip.right .tooltip-arrow,
 .entity-editor-pane .tooltip.right .tooltip-arrow {
     border-right-color: #000;
 }
 
+.map-overlay .tooltip-inner,
 .entity-editor-pane .tooltip-inner {
     background: #000;
     color: #ccc;
@@ -3838,7 +3935,7 @@ img.wiki-image {
 }
 /* Move over tooltips that are near the edge of screen */
 .add-point .tooltip {
-    left: 33.3333% !important; 
+    left: 33.3333% !important;
 }
 
 .curtain-tooltip.intro-points-add .tooltip-arrow,
@@ -4028,99 +4125,116 @@ img.wiki-image {
 .preset-icon{background-image:url(<%= asset_path("iD/img/maki-sprite.png") %>);background-repeat:no-repeat;width:24px;height:24px;}
 .preset-icon-line{background-image:url(<%= asset_path("iD/img/line-presets.png") %>);background-repeat:no-repeat;width:60px;height:60px;}
 .preset-icon-relation{background-image:url(<%= asset_path("iD/img/relation-presets.png") %>);background-repeat:no-repeat;width:60px;height:60px;}
-.feature-airfield{background-position:-0px -34px;}
-.feature-airport{background-position:-0px -94px;}
-.feature-alcohol-shop{background-position:-0px -154px;}
-.feature-america-football{background-position:-0px -214px;}
-.feature-art-gallery{background-position:-0px -274px;}
-.feature-bank{background-position:-0px -334px;}
-.feature-bar{background-position:-0px -394px;}
-.feature-baseball{background-position:-0px -454px;}
-.feature-basketball{background-position:-0px -514px;}
-.feature-beer{background-position:-0px -574px;}
-.feature-bicycle{background-position:-0px -634px;}
-.feature-building{background-position:-0px -694px;}
-.feature-bus{background-position:-0px -754px;}
-.feature-cafe{background-position:-0px -814px;}
-.feature-campsite{background-position:-0px -874px;}
-.feature-cemetery{background-position:-0px -934px;}
-.feature-cinema{background-position:-0px -994px;}
-.feature-circle{background-position:-0px -1054px;}
-.feature-circle-stroked{background-position:-0px -1114px;}
-.feature-city{background-position:-0px -1174px;}
-.feature-college{background-position:-0px -1234px;}
-.feature-commercial{background-position:-0px -1294px;}
-.feature-cricket{background-position:-0px -1354px;}
-.feature-cross{background-position:-0px -1414px;}
-.feature-dam{background-position:-0px -1474px;}
-.feature-danger{background-position:-0px -1534px;}
-.feature-disability{background-position:-0px -1594px;}
-.feature-embassy{background-position:-0px -1654px;}
-.feature-emergency-telephone{background-position:-0px -1714px;}
-.feature-farm{background-position:-0px -1774px;}
-.feature-fast-food{background-position:-0px -1834px;}
-.feature-ferry{background-position:-0px -1894px;}
-.feature-fire-station{background-position:-0px -1954px;}
-.feature-fuel{background-position:-0px -2014px;}
-.feature-garden{background-position:-0px -2074px;}
-.feature-golf{background-position:-0px -2134px;}
-.feature-grocery{background-position:-0px -2194px;}
-.feature-harbor{background-position:-0px -2254px;}
-.feature-heliport{background-position:-0px -2314px;}
-.feature-hospital{background-position:-0px -2374px;}
-.feature-industrial{background-position:-0px -2434px;}
-.feature-land-use{background-position:-0px -2494px;}
-.feature-library{background-position:-0px -2554px;}
-.feature-lodging{background-position:-0px -2614px;}
-.feature-logging{background-position:-0px -2674px;}
-.feature-marker{background-position:-0px -2734px;}
-.feature-marker-stroked{background-position:-0px -2794px;}
-.feature-monument{background-position:-0px -2854px;}
-.feature-museum{background-position:-0px -2914px;}
-.feature-music{background-position:-0px -2974px;}
-.feature-oil-well{background-position:-0px -3034px;}
-.feature-park{background-position:-0px -3094px;}
-.feature-park2{background-position:-0px -3154px;}
-.feature-parking{background-position:-0px -3214px;}
-.feature-parking-garage{background-position:-0px -3274px;}
-.feature-pharmacy{background-position:-0px -3334px;}
-.feature-pitch{background-position:-0px -3394px;}
-.feature-place-of-worship{background-position:-0px -3454px;}
-.feature-police{background-position:-0px -3514px;}
-.feature-post{background-position:-0px -3574px;}
-.feature-prison{background-position:-0px -3634px;}
-.feature-rail{background-position:-0px -3694px;}
-.feature-rail-above{background-position:-0px -3754px;}
-.feature-rail-underground{background-position:-0px -3814px;}
-.feature-religious-christian{background-position:-0px -3874px;}
-.feature-religious-jewish{background-position:-0px -3934px;}
-.feature-religious-muslim{background-position:-0px -3994px;}
-.feature-restaurant{background-position:-0px -4054px;}
-.feature-roadblock{background-position:-0px -4114px;}
-.feature-school{background-position:-0px -4174px;}
-.feature-shop{background-position:-0px -4234px;}
-.feature-skiing{background-position:-0px -4294px;}
-.feature-slaughterhouse{background-position:-0px -4354px;}
-.feature-soccer{background-position:-0px -4414px;}
-.feature-square{background-position:-0px -4474px;}
-.feature-square-stroked{background-position:-0px -4534px;}
-.feature-star{background-position:-0px -4594px;}
-.feature-star-stroked{background-position:-0px -4654px;}
-.feature-swimming{background-position:-0px -4714px;}
-.feature-telephone{background-position:-0px -4774px;}
-.feature-tennis{background-position:-0px -4834px;}
-.feature-theatre{background-position:-0px -4894px;}
-.feature-toilets{background-position:-0px -4954px;}
-.feature-town{background-position:-0px -5014px;}
-.feature-town-hall{background-position:-0px -5074px;}
-.feature-triangle{background-position:-0px -5134px;}
-.feature-triangle-stroked{background-position:-0px -5194px;}
-.feature-village{background-position:-0px -5254px;}
-.feature-warehouse{background-position:-0px -5314px;}
-.feature-waste-basket{background-position:-0px -5374px;}
-.feature-water{background-position:-0px -5434px;}
-.feature-wetland{background-position:-0px -5494px;}
-.feature-zoo{background-position:-0px -5554px;}
+.feature-circle-stroked{background-position:-0px -0px;}
+.feature-circle{background-position:-54px -0px;}
+.feature-square-stroked{background-position:-108px -0px;}
+.feature-square{background-position:-162px -0px;}
+.feature-triangle-stroked{background-position:-216px -0px;}
+.feature-triangle{background-position:-0px -24px;}
+.feature-star-stroked{background-position:-54px -24px;}
+.feature-star{background-position:-108px -24px;}
+.feature-cross{background-position:-162px -24px;}
+.feature-marker-stroked{background-position:-216px -24px;}
+.feature-marker{background-position:-0px -48px;}
+.feature-religious-jewish{background-position:-54px -48px;}
+.feature-religious-christian{background-position:-108px -48px;}
+.feature-religious-muslim{background-position:-162px -48px;}
+.feature-cemetery{background-position:-216px -48px;}
+.feature-rocket{background-position:-0px -72px;}
+.feature-airport{background-position:-54px -72px;}
+.feature-heliport{background-position:-108px -72px;}
+.feature-rail{background-position:-162px -72px;}
+.feature-rail-metro{background-position:-216px -72px;}
+.feature-rail-light{background-position:-0px -96px;}
+.feature-bus{background-position:-54px -96px;}
+.feature-fuel{background-position:-108px -96px;}
+.feature-parking{background-position:-162px -96px;}
+.feature-parking-garage{background-position:-216px -96px;}
+.feature-airfield{background-position:-0px -120px;}
+.feature-roadblock{background-position:-54px -120px;}
+.feature-ferry{background-position:-108px -120px;}
+.feature-harbor{background-position:-162px -120px;}
+.feature-bicycle{background-position:-216px -120px;}
+.feature-park{background-position:-0px -144px;}
+.feature-park2{background-position:-54px -144px;}
+.feature-museum{background-position:-108px -144px;}
+.feature-lodging{background-position:-162px -144px;}
+.feature-monument{background-position:-216px -144px;}
+.feature-zoo{background-position:-0px -168px;}
+.feature-garden{background-position:-54px -168px;}
+.feature-campsite{background-position:-108px -168px;}
+.feature-theatre{background-position:-162px -168px;}
+.feature-art-gallery{background-position:-216px -168px;}
+.feature-pitch{background-position:-0px -192px;}
+.feature-soccer{background-position:-54px -192px;}
+.feature-america-football{background-position:-108px -192px;}
+.feature-tennis{background-position:-162px -192px;}
+.feature-basketball{background-position:-216px -192px;}
+.feature-baseball{background-position:-0px -216px;}
+.feature-golf{background-position:-54px -216px;}
+.feature-swimming{background-position:-108px -216px;}
+.feature-cricket{background-position:-162px -216px;}
+.feature-skiing{background-position:-216px -216px;}
+.feature-school{background-position:-0px -240px;}
+.feature-college{background-position:-54px -240px;}
+.feature-library{background-position:-108px -240px;}
+.feature-post{background-position:-162px -240px;}
+.feature-fire-station{background-position:-216px -240px;}
+.feature-town-hall{background-position:-0px -264px;}
+.feature-police{background-position:-54px -264px;}
+.feature-prison{background-position:-108px -264px;}
+.feature-embassy{background-position:-162px -264px;}
+.feature-beer{background-position:-216px -264px;}
+.feature-restaurant{background-position:-0px -288px;}
+.feature-cafe{background-position:-54px -288px;}
+.feature-shop{background-position:-108px -288px;}
+.feature-fast-food{background-position:-162px -288px;}
+.feature-bar{background-position:-216px -288px;}
+.feature-bank{background-position:-0px -312px;}
+.feature-grocery{background-position:-54px -312px;}
+.feature-cinema{background-position:-108px -312px;}
+.feature-pharmacy{background-position:-162px -312px;}
+.feature-hospital{background-position:-216px -312px;}
+.feature-danger{background-position:-0px -336px;}
+.feature-industrial{background-position:-54px -336px;}
+.feature-warehouse{background-position:-108px -336px;}
+.feature-commercial{background-position:-162px -336px;}
+.feature-building{background-position:-216px -336px;}
+.feature-place-of-worship{background-position:-0px -360px;}
+.feature-alcohol-shop{background-position:-54px -360px;}
+.feature-logging{background-position:-108px -360px;}
+.feature-oil-well{background-position:-162px -360px;}
+.feature-slaughterhouse{background-position:-216px -360px;}
+.feature-dam{background-position:-0px -384px;}
+.feature-water{background-position:-54px -384px;}
+.feature-wetland{background-position:-108px -384px;}
+.feature-disability{background-position:-162px -384px;}
+.feature-telephone{background-position:-216px -384px;}
+.feature-emergency-telephone{background-position:-0px -408px;}
+.feature-toilets{background-position:-54px -408px;}
+.feature-waste-basket{background-position:-108px -408px;}
+.feature-music{background-position:-162px -408px;}
+.feature-land-use{background-position:-216px -408px;}
+.feature-city{background-position:-0px -432px;}
+.feature-town{background-position:-54px -432px;}
+.feature-village{background-position:-108px -432px;}
+.feature-farm{background-position:-162px -432px;}
+.feature-bakery{background-position:-216px -432px;}
+.feature-dog-park{background-position:-0px -456px;}
+.feature-lighthouse{background-position:-54px -456px;}
+.feature-clothing-store{background-position:-108px -456px;}
+.feature-polling-place{background-position:-162px -456px;}
+.feature-playground{background-position:-216px -456px;}
+.feature-entrance{background-position:-0px -480px;}
+.feature-heart{background-position:-54px -480px;}
+.feature-london-underground{background-position:-108px -480px;}
+.feature-minefield{background-position:-162px -480px;}
+.feature-rail-underground{background-position:-216px -480px;}
+.feature-rail-above{background-position:-0px -504px;}
+.feature-camera{background-position:-54px -504px;}
+.feature-laundry{background-position:-108px -504px;}
+.feature-car{background-position:-162px -504px;}
+.feature-suitcase{background-position:-216px -504px;}
 .preset-icon-line.feature-highway-motorway{background-position:-20px -25px;}
 .preset-icon-line.feature-highway-trunk{background-position:-80px -25px;}
 .preset-icon-line.feature-highway-primary{background-position:-140px -25px;}

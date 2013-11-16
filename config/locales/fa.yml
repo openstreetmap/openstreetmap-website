@@ -3,6 +3,7 @@
 # Export driver: syck-pecl
 # Author: BMRG14
 # Author: Baqeri
+# Author: Ebraminio
 # Author: Grille chompa
 # Author: Hooshmand.hasannia
 # Author: Huji
@@ -48,12 +49,14 @@ fa:
         display_name: نام نمایشی
         email: پست الکترونیکی
         languages: زبان‌ها
-        pass_crypt: کلمه عبور
+        pass_crypt: گذرواژه
     models: 
       acl: دسترسی به لیست کنترل
       changeset: مجموعه تغییرات
       changeset_tag: برچسب Changeset
       country: کشور
+      diary_comment: نظر خاطرات روزانه
+      diary_entry: مدخل خاطرات روزانه
       friend: دوست
       language: زبان
       message: پیغام
@@ -61,14 +64,23 @@ fa:
       node_tag: تگ گره
       notifier: آگاه‌گردان
       old_node: گره‎ قدیمی
+      old_node_tag: برچسپ گرهٔ قدیمی
+      old_relation: رابطهٔ قدیمی
+      old_relation_member: عضو رابطهٔ قدیمی
+      old_relation_tag: برچسپ رابطهٔ قدیمی
       old_way: راه قدیمی
+      old_way_node: گرهٔ راه قدیمی
+      old_way_tag: برچسپ راه قدیمی
       relation: ارتباط
+      relation_member: ضعضو رابطه
+      relation_tag: برچسپ رابطه
       session: نشست
       trace: ردیابی
       tracepoint: ردیابی نقطه
       tracetag: ردیابی برچسب
       user: کاربر
       user_preference: ترجیحات کاربر
+      user_token: نشان کاربر
       way: راه
       way_node: گره راه
       way_tag: برچسب راه
@@ -124,10 +136,12 @@ fa:
       all: 
         next_changeset_tooltip: تغییرات بعدی
         next_node_tooltip: گره بعدی
+        next_note_tooltip: یادداشت بعد
         next_relation_tooltip: ارتباط بعدی
         next_way_tooltip: راه بعدی
         prev_changeset_tooltip: تغییرات قبلی
         prev_node_tooltip: گره قبلی
+        prev_note_tooltip: یادداشت قبل
         prev_relation_tooltip: رابطه قبلی
         prev_way_tooltip: راه قبلی
       user: 
@@ -135,8 +149,8 @@ fa:
         next_changeset_tooltip: "%{user} ویرایش بعدی توسط"
         prev_changeset_tooltip: "%{user} قبلی ویرایش توسط"
     node: 
-      download_xml: بارگیری XML
-      edit: ویرایش
+      download_xml: دریافت اکس‌ام‌ال
+      edit: ویرایش گره
       node: گره
       node_title: "گره: %{node_name}"
       view_history: نمایش تاریخچه
@@ -144,7 +158,7 @@ fa:
       coordinates: "مختصات:"
       part_of: "بخشی از:"
     node_history: 
-      download_xml: بارگیری XML
+      download_xml: دریافت اکس‌ام‌ال
       node_history: تاریخچه منطقه
       node_history_title: "تاریخچه منطقه: %{node_name}"
       view_details: نمایش جزئیات
@@ -156,17 +170,26 @@ fa:
         relation: ارتباط
         way: راه
     note: 
+      at_by_html: "%{when} پیش توسط %{user}"
+      at_html: "%{when} پیش"
+      closed: "بسته‌شده:"
+      closed_title: "بادداشت برطرف‌شده: %{note_name}"
       comments: "نظرات:"
+      description: "توضیحات:"
+      last_modified: "آخرین ویرایش:"
+      open_title: "یادداشت نامربوط: %{note_name}"
+      opened: "بازشده:"
+      title: یادداشت
     paging_nav: 
       of: از
-      showing_page: صفحه نمایش
+      showing_page: صفحه
     redacted: 
       type: 
         node: گره
         relation: ارتباط
         way: راه
     relation: 
-      download_xml: بارگیری XML
+      download_xml: دریافت اکس‌ام‌ال
       relation: ارتباط
       relation_title: "ارتباطات: %{relation_name}"
       view_history: نمایش تاریخچه
@@ -174,7 +197,7 @@ fa:
       members: "اعضا:"
       part_of: "بخشی از:"
     relation_history: 
-      download_xml: بارگیری XML
+      download_xml: دریافت اکس‌ام‌ال
       relation_history: تاریخچه ارتباطات
       relation_history_title: "تاریخچه ارتباطات: %{relation_name}"
       view_details: نمایش جزئیات
@@ -185,19 +208,20 @@ fa:
         relation: ارتباط
         way: راه
     start_rjs: 
-      data_frame_title: داده ها
-      data_layer_name: داده ها
+      data_frame_title: داده‌ها
+      data_layer_name: مرور نقشهٔ داده‌ها
       details: جزئیات
       edited_by_user_at_timestamp: "%{timestamp} در %{user} ویرایش توسط"
       hide_areas: پنهان‌کردن منطقه‌ها
       history_for_feature: "%{feature} تاریخچه برای"
-      load_data: بارگذاری داده ها
+      load_data: بارگیری داده‌ها
       loaded_an_area_with_num_features: "  شما منطقه‌ای را بارگذاری کردید که شامل%{num_features} می‌شود. به طورکلی بعضی از مرورگرها نمی توانند با این مقدار اطلاعات تصویری کار کنند.کلا مرورگرها برای نمایش اطلاعات کمتر از 100 مورد در زمان  در بهترین وضعیت هستند: و هر میزان دیگر میتواند مرورگر ار کند  یا قفل کند.اگر شما میخواهید این اطلاعات دیده شود دکمه زیر را فشار دهید."
       loading: در حال بارگیری...
       manually_select: به صورت دستی منطقه دیگری را انتخاب کنید
+      notes_layer_name: مرور نکات
       object_list: 
         api: بازیابی این منطقه از ای‌پی‌آی
-        back: نمایش فهرست موضوع
+        back: بازگشت به فهرست شیء
         details: جزئیات
         heading: لیست اجزاء
         history: 
@@ -215,6 +239,7 @@ fa:
       show_areas: نمایش منطقه‌ها
       show_history: نمایش سابقه
       unable_to_load_size: "نمی‌تواند بارگذاری کند: اندازه جعبه ارتباطی %{bbox_size} خیلی زیاد هست و باید کمتر از %{max_bbox_size} باشد"
+      view_data: نمایش داده‌های نمایش فعلی نقشه
       wait: صبر کنید...
       zoom_or_select: بزگنمایی کنید یا بخشی از منطقه را برای دیدن انتخاب کنید
     tag_details: 
@@ -231,8 +256,8 @@ fa:
         relation: ارتباط
         way: راه
     way: 
-      download_xml: بارگیری XML
-      edit: ویرایش
+      download_xml: دریافت اکس‌ام‌ال
+      edit: ویرایش راه
       view_history: نمایش تاریخچه
       way: راه
       way_title: "راه: %{way_name}"
@@ -242,7 +267,7 @@ fa:
       nodes: "گره‌ها:"
       part_of: "بخشی از:"
     way_history: 
-      download_xml: بارگیری XML
+      download_xml: دریافت اکس‌ام‌ال
       view_details: نمایش جزئیات
       way_history: تاریخچهٔ راه
       way_history_title: "تاریخچهٔ راه: %{way_name}"
@@ -254,10 +279,11 @@ fa:
       no_edits: (بدون ویرایش)
       show_area_box: نمایش جعبهٔ منطقه
       still_editing: (هنوز در حال ویرایش)
+      view_changeset_details: نمایش جزئیات مجموعهٔ تغییرات
     changeset_paging_nav: 
       next: بعدی »
       previous: « قبلی
-      showing_page: نمایش صفحهٔ %{page}
+      showing_page: صفحهٔ %{page}
     changesets: 
       area: منطقه
       comment: توضیح
@@ -265,8 +291,25 @@ fa:
       saved_at: ذخیره شد در
       user: کاربر
     list: 
-      description: تغییرات اخیر
+      description: مرور مشارکت‌های اخیر به نقشه
+      description_bbox: مجموعهٔ تغییرات درون %{bbox}
+      description_friend: مجموعهٔ تغییرات توسط دوستانتان
+      description_nearby: مجموعهٔ تغییرات توسط کاربران نزدیک
+      description_user: مجموعهٔ تغییرات %{user}
+      description_user_bbox: مجموعهٔ تغییرات توسط %{user} درون %{bbox}
       empty_anon_html: هنوز هیچ ویرایشی انجام نشده است.
+      heading: مجموعهٔ تغییرات
+      heading_bbox: مجموعهٔ تغییرات
+      heading_friend: مجموعهٔ تغییرات
+      heading_nearby: مجموعهٔ تغییرات
+      heading_user: مجموعهٔ تغییرات
+      heading_user_bbox: مجموعهٔ تغییرات
+      title: مجموعهٔ تغییرات
+      title_bbox: مجموعهٔ تغییرات درون %{bbox}
+      title_friend: مجموعهٔ تغییرات توسط دوستانتان
+      title_nearby: مجموعهٔ تغییرات توسط کاربران نزدیک
+      title_user: مجموعهٔ تغییرات %{user}
+      title_user_bbox: مجموعهٔ تغییرات توسط %{user} درون %{bbox}
   diary_entry: 
     comments: 
       ago: "% {پیش} پیش"
@@ -276,7 +319,7 @@ fa:
       post: پست
     diary_comment: 
       confirm: تأیید
-      hide_link: پنهان کردن این نظر
+      hide_link: پنهان‌کردن این نظر
     diary_entry: 
       comment_count: 
         one: 1 نظر
@@ -736,7 +779,7 @@ fa:
     history: تاریخچه
     home: خانه
     intro_2_create_account: ایجاد حساب کاربری
-    intro_2_download: بارگیری
+    intro_2_download: دریافت
     intro_2_license: مجوز آزاد
     intro_2_use: استفاده کن
     log_in: ورود به سیستم
@@ -760,7 +803,7 @@ fa:
   license_page: 
     foreign: 
       english_link: اصل انگلیسی
-      text: در زمان به وجود آمدن تداخل بین برگردان پارسی و %{english_original_link}، نوشته‌ی انگلیسی برتری دارد
+      text: در زمان به وجود آمدن تداخل بین برگردان فارسی و %{english_original_link}، نوشتهٔ انگلیسی برتری دارد
       title: درباره این ترجمه‌ها
     legal_babble: 
       contributors_footer_1_html: برای اطلاعات بیشتر درباره این منابع و سایر منابع مورد استفاده برای پیشرفت اوپن‌استریت‌مپ، لطفا این پیوند را نگاه کنید.
@@ -782,9 +825,9 @@ fa:
       title: صندوق دریافت
     message_summary: 
       delete_button: حذف
-      read_button: علامت‌گذاری به عنوان خوانده‌شده
+      read_button: علامت‌گذاری به‌عنوان خوانده‌شده
       reply_button: پاسخ
-      unread_button: علامت‌گذاری به عنوان خوانده‌شده
+      unread_button: علامت‌گذاری به‌عنوان خوانده‌شده
     new: 
       back_to_inbox: بازگشت به صندوق دریافت
       body: بدنه
@@ -809,7 +852,7 @@ fa:
       reply_button: پاسخ
       subject: عنوان
       to: به
-      unread_button: علامت‌گذاری به عنوان خوانده‌شده
+      unread_button: علامت‌گذاری به‌عنوان خوانده‌شده
     sent_message_summary: 
       delete_button: حذف
   note: 
@@ -894,10 +937,10 @@ fa:
       trace_uploaded: پروندهٔ GPX شما بارگذاری شده است و در انتظار درج در پایگاه داده است. این کار معمولاً نیم ساعت طول می‌کشد و در صورت تکمیل، رایانامه‌ای به شما فرستاده خواهد شد.
       upload_trace: ارسال ردیابی جی‌پی‌اس
     delete: 
-      scheduled_for_deletion: فهرست پیگیری برای حذف کردن
+      scheduled_for_deletion: فهرست پی‌گیری برای حذف‌کردن
     edit: 
       description: "شرح:"
-      download: بارگیری
+      download: دریافت
       edit: ویرایش
       filename: "نام پرونده:"
       heading: ویرایش رهگیری %{name}
@@ -909,7 +952,7 @@ fa:
       tags: "برچسب‌ها:"
       tags_help: ویرگول مرزبندی شده
       title: ویرایش رهگیری %{name}
-      uploaded_at: ":بارگذاری شد"
+      uploaded_at: "بارگذاری شد:"
       visibility: "پدیداری:"
       visibility_help: به چه معنی است؟
     list: 
@@ -921,9 +964,9 @@ fa:
       made_public: رسم‌کردن عمومی
     offline: 
       heading: ذخیره بدون اینترنت جی‌پی‌اس
-      message: ذخیره جی‌پی‌اس و بارگذاری سامانه غیرقابل دسترس می‌باشد
+      message: ذخیره جی‌پی‌اس و بارگذاری سامانه غیرقابل دسترس است
     offline_warning: 
-      message: سامانه بارگذاری جی‌پی‌اکس غیرقابل دسترس می‌باشد
+      message: سامانهٔ بارگذاری جی‌پی‌اکس غیرقابل دسترس است
     trace: 
       ago: "%{time_in_words_ago} پیش"
       by: توسط
@@ -960,7 +1003,7 @@ fa:
     view: 
       delete_track: حذف این رهگیری
       description: "شرح:"
-      download: بارگیری
+      download: دریافت
       edit: ویرایش
       edit_track: ویرایش این رهگیری
       filename: "نام پرونده:"
@@ -974,13 +1017,13 @@ fa:
       tags: "برچسب‌ها:"
       title: دیدن رهگیری %{name}
       trace_not_found: رهگیری یافت نشد!
-      uploaded: ":بارگذاری شد"
+      uploaded: "بارگذاری شد:"
       visibility: "پدیداری:"
     visibility: 
-      identifiable: "  قابل تشخیص(نقاط مرتب شده بر اساس زمان را در فهرست پیگیری به عنوان قابل تشخیص نشان دهید)"
+      identifiable: قابل شناسایی (نقاط مرتب‌شده بر اساس زمان را در فهرست پی‌گیری به‌عنوان قابل تشخیص نشان دهید)
       private: خصوصی (فقط به عنوان ناشناس ، نقاط نامشخص)
-      public: عمومی (نقاط مرتب نشده را در فهرست پیگیری به عنوان ناشناس  نمایش دهید(
-      trackable: (قابل پیگیری (نقاط مرتب شده بر اساس زمان را تنها به عنوان ناشناس به اشتراک بگذارید
+      public: عمومی (نقاط مرتب نشده را در فهرست پی‌گیری به عنوان ناشناس  نمایش دهید(
+      trackable: قابل پی‌گیری (نقاط مرتب شده بر اساس زمان را تنها به عنوان ناشناس به اشتراک بگذارید)
   user: 
     account: 
       contributor terms: 
@@ -1007,7 +1050,7 @@ fa:
       my settings: تنظیمات من
       new email address: "رایانامهٔ جدید:"
       new image: افزون یک تصویر
-      no home location: شما مجبور به وارد کردن موقعیت خانه‌تان نیستید
+      no home location: شما محل خانهٔ خودتان را وارد نکرده‌اید.
       openid: 
         link text: این چیست؟
         openid: "OpenID:"
@@ -1061,7 +1104,7 @@ fa:
       heading: ورود به سیستم
       login_button: ورود
       new to osm: به نقشهٔ باز شهری جدید؟
-      password: "کلمه عبور:"
+      password: "گذرواژه:"
       remember: "به‌خاطر سپردن من:"
       title: ورود به سیستم
     logout: 
@@ -1090,7 +1133,7 @@ fa:
       email address: "رایانامه:"
       no_auto_account_create: متاسفانه در حال حاضر برای ما امکان ساخت خودکار حساب کاربری مقدور نیست
       openid: "%{logo} OpenID:"
-      password: "کلمه عبور:"
+      password: "گذرواژه:"
       terms accepted: با تشکر  از پذیرش شرایط نویسندگان جدید!
       title: ایجاد حساب کاربری
     no_such_user: 
@@ -1103,13 +1146,13 @@ fa:
       your location: مکان حضور شما
     remove_friend: 
       not_a_friend: "%{name} از دوستان شما نیست."
-      success: "%{name} از دوستان شما  حذف شده است."
+      success: "%{name} از دوستان شما حذف شده‌است."
     reset_password: 
       confirm password: "تایید گذرواژه:"
       flash changed: رمز عبور شما تغییر کرده است.
       flash token bad: آیا آن مورد دیافتی را یافتید؟آدرس اینترنتی را چک کنید
-      heading: بازیابی کلمه عبور برای %{user}
-      password: "کلمه عبور:"
+      heading: بازنشانی گذرواژهٔ %{user}
+      password: "گذرواژه:"
       reset: بازنشانی گذرواژه
       title: بازنشانی گذرواژه
     set_home: 
@@ -1168,7 +1211,7 @@ fa:
       oauth settings: تنظیمات oauth
       remove as friend: حذف به‌عنوان دوست
       role: 
-        administrator: این کاربر سرپرست می‌باشد
+        administrator: این کاربر سرپرست است
         grant: 
           administrator: به سرپرست دسترسی بدهید
           moderator: به سرپرست دسترسی بدهید

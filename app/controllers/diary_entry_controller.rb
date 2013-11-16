@@ -199,7 +199,7 @@ private
   def require_administrator
     unless @user.administrator?
       flash[:error] = t('user.filter.not_an_administrator')
-      redirect_to :controller => 'diary_entry', :action => 'view', :display_name => params[:id]
+      redirect_to :controller => 'diary_entry', :action => 'view'
     end
   end
 

@@ -359,6 +359,15 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to :action => :account, :display_name => user.display_name
   end
 
+  def test_user_go_public
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    post :go_public, {}, { :user => users(:normal_user) }
+    assert_response :redirect
+    assert_redirected_to :action => :account, :display_name => users(:normal_user).display_name
+    assert_equal true, User.find(users(:normal_user).id).data_public
+  end
+
   def test_user_lost_password
     # Test fetching the lost password page
     get :lost_password
@@ -414,6 +423,34 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to :action => :login
     assert_match /^Sorry you lost it/, flash[:notice]
     assert_equal users(:public_user).email, ActionMailer::Base.deliveries.last.to[0]
+  end
+
+  def test_reset_password
+    # Test a request with no token
+    get :reset_password
+    assert_response :bad_request
+
+    # Test a request with a bogus token
+    get :reset_password, :token => "made_up_token"
+    assert_response :redirect
+    assert_redirected_to :action => :lost_password
+
+    # Create a valid token for a user
+    token = User.find(users(:inactive_user).id).tokens.create
+
+    # Test a request with a valid token
+    get :reset_password, :token => token.token
+    assert_response :success
+    assert_template :reset_password
+
+    # Test setting a new password
+    post :reset_password, :token => token.token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "new_password" }
+    assert_response :redirect
+    assert_redirected_to :action => :login
+    user = User.find(users(:inactive_user).id)
+    assert_equal "active", user.status
+    assert_equal true, user.email_valid
+    assert_equal user, User.authenticate(:username => "inactive@openstreetmap.org", :password => "new_password")
   end
 
   def test_user_update
@@ -793,5 +830,60 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to user_path(:display_name => friend.display_name)
     assert_match /is not one of your friends/, flash[:error]
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
+  end
+
+  def test_set_status
+    # Try without logging in
+    get :set_status, {:display_name => users(:normal_user).display_name, :status => "suspended"}
+    assert_response :redirect
+    assert_redirected_to :action => :login, :referer => set_status_user_path(:status => "suspended")
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Now try as a normal user
+    get :set_status, {:display_name => users(:normal_user).display_name, :status => "suspended"}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
+
+    @request.cookies["_osm_username"] = users(:administrator_user).display_name
+
+    # Finally try as an administrator
+    get :set_status, {:display_name => users(:normal_user).display_name, :status => "suspended"}, {:user => users(:administrator_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
+    assert_equal "suspended", User.find(users(:normal_user).id).status
+  end
+
+  def test_delete
+    # Try without logging in
+    get :delete, {:display_name => users(:normal_user).display_name, :status => "suspended"}
+    assert_response :redirect
+    assert_redirected_to :action => :login, :referer => delete_user_path(:status => "suspended")
+
+    @request.cookies["_osm_username"] = users(:normal_user).display_name
+
+    # Now try as a normal user
+    get :delete, {:display_name => users(:normal_user).display_name, :status => "suspended"}, {:user => users(:normal_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
+
+    @request.cookies["_osm_username"] = users(:administrator_user).display_name
+
+    # Finally try as an administrator
+    get :delete, {:display_name => users(:normal_user).display_name, :status => "suspended"}, {:user => users(:administrator_user).id}
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
+
+    # Check that the user was deleted properly
+    user = User.find(users(:normal_user).id)
+    assert_equal "user_1", user.display_name
+    assert_equal "", user.description
+    assert_nil user.home_lat
+    assert_nil user.home_lon
+    assert_equal false, user.image.file?
+    assert_equal false, user.email_valid
+    assert_nil user.new_email
+    assert_nil user.openid_url
+    assert_equal "deleted", user.status
   end
 end

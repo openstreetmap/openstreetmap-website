@@ -31,9 +31,9 @@ To give administrator or moderator permissions:
 $ bundle exec rails console
 >> user = User.find_by_display_name("My New User Name")
 => #[ ... ]
->> user.roles.create( {:role => "administrator", :granter_id => user.id}, :without_protection => true)
+>> user.roles.create(:role => "administrator", :granter_id => user.id)
 => #[ ... ]
->> user.roles.create( {:role => "moderator", :granter_id => user.id}, :without_protection => true)
+>> user.roles.create(:role => "moderator", :granter_id => user.id)
 => #[ ... ]
 >> user.save!
 => true

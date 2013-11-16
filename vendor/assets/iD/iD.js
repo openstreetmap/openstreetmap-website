@@ -175,7 +175,7 @@
 
 })(this);
 d3 = (function(){
-  var d3 = {version: "3.2.7"}; // semver
+  var d3 = {version: "3.3.8"}; // semver
 d3.ascending = function(a, b) {
   return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
 };
@@ -313,11 +313,14 @@ d3.shuffle = function(array) {
   return array;
 };
 d3.permute = function(array, indexes) {
-  var permutes = [],
-      i = -1,
-      n = indexes.length;
-  while (++i < n) permutes[i] = array[indexes[i]];
+  var i = indexes.length, permutes = new Array(i);
+  while (i--) permutes[i] = array[indexes[i]];
   return permutes;
+};
+d3.pairs = function(array) {
+  var i = 0, n = array.length - 1, p0, p1 = array[0], pairs = new Array(n < 0 ? 0 : n);
+  while (i < n) pairs[i] = [p0 = p1, p1 = array[++i]];
+  return pairs;
 };
 
 d3.zip = function() {
@@ -353,8 +356,28 @@ d3.entries = function(map) {
   return entries;
 };
 d3.merge = function(arrays) {
-  return Array.prototype.concat.apply([], arrays);
+  var n = arrays.length,
+      m,
+      i = -1,
+      j = 0,
+      merged,
+      array;
+
+  while (++i < n) j += arrays[i].length;
+  merged = new Array(j);
+
+  while (--n >= 0) {
+    array = arrays[n];
+    m = array.length;
+    while (--m >= 0) {
+      merged[--j] = array[m];
+    }
+  }
+
+  return merged;
 };
+var abs = Math.abs;
+
 d3.range = function(start, stop, step) {
   if (arguments.length < 3) {
     step = 1;
@@ -365,7 +388,7 @@ d3.range = function(start, stop, step) {
   }
   if ((stop - start) / step === Infinity) throw new Error("infinite range");
   var range = [],
-       k = d3_range_integerScale(Math.abs(step)),
+       k = d3_range_integerScale(abs(step)),
        i = -1,
        j;
   start *= k, stop *= k, step *= k;
@@ -394,7 +417,8 @@ function d3_class(ctor, properties) {
 
 d3.map = function(object) {
   var map = new d3_Map;
-  for (var key in object) map.set(key, object[key]);
+  if (object instanceof d3_Map) object.forEach(function(key, value) { map.set(key, value); });
+  else for (var key in object) map.set(key, object[key]);
   return map;
 };
 
@@ -538,8 +562,8 @@ d3.nest = function() {
 };
 
 d3.set = function(array) {
-  var set = new d3_Set();
-  if (array) for (var i = 0; i < array.length; i++) set.add(array[i]);
+  var set = new d3_Set;
+  if (array) for (var i = 0, n = array.length; i < n; ++i) set.add(array[i]);
   return set;
 };
 
@@ -573,9 +597,23 @@ d3_class(d3_Set, {
   }
 });
 d3.behavior = {};
+var d3_arraySlice = [].slice,
+    d3_array = function(list) { return d3_arraySlice.call(list); }; // conversion for NodeLists
+
 var d3_document = document,
     d3_documentElement = d3_document.documentElement,
     d3_window = window;
+
+// Redefine d3_array if the browser doesn’t support slice-based conversion.
+try {
+  d3_array(d3_documentElement.childNodes)[0].nodeType;
+} catch(e) {
+  d3_array = function(list) {
+    var i = list.length, array = new Array(i);
+    while (i--) array[i] = list[i];
+    return array;
+  };
+}
 // Copies a variable number of methods from source to target.
 d3.rebind = function(target, source) {
   var i = 1, n = arguments.length, method;
@@ -603,24 +641,6 @@ function d3_vendorSymbol(object, name) {
 }
 
 var d3_vendorPrefixes = ["webkit", "ms", "moz", "Moz", "o", "O"];
-
-var d3_array = d3_arraySlice; // conversion for NodeLists
-
-function d3_arrayCopy(pseudoarray) {
-  var i = -1, n = pseudoarray.length, array = [];
-  while (++i < n) array.push(pseudoarray[i]);
-  return array;
-}
-
-function d3_arraySlice(pseudoarray) {
-  return Array.prototype.slice.call(pseudoarray);
-}
-
-try {
-  d3_array(d3_documentElement.childNodes)[0].nodeType;
-} catch(e) {
-  d3_array = d3_arrayCopy;
-}
 function d3_noop() {}
 
 d3.dispatch = function() {
@@ -1118,15 +1138,15 @@ d3_selectionPrototype.append = function(name) {
 
 function d3_selection_creator(name) {
   return typeof name === "function" ? name
-      : (name = d3.ns.qualify(name)).local ? function() { return d3_document.createElementNS(name.space, name.local); }
-      : function() { return d3_document.createElementNS(this.namespaceURI, name); };
+      : (name = d3.ns.qualify(name)).local ? function() { return this.ownerDocument.createElementNS(name.space, name.local); }
+      : function() { return this.ownerDocument.createElementNS(this.namespaceURI, name); };
 }
 
 d3_selectionPrototype.insert = function(name, before) {
   name = d3_selection_creator(name);
   before = d3_selection_selector(before);
   return this.select(function() {
-    return this.insertBefore(name.apply(this, arguments), before.apply(this, arguments));
+    return this.insertBefore(name.apply(this, arguments), before.apply(this, arguments) || null);
   });
 };
 
@@ -1310,7 +1330,7 @@ d3_selectionPrototype.sort = function(comparator) {
 function d3_selection_sortComparator(comparator) {
   if (!arguments.length) comparator = d3.ascending;
   return function(a, b) {
-    return (!a - !b) || comparator(a.__data__, b.__data__);
+    return a && b ? comparator(a.__data__, b.__data__) : !a - !b;
   };
 }
 
@@ -1415,6 +1435,8 @@ function d3_selection_enterInsertBefore(enter) {
   };
 }
 
+// import "../transition/transition";
+
 d3_selectionPrototype.transition = function() {
   var id = d3_transitionInheritId || ++d3_transitionId,
       subgroups = [],
@@ -1432,6 +1454,16 @@ d3_selectionPrototype.transition = function() {
 
   return d3_transition(subgroups, id);
 };
+// import "../transition/transition";
+
+d3_selectionPrototype.interrupt = function() {
+  return this.each(d3_selection_interrupt);
+};
+
+function d3_selection_interrupt() {
+  var lock = this.__transition__;
+  if (lock) ++lock.active;
+}
 
 // TODO fast singleton implementation?
 d3.select = function(node) {
@@ -1578,6 +1610,7 @@ d3.mouse = function(container) {
 var d3_mouse_bug44083 = /WebKit/.test(d3_window.navigator.userAgent) ? -1 : 0;
 
 function d3_mousePoint(container, e) {
+  if (e.changedTouches) e = e.changedTouches[0];
   var svg = container.ownerSVGElement || container;
   if (svg.createSVGPoint) {
     var point = svg.createSVGPoint();
@@ -1594,13 +1627,8 @@ function d3_mousePoint(container, e) {
       d3_mouse_bug44083 = !(ctm.f || ctm.e);
       svg.remove();
     }
-    if (d3_mouse_bug44083) {
-      point.x = e.pageX;
-      point.y = e.pageY;
-    } else {
-      point.x = e.clientX;
-      point.y = e.clientY;
-    }
+    if (d3_mouse_bug44083) point.x = e.pageX, point.y = e.pageY;
+    else point.x = e.clientX, point.y = e.clientY;
     point = point.matrixTransform(container.getScreenCTM().inverse());
     return [point.x, point.y];
   }
@@ -1616,47 +1644,180 @@ d3.touches = function(container, touches) {
     return point;
   }) : [];
 };
+var π = Math.PI,
+    τ = 2 * π,
+    halfπ = π / 2,
+    ε = 1e-6,
+    ε2 = ε * ε,
+    d3_radians = π / 180,
+    d3_degrees = 180 / π;
+
+function d3_sgn(x) {
+  return x > 0 ? 1 : x < 0 ? -1 : 0;
+}
+
+function d3_acos(x) {
+  return x > 1 ? 0 : x < -1 ? π : Math.acos(x);
+}
+
+function d3_asin(x) {
+  return x > 1 ? halfπ : x < -1 ? -halfπ : Math.asin(x);
+}
+
+function d3_sinh(x) {
+  return ((x = Math.exp(x)) - 1 / x) / 2;
+}
+
+function d3_cosh(x) {
+  return ((x = Math.exp(x)) + 1 / x) / 2;
+}
+
+function d3_tanh(x) {
+  return ((x = Math.exp(2 * x)) - 1) / (x + 1);
+}
+
+function d3_haversin(x) {
+  return (x = Math.sin(x / 2)) * x;
+}
+
+var ρ = Math.SQRT2,
+    ρ2 = 2,
+    ρ4 = 4;
+
+// p0 = [ux0, uy0, w0]
+// p1 = [ux1, uy1, w1]
+d3.interpolateZoom = function(p0, p1) {
+  var ux0 = p0[0], uy0 = p0[1], w0 = p0[2],
+      ux1 = p1[0], uy1 = p1[1], w1 = p1[2];
+
+  var dx = ux1 - ux0,
+      dy = uy1 - uy0,
+      d2 = dx * dx + dy * dy,
+      d1 = Math.sqrt(d2),
+      b0 = (w1 * w1 - w0 * w0 + ρ4 * d2) / (2 * w0 * ρ2 * d1),
+      b1 = (w1 * w1 - w0 * w0 - ρ4 * d2) / (2 * w1 * ρ2 * d1),
+      r0 = Math.log(Math.sqrt(b0 * b0 + 1) - b0),
+      r1 = Math.log(Math.sqrt(b1 * b1 + 1) - b1),
+      dr = r1 - r0,
+      S = (dr || Math.log(w1 / w0)) / ρ;
+
+  function interpolate(t) {
+    var s = t * S;
+    if (dr) {
+      // General case.
+      var coshr0 = d3_cosh(r0),
+          u = w0 / (ρ2 * d1) * (coshr0 * d3_tanh(ρ * s + r0) - d3_sinh(r0));
+      return [
+        ux0 + u * dx,
+        uy0 + u * dy,
+        w0 * coshr0 / d3_cosh(ρ * s + r0)
+      ];
+    }
+    // Special case for u0 ~= u1.
+    return [
+      ux0 + t * dx,
+      uy0 + t * dy,
+      w0 * Math.exp(ρ * s)
+    ];
+  }
+
+  interpolate.duration = S * 1000;
+
+  return interpolate;
+};
 
 d3.behavior.zoom = function() {
-  var translate = [0, 0],
+  var view = {x: 0, y: 0, k: 1},
       translate0, // translate when we started zooming (to avoid drift)
-      scale = 1,
+      center, // desired position of translate0 after zooming
+      size = [960, 500], // viewport size; required for zoom interpolation
       scaleExtent = d3_behavior_zoomInfinity,
       mousedown = "mousedown.zoom",
       mousemove = "mousemove.zoom",
       mouseup = "mouseup.zoom",
-      event = d3_eventDispatch(zoom, "zoom"),
+      mousewheelTimer,
+      touchstart = "touchstart.zoom",
+      touchtime, // time of last touchstart (to detect double-tap)
+      event = d3_eventDispatch(zoom, "zoomstart", "zoom", "zoomend"),
       x0,
       x1,
       y0,
-      y1,
-      touchtime; // time of last touchstart (to detect double-tap)
+      y1;
 
-  function zoom() {
-    this.on(mousedown, mousedowned)
+  function zoom(g) {
+    g   .on(mousedown, mousedowned)
         .on(d3_behavior_zoomWheel + ".zoom", mousewheeled)
         .on(mousemove, mousewheelreset)
         .on("dblclick.zoom", dblclicked)
-        .on("touchstart.zoom", touchstarted);
+        .on(touchstart, touchstarted);
   }
 
-  zoom.translate = function(x) {
-    if (!arguments.length) return translate;
-    translate = x.map(Number);
+  zoom.event = function(g) {
+    g.each(function() {
+      var event_ = event.of(this, arguments),
+          view1 = view;
+      if (d3_transitionInheritId) {
+          d3.select(this).transition()
+              .each("start.zoom", function() {
+                view = this.__chart__ || {x: 0, y: 0, k: 1}; // pre-transition state
+                zoomstarted(event_);
+              })
+              .tween("zoom:zoom", function() {
+                var dx = size[0],
+                    dy = size[1],
+                    cx = dx / 2,
+                    cy = dy / 2,
+                    i = d3.interpolateZoom(
+                      [(cx - view.x) / view.k, (cy - view.y) / view.k, dx / view.k],
+                      [(cx - view1.x) / view1.k, (cy - view1.y) / view1.k, dx / view1.k]
+                    );
+                return function(t) {
+                  var l = i(t), k = dx / l[2];
+                  this.__chart__ = view = {x: cx - l[0] * k, y: cy - l[1] * k, k: k};
+                  zoomed(event_);
+                };
+              })
+              .each("end.zoom", function() {
+                zoomended(event_);
+              });
+      } else {
+        this.__chart__ = view;
+        zoomstarted(event_);
+        zoomed(event_);
+        zoomended(event_);
+      }
+    });
+  }
+
+  zoom.translate = function(_) {
+    if (!arguments.length) return [view.x, view.y];
+    view = {x: +_[0], y: +_[1], k: view.k}; // copy-on-write
     rescale();
     return zoom;
   };
 
-  zoom.scale = function(x) {
-    if (!arguments.length) return scale;
-    scale = +x;
+  zoom.scale = function(_) {
+    if (!arguments.length) return view.k;
+    view = {x: view.x, y: view.y, k: +_}; // copy-on-write
     rescale();
     return zoom;
   };
 
-  zoom.scaleExtent = function(x) {
+  zoom.scaleExtent = function(_) {
     if (!arguments.length) return scaleExtent;
-    scaleExtent = x == null ? d3_behavior_zoomInfinity : x.map(Number);
+    scaleExtent = _ == null ? d3_behavior_zoomInfinity : [+_[0], +_[1]];
+    return zoom;
+  };
+
+  zoom.center = function(_) {
+    if (!arguments.length) return center;
+    center = _ && [+_[0], +_[1]];
+    return zoom;
+  };
+
+  zoom.size = function(_) {
+    if (!arguments.length) return size;
+    size = _ && [+_[0], +_[1]];
     return zoom;
   };
 
@@ -1664,8 +1825,7 @@ d3.behavior.zoom = function() {
     if (!arguments.length) return x1;
     x1 = z;
     x0 = z.copy();
-    translate = [0, 0];
-    scale = 1;
+    view = {x: 0, y: 0, k: 1}; // copy-on-write
     return zoom;
   };
 
@@ -1673,37 +1833,44 @@ d3.behavior.zoom = function() {
     if (!arguments.length) return y1;
     y1 = z;
     y0 = z.copy();
-    translate = [0, 0];
-    scale = 1;
+    view = {x: 0, y: 0, k: 1}; // copy-on-write
     return zoom;
   };
 
   function location(p) {
-    return [(p[0] - translate[0]) / scale, (p[1] - translate[1]) / scale];
+    return [(p[0] - view.x) / view.k, (p[1] - view.y) / view.k];
   }
 
   function point(l) {
-    return [l[0] * scale + translate[0], l[1] * scale + translate[1]];
+    return [l[0] * view.k + view.x, l[1] * view.k + view.y];
   }
 
   function scaleTo(s) {
-    scale = Math.max(scaleExtent[0], Math.min(scaleExtent[1], s));
+    view.k = Math.max(scaleExtent[0], Math.min(scaleExtent[1], s));
   }
 
   function translateTo(p, l) {
     l = point(l);
-    translate[0] += p[0] - l[0];
-    translate[1] += p[1] - l[1];
+    view.x += p[0] - l[0];
+    view.y += p[1] - l[1];
   }
 
   function rescale() {
-    if (x1) x1.domain(x0.range().map(function(x) { return (x - translate[0]) / scale; }).map(x0.invert));
-    if (y1) y1.domain(y0.range().map(function(y) { return (y - translate[1]) / scale; }).map(y0.invert));
+    if (x1) x1.domain(x0.range().map(function(x) { return (x - view.x) / view.k; }).map(x0.invert));
+    if (y1) y1.domain(y0.range().map(function(y) { return (y - view.y) / view.k; }).map(y0.invert));
   }
 
-  function dispatch(event) {
+  function zoomstarted(event) {
+    event({type: "zoomstart"});
+  }
+
+  function zoomed(event) {
     rescale();
-    event({type: "zoom", scale: scale, translate: translate});
+    event({type: "zoom", scale: view.k, translate: [view.x, view.y]});
+  }
+
+  function zoomended(event) {
+    event({type: "zoomend"});
   }
 
   function mousedowned() {
@@ -1715,62 +1882,92 @@ d3.behavior.zoom = function() {
         l = location(d3.mouse(target)),
         dragRestore = d3_event_dragSuppress();
 
+    d3_selection_interrupt.call(target);
+    zoomstarted(event_);
+
     function moved() {
       dragged = 1;
       translateTo(d3.mouse(target), l);
-      dispatch(event_);
+      zoomed(event_);
     }
 
     function ended() {
       w.on(mousemove, d3_window === target ? mousewheelreset : null).on(mouseup, null);
       dragRestore(dragged && d3.event.target === eventTarget);
+      zoomended(event_);
     }
   }
 
+  // These closures persist for as long as at least one touch is active.
   function touchstarted() {
     var target = this,
         event_ = event.of(target, arguments),
-        touches = d3.touches(target),
-        locations = {},
+        locations0 = {}, // touchstart locations
         distance0 = 0, // distance² between initial touches
-        scale0 = scale, // scale when we started touching
-        now = Date.now(),
-        name = "zoom-" + d3.event.changedTouches[0].identifier,
-        touchmove = "touchmove." + name,
-        touchend = "touchend." + name,
+        scale0, // scale when we started touching
+        eventId = d3.event.changedTouches[0].identifier,
+        touchmove = "touchmove.zoom-" + eventId,
+        touchend = "touchend.zoom-" + eventId,
         w = d3.select(d3_window).on(touchmove, moved).on(touchend, ended),
-        t = d3.select(target).on(mousedown, null), // prevent duplicate events
+        t = d3.select(target).on(mousedown, null).on(touchstart, started), // prevent duplicate events
         dragRestore = d3_event_dragSuppress();
 
-    touches.forEach(function(t) { locations[t.identifier] = location(t); });
+    d3_selection_interrupt.call(target);
+    started();
+    zoomstarted(event_);
 
-    if (touches.length === 1) {
-      if (now - touchtime < 500) { // dbltap
-        var p = touches[0], l = location(touches[0]);
-        scaleTo(scale * 2);
-        translateTo(p, l);
-        d3_eventPreventDefault();
-        dispatch(event_);
+    // Updates locations of any touches in locations0.
+    function relocate() {
+      var touches = d3.touches(target);
+      scale0 = view.k;
+      touches.forEach(function(t) {
+        if (t.identifier in locations0) locations0[t.identifier] = location(t);
+      });
+      return touches;
+    }
+
+    // Temporarily override touchstart while gesture is active.
+    function started() {
+      // Only track touches started on the target element.
+      var changed = d3.event.changedTouches;
+      for (var i = 0, n = changed.length; i < n; ++i) {
+        locations0[changed[i].identifier] = null;
       }
-      touchtime = now;
-    } else if (touches.length > 1) {
-      var p = touches[0], q = touches[1],
-          dx = p[0] - q[0], dy = p[1] - q[1];
-      distance0 = dx * dx + dy * dy;
+
+      var touches = relocate(),
+          now = Date.now();
+
+      if (touches.length === 1) {
+        if (now - touchtime < 500) { // dbltap
+          var p = touches[0], l = locations0[p.identifier];
+          scaleTo(view.k * 2);
+          translateTo(p, l);
+          d3_eventPreventDefault();
+          zoomed(event_);
+        }
+        touchtime = now;
+      } else if (touches.length > 1) {
+        var p = touches[0], q = touches[1],
+            dx = p[0] - q[0], dy = p[1] - q[1];
+        distance0 = dx * dx + dy * dy;
+      }
     }
 
     function moved() {
       var touches = d3.touches(target),
-          p0 = touches[0],
-          l0 = locations[p0.identifier];
-
-      if (p1 = touches[1]) {
-        var p1, l1 = locations[p1.identifier],
-            scale1 = d3.event.scale;
-        if (scale1 == null) {
-          var distance1 = (distance1 = p1[0] - p0[0]) * distance1 + (distance1 = p1[1] - p0[1]) * distance1;
-          scale1 = distance0 && Math.sqrt(distance1 / distance0);
+          p0, l0,
+          p1, l1;
+      for (var i = 0, n = touches.length; i < n; ++i, l1 = null) {
+        p1 = touches[i];
+        if (l1 = locations0[p1.identifier]) {
+          if (l0) break;
+          p0 = p1, l0 = l1;
         }
+      }
+
+      if (l1) {
+        var distance1 = (distance1 = p1[0] - p0[0]) * distance1 + (distance1 = p1[1] - p0[1]) * distance1,
+            scale1 = distance0 && Math.sqrt(distance1 / distance0);
         p0 = [(p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2];
         l0 = [(l0[0] + l1[0]) / 2, (l0[1] + l1[1]) / 2];
         scaleTo(scale1 * scale0);
@@ -1778,22 +1975,42 @@ d3.behavior.zoom = function() {
 
       touchtime = null;
       translateTo(p0, l0);
-      dispatch(event_);
+      zoomed(event_);
     }
 
     function ended() {
+      // If there are any globally-active touches remaining, remove the ended
+      // touches from locations0.
+      if (d3.event.touches.length) {
+        var changed = d3.event.changedTouches;
+        for (var i = 0, n = changed.length; i < n; ++i) {
+          delete locations0[changed[i].identifier];
+        }
+        // If locations0 is not empty, then relocate and continue listening for
+        // touchmove and touchend.
+        for (var identifier in locations0) {
+          return void relocate(); // locations may have detached due to rotation
+        }
+      }
+      // Otherwise, remove touchmove and touchend listeners.
       w.on(touchmove, null).on(touchend, null);
-      t.on(mousedown, mousedowned);
+      t.on(mousedown, mousedowned).on(touchstart, touchstarted);
       dragRestore();
+      zoomended(event_);
     }
   }
 
   function mousewheeled() {
+    var event_ = event.of(this, arguments);
+    if (mousewheelTimer) clearTimeout(mousewheelTimer);
+    else d3_selection_interrupt.call(this), zoomstarted(event_);
+    mousewheelTimer = setTimeout(function() { mousewheelTimer = null; zoomended(event_); }, 50);
     d3_eventPreventDefault();
-    if (!translate0) translate0 = location(d3.mouse(this));
-    scaleTo(Math.pow(2, d3_behavior_zoomDelta() * .002) * scale);
-    translateTo(d3.mouse(this), translate0);
-    dispatch(event.of(this, arguments));
+    var point = center || d3.mouse(this);
+    if (!translate0) translate0 = location(point);
+    scaleTo(Math.pow(2, d3_behavior_zoomDelta() * .002) * view.k);
+    translateTo(point, translate0);
+    zoomed(event_);
   }
 
   function mousewheelreset() {
@@ -1801,10 +2018,15 @@ d3.behavior.zoom = function() {
   }
 
   function dblclicked() {
-    var p = d3.mouse(this), l = location(p), k = Math.log(scale) / Math.LN2;
+    var event_ = event.of(this, arguments),
+        p = d3.mouse(this),
+        l = location(p),
+        k = Math.log(view.k) / Math.LN2;
+    zoomstarted(event_);
     scaleTo(Math.pow(2, d3.event.shiftKey ? Math.ceil(k) - 1 : Math.floor(k) + 1));
     translateTo(p, l);
-    dispatch(event.of(this, arguments));
+    zoomed(event_);
+    zoomended(event_);
   }
 
   return d3.rebind(zoom, event, "on");
@@ -1837,8 +2059,8 @@ d3.timer = function(callback, delay, then) {
   if (n < 3) then = Date.now();
 
   // Add the callback to the tail of the queue.
-  var time = then + delay, timer = {callback: callback, time: time, next: null};
-  if (d3_timer_queueTail) d3_timer_queueTail.next = timer;
+  var time = then + delay, timer = {c: callback, t: time, f: false, n: null};
+  if (d3_timer_queueTail) d3_timer_queueTail.n = timer;
   else d3_timer_queueHead = timer;
   d3_timer_queueTail = timer;
 
@@ -1870,20 +2092,12 @@ d3.timer.flush = function() {
   d3_timer_sweep();
 };
 
-function d3_timer_replace(callback, delay, then) {
-  var n = arguments.length;
-  if (n < 2) delay = 0;
-  if (n < 3) then = Date.now();
-  d3_timer_active.callback = callback;
-  d3_timer_active.time = then + delay;
-}
-
 function d3_timer_mark() {
   var now = Date.now();
   d3_timer_active = d3_timer_queueHead;
   while (d3_timer_active) {
-    if (now >= d3_timer_active.time) d3_timer_active.flush = d3_timer_active.callback(now - d3_timer_active.time);
-    d3_timer_active = d3_timer_active.next;
+    if (now >= d3_timer_active.t) d3_timer_active.f = d3_timer_active.c(now - d3_timer_active.t);
+    d3_timer_active = d3_timer_active.n;
   }
   return now;
 }
@@ -1895,44 +2109,15 @@ function d3_timer_sweep() {
       t1 = d3_timer_queueHead,
       time = Infinity;
   while (t1) {
-    if (t1.flush) {
-      t1 = t0 ? t0.next = t1.next : d3_timer_queueHead = t1.next;
+    if (t1.f) {
+      t1 = t0 ? t0.n = t1.n : d3_timer_queueHead = t1.n;
     } else {
-      if (t1.time < time) time = t1.time;
-      t1 = (t0 = t1).next;
+      if (t1.t < time) time = t1.t;
+      t1 = (t0 = t1).n;
     }
   }
   d3_timer_queueTail = t0;
   return time;
-}
-var π = Math.PI,
-    ε = 1e-6,
-    ε2 = ε * ε,
-    d3_radians = π / 180,
-    d3_degrees = 180 / π;
-
-function d3_sgn(x) {
-  return x > 0 ? 1 : x < 0 ? -1 : 0;
-}
-
-function d3_acos(x) {
-  return x > 1 ? 0 : x < -1 ? π : Math.acos(x);
-}
-
-function d3_asin(x) {
-  return x > 1 ? π / 2 : x < -1 ? -π / 2 : Math.asin(x);
-}
-
-function d3_sinh(x) {
-  return (Math.exp(x) - Math.exp(-x)) / 2;
-}
-
-function d3_cosh(x) {
-  return (Math.exp(x) + Math.exp(-x)) / 2;
-}
-
-function d3_haversin(x) {
-  return (x = Math.sin(x / 2)) * x;
 }
 d3.geo = {};
 function d3_identity(d) {
@@ -1950,13 +2135,13 @@ function d3_geo_spherical(cartesian) {
 }
 
 function d3_geo_sphericalEqual(a, b) {
-  return Math.abs(a[0] - b[0]) < ε && Math.abs(a[1] - b[1]) < ε;
+  return abs(a[0] - b[0]) < ε && abs(a[1] - b[1]) < ε;
 }
 
 // General spherical polygon clipping algorithm: takes a polygon, cuts it into
 // visible line segments and rejoins the segments by interpolating along the
 // clip edge.
-function d3_geo_clipPolygon(segments, compare, inside, interpolate, listener) {
+function d3_geo_clipPolygon(segments, compare, clipStartInside, interpolate, listener) {
   var subject = [],
       clip = [];
 
@@ -1975,14 +2160,14 @@ function d3_geo_clipPolygon(segments, compare, inside, interpolate, listener) {
       return;
     }
 
-    var a = {point: p0, points: segment, other: null, visited: false, entry: true, subject: true},
-        b = {point: p0, points: [p0], other: a, visited: false, entry: false, subject: false};
-    a.other = b;
+    var a = new d3_geo_clipPolygonIntersection(p0, segment, null, true),
+        b = new d3_geo_clipPolygonIntersection(p0, null, a, false);
+    a.o = b;
     subject.push(a);
     clip.push(b);
-    a = {point: p1, points: [p1], other: null, visited: false, entry: false, subject: true};
-    b = {point: p1, points: [p1], other: a, visited: false, entry: true, subject: false};
-    a.other = b;
+    a = new d3_geo_clipPolygonIntersection(p1, segment, null, false);
+    b = new d3_geo_clipPolygonIntersection(p1, null, a, true);
+    a.o = b;
     subject.push(a);
     clip.push(b);
   });
@@ -1991,41 +2176,42 @@ function d3_geo_clipPolygon(segments, compare, inside, interpolate, listener) {
   d3_geo_clipPolygonLinkCircular(clip);
   if (!subject.length) return;
 
-  if (inside) for (var i = 1, e = !inside(clip[0].point), n = clip.length; i < n; ++i) {
-    clip[i].entry = (e = !e);
+  for (var i = 0, entry = clipStartInside, n = clip.length; i < n; ++i) {
+    clip[i].e = entry = !entry;
   }
 
   var start = subject[0],
-      current,
       points,
       point;
   while (1) {
     // Find first unvisited intersection.
-    current = start;
-    while (current.visited) if ((current = current.next) === start) return;
-    points = current.points;
+    var current = start,
+        isSubject = true;
+    while (current.v) if ((current = current.n) === start) return;
+    points = current.z;
     listener.lineStart();
     do {
-      current.visited = current.other.visited = true;
-      if (current.entry) {
-        if (current.subject) {
-          for (var i = 0; i < points.length; i++) listener.point((point = points[i])[0], point[1]);
+      current.v = current.o.v = true;
+      if (current.e) {
+        if (isSubject) {
+          for (var i = 0, n = points.length; i < n; ++i) listener.point((point = points[i])[0], point[1]);
         } else {
-          interpolate(current.point, current.next.point, 1, listener);
+          interpolate(current.x, current.n.x, 1, listener);
         }
-        current = current.next;
+        current = current.n;
       } else {
-        if (current.subject) {
-          points = current.prev.points;
-          for (var i = points.length; --i >= 0;) listener.point((point = points[i])[0], point[1]);
+        if (isSubject) {
+          points = current.p.z;
+          for (var i = points.length - 1; i >= 0; --i) listener.point((point = points[i])[0], point[1]);
         } else {
-          interpolate(current.point, current.prev.point, -1, listener);
+          interpolate(current.x, current.p.x, -1, listener);
         }
-        current = current.prev;
+        current = current.p;
       }
-      current = current.other;
-      points = current.points;
-    } while (!current.visited);
+      current = current.o;
+      points = current.z;
+      isSubject = !isSubject;
+    } while (!current.v);
     listener.lineEnd();
   }
 }
@@ -2037,17 +2223,27 @@ function d3_geo_clipPolygonLinkCircular(array) {
       a = array[0],
       b;
   while (++i < n) {
-    a.next = b = array[i];
-    b.prev = a;
+    a.n = b = array[i];
+    b.p = a;
     a = b;
   }
-  a.next = b = array[0];
-  b.prev = a;
+  a.n = b = array[0];
+  b.p = a;
 }
 
-function d3_geo_clip(pointVisible, clipLine, interpolate, polygonContains) {
-  return function(listener) {
-    var line = clipLine(listener);
+function d3_geo_clipPolygonIntersection(point, points, other, entry) {
+  this.x = point;
+  this.z = points;
+  this.o = other; // another intersection
+  this.e = entry; // is an entry?
+  this.v = false; // visited
+  this.n = this.p = null; // next & previous
+}
+
+function d3_geo_clip(pointVisible, clipLine, interpolate, clipStart) {
+  return function(rotate, listener) {
+    var line = clipLine(listener),
+        rotatedClipStart = rotate.invert(clipStart[0], clipStart[1]);
 
     var clip = {
       point: point,
@@ -2067,9 +2263,10 @@ function d3_geo_clip(pointVisible, clipLine, interpolate, polygonContains) {
         clip.lineEnd = lineEnd;
 
         segments = d3.merge(segments);
+        var clipStartInside = d3_geo_pointInPolygon(rotatedClipStart, polygon);
         if (segments.length) {
-          d3_geo_clipPolygon(segments, d3_geo_clipSort, null, interpolate, listener);
-        } else if (polygonContains(polygon)) {
+          d3_geo_clipPolygon(segments, d3_geo_clipSort, clipStartInside, interpolate, listener);
+        } else if (clipStartInside) {
           listener.lineStart();
           interpolate(null, null, 1, listener);
           listener.lineEnd();
@@ -2086,8 +2283,14 @@ function d3_geo_clip(pointVisible, clipLine, interpolate, polygonContains) {
       }
     };
 
-    function point(λ, φ) { if (pointVisible(λ, φ)) listener.point(λ, φ); }
-    function pointLine(λ, φ) { line.point(λ, φ); }
+    function point(λ, φ) {
+      var point = rotate(λ, φ);
+      if (pointVisible(λ = point[0], φ = point[1])) listener.point(λ, φ);
+    }
+    function pointLine(λ, φ) {
+      var point = rotate(λ, φ);
+      line.point(point[0], point[1]);
+    }
     function lineStart() { clip.point = pointLine; line.lineStart(); }
     function lineEnd() { clip.point = point; line.lineEnd(); }
 
@@ -2099,8 +2302,9 @@ function d3_geo_clip(pointVisible, clipLine, interpolate, polygonContains) {
         ring;
 
     function pointRing(λ, φ) {
-      ringListener.point(λ, φ);
       ring.push([λ, φ]);
+      var point = rotate(λ, φ);
+      ringListener.point(point[0], point[1]);
     }
 
     function ringStart() {
@@ -2172,8 +2376,8 @@ function d3_geo_clipBufferListener() {
 // Intersection points are sorted along the clip edge. For both antimeridian
 // cutting and circle clipping, the same comparison is used.
 function d3_geo_clipSort(a, b) {
-  return ((a = a.point)[0] < 0 ? a[1] - π / 2 - ε : π / 2 - a[1])
-       - ((b = b.point)[0] < 0 ? b[1] - π / 2 - ε : π / 2 - b[1]);
+  return ((a = a.x)[0] < 0 ? a[1] - halfπ - ε : halfπ - a[1])
+       - ((b = b.x)[0] < 0 ? b[1] - halfπ - ε : halfπ - b[1]);
 }
 // Adds floating point numbers with twice the normal precision.
 // Reference: J. R. Shewchuk, Adaptive Precision Floating-Point Arithmetic and
@@ -2239,12 +2443,12 @@ var d3_geo_streamGeometryType = {
     listener.sphere();
   },
   Point: function(object, listener) {
-    var coordinate = object.coordinates;
-    listener.point(coordinate[0], coordinate[1]);
+    object = object.coordinates;
+    listener.point(object[0], object[1], object[2]);
   },
   MultiPoint: function(object, listener) {
-    var coordinates = object.coordinates, i = -1, n = coordinates.length, coordinate;
-    while (++i < n) coordinate = coordinates[i], listener.point(coordinate[0], coordinate[1]);
+    var coordinates = object.coordinates, i = -1, n = coordinates.length;
+    while (++i < n) object = coordinates[i], listener.point(object[0], object[1], object[2]);
   },
   LineString: function(object, listener) {
     d3_geo_streamLine(object.coordinates, listener, 0);
@@ -2269,7 +2473,7 @@ var d3_geo_streamGeometryType = {
 function d3_geo_streamLine(coordinates, listener, closed) {
   var i = -1, n = coordinates.length - closed, coordinate;
   listener.lineStart();
-  while (++i < n) coordinate = coordinates[i], listener.point(coordinate[0], coordinate[1]);
+  while (++i < n) coordinate = coordinates[i], listener.point(coordinate[0], coordinate[1], coordinate[2]);
   listener.lineEnd();
 }
 
@@ -2394,8 +2598,6 @@ function d3_geo_pointInPolygon(point, polygon) {
       parallel = point[1],
       meridianNormal = [Math.sin(meridian), -Math.cos(meridian), 0],
       polarAngle = 0,
-      polar = false,
-      southPole = false,
       winding = 0;
   d3_geo_areaRingSum.reset();
 
@@ -2418,12 +2620,11 @@ function d3_geo_pointInPolygon(point, polygon) {
           sinφ = Math.sin(φ),
           cosφ = Math.cos(φ),
           dλ = λ - λ0,
-          antimeridian = Math.abs(dλ) > π,
+          antimeridian = abs(dλ) > π,
           k = sinφ0 * sinφ;
       d3_geo_areaRingSum.add(Math.atan2(k * Math.sin(dλ), cosφ0 * cosφ + k * Math.cos(dλ)));
 
-      if (Math.abs(φ) < ε) southPole = true;
-      polarAngle += antimeridian ? dλ + (dλ >= 0 ? 2 : -2) * π : dλ;
+      polarAngle += antimeridian ? dλ + (dλ >= 0 ? τ : -τ): dλ;
 
       // Are the longitudes either side of the point's meridian, and are the
       // latitudes smaller than the parallel?
@@ -2433,34 +2634,34 @@ function d3_geo_pointInPolygon(point, polygon) {
         var intersection = d3_geo_cartesianCross(meridianNormal, arc);
         d3_geo_cartesianNormalize(intersection);
         var φarc = (antimeridian ^ dλ >= 0 ? -1 : 1) * d3_asin(intersection[2]);
-        if (parallel > φarc) {
+        if (parallel > φarc || parallel === φarc && (arc[0] || arc[1])) {
           winding += antimeridian ^ dλ >= 0 ? 1 : -1;
         }
       }
       if (!j++) break;
       λ0 = λ, sinφ0 = sinφ, cosφ0 = cosφ, point0 = point;
     }
-    if (Math.abs(polarAngle) > ε) polar = true;
   }
 
   // First, determine whether the South pole is inside or outside:
   //
   // It is inside if:
-  // * the polygon doesn't wind around it, and its area is negative (counter-clockwise).
-  // * otherwise, if the polygon winds around it in a clockwise direction.
+  // * the polygon winds around it in a clockwise direction.
+  // * the polygon does not (cumulatively) wind around it, but has a negative
+  //   (counter-clockwise) area.
   //
   // Second, count the (signed) number of times a segment crosses a meridian
   // from the point to the South pole.  If it is zero, then the point is the
   // same side as the South pole.
 
-  return (!southPole && !polar && d3_geo_areaRingSum < 0 || polarAngle < -ε) ^ (winding & 1);
+  return (polarAngle < -ε || polarAngle < ε && d3_geo_areaRingSum < 0) ^ (winding & 1);
 }
 
 var d3_geo_clipAntimeridian = d3_geo_clip(
     d3_true,
     d3_geo_clipAntimeridianLine,
     d3_geo_clipAntimeridianInterpolate,
-    d3_geo_clipAntimeridianPolygonContains);
+    [-π, -π / 2]);
 
 // Takes a line and cuts into visible segments. Return values:
 //   0: there were intersections or the line was empty.
@@ -2480,9 +2681,9 @@ function d3_geo_clipAntimeridianLine(listener) {
     },
     point: function(λ1, φ1) {
       var sλ1 = λ1 > 0 ? π : -π,
-          dλ = Math.abs(λ1 - λ0);
-      if (Math.abs(dλ - π) < ε) { // line crosses a pole
-        listener.point(λ0, φ0 = (φ0 + φ1) / 2 > 0 ? π / 2 : -π / 2);
+          dλ = abs(λ1 - λ0);
+      if (abs(dλ - π) < ε) { // line crosses a pole
+        listener.point(λ0, φ0 = (φ0 + φ1) / 2 > 0 ? halfπ : -halfπ);
         listener.point(sλ0, φ0);
         listener.lineEnd();
         listener.lineStart();
@@ -2491,8 +2692,8 @@ function d3_geo_clipAntimeridianLine(listener) {
         clean = 0;
       } else if (sλ0 !== sλ1 && dλ >= π) { // line crosses antimeridian
         // handle degeneracies
-        if (Math.abs(λ0 - sλ0) < ε) λ0 -= sλ0 * ε;
-        if (Math.abs(λ1 - sλ1) < ε) λ1 -= sλ1 * ε;
+        if (abs(λ0 - sλ0) < ε) λ0 -= sλ0 * ε;
+        if (abs(λ1 - sλ1) < ε) λ1 -= sλ1 * ε;
         φ0 = d3_geo_clipAntimeridianIntersect(λ0, φ0, λ1, φ1);
         listener.point(sλ0, φ0);
         listener.lineEnd();
@@ -2516,7 +2717,7 @@ function d3_geo_clipAntimeridianIntersect(λ0, φ0, λ1, φ1) {
   var cosφ0,
       cosφ1,
       sinλ0_λ1 = Math.sin(λ0 - λ1);
-  return Math.abs(sinλ0_λ1) > ε
+  return abs(sinλ0_λ1) > ε
       ? Math.atan((Math.sin(φ0) * (cosφ1 = Math.cos(φ1)) * Math.sin(λ1)
                  - Math.sin(φ1) * (cosφ0 = Math.cos(φ0)) * Math.sin(λ0))
                  / (cosφ0 * cosφ1 * sinλ0_λ1))
@@ -2526,7 +2727,7 @@ function d3_geo_clipAntimeridianIntersect(λ0, φ0, λ1, φ1) {
 function d3_geo_clipAntimeridianInterpolate(from, to, direction, listener) {
   var φ;
   if (from == null) {
-    φ = direction * π / 2;
+    φ = direction * halfπ;
     listener.point(-π,  φ);
     listener.point( 0,  φ);
     listener.point( π,  φ);
@@ -2536,8 +2737,8 @@ function d3_geo_clipAntimeridianInterpolate(from, to, direction, listener) {
     listener.point(-π, -φ);
     listener.point(-π,  0);
     listener.point(-π,  φ);
-  } else if (Math.abs(from[0] - to[0]) > ε) {
-    var s = (from[0] < to[0] ? 1 : -1) * π;
+  } else if (abs(from[0] - to[0]) > ε) {
+    var s = from[0] < to[0] ? π : -π;
     φ = direction * s / 2;
     listener.point(-s, φ);
     listener.point( 0, φ);
@@ -2545,12 +2746,6 @@ function d3_geo_clipAntimeridianInterpolate(from, to, direction, listener) {
   } else {
     listener.point(to[0], to[1]);
   }
-}
-
-var d3_geo_clipAntimeridianPoint = [-π, 0];
-
-function d3_geo_clipAntimeridianPolygonContains(polygon) {
-  return d3_geo_pointInPolygon(d3_geo_clipAntimeridianPoint, polygon);
 }
 
 function d3_geo_equirectangular(λ, φ) {
@@ -2577,17 +2772,23 @@ d3.geo.rotation = function(rotate) {
   return forward;
 };
 
+function d3_geo_identityRotation(λ, φ) {
+  return [λ > π ? λ - τ : λ < -π ? λ + τ : λ, φ];
+}
+
+d3_geo_identityRotation.invert = d3_geo_equirectangular;
+
 // Note: |δλ| must be < 2π
 function d3_geo_rotation(δλ, δφ, δγ) {
   return δλ ? (δφ || δγ ? d3_geo_compose(d3_geo_rotationλ(δλ), d3_geo_rotationφγ(δφ, δγ))
     : d3_geo_rotationλ(δλ))
     : (δφ || δγ ? d3_geo_rotationφγ(δφ, δγ)
-    : d3_geo_equirectangular);
+    : d3_geo_identityRotation);
 }
 
 function d3_geo_forwardRotationλ(δλ) {
   return function(λ, φ) {
-    return λ += δλ, [λ > π ? λ - 2 * π : λ < -π ? λ + 2 * π : λ, φ];
+    return λ += δλ, [λ > π ? λ - τ : λ < -π ? λ + τ : λ, φ];
   };
 }
 
@@ -2678,16 +2879,16 @@ function d3_geo_circleInterpolate(radius, precision) {
   var cr = Math.cos(radius),
       sr = Math.sin(radius);
   return function(from, to, direction, listener) {
+    var step = direction * precision;
     if (from != null) {
       from = d3_geo_circleAngle(cr, from);
       to = d3_geo_circleAngle(cr, to);
-      if (direction > 0 ? from < to: from > to) from += direction * 2 * π;
+      if (direction > 0 ? from < to: from > to) from += direction * τ;
     } else {
-      from = radius + direction * 2 * π;
-      to = radius;
+      from = radius + direction * τ;
+      to = radius - .5 * step;
     }
-    var point;
-    for (var step = direction * precision, t = from; direction > 0 ? t > to : t < to; t -= step) {
+    for (var point, t = from; direction > 0 ? t > to : t < to; t -= step) {
       listener.point((point = d3_geo_spherical([
         cr,
         -sr * Math.cos(t),
@@ -2710,11 +2911,10 @@ function d3_geo_circleAngle(cr, point) {
 function d3_geo_clipCircle(radius) {
   var cr = Math.cos(radius),
       smallRadius = cr > 0,
-      point = [radius, 0],
-      notHemisphere = Math.abs(cr) > ε, // TODO optimise for this common case
+      notHemisphere = abs(cr) > ε, // TODO optimise for this common case
       interpolate = d3_geo_circleInterpolate(radius, 6 * d3_radians);
 
-  return d3_geo_clip(visible, clipLine, interpolate, polygonContains);
+  return d3_geo_clip(visible, clipLine, interpolate, smallRadius ? [0, -radius] : [-π, radius - π]);
 
   function visible(λ, φ) {
     return Math.cos(λ) * Math.cos(φ) > cr;
@@ -2848,7 +3048,7 @@ function d3_geo_clipCircle(radius) {
         z;
     if (λ1 < λ0) z = λ0, λ0 = λ1, λ1 = z;
     var δλ = λ1 - λ0,
-        polar = Math.abs(δλ - π) < ε,
+        polar = abs(δλ - π) < ε,
         meridian = polar || δλ < ε;
 
     if (!polar && φ1 < φ0) z = φ0, φ0 = φ1, φ1 = z;
@@ -2856,7 +3056,7 @@ function d3_geo_clipCircle(radius) {
     // Check that the first point is between a and b.
     if (meridian
         ? polar
-          ? φ0 + φ1 > 0 ^ q[1] < (Math.abs(q[0] - λ0) < ε ? φ0 : φ1)
+          ? φ0 + φ1 > 0 ^ q[1] < (abs(q[0] - λ0) < ε ? φ0 : φ1)
           : φ0 <= q[1] && q[1] <= φ1
         : δλ > π ^ (λ0 <= q[0] && q[0] <= λ1)) {
       var q1 = d3_geo_cartesianScale(u, (-w + t) / uu);
@@ -2876,18 +3076,101 @@ function d3_geo_clipCircle(radius) {
     else if (φ > r) code |= 8; // above
     return code;
   }
-
-  function polygonContains(polygon) {
-    return d3_geo_pointInPolygon(point, polygon);
-  }
 }
 
-var d3_geo_clipViewMAX = 1e9;
+// Liang–Barsky line clipping.
+function d3_geom_clipLine(x0, y0, x1, y1) {
+  return function(line) {
+    var a = line.a,
+        b = line.b,
+        ax = a.x,
+        ay = a.y,
+        bx = b.x,
+        by = b.y,
+        t0 = 0,
+        t1 = 1,
+        dx = bx - ax,
+        dy = by - ay,
+        r;
 
-function d3_geo_clipView(x0, y0, x1, y1) {
+    r = x0 - ax;
+    if (!dx && r > 0) return;
+    r /= dx;
+    if (dx < 0) {
+      if (r < t0) return;
+      if (r < t1) t1 = r;
+    } else if (dx > 0) {
+      if (r > t1) return;
+      if (r > t0) t0 = r;
+    }
+
+    r = x1 - ax;
+    if (!dx && r < 0) return;
+    r /= dx;
+    if (dx < 0) {
+      if (r > t1) return;
+      if (r > t0) t0 = r;
+    } else if (dx > 0) {
+      if (r < t0) return;
+      if (r < t1) t1 = r;
+    }
+
+    r = y0 - ay;
+    if (!dy && r > 0) return;
+    r /= dy;
+    if (dy < 0) {
+      if (r < t0) return;
+      if (r < t1) t1 = r;
+    } else if (dy > 0) {
+      if (r > t1) return;
+      if (r > t0) t0 = r;
+    }
+
+    r = y1 - ay;
+    if (!dy && r < 0) return;
+    r /= dy;
+    if (dy < 0) {
+      if (r > t1) return;
+      if (r > t0) t0 = r;
+    } else if (dy > 0) {
+      if (r < t0) return;
+      if (r < t1) t1 = r;
+    }
+
+    if (t0 > 0) line.a = {x: ax + t0 * dx, y: ay + t0 * dy};
+    if (t1 < 1) line.b = {x: ax + t1 * dx, y: ay + t1 * dy};
+    return line;
+  };
+}
+
+var d3_geo_clipExtentMAX = 1e9;
+
+d3.geo.clipExtent = function() {
+  var x0, y0, x1, y1,
+      stream,
+      clip,
+      clipExtent = {
+        stream: function(output) {
+          if (stream) stream.valid = false;
+          stream = clip(output);
+          stream.valid = true; // allow caching by d3.geo.path
+          return stream;
+        },
+        extent: function(_) {
+          if (!arguments.length) return [[x0, y0], [x1, y1]];
+          clip = d3_geo_clipExtent(x0 = +_[0][0], y0 = +_[0][1], x1 = +_[1][0], y1 = +_[1][1]);
+          if (stream) stream.valid = false, stream = null;
+          return clipExtent;
+        }
+      };
+  return clipExtent.extent([[0, 0], [960, 500]]);
+};
+
+function d3_geo_clipExtent(x0, y0, x1, y1) {
   return function(listener) {
     var listener_ = listener,
         bufferListener = d3_geo_clipBufferListener(),
+        clipLine = d3_geom_clipLine(x0, y0, x1, y1),
         segments,
         polygon,
         ring;
@@ -2900,27 +3183,29 @@ function d3_geo_clipView(x0, y0, x1, y1) {
         listener = bufferListener;
         segments = [];
         polygon = [];
+        clean = true;
       },
       polygonEnd: function() {
         listener = listener_;
-        if ((segments = d3.merge(segments)).length) {
+        segments = d3.merge(segments);
+        var clipStartInside = insidePolygon([x0, y1]),
+            inside = clean && clipStartInside,
+            visible = segments.length;
+        if (inside || visible) {
           listener.polygonStart();
-          d3_geo_clipPolygon(segments, compare, inside, interpolate, listener);
+          if (inside) {
+            listener.lineStart();
+            interpolate(null, null, 1, listener);
+            listener.lineEnd();
+          }
+          if (visible) {
+            d3_geo_clipPolygon(segments, compare, clipStartInside, interpolate, listener);
+          }
           listener.polygonEnd();
-        } else if (insidePolygon([x0, y0])) {
-          listener.polygonStart(), listener.lineStart();
-          interpolate(null, null, 1, listener);
-          listener.lineEnd(), listener.polygonEnd();
         }
         segments = polygon = ring = null;
       }
     };
-
-    function inside(point) {
-      var a = corner(point, -1),
-          i = insidePolygon([a === 0 || a === 3 ? x0 : x1, a > 1 ? y1 : y0]);
-      return i;
-    }
 
     function insidePolygon(p) {
       var wn = 0, // the winding number counter
@@ -2958,17 +3243,18 @@ function d3_geo_clipView(x0, y0, x1, y1) {
       }
     }
 
-    function visible(x, y) {
+    function pointVisible(x, y) {
       return x0 <= x && x <= x1 && y0 <= y && y <= y1;
     }
 
     function point(x, y) {
-      if (visible(x, y)) listener.point(x, y);
+      if (pointVisible(x, y)) listener.point(x, y);
     }
 
     var x__, y__, v__, // first point
         x_, y_, v_, // previous point
-        first;
+        first,
+        clean;
 
     function lineStart() {
       clip.point = linePoint;
@@ -2992,9 +3278,9 @@ function d3_geo_clipView(x0, y0, x1, y1) {
     }
 
     function linePoint(x, y) {
-      x = Math.max(-d3_geo_clipViewMAX, Math.min(d3_geo_clipViewMAX, x));
-      y = Math.max(-d3_geo_clipViewMAX, Math.min(d3_geo_clipViewMAX, y));
-      var v = visible(x, y);
+      x = Math.max(-d3_geo_clipExtentMAX, Math.min(d3_geo_clipExtentMAX, x));
+      y = Math.max(-d3_geo_clipExtentMAX, Math.min(d3_geo_clipExtentMAX, y));
+      var v = pointVisible(x, y);
       if (polygon) ring.push([x, y]);
       if (first) {
         x__ = x, y__ = y, v__ = v;
@@ -3006,18 +3292,19 @@ function d3_geo_clipView(x0, y0, x1, y1) {
       } else {
         if (v && v_) listener.point(x, y);
         else {
-          var a = [x_, y_],
-              b = [x, y];
-          if (clipLine(a, b)) {
+          var l = {a: {x: x_, y: y_}, b: {x: x, y: y}};
+          if (clipLine(l)) {
             if (!v_) {
               listener.lineStart();
-              listener.point(a[0], a[1]);
+              listener.point(l.a.x, l.a.y);
             }
-            listener.point(b[0], b[1]);
+            listener.point(l.b.x, l.b.y);
             if (!v) listener.lineEnd();
+            clean = false;
           } else if (v) {
             listener.lineStart();
             listener.point(x, y);
+            clean = false;
           }
         }
       }
@@ -3028,14 +3315,14 @@ function d3_geo_clipView(x0, y0, x1, y1) {
   };
 
   function corner(p, direction) {
-    return Math.abs(p[0] - x0) < ε ? direction > 0 ? 0 : 3
-        : Math.abs(p[0] - x1) < ε ? direction > 0 ? 2 : 1
-        : Math.abs(p[1] - y0) < ε ? direction > 0 ? 1 : 0
-        : direction > 0 ? 3 : 2; // Math.abs(p[1] - y1) < ε
+    return abs(p[0] - x0) < ε ? direction > 0 ? 0 : 3
+        : abs(p[0] - x1) < ε ? direction > 0 ? 2 : 1
+        : abs(p[1] - y0) < ε ? direction > 0 ? 1 : 0
+        : direction > 0 ? 3 : 2; // abs(p[1] - y1) < ε
   }
 
   function compare(a, b) {
-    return comparePoints(a.point, b.point);
+    return comparePoints(a.x, b.x);
   }
 
   function comparePoints(a, b) {
@@ -3047,47 +3334,6 @@ function d3_geo_clipView(x0, y0, x1, y1) {
         : ca === 2 ? a[1] - b[1]
         : b[0] - a[0];
   }
-
-  // Liang–Barsky line clipping.
-  function clipLine(a, b) {
-    var dx = b[0] - a[0],
-        dy = b[1] - a[1],
-        t = [0, 1];
-
-    if (Math.abs(dx) < ε && Math.abs(dy) < ε) return x0 <= a[0] && a[0] <= x1 && y0 <= a[1] && a[1] <= y1;
-
-    if (d3_geo_clipViewT(x0 - a[0],  dx, t) &&
-        d3_geo_clipViewT(a[0] - x1, -dx, t) &&
-        d3_geo_clipViewT(y0 - a[1],  dy, t) &&
-        d3_geo_clipViewT(a[1] - y1, -dy, t)) {
-      if (t[1] < 1) {
-        b[0] = a[0] + t[1] * dx;
-        b[1] = a[1] + t[1] * dy;
-      }
-      if (t[0] > 0) {
-        a[0] += t[0] * dx;
-        a[1] += t[0] * dy;
-      }
-      return true;
-    }
-
-    return false;
-  }
-}
-
-function d3_geo_clipViewT(num, denominator, t) {
-  if (Math.abs(denominator) < ε) return num <= 0;
-
-  var u = num / denominator;
-
-  if (denominator > 0) {
-    if (u > t[1]) return false;
-    if (u > t[0]) t[0] = u;
-  } else {
-    if (u < t[0]) return false;
-    if (u < t[1]) t[1] = u;
-  }
-  return true;
 }
 function d3_geo_compose(a, b) {
 
@@ -3330,7 +3576,7 @@ d3.geo.bounds = (function() {
       var dλ = λ - λ_,
           s = dλ > 0 ? 1 : -1,
           λi = inflection[0] * d3_degrees * s,
-          antimeridian = Math.abs(dλ) > 180;
+          antimeridian = abs(dλ) > 180;
       if (antimeridian ^ (s * λ_ < λi && λi < s * λ)) {
         var φi = inflection[1] * d3_degrees;
         if (φi > φ1) φ1 = φi;
@@ -3375,7 +3621,7 @@ d3.geo.bounds = (function() {
   function ringPoint(λ, φ) {
     if (p0) {
       var dλ = λ - λ_;
-      dλSum += Math.abs(dλ) > 180 ? dλ + (dλ > 0 ? 360 : -360) : dλ;
+      dλSum += abs(dλ) > 180 ? dλ + (dλ > 0 ? 360 : -360) : dλ;
     } else λ__ = λ, φ__ = φ;
     d3_geo_area.point(λ, φ);
     linePoint(λ, φ);
@@ -3388,7 +3634,7 @@ d3.geo.bounds = (function() {
   function ringEnd() {
     ringPoint(λ__, φ__);
     d3_geo_area.lineEnd();
-    if (Math.abs(dλSum) > ε) λ0 = -(λ1 = 180);
+    if (abs(dλSum) > ε) λ0 = -(λ1 = 180);
     range[0] = λ0, range[1] = λ1;
     p0 = null;
   }
@@ -3601,7 +3847,7 @@ var d3_geo_pathAreaSum, d3_geo_pathAreaPolygon, d3_geo_pathArea = {
   },
   polygonEnd: function() {
     d3_geo_pathArea.lineStart = d3_geo_pathArea.lineEnd = d3_geo_pathArea.point = d3_noop;
-    d3_geo_pathAreaSum += Math.abs(d3_geo_pathAreaPolygon / 2);
+    d3_geo_pathAreaSum += abs(d3_geo_pathAreaPolygon / 2);
   }
 };
 
@@ -3806,7 +4052,7 @@ function d3_geo_pathContext(context) {
 
   function point(x, y) {
     context.moveTo(x, y);
-    context.arc(x, y, pointRadius, 0, 2 * π);
+    context.arc(x, y, pointRadius, 0, τ);
   }
 
   function pointLineStart(x, y) {
@@ -3898,7 +4144,7 @@ function d3_geo_resample(project) {
           c = c0 + c1,
           m = Math.sqrt(a * a + b * b + c * c),
           φ2 = Math.asin(c /= m),
-          λ2 = Math.abs(Math.abs(c) - 1) < ε ? (λ0 + λ1) / 2 : Math.atan2(b, a),
+          λ2 = abs(abs(c) - 1) < ε ? (λ0 + λ1) / 2 : Math.atan2(b, a),
           p = project(λ2, φ2),
           x2 = p[0],
           y2 = p[1],
@@ -3906,7 +4152,7 @@ function d3_geo_resample(project) {
           dy2 = y2 - y0,
           dz = dy * dx2 - dx * dy2;
       if (dz * dz / d2 > δ2 // perpendicular projected distance
-          || Math.abs((dx * dx2 + dy * dy2) / d2 - .5) > .3 // midpoint close to an end
+          || abs((dx * dx2 + dy * dy2) / d2 - .5) > .3 // midpoint close to an end
           || a0 * a1 + b0 * b1 + c0 * c1 < cosMinDistance) { // angular distance
         resampleLineTo(x0, y0, λ0, a0, b0, c0, x2, y2, λ2, a /= m, b /= m, c, depth, stream);
         stream.point(x2, y2);
@@ -3923,6 +4169,29 @@ function d3_geo_resample(project) {
 
   return resample;
 }
+
+d3.geo.transform = function(methods) {
+  return {
+    stream: function(stream) {
+      var transform = new d3_geo_transform(stream);
+      for (var k in methods) transform[k] = methods[k];
+      return transform;
+    }
+  };
+};
+
+function d3_geo_transform(stream) {
+  this.stream = stream;
+}
+
+d3_geo_transform.prototype = {
+  point: function(x, y) { this.stream.point(x, y); },
+  sphere: function() { this.stream.sphere(); },
+  lineStart: function() { this.stream.lineStart(); },
+  lineEnd: function() { this.stream.lineEnd(); },
+  polygonStart: function() { this.stream.polygonStart(); },
+  polygonEnd: function() { this.stream.polygonEnd(); }
+};
 
 d3.geo.path = function() {
   var pointRadius = 4.5,
@@ -3992,17 +4261,11 @@ d3.geo.path = function() {
 };
 
 function d3_geo_pathProjectStream(project) {
-  var resample = d3_geo_resample(function(λ, φ) { return project([λ * d3_degrees, φ * d3_degrees]); });
+  var resample = d3_geo_resample(function(x, y) { return project([x * d3_degrees, y * d3_degrees]); });
   return function(stream) {
-    stream = resample(stream);
-    return {
-      point: function(λ, φ) { stream.point(λ * d3_radians, φ * d3_radians); },
-      sphere: function() { stream.sphere(); },
-      lineStart: function() { stream.lineStart(); },
-      lineEnd: function() { stream.lineEnd(); },
-      polygonStart: function() { stream.polygonStart(); },
-      polygonEnd: function() { stream.polygonEnd(); }
-    };
+    var transform = new d3_geo_transform(stream = resample(stream));
+    transform.point = function(x, y) { stream.point(x * d3_radians, y * d3_radians); };
+    return transform;
   };
 }
 
@@ -4041,7 +4304,7 @@ function d3_geo_projectionMutator(projectAt) {
 
   projection.stream = function(output) {
     if (stream) stream.valid = false;
-    stream = d3_geo_projectionRadiansRotate(rotate, preclip(projectResample(postclip(output))));
+    stream = d3_geo_projectionRadians(preclip(rotate, projectResample(postclip(output))));
     stream.valid = true; // allow caching by d3.geo.path
     return stream;
   };
@@ -4055,7 +4318,7 @@ function d3_geo_projectionMutator(projectAt) {
   projection.clipExtent = function(_) {
     if (!arguments.length) return clipExtent;
     clipExtent = _;
-    postclip = _ == null ? d3_identity : d3_geo_clipView(_[0][0], _[0][1], _[1][0], _[1][1]);
+    postclip = _ ? d3_geo_clipExtent(_[0][0], _[0][1], _[1][0], _[1][1]) : d3_identity;
     return invalidate();
   };
 
@@ -4098,10 +4361,7 @@ function d3_geo_projectionMutator(projectAt) {
   }
 
   function invalidate() {
-    if (stream) {
-      stream.valid = false;
-      stream = null;
-    }
+    if (stream) stream.valid = false, stream = null;
     return projection;
   }
 
@@ -4112,18 +4372,12 @@ function d3_geo_projectionMutator(projectAt) {
   };
 }
 
-function d3_geo_projectionRadiansRotate(rotate, stream) {
-  return {
-    point: function(x, y) {
-      y = rotate(x * d3_radians, y * d3_radians), x = y[0];
-      stream.point(x > π ? x - 2 * π : x < -π ? x + 2 * π : x, y[1]);
-    },
-    sphere: function() { stream.sphere(); },
-    lineStart: function() { stream.lineStart(); },
-    lineEnd: function() { stream.lineEnd(); },
-    polygonStart: function() { stream.polygonStart(); },
-    polygonEnd: function() { stream.polygonEnd(); }
+function d3_geo_projectionRadians(stream) {
+  var transform = new d3_geo_transform(stream);
+  transform.point = function(λ, φ) {
+    stream.point(λ * d3_radians, φ * d3_radians);
   };
+  return transform;
 }
 
 function d3_geo_mercator(λ, φ) {
@@ -4131,7 +4385,7 @@ function d3_geo_mercator(λ, φ) {
 }
 
 d3_geo_mercator.invert = function(x, y) {
-  return [x, 2 * Math.atan(Math.exp(y)) - π / 2];
+  return [x, 2 * Math.atan(Math.exp(y)) - halfπ];
 };
 
 function d3_geo_mercatorProjection(project) {
@@ -4303,7 +4557,7 @@ d3.ease = function(name) {
       m = i >= 0 ? name.substring(i + 1) : "in";
   t = d3_ease.get(t) || d3_ease_default;
   m = d3_ease_mode.get(m) || d3_identity;
-  return d3_ease_clamp(m(t.apply(null, Array.prototype.slice.call(arguments, 1))));
+  return d3_ease_clamp(m(t.apply(null, d3_arraySlice.call(arguments, 1))));
 };
 
 function d3_ease_clamp(f) {
@@ -4347,7 +4601,7 @@ function d3_ease_poly(e) {
 }
 
 function d3_ease_sin(t) {
-  return 1 - Math.cos(t * π / 2);
+  return 1 - Math.cos(t * halfπ);
 }
 
 function d3_ease_exp(t) {
@@ -4361,10 +4615,10 @@ function d3_ease_circle(t) {
 function d3_ease_elastic(a, p) {
   var s;
   if (arguments.length < 2) p = 0.45;
-  if (arguments.length) s = p / (2 * π) * Math.asin(1 / a);
+  if (arguments.length) s = p / τ * Math.asin(1 / a);
   else a = 1, s = p / 4;
   return function(t) {
-    return 1 + a * Math.pow(2, 10 * -t) * Math.sin((t - s) * 2 * π / p);
+    return 1 + a * Math.pow(2, -10 * t) * Math.sin((t - s) * τ / p);
   };
 }
 
@@ -5379,7 +5633,7 @@ function d3_transition_text(b) {
 d3_transitionPrototype.remove = function() {
   return this.each("end.transition", function() {
     var p;
-    if (!this.__transition__ && (p = this.parentNode)) p.removeChild(this);
+    if (this.__transition__.count < 2 && (p = this.parentNode)) p.removeChild(this);
   });
 };
 
@@ -5393,15 +5647,15 @@ d3_transitionPrototype.ease = function(value) {
 d3_transitionPrototype.delay = function(value) {
   var id = this.id;
   return d3_selection_each(this, typeof value === "function"
-      ? function(node, i, j) { node.__transition__[id].delay = value.call(node, node.__data__, i, j) | 0; }
-      : (value |= 0, function(node) { node.__transition__[id].delay = value; }));
+      ? function(node, i, j) { node.__transition__[id].delay = +value.call(node, node.__data__, i, j); }
+      : (value = +value, function(node) { node.__transition__[id].delay = value; }));
 };
 
 d3_transitionPrototype.duration = function(value) {
   var id = this.id;
   return d3_selection_each(this, typeof value === "function"
-      ? function(node, i, j) { node.__transition__[id].duration = Math.max(1, value.call(node, node.__data__, i, j) | 0); }
-      : (value = Math.max(1, value | 0), function(node) { node.__transition__[id].duration = value; }));
+      ? function(node, i, j) { node.__transition__[id].duration = Math.max(1, value.call(node, node.__data__, i, j)); }
+      : (value = Math.max(1, value), function(node) { node.__transition__[id].duration = value; }));
 };
 
 d3_transitionPrototype.each = function(type, listener) {
@@ -5471,10 +5725,12 @@ function d3_transitionNode(node, i, id, inherit) {
           ease = transition.ease,
           delay = transition.delay,
           duration = transition.duration,
+          timer = d3_timer_active,
           tweened = [];
 
-      if (delay <= elapsed) return start(elapsed);
-      d3_timer_replace(start, delay, time);
+      timer.t = delay + time;
+      if (delay <= elapsed) return start(elapsed - delay);
+      timer.c = start;
 
       function start(elapsed) {
         if (lock.active > id) return stop();
@@ -5487,14 +5743,16 @@ function d3_transitionNode(node, i, id, inherit) {
           }
         });
 
-        if (tick(elapsed)) return 1;
-        d3_timer_replace(tick, 0, time);
+        d3.timer(function() { // defer to end of current frame
+          timer.c = tick(elapsed || 1) ? d3_true : tick;
+          return 1;
+        }, 0, time);
       }
 
       function tick(elapsed) {
         if (lock.active !== id) return stop();
 
-        var t = (elapsed - delay) / duration,
+        var t = elapsed / duration,
             e = ease(t),
             n = tweened.length;
 
@@ -5503,9 +5761,8 @@ function d3_transitionNode(node, i, id, inherit) {
         }
 
         if (t >= 1) {
-          stop();
           transition.event && transition.event.end.call(node, d, i);
-          return 1;
+          return stop();
         }
       }
 
@@ -5529,7 +5786,7 @@ function d3_xhrType(response) {
 
 function d3_xhr(url, mimeType, response, callback) {
   var xhr = {},
-      dispatch = d3.dispatch("progress", "load", "error"),
+      dispatch = d3.dispatch("beforesend", "progress", "load", "error"),
       headers = {},
       request = new XMLHttpRequest,
       responseType = null;
@@ -5611,6 +5868,7 @@ function d3_xhr(url, mimeType, response, callback) {
     if (mimeType != null && request.overrideMimeType) request.overrideMimeType(mimeType);
     if (responseType != null) request.responseType = responseType;
     if (callback != null) xhr.on("error", callback).on("load", function(request) { callback(null, request); });
+    dispatch.beforesend.call(xhr, request);
     request.send(data == null ? null : data);
     return xhr;
   };
@@ -5690,25 +5948,26 @@ d3.combobox = function() {
                 var parent = this.parentNode,
                     sibling = this.nextSibling;
 
-                var carat = d3.select(parent).selectAll('.combobox-carat')
+                var caret = d3.select(parent).selectAll('.combobox-caret')
                     .filter(function(d) { return d === input.node(); })
                     .data([input.node()]);
 
-                carat.enter().insert('div', function() { return sibling; })
-                    .attr('class', 'combobox-carat');
+                caret.enter().insert('div', function() { return sibling; })
+                    .attr('class', 'combobox-caret');
 
-                carat
+                caret
                     .on('mousedown', function () {
                         // prevent the form element from blurring. it blurs
                         // on mousedown
                         d3.event.stopPropagation();
                         d3.event.preventDefault();
                         input.node().focus();
+                        fetch('', render);
                     });
             });
 
         function focus() {
-            fetch(render);
+            fetch(value(), render);
         }
 
         function blur() {
@@ -5798,7 +6057,7 @@ d3.combobox = function() {
         }
 
         function change() {
-            fetch(function() {
+            fetch(value(), function() {
                 autocomplete();
                 render();
             });
@@ -5823,8 +6082,8 @@ d3.combobox = function() {
             return value;
         }
 
-        function fetch(cb) {
-            fetcher.call(input, value(), function(_) {
+        function fetch(v, cb) {
+            fetcher.call(input, v, function(_) {
                 suggestions = _;
                 cb();
             });
@@ -5849,7 +6108,7 @@ d3.combobox = function() {
         }
 
         function render() {
-            if (suggestions.length && document.activeElement === input.node()) {
+            if (suggestions.length > 1 && document.activeElement === input.node()) {
                 show();
             } else {
                 hide();
@@ -15119,6 +15378,7 @@ if (typeof exports === 'object') {
 }).call(function() {
   return this || (typeof window !== 'undefined' ? window : global);
 }());
+/* jshint ignore:start */
 (function () {
 'use strict';
 window.iD = function () {
@@ -15147,7 +15407,9 @@ window.iD = function () {
             else storage.setItem(k, v);
         } catch(e) {
             // localstorage quota exceeded
+            /* jshint devel:true */
             if (typeof console !== 'undefined') console.error('localStorage quota exceeded');
+            /* jshint devel:false */
         }
     };
 
@@ -15230,7 +15492,7 @@ window.iD = function () {
             var result = fn.apply(history, arguments);
             debouncedSave();
             return result;
-        }
+        };
     }
 
     context.perform = withDebouncedSave(history.perform);
@@ -15318,9 +15580,52 @@ window.iD = function () {
     };
 
     /* Projection */
-    context.projection = d3.geo.mercator()
-        .scale(512 / Math.PI)
-        .precision(0);
+    function rawMercator() {
+        var project = d3.geo.mercator.raw,
+            k = 512 / Math.PI, // scale
+            x = 0, y = 0, // translate
+            clipExtent = [[0, 0], [0, 0]];
+
+        function projection(point) {
+            point = project(point[0] * Math.PI / 180, point[1] * Math.PI / 180);
+            return [point[0] * k + x, y - point[1] * k];
+        }
+
+        projection.invert = function(point) {
+            point = project.invert((point[0] - x) / k, (y - point[1]) / k);
+            return point && [point[0] * 180 / Math.PI, point[1] * 180 / Math.PI];
+        };
+
+        projection.scale = function(_) {
+            if (!arguments.length) return k;
+            k = +_;
+            return projection;
+        };
+
+        projection.translate = function(_) {
+            if (!arguments.length) return [x, y];
+            x = +_[0];
+            y = +_[1];
+            return projection;
+        };
+
+        projection.clipExtent = function(_) {
+            if (!arguments.length) return clipExtent;
+            clipExtent = _;
+            return projection;
+        };
+
+        projection.stream = d3.geo.transform({
+            point: function(x, y) {
+                x = projection([x, y]);
+                this.stream.point(x[0], x[1]);
+            }
+        }).stream;
+
+        return projection;
+    }
+
+    context.projection = rawMercator();
 
     /* Background */
     var background = iD.Background(context);
@@ -15388,13 +15693,13 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.2.1';
+iD.version = '1.3.2';
 
 (function() {
     var detected = {};
 
     var ua = navigator.userAgent,
-        msie = new RegExp("MSIE ([0-9]{1,}[\\.0-9]{0,})");
+        msie = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})');
 
     if (msie.exec(ua) !== null) {
         var rv = parseFloat(RegExp.$1);
@@ -15638,7 +15943,7 @@ iD.util.entityOrMemberSelector = function(ids, graph) {
         var entity = graph.hasEntity(id);
         if (entity && entity.type === 'relation') {
             entity.members.forEach(function(member) {
-                s += ',.' + member.id
+                s += ',.' + member.id;
             });
         }
     });
@@ -15723,7 +16028,7 @@ iD.util.editDistance = function(a, b) {
     for (var j = 0; j <= a.length; j++) { matrix[0][j] = j; }
     for (i = 1; i <= b.length; i++) {
         for (j = 1; j <= a.length; j++) {
-            if (b.charAt(i-1) == a.charAt(j-1)) {
+            if (b.charAt(i-1) === a.charAt(j-1)) {
                 matrix[i][j] = matrix[i-1][j-1];
             } else {
                 matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, // substitution
@@ -15751,6 +16056,7 @@ iD.util.fastMouse = function(container) {
     };
 };
 
+/* jshint -W103 */
 iD.util.getPrototypeOf = Object.getPrototypeOf || function(obj) { return obj.__proto__; };
 
 iD.util.asyncMap = function(inputs, func, callback) {
@@ -15774,6 +16080,70 @@ iD.util.wrap = function(index, length) {
         index += Math.ceil(-index/length)*length;
     return index % length;
 };
+// A per-domain session mutex backed by a cookie and dead man's
+// switch. If the session crashes, the mutex will auto-release
+// after 5 seconds.
+
+iD.util.SessionMutex = function(name) {
+    var mutex = {},
+        intervalID;
+
+    function renew() {
+        var expires = new Date();
+        expires.setSeconds(expires.getSeconds() + 5);
+        document.cookie = name + '=1; expires=' + expires.toUTCString();
+    }
+
+    mutex.lock = function() {
+        if (intervalID) return true;
+        var cookie = document.cookie.replace(new RegExp('(?:(?:^|.*;)\\s*' + name + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1');
+        if (cookie) return false;
+        renew();
+        intervalID = window.setInterval(renew, 4000);
+        return true;
+    };
+
+    mutex.unlock = function() {
+        if (!intervalID) return;
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        clearInterval(intervalID);
+        intervalID = null;
+    };
+
+    mutex.locked = function() {
+        return !!intervalID;
+    };
+
+    return mutex;
+};
+iD.util.SuggestNames = function(preset, suggestions) {
+    preset = preset.id.split('/', 2);
+    var k = preset[0],
+        v = preset[1];
+
+    return function(value, callback) {
+        var result = [];
+        if (value && value.length > 2) {
+            if (suggestions[k] && suggestions[k][v]) {
+                for (var sugg in suggestions[k][v]) {
+                    var dist = iD.util.editDistance(value, sugg.substring(0, value.length));
+                    if (dist < 3) {
+                        result.push({
+                            title: sugg,
+                            value: sugg,
+                            dist: dist
+                        });
+                    }
+                }
+            }
+            result.sort(function(a, b) {
+                return a.dist - b.dist;
+            });
+        }
+        result = result.slice(0,3);
+        callback(result);
+    };
+};
 iD.geo = {};
 
 iD.geo.roundCoords = function(c) {
@@ -15795,6 +16165,11 @@ iD.geo.sphericalDistance = function(a, b) {
     var x = Math.cos(a[1]*Math.PI/180) * (a[0] - b[0]),
         y = a[1] - b[1];
     return 6.3710E6 * Math.sqrt((x * x) + (y * y)) * Math.PI/180;
+};
+
+iD.geo.edgeEqual = function(a, b) {
+    return (a[0] === b[0] && a[1] === b[1]) ||
+        (a[0] === b[1] && a[1] === b[0]);
 };
 
 // Choose the edge with the minimal distance from `point` to its orthogonal
@@ -15861,7 +16236,7 @@ iD.geo.pointInPolygon = function(point, polygon) {
         var xi = polygon[i][0], yi = polygon[i][1];
         var xj = polygon[j][0], yj = polygon[j][1];
 
-        var intersect = ((yi > y) != (yj > y)) &&
+        var intersect = ((yi > y) !== (yj > y)) &&
             (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
         if (intersect) inside = !inside;
     }
@@ -15927,7 +16302,7 @@ _.extend(iD.geo.Extent.prototype, {
             [this[1][0], this[1][1]],
             [this[1][0], this[0][1]],
             [this[0][0], this[0][1]]
-        ]
+        ];
     },
 
     intersects: function(obj) {
@@ -16188,7 +16563,7 @@ iD.actions.AddMember = function(relationId, member, memberIndex) {
         }
 
         return graph.replace(relation.addMember(member, memberIndex));
-    }
+    };
 };
 iD.actions.AddMidpoint = function(midpoint, node) {
     return function(graph) {
@@ -16200,10 +16575,7 @@ iD.actions.AddMidpoint = function(midpoint, node) {
 
         parents.forEach(function(way) {
             for (var i = 0; i < way.nodes.length - 1; i++) {
-                if ((way.nodes[i]     === midpoint.edge[0] &&
-                     way.nodes[i + 1] === midpoint.edge[1]) ||
-                    (way.nodes[i]     === midpoint.edge[1] &&
-                     way.nodes[i + 1] === midpoint.edge[0])) {
+                if (iD.geo.edgeEqual([way.nodes[i], way.nodes[i + 1]], midpoint.edge)) {
                     graph = graph.replace(graph.entity(way.id).addNode(node.id, i + 1));
 
                     // Add only one midpoint on doubled-back segments,
@@ -16225,7 +16597,7 @@ iD.actions.AddVertex = function(wayId, nodeId, index) {
 iD.actions.ChangeMember = function(relationId, member, memberIndex) {
     return function(graph) {
         return graph.replace(graph.entity(relationId).updateMember(member, memberIndex));
-    }
+    };
 };
 iD.actions.ChangePreset = function(entityId, oldPreset, newPreset) {
     return function(graph) {
@@ -16251,7 +16623,7 @@ iD.actions.Circularize = function(wayId, projection, maxAngle) {
     var action = function(graph) {
         var way = graph.entity(wayId),
             nodes = _.uniq(graph.childNodes(way)),
-            keyNodes = nodes.filter(function(n) { return graph.parentWays(n).length != 1; }),
+            keyNodes = nodes.filter(function(n) { return graph.parentWays(n).length !== 1; }),
             points = nodes.map(function(n) { return projection(n.loc); }),
             keyPoints = keyNodes.map(function(n) { return projection(n.loc); }),
             centroid = d3.geom.polygon(points).centroid(),
@@ -16265,7 +16637,7 @@ iD.actions.Circularize = function(wayId, projection, maxAngle) {
             keyPoints = [points[0]];
         }
 
-        if (keyNodes.length == 1) {
+        if (keyNodes.length === 1) {
             var index = nodes.indexOf(keyNodes[0]),
                 oppositeIndex = Math.floor((index + nodes.length / 2) % nodes.length);
 
@@ -16375,6 +16747,7 @@ iD.actions.Connect = function(nodeIds) {
         for (var i = 0; i < nodeIds.length - 1; i++) {
             var node = graph.entity(nodeIds[i]);
 
+            /*jshint -W083 */
             graph.parentWays(node).forEach(function(parent) {
                 if (!parent.areAdjacent(node.id, survivor.id)) {
                     graph = graph.replace(parent.replaceNode(node.id, survivor.id));
@@ -16384,6 +16757,7 @@ iD.actions.Connect = function(nodeIds) {
             graph.parentRelations(node).forEach(function(parent) {
                 graph = graph.replace(parent.replaceMember(node, survivor));
             });
+            /*jshint +W083 */
 
             survivor = survivor.mergeTags(node.tags);
             graph = iD.actions.DeleteNode(node.id)(graph);
@@ -16589,7 +16963,7 @@ iD.actions.DiscardTags = function(difference) {
         difference.created().forEach(discardTags);
 
         return graph;
-    }
+    };
 };
 // Disconect the ways at the given node.
 //
@@ -16615,7 +16989,7 @@ iD.actions.Disconnect = function(nodeId, newNodeId) {
         replacements.forEach(function(replacement) {
             var newNode = iD.Node({id: newNodeId, loc: node.loc, tags: node.tags});
             graph = graph.replace(newNode);
-            graph = graph.replace(replacement.way.updateNode(newNode.id, replacement.index));
+            graph = graph.replace(graph.entity(replacement.wayID).updateNode(newNode.id, replacement.index));
         });
 
         return graph;
@@ -16634,7 +17008,7 @@ iD.actions.Disconnect = function(nodeId, newNodeId) {
 
             parent.nodes.forEach(function(waynode, index) {
                 if (waynode === nodeId) {
-                    candidates.push({way: parent, index: index});
+                    candidates.push({wayID: parent.id, index: index});
                 }
             });
         });
@@ -16828,7 +17202,7 @@ iD.actions.MergePolygon = function(ids, newRelationId) {
             return _.any(contained[i]);
         }
 
-        function filterContained(d, i) {
+        function filterContained(d) {
             return d.filter(isContained);
         }
 
@@ -16985,7 +17359,7 @@ iD.actions.Orthogonalize = function(wayId, projection) {
 
             for (i = 0; i < points.length; i++) {
                 // only move the points that actually moved
-                if (originalPoints[i][0] != points[i][0] || originalPoints[i][1] != points[i][1]) {
+                if (originalPoints[i][0] !== points[i][0] || originalPoints[i][1] !== points[i][1]) {
                     graph = graph.replace(graph.entity(nodes[i].id)
                         .move(projection.invert(points[i])));
                 }
@@ -16995,8 +17369,8 @@ iD.actions.Orthogonalize = function(wayId, projection) {
             for (i = 0; i < points.length; i++) {
                 var node = nodes[i];
 
-                if (graph.parentWays(node).length > 1 || 
-                    graph.parentRelations(node).length || 
+                if (graph.parentWays(node).length > 1 ||
+                    graph.parentRelations(node).length ||
                     node.hasInterestingTags()) {
 
                     continue;
@@ -17150,9 +17524,9 @@ iD.actions.Reverse = function(wayId) {
     }
 
     function reverseValue(key, value) {
-        if (key === "incline" && numeric.test(value)) {
+        if (key === 'incline' && numeric.test(value)) {
             return value.replace(numeric, function(_, sign) { return sign === '-' ? '' : '-'; });
-        } else if (key === "incline" || key === "direction") {
+        } else if (key === 'incline' || key === 'direction') {
             return {up: 'down', down: 'up'}[value] || value;
         } else {
             return {left: 'right', right: 'left'}[value] || value;
@@ -17250,13 +17624,13 @@ iD.actions.Split = function(nodeId, newWayIds) {
 
         // calculate lengths
         length = 0;
-        for (i = wrap(idxA+1); i != idxA; i = wrap(i+1)) {
+        for (i = wrap(idxA+1); i !== idxA; i = wrap(i+1)) {
             length += dist(nodes[i], nodes[wrap(i-1)]);
             lengths[i] = length;
         }
 
         length = 0;
-        for (i = wrap(idxA-1); i != idxA; i = wrap(i-1)) {
+        for (i = wrap(idxA-1); i !== idxA; i = wrap(i-1)) {
             length += dist(nodes[i], nodes[wrap(i+1)]);
             if (length < lengths[i])
                 lengths[i] = length;
@@ -17413,22 +17787,22 @@ iD.actions.Straighten = function(wayId, projection) {
             i;
 
         for (i = 1; i < points.length-1; i++) {
-            var node = nodes[i], 
+            var node = nodes[i],
                 point = points[i];
 
-            if (graph.parentWays(node).length > 1 || 
-                graph.parentRelations(node).length || 
+            if (graph.parentWays(node).length > 1 ||
+                graph.parentRelations(node).length ||
                 node.hasInterestingTags()) {
 
                 var u = positionAlongWay(point, startPoint, endPoint),
                     p0 = startPoint[0] + u * (endPoint[0] - startPoint[0]),
-                    p1 = startPoint[1] + u * (endPoint[1] - startPoint[1]),
+                    p1 = startPoint[1] + u * (endPoint[1] - startPoint[1]);
 
                 graph = graph.replace(graph.entity(node.id)
                     .move(projection.invert([p0, p1])));
             } else {
                 // safe to delete
-                if (toDelete.indexOf(node) == -1) {
+                if (toDelete.indexOf(node) === -1) {
                     toDelete.push(node);
                 }
             }
@@ -17452,7 +17826,7 @@ iD.actions.Straighten = function(wayId, projection) {
             i;
 
         for (i = 1; i < points.length-1; i++) {
-            var point = points[i], 
+            var point = points[i],
                 u = positionAlongWay(point, startPoint, endPoint),
                 p0 = startPoint[0] + u * (endPoint[0] - startPoint[0]),
                 p1 = startPoint[1] + u * (endPoint[1] - startPoint[1]),
@@ -17526,7 +17900,7 @@ iD.behavior.drag = function() {
       d3.event.preventDefault();
     }
 
-    var event = d3.dispatch("start", "move", "end"),
+    var event = d3.dispatch('start', 'move', 'end'),
         origin = null,
         selector = '',
         filter = null,
@@ -17534,10 +17908,10 @@ iD.behavior.drag = function() {
 
     event.of = function(thiz, argumentz) {
       return function(e1) {
+        var e0 = e1.sourceEvent = d3.event;
+        e1.target = drag;
+        d3.event = e1;
         try {
-          var e0 = e1.sourceEvent = d3.event;
-          e1.target = drag;
-          d3.event = e1;
           event[e1.type].apply(thiz, argumentz);
         } finally {
           d3.event = e0;
@@ -17545,7 +17919,7 @@ iD.behavior.drag = function() {
       };
     };
 
-    var d3_event_userSelectProperty = iD.util.prefixCSSProperty("UserSelect"),
+    var d3_event_userSelectProperty = iD.util.prefixCSSProperty('UserSelect'),
         d3_event_userSelectSuppress = d3_event_userSelectProperty ?
             function () {
                 var selection = d3.selection(),
@@ -17556,9 +17930,9 @@ iD.behavior.drag = function() {
                 };
             } :
             function (type) {
-                var w = d3.select(window).on("selectstart." + type, d3_eventCancel);
+                var w = d3.select(window).on('selectstart.' + type, d3_eventCancel);
                 return function () {
-                    w.on("selectstart." + type, null);
+                    w.on('selectstart.' + type, null);
                 };
             };
 
@@ -17569,12 +17943,12 @@ iD.behavior.drag = function() {
             touchId = d3.event.touches ? d3.event.changedTouches[0].identifier : null,
             offset,
             origin_ = point(),
-            moved = 0,
-            selectEnable = d3_event_userSelectSuppress(touchId != null ? "drag-" + touchId : "drag");
+            started = false,
+            selectEnable = d3_event_userSelectSuppress(touchId !== null ? 'drag-' + touchId : 'drag');
 
         var w = d3.select(window)
-            .on(touchId !== null ? "touchmove.drag-" + touchId : "mousemove.drag", dragmove)
-            .on(touchId !== null ? "touchend.drag-" + touchId : "mouseup.drag", dragend, true);
+            .on(touchId !== null ? 'touchmove.drag-' + touchId : 'mousemove.drag', dragmove)
+            .on(touchId !== null ? 'touchend.drag-' + touchId : 'mouseup.drag', dragend, true);
 
         if (origin) {
             offset = origin.apply(target, arguments);
@@ -17598,41 +17972,41 @@ iD.behavior.drag = function() {
                 dx = p[0] - origin_[0],
                 dy = p[1] - origin_[1];
 
-            if (!moved) {
+            if (!started) {
+                started = true;
                 event_({
-                    type: "start"
+                    type: 'start'
                 });
             }
 
-            moved |= dx | dy;
             origin_ = p;
             d3_eventCancel();
 
             event_({
-                type: "move",
+                type: 'move',
                 point: [p[0] + offset[0],  p[1] + offset[1]],
                 delta: [dx, dy]
             });
         }
 
         function dragend() {
-            if (moved) {
+            if (started) {
                 event_({
-                    type: "end"
+                    type: 'end'
                 });
 
                 d3_eventCancel();
-                if (d3.event.target === eventTarget) w.on("click.drag", click, true);
+                if (d3.event.target === eventTarget) w.on('click.drag', click, true);
             }
 
-            w.on(touchId !== null ? "touchmove.drag-" + touchId : "mousemove.drag", null)
-                .on(touchId !== null ? "touchend.drag-" + touchId : "mouseup.drag", null);
+            w.on(touchId !== null ? 'touchmove.drag-' + touchId : 'mousemove.drag', null)
+                .on(touchId !== null ? 'touchend.drag-' + touchId : 'mouseup.drag', null);
             selectEnable();
         }
 
         function click() {
             d3_eventCancel();
-            w.on("click.drag", null);
+            w.on('click.drag', null);
         }
     }
 
@@ -17653,13 +18027,13 @@ iD.behavior.drag = function() {
             };
         }
 
-        selection.on("mousedown.drag" + selector, delegate)
-            .on("touchstart.drag" + selector, delegate);
+        selection.on('mousedown.drag' + selector, delegate)
+            .on('touchstart.drag' + selector, delegate);
     }
 
     drag.off = function(selection) {
-        selection.on("mousedown.drag" + selector, null)
-            .on("touchstart.drag" + selector, null);
+        selection.on('mousedown.drag' + selector, null)
+            .on('touchstart.drag' + selector, null);
     };
 
     drag.delegate = function(_) {
@@ -17682,8 +18056,8 @@ iD.behavior.drag = function() {
 
     drag.cancel = function() {
         d3.select(window)
-            .on("mousemove.drag", null)
-            .on("mouseup.drag", null);
+            .on('mousemove.drag', null)
+            .on('mouseup.drag', null);
         return drag;
     };
 
@@ -17700,7 +18074,7 @@ iD.behavior.drag = function() {
         return drag;
     };
 
-    return d3.rebind(drag, event, "on");
+    return d3.rebind(drag, event, 'on');
 };
 iD.behavior.Draw = function(context) {
     var event = d3.dispatch('move', 'click', 'clickWay',
@@ -17728,8 +18102,7 @@ iD.behavior.Draw = function(context) {
             })[0] : d3.mouse(p);
         }
 
-        var eventTarget = d3.event.target,
-            element = d3.select(this),
+        var element = d3.select(this),
             touchId = d3.event.touches ? d3.event.changedTouches[0].identifier : null,
             time = +new Date(),
             pos = point();
@@ -17971,12 +18344,13 @@ iD.behavior.DrawWay = function(context, wayId, index, mode, baseGraph) {
 
     // Connect the way to an existing way.
     drawWay.addWay = function(loc, edge) {
+        var previousEdge = startIndex ?
+            [way.nodes[startIndex], way.nodes[startIndex - 1]] :
+            [way.nodes[0], way.nodes[1]];
 
         // Avoid creating duplicate segments
-        if (!isArea) {
-            if (edge[0] === way.nodes[way.nodes.length - 1] ||
-                edge[1] === way.nodes[way.nodes.length - 1]) return;
-        }
+        if (!isArea && iD.geo.edgeEqual(edge, previousEdge))
+            return;
 
         var newNode = iD.Node({ loc: loc });
 
@@ -18063,7 +18437,7 @@ iD.behavior.Hash = function(context) {
 
     var parser = function(map, s) {
         var q = iD.util.stringQs(s);
-        var args = (q.map || '').split("/").map(Number);
+        var args = (q.map || '').split('/').map(Number);
         if (args.length < 3 || args.some(isNaN)) {
             return true; // replace bogus hash
         } else if (s !== formatter(map).slice(1)) {
@@ -18118,7 +18492,7 @@ iD.behavior.Hash = function(context) {
         d3.select(window)
             .on('hashchange.hash', null);
 
-        location.hash = "";
+        location.hash = '';
     };
 
     return hash;
@@ -18132,7 +18506,7 @@ iD.behavior.Hash = function(context) {
    Only one of these elements can have the :hover pseudo-class, but all of them will
    have the .hover class.
  */
-iD.behavior.Hover = function(context) {
+iD.behavior.Hover = function() {
     var dispatch = d3.dispatch('hover'),
         selection,
         altDisables,
@@ -18206,7 +18580,7 @@ iD.behavior.Hover = function(context) {
         function mousedown() {
             down = true;
             d3.select(window)
-                .on('mouseup.hover', mouseup)
+                .on('mouseup.hover', mouseup);
         }
 
         function mouseup() {
@@ -18239,7 +18613,7 @@ iD.behavior.Hover = function(context) {
         d3.select(window)
             .on('keydown.hover', null)
             .on('keyup.hover', null)
-            .on('mouseup.hover', null)
+            .on('mouseup.hover', null);
     };
 
     hover.altDisables = function(_) {
@@ -18387,25 +18761,25 @@ iD.behavior.Tail = function() {
     var text,
         container,
         xmargin = 25,
-        tooltip_size = [0, 0],
-        selection_size = [0, 0],
+        tooltipSize = [0, 0],
+        selectionSize = [0, 0],
         transformProp = iD.util.prefixCSSProperty('Transform');
 
     function tail(selection) {
         if (!text) return;
 
         d3.select(window)
-            .on('resize.tail', function() { selection_size = selection.dimensions(); });
+            .on('resize.tail', function() { selectionSize = selection.dimensions(); });
 
         function show() {
             container.style('display', 'block');
-            tooltip_size = container.dimensions();
+            tooltipSize = container.dimensions();
         }
 
         function mousemove() {
             if (container.style('display') === 'none') show();
-            var xoffset = ((d3.event.clientX + tooltip_size[0] + xmargin) > selection_size[0]) ?
-                -tooltip_size[0] - xmargin : xmargin;
+            var xoffset = ((d3.event.clientX + tooltipSize[0] + xmargin) > selectionSize[0]) ?
+                -tooltipSize[0] - xmargin : xmargin;
             container.classed('left', xoffset > 0);
             container.style(transformProp, 'translate(' +
                 (~~d3.event.clientX + xoffset) + 'px,' +
@@ -18440,8 +18814,8 @@ iD.behavior.Tail = function() {
         container
             .on('mousemove.tail', mousemove);
 
-        tooltip_size = container.dimensions();
-        selection_size = selection.dimensions();
+        tooltipSize = container.dimensions();
+        selectionSize = selection.dimensions();
     }
 
     tail.off = function(selection) {
@@ -18628,7 +19002,7 @@ iD.modes.AddPoint = function(context) {
                 .newFeature(true));
     }
 
-    function addWay(loc, edge) {
+    function addWay(loc) {
         add(loc);
     }
 
@@ -18672,7 +19046,7 @@ iD.modes.Browse = function(context) {
         });
 
         // Get focus on the body.
-        if (document.activeElement) {
+        if (document.activeElement && document.activeElement.blur) {
             document.activeElement.blur();
         }
 
@@ -18806,7 +19180,7 @@ iD.modes.DragNode = function(context) {
         var d = datum();
         if (d.type === 'node' && d.id !== entity.id) {
             loc = d.loc;
-        } else if (d.type === 'way') {
+        } else if (d.type === 'way' && !d3.select(d3.event.sourceEvent.target).classed('fill')) {
             loc = iD.geo.chooseEdge(context.childNodes(d), context.mouse(), context.projection).loc;
         }
 
@@ -18866,7 +19240,7 @@ iD.modes.DragNode = function(context) {
     }
 
     var behavior = iD.behavior.drag()
-        .delegate("g.node, g.point, g.midpoint")
+        .delegate('g.node, g.point, g.midpoint')
         .surface(context.surface().node())
         .origin(origin)
         .on('start', start)
@@ -19193,16 +19567,10 @@ iD.modes.RotateWay = function(context, wayId) {
 iD.modes.Save = function(context) {
     var ui = iD.ui.Commit(context)
         .on('cancel', cancel)
-        .on('fix', fix)
         .on('save', save);
 
     function cancel() {
         context.enter(iD.modes.Browse(context));
-    }
-
-    function fix(d) {
-        context.map().zoomTo(d.entity);
-        context.enter(iD.modes.Select(context, [d.entity.id]));
     }
 
     function save(e) {
@@ -19263,7 +19631,7 @@ iD.modes.Save = function(context) {
             context.install(behavior);
         });
 
-        context.connection().authenticate(function(err) {
+        context.connection().authenticate(function() {
             context.ui().sidebar.show(ui);
         });
     };
@@ -19451,6 +19819,11 @@ iD.modes.Select = function(context, selectedIDs) {
             context.surface()
                 .on('dblclick.select', dblclick);
         }, 200);
+
+        if (selectedIDs.length > 1) {
+            var entities = iD.ui.SelectionList(context, selectedIDs);
+            context.ui().sidebar.show(entities);
+        }
     };
 
     mode.exit = function() {
@@ -19474,10 +19847,11 @@ iD.modes.Select = function(context, selectedIDs) {
         context.surface()
             .call(radialMenu.close)
             .on('dblclick.select', null)
-            .selectAll(".selected")
+            .selectAll('.selected')
             .classed('selected', false);
 
         context.map().on('drawn.select', null);
+        context.ui().sidebar.hide();
     };
 
     return mode;
@@ -19509,7 +19883,7 @@ iD.operations.Circularize = function(selectedIDs, context) {
             t('operations.circularize.description.' + geometry);
     };
 
-    operation.id = "circularize";
+    operation.id = 'circularize';
     operation.keys = [t('operations.circularize.key')];
     operation.title = t('operations.circularize.title');
 
@@ -19558,7 +19932,7 @@ iD.operations.Continue = function(selectedIDs, context) {
             t('operations.continue.description');
     };
 
-    operation.id = "continue";
+    operation.id = 'continue';
     operation.keys = [t('operations.continue.key')];
     operation.title = t('operations.continue.title');
 
@@ -19628,7 +20002,7 @@ iD.operations.Delete = function(selectedIDs, context) {
             t('operations.delete.description');
     };
 
-    operation.id = "delete";
+    operation.id = 'delete';
     operation.keys = [iD.ui.cmd('⌘⌫'), iD.ui.cmd('⌘⌦')];
     operation.title = t('operations.delete.title');
 
@@ -19665,7 +20039,7 @@ iD.operations.Disconnect = function(selectedIDs, context) {
             t('operations.disconnect.description');
     };
 
-    operation.id = "disconnect";
+    operation.id = 'disconnect';
     operation.keys = [t('operations.disconnect.key')];
     operation.title = t('operations.disconnect.title');
 
@@ -19717,7 +20091,7 @@ iD.operations.Merge = function(selectedIDs, context) {
         return t('operations.merge.description');
     };
 
-    operation.id = "merge";
+    operation.id = 'merge';
     operation.keys = [t('operations.merge.key')];
     operation.title = t('operations.merge.title');
 
@@ -19745,7 +20119,7 @@ iD.operations.Move = function(selectedIDs, context) {
             t('operations.move.description');
     };
 
-    operation.id = "move";
+    operation.id = 'move';
     operation.keys = [t('operations.move.key')];
     operation.title = t('operations.move.title');
 
@@ -19780,7 +20154,7 @@ iD.operations.Orthogonalize = function(selectedIDs, context) {
             t('operations.orthogonalize.description.' + geometry);
     };
 
-    operation.id = "orthogonalize";
+    operation.id = 'orthogonalize';
     operation.keys = [t('operations.orthogonalize.key')];
     operation.title = t('operations.orthogonalize.title');
 
@@ -19808,7 +20182,7 @@ iD.operations.Reverse = function(selectedIDs, context) {
         return t('operations.reverse.description');
     };
 
-    operation.id = "reverse";
+    operation.id = 'reverse';
     operation.keys = [t('operations.reverse.key')];
     operation.title = t('operations.reverse.title');
 
@@ -19835,7 +20209,7 @@ iD.operations.Rotate = function(selectedIDs, context) {
         return t('operations.rotate.description');
     };
 
-    operation.id = "rotate";
+    operation.id = 'rotate';
     operation.keys = [t('operations.rotate.key')];
     operation.title = t('operations.rotate.title');
 
@@ -19889,7 +20263,7 @@ iD.operations.Split = function(selectedIDs, context) {
         }
     };
 
-    operation.id = "split";
+    operation.id = 'split';
     operation.keys = [t('operations.split.key')];
     operation.title = t('operations.split.title');
 
@@ -19923,7 +20297,7 @@ iD.operations.Straighten = function(selectedIDs, context) {
             t('operations.straighten.description');
     };
 
-    operation.id = "straighten";
+    operation.id = 'straighten';
     operation.keys = [t('operations.straighten.key')];
     operation.title = t('operations.straighten.title');
 
@@ -19965,7 +20339,7 @@ iD.Connection = function() {
     };
 
     connection.userURL = function(username) {
-        return url + "/user/" + username;
+        return url + '/user/' + username;
     };
 
     connection.loadFromURL = function(url, callback) {
@@ -19983,7 +20357,7 @@ iD.Connection = function() {
             url + '/api/0.6/' + type + '/' + osmID + (type !== 'node' ? '/full' : ''),
             function(err, entities) {
                 event.load(err, {data: entities});
-                if (callback) callback(err, entities && entities[id]);
+                if (callback) callback(err, entities && _.find(entities, function(e) { return e.id === id; }));
             });
     };
 
@@ -20068,15 +20442,13 @@ iD.Connection = function() {
 
         var root = dom.childNodes[0],
             children = root.childNodes,
-            entities = {};
+            entities = [];
 
-        var i, o, l;
-        for (i = 0, l = children.length; i < l; i++) {
+        for (var i = 0, l = children.length; i < l; i++) {
             var child = children[i],
                 parser = parsers[child.nodeName];
             if (parser) {
-                o = parser(child);
-                entities[o.id] = o;
+                entities.push(parser(child));
             }
         }
 
@@ -20246,7 +20618,7 @@ iD.Connection = function() {
                     extent: iD.geo.Extent(
                         projection.invert([x, y + ts]),
                         projection.invert([x + ts, y]))
-                }
+                };
             });
 
         function bboxUrl(tile) {
@@ -20413,13 +20785,53 @@ iD.Difference = function(base, head) {
         return result;
     };
 
-    difference.addParents = function(entities) {
+    difference.summary = function() {
+        var relevant = {};
 
-        for (var i in entities) {
-            addParents(head.parentWays(entities[i]), entities);
-            addParents(head.parentRelations(entities[i]), entities);
+        function addEntity(entity, graph, changeType) {
+            relevant[entity.id] = {
+                entity: entity,
+                graph: graph,
+                changeType: changeType
+            };
         }
-        return entities;
+
+        function addParents(entity) {
+            var parents = head.parentWays(entity);
+            for (var j = parents.length - 1; j >= 0; j--) {
+                var parent = parents[j];
+                if (!(parent.id in relevant)) addEntity(parent, head, 'modified');
+            }
+        }
+
+        _.each(changes, function(change) {
+            if (change.head && change.head.geometry(head) !== 'vertex') {
+                addEntity(change.head, head, change.base ? 'modified' : 'created');
+
+            } else if (change.base && change.base.geometry(base) !== 'vertex') {
+                addEntity(change.base, base, 'deleted');
+
+            } else if (change.base && change.head) { // modified vertex
+                var moved    = !_.isEqual(change.base.loc,  change.head.loc),
+                    retagged = !_.isEqual(change.base.tags, change.head.tags);
+
+                if (moved) {
+                    addParents(change.head);
+                }
+
+                if (retagged || (moved && change.head.hasInterestingTags())) {
+                    addEntity(change.head, head, 'modified');
+                }
+
+            } else if (change.head && change.head.hasInterestingTags()) { // created vertex
+                addEntity(change.head, head, 'created');
+
+            } else if (change.base && change.base.hasInterestingTags()) { // deleted vertex
+                addEntity(change.base, base, 'deleted');
+            }
+        });
+
+        return d3.values(relevant);
     };
 
     difference.complete = function(extent) {
@@ -20568,18 +20980,12 @@ iD.Entity.prototype = {
             resolver.parentRelations(this).length > 0;
     },
 
-    area: function(resolver) {
-        return resolver.transient(this, 'area', function() {
-            return d3.geo.area(this.asGeoJSON(resolver, true));
-        });
-    },
-
     hasInterestingTags: function() {
         return _.keys(this.tags).some(function(key) {
-            return key != 'attribution' &&
-                key != 'created_by' &&
-                key != 'source' &&
-                key != 'odbl' &&
+            return key !== 'attribution' &&
+                key !== 'created_by' &&
+                key !== 'source' &&
+                key !== 'odbl' &&
                 key.indexOf('tiger:') !== 0;
         });
     },
@@ -20591,8 +20997,8 @@ iD.Entity.prototype = {
         iD.data.deprecated.forEach(function(d) {
             var match = _.pairs(d.old)[0];
             tags.forEach(function(t) {
-                if (t[0] == match[0] &&
-                    (t[1] == match[1] || match[1] == '*')) {
+                if (t[0] === match[0] &&
+                    (t[1] === match[1] || match[1] === '*')) {
                     deprecated[t[0]] = t[1];
                 }
             });
@@ -20612,17 +21018,10 @@ iD.Graph = function(other, mutable) {
         this.inherited = true;
 
     } else {
-        if (Array.isArray(other)) {
-            var entities = {};
-            for (var i = 0; i < other.length; i++) {
-                entities[other[i].id] = other[i];
-            }
-            other = entities;
-        }
         this.entities = Object.create({});
         this._parentWays = Object.create({});
         this._parentRels = Object.create({});
-        this.rebase(other || {});
+        this.rebase(other || []);
     }
 
     this.transients = {};
@@ -20711,11 +21110,12 @@ iD.Graph.prototype = {
 
         // Merging of data only needed if graph is the base graph
         if (!this.inherited) {
-            for (i in entities) {
-                if (!base.entities[i]) {
-                    base.entities[i] = entities[i];
-                    this._updateCalculated(undefined, entities[i],
-                            base.parentWays, base.parentRels);
+            for (i = 0; i < entities.length; i++) {
+                var entity = entities[i];
+                if (!base.entities[entity.id]) {
+                    base.entities[entity.id] = entity;
+                    this._updateCalculated(undefined, entity,
+                        base.parentWays, base.parentRels);
                 }
             }
         }
@@ -20783,7 +21183,6 @@ iD.Graph.prototype = {
                 ways.push(entity.id);
                 parentWays[added[i]] = ways;
             }
-        } else if (type === 'node') {
 
         } else if (type === 'relation') {
 
@@ -20846,24 +21245,6 @@ iD.Graph.prototype = {
         return this;
     },
 
-    hasAllChildren: function(entity) {
-        // we're only checking changed entities, since we assume fetched data
-        // must have all children present
-        var i;
-        if (this.entities.hasOwnProperty(entity.id)) {
-            if (entity.type === 'way') {
-                for (i = 0; i < entity.nodes.length; i++) {
-                    if (!this.entities[entity.nodes[i]]) return false;
-                }
-            } else if (entity.type === 'relation') {
-                for (i = 0; i < entity.members.length; i++) {
-                    if (!this.entities[entity.members[i].id]) return false;
-                }
-            }
-        }
-        return true;
-    },
-
     // Obliterates any existing entities
     load: function(entities) {
         var base = this.base();
@@ -20881,7 +21262,7 @@ iD.History = function(context) {
     var stack, index, tree,
         imageryUsed = ['Bing'],
         dispatch = d3.dispatch('change', 'undone', 'redone'),
-        lock = false;
+        lock = iD.util.SessionMutex('lock');
 
     function perform(actions) {
         actions = Array.prototype.slice.call(actions);
@@ -20921,17 +21302,11 @@ iD.History = function(context) {
         },
 
         merge: function(entities, extent) {
-
-            var base = stack[0].graph.base(),
-                newentities = Object.keys(entities).filter(function(i) {
-                    return !base.entities[i];
-                });
-
             for (var i = 0; i < stack.length; i++) {
                 stack[i].graph.rebase(entities);
             }
 
-            tree.rebase(newentities);
+            tree.rebase(entities);
 
             dispatch.change(undefined, extent);
         },
@@ -21037,10 +21412,6 @@ iD.History = function(context) {
             return this.difference().length() > 0;
         },
 
-        numChanges: function() {
-            return this.difference().length();
-        },
-
         imageryUsed: function(sources) {
             if (sources) {
                 imageryUsed = sources;
@@ -21116,14 +21487,18 @@ iD.History = function(context) {
                 stack = h.stack.map(function(d) {
                     var entities = {}, entity;
 
-                    d.modified && d.modified.forEach(function(key) {
-                        entity = allEntities[key];
-                        entities[entity.id] = entity;
-                    });
+                    if (d.modified) {
+                        d.modified.forEach(function(key) {
+                            entity = allEntities[key];
+                            entities[entity.id] = entity;
+                        });
+                    }
 
-                    d.deleted && d.deleted.forEach(function(id) {
-                        entities[id] = undefined;
-                    });
+                    if (d.deleted) {
+                        d.deleted.forEach(function(id) {
+                            entities[id] = undefined;
+                        });
+                    }
 
                     return {
                         graph: iD.Graph(stack[0].graph).load(entities),
@@ -21152,39 +21527,37 @@ iD.History = function(context) {
         },
 
         save: function() {
-            if (!lock) return history;
-            context.storage(getKey('lock'), null);
-            context.storage(getKey('saved_history'), this.toJSON() || null);
+            if (lock.locked()) context.storage(getKey('saved_history'), history.toJSON() || null);
             return history;
         },
 
         clearSaved: function() {
-            if (!lock) return;
-            context.storage(getKey('saved_history'), null);
+            if (lock.locked()) context.storage(getKey('saved_history'), null);
+            return history;
         },
 
         lock: function() {
-            if (context.storage(getKey('lock'))) return false;
-            context.storage(getKey('lock'), true);
-            lock = true;
-            return lock;
+            return lock.lock();
+        },
+
+        unlock: function() {
+            lock.unlock();
         },
 
         // is iD not open in another window and it detects that
         // there's a history stored in localStorage that's recoverable?
         restorableChanges: function() {
-            return lock && !!context.storage(getKey('saved_history'));
+            return lock.locked() && !!context.storage(getKey('saved_history'));
         },
 
         // load history from a version stored in localStorage
         restore: function() {
-            if (!lock) return;
+            if (!lock.locked()) return;
 
             var json = context.storage(getKey('saved_history'));
-            if (json) this.fromJSON(json);
+            if (json) history.fromJSON(json);
 
             context.storage(getKey('saved_history', null));
-
         },
 
         _getKey: getKey
@@ -21206,7 +21579,7 @@ iD.Node = iD.Entity.node = function iD_Node() {
 iD.Node.prototype = Object.create(iD.Entity.prototype);
 
 _.extend(iD.Node.prototype, {
-    type: "node",
+    type: 'node',
 
     extent: function() {
         return new iD.geo.Extent(this.loc);
@@ -21252,12 +21625,8 @@ _.extend(iD.Node.prototype, {
 
     asGeoJSON: function() {
         return {
-            type: 'Feature',
-            properties: this.tags,
-            geometry: {
-                type: 'Point',
-                coordinates: this.loc
-            }
+            type: 'Point',
+            coordinates: this.loc
         };
     }
 });
@@ -21272,7 +21641,7 @@ iD.Relation = iD.Entity.relation = function iD_Relation() {
 iD.Relation.prototype = Object.create(iD.Entity.prototype);
 
 _.extend(iD.Relation.prototype, {
-    type: "relation",
+    type: 'relation',
     members: [],
 
     extent: function(resolver) {
@@ -21303,7 +21672,7 @@ _.extend(iD.Relation.prototype, {
     indexedMembers: function() {
         var result = new Array(this.members.length);
         for (var i = 0; i < this.members.length; i++) {
-            result[i] = _.extend({}, this.members[i], {index: i})
+            result[i] = _.extend({}, this.members[i], {index: i});
         }
         return result;
     },
@@ -21404,12 +21773,8 @@ _.extend(iD.Relation.prototype, {
         return resolver.transient(this, 'GeoJSON', function () {
             if (this.isMultipolygon()) {
                 return {
-                    type: 'Feature',
-                    properties: this.tags,
-                    geometry: {
-                        type: 'MultiPolygon',
-                        coordinates: this.multipolygon(resolver)
-                    }
+                    type: 'MultiPolygon',
+                    coordinates: this.multipolygon(resolver)
                 };
             } else {
                 return {
@@ -21420,6 +21785,12 @@ _.extend(iD.Relation.prototype, {
                     })
                 };
             }
+        });
+    },
+
+    area: function(resolver) {
+        return resolver.transient(this, 'area', function() {
+            return d3.geo.area(this.asGeoJSON(resolver));
         });
     },
 
@@ -21499,14 +21870,9 @@ _.extend(iD.Relation.prototype, {
         return result;
     }
 });
-iD.Tree = function(graph) {
-
+iD.Tree = function(head) {
     var rtree = rbush(),
-        head = graph,
-        queuedCreated = [],
-        queuedModified = [],
-        rectangles = {},
-        rebased;
+        rectangles = {};
 
     function extentRectangle(extent) {
         return [
@@ -21524,90 +21890,69 @@ iD.Tree = function(graph) {
         return rect;
     }
 
-    function remove(entity) {
-        rtree.remove(rectangles[entity.id]);
-        delete rectangles[entity.id];
-    }
-
-    function bulkInsert(entities) {
-        for (var i = 0, rects = []; i < entities.length; i++) {
-            rects.push(entityRectangle(entities[i]));
-        }
-        rtree.load(rects);
-    }
-
-    function bulkReinsert(entities) {
-        entities.forEach(remove);
-        bulkInsert(entities);
-    }
-
-    var tree = {
-
-        rebase: function(entities) {
-            for (var i = 0, inserted = []; i < entities.length; i++) {
-                if (!graph.entities.hasOwnProperty(entities[i])) {
-                    inserted.push(graph.entity(entities[i]));
-                }
+    function updateParents(entity, insertions) {
+        head.parentWays(entity).forEach(function(parent) {
+            if (rectangles[parent.id]) {
+                rtree.remove(rectangles[parent.id]);
+                insertions.push(entityRectangle(parent));
             }
-            bulkInsert(inserted);
-            rebased = true;
-            return tree;
-        },
+        });
 
-        intersects: function(extent, g) {
-
-            head = g;
-
-            if (graph !== head || rebased) {
-                var diff = iD.Difference(graph, head),
-                    modified = {};
-
-                diff.modified().forEach(function(d) {
-                    var loc = graph.entities[d.id].loc;
-                    if (!loc || loc[0] !== d.loc[0] || loc[1] !== d.loc[1]) {
-                        modified[d.id] = d;
-                    }
-                });
-
-                var created = diff.created().concat(queuedCreated);
-                modified = d3.values(diff.addParents(modified))
-                    // some parents might be created, not modified
-                    .filter(function(d) { return !!graph.hasEntity(d.id); })
-                    .concat(queuedModified);
-                queuedCreated = [];
-                queuedModified = [];
-
-                var reinserted = [],
-                    inserted = [];
-
-                modified.forEach(function(d) {
-                    if (head.hasAllChildren(d)) reinserted.push(d);
-                    else queuedModified.push(d);
-                });
-
-                created.forEach(function(d) {
-                    if (head.hasAllChildren(d)) inserted.push(d);
-                    else queuedCreated.push(d);
-                });
-
-                bulkReinsert(reinserted);
-                bulkInsert(inserted);
-
-                diff.deleted().forEach(remove);
-
-                graph = head;
-                rebased = false;
+        head.parentRelations(entity).forEach(function(parent) {
+            if (rectangles[parent.id]) {
+                rtree.remove(rectangles[parent.id]);
+                insertions.push(entityRectangle(parent));
             }
+            updateParents(parent, insertions);
+        });
+    }
 
-            return rtree.search(extentRectangle(extent)).map(function (rect) {
-                return graph.entities[rect.id];
+    var tree = {};
+
+    tree.rebase = function(entities) {
+        var insertions = [];
+
+        entities.forEach(function(entity) {
+            if (head.entities.hasOwnProperty(entity.id) || rectangles[entity.id])
+                return;
+
+            insertions.push(entityRectangle(entity));
+            updateParents(entity, insertions);
+        });
+
+        rtree.load(insertions);
+
+        return tree;
+    };
+
+    tree.intersects = function(extent, graph) {
+        if (graph !== head) {
+            var diff = iD.Difference(head, graph),
+                insertions = [];
+
+            head = graph;
+
+            diff.deleted().forEach(function(entity) {
+                rtree.remove(rectangles[entity.id]);
+                delete rectangles[entity.id];
             });
-        },
 
-        graph: function() {
-            return graph;
+            diff.modified().forEach(function(entity) {
+                rtree.remove(rectangles[entity.id]);
+                insertions.push(entityRectangle(entity));
+                updateParents(entity, insertions);
+            });
+
+            diff.created().forEach(function(entity) {
+                insertions.push(entityRectangle(entity));
+            });
+
+            rtree.load(insertions);
         }
 
+        return rtree.search(extentRectangle(extent)).map(function(rect) {
+            return head.entity(rect.id);
+        });
     };
 
     return tree;
@@ -21623,13 +21968,18 @@ iD.Way = iD.Entity.way = function iD_Way() {
 iD.Way.prototype = Object.create(iD.Entity.prototype);
 
 _.extend(iD.Way.prototype, {
-    type: "way",
+    type: 'way',
     nodes: [],
 
     extent: function(resolver) {
         return resolver.transient(this, 'extent', function() {
             return this.nodes.reduce(function(extent, id) {
-                return extent.extend(resolver.entity(id).extent(resolver));
+                var node = resolver.hasEntity(id);
+                if (node) {
+                    return extent.extend(node.extent());
+                } else {
+                    return extent;
+                }
             }, iD.geo.Extent());
         });
     },
@@ -21725,13 +22075,13 @@ _.extend(iD.Way.prototype, {
 
         for (var i = 0; i < this.nodes.length; i++) {
             var node = this.nodes[i];
-            if (node != id && nodes[nodes.length - 1] != node) {
+            if (node !== id && nodes[nodes.length - 1] !== node) {
                 nodes.push(node);
             }
         }
 
         // Preserve circularity
-        if (this.nodes.length > 1 && this.first() === id && this.last() === id && nodes[nodes.length - 1] != nodes[0]) {
+        if (this.nodes.length > 1 && this.first() === id && this.last() === id && nodes[nodes.length - 1] !== nodes[0]) {
             nodes.push(nodes[0]);
         }
 
@@ -21755,41 +22105,46 @@ _.extend(iD.Way.prototype, {
         return r;
     },
 
-    asGeoJSON: function(resolver, polygon) {
+    asGeoJSON: function(resolver) {
         return resolver.transient(this, 'GeoJSON', function() {
-            var nodes = resolver.childNodes(this);
-
-            if (this.isArea() && polygon && nodes.length >= 4) {
-                if (!this.isClosed()) {
-                    nodes = nodes.concat([nodes[0]]);
-                }
-
-                var json = {
-                    type: 'Feature',
-                    properties: this.tags,
-                    geometry: {
-                        type: 'Polygon',
-                        coordinates: [_.pluck(nodes, 'loc')]
-                    }
+            var coordinates = _.pluck(resolver.childNodes(this), 'loc');
+            if (this.isArea() && this.isClosed()) {
+                return {
+                    type: 'Polygon',
+                    coordinates: [coordinates]
                 };
-
-                // Heuristic for detecting counterclockwise winding order. Assumes
-                // that OpenStreetMap polygons are not hemisphere-spanning.
-                if (d3.geo.area(json) > 2 * Math.PI) {
-                    json.geometry.coordinates[0] = json.geometry.coordinates[0].reverse();
-                }
-
-                return json;
             } else {
                 return {
-                    type: 'Feature',
-                    properties: this.tags,
-                    geometry: {
-                        type: 'LineString',
-                        coordinates: _.pluck(nodes, 'loc')
-                    }
+                    type: 'LineString',
+                    coordinates: coordinates
                 };
             }
+        });
+    },
+
+    area: function(resolver) {
+        return resolver.transient(this, 'area', function() {
+            var nodes = resolver.childNodes(this);
+
+            if (!this.isClosed() && nodes.length) {
+                nodes = nodes.concat([nodes[0]]);
+            }
+
+            var json = {
+                type: 'Polygon',
+                coordinates: [_.pluck(nodes, 'loc')]
+            };
+
+            var area = d3.geo.area(json);
+
+            // Heuristic for detecting counterclockwise winding order. Assumes
+            // that OpenStreetMap polygons are not hemisphere-spanning.
+            if (d3.geo.area(json) > 2 * Math.PI) {
+                json.coordinates[0] = json.coordinates[0].reverse();
+                area = d3.geo.area(json);
+            }
+
+            return isNaN(area) ? 0 : area;
         });
     }
 });
@@ -21835,6 +22190,8 @@ iD.Background = function(context) {
         }
     });
 
+    backgroundSources.unshift(iD.BackgroundSource.None());
+
     function findSource(id) {
         return _.find(backgroundSources, function(d) {
             return d.id && d.id === id;
@@ -21847,7 +22204,7 @@ iD.Background = function(context) {
             q = iD.util.stringQs(location.hash.substring(1));
 
         var id = b.id;
-        if (!id && b.name === 'Custom') {
+        if (id === 'custom') {
             id = 'custom:' + b.template;
         }
 
@@ -21865,17 +22222,12 @@ iD.Background = function(context) {
 
         location.replace('#' + iD.util.qsString(q, true));
 
-        var imageryUsed = [];
-        if (b.name === 'Custom') {
-            imageryUsed.push('Custom (' + b.template + ')');
-        } else {
-            imageryUsed.push(b.id || b.name);
-        }
+        var imageryUsed = [b.imageryUsed()];
 
         overlayLayers.forEach(function (d) {
             var source = d.source();
             if (!source.isLocatorOverlay()) {
-                imageryUsed.push(source.id || source.name);
+                imageryUsed.push(source.imageryUsed());
             }
         });
 
@@ -21904,7 +22256,7 @@ iD.Background = function(context) {
         gpx.call(gpxLayer);
 
         var overlays = selection.selectAll('.overlay-layer')
-            .data(overlayLayers, function(d) { return d.source().name });
+            .data(overlayLayers, function(d) { return d.source().name(); });
 
         overlays.enter().insert('div', '.layer-data')
             .attr('class', 'layer-layer overlay-layer');
@@ -21943,7 +22295,7 @@ iD.Background = function(context) {
     };
 
     background.bing = function() {
-        background.baseLayerSource(findSource("Bing"));
+        background.baseLayerSource(findSource('Bing'));
     };
 
     background.hasGpxLayer = function() {
@@ -21952,6 +22304,23 @@ iD.Background = function(context) {
 
     background.showsGpxLayer = function() {
         return background.hasGpxLayer() && gpxLayer.enable();
+    };
+
+    function toDom(x) {
+        return (new DOMParser()).parseFromString(x, 'text/xml');
+    }
+
+    background.gpxLayerFiles = function(fileList) {
+        var f = fileList[0],
+            reader = new FileReader();
+
+        reader.onload = function(e) {
+            gpxLayer.geojson(toGeoJSON.gpx(toDom(e.target.result)));
+            dispatch.change();
+            context.map().pan([0, 0]);
+        };
+
+        reader.readAsText(f);
     };
 
     background.zoomToGpxLayer = function() {
@@ -21968,8 +22337,12 @@ iD.Background = function(context) {
 
     background.showsLayer = function(d) {
         return d === baseLayer.source() ||
-            (d.name === 'Custom' && baseLayer.source().name === 'Custom') ||
+            (d.id === 'custom' && baseLayer.source().id === 'custom') ||
             overlayLayers.some(function(l) { return l.source() === d; });
+    };
+
+    background.overlayLayerSources = function() {
+        return overlayLayers.map(function (l) { return l.source(); });
     };
 
     background.toggleOverlayLayer = function(d) {
@@ -22012,12 +22385,9 @@ iD.Background = function(context) {
         chosen = q.background || q.layer;
 
     if (chosen && chosen.indexOf('custom:') === 0) {
-        background.baseLayerSource(iD.BackgroundSource({
-            template: chosen.replace(/^custom:/, ''),
-            name: 'Custom'
-        }));
+        background.baseLayerSource(iD.BackgroundSource.Custom(chosen.replace(/^custom:/, '')));
     } else {
-        background.baseLayerSource(findSource(chosen) || findSource("Bing"));
+        background.baseLayerSource(findSource(chosen) || findSource('Bing'));
     }
 
     var locator = _.find(backgroundSources, function(d) {
@@ -22038,7 +22408,8 @@ iD.Background = function(context) {
 };
 iD.BackgroundSource = function(data) {
     var source = _.clone(data),
-        offset = [0, 0];
+        offset = [0, 0],
+        name = source.name;
 
     source.scaleExtent = data.scaleExtent || [0, 20];
 
@@ -22052,6 +22423,14 @@ iD.BackgroundSource = function(data) {
         offset[0] += _[0] / Math.pow(2, zoomlevel);
         offset[1] += _[1] / Math.pow(2, zoomlevel);
         return source;
+    };
+
+    source.name = function() {
+        return name;
+    };
+
+    source.imageryUsed = function() {
+        return source.id || name;
     };
 
     source.url = function(coord) {
@@ -22080,7 +22459,7 @@ iD.BackgroundSource = function(data) {
     };
 
     source.isLocatorOverlay = function() {
-        return source.name === 'Locator Overlay';
+        return name === 'Locator Overlay';
     };
 
     source.copyrightNotices = function() {};
@@ -22113,7 +22492,7 @@ iD.BackgroundSource.Bing = function(data, dispatch) {
         dispatch.change();
     });
 
-    var template = "http://ecn.t{t}.tiles.virtualearth.net/tiles/a{u}.jpeg?g=587&mkt=en-gb&n=z",
+    var template = 'http://ecn.t{t}.tiles.virtualearth.net/tiles/a{u}.jpeg?g=587&mkt=en-gb&n=z',
         subdomains = [0, 1, 2, 3];
 
     bing.url = function(coord) {
@@ -22145,12 +22524,40 @@ iD.BackgroundSource.Bing = function(data, dispatch) {
         }).join(', ');
     };
 
-    bing.logo = "bing_maps.png";
-    bing.terms_url = "http://opengeodata.org/microsoft-imagery-details";
+    bing.logo = 'bing_maps.png';
+    bing.terms_url = 'http://opengeodata.org/microsoft-imagery-details';
 
     return bing;
 };
-iD.GpxLayer = function(context, dispatch) {
+
+iD.BackgroundSource.None = function() {
+    var source = iD.BackgroundSource({id: 'none', template: ''});
+
+    source.name = function() {
+        return t('background.none');
+    };
+
+    source.imageryUsed = function() {
+        return 'None';
+    };
+
+    return source;
+};
+
+iD.BackgroundSource.Custom = function(template) {
+    var source = iD.BackgroundSource({id: 'custom', template: template});
+
+    source.name = function() {
+        return t('background.custom');
+    };
+
+    source.imageryUsed = function() {
+        return 'Custom (' + template + ')';
+    };
+
+    return source;
+};
+iD.GpxLayer = function(context) {
     var projection,
         gj = {},
         enable = true,
@@ -22205,10 +22612,6 @@ iD.GpxLayer = function(context, dispatch) {
         }
     }
 
-    function toDom(x) {
-        return (new DOMParser()).parseFromString(x, 'text/xml');
-    }
-
     render.projection = function(_) {
         if (!arguments.length) return projection;
         projection = _;
@@ -22247,16 +22650,7 @@ iD.GpxLayer = function(context, dispatch) {
             d3.event.stopPropagation();
             d3.event.preventDefault();
             if (!iD.detect().filedrop) return;
-            var f = d3.event.dataTransfer.files[0],
-                reader = new FileReader();
-
-            reader.onload = function(e) {
-                render.geojson(toGeoJSON.gpx(toDom(e.target.result)));
-                dispatch.change();
-                context.map().pan([0, 0]);
-            };
-
-            reader.readAsText(f);
+            context.background().gpxLayerFiles(d3.event.dataTransfer.files);
         })
         .on('dragenter.localgpx', over)
         .on('dragexit.localgpx', over)
@@ -22282,9 +22676,9 @@ iD.Map = function(context) {
         points = iD.svg.Points(roundedProjection, context),
         vertices = iD.svg.Vertices(roundedProjection, context),
         lines = iD.svg.Lines(projection),
-        areas = iD.svg.Areas(roundedProjection),
+        areas = iD.svg.Areas(projection),
         midpoints = iD.svg.Midpoints(roundedProjection, context),
-        labels = iD.svg.Labels(roundedProjection, context),
+        labels = iD.svg.Labels(projection, context),
         supersurface, surface,
         mouse,
         mousemove;
@@ -22309,7 +22703,7 @@ iD.Map = function(context) {
 
         map.surface = surface = dataLayer.append('svg')
             .on('mousedown.zoom', function() {
-                if (d3.event.button == 2) {
+                if (d3.event.button === 2) {
                     d3.event.stopPropagation();
                 }
             }, true)
@@ -22480,7 +22874,8 @@ iD.Map = function(context) {
 
         var zoom = String(~~map.zoom());
         if (surface.attr('data-zoom') !== zoom) {
-            surface.attr('data-zoom', zoom);
+            surface.attr('data-zoom', zoom)
+                .classed('low-zoom', zoom <= 16);
         }
 
         if (!difference) {
@@ -22521,7 +22916,7 @@ iD.Map = function(context) {
 
     map.mouse = function() {
         var e = mousemove || d3.event, s;
-        while (s = e.sourceEvent) e = s;
+        while ((s = e.sourceEvent)) e = s;
         return mouse(e);
     };
 
@@ -22535,10 +22930,10 @@ iD.Map = function(context) {
         return map;
     };
 
-    function setZoom(z, force) {
-        if (z === map.zoom() && !force)
+    function setZoom(_, force) {
+        if (_ === map.zoom() && !force)
             return false;
-        var scale = 256 * Math.pow(2, z),
+        var scale = 256 * Math.pow(2, _),
             center = pxCenter(),
             l = pointLocation(center);
         scale = Math.max(1024, Math.min(256 * Math.pow(2, 24), scale));
@@ -22553,15 +22948,16 @@ iD.Map = function(context) {
         return true;
     }
 
-    function setCenter(loc) {
-        var t = projection.translate(),
-            c = pxCenter(),
-            ll = projection(loc);
-        if (ll[0] === c[0] && ll[1] === c[1])
+    function setCenter(_) {
+        var c = map.center();
+        if (_[0] === c[0] && _[1] === c[1])
             return false;
+        var t = projection.translate(),
+            pxC = pxCenter(),
+            ll = projection(_);
         projection.translate([
-            t[0] - ll[0] + c[0],
-            t[1] - ll[1] + c[1]]);
+            t[0] - ll[0] + pxC[0],
+            t[1] - ll[1] + pxC[1]]);
         zoom.translate(projection.translate());
         return true;
     }
@@ -22645,7 +23041,7 @@ iD.Map = function(context) {
         d3.timer(function() {
             if (stop) return true;
             map.center(iD.geo.interp(from, loc, (t += 1) / 10));
-            return t == 10;
+            return t === 10;
         }, 20);
         return map;
     };
@@ -22757,6 +23153,7 @@ iD.TileLayer = function() {
         if (source.validZoom(z)) {
             tile().forEach(function(d) {
                 addSource(d);
+                if (d[3] === '') return;
                 requests.push(d);
                 if (cache[d[3]] === false && lookUp(d)) {
                     requests.push(addSource(lookUp(d)));
@@ -22865,29 +23262,27 @@ iD.svg = {
         };
     },
 
+    Round: function () {
+        return d3.geo.transform({
+            point: function(x, y) { return this.stream.point(Math.floor(x), Math.floor(y)); }
+        });
+    },
+
     Path: function(projection, graph, polygon) {
         var cache = {},
-            path = d3.geo.path().projection(projection);
+            round = iD.svg.Round().stream,
+            clip = d3.geo.clipExtent().extent(projection.clipExtent()).stream,
+            project = projection.stream,
+            path = d3.geo.path()
+                .projection({stream: function(output) { return polygon ? project(round(output)) : project(clip(round(output))); }});
 
-        function result(entity) {
-            if (entity.id in cache) return cache[entity.id];
-
-            var buffer = '';
-
-            path.context({
-                beginPath: function() {},
-                moveTo: function(x, y) { buffer += 'M' + Math.floor(x) + ',' + Math.floor(y); },
-                lineTo: function(x, y) { buffer += 'L' + Math.floor(x) + ',' + Math.floor(y); },
-                arc: function() {},
-                closePath: function() { buffer += 'Z'; }
-            });
-
-            path(entity.asGeoJSON(graph, polygon));
-
-            return cache[entity.id] = buffer;
-        }
-
-        return result;
+        return function(entity) {
+            if (entity.id in cache) {
+                return cache[entity.id];
+            } else {
+                return cache[entity.id] = path(entity.asGeoJSON(graph)); // jshint ignore:line
+            }
+        };
     },
 
     OneWaySegments: function(projection, graph, dt) {
@@ -22962,7 +23357,8 @@ iD.svg = {
     }
 };
 iD.svg.Areas = function(projection) {
-    // Patterns only work in Firefox when set directly on element
+    // Patterns only work in Firefox when set directly on element.
+    // (This is not a bug: https://bugzilla.mozilla.org/show_bug.cgi?id=750632)
     var patterns = {
         wetland: 'wetland',
         beach: 'beach',
@@ -22997,7 +23393,8 @@ iD.svg.Areas = function(projection) {
             var entity = entities[i];
             if (entity.geometry(graph) !== 'area') continue;
 
-            if (multipolygon = iD.geo.isSimpleMultipolygonOuterMember(entity, graph)) {
+            multipolygon = iD.geo.isSimpleMultipolygonOuterMember(entity, graph);
+            if (multipolygon) {
                 areas[multipolygon.id] = {
                     entity: multipolygon.mergeTags(entity.tags),
                     area: Math.abs(entity.area(graph))
@@ -23024,22 +23421,27 @@ iD.svg.Areas = function(projection) {
             fill: areas
         };
 
+        var paths = surface.selectAll('.layer-shadow, .layer-stroke, .layer-fill')
+            .selectAll('path.area')
+            .filter(filter)
+            .data(function(layer) { return data[layer]; }, iD.Entity.key);
+
+        // Remove exiting areas first, so they aren't included in the `fills`
+        // array used for sorting below (https://github.com/systemed/iD/issues/1903).
+        paths.exit()
+            .remove();
+
+        var fills = surface.selectAll('.layer-fill path.area')[0];
+
         var bisect = d3.bisector(function(node) {
             return -node.__data__.area(graph);
         }).left;
-
-        var fills = surface.selectAll('.layer-fill path.area')[0];
 
         function sortedByArea(entity) {
             if (this.__data__ === 'fill') {
                 return fills[bisect(fills, -entity.area(graph))];
             }
         }
-
-        var paths = surface.selectAll('.layer-shadow, .layer-stroke, .layer-fill')
-            .selectAll('path.area')
-            .filter(filter)
-            .data(function(layer) { return data[layer]; }, iD.Entity.key);
 
         paths.enter()
             .insert('path', sortedByArea)
@@ -23056,12 +23458,10 @@ iD.svg.Areas = function(projection) {
 
         paths
             .attr('d', path);
-
-        paths.exit()
-            .remove();
     };
 };
 iD.svg.Labels = function(projection, context) {
+    var path = d3.geo.path().projection(projection);
 
     // Replace with dict and iterate over entities tags instead?
     var label_stack = [
@@ -23096,11 +23496,11 @@ iD.svg.Labels = function(projection, context) {
 
     var font_sizes = label_stack.map(function(d) {
         var style = iD.util.getStyle('text.' + d[0] + '.tag-' + d[1]),
-            m = style && style.cssText.match("font-size: ([0-9]{1,2})px;");
+            m = style && style.cssText.match('font-size: ([0-9]{1,2})px;');
         if (m) return parseInt(m[1], 10);
 
         style = iD.util.getStyle('text.' + d[0]);
-        m = style && style.cssText.match("font-size: ([0-9]{1,2})px;");
+        m = style && style.cssText.match('font-size: ([0-9]{1,2})px;');
         if (m) return parseInt(m[1], 10);
 
         return default_size;
@@ -23153,19 +23553,18 @@ iD.svg.Labels = function(projection, context) {
     }
 
     function drawLineLabels(group, entities, filter, classes, labels) {
-
         var texts = group.selectAll('text.' + classes)
             .filter(filter)
             .data(entities, iD.Entity.key);
 
-        var tp = texts.enter()
+        texts.enter()
             .append('text')
             .attr('class', function(d, i) { return classes + ' ' + labels[i].classes + ' ' + d.id; })
             .append('textPath')
             .attr('class', 'textpath');
 
 
-        var tps = texts.selectAll('.textpath')
+        texts.selectAll('.textpath')
             .filter(filter)
             .data(entities, iD.Entity.key)
             .attr({
@@ -23175,11 +23574,9 @@ iD.svg.Labels = function(projection, context) {
             .text(iD.util.displayName);
 
         texts.exit().remove();
-
     }
 
     function drawLinePaths(group, entities, filter, classes, labels) {
-
         var halos = group.selectAll('path')
             .filter(filter)
             .data(entities, iD.Entity.key);
@@ -23431,8 +23828,7 @@ iD.svg.Labels = function(projection, context) {
         }
 
         function getAreaLabel(entity, width, height) {
-            var path = d3.geo.path().projection(projection),
-                centroid = path.centroid(entity.asGeoJSON(graph, true)),
+            var centroid = path.centroid(entity.asGeoJSON(graph, true)),
                 extent = entity.extent(graph),
                 entitywidth = projection(extent[1])[0] - projection(extent[0])[0],
                 rect;
@@ -23769,7 +24165,7 @@ iD.svg.Restrictions = function(context) {
     }
 
     drawRestrictions.turns = function (graph, selectedIDs) {
-        if (selectedIDs.length != 1)
+        if (selectedIDs.length !== 1)
             return [];
 
         var from = graph.entity(selectedIDs[0]);
@@ -23810,7 +24206,7 @@ iD.svg.Restrictions = function(context) {
             to: to,
             restriction: restriction,
             angle: Math.atan2(b[1] - a[1], b[0] - a[0])
-        }
+        };
     };
 
     return drawRestrictions;
@@ -23838,7 +24234,7 @@ iD.svg.Surface = function(context) {
                 .data(data)
                 .enter().append('use')
                 .attr('id', function(d) { return d.key; })
-                .attr('transform', function(d) { return "translate(-" + d.value[0] + ",-" + d.value[1] + ")"; })
+                .attr('transform', function(d) { return 'translate(-' + d.value[0] + ',-' + d.value[1] + ')'; })
                 .attr('xlink:href', '#' + id);
         };
     }
@@ -23934,11 +24330,15 @@ iD.svg.Surface = function(context) {
     };
 };
 iD.svg.TagClasses = function() {
-    var keys = d3.set([
-        'highway', 'railway', 'waterway', 'power', 'motorway', 'amenity',
-        'natural', 'landuse', 'building', 'oneway', 'bridge', 'boundary',
-        'tunnel', 'leisure', 'construction', 'place', 'aeroway'
-    ]), tagClassRe = /^tag-/,
+    var primary = [
+            'highway', 'railway', 'waterway', 'aeroway', 'motorway',
+            'boundary', 'power', 'amenity', 'natural', 'landuse',
+            'building', 'leisure', 'place'
+        ],
+        secondary = [
+            'oneway', 'bridge', 'tunnel', 'construction'
+        ],
+        tagClassRe = /^tag-/,
         tags = function(entity) { return entity.tags; };
 
     var tagClasses = function(selection) {
@@ -23951,10 +24351,21 @@ iD.svg.TagClasses = function() {
                 return name.length && !tagClassRe.test(name);
             }).join(' ');
 
-            var t = tags(entity);
-            for (var k in t) {
-                if (!keys.has(k) || t[k] === 'no') continue;
-                classes += ' tag-' + k + ' tag-' + k + '-' + t[k];
+            var t = tags(entity), i, k, v;
+
+            for (i = 0; i < primary.length; i++) {
+                k = primary[i];
+                v = t[k];
+                if (!v || v === 'no') continue;
+                classes += ' tag-' + k + ' tag-' + k + '-' + v;
+                break;
+            }
+
+            for (i = 0; i < secondary.length; i++) {
+                k = secondary[i];
+                v = t[k];
+                if (!v || v === 'no') continue;
+                classes += ' tag-' + k + ' tag-' + k + '-' + v;
             }
 
             classes = classes.trim();
@@ -24035,9 +24446,10 @@ iD.svg.Vertices = function(projection, context) {
         var icons = {};
         function icon(entity) {
             if (entity.id in icons) return icons[entity.id];
-            return icons[entity.id] = (zoom !== 0 &&
+            icons[entity.id] = zoom !== 0 &&
                 entity.hasInterestingTags() &&
-                context.presets().match(entity, graph).icon);
+                context.presets().match(entity, graph).icon;
+            return icons[entity.id];
         }
 
         function circle(klass) {
@@ -24050,7 +24462,7 @@ iD.svg.Vertices = function(projection, context) {
                 this.setAttribute('cx', c);
                 this.setAttribute('cy', -c);
                 this.setAttribute('r', r);
-            }
+            };
         }
 
         var enter = groups.enter().append('g')
@@ -24095,7 +24507,7 @@ iD.svg.Vertices = function(projection, context) {
             if (entity.id in selected ||
                 entity.hasInterestingTags() ||
                 entity.isIntersection(graph)) {
-                vertices.push(entity)
+                vertices.push(entity);
             }
         }
 
@@ -24124,8 +24536,7 @@ iD.svg.Vertices = function(projection, context) {
 };
 iD.ui = function(context) {
     function render(container) {
-        var history = context.history(),
-            map = context.map();
+        var map = context.map();
 
         if (iD.detect().opera) container.classed('opera', true);
 
@@ -24153,7 +24564,7 @@ iD.ui = function(context) {
             .attr('id', 'map')
             .call(map);
 
-        var spacer = bar.append('div')
+        bar.append('div')
             .attr('class', 'spacer col4');
 
         var limiter = bar.append('div')
@@ -24175,14 +24586,12 @@ iD.ui = function(context) {
             .attr('class', 'spinner')
             .call(iD.ui.Spinner(context));
 
-        content.append('div')
-            .attr('class', 'attribution')
-            .attr('tabindex', -1)
+        content
             .call(iD.ui.Attribution(context));
 
         content.append('div')
             .style('display', 'none')
-            .attr('class', 'help-wrap fillL col5 content');
+            .attr('class', 'help-wrap map-overlay fillL col5 content');
 
         var controls = bar.append('div')
             .attr('class', 'map-controls');
@@ -24248,6 +24657,10 @@ iD.ui = function(context) {
 
         window.onbeforeunload = function() {
             return context.save();
+        };
+
+        window.onunload = function() {
+            context.history().unlock();
         };
 
         d3.select(window).on('resize.editor', function() {
@@ -24363,20 +24776,28 @@ iD.ui.Account = function(context) {
 iD.ui.Attribution = function(context) {
     var selection;
 
-    function update() {
-        if (!context.background().baseLayerSource()) {
-            selection.html('');
-            return;
-        }
+    function attribution(data, klass) {
+        var div = selection.selectAll('.' + klass)
+            .data([0]);
 
-        var attribution = selection.selectAll('.provided-by')
-            .data([context.background().baseLayerSource()], function(d) { return d.name; });
+        div.enter()
+            .append('div')
+            .attr('class', klass);
 
-        attribution.enter()
+        var background = div.selectAll('.attribution')
+            .data(data, function(d) { return d.name(); });
+
+        background.enter()
             .append('span')
-            .attr('class', 'provided-by')
+            .attr('class', 'attribution')
             .each(function(d) {
-                var source = d.terms_text || d.id || d.name;
+                if (d.terms_html) {
+                    d3.select(this)
+                        .html(d.terms_html);
+                    return;
+                }
+
+                var source = d.terms_text || d.id || d.name();
 
                 if (d.logo) {
                     source = '<img class="source-image" src="' + context.imagePath(d.logo) + '">';
@@ -24394,10 +24815,10 @@ iD.ui.Attribution = function(context) {
                 }
             });
 
-        attribution.exit()
+        background.exit()
             .remove();
 
-        var copyright = attribution.selectAll('.copyright-notice')
+        var copyright = background.selectAll('.copyright-notice')
             .data(function(d) {
                 var notice = d.copyrightNotices(context.map().zoom(), context.map().extent());
                 return notice ? [notice] : [];
@@ -24411,6 +24832,13 @@ iD.ui.Attribution = function(context) {
 
         copyright.exit()
             .remove();
+    }
+
+    function update() {
+        attribution([context.background().baseLayerSource()], 'base-layer-attribution');
+        attribution(context.background().overlayLayerSources().filter(function (s) {
+            return s.validZoom(context.map().zoom());
+        }), 'overlay-layer-attribution');
     }
 
     return function(select) {
@@ -24427,14 +24855,17 @@ iD.ui.Attribution = function(context) {
 };
 iD.ui.Background = function(context) {
     var key = 'b',
-        opacities = [1, 0.5, 0],
+        opacities = [1, 0.75, 0.5, 0.25],
         directions = [
             ['left', [1, 0]],
             ['top', [0, -1]],
             ['right', [-1, 0]],
             ['bottom', [0, 1]]],
-        opacityDefault = (context.storage('background-opacity') != undefined) ?
+        opacityDefault = (context.storage('background-opacity') !== null) ?
             (+context.storage('background-opacity')) : 0.5;
+
+    // Can be 0 from <1.3.0 use or due to issue #1923.
+    if (opacityDefault === 0) opacityDefault = 0.5;
 
     function background(selection) {
 
@@ -24455,7 +24886,7 @@ iD.ui.Background = function(context) {
                 return context.background().showsLayer(d);
             }
 
-            content.selectAll('label.layer, label.custom_layer')
+            content.selectAll('.layer, .custom_layer')
                 .classed('active', active)
                 .selectAll('input')
                 .property('checked', active);
@@ -24470,14 +24901,13 @@ iD.ui.Background = function(context) {
         function clickCustom() {
             d3.event.preventDefault();
             var template = window.prompt(t('background.custom_prompt'));
-            if (!template) {
+            if (!template || template.indexOf('google.com') !== -1 ||
+               template.indexOf('googleapis.com') !== -1 ||
+               template.indexOf('google.ru') !== -1) {
                 selectLayer();
                 return;
             }
-            context.background().baseLayerSource(iD.BackgroundSource({
-                template: template,
-                name: 'Custom'
-            }));
+            context.background().baseLayerSource(iD.BackgroundSource.Custom(template));
             selectLayer();
         }
 
@@ -24497,33 +24927,33 @@ iD.ui.Background = function(context) {
                 .sources(context.map().extent())
                 .filter(filter);
 
-            var layerLinks = layerList.selectAll('label.layer')
-                .data(sources, function(d) { return d.name; });
+            var layerLinks = layerList.selectAll('li.layer')
+                .data(sources, function(d) { return d.name(); });
 
-            var layerInner = layerLinks.enter()
-                .insert('label', '.custom_layer')
+            var enter = layerLinks.enter()
+                .insert('li', '.custom_layer')
                 .attr('class', 'layer');
 
             // only set tooltips for layers with tooltips
-            layerInner
-                .filter(function(d) { return d.description; })
+            enter.filter(function(d) { return d.description; })
                 .call(bootstrap.tooltip()
                     .title(function(d) { return d.description; })
-                    .placement('left'));
+                    .placement('top'));
 
-            layerInner.append('input')
+            var label = enter.append('label');
+
+            label.append('input')
                 .attr('type', type)
                 .attr('name', 'layers')
-                .attr('value', function(d) { return d.name; })
                 .on('change', change);
 
-            layerInner.append('span')
-                .text(function(d) { return d.name; });
+            label.append('span')
+                .text(function(d) { return d.name(); });
 
             layerLinks.exit()
                 .remove();
 
-            layerList.style('display', layerList.selectAll('label.layer').data().length > 0 ? 'block' : 'none');
+            layerList.style('display', layerList.selectAll('li.layer').data().length > 0 ? 'block' : 'none');
         }
 
         function update() {
@@ -24564,7 +24994,7 @@ iD.ui.Background = function(context) {
         }
 
         var content = selection.append('div')
-                .attr('class', 'fillL map-overlay content hide'),
+                .attr('class', 'fillL map-overlay col3 content hide'),
             tooltip = bootstrap.tooltip()
                 .placement('left')
                 .html(true)
@@ -24575,9 +25005,7 @@ iD.ui.Background = function(context) {
         function toggle() {
             if (d3.event) d3.event.preventDefault();
             tooltip.hide(button);
-            var visible = !button.classed('active');
-            setVisible(visible);
-            if (visible) content.selectAll('.toggle-list label:first-child').node().focus();
+            setVisible(!button.classed('active'));
         }
 
         function setVisible(show) {
@@ -24590,16 +25018,16 @@ iD.ui.Background = function(context) {
                         return d3.event.stopPropagation();
                     });
                     content.style('display', 'block')
-                        .style('left', '0px')
+                        .style('right', '-300px')
                         .transition()
                         .duration(200)
-                        .style('left', '-260px');
+                        .style('right', '0px');
                 } else {
                     content.style('display', 'block')
-                        .style('left', '-260px')
+                        .style('right', '0px')
                         .transition()
                         .duration(200)
-                        .style('left', '0px')
+                        .style('right', '-300px')
                         .each('end', function() {
                             d3.select(this).style('display', 'none');
                         });
@@ -24634,66 +25062,82 @@ iD.ui.Background = function(context) {
                 return t('background.percent_brightness', { opacity: (d * 100) });
             })
             .on('click.set-opacity', setOpacity)
-            .html("<div class='select-box'></div>")
+            .html('<div class="select-box"></div>')
             .call(bootstrap.tooltip()
-                .placement('top'))
+                .placement('left'))
             .append('div')
             .attr('class', 'opacity')
             .style('opacity', String);
 
-        var backgroundList = content
-            .append('div')
-            .attr('class', 'toggle-list layer-list');
+        var backgroundList = content.append('ul')
+            .attr('class', 'layer-list');
 
-        var custom = backgroundList
-            .append('label')
+        var custom = backgroundList.append('li')
             .attr('class', 'custom_layer')
-            .datum({name: 'Custom'});
+            .datum(iD.BackgroundSource.Custom());
 
-        custom.append('input')
+        var label = custom.append('label');
+
+        label.append('input')
             .attr('type', 'radio')
             .attr('name', 'layers')
             .on('change', clickCustom);
 
-        custom.append('span')
+        label.append('span')
             .text(t('background.custom'));
 
-        var overlayList = content
-            .append('div')
-            .attr('class', 'toggle-list layer-list');
+        var overlayList = content.append('ul')
+            .attr('class', 'layer-list');
 
-        var gpxLayerItem = content
-            .append('div')
+        var gpxLayerItem = content.append('ul')
             .style('display', iD.detect().filedrop ? 'block' : 'none')
-            .attr('class', 'toggle-list layer-list')
-            .append('label')
+            .attr('class', 'layer-list')
+            .append('li')
             .classed('layer-toggle-gpx', true);
 
-        gpxLayerItem.call(bootstrap.tooltip()
-            .title(t('gpx.drag_drop'))
-            .placement('left'));
-
-        gpxLayerItem.append('input')
-            .attr('type', 'checkbox')
-            .property('disabled', true)
-            .on('change', clickGpx);
-
-        gpxLayerItem.append('span')
-            .text(t('gpx.local_layer'));
-
-        gpxLayerItem
-            .append('button')
-            .attr('class', 'minor layer-extent')
+        gpxLayerItem.append('button')
+            .attr('class', 'layer-extent')
+            .call(bootstrap.tooltip()
+                .title(t('gpx.zoom'))
+                .placement('left'))
             .on('click', function() {
                 d3.event.preventDefault();
                 d3.event.stopPropagation();
                 context.background().zoomToGpxLayer();
             })
             .append('span')
-                .attr('class', 'icon geocode' );
+            .attr('class', 'icon geolocate');
 
-        var adjustments = content
-            .append('div')
+        gpxLayerItem.append('button')
+            .attr('class', 'layer-browse')
+            .call(bootstrap.tooltip()
+                .title(t('gpx.browse'))
+                .placement('left'))
+            .on('click', function() {
+                d3.select(document.createElement('input'))
+                    .attr('type', 'file')
+                    .on('change', function() {
+                        context.background().gpxLayerFiles(d3.event.target.files);
+                    })
+                    .node().click();
+            })
+            .append('span')
+            .attr('class', 'icon geocode');
+
+        label = gpxLayerItem.append('label')
+            .call(bootstrap.tooltip()
+                .title(t('gpx.drag_drop'))
+                .placement('top'));
+
+        label.append('input')
+            .attr('type', 'checkbox')
+            .property('disabled', true)
+            .on('change', clickGpx);
+
+        label.append('span')
+            .text(t('gpx.local_layer'));
+
+        var adjustments = content.append('div')
             .attr('class', 'adjustments');
 
         adjustments.append('a')
@@ -24708,8 +25152,7 @@ iD.ui.Background = function(context) {
                 d3.event.preventDefault();
             });
 
-        var nudgeContainer = adjustments
-            .append('div')
+        var nudgeContainer = adjustments.append('div')
             .attr('class', 'nudge-container cf')
             .style('display', 'none');
 
@@ -24728,10 +25171,6 @@ iD.ui.Background = function(context) {
 
         resetButton.append('div')
             .attr('class', 'icon undo');
-
-        resetButton.call(bootstrap.tooltip()
-            .title(t('background.reset'))
-            .placement('bottom'));
 
         context.map()
             .on('move.background-update', _.debounce(update, 1000));
@@ -24779,33 +25218,22 @@ iD.ui.cmd = function(code) {
     return keys.join('+');
 };
 iD.ui.Commit = function(context) {
-    var event = d3.dispatch('cancel', 'save', 'fix'),
-        presets = context.presets();
-
-    function zipSame(d) {
-        var c = {}, n = -1;
-        for (var i = 0; i < d.length; i++) {
-            var desc = {
-                name: d[i].tags.name || presets.match(d[i], context.graph()).name(),
-                geometry: d[i].geometry(context.graph()),
-                count: 1,
-                tagText: iD.util.tagText(d[i])
-            };
-
-            var fingerprint = desc.name + desc.tagText;
-            if (c[fingerprint]) {
-                c[fingerprint].count++;
-            } else {
-                c[fingerprint] = desc;
-            }
-        }
-        return _.values(c);
-    }
+    var event = d3.dispatch('cancel', 'save');
 
     function commit(selection) {
-        var changes = context.history().changes();
+        var changes = context.history().changes(),
+            summary = context.history().difference().summary();
 
-        function changesLength(d) { return changes[d].length; }
+        function zoomToEntity(change) {
+            var entity = change.entity;
+            if (change.changeType !== 'deleted' &&
+                context.graph().entity(entity.id).geometry(context.graph()) !== 'vertex') {
+                context.map().zoomTo(entity);
+                context.surface().selectAll(
+                    iD.util.entityOrMemberSelector([entity.id], context.graph()))
+                    .classed('hover', true);
+            }
+        }
 
         var header = selection.append('div')
             .attr('class', 'header fillL');
@@ -24870,7 +25298,7 @@ iD.ui.Commit = function(context) {
 
         // Confirm Button
         var saveButton = saveSection.append('button')
-            .attr('class', 'action col3 button')
+            .attr('class', 'action col4 button')
             .on('click.save', function() {
                 event.save({
                     comment: commentField.node().value
@@ -24881,11 +25309,13 @@ iD.ui.Commit = function(context) {
             .attr('class', 'label')
             .text(t('commit.save'));
 
+        // Warnings
         var warnings = body.selectAll('div.warning-section')
-            .data(iD.validate(changes, context.graph()))
+            .data([iD.validate(changes, context.graph())])
             .enter()
             .append('div')
-            .attr('class', 'modal-section warning-section fillL2');
+            .attr('class', 'modal-section warning-section fillL2')
+            .style('display', function(d) { return _.isEmpty(d) ? 'none' : null; });
 
         warnings.append('h3')
             .text(t('commit.warnings'));
@@ -24895,52 +25325,90 @@ iD.ui.Commit = function(context) {
             .selectAll('li')
             .data(function(d) { return d; })
             .enter()
-            .append('li');
+            .append('li')
+            .on('mouseover', mouseover)
+            .on('mouseout', mouseout)
+            .on('click', warningClick);
 
-        // only show the fix icon when an entity is given
-        warningLi.filter(function(d) { return d.entity; })
-            .append('button')
-            .attr('class', 'minor')
-            .on('click', event.fix)
-            .append('span')
-            .attr('class', 'icon warning');
+        warningLi.append('span')
+            .attr('class', 'alert icon icon-pre-text');
 
         warningLi.append('strong').text(function(d) {
             return d.message;
         });
 
-        var section = body.selectAll('div.commit-section')
-            .data(['modified', 'deleted', 'created'].filter(changesLength))
+        var changeSection = body.selectAll('div.commit-section')
+            .data([0])
             .enter()
             .append('div')
             .attr('class', 'commit-section modal-section fillL2');
 
-        section.append('h3')
-            .text(function(d) { return t('commit.' + d); })
-            .append('small')
-            .attr('class', 'count')
-            .text(changesLength);
+        changeSection.append('h3')
+            .text(summary.length + ' Changes');
 
-        var li = section.append('ul')
+        var li = changeSection.append('ul')
             .attr('class', 'changeset-list')
             .selectAll('li')
-            .data(function(d) { return zipSame(changes[d]); })
+            .data(summary)
             .enter()
-            .append('li');
+            .append('li')
+            .on('mouseover', mouseover)
+            .on('mouseout', mouseout)
+            .on('click', zoomToEntity);
 
-        li.append('strong')
-            .text(function(d) {
-                return d.geometry + ' ';
+        li.append('span')
+            .attr('class', function(d) {
+                return d.entity.geometry(d.graph) + ' ' + d.changeType + ' icon icon-pre-text';
             });
 
         li.append('span')
-            .text(function(d) { return d.name; })
-            .attr('title', function(d) { return d.tagText; });
+            .attr('class', 'change-type')
+            .text(function(d) {
+                return d.changeType + ' ';
+            });
 
-        li.filter(function(d) { return d.count > 1; })
-            .append('span')
-            .attr('class', 'count')
-            .text(function(d) { return d.count; });
+        li.append('strong')
+            .attr('class', 'entity-type')
+            .text(function(d) {
+                return context.presets().match(d.entity, d.graph).name();
+            });
+
+        li.append('span')
+            .attr('class', 'entity-name')
+            .text(function(d) {
+                var name = iD.util.displayName(d.entity) || '',
+                    string = '';
+                if (name !== '') string += ':';
+                return string += ' ' + name;
+            });
+
+        li.style('opacity', 0)
+            .transition()
+            .style('opacity', 1);
+
+        li.style('opacity', 0)
+            .transition()
+            .style('opacity', 1);
+
+        function mouseover(d) {
+            if (d.entity) {
+                context.surface().selectAll(
+                    iD.util.entityOrMemberSelector([d.entity.id], context.graph())
+                ).classed('hover', true);
+            }
+        }
+
+        function mouseout() {
+            context.surface().selectAll('.hover')
+                .classed('hover', false);
+        }
+
+        function warningClick(d) {
+            if (d.entity) {
+                context.map().zoomTo(d.entity);
+                context.enter(iD.modes.Select(context, [d.entity.id]));
+            }
+        }
     }
 
     return d3.rebind(commit, event, 'on');
@@ -24953,16 +25421,16 @@ iD.ui.confirm = function(selection) {
 
     var section = modal.select('.content');
 
-    var modalHeader = section.append('div')
+    section.append('div')
         .attr('class', 'modal-section header');
 
-    var description = section.append('div')
+    section.append('div')
         .attr('class', 'modal-section message-text');
 
     var buttonwrap = section.append('div')
         .attr('class', 'modal-section buttons cf');
 
-    var okbutton = buttonwrap.append('button')
+    buttonwrap.append('button')
         .attr('class', 'col2 action')
         .on('click.confirm', function() {
             modal.remove();
@@ -25356,15 +25824,18 @@ iD.ui.FeatureList = function(context) {
             }
 
             (geocodeResults || []).forEach(function(d) {
-                result.push({
-                    id: iD.Entity.id.fromOSM(d.osm_type, d.osm_id),
-                    geometry: d.osm_type === 'relation' ? 'relation' : d.osm_type === 'way' ? 'line' : 'point',
-                    type: (d.type.charAt(0).toUpperCase() + d.type.slice(1)).replace('_', ' '),
-                    name: d.display_name,
-                    extent: new iD.geo.Extent(
-                        [parseFloat(d.boundingbox[3]), parseFloat(d.boundingbox[0])],
-                        [parseFloat(d.boundingbox[2]), parseFloat(d.boundingbox[1])])
-                })
+                // https://github.com/systemed/iD/issues/1890
+                if (d.osm_type && d.osm_id) {
+                    result.push({
+                        id: iD.Entity.id.fromOSM(d.osm_type, d.osm_id),
+                        geometry: d.osm_type === 'relation' ? 'relation' : d.osm_type === 'way' ? 'line' : 'point',
+                        type: (d.type.charAt(0).toUpperCase() + d.type.slice(1)).replace('_', ' '),
+                        name: d.display_name,
+                        extent: new iD.geo.Extent(
+                            [parseFloat(d.boundingbox[3]), parseFloat(d.boundingbox[0])],
+                            [parseFloat(d.boundingbox[2]), parseFloat(d.boundingbox[1])])
+                    });
+                }
             });
 
             return result;
@@ -25674,9 +26145,6 @@ iD.ui.Help = function(context) {
             return d3.event.stopPropagation();
         });
 
-        selection.on('mousedown.help-inside', function() {
-            return d3.event.stopPropagation();
-        });
     }
 
     return help;
@@ -25795,13 +26263,13 @@ iD.ui.intro = function(context) {
 
         // Load semi-real data used in intro
         context.connection().toggle(false).flush();
-        context.history().save().reset();
+        context.history().reset();
         
         introGraph = JSON.parse(iD.introGraph);
         for (var key in introGraph) {
             introGraph[key] = iD.Entity(introGraph[key]);
         }
-        context.history().merge(iD.Graph().load(introGraph).entities);
+        context.history().merge(d3.values(iD.Graph().load(introGraph).entities));
         context.background().bing();
 
         // Block saving
@@ -25837,7 +26305,7 @@ iD.ui.intro = function(context) {
             navwrap.remove();
             d3.select('.background-layer').style('opacity', opacity);
             context.connection().toggle(true).flush().loadedTiles(loadedTiles);
-            context.history().reset().merge(baseEntities);
+            context.history().reset().merge(d3.values(baseEntities));
             context.background().baseLayerSource(background);
             if (history) context.history().fromJSON(history);
             window.location.replace(hash);
@@ -26051,7 +26519,7 @@ iD.ui.modal = function(selection, blocking) {
         .attr('class', 'modal fillL col6');
 
         shaded.on('click.remove-modal', function() {
-            if (d3.event.target == this && !blocking) shaded.close();
+            if (d3.event.target === this && !blocking) shaded.close();
         });
 
     modal.append('button')
@@ -26124,12 +26592,12 @@ iD.ui.Modes = function(context) {
         context.on('enter.editor', function(entered) {
             buttons.classed('active', function(mode) { return entered.button === mode.button; });
             context.container()
-                .classed("mode-" + entered.id, true);
+                .classed('mode-' + entered.id, true);
         });
 
         context.on('exit.editor', function(exited) {
             context.container()
-                .classed("mode-" + exited.id, false);
+                .classed('mode-' + exited.id, false);
         });
 
         var keybinding = d3.keybinding('mode-buttons');
@@ -26186,11 +26654,7 @@ iD.ui.preset = function(context) {
         field.input = iD.ui.preset[field.type](field, context)
             .on('change', event.change);
 
-        if (field.type === 'address' ||
-            field.type === 'wikipedia' ||
-            field.type === 'maxspeed') {
-            field.input.entity(entity);
-        }
+        if (field.input.entity) field.input.entity(entity);
 
         field.keys = field.keys || [field.key];
 
@@ -26212,6 +26676,20 @@ iD.ui.preset = function(context) {
                 t = {};
             field.keys.forEach(function(key) {
                 t[key] = original ? original.tags[key] : undefined;
+            });
+            return t;
+        };
+
+        field.present = function() {
+            return _.any(field.keys, function(key) {
+                return tags[key];
+            });
+        };
+
+        field.remove = function() {
+            var t = {};
+            field.keys.forEach(function(key) {
+                t[key] = undefined;
             });
             return t;
         };
@@ -26268,20 +26746,34 @@ iD.ui.preset = function(context) {
             .attr('for', function(field) { return 'preset-input-' + field.id; })
             .text(function(field) { return field.label(); });
 
-        $label.append('button')
-            .attr('class', 'modified-icon minor')
+        var wrap = $label.append('div')
+            .attr('class', 'form-label-button-wrap');
+
+        wrap.append('button')
+            .attr('class', 'remove-icon')
+            .append('span').attr('class', 'icon delete');
+
+        wrap.append('button')
+            .attr('class', 'modified-icon')
             .attr('tabindex', -1)
             .append('div')
             .attr('class', 'icon undo');
 
         // Update
 
+        $fields.select('.form-label-button-wrap .remove-icon')
+            .on('click', remove);
+
         $fields.select('.modified-icon')
             .on('click', revert);
 
         $fields
+            .order()
             .classed('modified', function(field) {
                 return field.modified();
+            })
+            .classed('present', function(field) {
+                return field.present();
             })
             .each(function(field) {
                 var reference = iD.ui.TagReference({key: field.key});
@@ -26293,7 +26785,7 @@ iD.ui.preset = function(context) {
                 d3.select(this)
                     .call(field.input)
                     .call(reference.body)
-                    .select('.form-label')
+                    .select('.form-label-button-wrap')
                     .call(reference.button);
 
                 field.input.tags(tags);
@@ -26335,6 +26827,12 @@ iD.ui.preset = function(context) {
             d3.event.stopPropagation();
             d3.event.preventDefault();
             event.change(field.revert());
+        }
+
+        function remove(field) {
+            d3.event.stopPropagation();
+            d3.event.preventDefault();
+            event.change(field.remove());
         }
     }
 
@@ -26532,7 +27030,7 @@ iD.ui.PresetList = function(context) {
 
     function drawList(list, presets) {
         var collection = presets.collection.map(function(preset) {
-            return preset.members ? CategoryItem(preset) : PresetItem(preset)
+            return preset.members ? CategoryItem(preset) : PresetItem(preset);
         });
 
         var items = list.selectAll('.preset-list-item')
@@ -26689,7 +27187,7 @@ iD.ui.RadialMenu = function(context, operations) {
 
         menu = selection.append('g')
             .attr('class', 'radial-menu')
-            .attr('transform', "translate(" + center + ")")
+            .attr('transform', 'translate(' + center + ')')
             .attr('opacity', 0);
 
         menu.transition()
@@ -26723,6 +27221,7 @@ iD.ui.RadialMenu = function(context, operations) {
             .attr('r', 15)
             .classed('disabled', function(d) { return d.disabled(); })
             .on('click', click)
+            .on('mousedown', mousedown)
             .on('mouseover', mouseover)
             .on('mouseout', mouseout);
 
@@ -26734,6 +27233,10 @@ iD.ui.RadialMenu = function(context, operations) {
         tooltip = d3.select(document.body)
             .append('div')
             .attr('class', 'tooltip-inner radial-menu-tooltip');
+
+        function mousedown() {
+            d3.event.stopPropagation(); // https://github.com/systemed/iD/issues/1869
+        }
 
         function mouseover(d, i) {
             var rect = context.surfaceRect(),
@@ -26795,6 +27298,7 @@ iD.ui.RawMemberEditor = function(context) {
     var id;
 
     function selectMember(d) {
+        d3.event.preventDefault();
         context.enter(iD.modes.Select(context, [d.id]));
     }
 
@@ -26851,7 +27355,8 @@ iD.ui.RawMemberEditor = function(context) {
                 });
 
             var $enter = $items.enter().append('li')
-                .attr('class', 'member-row form-field');
+                .attr('class', 'member-row form-field')
+                .classed('member-incomplete', function(d) { return !d.member; });
 
             $enter.each(function(d) {
                 if (d.member) {
@@ -26871,7 +27376,7 @@ iD.ui.RawMemberEditor = function(context) {
 
                 } else {
                     d3.select(this).append('label')
-                        .attr('class', 'form-label member-incomplete')
+                        .attr('class', 'form-label')
                         .text(t('inspector.incomplete'));
                 }
             });
@@ -26908,6 +27413,7 @@ iD.ui.RawMembershipEditor = function(context) {
     var id, showBlank;
 
     function selectRelation(d) {
+        d3.event.preventDefault();
         context.enter(iD.modes.Select(context, [d.relation.id]));
     }
 
@@ -26980,7 +27486,7 @@ iD.ui.RawMembershipEditor = function(context) {
                 if (member.id === entity.id) {
                     memberships.push({relation: relation, member: member, index: index});
                 }
-            })
+            });
         });
 
         selection.call(iD.ui.Disclosure()
@@ -27413,13 +27919,13 @@ iD.ui.Save = function(context) {
         var numChanges = 0;
 
         context.history().on('change.save', function() {
-            var _ = history.numChanges();
+            var _ = history.difference().summary().length;
             if (_ === numChanges)
                 return;
             numChanges = _;
 
             tooltip.title(iD.ui.tooltipHtml(t(numChanges > 0 ?
-                    'save.help' : 'save.no_changes'), key))
+                    'save.help' : 'save.no_changes'), key));
 
             button
                 .classed('disabled', numChanges === 0)
@@ -27434,6 +27940,75 @@ iD.ui.Save = function(context) {
             if (saving()) button.call(tooltip.hide);
         });
     };
+};
+iD.ui.SelectionList = function(context, selectedIDs) {
+
+    function selectionList(selection) {
+        selection.classed('selection-list-pane', true);
+
+        var header = selection.append('div')
+            .attr('class', 'header fillL cf');
+
+        header.append('h3')
+            .text(t('inspector.multiselect'));
+
+        var listWrap = selection.append('div')
+            .attr('class', 'inspector-body');
+
+        var list = listWrap.append('div')
+            .attr('class', 'feature-list cf');
+
+        context.history().on('change.selection-list', drawList);
+        drawList();
+
+        function drawList() {
+            var entities = selectedIDs
+                .map(function(id) { return context.hasEntity(id); })
+                .filter(function(entity) { return entity; });
+
+            var items = list.selectAll('.feature-list-item')
+                .data(entities, iD.Entity.key);
+
+            var enter = items.enter().append('button')
+                .attr('class', 'feature-list-item')
+                .on('click', function(entity) {
+                    context.enter(iD.modes.Select(context, [entity.id]));
+                });
+
+            // Enter
+
+            var label = enter.append('div')
+                .attr('class', 'label');
+
+            label.append('span')
+                .attr('class', 'icon icon-pre-text');
+
+            label.append('span')
+                .attr('class', 'entity-type');
+
+            label.append('span')
+                .attr('class', 'entity-name');
+
+            // Update
+
+            items.selectAll('.icon')
+                .attr('class', function(entity) { return context.geometry(entity.id) + ' icon icon-pre-text'; });
+
+            items.selectAll('.entity-type')
+                .text(function(entity) { return context.presets().match(entity, context.graph()).name(); });
+
+            items.selectAll('.entity-name')
+                .text(function(entity) { return iD.util.displayName(entity); });
+
+            // Exit
+
+            items.exit()
+                .remove();
+        }
+    }
+
+    return selectionList;
+
 };
 iD.ui.Sidebar = function(context) {
     var inspector = iD.ui.Inspector(context),
@@ -27669,13 +28244,13 @@ iD.ui.Success = function(context) {
             .attr('class', 'fr')
             .append('span')
             .attr('class', 'icon close')
-            .on('click', function() { event.cancel(success) });
+            .on('click', function() { event.cancel(success); });
 
         header.append('h3')
             .text(t('success.just_edited'));
 
         var body = selection.append('div')
-            .attr('class', 'body save-success');
+            .attr('class', 'body save-success fillL');
 
         body.append('p')
             .html(t('success.help_html'));
@@ -27766,7 +28341,7 @@ iD.ui.TagReference = function(tag) {
                 body
                     .append('img')
                     .attr('class', 'wiki-image')
-                    .attr('src', docs.image.thumb_url_prefix + "100" + docs.image.thumb_url_suffix)
+                    .attr('src', docs.image.thumb_url_prefix + '100' + docs.image.thumb_url_suffix)
                     .on('load', function() { show(); })
                     .on('error', function() { d3.select(this).remove(); show(); });
             } else {
@@ -27819,7 +28394,7 @@ iD.ui.TagReference = function(tag) {
 
         var enter = button.enter().append('button')
             .attr('tabindex', -1)
-            .attr('class', 'tag-reference-button minor');
+            .attr('class', 'tag-reference-button');
 
         enter.append('span')
             .attr('class', 'icon inspect');
@@ -28010,9 +28585,8 @@ iD.ui.Zoom = function(context) {
             .call(keybinding);
     };
 };
-iD.ui.preset.access = function(field, context) {
+iD.ui.preset.access = function(field) {
     var event = d3.dispatch('change'),
-        entity,
         items;
 
     function access(selection) {
@@ -28064,7 +28638,7 @@ iD.ui.preset.access = function(field, context) {
     access.options = function(type) {
         var options = ['no', 'permissive', 'private', 'designated', 'destination'];
 
-        if (type != 'access') {
+        if (type !== 'access') {
             options.unshift('yes');
         }
 
@@ -28076,18 +28650,84 @@ iD.ui.preset.access = function(field, context) {
         });
     };
 
-    access.entity = function(_) {
-        if (!arguments.length) return entity;
-        entity = _;
-        return access;
+    var placeholders = {
+        footway: {
+            foot: 'yes',
+            motor_vehicle: 'no'
+        },
+        steps: {
+            foot: 'yes',
+            motor_vehicle: 'no'
+        },
+        pedestrian: {
+            foot: 'yes',
+            motor_vehicle: 'no'
+        },
+        cycleway: {
+            bicycle: 'yes',
+            motor_vehicle: 'no'
+        },
+        bridleway: {
+            horse: 'yes'
+        },
+        path: {
+            motor_vehicle: 'no'
+        },
+        motorway: {
+            motor_vehicle: 'yes'
+        },
+        trunk: {
+            motor_vehicle: 'yes'
+        },
+        primary: {
+            motor_vehicle: 'yes'
+        },
+        secondary: {
+            motor_vehicle: 'yes'
+        },
+        tertiary: {
+            motor_vehicle: 'yes'
+        },
+        residential: {
+            motor_vehicle: 'yes'
+        },
+        unclassified: {
+            motor_vehicle: 'yes'
+        },
+        service: {
+            motor_vehicle: 'yes'
+        },
+        motorway_link: {
+            motor_vehicle: 'yes'
+        },
+        trunk_link: {
+            motor_vehicle: 'yes'
+        },
+        primary_link: {
+            motor_vehicle: 'yes'
+        },
+        secondary_link: {
+            motor_vehicle: 'yes'
+        },
+        tertiary_link: {
+            motor_vehicle: 'yes'
+        }
     };
 
     access.tags = function(tags) {
         items.selectAll('.preset-input-access')
             .value(function(d) { return tags[d] || ''; })
-            .attr('placeholder', function(d) {
-                return d !== 'access' && tags.access ? tags.access : field.placeholder();
+            .attr('placeholder', function() {
+                return tags.access ? tags.access : field.placeholder();
             });
+
+        items.selectAll('#preset-input-access-access')
+            .attr('placeholder', 'yes');
+
+        _.forEach(placeholders[tags.highway], function(value, key) {
+            items.selectAll('#preset-input-access-' + key)
+                .attr('placeholder', value);
+        });
     };
 
     access.focus = function() {
@@ -28107,7 +28747,6 @@ iD.ui.preset.address = function(field, context) {
         entity;
 
     function getStreets() {
-
         var extent = entity.extent(context.graph()),
             l = extent.center(),
             box = iD.geo.Extent(l).padByMeters(200);
@@ -28130,6 +28769,62 @@ iD.ui.preset.address = function(field, context) {
 
         function isAddressable(d) {
             return d.tags.highway && d.tags.name && d.type === 'way';
+        }
+    }
+
+    function getCities() {
+        var extent = entity.extent(context.graph()),
+            l = extent.center(),
+            box = iD.geo.Extent(l).padByMeters(200);
+
+        return context.intersects(box)
+            .filter(isAddressable)
+            .map(function(d) {
+                return {
+                    title: d.tags['addr:city'] || d.tags.name,
+                    value: d.tags['addr:city'] || d.tags.name,
+                    dist: iD.geo.sphericalDistance(d.extent(context.graph()).center(), l)
+                };
+            }).sort(function(a, b) {
+                return a.dist - b.dist;
+            });
+
+        function isAddressable(d) {
+            if (d.tags.name &&
+                (d.tags.admin_level === '8' || d.tags.border_type === 'city'))
+                return true;
+
+            if (d.tags.place && d.tags.name && (
+                    d.tags.place === 'city' ||
+                    d.tags.place === 'town' ||
+                    d.tags.place === 'village'))
+                return true;
+
+            if (d.tags['addr:city']) return true;
+
+            return false;
+        }
+    }
+
+    function getPostCodes() {
+        var extent = entity.extent(context.graph()),
+            l = extent.center(),
+            box = iD.geo.Extent(l).padByMeters(200);
+
+        return context.intersects(box)
+            .filter(isAddressable)
+            .map(function(d) {
+                return {
+                    title: d.tags['addr:postcode'],
+                    value: d.tags['addr:postcode'],
+                    dist: iD.geo.sphericalDistance(d.extent(context.graph()).center(), l)
+                };
+            }).sort(function(a, b) {
+                return a.dist - b.dist;
+            });
+
+        function isAddressable(d) {
+            return d.tags['addr:postcode'];
         }
     }
 
@@ -28184,6 +28879,18 @@ iD.ui.preset.address = function(field, context) {
             .call(d3.combobox()
                 .fetcher(function(value, callback) {
                     callback(getStreets());
+                }));
+
+        city
+            .call(d3.combobox()
+                .fetcher(function(value, callback) {
+                    callback(getCities());
+                }));
+
+        postcode
+            .call(d3.combobox()
+                .fetcher(function(value, callback) {
+                    callback(getPostCodes());
                 }));
     }
 
@@ -28258,7 +28965,7 @@ iD.ui.preset.check = function(field) {
         value = tags[field.key];
         box.property('indeterminate', !value);
         box.property('checked', value === 'yes');
-        text.text(value || t('inspector.unknown'));
+        text.text(value ? t('inspector.check.' + value, {default: value}) : t('inspector.unknown'));
         label.classed('set', !!value);
     };
 
@@ -28268,7 +28975,8 @@ iD.ui.preset.check = function(field) {
 
     return d3.rebind(check, event, 'on');
 };
-iD.ui.preset.combo = function(field) {
+iD.ui.preset.combo =
+iD.ui.preset.typeCombo = function(field) {
     var event = d3.dispatch('change'),
         input;
 
@@ -28313,13 +29021,18 @@ iD.ui.preset.combo = function(field) {
     }
 
     function change() {
+        var value = input.value().replace(' ', '_');
+        if (field.type === 'typeCombo' && !value) value = 'yes';
+
         var t = {};
-        t[field.key] = input.value().replace(' ', '_') || undefined;
+        t[field.key] = value || undefined;
         event.change(t);
     }
 
     combo.tags = function(tags) {
-        input.value(tags[field.key] || '');
+        var value = tags[field.key] || '';
+        if (field.type === 'typeCombo' && value === 'yes') value = '';
+        input.value(value);
     };
 
     combo.focus = function() {
@@ -28380,7 +29093,7 @@ iD.ui.preset.url = function(field) {
             .on('blur', change)
             .on('change', change);
 
-        if (field.type == 'number') {
+        if (field.type === 'number') {
             input.attr('type', 'text');
 
             var spinControl = selection.selectAll('.spin-control')
@@ -28427,7 +29140,8 @@ iD.ui.preset.localized = function(field, context) {
 
     var event = d3.dispatch('change'),
         wikipedia = iD.wikipedia(),
-        input, localizedInputs, wikiTitles;
+        input, localizedInputs, wikiTitles,
+        entity;
 
     function i(selection) {
         input = selection.selectAll('.localized-main')
@@ -28442,6 +29156,13 @@ iD.ui.preset.localized = function(field, context) {
         input
             .on('blur', change)
             .on('change', change);
+
+        if (field.id === 'name') {
+            var preset = context.presets().match(entity, context.graph());
+            input.call(d3.combobox().fetcher(
+                iD.util.SuggestNames(preset, iD.data.suggestions)
+            ));
+        }
 
         var translateButton = selection.selectAll('.localized-add')
             .data([0]);
@@ -28480,35 +29201,38 @@ iD.ui.preset.localized = function(field, context) {
     function key(lang) { return field.key + ':' + lang; }
 
     function changeLang(d) {
-        var value = d3.select(this).value(),
+        var lang = d3.select(this).value(),
             t = {},
             language = _.find(iD.data.wikipedia, function(d) {
-                return d[0].toLowerCase() === value.toLowerCase() ||
-                    d[1].toLowerCase() === value.toLowerCase();
+                return d[0].toLowerCase() === lang.toLowerCase() ||
+                    d[1].toLowerCase() === lang.toLowerCase();
             });
 
-        if (language) value = language[2];
+        if (language) lang = language[2];
 
-        if (d.lang) {
-            t[key(d.lang)] = '';
+        if (d.lang && d.lang !== lang) {
+            t[key(d.lang)] = undefined;
         }
 
-        if (d.value) {
-            t[key(value)] = d.value;
-        } else if (wikiTitles && wikiTitles[d.lang]) {
-            t[key(value)] = wikiTitles[d.lang];
+        var value = d3.select(this.parentNode)
+            .selectAll('.localized-value')
+            .value();
+
+        if (lang && value) {
+            t[key(lang)] = value;
+        } else if (lang && wikiTitles && wikiTitles[d.lang]) {
+            t[key(lang)] = wikiTitles[d.lang];
         }
 
+        d.lang = lang;
         event.change(t);
-
-        d.lang = value;
     }
 
     function changeValue(d) {
+        if (!d.lang) return;
         var t = {};
-        t[key(d.lang)] = d3.select(this).value() || '';
+        t[key(d.lang)] = d3.select(this).value() || undefined;
         event.change(t);
-
     }
 
     function fetcher(value, cb) {
@@ -28535,10 +29259,27 @@ iD.ui.preset.localized = function(field, context) {
                 var wrap = d3.select(this);
                 var langcombo = d3.combobox().fetcher(fetcher);
 
-                wrap.append('label')
+                var label = wrap.append('label')
                     .attr('class','form-label')
                     .text(t('translate.localized_translation_label'))
                     .attr('for','localized-lang');
+
+                label.append('button')
+                    .attr('class', 'minor remove')
+                    .on('click', function(d){
+                        d3.event.preventDefault();
+                        var t = {};
+                        t[key(d.lang)] = undefined;
+                        event.change(t);
+                        d3.select(this.parentNode.parentNode)
+                            .style('top','0')
+                            .style('max-height','240px')
+                            .transition()
+                            .style('opacity', '0')
+                            .style('max-height','0px')
+                            .remove();
+                    })
+                    .append('span').attr('class', 'icon delete');
 
                 wrap.append('input')
                     .attr('class', 'localized-lang')
@@ -28554,23 +29295,6 @@ iD.ui.preset.localized = function(field, context) {
                     .attr('type', 'text')
                     .attr('placeholder', t('translate.localized_translation_name'))
                     .attr('class', 'localized-value');
-
-                wrap.append('button')
-                    .attr('class', 'minor button-input-action remove')
-                    .on('click', function(d) {
-                        d3.event.preventDefault();
-                        var t = {};
-                        t[key(d.lang)] = undefined;
-                        event.change(t);
-                        d3.select(this.parentNode)
-                            .style('top','0')
-                            .style('max-height','240px')
-                            .transition()
-                            .style('opacity', '0')
-                            .style('max-height','0px')
-                            .remove();
-                    })
-                    .append('span').attr('class', 'icon delete');
             });
 
         innerWrap
@@ -28596,16 +29320,16 @@ iD.ui.preset.localized = function(field, context) {
             .style('top','-10px')
             .remove();
 
-        selection.selectAll('.entry').select('.localized-lang').value(function(d) {
-            var lang = _.find(iD.data.wikipedia, function(lang) {
-                return lang[2] === d.lang;
-            });
-            return lang ? lang[1] : d.lang;
-        });
+        var entry = selection.selectAll('.entry');
 
-        selection.selectAll('.entry').select('.localized-value').value(function(d) {
-            return d.value;
-        });
+        entry.select('.localized-lang')
+            .value(function(d) {
+                var lang = _.find(iD.data.wikipedia, function(lang) { return lang[2] === d.lang; });
+                return lang ? lang[1] : d.lang;
+            });
+
+        entry.select('.localized-value')
+            .value(function(d) { return d.value; });
     }
 
     i.tags = function(tags) {
@@ -28635,7 +29359,11 @@ iD.ui.preset.localized = function(field, context) {
     };
 
     i.focus = function() {
-        title.node().focus();
+        input.node().focus();
+    };
+
+    i.entity = function(_) {
+        entity = _;
     };
 
     return d3.rebind(i, event, 'on');
@@ -28754,7 +29482,7 @@ iD.ui.preset.maxspeed = function(field, context) {
 iD.ui.preset.radio = function(field) {
 
     var event = d3.dispatch('change'),
-        labels, radios;
+        labels, radios, placeholder;
 
     function radio(selection) {
         selection.classed('preset-radio', true);
@@ -28764,6 +29492,11 @@ iD.ui.preset.radio = function(field) {
 
         var buttonWrap = wrap.enter().append('div')
             .attr('class', 'preset-input-wrap toggle-list');
+
+        buttonWrap.append('span')
+            .attr('class', 'placeholder');
+
+        placeholder = selection.selectAll('.placeholder');
 
         labels = wrap.selectAll('label')
             .data(field.options || field.keys);
@@ -28781,29 +29514,6 @@ iD.ui.preset.radio = function(field) {
 
         radios = labels.selectAll('input')
             .on('change', change);
-
-        buttonWrap.append('span')
-            .attr('class', 'placeholder')
-            .text(field.placeholder());
-
-        var remove = wrap.selectAll('label.remove')
-            .data([0]);
-
-        var removeButton = remove.enter().append('label')
-            .attr('class', 'remove');
-
-        removeButton.append('span')
-            .attr('class', 'icon remove');
-
-        removeButton.append('span')
-            .text(t('inspector.remove'));
-
-        remove
-            .on('click', function() {
-                d3.event.preventDefault();
-                radios.property('checked', false);
-                change();
-            });
     }
 
     function change() {
@@ -28831,6 +29541,12 @@ iD.ui.preset.radio = function(field) {
 
         labels.classed('active', checked);
         radios.property('checked', checked);
+        var selection = radios.filter(function() { return this.checked; });
+        if (selection.empty()) {
+            placeholder.text(t('inspector.none'));
+        } else {
+            placeholder.text(selection.attr('value'));
+        }
     };
 
     radio.focus = function() {
@@ -28878,7 +29594,6 @@ iD.ui.preset.wikipedia = function(field, context) {
 
     var event = d3.dispatch('change'),
         wikipedia = iD.wikipedia(),
-        language = iD.data.wikipedia[0],
         link, entity, lang, title;
 
     function i(selection) {
@@ -28902,7 +29617,7 @@ iD.ui.preset.wikipedia = function(field, context) {
                 if (!value) value = context.entity(entity.id).tags.name || '';
                 var searchfn = value.length > 7 ? wikipedia.search : wikipedia.suggestions;
 
-                searchfn(language && language[2], value, function(query, data) {
+                searchfn(language()[2], value, function(query, data) {
                     cb(data.map(function(d) {
                         return { value: d };
                     }));
@@ -28914,7 +29629,8 @@ iD.ui.preset.wikipedia = function(field, context) {
 
         lang.enter().append('input')
             .attr('type', 'text')
-            .attr('class', 'wiki-lang');
+            .attr('class', 'wiki-lang')
+            .value('English');
 
         lang
             .on('blur', changeLang)
@@ -28944,63 +29660,53 @@ iD.ui.preset.wikipedia = function(field, context) {
             .attr('class', 'icon out-link');
     }
 
-    function changeLang() {
+    function language() {
         var value = lang.value().toLowerCase();
-        language = _.find(iD.data.wikipedia, function(d) {
+        return _.find(iD.data.wikipedia, function(d) {
             return d[0].toLowerCase() === value ||
                 d[1].toLowerCase() === value ||
                 d[2].toLowerCase() === value;
         }) || iD.data.wikipedia[0];
+    }
 
-        if (value !== language[0]) {
-            lang.value(language[1]);
-        }
-
+    function changeLang() {
+        lang.value(language()[1]);
         change();
     }
 
     function change() {
-        var t = {};
+        var value = title.value(),
+            m = value.match(/https?:\/\/([a-z]+)\.wikipedia\.org\/wiki\/(.+)/),
+            l = m && _.find(iD.data.wikipedia, function(d) { return m[1] === d[2]; });
 
-        var value = title.value();
-
-        var m = value.match('http://([a-z]+)\\.wikipedia.org/wiki/(.*)'),
-            newlanguage = m && m[1] && m[2] && _.find(iD.data.wikipedia, function(d) {
-                return m[1] === d[2];
-            });
-
-        if (newlanguage) {
+        if (l) {
             // Normalize title http://www.mediawiki.org/wiki/API:Query#Title_normalization
             value = m[2].replace(/_/g, ' ');
             value = value.slice(0, 1).toUpperCase() + value.slice(1);
-            language = newlanguage;
-            lang.value(language[0]);
+            lang.value(l[1]);
+            title.value(value);
         }
 
-        t[field.key] = value ? language[2] + ':' + value : undefined;
+        var t = {};
+        t[field.key] = value ? language()[2] + ':' + value : undefined;
         event.change(t);
-        link.attr('href', 'http://' + language[2] + '.wikipedia.org/wiki/' + (value || ''));
     }
 
     i.tags = function(tags) {
-        var m = tags[field.key] ? tags[field.key].match(/([^:]+):(.+)/) : null;
-
-        var language = m && m[1] && m[2] && _.find(iD.data.wikipedia, function(d) {
-            return m[1] === d[2];
-        });
+        var value = tags[field.key] || '',
+            m = value.match(/([^:]+):(.+)/),
+            l = m && _.find(iD.data.wikipedia, function(d) { return m[1] === d[2]; });
 
         // value in correct format
-        if (language) {
-            lang.value(language[1]);
+        if (l) {
+            lang.value(l[1]);
             title.value(m[2]);
             link.attr('href', 'http://' + m[1] + '.wikipedia.org/wiki/' + m[2]);
 
         // unrecognized value format
         } else {
-            lang.value('English');
-            title.value(tags[field.key] || '');
-            language = iD.data.wikipedia[0];
-            link.attr('href', 'http://en.wikipedia.org/wiki/Special:Search?search=' + tags[field.key]);
+            title.value(value);
+            link.attr('href', 'http://en.wikipedia.org/wiki/Special:Search?search=' + value);
         }
     };
 
@@ -29107,10 +29813,6 @@ iD.ui.intro.line = function(context, reveal) {
     var step = {
         title: 'intro.lines.title'
     };
-
-    function one(target, e, f) {
-        d3.selection.prototype.one.call(target, e, f);
-    }
 
     function timeout(f, t) {
         timeouts.push(window.setTimeout(f, t));
@@ -29220,7 +29922,7 @@ iD.ui.intro.line = function(context, reveal) {
         }
 
         // selected wrong road type
-        function retryPreset(mode) {
+        function retryPreset() {
             timeout(function() {
                 var preset = d3.select('.entity-editor-pane .preset-list-button');
                 reveal(preset.node(), t('intro.lines.wrong_preset'));
@@ -29843,7 +30545,7 @@ iD.presets.Preset = function(id, preset, fields) {
         return tags;
     };
 
-    var applyTags = preset.applyTags || preset.tags;
+    var applyTags = preset.addTags || preset.tags;
     preset.applyTags = function(tags, geometry) {
         tags = _.clone(tags);
 
@@ -29868,7 +30570,7 @@ iD.presets.Preset = function(id, preset, fields) {
     return preset;
 };
 iD.validate = function(changes, graph) {
-    var warnings = [], change;
+    var warnings = [];
 
     // https://github.com/openstreetmap/josm/blob/mirror/src/org/
     // openstreetmap/josm/data/validation/tests/UnclosedWays.java#L80
@@ -29891,18 +30593,14 @@ iD.validate = function(changes, graph) {
     }
 
     for (var i = 0; i < changes.created.length; i++) {
-        change = changes.created[i];
+        var change = changes.created[i],
+            geometry = change.geometry(graph);
 
-        if (change.geometry(graph) === 'point' && _.isEmpty(change.tags)) {
+        if ((geometry === 'point' || geometry === 'line' || geometry === 'area') && !change.isUsed(graph)) {
             warnings.push({
-                message: t('validations.untagged_point'),
+                message: t('validations.untagged_' + geometry),
                 entity: change
             });
-        }
-
-        if (change.geometry(graph) === 'line' && _.isEmpty(change.tags) &&
-                graph.parentRelations(change).length === 0) {
-            warnings.push({ message: t('validations.untagged_line'), entity: change });
         }
 
         var deprecatedTags = change.deprecatedTags();
@@ -29913,11 +30611,7 @@ iD.validate = function(changes, graph) {
                 }), entity: change });
         }
 
-        if (change.geometry(graph) === 'area' && _.isEmpty(change.tags)) {
-            warnings.push({ message: t('validations.untagged_area'), entity: change });
-        }
-
-        if (change.geometry(graph) === 'line' && tagSuggestsArea(change)) {
+        if (geometry === 'line' && tagSuggestsArea(change)) {
             warnings.push({
                 message: t('validations.tag_suggests_area', {tag: tagSuggestsArea(change)}),
                 entity: change
@@ -29925,8 +30619,9 @@ iD.validate = function(changes, graph) {
         }
     }
 
-    return warnings.length ? [warnings] : [];
+    return warnings;
 };
+/* jshint ignore:start */
 })();
 window.locale = { _current: 'en' };
 
@@ -32865,6 +33560,777 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             ],
             "terms_url": "http://wiki.openstreetmap.org/wiki/Fugro",
             "terms_text": "Fugro Aerial Mapping"
+        },
+        {
+            "name": "Geoimage.at MaxRes",
+            "type": "tms",
+            "template": "http://geoimage.openstreetmap.at/4d80de696cd562a63ce463a58a61488d/{zoom}/{x}/{y}.jpg",
+            "polygon": [
+                [
+                    [
+                        16.5073284,
+                        46.9929304
+                    ],
+                    [
+                        16.283417,
+                        46.9929304
+                    ],
+                    [
+                        16.135839,
+                        46.8713046
+                    ],
+                    [
+                        15.9831722,
+                        46.8190947
+                    ],
+                    [
+                        16.0493278,
+                        46.655175
+                    ],
+                    [
+                        15.8610387,
+                        46.7180116
+                    ],
+                    [
+                        15.7592608,
+                        46.6900933
+                    ],
+                    [
+                        15.5607938,
+                        46.6796202
+                    ],
+                    [
+                        15.5760605,
+                        46.6342132
+                    ],
+                    [
+                        15.4793715,
+                        46.6027553
+                    ],
+                    [
+                        15.4335715,
+                        46.6516819
+                    ],
+                    [
+                        15.2249267,
+                        46.6342132
+                    ],
+                    [
+                        15.0468154,
+                        46.6481886
+                    ],
+                    [
+                        14.9908376,
+                        46.5887681
+                    ],
+                    [
+                        14.9603042,
+                        46.6237293
+                    ],
+                    [
+                        14.8534374,
+                        46.6027553
+                    ],
+                    [
+                        14.8330818,
+                        46.5012666
+                    ],
+                    [
+                        14.7516595,
+                        46.4977636
+                    ],
+                    [
+                        14.6804149,
+                        46.4381781
+                    ],
+                    [
+                        14.6142593,
+                        46.4381781
+                    ],
+                    [
+                        14.578637,
+                        46.3785275
+                    ],
+                    [
+                        14.4412369,
+                        46.4311638
+                    ],
+                    [
+                        14.1613476,
+                        46.4276563
+                    ],
+                    [
+                        14.1257253,
+                        46.4767409
+                    ],
+                    [
+                        14.0188585,
+                        46.4767409
+                    ],
+                    [
+                        13.9119917,
+                        46.5257813
+                    ],
+                    [
+                        13.8254805,
+                        46.5047694
+                    ],
+                    [
+                        13.4438134,
+                        46.560783
+                    ],
+                    [
+                        13.3064132,
+                        46.5502848
+                    ],
+                    [
+                        13.1283019,
+                        46.5887681
+                    ],
+                    [
+                        12.8433237,
+                        46.6132433
+                    ],
+                    [
+                        12.7262791,
+                        46.6412014
+                    ],
+                    [
+                        12.5125455,
+                        46.6656529
+                    ],
+                    [
+                        12.3598787,
+                        46.7040543
+                    ],
+                    [
+                        12.3649676,
+                        46.7703197
+                    ],
+                    [
+                        12.2886341,
+                        46.7772902
+                    ],
+                    [
+                        12.2733674,
+                        46.8852187
+                    ],
+                    [
+                        12.2072118,
+                        46.8747835
+                    ],
+                    [
+                        12.1308784,
+                        46.9026062
+                    ],
+                    [
+                        12.1156117,
+                        46.9998721
+                    ],
+                    [
+                        12.2530119,
+                        47.0657733
+                    ],
+                    [
+                        12.2123007,
+                        47.0934969
+                    ],
+                    [
+                        11.9833004,
+                        47.0449712
+                    ],
+                    [
+                        11.7339445,
+                        46.9616816
+                    ],
+                    [
+                        11.6321666,
+                        47.010283
+                    ],
+                    [
+                        11.5405665,
+                        46.9755722
+                    ],
+                    [
+                        11.4998553,
+                        47.0068129
+                    ],
+                    [
+                        11.418433,
+                        46.9651546
+                    ],
+                    [
+                        11.2555884,
+                        46.9755722
+                    ],
+                    [
+                        11.1130993,
+                        46.913036
+                    ],
+                    [
+                        11.0418548,
+                        46.7633482
+                    ],
+                    [
+                        10.8891879,
+                        46.7598621
+                    ],
+                    [
+                        10.7416099,
+                        46.7842599
+                    ],
+                    [
+                        10.7059877,
+                        46.8643462
+                    ],
+                    [
+                        10.5787653,
+                        46.8399847
+                    ],
+                    [
+                        10.4566318,
+                        46.8504267
+                    ],
+                    [
+                        10.4769874,
+                        46.9269392
+                    ],
+                    [
+                        10.3853873,
+                        46.9894592
+                    ],
+                    [
+                        10.2327204,
+                        46.8643462
+                    ],
+                    [
+                        10.1207647,
+                        46.8330223
+                    ],
+                    [
+                        9.8663199,
+                        46.9408389
+                    ],
+                    [
+                        9.9019422,
+                        47.0033426
+                    ],
+                    [
+                        9.6831197,
+                        47.0588402
+                    ],
+                    [
+                        9.6118752,
+                        47.0380354
+                    ],
+                    [
+                        9.6322307,
+                        47.128131
+                    ],
+                    [
+                        9.5813418,
+                        47.1662025
+                    ],
+                    [
+                        9.5406306,
+                        47.2664422
+                    ],
+                    [
+                        9.6067863,
+                        47.3492559
+                    ],
+                    [
+                        9.6729419,
+                        47.369939
+                    ],
+                    [
+                        9.6424085,
+                        47.4457079
+                    ],
+                    [
+                        9.5660751,
+                        47.4801122
+                    ],
+                    [
+                        9.7136531,
+                        47.5282405
+                    ],
+                    [
+                        9.7848976,
+                        47.5969187
+                    ],
+                    [
+                        9.8357866,
+                        47.5454185
+                    ],
+                    [
+                        9.9477423,
+                        47.538548
+                    ],
+                    [
+                        10.0902313,
+                        47.4491493
+                    ],
+                    [
+                        10.1105869,
+                        47.3664924
+                    ],
+                    [
+                        10.2428982,
+                        47.3871688
+                    ],
+                    [
+                        10.1869203,
+                        47.2698953
+                    ],
+                    [
+                        10.3243205,
+                        47.2975125
+                    ],
+                    [
+                        10.4820763,
+                        47.4491493
+                    ],
+                    [
+                        10.4311873,
+                        47.4869904
+                    ],
+                    [
+                        10.4413651,
+                        47.5900549
+                    ],
+                    [
+                        10.4871652,
+                        47.5522881
+                    ],
+                    [
+                        10.5482319,
+                        47.5351124
+                    ],
+                    [
+                        10.5991209,
+                        47.5660246
+                    ],
+                    [
+                        10.7568766,
+                        47.5316766
+                    ],
+                    [
+                        10.8891879,
+                        47.5454185
+                    ],
+                    [
+                        10.9400769,
+                        47.4869904
+                    ],
+                    [
+                        10.9960547,
+                        47.3906141
+                    ],
+                    [
+                        11.2352328,
+                        47.4422662
+                    ],
+                    [
+                        11.2810328,
+                        47.3975039
+                    ],
+                    [
+                        11.4235219,
+                        47.5144941
+                    ],
+                    [
+                        11.5761888,
+                        47.5076195
+                    ],
+                    [
+                        11.6067221,
+                        47.5900549
+                    ],
+                    [
+                        11.8357224,
+                        47.5866227
+                    ],
+                    [
+                        12.003656,
+                        47.6243647
+                    ],
+                    [
+                        12.2072118,
+                        47.6037815
+                    ],
+                    [
+                        12.1614117,
+                        47.6963421
+                    ],
+                    [
+                        12.2581008,
+                        47.7442718
+                    ],
+                    [
+                        12.2530119,
+                        47.6792136
+                    ],
+                    [
+                        12.4311232,
+                        47.7100408
+                    ],
+                    [
+                        12.4921899,
+                        47.631224
+                    ],
+                    [
+                        12.5685234,
+                        47.6277944
+                    ],
+                    [
+                        12.6295901,
+                        47.6894913
+                    ],
+                    [
+                        12.7720792,
+                        47.6689338
+                    ],
+                    [
+                        12.8331459,
+                        47.5419833
+                    ],
+                    [
+                        12.975635,
+                        47.4732332
+                    ],
+                    [
+                        13.0417906,
+                        47.4938677
+                    ],
+                    [
+                        13.0367017,
+                        47.5557226
+                    ],
+                    [
+                        13.0977685,
+                        47.6415112
+                    ],
+                    [
+                        13.0316128,
+                        47.7100408
+                    ],
+                    [
+                        12.9043905,
+                        47.7203125
+                    ],
+                    [
+                        13.0061684,
+                        47.84683
+                    ],
+                    [
+                        12.9451016,
+                        47.9355501
+                    ],
+                    [
+                        12.8636793,
+                        47.9594103
+                    ],
+                    [
+                        12.8636793,
+                        48.0036929
+                    ],
+                    [
+                        12.7517236,
+                        48.0989418
+                    ],
+                    [
+                        12.8738571,
+                        48.2109733
+                    ],
+                    [
+                        12.9603683,
+                        48.2109733
+                    ],
+                    [
+                        13.0417906,
+                        48.2652035
+                    ],
+                    [
+                        13.1842797,
+                        48.2990682
+                    ],
+                    [
+                        13.2606131,
+                        48.2922971
+                    ],
+                    [
+                        13.3980133,
+                        48.3565867
+                    ],
+                    [
+                        13.4438134,
+                        48.417418
+                    ],
+                    [
+                        13.4387245,
+                        48.5523383
+                    ],
+                    [
+                        13.509969,
+                        48.5860123
+                    ],
+                    [
+                        13.6117469,
+                        48.5725454
+                    ],
+                    [
+                        13.7287915,
+                        48.5118999
+                    ],
+                    [
+                        13.7847694,
+                        48.5725454
+                    ],
+                    [
+                        13.8203916,
+                        48.6263915
+                    ],
+                    [
+                        13.7949471,
+                        48.7171267
+                    ],
+                    [
+                        13.850925,
+                        48.7741724
+                    ],
+                    [
+                        14.0595697,
+                        48.6633774
+                    ],
+                    [
+                        14.0137696,
+                        48.6331182
+                    ],
+                    [
+                        14.0748364,
+                        48.5927444
+                    ],
+                    [
+                        14.2173255,
+                        48.5961101
+                    ],
+                    [
+                        14.3649034,
+                        48.5489696
+                    ],
+                    [
+                        14.4666813,
+                        48.6499311
+                    ],
+                    [
+                        14.5582815,
+                        48.5961101
+                    ],
+                    [
+                        14.5989926,
+                        48.6263915
+                    ],
+                    [
+                        14.7211261,
+                        48.5759124
+                    ],
+                    [
+                        14.7211261,
+                        48.6868997
+                    ],
+                    [
+                        14.822904,
+                        48.7271983
+                    ],
+                    [
+                        14.8178151,
+                        48.777526
+                    ],
+                    [
+                        14.9647227,
+                        48.7851754
+                    ],
+                    [
+                        14.9893637,
+                        49.0126611
+                    ],
+                    [
+                        15.1485933,
+                        48.9950306
+                    ],
+                    [
+                        15.1943934,
+                        48.9315502
+                    ],
+                    [
+                        15.3063491,
+                        48.9850128
+                    ],
+                    [
+                        15.3928603,
+                        48.9850128
+                    ],
+                    [
+                        15.4844604,
+                        48.9282069
+                    ],
+                    [
+                        15.749083,
+                        48.8545973
+                    ],
+                    [
+                        15.8406831,
+                        48.8880697
+                    ],
+                    [
+                        16.0086166,
+                        48.7808794
+                    ],
+                    [
+                        16.2070835,
+                        48.7339115
+                    ],
+                    [
+                        16.3953727,
+                        48.7372678
+                    ],
+                    [
+                        16.4920617,
+                        48.8110498
+                    ],
+                    [
+                        16.6905286,
+                        48.7741724
+                    ],
+                    [
+                        16.7057953,
+                        48.7339115
+                    ],
+                    [
+                        16.8991733,
+                        48.713769
+                    ],
+                    [
+                        16.9755067,
+                        48.515271
+                    ],
+                    [
+                        16.8482844,
+                        48.4511817
+                    ],
+                    [
+                        16.8533733,
+                        48.3464411
+                    ],
+                    [
+                        16.9551512,
+                        48.2516513
+                    ],
+                    [
+                        16.9907734,
+                        48.1498955
+                    ],
+                    [
+                        17.0925513,
+                        48.1397088
+                    ],
+                    [
+                        17.0823736,
+                        48.0241182
+                    ],
+                    [
+                        17.1739737,
+                        48.0207146
+                    ],
+                    [
+                        17.0823736,
+                        47.8741447
+                    ],
+                    [
+                        16.9856845,
+                        47.8673174
+                    ],
+                    [
+                        17.0823736,
+                        47.8092489
+                    ],
+                    [
+                        17.0925513,
+                        47.7031919
+                    ],
+                    [
+                        16.7414176,
+                        47.6792136
+                    ],
+                    [
+                        16.7057953,
+                        47.7511153
+                    ],
+                    [
+                        16.5378617,
+                        47.7545368
+                    ],
+                    [
+                        16.5480395,
+                        47.7066164
+                    ],
+                    [
+                        16.4208172,
+                        47.6689338
+                    ],
+                    [
+                        16.573484,
+                        47.6175045
+                    ],
+                    [
+                        16.670173,
+                        47.631224
+                    ],
+                    [
+                        16.7108842,
+                        47.538548
+                    ],
+                    [
+                        16.6599952,
+                        47.4491493
+                    ],
+                    [
+                        16.5429506,
+                        47.3940591
+                    ],
+                    [
+                        16.4615283,
+                        47.3940591
+                    ],
+                    [
+                        16.4920617,
+                        47.276801
+                    ],
+                    [
+                        16.425906,
+                        47.1973317
+                    ],
+                    [
+                        16.4717061,
+                        47.1489007
+                    ],
+                    [
+                        16.5480395,
+                        47.1489007
+                    ],
+                    [
+                        16.476795,
+                        47.0796369
+                    ],
+                    [
+                        16.527684,
+                        47.0588402
+                    ]
+                ]
+            ],
+            "terms_text": "geoimage.at",
+            "id": "geoimage.at"
         },
         {
             "name": "Imagerie Drone (Haiti)",
@@ -37777,6 +39243,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         {
             "name": "Locator Overlay",
             "type": "tms",
+            "description": "Shows major features to help orient you.",
             "template": "http://{switch:a,b,c}.tiles.mapbox.com/v3/openstreetmap.map-btyhiati/{zoom}/{x}/{y}.png",
             "scaleExtent": [
                 0,
@@ -37805,6 +39272,41 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "type": "tms",
             "template": "http://oatile{switch:1,2,3,4}.mqcdn.com/tiles/1.0.0/sat/{zoom}/{x}/{y}.png",
             "default": true
+        },
+        {
+            "name": "NLS - Bartholomew Half Inch, 1897-1907",
+            "type": "tms",
+            "template": "http://geo.nls.uk/mapdata2/bartholomew/great_britain/{zoom}/{x}/{-y}.png",
+            "scaleExtent": [
+                0,
+                15
+            ],
+            "polygon": [
+                [
+                    [
+                        -9,
+                        49.8
+                    ],
+                    [
+                        -9,
+                        61.1
+                    ],
+                    [
+                        1.9,
+                        61.1
+                    ],
+                    [
+                        1.9,
+                        49.8
+                    ],
+                    [
+                        -9,
+                        49.8
+                    ]
+                ]
+            ],
+            "terms_url": "http://geo.nls.uk/maps/",
+            "terms_text": "National Library of Scotland Historic Maps"
         },
         {
             "name": "NLS - OS 1-inch 7th Series 1955-61",
@@ -44030,6 +45532,20 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "terms_url": "http://openstreetmap.org/",
             "terms_text": "© OpenStreetMap contributors, CC-BY-SA",
             "default": true
+        },
+        {
+            "name": "OpenStreetMap GPS traces",
+            "type": "tms",
+            "description": "Public GPS traces uploaded to OpenStreetMap.",
+            "template": "http://{switch:a,b,c}.gps-tile.openstreetmap.org/lines/{zoom}/{x}/{y}.png",
+            "scaleExtent": [
+                0,
+                20
+            ],
+            "terms_url": "http://www.openstreetmap.org/copyright",
+            "terms_text": "© OpenStreetMap contributors",
+            "terms_html": "© <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>. North: <span style='display: inline-block; width: 10px; height: 10px; background-color: #7fed11;'></span> South: <span style='display: inline-block; width: 10px; height: 10px; background-color: #7f11ed;'></span> East: <span style='display: inline-block; width: 10px; height: 10px; background-color: #ff3f3f;'></span> West: <span style='display: inline-block; width: 10px; height: 10px; background-color: #00bfbf;'></span>",
+            "overlay": true
         },
         {
             "name": "Pangasinán/Bulacan (Phillipines HiRes)",
@@ -55034,6 +56550,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "addr:housenumber": "*"
                 },
+                "addTags": {},
                 "matchScore": 0.2,
                 "name": "Address"
             },
@@ -55370,6 +56887,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Cafe"
             },
             "amenity/car_rental": {
+                "icon": "car",
                 "geometry": [
                     "point",
                     "area"
@@ -55383,6 +56901,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Car Rental"
             },
             "amenity/car_sharing": {
+                "icon": "car",
                 "geometry": [
                     "point",
                     "area"
@@ -55716,7 +57235,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "amenity": "parking"
                 },
                 "terms": [],
-                "name": "Parking"
+                "name": "Car Parking"
             },
             "amenity/pharmacy": {
                 "icon": "pharmacy",
@@ -56012,7 +57531,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "visitor centre",
                     "permit center",
                     "permit centre",
-                    "backcountry office"
+                    "backcountry office",
+                    "warden office",
+                    "warden center"
                 ],
                 "tags": {
                     "amenity": "ranger_station"
@@ -56104,6 +57625,23 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "amenity": "school"
                 },
                 "name": "School"
+            },
+            "amenity/shelter": {
+                "fields": [
+                    "shelter_type"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "amenity": "shelter"
+                },
+                "terms": [
+                    "lean-to"
+                ],
+                "name": "Shelter"
             },
             "amenity/swimming_pool": {
                 "geometry": [
@@ -56279,7 +57817,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "geometry": [
                     "area"
-                ]
+                ],
+                "matchScore": 0.1
             },
             "barrier": {
                 "geometry": [
@@ -56365,6 +57904,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Ditch"
             },
             "barrier/entrance": {
+                "icon": "entrance",
                 "geometry": [
                     "vertex"
                 ],
@@ -56536,6 +58076,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Commercial Building"
             },
             "building/entrance": {
+                "icon": "entrance",
                 "geometry": [
                     "vertex"
                 ],
@@ -56554,7 +58095,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "building": "garage"
                 },
-                "name": "Garage"
+                "name": "Garage",
+                "icon": "warehouse"
             },
             "building/house": {
                 "icon": "building",
@@ -56656,6 +58198,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Emergency Phone"
             },
             "entrance": {
+                "icon": "entrance",
                 "geometry": [
                     "vertex"
                 ],
@@ -56667,6 +58210,39 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "address"
                 ],
                 "name": "Entrance"
+            },
+            "footway/crossing": {
+                "fields": [
+                    "crossing"
+                ],
+                "geometry": [
+                    "line"
+                ],
+                "tags": {
+                    "highway": "footway",
+                    "footway": "crossing"
+                },
+                "terms": [
+                    "crosswalk",
+                    "zebra crossing"
+                ],
+                "name": "Crossing"
+            },
+            "footway/sidewalk": {
+                "fields": [
+                    "surface",
+                    "lit",
+                    "access"
+                ],
+                "geometry": [
+                    "line"
+                ],
+                "tags": {
+                    "highway": "footway",
+                    "footway": "sidewalk"
+                },
+                "terms": [],
+                "name": "Sidewalk"
             },
             "highway": {
                 "fields": [
@@ -57514,7 +59090,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "landuse": "farmyard"
                 },
                 "terms": [],
-                "name": "Farmyard"
+                "name": "Farmyard",
+                "icon": "farm"
             },
             "landuse/forest": {
                 "fields": [
@@ -57635,6 +59212,19 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "name": "Leisure"
             },
+            "leisure/common": {
+                "geometry": [
+                    "point",
+                    "area"
+                ],
+                "terms": [
+                    "open space"
+                ],
+                "tags": {
+                    "leisure": "common"
+                },
+                "name": "Common"
+            },
             "leisure/dog_park": {
                 "geometry": [
                     "point",
@@ -57644,7 +59234,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "leisure": "dog_park"
                 },
-                "name": "Dog Park"
+                "name": "Dog Park",
+                "icon": "dog-park"
             },
             "leisure/garden": {
                 "icon": "garden",
@@ -57845,6 +59436,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Volleyball Court"
             },
             "leisure/playground": {
+                "icon": "playground",
                 "geometry": [
                     "point",
                     "area"
@@ -57927,7 +59519,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {},
                 "geometry": [
                     "line"
-                ]
+                ],
+                "matchScore": 0.1
             },
             "man_made": {
                 "fields": [
@@ -57971,7 +59564,23 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "man_made": "lighthouse"
                 },
-                "name": "Lighthouse"
+                "name": "Lighthouse",
+                "icon": "lighthouse"
+            },
+            "man_made/observation": {
+                "geometry": [
+                    "point",
+                    "area"
+                ],
+                "terms": [
+                    "lookout tower",
+                    "fire tower"
+                ],
+                "tags": {
+                    "man_made": "tower",
+                    "tower:type": "observation"
+                },
+                "name": "Observation Tower"
             },
             "man_made/pier": {
                 "geometry": [
@@ -58242,6 +59851,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "natural/tree": {
                 "fields": [
+                    "tree_type",
                     "denotation"
                 ],
                 "icon": "park",
@@ -58361,6 +59971,347 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "terms": [],
                 "name": "Office"
             },
+            "office/accountant": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "accountant"
+                },
+                "terms": [],
+                "name": "Accountant"
+            },
+            "office/administrative": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "administrative"
+                },
+                "terms": [],
+                "name": "Administrative Office"
+            },
+            "office/architect": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "architect"
+                },
+                "terms": [],
+                "name": "Architect"
+            },
+            "office/company": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "company"
+                },
+                "terms": [],
+                "name": "Company Office"
+            },
+            "office/educational_institution": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "educational_institution"
+                },
+                "terms": [],
+                "name": "Educational Institution"
+            },
+            "office/employment_agency": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "employment_agency"
+                },
+                "terms": [],
+                "name": "Employment Agency"
+            },
+            "office/estate_agent": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "estate_agent"
+                },
+                "terms": [],
+                "name": "Real Estate Office"
+            },
+            "office/financial": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "financial"
+                },
+                "terms": [],
+                "name": "Financial Office"
+            },
+            "office/government": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "government"
+                },
+                "terms": [],
+                "name": "Government Office"
+            },
+            "office/insurance": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "insurance"
+                },
+                "terms": [],
+                "name": "Insurance Office"
+            },
+            "office/it": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "it"
+                },
+                "terms": [],
+                "name": "IT Office"
+            },
+            "office/lawyer": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "lawyer"
+                },
+                "terms": [],
+                "name": "Law Office"
+            },
+            "office/newspaper": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "newspaper"
+                },
+                "terms": [],
+                "name": "Newspaper"
+            },
+            "office/ngo": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "ngo"
+                },
+                "terms": [],
+                "name": "NGO Office"
+            },
+            "office/physician": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "physician"
+                },
+                "terms": [],
+                "name": "Physician"
+            },
+            "office/political_party": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "political_party"
+                },
+                "terms": [],
+                "name": "Political Party"
+            },
+            "office/research": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "research"
+                },
+                "terms": [],
+                "name": "Research Office"
+            },
+            "office/telecommunication": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "telecommunication"
+                },
+                "terms": [],
+                "name": "Telecom Office"
+            },
+            "office/therapist": {
+                "icon": "commercial",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "therapist"
+                },
+                "terms": [],
+                "name": "Therapist"
+            },
+            "office/travel_agent": {
+                "icon": "suitcase",
+                "fields": [
+                    "address",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "office": "travel_agent"
+                },
+                "terms": [],
+                "name": "Travel Agency",
+                "searchable": false
+            },
             "place": {
                 "fields": [
                     "place"
@@ -58465,7 +60416,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {},
                 "geometry": [
                     "point"
-                ]
+                ],
+                "matchScore": 0.1
             },
             "power": {
                 "geometry": [
@@ -58506,6 +60458,16 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "power": "line"
                 },
                 "name": "Power Line",
+                "icon": "power-line"
+            },
+            "power/minor_line": {
+                "geometry": [
+                    "line"
+                ],
+                "tags": {
+                    "power": "minor_line"
+                },
+                "name": "Minor Power Line",
                 "icon": "power-line"
             },
             "power/pole": {
@@ -58680,6 +60642,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {
                     "railway": "station"
                 },
+                "terms": [
+                    "train station",
+                    "station"
+                ],
                 "name": "Railway Station"
             },
             "railway/subway": {
@@ -58697,7 +60663,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Subway"
             },
             "railway/subway_entrance": {
-                "icon": "rail-underground",
+                "icon": "rail-metro",
                 "geometry": [
                     "point"
                 ],
@@ -58783,7 +60749,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Liquor Store"
             },
             "shop/bakery": {
-                "icon": "shop",
+                "icon": "bakery",
                 "fields": [
                     "address",
                     "building_area",
@@ -58908,7 +60874,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Butcher"
             },
             "shop/car": {
-                "icon": "shop",
+                "icon": "car",
                 "fields": [
                     "address",
                     "opening_hours"
@@ -58975,7 +60941,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Chemist"
             },
             "shop/clothes": {
-                "icon": "shop",
+                "icon": "clothing-store",
                 "fields": [
                     "address",
                     "building_area",
@@ -59339,7 +61305,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Kiosk"
             },
             "shop/laundry": {
-                "icon": "shop",
+                "icon": "laundry",
                 "fields": [
                     "address",
                     "building_area",
@@ -59354,6 +61320,26 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "shop": "laundry"
                 },
                 "name": "Laundry"
+            },
+            "shop/locksmith": {
+                "icon": "shop",
+                "fields": [
+                    "address",
+                    "building_area",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "terms": [
+                    "keys"
+                ],
+                "tags": {
+                    "shop": "locksmith"
+                },
+                "name": "Locksmith"
             },
             "shop/mall": {
                 "icon": "shop",
@@ -59475,7 +61461,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Outdoor Store"
             },
             "shop/pet": {
-                "icon": "shop",
+                "icon": "dog-park",
                 "fields": [
                     "address",
                     "building_area",
@@ -59490,6 +61476,23 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "shop": "pet"
                 },
                 "name": "Pet Store"
+            },
+            "shop/photo": {
+                "icon": "camera",
+                "fields": [
+                    "address",
+                    "building_area",
+                    "opening_hours"
+                ],
+                "geometry": [
+                    "point",
+                    "vertex",
+                    "area"
+                ],
+                "tags": {
+                    "shop": "photo"
+                },
+                "name": "Photography Store"
             },
             "shop/shoes": {
                 "icon": "shop",
@@ -59564,6 +61567,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "five-and-dime",
                     "flea market",
                     "galleria",
+                    "grocery store",
                     "mall",
                     "mart",
                     "outlet",
@@ -59600,7 +61604,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "name": "Toy Store"
             },
             "shop/travel_agency": {
-                "icon": "shop",
+                "icon": "suitcase",
                 "fields": [
                     "address",
                     "building_area",
@@ -59762,7 +61766,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "vertex",
                     "area"
                 ],
-                "terms": [],
+                "terms": [
+                    "camping"
+                ],
                 "tags": {
                     "tourism": "camp_site"
                 },
@@ -60235,7 +62241,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "tags": {},
                 "geometry": [
                     "vertex"
-                ]
+                ],
+                "matchScore": 0.1
             },
             "waterway": {
                 "fields": [
@@ -60385,9 +62392,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "defaults": {
             "area": [
                 "category-landuse",
-                "building",
+                "category-building",
+                "category-water-area",
                 "leisure/park",
-                "natural/water",
                 "amenity/hospital",
                 "amenity/place_of_worship",
                 "amenity/cafe",
@@ -60398,7 +62405,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "category-road",
                 "category-rail",
                 "category-path",
-                "category-water",
+                "category-water-line",
                 "power/line",
                 "line"
             ],
@@ -60431,6 +62438,19 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             ]
         },
         "categories": {
+            "category-building": {
+                "geometry": "area",
+                "name": "Building",
+                "icon": "building",
+                "members": [
+                    "building/house",
+                    "building/apartments",
+                    "building/commercial",
+                    "building/industrial",
+                    "building/residential",
+                    "building"
+                ]
+            },
             "category-landuse": {
                 "geometry": "area",
                 "name": "Land Use",
@@ -60514,7 +62534,18 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "type/route"
                 ]
             },
-            "category-water": {
+            "category-water-area": {
+                "geometry": "area",
+                "name": "Water",
+                "icon": "water",
+                "members": [
+                    "natural/water/lake",
+                    "natural/water/pond",
+                    "natural/water/reservoir",
+                    "natural/water"
+                ]
+            },
+            "category-water-line": {
                 "geometry": "line",
                 "name": "Water",
                 "icon": "category-water",
@@ -60614,12 +62645,12 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "aeroway": {
                 "key": "aeroway",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "amenity": {
                 "key": "amenity",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "artist": {
@@ -60644,7 +62675,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "barrier": {
                 "key": "barrier",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "bicycle_parking": {
@@ -60659,7 +62690,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "building": {
                 "key": "building",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Building"
             },
             "building_area": {
@@ -60773,7 +62804,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "entrance": {
                 "key": "entrance",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "fax": {
@@ -60820,12 +62851,12 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "highway": {
                 "key": "highway",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "historic": {
                 "key": "historic",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "iata": {
@@ -60866,7 +62897,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "landuse": {
                 "key": "landuse",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "lanes": {
@@ -60882,7 +62913,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "leisure": {
                 "key": "leisure",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "levels": {
@@ -60903,7 +62934,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "man_made": {
                 "key": "man_made",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "maxspeed": {
@@ -60920,7 +62951,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "natural": {
                 "key": "natural",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Natural"
             },
             "network": {
@@ -60937,7 +62968,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "office": {
                 "key": "office",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "oneway": {
@@ -60990,17 +63021,17 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "place": {
                 "key": "place",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "power": {
                 "key": "power",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "railway": {
                 "key": "railway",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "ref": {
@@ -61075,9 +63106,23 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "type": "check",
                 "label": "Shelter"
             },
+            "shelter_type": {
+                "key": "shelter_type",
+                "type": "combo",
+                "options": [
+                    "public_transport",
+                    "picnic_shelter",
+                    "weather_shelter",
+                    "lean_to",
+                    "basic_hut",
+                    "field_shelter",
+                    "rock_shelter"
+                ],
+                "label": "Type"
+            },
             "shop": {
                 "key": "shop",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "source": {
@@ -61128,7 +63173,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "tourism": {
                 "key": "tourism",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "towertype": {
@@ -61146,6 +63191,16 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "type": "combo",
                 "label": "Trail Visibility"
             },
+            "tree_type": {
+                "key": "type",
+                "type": "combo",
+                "options": [
+                    "broad_leaved",
+                    "conifer",
+                    "palm"
+                ],
+                "label": "Type"
+            },
             "vending": {
                 "key": "vending",
                 "type": "combo",
@@ -61158,7 +63213,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "waterway": {
                 "key": "waterway",
-                "type": "combo",
+                "type": "typeCombo",
                 "label": "Type"
             },
             "website": {
@@ -71072,1310 +73127,1548 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         ]
     },
     "featureIcons": {
-        "airfield": {
+        "circle-stroked": {
             "12": [
-                0,
+                42,
                 0
             ],
             "18": [
-                0,
-                14
+                24,
+                0
             ],
             "24": [
                 0,
-                34
-            ]
-        },
-        "airport": {
-            "12": [
-                0,
-                60
-            ],
-            "18": [
-                0,
-                74
-            ],
-            "24": [
-                0,
-                94
-            ]
-        },
-        "alcohol-shop": {
-            "12": [
-                0,
-                120
-            ],
-            "18": [
-                0,
-                134
-            ],
-            "24": [
-                0,
-                154
-            ]
-        },
-        "america-football": {
-            "12": [
-                0,
-                180
-            ],
-            "18": [
-                0,
-                194
-            ],
-            "24": [
-                0,
-                214
-            ]
-        },
-        "art-gallery": {
-            "12": [
-                0,
-                240
-            ],
-            "18": [
-                0,
-                254
-            ],
-            "24": [
-                0,
-                274
-            ]
-        },
-        "bank": {
-            "12": [
-                0,
-                300
-            ],
-            "18": [
-                0,
-                314
-            ],
-            "24": [
-                0,
-                334
-            ]
-        },
-        "bar": {
-            "12": [
-                0,
-                360
-            ],
-            "18": [
-                0,
-                374
-            ],
-            "24": [
-                0,
-                394
-            ]
-        },
-        "baseball": {
-            "12": [
-                0,
-                420
-            ],
-            "18": [
-                0,
-                434
-            ],
-            "24": [
-                0,
-                454
-            ]
-        },
-        "basketball": {
-            "12": [
-                0,
-                480
-            ],
-            "18": [
-                0,
-                494
-            ],
-            "24": [
-                0,
-                514
-            ]
-        },
-        "beer": {
-            "12": [
-                0,
-                540
-            ],
-            "18": [
-                0,
-                554
-            ],
-            "24": [
-                0,
-                574
-            ]
-        },
-        "bicycle": {
-            "12": [
-                0,
-                600
-            ],
-            "18": [
-                0,
-                614
-            ],
-            "24": [
-                0,
-                634
-            ]
-        },
-        "building": {
-            "12": [
-                0,
-                660
-            ],
-            "18": [
-                0,
-                674
-            ],
-            "24": [
-                0,
-                694
-            ]
-        },
-        "bus": {
-            "12": [
-                0,
-                720
-            ],
-            "18": [
-                0,
-                734
-            ],
-            "24": [
-                0,
-                754
-            ]
-        },
-        "cafe": {
-            "12": [
-                0,
-                780
-            ],
-            "18": [
-                0,
-                794
-            ],
-            "24": [
-                0,
-                814
-            ]
-        },
-        "campsite": {
-            "12": [
-                0,
-                840
-            ],
-            "18": [
-                0,
-                854
-            ],
-            "24": [
-                0,
-                874
-            ]
-        },
-        "cemetery": {
-            "12": [
-                0,
-                900
-            ],
-            "18": [
-                0,
-                914
-            ],
-            "24": [
-                0,
-                934
-            ]
-        },
-        "cinema": {
-            "12": [
-                0,
-                960
-            ],
-            "18": [
-                0,
-                974
-            ],
-            "24": [
-                0,
-                994
+                0
             ]
         },
         "circle": {
             "12": [
-                0,
-                1020
+                96,
+                0
             ],
             "18": [
-                0,
-                1034
+                78,
+                0
             ],
             "24": [
-                0,
-                1054
+                54,
+                0
             ]
         },
-        "circle-stroked": {
+        "square-stroked": {
             "12": [
-                0,
-                1080
+                150,
+                0
             ],
             "18": [
-                0,
-                1094
+                132,
+                0
             ],
             "24": [
-                0,
-                1114
+                108,
+                0
             ]
         },
-        "city": {
+        "square": {
             "12": [
-                0,
-                1140
+                204,
+                0
             ],
             "18": [
-                0,
-                1154
+                186,
+                0
             ],
             "24": [
-                0,
-                1174
+                162,
+                0
             ]
         },
-        "college": {
+        "triangle-stroked": {
             "12": [
-                0,
-                1200
+                258,
+                0
             ],
             "18": [
-                0,
-                1214
+                240,
+                0
             ],
             "24": [
-                0,
-                1234
+                216,
+                0
             ]
         },
-        "commercial": {
+        "triangle": {
             "12": [
-                0,
-                1260
+                42,
+                24
             ],
             "18": [
-                0,
-                1274
+                24,
+                24
             ],
             "24": [
                 0,
-                1294
+                24
             ]
         },
-        "cricket": {
+        "star-stroked": {
             "12": [
-                0,
-                1320
+                96,
+                24
             ],
             "18": [
-                0,
-                1334
+                78,
+                24
             ],
             "24": [
-                0,
-                1354
+                54,
+                24
+            ]
+        },
+        "star": {
+            "12": [
+                150,
+                24
+            ],
+            "18": [
+                132,
+                24
+            ],
+            "24": [
+                108,
+                24
             ]
         },
         "cross": {
             "12": [
-                0,
-                1380
+                204,
+                24
             ],
             "18": [
-                0,
-                1394
+                186,
+                24
             ],
             "24": [
-                0,
-                1414
+                162,
+                24
             ]
         },
-        "dam": {
+        "marker-stroked": {
             "12": [
-                0,
-                1440
+                258,
+                24
             ],
             "18": [
-                0,
-                1454
+                240,
+                24
             ],
             "24": [
-                0,
-                1474
+                216,
+                24
             ]
         },
-        "danger": {
+        "marker": {
             "12": [
-                0,
-                1500
+                42,
+                48
             ],
             "18": [
-                0,
-                1514
+                24,
+                48
             ],
             "24": [
                 0,
-                1534
+                48
             ]
         },
-        "disability": {
+        "religious-jewish": {
             "12": [
-                0,
-                1560
+                96,
+                48
             ],
             "18": [
-                0,
-                1574
+                78,
+                48
             ],
             "24": [
-                0,
-                1594
+                54,
+                48
             ]
         },
-        "embassy": {
+        "religious-christian": {
             "12": [
-                0,
-                1620
+                150,
+                48
             ],
             "18": [
-                0,
-                1634
+                132,
+                48
             ],
             "24": [
-                0,
-                1654
+                108,
+                48
             ]
         },
-        "emergency-telephone": {
+        "religious-muslim": {
             "12": [
-                0,
-                1680
+                204,
+                48
             ],
             "18": [
-                0,
-                1694
+                186,
+                48
             ],
             "24": [
-                0,
-                1714
+                162,
+                48
             ]
         },
-        "farm": {
+        "cemetery": {
             "12": [
-                0,
-                1740
+                258,
+                48
             ],
             "18": [
-                0,
-                1754
+                240,
+                48
             ],
             "24": [
-                0,
-                1774
+                216,
+                48
             ]
         },
-        "fast-food": {
+        "rocket": {
             "12": [
-                0,
-                1800
+                42,
+                72
             ],
             "18": [
-                0,
-                1814
+                24,
+                72
             ],
             "24": [
                 0,
-                1834
+                72
+            ]
+        },
+        "airport": {
+            "12": [
+                96,
+                72
+            ],
+            "18": [
+                78,
+                72
+            ],
+            "24": [
+                54,
+                72
+            ]
+        },
+        "heliport": {
+            "12": [
+                150,
+                72
+            ],
+            "18": [
+                132,
+                72
+            ],
+            "24": [
+                108,
+                72
+            ]
+        },
+        "rail": {
+            "12": [
+                204,
+                72
+            ],
+            "18": [
+                186,
+                72
+            ],
+            "24": [
+                162,
+                72
+            ]
+        },
+        "rail-metro": {
+            "12": [
+                258,
+                72
+            ],
+            "18": [
+                240,
+                72
+            ],
+            "24": [
+                216,
+                72
+            ]
+        },
+        "rail-light": {
+            "12": [
+                42,
+                96
+            ],
+            "18": [
+                24,
+                96
+            ],
+            "24": [
+                0,
+                96
+            ]
+        },
+        "bus": {
+            "12": [
+                96,
+                96
+            ],
+            "18": [
+                78,
+                96
+            ],
+            "24": [
+                54,
+                96
+            ]
+        },
+        "fuel": {
+            "12": [
+                150,
+                96
+            ],
+            "18": [
+                132,
+                96
+            ],
+            "24": [
+                108,
+                96
+            ]
+        },
+        "parking": {
+            "12": [
+                204,
+                96
+            ],
+            "18": [
+                186,
+                96
+            ],
+            "24": [
+                162,
+                96
+            ]
+        },
+        "parking-garage": {
+            "12": [
+                258,
+                96
+            ],
+            "18": [
+                240,
+                96
+            ],
+            "24": [
+                216,
+                96
+            ]
+        },
+        "airfield": {
+            "12": [
+                42,
+                120
+            ],
+            "18": [
+                24,
+                120
+            ],
+            "24": [
+                0,
+                120
+            ]
+        },
+        "roadblock": {
+            "12": [
+                96,
+                120
+            ],
+            "18": [
+                78,
+                120
+            ],
+            "24": [
+                54,
+                120
             ]
         },
         "ferry": {
             "12": [
-                0,
-                1860
+                150,
+                120
             ],
             "18": [
-                0,
-                1874
+                132,
+                120
             ],
             "24": [
-                0,
-                1894
+                108,
+                120
             ],
             "line": [
                 2240,
                 25
             ]
         },
-        "fire-station": {
-            "12": [
-                0,
-                1920
-            ],
-            "18": [
-                0,
-                1934
-            ],
-            "24": [
-                0,
-                1954
-            ]
-        },
-        "fuel": {
-            "12": [
-                0,
-                1980
-            ],
-            "18": [
-                0,
-                1994
-            ],
-            "24": [
-                0,
-                2014
-            ]
-        },
-        "garden": {
-            "12": [
-                0,
-                2040
-            ],
-            "18": [
-                0,
-                2054
-            ],
-            "24": [
-                0,
-                2074
-            ]
-        },
-        "golf": {
-            "12": [
-                0,
-                2100
-            ],
-            "18": [
-                0,
-                2114
-            ],
-            "24": [
-                0,
-                2134
-            ]
-        },
-        "grocery": {
-            "12": [
-                0,
-                2160
-            ],
-            "18": [
-                0,
-                2174
-            ],
-            "24": [
-                0,
-                2194
-            ]
-        },
         "harbor": {
             "12": [
-                0,
-                2220
+                204,
+                120
             ],
             "18": [
-                0,
-                2234
+                186,
+                120
             ],
             "24": [
-                0,
-                2254
+                162,
+                120
             ]
         },
-        "heliport": {
+        "bicycle": {
             "12": [
-                0,
-                2280
+                258,
+                120
             ],
             "18": [
-                0,
-                2294
+                240,
+                120
             ],
             "24": [
-                0,
-                2314
-            ]
-        },
-        "hospital": {
-            "12": [
-                0,
-                2340
-            ],
-            "18": [
-                0,
-                2354
-            ],
-            "24": [
-                0,
-                2374
-            ]
-        },
-        "industrial": {
-            "12": [
-                0,
-                2400
-            ],
-            "18": [
-                0,
-                2414
-            ],
-            "24": [
-                0,
-                2434
-            ]
-        },
-        "land-use": {
-            "12": [
-                0,
-                2460
-            ],
-            "18": [
-                0,
-                2474
-            ],
-            "24": [
-                0,
-                2494
-            ]
-        },
-        "library": {
-            "12": [
-                0,
-                2520
-            ],
-            "18": [
-                0,
-                2534
-            ],
-            "24": [
-                0,
-                2554
-            ]
-        },
-        "lodging": {
-            "12": [
-                0,
-                2580
-            ],
-            "18": [
-                0,
-                2594
-            ],
-            "24": [
-                0,
-                2614
-            ]
-        },
-        "logging": {
-            "12": [
-                0,
-                2640
-            ],
-            "18": [
-                0,
-                2654
-            ],
-            "24": [
-                0,
-                2674
-            ]
-        },
-        "marker": {
-            "12": [
-                0,
-                2700
-            ],
-            "18": [
-                0,
-                2714
-            ],
-            "24": [
-                0,
-                2734
-            ]
-        },
-        "marker-stroked": {
-            "12": [
-                0,
-                2760
-            ],
-            "18": [
-                0,
-                2774
-            ],
-            "24": [
-                0,
-                2794
-            ]
-        },
-        "monument": {
-            "12": [
-                0,
-                2820
-            ],
-            "18": [
-                0,
-                2834
-            ],
-            "24": [
-                0,
-                2854
-            ]
-        },
-        "museum": {
-            "12": [
-                0,
-                2880
-            ],
-            "18": [
-                0,
-                2894
-            ],
-            "24": [
-                0,
-                2914
-            ]
-        },
-        "music": {
-            "12": [
-                0,
-                2940
-            ],
-            "18": [
-                0,
-                2954
-            ],
-            "24": [
-                0,
-                2974
-            ]
-        },
-        "oil-well": {
-            "12": [
-                0,
-                3000
-            ],
-            "18": [
-                0,
-                3014
-            ],
-            "24": [
-                0,
-                3034
+                216,
+                120
             ]
         },
         "park": {
             "12": [
-                0,
-                3060
+                42,
+                144
             ],
             "18": [
-                0,
-                3074
+                24,
+                144
             ],
             "24": [
                 0,
-                3094
+                144
             ]
         },
         "park2": {
             "12": [
-                0,
-                3120
+                96,
+                144
             ],
             "18": [
-                0,
-                3134
+                78,
+                144
             ],
             "24": [
-                0,
-                3154
+                54,
+                144
             ]
         },
-        "parking": {
+        "museum": {
             "12": [
-                0,
-                3180
+                150,
+                144
             ],
             "18": [
-                0,
-                3194
+                132,
+                144
             ],
             "24": [
-                0,
-                3214
+                108,
+                144
             ]
         },
-        "parking-garage": {
+        "lodging": {
             "12": [
-                0,
-                3240
+                204,
+                144
             ],
             "18": [
-                0,
-                3254
+                186,
+                144
             ],
             "24": [
-                0,
-                3274
+                162,
+                144
             ]
         },
-        "pharmacy": {
+        "monument": {
             "12": [
-                0,
-                3300
+                258,
+                144
             ],
             "18": [
-                0,
-                3314
+                240,
+                144
             ],
             "24": [
-                0,
-                3334
-            ]
-        },
-        "pitch": {
-            "12": [
-                0,
-                3360
-            ],
-            "18": [
-                0,
-                3374
-            ],
-            "24": [
-                0,
-                3394
-            ]
-        },
-        "place-of-worship": {
-            "12": [
-                0,
-                3420
-            ],
-            "18": [
-                0,
-                3434
-            ],
-            "24": [
-                0,
-                3454
-            ]
-        },
-        "police": {
-            "12": [
-                0,
-                3480
-            ],
-            "18": [
-                0,
-                3494
-            ],
-            "24": [
-                0,
-                3514
-            ]
-        },
-        "post": {
-            "12": [
-                0,
-                3540
-            ],
-            "18": [
-                0,
-                3554
-            ],
-            "24": [
-                0,
-                3574
-            ]
-        },
-        "prison": {
-            "12": [
-                0,
-                3600
-            ],
-            "18": [
-                0,
-                3614
-            ],
-            "24": [
-                0,
-                3634
-            ]
-        },
-        "rail": {
-            "12": [
-                0,
-                3660
-            ],
-            "18": [
-                0,
-                3674
-            ],
-            "24": [
-                0,
-                3694
-            ]
-        },
-        "rail-above": {
-            "12": [
-                0,
-                3720
-            ],
-            "18": [
-                0,
-                3734
-            ],
-            "24": [
-                0,
-                3754
-            ]
-        },
-        "rail-underground": {
-            "12": [
-                0,
-                3780
-            ],
-            "18": [
-                0,
-                3794
-            ],
-            "24": [
-                0,
-                3814
-            ]
-        },
-        "religious-christian": {
-            "12": [
-                0,
-                3840
-            ],
-            "18": [
-                0,
-                3854
-            ],
-            "24": [
-                0,
-                3874
-            ]
-        },
-        "religious-jewish": {
-            "12": [
-                0,
-                3900
-            ],
-            "18": [
-                0,
-                3914
-            ],
-            "24": [
-                0,
-                3934
-            ]
-        },
-        "religious-muslim": {
-            "12": [
-                0,
-                3960
-            ],
-            "18": [
-                0,
-                3974
-            ],
-            "24": [
-                0,
-                3994
-            ]
-        },
-        "restaurant": {
-            "12": [
-                0,
-                4020
-            ],
-            "18": [
-                0,
-                4034
-            ],
-            "24": [
-                0,
-                4054
-            ]
-        },
-        "roadblock": {
-            "12": [
-                0,
-                4080
-            ],
-            "18": [
-                0,
-                4094
-            ],
-            "24": [
-                0,
-                4114
-            ]
-        },
-        "school": {
-            "12": [
-                0,
-                4140
-            ],
-            "18": [
-                0,
-                4154
-            ],
-            "24": [
-                0,
-                4174
-            ]
-        },
-        "shop": {
-            "12": [
-                0,
-                4200
-            ],
-            "18": [
-                0,
-                4214
-            ],
-            "24": [
-                0,
-                4234
-            ]
-        },
-        "skiing": {
-            "12": [
-                0,
-                4260
-            ],
-            "18": [
-                0,
-                4274
-            ],
-            "24": [
-                0,
-                4294
-            ]
-        },
-        "slaughterhouse": {
-            "12": [
-                0,
-                4320
-            ],
-            "18": [
-                0,
-                4334
-            ],
-            "24": [
-                0,
-                4354
-            ]
-        },
-        "soccer": {
-            "12": [
-                0,
-                4380
-            ],
-            "18": [
-                0,
-                4394
-            ],
-            "24": [
-                0,
-                4414
-            ]
-        },
-        "square": {
-            "12": [
-                0,
-                4440
-            ],
-            "18": [
-                0,
-                4454
-            ],
-            "24": [
-                0,
-                4474
-            ]
-        },
-        "square-stroked": {
-            "12": [
-                0,
-                4500
-            ],
-            "18": [
-                0,
-                4514
-            ],
-            "24": [
-                0,
-                4534
-            ]
-        },
-        "star": {
-            "12": [
-                0,
-                4560
-            ],
-            "18": [
-                0,
-                4574
-            ],
-            "24": [
-                0,
-                4594
-            ]
-        },
-        "star-stroked": {
-            "12": [
-                0,
-                4620
-            ],
-            "18": [
-                0,
-                4634
-            ],
-            "24": [
-                0,
-                4654
-            ]
-        },
-        "swimming": {
-            "12": [
-                0,
-                4680
-            ],
-            "18": [
-                0,
-                4694
-            ],
-            "24": [
-                0,
-                4714
-            ]
-        },
-        "telephone": {
-            "12": [
-                0,
-                4740
-            ],
-            "18": [
-                0,
-                4754
-            ],
-            "24": [
-                0,
-                4774
-            ]
-        },
-        "tennis": {
-            "12": [
-                0,
-                4800
-            ],
-            "18": [
-                0,
-                4814
-            ],
-            "24": [
-                0,
-                4834
-            ]
-        },
-        "theatre": {
-            "12": [
-                0,
-                4860
-            ],
-            "18": [
-                0,
-                4874
-            ],
-            "24": [
-                0,
-                4894
-            ]
-        },
-        "toilets": {
-            "12": [
-                0,
-                4920
-            ],
-            "18": [
-                0,
-                4934
-            ],
-            "24": [
-                0,
-                4954
-            ]
-        },
-        "town": {
-            "12": [
-                0,
-                4980
-            ],
-            "18": [
-                0,
-                4994
-            ],
-            "24": [
-                0,
-                5014
-            ]
-        },
-        "town-hall": {
-            "12": [
-                0,
-                5040
-            ],
-            "18": [
-                0,
-                5054
-            ],
-            "24": [
-                0,
-                5074
-            ]
-        },
-        "triangle": {
-            "12": [
-                0,
-                5100
-            ],
-            "18": [
-                0,
-                5114
-            ],
-            "24": [
-                0,
-                5134
-            ]
-        },
-        "triangle-stroked": {
-            "12": [
-                0,
-                5160
-            ],
-            "18": [
-                0,
-                5174
-            ],
-            "24": [
-                0,
-                5194
-            ]
-        },
-        "village": {
-            "12": [
-                0,
-                5220
-            ],
-            "18": [
-                0,
-                5234
-            ],
-            "24": [
-                0,
-                5254
-            ]
-        },
-        "warehouse": {
-            "12": [
-                0,
-                5280
-            ],
-            "18": [
-                0,
-                5294
-            ],
-            "24": [
-                0,
-                5314
-            ]
-        },
-        "waste-basket": {
-            "12": [
-                0,
-                5340
-            ],
-            "18": [
-                0,
-                5354
-            ],
-            "24": [
-                0,
-                5374
-            ]
-        },
-        "water": {
-            "12": [
-                0,
-                5400
-            ],
-            "18": [
-                0,
-                5414
-            ],
-            "24": [
-                0,
-                5434
-            ]
-        },
-        "wetland": {
-            "12": [
-                0,
-                5460
-            ],
-            "18": [
-                0,
-                5474
-            ],
-            "24": [
-                0,
-                5494
+                216,
+                144
             ]
         },
         "zoo": {
             "12": [
-                0,
-                5520
+                42,
+                168
             ],
             "18": [
-                0,
-                5534
+                24,
+                168
             ],
             "24": [
                 0,
-                5554
+                168
+            ]
+        },
+        "garden": {
+            "12": [
+                96,
+                168
+            ],
+            "18": [
+                78,
+                168
+            ],
+            "24": [
+                54,
+                168
+            ]
+        },
+        "campsite": {
+            "12": [
+                150,
+                168
+            ],
+            "18": [
+                132,
+                168
+            ],
+            "24": [
+                108,
+                168
+            ]
+        },
+        "theatre": {
+            "12": [
+                204,
+                168
+            ],
+            "18": [
+                186,
+                168
+            ],
+            "24": [
+                162,
+                168
+            ]
+        },
+        "art-gallery": {
+            "12": [
+                258,
+                168
+            ],
+            "18": [
+                240,
+                168
+            ],
+            "24": [
+                216,
+                168
+            ]
+        },
+        "pitch": {
+            "12": [
+                42,
+                192
+            ],
+            "18": [
+                24,
+                192
+            ],
+            "24": [
+                0,
+                192
+            ]
+        },
+        "soccer": {
+            "12": [
+                96,
+                192
+            ],
+            "18": [
+                78,
+                192
+            ],
+            "24": [
+                54,
+                192
+            ]
+        },
+        "america-football": {
+            "12": [
+                150,
+                192
+            ],
+            "18": [
+                132,
+                192
+            ],
+            "24": [
+                108,
+                192
+            ]
+        },
+        "tennis": {
+            "12": [
+                204,
+                192
+            ],
+            "18": [
+                186,
+                192
+            ],
+            "24": [
+                162,
+                192
+            ]
+        },
+        "basketball": {
+            "12": [
+                258,
+                192
+            ],
+            "18": [
+                240,
+                192
+            ],
+            "24": [
+                216,
+                192
+            ]
+        },
+        "baseball": {
+            "12": [
+                42,
+                216
+            ],
+            "18": [
+                24,
+                216
+            ],
+            "24": [
+                0,
+                216
+            ]
+        },
+        "golf": {
+            "12": [
+                96,
+                216
+            ],
+            "18": [
+                78,
+                216
+            ],
+            "24": [
+                54,
+                216
+            ]
+        },
+        "swimming": {
+            "12": [
+                150,
+                216
+            ],
+            "18": [
+                132,
+                216
+            ],
+            "24": [
+                108,
+                216
+            ]
+        },
+        "cricket": {
+            "12": [
+                204,
+                216
+            ],
+            "18": [
+                186,
+                216
+            ],
+            "24": [
+                162,
+                216
+            ]
+        },
+        "skiing": {
+            "12": [
+                258,
+                216
+            ],
+            "18": [
+                240,
+                216
+            ],
+            "24": [
+                216,
+                216
+            ]
+        },
+        "school": {
+            "12": [
+                42,
+                240
+            ],
+            "18": [
+                24,
+                240
+            ],
+            "24": [
+                0,
+                240
+            ]
+        },
+        "college": {
+            "12": [
+                96,
+                240
+            ],
+            "18": [
+                78,
+                240
+            ],
+            "24": [
+                54,
+                240
+            ]
+        },
+        "library": {
+            "12": [
+                150,
+                240
+            ],
+            "18": [
+                132,
+                240
+            ],
+            "24": [
+                108,
+                240
+            ]
+        },
+        "post": {
+            "12": [
+                204,
+                240
+            ],
+            "18": [
+                186,
+                240
+            ],
+            "24": [
+                162,
+                240
+            ]
+        },
+        "fire-station": {
+            "12": [
+                258,
+                240
+            ],
+            "18": [
+                240,
+                240
+            ],
+            "24": [
+                216,
+                240
+            ]
+        },
+        "town-hall": {
+            "12": [
+                42,
+                264
+            ],
+            "18": [
+                24,
+                264
+            ],
+            "24": [
+                0,
+                264
+            ]
+        },
+        "police": {
+            "12": [
+                96,
+                264
+            ],
+            "18": [
+                78,
+                264
+            ],
+            "24": [
+                54,
+                264
+            ]
+        },
+        "prison": {
+            "12": [
+                150,
+                264
+            ],
+            "18": [
+                132,
+                264
+            ],
+            "24": [
+                108,
+                264
+            ]
+        },
+        "embassy": {
+            "12": [
+                204,
+                264
+            ],
+            "18": [
+                186,
+                264
+            ],
+            "24": [
+                162,
+                264
+            ]
+        },
+        "beer": {
+            "12": [
+                258,
+                264
+            ],
+            "18": [
+                240,
+                264
+            ],
+            "24": [
+                216,
+                264
+            ]
+        },
+        "restaurant": {
+            "12": [
+                42,
+                288
+            ],
+            "18": [
+                24,
+                288
+            ],
+            "24": [
+                0,
+                288
+            ]
+        },
+        "cafe": {
+            "12": [
+                96,
+                288
+            ],
+            "18": [
+                78,
+                288
+            ],
+            "24": [
+                54,
+                288
+            ]
+        },
+        "shop": {
+            "12": [
+                150,
+                288
+            ],
+            "18": [
+                132,
+                288
+            ],
+            "24": [
+                108,
+                288
+            ]
+        },
+        "fast-food": {
+            "12": [
+                204,
+                288
+            ],
+            "18": [
+                186,
+                288
+            ],
+            "24": [
+                162,
+                288
+            ]
+        },
+        "bar": {
+            "12": [
+                258,
+                288
+            ],
+            "18": [
+                240,
+                288
+            ],
+            "24": [
+                216,
+                288
+            ]
+        },
+        "bank": {
+            "12": [
+                42,
+                312
+            ],
+            "18": [
+                24,
+                312
+            ],
+            "24": [
+                0,
+                312
+            ]
+        },
+        "grocery": {
+            "12": [
+                96,
+                312
+            ],
+            "18": [
+                78,
+                312
+            ],
+            "24": [
+                54,
+                312
+            ]
+        },
+        "cinema": {
+            "12": [
+                150,
+                312
+            ],
+            "18": [
+                132,
+                312
+            ],
+            "24": [
+                108,
+                312
+            ]
+        },
+        "pharmacy": {
+            "12": [
+                204,
+                312
+            ],
+            "18": [
+                186,
+                312
+            ],
+            "24": [
+                162,
+                312
+            ]
+        },
+        "hospital": {
+            "12": [
+                258,
+                312
+            ],
+            "18": [
+                240,
+                312
+            ],
+            "24": [
+                216,
+                312
+            ]
+        },
+        "danger": {
+            "12": [
+                42,
+                336
+            ],
+            "18": [
+                24,
+                336
+            ],
+            "24": [
+                0,
+                336
+            ]
+        },
+        "industrial": {
+            "12": [
+                96,
+                336
+            ],
+            "18": [
+                78,
+                336
+            ],
+            "24": [
+                54,
+                336
+            ]
+        },
+        "warehouse": {
+            "12": [
+                150,
+                336
+            ],
+            "18": [
+                132,
+                336
+            ],
+            "24": [
+                108,
+                336
+            ]
+        },
+        "commercial": {
+            "12": [
+                204,
+                336
+            ],
+            "18": [
+                186,
+                336
+            ],
+            "24": [
+                162,
+                336
+            ]
+        },
+        "building": {
+            "12": [
+                258,
+                336
+            ],
+            "18": [
+                240,
+                336
+            ],
+            "24": [
+                216,
+                336
+            ]
+        },
+        "place-of-worship": {
+            "12": [
+                42,
+                360
+            ],
+            "18": [
+                24,
+                360
+            ],
+            "24": [
+                0,
+                360
+            ]
+        },
+        "alcohol-shop": {
+            "12": [
+                96,
+                360
+            ],
+            "18": [
+                78,
+                360
+            ],
+            "24": [
+                54,
+                360
+            ]
+        },
+        "logging": {
+            "12": [
+                150,
+                360
+            ],
+            "18": [
+                132,
+                360
+            ],
+            "24": [
+                108,
+                360
+            ]
+        },
+        "oil-well": {
+            "12": [
+                204,
+                360
+            ],
+            "18": [
+                186,
+                360
+            ],
+            "24": [
+                162,
+                360
+            ]
+        },
+        "slaughterhouse": {
+            "12": [
+                258,
+                360
+            ],
+            "18": [
+                240,
+                360
+            ],
+            "24": [
+                216,
+                360
+            ]
+        },
+        "dam": {
+            "12": [
+                42,
+                384
+            ],
+            "18": [
+                24,
+                384
+            ],
+            "24": [
+                0,
+                384
+            ]
+        },
+        "water": {
+            "12": [
+                96,
+                384
+            ],
+            "18": [
+                78,
+                384
+            ],
+            "24": [
+                54,
+                384
+            ]
+        },
+        "wetland": {
+            "12": [
+                150,
+                384
+            ],
+            "18": [
+                132,
+                384
+            ],
+            "24": [
+                108,
+                384
+            ]
+        },
+        "disability": {
+            "12": [
+                204,
+                384
+            ],
+            "18": [
+                186,
+                384
+            ],
+            "24": [
+                162,
+                384
+            ]
+        },
+        "telephone": {
+            "12": [
+                258,
+                384
+            ],
+            "18": [
+                240,
+                384
+            ],
+            "24": [
+                216,
+                384
+            ]
+        },
+        "emergency-telephone": {
+            "12": [
+                42,
+                408
+            ],
+            "18": [
+                24,
+                408
+            ],
+            "24": [
+                0,
+                408
+            ]
+        },
+        "toilets": {
+            "12": [
+                96,
+                408
+            ],
+            "18": [
+                78,
+                408
+            ],
+            "24": [
+                54,
+                408
+            ]
+        },
+        "waste-basket": {
+            "12": [
+                150,
+                408
+            ],
+            "18": [
+                132,
+                408
+            ],
+            "24": [
+                108,
+                408
+            ]
+        },
+        "music": {
+            "12": [
+                204,
+                408
+            ],
+            "18": [
+                186,
+                408
+            ],
+            "24": [
+                162,
+                408
+            ]
+        },
+        "land-use": {
+            "12": [
+                258,
+                408
+            ],
+            "18": [
+                240,
+                408
+            ],
+            "24": [
+                216,
+                408
+            ]
+        },
+        "city": {
+            "12": [
+                42,
+                432
+            ],
+            "18": [
+                24,
+                432
+            ],
+            "24": [
+                0,
+                432
+            ]
+        },
+        "town": {
+            "12": [
+                96,
+                432
+            ],
+            "18": [
+                78,
+                432
+            ],
+            "24": [
+                54,
+                432
+            ]
+        },
+        "village": {
+            "12": [
+                150,
+                432
+            ],
+            "18": [
+                132,
+                432
+            ],
+            "24": [
+                108,
+                432
+            ]
+        },
+        "farm": {
+            "12": [
+                204,
+                432
+            ],
+            "18": [
+                186,
+                432
+            ],
+            "24": [
+                162,
+                432
+            ]
+        },
+        "bakery": {
+            "12": [
+                258,
+                432
+            ],
+            "18": [
+                240,
+                432
+            ],
+            "24": [
+                216,
+                432
+            ]
+        },
+        "dog-park": {
+            "12": [
+                42,
+                456
+            ],
+            "18": [
+                24,
+                456
+            ],
+            "24": [
+                0,
+                456
+            ]
+        },
+        "lighthouse": {
+            "12": [
+                96,
+                456
+            ],
+            "18": [
+                78,
+                456
+            ],
+            "24": [
+                54,
+                456
+            ]
+        },
+        "clothing-store": {
+            "12": [
+                150,
+                456
+            ],
+            "18": [
+                132,
+                456
+            ],
+            "24": [
+                108,
+                456
+            ]
+        },
+        "polling-place": {
+            "12": [
+                204,
+                456
+            ],
+            "18": [
+                186,
+                456
+            ],
+            "24": [
+                162,
+                456
+            ]
+        },
+        "playground": {
+            "12": [
+                258,
+                456
+            ],
+            "18": [
+                240,
+                456
+            ],
+            "24": [
+                216,
+                456
+            ]
+        },
+        "entrance": {
+            "12": [
+                42,
+                480
+            ],
+            "18": [
+                24,
+                480
+            ],
+            "24": [
+                0,
+                480
+            ]
+        },
+        "heart": {
+            "12": [
+                96,
+                480
+            ],
+            "18": [
+                78,
+                480
+            ],
+            "24": [
+                54,
+                480
+            ]
+        },
+        "london-underground": {
+            "12": [
+                150,
+                480
+            ],
+            "18": [
+                132,
+                480
+            ],
+            "24": [
+                108,
+                480
+            ]
+        },
+        "minefield": {
+            "12": [
+                204,
+                480
+            ],
+            "18": [
+                186,
+                480
+            ],
+            "24": [
+                162,
+                480
+            ]
+        },
+        "rail-underground": {
+            "12": [
+                258,
+                480
+            ],
+            "18": [
+                240,
+                480
+            ],
+            "24": [
+                216,
+                480
+            ]
+        },
+        "rail-above": {
+            "12": [
+                42,
+                504
+            ],
+            "18": [
+                24,
+                504
+            ],
+            "24": [
+                0,
+                504
+            ]
+        },
+        "camera": {
+            "12": [
+                96,
+                504
+            ],
+            "18": [
+                78,
+                504
+            ],
+            "24": [
+                54,
+                504
+            ]
+        },
+        "laundry": {
+            "12": [
+                150,
+                504
+            ],
+            "18": [
+                132,
+                504
+            ],
+            "24": [
+                108,
+                504
+            ]
+        },
+        "car": {
+            "12": [
+                204,
+                504
+            ],
+            "18": [
+                186,
+                504
+            ],
+            "24": [
+                162,
+                504
+            ]
+        },
+        "suitcase": {
+            "12": [
+                258,
+                504
+            ],
+            "18": [
+                240,
+                504
+            ],
+            "24": [
+                216,
+                504
             ]
         },
         "highway-motorway": {
@@ -72804,6 +75097,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
     "locales": [
         "af",
         "ar",
+        "ar-AA",
         "ast",
         "bn",
         "bs",
@@ -72813,6 +75107,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "zh-CN",
         "zh-CN.GB2312",
         "zh-TW",
+        "yue",
         "hr",
         "cs",
         "da",
@@ -72833,6 +75128,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "lt",
         "no",
         "nn",
+        "fa",
         "pl",
         "pt",
         "pt-BR",
@@ -73098,18 +75394,25 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "back_tooltip": "Change feature",
             "remove": "Remove",
             "search": "Search",
+            "multiselect": "Selected items",
             "unknown": "Unknown",
             "incomplete": "<not downloaded>",
             "feature_list": "Search features",
-            "edit": "Edit feature"
+            "edit": "Edit feature",
+            "check": {
+                "yes": "Yes",
+                "no": "No"
+            },
+            "none": "None"
         },
         "background": {
             "title": "Background",
             "description": "Background settings",
             "percent_brightness": "{opacity}% brightness",
+            "none": "None",
             "custom": "Custom",
             "custom_prompt": "Enter a tile template. Valid tokens are {z}, {x}, {y} for Z/X/Y scheme and {u} for quadtile scheme.",
-            "fix_misalignment": "Fix misalignment",
+            "fix_misalignment": "Fix alignment",
             "reset": "reset"
         },
         "restore": {
@@ -73169,7 +75472,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "cannot_zoom": "Cannot zoom out further in current mode.",
         "gpx": {
             "local_layer": "Local GPX file",
-            "drag_drop": "Drag and drop a .gpx file on the page"
+            "drag_drop": "Drag and drop a .gpx file on the page, or click the button to the right to browse",
+            "zoom": "Zoom to GPX track",
+            "browse": "Browse for a .gpx file"
         },
         "help": {
             "title": "Help",
@@ -73177,9 +75482,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "editing_saving": "# Editing & Saving\n\nThis editor is designed to work primarily online, and you're accessing\nit through a website right now.\n\n### Selecting Features\n\nTo select a map feature, like a road or point of interest, click\non it on the map. This will highlight the selected feature, open a panel with\ndetails about it, and show a menu of things you can do with the feature.\n\nTo select multiple features, hold down the 'Shift' key. Then either click\non the features you want to select, or drag on the map to draw a rectangle.\nThis will draw a box and select all the points within it.\n\n### Saving Edits\n\nWhen you make changes like editing roads, buildings, and places, these are\nstored locally until you save them to the server. Don't worry if you make\na mistake - you can undo changes by clicking the undo button, and redo\nchanges by clicking the redo button.\n\nClick 'Save' to finish a group of edits - for instance, if you've completed\nan area of town and would like to start on a new area. You'll have a chance\nto review what you've done, and the editor supplies helpful suggestions\nand warnings if something doesn't seem right about the changes.\n\nIf everything looks good, you can enter a short comment explaining the change\nyou made, and click 'Save' again to post the changes\nto [OpenStreetMap.org](http://www.openstreetmap.org/), where they are visible\nto all other users and available for others to build and improve upon.\n\nIf you can't finish your edits in one sitting, you can leave the editor\nwindow and come back (on the same browser and computer), and the\neditor application will offer to restore your work.\n",
             "roads": "# Roads\n\nYou can create, fix, and delete roads with this editor. Roads can be all\nkinds: paths, highways, trails, cycleways, and more - any often-crossed\nsegment should be mappable.\n\n### Selecting\n\nClick on a road to select it. An outline should become visible, along\nwith a small tools menu on the map and a sidebar showing more information\nabout the road.\n\n### Modifying\n\nOften you'll see roads that aren't aligned to the imagery behind them\nor to a GPS track. You can adjust these roads so they are in the correct\nplace.\n\nFirst click on the road you want to change. This will highlight it and show\ncontrol points along it that you can drag to better locations. If\nyou want to add new control points for more detail, double-click a part\nof the road without a node, and one will be added.\n\nIf the road connects to another road, but doesn't properly connect on\nthe map, you can drag one of its control points onto the other road in\norder to join them. Having roads connect is important for the map\nand essential for providing driving directions.\n\nYou can also click the 'Move' tool or press the `M` shortcut key to move the entire road at\none time, and then click again to save that movement.\n\n### Deleting\n\nIf a road is entirely incorrect - you can see that it doesn't exist in satellite\nimagery and ideally have confirmed locally that it's not present - you can delete\nit, which removes it from the map. Be cautious when deleting features -\nlike any other edit, the results are seen by everyone and satellite imagery\nis often out of date, so the road could simply be newly built.\n\nYou can delete a road by clicking on it to select it, then clicking the\ntrash can icon or pressing the 'Delete' key.\n\n### Creating\n\nFound somewhere there should be a road but there isn't? Click the 'Line'\nicon in the top-left of the editor or press the shortcut key `2` to start drawing\na line.\n\nClick on the start of the road on the map to start drawing. If the road\nbranches off from an existing road, start by clicking on the place where they connect.\n\nThen click on points along the road so that it follows the right path, according\nto satellite imagery or GPS. If the road you are drawing crosses another road, connect\nit by clicking on the intersection point. When you're done drawing, double-click\nor press 'Return' or 'Enter' on your keyboard.\n",
             "gps": "# GPS\n\nGPS data is the most trusted source of data for OpenStreetMap. This editor\nsupports local traces - `.gpx` files on your local computer. You can collect\nthis kind of GPS trace with a number of smartphone applications as well as\npersonal GPS hardware.\n\nFor information on how to perform a GPS survey, read\n[Surveying with a GPS](http://learnosm.org/en/beginner/using-gps/).\n\nTo use a GPX track for mapping, drag and drop the GPX file onto the map\neditor. If it's recognized, it will be added to the map as a bright green\nline. Click on the 'Background Settings' menu on the right side to enable,\ndisable, or zoom to this new GPX-powered layer.\n\nThe GPX track isn't directly uploaded to OpenStreetMap - the best way to\nuse it is to draw on the map, using it as a guide for the new features that\nyou add, and also to [upload it to OpenStreetMap](http://www.openstreetmap.org/trace/create)\nfor other users to use.\n",
-            "imagery": "# Imagery\n\nAerial imagery is an important resource for mapping. A combination of\nairplane flyovers, satellite views, and freely-compiled sources are available\nin the editor under the 'Background Settings' menu on the left.\n\nBy default a [Bing Maps](http://www.bing.com/maps/) satellite layer is\npresented in the editor, but as you pan and zoom the map to new geographical\nareas, new sources will become available. Some countries, like the United\nStates, France, and Denmark have very high-quality imagery available for some areas.\n\nImagery is sometimes offset from the map data because of a mistake on the\nimagery provider's side. If you see a lot of roads shifted from the background,\ndon't immediately move them all to match the background. Instead you can adjust\nthe imagery so that it matches the existing data by clicking 'Fix alignment' at\nthe bottom of the Background Settings UI.\n",
+            "imagery": "# Imagery\n\nAerial imagery is an important resource for mapping. A combination of\nairplane flyovers, satellite views, and freely-compiled sources are available\nin the editor under the 'Background Settings' menu on the right.\n\nBy default a [Bing Maps](http://www.bing.com/maps/) satellite layer is\npresented in the editor, but as you pan and zoom the map to new geographical\nareas, new sources will become available. Some countries, like the United\nStates, France, and Denmark have very high-quality imagery available for some areas.\n\nImagery is sometimes offset from the map data because of a mistake on the\nimagery provider's side. If you see a lot of roads shifted from the background,\ndon't immediately move them all to match the background. Instead you can adjust\nthe imagery so that it matches the existing data by clicking 'Fix alignment' at\nthe bottom of the Background Settings UI.\n",
             "addresses": "# Addresses\n\nAddresses are some of the most useful information for the map.\n\nAlthough addresses are often represented as parts of streets, in OpenStreetMap\nthey're recorded as attributes of buildings and places along streets.\n\nYou can add address information to places mapped as building outlines\nas well as those mapped as single points. The optimal source of address\ndata is from an on-the-ground survey or personal knowledge - as with any\nother feature, copying from commercial sources like Google Maps is strictly\nforbidden.\n",
-            "inspector": "# Using the Inspector\n\nThe inspector is the user interface element on the right-hand side of the\npage that appears when a feature is selected and allows you to edit its details.\n\n### Selecting a Feature Type\n\nAfter you add a point, line, or area, you can choose what type of feature it\nis, like whether it's a highway or residential road, supermarket or cafe.\nThe inspector will display buttons for common feature types, and you can\nfind others by typing what you're looking for in the search box.\n\nClick the 'i' in the bottom-right-hand corner of a feature type button to\nlearn more about it. Click a button to choose that type.\n\n### Using Forms and Editing Tags\n\nAfter you choose a feature type, or when you select a feature that already\nhas a type assigned, the inspector will display fields with details about\nthe feature like its name and address.\n\nBelow the fields you see, you can click icons to add other details,\nlike [Wikipedia](http://www.wikipedia.org/) information, wheelchair\naccess, and more.\n\nAt the bottom of the inspector, click 'Additional tags' to add arbitrary\nother tags to the element. [Taginfo](http://taginfo.openstreetmap.org/) is a\ngreat resource for learn more about popular tag combinations.\n\nChanges you make in the inspector are automatically applied to the map.\nYou can undo them at any time by clicking the 'Undo' button.\n\n### Closing the Inspector\n\nYou can close the inspector by clicking the close button in the top-right,\npressing the 'Escape' key, or clicking on the map.\n",
+            "inspector": "# Using the Inspector\n\nThe inspector is the section on the left side of the page that allows you to\nedit the details of the selected feature.\n\n### Selecting a Feature Type\n\nAfter you add a point, line, or area, you can choose what type of feature it\nis, like whether it's a highway or residential road, supermarket or cafe.\nThe inspector will display buttons for common feature types, and you can\nfind others by typing what you're looking for in the search box.\n\nClick the 'i' in the bottom-right-hand corner of a feature type button to\nlearn more about it. Click a button to choose that type.\n\n### Using Forms and Editing Tags\n\nAfter you choose a feature type, or when you select a feature that already\nhas a type assigned, the inspector will display fields with details about\nthe feature like its name and address.\n\nBelow the fields you see, you can click icons to add other details,\nlike [Wikipedia](http://www.wikipedia.org/) information, wheelchair\naccess, and more.\n\nAt the bottom of the inspector, click 'Additional tags' to add arbitrary\nother tags to the element. [Taginfo](http://taginfo.openstreetmap.org/) is a\ngreat resource for learn more about popular tag combinations.\n\nChanges you make in the inspector are automatically applied to the map.\nYou can undo them at any time by clicking the 'Undo' button.\n",
             "buildings": "# Buildings\n\nOpenStreetMap is the world's largest database of buildings. You can create\nand improve this database.\n\n### Selecting\n\nYou can select a building by clicking on its border. This will highlight the\nbuilding and open a small tools menu and a sidebar showing more information\nabout the building.\n\n### Modifying\n\nSometimes buildings are incorrectly placed or have incorrect tags.\n\nTo move an entire building, select it, then click the 'Move' tool. Move your\nmouse to shift the building, and click when it's correctly placed.\n\nTo fix the specific shape of a building, click and drag the nodes that form\nits border into better places.\n\n### Creating\n\nOne of the main questions around adding buildings to the map is that\nOpenStreetMap records buildings both as shapes and points. The rule of thumb\nis to _map a building as a shape whenever possible_, and map companies, homes,\namenities, and other things that operate out of buildings as points placed\nwithin the building shape.\n\nStart drawing a building as a shape by clicking the 'Area' button in the top\nleft of the interface, and end it either by pressing 'Return' on your keyboard\nor clicking on the first node drawn to close the shape.\n\n### Deleting\n\nIf a building is entirely incorrect - you can see that it doesn't exist in satellite\nimagery and ideally have confirmed locally that it's not present - you can delete\nit, which removes it from the map. Be cautious when deleting features -\nlike any other edit, the results are seen by everyone and satellite imagery\nis often out of date, so the building could simply be newly built.\n\nYou can delete a building by clicking on it to select it, then clicking the\ntrash can icon or pressing the 'Delete' key.\n",
             "relations": "# Relations\n\nA relation is a special type of feature in OpenStreetMap that groups together\nother features. For example, two common types of relations are *route relations*,\nwhich group together sections of road that belong to a specific freeway or\nhighway, and *multipolygons*, which group together several lines that define\na complex area (one with several pieces or holes in it like a donut).\n\nThe group of features in a relation are called *members*. In the sidebar, you can\nsee which relations a feature is a member of, and click on a relation there\nto select the it. When the relation is selected, you can see all of its\nmembers listed in the sidebar and highlighted on the map.\n\nFor the most part, iD will take care of maintaining relations automatically\nwhile you edit. The main thing you should be aware of is that if you delete a\nsection of road to redraw it more accurately, you should make sure that the\nnew section is a member of the same relations as the original.\n\n## Editing Relations\n\nIf you want to edit relations, here are the basics.\n\nTo add a feature to a relation, select the feature, click the \"+\" button in the\n\"All relations\" section of the sidebar, and select or type the name of the relation.\n\nTo create a new relation, select the first feature that should be a member,\nclick the \"+\" button in the \"All relations\" section, and select \"New relation...\".\n\nTo remove a feature from a relation, select the feature and click the trash\nbutton next to the relation you want to remove it from.\n\nYou can create multipolygons with holes using the \"Merge\" tool. Draw two areas (inner\nand outer), hold the Shift key and click on each of them to select them both, and then\nclick the \"Merge\" (+) button.\n"
         },
@@ -73234,6 +75539,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         },
         "presets": {
             "categories": {
+                "category-building": {
+                    "name": "Building"
+                },
                 "category-landuse": {
                     "name": "Land Use"
                 },
@@ -73249,7 +75557,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "category-route": {
                     "name": "Route"
                 },
-                "category-water": {
+                "category-water-area": {
+                    "name": "Water"
+                },
+                "category-water-line": {
                     "name": "Water"
                 }
             },
@@ -73550,6 +75861,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "shelter": {
                     "label": "Shelter"
                 },
+                "shelter_type": {
+                    "label": "Type"
+                },
                 "shop": {
                     "label": "Type"
                 },
@@ -73589,6 +75903,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "trail_visibility": {
                     "label": "Trail Visibility"
+                },
+                "tree_type": {
+                    "label": "Type"
                 },
                 "vending": {
                     "label": "Type of Goods"
@@ -73770,7 +76087,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "terms": ""
                 },
                 "amenity/parking": {
-                    "name": "Parking",
+                    "name": "Car Parking",
                     "terms": ""
                 },
                 "amenity/pharmacy": {
@@ -73815,7 +76132,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "amenity/ranger_station": {
                     "name": "Ranger Station",
-                    "terms": "visitor center,visitor centre,permit center,permit centre,backcountry office"
+                    "terms": "visitor center,visitor centre,permit center,permit centre,backcountry office,warden office,warden center"
                 },
                 "amenity/restaurant": {
                     "name": "Restaurant",
@@ -73824,6 +76141,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "amenity/school": {
                     "name": "School",
                     "terms": "academy,alma mater,blackboard,college,department,discipline,establishment,faculty,hall,halls of ivy,institute,institution,jail*,schoolhouse,seminary,university"
+                },
+                "amenity/shelter": {
+                    "name": "Shelter",
+                    "terms": "lean-to"
                 },
                 "amenity/swimming_pool": {
                     "name": "Swimming Pool",
@@ -73987,6 +76308,14 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "entrance": {
                     "name": "Entrance",
+                    "terms": ""
+                },
+                "footway/crossing": {
+                    "name": "Crossing",
+                    "terms": "crosswalk,zebra crossing"
+                },
+                "footway/sidewalk": {
+                    "name": "Sidewalk",
                     "terms": ""
                 },
                 "highway": {
@@ -74237,6 +76566,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Leisure",
                     "terms": ""
                 },
+                "leisure/common": {
+                    "name": "Common",
+                    "terms": "open space"
+                },
                 "leisure/dog_park": {
                     "name": "Dog Park",
                     "terms": ""
@@ -74332,6 +76665,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "man_made/lighthouse": {
                     "name": "Lighthouse",
                     "terms": ""
+                },
+                "man_made/observation": {
+                    "name": "Observation Tower",
+                    "terms": "lookout tower,fire tower"
                 },
                 "man_made/pier": {
                     "name": "Pier",
@@ -74449,6 +76786,86 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Office",
                     "terms": ""
                 },
+                "office/accountant": {
+                    "name": "Accountant",
+                    "terms": ""
+                },
+                "office/administrative": {
+                    "name": "Administrative Office",
+                    "terms": ""
+                },
+                "office/architect": {
+                    "name": "Architect",
+                    "terms": ""
+                },
+                "office/company": {
+                    "name": "Company Office",
+                    "terms": ""
+                },
+                "office/educational_institution": {
+                    "name": "Educational Institution",
+                    "terms": ""
+                },
+                "office/employment_agency": {
+                    "name": "Employment Agency",
+                    "terms": ""
+                },
+                "office/estate_agent": {
+                    "name": "Real Estate Office",
+                    "terms": ""
+                },
+                "office/financial": {
+                    "name": "Financial Office",
+                    "terms": ""
+                },
+                "office/government": {
+                    "name": "Government Office",
+                    "terms": ""
+                },
+                "office/insurance": {
+                    "name": "Insurance Office",
+                    "terms": ""
+                },
+                "office/it": {
+                    "name": "IT Office",
+                    "terms": ""
+                },
+                "office/lawyer": {
+                    "name": "Law Office",
+                    "terms": ""
+                },
+                "office/newspaper": {
+                    "name": "Newspaper",
+                    "terms": ""
+                },
+                "office/ngo": {
+                    "name": "NGO Office",
+                    "terms": ""
+                },
+                "office/physician": {
+                    "name": "Physician",
+                    "terms": ""
+                },
+                "office/political_party": {
+                    "name": "Political Party",
+                    "terms": ""
+                },
+                "office/research": {
+                    "name": "Research Office",
+                    "terms": ""
+                },
+                "office/telecommunication": {
+                    "name": "Telecom Office",
+                    "terms": ""
+                },
+                "office/therapist": {
+                    "name": "Therapist",
+                    "terms": ""
+                },
+                "office/travel_agent": {
+                    "name": "Travel Agency",
+                    "terms": ""
+                },
                 "place": {
                     "name": "Place",
                     "terms": ""
@@ -74495,6 +76912,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "power/line": {
                     "name": "Power Line",
+                    "terms": ""
+                },
+                "power/minor_line": {
+                    "name": "Minor Power Line",
                     "terms": ""
                 },
                 "power/pole": {
@@ -74547,7 +76968,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "railway/station": {
                     "name": "Railway Station",
-                    "terms": ""
+                    "terms": "train station,station"
                 },
                 "railway/subway": {
                     "name": "Subway",
@@ -74709,6 +77130,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Laundry",
                     "terms": ""
                 },
+                "shop/locksmith": {
+                    "name": "Locksmith",
+                    "terms": "keys"
+                },
                 "shop/mall": {
                     "name": "Mall",
                     "terms": ""
@@ -74741,6 +77166,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Pet Store",
                     "terms": ""
                 },
+                "shop/photo": {
+                    "name": "Photography Store",
+                    "terms": ""
+                },
                 "shop/shoes": {
                     "name": "Shoe Store",
                     "terms": ""
@@ -74755,7 +77184,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "shop/supermarket": {
                     "name": "Supermarket",
-                    "terms": "bazaar,boutique,chain,co-op,cut-rate store,discount store,five-and-dime,flea market,galleria,mall,mart,outlet,outlet store,shop,shopping center,shopping centre,shopping plaza,stand,store,supermarket,thrift shop"
+                    "terms": "bazaar,boutique,chain,co-op,cut-rate store,discount store,five-and-dime,flea market,galleria,grocery store,mall,mart,outlet,outlet store,shop,shopping center,shopping centre,shopping plaza,stand,store,supermarket,thrift shop"
                 },
                 "shop/toys": {
                     "name": "Toy Store",
@@ -74799,7 +77228,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "tourism/camp_site": {
                     "name": "Camp Site",
-                    "terms": ""
+                    "terms": "camping"
                 },
                 "tourism/caravan_site": {
                     "name": "RV Park",
@@ -74956,6 +77385,4571 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "waterway/weir": {
                     "name": "Weir",
                     "terms": ""
+                }
+            }
+        }
+    },
+    "suggestions": {
+        "amenity": {
+            "bank": {
+                "ABN AMRO": {
+                    "count": 129
+                },
+                "ABSA": {
+                    "count": 88
+                },
+                "AIB": {
+                    "count": 71
+                },
+                "ANZ": {
+                    "count": 199
+                },
+                "AXA": {
+                    "count": 66
+                },
+                "Alior Bank": {
+                    "count": 71
+                },
+                "Allied Bank": {
+                    "count": 115
+                },
+                "Alpha Bank": {
+                    "count": 94
+                },
+                "Argenta": {
+                    "count": 84
+                },
+                "Axis Bank": {
+                    "count": 52
+                },
+                "BAWAG PSK": {
+                    "count": 105
+                },
+                "BB&T": {
+                    "count": 126
+                },
+                "BBK": {
+                    "count": 69
+                },
+                "BBVA": {
+                    "count": 574
+                },
+                "BCI": {
+                    "count": 57
+                },
+                "BCR": {
+                    "count": 137
+                },
+                "BDO": {
+                    "count": 275
+                },
+                "BES": {
+                    "count": 68
+                },
+                "BMO": {
+                    "count": 160
+                },
+                "BNL": {
+                    "count": 78
+                },
+                "BNP": {
+                    "count": 109
+                },
+                "BNP Paribas": {
+                    "count": 574
+                },
+                "BNP Paribas Fortis": {
+                    "count": 204
+                },
+                "BPI": {
+                    "count": 393
+                },
+                "BRD": {
+                    "count": 179
+                },
+                "BW-Bank": {
+                    "count": 97
+                },
+                "BZ WBK": {
+                    "count": 65
+                },
+                "Banamex": {
+                    "count": 130
+                },
+                "Banca Intesa": {
+                    "count": 58
+                },
+                "Banca Popolare di Novara": {
+                    "count": 51
+                },
+                "Banca Popolare di Vicenza": {
+                    "count": 67
+                },
+                "Banca Transilvania": {
+                    "count": 131
+                },
+                "Bancaja": {
+                    "count": 58
+                },
+                "Banco BCI": {
+                    "count": 51
+                },
+                "Banco Estado": {
+                    "count": 67
+                },
+                "Banco G&T Continental": {
+                    "count": 62
+                },
+                "Banco Itaú": {
+                    "count": 82
+                },
+                "Banco Nación": {
+                    "count": 59
+                },
+                "Banco Pastor": {
+                    "count": 62
+                },
+                "Banco Popular": {
+                    "count": 262
+                },
+                "Banco Provincia": {
+                    "count": 62
+                },
+                "Banco Santander": {
+                    "count": 91
+                },
+                "Banco de Chile": {
+                    "count": 95
+                },
+                "Banco de Costa Rica": {
+                    "count": 64
+                },
+                "Banco de Desarrollo Banrural": {
+                    "count": 74
+                },
+                "Banco de la Nación": {
+                    "count": 93
+                },
+                "Banco do Brasil": {
+                    "count": 440
+                },
+                "BancoEstado": {
+                    "count": 79
+                },
+                "Bancolombia": {
+                    "count": 85
+                },
+                "Bancomer": {
+                    "count": 96
+                },
+                "Bancpost": {
+                    "count": 51
+                },
+                "Banesco": {
+                    "count": 86
+                },
+                "Banesto": {
+                    "count": 198
+                },
+                "Bank Austria": {
+                    "count": 174
+                },
+                "Bank Mandiri": {
+                    "count": 56
+                },
+                "Bank Spółdzielczy": {
+                    "count": 142
+                },
+                "Bank of America": {
+                    "count": 836
+                },
+                "Bank of Ireland": {
+                    "count": 109
+                },
+                "Bank of Montreal": {
+                    "count": 111
+                },
+                "Bank of Scotland": {
+                    "count": 85
+                },
+                "Bank of the West": {
+                    "count": 86
+                },
+                "Bankia": {
+                    "count": 108
+                },
+                "Bankinter": {
+                    "count": 54
+                },
+                "Banorte": {
+                    "count": 65
+                },
+                "Banque Nationale": {
+                    "count": 56
+                },
+                "Banque Populaire": {
+                    "count": 399
+                },
+                "Barclays": {
+                    "count": 925
+                },
+                "Belfius": {
+                    "count": 219
+                },
+                "Bendigo Bank": {
+                    "count": 88
+                },
+                "Berliner Sparkasse": {
+                    "count": 61
+                },
+                "Berliner Volksbank": {
+                    "count": 79
+                },
+                "Bicentenario": {
+                    "count": 183
+                },
+                "Bradesco": {
+                    "count": 236
+                },
+                "CIBC": {
+                    "count": 306
+                },
+                "CIC": {
+                    "count": 393
+                },
+                "Caisse d'Épargne": {
+                    "count": 801
+                },
+                "Caixa": {
+                    "count": 99
+                },
+                "Caixa Econômica Federal": {
+                    "count": 131
+                },
+                "Caixa Geral de Depósitos": {
+                    "count": 119
+                },
+                "Caja Círculo": {
+                    "count": 65
+                },
+                "Caja Duero": {
+                    "count": 58
+                },
+                "Caja Madrid": {
+                    "count": 115
+                },
+                "Caja Rural": {
+                    "count": 87
+                },
+                "Caja de Burgos": {
+                    "count": 58
+                },
+                "Cajamar": {
+                    "count": 61
+                },
+                "Cajero Automatico Bancared": {
+                    "count": 147
+                },
+                "Canara Bank": {
+                    "count": 82
+                },
+                "Cassa di Risparmio del Veneto": {
+                    "count": 58
+                },
+                "Chase": {
+                    "count": 623
+                },
+                "China Bank": {
+                    "count": 59
+                },
+                "Chinabank": {
+                    "count": 54
+                },
+                "Citibank": {
+                    "count": 249
+                },
+                "Citizens Bank": {
+                    "count": 107
+                },
+                "CityCommerce Bank": {
+                    "count": 53
+                },
+                "Commercial Bank of Ceylon PLC": {
+                    "count": 80
+                },
+                "Commerzbank": {
+                    "count": 799
+                },
+                "Commonwealth Bank": {
+                    "count": 218
+                },
+                "Credit Agricole": {
+                    "count": 143
+                },
+                "Credit Suisse": {
+                    "count": 69
+                },
+                "Crédit Agricole": {
+                    "count": 1160
+                },
+                "Crédit Mutuel": {
+                    "count": 648
+                },
+                "Crédit Mutuel de Bretagne": {
+                    "count": 335
+                },
+                "Crédit du Nord": {
+                    "count": 88
+                },
+                "Danske Bank": {
+                    "count": 130
+                },
+                "Davivienda": {
+                    "count": 83
+                },
+                "De Venezuela": {
+                    "count": 127
+                },
+                "Del Tesoro": {
+                    "count": 94
+                },
+                "Deutsche Bank": {
+                    "count": 836
+                },
+                "Dresdner Bank": {
+                    "count": 77
+                },
+                "Ecobank": {
+                    "count": 54
+                },
+                "Erste Bank": {
+                    "count": 178
+                },
+                "Eurobank": {
+                    "count": 89
+                },
+                "FNB": {
+                    "count": 90
+                },
+                "Fifth Third Bank": {
+                    "count": 66
+                },
+                "First National Bank": {
+                    "count": 76
+                },
+                "GE Money Bank": {
+                    "count": 72
+                },
+                "HDFC Bank": {
+                    "count": 85
+                },
+                "HSBC": {
+                    "count": 1039
+                },
+                "Halifax": {
+                    "count": 214
+                },
+                "Hamburger Sparkasse": {
+                    "count": 157
+                },
+                "Handelsbanken": {
+                    "count": 178
+                },
+                "HypoVereinsbank": {
+                    "count": 570
+                },
+                "ICICI Bank": {
+                    "count": 78
+                },
+                "ING": {
+                    "count": 468
+                },
+                "ING Bank Śląski": {
+                    "count": 64
+                },
+                "Ibercaja": {
+                    "count": 58
+                },
+                "Intesa San Paolo": {
+                    "count": 60
+                },
+                "Itaú": {
+                    "count": 278
+                },
+                "KBC": {
+                    "count": 194
+                },
+                "Key Bank": {
+                    "count": 139
+                },
+                "Komerční banka": {
+                    "count": 136
+                },
+                "Kreissparkasse": {
+                    "count": 579
+                },
+                "Kreissparkasse Köln": {
+                    "count": 67
+                },
+                "LCL": {
+                    "count": 508
+                },
+                "La Banque Postale": {
+                    "count": 61
+                },
+                "La Caixa": {
+                    "count": 513
+                },
+                "Landbank": {
+                    "count": 79
+                },
+                "Lloyds Bank": {
+                    "count": 541
+                },
+                "M&T Bank": {
+                    "count": 80
+                },
+                "Maybank": {
+                    "count": 81
+                },
+                "Mercantil": {
+                    "count": 220
+                },
+                "Metrobank": {
+                    "count": 253
+                },
+                "Millenium Bank": {
+                    "count": 60
+                },
+                "Millennium Bank": {
+                    "count": 415
+                },
+                "Monte dei Paschi di Siena": {
+                    "count": 126
+                },
+                "NAB": {
+                    "count": 123
+                },
+                "NatWest": {
+                    "count": 606
+                },
+                "National Bank": {
+                    "count": 87
+                },
+                "Nationwide": {
+                    "count": 193
+                },
+                "Nedbank": {
+                    "count": 74
+                },
+                "Nordea": {
+                    "count": 312
+                },
+                "OLB": {
+                    "count": 52
+                },
+                "OTP": {
+                    "count": 184
+                },
+                "Oberbank": {
+                    "count": 87
+                },
+                "Oldenburgische Landesbank": {
+                    "count": 56
+                },
+                "Osuuspankki": {
+                    "count": 74
+                },
+                "PKO BP": {
+                    "count": 239
+                },
+                "PNB": {
+                    "count": 106
+                },
+                "PNC Bank": {
+                    "count": 215
+                },
+                "PSBank": {
+                    "count": 57
+                },
+                "Pekao SA": {
+                    "count": 53
+                },
+                "Peoples Bank": {
+                    "count": 55
+                },
+                "Postbank": {
+                    "count": 433
+                },
+                "RBC": {
+                    "count": 220
+                },
+                "RBS": {
+                    "count": 136
+                },
+                "RCBC": {
+                    "count": 117
+                },
+                "Rabobank": {
+                    "count": 619
+                },
+                "Raiffeisenbank": {
+                    "count": 2028
+                },
+                "Regions Bank": {
+                    "count": 59
+                },
+                "Royal Bank": {
+                    "count": 65
+                },
+                "Royal Bank of Scotland": {
+                    "count": 108
+                },
+                "SEB": {
+                    "count": 129
+                },
+                "Santander": {
+                    "count": 1181
+                },
+                "Santander Consumer Bank": {
+                    "count": 81
+                },
+                "Santander Totta": {
+                    "count": 63
+                },
+                "Sberbank": {
+                    "count": 61
+                },
+                "Scotiabank": {
+                    "count": 379
+                },
+                "Security Bank": {
+                    "count": 71
+                },
+                "Slovenská sporiteľňa": {
+                    "count": 127
+                },
+                "Société Générale": {
+                    "count": 592
+                },
+                "Sparda-Bank": {
+                    "count": 313
+                },
+                "Sparkasse": {
+                    "count": 4521
+                },
+                "Sparkasse Aachen": {
+                    "count": 58
+                },
+                "Sparkasse KölnBonn": {
+                    "count": 55
+                },
+                "Stadtsparkasse": {
+                    "count": 86
+                },
+                "Standard Bank": {
+                    "count": 100
+                },
+                "State Bank of India": {
+                    "count": 132
+                },
+                "SunTrust": {
+                    "count": 63
+                },
+                "SunTrust Bank": {
+                    "count": 66
+                },
+                "Swedbank": {
+                    "count": 219
+                },
+                "TD Bank": {
+                    "count": 178
+                },
+                "TD Canada Trust": {
+                    "count": 421
+                },
+                "TSB": {
+                    "count": 51
+                },
+                "Targobank": {
+                    "count": 167
+                },
+                "Tatra banka": {
+                    "count": 65
+                },
+                "UBS": {
+                    "count": 129
+                },
+                "UCPB": {
+                    "count": 87
+                },
+                "US Bank": {
+                    "count": 214
+                },
+                "Ulster Bank": {
+                    "count": 85
+                },
+                "UniCredit Bank": {
+                    "count": 376
+                },
+                "Unicredit Banca": {
+                    "count": 224
+                },
+                "Unicaja": {
+                    "count": 74
+                },
+                "Union Bank": {
+                    "count": 110
+                },
+                "VR-Bank": {
+                    "count": 421
+                },
+                "Volksbank": {
+                    "count": 2573
+                },
+                "VÚB": {
+                    "count": 108
+                },
+                "Wachovia": {
+                    "count": 61
+                },
+                "Wells Fargo": {
+                    "count": 781
+                },
+                "Western Union": {
+                    "count": 84
+                },
+                "Westpac": {
+                    "count": 194
+                },
+                "Yorkshire Bank": {
+                    "count": 60
+                },
+                "ČSOB": {
+                    "count": 157
+                },
+                "Česká spořitelna": {
+                    "count": 207
+                },
+                "Альфа-Банк": {
+                    "count": 183
+                },
+                "Банк Москвы": {
+                    "count": 116
+                },
+                "Белагропромбанк": {
+                    "count": 66
+                },
+                "Беларусбанк": {
+                    "count": 223
+                },
+                "ВТБ": {
+                    "count": 54
+                },
+                "ВТБ24": {
+                    "count": 298
+                },
+                "Возрождение": {
+                    "count": 56
+                },
+                "Газпромбанк": {
+                    "count": 93
+                },
+                "Ощадбанк": {
+                    "count": 292
+                },
+                "ПриватБанк": {
+                    "count": 480
+                },
+                "Промсвязьбанк": {
+                    "count": 86
+                },
+                "Райффайзен Банк Аваль": {
+                    "count": 57
+                },
+                "Росбанк": {
+                    "count": 172
+                },
+                "Россельхозбанк": {
+                    "count": 181
+                },
+                "Сбербанк": {
+                    "count": 4579
+                },
+                "Совкомбанк": {
+                    "count": 51
+                },
+                "УкрСиббанк": {
+                    "count": 125
+                },
+                "Уралсиб": {
+                    "count": 83
+                },
+                "ლიბერთი ბანკი (Liberty Bank)": {
+                    "count": 55
+                },
+                "みずほ銀行": {
+                    "count": 68
+                },
+                "りそな銀行": {
+                    "count": 227
+                },
+                "三井住友銀行": {
+                    "count": 122
+                },
+                "三菱東京UFJ銀行": {
+                    "count": 149
+                },
+                "中国银行": {
+                    "count": 65
+                },
+                "광주은행 (Gwangju Bank)": {
+                    "count": 55
+                },
+                "국민은행": {
+                    "count": 167
+                },
+                "농협": {
+                    "count": 51
+                },
+                "신한은행": {
+                    "count": 218
+                },
+                "우리은행": {
+                    "count": 293
+                },
+                "중소기업은행 (Industrial Bank of Korea)": {
+                    "count": 53
+                },
+                "하나은행": {
+                    "count": 78
+                }
+            },
+            "cafe": {
+                "Cafe Amazon": {
+                    "count": 51
+                },
+                "Cafe Coffee Day": {
+                    "count": 103
+                },
+                "Cafeteria": {
+                    "count": 69
+                },
+                "Caffè Nero": {
+                    "count": 159
+                },
+                "Café Central": {
+                    "count": 58
+                },
+                "Caribou Coffee": {
+                    "count": 92
+                },
+                "Coffee Time": {
+                    "count": 94
+                },
+                "Costa": {
+                    "count": 548
+                },
+                "Dunkin Donuts": {
+                    "count": 365
+                },
+                "Eiscafe": {
+                    "count": 115
+                },
+                "Eiscafe Venezia": {
+                    "count": 176
+                },
+                "Eisdiele": {
+                    "count": 64
+                },
+                "Panera Bread": {
+                    "count": 72
+                },
+                "Pret A Manger": {
+                    "count": 115
+                },
+                "Second Cup": {
+                    "count": 170
+                },
+                "Segafredo": {
+                    "count": 67
+                },
+                "Starbucks": {
+                    "count": 3837
+                },
+                "Subway": {
+                    "count": 61
+                },
+                "Tchibo": {
+                    "count": 91
+                },
+                "Tim Hortons": {
+                    "count": 940
+                },
+                "Traveler's Coffee": {
+                    "count": 59
+                },
+                "Кафе": {
+                    "count": 244
+                },
+                "Кофе Хауз": {
+                    "count": 99
+                },
+                "Столовая": {
+                    "count": 320
+                },
+                "Шашлычная": {
+                    "count": 51
+                },
+                "Шоколадница": {
+                    "count": 124
+                },
+                "คาเฟ่ อเมซอน": {
+                    "count": 63
+                },
+                "カフェ・ド・クリエ (Cafe de CRIE)": {
+                    "count": 68
+                },
+                "スターバックス": {
+                    "count": 54,
+                    "name:en": "Starbucks"
+                },
+                "スターバックス (Starbucks)": {
+                    "count": 191
+                },
+                "ドトール": {
+                    "count": 163
+                }
+            },
+            "car_rental": {
+                "Avis": {
+                    "count": 263
+                },
+                "Budget": {
+                    "count": 81
+                },
+                "Enterprise": {
+                    "count": 173
+                },
+                "Europcar": {
+                    "count": 271
+                },
+                "Hertz": {
+                    "count": 276
+                },
+                "Sixt": {
+                    "count": 150
+                },
+                "stadtmobil CarSharing-Station": {
+                    "count": 162
+                }
+            },
+            "fast_food": {
+                "A&W": {
+                    "count": 255
+                },
+                "Ali Baba": {
+                    "count": 57
+                },
+                "Arby's": {
+                    "count": 714
+                },
+                "Asia Imbiss": {
+                    "count": 103
+                },
+                "Baskin Robbins": {
+                    "count": 69
+                },
+                "Boston Market": {
+                    "count": 57
+                },
+                "Burger King": {
+                    "count": 3449
+                },
+                "Carl's Jr.": {
+                    "count": 272
+                },
+                "Chick-fil-A": {
+                    "count": 214
+                },
+                "Chipotle": {
+                    "count": 260
+                },
+                "Chowking": {
+                    "count": 138
+                },
+                "Church's Chicken": {
+                    "count": 86
+                },
+                "Culver's": {
+                    "count": 427
+                },
+                "Dairy Queen": {
+                    "count": 722
+                },
+                "Del Taco": {
+                    "count": 137
+                },
+                "Domino's Pizza": {
+                    "count": 896
+                },
+                "Dunkin Donuts": {
+                    "count": 411
+                },
+                "Döner": {
+                    "count": 221
+                },
+                "El Pollo Loco": {
+                    "count": 61
+                },
+                "Fish & Chips": {
+                    "count": 82
+                },
+                "Five Guys": {
+                    "count": 124
+                },
+                "Greggs": {
+                    "count": 77
+                },
+                "Hallo Pizza": {
+                    "count": 76
+                },
+                "Hardee's": {
+                    "count": 242
+                },
+                "Harvey's": {
+                    "count": 83
+                },
+                "Hesburger": {
+                    "count": 97
+                },
+                "Hungry Jacks": {
+                    "count": 163
+                },
+                "Imbiss": {
+                    "count": 181
+                },
+                "In-N-Out Burger": {
+                    "count": 58
+                },
+                "Istanbul": {
+                    "count": 52
+                },
+                "Jack in the Box": {
+                    "count": 517
+                },
+                "Jamba Juice": {
+                    "count": 60
+                },
+                "Jimmy John's": {
+                    "count": 119
+                },
+                "Jollibee": {
+                    "count": 384
+                },
+                "KFC": {
+                    "count": 2975
+                },
+                "Kebab": {
+                    "count": 167
+                },
+                "Kochlöffel": {
+                    "count": 69
+                },
+                "Kotipizza": {
+                    "count": 75
+                },
+                "Little Caesars": {
+                    "count": 61
+                },
+                "Long John Silver's": {
+                    "count": 76
+                },
+                "Mang Inasal": {
+                    "count": 66
+                },
+                "McDonald's": {
+                    "count": 11760
+                },
+                "Mr. Sub": {
+                    "count": 108
+                },
+                "Nando's": {
+                    "count": 58
+                },
+                "Nordsee": {
+                    "count": 159
+                },
+                "Panda Express": {
+                    "count": 212
+                },
+                "Panera Bread": {
+                    "count": 59
+                },
+                "Papa John's": {
+                    "count": 274
+                },
+                "Pizza Express": {
+                    "count": 65
+                },
+                "Pizza Hut": {
+                    "count": 1010
+                },
+                "Pizza Nova": {
+                    "count": 57
+                },
+                "Pizza Pizza": {
+                    "count": 202
+                },
+                "Pollo Campero": {
+                    "count": 63
+                },
+                "Popeye's": {
+                    "count": 147
+                },
+                "Quick": {
+                    "count": 484
+                },
+                "Quiznos": {
+                    "count": 262
+                },
+                "Red Rooster": {
+                    "count": 145
+                },
+                "Sibylla": {
+                    "count": 61
+                },
+                "Sonic": {
+                    "count": 506
+                },
+                "Steers": {
+                    "count": 139
+                },
+                "Subway": {
+                    "count": 5113
+                },
+                "Taco Bell": {
+                    "count": 1257
+                },
+                "Taco John's": {
+                    "count": 64
+                },
+                "Taco Time": {
+                    "count": 82
+                },
+                "Telepizza": {
+                    "count": 188
+                },
+                "Tim Hortons": {
+                    "count": 292
+                },
+                "Wendy's": {
+                    "count": 1487
+                },
+                "Whataburger": {
+                    "count": 147
+                },
+                "White Castle": {
+                    "count": 74
+                },
+                "Wimpy": {
+                    "count": 136
+                },
+                "Макдоналдс": {
+                    "count": 309,
+                    "name:en": "McDonald's"
+                },
+                "Робин Сдобин": {
+                    "count": 72
+                },
+                "Русский Аппетит": {
+                    "count": 65
+                },
+                "Столовая": {
+                    "count": 189
+                },
+                "Теремок": {
+                    "count": 63
+                },
+                "すき家": {
+                    "count": 245
+                },
+                "なか卯": {
+                    "count": 52
+                },
+                "ケンタッキーフライドチキン": {
+                    "count": 54,
+                    "name:en": "KFC"
+                },
+                "ケンタッキーフライドチキン (Kentucky Fried Chicken)": {
+                    "count": 104
+                },
+                "マクドナルド": {
+                    "count": 632,
+                    "name:en": "McDonald's"
+                },
+                "モスバーガー": {
+                    "count": 237
+                },
+                "吉野家": {
+                    "count": 172
+                },
+                "松屋": {
+                    "count": 224
+                },
+                "肯德基": {
+                    "count": 81
+                },
+                "麥當勞": {
+                    "count": 51
+                }
+            },
+            "fuel": {
+                "76": {
+                    "count": 282
+                },
+                "1-2-3": {
+                    "count": 71
+                },
+                "7-Eleven": {
+                    "count": 422
+                },
+                "ABC": {
+                    "count": 80
+                },
+                "Agip": {
+                    "count": 2654
+                },
+                "ANP": {
+                    "count": 65
+                },
+                "ARAL": {
+                    "count": 371
+                },
+                "AVIA": {
+                    "count": 257
+                },
+                "Afriquia": {
+                    "count": 90
+                },
+                "Agrola": {
+                    "count": 72
+                },
+                "Api": {
+                    "count": 313
+                },
+                "Aral": {
+                    "count": 1334
+                },
+                "Arco": {
+                    "count": 153
+                },
+                "Auchan": {
+                    "count": 52
+                },
+                "Avanti": {
+                    "count": 92
+                },
+                "Avia": {
+                    "count": 614
+                },
+                "BFT": {
+                    "count": 88
+                },
+                "BP": {
+                    "count": 2330
+                },
+                "BR": {
+                    "count": 81
+                },
+                "Benzina": {
+                    "count": 70
+                },
+                "Bliska": {
+                    "count": 149
+                },
+                "C. C. E. Leclerc": {
+                    "count": 84
+                },
+                "CAMPSA": {
+                    "count": 630
+                },
+                "CARREFOUR": {
+                    "count": 75
+                },
+                "CEPSA": {
+                    "count": 1020
+                },
+                "COSMO": {
+                    "count": 65
+                },
+                "Caltex": {
+                    "count": 948
+                },
+                "Canadian Tire": {
+                    "count": 63
+                },
+                "Carrefour": {
+                    "count": 196
+                },
+                "Casey's General Store": {
+                    "count": 162
+                },
+                "Cenex": {
+                    "count": 106
+                },
+                "Cepsa": {
+                    "count": 75
+                },
+                "Chevron": {
+                    "count": 825
+                },
+                "Circle K": {
+                    "count": 149
+                },
+                "Citgo": {
+                    "count": 246
+                },
+                "Coles Express": {
+                    "count": 99
+                },
+                "Conoco": {
+                    "count": 169
+                },
+                "Coop": {
+                    "count": 55
+                },
+                "Copec": {
+                    "count": 496
+                },
+                "E.Leclerc": {
+                    "count": 250
+                },
+                "EKO": {
+                    "count": 61
+                },
+                "ENEOS": {
+                    "count": 644
+                },
+                "ERG": {
+                    "count": 74
+                },
+                "Esso": {
+                    "count": 3566
+                },
+                "Eko": {
+                    "count": 58
+                },
+                "Elan": {
+                    "count": 114
+                },
+                "Elf": {
+                    "count": 138
+                },
+                "Eneos": {
+                    "count": 97
+                },
+                "Engen": {
+                    "count": 224
+                },
+                "Eni": {
+                    "count": 199
+                },
+                "Erg": {
+                    "count": 609
+                },
+                "Esso Express": {
+                    "count": 81
+                },
+                "Exxon": {
+                    "count": 435
+                },
+                "Flying V": {
+                    "count": 130
+                },
+                "Freie Tankstelle": {
+                    "count": 210
+                },
+                "GALP": {
+                    "count": 582
+                },
+                "Gulf": {
+                    "count": 184
+                },
+                "HEM": {
+                    "count": 216
+                },
+                "HP": {
+                    "count": 59
+                },
+                "Hess": {
+                    "count": 110
+                },
+                "Holiday": {
+                    "count": 96
+                },
+                "Husky": {
+                    "count": 115
+                },
+                "IDEMITSU": {
+                    "count": 79
+                },
+                "IES": {
+                    "count": 62
+                },
+                "INA": {
+                    "count": 118
+                },
+                "IP": {
+                    "count": 830
+                },
+                "Indian Oil": {
+                    "count": 134
+                },
+                "Indipend.": {
+                    "count": 178
+                },
+                "Intermarché": {
+                    "count": 417
+                },
+                "Ipiranga": {
+                    "count": 79
+                },
+                "Irving": {
+                    "count": 79
+                },
+                "JET": {
+                    "count": 177
+                },
+                "JOMO": {
+                    "count": 65
+                },
+                "Jet": {
+                    "count": 439
+                },
+                "Kum & Go": {
+                    "count": 76
+                },
+                "Kwik Trip": {
+                    "count": 100
+                },
+                "LPG": {
+                    "count": 151
+                },
+                "Lotos": {
+                    "count": 168
+                },
+                "Lukoil": {
+                    "count": 667
+                },
+                "MEROIL": {
+                    "count": 80
+                },
+                "MOL": {
+                    "count": 216
+                },
+                "Marathon": {
+                    "count": 154
+                },
+                "Metano": {
+                    "count": 205
+                },
+                "Migrol": {
+                    "count": 66
+                },
+                "Mobil": {
+                    "count": 564
+                },
+                "Mol": {
+                    "count": 58
+                },
+                "Morrisons": {
+                    "count": 104
+                },
+                "Neste": {
+                    "count": 197
+                },
+                "Neste A24": {
+                    "count": 58
+                },
+                "OIL!": {
+                    "count": 57
+                },
+                "OK": {
+                    "count": 159
+                },
+                "OKKO": {
+                    "count": 56
+                },
+                "OKQ8": {
+                    "count": 186
+                },
+                "OMV": {
+                    "count": 718
+                },
+                "Oilibya": {
+                    "count": 65
+                },
+                "Orlen": {
+                    "count": 541
+                },
+                "Pemex": {
+                    "count": 357
+                },
+                "PETRONOR": {
+                    "count": 209
+                },
+                "PTT": {
+                    "count": 175
+                },
+                "Pertamina": {
+                    "count": 176
+                },
+                "Petro-Canada": {
+                    "count": 466
+                },
+                "Petrobras": {
+                    "count": 256
+                },
+                "Petrom": {
+                    "count": 253
+                },
+                "Petron": {
+                    "count": 824
+                },
+                "Petronas": {
+                    "count": 143
+                },
+                "Phillips 66": {
+                    "count": 193
+                },
+                "Phoenix": {
+                    "count": 138
+                },
+                "Q8": {
+                    "count": 1137
+                },
+                "QuikTrip": {
+                    "count": 84
+                },
+                "REPSOL": {
+                    "count": 1610
+                },
+                "Raiffeisenbank": {
+                    "count": 118
+                },
+                "Repsol": {
+                    "count": 390
+                },
+                "Rompetrol": {
+                    "count": 161
+                },
+                "Shell": {
+                    "count": 7936
+                },
+                "Sainsbury's": {
+                    "count": 55
+                },
+                "Sasol": {
+                    "count": 55
+                },
+                "Sheetz": {
+                    "count": 95
+                },
+                "Shell Express": {
+                    "count": 133
+                },
+                "Sinclair": {
+                    "count": 78
+                },
+                "Slovnaft": {
+                    "count": 217
+                },
+                "Sokimex": {
+                    "count": 59
+                },
+                "Speedway": {
+                    "count": 124
+                },
+                "St1": {
+                    "count": 100
+                },
+                "Stacja paliw": {
+                    "count": 84
+                },
+                "Star": {
+                    "count": 316
+                },
+                "Total": {
+                    "count": 2498
+                },
+                "Statoil": {
+                    "count": 588
+                },
+                "Stewart's": {
+                    "count": 62
+                },
+                "Sunoco": {
+                    "count": 307
+                },
+                "Super U": {
+                    "count": 122
+                },
+                "Tamoil": {
+                    "count": 864
+                },
+                "Tango": {
+                    "count": 119
+                },
+                "Tankstelle": {
+                    "count": 114
+                },
+                "Teboil": {
+                    "count": 119
+                },
+                "Tela": {
+                    "count": 113
+                },
+                "Terpel": {
+                    "count": 255
+                },
+                "Tesco": {
+                    "count": 192
+                },
+                "Texaco": {
+                    "count": 645
+                },
+                "Tinq": {
+                    "count": 218
+                },
+                "Topaz": {
+                    "count": 78
+                },
+                "TotalErg": {
+                    "count": 71
+                },
+                "Turmöl": {
+                    "count": 57
+                },
+                "Ultramar": {
+                    "count": 119
+                },
+                "United": {
+                    "count": 83
+                },
+                "Valero": {
+                    "count": 328
+                },
+                "WOG": {
+                    "count": 139
+                },
+                "Wawa": {
+                    "count": 78
+                },
+                "Westfalen": {
+                    "count": 97
+                },
+                "YPF": {
+                    "count": 141
+                },
+                "Z": {
+                    "count": 76
+                },
+                "bft": {
+                    "count": 168
+                },
+                "ÖMV": {
+                    "count": 100
+                },
+                "АГЗС": {
+                    "count": 471
+                },
+                "АЗС": {
+                    "count": 1012
+                },
+                "Башнефть": {
+                    "count": 52
+                },
+                "Белоруснефть": {
+                    "count": 55
+                },
+                "Газпромнефть": {
+                    "count": 727
+                },
+                "Лукойл": {
+                    "count": 1472
+                },
+                "Макпетрол": {
+                    "count": 110
+                },
+                "НК Альянс": {
+                    "count": 89
+                },
+                "ОККО": {
+                    "count": 112
+                },
+                "ОМВ": {
+                    "count": 57
+                },
+                "ПТК": {
+                    "count": 82
+                },
+                "Петрол": {
+                    "count": 82
+                },
+                "Роснефть": {
+                    "count": 594
+                },
+                "Славнефть": {
+                    "count": 53
+                },
+                "Сургутнефтегаз": {
+                    "count": 60
+                },
+                "ТНК": {
+                    "count": 503
+                },
+                "Татнефтепродукт": {
+                    "count": 55
+                },
+                "Татнефть": {
+                    "count": 250
+                },
+                "บางจาก": {
+                    "count": 60
+                },
+                "ป ต ท": {
+                    "count": 154
+                },
+                "ปตท": {
+                    "count": 89
+                },
+                "コスモ石油 (COSMO)": {
+                    "count": 132
+                },
+                "出光": {
+                    "count": 205
+                },
+                "昭和シェル (Showa-shell)": {
+                    "count": 93
+                }
+            },
+            "pharmacy": {
+                "36,6": {
+                    "count": 107
+                },
+                "Adler Apotheke": {
+                    "count": 302
+                },
+                "Alte Apotheke": {
+                    "count": 85
+                },
+                "Apotheke": {
+                    "count": 167
+                },
+                "Apotheke am Markt": {
+                    "count": 62
+                },
+                "Apteka": {
+                    "count": 335
+                },
+                "Bahnhof-Apotheke": {
+                    "count": 64
+                },
+                "Boots": {
+                    "count": 809
+                },
+                "Brunnen-Apotheke": {
+                    "count": 52
+                },
+                "Burg-Apotheke": {
+                    "count": 56
+                },
+                "Bären-Apotheke": {
+                    "count": 72
+                },
+                "CVS": {
+                    "count": 1400
+                },
+                "Clicks": {
+                    "count": 110
+                },
+                "Cruz Verde": {
+                    "count": 96
+                },
+                "Engel-Apotheke": {
+                    "count": 126
+                },
+                "Eurovaistinė": {
+                    "count": 60
+                },
+                "Farmacia Comunale": {
+                    "count": 103
+                },
+                "Farmacias Ahumada": {
+                    "count": 101
+                },
+                "Farmacias Cruz Verde": {
+                    "count": 84
+                },
+                "Farmacias SalcoBrand": {
+                    "count": 133
+                },
+                "Farmacity": {
+                    "count": 62
+                },
+                "Farmahorro": {
+                    "count": 61
+                },
+                "Farmatodo": {
+                    "count": 133
+                },
+                "Gintarinė vaistinė": {
+                    "count": 100
+                },
+                "Hirsch-Apotheke": {
+                    "count": 80
+                },
+                "Hubertus Apotheke": {
+                    "count": 103
+                },
+                "Jean Coutu": {
+                    "count": 56
+                },
+                "Kinney Drugs": {
+                    "count": 67
+                },
+                "Linden-Apotheke": {
+                    "count": 210
+                },
+                "Ljekarna": {
+                    "count": 55
+                },
+                "Lloyds Pharmacy": {
+                    "count": 286
+                },
+                "Löwen-Apotheke": {
+                    "count": 354
+                },
+                "Marien-Apotheke": {
+                    "count": 315
+                },
+                "Markt-Apotheke": {
+                    "count": 161
+                },
+                "Mercury Drug": {
+                    "count": 401
+                },
+                "Neue Apotheke": {
+                    "count": 111
+                },
+                "Pharmacie Centrale": {
+                    "count": 60
+                },
+                "Pharmaprix": {
+                    "count": 57
+                },
+                "Pharmasave": {
+                    "count": 63
+                },
+                "Rathaus-Apotheke": {
+                    "count": 130
+                },
+                "Rats-Apotheke": {
+                    "count": 85
+                },
+                "Rite Aid": {
+                    "count": 659
+                },
+                "Rosen-Apotheke": {
+                    "count": 208
+                },
+                "Rowlands Pharmacy": {
+                    "count": 68
+                },
+                "SalcoBrand": {
+                    "count": 88
+                },
+                "Shoppers Drug Mart": {
+                    "count": 396
+                },
+                "Sonnen-Apotheke": {
+                    "count": 306
+                },
+                "Stadt-Apotheke": {
+                    "count": 300
+                },
+                "Stern-Apotheke": {
+                    "count": 67
+                },
+                "Superdrug": {
+                    "count": 108
+                },
+                "The Generics Pharmacy": {
+                    "count": 82
+                },
+                "Walgreens": {
+                    "count": 1447
+                },
+                "Айболит": {
+                    "count": 51
+                },
+                "Аптека": {
+                    "count": 1879
+                },
+                "Аптека 36,6": {
+                    "count": 113
+                },
+                "Аптечный пункт": {
+                    "count": 136
+                },
+                "Вита": {
+                    "count": 107
+                },
+                "Имплозия": {
+                    "count": 59
+                },
+                "Классика": {
+                    "count": 66
+                },
+                "Невис": {
+                    "count": 58
+                },
+                "Первая помощь": {
+                    "count": 73
+                },
+                "Радуга": {
+                    "count": 69
+                },
+                "Ригла": {
+                    "count": 109
+                },
+                "Фармакор": {
+                    "count": 71
+                },
+                "Фармация": {
+                    "count": 118
+                },
+                "Фармленд": {
+                    "count": 80
+                },
+                "аптека": {
+                    "count": 100
+                },
+                "ავერსი (Aversi)": {
+                    "count": 63
+                },
+                "サンドラッグ": {
+                    "count": 52
+                },
+                "スギ薬局": {
+                    "count": 76
+                },
+                "トモズ (Tomod's)": {
+                    "count": 82
+                },
+                "ドラッグてらしま (Drug Terashima)": {
+                    "count": 96
+                },
+                "マツモトキヨシ": {
+                    "count": 107
+                }
+            },
+            "pub": {
+                "Cross Keys": {
+                    "count": 59
+                },
+                "Irish Pub": {
+                    "count": 82
+                },
+                "Kings Arms": {
+                    "count": 68
+                },
+                "Kings Head": {
+                    "count": 56
+                },
+                "New Inn": {
+                    "count": 89
+                },
+                "Prince of Wales": {
+                    "count": 76
+                },
+                "Red Lion": {
+                    "count": 201
+                },
+                "Rose & Crown": {
+                    "count": 51
+                },
+                "Rose and Crown": {
+                    "count": 77
+                },
+                "Royal Hotel": {
+                    "count": 52
+                },
+                "Royal Oak": {
+                    "count": 149
+                },
+                "The Anchor": {
+                    "count": 64
+                },
+                "The Angel": {
+                    "count": 55
+                },
+                "The Bell": {
+                    "count": 121
+                },
+                "The Black Horse": {
+                    "count": 94
+                },
+                "The Bull": {
+                    "count": 67
+                },
+                "The Castle": {
+                    "count": 56
+                },
+                "The Chequers": {
+                    "count": 65
+                },
+                "The Cross Keys": {
+                    "count": 55
+                },
+                "The Crown": {
+                    "count": 239
+                },
+                "The Crown Inn": {
+                    "count": 69
+                },
+                "The Fox": {
+                    "count": 78
+                },
+                "The George": {
+                    "count": 109
+                },
+                "The Green Man": {
+                    "count": 52
+                },
+                "The Greyhound": {
+                    "count": 97
+                },
+                "The Kings Arms": {
+                    "count": 59
+                },
+                "The Kings Head": {
+                    "count": 54
+                },
+                "The New Inn": {
+                    "count": 105
+                },
+                "The Plough": {
+                    "count": 173
+                },
+                "The Prince of Wales": {
+                    "count": 51
+                },
+                "The Queens Head": {
+                    "count": 51
+                },
+                "The Railway": {
+                    "count": 100
+                },
+                "The Red Lion": {
+                    "count": 230
+                },
+                "The Rising Sun": {
+                    "count": 70
+                },
+                "The Royal Oak": {
+                    "count": 207
+                },
+                "The Ship": {
+                    "count": 89
+                },
+                "The Ship Inn": {
+                    "count": 80
+                },
+                "The Star": {
+                    "count": 74
+                },
+                "The Swan": {
+                    "count": 148
+                },
+                "The Victoria": {
+                    "count": 68
+                },
+                "The Wheatsheaf": {
+                    "count": 120
+                },
+                "The White Hart": {
+                    "count": 223
+                },
+                "The White Horse": {
+                    "count": 201
+                },
+                "The White Lion": {
+                    "count": 117
+                }
+            },
+            "recycling": {
+                "Altglas": {
+                    "count": 98
+                },
+                "Déchèterie": {
+                    "count": 244
+                },
+                "Glas": {
+                    "count": 106
+                },
+                "Glascontainer": {
+                    "count": 144
+                },
+                "Recyclinghof": {
+                    "count": 131
+                },
+                "Wertstoffhof": {
+                    "count": 262
+                }
+            },
+            "restaurant": {
+                "Adler": {
+                    "count": 154
+                },
+                "Akropolis": {
+                    "count": 149
+                },
+                "Alte Post": {
+                    "count": 62
+                },
+                "Applebee's": {
+                    "count": 467
+                },
+                "Athen": {
+                    "count": 65
+                },
+                "Bella Italia": {
+                    "count": 125
+                },
+                "Bob Evans": {
+                    "count": 99
+                },
+                "Boston Market": {
+                    "count": 57
+                },
+                "Boston Pizza": {
+                    "count": 148
+                },
+                "Buffalo Grill": {
+                    "count": 192
+                },
+                "Buffalo Wild Wings": {
+                    "count": 147
+                },
+                "Burger King": {
+                    "count": 141
+                },
+                "Bären": {
+                    "count": 58
+                },
+                "California Pizza Kitchen": {
+                    "count": 56
+                },
+                "Chili's": {
+                    "count": 294
+                },
+                "China Garden": {
+                    "count": 64
+                },
+                "China Town": {
+                    "count": 70
+                },
+                "Chipotle": {
+                    "count": 125
+                },
+                "Chowking": {
+                    "count": 53
+                },
+                "Courtepaille": {
+                    "count": 95
+                },
+                "Cracker Barrel": {
+                    "count": 162
+                },
+                "Da Vinci": {
+                    "count": 53
+                },
+                "Dairy Queen": {
+                    "count": 92
+                },
+                "Delphi": {
+                    "count": 86
+                },
+                "Denny's": {
+                    "count": 395
+                },
+                "Deutsches Haus": {
+                    "count": 88
+                },
+                "Dionysos": {
+                    "count": 68
+                },
+                "Dolce Vita": {
+                    "count": 74
+                },
+                "Domino's Pizza": {
+                    "count": 98
+                },
+                "El Greco": {
+                    "count": 80
+                },
+                "Flunch": {
+                    "count": 71
+                },
+                "Frankie & Benny's": {
+                    "count": 58
+                },
+                "Friendly's": {
+                    "count": 72
+                },
+                "Gasthaus Adler": {
+                    "count": 51
+                },
+                "Gasthaus Krone": {
+                    "count": 54
+                },
+                "Gasthof zur Post": {
+                    "count": 72
+                },
+                "Golden Corral": {
+                    "count": 91
+                },
+                "Grüner Baum": {
+                    "count": 116
+                },
+                "Hard Rock Cafe": {
+                    "count": 66
+                },
+                "Hellas": {
+                    "count": 54
+                },
+                "Hippopotamus": {
+                    "count": 91
+                },
+                "Hirsch": {
+                    "count": 77
+                },
+                "Hirschen": {
+                    "count": 83
+                },
+                "Hong Kong": {
+                    "count": 81
+                },
+                "Hooters": {
+                    "count": 94
+                },
+                "IHOP": {
+                    "count": 286
+                },
+                "KFC": {
+                    "count": 191
+                },
+                "Kantine": {
+                    "count": 52
+                },
+                "Kelsey's": {
+                    "count": 56
+                },
+                "Kirchenwirt": {
+                    "count": 79
+                },
+                "Kreuz": {
+                    "count": 75
+                },
+                "Krone": {
+                    "count": 173
+                },
+                "La Cantina": {
+                    "count": 54
+                },
+                "La Dolce Vita": {
+                    "count": 68
+                },
+                "La Perla": {
+                    "count": 66
+                },
+                "La Piazza": {
+                    "count": 67
+                },
+                "Lamm": {
+                    "count": 67
+                },
+                "Linde": {
+                    "count": 102
+                },
+                "Lindenhof": {
+                    "count": 82
+                },
+                "Little Chef": {
+                    "count": 68
+                },
+                "Longhorn Steakhouse": {
+                    "count": 56
+                },
+                "Lotus": {
+                    "count": 64
+                },
+                "Löwen": {
+                    "count": 114
+                },
+                "Mamma Mia": {
+                    "count": 61
+                },
+                "Mandarin": {
+                    "count": 64
+                },
+                "Mang Inasal": {
+                    "count": 81
+                },
+                "McDonald's": {
+                    "count": 297
+                },
+                "Mensa": {
+                    "count": 87
+                },
+                "Milano": {
+                    "count": 52
+                },
+                "Mykonos": {
+                    "count": 59
+                },
+                "Nando's": {
+                    "count": 219
+                },
+                "Ochsen": {
+                    "count": 93
+                },
+                "Olive Garden": {
+                    "count": 241
+                },
+                "Olympia": {
+                    "count": 78
+                },
+                "Outback Steakhouse": {
+                    "count": 189
+                },
+                "Panda Express": {
+                    "count": 53
+                },
+                "Panera Bread": {
+                    "count": 171
+                },
+                "Panorama": {
+                    "count": 60
+                },
+                "Peking": {
+                    "count": 54
+                },
+                "Perkins": {
+                    "count": 96
+                },
+                "Pizza Express": {
+                    "count": 241
+                },
+                "Pizza Hut": {
+                    "count": 1038
+                },
+                "Poseidon": {
+                    "count": 111
+                },
+                "Prezzo": {
+                    "count": 68
+                },
+                "Ratskeller": {
+                    "count": 148
+                },
+                "Red Lobster": {
+                    "count": 205
+                },
+                "Red Robin": {
+                    "count": 169
+                },
+                "Rhodos": {
+                    "count": 80
+                },
+                "Roma": {
+                    "count": 60
+                },
+                "Ruby Tuesday": {
+                    "count": 137
+                },
+                "Rössli": {
+                    "count": 68
+                },
+                "Sakura": {
+                    "count": 69
+                },
+                "San Marco": {
+                    "count": 66
+                },
+                "Schwarzer Adler": {
+                    "count": 58
+                },
+                "Schützenhaus": {
+                    "count": 129
+                },
+                "Seeblick": {
+                    "count": 51
+                },
+                "Shanghai": {
+                    "count": 79
+                },
+                "Shari's": {
+                    "count": 63
+                },
+                "Sonne": {
+                    "count": 123
+                },
+                "Sportheim": {
+                    "count": 57
+                },
+                "Spur": {
+                    "count": 60
+                },
+                "Sternen": {
+                    "count": 78
+                },
+                "Subway": {
+                    "count": 470
+                },
+                "Swiss Chalet": {
+                    "count": 101
+                },
+                "TGI Friday's": {
+                    "count": 138
+                },
+                "Taco Bell": {
+                    "count": 82
+                },
+                "Taj Mahal": {
+                    "count": 101
+                },
+                "Texas Roadhouse": {
+                    "count": 96
+                },
+                "The Keg": {
+                    "count": 52
+                },
+                "Traube": {
+                    "count": 65
+                },
+                "Vapiano": {
+                    "count": 81
+                },
+                "Village Inn": {
+                    "count": 88
+                },
+                "Vips": {
+                    "count": 51
+                },
+                "Waffle House": {
+                    "count": 182
+                },
+                "Wagamama": {
+                    "count": 58
+                },
+                "Waldschänke": {
+                    "count": 55
+                },
+                "Wendy's": {
+                    "count": 86
+                },
+                "Zizzi": {
+                    "count": 62
+                },
+                "Zum Löwen": {
+                    "count": 82
+                },
+                "Zur Krone": {
+                    "count": 92
+                },
+                "Zur Linde": {
+                    "count": 200
+                },
+                "Zur Post": {
+                    "count": 117
+                },
+                "Zur Sonne": {
+                    "count": 73
+                },
+                "Евразия": {
+                    "count": 98
+                },
+                "Столовая": {
+                    "count": 126
+                },
+                "Якитория": {
+                    "count": 74
+                },
+                "ガスト": {
+                    "count": 204
+                },
+                "サイゼリヤ": {
+                    "count": 81
+                },
+                "ジョナサン": {
+                    "count": 56
+                },
+                "デニーズ": {
+                    "count": 73
+                },
+                "바다횟집 (Bada Fish Restaurant)": {
+                    "count": 55
+                }
+            }
+        },
+        "shop": {
+            "alcohol": {
+                "Alko": {
+                    "count": 141
+                },
+                "BWS": {
+                    "count": 58
+                },
+                "Bargain Booze": {
+                    "count": 59
+                },
+                "Botilleria": {
+                    "count": 75
+                },
+                "Gall & Gall": {
+                    "count": 514
+                },
+                "LCBO": {
+                    "count": 214
+                },
+                "Nicolas": {
+                    "count": 109
+                },
+                "SAQ": {
+                    "count": 66
+                },
+                "Systembolaget": {
+                    "count": 199
+                },
+                "The Beer Store": {
+                    "count": 141
+                },
+                "Ароматный мир": {
+                    "count": 56
+                },
+                "Живое пиво": {
+                    "count": 62
+                }
+            },
+            "bakery": {
+                "Anker": {
+                    "count": 65
+                },
+                "Backwerk": {
+                    "count": 94
+                },
+                "Boulangerie": {
+                    "count": 232
+                },
+                "Boulangerie Patisserie": {
+                    "count": 76
+                },
+                "Bäcker": {
+                    "count": 65
+                },
+                "Bäckerei": {
+                    "count": 163
+                },
+                "Bäckerei Schmidt": {
+                    "count": 56
+                },
+                "Dat Backhus": {
+                    "count": 62
+                },
+                "Der Beck": {
+                    "count": 97
+                },
+                "Goeken backen": {
+                    "count": 52
+                },
+                "Goldilocks": {
+                    "count": 55
+                },
+                "Greggs": {
+                    "count": 255
+                },
+                "Hofpfisterei": {
+                    "count": 108
+                },
+                "Ihle": {
+                    "count": 76
+                },
+                "K&U": {
+                    "count": 54
+                },
+                "Kamps": {
+                    "count": 252
+                },
+                "Müller": {
+                    "count": 91
+                },
+                "Oebel": {
+                    "count": 57
+                },
+                "Panaderia": {
+                    "count": 154
+                },
+                "Panificio": {
+                    "count": 63
+                },
+                "Paul": {
+                    "count": 74
+                },
+                "Piekarnia": {
+                    "count": 52
+                },
+                "Stadtbäckerei": {
+                    "count": 58
+                },
+                "Stadtbäckerei Junge": {
+                    "count": 53
+                },
+                "Steinecke": {
+                    "count": 135
+                },
+                "Thürmann": {
+                    "count": 57
+                },
+                "Хлеб": {
+                    "count": 81
+                }
+            },
+            "books": {
+                "Barnes & Noble": {
+                    "count": 239
+                },
+                "Bruna": {
+                    "count": 55
+                },
+                "Libro": {
+                    "count": 59
+                },
+                "Thalia": {
+                    "count": 122
+                },
+                "Waterstones": {
+                    "count": 85
+                },
+                "Weltbild": {
+                    "count": 72
+                },
+                "Книги": {
+                    "count": 110
+                }
+            },
+            "car_repair": {
+                "ATU": {
+                    "count": 257
+                },
+                "AutoZone": {
+                    "count": 51
+                },
+                "Carglass": {
+                    "count": 99
+                },
+                "Euromaster": {
+                    "count": 80
+                },
+                "Feu Vert": {
+                    "count": 104
+                },
+                "Firestone": {
+                    "count": 77
+                },
+                "Jiffy Lube": {
+                    "count": 178
+                },
+                "Kwik Fit": {
+                    "count": 73
+                },
+                "Midas": {
+                    "count": 171
+                },
+                "Norauto": {
+                    "count": 141
+                },
+                "O'Reilly Auto Parts": {
+                    "count": 62
+                },
+                "Peugeot": {
+                    "count": 80
+                },
+                "Pit Stop": {
+                    "count": 55
+                },
+                "Renault": {
+                    "count": 158
+                },
+                "Roady": {
+                    "count": 52
+                },
+                "Speedy": {
+                    "count": 104
+                },
+                "ÖAMTC": {
+                    "count": 51
+                },
+                "Автозапчасти": {
+                    "count": 172
+                },
+                "Автосервис": {
+                    "count": 314
+                },
+                "СТО": {
+                    "count": 338
+                },
+                "Шиномонтаж": {
+                    "count": 995
+                }
+            },
+            "car": {
+                "Audi": {
+                    "count": 101
+                },
+                "BMW": {
+                    "count": 139
+                },
+                "Chevrolet": {
+                    "count": 75
+                },
+                "Citroen": {
+                    "count": 259
+                },
+                "Fiat": {
+                    "count": 83
+                },
+                "Ford": {
+                    "count": 216
+                },
+                "Honda": {
+                    "count": 134
+                },
+                "Hyundai": {
+                    "count": 146
+                },
+                "Mazda": {
+                    "count": 96
+                },
+                "Mercedes-Benz": {
+                    "count": 218
+                },
+                "Mitsubishi": {
+                    "count": 66
+                },
+                "Nissan": {
+                    "count": 173
+                },
+                "Opel": {
+                    "count": 161
+                },
+                "Peugeot": {
+                    "count": 291
+                },
+                "Renault": {
+                    "count": 356
+                },
+                "Skoda": {
+                    "count": 92
+                },
+                "Suzuki": {
+                    "count": 73
+                },
+                "Toyota": {
+                    "count": 238
+                },
+                "Volkswagen": {
+                    "count": 200
+                },
+                "Volvo": {
+                    "count": 82
+                },
+                "Автозапчасти": {
+                    "count": 290
+                },
+                "Автомагазин": {
+                    "count": 64
+                },
+                "Шиномонтаж": {
+                    "count": 263
+                }
+            },
+            "chemist": {
+                "Bipa": {
+                    "count": 276
+                },
+                "Boots": {
+                    "count": 94
+                },
+                "dm": {
+                    "count": 873
+                },
+                "Douglas": {
+                    "count": 62
+                },
+                "Etos": {
+                    "count": 465
+                },
+                "Ihr Platz": {
+                    "count": 76
+                },
+                "Kruidvat": {
+                    "count": 114
+                },
+                "Müller": {
+                    "count": 195
+                },
+                "Rossmann": {
+                    "count": 1623
+                },
+                "Schlecker": {
+                    "count": 201
+                },
+                "Superdrug": {
+                    "count": 64
+                }
+            },
+            "clothes": {
+                "AWG": {
+                    "count": 62
+                },
+                "Ackermans": {
+                    "count": 91
+                },
+                "Adidas": {
+                    "count": 81
+                },
+                "Adler": {
+                    "count": 53
+                },
+                "American Apparel": {
+                    "count": 53
+                },
+                "Benetton": {
+                    "count": 96
+                },
+                "Bonita": {
+                    "count": 143
+                },
+                "C&A": {
+                    "count": 484
+                },
+                "Calzedonia": {
+                    "count": 56
+                },
+                "Cecil": {
+                    "count": 51
+                },
+                "Celio": {
+                    "count": 71
+                },
+                "Charles Vögele": {
+                    "count": 63
+                },
+                "Deichmann": {
+                    "count": 61
+                },
+                "Dorothy Perkins": {
+                    "count": 51
+                },
+                "Edgars": {
+                    "count": 111
+                },
+                "Ernsting's family": {
+                    "count": 286
+                },
+                "Esprit": {
+                    "count": 209
+                },
+                "Etam": {
+                    "count": 51
+                },
+                "Gap": {
+                    "count": 74
+                },
+                "Gerry Weber": {
+                    "count": 68
+                },
+                "H&M": {
+                    "count": 607
+                },
+                "Jack & Jones": {
+                    "count": 51
+                },
+                "Jack Wolfskin": {
+                    "count": 55
+                },
+                "Jet": {
+                    "count": 62
+                },
+                "Jules": {
+                    "count": 61
+                },
+                "KiK": {
+                    "count": 1148
+                },
+                "Kiabi": {
+                    "count": 139
+                },
+                "Kohl's": {
+                    "count": 101
+                },
+                "Lacoste": {
+                    "count": 66
+                },
+                "Levi's": {
+                    "count": 58
+                },
+                "Lindex": {
+                    "count": 70
+                },
+                "Mango": {
+                    "count": 115
+                },
+                "Matalan": {
+                    "count": 83
+                },
+                "Mexx": {
+                    "count": 65
+                },
+                "Mr Price": {
+                    "count": 86
+                },
+                "NKD": {
+                    "count": 444
+                },
+                "New Look": {
+                    "count": 115
+                },
+                "New Yorker": {
+                    "count": 173
+                },
+                "Next": {
+                    "count": 163
+                },
+                "Old Navy": {
+                    "count": 154
+                },
+                "Orsay": {
+                    "count": 71
+                },
+                "Peacocks": {
+                    "count": 86
+                },
+                "Pep": {
+                    "count": 136
+                },
+                "Pimkie": {
+                    "count": 72
+                },
+                "Primark": {
+                    "count": 87
+                },
+                "Promod": {
+                    "count": 71
+                },
+                "River Island": {
+                    "count": 56
+                },
+                "Ross": {
+                    "count": 77
+                },
+                "Street One": {
+                    "count": 74
+                },
+                "TK Maxx": {
+                    "count": 73
+                },
+                "Takko": {
+                    "count": 476
+                },
+                "Tally Weijl": {
+                    "count": 67
+                },
+                "Tommy Hilfiger": {
+                    "count": 65
+                },
+                "Truworths": {
+                    "count": 64
+                },
+                "Ulla Popken": {
+                    "count": 59
+                },
+                "United Colors of Benetton": {
+                    "count": 90
+                },
+                "Urban Outfitters": {
+                    "count": 61
+                },
+                "Vero Moda": {
+                    "count": 89
+                },
+                "Vögele": {
+                    "count": 129
+                },
+                "Winners": {
+                    "count": 59
+                },
+                "Woolworths": {
+                    "count": 116
+                },
+                "Zara": {
+                    "count": 199
+                },
+                "Zeeman": {
+                    "count": 108
+                },
+                "s.Oliver": {
+                    "count": 53
+                },
+                "Одежда": {
+                    "count": 68
+                },
+                "洋服の青山": {
+                    "count": 86
+                }
+            },
+            "computer": {
+                "DNS": {
+                    "count": 119
+                },
+                "PC World": {
+                    "count": 58
+                }
+            },
+            "convenience": {
+                "24 часа": {
+                    "count": 56
+                },
+                "7-Eleven": {
+                    "count": 3898
+                },
+                "8 à Huit": {
+                    "count": 57
+                },
+                "ABC": {
+                    "count": 138
+                },
+                "Alepa": {
+                    "count": 63
+                },
+                "Alfamart": {
+                    "count": 74
+                },
+                "Almacen": {
+                    "count": 201
+                },
+                "BP": {
+                    "count": 157
+                },
+                "Biedronka": {
+                    "count": 67
+                },
+                "Boutique": {
+                    "count": 59
+                },
+                "CBA": {
+                    "count": 122
+                },
+                "COOP": {
+                    "count": 122
+                },
+                "COOP Jednota": {
+                    "count": 160
+                },
+                "CVS": {
+                    "count": 64
+                },
+                "Carrefour City": {
+                    "count": 54
+                },
+                "Carrefour Express": {
+                    "count": 73
+                },
+                "Casey's General Store": {
+                    "count": 80
+                },
+                "Casino": {
+                    "count": 85
+                },
+                "Centra": {
+                    "count": 112
+                },
+                "Central Convenience Store": {
+                    "count": 52
+                },
+                "Chevron": {
+                    "count": 57
+                },
+                "Circle K": {
+                    "count": 269
+                },
+                "Citgo": {
+                    "count": 63
+                },
+                "Coop": {
+                    "count": 505
+                },
+                "Coop Jednota": {
+                    "count": 58
+                },
+                "Costcutter": {
+                    "count": 272
+                },
+                "Cumberland Farms": {
+                    "count": 62
+                },
+                "Delikatesy": {
+                    "count": 77
+                },
+                "Dollar General": {
+                    "count": 101
+                },
+                "Dorfladen": {
+                    "count": 76
+                },
+                "Epicerie": {
+                    "count": 64
+                },
+                "Esso": {
+                    "count": 64
+                },
+                "FamilyMart": {
+                    "count": 489
+                },
+                "Food Mart": {
+                    "count": 88
+                },
+                "Four Square": {
+                    "count": 51
+                },
+                "Franprix": {
+                    "count": 64
+                },
+                "Groszek": {
+                    "count": 57
+                },
+                "Hasty Market": {
+                    "count": 53
+                },
+                "Indomaret": {
+                    "count": 126
+                },
+                "Jednota": {
+                    "count": 56
+                },
+                "K-Market": {
+                    "count": 57
+                },
+                "Kiosk": {
+                    "count": 57
+                },
+                "Konzum": {
+                    "count": 164
+                },
+                "Kum & Go": {
+                    "count": 55
+                },
+                "Kwik Trip": {
+                    "count": 69
+                },
+                "LAWSON": {
+                    "count": 397
+                },
+                "Lewiatan": {
+                    "count": 111
+                },
+                "Lidl": {
+                    "count": 81
+                },
+                "Londis": {
+                    "count": 341
+                },
+                "Mac's": {
+                    "count": 147
+                },
+                "Mace": {
+                    "count": 111
+                },
+                "McColl's": {
+                    "count": 97
+                },
+                "Mercator": {
+                    "count": 59
+                },
+                "Mini Market": {
+                    "count": 190
+                },
+                "Mini Stop": {
+                    "count": 210
+                },
+                "Mobil": {
+                    "count": 63
+                },
+                "Nisa": {
+                    "count": 52
+                },
+                "Nisa Local": {
+                    "count": 71
+                },
+                "Oxxo": {
+                    "count": 614
+                },
+                "One Stop": {
+                    "count": 142
+                },
+                "Petit Casino": {
+                    "count": 227
+                },
+                "Picard": {
+                    "count": 53
+                },
+                "Potraviny": {
+                    "count": 243
+                },
+                "Premier": {
+                    "count": 123
+                },
+                "Proxi": {
+                    "count": 114
+                },
+                "QuikTrip": {
+                    "count": 59
+                },
+                "Rossmann": {
+                    "count": 62
+                },
+                "SPAR": {
+                    "count": 185
+                },
+                "Sainsbury's Local": {
+                    "count": 96
+                },
+                "Sale": {
+                    "count": 80
+                },
+                "Select": {
+                    "count": 58
+                },
+                "Shell": {
+                    "count": 241
+                },
+                "Siwa": {
+                    "count": 212
+                },
+                "Sklep spożywczy": {
+                    "count": 235
+                },
+                "Spar": {
+                    "count": 888
+                },
+                "Społem": {
+                    "count": 84
+                },
+                "Spożywczy": {
+                    "count": 67
+                },
+                "Statoil": {
+                    "count": 69
+                },
+                "Stewart's": {
+                    "count": 254
+                },
+                "Stores": {
+                    "count": 61
+                },
+                "Studenac": {
+                    "count": 74
+                },
+                "Sunkus": {
+                    "count": 63
+                },
+                "Tchibo": {
+                    "count": 54
+                },
+                "Tesco": {
+                    "count": 55
+                },
+                "Tesco Express": {
+                    "count": 415
+                },
+                "The Co-operative Food": {
+                    "count": 109
+                },
+                "Valintatalo": {
+                    "count": 62
+                },
+                "Vival": {
+                    "count": 182
+                },
+                "Volg": {
+                    "count": 110
+                },
+                "Walgreens": {
+                    "count": 89
+                },
+                "Wawa": {
+                    "count": 129
+                },
+                "abc": {
+                    "count": 61
+                },
+                "Żabka": {
+                    "count": 497
+                },
+                "Авоська": {
+                    "count": 53
+                },
+                "Березка": {
+                    "count": 71
+                },
+                "Весна": {
+                    "count": 56
+                },
+                "Визит": {
+                    "count": 55
+                },
+                "Виктория": {
+                    "count": 67
+                },
+                "Гастроном": {
+                    "count": 136
+                },
+                "Дикси": {
+                    "count": 118
+                },
+                "Кировский": {
+                    "count": 69
+                },
+                "Копеечка": {
+                    "count": 56
+                },
+                "Кулинария": {
+                    "count": 53
+                },
+                "Магазин": {
+                    "count": 760
+                },
+                "Магнит": {
+                    "count": 645
+                },
+                "Мария-Ра": {
+                    "count": 76
+                },
+                "Мечта": {
+                    "count": 53
+                },
+                "Минимаркет": {
+                    "count": 97
+                },
+                "Монетка": {
+                    "count": 59
+                },
+                "Надежда": {
+                    "count": 54
+                },
+                "Перекресток": {
+                    "count": 51
+                },
+                "Продукти": {
+                    "count": 153
+                },
+                "Продуктовый": {
+                    "count": 65
+                },
+                "Продуктовый магазин": {
+                    "count": 87
+                },
+                "Продукты": {
+                    "count": 3813
+                },
+                "Пятёрочка": {
+                    "count": 377
+                },
+                "Радуга": {
+                    "count": 80
+                },
+                "Смак": {
+                    "count": 70
+                },
+                "Теремок": {
+                    "count": 53
+                },
+                "Универсам": {
+                    "count": 75
+                },
+                "магазин": {
+                    "count": 102
+                },
+                "продукты": {
+                    "count": 113
+                },
+                "เซเว่นอีเลฟเว่น": {
+                    "count": 193
+                },
+                "მარკეტი (Market)": {
+                    "count": 145
+                },
+                "サンクス": {
+                    "count": 517
+                },
+                "サークルK": {
+                    "count": 450,
+                    "name:en": "Circle K"
+                },
+                "スリーエフ": {
+                    "count": 84
+                },
+                "セイコーマート (Seicomart)": {
+                    "count": 52
+                },
+                "セブンイレブン": {
+                    "count": 2742
+                },
+                "デイリーヤマザキ": {
+                    "count": 124
+                },
+                "ファミリーマート": {
+                    "count": 1352,
+                    "name:en": "FamilyMart"
+                },
+                "ミニストップ": {
+                    "count": 282
+                },
+                "ローソン": {
+                    "count": 1399,
+                    "name:en": "LAWSON"
+                },
+                "ローソンストア100": {
+                    "count": 65
+                },
+                "ローソンストア100 (LAWSON STORE 100)": {
+                    "count": 84
+                },
+                "全家": {
+                    "count": 60
+                },
+                "全家便利商店": {
+                    "count": 104
+                }
+            },
+            "department_store": {
+                "Big W": {
+                    "count": 51
+                },
+                "Canadian Tire": {
+                    "count": 69
+                },
+                "Costco": {
+                    "count": 79
+                },
+                "Debenhams": {
+                    "count": 65
+                },
+                "Galeria Kaufhof": {
+                    "count": 57
+                },
+                "Karstadt": {
+                    "count": 62
+                },
+                "Kmart": {
+                    "count": 120
+                },
+                "Kohl's": {
+                    "count": 123
+                },
+                "Macy's": {
+                    "count": 119
+                },
+                "Marks & Spencer": {
+                    "count": 59
+                },
+                "Sears": {
+                    "count": 208
+                },
+                "Target": {
+                    "count": 468
+                },
+                "Walmart": {
+                    "count": 456
+                },
+                "Walmart Supercenter": {
+                    "count": 67
+                },
+                "Woolworth": {
+                    "count": 74
+                },
+                "Универмаг": {
+                    "count": 57
+                }
+            },
+            "doityourself": {
+                "Ace Hardware": {
+                    "count": 130
+                },
+                "B&Q": {
+                    "count": 222
+                },
+                "Bauhaus": {
+                    "count": 178
+                },
+                "Baumax": {
+                    "count": 94
+                },
+                "Brico": {
+                    "count": 99
+                },
+                "Bricomarché": {
+                    "count": 213
+                },
+                "Bricorama": {
+                    "count": 59
+                },
+                "Bunnings Warehouse": {
+                    "count": 87
+                },
+                "Canadian Tire": {
+                    "count": 92
+                },
+                "Castorama": {
+                    "count": 160
+                },
+                "Gamma": {
+                    "count": 105
+                },
+                "Hagebau": {
+                    "count": 61
+                },
+                "Hagebaumarkt": {
+                    "count": 109
+                },
+                "Hellweg": {
+                    "count": 62
+                },
+                "Home Depot": {
+                    "count": 789
+                },
+                "Home Hardware": {
+                    "count": 66
+                },
+                "Homebase": {
+                    "count": 224
+                },
+                "Hornbach": {
+                    "count": 124
+                },
+                "Hubo": {
+                    "count": 72
+                },
+                "Lagerhaus": {
+                    "count": 71
+                },
+                "Leroy Merlin": {
+                    "count": 197
+                },
+                "Lowes": {
+                    "count": 1131
+                },
+                "Max Bahr": {
+                    "count": 86
+                },
+                "Menards": {
+                    "count": 62
+                },
+                "Mr Bricolage": {
+                    "count": 87
+                },
+                "OBI": {
+                    "count": 418
+                },
+                "Praktiker": {
+                    "count": 187
+                },
+                "Rona": {
+                    "count": 57
+                },
+                "Toom": {
+                    "count": 69
+                },
+                "Toom Baumarkt": {
+                    "count": 65
+                },
+                "Weldom": {
+                    "count": 70
+                },
+                "Wickes": {
+                    "count": 120
+                },
+                "Стройматериалы": {
+                    "count": 165
+                },
+                "Хозтовары": {
+                    "count": 68
+                }
+            },
+            "electronics": {
+                "Best Buy": {
+                    "count": 297
+                },
+                "Comet": {
+                    "count": 62
+                },
+                "Currys": {
+                    "count": 80
+                },
+                "Darty": {
+                    "count": 71
+                },
+                "Euronics": {
+                    "count": 109
+                },
+                "Expert": {
+                    "count": 117
+                },
+                "Future Shop": {
+                    "count": 69
+                },
+                "Maplin": {
+                    "count": 63
+                },
+                "Media Markt": {
+                    "count": 273
+                },
+                "Radio Shack": {
+                    "count": 226
+                },
+                "Saturn": {
+                    "count": 147
+                },
+                "М.Видео": {
+                    "count": 74
+                },
+                "Эльдорадо": {
+                    "count": 171
+                }
+            },
+            "furniture": {
+                "But": {
+                    "count": 58
+                },
+                "Conforama": {
+                    "count": 90
+                },
+                "Dänisches Bettenlager": {
+                    "count": 290
+                },
+                "IKEA": {
+                    "count": 162
+                },
+                "Jysk": {
+                    "count": 92
+                },
+                "Matratzen Concord": {
+                    "count": 51
+                },
+                "Roller": {
+                    "count": 77
+                },
+                "Мебель": {
+                    "count": 190
+                }
+            },
+            "hairdresser": {
+                "Coiffeur": {
+                    "count": 60
+                },
+                "Franck Provost": {
+                    "count": 64
+                },
+                "Friseur": {
+                    "count": 127
+                },
+                "Great Clips": {
+                    "count": 155
+                },
+                "Klier": {
+                    "count": 105
+                },
+                "Peluqueria": {
+                    "count": 56
+                },
+                "Supercuts": {
+                    "count": 89
+                },
+                "Парикмахерская": {
+                    "count": 485
+                },
+                "Салон красоты": {
+                    "count": 65
+                }
+            },
+            "hardware": {
+                "1000 мелочей": {
+                    "count": 53
+                },
+                "Ace Hardware": {
+                    "count": 82
+                },
+                "Home Depot": {
+                    "count": 81
+                },
+                "Хозтовары": {
+                    "count": 143
+                }
+            },
+            "hifi": {
+                "Best Buy": {
+                    "count": 94
+                },
+                "Media Markt": {
+                    "count": 57
+                }
+            },
+            "jewelry": {
+                "Bijou Brigitte": {
+                    "count": 53
+                },
+                "Christ": {
+                    "count": 55
+                },
+                "Swarovski": {
+                    "count": 70
+                }
+            },
+            "mobile_phone": {
+                "AT&T": {
+                    "count": 95
+                },
+                "Bell": {
+                    "count": 191
+                },
+                "Bitė": {
+                    "count": 73
+                },
+                "Carphone Warehouse": {
+                    "count": 109
+                },
+                "Movistar": {
+                    "count": 55
+                },
+                "O2": {
+                    "count": 180
+                },
+                "Orange": {
+                    "count": 220
+                },
+                "SFR": {
+                    "count": 70
+                },
+                "Sprint": {
+                    "count": 91
+                },
+                "T-Mobile": {
+                    "count": 158
+                },
+                "The Phone House": {
+                    "count": 81
+                },
+                "Verizon Wireless": {
+                    "count": 97
+                },
+                "Vodafone": {
+                    "count": 311
+                },
+                "au": {
+                    "count": 56
+                },
+                "Билайн": {
+                    "count": 113
+                },
+                "Евросеть": {
+                    "count": 466
+                },
+                "МТС": {
+                    "count": 311
+                },
+                "Мегафон": {
+                    "count": 227
+                },
+                "Связной": {
+                    "count": 396
+                },
+                "ソフトバンクショップ (SoftBank shop)": {
+                    "count": 256
+                },
+                "ドコモショップ (docomo shop)": {
+                    "count": 113
+                }
+            },
+            "motorcycle": {
+                "Honda": {
+                    "count": 56
+                },
+                "Yamaha": {
+                    "count": 58
+                }
+            },
+            "optician": {
+                "Alain Afflelou": {
+                    "count": 68
+                },
+                "Apollo Optik": {
+                    "count": 142
+                },
+                "Fielmann": {
+                    "count": 219
+                },
+                "Krys": {
+                    "count": 65
+                },
+                "Optic 2000": {
+                    "count": 87
+                },
+                "Specsavers": {
+                    "count": 109
+                },
+                "Vision Express": {
+                    "count": 54
+                },
+                "Оптика": {
+                    "count": 165
+                }
+            },
+            "pet": {
+                "Das Futterhaus": {
+                    "count": 61
+                },
+                "Fressnapf": {
+                    "count": 300
+                },
+                "PetSmart": {
+                    "count": 150
+                },
+                "Petco": {
+                    "count": 79
+                },
+                "Pets at Home": {
+                    "count": 53
+                },
+                "Зоомагазин": {
+                    "count": 95
+                }
+            },
+            "shoes": {
+                "Bata": {
+                    "count": 88
+                },
+                "Brantano": {
+                    "count": 67
+                },
+                "Clarks": {
+                    "count": 97
+                },
+                "Deichmann": {
+                    "count": 574
+                },
+                "Ecco": {
+                    "count": 53
+                },
+                "Foot Locker": {
+                    "count": 74
+                },
+                "La Halle aux Chaussures": {
+                    "count": 63
+                },
+                "Payless Shoe Source": {
+                    "count": 52
+                },
+                "Quick Schuh": {
+                    "count": 69
+                },
+                "Reno": {
+                    "count": 170
+                },
+                "Salamander": {
+                    "count": 52
+                },
+                "Обувь": {
+                    "count": 93
+                }
+            },
+            "sports": {
+                "Decathlon": {
+                    "count": 286
+                },
+                "Dick's Sporting Goods": {
+                    "count": 58
+                },
+                "Intersport": {
+                    "count": 265
+                },
+                "Sport 2000": {
+                    "count": 83
+                },
+                "Sports Authority": {
+                    "count": 63
+                },
+                "Спортмастер": {
+                    "count": 80
+                }
+            },
+            "stationery": {
+                "McPaper": {
+                    "count": 79
+                },
+                "Office Depot": {
+                    "count": 83
+                },
+                "Staples": {
+                    "count": 262
+                },
+                "Канцтовары": {
+                    "count": 57
+                }
+            },
+            "supermarket": {
+                "AD Delhaize": {
+                    "count": 66
+                },
+                "ADEG": {
+                    "count": 64
+                },
+                "ALDI": {
+                    "count": 5182
+                },
+                "Aldi Süd": {
+                    "count": 589
+                },
+                "ASDA": {
+                    "count": 178
+                },
+                "Albert": {
+                    "count": 185
+                },
+                "Albert Heijn": {
+                    "count": 445
+                },
+                "Albertson's": {
+                    "count": 96
+                },
+                "Albertsons": {
+                    "count": 133
+                },
+                "Aldi Nord": {
+                    "count": 194
+                },
+                "Alimerka": {
+                    "count": 58
+                },
+                "Asda": {
+                    "count": 221
+                },
+                "Auchan": {
+                    "count": 144
+                },
+                "Billa": {
+                    "count": 1417
+                },
+                "Biedronka": {
+                    "count": 1227
+                },
+                "Bodega Aurrera": {
+                    "count": 70
+                },
+                "Budgens": {
+                    "count": 86
+                },
+                "C1000": {
+                    "count": 332
+                },
+                "CBA": {
+                    "count": 160
+                },
+                "COOP": {
+                    "count": 187
+                },
+                "COOP Jednota": {
+                    "count": 67
+                },
+                "Caprabo": {
+                    "count": 96
+                },
+                "Carrefour": {
+                    "count": 1575
+                },
+                "Carrefour City": {
+                    "count": 109
+                },
+                "Carrefour Contact": {
+                    "count": 73
+                },
+                "Carrefour Express": {
+                    "count": 314
+                },
+                "Carrefour Market": {
+                    "count": 79
+                },
+                "Casino": {
+                    "count": 254
+                },
+                "Centra": {
+                    "count": 51
+                },
+                "Champion": {
+                    "count": 63
+                },
+                "Checkers": {
+                    "count": 124
+                },
+                "Coop": {
+                    "count": 1860
+                },
+                "Coles": {
+                    "count": 381
+                },
+                "Colruyt": {
+                    "count": 186
+                },
+                "Combi": {
+                    "count": 56
+                },
+                "Conad": {
+                    "count": 294
+                },
+                "Condis": {
+                    "count": 65
+                },
+                "Consum": {
+                    "count": 123
+                },
+                "Continente": {
+                    "count": 66
+                },
+                "Coop Jednota": {
+                    "count": 68
+                },
+                "Coop Konsum": {
+                    "count": 78
+                },
+                "Costco": {
+                    "count": 133
+                },
+                "Costcutter": {
+                    "count": 62
+                },
+                "Countdown": {
+                    "count": 90
+                },
+                "Dia": {
+                    "count": 749
+                },
+                "dm": {
+                    "count": 108
+                },
+                "Delhaize": {
+                    "count": 219
+                },
+                "Delikatesy Centrum": {
+                    "count": 56
+                },
+                "Denner": {
+                    "count": 256
+                },
+                "Despar": {
+                    "count": 143
+                },
+                "Diska": {
+                    "count": 69
+                },
+                "Dunnes Stores": {
+                    "count": 70
+                },
+                "E-Center": {
+                    "count": 67
+                },
+                "E.Leclerc": {
+                    "count": 341
+                },
+                "EDEKA": {
+                    "count": 498
+                },
+                "Edeka": {
+                    "count": 1811
+                },
+                "El Árbol": {
+                    "count": 71
+                },
+                "Eroski": {
+                    "count": 203
+                },
+                "Esselunga": {
+                    "count": 82
+                },
+                "Eurospar": {
+                    "count": 260
+                },
+                "Eurospin": {
+                    "count": 153
+                },
+                "Extra": {
+                    "count": 74
+                },
+                "Fakta": {
+                    "count": 215
+                },
+                "Famiglia Cooperativa": {
+                    "count": 62
+                },
+                "Famila": {
+                    "count": 127
+                },
+                "Farmfoods": {
+                    "count": 63
+                },
+                "Feneberg": {
+                    "count": 61
+                },
+                "Food Basics": {
+                    "count": 73
+                },
+                "Food Lion": {
+                    "count": 175
+                },
+                "Foodland": {
+                    "count": 92
+                },
+                "Foodworks": {
+                    "count": 55
+                },
+                "Franprix": {
+                    "count": 298
+                },
+                "Fred Meyer": {
+                    "count": 63
+                },
+                "Fressnapf": {
+                    "count": 66
+                },
+                "Føtex": {
+                    "count": 67
+                },
+                "Game": {
+                    "count": 53
+                },
+                "Giant": {
+                    "count": 187
+                },
+                "Giant Eagle": {
+                    "count": 69
+                },
+                "Géant Casino": {
+                    "count": 53
+                },
+                "HEB": {
+                    "count": 75
+                },
+                "HIT": {
+                    "count": 62
+                },
+                "Hannaford": {
+                    "count": 55
+                },
+                "Harris Teeter": {
+                    "count": 84
+                },
+                "Hemköp": {
+                    "count": 83
+                },
+                "Hofer": {
+                    "count": 451
+                },
+                "Hoogvliet": {
+                    "count": 52
+                },
+                "Hy-Vee": {
+                    "count": 67
+                },
+                "ICA": {
+                    "count": 195
+                },
+                "IGA": {
+                    "count": 333
+                },
+                "Iceland": {
+                    "count": 297
+                },
+                "Intermarche": {
+                    "count": 107
+                },
+                "Intermarché": {
+                    "count": 1155
+                },
+                "Interspar": {
+                    "count": 142
+                },
+                "Irma": {
+                    "count": 61
+                },
+                "Jumbo": {
+                    "count": 175
+                },
+                "K+K": {
+                    "count": 104
+                },
+                "Kaiser's": {
+                    "count": 255
+                },
+                "Kaufland": {
+                    "count": 996
+                },
+                "Kaufpark": {
+                    "count": 100
+                },
+                "King Soopers": {
+                    "count": 69
+                },
+                "Kiwi": {
+                    "count": 164
+                },
+                "Konsum": {
+                    "count": 139
+                },
+                "Konzum": {
+                    "count": 225
+                },
+                "Kroger": {
+                    "count": 280
+                },
+                "Kvickly": {
+                    "count": 54
+                },
+                "LIDL": {
+                    "count": 901
+                },
+                "Leader Price": {
+                    "count": 242
+                },
+                "Leclerc": {
+                    "count": 132
+                },
+                "Lewiatan": {
+                    "count": 88
+                },
+                "Lider": {
+                    "count": 65
+                },
+                "Lidl": {
+                    "count": 6116
+                },
+                "M-Preis": {
+                    "count": 81
+                },
+                "MPreis": {
+                    "count": 54
+                },
+                "Makro": {
+                    "count": 130
+                },
+                "Markant": {
+                    "count": 91
+                },
+                "Marktkauf": {
+                    "count": 133
+                },
+                "Match": {
+                    "count": 146
+                },
+                "Maxi": {
+                    "count": 100
+                },
+                "Maxima": {
+                    "count": 107
+                },
+                "Maxima X": {
+                    "count": 111
+                },
+                "Meijer": {
+                    "count": 74
+                },
+                "Mercadona": {
+                    "count": 707
+                },
+                "Mercator": {
+                    "count": 119
+                },
+                "Merkur": {
+                    "count": 113
+                },
+                "Metro": {
+                    "count": 250
+                },
+                "Migros": {
+                    "count": 433
+                },
+                "Minipreço": {
+                    "count": 99
+                },
+                "Monoprix": {
+                    "count": 194
+                },
+                "Morrisons": {
+                    "count": 405
+                },
+                "Netto": {
+                    "count": 4309
+                },
+                "NORMA": {
+                    "count": 113
+                },
+                "NP": {
+                    "count": 153
+                },
+                "Nah & Frisch": {
+                    "count": 76
+                },
+                "Nahkauf": {
+                    "count": 166
+                },
+                "Neukauf": {
+                    "count": 81
+                },
+                "New World": {
+                    "count": 67
+                },
+                "No Frills": {
+                    "count": 101
+                },
+                "Norma": {
+                    "count": 1054
+                },
+                "PENNY": {
+                    "count": 78
+                },
+                "Pam": {
+                    "count": 53
+                },
+                "Penny": {
+                    "count": 1766
+                },
+                "Penny Market": {
+                    "count": 397
+                },
+                "Penny Markt": {
+                    "count": 464
+                },
+                "Petit Casino": {
+                    "count": 106
+                },
+                "Pick n Pay": {
+                    "count": 237
+                },
+                "Piggly Wiggly": {
+                    "count": 53
+                },
+                "Pingo Doce": {
+                    "count": 238
+                },
+                "Piotr i Paweł": {
+                    "count": 52
+                },
+                "Plodine": {
+                    "count": 52
+                },
+                "Plus": {
+                    "count": 138
+                },
+                "Polo Market": {
+                    "count": 81
+                },
+                "Price Chopper": {
+                    "count": 96
+                },
+                "Profi": {
+                    "count": 55
+                },
+                "Publix": {
+                    "count": 312
+                },
+                "REWE": {
+                    "count": 1440
+                },
+                "Real": {
+                    "count": 337
+                },
+                "Reliance Fresh": {
+                    "count": 63
+                },
+                "Rema 1000": {
+                    "count": 360
+                },
+                "Rewe": {
+                    "count": 1194
+                },
+                "Rimi": {
+                    "count": 103
+                },
+                "Rossmann": {
+                    "count": 88
+                },
+                "S-Market": {
+                    "count": 107
+                },
+                "SPAR": {
+                    "count": 275
+                },
+                "Safeway": {
+                    "count": 436
+                },
+                "Sainsbury's": {
+                    "count": 538
+                },
+                "Sainsbury's Local": {
+                    "count": 101
+                },
+                "Sam's Club": {
+                    "count": 125
+                },
+                "Santa Isabel": {
+                    "count": 123
+                },
+                "Shopi": {
+                    "count": 57
+                },
+                "Shoprite": {
+                    "count": 235
+                },
+                "Simply Market": {
+                    "count": 310
+                },
+                "Sobeys": {
+                    "count": 117
+                },
+                "Soriana": {
+                    "count": 91
+                },
+                "Spar": {
+                    "count": 2028
+                },
+                "Społem": {
+                    "count": 54
+                },
+                "Stokrotka": {
+                    "count": 84
+                },
+                "Stop & Shop": {
+                    "count": 55
+                },
+                "Super Brugsen": {
+                    "count": 63
+                },
+                "Super U": {
+                    "count": 462
+                },
+                "SuperBrugsen": {
+                    "count": 68
+                },
+                "Tesco": {
+                    "count": 1285
+                },
+                "Target": {
+                    "count": 199
+                },
+                "tegut": {
+                    "count": 220
+                },
+                "Tengelmann": {
+                    "count": 191
+                },
+                "Tesco Express": {
+                    "count": 373
+                },
+                "Tesco Extra": {
+                    "count": 118
+                },
+                "Tesco Metro": {
+                    "count": 125
+                },
+                "The Co-operative": {
+                    "count": 60
+                },
+                "The Co-operative Food": {
+                    "count": 113
+                },
+                "Trader Joe's": {
+                    "count": 182
+                },
+                "Treff 3000": {
+                    "count": 95
+                },
+                "Unimarc": {
+                    "count": 169
+                },
+                "Unimarkt": {
+                    "count": 80
+                },
+                "Volg": {
+                    "count": 127
+                },
+                "Waitrose": {
+                    "count": 252
+                },
+                "Walmart": {
+                    "count": 600
+                },
+                "Walmart Supercenter": {
+                    "count": 103
+                },
+                "Wasgau": {
+                    "count": 60
+                },
+                "Whole Foods": {
+                    "count": 191
+                },
+                "Willys": {
+                    "count": 54
+                },
+                "Woolworths": {
+                    "count": 519
+                },
+                "Zielpunkt": {
+                    "count": 240
+                },
+                "coop": {
+                    "count": 71
+                },
+                "nahkauf": {
+                    "count": 79
+                },
+                "sky": {
+                    "count": 100
+                },
+                "АТБ": {
+                    "count": 289
+                },
+                "Десяточка": {
+                    "count": 51
+                },
+                "Дикси": {
+                    "count": 562
+                },
+                "Евроопт": {
+                    "count": 57
+                },
+                "Карусель": {
+                    "count": 55
+                },
+                "Квартал": {
+                    "count": 93
+                },
+                "Копейка": {
+                    "count": 96
+                },
+                "Магазин": {
+                    "count": 113
+                },
+                "Магнит": {
+                    "count": 1635
+                },
+                "Магнолия": {
+                    "count": 70
+                },
+                "Мария-Ра": {
+                    "count": 94
+                },
+                "Монетка": {
+                    "count": 163
+                },
+                "Народная 7Я семьЯ": {
+                    "count": 147
+                },
+                "Перекресток": {
+                    "count": 310
+                },
+                "Полушка": {
+                    "count": 133
+                },
+                "Продукты": {
+                    "count": 96
+                },
+                "Пятёрочка": {
+                    "count": 1232
+                },
+                "Седьмой континент": {
+                    "count": 81
+                },
+                "Семья": {
+                    "count": 61
+                },
+                "Сільпо": {
+                    "count": 118
+                },
+                "Фора": {
+                    "count": 52
+                },
+                "Фуршет": {
+                    "count": 76
+                },
+                "マルエツ": {
+                    "count": 52
+                },
+                "ヨークマート (YorkMart)": {
+                    "count": 62
+                },
+                "西友 (SEIYU)": {
+                    "count": 55
+                }
+            },
+            "toys": {
+                "La Grande Récré": {
+                    "count": 55
+                },
+                "Toys R Us": {
+                    "count": 135
+                },
+                "Детский мир": {
+                    "count": 81
+                }
+            },
+            "travel_agency": {
+                "Flight Centre": {
+                    "count": 85
+                },
+                "Thomas Cook": {
+                    "count": 100
+                }
+            },
+            "variety_store": {
+                "Dollar General": {
+                    "count": 53
+                },
+                "Dollar Tree": {
+                    "count": 76
+                },
+                "Dollarama": {
+                    "count": 90
+                },
+                "Tedi": {
+                    "count": 138
+                }
+            },
+            "video": {
+                "Blockbuster": {
+                    "count": 197
+                },
+                "World of Video": {
+                    "count": 66
                 }
             }
         }
