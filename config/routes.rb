@@ -182,7 +182,7 @@ OpenStreetMap::Application.routes.draw do
   match '/traces/mine' => 'trace#mine', :via => :get
   match '/trace/create' => 'trace#create', :via => [:get, :post]
   match '/trace/:id/data' => 'trace#data', :via => :get, :id => /\d+/
-  match '/trace/:id/edit' => 'trace#edit', :via => [:get, :post, :patch], :id => /\d+/
+  match '/trace/:id/edit' => 'trace#edit', :via => [:get, :post, :patch], :id => /\d+/, :as => "trace_edit"
   match '/trace/:id/delete' => 'trace#delete', :via => :post, :id => /\d+/
 
   # diary pages
@@ -217,6 +217,7 @@ OpenStreetMap::Application.routes.draw do
 
   # geocoder
   match '/search' => 'geocoder#search', :via => :get, :as => :search
+  match '/geocoder/search_latlon' => 'geocoder#search_latlon', :via => :get
   match '/geocoder/search_us_postcode' => 'geocoder#search_us_postcode', :via => :get
   match '/geocoder/search_uk_postcode' => 'geocoder#search_uk_postcode', :via => :get
   match '/geocoder/search_ca_postcode' => 'geocoder#search_ca_postcode', :via => :get

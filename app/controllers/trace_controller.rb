@@ -151,8 +151,10 @@ class TraceController < ApplicationController
     if trace.visible? and (trace.public? or (@user and @user == trace.user))
       if Acl.no_trace_download(request.remote_ip)
         render :text => "", :status => :forbidden
-      elsif request.format == Mime::XML or request.format == Mime::GPX
+      elsif request.format == Mime::XML
         send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => 'attachment')
+      elsif request.format == Mime::GPX
+        send_file(trace.xml_file, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => 'attachment')
       else
         send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
       end
@@ -166,8 +168,13 @@ class TraceController < ApplicationController
   def edit
     @trace = Trace.find(params[:id])
 
-    if @user and @trace.user == @user
+    if not @trace.visible?
+      render :text => "", :status => :not_found
+    elsif @user.nil? or @trace.user != @user
+      render :text => "", :status => :forbidden
+    else
       @title = t 'trace.edit.title', :name => @trace.name
+
       if params[:trace]
         @trace.description = params[:trace][:description]
         @trace.tagstring = params[:trace][:tagstring]
@@ -176,8 +183,6 @@ class TraceController < ApplicationController
           redirect_to :action => 'view', :display_name => @user.display_name
         end
       end
-    else
-      render :text => "", :status => :forbidden
     end
   rescue ActiveRecord::RecordNotFound
     render :text => "", :status => :not_found
@@ -186,17 +191,15 @@ class TraceController < ApplicationController
   def delete
     trace = Trace.find(params[:id])
 
-    if @user and trace.user == @user
-      if trace.visible?
-        trace.visible = false
-        trace.save
-        flash[:notice] = t 'trace.delete.scheduled_for_deletion'
-        redirect_to :action => :list, :display_name => @user.display_name
-      else
-        render :text => "", :status => :not_found
-      end
-    else
+    if not trace.visible?
+      render :text => "", :status => :not_found
+    elsif @user.nil? or trace.user != @user
       render :text => "", :status => :forbidden
+    else
+      trace.visible = false
+      trace.save
+      flash[:notice] = t 'trace.delete.scheduled_for_deletion'
+      redirect_to :action => :list, :display_name => @user.display_name
     end
   rescue ActiveRecord::RecordNotFound
     render :text => "", :status => :not_found

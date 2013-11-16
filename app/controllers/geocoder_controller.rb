@@ -13,6 +13,7 @@ class GeocoderController < ApplicationController
 
     @sources = []
     if params[:lat] && params[:lon]
+      @sources.push "latlon"
       @sources.push "osm_nominatim_reverse"
       @sources.push "geonames_reverse"
     elsif params[:query].match(/^\d{5}(-\d{4})?$/)
@@ -30,6 +31,24 @@ class GeocoderController < ApplicationController
     end
 
     render :layout => map_layout
+  end
+
+  def search_latlon
+    lat = params[:lat].to_f
+    lon = params[:lon].to_f
+    if lat < -90 or lat > 90
+      @error = "Latitude #{lat} out of range"
+      render :action => "error"
+    elsif lon < -180 or lon > 180
+      @error = "Longitude #{lon} out of range"
+      render :action => "error"
+    else
+      @results = [{:lat => lat, :lon => lon,
+                   :zoom => params[:zoom],
+                   :name => "#{lat}, #{lon}"}]
+
+      render :action => "results"
+    end
   end
 
   def search_us_postcode
@@ -143,7 +162,11 @@ class GeocoderController < ApplicationController
       type = place.attributes["type"].to_s
       name = place.attributes["display_name"].to_s
       min_lat,max_lat,min_lon,max_lon = place.attributes["boundingbox"].to_s.split(",")
-      prefix_name = t "geocoder.search_osm_nominatim.prefix.#{klass}.#{type}", :default => type.gsub("_", " ").capitalize
+      if type.empty?
+        prefix_name = ""
+      else
+        prefix_name = t "geocoder.search_osm_nominatim.prefix.#{klass}.#{type}", :default => type.gsub("_", " ").capitalize
+      end
       if klass == 'boundary' and type == 'administrative'
         rank = (place.attributes["place_rank"].to_i + 1) / 2
         prefix_name = t "geocoder.search_osm_nominatim.admin_levels.level#{rank}", :default => prefix_name
