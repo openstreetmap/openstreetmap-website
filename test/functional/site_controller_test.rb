@@ -132,8 +132,6 @@ class SiteControllerTest < ActionController::TestCase
 
   # test the right editor gets used when the user hasn't set a preference
   def test_edit_without_preference
-    @request.cookies["_osm_username"] = users(:public_user).display_name
-
     get(:edit, nil, { 'user' => users(:public_user).id })
     assert_response :success
     assert_template :partial => "_#{DEFAULT_EDITOR}", :count => 1
@@ -141,8 +139,6 @@ class SiteControllerTest < ActionController::TestCase
 
   # and when they have...
   def test_edit_with_preference
-    @request.cookies["_osm_username"] = users(:public_user).display_name
-
     user = users(:public_user)
     user.preferred_editor = "potlatch"
     user.save!
@@ -161,8 +157,6 @@ class SiteControllerTest < ActionController::TestCase
   end
 
   def test_edit_with_node
-    @request.cookies["_osm_username"] = users(:public_user).display_name
-
     user = users(:public_user)
     node = current_nodes(:visible_node)
 
@@ -172,8 +166,6 @@ class SiteControllerTest < ActionController::TestCase
   end
 
   def test_edit_with_way
-    @request.cookies["_osm_username"] = users(:public_user).display_name
-
     user = users(:public_user)
     way  = current_ways(:visible_way)
 
@@ -183,8 +175,6 @@ class SiteControllerTest < ActionController::TestCase
   end
 
   def test_edit_with_gpx
-    @request.cookies["_osm_username"] = users(:public_user).display_name
-
     user = users(:public_user)
     gpx  = gpx_files(:public_trace_file)
 

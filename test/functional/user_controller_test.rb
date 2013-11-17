@@ -351,17 +351,12 @@ class UserControllerTest < ActionController::TestCase
   def test_user_terms_seen
     user = users(:normal_user)
 
-    # Set the username cookie
-    @request.cookies["_osm_username"] = user.display_name
-
     get :terms, {}, { "user" => user }
     assert_response :redirect
     assert_redirected_to :action => :account, :display_name => user.display_name
   end
 
   def test_user_go_public
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
-
     post :go_public, {}, { :user => users(:normal_user) }
     assert_response :redirect
     assert_redirected_to :action => :account, :display_name => users(:normal_user).display_name
@@ -460,20 +455,15 @@ class UserControllerTest < ActionController::TestCase
     # validation errors being reported
     user = users(:normal_user)
 
-    # Set the username cookie
-    @request.cookies["_osm_username"] = user.display_name
-
     # Make sure that you are redirected to the login page when
     # you are not logged in
     get :account, { :display_name => user.display_name }
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => "login", :referer => "/user/test/account"
 
-    # Make sure that you are redirected to the login page when
-    # you are not logged in as the right user
+    # Make sure that you are blocked when not logged in as the right user
     get :account, { :display_name => user.display_name }, { "user" => users(:public_user).id }
-    assert_response :redirect
-    assert_redirected_to :controller => :user, :action => "login", :referer => "/user/test/account"
+    assert_response :forbidden
 
     # Make sure we get the page when we are logged in as the right user
     get :account, { :display_name => user.display_name }, { "user" => user }
@@ -490,8 +480,8 @@ class UserControllerTest < ActionController::TestCase
     assert_select "form#accountForm > fieldset > div.form-row > div#user_description_container > div#user_description_content > textarea#user_description", user.description
 
     # Changing name to one that exists should fail
-    user.display_name = users(:public_user).display_name
-    post :account, { :display_name => user.display_name, :user => user.attributes }, { "user" => user.id }
+    new_attributes = user.attributes.dup.merge(:display_name => users(:public_user).display_name)
+    post :account, { :display_name => user.display_name, :user => new_attributes }, { "user" => user.id }
     assert_response :success
     assert_template :account
     assert_select "div#notice", false
@@ -499,8 +489,8 @@ class UserControllerTest < ActionController::TestCase
     assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
 
     # Changing name to one that exists should fail, regardless of case
-    user.display_name = users(:public_user).display_name.upcase
-    post :account, { :display_name => user.display_name, :user => user.attributes }, { "user" => user.id }
+    new_attributes = user.attributes.dup.merge(:display_name => users(:public_user).display_name.upcase)
+    post :account, { :display_name => user.display_name, :user => new_attributes }, { "user" => user.id }
     assert_response :success
     assert_template :account
     assert_select "div#notice", false
@@ -508,16 +498,16 @@ class UserControllerTest < ActionController::TestCase
     assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
 
     # Changing name to one that doesn't exist should work
-    user.display_name = "new tester"
-    post :account, { :display_name => user.display_name, :user => user.attributes }, { "user" => user.id }
+    new_attributes = user.attributes.dup.merge(:display_name => "new tester")
+    post :account, { :display_name => user.display_name, :user => new_attributes }, { "user" => user.id }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select "div#notice", /^User information updated successfully/
-    assert_select "form#accountForm > fieldset > div.form-row > input#user_display_name[value=?]", user.display_name
+    assert_select "form#accountForm > fieldset > div.form-row > input#user_display_name[value=?]", "new tester"
 
-    # Need to update cookies now to stay valid
-    @request.cookies["_osm_username"] = user.display_name
+    # Record the change of name
+    user.display_name = "new tester"
 
     # Changing email to one that exists should fail
     user.new_email = users(:public_user).email
@@ -598,7 +588,6 @@ class UserControllerTest < ActionController::TestCase
 
     # Login as a normal user
     session[:user] = users(:normal_user).id
-    cookies["_osm_username"] = users(:normal_user).display_name
 
     # Test the normal user
     get :view, {:display_name => "test"}
@@ -616,7 +605,6 @@ class UserControllerTest < ActionController::TestCase
 
     # Login as a moderator
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     # Test the normal user
     get :view, {:display_name => "test"}
@@ -734,9 +722,6 @@ class UserControllerTest < ActionController::TestCase
     # Check that the users aren't already friends
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
-    # Set the username cookie
-    @request.cookies["_osm_username"] = user.display_name
-
     # When not logged in a GET should ask us to login
     get :make_friend, {:display_name => friend.display_name}
     assert_redirected_to :controller => :user, :action => "login", :referer => make_friend_path(:display_name => friend.display_name)
@@ -787,9 +772,6 @@ class UserControllerTest < ActionController::TestCase
     # Check that the users are friends
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
-    # Set the username cookie
-    @request.cookies["_osm_username"] = user.display_name
-
     # When not logged in a GET should ask us to login
     get :remove_friend, {:display_name => friend.display_name}
     assert_redirected_to :controller => :user, :action => "login", :referer => remove_friend_path(:display_name => friend.display_name)
@@ -838,14 +820,10 @@ class UserControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => set_status_user_path(:status => "suspended")
 
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
-
     # Now try as a normal user
     get :set_status, {:display_name => users(:normal_user).display_name, :status => "suspended"}, {:user => users(:normal_user).id}
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
-
-    @request.cookies["_osm_username"] = users(:administrator_user).display_name
 
     # Finally try as an administrator
     get :set_status, {:display_name => users(:normal_user).display_name, :status => "suspended"}, {:user => users(:administrator_user).id}
@@ -860,14 +838,10 @@ class UserControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :action => :login, :referer => delete_user_path(:status => "suspended")
 
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
-
     # Now try as a normal user
     get :delete, {:display_name => users(:normal_user).display_name, :status => "suspended"}, {:user => users(:normal_user).id}
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name
-
-    @request.cookies["_osm_username"] = users(:administrator_user).display_name
 
     # Finally try as an administrator
     get :delete, {:display_name => users(:normal_user).display_name, :status => "suspended"}, {:user => users(:administrator_user).id}

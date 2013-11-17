@@ -86,8 +86,6 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_showing_new_diary_entry
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
-
     get :new
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => "login", :referer => "/diary/new"
@@ -125,7 +123,6 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
   
   def test_editing_diary_entry
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
     entry = diary_entries(:normal_user_entry_1)
 
     # Make sure that you are redirected to the login page when you are 
@@ -217,8 +214,6 @@ class DiaryEntryControllerTest < ActionController::TestCase
       end
     end
 
-    @request.cookies["_osm_username"] = users(:public_user).display_name
-
     # and when not logged in as the user who wrote the entry
     get :view, {:display_name => entry.user.display_name, :id => entry.id}, {'user' => entry.user.id}
     assert_response :success
@@ -251,16 +246,12 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
   
   def test_edit_diary_entry_i18n
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
-
     get :edit, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}, {'user' => users(:normal_user).id}
     assert_response :success
     assert_select "span[class=translation_missing]", false, "Missing translation in edit diary entry"
   end
   
   def test_create_diary_entry
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
-
     # Make sure that you are redirected to the login page when you
     # are not logged in
     get :new
@@ -320,7 +311,6 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
   
   def test_creating_diary_comment
-    @request.cookies["_osm_username"] = users(:public_user).display_name
     entry = diary_entries(:normal_user_entry_1)
 
     # Make sure that you are denied when you are not logged in
@@ -472,15 +462,11 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :forbidden
     assert_equal true, DiaryEntry.find(diary_entries(:normal_user_entry_1).id).visible
 
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
-
     # Now try as a normal user
     post :hide, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}, {:user => users(:normal_user).id}
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id
     assert_equal true, DiaryEntry.find(diary_entries(:normal_user_entry_1).id).visible
-
-    @request.cookies["_osm_username"] = users(:administrator_user).display_name
 
     # Finally try as an administrator
     post :hide, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id}, {:user => users(:administrator_user).id}
@@ -495,15 +481,11 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :forbidden
     assert_equal true, DiaryComment.find(diary_comments(:comment_for_geo_post).id).visible
 
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
-
     # Now try as a normal user
     post :hidecomment, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id, :comment => diary_comments(:comment_for_geo_post).id}, {:user => users(:normal_user).id}
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id
     assert_equal true, DiaryComment.find(diary_comments(:comment_for_geo_post).id).visible
-
-    @request.cookies["_osm_username"] = users(:administrator_user).display_name
 
     # Finally try as an administrator
     post :hidecomment, {:display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_geo_entry).id, :comment => diary_comments(:comment_for_geo_post).id}, {:user => users(:administrator_user).id}
