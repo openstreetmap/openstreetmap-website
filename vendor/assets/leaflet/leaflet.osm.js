@@ -73,7 +73,9 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
     for (var i = 0; i < features.length; i++) {
       var feature = features[i], layer;
 
-      if (feature.type === "node") {
+      if (feature.type === "changeset") {
+        layer = L.rectangle(feature.latLngBounds, this.options.styles.changeset);
+      } else if (feature.type === "node") {
         layer = L.circleMarker(feature.latLng, this.options.styles.node);
       } else {
         var latLngs = new Array(feature.nodes.length);
@@ -96,7 +98,7 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
   },
 
   buildFeatures: function (xml) {
-    var features = [],
+    var features = L.OSM.getChangesets(xml),
       nodes = L.OSM.getNodes(xml),
       ways = L.OSM.getWays(xml, nodes),
       relations = L.OSM.getRelations(xml, nodes, ways);
@@ -160,6 +162,25 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
 });
 
 L.Util.extend(L.OSM, {
+  getChangesets: function (xml) {
+    var result = [];
+
+    var nodes = xml.getElementsByTagName("changeset");
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i], id = node.getAttribute("id");
+      result.push({
+        id: id,
+        type: "changeset",
+        latLngBounds: L.latLngBounds(
+          [node.getAttribute("min_lat"), node.getAttribute("min_lon")],
+          [node.getAttribute("max_lat"), node.getAttribute("max_lon")]),
+        tags: this.getTags(node)
+      });
+    }
+
+    return result;
+  },
+
   getNodes: function (xml) {
     var result = {};
 
