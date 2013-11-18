@@ -202,6 +202,12 @@ class ChangesetController < ApplicationController
       bbox = BoundingBox.from_bbox_params(params)
     end
 
+    if params[:limit] and params[:limit].to_i > 0 and params[:limit].to_i < 10000
+      limit = params[:limit].to_i
+    else
+      limit = 100
+    end
+
     # create the conditions that the user asked for. some or all of
     # these may be nil.
     changesets = Changeset.scoped
@@ -215,7 +221,7 @@ class ChangesetController < ApplicationController
     results = OSM::API.new.get_xml_doc
 
     # add all matching changesets to the XML results document
-    changesets.order("created_at DESC").limit(100).each do |cs|
+    changesets.order("created_at DESC").limit(limit).each do |cs|
       results.root << cs.to_xml_node
     end
 
