@@ -4,10 +4,10 @@
     <div class='userinformation-inner'>
       <h1><%= @this_user.display_name %><%= role_icons(@this_user) %></h1>
       <% if @user and @this_user.id == @user.id %>
-        <!-- Displaying user's own profile page -->
+        <!-- Displaying user's own profile page to themself -->
         <ul class='secondary-actions clearfix'>
           <li>
-            <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list', :display_name => @user.display_name, :anchor => "map=1/0/0" %>
+            <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list', :display_name => @user.display_name %>
             <span class='count-number'><%= number_with_delimiter(@user.changesets.size) %></span>
           </li>
           <li>
@@ -45,11 +45,11 @@
         </ul>
 
         <% else %>
-
+        <!-- Displaying user profile page to the public -->
         <ul class='secondary-actions clearfix'>
 
           <li>
-            <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name, :anchor => "map=1/0/0" %>
+            <%= link_to t('user.view.edits'), :controller => 'changeset', :action => 'list', :display_name => @this_user.display_name %>
             <span class='count-number'><%= number_with_delimiter(@this_user.changesets.size) %></span>
           </li>
           <li>
