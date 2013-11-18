@@ -65,7 +65,7 @@
 			}
 		},
 
-		remove: function() {
+		removeFrom: function(map) {
 			if (this.changeTimeout) {
 				clearTimeout(this.changeTimeout);
 			}
@@ -157,6 +157,6 @@
 		this._hash = L.hash(this);
 	};
 	L.Map.prototype.removeHash = function() {
-		this._hash.remove();
+		this._hash.removeFrom();
 	};
 })(window);
