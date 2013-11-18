@@ -34,7 +34,7 @@ OSM.NewNote = function(map) {
   });
 
   function createNote(marker, form, url) {
-    var location = marker.getLatLng();
+    var location = marker.getLatLng().wrap();
 
     marker.options.draggable = false;
     marker.dragging.disable();
