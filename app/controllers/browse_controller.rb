@@ -57,7 +57,7 @@ class BrowseController < ApplicationController
   def changeset
     @type = "changeset"
     @changeset = Changeset.find(params[:id])
-    @node_pages, @nodes = paginate(:old_nodes, :conditions => {:changeset_id => @changeset.id}, :per_page => 10, :parameter => 'node_page')
+    @node_pages, @nodes = paginate(:old_nodes, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'node_page')
     @way_pages, @ways = paginate(:old_ways, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'way_page')
     @relation_pages, @relations = paginate(:old_relations, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'relation_page')
   rescue ActiveRecord::RecordNotFound
