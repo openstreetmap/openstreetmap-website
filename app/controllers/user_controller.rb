@@ -7,6 +7,7 @@ class UserController < ApplicationController
   before_filter :authorize_web, :except => [:api_read, :api_details, :api_gpx_files]
   before_filter :set_locale, :except => [:api_read, :api_details, :api_gpx_files]
   before_filter :require_user, :only => [:account, :go_public, :make_friend, :remove_friend]
+  before_filter :require_self, :only => [:account]
   before_filter :check_database_readable, :except => [:login, :api_read, :api_details, :api_gpx_files]
   before_filter :check_database_writable, :only => [:new, :account, :confirm, :confirm_email, :lost_password, :reset_password, :go_public, :make_friend, :remove_friend]
   before_filter :check_api_readable, :only => [:api_read, :api_details, :api_gpx_files]
@@ -338,7 +339,6 @@ class UserController < ApplicationController
           token.destroy
 
           session[:user] = user.id
-          cookies.permanent["_osm_username"] = user.display_name
 
           redirect_to referer || welcome_path
         end
@@ -377,7 +377,6 @@ class UserController < ApplicationController
         end
         token.destroy
         session[:user] = @user.id
-        cookies.permanent["_osm_username"] = @user.display_name
         redirect_to :action => 'account', :display_name => @user.display_name
       else
         flash[:error] = t 'user.confirm_email.failure'
@@ -638,8 +637,6 @@ private
   ##
   # process a successful login
   def successful_login(user)
-    cookies.permanent["_osm_username"] = user.display_name
-
     session[:user] = user.id
     session_expires_after 28.days if session[:remember_me]
 
@@ -727,8 +724,6 @@ private
     if user.save
       set_locale
 
-      cookies.permanent["_osm_username"] = user.display_name
-
       if user.new_email.blank? or user.new_email == user.email
         flash.now[:notice] = t 'user.account.flash update success'
       else
@@ -766,6 +761,14 @@ private
       end
     elsif not @user
       redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath
+    end
+  end
+
+  ##
+  # require that the user in the URL is the logged in user
+  def require_self
+    if params[:display_name] != @user.display_name
+      render :text => "", :status => :forbidden
     end
   end
 

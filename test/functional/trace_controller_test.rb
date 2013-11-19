@@ -171,8 +171,6 @@ class TraceControllerTest < ActionController::TestCase
 
   # Check that I can get mine
   def test_list_mine
-    @request.cookies["_osm_username"] = users(:public_user).display_name
-
     # First try to get it when not logged in
     get :mine
     assert_redirected_to :controller => 'user', :action => 'login', :referer => '/traces/mine'
@@ -196,13 +194,9 @@ class TraceControllerTest < ActionController::TestCase
     get :list, :display_name => users(:public_user).display_name
     check_trace_list users(:public_user).traces.public
 
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
-
     # Should still see only public ones when authenticated as another user
     get :list, {:display_name => users(:public_user).display_name}, {:user => users(:normal_user).id}
     check_trace_list users(:public_user).traces.public
-
-    @request.cookies["_osm_username"] = users(:public_user).display_name
 
     # Should see all traces when authenticated as the target user
     get :list, {:display_name => users(:public_user).display_name}, {:user => users(:public_user).id}
@@ -234,13 +228,9 @@ class TraceControllerTest < ActionController::TestCase
     get :view, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}
     check_trace_view gpx_files(:public_trace_file)
 
-    @request.cookies["_osm_username"] = users(:public_user).display_name
-
     # Now with some other user, which should work since the trace is public
     get :view, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:public_user).id}
     check_trace_view gpx_files(:public_trace_file)
-
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
 
     # And finally we should be able to do it with the owner of the trace
     get :view, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:normal_user).id}
@@ -254,14 +244,10 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :action => :list
 
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
-
     # Now with some other user, which should work since the trace is anon
     get :view, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}, {:user => users(:normal_user).id}
     assert_response :redirect
     assert_redirected_to :action => :list
-
-    @request.cookies["_osm_username"] = users(:public_user).display_name
 
     # And finally we should be able to do it with the owner of the trace
     get :view, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}, {:user => users(:public_user).id}
@@ -274,8 +260,6 @@ class TraceControllerTest < ActionController::TestCase
     get :view, {:display_name => users(:public_user).display_name, :id => 0}
     assert_response :redirect
     assert_redirected_to :action => :list
-
-    @request.cookies["_osm_username"] = users(:public_user).display_name
 
     # Now with some other user, which should work since the trace is public
     get :view, {:display_name => users(:public_user).display_name, :id => 0}, {:user => users(:public_user).id}
@@ -294,13 +278,9 @@ class TraceControllerTest < ActionController::TestCase
     get :data, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}
     check_trace_data gpx_files(:public_trace_file)
 
-    @request.cookies["_osm_username"] = users(:public_user).display_name
-
     # Now with some other user, which should work since the trace is public
     get :data, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:public_user).id}
     check_trace_data gpx_files(:public_trace_file)
-
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
 
     # And finally we should be able to do it with the owner of the trace
     get :data, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:normal_user).id}
@@ -328,13 +308,9 @@ class TraceControllerTest < ActionController::TestCase
     get :data, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}
     assert_response :not_found
 
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
-
     # Now with some other user, which should work since the trace is anon
     get :data, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}, {:user => users(:normal_user).id}
     assert_response :not_found
-
-    @request.cookies["_osm_username"] = users(:public_user).display_name
 
     # And finally we should be able to do it with the owner of the trace
     get :data, {:display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id}, {:user => users(:public_user).id}
@@ -346,8 +322,6 @@ class TraceControllerTest < ActionController::TestCase
     # First with no auth, which should work since the trace is public
     get :data, {:display_name => users(:public_user).display_name, :id => 0}
     assert_response :not_found
-
-    @request.cookies["_osm_username"] = users(:public_user).display_name
 
     # Now with some other user, which should work since the trace is public
     get :data, {:display_name => users(:public_user).display_name, :id => 0}, {:user => users(:public_user).id}
@@ -365,8 +339,6 @@ class TraceControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => :login, :referer => trace_edit_path(:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id)
 
-    @request.cookies["_osm_username"] = users(:public_user).display_name
-
     # Now with some other user, which should fail
     get :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:public_user).id}
     assert_response :forbidden
@@ -378,8 +350,6 @@ class TraceControllerTest < ActionController::TestCase
     # Now with a trace which has been deleted
     get :edit, {:display_name => users(:public_user).display_name, :id => gpx_files(:deleted_trace_file).id}, {:user => users(:public_user).id}
     assert_response :not_found
-
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
 
     # Finally with a trace that we are allowed to edit
     get :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:normal_user).id}
@@ -395,8 +365,6 @@ class TraceControllerTest < ActionController::TestCase
     post :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id, :trace => new_details}
     assert_response :forbidden
 
-    @request.cookies["_osm_username"] = users(:public_user).display_name
-
     # Now with some other user, which should fail
     post :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id, :trace => new_details}, {:user => users(:public_user).id}
     assert_response :forbidden
@@ -408,8 +376,6 @@ class TraceControllerTest < ActionController::TestCase
     # Now with a trace which has been deleted
     post :edit, {:display_name => users(:public_user).display_name, :id => gpx_files(:deleted_trace_file).id, :trace => new_details}, {:user => users(:public_user).id}
     assert_response :not_found
-
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
 
     # Finally with a trace that we are allowed to edit
     post :edit, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id, :trace => new_details}, {:user => users(:normal_user).id}
@@ -427,8 +393,6 @@ class TraceControllerTest < ActionController::TestCase
     post :delete, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id,}
     assert_response :forbidden
 
-    @request.cookies["_osm_username"] = users(:public_user).display_name
-
     # Now with some other user, which should fail
     post :delete, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:public_user).id}
     assert_response :forbidden
@@ -440,8 +404,6 @@ class TraceControllerTest < ActionController::TestCase
     # Now with a trace has already been deleted
     post :delete, {:display_name => users(:public_user).display_name, :id => gpx_files(:deleted_trace_file).id}, {:user => users(:public_user).id}
     assert_response :not_found
-
-    @request.cookies["_osm_username"] = users(:normal_user).display_name
 
     # Finally with a trace that we are allowed to delete
     post :delete, {:display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id}, {:user => users(:normal_user).id}

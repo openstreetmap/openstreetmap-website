@@ -25,7 +25,6 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Login as an unprivileged user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Granting should still fail
     post :grant, :display_name => users(:normal_user).display_name, :role => "moderator"
@@ -34,7 +33,6 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Login as an administrator
     session[:user] = users(:administrator_user).id
-    cookies["_osm_username"] = users(:administrator_user).display_name
 
     UserRole::ALL_ROLES.each do |role|
 
@@ -85,7 +83,6 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Login as an unprivileged user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Revoking should still fail
     post :revoke, :display_name => users(:normal_user).display_name, :role => "moderator"
@@ -94,7 +91,6 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Login as an administrator
     session[:user] = users(:administrator_user).id
-    cookies["_osm_username"] = users(:administrator_user).display_name
 
     UserRole::ALL_ROLES.each do |role|
 
