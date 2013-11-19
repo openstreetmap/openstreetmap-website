@@ -95,7 +95,7 @@ ja:
       not_a_moderator: モデレーター権限が必要な操作です。
     setup_user_auth: 
       blocked: APIへのアクセスがブロックされました。Web インターフェイスからログインし直して詳細を確認してください。
-      need_to_see_terms: あなたは一時的に API の利用を停止されています。ウェブ インターフェイスにログインして投稿者規約をご覧ください。同意しなくてもかまいませんが、必ずご覧ください。
+      need_to_see_terms: あなたは一時的にAPIの利用を停止されています。ウェブインターフェイスにログインして協力者規約をご覧ください。同意しなくてもかまいませんが、必ずご覧ください。
   browse: 
     changeset: 
       changeset: "変更セット: %{id}"
@@ -992,13 +992,14 @@ ja:
     key: 
       title: 凡例
       tooltip: 凡例
+      tooltip_disabled: 標準レイヤーのみで利用可能な地図キー
     map: 
       base: 
         cycle_map: サイクリングマップ
         hot: Humanitarian
         standard: 標準
         transport_map: 交通マップ
-      copyright: © <a href='%{copyright_url}'>OpenStreetMap への貢献者</a>
+      copyright: © <a href='%{copyright_url}'>OpenStreetMapへの協力者</a>
       layers: 
         data: 地図データ
         header: 地図のレイヤー
@@ -1033,10 +1034,13 @@ ja:
         resolve: 解決
     share: 
       cancel: キャンセル
+      center_marker: マーカーを地図の中心にする
+      custom_dimensions: 独自の寸法を設定
       download: ダウンロード
       embed: HTML
       format: "形式:"
       image: 画像
+      image_size: イメージの表示は標準レイヤー上で
       include_marker: マーカーを含める
       link: リンクまたは HTML
       long_link: リンク
@@ -1118,6 +1122,8 @@ ja:
         title: 権利表示の例
       contributors_at_html: "<strong>オーストリア</strong>: <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (ライセンス <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>)、<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg</a>、Land Tirol (ライセンス <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC BY AT with amendments</a>) によるデータを含みます。"
       contributors_ca_html: "<strong>カナダ</strong>: GeoBase&reg;、GeoGratis (&copy; Department of Natural Resources Canada)、CanVec (&copy; Department of Natural Resources Canada)、StatCan (Geography Division, Statistics Canada) によるデータを含みます。"
+      contributors_footer_1_html: これらの詳細について、またOpenStreetMapの向上に使用されたその他のソースについては、OpenStreetMap Wikiの<a href="http://wiki.openstreetmap.org/wiki/Contributors">協力者ページ</a>をご覧ください。
+      contributors_footer_2_html: OpenStreetMapのデータに含めることは、元データの提供者がOpenStreetMapを支持したり、何かしらの保証を行ったり、何かしらの責任を負ったりすることを意味するものではありません。
       contributors_fr_html: "<strong>フランス</strong>: Direction Générale des Impôts によるデータを含みます。"
       contributors_gb_html: "<strong>イギリス</strong>: 陸地測量データ &copy; Crown copyright and database right 2010-12 を含みます。"
       contributors_intro_html: 協力者は数千人もの個人です。それに加え、国立の地図作成組織や、次のようなその他の情報源による公開できるライセンスによるデータを含みます。
@@ -1125,11 +1131,12 @@ ja:
       contributors_nz_html: "<strong>ニュージーランド</strong>: Land Information New Zealand によるデータを含みます。Crown が著作権を保持します。"
       contributors_title_html: 協力者
       contributors_za_html: "<strong>南アフリカ</strong>: <a href=\"http://www.ngi.gov.za/\">Chief Directorate: National Geo-Spatial Information</a>, State によるデータを含み、著作権を保持します。"
-      credit_1_html: 「&copy; OpenStreetMap への貢献者」のクレジットを必ず使用してください。
+      credit_1_html: 「&copy; OpenStreetMapへの協力者」のクレジットを必ず使用してください。
       credit_2_html: あなたはデータが Open Database License に基づいて提供されていること、そして地図タイルを使用する場合は、地図製作が CC BY-SA としてライセンスされていることを明確にしなければなりません。<a href="http://www.openstreetmap.org/copyright">著作権表示ページ</a>にリンクすることでこれを表現することができます。また、データの形式でOSMを配布する場合の要件として、名前を表示の上、ライセンスに直接リンクすることができます。リンクを張れないメディア（印刷など）の場合は、openstreetmap.org（OpenStreetMapをアドレスとして展開した形）、opendatacommons.org、あと関連があれば、creativecommons.orgに誘導することをお勧めします。
       credit_3_html: "閲覧可能な電子地図の場合は、地図の隅にクレジットを表示してください。\n例:"
       credit_title_html: OpenStreetMap のクレジット表記の仕方
-      infringement_1_html: "OSM の協力者は、著作権者から明確な許諾を得ずに、著作権のある情報源 (例: Google マップや印刷された地図) からデータを持ち込まないよう注意するものとします。"
+      infringement_1_html: "OSMの協力者は、著作権者から明確な許諾を得ずに、著作権のある情報源 (例: Google マップや印刷された地図) からデータを持ち込まないよう注意するものとします。"
+      infringement_2_html: もし著作権のある素材がOpenStreetMapのデータベースや本サイトに不正に追加されたとお考えの場合は、<a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">却下手順</a>をお読みになるか、<a href="http://dmca.openstreetmap.org/">on-line filing page</a>から直接申し立てを行ってください。
       infringement_title_html: 著作権侵害
       intro_1_html: "OpenStreetMap は<i>オープンデータ</i>であり、<a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data Commons Open Database License</a> (ODbL) の下にライセンスされています。"
       intro_2_html: OpenStreetMapとその協力者をクレジットすれば、データを自由にコピー、配布、送信、利用することができます。変更したり翻案したりしたデータは、同じライセンスに従って提供することができます。あなたの権利と責任は、<a href="http://opendatacommons.org/licenses/odbl/1.0/">ライセンス契約</a>の全文で説明しています。
@@ -1215,6 +1222,8 @@ ja:
       commented_at_html: "%{when}前に更新"
       opened_at_by_html: "%{when}前に%{user}が作成"
       opened_at_html: "%{when}前に作成"
+      reopened_at_by_html: "%{user}さんが%{when}に再開"
+      reopened_at_html: "%{when}前に再開"
     entry: 
       comment: コメント
       full: メモ全文
@@ -1234,6 +1243,7 @@ ja:
       description_area: あなたのエリア [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})] でレポート、コメント、またはクローズされたメモの一覧
       description_item: メモ %{id} の RSS フィード
       opened: 新しいメモ (%{place} 付近)
+      reopened: 再開されたメモ（%{place}付近）
       title: OpenStreetMap メモ
   notifier: 
     diary_comment_notification: 
@@ -1287,13 +1297,24 @@ ja:
     note_comment_notification: 
       anonymous: 匿名ユーザー
       closed: 
+        commented_note: "%{commenter}さんが、あなたがコメントした地図上の%{place}付近にあるメモを解決しました。"
+        subject_other: "[OpenStreetMap] %{commenter}さんが、あなたが関心を持っているメモを解決しました"
         subject_own: "[OpenStreetMap] %{commenter} さんがあなたのメモを解決しました"
-        your_note: "%{commenter} さんが %{place} 付近のあなたの地図メモの 1 つにコメントしました。"
+        your_note: "%{commenter}さんが%{place}付近にあるあなたの地図メモの1つを解決しました。"
       commented: 
+        commented_note: "%{commenter}さんがあなたがコメントした地図上の%{place}付近にあるメモにコメントしました。"
+        subject_other: "[OpenStreetMap] %{commenter}さんがあなたが関心を持っているメモにコメントしました"
         subject_own: "[OpenStreetMap] %{commenter} さんがあなたのメモにコメントしました"
+        your_note: "%{commenter}さんが%{place}付近にあるあなたの地図メモの1つにコメントを残しました。"
       details: メモについての詳細は %{url} を参照。
       greeting: こんにちは。
+      reopened: 
+        commented_note: "%{commenter}さんが、%{place}付近にあるあなたがコメントした地図メモを再開しました。"
+        subject_other: "[OpenStreetMap] %{commenter}さんがあなたが関心を持っているメモを再開しました"
+        subject_own: "[OpenStreetMap] %{commenter}さんがあなたのメモの1つを再開しました"
+        your_note: "%{commenter}さんが%{place}付近にあるあなたの地図メモの1つを再開しました。"
     signup_confirm: 
+      confirm: 私たちが他に何かする前に、この要求があなたのものであることを確認する必要がありますので、その後であなたのアカウントを確認するために下のリンクをクリックしてください。
       created: 誰か (おそらくあなた) が %{site_url} でアカウントを作成しました。
       greeting: やあ、皆さん!
       subject: "[OpenStreetMap] OpenStreetMapへようこそ"
@@ -1403,17 +1424,22 @@ ja:
       flash: 変更を保存しました。
   site: 
     edit: 
+      anon_edits_link_text: なぜこれれが事例なのかを見る。
       flash_player_required: Flash 版 OpenStreetMap エディターである Potlatch を使用するには、Flash Player が必要です。Flash Player は<a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Adobe.com</a> でダウンロードできます。OpenStreetMap を編集する<a href="http://wiki.openstreetmap.org/wiki/JA:Editing?uselang=ja">他の方法</a>もあります。
+      id_not_configured: iDが設定されていません。
       no_iframe_support: あなたのブラウザーは、この機能に必須の HTML iframe に未対応です。
       not_public: あなたの編集結果を公開できません。
+      not_public_description: このようなことをしない限り、あなたは地図を編集できます。あなたは%{user_page}から編集内容を公開できます。
       potlatch2_not_configured: "Potlatch 2 が設定されていません - 詳細情報はこちらをご覧ください: http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2"
       potlatch2_unsaved_changes: 保存していない変更があります。(Potlatch 2 では、保存をクリックして保存する必要があります。)
       potlatch_unsaved_changes: 保存していない変更があります。(Potlatch では、一覧モードで編集している場合、ウェイや点の選択を解除する必要があります。または、保存ボタンをクリックして保存してください。)
-      user_page_link: ユーザー ページ
+      user_page_link: ユーザーページ
     index: 
       createnote: メモを追加
       js_1: JavaScript に対応していないブラウザーを使用しているか、JavaScript を無効にしているかのどちらかです。
       js_2: OpenStreetMap は地図の表示に JavaScript を使用します。
+      license: 
+        copyright: Copyright OpenStreetMapおよび協力者、オープンライセンスの下で
       permalink: 固定リンク
       remote_failed: 編集に失敗しました - JOSM または Merkaartor が読み込まれていること、遠隔制御オプションが有効になっていることを確認してください
       shortlink: 短縮リンク
@@ -1559,10 +1585,12 @@ ja:
       message: GPX ファイルのアップロード システムは現在利用できません
     trace: 
       ago: "%{time_in_words_ago}前"
+      by: "投稿者:"
       count_points: "%{count} 個の点"
       edit: 編集
       edit_map: 地図を編集
       identifiable: 識別可能
+      in: "タグ:"
       map: 地図
       more: 詳細
       pending: 処理中
@@ -1621,12 +1649,12 @@ ja:
   user: 
     account: 
       contributor terms: 
-        agreed: あなたは、新しい投稿規約を承諾しています。
+        agreed: あなたは、新しい協力者規約を承諾しています。
         agreed_with_pd: また、あなたは、自分の編集結果がパブリックドメインにあるべきだと考えているということも宣言しています。
-        heading: "投稿規約:"
+        heading: "協力者規約:"
         link text: これは何ですか?
         not yet agreed: あなたはまだ新しい投稿規約を承諾していません。
-        review link text: ご都合の良い時にこのリンクをクリックして新しい投稿規約をレビューの上、同意してください。
+        review link text: ご都合の良い時にこのリンクをクリックして新しい協力者規約を確認の上、同意してください。
       current email address: "現在のメール アドレス:"
       delete image: 現在の画像を削除
       email never displayed publicly: (非公開)
@@ -1674,6 +1702,7 @@ ja:
       button: 確認
       heading: メールを確認してください
       introduction_1: 確認メールをお送りしました。
+      introduction_2: メール内のリンクをクリックしてアカウントの確認をすれば、マッピングを始められます。
       press confirm button: アカウントを有効にして良ければ、以下の確認ボタンを押してください。
       reconfirm_html: 確認メールを再送する必要がある場合は、<a href="%{reconfirm}">ここをクリック</a>してください。
       unknown token: この確認コードは期限切れ、または存在しません。
@@ -1763,6 +1792,7 @@ ja:
     new: 
       about: 
         header: フリー、編集可能
+        html: "<p>他の地図とは異なり、OpenStreetMapは完全にあなたのような人々によって作成され、だれでも自由に修正、更新、ダウンロード、利用することができます。</p>\n<p>協力を始めるにはサインアップしてください。あなたのアカウントの確認メールが送信されます。</p>"
       confirm email address: "メール アドレスの確認:"
       confirm password: "パスワードの確認:"
       contact_webmaster: アカウントを作成できるよう、<a href="mailto:webmaster@openstreetmap.org">webmaster</a>に連絡してください。 できるだけ早期に、あなたの希望に対応するように努めます。
@@ -1770,15 +1800,15 @@ ja:
       display name: "表示名:"
       display name description: 自分の公開ユーザー名です。あとで設定ページで変更できます。
       email address: "メール アドレス:"
-      license_agreement: アカウントを確認するときには <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">contributor terms</a> に同意する必要があります。
+      license_agreement: アカウントを確認するときには<a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">協力者規約</a>に同意する必要があります。
       no_auto_account_create: 残念ながら、現在、自動ではアカウントを作成できません。
       not displayed publicly: 非公開です (詳細は <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="メール アドレスの節を含む、ウィキのプライバシー ポリシー">プライバシー ポリシー</a>を参照してください)
       openid: "%{logo} OpenID:"
       openid association: "<p>あなたの OpenID は、まだ OpenStreetMap のどのアカウントとも関連付けられていません。</p>\n<ul>\n  <li>OpenStreetMap が初めての場合は、下のフォームで新規アカウントを作成してください。</li>\n  <li>\n    既にアカウントを持っている場合は、あなたのユーザー名とパスワードでログインしてください。\n    ログイン後、ユーザー設定であなたの OpenID と関連付けることができます。\n  </li>\n</ul>"
       openid no password: OpenID ではパスワードは不要ですが、特殊なツール/サーバーでは必要な場合があります。
       password: "パスワード:"
-      terms accepted: 新しい投稿規約に同意いただき、ありがとうございます!
-      terms declined: 新しい投稿規約に同意いただけず残念です。詳しい情報は、<a href="%{url}">このウィキページ</a>をご覧ください。
+      terms accepted: 新しい協力者規約に同意いただき、ありがとうございます!
+      terms declined: 新しい協力者規約に同意いただけず残念です。詳しい情報は、<a href="%{url}">このウィキページ</a>をご覧ください。
       terms declined url: http://wiki.openstreetmap.org/wiki/JA:Contributor_Terms_Declined
       title: ユーザー登録
       use openid: 代わりに、%{logo} OpenID を使用してログイン
@@ -1817,15 +1847,15 @@ ja:
       decline: 拒否
       declined: http://wiki.openstreetmap.org/wiki/JA:Contributor_Terms_Declined
       guidance: この規約の理解を助ける情報として、<a href="%{summary}">要約 (英語)</a> や <a href="%{translations}">非公式の翻訳</a> をご覧ください。
-      heading: 投稿規約
+      heading: 協力者規約
       legale_names: 
         france: フランス
         italy: イタリア
         rest_of_world: それ以外の国
       legale_select: "お住まいの国:"
-      read and accept: 同意書を読み、あなたの既存および将来の投稿のために本同意書の条項を承諾することを確認するために同意ボタンを押してください。
-      title: 投稿規約
-      you need to accept or decline: 続行するには新しい投稿規約を読んで同意または拒否してください。
+      read and accept: 同意書を読み、あなたの既存および将来の協力のために本同意書の条項を承諾することを確認するために同意ボタンを押してください。
+      title: 協力者規約
+      you need to accept or decline: 続行するには新しい協力者規約を読んで同意または拒否してください。
     view: 
       activate_user: このユーザーを有効にする
       add as friend: 友達として追加
@@ -1840,7 +1870,7 @@ ja:
       created from: "作成日:"
       ct accepted: "%{ago}前に承認"
       ct declined: 拒否
-      ct status: "投稿規約:"
+      ct status: "協力者規約:"
       ct undecided: 未決定
       deactivate_user: このユーザーを無効にする
       delete_user: このユーザーを削除
@@ -1906,6 +1936,7 @@ ja:
     edit: 
       back: すべてのブロックを閲覧
       heading: "%{name} のブロックの編集"
+      needs_view: このブロックを解消する前に、ユーザーがログインする必要がありますか？
       period: ユーザーが今からどれくらいの間、APIからブロックされるか。
       reason: "%{name} さんがブロックされている理由です。できるだけ冷静かつ理性的になり、できるだけ丁寧に状況を説明するようにしてください。すべてのユーザーがコミュニティ内での隠語を理解しているわけではないため、分かりやすい用語を使うように努めてください。"
       show: このブロックを閲覧
@@ -1934,6 +1965,7 @@ ja:
       submit: ブロックを作成
       title: "%{name} のブロックの作成"
       tried_contacting: ユーザーに連絡して、それらをやめるよう依頼しました。
+      tried_waiting: 私はユーザーとの対話に応じるために、合理的な時間を費やしました。
     not_found: 
       back: 索引に戻る
       sorry: 申し訳ありませんが、ID %{id} のユーザー ブロックは見つかりませんでした。
@@ -1997,6 +2029,8 @@ ja:
       title: 権限取り消しの確認
   welcome_page: 
     add_a_note: 
+      paragraph_1_html: "些細な修正だけをしたいが、サインアップしたり編集の仕方を勉強する時間がない場合は、\n簡単にメモを追加できます。"
+      paragraph_2_html: <a href='%{map_url}'>地図</a>に移動してメモアイコン（<span class='icon note'></span>）をクリックするだけです。これで地図上に印が追加され、ドラッグして移動させることができます。あなたのメッセージを追加し、保存をクリックすれば、他のマッパーが調査するでしょう。
       title: 編集する時間がないためメモを残します
     basic_terms: 
       editor_html: <strong>エディター</strong>は、地図を編集できるプログラムやウェブサイトです。
@@ -2005,9 +2039,13 @@ ja:
       tag_html: <strong>タグ</strong>はノードやウェイについて補足するデータです。レストランの名前、道路の制限速度などが該当します。
       title: マッピングのための基本的な用語
       way_html: <strong>ウェイ</strong>は線または領域です。道路、水路、湖、建物などが該当します。
+    introduction_html: フリーで編集可能な世界地図、OpenStreetMapへようこそ。サインアップしたので、マッピングの準備はすべて整いました。知っておかなければならない重要事項を簡単に説明します。
     questions: 
+      paragraph_1_html: マッピングで分からないことがありますか？OpenStreetMapの使い方で不明な点はありますか？<a href='http://help.openstreetmap.org/'>ヘルプのウェブサイト</a>で疑問の回答を得てください。
       title: 何か質問はありますか?
     start_mapping: マッピングを開始
     title: ようこそ!
     whats_on_the_map: 
+      off_html: 含めては<em>いけない</em>ものは、評価のような主観的なデータ、歴史的または仮想的なもの、著作権のある情報源からのデータです。特別な許可がない場合は、オンラインや紙の地図からコピーをしてはいけません。
+      on_html: OpenStreetMapは<em>現実かつ現存</em>のもの――数々の建物、道路、場所に関するその他の詳細をマッピングする場所です。あなたは関心のある現実世界のものを何でもマッピングできます。
       title: 地図上にあるもの
