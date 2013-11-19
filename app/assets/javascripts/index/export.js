@@ -14,11 +14,9 @@ OSM.Export = function(map) {
 
   function boundsChanged() {
     var bounds = getBounds();
-
     map.fitBounds(bounds);
     locationFilter.setBounds(bounds);
-
-    enableFilter();
+    locationFilter.enable();
     validateControls();
   }
 
@@ -29,6 +27,7 @@ OSM.Export = function(map) {
 
     locationFilter.setBounds(map.getBounds().pad(-0.2));
     locationFilter.enable();
+    validateControls();
   }
 
   function update() {
