@@ -279,18 +279,12 @@ class ChangesetController < ApplicationController
         else
           changesets = changesets.where("false")
         end
-      end
-
-      if params[:friends] && @user
-        changesets = changesets.where(:user_id => @user.friend_users.public)
-      end
-
-      if params[:nearby] && @user
-        changesets = changesets.where(:user_id => @user.nearby)
-      end
-
-      if params[:bbox]
+      elsif params[:bbox]
         changesets = conditions_bbox(changesets, BoundingBox.from_bbox_params(params))
+      elsif params[:friends] && @user
+        changesets = changesets.where(:user_id => @user.friend_users.public)
+      elsif params[:nearby] && @user
+        changesets = changesets.where(:user_id => @user.nearby)
       end
 
       if params[:max_id]

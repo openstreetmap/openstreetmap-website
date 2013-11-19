@@ -43,10 +43,16 @@ OSM.History = function(map) {
   }
 
   function loadData() {
+    var data = {};
+
+    if (window.location.pathname === '/history') {
+      data = {bbox: map.getBounds().wrap().toBBoxString()};
+    }
+
     $.ajax({
       url: window.location.pathname,
       method: "GET",
-      data: {bbox: map.getBounds().wrap().toBBoxString()},
+      data: data,
       success: function(html, status, xhr) {
         $('#sidebar_content .changesets').html(html);
         updateMap();
@@ -95,6 +101,11 @@ OSM.History = function(map) {
       rect.id = changeset.id;
       rect.addTo(group);
     }
+
+    if (window.location.pathname !== '/history') {
+      var bounds = group.getBounds();
+      if (bounds.isValid()) map.fitBounds(bounds);
+    }
   }
 
   page.pushstate = page.popstate = function(path) {
@@ -103,19 +114,22 @@ OSM.History = function(map) {
   };
 
   page.load = function() {
-    map
-      .on("moveend", loadData)
-      .addLayer(group);
+    map.addLayer(group);
+
+    if (window.location.pathname === '/history') {
+      map.on("moveend", loadData)
+    }
 
     loadData();
   };
 
   page.unload = function() {
-    map
-      .off("moveend", loadData)
-      .removeLayer(group);
+    map.removeLayer(group);
 
-    group.clearLayers();
+    if (window.location.pathname === '/history') {
+      map.off("moveend", loadData)
+    }
+
     $("#history_tab").removeClass("current");
   };
 

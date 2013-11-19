@@ -242,19 +242,18 @@ $(document).ready(function () {
     return page;
   };
 
-  var history = OSM.History(map),
-    note = OSM.Note(map);
+  var history = OSM.History(map);
 
   OSM.route = OSM.Router(map, {
     "/":                           OSM.Index(map),
     "/search":                     OSM.Search(map),
     "/export":                     OSM.Export(map),
-    "/history":                    history,
     "/new_note":                   OSM.NewNote(map),
+    "/history":                    history,
     "/user/:display_name/edits":   history,
     "/browse/friends":             history,
     "/browse/nearby":              history,
-    "/browse/note/:id":            note,
+    "/browse/note/:id":            OSM.Note(map),
     "/browse/:type/:id(/history)": OSM.Browse(map)
   });
 
