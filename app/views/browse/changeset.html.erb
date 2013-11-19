@@ -11,18 +11,6 @@
 
   <%= render :partial => "tag_details", :object => @changeset.tags.except('comment') %>
 
-  <% unless @nodes.empty? %>
-    <h4>
-      <%= type_and_paginated_count('node', @node_pages) %>
-      <%= render :partial => 'paging_nav', :locals => { :pages => @node_pages, :page_param => "node_page"} %>
-    </h4>
-    <ul>
-      <% @nodes.each do |node| %>
-        <li><%= link_to h(printable_name(node, true)), { :action => "node", :id => node.node_id.to_s }, :class => link_class('node', node), :title => link_title(node) %></li>
-      <% end %>
-    </ul>
-  <% end %>
-
   <% unless @ways.empty? %>
     <h4>
       <%= type_and_paginated_count('way', @way_pages) %>
@@ -43,6 +31,18 @@
     <ul>
       <% @relations.each do |relation| %>
         <li><%= link_to h(printable_name(relation, true)), { :action => "relation", :id => relation.relation_id.to_s }, :class => link_class('relation', relation), :title => link_title(relation) %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% unless @nodes.empty? %>
+    <h4>
+      <%= type_and_paginated_count('node', @node_pages) %>
+      <%= render :partial => 'paging_nav', :locals => { :pages => @node_pages, :page_param => "node_page"} %>
+    </h4>
+    <ul>
+      <% @nodes.each do |node| %>
+        <li><%= link_to h(printable_name(node, true)), { :action => "node", :id => node.node_id.to_s }, :class => link_class('node', node), :title => link_title(node) %></li>
       <% end %>
     </ul>
   <% end %>
