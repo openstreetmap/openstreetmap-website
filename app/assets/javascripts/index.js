@@ -201,7 +201,7 @@ $(document).ready(function () {
     page.pushstate = function(path) {
       $("#content").addClass("overlay-sidebar");
       map.invalidateSize({pan: false})
-        .panBy([-300, 0], {animate: false});
+        .panBy([-350, 0], {animate: false});
       OSM.loadSidebarContent(path);
       page.load();
     };
@@ -217,7 +217,7 @@ $(document).ready(function () {
     };
 
     page.unload = function() {
-      map.panBy([300, 0], {animate: false});
+      map.panBy([350, 0], {animate: false});
       $("#content").removeClass("overlay-sidebar");
       map.invalidateSize({pan: false});
     };
