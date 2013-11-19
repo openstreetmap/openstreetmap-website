@@ -198,22 +198,19 @@ $(document).ready(function () {
   OSM.Index = function(map) {
     var page = {};
 
-    page.pushstate = function(path) {
+    page.pushstate = function() {
       $("#content").addClass("overlay-sidebar");
       map.invalidateSize({pan: false})
         .panBy([-350, 0], {animate: false});
-      OSM.loadSidebarContent(path);
-      page.load();
     };
 
     page.load = function() {
       return map.getState();
     };
 
-    page.popstate = function(path) {
+    page.popstate = function() {
       $("#content").addClass("overlay-sidebar");
       map.invalidateSize({pan: false});
-      OSM.loadSidebarContent(path);
     };
 
     page.unload = function() {
