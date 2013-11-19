@@ -46,7 +46,7 @@ OSM.History = function(map) {
     $.ajax({
       url: window.location.pathname,
       method: "GET",
-      data: {bbox: map.getBounds().toBBoxString()},
+      data: {bbox: map.getBounds().wrap().toBBoxString()},
       success: function(html, status, xhr) {
         $('#sidebar_content .changesets').html(html);
         updateMap();
