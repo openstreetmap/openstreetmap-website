@@ -101,7 +101,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as the blocked user
     session[:user] = users(:blocked_user).id
-    cookies["_osm_username"] = users(:blocked_user).display_name
 
     # Now viewing it should mark it as seen
     get :show, :id => user_blocks(:active_block)
@@ -118,7 +117,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a normal user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that normal users can't load the block creation page
     get :new, :display_name => users(:normal_user).display_name
@@ -127,7 +125,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a moderator
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     # Check that the block creation page loads for moderators
     get :new, :display_name => users(:normal_user).display_name
@@ -162,7 +159,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a normal user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that normal users can't load the block edit page
     get :edit, :id => user_blocks(:active_block).id
@@ -171,7 +167,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a moderator
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     # Check that the block edit page loads for moderators
     get :edit, :id => user_blocks(:active_block).id
@@ -204,7 +199,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a normal user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that normal users can't create blocks
     post :create
@@ -212,7 +206,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a moderator
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     # A bogus block period should result in an error
     assert_no_difference "UserBlock.count" do
@@ -263,7 +256,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a normal user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that normal users can't update blocks
     put :update, :id => user_blocks(:active_block).id
@@ -271,7 +263,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as the wrong moderator
     session[:user] = users(:second_moderator_user).id
-    cookies["_osm_username"] = users(:second_moderator_user).display_name
 
     # Check that only the person who created a block can update it
     assert_no_difference "UserBlock.count" do
@@ -285,7 +276,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as the correct moderator
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     # A bogus block period should result in an error
     assert_no_difference "UserBlock.count" do
@@ -331,7 +321,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a normal user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that normal users can't load the block revoke page
     get :revoke, :id => user_blocks(:active_block).id
@@ -340,7 +329,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a moderator
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     # Check that the block revoke page loads for moderators
     get :revoke, :id => user_blocks(:active_block).id
