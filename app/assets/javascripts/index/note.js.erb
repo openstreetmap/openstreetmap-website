@@ -2,8 +2,7 @@ OSM.Note = function (map) {
   var noteLayer = map.noteLayer,
     content = $('#sidebar_content'),
     page = {},
-    noteState = map.hasLayer(noteLayer),
-    halo;
+    halo, currentNote;
 
   var noteIcons = {
     "new": L.icon({
@@ -23,7 +22,7 @@ OSM.Note = function (map) {
     })
   };
 
-  function updateNote(marker, form, method, url) {
+  function updateNote(form, method, url) {
     $(form).find("input[type=submit]").prop("disabled", true);
 
     $.ajax({
@@ -31,13 +30,7 @@ OSM.Note = function (map) {
       type: method,
       oauth: true,
       data: {text: $(form.text).val()},
-      success: function (feature) {
-        marker = noteLayer.getLayer(marker);
-        if (feature.properties.status == "hidden") {
-          noteLayer.removeLayer(marker);
-        } else if (marker) {
-          marker.setIcon(noteIcons[feature.properties.status]);
-        }
+      success: function () {
         OSM.loadSidebarContent(window.location.pathname, page.load);
       }
     });
@@ -51,7 +44,7 @@ OSM.Note = function (map) {
     content.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
       var data = $(e.target).data();
-      updateNote(data.noteId, e.target.form, data.method, data.url);
+      updateNote(e.target.form, data.method, data.url);
     });
 
     content.find("textarea").on("input", function (e) {
@@ -69,12 +62,10 @@ OSM.Note = function (map) {
     content.find("textarea").val('').trigger("input");
 
     var data = $('.details').data();
-    if (!noteState) map.addLayer(noteLayer);
     if (!window.location.hash) {
       var coords = data.coordinates.split(',');
       OSM.route.moveListenerOff();
       map.once('moveend', OSM.route.moveListenerOn);
-
       map.getZoom() > 15 ? map.panTo(coords) : map.setView(coords, 16);
     }
 
@@ -87,11 +78,19 @@ OSM.Note = function (map) {
       });
       map.addLayer(halo);
     }
+
+    if (map.hasLayer(currentNote)) map.removeLayer(currentNote);
+    currentNote = L.marker(data.coordinates.split(','), {
+      icon: noteIcons[data.status],
+      opacity: 1,
+      clickable: true
+    });
+    map.addLayer(currentNote);
   };
 
   page.unload = function () {
     if (map.hasLayer(halo)) map.removeLayer(halo);
-    if (!noteState) map.removeLayer(noteLayer);
+    if (map.hasLayer(currentNote)) map.removeLayer(currentNote);
   };
 
   return page;
