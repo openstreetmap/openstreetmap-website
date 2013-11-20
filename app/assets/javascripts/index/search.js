@@ -29,11 +29,6 @@ OSM.Search = function(map) {
     var data = $(this).data(),
       center = L.latLng(data.lat, data.lon);
 
-    if (data.type && data.id) return; // Browse link
-
-    e.preventDefault();
-    e.stopPropagation();
-
     if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
       map.fitBounds([[data.minLat, data.minLon],
         [data.maxLat, data.maxLon]]);
