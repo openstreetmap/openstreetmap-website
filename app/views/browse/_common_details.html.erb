@@ -23,4 +23,11 @@
   #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
 </div>
 
+<% if @type == "node" %>
+<div class="details geo">
+  Location:
+  <%= link_to(content_tag(:span, number_with_delimiter(common_details.lat), :class => "latitude") + ", " + content_tag(:span, number_with_delimiter(common_details.lon), :class => "longitude"), {:controller => 'site', :action => 'index', :lat => h(common_details.lat), :lon => h(common_details.lon), :zoom => "18"}) %>
+</div>
+<% end %>
+
 <%= render :partial => "tag_details", :object => common_details.tags %>
