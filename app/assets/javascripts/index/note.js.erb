@@ -61,16 +61,17 @@ OSM.Note = function (map) {
 
     content.find("textarea").val('').trigger("input");
 
-    var data = $('.details').data();
+    var data = $('.details').data(),
+      latLng = data.coordinates.split(',');
+
     if (!window.location.hash) {
-      var coords = data.coordinates.split(',');
       OSM.route.moveListenerOff();
       map.once('moveend', OSM.route.moveListenerOn);
-      map.getZoom() > 15 ? map.panTo(coords) : map.setView(coords, 16);
+      map.getZoom() > 15 ? map.panTo(latLng) : map.setView(latLng, 16);
     }
 
     if (!map.hasLayer(halo)) {
-      halo = L.circleMarker(data.coordinates.split(','), {
+      halo = L.circleMarker(latLng, {
         weight: 2.5,
         radius: 20,
         fillOpacity: 0.5,
@@ -80,7 +81,7 @@ OSM.Note = function (map) {
     }
 
     if (map.hasLayer(currentNote)) map.removeLayer(currentNote);
-    currentNote = L.marker(data.coordinates.split(','), {
+    currentNote = L.marker(latLng, {
       icon: noteIcons[data.status],
       opacity: 1,
       clickable: true
