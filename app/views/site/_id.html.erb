@@ -17,8 +17,13 @@
     }
 
     var hashParams = OSM.params(location.hash.substring(1));
+
     if (hashParams.background) {
       params.background = hashParams.background;
+    }
+
+    if (hashParams.gpx) {
+      params.gpx = hashParams.gpx;
     }
 
     $('#id-embed').attr('src', '<%= id_url :locale => params[:locale] %>#' + querystring.stringify(params));
