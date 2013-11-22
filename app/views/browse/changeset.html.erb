@@ -48,6 +48,23 @@
   <% end %>
 </div>
 
+<% if @next_by_user || @prev_by_user %>
+  <div class='secondary-actions'>
+    <% if @prev_by_user %>
+      <%= link_to "<< #{@prev_by_user.id}", :id => @prev_by_user.id %>
+      &middot;
+    <% end %>
+    <%=
+        user = (@prev_by_user || @next_by_user).user.display_name
+        link_to user, :controller => "changeset", :action => "list", :display_name => user
+    %>
+    <% if @next_by_user %>
+      &middot;
+      <%= link_to "#{@next_by_user.id} >>", :id => @next_by_user.id %>
+    <% end %>
+  </div>
+<% end %>
+
 <div class='secondary-actions'>
   <%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %>
   &middot;
