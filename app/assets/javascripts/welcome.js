@@ -29,12 +29,14 @@ $(document).ready(function() {
       e.preventDefault();
       $('.start-mapping').addClass('loading');
 
-      // handle firefox's weird implementation
-      // https://bugzilla.mozilla.org/show_bug.cgi?id=675533
-      window.setTimeout(manualEdit, 4000);
-
       if (navigator.geolocation) {
+        // handle firefox's weird implementation
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=675533
+        window.setTimeout(manualEdit, 4000);
+
         navigator.geolocation.getCurrentPosition(geoSuccess, manualEdit);
+      } else {
+        manualEdit();
       }
     });
   }
