@@ -250,8 +250,8 @@ class ChangesetController < ApplicationController
   ##
   # list edits (open changesets) in reverse chronological order
   def list
-    if request.format == :atom and params[:page]
-      redirect_to params.merge({ :page => nil }), :status => :moved_permanently
+    if request.format == :atom and params[:max_id]
+      redirect_to params.merge({ :max_id => nil }), :status => :moved_permanently
       return
     end
 
