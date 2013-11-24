@@ -46,14 +46,6 @@ OSM = {
       mapParams.mlat = parseFloat(params.mlat);
     }
 
-    if (params.node) {
-      mapParams.object = {type: 'node', id: parseInt(params.node)};
-    } else if (params.way) {
-      mapParams.object = {type: 'way', id: parseInt(params.way)};
-    } else if (params.relation) {
-      mapParams.object = {type: 'relation', id: parseInt(params.relation)};
-    }
-
     var hash = OSM.parseHash(location.hash);
 
     // Decide on a map starting position. Various ways of doing this.
