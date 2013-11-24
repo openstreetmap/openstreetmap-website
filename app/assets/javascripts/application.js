@@ -121,15 +121,7 @@ function minimiseMap() {
   $("#content").removeClass("maximised");
 }
 
-/*
- * Forms which have been cached by rails may have the wrong
- * authenticity token, so patch up any forms with the correct
- * token taken from the page header.
- */
 $(document).ready(function () {
-  var auth_token = $("meta[name=csrf-token]").attr("content");
-  $("form input[name=authenticity_token]").val(auth_token);
-
   $("#menu-icon").on("click", function(e) {
     e.preventDefault();
     $("header").toggleClass("closed");
