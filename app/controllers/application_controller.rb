@@ -419,7 +419,7 @@ class ApplicationController < ActionController::Base
   end
 
   def map_layout
-    request.xhr? ? false : 'map'
+    request.xhr? ? 'xhr' : 'map'
   end
 
   def preferred_editor

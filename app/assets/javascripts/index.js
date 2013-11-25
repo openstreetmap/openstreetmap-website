@@ -42,10 +42,22 @@
         clearTimeout(loaderTimeout);
         $('#flash').empty();
         $('#sidebar_loader').hide();
-        $('#sidebar_content').html(xhr.responseText);
+
+        var content = $(xhr.responseText);
+
         if (xhr.getResponseHeader('X-Page-Title')) {
           document.title = xhr.getResponseHeader('X-Page-Title');
         }
+
+        $('head')
+          .find('link[type="application/atom+xml"]')
+          .remove();
+
+        $('head')
+          .append(content.filter('link[type="application/atom+xml"]'));
+
+        $('#sidebar_content').html(content.not('link[type="application/atom+xml"]'));
+
         if (callback) {
           callback();
         }

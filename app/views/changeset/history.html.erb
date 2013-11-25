@@ -1,6 +1,6 @@
-<% content_for :head do -%>
+<% content_for :auto_discovery_link_tag do -%>
   <% unless params[:friends] or params[:nearby] -%>
-    <%= auto_discovery_link_tag :atom, params.merge({ :max_id => nil, :action => :feed }) %>
+    <%= auto_discovery_link_tag :atom, params.merge(:max_id => nil, :xhr => nil, :action => :feed) %>
   <% end -%>
 <% end -%>
 
