@@ -40,6 +40,7 @@
       dataType: "html",
       complete: function(xhr) {
         clearTimeout(loaderTimeout);
+        $('#flash').empty();
         $('#sidebar_loader').hide();
         $('#sidebar_content').html(xhr.responseText);
         if (xhr.getResponseHeader('X-Page-Title')) {
