@@ -10,7 +10,7 @@
   to route controller objects. Path templates can contain placeholders
   (`/browse/note/:id`) and optional segments (`/browse/:type/:id(/history)`).
 
-  Route controller objects can define three methods that are called at defined
+  Route controller objects can define four methods that are called at defined
   times during routing:
 
      * The `load` method is called by the router when a path which matches the
