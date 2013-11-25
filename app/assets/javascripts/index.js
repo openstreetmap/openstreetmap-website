@@ -244,7 +244,7 @@ $(document).ready(function () {
 
   var history = OSM.History(map);
 
-  OSM.route = OSM.Router(map, {
+  OSM.router = OSM.Router(map, {
     "/":                           OSM.Index(map),
     "/search":                     OSM.Search(map),
     "/export":                     OSM.Export(map),
@@ -257,11 +257,11 @@ $(document).ready(function () {
     "/browse/:type/:id(/history)": OSM.Browse(map)
   });
 
-  OSM.route.load();
+  OSM.router.load();
 
   $(document).on("click", "a", function(e) {
     if (e.isDefaultPrevented() || e.isPropagationStopped()) return;
-    if (this.host === window.location.host && OSM.route(this.pathname + this.search + this.hash)) e.preventDefault();
+    if (this.host === window.location.host && OSM.router.route(this.pathname + this.search + this.hash)) e.preventDefault();
   });
 
   $(".search_form").on("submit", function(e) {
@@ -269,16 +269,16 @@ $(document).ready(function () {
     $("header").addClass("closed");
     var query = $(this).find("input[name=query]").val();
     if (query) {
-      OSM.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
+      OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
     } else {
-      OSM.route("/" + OSM.formatHash(map));
+      OSM.router.route("/" + OSM.formatHash(map));
     }
   });
 
   $(".describe_location").on("click", function(e) {
     e.preventDefault();
     var precision = zoomPrecision(map.getZoom());
-    OSM.route("/search?query=" + encodeURIComponent(
+    OSM.router.route("/search?query=" + encodeURIComponent(
       map.getCenter().lat.toFixed(precision) + "," +
       map.getCenter().lng.toFixed(precision)));
   });
