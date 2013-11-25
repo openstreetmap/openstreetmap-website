@@ -42,8 +42,9 @@ function initializeBrowse(map) {
 
   function updateData() {
     var bounds = map.getBounds();
-    getData(!browseBounds || !browseBounds.contains(bounds));
-    browseBounds = bounds;
+    if (!browseBounds || !browseBounds.contains(bounds)) {
+      getData();
+    }
   }
 
   function displayFeatureWarning(count, limit, callback) {
@@ -58,7 +59,7 @@ function initializeBrowse(map) {
 
   var dataLoader;
 
-  function getData(inPrevious) {
+  function getData() {
     var bounds = map.getBounds();
     var size = bounds.getSize();
 
@@ -66,10 +67,8 @@ function initializeBrowse(map) {
       $('#browse_status').html(
         $("<p class='warning'></p>")
           .text(I18n.t("browse.start_rjs.unable_to_load_size", { max_bbox_size: OSM.MAX_REQUEST_AREA, bbox_size: size.toFixed(2) })));
-      return;
+      return false;
     }
-
-    if (inPrevious) return;
 
     var url = "/api/" + OSM.API_VERSION + "/map?bbox=" + bounds.toBBoxString();
 
@@ -110,6 +109,7 @@ function initializeBrowse(map) {
         }
 
         dataLoader = null;
+        browseBounds = bounds;
       }
     });
   }
