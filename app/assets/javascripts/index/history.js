@@ -39,7 +39,7 @@ OSM.History = function(map) {
   }
 
   function clickChangeset(id) {
-    OSM.route($("#changeset_" + id).find(".changeset_id").attr("href"));
+    OSM.router.route($("#changeset_" + id).find(".changeset_id").attr("href"));
   }
 
   function loadData() {

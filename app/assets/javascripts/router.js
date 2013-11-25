@@ -1,3 +1,50 @@
+/*
+  OSM.Router implements pushState-based navigation for the main page and
+  other pages that use a sidebar+map based layout (export, search results,
+  history, and browse pages).
+
+  For browsers without pushState, it falls back to full page loads, which all
+  of the above pages support.
+
+  The router is initialized with a set of routes: a mapping of URL path templates
+  to route controller objects. Path templates can contain placeholders
+  (`/browse/note/:id`) and optional segments (`/browse/:type/:id(/history)`).
+
+  Route controller objects can define three methods that are called at defined
+  times during routing:
+
+     * The `load` method is called by the router when a path which matches the
+       route's path template is loaded via a normal full page load. It is passed
+       as arguments the URL path plus any matching arguments for placeholders
+       in the path template.
+
+     * The `pushstate` method is called when a page which matches the route's path
+       template is loaded via pushState. It is passed the same arguments as `load`.
+
+     * The `popstate` method is called when returning to a previously
+       pushState-loaded page via popstate (i.e. browser back/forward buttons).
+
+     * The `unload` method is called on the exiting route controller when navigating
+       via pushState or popstate to another route.
+
+   Note that while `load` is not called by the router for pushState-based loads,
+   it's frequently useful for route controllers to call it manually inside their
+   definition of the `pushstate` and `popstate` methods.
+
+   An instance of OSM.Router is assigned to `OSM.router`. To navigate to a new page
+   via pushState (with automatic full-page load fallback), call `OSM.router.route`:
+
+       OSM.router.route('/browse/way/1234');
+
+   If `route` is passed a path that matches one of the path templates, it performs
+   the appropriate actions and returns true. Otherwise it returns false.
+
+   OSM.Router also handles updating the hash portion of the URL containing transient
+   map state such as the position and zoom level. Some route controllers may wish to
+   temporarily suppress updating the hash (for example, to omit the hash on pages
+   such as `/browse/way/1234` unless the map is moved). This can be done by calling
+   `OSM.router.moveListenerOff` and `OSM.router.moveListenerOn`.
+ */
 OSM.Router = function(map, rts) {
   var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
   var optionalParam = /\((.*?)\)/g;
@@ -48,7 +95,7 @@ OSM.Router = function(map, rts) {
     currentRoute = routes.recognize(currentPath),
     currentHash = location.hash || OSM.formatHash(map);
 
-  var router, stateChange;
+  var router = {};
 
   if (window.history && window.history.pushState) {
     $(window).on('popstate', function(e) {
@@ -66,7 +113,7 @@ OSM.Router = function(map, rts) {
       }
     });
 
-    router = function (url) {
+    router.route = function (url) {
       var path = url.replace(/#.*/, ''),
         route = routes.recognize(path);
       if (!route) return false;
@@ -86,7 +133,7 @@ OSM.Router = function(map, rts) {
       }
     };
   } else {
-    router = function (url) {
+    router.route = function (url) {
       window.location.assign(url);
     };
 
