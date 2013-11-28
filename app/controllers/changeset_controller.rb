@@ -250,91 +250,51 @@ class ChangesetController < ApplicationController
   ##
   # list edits (open changesets) in reverse chronological order
   def list
-    if request.format == :atom and params[:page]
-      redirect_to params.merge({ :page => nil }), :status => :moved_permanently
+    if request.format == :atom and params[:max_id]
+      redirect_to params.merge({ :max_id => nil }), :status => :moved_permanently
+      return
+    end
+
+    if params[:display_name]
+      user = User.find_by_display_name(params[:display_name])
+      if !user || !user.active?
+        render_unknown_user params[:display_name]
+        return
+      end
+    end
+
+    if (params[:friends] || params[:nearby]) && !@user && request.format == :html
+      require_user
+      return
+    end
+
+    if request.format == :html and !params[:bbox]
+      require_oauth
+      render :action => :history, :layout => map_layout
     else
       changesets = conditions_nonempty(Changeset.all)
 
       if params[:display_name]
-        user = User.find_by_display_name(params[:display_name])
-
-        if user and user.active?
-          if user.data_public? or user == @user
-            changesets = changesets.where(:user_id => user.id)
-          else
-            changesets = changesets.where("false")
-          end
+        if user.data_public? or user == @user
+          changesets = changesets.where(:user_id => user.id)
         else
-          render_unknown_user params[:display_name]
-          return
+          changesets = changesets.where("false")
         end
+      elsif params[:bbox]
+        changesets = conditions_bbox(changesets, BoundingBox.from_bbox_params(params))
+      elsif params[:friends] && @user
+        changesets = changesets.where(:user_id => @user.friend_users.public)
+      elsif params[:nearby] && @user
+        changesets = changesets.where(:user_id => @user.nearby)
       end
 
-      if params[:friends]
-        if @user
-          changesets = changesets.where(:user_id => @user.friend_users.public)
-        elsif request.format == :html
-          require_user
-          return
-        end
+      if params[:max_id]
+        changesets = changesets.where("changesets.id <= ?", params[:max_id])
       end
 
-      if params[:nearby]
-        if @user
-          changesets = changesets.where(:user_id => @user.nearby)
-        elsif request.format == :html
-          require_user
-          return
-        end
-      end
+      @edits = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags)
 
-      if params[:bbox]
-        bbox = BoundingBox.from_bbox_params(params)
-      elsif params[:minlon] and params[:minlat] and params[:maxlon] and params[:maxlat]
-        bbox = BoundingBox.from_lon_lat_params(params)
-      end
-
-      if bbox
-        changesets = conditions_bbox(changesets, bbox)
-        bbox_link = render_to_string :partial => "bbox", :object => bbox
-      end
-
-      if user
-        user_link = render_to_string :partial => "user", :object => user
-      end
-
-      if params[:friends] and @user
-        @title =  t 'changeset.list.title_friend'
-        @heading =  t 'changeset.list.heading_friend'
-        @description = t 'changeset.list.description_friend'
-      elsif params[:nearby] and @user
-        @title = t 'changeset.list.title_nearby'
-        @heading = t 'changeset.list.heading_nearby'
-        @description = t 'changeset.list.description_nearby'
-      elsif user and bbox
-        @title =  t 'changeset.list.title_user_bbox', :user => user.display_name, :bbox => bbox.to_s
-        @heading =  t 'changeset.list.heading_user_bbox', :user => user.display_name, :bbox => bbox.to_s
-        @description = t 'changeset.list.description_user_bbox', :user => user_link, :bbox => bbox_link
-      elsif user
-        @title =  t 'changeset.list.title_user', :user => user.display_name
-        @heading =  t 'changeset.list.heading_user', :user => user.display_name
-        @description = t 'changeset.list.description_user', :user => user_link
-      elsif bbox
-        @title =  t 'changeset.list.title_bbox', :bbox => bbox.to_s
-        @heading =  t 'changeset.list.heading_bbox', :bbox => bbox.to_s
-        @description = t 'changeset.list.description_bbox', :bbox => bbox_link
-      else
-        @title =  t 'changeset.list.title'
-        @heading =  t 'changeset.list.heading'
-        @description = t 'changeset.list.description'
-      end
-
-      @page = (params[:page] || 1).to_i
-      @page_size = 20
-
-      @edits = changesets.order("changesets.created_at DESC").offset((@page - 1) * @page_size).limit(@page_size).preload(:user, :changeset_tags)
-
-      render :action => :list
+      render :action => :list, :layout => false
     end
   end
 

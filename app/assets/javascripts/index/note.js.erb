@@ -1,0 +1,98 @@
+OSM.Note = function (map) {
+  var noteLayer = map.noteLayer,
+    content = $('#sidebar_content'),
+    page = {},
+    halo, currentNote;
+
+  var noteIcons = {
+    "new": L.icon({
+      iconUrl: "<%= image_path('new_note_marker.png') %>",
+      iconSize: [25, 40],
+      iconAnchor: [12, 40]
+    }),
+    "open": L.icon({
+      iconUrl: "<%= image_path('open_note_marker.png') %>",
+      iconSize: [25, 40],
+      iconAnchor: [12, 40]
+    }),
+    "closed": L.icon({
+      iconUrl: "<%= image_path('closed_note_marker.png') %>",
+      iconSize: [25, 40],
+      iconAnchor: [12, 40]
+    })
+  };
+
+  function updateNote(form, method, url) {
+    $(form).find("input[type=submit]").prop("disabled", true);
+
+    $.ajax({
+      url: url,
+      type: method,
+      oauth: true,
+      data: {text: $(form.text).val()},
+      success: function () {
+        OSM.loadSidebarContent(window.location.pathname, page.load);
+      }
+    });
+  }
+
+  page.pushstate = page.popstate = function (path) {
+    OSM.loadSidebarContent(path, page.load);
+  };
+
+  page.load = function () {
+    content.find("input[type=submit]").on("click", function (e) {
+      e.preventDefault();
+      var data = $(e.target).data();
+      updateNote(e.target.form, data.method, data.url);
+    });
+
+    content.find("textarea").on("input", function (e) {
+      var form = e.target.form;
+
+      if ($(e.target).val() == "") {
+        $(form.close).val(I18n.t("javascripts.notes.show.resolve"));
+        $(form.comment).prop("disabled", true);
+      } else {
+        $(form.close).val(I18n.t("javascripts.notes.show.comment_and_resolve"));
+        $(form.comment).prop("disabled", false);
+      }
+    });
+
+    content.find("textarea").val('').trigger("input");
+
+    var data = $('.details').data(),
+      latLng = data.coordinates.split(',');
+
+    if (!window.location.hash) {
+      OSM.router.moveListenerOff();
+      map.once('moveend', OSM.router.moveListenerOn);
+      map.getZoom() > 15 ? map.panTo(latLng) : map.setView(latLng, 16);
+    }
+
+    if (!map.hasLayer(halo)) {
+      halo = L.circleMarker(latLng, {
+        weight: 2.5,
+        radius: 20,
+        fillOpacity: 0.5,
+        color: "#FF6200"
+      });
+      map.addLayer(halo);
+    }
+
+    if (map.hasLayer(currentNote)) map.removeLayer(currentNote);
+    currentNote = L.marker(latLng, {
+      icon: noteIcons[data.status],
+      opacity: 1,
+      clickable: true
+    });
+    map.addLayer(currentNote);
+  };
+
+  page.unload = function () {
+    if (map.hasLayer(halo)) map.removeLayer(halo);
+    if (map.hasLayer(currentNote)) map.removeLayer(currentNote);
+  };
+
+  return page;
+};

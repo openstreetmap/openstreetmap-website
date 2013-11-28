@@ -1,39 +1,33 @@
-<div class='browse-section common'>
-  <div>
-    <% if common_details.visible? %>
-      <h4><%= t 'browse.common_details.edited_at' %></h4>
-    <% else %>
-      <h4><%= t 'browse.common_details.deleted_at' %></h4>
-    <% end %>
-    <p><%= l common_details.timestamp %></p>
-  </div>
-
-  <% if common_details.changeset.user.data_public? %>
-    <div>
-      <% if common_details.visible? %>
-        <h4><%= t 'browse.common_details.edited_by' %></h4>
-      <% else %>
-        <h4><%= t 'browse.common_details.deleted_by' %></h4>
-      <% end %>
-      <p><%= link_to h(common_details.changeset.user.display_name), :controller => "user", :action => "view", :display_name => common_details.changeset.user.display_name %></p>
-    </div>
-  <% end %>
-
-  <div>
-    <h4><%= t 'browse.common_details.version' %></h4>
-    <p><%= h(common_details.version) %></p>
-  </div>
-
-  <div>
-    <h4><%= t 'browse.common_details.in_changeset' %></h4>
-    <p><%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %></p>
-  </div>
-
+<h4>
   <% if common_details.changeset.tags['comment'].present? %>
-    <div>
-      <h4><%= t 'browse.common_details.changeset_comment' %></h4>
-      <p><%= linkify(h(common_details.changeset.tags['comment'])) %></p>
-    </div>
+    <%= linkify(h(common_details.changeset.tags['comment'])) %>
+  <% else %>
+    <%= t 'browse.no_comment' %>
   <% end %>
+</h4>
+
+<div class="details">
+  <%=
+      t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
+        :time => distance_of_time_in_words_to_now(common_details.timestamp),
+        :user => changeset_user_link(common_details.changeset),
+        :title => l(common_details.timestamp)
+  %>
 </div>
-<%= render :partial => "tag_details", :object => common_details %>
+
+<div class="details">
+  <%= t 'browse.version' %>
+  #<%= h(common_details.version) %>
+  &middot;
+  <%= t 'browse.in_changeset' %>
+  #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
+</div>
+
+<% if @type == "node" %>
+<div class="details geo">
+  Location:
+  <%= link_to(content_tag(:span, number_with_delimiter(common_details.lat), :class => "latitude") + ", " + content_tag(:span, number_with_delimiter(common_details.lon), :class => "longitude"), {:controller => 'site', :action => 'index', :lat => h(common_details.lat), :lon => h(common_details.lon), :zoom => "18"}) %>
+</div>
+<% end %>
+
+<%= render :partial => "tag_details", :object => common_details.tags %>

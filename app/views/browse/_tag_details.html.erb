@@ -1,6 +1,6 @@
-<% unless tag_details.tags.empty? %>
-  <div class='browse-section'>
-    <h4><%= t'browse.tag_details.tags' %></h4>
-    <ul><%= render :partial => "tag", :collection => tag_details.tags.sort %></ul>
-  </div>
+<% unless tag_details.empty? %>
+  <h4><%= t 'browse.tag_details.tags' %></h4>
+  <ul class='browse-tag-list'>
+    <%= render :partial => "tag", :collection => tag_details.sort %>
+  </ul>
 <% end %>

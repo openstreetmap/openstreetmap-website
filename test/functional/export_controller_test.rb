@@ -6,10 +6,6 @@ class ExportControllerTest < ActionController::TestCase
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/export/start", :method => :get },
-      { :controller => "export", :action => "start" }
-    )
-    assert_routing(
       { :path => "/export/finish", :method => :post },
       { :controller => "export", :action => "finish" }
     )
@@ -19,14 +15,6 @@ class ExportControllerTest < ActionController::TestCase
     )
   end
 
-  ##
-  # test the start action
-  def test_start
-    xhr :get, :start
-    assert_response :success
-    assert_template "export/start"
-  end
-  
   ###
   # test the finish action for raw OSM data
   def test_finish_osm

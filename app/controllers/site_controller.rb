@@ -1,9 +1,10 @@
 class SiteController < ApplicationController
-  layout 'site', :except => [:key, :permalink]
-  layout false, :only => [:key, :permalink]
+  layout 'site'
+  layout :map_layout, :only => [:index, :export]
 
   before_filter :authorize_web
   before_filter :set_locale
+  before_filter :redirect_browse_params, :only => :index
   before_filter :redirect_map_params, :only => [:index, :edit, :export]
   before_filter :require_user, :only => [:edit, :welcome]
   before_filter :require_oauth, :only => [:index]
@@ -33,6 +34,7 @@ class SiteController < ApplicationController
 
   def key
     expires_in 7.days, :public => true
+    render :layout => false
   end
 
   def edit
@@ -43,8 +45,6 @@ class SiteController < ApplicationController
       render :action => :index
       return
     end
-
-    @extra_body_class = "site-edit-#{editor}"
 
     if params[:node]
       bbox = Node.find(params[:node]).bbox.to_unscaled
@@ -72,6 +72,12 @@ class SiteController < ApplicationController
   def welcome
   end
 
+  def help
+  end
+
+  def about
+  end
+
   def preview
     render :text => RichText.new(params[:format], params[:text]).to_html
   end
@@ -81,6 +87,18 @@ class SiteController < ApplicationController
   end
 
   private
+
+  def redirect_browse_params
+    if params[:node]
+      redirect_to node_path(params[:node])
+    elsif params[:way]
+      redirect_to way_path(params[:way])
+    elsif params[:relation]
+      redirect_to relation_path(params[:relation])
+    elsif params[:note]
+      redirect_to browse_note_path(params[:note])
+    end
+  end
 
   def redirect_map_params
     anchor = []

@@ -22,10 +22,9 @@ L.OSM.layers = function(options) {
       .attr('class', 'sidebar_heading')
       .appendTo($ui)
       .append(
-        $('<a>')
+        $('<span>')
           .text(I18n.t('javascripts.close'))
-          .attr('class', 'sidebar_close')
-          .attr('href', '#')
+          .attr('class', 'icon close')
           .bind('click', toggle))
       .append(
         $('<h4>')
@@ -85,9 +84,9 @@ L.OSM.layers = function(options) {
         .appendTo(item);
 
       var input = $('<input>')
-        .attr('type', 'radio')
-        .prop('checked', map.hasLayer(layer))
-        .appendTo(label);
+         .attr('type', 'radio')
+         .prop('checked', map.hasLayer(layer))
+         .appendTo(label);
 
       label.append(layer.options.name);
 
@@ -115,13 +114,19 @@ L.OSM.layers = function(options) {
 
       $('<p>')
         .text(I18n.t('javascripts.map.layers.overlays'))
+        .attr("class", "deemphasize")
         .appendTo(overlaySection);
 
       var list = $('<ul>')
         .appendTo(overlaySection);
 
-      function addOverlay(layer, name) {
+      function addOverlay(layer, name, maxArea) {
+        var refName = name.split(' ').join('_').toLowerCase();
         var item = $('<li>')
+          .attr('class', refName)
+          .tooltip({
+            placement: 'top'
+          })
           .appendTo(list);
 
         var label = $('<label>')
@@ -140,15 +145,24 @@ L.OSM.layers = function(options) {
           } else {
             map.removeLayer(layer);
           }
+          map.fire('overlaylayerchange', {layer: layer});
         });
 
         map.on('layeradd layerremove', function() {
           input.prop('checked', map.hasLayer(layer));
         });
+
+        map.on('zoomend', function() {
+          var disabled = map.getBounds().getSize() >= maxArea;
+          $(input).prop('disabled', disabled);
+          $(item).attr('class', disabled ? 'disabled' : '');
+          item.attr('data-original-title', disabled ?
+            I18n.t('javascripts.site.' + refName + '_zoom_in_tooltip') : '');
+        });
       }
 
-      addOverlay(map.noteLayer, I18n.t('javascripts.map.layers.notes'));
-      addOverlay(map.dataLayer, I18n.t('javascripts.map.layers.data'));
+      addOverlay(map.noteLayer, I18n.t('javascripts.map.layers.notes'), OSM.MAX_NOTE_REQUEST_AREA);
+      addOverlay(map.dataLayer, I18n.t('javascripts.map.layers.data'), OSM.MAX_REQUEST_AREA);
     }
 
     options.sidebar.addPane($ui);
@@ -157,6 +171,7 @@ L.OSM.layers = function(options) {
       e.stopPropagation();
       e.preventDefault();
       options.sidebar.togglePane($ui, button);
+      $('.leaflet-control .control-button').tooltip('hide');
     }
 
     return $container[0];

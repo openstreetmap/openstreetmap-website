@@ -1,0 +1,48 @@
+<% set_title(t('export.title')) %>
+
+<h2>
+  <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
+  <%= t 'export.title' %>
+</h2>
+
+<%= form_tag({:controller => "export", :action => "finish"}, :class => "export_form") do %>
+  <%= hidden_field_tag 'format', 'osm' %>
+
+  <div class='export_area_inputs'>
+    <div class='export_boxy' style="border: 1px solid #ccc;">
+      <%= text_field_tag('maxlat', nil, :size => 10, :class => "export_bound") %>
+      <br/>
+      <%= text_field_tag('minlon', nil, :size => 10, :class => "export_bound") %>
+      <%= text_field_tag('maxlon', nil, :size => 10, :class => "export_bound") %>
+      <br/><br/>
+      <%= text_field_tag('minlat', nil, :size => 10, :class => "export_bound") %>
+      </div>
+    <a id='drag_box' href="#"><%= t'export.start.manually_select' %></a>
+  </div>
+
+  <h4><%= t'export.start.licence' %></h4>
+  <p><%= raw t 'export.start.export_details' %></p>
+
+  <div id="export_osm_too_large">
+    <p class="warning">
+      <%= t'export.start.too_large.body' %>
+    </p>
+    <dl class="inner12">
+      <dt><a href="http://planet.openstreetmap.org/"><%= t'export.start.too_large.planet.title' %></a></dt>
+      <dd><%= t'export.start.too_large.planet.description' %></dd>
+
+      <dt><a href="http://download.geofabrik.de/"><%= t'export.start.too_large.geofabrik.title' %></a></dt>
+      <dd><%= t'export.start.too_large.geofabrik.description' %></dd>
+
+      <dt><a href="http://metro.teczno.com/"><%= t'export.start.too_large.metro.title' %></a></dt>
+      <dd><%= t'export.start.too_large.metro.description' %></dd>
+
+      <dt><a href="http://wiki.openstreetmap.org/wiki/Download"><%= t'export.start.too_large.other.title' %></a></dt>
+      <dd><%= t'export.start.too_large.other.description' %></dd>
+    </dl>
+  </div>
+
+  <div class="export_button">
+    <%= submit_tag t('export.start.export_button'), :id => "export_commit" %>
+  </div>
+<% end %>

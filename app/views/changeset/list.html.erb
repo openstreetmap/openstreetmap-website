@@ -1,37 +1,15 @@
-<% content_for :head do -%>
-  <%= javascript_include_tag "changeset" %>
-<% end -%>
-
-<% content_for :heading do %>
-
-  <h1><%= @heading %></h1>
-  <ul class='secondary-actions clearfix'>
-    <li><%= raw(@description) %></li>
-    <% unless params[:friends] or params[:nearby] -%>
-      <li><%= atom_link_to params.merge({ :page => nil, :action => :feed }) %></li>
-    <% end -%>
-  </ul>
-
-<% end %>
-
-<%= render :partial => 'changeset_paging_nav' %>
-
-<% if @edits.size > 0 %>
-  <div id='changeset_list_map_wrapper'>
-    <%= render :partial => 'map' %>
+<% if @edits.present? %>
+  <ol class="changesets">
+    <%= render :partial => 'changeset', :collection => @edits %>
+  </ol>
+  <div class="changeset_more">
+    <%= link_to t('changeset.list.load_more'), url_for(params.merge(:max_id => @edits.last.id - 1)), :class => "button load_more" %>
+    <%= image_tag "searching.gif", :class => "loader", :style => "display: none;" %>
   </div>
-  <div class='column-1'>
-    <%= render :partial => 'changesets', :locals => { :showusername => !params.has_key?(:display_name) } %>
-  </div>
-  <%= render :partial => 'changeset_paging_nav' %>
-<% elsif @user and @user.display_name == params[:display_name] %>
-  <h4><%= t('changeset.list.empty_user_html') %></h4>
+<% elsif params[:bbox] %>
+  <div class="inner22"><%= t(params[:max_id] ? 'changeset.list.no_more_area' : 'changeset.list.empty_area') %></div>
+<% elsif params[:display_name] %>
+  <div class="inner22"><%= t(params[:max_id] ? 'changeset.list.no_more_user' : 'changeset.list.empty_user') %></div>
 <% else %>
-  <h4><%= t('changeset.list.empty_anon_html') %></h4>
+  <div class="inner22"><%= t(params[:max_id] ? 'changeset.list.no_more' : 'changeset.list.empty') %></div>
 <% end %>
-
-<% unless params[:friends] or params[:nearby] -%>
-  <% content_for :head do -%>
-    <%= auto_discovery_link_tag :atom, params.merge({ :page => nil, :action => :feed }) %>
-  <% end -%>
-<% end -%>

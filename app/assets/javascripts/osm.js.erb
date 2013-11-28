@@ -12,7 +12,7 @@ OSM = {
   apiUrl: function (object) {
     var url = "/api/" + OSM.API_VERSION + "/" + object.type + "/" + object.id;
 
-    if (object.type != "node") {
+    if (object.type === "way" || object.type === "relation") {
       url += "/full";
     } else if (object.version) {
       url += "/" + object.version;
@@ -38,7 +38,7 @@ OSM = {
   },
 
   mapParams: function (search) {
-    var params = OSM.params(search), mapParams = {}, bounds, loc;
+    var params = OSM.params(search), mapParams = {}, loc, match;
 
     if (params.mlon && params.mlat) {
       mapParams.marker = true;
@@ -46,35 +46,13 @@ OSM = {
       mapParams.mlat = parseFloat(params.mlat);
     }
 
-    if (params.node || params.way || params.relation) {
-      mapParams.object_zoom = true;
-
-      if (params.node) {
-        mapParams.object = {type: 'node', id: parseInt(params.node)};
-      } else if (params.way) {
-        mapParams.object = {type: 'way', id: parseInt(params.way)};
-      } else if (params.relation) {
-        mapParams.object = {type: 'relation', id: parseInt(params.relation)};
-      }
-    }
-
-    if (params.bbox) {
-      params.bbox = params.bbox.split(',');
-      bounds = L.latLngBounds(
-        [parseFloat(params.bbox[1]),
-         parseFloat(params.bbox[0])],
-        [parseFloat(params.bbox[3]),
-         parseFloat(params.bbox[2])]);
-    } else if (params.minlon && params.minlat && params.maxlon && params.maxlat) {
-      bounds = L.latLngBounds(
-        [parseFloat(params.minlat),
-         parseFloat(params.minlon)],
-        [parseFloat(params.maxlat),
-         parseFloat(params.maxlon)]);
-    }
-
-    if (params.box === 'yes') {
-      mapParams.box = bounds;
+    // Old-style object parameters; still in use for edit links e.g. /edit?way=1234
+    if (params.node) {
+      mapParams.object = {type: 'node', id: parseInt(params.node)};
+    } else if (params.way) {
+      mapParams.object = {type: 'way', id: parseInt(params.way)};
+    } else if (params.relation) {
+      mapParams.object = {type: 'relation', id: parseInt(params.relation)};
     }
 
     var hash = OSM.parseHash(location.hash);
@@ -84,22 +62,14 @@ OSM = {
       mapParams.lon = hash.center.lng;
       mapParams.lat = hash.center.lat;
       mapParams.zoom = hash.zoom;
-      mapParams.object_zoom = false;
-    } else if (bounds) {
-      mapParams.lon = bounds.getCenter().lng; // Not used by main map, but
-      mapParams.lat = bounds.getCenter().lat; // are used by iD/Potlatch.
-      mapParams.bounds = bounds;
-      mapParams.object_zoom = false;
     } else if (params.lon && params.lat) {
       mapParams.lon = parseFloat(params.lon);
       mapParams.lat = parseFloat(params.lat);
       mapParams.zoom = parseInt(params.zoom || 5);
-      mapParams.object_zoom = false;
     } else if (params.mlon && params.mlat) {
       mapParams.lon = parseFloat(params.mlon);
       mapParams.lat = parseFloat(params.mlat);
       mapParams.zoom = parseInt(params.zoom || 12);
-      mapParams.object_zoom = false;
     } else if (loc = $.cookie('_osm_location')) {
       loc = loc.split("|");
       mapParams.lon = parseFloat(loc[0]);
@@ -123,10 +93,6 @@ OSM = {
 
     mapParams.layers = hash.layers || (loc && loc[3]) || '';
 
-    if (params.note) {
-      mapParams.note = parseInt(params.note);
-    }
-
     var scale = parseFloat(params.scale);
     if (scale > 0) {
       mapParams.zoom = Math.log(360.0 / (scale * 512.0)) / Math.log(2.0);
@@ -136,12 +102,41 @@ OSM = {
   },
 
   parseHash: function(hash) {
-    if (hash.indexOf('#') === 0) {
-      hash = hash.substr(1);
+    var i = hash.indexOf('#');
+    if (i < 0) {
+      return false;
     }
+
+    hash = hash.substr(i + 1);
+
+    if (hash === '') {
+      return false;
+    }
+
     hash = querystring.parse(hash);
-    var args = L.Hash.parseHash(hash.map || '') || {};
-    if (hash.layers) args.layers = hash.layers;
+
+    var args = hash.map.split("/");
+    if (args.length !== 3) {
+      return false;
+    }
+
+    var zoom = parseInt(args[0], 10),
+      lat = parseFloat(args[1]),
+      lon = parseFloat(args[2]);
+
+    if (isNaN(zoom) || isNaN(lat) || isNaN(lon)) {
+      return false;
+    }
+
+    args = {
+      center: new L.LatLng(lat, lon),
+      zoom: zoom
+    };
+
+    if (hash.layers) {
+      args.layers = hash.layers;
+    }
+
     return args;
   },
 
@@ -153,7 +148,7 @@ OSM = {
       zoom = args.getZoom();
       layers = args.getLayersCode();
     } else {
-      center = L.latLng(args.lat, args.lon);
+      center = args.center || L.latLng(args.lat, args.lon);
       zoom = args.zoom;
       layers = args.layers || '';
     }

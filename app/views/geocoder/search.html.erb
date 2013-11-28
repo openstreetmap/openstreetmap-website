@@ -1,9 +1,10 @@
+<h2>
+    <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
+	<%= t('site.sidebar.search_results') %>
+</h2>
 <% @sources.each do |source| %>
-  <h4><%= raw(t "geocoder.search.title.#{source}") %></h4>
-  <div class="search_results_entry" id="<%= "search_#{source}" %>">
-    <%= image_tag "searching.gif", :class => "search_searching" %>
+  <h4 class="inner12"><%= raw(t "geocoder.search.title.#{source}") %></h4>
+  <div class="search_results_entry" data-href="<%= url_for params.merge(:action => "search_#{source}") %>">
+    <%= image_tag "searching.gif", :class => "loader" %>
   </div>
-  <script type="text/javascript">
-    $("#search_<%= source %>").load("<%= raw url_for params.merge(:action => "search_#{source}") %>");
-  </script>
 <% end %>

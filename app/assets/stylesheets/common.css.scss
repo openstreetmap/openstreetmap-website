@@ -1,13 +1,4 @@
-/* Parameters */
-$lineheight: 20px;
-$typeheight: 14px;
-
-$offwhite: #f4f4ff;
-$blue: #7092FF;
-$lightblue: #B8C5F0;
-$grey: #AAA;
-$lightgrey: #CCC;
-$hovercolor: 20%;
+@import "parameters";
 
 /* Styles common to large and small screens */
 
@@ -43,6 +34,10 @@ body { font: #{$typeheight}/#{$lineheight} "Helvetica Neue",Arial,sans-serif; }
 abbr, acronym {
   border-bottom: .1em dotted;
   cursor: help;
+}
+
+strong {
+  font-weight: bold;
 }
 
 /* Micro Clearfix | Details: http://nicolasgallagher.com/micro-clearfix-hack/ */
@@ -88,12 +83,13 @@ abbr, acronym {
 .margin12 { margin-left:100.0000%; }
 
 .fillL { background-color: white; }
+
 /* Default rules for the body of every page */
 
 * {
-  -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 body {
@@ -105,6 +101,7 @@ body {
   margin: 0px;
   padding: 0px;
   text-align: left;
+  height: 100%;
 }
 
 body.slim {
@@ -112,36 +109,20 @@ body.slim {
 }
 
 h1, h2, h3 {
-  margin-top: $lineheight/2;
-  margin-bottom: $lineheight;
-  font-weight: bold;
+  font-weight: 600;
   line-height: 1.2;
 }
 
-h1, h2 {
-  font-size: 32px;
+h4, h5 {
+  font-weight: 500;
 }
 
-#content h2 {
-  font-size: 21px;
+h1 {
+  font-size: 18px;
 }
 
-h3 {
-  font-size: 21px;
-  margin-top: $lineheight/2;
-  margin-bottom: $lineheight;
-}
-
-h4,h5,h6 {
-  font-size: $typeheight;
-  margin-top: $lineheight/2;
-  margin-bottom: $lineheight/2;
-  font-weight: bold;
-  line-height: 1.5;
-}
-
-p, ul {
-  margin-bottom: $lineheight;
+h2, h3 {
+  font-size: 16px;
 }
 
 p > img {
@@ -153,14 +134,7 @@ small, aside {
   font-size: 12px;
 }
 
-h1:first-child,
-h2:first-child,
-h3:first-child,
-h4:first-child,
-h5:first-child,
-h6:first-child {
-  margin-top: 0;
-}
+#container { position: relative; }
 
 .column-1 {
   width: 50%;
@@ -172,6 +146,8 @@ h6:first-child {
   margin-right: $lineheight/4;
 }
 
+.red { color: $red; }
+
 /* Rules for icons */
 
 .icon {
@@ -182,10 +158,6 @@ h6:first-child {
   background:transparent image-url("sprite.png") no-repeat 0 0;
   text-indent:-9999px;
   overflow:hidden;
-  }
-
-.icon-pre-text {
-    margin-right: 5px;
 }
 
 .icon.search      { background-position: 0 0; }
@@ -200,6 +172,7 @@ h6:first-child {
 .icon.clipboard   { background-position: -160px 0; }
 .icon.link        { background-position: -180px 0; }
 .icon.close       { background-position: -200px 0; }
+.icon.close:hover { background-position: -200px -20px; }
 .icon.check       { background-position: -220px 0; }
 .icon.note        { background-position: -240px 0; }
 .icon.gear        { background-position: -260px 0; }
@@ -207,8 +180,10 @@ h6:first-child {
 /* Rules for links */
 
 a {
-  color: #00f;
+  color: #24d;
   text-decoration: none;
+  -webkit-appearance: none;
+  outline: 0;
   &:hover {
     text-decoration: underline;
   }
@@ -234,202 +209,12 @@ table {
     line-height: $lineheight;
   }
   th {
-    font-weight: bold;
+    font-weight: 600;
     vertical-align: top;
   }
   td {
     vertical-align: middle;
   }
-}
-
-/* Rules for the whole left sidebar, including the logo */
-
-#left {
-  position: absolute;
-  height: 100%;
-  width: 185px;
-  font-size: 11px;
-  line-height: 1.1;
-  z-index: 100;
-  border-right: 1px solid #ccc;
-}
-
-/* Rules for the OpenStreetMap logo in the top left corner */
-
-#logo {
-  display: block;
-  width: 170px;
-  min-width: 170px;
-  padding: $lineheight $lineheight/4;
-  text-align: center;
-  margin: auto;
-}
-
-#logo h1 {
-  font-size: 18px;
-  line-height: 1;
-  text-align: center;
-  margin: 0;
-}
-
-#logo h2 {
-  font-size: $lineheight/2;
-  line-height: 15px;
-  margin: 0;
-}
-
-/* Rules for the site name */
-
-#small-title {
-  display: none;
-
-  img {
-    vertical-align: text-bottom;
-  }
-}
-
-/* Rules for the introductory text displayed in the left sidebar to new users */
-
-.sidebar-copy {
-  padding: $lineheight/4 $lineheight/2;
-  p {
-    margin: $lineheight/4 0;
-  }
-}
-.sidebar-copy.intro {
-  border-top: 1px solid #ccc;
-}
-
-/*
- * Rules for alert boxes shown in the left sidebar when important
- * information needs to be conveyed such as when the site is
- * undergoing maintenance.
- */
-
-.sidebar-alert {
-  padding: $lineheight/4;
-  border-top: 1px solid #ccc;
-  margin-top: 4px;
-  margin-bottom: -5px;
-  background: #e00;
-  font-size: 12px;
-  font-weight: bold;
-  p {
-    margin: $lineheight/4;
-  }
-}
-
-/*
- * Rules for notice boxes shown in the left sidebar when important, but
- * non-critical information needs to be conveyed such as notices about
- * donation drives.
- */
-
-.sidebar-notice {
-  padding: $lineheight/4;
-  border-top: 1px solid #ccc;
-  margin-top: 4px;
-  margin-bottom: -5px;
-  background: #ea0;
-  font-size: 12px;
-  p {
-    margin: $lineheight/4;
-  }
-}
-
-/* Rules for the menu displayed in the left sidebar */
-
-.left_menu {
-  left: 0px;
-  margin: 0;
-  padding: $lineheight/4 $lineheight/2 $lineheight/2 $lineheight/2;
-  font-size: 12px;
-  line-height: 1.25;
-  list-style-type: none;
-  border-bottom: 1px solid #ccc;
-  border-top: 1px solid #ccc;
-  img {
-    margin: $lineheight/2 0px;
-  }
-
-  ul {
-    padding: 0;
-    margin: 0;
-  }
-
-  li {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  h4 {
-    padding: $lineheight/4 0 $lineheight/4 0;
-    font-size: 12px;
-    margin: 0;
-  }
-}
-
-/*
- * Rules for "optional boxes" which appear in the left sidebar on
- * certain pages. Current users are the seach box on the main page
- * and the tag cloud on the traces pages.
- */
-
-.optionalbox {
-  left: 0px;
-  padding: $lineheight/4 $lineheight/2;
-  margin: $lineheight/4 0;
-  text-align: left;
-}
-
-/* Rules for the search box */
-
-#search_field {
-  position: relative;
-
-  form {
-    width: 165px;
-  }
-
-  input[type="text"] {
-    width: 165px;
-    padding: 3px;
-    font-size: $typeheight;
-    line-height: 1.1;
-    height: 25px;
-    padding: 2px 22px 2px $lineheight/4;
-    box-shadow: inset #DDD 0px 1px 3px;
-
-    transition: 300ms linear;
-    -webkit-transition: 300ms linear;
-    -moz-transition: 300ms linear;
-  }
-
-  input[type="text"]:focus {
-    box-shadow: 0px 0px 7px #9ED485;
-    outline: none;
-  }
-
-  input[type="submit"] {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    width: 15px;
-    height: 15px;
-    min-width: 0;
-    text-indent: -1000px;
-    overflow: hidden;
-    background: image-url("sprite.png") -2px -2px no-repeat;
-    position: absolute;
-    top: $lineheight/4;
-    right: $lineheight/4;
-    cursor: pointer;
-  }
-}
-
-.search_help {
-  margin: $lineheight/4 0 0 0;
 }
 
 /* Utility for de-emphasizing content */
@@ -441,165 +226,206 @@ table {
   }
 }
 
-/* Rules for donation request box */
+/* Rules for the header */
 
-a.donate {
+#menu-icon { 
+  display: none !important;
+  float: right;
+  background: image-url("menu-icon.png") no-repeat;
+  background-size: 30px 30px;
   display: block;
-  width: 163px;
-  padding: $lineheight/4;
-  border: 1px solid #AED1A0;
-  background: #cbeea7;
-  font-size: $typeheight;
-  line-height: 1.4;
-  text-align: center;
-  border-radius: 2px;
-  color: #222;
-  margin: $lineheight/2 $lineheight/2 0px $lineheight/2;
+  width: 30px;
+  height: 30px;
+  margin: 14px 10px 0 0;
+  opacity: 0.6;
+}
 
-  &:hover {
-    background: #9ed485;
+header {
+  height: $headerHeight;
+  position: relative;
+  z-index: 1001;
+  font-size: 14px;
+
+  h1, nav, nav > ul, nav > ul > li, .dropdown {
+    display: inline-block;
+  }
+
+  > * {
+    height: 100%;
+    padding: $lineheight/2;
+  }
+
+  h1, nav.primary {
+    float: left;
+  }
+
+  a, a:hover {
     text-decoration: none;
+  }
+
+  img.logo {
+    width: 30px;
+    height: 30px;
+    margin-top: -2px;
+    vertical-align: middle;
+  }
+
+  h1 {
+    margin: 0;
+    padding-top: 15px;
+
+    a {
+      color: #000;
+    }
   }
 }
 
-/* Rules for Creative Commons logo button */
+nav.primary {
+  > ul {
+    $border: 1px solid $green;
 
-#cclogo {
-  margin: $lineheight/2 0;
-  float: right;
-}
+    border: $border;
+    border-radius: $border-radius;
 
-/* Rules for tabbed navigation bar */
+    > li {
+      border-right: $border;
+      float: left;
+      &:last-child { 
+        border-right: 0;
+      }
+      > a:hover { background: lighten($green, 30%); }
+      &.current > a:hover { background: $green; }
+      &.disabled > a:hover { background: lighten($green, 38%); }
+      &.dropdown {
+        > a.tab { border-right: 1px solid lighten($green, 30%); }
+        &.current > a.tab { border-right: 1px solid lighten($green, 10%); }
+      }
+    }
+  }
 
-#top-bar {
-  position: relative;
-  margin-left: 185px;
-  height: 30px;
-  border-bottom: 1px solid #ccc;
-  background: white;
-  z-index: 1001;
+  a.tab,
+  .dropdown-toggle {
+    display: inline-block;
+    font-weight: 500;
+    color: $green;
+    padding: 5px 15px;
+  }
+
+  .dropdown-toggle {
+    padding: 5px 6px;
+  }
 
   .caret {
+    border-top-color: $green;
     margin-top: 10px;
-  }
-}
-
-.site-edit #top-bar,
-.site-index #top-bar,
-.site-export #top-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
-#tabnav {
-  height: 29px;
-  margin-bottom: 0;
-
-  > li {
-    float: left;
-
-    > * {
-      padding: 3px $lineheight/2;
-    }
-  }
-
-  a.tab {
-    display: inline-block;
-    font-weight: bold;
-    text-decoration: none;
-    color: #333;
-
-    -webkit-transition: color 200ms ease-in;
-       -moz-transition: color 200ms ease-in;
-         -o-transition: color 200ms ease-in;
-            transition: color 200ms ease-in;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 
   .disabled a {
     color: #ccc;
     cursor: default;
 
-    &:hover {
-      text-decoration: none;
-    }
-
     .caret {
       border-top-color: #ccc;
     }
   }
 
-  .dropdown {
-    height: 29px;
+  > ul li.current {
+    background-color: $green;
+
+    .tab {
+      color: #fff;
+    }
+
+    .caret {
+      border-top-color: #fff;
+    }
   }
 }
 
-.site-index #view_tab,
-.site-edit #edit_tab,
-.changeset-list #history_tab {
-  background: #9ed485;
-  color: #000;
-}
+nav.secondary {
+  position: absolute;
+  right: 0;
 
-/* Utility for styling notification numbers */
+  > ul {
+    vertical-align: middle;
+    a, .dropdown-toggle {
+      display: inline-block;
+      text-decoration: none;
+      color: $darkgrey;
+      padding: 5px;
 
-.count-number {
-  padding: 2px $lineheight/4;
-  border-radius: 2px;
-  background: #d7d7ff;
-  margin: 0 2px;
-  font-size: 11px;
-  color: #333;
-}
-
-/* Rules for greeting bar in the top right corner */
-
-#greeting {
-  float: right;
-  height: 100%;
-
-  &.secondary-actions {
-    padding: 3px $lineheight/2;
-  }
-
-  &.dropdown {
-    background-color: #EEE;
-    &:hover {
-      background-color: #CCC;
+      &:hover { color: darken($darkgrey, 25%); }
     }
   }
 
-  img {
+  > ul li.current a {
+    color: darken($darkgrey, 25%);
+  }
+
+  .user-menu {
+    $border: 1px solid $grey;
+    border: $border;
+    border-radius: $border-radius;
+    margin-left: 10px;
+
+    > li {
+      border-right: $border;
+      float: left;
+      &:last-child { 
+        border-right: 0;
+
+        > a {
+          border-radius: 0 $border-radius $border-radius 0;
+        } 
+      }
+      &:first-child > a { border-radius: $border-radius 0 0 $border-radius; }
+      &:hover a { background: lighten($darkgrey, 30%); }
+    }
+
+    a {
+      padding: 5px 15px;
+
+    }
+
+    &.logged-in > a {
+      padding: 0;
+      > .user-button {
+        line-height: 1.8;
+        padding: 5px 10px 3px 6px;
+        display: inline-block;
+        color: $darkgrey;
+      }
+      &:hover > .user-button { color: darken($darkgrey, 5%); }
+    }
+  }
+
+  .caret {
+    border-top-color: $grey;
+    margin-top: 9px;
+  }
+
+  img.user_thumbnail_tiny {
+    border: 0;
     vertical-align: top;
-    border-radius: 2px 0 0 2px;
-    margin-right: 5px;
+    margin-top: 0px;
+    margin: 4px 0 0 4px;
+    border-radius: 2px;
   }
 
   #inboxanchor {
     display: inline-block;
-    position: relative;
-    height: 20px;
-    top: -2px;
-    margin: 0 2px 0 0;
-    padding: 0 5px 0 0;
-    border-radius: 2px;
-  }
-
-  .dropdown-toggle {
-    display: block;
-    padding: 3px 7px;
-    color: #000;
-    text-decoration: none;
+    vertical-align: top;
+    height: 25px;
+    margin: 3px 0 3px 3px;
+    background-color: lighten($grey, 10%);
+    line-height: 20px;
+    border-radius: 2;
   }
 
   .dropdown-menu {
     left: auto;
-    right: 0;
+    right: -1px;
+    border-radius: 3px 0 3px 3px;
 
     .count-number {
       float: right;
@@ -607,6 +433,35 @@ a.donate {
       margin: 0;
     }
   }
+}
+
+#compact-secondary-nav {
+  display: none;
+  ul li a {
+    width: 100%;
+    color: #333;
+    &:hover { color: #fff; }
+  }
+}
+
+@media only screen and (max-width:960px) {
+  #compact-secondary-nav {
+    display: inline-block;
+  }
+  .compact-hide {
+    display: none;
+  }
+}
+
+/* Utility for styling notification numbers */
+
+.count-number {
+  padding: 2px $lineheight/4;
+  border-radius: 2px;
+  background: lighten($green, 30%);
+  margin: 0 2px;
+  font-size: 11px;
+  color: #333;
 }
 
 /* Rules for the message shown in place of the map when javascript is disabled */
@@ -710,7 +565,6 @@ a.donate {
   width: 40px;
   background-color: #333;
   background-color: rgba(0,0,0,.6);
-  -bottom: 1px solid #333; 
   border-radius: 4px 0 0 4px;
   margin-bottom: 10px;
   outline: none;
@@ -740,83 +594,188 @@ a.donate {
   border-radius: 4px 0 0 0;
 }
 
-.site .leaflet-control .zoomout,
+.leaflet-control .zoomout,
 .control-key .control-button {
   margin-bottom: 0;
   border-radius: 0;
 }
 
-.leaflet-control .zoomout, // For non-main page maps
 .control-locate .control-button,
 .control-share .control-button {
   border-radius: 0 0 0 4px;
 }
 
-/* Rules for the home page */
+/* Rules for the sidebar and main map area */
 
-.site-export #map,
-.site-index #map,
-.site-edit #map {
-  height: 100%;
-  overflow: hidden;
-}
-
-#map-ui {
-  display: none;
-  position: relative;
-  float: right;
-  width: 250px;
-  height: 100%;
-  background: white;
-  border-left: 1px solid #CCC;
-  overflow: auto;
-
-  .section {
-    border-bottom: 1px solid #DDD;
-    padding: 15px;
+.map-layout {
+  #content {
+    overflow: hidden;
+    position: absolute;
+    top: $headerHeight;
+    bottom: 0;
+    width: 100%;
   }
 
-  a.close-button {
+  #sidebar, #map {
+    position: relative;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  #sidebar {
+    float: left;
+    width: $sidebarWidth;
+    background: #fff;
+    font-size: 12px;
+
+    h2 {
+      padding: $lineheight $lineheight $lineheight/2;
+    }
+
+    h3, h4 {
+      margin-top: $lineheight;
+      margin-bottom: $lineheight/2;
+      font-size: 13px;
+    }
+
+    .icon.close {
+      float: right;
+      cursor: pointer;
+    }
+  }
+
+  .welcome {
+    display: none;
+  }
+
+  .overlay-sidebar #sidebar {
+    position: absolute;
+    z-index: 1000;
+    height: auto;
+    border-bottom-right-radius: 5px;
+    overflow: hidden;
+    .welcome {
+      display: block;
+    }
+    #sidebar_content {
+      display: none;
+    }
+  }
+
+  .welcome {
+    p {
+      padding: $lineheight/2 $lineheight $lineheight;
+      font-size: 110%;
+      font-weight: 300;
+    }
+
+    .button {
+      width: 50%;
+      float: left;
+      margin: 0;
+      border-radius: 0;
+      font-weight: normal;
+      padding: .6em;
+
+      &.learn-more {
+        border-right: 1px solid #fff;
+      }
+    }
+  }
+
+  #map {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #map-ui {
+    display: none;
+    position: relative;
     float: right;
-    padding:5px;
-    font-size:20px;
-    line-height:10px;
-    color:#222;
-    border:1px solid #ddd;
+    width: 250px;
+    height: 100%;
+    background: white;
+    overflow: auto;
+
+    .section {
+      border-bottom: 1px solid #DDD;
+      padding: 10px 20px;
+    }
+
+    a.close-button {
+      float: right;
+      padding:5px;
+      font-size:20px;
+      line-height:10px;
+      color:#222;
+      border:1px solid #ddd;
+    }
+
+    .tooltip {
+      opacity: 1;
+      border: 1px solid #ccc;
+      .tooltip-arrow {
+        border-top-color: #ccc;
+      }
+    }
   }
 }
 
 .layers-ui,
 .share-ui {
-  ul, li:last-child, p:last-child {
+  li:last-child {
     margin-bottom: 0;
   }
 }
 
 .layers-ui {
-  li {
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 10px;
-  }
-
-  label {
-    display: block;
-    padding: 5px 5px 5px 7px;
-    background-color: #eee;
-    cursor: pointer;
-  }
-
-  li.active label {
-    background-color: #ccc;
-  }
-
   .base-layers {
     .leaflet-container {
       width: 100%;
       height: 50px;
       cursor: pointer;
     }
+
+    li  {
+      overflow: hidden;
+      border-radius: 3px;
+      border: 2px solid #fff;
+      margin-bottom: 8px;
+      position: relative;
+      transition: border-color 0.08s ease-in;
+      
+      label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 2px 6px;
+        border-bottom-right-radius: 3px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 16px;
+        text-stroke: 2px #fff;
+        background: rgba(255,255,255,.9);
+        z-index: 2; // For IE9
+        input[type="radio"] {
+          display: none;
+        }
+      }
+
+      &.active { border-color: darken($green, 10%); }
+      &:hover {
+        border-color: $grey;
+        &.active { border-color: darken($green, 20%); }
+      }
+    }
+  }
+
+  .overlay-layers {
+    p {
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    li.disabled { color: #999; }
   }
 }
 
@@ -875,7 +834,7 @@ a.donate {
   }
 }
 
-.leaflet-top.leaflet-right {
+.leaflet-top {
   top: $lineheight/2 !important;
   .leaflet-control {
     margin-right: 0px !important;
@@ -894,34 +853,6 @@ a.donate {
   -webkit-border-radius: 4px !important;
 }
 
-/* Rules for edit menu */
-
-.menuicon {
-  padding: 0 $lineheight/4;
-  font-weight: normal;
-  display: inline-block;
-  &:hover {
-    text-decoration: none !important;
-  }
-}
-
-.menu {
-  display: none;
-  z-index: 10000;
-  position: absolute;
-  background-color: #ffffff;
-  border: 1px solid $lightgrey;
-  border-top: 0px;
-  ul {
-    margin: 0px;
-  }
-  li {
-    padding: 2px $lineheight/4;
-    border-top: 1px solid #eee;
-    white-space: nowrap;
-  }
-}
-
 /* Rules for attribution text under the main map shown on printouts */
 
 #attribution {
@@ -937,59 +868,84 @@ a.donate {
   text-align: center;
 }
 
-/* Rules for the popout map sidebar */
+.donate-attr { color: darken($green, 10%) !important; }
 
-#sidebar {
-  display: none;
-  position: relative;
-  float: left;
-  border-right: 1px solid $lightgrey;
-  width: 33.3333%;
-  height: 100%;
-  ul {
-    margin-bottom: 0;
-    &:last-child {
-        border-bottom: 1px solid #ccc;
-    }
-    li {
-      margin-bottom: $lineheight/4;
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-}
+/* Rules for the sidebar */
 
 .sidebar_heading {
   position: relative;
   padding: $lineheight/2 $lineheight;
-  background: $offwhite;
-  border-bottom: 1px solid #ccc;
-  h4 {
-    margin: 0;
+  // background: $offwhite;
+  // border-bottom: 1px solid #ccc;
+  > .close { 
+    float: right;
+    margin-top: 2px;
+    cursor: pointer; 
   }
 }
 
-.sidebar_close {
-  position: absolute;
-  height: $lineheight;
-  top: 0px;
-  bottom: 0;
-  right: $lineheight;
-  margin: auto;
+#browse_status {
+  p {
+    padding: $lineheight;
+  }
 }
 
-#sidebar_content {
+#sidebar {
+  #sidebar_loader,
+  .loader,
+  .load_more {
+    text-align: center;
+    margin: $lineheight auto;
+    width: 40px;
+    display: block;
+  }
+}
+
+/* Rules for the search box */
+
+header .search_form {
+  display: none;
+}
+
+.search_form {
   position: relative;
-  margin-bottom: 20px;
-  overflow: auto;
-  height: 100%;
-  width: 100%;
-  h4 {
-    padding: 0 $lineheight $lineheight/2 $lineheight;
-    margin-top: $lineheight/2;
-    margin-bottom: 0;
-    border-bottom: 1px solid #ddd;
+  padding: $lineheight/2;
+  background-color: $lightgrey;
+
+  .query_wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px 0 0 2px;
+  }
+
+  input[type=text] {
+    width: 100%;
+    height: 30px;
+    border-right: none;
+
+    transition: 300ms linear;
+    -webkit-transition: 300ms linear;
+    -moz-transition: 300ms linear;
+  }
+
+  input:focus {
+    outline: none;
+    box-shadow: 0px 0px 7px #9ED485;
+  }
+
+  input[type=submit] {
+    float: right;
+    width: auto;
+    min-width: 0;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .describe_location {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 10px;
+    color: $blue;
   }
 }
 
@@ -1006,15 +962,13 @@ a.donate {
   }
 }
 
-/* Rules for search results which appear in the popout sidebar */
-
-.search_searching {
-  margin-top: $lineheight/4;
-  margin-bottom: $lineheight/4;
-}
+/* Rules for search sidebar */
 
 .search_results_entry {
-  margin-bottom: 0;
+  ul li {
+    border-bottom: $keyline;
+    &:first-child { border-top: $keyline; }
+  }
 
   .search_details {
     display: block;
@@ -1025,92 +979,245 @@ a.donate {
   }
 }
 
-.search_results_entry .search_searching {
-  text-align: center;
-  margin: $lineheight auto;
-  width: $lineheight;
-  display: block;
-}
-
-ul.results-list li { border-bottom: 1px solid #ccc; }
-
 .search_results_error {
   color: #f00;
 }
 
-/* Rules for data browser information which appears in the popout sidebar */
+/* Rules for entity history */
 
-#browse_content {
-  position: relative;
-  .browse_show_list.button {
-    position: absolute;
-    left: $lineheight;
-    right: $lineheight;
-    bottom: -40px;
-    margin-bottom: 0;
+#sidebar_content {
+  .browse_details {
+    position: relative;
+    border-bottom: $keyline;
   }
-  a.more-details {
-    position: absolute;
-    top: 0;
-    right: $lineheight;
-  }
-  ul li {
-    margin-bottom: 0;
-  }
-}
-
-.browse_details {
-  position: relative;
 }
 
 .browse_status {
   display: none;
 }
 
-/* Rules for export information which appears in the popout sidebar */
+/* Rules for the history sidebar */
 
-.export_bounds {
-  text-align: center;
-}
+#sidebar .changesets {
+  li {
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
 
-.export_area_inputs {
-  margin-bottom: $lineheight/2;
-  input[type="text"] {
-    width: 80px;
-    margin-bottom: 5px;
+    &.selected { background: #FFFFE6; }
+    /* color is derived from changeset bbox fillColor in history.js */
+  }
+
+  h4 {
+    margin: 0;
+    a {
+      color: #000;
+    }
   }
 }
 
-.export_bound {
-  margin: $lineheight/4;
+/* Rules for the browse sidebar */
+
+#sidebar_content {
+  .browse-section {
+    padding: $lineheight/2 $lineheight;
+    border-bottom: 1px solid #ddd;
+
+    h4:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .browse-section:last-of-type {
+    border-bottom: none;
+  }
+
+  .paginate {
+    float: right;
+    padding: 1px 6px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+  }
+
+  .paginate ul {
+    padding-left: 20px;
+  }
+
+  .browse-field {
+    margin-bottom: 10px;
+
+    h4 {
+      padding: 5px 0 5px 10px;
+      font-size: 12px;
+      border: 1px solid #CCC;
+      border-radius: 4px 4px 0 0;
+      background-color: #F6F6F6;
+    }
+
+    p {
+      padding: 7px 10px;
+      font-size: 12px;
+      background-color: #FFF;
+      border: 1px solid #CCC;
+      border-top: 0;
+      border-radius: 0 0 4px 4px;
+    }
+  }
+
+  .browse-tag-list {
+    background-color: #F6F6F6;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 12px;
+
+    li {
+      border-bottom: 1px solid #ddd;
+    }
+
+    li:last-child {
+      border-bottom: 0;
+    }
+
+    .browse-tag-k,
+    .browse-tag-v {
+      display: inline-block;
+      width: 50%;
+      float: left;
+      padding: 6px 10px;
+    }
+
+    .browse-tag-k {
+      font-weight: 500;
+      background-color: #F6F6F6;
+    }
+
+    .browse-tag-v {
+      border-left: 1px solid #ddd;
+      background-color: #fff;
+    }
+  }
+
+  .warning {
+    margin: $lineheight/2 0;
+    padding: $lineheight/2;
+    font-size: 90%;
+  }
+
+  .note-comments li {
+    margin: $lineheight/2 0;
+
+    p {
+      margin-left: 10px;
+    }
+  }
+
+  .note-description {
+    overflow: hidden;
+    margin: 0 0 10px 10px;
+  }
 }
 
-/* Rules for the main content area */
+/* Rules for export sidebar */
 
-#content {
+.export_form {
+  padding: $lineheight;
+
+  .export_area_inputs,
+  .export_button {
+    text-align: center;
+  }
+
+  .export_area_inputs {
+    margin-bottom: $lineheight/2;
+    input[type="text"] {
+      width: 80px;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+  }
+
+  .export_boxy {
+    background: #eee;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+
+    #maxlat { margin-top: -1px; }
+    #minlon {
+      float: left;
+      margin-left: -1px;
+    }
+    #maxlon {
+      float: right;
+      margin-right: -1px;
+    }
+    #minlat { margin-bottom: 0; }
+  }
+
+  .export_bound {
+    margin: $lineheight/4;
+  }
+
+  .export_button {
+    margin-top: $lineheight;
+  }
+
+  dl {
+    padding-left: $lineheight/2;
+    dd {
+      margin-left: 0;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+/* Rules for edit pages */
+
+.site-edit {
+  #content {
+    position: absolute;
+    top: $headerHeight;
+    bottom: 0;
+    width: 100%;
+  }
+
+  #map {
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+/* Rules for non-map content pages */
+
+.content-heading {
+  background: $lightgrey;
+  
+  h1 { font-size: 22px; }
+}
+
+.content-body {
+  h1, h2, h3, p {
+    margin-bottom: $lineheight;
+  }
+
+  h1, h2, h3 {
+    margin-top: $lineheight/2;
+  }
+}
+
+.content-inner {
   position: relative;
+  max-width: 900px;
+  margin: auto;
   padding: $lineheight;
 }
 
-.site-edit #content,
-.site-index #content,
-.site-export #content {
-  position: fixed;
-  padding: 0;
-  top: 30px; bottom: 0;
-  left: 184px; right: 0;
-  border-left: 1px solid #ccc;
-}
-
 /* Overrides for pages that use new layout conventions */
+
 .user-new,
 .user-create,
-.user-terms,
-.user-confirm,
-.site-copyright,
-.site-welcome {
-  #content {
-    max-width: 740px;
+.user-terms {
+  .content-body .content-inner {
+    padding: 0;
   }
 }
 
@@ -1118,16 +1225,8 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 .user-create,
 .user-terms,
 .user-confirm {
-  .content-heading {
+  .content-heading .content-inner {
     height: 200px;
-  }
-}
-
-.user-new,
-.user-create,
-.user-terms {
-  #content {
-    padding: 0;
   }
 }
 
@@ -1158,17 +1257,8 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     left: 260px;
     top: 160px;
     background-image: image-url("sign-up-illustration-arm.png");
+    z-index: 100;
   }
-}
-
-@media only screen and (max-width:900px) {
-  .header-illustration.new-user-arm { display: none;}
-}
-
-.wrapper {
-  margin-left: 184px;
-  border-left: 1px solid #ccc;
-  text-align: left;
 }
 
 #content.maximised {
@@ -1216,24 +1306,6 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   }
 }
 
-.content-heading {
-  position: relative;
-  padding: $lineheight;
-  background: $offwhite;
-  z-index: 2;
-  h1, h2 {
-    margin-bottom: $lineheight/2;
-    line-height: 100%;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  p {
-    margin-top: $lineheight/2;
-    margin-bottom: 0px;
-  }
-}
-
 /* Rules for small maps in content areas */
 
 .content_map {
@@ -1243,117 +1315,6 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
   border: 1px solid #ccc;
   margin-bottom: $lineheight;
   float: right;
-}
-
-.content_map #small_map {
-  height: 100%;
-  width: 100%;
-  margin-bottom: $lineheight;
-}
-
-/* Rules for the changeset list shown by the history tab etc */
-
-#changeset_list {
-  width: 100%;
-  ul {
-    padding: $lineheight/2 0;
-    margin-bottom: 0px;
-    border-top: 1px solid #ccc;
-    &:last-child {
-      border-bottom: 1px solid #ccc;
-    }
-  }
-  .selected {
-    background: #FFFFC0;
-  }
-  .date,
-  .user {
-    border-left: 1px solid #ccc;
-    padding-left: $lineheight/4;
-    margin-right: $lineheight/4;
-  }
-}
-
-#changeset_list_map_wrapper {
-  position: absolute;
-  width: 50%;
-  height: 490px;
-  top: 0;
-  right: 0;
-}
-
-#changeset_list_map_wrapper.scrolled {
-  position: fixed;
-}
-
-#changeset_list_map {
-  position: absolute;
-  bottom: $lineheight;
-  top: $lineheight;
-  right: $lineheight;
-  left: $lineheight;
-  border: 1px solid #ccc;
-}
-
-#changeset_list_map_wrapper.scrolled #changeset_list_map {
-  margin-left: 93px;
-}
-
-/* Rules for the data browser */
-
-.browse-section {
-  border-top: 1px solid #ccc;
-  margin-top: $lineheight/2;
-  padding-top: $lineheight/2;
-  &:first-child {
-    margin-top: 0;
-  }
-  .warning {
-    background-color: #ffe0cc;
-    margin: 0px;
-    padding: 4px 6px;
-    max-width: 100%;
-  }
-  h4, p {
-    margin-bottom: $lineheight/4;
-  }
-  ul, .bbox, .geo {
-    display: inline-block;
-    vertical-align: top;
-    max-width: 65%;
-  }
-  ul p {
-    margin-left: 0;
-    margin-bottom: 0;
-  }
-  h4 {
-    float: left;
-    width: 33.3333%;
-    display: inline-block;
-    vertical-align: top;
-  }
-}
-
-.bbox {
-  div {
-    width: 33.3333%;
-    text-align: center;
-    padding: $lineheight/4 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    float: left;
-  }
-  .max_lat,
-  .min_lat {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-  }
-}
-
-#browse_map .secondary-actions {
-  display: none;
-  margin-bottom: $lineheight/2;
 }
 
 /* Rules for the trace list shown by the traces tab etc */
@@ -1440,6 +1401,10 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 }
 
 .user-view {
+  // Silly exception; remove when user page is redesigned.
+  .content-inner {
+    max-width: none;
+  }
   p#no_home_location {
     margin: $lineheight;
   }
@@ -1494,44 +1459,38 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 /* Rules for the diary list page */
 
-.diary_entry-list img.user_thumbnail {
-  float: left;
-}
-
 .diary_post {
-  max-width: 740px;
   position: relative;
   margin-top: $lineheight/2;
   padding-top: $lineheight;
   border-top: 1px solid #ccc;
 
-  &:first-child {
-    margin-top: 0;
-    border-top: 0;
-    padding-top: 0;
+  .post_heading {
+    margin-bottom: $lineheight;
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: $lineheight/2;
+      font-size: 24px;
+    }
   }
-  h1, h2 {
-    font-size: 21px;
-    line-height: 1em;
+
+  img.user_thumbnail {
+    float: left;
   }
+
   small.deemphasize {
     float: left;
     display: block;
   }
-  ul.secondary-actions { display: inline-block;}
+
+  ul.secondary-actions {
+    display: inline-block;
+  }
 }
 
 .content-heading .hide_unless_logged_in { // hacky selector, better to just add a new class to this div
   display: inline;
-}
-
-#content  .post_heading {
-  margin-bottom: $lineheight;
-  h2 {
-    margin-top: 0;
-    margin-bottom: $lineheight/2;
-    font-size: 24px;
-  }
 }
 
 /* Rules for the diary entry page */
@@ -1595,20 +1554,7 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     padding: $lineheight;
     margin-bottom: $lineheight;
     overflow: auto;
-    height: 10em;
-
-    &:p#last {
-      margin-bottom: 0px;
-    }
-
-    &:ol {
-      margin-bottom: 0px;
-    }
-
-    &:img {
-      display: block;
-      margin: $lineheight auto inherit auto;
-    }
+    height: 20em;
   }
 
   #decline {
@@ -1616,11 +1562,6 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
     &:hover {
       background: darken($lightblue, $hovercolor);
     }
-  }
-
-  .form-row {
-    margin: auto;
-    max-width: 370px;
   }
 }
 
@@ -1754,17 +1695,19 @@ ul.results-list li { border-bottom: 1px solid #ccc; }
 
 /* Rules for "flash" notice boxes shown at the top of the content area */
 
-.flash {
-    padding: $lineheight;
-  &#error {
-    background-color: #ff7070;
-  }
-  &#warning {
-    background-color: #ffe0cc;
-  }
-  &#notice {
-    background-color: #CBEEA7;
-  }
+.error {
+  padding: $lineheight;
+  background-color: #ff7070;
+}
+
+.warning {
+  padding: $lineheight;
+  background-color: #ffe0cc;
+}
+
+.notice {
+  padding: $lineheight;
+  background-color: #CBEEA7;
 }
 
 /* Rules for highlighting fields with rails validation errors */
@@ -1918,12 +1861,6 @@ img.user_thumbnail_tiny {
   border: 1px solid #ccc;
 }
 
-/* Rule for "nowrap" class that can be applied to anything to stop wrapping */
-
-.nowrap {
-  white-space: nowrap;
-}
-
 /* Rules for geo microformats */
 
 abbr.geo {
@@ -1934,7 +1871,7 @@ abbr.geo {
 
 .rsssmall {
   position: relative;
-  top: 5px;
+  top: 3px;
 }
 
 /* General styles for action lists / subnavs / pager navs */
@@ -1952,8 +1889,8 @@ ul.secondary-actions {
     float: left;
     list-style: none;
     border-left: 1px solid #ccc;
-    padding-left: $lineheight/4;
-    margin-right: $lineheight/4;
+    padding-left: $lineheight/2;
+    margin-right: $lineheight/2;
     &:first-child {
       border-left: 0;
       padding-left: 0;
@@ -1962,10 +1899,11 @@ ul.secondary-actions {
       margin-right: 0px;
     }
   }
-  .dropdown-menu {
-    left: auto;
-    right: 0;
-  }
+}
+
+div.secondary-actions {
+  padding: 10px;
+  text-align: center;
 }
 
 /* Utility for managing inner content areas */
@@ -2030,7 +1968,7 @@ a.button {
     float: left;
     border-radius: 0;
     margin:0;
-    min-width: 100px;
+    min-width: 75px;
     max-width: 180px;
     border-right:1px solid white;
     text-overflow: ellipsis;
@@ -2063,7 +2001,7 @@ a.button {
   *[value="Hide"] + input:nth-child(2):not(:last-child),
   *[value="Hide"] + .button:nth-child(2):not(:last-child) {
     border-radius:2px 0 0 2px;
-    border-right-width: 1px solid white;
+    border-right-width: 1px;
   }
 }
 
@@ -2245,111 +2183,11 @@ a.button {
   }
 }
 
-/* Rules for the notes interface */
-
-.leaflet-popup-content .note {
-  padding-top: $lineheight/2;
-}
-
-.leaflet-popup-content .note {
-  h2 {
-    margin-bottom: $lineheight/2;
-  }
-
-  div {
-    margin-top: $lineheight/2;
-  }
-
-  .permalink {
-    position: absolute;
-    top: $lineheight/4;
-    left: $lineheight/4;
-    min-width: 15px;
-    min-height: 15px;
-  }
-
-  .permalink span {
-    display: none;
-    padding-left: $lineheight;
-  }
-
-  .permalink:hover span {
-    display: block;
-  }
-
-  .warning {
-    display: block;
-    background-color: #ffe0cc;
-    padding: 4px 6px;
-    margin-bottom: $lineheight/2;
-  }
-
-  .comment_body {
-    margin-top: 2px;
-    margin-bottom: 2px;
-
-    p {
-      margin-top: 0px;
-      margin-bottom: 0px;
-    }
-  }
-
-  .comment {
-    width: 100%;
-    height: 100px;
-  }
-
-  .buttons {
-    margin-top: $lineheight/4;
-    text-align: right;
-  }
-}
-
-/*
- * Rules for the iD editor
- */
-
-.site-edit-id {
-  #left,
-  #large-title {
-    display: none;
-  }
-
-  #small-title {
-    display: inline-block;
-    width: 185px;
-    height: 30px;
-    font-size: 14px;
-    margin: 0;
-    background-color: #eee;
-    border-bottom: 1px solid #ccc;
-    text-align: center;
-    padding-top: 7px;
-  }
-
-  #content {
-    left: 0;
-  }
-}
+/* Rules for the iD editor */
 
 .id-embed {
   width: 100%;
   height: 100%;
-}
-
-/* Rules for rotating sidebar ads */
-.ad-container {
-  display: block;
-  height: 120px;
-  overflow: hidden;
-  position: relative;
-  border-bottom: 1px solid #ccc;
-}
-
-.ad {
-  height: 100px;
-  border: 0;
-  background: #fff;
 }
 
 /* Rules for dropdown menus */
@@ -2386,7 +2224,7 @@ a.button {
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: -1px;
   z-index: 1000;
   display: none;
   float: left;
@@ -2396,6 +2234,7 @@ a.button {
   list-style: none;
   background-color: #ffffff;
   border: 1px solid #ccc;
+  border-radius: 0 3px 3px;
   *border-right-width: 2px;
   *border-bottom-width: 2px;
   -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
@@ -2437,7 +2276,7 @@ a.button {
 .dropdown-submenu:focus > a {
   color: #ffffff;
   text-decoration: none;
-  background-color: #0081c2;
+  background-color: $green;
 }
 
 .dropdown-menu > .active > a,
@@ -2445,7 +2284,7 @@ a.button {
 .dropdown-menu > .active > a:focus {
   color: #ffffff;
   text-decoration: none;
-  background-color: #0081c2;
+  background-color: $green;
   outline: 0;
 }
 
@@ -2559,3 +2398,152 @@ a.button {
     border-radius: 4px;
   }
 }
+
+.site-about #content {
+  //background-color: #000;
+  background-color: #eee;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+
+  &.photo-0 { background-image: image-url('about/0.jpg'); .photo-0 { display: block; } }
+  &.photo-1 { background-image: image-url('about/1.jpg'); .photo-1 { display: block; } }
+  &.photo-2 { background-image: image-url('about/2.jpg'); .photo-2 { display: block; } }
+  &.photo-3 { background-image: image-url('about/4.jpg'); .photo-3 { display: block; } }
+  &.photo-4 { background-image: image-url('about/4.jpg'); .photo-4 { display: block; } }
+  &.photo-5 { background-image: image-url('about/5.jpg'); .photo-5 { display: block; } }
+
+  .caption {
+    max-width: 200px;
+    font: 13px/20px Helvetica, Arial, sans-serif;
+    position: fixed;
+    text-align: right;
+    right: 20px;
+    bottom: 60px;
+    text-shadow: #000 0px 1px 5px;
+    color: #eee;
+    opacity: 0.8;
+    display: none;
+  }
+
+  .caption a {
+    color: white;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  a.next {
+    display: block;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    text-indent: -9999px;
+    overflow: hidden;
+    background: image-url('about/sprite.png') -120px 0px no-repeat;
+    background-color: #000;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .content-inner {
+    position: relative;
+    color: #333;
+    min-width: 320px;
+    max-width: 640px;
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .text {
+    background: white;
+    padding: 40px;
+  }
+
+  .attr {
+    position: relative;
+    padding: 170px 40px 20px;
+    background: #333;
+    background: rgba(0, 0, 0, .8);
+    margin-bottom: 0;
+    margin-top: -20px;
+
+    h1 {
+      display: block;
+      color: white;
+      font-weight: 300;
+      font-size: 34px;
+      span {
+        color: #76c551;
+      }
+    }
+
+    .user-image {
+      position: absolute;
+      top: 0px;
+      right: 240px;
+      left: 0px;
+      height: 150px;
+      background-position: 0 50%;
+      background-repeat: no-repeat;
+      background-image: image-url('about/osm.png');
+      background-size: cover;
+      background-color: #76c551;
+    }
+
+    .byosm {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      z-index: 1;
+      width: 240px;
+      height: 150px;
+      padding: 20px 20px 20px 40px;
+      font: 500 20px/24px Helvetica, Arial, sans-serif;
+      white-space: nowrap;
+      color: #fff;
+      background: #76c551;
+    }
+
+    .byosm span {
+      display: inline-block;
+      width: 20px;
+      margin-left: -20px;
+    }
+  }
+
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  .icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    vertical-align: middle;
+    background: 40px 40px image-url('about/sprite.png') no-repeat;
+
+    &.local        { background-position: 0px    0px; }
+    &.community    { background-position: 0px  -40px; }
+    &.open         { background-position: 0px  -80px; }
+    &.partners     { background-position: 0px -120px; }
+    &.infringement { background-position: 0px -160px; }
+  }
+}
+
+@import 'browse';
+
+@media only screen and (max-width:960px) {
+  .header-illustration.new-user-arm {
+    display: none;
+  }
+}
+

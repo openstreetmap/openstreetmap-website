@@ -1,18 +1,72 @@
-<% content_for :head do %>
-<%= stylesheet_link_tag 'browse' %>
+<% set_title(t('browse.changeset.title', :id => @changeset.id)) %>
+
+<h2>
+  <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
+  <%= t('browse.changeset.title', :id => @changeset.id) %>
+</h2>
+
+<div class="browse-section">
+  <h4><%= @changeset.tags['comment'].to_s.presence || t('browse.no_comment') %></h4>
+  <div class="details"><%= changeset_details(@changeset) %></div>
+
+  <%= render :partial => "tag_details", :object => @changeset.tags.except('comment') %>
+
+  <% unless @ways.empty? %>
+    <h4>
+      <%= type_and_paginated_count('way', @way_pages) %>
+      <%= render :partial => 'paging_nav', :locals => { :pages => @way_pages, :page_param => "way_page" } %>
+    </h4>
+    <ul>
+      <% @ways.each do |way| %>
+        <li><%= link_to h(printable_name(way, true)), { :action => "way", :id => way.way_id.to_s }, :class => link_class('way', way), :title => link_title(way) %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% unless @relations.empty? %>
+    <h4>
+      <%= type_and_paginated_count('relation', @relation_pages) %>
+      <%= render :partial => 'paging_nav', :locals => { :pages => @relation_pages, :page_param => "relation_page" } %>
+    </h4>
+    <ul>
+      <% @relations.each do |relation| %>
+        <li><%= link_to h(printable_name(relation, true)), { :action => "relation", :id => relation.relation_id.to_s }, :class => link_class('relation', relation), :title => link_title(relation) %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% unless @nodes.empty? %>
+    <h4>
+      <%= type_and_paginated_count('node', @node_pages) %>
+      <%= render :partial => 'paging_nav', :locals => { :pages => @node_pages, :page_param => "node_page"} %>
+    </h4>
+    <ul>
+      <% @nodes.each do |node| %>
+        <li><%= link_to h(printable_name(node, true)), { :action => "node", :id => node.node_id.to_s }, :class => link_class('node', node), :title => link_title(node) %></li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
+
+<% if @next_by_user || @prev_by_user %>
+  <div class='secondary-actions'>
+    <% if @prev_by_user %>
+      <%= link_to "<< #{@prev_by_user.id}", :id => @prev_by_user.id %>
+      &middot;
+    <% end %>
+    <%=
+        user = (@prev_by_user || @next_by_user).user.display_name
+        link_to user, :controller => "changeset", :action => "list", :display_name => user
+    %>
+    <% if @next_by_user %>
+      &middot;
+      <%= link_to "#{@next_by_user.id} >>", :id => @next_by_user.id %>
+    <% end %>
+  </div>
 <% end %>
 
-<% content_for :heading do %>
-  <h2><%= t 'browse.changeset.changeset', :id => @changeset.id %></h2>
-  <ul class='secondary-actions clearfix'>
-    <li><%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %></li>
-    <li><%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %></li>
-  </ul>
-<% end %>
-
-<%= render :partial => "navigation" %>
-
-<% if @changeset.has_valid_bbox? %>
-<%= render :partial => "map", :object => @changeset %>
-<% end %>
-<%= render :partial => "changeset_details", :object => @changeset %>
+<div class='secondary-actions'>
+  <%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %>
+  &middot;
+  <%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %>
+</div>

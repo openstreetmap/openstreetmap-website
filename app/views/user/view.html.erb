@@ -2,9 +2,9 @@
   <div id='userinformation'>
     <%= user_image @this_user %>
     <div class='userinformation-inner'>
-      <h2><%= @this_user.display_name %><%= role_icons(@this_user) %></h2>
+      <h1><%= @this_user.display_name %><%= role_icons(@this_user) %></h1>
       <% if @user and @this_user.id == @user.id %>
-        <!-- Displaying user's own profile page -->
+        <!-- Displaying user's own profile page to themself -->
         <ul class='secondary-actions clearfix'>
           <li>
             <%= link_to t('user.view.my edits'), :controller => 'changeset', :action => 'list', :display_name => @user.display_name %>
@@ -45,7 +45,7 @@
         </ul>
 
         <% else %>
-
+        <!-- Displaying user profile page to the public -->
         <ul class='secondary-actions clearfix'>
 
           <li>

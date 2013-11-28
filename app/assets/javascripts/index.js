@@ -9,90 +9,79 @@
 //= require index/browse
 //= require index/export
 //= require index/notes
+//= require index/history
+//= require index/note
+//= require index/new_note
+//= require router
+
+(function() {
+  var loaderTimeout;
+
+  OSM.loadSidebarContent = function(path, callback) {
+    clearTimeout(loaderTimeout);
+
+    loaderTimeout = setTimeout(function() {
+      $('#sidebar_loader').show();
+    }, 200);
+
+    // IE<10 doesn't respect Vary: X-Requested-With header, so
+    // prevent caching the XHR response as a full-page URL.
+    if (path.indexOf('?') >= 0) {
+      path += '&xhr=1'
+    } else {
+      path += '?xhr=1'
+    }
+
+    $('#sidebar_content')
+      .empty();
+
+    $.ajax({
+      url: path,
+      dataType: "html",
+      complete: function(xhr) {
+        clearTimeout(loaderTimeout);
+        $('#flash').empty();
+        $('#sidebar_loader').hide();
+
+        var content = $(xhr.responseText);
+
+        if (xhr.getResponseHeader('X-Page-Title')) {
+          document.title = xhr.getResponseHeader('X-Page-Title');
+        }
+
+        $('head')
+          .find('link[type="application/atom+xml"]')
+          .remove();
+
+        $('head')
+          .append(content.filter('link[type="application/atom+xml"]'));
+
+        $('#sidebar_content').html(content.not('link[type="application/atom+xml"]'));
+
+        if (callback) {
+          callback();
+        }
+      }
+    });
+  };
+})();
 
 $(document).ready(function () {
   var params = OSM.mapParams();
 
-  var map = L.map("map", {
+  var map = new L.OSM.Map("map", {
     zoomControl: false,
     layerControl: false
   });
 
   map.attributionControl.setPrefix('');
 
-  map.hash = L.hash(map);
-
-  var copyright = I18n.t('javascripts.map.copyright', {copyright_url: '/copyright'});
-
-  var layers = [
-    new L.OSM.Mapnik({
-      attribution: copyright,
-      code: "M",
-      keyid: "mapnik",
-      name: I18n.t("javascripts.map.base.standard")
-    }),
-    new L.OSM.CycleMap({
-      attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-      code: "C",
-      keyid: "cyclemap",
-      name: I18n.t("javascripts.map.base.cycle_map")
-    }),
-    new L.OSM.TransportMap({
-      attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-      code: "T",
-      keyid: "transportmap",
-      name: I18n.t("javascripts.map.base.transport_map")
-    }),
-    new L.OSM.MapQuestOpen({
-      attribution: copyright + ". Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>",
-      code: "Q",
-      keyid: "mapquest",
-      name: I18n.t("javascripts.map.base.mapquest")
-    }),
-    new L.OSM.HOT({
-      attribution: copyright + ". Tiles courtesy of <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>",
-      code: "H",
-      keyid: "hot",
-      name: I18n.t("javascripts.map.base.hot")
-    })
-  ];
-
-  function updateLayers(params) {
-    var layerParam = params.layers || "M";
-    var layersAdded = "";
-
-    for (var i = layers.length - 1; i >= 0; i--) {
-      if (layerParam.indexOf(layers[i].options.code) >= 0) {
-        map.addLayer(layers[i]);
-        layersAdded = layersAdded + layers[i].options.code;
-      } else if (i == 0 && layersAdded == "") {
-        map.addLayer(layers[i]);
-      } else {
-        map.removeLayer(layers[i]);
-      }
-    }
-  }
-
-  updateLayers(params);
-
-  $(window).on("hashchange", function () {
-    updateLayers(OSM.mapParams());
-  });
+  map.updateLayers(params.layers);
 
   map.on("baselayerchange", function (e) {
     if (map.getZoom() > e.layer.options.maxZoom) {
       map.setView(map.getCenter(), e.layer.options.maxZoom, { reset: true });
     }
-  });
-
-  map.noteLayer = new L.LayerGroup();
-  map.noteLayer.options = {code: 'N'};
-
-  map.dataLayer = new L.OSM.DataLayer(null);
-  map.dataLayer.options.code = 'D';
-
-  $("#sidebar").on("opened closed", function () {
-    map.invalidateSize();
   });
 
   var position = $('html').attr('dir') === 'rtl' ? 'topleft' : 'topright';
@@ -113,7 +102,7 @@ $(document).ready(function () {
 
   L.OSM.layers({
     position: position,
-    layers: layers,
+    layers: map.baseLayers,
     sidebar: sidebar
   }).addTo(map);
 
@@ -136,9 +125,31 @@ $(document).ready(function () {
   L.control.scale()
     .addTo(map);
 
+  if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
+    initializeNotes(map);
+    if (params.layers.indexOf(map.noteLayer.options.code) >= 0) {
+      map.addLayer(map.noteLayer);
+    }
+
+    initializeBrowse(map);
+    if (params.layers.indexOf(map.dataLayer.options.code) >= 0) {
+      map.addLayer(map.dataLayer);
+    }
+  }
+
   $('.leaflet-control .control-button').tooltip({placement: 'left', container: 'body'});
 
-  map.on('moveend layeradd layerremove', updateLocation);
+  map.on('moveend layeradd layerremove', function() {
+    updatelinks(
+      map.getCenter().wrap(),
+      map.getZoom(),
+      map.getLayersCode(),
+      map._object);
+
+    var expiry = new Date();
+    expiry.setYear(expiry.getFullYear() + 10);
+    $.cookie("_osm_location", cookieContent(map), { expires: expiry });
+  });
 
   if (OSM.PIWIK) {
     map.on('layeradd', function (e) {
@@ -152,30 +163,16 @@ $(document).ready(function () {
     });
   }
 
+  if (params.bounds) {
+    map.fitBounds(params.bounds);
+  } else {
+    map.setView([params.lat, params.lon], params.zoom);
+  }
+
   var marker = L.marker([0, 0], {icon: getUserIcon()});
-
-  if (!params.object_zoom) {
-    if (params.bounds) {
-      map.fitBounds(params.bounds);
-    } else {
-      map.setView([params.lat, params.lon], params.zoom);
-    }
-  }
-
-  if (params.box) {
-    L.rectangle(params.box, {
-      weight: 2,
-      color: '#e90',
-      fillOpacity: 0
-    }).addTo(map);
-  }
 
   if (params.marker) {
     marker.setLatLng([params.mlat, params.mlon]).addTo(map);
-  }
-
-  if (params.object) {
-    map.addObject(params.object, { zoom: params.object_zoom });
   }
 
   $("#homeanchor").on("click", function(e) {
@@ -211,22 +208,91 @@ $(document).ready(function () {
     });
   }
 
-  initializeSearch(map);
-  initializeExport(map);
-  initializeBrowse(map, params);
-  initializeNotes(map, params);
+  OSM.Index = function(map) {
+    var page = {};
+
+    page.pushstate = function() {
+      $("#content").addClass("overlay-sidebar");
+      map.invalidateSize({pan: false})
+        .panBy([-350, 0], {animate: false});
+    };
+
+    page.load = function() {
+      return map.getState();
+    };
+
+    page.popstate = function() {
+      $("#content").addClass("overlay-sidebar");
+      map.invalidateSize({pan: false});
+    };
+
+    page.unload = function() {
+      map.panBy([350, 0], {animate: false});
+      $("#content").removeClass("overlay-sidebar");
+      map.invalidateSize({pan: false});
+    };
+
+    return page;
+  };
+
+  OSM.Browse = function(map) {
+    var page = {};
+
+    page.pushstate = page.popstate = function(path, type, id) {
+      OSM.loadSidebarContent(path, function() {
+        page.load(path, type, id);
+      });
+    };
+
+    page.load = function(path, type, id) {
+      map.addObject({type: type, id: parseInt(id)});
+    };
+
+    page.unload = function() {
+      map.removeObject();
+    };
+
+    return page;
+  };
+
+  var history = OSM.History(map);
+
+  OSM.router = OSM.Router(map, {
+    "/":                           OSM.Index(map),
+    "/search":                     OSM.Search(map),
+    "/export":                     OSM.Export(map),
+    "/note/new":                   OSM.NewNote(map),
+    "/history/friends":            history,
+    "/history/nearby":             history,
+    "/history":                    history,
+    "/user/:display_name/history": history,
+    "/note/:id":                  OSM.Note(map),
+    "/:type/:id(/history)":       OSM.Browse(map)
+  });
+
+  OSM.router.load();
+
+  $(document).on("click", "a", function(e) {
+    if (e.isDefaultPrevented() || e.isPropagationStopped()) return;
+    if (this.host === window.location.host && OSM.router.route(this.pathname + this.search + this.hash)) e.preventDefault();
+  });
+
+  $(".search_form").on("submit", function(e) {
+    e.preventDefault();
+    $("header").addClass("closed");
+    var query = $(this).find("input[name=query]").val();
+    if (query) {
+      OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
+    } else {
+      OSM.router.route("/" + OSM.formatHash(map));
+    }
+  });
+
+  $(".describe_location").on("click", function(e) {
+    e.preventDefault();
+    var precision = zoomPrecision(map.getZoom());
+    OSM.router.route("/search?query=" + encodeURIComponent(
+      map.getCenter().lat.toFixed(precision) + "," +
+      map.getCenter().lng.toFixed(precision)));
+  });
 });
-
-function updateLocation() {
-  updatelinks(this.getCenter().wrap(),
-      this.getZoom(),
-      this.getLayersCode(),
-      this.getBounds().wrap());
-
-  var expiry = new Date();
-  expiry.setYear(expiry.getFullYear() + 10);
-  $.cookie("_osm_location", cookieContent(this), { expires: expiry });
-
-  // Trigger hash update on layer changes.
-  this.hash.onMapMove();
-}

@@ -102,23 +102,36 @@ OpenStreetMap::Application.routes.draw do
   end
 
   # Data browsing
-  match '/browse/start' => 'browse#start', :via => :get
-  match '/browse/way/:id' => 'browse#way', :via => :get, :id => /\d+/
-  match '/browse/way/:id/history' => 'browse#way_history', :via => :get, :id => /\d+/
-  match '/browse/node/:id' => 'browse#node', :via => :get, :id => /\d+/
-  match '/browse/node/:id/history' => 'browse#node_history', :via => :get, :id => /\d+/
-  match '/browse/relation/:id' => 'browse#relation', :via => :get, :id => /\d+/
-  match '/browse/relation/:id/history' => 'browse#relation_history', :via => :get, :id => /\d+/
-  match '/browse/changeset/:id' => 'browse#changeset', :via => :get, :as => :changeset, :id => /\d+/
-  match '/browse/note/:id' => 'browse#note', :via => :get, :id => /\d+/, :as => "browse_note"
-  match '/user/:display_name/edits' => 'changeset#list', :via => :get
-  match '/user/:display_name/edits/feed' => 'changeset#feed', :via => :get, :defaults => { :format => :atom }
+  match '/way/:id' => 'browse#way', :via => :get, :id => /\d+/, :as => :way
+  match '/way/:id/history' => 'browse#way_history', :via => :get, :id => /\d+/
+  match '/node/:id' => 'browse#node', :via => :get, :id => /\d+/, :as => :node
+  match '/node/:id/history' => 'browse#node_history', :via => :get, :id => /\d+/
+  match '/relation/:id' => 'browse#relation', :via => :get, :id => /\d+/, :as => :relation
+  match '/relation/:id/history' => 'browse#relation_history', :via => :get, :id => /\d+/
+  match '/changeset/:id' => 'browse#changeset', :via => :get, :as => :changeset, :id => /\d+/
+  match '/note/:id' => 'browse#note', :via => :get, :id => /\d+/, :as => "browse_note"
+  match '/note/new' => 'browse#new_note', :via => :get
+  match '/user/:display_name/history' => 'changeset#list', :via => :get
+  match '/user/:display_name/history/feed' => 'changeset#feed', :via => :get, :defaults => { :format => :atom }
   match '/user/:display_name/notes' => 'notes#mine', :via => :get
-  match '/browse/friends' => 'changeset#list', :via => :get, :friends => true, :as => "friend_changesets"
-  match '/browse/nearby' => 'changeset#list', :via => :get, :nearby => true, :as => "nearby_changesets"
-  match '/browse/changesets' => 'changeset#list', :via => :get
-  match '/browse/changesets/feed' => 'changeset#feed', :via => :get, :defaults => { :format => :atom }
-  match '/browse' => 'changeset#list', :via => :get
+  match '/history/friends' => 'changeset#list', :via => :get, :friends => true, :as => "friend_changesets"
+  match '/history/nearby' => 'changeset#list', :via => :get, :nearby => true, :as => "nearby_changesets"
+
+  get '/browse/way/:id',                :to => redirect('/way/%{id}')
+  get '/browse/way/:id/history',        :to => redirect('/way/%{id}/history')
+  get '/browse/node/:id',               :to => redirect('/node/%{id}')
+  get '/browse/node/:id/history',       :to => redirect('/node/%{id}/history')
+  get '/browse/relation/:id',           :to => redirect('/relation/%{id}')
+  get '/browse/relation/:id/history',   :to => redirect('/relation/%{id}/history')
+  get '/browse/changeset/:id',          :to => redirect('/changeset/%{id}')
+  get '/browse/note/:id',               :to => redirect('/note/%{id}')
+  get '/user/:display_name/edits',      :to => redirect('/user/%{display_name}/history')
+  get '/user/:display_name/edits/feed', :to => redirect('/user/%{display_name}/history/feed')
+  get '/browse/friends',                :to => redirect('/history/friends')
+  get '/browse/nearby',                 :to => redirect('/history/nearby')
+  get '/browse/changesets/feed',        :to => redirect('/history/feed')
+  get '/browse/changesets',             :to => redirect('/history')
+  get '/browse',                        :to => redirect('/history')
 
   # web site
   root :to => 'site#index', :via => [:get, :post]
@@ -126,9 +139,11 @@ OpenStreetMap::Application.routes.draw do
   match '/copyright/:copyright_locale' => 'site#copyright', :via => :get
   match '/copyright' => 'site#copyright', :via => :get
   match '/welcome' => 'site#welcome', :via => :get, :as => :welcome
+  match '/help' => 'site#help', :via => :get, :as => :help
+  match '/about' => 'site#about', :via => :get, :as => :about
   match '/history' => 'changeset#list', :via => :get
   match '/history/feed' => 'changeset#feed', :via => :get, :defaults => { :format => :atom }
-  match '/export' => 'site#index', :export => true, :via => :get
+  match '/export' => 'site#export', :via => :get
   match '/login' => 'user#login', :via => [:get, :post]
   match '/logout' => 'user#logout', :via => [:get, :post]
   match '/offline' => 'site#offline', :via => :get
@@ -213,7 +228,7 @@ OpenStreetMap::Application.routes.draw do
   match '/users/:status' => 'user#list', :via => [:get, :post]
 
   # geocoder
-  match '/geocoder/search' => 'geocoder#search', :via => :post
+  match '/search' => 'geocoder#search', :via => :get, :as => :search
   match '/geocoder/search_latlon' => 'geocoder#search_latlon', :via => :get
   match '/geocoder/search_us_postcode' => 'geocoder#search_us_postcode', :via => :get
   match '/geocoder/search_uk_postcode' => 'geocoder#search_uk_postcode', :via => :get
@@ -224,7 +239,6 @@ OpenStreetMap::Application.routes.draw do
   match '/geocoder/search_geonames_reverse' => 'geocoder#search_geonames_reverse', :via => :get
 
   # export
-  match '/export/start' => 'export#start', :via => :get
   match '/export/finish' => 'export#finish', :via => :post
   match '/export/embed' => 'export#embed', :via => :get
 

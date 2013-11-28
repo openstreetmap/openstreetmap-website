@@ -1,9 +1,10 @@
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+  <!--[if lt IE 9]><%= javascript_include_tag "html5shiv" %><![endif]-->
   <%= javascript_include_tag "application" %>
-  <%= stylesheet_link_tag "small-#{dir}", :media => "only screen and (max-width:641px)" %>
-  <%= stylesheet_link_tag "large-#{dir}", :media => "screen and (min-width: 642px)" %>
+  <%= stylesheet_link_tag "small-#{dir}", :media => "only screen and (max-width:721px)" %>
+  <%= stylesheet_link_tag "large-#{dir}", :media => "screen and (min-width: 722px)" %>
   <%= stylesheet_link_tag "print-#{dir}", :media => "print" %>
   <%= stylesheet_link_tag "leaflet-all", :media => "screen, print" %>
   <!--[if IE]>
@@ -25,6 +26,7 @@
   <% end -%>  
   <%= style_rules %>
   <%= yield :head %>
+  <%= yield :auto_discovery_link_tag %>
   <%= csrf_meta_tag %>
   <script type="text/javascript">
     I18n.defaultLocale = "<%= I18n.default_locale %>";
@@ -44,5 +46,5 @@
     OSM.oauth_consumer_secret = "<%= @oauth.client_application.secret %>";
     <% end -%>
   </script>
-  <title><%= t 'layouts.project_name.title' %><%= ' | '+ @title if @title %></title>
+  <title><%= t 'layouts.project_name.title' %><%= ' | ' + @title if @title %></title>
 </head>

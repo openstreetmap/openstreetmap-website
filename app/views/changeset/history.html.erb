@@ -1,0 +1,30 @@
+<% content_for :auto_discovery_link_tag do -%>
+  <% unless params[:friends] or params[:nearby] -%>
+    <%= auto_discovery_link_tag :atom, params.merge(:max_id => nil, :xhr => nil, :action => :feed) %>
+  <% end -%>
+<% end -%>
+
+<%
+   if params[:friends] and @user
+     set_title(t 'changeset.list.title_friend')
+     @heading = t 'changeset.list.title_friend'
+   elsif params[:nearby] and @user
+     set_title(t 'changeset.list.title_nearby')
+     @heading = t 'changeset.list.title_nearby'
+   elsif params[:display_name]
+     set_title(t 'changeset.list.title_user', :user => params[:display_name])
+     @heading = t('changeset.list.title_user', :user => link_to(params[:display_name], :controller => "user", :action => "view", :display_name => params[:display_name])).html_safe
+   else
+     set_title(t 'changeset.list.title')
+     @heading = t 'changeset.list.title'
+   end
+%>
+
+<h2>
+  <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
+  <%= @heading %>
+</h2>
+
+<div class="changesets">
+  <%= image_tag "searching.gif", :class => "loader" %>
+</div>

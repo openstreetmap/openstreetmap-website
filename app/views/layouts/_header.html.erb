@@ -1,0 +1,89 @@
+<header class="closed">
+  <h1>
+    <a href="<%= root_path %>" class="geolink">
+      <%= image_tag "osm_logo.png", :alt => t('layouts.logo.alt_text'), :class => 'logo' %>
+      <%= t 'layouts.project_name.h1' %>
+    </a>
+  </h1>
+  <a href="#" id="menu-icon"></a>
+  <nav class='primary'>
+    <%= content_for :header %>
+    <ul>
+      <li id="edit_tab" class="dropdown <%= current_page_class(edit_path) %>">
+        <%= link_to t('layouts.edit'), edit_path, :class => "tab geolink editlink",
+                    :id => 'editanchor',
+                    :data => { :editor => preferred_editor }
+        %><a class='dropdown-toggle' data-toggle='dropdown' href='#'><b class="caret"></b></a>
+        <ul class='dropdown-menu'>
+          <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
+            <li>
+              <%= link_to t('layouts.edit_with', :editor => t("editor.#{editor}.description")),
+                          edit_path(:editor => editor),
+                          :data => { :editor => editor },
+                          :class => "geolink editlink" %>
+            </li>
+          <% end %>
+        </ul>
+      </li>
+      <li id="history_tab" class="<%= current_page_class(history_path) %>">
+        <%= link_to t('layouts.history'), history_path, :class => 'tab geolink' %>
+      </li>
+      <li id="export_tab" class="<%= current_page_class(export_path) %>">
+        <%= link_to t('layouts.export'), export_path, :class => 'tab geolink' %>
+      </li>
+    </ul>
+  </nav>
+  <nav class='secondary'>
+    <ul>
+      <li class="compact-hide <%= current_page_class(traces_path) %>"><%= link_to t('layouts.gps_traces'), traces_path %></li>
+      <li class="compact-hide <%= current_page_class(diary_path) %>"><%= link_to t('layouts.user_diaries'), diary_path %></li>
+      <li class="compact-hide <%= current_page_class(help_path) %>"><%= link_to t('layouts.help'), help_path %></li>
+      <li class="compact-hide <%= current_page_class(about_path) %>"><%= link_to t('layouts.about'), about_path %></li>
+      <li id="compact-secondary-nav" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">More <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li class="<%= current_page_class(traces_path) %>"><%= link_to t('layouts.gps_traces'), traces_path %></li>
+          <li class="<%= current_page_class(diary_path) %>"><%= link_to t('layouts.user_diaries'), diary_path %></li>
+          <li class="<%= current_page_class(help_path) %>"><%= link_to t('layouts.help'), help_path %></li>
+          <li class="<%= current_page_class(about_path) %>"><%= link_to t('layouts.about'), about_path %></li>
+        </ul>
+      </li>
+    </ul>
+    <% if @user && @user.id %>
+      <div class='dropdown user-menu logged-in'>
+        <a class='dropdown-toggle' data-toggle='dropdown' href="#">
+          <%= user_thumbnail_tiny(@user, :size => 25, :width => 25, :height => 25)
+          %><%= render :partial => 'layouts/inbox'
+        %><span class="user-button"><span class='username'><%= @user.display_name %></span>
+          <b class="caret"></b></span>
+        </a>
+        <ul class='dropdown-menu'>
+          <li>
+            <%= link_to inbox_path(:display_name => @user.display_name) do %>
+              <span class='count-number'><%= number_with_delimiter(@user.new_messages.size) %></span>
+              <%= t('message.inbox.my_inbox') %>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to t('user.view.my profile'), user_path(:display_name => @user.display_name) %>
+          </li>
+          <li>
+            <%= link_to t('user.view.my settings'), :controller => 'user', :action => 'account', :display_name => @user.display_name %>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <%= yield :greeting %>
+          </li>
+          <li>
+            <%= link_to t('layouts.logout'), logout_path(:session => request.session_options[:id], :referer => request.fullpath) %>
+          </li>
+        </ul>
+      </div>
+    <% else %>
+      <ul class="user-menu clearfix">
+        <li><%= link_to t('layouts.log_in'), login_path(:referer => request.fullpath) %></li>
+        <li><%= link_to t('layouts.sign_up'), user_new_path %></li>
+      </ul>
+    <% end %>
+  </nav>
+</header>

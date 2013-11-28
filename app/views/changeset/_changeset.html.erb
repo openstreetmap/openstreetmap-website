@@ -12,39 +12,19 @@
    end
 %>
 
-<%= content_tag "ul", :class => 'changeset_item', :id => "changeset_#{changeset.id}", :data => {:changeset => changeset_data} do %>
-  <li>
-
-    <span class="changeset_id">
-      <%=
-        link_to(changeset.id,
-          {:controller => 'browse', :action => 'changeset', :id => changeset.id},
-          {:title => t('changeset.changeset.view_changeset_details')})
-      %>
-    </span>
-
-    <span class='date'>
-      <% if changeset.closed_at > DateTime.now %> <%= t'changeset.changeset.still_editing' %>
-      <% else %><%= l changeset.closed_at, :format => :long %><% end %>
-    </span>
-
-    <%if showusername %>
-      <span class="user">
-        <% if changeset.user.data_public? %>
-          <%= link_to h(changeset.user.display_name), :controller => "changeset", :action => "list", :display_name => changeset.user.display_name %>
-        <% else %>
-          <i><%= t'changeset.changeset.anonymous' %></i>
-        <% end %>
-      </span>
-    <% end %>
-  </li>
-
-  <li class="comment deemphasize">
-    <% if changeset.tags['comment'].to_s != '' %>
-      <%= linkify(h(changeset.tags['comment'])) %>
-    <% else %>
-      <%= t'changeset.changeset.no_comment' %>
-    <% end %>
-  </li>
-
+<%= content_tag "li", :id => "changeset_#{changeset.id}", :data => {:changeset => changeset_data} do %>
+  <h4>
+    <a class="changeset_id" href="<%= changeset_path(changeset.id) %>">
+      <% if changeset.tags['comment'].to_s != '' %>
+        <%= linkify(h(changeset.tags['comment'])) %>
+      <% else %>
+        <%= t 'browse.no_comment' %>
+      <% end %>
+    </a>
+  </h4>
+  <div class="details">
+    <%= changeset_details(changeset) %>
+    &middot;
+    #<%= changeset.id %>
+  </div>
 <% end %>

@@ -1,73 +1,78 @@
-function initializeExport(map) {
-  if (window.location.pathname == "/export") {
-    startExport();
+OSM.Export = function(map) {
+  var page = {};
+
+  var locationFilter = new L.LocationFilter({
+    enableButton: false,
+    adjustButton: false
+  }).on("change", update);
+
+  function getBounds() {
+    return L.latLngBounds(
+      L.latLng($("#minlat").val(), $("#minlon").val()),
+      L.latLng($("#maxlat").val(), $("#maxlon").val()));
   }
 
-  function startExport() {
-    var locationFilter = new L.LocationFilter({
-      enableButton: false,
-      adjustButton: false
-    }).addTo(map);
+  function boundsChanged() {
+    var bounds = getBounds();
+    map.fitBounds(bounds);
+    locationFilter.setBounds(bounds);
+    locationFilter.enable();
+    validateControls();
+  }
 
-    locationFilter.on("change", update);
+  function enableFilter(e) {
+    e.preventDefault();
 
-    map.on("moveend", update);
+    $("#drag_box").hide();
 
-    $("#sidebar_title").html(I18n.t('export.start_rjs.export'));
+    locationFilter.setBounds(map.getBounds().pad(-0.2));
+    locationFilter.enable();
+    validateControls();
+  }
 
-    $("#maxlat,#minlon,#maxlon,#minlat").change(boundsChanged);
+  function update() {
+    setBounds(locationFilter.isEnabled() ? locationFilter.getBounds() : map.getBounds());
+    validateControls();
+  }
 
+  function setBounds(bounds) {
+    var precision = zoomPrecision(map.getZoom());
+    $("#minlon").val(bounds.getWest().toFixed(precision));
+    $("#minlat").val(bounds.getSouth().toFixed(precision));
+    $("#maxlon").val(bounds.getEast().toFixed(precision));
+    $("#maxlat").val(bounds.getNorth().toFixed(precision));
+  }
+
+  function validateControls() {
+    $("#export_osm_too_large").toggle(getBounds().getSize() > OSM.MAX_REQUEST_AREA);
+    $("#export_commit").toggle(getBounds().getSize() < OSM.MAX_REQUEST_AREA);
+  }
+
+  page.pushstate = page.popstate = function(path) {
+    $("#export_tab").addClass("current");
+    OSM.loadSidebarContent(path, page.load);
+  };
+
+  page.load = function() {
+    map
+      .addLayer(locationFilter)
+      .on("moveend", update);
+
+    $("#maxlat, #minlon, #maxlon, #minlat").change(boundsChanged);
     $("#drag_box").click(enableFilter);
+    $("#sidebar_content .close").on("click", page.minimizeSidebar);
 
-    openSidebar();
+    update();
+    return map.getState();
+  };
 
-    setBounds(map.getBounds());
+  page.unload = function() {
+    map
+      .removeLayer(locationFilter)
+      .off("moveend", update);
 
-    $("#sidebar").one("closed", function () {
-      map.removeLayer(locationFilter);
-      map.off("moveend", update);
-      locationFilter.off("change", update);
-    });
+    $("#export_tab").removeClass("current");
+  };
 
-    function getBounds() {
-      return L.latLngBounds(L.latLng($("#minlat").val(), $("#minlon").val()),
-                            L.latLng($("#maxlat").val(), $("#maxlon").val()));
-    }
-
-    function boundsChanged() {
-      var bounds = getBounds();
-
-      map.fitBounds(bounds);
-      locationFilter.setBounds(bounds);
-
-      enableFilter();
-      validateControls();
-    }
-
-    function enableFilter() {
-      if (!locationFilter.getBounds().isValid()) {
-        locationFilter.setBounds(map.getBounds().pad(-0.2));
-      }
-
-      $("#drag_box").hide();
-      locationFilter.enable();
-    }
-
-    function update() {
-      setBounds(locationFilter.isEnabled() ? locationFilter.getBounds() : map.getBounds());
-      validateControls();
-    }
-
-    function setBounds(bounds) {
-      var precision = zoomPrecision(map.getZoom());
-      $("#minlon").val(bounds.getWest().toFixed(precision));
-      $("#minlat").val(bounds.getSouth().toFixed(precision));
-      $("#maxlon").val(bounds.getEast().toFixed(precision));
-      $("#maxlat").val(bounds.getNorth().toFixed(precision));
-    }
-
-    function validateControls() {
-      $("#export_osm_too_large").toggle(getBounds().getSize() > OSM.MAX_REQUEST_AREA);
-    }
-  }
-}
+  return page;
+};

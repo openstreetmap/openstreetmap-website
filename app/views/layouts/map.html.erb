@@ -1,0 +1,83 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "index" %>
+<% end %>
+
+<% content_for(:body_class) { "map-layout" } %>
+
+<% if @user and !@user.home_lon.nil? and !@user.home_lat.nil? %>
+  <% content_for :greeting do %>
+    <%= link_to t("layouts.home"),
+                "#",
+                :id => "homeanchor",
+                :class => "set_position",
+                :data => { :lat => @user.home_lat,
+                           :lon => @user.home_lon,
+                           :zoom => 15 } %>
+  <% end %>
+<% end %>
+
+<% content_for :header do %>
+  <%= render :partial => "layouts/search" %>
+<% end %>
+
+<% content_for :content do %>
+  <div id="sidebar">
+    <%= render :partial => "layouts/search" %>
+
+    <% if STATUS == :database_offline or STATUS == :api_offline %>
+      <p class="error"><%= t 'layouts.osm_offline' %></p>
+    <% elsif STATUS == :database_readonly or STATUS == :api_readonly %>
+      <p class="error"><%= t 'layouts.osm_read_only' %></p>
+    <% end %>
+
+    <div id="flash">
+      <%= render :partial => "layouts/flash" %>
+    </div>
+
+    <div id="browse_status"></div>
+
+    <div id="sidebar_loader" style="display: none;">
+      <img alt="<%= t('browse.start_rjs.loading') %>" class="loader" src="<%= image_path("searching.gif") %>">
+    </div>
+
+    <div id="sidebar_content">
+      <%= yield %>
+    </div>
+
+    <% unless @user %>
+      <div class="welcome">
+        <h2><%= t 'layouts.intro_header' %></h2>
+        <p><%= t 'layouts.intro_text' %></p>
+        <a class="button learn-more" href="<%= about_path %>"><%= t('layouts.learn_more') %></a>
+        <a class="button sign-up" href="<%= user_new_path %>"><%= t('layouts.start_mapping') %></a>
+      </div>
+    <% end %>
+  </div>
+
+  <noscript>
+    <div id="noscript">
+      <p><%= t 'site.index.js_1' %></p>
+      <p><%= t 'site.index.js_2' %></p>
+    </div>
+  </noscript>
+
+  <div id="map-ui">
+  </div>
+
+  <div id="map" tabindex="2">
+  </div>
+
+  <div id="attribution">
+    <table width="100%">
+      <tr>
+        <td class="attribution_license"><%= t 'site.index.license.license_url' %></td>
+        <td class="attribution_project"><%= t 'site.index.license.project_url' %></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="attribution_notice"><%= t 'site.index.license.copyright' %></td>
+      </tr>
+    </table>
+  </div>
+<% end %>
+
+<%= render :template => 'layouts/site' %>

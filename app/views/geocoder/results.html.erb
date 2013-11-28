@@ -2,16 +2,14 @@
   <p class="search_results_entry inner12"><%= t 'geocoder.results.no_results' %></p>
 <% else %>
   <ul class='results-list'>
-  <% @results.each do |result| %>
-    <li><p class="inner12 search_results_entry clearfix"><%= result_to_html(result) %></p></li>
-  <% end %>
-</ul>
+    <% @results.each do |result| %>
+      <li><p class="inner12 search_results_entry clearfix"><%= result_to_html(result) %></p></li>
+    <% end %>
+  </ul>
   <% if @more_params %>
     <div class="search_more">
-      <div class="inner12 search_results_entry">
-        <%= link_to t('geocoder.results.more_results'), url_for(@more_params), :class => "button" %>
-      </div>
-      <%= image_tag "searching.gif", :class => ["search_searching", "hidden"] %>
+      <%= link_to t('geocoder.results.more_results'), url_for(@more_params), :class => "button load_more" %>
+      <%= image_tag "searching.gif", :class => "loader", :style => "display: none;" %>
     </div>
   <% end %>
 <% end %>

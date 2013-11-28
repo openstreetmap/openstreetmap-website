@@ -1,77 +1,79 @@
-function initializeSearch(map) {
-  $("#search_form").submit(submitSearch);
-  $("#describe_location").click(describeLocation);
-
-  if ($("#query").val()) {
-    $("#search_form").submit();
-  }
-
-  // Focus the search field for browsers that don't support
-  // the HTML5 'autofocus' attribute
-  if (!("autofocus" in document.createElement("input"))) {
-    $("#query").focus();
-  }
-
-  $("#sidebar_content").on("click", ".search_results_entry a.set_position", clickSearchResult);
-
-  var marker = L.marker([0, 0], {icon: getUserIcon()});
-
-  function submitSearch(e) {
-    e.preventDefault();
-
-    var bounds = map.getBounds();
-
-    $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
-    $("#sidebar_content").load($(this).attr("action"), {
-      query: $("#query").val(),
-      zoom: map.getZoom(),
-      minlon: bounds.getWest(),
-      minlat: bounds.getSouth(),
-      maxlon: bounds.getEast(),
-      maxlat: bounds.getNorth()
+OSM.Search = function(map) {
+  $(".search_form input[name=query]")
+    .on("focus", function() {
+      $(".describe_location").fadeOut(100);
+    })
+    .on("blur", function() {
+      $(".describe_location").fadeIn(100);
     });
 
-    openSidebar();
+  $("#sidebar_content")
+    .on("click", ".search_more a", clickSearchMore)
+    .on("click", ".search_results_entry a.set_position", clickSearchResult);
 
-    $("#sidebar").one("closed", function () {
-      map.removeLayer(marker);
-      map.removeObject();
+  function clickSearchMore(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    var div = $(this).parents(".search_more");
+
+    $(this).hide();
+    div.find(".loader").show();
+
+    $.get($(this).attr("href"), function(data) {
+      div.replaceWith(data);
     });
   }
 
   function clickSearchResult(e) {
-    e.preventDefault();
-
     var data = $(this).data(),
       center = L.latLng(data.lat, data.lon);
 
     if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
       map.fitBounds([[data.minLat, data.minLon],
-                     [data.maxLat, data.maxLon]]);
+        [data.maxLat, data.maxLon]]);
     } else {
       map.setView(center, data.zoom);
     }
-
-    marker
-      .setLatLng(center)
-      .addTo(map);
-
-    if (data.type && data.id) {
-      map.addObject(data, { zoom: false, style: { opacity: 0.2, fill: false } });
-    }
   }
 
-  function describeLocation(e) {
-    e.preventDefault();
+  var marker = L.marker([0, 0], {icon: getUserIcon()});
 
-    var center = map.getCenter(),
-      zoom = map.getZoom();
+  var page = {};
 
-    $("#sidebar_title").html(I18n.t('site.sidebar.search_results'));
-    $("#sidebar_content").load($(this).attr("href"), {
-      lat: center.lat,
-      lon: center.lng,
-      zoom: zoom
-    }, openSidebar);    
-  }
-}
+  page.pushstate = page.popstate = function(path) {
+    var params = querystring.parse(path.substring(path.indexOf('?') + 1));
+    $(".search_form input[name=query]").val(params.query);
+    OSM.loadSidebarContent(path, page.load);
+  };
+
+  page.load = function() {
+    $(".search_results_entry").each(function() {
+      var entry = $(this);
+      $.ajax({
+        url: entry.data("href"),
+        method: 'GET',
+        data: {
+          zoom: map.getZoom(),
+          minlon: map.getBounds().getWest(),
+          minlat: map.getBounds().getSouth(),
+          maxlon: map.getBounds().getEast(),
+          maxlat: map.getBounds().getNorth()
+        },
+        success: function(html) {
+          entry.html(html);
+        }
+      });
+    });
+
+    return map.getState();
+  };
+
+  page.unload = function() {
+    map.removeLayer(marker);
+    map.removeObject();
+    $(".search_form input[name=query]").val("");
+  };
+
+  return page;
+};

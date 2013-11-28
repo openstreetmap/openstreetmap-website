@@ -1,33 +1,4 @@
-<% content_for :head do %>
-  <%= javascript_include_tag "index" %>
-<% end %>
-
-<%= render :partial => 'home_link' %>
-<%= render :partial => 'sidebar' %>
-<%= render :partial => 'search' %>
-
-<noscript>
-  <div id="noscript">
-    <p><%= t 'site.index.js_1' %></p>
-    <p><%= t 'site.index.js_2' %></p>
-  </div>
-</noscript>
-
-<div id="map-ui">
-</div>
-
-<div id="map" tabindex="2">
-</div>
-
-<div id="attribution">
-  <table width="100%">
-    <tr>
-      <td class="attribution_license"><%= t'site.index.license.license_url' %></td>
-      <td class="attribution_project"><%= t'site.index.license.project_url' %></td>
-    </tr>
-    <tr>
-      <td colspan="2" class="attribution_notice"><%= t'site.index.license.copyright' %></td>
-    </tr>
-  </table>
-</div>
- 
+<%
+   set_title()
+   content_for(:content_class) { "overlay-sidebar" }
+%>

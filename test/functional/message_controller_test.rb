@@ -93,7 +93,7 @@ class MessageControllerTest < ActionController::TestCase
     get :new, :display_name => "non_existent_user"
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user non_existent_user does not exist"
+    assert_select "h1", "The user non_existent_user does not exist"
   end
 
   ##

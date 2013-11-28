@@ -95,96 +95,62 @@ en:
       name: "Remote Control"
       description: "Remote Control (JOSM or Merkaartor)"
   browse:
+    created: "Created"
+    closed: "Closed"
+    created_html: "Created <abbr title='%{title}'>%{time} ago</abbr>"
+    closed_html: "Closed <abbr title='%{title}'>%{time} ago</abbr>"
+    created_by_html: "Created <abbr title='%{title}'>%{time} ago</abbr> by %{user}"
+    deleted_by_html: "Deleted <abbr title='%{title}'>%{time} ago</abbr> by %{user}"
+    edited_by_html: "Edited <abbr title='%{title}'>%{time} ago</abbr> by %{user}"
+    closed_by_html: "Closed <abbr title='%{title}'>%{time} ago</abbr> by %{user}"
+    version: "Version"
+    in_changeset: "Changeset"
+    anonymous: "anonymous"
+    no_comment: "(no comment)"
+    part_of: "Part of"
+    download_xml: "Download XML"
+    view_history: "View History"
+    view_details: "View Details"
     changeset:
-      title: "Changeset"
-      changeset: "Changeset: %{id}"
+      title: "Changeset: %{id}"
+      belongs_to: "Author"
+      node: "Nodes (%{count})"
+      node_paginated: "Nodes (%{x}-%{y} of %{count})"
+      way: "Ways (%{count})"
+      way_paginated: "Ways (%{x}-%{y} of %{count})"
+      relation: "Relations (%{count})"
+      relation_paginated: "Relations (%{x}-%{y} of %{count})"
       changesetxml: "Changeset XML"
       osmchangexml: "osmChange XML"
       feed:
         title: "Changeset %{id}"
         title_comment: "Changeset %{id} - %{comment}"
-    navigation:
-      paging:
-        user:
-          prev: "« %{id}"
-          next: "%{id} »"
-        all:
-          prev: "« %{id}"
-          next: "%{id} »"
-      user:
-        name_changeset_tooltip: "View edits by %{user}"
-        prev_changeset_tooltip: "Previous edit by %{user}"
-        next_changeset_tooltip: "Next edit by %{user}"
-      all:
-        prev_node_tooltip: "Previous node"
-        next_node_tooltip: "Next node"
-        prev_way_tooltip: "Previous way"
-        next_way_tooltip: "Next way"
-        prev_relation_tooltip: "Previous relation"
-        next_relation_tooltip: "Next relation"
-        prev_changeset_tooltip: "Previous changeset"
-        next_changeset_tooltip: "Next changeset"
-        prev_note_tooltip: "Previous note"
-        next_note_tooltip: "Next note"
-    changeset_details:
-      created_at: "Created at:"
-      closed_at: "Closed at:"
-      belongs_to: "Belongs to:"
-      bounding_box: "Bounding box:"
-      no_bounding_box: "No bounding box has been stored for this changeset."
-      show_area_box: "Show Area Box"
-      box: "box"
-      has_nodes:
-        one: "Has the following %{count} node:"
-        other: "Has the following %{count} nodes:"
-      has_ways:
-        one:  "Has the following %{count} way:"
-        other: "Has the following %{count} ways:"
-      has_relations:
-        one:  "Has the following %{count} relation:"
-        other: "Has the following %{count} relations:"
-    common_details:
-      edited_at: "Edited at:"
-      edited_by: "Edited by:"
-      deleted_at: "Deleted at:"
-      deleted_by: "Deleted by:"
-      version: "Version:"
-      in_changeset: "In changeset:"
-      changeset_comment: "Comment:"
+    node:
+      title: "Node: %{name}"
+      history_title: "Node History: %{name}"
+    way:
+      title: "Way: %{name}"
+      history_title: "Way History: %{name}"
+      nodes: "Nodes"
+      also_part_of:
+        one: "part of way %{related_ways}"
+        other: "part of ways %{related_ways}"
+    relation:
+      title: "Relation: %{name}"
+      history_title: "Relation History: %{name}"
+      members: "Members"
+    relation_member:
+      entry: "%{type} %{name}"
+      entry_role: "%{type} %{name} as %{role}"
+      type:
+        node: "Node"
+        way: "Way"
+        relation: "Relation"
     containing_relation:
       entry: "Relation %{relation_name}"
       entry_role: "Relation %{relation_name} (as %{relation_role})"
-    map:
-      loading: "Loading..."
-      deleted: "Deleted"
-      larger:
-        area: "View area on larger map"
-        node: "View node on larger map"
-        way: "View way on larger map"
-        relation: "View relation on larger map"
-        note: "View note on larger map"
-      edit:
-        area: "Edit area"
-        node: "Edit node"
-        way: "Edit way"
-        relation: "Edit relation"
-        note: "Edit note"
-    node_details:
-      coordinates: "Coordinates:"
-      part_of: "Part of:"
-    node_history:
-      node_history: "Node History"
-      node_history_title: "Node History: %{node_name}"
-      download_xml: "Download XML"
-      view_details: "View details"
-    node:
-      node: "Node"
-      node_title: "Node: %{node_name}"
-      download_xml: "Download XML"
-      view_history: "View history"
-      edit: "Edit node"
     not_found:
-      sorry: "Sorry, the %{type} with the id %{id}, could not be found."
+      sorry: "Sorry, %{type} #%{id} could not be found."
       type:
         node: node
         way: way
@@ -197,9 +163,6 @@ en:
         way: way
         relation: relation
         changeset: changeset
-    paging_nav:
-      showing_page: "page"
-      of: "of"
     redacted:
       redaction: "Redaction %{id}"
       message_html: "Version %{version} of this %{type} cannot be shown as it has been redacted. Please see %{redaction_link} for details."
@@ -207,110 +170,38 @@ en:
         node: "node"
         way: "way"
         relation: "relation"
-    relation_details:
-      members: "Members:"
-      part_of: "Part of:"
-    relation_history:
-      relation_history: "Relation History"
-      relation_history_title: "Relation History: %{relation_name}"
-      download_xml: "Download XML"
-      view_details: "View details"
-    relation_member:
-      entry: "%{type} %{name}"
-      entry_role: "%{type} %{name} as %{role}"
-      type:
-        node: "Node"
-        way: "Way"
-        relation: "Relation"
-    relation:
-      relation: "Relation"
-      relation_title: "Relation: %{relation_name}"
-      download_xml: "Download XML"
-      view_history: "View history"
     start_rjs:
-      notes_layer_name: "Browse Notes"
-      data_layer_name: "Browse Map Data"
-      data_frame_title: "Data"
-      zoom_or_select: "Zoom in or select an area of the map to view"
-      view_data: "View data for current map view"
-      manually_select: "Manually select a different area"
-      hide_areas: "Hide areas"
-      show_areas: "Show areas"
-      loaded_an_area_with_num_features: "You have loaded an area which contains %{num_features} features. In general, some browsers may not cope well with displaying this quantity of data. Generally, browsers work best at displaying less than %{max_features} features at a time: doing anything else may make your browser slow/unresponsive. If you are sure you want to display this data, you may do so by clicking the button below."
+      loaded_an_area_with_num_features: "Loading %{num_features} features, which may make your browser slow or unresponsive. Are sure you want to display this data?"
       load_data: "Load Data"
-      unable_to_load_size: "Unable to load: Bounding box size of %{bbox_size} is too large (must be smaller than %{max_bbox_size})"
+      unable_to_load_size: "Unable to load map data, too large of an area (%{bbox_size}). Area must be smaller than %{max_bbox_size} square degrees."
       loading: "Loading..."
-      show_history: "Show History"
-      wait: "Wait..."
-      history_for_feature: "History for %{feature}"
-      details: "Details"
-      private_user: "private user"
-      edited_by_user_at_timestamp: "Edited by %{user} at %{timestamp}"
-      object_list:
-        heading: "Object list"
-        back: "Back to object list"
-        type:
-          node: "Node"
-          way: "Way"
-          # There is no 'relation' type because it is not represented in OpenLayers
-        api: "Retrieve this area from the API"
-        details: "Details"
-        selected:
-          type:
-            node: "Node %{id}"
-            way: "Way %{id}"
-            # There is no 'relation' type because it is not represented in OpenLayers
-        history:
-          type:
-            node: "Node %{id}"
-            way: "Way %{id}"
-            # There is no 'relation' type because it is not represented in OpenLayers
     tag_details:
-      tags: "Tags:"
+      tags: "Tags"
       wiki_link:
         key: "The wiki description page for the %{key} tag"
         tag: "The wiki description page for the %{key}=%{value} tag"
       wikipedia_link: "The %{page} article on Wikipedia"
-    way_details:
-      nodes: "Nodes:"
-      part_of: "Part of:"
-      also_part_of:
-        one: "part of way %{related_ways}"
-        other: "part of ways %{related_ways}"
-    way_history:
-      way_history: "Way History"
-      way_history_title: "Way History: %{way_name}"
-      download_xml: "Download XML"
-      view_details: "View details"
-    way:
-      way: "Way"
-      way_title: "Way: %{way_name}"
-      download_xml: "Download XML"
-      view_history: "View history"
-      edit: "Edit way"
     note:
-      title: "Note"
-      open_title: "Unresolved note: %{note_name}"
-      closed_title: "Resolved note: %{note_name}"
-      opened: "Opened:"
-      last_modified: "Last modified:"
-      closed: "Closed:"
-      at_html: "%{when} ago"
-      at_by_html: "%{when} ago by %{user}"
-      description: "Description:"
-      comments: "Comments:"
+      title: "Note: %{id}"
+      new_note: "New Note"
+      open_title: "Unresolved note #%{note_name}"
+      closed_title: "Resolved note #%{note_name}"
+      open_by: "Created by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
+      open_by_anonymous: "Created by anonymous <abbr title='%{exact_time}'>%{when} ago</abbr>"
+      commented_by: "Comment from %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
+      commented_by_anonymous: "Comment from anonymous <abbr title='%{exact_time}'>%{when} ago</abbr>"
+      closed_by: "Resolved by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
+      closed_by_anonymous: "Resolved by anonymous <abbr title='%{exact_time}'>%{when} ago</abbr>"
+      reopened_by: "Reactivated by %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
+      reopened_by_anonymous: "Reactivated by anonymous <abbr title='%{exact_time}'>%{when} ago</abbr>"
   changeset:
     changeset_paging_nav:
       showing_page: "Page %{page}"
       next: "Next »"
       previous: "« Previous"
     changeset:
-      still_editing: "(still editing)"
       anonymous: "Anonymous"
-      no_comment: "(none)"
       no_edits: "(no edits)"
-      show_area_box: "show area box"
-      big_area: "(big)"
       view_changeset_details: "View changeset details"
     changesets:
       id: "ID"
@@ -321,24 +212,15 @@ en:
     list:
       title: "Changesets"
       title_user: "Changesets by %{user}"
-      title_bbox: "Changesets within %{bbox}"
-      title_user_bbox: "Changesets by %{user} within %{bbox}"
       title_friend: "Changesets by your friends"
       title_nearby: "Changesets by nearby users"
-      heading: "Changesets"
-      heading_user: "Changesets"
-      heading_bbox: "Changesets"
-      heading_user_bbox: "Changesets"
-      heading_friend: "Changesets"
-      heading_nearby: "Changesets"
-      description: "Browse recent contributions to the map"
-      description_user: "Changesets by %{user}"
-      description_bbox: "Changesets within %{bbox}"
-      description_user_bbox: "Changesets by %{user} within %{bbox}"
-      description_friend: "Changesets by your friends"
-      description_nearby: "Changesets by nearby users"
-      empty_user_html: "It looks you haven't made any edits yet. To get started, check out the <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Beginners Guide</a>."
-      empty_anon_html: "No edits made yet."
+      empty: "No changesets found."
+      empty_area: "No changesets in this area."
+      empty_user: "No changesets by this user."
+      no_more: "No more changesets found."
+      no_more_area: "No more changesets in this area."
+      no_more_user: "No more changesets by this user."
+      load_more: "Load more"
     timeout:
       sorry: "Sorry, the list of changesets you requested took too long to retrieve."
   diary_entry:
@@ -416,6 +298,7 @@ en:
       newer_comments: "Newer Comments"
       older_comments: "Older Comments"
   export:
+    title: "Export"
     start:
       area_to_export: "Area to Export"
       manually_select: "Manually select a different area"
@@ -426,8 +309,7 @@ en:
       licence: "Licence"
       export_details: 'OpenStreetMap data is licensed under the <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database License</a> (ODbL).'
       too_large:
-        heading: "Area Too Large"
-        body: "This area is too large to be exported as OpenStreetMap XML Data. Please zoom in or select a smaller area, or use one of the following sources for bulk data downloads:"
+        body: "This area is too large to be exported as OpenStreetMap XML Data. Please zoom in or select a smaller area, or use one of the sources listed below for bulk data downloads."
         planet:
           title: "Planet OSM"
           description: "Regularly-updated copies of the complete OpenStreetMap database"
@@ -452,13 +334,6 @@ en:
       output: "Output"
       paste_html: "Paste HTML to embed in website"
       export_button: "Export"
-    start_rjs:
-      export: "Export"
-      drag_a_box: "Drag a box on the map to select an area"
-      manually_select: "Manually select a different area"
-      click_add_marker: "Click on the map to add a marker"
-      change_marker: "Change marker position"
-      add_marker: "Add a marker to the map"
   geocoder:
     search:
       title:
@@ -999,15 +874,15 @@ en:
     logo:
       alt_text: OpenStreetMap logo
     home: Go to Home Location
-    logout: Logout
-    log_in: log in
+    logout: Log Out
+    log_in: Log In
     log_in_tooltip: Log in with an existing account
-    sign_up: sign up
+    sign_up: Sign Up
+    start_mapping: Start Mapping
     sign_up_tooltip: Create an account for editing
-    view: View
-    view_tooltip: View the map
     edit: Edit
     history: History
+    export: Export
     data: Data
     export_data: Export Data
     gps_traces: GPS Traces
@@ -1016,13 +891,9 @@ en:
     user_diaries_tooltip: View user diaries
     edit_with: Edit with %{editor}
     tag_line: The Free Wiki World Map
-    intro_1: "OpenStreetMap is a free worldwide map, created by people like you."
-    intro_2_html: "The data is free to %{download} and %{use} under its %{license}. %{create_account} to improve the map."
+    intro_header: Welcome to OpenStreetMap!
+    intro_text: OpenStreetMap is a map of the world, created by people like you and free to use under an open license.
     intro_2_create_account: "Create a user account"
-    intro_2_license: "open license"
-    intro_2_use: "use"
-    intro_2_download: "download"
-    intro_2_use_url: "http://wiki.openstreetmap.org/wiki/Using_OpenStreetMap"
     partners_html: "Hosting is supported by %{ucl}, %{ic} and %{bytemark}, and other %{partners}."
     partners_ucl: "the UCL VR Centre"
     partners_ic: "Imperial College London"
@@ -1032,16 +903,8 @@ en:
     osm_offline: "The OpenStreetMap database is currently offline while essential database maintenance work is carried out."
     osm_read_only: "The OpenStreetMap database is currently in read-only mode while essential database maintenance work is carried out."
     donate: "Support OpenStreetMap by %{link} to the Hardware Upgrade Fund."
-    donate_link_text: donating
     help: Help
-    help_centre: Help Centre
-    help_url: http://help.openstreetmap.org/
-    help_title: Help site for the project
-    wiki: Wiki
-    wiki_url: http://wiki.openstreetmap.org/
-    wiki_title: Wiki site for the project
-    documentation: Documentation
-    documentation_title: Documentation for the project
+    about: About
     copyright: "Copyright & License"
     community: Community
     community_blogs: "Community Blogs"
@@ -1051,7 +914,7 @@ en:
     make_a_donation:
       title: Support OpenStreetMap with a monetary donation
       text: Make a Donation
-
+    learn_more: "Learn More"
   license_page:
     foreign:
       title: About this translation
@@ -1197,8 +1060,9 @@ en:
     questions:
       title: Any questions?
       paragraph_1_html: |
-        Need help mapping, or not clear on how to use OpenStreetMap? Get your questions answered
-        on <a href='http://help.openstreetmap.org/'>the help website</a>.
+        OpenStreetMap has several resources for learning about the project, asking and answering
+        questions, and collaboratively discussing and documenting mapping topics.
+        <a href='%{help_url}'>Get help here</a>.
     start_mapping: Start Mapping
     add_a_note:
       title: No Time To Edit? Add a Note!
@@ -1209,6 +1073,52 @@ en:
         Just go to <a href='%{map_url}'>the map</a> and click the note icon:
         <span class='icon note'></span>. This will add a marker to the map, which you can move
         by dragging. Add your message, then click save, and other mappers will investigate.
+  help_page:
+    title: Getting Help
+    introduction: |
+      OpenStreetMap has several resources for learning about the project, asking and answering questions,
+      and collaboratively discussing and documenting mapping topics.
+    welcome:
+      url: /welcome
+      title: Welcome to OSM
+      description: Start with this quick guide covering the OpenStreetMap basics.
+    help:
+      url: https://help.openstreetmap.org/
+      title: help.openstreetmap.org
+      description: Ask a question or look up answers on OSM's question-and-answer site.
+    wiki:
+      url: http://wiki.openstreetmap.org/
+      title: wiki.openstreetmap.org
+      description: Browse the wiki for in-depth OSM documentation.
+  about_page:
+    next: Next
+    copyright_html: <span>&copy;</span>OpenStreetMap<br>contributors
+    used_by: "%{name} powers map data on hundreds of web sites, mobile apps, and hardware devices"
+    lede_text: |
+      OpenStreetMap is built by a community of mappers that contribute and maintain data
+      about roads, trails, cafés, railway stations, and much more, all over the world.
+    local_knowledge_title: Local Knowledge
+    local_knowledge_html: |
+      OpenStreetMap emphasizes local knowledge. Contributors use
+      aerial imagery, GPS devices, and low-tech field maps to verify that OSM
+      is accurate and up to date.
+    community_driven_title: Community Driven
+    community_driven_html: |
+      OpenStreetMap's community is diverse, passionate, and growing every day.
+      Our contributors include enthusiast mappers, GIS professionals, engineers
+      running the OSM servers, humanitarians mapping disaster-affected areas,
+      and many more.
+      To learn more about the community, see the <a href='%{diary_path}'>user diaries</a>,
+      <a href='http://blogs.openstreetmap.org/'>community blogs</a>, and
+      the <a href='http://www.osmfoundation.org/'>OSM Foundation</a> website.
+    open_data_title: Open Data
+    open_data_html: |
+      OpenStreetMap is <i>open data</i>: you are free to use it for any purpose
+      as long as you credit OpenStreetMap and its contributors. If you alter or
+      build upon the data in certain ways, you may distribute the result only
+      under the same licence. See the <a href='%{copyright_path}'>Copyright and
+      License page</a> for details.
+    partners_title: Partners
   notifier:
     diary_comment_notification:
       subject: "[OpenStreetMap] %{user} commented on your diary entry"
@@ -1385,7 +1295,6 @@ en:
       where_am_i: "Where am I?"
       where_am_i_title: Describe the current location using the search engine
       submit_text: "Go"
-      search_help: "examples: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', or 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>more examples...</a>"
     key:
       table:
         entry:
@@ -2141,13 +2050,14 @@ en:
         overlays: Enable overlays for troubleshooting the map
         title: "Layers"
       copyright: "© <a href='%{copyright_url}'>OpenStreetMap contributors</a>"
+      donate_link_text: "<a class='donate-attr' href='%{donate_url}'>Make a Donation</a>"
     site:
       edit_tooltip: Edit the map
       edit_disabled_tooltip: Zoom in to edit the map
-      history_tooltip: View edits for this area
-      history_disabled_tooltip: Zoom in to view edits for this area
       createnote_tooltip: Add a note to the map
       createnote_disabled_tooltip: Zoom in to add a note to the map
+      map_notes_zoom_in_tooltip: Zoom in to see map notes
+      map_data_zoom_in_tooltip: Zoom in to see map data
     notes:
       new:
         intro: "In order to improve the map the information you enter is shown to other mappers, so please be as descriptive and precise as possible when moving the marker to the correct position and entering your note below."
