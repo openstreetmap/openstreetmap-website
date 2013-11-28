@@ -155,8 +155,8 @@ class NotesController < ApplicationController
     # Find the note and check it is valid
     @note = Note.find_by_id(id)
     raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
-    raise OSM::APINoteAlreadyOpenError.new(@note) unless @note.closed?
+    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? or @user.moderator?
+    raise OSM::APINoteAlreadyOpenError.new(@note) unless @note.closed? or not @note.visible?
 
     # Reopen the note and add a comment
     Note.transaction do
