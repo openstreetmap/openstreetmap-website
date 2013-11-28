@@ -261,13 +261,13 @@ $(document).ready(function () {
     "/":                           OSM.Index(map),
     "/search":                     OSM.Search(map),
     "/export":                     OSM.Export(map),
-    "/new_note":                   OSM.NewNote(map),
+    "/note/new":                   OSM.NewNote(map),
+    "/history/friends":            history,
+    "/history/nearby":             history,
     "/history":                    history,
-    "/user/:display_name/edits":   history,
-    "/browse/friends":             history,
-    "/browse/nearby":              history,
-    "/browse/note/:id":            OSM.Note(map),
-    "/browse/:type/:id(/history)": OSM.Browse(map)
+    "/user/:display_name/history": history,
+    "/note/:id":                  OSM.Note(map),
+    "/:type/:id(/history)":       OSM.Browse(map)
   });
 
   OSM.router.load();
