@@ -40,19 +40,19 @@ class ChangesetControllerTest < ActionController::TestCase
       { :controller => "changeset", :action => "query" }
     )
     assert_routing(
-      { :path => "/user/name/edits", :method => :get },
+      { :path => "/user/name/history", :method => :get },
       { :controller => "changeset", :action => "list", :display_name => "name" }
     )
     assert_routing(
-      { :path => "/user/name/edits/feed", :method => :get },
+      { :path => "/user/name/history/feed", :method => :get },
       { :controller => "changeset", :action => "feed", :display_name => "name", :format => :atom }
     )
     assert_routing(
-      { :path => "/browse/friends", :method => :get },
+      { :path => "/history/friends", :method => :get },
       { :controller => "changeset", :action => "list", :friends => true }
     )
     assert_routing(
-      { :path => "/browse/nearby", :method => :get },
+      { :path => "/history/nearby", :method => :get },
       { :controller => "changeset", :action => "list", :nearby => true }
     )
     assert_routing(

@@ -30,7 +30,7 @@ OSM.NewNote = function(map) {
 
     if ($(this).hasClass('disabled')) return;
 
-    OSM.router.route('/new_note');
+    OSM.router.route('/note/new');
   });
 
   function createNote(marker, form, url) {
@@ -61,7 +61,7 @@ OSM.NewNote = function(map) {
       newNote = null;
       noteLayer.removeLayer(marker);
       addNoteButton.removeClass("active");
-      OSM.route('/browse/note/' + feature.properties.id);
+      OSM.route('/note/' + feature.properties.id);
     }
   }
 

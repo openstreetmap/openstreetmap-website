@@ -102,24 +102,36 @@ OpenStreetMap::Application.routes.draw do
   end
 
   # Data browsing
-  match '/browse/way/:id' => 'browse#way', :via => :get, :id => /\d+/, :as => :way
-  match '/browse/way/:id/history' => 'browse#way_history', :via => :get, :id => /\d+/
-  match '/browse/node/:id' => 'browse#node', :via => :get, :id => /\d+/, :as => :node
-  match '/browse/node/:id/history' => 'browse#node_history', :via => :get, :id => /\d+/
-  match '/browse/relation/:id' => 'browse#relation', :via => :get, :id => /\d+/, :as => :relation
-  match '/browse/relation/:id/history' => 'browse#relation_history', :via => :get, :id => /\d+/
-  match '/browse/changeset/:id' => 'browse#changeset', :via => :get, :as => :changeset, :id => /\d+/
-  match '/browse/note/:id' => 'browse#note', :via => :get, :id => /\d+/, :as => "browse_note"
-  match '/new_note' => 'browse#new_note', :via => :get
-  match '/user/:display_name/edits' => 'changeset#list', :via => :get
-  match '/user/:display_name/edits/feed' => 'changeset#feed', :via => :get, :defaults => { :format => :atom }
+  match '/way/:id' => 'browse#way', :via => :get, :id => /\d+/, :as => :way
+  match '/way/:id/history' => 'browse#way_history', :via => :get, :id => /\d+/
+  match '/node/:id' => 'browse#node', :via => :get, :id => /\d+/, :as => :node
+  match '/node/:id/history' => 'browse#node_history', :via => :get, :id => /\d+/
+  match '/relation/:id' => 'browse#relation', :via => :get, :id => /\d+/, :as => :relation
+  match '/relation/:id/history' => 'browse#relation_history', :via => :get, :id => /\d+/
+  match '/changeset/:id' => 'browse#changeset', :via => :get, :as => :changeset, :id => /\d+/
+  match '/note/:id' => 'browse#note', :via => :get, :id => /\d+/, :as => "browse_note"
+  match '/note/new' => 'browse#new_note', :via => :get
+  match '/user/:display_name/history' => 'changeset#list', :via => :get
+  match '/user/:display_name/history/feed' => 'changeset#feed', :via => :get, :defaults => { :format => :atom }
   match '/user/:display_name/notes' => 'notes#mine', :via => :get
-  match '/browse/friends' => 'changeset#list', :via => :get, :friends => true, :as => "friend_changesets"
-  match '/browse/nearby' => 'changeset#list', :via => :get, :nearby => true, :as => "nearby_changesets"
+  match '/history/friends' => 'changeset#list', :via => :get, :friends => true, :as => "friend_changesets"
+  match '/history/nearby' => 'changeset#list', :via => :get, :nearby => true, :as => "nearby_changesets"
 
-  get '/browse/changesets/feed', :to => redirect('/history/feed')
-  get '/browse/changesets',      :to => redirect('/history')
-  get '/browse',                 :to => redirect('/history')
+  get '/browse/way/:id',                :to => redirect('/way/%{id}')
+  get '/browse/way/:id/history',        :to => redirect('/way/%{id}/history')
+  get '/browse/node/:id',               :to => redirect('/node/%{id}')
+  get '/browse/node/:id/history',       :to => redirect('/node/%{id}/history')
+  get '/browse/relation/:id',           :to => redirect('/relation/%{id}')
+  get '/browse/relation/:id/history',   :to => redirect('/relation/%{id}/history')
+  get '/browse/changset/:id',           :to => redirect('/changeset/%{id}')
+  get '/browse/note/:id',               :to => redirect('/note/%{id}')
+  get '/user/:display_name/edits',      :to => redirect('/user/:display_name/history')
+  get '/user/:display_name/edits/feed', :to => redirect('/user/:display_name/history/feed')
+  get '/browse/friends',                :to => redirect('/history/friends')
+  get '/browse/nearby',                 :to => redirect('/history/nearby')
+  get '/browse/changesets/feed',        :to => redirect('/history/feed')
+  get '/browse/changesets',             :to => redirect('/history')
+  get '/browse',                        :to => redirect('/history')
 
   # web site
   root :to => 'site#index', :via => [:get, :post]

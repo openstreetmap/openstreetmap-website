@@ -548,7 +548,7 @@ class UserControllerTest < ActionController::TestCase
     get :view, {:display_name => "test"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^=/user/test/edits]", 1
+      assert_select "a[href^=/user/test/history]", 1
       assert_select "a[href=/user/test/traces]", 1
       assert_select "a[href=/user/test/diary]", 1
       assert_select "a[href=/user/test/diary/comments]", 1
@@ -562,7 +562,7 @@ class UserControllerTest < ActionController::TestCase
     get :view, {:display_name => "blocked"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^=/user/blocked/edits]", 1
+      assert_select "a[href^=/user/blocked/history]", 1
       assert_select "a[href=/user/blocked/traces]", 1
       assert_select "a[href=/user/blocked/diary]", 1
       assert_select "a[href=/user/blocked/diary/comments]", 1
@@ -576,7 +576,7 @@ class UserControllerTest < ActionController::TestCase
     get :view, {:display_name => "moderator"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^=/user/moderator/edits]", 1
+      assert_select "a[href^=/user/moderator/history]", 1
       assert_select "a[href=/user/moderator/traces]", 1
       assert_select "a[href=/user/moderator/diary]", 1
       assert_select "a[href=/user/moderator/diary/comments]", 1
@@ -593,7 +593,7 @@ class UserControllerTest < ActionController::TestCase
     get :view, {:display_name => "test"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^=/user/test/edits]", 1
+      assert_select "a[href^=/user/test/history]", 1
       assert_select "a[href=/traces/mine]", 1
       assert_select "a[href=/user/test/diary]", 1
       assert_select "a[href=/user/test/diary/comments]", 1
@@ -610,7 +610,7 @@ class UserControllerTest < ActionController::TestCase
     get :view, {:display_name => "test"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^=/user/test/edits]", 1
+      assert_select "a[href^=/user/test/history]", 1
       assert_select "a[href=/user/test/traces]", 1
       assert_select "a[href=/user/test/diary]", 1
       assert_select "a[href=/user/test/diary/comments]", 1

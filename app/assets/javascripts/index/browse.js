@@ -124,7 +124,7 @@ function initializeBrowse(map) {
     layer.originalStyle = layer.options;
     layer.setStyle({color: '#0000ff', weight: 8});
 
-    OSM.router.route('/browse/' + layer.feature.type + '/' + layer.feature.id);
+    OSM.router.route('/' + layer.feature.type + '/' + layer.feature.id);
 
     // Stash the currently drawn feature
     selectedLayer = layer;
