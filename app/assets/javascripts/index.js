@@ -235,16 +235,16 @@ $(document).ready(function () {
     return page;
   };
 
-  OSM.Browse = function(map) {
+  OSM.Browse = function(map, type) {
     var page = {};
 
-    page.pushstate = page.popstate = function(path, type, id) {
+    page.pushstate = page.popstate = function(path, id) {
       OSM.loadSidebarContent(path, function() {
         page.load(path, type, id);
       });
     };
 
-    page.load = function(path, type, id) {
+    page.load = function(path, id) {
       map.addObject({type: type, id: parseInt(id)});
     };
 
@@ -266,8 +266,11 @@ $(document).ready(function () {
     "/history/nearby":             history,
     "/history":                    history,
     "/user/:display_name/history": history,
-    "/note/:id":                  OSM.Note(map),
-    "/:type/:id(/history)":       OSM.Browse(map)
+    "/note/:id":                   OSM.Note(map),
+    "/node/:id(/history)":         OSM.Browse(map, 'node'),
+    "/way/:id(/history)":          OSM.Browse(map, 'way'),
+    "/relation/:id(/history)":     OSM.Browse(map, 'relation'),
+    "/changeset/:id":              OSM.Browse(map, 'changeset')
   });
 
   OSM.router.load();
