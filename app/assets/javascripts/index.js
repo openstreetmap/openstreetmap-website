@@ -240,7 +240,7 @@ $(document).ready(function () {
 
     page.pushstate = page.popstate = function(path, id) {
       OSM.loadSidebarContent(path, function() {
-        page.load(path, type, id);
+        page.load(path, id);
       });
     };
 
