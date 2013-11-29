@@ -61,13 +61,22 @@ function remoteEditHandler(bbox, select) {
 function updatelinks(loc, zoom, layers, object) {
   $(".geolink").each(function(index, link) {
     var href = link.href.split(/[?#]/)[0],
+      args = querystring.parse(link.search.substring(1)),
       editlink = $(link).hasClass("editlink");
 
     if (object && editlink) {
-      href += '?' + object.type + '=' + object.id;
+      delete args['node'];
+      delete args['way'];
+      delete args['relation'];
+      delete args['changeset'];
+
+      args[object.type] = object.id;
     }
 
-    var args = {
+    var query = querystring.stringify(args);
+    if (query) href += '?' + query;
+
+    args = {
       lat: loc.lat,
       lon: loc.lon || loc.lng,
       zoom: zoom
