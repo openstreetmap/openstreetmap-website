@@ -1,6 +1,12 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class RedirectTest  < ActionDispatch::IntegrationTest
+  def test_search_redirects
+    get "/?query=test"
+    assert_response :redirect
+    assert_redirected_to "/search?query=test"
+  end
+
   def test_history_redirects
     get "/browse"
     assert_response :redirect

@@ -97,6 +97,8 @@ class SiteController < ApplicationController
       redirect_to relation_path(params[:relation])
     elsif params[:note]
       redirect_to browse_note_path(params[:note])
+    elsif params[:query]
+      redirect_to search_path(:query => params[:query])
     end
   end
 
