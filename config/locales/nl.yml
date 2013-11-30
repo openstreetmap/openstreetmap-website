@@ -15,6 +15,8 @@
 # Author: Siebrand
 # Author: Tjcool007
 nl: 
+  about_page: 
+    next: Volgende
   activerecord: 
     attributes: 
       diary_comment: 
@@ -92,108 +94,54 @@ nl:
       blocked: Uw toegang tot de API is geblokkeerd. Meld u opnieuw aan in de webinterface om meer te weten te komen.
       need_to_see_terms: Uw toegang tot de API is tijdelijk opgeschort. Meld u aan in de webinterface om de Voorwaarden voor Bijdragen te bekijken. U hoeft ze niet te onderschijven, maar moet ze wel gezien hebben.
   browse: 
+    anonymous: anoniem
     changeset: 
-      changeset: "Set wijzigingen: %{id}"
+      belongs_to: Auteur
       changesetxml: Changeset-XML
       feed: 
         title: Set wijzigingen %{id}
         title_comment: Set wijzigingen %{id} - %{comment}
+      node: Knooppunten (%{count})
+      node_paginated: Knooppunten (%{x}-%{y} van %{count})
       osmchangexml: osmChange-XML
-      title: Set wijzigingen
-    changeset_details: 
-      belongs_to: "Hoort bij:"
-      bounding_box: "Selectiekader:"
-      box: kader
-      closed_at: "Gesloten op:"
-      created_at: "Aangemaakt op:"
-      has_nodes: 
-        one: "Heeft de volgende node:"
-        other: "Heeft de volgende %{count} nodes:"
-      has_relations: 
-        one: "Heeft de volgende relatie:"
-        other: "Heeft de volgende %{count} relaties:"
-      has_ways: 
-        one: "Bevat de volgende way:"
-        other: "Bevat de volgende %{count} ways:"
-      no_bounding_box: Er is geen selectiekader opgeslagen voor deze set wijzigingen.
-      show_area_box: Gebied weergeven
-    common_details: 
-      changeset_comment: "Opmerking:"
-      deleted_at: "Verwijderd op:"
-      deleted_by: "Verwijderd door:"
-      edited_at: "Bewerkt op:"
-      edited_by: "Bewerkt door:"
-      in_changeset: "In set wijzigingen:"
-      version: "Versie:"
+      relation: Relaties (%{count})
+      relation_paginated: Relaties (%{x}-%{y} van %{count})
+      title: "Wijzigingenset: %{id}"
+      way: Wegen (%{count})
+      way_paginated: Wegen (%{x}-%{y} van %{count})
+    closed: Gesloten
+    closed_by_html: <abbr title='%{title}'>%{time} geleden</abbr> gesloten door %{user}
+    closed_html: <abbr title='%{title}'>%{time} geleden</abbr> gesloten
     containing_relation: 
       entry: Relatie %{relation_name}
       entry_role: Relatie %{relation_name} (als %{relation_role})
-    map: 
-      deleted: Verwijderd
-      edit: 
-        area: Gebied bewerken
-        node: Node bewerken
-        note: Opmerking bewerken
-        relation: Relatie bewerken
-        way: Weg bewerken
-      larger: 
-        area: Gebied op grotere kaart bekijken
-        node: Node op grotere kaart bekijken
-        note: Opmerking op grotere kaart bekijken
-        relation: Relatie op grotere kaart bekijken
-        way: Weg op grotere kaart bekijken
-      loading: Bezig met laden…
-    navigation: 
-      all: 
-        next_changeset_tooltip: Volgende set wijzigingen
-        next_node_tooltip: Volgende node
-        next_note_tooltip: Volgende opmerking
-        next_relation_tooltip: Volgende relatie
-        next_way_tooltip: Volgende weg
-        prev_changeset_tooltip: Vorige set wijzigingen
-        prev_node_tooltip: Vorige node
-        prev_note_tooltip: Vorige opmerking
-        prev_relation_tooltip: Vorige relatie
-        prev_way_tooltip: Vorige weg
-      user: 
-        name_changeset_tooltip: Bewerkingen van %{user} bekijken
-        next_changeset_tooltip: Volgende beweking door %{user}
-        prev_changeset_tooltip: Vorige bewerking door %{user}
+    created: Aangemaakt
+    created_by_html: <abbr title='%{title}'>%{time} geleden</abbr> aangemaakt door %{user}
+    created_html: <abbr title='%{title}'>%{time} geleden</abbr> aangemaakt
+    deleted_by_html: <abbr title='%{title}'>%{time} geleden</abbr> verwijderd door %{user}
+    download_xml: XML downloaden
+    edited_by_html: <abbr title='%{title}'>%{time} geleden</abbr> bewerkt door %{user}
+    in_changeset: Wijzigingenset
+    no_comment: (geen reactie)
     node: 
-      download_xml: XML downloaden
-      edit: Bewerken
-      node: Node
-      node_title: "Node: %{node_name}"
-      view_history: Geschiedenis weergeven
-    node_details: 
-      coordinates: "Coördinaten:"
-      part_of: "Onderdeel van:"
-    node_history: 
-      download_xml: XML downloaden
-      node_history: Nodegeschiedenis
-      node_history_title: "Nodegeschiedenis: %{node_name}"
-      view_details: Gegevens bekijken
+      history_title: "Nodegeschiedenis: %{name}"
+      title: "Node: %{name}"
     not_found: 
-      sorry: De %{type} met id %{id} kan niet worden gevonden.
+      sorry: "De %{type} #%{id} kan helaas niet worden gevonden."
       type: 
         changeset: set wijzigingen
         node: node
         relation: relatie
         way: weg
     note: 
-      at_by_html: "%{when} geleden door %{user}"
-      at_html: "%{when} geleden"
-      closed: "Gesloten:"
-      closed_title: "Opgeloste opmerking: %{note_name}"
-      comments: "Opmerkingen:"
-      description: "Beschrijving:"
-      last_modified: "Laatste wijziging:"
-      open_title: "Niet-opgeloste opmerking: %{note_name}"
-      opened: "Geopend:"
-      title: Notitie
-    paging_nav: 
-      of: van
-      showing_page: pagina
+      closed_title: "Opgeloste notitie #%{note_name}"
+      hidden_title: "Verborgen notitie #%{note_name}"
+      new_note: Nieuwe notitie
+      open_by: <abbr title='%{exact_time}'>%{when} geleden</abbr> aangemaakt door %{user}
+      open_by_anonymous: <abbr title='%{exact_time}'>%{when} geleden</abbr> aangemaakt door anoniem
+      open_title: "Niet-opgeloste opmerking #%{note_name}"
+      title: "Notitie: %{id}"
+    part_of: Onderdeel van
     redacted: 
       message_html: Versie %{version} van dit element van het type %{type} kan niet weergegeven worden omdat deze na redigering geblokkeerd is. Zie %{redaction_link} voor details.
       redaction: Redigering %{id}
@@ -202,18 +150,9 @@ nl:
         relation: relatie
         way: weg
     relation: 
-      download_xml: XML downloaden
-      relation: Relatie
-      relation_title: "Relatie: %{relation_name}"
-      view_history: Geschiedenis weergeven
-    relation_details: 
-      members: "Leden:"
-      part_of: "Onderdeel van:"
-    relation_history: 
-      download_xml: XML downloaden
-      relation_history: Relatiegeschiedenis
-      relation_history_title: "Relatiegeschiedenis: %{relation_name}"
-      view_details: Gegevens bekijken
+      history_title: "Relatiegeschiedenis: %{name}"
+      members: Leden
+      title: "Relatie: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} als %{role}"
       type: 
@@ -221,41 +160,12 @@ nl:
         relation: Relatie
         way: Weg
     start_rjs: 
-      data_frame_title: Gegevens
-      data_layer_name: Kaartgegevens verkennen
-      details: Details
-      edited_by_user_at_timestamp: Bewerkt door %{user} op %{timestamp}
-      hide_areas: Gebieden verbergen
-      history_for_feature: Geschiedenis voor %{feature}
       load_data: Gegevens laden
+      loaded_an_area_with_num_features: Er worden %{num_features} objecten geladen, waardoor uw browser traag kan worden of niet meer kan reageren. Weet u zeker weet dat u de gegevens wilt weergeven?
       loading: Bezig met laden…
-      manually_select: Handmatig een ander gebied selecteren
-      notes_layer_name: Opmerkingen bekijken
-      object_list: 
-        api: Dit gebied via de API ophalen
-        back: Terug naar objectenlijst
-        details: Details
-        heading: Objectenlijst
-        history: 
-          type: 
-            node: Node %{id}
-            way: Weg %{id}
-        selected: 
-          type: 
-            node: Node %{id}
-            way: Weg %{id}
-        type: 
-          node: Node
-          way: Weg
-      private_user: private gebruiker
-      show_areas: Gebieden weergeven
-      show_history: Geschiedenis weergeven
-      unable_to_load_size: Laden is niet mogelijk. Het selectiekader van %{bbox_size} is te groot. Het moet kleiner zijn dan %{max_bbox_size}
-      view_data: Gegevens voor huidige kaartweergave weergeven
-      wait: Een ogenblik geduld...
-      zoom_or_select: Inzoomen of een gebied van de kaart selecteren om te bekijken
+      unable_to_load_size: Laden is niet mogelijk. Het selectiekader van %{bbox_size} is te groot. Het moet kleiner zijn dan %{max_bbox_size}.
     tag_details: 
-      tags: "Labels:"
+      tags: Labels
       wiki_link: 
         key: De wikipagina die het label %{key} beschrijft
         tag: De wikipagina die het label %{key}=%{value} beschrijft
@@ -267,31 +177,20 @@ nl:
         node: node
         relation: relatie
         way: weg
+    version: Versie
+    view_details: Gegevens bekijken
+    view_history: Geschiedenis weergeven
     way: 
-      download_xml: XML downloaden
-      edit: Weg bewerken
-      view_history: Geschiedenis weergeven
-      way: Weg
-      way_title: "Weg: %{way_name}"
-    way_details: 
       also_part_of: 
-        one: onderdeel van %{related_ways}
-        other: onderdeel van %{related_ways}
-      nodes: "Nodes:"
-      part_of: "Onderdeel van:"
-    way_history: 
-      download_xml: XML downloaden
-      view_details: Details weergeven
-      way_history: Weggeschiedenis
-      way_history_title: "Weggeschiedenis: %{way_name}"
+        one: onderdeel van weg %{related_ways}
+        other: onderdeel van wegen %{related_ways}
+      history_title: "Weggeschiedenis: %{name}"
+      nodes: Nodes
+      title: "Weg: %{name}"
   changeset: 
     changeset: 
       anonymous: Anoniem
-      big_area: (groot)
-      no_comment: (geen)
       no_edits: (geen bewerkingen)
-      show_area_box: rechthoek weergeven
-      still_editing: (nog aan het bewerken)
       view_changeset_details: Details wijzigingenset weergeven
     changeset_paging_nav: 
       next: Volgende »
@@ -304,26 +203,17 @@ nl:
       saved_at: Opgeslagen op
       user: Gebruiker
     list: 
-      description: Recente bijdragen aan de kaart bekijken
-      description_bbox: Wijzigingensets binnen %{bbox}
-      description_friend: Wijzigingensets van uw vrienden
-      description_nearby: Wijzigingensets door nabijgelegen gebruikers
-      description_user: Wijzigingensets door %{user}
-      description_user_bbox: Wijzigingensets door %{user} binnen %{bbox}
-      empty_anon_html: Nog geen bewerkingen gemaakt.
-      empty_user_html: U hebt nog geen bewerkingen gemaakt. Kijk eens naar de <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Beginnersgids</a>.
-      heading: Wijzigingensets
-      heading_bbox: Wijzigingensets
-      heading_friend: Wijzigingensets
-      heading_nearby: Wijzigingensets
-      heading_user: Wijzigingensets
-      heading_user_bbox: Wijzigingensets
+      empty: Geen wijzigingensets gevonden.
+      empty_area: Geen wijzigingensets in dit gebied.
+      empty_user: Geen wijzigingensets door deze gebruiker.
+      load_more: Meer laden
+      no_more: Geen wijzigingensets meer gevonden.
+      no_more_area: Geen wijzigingensets meer in dit gebied.
+      no_more_user: Geen wijzigingensets meer door deze gebruiker.
       title: Wijzigingensets
-      title_bbox: Wijzigingensets binnen %{bbox}
       title_friend: Wijzigingensets van uw vrienden
       title_nearby: Wijzigingensets door de nabijgelegen gebruikers
       title_user: Wijzigingensets door %{user}
-      title_user_bbox: Wijzigingensets door %{user} binnen %{bbox}
     timeout: 
       sorry: Het duurde te lang om de lijst met wijzigingensets die u hebt opgevraagd op te halen.
   diary_entry: 
@@ -440,7 +330,6 @@ nl:
         geofabrik: 
           description: Regelmatig bijgewerkt extracten van continenten, landen en geselecteerde steden
           title: Geofabrik Downloads
-        heading: Gebied te groot
         metro: 
           description: Extracten voor grote wereldsteden en hun omliggende gebieden
           title: Metro extracten
@@ -451,13 +340,7 @@ nl:
           description: Regelmatig bijgewerkte kopieën van de volledige OpenStreetMap database
           title: Planet OSM
       zoom: Zoom
-    start_rjs: 
-      add_marker: Marker op de kaart zetten
-      change_marker: Positie van de marker veranderen
-      click_add_marker: Klik op de kaart om een marker te plaatsen
-      drag_a_box: Sleep een selectiekader op de kaart om een gebied te selecteren
-      export: Exporteren
-      manually_select: Handmatig een ander gebied selecteren
+    title: Exporteren
   geocoder: 
     description: 
       title: 
@@ -987,6 +870,19 @@ nl:
           water_point: Waterpunt
           waterfall: Waterval
           weir: Stuwdam
+  help_page: 
+    help: 
+      description: Stel een vraag op zoek antwoorden op de vraag- en antwoordsite van OSM.
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    title: Hulp krijgen
+    welcome: 
+      description: Begin met dit snelle stappenplan dat de basis van OpenSteetMap uitlegt.
+      title: Welkom bij OSM
+      url: /welkom
+    wiki: 
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/
   javascripts: 
     close: Sluiten
     edit_help: Verplaats de kaar en zoom in op een plaats die u wilt bewerken. Klik er daarna op.
@@ -1057,38 +953,29 @@ nl:
       createnote_tooltip: Opmerking bij kaart maken
       edit_disabled_tooltip: Zoom in om de kaart te bewerken
       edit_tooltip: Kaart bewerken
-      history_disabled_tooltip: Zoom in om de bewerkingen voor dit gebied te bekijken
-      history_tooltip: Bewerkingen voor dit gebied bekijken
   layouts: 
+    about: Over
     community: Gemeenschap
     community_blogs: Gemeenschapsblogs
     community_blogs_title: Blogs van leden van de OpenStreetMap-gemeenschap
-    copyright: Auteursrechten & licentie
+    copyright: Auteursrechten
     data: Gegevens
-    documentation: Documentatie
-    documentation_title: Projectdocumentatie
     donate: Ondersteun OpenStreetMap door te %{link} aan het Hardware Upgrade-fonds.
-    donate_link_text: doneren
     edit: Bewerken
     edit_with: Bewerken met %{editor}
+    export: Exporteren
     export_data: Gegevens exporteren
     foundation: Stichting
     foundation_title: De OpenStreetMap Foundation
     gps_traces: GPS-traces
     gps_traces_tooltip: GPS-tracks beheren
     help: Hulp
-    help_centre: Helpcentrum
-    help_title: Helpsite voor dit project
     history: Geschiedenis
     home: Naar thuislocatie gaan
-    intro_1: OpenStreetMap is een vrij bewerkbare kaart van de hele wereld. Hij wordt gemaakt door mensen zoals u.
     intro_2_create_account: Maak een gebruiker aan
-    intro_2_download: downloaden
-    intro_2_html: De gegevens zijn vrij te %{download} en te %{use} onder de %{license}. %{create_account} om de kaart te verbeteren.
-    intro_2_license: open licentie
-    intro_2_use: gebruiken
-    intro_2_use_url: http://wiki.openstreetmap.org/wiki/Using_OpenStreetMap
-    log_in: aanmelden
+    intro_header: Welkom bij OpenStreetMap!
+    learn_more: Meer lezen
+    log_in: Aanmelden
     log_in_tooltip: Aanmelden met bestaande gebruiker
     logo: 
       alt_text: Logo OpenStreetMap
@@ -1103,15 +990,12 @@ nl:
     partners_ic: Imperial College London
     partners_partners: partners
     partners_ucl: het UCL VR Centre
-    sign_up: registreren
+    sign_up: Registreren
     sign_up_tooltip: Gebruiker voor bewerken aanmaken
+    start_mapping: Beginnen met kaarten maken
     tag_line: De vrije wikiwereldkaart
     user_diaries: Gebruikersdagboeken
     user_diaries_tooltip: Gebruikersdagboeken bekijken
-    view: Bekijken
-    view_tooltip: Kaart bekijken
-    wiki: wiki
-    wiki_title: Wikisite voor het project
   license_page: 
     foreign: 
       english_link: Engelstalige origineel
@@ -1533,7 +1417,6 @@ nl:
       preview: Voorvertoning
     search: 
       search: Zoeken
-      search_help: "voorbeelden: 'Brugge', 'Spui, Amsterdam', '1234 AA', of 'post offices near Leuven' (<a href='http://wiki.openstreetmap.org/wiki/Search'>meer voorbeelden...</a>)."
       submit_text: OK
       where_am_i: Waar ben ik?
       where_am_i_title: De huidige locatie via de zoekmachine beschrijven
@@ -2044,7 +1927,7 @@ nl:
       way_html: Een <strong>weg</strong> (way) is een lijn of gebied, zoals een weg, een rivier, een meer of een gebouw.
     introduction_html: Welkom bij OpenStreetMap, de open en te bewerken kaart van de wereld. Nu u bent aangemeld, kunt u kaarten gaan maken. Hier zijn een aantal dingen die belangrijk zijn om te weten.
     questions: 
-      paragraph_1_html: Hulp nodig bij het mappen, of onduidelijkheden over het gebruik van OpenStreetMap? Vind de antwoorden op je vragen op <a href='http://help.openstreetmap.org/'>de help website</a>.
+      paragraph_1_html: "Er zijn verschillende bronnen om te leren over OpenStreetMap, voor het stellen van vragen en het krijgen van antwoorden, en het samen overleggen en documenteren van onderwerpen die gaan over kaarten maken.\n<a href='%{help_url}'>Hier vindt u meer informatie</a>."
       title: Nog vragen?
     start_mapping: Beginnen met kaarten maken
     title: Welkom!
