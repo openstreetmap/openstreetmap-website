@@ -115,6 +115,10 @@ OSM = {
 
     hash = querystring.parse(hash);
 
+    if (!(map in hash)) {
+      return false;
+    }
+
     var args = hash.map.split("/");
     if (args.length !== 3) {
       return false;
