@@ -46,7 +46,8 @@
         var content = $(xhr.responseText);
 
         if (xhr.getResponseHeader('X-Page-Title')) {
-          document.title = xhr.getResponseHeader('X-Page-Title');
+          var title = xhr.getResponseHeader('X-Page-Title');
+          document.title = decodeURIComponent(escape(title));
         }
 
         $('head')
