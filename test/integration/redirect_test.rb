@@ -31,6 +31,10 @@ class RedirectTest  < ActionDispatch::IntegrationTest
     get "/user/name/edits"
     assert_response :redirect
     assert_redirected_to "/user/name/history"
+
+    get "/user/name%20with%20spaces/edits"
+    assert_response :redirect
+    assert_redirected_to "/user/name%20with%20spaces/history"
   end
 
   def test_history_feed_redirects
@@ -45,6 +49,10 @@ class RedirectTest  < ActionDispatch::IntegrationTest
     get "/user/name/edits/feed"
     assert_response :redirect
     assert_redirected_to "/user/name/history/feed"
+
+    get "/user/name%20with%20spaces/edits/feed"
+    assert_response :redirect
+    assert_redirected_to "/user/name%20with%20spaces/history/feed"
   end
 
   def test_browse_redirects
