@@ -18,6 +18,15 @@
 
   function markChanged(a) { changesaved=a; }
 
+  function updatelinks(lon,lat,zoom,layers,minlon,minlat,maxlon,maxlat,object) {
+    updateLinks({ lon: lon, lat: lat }, zoom);
+
+    var hash = OSM.formatHash({ lon: lon, lat: lat, zoom: zoom });
+    if (hash !== location.hash) {
+      location.replace(hash);
+    }
+  }
+
   function doSWF(lat,lon,sc) {
     if (sc < 11) sc = 11;
 

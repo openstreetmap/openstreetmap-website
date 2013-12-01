@@ -144,7 +144,7 @@ $(document).ready(function () {
   expiry.setYear(expiry.getFullYear() + 10);
 
   map.on('moveend layeradd layerremove', function() {
-    updatelinks(
+    updateLinks(
       map.getCenter().wrap(),
       map.getZoom(),
       map.getLayersCode(),

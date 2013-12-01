@@ -58,7 +58,7 @@ function remoteEditHandler(bbox, select) {
  * Called as the user scrolls/zooms around to maniplate hrefs of the
  * view tab and various other links
  */
-function updatelinks(loc, zoom, layers, object) {
+function updateLinks(loc, zoom, layers, object) {
   $(".geolink").each(function(index, link) {
     var href = link.href.split(/[?#]/)[0],
       args = querystring.parse(link.search.substring(1)),
