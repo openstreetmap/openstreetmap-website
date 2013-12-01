@@ -50,7 +50,7 @@ function initializeBrowse(map) {
   function displayFeatureWarning(count, limit, callback) {
     $('#browse_status').html(
       $("<p class='warning'></p>")
-        .text(I18n.t("browse.start_rjs.loaded_an_area_with_num_features", { num_features: count, max_features: limit }))
+        .text(I18n.t("browse.start_rjs.feature_warning", { num_features: count, max_features: limit }))
         .append(
           $("<input type='submit'>")
             .val(I18n.t('browse.start_rjs.load_data'))
