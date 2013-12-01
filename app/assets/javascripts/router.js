@@ -91,7 +91,7 @@ OSM.Router = function(map, rts) {
     }
   };
 
-  var currentPath = window.location.pathname + window.location.search,
+  var currentPath = window.location.pathname.replace(/\/$/, "") + window.location.search,
     currentRoute = routes.recognize(currentPath),
     currentHash = location.hash || OSM.formatHash(map);
 
