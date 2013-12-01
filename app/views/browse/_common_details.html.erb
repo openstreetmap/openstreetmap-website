@@ -1,11 +1,3 @@
-<h4>
-  <% if common_details.changeset.tags['comment'].present? %>
-    <%= linkify(h(common_details.changeset.tags['comment'])) %>
-  <% else %>
-    <%= t 'browse.no_comment' %>
-  <% end %>
-</h4>
-
 <div class="details">
   <%=
       t "browse.#{common_details.visible? ? :edited : :deleted}_by_html",
@@ -21,6 +13,14 @@
   &middot;
   <%= t 'browse.in_changeset' %>
   #<%= link_to common_details.changeset_id, :action => :changeset, :id => common_details.changeset_id %>
+</div>
+
+<div class="details changesetcomment">
+  <% if common_details.changeset.tags['comment'].present? %>
+    &quot;<%= linkify(h(common_details.changeset.tags['comment'])) %>&quot;
+  <% else %>
+    <%= t 'browse.no_comment' %>
+  <% end %>
 </div>
 
 <% if @type == "node" %>
