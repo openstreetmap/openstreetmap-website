@@ -184,10 +184,18 @@ class Node < ActiveRecord::Base
     if changeset_cache.key?(osm.changeset_id)
       # use the cache if available
     else
-      changeset_cache[osm.changeset_id] = osm.changeset.user_id
+      changeset_cache[osm.changeset_id] = {:user => osm.changeset.user_id}
+      begin
+        changeset_cache[osm.changeset_id][:comment] = ChangesetTag.find(osm.changeset_id, 'comment').v
+      rescue ActiveRecord::RecordNotFound
+        # ignored
+      end
     end
 
-    user_id = changeset_cache[osm.changeset_id]
+    comment = changeset_cache[osm.changeset_id][:comment]
+    el1['changeset_comment'] = comment if comment
+
+    user_id = changeset_cache[osm.changeset_id][:user]
 
     if user_display_name_cache.key?(user_id)
       # use the cache if available
