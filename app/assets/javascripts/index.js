@@ -139,6 +139,8 @@ $(document).ready(function () {
 
   $('.leaflet-control .control-button').tooltip({placement: 'left', container: 'body'});
 
+  var expiry = new Date();
+  expiry.setYear(expiry.getFullYear() + 10);
   map.on('moveend layeradd layerremove', function() {
     updatelinks(
       map.getCenter().wrap(),
@@ -146,9 +148,13 @@ $(document).ready(function () {
       map.getLayersCode(),
       map._object);
 
-    var expiry = new Date();
-    expiry.setYear(expiry.getFullYear() + 10);
     $.cookie("_osm_location", cookieContent(map), { expires: expiry });
+  });
+
+  if ($.cookie('_osm_about')=='hide') { $('.welcome').hide(); }
+  $('#close_about').on('click', function() {
+    $('.welcome').hide();
+    $.cookie("_osm_about", 'hide', { expires: expiry });
   });
 
   if (OSM.PIWIK) {
