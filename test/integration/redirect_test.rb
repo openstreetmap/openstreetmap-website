@@ -16,6 +16,10 @@ class RedirectTest  < ActionDispatch::IntegrationTest
     assert_response :redirect
     assert_redirected_to "/history"
 
+    get "/browse/changesets?bbox=-80.54%2C40.358%2C-79.526%2C40.779"
+    assert_response :redirect
+    assert_redirected_to "/history?bbox=-80.54%2C40.358%2C-79.526%2C40.779"
+
     get "/browse/friends"
     assert_response :redirect
     assert_redirected_to "/history/friends"
@@ -33,6 +37,10 @@ class RedirectTest  < ActionDispatch::IntegrationTest
     get "/browse/changesets/feed"
     assert_response :redirect
     assert_redirected_to "/history/feed"
+
+    get "/browse/changesets/feed?bbox=-80.54%2C40.358%2C-79.526%2C40.779"
+    assert_response :redirect
+    assert_redirected_to "/history/feed?bbox=-80.54%2C40.358%2C-79.526%2C40.779"
 
     get "/user/name/edits/feed"
     assert_response :redirect

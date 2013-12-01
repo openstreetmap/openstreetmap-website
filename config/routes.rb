@@ -117,21 +117,21 @@ OpenStreetMap::Application.routes.draw do
   match '/history/friends' => 'changeset#list', :via => :get, :friends => true, :as => "friend_changesets"
   match '/history/nearby' => 'changeset#list', :via => :get, :nearby => true, :as => "nearby_changesets"
 
-  get '/browse/way/:id',                :to => redirect('/way/%{id}')
-  get '/browse/way/:id/history',        :to => redirect('/way/%{id}/history')
-  get '/browse/node/:id',               :to => redirect('/node/%{id}')
-  get '/browse/node/:id/history',       :to => redirect('/node/%{id}/history')
-  get '/browse/relation/:id',           :to => redirect('/relation/%{id}')
-  get '/browse/relation/:id/history',   :to => redirect('/relation/%{id}/history')
-  get '/browse/changeset/:id',          :to => redirect('/changeset/%{id}')
-  get '/browse/note/:id',               :to => redirect('/note/%{id}')
-  get '/user/:display_name/edits',      :to => redirect('/user/%{display_name}/history')
-  get '/user/:display_name/edits/feed', :to => redirect('/user/%{display_name}/history/feed')
-  get '/browse/friends',                :to => redirect('/history/friends')
-  get '/browse/nearby',                 :to => redirect('/history/nearby')
-  get '/browse/changesets/feed',        :to => redirect('/history/feed')
-  get '/browse/changesets',             :to => redirect('/history')
-  get '/browse',                        :to => redirect('/history')
+  get '/browse/way/:id',                :to => redirect(:path => '/way/%{id}')
+  get '/browse/way/:id/history',        :to => redirect(:path => '/way/%{id}/history')
+  get '/browse/node/:id',               :to => redirect(:path => '/node/%{id}')
+  get '/browse/node/:id/history',       :to => redirect(:path => '/node/%{id}/history')
+  get '/browse/relation/:id',           :to => redirect(:path => '/relation/%{id}')
+  get '/browse/relation/:id/history',   :to => redirect(:path => '/relation/%{id}/history')
+  get '/browse/changeset/:id',          :to => redirect(:path => '/changeset/%{id}')
+  get '/browse/note/:id',               :to => redirect(:path => '/note/%{id}')
+  get '/user/:display_name/edits',      :to => redirect(:path => '/user/%{display_name}/history')
+  get '/user/:display_name/edits/feed', :to => redirect(:path => '/user/%{display_name}/history/feed')
+  get '/browse/friends',                :to => redirect(:path => '/history/friends')
+  get '/browse/nearby',                 :to => redirect(:path => '/history/nearby')
+  get '/browse/changesets/feed',        :to => redirect(:path => '/history/feed')
+  get '/browse/changesets',             :to => redirect(:path => '/history')
+  get '/browse',                        :to => redirect(:path => '/history')
 
   # web site
   root :to => 'site#index', :via => [:get, :post]
