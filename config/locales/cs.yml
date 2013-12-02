@@ -17,6 +17,9 @@
 # Author: Tchoř
 # Author: Veritaslibero
 cs: 
+  about_page: 
+    copyright_html: <span>&copy;</span>přispěvatelé<br>OpenStreetMap
+    partners_title: Partneři
   activerecord: 
     attributes: 
       diary_comment: 
@@ -95,26 +98,36 @@ cs:
       need_to_see_terms: Váš přístup k API byl dočasně zablokován. Přihlašte se prosím do webového rozhraní a přečtěte si Podmínky pro přispěvatele. Nemusíte je odsouhlasit, musíte si je ale zobrazit.
   browse: 
     changeset: 
+      belongs_to: Autor
       changesetxml: Soubor změn XML
       feed: 
         title: Sada změn %{id}
         title_comment: "Sada změn: %{id} - %{comment}"
+      node: Uzly (%{count})
       osmchangexml: osmChange XML
-      title: Sada změn
+      relation: Relace (%{count})
+      title: "Sada změn: %{id}"
+      way: Cesty (%{count})
     containing_relation: 
       entry: Relace %{relation_name}
       entry_role: Relace %{relation_name} (jako %{relation_role})
+    in_changeset: Sada změn
+    node: 
+      history_title: "Historie uzlu: %{name}"
+      title: "Uzel: %{name}"
     not_found: 
-      sorry: Promiňte, ale %{type} s id %{id} nebylo možné nalézt.
+      sorry: "Promiňte, ale %{type} #%{id} nebylo možné nalézt."
       type: 
         changeset: sada změn
         node: uzel
         relation: relace
         way: cesta
     note: 
-      closed_title: "Vyřešená poznámka: %{note_name}"
-      open_title: "Nevyřešená poznámka: %{note_name}"
-      title: Poznámka
+      closed_title: "Vyřešená poznámka #%{note_name}"
+      hidden_title: "Skrytá poznámka #%{note_name}"
+      new_note: Nová poznámka
+      open_title: "Nevyřešená poznámka #%{note_name}"
+      title: "Poznámka: %{id}"
     redacted: 
       message_html: Verzi %{version} tohoto objektu %{type} nelze zobrazit, protože byla skryta. Více informací uvádí stránka %{redaction_link}.
       redaction: Redakce %{id}
@@ -122,6 +135,10 @@ cs:
         node: uzel
         relation: relace
         way: cesta
+    relation: 
+      history_title: "Historie relace: %{name}"
+      members: Prvky
+      title: "Relace: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} jako %{role}"
       type: 
@@ -130,11 +147,10 @@ cs:
         way: Cesta
     start_rjs: 
       load_data: Nahrát data
-      loaded_an_area_with_num_features: Máte načtenu oblast, která obsahuje %{num_features} prvků. Některé prohlížeče mohou mít potíže při zobrazování takového množství dat. Obecně fungují prohlížeče nejlépe při zobrazování ne více než %{max_features} prvků současně – větší množství může způsobit, že bude prohlížeč reagovat pomalu či vůbec. Pokud jste si jisti, že chcete tato data zobrazit, klikněte na tlačítko níže.
       loading: Načítá se…
-      unable_to_load_size: "Nelze načíst: Rozměr %{bbox_size} je příliš velký (maximum je %{max_bbox_size})"
+      unable_to_load_size: Nelze načíst mapová data, příliš velká oblast (%{bbox_size}). Oblast musí být menší než %{max_bbox_size} čtverečních stupňů.
     tag_details: 
-      tags: "Tagy:"
+      tags: Tagy
       wiki_link: 
         key: Stránka s popisem značky %{key} na wiki
         tag: Stránka s popisem značky %{key}=%{value} na wiki
@@ -146,6 +162,11 @@ cs:
         node: uzlu
         relation: relace
         way: cesty
+    version: Verze
+    way: 
+      history_title: "Historie cesty: %{name}"
+      nodes: Uzly
+      title: "Cesta: %{name}"
   changeset: 
     changeset: 
       anonymous: Anonymní
@@ -822,6 +843,9 @@ cs:
           water_point: Vodní bod
           waterfall: Vodopád
           weir: Jez
+  help_page: 
+    welcome: 
+      title: Vítejte v OSM
   javascripts: 
     close: Zavřít
     edit_help: Posuňte si mapu a zvětšete si místo, které chcete editovat, a klikněte zde.
@@ -893,10 +917,11 @@ cs:
       edit_disabled_tooltip: Pro editaci mapy přejděte na větší měřítko
       edit_tooltip: Upravit mapu
   layouts: 
+    about: O projektu
     community: Komunita
     community_blogs: Komunitní blogy
     community_blogs_title: Blogy členů komunity OpenStreetMap
-    copyright: Copyright & licence
+    copyright: Copyright
     data: Data
     donate: Podpořte OpenStreetMap %{link} Fondu na upgrady hardwaru
     edit: Upravit
@@ -911,11 +936,14 @@ cs:
     history: Historie
     home: Přejít domů
     intro_2_create_account: si založíte uživatelský účet
-    log_in: přihlásit se
+    intro_header: Vítejte v OpenStreetMap!
+    intro_text: OpenStreetMap je mapa světa, vytvořená lidmi jako vy a volně využitelná pod otevřenou licencí.
+    learn_more: Více informací
+    log_in: Přihlásit se
     log_in_tooltip: Přihlásit se k existujícímu účtu
     logo: 
       alt_text: Logo OpenStreetMap
-    logout: Odhlásit
+    logout: Odhlásit se
     make_a_donation: 
       text: Pošlete příspěvek
       title: Podpořte OpenStreetMap finančním příspěvkem
@@ -927,7 +955,7 @@ cs:
     partners_partners: partneři
     partners_ucl: středisko VR UCL
     partners_url: http://wiki.openstreetmap.org/wiki/Partners?uselang=cs
-    sign_up: zaregistrovat se
+    sign_up: Zaregistrovat se
     sign_up_tooltip: Vytvořit si uživatelský účet pro editaci
     tag_line: Otevřená wiki-mapa světa
     user_diaries: Deníčky

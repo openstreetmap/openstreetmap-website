@@ -111,27 +111,57 @@ fr:
       blocked: Votre accès à l'API a été bloqué. Connectez-vous sur l'interface web pour plus d'informations.
       need_to_see_terms: Votre accès à l’API est temporairement suspendu. Veuillez vous connecter à l’interface web pour afficher les conditions de contributions. Vous n'avez pas besoin d’accord, mais vous devez les visualiser.
   browse: 
+    anonymous: anonyme
     changeset: 
+      belongs_to: Auteur
       changesetxml: Groupe de modifications XML
       feed: 
         title: Groupe de modifications %{id}
         title_comment: Groupe de modifications %{id} – %{comment}
+      node: Nœuds (%{count})
+      node_paginated: Nœuds (%{x}-%{y} sur %{count})
       osmchangexml: osmChange XML
-      title: Groupe de modifications
+      relation: Relations (%{count})
+      relation_paginated: Relations (%{x}-%{y} sur %{count})
+      title: "Groupe de modifications : %{id}"
+      way: Chemins (%{count})
+      way_paginated: Chemins (%{x}-%{y} sur %{count})
+    closed: Fermé
+    closed_by_html: Fermé <abbr title='%{title}'>il y a %{time}</abbr> par %{user}
+    closed_html: Fermé <abbr title='%{title}'>il y a %{time}</abbr>
     containing_relation: 
       entry: Relation %{relation_name}
       entry_role: Relation %{relation_name} (en tant que %{relation_role})
+    created: Créé
+    created_by_html: Créé <abbr title='%{title}'>il y a %{time}</abbr> par %{user}
+    created_html: Créé <abbr title='%{title}'>il y a %{time}</abbr>
+    deleted_by_html: Supprimé <abbr title='%{title}'>il y a %{time}</abbr> par %{user}
+    download_xml: Télécharger le XML
+    edited_by_html: Modifié <abbr title='%{title}'>il y a %{time}</abbr> par %{user}
+    in_changeset: Ensemble de modifications
+    no_comment: (sans commentaire)
+    node: 
+      history_title: "Historique du nœud : %{name}"
+      title: "Nœud : %{name}"
     not_found: 
-      sorry: Désolé, l’objet de type %{type} avec l’identifiant %{id} n’a pas pu être trouvé.
+      sorry: "Désolé, %{type} #%{id} n’a pas pu être trouvé."
       type: 
         changeset: groupe de modifications
         node: nœud
         relation: relation
         way: chemin
     note: 
-      closed_title: "Note résolue : %{note_name}"
-      open_title: "Note non résolue : %{note_name}"
-      title: Note
+      closed_title: "Note résolue #%{note_name}"
+      commented_by: Commenté par %{user} <abbr title='%{exact_time}'>il  y a %{when}</abbr>
+      commented_by_anonymous: Commenté anonymement <abbr title='%{exact_time}'>il y a %{when}</abbr>
+      hidden_by: Masqué par %{user} <abbr title='%{exact_time}'>il y a %{when}</abbr>
+      hidden_title: "Note masquée #%{note_name}"
+      new_note: Nouvelle note
+      open_by: Créé par %{user} <abbr title='%{exact_time}'>il y a %{when}</abbr>
+      open_by_anonymous: Créé anonymement <abbr title='%{exact_time}'>il y a %{when}</abbr>
+      open_title: "Note non résolue #%{note_name}"
+      title: "Note : %{id}"
+    part_of: Partie de
     redacted: 
       message_html: La version %{version} de ce(tte) %{type} ne peut être affichée car elle a été masquée. Veuillez consulter %{redaction_link} pour plus d'informations.
       redaction: Masquage %{id}
@@ -139,6 +169,10 @@ fr:
         node: nœud
         relation: relation
         way: chemin
+    relation: 
+      history_title: "Historique de la relation : %{name}"
+      members: Membres
+      title: "Relation : %{name}"
     relation_member: 
       entry_role: "%{type} %{name} avec le rôle %{role}"
       type: 
@@ -147,11 +181,10 @@ fr:
         way: Chemin
     start_rjs: 
       load_data: Charger les données
-      loaded_an_area_with_num_features: "Vous avez chargé une zone qui contient %{num_features} éléments. En général, certains navigateurs ne supportent pas bien l’affichage de tant de données et travaillent mieux lorsqu’ils affichent moins de 100 objets à la fois : procéder autrement pourrait rendre votre navigateur lent ou non fonctionnel. Si vous êtes sûr de vouloir afficher ces données, vous pouvez le faire en appuyant sur le bouton ci-dessous."
       loading: Chargement...
-      unable_to_load_size: "Impossible de charger les données : le cadre de délimitation d’une taille de %{bbox_size} est trop grand (il doit être inférieur à %{max_bbox_size})"
+      unable_to_load_size: Impossible de charger les données de la carte, trop importantes pour une zone de %{bbox_size}. La zone doit être plus petite que %{max_bbox_size} degrés carrés.
     tag_details: 
-      tags: "Balises :"
+      tags: Balises
       wiki_link: 
         key: La description de la balise <code>%{key}</code> sur le wiki
         tag: La description de la balise <code>%{key}=%{value}</code> sur le wiki
@@ -163,6 +196,16 @@ fr:
         node: nœud
         relation: relation
         way: chemin
+    version: Version
+    view_details: Afficher les détails
+    view_history: Afficher l’historique
+    way: 
+      also_part_of: 
+        one: partie du chemin %{related_ways}
+        other: partie des chemins %{related_ways}
+      history_title: "Historique du chemin : %{name}"
+      nodes: Nœuds
+      title: "Chemin : %{name}"
   changeset: 
     changeset: 
       anonymous: Anonyme
@@ -179,6 +222,13 @@ fr:
       saved_at: Sauvegardé à
       user: Utilisateur
     list: 
+      empty: Aucun ensemble de modifications trouvé.
+      empty_area: Aucun ensemble de modifications dans cette zone.
+      empty_user: Aucun ensemble de modifications par cet utilisateur.
+      load_more: Charger plus
+      no_more: Pas d’autres ensembles de modifications trouvés.
+      no_more_area: Pas d’autres ensembles de modifications dans cette zone.
+      no_more_user: Pas d’autres ensembles de modifications par cet utilisateur.
       title: Groupes de modifications
       title_friend: Groupes de modifications par vos amis
       title_nearby: Groupes de modifications des utilisateurs à proximité
@@ -309,6 +359,7 @@ fr:
           description: Copies régulièrement mises à jour de la base de données complète de OpenStreetMap
           title: Planète OSM
       zoom: Zoom
+    title: Exporter
   geocoder: 
     description: 
       title: 
@@ -838,6 +889,20 @@ fr:
           water_point: Point d'eau
           waterfall: Chute d'eau
           weir: Barrage
+  help_page: 
+    help: 
+      description: Poser une question ou chercher des réponses sur le site questions-et-réponses de OSM.
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: OpenStreetMap a plusieurs ressources pour apprendre le projet, pour poser et répondre à des questions, et pour discuter en collaboration avec d’autres et documenter les sujets de cartographie.
+    title: Obtenir de l’aide
+    welcome: 
+      description: Commencer avec ce guide rapide couvrant les bases de OpenStreetMap.
+      title: Bienvenue à OSM
+      url: /welcome
+    wiki: 
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/
   javascripts: 
     close: Fermer
     edit_help: Déplacez la carte et zoomer sur un emplacement que vous voulez modifier, puis cliquez là.
@@ -909,10 +974,11 @@ fr:
       edit_disabled_tooltip: Zoomez en avant pour modifier la carte
       edit_tooltip: Modifier la carte
   layouts: 
+    about: À propos
     community: Communauté
     community_blogs: Blogs de la communauté
     community_blogs_title: Blogs de membres de la communauté OpenStreetMap
-    copyright: Copyright & Licence
+    copyright: Droits d’auteur
     data: Données
     donate: Soutenez OpenStreetMap, %{link} au fonds pour améliorer le matériel.
     edit: Modifier
@@ -927,7 +993,10 @@ fr:
     history: Historique
     home: Aller chez moi
     intro_2_create_account: Créez un compte d'utilisateur
-    log_in: Connexion
+    intro_header: Bienvenue dans OpenStreetMap !
+    intro_text: OpenStreetMap est une carte du monde, créée par des gens comme vous et libre d’utilisation sous licence libre.
+    learn_more: En savoir plus
+    log_in: Se connecter
     log_in_tooltip: Se connecter avec un compte existant
     logo: 
       alt_text: Logo d'OpenStreetMap
@@ -945,6 +1014,7 @@ fr:
     partners_url: http://wiki.openstreetmap.org/wiki/Partners
     sign_up: S'inscrire
     sign_up_tooltip: Créer un compte pour la modification
+    start_mapping: Commencer la correspondance
     tag_line: La carte coopérative libre
     user_diaries: Journaux
     user_diaries_tooltip: Voir les journaux d'utilisateurs
@@ -1879,7 +1949,7 @@ fr:
       way_html: "Un <strong>chemin</strong est une ligne ou une surface, comme par exemple une rue, un\nruisseau, un lac, ou un bâtiment."
     introduction_html: "Bienvenue à OpenStreetMap, la carte du monde libre et éditable. Maintenant que vous\nêtes enregistré, vous avez tout ce qu'il faut pour commencer à cartographier. Ce qui\nsuit est un petit guide des choses les plus importantes à savoir."
     questions: 
-      paragraph_1_html: "Besoin d'aide pour cartographier, ou pas sûr de comment utilise OpenStreetMap ?\nObtenez les réponses à vos questions sur <a href='http://help.openstreetmap.org/'>\nle site d'aide</a>."
+      paragraph_1_html: "OpenStreetMap a plusieurs ressources pour apprendre le projet, pour poser et répondre à des questions, et pour discuter en collaboration avec d’autres et documenter les sujets de cartographie.\n<a href='%{help_url}'>Trouvez de l’aide ici</a>."
       title: Des questions ?
     start_mapping: Commencer à cartographier
     title: Bienvenue !

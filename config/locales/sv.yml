@@ -29,6 +29,15 @@
 # Author: WikiPhoenix
 # Author: Zvenzzon
 sv: 
+  about_page: 
+    community_driven_title: Gemenskapsdriven
+    copyright_html: <span>&copy;</span>OpenStreetMap<br>bidragsgivare
+    lede_text: OpenStreetMap är byggt av en gemenskap av kartografer som bidrar och underhåller data om vägar, stigar, caféer, järnvägsstationer och mycket mer, över hela världen.
+    local_knowledge_html: OpenStreetMap betonar lokal kunskap. Bidragsgivare använder flygbilder, GPS-enheter och lågteknologiska fältkartor för att kontrollera att OSM är korrekt och uppdaterad.
+    local_knowledge_title: Lokalkännedom
+    next: Nästa
+    open_data_title: Öppna Data
+    partners_title: Partners
   activerecord: 
     attributes: 
       diary_comment: 
@@ -106,27 +115,61 @@ sv:
       blocked: Du har blivit blockerad från API:et. Var god logga in via webinterfacet för att få reda på mer.
       need_to_see_terms: Din tillgång till API:t är tillfälligt avstängd. Logga in på webbgränssnittet för att se bidragsvillkor. Du behöver inte godkänna dem, men du måste se dem.
   browse: 
+    anonymous: anonym
     changeset: 
+      belongs_to: Författare
       changesetxml: XML för ändringsset
       feed: 
         title: Ändringsset %{id}
         title_comment: Ändringsset %{id} - %{comment}
+      node: Noder (%{count})
+      node_paginated: Noder (%{x}-%{y} av %{count})
       osmchangexml: osmChange XML
-      title: Ändringsset
+      relation: Förbindelser (%{count})
+      relation_paginated: Förbindelser (%{x}-%{y} av %{count})
+      title: "Ändringsset: %{id}"
+      way: Sträckor (%{count})
+      way_paginated: Sträckor (%{x}-%{y} av %{count})
+    closed: Stängd
+    closed_by_html: Stängde <abbr title='%{title}'>%{time} sedan</abbr> av %{user}
+    closed_html: Stängde <abbr title='%{title}'>%{time} sedan</abbr>
     containing_relation: 
       entry: Relation %{relation_name}
       entry_role: Relation %{relation_name} (som %{relation_role})
+    created: Skapad
+    created_by_html: Skapade <abbr title='%{title}'>%{time} sedan</abbr> av %{user}
+    created_html: Skapade <abbr title='%{title}'>%{time} sedan</abbr>
+    deleted_by_html: Raderade <abbr title='%{title}'>%{time} sedan</abbr> av %{user}
+    download_xml: Ladda ner XML
+    edited_by_html: Redigerade <abbr title='%{title}'>%{time} sedan</abbr> av %{user}
+    in_changeset: Ändringsset
+    no_comment: (inga kommentarer)
+    node: 
+      history_title: "Nodhistorik: %{name}"
+      title: "Nod: %{name}"
     not_found: 
-      sorry: Tyvärr kunde inte %{type} med id %{id} hittas.
+      sorry: "Tyvärr kunde inte %{type} #%{id} hittas."
       type: 
         changeset: ändringsset
         node: nod
         relation: relation
         way: sträcka
     note: 
-      closed_title: "Avklarad anteckning: %{note_name}"
-      open_title: "Ej avklarad anteckning: %{note_name}"
-      title: OBS
+      closed_by: Löst av %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
+      closed_by_anonymous: Löst av anonym <abbr title='%{exact_time}'>%{when} sedan</abbr>
+      closed_title: "Avklarad anteckning #%{note_name}"
+      commented_by: Kommentar från %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
+      commented_by_anonymous: Kommentar från anonym <abbr title='%{exact_time}'>%{when} sedan</abbr>
+      hidden_by: Gömd av %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
+      hidden_title: "Dold anteckning #%{note_name}"
+      new_note: Ny anteckning
+      open_by: Skapad av %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
+      open_by_anonymous: Skapad av anonym <abbr title='%{exact_time}'>%{when} sedan</abbr>
+      open_title: "Ej avklarad anteckning #%{note_name}"
+      reopened_by: Återaktiverad av %{user} <abbr title='%{exact_time}'>%{when} sedan</abbr>
+      reopened_by_anonymous: Återaktiverad av anonym <abbr title='%{exact_time}'>%{when} sedan</abbr>
+      title: "Anteckning: %{id}"
+    part_of: Del av
     redacted: 
       message_html: Version %{version} av denna %{type} kan inte visas då den har tagits bort. Se %{redaction_link} för detaljer.
       redaction: Omarbetning %{id}
@@ -134,6 +177,10 @@ sv:
         node: nod
         relation: relation
         way: sträcka
+    relation: 
+      history_title: "Förbindelsehistorik: %{name}"
+      members: Medlemmar
+      title: "Förbindelse: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} som %{role}"
       type: 
@@ -142,11 +189,10 @@ sv:
         way: Sträcka
     start_rjs: 
       load_data: Ladda data
-      loaded_an_area_with_num_features: "Du har läst in ett område som innehåller %{num_features} objekt. En del webbläsare klarar inte av hantering av sådana stora mängder data. Vanligtvis arbetar webbläsare bäst när de visar mindre än %{max_features} objekt samtidigt: att göra någonting annat kan få din webbläsare att bli långsam eller sluta att svara. Om du är säker på att du vill visa denna data kan du göra det genom att klicka på knappen nedan."
       loading: Läser in...
-      unable_to_load_size: "Kan inte ladda: det omslutande området %{bbox_size} är för stort (den måste vara mindre än %{max_bbox_size})"
+      unable_to_load_size: Det går inte att ladda kartdata, ytan är för stor (%{bbox_size}). Ytan måste vara mindre än %{max_bbox_size} kvadratgrad.
     tag_details: 
-      tags: "Taggar:"
+      tags: Taggar
       wiki_link: 
         key: Wiki-beskrivningssidan för %{key}-taggen
         tag: Wiki-beskrivningssidan för %{key}=%{value}-taggen
@@ -158,6 +204,16 @@ sv:
         node: nod
         relation: relation
         way: sträcka
+    version: Version
+    view_details: Visa detaljer
+    view_history: Visa historik
+    way: 
+      also_part_of: 
+        one: del av sträcka %{related_ways}
+        other: del av sträckorna %{related_ways}
+      history_title: "Sträckhistorik: %{name}"
+      nodes: Noder
+      title: "Sträcka: %{name}"
   changeset: 
     changeset: 
       anonymous: Anonym
@@ -174,6 +230,13 @@ sv:
       saved_at: Sparad
       user: Användare
     list: 
+      empty: Inga ändringsset hittades.
+      empty_area: Inga ändringsset i det här området.
+      empty_user: Inga ändringsset av den här användaren.
+      load_more: Läs in fler
+      no_more: Inga fler ändringsset hittades.
+      no_more_area: Inga fler ändringsset i det här området.
+      no_more_user: Inga fler ändringsset av den här användaren.
       title: Ändringsset
       title_friend: Ändringsset av dina vänner
       title_nearby: Ändringsset av närbelägna användare
@@ -304,6 +367,7 @@ sv:
           description: Regelbundet uppdaterade kopior av den kompletta OpenStreetMap-databasen
           title: Planet OSM
       zoom: Zooma
+    title: Exportera
   geocoder: 
     description: 
       title: 
@@ -833,6 +897,21 @@ sv:
           water_point: Vattenpunkt
           waterfall: Vattenfall
           weir: Överfallsvärn
+  help_page: 
+    help: 
+      description: Ställ en fråga eller kolla upp svar på OSM:s sida med svar på ofta förekommande frågor.
+      title: help.openstreetmap.org
+      url: https://help.OpenStreetMap.org/
+    introduction: OpenStreetMap har flera resurser som hjälper dig att lära dig om projektet, för att ställa och svara på frågor, och tillsammans diskutera och dokumentera frågor gällande kartering.
+    title: Få hjälp
+    welcome: 
+      description: Börja med den här snabbguiden som täcker grunderna i OpenStreetMap.
+      title: Välkommen till OSM
+      url: /välkommen
+    wiki: 
+      description: Sök i wikin för ingående OSM-dokumentation.
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/
   javascripts: 
     close: Stäng
     edit_help: Flytta kartan och zooma in på en plats som du vill redigera, klicka sedan här.
@@ -847,6 +926,7 @@ sv:
         standard: Standard
         transport_map: Transportkarta
       copyright: © <a href='%{copyright_url}'>OpenStreetMaps bidragsgivare</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Donera</a>
       layers: 
         data: Kartdata
         header: Kartskikt
@@ -902,11 +982,14 @@ sv:
       createnote_tooltip: Lägg till en anteckning på kartan
       edit_disabled_tooltip: Zooma in för att redigera kartan
       edit_tooltip: Redigera kartan
+      map_data_zoom_in_tooltip: Zooma in för att se kartdata
+      map_notes_zoom_in_tooltip: Zooma in för att se kartanteckningar
   layouts: 
+    about: Om
     community: Gemenskap
     community_blogs: Gemenskapens bloggar
     community_blogs_title: Bloggar från medlemmar i OpenStreetMap-gemenskapen
-    copyright: Upphovsrätt & licens
+    copyright: Upphovsrätt
     data: Data
     donate: Stöd OpenStreetMap med en %{link} till hårdvarufonden.
     edit: Redigera
@@ -921,7 +1004,10 @@ sv:
     history: Historik
     home: Gå till hemposition
     intro_2_create_account: Skapa ett användarkonto
-    log_in: logga in
+    intro_header: Välkommen till OpenStreetMap!
+    intro_text: OpenStreetMap är en karta av världen, skapad av människor som du och gratis att använda under en öppen licens.
+    learn_more: Läs mer
+    log_in: Logga in
     log_in_tooltip: Logga in med ditt konto
     logo: 
       alt_text: OpenStreetMaps logotyp
@@ -939,8 +1025,9 @@ sv:
     partners_url: http://wiki.openstreetmap.org/wiki/Partners
     project_name: 
       title: OpenStreetMap
-    sign_up: skapa ett konto
+    sign_up: Skapa ett konto
     sign_up_tooltip: Skapa ett konto för kartering
+    start_mapping: Börja kartläggning
     tag_line: Den fria wiki-världskartan
     user_diaries: Användardagböcker
     user_diaries_tooltip: Visa användardagböcker
@@ -1166,6 +1253,15 @@ sv:
       allow_write_notes: ändra anteckningar.
       allow_write_prefs: ändra på dina användarinställningar.
       request_access: Programmet %{app_name} har begärt tillgång till ditt konto, %{user}. Var god kontrollera om du vill att programmet ska ha dessa möjligheter. Du kan välja eller ta bort hur många val du vill.
+      title: Auktorisera tillgång till ditt konto
+    oauthorize_failure: 
+      denied: Du har blockerat en applikation %{app_name} från tillgång till ditt konto.
+      invalid: Auktoriserings-token är inte giltig.
+      title: Auktoriseringsbegäran misslyckades
+    oauthorize_success: 
+      allowed: Du har beviljat en applikation %{app_name} tillgång till ditt konto.
+      title: Auktoriseringsbegäran tillåten
+      verification: Verifikationskoden är %{code}.
     revoke: 
       flash: Du tagit bort nyckeln för %{application}
   oauth_clients: 
@@ -1873,7 +1969,7 @@ sv:
       way_html: En <strong>väg</strong> är en linje  eller ett område, till exempel en väg, bäck, sjö eller byggnad.
     introduction_html: Välkommen till OpenStreetMap, den fria och redigerbara kartan över världen. Nu när du har registrerat dig är du klar för att börja kartlägga saker. Här är en snabb genomgång av de viktigaste sakerna du behöver veta.
     questions: 
-      paragraph_1_html: Behöver du hjälp att kartera, eller är något oklart om hur man använder OpenStreetMap? Få dina frågor besvarade på <a href='http://help.openstreetmap.org/'>hjälpsidan</a>.
+      paragraph_1_html: "OpenStreetMap har flera resurser som hjälper dig att lära dig om projektet, för att ställa och svara på frågor, och tillsammans diskutera och dokumentera frågor gällande kartering.\n<a href='%{help_url}'>Få hjälp här</a>."
       title: Några frågor?
     start_mapping: Börja kartlägga
     title: Välkommen!

@@ -19,6 +19,9 @@
 # Author: SandroHc
 # Author: Waldir
 pt: 
+  about_page: 
+    next: Seguinte
+    partners_title: Parceiros
   activerecord: 
     attributes: 
       diary_comment: 
@@ -96,18 +99,34 @@ pt:
       blocked: O seu acesso à API foi bloqueado. Por favor aceda à página web do OpenStreetMap e entre na sua conta para saber mais.
       need_to_see_terms: O seu acesso à API está temporariamente suspenso. Por favor aceda à página web do OpenStreetMap e entre na sua conta para ver os Termos de Colaborador. Não precisa de aceitar os termos mas tem de os ver.
   browse: 
+    anonymous: anónimo
     changeset: 
+      belongs_to: Autor
       changesetxml: Conjunto de alterações XML
       feed: 
         title: Conjunto de alterações %{id}
         title_comment: Conjunto de alterações %{id} - %{comment}
+      node: Nós (%{count})
+      node_paginated: Nós (%{x}-%{y} of %{count})
       osmchangexml: XML no formato osmChange
-      title: Conjunto de alterações
+      relation: Relações (%{count})
+      relation_paginated: Relações (%{x}-%{y} of %{count})
+      title: "Conjunto de alterações: %{id}"
+      way: Linhas (%{count})
+      way_paginated: Linhas (%{x}-%{y} de %{count})
+    closed: Fechado
     containing_relation: 
       entry: Relação %{relation_name}
       entry_role: Relação %{relation_name} (como %{relation_role})
+    created: Criado
+    download_xml: Descarregar XML
+    in_changeset: Conjunto de alterações
+    no_comment: (sem comentário)
+    node: 
+      history_title: "Histórico do Nó: %{name}"
+      title: "Nó: %{name}"
     not_found: 
-      sorry: Lamentamos, não foi possível encontrar o %{type} com o identificador %{id}.
+      sorry: "Lamentamos, não foi possível encontrar %{type} #%{id}."
       type: 
         changeset: conjunto de alterações
         node: nó
@@ -116,7 +135,8 @@ pt:
     note: 
       closed_title: "Erro resolvido: %{note_name}"
       open_title: "Erro não resolvido: %{note_name}"
-      title: Erro
+      title: "Erro: %{id}"
+    part_of: Faz parte de
     redacted: 
       message_html: A versão %{version} do elemento %{type} não pode ser mostrada porque foi suprimida. Por favor consulte %{redaction_link} para obter mais informações.
       redaction: Revisão %{id}
@@ -124,6 +144,10 @@ pt:
         node: nó
         relation: relação
         way: linha
+    relation: 
+      history_title: "Histórico da Relação: %{name}"
+      members: Membros
+      title: "Relação: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} como %{role}"
       type: 
@@ -132,11 +156,10 @@ pt:
         way: Linha
     start_rjs: 
       load_data: Carregar Dados
-      loaded_an_area_with_num_features: Carregou uma área com %{num_features} elementos. Alguns navegadores de Internet podem ter problemas em mostrar esta quantidade de dados. Geralmente os navegadores funcionam melhor a mostrar até %{max_features} elementos de cada vez. Mais do que isso o navegador poderá ficar muito lento ou até bloquear. Se tem a certeza que quer mostrar esta quantidade de elementos clique no botão seguinte.
       loading: A carregar…
-      unable_to_load_size: "Não foi possível carregar: O tamanho da caixa de %{bbox_size} é muito grande (deve ser menor que %{max_bbox_size})"
+      unable_to_load_size: Não foi possível carregar os dados do mapa por ser demasiado grande (%{bbox_size}). A área deve ser menor que %{max_bbox_size} graus quadrados.
     tag_details: 
-      tags: "Etiquetas:"
+      tags: Etiquetas
       wiki_link: 
         key: A página wiki com a descrição da etiqueta %{key}
         tag: A página wiki com a descrição da etiqueta %{key}=%{value}
@@ -148,6 +171,16 @@ pt:
         node: nó
         relation: relação
         way: linha
+    version: Versão
+    view_details: Ver Detalhes
+    view_history: Ver Histórico
+    way: 
+      also_part_of: 
+        one: parte da linha %{related_ways}
+        other: parte das linhas %{related_ways}
+      history_title: "Histórico da Linha: %{name}"
+      nodes: Nós
+      title: "Linha: %{name}"
   changeset: 
     changeset: 
       anonymous: Anónimo
@@ -164,6 +197,13 @@ pt:
       saved_at: Gravado em
       user: Utilizador
     list: 
+      empty: Não foi encontrado nenhum conjunto de alterações.
+      empty_area: Nenhum conjunto de alterações nesta área.
+      empty_user: Nenhum conjunto de alterações deste utilizador.
+      load_more: Ver mais
+      no_more: Sem mais conjuntos de alterações para ver.
+      no_more_area: Sem mais conjunto de alterações nesta área.
+      no_more_user: Sem mais conjunto de alterações deste utilizador.
       title: Conjuntos de alterações
       title_friend: Conjuntos de alterações feitos pelos seus amigos
       title_nearby: Conjuntos de alterações feitos por utilizadores das redondezas
@@ -294,6 +334,7 @@ pt:
           description: Cópias atualizadas regularmente da base de dados completa do OpenStreetMap
           title: Planeta OSM
       zoom: Zoom
+    title: Exportar
   geocoder: 
     description: 
       title: 
@@ -883,10 +924,11 @@ pt:
       edit_disabled_tooltip: Área demasiado grande. Amplie para poder editar
       edit_tooltip: Editar o mapa
   layouts: 
+    about: Sobre Nós
     community: Comunidade
     community_blogs: Blogues da Comunidade
     community_blogs_title: Blogues de membros da comunidade OpenStreetMap
-    copyright: Licença e Direitos de Autor
+    copyright: Direitos de Autor
     data: Dados
     donate: Apoie o OpenStreetMap %{link} para o Fundo de Atualização do Hardware.
     edit: Editar
@@ -901,7 +943,10 @@ pt:
     history: Histórico
     home: Ir para a localização inicial
     intro_2_create_account: Crie uma conta de utilizador
-    log_in: entrar
+    intro_header: Bem vindo ao OpenStreetMap!
+    intro_text: O OpenStreetMap é um mapa do mundo, criado por pessoas como você e de uso livre sob uma licença aberta.
+    learn_more: Mais Informações
+    log_in: Entrar
     log_in_tooltip: Entrar com uma conta existente
     logo: 
       alt_text: Logotipo do OpenStreetMap
@@ -916,8 +961,9 @@ pt:
     partners_ic: Imperial College London
     partners_partners: parceiros
     partners_ucl: UCL VR Centre
-    sign_up: criar conta
+    sign_up: Criar Conta
     sign_up_tooltip: Criar uma conta para poder editar o mapa
+    start_mapping: Começar a Mapear
     tag_line: O Mapa Mundial Livre e Editável
     user_diaries: Diários de Editores
     user_diaries_tooltip: Ver diários dos editores

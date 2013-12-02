@@ -16,12 +16,23 @@
 # Author: Prima klasy4na
 # Author: Riwnodennyk
 # Author: Sev
+# Author: Shirayuki
 # Author: SteveR
 # Author: Yurkoy
 # Author: Тест
 uk: 
   about_page: 
+    community_driven_html: "Спільнота OpenStreetMap — різноманітна, затята і щоденно зростаюча. Серед наших учасників є мапери ентузіасти, фахівці ГІС, інженери що підтримують роботу серверів OSM, фахівці, які із гуманістичних причин, допомагають в картографуванні районів, постраждалих від стихійного лиха, і багато інших.\nЩоб дізнатися більше про спільноту, подивіться <a href='%{diary_path}'>щоденники користувачів</a>\n<a href='http://blogs.openstreetmap.org/'>блоги спільноти</a> і сайт <a href='http://www.osmfoundation.org/'>фундації OSM</a>."
+    community_driven_title: Керовано спільнотою
+    copyright_html: <span>&copy;</span>Учасники OpenStreetMap<br>
+    lede_text: OpenStreetMap створений спільнотою маперів, які вносять і підтримують дані про дороги, стежки, кав’ярні, вокзали і багато чого іншого по всьому світу.
+    local_knowledge_html: OpenStreetMap надає виразності місцевим даним. Мапери використовують аерофотознімки, GPS пристрої та прості створені на місцевості схеми для перевірки точності та актуальності даних OSM.
+    local_knowledge_title: Знання місцевості
     next: Далі
+    open_data_html: "OpenStreetMap — це <i>відкриті дані</i>: ви можете вільно використовувати їх для будь-яких цілей до тих пір, поки ви згадуєте OpenStreetMap і його учасників. Якщо ви змінюєте дані або на основі даних будуєте власні певним чином, ви можете розповсюджувати результат лише під тією ж самою ліцензією. Дивіться сторінку <a href='%{copyright_path}'>авторські права і\nліцензії</a>, щоб отримати докладну інформацію."
+    open_data_title: Відкриті дані
+    partners_title: Партнери
+    used_by: "%{name} надає картографічні дані для сотень веб-сайтів, мобільних застосунків та апаратних пристроїв"
   activerecord: 
     attributes: 
       diary_comment: 
@@ -106,31 +117,31 @@ uk:
       feed: 
         title: Набір змін %{id}
         title_comment: Набір змін %{id} — %{comment}
-      node: Вузли (%{count})
-      node_paginated: Вузли (%{x}-%{y} із %{count})
+      node: Точки (%{count})
+      node_paginated: Точки (%{x}-%{y} із %{count})
       osmchangexml: osmChange XML
-      relation: Відношення (%{count})
-      relation_paginated: Відношення (%{x}-%{y} із %{count})
+      relation: Зв’язки (%{count})
+      relation_paginated: Зв’язки (%{x}-%{y} із %{count})
       title: "Набір змін: %{id}"
-      way: Шляхи (%{count})
-      way_paginated: Шляхи (%{x}-%{y} із %{count})
+      way: Лінії (%{count})
+      way_paginated: Лінії (%{x}-%{y} із %{count})
     closed: Закрито
-    closed_by_html: Закрито <abbr title='%{title}'>%{time} тому</abbr> користувачем %{user}
+    closed_by_html: Закрито <abbr title='%{title}'>%{time} тому</abbr> учасником %{user}
     closed_html: Закрито <abbr title='%{title}'>%{time} тому</abbr>
     containing_relation: 
       entry: Зв’язок %{relation_name}
       entry_role: Зв’язок %{relation_name} (як %{relation_role})
     created: Створено
-    created_by_html: Створено <abbr title='%{title}'>%{time} тому</abbr> користувачем %{user}
+    created_by_html: Створено <abbr title='%{title}'>%{time} тому</abbr> учасником %{user}
     created_html: Створено <abbr title='%{title}'>%{time} тому</abbr>
-    deleted_by_html: Вилучено <abbr title='%{title}'>%{time} тому</abbr> користувачем %{user}
+    deleted_by_html: Вилучено <abbr title='%{title}'>%{time} тому</abbr> учасником %{user}
     download_xml: Завантажити XML
-    edited_by_html: Відредаговано <abbr title='%{title}'>%{time} тому</abbr> користувачем %{user}
+    edited_by_html: Змінено <abbr title='%{title}'>%{time} тому</abbr> учасником %{user}
     in_changeset: Набір змін
     no_comment: (без коментарів)
     node: 
-      history_title: "Історія вузлу: %{name}"
-      title: "Вузол: %{name}"
+      history_title: "Історія точки: %{name}"
+      title: "Точка: %{name}"
     not_found: 
       sorry: "На жаль, %{type} #%{id} неможливо знайти."
       type: 
@@ -139,11 +150,21 @@ uk:
         relation: зв’язок
         way: лінія
     note: 
-      closed_title: "Опрацьована нотатка: %{note_name}"
+      closed_by: Розв’язано учасником %{user} <abbr title='%{exact_time}'>%{when} тому</abbr>
+      closed_by_anonymous: Розв’язано анонімом <abbr title='%{exact_time}'>%{when} тому</abbr>
+      closed_title: "Опрацьована нотатка #%{note_name}"
+      commented_by: Прокоментовано учасником %{user} <abbr title='%{exact_time}'>%{when} тому</abbr>
+      commented_by_anonymous: Прокоментовано анонімом <abbr title='%{exact_time}'>%{when} тому</abbr>
+      hidden_by: Приховано учасником %{user} <abbr title='%{exact_time}'>%{when} тому</abbr>
+      hidden_title: "Прихована нотатка #%{note_name}"
       new_note: Нова нотатка
-      open_title: "Неопрацьована нотатка: %{note_name}"
+      open_by: Створено учасником %{user} <abbr title='%{exact_time}'>%{when} тому</abbr>
+      open_by_anonymous: Створено анонімом <abbr title='%{exact_time}'>%{when} тому</abbr>
+      open_title: "Неопрацьована нотатка #%{note_name}"
+      reopened_by: Відновлено учасником %{user} <abbr title='%{exact_time}'>%{when} тому</abbr>
+      reopened_by_anonymous: Відновлено анонімом <abbr title='%{exact_time}'>%{when} тому</abbr>
       title: "Нотатка: %{id}"
-    part_of: Частина з
+    part_of: Входить до складу
     redacted: 
       message_html: Версія %{version} типу %{type} не може бути показана через те, що її було відредаговано. Будь ласка, перегляньте %{redaction_link} для отримання деталей.
       redaction: Редакція %{id}
@@ -152,7 +173,9 @@ uk:
         relation: зв’язок
         way: лінія
     relation: 
+      history_title: "Історія зв’язку: %{name}"
       members: Учасники
+      title: "Зв’язок: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} як %{role}"
       type: 
@@ -161,9 +184,8 @@ uk:
         way: Лінія
     start_rjs: 
       load_data: Завантажити Дані
-      loaded_an_area_with_num_features: "Ви завантажили ділянку, яка містить %{num_features} об’єктів. Загалом, деякі оглядачі можуть не впоратися з відображенням такої кількості даних. Зазвичай, оглядачі працюють краще, коли водночас показується не більше %{max_features} об'єктів: якщо ж ви робите інакше, це може спричинити  сповільнення чи взагалі відсутність відгуку у вашому оглядачі. Коли ви впевнені, що слід показати ці дані, можете натиснути кнопку нижче."
       loading: Завантаження…
-      unable_to_load_size: "Неможливо завантажити: розмір  %{bbox_size} завеликий (має бути менше, ніж %{max_bbox_size})"
+      unable_to_load_size: Неможливо завантажити дані мапи, завелика ділянка (%{bbox_size}). Ділянка має бути меншою %{max_bbox_size} квадратних градусів.
     tag_details: 
       tags: Теґи
       wiki_link: 
@@ -178,15 +200,15 @@ uk:
         relation: зв’язок
         way: лінія
     version: Версія
-    view_details: Докладніше
+    view_details: Поточна інформація
     view_history: Перегляд історії
     way: 
       also_part_of: 
         one: також є частиною лінії %{related_ways}
         other: також є частиною ліній %{related_ways}
-      history_title: "Історія шляху: %{name}"
-      nodes: Вузли
-      title: "Шлях: %{name}"
+      history_title: "Історія лінії: %{name}"
+      nodes: Точки
+      title: "Лінія: %{name}"
   changeset: 
     changeset: 
       anonymous: Анонім
@@ -203,6 +225,13 @@ uk:
       saved_at: Збережено
       user: Користувач
     list: 
+      empty: Жодного набору змін не знайдено.
+      empty_area: На цій ділянці набори змін відсутні.
+      empty_user: Немає наборів змін від цього учасника.
+      load_more: Завантажити ще
+      no_more: Наборів змін більше не знайдено.
+      no_more_area: Наборів змін на цій ділянці більше немає.
+      no_more_user: Немає більше наборів змін від цього учасника.
       title: Набір змін
       title_friend: Набори змін ваших друзів
       title_nearby: Набори змін користувачів поряд з вами
@@ -334,6 +363,7 @@ uk:
           description: Регулярно оновлювані копії усієї бази даних OpenStreetMap
           title: Планета OSM
       zoom: Збільшити
+    title: Експорт
   geocoder: 
     description: 
       title: 
@@ -865,13 +895,17 @@ uk:
           weir: Гребля
   help_page: 
     help: 
+      description: Поставте запитання або знайдіть відповіді на сайті OSM питання-відповідь.
       title: help.openstreetmap.org
       url: https://help.openstreetmap.org/
+    introduction: OpenStreetMap має різні ресурси для отримання інформації про проект, щоб поставити питання та отримати відповідь, для спільного обговорення і створення документації з картографування.
     title: Отримання довідки
     welcome: 
+      description: Розпочніть з цього короткого посібника, що охоплює основи OpenStreetMap.
       title: Ласкаво просимо до OSM
-      url: /ласкаво просимо
+      url: /welcome
     wiki: 
+      description: Перегляньте вікі щоб отримати докладу OSM документацію.
       title: wiki.openstreetmap.org
       url: http://wiki.openstreetmap.org/
   javascripts: 
@@ -889,6 +923,7 @@ uk:
         standard: Стандартний
         transport_map: Мапа Транспорту
       copyright: © <a href='%{copyright_url}'>Учасники OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Зробити внесок</a>
       layers: 
         data: Дані
         header: Шари мапи
@@ -944,8 +979,10 @@ uk:
       createnote_tooltip: Додати нотатку на мапу
       edit_disabled_tooltip: Збільшить масштаб для редагування мапи
       edit_tooltip: Редагування мапи
+      map_data_zoom_in_tooltip: Збільшить, щоб побачити дані мапи
+      map_notes_zoom_in_tooltip: Збільшить масштаб, щоб побачити більше нотаток
   layouts: 
-    about: Про программу
+    about: Про проект
     community: Спільнота
     community_blogs: Блоги спільноти
     community_blogs_title: Блоги членів спільноти OpenStreetMap
@@ -965,7 +1002,8 @@ uk:
     home: Додому
     intro_2_create_account: Створіть обліковий запис
     intro_header: Ласкаво просимо до OpenStreetMap!
-    learn_more: Дізнатися більше
+    intro_text: OpenStreetMap — мапа світу, створена такими ж людьми, як і ви, для вільного використання під відкритою ліцензією.
+    learn_more: Дізнатись більше
     log_in: Ввійти
     log_in_tooltip: Увійти під існуючим обліковим записом
     logo: 
@@ -983,7 +1021,7 @@ uk:
     partners_ucl: UCL VR Centre
     sign_up: Реєстрація
     sign_up_tooltip: Створити обліковий запис для редагування
-    start_mapping: Розпочати картографування
+    start_mapping: Почати мапити
     tag_line: Вільна Вікі-мапа Світу
     user_diaries: Щоденники
     user_diaries_tooltip: Подивитись щоденники
@@ -1209,6 +1247,15 @@ uk:
       allow_write_notes: змінювати нотатки.
       allow_write_prefs: змінювати ваші налаштування користувача.
       request_access: Застосунок %{app_name} намагається отримати доступ до вашого облікового запису, %{user}. Будь ласка, перевірте чи бажаєте ви, щоб застосунок мав наступні можливості. Ви можете обрати будь-яку кількість.
+      title: Авторизувати доступ до облікового запису
+    oauthorize_failure: 
+      denied: Ви заборонили програмі %{app_name} доступ до вашого облікового запису.
+      invalid: Неприпустимий маркер авторизації.
+      title: Не вдалося виконати запит авторизації
+    oauthorize_success: 
+      allowed: Ви надали програмі %{app_name} доступ до вашого облікового запису.
+      title: Дозволено запит на авторизацію
+      verification: Код перевірки - %{code}.
     revoke: 
       flash: Ви відкликали маркер для застосунка %{application}
   oauth_clients: 
@@ -1611,7 +1658,7 @@ uk:
       auth failure: Вибачте, вхід з цими ім'ям або паролем неможливий.
       create account minute: Створити обліковий запис. Це займе всього хвилину.
       email or username: "Ел. пошта або ім'я користувача:"
-      heading: Представтесь
+      heading: Ласкаво просимо
       login_button: Увійти
       lost password link: Забули пароль?
       new to osm: Вперше на OpenStreetMap?
@@ -1642,7 +1689,7 @@ uk:
       password: "Пароль:"
       register now: Зареєструйтеся зараз
       remember: Запам’ятати мене
-      title: Представтесь
+      title: Ласкаво просимо
       to make changes: Щоб вносити зміни до даних OpenStreetMap, ви повинні мати обліковий запис.
       with openid: "Крім того, для входу ви можете скористатись вашим OpenID:"
       with username: "Вже є обліковий запис OpenStreetMap? Будь ласка, введіть ваше ім'я користувача та пароль:"
@@ -1917,7 +1964,7 @@ uk:
       way_html: <strong>Лінія</strong> — це відкрита або замкнена ламана на кшталт дороги, струмка, озера або будівлі.
     introduction_html: Ласкаво просимо до OpenStreetMap, безкоштовної та доступної для редагування мапи світу. Тепер, коли ви увійшли, все готово для початку редагування. Ось короткий посібник з найважливішими речами, які ви повинні знати.
     questions: 
-      paragraph_1_html: Потрібна допомога з картографуванням або не зрозуміло як використовувати OpenStreetMap? Знайдіть відповідь на ваше питання на <a href='http://help.openstreetmap.org/'>сайті допомоги (англ.)</a>.
+      paragraph_1_html: "OpenStreetMap має різні ресурси для отримання інформації про проект, щоб поставити питання та отримати відповідь, для спільного обговорення і створення документації з картографування.\n<a href='%{help_url}'>Отримайте допомогу тут</a>."
       title: Є питання?
     start_mapping: Розпочати картографування
     title: Ласкаво просимо!

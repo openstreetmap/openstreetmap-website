@@ -24,6 +24,9 @@
 # Author: Yarl
 # Author: Zbigniew.czernik
 pl: 
+  about_page: 
+    next: Dalej
+    partners_title: Partnerzy
   activerecord: 
     attributes: 
       diary_comment: 
@@ -101,27 +104,47 @@ pl:
       blocked: Twój dostęp do API jest zablokowany. Zaloguj się do interfejsu sieciowego, aby dowiedzieć się więcej.
       need_to_see_terms: Twój dostęp do API został czasowo zawieszony. Zaloguj się przez stronę WWW, aby zapoznać się z Warunkami uczestnictwa. Nie masz obowiązku ich akceptować, ale musisz się z nimi zapoznać.
   browse: 
+    anonymous: Anonimowy użytkownik
     changeset: 
+      belongs_to: Autor
       changesetxml: XML w formacie zestawu zmian
       feed: 
         title: Zestaw zmian %{id}
         title_comment: Zestaw zmian %{id} - %{comment}
+      node: Węzły (%{count})
+      node_paginated: Węzły (%{x}-%{y} z %{count})
       osmchangexml: XML w formacie osmChange
-      title: Zestaw zmian
+      title: "Zestaw zmian: %{id}"
+      way: Drogi (%{count})
+    closed: Zamknięte
+    closed_by_html: Zamknięte <abbr title='%{title}'>%{time} temu </abbr> przez %{user}
+    closed_html: Zamknięte <abbr title='%{title}'>%{time} temu</abbr>
     containing_relation: 
       entry: Relacja %{relation_name}
       entry_role: Relacja %{relation_name} (jako %{relation_role})
+    created: Utworzenie
+    created_by_html: Utworzone <abbr title='%{title}'>%{time} temu</abbr> przez %{user}
+    created_html: Utworzone <abbr title='%{title}'>%{time} temu</abbr>
+    deleted_by_html: Usunięte <abbr title='%{title}'>%{time} temu</abbr> przez %{user}
+    download_xml: Pobierz XML
+    edited_by_html: Edytowane <abbr title='%{title}'>%{time} temu</abbr> przez %{user}
+    in_changeset: Zestaw zmian
+    no_comment: (bez komentarza)
     not_found: 
-      sorry: Niestety %{type} o id %{id} nie został znaleziony.
+      sorry: "Przepraszamy, %{type} #%{id} nie został znaleziony."
       type: 
         changeset: zestaw zmian
         node: węzeł
         relation: relacja
         way: droga
     note: 
+      closed_by: "Zamknięta przez: %{user} <abbr title='%{exact_time}'>%{when} temu</abbr>"
       closed_title: "Rozwiązana uwaga: %{note_name}"
-      open_title: "Nierozwiązana uwaga: %{note_name}"
-      title: Uwaga
+      new_note: Nowa notatka
+      open_by: "Utworzona przez: %{user} <abbr title='%{exact_time}'>%{when} temu</abbr>"
+      open_title: "Nierozwiązana notatka #%{note_name}"
+      title: "Notatka: %{id}"
+    part_of: Wchodzi w skład
     redacted: 
       message_html: Ten %{type} w wersji %{version} nie może być pokazany, ponieważ został poddany poprawce. Zapoznaj się z %{redaction_link}, aby uzyskać więcej informacji.
       redaction: Poprawka %{id}
@@ -129,6 +152,8 @@ pl:
         node: węzeł
         relation: relacja
         way: droga
+    relation: 
+      members: Uczestnicy
     relation_member: 
       entry_role: "%{type} %{name} jako %{role}"
       type: 
@@ -137,13 +162,12 @@ pl:
         way: Droga
     start_rjs: 
       load_data: Wczytaj dane
-      loaded_an_area_with_num_features: Wczytano obszar zawierający %{num_features} obiektów. Niektóre przeglądarki internetowe mogą nie radzić sobie z wyświetleniem tej ilości danych. Na ogół przeglądarki działają najlepiej przy wyświetlaniu mniej niż %{max_features} obiektów jednocześnie, w przeciwnym przypadku przeglądarka może działać powoli lub przestać odpowiadać. Jeśli jesteś pewien, że chcesz wyświetlić dane, kliknij przycisk poniżej.
       loading: Wczytywanie...
       unable_to_load_size: "Nie można wczytać: prostokąt ograniczający %{bbox_size} jest zbyt duży (nie może przekraczać %{max_bbox_size} stopnia)"
     tag_details: 
-      tags: "Znaczniki:"
+      tags: Znaczniki
       wiki_link: 
-        key: Strona wiki dla znacznika %{key}
+        key: "Opis na wiki dla znacznika: %{key}"
         tag: Strona wiki dla znacznika %{key}=%{value}
       wikipedia_link: Artykuł %{page} w Wikipedii
     timeout: 
@@ -153,6 +177,11 @@ pl:
         node: węzeł
         relation: relacja
         way: droga
+    version: Wersja
+    view_details: Wyświetl szczegóły
+    view_history: Wyświetl historię
+    way: 
+      nodes: Węzły
   changeset: 
     changeset: 
       anonymous: Anonim
@@ -169,6 +198,9 @@ pl:
       saved_at: Zapisano
       user: Użytkownik
     list: 
+      empty: Brak znalezionych zestawów zmian.
+      empty_area: Brak zestawów zmian w tym obszarze.
+      load_more: Załaduj więcej
       title: Zestawy zmian
       title_friend: Zestawy zmian twoich znajomych
       title_nearby: Zestawy zmian pobliskich użytkowników
@@ -300,6 +332,7 @@ pl:
           description: Regularnie aktualizowane kopie całej bazy danych OpenStreetMap
           title: Planeta OSM
       zoom: Zoom
+    title: Eksportuj
   geocoder: 
     description: 
       title: 
@@ -829,6 +862,14 @@ pl:
           water_point: Punkt wodny
           waterfall: Wodospad
           weir: Jaz
+  help_page: 
+    title: Uzyskiwanie pomocy
+    welcome: 
+      title: Witamy w OSM
+      url: /welcome
+    wiki: 
+      title: wiki.openstreetmap.org/wiki/Pl:Main_Page
+      url: http://wiki.openstreetmap.org/wiki/Pl:Main_Page
   javascripts: 
     close: Zamknij
     edit_help: Przesuń mapę i powiększ miejsce, które chcesz edytować, a następnie kliknij tutaj.
@@ -895,11 +936,13 @@ pl:
       createnote_tooltip: Zgłoś błąd lub dodaj uwagę na mapie
       edit_disabled_tooltip: Powiększ, aby edytować mapę
       edit_tooltip: Edytuje mapę
+      map_data_zoom_in_tooltip: Powiększ, aby zobaczyć dane mapy
   layouts: 
+    about: Informacje
     community: Społeczność
     community_blogs: Blogi wspólnoty
     community_blogs_title: Blogi członków społeczności OpenStreetMap
-    copyright: Prawa autorskie i licencja
+    copyright: Prawa autorskie
     data: Dane
     donate: Wspomóż projekt OpenStreetMap %{link} na fundusz rozbudowy sprzętu komputerowego.
     edit: Edycja
@@ -914,11 +957,13 @@ pl:
     history: Zmiany
     home: Przejdź do lokalizacji domu
     intro_2_create_account: Utwórz konto
-    log_in: zaloguj się
+    intro_header: Witamy w OpenStreetMap!
+    learn_more: Dowiedz się więcej
+    log_in: Zaloguj się
     log_in_tooltip: Zaloguj się
     logo: 
       alt_text: Logo OpenStreetMap
-    logout: wyloguj się
+    logout: Wyloguj się
     make_a_donation: 
       text: Przekaż darowiznę
       title: Wspomóż OpenStreetMap za pomocą darowizny pieniężnej
@@ -929,15 +974,16 @@ pl:
     partners_ic: Imperial College London
     partners_partners: partnerzy
     partners_ucl: centrum UCL VR
-    sign_up: zarejestruj
+    sign_up: Zarejestruj się
     sign_up_tooltip: Załóż konto, aby edytować
+    start_mapping: Rozpocznij tworzenie mapy
     tag_line: Wolna wikimapa świata
     user_diaries: Dzienniczki
     user_diaries_tooltip: Przeglądaj dzienniczki użytkownika
   license_page: 
     foreign: 
       english_link: oryginalna angielska wersja
-      text: W przypadku konfliktu pomiędzy tym tłumaczeniem a %{english_original_link}, preferowana jest strona w języku angielskim.
+      text: W przypadku konfliktu pomiędzy tym tłumaczeniem, a %{english_original_link}, preferowana jest strona w języku angielskim.
       title: Informacje o tłumaczeniu
     legal_babble: 
       attribution_example: 

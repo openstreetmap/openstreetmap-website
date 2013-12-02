@@ -4,6 +4,18 @@
 # Author: Bjankuloski06
 # Author: Nemo bis
 mk: 
+  about_page: 
+    community_driven_html: "Заедницата на OpenStreetMap е разнообразна, посветена и секојдневно расте.\nМеѓу учесниците имаме аматерски картографи, стручњаци во ГИС, технолози што работат со опслужувачите на OSM, \nхуманитарни работници што картираат подрачја погодени \nод катастрофи и разни други.\nПовеќе за заедницата ќе дознаете во <a href='%{diary_path}'>корисничките дневници</a>,\n<a href='http://blogs.openstreetmap.org/'>блоговите на заедницата</a> и страниците на\n<a href='http://www.osmfoundation.org/'>Фондацијата OSM</a> website."
+    community_driven_title: Проектот го работи заедницата
+    copyright_html: <span>&copy;</span>Учесници на<br>OpenStreetMap
+    lede_text: "OpenStreetMap ја гради заедница од учесници што придонесуваат со свои содржини и ги одржуваат податоците\nза патишта, патеки, кафеани, железнички станици и многу друго ширум светот."
+    local_knowledge_html: "OpenStreetMap полага особена важност на локални сознија. Учесниците користат\nвоздушни снимки, GPS-уреди и пообични теренски карти\nсо цел да се провери исправноста\nи актуелноста на OSM."
+    local_knowledge_title: Локални сознанија
+    next: Следно
+    open_data_html: "OpenStreetMap е проект со <i>отворени податоци</i>: можете слободно да го користите за било која цел\nдоколку ја наведете OpenStreetMap и нејзините учесници. Ако решите да ги менувате податоците или да се надоврзувате на нив, добиеното дело можете да го распространувате исклучиво\nпод истата лиценца. Повеќе ќе најдете на страницата <a href='%{copyright_path}'>Авторски права и лиценцирање</a>."
+    open_data_title: Отворени податоци
+    partners_title: Партнери
+    used_by: "%{name} обезбедува картографски податоци на стотици мрежни места, мобилни прилози и сметачки уреди"
   activerecord: 
     attributes: 
       diary_comment: 
@@ -81,27 +93,61 @@ mk:
       blocked: Пристапот кон API ви е блокиран. Најавете се на посредникот за да дознаете повеќе.
       need_to_see_terms: Вашиот пристап до приложниот програм (API) е привремено запрен. Најавете се на мрежниот посредник за да ги погледате Условите за учесниците. Нема потреба да се согласувате со услоците, но мора да ги прочитате.
   browse: 
+    anonymous: анонимен
     changeset: 
+      belongs_to: Автор
       changesetxml: XML за измените
       feed: 
         title: Измени %{id}
         title_comment: Измени %{id} - %{comment}
+      node: Јазли (%{count})
+      node_paginated: Јазли (%{x}-%{y} од вкупно %{count})
       osmchangexml: osmChange XML
-      title: Измени
+      relation: Односи (%{count})
+      relation_paginated: Односи (%{x}-%{y} од вкупно %{count})
+      title: "Измени: %{id}"
+      way: Патишта (%{count})
+      way_paginated: Патишта (%{x}-%{y} од вкупно %{count})
+    closed: Затворено
+    closed_by_html: Затворено <abbr title='%{title}'>пред %{time}</abbr> од %{user}
+    closed_html: Затворено <abbr title='%{title}'>пред %{time}</abbr>
     containing_relation: 
       entry: Однос %{relation_name}
       entry_role: Однос %{relation_name} (како %{relation_role})
+    created: Создадено
+    created_by_html: Создадено <abbr title='%{title}'>пред %{time}</abbr> од %{user}
+    created_html: Создадено <abbr title='%{title}'>пред %{time}</abbr>
+    deleted_by_html: Избришано <abbr title='%{title}'>пред %{time}</abbr> од %{user}
+    download_xml: Преземи XML
+    edited_by_html: Изменето <abbr title='%{title}'>пред %{time}</abbr> од %{user}
+    in_changeset: Измени
+    no_comment: (нема коментари)
+    node: 
+      history_title: "Историја на јазолот: %{name}"
+      title: "Јазол: %{name}"
     not_found: 
-      sorry: Жалиам, но не најдов %{type} со назнака %{id}.
+      sorry: Нажалост, не да најдам %{type} со бр. %{id}.
       type: 
         changeset: измени
         node: јазол
         relation: однос
         way: пат
     note: 
-      closed_title: "Решена белешка: %{note_name}"
-      open_title: "Нерешена белешка: %{note_name}"
-      title: Белешка
+      closed_by: Решено од %{user} <abbr title='%{exact_time}'>пред %{when}</abbr>
+      closed_by_anonymous: Решено од анонимен <abbr title='%{exact_time}'>пред %{when}</abbr>
+      closed_title: Решена белешка бр. %{note_name}
+      commented_by: Коментар на %{user} <abbr title='%{exact_time}'>пред %{when}</abbr>
+      commented_by_anonymous: Коментар на анонимен <abbr title='%{exact_time}'>пред %{when}</abbr>
+      hidden_by: Скриено од %{user} <abbr title='%{exact_time}'>пред %{when}</abbr>
+      hidden_title: "Скриена белешка бр. #%{note_name}"
+      new_note: Нова белешка
+      open_by: Создадено од %{user} <abbr title='%{exact_time}'>пред %{when}</abbr>
+      open_by_anonymous: Создадено од анонимен <abbr title='%{exact_time}'>пред %{when}</abbr>
+      open_title: Нерешена белешка бр. %{note_name}
+      reopened_by: Преактивирано од %{user} <abbr title='%{exact_time}'>пред %{when}</abbr>
+      reopened_by_anonymous: Преактивирано од анонимен <abbr title='%{exact_time}'>пред %{when}</abbr>
+      title: "Белешка: %{id}"
+    part_of: Дел од
     redacted: 
       message_html: Верзијата %{version} на оваа %{type} не може да се прикаже бидејќи е редактирана. Повеќе на %{redaction_link}.
       redaction: Редакција %{id}
@@ -109,6 +155,10 @@ mk:
         node: јазол
         relation: однос
         way: пат
+    relation: 
+      history_title: "Историја на односот: %{name}"
+      members: Членови
+      title: "Однос: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} како %{role}"
       type: 
@@ -117,11 +167,10 @@ mk:
         way: Пат
     start_rjs: 
       load_data: Вчитај ги податоците
-      loaded_an_area_with_num_features: "Вчитавте простор што содржи %{num_features} елементи. Некои прелистувачи не можат да се справат со толку податоци. Начелно, прелистувачите работат најдобро при помалку од %{max_features} елементи наеднаш: ако правите нешто друго прелистувачот ќе ви биде бавен/пасивен. Ако и покрај тоа сакате да се прикажат овие податоци, тогаш стиснете на копчето подолу."
       loading: Вчитувам...
-      unable_to_load_size: "Не можам да вчитам: Рамката од %{bbox_size} е преголема (мора да биде помала од %{max_bbox_size}))"
+      unable_to_load_size: Не можам да ги вчитам податоците за картата, бидејќи површината е преголема (%{bbox_size}). Мора да зафаќа помалку од %{max_bbox_size} квадратни степени.
     tag_details: 
-      tags: "Ознаки:"
+      tags: Ознакиж
       wiki_link: 
         key: Вики-страницата за опис на ознаката %{key}
         tag: Вики-страницата за ознаката %{key}=%{value}
@@ -133,6 +182,16 @@ mk:
         node: јазол
         relation: однос
         way: пат
+    version: Верзија
+    view_details: Погл. подробности
+    view_history: Погл. историја
+    way: 
+      also_part_of: 
+        one: дел од патот %{related_ways}
+        other: дел од патиштата %{related_ways}
+      history_title: "Историја на патот: %{name}"
+      nodes: Јазли
+      title: "Пат: %{name}"
   changeset: 
     changeset: 
       anonymous: Анонимен
@@ -149,6 +208,13 @@ mk:
       saved_at: Зачувано во
       user: Корисник
     list: 
+      empty: Не пронајдов збирови од промени.
+      empty_area: Нема збирови од промени во ова подрачје.
+      empty_user: Нема збирови на промени од тој корисник.
+      load_more: Вчитај уште
+      no_more: Нема повеќе збирови на промени.
+      no_more_area: Нема повеќе збирови на промени во ова подрчаје.
+      no_more_user: Нема повеќе збирови на промени од тој корисник.
       title: Измени
       title_friend: Измени на ваши пријатели
       title_nearby: Измени од соседни корисници
@@ -279,6 +345,7 @@ mk:
           description: Редовно подновувани примероци на целата база на OpenStreetMap
           title: Планетата на OSM
       zoom: Приближи
+    title: Извези
   geocoder: 
     description: 
       title: 
@@ -808,6 +875,21 @@ mk:
           water_point: Пристап до вода
           waterfall: Водопад
           weir: Јаз
+  help_page: 
+    help: 
+      description: Поставете прашање или побарајте во одговорите на порталот за прашања и одговори на OSM.
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: "OpenStreetMap има неколку ресурси каде можете да дознаете за проектот, да поставувате прашања,\nда водите заедничка дискусија и да документирате картографски теми."
+    title: Помош
+    welcome: 
+      description: Започнете со овој брз водич низ основите на OpenStreetMap.
+      title: Добре дојдовте на OSM
+      url: /welcome
+    wiki: 
+      description: Прелистајте ја подробната документација за OSM на викито.
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/wiki/Mk:Main_Page
   html: 
     dir: ltr
   javascripts: 
@@ -825,6 +907,7 @@ mk:
         standard: Стандардна
         transport_map: Сообраќајна карта
       copyright: © <a href='%{copyright_url}'>Учесници во OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Дарувајте</a>
       layers: 
         data: Податоци за картата
         header: Слоеви на картата
@@ -880,11 +963,14 @@ mk:
       createnote_tooltip: Додај белешка на картата
       edit_disabled_tooltip: Приближете за да ја уредите картата
       edit_tooltip: Уредување на картата
+      map_data_zoom_in_tooltip: Приближете за да ги видите податоците
+      map_notes_zoom_in_tooltip: Приближете за да ги видите белешките
   layouts: 
+    about: За нас
     community: Заедница
     community_blogs: Блогови на заедницата
     community_blogs_title: Блогови од членови на заедницата на OpenStreetMap
-    copyright: Авторски права и лиценца
+    copyright: Авторски права
     data: Податоци
     donate: Поддржете ја OpenStreetMap со %{link} за Фондот за обнова на машинската опрема.
     edit: Уреди
@@ -899,6 +985,9 @@ mk:
     history: Историја
     home: Оди на матичната местоположба
     intro_2_create_account: Создајте корисничка сметка
+    intro_header: Добре дојдовте на OpenStreetMap!
+    intro_text: OpenStreetMap е карта на светот создадена од луѓе како вас и се нуди за слободна употреба под отворена лиценца.
+    learn_more: Дознајте повеќе
     log_in: најави ме
     log_in_tooltip: Најава со постоечка сметка
     logo: 
@@ -915,8 +1004,9 @@ mk:
     partners_partners: партнери
     partners_ucl: VR-центарот на UCL
     partners_url: http://wiki.openstreetmap.org/wiki/Partners?uselang=mk
-    sign_up: регистрација
+    sign_up: Регистрација
     sign_up_tooltip: Создај сметка за уредување
+    start_mapping: Почнете да ги работите картите
     tag_line: Слободна вики-карта на светот
     user_diaries: Кориснички дневници
     user_diaries_tooltip: Види кориснички дневници
@@ -1144,6 +1234,15 @@ mk:
       allow_write_notes: измена на белешки.
       allow_write_prefs: ги менува вашите кориснички прилагодувања.
       request_access: Програмскиот прилог %{app_name} бара пристап до вашата сметка, %{user}. Видете дали би сакале прилогот да ги има следните можности. Можете да одберете колку што сакате.
+      title: Овластете пристап до вашата сметка
+    oauthorize_failure: 
+      denied: На прилогот %{app_name} му го одбивте пристапот до вашата сметка.
+      invalid: Шифрата за овластување е неважечка.
+      title: Барањето за овластување не успеа
+    oauthorize_success: 
+      allowed: На прилогот %{app_name} му дадовте пристап до вашата сметка.
+      title: Барањето за овластување е дозволено
+      verification: Потврдниот код гласи %{code}.
     revoke: 
       flash: Ja поништивте шифрата за %{application}
   oauth_clients: 
@@ -1863,7 +1962,7 @@ mk:
       way_html: <strong>Пат</strong> е линија или подрачје, како пат, поток, езеро или објект (здание).
     introduction_html: Добре дојдовте на OpenStreetMap — слободна и уредлива карта на светот. Сега веќе сте регистрирани, што значи дека можете да почнете со работа. Еве мала помош за најважните работи што треба да ги знаете.
     questions: 
-      paragraph_1_html: "Ви треба картографска помош или не ви е јасно како се користи OpenStreetMap? Прашањата ќе ви ги одговориме на\n<a href='http://help.openstreetmap.org/'>порталот за помош</a>."
+      paragraph_1_html: "OpenStreetMap има неколку ресурси каде можете да дознаете за проектот, да поставувате прашања,\nда водите заедничка дискусија и да документирате картографски теми.\n<a href='%{help_url}'>Помош ќе добиете тука</a>."
       title: Имате прашања?
     start_mapping: Почнете да ги работите картите
     title: Добре дојдовте!

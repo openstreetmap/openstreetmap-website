@@ -9,6 +9,16 @@
 # Author: Wrightbus
 # Author: 아라
 ko: 
+  about_page: 
+    copyright_html: <span>&copy;</span>OpenStreetMap<br>기여자
+    lede_text: "OpenStreetMap은 전 세계에 걸쳐, 도로, 산책로, 카페, 기차역과 훨씬 많은 데이터를\n기여하고 유지하는 매퍼 공동체에 의해 구축됩니다."
+    local_knowledge_html: "OpenStreetMap은 지역 지식을 강조합니다. 기여자는 OSM이 정확하고\n최신으로 검증하기 위해 항공 영상, GPS 장치와, 낮은 기술 분야 지도를\n사용합니다."
+    local_knowledge_title: 지역 지식
+    next: 다음
+    open_data_html: "OpenStreetMap은 <i>오픈 데이터</i>입니다: OpenStreetMap과 기여자를 제작진으로\n어떤 목적으로도 자유롭게 사용할 수 있습니다. 특정 방법으로 바꾸거나\n데이터에 빌드한다면, 동일한 라이선스에 따라 결과를 배포할 수 있습니다.\n자세한 내용은 <a href='%{copyright_path}'>저작권 및 라이선스 페이지</a>를\n참고하세요."
+    open_data_title: 오픈 데이터
+    partners_title: 파트너
+    used_by: "%{name}은 수 많은 웹 사이트, 모바일 앱과 하드웨어 장치에 지도 데이터를 제공합니다"
   activerecord: 
     attributes: 
       diary_comment: 
@@ -86,34 +96,72 @@ ko:
       blocked: API에 대한 접근을 차단했습니다. 자세한 내용을 알아보려면 웹 인터페이스에 로그인하세요.
       need_to_see_terms: API에 대한 접근을 일시적으로 중지했습니다. 기여자 약관을 보려면 웹 인터페이스에 로그인하세요. 기여자 약관에 동의 할 필요는 없습니다만 기여자 약관을 보아야 합니다.
   browse: 
+    anonymous: 익명
     changeset: 
+      belongs_to: 저자
       changesetxml: 바뀜집합 XML
       feed: 
         title: 바뀜집합 %{id}
         title_comment: 바뀜집합 %{id} - %{comment}
+      node: 노드 (%{count})
+      node_paginated: 노드 (%{count} 중 %{x}-%{y})
       osmchangexml: osm바뀜 XML
-      title: 바뀜집합
+      relation: 관계 (%{count})
+      relation_paginated: 관계 (%{count} 중 %{x}-%{y})
+      title: "바뀜집합: %{id}"
+      way: 길 (%{count})
+      way_paginated: 길 (%{count} 중 %{x}-%{y})
+    closed: 닫힘
+    closed_by_html: <abbr title='%{title}'>%{time} 전</abbr>에 %{user} 사용자가 닫음
+    closed_html: <abbr title='%{title}'>%{time} 전</abbr>에 닫힘
     containing_relation: 
       entry: 관계 %{relation_name}
       entry_role: (%{relation_role}로서) 관계 %{relation_name}
+    created: 만들어짐
+    created_by_html: <abbr title='%{title}'>%{time} 전</abbr>에 %{user} 사용자가 만듦
+    created_html: <abbr title='%{title}'>%{time} 전</abbr>에 만들어짐
+    deleted_by_html: <abbr title='%{title}'>%{time} 전</abbr>에 %{user} 사용자가 삭제함
+    download_xml: XML 다운로드
+    edited_by_html: <abbr title='%{title}'>%{time} 전</abbr>에 %{user} 사용자가 편집함
+    in_changeset: 바뀜집합
+    no_comment: (덧글 없음)
+    node: 
+      history_title: "노드 역사: %{name}"
+      title: "노드: %{name}"
     not_found: 
-      sorry: 죄송합니다. %{id}인 %{type}를 발견하지 못했습니다.
+      sorry: "죄송하지만, %{type} #%{id}(을)를 찾지 못했습니다."
       type: 
         changeset: 바뀜집합
         node: 노드
         relation: 관계
         way: 길
     note: 
-      closed_title: "해결된 참고: %{note_name}"
-      open_title: "해결되지 않은 참고: %{note_name}"
-      title: 참고
+      closed_by: "%{user} 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에 해결함"
+      closed_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 해결함
+      closed_title: "해결된 참고 #%{note_name}"
+      commented_by: "%{user} 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에 덧글을 남김"
+      commented_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 덧글을 남김
+      hidden_by: "%{user} 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에 숨김"
+      hidden_title: "숨겨진 참고 #%{note_name}"
+      new_note: 새 참고
+      open_by: "%{user} 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에 만듦"
+      open_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 만듦
+      open_title: "해결되지 않은 참고 #%{note_name}"
+      reopened_by: "%{user} 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에 다시 활성화함"
+      reopened_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 다시 활성화함
+      title: "참고: %{id}"
+    part_of: "다음의 부분:"
     redacted: 
-      message_html: 이 %{type}의 %{version} 버전은 수정한 버전으로 볼 수 없습니다. 자세한 내용은 %{redaction_link}(을)를 참고하세요.
+      message_html: 이 %{type}의 %{version} 판은 수정한 판으로 볼 수 없습니다. 자세한 내용은 %{redaction_link}(을)를 참고하세요.
       redaction: 개정 %{id}
       type: 
         node: 노드
         relation: 관계
         way: 길
+    relation: 
+      history_title: "관계 역사: %{name}"
+      members: 구성원
+      title: "관계: %{name}"
     relation_member: 
       entry_role: "%{type}에서 %{role}의 %{name}"
       type: 
@@ -122,11 +170,10 @@ ko:
         way: 길
     start_rjs: 
       load_data: 데이터 불러오기
-      loaded_an_area_with_num_features: 당신은 특성을 가진 지역 %{num_features}개를 불러왔습니다. 일반적으로, 일부 브라우저에서는 이 데이터 개수를 모두 처리하지 못할 수도 있습니다. 일반적으로, 브라우저들은 대개 특성 %{max_features}개 이하를 처리하여 보여줄 수 있습니다. 그렇지 않은 경우, 브라우저의 속도가 저하되거나 브라우저의 반응이 느려질 수 있습니다. 여전히 이 데이터를 표시하려면, 아래의 버튼을 클릭하세요.
       loading: 불러오는 중...
-      unable_to_load_size: "불러오기 실패: 표시하려는 지역(%{bbox_size})의 설정 박스가 너무 큽니다. %{max_bbox_size}까지 표시할 수 있습니다."
+      unable_to_load_size: 지역(%{bbox_size})이 너무 커서, 지도 데이터를 불러올 수 없습니다. 지역은 %{max_bbox_size} 사각도보다 작아야 합니다.
     tag_details: 
-      tags: "태그:"
+      tags: 태그
       wiki_link: 
         key: "%{key} 태그에 대한 위키 설명 문서"
         tag: "%{key}=%{value} 태그에 대한 위키 설명 문서"
@@ -138,6 +185,16 @@ ko:
         node: 노드
         relation: 관계
         way: 길
+    version: 판
+    view_details: 자세한 내용 보기
+    view_history: 역사 보기
+    way: 
+      also_part_of: 
+        one: "%{related_ways} 길의 부분"
+        other: "%{related_ways} 길의 부분"
+      history_title: "길 역사: %{name}"
+      nodes: 노드
+      title: "길: %{name}"
   changeset: 
     changeset: 
       anonymous: 익명
@@ -154,6 +211,13 @@ ko:
       saved_at: 저장 시간
       user: 사용자
     list: 
+      empty: 찾은 바뀜집합이 없습니다.
+      empty_area: 이 지역에 바뀜집합이 없습니다.
+      empty_user: 이 사용자의 바뀜집합이 없습니다.
+      load_more: 더 불러오기
+      no_more: 찾은 바뀜집합이 더 없습니다.
+      no_more_area: 이 지역에서 바뀜집합이 더 없습니다.
+      no_more_user: 이 사용자의 바뀜집합이 더 없습니다.
       title: 바뀜집합
       title_friend: 내 친구의 바뀜집합
       title_nearby: 근처 사용자의 바뀜집합
@@ -284,6 +348,7 @@ ko:
           description: 완전한 OpenStreetMap 데이터베이스가 정기적으로 업데이트되는 복사본
           title: 플래닛 OSM
       zoom: 확대
+    title: 내보내기
   geocoder: 
     description: 
       title: 
@@ -813,6 +878,16 @@ ko:
           water_point: 급수소
           waterfall: 폭포
           weir: 어량
+  help_page: 
+    help: 
+      description: OSM의 질문 및 답변 사이트에서 질문하거나 답변을 찾아보세요.
+    introduction: "OpenStreetMap은 프로젝트에 대해 배우고, 질문을 묻고 답하고,\n매핑 주제를 협력하여 토론하고 문서하기 위한 여러 자료가 있습니다."
+    title: 도움말 얻기
+    welcome: 
+      description: OpenStreetMap 기초를 다루는 이 퀵 가이드로 시작합니다.
+      title: OSM에 오신 것을 환영합니다
+    wiki: 
+      description: 깊이 있는 OSM 설명문서에 대해서는 위키를 찾아보세요.
   javascripts: 
     close: 닫기
     edit_help: 편집하려는 위치에 지도를 이동하고 확대한 다음, 여기를 클릭하세요.
@@ -827,6 +902,7 @@ ko:
         standard: 표준
         transport_map: 교통 지도
       copyright: © <a href='%{copyright_url}'>OpenStreetMap 기여자</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>기부하기</a>
       layers: 
         data: 지도 데이터
         header: 지도 레이어
@@ -882,11 +958,14 @@ ko:
       createnote_tooltip: 지도에 참고 추가
       edit_disabled_tooltip: 지도를 편집하려면 확대
       edit_tooltip: 지도 편집
+      map_data_zoom_in_tooltip: 지도 데이터를 보려면 확대
+      map_notes_zoom_in_tooltip: 지도 참고를 보려면 확대
   layouts: 
+    about: 소개
     community: 커뮤니티
     community_blogs: 커뮤니티 블로그
     community_blogs_title: OpenStreetMap 커뮤니티의 구성원에서의 블로그
-    copyright: 저작권 및 라이선스
+    copyright: 저작권
     data: 데이터
     donate: 하드웨어 업데이트 기금에서 %{link}에 의해 OpenStreet를 지원합니다.
     edit: 편집
@@ -901,6 +980,9 @@ ko:
     history: 역사
     home: 집 위치로 가기
     intro_2_create_account: 사용자 계정을 만드세요
+    intro_header: OpenStreetMap에 오신 것을 환영합니다!
+    intro_text: OpenStreetMap은 여러분과 같은 사람이 만들고 자유롭게 오픈 라이선스에 따라 사용할 수 있는, 세계 지도입니다.
+    learn_more: 더 알아보기
     log_in: 로그인
     log_in_tooltip: 기존 계정으로 로그인
     logo: 
@@ -918,6 +1000,7 @@ ko:
     partners_ucl: UCL VR 센터
     sign_up: 가입하기
     sign_up_tooltip: 편집을 위한 계정 만들기
+    start_mapping: 매핑 시작
     tag_line: 우리 모두의 위키 세계 지도
     user_diaries: 사용자 일기
     user_diaries_tooltip: 사용자 일기 보기
@@ -1136,23 +1219,32 @@ ko:
     oauthorize: 
       allow_read_gpx: 비공개 GPS 추적을 읽습니다.
       allow_read_prefs: 사용자 환경 설정을 읽습니다.
-      allow_to: "다음 클라이언트 응용 프로그램을 허용합니다:"
+      allow_to: "다음 클라이언트 애플리케이션을 허용합니다:"
       allow_write_api: 지도를 수정합니다.
       allow_write_diary: 일기 항목을 만들고 덧글을 달고 친구를 만듭니다.
       allow_write_gpx: GPS 추적을 올립니다.
       allow_write_notes: 참고를 수정합니다.
       allow_write_prefs: 사용자 환경 설정을 수정합니다.
-      request_access: "%{app_name} 응용 프로그램이 %{user} 계정에 접근을 요청합니다. 응용 프로그램이 다음 기능을 수행할 것인지 확인하세요. 원하는 많큼 많거나 적게 선택할 수 있습니다."
+      request_access: "%{app_name} 애플리케이션이 %{user} 계정에 접근을 요청합니다. 애플리케이션이 다음 기능을 수행할 것인지 확인하세요. 원하는 만큼 많거나 적게 선택할 수 있습니다."
+      title: 내 계정에 접근 인증
+    oauthorize_failure: 
+      denied: 내 계정에 %{app_name} 애플리케이션 접근이 거부되었습니다.
+      invalid: 인증 토큰이 올바르지 않습니다.
+      title: 인증 요청이 실패됨
+    oauthorize_success: 
+      allowed: 내 계정에 %{app_name} 애플리케이션 접근이 부여되었습니다.
+      title: 인증 요청이 허가됨
+      verification: 인증 코드는 %{code}입니다.
     revoke: 
       flash: "%{application}에 대한 토큰을 해제했습니다"
   oauth_clients: 
     create: 
       flash: 성공적으로 정보를 등록했습니다
     destroy: 
-      flash: 클라이언트 응용 프로그램 등록을 파기했습니다
+      flash: 클라이언트 애플리케이션 등록을 파기했습니다
     edit: 
       submit: 편집
-      title: 응용 프로그램 편집
+      title: 내 애플리케이션 편집
     form: 
       allow_read_gpx: 비공개 GPS 추적을 읽습니다.
       allow_read_prefs: 사용자 환경 설정을 읽습니다.
@@ -1166,15 +1258,15 @@ ko:
       requests: "사용자가 다음 권한을 요청합니다:"
       required: 필수
       support_url: 지원 URL
-      url: 주요 응용 프로그램 URL
+      url: 주요 애플리케이션 URL
     index: 
       application: 응용 프로그램 이름
       issued_at: 발행
-      list_tokens: "다음 토큰이 내 이름으로 응용 프로그램에 발급했습니다:"
-      my_apps: 내 클라이언트 응용 프로그램
-      my_tokens: 내 인증한 응용 프로그램
-      no_apps: "%{oauth} 표준을 사용하여 OpenStreetMap과 함께 사용하기 위해 등록할 응용 프로그램이 있습니까? 이 서비스에 OAuth를 요청하기 전에 웹 응용 프로그램을 등록해야 합니다."
-      register_new: 응용 프로그램 등록
+      list_tokens: "다음 토큰이 내 이름으로 애플리케이션에 발급했습니다:"
+      my_apps: 내 클라이언트 애플리케이션
+      my_tokens: 내 인증한 애플리케이션
+      no_apps: "%{oauth} 표준을 사용하여 OpenStreetMap과 함께 사용하기 위해 등록할 애플리케이션이 있습니까? 이 서비스에 OAuth를 요청하기 전에 웹 애플리케이션을 등록해야 합니다."
+      register_new: 내 애플리케이션 등록
       registered_apps: "등록한 다음 클라이언트 응용 프로그램이 있습니다:"
       revoke: 해제!
       title: 내 OAuth 자세한 정보
@@ -1210,7 +1302,7 @@ ko:
     destroy: 
       error: 이 교정을 파기하는 중에 오류가 발생했습니다.
       flash: 교정을 파기했습니다.
-      not_empty: 교정이 비어 있지 않습니다. 파기하기 전에 이 교정에 속하는 모든 버전을 교정 취소하세요.
+      not_empty: 교정이 비어 있지 않습니다. 파기하기 전에 이 교정에 속하는 모든 판을 교정 취소하세요.
     edit: 
       description: 설명
       heading: 교정 편집
@@ -1851,7 +1943,7 @@ ko:
       way_html: <strong>길</strong>은 도로, 개울, 호수나 건물과 같은, 선이나 지역입니다.
     introduction_html: "세계의 자유롭고 편집할 수 있는 지도인, OpenStreetMap에 오신 것을 환영합니다. 지금 가입하면,\n시작된 매핑을 얻도록 모두 설정됩니다. 여기에서 알아야 하는 가장 중요한 것들로 된\n빠른 가이드가 있습니다."
     questions: 
-      paragraph_1_html: "매핑에 도움이 필요하거나, OpenStreetMap을 사용하는 방법에 확실하지 않습니까?\n<a href='http://help.openstreetmap.org/'>도움말 웹사이트</a>에서 질문에 대한 답변을 얻으세요."
+      paragraph_1_html: "OpenStreetMap은 프로젝트에 대해 배우고, 질문을 묻고 답하고,\n매핑 주제를 협력하여 토론하고 문서하기 위한 여러 자료가 있습니다.\n<a href='%{help_url}'>여기서 도움을 얻으세요</a>."
       title: 질문 있나요?
     start_mapping: 매핑 시작
     title: 환영합니다!

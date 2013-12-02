@@ -7,6 +7,7 @@
 # Author: George Animal
 # Author: Gizemb
 # Author: Incelemeelemani
+# Author: Joseph
 # Author: Katpatuka
 # Author: SalihB
 # Author: Szoszv
@@ -14,6 +15,10 @@
 # Author: Tarikozket
 # Author: 아라
 tr: 
+  about_page: 
+    copyright_html: <span>&copy;</span>OpenStreetMap<br>katkıda bulunanlar
+    local_knowledge_title: Yerel Bilgi
+    next: İleri
   activerecord: 
     attributes: 
       diary_comment: 
@@ -74,32 +79,61 @@ tr:
       way: Yol
       way_node: Yol Noktası
   browse: 
+    anonymous: anonim
     changeset: 
+      belongs_to: Yazar
       changesetxml: Değişiklik takımı XML
       feed: 
         title: Değişiklik takımı %{id}
         title_comment: Değişiklik takımı %{id} - %{comment}
+      node: Noktalar (%{count})
+      node_paginated: Nokta (%{x}-%{y} - toplam %{count})
       osmchangexml: osmChange XML
-      title: Değişiklik takımı
+      relation: Relasyonlar (%{count})
+      relation_paginated: Relasyon (%{x}-%{y} - toplam %{count})
+      title: "Değişiklik takımı: %{id}"
+      way: Yollar (%{count})
+      way_paginated: Yol (%{x}-%{y} - toplam %{count})
+    closed: Kapandı
+    closed_by_html: <abbr title='%{title}'>%{time} önce</abbr> %{user} tarafından kapandı
+    closed_html: <abbr title='%{title}'>%{time} önce</abbr> kapandı
     containing_relation: 
       entry: İlişki %{relation_name}
       entry_role: İlişki %{relation_name} (%{relation_role} olarak)
+    created: Oluşturuldu
+    created_by_html: <abbr title='%{title}'>%{time} önce</abbr> %{user} tarafından oluşturuldu
+    created_html: <abbr title='%{title}'>%{time} önce</abbr> oluşturuldu
+    deleted_by_html: <abbr title='%{title}'>%{time} önce</abbr> %{user} tarafından silindi
+    download_xml: XML İndir
+    edited_by_html: <abbr title='%{title}'>%{time} önce</abbr> %{user} tarafından düzenlendi
+    in_changeset: Değişiklik Kayıdı
+    no_comment: (yorum yok)
+    node: 
+      history_title: "Nokta Geçmişi: %{name}"
+      title: "Nokta: %{name}"
     not_found: 
-      sorry: Üzgünüm, %{id} numaralı %{type} bulunamadı.
+      sorry: "Üzgünüm, #%{id} numaralı %{type} bulunamadı."
       type: 
         changeset: değişiklik takımı
         node: nokta
         relation: ilişki
         way: yol
     note: 
-      closed_title: "Çözümlenmiş not: % {note_name}"
-      open_title: "Çözümlenmemiş not: %{note_name}"
-      title: Not
+      closed_title: "Çözümlenmiş not: #%{note_name}"
+      hidden_title: "Saklı not #%{note_name}"
+      new_note: Yeni Not
+      open_title: "Çözümlenmemiş not: #%{note_name}"
+      title: "Not: %{id}"
+    part_of: Ortak parça
     redacted: 
       type: 
         node: nokta
         relation: ilişki
         way: yol
+    relation: 
+      history_title: "Relasyon Geçmişi: %{name}"
+      members: Üyeler
+      title: "Relasyon: %{name}"
     relation_member: 
       entry_role: "%{type} %{name}, adı %{role}"
       type: 
@@ -111,7 +145,7 @@ tr:
       loading: Yükleniyor...
       unable_to_load_size: "Yüklenemiyor: alan boyutu %{bbox_size} çok büyük - (%{max_bbox_size}'den küçük olması gerekir)"
     tag_details: 
-      tags: "Parametreler:"
+      tags: Etiketler
       wiki_link: 
         key: "%{key} parametresi için Viki açıklaması"
         tag: "%{key}=%{value} parametresi için Viki açıklaması"
@@ -122,6 +156,13 @@ tr:
         node: nokta
         relation: ilişki
         way: yol
+    version: Sürüm
+    view_details: Ayrıntıları Görüntüle
+    view_history: Geçmişi Görüntüle
+    way: 
+      history_title: "Yol geçmişi: %{name}"
+      nodes: Noktalar
+      title: "Yol: %{name}"
   changeset: 
     changeset: 
       anonymous: Anonim
@@ -138,6 +179,7 @@ tr:
       saved_at: Kaydetme Tarih
       user: Kullanıcı
     list: 
+      load_more: Fazla görüntüle
       title: Değişiklik Setleri
       title_friend: Arkadaşların değişiklik kayıtları
       title_nearby: Yakındaki kullanıcıların değişiklik kayıtları
@@ -261,6 +303,7 @@ tr:
         planet: 
           title: OSM Gezegeni
       zoom: Yakınlaştır
+    title: Dışa aktar
   geocoder: 
     description: 
       title: 
@@ -674,6 +717,7 @@ tr:
           electronics: Elektronik Mağazası
           estate_agent: Emlakçı
           farm: Tarım Ürünleri Dükkanı
+          fashion: Moda Dükkanı
           fish: Balık Dükkanı
           florist: Çiçekçi
           food: Yiyecek Dükkanı
@@ -699,8 +743,10 @@ tr:
           organic: Organik Yiyecek Dükkanı
           outdoor: Outdoor Sporları Mağazası
           pet: Hayvan Mağazası
+          pharmacy: Eczane
           photo: Fotoğrafçı
           salon: Kuaför
+          second_hand: İkinci El Dükkanı
           shoes: Ayakkabı Dükkanı
           shopping_centre: Alışveriş Merkezi
           sports: Spor Malzemeleri Mağazası
@@ -734,6 +780,7 @@ tr:
           viewpoint: Panoramik view
           zoo: Hayvanat bahçesi
         tunnel: 
+          culvert: Menfez
           "yes": Tünel
         waterway: 
           artificial: Yapay su yolu
@@ -757,6 +804,17 @@ tr:
           water_point: İçme suyu
           waterfall: Şelale
           weir: Küçük köprü
+  help_page: 
+    help: 
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    title: Yardım Almak
+    welcome: 
+      description: OpenStreetMap temellerini öğrenmek için kısa bir kılavuz ile başla.
+      title: OSM'ye hoşgeldin!
+    wiki: 
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/
   javascripts: 
     map: 
       base: 
@@ -769,10 +827,11 @@ tr:
       edit_disabled_tooltip: Harita düzenlemek için yakınlaştırmak gerek
       edit_tooltip: Haritayı düzenle
   layouts: 
+    about: Hakkında
     community: Topluluk
     community_blogs: Üye Blogları
     community_blogs_title: OpenStreetMap üyelerinin blogları
-    copyright: Telif hakkı & Lisans
+    copyright: Telif Hakkı
     data: Veri
     donate: Donanım Yükseltme Fonu'na %{link} yaparak OpenStreetMap'e destek veriniz.
     edit: Düzenle
@@ -787,6 +846,8 @@ tr:
     history: Geçmiş
     home: Kendin Konuma Git
     intro_2_create_account: hesap oluşturunuz
+    intro_header: OpenStreetMap'e hoş geldiniz!
+    learn_more: Daha Fazla Bilgi
     log_in: Oturum aç
     log_in_tooltip: Var olan bir hesapla giriş yapın
     logo: 
@@ -804,6 +865,7 @@ tr:
     partners_ucl: UCL VR Centre
     sign_up: Kaydol
     sign_up_tooltip: Düzenleme moduna girmek için bir hesap oluştur
+    start_mapping: Harita Çizmeye Başla
     tag_line: Özgür Viki Dünya Haritası
     user_diaries: Günlük
     user_diaries_tooltip: Kullanıcı günlükleri görüntüle
@@ -861,6 +923,7 @@ tr:
       title: Gönderilmiş Kutusu
       to: Alıcı
     read: 
+      back: Geri
       date: Tarih
       from: Gönderen
       reply_button: Yanıtla
@@ -909,6 +972,8 @@ tr:
     message_notification: 
       header: "OpenStreetMap kullanıcı %{from_user} sana %{subject} konulu bir mesaj gönderdi:"
       hi: Merhaba %{to_user},
+    note_comment_notification: 
+      greeting: Merhaba,
     signup_confirm: 
       created: Birisi (umarım sen) %{site_url} sitesinde yeni bir hesap açtı.
       greeting: Merhaba!
@@ -1394,7 +1459,7 @@ tr:
       revoke: İptal!
       revoker_name: İptal eden
       show: Göster
-      showing_page: Sayfa %{page} görüntüleniyor
+      showing_page: Sayfa %{page}
       status: Durum
     period: 
       one: 1 saat
@@ -1433,8 +1498,11 @@ tr:
     add_a_note: 
       title: Düzenlemek için vaktın yok mu? O zaman bir not ekle...!
     basic_terms: 
+      title: Haritacılığın temel terimleri
       way_html: Bir <strong>yol</strong> bir çizgi ya da alan, bir cadde, akarsu, göl veya bina olabilir.
     questions: 
       title: Sorularınız var mı?
     start_mapping: Harita çizmeye başla
     title: Hoşgeldiniz!
+    whats_on_the_map: 
+      title: Haritada ne bulunur

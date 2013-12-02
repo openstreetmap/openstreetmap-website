@@ -13,9 +13,16 @@
 # Author: Logictheo
 # Author: Omnipaedista
 # Author: Protnet
+# Author: Shirayuki
 # Author: Zserdx
 # Author: 아라
 el: 
+  about_page: 
+    copyright_html: <span>&copy;</span>Συνεισφέροντες<br> του OpenStreetMap
+    local_knowledge_title: Τοπική Γνώση
+    next: Επόμενη
+    open_data_title: Ανοικτά Δεδομένα
+    partners_title: Συνεργάτες
   activerecord: 
     attributes: 
       diary_comment: 
@@ -90,32 +97,61 @@ el:
     require_moderator: 
       not_a_moderator: Θα πρέπει να είστε συντονιστής για να εκτελέσετε αυτή την ενέργεια.
   browse: 
+    anonymous: ανώνυμος
     changeset: 
       belongs_to: Δημιουργός
       changesetxml: Ομάδας αλλαγών XML
       feed: 
         title: Ομάδα αλλαγών %{id}
         title_comment: Ομάδα αλλαγών %{id} - %{comment}
+      node: Kόμβοι (%{count})
+      node_paginated: Κόμβοι (%{x}-%{y} από %{count})
       osmchangexml: osmChange XML
+      relation: Σχέσεις (%{count})
+      relation_paginated: Σχέσεις (%{x}-%{y} από %{count})
       title: "Ομάδα αλλαγών: %{id}"
+      way: Διαδρομές (%{count})
+      way_paginated: Διαδρομές (%{x}-%{y} από %{count})
     closed: Έκλεισε
+    closed_by_html: Κλείστηκε <abbr title='%{title}'>πριν από %{time}</abbr> από τον %{user}
+    closed_html: Κλείστηκε <abbr title='%{title}'>πριν από %{time}</abbr>
     containing_relation: 
       entry: Σχέση %{relation_name}
       entry_role: Σχέση %{relation_name} (ως %{relation_role})
     created: Δημιουργήθηκε
+    created_by_html: Δημιουργήθηκε <abbr title='%{title}'>πριν από %{time}</abbr> από τον %{user}
+    created_html: Δημιουργήθηκε <abbr title='%{title}'>πριν από %{time}</abbr>
+    deleted_by_html: Διεγράφη <abbr title='%{title}'>πριν από %{time}</abbr> από τον %{user}
+    download_xml: Λήψη XML
+    edited_by_html: Επεξεργάστηκε <abbr title='%{title}'>πριν από %{time}</abbr> από τον %{user}
     in_changeset: Ομάδα αλλαγών
     no_comment: (χωρίς σχόλιο)
+    node: 
+      history_title: "Ιστορικό Κόμβου: %{name}"
+      title: "Κόμβος: %{name}"
     not_found: 
-      sorry: Λυπάμαι, ο/η %{type} με την ταυτότητα %{id}, δε μπορεί να βρεθεί.
+      sorry: "Λυπάμαι, ο/η/το %{type} #%{id} δε μπορούσε να βρεθεί."
       type: 
         changeset: ομάδα αλλαγών
         node: κόμβος
         relation: σχέση
         way: διαδρομή
     note: 
-      closed_title: "Σημείωση που έχει επιλυθεί: %{note_name}"
-      open_title: "Σημείωση που δεν έχει επιλυθεί: %{note_name}"
-      title: Σημείωση
+      closed_by: Επιλύθηκε από τον %{user} <abbr title='%{exact_time}'>πριν από %{when}</abbr>
+      closed_by_anonymous: Επιλύθηκε από ανώνυμο χρήστη <abbr title='%{exact_time}'>πριν από %{when}</abbr>
+      closed_title: "Επιλυμένη σημείωση: #%{note_name}"
+      commented_by: Σχόλιο από τον %{user} <abbr title='%{exact_time}'>πριν από %{when}</abbr>
+      commented_by_anonymous: Σχόλιο από ανώνυμο χρήστη <abbr title='%{exact_time}'>πριν από %{when}</abbr>
+      hidden_by: Έγινε κρυφή από τον %{user} <abbr title='%{exact_time}'>πριν από %{when}</abbr>
+      hidden_title: "Κρυφή σημείωση #%{note_name}"
+      new_note: Νέα Σημείωση
+      open_by: Δημιουργήθηκε από τον %{user} <abbr title='%{exact_time}'>πριν από %{when}</abbr>
+      open_by_anonymous: Δημιουργήθηκε από ανώνυμο χρήστη <abbr title='%{exact_time}'>πριν από %{when}</abbr>
+      open_title: "Ανοικτή σημείωση #%{note_name}"
+      reopened_by: Επανενεργοποιήθηκε από τον %{user} <abbr title='%{exact_time}'>πριν από %{when}</abbr>
+      reopened_by_anonymous: Επανενεργοποιήθηκε από ανώνυμο χρήστη <abbr title='%{exact_time}'>πριν από %{when}</abbr>
+      title: "Σημείωση: %{id}"
+    part_of: Μέρος του
     redacted: 
       message_html: Η έκδοση %{version} του %{type} δε μπορεί να εμφανιστεί, δεδομένου ότι έχει αναθεωρηθεί. Παρακαλώ δείτε %{redaction_link} για λεπτομέρειες.
       redaction: Αναθεώρηση %{id}
@@ -123,6 +159,10 @@ el:
         node: κόμβος
         relation: σχέση
         way: διαδρομή
+    relation: 
+      history_title: "Ιστορικό Σχέσης: %{name}"
+      members: Μέλη
+      title: "Σχέση: %{name}"
     relation_member: 
       entry: "%{type} %{name}"
       entry_role: "%{type} %{name} ως %{role}"
@@ -132,11 +172,10 @@ el:
         way: Διαδρομή
     start_rjs: 
       load_data: Φόρτωση Δεδομένων
-      loaded_an_area_with_num_features: "Έχετε φορτώσει μια περιοχή που περιέχει %{num_features} χαρακτηριστικά. Γενικά, μερικοί browsers μπορεί να μην αντέχουν να δείξουν τόσα πολλά στοιχεία. Γενικά, οι browsers δουλεύουν καλύτερα δείχνοντας λιγότερα από %{max_features} χαρακτηριστικά τη φορά: με οτιδήποτε άλλο ο browser μπορεί να γίνει αργός ή να μην αντιδρά. Αν είστε σίγουρος ότι θέλετε να δείτε αυτά τα δεδομένα, κάντε κλικ στο παρακάτω κουμπί."
       loading: Φόρτωση σε εξέλιξη...
       unable_to_load_size: "Δεν είναι δυνατή η φόρτωση: το μέγεθος %{bbox_size} του πλαισίου οριοθέτησης είναι πολύ μεγάλο (πρέπει να είναι μικρότερο από %{max_bbox_size})"
     tag_details: 
-      tags: "Ετικέτες:"
+      tags: Ετικέτες
       wiki_link: 
         key: Η wiki σελίδα περιγραφής για την ετικέτα %{key}
         tag: Η wiki σελίδα περιγραφής για την ετικέτα %{key}=%{value}
@@ -150,6 +189,14 @@ el:
         way: διαδρομή
     version: Έκδοση
     view_details: Προβολή Λεπτομερειών
+    view_history: Προβολή Ιστορικού
+    way: 
+      also_part_of: 
+        one: τμήμα της διαδρομής %{related_ways}
+        other: τμήμα των διαδρομών %{related_ways}
+      history_title: "Ιστορικό Διαδρομής: %{name}"
+      nodes: Κόμβοι
+      title: "Διαδρομή: %{name}"
   changeset: 
     changeset: 
       anonymous: Ανώνυμος
@@ -166,6 +213,13 @@ el:
       saved_at: Αποθήκευση στις
       user: Χρήστης
     list: 
+      empty: Δεν βρέθηκαν ομάδες αλλαγών.
+      empty_area: Δεν βρέθηκαν αλλαγές σε αυτήν την περιοχή.
+      empty_user: Δεν υπάρχουν αλλαγές από αυτόν τον χρήση.
+      load_more: Εμφάνιση περισσότερων
+      no_more: Δεν βρέθηκαν άλλες ομάδες αλλαγών.
+      no_more_area: Δεν υπάρχουν άλλες ομάδες αλλαγών για αυτήν την περιοχή.
+      no_more_user: Δεν υπάρχουν άλλες ομάδες αλλαγών από αυτόν τον χρήστη.
       title: Ομάδες αλλαγών
       title_friend: Ομάδες αλλαγών από τους φίλους σου
       title_nearby: Ομάδες αλλαγών από κοντινούς χρήστες
@@ -296,6 +350,7 @@ el:
           description: Τακτικά-ενημερωμένα αντίγραφα της πλήρης βάσης δεδομένων του OpenStreetMap
           title: Πλανήτης OSM
       zoom: Εστίαση
+    title: Εξαγωγή
   geocoder: 
     description: 
       title: 
@@ -808,6 +863,16 @@ el:
           waterfall: Καταρράκτης
           weir: Υδατοφράκτης
       prefix_format: "%{name}"
+  help_page: 
+    help: 
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    welcome: 
+      title: Καλώς ήλθατε στο OSM
+      url: /welcome
+    wiki: 
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/
   javascripts: 
     close: Κλείσιμο
     edit_help: Μετακινήστε το χάρτη και να κάνετε ζουμ σε μια τοποθεσία που θέλετε να επεξεργαστείτε, στη συνέχεια, κάντε κλικ εδώ.
@@ -822,6 +887,7 @@ el:
         standard: Κανονικός
         transport_map: Συγκοινωνιακός Χάρτης
       copyright: © <a href='%{copyright_url}'>Συνεισφέροντες του OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Κάνετε Δωρεά</a>
       layers: 
         data: Δεδομένα Χάρτη
         header: Στρώματα Χάρτη
@@ -877,11 +943,14 @@ el:
       createnote_tooltip: Προσθέστε μια σημείωση στο χάρτη
       edit_disabled_tooltip: Κάντε μεγέθυνση για να επεξεργαστείτε το χάρτη
       edit_tooltip: Επεξεργασία του χάρτη
+      map_data_zoom_in_tooltip: Μεγεθύνετε τον χάρτη για να δείτε τα δεδομένα του χάρτη
+      map_notes_zoom_in_tooltip: Μεγεθύνετε τον χάρτη για να δείτε σημειώσεις
   layouts: 
+    about: Σχετικά
     community: Κοινότητα
     community_blogs: Ιστολόγια της Κοινότητας
     community_blogs_title: Blogs από τα μέλη της κοινότητας του OpenStreetMap
-    copyright: Πνευματικά Δικαιώματα και Άδεια Χρήσης
+    copyright: Πνευματικά Δικαιώματα
     data: Δεδομένα
     donate: Υποστηρίξτε το OpenStreetMap %{link} στον Έρανο Αναβάθμισης Υλικού.
     edit: Επεξεργασία
@@ -896,11 +965,14 @@ el:
     history: Ιστορικό
     home: Μετάβαση στην Τοποθεσία Σπιτιού
     intro_2_create_account: Δημιουργήστε ένα λογαριασμό χρήστη
-    log_in: είσοδος
+    intro_header: Καλώς ήλθατε στο OpenStreetMap!
+    intro_text: Ο OpenStreetMap είναι χάρτης του κόσμου, που δημιουργήθηκε από ανθρώπους σαν κι εσάς και είναι δωρεάν για χρήση υπό από άδεια ανοικτής χρήσης.
+    learn_more: Μάθετε Περισσότερα
+    log_in: Είσοδος
     log_in_tooltip: Σύνδεση με έναν υπάρχοντα λογαριασμό
     logo: 
       alt_text: Λογότυπο OpenStreetMap
-    logout: Αποσύνδεση
+    logout: Έξοδος
     make_a_donation: 
       text: Κάντε μια δωρεά
       title: Υποστήριξε το OpenStreetMap με δωρεά χρημάτων
@@ -911,7 +983,7 @@ el:
     partners_ic: Imperial College του Λονδίνου
     partners_partners: συνεργάτες
     partners_ucl: το UCL VR Centre
-    sign_up: εγγραφή
+    sign_up: Εγγραφή
     sign_up_tooltip: Δημιουργήστε λογαριασμό για επεξεργασία
     tag_line: O Ελεύθερος Wiki Χάρτης του Κόσμου
     user_diaries: Ημερολόγια Χρηστών
@@ -1253,7 +1325,7 @@ el:
           industrial: Βιομηχανική περιοχή
           lake: 
             - Λίμνη
-            - Ταμιευτήρας
+            - ταμιευτήρας
           military: Στρατιωτική περιοχή
           motorway: Αυτοκινητόδρομος
           park: Πάρκο

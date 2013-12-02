@@ -7,6 +7,7 @@
 # Author: Darth Kule
 # Author: Davalv
 # Author: Davio
+# Author: Dieterdreist
 # Author: Efred
 # Author: Gianfranco
 # Author: Isiond
@@ -27,6 +28,18 @@
 # Author: Ximo17
 # Author: ZioNicco
 it: 
+  about_page: 
+    community_driven_html: La comunità di OpenStreetMap è diversa, appassionante, e cresce ogni giorno. I nostri contributori includono mapper entusiasti, professionisti GIS, ingegneri che gestiscono i server di OSM, mapping umanitario di aree soggette a disastri e molto altro. Per ulteriori informazioni sulla comunità, consultare i <a href='%{diary_path}'>diari degli utenti</a>, il <a href='http://blogs.openstreetmap.org/'>blog della comunità</a>, e il sito <a href='http://www.osmfoundation.org/'>OSM Foundation</a>.
+    community_driven_title: Guidato dalla Comunità
+    copyright_html: <span>&copy;</span>OpenStreetMap<br>contributors
+    lede_text: OpenStreetMap è costruito da una comunità di mappatori che contribuiscono e mantengono i dati sulle strade, sentieri, caffè, stazioni ferroviarie e molto altro ancora, in tutto il mondo.
+    local_knowledge_html: OpenStreetMap enfatizza la conoscenza locale. I contributori usano immagini aeree, dispositivi GPS e mappe sul campo low-tech per verificare che OSM sia accurato e aggiornato.
+    local_knowledge_title: Conoscenza locale
+    next: Successivo
+    open_data_html: "OpenStreetMap è <i>open data</i>: sei libero di usarla per qualsiasi scopo a patto di attribuirla a OpenstreetMap e ai suoi contributori. Se alteri o sviluppi sulla base dei dati in un certo modo, puoi distribuire il risultato solo mediante la stessa licenza. Consultare <a href='%{copyright_path}'>Copyright</a> per i dettagli."
+    open_data_title: Open Data
+    partners_title: Partner
+    used_by: "%{name} fornisce dati geografici su centinaia di siti web, app mobili e dispositivi hardware"
   activerecord: 
     attributes: 
       diary_comment: 
@@ -104,27 +117,61 @@ it:
       blocked: Il tuo accesso alle API è stato bloccato. Si prega di fare log-in all'interfaccia web per saperne di più.
       need_to_see_terms: Il tuo accesso alle API è temporaneamente sospeso. Si prega di accedere all'interfaccia web per visualizzare i termini di contribuzione. Non c'è bisogno che tu aderisca, però è necessario che tu li legga.
   browse: 
+    anonymous: anonimo
     changeset: 
+      belongs_to: Autore
       changesetxml: Gruppo di modifiche XML
       feed: 
         title: Gruppo di modifiche %{id}
         title_comment: Gruppo di modifiche %{id} - %{comment}
+      node: Nodi (%{count})
+      node_paginated: Nodi (%{x}-%{y} di %{count})
       osmchangexml: modificheOsm XML
-      title: Gruppo di modifiche
+      relation: Relazioni (%{count})
+      relation_paginated: Relazioni (%{x}-%{y} di %{count})
+      title: "Gruppo di modifiche: %{id}"
+      way: Ways (%{count})
+      way_paginated: Ways (%{x}-%{y} di %{count})
+    closed: Chiuso
+    closed_by_html: Chiuso <abbr title='%{title}'>%{time} fa</abbr> da %{user}
+    closed_html: Chiuso <abbr title='%{title}'>%{time} fa</abbr>
     containing_relation: 
       entry: Relazione %{relation_name}
       entry_role: Relazione %{relation_name} (come %{relation_role})
+    created: Creato
+    created_by_html: Creato <abbr title='%{title}'>%{time} fa</abbr> da %{user}
+    created_html: Creato <abbr title='%{title}'>%{time} fa</abbr>
+    deleted_by_html: Cancellato <abbr title='%{title}'>%{time} fa</abbr> da %{user}
+    download_xml: Scarica XML
+    edited_by_html: Modificato <abbr title='%{title}'>%{time} fa</abbr> da %{user}
+    in_changeset: Gruppo di modifiche
+    no_comment: (nessun commento)
+    node: 
+      history_title: "Cronologia nodo: %{name}"
+      title: "Nodo: %{name}"
     not_found: 
-      sorry: Spiacenti, non è stato possibile trovare il %{type} con l'identificativo %{id}.
+      sorry: "Spiacenti, %{type} #%{id} non può essere trovato."
       type: 
         changeset: gruppo di modifiche
         node: nodo
         relation: relazione
         way: percorso
     note: 
-      closed_title: "Nota chiusa: %{note_name}"
+      closed_by: Risolta da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
+      closed_by_anonymous: Risolta da anonimo <abbr title='%{exact_time}'>%{when} fa</abbr>
+      closed_title: "Nota risolta #%{note_name}"
+      commented_by: Commento da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
+      commented_by_anonymous: Commento da anonimo <abbr title='%{exact_time}'>%{when} fa</abbr>
+      hidden_by: Nascosta da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
+      hidden_title: "Note nascosta #%{note_name}"
+      new_note: Nuova nota
+      open_by: Creato da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
+      open_by_anonymous: Creato da anonimo <abbr title='%{exact_time}'>%{when} fa</abbr>
       open_title: "Nota irrisolta: %{note_name}"
-      title: Nota
+      reopened_by: Riattivata da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
+      reopened_by_anonymous: Riattivata da anonimo <abbr title='%{exact_time}'>%{when} fa</abbr>
+      title: "Nota: %{id}"
+    part_of: Parte di
     redacted: 
       message_html: La versione %{version} di questo %{type} non può essere mostrata in quanto è stata redatta. Per favore, fai riferimento a %{redaction_link} per i dettagli.
       redaction: Redazione %{id}
@@ -132,6 +179,10 @@ it:
         node: nodo
         relation: relazione
         way: percorso
+    relation: 
+      history_title: "Cronologia relazione: %{name}"
+      members: Membri
+      title: "Relazione: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} come %{role}"
       type: 
@@ -140,11 +191,10 @@ it:
         way: Percorso
     start_rjs: 
       load_data: Carica dati
-      loaded_an_area_with_num_features: "È stata caricata un'area che contiene %{num_features} caratteristiche. In generale, alcuni browser potrebbero non visualizzare correttamente questa quantità di dati. Generalmente i browser lavorano al meglio se si visualizzano meno di %{max_features} caratteristiche alla volta: se si fa qualcos'altro il proprio browser potrebbe diventare lento o non rispondere più. Se si è sicuri di voler visualizzare questi dati, allora si può premere il pulsante sottostante."
       loading: Caricamento in corso...
-      unable_to_load_size: "Impossibile caricare: la dimensione del riquadro di selezione di %{bbox_size} è troppo grande (deve essere minore di %{max_bbox_size})"
+      unable_to_load_size: Impossibile caricare i dati della mappa, troppo grande di un'area (%{bbox_size}). L'area deve essere più piccola di %{max_bbox_size} gradi quadrati.
     tag_details: 
-      tags: "Etichette:"
+      tags: Tag
       wiki_link: 
         key: La pagina wiki per la descrizione del tag %{key}
         tag: La pagina wiki per la descrizione del tag %{key}=%{value}
@@ -156,6 +206,16 @@ it:
         node: nodo
         relation: relazione
         way: percorso
+    version: Versione
+    view_details: Visualizza dettagli
+    view_history: Visualizza cronologia
+    way: 
+      also_part_of: 
+        one: parte di way %{related_ways}
+        other: parte di way %{related_ways}
+      history_title: "Cronologia way: %{name}"
+      nodes: Nodi
+      title: "Way: %{name}"
   changeset: 
     changeset: 
       anonymous: Anonimo
@@ -172,6 +232,13 @@ it:
       saved_at: Salvato il
       user: Utente
     list: 
+      empty: Nessun gruppo di modifiche trovato.
+      empty_area: Nessun gruppo di modifiche in quest'area.
+      empty_user: Nessun gruppo di modifiche da questo utente.
+      load_more: Caricane altri
+      no_more: Nessun gruppo di modifiche trovato.
+      no_more_area: Nessun gruppo di modifiche in quest'area.
+      no_more_user: Nessun gruppo di modifiche da questo utente.
       title: Gruppi di modifiche
       title_friend: Insieme di modifiche dei tuoi amici
       title_nearby: Gruppi di modifiche da parte di utenti nelle vicinanze
@@ -302,6 +369,7 @@ it:
           description: Copie aggiornate regolarmente del database OpenStreetMap completo
           title: Pianeta OSM
       zoom: Ingrandimento
+    title: Esporta
   geocoder: 
     description: 
       title: 
@@ -831,6 +899,21 @@ it:
           water_point: Punto di ristoro
           waterfall: Cascata
           weir: Sbarramento idrico
+  help_page: 
+    help: 
+      description: Fai una domanda o cerca risposte sul sito di domande e risposte di OSM.
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: OpenStreetMap ha diverse risorse per imparare a conoscere il progetto, chiedendo e rispondendo alle domande, discutendo collaborativamente e documentando gli argomenti di mappatura.
+    title: Come ottenere aiuto
+    welcome: 
+      description: Inizia con questa guida rapida che copre le basi di OpenStreetMap.
+      title: Benvenuti a OSM
+      url: /benvenuto
+    wiki: 
+      description: Sfoglia il wiki per la documentazione approfondita di OSM.
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/
   javascripts: 
     close: Chiudi
     edit_help: Sposta la mappa e usa lo zoom sulla posizione che vuoi modificare, quindi clicca qui.
@@ -846,6 +929,7 @@ it:
         standard: Standard
         transport_map: Mappa dei trasporti
       copyright: © <a href='%{copyright_url}'>OpenStreetMap contributors</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Fai una donazione</a>
       layers: 
         data: Dati della mappa
         header: Livelli mappa
@@ -901,11 +985,14 @@ it:
       createnote_tooltip: Aggiungi una nota sulla mappa
       edit_disabled_tooltip: Zooma per modificare la mappa
       edit_tooltip: Modifica la mappa
+      map_data_zoom_in_tooltip: Zooma per vedere i dati della mappa
+      map_notes_zoom_in_tooltip: Zooma per vedere le note della mappa
   layouts: 
+    about: Informazioni
     community: Comunità
     community_blogs: Blog della comunità
     community_blogs_title: Blog dei membri della comunità OpenStreetMap
-    copyright: Copyright e licenza
+    copyright: Copyright
     data: Dati
     donate: Supporta OpenStreetMap %{link} al fondo destinato all'aggiornamento dell'hardware.
     edit: Modifica
@@ -920,7 +1007,10 @@ it:
     history: Cronologia
     home: Vai alla posizione di casa
     intro_2_create_account: Crea un account utente
-    log_in: entra
+    intro_header: Benvenuti in OpenStreetMap!
+    intro_text: OpenStreetMap è una mappa del mondo, creata da persone come te e libera di utilizzare sotto licenza aperta.
+    learn_more: Ulteriori informazioni
+    log_in: Accedi
     log_in_tooltip: Accedi con un profilo utente esistente
     logo: 
       alt_text: Logo OpenStreetMap
@@ -935,8 +1025,9 @@ it:
     partners_ic: Imperial College (Londra)
     partners_partners: partner
     partners_ucl: UCL VR Centre
-    sign_up: iscriviti
+    sign_up: Registrati
     sign_up_tooltip: Crea un profilo utente per apportare modifiche
+    start_mapping: Inizia a mappare
     tag_line: La wiki-mappa libera del mondo
     user_diaries: Diari degli utenti
     user_diaries_tooltip: Visualizza diari utente
@@ -1162,6 +1253,15 @@ it:
       allow_write_notes: modificare le note.
       allow_write_prefs: modificare le tue preferenze utente.
       request_access: L'applicazione %{app_name} sta richiedendo l'accesso al tuo profilo, %{user}. Si prega di verificare se si desidera che l'applicazione abbia le seguenti capacità. È possibile scegliere a piacere.
+      title: Autorizzare l'accesso al tuo account
+    oauthorize_failure: 
+      denied: Hai negato l'accesso all'applicazione %{app_name} al tuo account.
+      invalid: Il token di autorizzazione non è valido.
+      title: Richiesta di autorizzazione non riuscita
+    oauthorize_success: 
+      allowed: Hai consentito l'accesso all'applicazione %{app_name} al tuo account.
+      title: Richiesta di autorizzazione consentita
+      verification: Il codice di verifica è %{code}.
     revoke: 
       flash: Hai revocato il token per %{application}
   oauth_clients: 
@@ -1870,7 +1970,7 @@ it:
       way_html: Una <strong>via</strong> è una linea o una zona, come una strada, un fiume, lago o edificio.
     introduction_html: Benvenuti in OpenStreetMap, la mappa del mondo libera e modificabile. Ora che ti sei registrato, sei pronto a iniziare ad editare la mappa. Ecco una guida rapida con le cose più importanti che dovresti sapere.
     questions: 
-      paragraph_1_html: Necessiti aiuto sul Mapping o non ti è chiaro su come utilizzare OpenStreetMap? Ecco le risposte alle tue domande <a href='http://help.openstreetmap.org/'>Sito di aiuto</a>.
+      paragraph_1_html: "OpenStreetMap ha diverse risorse per imparare a conoscere il progetto, chiedendo e rispondendo\n domande e in collaborazione discutere e documentare argomenti mappatura.\n<a href='%{help_url}'>Ottenere aiuto qui</a>."
       title: Domande?
     start_mapping: Inizia a mappare
     title: Benvenuto!

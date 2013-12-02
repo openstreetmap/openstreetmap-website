@@ -6,6 +6,18 @@
 # Author: Ninomax
 # Author: Trần Nguyễn Minh Huy
 vi: 
+  about_page: 
+    community_driven_html: "Cộng đồng của OpenStreetMap gồm đủ loại người nhiệt tình và càng ngày càng phát triển.\nCộng đồng gồm những người tình nguyện vẽ bản đồ, các chuyên gia GIS, các kỹ sư bảo quản các máy chủ OSM. Chúng ta vẽ bản đồ quê hưởng, những nơi du lịch, những nơi bị thiên tai (để hỗ trợ cơ quan nhân đạo), và nhiều hơn nữa.\nĐể tìm hiểu thêm về cộng đồng này, hãy đọc các <a href='%{diary_path}'>nhật ký của người dùng</a>,\n<a href='http://blogs.openstreetmap.org/'>blog của cộng đồng</a>, và trang chủ <a href='http://www.osmfoundation.org/'>Quỹ OSM</a>."
+    community_driven_title: Căn cứ vào Cộng động
+    copyright_html: <span>&copy;</span>những người<br>đóng góp vào<br>OpenStreetMap
+    lede_text: OpenStreetMap được xây dựng bởi cộng đồng những người đóng góp và bảo quản dữ liệu về đường sá, tòa nhà, quán cà phê, nhà ga, và đủ mọi thứ ở khắp thế giới.
+    local_knowledge_html: OpenStreetMap chú trọng vào kiến thức địa phương. Những người đóng góp sử dụng hình ảnh từ không trung, các thiết bị GPS, và các bản đồ phác thảo trên giấy để làm cho OSM chính xác và đúng thời.
+    local_knowledge_title: Kiến thức Địa phương
+    next: Tiếp
+    open_data_html: "OpenStreetMap là <i>dữ liệu mở</i>: bạn được tự do sử dụng nó cho bất cứ mục đích nào, miễn là bạn ghi công OpenStreetMap và những người đóng góp vào nó. Nếu bạn tạo ra một tác phẩm thay đổi dữ liệu hoặc dựa trên dữ liệu theo một số cách nhất định, bạn chỉ được phép phân phối tác phẩm kết quả dưới cùng giấy phép này. Hãy xem chi tiết tại <a href='%{copyright_path}'>trang Bản quyền và Giấy phép</a>."
+    open_data_title: Dữ liệu Mở
+    partners_title: Nhà bảo trợ
+    used_by: "%{name} là nguồn dữ liệu bản đồ của hàng trăm trang Web, ứng dụng di động, và thiết bị phần cứng"
   activerecord: 
     attributes: 
       diary_comment: 
@@ -83,27 +95,61 @@ vi:
       blocked: Bạn bị chặn không được truy cập qua API. Vui lòng đăng nhập vào giao diện Web để biết chi tiết.
       need_to_see_terms: Bạn tạm không có quyền truy cập API. Xin vui lòng đăng nhập giao diện Web để đọc các Điều khoản Đóng góp. Bạn không cần phải chấp nhận các điều khoản nhưng ít nhất phải đọc chúng.
   browse: 
+    anonymous: vô danh
     changeset: 
+      belongs_to: Tác giả
       changesetxml: Bộ thay đổi XML
       feed: 
         title: Bộ thay đổi %{id}
         title_comment: Bộ thay đổi %{id} – %{comment}
+      node: Các nốt (%{count})
+      node_paginated: Các nốt (%{x}–%{y} trên %{count})
       osmchangexml: osmChange XML
-      title: Bộ thay đổi
+      relation: Các quan hệ (%{count})
+      relation_paginated: Các quan hệ (%{x}–%{y} trên %{count})
+      title: "Bộ thay đổi: %{id}"
+      way: Các lối (%{count})
+      way_paginated: Các lối (%{x}–%{y} trên %{count})
+    closed: Đóng
+    closed_by_html: Đóng <abbr title='%{title}'>cách đây %{time}</abbr> bởi %{user}
+    closed_html: Đóng <abbr title='%{title}'>cách đây %{time}</abbr>
     containing_relation: 
       entry: Quan hệ %{relation_name}
       entry_role: "Quan hệ %{relation_name} (vai trò: %{relation_role})"
+    created: Tạo
+    created_by_html: Tạo ra <abbr title='%{title}'>cách đây %{time}</abbr> bởi %{user}
+    created_html: Tạo ra <abbr title='%{title}'>cách đây %{time}</abbr>
+    deleted_by_html: Xóa <abbr title='%{title}'>cách đây %{time}</abbr> bởi %{user}
+    download_xml: Tải về XML
+    edited_by_html: Sửa đổi <abbr title='%{title}'>cách đây %{time}</abbr> bởi %{user}
+    in_changeset: Bộ thay đổi
+    no_comment: (không miêu tả)
+    node: 
+      history_title: "Lịch sử Nốt: %{name}"
+      title: "Nốt: %{name}"
     not_found: 
-      sorry: Rất tiếc, không thể tìm thấy %{type} với ID %{id}.
+      sorry: "Rất tiếc, không tìm thấy %{type} #%{id}."
       type: 
         changeset: bộ thay đổi
         node: nốt
         relation: quan hệ
         way: lối
     note: 
-      closed_title: "Ghi chú đã giải quyết: %{note_name}"
-      open_title: "Ghi chú chưa giải quyết: %{note_name}"
-      title: Ghi chú
+      closed_by: Giải quyết bởi %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
+      closed_by_anonymous: Giải quyết vô danh <abbr title='%{exact_time}'>cách đây %{when}</abbr>
+      closed_title: "Ghi chú đã giải quyết #%{note_name}"
+      commented_by: Bình luận của %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
+      commented_by_anonymous: Bình luận vô danh <abbr title='%{exact_time}'>cách đây %{when}</abbr>
+      hidden_by: Ẩn bởi %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
+      hidden_title: "Ghi chú ẩn #%{note_name}"
+      new_note: Ghi chú Mới
+      open_by: Tạo bởi %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
+      open_by_anonymous: Tạo vô danh <abbr title='%{exact_time}'>cách đây %{when}</abbr>
+      open_title: "Ghi chú chưa giải quyết #%{note_name}"
+      reopened_by: Mở lại bởi %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
+      reopened_by_anonymous: Mở lại vô danh <abbr title='%{exact_time}'>cách đây %{when}</abbr>
+      title: "Ghi chú: %{id}"
+    part_of: Trực thuộc
     redacted: 
       message_html: Không thể xem phiên bản %{version} của %{type} này vì nó đã bị ẩn. Xin vui lòng xem chi tiết tại %{redaction_link}.
       redaction: Dãy ẩn %{id}
@@ -111,6 +157,10 @@ vi:
         node: nốt
         relation: quan hệ
         way: lối
+    relation: 
+      history_title: "Lịch sử Quan hệ: %{name}"
+      members: Các thành viên
+      title: "Quan hệ: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} với vai trò %{role}"
       type: 
@@ -119,11 +169,10 @@ vi:
         way: Lối
     start_rjs: 
       load_data: Tải Dữ liệu
-      loaded_an_area_with_num_features: Bạn đã tải vùng chứa %{num_features} đối tượng. Một số trình duyệt bị trục trặc khi hiển thị nhiều dữ liệu như thế. Nói chung, các trình duyệt hoạt động tốt với tối đa %{max_features} đối tượng cùng lúc; nếu hơn thì trình duyệt sẽ chậm chạp. Nếu bạn chắc chắn muốn xem dữ liệu này, hãy bấm nút ở dưới.
       loading: Đang tải…
-      unable_to_load_size: "Không thể tải: Hộp bao với cỡ %{bbox_size} quá lớn (phải nhỏ hơn %{max_bbox_size})"
+      unable_to_load_size: Không thể tải dữ liệu bản đồ vì khu vực này quá lớn (%{bbox_size}). Khu vực phải nhỏ hơn %{max_bbox_size} độ vuông.
     tag_details: 
-      tags: "Thẻ:"
+      tags: Thẻ
       wiki_link: 
         key: Trang wiki miêu tả khóa %{key}
         tag: Trang wiki miêu tả thẻ %{key}=%{value}
@@ -135,6 +184,16 @@ vi:
         node: nốt
         relation: quan hệ
         way: lối
+    version: Phiên bản
+    view_details: Xem Chi tiết
+    view_history: Xem Lịch sử
+    way: 
+      also_part_of: 
+        one: trực thuộc lối %{related_ways}
+        other: trực thuộc các lối %{related_ways}
+      history_title: "Lịch sử Lối: %{name}"
+      nodes: Các nốt
+      title: "Lối: %{name}"
   changeset: 
     changeset: 
       anonymous: Vô danh
@@ -151,6 +210,13 @@ vi:
       saved_at: Lúc Lưu
       user: Người dùng
     list: 
+      empty: Không tìm thấy bộ thay đổi.
+      empty_area: Không có bộ thay đổi trong khu vực này.
+      empty_user: Người dùng này không có bộ thay đổi nào.
+      load_more: Tải tiếp
+      no_more: Hết bộ thay đổi.
+      no_more_area: Hết bộ thay đổi trong khu vực này.
+      no_more_user: Hết bộ thay đổi của người dùng này.
       title: Các bộ thay đổi
       title_friend: Những bộ thay đổi của bạn bè
       title_nearby: Những bộ thay đổi của người dùng ở gần
@@ -280,6 +346,7 @@ vi:
           description: Các bản sao toàn thể cơ sở dữ liệu OpenStreetMap được cập nhật thường xuyên
           title: Quả đất OSM
       zoom: Thu phóng
+    title: Xuất
   geocoder: 
     description: 
       title: 
@@ -809,6 +876,21 @@ vi:
           water_point: Máy bơm nước
           waterfall: Thác
           weir: Đập Tràn
+  help_page: 
+    help: 
+      description: Hỏi hang hoặc tìm kiếm các câu trả lời tại trung tâm hỏi đáp của OSM.
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: OpenStreetMap có nhiều tài nguyên để cho bạn tìm hiểu về dự án, hỏi đáp, và cộng tác soạn thảo tài liệu về các đề tài bản đồ.
+    title: Trợ giúp
+    welcome: 
+      description: Bắt đầu với cẩm nang các điều cơ bản OpenStreetMap.
+      title: Chào mừng đến với OSM
+      url: /welcome
+    wiki: 
+      description: Đọc tài liệu đầy đủ về OSM trên wiki.
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/?setlang=vi
   javascripts: 
     close: Đóng
     edit_help: Di chuyển bản đồ và phóng to một vị trí mà bạn muốn sửa đổi, rồi nhấn chuột vào đây.
@@ -824,6 +906,7 @@ vi:
         standard: Chuẩn
         transport_map: Bản đồ Giao thông
       copyright: © <a href='%{copyright_url}'>những người đóng góp vào OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Quyên góp</a>
       layers: 
         data: Dữ liệu Bản đồ
         header: Lớp Bản đồ
@@ -879,11 +962,14 @@ vi:
       createnote_tooltip: Thêm một ghi chú vào bản đồ
       edit_disabled_tooltip: Phóng to để sửa đổi bản đồ
       edit_tooltip: Sửa đổi bản đồ
+      map_data_zoom_in_tooltip: Phóng to để xem dữ liệu bản đồ
+      map_notes_zoom_in_tooltip: Phóng to để xem các ghi chú trên bản đồ
   layouts: 
+    about: Giới thiệu
     community: Cộng đồng
     community_blogs: Các Blog của Cộng đồng
     community_blogs_title: Các blog của thành viên cộng đồng OpenStreetMap
-    copyright: Bản quyền & Giấy phép
+    copyright: Bản quyền
     data: Dữ liệu
     donate: Hỗ trợ OpenStreetMap bằng cách %{link} cho Quỹ Nâng cấp Phần cứng.
     edit: Sửa đổi
@@ -898,7 +984,10 @@ vi:
     history: Lịch sử
     home: Về Vị trí Nhà ở
     intro_2_create_account: Mở tài khoản mới
-    log_in: đăng nhập
+    intro_header: Chào mừng đến với OpenStreetMap!
+    intro_text: OpenStreetMap là bản đồ thế giới do những người như bạn xây dựng và cho phép sử dụng thoải mái theo một giấy phép nguồn mở.
+    learn_more: Tìm hiểu Thêm
+    log_in: Đăng nhập
     log_in_tooltip: Đăng nhập với tài khoản đã tồn tại
     logo: 
       alt_text: Biểu trưng OpenStreetMap
@@ -914,8 +1003,9 @@ vi:
     partners_partners: các công ty bảo trợ
     partners_ucl: Trung tâm VR tại UCL
     partners_url: http://wiki.openstreetmap.org/wiki/Partners?uselang=vi
-    sign_up: mở tài khoản
+    sign_up: Mở Tài khoản
     sign_up_tooltip: Mở tài khoản để sửa đổi
+    start_mapping: Bắt đầu Đóng góp
     tag_line: Bản đồ Thế giới trên Wiki Mở
     user_diaries: Nhật ký Cá nhân
     user_diaries_tooltip: Đọc các nhật ký cá nhân
@@ -1136,6 +1226,15 @@ vi:
       allow_write_notes: thay đổi ghi chú.
       allow_write_prefs: thay đổi tùy chọn cá nhân.
       request_access: Chương trình %{app_name} xin phép truy cập tài khoản của bạn, %{user}. Xin hãy chọn những khả năng mà bạn muốn cấp cho chương trình này. Bạn có thể chọn nhiều hay ít khả năng tùy ý.
+      title: Cho phép truy cập tài khoản của bạn
+    oauthorize_failure: 
+      denied: Bạn đã từ chối ứng dụng %{app_name} không được phép truy cập tài khoản của bạn.
+      invalid: Dấu hiệu cho phép không hợp lệ.
+      title: Yêu cầu cho phép bị thất bại
+    oauthorize_success: 
+      allowed: Bạn đã cho phép ứng dụng %{app_name} truy cập tài khoản của bạn.
+      title: Yêu cầu cho phép được chấp nhận
+      verification: Mã xác minh là %{code}.
     revoke: 
       flash: Bạn đã thu hồi dấu của %{application}
   oauth_clients: 
@@ -1846,7 +1945,7 @@ vi:
       way_html: <strong>Lối</strong> là một đường kẻ hoặc vùng, thí dụ con đường, dòng nước, hồ nước, hoặc tòa nhà.
     introduction_html: Chào mừng bạn đã đến OpenStreetMap, bản đồ thế giới có dữ liệu mở được xây dựng bởi những người như bạn. Bây giờ bạn đã mở tài khoản thì hãy cùng góp sức vẽ bản đồ. Đây là những căn bản cần biết để bắt đầu đóng góp.
     questions: 
-      paragraph_1_html: Bạn có cần giúp đỡ với trình vẽ, hoặc chưa chắc chắn về cách sử dụng OpenStreetMap? Hãy hỏi cộng đồng tại <a href='http://help.openstreetmap.org/'>trung tâm hỏi đáp</a>.
+      paragraph_1_html: "OpenStreetMap có nhiều tài nguyên để cho bạn tìm hiểu về dự án, hỏi đáp, và cộng tác soạn thảo tài liệu về các đề tài bản đồ.\n<a href='%{help_url}'>Nhận trợ giúp tại đây</a>."
       title: Có thắc mắc?
     start_mapping: Bắt đầu Đóng góp
     title: Hoan nghênh!

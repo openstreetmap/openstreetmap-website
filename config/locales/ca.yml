@@ -4,6 +4,7 @@
 # Author: Aleator
 # Author: Alvaro Vidal-Abarca
 # Author: El libre
+# Author: Fitoschido
 # Author: Gemmaa
 # Author: Grondin
 # Author: Jconstanti
@@ -23,6 +24,13 @@
 # Author: XVEC
 # Author: 아라
 ca: 
+  about_page: 
+    community_driven_title: Dirigit per la comunitat
+    copyright_html: Col·laboradors de<br><span>&copy;</span>OpenStreetMap
+    local_knowledge_title: Coneixement local
+    next: Següent
+    open_data_title: Dades obertes
+    partners_title: Socis
   activerecord: 
     attributes: 
       diary_comment: 
@@ -100,27 +108,61 @@ ca:
       blocked: El vostre accés a l'API ha estat blocat. Si us plau, connecteu-vos a la interfície web per obtenir més informació.
       need_to_see_terms: L'accés a l'API és temporalment suspeses. Si us plau, log-in a la interfície de web per veure els termes de col. laborador. Vostè no necessita estar d'acord, però cal veure-les.
   browse: 
+    anonymous: anònim
     changeset: 
+      belongs_to: Autor
       changesetxml: XML del conjunt de canvis
       feed: 
         title: Conjunt de canvis %{id}
         title_comment: Conjunt de canvis %{id} - %{comment}
+      node: Nodes (%{count})
+      node_paginated: Nodes (%{x}-%{y} de %{count})
       osmchangexml: XML en format osmChange
-      title: Conjunt de canvis
+      relation: Relacions (%{count})
+      relation_paginated: Relacions (%{x}-%{y} de %{count})
+      title: "Conjunt de canvis: %{id}"
+      way: Vies (%{count})
+      way_paginated: Vies (%{x}-%{y} de %{count})
+    closed: Tancat
+    closed_by_html: Tancat fa <abbr title='%{title}'>%{time} </abbr> per  %{user}
+    closed_html: Tancat fa <abbr title='%{title}'>%{time}</abbr>
     containing_relation: 
       entry: Relació %{relation_name}
       entry_role: Relació %{relation_name} (com a  %{relation_role})
+    created: Creat
+    created_by_html: Creat fa <abbr title='%{title}'>%{time}</abbr> per %{user}
+    created_html: Creat fa <abbr title='%{title}'>%{time}</abbr>
+    deleted_by_html: Eliminat fa <abbr title='%{title}'>%{time}</abbr> per %{user}
+    download_xml: Descarregar l'XML
+    edited_by_html: Editat fa <abbr title='%{title}'>%{time}</abbr> per  %{user}
+    in_changeset: Conjunt de canvis
+    no_comment: (sense comentaris)
+    node: 
+      history_title: "Historial del node: %{name}"
+      title: "Node: %{name}"
     not_found: 
-      sorry: Ho sentim, no s'ha trobat el %{type} amb l'id %{id}.
+      sorry: "Ho sentim, no s'ha trobat el %{type} amb l'id #%{id}."
       type: 
         changeset: conjunt de canvis
         node: node
         relation: relació
         way: via
     note: 
-      closed_title: Nota resolta
-      open_title: "nota no resolta: %{note_name}"
-      title: Nota
+      closed_by: Resolt per %{user} fa <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Resolt per un anònim fa <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_title: "Nota resolta #%{note_name}"
+      commented_by: Comentari de %{user} fa <abbr title='%{exact_time}'>%{when}</abbr>
+      commented_by_anonymous: Comentari d'un anònim fa <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_by: Ocultat per %{user} fa <abbr title='%{exact_time}'>%{when}</abbr>
+      hidden_title: "Nota oculta #%{note_name}"
+      new_note: Nova nota
+      open_by: Creat per %{user} fa <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Creat per un anònim fa <abbr title='%{exact_time}'>%{when}</abbr>
+      open_title: "nota no resolta: #%{note_name}"
+      reopened_by: Reactivat per %{user}  fa <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Reactivat per un anònim fa <abbr title='%{exact_time}'>%{when}</abbr>
+      title: "Nota: %{id}"
+    part_of: Part de
     redacted: 
       message_html: La versió %{version} d'aquest %{type} no pot ser mostrada com ha estat redactada. Si us plau, vegeu  %{redaction_link} per més detalls.
       redaction: Redacció %{id}
@@ -128,6 +170,10 @@ ca:
         node: node
         relation: relació
         way: via
+    relation: 
+      history_title: "Historial de la relació: %{name}"
+      members: Membres
+      title: "Relació: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} com %{role}"
       type: 
@@ -136,11 +182,10 @@ ca:
         way: Via
     start_rjs: 
       load_data: Carrega dades
-      loaded_an_area_with_num_features: "Heu carregat una àrea que conté %{num_features} elements. En general, els navegadors no poden mostrar una quantitat tant gran de dades, funcionen millor mostrant menys de 100 elements a la vegada: el fet de voler que es mostri una quantitat més gran pot fer que el vostre navegador esdevingui lent o que deixi de respondre. Si esteu segur que voleu mostrar aquestes dades, podeu fer-ho fent clic sobre el botó de sota."
       loading: S'està carregant...
-      unable_to_load_size: "No es pot carregar: Bounding mida de caixa de %{bbox_size} és massa gran (ha de ser més petita que %{max_bbox_size})"
+      unable_to_load_size: No s'han pogut carregar les dades del mapa, àrea massa gran (%{bbox_size}). L'àrea d'abast ha de ser inferior que  %{max_bbox_size} graus
     tag_details: 
-      tags: "Etiquetes:"
+      tags: Etiquetes
       wiki_link: 
         key: La pàgina de descripció del wiki per l'etiqueta %{key}
         tag: La pàgina de descripció del wiki per l'etiqueta %{key}=%{value}
@@ -152,6 +197,16 @@ ca:
         node: node
         relation: relació
         way: via
+    version: Versió
+    view_details: Mostrar els detalls
+    view_history: Mostrar l'historial
+    way: 
+      also_part_of: 
+        one: part de la via %{related_ways}
+        other: part de les vies %{related_ways}
+      history_title: "Historial de la via: %{name}"
+      nodes: Nodes
+      title: "Via: %{name}"
   changeset: 
     changeset: 
       anonymous: Anònim
@@ -168,6 +223,13 @@ ca:
       saved_at: Desat a
       user: Usuari
     list: 
+      empty: No s'han trobat conjunts de canvis
+      empty_area: No hi han conjunts de canvis en aquesta àrea
+      empty_user: No hi han conjunts de canvis fets per aquest usuari.
+      load_more: Carregar-ne més
+      no_more: No s'han trobat més conjunts de canvis.
+      no_more_area: No hi han més conjunts de canvis en aquesta àrea.
+      no_more_user: No hi han més conjunts de canvis fets per aquest usuari.
       title: Conjunt de canvis
       title_friend: Conjunts de canvis dels vostres amics
       title_nearby: Conjunts de canvis d'usuaris propers
@@ -298,6 +360,7 @@ ca:
           description: Còpies actualitzades regularment de la base de dades d'OpenStreetMap al complet
           title: Planeta OSM
       zoom: Zoom
+    title: Exportar
   geocoder: 
     description: 
       title: 
@@ -827,6 +890,19 @@ ca:
           water_point: Punt d'aigua
           waterfall: Cascada
           weir: Weir
+  help_page: 
+    help: 
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: OpenStreetMap té multitud de recursos per conèixer aquest projecte, per plantejar i respondre preguntes, i per participar en discussions col·laboratives i documentar temes de cartografia.
+    title: Obtenir ajuda
+    welcome: 
+      description: Començar amb aquesta guia ràpida sobre els aspectes bàsics de OpenStreetMap.
+      title: Benvinguts a l'OSM
+      url: /welcome
+    wiki: 
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/
   javascripts: 
     close: Tanca
     edit_help: Moveu el mapa i feu zoom sobre una ubicació que vulgueu editar, i a continuació, feu clic aquí.
@@ -842,6 +918,7 @@ ca:
         standard: Estàndard
         transport_map: Mapa de transports
       copyright: © <a href='%{copyright_url}'>Col·laboradors d'OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Feu un donatiu</a>
       layers: 
         data: Dades del mapa
         header: Capes del mapa
@@ -897,11 +974,14 @@ ca:
       createnote_tooltip: Afegiu una nota al mapa
       edit_disabled_tooltip: Augmenteu el zoom per modificar el mapa
       edit_tooltip: Modifica el mapa
+      map_data_zoom_in_tooltip: Feu zoom per veure les dades del mapa
+      map_notes_zoom_in_tooltip: Feu zoom per veure les notes del mapa
   layouts: 
+    about: Informació
     community: Comunitat
     community_blogs: Blocs de comunitat
     community_blogs_title: Blocs dels membres de la comunitat OpenStreetMap
-    copyright: Drets d'autor i llicència
+    copyright: Drets d'autor
     data: Dades
     donate: Suport OpenStreetMap %{link} el fons de rampa de maquinari.
     edit: Modificació
@@ -916,11 +996,14 @@ ca:
     history: Historial
     home: Anar a la localització de casa
     intro_2_create_account: Crea un compte d'usuari
-    log_in: inicia una sessió
+    intro_header: Benvinguts a l'OpenStreetMap!
+    intro_text: L'OpenStreetMap és un mapa del món, creat per persones com tu i d'ús lliure sota una llicència oberta.
+    learn_more: Aprèn-ne més
+    log_in: Iniciar sessió
     log_in_tooltip: Inicia una sessió amb un compte existent
     logo: 
       alt_text: logotip de l'OpenStreetMap
-    logout: Tanca la sessió
+    logout: Tancar sessió
     make_a_donation: 
       text: Feu una donació
       title: Ajudeu l'OpenStreetMap amb una donació econòmica
@@ -934,10 +1017,11 @@ ca:
     project_name: 
       h1: OpenStreetMap
       title: OpenStreetMap
-    sign_up: registre
+    sign_up: Registrar-se
     sign_up_tooltip: Crea un usuari per editar
+    start_mapping: Començar a cartografiar
     tag_line: El mapa wiki lliure mundial
-    user_diaries: DIaris de usuari
+    user_diaries: Diaris de usuari
     user_diaries_tooltip: Mostra els diaris d'usuari
   license_page: 
     foreign: 
@@ -1161,6 +1245,15 @@ ca:
       allow_write_notes: modificar les notes.
       allow_write_prefs: modificar les preferències d'usuari.
       request_access: L'aplicació %{app_name} sol·licita accés al vostre compte, %{user}. Marqueu si voleu autoritzar l'aplicació amb les següents funcions. Podeu triar les que vulgueu.
+      title: Autoritzar l'accés al vostre compte
+    oauthorize_failure: 
+      denied: Heu denegat que l'aplicació %{app_name} accedeixi al vostre compte.
+      invalid: El testimoni d’autorització no és vàlid.
+      title: Sol·licitud d'autorització errònia
+    oauthorize_success: 
+      allowed: Heu permès que l'aplicació %{app_name} accedeixi al vostre compte.
+      title: Sol·licitud d'autorització permesa
+      verification: El codi de verificació és %{code}.
     revoke: 
       flash: He estat revocat el testimoni per %{application}
   oauth_clients: 
@@ -1869,7 +1962,7 @@ ca:
       way_html: Una <strong>via</strong> és una línia o àrea, com ara una carretera, sèquia, llac o edifici.
     introduction_html: Benvingut a OpenStreetMap, el mapa lliure i editable del món. Ara que ja t'has registrat, ja ho tens tot a punt per començar a editar el mapa. Aquí hi ha una guia ràpida amb les coses més importants que necessites saber
     questions: 
-      paragraph_1_html: Necessita ajuda per a la cartografia, o no queda clar l'ús d'OpenStreetMap? Per obtenir respostes a les seves preguntes vagi a <un href='http://help.openstreetmap.org/'>l'ajuda web</a>.
+      paragraph_1_html: OpenStreetMap té multitud de recursos per conèixer aquest projecte, per plantejar i respondre preguntes, i per participar en discussions col·laboratives i documentar temes de cartografia. <a href='%{help_url}'>Visiteu l'ajuda</a>.
       title: Alguna pregunta més?
     start_mapping: Comença a editar el mapa
     title: Benvingut!

@@ -8,6 +8,8 @@
 # Author: RM87
 # Author: WikedKentaur
 et: 
+  about_page: 
+    partners_title: Partnerid
   activerecord: 
     attributes: 
       diary_comment: 
@@ -66,6 +68,9 @@ et:
       relation_member: Relatsiooni liige
       relation_tag: Relatsiooni silt
       session: Seanss
+      trace: Jälg
+      tracepoint: Jälje punkt
+      tracetag: Jälje silt
       user: Kasutaja
       user_preference: Kasutaja eelistused
       user_token: Kasutaja tunnus
@@ -73,34 +78,72 @@ et:
       way_node: Joone sõlm
       way_tag: Joone silt
   browse: 
+    anonymous: anonüümne
     changeset: 
+      belongs_to: Autor
       changesetxml: Muutuskogumi XML
       feed: 
         title: Muutuskogum %{id}
         title_comment: Muutuskogum %{id} - %{comment}
+      node: Sõlmed (%{count})
+      node_paginated: Sõlmed (%{x}-%{y}/%{count})
       osmchangexml: osmChange XML
-      title: Muutuskogum
+      relation: Relatsioonid (%{count})
+      relation_paginated: Relatsioonid (%{x}-%{y}/%{count})
+      title: "Muutuskogum: %{id}"
+      way: Jooned (%{count})
+      way_paginated: Jooned (%{x}-%{y}/%{count})
+    closed: Suletud
+    closed_by_html: Suletud %{user} poolt <abbr title='%{title}'>%{time} tagasi</abbr>
+    closed_html: Suletud <abbr title='%{title}'>%{time} tagasi</abbr>
     containing_relation: 
       entry: Relatsioon %{relation_name}
       entry_role: Relatsioon %{relation_name} (kui %{relation_role})
+    created: Loodud
+    created_by_html: Loodud %{user} poolt <abbr title='%{title}'>%{time} tagasi</abbr>
+    created_html: Loodud <abbr title='%{title}'>%{time} tagasi</abbr>
+    deleted_by_html: Kustutatud %{user} poolt <abbr title='%{title}'>%{time} tagasio</abbr>
+    download_xml: Laadi alla XML
+    edited_by_html: Muudetud %{user} poolt <abbr title='%{title}'>%{time} tagasi</abbr>
+    in_changeset: Muutuskogum
+    no_comment: (kommentaare pole)
+    node: 
+      history_title: "Sõlme ajalugu: %{name}"
+      title: "Sõlm: %{name}"
     not_found: 
-      sorry: "Vabandame, %{type}\n id-ga %{id} ei leitud."
+      sorry: "Vabandame, %{type}\n #%{id} ei leitud."
       type: 
         changeset: muutuskogumit
         node: sõlme
         relation: relatsiooni
         way: joont
     note: 
-      closed_title: "Lahendatud märkus: %{note_name}"
-      open_title: "Lahendamata märkus: %{note_name}"
-      title: Märkus
+      closed_by: Lahendatud kasutaja %{user} poolt <abbr title='{exact_time}'>%{when} tagasi</abbr>
+      closed_by_anonymous: Lahendatud anonüümse kasutaja poolt <abbr title='{exact_time}'>%{when} tagasi</abbr>
+      closed_title: "Lahendatud märkus: #%{note_name}"
+      commented_by: Kommentaar kasutajalt %{user} <abbr title='{exact_time}'>%{when} tagasi</abbr>
+      commented_by_anonymous: Kommentaar anonüümselt kasutajalt %{user} <abbr title='{exact_time}'>%{when} tagasi</abbr>
+      hidden_by: Peidetud kasutaja %{user} poolt <abbr title='{exact_time}'>%{when} tagasi</abbr>
+      hidden_title: "Peidetud märkus #%{note_name}"
+      new_note: Uus märkus
+      open_by: Loodud %{user} poolt <abbr title='{exact_time}'>%{when} tagasi</abbr>
+      open_by_anonymous: Loodud anonüümse kasutaja poolt <abbr title='{exact_time}'>%{when} tagasi</abbr>
+      open_title: "Lahendamata märkus: #%{note_name}"
+      reopened_by: Taasavatud kasutaja %{user} poolt <abbr title='{exact_time}'>%{when} tagasi</abbr>
+      reopened_by_anonymous: Taasavatud anonüümse kasutaja poolt <abbr title='{exact_time}'>%{when} tagasi</abbr>
+      title: "Märkus: %{id}"
+    part_of: Osa
     redacted: 
-      message_html: Selle objekti versiooni %{version} ei saa kuvada, sest seda on muudetud. Palun vaata üksikasju  %{redaction_link}.
+      message_html: Selle %{type} versiooni %{version} ei saa kuvada, sest seda on muudetud. Palun vaata üksikasju %{redaction_link}.
       redaction: Redaktsioon %{id}
       type: 
         node: sõlm
         relation: relatsioon
         way: joon
+    relation: 
+      history_title: "Relatsiooni ajalugu: %{name}"
+      members: Liikmed
+      title: "Relatsioon: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} kui %{role}"
       type: 
@@ -109,11 +152,10 @@ et:
         way: joon
     start_rjs: 
       load_data: Laadi andmed
-      loaded_an_area_with_num_features: Oled laadinud ala, mis sisaldab %{num_features} objekti. Mõned brauserid ei saa hästi hakkama sellise hulga andmete kuvamisega. Üldiselt suudavad brauserid kuvada korraga kuni %{max_features} objekti. Suurema arvu laadimine võib muuta brauseri aeglaseks või see lakkab üldse toimimast. Kui soovid siiski neid andmeid kuvada, võid seda teha, klõpsates nupul allpool.
       loading: Laadin andmeid...
       unable_to_load_size: "Laadimine ebaõnnestus: valitud ala küjepikkus %{bbox_size} on liiga suur (see peab olema väiksem kui %{max_bbox_size})"
     tag_details: 
-      tags: "Sildid:"
+      tags: Sildid
       wiki_link: 
         key: Sildi %{key} kirjelduse leht vikis
         tag: Sildi %{key}=%{value} kirjelduse leht vikis
@@ -125,6 +167,16 @@ et:
         node: sõlme
         relation: relatsiooni
         way: joone
+    version: Versioon
+    view_details: Vaata üksikasju
+    view_history: Vaata ajalugu
+    way: 
+      also_part_of: 
+        one: on osa joonest %{related_ways}
+        other: on osa joontest %{related_ways}
+      history_title: "Joone ajalugu: %{name}"
+      nodes: Sõlmed
+      title: "Joon: %{name}"
   changeset: 
     changeset: 
       anonymous: Anonüümne
@@ -141,6 +193,13 @@ et:
       saved_at: Salvestatud
       user: Kasutaja
     list: 
+      empty: Muutuskogumeid ei leitud.
+      empty_area: Selles alas ei ole muutuskogumeid.
+      empty_user: Selle kasutaja tehtud muutuskogumeid ei ole.
+      load_more: Laadi veel
+      no_more: Rohkem muutuskogumeid ei leitud.
+      no_more_area: Sellest alast ei leitud rohkem muutuskogumeid.
+      no_more_user: Sellelt kasutajalt ei leitud rohkem muutuskogumeid.
       title: Muutuskogumid
       title_friend: Sõprade muutuskogumid
       title_nearby: Läheduses asuvate kasutajate muutuskogumid
@@ -257,7 +316,11 @@ et:
       scale: Mõõtkava
       too_large: 
         body: See ala on liiga suur, et eksportida OpenStreetMap'i andmeid XML kujul. Palun suurenda või vali väiksem ala.
+        other: 
+          description: Täiendavad allikad on välja toodud OpenStreetMap'i wikis
+          title: Muud allikad
       zoom: Suurendus
+    title: Ekspordi
   geocoder: 
     description: 
       title: 
@@ -292,6 +355,14 @@ et:
         uk_postcode: " <a href=\"http://www.npemap.org.uk/\">NPEMap / FreeThe Postcode</a> tulemused"
         us_postcode: <a href="http://geocoder.us/">Geocoder.us</a> tulemused
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Linnajao piir
+        level2: Riigipiir
+        level4: Osariigi piir
+        level5: Regiooni piir
+        level6: Maakonna piir
+        level8: Linnapiir
+        level9: Küla piir
       prefix: 
         aeroway: 
           gate: Värav
@@ -649,8 +720,8 @@ et:
       locate: 
         title: Näita minu asukohta
       zoom: 
-        in: Suumi sisse
-        out: Suumi välja
+        in: Suurenda
+        out: Vähenda
     notes: 
       new: 
         add: Lisa märkus
@@ -680,7 +751,7 @@ et:
       short_link: Lühilink
       title: Jaga
     site: 
-      createnote_disabled_tooltip: Suumi sisse, et lisada kaardile märkus
+      createnote_disabled_tooltip: Suurenda, et lisada kaardile märkus
       createnote_tooltip: Märkuse lisamine kaardile
       edit_disabled_tooltip: Kaardi redigeerimiseks suurenda kaarti
       edit_tooltip: Muuda kaarti
@@ -688,7 +759,7 @@ et:
     community: Kogukond
     community_blogs: Kogukonna blogid
     community_blogs_title: OpenStreetMapi kogukonna liikmete blogid
-    copyright: Autoriõigused ja litsents
+    copyright: Autoriõigused
     data: Andmed
     donate: Toeta OpenStreetMapi %{link} Riistvara Uuendamise Fondi.
     edit: Redigeeri
@@ -703,7 +774,7 @@ et:
     history: Ajalugu
     home: Kodu asukohta
     intro_2_create_account: loo oma konto
-    log_in: logi sisse
+    log_in: Logi sisse
     log_in_tooltip: Logi sisse oma kasutajanimega
     logo: 
       alt_text: OpenStreetMapi logo
@@ -718,8 +789,9 @@ et:
     partners_ic: Imperial College London
     partners_partners: partnerid
     partners_ucl: UCL VR Centre
-    sign_up: registreeru
+    sign_up: Registreeru
     sign_up_tooltip: Redigeerimiseks loo omale konto
+    start_mapping: Alusta kaardistamist
     tag_line: Vaba viki-maailmakaart
     user_diaries: Kasutajate päevikud
     user_diaries_tooltip: Vaata kasutajate päevikuid
@@ -791,6 +863,7 @@ et:
       title: Saadetud sõnumid
       to: Kellele
     read: 
+      back: Tagasi
       date: Kuupäev
       from: Kellelt
       reply_button: Vasta
@@ -798,6 +871,9 @@ et:
       title: Loe sõnumit
       to: Kellele
       unread_button: Märgi mitteloetuks
+      wrong_user: Oled sisse loginud kui "%{user}" aga sõnum, mida soovid lugeda ei ole sellele kasutajale saadetud ega selle kasutaja poolt saadetud. Lugemiseks palun logi sisse õige kasutajana.
+    reply: 
+      wrong_user: Oled sisse loginud kui "%{user}" aga sõnum, millele soovid vastata ei olnud sellele kasutajale saadetud. Vastamiseks palun logi sisse õige kasutajana.
     sent_message_summary: 
       delete_button: Kustuta
   note: 
@@ -875,8 +951,23 @@ et:
       hi: Tere, %{to_user},
     note_comment_notification: 
       anonymous: Anonüümne kasutaja
+      closed: 
+        commented_note: "%{commenter} on lahendanud märkuse, mida sa oled kommenteerinud. Märkus on %{place} lähedal."
+        subject_other: "[OpenStreetMap]%{commenter} on lahendanud ühe märkuse millest sa huvitatud oled"
+        subject_own: "[OpenStreetMap]%{commenter} on lahendanud ühe sinu märkuse"
+        your_note: "%{commenter} on lahendanud ühe sinu märkuse %{place} lähedal."
+      commented: 
+        commented_note: "%{commenter} on jätnud kommentaari märkusele mida sa oled kommenteerinud. Märkus on %{place} lähedal."
+        subject_other: "[OpenStreetMap] %{commenter} on kommenteerinud märkust, millest oled huvitatud"
+        subject_own: "[OpenStreetMap] %{commenter} on kommenteerinud ühte sinu märkust"
+        your_note: "%{commenter} on jätnud kommentaari ühele sinu %{place} lähedal olevale märkusele."
       details: Märkuse lisateavet leiad %{url}.
       greeting: Tere,
+      reopened: 
+        commented_note: "%{commenter} on taasaktiveerinud märkuse, mida sa oled kommenteerinud. Märkus on %{place} lähedal."
+        subject_other: "[OpenStreetMap] %{commenter} on taasaktiveerinud ühe märkuse, millest sa huvitatud oled"
+        subject_own: "[OpenStreetMap] %{commenter} on taasaktiveerinud ühe sinu märkustest"
+        your_note: "%{commenter} on taasaktiveerinud ühe sinu märkuse %{place} lähedal."
     signup_confirm: 
       confirm: "Enne kasutajakonto loomist peame saama kinnituse, et see taotlus tuli sinult ja selleks klõpsa alloleval lingil:"
       created: Keegi (loodetavasti sina) lõi äsja %{site_url} kasutajakonto.
@@ -886,6 +977,11 @@ et:
   oauth: 
     oauthorize: 
       allow_write_api: muuda kaarti.
+    oauthorize_failure: 
+      denied: Oled keelanud rakendusele %{app_name} juurdepääsu oma kontole.
+    oauthorize_success: 
+      allowed: Oled andnud rakendusele %{app_name} juurdepääsu oma kontole.
+      verification: Kontrollkood on %{code}.
   oauth_clients: 
     edit: 
       submit: Redigeeri
@@ -932,12 +1028,16 @@ et:
       description: "Kirjeldus:"
   site: 
     edit: 
+      id_not_configured: iD ei ole seadistatud
       no_iframe_support: Antud veebilehitseja ei toeta  HTML iframes funktsiooni mis on vajalik antud režiimi toimimiseks.
       user_page_link: kasutajaleht
     index: 
       createnote: Lisa märkus
       js_1: Sa kas kasutad veebilehitsejat, mis ei toeta JavaScript'i või sa oled JavaScript'i ära keelanud.
+      license: 
+        copyright: Autoriõigused OpenStreetMap ja kaasautorid avatud litsentsi alusel
       permalink: Püsilink
+      remote_failed: Redigeerimise ebaõnnestus - veendu, et  JOSM või Merkaartor töötab ning kaugjuhtimine on lubatud
       shortlink: Lühilink
     key: 
       table: 
@@ -1086,6 +1186,8 @@ et:
     trace_optionals: 
       tags: Sildid
     trace_paging_nav: 
+      newer: Uuemad jäljed
+      older: Vanemad jäljed
       showing_page: Leht %{page}
     view: 
       delete_track: Kustuta see jälg
@@ -1160,14 +1262,22 @@ et:
       button: Kinnita
       heading: Kinnita e-posti aadressi muutmine
       press confirm button: Kliki nupul kinnita oma uue e-posti aadressi kinnitamiseks.
+      success: Sinu eposti aadress on kinnitatud, tänan registreerimast!
     confirm_resend: 
       failure: Kasutajat %{name} ei leitud.
     filter: 
       not_an_administrator: Selle tegevuse sooritamiseks pead sa olema administraator.
+    go_public: 
+      flash success: Kõik sinu muudatused on nüüd avalikud ja sul on lubatud muudatusi teha.
     list: 
+      confirm: Kinnita valitud kasutajad
       empty: Sobivaid kasutajaid ei leitud!
       heading: Kasutajad
       hide: Peida valitud Kasutajad
+      showing: 
+        one: Lehekülg %{page} (%{first_item} / %{items})
+        other: Lehekülg %{page} (%{first_item}-%{last_item} / %{items})
+      summary: "%{name} loodud ip aadressilt %{ip_address} %{date}"
       summary_no_ip: "%{name} loodud %{date}"
       title: Kasutajad
     login: 
@@ -1249,6 +1359,9 @@ et:
     set_home: 
       flash success: Kodukoht edukalt salvestatud
     suspended: 
+      body: "<p>\n  Vabandame, teie konto on automaatselt peatatud kahtlase tegevuse tõttu.\n</p>\n<p>\n  Käesolev otsus vaadatakse administraatori poolt peatselt üle, või\n  võite kontakteeruda %{webmaster} kui soovite seda arutada.\n</p>"
+      heading: Konto peatatud
+      title: Konto peatatud
       webmaster: Veebiülem
     terms: 
       agree: Nõustun
@@ -1339,11 +1452,20 @@ et:
       time_past: Lõppes %{time} tagasi
   user_role: 
     filter: 
+      already_has_role: Kasutajal on juba roll %{role}.
+      doesnt_have_role: Kasutajal ei ole rolli %{role}.
+      not_a_role: String `%{role}' ei ole kehtiv roll.
       not_an_administrator: Kasutaja rollide haldamist saavad teostada ainult administraatorid, kuid sina ei ole administraator.
     grant: 
+      are_you_sure: Oled kindel, et soovid anda rolli `%{role}' kasutajale `%{name}'?
       confirm: Kinnita
+      heading: Kinnita rolli andmine
+      title: Kinnita rolli andmine
     revoke: 
+      are_you_sure: Oled kindel, et soovid tühistada kasutaja `%{name}' rolli "% {role}'?
       confirm: Kinnita
+      heading: Kinnita rolli tühistamine
+      title: Kinnita rolli tühistamine
   welcome_page: 
     introduction_html: Tere tulemast OpenStreetMap'i, vabasse ja muudetavasse maailmakaarti. Registreerumine on nüüd tehtud ja sa võid alustada kaardistamist. Siin on lühiülevaade kõige olulisematest asjadest, mida peaksid teadma.
     title: Tere tulemast!

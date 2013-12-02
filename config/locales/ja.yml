@@ -20,6 +20,14 @@
 # Author: 青子守歌
 # Author: 아라
 ja: 
+  about_page: 
+    copyright_html: <span>&copy;</span>OpenStreetMap<br>への協力者
+    local_knowledge_title: 地元の情報
+    next: 次へ
+    open_data_html: "OpenStreetMap is <i>open data</i>: you are free to use it for any purpose\nas long as you credit OpenStreetMap and its contributors. If you alter or\nbuild upon the data in certain ways, you may distribute the result only\nunder the same licence. See the <a href='%{copyright_path}'>Copyright and\nLicense page</a> for details."
+    open_data_title: オープン データ
+    partners_title: パートナー
+    used_by: "%{name} は、数多くのウェブ サイト、モバイル アプリ、ハードウェア機器で利用されています"
   activerecord: 
     attributes: 
       diary_comment: 
@@ -97,27 +105,48 @@ ja:
       blocked: APIへのアクセスがブロックされました。Web インターフェイスからログインし直して詳細を確認してください。
       need_to_see_terms: あなたは一時的にAPIの利用を停止されています。ウェブインターフェイスにログインして協力者規約をご覧ください。同意しなくてもかまいませんが、必ずご覧ください。
   browse: 
+    anonymous: 匿名
     changeset: 
+      belongs_to: 著者
       changesetxml: 変更セット XML
       feed: 
         title: 変更セット %{id}
         title_comment: 変更セット %{id} - %{comment}
+      node: ノード (%{count})
+      node_paginated: ノード (%{x}-%{y} / %{count})
       osmchangexml: OSM 差分 XML
-      title: 変更セット
+      relation: リレーション (%{count})
+      relation_paginated: リレーション (%{x}-%{y} / %{count})
+      title: "変更セット: %{id}"
+      way: ウェイ (%{count})
+      way_paginated: ウェイ (%{x}-%{y} / %{count})
+    closed: クローズ
+    closed_html: <abbr title='%{title}'>%{time}前</abbr>にクローズ
     containing_relation: 
       entry: リレーション %{relation_name}
       entry_role: リレーション %{relation_name} (%{relation_role} として)
+    created: 作成
+    created_html: <abbr title='%{title}'>%{time}前</abbr>に作成
+    download_xml: XML をダウンロード
+    in_changeset: 変更セット
+    no_comment: (コメントなし)
+    node: 
+      history_title: "ノードの履歴: %{name}"
+      title: "ノード: %{name}"
     not_found: 
-      sorry: ID %{id} の %{type} は見つかりません。
+      sorry: "%{type} #%{id} は見つかりませんでした。"
       type: 
         changeset: 変更セット
         node: ノード
         relation: リレーション
         way: ウェイ
     note: 
-      closed_title: "解決済のメモ: %{note_name}"
-      open_title: "未解決のメモ: %{note_name}"
-      title: メモ
+      closed_title: "解決済のメモ #%{note_name}"
+      hidden_title: "非表示のメモ #%{note_name}"
+      new_note: 新しいメモ
+      open_title: "未解決のメモ #%{note_name}"
+      title: "メモ: %{id}"
+    part_of: 以下の一部
     redacted: 
       message_html: この %{type} の %{version} 版は、改訂されたため表示できません。詳細は %{redaction_link} をご覧ください。
       redaction: 改訂 %{id}
@@ -125,6 +154,10 @@ ja:
         node: ノード
         relation: リレーション
         way: ウェイ
+    relation: 
+      history_title: "リレーションの履歴: %{name}"
+      members: メンバー
+      title: "リレーション: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} (%{role} として)"
       type: 
@@ -133,11 +166,10 @@ ja:
         way: ウェイ
     start_rjs: 
       load_data: データの読み込み
-      loaded_an_area_with_num_features: "%{num_features}件の地物を含む領域を読み込みました。一般に、ブラウザーによっては、この量のデータを表示するとうまく処理できないかもしれません。通常、ブラウザーは一度に%{max_features}件未満の地物を表示させるとうまく動作します。このままでは、ブラウザーが遅くなったり、反応しなくなったりします。それでもこのデータを表示したいならば、以下のボタンをクリックしてください。"
       loading: 読み込み中...
-      unable_to_load_size: "読み込めません: 境界囲みのサイズ %{bbox_size} が大きすぎます (%{max_bbox_size}より小さくする必要があります)"
+      unable_to_load_size: 領域 (%{bbox_size}) が大きすぎるため、地図データを読み込めません。領域は %{max_bbox_size} の矩形より小さくする必要があります。
     tag_details: 
-      tags: "タグ:"
+      tags: タグ
       wiki_link: 
         key: "%{key} タグのウィキでの説明ページ"
         tag: "%{key}=%{value} タグのウィキでの説明ページ"
@@ -149,6 +181,15 @@ ja:
         node: ノード
         relation: リレーション
         way: ウェイ
+    version: バージョン
+    view_details: 詳細を表示
+    view_history: 履歴を表示
+    way: 
+      also_part_of: 
+        other: ウェイ %{related_ways} の一部
+      history_title: "ウェイの履歴: %{name}"
+      nodes: ノード
+      title: "ウェイ: %{name}"
   changeset: 
     changeset: 
       anonymous: 匿名
@@ -165,6 +206,13 @@ ja:
       saved_at: 保存日時
       user: ユーザー
     list: 
+      empty: 変更セットが見つかりません。
+      empty_area: この領域には変更セットはありません。
+      empty_user: このユーザーによる変更セットはありません。
+      load_more: 続きを読み込む
+      no_more: 変更セットはこれ以上ありません。
+      no_more_area: この領域には変更セットはこれ以上ありません。
+      no_more_user: このユーザーによる変更セットはこれ以上ありません。
       title: 変更セット
       title_friend: 友達による変更セット
       title_nearby: 周辺のユーザーによる変更セット
@@ -265,7 +313,7 @@ ja:
       area_to_export: エクスポートする領域
       embeddable_html: 埋め込み HTML
       export_button: エクスポート
-      export_details: OpenStreetMap のデータは<a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database License</a> (ODbL) の下にライセンスされています。
+      export_details: OpenStreetMap のデータは <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database License</a> (ODbL) の下にライセンスされています。
       format: ファイル形式
       format_to_export: エクスポートするファイル形式
       image_size: 画像サイズ
@@ -281,7 +329,7 @@ ja:
       paste_html: 以下の HTML をあなたのサイトに貼り付けてください
       scale: 縮尺
       too_large: 
-        body: 領域が大きすぎて OpenStreetMap XML データとしてエクスポートできません。拡大するか、領域を小さくするか、以下のソースから一括データダウンロードを使用するかしてください。
+        body: 領域が大きすぎて OpenStreetMap XML データとしてエクスポートできません。拡大するか、領域を小さくするか、以下に列挙したソースから一括データダウンロードを使用するかしてください。
         geofabrik: 
           description: 大陸、国、および選択した都市を抽出したもので、定期的に更新されます
           title: Geofabrik のダウンロード
@@ -295,6 +343,7 @@ ja:
           description: 定期的に更新される、OpenStreetMap データベースの完全な複製
           title: Planet OSM
       zoom: ズーム
+    title: エクスポート
   geocoder: 
     description: 
       title: 
@@ -824,6 +873,19 @@ ja:
           water_point: 給水所
           waterfall: 滝
           weir: ダム
+  help_page: 
+    help: 
+      description: OSM の質問回答サイトで質問したり回答を検索したりする。
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    title: ヘルプの取得
+    welcome: 
+      description: OpenStreetMap の基礎を網羅しているこのクイック ガイドから始めましょう。
+      title: OSM へようこそ
+      url: /welcome
+    wiki: 
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/wiki/JA:Main_Page
   javascripts: 
     close: 閉じる
     edit_help: 編集したい位置に移動してズームインしてから、ここをクリックしてください。
@@ -838,6 +900,7 @@ ja:
         standard: 標準
         transport_map: 交通マップ
       copyright: © <a href='%{copyright_url}'>OpenStreetMapへの協力者</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>寄付する</a>
       layers: 
         data: 地図データ
         header: 地図のレイヤー
@@ -893,11 +956,13 @@ ja:
       createnote_tooltip: 今後の修正のために地図にメモを残す
       edit_disabled_tooltip: 地図を編集するには拡大してください
       edit_tooltip: 地図を編集
+      map_data_zoom_in_tooltip: 地図データを閲覧するには拡大してください
+      map_notes_zoom_in_tooltip: 地図メモを閲覧するには拡大してください
   layouts: 
     community: コミュニティ
     community_blogs: コミュニティ ブログ
     community_blogs_title: OpenStreetMap コミュニティのメンバーからのブログ
-    copyright: 著作権とライセンス
+    copyright: 著作権
     data: データ
     donate: ハードウェア アップグレード基金への%{link}で、OpenStreetMap を支援します。
     edit: 編集
@@ -912,6 +977,9 @@ ja:
     history: 履歴
     home: ホーム地点に移動
     intro_2_create_account: ユーザー アカウントを作成
+    intro_header: OpenStreetMap へようこそ!
+    intro_text: OpenStreetMap は、あなたのような人々が作成した世界地図であり、オープン ライセンスの下で自由に利用できます。
+    learn_more: 詳細
     log_in: ログイン
     log_in_tooltip: 自分のアカウントでログイン
     logo: 
@@ -929,6 +997,7 @@ ja:
     partners_ucl: UCL VR センター
     sign_up: ユーザー登録
     sign_up_tooltip: 編集のためのアカウントを作成
+    start_mapping: マッピングを開始
     tag_line: 自由なウィキ世界地図
     user_diaries: 日記
     user_diaries_tooltip: ユーザーの日記を閲覧する
@@ -1151,6 +1220,13 @@ ja:
       allow_write_notes: メモを変更する。
       allow_write_prefs: 自分のユーザー設定を変更する。
       request_access: アプリケーション %{app_name} があなたのアカウント、%{user} への接続許可を求めています。そのアプリケーションに許可してもよいかどうかを確認してください。複数のアプリケーションに許可を与えることもできます。
+      title: あなたのアカウントへのアクセスの認証
+    oauthorize_failure: 
+      denied: アプリケーション %{app_name} によるあなたのアカウントへのアクセスを拒否しました。
+      invalid: 認証トークンが有効ではありません。
+    oauthorize_success: 
+      allowed: アプリケーション %{app_name} によるあなたのアカウントへのアクセスを許可しました。
+      verification: 検証コードは %{code} です。
     revoke: 
       flash: "%{application} へのトークンを失効しました。"
   oauth_clients: 
@@ -1861,7 +1937,7 @@ ja:
       way_html: <strong>ウェイ</strong>は線または領域です。道路、水路、湖、建物などが該当します。
     introduction_html: フリーで編集可能な世界地図、OpenStreetMapへようこそ。サインアップしたので、マッピングの準備はすべて整いました。知っておかなければならない重要事項を簡単に説明します。
     questions: 
-      paragraph_1_html: マッピングで分からないことがありますか？OpenStreetMapの使い方で不明な点はありますか？<a href='http://help.openstreetmap.org/'>ヘルプのウェブサイト</a>で疑問の回答を得てください。
+      paragraph_1_html: "OpenStreetMap has several resources for learning about the project, asking and answering\nquestions, and collaboratively discussing and documenting mapping topics.\n<a href='%{help_url}'>Get help here</a>."
       title: 何か質問はありますか?
     start_mapping: マッピングを開始
     title: ようこそ!
