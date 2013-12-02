@@ -5,9 +5,9 @@ module GeocoderHelper
     if result[:type] and result[:id]
       url = url_for(:controller => :browse, :action => result[:type], :id => result[:id])
     elsif result[:min_lon] and result[:min_lat] and result[:max_lon] and result[:max_lat]
-      url = "?minlon=#{result[:min_lon]}&minlat=#{result[:min_lat]}&maxlon=#{result[:max_lon]}&maxlat=#{result[:max_lat]}"
+      url = "/?bbox=#{result[:min_lon]},#{result[:min_lat]},#{result[:max_lon]},#{result[:max_lat]}"
     else
-      url = "?mlat=#{result[:lat]}&mlon=#{result[:lon]}&zoom=#{result[:zoom]}"
+      url = "/#map=#{result[:zoom]}/#{result[:lat]}/#{result[:lon]}"
     end
 
     result.each do |key,value|
