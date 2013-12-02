@@ -62,6 +62,15 @@ OSM = {
       mapParams.lon = hash.center.lng;
       mapParams.lat = hash.center.lat;
       mapParams.zoom = hash.zoom;
+    } else if (params.bbox) {
+      var bbox = params.bbox.split(',');
+      mapParams.bounds = L.latLngBounds(
+        [parseFloat(bbox[1]), parseFloat(bbox[0])],
+        [parseFloat(bbox[3]), parseFloat(bbox[2])]);
+    } else if (params.minlon && params.minlat && params.maxlon && params.maxlat) {
+      mapParams.bounds = L.latLngBounds(
+        [parseFloat(params.minlat), parseFloat(params.minlon)],
+        [parseFloat(params.maxlat), parseFloat(params.maxlon)]);
     } else if (params.lon && params.lat) {
       mapParams.lon = parseFloat(params.lon);
       mapParams.lat = parseFloat(params.lat);
