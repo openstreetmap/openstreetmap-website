@@ -1721,7 +1721,7 @@ EOF
     assert_template "changeset/history"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get :list, {:format => "html", :bbox => '-180,-90,90,180'}
+    get :list, {:format => "html", :list => '1', :bbox => '-180,-90,90,180'}
     assert_response :success
     assert_template "list"
 

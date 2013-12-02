@@ -268,7 +268,7 @@ class ChangesetController < ApplicationController
       return
     end
 
-    if request.format == :html and !params[:bbox]
+    if request.format == :html and !params[:list]
       require_oauth
       render :action => :history, :layout => map_layout
     else

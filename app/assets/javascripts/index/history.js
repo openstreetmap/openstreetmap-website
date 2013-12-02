@@ -44,10 +44,10 @@ OSM.History = function(map) {
   }
 
   function loadData() {
-    var data = {};
+    var data = {list: '1'};
 
     if (window.location.pathname === '/history') {
-      data = {bbox: map.getBounds().wrap().toBBoxString()};
+      data.bbox = map.getBounds().wrap().toBBoxString();
     }
 
     $.ajax({
