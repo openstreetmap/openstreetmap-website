@@ -8,6 +8,10 @@ OSM.History = function(map) {
     })
     .on("mouseout", "[data-changeset]", function () {
       unHighlightChangeset($(this).data("changeset").id);
+    })
+    .on("click", "[data-changeset]", function (e) {
+      e.preventDefault();
+      clickChangeset($(this).data("changeset").id);
     });
 
   var group = L.featureGroup()
