@@ -30,11 +30,16 @@ OSM.Search = function(map) {
       center = L.latLng(data.lat, data.lon);
 
     if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
-      map.fitBounds([[data.minLat, data.minLon],
-        [data.maxLat, data.maxLon]]);
+      map.fitBounds([[data.minLat, data.minLon], [data.maxLat, data.maxLon]]);
     } else {
       map.setView(center, data.zoom);
     }
+
+    // Let clicks to object browser links propagate.
+    if (data.type && data.id) return;
+
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   var marker = L.marker([0, 0], {icon: getUserIcon()});
