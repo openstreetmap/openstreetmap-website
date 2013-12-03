@@ -134,10 +134,7 @@ OSM.History = function(map) {
 
   page.unload = function() {
     map.removeLayer(group);
-
-    if (window.location.pathname === '/history') {
-      map.off("moveend", update)
-    }
+    map.off("moveend", update);
 
     $("#history_tab").removeClass("current");
   };
