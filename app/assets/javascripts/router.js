@@ -169,8 +169,12 @@ OSM.Router = function(map, rts) {
   };
 
   router.load = function() {
-    var loadState = currentRoute.run('load', currentPath);
-    router.stateChange(loadState || {});
+    if (currentRoute) {
+      var loadState = currentRoute.run('load', currentPath);
+      router.stateChange(loadState || {});
+    } else {
+      console.log("Unable to match route for: " + currentPath);
+    }
   };
 
   map.on('moveend baselayerchange overlaylayerchange', router.updateHash);
