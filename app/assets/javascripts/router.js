@@ -106,18 +106,14 @@ OSM.Router = function(map, rts) {
       currentPath = path;
       currentRoute = routes.recognize(currentPath);
       currentRoute.run('popstate', currentPath);
-      var state = e.originalEvent.state;
-      if (state.center) {
-        map.setView(state.center, state.zoom, {animate: false});
-        map.updateLayers(state.layers);
-      }
+      map.setState(e.originalEvent.state, {animate: false});
     });
 
     router.route = function (url) {
       var path = url.replace(/#.*/, ''),
         route = routes.recognize(path);
       if (!route) return false;
-      window.history.pushState(OSM.parseHash(url) || {}, document.title, url);
+      window.history.pushState(OSM.parseHash(url), document.title, url);
       currentRoute.run('unload');
       currentPath = path;
       currentRoute = route;
@@ -154,9 +150,7 @@ OSM.Router = function(map, rts) {
     if (hash === currentHash) return;
     currentHash = hash;
     var state = OSM.parseHash(hash);
-    if (!state) return;
-    map.setView(state.center, state.zoom);
-    map.updateLayers(state.layers);
+    map.setState(state);
     router.stateChange(state, hash);
   };
 
