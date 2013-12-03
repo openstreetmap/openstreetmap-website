@@ -46,7 +46,7 @@ OSM.History = function(map) {
     $("#changeset_" + id).find("a.changeset_id").simulate("click", e);
   }
 
-  function loadData() {
+  function update() {
     var data = {list: '1'};
 
     if (window.location.pathname === '/history') {
@@ -62,6 +62,11 @@ OSM.History = function(map) {
         updateMap();
       }
     });
+
+    var feedLink = $('link[type="application/atom+xml"]'),
+      feedHref = feedLink.attr('href').split('?')[0];
+
+    feedLink.attr('href', feedHref + '?bbox=' + data.bbox);
   }
 
   function loadMore(e) {
@@ -121,17 +126,17 @@ OSM.History = function(map) {
     map.addLayer(group);
 
     if (window.location.pathname === '/history') {
-      map.on("moveend", loadData)
+      map.on("moveend", update)
     }
 
-    loadData();
+    update();
   };
 
   page.unload = function() {
     map.removeLayer(group);
 
     if (window.location.pathname === '/history') {
-      map.off("moveend", loadData)
+      map.off("moveend", update)
     }
 
     $("#history_tab").removeClass("current");
