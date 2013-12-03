@@ -49,10 +49,6 @@ class UserControllerTest < ActionController::TestCase
       { :path => "/user/new", :method => :get },
       { :controller => "user", :action => "new" }
     )
-    assert_recognizes(
-      { :controller => "user", :action => "new" },
-      { :path => "/create-account.html", :method => :get }
-    )
 
     assert_routing(
       { :path => "/user/new", :method => :post },
@@ -111,10 +107,6 @@ class UserControllerTest < ActionController::TestCase
     assert_routing(
       { :path => "/user/forgot-password", :method => :post },
       { :controller => "user", :action => "lost_password" }
-    )
-    assert_recognizes(
-      { :controller => "user", :action => "lost_password" },
-      { :path => "/forgot-password.html", :method => :get }
     )
     assert_routing(
       { :path => "/user/reset-password", :method => :get },

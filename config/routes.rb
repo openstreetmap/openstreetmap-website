@@ -162,9 +162,9 @@ OpenStreetMap::Application.routes.draw do
   match '/user/forgot-password' => 'user#lost_password', :via => [:get, :post]
   match '/user/suspended' => 'user#suspended', :via => :get
 
-  match '/index.html' => 'site#index', :via => :get
-  match '/create-account.html' => 'user#new', :via => :get
-  match '/forgot-password.html' => 'user#lost_password', :via => :get
+  get '/index.html', :to => redirect(:path => "/")
+  get '/create-account.html', :to => redirect(:path => "/user/new")
+  get '/forgot-password.html', :to => redirect(:path => "/user/forgot-password")
 
   # permalink
   match '/go/:code' => 'site#permalink', :via => :get, :code => /[a-zA-Z0-9_@~]+[=-]*/
