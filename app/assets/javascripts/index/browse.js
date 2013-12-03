@@ -26,6 +26,19 @@ function initializeBrowse(map) {
     onSelect(e.layer);
   });
 
+  dataLayer.on('statechange', function (e) {
+    if (e.checked) {
+      if (e.disabled) {
+        var size = map.getBounds().getSize();
+        $('#browse_status').html(
+          $("<p class='warning'></p>")
+            .text(I18n.t("browse.start_rjs.unable_to_load_size", { max_bbox_size: OSM.MAX_REQUEST_AREA, bbox_size: size.toFixed(2) })));
+      } else {
+        $('#browse_status').empty();
+      }
+    }
+  });
+
   map.on('layeradd', function (e) {
     if (e.layer === dataLayer) {
       map.on("moveend", updateData);
@@ -61,15 +74,6 @@ function initializeBrowse(map) {
 
   function getData() {
     var bounds = map.getBounds();
-    var size = bounds.getSize();
-
-    if (size > OSM.MAX_REQUEST_AREA) {
-      $('#browse_status').html(
-        $("<p class='warning'></p>")
-          .text(I18n.t("browse.start_rjs.unable_to_load_size", { max_bbox_size: OSM.MAX_REQUEST_AREA, bbox_size: size.toFixed(2) })));
-      return;
-    }
-
     var url = "/api/" + OSM.API_VERSION + "/map?bbox=" + bounds.toBBoxString();
 
     /*
