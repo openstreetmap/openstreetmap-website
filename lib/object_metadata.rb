@@ -27,5 +27,5 @@ module ObjectMetadata
       el1['uid'] = user_id.to_s
     end
 
-    end
+  end
 end
