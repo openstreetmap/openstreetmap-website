@@ -111,40 +111,24 @@ OSM = {
   },
 
   parseHash: function(hash) {
+    var args = {};
+
     var i = hash.indexOf('#');
     if (i < 0) {
-      return false;
+      return args;
     }
 
-    hash = hash.substr(i + 1);
+    hash = querystring.parse(hash.substr(i + 1));
 
-    if (hash === '') {
-      return false;
+    var map = (hash.map || '').split('/'),
+      zoom = parseInt(map[0], 10),
+      lat = parseFloat(map[1]),
+      lon = parseFloat(map[2]);
+
+    if (!isNaN(zoom) && !isNaN(lat) && !isNaN(lon)) {
+      args.center = new L.LatLng(lat, lon);
+      args.zoom = zoom;
     }
-
-    hash = querystring.parse(hash);
-
-    if (hash.map === undefined) {
-      return false;
-    }
-
-    var args = hash.map.split("/");
-    if (args.length !== 3) {
-      return false;
-    }
-
-    var zoom = parseInt(args[0], 10),
-      lat = parseFloat(args[1]),
-      lon = parseFloat(args[2]);
-
-    if (isNaN(zoom) || isNaN(lat) || isNaN(lon)) {
-      return false;
-    }
-
-    args = {
-      center: new L.LatLng(lat, lon),
-      zoom: zoom
-    };
 
     if (hash.layers) {
       args.layers = hash.layers;
