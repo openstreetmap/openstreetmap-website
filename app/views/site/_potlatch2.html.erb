@@ -71,21 +71,11 @@
   }
 
   var mapParams = OSM.mapParams();
-  <% if @lat && @lon -%>
-    doSWF(<%= @lat %>, <%= @lon %>, mapParams.zoom || <%= @zoom %>);
-  <% else -%>
-    doSWF(mapParams.lat, mapParams.lon, mapParams.zoom || 17);
-  <% end -%>
-
-  $("body").on("click", "a.set_position", function (e) {
-    e.preventDefault();
-
-    var data = $(this).data();
-
-    $("#potlatch").each(function () {
-      this.setPosition(data.lat, data.lon, Math.max(data.zoom || 15, 13));
-    });
-  });
+<% if @lat && @lon -%>
+  doSWF(<%= @lat %>, <%= @lon %>, mapParams.zoom || <%= @zoom %>);
+<% else -%>
+  doSWF(mapParams.lat, mapParams.lon, mapParams.zoom || 17);
+<% end -%>
 
   var mapMoved = $.throttle(250, function(lon, lat, zoom) {
     updateLinks({ lon: lon, lat: lat }, zoom);

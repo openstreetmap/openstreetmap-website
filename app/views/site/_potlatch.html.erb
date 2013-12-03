@@ -52,17 +52,9 @@
   }
 
   var mapParams = OSM.mapParams();
-  <% if @lat && @lon -%>
-    doSWF(<%= @lat %>, <%= @lon %>, mapParams.zoom || <%= @zoom %>);
-  <% else -%>
-    doSWF(mapParams.lat, mapParams.lon, mapParams.zoom || 17);
-  <% end -%>
-
-  $(document).ready(function () {
-    $("body").on("click", "a.set_position", function () {
-      var data = $(this).data();
-
-      doSWF(data.lat, data.lon, data.zoom || 15);
-    });
-  });
+<% if @lat && @lon -%>
+  doSWF(<%= @lat %>, <%= @lon %>, mapParams.zoom || <%= @zoom %>);
+<% else -%>
+  doSWF(mapParams.lat, mapParams.lon, mapParams.zoom || 17);
+<% end -%>
 </script>
