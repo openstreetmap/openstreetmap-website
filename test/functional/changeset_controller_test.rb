@@ -1543,6 +1543,14 @@ EOF
     get :query, :closed => 'true', :user => users(:public_user).id
     assert_response :success, "can't get changesets by closed-ness and user"
     assert_changesets [7]
+
+    get :query, :changesets => '1,2,3'
+    assert_response :success, "can't get changesets by id (as comma-separated string)"
+    assert_changesets [1,2,3]
+
+    get :query, :changesets => [1,2,3]
+    assert_response :success, "can't get changesets by id (as array)"
+    assert_changesets [1,2,3]
   end
 
   ##

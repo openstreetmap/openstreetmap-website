@@ -210,6 +210,7 @@ class ChangesetController < ApplicationController
     changesets = conditions_time(changesets, params['time'])
     changesets = conditions_open(changesets, params['open'])
     changesets = conditions_closed(changesets, params['closed'])
+    changesets = conditions_ids(changesets, params['changesets'])
 
     # create the results document
     results = OSM::API.new.get_xml_doc
@@ -410,6 +411,18 @@ private
     else
       return changesets.where("closed_at < ? or num_changes > ?",
                               Time.now.getutc, Changeset::MAX_ELEMENTS)
+    end
+  end
+
+  ##
+  # query changesets by a list of ids
+  # (either specified as array or comma-separated string)
+  def conditions_ids(changesets, ids)
+    if ids.nil? or ids.empty?
+      return changesets
+    else
+      ids = ids.split(',').collect { |n| n.to_i } if ids.kind_of?(String)
+      return changesets.where("id IN (?)", ids)
     end
   end
 
