@@ -3,6 +3,7 @@ class Relation < ActiveRecord::Base
   
   include ConsistencyValidations
   include NotRedactable
+  include ObjectMetadata
 
   self.table_name = "current_relations"
 
@@ -108,7 +109,7 @@ class Relation < ActiveRecord::Base
   def to_xml_node(visible_members = nil, changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'relation'
     el1['id'] = self.id.to_s
-    ObjectMetadata::add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
 
     self.relation_members.each do |member|
       p=0

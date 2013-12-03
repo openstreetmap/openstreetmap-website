@@ -1,5 +1,5 @@
 module ObjectMetadata
-  def self.add_metadata_to_xml_node(el1, osm, changeset_cache, user_display_name_cache)
+  def add_metadata_to_xml_node(el1, osm, changeset_cache, user_display_name_cache)
     el1['changeset'] = osm.changeset_id.to_s
     el1['redacted'] = osm.redaction.id.to_s if osm.redacted?
     el1['timestamp'] = osm.timestamp.xmlschema

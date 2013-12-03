@@ -1,5 +1,6 @@
 class OldWay < ActiveRecord::Base
   include ConsistencyValidations
+  include ObjectMetadata
 
   self.table_name = "ways"
   self.primary_keys = "way_id", "version"
@@ -95,7 +96,7 @@ class OldWay < ActiveRecord::Base
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'way'
     el1['id'] = self.way_id.to_s
-    ObjectMetadata::add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
 
     self.old_nodes.each do |nd| # FIXME need to make sure they come back in the right order
       e = XML::Node.new 'nd'

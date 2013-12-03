@@ -1,5 +1,6 @@
 class OldRelation < ActiveRecord::Base
   include ConsistencyValidations
+  include ObjectMetadata
   
   self.table_name = "relations"
   self.primary_keys = "relation_id", "version"
@@ -96,7 +97,7 @@ class OldRelation < ActiveRecord::Base
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'relation'
     el1['id'] = self.relation_id.to_s
-    ObjectMetadata::add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
 
     self.old_members.each do |member|
       e = XML::Node.new 'member'

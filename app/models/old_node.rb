@@ -1,6 +1,7 @@
 class OldNode < ActiveRecord::Base
   include GeoRecord
   include ConsistencyValidations
+  include ObjectMetadata
 
   self.table_name = "nodes"
   self.primary_keys = "node_id", "version"
@@ -45,7 +46,7 @@ class OldNode < ActiveRecord::Base
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'node'
     el1['id'] = self.node_id.to_s
-    ObjectMetadata::add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
 
     if self.visible?
       el1['lat'] = self.lat.to_s
