@@ -50,18 +50,22 @@ class SiteController < ApplicationController
       bbox = Node.find(params[:node]).bbox.to_unscaled
       @lat = bbox.centre_lat
       @lon = bbox.centre_lon
+      @zoom = 18
     elsif params[:way]
       bbox = Way.find(params[:way]).bbox.to_unscaled
       @lat = bbox.centre_lat
       @lon = bbox.centre_lon
+      @zoom = 17
     elsif params[:note]
       note = Note.find(params[:note])
       @lat = note.lat
       @lon = note.lon
+      @zoom = 17
     elsif params[:gpx]
       trace = Trace.visible_to(@user).find(params[:gpx])
       @lat = trace.latitude
       @lon = trace.longitude
+      @zoom = 16
     end
   end
 

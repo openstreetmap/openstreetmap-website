@@ -51,11 +51,11 @@
     // 700,600 for fixed size, 100%,100% for resizable
   }
 
+  var mapParams = OSM.mapParams();
   <% if @lat && @lon -%>
-  doSWF(<%= @lat %>,<%= @lon %>,16);
+    doSWF(<%= @lat %>, <%= @lon %>, mapParams.zoom || <%= @zoom %>);
   <% else -%>
-  var params = OSM.mapParams();
-  doSWF(params.lat, params.lon, params.zoom || 17);
+    doSWF(mapParams.lat, mapParams.lon, mapParams.zoom || 17);
   <% end -%>
 
   $(document).ready(function () {
