@@ -243,6 +243,11 @@ L.OSM.Map = L.Map.extend({
       zoom: this.getZoom(),
       layers: this.getLayersCode()
     }
+  },
+
+  setState: function(state, options) {
+    if (state.center) this.setView(state.center, state.zoom, options);
+    this.updateLayers(state.layers);
   }
 });
 
