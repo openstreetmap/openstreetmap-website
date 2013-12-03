@@ -102,7 +102,7 @@ class Way < ActiveRecord::Base
   def to_xml_node(visible_nodes = nil, changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'way'
     el1['id'] = self.id.to_s
-    Node::add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    ObjectMetadata::add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
 
     # make sure nodes are output in sequence_id order
     ordered_nodes = []
