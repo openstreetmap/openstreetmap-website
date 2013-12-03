@@ -95,7 +95,7 @@ class OldWay < ActiveRecord::Base
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'way'
     el1['id'] = self.way_id.to_s
-    Node::add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    ObjectMetadata::add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
 
     self.old_nodes.each do |nd| # FIXME need to make sure they come back in the right order
       e = XML::Node.new 'nd'

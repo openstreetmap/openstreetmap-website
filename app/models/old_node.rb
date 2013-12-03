@@ -45,7 +45,7 @@ class OldNode < ActiveRecord::Base
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'node'
     el1['id'] = self.node_id.to_s
-    Node::add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    ObjectMetadata::add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
 
     if self.visible?
       el1['lat'] = self.lat.to_s

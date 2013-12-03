@@ -96,7 +96,7 @@ class OldRelation < ActiveRecord::Base
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'relation'
     el1['id'] = self.relation_id.to_s
-    Node::add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    ObjectMetadata::add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
 
     self.old_members.each do |member|
       e = XML::Node.new 'member'
