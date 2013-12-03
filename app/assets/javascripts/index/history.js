@@ -1,3 +1,5 @@
+//= require jquery.simulate
+
 OSM.History = function(map) {
   var page = {};
 
@@ -41,30 +43,7 @@ OSM.History = function(map) {
   }
 
   function clickChangeset(id, e) {
-    var evt, el = $("#changeset_" + id).find("a.changeset_id")[0];
-    if ('createEvent' in document) {
-      evt = document.createEvent('MouseEvents');
-      evt.initMouseEvent('click',
-        true, // canBubble
-        true, // cancelable
-        window, // 'AbstractView'
-        e.clicks, // click count
-        e.screenX, // screenX
-        e.screenY, // screenY
-        e.clientX, // clientX
-        e.clientY, // clientY
-        e.ctrlKey, // ctrl
-        e.altKey, // alt
-        e.shiftKey, // shift
-        e.metaKey, // meta
-        e.button, // mouse button
-        e.relatedTarget // relatedTarget
-      );
-      el.dispatchEvent(evt);
-    } else {
-      evt = document.createEventObject();
-      el.fireEvent('onclick', evt);
-    }
+    $("#changeset_" + id).find("a.changeset_id").simulate("click", e);
   }
 
   function loadData() {
