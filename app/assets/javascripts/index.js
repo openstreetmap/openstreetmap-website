@@ -287,8 +287,19 @@ $(document).ready(function () {
   OSM.router.load();
 
   $(document).on("click", "a", function(e) {
-    if (e.isDefaultPrevented() || e.isPropagationStopped()) return;
-    if (this.host === window.location.host && OSM.router.route(this.pathname + this.search + this.hash)) e.preventDefault();
+    if (e.isDefaultPrevented() || e.isPropagationStopped())
+      return;
+
+    // Open links in a new tab as normal.
+    if (e.which > 1 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)
+      return;
+
+    // Ignore cross-protocol and cross-origin links.
+    if (location.protocol !== this.protocol || location.host !== this.host)
+      return;
+
+    if (OSM.router.route(this.pathname + this.search + this.hash))
+      e.preventDefault();
   });
 
   $(".search_form").on("submit", function(e) {

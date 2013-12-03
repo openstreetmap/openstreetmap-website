@@ -10,8 +10,9 @@ OSM.History = function(map) {
       unHighlightChangeset($(this).data("changeset").id);
     })
     .on("click", "[data-changeset]", function (e) {
-      e.preventDefault();
-      clickChangeset($(this).data("changeset").id);
+      if (!$(e.target).is('a')) {
+        clickChangeset($(this).data("changeset").id, e);
+      }
     });
 
   var group = L.featureGroup()
@@ -22,7 +23,7 @@ OSM.History = function(map) {
       unHighlightChangeset(e.layer.id);
     })
     .on("click", function (e) {
-      clickChangeset(e.layer.id);
+      clickChangeset(e.layer.id, e);
     });
 
   group.getLayerId = function(layer) {
@@ -39,8 +40,31 @@ OSM.History = function(map) {
     $("#changeset_" + id).removeClass("selected");
   }
 
-  function clickChangeset(id) {
-    OSM.router.route($("#changeset_" + id).find(".changeset_id").attr("href"));
+  function clickChangeset(id, e) {
+    var evt, el = $("#changeset_" + id).find("a.changeset_id")[0];
+    if ('createEvent' in document) {
+      evt = document.createEvent('MouseEvents');
+      evt.initMouseEvent('click',
+        true, // canBubble
+        true, // cancelable
+        window, // 'AbstractView'
+        e.clicks, // click count
+        e.screenX, // screenX
+        e.screenY, // screenY
+        e.clientX, // clientX
+        e.clientY, // clientY
+        e.ctrlKey, // ctrl
+        e.altKey, // alt
+        e.shiftKey, // shift
+        e.metaKey, // meta
+        e.button, // mouse button
+        e.relatedTarget // relatedTarget
+      );
+      el.dispatchEvent(evt);
+    } else {
+      evt = document.createEventObject();
+      el.fireEvent('onclick', evt);
+    }
   }
 
   function loadData() {
