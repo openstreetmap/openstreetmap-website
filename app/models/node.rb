@@ -4,6 +4,7 @@ class Node < ActiveRecord::Base
   include GeoRecord
   include ConsistencyValidations
   include NotRedactable
+  include ObjectMetadata
 
   self.table_name = "current_nodes"
 
@@ -177,33 +178,11 @@ class Node < ActiveRecord::Base
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el1 = XML::Node.new 'node'
     el1['id'] = self.id.to_s
-    el1['version'] = self.version.to_s
-    el1['changeset'] = self.changeset_id.to_s
+    add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
 
     if self.visible?
       el1['lat'] = self.lat.to_s
       el1['lon'] = self.lon.to_s
-    end
-
-    if changeset_cache.key?(self.changeset_id)
-      # use the cache if available
-    else
-      changeset_cache[self.changeset_id] = self.changeset.user_id
-    end
-
-    user_id = changeset_cache[self.changeset_id]
-
-    if user_display_name_cache.key?(user_id)
-      # use the cache if available
-    elsif self.changeset.user.data_public?
-      user_display_name_cache[user_id] = self.changeset.user.display_name
-    else
-      user_display_name_cache[user_id] = nil
-    end
-
-    if not user_display_name_cache[user_id].nil?
-      el1['user'] = user_display_name_cache[user_id]
-      el1['uid'] = user_id.to_s
     end
 
     self.tags.each do |k,v|
@@ -213,8 +192,6 @@ class Node < ActiveRecord::Base
       el1 << el2
     end
 
-    el1['visible'] = self.visible.to_s
-    el1['timestamp'] = self.timestamp.xmlschema
     return el1
   end
 
