@@ -173,7 +173,7 @@ OSM.Router = function(map, rts) {
       var loadState = currentRoute.run('load', currentPath);
       router.stateChange(loadState || {});
     } else {
-      console.log("Unable to match route for: " + currentPath);
+      throw "Unable to match route for: " + currentPath;
     }
   };
 
