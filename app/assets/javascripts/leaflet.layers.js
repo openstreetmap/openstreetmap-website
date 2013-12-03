@@ -168,8 +168,6 @@ L.OSM.layers = function(options) {
               .trigger('change');
           }
 
-          layer.fire('statechange', {disabled: disabled, checked: checked});
-
           $(item).attr('class', disabled ? 'disabled' : '');
           item.attr('data-original-title', disabled ?
             I18n.t('javascripts.site.' + refName + '_zoom_in_tooltip') : '');
