@@ -135,4 +135,22 @@ class WayTest < ActiveSupport::TestCase
     }
     assert_equal "Element way/23 has duplicate tags with key dup", message_update.message
   end
+
+  def test_way_tags
+    way = current_ways(:way_with_versions)
+    tags = Way.find(way.id).way_tags.order(:k)
+    assert_equal 2, tags.count
+    assert_equal "testing", tags[0].k 
+    assert_equal "added in way version 3", tags[0].v
+    assert_equal "testing two", tags[1].k
+    assert_equal "modified in way version 4", tags[1].v
+  end
+
+  def test_tags
+    way = current_ways(:way_with_versions)
+    tags = Way.find(way.id).tags
+    assert_equal 2, tags.size
+    assert_equal "added in way version 3", tags["testing"]
+    assert_equal "modified in way version 4", tags["testing two"]
+  end
 end
