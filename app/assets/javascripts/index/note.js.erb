@@ -64,7 +64,7 @@ OSM.Note = function (map) {
     var data = $('.details').data(),
       latLng = data.coordinates.split(',');
 
-    if (!window.location.hash) {
+    if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
       OSM.router.moveListenerOff();
       map.once('moveend', OSM.router.moveListenerOn);
       map.getZoom() > 15 ? map.panTo(latLng) : map.setView(latLng, 16);
