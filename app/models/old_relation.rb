@@ -72,7 +72,7 @@ class OldRelation < ActiveRecord::Base
   def tags
     unless @tags
       @tags = Hash.new
-      self.tags.each do |tag|
+      self.old_tags.each do |tag|
         @tags[tag.k] = tag.v
       end
     end
