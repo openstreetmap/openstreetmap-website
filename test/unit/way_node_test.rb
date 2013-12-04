@@ -4,6 +4,6 @@ class WayNodeTest < ActiveSupport::TestCase
   api_fixtures
 
   def test_way_nodes_count
-    assert_equal 6, WayNode.count
+    assert_equal 9, WayNode.count
   end
 end

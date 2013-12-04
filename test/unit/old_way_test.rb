@@ -4,7 +4,37 @@ class OldWayTest < ActiveSupport::TestCase
   api_fixtures
 
   def test_db_count
-    assert_equal 12, OldWay.count
+    assert_equal 14, OldWay.count
+  end
+
+  def test_old_nodes
+    way = ways(:way_with_multiple_nodes_v1)
+    nodes = OldWay.find(way.id).old_nodes.order(:sequence_id)
+    assert_equal 2, nodes.count
+    assert_equal 2, nodes[0].node_id
+    assert_equal 6, nodes[1].node_id
+
+    way = ways(:way_with_multiple_nodes_v2)
+    nodes = OldWay.find(way.id).old_nodes.order(:sequence_id)
+    assert_equal 3, nodes.count
+    assert_equal 4, nodes[0].node_id
+    assert_equal 15, nodes[1].node_id
+    assert_equal 6, nodes[2].node_id
+  end
+
+  def test_nds
+    way = ways(:way_with_multiple_nodes_v1)
+    nodes = OldWay.find(way.id).nds
+    assert_equal 2, nodes.count
+    assert_equal 2, nodes[0]
+    assert_equal 6, nodes[1]
+
+    way = ways(:way_with_multiple_nodes_v2)
+    nodes = OldWay.find(way.id).nds
+    assert_equal 3, nodes.count
+    assert_equal 4, nodes[0]
+    assert_equal 15, nodes[1]
+    assert_equal 6, nodes[2]
   end
 
   def test_way_tags
