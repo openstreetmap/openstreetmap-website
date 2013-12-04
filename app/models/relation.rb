@@ -107,9 +107,10 @@ class Relation < ActiveRecord::Base
   end
 
   def to_xml_node(visible_members = nil, changeset_cache = {}, user_display_name_cache = {})
-    el1 = XML::Node.new 'relation'
-    el1['id'] = self.id.to_s
-    add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    el = XML::Node.new 'relation'
+    el['id'] = self.id.to_s
+
+    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     self.relation_members.each do |member|
       p=0
@@ -125,21 +126,17 @@ class Relation < ActiveRecord::Base
         end
       end
       if p
-        e = XML::Node.new 'member'
-        e['type'] = member.member_type.downcase
-        e['ref'] = member.member_id.to_s 
-        e['role'] = member.member_role
-        el1 << e
+        member_el = XML::Node.new 'member'
+        member_el['type'] = member.member_type.downcase
+        member_el['ref'] = member.member_id.to_s 
+        member_el['role'] = member.member_role
+        el << member_el
        end
     end
 
-    self.relation_tags.each do |tag|
-      e = XML::Node.new 'tag'
-      e['k'] = tag.k
-      e['v'] = tag.v
-      el1 << e
-    end
-    return el1
+    add_tags_to_xml_node(el, self.relation_tags)
+
+    return el
   end 
 
   # FIXME is this really needed?

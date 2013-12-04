@@ -67,7 +67,7 @@ class OldWay < ActiveRecord::Base
   def nds
     unless @nds
       @nds = Array.new
-      OldWayNode.where(:way_id => self.way_id, :version => self.version).order(:sequence_id).each do |nd|
+      self.old_nodes.order(:sequence_id).each do |nd|
         @nds += [nd.node_id]
       end
     end
@@ -77,7 +77,7 @@ class OldWay < ActiveRecord::Base
   def tags
     unless @tags
       @tags = Hash.new
-      OldWayTag.where(:way_id => self.way_id, :version => self.version).each do |tag|
+      self.old_tags.each do |tag|
         @tags[tag.k] = tag.v
       end
     end
@@ -94,24 +94,20 @@ class OldWay < ActiveRecord::Base
   end
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el1 = XML::Node.new 'way'
-    el1['id'] = self.way_id.to_s
-    add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    el = XML::Node.new 'way'
+    el['id'] = self.way_id.to_s
+
+    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     self.old_nodes.each do |nd| # FIXME need to make sure they come back in the right order
-      e = XML::Node.new 'nd'
-      e['ref'] = nd.node_id.to_s
-      el1 << e
+      node_el = XML::Node.new 'nd'
+      node_el['ref'] = nd.node_id.to_s
+      el << node_el
     end
       
-    self.old_tags.each do |tag|
-      e = XML::Node.new 'tag'
-      e['k'] = tag.k
-      e['v'] = tag.v
-      el1 << e
-    end
+    add_tags_to_xml_node(el, self.old_tags)
 
-    return el1
+    return el
   end
 
   # Read full version of old way

@@ -27,4 +27,15 @@ module ObjectMetadata
       el['uid'] = user_id.to_s
     end
   end
+
+  def add_tags_to_xml_node(el, tags)
+    tags.each do |tag|
+      tag_el = XML::Node.new('tag')
+
+      tag_el['k'] = tag.k
+      tag_el['v'] = tag.v
+
+      el << tag_el
+    end
+  end
 end

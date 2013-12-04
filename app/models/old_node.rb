@@ -20,6 +20,8 @@ class OldNode < ActiveRecord::Base
   belongs_to :redaction
   belongs_to :current_node, :class_name => "Node", :foreign_key => "node_id"
 
+  has_many :old_tags, :class_name => 'OldNodeTag', :foreign_key => [:node_id, :version]
+
   def validate_position
     errors.add(:base, "Node is not in the world") unless in_world?
   end
@@ -44,23 +46,19 @@ class OldNode < ActiveRecord::Base
   end
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el1 = XML::Node.new 'node'
-    el1['id'] = self.node_id.to_s
-    add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    el = XML::Node.new 'node'
+    el['id'] = self.node_id.to_s
+
+    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     if self.visible?
-      el1['lat'] = self.lat.to_s
-      el1['lon'] = self.lon.to_s
+      el['lat'] = self.lat.to_s
+      el['lon'] = self.lon.to_s
     end
 
-    self.tags.each do |k,v|
-      el2 = XML::Node.new('tag')
-      el2['k'] = k.to_s
-      el2['v'] = v.to_s
-      el1 << el2
-    end
+    add_tags_to_xml_node(el, self.old_tags)
 
-    return el1
+    return el
   end
 
   def save_with_dependencies!
@@ -84,7 +82,7 @@ class OldNode < ActiveRecord::Base
   def tags
     unless @tags
       @tags = Hash.new
-      OldNodeTag.where(:node_id => self.node_id, :version => self.version).each do |tag|
+      self.old_tags.each do |tag|
         @tags[tag.k] = tag.v
       end
     end

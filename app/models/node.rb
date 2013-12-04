@@ -176,23 +176,19 @@ class Node < ActiveRecord::Base
   end
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el1 = XML::Node.new 'node'
-    el1['id'] = self.id.to_s
-    add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    el = XML::Node.new 'node'
+    el['id'] = self.id.to_s
+
+    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     if self.visible?
-      el1['lat'] = self.lat.to_s
-      el1['lon'] = self.lon.to_s
+      el['lat'] = self.lat.to_s
+      el['lon'] = self.lon.to_s
     end
 
-    self.tags.each do |k,v|
-      el2 = XML::Node.new('tag')
-      el2['k'] = k.to_s
-      el2['v'] = v.to_s
-      el1 << el2
-    end
+    add_tags_to_xml_node(el, self.node_tags)
 
-    return el1
+    return el
   end
 
   def tags_as_hash

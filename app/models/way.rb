@@ -101,9 +101,10 @@ class Way < ActiveRecord::Base
   end
 
   def to_xml_node(visible_nodes = nil, changeset_cache = {}, user_display_name_cache = {})
-    el1 = XML::Node.new 'way'
-    el1['id'] = self.id.to_s
-    add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    el = XML::Node.new 'way'
+    el['id'] = self.id.to_s
+
+    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     # make sure nodes are output in sequence_id order
     ordered_nodes = []
@@ -123,19 +124,15 @@ class Way < ActiveRecord::Base
 
     ordered_nodes.each do |nd_id|
       if nd_id and nd_id != '0'
-        e = XML::Node.new 'nd'
-        e['ref'] = nd_id
-        el1 << e
+        node_el = XML::Node.new 'nd'
+        node_el['ref'] = nd_id
+        el << node_el
       end
     end
 
-    self.way_tags.each do |tag|
-      e = XML::Node.new 'tag'
-      e['k'] = tag.k
-      e['v'] = tag.v
-      el1 << e
-    end
-    return el1
+    add_tags_to_xml_node(el, self.way_tags)
+
+    return el
   end 
 
   def nds

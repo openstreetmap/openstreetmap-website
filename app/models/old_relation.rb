@@ -62,7 +62,7 @@ class OldRelation < ActiveRecord::Base
   def members
     unless @members
       @members = Array.new
-      OldRelationMember.where(:relation_id => self.relation_id, :version => self.version).order(:sequence_id).each do |m|
+      self.old_members.order(:sequence_id).each do |m|
         @members += [[m.type,m.id,m.role]]
       end
     end
@@ -72,7 +72,7 @@ class OldRelation < ActiveRecord::Base
   def tags
     unless @tags
       @tags = Hash.new
-      OldRelationTag.where(:relation_id => self.relation_id, :version => self.version).each do |tag|
+      self.tags.each do |tag|
         @tags[tag.k] = tag.v
       end
     end
@@ -95,26 +95,22 @@ class OldRelation < ActiveRecord::Base
   end
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el1 = XML::Node.new 'relation'
-    el1['id'] = self.relation_id.to_s
-    add_metadata_to_xml_node(el1, self, changeset_cache, user_display_name_cache)
+    el = XML::Node.new 'relation'
+    el['id'] = self.relation_id.to_s
+
+    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     self.old_members.each do |member|
-      e = XML::Node.new 'member'
-      e['type'] = member.member_type.to_s.downcase
-      e['ref'] = member.member_id.to_s # "id" is considered uncool here as it should be unique in XML
-      e['role'] = member.member_role.to_s
-      el1 << e
+      member_el = XML::Node.new 'member'
+      member_el['type'] = member.member_type.to_s.downcase
+      member_el['ref'] = member.member_id.to_s # "id" is considered uncool here as it should be unique in XML
+      member_el['role'] = member.member_role.to_s
+      el << member_el
     end
     
-    self.old_tags.each do |tag|
-      e = XML::Node.new 'tag'
-      e['k'] = tag.k
-      e['v'] = tag.v
-      el1 << e
-    end
+    add_tags_to_xml_node(el, self.old_tags)
 
-    return el1
+    return el
   end
 
   # Temporary method to match interface to nodes
