@@ -418,11 +418,13 @@ private
   # query changesets by a list of ids
   # (either specified as array or comma-separated string)
   def conditions_ids(changesets, ids)
-    if ids.nil? or ids.empty?
+    if ids.nil?
       return changesets
+    elsif ids.empty?
+      raise OSM::APIBadUserInput.new("No changesets were given to search for")
     else
-      ids = ids.split(',').collect { |n| n.to_i } if ids.kind_of?(String)
-      return changesets.where("id IN (?)", ids)
+      ids = ids.split(',').collect { |n| n.to_i }
+      return changesets.where(:id => ids)
     end
   end
 
