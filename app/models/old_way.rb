@@ -65,24 +65,11 @@ class OldWay < ActiveRecord::Base
   end
 
   def nds
-    unless @nds
-      @nds = Array.new
-      self.old_nodes.order(:sequence_id).each do |nd|
-        @nds += [nd.node_id]
-      end
-    end
-    @nds
+    @nds ||= self.old_nodes.order(:sequence_id).collect { |n| n.node_id }
   end
 
   def tags
-    unless @tags
-      @tags = Hash.new
-      self.old_tags.each do |tag|
-        @tags[tag.k] = tag.v
-      end
-    end
-    @tags = Hash.new unless @tags
-    @tags
+    @tags ||= Hash[self.old_tags.collect { |t| [t.k, t.v] }]
   end
 
   def nds=(s)

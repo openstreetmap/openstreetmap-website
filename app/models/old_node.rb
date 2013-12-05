@@ -80,14 +80,7 @@ class OldNode < ActiveRecord::Base
   end
 
   def tags
-    unless @tags
-      @tags = Hash.new
-      self.old_tags.each do |tag|
-        @tags[tag.k] = tag.v
-      end
-    end
-    @tags = Hash.new unless @tags
-    @tags
+    @tags ||= Hash[self.old_tags.collect { |t| [t.k, t.v] }]
   end
 
   def tags=(t)

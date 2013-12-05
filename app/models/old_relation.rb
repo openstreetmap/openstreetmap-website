@@ -60,24 +60,13 @@ class OldRelation < ActiveRecord::Base
   end
 
   def members
-    unless @members
-      @members = Array.new
-      self.old_members.order(:sequence_id).each do |m|
-        @members += [[m.member_type,m.member_id,m.member_role]]
-      end
+    @members ||= self.old_members.collect do |member|
+      [member.member_type, member.member_id, member.member_role]
     end
-    @members
   end
 
   def tags
-    unless @tags
-      @tags = Hash.new
-      self.old_tags.each do |tag|
-        @tags[tag.k] = tag.v
-      end
-    end
-    @tags = Hash.new unless @tags
-    @tags
+    @tags ||= Hash[self.old_tags.collect { |t| [t.k, t.v] }]
   end
 
   def members=(s)

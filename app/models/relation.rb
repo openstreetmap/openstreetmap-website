@@ -147,13 +147,7 @@ class Relation < ActiveRecord::Base
   end
 
   def tags
-    unless @tags
-      @tags = Hash.new
-      self.relation_tags.each do |tag|
-        @tags[tag.k] = tag.v
-      end
-    end
-    @tags
+    @tags ||= Hash[self.relation_tags.collect { |t| [t.k, t.v] }]
   end
 
   def members=(m)

@@ -196,13 +196,7 @@ class Node < ActiveRecord::Base
   end
 
   def tags
-    unless @tags
-      @tags = {}
-      self.node_tags.each do |tag|
-        @tags[tag.k] = tag.v
-      end
-    end
-    @tags
+    @tags ||= Hash[self.node_tags.collect { |t| [t.k, t.v] }]
   end
 
   def tags=(t)
