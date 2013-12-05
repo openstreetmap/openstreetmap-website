@@ -70,10 +70,10 @@
     }
   }
 
-  var mapParams = OSM.mapParams();
 <% if @lat && @lon -%>
-  doSWF(<%= @lat %>, <%= @lon %>, mapParams.zoom || <%= @zoom %>);
+  doSWF(<%= @lat %>, <%= @lon %>, <%= @zoom %>);
 <% else -%>
+  var mapParams = OSM.mapParams();
   doSWF(mapParams.lat, mapParams.lon, mapParams.zoom || 17);
 <% end -%>
 
