@@ -6,9 +6,7 @@
     var params = {};
 
     var mapParams = OSM.mapParams();
-    if (mapParams.object &&
-        mapParams.object.type !== 'note' &&
-        mapParams.object.type !== 'changeset') {
+    if (mapParams.object) {
       params.id = mapParams.object.type[0] + mapParams.object.id;
     } else {
 <% if @lat && @lon -%>
