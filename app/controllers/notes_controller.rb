@@ -308,8 +308,12 @@ private
   ##
   # Get the maximum number of results to return
   def result_limit
-    if params[:limit] and params[:limit].to_i > 0 and params[:limit].to_i < 10000
-      params[:limit].to_i
+    if params[:limit]
+      if params[:limit].to_i > 0 and params[:limit].to_i < 10000
+        params[:limit].to_i
+      else
+        raise OSM::APIBadUserInput.new("Note limit must be between 1 and 9999")
+      end
     else
       100
     end

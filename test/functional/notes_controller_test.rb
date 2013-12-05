@@ -628,6 +628,12 @@ class NotesControllerTest < ActionController::TestCase
 
     get :index, {:l => '-2.5', :b => '-2.5', :r => '2.5'}
     assert_response :bad_request
+
+    get :index, {:bbox => '1,1,1.7,1.7', :limit => '0', :format => 'json'}
+    assert_response :bad_request
+
+    get :index, {:bbox => '1,1,1.7,1.7', :limit => '10000', :format => 'json'}
+    assert_response :bad_request
   end
 
   def test_search_success
@@ -699,6 +705,12 @@ class NotesControllerTest < ActionController::TestCase
   def test_search_bad_params
     get :search
     assert_response :bad_request
+
+    get :search, {:q => 'no match', :limit => '0', :format => 'json'}
+    assert_response :bad_request
+
+    get :search, {:q => 'no match', :limit => '10000', :format => 'json'}
+    assert_response :bad_request
   end
 
   def test_feed_success
@@ -722,10 +734,16 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_feed_fail
-    get :feed, {:bbox => "1,1,1.2"}
+    get :feed, {:bbox => "1,1,1.2", :format => "rss"}
     assert_response :bad_request
 
-    get :feed, {:bbox => "1,1,1.2,1.2,1.2"}
+    get :feed, {:bbox => "1,1,1.2,1.2,1.2", :format => "rss"}
+    assert_response :bad_request
+
+    get :feed, {:bbox => "1,1,1.2,1.2", :limit => '0', :format => "rss"}
+    assert_response :bad_request
+
+    get :feed, {:bbox => "1,1,1.2,1.2", :limit => '10000', :format => "rss"}
     assert_response :bad_request
   end
 
