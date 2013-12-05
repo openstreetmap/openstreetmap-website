@@ -201,10 +201,6 @@ $(document).ready(function () {
       e.preventDefault();
   });
 
-  if (OSM.preferred_editor == "remote" && $('body').hasClass("site-edit")) {
-    remoteEditHandler(map.getBounds());
-  }
-
   if (OSM.params().edit_help) {
     $('#editanchor')
       .removeAttr('title')
@@ -283,6 +279,11 @@ $(document).ready(function () {
     "/relation/:id(/history)":     OSM.Browse(map, 'relation'),
     "/changeset/:id":              OSM.Browse(map, 'changeset')
   });
+
+  if (OSM.preferred_editor == "remote" && document.location.pathname == "/edit") {
+    remoteEditHandler(map.getBounds());
+    OSM.router.setCurrentPath("/");
+  }
 
   OSM.router.load();
 

@@ -167,6 +167,11 @@ OSM.Router = function(map, rts) {
     router.stateChange(loadState || {});
   };
 
+  router.setCurrentPath = function (path) {
+    currentPath = path;
+    currentRoute = routes.recognize(currentPath);
+  };
+
   map.on('moveend baselayerchange overlaylayerchange', router.updateHash);
   $(window).on('hashchange', router.hashUpdated);
 
