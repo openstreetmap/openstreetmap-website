@@ -37,6 +37,7 @@
 ru: 
   about_page: 
     next: Далее
+    open_data_title: Открытые данные
     partners_title: Партнёры
   activerecord: 
     attributes: 
@@ -117,16 +118,26 @@ ru:
   browse: 
     anonymous: аноним
     changeset: 
+      belongs_to: Автор
       changesetxml: XML пакета правок
       feed: 
         title: Пакет правок %{id}
         title_comment: Пакет правок %{id} — %{comment}
       osmchangexml: osmChange XML
       title: "Пакет правок: %{id}"
+    closed: Закрыто
+    closed_by_html: Закрыто <abbr title='%{title}'>%{time} назад</abbr> пользователем %{user}
+    closed_html: Закрыто <abbr title='%{title}'>%{time} назад</abbr>
     containing_relation: 
       entry: Отношение %{relation_name}
       entry_role: Отношение %{relation_name} (в роли %{relation_role})
+    created: Создано
+    created_by_html: Создано <abbr title='%{title}'>%{time} назад</abbr> пользовталем %{user}
+    created_html: Создано <abbr title='%{title}'>%{time} назад</abbr>
+    deleted_by_html: Удалено <abbr title='%{title}'>%{time} назад</abbr> пользователем %{user}
     download_xml: Скачать XML
+    edited_by_html: Отредактировано <abbr title='%{title}'>%{time} назад</abbr> пользователем %{user}
+    in_changeset: Пакет правок
     not_found: 
       sorry: "К сожалению, %{type} #%{id} не найден."
       type: 
@@ -136,6 +147,11 @@ ru:
         way: линия
     note: 
       closed_title: "Обработанная заметка #%{note_name}"
+      commented_by: Комментарий пользователя %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
+      commented_by_anonymous: Комментарий анонима <abbr title='%{exact_time}'>%{when} назад</abbr>
+      new_note: Новая заметка
+      open_by: Создано пользователем %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
+      open_by_anonymous: Создано анонимом <abbr title='%{exact_time}'>%{when} назад</abbr>
       open_title: "Необработанная заметка #%{note_name}"
       title: "Примечание: %{id}"
     redacted: 
@@ -156,7 +172,6 @@ ru:
     start_rjs: 
       load_data: Загрузить данные
       loading: Загрузка...
-      unable_to_load_size: Загрузка невозможна. Размер квадрата %{bbox_size} слишком большой (должен быть меньше %{max_bbox_size})
     tag_details: 
       tags: Теги
       wiki_link: 
@@ -171,6 +186,8 @@ ru:
         relation: отношения
         way: линии
     version: Версия
+    view_details: Подробнее
+    view_history: Посмотреть историю
   changeset: 
     changeset: 
       anonymous: Аноним
@@ -853,6 +870,9 @@ ru:
     help: 
       title: help.openstreetmap.org
       url: https://help.openstreetmap.org/
+    welcome: 
+      description: Начните с этого краткого руководства, охватывающего основы OpenStreetMap.
+      title: Добро пожаловать на OSM
     wiki: 
       title: wiki.openstreetmap.org
       url: http://wiki.openstreetmap.org/wiki/RU:Main_Page
@@ -889,19 +909,10 @@ ru:
         intro: Введённая вами информация будет доступна другим пользователям, возможно, она поможет улучшить карту. Пожалуйста, оставьте в заметке чёткое описание, установите маркер в точное место на карте.
       show: 
         anonymous_warning: Эта заметка содержит комментарии анонимных участников. Требуется независимая проверка сведений.
-        closed_by: обработана <a href='%{user_url}'>%{user}</a> %{time}
-        closed_by_anonymous: обработана анонимом %{time}
         comment: Прокомментировать
         comment_and_resolve: Прокомментировать и обработать
-        commented_by: прокомментирована <a href='%{user_url}'>%{user}</a> %{time}
-        commented_by_anonymous: прокомментирована анонимом %{time}
         hide: Скрыть
-        opened_by: создана <a href='%{user_url}'>%{user}</a> %{time}
-        opened_by_anonymous: создана анонимом %{time}
-        permalink: Постоянная ссылка
         reactivate: Переоткрыть
-        reopened_by: возобновлена <a href='%{user_url}'>%{user}</a> %{time}
-        reopened_by_anonymous: возобновлена анонимом %{time}
         resolve: Обработана
     share: 
       cancel: Отмена
@@ -1908,7 +1919,7 @@ ru:
       way_html: <strong>Линия</strong> — это отрезок или кривая, соединяющая точки, обозначающая, к примеру, дорогу, ручей, контур озера или здания.
     introduction_html: Добро пожаловать на OpenStreetMap, открытую и свободную карту мира. Теперь, когда регистрация завершена, можно начинать картографировать. Вот небольшая инструкция по самым важным вещам, которые необходимо знать.
     questions: 
-      paragraph_1_html: Нужна помощь в картографировании или хотите уточнить что-то насчёт использования OpenStreetMap? На ваши вопросы ответят <a href='http://help.openstreetmap.org/'>на сайте помощи (англ.)</a>.
+      paragraph_1_html: "На OpenStreetMap есть несколько ресурсов, где можно узнать о проекте, задать вопросы или ответить на них и совместно обсудить темы, касающиеся картографии.\n<a href='%{help_url}'>Получите помощь здесь</a>."
       title: Появились вопросы?
     start_mapping: Начать картографировать
     title: Добро пожаловать!

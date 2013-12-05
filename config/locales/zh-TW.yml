@@ -3,6 +3,7 @@
 # Export driver: syck-pecl
 # Author: Anakmalaysia
 # Author: Cwlin0416
+# Author: Justincheng12345
 # Author: Mmyangfl
 # Author: Orinx
 # Author: Pesder
@@ -88,16 +89,30 @@ zh-TW:
       blocked: 您對 API 的存取已經被阻擋了。請登入網頁介面以了解更多資訊。
       need_to_see_terms: 我們已暫時中止您存取API的權限，請登入網頁介面查閱貢獻者條款，您不需要同意有關條款，但必須查閱全部。
   browse: 
+    anonymous: 匿名
     changeset: 
+      belongs_to: 作者
       changesetxml: 變更組合 XML
       feed: 
         title: 變更組合 %{id}
         title_comment: 變更組合 %{id} - %{comment}
+      node: 節點 (%{count})
       osmchangexml: osmChange XML
-      title: 變更組合
+      title: 變更組合：%{id}
+    closed: 已關閉
+    closed_by_html: 由 %{user} 關閉於 <abbr title='%{title}'>%{time} 以前</abbr>
+    closed_html: 關閉於 <abbr title='%{title}'>%{time} 以前</abbr>
     containing_relation: 
       entry: 關係 %{relation_name}
       entry_role: 關係 %{relation_name} (做為 %{relation_role})
+    created: 已建立
+    created_by_html: 由 %{user} 建立於 <abbr title='%{title}'>%{time} 以前</abbr>
+    created_html: 建立於 <abbr title='%{title}'>%{time} 以前</abbr>
+    deleted_by_html: 由 %{user} 刪除於 <abbr title='%{title}'>%{time} 以前</abbr>
+    download_xml: 下載 XML
+    edited_by_html: 由 %{user} 編輯於 <abbr title='%{title}'>%{time} 以前</abbr>
+    in_changeset: 變更組合
+    no_comment: (沒有評論)
     not_found: 
       sorry: 抱歉，找不到 id %{id} 的 %{type}。
       type: 
@@ -107,8 +122,10 @@ zh-TW:
         way: 路徑
     note: 
       closed_title: 已解決的筆記：%{note_name}
+      new_note: 新增節點
       open_title: "未解決的筆記: %{note_name}"
-      title: 註釋
+      title: 節點：%{id}
+    part_of: 部分：
     redacted: 
       message_html: 此 %{type} 中的版本 %{version} 不能被顯示，因爲它已被編輯過。請參閱 %{redaction_link} 的詳細資訊。
       redaction: 修訂版 %{id}
@@ -116,6 +133,8 @@ zh-TW:
         node: 節點
         relation: 關係
         way: 路徑
+    relation: 
+      members: 成員
     relation_member: 
       entry_role: "%{type} %{name} 做為 %{role}"
       type: 
@@ -125,9 +144,8 @@ zh-TW:
     start_rjs: 
       load_data: 載入資料
       loading: 正在載入...
-      unable_to_load_size: 無法載入：綁定方塊的大小 %{bbox_size} 太過巨大 (必須小於 %{max_bbox_size})
     tag_details: 
-      tags: 標籤：
+      tags: 標籤
       wiki_link: 
         key: "%{key} 標籤的 wiki 描述頁面"
         tag: "%{key}=%{value} 標籤的 wiki 描述頁面"
@@ -139,6 +157,11 @@ zh-TW:
         node: 節點
         relation: 關係
         way: 路徑
+    version: 版本
+    view_details: 檢視詳細資訊
+    view_history: 檢視歷史
+    way: 
+      nodes: 節點
   changeset: 
     changeset: 
       anonymous: 匿名
@@ -155,6 +178,13 @@ zh-TW:
       saved_at: 儲存於
       user: 使用者
     list: 
+      empty: 發現沒有變更集。
+      empty_area: 這一地區沒有變更集。
+      empty_user: 此用戶沒有變更集。
+      load_more: 載入更多
+      no_more: 沒有更多變更集。
+      no_more_area: 這一地區沒有更多變更集。
+      no_more_user: 此用戶沒有更多變更集。
       title: 變更組合
       title_friend: 您朋友的變更組合
       title_nearby: 鄰近使用者的變更組合
@@ -272,10 +302,20 @@ zh-TW:
       scale: 比例
       too_large: 
         body: 這個區域太大，無法匯出 OpenStreetMap XML 資料。請拉近選擇一個較小的區域或使用下列大量資料下載源：
+        geofabrik: 
+          description: 定期更新的洲、國家及特定城市之摘要
+          title: Geofabrik下載
+        metro: 
+          description: 世界主要城市與附近地區的摘要
+          title: 城市摘要
         other: 
           description: OpenStreetMap wiki 上列出的其他來源
           title: 其他來源
+        planet: 
+          description: 定期更新的完整OpenStreetMap資料庫副本
+          title: 地球OSM
       zoom: 變焦
+    title: 匯出
   geocoder: 
     description: 
       title: 
@@ -305,13 +345,25 @@ zh-TW:
       title: 
         ca_postcode: 來自<a href="http://geocoder.ca/">Geocoder.CA</a>的結果
         geonames: 來自<a href="http://www.geonames.org/">GeoNames</a>的結果
+        geonames_reverse: 來自<a href="http://www.geonames.org/">GeoNames</a>的結果
         latlon: 來自<a href="http://openstreetmap.org/">內部</a>的結果
         osm_nominatim: 來自 <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> 的結果
+        osm_nominatim_reverse: 來自<a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>的結果
         uk_postcode: 來自<a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>的結果
         us_postcode: 來自<a href="http://geocoder.us/">Geocoder.us</a>的結果
     search_osm_nominatim: 
+      admin_levels: 
+        level10: 郊區邊界
+        level2: 國界
+        level4: 州界
+        level5: 區界
+        level6: 縣界
+        level8: 市界
+        level9: 村界
       prefix: 
         aerialway: 
+          chair_lift: 登山吊椅
+          drag_lift: 上山牽引梯
           station: 航空站
         aeroway: 
           aerodrome: 機場
@@ -331,6 +383,7 @@ zh-TW:
           bank: 銀行
           bar: 酒吧
           bbq: 燒烤場
+          bench: 長椅
           bicycle_parking: 單車停車
           bicycle_rental: 自行車租賃
           biergarten: 啤酒花園
@@ -370,13 +423,16 @@ zh-TW:
           health_centre: 健康中心
           hospital: 醫院
           hotel: 酒店
+          hunting_stand: 狩獵站
           ice_cream: 冰淇淋
           kindergarten: 幼稚園
           library: 圖書館
           market: 市場
           marketplace: 市場
+          mountain_rescue: 山地救援
           nightclub: 夜總會
           nursery: 托兒所
+          nursing_home: 護理院
           office: 辦公室
           park: 公園
           parking: 停車場
@@ -402,6 +458,7 @@ zh-TW:
           shower: 淋浴
           social_centre: 社交中心
           social_club: 社交場合
+          social_facility: 社區設施
           studio: 錄音室
           supermarket: 超級市場
           swimming_pool: 游泳池
@@ -423,35 +480,70 @@ zh-TW:
           national_park: 國家公園
           protected_area: 保護區
         bridge: 
+          aqueduct: 水道
           suspension: 懸索橋
+          swing: 平旋橋
           viaduct: 高架橋
           "yes": 橋
         building: 
           "yes": 建築物
+        emergency: 
+          fire_hydrant: 消防栓
+          phone: 緊急電話
         highway: 
+          bridleway: 馬道
+          bus_guideway: 軌道巴士線
           bus_stop: 巴士站
+          byway: 小路
+          construction: 建造中公路
           cycleway: 單車徑
+          emergency_access_point: 緊急求助點
+          footway: 行人路
+          ford: 淺灘
+          living_street: 生活街
           milestone: 里程碑
+          minor: 次要道路
+          motorway: 高速公路
+          motorway_junction: 高速公路交匯處
+          motorway_link: 高速公路
+          path: 小徑
           pedestrian: 人行道
+          platform: 車站月台
           primary: 主要道路
           primary_link: 主要道路
+          proposed: 擬議道路
+          raceway: 賽道
           residential: 住宅
           rest_area: 休息區
           road: 道路
           secondary: 次要道路
+          secondary_link: 次級公路
+          service: 服務道路
+          services: 高速公路休息區
           speed_camera: 測速照相機
           steps: 步驟
+          stile: 跨越圍欄的台階
           street_lamp: 路燈
+          tertiary: 三級道路
+          tertiary_link: 三級道路
           track: 軌道
+          trail: 徑
+          trunk: 主幹線
+          trunk_link: 主幹線
+          unclassified: 無分級道路
+          unsurfaced: 未平整道路
         historic: 
+          archaeological_site: 考古遺址
           battlefield: 戰場
           boundary_stone: 界碑
           building: 建築物
           castle: 城堡
           church: 教堂
+          citywalls: 城牆
           fort: 堡
           house: 房屋
           icon: 圖示
+          manor: 莊園
           memorial: 紀念館
           mine: 礦產
           monument: 古蹟
@@ -459,44 +551,118 @@ zh-TW:
           ruins: 廢墟
           tomb: 墳墓
           tower: 塔
+          wayside_cross: 路邊十字
+          wayside_shrine: 路邊神龕
+          wreck: 殘骸
         landuse: 
+          allotments: 小園地
           basin: 盆地
+          brownfield: 棕地
           cemetery: 墳場
           commercial: 商業區
+          conservation: 保育
+          construction: 建設中
           farm: 農場
+          farmland: 農地
+          farmyard: 農家
           forest: 森林
           garages: 車庫
           grass: 草地
+          greenfield: 綠地
           industrial: 工業區
           landfill: 垃圾埋填區
+          meadow: 草地
           military: 軍事區
           mine: 礦產
           nature_reserve: 自然保護區
           orchard: 果園
           park: 公園
+          piste: 滑雪場
+          quarry: 採石場
+          railway: 鐵路
+          recreation_ground: 遊樂場
           reservoir: 水庫
           reservoir_watershed: 水庫集水區
           residential: 住宅區
           retail: 零售
+          road: 道路區
+          village_green: 鄉村草地
+          vineyard: 葡萄園
+          wetland: 濕地
+          wood: 樹林
         leisure: 
           beach_resort: 海灘度假村
+          bird_hide: 鳥類觀察站
+          common: 公共用地
           fishing: 垂釣區
           fitness_station: 健身站
           garden: 花園
           golf_course: 高爾夫球道
+          ice_rink: 溜冰場
+          marina: 小船塢
           miniature_golf: 小型高爾夫球場
           nature_reserve: 自然保護區
           park: 公園
+          pitch: 運動場
           playground: 遊樂場
           recreation_ground: 遊樂場
           sauna: 桑拿
+          slipway: 船臺
+          sports_centre: 運動中心
+          stadium: 運動場
           swimming_pool: 游泳池
+          track: 跑道
+          water_park: 水上公園
+        military: 
+          airfield: 軍用機場
+          barracks: 營房
+          bunker: 掩體
+        mountain_pass: 
+          "yes": 山口
         natural: 
+          bay: 灣
+          beach: 海灘
+          cape: 海角
+          cave_entrance: 洞穴入口
+          channel: 海峽
+          cliff: 峭壁
+          crater: 火山口
+          dune: 沙丘
+          feature: 特征
+          fell: 費爾地貌
+          fjord: 峽灣
+          forest: 森林
+          geyser: 間歇泉
+          glacier: 冰川
+          heath: 希思地貌
+          hill: 小山
+          island: 島
+          land: 陸地
+          marsh: 沼澤
+          moor: 停泊處
+          mud: 泥地
+          peak: 山頂
+          point: 點
+          reef: 礁
+          ridge: 山脊
+          river: 河
           rock: 岩石
+          scree: 岩屑堆
+          scrub: 灌木
+          shoal: 暗沙
+          spring: 泉
+          stone: 石
+          strait: 海峡
           tree: 樹
+          valley: 谷
           volcano: 火山
           water: 水
+          wetland: 濕地
+          wetlands: 濕地
+          wood: 樹林
         office: 
+          accountant: 會計師事務所
+          architect: 建築院
           company: 公司
           employment_agency: 就業中介
           estate_agent: 地產代理
@@ -513,25 +679,53 @@ zh-TW:
           country: 國家
           county: 縣
           farm: 農場
+          hamlet: 村莊
           house: 房屋
           houses: 房屋
           island: 島
+          islet: 嶼
+          isolated_dwelling: 獨立住宅
+          locality: 地區
+          moor: 荒野
+          municipality: 自治市
+          neighbourhood: 居住區
+          postcode: 郵政編號
           region: 區域
           sea: 海
           state: 狀態
+          subdivision: 細分
+          suburb: 郊區
           town: 鄉鎮
+          unincorporated_area: 非建制地區
           village: 村落
         railway: 
+          abandoned: 廢棄鐵路
           construction: 建造中鐵路
+          disused: 廢棄鐵路
+          disused_station: 廢棄火車站
+          funicular: 纜索鐵道
           halt: 列車站
+          historic_station: 歷史火車站
+          junction: 鐵路交匯處
+          level_crossing: 道口
           light_rail: 輕鐵
+          miniature: 微型鐵路
           monorail: 單軌
+          narrow_gauge: 窄軌鐵路
           platform: 鐵路月臺
+          preserved: 保留鐵路
+          proposed: 規劃鐵路
+          spur: 鐵路支線
           station: 火車站
+          stop: 火車停車處
           subway: 地鐵站
           subway_entrance: 地鐵出入口
+          switch: 道岔
+          tram: 電車軌道
           tram_stop: 電車站
+          yard: 鐵路站場
         shop: 
+          alcohol: 無許可證
           antiques: 古玩店
           art: 藝術品店
           bakery: 麵包店
@@ -539,24 +733,28 @@ zh-TW:
           beverages: 飲料店
           bicycle: 自行車店
           books: 書店
+          boutique: 精品店
           butcher: 屠夫
           car: 車店
           car_parts: 汽車零件
           car_repair: 汽車維修
           carpet: 地毯店
           charity: 慈善商店
+          chemist: 化學品店
           clothes: 服裝店
           computer: 電腦商店
           confectionery: 糖果店
           convenience: 便利店
           copyshop: 複印店
           cosmetics: 化妝品店
+          deli: 熟食店
           department_store: 百貨商店
           discount: 特價商品店
           doityourself: DIY
           dry_cleaning: 乾洗
           electronics: 電子產品商店
           estate_agent: 地產代理
+          farm: 農場商店
           fashion: 時裝店
           fish: 魚店
           florist: 花店
@@ -567,48 +765,86 @@ zh-TW:
           garden_centre: 園藝中心
           general: 一般商店
           gift: 禮品店
+          greengrocer: 蔬菜水果店
           grocery: 雜貨店
+          hairdresser: 理髮店
           hardware: 五金店
           hifi: 音響店
           insurance: 保險
           jewelry: 珠寶店
+          kiosk: 售貨亭
           laundry: 洗衣房
           mall: 購物商場
           market: 市集
           mobile_phone: 手機店
           motorcycle: 摩托車店
           music: 唱片行
+          newsagent: 報刊亭
           optician: 驗眼師
           organic: 有機食品店
           outdoor: 戶外店
           pet: 寵物店
+          pharmacy: 藥房
           photo: 照相館
+          salon: 美容院
+          second_hand: 二手店
           shoes: 鞋店
           shopping_centre: 購物中心
           sports: 體育用品店
           stationery: 文具店
           supermarket: 超級市場
+          tailor: 裁縫店
           toys: 玩具店
           travel_agency: 旅行社
+          video: 音像店
+          wine: 無許可證
+          "yes": 商店
         tourism: 
+          alpine_hut: 高山小屋
           artwork: 美工
           attraction: 景點
+          bed_and_breakfast: 家庭旅館
+          cabin: 小木屋
           camp_site: 營地
+          caravan_site: 房車宿營地
+          chalet: 小屋
           guest_house: 賓館
           hostel: 旅舍
           hotel: 酒店
           information: 資訊
+          lean_to: 棚屋
           motel: 汽車旅館
           museum: 博物館
           picnic_site: 野餐地
           theme_park: 主題公園
+          valley: 谷
+          viewpoint: 觀景點
           zoo: 動物園
         tunnel: 
+          culvert: 排水管
           "yes": 隧道
         waterway: 
+          artificial: 人工航道
+          boatyard: 船塢
+          canal: 運河
+          connector: 水路連接器
           dam: 水壩
+          derelict_canal: 廢棄運河
+          ditch: 溝
+          dock: 碼頭
+          drain: 渠
           lock: 鎖
+          lock_gate: 船閘
+          mineral_spring: 礦泉
+          mooring: 系泊設備
+          rapids: 急流
+          river: 河
+          riverbank: 河岸
+          stream: 溪
+          wadi: 乾河
+          water_point: 取水處
           waterfall: 瀑布
+          weir: 堰
   javascripts: 
     map: 
       base: 
@@ -619,22 +855,28 @@ zh-TW:
       edit_disabled_tooltip: 拉近以編輯地圖
       edit_tooltip: 編輯地圖
   layouts: 
+    about: 關於
     community: 社群
     community_blogs: 社群部落格
     community_blogs_title: OpenStreetMap 社群成員的部落格
-    copyright: 版權 & 授權條款
+    copyright: 版權
+    data: 資料
     donate: 以 %{link} 給硬體升級基金來支援 OpenStreetMap。
     edit: 編輯
     edit_with: 以 %{editor} 編輯
     export: 匯出
+    export_data: 匯出資料
     foundation: 基金會
     foundation_title: OpenStreetMap 基金會
     gps_traces: GPS 軌跡
     gps_traces_tooltip: 管理 GPS 軌跡
     help: 求助
     history: 歷史
-    home: 家
+    home: 移至家的位置
     intro_2_create_account: 建立使用者帳號
+    intro_header: 歡迎來到 OpenStreetMap！
+    intro_text: OpenStreetMap 是一個世界地圖，由像您這樣的人們所建立，在開放授權下可以自由使用。
+    learn_more: 了解更多
     log_in: 登入
     log_in_tooltip: 以設定好的帳號登入
     logo: 
@@ -652,6 +894,7 @@ zh-TW:
     partners_ucl: 倫敦大學學院 VR 中心
     sign_up: 註冊
     sign_up_tooltip: 建立一個帳號以便能編輯
+    start_mapping: 開始製圖
     tag_line: 自由的 Wiki 世界地圖
     user_diaries: 日記
     user_diaries_tooltip: 檢視日記

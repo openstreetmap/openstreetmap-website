@@ -8,6 +8,8 @@
 # Author: Mateju
 # Author: Stefanb
 sl: 
+  about_page: 
+    partners_title: Partnerji
   activerecord: 
     attributes: 
       diary_comment: 
@@ -85,33 +87,61 @@ sl:
       blocked: Vaš dostop do API je bil blokiran. Prosimo, prijavite se na spletno stran, če želite izvedeti več.
       need_to_see_terms: Vaš dostop do API, je začasno prekinjen. Prosimo, prijavite se na spletno stran in si oglejte pogoje "Contributor Terms". Ni se vam treba strinjati, vendar si jih morate ogledati.
   browse: 
+    anonymous: anonimni
     changeset: 
       belongs_to: Avtor
       changesetxml: Paket sprememb XML
       feed: 
         title: Paket sprememb %{id}
         title_comment: Paket sprememb %{id} - %{comment}
+      node: Vozlišč (%{count})
+      node_paginated: Vozlišča (%{x}-%{y} od %{count})
       osmchangexml: osmChange XML
-      title: Paket sprememb
+      relation: Zveze (%{count})
+      relation_paginated: Zveze (%{x}-%{y} od %{count})
+      title: "Paket sprememb: %{id}"
+      way: Poti (%{count})
+      way_paginated: Poti (%{x}-%{y} od %{count})
     closed: Zaprto
+    closed_by_html: Zaprl %{user} <abbr title='%{title}'>%{time} nazaj</abbr>
     closed_html: Zaprto <abbr title='%{title}'>%{time} nazaj</abbr>
     containing_relation: 
       entry: Zveza %{relation_name}
       entry_role: Zveza %{relation_name} (kot %{relation_role})
     created: Ustvarjeno
+    created_by_html: Ustvaril %{user} <abbr title='%{title}'>%{time} nazaj</abbr>
     created_html: Ustvarjeno <abbr title='%{title}'>%{time} nazas</abbr>
+    deleted_by_html: Izbrisal %{user} <abbr title='%{title}'>%{time} nazaj</abbr>
+    download_xml: Prenesi XML
+    edited_by_html: Uredil %{user} <abbr title='%{title}'>%{time} nazaj</abbr>
     in_changeset: Paket sprememb
+    no_comment: (brez komentarja)
+    node: 
+      history_title: "Zgodovina vozlišča: %{name}"
+      title: "Vozlišče: %{name}"
     not_found: 
-      sorry: Oprostite, %{type} z ID-jem %{id} ne obstaja v bazi.
+      sorry: "Oprostite, %{type} #%{id} ni mogoče najti."
       type: 
         changeset: Paket sprememb
         node: vozlišče
         relation: zveza
         way: pot
     note: 
-      closed_title: "Rešena opomba: %{note_name}"
-      open_title: "Nerešena opomba: %{note_name}"
-      title: Opomba
+      closed_by: Razrešil %{user} <abbr title='%{exact_time}'>%{when} nazaj</abbr>
+      closed_by_anonymous: Ustvaril anonimni <abbr title='%{exact_time}'>%{when} nazaj</abbr>
+      closed_title: "Razrešena opomba #%{note_name}"
+      commented_by: Komentar uporabnika %{user} <abbr title='%{exact_time}'>%{when} nazaj</abbr>
+      commented_by_anonymous: Komentar anonimnega uporabnika <abbr title='%{exact_time}'>%{when} nazaj</abbr>
+      hidden_by: Skril %{user} <abbr title='%{exact_time}'>%{when} nazaj</abbr>
+      hidden_title: "Skrita opomba #%{note_name}"
+      new_note: Nova opomba
+      open_by: Ustvaril %{user} <abbr title='%{exact_time}'>%{when} nazaj</abbr>
+      open_by_anonymous: Ustvaril anonimni <abbr title='%{exact_time}'>%{when} nazaj</abbr>
+      open_title: "Nerazrešena opomba #%{note_name}"
+      reopened_by: Ponovno aktiviral %{user} <abbr title='%{exact_time}'>%{when} nazaj</abbr>
+      reopened_by_anonymous: Ponovno aktiviral anonimni <abbr title='%{exact_time}'>%{when} nazaj</abbr>
+      title: "Opomba: %{id}"
+    part_of: Del
     redacted: 
       message_html: Verzija %{version} te %{type} ne more biti prikazana, ker je bila zavrnjena licenca. Glej %{redaction_link} za podrobnosti.
       redaction: Redakcija %{id}
@@ -119,6 +149,10 @@ sl:
         node: vozlišče
         relation: zveza
         way: pot
+    relation: 
+      history_title: "Zgodovina zveze: %{name}"
+      members: Člani
+      title: "Zveza: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} kot %{role}"
       type: 
@@ -128,9 +162,8 @@ sl:
     start_rjs: 
       load_data: Naloži podatke
       loading: Nalaganje ...
-      unable_to_load_size: "Ni mogoče naložiti: Pravokotno področje velikosti %{bbox_size} je preveliko (mora biti manjše od %{max_bbox_size})"
     tag_details: 
-      tags: "Oznake:"
+      tags: Oznake
       wiki_link: 
         key: Wiki stran z opisom oznake %{key}
         tag: Wiki stran z opisom oznake %{key}=%{value}
@@ -143,6 +176,12 @@ sl:
         relation: zveza
         way: pot
     version: Različica
+    view_details: Poglej podrobnosti
+    view_history: Poglej zgodovino
+    way: 
+      history_title: "Zgodovina poti: %{name}"
+      nodes: Vozlišča
+      title: "Pot: %{name}"
   changeset: 
     changeset: 
       anonymous: Brezimen
@@ -159,6 +198,7 @@ sl:
       saved_at: Shranjen
       user: Uporabnik
     list: 
+      load_more: Naloži več
       title: Paketi sprememb
       title_friend: Paket sprememb vaših prijateljev
       title_nearby: Paketi sprememb bližnjih uporabnikov
@@ -818,6 +858,9 @@ sl:
           water_point: Pitna voda
           waterfall: Slap
           weir: Zapornica
+  help_page: 
+    welcome: 
+      title: Dobrodošli v OSM
   javascripts: 
     close: Zapri
     key: 
@@ -848,19 +891,10 @@ sl:
         add: Dodaj opombo
       show: 
         anonymous_warning: To opomba vključuje pripombe anonimnih uporabnikov, ki bi morale biti posamezno preverjene.
-        closed_by: razrešil <a href='%{user_url}'>%{user}</a> ob %{time}
-        closed_by_anonymous: razrešil anonimnež ob %{time}
         comment: Komentar
         comment_and_resolve: Komentiraj in razreši
-        commented_by: komentar uporabnika <a href='%{user_url}'>%{user}</a> ob %{time}
-        commented_by_anonymous: Anonimni komentar ob %{time}
         hide: Skrij
-        opened_by: ustvaril/-a <a href='%{user_url}'>%{user}</a> ob %{time}
-        opened_by_anonymous: ustvaril anonimni uporabnik %{time}
-        permalink: Trajna povezava
         reactivate: Znova aktiviraj
-        reopened_by: ponovno aktiviral <a href='%{user_url}'>%{user}</a> ob %{time}
-        reopened_by_anonymous: ponovno aktiviral anonimnež ob %{time}
         resolve: Razreši
     share: 
       cancel: Prekliči
@@ -905,7 +939,10 @@ sl:
     history: Zgodovina
     home: Domov
     intro_2_create_account: Ustvarite uporabniški račun
-    log_in: prijava
+    intro_header: Dobrodošli na OpenStreetMap!
+    intro_text: OpenStreetMap je zemljevid sveta, ki ga ustvarjajo ljudje kot ste vi, brezplačen za uporabo z odprto licenco.
+    learn_more: Več o tem
+    log_in: Prijava
     log_in_tooltip: Vstop s svojim obstoječim uporabniškim računom
     logo: 
       alt_text: OpenStreetMap logotip
@@ -920,8 +957,9 @@ sl:
     partners_ic: Imperial College v Londonu
     partners_partners: partnerji
     partners_ucl: UCL VR Center
-    sign_up: ustvari račun
+    sign_up: Ustvari račun
     sign_up_tooltip: Ustvarite si nov uporabniški račun za urejanje
+    start_mapping: Začnite kartirati
     tag_line: Prost wiki zemljevid sveta
     user_diaries: Dnevnik
     user_diaries_tooltip: Pregled dnevnikov uporabnikov
@@ -1128,6 +1166,7 @@ sl:
       allow_write_notes: spreminjanje opomb.
       allow_write_prefs: spreminjanje uporabniških nastavitev.
       request_access: Aplikacija %{app_name} zahteva dostop do vašega računa %{user}. Prosimo, preverite, ali želite aplikaciji omogočiti naslednje zmožnosti. Izbirate lahko med poljubnim številom.
+      title: Dovoli dostop do vašega računa
     revoke: 
       flash: Preklicali ste žeton za %{application}
   oauth_clients: 

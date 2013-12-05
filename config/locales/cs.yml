@@ -18,8 +18,16 @@
 # Author: Veritaslibero
 cs: 
   about_page: 
+    community_driven_html: "Komunita OpenStreetMap je různorodá, vášnivá a každý den se rozrůstá. Mezi našimi přispěvateli najdete amatérské kreslíře map, profesionály z oblasti GIS, techniky spravující servery OSM, humanitární pracovníky mapující oblasti zasažené neštěstím a mnohé další.\nPokud se chcete o komunitě dozvědět více, prohlédněte si <a href='%{diary_path}'>uživatelské deníčky</a>, <a href='http://blogs.openstreetmap.org/'>komunitní blogy</a> a webovou stránku <a href='http://www.osmfoundation.org/'>nadace OSM Foundation</a>."
+    community_driven_title: Řízeno komunitou
     copyright_html: <span>&copy;</span>přispěvatelé<br>OpenStreetMap
+    lede_text: OpenStreetMap tvoří komunita uživatelů, kteří přidávají a udržují data o silnicích, cestách, kavárnách, železničních stanicích a mnohém dalším po celém světě.
+    local_knowledge_html: OpenStreetMap klade důraz na místní znalost. Přispěvatelé využívají letecké snímky, GPS přístroje a klasické mapy, aby ověřili, že OSM je přesné a aktuální.
+    local_knowledge_title: Místní znalost
+    open_data_html: "OpenStreetMap tvoří <i>otevřená data</i>: smíte je užívat pro libovolný účel, pokud uvádíte autorství OpenStreetMap a jeho přispěvatelů. Pokud data měníte nebo rozšiřujete jistými způsoby, smíte výsledek šířit jen pod stejnou licencí. Podrobnosti najdete na stránce <a href='%{copyright_path}'>Autorská práva a licence</a>."
+    open_data_title: Otevřená data
     partners_title: Partneři
+    used_by: Díky %{name} fungují mapová data na stovkách webových stránek, mobilních aplikací a hardwarových zařízení
   activerecord: 
     attributes: 
       diary_comment: 
@@ -97,6 +105,7 @@ cs:
       blocked: Váš přístup k API byl zablokován. Další informace zjistíte přihlášením do webového rozhraní.
       need_to_see_terms: Váš přístup k API byl dočasně zablokován. Přihlašte se prosím do webového rozhraní a přečtěte si Podmínky pro přispěvatele. Nemusíte je odsouhlasit, musíte si je ale zobrazit.
   browse: 
+    anonymous: anonym
     changeset: 
       belongs_to: Autor
       changesetxml: Soubor změn XML
@@ -104,14 +113,27 @@ cs:
         title: Sada změn %{id}
         title_comment: "Sada změn: %{id} - %{comment}"
       node: Uzly (%{count})
+      node_paginated: Uzly (%{x}–%{y} z %{count})
       osmchangexml: osmChange XML
       relation: Relace (%{count})
+      relation_paginated: Relace (%{x}–%{y} z %{count})
       title: "Sada změn: %{id}"
       way: Cesty (%{count})
+      way_paginated: Cesty (%{x}–%{y} z %{count})
+    closed: Uzavřeno
+    closed_by_html: Uzavřel <abbr title='%{title}'>před %{time}</abbr> %{user}
+    closed_html: Uzavřeno <abbr title='%{title}'>před %{time}</abbr>
     containing_relation: 
       entry: Relace %{relation_name}
       entry_role: Relace %{relation_name} (jako %{relation_role})
+    created: Vytvořeno
+    created_by_html: Vytvořil <abbr title='%{title}'>před %{time}</abbr> %{user}
+    created_html: Vytvořeno <abbr title='%{title}'>před %{time}</abbr>
+    deleted_by_html: Smazal <abbr title='%{title}'>před %{time}</abbr> %{user}
+    download_xml: Stáhnout XML
+    edited_by_html: Editoval <abbr title='%{title}'>před %{time}</abbr> %{user}
     in_changeset: Sada změn
+    no_comment: (bez komentáře)
     node: 
       history_title: "Historie uzlu: %{name}"
       title: "Uzel: %{name}"
@@ -123,11 +145,21 @@ cs:
         relation: relace
         way: cesta
     note: 
+      closed_by: Vyřešil <abbr title='%{exact_time}'>před %{when}</abbr> %{user}
+      closed_by_anonymous: Vyřešil <abbr title='%{exact_time}'>před %{when}</abbr> anonym
       closed_title: "Vyřešená poznámka #%{note_name}"
+      commented_by: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval %{user}
+      commented_by_anonymous: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval anonym
+      hidden_by: Skryl <abbr title='%{exact_time}'>před %{when}</abbr> %{user}
       hidden_title: "Skrytá poznámka #%{note_name}"
       new_note: Nová poznámka
+      open_by: Vytvořil %{user} <abbr title='%{exact_time}'>před %{when}</abbr>
+      open_by_anonymous: Vytvořil anonym <abbr title='%{exact_time}'>před %{when}</abbr>
       open_title: "Nevyřešená poznámka #%{note_name}"
+      reopened_by: Reaktivoval <abbr title='%{exact_time}'>před %{when}</abbr> %{user}
+      reopened_by_anonymous: Reaktivoval <abbr title='%{exact_time}'>před %{when}</abbr> anonym
       title: "Poznámka: %{id}"
+    part_of: Součást
     redacted: 
       message_html: Verzi %{version} tohoto objektu %{type} nelze zobrazit, protože byla skryta. Více informací uvádí stránka %{redaction_link}.
       redaction: Redakce %{id}
@@ -146,9 +178,9 @@ cs:
         relation: Relace
         way: Cesta
     start_rjs: 
+      feature_warning: Načítá se %{num_features} prvků, což může váš prohlížeč zpomalit či zablokovat. Určitě chcete tato data zobrazit?
       load_data: Nahrát data
       loading: Načítá se…
-      unable_to_load_size: Nelze načíst mapová data, příliš velká oblast (%{bbox_size}). Oblast musí být menší než %{max_bbox_size} čtverečních stupňů.
     tag_details: 
       tags: Tagy
       wiki_link: 
@@ -163,7 +195,12 @@ cs:
         relation: relace
         way: cesty
     version: Verze
+    view_details: Zobrazit detaily
+    view_history: Zobrazit historii
     way: 
+      also_part_of: 
+        one: patří do cesty %{related_ways}
+        other: patří do cest %{related_ways}
       history_title: "Historie cesty: %{name}"
       nodes: Uzly
       title: "Cesta: %{name}"
@@ -844,8 +881,19 @@ cs:
           waterfall: Vodopád
           weir: Jez
   help_page: 
+    help: 
+      description: Položte dotaz nebo vyhledejte odpovědi na stránce otázek a odpovědí týkajících se OSM.
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: OpenStreetMap nabízí několik zdrojů pro informace o projektu, otázky a odpovědi a kolaborativní diskuse a dokumentace mapových témat.
     welcome: 
+      description: Začněte tímto rychlým průvodcem zahrnujícím základy OpenStreetMap.
       title: Vítejte v OSM
+      url: /welcome
+    wiki: 
+      description: Podrobnou dokumentaci OSM najdete na wiki.
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/wiki/Cs:Main_Page?uselang=cs
   javascripts: 
     close: Zavřít
     edit_help: Posuňte si mapu a zvětšete si místo, které chcete editovat, a klikněte zde.
@@ -879,19 +927,10 @@ cs:
         intro: Abychom vylepšili mapu, zobrazí se vámi zadané informace ostatním tvůrcům, takže buďte při umisťování značky a zadávání poznámky co nejvíce podrobní a přesní.
       show: 
         anonymous_warning: Tato poznámka zahrnuje komentáře anonymních uživatelů, které by se měly nezávisle ověřit.
-        closed_by: vyřešil <a href='%{user_url}'>%{user}</a> v %{time}
-        closed_by_anonymous: vyřešil anonym v %{time}
         comment: Okomentovat
         comment_and_resolve: Okomentovat a vyřešit
-        commented_by: komentář od uživatele <a href='%{user_url}'>%{user}</a> z %{time}
-        commented_by_anonymous: komentář od anonyma z %{time}
         hide: Skrýt
-        opened_by: vytvořil <a href='%{user_url}'>%{user}</a> v %{time}
-        opened_by_anonymous: vytvořil anonym v %{time}
-        permalink: Trvalý odkaz
         reactivate: Reaktivovat
-        reopened_by: reaktivoval <a href='%{user_url}'>%{user}</a> v %{time}
-        reopened_by_anonymous: reaktivoval anonym v %{time}
         resolve: Vyřešit
     share: 
       cancel: Storno
@@ -957,6 +996,7 @@ cs:
     partners_url: http://wiki.openstreetmap.org/wiki/Partners?uselang=cs
     sign_up: Zaregistrovat se
     sign_up_tooltip: Vytvořit si uživatelský účet pro editaci
+    start_mapping: Začít mapovat
     tag_line: Otevřená wiki-mapa světa
     user_diaries: Deníčky
     user_diaries_tooltip: Zobrazit deníčky uživatelů
@@ -1903,7 +1943,7 @@ cs:
       way_html: <strong>Cesta</strong> je linie nebo plocha jako např. silnice, potok, jezero nebo budova.
     introduction_html: Vítejte v OpenStreetMap, svobodné a editovatelné mapě světa. Teď, když jste se zaregistrovali, můžete začít mapovat. Tady je rychlý přehled nejdůležitějších věcí, které budete potřebovat znát.
     questions: 
-      paragraph_1_html: Potřebujete pomoc s mapováním nebo vám není jasné, jak OpenStreetMap používat? Odpovědi na své otázky se můžete dozvědět na <a href='http://help.openstreetmap.org/'>webu s nápovědou</a>.
+      paragraph_1_html: "OpenStreetMap nabízí několik zdrojů pro informace o projektu, otázky a odpovědi a kolaborativní diskuse a dokumentace mapových témat.\n<a href='%{help_url}'>Zde můžete získat pomoc.</a>"
       title: Nějaké dotazy?
     start_mapping: Začít mapovat
     title: Vítejte!

@@ -22,6 +22,7 @@
 ja: 
   about_page: 
     copyright_html: <span>&copy;</span>OpenStreetMap<br>への協力者
+    lede_text: OpenStreetMapは、道路、通路、カフェ、鉄道駅など、世界中にあるすべてのものについてのデータを提供・メンテナンスしているマッパーのコミュニティによって構築されました。
     local_knowledge_title: 地元の情報
     next: 次へ
     open_data_html: "OpenStreetMap is <i>open data</i>: you are free to use it for any purpose\nas long as you credit OpenStreetMap and its contributors. If you alter or\nbuild upon the data in certain ways, you may distribute the result only\nunder the same licence. See the <a href='%{copyright_path}'>Copyright and\nLicense page</a> for details."
@@ -121,13 +122,17 @@ ja:
       way: ウェイ (%{count})
       way_paginated: ウェイ (%{x}-%{y} / %{count})
     closed: クローズ
+    closed_by_html: "%{user}さんが<abbr title='%{title}'>%{time}前</abbr>にクローズ"
     closed_html: <abbr title='%{title}'>%{time}前</abbr>にクローズ
     containing_relation: 
       entry: リレーション %{relation_name}
       entry_role: リレーション %{relation_name} (%{relation_role} として)
     created: 作成
+    created_by_html: "%{user}さんが<abbr title='%{title}'>%{time}前</abbr>に作成"
     created_html: <abbr title='%{title}'>%{time}前</abbr>に作成
+    deleted_by_html: "%{user}さんが<abbr title='%{title}'>%{time}前</abbr>に削除"
     download_xml: XML をダウンロード
+    edited_by_html: "%{user}さんが<abbr title='%{title}'>%{time}前</abbr>に編集"
     in_changeset: 変更セット
     no_comment: (コメントなし)
     node: 
@@ -141,10 +146,19 @@ ja:
         relation: リレーション
         way: ウェイ
     note: 
+      closed_by: "%{user}さんが<abbr title='%{exact_time}'>%{when}前</abbr>に解決"
+      closed_by_anonymous: 誰かが<abbr title='%{exact_time}'>%{when}前</abbr>に解決
       closed_title: "解決済のメモ #%{note_name}"
+      commented_by: "%{user}さんによる<abbr title='%{exact_time}'>%{when}前</abbr>のコメント"
+      commented_by_anonymous: 誰かによる<abbr title='%{exact_time}'>%{when}前</abbr>のコメント
+      hidden_by: "%{user}さんが<abbr title='%{exact_time}'>%{when}前</abbr>に非表示化"
       hidden_title: "非表示のメモ #%{note_name}"
       new_note: 新しいメモ
+      open_by: "%{user}さんが<abbr title='%{exact_time}'>%{when}前</abbr>に作成"
+      open_by_anonymous: 誰かが<abbr title='%{exact_time}'>%{when}前</abbr>に作成
       open_title: "未解決のメモ #%{note_name}"
+      reopened_by: "%{user}さんが<abbr title='%{exact_time}'>%{when}前</abbr>に再開"
+      reopened_by_anonymous: 誰かが<abbr title='%{exact_time}'>%{when}前</abbr>に再開
       title: "メモ: %{id}"
     part_of: 以下の一部
     redacted: 
@@ -165,9 +179,9 @@ ja:
         relation: リレーション
         way: ウェイ
     start_rjs: 
+      feature_warning: "%{num_features} 件の地物を読み込むことで、お使いのブラウザーが遅くなったり反応がなくなったりするおそれがあります。このデータを本当に表示しますか?"
       load_data: データの読み込み
       loading: 読み込み中...
-      unable_to_load_size: 領域 (%{bbox_size}) が大きすぎるため、地図データを読み込めません。領域は %{max_bbox_size} の矩形より小さくする必要があります。
     tag_details: 
       tags: タグ
       wiki_link: 
@@ -878,12 +892,14 @@ ja:
       description: OSM の質問回答サイトで質問したり回答を検索したりする。
       title: help.openstreetmap.org
       url: https://help.openstreetmap.org/
+    introduction: OpenStreetMapにはプロジェクトについて学んだり、質疑応答したり、共同で議論したり、マッピングについての知識を文書化したりするさまざまなリソースがあります。
     title: ヘルプの取得
     welcome: 
       description: OpenStreetMap の基礎を網羅しているこのクイック ガイドから始めましょう。
       title: OSM へようこそ
       url: /welcome
     wiki: 
+      description: OSMの詳細な説明が書かれたWikiを参照してください。
       title: wiki.openstreetmap.org
       url: http://wiki.openstreetmap.org/wiki/JA:Main_Page
   javascripts: 
@@ -919,19 +935,10 @@ ja:
         intro: マップを改善するために、あなたが入力した情報は他のマッパーに表示されます。そのため、マーカーを正しい位置に動かしたりメモを以下に書き込む際は、できるだけ分かりやすく詳細に記述してください。
       show: 
         anonymous_warning: このメモは匿名ユーザーによるコメントも含んでいるため、別途確認してください。
-        closed_by: <a href='%{user_url}'>%{user}</a>が%{time}に解決
-        closed_by_anonymous: 匿名ユーザーが%{time}に解決
         comment: コメント
         comment_and_resolve: コメント & 解決
-        commented_by: <a href='%{user_url}'>%{user}</a>による%{time}のコメント
-        commented_by_anonymous: 匿名ユーザーによる%{time}のコメント
         hide: 隠す
-        opened_by: <a href='%{user_url}'>%{user}</a>が%{time}に作成
-        opened_by_anonymous: 匿名ユーザーが%{time}に作成
-        permalink: 固定リンク
         reactivate: 再有効化
-        reopened_by: <a href='%{user_url}'>%{user}</a>が%{time}に再有効化
-        reopened_by_anonymous: 匿名ユーザーが %{time} に再度有効化しました
         resolve: 解決
     share: 
       cancel: キャンセル
@@ -1937,7 +1944,7 @@ ja:
       way_html: <strong>ウェイ</strong>は線または領域です。道路、水路、湖、建物などが該当します。
     introduction_html: フリーで編集可能な世界地図、OpenStreetMapへようこそ。サインアップしたので、マッピングの準備はすべて整いました。知っておかなければならない重要事項を簡単に説明します。
     questions: 
-      paragraph_1_html: "OpenStreetMap has several resources for learning about the project, asking and answering\nquestions, and collaboratively discussing and documenting mapping topics.\n<a href='%{help_url}'>Get help here</a>."
+      paragraph_1_html: "OpenStreetMapにはプロジェクトについて学んだり、質疑応答したり、共同で議論したり、マッピングについての知識を文書化したりするさまざまなリソースがあります。\n<a href='%{help_url}'>ここからヘルプを得ましょう</a>。"
       title: 何か質問はありますか?
     start_mapping: マッピングを開始
     title: ようこそ!
