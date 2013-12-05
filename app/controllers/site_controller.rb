@@ -42,7 +42,7 @@ class SiteController < ApplicationController
 
     if editor == "remote"
       require_oauth
-      render :action => :index
+      render :action => :index, :layout => map_layout
       return
     end
 
