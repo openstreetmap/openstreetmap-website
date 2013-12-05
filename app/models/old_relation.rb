@@ -63,7 +63,7 @@ class OldRelation < ActiveRecord::Base
     unless @members
       @members = Array.new
       self.old_members.order(:sequence_id).each do |m|
-        @members += [[m.type,m.id,m.role]]
+        @members += [[m.member_type,m.member_id,m.member_role]]
       end
     end
     @members

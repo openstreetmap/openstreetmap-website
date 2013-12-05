@@ -103,6 +103,30 @@ class RelationTest < ActiveSupport::TestCase
     assert_equal "Element relation/23 has duplicate tags with key dup", message_update.message
   end
 
+  def test_relation_members
+    relation = current_relations(:relation_with_versions)
+    members = Relation.find(relation.id).relation_members
+    assert_equal 3, members.count
+    assert_equal "some node", members[0].member_role
+    assert_equal "Node", members[0].member_type
+    assert_equal 15, members[0].member_id
+    assert_equal "some way", members[1].member_role
+    assert_equal "Way", members[1].member_type
+    assert_equal 4, members[1].member_id
+    assert_equal "some relation", members[2].member_role
+    assert_equal "Relation", members[2].member_type
+    assert_equal 7, members[2].member_id
+  end
+
+  def test_relations
+    relation = current_relations(:relation_with_versions)
+    members = Relation.find(relation.id).members
+    assert_equal 3, members.count
+    assert_equal ["Node", 15, "some node"], members[0]
+    assert_equal ["Way", 4, "some way"], members[1]
+    assert_equal ["Relation", 7, "some relation"], members[2]
+  end
+
   def test_relation_tags
     relation = current_relations(:relation_with_versions)
     tags = Relation.find(relation.id).relation_tags.order(:k)
