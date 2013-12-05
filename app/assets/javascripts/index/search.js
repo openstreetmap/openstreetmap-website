@@ -38,6 +38,8 @@ OSM.Search = function(map) {
     // Let clicks to object browser links propagate.
     if (data.type && data.id) return;
 
+    marker.setLatLng(center).addTo(map);
+
     e.preventDefault();
     e.stopPropagation();
   }
