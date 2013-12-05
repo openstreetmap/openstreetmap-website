@@ -105,12 +105,10 @@ class OldWay < ActiveRecord::Base
   # (i.e. is it visible? are we actually reverting to an earlier version?)
 
   def get_nodes_undelete
-    points = []
-    self.nds.each do |n|
+    self.nds.collect do |n|
       node = Node.find(n)
-      points << [node.lon, node.lat, n, node.version, node.tags_as_hash, node.visible]
+      [node.lon, node.lat, n, node.version, node.tags_as_hash, node.visible]
     end
-    points
   end
   
   def get_nodes_revert(timestamp)
