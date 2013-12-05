@@ -64,12 +64,12 @@ function updateLinks(loc, zoom, layers, object) {
       args = querystring.parse(link.search.substring(1)),
       editlink = $(link).hasClass("editlink");
 
-    if (object && editlink) {
-      delete args['node'];
-      delete args['way'];
-      delete args['relation'];
-      delete args['changeset'];
+    delete args['node'];
+    delete args['way'];
+    delete args['relation'];
+    delete args['changeset'];
 
+    if (object && editlink) {
       args[object.type] = object.id;
     }
 
