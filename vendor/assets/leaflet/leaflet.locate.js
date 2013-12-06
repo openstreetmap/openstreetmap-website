@@ -55,8 +55,7 @@ L.Control.Locate = L.Control.extend({
     },
 
     onAdd: function (map) {
-        var container = L.DomUtil.create('div',
-            'leaflet-control-locate leaflet-bar leaflet-control');
+        var container = L.DomUtil.create('div', 'control-locate');
 
         var self = this;
         this._layer = new L.LayerGroup();
@@ -80,7 +79,8 @@ L.Control.Locate = L.Control.extend({
         L.extend(tmp, this.options.circleStyle, this.options.followCircleStyle);
         this.options.followCircleStyle = tmp;
 
-        var link = L.DomUtil.create('a', 'leaflet-bar-part leaflet-bar-part-single', container);
+        var link = L.DomUtil.create('a', 'control-button', container);
+        link.innerHTML = "<span class='icon geolocate'></span>";
         link.href = '#';
         link.title = this.options.strings.title;
 
