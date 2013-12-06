@@ -24,7 +24,7 @@ function zoomPrecision(zoom) {
     return Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
 }
 
-function remoteEditHandler(bbox, select) {
+function remoteEditHandler(bbox, object) {
   var loaded = false,
       query = {
           left: bbox.getWest() - 0.0001,
@@ -33,7 +33,7 @@ function remoteEditHandler(bbox, select) {
           bottom: bbox.getSouth() - 0.0001
       };
 
-  if (select) query.select = select;
+  if (object) query.select = object.type + object.id;
 
   var iframe = $('<iframe>')
     .hide()

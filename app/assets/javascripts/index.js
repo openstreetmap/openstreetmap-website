@@ -197,8 +197,9 @@ $(document).ready(function () {
   });
 
   $("a[data-editor=remote]").click(function(e) {
-      remoteEditHandler(map.getBounds());
-      e.preventDefault();
+    var params = OSM.mapParams(this.search);
+    remoteEditHandler(map.getBounds(), params.object);
+    e.preventDefault();
   });
 
   if (OSM.params().edit_help) {
@@ -281,7 +282,7 @@ $(document).ready(function () {
   });
 
   if (OSM.preferred_editor == "remote" && document.location.pathname == "/edit") {
-    remoteEditHandler(map.getBounds());
+    remoteEditHandler(map.getBounds(), params.object);
     OSM.router.setCurrentPath("/");
   }
 
