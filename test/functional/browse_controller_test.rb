@@ -131,11 +131,19 @@ private
     assert_raise ActionController::UrlGenerationError do
       get type
     end
+
     assert_raise ActionController::UrlGenerationError do
       get type, {:id => -10} # we won't have an id that's negative
     end
+
     get type, {:id => id}
     assert_response :success
     assert_template template
+    assert_template :layout => "map"
+
+    xhr :get, type, {:id => id}
+    assert_response :success
+    assert_template template
+    assert_template :layout => "xhr"
   end
 end
