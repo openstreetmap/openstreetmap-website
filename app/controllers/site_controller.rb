@@ -82,6 +82,12 @@ class SiteController < ApplicationController
   def about
   end
 
+  def export
+  end
+
+  def offline
+  end
+
   def preview
     render :text => RichText.new(params[:format], params[:text]).to_html
   end
