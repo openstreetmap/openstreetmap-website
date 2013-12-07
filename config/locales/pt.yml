@@ -20,8 +20,17 @@
 # Author: Waldir
 pt: 
   about_page: 
+    community_driven_html: "OpenStreetMap's community is diverse, passionate, and growing every day. Our\n\nA comunidade do OpenStreetMap é diversa, apaixonada, e aumenta diariamente.\nEntre os nossos colaboradores encontra-se mapeadores entusiastas,\nprofissionais das áreas de sistemas geográficos, engenheiros que utilizam\nos servidores do OpenStreetMap, voluntários a mapear áreas afetadas\npor grandes desastres, e muitos mais.\nPara saber mais sobre a nossa comunidade, veja os <a href='%{diary_path}'>diários dos editores</a>,\n<a href='http://blogs.openstreetmap.org/'>blogues da comunidade</a>, e o sítio da <a href='http://www.osmfoundation.org/'>OSM Foundation</a>."
+    community_driven_title: Dirigido pela Comunidade
+    copyright_html: <span>&copy;</span>Colaboradores<br>do OpenStreetMap
+    lede_text: O OpenStreetMap é desenvolvido por uma comunidade voluntária de mapeadores que contribuem e mantêm atualizados os dados sobre estradas, trilhos, cafés, estações ferroviárias e muito mais por todo o mundo.
+    local_knowledge_html: O OpenStreetMap valoriza o conhecimento local. Os colaboradores utilizam fotografias aéreas, dispositivos GPS, e mapas do terreno para verificar que a informação no OpenStreetMap é rigorosa e atualizada.
+    local_knowledge_title: Conhecimento Local
     next: Seguinte
+    open_data_html: "O OpenStreetMap é constituído por <i>dados abertos</i>: qualquer\npessoa tem a liberdade de usar os dados para qualquer fim desde\ncredite a autoria do OpenStreetMap e os seus colaboradores.\nSe você alterar os dados ou criar algo com os dados, pode distribuir\no produto resultante apenas sob a mesma licença. Consulte <a href='%{copyright_path}'>a página sobre direitos de autor e licenciamento</a> para mais informações."
+    open_data_title: Dados Abertos
     partners_title: Parceiros
+    used_by: O %{name} fornece dados a centenas de sítios na internet, aplicações de telemóveis e outros dispositivos
   activerecord: 
     attributes: 
       diary_comment: 
@@ -115,11 +124,17 @@ pt:
       way: Linhas (%{count})
       way_paginated: Linhas (%{x}-%{y} de %{count})
     closed: Fechado
+    closed_by_html: Fechado há <abbr title='%{title}'>%{time} atrás</abbr> por %{user}
+    closed_html: Fechado há <abbr title='%{title}'>%{time} atrás</abbr>
     containing_relation: 
       entry: Relação %{relation_name}
       entry_role: Relação %{relation_name} (como %{relation_role})
     created: Criado
+    created_by_html: Criado há <abbr title='%{title}'>%{time} atrás</abbr> por %{user}
+    created_html: Criado há <abbr title='%{title}'>%{time} atrás</abbr>
+    deleted_by_html: Eliminado há <abbr title='%{title}'>%{time} atrás</abbr> por %{user}
     download_xml: Descarregar XML
+    edited_by_html: Editado há <abbr title='%{title}'>%{time} atrás</abbr> por %{user}
     in_changeset: Conjunto de alterações
     no_comment: (sem comentário)
     node: 
@@ -133,8 +148,19 @@ pt:
         relation: relação
         way: linha
     note: 
-      closed_title: "Erro resolvido: %{note_name}"
-      open_title: "Erro não resolvido: %{note_name}"
+      closed_by: Resolvido por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      closed_by_anonymous: Resolvido por um anónimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      closed_title: "Erro resolvido #%{note_name}"
+      commented_by: Comentário de %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      commented_by_anonymous: Comentário de um anónimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      hidden_by: Ocultado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      hidden_title: "Erro ocultado #%{note_name}"
+      new_note: Reportar Erro
+      open_by: Reportado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      open_by_anonymous: Reportado por um anónimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      open_title: "Erro não resolvido #%{note_name}"
+      reopened_by: Reaberto por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      reopened_by_anonymous: Reaberto por um anónimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
       title: "Erro: %{id}"
     part_of: Faz parte de
     redacted: 
@@ -155,6 +181,7 @@ pt:
         relation: Relação
         way: Linha
     start_rjs: 
+      feature_warning: A carregar %{num_features} elementos, o que pode tornar o carregamento bastante lento ou bloquear. Mesmo assim quer ver estes elementos todos?
       load_data: Carregar Dados
       loading: A carregar…
     tag_details: 
@@ -319,7 +346,7 @@ pt:
       paste_html: Copie e cole o código num site para mostrar o mapa interativo nesse site
       scale: Escala
       too_large: 
-        body: Esta área é demasiado grande para exportar em XML do OpenStreetMap. Por favor aproxime a vista ou selecione uma área mais pequena.
+        body: Esta área é demasiado grande para exportar em XML do OpenStreetMap. Por favor aproxime a vista ou selecione uma área mais pequena. Para exportar esta área grande utilize uma das seguintes fontes.
         geofabrik: 
           description: Extratos atualizados regularmente de continentes, países e cidades selecionadas
           title: Downloads do Geofabrik
@@ -370,6 +397,14 @@ pt:
         uk_postcode: Resultados de <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultados de <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Fronteira de Subúrbio
+        level2: Fronteira de País
+        level4: Fronteira de Estado
+        level5: Fronteira de Região
+        level6: Fronteira de Condado
+        level8: Fronteira de Cidade
+        level9: Fronteira de Freguesia
       prefix: 
         aerialway: 
           chair_lift: Teleférico
@@ -854,12 +889,28 @@ pt:
           water_point: Ponto de água
           waterfall: Queda de água
           weir: Represa
+  help_page: 
+    help: 
+      description: Coloque uma questão ou procure por respostas no fórum de perguntas e respostas do OpenStreetMap.
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: O OpenStreetMap tem vários recursos para saber mais sobre o projeto, perguntar e responder a questões, e colaborativamente discutir e documentar vários tópicos sobre o mapa.
+    title: Obter Ajuda
+    welcome: 
+      description: Comece por este guia rápido sobre os princípios básicos do OpenStreetMap.
+      title: Bem vindo ao OpenStreetMap
+      url: /welcome
+    wiki: 
+      description: Navegue na wiki de documentação sobre o OpenStreetMap.
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/wiki/Pt:Main_Page
   javascripts: 
     close: Fechar
     edit_help: Mova o mapa e amplie a localização que pretende editar e depois clique aqui.
     key: 
       title: Legenda
       tooltip: Legenda
+      tooltip_disabled: Legenda do Mapa disponível apenas no Mapa Padrão
     map: 
       base: 
         cycle_map: Mapa de Ciclismo
@@ -867,6 +918,7 @@ pt:
         standard: Mapa Padrão
         transport_map: Transportes Públicos
       copyright: © <a href='%{copyright_url}'>Colaboradores do OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Fazer um donativo</a>
       layers: 
         data: Dados técnicos do mapa
         header: Camadas do Mapa
@@ -882,11 +934,11 @@ pt:
     notes: 
       new: 
         add: Reportar Erro
-        intro: Para melhorar a informação no mapa, o erro que vai reportar é mostrado a outros editores, por isso descreva por favor de forma clara e precisa o problema no mapa e desloque a marca azul abaixo (clicar e arrastar) para o sítio correto do mapa onde se encontra o erro. Obrigado.
+        intro: Para melhorar a informação no mapa, o erro que vai reportar é mostrado a outros editores, por isso descreva por favor de forma clara e precisa o problema no mapa. Caso seja necessário mude a posição do marco azul no centro do mapa (clicar e arrastar) para o sítio correto do mapa onde se encontra o erro. Obrigado.
       show: 
         anonymous_warning: Este erro reportado inclui comentários de utilizadores anónimos que devem ser confirmados por fonte independente.
         comment: Gravar
-        comment_and_resolve: Gravar e Marcar como Resolvido
+        comment_and_resolve: Gravar como Resolvido
         hide: Esconder
         reactivate: Reabrir
         resolve: Marcar como Resolvido
@@ -913,6 +965,8 @@ pt:
       createnote_tooltip: Reportar erro no mapa
       edit_disabled_tooltip: Área demasiado grande. Amplie para poder editar
       edit_tooltip: Editar o mapa
+      map_data_zoom_in_tooltip: Aproxime para ver dados do mapa
+      map_notes_zoom_in_tooltip: Aproxime para ver erros reportados
   layouts: 
     about: Sobre Nós
     community: Comunidade
@@ -1179,6 +1233,15 @@ pt:
       allow_write_notes: alterar erros reportados.
       allow_write_prefs: alterar as minhas preferências.
       request_access: O programa %{app_name} está a pedir acesso à sua conta, %{user}. Por favor escolha as permissões que o programa pode ter. Pode escolher as que quiser.
+      title: Autorizar acesso à sua conta
+    oauthorize_failure: 
+      denied: Anulou o acesso do programa %{app_name} à sua conta.
+      invalid: O token de autorização não é válido.
+      title: Falhou o pedido de autorização.
+    oauthorize_success: 
+      allowed: Forneceu ao programa %{app_name} o acesso à sua conta.
+      title: Pedido de autorização permitido
+      verification: O código de verificação é %{code}.
     revoke: 
       flash: Revogou o Token para %{application}
   oauth_clients: 
@@ -1638,6 +1701,7 @@ pt:
     new: 
       about: 
         header: Livre e editável
+        html: "<p>Ao contrário de outros mapas, o OpenStreetMap é completamente criado por pessoas como você, e é disponibilizado gratuitamente para que qualquer pessoa possa corrigir, atualizar, descarregar e utilizar.</p>\n<p>Crie uma conta de utilizador para começar a colaborar. Enviaremos um email para confirmar a sua conta.</p>"
       confirm email address: "Confirmar E-mail:"
       confirm password: "Confirmar senha:"
       contact_webmaster: Entre em contacto com o <a href="mailto:webmaster@openstreetmap.org">webmaster</a> para uma conta ser criada - vamos tentar lidar com o pedido o mais rapidamente possível.
@@ -1886,7 +1950,7 @@ pt:
       way_html: Um <strong>caminho</strong> é uma linha ou uma área, como uma estrada, um rio, um lago ou um prédio.
     introduction_html: Bem-vindo ao OpenStreetMap, o mapa livre e editável do mundo. Agora como estás inscrito, estás também pronto para mapear. Aqui um guia rápido com as coisas mais importantes que precisas de saber.
     questions: 
-      paragraph_1_html: Preciso de ajuda para mapear, ou não tem a certeza de como utilizar o OpenStreetMap ? Obtêm as respostas as suas perguntas no <a href='http://help.openstreetmap.org/'>site de ajuda</a>.
+      paragraph_1_html: "O OpenStreetMap tem vários recursos para saber mais sobre o projeto, perguntar e responder a questões, e colaborativamente discutir e documentar vários tópicos sobre o mapa.\n<a href='%{help_url}'>Obtenha ajuda aqui</a>"
       title: Tens perguntas ?
     start_mapping: Começar a mapear
     title: Bem-vindo !

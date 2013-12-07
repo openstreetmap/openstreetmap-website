@@ -18,12 +18,17 @@
 # Author: Tjcool007
 nl: 
   about_page: 
+    community_driven_html: "De gemeenschap van OpenStreetMap is divers, gepassioneerd en groeiende dagelijks. Onder onze bijdragers zitten mensen die kaarten maken als hobby, GIS-professionals, IT-specialisten die de servers van OSM draaiende houden, filantropen die rampgebieden in kaart brengen en nog veel meer.\nBekijk de <a href='%{diary_path}'>gebruikersdagboeken</a> of de <a href='http://blogs.openstreetmap.org/'>gemeenschapsblogs</a> voor meer informatie over de gemeenschap of de website van de <a href='http://www.osmfoundation.org/'>OSM Foundation</a>.�"
     community_driven_title: Communitygedreven
     copyright_html: <span>&copy;</span>OpenStreetMap-<br />bijdragers
-    local_knowledge_title: Lokale Kennis
+    lede_text: OpenStreetMap wordt gemaakt door een gemeenschap van kaartenmakers die gegevens over wegen, paden, cafés, treinstations en nog veel meer, over de hele wereld bijdragen en onderhouden.
+    local_knowledge_html: OpenStreetMap legt de nadruk op lokale kennis. Bijdragers gebruiken luchtfoto's, GPS-apparaten, en low-tech veldkaarten om te controleren of OSM accuraat en bij de tijd is.
+    local_knowledge_title: Lokale kennis
     next: Volgende
+    open_data_html: "OpenStreetMap is <i>open data</i>: u mag de gegevens gebruiken voor ieder doel, als u de naam van OpenStreetMap en haar bijdragers maar vermeldt. Als u de gegevens wijzigt of uitbouwt op bepaalde manieren, dan mag u het resultaat alleen onder dezelfde licentie verder verspreiden. Zie de <a href='%{copyright_path}'>pagina over Auteursrechten en Licentie</a> voor details."
     open_data_title: Open data
     partners_title: Partners
+    used_by: "%{name} levert gegevens voor honderden websites, mobiele apps en hardwareimplementaties"
   activerecord: 
     attributes: 
       diary_comment: 
@@ -152,6 +157,8 @@ nl:
       open_by: <abbr title='%{exact_time}'>%{when} geleden</abbr> aangemaakt door %{user}
       open_by_anonymous: <abbr title='%{exact_time}'>%{when} geleden</abbr> aangemaakt door anoniem
       open_title: "Niet-opgeloste opmerking #%{note_name}"
+      reopened_by: <abbr title='%{exact_time}'>%{when} geleden</abbr> opnieuw geactiveerd door %{user}
+      reopened_by_anonymous: <abbr title='%{exact_time}'>%{when} geleden</abbr> opnieuw geactiveerd door anoniem
       title: "Notitie: %{id}"
     part_of: Onderdeel van
     redacted: 
@@ -172,6 +179,7 @@ nl:
         relation: Relatie
         way: Weg
     start_rjs: 
+      feature_warning: Er worden %{num_features} objecten geladen, waardoor uw browser traag kan worden of niet meer kan reageren. Weet u zeker weet dat u de gegevens wilt weergeven?
       load_data: Gegevens laden
       loading: Bezig met laden…
     tag_details: 
@@ -885,6 +893,7 @@ nl:
       description: Stel een vraag op zoek antwoorden op de vraag- en antwoordsite van OSM.
       title: help.openstreetmap.org
       url: https://help.openstreetmap.org/
+    introduction: Er zijn verschillende bronnen om meer te leren over OpenStreetMap, voor het stellen van vragen en het krijgen van antwoorden, en het samen overleggen en documenteren van onderwerpen die gaan over kaarten maken.
     title: Hulp krijgen
     welcome: 
       description: Begin met dit snelle stappenplan dat de basis van OpenSteetMap uitlegt.
@@ -909,6 +918,7 @@ nl:
         standard: Standaard
         transport_map: Transport Map
       copyright: © <a href='%{copyright_url}'>OpenStreetMapbijdragers</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Doneer nu</a>
       layers: 
         data: Kaartgegevens
         header: Kaartlagen
@@ -978,6 +988,7 @@ nl:
     home: Naar thuislocatie gaan
     intro_2_create_account: Maak een gebruiker aan
     intro_header: Welkom bij OpenStreetMap!
+    intro_text: OpenStreetMap is een kaart van de wereld, gemaakt door mensen zoals u en vrij te gebruiken onder een open licentie.
     learn_more: Meer lezen
     log_in: Aanmelden
     log_in_tooltip: Aanmelden met bestaande gebruiker
@@ -1221,12 +1232,14 @@ nl:
       allow_write_gpx: GPS-tracks uploaden
       allow_write_notes: opmerkingen wijzigen.
       allow_write_prefs: uw gebruikersvoorkeuren wijzigen
-      request_access: De applicatie %{app_name} vraagt toegang tot uw gebruiker %{user}. Controleer of u deze applicatie de volgende mogelijkheden wilt bieden. U kunt zoveel of zo weinig rechten toewijzen als u wilt.
+      request_access: De toepassing %{app_name} vraagt toegang tot uw gebruiker %{user}. Controleer of u deze toepassing de volgende mogelijkheden wilt bieden. U kunt zoveel of zo weinig rechten toewijzen als u wilt.
       title: Geef toegang tot uw gebruiker
     oauthorize_failure: 
+      denied: U hebt de toepassing %{app_name} toegang tot uw gebruiker geweigerd.
       invalid: Het autorisatietoken is niet geldig.
       title: De autorisatieaanvraag is mislukt.
     oauthorize_success: 
+      allowed: U hebt de toepassing %{app_name} toegang verleend tot uw gebruiker.
       title: Autorisatieaanvraag toegestaan
       verification: De controlecode is %{code}.
     revoke: 
@@ -1238,7 +1251,7 @@ nl:
       flash: De clientapplicatieregistratie is verwijderd
     edit: 
       submit: Bewerken
-      title: Uw applicatie bewerken
+      title: Uw toepassing bewerken
     form: 
       allow_read_gpx: privé-GPS-tracks lezen
       allow_read_prefs: gebruikersinstellingen lezen
@@ -1252,21 +1265,21 @@ nl:
       requests: "De volgende toegang van gebruikers vragen:"
       required: verplicht
       support_url: Ondersteunings-URL
-      url: Applicatie-URL
+      url: Toepassings-URL
     index: 
       application: Applicatienaam
       issued_at: Uitgegeven op
       list_tokens: "De volgende tokens zijn op uw naam voor applicaties uitgegeven:"
       my_apps: Mijn clientapplicaties
       my_tokens: Mijn geautoriseerde applicaties
-      no_apps: Heeft u een applicatie die u wilt registreren met de %{oauth}-standaard? Dan moet u uw webapplicatie registreren voordat u OAuth-verzoeken naar deze dienst kunt maken.
-      register_new: Uw applicatie registreren
+      no_apps: Heeft u een toepassing die u wilt registreren met de %{oauth}-standaard? Dan moet u uw webtoepassing registreren voordat u OAuth-verzoeken naar deze dienst kunt maken.
+      register_new: Uw toepassing registreren
       registered_apps: "U hebt de onderstaande clientapplicaties geregistreerd:"
       revoke: Intrekken!
       title: Mijn OAuth-gegeven
     new: 
       submit: Registreren
-      title: Nieuwe applicatie registreren
+      title: Nieuwe toepassing registreren
     not_found: 
       sorry: Sorry, die %{type} kan niet gevonden worden.
     show: 
