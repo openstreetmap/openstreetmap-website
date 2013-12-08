@@ -15,11 +15,7 @@
 <%= content_tag "li", :id => "changeset_#{changeset.id}", :data => {:changeset => changeset_data} do %>
   <h4>
     <a class="changeset_id" href="<%= changeset_path(changeset.id) %>">
-      <% if changeset.tags['comment'].to_s != '' %>
-        <%= linkify(h(changeset.tags['comment'])) %>
-      <% else %>
-        <%= t 'browse.no_comment' %>
-      <% end %>
+      <%= changeset.tags['comment'].to_s.presence || t('browse.no_comment') %>
     </a>
   </h4>
   <div class="details">
