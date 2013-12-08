@@ -1,2 +1,0 @@
-class OldWayNodeController < ApplicationController
-end
