@@ -85,16 +85,30 @@ class BrowseControllerTest < ActionController::TestCase
   # well if that structure changes. so... if you change the page layout
   # then please make it more easily (and robustly) testable!
   ##
+  def test_redacted_node
+    get :node, :id => current_nodes(:redacted_node).id
+    assert_response :success
+    assert_template "feature"
+
+    # check that we don't show lat/lon for a redacted node.
+    assert_select ".browse-section", 1
+    assert_select ".browse-section.browse-node", 1
+    assert_select ".browse-section.browse-node .latitude", 0
+    assert_select ".browse-section.browse-node .longitude", 0
+  end
+
   def test_redacted_node_history
     get :node_history, :id => nodes(:redacted_node_redacted_version).node_id
     assert_response :success
-    assert_template 'browse/history'
+    assert_template "browse/history"
 
     # there are 2 revisions of the redacted node, but only one
     # should be showing details here.
     assert_select ".browse-section", 2
     assert_select ".browse-section.browse-redacted", 1
     assert_select ".browse-section.browse-node", 1
+    assert_select ".browse-section.browse-node .latitude", 0
+    assert_select ".browse-section.browse-node .longitude", 0
   end
 
   def test_redacted_way_history
