@@ -67,7 +67,7 @@ OSM.Note = function (map) {
     if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
       OSM.router.moveListenerOff();
       map.once('moveend', OSM.router.moveListenerOn);
-      map.getZoom() > 15 ? map.panTo(latLng) : map.setView(latLng, 16);
+      map.panTo(latLng);
     }
 
     if (!map.hasLayer(halo)) {
