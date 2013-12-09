@@ -56,6 +56,11 @@ OSM = {
       mapParams.mlon = parseFloat(params.mlon);
       mapParams.mlat = parseFloat(params.mlat);
     }
+    
+    if (params.box && bounds) {
+      mapParams.bbox = true;
+      mapParams.bboxBounds = bounds;
+    }
 
     // Old-style object parameters; still in use for edit links e.g. /edit?way=1234
     if (params.node) {
