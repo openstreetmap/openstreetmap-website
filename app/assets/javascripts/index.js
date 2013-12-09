@@ -250,13 +250,23 @@ $(document).ready(function () {
 
     page.pushstate = page.popstate = function(path, id) {
       OSM.loadSidebarContent(path, function() {
-        page.load(path, id);
+        addObject(type, id);
       });
     };
 
     page.load = function(path, id) {
-      map.addObject({type: type, id: parseInt(id)});
+      addObject(type, id, true);
     };
+
+    function addObject(type, id, center) {
+      var bounds = map.addObject({type: type, id: parseInt(id)}, function(bounds) {
+        if (!window.location.hash && bounds.isValid()) {
+          OSM.router.moveListenerOff();
+          map.once('moveend', OSM.router.moveListenerOn);
+          if (center || !map.getBounds().contains(bounds)) map.fitBounds(bounds);
+        }
+      });
+    }
 
     page.unload = function() {
       map.removeObject();

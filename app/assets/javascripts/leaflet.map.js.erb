@@ -165,7 +165,7 @@ L.OSM.Map = L.Map.extend({
     return str;
   },
 
-  addObject: function(object) {
+  addObject: function(object, callback) {
     var objectStyle = {
       color: "#FF6200",
       weight: 4,
@@ -215,14 +215,7 @@ L.OSM.Map = L.Map.extend({
         map._objectLayer.addData(xml);
         map._objectLayer.addTo(map);
 
-        if (!window.location.hash) {
-          var bounds = map._objectLayer.getBounds();
-          if (bounds.isValid()) {
-            OSM.router.moveListenerOff();
-            map.once('moveend', OSM.router.moveListenerOn);
-            map.fitBounds(bounds);
-          }
-        }
+        if (callback) callback(map._objectLayer.getBounds());
       }
     });
   },

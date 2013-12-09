@@ -37,10 +37,20 @@ OSM.Note = function (map) {
   }
 
   page.pushstate = page.popstate = function (path) {
-    OSM.loadSidebarContent(path, page.load);
+    OSM.loadSidebarContent(path, function() {
+      initialize(function() {
+        var data = $('.details').data(),
+          latLng = L.latLng(data.coordinates.split(','));
+        if (!map.getBounds().contains(latLng)) moveToNote();        
+      });
+    });
   };
 
-  page.load = function () {
+  page.load = function() {
+    initialize(moveToNote);
+  };
+
+  function initialize(callback) {
     content.find("input[type=submit]").on("click", function (e) {
       e.preventDefault();
       var data = $(e.target).data();
@@ -62,13 +72,7 @@ OSM.Note = function (map) {
     content.find("textarea").val('').trigger("input");
 
     var data = $('.details').data(),
-      latLng = data.coordinates.split(',');
-
-    if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
-      OSM.router.moveListenerOff();
-      map.once('moveend', OSM.router.moveListenerOn);
-      map.getZoom() > 15 ? map.panTo(latLng) : map.setView(latLng, 16);
-    }
+      latLng = L.latLng(data.coordinates.split(','));
 
     if (!map.hasLayer(halo)) {
       halo = L.circleMarker(latLng, {
@@ -86,8 +90,22 @@ OSM.Note = function (map) {
       opacity: 1,
       clickable: true
     });
+
     map.addLayer(currentNote);
+
+    if (callback) callback();
   };
+
+  function moveToNote() {
+    var data = $('.details').data(),
+      latLng = L.latLng(data.coordinates.split(','));
+
+    if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
+      OSM.router.moveListenerOff();
+      map.once('moveend', OSM.router.moveListenerOn);
+      map.setView(latLng, 15, {reset: true});
+    }
+  }
 
   page.unload = function () {
     if (map.hasLayer(halo)) map.removeLayer(halo);
