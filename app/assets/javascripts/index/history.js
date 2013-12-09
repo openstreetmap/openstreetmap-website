@@ -126,7 +126,7 @@ OSM.History = function(map) {
     map.addLayer(group);
 
     if (window.location.pathname === '/history') {
-      map.on("moveend", update)
+      map.on("moveend", update);
     }
 
     update();
