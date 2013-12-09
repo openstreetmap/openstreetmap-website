@@ -223,6 +223,7 @@ $(document).ready(function () {
       $("#content").addClass("overlay-sidebar");
       map.invalidateSize({pan: false})
         .panBy([-350, 0], {animate: false});
+      document.title = I18n.t('layouts.project_name.title');
     };
 
     page.load = function() {
@@ -232,6 +233,7 @@ $(document).ready(function () {
     page.popstate = function() {
       $("#content").addClass("overlay-sidebar");
       map.invalidateSize({pan: false});
+      document.title = I18n.t('layouts.project_name.title');
     };
 
     page.unload = function() {
