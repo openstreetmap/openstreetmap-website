@@ -227,6 +227,9 @@ $(document).ready(function () {
     };
 
     page.load = function() {
+      if (!("autofocus" in document.createElement("input"))) {
+        $(".search_form input[name=query]").focus();
+      }
       return map.getState();
     };
 

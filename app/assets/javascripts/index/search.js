@@ -1,11 +1,12 @@
 OSM.Search = function(map) {
   $(".search_form input[name=query]")
-    .on("focus", function() {
-      $(".describe_location").fadeOut(100);
+    .on("input", function(e) {
+      if ($(e.target).val() == "") {
+        $(".describe_location").fadeIn(100);
+      } else {
+        $(".describe_location").fadeOut(100);
+      }
     })
-    .on("blur", function() {
-      $(".describe_location").fadeIn(100);
-    });
 
   $("#sidebar_content")
     .on("click", ".search_more a", clickSearchMore)
@@ -80,6 +81,7 @@ OSM.Search = function(map) {
     map.removeLayer(marker);
     map.removeObject();
     $(".search_form input[name=query]").val("");
+    $(".describe_location").fadeIn(100);
   };
 
   return page;
