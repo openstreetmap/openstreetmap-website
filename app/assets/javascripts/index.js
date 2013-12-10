@@ -196,6 +196,16 @@ $(document).ready(function () {
     marker.setLatLng(center).addTo(map);
   });
 
+  if (params.bbox) {
+    L.rectangle(params.bboxBounds,
+                {weight: 4,
+                 color: '#FF9500',
+                 opacity: 1,
+                 fillOpacity: 0,
+                 clickable: false})
+    .addTo(map);
+  }
+
   $("a[data-editor=remote]").click(function(e) {
     var params = OSM.mapParams(this.search);
     remoteEditHandler(map.getBounds(), params.object);
