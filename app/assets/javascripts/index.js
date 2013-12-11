@@ -150,7 +150,8 @@ $(document).ready(function () {
       map.getLayersCode(),
       map._object);
 
-    $.cookie("_osm_location", cookieContent(map), { expires: expiry });
+    $.removeCookie("_osm_location");
+    $.cookie("_osm_location", cookieContent(map), { expires: expiry, path: "/" });
   });
 
   if ($.cookie('_osm_welcome') == 'hide') {
