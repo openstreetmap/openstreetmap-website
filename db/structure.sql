@@ -1798,6 +1798,13 @@ CREATE UNIQUE INDEX index_client_applications_on_key ON client_applications USIN
 
 
 --
+-- Name: index_note_comments_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_note_comments_on_created_at ON note_comments USING btree (created_at);
+
+
+--
 -- Name: index_oauth_nonces_on_nonce_and_timestamp; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2379,6 +2386,8 @@ ALTER TABLE ONLY ways
 -- PostgreSQL database dump complete
 --
 
+SET search_path TO "$user",public;
+
 INSERT INTO schema_migrations (version) VALUES ('1');
 
 INSERT INTO schema_migrations (version) VALUES ('10');
@@ -2454,6 +2463,8 @@ INSERT INTO schema_migrations (version) VALUES ('20121202155309');
 INSERT INTO schema_migrations (version) VALUES ('20121203124841');
 
 INSERT INTO schema_migrations (version) VALUES ('20130328184137');
+
+INSERT INTO schema_migrations (version) VALUES ('20131212124700');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
