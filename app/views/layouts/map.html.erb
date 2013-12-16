@@ -16,9 +16,13 @@
   <% end %>
 <% end %>
 
+<% content_for :header do %>
+  <%= render :partial => "layouts/search", :locals => { :autofocus => false } %>
+<% end %>
+
 <% content_for :content do %>
   <div id="sidebar">
-    <%= render :partial => "layouts/search" %>
+    <%= render :partial => "layouts/search", :locals => { :autofocus => true } %>
 
     <% if STATUS == :database_offline or STATUS == :api_offline %>
       <p class="error"><%= t 'layouts.osm_offline' %></p>

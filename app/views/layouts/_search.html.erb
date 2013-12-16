@@ -1,7 +1,7 @@
 <%= form_tag search_path, :class => "search_form" do %>
   <%= submit_tag t('site.search.submit_text') %>
   <div class='query_wrapper'>
-    <input type="text" name="query" value="<%= params[:query] %>" placeholder="<%= t('site.search.search') %>" autofocus>
+    <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus %>
     <%= link_to t('site.search.where_am_i'), '#', { :class => "describe_location", :title => t('site.search.where_am_i_title') } %>
   </div>
 <% end %>
