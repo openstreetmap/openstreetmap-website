@@ -4,6 +4,18 @@
 # Author: Anakmalaysia
 # Author: Nemo bis
 ms: 
+  about_page: 
+    community_driven_html: "Komuniti OpenStreetMap pelbagai latar belakang, ghairah, dan makin hari makin berkembang. Antara para penyumbang kami termasuklah pemeta yang sekadar penggemar, profesional GIS, jurutera yang mengelola pelayan OSM, pegawai kemanusiaan yang memetakan kawasan terjejas bencana,\ndan ramai lagi.\nUntuk mengetahui lebih lanjut tentang komuniti ini, rujuk <a href='%{diary_path}'>diari pengguna</a>,\n<a href='http://blogs.openstreetmap.org/'>blog komuniti</a>, dan laman web\nthe <a href='http://www.osmfoundation.org/'>OSM Foundation</a>."
+    community_driven_title: Didorong oleh Komuniti
+    copyright_html: <span>&copy;</span>para penyumbang<br />OpenStreetMap
+    lede_text: OpenStreetMap dibina oleh sekumpulan pemeta yang menyumbangkan dan menyelenggarakan data tentang jalan raya, denai, kedai kopi, stesen keretapi, dan banyak lagi di seluruh dunia.
+    local_knowledge_html: OpenStreetMap menekankan pengetahuan tempatan. Para penyumbang menggunakan imejan udara, peranti GPS, dan peta lapangan berteknologi rendah untuk mengesahkan bahawa OSM adalah tepat dan mutakhir.
+    local_knowledge_title: Pengetahuan Tempatan
+    next: Berikutnya
+    open_data_html: "OpenStreetMap adalah <i>data terbuka</i>: anda bebas menggunakannya untuk sebarang tujuan asalkan anda memberikan penghargaan kepada OpenStreetMap dan para penyumbangnya. Jika anda mengubah suai atau menokok tambah datanya\ndalam cara-cara tertentu, anda boleh mengedarkan hasilnya di bawah lesen yang sama sahaja. Rujuk halaman <a href='%{copyright_path}'>Hak Cipta dan Lesen</a> untuk keterangan lanjut."
+    open_data_title: Data Terbuka
+    partners_title: Rakan Kongsi
+    used_by: "%{name} menjana data peta pada ratusan laman web, aplikasi mudah alih dan peranti perkakasan"
   activerecord: 
     attributes: 
       diary_comment: 
@@ -81,27 +93,62 @@ ms:
       blocked: Akses anda kepada API telah disekat. Sila log masuk ke dalam antaramuka web untuk mengetahui lebih lanjut.
       need_to_see_terms: Akses anda kepada API digantung buat sementara waktu. Sila log masuk ke dalam antaramuka web untuk melihat Terma-Terma Penyumbang. Anda tidak semestinya harus bersetuju, tetapi mesti membacanya.
   browse: 
+    anonymous: awanama
     changeset: 
+      belongs_to: Pengarang
       changesetxml: XML Set Ubah
       feed: 
         title: Set Ubah %{id}
         title_comment: Set Ubah %{id} - %{comment}
+      node: Nod (%{count})
+      node_paginated: Nod (%{x}-%{y} / %{count})
       osmchangexml: XML osmChange
-      title: Set Ubah
+      relation: Hubungan (%{count})
+      relation_paginated: Hubungan (%{x}-%{y} / %{count})
+      title: "Set Ubah: %{id}"
+      way: Jalan (%{count})
+      way_paginated: Jalan (%{x}-%{y} / %{count})
+    closed: Ditutup
+    closed_by_html: Ditutup <abbr title='%{title}'>%{time} lalu</abbr> oleh %{user}
+    closed_html: Ditutup <abbr title='%{title}'>%{time} lalu</abbr>
     containing_relation: 
       entry: Hubungan %{relation_name}
       entry_role: Hubungan %{relation_name} (sebagai %{relation_role})
+    created: Dicipta
+    created_by_html: Dicipta <abbr title='%{title}'>%{time} lalu</abbr> oleh %{user}
+    created_html: Dicipta <abbr title='%{title}'>%{time} lalu</abbr>
+    deleted_by_html: Dihapuskan <abbr title='%{title}'>%{time} lalu</abbr> oleh %{user}
+    download_xml: Muat Turun XML
+    edited_by_html: Disunting <abbr title='%{title}'>%{time} lalu</abbr> oleh %{user}
+    in_changeset: Set Ubah
+    location: "Lokasi:"
+    no_comment: (tiada komen)
+    node: 
+      history_title: "Sejarah Nod: %{name}"
+      title: "Nod: %{name}"
     not_found: 
-      sorry: Maaf, %{type} dengan id %{id} tidak dapat dijumpai.
+      sorry: "Maaf, %{type} #%{id} tidak dapat dijumpai."
       type: 
         changeset: set ubah
         node: nod
         relation: hubungan
         way: jalan
     note: 
-      closed_title: "Nota yang telah diselesaikan: %{note_name}"
-      open_title: "Nota yang belum diselesaikan: %{note_name}"
-      title: Nota
+      closed_by: Diselesaikan oleh %{user} <abbr title='%{exact_time}'>%{when} lalu</abbr>
+      closed_by_anonymous: Diselesaikan oleh pengguna awanama <abbr title='%{exact_time}'>%{when} lalu</abbr>
+      closed_title: "Nota yang telah diselesaikan: #%{note_name}"
+      commented_by: Komen oleh %{user} <abbr title='%{exact_time}'>%{when} lalu</abbr>
+      commented_by_anonymous: Komen oleh pengguna awanama <abbr title='%{exact_time}'>%{when} lalu</abbr>
+      hidden_by: Disembunyikan oleh %{user} <abbr title='%{exact_time}'>%{when} lalu</abbr>
+      hidden_title: "Nota tersembunyi #%{note_name}"
+      new_note: Nota Baru
+      open_by: Dicipta oleh %{user} <abbr title='%{exact_time}'>%{when} lalu</abbr>
+      open_by_anonymous: Dicipta oleh pengguna awanama <abbr title='%{exact_time}'>%{when} lalu</abbr>
+      open_title: "Nota yang belum diselesaikan: #%{note_name}"
+      reopened_by: Diaktifkan semula oleh %{user} <abbr title='%{exact_time}'>%{when} lalu</abbr>
+      reopened_by_anonymous: Diaktifkan semula oleh pengguna awanama <abbr title='%{exact_time}'>%{when} lalu</abbr>
+      title: "Nota: %{id}"
+    part_of: Sebahagian daripada
     redacted: 
       message_html: Versi %{version} %{type} ini tidak boleh ditunjukkan kerana ia telah diredaksi. Sila lihat %{redaction_link} untuk perincian.
       redaction: Redaksi %{id}
@@ -109,6 +156,10 @@ ms:
         node: nod
         relation: hubungan
         way: jalan
+    relation: 
+      history_title: "Sejarah Hubungan: %{name}"
+      members: Ahli-ahli
+      title: "Hubungan: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} sebagai %{role}"
       type: 
@@ -116,10 +167,11 @@ ms:
         relation: Hubungan
         way: Jalan
     start_rjs: 
+      feature_warning: Sedang memuatkan %{num_features} ciri yang mungkin menjadikan pelayar anda perlahan atau sukar merespon. Adakah anda pasti mahu memaparkan data ini?
       load_data: Muatkan Data
       loading: Memuatkan...
     tag_details: 
-      tags: "Tag:"
+      tags: Teg
       wiki_link: 
         key: Laman wiki keterangan tag %{key}
         tag: Laman wiki keterangan tag %{key}=%{value}
@@ -131,6 +183,16 @@ ms:
         node: nod
         relation: hubungan
         way: jalan
+    version: Versi
+    view_details: Lihat Butiran
+    view_history: Lihat Sejarah
+    way: 
+      also_part_of: 
+        one: sebahagian daripada jalan %{related_ways}
+        other: sebahagian daripada jalan-jalan %{related_ways}
+      history_title: "Sejarah Jalan: %{name}"
+      nodes: Nod
+      title: "Jalan: %{name}"
   changeset: 
     changeset: 
       anonymous: Tanpa nama
@@ -147,6 +209,13 @@ ms:
       saved_at: Disimpan pada
       user: Pengguna
     list: 
+      empty: Tiada set ubah ditemui.
+      empty_area: Tiada set ubah di kawasan ini.
+      empty_user: Tiada set ubah oleh pengguna ini.
+      load_more: Muatkan banyak lagi
+      no_more: Tiada lagi set ubah ditemui.
+      no_more_area: Tiada lagi set ubah di kawasan ini.
+      no_more_user: Tiada lagi set ubah oleh pengguna ini.
       title: Set Ubah
       title_friend: Set ubah oleh kawan anda
       title_nearby: Set ubah pengguna berdekatan
@@ -262,6 +331,7 @@ ms:
       paste_html: Tampalkan HTML untuk dibenamkan dalam tapak web
       scale: Skala
       too_large: 
+        advice: "Jika pengeksportan di atas gagal, sila pertimbangkan untuk menggunakan antara sumber-sumber yang berikut:"
         body: "Kawasan ini terlalu besar untuk dieksport dalam bentuk Data XML OpenStreetMap. Sila zum dekat atau pilih kawasan yang lebih kecil, atau gunakan mana-mana sumber yang berikut untuk memuat turun data secara pukal:"
         geofabrik: 
           description: Ekstrak benua, negara dan bandar-bandar terpilih yang sentiasa dikemaskinikan
@@ -276,6 +346,7 @@ ms:
           description: Salinan pangkalan data lengkap OpenStreetMap yang sentiasa dikemaskinikan
           title: Planet OSM
       zoom: Zum
+    title: Eksport
   geocoder: 
     description: 
       title: 
@@ -305,8 +376,10 @@ ms:
       title: 
         ca_postcode: Hasil carian <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Hasil carian <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse: Hasil daripada <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Hasil carian <a href="http://openstreetmap.org/">dalaman</a>
         osm_nominatim: Hasil Carian <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
+        osm_nominatim_reverse: Hasil daripada <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Hasil carian <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Hasil carian <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
@@ -803,6 +876,21 @@ ms:
           water_point: Titik Jalan Air
           waterfall: Air Terjun
           weir: Tebat
+  help_page: 
+    help: 
+      description: Tanyakan soalan atau cari jawapan di tapak soal jawab OSM.
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: OpenStreetMap menyediakan kemudahan-kemudahan untuk mempelajari tentang projek ini, bersoal jawab, serta bekerjasama membincangkan dan mendokumenkan topik-topik pemetaan.
+    title: Meminta Bantuan
+    welcome: 
+      description: Mulakan dengan panduan ringkas ini yang merangkumi asas-asas OpenStreetMap.
+      title: Selamat datang ke OSM
+      url: /welcome
+    wiki: 
+      description: Layari wiki untuk maklumat lanjut tentang OSM.
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/
   javascripts: 
     close: Tutup
     edit_help: Alihkan peta dan zum dekat pada lokasi yang ingin anda sunting, kemudian klik di sini.
@@ -818,11 +906,13 @@ ms:
         standard: Piawai
         transport_map: Peta Pengangkutan
       copyright: © <a href='%{copyright_url}'>Penyumbang OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Derma</a>
       layers: 
         data: Data Peta
         header: Lapisan Peta
         notes: Nota Peta
         overlays: Bolehkan tindihan untuk mencari masalah dalam peta
+        title: Lapisan
       locate: 
         popup: Anda berada pada jarak {distance} {unit} dari titik ini
         title: Paparkan Lokasi Saya
@@ -863,11 +953,14 @@ ms:
       createnote_tooltip: Letak nota pada peta
       edit_disabled_tooltip: Zum dekat untuk menyunting peta
       edit_tooltip: Sunting peta
+      map_data_zoom_in_tooltip: Zum dekat untuk membaca data peta
+      map_notes_zoom_in_tooltip: Zum dekat untuk membaca nota peta
   layouts: 
+    about: Perihal
     community: Komuniti
     community_blogs: Blog Komuniti
     community_blogs_title: Blog-blog ahli komuniti OpenStreetMap
-    copyright: Hak Cipta &amp; Lesen
+    copyright: Hak Cipta
     data: Data
     donate: Sokong OpenStreetMap dengan %{link} kepada Dana Penaiktarafan Perkakas.
     edit: Sunting
@@ -882,7 +975,10 @@ ms:
     history: Sejarah
     home: Pergi ke Lokasi Pangkal
     intro_2_create_account: Buka akaun pengguna
-    log_in: log masuk
+    intro_header: Selamat datang ke OpenStreetMap!
+    intro_text: OpenStreetMap adalah peta dunia yang diwujudkan oleh insan seperti anda, dan bebas digunakan dengan berlandaskan lesen terbuka.
+    learn_more: Ketahui Lebih Lanjut
+    log_in: log Masuk
     log_in_tooltip: Log masuk dengan akaun yang sedia ada
     logo: 
       alt_text: Logo OpenStreetMap
@@ -890,6 +986,7 @@ ms:
     make_a_donation: 
       text: Derma
       title: Sokonglah OpenStreetMap dengan dermaan dalam bentuk wang
+    more: Selebihnya
     osm_offline: Pangkalan data OpenStreetMap kini diputuskan sambungannya sementara kerja penyelenggaran mustahak dilangsungkan.
     osm_read_only: Pangkalan data OpenStreetMap sekarang ditetapkan pada mod baca sahaja sementara kerja penyelenggaran mustahak dilangsungkan.
     partners_bytemark: Bytemark Hosting
@@ -897,8 +994,9 @@ ms:
     partners_ic: Imperial College London
     partners_partners: rakan-rakan kongsi
     partners_ucl: Pusat VR UCL
-    sign_up: daftar diri
+    sign_up: Daftar
     sign_up_tooltip: Buka akaun untuk menyunting
+    start_mapping: Mulakan Memeta
     tag_line: Peta Dunia Wiki Bebas
     user_diaries: Diari Pengguna
     user_diaries_tooltip: Lihat diari pengguna
@@ -1118,6 +1216,15 @@ ms:
       allow_write_notes: menyunting nota.
       allow_write_prefs: mengubah suai keutamaan pengguna anda.
       request_access: Aplikasi %{app_name} sedang memohon akses kepada akaun anda, %{user}. Sila semak sama ada anda menginginkan aplikasi itu untuk memiliki kebolehan-kebolehan yang berikut. Anda boleh memilih sebanyak mana yang anda suka.
+      title: Benarkan akses kepada akaun anda
+    oauthorize_failure: 
+      denied: Anda telah melarang aplikasi %{app_name} daripada mengakses akaun anda.
+      invalid: Token kebenaran ini tidak sah.
+      title: Permohonan kebenaran gagal.
+    oauthorize_success: 
+      allowed: Anda telah memberi aplikasi %{app_name} akses kepada akaun anda.
+      title: Permohonan kebenaran dibenarkan
+      verification: Kod penentusahan ialah %{code}.
     revoke: 
       flash: Anda telah menarik balik token untuk %{application}
   oauth_clients: 
@@ -1671,6 +1778,7 @@ ms:
       my comments: Komen Saya
       my diary: Diari Saya
       my edits: Suntingan Saya
+      my messages: Pesanan Saya
       my notes: Nota Saya
       my profile: Profil Saya
       my settings: Tetapan Saya
@@ -1824,7 +1932,7 @@ ms:
       way_html: <strong>Jalan</strong> adalah garis atau kawasan seperti jalan raya, sungai, tasik atau bangunan.
     introduction_html: Selamat datang ke OpenStreetMap, peta dunia yang bebas disunting oleh orang awam. Kini setelah mendaftar, anda bersiap sedia untuk memeta. Yang berikut ialah panduan ringkas dengan maklumat-maklumat yang paling penting bagi anda.
     questions: 
-      paragraph_1_html: Nak minta tolong untuk memeta, ataupun tak jelas dengan cara menggunakan OpenStreetMap? Tanyalah kami di <a href='http://help.openstreetmap.org/'>laman bantuan</a>.
+      paragraph_1_html: "OpenStreetMap menyediakan kemudahan-kemudahan untuk mempelajari tentang projek ini, bersoal jawab, serta bekerjasama membincangkan dan mendokumenkan topik-topik pemetaan.\n<a href='%{help_url}'>Minta bantuan di sini</a>."
       title: Ada soalan?
     start_mapping: Mula
     title: Selamat datang!

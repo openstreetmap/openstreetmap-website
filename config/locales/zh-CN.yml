@@ -15,8 +15,14 @@
 # Author: Shizhao
 # Author: StephDC
 # Author: Xiaomingyan
+# Author: Yfdyh000
 # Author: 乌拉跨氪
 zh-CN: 
+  about_page: 
+    community_driven_title: 社区驱动
+    copyright_html: <span>&copy;</span>OpenStreetMap<br>贡献者
+    open_data_title: 开放数据
+    partners_title: 合作伙伴
   activerecord: 
     attributes: 
       diary_comment: 
@@ -94,27 +100,35 @@ zh-CN:
       blocked: 您对 API 的访问已经被阻挡了。请登录到网站以了解更多信息。
       need_to_see_terms: 您对 API 的访问已暂时中止。请登录到网站以查看贡献者条款。您不需要同意，但必须查看它们。
   browse: 
+    anonymous: 匿名
     changeset: 
+      belongs_to: 作者
       changesetxml: 变更集XML
       feed: 
         title: 变更集%{id}
         title_comment: 变更集%{id} - %{comment}
       osmchangexml: osmChange XML
-      title: 变更集
+      title: 变更集：%{id}
+    closed: 关闭于
     containing_relation: 
       entry: 关系%{relation_name}
       entry_role: 关系%{relation_name}（作为%{relation_role}）
+    created: 创建于
+    created_html: 创建于<abbr title='%{title}'>%{time}前</abbr>
+    in_changeset: 变更集
+    no_comment: （无评论）
     not_found: 
-      sorry: 对不起，无法找到id为%{id}的%{type}。
+      sorry: "对不起，无法找到 %{type} #%{id}。"
       type: 
         changeset: 变更集
         node: 节点
         relation: 关系
         way: 路径
     note: 
-      closed_title: 已解决的注释：%{note_name}
-      open_title: 未解决的注释：%{note_name}
-      title: 注释
+      closed_title: "已解决的注释 #%{note_name}"
+      new_note: 新建注释
+      open_title: "未解决的注释 #%{note_name}"
+      title: 注释：%{id}
     redacted: 
       message_html: 该%{type}的版本%{version}无法显示，因为其已被编辑。详情请见%{redaction_link}。
       redaction: 编辑%{id}
@@ -122,6 +136,8 @@ zh-CN:
         node: 节点
         relation: 关系
         way: 路径
+    relation: 
+      members: 成员
     relation_member: 
       entry: "%{type}%{name}"
       entry_role: "%{type}%{name}作为%{role}"
@@ -130,10 +146,11 @@ zh-CN:
         relation: 关系
         way: 路径
     start_rjs: 
+      feature_warning: 正在加载 %{num_features} 个功能，这可能致使您的浏览器缓慢或失去响应。您确定要显示此数据吗？
       load_data: 载入数据
       loading: 正在载入...
     tag_details: 
-      tags: 标签：
+      tags: 标签
       wiki_link: 
         key: "%{key}标签的wiki说明页面"
         tag: "%{key}=%{value}标签的wiki说明页面"
@@ -145,6 +162,9 @@ zh-CN:
         node: 节点
         relation: 关系
         way: 路径
+    version: 版本
+    view_details: 查看详情
+    view_history: 查看历史
   changeset: 
     changeset: 
       anonymous: 匿名
@@ -161,6 +181,13 @@ zh-CN:
       saved_at: 保存于
       user: 用户
     list: 
+      empty: 没有找到变更集。
+      empty_area: 在此区域没有变更集。
+      empty_user: 没有此用户的变更集。
+      load_more: 加载更多
+      no_more: 没有更多变更集。
+      no_more_area: 在此区域没有更多变更集。
+      no_more_user: 没有更多此用户的变更集。
       title: 变更集
       title_friend: 你的朋友的变更集
       title_nearby: 附近用户的变更集
@@ -273,7 +300,7 @@ zh-CN:
       max: 最大
       options: 选项
       osm_xml_data: OpenStreetMap XML数据
-      output: 输出
+      output: 导出
       paste_html: 粘贴可嵌入网站的HTML
       scale: 比例
       too_large: 
@@ -289,8 +316,9 @@ zh-CN:
           title: 其他来源
         planet: 
           description: 定期更新的完整OpenStreetMap数据库副本
-          title: 地球OSM
+          title: OSM星球
       zoom: 缩放
+    title: 导出
   geocoder: 
     description: 
       title: 
@@ -821,6 +849,20 @@ zh-CN:
           waterfall: 瀑布
           weir: 堰
       prefix_format: "%{name}"
+  help_page: 
+    help: 
+      description: 在 OSM 的问答网站提问或查找回答。
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    title: 获得帮助
+    welcome: 
+      description: 本快速指南涵盖了快速入门 OpenStreetMap 的基本知识。
+      title: 欢迎使用 OSM
+      url: /welcome
+    wiki: 
+      description: 浏览 wiki 深入了解 OSM 文档。
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/
   html: 
     dir: ltr
   javascripts: 
@@ -838,6 +880,7 @@ zh-CN:
         standard: 标准
         transport_map: 交通图
       copyright: © <a href='%{copyright_url}'>OpenStreetMap贡献者</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>捐赠</a>
       layers: 
         data: 地图数据
         header: 地图图层
@@ -884,11 +927,14 @@ zh-CN:
       createnote_tooltip: 添加注释至地图
       edit_disabled_tooltip: 放大以编辑地图
       edit_tooltip: 编辑地图
+      map_data_zoom_in_tooltip: 放大以查阅地图数据
+      map_notes_zoom_in_tooltip: 放大以查阅地图注释
   layouts: 
+    about: 关于
     community: 社区
     community_blogs: 社区博客
     community_blogs_title: OpenStreetMap社区成员的博客
-    copyright: 著作权与许可
+    copyright: 版权
     data: 数据
     donate: 通过给硬件升级基金%{link}支持OpenStreetMap。
     edit: 编辑
@@ -903,11 +949,14 @@ zh-CN:
     history: 历史
     home: 返回家位置
     intro_2_create_account: 创建用户账户
+    intro_header: 欢迎来到 OpenStreetMap!
+    intro_text: OpenStreetMap 是一个世界地图，由像您这样的人们所建立，在开放授权下可以自由使用。
+    learn_more: 详细了解
     log_in: 登录
     log_in_tooltip: 使用已有账户登录
     logo: 
       alt_text: OpenStreetMap标志
-    logout: 退出
+    logout: 注销
     make_a_donation: 
       text: 捐款
       title: 通过捐款支持OpenStreetMap
@@ -923,6 +972,7 @@ zh-CN:
       title: OpenStreetMap
     sign_up: 注册
     sign_up_tooltip: 创建可编辑账户
+    start_mapping: 开始绘制地图
     tag_line: 自由的wiki世界地图
     user_diaries: 用户日记
     user_diaries_tooltip: 查看用户日记
@@ -1146,6 +1196,15 @@ zh-CN:
       allow_write_notes: 修改注释。
       allow_write_prefs: 修改你的用户设置。
       request_access: "%{user}，应用程序 %{app_name} 要求访问您的帐户。请确定您要让此应用程序使用下列功能。您可以按照自己的意思选择几个。"
+      title: 授权访问您的账户
+    oauthorize_failure: 
+      denied: 您已拒绝 %{app_name} 应用访问您的账户。
+      invalid: 授权令牌无效。
+      title: 授权请求失败
+    oauthorize_success: 
+      allowed: 您已授权 %{app_name} 应用访问您的账户。
+      title: 授权请求已允许
+      verification: 该验证码是 %{code}。
     revoke: 
       flash: 您已经注销 %{application} 的令牌。
   oauth_clients: 

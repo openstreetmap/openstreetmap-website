@@ -22,6 +22,8 @@
 fi: 
   about_page: 
     community_driven_html: "OpenStreetMap-yhteisö on monipuolinen, intohimoinen ja kasvaa joka päivä.\nYhteisöön kuuluu harrastajakartoittajia, GIS-ammattilaisia, järjestelmäylläpitäjiä, humanitaarisa auttajia, jotka kartoittavat katastrofin kärsineitä alueita sekä monia muita.\nVoit oppia lisää yhteisöstämme lukemalla <a href='%{diary_path}'>käyttäjien päiväkirjoja</a>,\n<a href='http://blogs.openstreetmap.org/'>yhteisöblogeja</a> ja\n<a href='http://www.osmfoundation.org/'>OSM-säätiön</a> verkkosivua."
+    copyright_html: <span>&copy;</span>OpenStreetMap<br>-kartoittajat
+    next: Seuraava
     open_data_title: Avoin data
     partners_title: Kumppanit
   activerecord: 
@@ -101,20 +103,26 @@ fi:
       blocked: Pääsysi APIin on estetty. Lisätietoja saat kirjautumalla web-käyttöliittymään.
       need_to_see_terms: API:n käyttöoikeutesi on tilapäisesti hyllytetty. Kirjaudu sisään verkkokäyttöliittymään nähdäksesi osallistujien ehdot. Niihin ei tarvitse suostua, mutta ne täytyy lukea.
   browse: 
+    anonymous: tuntematon
     changeset: 
+      belongs_to: Lähettäjä
       changesetxml: Muutoskokoelman XML
       feed: 
         title: Muutoskokoelma %{id}
         title_comment: Muutoskokoelma %{id} - %{comment}
       osmchangexml: osmChange XML
       relation: Relaatiot (%{count})
-      title: Muutoskokoelma
+      title: "Muutoskokoelma: %{id}"
     closed_by_html: Suljettu <abbr title='%{title}'>%{time} sitten</abbr> käyttäjän %{user} toimesta
     containing_relation: 
       entry: Relaatio %{relation_name}
       entry_role: Relaatio %{relation_name} (rooli %{relation_role})
     created: Luotu
+    created_by_html: Lähettänyt käyttäjä %{user} <abbr title='%{title}'>%{time} sitten</abbr>
+    created_html: Lähettänyt käyttäjä <abbr title='%{title}'>%{time} sitten</abbr>
     deleted_by_html: Poistettu <abbr title='%{title}'>%{time} sitten</abbr> käyttäjän %{user} toimesta
+    download_xml: Lataa XML-tiedostona
+    in_changeset: Muutoskokoelma
     no_comment: (ei kommenttia)
     not_found: 
       sorry: "%{type} %{id} ei ole olemassa."
@@ -124,8 +132,17 @@ fi:
         relation: Relaatiota
         way: Polkua
     note: 
-      open_title: "Ratkaisematon karttailmoitus: %{note_name}"
-      title: Karttailmoitus
+      closed_by: Ratkaissut käyttäjä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
+      closed_title: "Ratkaisematon karttailmoitus #%{note_name}"
+      commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
+      hidden_by: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
+      hidden_title: "Piilotettu karttailmoitus #%{note_name}"
+      new_note: Uusi karttailmoitus
+      open_by: Lähettänyt käyttäjä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
+      open_title: "Ratkaisematon karttailmoitus #%{note_name}"
+      reopened_by: Avannut uudelleen käyttäjä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
+      title: "Karttailmoitus: %{id}"
+    part_of: Osana seuraavia
     redacted: 
       message_html: Tämän %{type}-tyypin versiota ei voi näyttää koska se on laitostettu. Katso lisätietoja %{redaction_link}.
       redaction: Redaktio %{id}
@@ -146,9 +163,9 @@ fi:
       load_data: Lataa tiedot
       loading: Ladataan tietoja...
     tag_details: 
-      tags: "Tagit:"
+      tags: Tagit
       wiki_link: 
-        key: Wikisivu tietueelle %{key}
+        key: Wikisivu avaimelle %{key}
         tag: Wikisivu tietueelle %{key}=%{value}
       wikipedia_link: Artikkeli %{page} Wikipediassa
     timeout: 
@@ -158,6 +175,9 @@ fi:
         node: piste
         relation: relaatio
         way: polku
+    version: Versio
+    view_details: Näytä tiedot
+    view_history: Näytä historia
   changeset: 
     changeset: 
       anonymous: Tuntematon
@@ -831,6 +851,12 @@ fi:
           water_point: Vedenottopaikka
           waterfall: Vesiputous
           weir: Pato
+  help_page: 
+    introduction: Tukea ja neuvoja OpenStreetMapin käyttöön on saatavila useista eri lähteistä.
+    title: Ohjekeskus
+    welcome: 
+      title: Tervetuloa OSM:iin
+      url: /welcome
   javascripts: 
     close: Sulje
     edit_help: Siirrä ja lähennä kartta muokattavaan paikkaan ja napsauta sitten tästä.
@@ -841,7 +867,7 @@ fi:
     map: 
       base: 
         cycle_map: Pyöräilykartta
-        hot: Ihmisystävällinen
+        hot: Ihmisystävällisyys
         standard: Perinteinen
         transport_map: Joukkoliikenne
       copyright: © <a href='%{copyright_url}'>OpenStreetMap-kartoittajat</a>
@@ -849,7 +875,7 @@ fi:
         data: Kartta-aineisto
         header: Karttanäkymä
         notes: Karttailmoitukset
-        overlays: Nämä karttamerkinnät ovat tarkoitettu karttavirheiden korjaamiseen
+        overlays: Nämä toiminnot on tarkoitettu karttavirheiden korjaamiseen
         title: Karttanäkymä
       locate: 
         popup: Sijainti tarkkuudella {distance} {unit} tästä pisteestä
@@ -892,6 +918,7 @@ fi:
       edit_disabled_tooltip: Aloita kartan muokkaaminen suurentamalla karttaa
       edit_tooltip: Muokkaa karttaa
   layouts: 
+    about: Tietoja
     community: Yhteisö
     community_blogs: Yhteisöblogit
     community_blogs_title: OpenStreetMap-yhteisön jäsenten blogit
@@ -910,6 +937,9 @@ fi:
     history: Historia
     home: Siirry kotipaikkaan
     intro_2_create_account: luomalla ensin käyttäjätunnuksen
+    intro_header: Tervetuloa OpenStreetMapiin!
+    intro_text: OpenStreetMap on maailmankartta, joka on tavallisten ihmisten tekemä. Palvelun käyttäminen on ilmaista avoimen lisenssin ansiosta.
+    learn_more: Lisätietoja
     log_in: kirjaudu sisään
     log_in_tooltip: Kirjaudu sisään tunnuksellasi
     logo: 
@@ -927,6 +957,7 @@ fi:
     partners_ucl: UCL VR Centre
     sign_up: rekisteröidy
     sign_up_tooltip: Muokkaaminen edellyttää käyttäjätunnusta
+    start_mapping: Liity mukaan
     tag_line: Vapaa ja avoin maailmankartta
     user_diaries: Päiväkirjamerkinnät
     user_diaries_tooltip: Näytä käyttäjän päiväkirjat
@@ -1848,22 +1879,22 @@ fi:
   welcome_page: 
     add_a_note: 
       paragraph_1_html: Jos huomaat kartalla virheen, muttet halua korjata sitä itse, tee siitä karttavirheilmoitus.
-      paragraph_2_html: Se on helppoa! Siirry <a href='%{map_url}'>kartalle</a> ja napsauta <span class='icon note'></span>-kuvaketta. Siirrä kartalle ilmestyvä karttamerkki virheen kohdalle. Kirjoita virheestä lisätietoja Suomessa olevista virheistä suomeksi ja muualla olevista virheistä paikallisella kielellä tai englanniksi. Lopuksi tallenna ilmoitus, jolloin muut kartoittajat voivat korjata virheen.
-      title: Eikö muokkaaminen innosta? Ilmoita karttavirheistä!
+      paragraph_2_html: "Se on helppoa! Siirry <a href='%{map_url}'>kartalle</a> ja napsauta <span class='icon note'></span>-kuvaketta. Siirrä kartalle ilmestyvä karttamerkki virheen kohdalle. Kirjoita virheestä lisätietoja: Suomessa olevista virheistä suomeksi ja muualla olevista virheistä paikallisella kielellä tai englanniksi. Lopuksi tallenna ilmoitus, jolloin muut kartoittajat voivat korjata virheen."
+      title: Eikö muokkaaminen kiinnosta? Ilmoita karttavirheistä!
     basic_terms: 
       editor_html: <strong>Muokkausohjelma</strong> tai <strong>kartanmuokkain</strong> (engl. editor) on ohjelmisto tai verkkosivusto, jolla voi muokata karttaa.
-      node_html: <strong>Piste</strong> (engl. node) on pistemäinen kohde kartalla, kuten ravintola tai puu. Näitä kutsutaan paikkapisteiksi. Lisäksi osaa pisteistä kutsutaan viivapisteiksi.
+      node_html: <strong>Piste</strong> (engl. node) on pistemäinen kohde kartalla, kuten ravintola tai puu. Näitä kutsutaan paikkapisteiksi. Pisteet, joilla ei ole ominaisuustietoja ja ovat vain viivan osana, kutsutaan myös viivapisteiksi.
       paragraph_1_html: OpenStreetMapissa käytetään lukuisia, vain siinä esiintyviä termejä. Kun nämä termit ovat hallinnassa, olet jo voiton puolella!
-      tag_html: <strong>Tagi</strong> sisältää tietoja, joilla kerrotaan pisteen, viivan tai alueen käyttötarkoitus. Tällaisia tietoja on esimerkiksi ravintolan nimi tai kadun nopeusrajoitus.
+      tag_html: <strong>Tagi</strong> sisältää tietoja, joilla kerrotaan pisteen, viivan tai alueen käyttötarkoitus. Tällaisia tietoja ovat esimerkiksi ravintolan nimi tai kadun nopeusrajoitus.
       title: Käsitteitä ja termistöä
       way_html: Avoin <strong>viiva</strong> (engl. way) on viivamainen kohde, kuten katu tai joki. Suljettu viiva eli <strong>alue</strong> (engl. area) kuvaa aluetta, kuten järveä tai rakennusta.
-    introduction_html: Tervetuloa OpenStreetMapiin, ilmaiseen ja vapaasti muokattavaan maailmankarttaan. Rekisteröityminen on nyt tehty, joten olet valmis aloittamaan kartan muokkaamisen. Tutustu ensin kuitenkin näihin perusasioihin.
+    introduction_html: Tervetuloa OpenStreetMapiin, ilmaiseen ja vapaasti muokattavaan maailmankarttaan. Rekisteröityminen on nyt suoritettu, joten olet valmis aloittamaan kartan muokkaamisen. Tutustu ensin kuitenkin näihin perusasioihin.
     questions: 
-      paragraph_1_html: Tarvitsetko apua OpenStreetMapin käytössä tai muokkaamisessa? Tutustu OpenStreetMapin <a href='http://help.openstreetmap.org/'>ohjekeskukseen</a>.
+      paragraph_1_html: OpenStreetMapin käyttötukea on saatavilla useilla eri tavoilla. Tutustu OpenStreetMapin <a href='%{help_url}'>ohjekeskukseen</a>.
       title: Kysyttävää?
     start_mapping: Aloita kartan muokkaaminen
     title: Tervetuloa!
     whats_on_the_map: 
-      off_html: Se <em>ei</em> sisällä mielipiteitä, kuten arvioita, historiallisia tai hypoteettisia ominaisuuksia, eikä tietoja tekijänoikeuksin suojatuista lähteistä. Ellei sinulla ole erityistä lupaa, älä kopioi verkko- tai paperikarttoja.
+      off_html: Kartta <em>ei</em> sisällä mielipiteitä, kuten arvosteluja, historiallisia tai hypoteettisia ominaisuuksia, eikä tietoja tekijänoikeuksin suojatuista lähteistä. Ellei sinulla ole erityistä lupaa, älä kopioi verkko- tai paperikarttoja.
       on_html: OpenStreetMapissä voi kartoittaa asioita, jotka ovat sekä <em>todellisia että nykyisiä</em> - se sisältää miljoonia rakennuksia, teitä ja muita yksityiskohtia paikoista. Voit kartoittaa mitä tahansa reaalimaailman piirteitä, jotka sinua kiinnostavat.
-      title: Mitä on kartalla
+      title: Mitä kartalla on

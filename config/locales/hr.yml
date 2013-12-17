@@ -83,16 +83,21 @@ hr:
     setup_user_auth: 
       blocked: Tvoj pristup API-u je blokiran. Prijavite se na web sučelje da saznate više.
   browse: 
+    anonymous: anonimno
     changeset: 
+      belongs_to: Autor
       changesetxml: XLM Changeset
       feed: 
         title: Changeset %{id}
         title_comment: Changeset %{id} - %{comment}
       osmchangexml: osmChange XML
-      title: Changeset
+      title: "Changeset: %{id}"
     containing_relation: 
       entry: Relacija %{relation_name}
       entry_role: Relacija %{relation_name} (kao %{relation_role})
+    download_xml: Preuzimanje XML
+    in_changeset: Changeset
+    no_comment: (bez komentara)
     not_found: 
       sorry: Žao mi je, ali %{type} sa ID %{id}, se ne može naći.
       type: 
@@ -100,6 +105,22 @@ hr:
         node: točka
         relation: relacija
         way: put
+    note: 
+      closed_by: Riješio/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
+      closed_by_anonymous: Riješeno anonimno <abbr title='%{exact_time}'>prije %{when}</abbr>
+      closed_title: Rješena bilješka broj %{note_name}
+      commented_by: Komentirao/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
+      commented_by_anonymous: Komentirano anonimno <abbr title='%{exact_time}'>prije %{when}</abbr>
+      hidden_by: Sakrio/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
+      hidden_title: Skrivena bilješka broj %{note_name}
+      new_note: Bilješka
+      open_by: Zabilježio/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
+      open_by_anonymous: Zabilježeno anonimno <abbr title='%{exact_time}'>prije %{when}</abbr>
+      open_title: Nerješena bilješka broj %{note_name}
+      reopened_by: Ponovno aktivirao/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
+      reopened_by_anonymous: Ponovno aktivirano anonimno <abbr title='%{exact_time}'>prije %{when}</abbr>
+      title: Bilješka %{id}
+    part_of: Dio od
     relation_member: 
       entry_role: "%{type} %{name} kao %{role}"
       type: 
@@ -122,6 +143,9 @@ hr:
         node: točka
         relation: relacija
         way: put
+    version: Inačica
+    view_details: Prikaži detalje
+    view_history: Prikaži povijest
   changeset: 
     changeset: 
       anonymous: Anonimno
@@ -130,7 +154,7 @@ hr:
     changeset_paging_nav: 
       next: Slijedeća »
       previous: « Prethodna
-      showing_page: Prikazujem stranicu %{page}
+      showing_page: Stranica %{page}
     changesets: 
       area: Područje
       comment: Komentar
@@ -751,7 +775,7 @@ hr:
     inbox: 
       date: Datum
       from: Od
-      my_inbox: Moja dolazna pošta
+      my_inbox: Dolazna pošta
       no_messages_yet: Još nemate poruka. Zašto nebi stupili u kontakt s nekim ljudima iz okolice %{people_mapping_nearby_link}?
       outbox: odlazna pošta
       people_mapping_nearby: obližnji ljudi koji mapiraju
