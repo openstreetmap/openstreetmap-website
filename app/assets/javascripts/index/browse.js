@@ -47,14 +47,17 @@ function initializeBrowse(map) {
     }
   }
 
-  function displayFeatureWarning(count, limit, callback) {
+  function displayFeatureWarning(count, limit, add, cancel) {
     $('#browse_status').html(
       $("<p class='warning'></p>")
         .text(I18n.t("browse.start_rjs.feature_warning", { num_features: count, max_features: limit }))
+        .prepend(
+          $("<span class='icon close'></span>")
+            .click(cancel))
         .append(
           $("<input type='submit'>")
             .val(I18n.t('browse.start_rjs.load_data'))
-            .click(callback)));
+            .click(add)));
   }
 
   var dataLoader;
@@ -91,16 +94,20 @@ function initializeBrowse(map) {
         function addFeatures() {
           $('#browse_status').empty();
           dataLayer.addData(features);
+          browseBounds = bounds;
+        }
+
+        function cancelAddFeatures() {
+          $('#browse_status').empty();
         }
 
         if (features.length < maxFeatures) {
           addFeatures();
         } else {
-          displayFeatureWarning(features.length, maxFeatures, addFeatures);
+          displayFeatureWarning(features.length, maxFeatures, addFeatures, cancelAddFeatures);
         }
 
         dataLoader = null;
-        browseBounds = bounds;
       }
     });
   }
