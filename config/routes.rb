@@ -139,7 +139,7 @@ OpenStreetMap::Application.routes.draw do
   match '/copyright/:copyright_locale' => 'site#copyright', :via => :get
   match '/copyright' => 'site#copyright', :via => :get
   match '/welcome' => 'site#welcome', :via => :get, :as => :welcome
-  match '/welcome' => 'site#welcome', :via => :get, :as => :welcome
+  match '/landing' => 'site#landing', :via => :get, :as => :landing
   match '/help' => 'site#help', :via => :get, :as => :help
   match '/about' => 'site#about', :via => :get, :as => :about
   match '/history' => 'changeset#list', :via => :get
