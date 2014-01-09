@@ -260,6 +260,11 @@ class NotesController < ApplicationController
     # Find the notes we want to return
     @notes = @notes.order("updated_at DESC").limit(result_limit).preload(:comments)
 
+    # Disable notes search until we can make it scalable
+    response.headers['Error'] = "Searching of notes is currently unavailable"
+    render :text => "", :status => :service_unavailable
+    return false
+
     # Render the result
     respond_to do |format|
       format.rss { render :action => :index }
