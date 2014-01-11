@@ -5,6 +5,7 @@
 # Author: Gallaecio
 # Author: Nemo bis
 # Author: Toliño
+# Author: Vivaelcelta
 gl: 
   activerecord: 
     attributes: 
@@ -83,16 +84,34 @@ gl:
       blocked: O seu acceso á API foi bloqueado. Acceda ao sistema para atopar máis información na interface web.
       need_to_see_terms: O seu acceso á API está suspendido temporalmente. Acceda ao sistema para ollar os termos do colaborador. Non ten que aceptalos, pero debe coñecelos.
   browse: 
+    anonymous: anónimo
     changeset: 
+      belongs_to: Autor/a
       changesetxml: Conxunto de cambios XML
       feed: 
         title: Conxunto de cambios %{id}
         title_comment: Conxunto de cambios %{id} - %{comment}
+      node: Nodos (%{count})
       osmchangexml: osmChange XML
-      title: Conxunto de cambios
+      title: "Conxunto de cambios: %{id}"
+    closed: Pechado
+    closed_by_html: Cerrado <abbr title='%{title}'>fai %{time}</abbr> por %{user}
+    closed_html: Cerrado <abbr title='%{title}'>fai %{time}</abbr>
     containing_relation: 
       entry: Relación %{relation_name}
       entry_role: Relación %{relation_name} (como %{relation_role})
+    created: Creado
+    created_by_html: Creado <abbr title='%{title}'>fai %{time}</abbr> por %{user}
+    created_html: Creado <abbr title='%{title}'>fai %{time}</abbr>
+    deleted_by_html: Eliminado <abbr title='%{title}'>fai %{time}</abbr> por %{user}
+    download_xml: Descargar en XML
+    edited_by_html: Editado <abbr title='%{title}'>fai %{time}</abbr> por %{user}
+    in_changeset: Conxunto de cambios
+    location: "Localización:"
+    no_comment: (sen comentarios)
+    node: 
+      history_title: "Historial do nodo: %{name}"
+      title: "Nodo: %{name}"
     not_found: 
       sorry: Sentímolo, non se puido atopar o %{type} co id %{id}.
       type: 
@@ -101,9 +120,14 @@ gl:
         relation: relación
         way: camiño
     note: 
-      closed_title: "Nota resolta: %{note_name}"
-      open_title: "Nota sen resolver: %{note_name}"
-      title: Nota
+      closed_title: "Nota resolta #%{note_name}"
+      hidden_title: "Nota oculta #%{note_name}"
+      new_note: Nova nota
+      open_by: Creado por %{user} <abbr title='%{exact_time}'>fai %{when}</abbr>
+      open_by_anonymous: Creado por un anónimo <abbr title='%{exact_time}'>fai %{when}</abbr>
+      open_title: "Nota sen resolver #%{note_name}"
+      title: "Nota: %{id}"
+    part_of: Parte de
     redacted: 
       message_html: A versión %{version} deste %{type} non se pode mostrar tal como foi redactada. Consulte %{redaction_link} para obter máis detalles.
       redaction: Redacción %{id}
@@ -111,6 +135,10 @@ gl:
         node: nodo
         relation: relación
         way: camiño
+    relation: 
+      history_title: "Historial de relación: %{name}"
+      members: Membros
+      title: "Relación: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} como %{role}"
       type: 
@@ -121,7 +149,7 @@ gl:
       load_data: Cargar os datos
       loading: Cargando...
     tag_details: 
-      tags: "Etiquetas:"
+      tags: Etiquetas
       wiki_link: 
         key: A páxina de descrición da etiqueta %{key}
         tag: A páxina de descrición da etiqueta %{key}=%{value}
@@ -133,6 +161,13 @@ gl:
         node: nodo
         relation: relación
         way: camiño
+    version: Versión
+    view_details: Ver os detalles
+    view_history: Ver o historial
+    way: 
+      history_title: "Historial co camiño: %{name}"
+      nodes: Nodos
+      title: "Camiño: %{name}"
   changeset: 
     changeset: 
       anonymous: Anónimo
@@ -149,6 +184,13 @@ gl:
       saved_at: Gardado o
       user: Usuario
     list: 
+      empty: Non hai conxuntos de cambios atopados.
+      empty_area: Non hai conxuntos de cambios nesta área.
+      empty_user: Non hai conxuntos de cambios por este usuario/a.
+      load_more: Cargar máis
+      no_more: Non hai máis conxuntos de cambios atopados.
+      no_more_area: Non hai máis conxuntos de cambios nesta área.
+      no_more_user: Non hai máis conxuntos de cambios por este usuario/a.
       title: Conxuntos de cambios
       title_friend: Conxuntos de cambios dos seus amigos
       title_nearby: Conxuntos de cambios dos usuarios de lugares próximos
@@ -279,6 +321,7 @@ gl:
           description: Copias actualizadas regularmente da base de datos do OpenStreetMap ao completo
           title: Planeta OSM
       zoom: Zoom
+    title: Exportar
   geocoder: 
     description: 
       title: 
@@ -808,6 +851,9 @@ gl:
           water_point: Punto de auga
           waterfall: Fervenza
           weir: Vaira
+  help_page: 
+    help: 
+      title: help.openstreetmap.org
   javascripts: 
     close: Pechar
     edit_help: Desplace o mapa e amplíeo na localización que queira editar; logo, prema aquí.
@@ -823,6 +869,7 @@ gl:
         standard: Estándar
         transport_map: Mapa de transporte
       copyright: © <a href='%{copyright_url}'>Colaboradores do OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Facer unha donación</a>
       layers: 
         data: Datos do mapa
         header: Capas do mapa
@@ -869,11 +916,14 @@ gl:
       createnote_tooltip: Engadir unha nota ao mapa
       edit_disabled_tooltip: Achegue para editar o mapa
       edit_tooltip: Editar o mapa
+      map_data_zoom_in_tooltip: Aumenta o zoom para ver os datos do mapa
+      map_notes_zoom_in_tooltip: Aumenta o zoom para ver as notas do mapa
   layouts: 
+    about: Acerca de
     community: Comunidade
     community_blogs: Blogues da comunidade
     community_blogs_title: Blogues de membros da comunidade do OpenStreetMap
-    copyright: Dereitos de autor e licenza
+    copyright: Dereitos de autoría
     data: Datos
     donate: Apoie o OpenStreetMap %{link} ao fondo de actualización de hardware.
     edit: Editar
@@ -888,14 +938,17 @@ gl:
     history: Historial
     home: Ir á localización inicial
     intro_2_create_account: Cree unha conta de usuario
-    log_in: rexistro
+    intro_header: Benvido/a a OpenStreetMap!
+    learn_more: Máis información
+    log_in: Iniciar sesión
     log_in_tooltip: Acceder ao sistema cunha conta existente
     logo: 
       alt_text: Logo do OpenStreetMap
-    logout: Saír
+    logout: Pechar sesión
     make_a_donation: 
       text: Facer unha doazón
       title: Apoie o OpenStreetMap cunha doazón
+    more: Máis
     osm_offline: A base de datos do OpenStreetMap atópase desconectada mentres realizamos traballos de mantemento nela.
     osm_read_only: A base de datos do OpenStreetMap atópase en modo de só lectura mentres realizamos traballos de mantemento nela.
     partners_bytemark: Bytemark Hosting
@@ -903,8 +956,9 @@ gl:
     partners_ic: Imperial College London
     partners_partners: socios
     partners_ucl: centro de realidade virtual do UCL
-    sign_up: rexistrarse
+    sign_up: Rexistrarse
     sign_up_tooltip: Crear unha conta para editar
+    start_mapping: Comenzar a mapear
     tag_line: O mapa mundial libre
     user_diaries: Diarios de usuario
     user_diaries_tooltip: Ollar os diarios do usuario
@@ -1686,6 +1740,7 @@ gl:
       my comments: Os meus comentarios
       my diary: O meu diario
       my edits: As miñas edicións
+      my messages: As miñas mensaxes
       my notes: As miñas notas de mapa
       my profile: O meu perfil
       my settings: Os meus axustes
