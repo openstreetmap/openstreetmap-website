@@ -252,7 +252,7 @@ class UserControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'new'
-    assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_email"
+    assert_select "form > fieldset > div.form-row > input.field_with_errors#user_email"
   end
 
   def test_user_create_submit_duplicate_email_uppercase
@@ -267,7 +267,7 @@ class UserControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'new'
-    assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_email"
+    assert_select "form > fieldset > div.form-row > input.field_with_errors#user_email"
   end
     
   def test_user_create_submit_duplicate_name
@@ -282,7 +282,7 @@ class UserControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'new'
-    assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
+    assert_select "form > fieldset > div.form-row > input.field_with_errors#user_display_name"
   end
   
   def test_user_create_submit_duplicate_name_uppercase
@@ -297,7 +297,7 @@ class UserControllerTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'new'
-    assert_select "form > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
+    assert_select "form > fieldset > div.form-row > input.field_with_errors#user_display_name"
   end
 
   def test_user_save_referer_params
@@ -478,7 +478,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select ".notice", false
     assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
+    assert_select "form#accountForm > fieldset > div.form-row > input.field_with_errors#user_display_name"
 
     # Changing name to one that exists should fail, regardless of case
     new_attributes = user.attributes.dup.merge(:display_name => users(:public_user).display_name.upcase)
@@ -487,7 +487,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select ".notice", false
     assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_display_name"
+    assert_select "form#accountForm > fieldset > div.form-row > input.field_with_errors#user_display_name"
 
     # Changing name to one that doesn't exist should work
     new_attributes = user.attributes.dup.merge(:display_name => "new tester")
@@ -508,7 +508,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select ".notice", false
     assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_new_email"
+    assert_select "form#accountForm > fieldset > div.form-row > input.field_with_errors#user_new_email"
 
     # Changing email to one that exists should fail, regardless of case
     user.new_email = users(:public_user).email.upcase
@@ -517,7 +517,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template :account
     assert_select ".notice", false
     assert_select "div#errorExplanation"
-    assert_select "form#accountForm > fieldset > div.form-row > div.field_with_errors > input#user_new_email"
+    assert_select "form#accountForm > fieldset > div.form-row > input.field_with_errors#user_new_email"
 
     # Changing email to one that doesn't exist should work
     user.new_email = "new_tester@example.com"
