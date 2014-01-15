@@ -126,6 +126,9 @@ module ActiveRecord
         if Hash === options and options[:lowercase]
           quoted_column_names = quoted_column_names.map { |e| "LOWER(#{e})" }
         end
+        if Hash === options and options[:columns]
+          quoted_column_names = quoted_column_names + Array[options[:columns]]
+        end
         quoted_column_names = quoted_column_names.join(", ")
 
         execute "CREATE #{index_type} INDEX #{quote_column_name(index_name)} ON #{quote_table_name(table_name)} USING #{index_method} (#{quoted_column_names})"

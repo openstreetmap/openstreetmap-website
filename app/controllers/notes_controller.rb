@@ -255,15 +255,10 @@ class NotesController < ApplicationController
 
     # Get any conditions that need to be applied
     @notes = closed_condition(Note.all)
-    @notes = @notes.joins(:comments).where("note_comments.body ~ ?", params[:q])
+    @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q])
 
     # Find the notes we want to return
     @notes = @notes.order("updated_at DESC").limit(result_limit).preload(:comments)
-
-    # Disable notes search until we can make it scalable
-    response.headers['Error'] = "Searching of notes is currently unavailable"
-    render :text => "", :status => :service_unavailable
-    return false
 
     # Render the result
     respond_to do |format|

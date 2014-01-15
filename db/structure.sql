@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -1798,6 +1799,13 @@ CREATE UNIQUE INDEX index_client_applications_on_key ON client_applications USIN
 
 
 --
+-- Name: index_note_comments_on_body; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_note_comments_on_body ON note_comments USING gin (to_tsvector('english'::regconfig, body));
+
+
+--
 -- Name: index_note_comments_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2465,6 +2473,8 @@ INSERT INTO schema_migrations (version) VALUES ('20121203124841');
 INSERT INTO schema_migrations (version) VALUES ('20130328184137');
 
 INSERT INTO schema_migrations (version) VALUES ('20131212124700');
+
+INSERT INTO schema_migrations (version) VALUES ('20140115192822');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
