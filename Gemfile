@@ -68,8 +68,9 @@ gem 'htmlentities'
 # Load SystemTimer for implementing request timeouts
 gem 'SystemTimer', '>= 1.1.3', :require => 'system_timer', :platforms => :ruby_18
 
-# Load httpclient for SOAP support for Quova GeoIP queries
+# Load httpclient and soap4r for SOAP support for Quova GeoIP queries
 gem 'httpclient'
+gem 'soap4r-ruby1.9'
 
 # Load memcache client in case we are using it
 gem 'dalli'
