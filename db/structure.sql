@@ -275,39 +275,6 @@ ALTER SEQUENCE client_applications_id_seq OWNED BY client_applications.id;
 
 
 --
--- Name: countries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE countries (
-    id integer NOT NULL,
-    code character varying(2) NOT NULL,
-    min_lat double precision NOT NULL,
-    max_lat double precision NOT NULL,
-    min_lon double precision NOT NULL,
-    max_lon double precision NOT NULL
-);
-
-
---
--- Name: countries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE countries_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: countries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE countries_id_seq OWNED BY countries.id;
-
-
---
 -- Name: current_node_tags; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1191,13 +1158,6 @@ ALTER TABLE ONLY client_applications ALTER COLUMN id SET DEFAULT nextval('client
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY countries ALTER COLUMN id SET DEFAULT nextval('countries_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY current_nodes ALTER COLUMN id SET DEFAULT nextval('current_nodes_id_seq'::regclass);
 
 
@@ -1342,14 +1302,6 @@ ALTER TABLE ONLY changesets
 
 ALTER TABLE ONLY client_applications
     ADD CONSTRAINT client_applications_pkey PRIMARY KEY (id);
-
-
---
--- Name: countries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY countries
-    ADD CONSTRAINT countries_pkey PRIMARY KEY (id);
 
 
 --
@@ -1663,13 +1615,6 @@ CREATE INDEX changesets_user_id_created_at_idx ON changesets USING btree (user_i
 --
 
 CREATE INDEX changesets_user_id_id_idx ON changesets USING btree (user_id, id);
-
-
---
--- Name: countries_code_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX countries_code_idx ON countries USING btree (code);
 
 
 --
@@ -2475,6 +2420,8 @@ INSERT INTO schema_migrations (version) VALUES ('20130328184137');
 INSERT INTO schema_migrations (version) VALUES ('20131212124700');
 
 INSERT INTO schema_migrations (version) VALUES ('20140115192822');
+
+INSERT INTO schema_migrations (version) VALUES ('20140117185510');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
