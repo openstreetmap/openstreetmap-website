@@ -49,6 +49,10 @@ class SiteControllerTest < ActionController::TestCase
       { :controller => "site", :action => "welcome" }
     )
     assert_routing(
+      { :path => "/fixthemap", :method => :get },
+      { :controller => "site", :action => "fixthemap" }
+    )
+    assert_routing(
       { :path => "/export", :method => :get },
       { :controller => "site", :action => "export" }
     )
@@ -251,6 +255,13 @@ class SiteControllerTest < ActionController::TestCase
     get :welcome, nil, { :user => users(:public_user).id }
     assert_response :success
     assert_template "welcome"
+  end
+
+  # Test the fixthemap page
+  def test_fixthemap
+    get :fixthemap
+    assert_response :success
+    assert_template "fixthemap"
   end
 
   # Test the help page
