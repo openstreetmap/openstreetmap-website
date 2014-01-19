@@ -632,7 +632,7 @@ class NotesControllerTest < ActionController::TestCase
     get :index, {:bbox => '1,1,1.7,1.7', :limit => '0', :format => 'json'}
     assert_response :bad_request
 
-    get :index, {:bbox => '1,1,1.7,1.7', :limit => '10000', :format => 'json'}
+    get :index, {:bbox => '1,1,1.7,1.7', :limit => '10001', :format => 'json'}
     assert_response :bad_request
   end
 
@@ -709,7 +709,7 @@ class NotesControllerTest < ActionController::TestCase
     get :search, {:q => 'no match', :limit => '0', :format => 'json'}
     assert_response :bad_request
 
-    get :search, {:q => 'no match', :limit => '10000', :format => 'json'}
+    get :search, {:q => 'no match', :limit => '10001', :format => 'json'}
     assert_response :bad_request
   end
 
@@ -743,7 +743,7 @@ class NotesControllerTest < ActionController::TestCase
     get :feed, {:bbox => "1,1,1.2,1.2", :limit => '0', :format => "rss"}
     assert_response :bad_request
 
-    get :feed, {:bbox => "1,1,1.2,1.2", :limit => '10000', :format => "rss"}
+    get :feed, {:bbox => "1,1,1.2,1.2", :limit => '10001', :format => "rss"}
     assert_response :bad_request
   end
 
