@@ -10,6 +10,7 @@
 	*** click each part
 	*** translation (including all alerts and presentation)
 	*** export GPX
+	*** URL history (or do we consciously not want to support that?)
 */
 
 var TURN_INSTRUCTIONS=["",
@@ -96,7 +97,7 @@ OSM.Routing=function(map,name,jqSearch) {
 	r.setItinerary=function(steps) {
 		$("#content").removeClass("overlay-sidebar");
 		$('#sidebar_content').empty();
-		var html='<h2><a class="geolink" href="#"><span class="icon close"></span></a>Directions</h2>';
+		var html='<h2><a class="geolink" href="#" onclick="$(~.close_directions~).click();return false;"><span class="icon close"></span></a>Directions</h2>'.replace(/~/g,"'");
 		html+="<table>";
 		for (var i=0; i<steps.length; i++) {
 			var step=steps[i];
@@ -123,6 +124,13 @@ OSM.Routing=function(map,name,jqSearch) {
         $('#sidebar_content').html(html);
 	};
 
+
+	// Close all routing UI
+	
+	r.close=function() {
+		$("#content").addClass("overlay-sidebar");
+		if (r.polyline) map.removeLayer(r.polyline);
+	};
 
 	// Add engines
 	

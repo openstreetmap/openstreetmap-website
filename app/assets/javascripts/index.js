@@ -347,6 +347,8 @@ $(document).ready(function () {
       map.getCenter().lng.toFixed(precision)));
   });
 
+  OSM.routing = OSM.Routing(map,'OSM.routing',$('.query_wrapper.routing'));
+
   $(".get_directions").on("click",function(e) {
 	e.preventDefault();
 	$(".search").hide();
@@ -358,9 +360,8 @@ $(document).ready(function () {
 	e.preventDefault();
 	$(".search").show();
 	$(".routing").hide();
+	OSM.routing.close();
 	$(".query_wrapper.search [name=query]").focus();
   });
-
-  OSM.routing = OSM.Routing(map,'OSM.routing',$('.query_wrapper.routing'));
 
 });
