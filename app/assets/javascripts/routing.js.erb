@@ -95,10 +95,13 @@ OSM.Routing=function(map,name,jqSearch) {
 	// (we use OSRM's route_instructions format)
 	// *** translations?
 	r.setItinerary=function(steps) {
+		// Create base table
 		$("#content").removeClass("overlay-sidebar");
 		$('#sidebar_content').empty();
 		var html='<h2><a class="geolink" href="#" onclick="$(~.close_directions~).click();return false;"><span class="icon close"></span></a>Directions</h2>'.replace(/~/g,"'");
-		html+="<table>";
+		html+="<table id='turnbyturn' />";
+        $('#sidebar_content').html(html);
+		// Add each row
 		for (var i=0; i<steps.length; i++) {
 			var step=steps[i];
 			var instCodes=step[0].split('-');
@@ -115,13 +118,17 @@ OSM.Routing=function(map,name,jqSearch) {
 			else if (dist<5000) { dist=Math.round(dist/100)/10+"km"; }
 			else { dist=Math.round(dist/1000)+"km"; }
 			// Add to table
-			html+="<tr>";
-			html+="<td class='direction i"+instCodes[0]+"'> ";
-			html+="<td class='instruction'>"+instText;
-			html+="<td class='distance'>"+dist;
+			var row=$("<tr class='turn'/>");
+			row.append("<td class='direction i"+instCodes[0]+"'> ");
+			row.append("<td class='instruction'>"+instText);
+			row.append("<td class='distance'>"+dist);
+			with ({n: i}) { row.on('click',function(e) { r.clickTurn(n); });
+			}
+			$('#turnbyturn').append(row);
 		}
-		html+="</table>";
-        $('#sidebar_content').html(html);
+	};
+	r.clickTurn=function(num) {
+		console.log("clicked turn",num);
 	};
 
 
