@@ -100,8 +100,9 @@ OSM.Routing=function(map,name,jqSearch) {
 		$('#sidebar_content').empty();
 		var html='<h2><a class="geolink" href="#" onclick="$(~.close_directions~).click();return false;"><span class="icon close"></span></a>Directions</h2>'.replace(/~/g,"'");
 		html+="<table id='turnbyturn' />";
-        $('#sidebar_content').html(html);
+		$('#sidebar_content').html(html);
 		// Add each row
+		var cumulative=0;
 		for (var i=0; i<steps.length; i++) {
 			var step=steps[i];
 			var instCodes=step[0].split('-');
@@ -122,13 +123,17 @@ OSM.Routing=function(map,name,jqSearch) {
 			row.append("<td class='direction i"+instCodes[0]+"'> ");
 			row.append("<td class='instruction'>"+instText);
 			row.append("<td class='distance'>"+dist);
-			with ({n: i}) { row.on('click',function(e) { r.clickTurn(n); });
-			}
+			with ({num: i, dist: step[3]}) {
+				row.on('click',function(e) { 
+					r.clickTurn(num, r.polyline.getLatLngs()[dist]);
+				});
+			};
 			$('#turnbyturn').append(row);
+			cumulative+=step[2];
 		}
 	};
-	r.clickTurn=function(num) {
-		console.log("clicked turn",num);
+	r.clickTurn=function(num,latlng) {
+		L.popup().setLatLng(latlng).setContent("<p>"+(num+1)+"</p>").openOn(r.map);
 	};
 
 
