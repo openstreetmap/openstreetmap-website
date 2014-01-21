@@ -49,6 +49,7 @@ OSM.Routing=function(map,name,jqSearch) {
 	r.route_to=null;
 	r.viaPoints=[];
 	r.polyline=null;
+	r.chosenEngine=null;
 
 	// Geocoding
 
@@ -76,10 +77,12 @@ OSM.Routing=function(map,name,jqSearch) {
 	
 	// Route-fetching UI
 
+	r.selectEngine=function(e) {
+		r.chosenEngine=r.engines[e.target.selectedIndex];
+	};
 	r.requestRoute=function() {
 		if (r.route_from && r.route_to) {
-			var chosen=jqSearch.find('select.routing_engines :selected').val();
-			r.engines[chosen].getRoute(true,[r.route_from,r.route_to]);
+			r.chosenEngine.getRoute(true,[r.route_from,r.route_to]);
 			// then, when the route has been fetched, it'll call the engine's gotRoute function
 		}
 	};
@@ -157,7 +160,7 @@ OSM.Routing=function(map,name,jqSearch) {
 		// Add generic JSONP function
 		engine.requestJSONP=function(url) {
 			var script = document.createElement('script');
-			script.src = url+"&jsonp="+r.name+".engine"+this.subscript+".gotRoute";
+			script.src = url+r.name+".engine"+this.subscript+".gotRoute";
  			// OSRM doesn't like non-alphanumeric, otherwise we could just do OSM.routing.engines["+engine.subscript+"].gotRoute
 			document.body.appendChild(script); 
 		};
@@ -183,7 +186,7 @@ OSM.Routing=function(map,name,jqSearch) {
 				if (this._hints[pair]) url+= "&hint="+this._hints[pair];
 			}
 			if (final) url+="&instructions=true";
-			this.requestJSONP(url);
+			this.requestJSONP(url+"&jsonp=");
 		},
 		gotRoute: function(data) {
 			if (data.status==207) {
@@ -198,5 +201,36 @@ OSM.Routing=function(map,name,jqSearch) {
 		}
 	});
 
+	// CloudMade foot engine
+	// *** again, this should be shared from a Cloudmade library somewhere
+	// *** this API key is taken from some example code, not for real live use!
+	
+	r.addEngine({
+		name: 'Foot (CloudMade)',
+		draggable: true,
+		getRoute: function(final,points) {
+			var url="http://routes.cloudmade.com/8ee2a50541944fb9bcedded5165f09d9/api/0.3/";
+			var p=[];
+			for (var i=0; i<points.length; i++) {
+				p.push(points[i][0]);
+				p.push(points[i][1]);
+			}
+			url+=p.join(',');
+			url+="/foot.js";
+			this.requestJSONP(url+"?callback=");
+		},
+		gotRoute: function(data) {
+			console.log(data);
+			// *** todo
+			// *** will require some degree of refactoring because instruction text is pre-assembled
+			// *** otherwise largely like OSRM (funny that)
+		}
+	});
+	
+	// *** add MapQuest
+	// *** add YOURS
+	// *** move into separate files
+	
+	r.chosenEngine=r.engines[0];
 	return r;
 };
