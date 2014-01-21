@@ -106,10 +106,18 @@ OSM.Routing=function(map,name,jqSearch) {
 			instText+=TURN_INSTRUCTIONS[instCodes[0]];
 			if (instCodes[1]) { instText+="exit "+instCodes[1]+" "; }
 			if (instCodes[0]!=15) { instText+=step[1] ? "<b>"+step[1]+"</b>" : "(unnamed)"; }
+			// Distance
+			var dist=step[2];
+			if (dist<5) { dist=""; }
+			else if (dist<200) { dist=Math.round(dist/10)*10+"m"; }
+			else if (dist<1500) { dist=Math.round(dist/100)*100+"m"; }
+			else if (dist<5000) { dist=Math.round(dist/100)/10+"km"; }
+			else { dist=Math.round(dist/1000)+"km"; }
 			// Add to table
 			html+="<tr>";
 			html+="<td class='direction i"+instCodes[0]+"'> ";
-			html+="<td>"+instText;
+			html+="<td class='instruction'>"+instText;
+			html+="<td class='distance'>"+dist;
 		}
 		html+="</table>";
         $('#sidebar_content').html(html);
