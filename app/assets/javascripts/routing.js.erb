@@ -7,7 +7,9 @@
 	https://github.com/apmon/openstreetmap-website/blob/9755c3ae0a8d0684d43760f91dc864ff42d8477a/app/views/routing/start.js.erb
 
 	*** draggable start/end markers
-	
+	*** click each part
+	*** translation (including all alerts and presentation)
+	*** export GPX
 */
 
 var TURN_INSTRUCTIONS=["",
@@ -85,22 +87,31 @@ OSM.Routing=function(map,name,jqSearch) {
 	r.setPolyline=function(line) {
 		if (r.polyline) map.removeLayer(r.polyline);
 		r.polyline=L.polyline(line, ROUTING_POLYLINE).addTo(r.map);
-		// *** zoom to fit
+		r.map.fitBounds(r.polyline.getBounds());
 	};
 
 	// Take an array of directions and write it out
 	// (we use OSRM's route_instructions format)
+	// *** translations?
 	r.setItinerary=function(steps) {
 		$("#content").removeClass("overlay-sidebar");
 		$('#sidebar_content').empty();
-		var html="";
+		var html='<h2><a class="geolink" href="#"><span class="icon close"></span></a>Directions</h2>';
+		html+="<table>";
 		for (var i=0; i<steps.length; i++) {
-			var s=steps[i];
-			html+="<div class='route_step'>";
-			html+=TURN_INSTRUCTIONS[s[0]] || s[0];
-			html+=s[1];
-			html+="</div>";
+			var step=steps[i];
+			var instCodes=step[0].split('-');
+			// Assemble instruction text
+			var instText="<b>"+(i+1)+".</b> ";
+			instText+=TURN_INSTRUCTIONS[instCodes[0]];
+			if (instCodes[1]) { instText+="exit "+instCodes[1]+" "; }
+			if (instCodes[0]!=15) { instText+=step[1] ? "<b>"+step[1]+"</b>" : "(unnamed)"; }
+			// Add to table
+			html+="<tr>";
+			html+="<td class='direction i"+instCodes[0]+"'> ";
+			html+="<td>"+instText;
 		}
+		html+="</table>";
         $('#sidebar_content').html(html);
 	};
 
@@ -147,7 +158,11 @@ OSM.Routing=function(map,name,jqSearch) {
 			this.requestJSONP(url);
 		},
 		gotRoute: function(data) {
-			// *** save hints
+			if (data.status==207) {
+				alert("Couldn't find route between those two places");
+				return false;
+			}
+			// *** store hints
 			var line=L.PolylineUtil.decode(data.route_geometry);
 			for (i=0; i<line.length; i++) { line[i].lat/=10; line[i].lng/=10; }
 			r.setPolyline(line);
