@@ -5,6 +5,7 @@
 //= require leaflet.key
 //= require leaflet.note
 //= require leaflet.share
+//= require leaflet.polyline
 //= require index/search
 //= require index/browse
 //= require index/export
@@ -13,6 +14,7 @@
 //= require index/note
 //= require index/new_note
 //= require router
+//= require routing
 
 (function() {
   var loaderTimeout;
@@ -322,12 +324,18 @@ $(document).ready(function () {
 
   $(".search_form").on("submit", function(e) {
     e.preventDefault();
-    $("header").addClass("closed");
-    var query = $(this).find("input[name=query]").val();
-    if (query) {
-      OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
+    if ($(".query_wrapper.routing").is(":visible")) {
+      // Routing
+      OSM.routing.requestRoute();
     } else {
-      OSM.router.route("/" + OSM.formatHash(map));
+      // Search
+      $("header").addClass("closed");
+      var query = $(this).find("input[name=query]").val();
+      if (query) {
+        OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
+      } else {
+        OSM.router.route("/" + OSM.formatHash(map));
+      }
     }
   });
 
@@ -338,4 +346,19 @@ $(document).ready(function () {
       map.getCenter().lat.toFixed(precision) + "," +
       map.getCenter().lng.toFixed(precision)));
   });
+
+  $(".get_directions").on("click",function(e) {
+	e.preventDefault();
+	$(".query_wrapper.search").hide();
+	$(".query_wrapper.routing").show();
+  });
+
+  $(".close_directions").on("click",function(e) {
+	e.preventDefault();
+	$(".query_wrapper.search").show();
+	$(".query_wrapper.routing").hide();
+  });
+
+  OSM.routing = OSM.Routing(map,'OSM.routing',$('.query_wrapper.routing'));
+
 });

@@ -1,0 +1,159 @@
+/*
+	osm.org routing interface
+	
+	See also:
+	https://github.com/apmon/openstreetmap-website/tree/routing2
+	https://github.com/apmon/openstreetmap-website/compare/routing2
+	https://github.com/apmon/openstreetmap-website/blob/9755c3ae0a8d0684d43760f91dc864ff42d8477a/app/views/routing/start.js.erb
+
+	*** draggable start/end markers
+	
+*/
+
+var TURN_INSTRUCTIONS=["",
+	"Continue on ",				// 1
+	"Slight right onto ",		// 2
+	"Turn right onto ",			// 3
+	"Sharp right onto ",		// 4
+	"U-turn along ",			// 5
+	"Sharp left onto ",			// 6
+	"Turn left onto ",			// 7
+	"Slight left onto ",		// 8
+	"(via point) ",				// 9
+	"Follow ",					// 10
+	"At roundabout take ",		// 11
+	"Leave roundabout - ",		// 12
+	"Stay on roundabout - ",	// 13
+	"Start at end of ",			// 14
+	"Reach destination",		// 15
+	"Go against one-way on ",	// 16
+	"End of one-way on "]		// 17
+
+var ROUTING_POLYLINE={
+	color: '#03f',
+	opacity: 0.3,
+	weight: 10
+};
+
+
+OSM.Routing=function(map,name,jqSearch) {
+	var r={};
+	r.map=map;				// Leaflet map
+	r.name=name;			// global variable name of this instance (needed for JSONP)
+	r.jqSearch=jqSearch;	// JQuery object for search panel
+
+	r.route_from=null;
+	r.route_to=null;
+	r.viaPoints=[];
+	r.polyline=null;
+
+	// Geocoding
+
+	r.geocode=function(id,event) { var _this=this;
+		var field=event.target;
+		var v=event.target.value;
+		// *** do something if v==''
+		var querystring = '<%= NOMINATIM_URL %>search?q=' + encodeURIComponent(v) + '&format=json';
+		// *** &accept-language=<%#= request.user_preferred_languages.join(',') %>
+		// *** prefer current viewport
+		$.getJSON(querystring, function(json) { _this._gotGeocode(json,field); });
+	};
+	
+	r._gotGeocode=function(json,field) {
+		if (json.length==0) {
+			alert("Sorry, couldn't find that place."); 	// *** internationalise
+			r[field.id]=null;
+			return;
+		}
+		field.value=json[0].display_name;
+		var lat=Number(json[0].lat), lon=Number(json[0].lon);
+		r[field.id]=[lat,lon];
+		// ** update markers
+	};
+	
+	// Route-fetching UI
+
+	r.requestRoute=function() {
+		if (r.route_from && r.route_to) {
+			var chosen=jqSearch.find('select.routing_engines :selected').val();
+			r.engines[chosen].getRoute(true,[r.route_from,r.route_to]);
+			// then, when the route has been fetched, it'll call the engine's gotRoute function
+		}
+	};
+
+	// Take an array of Leaflet LatLngs and draw it as a polyline
+	r.setPolyline=function(line) {
+		if (r.polyline) map.removeLayer(r.polyline);
+		r.polyline=L.polyline(line, ROUTING_POLYLINE).addTo(r.map);
+		// *** zoom to fit
+	};
+
+	// Take an array of directions and write it out
+	// (we use OSRM's route_instructions format)
+	r.setItinerary=function(steps) {
+		$("#content").removeClass("overlay-sidebar");
+		$('#sidebar_content').empty();
+		var html="";
+		for (var i=0; i<steps.length; i++) {
+			var s=steps[i];
+			html+="<div class='route_step'>";
+			html+=TURN_INSTRUCTIONS[s[0]] || s[0];
+			html+=s[1];
+			html+="</div>";
+		}
+        $('#sidebar_content').html(html);
+	};
+
+
+	// Add engines
+	
+	r.engines=[];
+	r.addEngine=function(engine) {
+		// Save engine
+		var i=r.engines.length;
+		engine.subscript=i;
+		r['engine'+i]=engine;
+		r.engines.push(engine);
+
+		// Add generic JSONP function
+		engine.requestJSONP=function(url) {
+			var script = document.createElement('script');
+			script.src = url+"&jsonp="+r.name+".engine"+this.subscript+".gotRoute";
+ 			// OSRM doesn't like non-alphanumeric, otherwise we could just do OSM.routing.engines["+engine.subscript+"].gotRoute
+			document.body.appendChild(script); 
+		};
+
+		// Populate dropdown
+		var select=jqSearch.find('select.routing_engines');
+		select.append("<option value='"+i+"'>"+engine.name+"</option>");
+	};
+
+	// OSRM car engine
+	// *** this should all be shared from an OSRM library somewhere
+	// *** need to clear hints at some point
+
+	r.addEngine({
+		name: 'Car (OSRM)',
+		draggable: true,
+		_hints: {},
+		getRoute: function(final,points) {
+			var url="http://router.project-osrm.org/viaroute?z=14&output=json";
+			for (var i=0; i<points.length; i++) {
+				var pair=points[i].join(',');
+				url+="&loc="+pair;
+				if (this._hints[pair]) url+= "&hint="+this._hints[pair];
+			}
+			if (final) url+="&instructions=true";
+			this.requestJSONP(url);
+		},
+		gotRoute: function(data) {
+			// *** save hints
+			var line=L.PolylineUtil.decode(data.route_geometry);
+			for (i=0; i<line.length; i++) { line[i].lat/=10; line[i].lng/=10; }
+			r.setPolyline(line);
+			r.setItinerary(data.route_instructions);
+		}
+	});
+
+	return r;
+};
