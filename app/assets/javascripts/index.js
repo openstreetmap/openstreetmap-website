@@ -349,15 +349,15 @@ $(document).ready(function () {
 
   $(".get_directions").on("click",function(e) {
 	e.preventDefault();
-	$(".query_wrapper.search").hide();
-	$(".query_wrapper.routing").show();
+	$(".search").hide();
+	$(".routing").show();
 	$(".query_wrapper.routing [name=route_from]").focus();
   });
 
   $(".close_directions").on("click",function(e) {
 	e.preventDefault();
-	$(".query_wrapper.search").show();
-	$(".query_wrapper.routing").hide();
+	$(".search").show();
+	$(".routing").hide();
 	$(".query_wrapper.search [name=query]").focus();
   });
 
