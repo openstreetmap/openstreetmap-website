@@ -6,6 +6,16 @@
 OSM.RoutingEngines.list.push({
 	name: 'Foot (CloudMade)',
 	draggable: true,
+	CM_SPRITE_MAP: {
+		"C": 1,
+		"TL": 7,
+		"TSLL": 8,
+		"TSHL": 6,
+		"TR": 3,
+		"TSLR": 2,
+		"TSHR": 4,
+		"TU": 5
+	}, // was half expecting to see TLDR in there
 	getRoute: function(final,points) {
 		var url="http://routes.cloudmade.com/8ee2a50541944fb9bcedded5165f09d9/api/0.3/";
 		var p=[];
@@ -18,10 +28,14 @@ OSM.RoutingEngines.list.push({
 		this.requestJSONP(url+"?callback=");
 	},
 	gotRoute: function(router,data) {
-		console.log(data);
-		// *** todo
-		// *** will require some degree of refactoring because instruction text is pre-assembled
-		// *** otherwise largely like OSRM (funny that)
+		router.setPolyline(data.route_geometry);
+		// Assemble instructions
+		var steps=[];
+		for (i=0; i<data.route_instructions.length; i++) {
+			var s=data.route_instructions[i];
+			steps.push([data.route_geometry[s[2]], this.CM_SPRITE_MAP[s[7]], s[0], s[1]]);
+		}
+		router.setItinerary({ steps: steps });
 	}
 });
 
