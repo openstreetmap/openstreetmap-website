@@ -7,10 +7,13 @@
 	https://github.com/apmon/openstreetmap-website/blob/9755c3ae0a8d0684d43760f91dc864ff42d8477a/app/views/routing/start.js.erb
 
 	*** draggable start/end markers
-	*** click each part
 	*** translation (including all alerts and presentation)
 	*** export GPX
 	*** URL history (or do we consciously not want to support that?)
+
+	*** add MapQuest engine
+	*** add YOURS engine
+	*** finish CloudMade engine
 */
 
 var TURN_INSTRUCTIONS=["",
@@ -38,6 +41,11 @@ var ROUTING_POLYLINE={
 	weight: 10
 };
 
+
+OSM.RoutingEngines={
+	list: []
+	// common functions and constants, e.g. OSRM parser, can go here
+};
 
 OSM.Routing=function(map,name,jqSearch) {
 	var r={};
@@ -77,9 +85,6 @@ OSM.Routing=function(map,name,jqSearch) {
 	
 	// Route-fetching UI
 
-	r.selectEngine=function(e) {
-		r.chosenEngine=r.engines[e.target.selectedIndex];
-	};
 	r.requestRoute=function() {
 		if (r.route_from && r.route_to) {
 			r.chosenEngine.getRoute(true,[r.route_from,r.route_to]);
@@ -147,90 +152,39 @@ OSM.Routing=function(map,name,jqSearch) {
 		if (r.polyline) map.removeLayer(r.polyline);
 	};
 
-	// Add engines
-	
-	r.engines=[];
-	r.addEngine=function(engine) {
-		// Save engine
-		var i=r.engines.length;
-		engine.subscript=i;
-		r['engine'+i]=engine;
-		r.engines.push(engine);
+	// Routing engine handling
 
-		// Add generic JSONP function
-		engine.requestJSONP=function(url) {
-			var script = document.createElement('script');
-			script.src = url+r.name+".engine"+this.subscript+".gotRoute";
- 			// OSRM doesn't like non-alphanumeric, otherwise we could just do OSM.routing.engines["+engine.subscript+"].gotRoute
-			document.body.appendChild(script); 
-		};
-
-		// Populate dropdown
-		var select=jqSearch.find('select.routing_engines');
-		select.append("<option value='"+i+"'>"+engine.name+"</option>");
+	// Add all engines
+	r.addEngines=function(list) {
+		list.sort(function(a,b) { return a.name>b.name; });
+		r.engines=list;
+		var select=r.jqSearch.find('select.routing_engines');
+		for (var i=0; i<list.length; i++) {
+			// Set up JSONP callback
+			var engine=r.engines[i];
+			engine.requestJSONP=function(url) {
+				var script = document.createElement('script');
+				script.src = url+r.name+".gotRoute"+this.subscript;
+				document.body.appendChild(script); 
+			};
+			r['gotRoute'+i]=function(data) { engine.gotRoute(r,data); };
+			select.append("<option value='"+i+"'>"+engine.name+"</option>");
+		}
+		r.chosenEngine=r.engines[0];
+	};
+	// Choose an engine on dropdown change
+	r.selectEngine=function(e) {
+		r.chosenEngine=r.engines[e.target.selectedIndex];
+	};
+	// Choose an engine by name
+	r.chooseEngine=function(name) {
+		for (var i=0; i<r.engines.length; i++) {
+			if (r.engines[i].name==name) {
+				r.chosenEngine[i]=r.engines[i];
+				r.jqSearch.find('select.routing_engines').val(i);
+			}
+		}
 	};
 
-	// OSRM car engine
-	// *** this should all be shared from an OSRM library somewhere
-	// *** need to clear hints at some point
-
-	r.addEngine({
-		name: 'Car (OSRM)',
-		draggable: true,
-		_hints: {},
-		getRoute: function(final,points) {
-			var url="http://router.project-osrm.org/viaroute?z=14&output=json";
-			for (var i=0; i<points.length; i++) {
-				var pair=points[i].join(',');
-				url+="&loc="+pair;
-				if (this._hints[pair]) url+= "&hint="+this._hints[pair];
-			}
-			if (final) url+="&instructions=true";
-			this.requestJSONP(url+"&jsonp=");
-		},
-		gotRoute: function(data) {
-			if (data.status==207) {
-				alert("Couldn't find route between those two places");
-				return false;
-			}
-			// *** store hints
-			var line=L.PolylineUtil.decode(data.route_geometry);
-			for (i=0; i<line.length; i++) { line[i].lat/=10; line[i].lng/=10; }
-			r.setPolyline(line);
-			r.setItinerary(data.route_instructions);
-		}
-	});
-
-	// CloudMade foot engine
-	// *** again, this should be shared from a Cloudmade library somewhere
-	// *** this API key is taken from some example code, not for real live use!
-	
-	r.addEngine({
-		name: 'Foot (CloudMade)',
-		draggable: true,
-		getRoute: function(final,points) {
-			var url="http://routes.cloudmade.com/8ee2a50541944fb9bcedded5165f09d9/api/0.3/";
-			var p=[];
-			for (var i=0; i<points.length; i++) {
-				p.push(points[i][0]);
-				p.push(points[i][1]);
-			}
-			url+=p.join(',');
-			url+="/foot.js";
-			this.requestJSONP(url+"?callback=");
-		},
-		gotRoute: function(data) {
-			console.log(data);
-			// *** todo
-			// *** will require some degree of refactoring because instruction text is pre-assembled
-			// *** otherwise largely like OSRM (funny that)
-		}
-	});
-	
-	// *** add MapQuest
-	// *** add YOURS
-	// *** move into separate files
-	
-	r.chosenEngine=r.engines[0];
 	return r;
 };

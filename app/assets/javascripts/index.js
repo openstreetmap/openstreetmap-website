@@ -15,6 +15,7 @@
 //= require index/new_note
 //= require router
 //= require routing
+//= require_tree ./routing_engines
 
 (function() {
   var loaderTimeout;
@@ -348,6 +349,8 @@ $(document).ready(function () {
   });
 
   OSM.routing = OSM.Routing(map,'OSM.routing',$('.query_wrapper.routing'));
+  OSM.routing.addEngines(OSM.RoutingEngines.list);
+  OSM.routing.chooseEngine('Car (OSRM)');
 
   $(".get_directions").on("click",function(e) {
 	e.preventDefault();
