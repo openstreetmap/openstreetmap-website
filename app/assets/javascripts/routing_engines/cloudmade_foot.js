@@ -1,6 +1,7 @@
 // CloudMade foot engine
 // *** again, this should be shared from a Cloudmade library somewhere
 // *** this API key is taken from some example code, not for real live use!
+// http://cloudmade.com/documentation/routing
 
 OSM.RoutingEngines.list.push({
 	name: 'Foot (CloudMade)',
@@ -16,7 +17,7 @@ OSM.RoutingEngines.list.push({
 		url+="/foot.js";
 		this.requestJSONP(url+"?callback=");
 	},
-	gotRoute: function(data) {
+	gotRoute: function(router,data) {
 		console.log(data);
 		// *** todo
 		// *** will require some degree of refactoring because instruction text is pre-assembled
