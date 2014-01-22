@@ -155,23 +155,24 @@ OSM.Routing=function(map,name,jqSearch) {
 	// Routing engine handling
 
 	// Add all engines
-	r.addEngines=function(list) {
-		list.sort(function(a,b) { return a.name>b.name; });
-		r.engines=list;
-		var select=r.jqSearch.find('select.routing_engines');
-		for (var i=0; i<list.length; i++) {
-			// Set up JSONP callback
-			var engine=r.engines[i];
-			engine.requestJSONP=function(url) {
+	var list=OSM.RoutingEngines.list;
+	list.sort(function(a,b) { return a.name>b.name; });
+	var select=r.jqSearch.find('select.routing_engines');
+	for (var i=0; i<list.length; i++) {
+		// Set up JSONP callback
+		with ({num: i}) {
+			list[num].requestJSONP=function(url) {
 				var script = document.createElement('script');
-				script.src = url+r.name+".gotRoute"+this.subscript;
+				script.src = url+r.name+".gotRoute"+num;
 				document.body.appendChild(script); 
 			};
-			r['gotRoute'+i]=function(data) { engine.gotRoute(r,data); };
-			select.append("<option value='"+i+"'>"+engine.name+"</option>");
+			r['gotRoute'+num]=function(data) { list[num].gotRoute(r,data); };
 		}
-		r.chosenEngine=r.engines[0];
-	};
+		select.append("<option value='"+i+"'>"+list[i].name+"</option>");
+	}
+	r.engines=list;
+	r.chosenEngine=list[0];	// default to first engine
+
 	// Choose an engine on dropdown change
 	r.selectEngine=function(e) {
 		r.chosenEngine=r.engines[e.target.selectedIndex];
@@ -180,7 +181,7 @@ OSM.Routing=function(map,name,jqSearch) {
 	r.chooseEngine=function(name) {
 		for (var i=0; i<r.engines.length; i++) {
 			if (r.engines[i].name==name) {
-				r.chosenEngine[i]=r.engines[i];
+				r.chosenEngine=r.engines[i];
 				r.jqSearch.find('select.routing_engines').val(i);
 			}
 		}
