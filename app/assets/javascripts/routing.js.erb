@@ -11,9 +11,8 @@
 	*** export GPX
 	*** URL history (or do we consciously not want to support that?)
 
-	*** add MapQuest engine
 	*** add YOURS engine
-	*** finish CloudMade engine
+	*** add GraphHopper engine
 */
 
 var TURN_INSTRUCTIONS=["",
@@ -49,15 +48,17 @@ OSM.RoutingEngines={
 
 OSM.Routing=function(map,name,jqSearch) {
 	var r={};
+
 	r.map=map;				// Leaflet map
 	r.name=name;			// global variable name of this instance (needed for JSONP)
 	r.jqSearch=jqSearch;	// JQuery object for search panel
 
-	r.route_from=null;
-	r.route_to=null;
-	r.viaPoints=[];
-	r.polyline=null;
-	r.chosenEngine=null;
+	r.route_from=null;		// null=unset, false=awaiting response, [lat,lon]=geocoded
+	r.route_to=null;		//  |
+	r.awaitingGeocode=false;// true if the user has requested a route, but we're waiting on a geocode result
+	r.viaPoints=[];			// not yet used
+	r.polyline=null;		// Leaflet polyline object
+	r.chosenEngine=null;	// currently selected routing engine
 
 	// Geocoding
 
@@ -68,6 +69,7 @@ OSM.Routing=function(map,name,jqSearch) {
 		var querystring = '<%= NOMINATIM_URL %>search?q=' + encodeURIComponent(v) + '&format=json';
 		// *** &accept-language=<%#= request.user_preferred_languages.join(',') %>
 		// *** prefer current viewport
+		r[field.id]=false;
 		$.getJSON(querystring, function(json) { _this._gotGeocode(json,field); });
 	};
 	
@@ -81,6 +83,10 @@ OSM.Routing=function(map,name,jqSearch) {
 		var lat=Number(json[0].lat), lon=Number(json[0].lon);
 		r[field.id]=[lat,lon];
 		// ** update markers
+		if (r.awaitingGeocode) {
+			r.awaitingGeocode=false;
+			r.requestRoute();
+		}
 	};
 	
 	// Route-fetching UI
@@ -89,6 +95,9 @@ OSM.Routing=function(map,name,jqSearch) {
 		if (r.route_from && r.route_to) {
 			r.chosenEngine.getRoute(true,[r.route_from,r.route_to]);
 			// then, when the route has been fetched, it'll call the engine's gotRoute function
+		} else if (r.route_from==false || r.route_to==false) {
+			// we're waiting for a Nominatim response before we can request a route
+			r.awaitingGeocode=true;
 		}
 	};
 
