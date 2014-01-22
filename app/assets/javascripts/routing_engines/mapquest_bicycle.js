@@ -52,7 +52,6 @@ OSM.RoutingEngines.list.push({
 
 		// data.shape.maneuverIndexes links turns to polyline positions
 		// data.legs[0].maneuvers is list of turns
-		console.log(data);
 		var steps=[];
 		var mq=data.route.legs[0].maneuvers;
 		for (var i=0; i<mq.length; i++) {
