@@ -99,10 +99,11 @@ OSM.Routing=function(map,name,jqSearch) {
 		r.map.fitBounds(r.polyline.getBounds());
 	};
 
-	// Take an array of directions and write it out
-	// (we use OSRM's route_instructions format)
+	// Take directions and write them out
+	// data = { steps: array of [latlng, sprite number, instruction text, distance in metres] }
+	// sprite numbers equate to OSRM's route_instructions turn values
 	// *** translations?
-	r.setItinerary=function(steps) {
+	r.setItinerary=function(data) {
 		// Create base table
 		$("#content").removeClass("overlay-sidebar");
 		$('#sidebar_content').empty();
@@ -111,16 +112,10 @@ OSM.Routing=function(map,name,jqSearch) {
 		$('#sidebar_content').html(html);
 		// Add each row
 		var cumulative=0;
-		for (var i=0; i<steps.length; i++) {
-			var step=steps[i];
-			var instCodes=step[0].split('-');
-			// Assemble instruction text
-			var instText="<b>"+(i+1)+".</b> ";
-			instText+=TURN_INSTRUCTIONS[instCodes[0]];
-			if (instCodes[1]) { instText+="exit "+instCodes[1]+" "; }
-			if (instCodes[0]!=15) { instText+=step[1] ? "<b>"+step[1]+"</b>" : "(unnamed)"; }
+		for (var i=0; i<data.steps.length; i++) {
+			var step=data.steps[i];
 			// Distance
-			var dist=step[2];
+			var dist=step[3];
 			if (dist<5) { dist=""; }
 			else if (dist<200) { dist=Math.round(dist/10)*10+"m"; }
 			else if (dist<1500) { dist=Math.round(dist/100)*100+"m"; }
@@ -128,16 +123,14 @@ OSM.Routing=function(map,name,jqSearch) {
 			else { dist=Math.round(dist/1000)+"km"; }
 			// Add to table
 			var row=$("<tr class='turn'/>");
-			row.append("<td class='direction i"+instCodes[0]+"'> ");
-			row.append("<td class='instruction'>"+instText);
+			row.append("<td class='direction i"+step[1]+"'> ");
+			row.append("<td class='instruction'>"+step[2]);
 			row.append("<td class='distance'>"+dist);
-			with ({num: i, dist: step[3]}) {
-				row.on('click',function(e) { 
-					r.clickTurn(num, r.polyline.getLatLngs()[dist]);
-				});
+			with ({ num: i, ll: step[0] }) {
+				row.on('click',function(e) { r.clickTurn(num, ll); });
 			};
 			$('#turnbyturn').append(row);
-			cumulative+=step[2];
+			cumulative+=step[3];
 		}
 	};
 	r.clickTurn=function(num,latlng) {

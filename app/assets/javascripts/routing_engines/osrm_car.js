@@ -21,10 +21,22 @@ OSM.RoutingEngines.list.push({
 			alert("Couldn't find route between those two places");
 			return false;
 		}
-		// *** store hints
+		// Draw polyline
 		var line=L.PolylineUtil.decode(data.route_geometry);
 		for (i=0; i<line.length; i++) { line[i].lat/=10; line[i].lng/=10; }
 		router.setPolyline(line);
-		router.setItinerary(data.route_instructions);
+		// *** store hints
+		// Assemble instructions
+		var steps=[];
+		for (i=0; i<data.route_instructions.length; i++) {
+			var s=data.route_instructions[i];
+			var instCodes=s[0].split('-');
+			var instText="<b>"+(i+1)+".</b> ";
+			instText+=TURN_INSTRUCTIONS[instCodes[0]];
+			if (instCodes[1]) { instText+="exit "+instCodes[1]+" "; }
+			if (instCodes[0]!=15) { instText+=s[1] ? "<b>"+s[1]+"</b>" : "(unnamed)"; }
+			steps.push([line[s[3]], s[0].split('-')[0], instText, s[2]]);
+		}
+		router.setItinerary({ steps: steps });
 	}
 });
