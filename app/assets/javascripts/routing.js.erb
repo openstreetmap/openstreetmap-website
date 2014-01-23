@@ -218,9 +218,11 @@ OSM.Routing=function(map,name,jqSearch) {
 	
 	r.close=function() {
 		$("#content").addClass("overlay-sidebar");
-		var remove=[r.polyline,r.popup,r.marker_from,r.marker_to];
+		r.route_from=r.route_to=null;
+		$(".query_wrapper.routing input").val("");
+		var remove=['polyline','popup','marker_from','marker_to'];
 		for (var i=0; i<remove.length; i++) {
-			if (remove[i]) map.removeLayer(remove[i]);
+			if (r[remove[i]]) { map.removeLayer(r[remove[i]]); r[remove[i]]=null; }
 		}
 	};
 
