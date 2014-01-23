@@ -37,6 +37,6 @@ OSM.RoutingEngines.list.push({
 			if (instCodes[0]!=15) { instText+=s[1] ? "<b>"+s[1]+"</b>" : "(unnamed)"; }
 			steps.push([line[s[3]], s[0].split('-')[0], instText, s[2]]);
 		}
-		router.setItinerary({ steps: steps });
+		if (steps.length) router.setItinerary({ steps: steps });
 	}
 });

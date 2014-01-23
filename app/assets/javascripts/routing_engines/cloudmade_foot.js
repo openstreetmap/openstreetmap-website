@@ -5,7 +5,7 @@
 
 OSM.RoutingEngines.list.push({
 	name: 'Foot (CloudMade)',
-	draggable: true,
+	draggable: false,
 	CM_SPRITE_MAP: {
 		"C": 1,
 		"TL": 7,

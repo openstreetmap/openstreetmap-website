@@ -56,6 +56,7 @@ OSM.Routing=function(map,name,jqSearch) {
 	r.route_from=null;		// null=unset, false=awaiting response, [lat,lon]=geocoded
 	r.route_to=null;		//  |
 	r.awaitingGeocode=false;// true if the user has requested a route, but we're waiting on a geocode result
+	r.awaitingRoute=false;	// true if we've asked the engine for a route and are waiting to hear back
 	r.viaPoints=[];			// not yet used
 
 	r.polyline=null;		// Leaflet polyline object
@@ -107,7 +108,7 @@ OSM.Routing=function(map,name,jqSearch) {
 		r.updateMarkers(field.id);
 		if (r.awaitingGeocode) {
 			r.awaitingGeocode=false;
-			r.requestRoute();
+			r.requestRoute(true);
 		}
 	};
 
@@ -118,6 +119,8 @@ OSM.Routing=function(map,name,jqSearch) {
 		var ll=r.map.mouseEventToLatLng(e.originalEvent);
 		// *** ^^^ this is slightly off - we need to work out the latLng of the tip
 		r.createMarker(ll,id);
+		r[id.replace('marker','route')]=[ll.lat,ll.lng];
+		r.requestRoute(true);
 		// update to/from field
 	};
 	r.createMarker=function(latlng,id) {
@@ -135,17 +138,20 @@ OSM.Routing=function(map,name,jqSearch) {
 	r.markerDragged=function(e) {
 		// marker has been dragged
 		if (e.type=='drag' && !r.chosenEngine.draggable) return;
-		// *** also return if e.type=='drag' and not long enough since last request returned
-		// *** but always do if e.type=='dragend'
-		console.log(e.target.options.name);
-		console.log(e.target.getLatLng());
+		if (e.type=='drag' && r.awaitingRoute) return;
+		var id=e.target.options.name;
+		var ll=e.target.getLatLng();
+		r[id.replace('marker','route')]=[ll.lat,ll.lng];
+		r.requestRoute(e.type=='dragend');
+		// update to/from field
 	};
 	
 	// Route-fetching UI
 
-	r.requestRoute=function() {
+	r.requestRoute=function(final) {
 		if (r.route_from && r.route_to) {
-			r.chosenEngine.getRoute(true,[r.route_from,r.route_to]);
+			r.awaitingRoute=true;
+			r.chosenEngine.getRoute(final,[r.route_from,r.route_to]);
 			// then, when the route has been fetched, it'll call the engine's gotRoute function
 		} else if (r.route_from==false || r.route_to==false) {
 			// we're waiting for a Nominatim response before we can request a route
@@ -157,7 +163,8 @@ OSM.Routing=function(map,name,jqSearch) {
 	r.setPolyline=function(line) {
 		if (r.polyline) map.removeLayer(r.polyline);
 		r.polyline=L.polyline(line, ROUTING_POLYLINE).addTo(r.map);
-		r.map.fitBounds(r.polyline.getBounds());
+		// r.map.fitBounds(r.polyline.getBounds());
+		// *** ^^^ we only want to do this for geocode-originated routes
 	};
 
 	// Take directions and write them out
@@ -222,7 +229,7 @@ OSM.Routing=function(map,name,jqSearch) {
 				script.src = url+r.name+".gotRoute"+num;
 				document.body.appendChild(script); 
 			};
-			r['gotRoute'+num]=function(data) { list[num].gotRoute(r,data); };
+			r['gotRoute'+num]=function(data) { r.awaitingRoute=false; list[num].gotRoute(r,data); };
 		}
 		select.append("<option value='"+i+"'>"+list[i].name+"</option>");
 	}

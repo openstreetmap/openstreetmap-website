@@ -7,7 +7,7 @@
 
 OSM.RoutingEngines.list.push({
 	name: 'Bicycle (MapQuest Open)',
-	draggable: true,
+	draggable: false,
 	_hints: {},
 	MQ_SPRITE_MAP: {
 		0: 1, // straight
