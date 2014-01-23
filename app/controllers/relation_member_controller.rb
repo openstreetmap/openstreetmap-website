@@ -1,5 +1,0 @@
-class RelationMemberController < ApplicationController
-
-
-
-end

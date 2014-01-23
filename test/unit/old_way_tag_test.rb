@@ -4,7 +4,7 @@ class OldWayTagTest < ActiveSupport::TestCase
   api_fixtures
   
   def test_tag_count
-    assert_equal 7, OldWayTag.count
+    assert_equal 12, OldWayTag.count
   end
   
   def test_length_key_valid

@@ -11,6 +11,8 @@
 # Author: CygnusOlor
 # Author: Daswaldhorn
 # Author: Diebuche
+# Author: Dieterdreist
+# Author: Drolbr
 # Author: Fujnky
 # Author: Grille chompa
 # Author: Holger
@@ -28,10 +30,23 @@
 # Author: Raymond
 # Author: Reneman
 # Author: SimonPoole
+# Author: Snocker15
 # Author: Str4nd
 # Author: The Evil IP address
 # Author: Umherirrender
 de: 
+  about_page: 
+    community_driven_html: "Die OpenStreetMap-Gemeinschaft ist vielfältig, leidenschaftlich und wächst täglich.\nUnsere Mitwirkenden sind begeisterte Mapper, GIS-Profis, Ingenieure, die die OSM-Server\nbetreiben und viele mehr.\nUm mehr über die Gemeinschaft zu erfahren, lies unsere\n<a href='%{diary_path}'>Benutzertagebücher</a>,\n<a href='http://blogs.openstreetmap.org/'>Community-Blogs</a> und die Website der\n<a href='http://www.osmfoundation.org/'>OSM-Foundation</a>."
+    community_driven_title: Community Driven
+    copyright_html: <span>&copy;</span>OpenStreetMap<br>Mitwirkende
+    lede_text: "OpenStreetMap wird von einer Vielzahl von Mappern erstellt, die Daten zu\nWegen, Gebäuden und allerlei Weiterem weltweit erfassen und pflegen."
+    local_knowledge_html: "OpenStreetMap legt Wert auf lokales Wissen. Autoren benutzen\nLuftbilder, GPS-Geräte und Feldkarten zur Verifizierung, sodass OSM\nkorrekt und aktuell ist."
+    local_knowledge_title: Lokales Wissen
+    next: Nächste
+    open_data_html: "OpenStreetMap ist „<i>Open Data</i>“: Du kannst es für jeden Zweck verwenden,\nsolange du OpenStreetMap und seine Mitwirkenden erwähnst. Falls du die Daten\nabänderst oder auf bestimmte Art einbaust, darfst du das Ergebnis nur unter\nder gleichen Lizenz verbreiten. Siehe die\n<a href='%{copyright_path}'>Urheberrechts- und Lizenzseite</a> für Einzelheiten."
+    open_data_title: Open Data
+    partners_title: Partner
+    used_by: "%{name} stellt Kartendaten für hunderte von Webseiten, Apps und andere Geräte zur Verfügung"
   activerecord: 
     attributes: 
       diary_comment: 
@@ -67,7 +82,7 @@ de:
         languages: Sprachen
         pass_crypt: Passwort
     models: 
-      acl: Zugangskontroll-Liste
+      acl: Zugangskontrollliste
       changeset: Änderungssatz
       changeset_tag: Änderungssatz-Tag
       country: Staat
@@ -109,108 +124,62 @@ de:
       blocked: Dein Zugriff auf die API wurde gesperrt. Bitte melde dich auf der Web-Oberfläche an, um mehr zu erfahren.
       need_to_see_terms: Dein Zugriff auf die API wurde vorübergehend ausgesetzt. Bitte melde dich mit deinem Benutzerkonto an, um die „Bedingungen für Mitwirkende“ einzusehen. Du musst nicht einverstanden sein, aber du musst sie gesehen haben.
   browse: 
+    anonymous: anonym
     changeset: 
-      changeset: "Änderungssatz: %{id}"
+      belongs_to: Autor
       changesetxml: Änderungssatz-XML
       feed: 
         title: "Änderungssatz: %{id}"
         title_comment: Änderungssatz %{id} - %{comment}
+      node: Knoten (%{count})
+      node_paginated: Knoten (%{x}–%{y} von %{count})
       osmchangexml: osmChange XML
-      title: Änderungssatz
-    changeset_details: 
-      belongs_to: "Erstellt von:"
-      bounding_box: "Bereich:"
-      box: Bereich
-      closed_at: "Geschlossen am:"
-      created_at: "Erstellt am:"
-      has_nodes: 
-        one: "Enthält %{count} Knoten:"
-        other: "Enthält %{count} Knoten:"
-      has_relations: 
-        one: "Enthält %{count} Relation:"
-        other: "Enthält %{count} Relationen:"
-      has_ways: 
-        one: "Enthält %{count} Weg:"
-        other: "Enthält %{count} Wege:"
-      no_bounding_box: Für diesen Änderungssatz wurde kein Bereich gespeichert.
-      show_area_box: Bereichsgrenze anzeigen
-    common_details: 
-      changeset_comment: "Kommentar:"
-      deleted_at: "Gelöscht am:"
-      deleted_by: "Gelöscht von:"
-      edited_at: "Bearbeitet am:"
-      edited_by: "Bearbeitet von:"
-      in_changeset: "Im Änderungssatz:"
-      version: "Version:"
+      relation: Relationen (%{count})
+      relation_paginated: Relationen (%{x}–%{y} von %{count})
+      title: "Änderungssatz: %{id}"
+      way: Wege (%{count})
+      way_paginated: Wege (%{x}–%{y} von %{count})
+    closed: Geschlossen
+    closed_by_html: Geschlossen <abbr title='%{title}'>vor %{time}</abbr> von %{user}
+    closed_html: Geschlossen <abbr title='%{title}'>vor %{time}</abbr>
     containing_relation: 
       entry: Relation %{relation_name}
       entry_role: Relation %{relation_name} (als %{relation_role})
-    map: 
-      deleted: Gelöscht
-      edit: 
-        area: Bereich bearbeiten
-        node: Knoten bearbeiten
-        note: Hinweis bearbeiten
-        relation: Relation bearbeiten
-        way: Weg bearbeiten
-      larger: 
-        area: Bereich auf größerer Karte
-        node: Knoten auf größerer Karte
-        note: Hinweis auf größerer Karte anzeigen
-        relation: Relation auf größerer Karte
-        way: Weg auf größerer Karte
-      loading: Lade …
-    navigation: 
-      all: 
-        next_changeset_tooltip: Nächster Änderungssatz
-        next_node_tooltip: Nächster Knoten
-        next_note_tooltip: Nächster Hinweis
-        next_relation_tooltip: Nächste Relation
-        next_way_tooltip: Nächster Weg
-        prev_changeset_tooltip: Vorheriger Änderungssatz
-        prev_node_tooltip: Vorheriger Knoten
-        prev_note_tooltip: Vorheriger Hinweis
-        prev_relation_tooltip: Vorherige Relation
-        prev_way_tooltip: Vorheriger Weg
-      user: 
-        name_changeset_tooltip: Änderungen von %{user} anzeigen
-        next_changeset_tooltip: Nächste Änderung von %{user}
-        prev_changeset_tooltip: Vorherige Änderung von %{user}
+    created: Erstellt
+    created_by_html: Erstellt <abbr title='%{title}'>vor %{time}</abbr> von %{user}
+    created_html: Erstellt <abbr title='%{title}'>vor %{time}</abbr>
+    deleted_by_html: Gelöscht <abbr title='%{title}'>vor %{time}</abbr> von %{user}
+    download_xml: XML herunterladen
+    edited_by_html: Bearbeitet <abbr title='%{title}'>vor %{time}</abbr> von %{user}
+    in_changeset: Änderungssatz
+    location: "Standort:"
+    no_comment: (kein Kommentar)
     node: 
-      download_xml: XML herunterladen
-      edit: Knoten bearbeiten
-      node: Knoten
-      node_title: "Knoten: %{node_name}"
-      view_history: Chronik anzeigen
-    node_details: 
-      coordinates: "Koordinaten:"
-      part_of: "Teil von:"
-    node_history: 
-      download_xml: XML herunterladen
-      node_history: Knoten-Chronik
-      node_history_title: "Knoten-Chronik: %{node_name}"
-      view_details: Einzelheiten ansehen
+      history_title: "Knotenchronik: %{name}"
+      title: "Knoten: %{name}"
     not_found: 
-      sorry: "%{type} mit der Nummer %{id} konnte leider nicht gefunden werden. Du hast dich möglicherweise vertippt oder bist einem ungültigem Link gefolgt."
+      sorry: "%{type} mit der Nummer %{id} konnte leider nicht gefunden werden."
       type: 
         changeset: Der Änderungssatz
         node: Der Knoten
         relation: Die Relation
         way: Der Weg
     note: 
-      at_by_html: vor %{when} von %{user}
-      at_html: vor %{when}
-      closed: "Geschlossen am:"
-      closed_title: "Erledigter Hinweis: %{note_name}"
-      comments: "Kommentare:"
-      description: "Beschreibung:"
-      last_modified: "Zuletzt geändert am:"
-      open_title: "Unerledigter Hinweis: %{note_name}"
-      opened: "Erstellt am:"
-      title: Hinweis
-    paging_nav: 
-      of: von
-      showing_page: Seite
+      closed_by: Erledigt von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
+      closed_by_anonymous: Erledigt von anonym <abbr title='%{exact_time}'>vor %{when}</abbr>
+      closed_title: Erledigter Kartenfehler Nr. %{note_name}
+      commented_by: Kommentar von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
+      commented_by_anonymous: Kommentar von anonym <abbr title='%{exact_time}'>vor %{when}</abbr>
+      hidden_by: Versteckt von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
+      hidden_title: Versteckter Kartenfehler Nr. %{note_name}
+      new_note: Neuer Kartenfehler
+      open_by: Erstellt von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
+      open_by_anonymous: Erstellt von anonym <abbr title='%{exact_time}'>vor %{when}</abbr>
+      open_title: Unerledigter Kartenfehler Nr. %{note_name}
+      reopened_by: Reaktiviert von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
+      reopened_by_anonymous: Reaktiviert von anonym <abbr title='%{exact_time}'>vor %{when}</abbr>
+      title: "Kartenfehler: %{id}"
+    part_of: Teil von
     redacted: 
       message_html: "Version %{version} diese%{type} kann nicht angezeigt werden. Weitere Informationen sind hier angegeben: %{redaction_link}."
       redaction: Ausblendung %{id}
@@ -219,18 +188,9 @@ de:
         relation: r Relation
         way: s Wegs
     relation: 
-      download_xml: XML herunterladen
-      relation: Relation
-      relation_title: "Relation: %{relation_name}"
-      view_history: Chronik anzeigen
-    relation_details: 
-      members: "Mitglieder:"
-      part_of: "Mitglied von:"
-    relation_history: 
-      download_xml: XML herunterladen
-      relation_history: Chronik der Relation
-      relation_history_title: "Chronik der Relation: %{relation_name}"
-      view_details: Aktuellen Stand anzeigen
+      history_title: "Relationschronik: %{name}"
+      members: Mitglieder
+      title: "Relation: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} als %{role}"
       type: 
@@ -238,42 +198,11 @@ de:
         relation: Relation
         way: Weg
     start_rjs: 
-      data_frame_title: Daten
-      data_layer_name: Kartendaten durchsuchen
-      details: Details
-      edited_by_user_at_timestamp: Bearbeitet von %{user} am %{timestamp}
-      hide_areas: Flächen ausblenden
-      history_for_feature: Chronik für %{feature}
+      feature_warning: Laden von %{num_features} Funktionen, was deinen Browser langsam machen kann. Willst du diese Daten wirklich anzeigen?
       load_data: Daten laden
-      loaded_an_area_with_num_features: Du hast einen Bereich ausgewählt, der %{num_features} Elemente enthält. Manche Browser werden bei der Verarbeitung einer so großen Datenmenge langsam oder frieren ein (reagieren nicht mehr auf Eingaben). Üblicherweise sollten weniger als %{max_features} Elemente angezeigt werden. Falls du dir sicher bist, dass so viele Elemente laden möchtest, klicke unten auf „Daten laden“.
       loading: Lade …
-      manually_select: Einen anderen Kartenausschnitt manuell auswählen
-      notes_layer_name: Alle Hinweise anzeigen
-      object_list: 
-        api: Diesen Bereich von der API abfragen
-        back: Zurück zur Objektliste
-        details: Details
-        heading: Objektliste
-        history: 
-          type: 
-            node: Knoten %{id}
-            way: Weg %{id}
-        selected: 
-          type: 
-            node: Knoten %{id}
-            way: Weg %{id}
-        type: 
-          node: Knoten
-          way: Weg
-      private_user: Anonymer Benutzer
-      show_areas: Flächen einblenden
-      show_history: Chronik
-      unable_to_load_size: "Das Laden ist nicht möglich: Der Größe %{bbox_size} des Bereichs ist zu groß und muss kleiner als %{max_bbox_size} sein."
-      view_data: Daten für aktuelle Kartenansicht ansehen
-      wait: Verarbeiten …
-      zoom_or_select: Karte vergrößern oder einen Bereich auf der Karte auswählen
     tag_details: 
-      tags: "Tags:"
+      tags: Tags
       wiki_link: 
         key: Erläuterungsseite für das %{key}-Tag
         tag: Erläuterungsseite für das %{key}=%{value}-Tag
@@ -285,31 +214,20 @@ de:
         node: den Knoten
         relation: die Relation
         way: den Weg
+    version: Version
+    view_details: Einzelheiten ansehen
+    view_history: Chronik ansehen
     way: 
-      download_xml: Als XML herunterladen
-      edit: Weg bearbeiten
-      view_history: Chronik anzeigen
-      way: Weg
-      way_title: "Weg: %{way_name}"
-    way_details: 
       also_part_of: 
-        one: Teil des Wegs %{related_ways}
+        one: Teil des Weges %{related_ways}
         other: Teil der Wege %{related_ways}
-      nodes: "Knoten:"
-      part_of: "Teil von:"
-    way_history: 
-      download_xml: Als XML herunterladen
-      view_details: Einzelheiten anzeigen
-      way_history: Chronik des Wegs
-      way_history_title: "Chronik des Wegs: %{way_name}"
+      history_title: "Wegechronik: %{name}"
+      nodes: Knoten
+      title: "Weg: %{name}"
   changeset: 
     changeset: 
       anonymous: Anonym
-      big_area: (groß)
-      no_comment: (kein Kommentar)
       no_edits: (keine Bearbeitung)
-      show_area_box: Bereich anzeigen
-      still_editing: (in Bearbeitung)
       view_changeset_details: Details des Änderungssatzes
     changeset_paging_nav: 
       next: Nächste »
@@ -322,26 +240,17 @@ de:
       saved_at: Gespeichert am
       user: Benutzer
     list: 
-      description: Die letzten Beiträge an der Karte durchstöbern
-      description_bbox: Letzte Änderungen in %{bbox}
-      description_friend: Änderungssätze deiner Freunde
-      description_nearby: Änderungen von Benutzern in der Nähe
-      description_user: Letzte Änderungen von %{user}
-      description_user_bbox: Letzte Änderungen von %{user} in %{bbox}
-      empty_anon_html: Bislang wurden keine Bearbeitungen gemacht.
-      empty_user_html: Bislang hast du noch keine Bearbeitungen gemacht. Lies die <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Anleitung für Einsteiger</a> für Informationen hierzu.
-      heading: Änderungssätze
-      heading_bbox: Änderungssätze
-      heading_friend: Änderungssätze
-      heading_nearby: Änderungssätze
-      heading_user: Änderungssätze
-      heading_user_bbox: Änderungssätze
+      empty: Keine Änderungssätze gefunden.
+      empty_area: Keine Änderungssätze in diesem Bereich.
+      empty_user: Keine Änderungssätze von diesem Benutzer.
+      load_more: Mehr laden
+      no_more: Keine weiteren Änderungssätze gefunden.
+      no_more_area: Keine weiteren Änderungssätze in diesem Bereich.
+      no_more_user: Keine weiteren Änderungssätze von diesem Benutzer.
       title: Änderungssätze
-      title_bbox: Änderungssätze in %{bbox}
       title_friend: Änderungssätze deiner Freunde
       title_nearby: Änderungssätze von Benutzern in der Nähe
       title_user: Änderungssätze von %{user}
-      title_user_bbox: Änderungssätze von %{user} in %{bbox}
     timeout: 
       sorry: Es hat leider zu lange gedauert, die von dir angeforderten Änderungssätze abzurufen.
   diary_entry: 
@@ -454,15 +363,25 @@ de:
       paste_html: HTML-Code kopieren, um ihn in eine Website einzufügen
       scale: Maßstab
       too_large: 
-        other: heading=Bereich zu groß
+        advice: "Falls der obenstehende Export fehlschlägt, erwäge bitte, eine der unten aufgelisteten Quellen zu verwenden:"
+        body: Dieser Bereich ist zu groß, um als OpenStreetMap-XML-Daten exportiert werden. Bitte heranzoomen, einen kleineren Bereich wählen oder eine der folgenden Quellen für Massendatendownloads nutzen.
+        geofabrik: 
+          description: Regelmäßig aktualisierte Auszüge von Kontinenten, Ländern und ausgewählten Städten.
+          title: Geofabrik Downloads
+        metro: 
+          description: Auszüge für bedeutende Weltstädte und ihre Umgebungen
+          title: Metro Extracts
+        other: 
+          description: Zusätzliche Quellen sind im OpenStreetMap-Wiki gelistet
+          title: Andere Quellen
+        overpass: 
+          description: Diese Bounding Box von einem Mirror der OpenStreetMap-Datenbank herunterladen
+          title: API überführen
+        planet: 
+          description: Regelmäßig aktualisierte Kopien der kompletten OpenStreetMap-Datenbank
+          title: Planet OSM
       zoom: Zoom
-    start_rjs: 
-      add_marker: Markierung zur Karte hinzufügen
-      change_marker: Position der Markierung ändern
-      click_add_marker: Auf die Karte klicken, um eine Markierung hinzuzufügen
-      drag_a_box: Einen Rahmen über der Karte aufziehen, um einen Bereich auszuwählen
-      export: Export
-      manually_select: Einen anderen Kartenausschnitt manuell auswählen
+    title: Exportieren
   geocoder: 
     description: 
       title: 
@@ -492,8 +411,10 @@ de:
       title: 
         ca_postcode: Suchergebnisse von <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Suchergebnisse von <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse: Ergebnisse von <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Suchergebnisse von <a href="http://openstreetmap.org/">Internal</a>
         osm_nominatim: Ergebnisse von <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
+        osm_nominatim_reverse: Ergebnisse von <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Suchergebnisse von <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Suchergebnisse von <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
@@ -990,6 +911,21 @@ de:
           water_point: Trinkwassernachfüllstation
           waterfall: Wasserfall
           weir: Wehr
+  help_page: 
+    help: 
+      description: Stelle eine Frage oder suche nach Antworten auf der OSM-Fragen-und-Antworten-Seite.
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: "OpenStreetMap hat mehrere Quellen zum Lernen, Stellen und Beantworten von Fragen über das Projekt\nund zum gemeinsamen Diskutieren und Dokumentieren von Kartierungsthemen."
+    title: Hilfe erhalten
+    welcome: 
+      description: Beginne mit dieser Schnellanleitung, die die OpenStreetMap-Grundlagen abdeckt.
+      title: Willkommen bei OSM
+      url: /welcome
+    wiki: 
+      description: Durchsuche das Wiki für eine ausführliche OSM-Dokumentation.
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/
   javascripts: 
     close: Schließen
     edit_help: Wähle eine höhere Zoomstufe und verschiebe die Karte an einen Ort, den du bearbeiten möchtest, und klicke hier.
@@ -1000,15 +936,18 @@ de:
     map: 
       base: 
         cycle_map: Radfahrerkarte
+        hot: Humanitarian
         mapquest: MapQuest Open
         standard: Standard
         transport_map: Verkehrskarte
       copyright: © <a href='%{copyright_url}'>OpenStreetMap-Mitwirkende</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Spenden</a>
       layers: 
         data: Kartendaten
         header: Kartenebenen
         notes: Hinweise/Fehlermeldungen
         overlays: Overlays zur Fehlersuche aktivieren
+        title: Ebenen
       locate: 
         popup: Du bist innerhalb von {distance} {unit} um diesen Punkt
         title: Aktuellen Standort anzeigen
@@ -1021,19 +960,10 @@ de:
         intro: Bitte verschiebe den Marker auf die exakte Position und gib genaue Hinweise/Informationen bzw. beschreibe den Fehler in der Karte möglichst präzise. Andere Mapper werden sich dann um die Erledigung kümmern.
       show: 
         anonymous_warning: Dieser Hinweis enthält Kommentare von anonymen Benutzern, die unabhängig geprüft werden sollten.
-        closed_by: erledigt von <a href='%{user_url}'>%{user}</a> am %{time}
-        closed_by_anonymous: erledigt von anonym am %{time}
         comment: Kommentar
         comment_and_resolve: Kommentieren & Erledigen
-        commented_by: Kommentar von <a href='%{user_url}'>%{user}</a> am %{time}
-        commented_by_anonymous: Kommentar von anonym am %{time}
         hide: Verstecken
-        opened_by: erstellt von <a href='%{user_url}'>%{user}</a> am %{time}
-        opened_by_anonymous: erstellt von anonym am %{time}
-        permalink: Permalink
         reactivate: Reaktivieren
-        reopened_by: reaktiviert von <a href='%{user_url}'>%{user}</a> am %{time}
-        reopened_by_anonymous: reaktiviert von anonym am %{time}
         resolve: Erledigt
     share: 
       cancel: Abbrechen
@@ -1058,37 +988,31 @@ de:
       createnote_tooltip: Einen Hinweis/Fehler zu den Kartendaten melden
       edit_disabled_tooltip: Zum Editieren muss eine höhere Zoomstufe gewählt werden
       edit_tooltip: Karte bearbeiten
-      history_disabled_tooltip: Zum Anzeigen der Änderungen muss eine höhere Zoomstufe gewählt werden
-      history_tooltip: Änderungen für diesen Bereich anzeigen
+      map_data_zoom_in_tooltip: Vergrößere die Karte, um die Daten zu sehen.
+      map_notes_zoom_in_tooltip: Vergrößere die Karte, um die Fehler zu sehen.
   layouts: 
+    about: Über
     community: Gemeinschaft
     community_blogs: Blogs
     community_blogs_title: Blogs von Mitwirkenden bei OpenStreetMap
-    copyright: Urheberrecht + Lizenz
+    copyright: Urheberrecht
     data: Daten
-    documentation: Dokumentation
-    documentation_title: Projektdokumentation im Wiki
     donate: Unterstütze die OpenStreetMap-Hardwarespendenaktion durch eine eigene %{link}.
-    donate_link_text: Spende
     edit: Bearbeiten
     edit_with: Bearbeiten mit %{editor}
+    export: Export
     export_data: Daten exportieren
     foundation: Stiftung
     foundation_title: Die „OpenStreetMap Foundation“
     gps_traces: GPS-Tracks
     gps_traces_tooltip: GPS-Tracks verwalten
     help: Hilfe
-    help_centre: OSM Help
-    help_title: Hilfeseiten des Projekts
     history: Chronik
     home: Gehe zum Heimatstandort
-    intro_1: OpenStreetMap ist eine freie, editierbare Karte der gesamten Welt, die von Menschen wie dir erstellt wird.
     intro_2_create_account: Erstelle ein Benutzerkonto
-    intro_2_download: heruntergeladen
-    intro_2_html: Die Daten können gemäß der entsprechenden %{license} frei %{download} und %{use} werden. %{create_account}, um die Karte zu verbessern.
-    intro_2_license: Freien Lizenz
-    intro_2_use: genutzt
-    intro_2_use_url: http://wiki.openstreetmap.org/wiki/DE:Using_OpenStreetMap
+    intro_header: Willkommen bei OpenStreetMap!
+    intro_text: OpenStreetMap ist eine Karte der Welt, erstellt von Menschen wie dir und frei verwendbar unter einer offenen Lizenz.
+    learn_more: Mehr erfahren
     log_in: Anmelden
     log_in_tooltip: Mit einem vorhandenen Konto anmelden
     logo: 
@@ -1097,6 +1021,7 @@ de:
     make_a_donation: 
       text: Spenden
       title: Unterstütze OpenStreetMap mit einer Geldspende
+    more: Mehr
     osm_offline: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten nicht verfügbar.
     osm_read_only: Die OpenStreetMap-Datenbank ist im Moment wegen wichtiger Wartungsarbeiten im „Nur-Lesen-Modus“.
     partners_bytemark: Bytemark Hosting
@@ -1107,14 +1032,10 @@ de:
     partners_url: http://wiki.openstreetmap.org/wiki/Partners
     sign_up: Registrieren
     sign_up_tooltip: Ein Konto erstellen, um Daten bearbeiten zu können
+    start_mapping: Mit dem Kartieren anfangen
     tag_line: Die freie Wiki-Weltkarte
     user_diaries: Benutzer-Blogs
     user_diaries_tooltip: Benutzer-Blogs lesen
-    view: Karte
-    view_tooltip: Karte anzeigen
-    wiki: Wiki
-    wiki_title: Wiki des Projekts
-    wiki_url: http://wiki.openstreetmap.org/wiki/DE:Main_Page
   license_page: 
     foreign: 
       english_link: dem englischsprachigen Original
@@ -1126,8 +1047,9 @@ de:
         title: Namensnennungs-Beispiel auf einer Website mit elektronischer Karte
       contributors_at_html: "<strong>Österreich</strong>: Enthält Daten der <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (lizenziert gemäß <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY AT</a>), des <a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Landes Vorarlberg</a> und des Landes Tirol (<a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">lizenziert gemäß CC BY AT samt Erweiterungen zur Lizenz</a>)."
       contributors_ca_html: "<strong>Kanada</strong>: Enthält Daten von GeoBase&reg;, GeoGratis (&copy; <i>Department of Natural Resources Canada</i>), CanVec (&copy; <i>Department of Natural Resources Canada</i>) und StatCan (<i>Geography Division, Statistics Canada</i>)."
-      contributors_footer_1_html: Für weitere diesbezügliche Einzelheiten sowie anderer Datenquellen, die zur Verbesserung von OpenStreetMap genutzt wurden, besuche bitte <a  href="http://wiki.openstreetmap.org/wiki/Contributors">die Seite über die Mitwirkenden</a> im Wiki von OpenStreetMap.
-      contributors_footer_2_html: Die Einbeziehung von Daten bei OpenStreetMap impliziert nicht, dass der ursprüngliche Datenlieferant OpenStreetMap unterstützt, Gewährleistung gibt, noch Haftung übernimmt.
+      contributors_fi_html: "<strong>Finnland</strong>: Enthält Daten von der\ntopografischen Datenbank der National Land Survey of Finland\nund andere Datensätze, unter der\n<a href=\"http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501\">NLSFI-Lizenz</a>."
+      contributors_footer_1_html: Weitere Informationen sowie andere Datenquellen, die zur Verbesserung von OpenStreetMap genutzt wurden, sind auf <a  href="http://wiki.openstreetmap.org/wiki/Contributors">der Seite über die Mitwirkenden</a> im Wiki von OpenStreetMap zu finden.
+      contributors_footer_2_html: Die Einbeziehung von Daten bei OpenStreetMap bedeutet nicht, dass der ursprüngliche Datenlieferant OpenStreetMap unterstützt, Gewährleistung dafür gibt oder die Haftung dafür übernimmt.
       contributors_fr_html: "<strong>Frankreich</strong>: Enthält Daten der <i>Direction Générale des Impôts</i>."
       contributors_gb_html: "<strong>Vereinigtes Königreich</strong>: Enthält Daten des <i>Ordnance Survey</i> &copy; Urheber- und Datenbankrecht 2010-12."
       contributors_intro_html: "Unsere Mitwirkenden sind tausende einzelne Menschen. Wir beziehen auch offen lizenzierte Daten von nationalen Kartenagenturen und anderen Quellen ein, darunter:"
@@ -1136,7 +1058,7 @@ de:
       contributors_title_html: Unsere Mitwirkenden
       contributors_za_html: "<strong>Südafrika</strong>: Enthält Daten von <i><a href=\"http://www.ngi.gov.za/\">Chief Directorate: National Geo-Spatial Information</a></i>, Staatliches Urheberrecht vorbehalten."
       credit_1_html: Wir verlangen die Verwendung des Hinweises „&copy; OpenStreetMap-Mitwirkende“.
-      credit_2_html: "Du musst auch klarstellen, dass die Daten unter der Open-Database-Lizenz\nverfügbar sind, und sofern du unsere Kartenkacheln verwendest, dass die\nKartografie gemäß CC BY-SA lizenziert ist. Du kannst dies tun, indem du auf\n<a href=\"http://www.openstreetmap.org/copyright\">diese Seite</a> verlinkst.\nErsatzweise, und als Erfordernis, falls du OSM in Datenform weitergibst,\nkannst du die Lizenz(en) direkt verlinken und benennen. In Medien, in denen\nkeine Links möglich sind (z.&nbsp;B. gedruckten Werken), empfehlen wir dir,\ndeine Leser direkt auf openstreetmap.org zu verweisen (möglicherweise mit\ndem Erweitern von „OpenStreetMap“ zur vollen Adresse), auf opendatacommons.org,\nund, sofern zutreffend, auf creativecommons.org."
+      credit_2_html: "Du musst auch klarstellen, dass die Daten unter der Open-Database-Lizenz\nverfügbar sind, und sofern du unsere Kartenkacheln verwendest, dass die\nKartografie gemäß CC BY-SA lizenziert ist. Du kannst dies tun, indem du auf\n<a href=\"http://www.openstreetmap.org/copyright\">www.openstretmap.org/copyright</a> verlinkst.\nErsatzweise, und als Erfordernis, falls du OSM in Datenform weitergibst,\nkannst du die Lizenz(en) direkt verlinken und benennen. In Medien, in denen\nkeine Links möglich sind (z.&nbsp;B. gedruckten Werken), empfehlen wir dir,\ndeine Leser direkt auf openstreetmap.org zu verweisen (möglicherweise mit\ndem Erweitern von „OpenStreetMap“ zur vollen Adresse), auf opendatacommons.org,\nund, sofern zutreffend, auf creativecommons.org."
       credit_3_html: "Der Hinweis sollte für eine durchsuchbare elektronische Karte in der Ecke der Karte stehen.\nZum Beispiel:"
       credit_title_html: Wie auf die Urheberschaft von OpenStreetMap hinzuweisen ist
       infringement_1_html: Die Mitwirkenden von OpenStreetMap weisen wir darauf hin, dass keinesfalls Daten aus urheberrechtlich geschützten Quellen verwendet werden dürfen (z. B. Google Maps oder gedruckte Kartenwerke), ohne vorher die ausdrückliche Erlaubnis des Rechteinhabers erhalten zu haben.
@@ -1145,9 +1067,9 @@ de:
       intro_1_html: OpenStreetMap sind <i>„Open Data“</i>, die gemäß der <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database Lizenz</a> (ODbL) verfügbar sind.
       intro_2_html: "Es steht dir frei unsere Daten zu kopieren, weiterzugeben,\nzu übermitteln sowie anzupassen, sofern du OpenStreetMap\nund die Mitwirkenden als Quelle angibst. Für den Fall, dass\ndu auf Basis unserer Daten Anpassungen vornimmst, oder sie\nals Grundlage für weitere Bearbeitungen verwendest, kannst\ndu das Ergebnis auch nur gemäß der selben Lizenz weitergeben.\nDer vollständige Lizenztext ist unter\n<a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">Lizenz</a>\neinsehbar und erläutert deine Rechte und Pflichten."
       intro_3_html: "Die Kartografie in unseren Kartenkacheln und unsere Dokumentation sind unter der Lizenz <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative \nCommons „Namensnennung, Weitergabe unter gleichen Bedingungen“ 2.0</a> (CC BY-SA) verfügbar."
-      more_1_html: Mehr Informationen dazu, wie unsere Daten verwendet werden können und wie man auf unsere Urheberschaft hinweist, kann man unter <a href="http://wiki.openstreetmap.org/wiki/DE:Legal_FAQ">Häufige rechtliche Fragen</a> nachlesen.
+      more_1_html: Mehr Informationen dazu, wie unsere Daten verwendet werden können und wie man auf unsere Urheberschaft hinweist, kann man unter <a href="http://wiki.openstreetmap.org/wiki/DE:Legal_FAQ">Häufige rechtliche Fragen (Legal FAQ)</a> nachlesen.
       more_2_html: "Obwohl OpenStreetMap „Open Data“ ist, können wir keine \nunentgeltliche Karten-API für Drittparteienentwickler bereitstellen.\nSiehe unsere <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">API-Verwendungsrichtlinie</a>,\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Kachelverwendungsrichtlinie</a>\nund <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Nominatim-Verwendungsrichtlinie</a>."
-      more_title_html: Mehr hierzu in Erfahrung bringen
+      more_title_html: Weitere Informationen
       title_html: Urheberrecht und Lizenz
     native: 
       mapping_link: mit dem Kartieren anfangen
@@ -1313,7 +1235,7 @@ de:
         subject_other: "[OpenStreetMap] %{commenter} hat einen Hinweis kommentiert, an dem du interessiert bist"
         subject_own: "[OpenStreetMap] %{commenter} hat einen von dir gemeldeten Hinweis kommentiert"
         your_note: "%{commenter} hat einen von dir gemeldeten Hinweis in der Nähe von %{place} kommentiert."
-      details: Weitere Einzelheiten über den Hinweis findest du unter %{url}.
+      details: Weitere Details über den Hinweis findest du unter %{url}.
       greeting: Hallo,
       reopened: 
         commented_note: "%{commenter} hat einen Hinweis in der Nähe von %{place}, den du kommentiert hattest, reaktivert."
@@ -1337,6 +1259,15 @@ de:
       allow_write_notes: Hinweise zu geben/Fehler zu melden
       allow_write_prefs: Deine Benutzereinstellungen zu verändern
       request_access: "Die Anwendung %{app_name} möchte auf  dein OpenStreetMap-Konto %{user} zugreifen. Bitte entscheide, ob du der Anwendung die folgenden Berechtigungen gewähren möchtest. Du kannst ihr entweder alle oder einige der folgenden Berechtigungen gewähren:"
+      title: Zugriff auf dein Benutzerkonto autorisieren
+    oauthorize_failure: 
+      denied: Du hast den Benutzerkontenzugriff für die Anwendung %{app_name} abgelehnt.
+      invalid: Der Autorisierungstoken ist nicht gültig.
+      title: Autorisierungsanfrage fehlgeschlagen
+    oauthorize_success: 
+      allowed: Du hast den Benutzerkontenzugriff für die Anwendung %{app_name} gewährt.
+      title: Autorisierungsanfrage genehmigt
+      verification: Der Verifizierungscode ist %{code}.
     revoke: 
       flash: Du hast die Berechtigung für %{application} zurückgezogen
   oauth_clients: 
@@ -1536,7 +1467,6 @@ de:
       preview: Vorschau
     search: 
       search: Suchen
-      search_help: "Beispiele: „München“, „Heinestraße, Würzburg“, „CB2 5AQ“, oder „Postamt nahe Lünen“ <a href='http://wiki.openstreetmap.org/wiki/Search'>mehr Beispiele …</a>"
       submit_text: Los
       where_am_i: Wo bin ich?
       where_am_i_title: Die momentane Position mit der Suchmaschine anzeigen
@@ -1552,6 +1482,11 @@ de:
       upload_trace: Lade einen GPS-Track hoch
     delete: 
       scheduled_for_deletion: Für die Löschung vorgesehener Track
+    description: 
+      description_with_count: 
+        one: GPX-Datei mit einem Punkt von %{user}
+        other: GPX-Datei mit %{count} Punkten von %{user}
+      description_without_count: GPX-Datei von %{user}
     edit: 
       description: "Beschreibung:"
       download: herunterladen
@@ -1569,6 +1504,8 @@ de:
       uploaded_at: "Hochgeladen am:"
       visibility: "Sichtbarkeit:"
       visibility_help: Was heißt das?
+    georss: 
+      title: OpenStreetMap-GPS-Tracks
     list: 
       description: Letzte GPS-Track-Uploads durchsuchen
       empty_html: Noch keine GPS-Tracks vorhanden. <a href='%{upload_link}'>Lade einen neuen Track hoch</a> oder informiere dich auf folgender <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>Wikiseite</a> über das Aufzeichnen von GPS-Tracks.
@@ -1888,6 +1825,7 @@ de:
       my comments: Eigene Kommentare
       my diary: Eigener Blog
       my edits: Eigene Änderungen
+      my messages: Meine Nachrichten
       my notes: Eigene Fehler-Hinweise
       my profile: Eigenes Profil
       my settings: Eigene Einstellungen
@@ -2041,9 +1979,9 @@ de:
       way_html: Ein <strong>Way</strong> ("Weg") in OSM ist eine Linie oder Fläche wie z.B. eine Straße, ein Weg, ein Fluss oder ein Gebäude.
     introduction_html: "Willkommen bei OpenStreetMap, der weltweiten freien und editierbaren Karte. Mit deiner Anmeldung ist alles so weit, dass du anfangen kannst die Karte zu bearbeiten.\nHier sind noch eine paar nützliche zusätzliche Informationen."
     questions: 
-      paragraph_1_html: "Falls Du zusätzliche Hilfe beim Mapping brauchst oder etwas nicht klar ist, gibt es zusätzliche\nHilfe auf <a href='http://help.openstreetmap.org/'>der Hilfe-Seite</a>."
+      paragraph_1_html: "OpenStreetMap hat mehrere Quellen zum Lernen, Stellen und Beantworten von Fragen über das Projekt\nund zum gemeinsamen Diskutieren und Dokumentieren von Kartierungsthemen.\n<a href='%{help_url}'>Erhalte hier Hilfe</a>."
       title: Fragen?
-    start_mapping: Beginne mit dem Berarbeiten der Karte
+    start_mapping: Beginne mit dem Bearbeiten der Karte
     title: Willkommen!
     whats_on_the_map: 
       off_html: "Was <em>nicht</em> in die Datenbank gehört sind subjektive Daten wie Bewertungen, nicht mehr aktuelle\nhistorische Fakten oder nicht real existierende Dinge. Ausserdem ist es wichtig, nichts von\nanderen Quellen (auch nicht aus Papierkarten) zu kopieren, da OpenStreetMap das Urheberrecht sehr ernst nimmt."

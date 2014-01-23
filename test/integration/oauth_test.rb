@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class OAuthTest < ActionController::IntegrationTest
+class OAuthTest < ActionDispatch::IntegrationTest
   fixtures :users, :client_applications, :gpx_files
 
   include OAuth::Helper
@@ -285,7 +285,7 @@ class OAuthTest < ActionController::IntegrationTest
       :allow_read_prefs => true, :allow_write_prefs => true
     assert_response :success
     assert_template "authorize_success"
-    m = response.body.match("<p>The verification code is ([A-Za-z0-9]+)</p>")
+    m = response.body.match("<p>The verification code is ([A-Za-z0-9]+).</p>")
     assert_not_nil m
     verifier = m[1]
     token.reload
@@ -328,7 +328,7 @@ private
   def signed_get(uri, options)
     uri = URI.parse(uri)
     uri.scheme ||= "http"
-    uri.host ||= host
+    uri.host ||= "www.example.com"
 
     helper = OAuth::Client::Helper.new(nil, options)
 
@@ -356,7 +356,7 @@ private
     params = CGI.parse(URI.parse(response.location).query)
 
     assert_not_nil params["oauth_verifier"]
-    assert_present params["oauth_verifier"].first
+    assert params["oauth_verifier"].first.present?
 
     params["oauth_verifier"].first
   end

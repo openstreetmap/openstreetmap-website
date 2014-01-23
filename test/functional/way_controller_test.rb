@@ -54,7 +54,7 @@ class WayControllerTest < ActionController::TestCase
   ##
   # check the "full" mode
   def test_full
-    Way.find(:all).each do |way|
+    Way.all.each do |way|
       get :full, :id => way.id
 
       # full call should say "gone" for non-visible ways...

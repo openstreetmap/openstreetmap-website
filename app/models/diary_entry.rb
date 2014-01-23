@@ -3,18 +3,10 @@ class DiaryEntry < ActiveRecord::Base
   belongs_to :language, :foreign_key => 'language_code'
   belongs_to :group
 
-  has_many :comments, :class_name => "DiaryComment",
-                      :include => :user,
-                      :order => "diary_comments.id"
-  has_many :visible_comments, :class_name => "DiaryComment",
-                              :include => :user,
-                              :conditions => {
-                                :users => { :status => ["active", "confirmed" ] },
-                                :visible => true
-                              },
-                              :order => "diary_comments.id"
+  has_many :comments, -> { order(:id).preload(:user) }, :class_name => "DiaryComment"
+  has_many :visible_comments, -> { joins(:user).where(:visible => true, :users => { :status => ["active", "confirmed"] }).order(:id) }, :class_name => "DiaryComment"
 
-  scope :visible, where(:visible => true)
+  scope :visible, -> { where(:visible => true) }
 
   validates_presence_of :title, :body
   validates_length_of :title, :within => 1..255
@@ -24,8 +16,6 @@ class DiaryEntry < ActiveRecord::Base
   validates_numericality_of :longitude, :allow_nil => true,
                             :greater_than_or_equal_to => -180, :less_than_or_equal_to => 180
   validates_associated :language
-
-  attr_accessible :title, :body, :language_code, :latitude, :longitude, :group_id
 
   after_initialize :set_defaults
   after_save :spam_check

@@ -3,15 +3,16 @@ class Way < ActiveRecord::Base
   
   include ConsistencyValidations
   include NotRedactable
+  include ObjectMetadata
 
   self.table_name = "current_ways"
   
   belongs_to :changeset
 
-  has_many :old_ways, :order => 'version'
+  has_many :old_ways, -> { order(:version) }
 
-  has_many :way_nodes, :order => 'sequence_id'
-  has_many :nodes, :through => :way_nodes, :order => 'sequence_id'
+  has_many :way_nodes, -> { order(:sequence_id) }
+  has_many :nodes, -> { order("sequence_id") }, :through => :way_nodes
 
   has_many :way_tags
 
@@ -26,8 +27,8 @@ class Way < ActiveRecord::Base
   validates_numericality_of :id, :on => :update, :integer_only => true
   validates_associated :changeset
 
-  scope :visible, where(:visible => true)
-  scope :invisible, where(:visible => false)
+  scope :visible, -> { where(:visible => true) }
+  scope :invisible, -> { where(:visible => false) }
 
   # Read in xml as text and return it's Way object representation
   def self.from_xml(xml, create=false)
@@ -100,33 +101,10 @@ class Way < ActiveRecord::Base
   end
 
   def to_xml_node(visible_nodes = nil, changeset_cache = {}, user_display_name_cache = {})
-    el1 = XML::Node.new 'way'
-    el1['id'] = self.id.to_s
-    el1['visible'] = self.visible.to_s
-    el1['timestamp'] = self.timestamp.xmlschema
-    el1['version'] = self.version.to_s
-    el1['changeset'] = self.changeset_id.to_s
+    el = XML::Node.new 'way'
+    el['id'] = self.id.to_s
 
-    if changeset_cache.key?(self.changeset_id)
-      # use the cache if available
-    else
-      changeset_cache[self.changeset_id] = self.changeset.user_id
-    end
-
-    user_id = changeset_cache[self.changeset_id]
-
-    if user_display_name_cache.key?(user_id)
-      # use the cache if available
-    elsif self.changeset.user.data_public?
-      user_display_name_cache[user_id] = self.changeset.user.display_name
-    else
-      user_display_name_cache[user_id] = nil
-    end
-
-    if not user_display_name_cache[user_id].nil?
-      el1['user'] = user_display_name_cache[user_id]
-      el1['uid'] = user_id.to_s
-    end
+    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     # make sure nodes are output in sequence_id order
     ordered_nodes = []
@@ -146,39 +124,23 @@ class Way < ActiveRecord::Base
 
     ordered_nodes.each do |nd_id|
       if nd_id and nd_id != '0'
-        e = XML::Node.new 'nd'
-        e['ref'] = nd_id
-        el1 << e
+        node_el = XML::Node.new 'nd'
+        node_el['ref'] = nd_id
+        el << node_el
       end
     end
 
-    self.way_tags.each do |tag|
-      e = XML::Node.new 'tag'
-      e['k'] = tag.k
-      e['v'] = tag.v
-      el1 << e
-    end
-    return el1
+    add_tags_to_xml_node(el, self.way_tags)
+
+    return el
   end 
 
   def nds
-    unless @nds
-      @nds = Array.new
-      self.way_nodes.each do |nd|
-        @nds += [nd.node_id]
-      end
-    end
-    @nds
+    @nds ||= self.way_nodes.collect { |n| n.node_id }
   end
 
   def tags
-    unless @tags
-      @tags = {}
-      self.way_tags.each do |tag|
-        @tags[tag.k] = tag.v
-      end
-    end
-    @tags
+    @tags ||= Hash[self.way_tags.collect { |t| [t.k, t.v] }]
   end
 
   def nds=(s)

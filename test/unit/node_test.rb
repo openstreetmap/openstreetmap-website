@@ -77,13 +77,13 @@ class NodeTest < ActiveSupport::TestCase
   
   # Check that you can create a node and store it
   def test_create
-    node_template = Node.new({
+    node_template = Node.new(
       :latitude => 12.3456,
       :longitude => 65.4321,
       :changeset_id => changesets(:normal_user_first_change).id,
       :visible => 1, 
       :version => 1
-    }, :without_protection => true)
+    )
     assert node_template.create_with_history(users(:normal_user))
 
     node = Node.find(node_template.id)
@@ -312,5 +312,23 @@ class NodeTest < ActiveSupport::TestCase
       Node.from_xml(dupk, false)
     }
     assert_equal "Element node/23 has duplicate tags with key dup", message_update.message
+  end
+
+  def test_node_tags
+    node = current_nodes(:node_with_versions)
+    tags = Node.find(node.id).node_tags.order(:k)
+    assert_equal 2, tags.count
+    assert_equal "testing", tags[0].k 
+    assert_equal "added in node version 3", tags[0].v
+    assert_equal "testing two", tags[1].k
+    assert_equal "modified in node version 4", tags[1].v
+  end
+
+  def test_tags
+    node = current_nodes(:node_with_versions)
+    tags = Node.find(node.id).tags
+    assert_equal 2, tags.size
+    assert_equal "added in node version 3", tags["testing"]
+    assert_equal "modified in node version 4", tags["testing two"]
   end
 end

@@ -8,6 +8,10 @@
     var mapParams = OSM.mapParams();
     if (mapParams.object) {
       params.id = mapParams.object.type[0] + mapParams.object.id;
+      mapParams = OSM.parseHash(location.hash);
+      if (mapParams.center) {
+        params.map = mapParams.zoom + '/' + mapParams.center.lng + '/' + mapParams.center.lat;
+      }
     } else {
 <% if @lat && @lon -%>
       params.map = '16/<%= @lon %>/<%= @lat %>';
@@ -17,8 +21,13 @@
     }
 
     var hashParams = OSM.params(location.hash.substring(1));
+
     if (hashParams.background) {
       params.background = hashParams.background;
+    }
+
+    if (hashParams.gpx) {
+      params.gpx = hashParams.gpx;
     }
 
     $('#id-embed').attr('src', '<%= id_url :locale => params[:locale] %>#' + querystring.stringify(params));

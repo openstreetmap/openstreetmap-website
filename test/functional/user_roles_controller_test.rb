@@ -25,7 +25,6 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Login as an unprivileged user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Granting should still fail
     post :grant, :display_name => users(:normal_user).display_name, :role => "moderator"
@@ -34,7 +33,6 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Login as an administrator
     session[:user] = users(:administrator_user).id
-    cookies["_osm_username"] = users(:administrator_user).display_name
 
     UserRole::ALL_ROLES.each do |role|
 
@@ -44,7 +42,7 @@ class UserRolesControllerTest < ActionController::TestCase
       end
       assert_response :not_found
       assert_template "user/no_such_user"
-      assert_select "h2", "The user non_existent_user does not exist"
+      assert_select "h1", "The user non_existent_user does not exist"
 
       # Granting a role from a user that already has it should fail
       assert_no_difference "UserRole.count" do
@@ -85,7 +83,6 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Login as an unprivileged user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Revoking should still fail
     post :revoke, :display_name => users(:normal_user).display_name, :role => "moderator"
@@ -94,7 +91,6 @@ class UserRolesControllerTest < ActionController::TestCase
 
     # Login as an administrator
     session[:user] = users(:administrator_user).id
-    cookies["_osm_username"] = users(:administrator_user).display_name
 
     UserRole::ALL_ROLES.each do |role|
 
@@ -104,7 +100,7 @@ class UserRolesControllerTest < ActionController::TestCase
       end
       assert_response :not_found
       assert_template "user/no_such_user"
-      assert_select "h2", "The user non_existent_user does not exist"
+      assert_select "h1", "The user non_existent_user does not exist"
 
       # Removing a role from a user that doesn't have it should fail
       assert_no_difference "UserRole.count" do

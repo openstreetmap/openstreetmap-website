@@ -5,10 +5,10 @@ class Trace < ActiveRecord::Base
   has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :delete_all
   has_many :points, :class_name => 'Tracepoint', :foreign_key => 'gpx_id', :dependent => :delete_all
 
-  scope :visible, where(:visible => true)
-  scope :visible_to, lambda { |u| visible.where("visibility IN ('public', 'identifiable') OR user_id = ?", u) }
-  scope :public, where(:visibility => ["public", "identifiable"])
-  scope :tagged, lambda { |t| joins(:tags).where(:gpx_file_tags => { :tag => t }) }
+  scope :visible, -> { where(:visible => true) }
+  scope :visible_to, ->(u) { visible.where("visibility IN ('public', 'identifiable') OR user_id = ?", u) }
+  scope :public, -> { where(:visibility => ["public", "identifiable"]) }
+  scope :tagged, ->(t) { joins(:tags).where(:gpx_file_tags => { :tag => t }) }
 
   validates_presence_of :user_id, :name, :timestamp
   validates_presence_of :description, :on => :create
@@ -289,10 +289,10 @@ class Trace < ActiveRecord::Base
     end
 
     if gpx.actual_points > 0
-      max_lat = Tracepoint.maximum('latitude', :conditions => ['gpx_id = ?', id])
-      min_lat = Tracepoint.minimum('latitude', :conditions => ['gpx_id = ?', id])
-      max_lon = Tracepoint.maximum('longitude', :conditions => ['gpx_id = ?', id])
-      min_lon = Tracepoint.minimum('longitude', :conditions => ['gpx_id = ?', id])
+      max_lat = Tracepoint.where(:gpx_id => id).maximum(:latitude)
+      min_lat = Tracepoint.where(:gpx_id => id).minimum(:latitude)
+      max_lon = Tracepoint.where(:gpx_id => id).maximum(:longitude)
+      min_lon = Tracepoint.where(:gpx_id => id).minimum(:longitude)
 
       max_lat = max_lat.to_f / 10000000
       min_lat = min_lat.to_f / 10000000

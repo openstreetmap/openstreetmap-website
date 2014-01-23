@@ -16,7 +16,7 @@ $(document).ready(function() {
 
     $('.start-mapping').attr('href', url);
 
-  } else if (navigator.geolocation) {
+  } else {
     function geoSuccess(position) {
       window.location = '/edit' + OSM.formatHash({
         zoom: 17,
@@ -27,21 +27,21 @@ $(document).ready(function() {
 
     $('.start-mapping').on('click', function(e) {
       e.preventDefault();
+      $('.start-mapping').addClass('loading');
 
-      $('.start-mapping')
-        .addClass('loading');
+      if (navigator.geolocation) {
+        // handle firefox's weird implementation
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=675533
+        window.setTimeout(manualEdit, 4000);
 
-      // handle firefox's weird implementation
-      // https://bugzilla.mozilla.org/show_bug.cgi?id=675533
-      window.setTimeout(manualEdit, 4000);
-
-      navigator.geolocation.getCurrentPosition(geoSuccess, manualEdit);
+        navigator.geolocation.getCurrentPosition(geoSuccess, manualEdit);
+      } else {
+        manualEdit();
+      }
     });
-  } else {
-    manualEdit();
   }
 
   function manualEdit() {
-    window.location = '/?edit_help=1'
+    window.location = '/?edit_help=1';
   }
 });

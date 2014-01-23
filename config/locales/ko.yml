@@ -3,11 +3,25 @@
 # Export driver: syck-pecl
 # Author: B891202
 # Author: Freebiekr
+# Author: Hym411
 # Author: Kwj2772
+# Author: Priviet
 # Author: Stleamist
 # Author: Wrightbus
 # Author: 아라
 ko: 
+  about_page: 
+    community_driven_html: "OpenStreetMap의 공동체는 다양하고, 열정적이며, 매일 자라고 있습니다.\n우리의 기여자는 열광하는 매퍼, GIS 전문가, OSM 서버를 실행하는 기술자,\n재해 피해를 입은 지역을 매핑하는 인도주의자, 그리고 더 많은 기여자를\n포함합니다.\n공동체에 대해 더 알아보려면, <a href='%{diary_path}'>사용자 일기</a>,\n<a href='http://blogs.openstreetmap.org/'>공동체 블로그</a>와, <a href='http://www.osmfoundation.org/'>OSM 재단</a> 웹사이트를 참고하세요."
+    community_driven_title: 공동체 주도
+    copyright_html: <span>&copy;</span>OpenStreetMap<br>기여자
+    lede_text: "OpenStreetMap은 전 세계에 걸쳐, 도로, 산책로, 카페, 기차역과 훨씬 많은 데이터를\n기여하고 유지하는 매퍼 공동체에 의해 구축됩니다."
+    local_knowledge_html: "OpenStreetMap은 지역 지식을 강조합니다. 기여자는 OSM이 정확하고\n최신으로 검증하기 위해 항공 영상, GPS 장치와, 낮은 기술 분야 지도를\n사용합니다."
+    local_knowledge_title: 지역 지식
+    next: 다음
+    open_data_html: "OpenStreetMap은 <i>오픈 데이터</i>입니다: OpenStreetMap과 기여자를 제작진으로\n어떤 목적으로도 자유롭게 사용할 수 있습니다. 특정 방법으로 바꾸거나\n데이터에 빌드한다면, 동일한 라이선스에 따라 결과를 배포할 수 있습니다.\n자세한 내용은 <a href='%{copyright_path}'>저작권 및 라이선스 페이지</a>를\n참고하세요."
+    open_data_title: 오픈 데이터
+    partners_title: 파트너
+    used_by: "%{name}은 수 많은 웹 사이트, 모바일 앱과 하드웨어 장치에 지도 데이터를 공급합니다"
   activerecord: 
     attributes: 
       diary_comment: 
@@ -43,28 +57,28 @@ ko:
         languages: 언어
         pass_crypt: 비밀번호
     models: 
-      acl: 접근 조절 목록
+      acl: 통행 제한 목록
       changeset: 바뀜집합
       changeset_tag: 바뀜집합 태그
       country: 국가
       diary_comment: 일기 덧글
-      diary_entry: 일지 항목
+      diary_entry: 일기 항목
       friend: 친구
       language: 언어
-      message: 쪽지
+      message: 메시지
       node: 노드
       node_tag: 노드 태그
       notifier: 알림자
       old_node: 이전 노드
       old_node_tag: 이전 노드 태그
       old_relation: 이전 관계
-      old_relation_member: 이전 관계 멤버
+      old_relation_member: 이전 관계 구성원
       old_relation_tag: 이전 관계 태그
       old_way: 이전 길
       old_way_node: 이전 길 노드
       old_way_tag: 이전 길 태그
       relation: 관계
-      relation_member: 관계 멤버
+      relation_member: 관계 구성원
       relation_tag: 관계 태그
       session: 세션
       trace: 추적
@@ -85,122 +99,73 @@ ko:
       blocked: API에 대한 접근을 차단했습니다. 자세한 내용을 알아보려면 웹 인터페이스에 로그인하세요.
       need_to_see_terms: API에 대한 접근을 일시적으로 중지했습니다. 기여자 약관을 보려면 웹 인터페이스에 로그인하세요. 기여자 약관에 동의 할 필요는 없습니다만 기여자 약관을 보아야 합니다.
   browse: 
+    anonymous: 익명
     changeset: 
-      changeset: "바뀜집합: %{id}"
+      belongs_to: 저자
       changesetxml: 바뀜집합 XML
       feed: 
         title: 바뀜집합 %{id}
         title_comment: 바뀜집합 %{id} - %{comment}
+      node: 노드 (%{count})
+      node_paginated: 노드 (%{count} 중 %{x}-%{y})
       osmchangexml: osm바뀜 XML
-      title: 바뀜집합
-    changeset_details: 
-      belongs_to: "소유자:"
-      bounding_box: "테두리 상자:"
-      box: 상자
-      closed_at: "종료된 날짜:"
-      created_at: "만든 날짜:"
-      has_nodes: "다음 노드 %{count}개 있음:"
-      has_relations: "다음 관계 %{count}개 있음:"
-      has_ways: "다음 길 %{count}개 있음:"
-      no_bounding_box: 이 바뀜집합에서 어떤 테두리 상자도 저장되지 않았습니다.
-      show_area_box: 지역 상자 보기
-    common_details: 
-      changeset_comment: "덧글:"
-      deleted_at: "삭제된 날짜:"
-      deleted_by: "삭제자:"
-      edited_at: "편집한 날짜:"
-      edited_by: "편집자:"
-      in_changeset: "바뀜집합:"
-      version: "판:"
+      relation: 관계 (%{count})
+      relation_paginated: 관계 (%{count} 중 %{x}-%{y})
+      title: "바뀜집합: %{id}"
+      way: 길 (%{count})
+      way_paginated: 길 (%{count} 중 %{x}-%{y})
+    closed: 닫힘
+    closed_by_html: <abbr title='%{title}'>%{time} 전</abbr>에 %{user} 사용자가 닫음
+    closed_html: <abbr title='%{title}'>%{time} 전</abbr>에 닫힘
     containing_relation: 
       entry: 관계 %{relation_name}
       entry_role: (%{relation_role}로서) 관계 %{relation_name}
-    map: 
-      deleted: 삭제됨
-      edit: 
-        area: 지역 편집
-        node: 노드 편집
-        note: 참고 편집
-        relation: 관계 편집
-        way: 길 편집
-      larger: 
-        area: 큰 지도에서 지역 보기
-        node: 큰 지도에서 노드 보기
-        note: 큰 지도에서 참고 보기
-        relation: 큰 지도에서 관계 보기
-        way: 큰 지도에서 길 보기
-      loading: 불러오는 중...
-    navigation: 
-      all: 
-        next_changeset_tooltip: 다음 바뀜집합
-        next_node_tooltip: 다음 노드
-        next_note_tooltip: 다음 참고
-        next_relation_tooltip: 다음 관계
-        next_way_tooltip: 다음 길
-        prev_changeset_tooltip: 이전 바뀜집합
-        prev_node_tooltip: 이전 노드
-        prev_note_tooltip: 이전 참고
-        prev_relation_tooltip: 이전 관계
-        prev_way_tooltip: 이전 길
-      user: 
-        name_changeset_tooltip: "%{user}의 편집 보기"
-        next_changeset_tooltip: "%{user}의 다음 편집"
-        prev_changeset_tooltip: "%{user}의 이전 편집"
+    created: 만들어짐
+    created_by_html: <abbr title='%{title}'>%{time} 전</abbr>에 %{user} 사용자가 만듦
+    created_html: <abbr title='%{title}'>%{time} 전</abbr>에 만들어짐
+    deleted_by_html: <abbr title='%{title}'>%{time} 전</abbr>에 %{user} 사용자가 삭제함
+    download_xml: XML 다운로드
+    edited_by_html: <abbr title='%{title}'>%{time} 전</abbr>에 %{user} 사용자가 편집함
+    in_changeset: 바뀜집합
+    location: "위치:"
+    no_comment: (덧글 없음)
     node: 
-      download_xml: XML 다운로드
-      edit: 노드 편집
-      node: 노드
-      node_title: "노드: %{node_name}"
-      view_history: 내역 보기
-    node_details: 
-      coordinates: "좌표:"
-      part_of: "포함되는 노드:"
-    node_history: 
-      download_xml: XML 다운로드
-      node_history: 노드 내역
-      node_history_title: "노드 내역: %{node_name}"
-      view_details: 자세한 내용 보기
+      history_title: "노드 역사: %{name}"
+      title: "노드: %{name}"
     not_found: 
-      sorry: 죄송합니다. %{id}인 %{type}를 발견하지 못했습니다.
+      sorry: "죄송하지만, %{type} #%{id}(을)를 찾지 못했습니다."
       type: 
         changeset: 바뀜집합
         node: 노드
         relation: 관계
         way: 길
     note: 
-      at_by_html: "%{user} 사용자가 %{when} 전"
-      at_html: "%{when} 전"
-      closed: "닫힘:"
-      closed_title: "해결된 참고: %{note_name}"
-      comments: "덧글:"
-      description: "설명:"
-      last_modified: "마지막으로 수정됨:"
-      open_title: "해결되지 않은 참고: %{note_name}"
-      opened: "열림:"
-      title: 참고
-    paging_nav: 
-      of: 중
-      showing_page: 페이지
+      closed_by: "%{user} 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에 해결함"
+      closed_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 해결함
+      closed_title: "해결된 참고 #%{note_name}"
+      commented_by: "%{user} 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에 덧글을 남김"
+      commented_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 덧글을 남김
+      hidden_by: "%{user} 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에 숨김"
+      hidden_title: "숨겨진 참고 #%{note_name}"
+      new_note: 새 참고
+      open_by: "%{user} 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에 만듦"
+      open_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 만듦
+      open_title: "해결되지 않은 참고 #%{note_name}"
+      reopened_by: "%{user} 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에 다시 활성화함"
+      reopened_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 다시 활성화함
+      title: "참고: %{id}"
+    part_of: "다음의 부분:"
     redacted: 
-      message_html: 이 %{type}의 %{version} 버전은 수정한 버전으로 볼 수 없습니다. 자세한 내용은 %{redaction_link}(을)를 참고하세요.
+      message_html: 이 %{type}의 %{version} 판은 수정한 판으로 볼 수 없습니다. 자세한 내용은 %{redaction_link}(을)를 참고하세요.
       redaction: 개정 %{id}
       type: 
         node: 노드
         relation: 관계
         way: 길
     relation: 
-      download_xml: XML 다운로드
-      relation: 관계
-      relation_title: "관계: %{relation_name}"
-      view_history: 내역 보기
-    relation_details: 
-      members: "멤버:"
-      part_of: "포함되는 관계:"
-    relation_history: 
-      download_xml: XML 다운로드
-      relation_history: 관계 내역
-      relation_history_title: "관계 내역: %{relation_name}"
-      view_details: 자세한 내용 보기
+      history_title: "관계 역사: %{name}"
+      members: 구성원
+      title: "관계: %{name}"
     relation_member: 
       entry_role: "%{type}에서 %{role}의 %{name}"
       type: 
@@ -208,78 +173,36 @@ ko:
         relation: 관계
         way: 길
     start_rjs: 
-      data_frame_title: 데이터
-      data_layer_name: 지도 데이터 찾아보기
-      details: 자세한 사항
-      edited_by_user_at_timestamp: "%{timestamp}에 %{user}가 수정"
-      hide_areas: 지역 숨기기
-      history_for_feature: "%{feature}의 내역"
+      feature_warning: 기능 %{num_features}개를 불러오고 있으며, 브라우저가 느려지거나 응답하지 않을 수 있습니다. 이 데이터를 보여줄까요?
       load_data: 데이터 불러오기
-      loaded_an_area_with_num_features: 당신은 특성을 가진 지역 %{num_features}개를 불러왔습니다. 일반적으로, 일부 브라우저에서는 이 데이터 개수를 모두 처리하지 못할 수도 있습니다. 일반적으로, 브라우저들은 대개 특성 %{max_features}개 이하를 처리하여 보여줄 수 있습니다. 그렇지 않은 경우, 브라우저의 속도가 저하되거나 브라우저의 반응이 느려질 수 있습니다. 여전히 이 데이터를 표시하려면, 아래의 버튼을 클릭하세요.
       loading: 불러오는 중...
-      manually_select: 다른 지역 선택
-      notes_layer_name: 참고 찾아보기
-      object_list: 
-        api: API로부터 이 지역 회수
-        back: 개체 목록으로 돌아가기
-        details: 자세한 사항
-        heading: 개체 목록
-        history: 
-          type: 
-            node: 노드 %{id}
-            way: 길 %{id}
-        selected: 
-          type: 
-            node: 노드 %{id}
-            way: 길 %{id}
-        type: 
-          node: 노드
-          way: 길
-      private_user: 비공개 사용자
-      show_areas: 지역 보이기
-      show_history: 내역 보기
-      unable_to_load_size: "불러오기 실패: 표시하려는 지역(%{bbox_size})의 설정 박스가 너무 큽니다. %{max_bbox_size}까지 표시할 수 있습니다."
-      view_data: 현재 지도 보기에 대한 데이터 보기
-      wait: 잠시만 기다려 주세요...
-      zoom_or_select: 확대 또는 보고 싶은 지도의 지역을 선택하세요
     tag_details: 
-      tags: "태그:"
+      tags: 태그
       wiki_link: 
         key: "%{key} 태그에 대한 위키 설명 문서"
         tag: "%{key}=%{value} 태그에 대한 위키 설명 문서"
-      wikipedia_link: 위키백과에 %{page} 문서 있음
+      wikipedia_link: 위키백과의 %{page} 문서
     timeout: 
-      sorry: 죄송합니다, %{id} id와 %{type}에 대한 데이터는 너무 오래 검색하려 했습니다.
+      sorry: 죄송합니다, %{id} id와 %{type}에 대한 데이터를 얻는데 너무 오래 걸립니다.
       type: 
         changeset: 바뀜집합
         node: 노드
         relation: 관계
         way: 길
+    version: 판
+    view_details: 자세한 내용 보기
+    view_history: 역사 보기
     way: 
-      download_xml: XML 다운로드
-      edit: 길 편집
-      view_history: 내역 보기
-      way: 길
-      way_title: "길: %{way_name}"
-    way_details: 
       also_part_of: 
-        one: "%{related_ways} 길의 일부"
-        other: "%{related_ways} 길의 일부"
-      nodes: "노드:"
-      part_of: "포함되는 길:"
-    way_history: 
-      download_xml: XML 다운로드
-      view_details: 자세한 내용 보기
-      way_history: 길 내역
-      way_history_title: "길 내역: %{way_name}"
+        one: "%{related_ways} 길의 부분"
+        other: "%{related_ways} 길의 부분"
+      history_title: "길 역사: %{name}"
+      nodes: 노드
+      title: "길: %{name}"
   changeset: 
     changeset: 
       anonymous: 익명
-      big_area: (큰 지역)
-      no_comment: (없음)
-      no_edits: (수정 없음)
-      show_area_box: 지역 상자 보기
-      still_editing: (현재 수정 중)
+      no_edits: (편집 없음)
       view_changeset_details: 바뀜집합 자세한 사항 보기
     changeset_paging_nav: 
       next: 다음 »
@@ -292,28 +215,19 @@ ko:
       saved_at: 저장 시간
       user: 사용자
     list: 
-      description: 지도에 최근 기여 찾아보기
-      description_bbox: "%{bbox} 안에서 바뀜집합"
-      description_friend: 내 친구의 바뀜집합
-      description_nearby: 근처 사용자의 바뀜집합
-      description_user: "%{user} 사용자의 바뀜집합"
-      description_user_bbox: "%{bbox} 안에서 %{user} 사용자의 바뀜집합"
-      empty_anon_html: 아직 편집이 없습니다.
-      empty_user_html: 아직 어떠한 편집을 하지 않은 것으로 보입니다. 시작하려면, <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>초보자 가이드</a>를 참고하세요.
-      heading: 바뀜집합
-      heading_bbox: 바뀜집합
-      heading_friend: 바뀜집합
-      heading_nearby: 바뀜집합
-      heading_user: 바뀜집합
-      heading_user_bbox: 바뀜집합
+      empty: 찾은 바뀜집합이 없습니다.
+      empty_area: 이 지역에 바뀜집합이 없습니다.
+      empty_user: 이 사용자의 바뀜집합이 없습니다.
+      load_more: 더 불러오기
+      no_more: 찾은 바뀜집합이 더 없습니다.
+      no_more_area: 이 지역에서 바뀜집합이 더 없습니다.
+      no_more_user: 이 사용자의 바뀜집합이 더 없습니다.
       title: 바뀜집합
-      title_bbox: "%{bbox} 안에서 바뀜집합"
       title_friend: 내 친구의 바뀜집합
       title_nearby: 근처 사용자의 바뀜집합
       title_user: "%{user} 사용자의 바뀜집합"
-      title_user_bbox: "%{bbox} 안에서 %{user} 사용자의 바뀜집합"
     timeout: 
-      sorry: 죄송합니다, 요청하는 바뀜집합 목록을 찾는데 너무 오래 걸립니다.
+      sorry: 죄송합니다, 요청하는 바뀜집합 목록을 얻는데 너무 오래 걸립니다.
   diary_entry: 
     comments: 
       ago: "%{ago} 전"
@@ -355,21 +269,21 @@ ko:
         title: OpenStreetMap 일기 항목
       language: 
         description: "%{language_name}로 된 OpenStreetMap 최근 일기 항목"
-        title: "%{language_name}로 된 OpenStreetMap 일지 항목"
+        title: "%{language_name}의 OpenStreetMap 일기 항목"
       user: 
         description: "%{user} 사용자의 최근 OpenStreetMap 일기 항목"
         title: "%{user} 사용자에 대한 OpenStreetMap 일기 항목"
     list: 
-      in_language_title: "%{language} 일지 항목"
+      in_language_title: "%{language}의 일기 항목"
       new: 새 일기 항목
       new_title: 사용자 일기에 새 항목 작성
       newer_entries: 다음 항목
-      no_entries: 일지 항목이 없습니다
+      no_entries: 일기 항목이 없습니다
       older_entries: 이전 항목
       recent_entries: 최근 일기 항목
-      title: 사용자 일지
-      title_friends: 친구의 일지
-      title_nearby: 근처 사용자의 일지
+      title: 사용자의 일기
+      title_friends: 친구의 일기
+      title_nearby: 근처 사용자의 일기
       user_title: "%{user}의 일기"
     location: 
       edit: 편집
@@ -387,7 +301,7 @@ ko:
       login_to_leave_a_comment: 덧글을 남기려면 로그인해야 합니다. %{login_link}
       save_button: 저장
       title: "%{user}의 일기 | %{title}"
-      user_title: "%{user} 일지"
+      user_title: "%{user}의 일기"
   editor: 
     default: 기본값 (현재 %{name})
     id: 
@@ -424,20 +338,30 @@ ko:
       paste_html: HTML을 붙여 넣어 웹사이트에 포함시키세요
       scale: 축척
       too_large: 
-        other: heading=지역이 너무 넓음
+        advice: "위의 내보내기가 실패하면, 아래에 나열된 원본 중 하나를 사용하는 것을 고려해주세요:"
+        body: "이 지역은 OpenStreetMap XML 데이터로 내보내는 데 너무 넓습니다. 확대하거나 작은 지역을 선택하거나, 대량 데이터 다운로드에 대한 다음 소스 중 하나를 사용하세요:"
+        geofabrik: 
+          description: 대륙, 국가 및 선택한 도시가 정기적으로 업데이트되는 추출본
+          title: Geofabrik 다운로드
+        metro: 
+          description: 세계 주요 도시와 그 주변 지역에 대한 추출본
+          title: 대도시 추출본
+        other: 
+          description: OpenStreetMap 위키에 나와있는 추가 원본
+          title: 다른 원본
+        overpass: 
+          description: OpenStreetMap 데이터베이스의 미러에서 이 테두리 상자를 다운로드
+          title: Overpass API
+        planet: 
+          description: 완전한 OpenStreetMap 데이터베이스가 정기적으로 업데이트되는 복사본
+          title: 플래닛 OSM
       zoom: 확대
-    start_rjs: 
-      add_marker: 지도에 표시 추가
-      change_marker: 표시 위치 바꾸기
-      click_add_marker: 표시를 추가하려면 지도에 클릭하세요
-      drag_a_box: 지역을 보기 위해 지도로 끌어 놓으세요
-      export: 내보내기
-      manually_select: 다른 지역 선택
+    title: 내보내기
   geocoder: 
     description: 
       title: 
-        geonames: <a href="http://www.geonames.org/">GeoNames</a>에서 위치
-        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>에서 위치
+        geonames: <a href="http://www.geonames.org/">GeoNames</a>에서의 위치
+        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>에서의 위치
       types: 
         cities: 도시
         places: 장소
@@ -460,12 +384,14 @@ ko:
       no_results: 결과가 없습니다
     search: 
       title: 
-        ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a> 결과
-        geonames: <a href="http://www.geonames.org/">GeoNames</a> 결과
+        ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a>에서의 결과
+        geonames: <a href="http://www.geonames.org/">GeoNames</a>에서의 결과
+        geonames_reverse: <a href="http://www.geonames.org/">GeoNames</a>에서의 결과
         latlon: <a href="http://openstreetmap.org/">내부</a> 결과
-        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> 결과
-        uk_postcode: <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a> 결과
-        us_postcode: <a href="http://geocoder.us/">Geocoder.us</a> 결과
+        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>에서의 결과
+        osm_nominatim_reverse: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>에서의 결과
+        uk_postcode: <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>에서의 결과
+        us_postcode: <a href="http://geocoder.us/">Geocoder.us</a>에서의 결과
     search_osm_nominatim: 
       admin_levels: 
         level10: 교외 경계
@@ -491,7 +417,7 @@ ko:
         amenity: 
           WLAN: 와이파이 액세스
           airport: 공항
-          arts_centre: 문예 회관
+          arts_centre: 예술 회관
           artwork: 예술 작품
           atm: ATM
           auditorium: 강당
@@ -500,28 +426,28 @@ ko:
           bbq: BBQ
           bench: 벤치
           bicycle_parking: 자전거 주차장
-          bicycle_rental: 자전거 대여소
+          bicycle_rental: 자전거 대여
           biergarten: 비어 가든
           brothel: 매음굴
           bureau_de_change: 환전소
           bus_station: 버스 정류장
           cafe: 카페
           car_rental: 자동차 대여
-          car_sharing: 자동차 공유
+          car_sharing: 카 셰어링
           car_wash: 세차장
           casino: 카지노
           charging_station: 충전 스테이션
           cinema: 영화관
           clinic: 진료소
           club: 클럽
-          college: 대학
+          college: 전문대학
           community_centre: 커뮤니티 센터
           courthouse: 법원
           crematorium: 화장장
           dentist: 치과
           doctors: 의원
           dormitory: 기숙사
-          drinking_water: 식수대
+          drinking_water: 식수
           driving_school: 운전 학교
           embassy: 대사관
           emergency_phone: 긴급 전화
@@ -583,7 +509,7 @@ ko:
           toilets: 화장실
           townhall: 마을 회관
           university: 대학교
-          vending_machine: 자동판매기
+          vending_machine: 자동 판매기
           veterinary: 동물병원
           village_hall: 주민센터
           waste_basket: 쓰레기통
@@ -607,7 +533,7 @@ ko:
           phone: 긴급 전화
         highway: 
           bridleway: 승마로
-          bus_guideway: 버스 전용 도로
+          bus_guideway: 가이드 버스 차선
           bus_stop: 버스 정류장
           byway: 옆길
           construction: 건설 중인 고속도로
@@ -665,7 +591,7 @@ ko:
           museum: 박물관
           ruins: 유적
           tomb: 무덤
-          tower: 타워
+          tower: 탑
           wayside_cross: 도로변의 십자가
           wayside_shrine: 길가의 신사
           wreck: 난파선
@@ -678,7 +604,7 @@ ko:
           conservation: 보존
           construction: 공사중
           farm: 농장
-          farmland: 농지
+          farmland: 농토
           farmyard: 농지
           forest: 숲
           garages: 차고
@@ -687,7 +613,7 @@ ko:
           industrial: 산업 지역
           landfill: 매립지
           meadow: 목초지
-          military: 군사 지역
+          military: 군사지
           mine: 광산
           nature_reserve: 자연 보호구
           orchard: 과수원
@@ -756,13 +682,13 @@ ko:
           marsh: 습지
           moor: 습지
           mud: 진흙
-          peak: 정상
+          peak: 산정상
           point: 지점
           reef: 암초
           ridge: 산등성이
           river: 강
           rock: 바위
-          scree: 급사면장
+          scree: 급사면
           scrub: 우거진 숲
           shoal: 얕은 곳
           spring: 온천
@@ -776,16 +702,16 @@ ko:
           wetlands: 습지
           wood: 산림
         office: 
-          accountant: 회계사 사무실
+          accountant: 회계 사무소
           architect: 건축사
           company: 회사
           employment_agency: 직업 소개소
-          estate_agent: 공인 중개사
-          government: 정부 기관
-          insurance: 보험 사무실
+          estate_agent: 부동산 중개
+          government: 관청
+          insurance: 보험 사무소
           lawyer: 변호사 사무실
           ngo: NGO 사무실
-          telecommunication: 통신사
+          telecommunication: 통신 사무실
           travel_agent: 여행사
           "yes": 사무실
         place: 
@@ -799,7 +725,7 @@ ko:
           houses: 주택
           island: 섬
           islet: 작은 섬
-          isolated_dwelling: 분리된 주택
+          isolated_dwelling: 독립 주택
           locality: 지역
           moor: 습지
           municipality: 시정촌
@@ -810,14 +736,14 @@ ko:
           state: 시/도/주
           subdivision: 구분
           suburb: 교외
-          town: 탑
+          town: 마을
           unincorporated_area: 비법인 지역
           village: 마을
         railway: 
           abandoned: 폐지된 철도
           construction: 건설 중인 철도
-          disused: 폐선한 철도
-          disused_station: 폐선한 철도역
+          disused: 폐선된 철도
+          disused_station: 폐선된 철도역
           funicular: 케이블 카
           halt: 기차 정지
           historic_station: 역사적인 철도역
@@ -846,18 +772,18 @@ ko:
           bakery: 제과점
           beauty: 미용실
           beverages: 음료 가게
-          bicycle: 자전거 상점
+          bicycle: 자전거 가게
           books: 서점
           boutique: 부티크
           butcher: 정육점
-          car: 자동차 상점
-          car_parts: 자동차 부품 상점
-          car_repair: 자동차 정비소
+          car: 자동차 판매점
+          car_parts: 자동차 부품점
+          car_repair: 자동차 수리점
           carpet: 카펫 가게
           charity: 자선 가게
-          chemist: 화학자
+          chemist: 화학품점
           clothes: 의류 상점
-          computer: 컴퓨터 가게
+          computer: 컴퓨터 상점
           confectionery: 과자 가게
           convenience: 편의점
           copyshop: 복사점
@@ -867,7 +793,7 @@ ko:
           discount: 할인점
           doityourself: Do-It-Yourself
           dry_cleaning: 드라이 클리닝
-          electronics: 전자 제품 상점
+          electronics: 전자 제품 가게
           estate_agent: 공인 중개사
           farm: 농장 가게
           fashion: 패션 상점
@@ -875,30 +801,30 @@ ko:
           florist: 꽃집
           food: 음식 가게
           funeral_directors: 장례식장
-          furniture: 가구
+          furniture: 가구점
           gallery: 갤러리
-          garden_centre: 정원 센터
+          garden_centre: 원예 용품점
           general: 일반 상점
-          gift: 선물 상점
+          gift: 선물 가게
           greengrocer: 청과상
           grocery: 식료품 상점
-          hairdresser: 미용실
-          hardware: 집개선 상점
-          hifi: 하이파이
+          hairdresser: 이발소
+          hardware: 철물점
+          hifi: 고급 오디오
           insurance: 보험
-          jewelry: 보석 가게
+          jewelry: 보석 상점
           kiosk: 키오스크 숍
           laundry: 세탁소
-          mall: 몰
+          mall: 쇼핑몰
           market: 시장
-          mobile_phone: 휴대 전화 상점
+          mobile_phone: 휴대폰 상점
           motorcycle: 모터사이클 상점
-          music: 음악 상점
-          newsagent: 신문 판매대
+          music: 음반 가게
+          newsagent: 신문 판매소
           optician: 안경점
           organic: 유기농 식품 상점
           outdoor: 아웃도어 상점
-          pet: 애완 가게
+          pet: 애완 동물 가게
           pharmacy: 약국
           photo: 사진관
           salon: 가게
@@ -909,7 +835,7 @@ ko:
           stationery: 문구점
           supermarket: 수퍼마켓
           tailor: 양복점
-          toys: 장난감 가게
+          toys: 완구점
           travel_agency: 여행사
           video: 비디오 가게
           wine: 주점
@@ -918,7 +844,7 @@ ko:
           alpine_hut: 고산장
           artwork: 예술 작품
           attraction: 견인
-          bed_and_breakfast: 잠자기와 아침 식사
+          bed_and_breakfast: 잠자기와 아침 식사(민박)
           cabin: 오두막
           camp_site: 캠프장
           caravan_site: 캐러밴 사이트
@@ -959,7 +885,22 @@ ko:
           wadi: 와디
           water_point: 급수소
           waterfall: 폭포
-          weir: 둑
+          weir: 어량
+  help_page: 
+    help: 
+      description: OSM의 질문 및 답변 사이트에서 질문하거나 답변을 찾아보세요.
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: "OpenStreetMap은 프로젝트에 대해 배우고, 질문을 묻고 답하고,\n매핑 주제를 협력하여 토론하고 문서하기 위한 여러 자료가 있습니다."
+    title: 도움말 얻기
+    welcome: 
+      description: OpenStreetMap 기초를 다루는 이 퀵 가이드로 시작합니다.
+      title: OSM에 오신 것을 환영합니다
+      url: /welcome
+    wiki: 
+      description: 깊이 있는 OSM 설명문서에 대해서는 위키를 찾아보세요.
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/
   javascripts: 
     close: 닫기
     edit_help: 편집하려는 위치에 지도를 이동하고 확대한 다음, 여기를 클릭하세요.
@@ -970,14 +911,17 @@ ko:
     map: 
       base: 
         cycle_map: 사이클 지도
+        hot: 인도주의
         standard: 표준
         transport_map: 교통 지도
       copyright: © <a href='%{copyright_url}'>OpenStreetMap 기여자</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>기부하기</a>
       layers: 
         data: 지도 데이터
         header: 지도 레이어
         notes: 지도 참고
         overlays: 지도 문제를 해결하기 위해 오버레이를 활성화
+        title: 레이어
       locate: 
         popup: 이 지점의 {distance} {unit} 안에 있습니다
         title: 내 위치 보기
@@ -987,22 +931,13 @@ ko:
     notes: 
       new: 
         add: 참고 추가
-        intro: 지도를 개선하기 위해 입력한 정보가 다른 매퍼에 보여집니다. 따라서 올바른 위치에 표시를 이동하고 아래에 참고를 입력할 때 가능하면 알기 쉽고 정확하게 적어주세요.
+        intro: 지도를 개선하기 위해 입력한 정보가 다른 매퍼에 보입니다. 따라서 올바른 위치에 표시를 이동하고 아래에 참고를 입력할 때 가능하면 알기 쉽고 정확하게 적어주세요.
       show: 
         anonymous_warning: 익명 사용자의 참고도 있으므로 별도로 확인해야 합니다.
-        closed_by: "%{time}에 <a href='%{user_url}'>%{user}</a> 사용자가 해결함"
-        closed_by_anonymous: "%{time}에 익명이 해결함"
         comment: 덧글
         comment_and_resolve: 덧글 & 해결
-        commented_by: "%{time}에 <a href='%{user_url}'>%{user}</a> 사용자가 덧글을 남김"
-        commented_by_anonymous: "%{time}에 익명이 덧글을 남김"
         hide: 숨기기
-        opened_by: "%{time}에 <a href='%{user_url}'>%{user}</a> 사용자가 만듦"
-        opened_by_anonymous: "%{time}에 익명이 만듦"
-        permalink: 고유링크
         reactivate: 다시 활성화
-        reopened_by: "%{time}에 <a href='%{user_url}'>%{user}</a> 사용자가 다시 활성화함"
-        reopened_by_anonymous: "%{time}에 익명이 다시 활성화함"
         resolve: 해결
     share: 
       cancel: 취소
@@ -1012,7 +947,7 @@ ko:
       embed: HTML
       format: "형식:"
       image: 그림
-      image_size: "그림은 다음 크기로 표준 레이어로 보여집니다:"
+      image_size: "그림은 다음 크기로 표준 레이어로 보입니다:"
       include_marker: 표시 포함
       link: 링크 또는 HTML
       long_link: 링크
@@ -1027,36 +962,31 @@ ko:
       createnote_tooltip: 지도에 참고 추가
       edit_disabled_tooltip: 지도를 편집하려면 확대
       edit_tooltip: 지도 편집
-      history_disabled_tooltip: 이 지역에 대한 편집을 보려면 확대
-      history_tooltip: 이 지역에 대한 편집 보기
+      map_data_zoom_in_tooltip: 지도 데이터를 보려면 확대
+      map_notes_zoom_in_tooltip: 지도 참고를 보려면 확대
   layouts: 
+    about: 소개
     community: 커뮤니티
     community_blogs: 커뮤니티 블로그
-    community_blogs_title: OpenStreetMap 커뮤니티 회원 블로그
-    copyright: 저작권 및 라이선스
+    community_blogs_title: OpenStreetMap 커뮤니티의 구성원에서의 블로그
+    copyright: 저작권
     data: 데이터
-    documentation: 설명서
-    documentation_title: 이 프로젝트에 대한 설명서
     donate: 하드웨어 업데이트 기금에서 %{link}에 의해 OpenStreet를 지원합니다.
-    donate_link_text: 기부
     edit: 편집
     edit_with: "%{editor}(으)로 편집"
+    export: 내보내기
     export_data: 데이터 내보내기
     foundation: 재단
     foundation_title: OpenStreetMap 재단
     gps_traces: GPS 추적
     gps_traces_tooltip: GPS 추적 관리
     help: 도움말
-    help_centre: 도움말 센터
-    help_title: 프로젝트에 대한 도움말 사이트
-    history: 내역
+    history: 역사
     home: 집 위치로 가기
-    intro_1: OpenStreetMap은 여러분같은 사람에 의해 만들어진 우리 모두의 전세계 지도입니다.
-    intro_2_create_account: 계정을 만들 수 있습니다
-    intro_2_download: 다운로드
-    intro_2_html: 데이터는 %{license}에 따라 자유롭게 %{download}와 %{use}할 수 있습니다. 지도를 개선하려면 %{create_account}.
-    intro_2_license: 오픈 라이선스
-    intro_2_use: 이용
+    intro_2_create_account: 사용자 계정을 만드세요
+    intro_header: OpenStreetMap에 오신 것을 환영합니다!
+    intro_text: OpenStreetMap은 여러분과 같은 사람이 만들고 자유롭게 오픈 라이선스에 따라 사용할 수 있는, 세계 지도입니다.
+    learn_more: 더 알아보기
     log_in: 로그인
     log_in_tooltip: 기존 계정으로 로그인
     logo: 
@@ -1065,6 +995,7 @@ ko:
     make_a_donation: 
       text: 기부하기
       title: 금전적인 기부와 OpenStreetMap 지원
+    more: 더 보기
     osm_offline: 데이터베이스 점검을 위해 OpenStreetMap의 데이터가 현재 오프라인입니다.
     osm_read_only: 데이터베이스 점검을 위해 OpenStreetMap의 데이터가 현재 읽기 전용입니다.
     partners_bytemark: 바이트마크 호스팅
@@ -1074,14 +1005,10 @@ ko:
     partners_ucl: UCL VR 센터
     sign_up: 가입하기
     sign_up_tooltip: 편집을 위한 계정 만들기
+    start_mapping: 매핑 시작
     tag_line: 우리 모두의 위키 세계 지도
-    user_diaries: 사용자 일지
-    user_diaries_tooltip: 사용자 일지 보기
-    view: 보기
-    view_tooltip: 지도 보기
-    wiki: 위키
-    wiki_title: 프로젝트에 대한 위키 사이트
-    wiki_url: http://wiki.openstreetmap.org/
+    user_diaries: 사용자 일기
+    user_diaries_tooltip: 사용자 일기 보기
   license_page: 
     foreign: 
       english_link: 영어 원본
@@ -1090,17 +1017,18 @@ ko:
     legal_babble: 
       attribution_example: 
         alt: 웹페이지에 OpenStreetMap에 표시하는 방법의 예
-        title: 저작자 표시 예
-      contributors_at_html: "<strong>오스트리아</strong>: <a href=\"http://data.wien.gv.at/\">Stadt Wien</a>\n(<a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>로 배포),\n<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg</a>와\nLand Tirol (<a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY AT with amendments</a>로 배포)에서의\n데이터를 포함합니다."
-      contributors_ca_html: "<strong>캐나다</strong>: GeoBase&reg;, GeoGratis\n(&copy; Department of Natural Resources Canada),\nCanVec (&copy; Department of Natural\nResources Canada)과 StatCan (Geography Division,\nStatistics Canada)에서의 데이터를 포함합니다."
+        title: 권리 표시 예
+      contributors_at_html: "<strong>오스트리아</strong>: <a href=\"http://data.wien.gv.at/\">Stadt Wien</a>\n(<a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>에 따름),\n<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg</a>와\nLand Tirol (<a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">개정된 CC-BY AT</a>에 따름)에서의\n데이터를 포함합니다."
+      contributors_ca_html: "<strong>캐나다</strong>: GeoBase&reg;, GeoGratis\n(&copy; 캐나다 천연자원부),\nCanVec (&copy; 캐나다\n천연자원부)과 StatCan (캐나다 연방통계청,\n지리부)에서의 데이터를 포함합니다."
+      contributors_fi_html: "<strong>핀란드</strong>: <a href=\"http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501\">NLSFI 라이선스</a>에\n따른, National Land Survey of Finland's Topographic Database와\n다른 데이터집합에서의 데이터를 포함합니다."
       contributors_footer_1_html: "자세한 내용과 OpenStreetMap을 개선하는 데 도움이 되는 데 사용한\n기타 자료에 대해서는 OpenStreetMap 위키에 있는 <a\nhref=\"http://wiki.openstreetmap.org/wiki/Contributors\">기여자 문서</a>\n를 참고하세요."
       contributors_footer_2_html: "OpenStreetMap에 포함된 데이터는 원래 데이터 제공자가\nOpenStreetMap을 보증하거나 어떠한 보증도 제공하거나\n어떠한 책임도 진다는 것을 의미하지 않습니다."
       contributors_fr_html: "<strong>프랑스</strong>: Direction Générale des Impôts에서의\n데이터를 포함합니다."
-      contributors_gb_html: "<strong>연합 왕국(영국)</strong>: Ordnance\nSurvey 데이터를 포함합니다. &copy; 2010년 12월 Crown\n저작권과 데이터베이스 권리."
-      contributors_intro_html: "기여자는 수천 명의 개인입니다. 또한 국립지도 제작 기관과\n같은 다른 소스의 공개 가능한 라이센스의 데이터를 포함합니다:"
-      contributors_nl_html: "<strong>네덜란드</strong>: &copy; 2007년\nAND 데이터(<a href=\"http://www.and.com\">www.and.com</a>)를 포함합니다."
+      contributors_gb_html: "<strong>연합 왕국</strong>: 육지 측량 데이터\n&copy; Crown 저작권 및 데이터베이스 권리\n2010-12를 포함합니다."
+      contributors_intro_html: "우리의 기여자는 수천 명의 개인입니다. 또한 국립지도 제작 기관과\n같은 다른 소스의 공개 가능한 라이센스의 데이터를 포함합니다:"
+      contributors_nl_html: "<strong>네덜란드</strong>: &copy; AND 데이터, 2007년\n(<a href=\"http://www.and.com\">www.and.com</a>)을 포함합니다."
       contributors_nz_html: "<strong>뉴질랜드</strong>: Land Information New Zealand에서의\n데이터를 포함합니다. Crown이 저작권을 소유합니다."
-      contributors_title_html: 기여자
+      contributors_title_html: 우리의 기여자
       contributors_za_html: "<strong>남아프리카 공화국</strong>: <a href=\"http://www.ngi.gov.za/\">Chief Directorate:\nNational Geo-Spatial Information</a>에서의 데이터를\n포함합니다. State가 저작권을 소유합니다."
       credit_1_html: "&ldquo;&copy; OpenStreetMap 기여자&rdquo;로 제작진을 넣어야\n합니다."
       credit_2_html: "또한 명확하게 데이터는 오픈 데이터베이스 라이선스에 따라 사용할 수 있으며,\n지도 제작은 지도 타일을 사용할 때에 CC-BY-SA로 허가합니다.\n<a href=\"http://www.openstreetmap.org/copyright\">이 저작권 문서</a>로\n링크하여 이렇게 할 수 있습니다.\n또한 데이터 형식으로 OSM을 배포할 때는 라이선스 이름과\n라이선스에 직접 링크를 할 수 있습니다. 링크할 수 없는\n매체(예를 들어 인쇄 작업)에서는 opendatacommons.org와\nopenstreetmap.org('OpenStreetMap'을 전체 주소로 확장)로\n독자에 직접 알려주세요. 관련 있다면 creativecommons.org로 알려주세요."
@@ -1128,11 +1056,11 @@ ko:
       date: 날짜
       from: 보낸 사람
       messages: "%{new_messages}와 %{old_messages}가 있습니다"
-      my_inbox: 내 쪽지함
+      my_inbox: 내 받은 쪽지함
       new_messages: 
         one: 새 메시지 %{count}개
         other: 새 메시지 %{count}개
-      no_messages_yet: 받은 쪽지가 없습니다. %{people_mapping_nearby_link}에서 친구를 찾아보세요.
+      no_messages_yet: 아직 메시지가 없습니다. %{people_mapping_nearby_link}에서 마음에 드는 친구를 찾아보는 것은 어떨까요?
       old_messages: 
         one: 오래된 메시지 %{count}개
         other: 오래된 메시지 %{count}개
@@ -1152,24 +1080,24 @@ ko:
       back_to_inbox: 받은 쪽지함으로 돌아가기
       body: 본문
       limit_exceeded: 최근에 많은 메시지를 보냈습니다. 더 보내려면 잠시 기다려주세요.
-      message_sent: 쪽지가 전송되었습니다.
+      message_sent: 보낸 메시지
       send_button: 보내기
-      send_message_to: "%{name}에게 새 쪽지 보내기"
+      send_message_to: "%{name}에게 새 메시지 보내기"
       subject: 제목
-      title: 새 쪽지
+      title: 메시지 보내기
     no_such_message: 
       body: 죄송합니다 해당 id로 된 메시지가 없습니다.
       heading: 메시지가 없습니다.
       title: 메시지가 없습니다.
     outbox: 
       date: 날짜
-      inbox: 받은 편지함
+      inbox: 받은 쪽지함
       messages: 
         one: 메시지 %{count}개를 보냈습니다
         other: 메시지 %{count}개를 보냈습니다
       my_inbox: 내 %{inbox_link}
-      no_sent_messages: 받은 쪽지가 없습니다. %{people_mapping_nearby_link}에서 친구를 찾아보세요.
-      outbox: 보낸 편지함
+      no_sent_messages: 아직 보낸 메시지가 없습니다. %{people_mapping_nearby_link}에서 마음에 드는 친구를 찾아보는 것은 어떨까요?
+      outbox: 보낸 쪽지함
       people_mapping_nearby: 근처에 매핑한 사람
       subject: 제목
       title: 보낸 쪽지함
@@ -1266,7 +1194,7 @@ ko:
       hopefully_you: 누군가가 아마 자신이 이 이메일 계정의 openstreetmap.org 계정에서 재설정할 비밀번호를 요청했습니다.
     message_notification: 
       footer_html: 또한 %{readurl}에서 메시지를 읽을 수 있고 %{replyurl}에서 회신할 수 있습니다.
-      header: "%{from_user}님이 OpenStreetMap을 통해 %{subject} 쪽지를 보냈습니다:"
+      header: "%{from_user}님이 OpenStreetMap을 통해 %{subject} 제목으로 된 메시지를 보냈습니다:"
       hi: "%{to_user}님 안녕하세요."
     note_comment_notification: 
       anonymous: 익명 사용자
@@ -1297,23 +1225,32 @@ ko:
     oauthorize: 
       allow_read_gpx: 비공개 GPS 추적을 읽습니다.
       allow_read_prefs: 사용자 환경 설정을 읽습니다.
-      allow_to: "다음 클라이언트 응용 프로그램을 허용합니다:"
+      allow_to: "다음 클라이언트 애플리케이션을 허용합니다:"
       allow_write_api: 지도를 수정합니다.
       allow_write_diary: 일기 항목을 만들고 덧글을 달고 친구를 만듭니다.
       allow_write_gpx: GPS 추적을 올립니다.
       allow_write_notes: 참고를 수정합니다.
       allow_write_prefs: 사용자 환경 설정을 수정합니다.
-      request_access: "%{app_name} 응용 프로그램이 %{user} 계정에 접근을 요청합니다. 응용 프로그램이 다음 기능을 수행할 것인지 확인하세요. 원하는 많큼 많거나 적게 선택할 수 있습니다."
+      request_access: "%{app_name} 애플리케이션이 %{user} 계정에 접근을 요청합니다. 애플리케이션이 다음 기능을 수행할 것인지 확인하세요. 원하는 만큼 많거나 적게 선택할 수 있습니다."
+      title: 내 계정에 접근 인증
+    oauthorize_failure: 
+      denied: 내 계정에 %{app_name} 애플리케이션 접근이 거부되었습니다.
+      invalid: 인증 토큰이 올바르지 않습니다.
+      title: 인증 요청이 실패됨
+    oauthorize_success: 
+      allowed: 내 계정에 %{app_name} 애플리케이션 접근이 부여되었습니다.
+      title: 인증 요청이 허가됨
+      verification: 인증 코드는 %{code}입니다.
     revoke: 
       flash: "%{application}에 대한 토큰을 해제했습니다"
   oauth_clients: 
     create: 
       flash: 성공적으로 정보를 등록했습니다
     destroy: 
-      flash: 클라이언트 응용 프로그램 등록을 파괴했습니다
+      flash: 클라이언트 애플리케이션 등록을 파기했습니다
     edit: 
       submit: 편집
-      title: 응용 프로그램 편집
+      title: 내 애플리케이션 편집
     form: 
       allow_read_gpx: 비공개 GPS 추적을 읽습니다.
       allow_read_prefs: 사용자 환경 설정을 읽습니다.
@@ -1327,15 +1264,15 @@ ko:
       requests: "사용자가 다음 권한을 요청합니다:"
       required: 필수
       support_url: 지원 URL
-      url: 주요 응용 프로그램 URL
+      url: 주요 애플리케이션 URL
     index: 
       application: 응용 프로그램 이름
       issued_at: 발행
-      list_tokens: "다음 토큰이 내 이름으로 응용 프로그램에 발급했습니다:"
-      my_apps: 내 클라이언트 응용 프로그램
-      my_tokens: 내 인증한 응용 프로그램
-      no_apps: "%{oauth} 표준을 사용하여 OpenStreetMap과 함께 사용하기 위해 등록할 응용 프로그램이 있습니까? 이 서비스에 OAuth를 요청하기 전에 웹 응용 프로그램을 등록해야 합니다."
-      register_new: 응용 프로그램 등록
+      list_tokens: "다음 토큰이 내 이름으로 애플리케이션에 발급했습니다:"
+      my_apps: 내 클라이언트 애플리케이션
+      my_tokens: 내 인증한 애플리케이션
+      no_apps: "%{oauth} 표준을 사용하여 OpenStreetMap과 함께 사용하기 위해 등록할 애플리케이션이 있습니까? 이 서비스에 OAuth를 요청하기 전에 웹 애플리케이션을 등록해야 합니다."
+      register_new: 내 애플리케이션 등록
       registered_apps: "등록한 다음 클라이언트 응용 프로그램이 있습니다:"
       revoke: 해제!
       title: 내 OAuth 자세한 정보
@@ -1369,9 +1306,9 @@ ko:
     create: 
       flash: 교정을 만들었습니다.
     destroy: 
-      error: 이 교정을 파괴하는 중에 오류가 발생했습니다.
-      flash: 교정을 파괴했습니다.
-      not_empty: 교정이 비어 있지 않습니다. 파괴하기 전에 이 교정에 속하는 모든 버전을 교정 취소하세요.
+      error: 이 교정을 파기하는 중에 오류가 발생했습니다.
+      flash: 교정을 파기했습니다.
+      not_empty: 교정이 비어 있지 않습니다. 파기하기 전에 이 교정에 속하는 모든 판을 교정 취소하세요.
     edit: 
       description: 설명
       heading: 교정 편집
@@ -1399,7 +1336,7 @@ ko:
   site: 
     edit: 
       anon_edits_link_text: 왜 이러한지 알아보세요.
-      flash_player_required: OpenStreetMap 플래시 편집기인 Potlatch를 사용하려면 플래시 플래이어가 필요합니다. <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Adobe.com에서 플래시 플레이어를 다운로드</a>할 수 있습니다. <a href="http://wiki.openstreetmap.org/wiki/Editing">몇 가지 다른 설정</a> 또한 OpenStreetMap 편집을 위해 사용할 수 있습니다.
+      flash_player_required: OpenStreetMap 플래시 편집기인 Potlatch를 사용하려면 플래시 플레이어가 필요합니다. <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Adobe.com에서 플래시 플레이어를 다운로드</a>할 수 있습니다. <a href="http://wiki.openstreetmap.org/wiki/Editing">몇 가지 다른 설정</a> 또한 OpenStreetMap 편집을 위해 사용할 수 있습니다.
       id_not_configured: iD가 설정되지 않았습니다
       no_iframe_support: 브라우저가 이 기능에 필요한 HTML iframe을 지원하지 않습니다.
       not_public: 공개할 편집을 설정하지 않았습니다.
@@ -1451,7 +1388,7 @@ ko:
           lake: 
             - 호수
             - 저수지
-          military: 군사 지역
+          military: 군사지
           motorway: 고속도로
           park: 공원
           permissive: 허용 통행
@@ -1472,8 +1409,8 @@ ko:
           station: 철도역
           subway: 지하철
           summit: 
-            - 정상
-            - 정상
+            - 산꼭대기
+            - 산정상
           tourist: 관광 명소
           track: 추적
           tram: 
@@ -1502,14 +1439,13 @@ ko:
       edit: 편집
       preview: 미리 보기
     search: 
-      search: 찾기
-      search_help: "예제: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ', 또는 'post offices near Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>더 많은 예제...</a>"
+      search: 검색
       submit_text: 가기
       where_am_i: 내가 어디있나요?
       where_am_i_title: 검색 엔진을 사용하여 현재 위치를 나타냅니다
     sidebar: 
       close: 닫기
-      search_results: 찾기 결과
+      search_results: 검색 결과
   time: 
     formats: 
       friendly: "%Y년 %B %e일 %H:%M"
@@ -1519,6 +1455,11 @@ ko:
       upload_trace: GPS 추적 올리기
     delete: 
       scheduled_for_deletion: 삭제 예정 추적
+    description: 
+      description_with_count: 
+        one: "%{user}에서의 %{count} 지점으로 된 GPX 파일"
+        other: "%{user}에서의 %{count} 지점으로 된 GPX 파일"
+      description_without_count: "%{user}에서의 GPX 파일"
     edit: 
       description: "설명:"
       download: 다운로드
@@ -1536,6 +1477,8 @@ ko:
       uploaded_at: "올려짐:"
       visibility: "공개 여부:"
       visibility_help: 이게 무슨 의미입니까?
+    georss: 
+      title: OpenStreetMap GPS 추적
     list: 
       description: 최근 GPS 추적 올리기 찾아보기
       empty_html: 여기에 아직 아무 것도 없습니다. <a href='%{upload_link}'>새 추적을 올리거나</a> <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>위키 문서</a>에 GPS 추적에 대한 자세한 내용을 알아보세요.
@@ -1730,7 +1673,7 @@ ko:
           alt: 야후 OpenID로 로그인
           title: 야후로 로그인
       password: "비밀번호:"
-      register now: 지금 등록할 수 있습니다
+      register now: 지금 등록하세요
       remember: 로그인 상태를 기억하기
       title: 로그인
       to make changes: OpenStreetMap 데이터를 바꾸려면 계정이 있어야 합니다.
@@ -1767,7 +1710,7 @@ ko:
       email address: "이메일 주소:"
       license_agreement: 계정을 확인하면 당신은 <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">기여자 약관</a>에 동의해야합니다.
       no_auto_account_create: 불행하게도 현재로서는 자동으로 계정을 만들 수 없습니다.
-      not displayed publicly: 공개적으로 보여지지 않습니다 (<a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="이메일 주소에 대한 부분을 포함한 위키 개인정보 정책">개인정보 정책</a>을 참고하세요)
+      not displayed publicly: 공개적으로 보여지지 않습니다 (<a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="이메일 주소에 대한 부분을 포함한 위키 개인 정보 정책">개인 정보 정책</a>을 참고하세요)
       openid: "%{logo} OpenID:"
       openid association: "<p>OpenID는 아직 OpenStreetMap 계정과 연결되지 않았습니다.</p>\n<ul>\n  <li>OpenStreetMap에 새로 가입하려면 아래의 양식을 사용하여 새 계정을 만드세요.</li>\n  <li>\n    이미 계정이 있다면 사용자 이름과 비밀번호를 사용해 로그인하고 나서\n    사용자 설정에서 OpenID와 계정을 연결할 수 있습니다.\n  </li>\n</ul>"
       openid no password: OpenID로 비밀번호가 필요하지 않지만 몇 가지 추가 도구나 서버는 여전히 비밀번호가 필요할 수 있습니다.
@@ -1830,7 +1773,7 @@ ko:
       confirm: 확인
       confirm_user: 이 사용자 확인
       create_block: 이 사용자를 차단
-      created from: "만든 날:"
+      created from: "만든 위치:"
       ct accepted: "%{ago} 전에 승인함"
       ct declined: 거부됨
       ct status: "기여자 약관:"
@@ -1853,6 +1796,7 @@ ko:
       my comments: 내 덧글
       my diary: 내 일기
       my edits: 내 편집
+      my messages: 내 메시지
       my notes: 내 참고
       my profile: 내 프로필
       my settings: 내 설정
@@ -1860,7 +1804,7 @@ ko:
       nearby users: 기타 근처 사용자
       nearby_changesets: 근처 사용자의 바뀜집합
       nearby_diaries: 근처 사용자의 일기 항목
-      new diary entry: 새 일지 항목
+      new diary entry: 새 일기 항목
       no friends: 아직 어떠한 친구도 추가하지 않았습니다.
       no nearby users: 아직 근처에 매핑을 인정하는 다른 사용자가 없습니다.
       notes: 지도 참고
@@ -1869,12 +1813,12 @@ ko:
       role: 
         administrator: 이 사용자는 관리자입니다
         grant: 
-          administrator: 관리자 접근 허가
-          moderator: 운영자 접근 허가
+          administrator: 관리자 권한 부여
+          moderator: 운영자 권한 부여
         moderator: 이 사용자는 운영자입니다
         revoke: 
-          administrator: 관리자 접근 해제
-          moderator: 운영자 접근 해제
+          administrator: 관리자 권한 해제
+          moderator: 운영자 권한 해제
       send message: 메시지 보내기
       settings_link_text: 설정
       spam score: "스팸 점수:"
@@ -1917,8 +1861,8 @@ ko:
       heading: 사용자 차단 목록
       title: 사용자 차단
     model: 
-      non_moderator_revoke: 사회자가 차단을 해제해야 합니다.
-      non_moderator_update: 사회자가 차단을 만들거나 업데이트해야 합니다.
+      non_moderator_revoke: 차단을 해제하려면 운영자여야 합니다.
+      non_moderator_update: 차단을 만들거나 바꾸려면 운영자여야 합니다.
     new: 
       back: 모든 차단 보기
       heading: "%{name} 사용자 차단"
@@ -2006,7 +1950,7 @@ ko:
       way_html: <strong>길</strong>은 도로, 개울, 호수나 건물과 같은, 선이나 지역입니다.
     introduction_html: "세계의 자유롭고 편집할 수 있는 지도인, OpenStreetMap에 오신 것을 환영합니다. 지금 가입하면,\n시작된 매핑을 얻도록 모두 설정됩니다. 여기에서 알아야 하는 가장 중요한 것들로 된\n빠른 가이드가 있습니다."
     questions: 
-      paragraph_1_html: "매핑에 도움이 필요하거나, OpenStreetMap을 사용하는 방법에 확실하지 않습니까?\n<a href='http://help.openstreetmap.org/'>도움말 웹사이트</a>에서 질문에 대한 답변을 얻으세요."
+      paragraph_1_html: "OpenStreetMap은 프로젝트에 대해 배우고, 질문을 묻고 답하고,\n매핑 주제를 협력하여 토론하고 문서하기 위한 여러 자료가 있습니다.\n<a href='%{help_url}'>여기서 도움을 얻으세요</a>."
       title: 질문 있나요?
     start_mapping: 매핑 시작
     title: 환영합니다!

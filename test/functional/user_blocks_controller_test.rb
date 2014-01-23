@@ -76,7 +76,7 @@ class UserBlocksControllerTest < ActionController::TestCase
   # test the show action
   def test_show
     # Viewing a block should fail when no ID is given
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :show
     end
 
@@ -101,7 +101,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as the blocked user
     session[:user] = users(:blocked_user).id
-    cookies["_osm_username"] = users(:blocked_user).display_name
 
     # Now viewing it should mark it as seen
     get :show, :id => user_blocks(:active_block)
@@ -118,7 +117,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a normal user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that normal users can't load the block creation page
     get :new, :display_name => users(:normal_user).display_name
@@ -127,7 +125,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a moderator
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     # Check that the block creation page loads for moderators
     get :new, :display_name => users(:normal_user).display_name
@@ -144,13 +141,13 @@ class UserBlocksControllerTest < ActionController::TestCase
     get :new
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user  does not exist"
+    assert_select "h1", "The user  does not exist"
 
     # We should get an error if the user doesn't exist
     get :new, :display_name => "non_existent_user"
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user non_existent_user does not exist"
+    assert_select "h1", "The user non_existent_user does not exist"
   end
 
   ##
@@ -162,7 +159,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a normal user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that normal users can't load the block edit page
     get :edit, :id => user_blocks(:active_block).id
@@ -171,7 +167,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a moderator
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     # Check that the block edit page loads for moderators
     get :edit, :id => user_blocks(:active_block).id
@@ -184,7 +179,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     end
 
     # We should get an error if no user is specified
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :edit
     end
 
@@ -204,7 +199,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a normal user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that normal users can't create blocks
     post :create
@@ -212,7 +206,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a moderator
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     # A bogus block period should result in an error
     assert_no_difference "UserBlock.count" do
@@ -245,13 +238,13 @@ class UserBlocksControllerTest < ActionController::TestCase
     post :create
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user  does not exist"
+    assert_select "h1", "The user  does not exist"
 
     # We should get an error if the user doesn't exist
     post :create, :display_name => "non_existent_user"
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user non_existent_user does not exist"
+    assert_select "h1", "The user non_existent_user does not exist"
   end
 
   ##
@@ -263,7 +256,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a normal user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that normal users can't update blocks
     put :update, :id => user_blocks(:active_block).id
@@ -271,7 +263,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as the wrong moderator
     session[:user] = users(:second_moderator_user).id
-    cookies["_osm_username"] = users(:second_moderator_user).display_name
 
     # Check that only the person who created a block can update it
     assert_no_difference "UserBlock.count" do
@@ -285,7 +276,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as the correct moderator
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     # A bogus block period should result in an error
     assert_no_difference "UserBlock.count" do
@@ -311,7 +301,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     assert_equal "Vandalism", b.reason
 
     # We should get an error if no block ID is specified
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       put :update
     end
 
@@ -331,7 +321,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a normal user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that normal users can't load the block revoke page
     get :revoke, :id => user_blocks(:active_block).id
@@ -340,7 +329,6 @@ class UserBlocksControllerTest < ActionController::TestCase
 
     # Login as a moderator
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     # Check that the block revoke page loads for moderators
     get :revoke, :id => user_blocks(:active_block).id
@@ -358,7 +346,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     assert_in_delta Time.now, b.ends_at, 1
 
     # We should get an error if no block ID is specified
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :revoke
     end
 
@@ -373,7 +361,7 @@ class UserBlocksControllerTest < ActionController::TestCase
   # test the blocks_on action
   def test_blocks_on
     # Asking for a list of blocks with no user name should fail
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :blocks_on
     end
 
@@ -381,7 +369,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     get :blocks_on, :display_name => "non_existent_user"
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user non_existent_user does not exist"
+    assert_select "h1", "The user non_existent_user does not exist"
 
     # Check the list of blocks for a user that has never been blocked
     get :blocks_on, :display_name => users(:normal_user).display_name
@@ -411,7 +399,7 @@ class UserBlocksControllerTest < ActionController::TestCase
   # test the blocks_by action
   def test_blocks_by
     # Asking for a list of blocks with no user name should fail
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :blocks_by
     end
 
@@ -419,7 +407,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     get :blocks_by, :display_name => "non_existent_user"
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user non_existent_user does not exist"
+    assert_select "h1", "The user non_existent_user does not exist"
 
     # Check the list of blocks given by one moderator
     get :blocks_by, :display_name => users(:moderator_user).display_name

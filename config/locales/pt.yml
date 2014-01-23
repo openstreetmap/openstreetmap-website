@@ -19,6 +19,18 @@
 # Author: SandroHc
 # Author: Waldir
 pt: 
+  about_page: 
+    community_driven_html: "OpenStreetMap's community is diverse, passionate, and growing every day. Our\n\nA comunidade do OpenStreetMap é diversa, apaixonada, e aumenta diariamente.\nEntre os nossos colaboradores encontra-se mapeadores entusiastas,\nprofissionais das áreas de sistemas geográficos, engenheiros que utilizam\nos servidores do OpenStreetMap, voluntários a mapear áreas afetadas\npor grandes desastres, e muitos mais.\nPara saber mais sobre a nossa comunidade, veja os <a href='%{diary_path}'>diários dos editores</a>,\n<a href='http://blogs.openstreetmap.org/'>blogues da comunidade</a>, e o sítio da <a href='http://www.osmfoundation.org/'>OSM Foundation</a>."
+    community_driven_title: Dirigido pela Comunidade
+    copyright_html: <span>&copy;</span>Colaboradores<br>do OpenStreetMap
+    lede_text: O OpenStreetMap é desenvolvido por uma comunidade voluntária de mapeadores que contribuem e mantêm atualizados os dados sobre estradas, trilhos, cafés, estações ferroviárias e muito mais por todo o mundo.
+    local_knowledge_html: O OpenStreetMap valoriza o conhecimento local. Os colaboradores utilizam fotografias aéreas, dispositivos GPS, e mapas do terreno para verificar que a informação no OpenStreetMap é rigorosa e atualizada.
+    local_knowledge_title: Conhecimento Local
+    next: Seguinte
+    open_data_html: "O OpenStreetMap é constituído por <i>dados abertos</i>: qualquer\npessoa tem a liberdade de usar os dados para qualquer fim desde\ncredite a autoria do OpenStreetMap e os seus colaboradores.\nSe você alterar os dados ou criar algo com os dados, pode distribuir\no produto resultante apenas sob a mesma licença. Consulte <a href='%{copyright_path}'>a página sobre direitos de autor e licenciamento</a> para mais informações."
+    open_data_title: Dados Abertos
+    partners_title: Parceiros
+    used_by: O %{name} fornece dados a centenas de sítios na internet, aplicações de telemóveis e outros dispositivos
   activerecord: 
     attributes: 
       diary_comment: 
@@ -96,108 +108,61 @@ pt:
       blocked: O seu acesso à API foi bloqueado. Por favor aceda à página web do OpenStreetMap e entre na sua conta para saber mais.
       need_to_see_terms: O seu acesso à API está temporariamente suspenso. Por favor aceda à página web do OpenStreetMap e entre na sua conta para ver os Termos de Colaborador. Não precisa de aceitar os termos mas tem de os ver.
   browse: 
+    anonymous: anónimo
     changeset: 
-      changeset: "Conjunto de alterações: %{id}"
+      belongs_to: Autor
       changesetxml: Conjunto de alterações XML
       feed: 
         title: Conjunto de alterações %{id}
         title_comment: Conjunto de alterações %{id} - %{comment}
+      node: Nós (%{count})
+      node_paginated: Nós (%{x}-%{y} of %{count})
       osmchangexml: XML no formato osmChange
-      title: Conjunto de alterações
-    changeset_details: 
-      belongs_to: "Feito por:"
-      bounding_box: "Área delimitadora:"
-      box: caixa
-      closed_at: "Fechado em:"
-      created_at: "Criado em:"
-      has_nodes: 
-        one: "Tem %{count} nó:"
-        other: "Tem %{count} nós:"
-      has_relations: 
-        one: "Tem %{count} relação:"
-        other: "Tem %{count} relações:"
-      has_ways: 
-        one: "Tem %{count} linha:"
-        other: "Tem %{count} linhas:"
-      no_bounding_box: Não foi guardada uma área delimitadora deste conjunto de alterações.
-      show_area_box: Mostrar Caixa de Área
-    common_details: 
-      changeset_comment: "Comentário:"
-      deleted_at: "Eliminado em:"
-      deleted_by: "Eliminado por:"
-      edited_at: "Editado em:"
-      edited_by: "Editado por:"
-      in_changeset: "No conjunto de alterações:"
-      version: "Versão:"
+      relation: Relações (%{count})
+      relation_paginated: Relações (%{x}-%{y} of %{count})
+      title: "Conjunto de alterações: %{id}"
+      way: Linhas (%{count})
+      way_paginated: Linhas (%{x}-%{y} de %{count})
+    closed: Fechado
+    closed_by_html: Fechado há <abbr title='%{title}'>%{time} atrás</abbr> por %{user}
+    closed_html: Fechado há <abbr title='%{title}'>%{time} atrás</abbr>
     containing_relation: 
       entry: Relação %{relation_name}
       entry_role: Relação %{relation_name} (como %{relation_role})
-    map: 
-      deleted: Eliminado
-      edit: 
-        area: Editar área
-        node: Editar nó
-        note: Editar erro reportado
-        relation: Editar relação
-        way: Editar linha
-      larger: 
-        area: Ver área num mapa maior
-        node: Ver nó num mapa maior
-        note: Ver erro reportado numa área maior
-        relation: Ver relação num mapa maior
-        way: Ver linha num mapa maior
-      loading: A carregar…
-    navigation: 
-      all: 
-        next_changeset_tooltip: Conjunto de alterações seguinte
-        next_node_tooltip: Nó seguinte
-        next_note_tooltip: Erro seguinte
-        next_relation_tooltip: Relação seguinte
-        next_way_tooltip: Linha seguinte
-        prev_changeset_tooltip: Conjunto de alterações anterior
-        prev_node_tooltip: Nó anterior
-        prev_note_tooltip: Erro anterior
-        prev_relation_tooltip: Relação anterior
-        prev_way_tooltip: Linha anterior
-      user: 
-        name_changeset_tooltip: Ver edições de %{user}
-        next_changeset_tooltip: Próxima edição por %{user}
-        prev_changeset_tooltip: Edição anterior por %{user}
+    created: Criado
+    created_by_html: Criado há <abbr title='%{title}'>%{time} atrás</abbr> por %{user}
+    created_html: Criado há <abbr title='%{title}'>%{time} atrás</abbr>
+    deleted_by_html: Eliminado há <abbr title='%{title}'>%{time} atrás</abbr> por %{user}
+    download_xml: Descarregar XML
+    edited_by_html: Editado há <abbr title='%{title}'>%{time} atrás</abbr> por %{user}
+    in_changeset: Conjunto de alterações
+    no_comment: (sem comentário)
     node: 
-      download_xml: Descarregar XML
-      edit: Editar nó
-      node: Nó
-      node_title: "Nó: %{node_name}"
-      view_history: Ver histórico
-    node_details: 
-      coordinates: "Coordenadas:"
-      part_of: "Faz parte de:"
-    node_history: 
-      download_xml: Descarregar XML
-      node_history: Histórico do nó
-      node_history_title: "Histórico do nó: %{node_name}"
-      view_details: Ver detalhes
+      history_title: "Histórico do Nó: %{name}"
+      title: "Nó: %{name}"
     not_found: 
-      sorry: Lamentamos, não foi possível encontrar o %{type} com o identificador %{id}.
+      sorry: "Lamentamos, não foi possível encontrar %{type} #%{id}."
       type: 
         changeset: conjunto de alterações
         node: nó
         relation: relação
         way: linha
     note: 
-      at_by_html: há %{when} pelo utilizador %{user}
-      at_html: há %{when}
-      closed: "Fechado:"
-      closed_title: "Erro resolvido: %{note_name}"
-      comments: "Comentários:"
-      description: "Descrição:"
-      last_modified: "Última alteração:"
-      open_title: "Erro não resolvido: %{note_name}"
-      opened: "Aberto:"
-      title: Erro
-    paging_nav: 
-      of: de
-      showing_page: página
+      closed_by: Resolvido por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      closed_by_anonymous: Resolvido por um anónimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      closed_title: "Erro resolvido #%{note_name}"
+      commented_by: Comentário de %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      commented_by_anonymous: Comentário de um anónimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      hidden_by: Ocultado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      hidden_title: "Erro ocultado #%{note_name}"
+      new_note: Reportar Erro
+      open_by: Reportado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      open_by_anonymous: Reportado por um anónimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      open_title: "Erro não resolvido #%{note_name}"
+      reopened_by: Reaberto por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      reopened_by_anonymous: Reaberto por um anónimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      title: "Erro: %{id}"
+    part_of: Faz parte de
     redacted: 
       message_html: A versão %{version} do elemento %{type} não pode ser mostrada porque foi suprimida. Por favor consulte %{redaction_link} para obter mais informações.
       redaction: Revisão %{id}
@@ -206,18 +171,9 @@ pt:
         relation: relação
         way: linha
     relation: 
-      download_xml: Descarregar XML
-      relation: Relação
-      relation_title: "Relação: %{relation_name}"
-      view_history: Ver histórico
-    relation_details: 
-      members: "Membros:"
-      part_of: "Faz parte de:"
-    relation_history: 
-      download_xml: Descarregar XML
-      relation_history: Histórico da Relação
-      relation_history_title: "Histórico da Relação: %{relation_name}"
-      view_details: Ver detalhes
+      history_title: "Histórico da Relação: %{name}"
+      members: Membros
+      title: "Relação: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} como %{role}"
       type: 
@@ -225,42 +181,11 @@ pt:
         relation: Relação
         way: Linha
     start_rjs: 
-      data_frame_title: Dados
-      data_layer_name: Inspecionar dados técnicos do mapa
-      details: Ver Detalhes
-      edited_by_user_at_timestamp: Editado por %{user} em %{timestamp}
-      hide_areas: Ocultar áreas
-      history_for_feature: Histórico de %{feature}
+      feature_warning: A carregar %{num_features} elementos, o que pode tornar o carregamento bastante lento ou bloquear. Mesmo assim quer ver estes elementos todos?
       load_data: Carregar Dados
-      loaded_an_area_with_num_features: Carregou uma área com %{num_features} elementos. Alguns navegadores de Internet podem ter problemas em mostrar esta quantidade de dados. Geralmente os navegadores funcionam melhor a mostrar até %{max_features} elementos de cada vez. Mais do que isso o navegador poderá ficar muito lento ou até bloquear. Se tem a certeza que quer mostrar esta quantidade de elementos clique no botão seguinte.
       loading: A carregar…
-      manually_select: Selecionar manualmente uma área diferente
-      notes_layer_name: Ver Erros Reportados
-      object_list: 
-        api: Descarregar esta área no formato XML OSM através da API
-        back: Regressar à lista de objetos
-        details: Ver Detalhes
-        heading: Lista de objetos
-        history: 
-          type: 
-            node: Nó %{id}
-            way: Linha %{id}
-        selected: 
-          type: 
-            node: Nó %{id}
-            way: Linha %{id}
-        type: 
-          node: Nó
-          way: Linha
-      private_user: utilizador privado
-      show_areas: Mostrar áreas
-      show_history: Mostrar Histórico
-      unable_to_load_size: "Não foi possível carregar: O tamanho da caixa de %{bbox_size} é muito grande (deve ser menor que %{max_bbox_size})"
-      view_data: Ver dados para a vista atual do mapa
-      wait: Espere...
-      zoom_or_select: Aproximar ou seleccionar uma área do mapa para visionamento
     tag_details: 
-      tags: "Etiquetas:"
+      tags: Etiquetas
       wiki_link: 
         key: A página wiki com a descrição da etiqueta %{key}
         tag: A página wiki com a descrição da etiqueta %{key}=%{value}
@@ -272,31 +197,20 @@ pt:
         node: nó
         relation: relação
         way: linha
+    version: Versão
+    view_details: Ver Detalhes
+    view_history: Ver Histórico
     way: 
-      download_xml: Descarregar XML
-      edit: Editar linha
-      view_history: Ver histórico
-      way: Linha
-      way_title: "Linha: %{way_name}"
-    way_details: 
       also_part_of: 
         one: parte da linha %{related_ways}
         other: parte das linhas %{related_ways}
-      nodes: "Nós:"
-      part_of: "Faz parte de:"
-    way_history: 
-      download_xml: Descarregar XML
-      view_details: Ver detalhes
-      way_history: Histórico da Linha
-      way_history_title: "Histórico da Linha: %{way_name}"
+      history_title: "Histórico da Linha: %{name}"
+      nodes: Nós
+      title: "Linha: %{name}"
   changeset: 
     changeset: 
       anonymous: Anónimo
-      big_area: (grande)
-      no_comment: (sem comentário)
       no_edits: (nenhuma edição)
-      show_area_box: Mostrar Caixa de Área
-      still_editing: (ainda a editar)
       view_changeset_details: Ver detalhes do conjunto de alterações
     changeset_paging_nav: 
       next: Seguinte »
@@ -309,26 +223,17 @@ pt:
       saved_at: Gravado em
       user: Utilizador
     list: 
-      description: Ver mudanças recentes no mapa
-      description_bbox: Conjunto de alterações em %{bbox}
-      description_friend: Alterações feitas pelos seus amigos
-      description_nearby: Alterações feitas por utilizadores das redondezas
-      description_user: Conjunto de alterações feitas por %{user}
-      description_user_bbox: Conjunto de alterações feitas por %{user} na área %{bbox}
-      empty_anon_html: Ainda sem edições feitas.
-      empty_user_html: Parece que ainda não fez nenhuma edição. Para começar consulte o <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>Guia para Iniciantes</a> (em inglês).
-      heading: Conjunto de alterações
-      heading_bbox: Conjunto de alterações
-      heading_friend: Conjunto de alterações
-      heading_nearby: Conjunto de alterações
-      heading_user: Conjunto de alterações
-      heading_user_bbox: Conjunto de alterações
+      empty: Não foi encontrado nenhum conjunto de alterações.
+      empty_area: Nenhum conjunto de alterações nesta área.
+      empty_user: Nenhum conjunto de alterações deste utilizador.
+      load_more: Ver mais
+      no_more: Sem mais conjuntos de alterações para ver.
+      no_more_area: Sem mais conjunto de alterações nesta área.
+      no_more_user: Sem mais conjunto de alterações deste utilizador.
       title: Conjuntos de alterações
-      title_bbox: Conjuntos de alterações dentro de %{bbox}
       title_friend: Conjuntos de alterações feitos pelos seus amigos
       title_nearby: Conjuntos de alterações feitos por utilizadores das redondezas
       title_user: Conjuntos de alterações de %{user}
-      title_user_bbox: Conjuntos de alterações de %{user} dentro de %{bbox}
     timeout: 
       sorry: Pedimos desculpa, mas a lista de conjuntos de alterações que pediu excedeu o tempo limite de resposta.
   diary_entry: 
@@ -362,7 +267,7 @@ pt:
       location: "Localização:"
       longitude: "Longitude:"
       marker_text: Localização da entrada do diário
-      save_button: Salvar
+      save_button: Gravar
       subject: "Assunto:"
       title: Editar entrada do diário
       use_map_link: usar mapa
@@ -402,7 +307,7 @@ pt:
       leave_a_comment: Deixar um comentário
       login: Entrar
       login_to_leave_a_comment: "%{login_link} para deixar um comentário"
-      save_button: Salvar
+      save_button: Gravar
       title: Diário de %{user} | %{title}
       user_title: Diário de %{user}
   editor: 
@@ -440,14 +345,22 @@ pt:
       output: Código HTML
       paste_html: Copie e cole o código num site para mostrar o mapa interativo nesse site
       scale: Escala
+      too_large: 
+        body: Esta área é demasiado grande para exportar em XML do OpenStreetMap. Por favor aproxime a vista ou selecione uma área mais pequena. Para exportar esta área grande utilize uma das seguintes fontes.
+        geofabrik: 
+          description: Extratos atualizados regularmente de continentes, países e cidades selecionadas
+          title: Downloads do Geofabrik
+        metro: 
+          description: Extratos das principais cidades do mundo e seus arredores
+          title: Extratos do Metro
+        other: 
+          description: Fontes adicionais listadas no wiki do OpenStreetMap
+          title: Outras Fontes
+        planet: 
+          description: Cópias atualizadas regularmente da base de dados completa do OpenStreetMap
+          title: Planeta OSM
       zoom: Zoom
-    start_rjs: 
-      add_marker: Adicionar um ponto de interesse no mapa
-      change_marker: Alterar posição do ponto de interesse
-      click_add_marker: Clique no mapa para adicionar um ponto de interesse
-      drag_a_box: Clique e arraste no mapa para escolher uma área
-      export: Exportar
-      manually_select: Escolher manualmente uma área diferente
+    title: Exportar
   geocoder: 
     description: 
       title: 
@@ -477,12 +390,26 @@ pt:
       title: 
         ca_postcode: Resultados de <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Resultados de <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse: Resultados de <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Resultados <a href="http://openstreetmap.org/">Internos</a>
         osm_nominatim: Resultados de <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
+        osm_nominatim_reverse: Resultados de <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Resultados de <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultados de <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
+      admin_levels: 
+        level10: Fronteira de Subúrbio
+        level2: Fronteira de País
+        level4: Fronteira de Estado
+        level5: Fronteira de Região
+        level6: Fronteira de Condado
+        level8: Fronteira de Cidade
+        level9: Fronteira de Freguesia
       prefix: 
+        aerialway: 
+          chair_lift: Teleférico
+          drag_lift: Elevador de esqui
+          station: Estação de elevador de esqui
         aeroway: 
           aerodrome: Aeródromo
           apron: Plataforma de estacionamento
@@ -576,6 +503,7 @@ pt:
           shower: Chuveiro
           social_centre: Centro social
           social_club: Clube Social
+          social_facility: Serviços sociais
           studio: Estúdio
           supermarket: Supermercado
           swimming_pool: Piscina
@@ -587,6 +515,7 @@ pt:
           university: Universidade
           vending_machine: Máquina de venda automática
           veterinary: Clínica veterinária
+          village_hall: Junta de Freguesia
           waste_basket: Caixote do Lixo
           wifi: Acesso WiFi
           youth_centre: Centro de juventude
@@ -605,6 +534,7 @@ pt:
           "yes": Edifício
         emergency: 
           fire_hydrant: Boca de incêndio
+          phone: Telefone de emergência
         highway: 
           bridleway: Pista de cavalos
           bus_guideway: Faixa de Autocarros de Guia
@@ -626,6 +556,7 @@ pt:
           platform: Plataforma de embarque
           primary: Estrada Nacional (Primária)
           primary_link: Ligação a Estrada Nacional (Primária)
+          proposed: Estrada em planeamento
           raceway: Autódromo
           residential: Rua residencial
           rest_area: Área de descanso
@@ -653,6 +584,7 @@ pt:
           building: Edifício
           castle: Castelo
           church: Igreja
+          citywalls: Muralhas da cidade
           fort: Forte
           house: Casa
           icon: Ícone
@@ -662,6 +594,7 @@ pt:
           monument: Monumento
           museum: Museu
           ruins: Ruínas
+          tomb: Tumba
           tower: Torre
           wayside_cross: Cruzeiro
           wayside_shrine: Alminhas
@@ -740,6 +673,8 @@ pt:
           cliff: Precipício
           crater: Cratera
           dune: Duna
+          feature: Recurso natural
+          fell: Encosta
           fjord: Fiorde
           forest: Floresta
           geyser: Geiser
@@ -759,6 +694,7 @@ pt:
           rock: Rocha
           scree: Escarpa de Roxas Soltas
           scrub: Matagal
+          shoal: Banco de areia
           spring: Nascente
           stone: Pedra
           strait: Estreito
@@ -797,6 +733,7 @@ pt:
           locality: Localidade
           moor: Ancoradouro
           municipality: Município
+          neighbourhood: Bairro
           postcode: Código postal
           region: Região
           sea: Mar
@@ -822,8 +759,10 @@ pt:
           narrow_gauge: Ferrovia de Bitola Estreita
           platform: Plataforma ferroviária
           preserved: Ferrovia Preservada
+          proposed: Ferrovia em planeamento
           spur: Pequeno Ramal Ferroviário
           station: Estação Ferroviária
+          stop: Paragem ferroviária
           subway: Estação de Metropolitano
           subway_entrance: Entrada para Estação de Metropolitano
           switch: Agulha de ferrovia
@@ -839,6 +778,7 @@ pt:
           beverages: Loja de Bebidas
           bicycle: Loja de Bicicletas
           books: Livraria
+          boutique: Boutique
           butcher: Talho
           car: Oficina
           car_parts: Loja de Peças para Automóvel
@@ -852,6 +792,7 @@ pt:
           convenience: Loja de Conveniência
           copyshop: Centro de Cópias
           cosmetics: Loja de cosméticos
+          deli: Charcutaria
           department_store: Loja de Departamento / Grande Armazém
           discount: Loja de Descontos
           doityourself: Bricolage
@@ -948,89 +889,112 @@ pt:
           water_point: Ponto de água
           waterfall: Queda de água
           weir: Represa
+  help_page: 
+    help: 
+      description: Coloque uma questão ou procure por respostas no fórum de perguntas e respostas do OpenStreetMap.
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: O OpenStreetMap tem vários recursos para saber mais sobre o projeto, perguntar e responder a questões, e colaborativamente discutir e documentar vários tópicos sobre o mapa.
+    title: Obter Ajuda
+    welcome: 
+      description: Comece por este guia rápido sobre os princípios básicos do OpenStreetMap.
+      title: Bem vindo ao OpenStreetMap
+      url: /welcome
+    wiki: 
+      description: Navegue na wiki de documentação sobre o OpenStreetMap.
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/wiki/Pt:Main_Page
   javascripts: 
     close: Fechar
+    edit_help: Mova o mapa e amplie a localização que pretende editar e depois clique aqui.
     key: 
       title: Legenda
       tooltip: Legenda
+      tooltip_disabled: Legenda do Mapa disponível apenas no Mapa Padrão
     map: 
       base: 
         cycle_map: Mapa de Ciclismo
+        hot: Humanitário
         standard: Mapa Padrão
         transport_map: Transportes Públicos
+      copyright: © <a href='%{copyright_url}'>Colaboradores do OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Fazer um donativo</a>
       layers: 
         data: Dados técnicos do mapa
         header: Camadas do Mapa
         notes: Erros reportados no mapa
+        overlays: Ativar sobreposições para solucionar problemas do mapa
+        title: Camadas
+      locate: 
+        popup: Está a {distance} {unit} deste ponto
+        title: Mostrar a minha localização
       zoom: 
         in: Aproximar
         out: Afastar
     notes: 
       new: 
         add: Reportar Erro
-        intro: Para melhorar a informação no mapa, o erro que vai reportar é mostrado a outros editores, por isso descreva por favor de forma clara e precisa o problema no mapa e desloque a marca azul abaixo (clicar e arrastar) para o sítio correto do mapa onde se encontra o erro. Obrigado.
+        intro: Para melhorar a informação no mapa, o erro que vai reportar é mostrado a outros editores, por isso descreva por favor de forma clara e precisa o problema no mapa. Caso seja necessário mude a posição do marco azul no centro do mapa (clicar e arrastar) para o sítio correto do mapa onde se encontra o erro. Obrigado.
       show: 
         anonymous_warning: Este erro reportado inclui comentários de utilizadores anónimos que devem ser confirmados por fonte independente.
-        closed_by: resolvido por <a href='%{user_url}'>%{user}</a> em %{time}
-        closed_by_anonymous: marcado como resolvido por um anónimo em %{time}
         comment: Gravar
-        comment_and_resolve: Gravar e Marcar como Resolvido
-        commented_by: comentário de <a href='%{user_url}'>%{user}</a> em %{time}
-        commented_by_anonymous: comentário de um anónimo em %{time}
+        comment_and_resolve: Gravar como Resolvido
         hide: Esconder
-        opened_by: criado por <a href='%{user_url}'>%{user}</a> em %{time}
-        opened_by_anonymous: criado por um anónimo em %{time}
-        permalink: Ligação permanente
         reactivate: Reabrir
-        reopened_by: reaberto por <a href='%{user_url}'>%{user}</a> em %{time}
-        reopened_by_anonymous: reaberto %{time} por um anónimo
         resolve: Marcar como Resolvido
     share: 
       cancel: Cancelar
-      link: Ligação
-      long_link: Lig.Longa
+      center_marker: Centrar o mapa no marcador
+      custom_dimensions: Definir dimensões personalizadas
+      download: Descarregar
+      embed: HTML
+      format: "Formato:"
+      image: Imagem
+      image_size: A imagem mostrará a camada padrão em
+      include_marker: Incluir marcador
+      link: Ligação ou HTML
+      long_link: Link
+      paste_html: Colar HTML para incorporar na página web
+      scale: "Escala:"
       short_link: Lig.Curta
+      short_url: URL curto
       title: Partilhar
+      view_larger_map: Ver mapa maior
     site: 
       createnote_disabled_tooltip: A área do mapa é demasiado grande. Amplie o mapa para poder reportar um erro
       createnote_tooltip: Reportar erro no mapa
       edit_disabled_tooltip: Área demasiado grande. Amplie para poder editar
       edit_tooltip: Editar o mapa
-      history_disabled_tooltip: Amplie para poder ver o histórico de edições nesta área
-      history_tooltip: Ver histórico de edições nesta área do mapa
+      map_data_zoom_in_tooltip: Aproxime para ver dados do mapa
+      map_notes_zoom_in_tooltip: Aproxime para ver erros reportados
   layouts: 
+    about: Sobre Nós
     community: Comunidade
     community_blogs: Blogues da Comunidade
     community_blogs_title: Blogues de membros da comunidade OpenStreetMap
-    copyright: Licença e Direitos de Autor
+    copyright: Direitos de Autor
     data: Dados
-    documentation: Documentação
-    documentation_title: Documentação do projeto
     donate: Apoie o OpenStreetMap %{link} para o Fundo de Atualização do Hardware.
-    donate_link_text: doação
     edit: Editar
     edit_with: Editar com %{editor}
+    export: Exportar
     export_data: Exportar dados
     foundation: Fundação
     foundation_title: A Fundação OpenStreetMap
     gps_traces: Trilhos GPS
     gps_traces_tooltip: Gerir os trilhos GPS
     help: Ajuda
-    help_centre: Fórum de Ajuda
-    help_title: Fórum onde pode colocar dúvidas sobre o projeto
     history: Histórico
-    home: Início
-    intro_1: O OpenStreetMap é um mapa mundial livre, feito por pessoas de todo o mundo.
+    home: Ir para a localização inicial
     intro_2_create_account: Crie uma conta de utilizador
-    intro_2_download: descarregar
-    intro_2_html: Os dados do mapa são livres para %{download} e %{use} sob uma %{license}. %{create_account} para tornar o mapa mais completo e atualizado.
-    intro_2_license: licença aberta
-    intro_2_use: usar
-    log_in: entrar
+    intro_header: Bem vindo ao OpenStreetMap!
+    intro_text: O OpenStreetMap é um mapa do mundo, criado por pessoas como você e de uso livre sob uma licença aberta.
+    learn_more: Mais Informações
+    log_in: Entrar
     log_in_tooltip: Entrar com uma conta existente
     logo: 
       alt_text: Logotipo do OpenStreetMap
-    logout: sair
+    logout: Sair
     make_a_donation: 
       text: Fazer um Donativo
       title: Suporte o OpenStreetMap com um donativo monetário
@@ -1041,15 +1005,12 @@ pt:
     partners_ic: Imperial College London
     partners_partners: parceiros
     partners_ucl: UCL VR Centre
-    sign_up: criar conta
+    sign_up: Criar Conta
     sign_up_tooltip: Criar uma conta para poder editar o mapa
+    start_mapping: Começar a Mapear
     tag_line: O Mapa Mundial Livre e Editável
     user_diaries: Diários de Editores
     user_diaries_tooltip: Ver diários dos editores
-    view: Ver
-    view_tooltip: Ver o mapa
-    wiki: Wiki
-    wiki_title: Sitio wiki do projeto
   license_page: 
     foreign: 
       english_link: o original em inglês
@@ -1272,6 +1233,15 @@ pt:
       allow_write_notes: alterar erros reportados.
       allow_write_prefs: alterar as minhas preferências.
       request_access: O programa %{app_name} está a pedir acesso à sua conta, %{user}. Por favor escolha as permissões que o programa pode ter. Pode escolher as que quiser.
+      title: Autorizar acesso à sua conta
+    oauthorize_failure: 
+      denied: Anulou o acesso do programa %{app_name} à sua conta.
+      invalid: O token de autorização não é válido.
+      title: Falhou o pedido de autorização.
+    oauthorize_success: 
+      allowed: Forneceu ao programa %{app_name} o acesso à sua conta.
+      title: Pedido de autorização permitido
+      verification: O código de verificação é %{code}.
     revoke: 
       flash: Revogou o Token para %{application}
   oauth_clients: 
@@ -1471,7 +1441,6 @@ pt:
       preview: Mostrar previsão
     search: 
       search: Pesquisar
-      search_help: "exemplos: 'Coimbra', 'Rua da Atalaia, Faro', 'EN329', ou 'Estação ferroviária Lisboa' <a href='http://wiki.openstreetmap.org/wiki/Pt-br:Nominatim'>mais exemplos...</a>"
       submit_text: Ir
       where_am_i: Onde estou?
       where_am_i_title: Pesquisa a localização atual do mapa
@@ -1487,6 +1456,11 @@ pt:
       upload_trace: Carregar um Trilho GPS
     delete: 
       scheduled_for_deletion: Trilho programado para eliminação
+    description: 
+      description_with_count: 
+        one: Ficheiro GPX com %{count} ponto de %{user}
+        other: Ficheiro GPX com %{count} pontos de %{user}
+      description_without_count: Ficheiro GPX de %{user}
     edit: 
       description: "Descrição:"
       download: descarregar
@@ -1504,6 +1478,8 @@ pt:
       uploaded_at: "Mandado em:"
       visibility: "Visibilidade:"
       visibility_help: o que significa isto?
+    georss: 
+      title: Trilhos GPS do OpenStreetMap
     list: 
       description: Ver trilhos GPS carregados recentemente
       empty_html: Ainda não enviou nenhum trilho GPS. <a href='%{upload_link}'>Envie um novo trilho GPS</a> ou saiba mais sobre trilhos GPS na <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>página wiki</a> (em inglês).
@@ -1633,9 +1609,12 @@ pt:
     confirm: 
       already active: Esta conta já foi confirmada.
       button: Confirmar
-      heading: Confirmar a conta de utilizador
+      heading: Verifique o seu email!
+      introduction_1: Enviámos-lhe um e-mail de confirmação.
+      introduction_2: Confirme a sua conta clicando no link no e-mail e assim poderá iniciar o mapeamento.
       press confirm button: Pressione o botão de confirmação abaixo para ativar a tua conta.
-      unknown token: Parece que esse Token não existe.
+      reconfirm_html: Se precisar lhe reenviemos o e-mail de confirmação, <a href="%{reconfirm}">clique aqui</a>.
+      unknown token: Esse código de confirmação expirou ou não existe.
     confirm_email: 
       button: Confirmar
       failure: Um e-mail já foi confirmado com este código.
@@ -1722,6 +1701,7 @@ pt:
     new: 
       about: 
         header: Livre e editável
+        html: "<p>Ao contrário de outros mapas, o OpenStreetMap é completamente criado por pessoas como você, e é disponibilizado gratuitamente para que qualquer pessoa possa corrigir, atualizar, descarregar e utilizar.</p>\n<p>Crie uma conta de utilizador para começar a colaborar. Enviaremos um email para confirmar a sua conta.</p>"
       confirm email address: "Confirmar E-mail:"
       confirm password: "Confirmar senha:"
       contact_webmaster: Entre em contacto com o <a href="mailto:webmaster@openstreetmap.org">webmaster</a> para uma conta ser criada - vamos tentar lidar com o pedido o mais rapidamente possível.
@@ -1785,25 +1765,25 @@ pt:
       you need to accept or decline: Por favor leia e depois aceite ou recuse os novos Termos de Colaborador para continuar.
     view: 
       activate_user: ativar este utilizador
-      add as friend: adicionar aos amigos
+      add as friend: Adicionar aos amigos
       ago: (%{time_in_words_ago} atrás)
       block_history: bloqueios recebidos
-      blocks by me: bloqueados por mim
-      blocks on me: bloqueios sobre mim
-      comments: comentários
+      blocks by me: Bloqueados por mim
+      blocks on me: Bloqueios sobre mim
+      comments: Comentários
       confirm: Confirmar
       confirm_user: confirmar esse utilizador
       create_block: bloquear este utilizador
       created from: "Criado em:"
-      ct accepted: Aceitou há %{ago}
+      ct accepted: Aceite há %{ago}
       ct declined: Rejeitou
       ct status: "Termos de Colaborador:"
       ct undecided: Indeciso
       deactivate_user: desativar este utilizador
       delete_user: eliminar este utilizador
       description: Descrição
-      diary: diário
-      edits: edições
+      diary: Diário
+      edits: Edições
       email address: "E-mail:"
       friends_changesets: alterações dos amigos
       friends_diaries: ver as entradas em diários dos amigos
@@ -1814,21 +1794,22 @@ pt:
       m away: "%{count}m de distância"
       mapper since: "Mapeando desde:"
       moderator_history: bloqueios feitos
-      my comments: meus comentários
-      my diary: meu diário
-      my edits: as minhas edições
-      my notes: erros reportados por mim
-      my settings: as minhas configurações
-      my traces: meus trilhos GPS
+      my comments: Meus comentários
+      my diary: Meu diário
+      my edits: As minhas edições
+      my notes: Erros reportados por mim
+      my profile: Meu Perfil
+      my settings: As minhas configurações
+      my traces: Meus trilhos GPS
       nearby users: Outros editores nas redondezas
       nearby_changesets: Ver alterações de editores das redondezas
       nearby_diaries: entradas em diários de editores das redondezas
       new diary entry: adicionar entrada no meu diário
       no friends: Ainda não adicionou nenhum amigo.
       no nearby users: Não existem outros editores nas redondezas que admitam que estão nas redondezas.
-      notes: erros reportados no mapa
+      notes: Erros reportados no mapa
       oauth settings: configurações do OAuth
-      remove as friend: remover amigo
+      remove as friend: Remover amigo
       role: 
         administrator: Este utilizador é administrador
         grant: 
@@ -1838,11 +1819,11 @@ pt:
         revoke: 
           administrator: Retirar acesso de administrador
           moderator: Retirar acesso de moderador
-      send message: enviar mensagem
+      send message: Enviar mensagem
       settings_link_text: configurações
       spam score: "Pontuação de Spam:"
       status: "Estado:"
-      traces: trilhos
+      traces: Trilhos
       unhide_user: descobrir este utilizador
       user location: Localização do utilizador
       your friends: Os seus amigos
@@ -1969,7 +1950,7 @@ pt:
       way_html: Um <strong>caminho</strong> é uma linha ou uma área, como uma estrada, um rio, um lago ou um prédio.
     introduction_html: Bem-vindo ao OpenStreetMap, o mapa livre e editável do mundo. Agora como estás inscrito, estás também pronto para mapear. Aqui um guia rápido com as coisas mais importantes que precisas de saber.
     questions: 
-      paragraph_1_html: Preciso de ajuda para mapear, ou não tem a certeza de como utilizar o OpenStreetMap ? Obtêm as respostas as suas perguntas no <a href='http://help.openstreetmap.org/'>site de ajuda</a>.
+      paragraph_1_html: "O OpenStreetMap tem vários recursos para saber mais sobre o projeto, perguntar e responder a questões, e colaborativamente discutir e documentar vários tópicos sobre o mapa.\n<a href='%{help_url}'>Obtenha ajuda aqui</a>"
       title: Tens perguntas ?
     start_mapping: Começar a mapear
     title: Bem-vindo !

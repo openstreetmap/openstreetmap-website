@@ -3,6 +3,7 @@ module UserHelper
 
   def user_image(user, options = {})
     options[:class] ||= "user_image"
+    options[:alt] ||= ""
 
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
@@ -13,6 +14,7 @@ module UserHelper
 
   def user_thumbnail(user, options = {})
     options[:class] ||= "user_thumbnail"
+    options[:alt] ||= ""
 
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
@@ -23,6 +25,7 @@ module UserHelper
 
   def user_thumbnail_tiny(user, options = {})
     options[:class] ||= "user_thumbnail_tiny"
+    options[:alt] ||= ""
 
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
@@ -35,7 +38,7 @@ module UserHelper
     if user.image_use_gravatar
       user_gravatar_url(user, options)
     else
-      "http://#{SERVER_URL}#{image_path(user.image.url)}"
+      image_url(user.image.url)
     end
   end
 
@@ -60,8 +63,8 @@ module UserHelper
   def user_gravatar_url(user, options = {})
     size = options[:size] || 100
     hash = Digest::MD5::hexdigest(user.email.downcase)
-    default_image_url = "http://#{SERVER_URL}#{image_path("users/images/large.png")}"
-    url = "http://www.gravatar.com/avatar/#{hash}.jpg?s=#{size}&d=#{u(default_image_url)}"
+    default_image_url = image_url("users/images/large.png")
+    url = "#{request.protocol}www.gravatar.com/avatar/#{hash}.jpg?s=#{size}&d=#{u(default_image_url)}"
   end
 
   def user_gravatar_tag(user, options = {})

@@ -20,6 +20,18 @@
 # Author: 青子守歌
 # Author: 아라
 ja: 
+  about_page: 
+    community_driven_html: "OpenStreetMapのコミュニティは多様で、情熱的で、毎日成長しています。\n協力者には地図作りマニア、GISの専門家、OSMサーバーを稼働させている技術者、被災地の地図作りをする人道主義者などを含みます。\nコミュニティについて詳しくは、<a href='%{diary_path}'>ユーザーの日記</a>、<a href='http://blogs.openstreetmap.org/'>コミュニティのブログ</a>、<a href='http://www.osmfoundation.org/'>OSM財団</a>のウェブサイトをご覧ください。"
+    community_driven_title: コミュニティ主導
+    copyright_html: <span>&copy;</span>OpenStreetMap<br>への協力者
+    lede_text: OpenStreetMapは、道路、通路、カフェ、鉄道駅など、世界中にあるすべてのものについてのデータを提供・メンテナンスしているマッパーのコミュニティによって構築されました。
+    local_knowledge_html: OpenStreetMapは地域の知識を増幅します。協力者は航空写真やGPS機器、ローテクのフィールド地図を使用して、OSMが正確で最新の状態であることを確認しています。
+    local_knowledge_title: 地元の情報
+    next: 次へ
+    open_data_html: OpenStreetMapは<i>オープンデータ</i>です。あなたはOpenStreetMapと協力者を著作権表示すれば、いかなる目的でも無料で利用することができます。もし何らかの方法でデータを変更したり二次データを作成したりした場合も、同じライセンス条件下でのみ結果を配布できます。詳しくは、<a href='%{copyright_path}'>著作権とライセンス</a>をご覧ください。
+    open_data_title: オープン データ
+    partners_title: パートナー
+    used_by: "%{name} は、数多くのウェブ サイト、モバイル アプリ、ハードウェア機器で利用されています"
   activerecord: 
     attributes: 
       diary_comment: 
@@ -95,104 +107,64 @@ ja:
       not_a_moderator: モデレーター権限が必要な操作です。
     setup_user_auth: 
       blocked: APIへのアクセスがブロックされました。Web インターフェイスからログインし直して詳細を確認してください。
-      need_to_see_terms: あなたは一時的に API の利用を停止されています。ウェブ インターフェイスにログインして投稿者規約をご覧ください。同意しなくてもかまいませんが、必ずご覧ください。
+      need_to_see_terms: あなたは一時的にAPIの利用を停止されています。ウェブインターフェイスにログインして協力者規約をご覧ください。同意しなくてもかまいませんが、必ずご覧ください。
   browse: 
+    anonymous: 匿名
     changeset: 
-      changeset: "変更セット: %{id}"
+      belongs_to: 著者
       changesetxml: 変更セット XML
       feed: 
         title: 変更セット %{id}
         title_comment: 変更セット %{id} - %{comment}
+      node: ノード (%{count})
+      node_paginated: ノード (%{x}-%{y} / %{count})
       osmchangexml: OSM 差分 XML
-      title: 変更セット
-    changeset_details: 
-      belongs_to: "ユーザー:"
-      bounding_box: "境界囲み:"
-      box: ボックス
-      closed_at: "完了日時:"
-      created_at: "作成日時:"
-      has_nodes: "以下の %{count} ノードを含んでいます:"
-      has_relations: "以下の %{count} リレーションを含んでいます:"
-      has_ways: "以下の %{count} ウェイを含んでいます:"
-      no_bounding_box: この変更セットを格納する境界囲みは存在しません。
-      show_area_box: 領域のボックスを表示
-    common_details: 
-      changeset_comment: "コメント:"
-      deleted_at: "削除日時:"
-      deleted_by: "削除者:"
-      edited_at: "編集日時:"
-      edited_by: "編集者:"
-      in_changeset: "所属する変更セット:"
-      version: "バージョン:"
+      relation: リレーション (%{count})
+      relation_paginated: リレーション (%{x}-%{y} / %{count})
+      title: "変更セット: %{id}"
+      way: ウェイ (%{count})
+      way_paginated: ウェイ (%{x}-%{y} / %{count})
+    closed: クローズ
+    closed_by_html: "%{user}さんが<abbr title='%{title}'>%{time}前</abbr>にクローズ"
+    closed_html: <abbr title='%{title}'>%{time}前</abbr>にクローズ
     containing_relation: 
       entry: リレーション %{relation_name}
       entry_role: リレーション %{relation_name} (%{relation_role} として)
-    map: 
-      deleted: 削除済み
-      edit: 
-        area: エリアを編集
-        node: ノードを編集
-        note: メモを編集
-        relation: リレーションを編集
-        way: ウェイを編集
-      larger: 
-        area: エリアを大きい地図で表示
-        node: ノードを大きい地図で表示
-        note: メモを大きい地図で表示
-        relation: リレーションを大きい地図で表示
-        way: ウェイを大きい地図で表示
-      loading: 読み込み中...
-    navigation: 
-      all: 
-        next_changeset_tooltip: 次の変更セット
-        next_node_tooltip: 次のノード
-        next_note_tooltip: 次のメモ
-        next_relation_tooltip: 次のリレーション
-        next_way_tooltip: 次のウェイ
-        prev_changeset_tooltip: 前の変更セット
-        prev_node_tooltip: 前のノード
-        prev_note_tooltip: 前のメモ
-        prev_relation_tooltip: 前のリレーション
-        prev_way_tooltip: 前のウェイ
-      user: 
-        name_changeset_tooltip: "%{user} による編集を表示"
-        next_changeset_tooltip: 次の編集 (%{user} による)
-        prev_changeset_tooltip: 前の編集 (%{user} による)
+    created: 作成
+    created_by_html: "%{user}さんが<abbr title='%{title}'>%{time}前</abbr>に作成"
+    created_html: <abbr title='%{title}'>%{time}前</abbr>に作成
+    deleted_by_html: "%{user}さんが<abbr title='%{title}'>%{time}前</abbr>に削除"
+    download_xml: XML をダウンロード
+    edited_by_html: "%{user}さんが<abbr title='%{title}'>%{time}前</abbr>に編集"
+    in_changeset: 変更セット
+    location: "場所:"
+    no_comment: (コメントなし)
     node: 
-      download_xml: XML をダウンロード
-      edit: ノードを編集
-      node: ノード
-      node_title: "ノード: %{node_name}"
-      view_history: 履歴を表示
-    node_details: 
-      coordinates: "座標:"
-      part_of: "以下の一部:"
-    node_history: 
-      download_xml: XML をダウンロード
-      node_history: ノードの履歴
-      node_history_title: "ノードの履歴: %{node_name}"
-      view_details: 詳細を表示
+      history_title: "ノードの履歴: %{name}"
+      title: "ノード: %{name}"
     not_found: 
-      sorry: ID %{id} の %{type} は見つかりません。
+      sorry: "%{type} #%{id} は見つかりませんでした。"
       type: 
         changeset: 変更セット
         node: ノード
         relation: リレーション
         way: ウェイ
     note: 
-      at_by_html: "%{when}前、%{user}"
-      at_html: "%{when}前"
-      closed: "クローズ:"
-      closed_title: "解決済のメモ: %{note_name}"
-      comments: "コメント:"
-      description: "説明:"
-      last_modified: "最終更新:"
-      open_title: "未解決のメモ: %{note_name}"
-      opened: "オープン:"
-      title: メモ
-    paging_nav: 
-      of: /
-      showing_page: ページ
+      closed_by: "%{user}さんが<abbr title='%{exact_time}'>%{when}前</abbr>に解決"
+      closed_by_anonymous: 誰かが<abbr title='%{exact_time}'>%{when}前</abbr>に解決
+      closed_title: "解決済のメモ #%{note_name}"
+      commented_by: "%{user}さんによる<abbr title='%{exact_time}'>%{when}前</abbr>のコメント"
+      commented_by_anonymous: 誰かによる<abbr title='%{exact_time}'>%{when}前</abbr>のコメント
+      hidden_by: "%{user}さんが<abbr title='%{exact_time}'>%{when}前</abbr>に非表示化"
+      hidden_title: "非表示のメモ #%{note_name}"
+      new_note: 新しいメモ
+      open_by: "%{user}さんが<abbr title='%{exact_time}'>%{when}前</abbr>に作成"
+      open_by_anonymous: 誰かが<abbr title='%{exact_time}'>%{when}前</abbr>に作成
+      open_title: "未解決のメモ #%{note_name}"
+      reopened_by: "%{user}さんが<abbr title='%{exact_time}'>%{when}前</abbr>に再開"
+      reopened_by_anonymous: 誰かが<abbr title='%{exact_time}'>%{when}前</abbr>に再開
+      title: "メモ: %{id}"
+    part_of: 以下の一部
     redacted: 
       message_html: この %{type} の %{version} 版は、改訂されたため表示できません。詳細は %{redaction_link} をご覧ください。
       redaction: 改訂 %{id}
@@ -201,18 +173,9 @@ ja:
         relation: リレーション
         way: ウェイ
     relation: 
-      download_xml: XML をダウンロード
-      relation: リレーション
-      relation_title: "リレーション: %{relation_name}"
-      view_history: 履歴を表示
-    relation_details: 
-      members: "メンバー:"
-      part_of: "以下の一部:"
-    relation_history: 
-      download_xml: XML をダウンロード
-      relation_history: リレーションの履歴
-      relation_history_title: "リレーションの履歴: %{relation_name}"
-      view_details: 詳細を表示
+      history_title: "リレーションの履歴: %{name}"
+      members: メンバー
+      title: "リレーション: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} (%{role} として)"
       type: 
@@ -220,42 +183,11 @@ ja:
         relation: リレーション
         way: ウェイ
     start_rjs: 
-      data_frame_title: データ
-      data_layer_name: 地図データを参照
-      details: 詳細
-      edited_by_user_at_timestamp: "%{user}による%{timestamp}時点の編集"
-      hide_areas: 領域を隠す
-      history_for_feature: "%{feature}の履歴"
+      feature_warning: "%{num_features} 件の地物を読み込むことで、お使いのブラウザーが遅くなったり反応がなくなったりするおそれがあります。このデータを本当に表示しますか?"
       load_data: データの読み込み
-      loaded_an_area_with_num_features: "%{num_features}件の地物を含む領域を読み込みました。一般に、ブラウザーによっては、この量のデータを表示するとうまく処理できないかもしれません。通常、ブラウザーは一度に%{max_features}件未満の地物を表示させるとうまく動作します。このままでは、ブラウザーが遅くなったり、反応しなくなったりします。それでもこのデータを表示したいならば、以下のボタンをクリックしてください。"
       loading: 読み込み中...
-      manually_select: ドラッグして別の領域を選択
-      notes_layer_name: メモを閲覧
-      object_list: 
-        api: API でこの領域を取得
-        back: オブジェクト一覧に戻る
-        details: 詳細
-        heading: オブジェクト一覧
-        history: 
-          type: 
-            node: ノード %{id}
-            way: ウェイ %{id}
-        selected: 
-          type: 
-            node: ノード %{id}
-            way: ウェイ %{id}
-        type: 
-          node: ノード
-          way: ウェイ
-      private_user: 非公開ユーザー
-      show_areas: 領域を表示
-      show_history: 履歴を表示
-      unable_to_load_size: "読み込めません: 境界囲みのサイズ %{bbox_size} が大きすぎます (%{max_bbox_size}より小さくする必要があります)"
-      view_data: 現在のマップのデータを表示
-      wait: お待ちください...
-      zoom_or_select: ズームアップするか、表示する領域を選択
     tag_details: 
-      tags: "タグ:"
+      tags: タグ
       wiki_link: 
         key: "%{key} タグのウィキでの説明ページ"
         tag: "%{key}=%{value} タグのウィキでの説明ページ"
@@ -267,30 +199,19 @@ ja:
         node: ノード
         relation: リレーション
         way: ウェイ
+    version: バージョン
+    view_details: 詳細を表示
+    view_history: 履歴を表示
     way: 
-      download_xml: XML をダウンロード
-      edit: ウェイを編集
-      view_history: 履歴を表示
-      way: ウェイ
-      way_title: "ウェイ: %{way_name}"
-    way_details: 
       also_part_of: 
         other: ウェイ %{related_ways} の一部
-      nodes: "ノード:"
-      part_of: "以下の一部:"
-    way_history: 
-      download_xml: XML をダウンロード
-      view_details: 詳細を表示
-      way_history: ウェイの履歴
-      way_history_title: "ウェイの履歴: %{way_name}"
+      history_title: "ウェイの履歴: %{name}"
+      nodes: ノード
+      title: "ウェイ: %{name}"
   changeset: 
     changeset: 
       anonymous: 匿名
-      big_area: (大)
-      no_comment: (なし)
       no_edits: (編集がありません)
-      show_area_box: 領域のボックスを表示
-      still_editing: (まだ編集中です)
       view_changeset_details: 変更セットの詳細を閲覧
     changeset_paging_nav: 
       next: 次へ »
@@ -303,26 +224,17 @@ ja:
       saved_at: 保存日時
       user: ユーザー
     list: 
-      description: 地図への最近の変更を参照
-      description_bbox: "%{bbox} の範囲内の変更セット"
-      description_friend: 友達による変更セット
-      description_nearby: 周辺のユーザーによる変更セット
-      description_user: "%{user} による変更セット"
-      description_user_bbox: "%{bbox} の範囲内の %{user} による変更セット"
-      empty_anon_html: まだ編集されていません。
-      empty_user_html: まだ何も編集していないようですね。<a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>初心者ガイド</a> をチェックして始めましょう。
-      heading: 変更セット
-      heading_bbox: 変更セット
-      heading_friend: 変更セット
-      heading_nearby: 変更セット
-      heading_user: 変更セット
-      heading_user_bbox: 変更セット
+      empty: 変更セットが見つかりません。
+      empty_area: この領域には変更セットはありません。
+      empty_user: このユーザーによる変更セットはありません。
+      load_more: 続きを読み込む
+      no_more: 変更セットはこれ以上ありません。
+      no_more_area: この領域には変更セットはこれ以上ありません。
+      no_more_user: このユーザーによる変更セットはこれ以上ありません。
       title: 変更セット
-      title_bbox: "%{bbox} の範囲内の変更セット"
       title_friend: 友達による変更セット
       title_nearby: 周辺のユーザーによる変更セット
       title_user: "%{user} による変更セット"
-      title_user_bbox: "%{bbox} の範囲内の %{user} による変更セット"
     timeout: 
       sorry: 申し訳ありませんが、要求した変更セットの一覧は大きすぎるため取得できませんでした。
   diary_entry: 
@@ -397,7 +309,7 @@ ja:
       login: ログイン
       login_to_leave_a_comment: コメントを書くには%{login_link}してください
       save_button: 保存
-      title: "%{user}の日記 | %{title}"
+      title: "%{user} の日記 | %{title}"
       user_title: "%{user} の日記"
   editor: 
     default: 既定 (現在は %{name})
@@ -419,7 +331,7 @@ ja:
       area_to_export: エクスポートする領域
       embeddable_html: 埋め込み HTML
       export_button: エクスポート
-      export_details: OpenStreetMap のデータは<a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database License</a> (ODbL) の下にライセンスされています。
+      export_details: OpenStreetMap のデータは <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database License</a> (ODbL) の下にライセンスされています。
       format: ファイル形式
       format_to_export: エクスポートするファイル形式
       image_size: 画像サイズ
@@ -435,20 +347,30 @@ ja:
       paste_html: 以下の HTML をあなたのサイトに貼り付けてください
       scale: 縮尺
       too_large: 
-        other: heading=領域が広すぎます
+        advice: "上のエクスポートが失敗した場合は、以下に列挙した情報源のいずれかの使用を検討してください:"
+        body: 領域が大きすぎて OpenStreetMap XML データとしてエクスポートできません。拡大するか、領域を小さくするか、以下に列挙したソースから一括データダウンロードを使用するかしてください。
+        geofabrik: 
+          description: 大陸、国、および選択した都市を抽出したもので、定期的に更新されます
+          title: Geofabrik のダウンロード
+        metro: 
+          description: 世界の主要都市とその周辺地域を抽出します
+          title: Metro Extracts
+        other: 
+          description: OpenStreetMap ウィキに記載されている追加の情報源
+          title: 他の情報源
+        overpass: 
+          description: OpenStreetMapデータベースのミラーからこの範囲をダウンロード
+          title: Overpass API
+        planet: 
+          description: 定期的に更新される、OpenStreetMap データベースの完全な複製
+          title: Planet OSM
       zoom: ズーム
-    start_rjs: 
-      add_marker: マーカーを地図に追加
-      change_marker: マーカーの位置を変更
-      click_add_marker: マーカーを追加する位置をクリックしてください
-      drag_a_box: 領域を選択するには地図をドラッグしてください
-      export: エクスポート
-      manually_select: ドラッグして別の領域を選択
+    title: エクスポート
   geocoder: 
     description: 
       title: 
-        geonames: <a href="http://www.geonames.org/">GeoNames</a>からの結果
-        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>からの位置
+        geonames: <a href="http://www.geonames.org/">GeoNames</a> からの位置
+        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> からの位置
       types: 
         cities: 都市
         places: 場所
@@ -472,9 +394,11 @@ ja:
     search: 
       title: 
         ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a>からの結果
-        geonames: <a href="http://www.geonames.org/">GeoNames</a>からの結果
+        geonames: <a href="http://www.geonames.org/">GeoNames</a> からの結果
+        geonames_reverse: <a href="http://www.geonames.org/">GeoNames</a> からの結果
         latlon: <a href="http://openstreetmap.org/">Internal</a>からの結果
         osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> からの結果
+        osm_nominatim_reverse: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a> からの結果
         uk_postcode: <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>からの結果
         us_postcode: <a href="http://geocoder.us/">Geocoder.us</a>からの結果
     search_osm_nominatim: 
@@ -675,6 +599,7 @@ ja:
           monument: 記念碑
           museum: 博物館
           ruins: 廃墟
+          tomb: 墓地
           tower: 塔
           wayside_cross: 道路際の十字架
           wayside_shrine: 道祖神
@@ -684,7 +609,7 @@ ja:
           basin: 盆地
           brownfield: 褐色地
           cemetery: 墓地
-          commercial: 商業地域
+          commercial: オフィス地域
           conservation: 保全
           construction: 工事中
           farm: 農場
@@ -865,7 +790,7 @@ ja:
           car_repair: 自動車修理
           carpet: カーペット店
           charity: チャリティ ショップ
-          chemist: 化学者
+          chemist: 薬局
           clothes: 洋服店
           computer: コンピューターショップ
           confectionery: 駄菓子屋
@@ -970,22 +895,45 @@ ja:
           water_point: 給水所
           waterfall: 滝
           weir: ダム
+  help_page: 
+    help: 
+      description: OSM の質問回答サイトで質問したり回答を検索したりする。
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: OpenStreetMapにはプロジェクトについて学んだり、質疑応答したり、共同で議論したり、マッピングについての知識を文書化したりするさまざまなリソースがあります。
+    title: ヘルプの取得
+    welcome: 
+      description: OpenStreetMap の基礎を網羅しているこのクイック ガイドから始めましょう。
+      title: OSM へようこそ
+      url: /welcome
+    wiki: 
+      description: OSMの詳細な説明が書かれたWikiを参照してください。
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/wiki/JA:Main_Page
   javascripts: 
     close: 閉じる
+    edit_help: 編集したい位置に移動してズームインしてから、ここをクリックしてください。
     key: 
       title: 凡例
       tooltip: 凡例
+      tooltip_disabled: 凡例（標準レイヤーのみ利用可）
     map: 
       base: 
         cycle_map: サイクリングマップ
+        hot: Humanitarian
         standard: 標準
         transport_map: 交通マップ
-      copyright: © <a href='%{copyright_url}'>OpenStreetMap への貢献者</a>
+      copyright: © <a href='%{copyright_url}'>OpenStreetMapへの協力者</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>寄付する</a>
       layers: 
         data: 地図データ
         header: 地図のレイヤー
         notes: 地図メモ
-        overlays: 地図のトラブルシューティングのためオーバーレイを有効にする
+        overlays: トラブルシューティング用の地図オーバーレイ
+        title: レイヤー
+      locate: 
+        popup: あなたはこの位置から{distance}{unit}以内にいます
+        title: 現在地を表示
       zoom: 
         in: 拡大
         out: 縮小
@@ -995,26 +943,20 @@ ja:
         intro: マップを改善するために、あなたが入力した情報は他のマッパーに表示されます。そのため、マーカーを正しい位置に動かしたりメモを以下に書き込む際は、できるだけ分かりやすく詳細に記述してください。
       show: 
         anonymous_warning: このメモは匿名ユーザーによるコメントも含んでいるため、別途確認してください。
-        closed_by: <a href='%{user_url}'>%{user}</a>が%{time}に解決
-        closed_by_anonymous: 匿名ユーザーが%{time}に解決
         comment: コメント
         comment_and_resolve: コメント & 解決
-        commented_by: <a href='%{user_url}'>%{user}</a>による%{time}のコメント
-        commented_by_anonymous: 匿名ユーザーによる%{time}のコメント
         hide: 隠す
-        opened_by: <a href='%{user_url}'>%{user}</a>が%{time}に作成
-        opened_by_anonymous: 匿名ユーザーが%{time}に作成
-        permalink: 固定リンク
         reactivate: 再有効化
-        reopened_by: <a href='%{user_url}'>%{user}</a>が%{time}に再有効化
-        reopened_by_anonymous: 匿名ユーザーが %{time} に再度有効化しました
         resolve: 解決
     share: 
       cancel: キャンセル
+      center_marker: マーカーを地図の中心にする
+      custom_dimensions: 独自の寸法を設定
       download: ダウンロード
       embed: HTML
       format: "形式:"
       image: 画像
+      image_size: イメージの表示は標準レイヤー上で
       include_marker: マーカーを含める
       link: リンクまたは HTML
       long_link: リンク
@@ -1029,37 +971,31 @@ ja:
       createnote_tooltip: 今後の修正のために地図にメモを残す
       edit_disabled_tooltip: 地図を編集するには拡大してください
       edit_tooltip: 地図を編集
-      history_disabled_tooltip: この領域の編集を閲覧するには拡大してください
-      history_tooltip: この領域の編集を閲覧
+      map_data_zoom_in_tooltip: 地図データを閲覧するには拡大してください
+      map_notes_zoom_in_tooltip: 地図メモを閲覧するには拡大してください
   layouts: 
+    about: このサイトについて
     community: コミュニティ
     community_blogs: コミュニティ ブログ
     community_blogs_title: OpenStreetMap コミュニティのメンバーからのブログ
-    copyright: 著作権とライセンス
+    copyright: 著作権
     data: データ
-    documentation: 説明書
-    documentation_title: プロジェクトのドキュメント
     donate: ハードウェア アップグレード基金への%{link}で、OpenStreetMap を支援します。
-    donate_link_text: 寄付
     edit: 編集
     edit_with: "%{editor} で編集"
+    export: エクスポート
     export_data: データをエクスポート
     foundation: 財団
     foundation_title: OpenStreetMap 財団
-    gps_traces: GPSトレース
+    gps_traces: GPS トレース
     gps_traces_tooltip: トレースの管理
     help: ヘルプ
-    help_centre: ヘルプ センター
-    help_title: プロジェクトのヘルプサイト
     history: 履歴
-    home: ホーム
-    intro_1: OpenStreetMap は自由に編集できる世界地図です。あなたのような人々が作りました。
+    home: ホーム地点に移動
     intro_2_create_account: ユーザー アカウントを作成
-    intro_2_download: ダウンロード
-    intro_2_html: データはその%{license}のもとで自由に%{download}および%{use}できます。地図を改良するには%{create_account}してください。
-    intro_2_license: オープン ライセンス
-    intro_2_use: 使用
-    intro_2_use_url: http://wiki.openstreetmap.org/wiki/JA:Using_OpenStreetMap
+    intro_header: OpenStreetMap へようこそ!
+    intro_text: OpenStreetMap は、あなたのような人々が作成した世界地図であり、オープン ライセンスの下で自由に利用できます。
+    learn_more: 詳細
     log_in: ログイン
     log_in_tooltip: 自分のアカウントでログイン
     logo: 
@@ -1068,6 +1004,7 @@ ja:
     make_a_donation: 
       text: 寄付
       title: 金銭を寄贈して OpenStreetMap を支援
+    more: その他
     osm_offline: OpenStreetMap のデータベースはメンテナンスのため一時的に停止しています。
     osm_read_only: OpenStreetMap のデータベースは、メンテナンスのため一時的に読み取り専用モードになっています。
     partners_bytemark: バイトマーク ホスティング
@@ -1077,14 +1014,10 @@ ja:
     partners_ucl: UCL VR センター
     sign_up: ユーザー登録
     sign_up_tooltip: 編集のためのアカウントを作成
+    start_mapping: マッピングを開始
     tag_line: 自由なウィキ世界地図
     user_diaries: 日記
     user_diaries_tooltip: ユーザーの日記を閲覧する
-    view: 閲覧
-    view_tooltip: 地図を閲覧
-    wiki: ウィキ
-    wiki_title: プロジェクトのウィキサイト
-    wiki_url: http://wiki.openstreetmap.org/wiki/JA:Main_Page
   license_page: 
     foreign: 
       english_link: 英語の原文
@@ -1092,9 +1025,13 @@ ja:
       title: この翻訳について
     legal_babble: 
       attribution_example: 
+        alt: ウェブページに OpenStreetMap を記述する方法の例
         title: 権利表示の例
-      contributors_at_html: "<strong>オーストリア</strong>: <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (ライセンス <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>)、<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg</a>、Land Tirol (ライセンス <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY AT with amendments</a>) によるデータを含みます。"
+      contributors_at_html: "<strong>オーストリア</strong>: <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (ライセンス <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>)、<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg</a>、Land Tirol (ライセンス <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC BY AT with amendments</a>) によるデータを含みます。"
       contributors_ca_html: "<strong>カナダ</strong>: GeoBase&reg;、GeoGratis (&copy; Department of Natural Resources Canada)、CanVec (&copy; Department of Natural Resources Canada)、StatCan (Geography Division, Statistics Canada) によるデータを含みます。"
+      contributors_fi_html: "<strong>フィンランド</strong>: <a href=\"http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501\">NLSFI License</a>に基づき、National Land Survey of Finland's Topographic Database及びその他のデータセットのデータを含んでいます。"
+      contributors_footer_1_html: これらの詳細について、またOpenStreetMapの向上に使用されたその他のソースについては、OpenStreetMap Wikiの<a href="http://wiki.openstreetmap.org/wiki/Contributors">協力者ページ</a>をご覧ください。
+      contributors_footer_2_html: OpenStreetMapのデータに含めることは、元データの提供者がOpenStreetMapを支持したり、何かしらの保証を行ったり、何かしらの責任を負ったりすることを意味するものではありません。
       contributors_fr_html: "<strong>フランス</strong>: Direction Générale des Impôts によるデータを含みます。"
       contributors_gb_html: "<strong>イギリス</strong>: 陸地測量データ &copy; Crown copyright and database right 2010-12 を含みます。"
       contributors_intro_html: 協力者は数千人もの個人です。それに加え、国立の地図作成組織や、次のようなその他の情報源による公開できるライセンスによるデータを含みます。
@@ -1102,14 +1039,18 @@ ja:
       contributors_nz_html: "<strong>ニュージーランド</strong>: Land Information New Zealand によるデータを含みます。Crown が著作権を保持します。"
       contributors_title_html: 協力者
       contributors_za_html: "<strong>南アフリカ</strong>: <a href=\"http://www.ngi.gov.za/\">Chief Directorate: National Geo-Spatial Information</a>, State によるデータを含み、著作権を保持します。"
-      credit_1_html: 「&copy; OpenStreetMap への貢献者」のクレジットを必ず使用してください。
+      credit_1_html: 「&copy; OpenStreetMapへの協力者」のクレジットを必ず使用してください。
+      credit_2_html: あなたはデータが Open Database License に基づいて提供されていること、そして地図タイルを使用する場合は、地図製作が CC BY-SA としてライセンスされていることを明確にしなければなりません。<a href="http://www.openstreetmap.org/copyright">著作権表示ページ</a>にリンクすることでこれを表現することができます。また、データの形式でOSMを配布する場合の要件として、名前を表示の上、ライセンスに直接リンクすることができます。リンクを張れないメディア（印刷など）の場合は、openstreetmap.org（OpenStreetMapをアドレスとして展開した形）、opendatacommons.org、あと関連があれば、creativecommons.orgに誘導することをお勧めします。
       credit_3_html: "閲覧可能な電子地図の場合は、地図の隅にクレジットを表示してください。\n例:"
       credit_title_html: OpenStreetMap のクレジット表記の仕方
-      infringement_1_html: "OSM の協力者は、著作権者から明確な許諾を得ずに、著作権のある情報源 (例: Google マップや印刷された地図) からデータを持ち込まないよう注意するものとします。"
+      infringement_1_html: "OSMの協力者は、著作権者から明確な許諾を得ずに、著作権のある情報源 (例: Google マップや印刷された地図) からデータを持ち込まないよう注意するものとします。"
+      infringement_2_html: もし著作権のある素材がOpenStreetMapのデータベースや本サイトに不正に追加されたとお考えの場合は、<a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">却下手順</a>をお読みになるか、<a href="http://dmca.openstreetmap.org/">on-line filing page</a>から直接申し立てを行ってください。
       infringement_title_html: 著作権侵害
       intro_1_html: "OpenStreetMap は<i>オープンデータ</i>であり、<a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data Commons Open Database License</a> (ODbL) の下にライセンスされています。"
       intro_2_html: OpenStreetMapとその協力者をクレジットすれば、データを自由にコピー、配布、送信、利用することができます。変更したり翻案したりしたデータは、同じライセンスに従って提供することができます。あなたの権利と責任は、<a href="http://opendatacommons.org/licenses/odbl/1.0/">ライセンス契約</a>の全文で説明しています。
-      intro_3_html: "地図タイルの作成法やドキュメントは、<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons Attribution-ShareAlike 2.0</a> ライセンス (CC-BY-SA) に基づいてライセンスされます。"
+      intro_3_html: "地図タイルの作成法やドキュメントは、<a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons Attribution-ShareAlike 2.0</a> ライセンス (CC BY-SA) に基づいてライセンスされます。"
+      more_1_html: "データの利用についてやクレジット方法について、詳細は<a\nhref=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Legal\nFAQ</a>をお読みください。"
+      more_2_html: OpenStreetMap はオープンデータですが、サードパーティーの開発者のための無料の地図 API は提供できません。 <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">API Usage Policy</a>、<a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Tile Usage Policy</a>、<a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Nominatim Usage Policy</a>をお読みください。
       more_title_html: 詳細を見る
       title_html: 著作権とライセンス
     native: 
@@ -1189,6 +1130,8 @@ ja:
       commented_at_html: "%{when}前に更新"
       opened_at_by_html: "%{when}前に%{user}が作成"
       opened_at_html: "%{when}前に作成"
+      reopened_at_by_html: "%{user}さんが%{when}に再開"
+      reopened_at_html: "%{when}前に再開"
     entry: 
       comment: コメント
       full: メモ全文
@@ -1208,6 +1151,7 @@ ja:
       description_area: あなたのエリア [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})] でレポート、コメント、またはクローズされたメモの一覧
       description_item: メモ %{id} の RSS フィード
       opened: 新しいメモ (%{place} 付近)
+      reopened: 再開されたメモ（%{place}付近）
       title: OpenStreetMap メモ
   notifier: 
     diary_comment_notification: 
@@ -1261,13 +1205,24 @@ ja:
     note_comment_notification: 
       anonymous: 匿名ユーザー
       closed: 
+        commented_note: "%{commenter}さんが、あなたがコメントした地図上の%{place}付近にあるメモを解決しました。"
+        subject_other: "[OpenStreetMap] %{commenter}さんが、あなたが関心を持っているメモを解決しました"
         subject_own: "[OpenStreetMap] %{commenter} さんがあなたのメモを解決しました"
-        your_note: "%{commenter} さんが %{place} 付近のあなたの地図メモの 1 つにコメントしました。"
+        your_note: "%{commenter}さんが%{place}付近にあるあなたの地図メモの1つを解決しました。"
       commented: 
+        commented_note: "%{commenter}さんがあなたがコメントした地図上の%{place}付近にあるメモにコメントしました。"
+        subject_other: "[OpenStreetMap] %{commenter}さんがあなたが関心を持っているメモにコメントしました"
         subject_own: "[OpenStreetMap] %{commenter} さんがあなたのメモにコメントしました"
+        your_note: "%{commenter}さんが%{place}付近にあるあなたの地図メモの1つにコメントを残しました。"
       details: メモについての詳細は %{url} を参照。
       greeting: こんにちは。
+      reopened: 
+        commented_note: "%{commenter}さんが、%{place}付近にあるあなたがコメントした地図メモを再開しました。"
+        subject_other: "[OpenStreetMap] %{commenter}さんがあなたが関心を持っているメモを再開しました"
+        subject_own: "[OpenStreetMap] %{commenter}さんがあなたのメモの1つを再開しました"
+        your_note: "%{commenter}さんが%{place}付近にあるあなたの地図メモの1つを再開しました。"
     signup_confirm: 
+      confirm: 私たちが他に何かする前に、この要求があなたのものであることを確認する必要がありますので、その後であなたのアカウントを確認するために下のリンクをクリックしてください。
       created: 誰か (おそらくあなた) が %{site_url} でアカウントを作成しました。
       greeting: やあ、皆さん!
       subject: "[OpenStreetMap] OpenStreetMapへようこそ"
@@ -1283,6 +1238,15 @@ ja:
       allow_write_notes: メモを変更する。
       allow_write_prefs: 自分のユーザー設定を変更する。
       request_access: アプリケーション %{app_name} があなたのアカウント、%{user} への接続許可を求めています。そのアプリケーションに許可してもよいかどうかを確認してください。複数のアプリケーションに許可を与えることもできます。
+      title: あなたのアカウントへのアクセスの認証
+    oauthorize_failure: 
+      denied: アプリケーション %{app_name} によるあなたのアカウントへのアクセスを拒否しました。
+      invalid: 認証トークンが有効ではありません。
+      title: 認証リクエストに失敗しました
+    oauthorize_success: 
+      allowed: アプリケーション %{app_name} によるあなたのアカウントへのアクセスを許可しました。
+      title: 認証リクエストが成功しました
+      verification: 検証コードは %{code} です。
     revoke: 
       flash: "%{application} へのトークンを失効しました。"
   oauth_clients: 
@@ -1377,17 +1341,22 @@ ja:
       flash: 変更を保存しました。
   site: 
     edit: 
+      anon_edits_link_text: なぜこれれが事例なのかを見る。
       flash_player_required: Flash 版 OpenStreetMap エディターである Potlatch を使用するには、Flash Player が必要です。Flash Player は<a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Adobe.com</a> でダウンロードできます。OpenStreetMap を編集する<a href="http://wiki.openstreetmap.org/wiki/JA:Editing?uselang=ja">他の方法</a>もあります。
+      id_not_configured: iDが設定されていません。
       no_iframe_support: あなたのブラウザーは、この機能に必須の HTML iframe に未対応です。
       not_public: あなたの編集結果を公開できません。
+      not_public_description: このようなことをしない限り、あなたは地図を編集できます。あなたは%{user_page}から編集内容を公開できます。
       potlatch2_not_configured: "Potlatch 2 が設定されていません - 詳細情報はこちらをご覧ください: http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2"
       potlatch2_unsaved_changes: 保存していない変更があります。(Potlatch 2 では、保存をクリックして保存する必要があります。)
       potlatch_unsaved_changes: 保存していない変更があります。(Potlatch では、一覧モードで編集している場合、ウェイや点の選択を解除する必要があります。または、保存ボタンをクリックして保存してください。)
-      user_page_link: ユーザー ページ
+      user_page_link: ユーザーページ
     index: 
       createnote: メモを追加
       js_1: JavaScript に対応していないブラウザーを使用しているか、JavaScript を無効にしているかのどちらかです。
       js_2: OpenStreetMap は地図の表示に JavaScript を使用します。
+      license: 
+        copyright: Copyright OpenStreetMapおよび協力者、オープンライセンスの下で
       permalink: 固定リンク
       remote_failed: 編集に失敗しました - JOSM または Merkaartor が読み込まれていること、遠隔制御オプションが有効になっていることを確認してください
       shortlink: 短縮リンク
@@ -1400,7 +1369,7 @@ ja:
             - 空港ビル
             - 空港ターミナル
           bridge: 黒枠 = 橋梁
-          bridleway: 馬道
+          bridleway: 乗馬道
           brownfield: 褐色地
           building: 重要建造物
           byway: 路地
@@ -1409,7 +1378,7 @@ ja:
             - チェアリフト
           cemetery: 墓地
           centre: スポーツセンター
-          commercial: 商業地域
+          commercial: オフィス地域
           common: 
             - 共有地
             - 牧草地
@@ -1477,7 +1446,6 @@ ja:
       preview: プレビュー
     search: 
       search: 検索
-      search_help: "例: '名古屋城'、'名寄市'、'New York'、'皇居' など <a href='http://wiki.openstreetmap.org/wiki/JA:Search?uselang=ja'>その他の例...</a>"
       submit_text: 行く
       where_am_i: いまどこ?
       where_am_i_title: 検索エンジンを使用して現在の場所を記述
@@ -1493,6 +1461,10 @@ ja:
       upload_trace: GPS トレースのアップロード
     delete: 
       scheduled_for_deletion: トレースの削除準備を行いました
+    description: 
+      description_with_count: 
+        other: "%{user} による %{count} 地点を含む GPX ファイル"
+      description_without_count: "%{user} による GPX ファイル"
     edit: 
       description: "詳細:"
       download: ダウンロード
@@ -1511,6 +1483,8 @@ ja:
       visibility: "可視性:"
       visibility_help: これはどういう意味?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/JA:Visibility_of_GPS_traces
+    georss: 
+      title: OpenStreetMap GPS トレース
     list: 
       description: 最近のGPSトラックのアップロードを参照
       empty_html: ここにはまだ何もありません。<a href='%{upload_link}'>新しくトレースをアップロード</a>するか、<a href='http://wiki.openstreetmap.org/wiki/JA:Beginners_Guide_1.2?uselang=ja'>ウィキ ページ</a>で GPS トレースの詳細情報をお読みください。
@@ -1527,10 +1501,12 @@ ja:
       message: GPX ファイルのアップロード システムは現在利用できません
     trace: 
       ago: "%{time_in_words_ago}前"
+      by: "投稿者:"
       count_points: "%{count} 個の点"
       edit: 編集
       edit_map: 地図を編集
       identifiable: 識別可能
+      in: "タグ:"
       map: 地図
       more: 詳細
       pending: 処理中
@@ -1589,12 +1565,12 @@ ja:
   user: 
     account: 
       contributor terms: 
-        agreed: あなたは、新しい投稿規約を承諾しています。
+        agreed: あなたは、新しい協力者規約を承諾しています。
         agreed_with_pd: また、あなたは、自分の編集結果がパブリックドメインにあるべきだと考えているということも宣言しています。
-        heading: "投稿規約:"
+        heading: "協力者規約:"
         link text: これは何ですか?
         not yet agreed: あなたはまだ新しい投稿規約を承諾していません。
-        review link text: ご都合の良い時にこのリンクをクリックして新しい投稿規約をレビューの上、同意してください。
+        review link text: ご都合の良い時にこのリンクをクリックして新しい協力者規約を確認の上、同意してください。
       current email address: "現在のメール アドレス:"
       delete image: 現在の画像を削除
       email never displayed publicly: (非公開)
@@ -1614,7 +1590,7 @@ ja:
       my settings: 設定
       new email address: "新しいメール アドレス:"
       new image: 画像を追加
-      no home location: あなたはまだ活動地域を登録していません。
+      no home location: あなたはまだホーム地点を登録していません。
       openid: 
         link: http://wiki.openstreetmap.org/wiki/JA:OpenID?uselang=ja
         link text: これは何ですか?
@@ -1636,12 +1612,13 @@ ja:
       return to profile: プロフィールに戻る
       save changes button: 変更を保存
       title: アカウントの編集
-      update home location on click: 地図上のクリックした地点をあなたの活動地域として更新しますか?
+      update home location on click: ホーム地点を、地図上のクリックした地点に変更
     confirm: 
       already active: このアカウントは確認済みです。
       button: 確認
       heading: メールを確認してください
       introduction_1: 確認メールをお送りしました。
+      introduction_2: メール内のリンクをクリックしてアカウントの確認をすれば、マッピングを始められます。
       press confirm button: アカウントを有効にして良ければ、以下の確認ボタンを押してください。
       reconfirm_html: 確認メールを再送する必要がある場合は、<a href="%{reconfirm}">ここをクリック</a>してください。
       unknown token: この確認コードは期限切れ、または存在しません。
@@ -1729,6 +1706,9 @@ ja:
       heading: "%{user} を友達に追加しますか?"
       success: "%{name} と友達になりました!"
     new: 
+      about: 
+        header: フリー、編集可能
+        html: "<p>他の地図とは異なり、OpenStreetMapは完全にあなたのような人々によって作成され、だれでも自由に修正、更新、ダウンロード、利用することができます。</p>\n<p>協力を始めるにはサインアップしてください。あなたのアカウントの確認メールが送信されます。</p>"
       confirm email address: "メール アドレスの確認:"
       confirm password: "パスワードの確認:"
       contact_webmaster: アカウントを作成できるよう、<a href="mailto:webmaster@openstreetmap.org">webmaster</a>に連絡してください。 できるだけ早期に、あなたの希望に対応するように努めます。
@@ -1736,15 +1716,15 @@ ja:
       display name: "表示名:"
       display name description: 自分の公開ユーザー名です。あとで設定ページで変更できます。
       email address: "メール アドレス:"
-      license_agreement: アカウントを確認するときには <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">contributor terms</a> に同意する必要があります。
+      license_agreement: アカウントを確認するときには<a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">協力者規約</a>に同意する必要があります。
       no_auto_account_create: 残念ながら、現在、自動ではアカウントを作成できません。
       not displayed publicly: 非公開です (詳細は <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="メール アドレスの節を含む、ウィキのプライバシー ポリシー">プライバシー ポリシー</a>を参照してください)
       openid: "%{logo} OpenID:"
       openid association: "<p>あなたの OpenID は、まだ OpenStreetMap のどのアカウントとも関連付けられていません。</p>\n<ul>\n  <li>OpenStreetMap が初めての場合は、下のフォームで新規アカウントを作成してください。</li>\n  <li>\n    既にアカウントを持っている場合は、あなたのユーザー名とパスワードでログインしてください。\n    ログイン後、ユーザー設定であなたの OpenID と関連付けることができます。\n  </li>\n</ul>"
       openid no password: OpenID ではパスワードは不要ですが、特殊なツール/サーバーでは必要な場合があります。
       password: "パスワード:"
-      terms accepted: 新しい投稿規約に同意いただき、ありがとうございます!
-      terms declined: 新しい投稿規約に同意いただけず残念です。詳しい情報は、<a href="%{url}">このウィキページ</a>をご覧ください。
+      terms accepted: 新しい協力者規約に同意いただき、ありがとうございます!
+      terms declined: 新しい協力者規約に同意いただけず残念です。詳しい情報は、<a href="%{url}">このウィキページ</a>をご覧ください。
       terms declined url: http://wiki.openstreetmap.org/wiki/JA:Contributor_Terms_Declined
       title: ユーザー登録
       use openid: 代わりに、%{logo} OpenID を使用してログイン
@@ -1783,15 +1763,15 @@ ja:
       decline: 拒否
       declined: http://wiki.openstreetmap.org/wiki/JA:Contributor_Terms_Declined
       guidance: この規約の理解を助ける情報として、<a href="%{summary}">要約 (英語)</a> や <a href="%{translations}">非公式の翻訳</a> をご覧ください。
-      heading: 投稿規約
+      heading: 協力者規約
       legale_names: 
         france: フランス
         italy: イタリア
         rest_of_world: それ以外の国
       legale_select: "お住まいの国:"
-      read and accept: 同意書を読み、あなたの既存および将来の投稿のために本同意書の条項を承諾することを確認するために同意ボタンを押してください。
-      title: 投稿規約
-      you need to accept or decline: 続行するには新しい投稿規約を読んで同意または拒否してください。
+      read and accept: 同意書を読み、あなたの既存および将来の協力のために本同意書の条項を承諾することを確認するために同意ボタンを押してください。
+      title: 協力者規約
+      you need to accept or decline: 続行するには新しい協力者規約を読んで同意または拒否してください。
     view: 
       activate_user: このユーザーを有効にする
       add as friend: 友達として追加
@@ -1806,7 +1786,7 @@ ja:
       created from: "作成日:"
       ct accepted: "%{ago}前に承認"
       ct declined: 拒否
-      ct status: "投稿規約:"
+      ct status: "協力者規約:"
       ct undecided: 未決定
       deactivate_user: このユーザーを無効にする
       delete_user: このユーザーを削除
@@ -1826,6 +1806,7 @@ ja:
       my comments: 自分のコメント
       my diary: 自分の日記
       my edits: 自分の編集
+      my messages: 自分のメッセージ
       my notes: 自分のメモ
       my profile: 自分のプロフィール
       my settings: 設定
@@ -1872,6 +1853,7 @@ ja:
     edit: 
       back: すべてのブロックを閲覧
       heading: "%{name} のブロックの編集"
+      needs_view: このブロックを解消する前に、ユーザーがログインする必要がありますか？
       period: ユーザーが今からどれくらいの間、APIからブロックされるか。
       reason: "%{name} さんがブロックされている理由です。できるだけ冷静かつ理性的になり、できるだけ丁寧に状況を説明するようにしてください。すべてのユーザーがコミュニティ内での隠語を理解しているわけではないため、分かりやすい用語を使うように努めてください。"
       show: このブロックを閲覧
@@ -1900,6 +1882,7 @@ ja:
       submit: ブロックを作成
       title: "%{name} のブロックの作成"
       tried_contacting: ユーザーに連絡して、それらをやめるよう依頼しました。
+      tried_waiting: 私はユーザーとの対話に応じるために、合理的な時間を費やしました。
     not_found: 
       back: 索引に戻る
       sorry: 申し訳ありませんが、ID %{id} のユーザー ブロックは見つかりませんでした。
@@ -1963,9 +1946,23 @@ ja:
       title: 権限取り消しの確認
   welcome_page: 
     add_a_note: 
+      paragraph_1_html: "些細な修正だけをしたいが、サインアップしたり編集の仕方を勉強する時間がない場合は、\n簡単にメモを追加できます。"
+      paragraph_2_html: <a href='%{map_url}'>地図</a>に移動してメモアイコン（<span class='icon note'></span>）をクリックするだけです。これで地図上に印が追加され、ドラッグして移動させることができます。あなたのメッセージを追加し、保存をクリックすれば、他のマッパーが調査するでしょう。
       title: 編集する時間がないためメモを残します
     basic_terms: 
+      editor_html: <strong>エディター</strong>は、地図を編集できるプログラムやウェブサイトです。
       node_html: <strong>ノード</strong>は地図上の点です。1 軒のレストランや 1 本の樹木が該当します。
+      paragraph_1_html: OpenStreetMap には独自の用語がいくつかあります。ここでは手早く、いくつかのキーワードを紹介しましょう。
       tag_html: <strong>タグ</strong>はノードやウェイについて補足するデータです。レストランの名前、道路の制限速度などが該当します。
+      title: マッピングのための基本的な用語
       way_html: <strong>ウェイ</strong>は線または領域です。道路、水路、湖、建物などが該当します。
+    introduction_html: フリーで編集可能な世界地図、OpenStreetMapへようこそ。サインアップしたので、マッピングの準備はすべて整いました。知っておかなければならない重要事項を簡単に説明します。
+    questions: 
+      paragraph_1_html: "OpenStreetMapにはプロジェクトについて学んだり、質疑応答したり、共同で議論したり、マッピングについての知識を文書化したりするさまざまなリソースがあります。\n<a href='%{help_url}'>ここからヘルプを得ましょう</a>。"
+      title: 何か質問はありますか?
+    start_mapping: マッピングを開始
     title: ようこそ!
+    whats_on_the_map: 
+      off_html: 含めては<em>いけない</em>ものは、評価のような主観的なデータ、歴史的または仮想的なもの、著作権のある情報源からのデータです。特別な許可がない場合は、オンラインや紙の地図からコピーをしてはいけません。
+      on_html: OpenStreetMapは<em>現実かつ現存</em>のもの――数々の建物、道路、場所に関するその他の詳細をマッピングする場所です。あなたは関心のある現実世界のものを何でもマッピングできます。
+      title: 地図上にあるもの

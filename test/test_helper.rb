@@ -53,6 +53,8 @@ class ActiveSupport::TestCase
     fixtures :client_applications
     
     fixtures :redactions
+
+    fixtures :notes, :note_comments
   end
 
   ##

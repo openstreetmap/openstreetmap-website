@@ -128,9 +128,6 @@ class ApiController < ApplicationController
     end
 
     @nodes = Node.bbox(bbox).where(:visible => true).includes(:node_tags).limit(MAX_NUMBER_OF_NODES+1)
-    # get all the nodes, by tag not yet working, waiting for change from NickB
-    # need to be @nodes (instance var) so tests in /spec can be performed
-    #@nodes = Node.search(bbox, params[:tag])
 
     node_ids = @nodes.collect(&:id)
     if node_ids.length > MAX_NUMBER_OF_NODES
@@ -151,9 +148,9 @@ class ApiController < ApplicationController
     # find which ways are needed
     ways = Array.new
     if node_ids.length > 0
-      way_nodes = WayNode.find_all_by_node_id(node_ids)
+      way_nodes = WayNode.where(:node_id => node_ids)
       way_ids = way_nodes.collect { |way_node| way_node.id[0] }
-      ways = Way.find(way_ids, :include => [:way_nodes, :way_tags])
+      ways = Way.preload(:way_nodes, :way_tags).find(way_ids)
 
       list_of_way_nodes = ways.collect { |way|
         way.way_nodes.collect { |way_node| way_node.node_id }

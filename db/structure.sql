@@ -22,6 +22,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION btree_gist; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION btree_gist IS 'support for indexing common datatypes in GiST';
+
+
 SET search_path = public, pg_catalog;
 
 --
@@ -103,6 +117,33 @@ CREATE TYPE user_status_enum AS ENUM (
     'suspended',
     'deleted'
 );
+
+
+--
+-- Name: maptile_for_point(bigint, bigint, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
+    LANGUAGE c STRICT
+    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
+
+
+--
+-- Name: tile_for_point(integer, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
+    LANGUAGE c STRICT
+    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
+
+
+--
+-- Name: xid_to_int4(xid); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION xid_to_int4(xid) RETURNS integer
+    LANGUAGE c IMMUTABLE STRICT
+    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
 
 
 SET default_tablespace = '';
@@ -201,8 +242,8 @@ CREATE TABLE client_applications (
     key character varying(50),
     secret character varying(50),
     user_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     allow_read_prefs boolean DEFAULT false NOT NULL,
     allow_write_prefs boolean DEFAULT false NOT NULL,
     allow_write_diary boolean DEFAULT false NOT NULL,
@@ -230,39 +271,6 @@ CREATE SEQUENCE client_applications_id_seq
 --
 
 ALTER SEQUENCE client_applications_id_seq OWNED BY client_applications.id;
-
-
---
--- Name: countries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE countries (
-    id integer NOT NULL,
-    code character varying(2) NOT NULL,
-    min_lat double precision NOT NULL,
-    max_lat double precision NOT NULL,
-    min_lon double precision NOT NULL,
-    max_lon double precision NOT NULL
-);
-
-
---
--- Name: countries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE countries_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: countries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE countries_id_seq OWNED BY countries.id;
 
 
 --
@@ -754,7 +762,7 @@ CREATE TABLE nodes (
 --
 
 CREATE TABLE note_comments (
-    id integer NOT NULL,
+    id bigint NOT NULL,
     note_id bigint NOT NULL,
     visible boolean NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -789,14 +797,14 @@ ALTER SEQUENCE note_comments_id_seq OWNED BY note_comments.id;
 --
 
 CREATE TABLE notes (
-    id integer NOT NULL,
+    id bigint NOT NULL,
     latitude integer NOT NULL,
     longitude integer NOT NULL,
     tile bigint NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     created_at timestamp without time zone NOT NULL,
     status note_status_enum NOT NULL,
-    closed_at timestamp without time zone
+    closed_at timestamp without time zone NOT NULL
 );
 
 
@@ -827,8 +835,8 @@ CREATE TABLE oauth_nonces (
     id integer NOT NULL,
     nonce character varying(255),
     "timestamp" integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -864,8 +872,8 @@ CREATE TABLE oauth_tokens (
     secret character varying(50),
     authorized_at timestamp without time zone,
     invalidated_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     allow_read_prefs boolean DEFAULT false NOT NULL,
     allow_write_prefs boolean DEFAULT false NOT NULL,
     allow_write_diary boolean DEFAULT false NOT NULL,
@@ -907,8 +915,8 @@ CREATE TABLE redactions (
     id integer NOT NULL,
     title character varying(255),
     description text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     user_id bigint NOT NULL,
     description_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
@@ -994,8 +1002,8 @@ CREATE TABLE user_blocks (
     ends_at timestamp without time zone NOT NULL,
     needs_view boolean DEFAULT false NOT NULL,
     revoker_id bigint,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     reason_format format_enum DEFAULT 'html'::format_enum NOT NULL
 );
 
@@ -1037,8 +1045,8 @@ CREATE TABLE user_preferences (
 CREATE TABLE user_roles (
     id integer NOT NULL,
     user_id bigint NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     role user_role_enum NOT NULL,
     granter_id bigint NOT NULL
 );
@@ -1214,13 +1222,6 @@ ALTER TABLE ONLY client_applications ALTER COLUMN id SET DEFAULT nextval('client
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY countries ALTER COLUMN id SET DEFAULT nextval('countries_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY current_nodes ALTER COLUMN id SET DEFAULT nextval('current_nodes_id_seq'::regclass);
 
 
@@ -1379,14 +1380,6 @@ ALTER TABLE ONLY changesets
 
 ALTER TABLE ONLY client_applications
     ADD CONSTRAINT client_applications_pkey PRIMARY KEY (id);
-
-
---
--- Name: countries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY countries
-    ADD CONSTRAINT countries_pkey PRIMARY KEY (id);
 
 
 --
@@ -1687,7 +1680,7 @@ CREATE INDEX changeset_tags_id_idx ON changeset_tags USING btree (changeset_id);
 -- Name: changesets_bbox_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX changesets_bbox_idx ON changesets USING btree (min_lat, max_lat, min_lon, max_lon);
+CREATE INDEX changesets_bbox_idx ON changesets USING gist (min_lat, max_lat, min_lon, max_lon);
 
 
 --
@@ -1716,13 +1709,6 @@ CREATE INDEX changesets_user_id_created_at_idx ON changesets USING btree (user_i
 --
 
 CREATE INDEX changesets_user_id_id_idx ON changesets USING btree (user_id, id);
-
-
---
--- Name: countries_code_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX countries_code_idx ON countries USING btree (code);
 
 
 --
@@ -1877,6 +1863,20 @@ CREATE UNIQUE INDEX index_group_memberships_on_group_id_and_user_id ON group_mem
 --
 
 CREATE INDEX index_group_memberships_on_user_id ON group_memberships USING btree (user_id);
+
+
+--
+-- Name: index_note_comments_on_body; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_note_comments_on_body ON note_comments USING gin (to_tsvector('english'::regconfig, body));
+
+
+--
+-- Name: index_note_comments_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_note_comments_on_created_at ON note_comments USING btree (created_at);
 
 
 --
@@ -2469,6 +2469,8 @@ ALTER TABLE ONLY ways
 -- PostgreSQL database dump complete
 --
 
+SET search_path TO "$user",public;
+
 INSERT INTO schema_migrations (version) VALUES ('1');
 
 INSERT INTO schema_migrations (version) VALUES ('10');
@@ -2550,6 +2552,12 @@ INSERT INTO schema_migrations (version) VALUES ('20130610132812');
 INSERT INTO schema_migrations (version) VALUES ('20130610230524');
 
 INSERT INTO schema_migrations (version) VALUES ('20130613103205');
+
+INSERT INTO schema_migrations (version) VALUES ('20131212124700');
+
+INSERT INTO schema_migrations (version) VALUES ('20140115192822');
+
+INSERT INTO schema_migrations (version) VALUES ('20140117185510');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

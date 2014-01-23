@@ -67,10 +67,12 @@ protected
           end
         else
           @token.invalidate!
+          @message = t("oauth.oauthorize_failure.denied", :app_name => @token.client_application.name)
           render :action => "authorize_failure"
         end
       end
     else
+      @message = t "oauth.oauthorize_failure.invalid"
       render :action => "authorize_failure"
     end
   end

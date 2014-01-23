@@ -1,14 +1,16 @@
-# Messages for Czech (česky)
+# Messages for Czech (čeština)
 # Exported from translatewiki.net
 # Export driver: syck-pecl
 # Author: Bilbo
 # Author: Chmee2
+# Author: DemonioCZ
 # Author: JAn Dudík
 # Author: Jezevec
 # Author: Jkjk
 # Author: Kuvaly
 # Author: Luk
 # Author: Masox
+# Author: Matěj Grabovský
 # Author: Michaelbrabec
 # Author: Mormegil
 # Author: Mr. Richard Bolla
@@ -17,6 +19,18 @@
 # Author: Tchoř
 # Author: Veritaslibero
 cs: 
+  about_page: 
+    community_driven_html: "Komunita OpenStreetMap je různorodá, vášnivá a každý den se rozrůstá. Mezi našimi přispěvateli najdete amatérské kreslíře map, profesionály z oblasti GIS, techniky spravující servery OSM, humanitární pracovníky mapující oblasti zasažené neštěstím a mnohé další.\nPokud se chcete o komunitě dozvědět více, prohlédněte si <a href='%{diary_path}'>uživatelské deníčky</a>, <a href='http://blogs.openstreetmap.org/'>komunitní blogy</a> a webovou stránku <a href='http://www.osmfoundation.org/'>nadace OSM Foundation</a>."
+    community_driven_title: Řízeno komunitou
+    copyright_html: <span>&copy;</span>přispěvatelé<br>OpenStreetMap
+    lede_text: OpenStreetMap tvoří komunita uživatelů, kteří přidávají a udržují data o silnicích, cestách, kavárnách, železničních stanicích a mnohém dalším po celém světě.
+    local_knowledge_html: OpenStreetMap klade důraz na místní znalost. Přispěvatelé využívají letecké snímky, GPS přístroje a klasické mapy, aby ověřili, že OSM je přesné a aktuální.
+    local_knowledge_title: Místní znalost
+    next: Další
+    open_data_html: "OpenStreetMap tvoří <i>otevřená data</i>: smíte je užívat pro libovolný účel, pokud uvádíte autorství OpenStreetMap a jeho přispěvatelů. Pokud data měníte nebo rozšiřujete jistými způsoby, smíte výsledek šířit jen pod stejnou licencí. Podrobnosti najdete na stránce <a href='%{copyright_path}'>Autorská práva a licence</a>."
+    open_data_title: Otevřená data
+    partners_title: Partneři
+    used_by: Díky %{name} fungují mapová data na stovkách webových stránek, mobilních aplikací a hardwarových zařízení
   activerecord: 
     attributes: 
       diary_comment: 
@@ -34,7 +48,7 @@ cs:
         body: Text
         recipient: Příjemce
         sender: Odesílatel
-        title: Předmět
+        title: Název
       trace: 
         description: Popis
         latitude: Šířka
@@ -43,7 +57,7 @@ cs:
         public: Veřejná
         size: Velikost
         user: Uživatel
-        visible: Viditelnost
+        visible: Viditelný
       user: 
         active: Aktivní
         description: Popis
@@ -67,10 +81,10 @@ cs:
       old_node: Starý uzel
       old_node_tag: Starý tag uzlu
       old_relation: Stará relace
-      old_relation_member: Starý člen relace
-      old_relation_tag: Starý tag relace
+      old_relation_member: Člen staré relace
+      old_relation_tag: Tag staré relace
       old_way: Stará cesta
-      old_way_node: Starý uzel cesty
+      old_way_node: Uzel staré cesty
       old_way_tag: Starý tag cesty
       relation: Relace
       relation_member: Člen relace
@@ -94,111 +108,62 @@ cs:
       blocked: Váš přístup k API byl zablokován. Další informace zjistíte přihlášením do webového rozhraní.
       need_to_see_terms: Váš přístup k API byl dočasně zablokován. Přihlašte se prosím do webového rozhraní a přečtěte si Podmínky pro přispěvatele. Nemusíte je odsouhlasit, musíte si je ale zobrazit.
   browse: 
+    anonymous: anonym
     changeset: 
-      changeset: "Sada změn: %{id}"
+      belongs_to: Autor
       changesetxml: Soubor změn XML
       feed: 
         title: Sada změn %{id}
         title_comment: "Sada změn: %{id} - %{comment}"
+      node: Uzly (%{count})
+      node_paginated: Uzly (%{x}–%{y} z %{count})
       osmchangexml: osmChange XML
-      title: Sada změn
-    changeset_details: 
-      belongs_to: "Patří uživateli:"
-      bounding_box: "Rozsah:"
-      box: rám
-      closed_at: "Uzavřeno v:"
-      created_at: "Vytvořeno v:"
-      has_nodes: 
-        few: "Obsahuje následující %{count} uzly:"
-        one: "Obsahuje následující uzel:"
-        other: "Obsahuje následujících %{count} uzlů:"
-      has_relations: 
-        few: "Obsahuje následující %{count} relace:"
-        one: "Obsahuje následující relaci:"
-        other: "Obsahuje následujících %{count} relací:"
-      has_ways: 
-        few: "Obsahuje následující %{count} cesty:"
-        one: "Obsahuje následující cestu:"
-        other: "Obsahuje následujících %{count} cest:"
-      no_bounding_box: K této sadě změn nebyl uložen rozsah.
-      show_area_box: Zobrazit ohraničení oblasti
-    common_details: 
-      changeset_comment: "Komentář:"
-      deleted_at: "Smazáno:"
-      deleted_by: "Smazal:"
-      edited_at: "Upraveno v:"
-      edited_by: "Upravil:"
-      in_changeset: "V sadě změn:"
-      version: "Verze:"
+      relation: Relace (%{count})
+      relation_paginated: Relace (%{x}–%{y} z %{count})
+      title: "Sada změn: %{id}"
+      way: Cesty (%{count})
+      way_paginated: Cesty (%{x}–%{y} z %{count})
+    closed: Uzavřeno
+    closed_by_html: Uzavřel <abbr title='%{title}'>před %{time}</abbr> uživatel %{user}
+    closed_html: Uzavřeno <abbr title='%{title}'>před %{time}</abbr>
     containing_relation: 
       entry: Relace %{relation_name}
       entry_role: Relace %{relation_name} (jako %{relation_role})
-    map: 
-      deleted: Smazáno
-      edit: 
-        area: Upravit oblast
-        node: Upravit uzel
-        note: Upravit poznámku
-        relation: Upravit relaci
-        way: Upravit cestu
-      larger: 
-        area: Zobrazit oblast na větší mapě
-        node: Zobrazit uzel na větší mapě
-        note: Zobrazit poznámku na větší mapě
-        relation: Zobrazit relaci na větší mapě
-        way: Zobrazit cestu na větší mapě
-      loading: Načítá se…
-    navigation: 
-      all: 
-        next_changeset_tooltip: Další sada změn
-        next_node_tooltip: Následující uzel
-        next_note_tooltip: Následující poznámka
-        next_relation_tooltip: Následující relace
-        next_way_tooltip: Následující cesta
-        prev_changeset_tooltip: Předchozí sada změn
-        prev_node_tooltip: Předchozí uzel
-        prev_note_tooltip: Předchozí poznámka
-        prev_relation_tooltip: Předchozí relace
-        prev_way_tooltip: Předchozí cesta
-      user: 
-        name_changeset_tooltip: Zobrazit úpravy od %{user}
-        next_changeset_tooltip: Další úprava od %{user}
-        prev_changeset_tooltip: Předešlá úprava od %{user}
+    created: Vytvořeno
+    created_by_html: Vytvořil <abbr title='%{title}'>před %{time}</abbr> %{user}
+    created_html: Vytvořeno <abbr title='%{title}'>před %{time}</abbr>
+    deleted_by_html: Smazáno <abbr title='%{title}'>před %{time}</abbr> uživatelem %{user}
+    download_xml: Stáhnout XML
+    edited_by_html: Upraveno <abbr title='%{title}'>před %{time}</abbr> uživatelem %{user}
+    in_changeset: Sada změn
+    location: "Pozice:"
+    no_comment: (bez komentáře)
     node: 
-      download_xml: Stáhnout XML
-      edit: Upravit uzel
-      node: Uzel
-      node_title: "Uzel: %{node_name}"
-      view_history: Zobrazit historii
-    node_details: 
-      coordinates: "Souřadnice:"
-      part_of: "Součást:"
-    node_history: 
-      download_xml: Stáhnout XML
-      node_history: Historie uzlu
-      node_history_title: "Historie uzlu: %{node_name}"
-      view_details: Zobrazit detaily
+      history_title: "Historie uzlu: %{name}"
+      title: "Uzel: %{name}"
     not_found: 
-      sorry: Promiňte, ale %{type} s id %{id} nebylo možné nalézt.
+      sorry: "Promiňte, ale %{type} #%{id} nebylo možné nalézt."
       type: 
         changeset: sada změn
         node: uzel
         relation: relace
         way: cesta
     note: 
-      at_by_html: před %{when} od %{user}
-      at_html: před %{when}
-      closed: "Uzavřena:"
-      closed_title: "Vyřešená poznámka: %{note_name}"
-      comments: "Komentáře:"
-      description: "Popis:"
-      last_modified: "Naposledy změněna:"
-      open_title: "Nevyřešená poznámka: %{note_name}"
-      opened: "Otevřena:"
-      title: Poznámka
-    paging_nav: 
-      of: z
-      showing_page: stránka
+      closed_by: Vyřešil <abbr title='%{exact_time}'>před %{when}</abbr> %{user}
+      closed_by_anonymous: Vyřešil <abbr title='%{exact_time}'>před %{when}</abbr> anonym
+      closed_title: "Vyřešená poznámka #%{note_name}"
+      commented_by: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval %{user}
+      commented_by_anonymous: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval anonym
+      hidden_by: Skryl <abbr title='%{exact_time}'>před %{when}</abbr> %{user}
+      hidden_title: "Skrytá poznámka #%{note_name}"
+      new_note: Nová poznámka
+      open_by: Vytvořil %{user} <abbr title='%{exact_time}'>před %{when}</abbr>
+      open_by_anonymous: Vytvořil anonym <abbr title='%{exact_time}'>před %{when}</abbr>
+      open_title: "Nevyřešená poznámka #%{note_name}"
+      reopened_by: Reaktivoval <abbr title='%{exact_time}'>před %{when}</abbr> %{user}
+      reopened_by_anonymous: Reaktivoval <abbr title='%{exact_time}'>před %{when}</abbr> anonym
+      title: "Poznámka: %{id}"
+    part_of: Součást
     redacted: 
       message_html: Verzi %{version} tohoto objektu %{type} nelze zobrazit, protože byla skryta. Více informací uvádí stránka %{redaction_link}.
       redaction: Redakce %{id}
@@ -207,18 +172,9 @@ cs:
         relation: relace
         way: cesta
     relation: 
-      download_xml: Stáhnout XML
-      relation: Relace
-      relation_title: "Relace: %{relation_name}"
-      view_history: Zobrazit historii
-    relation_details: 
-      members: "Členové:"
-      part_of: "Součást:"
-    relation_history: 
-      download_xml: Stáhnout XML
-      relation_history: Historie relace
-      relation_history_title: "Historie relace: %{relation_name}"
-      view_details: Zobrazit detaily
+      history_title: "Historie relace: %{name}"
+      members: Prvky
+      title: "Relace: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} jako %{role}"
       type: 
@@ -226,42 +182,11 @@ cs:
         relation: Relace
         way: Cesta
     start_rjs: 
-      data_frame_title: Data
-      data_layer_name: Procházet mapová data
-      details: Detaily
-      edited_by_user_at_timestamp: Upravil %{user} dne %{timestamp}
-      hide_areas: Schovat oblasti
-      history_for_feature: Historie pro %{feature}
+      feature_warning: Načítá se %{num_features} prvků, což může váš prohlížeč zpomalit či zablokovat. Určitě chcete tato data zobrazit?
       load_data: Nahrát data
-      loaded_an_area_with_num_features: Máte načtenu oblast, která obsahuje %{num_features} prvků. Některé prohlížeče mohou mít potíže při zobrazování takového množství dat. Obecně fungují prohlížeče nejlépe při zobrazování ne více než %{max_features} prvků současně – větší množství může způsobit, že bude prohlížeč reagovat pomalu či vůbec. Pokud jste si jisti, že chcete tato data zobrazit, klikněte na tlačítko níže.
       loading: Načítá se…
-      manually_select: Ručně vybrat jinou oblast
-      notes_layer_name: Procházet poznámky
-      object_list: 
-        api: Získat tuto oblast pomocí API
-        back: Zpět na seznam objektů
-        details: Detaily
-        heading: Seznam objektů
-        history: 
-          type: 
-            node: Uzel %{id}
-            way: Cesta %{id}
-        selected: 
-          type: 
-            node: Uzel %{id}
-            way: Cesta %{id}
-        type: 
-          node: Uzel
-          way: Cesta
-      private_user: anonym
-      show_areas: Zobrazit oblasti
-      show_history: Zobrazit historii
-      unable_to_load_size: "Nelze načíst: Rozměr %{bbox_size} je příliš velký (maximum je %{max_bbox_size})"
-      view_data: Ukázat data k zobrazené mapě
-      wait: Čekejte...
-      zoom_or_select: Zvolte větší měřítko nebo vyberte nějakou oblast mapy
     tag_details: 
-      tags: "Tagy:"
+      tags: Tagy
       wiki_link: 
         key: Stránka s popisem značky %{key} na wiki
         tag: Stránka s popisem značky %{key}=%{value} na wiki
@@ -273,31 +198,20 @@ cs:
         node: uzlu
         relation: relace
         way: cesty
+    version: Verze
+    view_details: Zobrazit detaily
+    view_history: Zobrazit historii
     way: 
-      download_xml: Stáhnout XML
-      edit: Upravit cestu
-      view_history: Zobrazit historii
-      way: Cesta
-      way_title: "Cesta: %{way_name}"
-    way_details: 
       also_part_of: 
         one: patří do cesty %{related_ways}
         other: patří do cest %{related_ways}
-      nodes: "Uzly:"
-      part_of: "Součást:"
-    way_history: 
-      download_xml: Stáhnout XML
-      view_details: Zobrazit detaily
-      way_history: Historie cesty
-      way_history_title: "Historie cesty: %{way_name}"
+      history_title: "Historie cesty: %{name}"
+      nodes: Uzly
+      title: "Cesta: %{name}"
   changeset: 
     changeset: 
       anonymous: Anonymní
-      big_area: (velká)
-      no_comment: (žádný)
       no_edits: (žádné změny)
-      show_area_box: zobrazit ohraničení oblasti
-      still_editing: (stále se upravuje)
       view_changeset_details: Zobrazit detaily sady změn
     changeset_paging_nav: 
       next: Následující »
@@ -310,26 +224,17 @@ cs:
       saved_at: Uloženo v
       user: Uživatel
     list: 
-      description: Procházení nedávných příspěvků do mapy
-      description_bbox: Sady změn v %{bbox}
-      description_friend: Sady změn vašich přátel
-      description_nearby: Sady změn uživatelů poblíž
-      description_user: Sady změn uživatele %{user}
-      description_user_bbox: Sady změn uživatele %{user} v %{bbox}
-      empty_anon_html: Zatím žádné editace.
-      empty_user_html: Vypadá to, že jste zatím neprovedli žádné editace. Pokud chcete začít, podívejte se do <a href='http://wiki.openstreetmap.org/wiki/CS:Beginners_Guide_1.3'>Příručky pro začátečníka</a>.
-      heading: Sady změn
-      heading_bbox: Sady změn
-      heading_friend: Sady změn
-      heading_nearby: Sady změn
-      heading_user: Sady změn
-      heading_user_bbox: Sady změn
+      empty: Nebyly nalezeny žádné sady změn.
+      empty_area: Pro tuto oblast neexistují žádné sady změn.
+      empty_user: Tento uživatel nemá žádné sady změn.
+      load_more: Načíst další
+      no_more: Nebyly nalezeny žádné další sady změn.
+      no_more_area: Nebyly nalezeny žádné další sady změn pro tuto oblast.
+      no_more_user: Nebyly nalezeny žádné další sady změn tohoto uživatele.
       title: Sady změn
-      title_bbox: Sady změn v %{bbox}
       title_friend: Sady změn vašich přátel
       title_nearby: Sady změn uživatelů poblíž
       title_user: Sady změn uživatele %{user}
-      title_user_bbox: Sady změn uživatele %{user} v %{bbox}
     timeout: 
       sorry: Omlouváme se, ale vámi požadovaný seznam sad změn se načítal příliš dlouho.
   diary_entry: 
@@ -381,7 +286,7 @@ cs:
     list: 
       in_language_title: Deníčkové záznamy v jazyce %{language}
       new: Nový záznam do deníčku
-      new_title: Sepsat nový záznam do vašeho uživatelského deníčku
+      new_title: Vložit nový záznam do vašeho uživatelského deníčku
       newer_entries: Novější záznamy
       no_entries: Žádné záznamy v deníčku
       older_entries: Starší záznamy
@@ -408,7 +313,7 @@ cs:
       title: Deníček uživatele %{user} | %{title}
       user_title: Deníček uživatele %{user}
   editor: 
-    default: Výchozí (v současné době %{name})
+    default: Výchozí (aktuálně %{name})
     id: 
       description: iD (editor v prohlížeči)
       name: iD
@@ -443,15 +348,25 @@ cs:
       paste_html: Ke vložení na stránku použijte toto HTML
       scale: Měřítko
       too_large: 
-        other: heading=Příliš velká oblast
+        advice: "Pokud se tento export nezdaří, zvažte použití jednoho z následujících zdrojů:"
+        body: "Tato oblast je pro export do XML formátu OpenStreetMap příliš velká. Přejděte na větší měřítko, zvolte menší oblast nebo použijte jeden z následujících zdrojů pro stahování velkého množství dat:"
+        geofabrik: 
+          description: Pravidelně aktualizované extrakty kontinentů zemí a vybraných měst
+          title: Soubory Geofabrik
+        metro: 
+          description: Extrakty pro hlavní světová města a jejich okolí
+          title: Extrakty Metro
+        other: 
+          description: Další zdroje uvedené ve wiki OpenStreetMap
+          title: Další zdroje
+        overpass: 
+          description: Stažení této oblasti z databázového zrcadla OpenStreetMap
+          title: Overpass API
+        planet: 
+          description: Pravidelně aktualizované kopie kompletní databáze OpenStreetMap
+          title: Planeta OSM
       zoom: Zoom
-    start_rjs: 
-      add_marker: Přidat do mapy značku
-      change_marker: Změnit umístění značky
-      click_add_marker: Kliknutím do mapy vložíte značku
-      drag_a_box: Myší na mapě označte zvolenou oblast
-      export: Export
-      manually_select: Ručně vybrat jinou oblast
+    title: Export
   geocoder: 
     description: 
       title: 
@@ -481,8 +396,10 @@ cs:
       title: 
         ca_postcode: Výsledky z <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Výsledky z <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse: Výsledky z <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Výsledky z <a href="http://openstreetmap.org/">interní databáze</a>
         osm_nominatim: Výsledky z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
+        osm_nominatim_reverse: Výsledky z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Výsledky z <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Výsledky z <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
@@ -763,7 +680,7 @@ cs:
           crater: Kráter
           dune: Duna
           feature: Prvek
-          fell: See http://wiki.openstreetmap.org/wiki/Tag:natural=fell
+          fell: Fjell
           fjord: Fjord
           forest: Les
           geyser: Gejzír
@@ -979,6 +896,21 @@ cs:
           water_point: Vodní bod
           waterfall: Vodopád
           weir: Jez
+  help_page: 
+    help: 
+      description: Položte dotaz nebo vyhledejte odpovědi na stránce otázek a odpovědí týkajících se OSM.
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: OpenStreetMap nabízí několik zdrojů pro informace o projektu, otázky a odpovědi a kolaborativní diskuse a dokumentace mapových témat.
+    title: Nápověda
+    welcome: 
+      description: Začněte tímto rychlým průvodcem zahrnujícím základy OpenStreetMap.
+      title: Vítejte v OSM
+      url: /welcome
+    wiki: 
+      description: Podrobnou dokumentaci OSM najdete na wiki.
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/wiki/Cs:Main_Page?uselang=cs
   javascripts: 
     close: Zavřít
     edit_help: Posuňte si mapu a zvětšete si místo, které chcete editovat, a klikněte zde.
@@ -989,15 +921,18 @@ cs:
     map: 
       base: 
         cycle_map: Cyklomapa
+        hot: Humanitární
         mapquest: MapQuest Open
         standard: Standardní
         transport_map: Dopravní mapa
       copyright: © <a href='%{copyright_url}'>přispěvatelé OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Poskytněte dar</a>
       layers: 
         data: Mapová data
         header: Mapové vrstvy
         notes: Poznámky k mapě
         overlays: Zapnout vrstvy pro ladění mapy
+        title: Vrstvy
       locate: 
         popup: Jste do {distance} {unit} od tohoto bodu
         title: Ukázat moji polohu
@@ -1010,19 +945,10 @@ cs:
         intro: Abychom vylepšili mapu, zobrazí se vámi zadané informace ostatním tvůrcům, takže buďte při umisťování značky a zadávání poznámky co nejvíce podrobní a přesní.
       show: 
         anonymous_warning: Tato poznámka zahrnuje komentáře anonymních uživatelů, které by se měly nezávisle ověřit.
-        closed_by: vyřešil <a href='%{user_url}'>%{user}</a> v %{time}
-        closed_by_anonymous: vyřešil anonym v %{time}
         comment: Okomentovat
         comment_and_resolve: Okomentovat a vyřešit
-        commented_by: komentář od uživatele <a href='%{user_url}'>%{user}</a> z %{time}
-        commented_by_anonymous: komentář od anonyma z %{time}
         hide: Skrýt
-        opened_by: vytvořil <a href='%{user_url}'>%{user}</a> v %{time}
-        opened_by_anonymous: vytvořil anonym v %{time}
-        permalink: Trvalý odkaz
         reactivate: Reaktivovat
-        reopened_by: reaktivoval <a href='%{user_url}'>%{user}</a> v %{time}
-        reopened_by_anonymous: reaktivoval anonym v %{time}
         resolve: Vyřešit
     share: 
       cancel: Storno
@@ -1047,45 +973,40 @@ cs:
       createnote_tooltip: Přidat do mapy poznámku
       edit_disabled_tooltip: Pro editaci mapy přejděte na větší měřítko
       edit_tooltip: Upravit mapu
-      history_disabled_tooltip: Pro zobrazení editací této oblasti přejděte na větší měřítko
-      history_tooltip: Zobrazit editace této oblasti
+      map_data_zoom_in_tooltip: Pro zobrazení mapových dat přejděte na větší měřítko.
+      map_notes_zoom_in_tooltip: Pro zobrazení poznámek k mapě přejděte na větší měřítko.
   layouts: 
+    about: O projektu
     community: Komunita
     community_blogs: Komunitní blogy
     community_blogs_title: Blogy členů komunity OpenStreetMap
-    copyright: Copyright & licence
+    copyright: Copyright
     data: Data
-    documentation: Dokumentace
-    documentation_title: Dokumentace k projektu
     donate: Podpořte OpenStreetMap %{link} Fondu na upgrady hardwaru
-    donate_link_text: příspěvkem
     edit: Upravit
     edit_with: Upravit pomocí %{editor}
+    export: Export
     export_data: Export dat
     foundation: Nadace
     foundation_title: Nadace OpenStreetMap Foundation
     gps_traces: GPS stopy
     gps_traces_tooltip: Spravovat GPS stopy
     help: Nápověda
-    help_centre: Centrum nápovědy
-    help_title: Stránky s nápovědou k tomuto projektu
     history: Historie
     home: Přejít domů
-    intro_1: OpenStreetMap je svobodná editovatelná mapa celého světa. Tvoří ji lidé jako vy.
     intro_2_create_account: si založíte uživatelský účet
-    intro_2_download: stáhnout
-    intro_2_html: Data si můžete volně %{download} a %{use} pod %{license}. Mapu můžete vylepšit, pokud %{create_account}.
-    intro_2_license: svobodnou licencí
-    intro_2_use: používat
-    intro_2_use_url: http://wiki.openstreetmap.org/wiki/Using_OpenStreetMap?uselang=cs
-    log_in: přihlásit se
+    intro_header: Vítejte v OpenStreetMap!
+    intro_text: OpenStreetMap je mapa světa, vytvořená lidmi jako vy a volně využitelná pod otevřenou licencí.
+    learn_more: Více informací
+    log_in: Přihlásit se
     log_in_tooltip: Přihlásit se k existujícímu účtu
     logo: 
       alt_text: Logo OpenStreetMap
-    logout: Odhlásit
+    logout: Odhlásit se
     make_a_donation: 
       text: Pošlete příspěvek
       title: Podpořte OpenStreetMap finančním příspěvkem
+    more: Další
     osm_offline: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné údržbě mimo provoz.
     osm_read_only: Databáze OpenStreetMap je momentálně kvůli probíhající neodkladné údržbě pouze pro čtení.
     partners_bytemark: Bytemark Hosting
@@ -1094,16 +1015,12 @@ cs:
     partners_partners: partneři
     partners_ucl: středisko VR UCL
     partners_url: http://wiki.openstreetmap.org/wiki/Partners?uselang=cs
-    sign_up: zaregistrovat se
+    sign_up: Zaregistrovat se
     sign_up_tooltip: Vytvořit si uživatelský účet pro editaci
+    start_mapping: Začít mapovat
     tag_line: Otevřená wiki-mapa světa
     user_diaries: Deníčky
     user_diaries_tooltip: Zobrazit deníčky uživatelů
-    view: Zobrazit
-    view_tooltip: Zobrazit mapu
-    wiki: wiki
-    wiki_title: Wiki k tomuto projektu
-    wiki_url: http://wiki.openstreetmap.org/wiki/CS:Main_Page?uselang=cs
   license_page: 
     foreign: 
       english_link: anglickým originálem
@@ -1115,6 +1032,7 @@ cs:
         title: Příklad uvedení autorství
       contributors_at_html: "<strong>Rakousko</strong>: Obsahuje data od <a href=\"http://data.wien.gv.at/\">města Vídně</a> pod <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>), <a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">země Vorarlbersko</a> a země Tyrolsko (pod <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC BY AT s dodatky</a>)."
       contributors_ca_html: "<strong>Kanada</strong>: Obsahuje data z GeoBase&reg;, GeoGratis (&copy; Department of Natural Resources Canada), CanVec (&copy; Department of Natural Resources Canada) a StatCan (Geography Division, Statistics Canada)."
+      contributors_fi_html: "<strong>Finsko</strong>: Obsahuje data z topografické databáze a dalších zdrojů finského národního zeměměřického úřadu (Maanmittauslaitos) dostupná pod <a href=\"http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501\">licencí NLSFI</a>."
       contributors_footer_1_html: "Další podrobnosti o těchto a dalších zdrojích, které se používaly pro vylepšení OpenStreetMap, najdete na <a\nhref=\"http://wiki.openstreetmap.org/wiki/Contributors\">stránce Contributors</a> na wiki OpenStreetMap."
       contributors_footer_2_html: Zahrnutí dat do OpenStreetMap neznamená, že původní poskytovatel dat podporuje OpenStreetMap, nabízí jakoukoli záruku nebo přijímá jakoukoli zodpovědnost.
       contributors_fr_html: "<strong>Francie</strong>: Obsahuje data pocházející z Direction Générale des Impôts."
@@ -1295,7 +1213,7 @@ cs:
       header: "%{from_user} vám poslal(a) prostřednictvím OpenStreetMap zprávu s předmětem %{subject}:"
       hi: Dobrý den, uživateli %{to_user},
     note_comment_notification: 
-      anonymous: Jako anonymní uživatel
+      anonymous: Anonymní uživatel
       closed: 
         commented_note: "%{commenter} vyřešil poznámku k mapě, kterou jste komentovali. Poznámka je umístěna poblíž %{place}."
         subject_other: "[OpenStreetMap] %{commenter} vyřešil jednu z poznámek, která vás zajímá"
@@ -1330,6 +1248,15 @@ cs:
       allow_write_notes: měnit poznámky.
       allow_write_prefs: měnit vaše uživatelské nastavení.
       request_access: Aplikace %{app_name} žádá o přístup k vašemu účtu %{user}. Vyberte si, zda si přejete, aby aplikace měla následující oprávnění. Můžete jich zvolit libovolný počet.
+      title: Autorizovat přístup k vašemu účtu
+    oauthorize_failure: 
+      denied: Odepřeli jste aplikaci %{app_name} přístup k vašemu účtu.
+      invalid: Autorizační token je neplatný.
+      title: Požadavek na autorizaci se nezdařil
+    oauthorize_success: 
+      allowed: Udělili jste aplikaci %{app_name} přístup k vašemu účtu.
+      title: Požadavek na autorizaci povolen
+      verification: Ověřovací kód je %{code}.
     revoke: 
       flash: Přístup pro aplikaci %{application} byl odvolán.
   oauth_clients: 
@@ -1529,7 +1456,6 @@ cs:
       preview: Náhled
     search: 
       search: Hledat
-      search_help: "příklady: „Příbram“, „Havlíčkova, Plzeň“, „CB2 5AQ“, nebo „post offices near Mělník“ <a href='http://wiki.openstreetmap.org/wiki/Search'>další příklady…</a>"
       submit_text: Hledat
       where_am_i: Kde se nacházím?
       where_am_i_title: Popsat právě zobrazované místo pomocí vyhledávače
@@ -1546,6 +1472,11 @@ cs:
       upload_trace: Nahrát GPS stopu
     delete: 
       scheduled_for_deletion: Stopa označena ke smazání
+    description: 
+      description_with_count: 
+        one: GPX soubor s %{count} bodem od uživatele %{user}
+        other: GPX soubor s %{count} body od uživatele %{user}
+      description_without_count: GPX soubor od uživatele %{user}
     edit: 
       description: "Popis:"
       download: stáhnout
@@ -1564,6 +1495,8 @@ cs:
       visibility: "Viditelnost:"
       visibility_help: co tohle znamená?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=cs
+    georss: 
+      title: GPS stopy z OpenStreetMap
     list: 
       description: Procházení nedávno nahraných GPS stop
       empty_html: Nic tu ještě není. <a href='%{upload_link}'>Nahrajte novou stopu</a> nebo si něco o GPS stopách přečtěte na <a href='http://wiki.openstreetmap.org/wiki/CS:Beginners_Guide_1.2'>wiki</a>.
@@ -1888,6 +1821,7 @@ cs:
       my comments: Moje komentáře
       my diary: Můj deníček
       my edits: Moje editace
+      my messages: Moje zprávy
       my notes: Moje poznámky k mapě
       my profile: Můj profil
       my settings: Moje nastavení
@@ -2041,7 +1975,7 @@ cs:
       way_html: <strong>Cesta</strong> je linie nebo plocha jako např. silnice, potok, jezero nebo budova.
     introduction_html: Vítejte v OpenStreetMap, svobodné a editovatelné mapě světa. Teď, když jste se zaregistrovali, můžete začít mapovat. Tady je rychlý přehled nejdůležitějších věcí, které budete potřebovat znát.
     questions: 
-      paragraph_1_html: Potřebujete pomoc s mapováním nebo vám není jasné, jak OpenStreetMap používat? Odpovědi na své otázky se můžete dozvědět na <a href='http://help.openstreetmap.org/'>webu s nápovědou</a>.
+      paragraph_1_html: "OpenStreetMap nabízí několik zdrojů pro informace o projektu, otázky a odpovědi a kolaborativní diskuse a dokumentace mapových témat.\n<a href='%{help_url}'>Zde můžete získat pomoc.</a>"
       title: Nějaké dotazy?
     start_mapping: Začít mapovat
     title: Vítejte!

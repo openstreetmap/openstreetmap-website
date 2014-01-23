@@ -41,7 +41,7 @@ class GroupsController < ApplicationController
   ##
   # Process the POST'ing of the new group form.
   def create
-    @group = Group.new(params[:group])
+    @group = Group.new(group_params)
     if @group.save
       if defined?(@user)
         @group.users << @user
@@ -141,6 +141,12 @@ class GroupsController < ApplicationController
   end
 
 private
+
+  ##
+  # return permitted message parameters
+  def group_params
+    params.require(:group).permit(:title, :description, :group_memberships_attributes) 
+  end
 
   def find_group
     @group = Group.find(params[:id])

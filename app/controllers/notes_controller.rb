@@ -30,7 +30,7 @@ class NotesController < ApplicationController
     end
 
     # Get any conditions that need to be applied
-    notes = closed_condition(Note.scoped)
+    notes = closed_condition(Note.all)
 
     # Check that the boundaries are valid
     bbox.check_boundaries
@@ -155,8 +155,8 @@ class NotesController < ApplicationController
     # Find the note and check it is valid
     @note = Note.find_by_id(id)
     raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
-    raise OSM::APINoteAlreadyOpenError.new(@note) unless @note.closed?
+    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? or @user.moderator?
+    raise OSM::APINoteAlreadyOpenError.new(@note) unless @note.closed? or not @note.visible?
 
     # Reopen the note and add a comment
     Note.transaction do
@@ -176,7 +176,7 @@ class NotesController < ApplicationController
   # Get a feed of recent notes and comments
   def feed
     # Get any conditions that need to be applied
-    notes = closed_condition(Note.scoped)
+    notes = closed_condition(Note.all)
 
     # Process any bbox
     if params[:bbox]
@@ -254,8 +254,8 @@ class NotesController < ApplicationController
     raise OSM::APIBadUserInput.new("No query string was given") unless params[:q]
 
     # Get any conditions that need to be applied
-    @notes = closed_condition(Note.scoped)
-    @notes = @notes.joins(:comments).where("note_comments.body ~ ?", params[:q])
+    @notes = closed_condition(Note.all)
+    @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q])
 
     # Find the notes we want to return
     @notes = @notes.order("updated_at DESC").limit(result_limit).preload(:comments)
@@ -279,7 +279,7 @@ class NotesController < ApplicationController
         @description = t 'note.mine.subheading', :user => render_to_string(:partial => "user", :object => @this_user)
         @page = (params[:page] || 1).to_i 
         @page_size = 10
-        @notes = @this_user.notes.order("updated_at DESC, id").uniq.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author).all
+        @notes = @this_user.notes.order("updated_at DESC, id").uniq.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author).to_a
       else
         @title = t 'user.no_such_user.title' 
         @not_found_user = params[:display_name] 
@@ -308,8 +308,12 @@ private
   ##
   # Get the maximum number of results to return
   def result_limit
-    if params[:limit] and params[:limit].to_i > 0 and params[:limit].to_i < 10000
-      params[:limit].to_i
+    if params[:limit]
+      if params[:limit].to_i > 0 and params[:limit].to_i <= 10000
+        params[:limit].to_i
+      else
+        raise OSM::APIBadUserInput.new("Note limit must be between 1 and 10000")
+      end
     else
       100
     end
@@ -347,7 +351,7 @@ private
       attributes[:author_ip] = request.remote_ip
     end
 
-    comment = note.comments.create(attributes, :without_protection => true)
+    comment = note.comments.create(attributes)
 
     note.comments.map { |c| c.author }.uniq.each do |user|
       if notify and user and user != @user

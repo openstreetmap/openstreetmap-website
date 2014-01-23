@@ -7,6 +7,7 @@ class UserController < ApplicationController
   before_filter :authorize_web, :except => [:api_read, :api_details, :api_gpx_files]
   before_filter :set_locale, :except => [:api_read, :api_details, :api_gpx_files]
   before_filter :require_user, :only => [:account, :go_public, :make_friend, :remove_friend]
+  before_filter :require_self, :only => [:account]
   before_filter :check_database_readable, :except => [:login, :api_read, :api_details, :api_gpx_files]
   before_filter :check_database_writable, :only => [:new, :account, :confirm, :confirm_email, :lost_password, :reset_password, :go_public, :make_friend, :remove_friend]
   before_filter :check_api_readable, :only => [:api_read, :api_details, :api_gpx_files]
@@ -26,13 +27,12 @@ class UserController < ApplicationController
       render :partial => "terms"
     else
       @title = t 'user.terms.title'
-      @user ||= session[:new_user]
 
-      if !@user
-        redirect_to :action => :login, :referer => request.fullpath
-      elsif @user.terms_agreed?
+      if @user and @user.terms_agreed?
         # Already agreed to terms, so just show settings
         redirect_to :action => :account, :display_name => @user.display_name
+      elsif @user.nil? and session[:new_user].nil?
+        redirect_to :action => :login, :referer => request.fullpath
       end
     end
   end
@@ -74,13 +74,11 @@ class UserController < ApplicationController
     else
       @user = session.delete(:new_user)
 
-      if Acl.no_account_creation(request.remote_ip, @user.email.split("@").last)
-        render :action => 'blocked'
-      else
+      if check_signup_allowed(@user.email)
         @user.data_public = true
         @user.description = "" if @user.description.nil?
         @user.creation_ip = request.remote_ip
-        @user.languages = request.user_preferred_languages
+        @user.languages = http_accept_language.user_preferred_languages
         @user.terms_agreed = Time.now.getutc
         @user.terms_seen = true
         @user.openid_url = nil if @user.openid_url and @user.openid_url.empty?
@@ -201,6 +199,8 @@ class UserController < ApplicationController
         flash[:error] = t 'user.reset_password.flash token bad'
         redirect_to :action => 'lost_password'
       end
+    else
+      render :text => "", :status => :bad_request
     end
   end
 
@@ -239,19 +239,17 @@ class UserController < ApplicationController
                        :openid_url => params[:openid])
 
       flash.now[:notice] = t 'user.new.openid association'
-    elsif Acl.no_account_creation(request.remote_ip)
-      render :action => 'blocked'
+    else
+      check_signup_allowed
     end
   end
 
   def create
-    if params[:user] and Acl.no_account_creation(request.remote_ip, params[:user][:email].split("@").last)
-      render :action => 'blocked'
+    @user = User.new(user_params)
 
-    else
+    if check_signup_allowed(@user.email)
       session[:referer] = params[:referer]
 
-      @user = User.new(params[:user])
       @user.status = "pending"
 
       if @user.openid_url.present? && @user.pass_crypt.empty?
@@ -341,7 +339,6 @@ class UserController < ApplicationController
           token.destroy
 
           session[:user] = user.id
-          cookies.permanent["_osm_username"] = user.display_name
 
           redirect_to referer || welcome_path
         end
@@ -380,7 +377,6 @@ class UserController < ApplicationController
         end
         token.destroy
         session[:user] = @user.id
-        cookies.permanent["_osm_username"] = @user.display_name
         redirect_to :action => 'account', :display_name => @user.display_name
       else
         flash[:error] = t 'user.confirm_email.failure'
@@ -641,8 +637,6 @@ private
   ##
   # process a successful login
   def successful_login(user)
-    cookies.permanent["_osm_username"] = user.display_name
-
     session[:user] = user.id
     session_expires_after 28.days if session[:remember_me]
 
@@ -730,8 +724,6 @@ private
     if user.save
       set_locale
 
-      cookies.permanent["_osm_username"] = user.display_name
-
       if user.new_email.blank? or user.new_email == user.email
         flash.now[:notice] = t 'user.account.flash update success'
       else
@@ -773,6 +765,14 @@ private
   end
 
   ##
+  # require that the user in the URL is the logged in user
+  def require_self
+    if params[:display_name] != @user.display_name
+      render :text => "", :status => :forbidden
+    end
+  end
+
+  ##
   # ensure that there is a "this_user" instance variable
   def lookup_user_by_id
     @this_user = User.find(params[:id])
@@ -808,5 +808,29 @@ private
     # having not agreed already would cause an infinite redirect loop.
     # it's .now so that this doesn't propagate to other pages.
     flash.now[:skip_terms] = true
+  end
+
+  ##
+  # return permitted user parameters
+  def user_params
+    params.require(:user).permit(:email, :email_confirmation, :display_name, :openid_url, :pass_crypt, :pass_crypt_confirmation)
+  end
+
+  ##
+  # check signup acls
+  def check_signup_allowed(email = nil)
+    if email.nil?
+      domain = nil
+    else
+      domain = email.split("@").last
+    end
+
+    if blocked = Acl.no_account_creation(request.remote_ip, domain)
+      logger.info "Blocked signup from #{request.remote_ip} for #{email}"
+
+      render :action => 'blocked'
+    end
+
+    not blocked
   end
 end

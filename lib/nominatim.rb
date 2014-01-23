@@ -3,7 +3,7 @@ module Nominatim
 
   def self.describe_location(lat, lon, zoom = nil, language = nil)
     zoom = zoom || 14
-    language = language || request.user_preferred_languages.join(',')
+    language = language || http_accept_language.user_preferred_languages.join(',')
 
     Rails.cache.fetch "/nominatim/location/#{lat}/#{lon}/#{zoom}/#{language}" do
       url = "http://nominatim.openstreetmap.org/reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{language}"

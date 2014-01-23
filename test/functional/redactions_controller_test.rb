@@ -39,7 +39,6 @@ class RedactionsControllerTest < ActionController::TestCase
 
   def test_moderators_can_create
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     post :create, :redaction => { :title => "Foo", :description => "Description here." }
     assert_response :redirect
@@ -48,7 +47,6 @@ class RedactionsControllerTest < ActionController::TestCase
 
   def test_non_moderators_cant_create
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     post :create, :redaction => { :title => "Foo", :description => "Description here." }
     assert_response :forbidden
@@ -56,7 +54,6 @@ class RedactionsControllerTest < ActionController::TestCase
 
   def test_moderators_can_delete_empty
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     # remove all elements from the redaction
     redaction = redactions(:example)
@@ -71,7 +68,6 @@ class RedactionsControllerTest < ActionController::TestCase
 
   def test_moderators_cant_delete_nonempty
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     # leave elements in the redaction
     redaction = redactions(:example)
@@ -84,7 +80,6 @@ class RedactionsControllerTest < ActionController::TestCase
 
   def test_non_moderators_cant_delete
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     delete :destroy, :id => redactions(:example).id
     assert_response :forbidden
@@ -92,7 +87,6 @@ class RedactionsControllerTest < ActionController::TestCase
 
   def test_moderators_can_edit
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     get :edit, :id => redactions(:example).id
     assert_response :success
@@ -100,7 +94,6 @@ class RedactionsControllerTest < ActionController::TestCase
 
   def test_non_moderators_cant_edit
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     get :edit, :id => redactions(:example).id
     assert_response :redirect
@@ -109,7 +102,6 @@ class RedactionsControllerTest < ActionController::TestCase
 
   def test_moderators_can_update
     session[:user] = users(:moderator_user).id
-    cookies["_osm_username"] = users(:moderator_user).display_name
 
     redaction = redactions(:example)
 
@@ -120,7 +112,6 @@ class RedactionsControllerTest < ActionController::TestCase
 
   def test_non_moderators_cant_update
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     redaction = redactions(:example)
 

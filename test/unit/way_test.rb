@@ -6,7 +6,7 @@ class WayTest < ActiveSupport::TestCase
   # Check that we have the correct number of currnet ways in the db
   # This will need to updated whenever the current_ways.yml is updated
   def test_db_count
-    assert_equal 6, Way.count
+    assert_equal 7, Way.count
   end
   
   def test_bbox
@@ -134,5 +134,50 @@ class WayTest < ActiveSupport::TestCase
       Way.from_xml(dupk, false)
     }
     assert_equal "Element way/23 has duplicate tags with key dup", message_update.message
+  end
+
+  def test_way_nodes
+    way = current_ways(:way_with_multiple_nodes)
+    nodes = Way.find(way.id).way_nodes
+    assert_equal 3, nodes.count
+    assert_equal 4, nodes[0].node_id
+    assert_equal 15, nodes[1].node_id
+    assert_equal 6, nodes[2].node_id
+  end
+
+  def test_nodes
+    way = current_ways(:way_with_multiple_nodes)
+    nodes = Way.find(way.id).nodes
+    assert_equal 3, nodes.count
+    assert_equal 4, nodes[0].id
+    assert_equal 15, nodes[1].id
+    assert_equal 6, nodes[2].id
+  end
+
+  def test_nds
+    way = current_ways(:way_with_multiple_nodes)
+    nodes = Way.find(way.id).nds
+    assert_equal 3, nodes.count
+    assert_equal 4, nodes[0]
+    assert_equal 15, nodes[1]
+    assert_equal 6, nodes[2]
+  end
+
+  def test_way_tags
+    way = current_ways(:way_with_versions)
+    tags = Way.find(way.id).way_tags.order(:k)
+    assert_equal 2, tags.count
+    assert_equal "testing", tags[0].k 
+    assert_equal "added in way version 3", tags[0].v
+    assert_equal "testing two", tags[1].k
+    assert_equal "modified in way version 4", tags[1].v
+  end
+
+  def test_tags
+    way = current_ways(:way_with_versions)
+    tags = Way.find(way.id).tags
+    assert_equal 2, tags.size
+    assert_equal "added in way version 3", tags["testing"]
+    assert_equal "modified in way version 4", tags["testing two"]
   end
 end

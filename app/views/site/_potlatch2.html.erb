@@ -32,6 +32,8 @@
     flashvars.font_library = "<%= asset_path "potlatch2/FontLibrary.swf" %>";
     flashvars.locale = "<%= Potlatch2::LOCALES[locale] %>";
     flashvars.locale_paths = "<%= Potlatch2::LOCALES[locale] %>=<%= asset_path("potlatch2/locales/#{Potlatch2::LOCALES[locale]}.swf") %>";
+    flashvars.intro_image = "<%= asset_path "help/introduction.jpg" %>";
+    flashvars.intro_video = "<%= asset_path "help/introduction.mp4" %>";
     <% if params['gpx'] %>
     flashvars.gpx = '<%= h(params['gpx']) %>';
     <% end %>
@@ -64,29 +66,19 @@
     // 700,600 for fixed size, 100%,100% for resizable
 
     if (lat && lon) {
-      updatelinks({ lon: lon, lat: lat }, zoom);
+      updateLinks({ lon: lon, lat: lat }, zoom);
     }
   }
 
-  <% if @lat && @lon -%>
-  doSWF(<%= @lat %>,<%= @lon %>,16);
-  <% else -%>
-  var params = OSM.mapParams();
-  doSWF(params.lat, params.lon, params.zoom || 17);
-  <% end -%>
+<% if @lat && @lon -%>
+  doSWF(<%= @lat %>, <%= @lon %>, <%= @zoom %>);
+<% else -%>
+  var mapParams = OSM.mapParams();
+  doSWF(mapParams.lat, mapParams.lon, mapParams.zoom || 17);
+<% end -%>
 
-  $("body").on("click", "a.set_position", function (e) {
-    e.preventDefault();
-
-    var data = $(this).data();
-
-    $("#potlatch").each(function () {
-      this.setPosition(data.lat, data.lon, Math.max(data.zoom || 15, 13));
-    });
-  });
-
-  var mapMoved = $.throttle(250, function(lon, lat, zoom, minlon, minlat, maxlon, maxlat) {
-    updatelinks({ lon: lon, lat: lat }, zoom, null, [[minlat, minlon], [maxlat, maxlon]]);
+  var mapMoved = $.throttle(250, function(lon, lat, zoom) {
+    updateLinks({ lon: lon, lat: lat }, zoom);
 
     var hash = OSM.formatHash({ lon: lon, lat: lat, zoom: zoom });
     if (hash !== location.hash) {

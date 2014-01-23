@@ -3,14 +3,15 @@ class Relation < ActiveRecord::Base
   
   include ConsistencyValidations
   include NotRedactable
+  include ObjectMetadata
 
   self.table_name = "current_relations"
 
   belongs_to :changeset
 
-  has_many :old_relations, :order => 'version'
+  has_many :old_relations, -> { order(:version) }
 
-  has_many :relation_members, :order => 'sequence_id'
+  has_many :relation_members, -> { order(:sequence_id) }
   has_many :relation_tags
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
@@ -24,11 +25,11 @@ class Relation < ActiveRecord::Base
   validates_numericality_of :changeset_id, :version, :integer_only => true
   validates_associated :changeset
   
-  scope :visible, where(:visible => true)
-  scope :invisible, where(:visible => false)
-  scope :nodes, lambda { |*ids| joins(:relation_members).where(:current_relation_members => { :member_type => "Node", :member_id => ids }) }
-  scope :ways, lambda { |*ids| joins(:relation_members).where(:current_relation_members => { :member_type => "Way", :member_id => ids }) }
-  scope :relations, lambda { |*ids| joins(:relation_members).where(:current_relation_members => { :member_type => "Relation", :member_id => ids }) }
+  scope :visible, -> { where(:visible => true) }
+  scope :invisible, -> { where(:visible => false) }
+  scope :nodes, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Node", :member_id => ids.flatten }) }
+  scope :ways, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Way", :member_id => ids.flatten }) }
+  scope :relations, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Relation", :member_id => ids.flatten }) }
 
   TYPES = ["node", "way", "relation"]
 
@@ -106,33 +107,10 @@ class Relation < ActiveRecord::Base
   end
 
   def to_xml_node(visible_members = nil, changeset_cache = {}, user_display_name_cache = {})
-    el1 = XML::Node.new 'relation'
-    el1['id'] = self.id.to_s
-    el1['visible'] = self.visible.to_s
-    el1['timestamp'] = self.timestamp.xmlschema
-    el1['version'] = self.version.to_s
-    el1['changeset'] = self.changeset_id.to_s
+    el = XML::Node.new 'relation'
+    el['id'] = self.id.to_s
 
-    if changeset_cache.key?(self.changeset_id)
-      # use the cache if available
-    else
-      changeset_cache[self.changeset_id] = self.changeset.user_id
-    end
-
-    user_id = changeset_cache[self.changeset_id]
-
-    if user_display_name_cache.key?(user_id)
-      # use the cache if available
-    elsif self.changeset.user.data_public?
-      user_display_name_cache[user_id] = self.changeset.user.display_name
-    else
-      user_display_name_cache[user_id] = nil
-    end
-
-    if not user_display_name_cache[user_id].nil?
-      el1['user'] = user_display_name_cache[user_id]
-      el1['uid'] = user_id.to_s
-    end
+    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     self.relation_members.each do |member|
       p=0
@@ -148,21 +126,17 @@ class Relation < ActiveRecord::Base
         end
       end
       if p
-        e = XML::Node.new 'member'
-        e['type'] = member.member_type.downcase
-        e['ref'] = member.member_id.to_s 
-        e['role'] = member.member_role
-        el1 << e
+        member_el = XML::Node.new 'member'
+        member_el['type'] = member.member_type.downcase
+        member_el['ref'] = member.member_id.to_s 
+        member_el['role'] = member.member_role
+        el << member_el
        end
     end
 
-    self.relation_tags.each do |tag|
-      e = XML::Node.new 'tag'
-      e['k'] = tag.k
-      e['v'] = tag.v
-      el1 << e
-    end
-    return el1
+    add_tags_to_xml_node(el, self.relation_tags)
+
+    return el
   end 
 
   # FIXME is this really needed?
@@ -173,13 +147,7 @@ class Relation < ActiveRecord::Base
   end
 
   def tags
-    unless @tags
-      @tags = Hash.new
-      self.relation_tags.each do |tag|
-        @tags[tag.k] = tag.v
-      end
-    end
-    @tags
+    @tags ||= Hash[self.relation_tags.collect { |t| [t.k, t.v] }]
   end
 
   def members=(m)

@@ -13,7 +13,7 @@ L.OSM.share = function (options) {
     var button = $('<a>')
       .attr('class', 'control-button')
       .attr('href', '#')
-      .attr('title', 'Share')
+      .attr('title', I18n.t('javascripts.share.title'))
       .html('<span class="icon share"></span>')
       .on('click', toggle)
       .appendTo($container);
@@ -25,10 +25,9 @@ L.OSM.share = function (options) {
       .attr('class', 'sidebar_heading')
       .appendTo($ui)
       .append(
-        $('<a>')
+        $('<span>')
           .text(I18n.t('javascripts.close'))
-          .attr('class', 'sidebar_close')
-          .attr('href', '#')
+          .attr('class', 'icon close')
           .bind('click', toggle))
       .append(
         $('<h4>')
@@ -231,6 +230,7 @@ L.OSM.share = function (options) {
 
       update();
       options.sidebar.togglePane($ui, button);
+      $('.leaflet-control .control-button').tooltip('hide');
     }
 
     function toggleMarker() {

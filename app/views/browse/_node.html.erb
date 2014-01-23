@@ -1,0 +1,23 @@
+<% if node.redacted? %>
+  <div class='browse-section browse-redacted'>
+    <%= t 'browse.redacted.message_html',
+          :type => t('browse.redacted.type.node'),
+          :version => node.version,
+          :redaction_link => link_to(t('browse.redacted.redaction',
+                                       :id => node.redaction.id), node.redaction) %>
+  </div>
+<% else %>
+  <div class='browse-section browse-node'>
+    <%= render :partial => "common_details", :object => node %>
+
+    <% unless node.ways.empty? and node.containing_relation_members.empty? %>
+      <h4><%= t 'browse.part_of' %></h4>
+      <ul>
+        <% node.ways.each do |way| %>
+          <li><%= link_to h(printable_name(way)), { :action => "way", :id => way.id.to_s }, :class => link_class('way', way), :title => link_title(way) %></li>
+        <% end %>
+        <%= render :partial => "containing_relation", :collection => node.containing_relation_members %>
+      </ul>
+    <% end %>
+  </div>
+<% end %>

@@ -5,7 +5,7 @@ module GeoRecord
   SCALE = 10000000
   
   def self.included(base)
-    base.scope :bbox, lambda { |bbox| base.where(OSM.sql_for_area(bbox)) }
+    base.scope :bbox, ->(bbox) { base.where(OSM.sql_for_area(bbox)) }
     base.before_save :update_tile
   end
 

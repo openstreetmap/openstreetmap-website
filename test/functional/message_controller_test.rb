@@ -61,7 +61,6 @@ class MessageControllerTest < ActionController::TestCase
 
     # Login as a normal user
     session[:user] = users(:normal_user).id
-    cookies["_osm_username"] = users(:normal_user).display_name
 
     # Check that the new message page loads
     get :new, :display_name => users(:public_user).display_name
@@ -102,7 +101,7 @@ class MessageControllerTest < ActionController::TestCase
     get :new, :display_name => "non_existent_user"
     assert_response :not_found
     assert_template "user/no_such_user"
-    assert_select "h2", "The user non_existent_user does not exist"
+    assert_select "h1", "The user non_existent_user does not exist"
   end
 
   ##
@@ -144,7 +143,6 @@ class MessageControllerTest < ActionController::TestCase
 
     # Login as the wrong user
     session[:user] = users(:second_public_user).id
-    cookies["_osm_username"] = users(:second_public_user).display_name
 
     # Check that we can't reply to somebody else's message
     get :reply, :message_id => messages(:unread_message).id
@@ -153,7 +151,6 @@ class MessageControllerTest < ActionController::TestCase
 
     # Login as the right user
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that the message reply page loads
     get :reply, :message_id => messages(:unread_message).id
@@ -168,7 +165,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal true, Message.find(messages(:unread_message).id).message_read
 
     # Asking to reply to a message with no ID should fail
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :reply
     end
 
@@ -187,7 +184,6 @@ class MessageControllerTest < ActionController::TestCase
 
     # Login as the wrong user
     session[:user] = users(:second_public_user).id
-    cookies["_osm_username"] = users(:second_public_user).display_name
 
     # Check that we can't read the message
     get :read, :message_id => messages(:unread_message).id
@@ -196,7 +192,6 @@ class MessageControllerTest < ActionController::TestCase
 
     # Login as the message sender
     session[:user] = users(:normal_user).id
-    cookies["_osm_username"] = users(:normal_user).display_name
 
     # Check that the message sender can read the message
     get :read, :message_id => messages(:unread_message).id
@@ -206,7 +201,6 @@ class MessageControllerTest < ActionController::TestCase
 
     # Login as the message recipient
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that the message recipient can read the message
     get :read, :message_id => messages(:unread_message).id
@@ -215,7 +209,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal true, Message.find(messages(:unread_message).id).message_read
 
     # Asking to read a message with no ID should fail
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       get :read
     end
 
@@ -234,7 +228,6 @@ class MessageControllerTest < ActionController::TestCase
 
     # Login
     session[:user] = users(:normal_user).id
-    cookies["_osm_username"] = users(:normal_user).display_name
 
     # Check that we can view our inbox when logged in
     get :inbox, :display_name => users(:normal_user).display_name
@@ -259,7 +252,6 @@ class MessageControllerTest < ActionController::TestCase
 
     # Login
     session[:user] = users(:normal_user).id
-    cookies["_osm_username"] = users(:normal_user).display_name
 
     # Check that we can view our outbox when logged in
     get :outbox, :display_name => users(:normal_user).display_name
@@ -284,7 +276,6 @@ class MessageControllerTest < ActionController::TestCase
 
     # Login as a user with no messages
     session[:user] = users(:second_public_user).id
-    cookies["_osm_username"] = users(:second_public_user).display_name
 
     # Check that marking a message we didn't send or receive fails
     post :mark, :message_id => messages(:read_message).id
@@ -293,7 +284,6 @@ class MessageControllerTest < ActionController::TestCase
 
     # Login as the message recipient
     session[:user] = users(:public_user).id
-    cookies["_osm_username"] = users(:public_user).display_name
 
     # Check that the marking a message read works
     post :mark, :message_id => messages(:unread_message).id, :mark => "read"
@@ -318,7 +308,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal false, Message.find(messages(:unread_message).id).message_read
 
     # Asking to mark a message with no ID should fail
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       post :mark
     end
 
@@ -337,7 +327,6 @@ class MessageControllerTest < ActionController::TestCase
 
     # Login as a user with no messages
     session[:user] = users(:second_public_user).id
-    cookies["_osm_username"] = users(:second_public_user).display_name
 
     # Check that deleting a message we didn't send or receive fails
     post :delete, :message_id => messages(:read_message).id
@@ -346,7 +335,6 @@ class MessageControllerTest < ActionController::TestCase
 
     # Login as the message recipient
     session[:user] = users(:normal_user).id
-    cookies["_osm_username"] = users(:normal_user).display_name
 
     # Check that the deleting a received message works
     post :delete, :message_id => messages(:read_message).id
@@ -365,7 +353,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal true, m.to_user_visible
 
     # Asking to delete a message with no ID should fail
-    assert_raise ActionController::RoutingError do
+    assert_raise ActionController::UrlGenerationError do
       post :delete
     end
 

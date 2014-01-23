@@ -19,10 +19,9 @@ L.OSM.key = function (options) {
       .attr('class', 'sidebar_heading')
       .appendTo($ui)
       .append(
-        $('<a>')
+        $('<span>')
           .text(I18n.t('javascripts.close'))
-          .attr('class', 'sidebar_close')
-          .attr('href', '#')
+          .attr('class', 'icon close')
           .bind('click', toggle))
       .append(
         $('<h4>')
@@ -57,6 +56,7 @@ L.OSM.key = function (options) {
       if (!button.hasClass('disabled')) {
         options.sidebar.togglePane($ui, button);
       }
+      $('.leaflet-control .control-button').tooltip('hide');
     }
 
     function updateButton() {

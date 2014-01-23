@@ -3,7 +3,7 @@
     <% if @this_user %>
       <%= user_image @this_user %>
     <% end %>
-    <h2><%= h(@title) %></h2>
+    <h1><%= h(@title) %></h1>
 
     <ul class='secondary-actions clearfix'>
       <% unless params[:friends] or params[:nearby] -%>
@@ -50,7 +50,7 @@
 <% end %>
 
 <% unless params[:friends] or params[:nearby] -%>
-  <% content_for :head do -%>
-  <%= auto_discovery_link_tag :atom, :action => 'rss', :language => params[:language] %>
+  <% content_for :auto_discovery_link_tag do -%>
+  <%= auto_discovery_link_tag :rss, :action => 'rss', :language => params[:language] %>
   <% end -%>
 <% end -%>

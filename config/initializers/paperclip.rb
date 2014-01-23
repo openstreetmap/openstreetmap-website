@@ -1,7 +1,6 @@
 module Paperclip
   class AssetUrlGenerator < UrlGenerator
-    include Sprockets::Helpers::IsolatedHelper
-    include Sprockets::Helpers::RailsHelper
+    include Sprockets::Rails::Helper
 
     def for(style_name, options)
       url = super(style_name, options)
@@ -12,6 +11,12 @@ module Paperclip
         url
       end
     end
+  end
+end
+
+Rails.application.config.after_initialize do |app|
+  Paperclip::AssetUrlGenerator::VIEW_ACCESSORS.each do |attr|
+    Paperclip::AssetUrlGenerator.send("#{attr}=", ActionView::Base.send(attr))
   end
 end
 

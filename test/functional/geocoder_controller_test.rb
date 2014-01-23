@@ -8,12 +8,12 @@ class GeocoderControllerTest < ActionController::TestCase
   # test all routes which lead to this controller
   def test_routes
     assert_routing(
-      { :path => "/geocoder/search", :method => :post },
+      { :path => "/search", :method => :get },
       { :controller => "geocoder", :action => "search" }
     )
     assert_routing(
-      { :path => "/geocoder/search_latlon", :method => :get },
-      { :controller => "geocoder", :action => "search_latlon" }
+     { :path => "/geocoder/search_latlon", :method => :get },
+     { :controller => "geocoder", :action => "search_latlon" }
     )
     assert_routing(
       { :path => "/geocoder/search_us_postcode", :method => :get },
@@ -28,10 +28,6 @@ class GeocoderControllerTest < ActionController::TestCase
       { :controller => "geocoder", :action => "search_ca_postcode" }
     )
     assert_routing(
-      { :path => "/geocoder/search_osm_namefinder", :method => :get },
-      { :controller => "geocoder", :action => "search_osm_namefinder" }
-    )
-    assert_routing(
       { :path => "/geocoder/search_osm_nominatim", :method => :get },
       { :controller => "geocoder", :action => "search_osm_nominatim" }
     )
@@ -39,22 +35,13 @@ class GeocoderControllerTest < ActionController::TestCase
       { :path => "/geocoder/search_geonames", :method => :get },
       { :controller => "geocoder", :action => "search_geonames" }
     )
-
     assert_routing(
-      { :path => "/geocoder/description", :method => :post },
-      { :controller => "geocoder", :action => "description" }
+      { :path => "/geocoder/search_osm_nominatim_reverse", :method => :get },
+      { :controller => "geocoder", :action => "search_osm_nominatim_reverse" }
     )
     assert_routing(
-      { :path => "/geocoder/description_osm_namefinder", :method => :get },
-      { :controller => "geocoder", :action => "description_osm_namefinder" }
-    )
-    assert_routing(
-      { :path => "/geocoder/description_osm_nominatim", :method => :get },
-      { :controller => "geocoder", :action => "description_osm_nominatim" }
-    )
-    assert_routing(
-      { :path => "/geocoder/description_geonames", :method => :get },
-      { :controller => "geocoder", :action => "description_geonames" }
+      { :path => "/geocoder/search_geonames_reverse", :method => :get },
+      { :controller => "geocoder", :action => "search_geonames_reverse" }
     )
   end
 
@@ -67,10 +54,7 @@ class GeocoderControllerTest < ActionController::TestCase
      '+50.06773 +14.37742',
      '+50.06773, +14.37742'
     ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_equal code, assigns(:query)
+      latlon_check code, 50.06773, 14.37742
     end
   end
 
@@ -83,10 +67,7 @@ class GeocoderControllerTest < ActionController::TestCase
      '50.06773N 14.37742E',
      '50.06773N, 14.37742E'
     ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_equal "50.06773, 14.37742", assigns(:query)
+      latlon_check code, 50.06773, 14.37742
     end
   end
 
@@ -99,10 +80,7 @@ class GeocoderControllerTest < ActionController::TestCase
      '50.06773N 14.37742W',
      '50.06773N, 14.37742W'
     ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_equal "50.06773, -14.37742", assigns(:query)
+      latlon_check code, 50.06773, -14.37742
     end
   end
 
@@ -115,10 +93,7 @@ class GeocoderControllerTest < ActionController::TestCase
      '50.06773S 14.37742E',
      '50.06773S, 14.37742E'
     ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_equal "-50.06773, 14.37742", assigns(:query)
+      latlon_check code, -50.06773, 14.37742
     end
   end
 
@@ -131,10 +106,7 @@ class GeocoderControllerTest < ActionController::TestCase
      '50.06773S 14.37742W',
      '50.06773S, 14.37742W'
     ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_equal "-50.06773, -14.37742", assigns(:query)
+      latlon_check code, -50.06773, -14.37742
     end
   end
 
@@ -150,10 +122,7 @@ class GeocoderControllerTest < ActionController::TestCase
      'N50 4.064 E14 22.645',
      "50° 04.064' N, 014° 22.645' E"
     ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_latlon_equal_round "50.06773, 14.37742", assigns(:query), 5
+      latlon_check code, 50.06773, 14.37742
     end
   end
 
@@ -169,10 +138,7 @@ class GeocoderControllerTest < ActionController::TestCase
      'N50 4.064 W14 22.645',
      "50° 04.064' N, 014° 22.645' W"
     ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_latlon_equal_round "50.06773, -14.37742", assigns(:query), 5
+      latlon_check code, 50.06773, -14.37742
     end
   end
 
@@ -188,10 +154,7 @@ class GeocoderControllerTest < ActionController::TestCase
      'S50 4.064 E14 22.645',
      "50° 04.064' S, 014° 22.645' E"
     ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_latlon_equal_round "-50.06773, 14.37742", assigns(:query), 5
+      latlon_check code, -50.06773, 14.37742
     end
   end
 
@@ -209,8 +172,10 @@ class GeocoderControllerTest < ActionController::TestCase
     ].each do |code|
       post :search, :query => code
       assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_latlon_equal_round "-50.06773, -14.37742", assigns(:query), 5
+      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+      assert_nil @controller.params[:query]
+      assert_in_delta -50.06773, @controller.params[:lat]
+      assert_in_delta -14.37742, @controller.params[:lon]
     end
   end
 
@@ -225,10 +190,7 @@ class GeocoderControllerTest < ActionController::TestCase
      'N50 4 03.828, E14 22 38.712',
      "50°4'3.828\"N 14°22'38.712\"E"
     ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_equal "50.06773, 14.37742", assigns(:query)
+      latlon_check code, 50.06773, 14.37742
     end
   end
 
@@ -243,10 +205,7 @@ class GeocoderControllerTest < ActionController::TestCase
      'N50 4 03.828, W14 22 38.712',
      "50°4'3.828\"N 14°22'38.712\"W"
     ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_equal "50.06773, -14.37742", assigns(:query)
+      latlon_check code, 50.06773, -14.37742
     end
   end
 
@@ -261,10 +220,7 @@ class GeocoderControllerTest < ActionController::TestCase
      'S50 4 03.828, E14 22 38.712',
      "50°4'3.828\"S 14°22'38.712\"E"
     ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_equal "-50.06773, 14.37742", assigns(:query)
+      latlon_check code, -50.06773, 14.37742
     end
   end
 
@@ -279,10 +235,7 @@ class GeocoderControllerTest < ActionController::TestCase
      'S50 4 03.828, W14 22 38.712',
      "50°4'3.828\"S 14°22'38.712\"W"
     ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon'], assigns(:sources)
-      assert_equal "-50.06773, -14.37742", assigns(:query)
+      latlon_check code, -50.06773, -14.37742
     end
   end
 
@@ -300,7 +253,7 @@ class GeocoderControllerTest < ActionController::TestCase
   end
 
   ##
-  # Test identification of UK postcodes using examples from 
+  # Test identification of UK postcodes using examples from
   # http://en.wikipedia.org/wiki/Postcodes_in_the_United_Kingdom
   def test_identify_uk_postcode
     [
@@ -311,34 +264,54 @@ class GeocoderControllerTest < ActionController::TestCase
      'CR2 6XH',
      'DN55 1PT'
     ].each do |code|
-      post :search, query: code
-      assert_response :success
-      assert_equal ['uk_postcode', 'osm_nominatim'], assigns(:sources)
+      search_check code, ['uk_postcode', 'osm_nominatim']
     end
   end
 
   ##
   # Test identification of Canadian postcodes
   def test_identify_ca_postcode
-    post :search, query: 'A1B 2C3'
-    assert_response :success
-    assert_equal ['ca_postcode', 'osm_nominatim'], assigns(:sources)
+    search_check 'A1B 2C3', ['ca_postcode', 'osm_nominatim']
   end
 
   ##
   # Test identification fall through to the default case
   def test_identify_default
-    post :search, query: 'foo bar baz'
-    assert_response :success
-    assert_equal ['osm_nominatim'], assigns(:sources)
+    search_check 'foo bar baz', ['osm_nominatim']
   end
 
 private
+  def latlon_check(query, lat, lon)
+    post :search, :query => query
+    assert_response :success
+    assert_template "search"
+    assert_template :layout => "map"
+    assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+    assert_nil @controller.params[:query]
+    assert_in_delta lat, @controller.params[:lat]
+    assert_in_delta lon, @controller.params[:lon]
 
-  ##
-  # this is a test helper for rounding latlon strings to a specified precision, e.g., at a precision 
-  # of 5, "50.06773333333334, -14.377416666666667" will become "50.06773, -14.37742"
-  def assert_latlon_equal_round(expected, actual, precision)
-    assert_equal expected.split(',').map {|i| i.to_f.round(precision)}.join(', '), actual.split(',').map {|i| i.to_f.round(precision)}.join(', ')
+    xhr :post, :search, :query => query
+    assert_response :success
+    assert_template "search"
+    assert_template :layout => "xhr"
+    assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+    assert_nil @controller.params[:query]
+    assert_in_delta lat, @controller.params[:lat]
+    assert_in_delta lon, @controller.params[:lon]
+  end
+
+  def search_check(query, sources)
+    post :search, :query => query
+    assert_response :success
+    assert_template "search"
+    assert_template :layout => "map"
+    assert_equal sources, assigns(:sources)
+
+    xhr :post, :search, :query => query
+    assert_response :success
+    assert_template "search"
+    assert_template :layout => "xhr"
+    assert_equal sources, assigns(:sources)
   end
 end

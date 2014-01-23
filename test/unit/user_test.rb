@@ -18,27 +18,27 @@ class UserTest < ActiveSupport::TestCase
   end
   
   def test_unique_email
-    new_user = User.new({
+    new_user = User.new(
       :email => users(:normal_user).email,
       :status => "active", 
       :pass_crypt => Digest::MD5.hexdigest('test'),
       :display_name => "new user",
       :data_public => 1,
       :description => "desc"
-    }, :without_protection => true)
+    )
     assert !new_user.save
     assert new_user.errors[:email].include?("has already been taken")
   end
   
   def test_unique_display_name
-    new_user = User.new({
+    new_user = User.new(
       :email => "tester@openstreetmap.org",
       :status => "pending",
       :pass_crypt => Digest::MD5.hexdigest('test'),
       :display_name => users(:normal_user).display_name, 
       :data_public => 1,
       :description => "desc"
-    }, :without_protection => true)
+    )
     assert !new_user.save
     assert new_user.errors[:display_name].include?("has already been taken")
   end
@@ -231,7 +231,7 @@ class UserTest < ActiveSupport::TestCase
     user = users(:normal_user)
     user.delete
     assert_equal "user_#{user.id}", user.display_name
-    assert_blank user.description
+    assert user.description.blank?
     assert_equal nil, user.home_lat
     assert_equal nil, user.home_lon
     assert_equal false, user.image.file?

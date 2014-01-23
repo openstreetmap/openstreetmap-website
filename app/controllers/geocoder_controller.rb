@@ -7,46 +7,36 @@ class GeocoderController < ApplicationController
 
   before_filter :authorize_web
   before_filter :set_locale
-  before_filter :convert_latlon, :only => [:search]
+  before_filter :require_oauth, :only => [:search]
 
   def search
-    @query = params[:query]
-    @sources = Array.new
+    normalize_params
 
-    @query.sub(/^\s+/, "")
-    @query.sub(/\s+$/, "")
-
-    if @query.match(/^[+-]?\d+(\.\d*)?\s*[\s,]\s*[+-]?\d+(\.\d*)?$/)
+    @sources = []
+    if params[:lat] && params[:lon]
       @sources.push "latlon"
-    elsif @query.match(/^\d{5}(-\d{4})?$/)
+      @sources.push "osm_nominatim_reverse"
+      @sources.push "geonames_reverse"
+    elsif params[:query].match(/^\d{5}(-\d{4})?$/)
       @sources.push "us_postcode"
       @sources.push "osm_nominatim"
-    elsif @query.match(/^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i)
+    elsif params[:query].match(/^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i)
       @sources.push "uk_postcode"
       @sources.push "osm_nominatim"
-    elsif @query.match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i)
+    elsif params[:query].match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i)
       @sources.push "ca_postcode"
       @sources.push "osm_nominatim"
     else
       @sources.push "osm_nominatim"
       @sources.push "geonames" if defined?(GEONAMES_USERNAME)
     end
+
+    render :layout => map_layout
   end
 
   def search_latlon
-    # get query parameters
-    query = params[:query]
-
-    # create result array
-    @results = Array.new
-
-    # decode the location
-    if m = query.match(/^\s*([+-]?\d+(\.\d*)?)\s*[\s,]\s*([+-]?\d+(\.\d*)?)\s*$/)
-      lat = m[1].to_f
-      lon = m[3].to_f
-    end
-
-    # generate results
+    lat = params[:lat].to_f
+    lon = params[:lon].to_f
     if lat < -90 or lat > 90
       @error = "Latitude #{lat} out of range"
       render :action => "error"
@@ -54,9 +44,9 @@ class GeocoderController < ApplicationController
       @error = "Longitude #{lon} out of range"
       render :action => "error"
     else
-      @results.push({:lat => lat, :lon => lon,
-                     :zoom => POSTCODE_ZOOM,
-                     :name => "#{lat}, #{lon}"})
+      @results = [{:lat => lat, :lon => lon,
+                   :zoom => params[:zoom],
+                   :name => "#{lat}, #{lon}"}]
 
       render :action => "results"
     end
@@ -154,7 +144,7 @@ class GeocoderController < ApplicationController
     end
 
     # ask nominatim
-    response = fetch_xml("#{NOMINATIM_URL}search?format=xml&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{request.user_preferred_languages.join(',')}")
+    response = fetch_xml("#{NOMINATIM_URL}search?format=xml&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
 
     # create result array
     @results = Array.new
@@ -173,7 +163,11 @@ class GeocoderController < ApplicationController
       type = place.attributes["type"].to_s
       name = place.attributes["display_name"].to_s
       min_lat,max_lat,min_lon,max_lon = place.attributes["boundingbox"].to_s.split(",")
-      prefix_name = t "geocoder.search_osm_nominatim.prefix.#{klass}.#{type}", :default => type.gsub("_", " ").capitalize
+      if type.empty?
+        prefix_name = ""
+      else
+        prefix_name = t "geocoder.search_osm_nominatim.prefix.#{klass}.#{type}", :default => type.gsub("_", " ").capitalize
+      end
       if klass == 'boundary' and type == 'administrative'
         rank = (place.attributes["place_rank"].to_i + 1) / 2
         prefix_name = t "geocoder.search_osm_nominatim.admin_levels.level#{rank}", :default => prefix_name
@@ -224,14 +218,7 @@ class GeocoderController < ApplicationController
     render :action => "error"
   end
 
-  def description
-    @sources = Array.new
-
-    @sources.push({ :name => "osm_nominatim" })
-    @sources.push({ :name => "geonames" })
-  end
-
-  def description_osm_nominatim
+  def search_osm_nominatim_reverse
     # get query parameters
     lat = params[:lat]
     lon = params[:lon]
@@ -241,13 +228,20 @@ class GeocoderController < ApplicationController
     @results = Array.new
 
     # ask nominatim
-    response = fetch_xml("#{NOMINATIM_URL}reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{request.user_preferred_languages.join(',')}")
+    response = fetch_xml("#{NOMINATIM_URL}reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
 
     # parse the response
     response.elements.each("reversegeocode/result") do |result|
+      lat = result.attributes["lat"].to_s
+      lon = result.attributes["lon"].to_s
+      object_type = result.attributes["osm_type"]
+      object_id = result.attributes["osm_id"]
       description = result.get_text.to_s
 
-      @results.push({:prefix => "#{description}"})
+      @results.push({:lat => lat, :lon => lon,
+                     :zoom => zoom,
+                     :name => description,
+                     :type => object_type, :id => object_id})
     end
 
     render :action => "results"
@@ -256,7 +250,7 @@ class GeocoderController < ApplicationController
     render :action => "error"
   end
 
-  def description_geonames
+  def search_geonames_reverse
     # get query parameters
     lat = params[:lat]
     lon = params[:lon]
@@ -271,7 +265,10 @@ class GeocoderController < ApplicationController
     response.elements.each("geonames/countrySubdivision") do |geoname|
       name = geoname.get_text("adminName1").to_s
       country = geoname.get_text("countryName").to_s
-      @results.push({:prefix => "#{name}, #{country}"})
+      @results.push({:lat => lat, :lon => lon,
+                     :zoom => GEONAMES_ZOOM,
+                     :name => name,
+                     :suffix => ", #{country}"})
     end
 
     render :action => "results"
@@ -323,25 +320,29 @@ private
     return URI.escape(query, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]", false, 'N'))
   end
 
-  def convert_latlon
-    @query = params[:query]
+  def normalize_params
+    query = params[:query]
+    return unless query
 
-    if latlon = @query.match(/^([NS])\s*(\d{1,3}(\.\d*)?)\W*([EW])\s*(\d{1,3}(\.\d*)?)$/).try(:captures) # [NSEW] decimal degrees
-      params[:query] = nsew_to_decdeg(latlon)
-    elsif latlon = @query.match(/^(\d{1,3}(\.\d*)?)\s*([NS])\W*(\d{1,3}(\.\d*)?)\s*([EW])$/).try(:captures) # decimal degrees [NSEW]
-      params[:query] = nsew_to_decdeg(latlon)
+    query.strip!
 
-    elsif latlon = @query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?$/).try(:captures) # [NSEW] degrees, decimal minutes
-      params[:query] = ddm_to_decdeg(latlon)
-    elsif latlon = @query.match(/^(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\s*([NS])\W*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\s*([EW])$/).try(:captures) # degrees, decimal minutes [NSEW]
-      params[:query] = ddm_to_decdeg(latlon)
+    if latlon = query.match(/^([NS])\s*(\d{1,3}(\.\d*)?)\W*([EW])\s*(\d{1,3}(\.\d*)?)$/).try(:captures) # [NSEW] decimal degrees
+      params.merge!(nsew_to_decdeg(latlon)).delete(:query)
+    elsif latlon = query.match(/^(\d{1,3}(\.\d*)?)\s*([NS])\W*(\d{1,3}(\.\d*)?)\s*([EW])$/).try(:captures) # decimal degrees [NSEW]
+      params.merge!(nsew_to_decdeg(latlon)).delete(:query)
 
-    elsif latlon = @query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?$/).try(:captures) # [NSEW] degrees, minutes, decimal seconds
-      params[:query] = dms_to_decdeg(latlon)
-    elsif latlon = @query.match(/^(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]\s*([NS])\W*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?\s*([EW])$/).try(:captures) # degrees, minutes, decimal seconds [NSEW]
-      params[:query] = dms_to_decdeg(latlon)
-    else
-      return
+    elsif latlon = query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?$/).try(:captures) # [NSEW] degrees, decimal minutes
+      params.merge!(ddm_to_decdeg(latlon)).delete(:query)
+    elsif latlon = query.match(/^(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\s*([NS])\W*(\d{1,3})°?\s*(\d{1,3}(\.\d*)?)?['′]?\s*([EW])$/).try(:captures) # degrees, decimal minutes [NSEW]
+      params.merge!(ddm_to_decdeg(latlon)).delete(:query)
+
+    elsif latlon = query.match(/^([NS])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?\W*([EW])\s*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?$/).try(:captures) # [NSEW] degrees, minutes, decimal seconds
+      params.merge!(dms_to_decdeg(latlon)).delete(:query)
+    elsif latlon = query.match(/^(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]\s*([NS])\W*(\d{1,3})°?\s*(\d{1,2})['′]?\s*(\d{1,3}(\.\d*)?)?["″]?\s*([EW])$/).try(:captures) # degrees, minutes, decimal seconds [NSEW]
+      params.merge!(dms_to_decdeg(latlon)).delete(:query)
+
+    elsif latlon = query.match(/^\s*([+-]?\d+(\.\d*)?)\s*[\s,]\s*([+-]?\d+(\.\d*)?)\s*$/)
+      params.merge!({:lat => latlon[1].to_f, :lon => latlon[3].to_f}).delete(:query)
     end
   end
 
@@ -354,7 +355,7 @@ private
       captures[0].downcase != 's' ? lat = captures[1].to_f : lat = -(captures[1].to_f)
       captures[3].downcase != 'w' ? lon = captures[4].to_f : lon = -(captures[4].to_f)
     end
-    return "#{lat}, #{lon}"
+    {:lat => lat, :lon => lon}
   end
 
   def ddm_to_decdeg(captures)
@@ -366,7 +367,7 @@ private
       captures[0].downcase != 's' ? lat = captures[1].to_f + captures[2].to_f/60 : lat = -(captures[1].to_f + captures[2].to_f/60)
       captures[4].downcase != 'w' ? lon = captures[5].to_f + captures[6].to_f/60 : lon = -(captures[5].to_f + captures[6].to_f/60)
     end
-    return "#{lat}, #{lon}"
+    {:lat => lat, :lon => lon}
   end
 
   def dms_to_decdeg(captures)
@@ -378,7 +379,7 @@ private
       captures[0].downcase != 's' ? lat = captures[1].to_f + (captures[2].to_f + captures[3].to_f/60)/60 : lat = -(captures[1].to_f + (captures[2].to_f + captures[3].to_f/60)/60)
       captures[5].downcase != 'w' ? lon = captures[6].to_f + (captures[7].to_f + captures[8].to_f/60)/60 : lon = -(captures[6].to_f + (captures[7].to_f + captures[8].to_f/60)/60)
     end
-    return "#{lat}, #{lon}"
+    {:lat => lat, :lon => lon}
   end
 
 end

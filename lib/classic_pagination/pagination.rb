@@ -173,21 +173,34 @@ module ActionController
     # the +model+ and given +conditions+. Override this method to implement a
     # custom counter.
     def count_collection_for_pagination(model, options)
-      model.count(:conditions => options[:conditions],
-                  :joins => options[:join] || options[:joins],
-                  :include => options[:include],
-                  :select => (options[:group] ? "DISTINCT #{options[:group]}" : options[:count]))
+      collection = model.joins(options[:join] || options[:joins])
+      collection = collection.where(options[:conditions])
+      collection = collection.includes(options[:include])
+
+      if options[:group]
+        collection = collection.select(options[:group]).distinct
+      elsif options[:count]
+        collection = collection.select(options[:count])
+      end
+
+      collection.count
     end
     
     # Returns a collection of items for the given +model+ and +options[conditions]+,
     # ordered by +options[order]+, for the current page in the given +paginator+.
     # Override this method to implement a custom finder.
     def find_collection_for_pagination(model, options, paginator)
-      model.find(:all, :conditions => options[:conditions],
-                 :order => options[:order_by] || options[:order],
-                 :joins => options[:join] || options[:joins], :include => options[:include],
-                 :select => options[:select], :limit => options[:per_page],
-                 :group => options[:group], :offset => paginator.current.offset)
+      collection = model.joins(options[:join] || options[:joins])
+      collection = collection.where(options[:conditions])
+      collection = collection.order(options[:order_by] || options[:order])
+      collection = collection.includes(options[:include])
+      collection = collection.group(options[:group])
+
+      if options[:select]
+        collection = collection.select(options[:select])
+      end
+         
+      collection.offset(paginator.current.offset).limit(options[:per_page])
     end
   
     protected :create_paginators_and_retrieve_collections,

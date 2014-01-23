@@ -13,7 +13,7 @@ class GroupMembership < ActiveRecord::Base
     ALL_ROLES = [MEMBER, LEADER]
   end
 
-  attr_accessible :role
+  #attr_accessible :role
 
   def set_role(new_role)
     update_attribute(:role, new_role)

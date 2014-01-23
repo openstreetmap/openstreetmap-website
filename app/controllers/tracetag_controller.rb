@@ -1,2 +1,0 @@
-class TracetagController < ApplicationController
-end

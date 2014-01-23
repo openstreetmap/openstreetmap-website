@@ -10,6 +10,7 @@ module RichText
 
   class SimpleFormat
     include ActionView::Helpers::TextHelper
+    include ActionView::Helpers::OutputSafetyHelper
 
     def sanitize(text)
       Sanitize.clean(text, Sanitize::Config::OSM).html_safe
