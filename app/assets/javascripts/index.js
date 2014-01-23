@@ -356,6 +356,8 @@ $(document).ready(function () {
 	$(".search").hide();
 	$(".routing").show();
 	$(".query_wrapper.routing [name=route_from]").focus();
+	$("#map").on('dragend dragover',function(e) { e.preventDefault(); });
+	$("#map").on('drop',function(e) { OSM.routing.handleDrop(e); });
   });
 
   $(".close_directions").on("click",function(e) {
@@ -363,6 +365,7 @@ $(document).ready(function () {
 	$(".search").show();
 	$(".routing").hide();
 	OSM.routing.close();
+	$("#map").off('dragend drop dragover');
 	$(".query_wrapper.search [name=query]").focus();
   });
 

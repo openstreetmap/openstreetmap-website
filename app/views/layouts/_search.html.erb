@@ -15,7 +15,9 @@
   </div>
 
   <div class='query_wrapper routing'>
+    <%= image_tag "marker-green.png", :class => 'routing_marker', :draggable => 'true' %>
     <%= text_field_tag "route_from", params[:from], :placeholder => "From", :onchange=>"OSM.routing.geocode('route_from',event)" %>
+    <%= image_tag "marker-red.png"  , :class => 'routing_marker', :draggable => 'true' %>
     <%= text_field_tag "route_to"  , params[:to]  , :placeholder => "To"  , :onchange=>"OSM.routing.geocode('route_to'  ,event)" %>
     <select class='routing_engines' name='routing_engines' onchange="OSM.routing.selectEngine(event)"></select>
   </div>
