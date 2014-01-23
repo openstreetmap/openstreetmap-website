@@ -10,6 +10,7 @@
 	*** translation (including all alerts and presentation)
 	*** export GPX
 	*** URL history (or do we consciously not want to support that?)
+	*** spinner when waiting for result (beneath 'Go' button?)
 
 	*** add YOURS engine
 	*** add GraphHopper engine
@@ -105,7 +106,7 @@ OSM.Routing=function(map,name,jqSearch) {
 		field.value=json[0].display_name;
 		var lat=Number(json[0].lat), lon=Number(json[0].lon);
 		r[field.id]=[lat,lon];
-		r.updateMarkers(field.id);
+		r.updateMarker(field.id);
 		if (r.awaitingGeocode) {
 			r.awaitingGeocode=false;
 			r.requestRoute(true);
@@ -119,7 +120,7 @@ OSM.Routing=function(map,name,jqSearch) {
 		var ll=r.map.mouseEventToLatLng(e.originalEvent);
 		// *** ^^^ this is slightly off - we need to work out the latLng of the tip
 		r.createMarker(ll,id);
-		r[id.replace('marker','route')]=[ll.lat,ll.lng];
+		r.setNumericInput(ll,id);
 		r.requestRoute(true);
 		// update to/from field
 	};
@@ -133,18 +134,28 @@ OSM.Routing=function(map,name,jqSearch) {
 		r[id].on('drag',r.markerDragged);
 		r[id].on('dragend',r.markerDragged);
 	};
-	r.updateMarkers=function(id) {
+	// Update marker from geocoded route input
+	r.updateMarker=function(id) {
+		var m=id.replace('route','marker');
+		if (!r[m]) { r.createMarker(r[id],m); return; }
+		var ll=r[m].getLatLng();
+		if (ll.lat!=r[id][0] || ll.lng!=r[id][1]) {
+			r.createMarker(r[id],m);
+		}
 	};
+	// Marker has been dragged
 	r.markerDragged=function(e) {
-		// marker has been dragged
 		if (e.type=='drag' && !r.chosenEngine.draggable) return;
 		if (e.type=='drag' && r.awaitingRoute) return;
-		var id=e.target.options.name;
-		var ll=e.target.getLatLng();
-		r[id.replace('marker','route')]=[ll.lat,ll.lng];
+		r.setNumericInput(e.target.getLatLng(), e.target.options.name);
 		r.requestRoute(e.type=='dragend');
-		// update to/from field
 	};
+	// Set a route input field to a numeric value
+	r.setNumericInput=function(ll,id) {
+		var routeid=id.replace('marker','route');
+		r[routeid]=[ll.lat,ll.lng];
+		$("[name="+routeid+"]:visible").val(Math.round(ll.lat*10000)/10000+" "+Math.round(ll.lng*10000)/10000);
+	}
 	
 	// Route-fetching UI
 
