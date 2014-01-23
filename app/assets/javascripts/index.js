@@ -352,21 +352,26 @@ $(document).ready(function () {
   OSM.routing.chooseEngine('Car (OSRM)');
 
   $(".get_directions").on("click",function(e) {
-	e.preventDefault();
-	$(".search").hide();
-	$(".routing").show();
-	$(".query_wrapper.routing [name=route_from]").focus();
-	$("#map").on('dragend dragover',function(e) { e.preventDefault(); });
-	$("#map").on('drop',function(e) { OSM.routing.handleDrop(e); });
+    e.preventDefault();
+    $(".search").hide();
+    $(".routing").show();
+    $(".query_wrapper.routing [name=route_from]").focus();
+    $("#map").on('dragend dragover',function(e) { e.preventDefault(); });
+    $("#map").on('drop',function(e) { OSM.routing.handleDrop(e); });
+    $(".routing_marker").on('dragstart',function(e) {
+    e.originalEvent.dataTransfer.effectAllowed = 'move';
+      e.originalEvent.dataTransfer.setData('id', this.id);
+    });
   });
 
   $(".close_directions").on("click",function(e) {
-	e.preventDefault();
-	$(".search").show();
-	$(".routing").hide();
-	OSM.routing.close();
-	$("#map").off('dragend drop dragover');
-	$(".query_wrapper.search [name=query]").focus();
+    e.preventDefault();
+    $(".search").show();
+    $(".routing").hide();
+    OSM.routing.close();
+    $("#map").off('dragend drop dragover');
+    $(".routing_marker").off('dragstart');
+    $(".query_wrapper.search [name=query]").focus();
   });
 
 });

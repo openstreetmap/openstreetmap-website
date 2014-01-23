@@ -57,8 +57,30 @@ OSM.Routing=function(map,name,jqSearch) {
 	r.route_to=null;		//  |
 	r.awaitingGeocode=false;// true if the user has requested a route, but we're waiting on a geocode result
 	r.viaPoints=[];			// not yet used
+
 	r.polyline=null;		// Leaflet polyline object
+	r.popup=null;			// Leaflet popup object
+	r.marker_from=null;		// Leaflet from marker
+	r.marker_to=null;		// Leaflet to marker
+
 	r.chosenEngine=null;	// currently selected routing engine
+
+	var icon_from = L.icon({
+		iconUrl: <%= asset_path('marker-green.png').to_json %>,
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowUrl: <%= asset_path('images/marker-shadow.png').to_json %>,
+		shadowSize: [41, 41]
+	});
+	var icon_to = L.icon({
+		iconUrl: <%= asset_path('marker-red.png').to_json %>,
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowUrl: <%= asset_path('images/marker-shadow.png').to_json %>,
+		shadowSize: [41, 41]
+	});
 
 	// Geocoding
 
@@ -82,7 +104,7 @@ OSM.Routing=function(map,name,jqSearch) {
 		field.value=json[0].display_name;
 		var lat=Number(json[0].lat), lon=Number(json[0].lon);
 		r[field.id]=[lat,lon];
-		// ** update markers
+		r.updateMarkers(field.id);
 		if (r.awaitingGeocode) {
 			r.awaitingGeocode=false;
 			r.requestRoute();
@@ -92,7 +114,31 @@ OSM.Routing=function(map,name,jqSearch) {
 	// Drag and drop markers
 	
 	r.handleDrop=function(e) {
- 		console.log(r.map.mouseEventToLatLng(e.originalEvent))
+		var id=e.originalEvent.dataTransfer.getData('id');
+		var ll=r.map.mouseEventToLatLng(e.originalEvent);
+		// *** ^^^ this is slightly off - we need to work out the latLng of the tip
+		r.createMarker(ll,id);
+		// update to/from field
+	};
+	r.createMarker=function(latlng,id) {
+		if (r[id]) r.map.removeLayer(r[id]);
+		r[id]=L.marker(latlng, {
+			icon: id=='marker_from' ? icon_from : icon_to,
+			draggable: true,
+			name: id
+		}).addTo(r.map);
+		r[id].on('drag',r.markerDragged);
+		r[id].on('dragend',r.markerDragged);
+	};
+	r.updateMarkers=function(id) {
+	};
+	r.markerDragged=function(e) {
+		// marker has been dragged
+		if (e.type=='drag' && !r.chosenEngine.draggable) return;
+		// *** also return if e.type=='drag' and not long enough since last request returned
+		// *** but always do if e.type=='dragend'
+		console.log(e.target.options.name);
+		console.log(e.target.getLatLng());
 	};
 	
 	// Route-fetching UI
@@ -149,15 +195,17 @@ OSM.Routing=function(map,name,jqSearch) {
 		}
 	};
 	r.clickTurn=function(num,latlng) {
-		L.popup().setLatLng(latlng).setContent("<p>"+(num+1)+"</p>").openOn(r.map);
+		r.popup=L.popup().setLatLng(latlng).setContent("<p>"+(num+1)+"</p>").openOn(r.map);
 	};
-
 
 	// Close all routing UI
 	
 	r.close=function() {
 		$("#content").addClass("overlay-sidebar");
-		if (r.polyline) map.removeLayer(r.polyline);
+		var remove=[r.polyline,r.popup,r.marker_from,r.marker_to];
+		for (var i=0; i<remove.length; i++) {
+			if (remove[i]) map.removeLayer(remove[i]);
+		}
 	};
 
 	// Routing engine handling
