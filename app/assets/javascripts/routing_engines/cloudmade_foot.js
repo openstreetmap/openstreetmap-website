@@ -16,7 +16,7 @@ OSM.RoutingEngines.list.push({
 		"TSHR": 4,
 		"TU": 5
 	}, // was half expecting to see TLDR in there
-	getRoute: function(final,points) {
+	getRoute: function(isFinal,points) {
 		var url="http://routes.cloudmade.com/8ee2a50541944fb9bcedded5165f09d9/api/0.3/";
 		var p=[];
 		for (var i=0; i<points.length; i++) {

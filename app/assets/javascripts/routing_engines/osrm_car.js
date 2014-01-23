@@ -6,14 +6,14 @@ OSM.RoutingEngines.list.push({
 	name: 'Car (OSRM)',
 	draggable: true,
 	_hints: {},
-	getRoute: function(final,points) {
+	getRoute: function(isFinal,points) {
 		var url="http://router.project-osrm.org/viaroute?z=14&output=json";
 		for (var i=0; i<points.length; i++) {
 			var pair=points[i].join(',');
 			url+="&loc="+pair;
 			if (this._hints[pair]) url+= "&hint="+this._hints[pair];
 		}
-		if (final) url+="&instructions=true";
+		if (isFinal) url+="&instructions=true";
 		this.requestJSONP(url+"&jsonp=");
 	},
 	gotRoute: function(router,data) {

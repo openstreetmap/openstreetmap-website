@@ -4,13 +4,13 @@ OSM.RoutingEngines.list.push({
     name: 'Bicycle (GraphHopper)',
     draggable: true,
     _hints: {},
-    getRoute: function(final, points) {
+    getRoute: function(isFinal, points) {
         var url = "http://graphhopper.com/routing/api/route?vehicle=bike&locale=en";
         for (var i = 0; i < points.length; i++) {
             var pair = points[i].join(',');
             url += "&point=" + pair;
         }
-        if (final)
+        if (isFinal)
             url += "&instructions=true";
         this.requestJSONP(url + "&type=jsonp&callback=");
     },

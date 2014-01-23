@@ -30,7 +30,7 @@ OSM.RoutingEngines.list.push({
 		17: 8, // left fork
 		18: 1  // straight fork
 	},
-	getRoute: function(final,points) {
+	getRoute: function(isFinal,points) {
 		var url="http://open.mapquestapi.com/directions/v2/route?key=Fmjtd%7Cluur290anu%2Crl%3Do5-908a0y";
 		var from=points[0]; var to=points[points.length-1];
 		url+="&from="+from.join(',');

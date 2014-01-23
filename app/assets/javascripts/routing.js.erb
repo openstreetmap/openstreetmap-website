@@ -159,10 +159,10 @@ OSM.Routing=function(map,name,jqSearch) {
 	
 	// Route-fetching UI
 
-	r.requestRoute=function(final) {
+	r.requestRoute=function(isFinal) {
 		if (r.route_from && r.route_to) {
 			r.awaitingRoute=true;
-			r.chosenEngine.getRoute(final,[r.route_from,r.route_to]);
+			r.chosenEngine.getRoute(isFinal,[r.route_from,r.route_to]);
 			// then, when the route has been fetched, it'll call the engine's gotRoute function
 		} else if (r.route_from==false || r.route_to==false) {
 			// we're waiting for a Nominatim response before we can request a route
