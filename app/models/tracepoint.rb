@@ -16,6 +16,9 @@ class Tracepoint < ActiveRecord::Base
     el1['lat'] = self.lat.to_s
     el1['lon'] = self.lon.to_s
     el1 << (XML::Node.new("time") << self.timestamp.xmlschema) if print_timestamp
+    if self.altitude
+      el1 << (XML::Node.new('ele') << self.altitude.to_s)
+    end
     return el1
   end
 end
