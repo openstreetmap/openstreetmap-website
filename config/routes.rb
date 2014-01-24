@@ -205,6 +205,7 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/diary/rss' => 'diary_entry#rss', :via => :get, :defaults => { :format => :rss }
   match '/diary/:language/rss' => 'diary_entry#rss', :via => :get, :defaults => { :format => :rss }
   match '/diary/rss' => 'diary_entry#rss', :via => :get, :defaults => { :format => :rss }
+  match '/diary/group/:group_id' => 'diary_entry#list', :via => :get
   match '/user/:display_name/diary/comments/:page' => 'diary_entry#comments', :via => :get, :page => /\d+/
   match '/user/:display_name/diary/comments/' => 'diary_entry#comments', :via => :get
   match '/user/:display_name/diary' => 'diary_entry#list', :via => :get

@@ -34,8 +34,8 @@
 <%# TODO needs ordering, paging, summaries etc.
   # best done by refactoring DiaryEntryController.list? %>
 <div class="activity-block column-1">
-<h2><%= t 'group.show.diary_entries' -%></h2>
+<h2><%= link_to t('group.show.diary_entries'), :controller => 'diary_entry', :action => 'list', :group_id => @group.id, :page => 2 %></h2>
   <div id="diary-container">
-    <%= render :partial => "diary_entry/diary_list_entry", :collection => DiaryEntry.where(:group_id => @group.id) %>
+    <%= render :partial => "diary_entry/diary_list_entry", :collection => DiaryEntry.where(:group_id => @group.id).limit(20) %>
   </div>
 </div>
