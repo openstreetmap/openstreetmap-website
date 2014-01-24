@@ -4,6 +4,7 @@
 # Author: Alenmahovic
 # Author: CERminator
 # Author: DzWiki
+# Author: Edinwiki
 # Author: Maxmus
 bs: 
   activerecord: 
@@ -83,16 +84,24 @@ bs:
       blocked: Vaš pristup API-u je blokiran. Prijavite se na web upravljačku ploču da saznate više.
       need_to_see_terms: Vaš pristup API-ju je privremeno suspendovan. Molimo da se prijavite na web upravljačku ploču da pogledate Uslove za doprinosioce. Ne morate se složiti, ali ih morate pogledati.
   browse: 
+    anonymous: anonimno
     changeset: 
+      belongs_to: Autor
       changesetxml: XML seta promjena
       feed: 
         title: Set promjena %{id}
         title_comment: Set promjena %{id} - %{comment}
       osmchangexml: osmChange XML
-      title: Set promjena
+      title: "Skup promjena: %{id}"
+    closed: Zatvoreno
     containing_relation: 
       entry: Relacija %{relation_name}
       entry_role: Relacija %{relation_name} (kao %{relation_role})
+    created: Napravljeno
+    download_xml: Preuzmi XML
+    in_changeset: Skup promijena
+    location: "Lokacija:"
+    no_comment: (bez komentara)
     not_found: 
       sorry: Žao nam je, ali %{type} sa ID %{id}, se ne može naći.
       type: 
@@ -100,6 +109,7 @@ bs:
         node: čvor
         relation: relacija
         way: putanja
+    part_of: Dio od
     redacted: 
       message_html: Verzija %{version} ovoga %{type} ne može biti prikazana s obzirom da je u procesu redakcije. Molimo pogledajte %{redaction_link} za detalje.
       redaction: Redakcija %{id}
@@ -129,6 +139,9 @@ bs:
         node: čvor
         relation: relacija
         way: putanja
+    version: Verzija
+    view_details: Prikaži detalje
+    view_history: Prikaži historiju
   changeset: 
     changeset: 
       anonymous: Anonimno
@@ -228,6 +241,9 @@ bs:
       user_title: Dnenvnik korisnika %{user}
   editor: 
     default: Zadano (currently %{name})
+    id: 
+      description: iD (uređivač u pregledniku)
+      name: iD
     potlatch: 
       description: Potlatch 1 (uređivač unutar web preglednika)
       name: Potlatch 1
@@ -1490,7 +1506,7 @@ bs:
       consider_pd: Osim gore navedenog ugovora, smatram da su moji doprinosi u javnom vlasništvu (Public Domain)
       consider_pd_why: Šta je ovo?
       decline: Odbiti
-      guidance: "Informacija da bi se pomoglo u shvatanju ovih uslova: <a href=\"%{summary}\">Čitljiv sažetak</a> i neki <a href=\"%{translations}\">neformalni prevodi</a>"
+      guidance: "Informacija da bi se pomoglo u shvatanju ovih uslova: <a href=\"%{summary}\">Čitljiv sažetak</a> i neki <a href=\"%{translations}\">neformalni prijevodi</a>"
       heading: Uslovi za doprinosioce
       legale_names: 
         france: Francuska

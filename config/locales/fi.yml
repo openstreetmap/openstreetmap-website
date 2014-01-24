@@ -119,7 +119,9 @@ fi:
       osmchangexml: osmChange XML
       relation: Relaatiot (%{count})
       title: "Muutoskokoelma: %{id}"
+    closed: Ratkaistu
     closed_by_html: Suljettu <abbr title='%{title}'>%{time} sitten</abbr> käyttäjän %{user} toimesta
+    closed_html: Ratkaistu <abbr title='%{title}'>%{time} sitten</abbr>
     containing_relation: 
       entry: Relaatio %{relation_name}
       entry_role: Relaatio %{relation_name} (rooli %{relation_role})
@@ -128,9 +130,13 @@ fi:
     created_html: Lähettänyt käyttäjä <abbr title='%{title}'>%{time} sitten</abbr>
     deleted_by_html: Poistettu <abbr title='%{title}'>%{time} sitten</abbr> käyttäjän %{user} toimesta
     download_xml: Lataa XML-tiedostona
+    edited_by_html: Muokannut viimeksi käyttäjä %{user} <abbr title='%{title}'>%{time} sitten</abbr>
     in_changeset: Muutoskokoelma
     location: "Sijainti:"
     no_comment: (ei kommenttia)
+    node: 
+      history_title: Pisteen %{node_name} historia
+      title: "Piste: %{name}"
     not_found: 
       sorry: "%{type} %{id} ei ole olemassa."
       type: 
@@ -140,14 +146,18 @@ fi:
         way: Polkua
     note: 
       closed_by: Ratkaissut käyttäjä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
+      closed_by_anonymous: Ratkaissut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when} sitten</abbr>
       closed_title: "Ratkaistu karttailmoitus #%{note_name}"
       commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
+      commented_by_anonymous: Kommentti tuntemattomalta käyttäjältä <abbr title='%{exact_time}'>%{when} sitten</abbr>
       hidden_by: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
       hidden_title: "Piilotettu karttailmoitus #%{note_name}"
       new_note: Uusi karttailmoitus
       open_by: Lähettänyt käyttäjä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
+      open_by_anonymous: Luonut tuntematon käyttäjä <abbr title='%{exact_time}'>%{when} sitten</abbr>
       open_title: "Ratkaisematon karttailmoitus #%{note_name}"
       reopened_by: Avannut uudelleen käyttäjä %{user} <abbr title='%{exact_time}'>%{when} sitten</abbr>
+      reopened_by_anonymous: Avannut uudelleen tuntematon käyttäjä <abbr title='%{exact_time}'>%{when} sitten</abbr>
       title: "Karttailmoitus: %{id}"
     part_of: Osana seuraavia
     redacted: 
@@ -160,6 +170,7 @@ fi:
     relation: 
       history_title: Relaation %{name} historia
       members: Jäsenet
+      title: "Relaatio: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} roolissa %{role}"
       type: 
@@ -167,6 +178,7 @@ fi:
         relation: Relaatio
         way: Polku
     start_rjs: 
+      feature_warning: Ladataan %{num_features} ominaisuutta, mikä saatta hidastaa tai kaataa verkkoselaimen. Haluatko varmasti näyttää nämä tiedot?
       load_data: Lataa tiedot
       loading: Ladataan tietoja...
     tag_details: 
@@ -185,6 +197,13 @@ fi:
     version: Versio
     view_details: Näytä tiedot
     view_history: Näytä historia
+    way: 
+      also_part_of: 
+        one: osa viivaa %{related_ways}
+        other: osa viivoja %{related_ways}
+      history_title: Viivan %{way_name} historia
+      nodes: Pisteet
+      title: "Viiva: %{name}"
   changeset: 
     changeset: 
       anonymous: Tuntematon
@@ -201,6 +220,7 @@ fi:
       saved_at: Tallennettu
       user: Käyttäjä
     list: 
+      load_more: Lataa lisää
       title: Muutoskokoelmat
       title_friend: Kaverien muutoskokoelmat
       title_nearby: Lähellä olevien käyttäjien muutoskokoelmat
@@ -863,6 +883,8 @@ fi:
   help_page: 
     help: 
       description: Etsi vastauksia tai esitä oma kysymyksesi OSM:n kysy- ja vastaa -sivustolla. Englanninkielinen.
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
     introduction: Ohjeita ja vinkkejä OpenStreetMapin käyttöön on saatavilla useista eri lähteistä.
     title: Ohjekeskus
     welcome: 
@@ -871,6 +893,7 @@ fi:
       url: /welcome
     wiki: 
       description: Tutustu syvällisemmin OpenStreetMapiin wikikirjastossa. Osittain englanninkielinen.
+      title: wiki.openstreetmap.org
       url: http://wiki.openstreetmap.org/wiki/Fi:Main_Page
   javascripts: 
     close: Sulje
@@ -886,6 +909,7 @@ fi:
         standard: Perinteinen
         transport_map: Joukkoliikenne
       copyright: © <a href='%{copyright_url}'>OpenStreetMapin tekijät</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Tee lahjoitus</a>
       layers: 
         data: Kartta-aineisto
         header: Karttanäkymä
@@ -932,12 +956,14 @@ fi:
       createnote_tooltip: Ilmoita karttavirheestä
       edit_disabled_tooltip: Aloita kartan muokkaaminen suurentamalla karttaa
       edit_tooltip: Muokkaa karttaa
+      map_data_zoom_in_tooltip: Näytä kartta-aineisto lähentämällä karttaa
+      map_notes_zoom_in_tooltip: Näytä karttailmoitukset lähentämällä karttaa
   layouts: 
     about: Tietoja
     community: Yhteisö
     community_blogs: Yhteisöblogit
     community_blogs_title: OpenStreetMap-yhteisön jäsenten blogit
-    copyright: Tekijänoikeudet ja lisenssit
+    copyright: Tekijänoikeudet
     data: Tiedot
     donate: Tue OpenStreetMapia %{link} laitteistopäivitysrahastoon.
     edit: Muokkaa
@@ -963,6 +989,7 @@ fi:
     make_a_donation: 
       text: Lahjoita
       title: Tue OpenStreetMapia rahallisella lahjoituksella.
+    more: Lisää
     osm_offline: OpenStreetMapin tietokanta ei toistaiseksi ole käytettävissä välttämättömien ylläpitotöiden takia.
     osm_read_only: OpenStreetMapin tietokantaa ei toistaiseksi voi muokata välttämättömien ylläpitotöiden takia.
     partners_bytemark: Bytemark Hosting
@@ -1199,6 +1226,8 @@ fi:
       allow_write_notes: Muokkaa muistiinpanoja.
       allow_write_prefs: muokata käyttäjäsi asetuksia
       request_access: Sovellus %{app_name} pyytää pääsyä käyttäjätiliisi %{user}. Tarkasta oikeudet, jotka tahdot antaa sovellukselle. Voit valita mielestäsi sopivat oikeudet.
+    oauthorize_success: 
+      verification: Vahvistuskoodi on %{code}.
     revoke: 
       flash: Olet poistanut sovelluksen %{application} avaimen
   oauth_clients: 
