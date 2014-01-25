@@ -32,8 +32,8 @@ var OWL = {
       weight: 5
     },
     'action_CREATE': {
-      color: 'indigo',
-      fillColor: 'indigo'
+      color: 'green',
+      fillColor: 'green'
     },
     'action_MODIFY': {
       color: 'blue',

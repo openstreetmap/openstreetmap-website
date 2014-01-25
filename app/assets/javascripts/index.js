@@ -140,7 +140,7 @@ $(document).ready(function () {
 
   $('.leaflet-control .control-button').tooltip({placement: 'left', container: 'body'});
 
-  map.on('moveend layeradd layerremove', updateLocation);
+  map.on('moveend', updateLocation);
 
   if (OSM.PIWIK) {
     map.on('layeradd', function (e) {

@@ -36,7 +36,8 @@ L.OWL.Layer = L.TileLayer.GeoJSON.extend({
         }
 
         $.each(changeset.changes, function(changeIndex, change) {
-          if (changeIndex < changeset.changes.length) {
+          if (change.id in changesets[changeset.id].changes) {
+            console.log(change);
             changesets[changeset.id].changes[change.id] = change;
           } else {
             changesets[changeset.id].changes[change.id] = change;
@@ -157,6 +158,7 @@ L.OWL.Layer = L.TileLayer.GeoJSON.extend({
       layer.owlObjectLayers[changeset.id] = [];
 
       $.each(changeset.changes, function(index, change) {
+        change.changeset_id = changeset.id;
         change.uid = changeset.id + '|' + change.id;
         if (change.geom) {
           change.geom = L.GeoJSON.asFeature(change.geom);
@@ -165,7 +167,7 @@ L.OWL.Layer = L.TileLayer.GeoJSON.extend({
           change.prev_geom = L.GeoJSON.asFeature(change.prev_geom);
         }
 
-        if (change.el_action != 'AFFECT') {
+        if (change.action != 'AFFECT') {
           change.diffTags = diffTags(change.tags, change.prev_tags);
         } else {
           change.diffTags = diffTags(change.tags, change.tags);
@@ -277,7 +279,7 @@ L.OWL.Layer = L.TileLayer.GeoJSON.extend({
     this.geojsonLayer.addLayer(currentGeomLayer);
     //console.log('adding');
     //console.log(change.geom.geometry.coordinates);
-    if (change.el_action == 'DELETE') {
+    if (change.action == 'DELETE') {
       this.showPrevGeom(change.uid);
     }
   },
@@ -287,7 +289,7 @@ L.OWL.Layer = L.TileLayer.GeoJSON.extend({
     if (change.prev_geom) {
       geomType = change.prev_geom.geometry.type;
     }
-    return $.extend({}, this.styles[geomType], this.styles['action_' + change['el_action']]);
+    return $.extend({}, this.styles[geomType], this.styles['action_' + change['action']]);
   },
 
   _removeObjectLayers: function() {
