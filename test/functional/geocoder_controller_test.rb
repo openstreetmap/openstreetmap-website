@@ -170,12 +170,7 @@ class GeocoderControllerTest < ActionController::TestCase
      'S50 4.064 W14 22.645',
      "50° 04.064' S, 014° 22.645' W"
     ].each do |code|
-      post :search, :query => code
-      assert_response :success
-      assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
-      assert_nil @controller.params[:query]
-      assert_in_delta -50.06773, @controller.params[:lat]
-      assert_in_delta -14.37742, @controller.params[:lon]
+      latlon_check code, -50.06773, -14.37742
     end
   end
 
@@ -286,7 +281,7 @@ private
     assert_response :success
     assert_template "search"
     assert_template :layout => "map"
-    assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+    assert_equal ['latlon' ,'osm_nominatim_reverse'], assigns(:sources)
     assert_nil @controller.params[:query]
     assert_in_delta lat, @controller.params[:lat]
     assert_in_delta lon, @controller.params[:lon]
@@ -295,7 +290,7 @@ private
     assert_response :success
     assert_template "search"
     assert_template :layout => "xhr"
-    assert_equal ['latlon' ,'osm_nominatim_reverse', 'geonames_reverse'], assigns(:sources)
+    assert_equal ['latlon' ,'osm_nominatim_reverse'], assigns(:sources)
     assert_nil @controller.params[:query]
     assert_in_delta lat, @controller.params[:lat]
     assert_in_delta lon, @controller.params[:lon]
