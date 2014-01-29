@@ -73,7 +73,7 @@ gem 'httpclient'
 gem 'soap4r-ruby1.9'
 
 # Load memcache client in case we are using it
-gem 'dalli', '~> 2.6.4'
+gem 'dalli'
 gem 'kgio'
 
 # Gems useful for development
