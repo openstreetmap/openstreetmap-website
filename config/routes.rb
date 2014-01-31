@@ -116,7 +116,7 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/notes' => 'notes#mine', :via => :get
   match '/history/friends' => 'changeset#list', :via => :get, :friends => true, :as => "friend_changesets"
   match '/history/nearby' => 'changeset#list', :via => :get, :nearby => true, :as => "nearby_changesets"
-
+  match '/history/group/:group_id' => 'changeset#list', :via => :get
   get '/browse/way/:id',                :to => redirect(:path => '/way/%{id}')
   get '/browse/way/:id/history',        :to => redirect(:path => '/way/%{id}/history')
   get '/browse/node/:id',               :to => redirect(:path => '/node/%{id}')

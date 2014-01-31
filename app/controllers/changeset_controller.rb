@@ -287,6 +287,13 @@ class ChangesetController < ApplicationController
         changesets = changesets.where(:user_id => @user.friend_users.public)
       elsif params[:nearby] && @user
         changesets = changesets.where(:user_id => @user.nearby)
+      elsif params[:group_id]
+        @group = Group.find_by_id(params[:group_id])
+        if @group
+          changesets = changesets.where(:user_id => @group.users.public)
+        else
+          changesets = changesets.where("false")
+        end
       end
 
       if params[:max_id]

@@ -288,6 +288,7 @@ $(document).ready(function () {
     "/note/new":                   OSM.NewNote(map),
     "/history/friends":            history,
     "/history/nearby":             history,
+    "/history/group/:group_id":    history,
     "/history":                    history,
     "/user/:display_name/history": history,
     "/note/:id":                   OSM.Note(map),
