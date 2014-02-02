@@ -8,9 +8,10 @@
 # Author: Vivaelcelta
 gl: 
   about_page: 
+    copyright_html: <span>&copy;</span>Colaboradores do<br>OpenStreetMap
     local_knowledge_title: Coñecemento local
     next: Seguinte
-    open_data_title: Datos abertos
+    open_data_title: Datos libres
     partners_title: Socios
   activerecord: 
     attributes: 
@@ -20,7 +21,7 @@ gl:
         language: Lingua
         latitude: Latitude
         longitude: Lonxitude
-        title: Título
+        title: Asunto
         user: Usuario
       friend: 
         friend: Amigo
@@ -29,7 +30,7 @@ gl:
         body: Corpo
         recipient: Destinatario
         sender: Remitente
-        title: Título
+        title: Asunto
       trace: 
         description: Descrición
         latitude: Latitude
@@ -91,26 +92,31 @@ gl:
   browse: 
     anonymous: anónimo
     changeset: 
-      belongs_to: Autor/a
+      belongs_to: Autor
       changesetxml: Conxunto de cambios XML
       feed: 
         title: Conxunto de cambios %{id}
         title_comment: Conxunto de cambios %{id} - %{comment}
       node: Nodos (%{count})
+      node_paginated: Nodos (%{x}-%{y} de %{count})
       osmchangexml: osmChange XML
+      relation: Relacións (%{count})
+      relation_paginated: Relacións (%{x}-%{y} de %{count})
       title: "Conxunto de cambios: %{id}"
+      way: Camiños (%{count})
+      way_paginated: Camiños (%{x}-%{y} de %{count})
     closed: Pechado
-    closed_by_html: Cerrado <abbr title='%{title}'>fai %{time}</abbr> por %{user}
-    closed_html: Cerrado <abbr title='%{title}'>fai %{time}</abbr>
+    closed_by_html: Pechado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
+    closed_html: Pechado <abbr title='%{title}'>hai %{time}</abbr>
     containing_relation: 
       entry: Relación %{relation_name}
       entry_role: Relación %{relation_name} (como %{relation_role})
     created: Creado
-    created_by_html: Creado <abbr title='%{title}'>fai %{time}</abbr> por %{user}
-    created_html: Creado <abbr title='%{title}'>fai %{time}</abbr>
-    deleted_by_html: Eliminado <abbr title='%{title}'>fai %{time}</abbr> por %{user}
+    created_by_html: Creado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
+    created_html: Creado <abbr title='%{title}'>hai %{time}</abbr>
+    deleted_by_html: Borrado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
     download_xml: Descargar en XML
-    edited_by_html: Editado <abbr title='%{title}'>fai %{time}</abbr> por %{user}
+    edited_by_html: Editado <abbr title='%{title}'>hai %{time}</abbr> por %{user}
     in_changeset: Conxunto de cambios
     location: "Localización:"
     no_comment: (sen comentarios)
@@ -118,19 +124,26 @@ gl:
       history_title: "Historial do nodo: %{name}"
       title: "Nodo: %{name}"
     not_found: 
-      sorry: Sentímolo, non se puido atopar o %{type} co id %{id}.
+      sorry: Sentímolo, non se puido atopar o %{type} co nº%{id}.
       type: 
         changeset: conxunto de cambios
         node: nodo
         relation: relación
         way: camiño
     note: 
-      closed_title: "Nota resolta #%{note_name}"
-      hidden_title: "Nota oculta #%{note_name}"
+      closed_by: Resolto por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
+      closed_by_anonymous: Resolto por un anónimo <abbr title='%{exact_time}'>hai %{when}</abbr>
+      closed_title: Nota resolta nº%{note_name}
+      commented_by: Comentado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
+      commented_by_anonymous: Comentado por un anónimo <abbr title='%{exact_time}'>hai %{when}</abbr>
+      hidden_by: Agochado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
+      hidden_title: Nota agochada nº%{note_name}
       new_note: Nova nota
-      open_by: Creado por %{user} <abbr title='%{exact_time}'>fai %{when}</abbr>
-      open_by_anonymous: Creado por un anónimo <abbr title='%{exact_time}'>fai %{when}</abbr>
-      open_title: "Nota sen resolver #%{note_name}"
+      open_by: Creado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
+      open_by_anonymous: Creado por un anónimo <abbr title='%{exact_time}'>hai %{when}</abbr>
+      open_title: Nota sen resolver nº%{note_name}
+      reopened_by: Reactivado por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
+      reopened_by_anonymous: Reactivado por un anónimo <abbr title='%{exact_time}'>hai %{when}</abbr>
       title: "Nota: %{id}"
     part_of: Parte de
     redacted: 
@@ -141,7 +154,7 @@ gl:
         relation: relación
         way: camiño
     relation: 
-      history_title: "Historial de relación: %{name}"
+      history_title: "Historial da relación: %{name}"
       members: Membros
       title: "Relación: %{name}"
     relation_member: 
@@ -151,6 +164,7 @@ gl:
         relation: Relación
         way: Camiño
     start_rjs: 
+      feature_warning: A carga de %{num_features} características pode facer que o seu navegador vaia lento ou que non responda. Está seguro de querer mostrar eses datos?
       load_data: Cargar os datos
       loading: Cargando...
     tag_details: 
@@ -170,7 +184,10 @@ gl:
     view_details: Ver os detalles
     view_history: Ver o historial
     way: 
-      history_title: "Historial co camiño: %{name}"
+      also_part_of: 
+        one: parte do camiño %{related_ways}
+        other: parte dos camiños %{related_ways}
+      history_title: "Historial do camiño: %{name}"
       nodes: Nodos
       title: "Camiño: %{name}"
   changeset: 
@@ -189,13 +206,13 @@ gl:
       saved_at: Gardado o
       user: Usuario
     list: 
-      empty: Non hai conxuntos de cambios atopados.
-      empty_area: Non hai conxuntos de cambios nesta área.
-      empty_user: Non hai conxuntos de cambios por este usuario/a.
+      empty: Non se atopou ningún conxunto de cambios.
+      empty_area: Non hai conxuntos de cambios nesta zona.
+      empty_user: Este usuario non ten ningún conxunto de cambios.
       load_more: Cargar máis
-      no_more: Non hai máis conxuntos de cambios atopados.
-      no_more_area: Non hai máis conxuntos de cambios nesta área.
-      no_more_user: Non hai máis conxuntos de cambios por este usuario/a.
+      no_more: Non se atopou ningún outro conxunto de cambios.
+      no_more_area: Non hai máis conxuntos de cambios nesta zona.
+      no_more_user: Este usuario non ten ningún outro conxunto de cambios.
       title: Conxuntos de cambios
       title_friend: Conxuntos de cambios dos seus amigos
       title_nearby: Conxuntos de cambios dos usuarios de lugares próximos
@@ -312,6 +329,7 @@ gl:
       paste_html: Pegue o código HTML para incluílo na páxina web
       scale: Escala
       too_large: 
+        advice: "Se a exportación anterior falla, considere utilizar unha das fontes listadas a continuación:"
         body: "Esta zona é grande de máis para ser exportada como datos XML do OpenStreetMap. Amplíe a zona ou escolla unha menor, ou utilice unha das seguintes fontes para as descargas masivas de datos:"
         geofabrik: 
           description: Extraccións actualizadas regularmente dalgúns continentes, países e cidades seleccionados
@@ -322,11 +340,25 @@ gl:
         other: 
           description: Fontes adicionais listadas no wiki do OpenStreetMap
           title: Outras fontes
+        overpass: 
+          description: Descargar esta caixa desde un espello da base de datos do OpenStreetMap
+          title: Pasarela da API
         planet: 
           description: Copias actualizadas regularmente da base de datos do OpenStreetMap ao completo
           title: Planeta OSM
       zoom: Zoom
     title: Exportar
+  fixthemap: 
+    how_to_help: 
+      add_a_note: 
+        instructions_html: "Simplemente, prema en <a class='icon note'></a> ou na mesma icona na visualización do mapa.\nIsto ha engadir un marcador ao mapa que pode mover\narrastrándoo. Engada a súa mensaxe, prema en \"Gardar\" e outras persoas investigarán iso."
+      join_the_community: 
+        explanation_html: "Se atopa algún problema cos datos dos nosos mapas (por exemplo, se falta algunha estrada), o mellor é\nunirse á comunidade do OpenStreetMap e engadir ou corrixir os datos directamente."
+        title: Únase á comunidade
+      title: Como axudar
+    other_concerns: 
+      title: Outras preocupacións
+    title: Informar dun problema/Corrixir o mapa
   geocoder: 
     description: 
       title: 
@@ -858,8 +890,18 @@ gl:
           weir: Vaira
   help_page: 
     help: 
+      description: Formule unha pregunta ou busque respostas no sitio de preguntas e respostas do OSM.
       title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    introduction: "O OpenStreetMap ten varios recursos para aprender sobre o proxecto, para formular e responder preguntas,\nasí como para debater e documentar colaborativamente sobre temas de cartografía."
     title: Obter axuda
+    welcome: 
+      description: Comece con esta guía rápida cos principios básicos do OpenStreetMap.
+      title: Dámoslle a benvida ao OSM
+      url: /welcome
+    wiki: 
+      title: wiki.openstreetmap.org
+      url: http://wiki.openstreetmap.org/
   javascripts: 
     close: Pechar
     edit_help: Desplace o mapa e amplíeo na localización que queira editar; logo, prema aquí.
@@ -875,7 +917,7 @@ gl:
         standard: Estándar
         transport_map: Mapa de transporte
       copyright: © <a href='%{copyright_url}'>Colaboradores do OpenStreetMap</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Facer unha donación</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Facer unha doazón</a>
       layers: 
         data: Datos do mapa
         header: Capas do mapa
@@ -922,8 +964,8 @@ gl:
       createnote_tooltip: Engadir unha nota ao mapa
       edit_disabled_tooltip: Achegue para editar o mapa
       edit_tooltip: Editar o mapa
-      map_data_zoom_in_tooltip: Aumenta o zoom para ver os datos do mapa
-      map_notes_zoom_in_tooltip: Aumenta o zoom para ver as notas do mapa
+      map_data_zoom_in_tooltip: Achegar para ver os datos do mapa
+      map_notes_zoom_in_tooltip: Achegar para ver as notas do mapa
   layouts: 
     about: Acerca de
     community: Comunidade
@@ -944,13 +986,14 @@ gl:
     history: Historial
     home: Ir á localización inicial
     intro_2_create_account: Cree unha conta de usuario
-    intro_header: Benvido/a a OpenStreetMap!
+    intro_header: Dámoslle a benvida ao OpenStreetMap!
+    intro_text: O OpenStreetMap é un mapa do mundo, creado por xente coma vostede e de libre uso baixo unha licenza aberta.
     learn_more: Máis información
-    log_in: Iniciar sesión
+    log_in: Rexistro
     log_in_tooltip: Acceder ao sistema cunha conta existente
     logo: 
       alt_text: Logo do OpenStreetMap
-    logout: Pechar sesión
+    logout: Saír
     make_a_donation: 
       text: Facer unha doazón
       title: Apoie o OpenStreetMap cunha doazón
@@ -964,7 +1007,7 @@ gl:
     partners_ucl: centro de realidade virtual do UCL
     sign_up: Rexistrarse
     sign_up_tooltip: Crear unha conta para editar
-    start_mapping: Comenzar a mapear
+    start_mapping: Comezar a cartografiar
     tag_line: O mapa mundial libre
     user_diaries: Diarios de usuario
     user_diaries_tooltip: Ollar os diarios do usuario
@@ -979,6 +1022,7 @@ gl:
         title: Exemplo de recoñecemento
       contributors_at_html: "<strong>Austria:</strong> Contén datos de\n<a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (baixo a licenza\n<a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>),\n<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg</a> e\nLand Tirol (baixo a licenza <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY AT con emendas</a>)."
       contributors_ca_html: "<strong>Canadá:</strong> Contén datos de\nGeoBase&reg;, GeoGratis (&copy; Department of Natural\nResources Canada), CanVec (&copy; Department of Natural\nResources Canada) e StatCan (Geography Division,\nStatistics Canada)."
+      contributors_fi_html: "<strong>Finlandia</strong>: Contén datos da\nNational Land Survey of Finland's Topographic Database\ne outros conxuntos de datos, baixo a\n<a href=\"http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501\">licenza NLSFI</a>."
       contributors_footer_1_html: "Para obter máis información sobre estas e outras fontes usadas\npara axudar na mellora do OpenStreetMap, bote unha ollada á <a\nhref=\"http://wiki.openstreetmap.org/wiki/Contributors\">páxina dos\ncolaboradores</a> no wiki do OpenStreetMap."
       contributors_footer_2_html: "A inclusión de datos no OpenStreetMap non implica que o que\norixinalmente proporcionou os datos apoie o OpenStreetMap,\ndea calquera garantía ou acepte calquera responsabilidade."
       contributors_fr_html: "<strong>Francia:</strong> Contén datos con orixe na\nDirection Générale des Impôts."
@@ -1001,7 +1045,7 @@ gl:
       more_1_html: "Descubra máis sobre como empregar os nosos datos e como acreditarnos nas <a\nhref=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">preguntas máis frecuentes\nsobre asuntos legais</a>."
       more_2_html: "Malia que o OpenStreetMap é de datos abertos, non podemos proporcionar un\nmapa API gratuíto aos desenvolvedores.\nVexa a <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">política de uso da API</a>,\na <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">política de uso de cuadrantes</a>\ne a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">política de uso do Nominatim</a>."
       more_title_html: Máis información
-      title_html: Dereitos de autor e licenza
+      title_html: Dereitos de autoría e licenza
     native: 
       mapping_link: comezar a contribuír
       native_link: versión en galego
@@ -1190,6 +1234,10 @@ gl:
       allow_write_notes: modificar as notas.
       allow_write_prefs: modificar as súas preferencias de usuario.
       request_access: A aplicación %{app_name} solicita acceso á súa conta, %{user}. Comprobe que desexa que a aplicación teña as seguintes capacidades. Pode elixir cantas queira.
+    oauthorize_failure: 
+      invalid: O pase de autorización non é válido.
+    oauthorize_success: 
+      verification: O código de verificación é %{code}.
     revoke: 
       flash: Revogou o pase de %{application}
   oauth_clients: 
@@ -1900,7 +1948,7 @@ gl:
       way_html: Un <strong>camiño</strong> é unha liña ou área, como unha estrada, un arroio, un lago ou un edificio.
     introduction_html: Dámoslle a benvida ao OpenStreetMap, o mapa do mundo libre e editable. Agora que está rexistrado, xa pode empezar a cartografiar. Velaquí hai unha guía rápida das cousas máis importantes que necesita saber.
     questions: 
-      paragraph_1_html: "OpenStreetMap ten varios recursos para aprender sobre o proxecto, preguntando e contestando preguntas, e colaborativamente discutir e documentar temas de cartografía.\n<a href='%{help_url}'>Obter axuda aquí</a>."
+      paragraph_1_html: "O OpenStreetMap ten varios recursos para aprender sobre o proxecto, para formular e responder\npreguntas, así como para debater e documentar colaborativamente sobre temas de cartografía.\n<a href='%{help_url}'>Obteña axuda aquí</a>."
       title: Ten algunha pregunta?
     start_mapping: Comezar a cartografiar
     title: Reciba a nosa benvida!
