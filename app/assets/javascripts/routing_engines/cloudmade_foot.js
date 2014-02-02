@@ -4,7 +4,7 @@
 // http://cloudmade.com/documentation/routing
 
 OSM.RoutingEngines.list.push({
-	name: 'Foot (CloudMade)',
+	name: "javascripts.directions.engines.cloudmade_foot",
 	draggable: false,
 	CM_SPRITE_MAP: {
 		"C": 1,
@@ -25,7 +25,8 @@ OSM.RoutingEngines.list.push({
 		}
 		url+=p.join(',');
 		url+="/foot.js";
-		this.requestJSONP(url+"?callback=");
+        url+="?lang=" + I18n.currentLocale();
+		this.requestJSONP(url+"&callback=");
 	},
 	gotRoute: function(router,data) {
 		router.setPolyline(data.route_geometry);

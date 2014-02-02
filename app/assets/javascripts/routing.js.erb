@@ -14,24 +14,7 @@
 	*** add YOURS engine
 */
 
-var TURN_INSTRUCTIONS=["",
-	"Continue on ",				// 1
-	"Slight right onto ",		// 2
-	"Turn right onto ",			// 3
-	"Sharp right onto ",		// 4
-	"U-turn along ",			// 5
-	"Sharp left onto ",			// 6
-	"Turn left onto ",			// 7
-	"Slight left onto ",		// 8
-	"(via point) ",				// 9
-	"Follow ",					// 10
-	"At roundabout take ",		// 11
-	"Leave roundabout - ",		// 12
-	"Stay on roundabout - ",	// 13
-	"Start at end of ",			// 14
-	"Reach destination",		// 15
-	"Go against one-way on ",	// 16
-	"End of one-way on "]		// 17
+var TURN_INSTRUCTIONS=[]
 
 var ROUTING_POLYLINE={
 	color: '#03f',
@@ -47,6 +30,25 @@ OSM.RoutingEngines={
 
 OSM.Routing=function(map,name,jqSearch) {
 	var r={};
+
+    TURN_INSTRUCTIONS=["",
+	I18n.t('javascripts.directions.instructions.continue_on'),				// 1
+	I18n.t('javascripts.directions.instructions.slight_right'),		// 2
+	I18n.t('javascripts.directions.instructions.turn_right'),			// 3
+	I18n.t('javascripts.directions.instructions.sharp_right'),		// 4
+	I18n.t('javascripts.directions.instructions.uturn'),			// 5
+	I18n.t('javascripts.directions.instructions.sharp_left'),			// 6
+	I18n.t('javascripts.directions.instructions.turn_left'),			// 7
+	I18n.t('javascripts.directions.instructions.slight_left'),		// 8
+	I18n.t('javascripts.directions.instructions.via_point'),				// 9
+	I18n.t('javascripts.directions.instructions.follow'),					// 10
+	I18n.t('javascripts.directions.instructions.roundabout'),		// 11
+	I18n.t('javascripts.directions.instructions.leave_roundabout'),		// 12
+	I18n.t('javascripts.directions.instructions.stay_roundabout'),	// 13
+	I18n.t('javascripts.directions.instructions.start'),			// 14
+	I18n.t('javascripts.directions.instructions.destination'),		// 15
+	I18n.t('javascripts.directions.instructions.against_oneway'),	// 16
+	I18n.t('javascripts.directions.instructions.end_oneway')]		// 17
 
 	r.map=map;				// Leaflet map
 	r.name=name;			// global variable name of this instance (needed for JSONP)
@@ -184,7 +186,7 @@ OSM.Routing=function(map,name,jqSearch) {
 		// Create base table
 		$("#content").removeClass("overlay-sidebar");
 		$('#sidebar_content').empty();
-		var html='<h2><a class="geolink" href="#" onclick="$(~.close_directions~).click();return false;"><span class="icon close"></span></a>Directions</h2>'.replace(/~/g,"'");
+		var html='<h2><a class="geolink" href="#" onclick="$(~.close_directions~).click();return false;"><span class="icon close"></span></a>' + I18n.t('javascripts.directions.directions') + '</h2>'.replace(/~/g,"'");
 		html+="<table id='turnbyturn' />";
 		$('#sidebar_content').html(html);
 		// Add each row
@@ -242,7 +244,7 @@ OSM.Routing=function(map,name,jqSearch) {
 			};
 			r['gotRoute'+num]=function(data) { r.awaitingRoute=false; list[num].gotRoute(r,data); };
 		}
-		select.append("<option value='"+i+"'>"+list[i].name+"</option>");
+		select.append("<option value='"+i+"'>"+I18n.t(list[i].name)+"</option>");
 	}
 	r.engines=list;
 	r.chosenEngine=list[0];	// default to first engine
