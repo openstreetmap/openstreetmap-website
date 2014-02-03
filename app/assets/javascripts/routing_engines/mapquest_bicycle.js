@@ -6,7 +6,7 @@
 // *** needs to give credit
 
 OSM.RoutingEngines.list.push({
-	name: 'Bicycle (MapQuest Open)',
+	name: "javascripts.directions.engines.mapquest_bike",
 	draggable: false,
 	_hints: {},
 	MQ_SPRITE_MAP: {
@@ -36,6 +36,7 @@ OSM.RoutingEngines.list.push({
 		url+="&from="+from.join(',');
 		url+="&to="+to.join(',');
 		url+="&routeType=bicycle";
+        //url+="&locale=" + I18n.currentLocale(); //Doesn't actually work. MapQuest requires full locale e.g. "de_DE", but I18n only provides language, e.g. "de"
 		url+="&manMaps=false";
 		url+="&shapeFormat=raw&generalize=0";
 		this.requestJSONP(url+"&callback=");

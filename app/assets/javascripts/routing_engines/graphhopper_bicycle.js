@@ -1,11 +1,11 @@
 // GraphHopper bicycle engine
 
 OSM.RoutingEngines.list.push({    
-    name: 'Bicycle (GraphHopper)',
+    name: "javascripts.directions.engines.graphhopper_bike",
     draggable: true,
     _hints: {},
     getRoute: function(isFinal, points) {
-        var url = "http://graphhopper.com/routing/api/route?vehicle=bike&locale=en";
+        var url = "http://graphhopper.com/routing/api/route?vehicle=bike&locale=" + I18n.currentLocale();
         for (var i = 0; i < points.length; i++) {
             var pair = points[i].join(',');
             url += "&point=" + pair;

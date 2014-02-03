@@ -3,7 +3,7 @@
 // *** need to clear hints at some point
 
 OSM.RoutingEngines.list.push({
-	name: 'Car (OSRM)',
+	name: "javascripts.directions.engines.osrm_car",
 	draggable: true,
 	_hints: {},
 	getRoute: function(isFinal,points) {
@@ -34,7 +34,7 @@ OSM.RoutingEngines.list.push({
 			var instText="<b>"+(i+1)+".</b> ";
 			instText+=TURN_INSTRUCTIONS[instCodes[0]];
 			if (instCodes[1]) { instText+="exit "+instCodes[1]+" "; }
-			if (instCodes[0]!=15) { instText+=s[1] ? "<b>"+s[1]+"</b>" : "(unnamed)"; }
+			if (instCodes[0]!=15) { instText+=s[1] ? "<b>"+s[1]+"</b>" : I18n.t('javascripts.directions.instructions.unnamed'); }
 			steps.push([line[s[3]], s[0].split('-')[0], instText, s[2]]);
 		}
 		if (steps.length) router.setItinerary({ steps: steps });

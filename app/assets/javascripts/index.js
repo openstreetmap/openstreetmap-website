@@ -349,7 +349,7 @@ $(document).ready(function () {
   });
 
   OSM.routing = OSM.Routing(map,'OSM.routing',$('.query_wrapper.routing'));
-  OSM.routing.chooseEngine('Car (OSRM)');
+  OSM.routing.chooseEngine('javascripts.directions.engines.osrm_car');
 
   $(".get_directions").on("click",function(e) {
     e.preventDefault();
