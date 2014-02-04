@@ -65,6 +65,44 @@ class MessageControllerTest < ActionController::TestCase
       assert_select "input[type='submit'][value='Send']", :count => 1
     end
 
+    # Check that the subject is preserved over errors
+    assert_difference "ActionMailer::Base.deliveries.size", 0 do
+      assert_difference "Message.count", 0 do
+        post :new,
+          :display_name => users(:public_user).display_name,
+          :message => { :title => "Test Message", :body => "" }
+      end
+    end
+    assert_response :success
+    assert_template "new"
+    assert_select "title", "OpenStreetMap | Send message"
+    assert_select "form[action='#{new_message_path(:display_name => users(:public_user).display_name)}']", :count => 1 do
+      assert_select "input#message_title", :count => 1 do
+        assert_select "[value=Test Message]"
+      end
+      assert_select "textarea#message_body", :text => "", :count => 1
+      assert_select "input[type='submit'][value='Send']", :count => 1
+    end
+
+    # Check that the body text is preserved over errors
+    assert_difference "ActionMailer::Base.deliveries.size", 0 do
+      assert_difference "Message.count", 0 do
+        post :new,
+          :display_name => users(:public_user).display_name,
+          :message => { :title => "", :body => "Test message body" }
+      end
+    end
+    assert_response :success
+    assert_template "new"
+    assert_select "title", "OpenStreetMap | Send message"
+    assert_select "form[action='#{new_message_path(:display_name => users(:public_user).display_name)}']", :count => 1 do
+      assert_select "input#message_title", :count => 1 do
+        assert_select "[value=]"
+      end
+      assert_select "textarea#message_body", :text => "Test message body", :count => 1
+      assert_select "input[type='submit'][value='Send']", :count => 1
+    end
+
     # Check that sending a message works
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       assert_difference "Message.count", 1 do
