@@ -139,6 +139,6 @@ $(document).ready(function () {
   });
 });
 
-if (Math.random() * 100 < 5) {
+if (Math.random() * 100 < 20) {
   L.OSM.Mapnik.prototype.options.url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 }
