@@ -233,6 +233,7 @@ en:
       title_friends: "Friends' diaries"
       title_nearby: "Nearby Users' diaries"
       user_title: "%{user}'s diary"
+      group_title: "%{group} diaries"
       in_language_title: "Diary Entries in %{language}"
       new: New Diary Entry
       new_title: Compose a new entry in your user diary
@@ -244,6 +245,8 @@ en:
       title: "Edit diary entry"
       subject: "Subject:"
       body: "Body:"
+      group: "Post in group:"
+      no_group: None
       language: "Language:"
       location: "Location:"
       latitude: "Latitude:"
@@ -264,6 +267,7 @@ en:
       body: "Sorry, there is no diary entry or comment with the id %{id}. Please check your spelling, or maybe the link you clicked is wrong."
     diary_entry:
       posted_by: "Posted by %{link_user} on %{created} in %{language_link}"
+      posted_in_group: "to the %{group_link} group"
       comment_link: Comment on this entry
       reply_link: Reply to this entry
       comment_count:
@@ -1252,12 +1256,16 @@ en:
     new:
       title: "Send message"
       send_message_to: "Send a new message to %{name}"
+      send_message_to_entire_group: "Send a new message to all members of %{title}"
       subject: "Subject"
       body: "Body"
       send_button: "Send"
       back_to_inbox: "Back to inbox"
       message_sent: "Message sent"
+      message_sent_to_entire_group: "Message sent to %{number} group members."
       limit_exceeded: "You have sent a lot of messages recently. Please wait a while before trying to send any more."
+      not_group_leader: "You must be a leader of this group to send messages to all members."
+      footer_on_messages_to_group: "This message was sent to all members of [%{title}](%{url})."
     no_such_message:
       title: "No such message"
       heading: "No such message"
@@ -1763,7 +1771,10 @@ en:
       if set location: "Set your home location on the %{settings_link} page to see nearby users."
       settings_link_text: settings
       your friends: Your friends
+      your groups: Your groups
       no friends: You have not added any friends yet.
+      no groups: You have not joined any groups yet.
+      group_index: All groups
       km away: "%{count}km away"
       m away: "%{count}m away"
       nearby users: "Other nearby users"
@@ -1796,6 +1807,7 @@ en:
       your location: "Your location"
       nearby mapper: "Nearby mapper"
       friend: "Friend"
+      group_member: "Group member"
     account:
       title: "Edit account"
       my settings: My settings
@@ -2143,3 +2155,47 @@ en:
       not_empty: "Redaction is not empty. Please un-redact all versions belonging to this redaction before destroying it."
       flash: "Redaction destroyed."
       error: "There was an error destroying this redaction."
+  group:
+    singular: "group"
+    plural: "groups"
+    my_groups: "My Groups"
+    index:
+      about: "Groups are local and thematic teams of mappers."
+      empty: "No groups exist yet."
+    new:
+      action: "create new group"
+      submit: "Create group"
+    fields:
+      title: "Title"
+      description: "Description"
+    create:
+      success: "%{title} has been created"
+    edit:
+      action: "edit group and member list"
+      submit: "Update"
+    update:
+      success: "%{title} has been updated"
+    join:
+      action: "join group"
+      confirm: "Join %{title}?"
+      success: "You have joined %{title}."
+      error: "Error joining %{title}."
+    leave:
+      action: "leave group"
+      confirm: "Leave %{title}?"
+      not_in_group: "You can't leave %{title} as you are not a member."
+      success: "You are no longer a member of %{title}."
+      error: "Error leaving %{title}."
+    show:
+      members: "Members"
+      diary_entries: "Recent diary entries"
+    lead:
+      action: "become a group leader"
+      confirm: "Become a leader of %{title}?"
+      success: "You are now one of the leaders of %{title}."
+    resign:
+      action: "resign from group leader"
+      confirm: "Stop leading %{title}?"
+      success: "You are no longer a leader of %{title}."
+    message:
+      action: "message all members"

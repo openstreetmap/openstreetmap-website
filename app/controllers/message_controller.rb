@@ -34,6 +34,41 @@ class MessageController < ApplicationController
     end
   end
 
+  # Allow leaders of a group to send messages to all group members
+  def new_to_group
+    @group = Group.find(params[:group_id])
+
+    if request.post? && params[:message]
+      if !@group.leadership_includes?(@user)
+        flash[:error] = t 'message.new.not_group_leader'
+      elsif @user.sent_messages.where("sent_on >= ?", Time.now.getutc - 1.hour).count >= MAX_MESSAGES_PER_HOUR
+        flash[:error] = t 'message.new.limit_exceeded'
+      else
+        recipients = @group.users - [@user]
+        recipients.each do |user|
+          @message = Message.new(params[:message])
+          @message.body = @message.body + <<-FOOTER.strip_heredoc
+
+
+          ---
+
+          #{t 'message.new.footer_on_messages_to_group', :title => @group.title, :url => group_url(@group)}
+          FOOTER
+          @message.to_user_id = user.id
+          @message.from_user_id = @user.id
+          @message.sent_on = Time.now.getutc
+          if @message.save!
+            Notifier.message_notification(@message).deliver
+          end
+        end
+        flash[:notice] = t 'message.new.message_sent_to_entire_group', :number => recipients.count
+        redirect_to :controller => 'groups', :action => 'show', :id => @group.id
+      end
+    else
+      @title = t 'message.new.title'
+    end
+  end
+
   # Allow the user to reply to another message.
   def reply
     message = Message.find(params[:message_id])

@@ -1,9 +1,10 @@
+<% @this_user ||= contact %>
 <%
    user_data = {
      :lon => contact.home_lon,
      :lat => contact.home_lat,
      :icon => image_path(type == "friend" ? "marker-blue.png" : "marker-green.png"),
-     :description => render(:partial => "popup", :object => contact, :locals => {:type => type})
+     :description => render(:partial => "user/popup", :object => contact, :locals => {:type => type})
    }
 %>
 <%= content_tag :div, :class => "contact-activity clearfix", :data => {:user => user_data} do %>
@@ -34,15 +35,17 @@
       <% end %>
     </p>
 
-    <ul class='secondary-actions clearfix deemphasize'>
-      <li><%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => contact.display_name %></li>
-      <li>
-        <% if @user.is_friends_with?(contact) %>
-          <%= link_to t('user.view.remove as friend'), remove_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
-        <% else %>
-          <%= link_to t('user.view.add as friend'), make_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
-      <% end %>
-      </li>
-    </ul>
+    <% if @user %>
+      <ul class='secondary-actions clearfix deemphasize'>
+        <li><%= link_to t('user.view.send message'), :controller => 'message', :action => 'new', :display_name => contact.display_name %></li>
+        <li>
+          <% if @user.is_friends_with?(contact) %>
+            <%= link_to t('user.view.remove as friend'), remove_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
+          <% else %>
+            <%= link_to t('user.view.add as friend'), make_friend_path(:display_name => contact.display_name, :referer => request.fullpath), :method => :post %>
+        <% end %>
+        </li>
+      </ul>
+    <% end %>
   </div>
 <% end %>

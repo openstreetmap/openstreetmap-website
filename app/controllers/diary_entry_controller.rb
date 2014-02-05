@@ -96,6 +96,15 @@ class DiaryEntryController < ApplicationController
           require_user
           return
       end
+    elsif params[:group_id]
+      @group = Group.find_by_id(params[:group_id])
+      if @group
+        @title = t 'diary_entry.list.group_title', :group => @group.title
+        @entries = DiaryEntry.where(:group_id => @group.id)
+      else
+       render :action => "no_such_entry", :status => :not_found
+       return
+      end
     else
       @entries = DiaryEntry.joins(:user).where(:users => { :status => ["active", "confirmed"] })
       
@@ -184,7 +193,7 @@ private
   ##
   # return permitted diary entry parameters
   def entry_params
-    params.require(:diary_entry).permit(:title, :body, :language_code, :latitude, :longitude)
+    params.require(:diary_entry).permit(:title, :body, :language_code, :latitude, :longitude, :group_id)
   end
 
   ##

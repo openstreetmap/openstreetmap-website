@@ -1,0 +1,50 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "group" %>
+<% end %>
+
+<% content_for :heading do %>
+  <h1><%= link_to "Groups", groups_path %> / <%= @group.title %></h1>
+  <% if defined?(@user) %>
+    <ul class='secondary-actions clearfix'>
+      <% if @group.leadership_includes?(@user) %>
+        <li><%= link_to t('group.message.action'), new_message_to_group_path(@group) %></li>
+        <li><%= link_to t('group.edit.action'), edit_group_path(@group) %></li>
+        <li><%= link_to t('group.resign.action'), resign_leader_group_path(@group), :method => :post, :data => { :confirm => t('group.resign.confirm', :title => @group.title) } %></li>
+      <% elsif @group.users.include?(@user) && @group.leaders.count == 0 %>
+        <li><%= link_to t('group.lead.action'), become_leader_group_path(@group), :method => :post, :data => { :confirm => t('group.lead.confirm', :title => @group.title) } %></li>
+      <% end %>
+      <%= render :partial => 'join_or_leave_links', :locals => { :group => @group } %>
+    </ul>
+  <% end %>
+<% end %>
+
+<%= content_tag "div", "", :id => "map", :class => "content_map" %>
+
+<div class="activity-block column-1">
+  <p><%= @group.description.to_html %></p>
+</div>
+
+<div class="activity-block column-1">
+  <h2><%= t 'group.show.members' -%></h2>
+  <div id="members-container">
+    <%= render :partial => "user/contact_mini", :collection => @group.users, :locals => {:type => "group_member"} %>
+  </div>
+</div>
+
+<%# TODO needs ordering, paging, summaries etc.
+  # best done by refactoring DiaryEntryController.list? %>
+<div class="activity-block column-1">
+<h2><%= link_to t('group.show.diary_entries'), :controller => 'diary_entry', :action => 'list', :group_id => @group.id %></h2>
+  <div id="diary-container">
+    <%= render :partial => "diary_entry/diary_list_entry", :collection => DiaryEntry.where(:group_id => @group.id).limit(5) %>
+  </div>
+</div>
+
+<div class="activity-block column-1">
+<h2><%= link_to t('group.show.changesets'), :controller => 'changeset', :action => 'list', :group_id => @group.id %></h2>
+  <div id="changeset-container">
+    <ol class="changesets">
+      <%= render :partial => 'changeset/changeset', :collection => Changeset.order("changesets.id DESC").limit(10).where(:user_id => @group.users.public) %>
+    </ol>
+  </div>
+</div>

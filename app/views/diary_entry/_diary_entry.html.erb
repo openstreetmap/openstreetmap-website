@@ -4,10 +4,13 @@
       <%= user_thumbnail diary_entry.user %>
     <% end %>
 
-    <h2><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></h2>
+    <h2><%= link_to h(diary_entry.title), :controller => 'diary_entry', :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></h2>
 
     <small class='deemphasize'>
       <%= raw(t 'diary_entry.diary_entry.posted_by', :link_user => (link_to h(diary_entry.user.display_name), :controller => 'user', :action => 'view', :display_name => diary_entry.user.display_name), :created => l(diary_entry.created_at, :format => :blog), :language_link => (link_to h(diary_entry.language.name), :controller => 'diary_entry', :action => 'list', :display_name => nil, :language => diary_entry.language_code)) %>
+      <% if diary_entry.group %>
+        <%= raw(t 'diary_entry.diary_entry.posted_in_group', :group_link => link_to(diary_entry.group.title, group_path(diary_entry.group))) %>
+      <% end %>
     </small>
 
   </div>
@@ -17,18 +20,18 @@
   </div>
 
   <% if diary_entry.latitude and diary_entry.longitude %>
-    <%= render :partial => "location", :object => diary_entry %>
+    <%= render :partial => "diary_entry/location", :object => diary_entry %>
   <% end %>
 
   <ul class='secondary-actions clearfix'>
-    <% if params[:action] == 'list' %>
-      <li><%= link_to t('diary_entry.diary_entry.comment_link'), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'newcomment' %></li>
+    <% if params[:action] == 'list' || ((defined? type) && type == 'list') %>
+      <li><%= link_to t('diary_entry.diary_entry.comment_link'), :controller => 'diary_entry', :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'newcomment' %></li>
       <li><%= link_to t('diary_entry.diary_entry.reply_link'), :controller => 'message', :action => 'new', :display_name => diary_entry.user.display_name, :title => "Re: #{diary_entry.title}" %></li>
-      <li><%= link_to t('diary_entry.diary_entry.comment_count', :count => diary_entry.visible_comments.count), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'comments' %></li>
+      <li><%= link_to t('diary_entry.diary_entry.comment_count', :count => diary_entry.visible_comments.count), :controller => 'diary_entry', :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id, :anchor => 'comments' %></li>
     <% end %>
 
     <%= if_user(diary_entry.user, :li) do %>
-      <%= link_to t('diary_entry.diary_entry.edit_link'), :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %>
+      <%= link_to t('diary_entry.diary_entry.edit_link'), :controller => 'diary_entry', :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %>
     <% end %>
 
     <%= if_administrator(:li) do %>

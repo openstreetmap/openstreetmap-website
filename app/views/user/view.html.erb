@@ -195,6 +195,20 @@
     <% nearby = @this_user.nearby - friends %>
 
   <div class="activity-block column-1">
+    <h3><%= t 'user.view.your groups' %></h3>
+    <ul class='secondary-actions clearfix'>
+      <li><%= link_to t('user.view.group_index'), groups_path %></li>
+    </ul>
+    <% if @this_user.group_memberships.count == 0 %>
+      <%= t 'user.view.no groups' %>
+    <% else %>
+      <div id="groups-container">
+        <%= render :partial => "group_membership", :collection => @this_user.group_memberships %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="activity-block column-1">
     <h3><%= t 'user.view.your friends' %></h3>
 
     <% if friends.empty? %>

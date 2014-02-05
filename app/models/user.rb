@@ -28,6 +28,9 @@ class User < ActiveRecord::Base
   scope :active, -> { where(:status => ["active", "confirmed"]) }
   scope :public, -> { where(:data_public => true) }
 
+  has_many :group_memberships, :dependent => :destroy
+  has_many :groups, :through => :group_memberships
+
   validates_presence_of :email, :display_name
   validates_confirmation_of :email#, :message => ' addresses must match'
   validates_confirmation_of :pass_crypt#, :message => ' must match the confirmation password'

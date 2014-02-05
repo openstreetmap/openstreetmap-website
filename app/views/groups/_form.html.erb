@@ -1,0 +1,31 @@
+<%= error_messages_for 'group' %>
+
+<%= form_for @group, :html => { :class => 'standard-form' } do |f| %>
+  <fieldset>
+    <div class="form-row">
+      <label class="standard-label"><%= t'group.new.title' %></label>
+      <%= f.text_field :title, :size => 60 %>
+    </div>
+    <div class="form-row">
+      <label class="standard-label"><%= t'group.new.description' %></label>
+      <%= richtext_area :group, :description, :cols => 80 %>
+    </div>
+  </fieldset>
+  <% if defined?(include_members) && include_members %>
+    <fieldset>
+      <h2><%= t'group.edit.members' %></h2>
+      <%= f.fields_for :group_memberships do |group_memberships| %>
+        <div class="form-row">
+          <label class="standard-label"><%= group_memberships.object.user.display_name %></label>
+          <%= group_memberships.select :role, GroupMembership::Roles::ALL_ROLES %>
+        </div>
+        <div class="form-row">
+          <%= label_tag :_destroy, "Remove?" %>
+          <%= group_memberships.check_box :_destroy %>
+        </div>
+      <% end %>
+    </fieldset>
+  <% end %>
+  <fieldset>
+  <%= submit_tag @group.new_record? ? t('group.new.submit') : t('group.edit.submit') %>
+<% end %>

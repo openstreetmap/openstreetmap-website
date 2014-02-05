@@ -116,7 +116,7 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/notes' => 'notes#mine', :via => :get
   match '/history/friends' => 'changeset#list', :via => :get, :friends => true, :as => "friend_changesets"
   match '/history/nearby' => 'changeset#list', :via => :get, :nearby => true, :as => "nearby_changesets"
-
+  match '/history/group/:group_id' => 'changeset#list', :via => :get
   get '/browse/way/:id',                :to => redirect(:path => '/way/%{id}')
   get '/browse/way/:id/history',        :to => redirect(:path => '/way/%{id}/history')
   get '/browse/node/:id',               :to => redirect(:path => '/node/%{id}')
@@ -205,6 +205,7 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/diary/rss' => 'diary_entry#rss', :via => :get, :defaults => { :format => :rss }
   match '/diary/:language/rss' => 'diary_entry#rss', :via => :get, :defaults => { :format => :rss }
   match '/diary/rss' => 'diary_entry#rss', :via => :get, :defaults => { :format => :rss }
+  match '/diary/group/:group_id' => 'diary_entry#list', :via => :get
   match '/user/:display_name/diary/comments/:page' => 'diary_entry#comments', :via => :get, :page => /\d+/
   match '/user/:display_name/diary/comments/' => 'diary_entry#comments', :via => :get
   match '/user/:display_name/diary' => 'diary_entry#list', :via => :get
@@ -247,6 +248,7 @@ OpenStreetMap::Application.routes.draw do
   match '/user/:display_name/inbox' => 'message#inbox', :via => :get, :as => "inbox"
   match '/user/:display_name/outbox' => 'message#outbox', :via => :get, :as => "outbox"
   match '/message/new/:display_name' => 'message#new', :via => [:get, :post], :as => "new_message"
+  match '/message/new_to_group/:group_id' => 'message#new_to_group', :via => [:get, :post], :as => "new_message_to_group"
   match '/message/read/:message_id' => 'message#read', :via => :get, :as => "read_message"
   match '/message/mark/:message_id' => 'message#mark', :via => :post, :as => "mark_message"
   match '/message/reply/:message_id' => 'message#reply', :via => [:get, :post], :as => "reply_message"
@@ -271,6 +273,13 @@ OpenStreetMap::Application.routes.draw do
   match '/blocks/new/:display_name' => 'user_blocks#new', :via => :get, :as => "new_user_block"
   resources :user_blocks
   match '/blocks/:id/revoke' => 'user_blocks#revoke', :via => [:get, :post], :as => "revoke_user_block"
+
+  # groups
+  resources :groups do
+    member do
+      post :join, :leave, :become_leader, :resign_leader
+    end
+  end
 
   # redactions
   resources :redactions

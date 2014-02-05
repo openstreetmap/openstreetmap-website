@@ -1,6 +1,7 @@
 class DiaryEntry < ActiveRecord::Base
   belongs_to :user, :counter_cache => true
   belongs_to :language, :foreign_key => 'language_code'
+  belongs_to :group
 
   has_many :comments, -> { order(:id).preload(:user) }, :class_name => "DiaryComment"
   has_many :visible_comments, -> { joins(:user).where(:visible => true, :users => { :status => ["active", "confirmed"] }).order(:id) }, :class_name => "DiaryComment"
