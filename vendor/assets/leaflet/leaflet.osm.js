@@ -2,7 +2,9 @@ L.OSM = {};
 
 L.OSM.TileLayer = L.TileLayer.extend({
   options: {
-    url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    url: document.location.protocol === 'https:' ?
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' :
+      'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     attribution: '© <a target="_parent" href="http://www.openstreetmap.org">OpenStreetMap</a> and contributors, under an <a target="_parent" href="http://www.openstreetmap.org/copyright">open license</a>'
   },
 
@@ -14,28 +16,36 @@ L.OSM.TileLayer = L.TileLayer.extend({
 
 L.OSM.Mapnik = L.OSM.TileLayer.extend({
   options: {
-    url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    url: document.location.protocol === 'https:' ?
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' :
+      'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     maxZoom: 19
   }
 });
 
 L.OSM.CycleMap = L.OSM.TileLayer.extend({
   options: {
-    url: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png'
+    url: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
+    attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>"
   }
 });
 
 L.OSM.TransportMap = L.OSM.TileLayer.extend({
   options: {
-    url: 'http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png'
+    url: 'http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png',
+    attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>"
   }
 });
 
 L.OSM.MapQuestOpen = L.OSM.TileLayer.extend({
   options: {
-    url: 'http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
+    url: document.location.protocol === 'https:' ?
+      'https://otile{s}-s.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png' :
+      'http://otile{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png',
     subdomains: '1234',
-    attribution: "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>"
+    attribution: document.location.protocol === 'https:' ?
+      "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='https://developer.mapquest.com/content/osm/mq_logo.png'>" :
+      "Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>"
   }
 });
 
