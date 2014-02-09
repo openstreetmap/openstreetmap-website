@@ -122,6 +122,9 @@ nb:
     in_changeset: Endringer
     location: "Posisjon:"
     no_comment: (ingen kommentar)
+    node: 
+      history_title: "Node-historikk: %{name}"
+      title: "Node: %{name}"
     not_found: 
       sorry: Beklager, klarte ikke finne %{type}-en med ID %{id}.
       type: 
@@ -130,8 +133,19 @@ nb:
         relation: relasjon
         way: vei
     note: 
+      closed_by: Løst av %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
+      closed_by_anonymous: Løst av anonym bruker <abbr title='%{exact_time}'>%{when} siden</abbr>
       closed_title: "Avklart merknad: #%{note_name}"
+      commented_by: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
+      commented_by_anonymous: Kommentar fra anonym bruker <abbr title='%{exact_time}'>%{when} siden</abbr>
+      hidden_by: Skjult av %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
+      hidden_title: "Skjult notis #%{note_name}"
+      new_note: Ny notis
+      open_by: Opprettet av %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
+      open_by_anonymous: Opprettet av anonym bruker <abbr title='%{exact_time}'>%{when} siden</abbr>
       open_title: "Uavklart merknad #%{note_name}"
+      reopened_by: Gjenaktivisert av %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
+      reopened_by_anonymous: Gjenaktivisert av anonym bruker <abbr title='%{exact_time}'>%{when} siden</abbr>
       title: "Merknad: %{id}"
     part_of: Del av
     redacted: 
@@ -141,6 +155,10 @@ nb:
         node: node
         relation: relasjon
         way: vei
+    relation: 
+      history_title: "Forbindelseshistorikk: %{name}"
+      members: Medlemmer
+      title: "Forbindelse: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} som %{role}"
       type: 
@@ -148,6 +166,7 @@ nb:
         relation: Relasjon
         way: Vei
     start_rjs: 
+      feature_warning: Laster %{num_features} funksjonalitetet som kan gjøre at nettleseren blir treg eller stopper helt. Vil du vise frem disse dataene?
       load_data: Last inn data
       loading: Laster...
     tag_details: 
@@ -166,6 +185,13 @@ nb:
     version: Versjon
     view_details: Vis detaljer
     view_history: Vis historikk
+    way: 
+      also_part_of: 
+        one: delstrekning %{related_ways}
+        other: delstrekninger %{related_ways}
+      history_title: "Strekningshistorikk: %{name}"
+      nodes: Noder
+      title: "Strekning: %{name}"
   changeset: 
     changeset: 
       anonymous: Anonym
@@ -182,6 +208,13 @@ nb:
       saved_at: Lagret
       user: Bruker
     list: 
+      empty: Ingen endringssett funnet.
+      empty_area: Ingen endringssett i dette området.
+      empty_user: Ingen endringssett fra denne brukeren.
+      load_more: Last inn mer
+      no_more: Ingen flere endringssett funnet.
+      no_more_area: Ingen flere endringssett i dette området.
+      no_more_user: Ingen flere endringssett fra denne brukeren.
       title: Endringssett
       title_friend: Endringssett av dine venner
       title_nearby: Endringssett av brukere i nærheten
@@ -298,8 +331,25 @@ nb:
       paste_html: Lim inn HTML som skal bygges inn i nettsted
       scale: Skala
       too_large: 
+        advice: "Hvis eksporten over feiler, vær vennlig å vurdere bruk av en av kildene i listen under:"
         body: Dette området er for stort for å bli eksportert som OpenStreetMap XML-data. Vennligst zoom inn eller velg et mindre område. Eller du kan bruke en av kildene angitt under for nedlasting av bulkdata.
+        geofabrik: 
+          description: Regelmessig oppdaterte utdrag av verdensdeler, land og utvalgte byer
+          title: Geofabrik-nedlastninger
+        metro: 
+          description: Utdrag av verdens største byer med omgivelser
+          title: Metro-utdrag
+        other: 
+          description: Ytterliger kilder listet på OpenStreetMap-wikien
+          title: Andre kilder
+        overpass: 
+          description: Last ned denne avgrensingsrammen fra et speil av OpenStreetMap-databasen
+          title: Overførings-API
+        planet: 
+          description: Regelmessig oppdaterte kopier av hele OpenStreetMap-databasen
+          title: Planet-OSM
       zoom: Zoom
+    title: Eksporter
   geocoder: 
     description: 
       title: 
@@ -329,8 +379,10 @@ nb:
       title: 
         ca_postcode: Resultat fra <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Resultat fra <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse: Resultater fra <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Resultat fra <a href="http://openstreetmap.org/">Internt</a>
         osm_nominatim: Resultat fra <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
+        osm_nominatim_reverse: Resultater fra <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Resultat fra <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultat fra <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
@@ -343,6 +395,10 @@ nb:
         level8: Bygrense
         level9: Landsbygrense
       prefix: 
+        aerialway: 
+          chair_lift: Stolheis
+          drag_lift: Skitrekk
+          station: Fjellheisstasjon
         aeroway: 
           aerodrome: Flyplass
           apron: Flyrampe
@@ -436,6 +492,7 @@ nb:
           shower: Dusj
           social_centre: Samfunnshus
           social_club: Sosial klubb
+          social_facility: Sosialtjeneste
           studio: Studio
           supermarket: Supermarked
           swimming_pool: Svømmebasseng
@@ -464,6 +521,9 @@ nb:
           "yes": Bru
         building: 
           "yes": Bygning
+        emergency: 
+          fire_hydrant: Brannhydrant
+          phone: Nødtelefon
         highway: 
           bridleway: Ridevei
           bus_guideway: Ledet bussfelt
@@ -485,6 +545,7 @@ nb:
           platform: Perrong
           primary: Primær vei
           primary_link: Primær vei
+          proposed: Foreslått vei
           raceway: Racerbane
           residential: Bolig
           rest_area: Rasteplass
@@ -496,6 +557,7 @@ nb:
           speed_camera: Fotoboks
           steps: Trapper
           stile: Stige
+          street_lamp: Gatelys
           tertiary: Tertiær vei
           tertiary_link: Lokalvei
           track: Sti
@@ -511,6 +573,7 @@ nb:
           building: Bygning
           castle: Slott
           church: Kirke
+          citywalls: Bymurer
           fort: Fort
           house: Hus
           icon: Ikon
@@ -520,6 +583,7 @@ nb:
           monument: Monument
           museum: Museum
           ruins: Ruiner
+          tomb: Grav
           tower: Tårn
           wayside_cross: Veikant kors
           wayside_shrine: Veikant alter
@@ -658,6 +722,7 @@ nb:
           locality: Plass
           moor: Myr
           municipality: Kommune
+          neighbourhood: Naboskap
           postcode: Postnummer
           region: Område
           sea: Hav
@@ -683,8 +748,10 @@ nb:
           narrow_gauge: Smalspor jernbane
           platform: Jernbaneperrong
           preserved: Bevart jernbane
+          proposed: Foreslått jernbane
           spur: Jernbaneforgrening
           station: Jernbanestasjon
+          stop: Jernbaneknutepunkt
           subway: T-banestasjon
           subway_entrance: T-baneinngang
           switch: Sporveksel
@@ -700,6 +767,7 @@ nb:
           beverages: Drikkevarerbutikk
           bicycle: Sykkelbutikk
           books: Bokhandel
+          boutique: Luksusforretning
           butcher: Slakter
           car: Bilbutikk
           car_parts: Bildeler
@@ -713,6 +781,7 @@ nb:
           convenience: Nærbutikk
           copyshop: Kopieringsbutikk
           cosmetics: Kosmetikkforretning
+          deli: Delikatessebutikk
           department_store: Varehus
           discount: Tilbudsbutikk
           doityourself: Gjør-det-selv
@@ -749,17 +818,21 @@ nb:
           organic: Organisk matbutikk
           outdoor: Utendørs butikk
           pet: Dyrebutikk
+          pharmacy: Apotek
           photo: Fotobutikk
           salon: Salong
+          second_hand: Bruktbutikk
           shoes: Skobutikk
           shopping_centre: Kjøpesenter
           sports: Sportsbutikk
           stationery: Papirbutikk
           supermarket: Supermarked
+          tailor: Skredder
           toys: Lekebutikk
           travel_agency: Reisebyrå
           video: Videobutikk
           wine: Utenfor lisens
+          "yes": Butikk
         tourism: 
           alpine_hut: Fjellhytte
           artwork: Kunstverk
@@ -782,6 +855,7 @@ nb:
           viewpoint: Utsiktspunkt
           zoo: Dyrepark
         tunnel: 
+          culvert: Kulvert
           "yes": Tunnel
         waterway: 
           artificial: Kunstig vassdrag
@@ -848,14 +922,17 @@ nb:
       edit_disabled_tooltip: Zoom inn for å redigere kartet
       edit_tooltip: Rediger kartet
   layouts: 
+    about: Om
     community: Samfunnet
     community_blogs: Fellesskapsblogger
     community_blogs_title: Blogger fra medlemmene i OpenStreetMap-felleskapet
     copyright: Opphavsrett
+    data: Data
     donate: Støtt OpenStreetMap ved %{link} til Hardware Upgrade Fund (et fond for maskinvareoppgraderinger).
     edit: Rediger
     edit_with: Rediger med %{editor}
     export: Eksporter
+    export_data: Eksporter data
     foundation: Stiftelse
     foundation_title: OpenStreetMap-stiftelsen
     gps_traces: GPS-spor
@@ -864,6 +941,9 @@ nb:
     history: Historikk
     home: Gå til din brukers hjemmeadresse
     intro_2_create_account: Opprett en brukerkonto
+    intro_header: Velkommen til OpenStreetMap!
+    intro_text: OpenStreetMap er et kart over verden, skapt av mennesker som deg, og gratis å bruke under en åpen lisens.
+    learn_more: Lær mer
     log_in: Logg inn
     log_in_tooltip: Logg inn med en eksisterende konto
     logo: 
@@ -872,6 +952,7 @@ nb:
     make_a_donation: 
       text: Doner
       title: Støtt OpenStreetMap med en donasjon
+    more: Mer
     osm_offline: OpenStreetMap databasen er for øyeblikket utilgjengelig mens essensielt vedlikeholdsarbeid utføres.
     osm_read_only: OpenStreetMap kan ikke redigeres akkurat nå, på grunn av nødvendig vedlikeholdsarbeid.
     partners_bytemark: Bytemark Hosting
@@ -884,6 +965,7 @@ nb:
       title: OpenStreetMap
     sign_up: Registrer deg
     sign_up_tooltip: Opprett en konto for redigering
+    start_mapping: Start kartlegging
     tag_line: Fritt Wiki-verdenskart
     user_diaries: Brukerdagbok
     user_diaries_tooltip: Vis brukerens dagbok
@@ -898,6 +980,7 @@ nb:
         title: Eksempel på kildehenvisning
       contributors_at_html: "<strong>Østerrike</strong>: Inneholder data fra\n   <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> under\n   <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>,\n<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg</a> og\nLand Tirol (under <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY AT med tilføyelser</a>)."
       contributors_ca_html: "<strong>Canada</strong>: Inneholder data fra\n   GeoBase®, GeoGratis (© Department of Natural\n   Resources Canada), CanVec (© Department of Natural\n   Resources Canada), og StatCan (Geography Division,\n   Statistics Canada)."
+      contributors_fi_html: "<strong>Finland</strong>: Inneholder data fra National Land Survey fra Finlands topografiske database og andre datasett under <a href=\"http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501\">NLSFI-lisensen</a>."
       contributors_footer_1_html: For detaljer om disse og andre kilder som har blitt brukt for å forbedre OpenStreetMap, se <a href="http://wiki.openstreetmap.org/wiki/Contributors">siden med bidragsytere</a> på OpenStreetMap-wikien.
       contributors_footer_2_html: "  Inkludering av data i OpenStreetMap innebærer ikke at den opprinnelige\n  dataleverandøren støtter OpenStreetMap, gir noen garanti eller\n  godtar noe erstatningsansvar."
       contributors_fr_html: "<strong>Frankrike</strong>: Inneholder data hentet fra\n   Direction Générale des Impôts."
@@ -1790,3 +1873,24 @@ nb:
       fail: Kunne ikke fjerne rollen "%{role}" fra bruker "%{name}". Sjekk at bruker og rolle er gyldig.
       heading: Bekreft fjerning av rolle
       title: Bekreft fjerning av rolle
+  welcome_page: 
+    add_a_note: 
+      paragraph_1_html: Hvis du bare vil ha rettet en liten detalj, men ikke har tid til å gjøre dette selv, kan du legge inn en kommentar.
+      title: Har du ikke tid til at kartlegge selv? Legg inn en kommentar!
+    basic_terms: 
+      editor_html: En <strong>editor</strong> er et program eller en nettside som kan brukes til å redigere kartet.
+      node_html: En <strong>node</strong> er et enkeltelement på kartet, f.eks. en restaurant eller et tre.
+      paragraph_1_html: OpenStreetMap har sin egen sjargong. Her er en ordliste som kan være nyttig.
+      tag_html: En <strong>tagg</strong> er et informasjonselement om en node eller strekning, f.eks. navnet på en restaurant eller fartsgrensen på en vei.
+      title: Grunnleggende termer
+      way_html: En <strong>strekning</strong> er en linje eller et areal, f.eks. en vei, elv, innsjø eller en bygning.
+    introduction_html: Velkommen til OpenStreetMap, det fri brukerredigerte verdenskartet. Nå som du er opprettet som bruker er du klar til å legge til og endre kartinformasjon. Her er en guide med den viktigste informasjonen for å komme hurtig i gang.
+    questions: 
+      paragraph_1_html: "OpenStreetMap har diverse ressurser for å undervise om prosjektet, som stiller spørsmål og svarer på disse, samt legge til rette for dokumenter og diskusjoner om ulike kartleggingsemner.\n<a href='%{help_url}'>Få hjelp her</a>."
+      title: Noen spørsmål?
+    start_mapping: Start kartlegging
+    title: Velkommen!
+    whats_on_the_map: 
+      off_html: Kartet inneholder <em>ikke</em> subjektiv informasjon (f.eks. anmeldelser), objekter som er er fiktive eller ikke lenger eksisterer, samt opphavsrettslig beskyttede data fra andre kart. Kopier aldri noe som helst informasjon fra andre digitale eller papirbaserte kart, med mindre det foreligger en særlig tillatelse.
+      on_html: OpenStreetMap er et nettsted som lagrer og viser frem fysiske elementer med en fast geografisk plassering - f.eks. millionvis av bygninger, veier og andre stedlige detaljer. Du kan kartlegge alle slike ting fra den virkelige verden som du er interessert i.
+      title: Hva finnes på kartet
