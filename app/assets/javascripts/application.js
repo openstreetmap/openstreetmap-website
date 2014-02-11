@@ -138,7 +138,3 @@ $(document).ready(function () {
     $("header").toggleClass("closed");
   });
 });
-
-if (Math.random() * 100 < 20) {
-  L.OSM.Mapnik.prototype.options.url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-}
