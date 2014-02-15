@@ -112,6 +112,22 @@ class SiteControllerTest < ActionController::TestCase
     get :permalink, :code => 'wBz3--'
     assert_response :redirect
     assert_redirected_to :controller => :site, :action => :index, :anchor => 'map=3/4.8779296875/3.955078125'
+
+    get :permalink, :code => 'wBz3--', :node => 1
+    assert_response :redirect
+    assert_redirected_to :controller => :browse, :action => :node, :id => 1, :anchor => 'map=3/4.8779296875/3.955078125'
+
+    get :permalink, :code => 'wBz3--', :way => 2
+    assert_response :redirect
+    assert_redirected_to :controller => :browse, :action => :way, :id => 2, :anchor => 'map=3/4.8779296875/3.955078125'
+
+    get :permalink, :code => 'wBz3--', :relation => 3
+    assert_response :redirect
+    assert_redirected_to :controller => :browse, :action => :relation, :id => 3, :anchor => 'map=3/4.8779296875/3.955078125'
+
+    get :permalink, :code => 'wBz3--', :changeset => 4
+    assert_response :redirect
+    assert_redirected_to :controller => :browse, :action => :changeset, :id => 4, :anchor => 'map=3/4.8779296875/3.955078125'
   end
 
   # Test the key page
