@@ -113,6 +113,14 @@ class SiteControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :controller => :site, :action => :index, :anchor => 'map=3/4.8779296875/3.955078125'
 
+    get :permalink, :code => 'wBz3--', :m => ''
+    assert_response :redirect
+    assert_redirected_to :controller => :site, :action => :index, :mlat => '4.8779296875', :mlon => '3.955078125', :anchor => 'map=3/4.8779296875/3.955078125'
+
+    get :permalink, :code => 'wBz3--', :layers => 'T'
+    assert_response :redirect
+    assert_redirected_to :controller => :site, :action => :index, :layers => 'T', :anchor => 'map=3/4.8779296875/3.955078125'
+
     get :permalink, :code => 'wBz3--', :node => 1
     assert_response :redirect
     assert_redirected_to :controller => :browse, :action => :node, :id => 1, :anchor => 'map=3/4.8779296875/3.955078125'
