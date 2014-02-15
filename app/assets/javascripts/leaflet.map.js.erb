@@ -148,6 +148,11 @@ L.OSM.Map = L.Map.extend({
     }
 
     var params = {};
+    var layers = this.getLayersCode().replace('M', '');
+
+    if (layers) {
+      params.layers = layers;
+    }
 
     if (marker && this.hasLayer(marker)) {
       params.m = '';
