@@ -78,7 +78,7 @@ function updateLinks(loc, zoom, layers, object) {
 
     args = {
       lat: loc.lat,
-      lon: loc.lon || loc.lng,
+      lon: 'lon' in loc ? loc.lon : loc.lng,
       zoom: zoom
     };
 
