@@ -109,7 +109,7 @@ class UserTest < ActiveSupport::TestCase
     assert !users(:inactive_user).is_friends_with?(users(:normal_user))
     assert !users(:inactive_user).is_friends_with?(users(:public_user))
   end
-  
+
   def test_users_nearby
     # second user has their data public and is close by normal user
     assert_equal [users(:public_user)], users(:normal_user).nearby
@@ -117,8 +117,10 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [], users(:public_user).nearby
     # inactive_user has no user nearby
     assert_equal [], users(:inactive_user).nearby
+    # north_pole_user has no user nearby, and doesn't throw exception
+    assert_equal [], users(:north_pole_user).nearby
   end
-  
+
   def test_friends_with
     # normal user is a friend of second user
     # it should be a one way friend accossitation
@@ -155,7 +157,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_visible
-    assert_equal 14, User.visible.count
+    assert_equal 15, User.visible.count
     assert_raise ActiveRecord::RecordNotFound do
       User.visible.find(users(:suspended_user).id)
     end
@@ -165,7 +167,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_active
-    assert_equal 13, User.active.count
+    assert_equal 14, User.active.count
     assert_raise ActiveRecord::RecordNotFound do
       User.active.find(users(:inactive_user).id)
     end
@@ -178,7 +180,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_public
-    assert_equal 15, User.public.count
+    assert_equal 16, User.public.count
     assert_raise ActiveRecord::RecordNotFound do
       User.public.find(users(:normal_user).id)
     end
