@@ -5,6 +5,7 @@
 //= require leaflet.key
 //= require leaflet.note
 //= require leaflet.share
+//= require leaflet.polyline
 //= require index/search
 //= require index/browse
 //= require index/export
@@ -13,6 +14,8 @@
 //= require index/note
 //= require index/new_note
 //= require router
+//= require routing
+//= require_tree ./routing_engines
 
 (function() {
   var loaderTimeout;
@@ -322,12 +325,18 @@ $(document).ready(function () {
 
   $(".search_form").on("submit", function(e) {
     e.preventDefault();
-    $("header").addClass("closed");
-    var query = $(this).find("input[name=query]").val();
-    if (query) {
-      OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
+    if ($(".query_wrapper.routing").is(":visible")) {
+      // Routing
+      OSM.routing.requestRoute(true);
     } else {
-      OSM.router.route("/" + OSM.formatHash(map));
+      // Search
+      $("header").addClass("closed");
+      var query = $(this).find("input[name=query]").val();
+      if (query) {
+        OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
+      } else {
+        OSM.router.route("/" + OSM.formatHash(map));
+      }
     }
   });
 
@@ -338,4 +347,31 @@ $(document).ready(function () {
       map.getCenter().lat.toFixed(precision) + "," +
       map.getCenter().lng.toFixed(precision)));
   });
+
+  OSM.routing = OSM.Routing(map,'OSM.routing',$('.query_wrapper.routing'));
+  OSM.routing.chooseEngine('javascripts.directions.engines.osrm_car');
+
+  $(".get_directions").on("click",function(e) {
+    e.preventDefault();
+    $(".search").hide();
+    $(".routing").show();
+    $(".query_wrapper.routing [name=route_from]").focus();
+    $("#map").on('dragend dragover',function(e) { e.preventDefault(); });
+    $("#map").on('drop',function(e) { OSM.routing.handleDrop(e); });
+    $(".routing_marker").on('dragstart',function(e) {
+    e.originalEvent.dataTransfer.effectAllowed = 'move';
+      e.originalEvent.dataTransfer.setData('id', this.id);
+    });
+  });
+
+  $(".close_directions").on("click",function(e) {
+    e.preventDefault();
+    $(".search").show();
+    $(".routing").hide();
+    OSM.routing.close();
+    $("#map").off('dragend drop dragover');
+    $(".routing_marker").off('dragstart');
+    $(".query_wrapper.search [name=query]").focus();
+  });
+
 });
