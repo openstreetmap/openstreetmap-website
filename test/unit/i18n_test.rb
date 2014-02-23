@@ -48,6 +48,8 @@ class I18nTest < ActiveSupport::TestCase
           end
         end
       end
+
+      assert ["ltr", "rtl"].include?(I18n.t("html.dir", :locale => locale)), "html.dir must be ltr or rtl"
     end
   end
 private
