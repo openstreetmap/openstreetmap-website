@@ -3,8 +3,6 @@
 // http://open.mapquestapi.com/directions/
 // https://github.com/apmon/openstreetmap-website/blob/21edc353a4558006f0ce23f5ec3930be6a7d4c8b/app/controllers/routing_controller.rb#L153
 
-// *** needs to give credit
-
 OSM.RoutingEngines.list.push({
 	name: "javascripts.directions.engines.mapquest_bike",
 	creditline: 'Directions courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
