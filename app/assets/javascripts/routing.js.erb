@@ -252,6 +252,9 @@ OSM.Routing=function(map,name,jqSearch) {
 	// Choose an engine on dropdown change
 	r.selectEngine=function(e) {
 		r.chosenEngine=r.engines[e.target.selectedIndex];
+		if (r.polyline){ // and if a route is currently showing, must also refresh, else confusion
+			r.requestRoute(true);
+		}
 	};
 	// Choose an engine by name
 	r.chooseEngine=function(name) {
