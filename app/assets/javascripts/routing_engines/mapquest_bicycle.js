@@ -7,6 +7,7 @@
 
 OSM.RoutingEngines.list.push({
 	name: "javascripts.directions.engines.mapquest_bike",
+	creditline: 'Directions courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
 	draggable: false,
 	_hints: {},
 	MQ_SPRITE_MAP: {

@@ -2,6 +2,7 @@
 
 OSM.RoutingEngines.list.push({    
     name: "javascripts.directions.engines.graphhopper_bike",
+    creditline: 'Directions courtesy of <a href="http://graphhopper.com/routing/" target="_blank">Graphhopper</a>',
     draggable: true,
     _hints: {},
     getRoute: function(isFinal, points) {

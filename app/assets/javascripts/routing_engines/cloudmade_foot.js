@@ -5,6 +5,7 @@
 
 OSM.RoutingEngines.list.push({
 	name: "javascripts.directions.engines.cloudmade_foot",
+	creditline: 'Directions courtesy of <a href="http://cloudmade.com/products/routing" target="_blank">Cloudmade</a>',
 	draggable: false,
 	CM_SPRITE_MAP: {
 		"C": 1,

@@ -4,6 +4,7 @@
 
 OSM.RoutingEngines.list.push({
 	name: "javascripts.directions.engines.osrm_car",
+	creditline: 'Directions courtesy of <a href="http://project-osrm.org/" target="_blank">OSRM</a>',
 	draggable: true,
 	_hints: {},
 	getRoute: function(isFinal,points) {
