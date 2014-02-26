@@ -12,5 +12,5 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/srv/openstreetmap-website"
 
   # provision using a simple shell script
-  config.vm.provision :shell, :path => "config/vagrant/provision.sh"
+  config.vm.provision :shell, :path => "script/vagrant/setup/provision.sh"
 end
