@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class UserBlocksTest < ActionDispatch::IntegrationTest
   fixtures :users, :user_blocks, :user_roles
