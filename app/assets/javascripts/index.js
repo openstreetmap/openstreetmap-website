@@ -333,7 +333,7 @@ $(document).ready(function () {
 
   $(".describe_location").on("click", function(e) {
     e.preventDefault();
-    var precision = zoomPrecision(map.getZoom());
+    var precision = OSM.zoomPrecision(map.getZoom());
     OSM.router.route("/search?query=" + encodeURIComponent(
       map.getCenter().lat.toFixed(precision) + "," +
       map.getCenter().lng.toFixed(precision)));

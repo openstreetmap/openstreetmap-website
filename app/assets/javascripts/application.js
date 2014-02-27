@@ -20,10 +20,6 @@
 
 var querystring = require('querystring-component');
 
-function zoomPrecision(zoom) {
-    return Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
-}
-
 function remoteEditHandler(bbox, object) {
   var loaded = false,
       query = {
