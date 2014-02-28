@@ -114,16 +114,25 @@ private
         lang = 'en'
       end
     elsif key =~ /^wikipedia:(\S+)$/
-      # Language is in the key, so assume value is a simple title
+      # Language is in the key, so assume value is the title
       lang = $1
     else
       # Not a wikipedia key!
       return nil
     end
 
+    if value =~ /^([^#]*)(#.*)/ then
+      # Contains a reference to a section of the wikipedia article
+      # Must break it up to correctly build the url
+      value = $1
+      section = $2
+    else
+      section = ""
+    end
+
     return {
-      :url => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}",
-      :title => value
+      :url => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}#{section}",
+      :title => value + section
     }
   end
 end
