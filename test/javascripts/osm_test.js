@@ -2,6 +2,9 @@
 //= require jquery.cookie
 //= require osm
 //= require leaflet
+//= require leaflet.osm
+//= require leaflet.map
+//= require i18n/translations
 //= require querystring
 
 var querystring = require('querystring-component');
@@ -225,6 +228,25 @@ describe("OSM", function () {
       expect(OSM.zoomPrecision(18)).to.eq(5);
       expect(OSM.zoomPrecision(19)).to.eq(5);
       expect(OSM.zoomPrecision(20)).to.eq(5);
+    });
+  });
+
+  describe(".locationCookie", function () {
+    it("creates a location cookie value", function () {
+      $("body").html($("<div id='map'>"));
+      var map = new L.OSM.Map("map", { center: [57.6247, -3.6845], zoom: 9 });
+      map.updateLayers("");
+      expect(OSM.locationCookie(map)).to.eq("-3.6845|57.6247|9|M");
+    });
+
+    it("respects zoomPrecision", function () {
+      $("body").html($("<div id='map'>"));
+      var map = new L.OSM.Map("map", { center: [57.6247, -3.6845], zoom: 9 });
+      map.updateLayers("");
+      expect(OSM.locationCookie(map)).to.eq("-3.6845|57.6247|9|M");
+
+      map.setZoom(5);
+      expect(OSM.locationCookie(map)).to.eq("-3.685|57.625|5|M");
     });
   });
 });
