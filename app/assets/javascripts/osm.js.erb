@@ -165,7 +165,12 @@ OSM = {
     return hash;
   },
 
-  zoomPrecision: function (zoom) {
+  zoomPrecision: function(zoom) {
     return Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
+  },
+
+  locationCookie: function(map) {
+    var center = map.getCenter().wrap();
+    return [center.lng, center.lat, map.getZoom(), map.getLayersCode()].join('|');
   }
 };

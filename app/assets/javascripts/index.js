@@ -151,7 +151,7 @@ $(document).ready(function () {
       map._object);
 
     $.removeCookie("_osm_location");
-    $.cookie("_osm_location", cookieContent(map), { expires: expiry, path: "/" });
+    $.cookie("_osm_location", OSM.locationCookie(map), { expires: expiry, path: "/" });
   });
 
   if ($.cookie('_osm_welcome') == 'hide') {

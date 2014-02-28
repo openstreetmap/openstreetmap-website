@@ -97,12 +97,6 @@ function updateLinks(loc, zoom, layers, object) {
       I18n.t('javascripts.site.edit_disabled_tooltip') : '');
 }
 
-// generate a cookie-safe string of map state
-function cookieContent(map) {
-  var center = map.getCenter().wrap();
-  return [center.lng, center.lat, map.getZoom(), map.getLayersCode()].join('|');
-}
-
 function escapeHTML(string) {
   var htmlEscapes = {
     '&': '&amp;',
