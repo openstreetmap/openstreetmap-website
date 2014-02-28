@@ -170,7 +170,9 @@ OSM = {
   },
 
   locationCookie: function(map) {
-    var center = map.getCenter().wrap();
-    return [center.lng, center.lat, map.getZoom(), map.getLayersCode()].join('|');
+    var center = map.getCenter().wrap(),
+      zoom = map.getZoom(),
+      precision = OSM.zoomPrecision(zoom);
+    return [center.lng.toFixed(precision), center.lat.toFixed(precision), zoom, map.getLayersCode()].join('|');
   }
 };
