@@ -4,7 +4,7 @@ class NodeTest < ActiveSupport::TestCase
   api_fixtures
   
   def test_node_count
-    assert_equal 17, Node.count
+    assert_equal 18, Node.count
   end
 
   def test_node_too_far_north

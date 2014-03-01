@@ -24,11 +24,16 @@ module BrowseHelper
   end
 
   def link_class(type, object)
+    classes = [ type ]
+
     if object.redacted?
-      type + " deleted"
+      classes << "deleted"
     else
-      type + " " + h(icon_tags(object).join(' ')) + (object.visible == false ? ' deleted' : '')
+      classes += icon_tags(object).flatten.map { |t| h(t) }
+      classes << "deleted" unless object.visible?
     end
+
+    classes.join(" ")
   end
 
   def link_title(object)
