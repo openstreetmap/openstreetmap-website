@@ -211,6 +211,8 @@ OSM.Routing=function(map,name,jqSearch) {
 			$('#turnbyturn').append(row);
 			cumulative+=step[3];
 		}
+		$('#sidebar_content').append('<p id="routing_credit">' + r.chosenEngine.creditline + '</p>');
+
 	};
 	r.clickTurn=function(num,latlng) {
 		r.popup=L.popup().setLatLng(latlng).setContent("<p>"+(num+1)+"</p>").openOn(r.map);
