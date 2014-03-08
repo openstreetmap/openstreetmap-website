@@ -44,7 +44,7 @@ GraphHopperEngine.prototype.createConfig = function() {
                 var distInMeter = instr.distances[i];
                 steps.push([{lat: latlng[0], lng: latlng[1]}, instrCode, instrText, distInMeter]);
             }
-            router.setItinerary({steps: steps});
+            router.setItinerary({ steps: steps, distance: data.route.distance, time: data.route['time']/1000 });
             return true;
         },
         GH_INSTR_MAP: {

@@ -194,7 +194,10 @@ OSM.Routing=function(map,name,jqSearch) {
 		$('#sidebar_content').empty();
 		var html=('<h2><a class="geolink" href="#" onclick="$(~.close_directions~).click();return false;">' +
 		          '<span class="icon close"></span></a>' + I18n.t('javascripts.directions.directions') + 
-		          '</h2><table id="turnbyturn" />').replace(/~/g,"'");
+		          '</h2><p id="routing_summary">' + 
+		          I18n.t('javascripts.directions.distance') + ': ' + r.formatDistance(data.distance)+ '. ' +
+		          I18n.t('javascripts.directions.time'    ) + ': ' + r.formatTime(data.time) + '.</p>' +
+		          '<table id="turnbyturn" />').replace(/~/g,"'");
 		$('#sidebar_content').html(html);
 		// Add each row
 		var cumulative=0;
@@ -223,6 +226,15 @@ OSM.Routing=function(map,name,jqSearch) {
 	};
 	r.clickTurn=function(num,latlng) {
 		r.popup=L.popup().setLatLng(latlng).setContent("<p>"+(num+1)+"</p>").openOn(r.map);
+	};
+	r.formatDistance=function(m) {
+		if      (m < 1000 ) { return Math.round(m) + "m"; }
+		else if (m < 10000) { return (m/1000.0).toFixed(1) + "km"; }
+		else                { return Math.round(m / 1000)  + "km"; }
+	};
+	r.formatTime=function(s) {
+		var d=new Date(s*1000); var h=d.getHours(); var m=d.getMinutes();
+		return h+":"+(m<10 ? '0' : '')+m;
 	};
 
 	// Close all routing UI

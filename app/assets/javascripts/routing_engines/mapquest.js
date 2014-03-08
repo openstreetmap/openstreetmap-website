@@ -47,7 +47,7 @@ MapQuestEngine.prototype.createConfig = function() {
 			url+="&"+that.vehicleParam;
 			//url+="&locale=" + I18n.currentLocale(); //Doesn't actually work. MapQuest requires full locale e.g. "de_DE", but I18n only provides language, e.g. "de"
 			url+="&manMaps=false";
-			url+="&shapeFormat=raw&generalize=0";
+			url+="&shapeFormat=raw&generalize=0&unit=k";
 			this.requestCORS(url);
 		},
 		gotRoute: function(router,data) {
@@ -69,7 +69,7 @@ MapQuestEngine.prototype.createConfig = function() {
 				var d=(i==mq.length-1) ? 15: this.MQ_SPRITE_MAP[s.turnType];
 				steps.push([L.latLng(s.startPoint.lat, s.startPoint.lng), d, s.narrative, s.distance*1000]);
 			}
-			router.setItinerary( { steps: steps });
+			router.setItinerary( { steps: steps, distance: data.route.distance*1000, time: data.route['time'] });
 			return true;
 		}
 	};
