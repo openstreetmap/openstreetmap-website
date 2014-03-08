@@ -48,7 +48,7 @@ MapQuestEngine.prototype.createConfig = function() {
 			//url+="&locale=" + I18n.currentLocale(); //Doesn't actually work. MapQuest requires full locale e.g. "de_DE", but I18n only provides language, e.g. "de"
 			url+="&manMaps=false";
 			url+="&shapeFormat=raw&generalize=0";
-			this.requestJSONP(url+"&callback=");
+			this.requestCORS(url);
 		},
 		gotRoute: function(router,data) {
 			// *** what if no route?

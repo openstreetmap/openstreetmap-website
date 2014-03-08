@@ -24,7 +24,7 @@ OSRMEngine.prototype.createConfig = function() {
 				if (this._hints[pair]) url+= "&hint="+this._hints[pair];
 			}
 			if (isFinal) url+="&instructions=true";
-			this.requestJSONP(url+"&jsonp=");
+			this.requestCORS(url);
 		},
 		gotRoute: function(router,data) {
 			if (data.status==207) {

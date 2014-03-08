@@ -248,6 +248,9 @@ OSM.Routing=function(map,name,jqSearch) {
 				script.src = url+r.name+".gotRoute"+num;
 				document.body.appendChild(script); 
 			};
+			list[num].requestCORS=function(url) {
+				$.ajax({ url: url, method: "GET", data: {}, dataType: 'json', success: r['gotRoute'+num] });
+			};
 			r['gotRoute'+num]=function(data) { 
 				r.awaitingRoute=false;
 				$(".query_wrapper.routing .spinner").hide();
