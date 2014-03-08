@@ -327,7 +327,7 @@ $(document).ready(function () {
     e.preventDefault();
     if ($(".query_wrapper.routing").is(":visible")) {
       // Routing
-      OSM.routing.requestRoute(true);
+      OSM.routing.requestRoute(true, false);
     } else {
       // Search
       $("header").addClass("closed");
