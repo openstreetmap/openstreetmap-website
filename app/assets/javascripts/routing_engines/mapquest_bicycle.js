@@ -60,5 +60,6 @@ OSM.RoutingEngines.list.push({
 			steps.push([L.latLng(s.startPoint.lat, s.startPoint.lng), d, s.narrative, s.distance*1000]);
 		}
 		router.setItinerary( { steps: steps });
+		return true;
 	}
 });

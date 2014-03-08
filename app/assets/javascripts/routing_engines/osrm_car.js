@@ -19,7 +19,6 @@ OSM.RoutingEngines.list.push({
 	},
 	gotRoute: function(router,data) {
 		if (data.status==207) {
-			alert("Couldn't find route between those two places");
 			return false;
 		}
 		// Draw polyline
@@ -39,5 +38,6 @@ OSM.RoutingEngines.list.push({
 			steps.push([line[s[3]], s[0].split('-')[0], instText, s[2]]);
 		}
 		if (steps.length) router.setItinerary({ steps: steps });
+		return true;
 	}
 });

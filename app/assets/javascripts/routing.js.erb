@@ -56,6 +56,7 @@ OSM.Routing=function(map,name,jqSearch) {
 	r.route_to=null;		//  |
 	r.awaitingGeocode=false;// true if the user has requested a route, but we're waiting on a geocode result
 	r.awaitingRoute=false;	// true if we've asked the engine for a route and are waiting to hear back
+	r.dragging=false;		// true if the user is dragging a start/end point
 	r.viaPoints=[];			// not yet used
 
 	r.polyline=null;		// Leaflet polyline object
@@ -97,7 +98,7 @@ OSM.Routing=function(map,name,jqSearch) {
 	
 	r._gotGeocode=function(json,field) {
 		if (json.length==0) {
-			alert("Sorry, couldn't find that place."); 	// *** internationalise
+			alert(I18n.t('javascripts.directions.errors.no_place'));
 			r[field.id]=null;
 			return;
 		}
@@ -143,10 +144,11 @@ OSM.Routing=function(map,name,jqSearch) {
 	};
 	// Marker has been dragged
 	r.markerDragged=function(e) {
-		if (e.type=='drag' && !r.chosenEngine.draggable) return;
-		if (e.type=='drag' && r.awaitingRoute) return;
+		r.dragging=(e.type=='drag');	// true for drag, false for dragend
+		if (r.dragging && !r.chosenEngine.draggable) return;
+		if (r.dragging && r.awaitingRoute) return;
 		r.setNumericInput(e.target.getLatLng(), e.target.options.name);
-		r.requestRoute(e.type=='dragend', false);
+		r.requestRoute(!r.dragging, false);
 	};
 	// Set a route input field to a numeric value
 	r.setNumericInput=function(ll,id) {
@@ -247,8 +249,16 @@ OSM.Routing=function(map,name,jqSearch) {
 				document.body.appendChild(script); 
 			};
 			r['gotRoute'+num]=function(data) { 
-				r.awaitingRoute=false; list[num].gotRoute(r,data);
+				r.awaitingRoute=false;
 				$(".query_wrapper.routing .spinner").hide();
+				if (!list[num].gotRoute(r,data)) {
+					// No route found
+					if (r.polyline) {
+						map.removeLayer(r.polyline);
+						r.polyline=null;
+					}
+					if (!r.dragging) { alert(I18n.t('javascripts.directions.errors.no_route')); }
+				}
 			};
 		}
 		select.append("<option value='"+i+"'>"+I18n.t(list[i].name)+"</option>");

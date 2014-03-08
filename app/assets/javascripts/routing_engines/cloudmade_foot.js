@@ -28,6 +28,7 @@ OSM.RoutingEngines.list.push({
 		url+="/foot.js";
         url+="?lang=" + I18n.currentLocale();
 		this.requestJSONP(url+"&callback=");
+		return true;
 	},
 	gotRoute: function(router,data) {
 		router.setPolyline(data.route_geometry);
