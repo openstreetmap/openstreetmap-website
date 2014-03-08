@@ -1,9 +1,11 @@
-<%= form_tag search_path, :class => "search_form" do %>
+<form method="GET" action="<%= search_path %>" class="search_form">
+
   <div class='query_options search'>
     <%= link_to t('site.search.where_am_i'), '#', { :class => "describe_location", :title => t('site.search.where_am_i_title') } %>
     &middot;
     <%= link_to t('site.search.get_directions'), '#', { :class => "get_directions", :title => t('site.search.get_directions_title') } %>
   </div>
+
   <div class='query_options routing'>
     <%= link_to t('site.search.close_directions'), '#', { :class => "close_directions", :title => t('site.search.close_directions_title') } %>
   </div>
@@ -23,4 +25,4 @@
     <%= image_tag "searching-small.gif", :class => 'spinner', :style => "vertical-align: middle; display: none;" %>
   </div>
 
-<% end %>
+</form>

@@ -7,7 +7,9 @@
 mr: 
   about_page: 
     copyright_html: <span>&copy;</span>ओपनस्ट्रीटमॅप<br>योगदाते
+    local_knowledge_title: स्थानिक ज्ञान
     next: पुढील
+    partners_title: भागीदार
   activerecord: 
     attributes: 
       diary_comment: 
@@ -16,7 +18,7 @@ mr:
         language: भाषा
         latitude: अक्षांश
         longitude: रेखांश
-        title: शीर्षक
+        title: विषय
         user: सदस्य
       friend: 
         friend: मित्र
@@ -25,7 +27,7 @@ mr:
         body: मायना
         recipient: प्राप्तकर्ता
         sender: प्रेषक
-        title: शीर्षक
+        title: विषय
       trace: 
         description: वर्णन
         latitude: अक्षांश
@@ -56,13 +58,13 @@ mr:
       node_tag: गाठीची खूणपताका
       notifier: अधिसूचक
       old_node: जुनी गाठ
-      old_node_tag: गाठीची जुनी खूणपताका
+      old_node_tag: जून्या गाठीची खूणपताका
       old_relation: जुना संबंध
       old_relation_member: संबंधाचा जुना सदस्य
-      old_relation_tag: संबंधाची जुनी खूणपताका
+      old_relation_tag: जून्या संबंधाची खूणपताका
       old_way: जुना मार्ग
       old_way_node: मार्गातील जुनी गाठ
-      old_way_tag: मार्गाची जुनी खूणपताका
+      old_way_tag: जून्या मार्गाची खूणपताका
       relation: संबंध
       relation_member: संबंधाचा सदस्य
       relation_tag: संबंधाची खूणपताका
@@ -92,14 +94,18 @@ mr:
       title: "बदलसंच: %{id}"
       way: मार्ग (%{count})
       way_paginated: मार्ग (%{x}-%{y}, %{count} पैकी)
-    closed: बंद केला
+    closed: बंद केले
+    closed_by_html: <abbr title='%{title}'>%{time} पूर्वी</abbr>%{user} द्वारे बंद केले
     closed_html: <abbr title='%{title}'>%{time} पूर्वी</abbr> बंद केला
     containing_relation: 
       entry: संबंध %{relation_name}
       entry_role: संबंध %{relation_name} (%{relation_role} म्हणून)
-    created: तयार केला
-    created_html: <abbr title='%{title}'>%{time} पूर्वी</abbr> तयार केला
+    created: बनविले
+    created_by_html: <abbr title='%{title}'>%{time} पूर्वी</abbr>  %{user} द्वारे तयार केले
+    created_html: <abbr title='%{title}'>%{time} पूर्वी</abbr> बनविले
+    deleted_by_html: <abbr title='%{title}'>%{time} पूर्वी</abbr>%{user} द्वारे गाळले
     download_xml: XML उतरवा
+    edited_by_html: <abbr title='%{title}'>%{time} पूर्वी</abbr>  %{user} द्वारे संपादन केले
     in_changeset: बदलसंच
     location: "ठिकाण:"
     no_comment: (वर्णन नाही)
@@ -107,17 +113,22 @@ mr:
       history_title: "गाठीचा इतिहास: %{name}"
       title: "गाठ: %{name}"
     not_found: 
-      sorry: क्षमा असावी, %{id} क्रमांका%{type} नाही.
+      sorry: "क्षमा असावी, %{type} #%{id} सापडले नाही."
       type: 
         changeset: चा बदलसंच सापडला
-        node: ची गाठ सापडली
-        relation: चा संबंध सापडला
-        way: चा मार्ग सापडला
+        node: गाठ
+        relation: संबंध
+        way: मार्ग
     note: 
-      closed_title: निराकरण झालेली टीप क्र. %{note_name}
-      hidden_title: लपविलेली टीप क्र. %{note_name}
+      closed_by: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ने वियोजित केले
+      closed_title: "निराकरण झालेली टीप #%{note_name}"
+      commented_by: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ची टिप्पणी
+      hidden_by: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ने लपविले
+      hidden_title: "लपविलेली टीप #%{note_name}"
       new_note: नवी टीप
-      open_title: निराकरण न झालेली टीप क्र. %{note_name}
+      open_by: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ने तयार केले
+      open_title: "निराकरण न झालेली टीप #%{note_name}"
+      reopened_by: <abbr title='%{exact_time}'>%{when} पूर्वी</abbr>%{user} ने सक्रिय केले
       title: "टीप: %{id}"
     part_of: चा भाग
     redacted: 
@@ -125,8 +136,8 @@ mr:
       redaction: लोपन %{id}
       type: 
         node: गाठी
-        relation: संबंधा
-        way: मार्गा
+        relation: संबंध
+        way: मार्ग
     relation: 
       history_title: "संबंधाचा इतिहास: %{name}"
       members: सदस्य
@@ -138,7 +149,8 @@ mr:
         relation: संबंध
         way: मार्ग
     start_rjs: 
-      load_data: माहितीचे भारण करा
+      feature_warning: "%{num_features} प्रारुपाचे प्रभारण करीत आहे ज्याने आपला न्याहाळक मंद अथवा प्रतिसादशून्य होईल.आपणास खात्री आहे काय की आपणास डाटा दर्शवायचा आहे."
+      load_data: डाटाचे भारण करा
       loading: प्रभारण करीत आहे
     tag_details: 
       tags: खूणपताका
@@ -147,12 +159,12 @@ mr:
         tag: "%{key}=%{value} खूणपताकेसाठी विकी वर्णन पान"
       wikipedia_link: विकिपिडियावरील %{page} हा लेख
     timeout: 
-      sorry: क्षमा असावी, %{id} क्रमांकाच्या %{type}ची माहिती मिळविण्यास फार वेळ लागला.
+      sorry: क्षमा असावी, %{id}असलेला %{type}चा डाटा मिळविण्यास फार वेळ लागला.
       type: 
-        changeset: बदलसंचा
+        changeset: बदलसंच
         node: गाठी
-        relation: संबंधा
-        way: मार्गा
+        relation: संबंध
+        way: मार्ग
     version: आवृत्ती
     view_details: तपशील पहा
     view_history: इतिहास पहा
@@ -182,6 +194,7 @@ mr:
       empty: बदलसंच सापडले नाहीत.
       empty_area: ह्या भागात बदलसंच नाहीत.
       empty_user: ह्या सदस्याचे बदलसंच नाहीत.
+      load_more: अधिक प्रभारण करा
       no_more: अधिक बदलसंच सापडले नाहीत.
       no_more_area: ह्या भागात अधिक बदलसंच नाहीत.
       no_more_user: ह्या सदस्याचे अधिक बदलसंच नाहीत.
@@ -259,9 +272,9 @@ mr:
       heading: "%{id} क्रमांकाची नोंद अस्तित्वात नाही"
       title: अनुदिनीत अशी नोंद नाही
     view: 
-      leave_a_comment: अभिप्राय लिहा
+      leave_a_comment: टिप्पणी टाका
       login: सनोंद-प्रवेश करा
-      login_to_leave_a_comment: अभिप्राय लिहिण्यासाठी %{login_link}
+      login_to_leave_a_comment: टिप्प्णी लिहिण्यासाठी %{login_link}
       save_button: जतन करा
       title: "%{user}ची अनुदिनी | %{title}"
       user_title: "%{user}ची अनुदिनी"
@@ -271,11 +284,11 @@ mr:
       description: iD (न्याहाळकात चालणारा संपादक)
       name: iD
     potlatch: 
-      description: Potlatch 1 (न्याहाळकात चालणारा संपादक)
-      name: Potlatch 1
+      description: पॉटलॅच १ (न्याहाळकात चालणारा संपादक)
+      name: पॉटलॅच १
     potlatch2: 
-      description: Potlatch 2 (न्याहाळकात चालणारा संपादक)
-      name: Potlatch 2
+      description: पॉटलॅच २ (न्याहाळकात चालणारा संपादक)
+      name: पॉटलॅच २
     remote: 
       description: सुदूर नियंत्रण (JOSM अथवा Merkaartor)
       name: सुदूर नियंत्रण
@@ -283,8 +296,9 @@ mr:
     start: 
       add_marker: नकाशावर दर्शकचिन्ह जोडा
       area_to_export: निर्यात करावयाचे क्षेत्र
-      embeddable_html: अंतःस्थापनासाठी HTML
+      embeddable_html: अंतःस्थापन करण्याजोगी HTML
       export_button: निर्यात
+      export_details: ओपनस्ट्रीटमॅप डाटा हा <a href="http://opendatacommons.org/licenses/odbl/1.0/"> परवान्यांतर्गत आहे.ओपन डाटा कॉमन्स ओपन डाटाबेस परवाना</a> (ODbL).
       format: आराखडा
       format_to_export: निर्यातीचे प्रारुप
       image_size: चित्राचा आकार
@@ -292,18 +306,19 @@ mr:
       licence: परवाना
       longitude: "रेखांश:"
       manually_select: वेगळे क्षेत्र निवडा
-      map_image: नकाशा (प्रमाण स्तर दाखविते)
+      map_image: नकाशा चित्र (प्रमाणित स्तर दाखविते)
       max: कमाल
       options: विकल्प
+      osm_xml_data: ओपनस्ट्रीटमॅप XML डाटा
       output: उत्पादन
       paste_html: संकेतस्थळावर अंतःस्थापनासाठी HTML चिकटवा
       scale: प्रमाण
       too_large: 
         advice: "जर वरील निर्यात करण्यास अपयश आले, तर कृपया खालील स्रोत वापरण्याचा विचार करा :"
-        body: हे क्षेत्र OpenStreetMap XML Data म्हणून निर्यात करण्यास खूपच मोठे आहे.कृपया लहान करा किंवा लहान क्षेत्र निवडा.
+        body: हे क्षेत्र OpenStreetMap XML Data म्हणून निर्यात करण्यास खूपच मोठे आहे.कृपया लहान करा किंवा लहान क्षेत्र निवडा किंवा मोठ्या प्रमाणात डाटाचे अधिभारणासाठी खालील यादी केलेल्या स्रोतांपैकी एकाचा वापर करा.
         geofabrik: 
           description: नियमितपणे अद्ययावत केले जाणारे खंड, देश, व निवडक शहरांचे उतारे
-          title: गियोफाब्रिक डाउनलोड्स्
+          title: जियोफेब्रिक अधिभारण
         metro: 
           description: जगातील प्रमुख शहरे व त्यांच्या सभोवतालीच्या क्षेत्रांचे उतारे
           title: मेट्रो एक्स्ट्रॅक्ट्स्
@@ -311,13 +326,22 @@ mr:
           description: ओपनस्ट्रीटमॅप विकीवर सूचीबद्ध अतिरिक्त स्रोत
           title: इतर स्रोत
         overpass: 
-          title: ओव्हरपास API
+          description: ओपनस्ट्रीटमॅप प्रतिमा डाटाबेसमधून  बंधनपेटीचे(बाउंडिंग बॉक्स) अधिभारण करा
+          title: API टाळा
         planet: 
+          description: संपूर्ण ओपनस्ट्रीटमॅप डाटाबेसच्या नियमित अद्यतन केलेल्या प्रती
           title: प्लॅनेट OSM
       zoom: मोठे करा
     title: निर्यात
+  fixthemap: 
+    how_to_help: 
+      title: मदत कशी करावी
+    title: समस्या नोंदवा/नकाशा नीयत करा
   geocoder: 
     description: 
+      title: 
+        geonames: स्थान <a href="http://www.geonames.org/">जिओनेम्स मार्फत</a>
+        osm_nominatim: स्थान <a href="http://nominatim.openstreetmap.org/">ओपनस्ट्रीटमॅप नॉमिनॅटिम मार्फत</a>
       types: 
         cities: शहरे
         places: ठिकाणे
@@ -338,6 +362,16 @@ mr:
     results: 
       more_results: अधिक निकाल
       no_results: परिणाम सापडले नाही
+    search: 
+      title: 
+        ca_postcode: निकाल <a href="http://geocoder.ca/">जिओकोडर.सीए</a>
+        geonames: निकाल <a href="http://www.geonames.org/">जिओनेम्स</a>
+        geonames_reverse: निकाल <a href="http://www.geonames.org/">जिओनेम्स</a>
+        latlon: निकाल <a href="http://openstreetmap.org/">अंतर्गत</a>
+        osm_nominatim: निकाल <a href="http://nominatim.openstreetmap.org/">ओपनस्ट्रीटमॅप नॉमिनॅटिम</a>
+        osm_nominatim_reverse: निकाल <a href="http://nominatim.openstreetmap.org/">ओपनस्ट्रीटमॅप नॉमिनॅटिम</a>
+        uk_postcode: निकाल<a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
+        us_postcode: निकाल <a href="http://geocoder.us/">जिओकोडर.यूएस</a>
     search_osm_nominatim: 
       admin_levels: 
         level10: उपनगर सिमा
@@ -350,6 +384,7 @@ mr:
       prefix: 
         aerialway: 
           chair_lift: खुर्ची उद्वाहन
+          drag_lift: खेच उद्वाहन
           station: रज्जुमार्ग स्थानक
         aeroway: 
           aerodrome: विमानतळ
@@ -357,10 +392,10 @@ mr:
           gate: द्वार
           helipad: हेलिपॅड
           runway: धावपट्टी
-          taxiway: खेचमार्ग
+          taxiway: विमानखेचमार्ग
           terminal: अग्र
         amenity: 
-          WLAN: वायफाय पोच
+          WLAN: वायफाय पोहोच
           airport: विमानतळ
           arts_centre: कलाकेंद्र
           artwork: कलाकृति
@@ -415,8 +450,8 @@ mr:
           library: ग्रंथालय
           market: बाजार
           marketplace: बाजार
-          mountain_rescue: पर्वत बचाव
-          nightclub: निशा क्लब
+          mountain_rescue: पर्वत सुटकामार्ग
+          nightclub: रात्री क्लब
           nursery: बालवाडी
           nursing_home: शुश्रुषागृह
           office: कार्यालय
@@ -435,13 +470,15 @@ mr:
           reception_area: स्वागत क्षेत्र
           recycling: पुनश्चक्रण केंद्र
           restaurant: उपाहारगृह
-          retirement_home: निवृत्तीगृह
+          retirement_home: आरामगृह
           sauna: सॉना
           school: शाळा
           shelter: आश्रयस्थान
           shop: दुकान
+          shopping: खरेदी
           shower: तुषारक
           social_centre: समाज केंद्र
+          social_club: समाज क्लब
           social_facility: सामाजिक सुविधा
           studio: कलागृह
           supermarket: सुपरमार्केट
@@ -454,8 +491,9 @@ mr:
           university: विद्यापीठ
           vending_machine: विक्रययंत्र
           veterinary: पशू शल्यक्रिया
+          village_hall: गाव सभागृह
           waste_basket: कचरा टोपली
-          wifi: वायफाय पोच
+          wifi: वायफाय पोहोच
           youth_centre: युवक केंद्र
         boundary: 
           administrative: प्रशासकीय सीमा
@@ -464,8 +502,9 @@ mr:
           protected_area: संरक्षित क्षेत्र
         bridge: 
           aqueduct: जलसेतू
-          suspension: लटकता पूल
+          suspension: टांगलेला पूल
           swing: झुलता पूल
+          viaduct: उंच पूल
           "yes": पूल
         building: 
           "yes": इमारत
@@ -474,18 +513,23 @@ mr:
           phone: संकटकालीन दूरध्वनी
         highway: 
           bridleway: अश्वमार्ग
+          bus_guideway: गायडेड बस लेन
           bus_stop: बस थांबा
           byway: उपमार्ग
-          construction: निर्माणाधीन मार्ग
+          construction: निर्माणाधीन महामार्ग
           cycleway: सायकल मार्ग
-          emergency_access_point: आकस्मिक पोच बिंदू
+          emergency_access_point: आकस्मिक पोहोच बिंदू
           footway: पदपथ
+          ford: पाय-उतार
+          living_street: निवासी रस्ता
           milestone: मैलदगड
           minor: किरकोळ रस्ता
-          motorway: द्रुतगतीमार्ग
+          motorway: मोटारमार्ग
+          motorway_junction: मोटारमार्ग जंक्शन
+          motorway_link: मोटारमार्ग रस्ता
           path: पथ
           pedestrian: पादचारी मार्ग
-          platform: मंच
+          platform: ओटा
           primary: प्राथमिक रस्ता
           primary_link: प्राथमिक रस्ता
           proposed: प्रस्तावित रस्ता
@@ -497,7 +541,7 @@ mr:
           secondary_link: माध्यमिक रस्ता
           service: सेवा मार्ग
           services: मोटरमार्ग सेवा
-          speed_camera: गती कॅमेरा
+          speed_camera: गतीनोंद कॅमेरा
           steps: पायऱ्या
           street_lamp: पथ दिवा
           track: वाट
@@ -509,9 +553,9 @@ mr:
         historic: 
           archaeological_site: पुरातत्त्व स्थळ
           battlefield: युद्धक्षेत्र
-          boundary_stone: सिमांकन
+          boundary_stone: सिमांकन दगड
           building: इमारत
-          castle: किल्ला
+          castle: गढी
           church: चर्च
           citywalls: शहराच्या भिंती
           fort: किल्ला
@@ -525,7 +569,8 @@ mr:
           ruins: भग्नावशेष
           tomb: थडगे
           tower: मनोरा
-          wreck: नौभंग
+          wayside_shrine: मार्गालगतचे देवालय
+          wreck: भग्नावशेष
         landuse: 
           allotments: वाटप
           basin: खोरे
@@ -535,7 +580,9 @@ mr:
           construction: बांधकाम
           farm: मळा
           farmland: शेतजमीन
+          farmyard: शेतमैदान
           forest: वन
+          garages: गॅरेजेस
           grass: गवत
           industrial: औद्योगिक क्षेत्र
           landfill: भराव
@@ -554,11 +601,15 @@ mr:
           residential: निवासी क्षेत्र
           retail: विक्री
           road: रस्त्याचे क्षेत्र
+          village_green: गावहिरवळ
+          vineyard: द्राक्षमळा
+          wetland: आर्द्र जमिन
           wood: जंगल
         leisure: 
           bird_hide: पक्षी आश्रयस्थान
           common: सार्वजनिक जागा
           fishing: मासेमारी क्षेत्र
+          fitness_station: व्यायामस्थानक
           garden: बगीचा
           golf_course: गोल्फ कोर्स
           marina: नौकातळ
@@ -567,6 +618,8 @@ mr:
           pitch: पटांगण
           playground: क्रीडांगण
           recreation_ground: करमणुक मैदान
+          sauna: सॉना
+          slipway: सरकमार्ग
           sports_centre: क्रीडाकेंद्र
           stadium: क्रीडागार
           swimming_pool: जलतरण तलाव
@@ -575,13 +628,20 @@ mr:
         military: 
           airfield: लष्करी विमानतळ
           barracks: बराकी
+          bunker: विवर
+        mountain_pass: 
+          "yes": खिंड
         natural: 
+          bay: खाडी
           beach: किनारा
           cape: भूशिर
+          cave_entrance: गुंफा प्रवेश
+          channel: जलमार्ग
           cliff: कडा
           crater: विवर
           dune: धन्व
           feature: रचना
+          fell: वृक्ष तोड
           forest: वन
           geyser: उष्ण झरा
           glacier: हिमनदी
@@ -590,12 +650,17 @@ mr:
           island: बेट
           land: जमीन
           marsh: पाणथळ
+          moor: जीर्ण जमिन
           mud: चिखल
           peak: शिखर
           point: बिंदू
           reef: प्रवाली
+          ridge: पर्वतरांग
           river: नदी
           rock: खडक
+          scree: पायथा दगड
+          scrub: खुरटी झाडी
+          shoal: धक्का
           spring: झरा
           stone: दगड
           strait: सामुद्रधुनी
@@ -603,12 +668,15 @@ mr:
           valley: दरी
           volcano: ज्वालामुखी
           water: पाणी
+          wetland: आर्द्र जमिन
+          wetlands: आर्द्र जमिनी
           wood: जंगल
         office: 
           accountant: लेखापाल
           architect: वास्तुविशारद
           company: कंपनी
           employment_agency: सेवायोजन केंद्र
+          estate_agent: स्थावर अभिकर्ता
           government: शासकीय कार्यालय
           insurance: विमा कार्यालय
           lawyer: वकील
@@ -627,7 +695,9 @@ mr:
           houses: घरे
           island: बेट
           islet: द्वीपक
-          locality: पेठ
+          isolated_dwelling: विलग रहिवास
+          locality: मोहल्ला
+          moor: जीर्ण जमिन
           municipality: नगरपालिका
           neighbourhood: परिसर
           postcode: पोस्टसंकेत
@@ -636,6 +706,7 @@ mr:
           state: राज्य
           subdivision: उपविभाग
           suburb: उपनगर
+          town: गाव
           unincorporated_area: असमाविष्ट क्षेत्र
           village: खेडे
         railway: 
@@ -655,18 +726,21 @@ mr:
           platform: रेल्वे फलाट
           preserved: संरक्षित लोहमार्ग
           proposed: प्रस्तावित लोहमार्ग
+          spur: लोहमार्ग फाटा
           station: रेल्वे स्थानक
           stop: रेल्वे थांबा
           subway: मेट्रो स्थानक
-          subway_entrance: मेट्रो स्थानक प्रवेश
+          subway_entrance: भूयारी स्थानक प्रवेश
           switch: रेल्वे बिंदू
           tram: ट्राममार्ग
           tram_stop: ट्राम स्थानक
           yard: रेल्वे आवार
         shop: 
+          alcohol: परवानाबाह्य
           antiques: पुरावस्तु
           art: कला दुकान
           bakery: बेकरी
+          beauty: प्रसाधन दुकान
           beverages: पेय दुकान
           bicycle: सायकल दुकान
           books: पुस्तकालय
@@ -676,43 +750,72 @@ mr:
           car_parts: कार सुटेभाग
           car_repair: कार दुरुस्ती
           carpet: गालिचाचे दुकान
+          charity: धर्मदाय दुकान
           chemist: औषधविक्रेता
           clothes: कपडा दुकान
           computer: संगणक दुकान
           confectionery: मिठाई दुकान
+          convenience: सोईस्कर माल दुकान
+          copyshop: वही दुकान
           cosmetics: सौंदर्यप्रसाधनांचे दुकान
+          department_store: एकछत्री भांडार
+          discount: सवलतवस्तू दुकान
+          doityourself: स्वतः करा
+          dry_cleaning: ड्रायक्लिनींग
           electronics: ईलेक्ट्रॉनिक्स दुकान
+          estate_agent: स्थावर अभिकर्ता
+          farm: शेत दुकान
+          fashion: फॅशन दुकान
           fish: मत्स्य दुकान
           florist: फुलविक्रेता
           food: भोजन दुकान
-          furniture: लाकूडसामान
+          funeral_directors: मयत निर्देशक
+          furniture: उपस्कर
           gallery: दिर्घिका
           garden_centre: बगिचा केंद्र
+          general: फुटकळ दुकान
           gift: भेटवस्तु दुकान
           greengrocer: भाजीविक्रेता
           grocery: किराणा दुकान
           hairdresser: केशकर्तनालय
+          hardware: हार्डवेअर भांडार
           insurance: विमा
           jewelry: आभूषण दुकान
           kiosk: टपरी
           laundry: धुलाई केंद्र
+          mall: मॉल
           market: बाजार
           mobile_phone: भ्रमणध्वनी दुकान
+          motorcycle: मोटरसायकल दुकान
           music: संगीत दुकान
+          newsagent: बातमी अभिकर्ता
           optician: चश्मेवाला
+          organic: सेंद्रिय अन्नदुकान
+          outdoor: खुले दुकान
           pet: पाळीवप्राणी दुकान
           pharmacy: औषधालय
           photo: फोटो दुकान
           salon: केशकर्तनालय
+          second_hand: वापरलेल्या वस्तूंचे दुकान
+          shoes: जोडे दुकान
+          shopping_centre: खरेदी केंद्र
+          sports: क्रिडा दुकान
           stationery: लेखनसामग्री दुकान
           supermarket: सुपरमार्केट
           tailor: शिंपी
           toys: खेळणी दुकान
           travel_agency: प्रवास अभिकरण
+          video: व्हीडियो दुकान
+          wine: परवानाबाह्य
           "yes": दुकान
         tourism: 
+          alpine_hut: पर्वतीय झोपडी
           artwork: कलाकृति
           attraction: आकर्षण
+          bed_and_breakfast: निद्रा व अल्पाहार
+          cabin: चौकी
+          camp_site: पडाव स्थळ
+          caravan_site: काफिला स्थळ
           guest_house: अतिथिभवन
           hostel: वसतीगृह
           hotel: हॉटेल
@@ -720,7 +823,9 @@ mr:
           motel: मोटेल
           museum: वस्तुसंग्रहालय
           picnic_site: सहल स्थान
+          theme_park: सूत्र उद्यान
           valley: दरी
+          viewpoint: देखावाबिंदू
           zoo: प्राणीसंग्रहालय
         tunnel: 
           culvert: छोटा पूल
@@ -744,6 +849,7 @@ mr:
           riverbank: नदीकाठ
           stream: प्रवाह
           wadi: मरुघळ
+          water_point: जल केंद्र
           waterfall: धबधबा
           weir: बंधारा
   help_page: 
@@ -803,6 +909,7 @@ mr:
     community_blogs_title: ओपनस्ट्रीटमॅप समुदायाच्या सदस्यांच्या अनुदिनी
     copyright: प्रताधिकार
     data: माहिती
+    donate: हार्डवेअर अपग्रेड फंडमध्ये योगदानाने%{link} ओपनस्ट्रीटमॅपला साहाय्य करा.
     edit: संपादन करा
     edit_with: "%{editor} वापरून संपादन करा"
     export: निर्यात
@@ -812,7 +919,7 @@ mr:
     gps_traces: GPS अनुरेख
     help: साहाय्य
     history: इतिहास
-    home: स्वगृही जा
+    home: स्वगृह स्थानावर जा
     intro_2_create_account: सदस्यखाते तयार करा
     intro_header: ओपनस्ट्रीटमॅपवर स्वागत आहे!
     intro_text: ओपनस्ट्रीटमॅप हा जगाचा नकाशा आहे, जो आपल्यासारख्या लोकांनी तयार केला आहे, व जो खुल्या परवान्यांतर्गत वापरास मुक्त आहे.
@@ -824,19 +931,27 @@ mr:
     logout: सनोंद-निर्गम
     make_a_donation: 
       text: देणगी द्या
+      title: आर्थिक देणगी देऊन  करुन ओपनस्ट्रीटमॅपला  साहाय्य करा.
     more: अधिक
+    osm_offline: डाटाबेसचे आवश्यक देखरेखीचे काम असल्यामुळे ओपनस्ट्रीटमॅप डाटाबेस ही जालावेगळी करण्यात आलेली आहे.
+    osm_read_only: डाटाबेसचे आवश्यक देखरेखीचे काम असल्यामुळे, ओपनस्ट्रीटमॅप डाटाबेस ही सध्या फक्त वाचू शकता येणार आहे.
     partners_bytemark: बाईटमार्क होस्टिंग
     partners_ic: इम्पिरियल कॉलेज लंडन
+    partners_partners: भागीदार
     partners_ucl: UCL VR सेंटर
     sign_up: नोंदणी करा
     sign_up_tooltip: संपादनासाठी खाते उघडा
     start_mapping: नकाशा आरेखन सुरु करा
+    tag_line: मुक्त विकि जागतिक नकाशा
     user_diaries: सदस्य अनुदिनी
     user_diaries_tooltip: सदस्य अनुदिनी पहा
   license_page: 
     foreign: 
+      english_link: मूळ इंग्लिश
+      text: या भाषांतरीत पानाच्या व %{english_original_link} यादरम्यान काही वादाचा प्रसंग उद्भवल्यास, मूळ इंग्लिश पानास प्राथमिकता राहील.
       title: ह्या भाषांतराबद्दल
     legal_babble: 
+      contributors_intro_html: "आमचे योगदानकर्ते हे हजारोंच्या संख्येतील व्यक्ति आहेत.आम्ही मुक्त परवान्यांतर्गत असलेला डाटा हा राष्ट्रीय नकाशा संस्थेंकडून व त्यातील इतर स्रोतांतून घेऊन त्याचा अंतर्भाव करतो:"
       contributors_title_html: आमचे योगदाते
       credit_title_html: ओपनस्ट्रीटमॅपला श्रेय कसे द्यावे
       infringement_title_html: प्रताधिकार भंग
@@ -1074,6 +1189,7 @@ mr:
       owner: "मालक:"
       points: "बिंदू:"
       save_button: जतन करा
+      tags: "खूणपताका:"
       tags_help: स्वल्पविरामाने परिसीमित
       title: अनुरेख %{name} संपादन
       uploaded_at: "चढविले:"
@@ -1091,13 +1207,17 @@ mr:
     trace_form: 
       description: "वर्णन:"
       help: साहाय्य
+      tags: "खूणपताका:"
       tags_help: स्वल्पविरामाने परिसीमित
       upload_button: चढवा
+      visibility: "दृश्यता:"
       visibility_help: ह्याचा अर्थ काय?
     trace_header: 
       see_all_traces: सर्व अनुरेख पहा
       see_your_traces: स्वतःचे अनुरेख पहा
       upload_trace: अनुरेख चढवा
+    trace_optionals: 
+      tags: खूणपताका
     trace_paging_nav: 
       newer: नवे अनुरेख
       older: जुने अनुरेख
@@ -1105,16 +1225,18 @@ mr:
     view: 
       delete_track: हा अनुरेख वगळा
       description: "वर्णन:"
-      download: उतरवा
+      download: अधिभारण करा
       edit: संपादन
       edit_track: हा अनुरेख संपादा
+      filename: "संचिकानाम:"
       map: नकाशा
       none: काहीही नाही
       owner: "मालक:"
       pending: प्रलंबित
       points: "बिंदू:"
+      tags: "खूणपताका:"
       trace_not_found: अनुरेख आढळला नाही!
-      uploaded: "चढविले:"
+      uploaded: "अपभारण केले:"
   user: 
     account: 
       contributor terms: 

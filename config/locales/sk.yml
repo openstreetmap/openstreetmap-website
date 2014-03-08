@@ -12,6 +12,9 @@
 # Author: Teslaton
 # Author: Vladolc
 sk: 
+  about_page: 
+    next: Ďalej
+    partners_title: Partneri
   activerecord: 
     attributes: 
       diary_comment: 
@@ -89,18 +92,41 @@ sk:
       blocked: Váš prístup do API bol zablokovaný. Prosím prihláste sa na webové rozhranie pre zistenie viac informácií.
       need_to_see_terms: Váš prístup k API je dočasne pozastavený. Prosím prihláste do webového rozhrania a prečítajte si Podmienky prispievania. Nie je nutné ich odsúhlasiť, musíte si ich ale zobraziť.
   browse: 
+    anonymous: anonym
     changeset: 
+      belongs_to: Autor
       changesetxml: XML sady zmien
       feed: 
         title: Sada zmien %{id}
         title_comment: Sada zmien %{id} - %{comment}
+      node: Uzly (%{count})
+      node_paginated: Uzly (%{x}–%{y} z %{count})
       osmchangexml: osmChange XML
+      relation: Relácie (%{count})
+      relation_paginated: Relácie (%{x}–%{y} z %{count})
       title: Sada zmien
+      way: Cesty (%{count})
+      way_paginated: Cesty (%{x}–%{y} z %{count})
+    closed: Uzavreté
+    closed_by_html: Uzavrel <abbr title='%{title}'>pred %{time}</abbr> %{user}
+    closed_html: Uzavreté <abbr title='%{title}'>pred %{time}</abbr>
     containing_relation: 
       entry: Relácia %{relation_name}
       entry_role: Relácia %{relation_name} (ako %{relation_role})
+    created: Vytvorené
+    created_by_html: Vytvoril <abbr title='%{title}'>pred %{time}</abbr> %{user}
+    created_html: Vytvorené <abbr title='%{title}'>pred %{time}</abbr>
+    deleted_by_html: Odstránil <abbr title='%{title}'>pred %{time}</abbr> %{user}
+    download_xml: Stiahnuť XML
+    edited_by_html: Upravil <abbr title='%{title}'>pred %{time}</abbr> %{user}
+    in_changeset: Sada zmien
+    location: "Poloha:"
+    no_comment: (bez komentára)
+    node: 
+      history_title: "História uzlu: %{name}"
+      title: "Uzol: %{name}"
     not_found: 
-      sorry: Ľutujeme, %{type} s id %{id} nebolo možné nájsť.
+      sorry: "Ľutujeme, %{type} #%{id} nebolo možné nájsť."
       type: 
         changeset: počet zmien
         node: bod
@@ -108,8 +134,10 @@ sk:
         way: cesta
     note: 
       closed_title: "Vyriešená chyba: %{note_name}"
+      new_note: Nová poznámka
       open_title: "Nevyriešená chyba: %{note_name}"
       title: Chyba
+    part_of: Súčasť
     redacted: 
       message_html: Verzia %{version} tohto objektu %{type} nemôže byť zobrazené, pretože bola skrytá. Viac informácií nájdete na %{redaction_link}.
       redaction: Revízia %{id}
@@ -117,6 +145,10 @@ sk:
         node: bod
         relation: vzťah
         way: cesta
+    relation: 
+      history_title: "História relácie: %{name}"
+      members: Prvky
+      title: "Relácia: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} ako %{role}"
       type: 
@@ -127,7 +159,7 @@ sk:
       load_data: Načítať údaje
       loading: Nahrávanie...
     tag_details: 
-      tags: "Tagy:"
+      tags: Tagy
       wiki_link: 
         key: Stránka s popisom značky %{key} na wiki
         tag: Stránka s popisom značky %{key}=%{value} na wiki
@@ -139,6 +171,16 @@ sk:
         node: bod
         relation: relácia
         way: cesta
+    version: Verzia
+    view_details: Zobraziť detaily
+    view_history: Zobraziť históriu
+    way: 
+      also_part_of: 
+        one: súčasťou cesty %{related_ways}
+        other: súčasťou ciest %{related_ways}
+      history_title: "História cesty: %{name}"
+      nodes: Uzly
+      title: "Cesta: %{name}"
   changeset: 
     changeset: 
       anonymous: Anonym
@@ -155,6 +197,13 @@ sk:
       saved_at: Uložené
       user: Používateľ
     list: 
+      empty: Neboli nájdené žiadne sady zmien.
+      empty_area: V tejto oblasti neexistujú žiadne sady zmien.
+      empty_user: Tento používateľ nemá žiadne sady zmien.
+      load_more: Načítať ďalšie
+      no_more: Nie sú ďalšie sady zmien.
+      no_more_area: Nie sú ďalšie sady zmien v tejto oblasti.
+      no_more_user: Nie sú ďalšie sady zmien tohoto používateľa.
       title: Sady zmien
       title_friend: Sady zmien vašich priateľov
       title_nearby: Sady zmien používateľov v okolí
@@ -272,6 +321,7 @@ sk:
       paste_html: Pre vloženie do stránky použite toto HTML
       scale: Mierka
       too_large: 
+        advice: "Ak tento export zlyhá, zvážte použitie niektorého z nasledovných zdrojov:"
         body: Táto oblasť je príliš veľká pre export OpenStreetMap XML dát. Priblížte prosím mapu, alebo vyberte menšiu oblasť.
         geofabrik: 
           description: Pravidelne aktualizované extrakty svetadielov, krajín a vybraných miest
@@ -282,10 +332,18 @@ sk:
         other: 
           description: Ďalšie zdroje sú uvedené na OpenStreetMap wiki
           title: Iné zdroje
+        overpass: 
+          description: Stiahnuť túto oblasť z repliky databázy OpenStreetMap
+          title: Overpass API
         planet: 
           description: Pravidelne aktualizované kópie kompletnej databázy OpenStreetMap
           title: Planéta OSM
       zoom: Zväčšenie
+    title: Export
+  fixthemap: 
+    how_to_help: 
+      title: Ako pomôcť
+    title: Nahlásiť problém / Opraviť mapu
   geocoder: 
     description: 
       title: 
@@ -315,8 +373,10 @@ sk:
       title: 
         ca_postcode: Výsledky z <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Výsledky z <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse: Výsledky z <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Výsledky z <a href="http://openstreetmap.org/">internej databázy</a>
         osm_nominatim: Výsledky z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
+        osm_nominatim_reverse: Výsledky z <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Výsledky z <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Výsledky z <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
@@ -789,6 +849,7 @@ sk:
           viewpoint: Rozhľadňa, výhliadka
           zoo: Zoo
         tunnel: 
+          culvert: Priepust
           "yes": Tunel
         waterway: 
           artificial: Vodný kanál, prieplav
@@ -812,41 +873,73 @@ sk:
           water_point: Vodný bod
           waterfall: Vodopád
           weir: Splav
+  help_page: 
+    help: 
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    welcome: 
+      title: Vitajte na OSM
   javascripts: 
     close: Zavrieť
     key: 
       title: Legenda
       tooltip: Legenda
+      tooltip_disabled: Legenda je dostupná len pre Štandardnú vrstvu
     map: 
       base: 
         cycle_map: Cyklomapa
+        hot: Humanitárna
         standard: Štandardná
         transport_map: Dopravná mapa
+      copyright: © <a href='%{copyright_url}'>prispievatelia OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Venujte dar</a>
       layers: 
         data: Mapové podklady
         header: Mapové vrstvy
         notes: Poznámky k mape
         overlays: Zapnúť vrstvy pre ladenie mapy
+        title: Vrstvy
+      locate: 
+        popup: Nachádzate sa do {distance} {unit} od tohoto bodu
+        title: Zobraziť moju polohu
       zoom: 
         in: Priblížiť
         out: Oddialiť
     notes: 
+      new: 
+        add: Pridať poznámku
+        intro: Aby sme mohli mapu spresniť, zobrazí sa vami zadaná informácia ostatným tvorcom. Pri umiestňovaní značky a formulovaní poznámky sa preto snažte byť čo najpodrobnejší a najpresnejší.
       show: 
         hide: Skryť
     share: 
       cancel: Zrušiť
+      center_marker: Centrovať mapu na značku
+      custom_dimensions: Nastaviť vlastné rozmery
+      download: Stiahnuť
+      embed: HTML
+      format: "Formát:"
+      image: Obrázok
+      image_size: Na obrázku bude štandardná vrstva v
+      include_marker: Vrátane značky
       link: Odkaz alebo HTML
       long_link: Odkaz
+      paste_html: HTML pre vloženie na webovú stránku
+      scale: "Mierka:"
       short_link: Krátky odkaz
+      short_url: Krátke URL
       title: Zdieľať
+      view_larger_map: Zobraziť väčšiu mapu
     site: 
+      createnote_disabled_tooltip: Pre vloženie poznámky priblížte mapu
+      createnote_tooltip: Pridať do mapy poznámku
       edit_disabled_tooltip: Pre editáciu priblížte mapu
       edit_tooltip: Upraviť mapu
   layouts: 
+    about: O projekte
     community: Komunita
     community_blogs: Komunitné blogy
     community_blogs_title: Blogy členov komunity OpenStreetMap
-    copyright: Autorské práva a licencia
+    copyright: Copyright
     data: Údaje
     donate: Podporte OpenStreetMap %{link} Fondu na obnovu hardwaru
     edit: Upraviť
@@ -861,7 +954,10 @@ sk:
     history: História
     home: Domov
     intro_2_create_account: Založte si konto
-    log_in: prihlásiť sa
+    intro_header: Vitajte v OpenStreetMap!
+    intro_text: OpenStreetMap je mapa sveta, vytvorené ľuďmi ako vy, voľne využiteľná pod slobodnou licenciou.
+    learn_more: Viac info
+    log_in: Prihlásiť sa
     log_in_tooltip: Prihlásiť sa k existujúcemu kontu
     logo: 
       alt_text: Logo OpenStreetMap
@@ -869,6 +965,7 @@ sk:
     make_a_donation: 
       text: Darovanie
       title: Podporte OpenStreetMap finančným príspevkom
+    more: Ďalšie
     osm_offline: OpenStreetMap databáza je teraz offline, zatiaľ čo potrebná údržba databázy naďalej prebieha.
     osm_read_only: OpenStreetMap databáza je teraz len v móde čítania (bez možnosti zapisovania), zatiaľ čo potrebná údržba databázy naďalej prebieha.
     partners_bytemark: Bytemark Hosting
@@ -877,8 +974,9 @@ sk:
     partners_partners: partneri
     partners_ucl: VR centrum UCL
     partners_url: http://wiki.openstreetmap.org/wiki/Partners
-    sign_up: zaregistrovať sa
+    sign_up: Zaregistrovať sa
     sign_up_tooltip: Vytvoriť si používateľské konto pre úpravy
+    start_mapping: Začať mapovať
     tag_line: Slobodná wiki-mapa sveta
     user_diaries: Denníky používateľov
     user_diaries_tooltip: Zobraziť denníky používateľov
@@ -915,7 +1013,7 @@ sk:
       more_1_html: O používaní našich dát a spôsobe citovania, sa môžete dočítať viac v našich <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Často kladených právnych otázkach</a>.
       more_2_html: "Hoci OpenStreetMap tvorí slobodné dáta, nemôžeme zadarmo poskytovať tretím stranám mapové API.\nPozrite naše <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Pravidlá použitia API</a>, <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Pravidlá použitia mapových dlaždíc</a> a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Pravidlá použitia nástroja Nominatim</a>."
       more_title_html: Ďalšie informácie
-      title_html: Autorské práva a licencie
+      title_html: Autorské práva a licencia
     native: 
       mapping_link: začať mapovať
       native_link: slovenskú verziu
@@ -1043,7 +1141,8 @@ sk:
       header: "%{from_user} vám zaslal správu cez OpenStreetMap s predmetom %{subject}:"
       hi: Ahoj %{to_user},
     note_comment_notification: 
-      details: Viac podrobností o poznámke môžete nájsť nájsť na % {url}.
+      anonymous: Anonymný používateľ
+      details: Viac podrobností o poznámke môžete nájsť nájsť na %{url}.
       greeting: Ahoj,
     signup_confirm: 
       confirm: "Predtým, než urobíme čokoľvek ďalšie, potrebujeme potvrdiť, že táto žiadosť prišla od vás. Ak je to tak, kliknutím na nasledovný odkaz potvrdíte svoje konto:"
@@ -1061,6 +1160,8 @@ sk:
       allow_write_gpx: nahrať GPS stopy.
       allow_write_prefs: upraviť vaše osobné nastavenia.
       request_access: Aplikácia %{app_name} požaduje prístup k vášmu kontu (%{user}). Vyberte si, či si želáte, aby mala aplikácia nasledujúce oprávnenie. Môžete zvoliť ľubovoľný počet oprávnení.
+    oauthorize_success: 
+      verification: Váš overovací kód je %{code}.
     revoke: 
       flash: Prístup pre aplikáciu %{application} bol odvolaný.
   oauth_clients: 
@@ -1370,7 +1471,7 @@ sk:
         agreed: Súhlasili ste s novými Podmienkami prispievania.
         agreed_with_pd: Deklarovali ste tiež, že svoje úpravy považujete za slobodné dielo.
         heading: "Podmienky prispievania:"
-        link text: čo je toto?
+        link text: čo to znamená?
         not yet agreed: Zatiaľ ste neodsúhlasili nové Podmienky prispievania.
         review link text: Keď budete mať čas, pomocou tohoto odkazu si prosím prečítajte a odsúhlaste nové Podmienky prispievania.
       current email address: "Aktuálna e-mailová adresa:"
@@ -1395,7 +1496,7 @@ sk:
       no home location: Nezadali ste svoje domovské miesto.
       openid: 
         link: http://wiki.openstreetmap.org/wiki/CS:OpenID
-        link text: čo je toto?
+        link text: čo to znamená?
         openid: "OpenID:"
       preferred editor: "Preferovaný editor:"
       preferred languages: "Preferované jazyky:"
@@ -1403,9 +1504,9 @@ sk:
       public editing: 
         disabled: Vypnutý a nemôže upravovať údaje, všetky predchádzajúce úpravy sú anonymné.
         disabled link text: prečo nemôžem upravovať?
-        enabled: Zapnutý. Nie je anonym a môže upravovať dáta.
+        enabled: Zapnuté. Nie je anonym a môže upravovať údaje.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: čo je toto?
+        enabled link text: čo to znamená?
         heading: "Verejné úpravy:"
       public editing note: 
         heading: Úprava pre verejnosť
@@ -1419,7 +1520,10 @@ sk:
       already active: Toto používateľské konto už bolo potvrdené.
       button: Potvrdiť
       heading: Skontrolujte vašu emailovú adresu!
+      introduction_1: Poslali sme vám potvrdzovací e-mail.
+      introduction_2: Potvrďte svoje konto kliknutím na odkaz v e-maili a budete môcť začať mapovať.
       press confirm button: Stlačte tlačítko na potvrdenie dole, pre aktiváciu vášho účtu.
+      reconfirm_html: Ak potrebujete, aby sme vám potvrdzovací e-mail poslali znova, <a href="%{reconfirm}">kliknite sem</a>.
       unknown token: Zadaný potvrdzovací kód neexistuje.
     confirm_email: 
       button: Potvrdiť
@@ -1506,9 +1610,9 @@ sk:
       success: "%{name} je teraz váš priateľ."
     new: 
       confirm email address: "Potvrdiť emailovú adresu:"
-      confirm password: "Potvrdiť Heslo:"
+      confirm password: "Potvrdiť heslo:"
       contact_webmaster: Kontaktujte prosím <a href="mailto:webmaster@openstreetmap.org">webmastera</a> so žiadosťou o založenie konta – budeme sa snažiť vašu požiadavku vybaviť čo najrýchlejšie.
-      continue: Pokračovať
+      continue: Zaregistrovať sa
       display name: "Zobrazované meno:"
       display name description: Vaše verejne zobrazené meno užívateľa. Môžete ho potom zmeniť v nastaveniach.
       email address: "Emailová adresa:"
@@ -1521,7 +1625,7 @@ sk:
       password: "Heslo:"
       terms accepted: Ďakujeme za odsúhlasenie nových podmienok prispievania!
       terms declined: Je nám ľúto, že ste sa rozhodli neprijať nové Podmienky prispievania. Bližšie informácie nájdete na<a href="%{url}">tejto wiki-stránke</a>.
-      title: Vytvoriť účet
+      title: Zaregistrovať sa
       use openid: Prípadne sa môžete prihlásiť pomocou %{logo} OpenID
     no_such_user: 
       body: Ľutujeme, používateľ %{user} neexistuje. Prosím skontrolujte váš text, alebo ste možno klikli na nesprávny odkaz.
@@ -1537,12 +1641,12 @@ sk:
       not_a_friend: "%{name} nie je nikto z vašich priateľov."
       success: "%{name} bol z vašich priateľov vymazaný."
     reset_password: 
-      confirm password: "Potvrdiť Heslo:"
+      confirm password: "Potvrdiť heslo:"
       flash changed: Vaše heslo bolo zmenené.
       flash token bad: Zodpovedajúci kód nebol nájdený, skontrolujte prípadne URL.
       heading: Resetnúť heslo pre %{user}
       password: "Heslo:"
-      reset: Zmazať Heslo
+      reset: Vynulovať heslo
       title: Resetnúť heslo
     set_home: 
       flash success: Domáca poloha úspešne uložená
@@ -1554,7 +1658,7 @@ sk:
     terms: 
       agree: Súhlasím
       consider_pd: Navyše k uvedenej dohode vyhlasujem, že považujem svoje príspevky za slobodné dielo (Public Domain).
-      consider_pd_why: čo je toto?
+      consider_pd_why: čo to znamená?
       decline: Nesúhlasím
       guidance: "Informácie, ktoré Vám môžu pomôcť porozumieť týmto podmienkam: <a href=\"%{summary}\">zhrnutie</a> a nejaké <a href=\"%{translations}\">neoficiálne preklady</a>"
       heading: Podmienky prispievania
@@ -1568,11 +1672,11 @@ sk:
       you need to accept or decline: Pre pokračovanie si prosím prečítajte a príjmite, alebo odmietnite nové Podmienky prispievania.
     view: 
       activate_user: aktivovať tohoto používateľa
-      add as friend: pridať priateľa
+      add as friend: Pridať priateľa
       ago: (pred %{time_in_words_ago})
       block_history: prijaté bloky
-      blocks by me: blokovať pre mňa
-      blocks on me: moje zablokovania
+      blocks by me: Mnou udelené bloky
+      blocks on me: Moje zablokovania
       comments: komentáre
       confirm: Potvrdiť
       confirm_user: potvrdiť tohoto používateľa
@@ -1585,8 +1689,8 @@ sk:
       deactivate_user: deaktivovať tohoto používateľa
       delete_user: vymazať tohoto používateľa
       description: Popis
-      diary: denník
-      edits: úpravy
+      diary: Denník
+      edits: Úpravy
       email address: "Emailová adresa:"
       friends_changesets: Prechádzať všetky sady zmien priateľov
       friends_diaries: Prechádzať všetky denníkové záznamy priateľov
@@ -1597,17 +1701,21 @@ sk:
       m away: vzdialený %{count}m
       mapper since: "Mapuje od:"
       moderator_history: odovzdané bloky
-      my comments: moje komentáre
-      my diary: môj denník
-      my edits: moje úpravy
-      my settings: moje nastavenia
-      my traces: moje stopy
+      my comments: Moje komentáre
+      my diary: Môj denník
+      my edits: Moje úpravy
+      my messages: Moje správy
+      my notes: Moje poznámky k mape
+      my profile: Môj profil
+      my settings: Moje nastavenia
+      my traces: Moje stopy
       nearby users: Ďalší používatelia v okolí
       nearby_changesets: Prechádzať všetky sady zmien používateľov v okolí
       nearby_diaries: Prechádzať všetky denníkové záznamy používateľov v okolí
       new diary entry: nový záznam denníka
       no friends: Ešte nemáte pridaných žiadnych priateľov.
       no nearby users: Nie je tu iný používateľ, ktorý priznáva mapovanie v okolí.
+      notes: Poznámky k mape
       oauth settings: oauth nastavenia
       remove as friend: Odstrániť z priateľov
       role: 
@@ -1619,11 +1727,11 @@ sk:
         revoke: 
           administrator: Zrušiť prístup administrátora
           moderator: Zrušiť prístup moderátora
-      send message: poslať správu
+      send message: Poslať správu
       settings_link_text: nastavenia
       spam score: "Spam skóre:"
       status: "Stav:"
-      traces: stopy
+      traces: Stopy
       unhide_user: zobraziť tohoto používateľa
       user location: Poloha používateľa
       your friends: Vaši priatelia
@@ -1688,7 +1796,7 @@ sk:
       revoke: Zrušiť!
       revoker_name: Zrušil
       show: Zobraziť
-      showing_page: Zobrazená strana %{page}
+      showing_page: Strana %{page}
       status: Stav
     period: 
       few: "%{count} hodiny"
