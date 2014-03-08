@@ -8,6 +8,7 @@
 # Author: Giro720
 # Author: Gmare
 # Author: Gusta
+# Author: Jgpacker
 # Author: Leosls
 # Author: Luckas
 # Author: Luckas Blade
@@ -19,6 +20,12 @@
 # Author: Vgeorge
 # Author: 555
 pt-BR: 
+  about_page: 
+    community_driven_title: Dirigido pela comunidade
+    copyright_html: <span>&copy;</span>Colaboradores<br>do OpenStreetMap
+    local_knowledge_title: Conhecimento local
+    next: Próximo
+    partners_title: Parceiros
   activerecord: 
     attributes: 
       diary_comment: 
@@ -27,7 +34,7 @@ pt-BR:
         language: Idioma
         latitude: Latitude
         longitude: Longitude
-        title: Título
+        title: Assunto
         user: Usuário
       friend: 
         friend: Amigo
@@ -36,7 +43,7 @@ pt-BR:
         body: Corpo
         recipient: Destinatário
         sender: Remetente
-        title: Título
+        title: Assunto
       trace: 
         description: Descrição
         latitude: Latitude
@@ -130,16 +137,27 @@ pt-BR:
       history_title: "Histórico do nó: %{name}"
       title: "Nó: %{name}"
     not_found: 
-      sorry: Desculpe, o %{type} com o ID %{id}, não pôde ser encontrado.
+      sorry: Desculpe, não foi possível encontrar %{type} com id %{id}.
       type: 
         changeset: conjunto de mudanças
         node: nó
         relation: relação
         way: caminho
     note: 
-      closed_title: "Nota resolvida: %{note_name}"
-      open_title: "Nota não resolvida: %{note_name}"
-      title: Nota
+      closed_by: Resolvido por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      closed_by_anonymous: Resolvido por um usuário anônimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      closed_title: "Nota resolvida #%{note_name}"
+      commented_by: Comentado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      commented_by_anonymous: Comentado por um usuário anônimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      hidden_by: Ocultado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      hidden_title: "Nota oculta #%{note_name}"
+      new_note: Nova nota
+      open_by: Criado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      open_by_anonymous: Criado por um usuário anônimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      open_title: "Nota não resolvida #%{note_name}"
+      reopened_by: Reaberto por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      reopened_by_anonymous: Reaberto por um usuário anônimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      title: "Nota: %{id}"
     part_of: Parte de
     redacted: 
       message_html: A versão %{version} deste %{type} não pode ser exibida tal como foi redigida. Consulte %{redaction_link} para obter mais informações.
@@ -148,6 +166,10 @@ pt-BR:
         node: nó
         relation: relação
         way: caminho
+    relation: 
+      history_title: "Histórico da Relação: %{name}"
+      members: Membros
+      title: "Relação: %{name}"
     relation_member: 
       entry: "%{type} %{name}"
       entry_role: "%{type} %{name} como %{role}"
@@ -156,10 +178,11 @@ pt-BR:
         relation: Relação
         way: Caminho
     start_rjs: 
+      feature_warning: Carregando %{num_features} feições, o que pode deixar seu navegador lento ou sem resposta. Tem certeza que quer exibir estes dados?
       load_data: Carregar dados
       loading: Carregando...
     tag_details: 
-      tags: "Etiquetas:"
+      tags: Etiquetas
       wiki_link: 
         key: A página no wiki com a descrição da etiqueta %{key}
         tag: A página no wiki com a descrição da etiqueta %{key}=%{value}
@@ -175,7 +198,11 @@ pt-BR:
     view_details: Ver Detalhes
     view_history: Ver Histórico
     way: 
+      also_part_of: 
+        one: parte da linha %{related_ways}
+        other: parte das linhas %{related_ways}
       history_title: "Histórico da linha: %{name}"
+      nodes: Nós
       title: "Linha: %{name}"
   changeset: 
     changeset: 
@@ -185,7 +212,7 @@ pt-BR:
     changeset_paging_nav: 
       next: Seguinte »
       previous: « Anterior
-      showing_page: Página % {page}
+      showing_page: Página %{page}
     changesets: 
       area: Área
       comment: Comentário
@@ -193,6 +220,10 @@ pt-BR:
       saved_at: Salvo em
       user: Usuário
     list: 
+      empty: Nenhum conjunto de alterações foi encontrado.
+      empty_area: Nenhum conjunto de alterações nesta área.
+      empty_user: Nenhum conjunto de alterações por este usuário.
+      load_more: Carregar mais
       title: Conjuntos de alterações
       title_friend: Conjuntos de alterações dos seus amigos
       title_nearby: Conjuntos de alterações de usuários próximos
@@ -320,6 +351,11 @@ pt-BR:
           description: Cópias regularmente atualizadas da base de dados completa do OpenStreetMap
           title: Planeta OSM
       zoom: Zoom
+  fixthemap: 
+    how_to_help: 
+      join_the_community: 
+        title: Junte-se à comunidade
+      title: Como ajudar
   geocoder: 
     description: 
       title: 
@@ -847,15 +883,20 @@ pt-BR:
           waterfall: Queda de água
           weir: Açude
       prefix_format: "%{name}"
+  help_page: 
+    welcome: 
+      title: Bem vindo ao OSM
+    wiki: 
+      description: Navegue na wiki para ver a documentação do OSM com mais detalhes.
   html: 
     dir: ltr
   javascripts: 
     close: Fechar
     edit_help: Mover o mapa e ampliar uma localização que pretende editar e clique aqui.
     key: 
-      title: Tecla de atalho do mapa
-      tooltip: Tecla de atalho do mapa
-      tooltip_disabled: Tecla de atalho do mapa disponível só para a camada padrão
+      title: Legenda do mapa
+      tooltip: Legenda do mapa
+      tooltip_disabled: Legenda do mapa disponível só para a camada padrão
     map: 
       base: 
         cycle_map: Cycle Map
@@ -863,6 +904,7 @@ pt-BR:
         standard: Padrão
         transport_map: Mapa de transporte público
       copyright: © <a href='%{copyright_url}'>Contribuidores OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Fazer uma doação</a>
       layers: 
         data: Dados do Mapa
         header: Camadas do Mapa
@@ -870,7 +912,7 @@ pt-BR:
         overlays: Ativar sobreposições para solucionar problemas do mapa
       locate: 
         popup: Você está dentro de {distance} {unit} deste ponto
-        title: Mostrar Minha Localização
+        title: Mostrar minha localização
       zoom: 
         in: Aumentar o Zoom
         out: Diminuir o Zoom
@@ -912,7 +954,7 @@ pt-BR:
     community: Comunidade
     community_blogs: Blogs da Comunidade
     community_blogs_title: Blogs de membros da comunidade OpenStreetMap
-    copyright: Direitos Autorais & Licença
+    copyright: Direitos Autorais
     data: Dados
     donate: "Ajude o OpenStreetMap fazendo doações para o Fundo de Upgrade de Hardware: %{link}."
     edit: Editar
@@ -927,7 +969,8 @@ pt-BR:
     history: Histórico
     home: Ir para o seu local
     intro_2_create_account: Criar uma conta de usuário
-    log_in: entrar
+    learn_more: Saiba mais
+    log_in: Entrar
     log_in_tooltip: Entrar com uma conta existente
     logo: 
       alt_text: Logotipo do OpenStreetMap
@@ -945,7 +988,7 @@ pt-BR:
     project_name: 
       h1: OpenStreetMap
       title: OpenStreetMap
-    sign_up: registrar
+    sign_up: Criar conta
     sign_up_tooltip: Criar uma conta para editar
     tag_line: O Wiki de Mapas Livres
     user_diaries: Diários de Usuário
@@ -1174,6 +1217,11 @@ pt-BR:
       allow_write_notes: alterar notas.
       allow_write_prefs: modificar suas preferências de usuário.
       request_access: A aplicação %{app_name} está pedindo acesso à sua conta, %{user}. Por favor verifique se você deseja que a aplicação tenha as capacidades a seguir. Você pode escolher quaisquer que quiser.
+      title: Autorizar acesso à sua conta
+    oauthorize_failure: 
+      title: O pedido de autorização falhou
+    oauthorize_success: 
+      verification: O código de verificação é %{code}.
     revoke: 
       flash: Você cancelou o token para %{application}
   oauth_clients: 
@@ -1263,7 +1311,7 @@ pt-BR:
       description: "Descrição:"
       destroy: Remover esta edição
       edit: Reformar esta edição
-      heading: Mostrando a edição "% {title}"
+      heading: Mostrando a edição "%{title}"
       title: Mostrando edição
       user: "Criador:"
     update: 
@@ -1391,6 +1439,8 @@ pt-BR:
       upload_trace: Envie as trilhas de GPS
     delete: 
       scheduled_for_deletion: Trilha marcada para ser apagada
+    description: 
+      description_without_count: Arquivo GPX de %{user}
     edit: 
       description: "Descrição:"
       download: baixar
@@ -1409,6 +1459,8 @@ pt-BR:
       visibility: "Visibilidade:"
       visibility_help: o que isso significa?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=pt-br
+    georss: 
+      title: Trilhas de GPS do OpenStreetMap
     list: 
       description: Consultar últimos carregamentos de trilhas de GPS
       empty_html: Nada aqui por enquanto. <a href='%{upload_link}'>Carregue uma nova trilha</a> ou aprenda mais sobre trilhas de GPS na <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>página wiki</a> (em inglês).
@@ -1728,6 +1780,7 @@ pt-BR:
       my comments: Meus comentários
       my diary: Meu diário
       my edits: Minhas edições
+      my messages: Minhas mensagens
       my notes: Minhas notas de mapa
       my profile: Meu Perfil
       my settings: Minhas configurações

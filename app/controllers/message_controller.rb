@@ -29,6 +29,7 @@ class MessageController < ApplicationController
         end
       end
     else
+      @message = Message.new(:recipient => @this_user)
       @title = t 'message.new.title'
     end
   end
@@ -40,9 +41,13 @@ class MessageController < ApplicationController
     if message.to_user_id == @user.id then
       message.update_attribute(:message_read, true)
 
-      @body = "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}"
-      @title = @subject = "Re: #{message.title.sub(/^Re:\s*/, '')}"
-      @this_user = User.find(message.from_user_id)
+      @message = Message.new(
+        :recipient => message.sender,
+        :title => "Re: #{message.title.sub(/^Re:\s*/, '')}",
+        :body => "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}",
+      )
+
+      @title = @message.title
 
       render :action => 'new'
     else

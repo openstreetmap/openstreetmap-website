@@ -399,7 +399,7 @@ module OSM
 
       begin
         lonradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2) ** 2 / cos(@lat) ** 2))
-      rescue Errno::EDOM
+      rescue Errno::EDOM, Math::DomainError
         lonradius = PI
       end
 

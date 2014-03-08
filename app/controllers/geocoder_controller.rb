@@ -16,7 +16,7 @@ class GeocoderController < ApplicationController
     if params[:lat] && params[:lon]
       @sources.push "latlon"
       @sources.push "osm_nominatim_reverse"
-      @sources.push "geonames_reverse"
+      @sources.push "geonames_reverse" if defined?(GEONAMES_USERNAME)
     elsif params[:query].match(/^\d{5}(-\d{4})?$/)
       @sources.push "us_postcode"
       @sources.push "osm_nominatim"
@@ -194,11 +194,14 @@ class GeocoderController < ApplicationController
     # get query parameters
     query = params[:query]
 
+    # get preferred language
+    lang = I18n.locale.to_s.split("-").first
+
     # create result array
     @results = Array.new
 
     # ask geonames.org
-    response = fetch_xml("http://api.geonames.org/search?q=#{escape_query(query)}&maxRows=20&username=#{GEONAMES_USERNAME}")
+    response = fetch_xml("http://api.geonames.org/search?q=#{escape_query(query)}&lang=#{lang}&maxRows=20&username=#{GEONAMES_USERNAME}")
 
     # parse the response
     response.elements.each("geonames/geoname") do |geoname|
@@ -255,11 +258,14 @@ class GeocoderController < ApplicationController
     lat = params[:lat]
     lon = params[:lon]
 
+    # get preferred language
+    lang = I18n.locale.to_s.split("-").first
+
     # create result array
     @results = Array.new
 
     # ask geonames.org
-    response = fetch_xml("http://ws.geonames.org/countrySubdivision?lat=#{lat}&lng=#{lon}")
+    response = fetch_xml("http://api.geonames.org/countrySubdivision?lat=#{lat}&lng=#{lon}&lang=#{lang}&username=#{GEONAMES_USERNAME}")
 
     # parse the response
     response.elements.each("geonames/countrySubdivision") do |geoname|

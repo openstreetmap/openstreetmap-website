@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-  layout :choose_layout
+  layout 'site', :except => [:api_details]
 
   skip_before_filter :verify_authenticity_token, :only => [:api_read, :api_details, :api_gpx_files]
   before_filter :disable_terms_redirect, :only => [:terms, :save, :logout, :api_details]
@@ -784,21 +784,6 @@ private
     @this_user = User.find_by_display_name(params[:display_name])
   rescue ActiveRecord::RecordNotFound
     redirect_to :controller => 'user', :action => 'view', :display_name => params[:display_name] unless @this_user
-  end
-
-  ##
-  # Choose the layout to use. See
-  # https://rails.lighthouseapp.com/projects/8994/tickets/5371-layout-with-onlyexcept-options-makes-other-actions-render-without-layouts
-  def choose_layout
-    oauth_url = url_for(:controller => :oauth, :action => :authorize, :only_path => true)
-
-    if [ 'api_details' ].include? action_name
-      nil
-    elsif params[:referer] and URI.parse(params[:referer]).path == oauth_url
-      'slim'
-    else
-      'site'
-    end
   end
 
   ##

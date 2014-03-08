@@ -1,18 +1,18 @@
 <% content_for :heading do %>
-  <h2><%= raw(t'message.new.send_message_to', :name => link_to(h(@this_user.display_name), {:controller => 'user', :action => 'view', :display_name => @this_user.display_name})) %></h2>
+  <h2><%= raw(t'message.new.send_message_to', :name => link_to(h(@message.recipient.display_name), {:controller => 'user', :action => 'view', :display_name => @message.recipient.display_name})) %></h2>
 <% end %>
 
 <%= error_messages_for 'message' %>
 
-<%= form_for :message, :html => { :class => 'standard-form' }, :url => { :action => "new", :display_name => @this_user.display_name } do |f| %>
+<%= form_for :message, :html => { :class => 'standard-form' }, :url => { :action => "new", :display_name => @message.recipient.display_name } do |f| %>
   <fieldset>
     <div class='form-row'>
       <label class="standard-label"><%= t'message.new.subject' %></label>
-      <%= f.text_field :title, :size => 60, :value => @subject, :class => "richtext_title" %>
+      <%= f.text_field :title, :size => 60, :class => "richtext_title" %>
     </div>
     <div class='form-row'>
       <label class="standard-label"><%= t'message.new.body' %></label>
-      <%= richtext_area :message, :body, :cols => 80, :rows => 20, :value => @body %>
+      <%= richtext_area :message, :body, :cols => 80, :rows => 20 %>
     </div>
     <div class='buttons'>
       <%= submit_tag t('message.new.send_button') %>

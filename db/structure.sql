@@ -1072,7 +1072,8 @@ CREATE TABLE users (
     changesets_count integer DEFAULT 0 NOT NULL,
     traces_count integer DEFAULT 0 NOT NULL,
     diary_entries_count integer DEFAULT 0 NOT NULL,
-    image_use_gravatar boolean DEFAULT true NOT NULL
+    image_use_gravatar boolean DEFAULT true NOT NULL,
+    image_content_type character varying(255)
 );
 
 
@@ -2422,6 +2423,8 @@ INSERT INTO schema_migrations (version) VALUES ('20131212124700');
 INSERT INTO schema_migrations (version) VALUES ('20140115192822');
 
 INSERT INTO schema_migrations (version) VALUES ('20140117185510');
+
+INSERT INTO schema_migrations (version) VALUES ('20140210003018');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

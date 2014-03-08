@@ -3,7 +3,7 @@ require 'oauth/controllers/provider_controller'
 class OauthController < ApplicationController
   include OAuth::Controllers::ProviderController
 
-  layout 'slim'
+  layout 'site'
 
   def login_required
     authorize_web

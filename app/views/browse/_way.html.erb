@@ -28,7 +28,7 @@
     <% unless way.containing_relation_members.empty? %>
       <h4><%= t'browse.part_of' %></h4>
       <ul>
-        <%= render :partial => "containing_relation", :collection => way.containing_relation_members %>
+        <%= render :partial => "containing_relation", :collection => way.containing_relation_members.uniq %>
       </ul>
     <% end %>
   </div>
