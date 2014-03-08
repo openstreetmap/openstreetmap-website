@@ -9,8 +9,6 @@
 	*** translation (including all alerts and presentation)
 	*** export GPX
 	*** URL history (or do we consciously not want to support that?)
-	*** spinner when waiting for result (beneath 'Go' button?)
-
 	*** add YOURS engine
 */
 
@@ -161,6 +159,7 @@ OSM.Routing=function(map,name,jqSearch) {
 
 	r.requestRoute=function(isFinal, updateZoom) {
 		if (r.route_from && r.route_to) {
+			$(".query_wrapper.routing .spinner").show();
 			r.awaitingRoute=true;
 			r.chosenEngine.getRoute(isFinal,[r.route_from,r.route_to]);
 			if(updateZoom){
@@ -247,7 +246,10 @@ OSM.Routing=function(map,name,jqSearch) {
 				script.src = url+r.name+".gotRoute"+num;
 				document.body.appendChild(script); 
 			};
-			r['gotRoute'+num]=function(data) { r.awaitingRoute=false; list[num].gotRoute(r,data); };
+			r['gotRoute'+num]=function(data) { 
+				r.awaitingRoute=false; list[num].gotRoute(r,data);
+				$(".query_wrapper.routing .spinner").hide();
+			};
 		}
 		select.append("<option value='"+i+"'>"+I18n.t(list[i].name)+"</option>");
 	}
