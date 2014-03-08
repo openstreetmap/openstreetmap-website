@@ -109,7 +109,7 @@ OSM.Routing=function(map,name,jqSearch) {
 		r.updateMarker(field.id);
 		if (r.awaitingGeocode) {
 			r.awaitingGeocode=false;
-			r.requestRoute(true);
+			r.requestRoute(true, true);
 		}
 	};
 
@@ -121,7 +121,7 @@ OSM.Routing=function(map,name,jqSearch) {
 		// *** ^^^ this is slightly off - we need to work out the latLng of the tip
 		r.createMarker(ll,id);
 		r.setNumericInput(ll,id);
-		r.requestRoute(true);
+		r.requestRoute(true, false);
 		// update to/from field
 	};
 	r.createMarker=function(latlng,id) {
@@ -148,7 +148,7 @@ OSM.Routing=function(map,name,jqSearch) {
 		if (e.type=='drag' && !r.chosenEngine.draggable) return;
 		if (e.type=='drag' && r.awaitingRoute) return;
 		r.setNumericInput(e.target.getLatLng(), e.target.options.name);
-		r.requestRoute(e.type=='dragend');
+		r.requestRoute(e.type=='dragend', false);
 	};
 	// Set a route input field to a numeric value
 	r.setNumericInput=function(ll,id) {
@@ -159,10 +159,13 @@ OSM.Routing=function(map,name,jqSearch) {
 	
 	// Route-fetching UI
 
-	r.requestRoute=function(isFinal) {
+	r.requestRoute=function(isFinal, updateZoom) {
 		if (r.route_from && r.route_to) {
 			r.awaitingRoute=true;
 			r.chosenEngine.getRoute(isFinal,[r.route_from,r.route_to]);
+			if(updateZoom){
+				r.map.fitBounds(L.latLngBounds([r.route_from, r.route_to]).pad(0.05));
+			}
 			// then, when the route has been fetched, it'll call the engine's gotRoute function
 		} else if (r.route_from==false || r.route_to==false) {
 			// we're waiting for a Nominatim response before we can request a route
@@ -255,7 +258,7 @@ OSM.Routing=function(map,name,jqSearch) {
 	r.selectEngine=function(e) {
 		r.chosenEngine=r.engines[e.target.selectedIndex];
 		if (r.polyline){ // and if a route is currently showing, must also refresh, else confusion
-			r.requestRoute(true);
+			r.requestRoute(true, false);
 		}
 	};
 	// Choose an engine by name
