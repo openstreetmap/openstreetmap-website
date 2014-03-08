@@ -359,8 +359,10 @@ $(document).ready(function () {
     $("#map").on('dragend dragover',function(e) { e.preventDefault(); });
     $("#map").on('drop',function(e) { OSM.routing.handleDrop(e); e.preventDefault(); });
     $(".routing_marker").on('dragstart',function(e) {
-    e.originalEvent.dataTransfer.effectAllowed = 'move';
+      e.originalEvent.dataTransfer.effectAllowed = 'move';
       e.originalEvent.dataTransfer.setData('id', this.id);
+      e.originalEvent.dataTransfer.setData('offsetX', e.originalEvent.target.width/2 - (e.originalEvent.x-e.target.x));
+      e.originalEvent.dataTransfer.setData('offsetY', e.originalEvent.target.height  - (e.originalEvent.y-e.target.y));
     });
   });
 

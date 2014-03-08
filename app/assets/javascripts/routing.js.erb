@@ -115,9 +115,12 @@ OSM.Routing=function(map,name,jqSearch) {
 	// Drag and drop markers
 	
 	r.handleDrop=function(e) {
-		var id=e.originalEvent.dataTransfer.getData('id');
-		var ll=r.map.mouseEventToLatLng(e.originalEvent);
-		// *** ^^^ this is slightly off - we need to work out the latLng of the tip
+		var oe=e.originalEvent;
+		var id=oe.dataTransfer.getData('id');
+		var pt=L.DomEvent.getMousePosition(oe,map.getContainer());	// co-ordinates of the mouse pointer at present
+		pt.x+=Number(oe.dataTransfer.getData('offsetX'));
+		pt.y+=Number(oe.dataTransfer.getData('offsetY'));
+		var ll=map.containerPointToLatLng(pt);
 		r.createMarker(ll,id);
 		r.setNumericInput(ll,id);
 		r.requestRoute(true, false);
