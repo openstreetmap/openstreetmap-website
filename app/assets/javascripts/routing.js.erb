@@ -184,13 +184,13 @@ OSM.Routing=function(map,name,jqSearch) {
 	// Take directions and write them out
 	// data = { steps: array of [latlng, sprite number, instruction text, distance in metres] }
 	// sprite numbers equate to OSRM's route_instructions turn values
-	// *** translations?
 	r.setItinerary=function(data) {
 		// Create base table
 		$("#content").removeClass("overlay-sidebar");
 		$('#sidebar_content').empty();
-		var html='<h2><a class="geolink" href="#" onclick="$(~.close_directions~).click();return false;"><span class="icon close"></span></a>' + I18n.t('javascripts.directions.directions') + '</h2>'.replace(/~/g,"'");
-		html+="<table id='turnbyturn' />";
+		var html=('<h2><a class="geolink" href="#" onclick="$(~.close_directions~).click();return false;">' +
+		          '<span class="icon close"></span></a>' + I18n.t('javascripts.directions.directions') + 
+		          '</h2><table id="turnbyturn" />').replace(/~/g,"'");
 		$('#sidebar_content').html(html);
 		// Add each row
 		var cumulative=0;
