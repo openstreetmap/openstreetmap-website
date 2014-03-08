@@ -150,6 +150,7 @@ OpenStreetMap::Application.routes.draw do
   match '/offline' => 'site#offline', :via => :get
   match '/key' => 'site#key', :via => :get
   match '/id' => 'site#id', :via => :get
+  match '/query' => 'browse#query', :via => :get
   match '/user/new' => 'user#new', :via => :get
   match '/user/new' => 'user#create', :via => :post
   match '/user/terms' => 'user#terms', :via => :get
