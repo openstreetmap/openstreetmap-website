@@ -357,7 +357,7 @@ $(document).ready(function () {
     $(".routing").show();
     $(".query_wrapper.routing [name=route_from]").focus();
     $("#map").on('dragend dragover',function(e) { e.preventDefault(); });
-    $("#map").on('drop',function(e) { OSM.routing.handleDrop(e); });
+    $("#map").on('drop',function(e) { OSM.routing.handleDrop(e); e.preventDefault(); });
     $(".routing_marker").on('dragstart',function(e) {
     e.originalEvent.dataTransfer.effectAllowed = 'move';
       e.originalEvent.dataTransfer.setData('id', this.id);
