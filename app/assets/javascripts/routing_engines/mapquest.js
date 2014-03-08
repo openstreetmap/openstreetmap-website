@@ -51,7 +51,7 @@ MapQuestEngine.prototype.createConfig = function() {
 			this.requestCORS(url);
 		},
 		gotRoute: function(router,data) {
-			// *** what if no route?
+			if (data.info.statuscode!=0) return false;
 		
 			var poly=[];
 			var shape=data.route.shape.shapePoints;
