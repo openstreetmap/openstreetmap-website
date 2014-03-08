@@ -35,13 +35,27 @@ pushd /srv/openstreetmap-website
 # do bundle install as a convenience
 sudo -u vagrant -H bundle install
 # create user and database for openstreetmap-website
-sudo -u postgres createuser -s vagrant
-sudo -u vagrant -H createdb -E UTF-8 -O vagrant openstreetmap
-sudo -u vagrant -H createdb -E UTF-8 -O vagrant osm_test
-# add btree_gist extension
-sudo -u vagrant -H psql -c "create extension btree_gist" openstreetmap
-# TODO: build and set up postgres extensions
+db_user_exists=`sudo -u postgres psql postgres -tAc "select 1 from pg_roles where rolname='vagrant'"`
+if [ "$db_user_exists" != "1" ]; then
+		sudo -u postgres createuser -s vagrant
+		sudo -u vagrant -H createdb -E UTF-8 -O vagrant openstreetmap
+		sudo -u vagrant -H createdb -E UTF-8 -O vagrant osm_test
+		# add btree_gist extension
+		sudo -u vagrant -H psql -c "create extension btree_gist" openstreetmap
+fi
+# build and set up postgres extensions
+pushd db/functions
+sudo -u vagrant make
+sudo -u vagrant psql openstreetmap -c "drop function if exists maptile_for_point(int8, int8, int4)"
+sudo -u vagrant psql openstreetmap -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '/srv/openstreetmap-website/db/functions/libpgosm.so', 'maptile_for_point' LANGUAGE C STRICT"
+popd
 # set up sample configs
-sudo -u vagrant cp config/example.database.yml config/database.yml
-sudo -u vagrant cp config/example.application.yml config/application.yml
+if [ ! -f config/database.yml ]; then
+		sudo -u vagrant cp config/example.database.yml config/database.yml
+fi
+if [ ! -f config/application.yml ]; then
+		sudo -u vagrant cp config/example.application.yml config/application.yml
+fi
+# migrate the database to the latest version
+sudo -u vagrant rake db:migrate
 popd
