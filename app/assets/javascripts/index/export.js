@@ -36,7 +36,7 @@ OSM.Export = function(map) {
   }
 
   function setBounds(bounds) {
-    var precision = zoomPrecision(map.getZoom());
+    var precision = OSM.zoomPrecision(map.getZoom());
     $("#minlon").val(bounds.getWest().toFixed(precision));
     $("#minlat").val(bounds.getSouth().toFixed(precision));
     $("#maxlon").val(bounds.getEast().toFixed(precision));

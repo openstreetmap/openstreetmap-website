@@ -20,10 +20,6 @@
 
 var querystring = require('querystring-component');
 
-function zoomPrecision(zoom) {
-    return Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
-}
-
 function remoteEditHandler(bbox, object) {
   var loaded = false,
       query = {
@@ -99,12 +95,6 @@ function updateLinks(loc, zoom, layers, object) {
     .toggleClass('disabled', editDisabled)
     .attr('data-original-title', editDisabled ?
       I18n.t('javascripts.site.edit_disabled_tooltip') : '');
-}
-
-// generate a cookie-safe string of map state
-function cookieContent(map) {
-  var center = map.getCenter().wrap();
-  return [center.lng, center.lat, map.getZoom(), map.getLayersCode()].join('|');
 }
 
 function escapeHTML(string) {

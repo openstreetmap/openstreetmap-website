@@ -86,3 +86,9 @@ group :test do
   gem 'timecop'
   gem 'minitest', '~> 4.7.0', :platforms => [:ruby_19, :ruby_20]
 end
+
+# Needed in development as well so rake can see konacha tasks
+group :development, :test do
+  gem 'konacha'
+  gem 'poltergeist'
+end

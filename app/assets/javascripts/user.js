@@ -36,7 +36,7 @@ $(document).ready(function () {
     map.on("click", function (e) {
       if ($('#updatehome').is(':checked')) {
         var zoom = map.getZoom(),
-            precision = zoomPrecision(zoom),
+            precision = OSM.zoomPrecision(zoom),
             location = e.latlng.wrap();
 
         $('#homerow').removeClass();
