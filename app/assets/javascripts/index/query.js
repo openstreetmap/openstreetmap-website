@@ -113,6 +113,8 @@ OSM.Query = function(map) {
       return tags["name"];
     } else if (tags["ref"]) {
       return tags["ref"];
+    } else if (tags["addr:housename"]) {
+      return tags["addr:housename"];
     } else if (tags["addr:housenumber"] && tags["addr:street"]) {
       return tags["addr:housenumber"] + " " + tags["addr:street"];
     } else {
