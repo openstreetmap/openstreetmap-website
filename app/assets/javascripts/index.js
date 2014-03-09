@@ -361,8 +361,10 @@ $(document).ready(function () {
     $(".routing_marker").on('dragstart',function(e) {
       e.originalEvent.dataTransfer.effectAllowed = 'move';
       e.originalEvent.dataTransfer.setData('id', this.id);
-      e.originalEvent.dataTransfer.setData('offsetX', e.originalEvent.target.width/2 - (e.originalEvent.x-e.target.x));
-      e.originalEvent.dataTransfer.setData('offsetY', e.originalEvent.target.height  - (e.originalEvent.y-e.target.y));
+      var xo=e.originalEvent.clientX - $(e.target).offset().left;
+      var yo=e.originalEvent.clientY - $(e.target).offset().top;
+      e.originalEvent.dataTransfer.setData('offsetX', e.originalEvent.target.width/2 - xo);
+      e.originalEvent.dataTransfer.setData('offsetY', e.originalEvent.target.height  - yo);
     });
   });
 
