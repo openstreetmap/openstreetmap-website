@@ -206,8 +206,8 @@ OSM.Routing=function(map,name,jqSearch) {
             row.append("<td class='direction i"+step[1]+"'> ");
             row.append("<td class='instruction'>"+step[2]);
             row.append("<td class='distance'>"+dist);
-            with ({ num: i, ll: step[0], lineseg: step[4] }) {
-                row.on('click',function(e) { r.clickTurn(num, ll); });
+            with ({ instruction: step[2], ll: step[0], lineseg: step[4] }) {
+                row.on('click',function(e) { r.clickTurn(instruction, ll); });
                 row.hover(function(e){r.highlightSegment(lineseg);}, function(e){r.unhighlightSegment();});
             };
             $('#turnbyturn').append(row);
@@ -216,8 +216,8 @@ OSM.Routing=function(map,name,jqSearch) {
         $('#sidebar_content').append('<p id="routing_credit">' + r.chosenEngine.creditline + '</p>');
 
     };
-    r.clickTurn=function(num,latlng) {
-        r.popup=L.popup().setLatLng(latlng).setContent("<p>"+(num+1)+"</p>").openOn(r.map);
+    r.clickTurn=function(instruction,latlng) {
+        r.popup=L.popup().setLatLng(latlng).setContent("<p>"+instruction+"</p>").openOn(r.map);
     };
     r.highlightSegment=function(lineseg){
         if (r.highlighted) map.removeLayer(r.highlighted);
