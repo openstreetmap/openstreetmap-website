@@ -174,6 +174,9 @@ OSM.Router = function(map, rts) {
 
   map.on('moveend baselayerchange overlaylayerchange', router.updateHash);
   $(window).on('hashchange', router.hashUpdated);
+  $(window).on('unload', function(e) {
+      $(".query_wrapper.routing input").val("");
+  });
 
   return router;
 };
