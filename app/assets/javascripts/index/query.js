@@ -5,6 +5,14 @@ OSM.Query = function(map) {
     uninterestingTags = ['source', 'source_ref', 'source:ref', 'history', 'attribution', 'created_by', 'tiger:county', 'tiger:tlid', 'tiger:upload_uuid'],
     marker;
 
+  var featureStyle = {
+    color: "#FF6200",
+    weight: 4,
+    opacity: 1,
+    fillOpacity: 0.5,
+    clickable: false
+  };
+
   queryButton.on("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -134,11 +142,11 @@ OSM.Query = function(map) {
     var geometry;
 
     if (feature.type === "node") {
-      geometry = L.circleMarker([feature.lat, feature.lon]);
+      geometry = L.circleMarker([feature.lat, feature.lon], featureStyle);
     } else if (feature.type === "way") {
       geometry = L.polyline(feature.nodes.map(function (node) {
         return nodes[node];
-      }));
+      }), featureStyle);
     }
 
     return geometry;
@@ -211,15 +219,15 @@ OSM.Query = function(map) {
       .hide();
 
     if (marker) map.removeLayer(marker);
-    marker = L.circle(latlng, radius, { clickable: false }).addTo(map);
+    marker = L.circle(latlng, radius, featureStyle).addTo(map);
 
     $(document).everyTime(75, "fadeQueryMarker", function (i) {
       if (i == 10) {
         map.removeLayer(marker);
       } else {
         marker.setStyle({
-          opacity: 0.5 - i * 0.05,
-          fillOpacity: 0.2 - i * 0.02
+          opacity: 1 - i * 0.1,
+          fillOpacity: 0.5 - i * 0.05
         });
       }
     }, 10);
