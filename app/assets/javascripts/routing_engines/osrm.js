@@ -38,12 +38,18 @@ OSRMEngine.prototype.createConfig = function() {
             var steps=[];
             for (i=0; i<data.route_instructions.length; i++) {
                 var s=data.route_instructions[i];
+                var linesegend;
                 var instCodes=s[0].split('-');
                 var instText="<b>"+(i+1)+".</b> ";
                 instText+=TURN_INSTRUCTIONS[instCodes[0]];
                 if (instCodes[1]) { instText+="exit "+instCodes[1]+" "; }
                 if (instCodes[0]!=15) { instText+=s[1] ? "<b>"+s[1]+"</b>" : I18n.t('javascripts.directions.instructions.unnamed'); }
-                steps.push([line[s[3]], s[0].split('-')[0], instText, s[2]]);
+                if ((i+1)<data.route_instructions.length) {
+                    linesegend = data.route_instructions[i+1][3] + 1;
+                } else {
+                    linesegend = s[3] + 1;
+                }
+                steps.push([line[s[3]], s[0].split('-')[0], instText, s[2], line.slice(s[3], linesegend)]);
             }
             if (steps.length) router.setItinerary({ steps: steps, distance: data.route_summary.total_distance, time: data.route_summary.total_time });
             return true;

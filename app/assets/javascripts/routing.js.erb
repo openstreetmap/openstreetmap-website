@@ -10,6 +10,12 @@ var ROUTING_POLYLINE={
     weight: 10
 };
 
+var ROUTING_POLYLINE_HIGHLIGHT={
+    color: '#ff0',
+    opacity: 0.5,
+    weight: 12
+};
+
 
 OSM.RoutingEngines={
     list: []
@@ -171,7 +177,7 @@ OSM.Routing=function(map,name,jqSearch) {
     };
 
     // Take directions and write them out
-    // data = { steps: array of [latlng, sprite number, instruction text, distance in metres] }
+    // data = { steps: array of [latlng, sprite number, instruction text, distance in metres, highlightPolyline] }
     // sprite numbers equate to OSRM's route_instructions turn values
     r.setItinerary=function(data) {
         // Create base table
@@ -200,8 +206,9 @@ OSM.Routing=function(map,name,jqSearch) {
             row.append("<td class='direction i"+step[1]+"'> ");
             row.append("<td class='instruction'>"+step[2]);
             row.append("<td class='distance'>"+dist);
-            with ({ num: i, ll: step[0] }) {
+            with ({ num: i, ll: step[0], lineseg: step[4] }) {
                 row.on('click',function(e) { r.clickTurn(num, ll); });
+                row.hover(function(e){r.highlightSegment(lineseg);}, function(e){r.unhighlightSegment();});
             };
             $('#turnbyturn').append(row);
             cumulative+=step[3];
@@ -212,6 +219,13 @@ OSM.Routing=function(map,name,jqSearch) {
     r.clickTurn=function(num,latlng) {
         r.popup=L.popup().setLatLng(latlng).setContent("<p>"+(num+1)+"</p>").openOn(r.map);
     };
+    r.highlightSegment=function(lineseg){
+        if (r.highlighted) map.removeLayer(r.highlighted);
+        r.highlighted=L.polyline(lineseg, ROUTING_POLYLINE_HIGHLIGHT).addTo(r.map);
+    }
+    r.unhighlightSegment=function(){
+        if (r.highlighted) map.removeLayer(r.highlighted);
+    }
     r.formatDistance=function(m) {
         if      (m < 1000 ) { return Math.round(m) + "m"; }
         else if (m < 10000) { return (m/1000.0).toFixed(1) + "km"; }
