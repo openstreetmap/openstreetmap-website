@@ -1,6 +1,7 @@
 OSM.Query = function(map) {
   var queryButton = $(".control-query .control-button"),
     uninterestingTags = ['source', 'source_ref', 'source:ref', 'history', 'attribution', 'created_by', 'tiger:county', 'tiger:tlid', 'tiger:upload_uuid'],
+    searchRadius = 10,
     marker;
 
   queryButton.on("click", function (e) {
@@ -28,8 +29,13 @@ OSM.Query = function(map) {
       $(this).removeClass("selected");
     });
 
-  function interestingFeature(feature) {
+  function interestingFeature(feature, origin) {
     if (feature.tags) {
+      if (feature.type === "node" &&
+          OSM.distance(origin, L.latLng(feature.lat, feature.lon)) > searchRadius) {
+        return false;
+      }
+
       for (var key in feature.tags) {
         if (uninterestingTags.indexOf(key) < 0) {
           return true;
@@ -118,7 +124,7 @@ OSM.Query = function(map) {
     return geometry;
   }
 
-  function runQuery(query, $section) {
+  function runQuery(latlng, query, $section) {
     var $ul = $section.find("ul");
 
     $ul.empty();
@@ -148,7 +154,7 @@ OSM.Query = function(map) {
         for (var i = 0; i < results.elements.length; i++) {
           var element = results.elements[i];
 
-          if (interestingFeature(element)) {
+          if (interestingFeature(element, latlng)) {
             var $li = $("<li>")
               .data("geometry", featureGeometry(element, nodes))
               .appendTo($ul);
@@ -169,7 +175,7 @@ OSM.Query = function(map) {
 
   function queryOverpass(lat, lng) {
     var latlng = L.latLng(lat, lng),
-      around = "around:10.0," + lat + "," + lng,
+      around = "around:" + searchRadius + "," + lat + "," + lng,
       features = "(node(" + around + ");way(" + around + ");relation(" + around + "))",
       nearby = "((" + features + ";way(bn));node(w));out;",
       isin = "(is_in(" + lat + "," + lng + ");>);out;";
@@ -180,7 +186,7 @@ OSM.Query = function(map) {
     if (marker) {
       marker.setLatLng(latlng).addTo(map);
     } else {
-      marker = L.circle(latlng, 10, { clickable: false }).addTo(map);
+      marker = L.circle(latlng, searchRadius, { clickable: false }).addTo(map);
     }
 
     $(document).everyTime(75, "fadeQueryMarker", function (i) {
@@ -194,8 +200,8 @@ OSM.Query = function(map) {
       }
     }, 10);
 
-    runQuery(nearby, $("#query-nearby"));
-    runQuery(isin, $("#query-isin"));
+    runQuery(latlng, nearby, $("#query-nearby"));
+    runQuery(latlng, isin, $("#query-isin"));
   }
 
   function clickHandler(e) {
