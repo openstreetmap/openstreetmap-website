@@ -60,14 +60,27 @@ MapQuestEngine.prototype.createConfig = function() {
             }
             router.setPolyline(poly);
 
-            // data.shape.maneuverIndexes links turns to polyline positions
-            // data.legs[0].maneuvers is list of turns
+            // data.route.shape.maneuverIndexes links turns to polyline positions
+            // data.route.legs[0].maneuvers is list of turns
             var steps=[];
             var mq=data.route.legs[0].maneuvers;
             for (var i=0; i<mq.length; i++) {
                 var s=mq[i];
-                var d=(i==mq.length-1) ? 15: this.MQ_SPRITE_MAP[s.turnType];
-                steps.push([L.latLng(s.startPoint.lat, s.startPoint.lng), d, s.narrative, s.distance*1000]);
+                var d;
+                var linesegstart, linesegend, lineseg;
+                linesegstart = data.route.shape.maneuverIndexes[i];
+                if (i==mq.length-1) {
+                    d = 15;
+                    linesegend = linesegstart + 1;
+                } else {
+                    d = this.MQ_SPRITE_MAP[s.turnType];
+                    linesegend = data.route.shape.maneuverIndexes[i+1] + 1;
+                }
+                lineseg = [];
+                for (var j=linesegstart; j<linesegend; j++) {
+                    lineseg.push(L.latLng(data.route.shape.shapePoints[j*2], data.route.shape.shapePoints[j*2+1]));
+                }
+                steps.push([L.latLng(s.startPoint.lat, s.startPoint.lng), d, s.narrative, s.distance*1000, lineseg]);
             }
             router.setItinerary( { steps: steps, distance: data.route.distance*1000, time: data.route['time'] });
             return true;

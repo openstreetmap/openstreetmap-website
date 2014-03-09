@@ -42,7 +42,7 @@ GraphHopperEngine.prototype.createConfig = function() {
                 instrText += instr.descriptions[i];
                 var latlng = instr.latLngs[i];
                 var distInMeter = instr.distances[i];
-                steps.push([{lat: latlng[0], lng: latlng[1]}, instrCode, instrText, distInMeter]);
+                steps.push([{lat: latlng[0], lng: latlng[1]}, instrCode, instrText, distInMeter, []]); // TODO does graphhopper map instructions onto line indices?
             }
             router.setItinerary({ steps: steps, distance: data.route.distance, time: data.route['time']/1000 });
             return true;
