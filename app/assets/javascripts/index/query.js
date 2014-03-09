@@ -20,17 +20,17 @@ OSM.Query = function(map) {
   });
 
   $("#sidebar_content")
-    .on("mouseover", ".query-results li", function () {
+    .on("mouseover", ".query-results li.query-result", function () {
       var geometry = $(this).data("geometry")
       if (geometry) map.addLayer(geometry);
       $(this).addClass("selected");
     })
-    .on("mouseout", ".query-results li", function () {
+    .on("mouseout", ".query-results li.query-result", function () {
       var geometry = $(this).data("geometry")
       if (geometry) map.removeLayer(geometry);
       $(this).removeClass("selected");
     })
-    .on("click", ".query-results li", function (e) {
+    .on("click", ".query-results li.query-result", function (e) {
       if (!$(e.target).is('a')) {
         $(this).find("a").simulate("click", e);
       }
@@ -163,6 +163,7 @@ OSM.Query = function(map) {
 
           if (interestingFeature(element, latlng)) {
             var $li = $("<li>")
+              .addClass("query-result")
               .data("geometry", featureGeometry(element, nodes))
               .appendTo($ul);
             var $p = $("<p>")
@@ -174,6 +175,12 @@ OSM.Query = function(map) {
               .text(featureName(element))
               .appendTo($p);
           }
+        }
+
+        if ($ul.find("li").length == 0) {
+          $("<li>")
+            .text(I18n.t("javascripts.query.nothing_found"))
+            .appendTo($ul);
         }
       }
     });
