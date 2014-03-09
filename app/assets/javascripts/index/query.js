@@ -1,3 +1,5 @@
+//= require jquery.simulate
+
 OSM.Query = function(map) {
   var queryButton = $(".control-query .control-button"),
     uninterestingTags = ['source', 'source_ref', 'source:ref', 'history', 'attribution', 'created_by', 'tiger:county', 'tiger:tlid', 'tiger:upload_uuid'],
@@ -27,6 +29,11 @@ OSM.Query = function(map) {
       var geometry = $(this).data("geometry")
       if (geometry) map.removeLayer(geometry);
       $(this).removeClass("selected");
+    })
+    .on("click", ".query-results li", function (e) {
+      if (!$(e.target).is('a')) {
+        $(this).find("a").simulate("click", e);
+      }
     });
 
   function interestingFeature(feature, origin) {
@@ -159,7 +166,6 @@ OSM.Query = function(map) {
               .data("geometry", featureGeometry(element, nodes))
               .appendTo($ul);
             var $p = $("<p>")
-              .addClass("inner12 search_results_entry clearfix")
               .text(featurePrefix(element) + " ")
               .appendTo($li);
 
