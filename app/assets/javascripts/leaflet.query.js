@@ -8,9 +8,28 @@ L.OSM.query = function (options) {
     var link = $('<a>')
       .attr('class', 'control-button')
       .attr('href', '#')
-      .attr('data-original-title', I18n.t('javascripts.site.queryfeature_tooltip'))
       .html('<span class="icon query"></span>')
       .appendTo($container);
+
+    map.on('zoomend', update);
+
+    update();
+
+    function update() {
+      var wasDisabled = link.hasClass('disabled'),
+        isDisabled = map.getZoom() < 14;
+      link
+        .toggleClass('disabled', isDisabled)
+        .attr('data-original-title', I18n.t(isDisabled ?
+          'javascripts.site.queryfeature_disabled_tooltip' :
+          'javascripts.site.queryfeature_tooltip'));
+
+      if (isDisabled && !wasDisabled) {
+        link.trigger('disabled');
+      } else if (wasDisabled && !isDisabled) {
+        link.trigger('enabled');
+      }
+    }
 
     return $container[0];
   };

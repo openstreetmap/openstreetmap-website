@@ -9,12 +9,26 @@ OSM.Query = function(map) {
     e.preventDefault();
     e.stopPropagation();
 
+    if (queryButton.hasClass("disabled")) return;
+
     if (queryButton.hasClass("active")) {
       disableQueryMode();
 
       OSM.router.route("/");
     } else {
       enableQueryMode();
+    }
+  }).on("disabled", function (e) {
+    if (queryButton.hasClass("active")) {
+      map.off("click", clickHandler);
+      $(map.getContainer()).removeClass("query-active").addClass("query-disabled");
+      $(this).tooltip("show");
+    }
+  }).on("enabled", function (e) {
+    if (queryButton.hasClass("active")) {
+      map.on("click", clickHandler);
+      $(map.getContainer()).removeClass("query-disabled").addClass("query-active");
+      $(this).tooltip("hide");
     }
   });
 
@@ -230,7 +244,7 @@ OSM.Query = function(map) {
 
   function disableQueryMode() {
     if (marker) map.removeLayer(marker);
-    $(map.getContainer()).removeClass("query-active");
+    $(map.getContainer()).removeClass("query-active").removeClass("query-disabled");
     map.off("click", clickHandler);
     queryButton.removeClass("active");
   }
