@@ -12,9 +12,11 @@ Installers are available for Mac OS X and Windows, please see the [Vagrant proje
 
 # Setting up openstreetmap-website
 
-Once Vagrant has been installed, you can start an environment by changing to the directory which contains the Vagrantfile and typing:
+Once Vagrant has been installed, you can start an environment by checking out the openstreetmap-website code if you haven't already, then changing to the directory which contains the Vagrantfile by typing:
 
 ```
+git clone git@github.com:openstreetmap/openstreetmap-website.git
+cd openstreetmap-website
 vagrant up
 ```
 
@@ -30,5 +32,15 @@ Within this login shell, you can do development, run the server or the tests. Fo
 cd /srv/openstreetmap-website/
 rake test
 ```
+
+To access the web pages you run the following commands then access the site in your [local browser](http://localhost:3000):
+
+```
+vagrant ssh
+cd /srv/openstreetmap-website/
+rails server
+```
+
+You edit the code on your computer using the code editor you are used to using, then through shared folders the code is updated on the VM instantly.
 
 You should run the tests before submitting any patch or Pull Request back to the original repository. Please see [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
