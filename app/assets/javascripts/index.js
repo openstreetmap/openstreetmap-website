@@ -355,6 +355,7 @@ $(document).ready(function () {
     e.preventDefault();
     $(".search").hide();
     $(".routing").show();
+    $(".search_form input[type='submit']").addClass("routing_submit");
     $(".query_wrapper.routing [name=route_from]").focus();
     $("#map").on('dragend dragover',function(e) { e.preventDefault(); });
     $("#map").on('drop',function(e) { OSM.routing.handleDrop(e); e.preventDefault(); });
@@ -372,6 +373,7 @@ $(document).ready(function () {
     e.preventDefault();
     $(".search").show();
     $(".routing").hide();
+    $(".search_form input[type='submit']").removeClass("routing_submit");
     OSM.routing.close();
     $("#map").off('dragend drop dragover');
     $(".routing_marker").off('dragstart');
