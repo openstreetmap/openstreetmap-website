@@ -40,7 +40,7 @@ MapQuestEngine.prototype.createConfig = function() {
             18: 1  // straight fork
         },
         getRoute: function(isFinal,points) {
-            var url="http://open.mapquestapi.com/directions/v2/route?key=Fmjtd%7Cluur290anu%2Crl%3Do5-908a0y";
+            var url=document.location.protocol+"//open.mapquestapi.com/directions/v2/route?key=Fmjtd%7Cluur290anu%2Crl%3Do5-908a0y";
             var from=points[0]; var to=points[points.length-1];
             url+="&from="+from.join(',');
             url+="&to="+to.join(',');
@@ -88,7 +88,7 @@ MapQuestEngine.prototype.createConfig = function() {
     };
 };
 
-OSM.RoutingEngines.list.push(new MapQuestEngine("Bicycle", "routeType=bicycle").createConfig());
-OSM.RoutingEngines.list.push(new MapQuestEngine("Foot", "routeType=pedestrian").createConfig());
-OSM.RoutingEngines.list.push(new MapQuestEngine("Car", "routeType=fastest").createConfig());
+OSM.RoutingEngines.add(true, new MapQuestEngine("Bicycle", "routeType=bicycle").createConfig());
+OSM.RoutingEngines.add(true, new MapQuestEngine("Foot", "routeType=pedestrian").createConfig());
+OSM.RoutingEngines.add(true, new MapQuestEngine("Car", "routeType=fastest").createConfig());
 // can be: routeType=fastest|shortest|pedestrian|multimodal|bicycle

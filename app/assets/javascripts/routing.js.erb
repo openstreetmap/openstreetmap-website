@@ -18,7 +18,10 @@ var ROUTING_POLYLINE_HIGHLIGHT={
 
 
 OSM.RoutingEngines={
-    list: []
+    list: [],
+    add: function(supportsHTTPS,engine) {
+        if (document.location.protocol=="http:" || supportsHTTPS) this.list.push(engine);
+    }
 };
 
 OSM.Routing=function(map,name,jqSearch) {
