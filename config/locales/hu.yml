@@ -13,8 +13,10 @@
 # Author: Nemo bis
 # Author: R-Joe
 # Author: Sucy
+# Author: Tacsipacsi
 hu: 
   about_page: 
+    copyright_html: <span>&copy;</span>OpenStreetMap<br />közreműködők
     next: Következő
   activerecord: 
     attributes: 
@@ -137,6 +139,9 @@ hu:
       closed_by: Megoldva %{user} által <abbr title='%{exact_time}'>%{when}</abbr>
       closed_by_anonymous: Megoldva ismeretlen által <abbr title='%{exact_time}'>%{when}</abbr>
       closed_title: "Megoldott jegyzet: %{note_name}"
+      commented_by: "%{user} megjegyzése <abbr title='%{exact_time}'>%{when}</abbr>"
+      commented_by_anonymous: Névtelen felhasználó megjegyzése <abbr title='%{exact_time}'>%{when}</abbr>
+      description: "Leírás:"
       hidden_by: Elrejtve %{user} által <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_title: Rejtett jegyzet %{note_name}
       new_note: Új jegyzet
@@ -164,6 +169,7 @@ hu:
         relation: "Kapcsolat:"
         way: "Vonal:"
     start_rjs: 
+      feature_warning: "%{num_features} adat ábrázolása jelentősen lassíthatja a böngészőt. Biztos hogy meg akarod jeleníteni ezen adatokat?"
       load_data: Adatok betöltése
       loading: Betöltés…
     tag_details: 
@@ -183,6 +189,9 @@ hu:
     view_details: Részletek megtekintése
     view_history: Előzmények megjelenítése
     way: 
+      also_part_of: 
+        one: "%{related_ways} vonal része"
+        other: "%{related_ways} vonalak része"
       history_title: "Vonal történet: %{name}"
       nodes: Pontok
       title: "Vonal: %{name}"
@@ -327,8 +336,12 @@ hu:
       too_large: 
         advice: Ha a fenti exportálás sikertelen lenne, próbáld meg az alábbi listából valamelyik lehetőséget.
         body: Ez a terület túl nagy ahhoz, hogy exportálásra kerüljön OpenStreetMap XML adatként. Közelíts, vagy jelölj ki kisebb területet. Esetleg használd az alábbi listából valamelyik nagy adatmennyiségek letöltését támogató módszert.
+        geofabrik: 
+          title: Geofabrik letöltések
         other: 
           title: Más források
+        overpass: 
+          description: A megjelenített befoglaló keret letöltése egy OpenStreetMap tükörserverről
         planet: 
           description: A teljes OpenStreetMap adatbázis rendszeresen frissített másolatai
       zoom: Nagyítási szint
@@ -362,8 +375,10 @@ hu:
       title: 
         ca_postcode: Eredmények a <a href="http://geocoder.ca/">Geocoder.CA</a>-ről
         geonames: Eredmények a <a href="http://www.geonames.org/">GeoNames</a>ről
+        geonames_reverse: Eredmények a <a href="http://www.geonames.org/">GeoNames-ről</a>
         latlon: Eredmények az <a href="http://openstreetmap.org/">Internal</a>ról
         osm_nominatim: Eredmények az <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>tól
+        osm_nominatim_reverse: Eredmények az <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatimról</a>
         uk_postcode: Eredmények a <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>-ról
         us_postcode: Eredmények a <a href="http://geocoder.us/">Geocoder.us</a>-ról
     search_osm_nominatim: 
@@ -855,22 +870,51 @@ hu:
           waterfall: Vízesés
           weir: Bukógát
   javascripts: 
+    key: 
+      title: Jelmagyarázat
+      tooltip: Jelmagyarázat
+      tooltip_disabled: A jelmagyarázat csak az alapértelmezett rétegen érhető el
     map: 
       base: 
         cycle_map: Kerékpártérkép
         mapquest: MapQuest Open
         standard: Alapértelmezett
         transport_map: Tömegközlekedési térkép
+      copyright: © <a href='%{copyright_url}'>OpenStreetMap közreműködők</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Támogatás</a>
+      layers: 
+        data: Térképadatok
+        header: Térképnézetek
+        notes: Térképjegyzetek
+        overlays: További rétegek engedélyezése a térkép hibáinak javítása érdekében
+        title: Rétegek
+      locate: 
+        popup: "{distance} {unit} távolságra vagy ettől a ponttól"
+        title: Mutasd a helyzetemet
+      zoom: 
+        in: Nagyítás
+        out: Kicsinyítés
     notes: 
       new: 
-        intro: A térkép tökéletesítésének érdekében az alábbi jegyzetedet minden térképező látni fogja ezért fogalmazz olyan érthetően amennyire lehetséges, a lehető legpontosabban helyezd el a jelölőt.
+        add: Jegyzet hozzáadása
+        intro: Hibát találtál vagy valami hiányzik? Tudasd a többi térképezővel hogy javítani tudjuk. Mozgasd a jelölőt a megfelelő helyre és minél pontosabban írd le a problémát. (Kérjük itt ne adj meg személyes adatokat.)
       show: 
         anonymous_warning: Ez a jegyzet anonim felhasználók megjegyzéseit is tartalmazza melyeket ellenőrizni szükséges.
+    share: 
+      download: Letöltés
+      embed: HTML
+      format: "Formátum:"
+      long_link: Link
+      short_link: Rövid link
+      short_url: Rövid URL
+      view_larger_map: Nagyobb térkép
     site: 
       createnote_disabled_tooltip: Nagyíts térképes jegyzet hozzáadásához
       createnote_tooltip: Jegyzet hozzáadása a térképhez
       edit_disabled_tooltip: Közelíts a térkép szerkesztéséhez
       edit_tooltip: Térkép szerkesztése
+      map_data_zoom_in_tooltip: Nagyítsd fel a térképet a térképadatok megjelenítéséhez
+      map_notes_zoom_in_tooltip: Nagyítsd fel a térképet a jegyzetek megjelenítéséhez
   layouts: 
     about: Névjegy
     community: Közösség
@@ -889,15 +933,15 @@ hu:
     gps_traces_tooltip: GPS nyomvonalak kezelése
     help: Súgó
     history: Előzmények
-    home: otthon
+    home: Ugrás az otthonodhoz
     intro_2_create_account: Felhasználói fiók létrehozása
     intro_header: Üdvözöljük az OpenStreetMap-en!
     learn_more: További info
-    log_in: bejelentkezés
+    log_in: Bejelentkezés
     log_in_tooltip: Bejelentkezés egy meglévő felhasználói fiókkal
     logo: 
       alt_text: OpenStreetMap logó
-    logout: kijelentkezés
+    logout: Kijelentkezés
     make_a_donation: 
       text: Adományozz
       title: Támogasd az OpenStreetMapot pénzadománnyal
@@ -908,7 +952,7 @@ hu:
     partners_ic: Imperial College London
     partners_partners: partnerek
     partners_ucl: az UCL VR központ
-    sign_up: regisztráció
+    sign_up: Regisztráció
     sign_up_tooltip: Új felhasználói fiók létrehozása szerkesztéshez
     start_mapping: Térképezés indítása
     tag_line: A szabad világtérkép
@@ -1380,7 +1424,7 @@ hu:
     trace_paging_nav: 
       newer: Újabb nyomvonalak
       older: Régebbi nyomvonalak
-      showing_page: "Jelenlegi oldal: %{page}"
+      showing_page: "%{page}. oldal"
     view: 
       delete_track: Ezen nyomvonal törlése
       description: "Leírás:"
@@ -1578,7 +1622,7 @@ hu:
       nearby mapper: Közeli térképszerkesztő
       your location: Helyed
     remove_friend: 
-      button: barát eltávolítása
+      button: Barát eltávolítása
       heading: "%{user} felhasználó eltávolítása a barátaid közül?"
       not_a_friend: "%{name} nem tartozik a barátaid közé."
       success: "%{name} eltávolítva a barátaid közül."
@@ -1634,8 +1678,8 @@ hu:
       diary: Napló
       edits: Szerkesztések
       email address: "E-mail cím:"
-      friends_changesets: Ismerőseid módosításcsomagjainak tallózása
-      friends_diaries: A barátok által írt naplóbejegyzések böngészése
+      friends_changesets: Ismerőseid módosításcsomagjai
+      friends_diaries: barátok naplóbejegyzései
       hide_user: ezen felhasználó elrejtése
       if set location: Ha beállítod a lakhelyedet a %{settings_link} oldalon, megnézheted a hozzád közeli felhasználókat.
       km away: "%{count} km-re innen"
@@ -1650,8 +1694,8 @@ hu:
       my settings: Beállításaim
       my traces: Saját nyomvonalak
       nearby users: Egyéb közeli felhasználók
-      nearby_changesets: A közeli felhasználók módosításainak böngészése
-      nearby_diaries: A közeli felhasználók naplóbejegyzéseinek böngészése
+      nearby_changesets: közeli felhasználók módosításai
+      nearby_diaries: közeli felhasználók naplóbejegyzései
       new diary entry: új naplóbejegyzés
       no friends: Még nem adtál meg egyetlen barátot sem.
       no nearby users: Még nincsenek más felhasználók, akik megadták, hogy a közelben szerkesztenek.
@@ -1736,7 +1780,7 @@ hu:
       revoke: Visszavonás!
       revoker_name: "Visszavonta:"
       show: Megjelenítés
-      showing_page: "Jelenlegi oldal: %{page}"
+      showing_page: "%{page}. oldal"
       status: Állapot
     period: 
       one: 1 órája
@@ -1798,7 +1842,7 @@ hu:
       way_html: A <strong>vonal</strong> egy vonalas vagy terület objektum, mint például egy út, folyó, tó vagy épület.
     introduction_html: Üdvözöl az OpenStreetMap - a szabad és szerkeszthető világtérkép - közössége. Most, hogy regisztráltál, máris elkezdheted a térképezést. Itt elérhető egy gyors összefoglaló a legfontosabb tudnivalókkal.
     questions: 
-      paragraph_1_html: Ha kérdésed van a térképezéssel kapcsolatban, segítséget és kapcsolatfelvételi lehetőségeket találhatsz a <a href='http://wiki.openstreetmap.org/wiki/HU:Main_Page'>dokumentációban</a>.
+      paragraph_1_html: Az OpenStreetMap számos anyagot kínál fel ahhoz, hogy ismerkedj a projekttel, kérdéseket tégy fel vagy válaszolj meg, vagy térképezési témákat beszélj meg a közösség tagjaival. <a href='%{help_url}'>Itt találsz segítséget</a>.
       title: Kérdésed van?
     start_mapping: Térképezés indítása
     title: Üdvözlet!

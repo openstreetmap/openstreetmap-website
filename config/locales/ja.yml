@@ -5,6 +5,7 @@
 # Author: Fryed-peach
 # Author: Hayashi
 # Author: Higa4
+# Author: Hiro884
 # Author: Hosiryuhosi
 # Author: Iwai.masaharu
 # Author: Mage Whopper
@@ -67,7 +68,7 @@ ja:
         languages: 言語
         pass_crypt: パスワード
     models: 
-      acl: 通行制限リスト
+      acl: アクセス制御リスト
       changeset: 変更セット
       changeset_tag: 変更セットのタグ
       country: 国
@@ -92,11 +93,11 @@ ja:
       relation_tag: リレーションのタグ
       session: セッション
       trace: トレース
-      tracepoint: トレースの点
+      tracepoint: トレース ポイント
       tracetag: トレースのタグ
       user: ユーザー
       user_preference: ユーザー設定
-      user_token: ユーザー トークン
+      user_token: ユーザーのトークン
       way: ウェイ
       way_node: ウェイのノード
       way_tag: ウェイのタグ
@@ -155,6 +156,7 @@ ja:
       closed_title: "解決済のメモ #%{note_name}"
       commented_by: "%{user}さんによる<abbr title='%{exact_time}'>%{when}前</abbr>のコメント"
       commented_by_anonymous: 誰かによる<abbr title='%{exact_time}'>%{when}前</abbr>のコメント
+      description: "説明:"
       hidden_by: "%{user}さんが<abbr title='%{exact_time}'>%{when}前</abbr>に非表示化"
       hidden_title: "非表示のメモ #%{note_name}"
       new_note: 新しいメモ
@@ -324,7 +326,7 @@ ja:
       name: Potlatch 2
     remote: 
       description: 遠隔制御 (JOSM または Merkaartor)
-      name: 遠隔制御
+      name: リモート制御
   export: 
     start: 
       add_marker: マーカーを地図に追加
@@ -371,8 +373,12 @@ ja:
       add_a_note: 
         instructions_html: "<a class='icon note'></a> をクリックするか、または地図上の同じアイコンをクリックしてください。\n地図にマーカーが追加されます。マーカーはドラッグで移動できます。\nメッセージを追加して保存をクリックすると、他のマッパーたちが調査します。"
       join_the_community: 
+        explanation_html: 道路や住所が抜けているなど地図データの問題を見つけた場合、OpenStreetMapのコミュニティに参加して自分でデータの修正や追加をすることが最善の方法です。
         title: コミュニティへの参加
       title: 支援する方法
+    other_concerns: 
+      explanation_html: 私たちのデータの使い方やコンテンツに問題がある場合、<a href='/copyright'>著作権のページ</a> を参照して法的情報をご確認いただくか、適切な <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>OSMF ワーキング グループ</a> までご連絡ください。
+      title: 他の問題
     title: 問題点の報告 / 地図の修正
   geocoder: 
     description: 
@@ -948,7 +954,7 @@ ja:
     notes: 
       new: 
         add: メモを追加
-        intro: マップを改善するために、あなたが入力した情報は他のマッパーに表示されます。そのため、マーカーを正しい位置に動かしたりメモを以下に書き込む際は、できるだけ分かりやすく詳細に記述してください。
+        intro: スポットの間違いや情報の抜けがありましたか？他のマッパーが修正できるよう、お知らせください。マーカーを正しい位置に移動し、問題を説明するメモを入力します。（ここには個人情報は入力しないでください）
       show: 
         anonymous_warning: このメモは匿名ユーザーによるコメントも含んでいるため、別途確認してください。
         comment: コメント
@@ -995,7 +1001,7 @@ ja:
     export_data: データをエクスポート
     foundation: 財団
     foundation_title: OpenStreetMap 財団
-    gps_traces: GPS トレース
+    gps_traces: GPSトレース
     gps_traces_tooltip: トレースの管理
     help: ヘルプ
     history: 履歴
@@ -1237,12 +1243,12 @@ ja:
       welcome: アカウントを確認したあと、開始するための追加情報を提供します。
   oauth: 
     oauthorize: 
-      allow_read_gpx: 自分の非公開 GPS トレースを読み込む。
+      allow_read_gpx: 自分の非公開GPSトレースを読み込む。
       allow_read_prefs: 自分のユーザー設定を読み込む。
       allow_to: "クライアント アプリケーションに以下の操作を許可する:"
       allow_write_api: 地図を変更する。
       allow_write_diary: 日記エントリを作成する、コメントする、友達を作る。
-      allow_write_gpx: GPS トレースをアップロードする。
+      allow_write_gpx: GPSトレースをアップロードする。
       allow_write_notes: メモを変更する。
       allow_write_prefs: 自分のユーザー設定を変更する。
       request_access: アプリケーション %{app_name} があなたのアカウント、%{user} への接続許可を求めています。そのアプリケーションに許可してもよいかどうかを確認してください。複数のアプリケーションに許可を与えることもできます。
@@ -1266,11 +1272,11 @@ ja:
       submit: 編集
       title: アプリケーションの編集
     form: 
-      allow_read_gpx: 非公開 GPS トレースを読み込む。
+      allow_read_gpx: 非公開GPSトレースを読み込む。
       allow_read_prefs: ユーザー設定を読み込む。
       allow_write_api: 地図を変更する。
       allow_write_diary: 日記エントリを作成する、コメントする、友達を作る。
-      allow_write_gpx: GPS トレースをアップロードする。
+      allow_write_gpx: GPSトレースをアップロードする。
       allow_write_notes: メモを変更する。
       allow_write_prefs: ユーザー設定を変更する。
       callback_url: コールバック URL
@@ -1297,11 +1303,11 @@ ja:
       sorry: 申し訳ありませんが、この %{type} は見つかりませんでした。
     show: 
       access_url: "アクセス トークン URL:"
-      allow_read_gpx: 非公開 GPS トレースを読み込む。
+      allow_read_gpx: 非公開GPSトレースを読み込む。
       allow_read_prefs: ユーザー設定を読み込む。
       allow_write_api: 地図を変更する。
       allow_write_diary: 日記エントリを作成する、コメントする、友達を作る。
-      allow_write_gpx: GPS トレースをアップロードする。
+      allow_write_gpx: GPSトレースをアップロードする。
       allow_write_notes: メモを変更する。
       allow_write_prefs: ユーザー設定を変更する。
       authorize_url: "承認 URL:"
@@ -1366,7 +1372,7 @@ ja:
       license: 
         copyright: Copyright OpenStreetMapおよび協力者、オープンライセンスの下で
       permalink: 固定リンク
-      remote_failed: 編集に失敗しました - JOSM または Merkaartor が読み込まれていること、遠隔制御オプションが有効になっていることを確認してください
+      remote_failed: 編集に失敗しました - JOSM または Merkaartor を起動し、リモート制御オプションが有効になっていることを確認してください
       shortlink: 短縮リンク
     key: 
       table: 
@@ -1462,11 +1468,11 @@ ja:
       search_results: 検索結果
   time: 
     formats: 
-      friendly: "%Y年%B%e日 %H:%M"
+      friendly: "%Y年%B月%e日 %H:%M"
   trace: 
     create: 
       trace_uploaded: GPX ファイルをアップロードしました。データベースへの登録に多少時間がかかります。通常この作業は 30 分以内に完了し、それをお知らせするメールをお送りします。
-      upload_trace: GPS トレースのアップロード
+      upload_trace: GPSトレースのアップロード
     delete: 
       scheduled_for_deletion: トレースの削除準備を行いました
     description: 
@@ -1492,14 +1498,14 @@ ja:
       visibility_help: これはどういう意味?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/JA:Visibility_of_GPS_traces
     georss: 
-      title: OpenStreetMap GPS トレース
+      title: OpenStreetMap GPSトレース
     list: 
       description: 最近のGPSトラックのアップロードを参照
-      empty_html: ここにはまだ何もありません。<a href='%{upload_link}'>新しくトレースをアップロード</a>するか、<a href='http://wiki.openstreetmap.org/wiki/JA:Beginners_Guide_1.2?uselang=ja'>ウィキ ページ</a>で GPS トレースの詳細情報をお読みください。
-      public_traces: 公開 GPS トレース
-      public_traces_from: "%{user} による公開 GPS トレース"
+      empty_html: ここにはまだ何もありません。<a href='%{upload_link}'>新しくトレースをアップロード</a>するか、<a href='http://wiki.openstreetmap.org/wiki/JA:Beginners_Guide_1.2?uselang=ja'>ウィキページ</a>でGPSトレースの詳細情報をお読みください。
+      public_traces: 公開GPSトレース
+      public_traces_from: "%{user}さんによる公開GPSトレース"
       tagged_with: (タグ %{tags} が付いているもの)
-      your_traces: あなたの GPS トレース
+      your_traces: あなたのGPSトレース
     make_public: 
       made_public: トレースを公開しました
     offline: 

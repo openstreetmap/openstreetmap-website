@@ -12,7 +12,7 @@ ia:
         language: Lingua
         latitude: Latitude
         longitude: Longitude
-        title: Titulo
+        title: Subjecto
         user: Usator
       friend: 
         friend: Amico
@@ -21,7 +21,7 @@ ia:
         body: Texto
         recipient: Destinatario
         sender: Expeditor
-        title: Titulo
+        title: Subjecto
       trace: 
         description: Description
         latitude: Latitude
@@ -81,27 +81,63 @@ ia:
       blocked: Tu accesso al API ha essite blocate. Per favor aperi un session al interfacie web pro plus informationes.
       need_to_see_terms: Vostre accesso al API ha essite temporarimente suspendite. Per favor aperi session in le interfacie web pro vider le Conditiones de contributor. Non es necessari declarar se de accordo, ma es obligatori haber legite los.
   browse: 
+    anonymous: anonyme
     changeset: 
+      belongs_to: Autor
       changesetxml: XML del gruppo de modificationes
       feed: 
         title: Gruppo de modificationes %{id}
         title_comment: Gruppo de modificationes %{id} - %{comment}
+      node: Nodos (%{count})
+      node_paginated: Nodos (%{x}-%{y} de %{count})
       osmchangexml: XML osmChange
-      title: Gruppo de modificationes
+      relation: Relationes (%{count})
+      relation_paginated: Relationes (%{x}-%{y} de %{count})
+      title: "Gruppo de modificationes: %{id}"
+      way: Vias (%{count})
+      way_paginated: Vias (%{x}-%{y} de %{count})
+    closed: Claudite a
+    closed_by_html: Claudite <abbr title='%{title}'>%{time} retro</abbr> per %{user}
+    closed_html: Claudite <abbr title='%{title}'>%{time} retro</abbr>
     containing_relation: 
       entry: Relation %{relation_name}
       entry_role: Relation %{relation_name} (como %{relation_role})
+    created: Create a
+    created_by_html: Create <abbr title='%{title}'>%{time} retro</abbr> per %{user}
+    created_html: Create <abbr title='%{title}'>%{time} retro</abbr>
+    deleted_by_html: Delite <abbr title='%{title}'>%{time} retro</abbr> per %{user}
+    download_xml: Discargar XML
+    edited_by_html: Modificate <abbr title='%{title}'>%{time} retro</abbr> per %{user}
+    in_changeset: Gruppo de modificationes
+    location: "Loco:"
+    no_comment: (sin commento)
+    node: 
+      history_title: "Historia del nodo: %{name}"
+      title: "Nodo: %{name}"
     not_found: 
-      sorry: Pardono, le %{type} con le ID %{id} non ha essite trovate.
+      sorry: Le %{type} №%{id} non ha essite trovate.
       type: 
         changeset: gruppo de modificationes
         node: nodo
         relation: relation
         way: via
     note: 
-      closed_title: "Nota resolvite: %{note_name}"
-      open_title: "Nota non resolvite: %{note_name}"
-      title: Nota
+      closed_by: Resolvite per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
+      closed_by_anonymous: Resolvite per un anonymo <abbr title='%{exact_time}'>%{when} retro</abbr>
+      closed_title: Nota resolvite №%{note_name}
+      commented_by: Commento scribite per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
+      commented_by_anonymous: Commento scribite per un anonymo <abbr title='%{exact_time}'>%{when} retro</abbr>
+      description: "Description:"
+      hidden_by: Celate per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
+      hidden_title: Nota celate №%{note_name}
+      new_note: Nove nota
+      open_by: Create per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
+      open_by_anonymous: Create per un anonymo <abbr title='%{exact_time}'>%{when} retro</abbr>
+      open_title: Nota non resolvite №%{note_name}
+      reopened_by: Reactivate per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
+      reopened_by_anonymous: Reactivate per un anonymo <abbr title='%{exact_time}'>%{when} retro</abbr>
+      title: "Nota: %{id}"
+    part_of: Parte de
     redacted: 
       message_html: Le version %{version} de iste %{type} non pote esser monstrate perque illo ha essite obscurate. Vide %{redaction_link} pro detalios.
       redaction: Obscuration %{id}
@@ -109,6 +145,10 @@ ia:
         node: nodo
         relation: relation
         way: via
+    relation: 
+      history_title: "Historia del relation: %{name}"
+      members: Membros
+      title: "Relation: %{name}"
     relation_member: 
       entry_role: "%{type} %{name} como %{role}"
       type: 
@@ -116,10 +156,11 @@ ia:
         relation: Relation
         way: Via
     start_rjs: 
+      feature_warning: Le cargamento de %{num_features} elementos pote relentar o congelar tu navigator. Es tu secur de voler visualisar iste datos?
       load_data: Cargar datos
       loading: Cargamento...
     tag_details: 
-      tags: "Etiquettas:"
+      tags: Etiquettas
       wiki_link: 
         key: Le pagina wiki que describe le etiquetta %{key}
         tag: Le pagina wiki que describe le etiquetta %{key}=%{value}
@@ -131,6 +172,16 @@ ia:
         node: nodo
         relation: relation
         way: via
+    version: Version
+    view_details: Vider detalios
+    view_history: Vider historia
+    way: 
+      also_part_of: 
+        one: parte del via %{related_ways}
+        other: parte del vias %{related_ways}
+      history_title: "Historia del via: %{name}"
+      nodes: Nodos
+      title: "Via: %{name}"
   changeset: 
     changeset: 
       anonymous: Anonyme
@@ -147,6 +198,13 @@ ia:
       saved_at: Salveguardate le
       user: Usator
     list: 
+      empty: Nulle gruppo de modificationes trovate.
+      empty_area: Nulle gruppo de modificationes in iste area.
+      empty_user: Nulle gruppo de modificationes facite per iste usator.
+      load_more: Cargar plus
+      no_more: Nulle altere gruppo de modificationes trovate.
+      no_more_area: Nulle altere gruppo de modificationes in iste area.
+      no_more_user: Nulle altere gruppo de modificationes facite per iste usator.
       title: Gruppos de modificationes
       title_friend: Gruppos de modificationes per tu amicos
       title_nearby: Gruppos de modificationes per usatores vicin
@@ -263,6 +321,7 @@ ia:
       paste_html: Colla HTML pro incorporar in sito web
       scale: Scala
       too_large: 
+        advice: "Si iste exportation falle, considera usar un del fontes listate hic infra:"
         body: "Iste area es troppo grande pro esser exportate como datos XML de OpenStreetMap. Per favor face zoom avante, o selige un area minor, o usa un del sequente fontes pro discargamento de datos in massa:"
         geofabrik: 
           description: Extractos regularmente actualisate de continentes, paises, e citates seligite
@@ -273,10 +332,26 @@ ia:
         other: 
           description: Fontes additional listate in le wiki de OpenStreetMap
           title: Altere fontes
+        overpass: 
+          description: Discargar iste quadro delimitator ab un replica del base de datos de OpenStreetMap
+          title: Overpass API
         planet: 
           description: Copias regularmente actualisate del base de datos complete de OpenStreetMap
           title: Planeta OSM
       zoom: Zoom
+    title: Exportar
+  fixthemap: 
+    how_to_help: 
+      add_a_note: 
+        instructions_html: Clicca simplemente sur <a class='icon note'></a> o sur le mesme icone in le quadro del carta. Un marcator essera addite al carta, que tu pote displaciar trahente lo con le mouse. Adde tu message, pois clicca sur Salveguardar, e altere cartographos lo investigara.
+      join_the_community: 
+        explanation_html: Si tu ha trovate un problema con nostre datos cartographic, per exemplo si il manca un cammino o tu adresse, lo melior es inscriber te a OpenStreetMap e adder o reparar le datos tu mesme.
+        title: Adherer al communitate
+      title: Como adjutar
+    other_concerns: 
+      explanation_html: Si tu ha preoccupationes sur le maniera in que nostre datos es usate o sur le contento, per favor consulta nostre pagina sur le <a href='/copyright'>derectos de autor</a> pro obtener information juridic, o contacta le <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>gruppo de labor OSMF</a> appropriate.
+      title: Altere preoccupationes
+    title: Reportar un problema / Corriger le carta
   geocoder: 
     description: 
       title: 
@@ -806,6 +881,8 @@ ia:
           water_point: Puncto de aqua
           waterfall: Cascada
           weir: Barrage
+  help_page: 
+    title: Obtener adjuta
   javascripts: 
     map: 
       base: 
@@ -830,10 +907,11 @@ ia:
       edit_disabled_tooltip: Face zoom avante pro modificar le carta
       edit_tooltip: Modificar le carta
   layouts: 
+    about: A proposito
     community: Communitate
     community_blogs: Blogs del communitate
     community_blogs_title: Blogs de membros del communitate de OpenStreetMap
-    copyright: Copyright & Licentia
+    copyright: Derectos de autor
     data: Datos
     donate: Supporta OpenStreetMap per %{link} al Fundo de Actualisation de Hardware.
     edit: Modificar
@@ -848,7 +926,10 @@ ia:
     history: Historia
     home: Vader al position de initio
     intro_2_create_account: Crea un conto de usator
-    log_in: aperir session
+    intro_header: Benvenite a OpenStreetMap!
+    intro_text: OpenStreetMap es un carta del mundo, create per gente como tu e libere de usar sub un licentia aperte.
+    learn_more: Leger plus
+    log_in: Aperir session
     log_in_tooltip: Aperir un session con un conto existente
     logo: 
       alt_text: Logo de OpenStreetMap
@@ -856,6 +937,7 @@ ia:
     make_a_donation: 
       text: Facer un donation
       title: Supporta OpenStreetMap con un donation monetari
+    more: Plus
     osm_offline: Le base de datos de OpenStreetMap non es disponibile al momento debite a operationes de mantenentia essential.
     osm_read_only: Le base de datos de OpenStreetMap es al momento in modo de solmente lectura durante le execution de mantenentia essential.
     partners_bytemark: Bytemark Hosting
@@ -864,8 +946,9 @@ ia:
     partners_partners: partners
     partners_ucl: le Centro de Realitate Virtual del UCL
     partners_url: http://wiki.openstreetmap.org/wiki/Partners
-    sign_up: inscriber se
+    sign_up: Crear conto
     sign_up_tooltip: Crear un conto pro modification
+    start_mapping: Comenciar a cartographiar
     tag_line: Le wiki-carta libere del mundo
     user_diaries: Diarios de usatores
     user_diaries_tooltip: Leger diarios de usatores
@@ -880,6 +963,7 @@ ia:
         title: Exemplo de recognoscentia
       contributors_at_html: "<strong>Austria</strong>: Contine datos ab le\n   <a href=\"http://data.wien.gv.at/\">Citate de Vienna</a> licentiate sub\n   <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>."
       contributors_ca_html: "<strong>Canada</strong>: Contine datos ab\n   GeoBase&reg;, GeoGratis (&copy; Department of Natural\n   Resources Canada), CanVec (&copy; Department of Natural\n   Resources Canada), e StatCan (Geography Division,\n   Statistics Canada)."
+      contributors_fi_html: "<strong>Finlandia</strong>: Contine datos ab le base de datos topographic del Inspection \nNational del Territorio de Finlandia e de altere insimules de datos, sub le\n<a href=\"http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501\">licentia NLSFI</a>."
       contributors_footer_1_html: "Pro ulterior detalios de iste e altere fontes que ha essite usate\npro adjutar a meliorar OpenStreetMap, vide le <a\nhref=\"\"http://wiki.openstreetmap.org/wiki/Contributors\">pagina\nde contributores</a> in le wiki de OpenStreetMap."
       contributors_footer_2_html: "  Le inclusion de datos in OpenStreetMap non implica que le fornitor\n  original del datos indorsa OpenStreetMap, forni alcun garantia, o\n  accepta alcun responsabilitate."
       contributors_fr_html: "<strong>Francia</strong>: Contine datos fornite per le\n   Direction Générale des Impôts."
@@ -1482,7 +1566,7 @@ ia:
       email or username: "Adresse de e-mail o nomine de usator:"
       heading: Aperir session
       login_button: Aperir session
-      lost password link: Tu perdeva le contrasigno?
+      lost password link: Contrasigno perdite?
       new to osm: Nove a OpenStreetMap?
       no account: Non ha un conto?
       openid: "OpenID de %{logo}:"
@@ -1768,6 +1852,10 @@ ia:
       heading: Confirmar le revocation del rolo
       title: Confirmar le revocation del rolo
   welcome_page: 
+    add_a_note: 
+      paragraph_1_html: Si tu vole meliorar un micre cosa e non ha le tempore pro crear un conto e apprender a modificar, alora il es facile adder un nota.
+      paragraph_2_html: "Simplemente visita <a href='%{map_url}'>le carta</a> e clicca sur le icone de nota:\n<span class='icon note'></span>. Un marcator essera addite al carta, que tu pote displaciar trahente lo con le mouse. Adde tu message, pois clicca sur Salveguardar, e altere cartographos lo investigara."
+      title: Non ha tempore pro modificar? Adde un nota!
     basic_terms: 
       editor_html: Un <strong>editor</strong> es un programma o sito web que tu pote usar pro modificar le carta.
       node_html: Un <strong>nodo</strong> es un puncto sur le carta, como un restaurante o un arbore individual.
@@ -1777,6 +1865,7 @@ ia:
       way_html: Un <strong>via</strong> es un linea o area, como un strata, fluxo, laco o edificio.
     introduction_html: Bevenite a OpenStreetMap, le carta libere e modificabile del mundo. Ora que tu te ha inscribite, tu es preste a comenciar a cartographiar. Ecce un guida curte con le cosas le plus importante a saper.
     questions: 
+      paragraph_1_html: "OpenStreetMap ha plure ressources pro apprender a cognoscer le projecto, pro poner e responder a questiones e pro discuter e documentar le subjectos de carthographia in collaboration con alteres.\n<a href='%{help_url}'>Obtene adjuta hic</a>."
       title: Questiones?
     start_mapping: comenciar le cartographia
     title: Benvenite!
