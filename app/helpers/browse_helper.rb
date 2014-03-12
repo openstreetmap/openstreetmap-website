@@ -58,7 +58,7 @@ module BrowseHelper
     elsif url = wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t('browse.tag_details.wiki_link.tag', :key => key, :value => value)
     elsif url = telephone_link(key, value)
-      link_to h(value), url, :title => t('browse.tag_details.telephone_link', :value => value)
+      link_to h(value), url, :title => t('browse.tag_details.telephone_link', :phone_number => value)
     else
       linkify h(value)
     end
