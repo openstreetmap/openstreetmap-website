@@ -140,15 +140,27 @@ OSM.Query = function(map) {
     }
   }
 
-  function featureGeometry(feature, nodes) {
+  function featureGeometry(feature, features) {
     var geometry;
 
     if (feature.type === "node") {
       geometry = L.circleMarker([feature.lat, feature.lon], featureStyle);
     } else if (feature.type === "way") {
       geometry = L.polyline(feature.nodes.map(function (node) {
-        return nodes[node];
+        return features["node" + node].getLatLng();
       }), featureStyle);
+    } else if (feature.type === "relation") {
+      geometry = L.featureGroup();
+
+      feature.members.forEach(function (member) {
+        if (features[member.type + member.ref]) {
+          geometry.addLayer(features[member.type + member.ref]);
+        }
+      });
+    }
+
+    if (geometry) {
+      features[feature.type + feature.id] = geometry;
     }
 
     return geometry;
@@ -171,23 +183,18 @@ OSM.Query = function(map) {
         data: "[timeout:5][out:json];" + query,
       },
       success: function(results) {
-        var nodes = {};
+        var features = {};
 
         $section.find(".loader").stopTime("loading").hide();
 
-        results.elements.forEach(function (element) {
-          if (element.type === "node") {
-            nodes[element.id] = [element.lat, element.lon];
-          }
-        });
-
         for (var i = 0; i < results.elements.length; i++) {
-          var element = results.elements[i];
+          var element = results.elements[i],
+            geometry = featureGeometry(element, features);
 
           if (interestingFeature(element, latlng, radius)) {
             var $li = $("<li>")
               .addClass("query-result")
-              .data("geometry", featureGeometry(element, nodes))
+              .data("geometry", geometry)
               .appendTo($ul);
             var $p = $("<p>")
               .text(featurePrefix(element) + " ")
