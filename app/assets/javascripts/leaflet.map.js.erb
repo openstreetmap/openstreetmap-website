@@ -241,7 +241,7 @@ L.OSM.Map = L.Map.extend({
 
   setState: function(state, options) {
     if (state.center) this.setView(state.center, state.zoom, options);
-    this.updateLayers(state.layers);
+    if (state.layers) this.updateLayers(state.layers);
   }
 });
 
