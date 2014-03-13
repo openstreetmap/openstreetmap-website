@@ -177,7 +177,7 @@ OSM.Query = function(map) {
     });
 
     $.ajax({
-      url: "http://overpass-api.de/api/interpreter",
+      url: OSM.OVERPASS_URL,
       method: "POST",
       data: {
         data: "[timeout:5][out:json];" + query,
