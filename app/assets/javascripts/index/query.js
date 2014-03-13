@@ -176,7 +176,11 @@ OSM.Query = function(map) {
       $(this).show();
     });
 
-    $.ajax({
+    if ($section.data("ajax")) {
+      $section.data("ajax").abort();
+    }
+
+    $section.data("ajax", $.ajax({
       url: OSM.OVERPASS_URL,
       method: "POST",
       data: {
@@ -213,7 +217,7 @@ OSM.Query = function(map) {
             .appendTo($ul);
         }
       }
-    });
+    }));
   }
 
   function queryOverpass(lat, lng) {
