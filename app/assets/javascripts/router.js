@@ -114,7 +114,9 @@ OSM.Router = function(map, rts) {
         route = routes.recognize(path);
       if (!route) return false;
       currentRoute.run('unload');
-      window.history.pushState(OSM.parseHash(url), document.title, url);
+      var state = OSM.parseHash(url);
+      map.setState(state);
+      window.history.pushState(state, document.title, url);
       currentPath = path;
       currentRoute = route;
       currentRoute.run('pushstate', currentPath);
