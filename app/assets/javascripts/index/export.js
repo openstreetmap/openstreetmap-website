@@ -69,7 +69,6 @@ OSM.Export = function(map) {
 
     $("#maxlat, #minlon, #maxlon, #minlat").change(boundsChanged);
     $("#drag_box").click(enableFilter);
-    $("#sidebar_content .close").on("click", page.minimizeSidebar);
     $(".export_form").on("submit", checkSubmit);
 
     update();
