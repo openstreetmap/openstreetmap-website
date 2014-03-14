@@ -122,24 +122,6 @@ OSM.Query = function(map) {
     }
   }
 
-  function featureLink(feature) {
-    if (feature.type === "area") {
-      if (feature.id >= 3600000000) {
-        var id = feature.id - 3600000000;
-
-        return "/browse/relation/" + id;
-      } else if (feature.id >= 2400000000) {
-        var id = feature.id - 2400000000;
-
-        return "/browse/way/" + id;
-      } else {
-        return "/browse/node/" + feature.id;
-      }
-    } else {
-      return "/browse/" + feature.type + "/" + feature.id;
-    }
-  }
-
   function featureGeometry(feature, features) {
     var geometry;
 
@@ -205,7 +187,7 @@ OSM.Query = function(map) {
               .appendTo($li);
 
             $("<a>")
-              .attr("href", featureLink(element))
+              .attr("href", "/" + element.type + "/" + element.id)
               .text(featureName(element))
               .appendTo($p);
           }
@@ -226,7 +208,7 @@ OSM.Query = function(map) {
       around = "around:" + radius + "," + lat + "," + lng,
       features = "(node(" + around + ");way(" + around + ");relation(" + around + "))",
       nearby = "((" + features + ";way(bn));node(w));out;",
-      isin = "(is_in(" + lat + "," + lng + ");>);out;";
+      isin = "is_in(" + lat + "," + lng + ")->.a;(relation(pivot.a);way(pivot.a);node(w));out;";
 
     $("#sidebar_content .query-intro")
       .hide();
