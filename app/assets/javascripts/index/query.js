@@ -256,17 +256,23 @@ OSM.Query = function(map) {
 
   page.pushstate = page.popstate = function(path) {
     OSM.loadSidebarContent(path, function () {
-      page.load(path);
+      page.load(path, true);
     });
   };
 
-  page.load = function(path) {
-    var params = querystring.parse(path.substring(path.indexOf('?') + 1));
+  page.load = function(path, noCentre) {
+    var params = querystring.parse(path.substring(path.indexOf('?') + 1)),
+      latlng = L.latLng(params.lat, params.lon);
+
+    if (!window.location.hash &&
+        (!noCentre || !map.getBounds().contains(latlng))) {
+      OSM.router.withoutMoveListener(function () {
+        map.setView(latlng, 15);
+      });
+    }
 
     queryOverpass(params.lat, params.lon);
     enableQueryMode();
-
-    return map.getState();
   };
 
   page.unload = function() {
