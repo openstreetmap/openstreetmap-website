@@ -108,7 +108,7 @@ pt-BR:
       belongs_to: Autor
       changesetxml: XML do conjunto de alterações
       feed: 
-        title: Conjunto de mudanças %{id}
+        title: Conjunto de alterações %{id}
         title_comment: Conjunto de mudanças %{id} - %{comment}
       node: Nós (%{count})
       node_paginated: Nós (%{x}-%{y} de %{count})
@@ -139,7 +139,7 @@ pt-BR:
     not_found: 
       sorry: Desculpe, não foi possível encontrar %{type} com id %{id}.
       type: 
-        changeset: conjunto de mudanças
+        changeset: conjunto de alterações
         node: nó
         relation: relação
         way: caminho
@@ -149,6 +149,7 @@ pt-BR:
       closed_title: "Nota resolvida #%{note_name}"
       commented_by: Comentado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
       commented_by_anonymous: Comentado por um usuário anônimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      description: "Descrição:"
       hidden_by: Ocultado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
       hidden_title: "Nota oculta #%{note_name}"
       new_note: Nova nota
@@ -190,7 +191,7 @@ pt-BR:
     timeout: 
       sorry: Desculpe, mas os dados para %{type} com id %{id} estão demorando muito para chegar.
       type: 
-        changeset: conjunto de mudanças
+        changeset: conjunto de alterações
         node: nó
         relation: relação
         way: caminho
@@ -340,6 +341,7 @@ pt-BR:
       paste_html: Cole o HTML para publicar no site
       scale: Escala
       too_large: 
+        advice: "Se a exportação acima falhar, por favor considere o uso de uma das fontes listadas abaixo:"
         body: "Esta área é muito grande para ser exportada como dados em XML do OpenStreetMap. Por gentileza, aumente o zoom ou selecione uma área menor, ou use as seguintes fontes de downloads de dados em massa:"
         geofabrik: 
           description: Extratos regularmente atualizados de continentes, países, e cidades selecionadas
@@ -347,15 +349,20 @@ pt-BR:
         metro: 
           description: Extratos das principais cidades do mundo e suas areas próximas
           title: Extratos do Portal Metro
+        other: 
+          description: Fontes adicionais listadas na wiki do OpenStreetMap
+          title: Outras fontes
         planet: 
           description: Cópias regularmente atualizadas da base de dados completa do OpenStreetMap
           title: Planeta OSM
       zoom: Zoom
+    title: Exportar
   fixthemap: 
     how_to_help: 
       join_the_community: 
         title: Junte-se à comunidade
       title: Como ajudar
+    title: Reportar um problema / Corrigir o mapa
   geocoder: 
     description: 
       title: 
@@ -385,8 +392,10 @@ pt-BR:
       title: 
         ca_postcode: Resultados do <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Resultados do <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse: Resultados do <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Resultados <a href="http://openstreetmap.org/">Internos</a>
         osm_nominatim: Resultados de <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
+        osm_nominatim_reverse: Resultados do <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Resultados do <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultados do <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
@@ -884,10 +893,15 @@ pt-BR:
           weir: Açude
       prefix_format: "%{name}"
   help_page: 
+    help: 
+      title: help.openstreetmap.org
     welcome: 
       title: Bem vindo ao OSM
+      url: /welcome
     wiki: 
       description: Navegue na wiki para ver a documentação do OSM com mais detalhes.
+      title: wiki.openstreetmap.org/Pt-br:Main_Page
+      url: http://wiki.openstreetmap.org/wiki/Pt-br:Main_Page
   html: 
     dir: ltr
   javascripts: 
@@ -900,6 +914,7 @@ pt-BR:
     map: 
       base: 
         cycle_map: Cycle Map
+        hot: Humanitário
         mapquest: MapQuest Open
         standard: Padrão
         transport_map: Mapa de transporte público
@@ -910,6 +925,7 @@ pt-BR:
         header: Camadas do Mapa
         notes: Notas de Mapa
         overlays: Ativar sobreposições para solucionar problemas do mapa
+        title: Camadas
       locate: 
         popup: Você está dentro de {distance} {unit} deste ponto
         title: Mostrar minha localização
@@ -919,7 +935,7 @@ pt-BR:
     notes: 
       new: 
         add: Adicionar nota
-        intro: A fim de melhorar o mapa, as informações inseridas por você serão visíveis a outros cartógrafos; sendo assim, seja o mais descritivo e preciso possível ao mover o marcador para sua posição correta e ao escrever sua nota abaixo dele.
+        intro: Encontrou um erro ou tem algo faltando? Avise os outros mapeadores para que eles possam consertar. Mova o marcador para a posição correta e digite uma nota para com a explicação do problema. (Por favor não coloque informações pessoais aqui)
       show: 
         anonymous_warning: Esta nota contém comentários de usuários anônimos que devem ser verificados separadamente.
         comment: Comentar
@@ -951,6 +967,7 @@ pt-BR:
       edit_disabled_tooltip: Aumente o zoom para editar o mapa
       edit_tooltip: Edite o mapa
   layouts: 
+    about: Sobre
     community: Comunidade
     community_blogs: Blogs da Comunidade
     community_blogs_title: Blogs de membros da comunidade OpenStreetMap
@@ -969,6 +986,8 @@ pt-BR:
     history: Histórico
     home: Ir para o seu local
     intro_2_create_account: Criar uma conta de usuário
+    intro_header: Bem vindo ao OpenStreetMap!
+    intro_text: O OpenStreetMap é um mapa do mundo, criado por pessoas como você e de uso livre sob uma licença aberta.
     learn_more: Saiba mais
     log_in: Entrar
     log_in_tooltip: Entrar com uma conta existente
@@ -978,6 +997,7 @@ pt-BR:
     make_a_donation: 
       text: Faça uma doação
       title: Ajude o OpenStreetMap com uma doação monetária
+    more: Mais
     osm_offline: A base de dados do OpenStreetMap está off-line devido a operações de manutenção.
     osm_read_only: A base de dados do OpenStreetMap está em modo somente leitura devido a operações de manutenção.
     partners_bytemark: Alojamento Bytemark
@@ -990,6 +1010,7 @@ pt-BR:
       title: OpenStreetMap
     sign_up: Criar conta
     sign_up_tooltip: Criar uma conta para editar
+    start_mapping: Começar a mapear
     tag_line: O Wiki de Mapas Livres
     user_diaries: Diários de Usuário
     user_diaries_tooltip: Ver os diários dos usuários
