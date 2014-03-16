@@ -73,18 +73,8 @@ describe("OSM", function () {
       expect(params).to.have.property("bounds").deep.equal(expected);
     });
 
-    it("parses lat/lon/zoom params", function () {
-      var params = OSM.mapParams("?lat=57.6247&lon=-3.6845");
-      expect(params).to.have.property("lat", 57.6247);
-      expect(params).to.have.property("lon", -3.6845);
-      expect(params).to.have.property("zoom", 5);
-
-      params = OSM.mapParams("?lat=57.6247&lon=-3.6845&zoom=10");
-      expect(params).to.have.property("lat", 57.6247);
-      expect(params).to.have.property("lon", -3.6845);
-      expect(params).to.have.property("zoom", 10);
-
-      params = OSM.mapParams("?mlat=57.6247&mlon=-3.6845");
+    it("parses mlat/mlon/zoom params", function () {
+      var params = OSM.mapParams("?mlat=57.6247&mlon=-3.6845");
       expect(params).to.have.property("lat", 57.6247);
       expect(params).to.have.property("lon", -3.6845);
       expect(params).to.have.property("zoom", 12);
