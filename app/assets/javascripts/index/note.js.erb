@@ -101,9 +101,9 @@ OSM.Note = function (map) {
       latLng = L.latLng(data.coordinates.split(','));
 
     if (!window.location.hash || window.location.hash.match(/^#?c[0-9]+$/)) {
-      OSM.router.moveListenerOff();
-      map.once('moveend', OSM.router.moveListenerOn);
-      map.setView(latLng, 15, {reset: true});
+      OSM.router.withoutMoveListener(function () {
+        map.setView(latLng, 15, {reset: true});
+      });
     }
   }
 

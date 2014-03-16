@@ -42,8 +42,9 @@
    OSM.Router also handles updating the hash portion of the URL containing transient
    map state such as the position and zoom level. Some route controllers may wish to
    temporarily suppress updating the hash (for example, to omit the hash on pages
-   such as `/way/1234` unless the map is moved). This can be done by calling
-   `OSM.router.moveListenerOff` and `OSM.router.moveListenerOn`.
+   such as `/way/1234` unless the map is moved). This can be done by using
+   `OSM.router.withoutMoveListener` to run a block of code that may update
+   move the map without the hash changing.
  */
 OSM.Router = function(map, rts) {
   var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
@@ -156,12 +157,17 @@ OSM.Router = function(map, rts) {
     router.stateChange(state, hash);
   };
 
-  router.moveListenerOn = function() {
-    map.on('moveend', router.updateHash);
-  };
+  router.withoutMoveListener = function (callback) {
+    function disableMoveListener() {
+      map.off('moveend', router.updateHash);
+      map.once('moveend', function () {
+        map.on('moveend', router.updateHash);
+      });
+    }
 
-  router.moveListenerOff = function() {
-    map.off('moveend', router.updateHash);
+    map.once('movestart', disableMoveListener);
+    callback();
+    map.off('movestart', disableMoveListener);
   };
 
   router.load = function() {

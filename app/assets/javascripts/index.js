@@ -264,10 +264,11 @@ $(document).ready(function () {
 
     function addObject(type, id, center) {
       var bounds = map.addObject({type: type, id: parseInt(id)}, function(bounds) {
-        if (!window.location.hash && bounds.isValid()) {
-          OSM.router.moveListenerOff();
-          map.once('moveend', OSM.router.moveListenerOn);
-          if (center || !map.getBounds().contains(bounds)) map.fitBounds(bounds);
+        if (!window.location.hash && bounds.isValid() &&
+            (center || !map.getBounds().contains(bounds))) {
+          OSM.router.withoutMoveListener(function () {
+            map.fitBounds(bounds);
+          });
         }
       });
     }
