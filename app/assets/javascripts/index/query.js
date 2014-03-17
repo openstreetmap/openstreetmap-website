@@ -209,6 +209,29 @@ OSM.Query = function(map) {
     }));
   }
 
+  /*
+   * To find nearby objects we ask overpass for the union of the
+   * following sets:
+   *
+   *   node(around:<radius>,<lat>,lng>)
+   *   way(around:<radius>,<lat>,lng>)
+   *   node(w)
+   *   relation(around:<radius>,<lat>,lng>)
+   *
+   * to find enclosing objects we first find all the enclosing areas:
+   *
+   *   is_in(<lat>,<lng>)->.a
+   *
+   * and then return the union of the following sets:
+   *
+   *   relation(pivot.a)
+   *   way(pivot.a)
+   *   node(w)
+   *
+   * In order to avoid overly large responses we don't currently
+   * attempt to complete any relations and instead just show those
+   * ways and nodes which are returned for other reasons.
+   */
   function queryOverpass(lat, lng) {
     var latlng = L.latLng(lat, lng),
       radius = 10 * Math.pow(1.5, 19 - map.getZoom()),
