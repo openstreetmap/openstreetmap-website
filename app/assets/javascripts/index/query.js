@@ -213,8 +213,10 @@ OSM.Query = function(map) {
     var latlng = L.latLng(lat, lng),
       radius = 10 * Math.pow(1.5, 19 - map.getZoom()),
       around = "around:" + radius + "," + lat + "," + lng,
-      features = "(node(" + around + ");way(" + around + ");relation(" + around + "))",
-      nearby = "((" + features + ";way(bn));node(w));out;",
+      nodes = "node(" + around + ")",
+      ways = "way(" + around + ");node(w)",
+      relations = "relation(" + around + ")",
+      nearby = "(" + nodes + ";" + ways + ";" + relations + ");out;",
       isin = "is_in(" + lat + "," + lng + ")->.a;(relation(pivot.a);way(pivot.a);node(w));out;";
 
     $("#sidebar_content .query-intro")
