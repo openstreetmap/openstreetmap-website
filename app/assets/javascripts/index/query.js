@@ -198,6 +198,13 @@ OSM.Query = function(map) {
             .text(I18n.t("javascripts.query.nothing_found"))
             .appendTo($ul);
         }
+      },
+      error: function(xhr, status, error) {
+        $section.find(".loader").stopTime("loading").hide();
+
+        $("<li>")
+          .text(I18n.t("javascripts.query." + status, { server: OSM.OVERPASS_URL, error: error }))
+          .appendTo($ul);
       }
     }));
   }
