@@ -235,7 +235,9 @@ OSM.Routing=function(map,name,jqSearch) {
         else                { return Math.round(m / 1000)  + "km"; }
     };
     r.formatTime=function(s) {
-        var d=new Date(s*1000); var h=d.getHours(); var m=d.getMinutes();
+        var m=Math.round(s/60);
+        var h=Math.floor(m/60);
+        m -= h*60;
         return h+":"+(m<10 ? '0' : '')+m;
     };
 
