@@ -1,7 +1,9 @@
 //= require jquery.simulate
 
 OSM.Query = function(map) {
-  var queryButton = $(".control-query .control-button"),
+  var protocol = document.location.protocol === "https:" ? "https:" : "http:",
+    url = protocol + OSM.OVERPASS_URL,
+    queryButton = $(".control-query .control-button"),
     uninterestingTags = ['source', 'source_ref', 'source:ref', 'history', 'attribution', 'created_by', 'tiger:county', 'tiger:tlid', 'tiger:upload_uuid'],
     marker;
 
@@ -163,7 +165,7 @@ OSM.Query = function(map) {
     }
 
     $section.data("ajax", $.ajax({
-      url: OSM.OVERPASS_URL,
+      url: url,
       method: "POST",
       data: {
         data: "[timeout:5][out:json];" + query,
@@ -203,7 +205,7 @@ OSM.Query = function(map) {
         $section.find(".loader").stopTime("loading").hide();
 
         $("<li>")
-          .text(I18n.t("javascripts.query." + status, { server: OSM.OVERPASS_URL, error: error }))
+          .text(I18n.t("javascripts.query." + status, { server: url, error: error }))
           .appendTo($ul);
       }
     }));
