@@ -1,4 +1,5 @@
 OpenStreetMap::Application.routes.draw do
+
   # API
   match 'api/capabilities' => 'api#capabilities', :via => :get
   match 'api/0.6/capabilities' => 'api#capabilities', :via => :get
@@ -99,6 +100,10 @@ OpenStreetMap::Application.routes.draw do
     match 'notes/editPOIexec' => 'notes#comment', :via => :post
     match 'notes/getGPX' => 'notes#index', :via => :get, :format => "gpx"
     match 'notes/getRSSfeed' => 'notes#feed', :via => :get, :format => "rss"
+  end
+
+  scope "api/0.6" do
+    resources :presets , :only => [ :create, :show, :update, :index, :destroy ]
   end
 
   # Data browsing
@@ -274,6 +279,7 @@ OpenStreetMap::Application.routes.draw do
   resources :user_blocks
   match '/blocks/:id/revoke' => 'user_blocks#revoke', :via => [:get, :post], :as => "revoke_user_block"
 
+  #match '/groups/:title' => 'groups#show', :via => :get, :as => "group"
   # groups
   resources :groups do
     member do
