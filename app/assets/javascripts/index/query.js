@@ -54,6 +54,9 @@ OSM.Query = function(map) {
       $(this).removeClass("selected");
     })
     .on("click", ".query-results li.query-result", function (e) {
+      var geometry = $(this).data("geometry")
+      if (geometry) map.removeLayer(geometry);
+
       if (!$(e.target).is('a')) {
         $(this).find("a").simulate("click", e);
       }
