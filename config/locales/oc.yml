@@ -80,6 +80,9 @@ oc:
       way: Camin
       way_node: Nosèl del camin
       way_tag: Balisa del camin
+  application: 
+    require_moderator: 
+      not_a_moderator: Vos cal èsser moderator per efectuar aquesta accion.
   browse: 
     anonymous: anonim
     changeset: 
@@ -140,7 +143,7 @@ oc:
     part_of: Partida de
     redacted: 
       message_html: La version %{version} d'aqueste(-a) %{type} pòt pas èsser afichada perque es estada amagada. Consultatz %{redaction_link} per mai d'informacions.
-      redaction: Amagatge %{id}
+      redaction: Redaccion %{id}
       type: 
         node: nosèl
         relation: relacion
@@ -880,11 +883,13 @@ oc:
           weir: Barratge
   help_page: 
     help: 
+      description: Pausar una question o cercar de responsas sul site questions-e-responsas d'OSM.
       title: help.openstreetmap.org
       url: https://help.openstreetmap.org/
     introduction: OpenStreetMap a mantuna ressorsas per aprene lo projècte, per pausar e respondre a de questions, e respondre a de questions, e per discutir en collaboracion amb d’autres e documentar los subjèctes de cartografia.
     title: Obténer d’ajuda
     welcome: 
+      description: Començar amb aqueste guida rapid que cobrís las basas d'OpenStreetMap.
       title: Benvenguda a OSM
       url: /welcome
     wiki: 
@@ -896,6 +901,7 @@ oc:
     key: 
       title: Legenda
       tooltip: Legenda
+      tooltip_disabled: La legenda es pas disponibla que pel jaç estandard
     map: 
       base: 
         cycle_map: Mapa ciclista
@@ -908,8 +914,10 @@ oc:
         data: Donadas de mapa
         header: Jaces de mapa
         notes: Nòtas de la mapa
+        overlays: Autorizar las superposicions per reparar la mapa
         title: Jaces
       locate: 
+        popup: Sètz a {distance} {unit} d'aqueste punt
         title: Afichar mon emplaçament
       zoom: 
         in: Zoom avant
@@ -1004,6 +1012,8 @@ oc:
         title: Exemple d'atribucion
       contributors_fr_html: "<strong>França</strong> : conten de donadas de la\n   <em>Direccion generala dels impòts</em>."
       contributors_title_html: Nòstres contributors
+      credit_1_html: Demandam que vòstre crèdit compòrta la mencion « © los contributors d’OpenStreetMap ».
+      credit_3_html: "Per una mapa electronica navigabla, lo crèdit deuriá aparéisser dins lo canton de la mapa.\nPer exemple :"
       credit_title_html: Cossí creditar OpenStreetMap
       infringement_title_html: Violacion dels dreches d'autor
       intro_1_html: "OpenStreetMap es un ensemble de <i>donadas dobèrtas</i>, disponiblas jos la licéncia <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data Commons Open Database License</a> (ODbL)."
@@ -1046,6 +1056,7 @@ oc:
     new: 
       back_to_inbox: Tornar a la bóstia de recepcion
       body: Còs
+      limit_exceeded: Avètz enviat tròp de messatges recentament, esperatz un moment abans d'ensajar de ne mandar de novèls.
       message_sent: Messatge mandat
       send_button: Mandar
       send_message_to: Mandar un messatge novèl a %{name}
@@ -1062,6 +1073,7 @@ oc:
         one: Avètz %{count} messatge mandat
         other: Avètz %{count} messatges mandats
       my_inbox: Ma %{inbox_link}
+      no_sent_messages: Avètz pas encara mandat cap de messatge. Perqué entrar pas en contacte amb qualques %{people_mapping_nearby_link} ?
       outbox: bóstia de mandadís
       people_mapping_nearby: personas pròcha de vos
       subject: Subjècte
@@ -1076,6 +1088,9 @@ oc:
       title: Legir lo messatge
       to: A
       unread_button: Marcar coma pas legit
+      wrong_user: Sètz identificat(-ada) coma « %{user} » mas lo messatge qu'ensajatz de legir es pas estat enviat a vos o a aqueste utilizaire. Connectatz-vos amb l'identificant corrècte per lo poder legir.
+    reply: 
+      wrong_user: Sètz identificat(-ada) coma « %{user} » mas lo messatge al qual volètz respondre es pas estat enviat a aqueste utilizaire. Connectatz-vos amb l'identificant corrècte per poder respondre.
     sent_message_summary: 
       delete_button: Suprimir
   note: 
@@ -1099,6 +1114,7 @@ oc:
       heading: Nòtas de %{user}
       id: Id
       last_changed: Darrièr cambiament
+      subheading: Nòtas somesas o comentadas per %{user}
       title: Nòtas somesas o comentadas per %{user}
     rss: 
       closed: nòta tampada (prèp de %{place})
@@ -1114,8 +1130,10 @@ oc:
     email_confirm: 
       subject: "[OpenStreetMap] Confirmacion de vòstra adreça de corrièr electronic"
     email_confirm_html: 
+      click_the_link: Se sètz vos, clicatz sul ligam çaijós per confirmar aquesta la modificacion.
       greeting: Bonjorn,
     email_confirm_plain: 
+      click_the_link: Se sètz a l'origina d'aquesta requèsta, clicatz sul ligam çaijós per confirmar aquesta modificacion.
       greeting: Bonjorn,
     friend_notification: 
       befriend_them: "Tanben, lo podètz apondre coma amic aicí : %{befriendurl}."
@@ -1138,19 +1156,34 @@ oc:
     lost_password: 
       subject: "[OpenStreetMap] Demanda de reïnicializacion del senhal"
     lost_password_html: 
+      click_the_link: Se sètz vos, clicatz sul ligam çaijós per reïnicializar vòstre senhal.
       greeting: Bonjorn,
     lost_password_plain: 
+      click_the_link: Se sètz a l'origina d'aquesta requèsta, clicatz sul ligam çaijós per reïnicializar vòstre senhal.
       greeting: Bonjorn,
     message_notification: 
       hi: Bonjorn %{to_user},
     note_comment_notification: 
       anonymous: Un utilizaire anonim
+      closed: 
+        commented_note: "%{commenter} a resolgut una nòta de mapa qu'avètz comentada. La nòta es pròcha de %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} que vis i interessàvetz."
+        subject_own: "[OpenStreetMap] %{commenter} a resolgut una de vòstras nòtas"
+        your_note: "[OpenStreetMap] %{commenter} a resolgut una de vòstras nòtas prèp de %{place}."
       commented: 
+        commented_note: "%{commenter} a daissat un comentari sus una de vòstras nòtas de mapa qu'avètz comentada. La nòta es pròcha de %{place}."
         subject_other: "[OpenStreetMap] %{commenter} a comentat una nòta a la quala vos interessatz"
         subject_own: "[OpenStreetMap] %{commenter} a comentat una de vòstras nòtas"
+        your_note: "%{commenter} a daissat un comentari sus una de vòstras nòtas de mapa prèp de %{place}."
       details: Mai de detalh sus la nòta pòt èsser obtengut a %{url}.
       greeting: Bonjorn,
+      reopened: 
+        commented_note: "%{commenter} a reactivat una nòta de mapa qu'avètz comentada. La nòta se tròba prèp de %{place}."
+        subject_other: "[OpenStreetMap] %{commenter} a reactivat una nòta a que vos i interessàvetz"
+        subject_own: "[OpenStreetMap] %{commenter} a reactivat una de vòstras nòtas"
+        your_note: "%{commenter} a reactivat una de vòstras nòtas de mapa prèp de %{place}."
     signup_confirm: 
+      created: Qualqu'un (vos, amb un pauc d'astre) ven juste de crear un compte sus %{site_url}.
       greeting: Bonjorn !
       subject: "[OpenStreetMap] Benvenguda dins OpenStreetMap"
   oauth: 
@@ -1165,9 +1198,11 @@ oc:
       allow_write_prefs: modificar vòstras preferéncias d'utilizaire.
       title: Autorizar l’accès a vòstre compte
     oauthorize_failure: 
+      denied: Avètz refusat a l’aplicacion %{app_name} l’accès a vòstre compte.
       invalid: Lo geton d’autorizacion es invalid.
       title: La demanda d’autorizacion a fracassat
     oauthorize_success: 
+      allowed: Avètz acordat a l’aplicacion %{app_name} l’accès a vòstre compte.
       title: La demanda d’autorizacion es estada acceptada
       verification: Lo còde de verificacion es %{code}.
     revoke: 
@@ -1197,6 +1232,7 @@ oc:
     index: 
       application: Nom de l'aplicacion
       issued_at: Emés lo
+      list_tokens: "Los getons seguents son estats emeses a las aplicacions en vòstre nom :"
       my_apps: Mas aplicacions clientas
       my_tokens: Mas aplicacions enregistradas
       register_new: Enregistratz vòstra aplicacion
@@ -1222,27 +1258,40 @@ oc:
       delete: Suprimir lo client
       edit: Modificar los detalhs
       key: "Clau de l'utilizaire :"
+      requests: "Demanda las permissions seguentas a l'utilizaire :"
       secret: "Secret de l'utilizaire :"
+      support_notice: Suportam las signaturas HMAC-SHA1 (recomandat) e RSA-SHA1.
       title: Detalhs OAuth per %{app_name}
       url: "URL del geton de requèsta :"
     update: 
       flash: Informacions del client enregistradas amb succès
   redaction: 
+    create: 
+      flash: Redaccion creada.
+    destroy: 
+      error: I a agut una error en suprimissent aquesta redaccion.
+      flash: Redaccion suprimida.
     edit: 
       description: Descripcion
       heading: Modificar la redaccion
-      submit: Enregistrar l'amagatge
+      submit: Enregistrar la redaccion
       title: Modificar la redaccion
     index: 
-      empty: Pas cap d'amagatge d'afichar.
+      empty: Pas cap de redaccion d'afichar.
       heading: Lista de redaccions
       title: Lista de redaccions
     new: 
       description: Descripcion
-      submit: Crear l'amagatge
+      heading: Picatz las informacions sus la novèla redaccion
+      submit: Crear la redaccion
+      title: Crear una redaccion novèla
     show: 
       confirm: Sètz segur ?
       description: "Descripcion :"
+      destroy: Suprimir aquesta redaccion
+      edit: Modificar aquesta redaccion
+      heading: Afichatge de la redaccion "%{title}"
+      title: Afichatge de la redaccion
       user: "Creator :"
     update: 
       flash: Modificacions enregistradas.
@@ -1251,9 +1300,13 @@ oc:
       anon_edits_link_text: Trobatz perqué aicí.
       id_not_configured: iD es pas estat configurat
       not_public: Avètz pas reglat vòstras modificacions per que sián publicas.
+      potlatch2_unsaved_changes: Avètz de modificacions pas salvadas. (Per salvar vòstras modificacions dins Potlach2, clicar sus "enregistrar".)
       user_page_link: pagina d'utilizaire
     index: 
       createnote: Apondre una nòta
+      js_2: OpenStreetMap utiliza Javascript per sas mapas lisantas.
+      license: 
+        copyright: Copyright OpenStreetMap e sos contributors, jos una licéncia dobèrta
       permalink: Ligam permanent
       shortlink: Ligam cort
     key: 
@@ -1391,6 +1444,7 @@ oc:
       made_public: Pista renduda publica
     offline: 
       heading: Emmagazinatge GPX fòra linha
+      message: Lo sistèma d'emmagazinatge GPX es actualament indisponible.
     offline_warning: 
       message: Lo sistèma de mandadís GPX es actualament indisponible
     trace: 
@@ -1449,12 +1503,14 @@ oc:
       visibility: "Visibilitat :"
     visibility: 
       private: Privat (partejat anonimament, punts pas ordenats)
+      public: Public (afichat dins la lista de las traças e anonim, punts pas ordenats)
   user: 
     account: 
       contributor terms: 
         agreed: Avètz acceptat los novèls tèrmes del contributor.
         heading: "Tèrmes del contributor :"
         link text: qu’es aquò ?
+        not yet agreed: Avètz pas encara acceptat los novèls tèrmes del contributor.
       current email address: "Adreça de corrièr electronic actuala:"
       delete image: Suprimir l'imatge actual
       email never displayed publicly: (pas jamai afichat publicament)
@@ -1499,6 +1555,7 @@ oc:
       button: Confirmar
       heading: Verificatz vòstre corrièr electronic !
       introduction_1: Vos avèm mandat un corrièl de confirmacion.
+      press confirm button: Quichar lo boton confirmar çaijós per activar vòstre compte.
       unknown token: Lo còde de confirmacion a expirat o existís pas.
     confirm_email: 
       button: Confirmar
@@ -1554,6 +1611,7 @@ oc:
       register now: S'inscriure ara
       remember: Se remembrar de ieu
       title: Se connectar
+      to make changes: Per aportar de modificacions a las donadas OpenStreetMap, vos cal possedir un compte.
       with openid: "Tanben podètz utilizar OpenID per vos connectar :"
     logout: 
       heading: Desconnexion d'OpenStreetMap
@@ -1580,6 +1638,7 @@ oc:
       contact_webmaster: Contactatz lo <a href='mailto:webmaster@openstreetmap.org'>webmaster</a> per que vos crèe un compte - ensajarem de tractar vòstra demanda lo mai rapidament possible.
       continue: S’inscriure
       display name: "Nom afichat :"
+      display name description: Vòstre nom d'utilizaire afichat publicament. Podètz cambiar aquò ulteriorament dins las preferéncias.
       email address: "Adreça de corrièr electronic :"
       openid: "%{logo} OpenID :"
       password: "Senhal :"
@@ -1666,6 +1725,7 @@ oc:
       nearby_diaries: Entradas de jornal dels utilizaires a proximitat
       new diary entry: novèla entrada dins lo jornal
       no friends: Avètz pas encara apondut cap d'amic
+      no nearby users: Cap d'utilizaire a pas encara senhalat que cartografiava a proximitat.
       notes: Nòtas de mapa
       oauth settings: paramètres OAuth
       remove as friend: Suprimir en tant qu'amic
@@ -1781,6 +1841,7 @@ oc:
     basic_terms: 
       editor_html: Un <strong>editor</strong> es un programa o site web que vos permet d'editar la mapa.
       node_html: Un <strong>nosèl</strong> es un punt sus la mapa, coma un restaurant o un arbre individual.
+      paragraph_1_html: OpenStreetMap a son pròpri girgon. Aquí qualques mots claus que vos seràn utiles.
       tag_html: "Un <strong>tag</strong> es una informacion a prepaus d'un nosèl o d'un camin, coma\nlo nom d'un restaurant o la velocitat limita d'una carrièra."
       title: Vocabulari de basa de cartografia
       way_html: "Un <strong>camin</strong es una linha o una susfàcia, coma per exemple una carrièra, un\nriu, un lac, o un bastiment."
