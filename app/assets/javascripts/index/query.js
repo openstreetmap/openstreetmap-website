@@ -53,13 +53,20 @@ OSM.Query = function(map) {
       if (geometry) map.removeLayer(geometry);
       $(this).removeClass("selected");
     })
-    .on("click", ".query-results li.query-result", function (e) {
-      var geometry = $(this).data("geometry")
-      if (geometry) map.removeLayer(geometry);
+    .on("mousedown", ".query-results li.query-result", function (e) {
+      var moved = false;
+      $(this).one("click", function (e) {
+        if (!moved) {
+          var geometry = $(this).data("geometry")
+          if (geometry) map.removeLayer(geometry);
 
-      if (!$(e.target).is('a')) {
-        $(this).find("a").simulate("click", e);
-      }
+          if (!$(e.target).is('a')) {
+            $(this).find("a").simulate("click", e);
+          }
+        }
+      }).one("mousemove", function () {
+        moved = true;
+      });
     });
 
   function interestingFeature(feature, origin, radius) {
