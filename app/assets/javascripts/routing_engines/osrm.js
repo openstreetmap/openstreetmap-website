@@ -13,7 +13,7 @@ OSRMEngine.prototype.createConfig = function() {
     var that = this;
     return {
         name: "javascripts.directions.engines.osrm_"+this.vehicleName.toLowerCase(),
-        creditline: 'Directions courtesy of <a href="http://project-osrm.org/" target="_blank">OSRM</a>',
+            creditline: '<a href="http://project-osrm.org/" target="_blank">OSRM</a>',
         draggable: true,
         _hints: {},
         getRoute: function(isFinal,points) {

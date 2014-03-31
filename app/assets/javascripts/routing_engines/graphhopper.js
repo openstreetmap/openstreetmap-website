@@ -1,6 +1,7 @@
 GraphHopperEngine = function(vehicleName, vehicleParam, locale) {
     this.vehicleName = vehicleName;
     this.vehicleParam = vehicleParam;
+    //At this point the local system isn't correctly initialised yet, so we don't have accurate information about current locale
     this.locale = locale;
     if (!locale)
         this.locale = "en";
@@ -10,12 +11,13 @@ GraphHopperEngine.prototype.createConfig = function() {
     var that = this;
     return {
         name: "javascripts.directions.engines.graphhopper_"+this.vehicleName.toLowerCase(),
+            creditline: '<a href="http://graphhopper.com/" target="_blank">Graphhopper</a>',
         draggable: false,
         _hints: {},
         getRoute: function(isFinal, points) {
             var url = "http://graphhopper.com/routing/api/route?" 
                     + that.vehicleParam 
-                    + "&locale=" + that.locale;
+                    + "&locale=" + I18n.currentLocale();
             for (var i = 0; i < points.length; i++) {
                 var pair = points[i].join(',');
                 url += "&point=" + pair;

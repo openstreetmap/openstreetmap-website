@@ -15,7 +15,7 @@ MapQuestEngine.prototype.createConfig = function() {
     var that = this;
     return {
         name: "javascripts.directions.engines.mapquest_"+this.vehicleName.toLowerCase(),
-        creditline: 'Directions courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
+        creditline: '<a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
         draggable: false,
         _hints: {},
         MQ_SPRITE_MAP: {
@@ -45,7 +45,7 @@ MapQuestEngine.prototype.createConfig = function() {
             url+="&from="+from.join(',');
             url+="&to="+to.join(',');
             url+="&"+that.vehicleParam;
-            //url+="&locale=" + I18n.currentLocale(); //Doesn't actually work. MapQuest requires full locale e.g. "de_DE", but I18n only provides language, e.g. "de"
+            //url+="&locale=" + I18n.currentLocale(); //Doesn't actually work. MapQuest requires full locale e.g. "de_DE", but I18n may only provides language, e.g. "de"
             url+="&manMaps=false";
             url+="&shapeFormat=raw&generalize=0&unit=k";
             this.requestCORS(url);
