@@ -23,30 +23,25 @@ L.OSM.Map = L.Map.extend({
         keyid: "mapnik",
         name: I18n.t("javascripts.map.base.standard")
       }),
-      new L.OSM.CycleMap({
-        attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-        code: "C",
-        keyid: "cyclemap",
-        name: I18n.t("javascripts.map.base.cycle_map")
-      }),
-      new L.OSM.TransportMap({
-        attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
-        code: "T",
-        keyid: "transportmap",
-        name: I18n.t("javascripts.map.base.transport_map")
-      }),
-      new L.OSM.MapQuestOpen({
-        attribution: copyright + ". Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='https://developer.mapquest.com/content/osm/mq_logo.png'>",
-        code: "Q",
-        keyid: "mapquest",
-        name: I18n.t("javascripts.map.base.mapquest")
-      }),
-      new L.OSM.HOT({
-        attribution: copyright + ". Tiles courtesy of <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>",
+      new L.OSM.Historical({
+        attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
+        keyid: "historical",
         code: "H",
-        keyid: "hot",
-        name: I18n.t("javascripts.map.base.hot")
+        name: I18n.t("javascripts.map.base.historical")
+      }),
+      new L.OSM.Historical_2008({
+        attribution: "",
+        keyid: "2008",
+        code: "8",
+        name: I18n.t("javascripts.map.base.2009")
+      }),
+      new L.OSM.Historical_2009({
+        attribution: "",
+        keyid: "2009",
+        code: "9",
+        name: I18n.t("javascripts.map.base.2009")
       })
+    
     ];
 
     this.noteLayer = new L.FeatureGroup();
