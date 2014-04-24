@@ -1,48 +1,50 @@
 module ActiveRecord
   module ConnectionAdapters
-    module SchemaStatements
-      def quote_column_names(column_name)
-        Array(column_name).map { |e| quote_column_name(e) }.join(", ")
-      end
-
-      def add_primary_key(table_name, column_name, options = {})
-        column_names = Array(column_name)
-        quoted_column_names = column_names.map { |e| quote_column_name(e) }.join(", ")
-        execute "ALTER TABLE #{table_name} ADD PRIMARY KEY (#{quoted_column_names})"
-      end
-
-      def remove_primary_key(table_name)
-        execute "ALTER TABLE #{table_name} DROP PRIMARY KEY"
-      end
-
-      def add_foreign_key(table_name, column_name, reftbl, refcol = nil)
-        execute "ALTER TABLE #{table_name} ADD " +
-          "FOREIGN KEY (#{quote_column_names(column_name)}) " +
-          "REFERENCES #{reftbl} (#{quote_column_names(refcol || column_name)})"
-      end
-
-      def remove_foreign_key(table_name, column_name, reftbl, refcol = nil)
-        execute "ALTER TABLE #{table_name} DROP " +
-          "CONSTRAINT #{table_name}_#{column_name[0]}_fkey"
-      end
-
-      alias_method :old_options_include_default?, :options_include_default?
-
-      def options_include_default?(options)
-        return false if options[:options] =~ /AUTO_INCREMENT/i
-        return old_options_include_default?(options)
-      end
-
-      alias_method :old_add_column_options!, :add_column_options!
-
-      def add_column_options!(sql, options)
-        sql << " UNSIGNED" if options[:unsigned]
-        old_add_column_options!(sql, options)
-        sql << " #{options[:options]}"
-      end
-    end
-
     class PostgreSQLAdapter
+      class SchemaCreation
+        alias_method :old_add_column_options!, :add_column_options!
+
+        def add_column_options!(sql, options)
+          sql << " UNSIGNED" if options[:unsigned]
+          old_add_column_options!(sql, options)
+          sql << " #{options[:options]}"
+        end
+      end
+
+      module SchemaStatements
+        def quote_column_names(column_name)
+          Array(column_name).map { |e| quote_column_name(e) }.join(", ")
+        end
+
+        def add_primary_key(table_name, column_name, options = {})
+          column_names = Array(column_name)
+          quoted_column_names = column_names.map { |e| quote_column_name(e) }.join(", ")
+          execute "ALTER TABLE #{table_name} ADD PRIMARY KEY (#{quoted_column_names})"
+        end
+
+        def remove_primary_key(table_name)
+          execute "ALTER TABLE #{table_name} DROP PRIMARY KEY"
+        end
+
+        def add_foreign_key(table_name, column_name, reftbl, refcol = nil)
+          execute "ALTER TABLE #{table_name} ADD " +
+            "FOREIGN KEY (#{quote_column_names(column_name)}) " +
+            "REFERENCES #{reftbl} (#{quote_column_names(refcol || column_name)})"
+        end
+
+        def remove_foreign_key(table_name, column_name, reftbl, refcol = nil)
+          execute "ALTER TABLE #{table_name} DROP " +
+            "CONSTRAINT #{table_name}_#{column_name[0]}_fkey"
+        end
+
+#        alias_method :old_options_include_default?, :options_include_default?
+#
+#        def options_include_default?(options)
+#          return false if options[:options] =~ /AUTO_INCREMENT/i
+#          return old_options_include_default?(options)
+#        end
+      end
+
       alias_method :old_native_database_types, :native_database_types
 
       def native_database_types
