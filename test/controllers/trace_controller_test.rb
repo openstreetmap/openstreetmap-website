@@ -2,7 +2,7 @@ require 'test_helper'
 
 class TraceControllerTest < ActionController::TestCase
   fixtures :users, :gpx_files
-  set_fixture_class :gpx_files => 'Trace'
+  set_fixture_class :gpx_files => Trace
 
   def setup
     @gpx_trace_dir = Object.send("remove_const", "GPX_TRACE_DIR")
