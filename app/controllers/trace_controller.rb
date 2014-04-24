@@ -49,13 +49,13 @@ class TraceController < ApplicationController
       if @user
         @traces = Trace.visible_to(@user) #1
       else
-        @traces = Trace.public #2
+        @traces = Trace.visible_to_all #2
       end
     else
       if @user and @user == target_user
         @traces = @user.traces #3 (check vs user id, so no join + can't pick up non-public traces by changing name)
       else
-        @traces = target_user.traces.public #4
+        @traces = target_user.traces.visible_to_all #4
       end
     end
 
@@ -206,7 +206,7 @@ class TraceController < ApplicationController
   end
 
   def georss
-    @traces = Trace.public.visible
+    @traces = Trace.visible_to_all.visible
 
     if params[:display_name]
       @traces = @traces.joins(:user).where(:users => {:display_name => params[:display_name]})
