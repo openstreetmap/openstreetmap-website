@@ -1,7 +1,7 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 # Require rails
-gem 'rails', '4.0.5'
+gem 'rails', '4.1.1'
 
 # Require things which have moved to gems in ruby 1.9
 gem 'bigdecimal', "~> 1.1.0", :platforms => :ruby_19
@@ -16,7 +16,7 @@ gem 'json'
 gem 'pg'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails', '~> 4.0.3'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -41,7 +41,7 @@ gem 'rinku', '>= 1.2.2', :require => 'rails_rinku'
 gem 'oauth-plugin', '>= 0.5.1'
 gem 'open_id_authentication', '>= 1.1.0'
 gem 'validates_email_format_of', '>= 1.5.1'
-gem 'composite_primary_keys', '>= 6.0.1'
+gem 'composite_primary_keys', '~> 7.0.1'
 gem 'http_accept_language', '~> 2.0.0'
 gem 'paperclip', '~> 4.0'
 gem 'deadlock_retry', '>= 1.2.0'
@@ -84,7 +84,7 @@ end
 # Gems needed for running tests
 group :test do
   gem 'timecop'
-  gem 'minitest', '~> 4.7.0', :platforms => [:ruby_19, :ruby_20]
+  gem 'minitest', '~> 5.1', :platforms => [:ruby_19, :ruby_20]
 end
 
 # Needed in development as well so rake can see konacha tasks
