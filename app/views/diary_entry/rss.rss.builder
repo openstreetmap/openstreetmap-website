@@ -8,8 +8,8 @@ xml.rss("version" => "2.0",
     xml.description @description
     xml.link url_for(:action => "list", :host => SERVER_URL)
     xml.image do
-      xml.url "http://www.openstreetmap.org/images/mag_map-rss2.0.png"
-      xml.title "OpenStreetMap"
+      xml.url "#{asset_url("mag_map-rss2.0.png")}"
+      xml.title "OpenHistoricalMap"
       xml.width "100"
       xml.height "100"
       xml.link url_for(:action => "list", :host=> SERVER_URL)
