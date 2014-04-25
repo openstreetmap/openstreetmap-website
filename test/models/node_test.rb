@@ -49,8 +49,8 @@ class NodeTest < ActiveSupport::TestCase
   def valid_node_test(nod)
     node = current_nodes(nod)
     dbnode = Node.find(node.id)
-    assert_equal dbnode.lat, node.latitude.to_f/SCALE
-    assert_equal dbnode.lon, node.longitude.to_f/SCALE
+    assert_equal dbnode.lat, node.latitude.to_f / Node::SCALE
+    assert_equal dbnode.lon, node.longitude.to_f / Node::SCALE
     assert_equal dbnode.changeset_id, node.changeset_id
     assert_equal dbnode.timestamp, node.timestamp
     assert_equal dbnode.version, node.version
@@ -65,8 +65,8 @@ class NodeTest < ActiveSupport::TestCase
   def invalid_node_test(nod)
     node = current_nodes(nod)
     dbnode = Node.find(node.id)
-    assert_equal dbnode.lat, node.latitude.to_f/SCALE
-    assert_equal dbnode.lon, node.longitude.to_f/SCALE
+    assert_equal dbnode.lat, node.latitude.to_f / Node::SCALE
+    assert_equal dbnode.lon, node.longitude.to_f / Node::SCALE
     assert_equal dbnode.changeset_id, node.changeset_id
     assert_equal dbnode.timestamp, node.timestamp
     assert_equal dbnode.version, node.version
