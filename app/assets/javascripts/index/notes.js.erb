@@ -34,7 +34,9 @@ function initializeNotes(map) {
   });
 
   noteLayer.on('click', function(e) {
-    OSM.router.route('/note/' + e.layer.id);
+    if (e.layer.id) {
+      OSM.router.route('/note/' + e.layer.id);
+    }
   });
 
   function updateMarker(marker, feature) {
