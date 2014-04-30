@@ -29,19 +29,6 @@ L.OSM.Historical = L.OSM.TileLayer.extend({
   }
 });
 
-/* These are the layer extensions for the filtering hack */
-
-L.OSM.Historical_2008 = L.OSM.TileLayer.extend({
-  options: {
-    url: 'http://localhost/2008_tiles/{z}/{x}/{y}.png'
-  }
-});
-
-L.OSM.Historical_2009 = L.OSM.TileLayer.extend({
-  options: {
-    url: 'http://www.openhistoricalmap.org/2009_tiles/{z}/{x}/{y}.png'
-  }
-});
 
 
 L.OSM.CycleMap = L.OSM.TileLayer.extend({

@@ -17,31 +17,19 @@ L.OSM.Map = L.Map.extend({
     var donate = I18n.t('javascripts.map.donate_link_text', {donate_url: 'http://donate.openstreetmap.org'});
 
     this.baseLayers = [
-      new L.OSM.Mapnik({
-        attribution: copyright + " &hearts; " + donate,
-        code: "M",
-        keyid: "mapnik",
-        name: I18n.t("javascripts.map.base.standard")
-      }),
       new L.OSM.Historical({
         attribution: "<a href='http://wiki.openstreetmap.org/wiki/OHM'>OHM</a>",
         keyid: "historical",
         code: "H",
         name: I18n.t("javascripts.map.base.historical")
       }),
-      new L.OSM.Historical_2008({
-        attribution: "",
-        keyid: "2008",
-        code: "8",
-        name: I18n.t("javascripts.map.base.2009")
-      }),
-      new L.OSM.Historical_2009({
-        attribution: "",
-        keyid: "2009",
-        code: "9",
-        name: I18n.t("javascripts.map.base.2009")
+      new L.OSM.Mapnik({
+        attribution: copyright + " &hearts; " + donate,
+        code: "M",
+        keyid: "mapnik",
+        name: I18n.t("javascripts.map.base.standard")
       })
-    
+
     ];
 
     this.noteLayer = new L.FeatureGroup();
@@ -52,7 +40,7 @@ L.OSM.Map = L.Map.extend({
   },
 
   updateLayers: function(layerParam) {
-    layerParam = layerParam || "M";
+    layerParam = layerParam || "H";
     var layersAdded = "";
 
     for (var i = this.baseLayers.length - 1; i >= 0; i--) {
