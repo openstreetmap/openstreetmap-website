@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 # Require rails
-gem 'rails', '4.0.4'
+gem 'rails', '4.0.5'
 
 # Require things which have moved to gems in ruby 1.9
 gem 'bigdecimal', "~> 1.1.0", :platforms => :ruby_19
