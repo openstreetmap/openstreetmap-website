@@ -1,69 +1,87 @@
 // OSRM car engine
 // Doesn't yet support hints
 
-OSRMEngine = function (vehicleName, baseURL, locale) {
-  this.vehicleName = vehicleName;
-  this.baseURL = baseURL;
-  this.locale = locale;
-  if (!locale)
-    this.locale = "en";
-};
-
-OSRMEngine.prototype.createConfig = function () {
-  var that = this;
+function OSRMEngine() {
   return {
-    name: "javascripts.directions.engines.osrm_" + this.vehicleName.toLowerCase(),
+    name: "javascripts.directions.engines.osrm_car",
     creditline: '<a href="http://project-osrm.org/" target="_blank">OSRM</a>',
     draggable: true,
-    _hints: {},
 
-    getRoute: function (isFinal, points) {
-      var url = that.baseURL + "?z=14&output=json";
+    getRoute: function (isFinal, points, callback) {
+      var TURN_INSTRUCTIONS = [
+        "",
+        I18n.t('javascripts.directions.instructions.continue_on'),      // 1
+        I18n.t('javascripts.directions.instructions.slight_right'),     // 2
+        I18n.t('javascripts.directions.instructions.turn_right'),       // 3
+        I18n.t('javascripts.directions.instructions.sharp_right'),      // 4
+        I18n.t('javascripts.directions.instructions.uturn'),            // 5
+        I18n.t('javascripts.directions.instructions.sharp_left'),       // 6
+        I18n.t('javascripts.directions.instructions.turn_left'),        // 7
+        I18n.t('javascripts.directions.instructions.slight_left'),      // 8
+        I18n.t('javascripts.directions.instructions.via_point'),        // 9
+        I18n.t('javascripts.directions.instructions.follow'),           // 10
+        I18n.t('javascripts.directions.instructions.roundabout'),       // 11
+        I18n.t('javascripts.directions.instructions.leave_roundabout'), // 12
+        I18n.t('javascripts.directions.instructions.stay_roundabout'),  // 13
+        I18n.t('javascripts.directions.instructions.start'),            // 14
+        I18n.t('javascripts.directions.instructions.destination'),      // 15
+        I18n.t('javascripts.directions.instructions.against_oneway'),   // 16
+        I18n.t('javascripts.directions.instructions.end_oneway')        // 17
+      ];
+
+      var url = "http://router.project-osrm.org/viaroute?z=14&output=json";
+
       for (var i = 0; i < points.length; i++) {
-        var pair = points[i].join(',');
-        url += "&loc=" + pair;
-        if (this._hints[pair]) url += "&hint=" + this._hints[pair];
+        url += "&loc=" + points[i].lat + ',' + points[i].lng;
       }
-      if (isFinal) url += "&instructions=true";
-      this.requestCORS(url);
-    },
 
-    gotRoute: function (router, data) {
-      if (data.status == 207) {
-        return false;
-      }
-      // Draw polyline
-      var line = L.PolylineUtil.decode(data.route_geometry);
-      for (i = 0; i < line.length; i++) {
-        line[i].lat /= 10;
-        line[i].lng /= 10;
-      }
-      router.setPolyline(line);
-      // Assemble instructions
-      var steps = [];
-      for (i = 0; i < data.route_instructions.length; i++) {
-        var s = data.route_instructions[i];
-        var linesegend;
-        var instCodes = s[0].split('-');
-        var instText = "<b>" + (i + 1) + ".</b> ";
-        instText += TURN_INSTRUCTIONS[instCodes[0]];
-        if (instCodes[1]) {
-          instText += "exit " + instCodes[1] + " ";
+      if (isFinal)
+        url += "&instructions=true";
+
+      $.ajax({
+        url: url,
+        dataType: 'json',
+        success: function (data) {
+          if (data.status == 207)
+            return callback(true);
+
+          var line = L.PolylineUtil.decode(data.route_geometry);
+          for (var i = 0; i < line.length; i++) {
+            line[i].lat /= 10;
+            line[i].lng /= 10;
+          }
+
+          var steps = [];
+          for (i = 0; i < data.route_instructions.length; i++) {
+            var s = data.route_instructions[i];
+            var linesegend;
+            var instCodes = s[0].split('-');
+            var instText = "<b>" + (i + 1) + ".</b> ";
+            instText += TURN_INSTRUCTIONS[instCodes[0]];
+            if (instCodes[1]) {
+              instText += "exit " + instCodes[1] + " ";
+            }
+            if (instCodes[0] != 15) {
+              instText += s[1] ? "<b>" + s[1] + "</b>" : I18n.t('javascripts.directions.instructions.unnamed');
+            }
+            if ((i + 1) < data.route_instructions.length) {
+              linesegend = data.route_instructions[i + 1][3] + 1;
+            } else {
+              linesegend = s[3] + 1;
+            }
+            steps.push([line[s[3]], s[0].split('-')[0], instText, s[2], line.slice(s[3], linesegend)]);
+          }
+
+          callback(null, {
+            line: line,
+            steps: steps,
+            distance: data.route_summary.total_distance,
+            time: data.route_summary.total_time
+          });
         }
-        if (instCodes[0] != 15) {
-          instText += s[1] ? "<b>" + s[1] + "</b>" : I18n.t('javascripts.directions.instructions.unnamed');
-        }
-        if ((i + 1) < data.route_instructions.length) {
-          linesegend = data.route_instructions[i + 1][3] + 1;
-        } else {
-          linesegend = s[3] + 1;
-        }
-        steps.push([line[s[3]], s[0].split('-')[0], instText, s[2], line.slice(s[3], linesegend)]);
-      }
-      if (steps.length) router.setItinerary({ steps: steps, distance: data.route_summary.total_distance, time: data.route_summary.total_time });
-      return true;
+      });
     }
   };
-};
+}
 
-OSM.DirectionsEngines.add(false, new OSRMEngine("Car", "http://router.project-osrm.org/viaroute").createConfig());
+OSM.Directions.addEngine(OSRMEngine(), false);

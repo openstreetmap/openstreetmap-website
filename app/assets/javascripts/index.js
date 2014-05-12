@@ -281,6 +281,7 @@ $(document).ready(function () {
     return page;
   };
 
+  var directions = OSM.Directions(map);
   var history = OSM.History(map);
 
   OSM.router = OSM.Router(map, {
@@ -326,7 +327,7 @@ $(document).ready(function () {
     e.preventDefault();
     if ($(".query_wrapper.routing").is(":visible")) {
       // Directions
-      OSM.directions.requestRoute(true, true);
+      directions.requestRoute(true, true);
     } else {
       // Search
       $("header").addClass("closed");
@@ -346,37 +347,4 @@ $(document).ready(function () {
       map.getCenter().lat.toFixed(precision) + "," +
       map.getCenter().lng.toFixed(precision)));
   });
-
-  OSM.directions = OSM.Directions(map, 'OSM.directions', $('.query_wrapper.routing'));
-  OSM.directions.chooseEngine('javascripts.directions.engines.osrm_car');
-
-  $(".get_directions").on("click",function(e) {
-    e.preventDefault();
-    $(".search").hide();
-    $(".routing").show();
-    $(".search_form input[type='submit']").addClass("routing_submit");
-    $(".query_wrapper.routing [name=route_from]").focus();
-    $("#map").on('dragend dragover',function(e) { e.preventDefault(); });
-    $("#map").on('drop',function(e) { OSM.directions.handleDrop(e); e.preventDefault(); });
-    $(".routing_marker").on('dragstart',function(e) {
-      e.originalEvent.dataTransfer.effectAllowed = 'move';
-      e.originalEvent.dataTransfer.setData('id', this.id);
-      var xo=e.originalEvent.clientX - $(e.target).offset().left;
-      var yo=e.originalEvent.clientY - $(e.target).offset().top;
-      e.originalEvent.dataTransfer.setData('offsetX', e.originalEvent.target.width/2 - xo);
-      e.originalEvent.dataTransfer.setData('offsetY', e.originalEvent.target.height  - yo);
-    });
-  });
-
-  $(".close_directions").on("click",function(e) {
-    e.preventDefault();
-    $(".search").show();
-    $(".routing").hide();
-    $(".search_form input[type='submit']").removeClass("routing_submit");
-    OSM.directions.close();
-    $("#map").off('dragend drop dragover');
-    $(".routing_marker").off('dragstart');
-    $(".query_wrapper.search [name=query]").focus();
-  });
-
 });
