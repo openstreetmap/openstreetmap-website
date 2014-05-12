@@ -66,4 +66,4 @@ OSRMEngine.prototype.createConfig = function () {
   };
 };
 
-OSM.RoutingEngines.add(false, new OSRMEngine("Car", "http://router.project-osrm.org/viaroute").createConfig());
+OSM.DirectionsEngines.add(false, new OSRMEngine("Car", "http://router.project-osrm.org/viaroute").createConfig());

@@ -77,5 +77,5 @@ GraphHopperEngine.prototype.createConfig = function () {
   };
 };
 
-OSM.RoutingEngines.add(false, new GraphHopperEngine("Bicycle", "vehicle=bike").createConfig());
-OSM.RoutingEngines.add(false, new GraphHopperEngine("Foot", "vehicle=foot").createConfig());
+OSM.DirectionsEngines.add(false, new GraphHopperEngine("Bicycle", "vehicle=bike").createConfig());
+OSM.DirectionsEngines.add(false, new GraphHopperEngine("Foot", "vehicle=foot").createConfig());

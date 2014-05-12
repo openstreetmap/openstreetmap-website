@@ -1,6 +1,5 @@
-/*
- osm.org routing interface
-*/
+//= require_self
+//= require_tree ./directions_engines
 
 var TURN_INSTRUCTIONS = [];
 
@@ -16,14 +15,14 @@ var ROUTING_POLYLINE_HIGHLIGHT = {
   weight: 12
 };
 
-OSM.RoutingEngines = {
+OSM.DirectionsEngines = {
   list: [],
   add: function (supportsHTTPS, engine) {
     if (document.location.protocol == "http:" || supportsHTTPS) this.list.push(engine);
   }
 };
 
-OSM.Routing = function (map, name, jqSearch) {
+OSM.Directions = function (map, name, jqSearch) {
   var r = {};
 
   TURN_INSTRUCTIONS = [
@@ -298,7 +297,7 @@ OSM.Routing = function (map, name, jqSearch) {
   // Routing engine handling
 
   // Add all engines
-  var list = OSM.RoutingEngines.list;
+  var list = OSM.DirectionsEngines.list;
   list.sort(function (a, b) {
     return I18n.t(a.name) > I18n.t(b.name);
   });

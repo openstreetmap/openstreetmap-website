@@ -92,7 +92,7 @@ MapQuestEngine.prototype.createConfig = function () {
   };
 };
 
-OSM.RoutingEngines.add(true, new MapQuestEngine("Bicycle", "routeType=bicycle").createConfig());
-OSM.RoutingEngines.add(true, new MapQuestEngine("Foot", "routeType=pedestrian").createConfig());
-OSM.RoutingEngines.add(true, new MapQuestEngine("Car", "routeType=fastest").createConfig());
+OSM.DirectionsEngines.add(true, new MapQuestEngine("Bicycle", "routeType=bicycle").createConfig());
+OSM.DirectionsEngines.add(true, new MapQuestEngine("Foot", "routeType=pedestrian").createConfig());
+OSM.DirectionsEngines.add(true, new MapQuestEngine("Car", "routeType=fastest").createConfig());
 // can be: routeType=fastest|shortest|pedestrian|multimodal|bicycle
