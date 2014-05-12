@@ -29,6 +29,19 @@ L.OSM.Historical = L.OSM.TileLayer.extend({
   }
 });
 
+L.OSM.OHM_2008 = L.OSM.TileLayer.extend({
+  options: {
+    url: 'http://www.openhistoricalmap.org/ohm_2008/{z}/{x}/{y}.png'
+  }
+});
+
+L.OSM.OHM_2009 = L.OSM.TileLayer.extend({
+  options: {
+    url: 'http://www.openhistoricalmap.org/ohm_2009/{z}/{x}/{y}.png'
+  }
+});
+
+
 
 
 L.OSM.CycleMap = L.OSM.TileLayer.extend({
