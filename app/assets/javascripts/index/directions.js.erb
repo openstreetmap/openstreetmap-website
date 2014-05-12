@@ -352,5 +352,17 @@ OSM.Directions = function (map, name, jqSearch) {
     }
   };
 
+  $("input[name='route_from']").on("change", function (e) {
+    r.geocode('route_from', e);
+  });
+
+  $("input[name='route_to']").on("change", function (e) {
+    r.geocode('route_to', e);
+  });
+
+  $("select[name='routing_engines']").on("change", function (e) {
+    r.selectEngine(e);
+  });
+
   return r;
 };
