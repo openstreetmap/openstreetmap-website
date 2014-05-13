@@ -3,7 +3,7 @@
 // http://open.mapquestapi.com/directions/
 // https://github.com/apmon/openstreetmap-website/blob/21edc353a4558006f0ce23f5ec3930be6a7d4c8b/app/controllers/routing_controller.rb#L153
 
-function MapQuestEngine(vehicleName, vehicleParam) {
+function MapQuestEngine(id, vehicleParam) {
   var MQ_SPRITE_MAP = {
     0: 1, // straight
     1: 2, // slight right
@@ -27,11 +27,11 @@ function MapQuestEngine(vehicleName, vehicleParam) {
   };
 
   return {
-    name: "javascripts.directions.engines.mapquest_" + vehicleName.toLowerCase(),
+    id: id,
     creditline: '<a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
     draggable: false,
 
-    getRoute: function (isFinal, points, callback) {
+    getRoute: function (points, callback) {
       var url = document.location.protocol + "//open.mapquestapi.com/directions/v2/route?key=Fmjtd%7Cluur290anu%2Crl%3Do5-908a0y";
       var from = points[0];
       var to = points[points.length - 1];
@@ -89,6 +89,6 @@ function MapQuestEngine(vehicleName, vehicleParam) {
   };
 }
 
-OSM.Directions.addEngine(MapQuestEngine("Bicycle", "routeType=bicycle"), true);
-OSM.Directions.addEngine(MapQuestEngine("Foot", "routeType=pedestrian"), true);
-OSM.Directions.addEngine(MapQuestEngine("Car", "routeType=fastest"), true);
+OSM.Directions.addEngine(MapQuestEngine("mapquest_bicycle", "routeType=bicycle"), true);
+OSM.Directions.addEngine(MapQuestEngine("mapquest_foot", "routeType=pedestrian"), true);
+OSM.Directions.addEngine(MapQuestEngine("mapquest_car", "routeType=fastest"), true);

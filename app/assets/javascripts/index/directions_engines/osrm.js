@@ -3,11 +3,11 @@
 
 function OSRMEngine() {
   return {
-    name: "javascripts.directions.engines.osrm_car",
+    id: "osrm_car",
     creditline: '<a href="http://project-osrm.org/" target="_blank">OSRM</a>',
     draggable: true,
 
-    getRoute: function (isFinal, points, callback) {
+    getRoute: function (points, callback) {
       var TURN_INSTRUCTIONS = [
         "",
         I18n.t('javascripts.directions.instructions.continue_on'),      // 1
@@ -29,14 +29,11 @@ function OSRMEngine() {
         I18n.t('javascripts.directions.instructions.end_oneway')        // 17
       ];
 
-      var url = "http://router.project-osrm.org/viaroute?z=14&output=json";
+      var url = "http://router.project-osrm.org/viaroute?z=14&output=json&instructions=true";
 
       for (var i = 0; i < points.length; i++) {
         url += "&loc=" + points[i].lat + ',' + points[i].lng;
       }
-
-      if (isFinal)
-        url += "&instructions=true";
 
       $.ajax({
         url: url,

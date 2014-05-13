@@ -1,4 +1,4 @@
-function GraphHopperEngine(vehicleName, vehicleParam) {
+function GraphHopperEngine(id, vehicleParam) {
   var GH_INSTR_MAP = {
     "-3": 6, // sharp left
     "-2": 7, // left
@@ -12,25 +12,23 @@ function GraphHopperEngine(vehicleName, vehicleParam) {
   };
 
   return {
-    name: "javascripts.directions.engines.graphhopper_" + vehicleName.toLowerCase(),
+    id: id,
     creditline: '<a href="http://graphhopper.com/" target="_blank">Graphhopper</a>',
     draggable: false,
 
-    getRoute: function (isFinal, points, callback) {
+    getRoute: function (points, callback) {
       // documentation
       // https://github.com/graphhopper/graphhopper/blob/master/docs/web/api-doc.md
       var url = "http://graphhopper.com/api/1/route?"
         + vehicleParam
         + "&locale=" + I18n.currentLocale()
         + "&key=LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn"
-        + "&type=jsonp";
+        + "&type=jsonp"
+        + "&instructions=true";
 
       for (var i = 0; i < points.length; i++) {
         url += "&point=" + points[i].lat + ',' + points[i].lng;
       }
-
-      if (isFinal)
-        url += "&instructions=true";
 
       $.ajax({
         url: url,
@@ -72,5 +70,5 @@ function GraphHopperEngine(vehicleName, vehicleParam) {
   };
 }
 
-OSM.Directions.addEngine(GraphHopperEngine("Bicycle", "vehicle=bike"), false);
-OSM.Directions.addEngine(GraphHopperEngine("Foot", "vehicle=foot"), false);
+OSM.Directions.addEngine(GraphHopperEngine("graphhopper_bicycle", "vehicle=bike"), false);
+OSM.Directions.addEngine(GraphHopperEngine("graphhopper_foot", "vehicle=foot"), false);

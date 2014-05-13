@@ -46,7 +46,9 @@ OSM.Directions = function (map) {
       if (dragging && !chosenEngine.draggable) return;
       if (dragging && awaitingRoute) return;
       endpoint.setLatLng(e.target.getLatLng());
-      r.requestRoute(!dragging, false);
+      if (map.hasLayer(polyline)) {
+        getRoute();
+      }
     });
 
     input.on("change", function (e) {
@@ -69,13 +71,14 @@ OSM.Directions = function (map) {
 
         if (awaitingGeocode) {
           awaitingGeocode = false;
-          r.requestRoute(true, true);
+          getRoute();
         }
       });
     });
 
     endpoint.setLatLng = function (ll) {
-      input.val(Math.round(ll.lat * 10000) / 10000 + " " + Math.round(ll.lng * 10000) / 10000);
+      var precision = OSM.zoomPrecision(map.getZoom());
+      input.val(ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision));
       endpoint.latlng = ll;
       endpoint.marker
         .setLatLng(ll)
@@ -102,109 +105,41 @@ OSM.Directions = function (map) {
     return h + ":" + (m < 10 ? '0' : '') + m;
   }
 
-  var engines = OSM.Directions.engines;
-
-  engines.sort(function (a, b) {
-    return I18n.t(a.name) > I18n.t(b.name);
-  });
-
-  var select = $('select.routing_engines');
-
-  for (var i = 0; i < engines.length; i++) {
-    var engine = engines[i];
-
-    select.append("<option value='" + i + "'>" + I18n.t(engine.name) + "</option>");
-
-    if (engine.name == 'javascripts.directions.engines.osrm_car') {
-      chosenEngine = engine;
-      select.val(i);
-    }
+  function setEngine(id) {
+    engines.forEach(function(engine, i) {
+      if (engine.id == id) {
+        chosenEngine = engine;
+        select.val(i);
+      }
+    });
   }
 
-  select.on("change", function (e) {
-    chosenEngine = engines[e.target.selectedIndex];
-    if (map.hasLayer(polyline)) { // and if a route is currently showing, must also refresh, else confusion
-      r.requestRoute(true, false);
-    }
-  });
-
-  $(".get_directions").on("click", function (e) {
-    e.preventDefault();
-    $(".search").hide();
-    $(".routing").show();
-    $(".search_form input[type='submit']").addClass("routing_submit");
-    $(".query_wrapper.routing [name=route_from]").focus();
-
-    $("#map").on('dragend dragover', function (e) {
-      e.preventDefault();
-    });
-
-    $("#map").on('drop', function (e) {
-      e.preventDefault();
-      var oe = e.originalEvent;
-      var id = oe.dataTransfer.getData('id');
-      var pt = L.DomEvent.getMousePosition(oe, map.getContainer());  // co-ordinates of the mouse pointer at present
-      pt.x += Number(oe.dataTransfer.getData('offsetX'));
-      pt.y += Number(oe.dataTransfer.getData('offsetY'));
-      var ll = map.containerPointToLatLng(pt);
-      endpoints[id === 'marker_from' ? 0 : 1].setLatLng(ll);
-      r.requestRoute(true, false);
-    });
-
-    $(".routing_marker").on('dragstart', function (e) {
-      e.originalEvent.dataTransfer.effectAllowed = 'move';
-      e.originalEvent.dataTransfer.setData('id', this.id);
-      var xo = e.originalEvent.clientX - $(e.target).offset().left;
-      var yo = e.originalEvent.clientY - $(e.target).offset().top;
-      e.originalEvent.dataTransfer.setData('offsetX', e.originalEvent.target.width / 2 - xo);
-      e.originalEvent.dataTransfer.setData('offsetY', e.originalEvent.target.height - yo);
-    });
-  });
-
-  $(".close_directions").on("click", function (e) {
-    e.preventDefault();
-    $(".search").show();
-    $(".routing").hide();
-    $(".search_form input[type='submit']").removeClass("routing_submit");
-    $("#content").addClass("overlay-sidebar");
-    $(".query_wrapper.routing input").val("");
-    map
-      .removeLayer(popup)
-      .removeLayer(polyline)
-      .removeLayer(endpoints[0].marker)
-      .removeLayer(endpoints[1].marker);
-    endpoints[0].latlng = endpoints[1].latlng = null;
-    $("#map").off('dragend drop dragover');
-    $(".routing_marker").off('dragstart');
-    $(".query_wrapper.search [name=query]").focus();
-  });
-
-  var r = {};
-
-  r.requestRoute = function (isFinal, updateZoom) {
+  function getRoute() {
     if (endpoints[0].awaitingGeocode || endpoints[1].awaitingGeocode) {
       awaitingGeocode = true;
       return;
     }
 
-    var origin = endpoints[0].latlng,
-      destination = endpoints[1].latlng;
+    var o = endpoints[0].latlng,
+        d = endpoints[1].latlng;
 
-    if (!origin || !destination) {
-      return;
-    }
+    if (!o || !d) return;
 
-    $(".query_wrapper.routing .spinner").show();
+    var precision = OSM.zoomPrecision(map.getZoom());
+
+    OSM.router.replace("/directions?" + querystring.stringify({
+      engine: chosenEngine.id,
+      route: o.lat.toFixed(precision) + ',' + o.lng.toFixed(precision) + ';' +
+             d.lat.toFixed(precision) + ',' + d.lng.toFixed(precision)
+    }));
+
+    $(".directions_form .spinner").show();
     awaitingRoute = true;
 
-    if (updateZoom) {
-      map.fitBounds(L.latLngBounds(origin, destination).pad(0.05));
-    }
-
-    chosenEngine.getRoute(isFinal, [origin, destination], function (err, route) {
+    chosenEngine.getRoute([o, d], function (err, route) {
       awaitingRoute = false;
 
-      $(".query_wrapper.routing .spinner").hide();
+      $(".directions_form .spinner").hide();
 
       if (err) {
         map.removeLayer(polyline);
@@ -220,14 +155,18 @@ OSM.Directions = function (map) {
         .setLatLngs(route.line)
         .addTo(map);
 
-      $("#content").removeClass("overlay-sidebar");
+      map.setSidebarOverlaid(false);
 
-      var html = ('<h2><a class="geolink" href="#" onclick="$(~.close_directions~).click();return false;">' +
+      if (!dragging) {
+        map.fitBounds(polyline.getBounds().pad(0.05));
+      }
+
+      var html = '<h2><a class="geolink" href="#">' +
         '<span class="icon close"></span></a>' + I18n.t('javascripts.directions.directions') +
         '</h2><p id="routing_summary">' +
         I18n.t('javascripts.directions.distance') + ': ' + formatDistance(route.distance) + '. ' +
         I18n.t('javascripts.directions.time') + ': ' + formatTime(route.time) + '.</p>' +
-        '<table id="turnbyturn" />').replace(/~/g, "'");
+        '<table id="turnbyturn" />';
 
       $('#sidebar_content')
         .html(html);
@@ -282,9 +221,103 @@ OSM.Directions = function (map) {
         I18n.t('javascripts.directions.instructions.courtesy', {link: chosenEngine.creditline}) +
         '</p>');
     });
+  }
+
+  var engines = OSM.Directions.engines;
+
+  engines.sort(function (a, b) {
+    a = I18n.t('javascripts.directions.engines.' + a.id);
+    b = I18n.t('javascripts.directions.engines.' + b.id);
+    return a.localeCompare(b);
+  });
+
+  var select = $('select.routing_engines');
+
+  engines.forEach(function(engine, i) {
+    select.append("<option value='" + i + "'>" + I18n.t('javascripts.directions.engines.' + engine.id) + "</option>");
+  });
+
+  setEngine('osrm_car');
+
+  select.on("change", function (e) {
+    chosenEngine = engines[e.target.selectedIndex];
+    if (map.hasLayer(polyline)) {
+      getRoute();
+    }
+  });
+
+  $(".directions_form").on("submit", function(e) {
+    e.preventDefault();
+    $("header").addClass("closed");
+    getRoute();
+  });
+
+  $(".routing_marker").on('dragstart', function (e) {
+    e.originalEvent.dataTransfer.effectAllowed = 'move';
+    e.originalEvent.dataTransfer.setData('id', this.id);
+    var xo = e.originalEvent.clientX - $(e.target).offset().left;
+    var yo = e.originalEvent.clientY - $(e.target).offset().top;
+    e.originalEvent.dataTransfer.setData('offsetX', e.originalEvent.target.width / 2 - xo);
+    e.originalEvent.dataTransfer.setData('offsetY', e.originalEvent.target.height - yo);
+  });
+
+  var page = {};
+
+  page.pushstate = page.popstate = function() {
+    $(".search_form").hide();
+    $(".directions_form").show();
+
+    $("#map").on('dragend dragover', function (e) {
+      e.preventDefault();
+    });
+
+    $("#map").on('drop', function (e) {
+      e.preventDefault();
+      var oe = e.originalEvent;
+      var id = oe.dataTransfer.getData('id');
+      var pt = L.DomEvent.getMousePosition(oe, map.getContainer());  // co-ordinates of the mouse pointer at present
+      pt.x += Number(oe.dataTransfer.getData('offsetX'));
+      pt.y += Number(oe.dataTransfer.getData('offsetY'));
+      var ll = map.containerPointToLatLng(pt);
+      endpoints[id === 'marker_from' ? 0 : 1].setLatLng(ll);
+      getRoute();
+    });
+
+    var params = querystring.parse(location.search.substring(1)),
+      route = (params.route || '').split(';');
+
+    if (params.engine) {
+      setEngine(params.engine);
+    }
+
+    var o = route[0] && L.latLng(route[0].split(',')),
+        d = route[1] && L.latLng(route[1].split(','));
+
+    if (o) endpoints[0].setLatLng(o);
+    if (d) endpoints[1].setLatLng(d);
+
+    map.setSidebarOverlaid(!o || !d);
+
+    getRoute();
   };
 
-  return r;
+  page.load = function() {
+    page.pushstate();
+  };
+
+  page.unload = function() {
+    $(".search_form").show();
+    $(".directions_form").hide();
+    $("#map").off('dragend dragover drop');
+
+    map
+      .removeLayer(popup)
+      .removeLayer(polyline)
+      .removeLayer(endpoints[0].marker)
+      .removeLayer(endpoints[1].marker);
+  };
+
+  return page;
 };
 
 OSM.Directions.engines = [];
