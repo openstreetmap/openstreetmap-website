@@ -12,6 +12,10 @@ class BrowseHelperTest < ActionView::TestCase
     I18n.locale = "en"
   end
 
+  def teardown
+    I18n.locale = "en"
+  end
+
   def test_printable_name
     assert_equal "17", printable_name(current_nodes(:redacted_node))
     assert_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
