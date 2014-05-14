@@ -2,6 +2,8 @@
 // Doesn't yet support hints
 
 function OSRMEngine() {
+  var previousPoints, hintData;
+
   return {
     id: "osrm_car",
     creditline: '<a href="http://project-osrm.org/" target="_blank">OSRM</a>',
@@ -33,6 +35,13 @@ function OSRMEngine() {
 
       for (var i = 0; i < points.length; i++) {
         url += "&loc=" + points[i].lat + ',' + points[i].lng;
+        if (hintData && previousPoints && previousPoints[i].equals(points[i])) {
+          url += "&hint=" + hintData.locations[i];
+        }
+      }
+
+      if (hintData && hintData.checksum) {
+        url += "&checksum=" + hintData.checksum;
       }
 
       $.ajax({
@@ -41,6 +50,9 @@ function OSRMEngine() {
         success: function (data) {
           if (data.status == 207)
             return callback(true);
+
+          previousPoints = points;
+          hintData = data.hint_data;
 
           var line = L.PolylineUtil.decode(data.route_geometry);
           for (var i = 0; i < line.length; i++) {
