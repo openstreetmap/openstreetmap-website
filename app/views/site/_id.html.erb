@@ -28,6 +28,8 @@
 
     if (hashParams.gpx) {
       params.gpx = hashParams.gpx;
+    } else if (OSM.params().gpx) {
+      params.gpx = '/trace/'+OSM.params().gpx+'/data';
     }
 
     $('#id-embed').attr('src', '<%= id_url :locale => params[:locale] %>#' + querystring.stringify(params));
