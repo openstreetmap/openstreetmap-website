@@ -15,10 +15,10 @@
       <ul>
         <% way.way_nodes.each do |wn| %>
           <li>
-            <%= link_to h(printable_name(wn.node)), { :action => "node", :id => wn.node_id.to_s }, :class => link_class('node', wn.node), :title => link_title(wn.node) %>
+            <%= link_to printable_name(wn.node), { :action => "node", :id => wn.node_id.to_s }, :class => link_class('node', wn.node), :title => link_title(wn.node) %>
             <% related_ways = wn.node.ways.reject { |w| w.id == wn.way_id } %>
             <% if related_ways.size > 0 then %>
-              (<%= raw t 'browse.way.also_part_of', :count => related_ways.size, :related_ways => related_ways.map { |w| link_to(h(printable_name(w)), { :action => "way", :id => w.id.to_s }, :class => link_class('way', w), :title => link_title(w) ) }.to_sentence %>)
+              (<%= raw t 'browse.way.also_part_of', :count => related_ways.size, :related_ways => related_ways.map { |w| link_to(printable_name(w), { :action => "way", :id => w.id.to_s }, :class => link_class('way', w), :title => link_title(w) ) }.to_sentence %>)
             <% end %>
           </li>
         <% end %>

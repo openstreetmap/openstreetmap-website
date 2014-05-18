@@ -14,28 +14,28 @@ class BrowseHelperTest < ActionView::TestCase
 
   def test_printable_name
     assert_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_equal "Test Node (18)", printable_name(current_nodes(:node_with_name))
-    assert_equal "Test Node (18)", printable_name(nodes(:node_with_name_current_version))
+    assert_equal "<bdi>Test Node</bdi> (18)", printable_name(current_nodes(:node_with_name))
+    assert_equal "<bdi>Test Node</bdi> (18)", printable_name(nodes(:node_with_name_current_version))
     assert_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_equal "Test Node (18, v2)", printable_name(nodes(:node_with_name_current_version), true)
+    assert_equal "<bdi>Test Node</bdi> (18, v2)", printable_name(nodes(:node_with_name_current_version), true)
     assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
 
     I18n.locale = "ru"
 
     assert_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_equal "проверки узла (18)", printable_name(current_nodes(:node_with_name))
-    assert_equal "проверки узла (18)", printable_name(nodes(:node_with_name_current_version))
+    assert_equal "<bdi>проверки узла</bdi> (18)", printable_name(current_nodes(:node_with_name))
+    assert_equal "<bdi>проверки узла</bdi> (18)", printable_name(nodes(:node_with_name_current_version))
     assert_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_equal "проверки узла (18, v2)", printable_name(nodes(:node_with_name_current_version), true)
+    assert_equal "<bdi>проверки узла</bdi> (18, v2)", printable_name(nodes(:node_with_name_current_version), true)
     assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
 
     I18n.locale = "de"
 
     assert_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_equal "Test Node (18)", printable_name(current_nodes(:node_with_name))
-    assert_equal "Test Node (18)", printable_name(nodes(:node_with_name_current_version))
+    assert_equal "<bdi>Test Node</bdi> (18)", printable_name(current_nodes(:node_with_name))
+    assert_equal "<bdi>Test Node</bdi> (18)", printable_name(nodes(:node_with_name_current_version))
     assert_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_equal "Test Node (18, v2)", printable_name(nodes(:node_with_name_current_version), true)
+    assert_equal "<bdi>Test Node</bdi> (18, v2)", printable_name(nodes(:node_with_name_current_version), true)
     assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
   end
 
