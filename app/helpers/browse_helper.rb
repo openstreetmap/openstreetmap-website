@@ -14,9 +14,9 @@ module BrowseHelper
     # away redacted version tag information.
     unless object.redacted?
       if object.tags.include? "name:#{I18n.locale}"
-        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags["name:#{I18n.locale}"].to_s ), :id => name
+        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags["name:#{I18n.locale}"].to_s ), :id => content_tag(:bdi, name)
       elsif object.tags.include? 'name'
-        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags['name'].to_s ), :id => name
+        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags['name'].to_s ), :id => content_tag(:bdi, name)
       end
     end
 
