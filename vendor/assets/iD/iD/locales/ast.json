@@ -18,6 +18,12 @@
         "browse": {
             "title": "Navegar",
             "description": "Mover y ampliar el mapa."
+        },
+        "draw_area": {
+            "tail": "Calca p'amestar noyos al área. Calca nel primeru p'acabar el área."
+        },
+        "draw_line": {
+            "tail": "Calca p'amestar más noyos a la llinia. Calca n'otres llinies pa coneutar con elles, y fai doble clic p'acabar la llinia."
         }
     },
     "operations": {
@@ -42,22 +48,45 @@
         "cancel_draw": {
             "annotation": "Dibuxu encaboxáu."
         },
+        "change_role": {
+            "annotation": "Camudó'l rol d'un miembru de la rellación."
+        },
         "change_tags": {
             "annotation": "Etiquetes camudaes."
         },
         "circularize": {
             "title": "Poner en círculu",
+            "description": {
+                "line": "Facer esta llinia circular.",
+                "area": "Facer esti área circular."
+            },
             "key": "O",
             "annotation": {
                 "line": "Facer una llinia circular.",
                 "area": "Facer un área circular."
-            }
+            },
+            "too_large": "Esto nun pue facese circular porque anguaño nun ye visible bastante."
         },
         "orthogonalize": {
+            "title": "Escuadrar",
+            "description": {
+                "line": "Escuadrar les esquines d'esta llinia.",
+                "area": "Escuadrar les esquines d'esti área."
+            },
+            "key": "S",
             "annotation": {
                 "line": "Escuadraes les esquines d'una llinia.",
                 "area": "Escuadraes les esquines d'un área."
-            }
+            },
+            "not_squarish": "Nun pue escuadrase porque nun ye cuadrada",
+            "too_large": "Esto nun pue escuadrase porque anguaño nun ye visible bastante."
+        },
+        "straighten": {
+            "title": "Enderechar",
+            "description": "Enderechar esta llinia.",
+            "key": "S",
+            "annotation": "Enderechada una llinia.",
+            "too_bendy": "Nun pue enderechase porque ta doblada enforma."
         },
         "delete": {
             "title": "Desaniciar",
@@ -90,7 +119,8 @@
             "title": "Entemecer",
             "description": "Entemecer eses llinies.",
             "key": "C",
-            "annotation": "Entemecies {n} llinies."
+            "annotation": "Entemecies {n} llinies.",
+            "incomplete_relation": "Estes carauterístiques nun puen entemecese porque polo menos una nun se descargó completamente."
         },
         "move": {
             "title": "Mover",
@@ -106,6 +136,7 @@
         },
         "rotate": {
             "title": "Xirar",
+            "description": "Xirar esti oxetu alredor del puntu central.",
             "key": "R",
             "annotation": {
                 "line": "Xirada una llinia.",
@@ -132,22 +163,35 @@
     "tooltip_keyhint": "Atayu:",
     "browser_notice": "Esti editor tien sofitu en Firefox, Chrome, Safari, Opera, ya Internet Explorer 9 y superior. Anueve'l so navegador o use Potlatch 2 pa editar el mapa.",
     "translate": {
+        "translate": "Traducir",
+        "localized_translation_label": "Nome multillingüe",
         "localized_translation_language": "Escoyer idioma",
         "localized_translation_name": "Nome"
     },
+    "zoom_in_edit": "Averar pa editar",
     "logout": "zarrar sesión",
     "loading_auth": "Coneutando con OpenStreetMap...",
     "report_a_bug": "informar d'un fallu",
+    "status": {
+        "error": "Nun se pue coneutar cola API.",
+        "offline": "La API ta desconeutada. Intente la edición más sero.",
+        "readonly": "La API ta en mou de sólo llectura. Tendrá d'esperar pa guardar los cambios."
+    },
     "commit": {
         "title": "Guardar cambios",
         "description_placeholder": "Descripción curtia de les collaboraciones",
         "message_label": "Mensaxe d'unviu",
+        "upload_explanation": "Los cambios que xuba tarán visibles en tolos mapes qu'usen los datos d'OpenStreetMap.",
         "save": "Guardar",
         "cancel": "Encaboxar",
         "warnings": "Avisos",
         "modified": "Camudáu",
         "deleted": "Desaniciáu",
         "created": "Creáu"
+    },
+    "contributors": {
+        "list": "Ediciones de {users}",
+        "truncated_list": "Ediciones de {users} y otros {count}"
     },
     "geolocate": {
         "title": "Amosar el mio allugamientu"
@@ -156,13 +200,33 @@
         "no_documentation_combination": "Nun hai documentación disponible pa esta combinación d'etiquetes",
         "no_documentation_key": "Nun hai documentación disponible pa esta clave",
         "show_more": "Ver más",
+        "view_on_osm": "Ver en openstreetmap.org",
+        "all_tags": "Toles etiquetes",
+        "all_members": "Tolos miembros",
+        "all_relations": "Toles rellaciones",
+        "role": "Rol",
         "choose": "Seleicione un tipu de carauterística",
-        "results": "{n} resultaos pa {search}"
+        "results": "{n} resultaos pa {search}",
+        "reference": "Ver na Wiki d'OpenStreetMap",
+        "back_tooltip": "Camudar carauterística",
+        "remove": "Desaniciar",
+        "search": "Guetar",
+        "multiselect": "Elementos seleicionaos",
+        "unknown": "Desconocíu",
+        "none": "Dengún",
+        "node": "Nuedu",
+        "way": "Vía",
+        "relation": "Rellación",
+        "location": "Allugamientu"
     },
     "background": {
         "title": "Fondu",
         "description": "Configuración del fondu",
         "percent_brightness": "{opacity}% brillu",
+        "none": "Dengún",
+        "custom": "Personalizáu",
+        "custom_button": "Editar fondu personalizáu",
+        "fix_misalignment": "Iguar l'alliniamientu",
         "reset": "reaniciar"
     },
     "restore": {
@@ -183,7 +247,9 @@
         "edited_osm": "¡Editáu OSM!",
         "just_edited": "¡Acaba d'editar OpenStreetMap!",
         "view_on_osm": "Ver en OSM",
-        "facebook": "Compartir en Facebook"
+        "facebook": "Compartir en Facebook",
+        "twitter": "Compartir en Twitter",
+        "google": "Compartir en Google+"
     },
     "confirm": {
         "okay": "Aceutar"
@@ -205,10 +271,12 @@
         "used_with": "usada con {type}"
     },
     "validations": {
+        "untagged_point": "Puntu ensin etiquetar",
         "untagged_line": "Llinia ensin etiquetar",
         "untagged_area": "Área ensin etiquetar",
         "many_deletions": "Va desaniciar {n} oxetos. ¿Ta seguru de que ye esto lo que quier facer? Esto desaniciarálos del mapa que ve tol mundu en openstreetmap.org.",
         "tag_suggests_area": "La etiqueta {tag} suxer que la llinia tendría de ser un área, pero nun ye un area",
+        "untagged_tooltip": "Seleicione un tipu de carauterística que describe qué tipu de {geometry} ye.",
         "deprecated_tags": "Etiquetes anticuaes: {tags}"
     },
     "zoom": {
@@ -216,7 +284,10 @@
         "out": "Alloñar"
     },
     "gpx": {
-        "local_layer": "Ficheru GPX llocal"
+        "local_layer": "Ficheru GPX llocal",
+        "drag_drop": "Abasne y suelte un ficheru .gpx na páxina, o faiga clic nel botón de la drecha pa restolar",
+        "zoom": "Ampliar a la traza GPX",
+        "browse": "Restolar por un ficheru .gpx"
     },
     "help": {
         "title": "Ayuda"
@@ -231,7 +302,12 @@
         },
         "points": {
             "title": "Puntos",
-            "add": "Los puntos puen usase pa representar carauterístiques como tiendes, restaurantes y monumentos. Marquen un llugar específicu, y describen lo qu'hai ellí. **Calque nel botón Puntu p'amestar un puntu nuevu.**"
+            "add": "Los puntos puen usase pa representar carauterístiques como tiendes, restaurantes y monumentos. Marquen un llugar específicu, y describen lo qu'hai ellí. **Calque nel botón Puntu p'amestar un puntu nuevu.**",
+            "place": "El puntu pue ponese faciendo clic nel mapa. **Pon el puntu enriba del edificiu.**",
+            "search": "Hai munches carauterístiques distintes que puen representase con puntos. El puntu que vienes d'amestar ye un Café. **Busca '{name}'**",
+            "choose": "**Escueyi Café la llista.**",
+            "describe": "Agora ta marcáu el puntu como un café. Usando'l editor de carauterístiques, podemos amestar más información de la carauterística. **Amiesta un nome**",
+            "close": "L'editor de carauterístiques pue zarrase calcando nel botón zarrar. **Zarra l'editor de carauterístiques**"
         },
         "areas": {
             "title": "Árees",
@@ -241,7 +317,9 @@
             "title": "Llinies"
         },
         "startediting": {
-            "title": "Principiar la edición"
+            "title": "Principiar la edición",
+            "save": "¡Nun escaeza guardar los cambios de mou regular!",
+            "start": "¡Principie a facer mapes!"
         }
     },
     "presets": {
@@ -447,6 +525,36 @@
             "fixme": {
                 "label": "Arréglame"
             },
+            "fuel": {
+                "label": "Combustible"
+            },
+            "fuel/biodiesel": {
+                "label": "Biodiesel"
+            },
+            "fuel/diesel": {
+                "label": "Diesel"
+            },
+            "fuel/e10": {
+                "label": "E10"
+            },
+            "fuel/e85": {
+                "label": "E85"
+            },
+            "fuel/lpg": {
+                "label": "Propanu"
+            },
+            "fuel/octane_100": {
+                "label": "Gasolina de competición"
+            },
+            "fuel/octane_91": {
+                "label": "Gasolina normal"
+            },
+            "fuel/octane_95": {
+                "label": "Gasolina media"
+            },
+            "fuel/octane_98": {
+                "label": "Gasolina súper"
+            },
             "gauge": {
                 "label": "Anchu de vía"
             },
@@ -472,6 +580,9 @@
             },
             "historic": {
                 "label": "Tipu"
+            },
+            "hoops": {
+                "placeholder": "1, 2, 4..."
             },
             "iata": {
                 "label": "IATA"
@@ -505,6 +616,9 @@
             },
             "leisure": {
                 "label": "Tipu"
+            },
+            "length": {
+                "label": "Llonxitú (Metros)"
             },
             "levels": {
                 "label": "Niveles",
@@ -555,6 +669,9 @@
                 "label": "Par",
                 "placeholder": "3, 4, 5..."
             },
+            "park_ride": {
+                "label": "Aparcamientu con tresporte públicu"
+            },
             "parking": {
                 "label": "Tipu"
             },
@@ -570,6 +687,9 @@
             },
             "place": {
                 "label": "Tipu"
+            },
+            "population": {
+                "label": "Población"
             },
             "power": {
                 "label": "Tipu"
@@ -619,6 +739,9 @@
             "sac_scale": {
                 "label": "Dificultá del camín"
             },
+            "seasonal": {
+                "label": "Estacional"
+            },
             "service": {
                 "label": "Tipu"
             },
@@ -641,6 +764,9 @@
             "sport": {
                 "label": "Deporte"
             },
+            "sport_ice": {
+                "label": "Deporte"
+            },
             "structure": {
                 "label": "Estructura",
                 "placeholder": "Desconocíu",
@@ -648,7 +774,8 @@
                     "bridge": "Ponte",
                     "tunnel": "Túnel",
                     "embankment": "Rellenu",
-                    "cutting": "Trinchera"
+                    "cutting": "Trinchera",
+                    "ford": "Vau"
                 }
             },
             "studio_type": {
@@ -659,6 +786,9 @@
             },
             "surface": {
                 "label": "Superficie"
+            },
+            "tactile_paving": {
+                "label": "Baldosa táctil"
             },
             "tourism": {
                 "label": "Tipu"
@@ -674,6 +804,9 @@
             },
             "tree_type": {
                 "label": "Tipu"
+            },
+            "trees": {
+                "label": "Árboles"
             },
             "tunnel": {
                 "label": "Túnel"
@@ -697,6 +830,9 @@
             "wheelchair": {
                 "label": "Accesu pa siella de ruedes"
             },
+            "width": {
+                "label": "Anchura (Metros)"
+            },
             "wikipedia": {
                 "label": "Wikipedia"
             },
@@ -708,6 +844,9 @@
             "address": {
                 "name": "Direición",
                 "terms": "Señes,Allugamientu"
+            },
+            "aerialway/pylon": {
+                "name": "Poste de tresporte per cable"
             },
             "aeroway": {
                 "name": "Via d'aviación"
@@ -756,6 +895,9 @@
                 "name": "Bar",
                 "terms": "Chigre,Tasca"
             },
+            "amenity/bbq": {
+                "name": "Barbacoa/Asador"
+            },
             "amenity/bench": {
                 "name": "Asientu",
                 "terms": "Asientu"
@@ -783,6 +925,9 @@
             "amenity/car_wash": {
                 "name": "Llaváu de coches"
             },
+            "amenity/charging_station": {
+                "name": "Estación de recarga"
+            },
             "amenity/cinema": {
                 "name": "Cine",
                 "terms": "Cinematógrafu,Multicine"
@@ -793,6 +938,9 @@
             },
             "amenity/clock": {
                 "name": "Reló"
+            },
+            "amenity/compressed_air": {
+                "name": "Aire comprimíu"
             },
             "amenity/courthouse": {
                 "name": "Xulgáu"
@@ -830,6 +978,13 @@
             "amenity/grave_yard": {
                 "name": "Enterramientos"
             },
+            "amenity/hospital": {
+                "name": "Antoxana d'hospital",
+                "terms": "Zona hospitalaria, terrenu d'hospital"
+            },
+            "amenity/kindergarten": {
+                "name": "Antoxana de guardería"
+            },
             "amenity/library": {
                 "name": "Biblioteca",
                 "terms": "Llibros,Centru de llectura"
@@ -839,6 +994,9 @@
             },
             "amenity/parking": {
                 "name": "Aparcamientu"
+            },
+            "amenity/parking_entrance": {
+                "name": "Entrada/Salida de garaxe"
             },
             "amenity/pharmacy": {
                 "name": "Farmacia",
@@ -853,13 +1011,16 @@
                 "terms": "Pagoda"
             },
             "amenity/place_of_worship/christian": {
-                "name": "Ilesia"
+                "name": "Ilesia",
+                "terms": "Cultu cristianu, templu"
             },
             "amenity/place_of_worship/jewish": {
-                "name": "Synagoga"
+                "name": "Synagoga",
+                "terms": "Xudería, xudaísmu"
             },
             "amenity/place_of_worship/muslim": {
-                "name": "Mezquita"
+                "name": "Mezquita",
+                "terms": "Islam, cultu islámicu"
             },
             "amenity/police": {
                 "name": "Policía",
@@ -882,13 +1043,24 @@
                 "terms": "Llimpieza,Reutilización,Escombru"
             },
             "amenity/restaurant": {
-                "name": "Restaurante"
+                "name": "Restaurante",
+                "terms": "Chigre, llagar"
+            },
+            "amenity/school": {
+                "name": "Antoxana d'escuela",
+                "terms": "Terrén d'escuela, zona escolar"
             },
             "amenity/social_facility": {
                 "name": "Serviciu social"
             },
             "amenity/social_facility/food_bank": {
                 "name": "Bancu d'alimentos"
+            },
+            "amenity/social_facility/group_home": {
+                "name": "Albergue pa grupos"
+            },
+            "amenity/social_facility/homeless_shelter": {
+                "name": "Albergue de probes"
             },
             "amenity/studio": {
                 "name": "Estudiu",
@@ -905,13 +1077,15 @@
                 "terms": "Cabina"
             },
             "amenity/theatre": {
-                "name": "Teatru"
+                "name": "Teatru",
+                "terms": "comedia, corral"
             },
             "amenity/toilets": {
                 "name": "Aseos"
             },
             "amenity/townhall": {
-                "name": "Edificiu municipal"
+                "name": "Edificiu municipal",
+                "terms": "Casa del Conceyu, Ayuntamientu"
             },
             "amenity/university": {
                 "name": "Universidá"
@@ -925,7 +1099,8 @@
                 "terms": "Clínica veterinaria"
             },
             "amenity/waste_basket": {
-                "name": "Papelera"
+                "name": "Papelera",
+                "terms": "Papelera, basoria"
             },
             "area": {
                 "name": "Área"
@@ -933,14 +1108,23 @@
             "barrier": {
                 "name": "Barrera"
             },
+            "barrier/block": {
+                "name": "Bloque"
+            },
             "barrier/bollard": {
                 "name": "Bolardu"
+            },
+            "barrier/cattle_grid": {
+                "name": "Rexa pa ganáu"
             },
             "barrier/city_wall": {
                 "name": "Muralla de ciudá"
             },
             "barrier/cycle_barrier": {
                 "name": "Barrera pa bicicletes"
+            },
+            "barrier/ditch": {
+                "name": "Riega"
             },
             "barrier/entrance": {
                 "name": "Entrada"
@@ -954,11 +1138,17 @@
             "barrier/hedge": {
                 "name": "Sebe"
             },
+            "barrier/kissing_gate": {
+                "name": "Puerta ganadera"
+            },
             "barrier/lift_gate": {
                 "name": "Barrera"
             },
             "barrier/retaining_wall": {
                 "name": "Muru de contención"
+            },
+            "barrier/stile": {
+                "name": "Pasera pa reblagu"
             },
             "barrier/toll_booth": {
                 "name": "Cabina de peaxe"
@@ -975,8 +1165,14 @@
             "building/apartments": {
                 "name": "Pisos"
             },
+            "building/barn": {
+                "name": "Graneru"
+            },
             "building/bunker": {
                 "name": "Bunker"
+            },
+            "building/cabin": {
+                "name": "Cabaña"
             },
             "building/cathedral": {
                 "name": "Catedral"
@@ -994,8 +1190,14 @@
                 "name": "Edificiu en construcción",
                 "terms": "Obra, Arreglu"
             },
+            "building/detached": {
+                "name": "Vivienda aisllada"
+            },
+            "building/dormitory": {
+                "name": "Residencia"
+            },
             "building/entrance": {
-                "name": "Entrada"
+                "name": "Entrada/Salida"
             },
             "building/garage": {
                 "name": "Garaxe",
@@ -1037,12 +1239,24 @@
             "building/school": {
                 "name": "Edificiu escolar"
             },
+            "building/shed": {
+                "name": "Caseta de xardín"
+            },
+            "building/stable": {
+                "name": "Establu"
+            },
+            "building/static_caravan": {
+                "name": "Casa portátil"
+            },
             "building/train_station": {
                 "name": "Estación de tren",
                 "terms": "Terminal ferroviaria"
             },
             "building/university": {
                 "name": "Edificiu universitariu"
+            },
+            "building/warehouse": {
+                "terms": "Nave d'almacenamientu"
             },
             "craft/basket_maker": {
                 "name": "Cesteru",
@@ -1076,11 +1290,26 @@
                 "name": "Confitería",
                 "terms": "Pastelería, Bollería"
             },
+            "craft/dressmaker": {
+                "name": "Modista"
+            },
             "craft/electrician": {
                 "name": "Electricista"
             },
             "craft/gardener": {
                 "name": "Xardineru"
+            },
+            "craft/glaziery": {
+                "name": "Cristalería"
+            },
+            "craft/handicraft": {
+                "name": "Manualidaes"
+            },
+            "craft/hvac": {
+                "name": "Calefactor"
+            },
+            "craft/insulator": {
+                "name": "Aislamientos"
             },
             "craft/jeweler": {
                 "name": "Xoyería"
@@ -1107,12 +1336,34 @@
                 "name": "Fotografía",
                 "terms": "Fotógrafu,Reveláu"
             },
+            "craft/photographic_laboratory": {
+                "name": "Llaboratoriu fotográficu",
+                "terms": "Fotografía, Reveláu, Ampliaciones"
+            },
+            "craft/plasterer": {
+                "name": "Revocador"
+            },
             "craft/plumber": {
                 "name": "Fontaneru"
+            },
+            "craft/pottery": {
+                "name": "Alfarería"
+            },
+            "craft/rigger": {
+                "name": "Montaxes"
             },
             "craft/roofer": {
                 "name": "Reteyador",
                 "terms": "Reparación de teyaos, Cubiertes"
+            },
+            "craft/saddler": {
+                "name": "Guarnicioneru"
+            },
+            "craft/sailmaker": {
+                "name": "Fabricante de veles"
+            },
+            "craft/sawmill": {
+                "name": "Serraderu"
             },
             "craft/scaffolder": {
                 "name": "Montaxe d'andamios"
@@ -1126,11 +1377,30 @@
             "craft/stonemason": {
                 "name": "Canteru"
             },
+            "craft/sweep": {
+                "name": "Llimpieza de chimenees"
+            },
             "craft/tailor": {
                 "name": "Sastre"
             },
+            "craft/tiler": {
+                "name": "Azulexista"
+            },
+            "craft/tinsmith": {
+                "name": "Caldereru"
+            },
+            "craft/upholsterer": {
+                "name": "Tapicería"
+            },
+            "craft/watchmaker": {
+                "name": "Reloxeru"
+            },
             "craft/window_construction": {
                 "name": "Construcción de ventanes"
+            },
+            "embankment": {
+                "name": "Terremplén",
+                "terms": "rellenu"
             },
             "emergency/ambulance_station": {
                 "name": "Parque d'ambulancies",
@@ -1145,11 +1415,14 @@
                 "terms": "S.O.S.,Teléfonu d'ayuda,Teléfonu de socorru"
             },
             "entrance": {
-                "name": "Entrada"
+                "name": "Entrada/Salida"
             },
             "footway/crossing": {
                 "name": "Pasu de peatones",
                 "terms": "Cruce"
+            },
+            "ford": {
+                "name": "Vau"
             },
             "golf/hole": {
                 "name": "Furacu de golf"
@@ -1165,13 +1438,15 @@
                 "name": "Parada d'autobús"
             },
             "highway/crossing": {
-                "name": "Pasu de peatones"
+                "name": "Pasu de peatones",
+                "terms": "Cruce de víes, pasu"
             },
             "highway/cycleway": {
                 "name": "Camín ciclista"
             },
             "highway/footway": {
-                "name": "Camín peatonal"
+                "name": "Camín peatonal",
+                "terms": "Camín, senderu, sienda"
             },
             "highway/living_street": {
                 "name": "Cai residencial",
@@ -1187,7 +1462,8 @@
                 "name": "Xunión d'autopista"
             },
             "highway/motorway_link": {
-                "name": "Enllaz d'autopista"
+                "name": "Enllaz d'autopista",
+                "terms": "Salida, accesu, enllaz, autopista"
             },
             "highway/path": {
                 "name": "Camín"
@@ -1199,7 +1475,8 @@
                 "name": "Carretera autonómica"
             },
             "highway/primary_link": {
-                "name": "Enllaz de carretera autonómica I"
+                "name": "Enllaz de carretera autonómica I",
+                "terms": "Salida, accesu, enllaz, autonómica primaria, autonómica naranxa"
             },
             "highway/residential": {
                 "name": "Cai urbana"
@@ -1214,10 +1491,14 @@
                 "name": "Carretera secundaria"
             },
             "highway/secondary_link": {
-                "name": "Enllaz de carretera autonómica II"
+                "name": "Enllaz de carretera autonómica II",
+                "terms": "Salida, accesu, enllaz, autonómica secundaria, autonómica verde"
             },
             "highway/service": {
                 "name": "Vía de serviciu"
+            },
+            "highway/service/alley": {
+                "name": "Pasaxe"
             },
             "highway/service/emergency_access": {
                 "name": "Accesu d'emerxencia"
@@ -1237,19 +1518,22 @@
                 "name": "Carretera terciaria"
             },
             "highway/tertiary_link": {
-                "name": "Enllaz de carretera autonómica III"
+                "name": "Enllaz de carretera autonómica III",
+                "terms": "Salida, accesu, enllaz, autonómica terciaria, autonómica mariella"
             },
             "highway/track": {
                 "name": "Caleya"
             },
             "highway/traffic_signals": {
-                "name": "Semáforu"
+                "name": "Semáforu",
+                "terms": "Semáforu, pasu peatonal"
             },
             "highway/trunk": {
                 "name": "Carretera nacional"
             },
             "highway/trunk_link": {
-                "name": "Enllaz de carretera nacional"
+                "name": "Enllaz de carretera nacional",
+                "terms": "Salida, accesu, enllaz, nacional"
             },
             "highway/turning_circle": {
                 "name": "Vuelta en cai ensin salida"
@@ -1268,6 +1552,9 @@
             },
             "historic/castle": {
                 "name": "Castiellu"
+            },
+            "historic/memorial": {
+                "name": "Obra d'alcordanza"
             },
             "historic/monument": {
                 "name": "Monumentu"
@@ -1294,6 +1581,9 @@
             "landuse/cemetery": {
                 "name": "Cementeriu"
             },
+            "landuse/churchyard": {
+                "name": "Antoxana d'ilesia"
+            },
             "landuse/commercial": {
                 "name": "Comercial"
             },
@@ -1314,6 +1604,15 @@
             },
             "landuse/industrial": {
                 "name": "Industrial"
+            },
+            "landuse/landfill": {
+                "name": "Escombrera"
+            },
+            "landuse/meadow": {
+                "name": "Prau"
+            },
+            "landuse/military": {
+                "name": "Militar"
             },
             "landuse/orchard": {
                 "name": "Plantación"
@@ -1339,11 +1638,18 @@
             "leisure/golf_course": {
                 "name": "Campu de golf"
             },
+            "leisure/ice_rink": {
+                "name": "Pista de xelu"
+            },
             "leisure/marina": {
                 "name": "Puertu deportivu"
             },
             "leisure/park": {
-                "name": "Parque"
+                "name": "Parque",
+                "terms": "Parque, campu, xardín"
+            },
+            "leisure/picnic_table": {
+                "name": "Mesa pa escursión"
             },
             "leisure/pitch": {
                 "name": "Campu deportivu"
@@ -1396,6 +1702,10 @@
             "man_made": {
                 "name": "Construcciones"
             },
+            "man_made/embankment": {
+                "name": "Terremplén",
+                "terms": "rellenu"
+            },
             "man_made/flagpole": {
                 "name": "Mástil",
                 "terms": "Palu, Bandera"
@@ -1420,13 +1730,17 @@
                 "name": "Torre"
             },
             "man_made/wastewater_plant": {
-                "name": "Planta depuradora"
+                "name": "Planta depuradora",
+                "terms": "Depuradora, tratamientu, agua, pretratamientu"
             },
             "man_made/water_tower": {
                 "name": "Torre de depósitu"
             },
             "man_made/water_well": {
                 "name": "Pozu d'agua"
+            },
+            "man_made/water_works": {
+                "name": "Captación d'agua"
             },
             "military/barracks": {
                 "name": "Cuartel",
@@ -1452,7 +1766,8 @@
                 "name": "Cantil"
             },
             "natural/coastline": {
-                "name": "Llinia costera"
+                "name": "Llinia costera",
+                "terms": "Costa, ribera"
             },
             "natural/glacier": {
                 "name": "Glacier"
@@ -1460,8 +1775,15 @@
             "natural/grassland": {
                 "name": "Pradera"
             },
+            "natural/heath": {
+                "name": "Escobal"
+            },
             "natural/peak": {
-                "name": "Picu"
+                "name": "Picu",
+                "terms": "Picu, monte, vértiz"
+            },
+            "natural/scrub": {
+                "name": "Fuérfagu"
             },
             "natural/spring": {
                 "name": "Fonte natural"
@@ -1480,6 +1802,9 @@
             },
             "natural/water/reservoir": {
                 "name": "Embalse"
+            },
+            "natural/wetland": {
+                "name": "Llamorgal"
             },
             "natural/wood": {
                 "name": "Viesca"
@@ -1541,11 +1866,24 @@
             "place/city": {
                 "name": "Ciudá"
             },
+            "place/hamlet": {
+                "name": "Aldea"
+            },
             "place/island": {
-                "name": "Islla"
+                "name": "Islla",
+                "terms": "Islla, castru"
             },
             "place/isolated_dwelling": {
                 "name": "Vivienda aisllada"
+            },
+            "place/locality": {
+                "name": "Llugar despobláu"
+            },
+            "place/town": {
+                "name": "Villa"
+            },
+            "place/village": {
+                "name": "Pueblu"
             },
             "point": {
                 "name": "Puntu"
@@ -1600,7 +1938,8 @@
                 "terms": "Parada"
             },
             "railway/level_crossing": {
-                "name": "Pasu a nivel"
+                "name": "Pasu a nivel",
+                "terms": "Pasu a nivel, barrera"
             },
             "railway/monorail": {
                 "name": "Monocarril"
@@ -1625,7 +1964,8 @@
                 "name": "Boca del metro"
             },
             "railway/tram": {
-                "name": "Tranvía"
+                "name": "Tranvía",
+                "terms": "Tranvía, tresporte, trole"
             },
             "relation": {
                 "name": "Rellación"
@@ -1636,8 +1976,18 @@
             "shop": {
                 "name": "Tienda"
             },
+            "shop/alcohol": {
+                "name": "Llicorería",
+                "terms": "Bodega"
+            },
             "shop/bakery": {
                 "name": "Panadería"
+            },
+            "shop/beauty": {
+                "name": "Cosmética"
+            },
+            "shop/beverages": {
+                "name": "Venta de bebíes"
             },
             "shop/bicycle": {
                 "name": "Tienda de ciclismu"
@@ -1660,6 +2010,9 @@
             "shop/car_repair": {
                 "name": "Taller d'automóviles"
             },
+            "shop/chemist": {
+                "name": "Droguería"
+            },
             "shop/clothes": {
                 "name": "Tienda de ropa"
             },
@@ -1668,6 +2021,12 @@
             },
             "shop/confectionery": {
                 "name": "Confitería"
+            },
+            "shop/convenience": {
+                "name": "Tienda d'ultramarinos"
+            },
+            "shop/deli": {
+                "name": "Gourmet"
             },
             "shop/department_store": {
                 "name": "Grandes almacenes"
@@ -1686,6 +2045,10 @@
             },
             "shop/florist": {
                 "name": "Floristería"
+            },
+            "shop/funeral_directors": {
+                "name": "Velatoriu",
+                "terms": "Tanatoriu, Funeraria"
             },
             "shop/furniture": {
                 "name": "Mueblería"
@@ -1749,14 +2112,22 @@
                 "name": "Fotografía",
                 "terms": "Fotógrafu,Reveláu,Material fotográficu"
             },
+            "shop/seafood": {
+                "name": "Mariscos",
+                "terms": "Pescadería"
+            },
             "shop/shoes": {
                 "name": "Zapatería"
             },
             "shop/sports": {
                 "name": "Material deportivu"
             },
+            "shop/stationery": {
+                "name": "Papelería"
+            },
             "shop/supermarket": {
-                "name": "Supermercáu"
+                "name": "Supermercáu",
+                "terms": "Supermercáu, super"
             },
             "shop/toys": {
                 "name": "Xuguetería"
@@ -1770,11 +2141,20 @@
             "shop/vacant": {
                 "name": "Tienda balera"
             },
+            "shop/variety_store": {
+                "name": "Bazar"
+            },
             "shop/video": {
                 "name": "Tienda de videos"
             },
+            "shop/wine": {
+                "name": "Bodega"
+            },
             "tourism": {
                 "name": "Turismu"
+            },
+            "tourism/alpine_hut": {
+                "name": "Refuxu d'alpinismu"
             },
             "tourism/artwork": {
                 "name": "Obra d'arte"
@@ -1784,6 +2164,16 @@
             },
             "tourism/camp_site": {
                 "name": "Llugar d'acampada"
+            },
+            "tourism/caravan_site": {
+                "name": "Aparcaderu d'autocaravanes"
+            },
+            "tourism/chalet": {
+                "name": "Casa d'aldea"
+            },
+            "tourism/guest_house": {
+                "name": "Pensión",
+                "terms": "Pensión, agospiamientu, güespes"
             },
             "tourism/hostel": {
                 "name": "Albergue"
@@ -1798,10 +2188,17 @@
                 "name": "Motel"
             },
             "tourism/museum": {
-                "name": "Muséu"
+                "name": "Muséu",
+                "terms": "Muséu, esposición, galería"
+            },
+            "tourism/picnic_site": {
+                "name": "Área recreativa"
             },
             "tourism/theme_park": {
                 "name": "Parque temáticu"
+            },
+            "tourism/viewpoint": {
+                "name": "Mirador"
             },
             "tourism/zoo": {
                 "name": "Zoo"
@@ -1861,14 +2258,34 @@
             "vertex": {
                 "name": "Otru"
             },
+            "waterway": {
+                "name": "Vía d'agua"
+            },
             "waterway/canal": {
                 "name": "Canal"
             },
+            "waterway/dam": {
+                "name": "Banzáu"
+            },
+            "waterway/ditch": {
+                "name": "Riega"
+            },
+            "waterway/drain": {
+                "name": "Drenaxe"
+            },
             "waterway/river": {
-                "name": "Ríu"
+                "name": "Ríu",
+                "terms": "Ríu, regatu"
             },
             "waterway/riverbank": {
                 "name": "Ribera"
+            },
+            "waterway/stream": {
+                "name": "Regueru",
+                "terms": "Regatu, regueru"
+            },
+            "waterway/weir": {
+                "name": "Ñora"
             }
         }
     }
