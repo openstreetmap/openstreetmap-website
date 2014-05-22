@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
   scope :active, -> { where(:status => ["active", "confirmed"]) }
   scope :public, -> { where(:data_public => true) }
 
+  has_attached_file :image,
+    :default_url => "/assets/:class/:attachment/:style.png",
+    :styles => { :large => "100x100>", :small => "50x50>" }
+
   validates_presence_of :email, :display_name
   validates_confirmation_of :email#, :message => ' addresses must match'
   validates_confirmation_of :pass_crypt#, :message => ' must match the confirmation password'
@@ -45,14 +49,11 @@ class User < ActiveRecord::Base
   validates_numericality_of :home_lon, :allow_nil => true
   validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true
   validates_inclusion_of :preferred_editor, :in => Editors::ALL_EDITORS, :allow_nil => true
+  validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
 
   after_initialize :set_defaults
   before_save :encrypt_password
   after_save :spam_check
-
-  has_attached_file :image,
-    :default_url => "/assets/:class/:attachment/:style.png",
-    :styles => { :large => "100x100>", :small => "50x50>" }
 
   def self.authenticate(options)
     if options[:username] and options[:password]

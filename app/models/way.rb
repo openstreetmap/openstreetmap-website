@@ -12,12 +12,12 @@ class Way < ActiveRecord::Base
   has_many :old_ways, -> { order(:version) }
 
   has_many :way_nodes, -> { order(:sequence_id) }
-  has_many :nodes, -> { order("sequence_id") }, :through => :way_nodes
+  has_many :nodes, :through => :way_nodes
 
   has_many :way_tags
 
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
-  has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation, :extend => ObjectFinder
+  has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
   validates_presence_of :id, :on => :update
   validates_presence_of :changeset_id,:version,  :timestamp

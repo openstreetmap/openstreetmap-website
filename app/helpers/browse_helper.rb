@@ -14,21 +14,26 @@ module BrowseHelper
     # away redacted version tag information.
     unless object.redacted?
       if object.tags.include? "name:#{I18n.locale}"
-        name = t 'printable_name.with_name',  :name => object.tags["name:#{I18n.locale}"].to_s, :id => name
+        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags["name:#{I18n.locale}"].to_s ), :id => content_tag(:bdi, name)
       elsif object.tags.include? 'name'
-        name = t 'printable_name.with_name',  :name => object.tags['name'].to_s, :id => name
+        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags['name'].to_s ), :id => content_tag(:bdi, name)
       end
     end
 
-    return name
+    name
   end
 
   def link_class(type, object)
+    classes = [ type ]
+
     if object.redacted?
-      type + " deleted"
+      classes << "deleted"
     else
-      type + " " + h(icon_tags(object).join(' ')) + (object.visible == false ? ' deleted' : '')
+      classes += icon_tags(object).flatten.map { |t| h(t) }
+      classes << "deleted" unless object.visible?
     end
+
+    classes.join(" ")
   end
 
   def link_title(object)
@@ -114,16 +119,25 @@ private
         lang = 'en'
       end
     elsif key =~ /^wikipedia:(\S+)$/
-      # Language is in the key, so assume value is a simple title
+      # Language is in the key, so assume value is the title
       lang = $1
     else
       # Not a wikipedia key!
       return nil
     end
 
+    if value =~ /^([^#]*)(#.*)/ then
+      # Contains a reference to a section of the wikipedia article
+      # Must break it up to correctly build the url
+      value = $1
+      section = $2
+    else
+      section = ""
+    end
+
     return {
-      :url => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}",
-      :title => value
+      :url => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}#{section}",
+      :title => value + section
     }
   end
 end

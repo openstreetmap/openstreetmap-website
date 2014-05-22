@@ -36,7 +36,7 @@ OSM.Export = function(map) {
   }
 
   function setBounds(bounds) {
-    var precision = zoomPrecision(map.getZoom());
+    var precision = OSM.zoomPrecision(map.getZoom());
     $("#minlon").val(bounds.getWest().toFixed(precision));
     $("#minlat").val(bounds.getSouth().toFixed(precision));
     $("#maxlon").val(bounds.getEast().toFixed(precision));
@@ -53,6 +53,10 @@ OSM.Export = function(map) {
     $("#export_commit").toggle(getBounds().getSize() < OSM.MAX_REQUEST_AREA);
   }
 
+  function checkSubmit(e) {
+    if (getBounds().getSize() > OSM.MAX_REQUEST_AREA) e.preventDefault();
+  }
+
   page.pushstate = page.popstate = function(path) {
     $("#export_tab").addClass("current");
     OSM.loadSidebarContent(path, page.load);
@@ -65,7 +69,7 @@ OSM.Export = function(map) {
 
     $("#maxlat, #minlon, #maxlon, #minlat").change(boundsChanged);
     $("#drag_box").click(enableFilter);
-    $("#sidebar_content .close").on("click", page.minimizeSidebar);
+    $(".export_form").on("submit", checkSubmit);
 
     update();
     return map.getState();

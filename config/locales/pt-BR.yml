@@ -1,6 +1,7 @@
 # Messages for Brazilian Portuguese (português do Brasil)
 # Exported from translatewiki.net
 # Export driver: syck-pecl
+# Author: Amgauna
 # Author: BraulioBezerra
 # Author: Diego Queiroz
 # Author: Fmca
@@ -8,6 +9,7 @@
 # Author: Giro720
 # Author: Gmare
 # Author: Gusta
+# Author: Jgpacker
 # Author: Leosls
 # Author: Luckas
 # Author: Luckas Blade
@@ -19,6 +21,18 @@
 # Author: Vgeorge
 # Author: 555
 pt-BR: 
+  about_page: 
+    community_driven_html: "A comunidade do OpenStreetMap é diversa, apaixonada, e aumenta diariamente.\nEntre os nossos colaboradores encontra-se mapeadores entusiastas,\nprofissionais das áreas de sistemas geográficos, engenheiros que utilizam\nos servidores do OpenStreetMap, voluntários a mapear áreas afetadas\npor grandes desastres, e muitos mais.\nPara saber mais sobre a nossa comunidade, veja os <a href='%{diary_path}'>diários dos editores</a>,\n<a href='http://blogs.openstreetmap.org/'>blogues da comunidade</a>, e o site da <a href='http://www.osmfoundation.org/'>OSM Foundation</a>."
+    community_driven_title: Dirigido pela comunidade
+    copyright_html: <span>&copy;</span>Colaboradores<br>do OpenStreetMap
+    lede_text: O OpenStreetMap é desenvolvido por uma comunidade voluntária de mapeadores que contribuem e mantêm atualizados os dados sobre estradas, trilhos, cafés, estações ferroviárias e muito mais por todo o mundo.
+    local_knowledge_html: O OpenStreetMap valoriza o conhecimento local. Os colaboradores utilizam fotografias aéreas, dispositivos GPS, e mapas do terreno para verificar que a informação no OpenStreetMap é rigorosa e atualizada.
+    local_knowledge_title: Conhecimento local
+    next: Próximo
+    open_data_html: "O OpenStreetMap é constituído por <i>dados abertos</i>: qualquer\npessoa tem a liberdade de usar os dados para qualquer fim desde\ncredite a autoria do OpenStreetMap e os seus colaboradores.\nSe você alterar os dados ou criar algo com os dados, pode distribuir\no produto resultante apenas sob a mesma licença. Consulte <a href='%{copyright_path}'>a página sobre direitos de autor e licenciamento</a> para mais informações."
+    open_data_title: Data de Abertura
+    partners_title: Parceiros
+    used_by: O %{name} fornece dados a centenas de sites na internet, aplicações de celular e outros dispositivos
   activerecord: 
     attributes: 
       diary_comment: 
@@ -27,7 +41,7 @@ pt-BR:
         language: Idioma
         latitude: Latitude
         longitude: Longitude
-        title: Título
+        title: Assunto
         user: Usuário
       friend: 
         friend: Amigo
@@ -36,7 +50,7 @@ pt-BR:
         body: Corpo
         recipient: Destinatário
         sender: Remetente
-        title: Título
+        title: Assunto
       trace: 
         description: Descrição
         latitude: Latitude
@@ -101,7 +115,7 @@ pt-BR:
       belongs_to: Autor
       changesetxml: XML do conjunto de alterações
       feed: 
-        title: Conjunto de mudanças %{id}
+        title: Conjunto de alterações %{id}
         title_comment: Conjunto de mudanças %{id} - %{comment}
       node: Nós (%{count})
       node_paginated: Nós (%{x}-%{y} de %{count})
@@ -132,16 +146,25 @@ pt-BR:
     not_found: 
       sorry: Desculpe, não foi possível encontrar %{type} com id %{id}.
       type: 
-        changeset: conjunto de mudanças
+        changeset: conjunto de alterações
         node: nó
         relation: relação
         way: caminho
     note: 
+      closed_by: Resolvido por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      closed_by_anonymous: Resolvido por um usuário anônimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
       closed_title: "Nota resolvida #%{note_name}"
+      commented_by: Comentado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      commented_by_anonymous: Comentado por um usuário anônimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      description: Descrição
+      hidden_by: Ocultado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
       hidden_title: "Nota oculta #%{note_name}"
       new_note: Nova nota
       open_by: Criado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      open_by_anonymous: Criado por um usuário anônimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
       open_title: "Nota não resolvida #%{note_name}"
+      reopened_by: Reaberto por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+      reopened_by_anonymous: Reaberto por um usuário anônimo há <abbr title='%{exact_time}'>%{when} atrás</abbr>
       title: "Nota: %{id}"
     part_of: Parte de
     redacted: 
@@ -169,13 +192,13 @@ pt-BR:
     tag_details: 
       tags: Etiquetas
       wiki_link: 
-        key: A página no wiki com a descrição da etiqueta %{key}
+        key: A página no wiki com a descrição da chave %{key}
         tag: A página no wiki com a descrição da etiqueta %{key}=%{value}
       wikipedia_link: O artigo %{page} na Wikipedia
     timeout: 
       sorry: Desculpe, mas os dados para %{type} com id %{id} estão demorando muito para chegar.
       type: 
-        changeset: conjunto de mudanças
+        changeset: conjunto de alterações
         node: nó
         relation: relação
         way: caminho
@@ -197,7 +220,7 @@ pt-BR:
     changeset_paging_nav: 
       next: Seguinte »
       previous: « Anterior
-      showing_page: Página % {page}
+      showing_page: Página %{page}
     changesets: 
       area: Área
       comment: Comentário
@@ -205,6 +228,13 @@ pt-BR:
       saved_at: Salvo em
       user: Usuário
     list: 
+      empty: Nenhum conjunto de alterações foi encontrado.
+      empty_area: Nenhum conjunto de alterações nesta área.
+      empty_user: Nenhum conjunto de alterações por este usuário.
+      load_more: Carregar mais
+      no_more: Nenhum conjunto de alterações foi encontrado.
+      no_more_area: Não há mais conjunto de alterações nesta área.
+      no_more_user: Não há mais conjunto de alterações para este usuário.
       title: Conjuntos de alterações
       title_friend: Conjuntos de alterações dos seus amigos
       title_nearby: Conjuntos de alterações de usuários próximos
@@ -321,6 +351,7 @@ pt-BR:
       paste_html: Cole o HTML para publicar no site
       scale: Escala
       too_large: 
+        advice: "Se a exportação acima falhar, por favor considere o uso de uma das fontes listadas abaixo:"
         body: "Esta área é muito grande para ser exportada como dados em XML do OpenStreetMap. Por gentileza, aumente o zoom ou selecione uma área menor, ou use as seguintes fontes de downloads de dados em massa:"
         geofabrik: 
           description: Extratos regularmente atualizados de continentes, países, e cidades selecionadas
@@ -328,10 +359,29 @@ pt-BR:
         metro: 
           description: Extratos das principais cidades do mundo e suas areas próximas
           title: Extratos do Portal Metro
+        other: 
+          description: Fontes adicionais listadas na wiki do OpenStreetMap
+          title: Outras fontes
+        overpass: 
+          description: Fazer o download desta caixa delimitadora através de um espelho do banco de dados do OpenStreetMap
+          title: Overpass API
         planet: 
           description: Cópias regularmente atualizadas da base de dados completa do OpenStreetMap
           title: Planeta OSM
       zoom: Zoom
+    title: Exportar
+  fixthemap: 
+    how_to_help: 
+      add_a_note: 
+        instructions_html: "Apenas clique em <a class='icon note'></a> ou no mesmo ícone na interface do mapa.\nIsto irá adicionar um marcador ao mapa, o qual pode mover arrastando. Adicione a sua mensagem, clique em salvar, e outros utilizadores como você irão investigar."
+      join_the_community: 
+        explanation_html: Se você reparou num problema com os dados do nosso mapa, como por exemplo uma estrada ou o seu adereço em falta, a melhor maneira de proceder é juntando-se à comunidade do OpenStreetMap e adicionando ou reparando os dados por si mesmo.
+        title: Junte-se à comunidade
+      title: Como ajudar
+    other_concerns: 
+      explanation_html: Se você tem preocupações sobre o modo como os nossos dados estão a ser usados ou sobre os conteúdos, por favor consulte a nossa <a href='/copyright'>página de direitos de autor</a> para mais informações legais, ou contacte o <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>grupo de trabalho OSMF</a> apropriado.
+      title: Outras preocupações
+    title: Reportar um problema / Corrigir o mapa
   geocoder: 
     description: 
       title: 
@@ -361,8 +411,10 @@ pt-BR:
       title: 
         ca_postcode: Resultados do <a href="http://geocoder.ca/">Geocoder.CA</a>
         geonames: Resultados do <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse: Resultados do <a href="http://www.geonames.org/">GeoNames</a>
         latlon: Resultados <a href="http://openstreetmap.org/">Internos</a>
         osm_nominatim: Resultados de <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
+        osm_nominatim_reverse: Resultados do <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
         uk_postcode: Resultados do <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Resultados do <a href="http://geocoder.us/">Geocoder.us</a>
     search_osm_nominatim: 
@@ -563,6 +615,7 @@ pt-BR:
           monument: Monumento
           museum: Museu
           ruins: Ruínas
+          tomb: Tumba
           tower: Torre histórica
           wayside_cross: Cruz de beira-de-estrada
           wayside_shrine: Túmulo de beira-de-estrada
@@ -859,18 +912,34 @@ pt-BR:
           waterfall: Queda de água
           weir: Açude
       prefix_format: "%{name}"
+  help_page: 
+    help: 
+      description: Faça uma pergunta ou procure por respostas no fórum de perguntas e respostas do OpenStreetMap.
+      title: help.openstreetmap.org
+      url: http://help.openstreetmap.org/
+    introduction: O OpenStreetMap tem vários recursos para saber mais sobre o projeto, perguntar e responder a questões, e colaborativamente discutir e documentar vários tópicos sobre o mapa.
+    title: Obtendo Ajuda
+    welcome: 
+      description: Comece por este guia rápido sobre os princípios básicos do OpenStreetMap.
+      title: Bem vindo ao OSM
+      url: /welcome
+    wiki: 
+      description: Navegue na wiki para ver a documentação do OSM com mais detalhes.
+      title: wiki.openstreetmap.org/Pt-br:Main_Page
+      url: http://wiki.openstreetmap.org/wiki/Pt-br:Main_Page?setlang=pt
   html: 
     dir: ltr
   javascripts: 
     close: Fechar
     edit_help: Mover o mapa e ampliar uma localização que pretende editar e clique aqui.
     key: 
-      title: Tecla de atalho do mapa
-      tooltip: Tecla de atalho do mapa
-      tooltip_disabled: Tecla de atalho do mapa disponível só para a camada padrão
+      title: Legenda do mapa
+      tooltip: Legenda do mapa
+      tooltip_disabled: Legenda do mapa disponível só para a camada padrão
     map: 
       base: 
         cycle_map: Cycle Map
+        hot: Humanitário
         mapquest: MapQuest Open
         standard: Padrão
         transport_map: Mapa de transporte público
@@ -881,23 +950,24 @@ pt-BR:
         header: Camadas do Mapa
         notes: Notas de Mapa
         overlays: Ativar sobreposições para solucionar problemas do mapa
+        title: Camadas
       locate: 
         popup: Você está dentro de {distance} {unit} deste ponto
-        title: Mostrar Minha Localização
+        title: Mostrar minha localização
       zoom: 
         in: Aumentar o Zoom
         out: Diminuir o Zoom
     notes: 
       new: 
         add: Adicionar nota
-        intro: A fim de melhorar o mapa, as informações inseridas por você serão visíveis a outros cartógrafos; sendo assim, seja o mais descritivo e preciso possível ao mover o marcador para sua posição correta e ao escrever sua nota abaixo dele.
+        intro: Encontrou um erro ou tem algo faltando? Avise os outros mapeadores para que eles possam consertar. Mova o marcador para a posição correta e digite uma nota para com a explicação do problema. (Por favor não coloque informações pessoais aqui)
       show: 
         anonymous_warning: Esta nota contém comentários de usuários anônimos que devem ser verificados separadamente.
         comment: Comentar
         comment_and_resolve: Comentar e resolver
         hide: Esconder
         reactivate: Reativar
-        resolve: Resolver
+        resolve: Marcar como Resolvido
     share: 
       cancel: Cancelar
       center_marker: Centralizar o mapa no marcador
@@ -921,11 +991,14 @@ pt-BR:
       createnote_tooltip: Adicionar uma nota ao mapa
       edit_disabled_tooltip: Aumente o zoom para editar o mapa
       edit_tooltip: Edite o mapa
+      map_data_zoom_in_tooltip: Zoom para ver dados do mapa
+      map_notes_zoom_in_tooltip: Zoom para ver notas no mapa
   layouts: 
+    about: Sobre
     community: Comunidade
     community_blogs: Blogs da Comunidade
     community_blogs_title: Blogs de membros da comunidade OpenStreetMap
-    copyright: Direitos Autorais & Licença
+    copyright: Direitos Autorais
     data: Dados
     donate: "Ajude o OpenStreetMap fazendo doações para o Fundo de Upgrade de Hardware: %{link}."
     edit: Editar
@@ -940,7 +1013,10 @@ pt-BR:
     history: Histórico
     home: Ir para o seu local
     intro_2_create_account: Criar uma conta de usuário
-    log_in: entrar
+    intro_header: Bem vindo ao OpenStreetMap!
+    intro_text: O OpenStreetMap é um mapa do mundo, criado por pessoas como você e de uso livre sob uma licença aberta.
+    learn_more: Saiba mais
+    log_in: Entrar
     log_in_tooltip: Entrar com uma conta existente
     logo: 
       alt_text: Logotipo do OpenStreetMap
@@ -948,6 +1024,7 @@ pt-BR:
     make_a_donation: 
       text: Faça uma doação
       title: Ajude o OpenStreetMap com uma doação monetária
+    more: Mais
     osm_offline: A base de dados do OpenStreetMap está off-line devido a operações de manutenção.
     osm_read_only: A base de dados do OpenStreetMap está em modo somente leitura devido a operações de manutenção.
     partners_bytemark: Alojamento Bytemark
@@ -958,8 +1035,9 @@ pt-BR:
     project_name: 
       h1: OpenStreetMap
       title: OpenStreetMap
-    sign_up: registrar
+    sign_up: Criar conta
     sign_up_tooltip: Criar uma conta para editar
+    start_mapping: Começar a mapear
     tag_line: O Wiki de Mapas Livres
     user_diaries: Diários de Usuário
     user_diaries_tooltip: Ver os diários dos usuários
@@ -974,7 +1052,8 @@ pt-BR:
         title: Exemplo de atribuição
       contributors_at_html: "<strong>Áustria</strong>: Contém dados de \n   <a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (sob licença\n   <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.pt_BR\">CC BY</a>), \n<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg</a> e \nLand Tirol (sob a licença <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY AT com emendas</a>)."
       contributors_ca_html: "<strong>Canadá</strong>: Contém dados do\n   GeoBase&reg;, GeoGratis (&copy; Departamento de Recursos\n   Naturais do Canadá), CanVec (&copy; Departamento de Recursos\n   Naturais do Canadá), and StatCan (Divisão de Geografia e \n   Estatística do Canada)."
-      contributors_footer_1_html: "  A inclusão de dados no OpenStreetMap não implica em endosso do provedor dos dados \n  ao OpenStreetMap, nem em qualquer garantia, ou\n  aceitação de qualquer responsabilidade."
+      contributors_fi_html: "<strong>Finlândia</strong>: Dados do Continente do National Land Survey da Finland´s Topographic Database\ne outras bases de dados, em <a href=\"http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501\">NLSFI Licença</a>."
+      contributors_footer_1_html: Para mais informações sobre estas e outras fontes utilizadas para melhorar o OpenStreetMap, consulte a <a href="http://wiki.openstreetmap.org/wiki/Contributors?setlang=pt">página de contribuidores</a> (em inglês) no wiki do OpenStreetMap.
       contributors_footer_2_html: "A inclusão de dados no OpenStreetMap não implica que fornecedor \noriginal apoie o OpenStreetMap, ou dê qualquer garantia, ou \naceite qualquer responsabilidade."
       contributors_fr_html: "<strong>França</strong>: Contém dados da\n   Direction Générale des Impôts."
       contributors_gb_html: "<strong>Reino Unido</strong>: Contém dados da Ordnance\n   Survey &copy; Crown copyright e direitos da base de dados 2010."
@@ -993,8 +1072,8 @@ pt-BR:
       intro_1_html: "O OpenStreetMap possui <i>dados abertos</i>, licenciados sob a <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data\nCommons Open Database License</a> (ODbL)."
       intro_2_html: "Você é livre para copiar, distribuir, transmitir e adaptar nossos dados,\ndesde que você referencie o OpenStreetMap e seus \ncontribuidores. Se você alterar ou inovar a partir de nossos mapas, você\ndeve distribuir o resultado somente sob a mesma licença. O\n<a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">texto\nlegal</a> completo explica seus direitos e responsabilidades."
       intro_3_html: "Nosso acervo cartográfico, bem como nossa documentação, são\nlicenciados sob a licença <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons Atribuição – Compartilhamento pela mesma Licença 2.0</a> (CC-BY-SA)."
-      more_1_html: "Leia mais sobre o uso de nossos dados, e como nos dar crédito, em <a\nhref=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Legal\nFAQ</a>."
-      more_2_html: "  Embora o OpenStreetMap tenha dados abertos, nós não podemos prover uma\n  API de mapas livre de encargos para desenvolvedores de terceiros.\n\n  Veja nossa <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Política de uso da API</a>,\n  <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Política de Uso de Imagens</a>\n  e <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Política de Uso do Nominatim</a>."
+      more_1_html: "Leia mais sobre o uso de nossos dados, e como nos dar crédito, em <a\nhref=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ?setlang=pt\">Legal\nFAQ</a>."
+      more_2_html: "  Embora o OpenStreetMap tenha dados abertos, nós não podemos prover uma\n  API de mapas livre de encargos para desenvolvedores de terceiros.\n\n  Veja nossa <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Política de uso da API</a>,\n  <a href=\"http://wiki.openstreetmap.org/wiki/Pt-br:Tile_usage_policy\">Política de Uso de Imagens</a>\n  e <a href=\"http://wiki.openstreetmap.org/wiki/Pt-br:Nominatim#Pol.C3.ADtica_de_uso\">Política de Uso do Nominatim</a>."
       more_title_html: Descobrir mais
       title_html: Direitos Autorais e Licença
     native: 
@@ -1187,6 +1266,15 @@ pt-BR:
       allow_write_notes: alterar notas.
       allow_write_prefs: modificar suas preferências de usuário.
       request_access: A aplicação %{app_name} está pedindo acesso à sua conta, %{user}. Por favor verifique se você deseja que a aplicação tenha as capacidades a seguir. Você pode escolher quaisquer que quiser.
+      title: Autorizar acesso à sua conta
+    oauthorize_failure: 
+      denied: Anulou o acesso do programa %{app_name} à sua conta.
+      invalid: O token de autorização não é válido.
+      title: O pedido de autorização falhou
+    oauthorize_success: 
+      allowed: Forneceu ao programa %{app_name} o acesso à sua conta.
+      title: Pedido de autorização permitido
+      verification: O código de verificação é %{code}.
     revoke: 
       flash: Você cancelou o token para %{application}
   oauth_clients: 
@@ -1276,7 +1364,7 @@ pt-BR:
       description: "Descrição:"
       destroy: Remover esta edição
       edit: Reformar esta edição
-      heading: Mostrando a edição "% {title}"
+      heading: Mostrando a edição "%{title}"
       title: Mostrando edição
       user: "Criador:"
     update: 
@@ -1285,7 +1373,7 @@ pt-BR:
     edit: 
       anon_edits: (%{link})
       anon_edits_link_text: Descubra se é esse o seu caso.
-      flash_player_required: Você precisa de um tocador Flash para usar o Potlatch, o editor Flash do OpenStreetMap. Você pode <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">baixar o Flash Player da Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Pt-br:Editing">Outras opções</a> estão disponíveis para editar o OpenStreetMap.
+      flash_player_required: Você precisa de um tocador Flash para usar o Potlatch, o editor Flash do OpenStreetMap. Você pode <a href="http://get.adobe.com/br/flashplayer/">baixar o Flash Player da Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Pt-br:Editing?setlang=pt">Outras opções</a> estão disponíveis para editar o OpenStreetMap.
       id_not_configured: iD não foi configurado
       no_iframe_support: Seu navegador não suporta iframes HTML, que são necessários para que esse recurso.
       not_public: Você não configurou suas edições para serem públicas.
@@ -1404,6 +1492,11 @@ pt-BR:
       upload_trace: Envie as trilhas de GPS
     delete: 
       scheduled_for_deletion: Trilha marcada para ser apagada
+    description: 
+      description_with_count: 
+        one: Ficheiro GPX com %{count} ponto de %{user}
+        other: Ficheiro GPX com %{count} pontos de %{user}
+      description_without_count: Arquivo GPX de %{user}
     edit: 
       description: "Descrição:"
       download: baixar
@@ -1422,9 +1515,11 @@ pt-BR:
       visibility: "Visibilidade:"
       visibility_help: o que isso significa?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=pt-br
+    georss: 
+      title: Trilhas de GPS do OpenStreetMap
     list: 
       description: Consultar últimos carregamentos de trilhas de GPS
-      empty_html: Nada aqui por enquanto. <a href='%{upload_link}'>Carregue uma nova trilha</a> ou aprenda mais sobre trilhas de GPS na <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>página wiki</a> (em inglês).
+      empty_html: Nada aqui por enquanto. <a href='%{upload_link}'>Carregue uma nova trilha</a> ou aprenda mais sobre trilhas de GPS na <a href='http://wiki.openstreetmap.org/wiki/Pt-br:Beginners_Guide_1.2?setlang=pt'>página wiki</a> (em inglês).
       public_traces: Trilhas Públicas de GPS
       public_traces_from: Trilhas de GPS públicas de %{user}
       tagged_with: " etiquetadas com %{tags}"
@@ -1537,7 +1632,7 @@ pt-BR:
         disabled: Desativado e não pode editar dados, todas as edições anteriores são anônimas.
         disabled link text: porque não posso editar?
         enabled: Ativado. Não é permitido edição anônima.
-        enabled link: http://wiki.openstreetmap.org/wiki/Pt-br:Disabling_anonymous_edits
+        enabled link: http://wiki.openstreetmap.org/wiki/Disabling_anonymous_edits?setlang=pt
         enabled link text: o que é isso?
         heading: "Edição pública:"
       public editing note: 
@@ -1741,6 +1836,7 @@ pt-BR:
       my comments: Meus comentários
       my diary: Meu diário
       my edits: Minhas edições
+      my messages: Minhas mensagens
       my notes: Minhas notas de mapa
       my profile: Meu Perfil
       my settings: Minhas configurações
@@ -1782,7 +1878,7 @@ pt-BR:
       title: Bloqueios em %{name}
     create: 
       flash: Bloquear o usuário %{name}.
-      try_contacting: Por favor, tente contactar o usuário e dê a ele um tempo razoável antes de bloqueá-lo
+      try_contacting: Por favor, tente contatar o usuário e dê a ele um tempo razoável antes de bloqueá-lo.
       try_waiting: Por favor, tente dar ao usuário um tempo razoável para responder antes de bloqueá-lo.
     edit: 
       back: Ver todos bloqueios
@@ -1894,7 +1990,7 @@ pt-BR:
       way_html: Um <strong>caminho</strong> é uma linha ou área, como uma estrada, córrego, lago ou edifício.
     introduction_html: Bem vindo ao OpenStreetMap, o mapa livre e editável do mundo. Agora que você se inscreveu, você está pronto para começar a mapear. Aqui está um guia rápido com as coisas mais importantes que você precisa saber.
     questions: 
-      paragraph_1_html: Precisa de ajuda para mapear, ou não está claro como usar o OpenStreetMap? Tenha suas perguntas respondidas no <a href='http://help.openstreetmap.org/'>website de ajuda</a>.
+      paragraph_1_html: "O OpenStreetMap tem vários recursos para saber mais sobre o projeto, perguntar e responder a questões, e colaborativamente discutir e documentar vários tópicos sobre o mapa.\n<a href='%{help_url}'>Obtenha ajuda aqui</a>"
       title: Alguma pergunta?
     start_mapping: Iniciando Mapeamento
     title: Bem-vindo(a)!

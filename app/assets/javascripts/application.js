@@ -21,25 +21,24 @@
 
 var querystring = require('querystring-component');
 
-function zoomPrecision(zoom) {
-    return Math.max(0, Math.ceil(Math.log(zoom) / Math.LN2));
-}
-
 function remoteEditHandler(bbox, object) {
   var loaded = false,
-      query = {
-          left: bbox.getWest() - 0.0001,
-          top: bbox.getNorth() + 0.0001,
-          right: bbox.getEast() + 0.0001,
-          bottom: bbox.getSouth() - 0.0001
-      };
+    url = document.location.protocol === "https:" ?
+            "https://127.0.0.1:8112/load_and_zoom?" :
+            "http://127.0.0.1:8111/load_and_zoom?",
+    query = {
+        left: bbox.getWest() - 0.0001,
+        top: bbox.getNorth() + 0.0001,
+        right: bbox.getEast() + 0.0001,
+        bottom: bbox.getSouth() - 0.0001
+    };
 
   if (object) query.select = object.type + object.id;
 
   var iframe = $('<iframe>')
     .hide()
     .appendTo('body')
-    .attr("src", "http://127.0.0.1:8111/load_and_zoom?" + querystring.stringify(query))
+    .attr("src", url + querystring.stringify(query))
     .on('load', function() {
       $(this).remove();
       loaded = true;
@@ -79,7 +78,7 @@ function updateLinks(loc, zoom, layers, object) {
 
     args = {
       lat: loc.lat,
-      lon: loc.lon || loc.lng,
+      lon: 'lon' in loc ? loc.lon : loc.lng,
       zoom: zoom
     };
 
@@ -109,12 +108,6 @@ function updateLinks(loc, zoom, layers, object) {
     .toggleClass('disabled', historyDisabled)
     .attr('data-original-title', historyDisabled ?
       I18n.t('javascripts.site.history_disabled_tooltip') : '');
-}
-
-// generate a cookie-safe string of map state
-function cookieContent(map) {
-  var center = map.getCenter().wrap();
-  return [center.lng, center.lat, map.getZoom(), map.getLayersCode()].join('|');
 }
 
 function escapeHTML(string) {

@@ -12,10 +12,12 @@
 hr: 
   about_page: 
     copyright_html: <span>&copy;</span>OpenStreetMap<br>doprinositelji
+    local_knowledge_html: OpenStreetMap pridodaje posebnu važnost lokalnom znanju. Doprinositelji koriste zračne snimke, GNSS uređaje i vlastito novo-prikupljene podatke za provjeru točnosti i ažurnosti OSM podataka.
     local_knowledge_title: Lokalno znanje
     next: Dalje
     open_data_html: "OpenStreetMap sadrži <i>slobodne podatke</i>: možeš ih slobodno koristiti za bilo koju svrhu dok god su uz podatke naznačene zasluge OpenStreetMap-a i njegovih doprinositelja. Ako izmjenjuješ podatke ili stvaraš nove na temelju preuzetih podataka, te podatke možeš distribuirati samo pod istom licencom.  Vidi stranicu:<a href='%{copyright_path}'>Autorska prava i licenca</a> za detalje."
     open_data_title: Otvoreni podaci
+    partners_title: Partneri
   activerecord: 
     attributes: 
       diary_comment: 
@@ -136,6 +138,7 @@ hr:
       closed_title: Riješena bilješka broj %{note_name}
       commented_by: Komentirao/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
       commented_by_anonymous: Komentirano anonimno <abbr title='%{exact_time}'>prije %{when}</abbr>
+      description: Opis
       hidden_by: Sakrio/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
       hidden_title: Skrivena bilješka broj %{note_name}
       new_note: Nova bilješka
@@ -901,6 +904,7 @@ hr:
     community_blogs: Blogovi zajednice
     community_blogs_title: Blogovi članova OpenStreetMap zajednice
     copyright: Autorska prava
+    data: Podaci
     donate: Podržite OpenStreetMap sa %{link} Hardware Upgrade Fond.
     edit: Uredi
     edit_with: Uredi s %{editor}
@@ -908,8 +912,8 @@ hr:
     export_data: Izvezi podatke
     foundation: Zaklada
     foundation_title: OpenStreetMap zaklada
-    gps_traces: GPS tragovi
-    gps_traces_tooltip: Upravljaj GPS tragovima
+    gps_traces: GNSS tragovi
+    gps_traces_tooltip: Upravljaj GNSS tragovima
     help: Pomoć
     history: Povijest
     home: Pokaži moj dom
@@ -1113,12 +1117,12 @@ hr:
       subject: "[OpenStreetMap] Dobrodošli na OpenStreetMap"
   oauth: 
     oauthorize: 
-      allow_read_gpx: čitaj svoje privatne GPS tragove.
+      allow_read_gpx: čitaj svoje privatne GNSS tragove.
       allow_read_prefs: pročitajte svoje korisničke postavke
       allow_to: "Dozvoli klijentskoj aplikaciji da:"
       allow_write_api: izmijeni kartu
       allow_write_diary: Zapište u dnevnik, komentirajte i stvorite prijatelje.
-      allow_write_gpx: Pošalji GPS trase.
+      allow_write_gpx: postavi GNSS tragove.
       allow_write_notes: izmijeni bilješke.
       allow_write_prefs: izmjeni korisničke postavke
       request_access: Aplikacija %{app_name} zahtjeva pristup vašem korisničkom računu (%{user}). Provjerite želite li da aplikacija ima te mogućnosti, te odaberite koliko joj želite dopustiti.
@@ -1133,11 +1137,11 @@ hr:
       submit: Uredi
       title: Uredi svoju aplikaciju
     form: 
-      allow_read_gpx: čitaj njihove privatne GPS tragove.
+      allow_read_gpx: čitaj njihove privatne GNSS tragove.
       allow_read_prefs: pročitaj njihove korisničke postavke
       allow_write_api: izmjeni kartu.
       allow_write_diary: Napravi zapise u dnevnik, komentiraj i sprijatelji se.
-      allow_write_gpx: Pošalji GPS trase
+      allow_write_gpx: postavi GNSS tragove.
       allow_write_notes: izmijeni bilješke.
       allow_write_prefs: Izmjeni njihove koriničke postavke.
       callback_url: Callback URL
@@ -1164,11 +1168,11 @@ hr:
       sorry: Žao mi je, da se %{type} ne može naći.
     show: 
       access_url: "Access Token URL:"
-      allow_read_gpx: čitaj njihove privatne GPS tragove.
+      allow_read_gpx: čitaj njihove privatne GNSS tragove.
       allow_read_prefs: pročitaj njihove korisničke postavke
       allow_write_api: Izmjeni kartu.
       allow_write_diary: Napravi zapise u dnevnik, komentiraj i sprijatelji se.
-      allow_write_gpx: Otpremi GPS trase.
+      allow_write_gpx: postavi GNSS tragove.
       allow_write_notes: izmijeni bilješke.
       allow_write_prefs: izmjeni njihove korisničke postavke
       authorize_url: "Authorise URL:"
@@ -1280,8 +1284,11 @@ hr:
           unsurfaced: Neasfaltirana cesta
           wood: Šume (prirodne, neodržavane)
     markdown_help: 
+      alt: Alternativni tekst
       image: Slika
       link: Poveznica
+      text: Tekst
+      url: URL
     richtext_area: 
       edit: Uredi
     search: 
@@ -1297,10 +1304,12 @@ hr:
       friendly: "%e %B %Y u %H:%M"
   trace: 
     create: 
-      trace_uploaded: Vaša GPS datoteka je spremljena na server i čeka ubacivanje u bazu. Ovo se obično dogodi za pola sata i prije, a e-mail-om će te dobiti obavijest o završetku.
-      upload_trace: Pošalji GPS trasu
+      trace_uploaded: Vaša GPX datoteka je spremljena na server i čeka ubacivanje u bazu. Ovo se obično dogodi za pola sata i prije, a e-mail-om će te dobiti obavijest o završetku.
+      upload_trace: Pošalji GNSS trag
     delete: 
       scheduled_for_deletion: Trase raspoređene za brisanje
+    description: 
+      description_without_count: GPX datoteka od %{user}
     edit: 
       description: "Opis:"
       download: preuzmi
@@ -1319,13 +1328,14 @@ hr:
       visibility: "Vidljivost:"
       visibility_help: Što ovo znači?
     georss: 
-      title: OpenStreetMap GPS tragovi
+      title: OpenStreetMap GNSS tragovi
     list: 
-      empty_html: Ovdje zasad nema ničega. <a href='%{upload_link}'>Učitaj novi trag</a> ili nauči više o GPS tragovima na <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki stranici</a>.
-      public_traces: Javni GPS tragovi
-      public_traces_from: Javni GPS tragovi korisnika %{user}
+      description: Pretraži nedavno objavljene GNSS tragove
+      empty_html: Ovdje zasad nema ničega. <a href='%{upload_link}'>Učitaj novi trag</a> ili nauči više o GNSS tragovima na <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki stranici</a>.
+      public_traces: Javni GNSS tragovi
+      public_traces_from: Javni GNSS tragovi korisnika %{user}
       tagged_with: " označeni sa %{tags}"
-      your_traces: Vaše GPS trase
+      your_traces: Tvoji GNSS tragovi
     make_public: 
       made_public: Trag je postao javan
     offline: 
@@ -1364,10 +1374,11 @@ hr:
       traces_waiting: 
         one: Imaš %{count} trag na čekanju za učitavanje. Molim pričekaj da se ti tragovi učitaju prije nego počneš slati nove, tako da ne blokiraš učitavanje tragova drugih korisnika.
         other: Imaš %{count} tragova na čekanju za učitavanje. Molim pričekaj da se ti tragovi učitaju prije nego počneš slati nove, tako da ne blokiraš učitavanje drugih korisnika.
-      upload_trace: Pošalji GPS trag
+      upload_trace: Postavi GNSS trag
     trace_optionals: 
       tags: Oznake
     trace_paging_nav: 
+      newer: Noviji tragovi
       older: Stariji tragovi
       showing_page: Stranica %{page}
     view: 

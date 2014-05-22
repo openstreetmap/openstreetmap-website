@@ -71,7 +71,8 @@
                 "line": "Eine Fläche abgerundet",
                 "area": "Eine Fläche kreisförmig gemacht"
             },
-            "not_closed": "Dieses Objekt kann nicht kreisförmig gemacht werden, da es keine geschlossene Linie ist."
+            "not_closed": "Dieses Objekt kann nicht kreisförmig gemacht werden, da es keine geschlossene Linie ist.",
+            "too_large": "Die Elemente können nicht kreisförmig gemacht werden, weil zuwenig sichtbar ist."
         },
         "orthogonalize": {
             "title": "Rechteck",
@@ -84,7 +85,8 @@
                 "line": "Die Ecken einer Linie rechtwinklig ausgerichtet.",
                 "area": "Die Ecken einer Fläche rechtwinklig ausgerichtet."
             },
-            "not_squarish": "Dieses Objekt kann nicht rechtwinklig gemacht werden, da es nicht annähernd rechtwinklig ist."
+            "not_squarish": "Dieses Objekt kann nicht rechtwinklig gemacht werden, da es nicht annähernd rechtwinklig ist.",
+            "too_large": "Die Elemente können nicht quadratisch gemacht werden, weil zuwenig sichtbar ist."
         },
         "straighten": {
             "title": "Begradigen",
@@ -134,7 +136,8 @@
             "annotation": "{n} Linien vereinigt.",
             "not_eligible": "Diese Objekte können nicht vereinigt werden.",
             "not_adjacent": "Diese Linien können nicht vereinigt werden, da sie nicht verbunden sind.",
-            "restriction": "Diese Linien können nicht vereinigt werden, da mindestens eine Linie ein Mitglied einer \"{relation}\" Relation ist."
+            "restriction": "Diese Linien können nicht vereinigt werden, da mindestens eine Linie ein Mitglied einer \"{relation}\" Relation ist.",
+            "incomplete_relation": "Diese Objekte können nicht zusammengefügt werden, da mindestens eines noch nicht vollständig heruntergeladen wurde."
         },
         "move": {
             "title": "Verschieben",
@@ -264,7 +267,8 @@
         "percent_brightness": "{opacity}% Helligkeit",
         "none": "Kein Hintergrund",
         "custom": "Benutzerdefiniert",
-        "custom_prompt": "Gib eine Kachel-Vorlage ein. Gültige Token sind {z}, {x}, {y} für das Z/X/Y Schema und {u} für das 'quadtile'-Schema.",
+        "custom_button": "Benutzerdefinierten Hintergrund editieren",
+        "custom_prompt": "Gib ein tile URL template ein. Gültige Platzhalter sind {z}, {x}, {y} für das Z/X/Y Schema und {u} für das quadtile Schema.",
         "fix_misalignment": "Ausrichtung korrigieren",
         "reset": "Zurücksetzen"
     },
@@ -332,7 +336,7 @@
     },
     "help": {
         "title": "Hilfe",
-        "help": "#Hilfe\n\nDies ist ein Editor für [OpenStreetMap](http://www.openstreetmap.org/), der freien und editierbaren Weltkarte. Du kannst ihn verwenden, um Daten in deiner Umgebung hinzuzufügen oder zu verändern und so diese Karte mit freien Quellen und freien Daten für jeden verbessern.\n\nVeränderungen werden für alle Nutzer von OpenStreetMap sichtbar. Um Veränderungen vornehmen zu können, musst du ein [kostenloses OpenStreetMap Profil](https://www.openstreetmap.org/user/new) anlegen.\n\nDer [iD editor](http://ideditor.com/) ist ein Gemeinschaftsprojekt dessen [Quellcode\nauf GitHub verfügbar ist](https://github.com/systemed/iD).\n\n",
+        "help": "#Hilfe\n\nDies ist ein Editor für [OpenStreetMap](http://www.openstreetmap.org/), der freien und editierbaren Weltkarte. Du kannst ihn verwenden, um Daten in deiner Umgebung hinzuzufügen oder zu verändern und so diese Karte mit freien Quellen und freien Daten für jeden verbessern.\n\nVeränderungen werden für alle Nutzer von OpenStreetMap sichtbar. Um Veränderungen vornehmen zu können, musst du ein [kostenloses OpenStreetMap Profil](https://www.openstreetmap.org/user/new) anlegen.\n\nDer [iD editor](http://ideditor.com/) ist ein Gemeinschaftsprojekt dessen [Quellcode\nauf GitHub verfügbar ist](https://github.com/openstreetmap/iD).\n",
         "editing_saving": "# Editieren & Speichern\n\nDieser Editor wurde entworfen, um online zu arbeiten und du erreichst ihn über diese Webseite.\n\n### Objekte auswählen\n\nUm ein Kartenobjekt wie eine Straße oder ein Sonderziel (POI) auszuwählen, klicke auf der Karte darauf. Dadurch wird das Objekt hervorgehoben und ein Bedienfeld mit Details und Möglichkeiten zur Veränderung aufgerufen.\n\nMehrere Objekte kannst du auswählen indem du die Shift-Taste (Umschalttaste) drückst und die Objekte einzeln anklickst oder klickst und einen Rahmen darum ziehst.\nSo können mehrere Objekte gleichzeitig geändert werden.\n\n### Speichern der Änderungen\n\nWenn du Änderungen an einer Straße, einem Gebäude oder einem Platz vorgenommen hast, sind diese lokal gespeichert, bis du sie auf dem Server speicherst. Keine Sorge falls du einen Fehler machen solltest: Du kannst Änderungen jederzeit über den Rückgängig-Knopf rückgängig machen oder über den Wiederherstellen-Knopf noch einmal ausführen.\n\nKlicke auf \"Speichern\", um eine Gruppe von Änderungen zu speichern. Zum Beispiel, wenn du in einem Stadtteil fertig bist und in einer neuen Gegend editieren willst.\nDu bekommst dann die Möglichkeit noch einmal zu überprüfen, was du gerade getan hast und der Editor zeigt dir nützliche Hinweise oder mögliche Fehler, wenn etwas nicht in Ordnung zu sein scheint.\n\nWenn alles gut aussieht kannst du einen kurzen Kommentar schreiben, der erklärt, was du gemacht hast. Drücke nun \"Speichern\", um die Änderungen auf dem Server zu speichern.\nNun können es alle auf [OpenStreetMap.org](http://www.openstreetmap.org/) sehen und darauf aufbauen.\n\nWenn du es zeitlich nicht schaffst, kannst du das Editor-Fenster einfach schließen. Wenn du die Seite wieder aufrufst (mit dem gleichen Browser und Computer) wird dir angeboten, die letzte Sitzung wiederherzustellen.\n",
         "roads": "# Straßen\n\nMit dem Editor kannst du Wege erstellen, verändern und löschen. Wege können alles mögliche sein, zum Beispiel Pfade, Straßen, Schienen, Fahrradwege und anderes.\n\n### Auswählen\n\nKlicke auf einen Weg, um ihn auszuwählen. Er sollte nun hervorgehoben werden. Außerdem erscheint ein kleines Werkzeugmenü und eine Seitenleiste mit den Eigenschaften des Weges.\n\n### Modifizieren\n\nOft sieht man, dass Wege nicht mit dem Luftbild oder einer GPS-Spur übereinstimmen. Du kannst den Weg aber so anpassen, dass er an der richtigen Stelle ist. Beachte jedoch, dass Luftbilder einen Versatz aufweisen können.\n\nAls Erstes wählst du einen Weg aus. Dieser wird nun hervorgehoben und es werden die Knoten des Weges angezeigt. Diese kannst du verschieben, bis sie an der richtigen Stelle sind. Wenn du neue Knoten hinzufügen möchtest, klicke doppelt zwischen den Knoten auf die Linie und es wird ein neuer Punkt erzeugt.\n\nWenn zwei Wege in Wirklichkeit mit einander verbunden sind, aber auf der Karte nicht, kannst du sie verbinden, indem du einen Knoten des einen Weges auf den anderen Weg ziehst. Dass Wege verbunden sind, ist wichtig für die Karte und essentiell für die Nutzung von Routenführung.\n\nDu kannst auch das \"Bewegen\"-Werkzeug nutzen oder \"M\" drücken, um den kompletten Weg zu verschieben. Beende die Aktion mit einem Klick.\n\n### Löschen\n\nWenn du weißt, dass ein Weg nicht existiert, kannst du ihn löschen, um ihn von der Karte zu entfernen. Sei beim Löschen von Objekten besonders vorsichtig, da diese Änderungen von jedem gesehen werden können und Luftbilder oft veraltet sind. Das heißt, dass ein Weg, der im Luftbild nicht zu sehen ist, vielleicht einfach neu gebaut wurde.\n\nDu kannst Wege löschen, indem du sie anklickst und das Mülltonnensymbol auswählst oder die \"Entfernen\"-Taste drückst.\n\n### Erstellen\n\nDu kennst einen Weg der nicht eingezeichnet ist? Dann klicke auf das \"Linien\"-Symbol oben links im Editor oder drücke die Taste \"2\" und beginne mit dem Zeichnen einer Linie.\n\nKlicke dort hin, wo die Straße anfängt. Sollte sie von einer bereits existierenden Straße abzweigen, klicke an der entsprechenden Stelle auf diese Straße.\n\nZeichne nun den Weg, indem du Punkte anhand der Luftaufnahme oder der GPS-Spur entlang des Weges setzt. Sollte der Weg einen anderen kreuzen, klicke auf den  Kreuzungspunkt, um beide Wege zu verbinden. Wenn du mit dem Zeichnen fertig bist, klicke doppelt oder drücke \"Enter\" auf der Tastatur, um den Weg abzuschließen.\n",
         "gps": "# GPS\n\nGPS-Daten sind die vertrauenswürdigste Quelle für OpenStreetMap.\nDieser Editor unterstützt lokale GPS-Spuren — \".gpx\"-Dateien auf \ndeinem Computer. Du kannst diese GPS-Spuren mit Hilfe diverser\nSmartphone-Apps oder anderen GPS-Geräten aufnehmen.\n\nFür Informationen über das Sammeln von GPS-Daten kannst du dir\nfolgende Anleitung durchlesen: [Surveying with a GPS](http://learnosm.org/en/beginner/using-gps/) (zur Zeit nur auf Englisch)\n\nUm einen GPX-Track zu verwenden, ziehe ihn einfach in den Karteneditor.\nWenn er erkannt wurde, wird dieser Track als leuchtend grüne Linie auf\nder Karte dargestellt. Klicke auf \"Hintergrundeinstellungen\", um sie zu\n(de-)aktivieren, oder um zum Gebiet des Tracks zu gelangen (Lupe).\n\nDer GPX-Track wird nicht automatisch direkt zu OpenStreetMap hochgeladen.\nAm besten verwendest du ihn, um neue Wege hinzuzufügen. Möchtest du den \nGPX-Track jedem zugänglich machen, kannst du ihn über die [Track-Upload-Seite](http://www.openstreetmap.org/trace/create) hochladen.\n",
@@ -423,7 +427,7 @@
         },
         "fields": {
             "access": {
-                "label": "Zugangsbeschränkung",
+                "label": "Zugangsberechtigung",
                 "placeholder": "Unbekannt",
                 "types": {
                     "access": "Allgemein",
@@ -465,7 +469,6 @@
             "address": {
                 "label": "Adresse",
                 "placeholders": {
-                    "housename": "Hausname",
                     "number": "123",
                     "street": "Straße",
                     "city": "Stadt",
@@ -535,9 +538,6 @@
             "building_area": {
                 "label": "Gebäude"
             },
-            "cans": {
-                "label": "Dosen"
-            },
             "capacity": {
                 "label": "Kapazität",
                 "placeholder": "50, 100, 200..."
@@ -552,9 +552,6 @@
                     "anticlockwise": "gegen den Uhrzeigersinn"
                 }
             },
-            "clothes": {
-                "label": "Kleidung"
-            },
             "collection_times": {
                 "label": "Leerungszeiten"
             },
@@ -566,6 +563,9 @@
             },
             "covered": {
                 "label": "Überdacht / Verdeckt"
+            },
+            "crop": {
+                "label": "Ernte"
             },
             "crossing": {
                 "label": "Typ"
@@ -607,6 +607,36 @@
             "fixme": {
                 "label": "Korrigiere mich"
             },
+            "fuel": {
+                "label": "Treibstogg"
+            },
+            "fuel/biodiesel": {
+                "label": "Verkauft Biodiesel"
+            },
+            "fuel/diesel": {
+                "label": "Verkauft Diesel"
+            },
+            "fuel/e10": {
+                "label": "Verkauft E10"
+            },
+            "fuel/e85": {
+                "label": "Verkauft E85"
+            },
+            "fuel/lpg": {
+                "label": "Verkauft Propan"
+            },
+            "fuel/octane_100": {
+                "label": "Verkauft Rennkraftstoffe"
+            },
+            "fuel/octane_91": {
+                "label": "Verkauft Kraftstoffe"
+            },
+            "fuel/octane_95": {
+                "label": "Verkauft Mittelklassekraftstoffe"
+            },
+            "fuel/octane_98": {
+                "label": "Verkauft Premiumkraftstoffe"
+            },
             "gauge": {
                 "label": "Spurbreite"
             },
@@ -618,9 +648,6 @@
             },
             "generator/type": {
                 "label": "Typ"
-            },
-            "glass": {
-                "label": "Glas"
             },
             "golf_hole": {
                 "label": "Loch-Nummer",
@@ -635,6 +662,10 @@
             },
             "historic": {
                 "label": "Art"
+            },
+            "hoops": {
+                "label": "Basketball",
+                "placeholder": "1, 2, 4 ..."
             },
             "iata": {
                 "label": "IATA"
@@ -668,6 +699,9 @@
             },
             "leisure": {
                 "label": "Art"
+            },
+            "length": {
+                "label": "Länge (Meter)"
             },
             "levels": {
                 "label": "Etagen",
@@ -714,9 +748,6 @@
             "operator": {
                 "label": "Betreiber"
             },
-            "paper": {
-                "label": "Papier"
-            },
             "par": {
                 "label": "Par",
                 "placeholder": "3, 4, 5…"
@@ -743,11 +774,26 @@
             "place": {
                 "label": "Art"
             },
+            "population": {
+                "label": "Bevölkerung"
+            },
             "power": {
                 "label": "Typ"
             },
             "railway": {
                 "label": "Art"
+            },
+            "recycling/cans": {
+                "label": "Dosen"
+            },
+            "recycling/clothes": {
+                "label": "Kleidung"
+            },
+            "recycling/glass": {
+                "label": "Glas"
+            },
+            "recycling/paper": {
+                "label": "Papier"
             },
             "ref": {
                 "label": "Referenz"
@@ -779,6 +825,9 @@
             "sac_scale": {
                 "label": "SAC-Wanderskala"
             },
+            "seasonal": {
+                "label": "Saisonal"
+            },
             "service": {
                 "label": "Typ"
             },
@@ -791,10 +840,23 @@
             "shop": {
                 "label": "Typ"
             },
+            "sloped_curb": {
+                "label": "abgeschrägter Bordstein"
+            },
+            "smoking": {
+                "label": "Rauchen"
+            },
+            "social_facility_for": {
+                "label": "Sozialküche",
+                "placeholder": "Obdachlose, Behinderte, Kinder, etc."
+            },
             "source": {
                 "label": "Quelle"
             },
             "sport": {
+                "label": "Sport"
+            },
+            "sport_ice": {
                 "label": "Sport"
             },
             "structure": {
@@ -804,7 +866,8 @@
                     "bridge": "Brücke",
                     "tunnel": "Tunnel",
                     "embankment": "Fahrdamm",
-                    "cutting": "Senke"
+                    "cutting": "Senke",
+                    "ford": "Furt"
                 }
             },
             "studio_type": {
@@ -816,8 +879,11 @@
             "surface": {
                 "label": "Oberfläche"
             },
+            "tactile_paving": {
+                "label": "taktile Oberfläche"
+            },
             "toilets/disposal": {
-                "label": "Abfallkübel, Mistkübel"
+                "label": "Toiletten-Bauart"
             },
             "tourism": {
                 "label": "Typ"
@@ -833,6 +899,9 @@
             },
             "tree_type": {
                 "label": "Typ"
+            },
+            "trees": {
+                "label": "Bäume"
             },
             "tunnel": {
                 "label": "Tunnel"
@@ -855,6 +924,9 @@
             },
             "wheelchair": {
                 "label": "Rollstuhlzugang"
+            },
+            "width": {
+                "label": "Breite (Meter)"
             },
             "wikipedia": {
                 "label": "Wikipedia"
@@ -957,15 +1029,19 @@
                 "terms": "Geldautomat"
             },
             "amenity/bank": {
-                "name": "Bank",
+                "name": "Bank (Geldinstitut)",
                 "terms": "Kasse,Kontor,Kreditgenossenschaft,Lagerstelle,Fiskus,Fonds,Vermögen,Investmentfirma,Register,Rücklage,Vorrat,Tresor,Rücklagen,Grundkapital,Vorrat,Lager,Lagerhaus,Sparkasse,Schatz,Treuhandgesellschaft,Tresorraum"
             },
             "amenity/bar": {
                 "name": "Bar",
                 "terms": "Bar"
             },
+            "amenity/bbq": {
+                "name": "Grillgerät",
+                "terms": "Grillgerät, Grill, Barbecue, Grillparty"
+            },
             "amenity/bench": {
-                "name": "Bank",
+                "name": "Sitzbank",
                 "terms": "Bank, Sitzbank"
             },
             "amenity/bicycle_parking": {
@@ -996,6 +1072,10 @@
                 "name": "Autowäsche",
                 "terms": "Auto-Waschanlage, Waschanlage"
             },
+            "amenity/charging_station": {
+                "name": "Ladestation",
+                "terms": "Ladestation"
+            },
             "amenity/childcare": {
                 "name": "Kindertagesbetreuung",
                 "terms": "Hort"
@@ -1015,6 +1095,10 @@
             "amenity/college": {
                 "name": "Hochschule",
                 "terms": "Hochschule, Kolleg"
+            },
+            "amenity/compressed_air": {
+                "name": "Druckluft",
+                "terms": "Druckluft, Pressluft"
             },
             "amenity/courthouse": {
                 "name": "Gericht",
@@ -1057,12 +1141,12 @@
                 "terms": "Friedhof"
             },
             "amenity/hospital": {
-                "name": "Krankenhaus",
-                "terms": "Klinik,Notaufnahme,Gesundheitswesen,Hospiz,Krankenhaus,Pflegeheim,Altersheim,Nervenheilanstalt,Sanatorium,Lazarett,Chirurgie,Krankenstation,Spital"
+                "name": "Krankenhausgelände",
+                "terms": "Krankenhaus, Klinik, Klinikgelände, Hospital"
             },
             "amenity/kindergarten": {
-                "name": "Kindergarten",
-                "terms": "Kindergarten,Kindertagesstätte,Hort"
+                "name": "Kindergartengelände",
+                "terms": "Kindergarten, Spielplatz, Sandkasten"
             },
             "amenity/library": {
                 "name": "Bibliothek",
@@ -1072,9 +1156,17 @@
                 "name": "Marktplatz",
                 "terms": "Marktplatz"
             },
+            "amenity/nightclub": {
+                "name": "Nachtklub",
+                "terms": "Nachtklub, Etablissement, Nachtlokal"
+            },
             "amenity/parking": {
                 "name": "Autoparkplatz",
                 "terms": "Autoparkplatz, Parkplatz, Parkhaus, Garage, Parkgarage"
+            },
+            "amenity/parking_entrance": {
+                "name": "Garageneinfahrt/-ausfahrt",
+                "terms": "Parkgaragen-Einfahrt/Ausfahrt, Garageneinfahrt/-ausfahrt, Garagenzufahrt/-abfahrt"
             },
             "amenity/pharmacy": {
                 "name": "Apotheke",
@@ -1129,12 +1221,28 @@
                 "terms": "Bar,Cafeteria,Café,Kantine,Speisehaus,Coffee-Shop,Kaffeehaus,Imbiss,Speisesaal,Kneipe,Donut Shop,Drive-In,Restaurant,Speiserestaurant,Wirtschaft,Fast-Food-Restaurant,Grill,Hamburgerstand,Hotdogstand,Gasthaus,Gasthof,Wirtshaus,Imbissstube,Imbiss,Pizzeria,Lokal"
             },
             "amenity/school": {
-                "name": "Schule",
-                "terms": "Schule"
+                "name": "Schulgelände",
+                "terms": "Schulhof, Schule, Realschule, Mittelschule, Grundschule, Gymnasium, Ganztagsschule, Förderschule"
             },
             "amenity/shelter": {
                 "name": "Unterstand",
                 "terms": "Unterstand, Schutzdach, Schutzraum, Schuppen"
+            },
+            "amenity/social_facility": {
+                "name": "Sozialeinrichtung",
+                "terms": "Sozialeinrichtung, Sozialhilfeeinrichtung"
+            },
+            "amenity/social_facility/food_bank": {
+                "name": "Essensausgabe",
+                "terms": "Essensausgabe, Sozialmarkt"
+            },
+            "amenity/social_facility/group_home": {
+                "name": "Wohngemeinschaft",
+                "terms": "Wohngemeinschaft, Gemeinschaftswohnen"
+            },
+            "amenity/social_facility/homeless_shelter": {
+                "name": "Obdachlosenheim",
+                "terms": "Obdachlosenheim, Obdachlosenasyl"
             },
             "amenity/studio": {
                 "name": "Atelier",
@@ -1264,17 +1372,69 @@
                 "name": "Wohnungen",
                 "terms": "Wohnung"
             },
+            "building/barn": {
+                "name": "Scheune",
+                "terms": "Scheune, Stall"
+            },
+            "building/bunker": {
+                "name": "Bunker",
+                "terms": "Bunker, Schutzraum"
+            },
+            "building/cabin": {
+                "name": "Hütte",
+                "terms": "Hütte, Wochenendhaus"
+            },
+            "building/cathedral": {
+                "name": "Kathedrale",
+                "terms": "Kathedrale, Dom"
+            },
+            "building/chapel": {
+                "name": "Kapelle (Sakralbau)",
+                "terms": "Kapelle"
+            },
+            "building/church": {
+                "name": "Kirche",
+                "terms": "Kirche"
+            },
             "building/commercial": {
                 "name": "Geschäftshaus",
                 "terms": "Gewerbehaus,gewerblich genutztes Gebäude,"
             },
+            "building/construction": {
+                "name": "im Bau befindliches Gebäude",
+                "terms": "Gebäude im Bau"
+            },
+            "building/detached": {
+                "name": "Doppelhaus",
+                "terms": "Haushälfte, Doppelhaus"
+            },
+            "building/dormitory": {
+                "name": "Schlafsaal",
+                "terms": "Schlafsaal, Dormitorium"
+            },
             "building/entrance": {
-                "name": "Eingang",
-                "terms": "Eingang"
+                "name": "Eingang/Ausgang",
+                "terms": "Eingang/Ausgang, Zugang/Abgang, Einfahrt/Ausfahrt, Eintritt/Austritt"
             },
             "building/garage": {
                 "name": "Garage",
                 "terms": "Garage"
+            },
+            "building/garages": {
+                "name": "Garagen",
+                "terms": "Garagen"
+            },
+            "building/greenhouse": {
+                "name": "Gewächshaus",
+                "terms": "Glashaus, Gewächshaus, Treibhaus"
+            },
+            "building/hospital": {
+                "name": "Krankenhausgebäude",
+                "terms": "Krankenhausgebäude, Klinikgebäude"
+            },
+            "building/hotel": {
+                "name": "Hotelgebäude",
+                "terms": "Hotelgebäude"
             },
             "building/house": {
                 "name": "Haus",
@@ -1288,9 +1448,53 @@
                 "name": "Industriegebäude",
                 "terms": "Industriegebäude"
             },
+            "building/public": {
+                "name": "Öffentliches Gebäude",
+                "terms": "Öffentliches Gebäude"
+            },
             "building/residential": {
                 "name": "Wohngebäude",
                 "terms": "Wohnhaus,Einfamilienhaus,Mehrfamilienhaus"
+            },
+            "building/retail": {
+                "name": "Geschäftsgebäude",
+                "terms": "Geschäftsgebäude, Gebäude mit Läden"
+            },
+            "building/roof": {
+                "name": "Dach",
+                "terms": "Dach"
+            },
+            "building/school": {
+                "name": "Schulgebäude",
+                "terms": "Schulgebäude, Schulhaus"
+            },
+            "building/shed": {
+                "name": "Schuppen",
+                "terms": "Hütte, Baracke"
+            },
+            "building/stable": {
+                "name": "Stall",
+                "terms": "Stall, Stallgebäude"
+            },
+            "building/static_caravan": {
+                "name": "Feststehender Wohnwagen",
+                "terms": "Abgestellter Wohnwagen"
+            },
+            "building/terrace": {
+                "name": "Reihenhäuser",
+                "terms": "Reihenhäuser"
+            },
+            "building/train_station": {
+                "name": "Bahnhof",
+                "terms": "Bahnhof, Haltestelle, Haltepunkt"
+            },
+            "building/university": {
+                "name": "Universitätsgebäude",
+                "terms": "Universitätsgebäude, Campusgebäude"
+            },
+            "building/warehouse": {
+                "name": "Lagerhalle",
+                "terms": "Lagerhaus, Lagergebäude"
             },
             "craft/basket_maker": {
                 "name": "Korbflechter",
@@ -1386,15 +1590,15 @@
             },
             "craft/painter": {
                 "name": "Maler",
-                "terms": "Maler, Anstreicher, Lackierer"
+                "terms": "Maler, Anstreicher"
             },
             "craft/photographer": {
                 "name": "Fotograf",
                 "terms": "Fotograf, Fotostudio, Fotoatelier"
             },
-            "craft/photographic_labratory": {
+            "craft/photographic_laboratory": {
                 "name": "Fotolabor",
-                "terms": "Fotolabor"
+                "terms": "Fotolabor, fotografisches Labor"
             },
             "craft/plasterer": {
                 "name": "Stuckateur",
@@ -1489,8 +1693,8 @@
                 "terms": "Notruf-Telefon, Notrufsäule, Notfallsäule"
             },
             "entrance": {
-                "name": "Eingang",
-                "terms": "Eingang"
+                "name": "Eingang/Ausgang",
+                "terms": "Eingang/Ausgang, Zugang/Abgang, Einfahrt/Ausfahrt, Eintritt/Austritt"
             },
             "footway/crossing": {
                 "name": "Fussgängerüberweg",
@@ -1499,6 +1703,10 @@
             "footway/sidewalk": {
                 "name": "Bürgersteig",
                 "terms": "Gehsteig, Fußgängerweg, Gehweg, Fußweg, Gangsteig, Trottoir"
+            },
+            "ford": {
+                "name": "Furt",
+                "terms": "Furt"
             },
             "golf/bunker": {
                 "name": "Bunker (Golf)",
@@ -1658,7 +1866,7 @@
             },
             "highway/track": {
                 "name": "Feld-/Waldweg",
-                "terms": "Spur, Fährte, Strecke, Weg"
+                "terms": "Forstweg,Wirtschaftsweg,Wiesenweg,Feldweg,Waldweg"
             },
             "highway/traffic_signals": {
                 "name": "Ampeln",
@@ -1710,7 +1918,7 @@
             },
             "historic/wayside_cross": {
                 "name": "Wegkreuz",
-                "terms": "Wegkreuz"
+                "terms": "Wegkreuz,Wegekreuz,Flurkreuz"
             },
             "historic/wayside_shrine": {
                 "name": "Bildstock",
@@ -1732,9 +1940,13 @@
                 "name": "Friedhof",
                 "terms": "Friedhof, Friedwald"
             },
+            "landuse/churchyard": {
+                "name": "Kirchhof",
+                "terms": "Kirchhof, Friedhof, Gottesacker, Leichenhof"
+            },
             "landuse/commercial": {
                 "name": "Gewerbegebiet",
-                "terms": "Gewerbezone,Gewerbegebiet,gewerblich genutzte Gebäude,Buissenes Park,Büros"
+                "terms": "Gewerbezone,Gewerbegebiet,gewerblich genutzte Gebäude,Business Park,Büros"
             },
             "landuse/construction": {
                 "name": "Baustelle",
@@ -1764,9 +1976,17 @@
                 "name": "Industrie",
                 "terms": "Industriegebiet, Gewerbegebiet"
             },
+            "landuse/landfill": {
+                "name": "Deponie",
+                "terms": "Demonise, Mülldeponie, Geländeauffüllung"
+            },
             "landuse/meadow": {
                 "name": "Weide",
                 "terms": "Wiese, Weide"
+            },
+            "landuse/military": {
+                "name": "Militär",
+                "terms": "Militär, Armee, Landesverteidigung"
             },
             "landuse/orchard": {
                 "name": "Obstplantage",
@@ -1800,6 +2020,10 @@
                 "name": "Hundepark",
                 "terms": "Hundefreilaufzone,Hundeauslaufzone,Hundezone,Hundeauslaufplatz"
             },
+            "leisure/firepit": {
+                "name": "Feuerstelle",
+                "terms": "Feuerstelle, Lavaseekrater"
+            },
             "leisure/garden": {
                 "name": "Garten",
                 "terms": "Garten"
@@ -1808,6 +2032,10 @@
                 "name": "Golfplatz",
                 "terms": "Golfplatz, Golfkurs, Golfclub"
             },
+            "leisure/ice_rink": {
+                "name": "Eislaufbahn",
+                "terms": "Eislaufbahn, Eislaufhalle, Eissporthalle, Schlittschuhbahn"
+            },
             "leisure/marina": {
                 "name": "Yachthafen",
                 "terms": "Yachthafen, Marina"
@@ -1815,6 +2043,10 @@
             "leisure/park": {
                 "name": "Park",
                 "terms": "Esplanade,Lustgarten,Erholungsgebiet,Dorfanger,Dorfwiese"
+            },
+            "leisure/picnic_table": {
+                "name": "Jausentisch",
+                "terms": "Jausentisch, Picknicktisch"
             },
             "leisure/pitch": {
                 "name": "Sportplatz",
@@ -2144,6 +2376,14 @@
                 "name": "Ortschaft",
                 "terms": "Ort, Gegend"
             },
+            "place/neighbourhood": {
+                "name": "Wohngegend",
+                "terms": "Wohngegend, Nachbarschaft, Umgebung, Viertel, Grätzel, Kiez"
+            },
+            "place/suburb": {
+                "name": "Bezirk",
+                "terms": "Bezirk, Gemeinde, Stadtbezirk"
+            },
             "place/town": {
                 "name": "Kleinstadt",
                 "terms": "Stadt, Ortschaft"
@@ -2268,6 +2508,10 @@
                 "name": "Spirituosenladen",
                 "terms": "Alkohol"
             },
+            "shop/art": {
+                "name": "Kunsthandlung",
+                "terms": "Kunsthandlung, Kunstladen"
+            },
             "shop/bakery": {
                 "name": "Bäckerei",
                 "terms": "Bäckerei"
@@ -2282,7 +2526,11 @@
             },
             "shop/bicycle": {
                 "name": "Fahrradladen",
-                "terms": "Fahrradladen, Fahrrad-Geschäft, Fahrrad-Handlung"
+                "terms": "Fahrradladen, Fahrradgeschäft, Fahrrad-Geschäft, Fahrrad-Handlung"
+            },
+            "shop/bookmaker": {
+                "name": "Buchmacher",
+                "terms": "Buchmacher"
             },
             "shop/books": {
                 "name": "Buchhandlung",
@@ -2360,6 +2608,10 @@
                 "name": "Blumenhändler",
                 "terms": "Florist, Blumenladen, Blumengeschäft"
             },
+            "shop/funeral_directors": {
+                "name": "Beerdigungsinstitut",
+                "terms": "Beerdigungsinstitut, Bestattungsinstitut, Bestattungsunternehmen"
+            },
             "shop/furniture": {
                 "name": "Möbelhaus",
                 "terms": "Möbelladen, Möbelgeschäft, Einrichtungsgeschäft"
@@ -2404,6 +2656,10 @@
                 "name": "Schlosser",
                 "terms": "Schlosser, Schlüsseldienst"
             },
+            "shop/lottery": {
+                "name": "Lottoannahmestelle",
+                "terms": "Lottoannahmestelle"
+            },
             "shop/mall": {
                 "name": "Einkaufzentrum",
                 "terms": "Einkaufszentrum, Mall"
@@ -2439,6 +2695,10 @@
             "shop/photo": {
                 "name": "Fotofachgeschäft",
                 "terms": "Fotoladen, Fotograf, Fotogeschäft"
+            },
+            "shop/seafood": {
+                "name": "Fischgeschäft",
+                "terms": "Fischgeschäft, Meeresfrüchtegeschäft"
             },
             "shop/shoes": {
                 "name": "Schuhgeschäft",
@@ -2479,6 +2739,10 @@
             "shop/video": {
                 "name": "Videothek",
                 "terms": "Video-Geschäft, DVD-Geschäft"
+            },
+            "shop/wine": {
+                "name": "Vinothek",
+                "terms": "Weinladen, Weinhandlung, Weinhaus, Enothek"
             },
             "tourism": {
                 "name": "Tourismus",

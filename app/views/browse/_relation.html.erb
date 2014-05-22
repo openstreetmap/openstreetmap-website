@@ -17,7 +17,7 @@
 
     <% unless relation.containing_relation_members.empty? %>
       <h4><%= t'browse.part_of' %></h4>
-      <ul><%= render :partial => "containing_relation", :collection => relation.containing_relation_members %></ul>
+      <ul><%= render :partial => "containing_relation", :collection => relation.containing_relation_members.uniq %></ul>
     <% end %>
   </div>
 <% end %>

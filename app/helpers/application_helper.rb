@@ -20,13 +20,13 @@ module ApplicationHelper
   def style_rules
     css = ""
 
-    css << ".hidden { display: none !important }";
-    css << ".hide_unless_logged_in { display: none !important }" unless @user;
-    css << ".hide_if_logged_in { display: none !important }" if @user;
-    css << ".hide_if_user_#{@user.id} { display: none !important }" if @user;
-    css << ".show_if_user_#{@user.id} { display: inline !important }" if @user;
-    css << ".hide_unless_administrator { display: none !important }" unless @user and @user.administrator?;
-    css << ".hide_unless_moderator { display: none !important }" unless @user and @user.moderator?;
+    css << ".hidden { display: none !important }"
+    css << ".hide_unless_logged_in { display: none !important }" unless @user
+    css << ".hide_if_logged_in { display: none !important }" if @user
+    css << ".hide_if_user_#{@user.id} { display: none !important }" if @user
+    css << ".show_if_user_#{@user.id} { display: inline !important }" if @user
+    css << ".hide_unless_administrator { display: none !important }" unless @user and @user.administrator?
+    css << ".hide_unless_moderator { display: none !important }" unless @user and @user.moderator?
 
     return content_tag(:style, css, :type => "text/css")
   end
@@ -55,10 +55,6 @@ module ApplicationHelper
 
   def if_administrator(tag = :div, &block)
     content_tag(tag, capture(&block), :class => "hide_unless_administrator")
-  end
-
-  def scale_to_zoom(scale)
-    Math.log(360.0 / (scale.to_f * 512.0)) / Math.log(2.0)
   end
 
   def richtext_area(object_name, method, options = {})

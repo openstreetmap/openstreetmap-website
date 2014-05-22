@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class CORSTest < ActionDispatch::IntegrationTest
   # Rails 4 adds a built-in `options` method. When we upgrade, we can remove

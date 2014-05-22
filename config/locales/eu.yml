@@ -6,6 +6,7 @@
 # Author: Asieriko
 # Author: MikelEH
 # Author: PerroVerd
+# Author: Subi
 # Author: Theklan
 # Author: Xabier Armendaritz
 eu: 
@@ -17,15 +18,16 @@ eu:
         language: Hizkuntza
         latitude: Latitude
         longitude: Longitude
-        title: Izenburua
+        title: Gaia
         user: Erabiltzailea
       friend: 
         friend: Lagun
         user: Erabiltzailea
       message: 
         body: Testua
+        recipient: Hartzailea
         sender: Igorlea
-        title: Izenburua
+        title: Gaia
       trace: 
         description: Deskribapen
         latitude: Latitude
@@ -50,6 +52,7 @@ eu:
       old_relation: Erlazio zaharra
       old_way: Bide zaharra
       relation: Erlazioa
+      session: Saioa
       trace: Trazoa
       tracepoint: Trazo puntua
       tracetag: Trazo etiketa
@@ -57,13 +60,20 @@ eu:
       way: Bidea
       way_tag: Bidearen etiketa
   browse: 
+    changeset: 
+      belongs_to: Egilea
     containing_relation: 
       entry: "%{relation_name} erlazioa"
+    location: "Kokapena:"
     not_found: 
       type: 
         node: nodo
         relation: erlazio
         way: bide
+    note: 
+      title: "Oharra: %{id}"
+    relation: 
+      members: Kideak
     relation_member: 
       type: 
         node: Nodo
@@ -72,10 +82,11 @@ eu:
     start_rjs: 
       loading: Kargatzen...
     tag_details: 
-      tags: "Etiketak:"
+      tags: Etiketak
     timeout: 
       type: 
         relation: erlazio
+    version: Bertsioa
   changeset: 
     changeset: 
       anonymous: Anonimoa
@@ -164,6 +175,7 @@ eu:
           runway: Lurreratze pista
           terminal: Terminala
         amenity: 
+          WLAN: WiFi Sarbidea
           airport: Aireportu
           arts_centre: Arte Zentroa
           atm: Kutxazain automatikoa
@@ -252,6 +264,7 @@ eu:
           national_park: Parke Nazionala
           protected_area: Babestutako Eremua
         bridge: 
+          aqueduct: Akueduktua
           "yes": Zubia
         building: 
           "yes": Eraikina
@@ -295,6 +308,7 @@ eu:
           construction: Eraikuntza
           farm: Baserria
           forest: Baso
+          garages: Garajeak
           meadow: Larre
           military: Eremu Militarra
           mine: Meategi
@@ -317,6 +331,7 @@ eu:
           park: Parkea
           pitch: Kirolgunea
           playground: Jolastoki
+          sauna: Sauna
           sports_centre: Kiroldegi
           stadium: Estadio
           swimming_pool: Igerilekua
@@ -328,6 +343,7 @@ eu:
           channel: Kanal
           crater: Crater
           fjord: Fiordo
+          forest: Basoa
           geyser: Geiser
           glacier: Glaziar
           hill: Muinoa
@@ -347,6 +363,7 @@ eu:
           water: Ura
           wood: Baso
         office: 
+          architect: Arkitektoa
           employment_agency: Enplegu agentzia
           estate_agent: Inmobiliaria
           government: Gobernuko bulegoa
@@ -420,6 +437,7 @@ eu:
           newsagent: Kioskoa
           optician: Optika
           pet: Animalia-denda
+          pharmacy: Farmazia
           photo: Argazki-denda
           shoes: Zapatadenda
           shopping_centre: Merkatal Gunea
@@ -455,17 +473,20 @@ eu:
           waterfall: Ur-jauzi
           weir: Uharka
   layouts: 
+    about: Honi buruz
     edit: Aldatu
     export: Esportatu
     help: Laguntza
     history: Historia
     home: hasiera
+    learn_more: Gehiago ikasi
     log_in: Saioa hasi
     logo: 
       alt_text: OpenStreetMap logoa
     logout: saioa itxi
     make_a_donation: 
       text: Dohaintza egin
+    more: Gehiago
     sign_up: izena eman
   license_page: 
     foreign: 
@@ -510,6 +531,10 @@ eu:
       unread_button: Markatu irakurri gabekotzat
     sent_message_summary: 
       delete_button: Ezabatu
+  note: 
+    mine: 
+      creator: Sortzailea
+      description: Deskribapena
   notifier: 
     diary_comment_notification: 
       hi: Kaixo %{to_user},
@@ -527,6 +552,8 @@ eu:
       greeting: Kaixo,
     message_notification: 
       hi: Kaixo %{to_user},
+    note_comment_notification: 
+      greeting: Kaixo,
   oauth: 
     oauthorize: 
       allow_write_api: mapa aldatu.
@@ -537,6 +564,11 @@ eu:
       name: Izena
     show: 
       allow_write_api: mapa aldatu.
+      confirm: Ziur zaude?
+  redaction: 
+    show: 
+      description: "Deskribapena:"
+      user: "Sortzailea:"
   site: 
     edit: 
       user_page_link: Lankide orria
@@ -726,21 +758,22 @@ eu:
       deactivate_user: erabiltzaile hau ezgaitu
       delete_user: lankide hau ezabatu
       description: Deskribapen
-      diary: egunerokoa
-      edits: aldaketak
+      diary: Egunerokoa
+      edits: Aldaketak
       email address: "Eposta helbidea:"
       hide_user: Erabiltzaile hau ezkutatu
       km away: "%{count} km-tara"
       m away: "%{count} m-tara"
       mapper since: "Noiztik mapatzaile:"
+      my comments: Nire Iruzkinak
       my diary: nire egunerokoa
       my edits: nire aldaketak
-      my settings: nire aukerak
+      my settings: Nire Hobespenak
       remove as friend: lagun bezala kendu
       role: 
         administrator: Lankide hau administratzailea da
         moderator: Lankide hau moderatzailea da
-      send message: mezua bidali
+      send message: Mezua bidali
       settings_link_text: hobespenak
       status: "Egoera:"
       user location: Lankidearen kokapena
@@ -749,6 +782,8 @@ eu:
     partial: 
       creator_name: Egilea
       edit: Aldatu
+      next: Hurrengoa »
+      previous: « Aurrekoa
       show: Erakutsi
       status: Egoera
     period: 
@@ -764,3 +799,5 @@ eu:
       confirm: Berretsi
     revoke: 
       confirm: Berretsi
+  welcome_page: 
+    title: Ongi etorri!

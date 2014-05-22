@@ -16,7 +16,7 @@
       <% end %>
       ... <%= t'trace.trace.ago', :time_in_words_ago => time_ago_in_words(trace.timestamp) %></span>
       <%= link_to t('trace.trace.more'), {:controller => 'trace', :action => 'view', :display_name => trace.user.display_name, :id => trace.id}, {:title => t('trace.trace.trace_details')} %> /
-      <%= link_to_if trace.inserted?, t('trace.trace.map'), {:controller => 'site', :action => 'index', :lat => trace.latitude, :lon => trace.longitude, :zoom => 14}, {:title => t('trace.trace.view_map')} %> /
+      <%= link_to_if trace.inserted?, t('trace.trace.map'), {:controller => 'site', :action => 'index', :anchor => "map=14/#{trace.latitude}/#{trace.longitude}"}, {:title => t('trace.trace.view_map')} %> /
       <%= link_to t('trace.trace.edit'), {:controller => 'site', :action => 'edit', :gpx => trace.id }, {:title => t('trace.trace.edit_map')} %>
       <span class="trace_<%= trace.visibility %>"><%= t('trace.trace.' + trace.visibility) %></span>
       <br />

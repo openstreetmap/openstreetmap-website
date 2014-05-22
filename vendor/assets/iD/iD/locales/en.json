@@ -71,7 +71,8 @@
                 "line": "Made a line circular.",
                 "area": "Made an area circular."
             },
-            "not_closed": "This can't be made circular because it's not a loop."
+            "not_closed": "This can't be made circular because it's not a loop.",
+            "too_large": "This can't be made circular because not enough of it is currently visible."
         },
         "orthogonalize": {
             "title": "Square",
@@ -84,7 +85,8 @@
                 "line": "Squared the corners of a line.",
                 "area": "Squared the corners of an area."
             },
-            "not_squarish": "This can't be made square because it is not squarish."
+            "not_squarish": "This can't be made square because it is not squarish.",
+            "too_large": "This can't be made square because not enough of it is currently visible."
         },
         "straighten": {
             "title": "Straighten",
@@ -134,7 +136,8 @@
             "annotation": "Merged {n} lines.",
             "not_eligible": "These features can't be merged.",
             "not_adjacent": "These lines can't be merged because they aren't connected.",
-            "restriction": "These lines can't be merged because at least one is a member of a \"{relation}\" relation."
+            "restriction": "These lines can't be merged because at least one is a member of a \"{relation}\" relation.",
+            "incomplete_relation": "These features can't be merged because at least one hasn't been fully downloaded."
         },
         "move": {
             "title": "Move",
@@ -268,7 +271,8 @@
         "percent_brightness": "{opacity}% brightness",
         "none": "None",
         "custom": "Custom",
-        "custom_prompt": "Enter a tile template. Valid tokens are {z}, {x}, {y} for Z/X/Y scheme and {u} for quadtile scheme.",
+        "custom_button": "Edit custom background",
+        "custom_prompt": "Enter a tile URL template. Valid tokens are {z}, {x}, {y} for Z/X/Y scheme and {u} for quadtile scheme.",
         "fix_misalignment": "Fix alignment",
         "reset": "reset"
     },
@@ -336,7 +340,7 @@
     },
     "help": {
         "title": "Help",
-        "help": "# Help\n\nThis is an editor for [OpenStreetMap](http://www.openstreetmap.org/), the\nfree and editable map of the world. You can use it to add and update\ndata in your area, making an open-source and open-data map of the world\nbetter for everyone.\n\nEdits that you make on this map will be visible to everyone who uses\nOpenStreetMap. In order to make an edit, you'll need a\n[free OpenStreetMap account](https://www.openstreetmap.org/user/new).\n\nThe [iD editor](http://ideditor.com/) is a collaborative project with [source\ncode available on GitHub](https://github.com/systemed/iD).\n",
+        "help": "# Help\n\nThis is an editor for [OpenStreetMap](http://www.openstreetmap.org/), the\nfree and editable map of the world. You can use it to add and update\ndata in your area, making an open-source and open-data map of the world\nbetter for everyone.\n\nEdits that you make on this map will be visible to everyone who uses\nOpenStreetMap. In order to make an edit, you'll need a\n[free OpenStreetMap account](https://www.openstreetmap.org/user/new).\n\nThe [iD editor](http://ideditor.com/) is a collaborative project with [source\ncode available on GitHub](https://github.com/openstreetmap/iD).\n",
         "editing_saving": "# Editing & Saving\n\nThis editor is designed to work primarily online, and you're accessing\nit through a website right now.\n\n### Selecting Features\n\nTo select a map feature, like a road or point of interest, click\non it on the map. This will highlight the selected feature, open a panel with\ndetails about it, and show a menu of things you can do with the feature.\n\nTo select multiple features, hold down the 'Shift' key. Then either click\non the features you want to select, or drag on the map to draw a rectangle.\nThis will draw a box and select all the points within it.\n\n### Saving Edits\n\nWhen you make changes like editing roads, buildings, and places, these are\nstored locally until you save them to the server. Don't worry if you make\na mistake - you can undo changes by clicking the undo button, and redo\nchanges by clicking the redo button.\n\nClick 'Save' to finish a group of edits - for instance, if you've completed\nan area of town and would like to start on a new area. You'll have a chance\nto review what you've done, and the editor supplies helpful suggestions\nand warnings if something doesn't seem right about the changes.\n\nIf everything looks good, you can enter a short comment explaining the change\nyou made, and click 'Save' again to post the changes\nto [OpenStreetMap.org](http://www.openstreetmap.org/), where they are visible\nto all other users and available for others to build and improve upon.\n\nIf you can't finish your edits in one sitting, you can leave the editor\nwindow and come back (on the same browser and computer), and the\neditor application will offer to restore your work.\n",
         "roads": "# Roads\n\nYou can create, fix, and delete roads with this editor. Roads can be all\nkinds: paths, highways, trails, cycleways, and more - any often-crossed\nsegment should be mappable.\n\n### Selecting\n\nClick on a road to select it. An outline should become visible, along\nwith a small tools menu on the map and a sidebar showing more information\nabout the road.\n\n### Modifying\n\nOften you'll see roads that aren't aligned to the imagery behind them\nor to a GPS track. You can adjust these roads so they are in the correct\nplace.\n\nFirst click on the road you want to change. This will highlight it and show\ncontrol points along it that you can drag to better locations. If\nyou want to add new control points for more detail, double-click a part\nof the road without a node, and one will be added.\n\nIf the road connects to another road, but doesn't properly connect on\nthe map, you can drag one of its control points onto the other road in\norder to join them. Having roads connect is important for the map\nand essential for providing driving directions.\n\nYou can also click the 'Move' tool or press the `M` shortcut key to move the entire road at\none time, and then click again to save that movement.\n\n### Deleting\n\nIf a road is entirely incorrect - you can see that it doesn't exist in satellite\nimagery and ideally have confirmed locally that it's not present - you can delete\nit, which removes it from the map. Be cautious when deleting features -\nlike any other edit, the results are seen by everyone and satellite imagery\nis often out of date, so the road could simply be newly built.\n\nYou can delete a road by clicking on it to select it, then clicking the\ntrash can icon or pressing the 'Delete' key.\n\n### Creating\n\nFound somewhere there should be a road but there isn't? Click the 'Line'\nicon in the top-left of the editor or press the shortcut key `2` to start drawing\na line.\n\nClick on the start of the road on the map to start drawing. If the road\nbranches off from an existing road, start by clicking on the place where they connect.\n\nThen click on points along the road so that it follows the right path, according\nto satellite imagery or GPS. If the road you are drawing crosses another road, connect\nit by clicking on the intersection point. When you're done drawing, double-click\nor press 'Return' or 'Enter' on your keyboard.\n",
         "gps": "# GPS\n\nGPS data is the most trusted source of data for OpenStreetMap. This editor\nsupports local traces - `.gpx` files on your local computer. You can collect\nthis kind of GPS trace with a number of smartphone applications as well as\npersonal GPS hardware.\n\nFor information on how to perform a GPS survey, read\n[Surveying with a GPS](http://learnosm.org/en/beginner/using-gps/).\n\nTo use a GPX track for mapping, drag and drop the GPX file onto the map\neditor. If it's recognized, it will be added to the map as a bright green\nline. Click on the 'Background Settings' menu on the right side to enable,\ndisable, or zoom to this new GPX-powered layer.\n\nThe GPX track isn't directly uploaded to OpenStreetMap - the best way to\nuse it is to draw on the map, using it as a guide for the new features that\nyou add, and also to [upload it to OpenStreetMap](http://www.openstreetmap.org/trace/create)\nfor other users to use.\n",
@@ -469,7 +473,6 @@
             "address": {
                 "label": "Address",
                 "placeholders": {
-                    "housename": "Housename",
                     "number": "123",
                     "street": "Street",
                     "city": "City",
@@ -539,9 +542,6 @@
             "building_area": {
                 "label": "Building"
             },
-            "cans": {
-                "label": "Accepts Cans"
-            },
             "capacity": {
                 "label": "Capacity",
                 "placeholder": "50, 100, 200..."
@@ -556,9 +556,6 @@
                     "anticlockwise": "Counterclockwise"
                 }
             },
-            "clothes": {
-                "label": "Accepts Clothes"
-            },
             "collection_times": {
                 "label": "Collection Times"
             },
@@ -570,6 +567,9 @@
             },
             "covered": {
                 "label": "Covered"
+            },
+            "crop": {
+                "label": "Crop"
             },
             "crossing": {
                 "label": "Type"
@@ -611,6 +611,36 @@
             "fixme": {
                 "label": "Fix Me"
             },
+            "fuel": {
+                "label": "Fuel"
+            },
+            "fuel/biodiesel": {
+                "label": "Sells Biodiesel"
+            },
+            "fuel/diesel": {
+                "label": "Sells Diesel"
+            },
+            "fuel/e10": {
+                "label": "Sells E10"
+            },
+            "fuel/e85": {
+                "label": "Sells E85"
+            },
+            "fuel/lpg": {
+                "label": "Sells Propane"
+            },
+            "fuel/octane_100": {
+                "label": "Sells Racing Gasoline"
+            },
+            "fuel/octane_91": {
+                "label": "Sells Regular Gasoline"
+            },
+            "fuel/octane_95": {
+                "label": "Sells Midgrade Gasoline"
+            },
+            "fuel/octane_98": {
+                "label": "Sells Premium Gasoline"
+            },
             "gauge": {
                 "label": "Gauge"
             },
@@ -622,9 +652,6 @@
             },
             "generator/type": {
                 "label": "Type"
-            },
-            "glass": {
-                "label": "Accepts Glass"
             },
             "golf_hole": {
                 "label": "Reference",
@@ -639,6 +666,10 @@
             },
             "historic": {
                 "label": "Type"
+            },
+            "hoops": {
+                "label": "Hoops",
+                "placeholder": "1, 2, 4..."
             },
             "iata": {
                 "label": "IATA"
@@ -674,6 +705,9 @@
             },
             "leisure": {
                 "label": "Type"
+            },
+            "length": {
+                "label": "Length (Meters)"
             },
             "levels": {
                 "label": "Levels",
@@ -720,9 +754,6 @@
             "operator": {
                 "label": "Operator"
             },
-            "paper": {
-                "label": "Accepts Paper"
-            },
             "par": {
                 "label": "Par",
                 "placeholder": "3, 4, 5..."
@@ -749,11 +780,26 @@
             "place": {
                 "label": "Type"
             },
+            "population": {
+                "label": "Population"
+            },
             "power": {
                 "label": "Type"
             },
             "railway": {
                 "label": "Type"
+            },
+            "recycling/cans": {
+                "label": "Accepts Cans"
+            },
+            "recycling/clothes": {
+                "label": "Accepts Clothes"
+            },
+            "recycling/glass": {
+                "label": "Accepts Glass"
+            },
+            "recycling/paper": {
+                "label": "Accepts Paper"
             },
             "ref": {
                 "label": "Reference"
@@ -785,6 +831,9 @@
             "sac_scale": {
                 "label": "Path Difficulty"
             },
+            "seasonal": {
+                "label": "Seasonal"
+            },
             "service": {
                 "label": "Type"
             },
@@ -797,10 +846,23 @@
             "shop": {
                 "label": "Type"
             },
+            "sloped_curb": {
+                "label": "Sloped Curb"
+            },
+            "smoking": {
+                "label": "Smoking"
+            },
+            "social_facility_for": {
+                "label": "People served",
+                "placeholder": "Homeless, Disabled, Child, etc"
+            },
             "source": {
                 "label": "Source"
             },
             "sport": {
+                "label": "Sport"
+            },
+            "sport_ice": {
                 "label": "Sport"
             },
             "structure": {
@@ -810,7 +872,8 @@
                     "bridge": "Bridge",
                     "tunnel": "Tunnel",
                     "embankment": "Embankment",
-                    "cutting": "Cutting"
+                    "cutting": "Cutting",
+                    "ford": "Ford"
                 }
             },
             "studio_type": {
@@ -821,6 +884,9 @@
             },
             "surface": {
                 "label": "Surface"
+            },
+            "tactile_paving": {
+                "label": "Tactile Paving"
             },
             "toilets/disposal": {
                 "label": "Disposal"
@@ -839,6 +905,9 @@
             },
             "tree_type": {
                 "label": "Type"
+            },
+            "trees": {
+                "label": "Trees"
             },
             "tunnel": {
                 "label": "Tunnel"
@@ -861,6 +930,9 @@
             },
             "wheelchair": {
                 "label": "Wheelchair Access"
+            },
+            "width": {
+                "label": "Width (Meters)"
             },
             "wikipedia": {
                 "label": "Wikipedia"
@@ -970,6 +1042,10 @@
                 "name": "Bar",
                 "terms": ""
             },
+            "amenity/bbq": {
+                "name": "Barbecue/Grill",
+                "terms": "barbecue,bbq,grill"
+            },
             "amenity/bench": {
                 "name": "Bench",
                 "terms": ""
@@ -1002,6 +1078,10 @@
                 "name": "Car Wash",
                 "terms": ""
             },
+            "amenity/charging_station": {
+                "name": "Charging Station",
+                "terms": "EV,Electric Vehicle,Supercharger"
+            },
             "amenity/childcare": {
                 "name": "Childcare",
                 "terms": "nursery,orphanage,playgroup"
@@ -1020,6 +1100,10 @@
             },
             "amenity/college": {
                 "name": "College",
+                "terms": ""
+            },
+            "amenity/compressed_air": {
+                "name": "Compressed Air",
                 "terms": ""
             },
             "amenity/courthouse": {
@@ -1063,11 +1147,11 @@
                 "terms": ""
             },
             "amenity/hospital": {
-                "name": "Hospital",
+                "name": "Hospital Grounds",
                 "terms": "clinic,emergency room,health service,hospice,infirmary,institution,nursing home,rest home,sanatorium,sanitarium,sick bay,surgery,ward"
             },
             "amenity/kindergarten": {
-                "name": "Kindergarten",
+                "name": "Kindergarten Grounds",
                 "terms": "nursery,preschool"
             },
             "amenity/library": {
@@ -1078,8 +1162,16 @@
                 "name": "Marketplace",
                 "terms": ""
             },
+            "amenity/nightclub": {
+                "name": "Nightclub",
+                "terms": "disco*,night club,dancing,dance club"
+            },
             "amenity/parking": {
                 "name": "Car Parking",
+                "terms": ""
+            },
+            "amenity/parking_entrance": {
+                "name": "Parking Garage Entrance/Exit",
                 "terms": ""
             },
             "amenity/pharmacy": {
@@ -1135,12 +1227,28 @@
                 "terms": "bar,cafeteria,café,canteen,chophouse,coffee shop,diner,dining room,dive*,doughtnut shop,drive-in,eatery,eating house,eating place,fast-food place,fish and chips,greasy spoon,grill,hamburger stand,hashery,hideaway,hotdog stand,inn,joint*,luncheonette,lunchroom,night club,outlet*,pizzeria,saloon,soda fountain,watering hole"
             },
             "amenity/school": {
-                "name": "School",
+                "name": "School Grounds",
                 "terms": "academy,alma mater,blackboard,college,department,discipline,establishment,faculty,hall,halls of ivy,institute,institution,jail*,schoolhouse,seminary,university"
             },
             "amenity/shelter": {
                 "name": "Shelter",
                 "terms": "lean-to"
+            },
+            "amenity/social_facility": {
+                "name": "Social Facility",
+                "terms": ""
+            },
+            "amenity/social_facility/food_bank": {
+                "name": "Food Bank",
+                "terms": ""
+            },
+            "amenity/social_facility/group_home": {
+                "name": "Group Home",
+                "terms": "elderly,old,senior living"
+            },
+            "amenity/social_facility/homeless_shelter": {
+                "name": "Homeless Shelter",
+                "terms": "houseless,unhoused,displaced"
             },
             "amenity/studio": {
                 "name": "Studio",
@@ -1270,16 +1378,68 @@
                 "name": "Apartments",
                 "terms": ""
             },
+            "building/barn": {
+                "name": "Barn",
+                "terms": ""
+            },
+            "building/bunker": {
+                "name": "Bunker",
+                "terms": ""
+            },
+            "building/cabin": {
+                "name": "Cabin",
+                "terms": ""
+            },
+            "building/cathedral": {
+                "name": "Cathedral",
+                "terms": ""
+            },
+            "building/chapel": {
+                "name": "Chapel",
+                "terms": ""
+            },
+            "building/church": {
+                "name": "Church",
+                "terms": ""
+            },
             "building/commercial": {
                 "name": "Commercial Building",
                 "terms": ""
             },
+            "building/construction": {
+                "name": "Building Under Construction",
+                "terms": ""
+            },
+            "building/detached": {
+                "name": "Detached Home",
+                "terms": ""
+            },
+            "building/dormitory": {
+                "name": "Dormitory",
+                "terms": ""
+            },
             "building/entrance": {
-                "name": "Entrance",
+                "name": "Entrance/Exit",
                 "terms": ""
             },
             "building/garage": {
                 "name": "Garage",
+                "terms": ""
+            },
+            "building/garages": {
+                "name": "Garages",
+                "terms": ""
+            },
+            "building/greenhouse": {
+                "name": "Greenhouse",
+                "terms": ""
+            },
+            "building/hospital": {
+                "name": "Hospital Building",
+                "terms": ""
+            },
+            "building/hotel": {
+                "name": "Hotel Building",
                 "terms": ""
             },
             "building/house": {
@@ -1294,8 +1454,52 @@
                 "name": "Industrial Building",
                 "terms": ""
             },
+            "building/public": {
+                "name": "Public Building",
+                "terms": ""
+            },
             "building/residential": {
                 "name": "Residential Building",
+                "terms": ""
+            },
+            "building/retail": {
+                "name": "Retail Building",
+                "terms": ""
+            },
+            "building/roof": {
+                "name": "Roof",
+                "terms": ""
+            },
+            "building/school": {
+                "name": "School Building",
+                "terms": ""
+            },
+            "building/shed": {
+                "name": "Shed",
+                "terms": ""
+            },
+            "building/stable": {
+                "name": "Stable",
+                "terms": ""
+            },
+            "building/static_caravan": {
+                "name": "Static Mobile Home",
+                "terms": ""
+            },
+            "building/terrace": {
+                "name": "Row Houses",
+                "terms": ""
+            },
+            "building/train_station": {
+                "name": "Train Station",
+                "terms": ""
+            },
+            "building/university": {
+                "name": "University Building",
+                "terms": ""
+            },
+            "building/warehouse": {
+                "name": "Warehouse",
                 "terms": ""
             },
             "craft/basket_maker": {
@@ -1391,16 +1595,16 @@
                 "terms": "glasses,optician"
             },
             "craft/painter": {
-                "name": "painter",
+                "name": "Painter",
                 "terms": "painter"
             },
             "craft/photographer": {
                 "name": "Photographer",
                 "terms": "photographer"
             },
-            "craft/photographic_labratory": {
-                "name": "Photographic Labratory",
-                "terms": "photographic labratory,film developer"
+            "craft/photographic_laboratory": {
+                "name": "Photographic Laboratory",
+                "terms": "photographic laboratory,film developer"
             },
             "craft/plasterer": {
                 "name": "Plasterer",
@@ -1495,7 +1699,7 @@
                 "terms": ""
             },
             "entrance": {
-                "name": "Entrance",
+                "name": "Entrance/Exit",
                 "terms": ""
             },
             "footway/crossing": {
@@ -1504,6 +1708,10 @@
             },
             "footway/sidewalk": {
                 "name": "Sidewalk",
+                "terms": ""
+            },
+            "ford": {
+                "name": "Ford",
                 "terms": ""
             },
             "golf/bunker": {
@@ -1738,6 +1946,10 @@
                 "name": "Cemetery",
                 "terms": ""
             },
+            "landuse/churchyard": {
+                "name": "Churchyard",
+                "terms": ""
+            },
             "landuse/commercial": {
                 "name": "Commercial",
                 "terms": ""
@@ -1770,8 +1982,16 @@
                 "name": "Industrial",
                 "terms": ""
             },
+            "landuse/landfill": {
+                "name": "Landfill",
+                "terms": "dump"
+            },
             "landuse/meadow": {
                 "name": "Meadow",
+                "terms": ""
+            },
+            "landuse/military": {
+                "name": "Military",
                 "terms": ""
             },
             "landuse/orchard": {
@@ -1806,6 +2026,10 @@
                 "name": "Dog Park",
                 "terms": ""
             },
+            "leisure/firepit": {
+                "name": "Firepit",
+                "terms": "fireplace,campfire"
+            },
             "leisure/garden": {
                 "name": "Garden",
                 "terms": ""
@@ -1814,6 +2038,10 @@
                 "name": "Golf Course",
                 "terms": "links"
             },
+            "leisure/ice_rink": {
+                "name": "Ice Rink",
+                "terms": "hockey,skating,curling"
+            },
             "leisure/marina": {
                 "name": "Marina",
                 "terms": ""
@@ -1821,6 +2049,10 @@
             "leisure/park": {
                 "name": "Park",
                 "terms": "esplanade,estate,forest,garden,grass,green,grounds,lawn,lot,meadow,parkland,place,playground,plaza,pleasure garden,recreation area,square,tract,village green,woodland"
+            },
+            "leisure/picnic_table": {
+                "name": "Picnic Table",
+                "terms": "bench,table"
             },
             "leisure/pitch": {
                 "name": "Sport Pitch",
@@ -2150,6 +2382,14 @@
                 "name": "Locality",
                 "terms": ""
             },
+            "place/neighbourhood": {
+                "name": "Neighborhood",
+                "terms": "neighbourhood"
+            },
+            "place/suburb": {
+                "name": "Borough",
+                "terms": "Boro,Quarter"
+            },
             "place/town": {
                 "name": "Town",
                 "terms": ""
@@ -2274,6 +2514,10 @@
                 "name": "Liquor Store",
                 "terms": "alcohol"
             },
+            "shop/art": {
+                "name": "Art Shop",
+                "terms": "art store,art gallery"
+            },
             "shop/bakery": {
                 "name": "Bakery",
                 "terms": ""
@@ -2288,6 +2532,10 @@
             },
             "shop/bicycle": {
                 "name": "Bicycle Shop",
+                "terms": ""
+            },
+            "shop/bookmaker": {
+                "name": "Bookmaker",
                 "terms": ""
             },
             "shop/books": {
@@ -2366,6 +2614,10 @@
                 "name": "Florist",
                 "terms": ""
             },
+            "shop/funeral_directors": {
+                "name": "Funeral Home",
+                "terms": "undertaker,funeral parlour,funeral parlor,memorial home"
+            },
             "shop/furniture": {
                 "name": "Furniture Store",
                 "terms": ""
@@ -2410,6 +2662,10 @@
                 "name": "Locksmith",
                 "terms": "keys"
             },
+            "shop/lottery": {
+                "name": "Lottery Shop",
+                "terms": ""
+            },
             "shop/mall": {
                 "name": "Mall",
                 "terms": ""
@@ -2445,6 +2701,10 @@
             "shop/photo": {
                 "name": "Photography Store",
                 "terms": ""
+            },
+            "shop/seafood": {
+                "name": "Seafood Shop",
+                "terms": "fishmonger"
             },
             "shop/shoes": {
                 "name": "Shoe Store",
@@ -2485,6 +2745,10 @@
             "shop/video": {
                 "name": "Video Store",
                 "terms": ""
+            },
+            "shop/wine": {
+                "name": "Wine Shop",
+                "terms": "winery"
             },
             "tourism": {
                 "name": "Tourism",
