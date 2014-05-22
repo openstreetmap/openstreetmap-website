@@ -3,22 +3,38 @@ require File.dirname(__FILE__) + '/../test_helper'
 class TraceTest < ActiveSupport::TestCase
   api_fixtures
   
+  def setup
+    @gpx_trace_dir = Object.send("remove_const", "GPX_TRACE_DIR")
+    Object.const_set("GPX_TRACE_DIR", File.dirname(__FILE__) + "/../traces")
+  end
+
+  def teardown
+    Object.send("remove_const", "GPX_TRACE_DIR")
+    Object.const_set("GPX_TRACE_DIR", @gpx_trace_dir)
+  end
+
   def test_trace_count
     assert_equal 5, Trace.count
   end
 
   def test_visible
-    check_query(Trace.visible, :public_trace_file, :anon_trace_file, :trackable_trace_file, :identifiable_trace_file)
+    check_query(Trace.visible, [:public_trace_file, :anon_trace_file, :trackable_trace_file, :identifiable_trace_file])
   end
 
   def test_visible_to
-    check_query(Trace.visible_to(1), :public_trace_file, :identifiable_trace_file)
-    check_query(Trace.visible_to(2), :public_trace_file, :anon_trace_file, :trackable_trace_file, :identifiable_trace_file)
-    check_query(Trace.visible_to(3), :public_trace_file, :identifiable_trace_file)
+    check_query(Trace.visible_to(1), [:public_trace_file, :identifiable_trace_file])
+    check_query(Trace.visible_to(2), [:public_trace_file, :anon_trace_file, :trackable_trace_file, :identifiable_trace_file])
+    check_query(Trace.visible_to(3), [:public_trace_file, :identifiable_trace_file])
   end
 
   def test_public
-    check_query(Trace.public, :public_trace_file, :identifiable_trace_file, :deleted_trace_file)
+    check_query(Trace.public, [:public_trace_file, :identifiable_trace_file, :deleted_trace_file])
+  end
+
+  def test_tagged
+    check_query(Trace.tagged("London"), [:public_trace_file, :anon_trace_file])
+    check_query(Trace.tagged("Birmingham"), [:anon_trace_file, :identifiable_trace_file])
+    check_query(Trace.tagged("Unknown"), [])
   end
 
   def test_validations
@@ -76,9 +92,23 @@ class TraceTest < ActiveSupport::TestCase
     assert_equal false, gpx_files(:deleted_trace_file).identifiable?
   end
 
+  def test_mime_type
+    assert_equal "application/gpx+xml", gpx_files(:public_trace_file).mime_type
+    assert_equal "application/gpx+xml", gpx_files(:anon_trace_file).mime_type
+    assert_equal "application/x-bzip2", gpx_files(:trackable_trace_file).mime_type
+    assert_equal "application/x-gzip", gpx_files(:identifiable_trace_file).mime_type
+  end
+
+  def test_extension_name
+    assert_equal ".gpx", gpx_files(:public_trace_file).extension_name
+    assert_equal ".gpx", gpx_files(:anon_trace_file).extension_name
+    assert_equal ".gpx.bz2", gpx_files(:trackable_trace_file).extension_name
+    assert_equal ".gpx.gz", gpx_files(:identifiable_trace_file).extension_name
+  end
+
 private
 
-  def check_query(query, *traces)
+  def check_query(query, traces)
     traces = traces.map { |t| gpx_files(t) }.sort
     assert_equal traces, query.order(:id)
   end

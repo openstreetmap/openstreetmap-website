@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -271,39 +272,6 @@ CREATE SEQUENCE client_applications_id_seq
 --
 
 ALTER SEQUENCE client_applications_id_seq OWNED BY client_applications.id;
-
-
---
--- Name: countries; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE countries (
-    id integer NOT NULL,
-    code character varying(2) NOT NULL,
-    min_lat double precision NOT NULL,
-    max_lat double precision NOT NULL,
-    min_lon double precision NOT NULL,
-    max_lon double precision NOT NULL
-);
-
-
---
--- Name: countries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE countries_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: countries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE countries_id_seq OWNED BY countries.id;
 
 
 --
@@ -1190,13 +1158,6 @@ ALTER TABLE ONLY client_applications ALTER COLUMN id SET DEFAULT nextval('client
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY countries ALTER COLUMN id SET DEFAULT nextval('countries_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY current_nodes ALTER COLUMN id SET DEFAULT nextval('current_nodes_id_seq'::regclass);
 
 
@@ -1341,14 +1302,6 @@ ALTER TABLE ONLY changesets
 
 ALTER TABLE ONLY client_applications
     ADD CONSTRAINT client_applications_pkey PRIMARY KEY (id);
-
-
---
--- Name: countries_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY countries
-    ADD CONSTRAINT countries_pkey PRIMARY KEY (id);
 
 
 --
@@ -1665,13 +1618,6 @@ CREATE INDEX changesets_user_id_id_idx ON changesets USING btree (user_id, id);
 
 
 --
--- Name: countries_code_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX countries_code_idx ON countries USING btree (code);
-
-
---
 -- Name: current_nodes_tile_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1795,6 +1741,20 @@ CREATE INDEX gpx_files_visible_visibility_idx ON gpx_files USING btree (visible,
 --
 
 CREATE UNIQUE INDEX index_client_applications_on_key ON client_applications USING btree (key);
+
+
+--
+-- Name: index_note_comments_on_body; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_note_comments_on_body ON note_comments USING gin (to_tsvector('english'::regconfig, body));
+
+
+--
+-- Name: index_note_comments_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_note_comments_on_created_at ON note_comments USING btree (created_at);
 
 
 --
@@ -2379,6 +2339,8 @@ ALTER TABLE ONLY ways
 -- PostgreSQL database dump complete
 --
 
+SET search_path TO "$user",public;
+
 INSERT INTO schema_migrations (version) VALUES ('1');
 
 INSERT INTO schema_migrations (version) VALUES ('10');
@@ -2454,6 +2416,12 @@ INSERT INTO schema_migrations (version) VALUES ('20121202155309');
 INSERT INTO schema_migrations (version) VALUES ('20121203124841');
 
 INSERT INTO schema_migrations (version) VALUES ('20130328184137');
+
+INSERT INTO schema_migrations (version) VALUES ('20131212124700');
+
+INSERT INTO schema_migrations (version) VALUES ('20140115192822');
+
+INSERT INTO schema_migrations (version) VALUES ('20140117185510');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

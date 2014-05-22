@@ -1,96 +1,133 @@
+@import "parameters";
+
 /* Styles specific to a small screen, such as iPhone, Android, etc... */
 
-/* Default rules for the body of every page */
-
-body {
-  font-size: 10px;
-}
-
-h1 {
-  font-size: 12px;
-}
-
-h2, h3, h4 {
-  font-size: 12px;
-}
-
-.wrapper {
-  margin: 0;
-}
-
-.site-edit #content,
-.site-index #content,
-.site-export #content {
-  left: 0;
-}
-
-.site-edit #top-bar,
-.site-index #top-bar,
-.site-export #top-bar {
-  position: relative;
-}
-
-.site-edit #content, .site-index #content, .site-export #content {
-  position: absolute;
+input[type="submit"],
+input[type="text"] {
+  -webkit-appearance: none;
 }
 
 .column-1 {
   width: 100%;
 }
 
-/* Rules for the whole left sidebar, including the logo */
+#menu-icon {
+  display: inline-block !important;
+}
 
-#left {
+nav.primary,
+nav.secondary {
+  float: none !important;
+  position: relative;
+  display: block;
+  clear: both;
+}
+
+header {
+  height: auto;
+  min-height: $headerHeight;
+  background: #fff;
+
+  h1 {
+    padding-bottom: 15px;
+  }
+
+  &.closed nav {
+    display: none;
+  }
+
+  .search_form {
+    display: block;
+  }
+}
+
+#sidebar .search_form,
+#edit_tab,
+#export_tab {
   display: none;
 }
 
-/* Rules for tabbed navigation bar */
+nav.primary {
+  padding: 0;
 
-#top-bar {
-  left: 0;
-  margin: 0px;
-  height: 24px;
-  position: static;
+  ul, li {
+    border: none;
+    border-radius: 0;
+    width: 100%;
+  }
+
+  ul {
+    border-top: 1px solid #eee;
+    li {
+      border-bottom: 1px solid #eee;
+      border-right: none;
+      > a {
+        border-radius: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+      }
+    }
+  }
 }
 
-#tabnav {
-  height: 19px;
-  margin: 0px;
-  padding-top: 5px;
-  margin-top: 26px;
-  font-size: 10px;
-  line-height: 10px;
+nav.secondary {
+  border-bottom: 1px solid #eee;
+
+  .user-menu {
+    display: block;
+    width: 100%;
+    margin-left: 0;
+    > li {
+      width: 49%;
+      > a { 
+        width: 100%; 
+        text-align: center;
+      }
+    }
+  }
 }
 
-#tabnav a, #tabnav a:link, #tabnav a:visited {
-  font-size: 10px;
-  line-height: 10px;
-  padding: 5px;
-  margin-right: 1px;
+#compact-secondary-nav {
+  display: none;
 }
 
-.menuicon { line-height: 10px;}
-
-/* Rules for the site name - shown when left sidebar is hidden */
-
-#small-title {
-  font-size: 10px;
-  display: block;
-  position: absolute;
-  left: 5px;
-  top: 5px;
-  margin: 0;
+.compact-hide {
+  display: inline-block;
 }
 
-/* Rules for greeting bar in the top right corner */
+.map-layout {
+  #sidebar, #map {
+    position: relative;
+    overflow-x: hidden;
+    width: 100%;
+    height: 50%;
+  }
 
-#browse_map ul.secondary-actions {
-  float: right;
-  font-size: 10px;
+  .overlay-sidebar {
+    #sidebar {
+      width: 300px;
+    }
+
+    #map {
+      height: 100%;
+    }
+  }
+
+  #map-ui {
+    z-index: 9999;
+    width: 100%;
+    overflow-y: scroll;
+  }
 }
 
-#map {
-  border: 0;
+#sidebar .welcome {
+  display: none !important;
+}
+
+.leaflet-top.leaflet-right {
+  top: 10px !important;
+  z-index: 0;
 }
 
 .content_map {
@@ -100,69 +137,6 @@ h2, h3, h4 {
   height: 200px;
   max-height: none;
   min-height: auto;
-}
-
-.content_map #small_map {
-  height: 300px;
-  border: 1px solid #ccc;
-}
-
-.leaflet-control-pan, .leaflet-control-zoomslider {
-  display: none;
-}
-
-.site-index .leaflet-top,
-.site-export .leaflet-top {
-  top: 10px !important;
-}
-
-/* Rules for the main content area */
-
-#content {
-  margin-left: 0px;
-  margin-right: 0px;
-  border-left: 0px;
-  border-right: 0px;
-}
-
-.site-export #content,
-.site-edit #content,
-.site-index #content {
-  margin-top: 21px;
-}
-
-/* Rules for search sidebar when shown */
-
-#sidebar {
-  border: 0px;
-  margin: 0px;
-  width: 50% !important;
-  border-right: 1px solid #ccccdd;
-}
-
-p.search_results_entry {
-  padding: 2px 0px;
-}
-
-/* Rules for the map UI */
-
-.layers-ui {
-  .leaflet-container {
-    display: none;
-  }
-
-  li {
-    border-radius: 0;
-    margin-bottom: 0;
-
-    &:first-child {
-      border-radius: 4px 4px 0 0;
-    }
-
-    &:last-child {
-      border-radius: 0 0 4px 4px;
-    }
-  }
 }
 
 /* Rules for the login form */
@@ -200,55 +174,6 @@ p.search_results_entry {
   top: auto;
 }
 
-/* Rules for the user settings page */
-
-#user_new_email {
-  width: 60% !important;
-}
-
-#user_description, #user_preferred_editor {
-  width: 90% !important;
-}
-
-.minorNote {
-  display: block;
-}
-
-/* Rules for the browse pages */
-
-.browse-section.common div{
-  clear: both;
-}
-
-#changeset_list_map {
-  position: relative;
-  width: 100%;
-  right: 0;
-  left: 0;
-  top: 0px;
-  margin-bottom: 20px;
-  float: none;
-  height: 300px !important;
-  max-height: auto;
-  min-height: auto;
-}
-
-/* Rules for the diary entries pages */
-
-#diary_entry_title, #diary_entry_body, #diary_entry_language_code, #diary_comment_body {
-  width: 100% !important;
-}
-
-#usemap {
-  display: block;
-}
-
-/* Rules for the messaging pages */
-
-#message_title, #message_body {
-  width: 100% !important;
-}
-
 /* Rules for the sign-up page */
 
 .user-new,
@@ -260,4 +185,8 @@ p.search_results_entry {
   .aside {
     display: none;
   }
+}
+
+.site-about #content .attr h1 {
+  font-size: 28px;
 }

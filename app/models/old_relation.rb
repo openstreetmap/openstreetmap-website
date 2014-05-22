@@ -1,5 +1,6 @@
 class OldRelation < ActiveRecord::Base
   include ConsistencyValidations
+  include ObjectMetadata
   
   self.table_name = "relations"
   self.primary_keys = "relation_id", "version"
@@ -59,24 +60,13 @@ class OldRelation < ActiveRecord::Base
   end
 
   def members
-    unless @members
-      @members = Array.new
-      OldRelationMember.where(:relation_id => self.relation_id, :version => self.version).order(:sequence_id).each do |m|
-        @members += [[m.type,m.id,m.role]]
-      end
+    @members ||= self.old_members.collect do |member|
+      [member.member_type, member.member_id, member.member_role]
     end
-    @members
   end
 
   def tags
-    unless @tags
-      @tags = Hash.new
-      OldRelationTag.where(:relation_id => self.relation_id, :version => self.version).each do |tag|
-        @tags[tag.k] = tag.v
-      end
-    end
-    @tags = Hash.new unless @tags
-    @tags
+    @tags ||= Hash[self.old_tags.collect { |t| [t.k, t.v] }]
   end
 
   def members=(s)
@@ -94,52 +84,22 @@ class OldRelation < ActiveRecord::Base
   end
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el1 = XML::Node.new 'relation'
-    el1['id'] = self.relation_id.to_s
-    el1['visible'] = self.visible.to_s
-    el1['timestamp'] = self.timestamp.xmlschema
-    el1['version'] = self.version.to_s
-    el1['changeset'] = self.changeset_id.to_s
+    el = XML::Node.new 'relation'
+    el['id'] = self.relation_id.to_s
 
-    if changeset_cache.key?(self.changeset_id)
-      # use the cache if available
-    else
-      changeset_cache[self.changeset_id] = self.changeset.user_id
-    end
+    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
-    user_id = changeset_cache[self.changeset_id]
-
-    if user_display_name_cache.key?(user_id)
-      # use the cache if available
-    elsif self.changeset.user.data_public?
-      user_display_name_cache[user_id] = self.changeset.user.display_name
-    else
-      user_display_name_cache[user_id] = nil
-    end
-
-    if not user_display_name_cache[user_id].nil?
-      el1['user'] = user_display_name_cache[user_id]
-      el1['uid'] = user_id.to_s
-    end
-    
-    el1['redacted'] = self.redaction.id.to_s if self.redacted?
-    
     self.old_members.each do |member|
-      e = XML::Node.new 'member'
-      e['type'] = member.member_type.to_s.downcase
-      e['ref'] = member.member_id.to_s # "id" is considered uncool here as it should be unique in XML
-      e['role'] = member.member_role.to_s
-      el1 << e
+      member_el = XML::Node.new 'member'
+      member_el['type'] = member.member_type.to_s.downcase
+      member_el['ref'] = member.member_id.to_s # "id" is considered uncool here as it should be unique in XML
+      member_el['role'] = member.member_role.to_s
+      el << member_el
     end
     
-    self.old_tags.each do |tag|
-      e = XML::Node.new 'tag'
-      e['k'] = tag.k
-      e['v'] = tag.v
-      el1 << e
-    end
+    add_tags_to_xml_node(el, self.old_tags)
 
-    return el1
+    return el
   end
 
   # Temporary method to match interface to nodes

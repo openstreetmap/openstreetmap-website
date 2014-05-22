@@ -5,9 +5,6 @@ class ExportController < ApplicationController
 
   caches_page :embed
 
-  def start
-  end
-
   #When the user clicks 'Export' we redirect to a URL which generates the export download
   def finish
     bbox = BoundingBox.from_lon_lat_params(params)

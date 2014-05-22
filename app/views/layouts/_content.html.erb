@@ -1,0 +1,19 @@
+<div id="content" class="<%= content_for :content_class %>">
+  <% if content_for? :content %>
+    <%= yield :content %>
+  <% else %>
+    <%= render :partial => "layouts/flash", :locals => { :flash => flash } %>
+    <% if content_for? :heading %>
+      <div class="content-heading">
+        <div class="content-inner">
+          <%= yield :heading %>
+        </div>
+      </div>
+    <% end %>
+    <div class="content-body">
+      <div class="content-inner">
+        <%= yield %>
+      </div>
+    </div>
+  <% end %>
+</div>

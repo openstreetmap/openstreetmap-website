@@ -1,6 +1,7 @@
 class OldNode < ActiveRecord::Base
   include GeoRecord
   include ConsistencyValidations
+  include ObjectMetadata
 
   self.table_name = "nodes"
   self.primary_keys = "node_id", "version"
@@ -18,6 +19,8 @@ class OldNode < ActiveRecord::Base
   belongs_to :changeset
   belongs_to :redaction
   belongs_to :current_node, :class_name => "Node", :foreign_key => "node_id"
+
+  has_many :old_tags, :class_name => 'OldNodeTag', :foreign_key => [:node_id, :version]
 
   def validate_position
     errors.add(:base, "Node is not in the world") unless in_world?
@@ -43,50 +46,19 @@ class OldNode < ActiveRecord::Base
   end
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el1 = XML::Node.new 'node'
-    el1['id'] = self.node_id.to_s
-    el1['version'] = self.version.to_s
-    el1['changeset'] = self.changeset_id.to_s
+    el = XML::Node.new 'node'
+    el['id'] = self.node_id.to_s
+
+    add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     if self.visible?
-      el1['lat'] = self.lat.to_s
-      el1['lon'] = self.lon.to_s
+      el['lat'] = self.lat.to_s
+      el['lon'] = self.lon.to_s
     end
 
-    if changeset_cache.key?(self.changeset_id)
-      # use the cache if available
-    else
-      changeset_cache[self.changeset_id] = self.changeset.user_id
-    end
+    add_tags_to_xml_node(el, self.old_tags)
 
-    user_id = changeset_cache[self.changeset_id]
-
-    if user_display_name_cache.key?(user_id)
-      # use the cache if available
-    elsif self.changeset.user.data_public?
-      user_display_name_cache[user_id] = self.changeset.user.display_name
-    else
-      user_display_name_cache[user_id] = nil
-    end
-
-    if not user_display_name_cache[user_id].nil?
-      el1['user'] = user_display_name_cache[user_id]
-      el1['uid'] = user_id.to_s
-    end
-
-    self.tags.each do |k,v|
-      el2 = XML::Node.new('tag')
-      el2['k'] = k.to_s
-      el2['v'] = v.to_s
-      el1 << el2
-    end
-
-    el1['visible'] = self.visible.to_s
-    el1['timestamp'] = self.timestamp.xmlschema
-    
-    el1['redacted'] = self.redaction.id.to_s if self.redacted?
-
-    return el1
+    return el
   end
 
   def save_with_dependencies!
@@ -108,14 +80,7 @@ class OldNode < ActiveRecord::Base
   end
 
   def tags
-    unless @tags
-      @tags = Hash.new
-      OldNodeTag.where(:node_id => self.node_id, :version => self.version).each do |tag|
-        @tags[tag.k] = tag.v
-      end
-    end
-    @tags = Hash.new unless @tags
-    @tags
+    @tags ||= Hash[self.old_tags.collect { |t| [t.k, t.v] }]
   end
 
   def tags=(t)

@@ -41,6 +41,7 @@
             }
         },
         "continue": {
+            "key": "A",
             "title": "Continuar",
             "description": "Continuar esta linha.",
             "not_eligible": "Nenhuma linha pode ser continuada aqui.",
@@ -78,6 +79,7 @@
                 "line": "Ajustar os cantos de uma linha para 90°.",
                 "area": "Ajustar os cantos de uma área para 90°."
             },
+            "key": "S",
             "annotation": {
                 "line": "Ajustou os cantos de uma linha para 90°.",
                 "area": "Ajustou os cantos de uma área para 90°."
@@ -87,6 +89,7 @@
         "straighten": {
             "title": "Endireitar",
             "description": "Endireitar esta linha.",
+            "key": "S",
             "annotation": "Endireitar uma linha.",
             "too_bendy": "Isto não pode ser alinhado porque possui muitas curvas."
         },
@@ -249,7 +252,11 @@
         "incomplete": "<não baixado>",
         "feature_list": "Buscar elementos",
         "edit": "Editar elemento",
-        "none": "Nenhum"
+        "none": "Nenhum",
+        "node": "Nó",
+        "way": "Linha",
+        "relation": "Relação",
+        "location": "Local"
     },
     "background": {
         "title": "Imagem de Fundo",
@@ -258,7 +265,7 @@
         "none": "Nenhum",
         "custom": "Customizado",
         "custom_prompt": "Entre com um template de tiles. Tokens válidos são {z}, {x}, {y} para esquema Z/X/Y e {u} para esquema de quadtile.",
-        "fix_misalignment": "Corrigir desalinhamento",
+        "fix_misalignment": "Corrigir alinhamento",
         "reset": "resetar"
     },
     "restore": {
@@ -309,6 +316,7 @@
         "untagged_area": "Área sem etiquetas",
         "many_deletions": "Você está deletando {n} objetos. Você tem certeza que quer fazer isto? Isto irá deletá-los do mapa que todos veem no openstreetmap.org.",
         "tag_suggests_area": "A etiqueta {tag} sugere que seja utilizada numa área, mas essa linha não é uma área",
+        "untagged_tooltip": "Selecione um tipo de feição que descreve o que esta {geometry} é.",
         "deprecated_tags": "Etiquetas obsoletas: {tags}"
     },
     "zoom": {
@@ -385,6 +393,9 @@
     },
     "presets": {
         "categories": {
+            "category-building": {
+                "name": "Prédio"
+            },
             "category-landuse": {
                 "name": "Uso da Terra"
             },
@@ -400,7 +411,10 @@
             "category-route": {
                 "name": "Rota"
             },
-            "category-water": {
+            "category-water-area": {
+                "name": "Água"
+            },
+            "category-water-line": {
                 "name": "Água"
             }
         },
@@ -442,7 +456,7 @@
                     }
                 }
             },
-            "access_toilets": {
+            "access_simple": {
                 "label": "Acesso"
             },
             "address": {
@@ -489,9 +503,6 @@
                 "label": "Edifício"
             },
             "building_area": {
-                "label": "Edifício"
-            },
-            "building_yes": {
                 "label": "Edifício"
             },
             "capacity": {
@@ -699,6 +710,9 @@
             "shelter": {
                 "label": "Abrigo"
             },
+            "shelter_type": {
+                "label": "Tipo"
+            },
             "shop": {
                 "label": "Tipo"
             },
@@ -738,6 +752,9 @@
             },
             "trail_visibility": {
                 "label": "Visibilidade da Trilha"
+            },
+            "tree_type": {
+                "label": "Tipo"
             },
             "vending": {
                 "label": "Tipo de Produtos"
@@ -920,7 +937,7 @@
             },
             "amenity/parking": {
                 "name": "Estacionamento",
-                "terms": "Estacionamento"
+                "terms": "estacionamento,parada"
             },
             "amenity/pharmacy": {
                 "name": "Farmácia",
@@ -973,6 +990,10 @@
             "amenity/school": {
                 "name": "Escola",
                 "terms": "Escola"
+            },
+            "amenity/shelter": {
+                "name": "Abrigo",
+                "terms": "Abrigo"
             },
             "amenity/swimming_pool": {
                 "name": "Piscina",
@@ -1122,6 +1143,10 @@
                 "name": "Edifício Residencial",
                 "terms": "Edifício Residencial"
             },
+            "embankment": {
+                "name": "Aterro",
+                "terms": "aterro,terrapleno"
+            },
             "emergency/ambulance_station": {
                 "name": "Posto de Ambulâncias",
                 "terms": "Primeiros socorros, Parada de Ambulâncias, Garagem de Ambulâncias"
@@ -1137,6 +1162,14 @@
             "entrance": {
                 "name": "Entrada",
                 "terms": "Entrada"
+            },
+            "footway/crossing": {
+                "name": "Cruzamento",
+                "terms": "cruzamento,passagem"
+            },
+            "footway/sidewalk": {
+                "name": "Calçada",
+                "terms": "calçada,passeio"
             },
             "highway": {
                 "name": "Rodovia",
@@ -1342,6 +1375,10 @@
                 "name": "Fazenda",
                 "terms": "Fazenda"
             },
+            "landuse/farmland": {
+                "name": "Agricultura",
+                "terms": "agricultura,terra,campo,roça"
+            },
             "landuse/farmyard": {
                 "name": "Granja",
                 "terms": "Pátio de Fazenda"
@@ -1387,7 +1424,8 @@
                 "terms": "Lazer"
             },
             "leisure/common": {
-                "name": "Área Comunitária"
+                "name": "Área Comunitária",
+                "terms": "Comum, Habitual, Frequente"
             },
             "leisure/dog_park": {
                 "name": "Parque de Cães",
@@ -1481,12 +1519,21 @@
                 "name": "Linha de Corte em Floresta",
                 "terms": "Linha de Corte em Floresta"
             },
+            "man_made/embankment": {
+                "name": "Aterro",
+                "terms": "aterro,terrapleno"
+            },
+            "man_made/flagpole": {
+                "name": "Mastro",
+                "terms": "matro,bandeira,pau de bandeira"
+            },
             "man_made/lighthouse": {
                 "name": "Farol",
                 "terms": "Farol"
             },
             "man_made/observation": {
-                "name": "Torre de Observação"
+                "name": "Torre de Observação",
+                "terms": "Torre de observação"
             },
             "man_made/pier": {
                 "name": "Píer",
@@ -1520,6 +1567,22 @@
                 "name": "Estação de Tratamento de Água",
                 "terms": "Estação de Tratamento de Água"
             },
+            "military/airfield": {
+                "name": "Aeródromo",
+                "terms": "aeródromo,campo de aviação"
+            },
+            "military/barracks": {
+                "name": "Quartel",
+                "terms": "quartel,caserna"
+            },
+            "military/bunker": {
+                "name": "Casamata",
+                "terms": "casamata,bunker,fortificação"
+            },
+            "military/range": {
+                "name": "Estande de Tiro Militar",
+                "terms": "tiro,estande"
+            },
             "natural": {
                 "name": "Natural",
                 "terms": "Natural"
@@ -1541,7 +1604,8 @@
                 "terms": "Orla Marítima, Linha Costeira"
             },
             "natural/fell": {
-                "name": "Colina"
+                "name": "Colina",
+                "terms": "Caiu"
             },
             "natural/glacier": {
                 "name": "Geleira",
@@ -1560,7 +1624,8 @@
                 "terms": "Pico, Topo de Montanha, Serra, Montanha, Monte"
             },
             "natural/scree": {
-                "name": "Cascalho"
+                "name": "Cascalho",
+                "terms": "Seixos, Pedras"
             },
             "natural/scrub": {
                 "name": "Arbustos",
@@ -1601,6 +1666,86 @@
             "office": {
                 "name": "Escritório",
                 "terms": "Escritório"
+            },
+            "office/accountant": {
+                "name": "Contador",
+                "terms": "Contador"
+            },
+            "office/administrative": {
+                "name": "Escritório Administrativo",
+                "terms": "Sala Administrativa, Administração, Sala do Administrativo"
+            },
+            "office/architect": {
+                "name": "Arquiteto",
+                "terms": "Arquiteto"
+            },
+            "office/company": {
+                "name": "Escritório",
+                "terms": "Escritório da Empresa"
+            },
+            "office/educational_institution": {
+                "name": "Instituto de Educação",
+                "terms": "escola,colégio,universidade,faculdade,curso,instituto,educação,educacional"
+            },
+            "office/employment_agency": {
+                "name": "Agência de Empregos",
+                "terms": "agência,SINE,emprego,empregos,desempregado"
+            },
+            "office/estate_agent": {
+                "name": "Imobiliária",
+                "terms": "imobiliária,aluguel,casa,apartamento,casas,apartamentos"
+            },
+            "office/financial": {
+                "name": "Escritório Financeiro",
+                "terms": "Escritório Financeiro, Financeiro"
+            },
+            "office/government": {
+                "name": "Escritório do Governo",
+                "terms": "Gabinete do Governo, Escritório do Governo"
+            },
+            "office/insurance": {
+                "name": "Seguradora",
+                "terms": "seguro,seguradora,apólice,corretor"
+            },
+            "office/it": {
+                "name": "Escritório de TI",
+                "terms": "ti,cpd,informática,computador,rede"
+            },
+            "office/lawyer": {
+                "name": "Escritório de Advogado",
+                "terms": "advogado,advocacia,escritório"
+            },
+            "office/newspaper": {
+                "name": "Jornal",
+                "terms": "jornal,notícia"
+            },
+            "office/ngo": {
+                "name": "Sede de ONG",
+                "terms": "ONG Escritório, Departamento de ONG"
+            },
+            "office/physician": {
+                "name": "Médico",
+                "terms": "médico,consultório,doutor,consulta"
+            },
+            "office/political_party": {
+                "name": "Partido Político",
+                "terms": "política,político,partido,gabinete"
+            },
+            "office/research": {
+                "name": "Escritório de Pesquisa",
+                "terms": "pesquisa,pesquisas,pesquisador,escritório"
+            },
+            "office/telecommunication": {
+                "name": "Escritório de Telecomunicações",
+                "terms": "Escritório de Telecomunicações, Departamento de Telecomunicações"
+            },
+            "office/therapist": {
+                "name": "Terapeuta",
+                "terms": "Terapista"
+            },
+            "office/travel_agent": {
+                "name": "Agência de Viagens",
+                "terms": "viagem,viagens,agência"
             },
             "place": {
                 "name": "Local",
@@ -1650,6 +1795,10 @@
                 "name": "Linha de Transmissão de Energia Elétrica",
                 "terms": "Fio Elétrico"
             },
+            "power/minor_line": {
+                "name": "Linha de Transmissão Pequena",
+                "terms": "Menor Linha de Energia"
+            },
             "power/pole": {
                 "name": "Poste Elétrico",
                 "terms": "Poste Elétrico"
@@ -1665,6 +1814,14 @@
             "power/transformer": {
                 "name": "Transformador",
                 "terms": "Transformado"
+            },
+            "public_transport/platform": {
+                "name": "Plataforma",
+                "terms": "plataforma,embarque,desembarque,espera,transporte público"
+            },
+            "public_transport/stop_position": {
+                "name": "Posição de Parada",
+                "terms": "ponto,parada,ônibus,metrô,trem"
             },
             "railway": {
                 "name": "Ferrovia",
@@ -1897,6 +2054,10 @@
             "shop/pet": {
                 "name": "Pet Shop",
                 "terms": "Pet Shop"
+            },
+            "shop/photo": {
+                "name": "Loja de Fotografia",
+                "terms": "Loja de Fotografia"
             },
             "shop/shoes": {
                 "name": "Loja de Calçados",

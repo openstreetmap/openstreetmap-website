@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 # Require rails
-gem 'rails', '4.0.0'
+gem 'rails', '4.0.2'
 
 # Require things which have moved to gems in ruby 1.9
 gem 'bigdecimal', "~> 1.1.0", :platforms => :ruby_19
@@ -34,9 +34,6 @@ gem 'jsonify-rails'
 # Use R2 for RTL conversion
 gem 'r2'
 
-# Use ejs for javascript templates
-gem 'ejs'
-
 # Load rails plugins
 gem 'rails-i18n', "~> 4.0.0"
 gem 'dynamic_form'
@@ -44,11 +41,11 @@ gem 'rinku', '>= 1.2.2', :require => 'rails_rinku'
 gem 'oauth-plugin', '>= 0.5.1'
 gem 'open_id_authentication', '>= 1.1.0'
 gem 'validates_email_format_of', '>= 1.5.1'
-gem 'composite_primary_keys', '>= 6.0.0'
+gem 'composite_primary_keys', '>= 6.0.1'
 gem 'http_accept_language', '~> 2.0.0'
 gem 'paperclip', '~> 3.0'
 gem 'deadlock_retry', '>= 1.2.0'
-gem 'openstreetmap-i18n-js', '>= 3.0.0.rc5.2', :require => 'i18n-js'
+gem 'openstreetmap-i18n-js', '>= 3.0.0.rc5.3', :require => 'i18n-js'
 gem 'rack-cors'
 gem 'actionpack-page_caching'
 
@@ -71,11 +68,12 @@ gem 'htmlentities'
 # Load SystemTimer for implementing request timeouts
 gem 'SystemTimer', '>= 1.1.3', :require => 'system_timer', :platforms => :ruby_18
 
-# Load httpclient for SOAP support for Quova GeoIP queries
+# Load httpclient and soap4r for SOAP support for Quova GeoIP queries
 gem 'httpclient'
+gem 'soap4r-ruby1.9'
 
 # Load memcache client in case we are using it
-gem 'dalli'
+gem 'dalli', '~> 2.6.4'
 gem 'kgio'
 
 # Gems useful for development

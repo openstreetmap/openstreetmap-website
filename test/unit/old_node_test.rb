@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class OldNodeTest < ActiveSupport::TestCase
   api_fixtures
   
-  def test_old_node_count
+  def test_node_count
     assert_equal 21, OldNode.count
   end
 
@@ -73,5 +73,56 @@ class OldNodeTest < ActiveSupport::TestCase
     assert_equal dbnode.timestamp, node.timestamp
     #assert_equal node.tile, QuadTile.tile_for_point(nodes(nod).lat, nodes(nod).lon)
     assert_equal false, node.valid?
+  end
+
+  def test_node_tags
+    node = nodes(:node_with_versions_v1)
+    tags = OldNode.find(node.id).old_tags.order(:k)
+    assert_equal 0, tags.count
+
+    node = nodes(:node_with_versions_v2)
+    tags = OldNode.find(node.id).old_tags.order(:k)
+    assert_equal 0, tags.count
+
+    node = nodes(:node_with_versions_v3)
+    tags = OldNode.find(node.id).old_tags.order(:k)
+    assert_equal 3, tags.count
+    assert_equal "testing", tags[0].k 
+    assert_equal "added in node version 3", tags[0].v
+    assert_equal "testing three", tags[1].k
+    assert_equal "added in node version 3", tags[1].v
+    assert_equal "testing two", tags[2].k
+    assert_equal "added in node version 3", tags[2].v
+
+    node = nodes(:node_with_versions_v4)
+    tags = OldNode.find(node.id).old_tags.order(:k)
+    assert_equal 2, tags.count
+    assert_equal "testing", tags[0].k 
+    assert_equal "added in node version 3", tags[0].v
+    assert_equal "testing two", tags[1].k
+    assert_equal "modified in node version 4", tags[1].v
+  end
+
+  def test_tags
+    node = nodes(:node_with_versions_v1)
+    tags = OldNode.find(node.id).tags
+    assert_equal 0, tags.size
+
+    node = nodes(:node_with_versions_v2)
+    tags = OldNode.find(node.id).tags
+    assert_equal 0, tags.size
+
+    node = nodes(:node_with_versions_v3)
+    tags = OldNode.find(node.id).tags
+    assert_equal 3, tags.size
+    assert_equal "added in node version 3", tags["testing"]
+    assert_equal "added in node version 3", tags["testing two"]
+    assert_equal "added in node version 3", tags["testing three"]
+
+    node = nodes(:node_with_versions_v4)
+    tags = OldNode.find(node.id).tags
+    assert_equal 2, tags.size
+    assert_equal "added in node version 3", tags["testing"]
+    assert_equal "modified in node version 4", tags["testing two"]
   end
 end

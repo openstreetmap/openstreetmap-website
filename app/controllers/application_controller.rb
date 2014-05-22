@@ -9,11 +9,7 @@ class ApplicationController < ActionController::Base
     if session[:user]
       @user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
 
-      if @user.display_name != cookies["_osm_username"]
-        logger.info "Session user '#{@user.display_name}' does not match cookie user '#{cookies['_osm_username']}'"
-        reset_session
-        @user = nil
-      elsif @user.status == "suspended"
+    if @user.status == "suspended"
         session.delete(:user)
         session_expires_automatically
 
@@ -422,6 +418,10 @@ class ApplicationController < ActionController::Base
     request.body.rewind
   end
 
+  def map_layout
+    request.xhr? ? 'xhr' : 'map'
+  end
+
   def preferred_editor
     editor = if params[:editor]
       params[:editor]
@@ -431,7 +431,7 @@ class ApplicationController < ActionController::Base
       DEFAULT_EDITOR
     end
 
-    if request.env['HTTP_USER_AGENT'] =~ /MSIE/ and editor == 'id'
+    if request.env['HTTP_USER_AGENT'] =~ /MSIE|Trident/ and editor == 'id'
       editor = 'potlatch2'
     end
 

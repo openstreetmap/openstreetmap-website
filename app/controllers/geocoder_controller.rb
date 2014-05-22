@@ -7,6 +7,7 @@ class GeocoderController < ApplicationController
 
   before_filter :authorize_web
   before_filter :set_locale
+  before_filter :require_oauth, :only => [:search]
 
   def search
     normalize_params
@@ -29,6 +30,8 @@ class GeocoderController < ApplicationController
       @sources.push "osm_nominatim"
       @sources.push "geonames" if defined?(GEONAMES_USERNAME)
     end
+
+    render :layout => map_layout
   end
 
   def search_latlon

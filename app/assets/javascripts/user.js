@@ -1,11 +1,23 @@
+//= require leaflet.locate
+
 $(document).ready(function () {
   var map = L.map("map", {
     attributionControl: false,
     zoomControl: false
   }).addLayer(new L.OSM.Mapnik());
 
-  L.OSM.zoom()
+  var position = $('html').attr('dir') === 'rtl' ? 'topleft' : 'topright';
+
+  L.OSM.zoom({position: position})
     .addTo(map);
+
+  L.control.locate({
+    position: position,
+    strings: {
+      title: I18n.t('javascripts.map.locate.title'),
+      popup: I18n.t('javascripts.map.locate.popup')
+    }
+  }).addTo(map);
 
   if (OSM.home) {
     map.setView([OSM.home.lat, OSM.home.lon], 12);

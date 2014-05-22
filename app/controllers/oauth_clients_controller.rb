@@ -33,6 +33,9 @@ class OauthClientsController < ApplicationController
 
   def edit
     @client_application = @user.client_applications.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    @type = "client application"
+    render :action => "not_found", :status => :not_found
   end
 
   def update
@@ -43,6 +46,9 @@ class OauthClientsController < ApplicationController
     else
       render :action => "edit"
     end
+  rescue ActiveRecord::RecordNotFound
+    @type = "client application"
+    render :action => "not_found", :status => :not_found
   end
 
   def destroy
@@ -50,6 +56,9 @@ class OauthClientsController < ApplicationController
     @client_application.destroy
     flash[:notice] = t'oauth_clients.destroy.flash'
     redirect_to :action => "index"
+  rescue ActiveRecord::RecordNotFound
+    @type = "client application"
+    render :action => "not_found", :status => :not_found
   end
 private
   def application_params

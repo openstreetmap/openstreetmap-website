@@ -155,8 +155,8 @@ class NotesController < ApplicationController
     # Find the note and check it is valid
     @note = Note.find_by_id(id)
     raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
-    raise OSM::APINoteAlreadyOpenError.new(@note) unless @note.closed?
+    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? or @user.moderator?
+    raise OSM::APINoteAlreadyOpenError.new(@note) unless @note.closed? or not @note.visible?
 
     # Reopen the note and add a comment
     Note.transaction do
@@ -255,7 +255,7 @@ class NotesController < ApplicationController
 
     # Get any conditions that need to be applied
     @notes = closed_condition(Note.all)
-    @notes = @notes.joins(:comments).where("note_comments.body ~ ?", params[:q])
+    @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q])
 
     # Find the notes we want to return
     @notes = @notes.order("updated_at DESC").limit(result_limit).preload(:comments)
@@ -308,8 +308,12 @@ private
   ##
   # Get the maximum number of results to return
   def result_limit
-    if params[:limit] and params[:limit].to_i > 0 and params[:limit].to_i < 10000
-      params[:limit].to_i
+    if params[:limit]
+      if params[:limit].to_i > 0 and params[:limit].to_i <= 10000
+        params[:limit].to_i
+      else
+        raise OSM::APIBadUserInput.new("Note limit must be between 1 and 10000")
+      end
     else
       100
     end

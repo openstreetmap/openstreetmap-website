@@ -22,12 +22,13 @@ of packages required before you can get the various gems installed.
 * Postgres 8.3+
 * ImageMagick
 * Bundler
+* Javascript Runtime
 
 These can be installed on Ubuntu 10.10 or later with:
 
 ```
 sudo apt-get install ruby1.9.1 libruby1.9.1 ruby1.9.1-dev ri1.9.1 \
-                     libmagickwand-dev libxml2-dev libxslt1-dev \
+                     libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-threaded-dev build-essential git-core \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
                      libsasl2-dev
@@ -44,7 +45,7 @@ For Fedora, you can install the minimum requirements with:
 
 ```
 sudo yum install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
-                 libxml2-devel \
+                 libxml2-devel js \
                  gcc gcc-c++ git \
                  postgresql postgresql-server postgresql-contrib postgresql-devel \
                  perl-podlators

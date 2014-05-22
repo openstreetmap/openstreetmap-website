@@ -21,13 +21,14 @@ $(document).ready(function () {
 
     var params = $("#map").data();
     var centre = [params.lat, params.lon];
+    var position = $('html').attr('dir') === 'rtl' ? 'topleft' : 'topright';
 
     map = L.map("map", {
       attributionControl: false,
       zoomControl: false
     }).addLayer(new L.OSM.Mapnik());
 
-    L.OSM.zoom()
+    L.OSM.zoom({position: position})
       .addTo(map);
 
     map.setView(centre, params.zoom);
