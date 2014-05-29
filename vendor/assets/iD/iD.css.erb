@@ -1108,65 +1108,54 @@ text.point {
   font-size: 10px;
 }
 
+/* Turns */
+
+g.turn rect,
+g.turn circle {
+    fill: none;
+    pointer-events: all;
+}
+
+.form-field-restrictions .vertex {
+    pointer-events: none;
+    cursor: auto !important;
+}
+
 /* Cursors */
 
 #map {
     cursor: auto; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-grab.png") %>) 9 9, auto; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-grab.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-grab2x.png") %>) 2x
-        ) 9 9, auto;
 }
 
 .mode-browse .point,
 .mode-select .point {
     cursor: pointer; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-select-point.png") %>), pointer; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-select-point.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-select-point2x.png") %>) 2x
-        ), pointer;
 }
 
 .mode-select .vertex,
 .mode-browse .vertex {
     cursor: pointer; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-select-vertex.png") %>), pointer; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-select-vertex.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-select-vertex2x.png") %>) 2x
-        ), pointer;
 }
 
 .mode-browse .line,
 .mode-select .line {
     cursor: pointer; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-select-line.png") %>), pointer; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-select-line.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-select-line2x.png") %>) 2x
-        ), pointer;
 }
 
 .mode-select .area,
 .mode-browse .area {
     cursor: pointer; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-select-area.png") %>), pointer; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-select-area.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-select-area2x.png") %>) 2x
-        ), pointer;
 }
 
 .mode-select .midpoint,
 .mode-browse .midpoint {
     cursor: pointer; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-select-split.png") %>), pointer; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-select-split.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-select-split2x.png") %>) 2x
-        ), pointer;
 }
 
 .mode-select .behavior-multiselect .point,
@@ -1175,19 +1164,11 @@ text.point {
 .mode-select .behavior-multiselect .area {
     cursor: pointer; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-select-add.png") %>), pointer; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-select-add.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-select-add2x.png") %>) 2x
-        ), pointer;
 }
 
 .mode-select .behavior-multiselect .selected {
     cursor: pointer; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-select-remove.png") %>), pointer; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-select-remove.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-select-remove2x.png") %>) 2x
-        ), pointer;
 }
 
 #map .point:active,
@@ -1198,10 +1179,6 @@ text.point {
 #map .mode-select .selected {
     cursor: pointer; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-select-acting.png") %>), pointer; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-select-acting.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-select-acting2x.png") %>) 2x
-        ), pointer;
 }
 
 .mode-draw-line #map,
@@ -1211,10 +1188,6 @@ text.point {
 .mode-drag-node #map {
     cursor: crosshair; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-draw.png") %>) 9 9, crosshair; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-draw.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-draw2x.png") %>) 2x
-        ) 9 9, crosshair;
 }
 
 .mode-draw-line .way.hover,
@@ -1224,10 +1197,6 @@ text.point {
 .mode-drag-node .way.hover {
     cursor: crosshair; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-draw-connect-line.png") %>) 9 9, crosshair; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-draw-connect-line.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-draw-connect-line2x.png") %>) 2x
-        ) 9 9, crosshair;
 }
 
 .mode-draw-line .vertex.hover,
@@ -1237,10 +1206,6 @@ text.point {
 .mode-drag-node .vertex.hover {
     cursor: crosshair; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-draw-connect-vertex.png") %>) 9 9, crosshair; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-draw-connect-vertex.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-draw-connect-vertex2x.png") %>) 2x
-        ) 9 9, crosshair;
 }
 
 .mode-add-point #map,
@@ -1249,10 +1214,12 @@ text.point {
 .lasso .vertex {
     cursor: crosshair; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-draw.png") %>) 9 9, crosshair; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-draw.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-draw2x.png") %>) 2x
-        ) 9 9, crosshair;
+}
+
+.turn rect,
+.turn circle {
+    cursor: pointer; /* Opera */
+    cursor: url(<%= asset_path("iD/img/cursor-pointer.png") %>) 6 1, pointer; /* FF */
 }
 
 .lasso #map {
@@ -1336,6 +1303,13 @@ body {
     height: 100%;
 }
 
+#defs {
+    /* Can't be display: none or the clippaths are ignored. */
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
 .spacer {
     height: 40px;
     margin-right: 10px;
@@ -1379,10 +1353,6 @@ button,
 .radial-menu-item {
     cursor: pointer; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-pointer.png") %>) 6 1, pointer; /* FF */
-    cursor: -webkit-image-set(
-        url(<%= asset_path("iD/img/cursor-pointer.png") %>) 1x,
-        url(<%= asset_path("iD/img/cursor-pointer2x.png") %>) 2x
-        ) 6 1, pointer;
 }
 
 h2 {
@@ -2824,6 +2794,31 @@ input[type=number] {
     border-bottom: 0;
     border-radius: 0 0 4px 0;
 }
+
+/* Restrictions editor */
+
+.form-field-restrictions .preset-input-wrap {
+    position: relative;
+    height: 300px;
+}
+
+.form-field-restrictions svg {
+    width: 100%;
+    height: 100%;
+}
+
+.form-field-restrictions .restriction-help {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 2px 6px;
+    background-color: rgba(255, 255, 255, .8);
+    color: #999;
+    text-align: center;
+}
+
 /* combobox dropdown */
 
 div.combobox {
@@ -4046,10 +4041,6 @@ img.wiki-image {
     fill: rgba(255,255,255,.5);
 }
 
-.radial-menu .icon {
-    pointer-events: none;
-}
-
 .lasso-box {
     fill-opacity:0.1;
     stroke: #fff;
@@ -4368,3 +4359,10 @@ img.wiki-image {
 .preset-icon-relation.feature-route-power{background-position:-800px -25px;}
 .preset-icon-relation.feature-route-pipeline{background-position:-860px -25px;}
 .preset-icon-relation.feature-route-master{background-position:-920px -25px;}
+.preset-icon-relation.feature-restriction-no-straight-on{background-position:-980px -25px;}
+.preset-icon-relation.feature-restriction-no-u-turn{background-position:-1040px -25px;}
+.preset-icon-relation.feature-restriction-no-left-turn{background-position:-1100px -25px;}
+.preset-icon-relation.feature-restriction-no-right-turn{background-position:-1160px -25px;}
+.preset-icon-relation.feature-restriction-only-straight-on{background-position:-1220px -25px;}
+.preset-icon-relation.feature-restriction-only-left-turn{background-position:-1280px -25px;}
+.preset-icon-relation.feature-restriction-only-right-turn{background-position:-1340px -25px;}
