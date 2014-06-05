@@ -13,6 +13,8 @@
 //= require index/note
 //= require index/new_note
 //= require router
+//= require ts_slider
+//= require ts_main
 
 (function() {
   var loaderTimeout;
