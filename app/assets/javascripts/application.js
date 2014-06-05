@@ -17,6 +17,8 @@
 //= require piwik
 //= require richtext
 //= require querystring
+//= require ts_main.js
+//= require ts_slider.js
 
 var querystring = require('querystring-component');
 
