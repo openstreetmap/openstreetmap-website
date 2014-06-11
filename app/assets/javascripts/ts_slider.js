@@ -73,7 +73,6 @@ function TimeSlider(control, options, $input) {
     this.remainder = 0;
     
     this.$outer = createDiv("ticker-nub-outer", control.$el);
-    console.log("this.$outer is ", this.$outer);
     this.$nub = createDiv("ticker-nub", this.$outer);
     this.reposition();
     
