@@ -22,7 +22,7 @@ var clientX = function(e) {
 function TimeControl($el, options) {
     var self = this;
     this.$el = $el;
-    this.options = options;
+    this.options = $.extend({}, options);
     this.sliders = {};
     
     this.first = null;
@@ -202,9 +202,11 @@ $.fn.timeControl = function(options) {
     if (options == null) {
         return this.data("timeControl");
     } else {
-        var control = new TimeControl(this, options);
-        this.data("timeControl", control);
-        return this;
+        return this.each(function() {
+            var $this = $(this),
+                control = new TimeControl($this, options);
+            $this.data("timeControl", control);
+        });
     }
 }
 
