@@ -22,7 +22,7 @@ var changeTween = function(x) {
 }
 $(document).ready( function() {
     console.log("in ts_main, document ready, about to try slider-wrapper");
-    $("#slider-wrapper").timeControl({    
+    $(".slider-wrapper").timeControl({    
     year: {
         lower: -4000,
         upper: 2014,
