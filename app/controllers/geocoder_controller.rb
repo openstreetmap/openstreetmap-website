@@ -1,6 +1,7 @@
 # coding: utf-8
 
 class GeocoderController < ApplicationController
+  require 'cgi'
   require 'uri'
   require 'net/http'
   require 'rexml/document'
@@ -140,20 +141,27 @@ class GeocoderController < ApplicationController
 
     # get objects to excude
     if params[:exclude]
-      exclude = "&exclude_place_ids=#{params[:exclude].join(',')}"
+      exclude = "&exclude_place_ids=#{params[:exclude]}"
     end
 
     # ask nominatim
     response = fetch_xml("#{NOMINATIM_URL}search?format=xml&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
 
+    # extract the results from the response
+    results =  response.elements["searchresults"]
+
+    # extract parameters from more_url
+    more_url_params = CGI.parse(URI.parse(results.attributes["more_url"]).query)
+
     # create result array
     @results = Array.new
 
     # create parameter hash for "more results" link
-    @more_params = params.reverse_merge({ :exclude => [] })
+    @more_params = params.merge({
+      :exclude => more_url_params["exclude_place_ids"].first
+    })
 
-    # extract the results from the response
-    results =  response.elements["searchresults"]
+Rails.logger.info @more_params
 
     # parse the response
     results.elements.each("place") do |place|
@@ -181,7 +189,6 @@ class GeocoderController < ApplicationController
                      :min_lon => min_lon, :max_lon => max_lon,
                      :prefix => prefix, :name => name,
                      :type => object_type, :id => object_id})
-      @more_params[:exclude].push(place.attributes["place_id"].to_s)
     end
 
     render :action => "results"
