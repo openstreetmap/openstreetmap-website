@@ -83,6 +83,9 @@ class BrowseHelperTest < ActionView::TestCase
 
     html = format_value("unknown", "unknown")
     assert_equal "unknown", html
+
+    html = format_value("phone", "+1234567890")
+    assert_equal "<a href=\"tel:+1234567890\" title=\"Call +1234567890\">+1234567890</a>", html
   end
 
   def test_icon_tags
@@ -156,5 +159,49 @@ class BrowseHelperTest < ActionView::TestCase
 
     link = wikipedia_link("foo", "Test")
     assert_nil link
+  end
+
+  def test_telephone_link
+    link = telephone_link("foo", "Test")
+    assert_nil link
+
+    link = telephone_link("phone", "+123")
+    assert_nil link
+
+    link = telephone_link("phone", "123")
+    assert_nil link
+
+    link = telephone_link("phone", "123 abcdefg")
+    assert_nil link
+
+    link = telephone_link("phone", "+1234567890 abc")
+    assert_nil link
+
+    link = telephone_link("phone", "+1234567890; +22334455667788")
+    assert_nil link
+
+    link = telephone_link("phone", "1234567890")
+    assert_nil link
+
+    link = telephone_link("phone", "+1234567890")
+    assert_equal "tel:+1234567890", link
+
+    link = telephone_link("phone", "+1234-567-890")
+    assert_equal "tel:+1234-567-890", link
+
+    link = telephone_link("phone", "+1234/567/890")
+    assert_equal "tel:+1234/567/890", link
+
+    link = telephone_link("phone", "+1234.567.890")
+    assert_equal "tel:+1234.567.890", link
+
+    link = telephone_link("phone", "   +1234 567-890	")
+    assert_equal "tel:+1234567-890", link
+
+    link = telephone_link("phone", "+1 234-567-890")
+    assert_equal "tel:+1234-567-890", link
+
+    link = telephone_link("phone", "+1 (234) 567-890")
+    assert_equal "tel:+1(234)567-890", link
   end
 end

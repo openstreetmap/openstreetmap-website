@@ -63,6 +63,8 @@ module BrowseHelper
       link_to h(wp[:title]), wp[:url], :title => t('browse.tag_details.wikipedia_link', :page => wp[:title])
     elsif url = wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t('browse.tag_details.wiki_link.tag', :key => key, :value => value)
+    elsif url = telephone_link(key, value)
+      link_to h(value), url, :title => t('browse.tag_details.telephone_link', :phone_number => value)
     else
       linkify h(value)
     end
@@ -145,5 +147,16 @@ private
       :url => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}#{section}",
       :title => value + section
     }
+  end
+
+  def telephone_link(key, value)
+    # does it look like a phone number? eg "+1 (234) 567-8901 " ?
+    return nil unless value =~ /^\s*\+[\d\s\(\)\/\.-]{6,25}\s*$/
+
+    # remove all whitespace instead of encoding it http://tools.ietf.org/html/rfc3966#section-5.1.1
+    # "+1 (234) 567-8901 " -> "+1(234)567-8901"
+    valueNoWhitespace = value.gsub(/\s+/, '')
+
+    return "tel:#{valueNoWhitespace}"
   end
 end
