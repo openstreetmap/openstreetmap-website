@@ -334,9 +334,10 @@ $(document).ready(function () {
 
   $(".describe_location").on("click", function(e) {
     e.preventDefault();
-    var precision = OSM.zoomPrecision(map.getZoom());
+    var center = map.getCenter().wrap(),
+      precision = OSM.zoomPrecision(map.getZoom());
     OSM.router.route("/search?query=" + encodeURIComponent(
-      map.getCenter().lat.toFixed(precision) + "," +
-      map.getCenter().lng.toFixed(precision)));
+      center.lat.toFixed(precision) + "," + center.lng.toFixed(precision)
+    ));
   });
 });
