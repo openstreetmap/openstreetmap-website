@@ -71,7 +71,8 @@
                 "line": "Eine Fläche abgerundet",
                 "area": "Eine Fläche kreisförmig gemacht"
             },
-            "not_closed": "Dieses Objekt kann nicht kreisförmig gemacht werden, da es keine geschlossene Linie ist."
+            "not_closed": "Dieses Objekt kann nicht kreisförmig gemacht werden, da es keine geschlossene Linie ist.",
+            "too_large": "Die Elemente können nicht kreisförmig gemacht werden, weil zuwenig sichtbar ist."
         },
         "orthogonalize": {
             "title": "Rechteck",
@@ -84,7 +85,8 @@
                 "line": "Die Ecken einer Linie rechtwinklig ausgerichtet.",
                 "area": "Die Ecken einer Fläche rechtwinklig ausgerichtet."
             },
-            "not_squarish": "Dieses Objekt kann nicht rechtwinklig gemacht werden, da es nicht annähernd rechtwinklig ist."
+            "not_squarish": "Dieses Objekt kann nicht rechtwinklig gemacht werden, da es nicht annähernd rechtwinklig ist.",
+            "too_large": "Die Elemente können nicht quadratisch gemacht werden, weil zuwenig sichtbar ist."
         },
         "straighten": {
             "title": "Begradigen",
@@ -180,6 +182,18 @@
             },
             "not_eligible": "Linien können nicht am Anfang oder Ende geteilt werden.",
             "multiple_ways": "Es gibt hier zu viele Linien, um diese teilen zu können."
+        },
+        "restriction": {
+            "help": {
+                "select": "Klicke um ein Straßensegment zu selektieren.",
+                "toggle": "Klicke um das Abbiegeverbot umzudrehen.",
+                "toggle_on": "Klicke um ein \"{restriction}\" Verbot anzulegen.",
+                "toggle_off": "Klicke um das \"{restriction}\" Verbot zu löschen."
+            },
+            "annotation": {
+                "create": "Füge ein Abbiegeverbot ein",
+                "delete": "Lösche ein Abbiegeverbot"
+            }
         }
     },
     "undo": {
@@ -265,7 +279,8 @@
         "percent_brightness": "{opacity}% Helligkeit",
         "none": "Kein Hintergrund",
         "custom": "Benutzerdefiniert",
-        "custom_prompt": "Gib eine Kachel-Vorlage ein. Gültige Token sind {z}, {x}, {y} für das Z/X/Y Schema und {u} für das 'quadtile'-Schema.",
+        "custom_button": "Benutzerdefinierten Hintergrund editieren",
+        "custom_prompt": "Gib ein tile URL template ein. Gültige Platzhalter sind {z}, {x}, {y} für das Z/X/Y Schema und {u} für das quadtile Schema.",
         "fix_misalignment": "Ausrichtung korrigieren",
         "reset": "Zurücksetzen"
     },
@@ -409,6 +424,9 @@
             "category-rail": {
                 "name": "Schiene"
             },
+            "category-restriction": {
+                "name": "Abbiegevorschrift"
+            },
             "category-road": {
                 "name": "Straße"
             },
@@ -424,7 +442,7 @@
         },
         "fields": {
             "access": {
-                "label": "Zugangsbeschränkung",
+                "label": "Zugangsberechtigung",
                 "placeholder": "Unbekannt",
                 "types": {
                     "access": "Allgemein",
@@ -591,6 +609,9 @@
             "entrance": {
                 "label": "Typ"
             },
+            "except": {
+                "label": "Ausnahmen"
+            },
             "fax": {
                 "label": "Fax",
                 "placeholder": "+31 42 123 4567"
@@ -606,6 +627,33 @@
             },
             "fuel": {
                 "label": "Treibstogg"
+            },
+            "fuel/biodiesel": {
+                "label": "Verkauft Biodiesel"
+            },
+            "fuel/diesel": {
+                "label": "Verkauft Diesel"
+            },
+            "fuel/e10": {
+                "label": "Verkauft E10"
+            },
+            "fuel/e85": {
+                "label": "Verkauft E85"
+            },
+            "fuel/lpg": {
+                "label": "Verkauft Propan"
+            },
+            "fuel/octane_100": {
+                "label": "Verkauft Rennkraftstoffe"
+            },
+            "fuel/octane_91": {
+                "label": "Verkauft Kraftstoffe"
+            },
+            "fuel/octane_95": {
+                "label": "Verkauft Mittelklassekraftstoffe"
+            },
+            "fuel/octane_98": {
+                "label": "Verkauft Premiumkraftstoffe"
             },
             "gauge": {
                 "label": "Spurbreite"
@@ -670,6 +718,9 @@
             "leisure": {
                 "label": "Art"
             },
+            "length": {
+                "label": "Länge (Meter)"
+            },
             "levels": {
                 "label": "Etagen",
                 "placeholder": "2, 4, 6..."
@@ -704,10 +755,16 @@
                 "label": "Typ"
             },
             "oneway": {
-                "label": "Einbahnstraße"
+                "label": "Einbahnstraße",
+                "options": {
+                    "undefined": "Vermutlich Nein"
+                }
             },
             "oneway_yes": {
-                "label": "Einbahnstraße"
+                "label": "Einbahnstraße",
+                "options": {
+                    "undefined": "Vermutlich Ja"
+                }
             },
             "opening_hours": {
                 "label": "Öffnungszeiten"
@@ -740,6 +797,9 @@
             },
             "place": {
                 "label": "Art"
+            },
+            "population": {
+                "label": "Bevölkerung"
             },
             "power": {
                 "label": "Typ"
@@ -780,6 +840,9 @@
             "restriction": {
                 "label": "Typ"
             },
+            "restrictions": {
+                "label": "Abbiegevorschriften"
+            },
             "route": {
                 "label": "Typ"
             },
@@ -804,6 +867,9 @@
             "shop": {
                 "label": "Typ"
             },
+            "sloped_curb": {
+                "label": "abgeschrägter Bordstein"
+            },
             "smoking": {
                 "label": "Rauchen"
             },
@@ -827,7 +893,8 @@
                     "bridge": "Brücke",
                     "tunnel": "Tunnel",
                     "embankment": "Fahrdamm",
-                    "cutting": "Senke"
+                    "cutting": "Senke",
+                    "ford": "Furt"
                 }
             },
             "studio_type": {
@@ -839,8 +906,11 @@
             "surface": {
                 "label": "Oberfläche"
             },
+            "tactile_paving": {
+                "label": "taktile Oberfläche"
+            },
             "toilets/disposal": {
-                "label": "Abfallkübel, Mistkübel"
+                "label": "Toiletten-Bauart"
             },
             "tourism": {
                 "label": "Typ"
@@ -881,6 +951,9 @@
             },
             "wheelchair": {
                 "label": "Rollstuhlzugang"
+            },
+            "width": {
+                "label": "Breite (Meter)"
             },
             "wikipedia": {
                 "label": "Wikipedia"
@@ -1026,6 +1099,10 @@
                 "name": "Autowäsche",
                 "terms": "Auto-Waschanlage, Waschanlage"
             },
+            "amenity/charging_station": {
+                "name": "Ladestation",
+                "terms": "Ladestation"
+            },
             "amenity/childcare": {
                 "name": "Kindertagesbetreuung",
                 "terms": "Hort"
@@ -1046,6 +1123,10 @@
                 "name": "Hochschule",
                 "terms": "Hochschule, Kolleg"
             },
+            "amenity/compressed_air": {
+                "name": "Druckluft",
+                "terms": "Druckluft, Pressluft"
+            },
             "amenity/courthouse": {
                 "name": "Gericht",
                 "terms": "Gericht, Amtsgericht"
@@ -1057,6 +1138,10 @@
             "amenity/doctor": {
                 "name": "Arzt",
                 "terms": "Arzt, Mediziner"
+            },
+            "amenity/dojo": {
+                "name": "Kampfsportstudio",
+                "terms": "Kampfsportstudio, Kampfsportzentrum, Karatestudio"
             },
             "amenity/drinking_water": {
                 "name": "Trinkwasserstelle",
@@ -1109,6 +1194,10 @@
             "amenity/parking": {
                 "name": "Autoparkplatz",
                 "terms": "Autoparkplatz, Parkplatz, Parkhaus, Garage, Parkgarage"
+            },
+            "amenity/parking_entrance": {
+                "name": "Garageneinfahrt/-ausfahrt",
+                "terms": "Parkgaragen-Einfahrt/Ausfahrt, Garageneinfahrt/-ausfahrt, Garagenzufahrt/-abfahrt"
             },
             "amenity/pharmacy": {
                 "name": "Apotheke",
@@ -1355,8 +1444,8 @@
                 "terms": "Schlafsaal, Dormitorium"
             },
             "building/entrance": {
-                "name": "Eingang",
-                "terms": "Eingang"
+                "name": "Eingang/Ausgang",
+                "terms": "Eingang/Ausgang, Zugang/Abgang, Einfahrt/Ausfahrt, Eintritt/Austritt"
             },
             "building/garage": {
                 "name": "Garage",
@@ -1538,9 +1627,9 @@
                 "name": "Fotograf",
                 "terms": "Fotograf, Fotostudio, Fotoatelier"
             },
-            "craft/photographic_labratory": {
+            "craft/photographic_laboratory": {
                 "name": "Fotolabor",
-                "terms": "Fotolabor"
+                "terms": "Fotolabor, fotografisches Labor"
             },
             "craft/plasterer": {
                 "name": "Stuckateur",
@@ -1635,16 +1724,24 @@
                 "terms": "Notruf-Telefon, Notrufsäule, Notfallsäule"
             },
             "entrance": {
-                "name": "Eingang",
-                "terms": "Eingang"
+                "name": "Eingang/Ausgang",
+                "terms": "Eingang/Ausgang, Zugang/Abgang, Einfahrt/Ausfahrt, Eintritt/Austritt"
             },
             "footway/crossing": {
                 "name": "Fussgängerüberweg",
                 "terms": "Zebrastreifen"
             },
+            "footway/crosswalk": {
+                "name": "Zebrastreifen",
+                "terms": "Zebrastreifen, Fußgängerübergang, Fußgängerstreifen"
+            },
             "footway/sidewalk": {
                 "name": "Bürgersteig",
                 "terms": "Gehsteig, Fußgängerweg, Gehweg, Fußweg, Gangsteig, Trottoir"
+            },
+            "ford": {
+                "name": "Furt",
+                "terms": "Furt"
             },
             "golf/bunker": {
                 "name": "Bunker (Golf)",
@@ -1694,6 +1791,10 @@
                 "name": "Fußgängerüberweg",
                 "terms": "Zebrastreifen"
             },
+            "highway/crosswalk": {
+                "name": "Zebrastreifen",
+                "terms": "Zebrastreifen, Fußgängerübergang, Fußgängerstreifen"
+            },
             "highway/cycleway": {
                 "name": "Radweg",
                 "terms": "Radweg"
@@ -1715,8 +1816,8 @@
                 "terms": "Autobahn"
             },
             "highway/motorway_junction": {
-                "name": "Autobahnausfahrt",
-                "terms": "Autobahn-Anschlussstelle, Autobahn-Abfahrt"
+                "name": "Autobahnkreuz / Autobahnanschluss",
+                "terms": "Autobahnkreuz, Autobahnanschluss, Autobahndreieck, Autobahnknoten, Autobahnzubringer"
             },
             "highway/motorway_link": {
                 "name": "Autobahnanschluss",
@@ -1804,7 +1905,7 @@
             },
             "highway/track": {
                 "name": "Feld-/Waldweg",
-                "terms": "Spur, Fährte, Strecke, Weg"
+                "terms": "Forstweg,Wirtschaftsweg,Wiesenweg,Feldweg,Waldweg"
             },
             "highway/traffic_signals": {
                 "name": "Ampeln",
@@ -1856,7 +1957,7 @@
             },
             "historic/wayside_cross": {
                 "name": "Wegkreuz",
-                "terms": "Wegkreuz"
+                "terms": "Wegkreuz,Wegekreuz,Flurkreuz"
             },
             "historic/wayside_shrine": {
                 "name": "Bildstock",
@@ -1877,6 +1978,10 @@
             "landuse/cemetery": {
                 "name": "Friedhof",
                 "terms": "Friedhof, Friedwald"
+            },
+            "landuse/churchyard": {
+                "name": "Kirchhof",
+                "terms": "Kirchhof, Friedhof, Gottesacker, Leichenhof"
             },
             "landuse/commercial": {
                 "name": "Gewerbegebiet",
@@ -1917,6 +2022,10 @@
             "landuse/meadow": {
                 "name": "Weide",
                 "terms": "Wiese, Weide"
+            },
+            "landuse/military": {
+                "name": "Militär",
+                "terms": "Militär, Armee, Landesverteidigung"
             },
             "landuse/orchard": {
                 "name": "Obstplantage",
@@ -2019,8 +2128,8 @@
                 "terms": "Gleitbahn, Rampe"
             },
             "leisure/sports_center": {
-                "name": "Sportzentrum",
-                "terms": "Fitnesscenter"
+                "name": "Fitnessstudio",
+                "terms": "Fitnessstudio, Sportstudio, Trainingszentrum"
             },
             "leisure/stadium": {
                 "name": "Stadion",
@@ -2306,6 +2415,14 @@
                 "name": "Ortschaft",
                 "terms": "Ort, Gegend"
             },
+            "place/neighbourhood": {
+                "name": "Wohngegend",
+                "terms": "Wohngegend, Nachbarschaft, Umgebung, Viertel, Grätzel, Kiez"
+            },
+            "place/suburb": {
+                "name": "Bezirk",
+                "terms": "Bezirk, Gemeinde, Stadtbezirk"
+            },
             "place/town": {
                 "name": "Kleinstadt",
                 "terms": "Stadt, Ortschaft"
@@ -2530,6 +2647,10 @@
                 "name": "Blumenhändler",
                 "terms": "Florist, Blumenladen, Blumengeschäft"
             },
+            "shop/funeral_directors": {
+                "name": "Beerdigungsinstitut",
+                "terms": "Beerdigungsinstitut, Bestattungsinstitut, Bestattungsunternehmen"
+            },
             "shop/furniture": {
                 "name": "Möbelhaus",
                 "terms": "Möbelladen, Möbelgeschäft, Einrichtungsgeschäft"
@@ -2614,6 +2735,10 @@
                 "name": "Fotofachgeschäft",
                 "terms": "Fotoladen, Fotograf, Fotogeschäft"
             },
+            "shop/seafood": {
+                "name": "Fischgeschäft",
+                "terms": "Fischgeschäft, Meeresfrüchtegeschäft"
+            },
             "shop/shoes": {
                 "name": "Schuhgeschäft",
                 "terms": "Schuhgeschäft"
@@ -2653,6 +2778,10 @@
             "shop/video": {
                 "name": "Videothek",
                 "terms": "Video-Geschäft, DVD-Geschäft"
+            },
+            "shop/wine": {
+                "name": "Vinothek",
+                "terms": "Weinladen, Weinhandlung, Weinhaus, Enothek"
             },
             "tourism": {
                 "name": "Tourismus",
@@ -2735,8 +2864,36 @@
                 "terms": "Multipolygon"
             },
             "type/restriction": {
-                "name": "Beschränkung",
-                "terms": "Beschränkung, Einschränkung"
+                "name": "Sonstige Abbiegevorschrift",
+                "terms": "Abbiegebeschränkung, Beschränkung, Einschränkung"
+            },
+            "type/restriction/no_left_turn": {
+                "name": "Linksabbiegeverbot",
+                "terms": "Linksabbiegeverbot, Linksabbiegen verboten, kein Linksabbiegen, kein Abbiegen nach links"
+            },
+            "type/restriction/no_right_turn": {
+                "name": "Rechtsabbiegeverbot",
+                "terms": "Rechtsabbiegeverbot, Rechtsabbiegen verboten, kein Rechtsabbiegen, kein Abbiegen nach rechts"
+            },
+            "type/restriction/no_straight_on": {
+                "name": "Geradeausfahrverbot",
+                "terms": "Geradeausfahrverbot, Geradeausfahren verboten, geradeaus fahren nicht erlaubt"
+            },
+            "type/restriction/no_u_turn": {
+                "name": "Kehrtwendeverbot",
+                "terms": "Kehrtwendeverbot, Kehrtwende verboten, Umdrehen verboten"
+            },
+            "type/restriction/only_left_turn": {
+                "name": "Linksabbiegegebot",
+                "terms": "Linksabbiegegebot, Links abbiegen geboten, nur links abbiegen erlaubt"
+            },
+            "type/restriction/only_right_turn": {
+                "name": "Rechtsabbiegegebot",
+                "terms": "Rechtsabbiegegebot, Rechts abbiegen geboten, nur rechts abbiegen erlaubt"
+            },
+            "type/restriction/only_straight_on": {
+                "name": "Kehrtwendeverbot",
+                "terms": "Kehrwendeverbot, keine Kehrtwende erlaubt, Umdrehverbot, Umdrehen verboten"
             },
             "type/route": {
                 "name": "Route",

@@ -12,12 +12,16 @@
 # Author: Misibacsi
 # Author: Nemo bis
 # Author: R-Joe
+# Author: Samat
 # Author: Sucy
 # Author: Tacsipacsi
 hu: 
   about_page: 
     copyright_html: <span>&copy;</span>OpenStreetMap<br />közreműködők
+    local_knowledge_title: Helyi tudásbázis
     next: Következő
+    open_data_title: Szabad adatok
+    partners_title: Partnerek
   activerecord: 
     attributes: 
       diary_comment: 
@@ -111,17 +115,17 @@ hu:
       way: Vonalak (%{count})
       way_paginated: Vonalak (%{x}-%{y} összesen %{count})
     closed: Lezárva
-    closed_by_html: Lezárva <abbr title='%{title}'>%{time}</abbr> %{user} által
+    closed_by_html: Lezárta %{user} <abbr title='%{title}'>%{time}</abbr>
     closed_html: Lezárva <abbr title='%{title}'>%{time}</abbr>
     containing_relation: 
       entry: "Kapcsolat: %{relation_name}"
       entry_role: "Kapcsolat: %{relation_name} (mint %{relation_role})"
     created: Létrehozva
-    created_by_html: Létrehozve <abbr title='%{title}'>%{time}</abbr> %{user} által
+    created_by_html: Létrehozta %{user} <abbr title='%{title}'>%{time}</abbr>
     created_html: Létrehozva <abbr title='%{title}'>%{time}</abbr>
-    deleted_by_html: Törölve <abbr title='%{title}'>%{time}</abbr> %{user} által
+    deleted_by_html: Törölte %{user} <abbr title='%{title}'>%{time}</abbr>
     download_xml: XML letöltése
-    edited_by_html: Szerkesztve <abbr title='%{title}'>%{time}</abbr> %{user} által
+    edited_by_html: Szerkesztette %{user} <abbr title='%{title}'>%{time}</abbr>
     in_changeset: Módosításcsomag
     location: "Hely:"
     no_comment: (nincs hozzászólás)
@@ -136,21 +140,22 @@ hu:
         relation: kapcsolat
         way: vonal
     note: 
-      closed_by: Megoldva %{user} által <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Megoldva ismeretlen által <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by: Megoldotta %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      closed_by_anonymous: Megoldva névtelenül <abbr title='%{exact_time}'>%{when}</abbr>
       closed_title: "Megoldott jegyzet: %{note_name}"
       commented_by: "%{user} megjegyzése <abbr title='%{exact_time}'>%{when}</abbr>"
       commented_by_anonymous: Névtelen felhasználó megjegyzése <abbr title='%{exact_time}'>%{when}</abbr>
-      description: "Leírás:"
-      hidden_by: Elrejtve %{user} által <abbr title='%{exact_time}'>%{when}</abbr>
+      description: Leírás
+      hidden_by: Elrejtette %{user} <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_title: Rejtett jegyzet %{note_name}
       new_note: Új jegyzet
-      open_by: Létrehozva %{user} által <abbr title='%{exact_time}'>%{when}</abbr>
-      open_by_anonymous: Létrehozva ismeretlen által <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by: Létrehozta %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: Létrehozva névtelenül <abbr title='%{exact_time}'>%{when}</abbr>
       open_title: "Megoldatlan jegyzet: %{note_name}"
-      reopened_by: Újraaktiválva %{user} által <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Újraaktiválva ismeretlen által <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by: Újraaktiválta %{user} <abbr title='%{exact_time}'>%{when}</abbr>
+      reopened_by_anonymous: Újraaktiválva névtelenül <abbr title='%{exact_time}'>%{when}</abbr>
       title: "Jegyzet: %{id}"
+    part_of: Része ennek
     redacted: 
       message_html: A %{type} %{version} verzióját nem lehet megjeleníteni, mert el lett távolítva. További részletekért lásd %{redaction_link}
       redaction: Eltávolítás %{id}
@@ -337,15 +342,29 @@ hu:
         advice: Ha a fenti exportálás sikertelen lenne, próbáld meg az alábbi listából valamelyik lehetőséget.
         body: Ez a terület túl nagy ahhoz, hogy exportálásra kerüljön OpenStreetMap XML adatként. Közelíts, vagy jelölj ki kisebb területet. Esetleg használd az alábbi listából valamelyik nagy adatmennyiségek letöltését támogató módszert.
         geofabrik: 
+          description: Kontinensek, országok és kiválasztott városok rendszeresen frissített kivonata
           title: Geofabrik letöltések
         other: 
           title: Más források
         overpass: 
           description: A megjelenített befoglaló keret letöltése egy OpenStreetMap tükörserverről
+          title: Overpass API
         planet: 
           description: A teljes OpenStreetMap adatbázis rendszeresen frissített másolatai
+          title: Planet OSM
       zoom: Nagyítási szint
     title: Exportálás
+  fixthemap: 
+    how_to_help: 
+      add_a_note: 
+        instructions_html: Csak kattints a <a class='icon note'></a> ikonra a térképnézetben. Ez felrak egy helyjelölőt a térképre, amit húzással tudsz a megfelelő helyre mozgatni. Írd meg hozzá az üzeneted, majd kattints a mentésre, és a többi térképész meg fogja vizsgálni.
+      join_the_community: 
+        explanation_html: Ha bármilyen hibát találtál a térképadatokban, például hiányzik egy út vagy cím, a legjobb, ha csatlakozol az OpenStreetMap közösséghez és kijavítod az adatot saját magad.
+        title: Csatlakozás a közösséghez
+      title: Hogyan segíthetsz
+    other_concerns: 
+      title: Egyéb aggályok
+    title: Hibabejelentés / Térkép javítása
   geocoder: 
     description: 
       title: 
@@ -383,11 +402,13 @@ hu:
         us_postcode: Eredmények a <a href="http://geocoder.us/">Geocoder.us</a>-ról
     search_osm_nominatim: 
       admin_levels: 
+        level10: Városrészhatár
         level2: Országhatár
         level4: Államhatár
         level5: Régióhatár
         level6: Megyehatár
         level8: Városhatár
+        level9: Faluhatár
       prefix: 
         aerialway: 
           chair_lift: Libegő
@@ -742,6 +763,7 @@ hu:
           proposed: Tervezett vasút
           spur: Vasúti szárnyvonal
           station: Vasútállomás
+          stop: Vasúti megálló
           subway: Metróállomás
           subway_entrance: Metrókijárat
           switch: Vasúti váltó
@@ -869,7 +891,18 @@ hu:
           water_point: Vízi fordítópont
           waterfall: Vízesés
           weir: Bukógát
+  help_page: 
+    help: 
+      title: help.openstreetmap.org
+      url: https://help.openstreetmap.org/
+    welcome: 
+      title: Üdvözlünk az OSM-en
+      url: /welcome
+    wiki: 
+      title: wiki.openstreetmap.org
+      url: https://wiki.openstreetmap.org/wiki/Hu:Main_Page
   javascripts: 
+    close: Bezárás
     key: 
       title: Jelmagyarázat
       tooltip: Jelmagyarázat
@@ -877,6 +910,7 @@ hu:
     map: 
       base: 
         cycle_map: Kerékpártérkép
+        hot: Humanitáriánus
         mapquest: MapQuest Open
         standard: Alapértelmezett
         transport_map: Tömegközlekedési térkép
@@ -900,13 +934,28 @@ hu:
         intro: Hibát találtál vagy valami hiányzik? Tudasd a többi térképezővel hogy javítani tudjuk. Mozgasd a jelölőt a megfelelő helyre és minél pontosabban írd le a problémát. (Kérjük itt ne adj meg személyes adatokat.)
       show: 
         anonymous_warning: Ez a jegyzet anonim felhasználók megjegyzéseit is tartalmazza melyeket ellenőrizni szükséges.
+        comment: Hozzászólás
+        comment_and_resolve: Hozzászólás és lezárás
+        hide: Elrejtés
+        reactivate: Újraaktiválás
+        resolve: Megoldás
     share: 
+      cancel: Mégsem
+      center_marker: Térkép középpontja a helyjelölő
+      custom_dimensions: Kiterjedés megadása
       download: Letöltés
       embed: HTML
       format: "Formátum:"
+      image: Kép
+      image_size: "A kép az alapértelmezett réteget fogja tartalmazni ekkora méretben:"
+      include_marker: Helyjelölővel
+      link: Link vagy HTML
       long_link: Link
+      paste_html: Weboldalba beágyazáshoz illeszd be ezt a HTML-t
+      scale: "Méretarány:"
       short_link: Rövid link
       short_url: Rövid URL
+      title: Megosztás
       view_larger_map: Nagyobb térkép
     site: 
       createnote_disabled_tooltip: Nagyíts térképes jegyzet hozzáadásához
@@ -936,6 +985,7 @@ hu:
     home: Ugrás az otthonodhoz
     intro_2_create_account: Felhasználói fiók létrehozása
     intro_header: Üdvözöljük az OpenStreetMap-en!
+    intro_text: Az OpenStreetMap egy világtérkép, amelyet hozzád hasonló emberek készítenek és szabad licenc alatt elérhető.
     learn_more: További info
     log_in: Bejelentkezés
     log_in_tooltip: Bejelentkezés egy meglévő felhasználói fiókkal
@@ -945,6 +995,7 @@ hu:
     make_a_donation: 
       text: Adományozz
       title: Támogasd az OpenStreetMapot pénzadománnyal
+    more: Több
     osm_offline: Az OpenStreetMap-adatbázis jelenleg offline, miközben alapvető adatbázis-karbantartási munkát végzeznek.
     osm_read_only: Az OpenStreetMap-adatbázis jelenleg csak olvasható, miközben alapvető adatbázis-karbantartási munkát végzeznek.
     partners_bytemark: Bytemark Hosting
@@ -1068,16 +1119,29 @@ hu:
     description: 
       closed_at_by_html: "Megoldva: %{when} (%{user})"
       closed_at_html: "Megoldva: %{when}"
+      commented_at_by_html: Frissítette %{user} %{when}
       commented_at_html: "Frissítve: %{when}"
+      opened_at_by_html: Létrehozta %{user} %{when}
       opened_at_html: Létrehozva %{when}
+      reopened_at_by_html: Újraaktiválta %{user} %{when}
       reopened_at_html: "Újra aktiválva: %{when}"
     entry: 
+      comment: Hozzászólás
       full: Teljes jegyzet
     mine: 
       ago_html: "%{when}"
+      created_at: Létrehozva ekkor
+      creator: Létrehozta
+      description: Leírás
       heading: "%{user} jegyzetei"
+      id: ID
+      last_changed: Utoljára módosítva
     rss: 
+      closed: Lezárt megjegyzés (%{place} közelében)
+      commented: Új hozzászólás (%{place} közelében)
       description_item: RSS hírcsatorna a %{id} jegyzethez
+      opened: Új megjegyzés (%{place} közelében)
+      reopened: újraaktivált megjegyzés (%{place} közelében)
       title: OpenStreetMap jegyzetek
   notifier: 
     diary_comment_notification: 
@@ -1164,6 +1228,10 @@ hu:
       allow_write_notes: jegyzet módosítása
       allow_write_prefs: felhasználói beállítások módosítása.
       request_access: A(z) %{app_name} alkalmazás hozzáférést kér a felhasználói fiókodhoz, %{user}. Kérlek, jelöld, ha azt szeretnéd, hogy az alkalmazás rendelkezzen a következő képességekkel. Választhatsz olyan sokat vagy keveset, amennyit szeretnél.
+    oauthorize_failure: 
+      title: Az azonosítás sikertelen.
+    oauthorize_success: 
+      verification: "Az ellenőrző kód: %{code}."
     revoke: 
       flash: Visszavontad az utalványt a(z) %{application} alkalmazáshoz
   oauth_clients: 
@@ -1358,6 +1426,9 @@ hu:
       upload_trace: GPS nyomvonal feltöltése
     delete: 
       scheduled_for_deletion: A nyomvonal törlésre kijelölve
+    description: 
+      description_with_count: GPX fájl %{count} ponttal %{user} felhasználótól
+      description_without_count: GPX fájl %{user} felhasználótól
     edit: 
       description: "Leírás:"
       download: letöltés
@@ -1375,6 +1446,8 @@ hu:
       uploaded_at: "Feltöltve:"
       visibility: "Láthatóság:"
       visibility_help: Mit jelent ez?
+    georss: 
+      title: OpenStreetMap GPS nyomvonalak
     list: 
       description: Legfrissebb GPS nyomvonalak tallózása
       empty_html: Még nincs mit megjeleníteni. <a href='%{upload_link}'>Tölts fel új nyomvonalat</a>, vagy olvass bővebben a GPS nyomvonalrögzítésről a <a href='http://wiki.openstreetmap.org/wiki/HU:Beginners_Guide_1.2'>wiki lapon</a>.
@@ -1690,7 +1763,9 @@ hu:
       my comments: Saját megjegyzések
       my diary: Naplóm
       my edits: Szerkesztéseim
+      my messages: Üzeneteim
       my notes: Saját jegyzeteim
+      my profile: Profilom
       my settings: Beállításaim
       my traces: Saját nyomvonalak
       nearby users: Egyéb közeli felhasználók

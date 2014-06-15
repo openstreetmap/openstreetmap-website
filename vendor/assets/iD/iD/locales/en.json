@@ -182,6 +182,18 @@
             },
             "not_eligible": "Lines can't be split at their beginning or end.",
             "multiple_ways": "There are too many lines here to split."
+        },
+        "restriction": {
+            "help": {
+                "select": "Click to select a road segment.",
+                "toggle": "Click to toggle turn restrictions.",
+                "toggle_on": "Click to add a \"{restriction}\" restriction.",
+                "toggle_off": "Click to remove the \"{restriction}\" restriction."
+            },
+            "annotation": {
+                "create": "Added a turn restriction",
+                "delete": "Deleted a turn restriction"
+            }
         }
     },
     "undo": {
@@ -271,7 +283,8 @@
         "percent_brightness": "{opacity}% brightness",
         "none": "None",
         "custom": "Custom",
-        "custom_prompt": "Enter a tile template. Valid tokens are {z}, {x}, {y} for Z/X/Y scheme and {u} for quadtile scheme.",
+        "custom_button": "Edit custom background",
+        "custom_prompt": "Enter a tile URL template. Valid tokens are {z}, {x}, {y} for Z/X/Y scheme and {u} for quadtile scheme.",
         "fix_misalignment": "Fix alignment",
         "reset": "reset"
     },
@@ -414,6 +427,9 @@
             },
             "category-rail": {
                 "name": "Rail"
+            },
+            "category-restriction": {
+                "name": "Restriction"
             },
             "category-road": {
                 "name": "Road"
@@ -597,6 +613,9 @@
             "entrance": {
                 "label": "Type"
             },
+            "except": {
+                "label": "Exceptions"
+            },
             "fax": {
                 "label": "Fax",
                 "placeholder": "+31 42 123 4567"
@@ -612,6 +631,33 @@
             },
             "fuel": {
                 "label": "Fuel"
+            },
+            "fuel/biodiesel": {
+                "label": "Sells Biodiesel"
+            },
+            "fuel/diesel": {
+                "label": "Sells Diesel"
+            },
+            "fuel/e10": {
+                "label": "Sells E10"
+            },
+            "fuel/e85": {
+                "label": "Sells E85"
+            },
+            "fuel/lpg": {
+                "label": "Sells Propane"
+            },
+            "fuel/octane_100": {
+                "label": "Sells Racing Gasoline"
+            },
+            "fuel/octane_91": {
+                "label": "Sells Regular Gasoline"
+            },
+            "fuel/octane_95": {
+                "label": "Sells Midgrade Gasoline"
+            },
+            "fuel/octane_98": {
+                "label": "Sells Premium Gasoline"
             },
             "gauge": {
                 "label": "Gauge"
@@ -678,6 +724,9 @@
             "leisure": {
                 "label": "Type"
             },
+            "length": {
+                "label": "Length (Meters)"
+            },
             "levels": {
                 "label": "Levels",
                 "placeholder": "2, 4, 6..."
@@ -712,10 +761,20 @@
                 "label": "Type"
             },
             "oneway": {
-                "label": "One Way"
+                "label": "One Way",
+                "options": {
+                    "undefined": "Assumed to be No",
+                    "yes": "Yes",
+                    "no": "No"
+                }
             },
             "oneway_yes": {
-                "label": "One Way"
+                "label": "One Way",
+                "options": {
+                    "undefined": "Assumed to be Yes",
+                    "yes": "Yes",
+                    "no": "No"
+                }
             },
             "opening_hours": {
                 "label": "Hours"
@@ -748,6 +807,9 @@
             },
             "place": {
                 "label": "Type"
+            },
+            "population": {
+                "label": "Population"
             },
             "power": {
                 "label": "Type"
@@ -788,6 +850,9 @@
             "restriction": {
                 "label": "Type"
             },
+            "restrictions": {
+                "label": "Turn Restrictions"
+            },
             "route": {
                 "label": "Type"
             },
@@ -812,6 +877,9 @@
             "shop": {
                 "label": "Type"
             },
+            "sloped_curb": {
+                "label": "Sloped Curb"
+            },
             "smoking": {
                 "label": "Smoking"
             },
@@ -835,7 +903,8 @@
                     "bridge": "Bridge",
                     "tunnel": "Tunnel",
                     "embankment": "Embankment",
-                    "cutting": "Cutting"
+                    "cutting": "Cutting",
+                    "ford": "Ford"
                 }
             },
             "studio_type": {
@@ -846,6 +915,9 @@
             },
             "surface": {
                 "label": "Surface"
+            },
+            "tactile_paving": {
+                "label": "Tactile Paving"
             },
             "toilets/disposal": {
                 "label": "Disposal"
@@ -889,6 +961,9 @@
             },
             "wheelchair": {
                 "label": "Wheelchair Access"
+            },
+            "width": {
+                "label": "Width (Meters)"
             },
             "wikipedia": {
                 "label": "Wikipedia"
@@ -1034,6 +1109,10 @@
                 "name": "Car Wash",
                 "terms": ""
             },
+            "amenity/charging_station": {
+                "name": "Charging Station",
+                "terms": "EV,Electric Vehicle,Supercharger"
+            },
             "amenity/childcare": {
                 "name": "Childcare",
                 "terms": "nursery,orphanage,playgroup"
@@ -1054,6 +1133,10 @@
                 "name": "College",
                 "terms": ""
             },
+            "amenity/compressed_air": {
+                "name": "Compressed Air",
+                "terms": ""
+            },
             "amenity/courthouse": {
                 "name": "Courthouse",
                 "terms": ""
@@ -1065,6 +1148,10 @@
             "amenity/doctor": {
                 "name": "Doctor",
                 "terms": "doctor,doctor's office"
+            },
+            "amenity/dojo": {
+                "name": "Dojo / Martial Arts Academy",
+                "terms": "martial arts,dojo,dojang"
             },
             "amenity/drinking_water": {
                 "name": "Drinking Water",
@@ -1116,6 +1203,10 @@
             },
             "amenity/parking": {
                 "name": "Car Parking",
+                "terms": ""
+            },
+            "amenity/parking_entrance": {
+                "name": "Parking Garage Entrance/Exit",
                 "terms": ""
             },
             "amenity/pharmacy": {
@@ -1363,7 +1454,7 @@
                 "terms": ""
             },
             "building/entrance": {
-                "name": "Entrance",
+                "name": "Entrance/Exit",
                 "terms": ""
             },
             "building/garage": {
@@ -1546,9 +1637,9 @@
                 "name": "Photographer",
                 "terms": "photographer"
             },
-            "craft/photographic_labratory": {
-                "name": "Photographic Labratory",
-                "terms": "photographic labratory,film developer"
+            "craft/photographic_laboratory": {
+                "name": "Photographic Laboratory",
+                "terms": "photographic laboratory,film developer"
             },
             "craft/plasterer": {
                 "name": "Plasterer",
@@ -1643,15 +1734,23 @@
                 "terms": ""
             },
             "entrance": {
-                "name": "Entrance",
+                "name": "Entrance/Exit",
                 "terms": ""
             },
             "footway/crossing": {
                 "name": "Crossing",
+                "terms": ""
+            },
+            "footway/crosswalk": {
+                "name": "Crosswalk",
                 "terms": "crosswalk,zebra crossing"
             },
             "footway/sidewalk": {
                 "name": "Sidewalk",
+                "terms": ""
+            },
+            "ford": {
+                "name": "Ford",
                 "terms": ""
             },
             "golf/bunker": {
@@ -1700,6 +1799,10 @@
             },
             "highway/crossing": {
                 "name": "Crossing",
+                "terms": ""
+            },
+            "highway/crosswalk": {
+                "name": "Crosswalk",
                 "terms": "crosswalk,zebra crossing"
             },
             "highway/cycleway": {
@@ -1723,7 +1826,7 @@
                 "terms": ""
             },
             "highway/motorway_junction": {
-                "name": "Motorway Junction",
+                "name": "Motorway Junction / Exit",
                 "terms": ""
             },
             "highway/motorway_link": {
@@ -1886,6 +1989,10 @@
                 "name": "Cemetery",
                 "terms": ""
             },
+            "landuse/churchyard": {
+                "name": "Churchyard",
+                "terms": ""
+            },
             "landuse/commercial": {
                 "name": "Commercial",
                 "terms": ""
@@ -1924,6 +2031,10 @@
             },
             "landuse/meadow": {
                 "name": "Meadow",
+                "terms": ""
+            },
+            "landuse/military": {
+                "name": "Military",
                 "terms": ""
             },
             "landuse/orchard": {
@@ -2027,7 +2138,7 @@
                 "terms": ""
             },
             "leisure/sports_center": {
-                "name": "Sports Center",
+                "name": "Sports Center / Gym",
                 "terms": "gym"
             },
             "leisure/stadium": {
@@ -2317,6 +2428,10 @@
             "place/neighbourhood": {
                 "name": "Neighborhood",
                 "terms": "neighbourhood"
+            },
+            "place/suburb": {
+                "name": "Borough",
+                "terms": "Boro,Quarter"
             },
             "place/town": {
                 "name": "Town",
@@ -2630,6 +2745,10 @@
                 "name": "Photography Store",
                 "terms": ""
             },
+            "shop/seafood": {
+                "name": "Seafood Shop",
+                "terms": "fishmonger"
+            },
             "shop/shoes": {
                 "name": "Shoe Store",
                 "terms": ""
@@ -2669,6 +2788,10 @@
             "shop/video": {
                 "name": "Video Store",
                 "terms": ""
+            },
+            "shop/wine": {
+                "name": "Wine Shop",
+                "terms": "winery"
             },
             "tourism": {
                 "name": "Tourism",
@@ -2752,6 +2875,34 @@
             },
             "type/restriction": {
                 "name": "Restriction",
+                "terms": ""
+            },
+            "type/restriction/no_left_turn": {
+                "name": "No Left Turn",
+                "terms": ""
+            },
+            "type/restriction/no_right_turn": {
+                "name": "No Right Turn",
+                "terms": ""
+            },
+            "type/restriction/no_straight_on": {
+                "name": "No Straight On",
+                "terms": ""
+            },
+            "type/restriction/no_u_turn": {
+                "name": "No U-turn",
+                "terms": ""
+            },
+            "type/restriction/only_left_turn": {
+                "name": "Left Turn Only",
+                "terms": ""
+            },
+            "type/restriction/only_right_turn": {
+                "name": "Right Turn Only",
+                "terms": ""
+            },
+            "type/restriction/only_straight_on": {
+                "name": "No Turns",
                 "terms": ""
             },
             "type/route": {

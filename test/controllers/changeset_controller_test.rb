@@ -537,10 +537,10 @@ EOF
 
     # check that the changeset bbox is within bounds
     cs = Changeset.find(changeset_id)
-    assert cs.min_lon >= -180 * SCALE, "Minimum longitude (#{cs.min_lon / SCALE}) should be >= -180 to be valid."
-    assert cs.max_lon <=  180 * SCALE, "Maximum longitude (#{cs.max_lon / SCALE}) should be <= 180 to be valid."
-    assert cs.min_lat >=  -90 * SCALE, "Minimum latitude (#{cs.min_lat / SCALE}) should be >= -90 to be valid."
-    assert cs.max_lat >=   90 * SCALE, "Maximum latitude (#{cs.max_lat / SCALE}) should be <= 90 to be valid."
+    assert cs.min_lon >= -180 * GeoRecord::SCALE, "Minimum longitude (#{cs.min_lon / GeoRecord::SCALE}) should be >= -180 to be valid."
+    assert cs.max_lon <=  180 * GeoRecord::SCALE, "Maximum longitude (#{cs.max_lon / GeoRecord::SCALE}) should be <= 180 to be valid."
+    assert cs.min_lat >=  -90 * GeoRecord::SCALE, "Minimum latitude (#{cs.min_lat / GeoRecord::SCALE}) should be >= -90 to be valid."
+    assert cs.max_lat >=   90 * GeoRecord::SCALE, "Maximum latitude (#{cs.max_lat / GeoRecord::SCALE}) should be <= 90 to be valid."
   end
 
   ##
@@ -1084,10 +1084,10 @@ EOF
 
     # check the bbox
     changeset = Changeset.find(changeset_id)
-    assert_equal 1*SCALE, changeset.min_lon, "min_lon should be 1 degree"
-    assert_equal 2*SCALE, changeset.max_lon, "max_lon should be 2 degrees"
-    assert_equal 1*SCALE, changeset.min_lat, "min_lat should be 1 degree"
-    assert_equal 2*SCALE, changeset.max_lat, "max_lat should be 2 degrees"
+    assert_equal 1*GeoRecord::SCALE, changeset.min_lon, "min_lon should be 1 degree"
+    assert_equal 2*GeoRecord::SCALE, changeset.max_lon, "max_lon should be 2 degrees"
+    assert_equal 1*GeoRecord::SCALE, changeset.min_lat, "min_lat should be 1 degree"
+    assert_equal 2*GeoRecord::SCALE, changeset.max_lat, "max_lat should be 2 degrees"
   end
 
   ##
@@ -1123,10 +1123,10 @@ EOF
 
     # check the bbox
     changeset = Changeset.find(changeset_id)
-    assert_equal 1*SCALE, changeset.min_lon, "min_lon should be 1 degree"
-    assert_equal 3*SCALE, changeset.max_lon, "max_lon should be 3 degrees"
-    assert_equal 1*SCALE, changeset.min_lat, "min_lat should be 1 degree"
-    assert_equal 3*SCALE, changeset.max_lat, "max_lat should be 3 degrees"
+    assert_equal 1*GeoRecord::SCALE, changeset.min_lon, "min_lon should be 1 degree"
+    assert_equal 3*GeoRecord::SCALE, changeset.max_lon, "max_lon should be 3 degrees"
+    assert_equal 1*GeoRecord::SCALE, changeset.min_lat, "min_lat should be 1 degree"
+    assert_equal 3*GeoRecord::SCALE, changeset.max_lat, "max_lat should be 3 degrees"
   end
 
   ##

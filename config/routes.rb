@@ -195,7 +195,7 @@ OpenStreetMap::Application.routes.draw do
   match '/traces/mine/page/:page' => 'trace#mine', :via => :get
   match '/traces/mine' => 'trace#mine', :via => :get
   match '/trace/create' => 'trace#create', :via => [:get, :post]
-  match '/trace/:id/data' => 'trace#data', :via => :get, :id => /\d+/
+  match '/trace/:id/data' => 'trace#data', :via => :get, :id => /\d+/, :as => "trace_data"
   match '/trace/:id/edit' => 'trace#edit', :via => [:get, :post, :patch], :id => /\d+/, :as => "trace_edit"
   match '/trace/:id/delete' => 'trace#delete', :via => :post, :id => /\d+/
 

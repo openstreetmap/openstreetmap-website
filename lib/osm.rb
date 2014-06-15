@@ -24,6 +24,17 @@ module OSM
     end
   end
 
+  # Raised when access is denied.
+  class APIAccessDenied < RuntimeError
+    def status
+      :forbidden
+    end
+
+    def to_s
+      "Access denied"
+    end
+  end
+
   # Raised when an API object is not found.
   class APINotFoundError < APIError
     def status

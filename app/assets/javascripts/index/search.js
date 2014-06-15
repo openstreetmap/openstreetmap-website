@@ -1,3 +1,5 @@
+//= require jquery.simulate
+
 OSM.Search = function(map) {
   $(".search_form input[name=query]")
     .on("input", function(e) {
@@ -10,7 +12,18 @@ OSM.Search = function(map) {
 
   $("#sidebar_content")
     .on("click", ".search_more a", clickSearchMore)
-    .on("click", ".search_results_entry a.set_position", clickSearchResult);
+    .on("mouseover", "p.search_results_entry:has(a.set_position)", showSearchResult)
+    .on("mouseout", "p.search_results_entry:has(a.set_position)", hideSearchResult)
+    .on("mousedown", "p.search_results_entry:has(a.set_position)", function () {
+      var moved = false;
+      $(this).one("click", function (e) {
+        if (!moved && !$(e.target).is('a')) {
+          clickSearchResult(this, e);
+        }
+      }).one("mousemove", function () {
+        moved = true;
+      });
+    });
 
   function clickSearchMore(e) {
     e.preventDefault();
@@ -26,8 +39,35 @@ OSM.Search = function(map) {
     });
   }
 
-  function clickSearchResult(e) {
-    var data = $(this).data(),
+  function showSearchResult(e) {
+    var marker = $(this).data("marker");
+
+    if (!marker) {
+      var data = $(this).find("a.set_position").data();
+
+      marker = L.marker([data.lat, data.lon]);
+
+      $(this).data("marker", marker);
+    }
+
+    map.addLayer(marker);
+
+    $(this).closest("li").addClass("selected");
+  }
+
+  function hideSearchResult(e) {
+    var marker = $(this).data("marker");
+
+    if (marker) {
+      map.removeLayer(marker);
+    }
+
+    $(this).closest("li").removeClass("selected");
+  }
+
+  function clickSearchResult(result, e) {
+    var link = $(result).find("a.set_position"),
+      data = link.data(),
       center = L.latLng(data.lat, data.lon);
 
     if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
@@ -36,13 +76,15 @@ OSM.Search = function(map) {
       map.setView(center, data.zoom);
     }
 
-    // Let clicks to object browser links propagate.
-    if (data.type && data.id) return;
-
-    marker.setLatLng(center).addTo(map);
-
     e.preventDefault();
     e.stopPropagation();
+
+    // Let clicks to object browser links propagate.
+    if (data.type && data.id) {
+      link.simulate("click", e);
+    } else {
+      marker.setLatLng(center).addTo(map);
+    }
   }
 
   var marker = L.marker([0, 0], {icon: getUserIcon()});

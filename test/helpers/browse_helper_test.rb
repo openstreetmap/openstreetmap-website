@@ -14,28 +14,37 @@ class BrowseHelperTest < ActionView::TestCase
 
   def test_printable_name
     assert_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_equal "Test Node (18)", printable_name(current_nodes(:node_with_name))
-    assert_equal "Test Node (18)", printable_name(nodes(:node_with_name_current_version))
+    assert_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
+    assert_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
     assert_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_equal "Test Node (18, v2)", printable_name(nodes(:node_with_name_current_version), true)
+    assert_equal "<bdi>Test Node</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
     assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
 
     I18n.locale = "ru"
 
     assert_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_equal "проверки узла (18)", printable_name(current_nodes(:node_with_name))
-    assert_equal "проверки узла (18)", printable_name(nodes(:node_with_name_current_version))
+    assert_equal "<bdi>проверки узла</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
+    assert_equal "<bdi>проверки узла</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
     assert_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_equal "проверки узла (18, v2)", printable_name(nodes(:node_with_name_current_version), true)
+    assert_equal "<bdi>проверки узла</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
+    assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
+
+    I18n.locale = "ru-RU"
+
+    assert_equal "17", printable_name(current_nodes(:redacted_node))
+    assert_equal "<bdi>проверки узла</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
+    assert_equal "<bdi>проверки узла</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
+    assert_equal "18", printable_name(nodes(:node_with_name_redacted_version))
+    assert_equal "<bdi>проверки узла</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
     assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
 
     I18n.locale = "de"
 
     assert_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_equal "Test Node (18)", printable_name(current_nodes(:node_with_name))
-    assert_equal "Test Node (18)", printable_name(nodes(:node_with_name_current_version))
+    assert_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
+    assert_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
     assert_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_equal "Test Node (18, v2)", printable_name(nodes(:node_with_name_current_version), true)
+    assert_equal "<bdi>Test Node</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
     assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
   end
 
@@ -74,6 +83,9 @@ class BrowseHelperTest < ActionView::TestCase
 
     html = format_value("unknown", "unknown")
     assert_equal "unknown", html
+
+    html = format_value("phone", "+1234567890")
+    assert_equal "<a href=\"tel:+1234567890\" title=\"Call +1234567890\">+1234567890</a>", html
   end
 
   def test_icon_tags
@@ -147,5 +159,49 @@ class BrowseHelperTest < ActionView::TestCase
 
     link = wikipedia_link("foo", "Test")
     assert_nil link
+  end
+
+  def test_telephone_link
+    link = telephone_link("foo", "Test")
+    assert_nil link
+
+    link = telephone_link("phone", "+123")
+    assert_nil link
+
+    link = telephone_link("phone", "123")
+    assert_nil link
+
+    link = telephone_link("phone", "123 abcdefg")
+    assert_nil link
+
+    link = telephone_link("phone", "+1234567890 abc")
+    assert_nil link
+
+    link = telephone_link("phone", "+1234567890; +22334455667788")
+    assert_nil link
+
+    link = telephone_link("phone", "1234567890")
+    assert_nil link
+
+    link = telephone_link("phone", "+1234567890")
+    assert_equal "tel:+1234567890", link
+
+    link = telephone_link("phone", "+1234-567-890")
+    assert_equal "tel:+1234-567-890", link
+
+    link = telephone_link("phone", "+1234/567/890")
+    assert_equal "tel:+1234/567/890", link
+
+    link = telephone_link("phone", "+1234.567.890")
+    assert_equal "tel:+1234.567.890", link
+
+    link = telephone_link("phone", "   +1234 567-890	")
+    assert_equal "tel:+1234567-890", link
+
+    link = telephone_link("phone", "+1 234-567-890")
+    assert_equal "tel:+1234-567-890", link
+
+    link = telephone_link("phone", "+1 (234) 567-890")
+    assert_equal "tel:+1(234)567-890", link
   end
 end

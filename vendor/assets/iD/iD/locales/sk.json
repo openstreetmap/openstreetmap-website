@@ -71,7 +71,8 @@
                 "line": "Usporiadanie čiary do kruhu.",
                 "area": "Usporiadanie plochy do kruhu."
             },
-            "not_closed": "Tento objekt nemožno usporiadať do kruhu, pretože nie je uzavretý do slučky."
+            "not_closed": "Tento objekt nemožno usporiadať do kruhu, pretože nie je uzavretý do slučky.",
+            "too_large": "Tento objekt nemožno usporiadať do kruhu, pretože niektoré jeho časti nie sú viditeľné."
         },
         "orthogonalize": {
             "title": "Usporiadaj do pravého uhla.",
@@ -84,7 +85,8 @@
                 "line": "Usporiadanie rohov čiary do pravého uhla.",
                 "area": "Usporiadanie rohov plochy do pravého uhla."
             },
-            "not_squarish": "Tento objekt nemožno usporiadať do pravého uhla, pretože nie je štvorcový."
+            "not_squarish": "Tento objekt nemožno usporiadať do pravého uhla, pretože nie je štvorcový.",
+            "too_large": "Tento objekt nemožno usporiadať do pravého uhla, pretože niektoré jeho časti nie sú viditeľné."
         },
         "straighten": {
             "title": "Vyrovnaj",
@@ -265,7 +267,8 @@
         "percent_brightness": "{opacity}% jas",
         "none": "Žiadne",
         "custom": "Voliteľné",
-        "custom_prompt": "Zadajte vzor pre mapový podklad. Platné znaky sú {z}, {x}, {y} pre Z/X/Y schému a {u} pre quadtile schému.",
+        "custom_button": "Upraviť volitelné pozadie",
+        "custom_prompt": "Zadajte URL pre vzor mapového podkladu. Platné znaky sú {z}, {x}, {y} pre Z/X/Y schému a {u} pre quadtile schému.",
         "fix_misalignment": "Oprav zarovnanie",
         "reset": "vynulovať"
     },
@@ -804,6 +807,9 @@
             "shop": {
                 "label": "Typ"
             },
+            "sloped_curb": {
+                "label": "Znížený obrubník"
+            },
             "smoking": {
                 "label": "Fajčenie"
             },
@@ -838,6 +844,9 @@
             },
             "surface": {
                 "label": "Povrch"
+            },
+            "tactile_paving": {
+                "label": "Taktilné značenie"
             },
             "toilets/disposal": {
                 "label": "Odstraňovanie"
@@ -1354,10 +1363,6 @@
                 "name": "Internát",
                 "terms": "internat,intrak,intrák"
             },
-            "building/entrance": {
-                "name": "Vstup",
-                "terms": "vchod,východ,vychod,únikový východ,unikovy vychod,brána,brana,dvere,vráta,vrata"
-            },
             "building/garage": {
                 "name": "Garáž",
                 "terms": "garaz,garáže,garaze,parkovanie,kryté parkovanie,kryte parkovanie"
@@ -1538,7 +1543,7 @@
                 "name": "Fotograf",
                 "terms": "fotografia,fotografovanie,fotka,fotky"
             },
-            "craft/photographic_labratory": {
+            "craft/photographic_laboratory": {
                 "name": "Fotografické laboratórium",
                 "terms": "fotograficke laboratorium,fotolab"
             },
@@ -1634,10 +1639,6 @@
                 "name": "Núdzový telefón",
                 "terms": "nudzovy telefon,SOS,tiesňová linka,tiesnova linka,núdzový telefón.nudzovy telefon"
             },
-            "entrance": {
-                "name": "Vstup",
-                "terms": "vchod,východ,vychod,únikový východ,unikovy vychod,brána,brana,dvere,vráta,vrata"
-            },
             "footway/crossing": {
                 "name": "Prechod",
                 "terms": "Prechod pre chodcov,zebra"
@@ -1713,10 +1714,6 @@
             "highway/motorway": {
                 "name": "Diaľnica",
                 "terms": "dialnica,rýchlocesta,rychlocesta"
-            },
-            "highway/motorway_junction": {
-                "name": "Diaľničná križovatka",
-                "terms": "Dialnicna krizovatka,krizovatka,dialnica,kríženie,krizenie"
             },
             "highway/motorway_link": {
                 "name": "Diaľničný privádzač",
@@ -1878,6 +1875,10 @@
                 "name": "Cintorín",
                 "terms": "cintorin,hroby,pohrebisko,hrobky,cmiter"
             },
+            "landuse/churchyard": {
+                "name": "Kostolný pozemok",
+                "terms": "kostolny pozemok,kostol"
+            },
             "landuse/commercial": {
                 "name": "Obchodné",
                 "terms": "obchodne,komercia,komercne,komerčné"
@@ -1917,6 +1918,10 @@
             "landuse/meadow": {
                 "name": "Lúka",
                 "terms": "luka,pastviny,trava,tráva,paša,pasa"
+            },
+            "landuse/military": {
+                "name": "Armádne",
+                "terms": "armadne, armada"
             },
             "landuse/orchard": {
                 "name": "Sad",
@@ -2017,10 +2022,6 @@
             "leisure/slipway": {
                 "name": "Spúšťanie lodí",
                 "terms": "Spustanie lodi,dok,lodenica,klzacka,kĺzačka"
-            },
-            "leisure/sports_center": {
-                "name": "Športové centrum",
-                "terms": "sportove centrum,fitness centrum,fitnes centrum,fitko"
             },
             "leisure/stadium": {
                 "name": "Štadión",
@@ -2306,6 +2307,14 @@
                 "name": "Lokalita",
                 "terms": "oblast,oblasť,miestny názov,miestny nazov"
             },
+            "place/neighbourhood": {
+                "name": "Susedstvo",
+                "terms": "okrsok,oblast,oblasť,štvrť,stvrt"
+            },
+            "place/suburb": {
+                "name": "Mestská časť",
+                "terms": "mestska cast"
+            },
             "place/town": {
                 "name": "Mesto",
                 "terms": "mestecko,mestečko"
@@ -2530,6 +2539,10 @@
                 "name": "Kvetinárstvo",
                 "terms": "kvetinarstvo,kvety,kytice"
             },
+            "shop/funeral_directors": {
+                "name": "Pohrebný ústav",
+                "terms": "pohrebny ustav,pohreb,pohreb,pohrebníctvo,pohrebnictvo"
+            },
             "shop/furniture": {
                 "name": "Obchod s nábytkom",
                 "terms": "obchod s nabytkom,nabytok"
@@ -2614,6 +2627,10 @@
                 "name": "Obchod s fototechnikou",
                 "terms": "Fotoateliér,fotoatelier,fotostudio,fotoštúdio,fotografia"
             },
+            "shop/seafood": {
+                "name": "Obchod s morskými špecialitami",
+                "terms": "obchod s morskymi specialitami,plody mora,ryby,morské ryby,morske ryby,kreverty,treska,tuniak"
+            },
             "shop/shoes": {
                 "name": "Obchod s obuvov",
                 "terms": "obuv,topánky,topanky"
@@ -2653,6 +2670,10 @@
             "shop/video": {
                 "name": "Videopožičovňa",
                 "terms": "videopozicovna,DVD,CD,VHS,blue-ray,blueray,blue ray,video"
+            },
+            "shop/wine": {
+                "name": "Vináreň",
+                "terms": "vinaren,vinoteka,vínotéka,vino,víno"
             },
             "tourism": {
                 "name": "Turizmus",

@@ -6,7 +6,7 @@ class SiteController < ApplicationController
   before_filter :set_locale
   before_filter :redirect_browse_params, :only => :index
   before_filter :redirect_map_params, :only => [:index, :edit, :export]
-  before_filter :require_user, :only => [:edit, :welcome]
+  before_filter :require_user, :only => [:welcome]
   before_filter :require_oauth, :only => [:index]
 
   def index
@@ -63,6 +63,8 @@ class SiteController < ApplicationController
       require_oauth
       render :action => :index, :layout => map_layout
       return
+    else
+      require_user
     end
 
     if params[:node]
