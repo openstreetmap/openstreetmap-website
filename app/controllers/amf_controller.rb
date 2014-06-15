@@ -551,7 +551,7 @@ class AmfController < ApplicationController
             mid = renumberedways[mid] if m[0] == 'Way'
           end
           if mid
-            typedmembers << [m[0], mid, m[2]]
+            typedmembers << [m[0], mid, strip_non_xml_chars(m[2])]
           end
         end
 
