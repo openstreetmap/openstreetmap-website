@@ -86,7 +86,8 @@ class UserTest < ActiveSupport::TestCase
     # These need to be 3 chars in length, otherwise the length test above
     # should be used.
     bad = [ "<hr/>", "test@example.com", "s/f", "aa/", "aa;", "aa.",
-            "aa,", "aa?", "/;.,?", "も対応します/", "#ping" ]
+            "aa,", "aa?", "/;.,?", "も対応します/", "#ping",
+            "foo\x1fbar", "foo\x7fbar" ]
     ok.each do |display_name|
       user = users(:normal_user)
       user.display_name = display_name
