@@ -17,7 +17,7 @@ class SiteController < ApplicationController
 
   def permalink
     lon, lat, zoom = ShortLink::decode(params[:code])
-    new_params = params.except(:code, :lon, :lat, :zoom, :node, :way, :relation, :changeset)
+    new_params = params.except(:code, :lon, :lat, :zoom, :layers, :node, :way, :relation, :changeset)
 
     if new_params.has_key? :m
       new_params.delete :m
@@ -47,6 +47,10 @@ class SiteController < ApplicationController
     end
 
     new_params[:anchor] = "map=#{zoom}/#{lat}/#{lon}"
+
+    if params.has_key? :layers
+      new_params[:anchor] += "&layers=#{params[:layers]}"
+    end
 
     redirect_to new_params
   end
