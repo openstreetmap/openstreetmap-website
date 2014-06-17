@@ -22,6 +22,8 @@ nb:
     local_knowledge_html: OpenStreetMap understreker viktigheten av lokalkunnskap. Bidragsytere bruker flyfotografier, GPS-enheter og enkle feltkart for å gå god for at OSM er nøyaktig og oppdatert.
     local_knowledge_title: Lokalkunnskap
     next: Neste
+    open_data_title: Åpne data
+    partners_title: Partnere
     used_by: "%{name} fordeler kartdata til hundrevis av nettsteder, mobilapper og maskinvareenheter"
   activerecord: 
     attributes: 
@@ -932,13 +934,16 @@ nb:
         header: Kartlag
         notes: Kartmerknader
         overlays: Aktiver overlag for å feilsøke kartet
+        title: Lag
+      locate: 
+        title: Vis min posisjon
       zoom: 
         in: Zoom inn
         out: Zoom ut
     notes: 
       new: 
         add: Legg til merknad
-        intro: For å forbedre kartet vil de opplysningene du oppgir bli vist til andre kartleggere. Vær derfor så beskrivende og presis som mulig, når du plasserer markøren og fyller inn din merknad nedenfor.
+        intro: Oppdaget en feil eller noe som mangler? La andre kartleggere få vite det så vi kan fikse det. Flytt markøren to korrekt posisjon og skriv merknad som forklarer problemet. (Ikke oppgi personlig informasjon her.)
       show: 
         anonymous_warning: Denne merknaden inneholder kommentarer fra anonyme brukere som bør bekreftes uavhengig.
         comment: Kommenter
@@ -948,15 +953,23 @@ nb:
         resolve: Løs
     share: 
       cancel: Avbryt
+      download: Last ned
+      embed: HTML
+      format: "Format:"
+      image: Bilde
       link: Lenke eller HTML
       long_link: Lenke
       short_link: Kort lenke
+      short_url: Kort-URL
       title: Del
+      view_larger_map: Vis større kart
     site: 
       createnote_disabled_tooltip: Zoom inn for å legge til en merknad på kartet
       createnote_tooltip: Legg til en merknad på kartet
       edit_disabled_tooltip: Zoom inn for å redigere kartet
       edit_tooltip: Rediger kartet
+      map_data_zoom_in_tooltip: Zoom inn for å se kartdata
+      map_notes_zoom_in_tooltip: Zoom inn for å se kartmerknader
   layouts: 
     about: Om
     community: Samfunnet
@@ -1229,6 +1242,15 @@ nb:
       allow_write_notes: endre merknader.
       allow_write_prefs: endre innstillingene dine.
       request_access: Applikasjonen %{app_name} ber om tilgang til din konto, %{user}. Sjekk om du vil at applikasjonen skal ha følgende muligheter. Du kan velge så mange eller få du vil.
+      title: Autoriser tilgang til din konto
+    oauthorize_failure: 
+      denied: Du har nektet programmet %{app_name} tilgang til din konto.
+      invalid: Autoriseringstoken er ikke gyldig.
+      title: Mislykket forespørsel om autorisering
+    oauthorize_success: 
+      allowed: Du har gitt programmet %{app_name} tilgang til din konto.
+      title: Autoriseringsforespørsel tillatt
+      verification: Verifikasjonskoden er %{code}.
     revoke: 
       flash: Du slettet nøkkelen for %{application}
   oauth_clients: 
@@ -1443,6 +1465,11 @@ nb:
       upload_trace: Last opp GPS-spor
     delete: 
       scheduled_for_deletion: Spor planlagt slettet
+    description: 
+      description_with_count: 
+        one: GPX-fil med %{count} punkt fra %{user}
+        other: GPX-fil med %{count} punkter fra %{user}
+      description_without_count: GPX-fil fra %{user}
     edit: 
       description: "Beskrivelse:"
       download: last ned
@@ -1460,6 +1487,8 @@ nb:
       uploaded_at: "Lastet opp:"
       visibility: "Synlighet:"
       visibility_help: hva betyr dette?
+    georss: 
+      title: OpenStreetMap GPS-spor
     list: 
       description: Bla gjennom nylig opplastede GPS-spor
       empty_html: Ingenting her ennå. <a href='%{upload_link}'>Last opp et nytt spor</a> eller lær å lage GPS-spor på <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>wiki-siden</a>.
@@ -1563,7 +1592,7 @@ nb:
       my settings: Mine innstillinger
       new email address: "Ny e-postadresse:"
       new image: Legg til et bilde
-      no home location: Du har ikke skrevet inn din hjemmelokasjon.
+      no home location: Du har ikke skrevet inn din hjemmeposisjon.
       openid: 
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: hva er dette?
@@ -1585,7 +1614,7 @@ nb:
       return to profile: Returner til profil
       save changes button: Lagre endringer
       title: Rediger konto
-      update home location on click: Oppdater hjemmelokasjon når jeg klikker på kartet?
+      update home location on click: Oppdater hjemmeposisjon når jeg klikker på kartet?
     confirm: 
       already active: Denne kontoen har allerede blitt bekreftet.
       button: Bekreft
@@ -1676,6 +1705,8 @@ nb:
       heading: Legg til %{user} som en venn?
       success: "%{name} er nå din venn!"
     new: 
+      about: 
+        header: Gratis og redigerbar
       confirm email address: "Bekreft e-postadresse:"
       confirm password: "Bekreft passord:"
       contact_webmaster: Kontakt <a href="mailto:webmaster@openstreetmap.org">webmaster</a> for å opprette en konto. Vi vil prøve å behandle forespørselen så fort som mulig.
@@ -1716,7 +1747,7 @@ nb:
       reset: Nullstill passord
       title: Nullstill passord
     set_home: 
-      flash success: Hjemmelokasjon lagret
+      flash success: Hjemmeposisjon lagret
     suspended: 
       body: "<p>\nBeklager, kontoen din har blitt automatisk deaktivert på grunn av mistenkelig aktivitet.\n</p>\n<p>\nDenne avgjørelsen vil bli gjennomgått av en administrator snart, eller du kan kontakte %{webmaster} hvis du ønsker å diskutere dette."
       heading: Konto stengt
@@ -1771,7 +1802,9 @@ nb:
       my comments: Mine kommentarer
       my diary: Min dagbok
       my edits: Mine redigeringer
+      my messages: Mine meldinger
       my notes: Mine merknader
+      my profile: Min profil
       my settings: Mine innstillinger
       my traces: Mine spor
       nearby users: Andre nærliggende brukere
