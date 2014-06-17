@@ -45,12 +45,12 @@ OSM.Search = function(map) {
     if (!marker) {
       var data = $(this).find("a.set_position").data();
 
-      marker = L.marker([data.lat, data.lon]);
+      marker = L.marker([data.lat, data.lon], {icon: getUserIcon()});
 
       $(this).data("marker", marker);
     }
 
-    map.addLayer(marker);
+    markers.addLayer(marker);
 
     $(this).closest("li").addClass("selected");
   }
@@ -59,7 +59,7 @@ OSM.Search = function(map) {
     var marker = $(this).data("marker");
 
     if (marker) {
-      map.removeLayer(marker);
+      markers.removeLayer(marker);
     }
 
     $(this).closest("li").removeClass("selected");
@@ -82,12 +82,10 @@ OSM.Search = function(map) {
     // Let clicks to object browser links propagate.
     if (data.type && data.id) {
       link.simulate("click", e);
-    } else {
-      marker.setLatLng(center).addTo(map);
     }
   }
 
-  var marker = L.marker([0, 0], {icon: getUserIcon()});
+  var markers = L.layerGroup().addTo(map);
 
   var page = {};
 
@@ -120,8 +118,7 @@ OSM.Search = function(map) {
   };
 
   page.unload = function() {
-    map.removeLayer(marker);
-    map.removeObject();
+    markers.clearLayers();
     $(".search_form input[name=query]").val("");
     $(".describe_location").fadeIn(100);
   };
