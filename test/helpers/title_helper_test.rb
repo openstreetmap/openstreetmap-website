@@ -9,5 +9,9 @@ class TitleHelperTest < ActionView::TestCase
     set_title("Test Title")
     assert_equal "OpenStreetMap | Test Title", response.header["X-Page-Title"]
     assert_equal "Test Title", @title
+
+    set_title("Test & Title")
+    assert_equal "OpenStreetMap | Test & Title", response.header["X-Page-Title"]
+    assert_equal "Test & Title", @title
   end
 end
