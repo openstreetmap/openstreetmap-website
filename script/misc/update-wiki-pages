@@ -63,6 +63,7 @@ for my $lang ('', map { "${_}:" } qw[ Pt Fi De It HU Cz Fr RU Pl ]) {
     # Key pages
     ok(1, "    Getting key pages");
     my $cnt = stick_content_in_hash("key", "Template:${lang}KeyDescription", \%feature);
+    $cnt += stick_content_in_hash("key", "Template:${lang}Feature", \%feature);
     ok(1, "    Got $cnt key pages");
     $count{key} += $cnt;
 
