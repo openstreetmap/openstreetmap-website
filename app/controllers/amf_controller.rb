@@ -551,7 +551,7 @@ class AmfController < ApplicationController
             mid = renumberedways[mid] if m[0] == 'Way'
           end
           if mid
-            typedmembers << [m[0], mid, m[2].delete("\000-\037", "^\011\012\015")]
+            typedmembers << [m[0], mid, m[2].delete("\000-\037\ufffe\uffff", "^\011\012\015")]
           end
         end
 
@@ -886,8 +886,8 @@ class AmfController < ApplicationController
     new_tags = Hash.new
     unless tags.nil?
       tags.each do |k, v|
-        new_k = k.delete "\000-\037", "^\011\012\015"
-        new_v = v.delete "\000-\037", "^\011\012\015"
+        new_k = k.delete "\000-\037\ufffe\uffff", "^\011\012\015"
+        new_v = v.delete "\000-\037\ufffe\uffff", "^\011\012\015"
         new_tags[new_k] = new_v
       end
     end
