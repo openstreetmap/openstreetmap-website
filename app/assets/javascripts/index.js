@@ -319,8 +319,8 @@ $(document).ready(function () {
     if (location.protocol !== this.protocol || location.host !== this.host)
       return;
     
-    alert(data-step);
-    
+    console.log("hello, you asked for: " + data-step);
+
     // need a workaround to force the form to submit if user does not change location
     if (OSM.router.route(this.pathname + this.search + this.hash))
       e.preventDefault();
