@@ -318,8 +318,9 @@ $(document).ready(function () {
     // Ignore cross-protocol and cross-origin links.
     if (location.protocol !== this.protocol || location.host !== this.host)
       return;
-
-    if (OSM.router.route(this.pathname + this.search + this.hash))
+    
+    // hacky here - trying to workaround the form not submitting if user does not change location
+    if (OSM.router.route(this.pathname + this.search + this.hash)) && (data-step =="unchanged")
       e.preventDefault();
   });
 
