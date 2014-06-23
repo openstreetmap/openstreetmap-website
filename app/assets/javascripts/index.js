@@ -319,7 +319,10 @@ $(document).ready(function () {
     if (location.protocol !== this.protocol || location.host !== this.host)
       return;
     
-    console.log("hello, you asked for: " + data-step);
+    // hacky
+    $(#'time_search_btn').on.click({
+      console.log("you asked to search by time!");
+    })
 
     // need a workaround to force the form to submit if user does not change location
     if (OSM.router.route(this.pathname + this.search + this.hash))
