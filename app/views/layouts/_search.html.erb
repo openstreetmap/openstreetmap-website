@@ -1,6 +1,5 @@
 <form method="GET" action="<%= search_path %>" class="search_form">
   <%= submit_tag t('site.search.submit_text') %>
-  <%= submit_tag "Time Search" %>
   <div class='query_wrapper'>
     <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus %>
     <%= link_to t('site.search.where_am_i'), '#', { :class => "describe_location", :title => t('site.search.where_am_i_title') } %>
@@ -10,7 +9,7 @@
         <input data-step="month" value="1" />
         <span>-</span>
         <input data-step="day" value="1" />
+        <%= submit_tag "Time Search" %>
     </div>
-  <%= submit_tag "Time Search" %>
   </div>
 </form>
