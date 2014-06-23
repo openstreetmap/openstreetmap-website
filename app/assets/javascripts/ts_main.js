@@ -21,7 +21,6 @@ var changeTween = function(x) {
     return (x >= 0) ? tween : -tween;
 }
 $(document).ready( function() {
-    console.log("in ts_main, document ready, about to try slider-wrapper");
     $(".slider-wrapper").timeControl({    
     year: {
         lower: -4000,

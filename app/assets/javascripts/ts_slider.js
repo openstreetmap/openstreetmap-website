@@ -1,9 +1,5 @@
 (function($) {
 
-$(document).ready( function() {
-    console.log("in ts_slider, document ready");
-});
-
 var bindAll = function(self, names) {
     for (var i = 0, name; (name = names[i]); i++) {
         self[name] = self[name].bind(self);
@@ -56,7 +52,6 @@ TimeControl.prototype.values = function() {
 }
 
 function TimeSlider(control, options, $input) {
-    console.log("in ts_slider, top of TimeSlider function");
 
     bindAll(this, ["dragStart", "dragEnd", "dragMove",
                    "tick", "keyUp", "input"]);
@@ -148,7 +143,6 @@ TimeSlider.prototype.reposition = function() {
         parentCenter = $input.position().left + ($input.outerWidth() / 2),
         outerHalf = this.$outer.outerWidth() / 2,
         nubHalf = this.$nub.outerWidth() / 2;
-    console.log("the input is: ", $input);
     this.$outer.css({left: parentCenter - outerHalf});
     this.$nub.css({left: outerHalf - nubHalf});
     
