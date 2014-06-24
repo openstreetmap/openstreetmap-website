@@ -320,7 +320,7 @@ $(document).ready(function () {
       return;
     
     // hacky
-    $('#time_search_btn').on.click({
+    $('#time_search_btn').click({
       console.log("you asked to search by time!");
     })
 
