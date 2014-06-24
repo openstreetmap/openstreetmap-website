@@ -320,9 +320,9 @@ $(document).ready(function () {
       return;
     
     // hacky
-    $('#time_search_btn').click({
+    $('#time_search_btn').click(function() {
       console.log("you asked to search by time!");
-    })
+    });
 
     // need a workaround to force the form to submit if user does not change location
     if (OSM.router.route(this.pathname + this.search + this.hash))
