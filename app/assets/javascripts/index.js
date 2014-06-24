@@ -323,6 +323,7 @@ $(document).ready(function () {
     if (OSM.router.route(this.pathname + this.search + this.hash))
       e.preventDefault();
   });
+
   $(".time_search").on("submit", function(e) {
     var query = $(this).find("input[data-step=year]").val();
     console.log("I'm right here!" + query);
