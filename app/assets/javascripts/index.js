@@ -323,6 +323,10 @@ $(document).ready(function () {
     if (OSM.router.route(this.pathname + this.search + this.hash))
       e.preventDefault();
   });
+  $(".time_search").on("submit", function(e) {
+    var query = $(this).find("input[name=query]").val();
+    console.log(query);
+  })
 
   $(".search_form").on("submit", function(e) {
     e.preventDefault();
