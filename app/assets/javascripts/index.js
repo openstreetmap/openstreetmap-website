@@ -319,8 +319,9 @@ $(document).ready(function () {
     if (location.protocol !== this.protocol || location.host !== this.host)
       return;
     
+    console.log("You are here at line 322");
     // hacky
-    $('#time_search_btn:first-child').click(function() {
+    $('#selectID option:selected').click(function() {
       console.log("you asked to search by time!");
     });
 
