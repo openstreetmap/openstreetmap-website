@@ -15,7 +15,9 @@ class GeocoderController < ApplicationController
 # need to add something here that will accept the start_year
 
     @sources = []
-    if params[:lat] && params[:lon]
+    if params[:query].match(/^-?[1-9]\d*$/)  # matches any year, positive or negative
+      @sources.push "start_year"
+    elsif params[:lat] && params[:lon]
       @sources.push "latlon"
       @sources.push "osm_nominatim_reverse"
       @sources.push "geonames_reverse" if defined?(GEONAMES_USERNAME)
