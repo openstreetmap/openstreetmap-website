@@ -12,6 +12,8 @@ class GeocoderController < ApplicationController
   def search
     normalize_params
 
+# need to add something here that will accept the start_year
+
     @sources = []
     if params[:lat] && params[:lon]
       @sources.push "latlon"
