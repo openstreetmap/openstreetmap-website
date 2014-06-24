@@ -325,6 +325,7 @@ $(document).ready(function () {
   });
 
   $(".time_search").on("submit", function(e) {
+    e.preventDefault();
     var query = $(this).find("input[data-step=year]").val();
     console.log("I'm right here!" + query);
   })

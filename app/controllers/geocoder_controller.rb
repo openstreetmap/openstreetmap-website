@@ -16,7 +16,9 @@ class GeocoderController < ApplicationController
 
     @sources = []
     puts "the value of :query is #{:query}"
-    if params[:query].match(/^-?[1-9]\d*$/)  # matches any year, positive or negative
+    if !params[:query]
+      puts "I got nuttin for params[:query]"
+    elsif params[:query].match(/^-?[1-9]\d*$/)  # matches any year, positive or negative
       @sources.push "start_year"
     elsif params[:lat] && params[:lon]
       @sources.push "latlon"
