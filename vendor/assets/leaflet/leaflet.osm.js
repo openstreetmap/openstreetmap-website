@@ -25,15 +25,15 @@ L.OSM.Mapnik = L.OSM.TileLayer.extend({
 
 L.OSM.CycleMap = L.OSM.TileLayer.extend({
   options: {
-    url: 'http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png',
-    attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>"
+    url: 'http://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}.png',
+    attribution: "Tiles courtesy of <a href='http://www.thunderforest.com/' target='_blank'>Andy Allan</a>"
   }
 });
 
 L.OSM.TransportMap = L.OSM.TileLayer.extend({
   options: {
-    url: 'http://{s}.tile2.opencyclemap.org/transport/{z}/{x}/{y}.png',
-    attribution: "Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>"
+    url: 'http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png',
+    attribution: "Tiles courtesy of <a href='http://www.thunderforest.com/' target='_blank'>Andy Allan</a>"
   }
 });
 
