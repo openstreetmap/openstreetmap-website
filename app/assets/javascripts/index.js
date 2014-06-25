@@ -329,6 +329,7 @@ $(document).ready(function () {
     var query = $(this).find("input[data-step=year]").val();
     console.log("I'm right here!" + query);
     console.log("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
+    OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
   })
 
   $(".search_form").on("submit", function(e) {
