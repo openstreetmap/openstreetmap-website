@@ -16,9 +16,7 @@ class GeocoderController < ApplicationController
     puts "am I ever going to run search?"
     @sources = []
     puts "the value of :query is #{:query}"
-    if params[:query].match(/^-?[1-9]\d*$/)  # matches any year, positive or negative
-      @sources.push "start_year"
-    elsif params[:lat] && params[:lon]
+    if params[:lat] && params[:lon]
       @sources.push "latlon"
       @sources.push "osm_nominatim_reverse"
       @sources.push "geonames_reverse" if defined?(GEONAMES_USERNAME)
@@ -31,6 +29,8 @@ class GeocoderController < ApplicationController
     elsif params[:query].match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i)
       @sources.push "ca_postcode"
       @sources.push "osm_nominatim"
+    elsif params[:query].match(/^-?[1-9]\d*$/)  # matches any year, positive or negative
+      @sources.push "start_year"  
     else
       @sources.push "osm_nominatim"
       @sources.push "geonames" if defined?(GEONAMES_USERNAME)
