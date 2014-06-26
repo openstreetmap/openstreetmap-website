@@ -13,13 +13,14 @@ class GeocoderController < ApplicationController
     normalize_params
 
 # need to add something here that will accept the start_year
-    puts "am I ever going to run search?"
     @sources = []
     puts "the value of :query is #{:query}"
     if params[:lat] && params[:lon]
       @sources.push "latlon"
       @sources.push "osm_nominatim_reverse"
       @sources.push "geonames_reverse" if defined?(GEONAMES_USERNAME)
+    elsif params[:query].match(/^-?[1-9]\d*$/)  # matches any year, positive or negative
+      @sources.push "start_year"  
     elsif params[:query].match(/^\d{5}(-\d{4})?$/)
       @sources.push "us_postcode"
       @sources.push "osm_nominatim"
@@ -29,8 +30,6 @@ class GeocoderController < ApplicationController
     elsif params[:query].match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i)
       @sources.push "ca_postcode"
       @sources.push "osm_nominatim"
-    elsif params[:query].match(/^-?[1-9]\d*$/)  # matches any year, positive or negative
-      @sources.push "start_year"  
     else
       @sources.push "osm_nominatim"
       @sources.push "geonames" if defined?(GEONAMES_USERNAME)
