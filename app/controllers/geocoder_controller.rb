@@ -19,7 +19,7 @@ class GeocoderController < ApplicationController
       @sources.push "latlon"
       @sources.push "osm_nominatim_reverse"
       @sources.push "geonames_reverse" if defined?(GEONAMES_USERNAME)
-    elsif params[:query].match(/^-?[1-9]\d*$/)  # matches any year, positive or negative
+    elsif params[:query].match(/^-?[1-9]\d*\W(ce|bce|ad|bc)$/i)  # matches any year, positive or negative
       @sources.push "start_year"  
     elsif params[:query].match(/^\d{5}(-\d{4})?$/)
       @sources.push "us_postcode"
