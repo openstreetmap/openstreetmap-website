@@ -230,7 +230,7 @@ class GeocoderController < ApplicationController
     
     # create result array
     @results = Array.new
-
+    # this doesn't work yet
     @results.push("here is something to show that it's working for the query: #{query}")
     render :action =>"results"
   end
