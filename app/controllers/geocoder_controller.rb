@@ -231,8 +231,7 @@ class GeocoderController < ApplicationController
     # create result array
     @results = Array.new
 
-    # ask Wikipedia
-    results = fetch_xml("http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=#{query}&rvprop=content&format=json&rvsection=0&rvparse=1")
+    results = "here is something to show that it's working for the query: #{query}"
     render :action =>"results"
   end
 
