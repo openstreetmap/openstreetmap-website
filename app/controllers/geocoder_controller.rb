@@ -12,7 +12,6 @@ class GeocoderController < ApplicationController
   def search
     normalize_params
 
-# need to add something here that will accept the start_year
     @sources = []
     puts "the value of :query is #{:query}"
     if params[:lat] && params[:lon]
@@ -223,6 +222,12 @@ class GeocoderController < ApplicationController
   rescue Exception => ex
     @error = "Error contacting ws.geonames.org: #{ex.to_s}"
     render :action => "error"
+  end
+  
+  # it's a start. Yes, it's also a pun.
+  def search_start_year
+    # use start_year as a way to select tiles
+    render :action =>"results"
   end
 
   def search_osm_nominatim_reverse
