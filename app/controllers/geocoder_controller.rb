@@ -227,6 +227,12 @@ class GeocoderController < ApplicationController
   # it's a start. Yes, it's also a pun.
   def search_start_year
     # use start_year as a way to select tiles
+    
+    # create result array
+    @results = Array.new
+
+    # ask Wikipedia
+    results = fetch_xml("http://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=#{query}&rvprop=content&format=json&rvsection=0&rvparse=1")
     render :action =>"results"
   end
 
