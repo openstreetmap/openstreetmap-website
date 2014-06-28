@@ -226,6 +226,7 @@ class GeocoderController < ApplicationController
   
   # it's a start. Yes, it's also a pun.
   def search_start_year
+    query = params[:query]
     # use start_year as a way to select tiles
     
     # create result array
