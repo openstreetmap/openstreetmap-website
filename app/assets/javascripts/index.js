@@ -332,6 +332,7 @@ $(document).ready(function () {
     OSM.router.route("/search?query=" + encodeURIComponent(query));//+ OSM.formatHash(map));
   })
 
+/*
   $(".search_form").on("submit", function(e) {
     e.preventDefault();
     $("header").addClass("closed");
@@ -342,6 +343,7 @@ $(document).ready(function () {
       OSM.router.route("/" + OSM.formatHash(map));
     }
   });
+*/
 
   $(".describe_location").on("click", function(e) {
     e.preventDefault();
