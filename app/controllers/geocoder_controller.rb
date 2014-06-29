@@ -232,8 +232,10 @@ class GeocoderController < ApplicationController
     # create result array
     @results = Array.new
     # this doesn't work yet
-    @results.push("here is something to show that it's working for the query: #{query}")
-    render :action =>"results"
+    # @results.push("here is something to show that it's working for the query: #{query}")
+    # render :action =>"results"
+    @error = "Not really an error, but working on query of #{query}"
+    render :action => "error"
   end
 
   def search_osm_nominatim_reverse
