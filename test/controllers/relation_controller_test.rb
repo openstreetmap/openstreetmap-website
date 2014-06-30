@@ -859,7 +859,7 @@ OSM
 
     # now download the changeset to check its bounding box
     with_controller(ChangesetController.new) do
-      get :read, :id => changeset_id
+      get :read, :id => changeset_id, :format => :xml # TODO why it doesn't use defaults?
       assert_response :success, "can't re-read changeset for modify test"
       assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
       assert_select "osm>changeset[id=#{changeset_id}]", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
