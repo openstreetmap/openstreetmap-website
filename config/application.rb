@@ -5,7 +5,7 @@ require File.expand_path('../preinitializer', __FILE__)
 if STATUS == :database_offline
 require "action_controller/railtie"
 require "action_mailer/railtie"
-require "active_resource/railtie"
+require "active_model/railtie"
 require "sprockets/railtie"
 require "rails/test_unit/railtie"
 else
