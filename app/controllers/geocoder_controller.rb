@@ -237,10 +237,11 @@ class GeocoderController < ApplicationController
     #
     # trying the Wikidata api
     #
-     set format=xml
-     fetch_xml("http://en.wikipedia.org/w/api.php?format=xml&action=query&titles=#{query}&prop=revisions&rvprop=content")
+    @response = fetch_xml("http://en.wikipedia.org/w/api.php?format=xml&action=query&titles=#{query}&prop=revisions&rvprop=content")
+    render :action => "response"
     #@error = "Not really an error, but working on query of #{query}"
     #render :action => "error"
+
   end
 
   def search_osm_nominatim_reverse
