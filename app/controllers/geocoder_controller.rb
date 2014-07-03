@@ -234,8 +234,13 @@ class GeocoderController < ApplicationController
     # this doesn't work yet
     # @results.push("here is something to show that it's working for the query: #{query}")
     # render :action =>"results"
-    @error = "Not really an error, but working on query of #{query}"
-    render :action => "error"
+    #
+    # trying the Wikidata api
+    #
+     set format=xml
+     fetch_xml(api.php?action=query&prop=revisions&format=xml&meta=siteinfo&titles=Main%20Page&rvprop=user|comment&continue=)
+    #@error = "Not really an error, but working on query of #{query}"
+    #render :action => "error"
   end
 
   def search_osm_nominatim_reverse
