@@ -237,10 +237,10 @@ class GeocoderController < ApplicationController
     #
     # trying the Wikidata api
     #
-    @response = fetch_xml("http://en.wikipedia.org/w/api.php?format=xml&action=query&titles=#{query}&prop=revisions&rvprop=content")
-    render :action => "response"
-    #@error = "Not really an error, but working on query of #{query}"
-    #render :action => "error"
+    #@response = fetch_xml("http://en.wikipedia.org/w/api.php?format=xml&action=query&titles=#{query}&prop=revisions&rvprop=content")
+    #render :action => "response"
+    @error = "Not really an error, but working on query of #{query}"
+    render :action => "error"
 
   end
 
