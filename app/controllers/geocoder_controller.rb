@@ -161,8 +161,6 @@ class GeocoderController < ApplicationController
       :exclude => more_url_params["exclude_place_ids"].first
     })
 
-Rails.logger.info @more_params
-
     # parse the response
     results.elements.each("place") do |place|
       lat = place.attributes["lat"].to_s
