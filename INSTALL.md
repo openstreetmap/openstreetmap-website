@@ -33,7 +33,7 @@ sudo apt-get install ruby1.9.1 libruby1.9.1 ruby1.9.1-dev ri1.9.1 \
                      apache2 apache2-threaded-dev build-essential git-core \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
                      libsasl2-dev
-gem1.9.1 install bundle
+sudo gem1.9.1 install bundler
 ```
 
 Note that the "1.9.1" Ubuntu packages do in fact contain ruby 1.9.3.
