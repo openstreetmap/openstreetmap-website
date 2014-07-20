@@ -132,6 +132,33 @@ class BrowseHelperTest < ActionView::TestCase
     assert_equal "http://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=tr", link
   end
 
+  def test_wikidata_link
+    link = wikidata_link("foo", "Test")
+    assert_nil link
+
+    link = wikidata_link("wikidata", "http://www.wikidata.org/wiki/Q1")
+    assert_nil link
+
+    link = wikidata_link("wikidata", "en:Q1")
+    assert_nil link
+
+    link = wikidata_link("wikidata", "1")
+    assert_nil link
+
+    link = wikidata_link("wikidata", "Q0123")
+    assert_nil link
+
+    link = wikidata_link("wikidata", "Q42")
+    assert_equal "//www.wikidata.org/wiki/Q42?uselang=en", link[:url]
+    assert_equal "Q42", link[:title]
+
+    I18n.locale = "zh-CN"
+
+    link = wikidata_link("wikidata", "Q1234")
+    assert_equal "//www.wikidata.org/wiki/Q1234?uselang=zh-CN", link[:url]
+    assert_equal "Q1234", link[:title]
+  end
+
   def test_wikipedia_link
     link = wikipedia_link("wikipedia", "http://en.wikipedia.org/wiki/Full%20URL")
     assert_nil link
