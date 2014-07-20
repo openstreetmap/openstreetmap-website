@@ -61,6 +61,8 @@ module BrowseHelper
   def format_value(key, value)
     if wp = wikipedia_link(key, value)
       link_to h(wp[:title]), wp[:url], :title => t('browse.tag_details.wikipedia_link', :page => wp[:title])
+    elsif wdt = wikidata_link(key, value)
+      link_to h(wdt[:title]), wdt[:url], :title => t('browse.tag_details.wikidata_link', :page => wdt[:title])
     elsif url = wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t('browse.tag_details.wiki_link.tag', :key => key, :value => value)
     elsif url = telephone_link(key, value)
@@ -147,6 +149,16 @@ private
       :url => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}#{section}",
       :title => value + section
     }
+  end
+
+  def wikidata_link(key, value)
+    if key == "wikidata" and value =~ /^[Qq][1-9][0-9]*$/
+      return {
+        :url => "//www.wikidata.org/wiki/#{value}?uselang=#{I18n.locale}",
+        :title => value
+      }
+    end
+    return nil
   end
 
   def telephone_link(key, value)
