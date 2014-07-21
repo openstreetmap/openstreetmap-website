@@ -5,7 +5,7 @@ OpenStreetMap::Application.configure do
   config.cache_classes = true
 
   # Eager load code on boot. This eager loads most of Rails and
-  # your application in memory, allowing both thread web servers
+  # your application in memory, allowing both threaded web servers
   # and those relying on copy on write to perform better.
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
@@ -31,9 +31,6 @@ OpenStreetMap::Application.configure do
 
   # Generate digests for assets URLs.
   config.assets.digest = true
-
-  # Version of your assets, change this if you want to expire all your assets.
-  config.assets.version = '1.0'
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
@@ -67,24 +64,7 @@ OpenStreetMap::Application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
 
-  # Precompile additional assets.
-  # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  config.assets.precompile += %w( index.js browse.js welcome.js fixthemap.js )
-  config.assets.precompile += %w( user.js diary_entry.js swfobject.js )
-  config.assets.precompile += %w( large-ltr.css small-ltr.css print-ltr.css )
-  config.assets.precompile += %w( large-rtl.css small-rtl.css print-rtl.css )
-  config.assets.precompile += %w( leaflet-all.css leaflet.ie.css )
-  config.assets.precompile += %w( embed.js embed.css )
-  config.assets.precompile += %w( html5shiv.js )
-  config.assets.precompile += %w( images/marker-*.png img/*-handle.png )
-  config.assets.precompile += %w( potlatch2.swf )
-  config.assets.precompile += %w( potlatch2/assets.zip )
-  config.assets.precompile += %w( potlatch2/FontLibrary.swf )
-  config.assets.precompile += %w( potlatch2/locales/*.swf )
-  config.assets.precompile += %w( help/introduction.* )
-  config.assets.precompile += %w( iD.js iD.css )
-  config.assets.precompile += %w( iD/img/*.svg iD/img/*.png iD/img/*.gif )
-  config.assets.precompile += %w( iD/img/pattern/*.png )
+  # `config.assets.precompile` has moved to config/initializers/assets.rb
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -102,4 +82,7 @@ OpenStreetMap::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # Do not dump schema after migrations.
+  config.active_record.dump_schema_after_migration = false
 end

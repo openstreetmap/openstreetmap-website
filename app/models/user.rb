@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
 
   scope :visible, -> { where(:status => ["pending", "active", "confirmed"]) }
   scope :active, -> { where(:status => ["active", "confirmed"]) }
-  scope :public, -> { where(:data_public => true) }
+  scope :identifiable, -> { where(:data_public => true) }
 
   has_attached_file :image,
     :default_url => "/assets/:class/:attachment/:style.png",

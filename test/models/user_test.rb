@@ -180,10 +180,10 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  def test_public
-    assert_equal 16, User.public.count
+  def test_identifiable
+    assert_equal 16, User.identifiable.count
     assert_raise ActiveRecord::RecordNotFound do
-      User.public.find(users(:normal_user).id)
+      User.identifiable.find(users(:normal_user).id)
     end
   end
 

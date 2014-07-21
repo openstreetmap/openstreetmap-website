@@ -92,7 +92,7 @@ private
   ]
 
   def icon_tags(object)
-    object.tags.find_all { |k,v| ICON_TAGS.include? k }
+    object.tags.find_all { |k,v| ICON_TAGS.include? k }.sort
   end
 
   def wiki_link(type, lookup)
