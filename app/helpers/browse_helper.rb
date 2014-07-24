@@ -69,8 +69,12 @@ module BrowseHelper
   def format_value(key, value)
     if wp = wikipedia_link(key, value)
       link_to h(wp[:title]), wp[:url], :title => t("browse.tag_details.wikipedia_link", :page => wp[:title])
-    elsif wdt = wikidata_link(key, value)
-      link_to h(wdt[:title]), wdt[:url], :title => t("browse.tag_details.wikidata_link", :page => wdt[:title])
+    elsif wdt = wikidata_links(key, value)
+      # IMPORTANT: Note that wikidata_links() returns an array of hashes, unlike for example wikipedia_link(),
+      # which just returns one such hash.
+      wdt.map{|w|
+        link_to(w[:title], w[:url], :title => t('browse.tag_details.wikidata_link', :page => w[:title].strip))
+      }.join(";").html_safe
     elsif url = wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
     elsif url = telephone_link(key, value)
@@ -158,11 +162,22 @@ module BrowseHelper
     }
   end
 
-  def wikidata_link(key, value)
+  def wikidata_links(key, value)
+    # The simple wikidata-tag (this is limited to only one value)
     if key == "wikidata" && value =~ /^[Qq][1-9][0-9]*$/
-      return {
+      return [{
         :url => "//www.wikidata.org/wiki/#{value}?uselang=#{I18n.locale}",
         :title => value
+      }]
+    elsif (
+      # Key has to be one of the accepted wikidata-tags
+      key =~ /(architect|artist|brand|operator|subject):wikidata/ &&
+      # Value has to be a semicolon-separated list of wikidata-IDs (whitespaces allowed before and after semicolons)
+      value =~ /^[Qq][1-9][0-9]*(\s*;\s*[Qq][1-9][0-9]*)*$/
+    )
+      # Splitting at every semicolon to get a separate hash for each wikidata-ID
+      return value.split(";").map { |id|
+        id = {:title => id, :url => "//www.wikidata.org/wiki/#{id.strip}?uselang=#{I18n.locale}" }
       }
     end
     nil
