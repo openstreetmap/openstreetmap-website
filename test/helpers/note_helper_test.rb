@@ -7,7 +7,7 @@ class NoteHelperTest < ActionView::TestCase
   fixtures :users
 
   def test_note_event
-    date = Time.new(2014, 3, 5, 21, 37, 45)
+    date = Time.new(2014, 3, 5, 21, 37, 45, "+00:00")
 
     assert_match /^Created by anonymous <abbr title='Wed, 05 Mar 2014 21:37:45 \+0000'><span title=" 5 March 2014 at 21:37">.*<\/span> ago<\/abbr>$/, note_event("open", date, nil)
     assert_match /^Resolved by <a href="\/user\/test2">test2<\/a> <abbr title='Wed, 05 Mar 2014 21:37:45 \+0000'><span title=" 5 March 2014 at 21:37">.*<\/span> ago<\/abbr>$/, note_event("closed", date, users(:public_user))
