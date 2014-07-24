@@ -8,7 +8,7 @@
 
 | <%= t('changeset.changeset_paging_nav.showing_page', :page => @page) %> |
 
-<% if @notes.size < @page_size %>
+<% if @notes.size <= @page_size %>
 <%= t('changeset.changeset_paging_nav.next') %>
 <% else %>
 <%= link_to t('changeset.changeset_paging_nav.next'), params.merge({ :page => @page + 1 }) %>
