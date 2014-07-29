@@ -26,8 +26,13 @@ class AmfControllerTest < ActionController::TestCase
     assert_response :success
     amf_parse_response                                         
     way = amf_result("/1")
-    assert_equal way[0], 0
-    assert_equal way[2], id
+    assert_equal 0, way[0]
+    assert_equal "", way[1]
+    assert_equal id, way[2]
+    assert_equal 1, way[3].length
+    assert_equal 3, way[3][0][2]
+    assert_equal 1, way[5]
+    assert_equal 2, way[6]
   end
 
   def test_getway_invisible
@@ -38,10 +43,64 @@ class AmfControllerTest < ActionController::TestCase
     assert_response :success
     amf_parse_response
     way = amf_result("/1")
-    assert_equal way[0], -4
-    assert_equal way[1], "way"
-    assert_equal way[2], id
-    assert way[3].nil? and way[4].nil?
+    assert_equal -4, way[0], -4
+    assert_equal "way", way[1]
+    assert_equal id, way[2]
+    assert way[3].nil? and way[4].nil? and way[5].nil? and way[6].nil?
+  end
+
+  def test_getway_with_versions
+    # check a way with multiple versions
+    id = current_ways(:way_with_versions).id
+    amf_content "getway", "/1", [id]
+    post :amf_read
+    assert_response :success
+    amf_parse_response                                         
+    way = amf_result("/1")
+    assert_equal 0, way[0]
+    assert_equal "", way[1]
+    assert_equal id, way[2]
+    assert_equal 1, way[3].length
+    assert_equal 15, way[3][0][2]
+    assert_equal 4, way[5]
+    assert_equal 2, way[6]
+  end
+
+  def test_getway_with_duplicate_nodes
+    # check a way with duplicate nodes
+    id = current_ways(:way_with_duplicate_nodes).id
+    amf_content "getway", "/1", [id]
+    post :amf_read
+    assert_response :success
+    amf_parse_response                                         
+    way = amf_result("/1")
+    assert_equal 0, way[0]
+    assert_equal "", way[1]
+    assert_equal id, way[2]
+    assert_equal 2, way[3].length
+    assert_equal 4, way[3][0][2]
+    assert_equal 4, way[3][1][2]
+    assert_equal 1, way[5]
+    assert_equal 2, way[6]
+  end
+
+  def test_getway_with_multiple_nodes
+    # check a way with multiple nodes
+    id = current_ways(:way_with_multiple_nodes).id
+    amf_content "getway", "/1", [id]
+    post :amf_read
+    assert_response :success
+    amf_parse_response                                         
+    way = amf_result("/1")
+    assert_equal 0, way[0]
+    assert_equal "", way[1]
+    assert_equal id, way[2]
+    assert_equal 3, way[3].length
+    assert_equal 4, way[3][0][2]
+    assert_equal 15, way[3][1][2]
+    assert_equal 6, way[3][2][2]
+    assert_equal 2, way[5]
+    assert_equal 2, way[6]
   end
 
   def test_getway_nonexistent
@@ -51,10 +110,10 @@ class AmfControllerTest < ActionController::TestCase
     assert_response :success
     amf_parse_response
     way = amf_result("/1")
-    assert_equal way[0], -4
-    assert_equal way[1], "way"
-    assert_equal way[2], 0
-    assert way[3].nil? and way[4].nil?
+    assert_equal -4, way[0]
+    assert_equal "way", way[1]
+    assert_equal 0, way[2]
+    assert way[3].nil? and way[4].nil? and way[5].nil? and way[6].nil?
   end
 
   def test_whichways

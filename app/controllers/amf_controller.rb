@@ -321,12 +321,12 @@ class AmfController < ApplicationController
         # Ideally we would do ":include => :nodes" here but if we do that
         # then rails only seems to return the first copy of a node when a
         # way includes a node more than once
-        way = Way.where(:id => wayid).preload(:nodes => :node_tags).first
+        way = Way.where(:id => wayid).first
 
         # check case where way has been deleted or doesn't exist
         return [-4, 'way', wayid] if way.nil? or !way.visible
 
-        points = way.nodes.collect do |node|
+        points = way.nodes.preload(:node_tags).collect do |node|
           nodetags=node.tags
           nodetags.delete('created_by')
           [node.lon, node.lat, node.id, nodetags, node.version]
