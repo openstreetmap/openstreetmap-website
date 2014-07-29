@@ -7,7 +7,7 @@ comments.each do |comment|
     xml.guid url_for(:controller => "browse", :action => "changeset", :id => comment.changeset.id, :anchor => "c#{comment.id}", :only_path => false)
 
     xml.description do
-      xml.cdata! render(:partial => "comments_entry", :object => comment, :formats => [ :html ])
+      xml.cdata! render(:partial => "comment", :object => comment, :formats => [ :html ])
     end
 
     if comment.author

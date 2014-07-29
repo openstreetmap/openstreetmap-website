@@ -42,7 +42,7 @@ class ChangesetController < ApplicationController
   # return anything about the nodes, ways and relations in the changeset.
   def read
     @changeset = Changeset.find(params[:id])
-    @comments = params['include_discussion'].presence ? @changeset.comments.includes(:author) : false
+    @comments = @changeset.comments.includes(:author) if params[:include_discussion].presence
 
     render :action => :show
   end
