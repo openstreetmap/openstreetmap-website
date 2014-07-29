@@ -325,7 +325,6 @@ class ChangesetController < ApplicationController
 
     # Find the changeset and check it is valid
     @changeset = Changeset.find(id)
-    raise OSM::APINotFoundError unless @changeset
     raise OSM::APIChangesetNotYetClosedError.new(@changeset) if @changeset.is_open?
 
     # Add a comment to the changeset
@@ -360,7 +359,6 @@ class ChangesetController < ApplicationController
 
     # Find the changeset and check it is valid
     @changeset = Changeset.find(id)
-    raise OSM::APINotFoundError unless @changeset
     raise OSM::APIChangesetNotYetClosedError.new(@changeset) if @changeset.is_open?
     raise OSM::APIChangesetAlreadySubscribedError.new(@changeset) if @changeset.subscribers.exists?(@user)
 
@@ -380,7 +378,6 @@ class ChangesetController < ApplicationController
 
     # Find the changeset and check it is valid
     @changeset = Changeset.find(id)
-    raise OSM::APINotFoundError unless @changeset
     raise OSM::APIChangesetNotYetClosedError.new(@changeset) if @changeset.is_open?
     raise OSM::APIChangesetNotSubscribedError.new(@changeset) unless @changeset.subscribers.exists?(@user)
 
@@ -399,9 +396,8 @@ class ChangesetController < ApplicationController
     # Extract the arguments
     id = params[:id].to_i
 
-    # Find the changeset and check it is valid
+    # Find the changeset
     @comment = ChangesetComment.find(id)
-    raise OSM::APINotFoundError unless @comment
     @changeset = @comment.changeset
 
     @comment.update(:visible => false)
@@ -419,9 +415,8 @@ class ChangesetController < ApplicationController
     # Extract the arguments
     id = params[:id].to_i
 
-    # Find the changeset and check it is valid
+    # Find the changeset
     @comment = ChangesetComment.find(id)
-    raise OSM::APINotFoundError unless @comment
     @changeset = @comment.changeset
 
     @comment.update :visible => true
