@@ -741,7 +741,7 @@ CREATE TABLE nodes (
 --
 
 CREATE TABLE note_comments (
-    id integer NOT NULL,
+    id bigint NOT NULL,
     note_id bigint NOT NULL,
     visible boolean NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -776,7 +776,7 @@ ALTER SEQUENCE note_comments_id_seq OWNED BY note_comments.id;
 --
 
 CREATE TABLE notes (
-    id integer NOT NULL,
+    id bigint NOT NULL,
     latitude integer NOT NULL,
     longitude integer NOT NULL,
     tile bigint NOT NULL,
@@ -894,8 +894,8 @@ CREATE TABLE redactions (
     id integer NOT NULL,
     title character varying(255),
     description text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     user_id bigint NOT NULL,
     description_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
@@ -1807,6 +1807,20 @@ CREATE INDEX index_changeset_comments_on_body ON changeset_comments USING btree 
 --
 
 CREATE INDEX index_changeset_comments_on_created_at ON changeset_comments USING btree (created_at);
+
+
+--
+-- Name: index_changesets_subscribers_on_subscriber_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_changesets_subscribers_on_subscriber_id ON changesets_subscribers USING btree (subscriber_id);
+
+
+--
+-- Name: index_changesets_subscribers_on_subscriber_id_and_changeset_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_changesets_subscribers_on_subscriber_id_and_changeset_id ON changesets_subscribers USING btree (subscriber_id, changeset_id);
 
 
 --

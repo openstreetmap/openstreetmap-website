@@ -7,5 +7,7 @@ class AddJoinTableBetweenUsersAndChangesets < ActiveRecord::Migration
     end
     add_foreign_key :changesets_subscribers, [:subscriber_id], :users, [:id]
     add_foreign_key :changesets_subscribers, [:changeset_id], :changesets, [:id]
+    add_index :changesets_subscribers, [:subscriber_id, :changeset_id]
+    add_index :changesets_subscribers, [:subscriber_id]
   end
 end
