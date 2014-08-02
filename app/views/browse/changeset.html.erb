@@ -35,15 +35,17 @@
                 <small class='deemphasize'><%= t("browse.changeset.commented_by",
                  :when => friendly_date(comment.created_at), :exact_time => l(comment.created_at), 
                  :user => link_to(h(comment.author.display_name), {:controller => "user", :action => "view", :display_name => comment.author.display_name})).html_safe %></small>
-                <input type="submit" name="hide" value="<%= t('javascripts.changesets.show.hide_comment') %>" class="hide_unless_moderator deemphasize action-button" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>">
+                <% if @user and @user.moderator? %>
+                  <input type="submit" name="hide" value="<%= t('javascripts.changesets.show.hide_comment') %>" class=" deemphasize action-button" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>">
+                <% end %>
                 <%= comment.body.to_html %>
               </li>
-            <% else %>
-              <li id="c<%= comment.id %>" class="hide_unless_moderator">
+            <% elsif @user and @user.moderator? %>
+              <li id="c<%= comment.id %>">
                 <small class='deemphasize'><%= t("browse.changeset.hidden_commented_by",
                  :when => friendly_date(comment.created_at), :exact_time => l(comment.created_at), 
                  :user => link_to(h(comment.author.display_name), {:controller => "user", :action => "view", :display_name => comment.author.display_name})).html_safe %></small>
-                <input type="submit" name="unhide" value="<%= t('javascripts.changesets.show.unhide_comment') %>" class="hide_unless_moderator deemphasize action-button" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>">
+                <input type="submit" name="unhide" value="<%= t('javascripts.changesets.show.unhide_comment') %>" class="deemphasize action-button" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>">
                 <%= comment.body.to_html %>
               </li>
             <% end %>
