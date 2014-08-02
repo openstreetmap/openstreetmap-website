@@ -53,7 +53,7 @@ OSM.Changeset = function (map) {
       updateChangeset(e.target.form, data.method, data.url, true);
     });
 
-    content.find("input.action-button").on("click", function (e) {
+    content.find(".action-button").on("click", function (e) {
       e.preventDefault();
       var data = $(e.target).data();
       updateChangeset(e.target.form, data.method, data.url);
