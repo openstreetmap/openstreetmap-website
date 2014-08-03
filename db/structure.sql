@@ -1810,10 +1810,10 @@ CREATE INDEX index_changeset_comments_on_created_at ON changeset_comments USING 
 
 
 --
--- Name: index_changesets_subscribers_on_subscriber_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_changesets_subscribers_on_changeset_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_changesets_subscribers_on_subscriber_id ON changesets_subscribers USING btree (subscriber_id);
+CREATE INDEX index_changesets_subscribers_on_changeset_id ON changesets_subscribers USING btree (changeset_id);
 
 
 --
