@@ -1820,7 +1820,7 @@ CREATE INDEX index_changesets_subscribers_on_changeset_id ON changesets_subscrib
 -- Name: index_changesets_subscribers_on_subscriber_id_and_changeset_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_changesets_subscribers_on_subscriber_id_and_changeset_id ON changesets_subscribers USING btree (subscriber_id, changeset_id);
+CREATE UNIQUE INDEX index_changesets_subscribers_on_subscriber_id_and_changeset_id ON changesets_subscribers USING btree (subscriber_id, changeset_id);
 
 
 --
