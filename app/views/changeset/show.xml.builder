@@ -21,7 +21,6 @@ xml.osm(:version => API_VERSION, :generator => GENERATOR) do |osm|
             xml.user_url user_url(:display_name => comment.author.display_name, :host => SERVER_URL)
 
             xml.text comment.body.to_text
-            xml.html comment.body.to_html
           end
         end
       end
