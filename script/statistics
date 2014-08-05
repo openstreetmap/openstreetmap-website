@@ -62,9 +62,9 @@ begin
     puts "<table>"
     puts "<tr><th>Day</th><th>Week</th><th>Month</th></tr>"
 
-    day_users = OldNode.where("timestamp > NOW() - '1 DAY'::INTERVAL").joins(:changeset).order("count_all DESC").limit(50).group(:user_id).count
-    week_users = OldNode.where("timestamp > NOW() - '7 DAYS'::INTERVAL").joins(:changeset).order("count_all DESC").limit(50).group(:user_id).count
-    month_users = OldNode.where("timestamp > NOW() - '28 DAYS'::INTERVAL").joins(:changeset).order("count_all DESC").limit(50).group(:user_id).count
+    day_users = OldNode.where("timestamp > NOW() - '1 DAY'::INTERVAL").joins(:changeset).order("count_all DESC").group(:user_id).count
+    week_users = OldNode.where("timestamp > NOW() - '7 DAYS'::INTERVAL").joins(:changeset).order("count_all DESC").limit(60).group(:user_id).count
+    month_users = OldNode.where("timestamp > NOW() - '28 DAYS'::INTERVAL").joins(:changeset).order("count_all DESC").limit(60).group(:user_id).count
 
     day_users.zip(week_users, month_users).each do |row|
       puts "<tr>"
