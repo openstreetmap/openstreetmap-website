@@ -1,17 +1,46 @@
 # Messages for Zazaki (Zazaki)
 # Exported from translatewiki.net
-# Export driver: spyc
+# Export driver: syck-pecl
 # Author: Erdemaslancan
 # Author: Gorizon
 # Author: Marmase
 # Author: Mirzali
----
-diq:
-  time:
-    formats:
-      friendly: %e %B %Y seate %H:%M
-  activerecord:
-    models:
+diq: 
+  activerecord: 
+    attributes: 
+      diary_comment: 
+        body: Vêrey mesaci
+      diary_entry: 
+        language: Zıwan
+        latitude: Verıniye
+        longitude: Derganiye
+        title: Mewzu
+        user: Karber
+      friend: 
+        friend: Embaz
+        user: Karber
+      message: 
+        body: Mesac
+        recipient: Grotker
+        sender: Rıster
+        title: Mewzu
+      trace: 
+        description: Şınasnayış
+        latitude: Verıniye
+        longitude: Derganiye
+        name: Name
+        public: Şar
+        size: Gırdiye
+        user: Karber
+        visible: Aseno
+      user: 
+        active: Aktiv
+        description: Şınasnayış
+        display_name: Nameyo ke Aseno
+        email: E-posta
+        languages: Zıwani
+        pass_crypt: Parola
+    models: 
       acl: Qontrol Listeyê Resayışi
       changeset: Qeydê Vurnayışan
       changeset_tag: Vurnayışê Etiketan
@@ -45,156 +74,137 @@ diq:
       way: Ray
       way_node: Ray Qedyin
       way_tag: Etikete ray
-    attributes:
-      diary_comment:
-        body: Vêrey mesaci
-      diary_entry:
-        user: Karber
-        title: Mewzu
-        latitude: Verıniye
-        longitude: Derganiye
-        language: Zıwan
-      friend:
-        user: Karber
-        friend: Embaz
-      trace:
-        user: Karber
-        visible: Aseno
-        name: Name
-        size: Gırdiye
-        latitude: Verıniye
-        longitude: Derganiye
-        public: Şar
-        description: Şınasnayış
-      message:
-        sender: Rıster
-        title: Mewzu
-        body: Mesac
-        recipient: Grotker
-      user:
-        email: E-posta
-        active: Aktiv
-        display_name: Nameyo ke Aseno
-        description: Şınasnayış
-        languages: Zıwani
-        pass_crypt: Parola
-  editor:
-    default: 'Hesabiyaye (%{name}yo nıkayên)'
-    potlatch:
-      name: Potlatch 1
-    potlatch2:
-      name: Potlatch 1
-  browse:
-    version: Versiyon
-    changeset:
-      title: 'Koma vurnayışi: %{id}'
+  browse: 
+    changeset: 
       belongs_to: Nuştekar
-    relation:
+      title: "Koma vurnayışi: %{id}"
+    containing_relation: 
+      entry: Eleqe %{relation_name}
+      entry_role: Eleqe %{relation_name} (%{relation_role} deye)
+    not_found: 
+      type: 
+        changeset: Qeydê Vurnayışan
+        node: qedyin
+        relation: eleqe
+        way: ray
+    note: 
+      description: Şınasnayış
+    redacted: 
+      redaction: Temamey %{id}
+      type: 
+        node: qedyin
+        relation: eleqe
+        way: ray
+    relation: 
       members: Ezay
-    relation_member:
-      type:
+    relation_member: 
+      type: 
         node: Qedyin
-        way: Ray
         relation: Eleqe
-    containing_relation:
-      entry: 'Eleqe %{relation_name}'
-      entry_role: 'Eleqe %{relation_name} (%{relation_role} deye)'
-    not_found:
-      type:
-        node: qedyin
-        way: ray
-        relation: eleqe
-        changeset: Qeydê Vurnayışan
-    timeout:
-      type:
-        node: qedyin
-        way: ray
-        relation: eleqe
-        changeset: Qeydê Vurnayışan
-    redacted:
-      redaction: 'Temamey %{id}'
-      type:
-        node: qedyin
-        way: ray
-        relation: eleqe
-    start_rjs:
+        way: Ray
+    start_rjs: 
       load_data: Malumat Barke
       loading: Bar beno...
-    tag_details:
-      tags: 'Etiketi:'
-    note:
-      description: Şınasnayış
-  changeset:
-    changeset_paging_nav:
-      showing_page: 'Pele %{page}'
+    tag_details: 
+      tags: "Etiketi:"
+    timeout: 
+      type: 
+        changeset: Qeydê Vurnayışan
+        node: qedyin
+        relation: eleqe
+        way: ray
+    version: Versiyon
+  changeset: 
+    changeset: 
+      no_edits: (vurnayış çıniyo)
+    changeset_paging_nav: 
       next: Peyên »
       previous: « Verên
-    changeset:
-      no_edits: (vurnayış çıniyo)
-    changesets:
+      showing_page: Pele %{page}
+    changesets: 
+      area: Erz
+      comment: Vatış
       id: ID
       saved_at: Deme qeydi
       user: Karber
-      comment: Vatış
-      area: Erz
-    list:
+    list: 
       title: Seta vurnayışan
-  diary_entry:
-    edit:
-      subject: 'Mewzu:'
-      body: 'Vêrey mesaci:'
-      language: 'Zıwan:'
-      location: Lokasyon
-      latitude: 'Verıniye:'
-      longitude: 'Derganiye:'
-      save_button: Qeyd ke
-    view:
-      login: Cıkewtış
-      save_button: Qeyd ke
-    diary_entry:
-      edit_link: Nê dekewti bıvurne
-      hide_link: Nê dekewti bınımne
-      confirm: Tesdiq ke
-    diary_comment:
-      confirm: Tesdiq ke
-    location:
-      location: 'Herun:'
-      view: Bıvin
-      edit: Bıvurne
-    comments:
-      post: Bırışe
-      when: Key
+  diary_entry: 
+    comments: 
+      ago: Verdê %{ago}
       comment: Vatış
-      ago: 'Verdê %{ago}'
       newer_comments: Vatışê Tewr Newey
       older_comments: Vatışo Tewr Kehan
-  export:
-    start:
-      area_to_export: Cayo ke cıra bıvciyo
-      licence: Lisans
-      options: Weçinegi
-      format: Format
-      scale: Sence
-      max: maks
-      image_size: Gırdiya Resimi
-      zoom: Nezdı fi
+      post: Bırışe
+      when: Key
+    diary_comment: 
+      confirm: Testiq ke
+    diary_entry: 
+      confirm: Testiq ke
+      edit_link: Nê dekewti bıvurne
+      hide_link: Nê dekewti bınımne
+    edit: 
+      body: "Vêrey mesaci:"
+      language: "Zıwan:"
+      latitude: "Verıniye:"
+      location: Lokasyon
+      longitude: "Derganiye:"
+      save_button: Qeyd ke
+      subject: "Mewzu:"
+    location: 
+      edit: Bıvurne
+      location: "Herun:"
+      view: Bıvin
+    view: 
+      login: Cıkewtış
+      save_button: Qeyd ke
+  editor: 
+    default: Hesabiyaye (%{name}yo nıkayên)
+    potlatch: 
+      name: Potlatch 1
+    potlatch2: 
+      name: Potlatch 1
+  export: 
+    start: 
       add_marker: Xeriter rê yew nışan berz
-      latitude: 'Verıniye:'
-      longitude: 'Derganiye:'
-      output: Vıcyaen
+      area_to_export: Cayo ke cıra bıvciyo
       export_button: Teber de
-  geocoder:
-    search:
-      title:
-        latlon: '<a href="http://openstreetmap.org/">OSM</a> ra neticey'
-        us_postcode: '<a href="http://geocoder.us/">Geocoder.us</a> ra neticey'
-        uk_postcode: '<a href="http://www.npemap.org.uk/">FreeThe Postcode</a> ra neticey'
-        ca_postcode: '<a href="http://geocoder.ca/">Geocoder.CA</a> ra neticey'
-        osm_nominatim: '<a href="http://nominatim.openstreetmap.org/">OSM Nominatim</a> ra neticey'
-        geonames: '<a href="http://www.geonames.org/">GeoNames.org</a> ra neticey'
-    search_osm_nominatim:
-      prefix:
-        aeroway:
+      format: Format
+      image_size: Gırdiya Resimi
+      latitude: "Verıniye:"
+      licence: Lisans
+      longitude: "Derganiye:"
+      max: maks
+      options: Weçinegi
+      output: Vıcyaen
+      scale: Sence
+      zoom: Nezdı fi
+  geocoder: 
+    description: 
+      types: 
+        cities: Suki
+        places: Cayi
+        towns: Bacari
+    direction: 
+      east: Akewten
+      north: Zıme
+      north_east: Zıme-Akewten
+      north_west: Zıme-perayen
+      south: Veroc
+      south_east: Veroci-akewten
+      south_west: Veroc-perayen
+      west: Perayen
+    search: 
+      title: 
+        ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a> ra neticey
+        geonames: <a href="http://www.geonames.org/">GeoNames.org</a> ra neticey
+        latlon: <a href="http://openstreetmap.org/">OSM</a> ra neticey
+        osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OSM Nominatim</a> ra neticey
+        uk_postcode: <a href="http://www.npemap.org.uk/">FreeThe Postcode</a> ra neticey
+        us_postcode: <a href="http://geocoder.us/">Geocoder.us</a> ra neticey
+    search_osm_nominatim: 
+      prefix: 
+        aeroway: 
           aerodrome: Hewaherun
           apron: Apron
           gate: Keyber
@@ -202,7 +212,8 @@ diq:
           runway: Pista teyera
           taxiway: Raya Texsiyan
           terminal: Terminal
-        amenity:
+        amenity: 
+          WLAN: Heruna WiFi
           airport: Havaherun
           arts_centre: Merkeze Zagoni
           artwork: Zagonkar
@@ -299,17 +310,16 @@ diq:
           village_hall: Wedey Dewer
           waste_basket: Tenkey Sıloy
           wifi: Heruna WiFi
-          WLAN: Heruna WiFi
           youth_centre: Merkezê Gencan
-        boundary:
+        boundary: 
           administrative: Sinorê İdari
           national_park: Perka Milli
-        bridge:
+        bridge: 
           swing: Pırde Asnawi
-          yes: Pırd
-        building:
-          yes: Bina
-        highway:
+          "yes": Pırd
+        building: 
+          "yes": Bina
+        highway: 
           bridleway: Raya Estoran
           bus_stop: İstasyonê Otobozan
           byway: Raya Bınêk
@@ -337,7 +347,7 @@ diq:
           tertiary: Raya Dewan
           track: Raya Herın
           trail: Şop
-        historic:
+        historic: 
           castle: Qela
           church: Kılise
           fort: Qula
@@ -350,7 +360,7 @@ diq:
           museum: Muza
           ruins: Pagi
           tower: Kule
-        landuse:
+        landuse: 
           conservation: Qısekerdış
           farm: Cıtinin
           forest: Mêşe
@@ -362,20 +372,20 @@ diq:
           meadow: Çayır
           military: Eskeri Mıntıqa
           mine: Mahden
-          orchard: Hêga
           nature_reserve: Cayê Gem Starkerden
+          orchard: Hêga
           park: Perk
           piste: Pist
           railway: Rayatiran
           reservoir: Dola Beraci
-        leisure:
+        leisure: 
           garden: Hega
           marina: Marina
           park: Perk
           stadium: Stadyum
-        military:
+        military: 
           bunker: Stare
-        natural:
+        natural: 
           beach: Plac
           channel: Kenal
           crater: Krater
@@ -403,12 +413,12 @@ diq:
           wetland: awe
           wetlands: Awi
           wood: Meşe
-        office:
+        office: 
           accountant: Muhasebedar
           architect: Mimar
           company: Şirket
           lawyer: Abuqat
-        place:
+        place: 
           city: Suk
           farm: Erdo Bec
           hamlet: Mezra
@@ -421,9 +431,9 @@ diq:
           state: wılayet
           town: bacar
           village: Dew
-        railway:
+        railway: 
           halt: İstasyonaTiran
-        shop:
+        shop: 
           butcher: Kesab
           florist: Çiçekdar
           furniture: Mobilya
@@ -431,445 +441,428 @@ diq:
           garden_centre: Merkeza Hêgay
           gift: Çiyo Hediye
           salon: Kuafor
-        tourism:
+        tourism: 
           hostel: Hostel
           hotel: Hotel
-        tunnel:
-          yes: Tûnêl
-        waterway:
+        tunnel: 
+          "yes": Tûnêl
+        waterway: 
           canal: Kenal
           dam: Berac
           lock: İskele
-    description:
-      types:
-        cities: Suki
-        towns: Bacari
-        places: Cayi
-    direction:
-      south_west: Veroc-perayen
-      south: Veroc
-      south_east: Veroci-akewten
-      east: Akewten
-      north_east: Zıme-Akewten
-      north: Zıme
-      north_west: Zıme-perayen
-      west: Perayen
-  layouts:
-    logout: veciyayış
-    log_in: cı kewe
-    sign_up: qeyd be
-    edit: Bıvurne
-    history: Tarix
-    export: Tebergroten
-    help: Peşti
+  javascripts: 
+    map: 
+      base: 
+        cycle_map: Xeritay Topoğrafiki
+        standard: Standard
+        transport_map: Xeritay Resnayışi
+    site: 
+      edit_tooltip: Xeriti timar ke
+  layouts: 
     community: Cemaet
     community_blogs: Blogê Cemaeti
-  notifier:
-    diary_comment_notification:
-      hi: 'Merheba %{to_user},'
-    message_notification:
-      hi: 'Merheba %{to_user},'
-    gpx_notification:
-      greeting: Merheba,
-    email_confirm_plain:
-      greeting: Merheba,
-    email_confirm_html:
-      greeting: Merheba,
-    lost_password_plain:
-      greeting: Merheba,
-    lost_password_html:
-      greeting: Merheba,
-  message:
-    inbox:
-      title: Ameyan
+    edit: Bıvurne
+    export: Tebergroten
+    help: Peşti
+    history: Tarix
+    log_in: cı kewe
+    logout: veciyayış
+    sign_up: qeyd be
+  message: 
+    inbox: 
+      date: Deme
+      from: Kêra
       my_inbox: Amayenê mı
       outbox: Rışteyan
-      from: Kêra
       subject: Mewzu
-      date: Deme
-    message_summary:
-      reply_button: Cewab bıde
+      title: Ameyan
+    message_summary: 
       delete_button: Bestere
-    new:
-      subject: Mewzu
+      reply_button: Cewab bıde
+    new: 
       body: Vêrey mesaci
       send_button: Bırışe
-    outbox:
-      title: Şıyenan
+      subject: Mewzu
+    outbox: 
+      date: Deme
       inbox: Ameyan
       outbox: Rışteyan
+      subject: Mewzu
+      title: Şıyenan
       to: Kêrê
-      subject: Mewzu
-      date: Deme
-    read:
-      subject: Mewzu
+    read: 
       date: Deme
       reply_button: Cewab bıde
+      subject: Mewzu
       to: Kêrê
-    sent_message_summary:
+    sent_message_summary: 
       delete_button: Bestere
-  site:
-    sidebar:
-      search_results: Neticeyê geyrayışi
-      close: Racnê
-    search:
-      search: Cı geyre
-      where_am_i: Edo kotideya?
-      submit_text: Şo
-    key:
-      table:
-        entry:
-          track: Raya Herın
-          byway: Raya Bınêk
-          bridleway: Raya Ancınıştan
-          cycleway: Raya Bisiklet
-          apron:
-            1: terminal
-          forest: Mêşe
-          wood: Meşe
-          golf: Saxay Golfi
-          park: Perk
-          common:
-            - Çimen
-          lake:
-            - Dol
-          farm: Cıtinin
-          cemetery: Mezlaser
-          allotments: Bostan
-          school:
-            - Wendxane
-            - Uniwersita
-          summit:
-            - Sersıq
-            - Ko
-    richtext_area:
-      edit: Bıvurne
-      preview: Verqayt
-    markdown_help:
-      headings: Sernamey
-      heading: Sername
-      first: Çiyo sıfteyên
-      second: Çiyo Bahdoyên
-      link: Gıre
-      text: Metın
-      image: Resim
-      url: GRE
-  trace:
-    edit:
-      filename: 'Nameyê dosya:'
-      download: ron
-      uploaded_at: 'Bar biyo:'
-      points: 'Dawte:'
-      map: xerite
-      edit: bıvurne
-      owner: 'Wayir:'
-      description: 'Şınasiyen:'
-      tags: 'Etiketi:'
-      visibility: Vinayîşî
-    trace_form:
-      tags: 'Etiketi:'
-      visibility: Vinayîşî
-      upload_button: Bar ke
-      help: Peşti
-    trace_optionals:
-      tags: Etiketan
-    view:
-      title: 'Rêça %{name} mocnêyêna'
-      heading: 'Rêça %{name} mocnêyêna'
-      pending: PAWEDEYO
-      filename: 'Nameyê dosya:'
-      download: ron
-      uploaded: 'Bar biyo:'
-      points: 'Dawte:'
-      start_coordinates: 'Pêkerden koordinat:'
-      map: xerite
-      edit: bıvurne
-      owner: 'Wayir:'
-      description: 'Şınasiyen:'
-      tags: 'Etiketi:'
-      none: Çıniyo
-    trace_paging_nav:
-      showing_page: 'Pele %{page}'
-    trace:
-      pending: PAWEDEYO
-      count_points: '%{count} puan'
-      ago: '%{time_in_words_ago} veror'
-      more: dehana vêşi
-      trace_details: Teferruatanê rêça bıvin
-      view_map: Xeriti Bımocnê
-      edit: bıvurne
-      edit_map: Xeriti Timar ke
-      public: ŞARE
-      identifiable: ŞINASKERDENEN
-      private: XAS
-      trackable: SEYRKERDENEN
-      by: kerden
-      in: te de
-      map: xerite
-    list:
-      public_traces: Pêron rê akerde rêçê GPS
-      public_traces_from: '%{user} ra pêron rê akerde rêçê GPS'
-      tagged_with: '%{tags} ya etiketyayo'
-  oauth_clients:
-    new:
-      submit: Qeyd Be
-    edit:
+  notifier: 
+    diary_comment_notification: 
+      hi: Merheba %{to_user},
+    email_confirm_html: 
+      greeting: Merheba,
+    email_confirm_plain: 
+      greeting: Merheba,
+    gpx_notification: 
+      greeting: Merheba,
+    lost_password_html: 
+      greeting: Merheba,
+    lost_password_plain: 
+      greeting: Merheba,
+    message_notification: 
+      hi: Merheba %{to_user},
+  oauth_clients: 
+    edit: 
       submit: Bıvurne
-    show:
-      edit: Detaya Timar ke
-      confirm: Vac welay?
-    index:
-      issued_at: Mersela
-      revoke: Terkne!
-    form:
+    form: 
       name: Name
       required: Mecburiyo
-  user:
-    login:
-      title: Cıkewtış
+    index: 
+      issued_at: Mersela
+      revoke: Terkne!
+    new: 
+      submit: Qeyd Be
+    show: 
+      confirm: Vac welay?
+      edit: Detaya Timar ke
+  redaction: 
+    edit: 
+      description: Şınasnayış
+    new: 
+      description: Şınasnayış
+    show: 
+      confirm: Vac welay?
+      description: "Şınasiyen:"
+      user: Vıraştoğ
+  site: 
+    key: 
+      table: 
+        entry: 
+          allotments: Bostan
+          apron: 
+            1: terminal
+          bridleway: Raya Ancınıştan
+          byway: Raya Bınêk
+          cemetery: Mezlaser
+          common: 
+            - Çimen
+          cycleway: Raya Bisiklet
+          farm: Cıtinin
+          forest: Mêşe
+          golf: Saxay Golfi
+          lake: 
+            - Dol
+          park: Perk
+          school: 
+            - Wendxane
+            - Uniwersita
+          summit: 
+            - Sersıq
+            - Ko
+          track: Raya Herın
+          wood: Meşe
+    markdown_help: 
+      first: Çiyo sıfteyên
+      heading: Sername
+      headings: Sernamey
+      image: Resim
+      link: Gıre
+      second: Çiyo Bahdoyên
+      text: Metın
+      url: GRE
+    richtext_area: 
+      edit: Bıvurne
+      preview: Verqayt
+    search: 
+      search: Cı geyre
+      submit_text: Şo
+      where_am_i: Edo kotideya?
+    sidebar: 
+      close: Racnê
+      search_results: Neticeyê geyrayışi
+  time: 
+    formats: 
+      friendly: "%e %B %Y seate %H:%M"
+  trace: 
+    edit: 
+      description: "Şınasiyen:"
+      download: ron
+      edit: bıvurne
+      filename: "Nameyê dosya:"
+      map: xerite
+      owner: "Wayir:"
+      points: "Dawte:"
+      tags: "Etiketi:"
+      uploaded_at: "Bar biyo:"
+      visibility: Vinayîşî
+    list: 
+      public_traces: Pêron rê akerde rêçê GPS
+      public_traces_from: "%{user} ra pêron rê akerde rêçê GPS"
+      tagged_with: "%{tags} ya etiketyayo"
+    trace: 
+      ago: "%{time_in_words_ago} veror"
+      by: kerden
+      count_points: "%{count} puan"
+      edit: bıvurne
+      edit_map: Xeriti Timar ke
+      identifiable: ŞINASKERDENEN
+      in: te de
+      map: xerite
+      more: dehana vêşi
+      pending: PAWEDEYO
+      private: XAS
+      public: ŞARE
+      trace_details: Teferruatanê rêça bıvin
+      trackable: SEYRKERDENEN
+      view_map: Xeriti Bımocnê
+    trace_form: 
+      help: Peşti
+      tags: "Etiketi:"
+      upload_button: Bar ke
+      visibility: Vinayîşî
+    trace_optionals: 
+      tags: Etiketan
+    trace_paging_nav: 
+      showing_page: Pele %{page}
+    view: 
+      description: "Şınasiyen:"
+      download: ron
+      edit: bıvurne
+      filename: "Nameyê dosya:"
+      heading: Rêça %{name} mocnêyêna
+      map: xerite
+      none: Çıniyo
+      owner: "Wayir:"
+      pending: PAWEDEYO
+      points: "Dawte:"
+      start_coordinates: "Pêkerden koordinat:"
+      tags: "Etiketi:"
+      title: Rêça %{name} mocnêyêna
+      uploaded: "Bar biyo:"
+  user: 
+    account: 
+      contributor terms: 
+        link text: no çıko?
+      current email address: "E-postay şımaya newki:"
+      home location: "Herun:"
+      image: "Resim:"
+      latitude: "Verıniye:"
+      longitude: "Derganiye:"
+      my settings: Eyarê mı
+      new email address: "E-postay adresiyo newe:"
+      new image: Yew resım cı ke
+      openid: 
+        link: http://wiki.openstreetmap.org/wiki/OpenID
+        link text: no çıko?
+        openid: "OpenID:"
+      preferred editor: "Editorê ke tercih kerê:"
+      preferred languages: "Zıwanê ke tercih kerê:"
+      public editing: 
+        disabled link text: Ezo çı nêşena bıvurna?
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: no çıko?
+        heading: "Pêron rê akerde vurnayış:"
+      public editing note: 
+        heading: "Pêron rê akerde vurnayış:"
+      return to profile: Peyser şo profil
+      save changes button: Vurnayışan qeyd ke
+      title: Hesabi timar ke
+    confirm: 
+      button: Testiq ke
+    confirm_email: 
+      button: Testiq ke
+    list: 
+      confirm: Karberê ke weçineyayê ena tesdiq ke
+      heading: Karberi
+      hide: Karbera weçinayışi bınımnê
+      showing: 
+        one: Pela %{page} (%{first_item} - toplam %{items})
+        other: Pela %{page} (%{first_item}-%{last_item} - pêro %{items})
+      summary: "%{name} %{ip_address} ra %{date} dı vıraşt"
+      summary_no_ip: "%{name} %{date} dı vıraşt"
+      title: Karberi
+    login: 
+      email or username: "Adresê e-posta yana namey karberi:"
       heading: Cıkewtış
-      email or username: 'Adresê e-posta yana namey karberi:'
-      password: 'Parola:'
-      openid: '%{logo} OpenID:'
-      remember: Mı biya xo viri
-      lost password link: Şıma parolay xo ke xo vira?
       login_button: Cıkewtış
-      register now: Enewkê qeyd bê
+      lost password link: Şıma parolay xo ke xo vira?
       no account: Hesabê şıma çıniyo?
+      openid: "%{logo} OpenID:"
       openid_logo_alt: OpenID ya dekewê de
-      openid_providers:
-        openid:
-          title: OpenID ya dekewê de
-          alt: OpenID URL ya dekewê de
-        google:
-          title: Google ya dekewê de
-          alt: Google OpenID ya dekewê de
-        yahoo:
-          title: Yahoo ya dekewê de
-          alt: Yahoo OpenID ya dekewê de
-        wordpress:
-          title: Wordpress ya dekewê de
-          alt: Wordpress OpenID ya dekewê de
-        aol:
-          title: AOL ya dekewê de
+      openid_providers: 
+        aol: 
           alt: AOL OpenID ya dekewê de
-    logout:
-      title: Veciyayış
+          title: AOL ya dekewê de
+        google: 
+          alt: Google OpenID ya dekewê de
+          title: Google ya dekewê de
+        openid: 
+          alt: OpenID URL ya dekewê de
+          title: OpenID ya dekewê de
+        wordpress: 
+          alt: Wordpress OpenID ya dekewê de
+          title: Wordpress ya dekewê de
+        yahoo: 
+          alt: Yahoo OpenID ya dekewê de
+          title: Yahoo ya dekewê de
+      password: "Parola:"
+      register now: Enewkê qeyd bê
+      remember: Mı biya xo viri
+      title: Cıkewtış
+    logout: 
       heading: OpenStreetMap ra vıcyayış
       logout_button: Veciyayış
-    lost_password:
-      title: Parolaya vınibyayi
+      title: Veciyayış
+    lost_password: 
+      email address: "Adresa e-postey:"
       heading: To parola ke xo vira?
-      email address: 'Adresa e-postey:'
       new password button: Parola reset ke
-    reset_password:
-      title: Parola reset ke
-      heading: 'Parolay %{user} reset ke'
-      password: 'Parola:'
-      confirm password: 'Parola tesdiq ke:'
-      reset: Parola reset ke
-    new:
-      email address: 'Adresa e-postey:'
-      confirm email address: 'Adresê E-posta tesdiq ke:'
-      display name: 'Nameyo ke Aseno:'
-      openid: '%{logo} OpenID:'
-      password: 'Parola:'
-      confirm password: 'Parolay tesdiq ke:'
-      use openid: 'ALternativey, %{logo} OpenID ra karfiye'
+      title: Parolaya vınibyayi
+    make_friend: 
+      button: Xo rê embaz ke
+    new: 
+      confirm email address: "Adresê E-posta tesdiq ke:"
+      confirm password: "Parolay tesdiq ke:"
       continue: Dewam ke
-    terms:
-      consider_pd_why: no çıko?
+      display name: "Nameyo ke Aseno:"
+      email address: "Adresa e-postey:"
+      openid: "%{logo} OpenID:"
+      password: "Parola:"
+      use openid: ALternativey, %{logo} OpenID ra karfiye
+    no_such_user: 
+      heading: "%{user} name dı karber çıniyo"
+      title: Karbero do wuna çıniyo
+    popup: 
+      friend: Embaz
+      nearby mapper: Xeritoğo emıryan
+      your location: Heruna mı
+    remove_friend: 
+      button: Embazan ra vec
+    reset_password: 
+      confirm password: "Parola tesdiq ke:"
+      heading: Parolay %{user} reset ke
+      password: "Parola:"
+      reset: Parola reset ke
+      title: Parola reset ke
+    suspended: 
+      heading: Hesab Darideyo
+      title: Hesab Darideyo
+      webmaster: idaroğê sita
+    terms: 
       agree: Qebul kena
+      consider_pd_why: no çıko?
       decline: Red kerê
-      legale_names:
+      legale_names: 
         france: Fransa
         italy: İtalya
-    no_such_user:
-      title: Karbero do wuna çıniyo
-      heading: '%{user} name dı karber çıniyo'
-    view:
-      my diary: rocekê mı
-      new diary entry: Roceko newe defi
-      my edits: pêştenê mı
-      my traces: GPS rêçê mı
-      my settings: Eyarê Mı
-      my comments: vatışê mı
-      oauth settings: sazê OAuthi
-      blocks on me: bloqeyê mı
+    view: 
+      activate_user: Nê karberi aktiv ke
+      add as friend: Xo rê embaz ke
+      ago: (%{time_in_words_ago} veror)
+      block_history: kılitkerdışê gırewtey
       blocks by me: Bloqe kerdışê mı
-      send message: mesac bırışê
+      blocks on me: bloqeyê mı
+      comments: vatışi
+      confirm: Testiq ke
+      confirm_user: nê karberi tesdiq ke
+      create_block: Ena karber blok bike
+      created from: "Vıraşten ra:"
+      ct accepted: Verdê %{ago} qebul ke
+      ct declined: Red kerd
+      ct undecided: Darıdeyo
+      deactivate_user: Nê karberi aktiv meke
+      delete_user: nê karberi esternê
+      description: Şınasnayış
       diary: rocek
       edits: vurnayışi
-      traces: rêçi
+      email address: "Adresa e-postey:"
+      hide_user: nê karberi  bınımnê
+      km away: "%{count} km duriyo"
+      latest edit: "vurnayışê peyênê %{ago}:"
+      m away: "%{count} metre nezdiyo"
+      mapper since: "Demê Xeritoğiney:"
+      moderator_history: Bloqanê cı bıgi re
+      my comments: vatışê mı
+      my diary: rocekê mı
+      my edits: pêştenê mı
+      my settings: Eyarê Mı
+      my traces: GPS rêçê mı
+      new diary entry: Roceko newe defi
+      oauth settings: sazê OAuthi
       remove as friend: Embazan ra vec
-      add as friend: Xo rê embaz ke
-      mapper since: 'Demê Xeritoğiney:'
-      ago: '(%{time_in_words_ago} veror)'
-      ct undecided: Darıdeyo
-      ct declined: Red kerd
-      ct accepted: 'Verdê %{ago} qebul ke'
-      latest edit: 'vurnayışê peyênê %{ago}:'
-      email address: 'Adresa e-postey:'
-      created from: 'Vıraşten ra:'
-      status: 'Weziyet:'
-      description: Şınasnayış
-      user location: Heruna karberi
-      settings_link_text: eyari
-      your friends: Embazê to
-      km away: '%{count} km duriyo'
-      m away: '%{count} metre nezdiyo'
-      role:
-        administrator: |
-          Na karber administratora<br>
-          No karber administratoro
-        moderator: |
-          Na karber Moderatora<br>
-          No karber Moderatoro
-        grant:
+      role: 
+        administrator: "Na karber administratora<br>\nNo karber administratoro"
+        grant: 
           administrator: Hesabê adminisrator de gırdi
           moderator: Hesabê moderator de gırdi
-        revoke:
+        moderator: "Na karber Moderatora<br>\nNo karber Moderatoro"
+        revoke: 
           administrator: Hesabê adminisratori terkne
           moderator: Hesabê moderatori terkne
-      block_history: kılitkerdışê gırewtey
-      moderator_history: Bloqanê cı bıgi re
-      comments: vatışi
-      create_block: Ena karber blok bike
-      activate_user: Nê karberi aktiv ke
-      deactivate_user: Nê karberi aktiv meke
-      confirm_user: nê karberi tesdiq ke
-      hide_user: 'nê karberi  bınımnê'
+      send message: mesac bırışê
+      settings_link_text: eyari
+      status: "Weziyet:"
+      traces: rêçi
       unhide_user: nê karberi menımnê
-      delete_user: nê karberi esternê
-      confirm: Tesdiq ke
-    popup:
-      your location: Heruna mı
-      nearby mapper: Xeritoğo emıryan
-      friend: Embaz
-    account:
-      title: Hesabi timar ke
-      my settings: Eyarê mı
-      current email address: 'E-postay şımaya newki:'
-      new email address: 'E-postay adresiyo newe:'
-      openid:
-        openid: 'OpenID:'
-        link: >
-          http://wiki.openstreetmap.org/wiki/OpenID
-        link text: no çıko?
-      public editing:
-        heading: 'Pêron rê akerde vurnayış:'
-        enabled link: >
-          http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: no çıko?
-        disabled link text: Ezo çı nêşena bıvurna?
-      public editing note:
-        heading: 'Pêron rê akerde vurnayış:'
-      contributor terms:
-        link text: no çıko?
-      preferred languages: 'Zıwanê ke tercih kerê:'
-      preferred editor: 'Editorê ke tercih kerê:'
-      image: 'Resim:'
-      new image: Yew resım cı ke
-      home location: 'Herun:'
-      latitude: 'Verıniye:'
-      longitude: 'Derganiye:'
-      save changes button: Vurnayışan qeyd ke
-      return to profile: Peyser şo profil
-    confirm:
-      button: Tesdiq ke
-    confirm_email:
-      button: Tesdiq ke
-    make_friend:
-      button: Xo rê embaz ke
-    remove_friend:
-      button: Embazan ra vec
-    list:
-      title: Karberi
-      heading: Karberi
-      showing:
-        one: 'Pela %{page} (%{first_item} - toplam %{items})'
-        other: 'Pela %{page} (%{first_item}-%{last_item} - pêro %{items})'
-      summary: '%{name} %{ip_address} ra %{date} dı vıraşt'
-      summary_no_ip: '%{name} %{date} dı vıraşt'
-      confirm: Karberê ke weçineyayê ena tesdiq ke
-      hide: Karbera weçinayışi bınımnê
-    suspended:
-      title: Hesab Darideyo
-      heading: Hesab Darideyo
-      webmaster: idaroğê sita
-  user_role:
-    grant:
-      confirm: Tesdiq ke
-    revoke:
-      confirm: Tesdiq ke
-  user_block:
-    new:
-      title: '%{name} i bloqe vırazeno'
-      heading: '%{name} i bloqe vırazeno'
-      submit: Bloqe vırazê
+      user location: Heruna karberi
+      your friends: Embazê to
+  user_block: 
+    blocks_by: 
+      heading: Blokeyê ke %{name} kerdê listey ênan
+      title: Blokeyê ke %{name} kerdê
+    blocks_on: 
+      heading: Blokeyê ke %{name} kerdê listey ênan
+      title: Blokeyê ke %{name} kerdê
+    edit: 
       back: Bloqan pêron bıvin
-    edit:
-      title: '%{name} bloqe vurna'
-      heading: '%{name} bloqe vurna'
-      submit: Bloqi noroc resn
+      heading: "%{name} bloqe vurna"
       show: Nê bloqi bıvin
-      back: Bloqan pêron bıvin
-    update:
-      success: Bloqe noroc resneya.
-    index:
+      submit: Bloqi noroc resn
+      title: "%{name} bloqe vurna"
+    helper: 
+      time_future: "%{time} dı bıqediyo"
+      time_past: Verdê %{time} qedya
+    index: 
       title: Bloqeyê karberi
-    revoke:
-      revoke: Terkne!
-    period:
-      one: 1 seate
-      other: '%{count} seati'
-    partial:
-      show: Bımocne
-      edit: Bıvurne
-      revoke: Terkne!
+    new: 
+      back: Bloqan pêron bıvin
+      heading: "%{name} i bloqe vırazeno"
+      submit: Bloqe vırazê
+      title: "%{name} i bloqe vırazeno"
+    partial: 
       confirm: Vac welay?
-      display_name: Karberê kılitbiyayey
       creator_name: Vıraştoğ
-      status: Weziyet
-      revoker_name: Terknoğ
-      not_revoked: (nê terkiyayo)
-      showing_page: 'Pele %{page}'
-      next: Peyên »
-      previous: « Verên
-    helper:
-      time_future: '%{time} dı bıqediyo'
-      time_past: 'Verdê %{time} qedya'
-    blocks_on:
-      title: 'Blokeyê ke %{name} kerdê'
-      heading: 'Blokeyê ke %{name} kerdê listey ênan'
-    blocks_by:
-      title: 'Blokeyê ke %{name} kerdê'
-      heading: 'Blokeyê ke %{name} kerdê listey ênan'
-    show:
-      title: 'Karber %{block_by} karber %{block_on} ke bloqe'
-      heading: 'Karber %{block_by} karber %{block_on} ke bloqe'
-      time_future: '%{time} dı bıqediyo'
-      time_past: 'Verdê %{time} qedya'
-      status: Weziyet
-      show: Bımocne
+      display_name: Karberê kılitbiyayey
       edit: Bıvurne
+      next: Peyên »
+      not_revoked: (nê terkiyayo)
+      previous: « Verên
       revoke: Terkne!
+      revoker_name: Terknoğ
+      show: Bımocne
+      showing_page: Pele %{page}
+      status: Weziyet
+    period: 
+      one: 1 seate
+      other: "%{count} seati"
+    revoke: 
+      revoke: Terkne!
+    show: 
       confirm: Vac welay?
-      revoker: 'Terkner:'
-  javascripts:
-    map:
-      base:
-        standard: Standard
-        cycle_map: Xeritay Topoğrafiki
-        transport_map: Xeritay Resnayışi
-    site:
-      edit_tooltip: Xeriti timar ke
-  redaction:
-    edit:
-      description: Şınasnayış
-    new:
-      description: Şınasnayış
-    show:
-      description: 'Şınasiyen:'
-      user: Vıraştoğ
-      confirm: Vac welay?
+      edit: Bıvurne
+      heading: Karber %{block_by} karber %{block_on} ke bloqe
+      revoke: Terkne!
+      revoker: "Terkner:"
+      show: Bımocne
+      status: Weziyet
+      time_future: "%{time} dı bıqediyo"
+      time_past: Verdê %{time} qedya
+      title: Karber %{block_by} karber %{block_on} ke bloqe
+    update: 
+      success: Bloqe noroc resneya.
+  user_role: 
+    grant: 
+      confirm: Testiq ke
+    revoke: 
+      confirm: Testiq ke
