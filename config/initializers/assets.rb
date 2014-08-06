@@ -6,13 +6,14 @@ Rails.application.config.assets.version = '1.0'
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 Rails.application.config.assets.precompile += %w( index.js browse.js welcome.js fixthemap.js )
-Rails.application.config.assets.precompile += %w( user.js diary_entry.js swfobject.js )
+Rails.application.config.assets.precompile += %w( user.js diary_entry.js )
 Rails.application.config.assets.precompile += %w( large-ltr.css small-ltr.css print-ltr.css )
 Rails.application.config.assets.precompile += %w( large-rtl.css small-rtl.css print-rtl.css )
 Rails.application.config.assets.precompile += %w( leaflet-all.css leaflet.ie.css )
 Rails.application.config.assets.precompile += %w( embed.js embed.css )
 Rails.application.config.assets.precompile += %w( html5shiv.js )
 Rails.application.config.assets.precompile += %w( images/marker-*.png img/*-handle.png )
+Rails.application.config.assets.precompile += %w( swfobject.js expressInstall.swf )
 Rails.application.config.assets.precompile += %w( potlatch2.swf )
 Rails.application.config.assets.precompile += %w( potlatch2/assets.zip )
 Rails.application.config.assets.precompile += %w( potlatch2/FontLibrary.swf )
