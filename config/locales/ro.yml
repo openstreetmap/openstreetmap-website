@@ -1,46 +1,17 @@
 # Messages for Romanian (română)
 # Exported from translatewiki.net
-# Export driver: syck-pecl
+# Export driver: spyc
 # Author: EddyPetrisor
 # Author: McDutchie
 # Author: Minisarm
 # Author: Strainu
-ro: 
-  activerecord: 
-    attributes: 
-      diary_comment: 
-        body: Corp
-      diary_entry: 
-        language: Limbă
-        latitude: Latitudine
-        longitude: Longitudine
-        title: Subiect
-        user: Utilizator
-      friend: 
-        friend: Prieten
-        user: Utilizator
-      message: 
-        body: Corp
-        recipient: Destinatar
-        sender: Expeditor
-        title: Subiect
-      trace: 
-        description: Descriere
-        latitude: Latitudine
-        longitude: Longitudine
-        name: Nume
-        public: Public
-        size: Dimensiune
-        user: Utilizator
-        visible: Vizibilă
-      user: 
-        active: Activ
-        description: Descriere
-        display_name: Afișare nume
-        email: E-mail
-        languages: Limbi
-        pass_crypt: Parolă
-    models: 
+---
+ro:
+  time:
+    formats:
+      friendly: %e %B %Y la %H:%M
+  activerecord:
+    models:
       acl: Lista de control al accesului
       changeset: Set de modificări
       changeset_tag: Etichetă pentru setul de modificări
@@ -73,233 +44,272 @@ ro:
       way: Cale
       way_node: Nod cale
       way_tag: Etichetă cale
-  browse: 
-    anonymous: anonim
-    changeset: 
-      belongs_to: Autor
-      changesetxml: Set de modificări XML
-      feed: 
-        title: "Set de modificări: %{id}"
-        title_comment: Set de modificări %{id} — %{comment}
-      node: Noduri (%{count})
-      node_paginated: Noduri (%{x}-%{y} din %{count})
-      osmchangexml: XML osmChange
-      title: "Set de modificări: %{id}"
-    containing_relation: 
-      entry: Relația %{relation_name}
-      entry_role: Relația %{relation_name} (ca %{relation_role})
+    attributes:
+      diary_comment:
+        body: Corp
+      diary_entry:
+        user: Utilizator
+        title: Subiect
+        latitude: Latitudine
+        longitude: Longitudine
+        language: Limbă
+      friend:
+        user: Utilizator
+        friend: Prieten
+      trace:
+        user: Utilizator
+        visible: Vizibilă
+        name: Nume
+        size: Dimensiune
+        latitude: Latitudine
+        longitude: Longitudine
+        public: Public
+        description: Descriere
+      message:
+        sender: Expeditor
+        title: Subiect
+        body: Corp
+        recipient: Destinatar
+      user:
+        email: E-mail
+        active: Activ
+        display_name: Afișare nume
+        description: Descriere
+        languages: Limbi
+        pass_crypt: Parolă
+  editor:
+    default: 'Implicit (în prezent %{name})'
+    potlatch:
+      name: Potlatch 1
+      description: >
+        Potlatch 1 (editor înglobat în
+        navigator)
+    potlatch2:
+      name: Potlatch 2
+      description: >
+        Potlatch 2 (editor înglobat în
+        navigator)
+    remote:
+      description: >
+        Control de la distanță (JOSM sau
+        Merkaartor)
+  browse:
+    version: Versiune
     in_changeset: Set de modificări
+    anonymous: anonim
     no_comment: (niciun comentariu)
-    not_found: 
-      sorry: "Ne pare rău, dar %{type} #%{id} nu s-a putut găsi."
-      type: 
-        changeset: set de modificări
-        node: nod
-        relation: relație
-        way: drum
-    note: 
-      title: "Notă: %{id}"
-    redacted: 
-      message_html: Nu se poate afișa versiunea %{version} a acestui/acestei %{type} pentru că a fost redactată. Vă rugăm să consultați %{redaction_link} pentru detalii.
-      redaction: Redactarea %{id}
-      type: 
-        node: nod
-        relation: relații
-        way: drum
-    relation_member: 
-      entry_role: "%{type} %{name} ca %{role}"
-      type: 
+    changeset:
+      title: 'Set de modificări: %{id}'
+      belongs_to: Autor
+      node: 'Noduri (%{count})'
+      node_paginated: 'Noduri (%{x}-%{y} din %{count})'
+      changesetxml: Set de modificări XML
+      osmchangexml: XML osmChange
+      feed:
+        title: 'Set de modificări: %{id}'
+        title_comment: 'Set de modificări %{id} — %{comment}'
+    way:
+      nodes: Noduri
+    relation_member:
+      entry_role: '%{type} %{name} ca %{role}'
+      type:
         node: Nod
-        relation: Relație
         way: Cale
-    start_rjs: 
+        relation: Relație
+    containing_relation:
+      entry: 'Relația %{relation_name}'
+      entry_role: 'Relația %{relation_name} (ca %{relation_role})'
+    not_found:
+      sorry: 'Ne pare rău, dar %{type} #%{id} nu s-a putut găsi.'
+      type:
+        node: nod
+        way: drum
+        relation: relație
+        changeset: set de modificări
+    timeout:
+      sorry: 'Ne pare rău, dar durata recepționării datelor pentru %{type} cu identificatorul %{id} a fost prea mare.'
+      type:
+        node: nodul
+        way: calea
+        relation: relația
+        changeset: setul de schimbări
+    redacted:
+      redaction: 'Redactarea %{id}'
+      message_html: 'Nu se poate afișa versiunea %{version} a acestui/acestei %{type} pentru că a fost redactată. Vă rugăm să consultați %{redaction_link} pentru detalii.'
+      type:
+        node: nod
+        way: drum
+        relation: relații
+    start_rjs:
       load_data: Încărcare date
       loading: Se încarcă...
-    tag_details: 
+    tag_details:
       tags: Etichete
-      wiki_link: 
-        key: Pagina de pe wiki pentru tagul %{key}
-        tag: Pagina de pe wiki pentru tagul %{key}=%{value}
-      wikipedia_link: Articolul %{page} pe Wikipedia
-    timeout: 
-      sorry: Ne pare rău, dar durata recepționării datelor pentru %{type} cu identificatorul %{id} a fost prea mare.
-      type: 
-        changeset: setul de schimbări
-        node: nodul
-        relation: relația
-        way: calea
-    version: Versiune
-    way: 
-      nodes: Noduri
-  changeset: 
-    changeset: 
+      wiki_link:
+        key: 'Pagina de pe wiki pentru tagul %{key}'
+        tag: 'Pagina de pe wiki pentru tagul %{key}=%{value}'
+      wikipedia_link: 'Articolul %{page} pe Wikipedia'
+    note:
+      title: 'Notă: %{id}'
+  changeset:
+    changeset_paging_nav:
+      showing_page: 'Pagina %{page}'
+      next: Următoarea »
+      previous: « Precedenta
+    changeset:
       anonymous: Anonim
       no_edits: (nu există editări)
       view_changeset_details: Vizualizare detalii set de schimbări
-    changeset_paging_nav: 
-      next: Următoarea »
-      previous: « Precedenta
-      showing_page: Pagina %{page}
-    changesets: 
-      area: Zonă
-      comment: Comentariu
+    changesets:
       id: ID
       saved_at: Salvat la
       user: Utilizator
-    list: 
-      empty: Niciun set de modificări găsit.
-      empty_area: Niciun set de modificări în această zonă.
-      empty_user: Niciun set de modificări de la acest utilizator.
-      load_more: Încarcă mai multe
-      no_more: Nu s-au mai găsit seturi de modificări.
-      no_more_area: Nu s-au mai găsit seturi de modificări în această zonă.
-      no_more_user: Nu s-au mai găsit seturi de modificări de la acest utilizator.
-      title: Set de modificări
-      title_friend: Seturi de modificări de la prietenii dv.
-      title_nearby: Modificări de la utilizatori din apropiere
-      title_user: Seturi de modificări făcute de %{user}
-    timeout: 
-      sorry: Ne pare rău, preluarea listei de modificări pe care ați solicitat-o a durat prea mult.
-  diary_entry: 
-    comments: 
-      ago: cu %{ago} în urmă
       comment: Comentariu
-      has_commented_on: "%{display_name} a comentat pe următoarele înregistrări din jurnal"
-      newer_comments: Comentarii mai noi
-      older_comments: Comentarii mai vechi
-      post: Trimite
-      when: Când
-    diary_comment: 
-      comment_from: Comentariu de la %{link_user} pe %{comment_created_at}
-      confirm: Confirmă
-      hide_link: Ascunde acest comentariu
-    diary_entry: 
-      comment_count: 
-        one: "%{count} comentariu"
-        other: "%{count} comentarii"
-        zero: niciun comentariu
-      comment_link: Comentează la această înregistrare
-      confirm: Confirmă
-      edit_link: Editează această înregistrare
-      hide_link: Ascunde această înregistrare
-      posted_by: Postat de către %{link_user} pe %{created} în %{language_link}
-      reply_link: Răspunde la această înregistrare
-    edit: 
-      body: "Corpul mesajului:"
-      language: "Limbă:"
-      latitude: "Latitudine:"
-      location: "Loc:"
-      longitude: "Longitudine:"
-      marker_text: Poziția înregistrării din jurnal
-      save_button: Salvează
-      subject: "Subiect:"
-      title: Editare înregistrare din jurnal
-      use_map_link: utilizează harta
-    feed: 
-      all: 
-        description: Înregistrări recente în jurnale de la utilizatorii OpenStreetMap
-        title: Înregistrări în jurnalul OpenStreetMap
-      language: 
-        description: Înregistrări recente în jurnale de la utilizatorii OpenStreetMap în limba %{language_name}
-        title: Înregistrări recente în jurnalul OpenStreetMap în %{language_name}
-      user: 
-        description: Înregistrări recente în jurnalul OpenStreetMap de la %{user}
-        title: Înregistrări în jurnalul OpenStreetMap pentru %{user}
-    list: 
-      in_language_title: Înregistrări de jurnal în %{language}
-      new: O nouă înregistrare în jurnal
-      new_title: Compune o înregistrare nouă în jurnalul dvs. de utilizator
-      newer_entries: Înregistrări mai noi
-      no_entries: Nu există înregistrări în jurnal
-      older_entries: Înregistrări mai vechi
-      recent_entries: Înregistrări recente din jurnal
+      area: Zonă
+    list:
+      title: Set de modificări
+      title_user: 'Seturi de modificări făcute de %{user}'
+      title_friend: >
+        Seturi de modificări de la prietenii
+        dv.
+      title_nearby: >
+        Modificări de la utilizatori din
+        apropiere
+      empty: Niciun set de modificări găsit.
+      empty_area: >
+        Niciun set de modificări în această
+        zonă.
+      empty_user: >
+        Niciun set de modificări de la acest
+        utilizator.
+      no_more: >
+        Nu s-au mai găsit seturi de
+        modificări.
+      no_more_area: >
+        Nu s-au mai găsit seturi de modificări
+        în această zonă.
+      no_more_user: >
+        Nu s-au mai găsit seturi de modificări
+        de la acest utilizator.
+      load_more: Încarcă mai multe
+    timeout:
+      sorry: >
+        Ne pare rău, preluarea listei de
+        modificări pe care ați solicitat-o a
+        durat prea mult.
+  diary_entry:
+    new:
+      title: O nouă înregistrare în jurnal
+    list:
       title: Jurnalele utilizatorilor
       title_friends: Jurnalele prietenilor
-      title_nearby: Jurnalele utilizatorilor aflați în apropiere
-      user_title: Jurnalul utilizatorului %{user}
-    location: 
-      edit: Modifică
-      location: "Loc:"
-      view: Vizualizează
-    new: 
-      title: O nouă înregistrare în jurnal
-    no_such_entry: 
-      body: Ne pare rău, dar nu există nici o înregistrare de jurnal sau comentariu cu identificatorul %{id}. Vă rugăm să verificați ortografia; sau poate ați făcut clic pe un link invalid.
-      heading: Nici o înregistrare cu identificatorul %{id}
-      title: Nu există o asemenea înregistrare
-    view: 
-      leave_a_comment: Adaugă un comentariu
-      login: Autentificare
-      login_to_leave_a_comment: "%{login_link} este necesară pentru a comenta"
+      title_nearby: >
+        Jurnalele utilizatorilor aflați în
+        apropiere
+      user_title: 'Jurnalul utilizatorului %{user}'
+      in_language_title: 'Înregistrări de jurnal în %{language}'
+      new: O nouă înregistrare în jurnal
+      new_title: >
+        Compune o înregistrare nouă în
+        jurnalul dvs. de utilizator
+      no_entries: Nu există înregistrări în jurnal
+      recent_entries: Înregistrări recente din jurnal
+      older_entries: Înregistrări mai vechi
+      newer_entries: Înregistrări mai noi
+    edit:
+      title: Editare înregistrare din jurnal
+      subject: 'Subiect:'
+      body: 'Corpul mesajului:'
+      language: 'Limbă:'
+      location: 'Loc:'
+      latitude: 'Latitudine:'
+      longitude: 'Longitudine:'
+      use_map_link: utilizează harta
       save_button: Salvează
-      title: Jurnalul utilizatorului %{user} | %{title}
-      user_title: Jurnalul utilizatorului %{user}
-  editor: 
-    default: Implicit (în prezent %{name})
-    potlatch: 
-      description: Potlatch 1 (editor înglobat în navigator)
-      name: Potlatch 1
-    potlatch2: 
-      description: Potlatch 2 (editor înglobat în navigator)
-      name: Potlatch 2
-    remote: 
-      description: Control de la distanță (JOSM sau Merkaartor)
-  export: 
-    start: 
-      add_marker: Adaugă un marcator pe hartă
-      area_to_export: Zona pentru export
-      export_button: Exportare
-      format: Format
-      format_to_export: Format de exportat
-      image_size: Dimensiune imagine
-      latitude: "Lat:"
-      licence: Licență
-      longitude: "Long:"
-      manually_select: Selectați manual o altă zonă
-      max: max
-      options: Opțiuni
-      osm_xml_data: Date XML OpenStreetMap
-      output: Date de ieșire
-      scale: Scară
-      zoom: Zoom
+      marker_text: Poziția înregistrării din jurnal
+    view:
+      title: 'Jurnalul utilizatorului %{user} | %{title}'
+      user_title: 'Jurnalul utilizatorului %{user}'
+      leave_a_comment: Adaugă un comentariu
+      login_to_leave_a_comment: '%{login_link} este necesară pentru a comenta'
+      login: Autentificare
+      save_button: Salvează
+    no_such_entry:
+      title: Nu există o asemenea înregistrare
+      heading: 'Nici o înregistrare cu identificatorul %{id}'
+      body: 'Ne pare rău, dar nu există nici o înregistrare de jurnal sau comentariu cu identificatorul %{id}. Vă rugăm să verificați ortografia; sau poate ați făcut clic pe un link invalid.'
+    diary_entry:
+      posted_by: 'Postat de către %{link_user} pe %{created} în %{language_link}'
+      comment_link: Comentează la această înregistrare
+      reply_link: Răspunde la această înregistrare
+      comment_count:
+        zero: niciun comentariu
+        one: '%{count} comentariu'
+        other: '%{count} comentarii'
+      edit_link: Editează această înregistrare
+      hide_link: Ascunde această înregistrare
+      confirm: Confirmă
+    diary_comment:
+      comment_from: 'Comentariu de la %{link_user} pe %{comment_created_at}'
+      hide_link: Ascunde acest comentariu
+      confirm: Confirmă
+    location:
+      location: 'Loc:'
+      view: Vizualizează
+      edit: Modifică
+    feed:
+      user:
+        title: 'Înregistrări în jurnalul OpenStreetMap pentru %{user}'
+        description: 'Înregistrări recente în jurnalul OpenStreetMap de la %{user}'
+      language:
+        title: 'Înregistrări recente în jurnalul OpenStreetMap în %{language_name}'
+        description: 'Înregistrări recente în jurnale de la utilizatorii OpenStreetMap în limba %{language_name}'
+      all:
+        title: >
+          Înregistrări în jurnalul
+          OpenStreetMap
+        description: >
+          Înregistrări recente în jurnale de la
+          utilizatorii OpenStreetMap
+    comments:
+      has_commented_on: '%{display_name} a comentat pe următoarele înregistrări din jurnal'
+      post: Trimite
+      when: Când
+      comment: Comentariu
+      ago: 'cu %{ago} în urmă'
+      newer_comments: Comentarii mai noi
+      older_comments: Comentarii mai vechi
+  export:
     title: Exportare
-  fixthemap: 
-    how_to_help: 
-      join_the_community: 
-        title: Alăturați-vă comunității
-  geocoder: 
-    description: 
-      types: 
-        cities: Orașe
-        places: Locuri
-        towns: Orășele
-    direction: 
-      east: est
-      north: nord
-      north_east: nord-est
-      north_west: nord-vest
-      south: sud
-      south_east: sud-est
-      south_west: sud-vest
-      west: vest
-    distance: 
-      one: circa 1 km
-      other: circa %{count} km
-      zero: mai puțin de 1 km
-    results: 
-      more_results: Mai multe rezultate
-      no_results: Niciun rezultat găsit
-    search: 
-      title: 
-        ca_postcode: Rezultate de la <a href="http://geocoder.ca/">Geocoder.CA</a>
-        geonames: Rezultate de la <a href="http://www.geonames.org/">GeoNames</a>
-        latlon: Rezultate <a href="http://openstreetmap.org/">interne</a>
-        osm_nominatim: Rezultate de la <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
-        uk_postcode: Rezultate de la <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
-        us_postcode: Rezultate de la <a href="http://geocoder.us/">Geocoder.us</a>
-    search_osm_nominatim: 
-      prefix: 
-        aeroway: 
+    start:
+      area_to_export: Zona pentru export
+      manually_select: Selectați manual o altă zonă
+      format_to_export: Format de exportat
+      osm_xml_data: Date XML OpenStreetMap
+      licence: Licență
+      options: Opțiuni
+      format: Format
+      scale: Scară
+      max: max
+      image_size: Dimensiune imagine
+      zoom: Zoom
+      add_marker: Adaugă un marcator pe hartă
+      latitude: 'Lat:'
+      longitude: 'Long:'
+      output: Date de ieșire
+      export_button: Exportare
+  geocoder:
+    search:
+      title:
+        latlon: 'Rezultate <a href="http://openstreetmap.org/">interne</a>'
+        us_postcode: 'Rezultate de la <a href="http://geocoder.us/">Geocoder.us</a>'
+        uk_postcode: 'Rezultate de la <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>'
+        ca_postcode: 'Rezultate de la <a href="http://geocoder.ca/">Geocoder.CA</a>'
+        osm_nominatim: 'Rezultate de la <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>'
+        geonames: 'Rezultate de la <a href="http://www.geonames.org/">GeoNames</a>'
+    search_osm_nominatim:
+      prefix:
+        aeroway:
           aerodrome: Aerodrom
           apron: Peron de aeroport
           gate: Poartă de aeroport
@@ -307,8 +317,7 @@ ro:
           runway: Pistă
           taxiway: Pistă de manevră
           terminal: Terminal
-        amenity: 
-          WLAN: Acces WiFi
+        amenity:
           airport: Aeroport
           arts_centre: Centru de arte
           artwork: Operă de artă
@@ -403,20 +412,21 @@ ro:
           village_hall: Primărie comunală
           waste_basket: Coș de gunoi
           wifi: Acces WiFi
+          WLAN: Acces WiFi
           youth_centre: Centru de tineret
-        boundary: 
+        boundary:
           administrative: Graniță administrativă
           national_park: Parc național
           protected_area: Zonă protejată
-        bridge: 
+        bridge:
           aqueduct: Apeduct
           suspension: Pod suspendat
           swing: Pod batant
           viaduct: Viaduct
-          "yes": Pod
-        building: 
-          "yes": Clădire
-        highway: 
+          yes: Pod
+        building:
+          yes: Clădire
+        highway:
           bridleway: Drum pentru călărie
           bus_guideway: Linie de autobuz ghidată
           bus_stop: Stație de autobuz
@@ -453,7 +463,7 @@ ro:
           trail: Potecă
           unclassified: Drum neclasificat
           unsurfaced: Drum neasfaltat
-        historic: 
+        historic:
           archaeological_site: Sit arheologic
           battlefield: Câmp de luptă
           boundary_stone: Bornă de graniță
@@ -472,7 +482,7 @@ ro:
           wayside_cross: Troiță
           wayside_shrine: Altar
           wreck: Epavă
-        landuse: 
+        landuse:
           basin: Bazin
           cemetery: Cimitir
           commercial: Zonă comercială
@@ -495,7 +505,7 @@ ro:
           residential: Zonă rezidențială
           vineyard: Podgorie
           wood: Pădure
-        leisure: 
+        leisure:
           beach_resort: Stațiune balneară
           fishing: Zonă de pescuit
           garden: Grădină
@@ -511,7 +521,7 @@ ro:
           swimming_pool: Bazin de înot
           track: Pistă de atletism
           water_park: Parc acvatic
-        natural: 
+        natural:
           bay: Golf
           beach: Plajă
           cape: Cap
@@ -543,7 +553,7 @@ ro:
           volcano: Vulcan
           water: Apă
           wood: Pădure
-        place: 
+        place:
           airport: Aeroport
           city: Oraș
           country: Țară
@@ -566,7 +576,7 @@ ro:
           town: Orășel
           unincorporated_area: Zonă neîncorporată
           village: Sat
-        railway: 
+        railway:
           abandoned: Cale ferată abandonată
           construction: Cale ferată în construcție
           disused: Cale ferată dezafectată
@@ -585,7 +595,7 @@ ro:
           tram: Tramvai
           tram_stop: Stație de tramvai
           yard: Depou
-        shop: 
+        shop:
           art: Magazin de artă
           bakery: Brutărie
           beauty: Salon de frumusețe
@@ -624,7 +634,7 @@ ro:
           supermarket: Supermarket
           toys: Magazin de jucării
           travel_agency: Agenție de turism
-        tourism: 
+        tourism:
           alpine_hut: Refugiu montan
           artwork: Operă de artă
           attraction: Atracție
@@ -640,7 +650,7 @@ ro:
           theme_park: Parc tematic
           valley: Vale
           zoo: Gradină zoologică
-        waterway: 
+        waterway:
           canal: Canal
           dam: Baraj
           ditch: Șanț
@@ -652,120 +662,146 @@ ro:
           river: Râu
           waterfall: Cascadă
           weir: Stăvilar
-  layouts: 
-    about: Despre
-    community: Comunitate
-    community_blogs: Bloguri ale comunității
-    community_blogs_title: Bloguri ale membrilor comunității OpenStreetMap
-    copyright: Drepturi de autor
-    edit: Modificare
-    edit_with: Modificare cu %{editor}
-    foundation: Fundația
-    foundation_title: Fundația OpenStreetMap
-    help: Ajutor
-    history: Istoric
+    description:
+      types:
+        cities: Orașe
+        towns: Orășele
+        places: Locuri
+    results:
+      no_results: Niciun rezultat găsit
+      more_results: Mai multe rezultate
+    distance:
+      one: circa 1 km
+      zero: mai puțin de 1 km
+      other: 'circa %{count} km'
+    direction:
+      south_west: sud-vest
+      south: sud
+      south_east: sud-est
+      east: est
+      north_east: nord-est
+      north: nord
+      north_west: nord-vest
+      west: vest
+  layouts:
+    logo:
+      alt_text: Logoul OpenStreetMap
     home: acasă
-    learn_more: Aflați mai multe
+    logout: Închide sesiunea
     log_in: Autentificare
     log_in_tooltip: Autentificare cu un cont existent
-    logo: 
-      alt_text: Logoul OpenStreetMap
-    logout: Închide sesiunea
-    make_a_donation: 
-      text: Faceți o donație
-      title: Sprijiniți OpenStreetMap printr-o donație în bani
-    more: Mai multe
-    partners_partners: parteneri
     sign_up: Înregistrare
-    sign_up_tooltip: Creați un cont pentru editare
     start_mapping: Start la cartografiere
-  license_page: 
-    foreign: 
+    sign_up_tooltip: Creați un cont pentru editare
+    edit: Modificare
+    history: Istoric
+    edit_with: 'Modificare cu %{editor}'
+    partners_partners: parteneri
+    help: Ajutor
+    about: Despre
+    copyright: Drepturi de autor
+    community: Comunitate
+    community_blogs: Bloguri ale comunității
+    community_blogs_title: >
+      Bloguri ale membrilor comunității
+      OpenStreetMap
+    foundation: Fundația
+    foundation_title: Fundația OpenStreetMap
+    make_a_donation:
+      title: >
+        Sprijiniți OpenStreetMap printr-o
+        donație în bani
+      text: Faceți o donație
+    learn_more: Aflați mai multe
+    more: Mai multe
+  license_page:
+    foreign:
       title: Despre această traducere
-    legal_babble: 
-      infringement_title_html: Încălcarea drepturilor de autor
-      title_html: Drepturi de autor și licență
-    native: 
+    native:
       title: Despre această pagină
-  message: 
-    delete: 
-      deleted: Mesaj șters
-    message_summary: 
+    legal_babble:
+      title_html: Drepturi de autor și licență
+      infringement_title_html: Încălcarea drepturilor de autor
+  welcome_page:
+    title: Bun venit!
+    questions:
+      title: Întrebări?
+  fixthemap:
+    how_to_help:
+      join_the_community:
+        title: Alăturați-vă comunității
+  message:
+    message_summary:
       delete_button: Şterge
-    outbox: 
-      date: Dată
-      inbox: mesaje primite
-      messages: 
-        one: Aveți %{count} mesaj trimis
-        other: Aveți %{count} (de) mesaje trimise
-      my_inbox: Mesajele mele primite
-      outbox: mesaje trimise
-      subject: Subiect
+    outbox:
       title: Mesaje trimise
+      my_inbox: Mesajele mele primite
+      inbox: mesaje primite
+      outbox: mesaje trimise
+      messages:
+        one: 'Aveți %{count} mesaj trimis'
+        other: 'Aveți %{count} (de) mesaje trimise'
       to: Către
-    read: 
-      date: Dată
-      from: De la
-      reply_button: Răspunde
       subject: Subiect
+      date: Dată
+    read:
       title: Citire mesaj
-      to: Către
+      from: De la
+      subject: Subiect
+      date: Dată
+      reply_button: Răspunde
       unread_button: Marchează ca necitit
-    sent_message_summary: 
+      to: Către
+    sent_message_summary:
       delete_button: Şterge
-  oauth: 
-    oauthorize: 
-      request_access: Aplicația %{app_name} cere acces la contul dumneavoastră, %{user}. Vă rugăm să alegeți care din următoarele permisiuni le poate avea aplicația. Puteți alege cât de multe sau cât de puține doriți.
-  oauth_clients: 
-    edit: 
-      submit: Editează
-    form: 
-      name: Nume
-      required: Necesar
-    index: 
-      revoke: Revocă!
-    new: 
-      submit: Înregistrează
-      title: Înregistrare aplicație nouă
-    show: 
-      allow_write_api: modifică harta.
-  site: 
-    edit: 
-      user_page_link: pagină de utilizator
-    index: 
+    delete:
+      deleted: Mesaj șters
+  site:
+    index:
       permalink: Legătură permanentă
       shortlink: Legătură scurtată
-  time: 
-    formats: 
-      friendly: "%e %B %Y la %H:%M"
-  trace: 
-    edit: 
-      visibility: "Vizibilitate:"
+    edit:
+      user_page_link: pagină de utilizator
+  trace:
+    edit:
+      visibility: 'Vizibilitate:'
       visibility_help: ce înseamnă asta?
-    trace_form: 
-      description: "Descriere:"
-      tags: "Etichete:"
+    trace_form:
+      upload_gpx: 'Încărcați fișier GPX:'
+      description: 'Descriere:'
+      tags: 'Etichete:'
       tags_help: use commas
-      upload_gpx: "Încărcați fișier GPX:"
-      visibility: "Vizibilitate:"
+      visibility: 'Vizibilitate:'
       visibility_help: ce înseamnă asta?
-    view: 
-      filename: "Nume fișier:"
-      tags: "Etichete:"
-      uploaded: "Încărcate:"
-      visibility: "Vizibilitate:"
-  user: 
-    login: 
-      password: "Parolă:"
-    new: 
-      confirm password: "Confirmați parola:"
-      password: "Parolă:"
-    reset_password: 
-      confirm password: "Confirmați parola:"
-      flash changed: Parola dumneavoastră a fost schimbată.
-      password: "Parola:"
+    view:
+      filename: 'Nume fișier:'
+      uploaded: 'Încărcate:'
+      tags: 'Etichete:'
+      visibility: 'Vizibilitate:'
+  oauth:
+    oauthorize:
+      request_access: 'Aplicația %{app_name} cere acces la contul dumneavoastră, %{user}. Vă rugăm să alegeți care din următoarele permisiuni le poate avea aplicația. Puteți alege cât de multe sau cât de puține doriți.'
+  oauth_clients:
+    new:
+      title: Înregistrare aplicație nouă
+      submit: Înregistrează
+    edit:
+      submit: Editează
+    show:
+      allow_write_api: modifică harta.
+    index:
+      revoke: Revocă!
+    form:
+      name: Nume
+      required: Necesar
+  user:
+    login:
+      password: 'Parolă:'
+    reset_password:
+      password: 'Parola:'
+      confirm password: 'Confirmați parola:'
       reset: Resetează parola
-  welcome_page: 
-    questions: 
-      title: Întrebări?
-    title: Bun venit!
+      flash changed: Parola dumneavoastră a fost schimbată.
+    new:
+      password: 'Parolă:'
+      confirm password: 'Confirmați parola:'

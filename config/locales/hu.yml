@@ -1,6 +1,6 @@
 # Messages for Hungarian (magyar)
 # Exported from translatewiki.net
-# Export driver: syck-pecl
+# Export driver: spyc
 # Author: BáthoryPéter
 # Author: City-busz
 # Author: Csega
@@ -16,48 +16,13 @@
 # Author: Samat
 # Author: Sucy
 # Author: Tacsipacsi
-hu: 
-  about_page: 
-    copyright_html: <span>&copy;</span>OpenStreetMap<br />közreműködők
-    local_knowledge_title: Helyi tudásbázis
-    next: Következő
-    open_data_title: Szabad adatok
-    partners_title: Partnerek
-  activerecord: 
-    attributes: 
-      diary_comment: 
-        body: Szöveg
-      diary_entry: 
-        language: Nyelv
-        latitude: Földrajzi szélesség
-        longitude: Földrajzi hosszúság
-        title: Tárgy
-        user: Felhasználó
-      friend: 
-        friend: Barát
-        user: Felhasználó
-      message: 
-        body: Szöveg
-        recipient: Címzett
-        sender: Küldő
-        title: Tárgy
-      trace: 
-        description: Leírás
-        latitude: Földrajzi szélesség
-        longitude: Földrajzi hosszúság
-        name: Név
-        public: Nyilvános
-        size: Méret
-        user: Felhasználó
-        visible: Látható
-      user: 
-        active: Aktív
-        description: Leírás
-        display_name: Megjelenítendő név
-        email: E-mail
-        languages: Nyelvek
-        pass_crypt: Jelszó
-    models: 
+---
+hu:
+  time:
+    formats:
+      friendly: %Y. %B %e., %H.%M
+  activerecord:
+    models:
       acl: Hozzáférés-vezérlési lista
       changeset: Módosításcsomag
       changeset_tag: Módosításcsomag címkéje
@@ -91,330 +56,355 @@ hu:
       way: Vonal
       way_node: Vonal pontja
       way_tag: Vonal címkéje
-  application: 
-    require_cookies: 
-      cookies_needed: Úgy tűnik, hogy a böngésződben le vannak tiltva a sütik – a folytatás előtt engedélyezd azokat.
-    require_moderator: 
-      not_a_moderator: A művelet végrehajtásához moderátornak kell lenned.
-    setup_user_auth: 
-      blocked: Az API-hoz való hozzáférésed blokkolva lett. Jelentkezz be a webes felületen a részletek megtekintéséhez.
-      need_to_see_terms: Az API-hoz való hozzáférésed ideiglenesen felfüggesztésre került. Jelentkezz be a webes felületen a közreműködési feltételek megtekintéséhez. Ezt nem kell elfogadnod, de meg kell tekintened.
-  browse: 
-    anonymous: névtelen
-    changeset: 
-      belongs_to: Szerző
-      changesetxml: Changeset XML
-      feed: 
-        title: "Módosításcsomag: %{id}"
-        title_comment: "Módosításcsomag: %{id} - %{comment}"
-      node: Pontok (%{count})
-      node_paginated: Pontok (%{x}-%{y} összesen %{count})
-      osmchangexml: osmChange XML
-      relation: Kapcsolatok (%{count})
-      relation_paginated: Kapcsolatok (%{x}-%{y} összesen %{count})
-      title: "Módosításcsomag: %{id}"
-      way: Vonalak (%{count})
-      way_paginated: Vonalak (%{x}-%{y} összesen %{count})
-    closed: Lezárva
-    closed_by_html: Lezárta %{user} <abbr title='%{title}'>%{time}</abbr>
-    closed_html: Lezárva <abbr title='%{title}'>%{time}</abbr>
-    containing_relation: 
-      entry: "Kapcsolat: %{relation_name}"
-      entry_role: "Kapcsolat: %{relation_name} (mint %{relation_role})"
+    attributes:
+      diary_comment:
+        body: Szöveg
+      diary_entry:
+        user: Felhasználó
+        title: Tárgy
+        latitude: Földrajzi szélesség
+        longitude: Földrajzi hosszúság
+        language: Nyelv
+      friend:
+        user: Felhasználó
+        friend: Barát
+      trace:
+        user: Felhasználó
+        visible: Látható
+        name: Név
+        size: Méret
+        latitude: Földrajzi szélesség
+        longitude: Földrajzi hosszúság
+        public: Nyilvános
+        description: Leírás
+      message:
+        sender: Küldő
+        title: Tárgy
+        body: Szöveg
+        recipient: Címzett
+      user:
+        email: E-mail
+        active: Aktív
+        display_name: Megjelenítendő név
+        description: Leírás
+        languages: Nyelvek
+        pass_crypt: Jelszó
+  editor:
+    default: 'Alapértelmezett (jelenleg %{name})'
+    potlatch:
+      name: Potlatch 1
+      description: >
+        Potlatch 1 (böngészőn belüli
+        szerkesztő)
+    id:
+      name: iD
+      description: iD (böngészőben futó szerkesztő)
+    potlatch2:
+      name: Potlatch 2
+      description: >
+        Potlatch 2 (böngészőn belüli
+        szerkesztő)
+    remote:
+      name: Távirányító
+      description: Távirányító (JOSM vagy Merkaartor)
+  browse:
     created: Létrehozva
-    created_by_html: Létrehozta %{user} <abbr title='%{title}'>%{time}</abbr>
-    created_html: Létrehozva <abbr title='%{title}'>%{time}</abbr>
-    deleted_by_html: Törölte %{user} <abbr title='%{title}'>%{time}</abbr>
-    download_xml: XML letöltése
-    edited_by_html: Szerkesztette %{user} <abbr title='%{title}'>%{time}</abbr>
+    closed: Lezárva
+    created_html: "Létrehozva <abbr title='%{title}'>%{time}</abbr>"
+    closed_html: "Lezárva <abbr title='%{title}'>%{time}</abbr>"
+    created_by_html: "Létrehozta %{user} <abbr title='%{title}'>%{time}</abbr>"
+    deleted_by_html: "Törölte %{user} <abbr title='%{title}'>%{time}</abbr>"
+    edited_by_html: "Szerkesztette %{user} <abbr title='%{title}'>%{time}</abbr>"
+    closed_by_html: "Lezárta %{user} <abbr title='%{title}'>%{time}</abbr>"
+    version: Verzió
     in_changeset: Módosításcsomag
-    location: "Hely:"
+    anonymous: névtelen
     no_comment: (nincs hozzászólás)
-    node: 
-      history_title: "Pont történet: %{name}"
-      title: "Pont: %{name}"
-    not_found: 
-      sorry: Sajnálom, a(z) %{id} azonosítójú %{type} nem található.
-      type: 
-        changeset: módosításcsomag
-        node: pont
-        relation: kapcsolat
-        way: vonal
-    note: 
-      closed_by: Megoldotta %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_by_anonymous: Megoldva névtelenül <abbr title='%{exact_time}'>%{when}</abbr>
-      closed_title: "Megoldott jegyzet: %{note_name}"
-      commented_by: "%{user} megjegyzése <abbr title='%{exact_time}'>%{when}</abbr>"
-      commented_by_anonymous: Névtelen felhasználó megjegyzése <abbr title='%{exact_time}'>%{when}</abbr>
-      description: Leírás
-      hidden_by: Elrejtette %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      hidden_title: Rejtett jegyzet %{note_name}
-      new_note: Új jegyzet
-      open_by: Létrehozta %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      open_by_anonymous: Létrehozva névtelenül <abbr title='%{exact_time}'>%{when}</abbr>
-      open_title: "Megoldatlan jegyzet: %{note_name}"
-      reopened_by: Újraaktiválta %{user} <abbr title='%{exact_time}'>%{when}</abbr>
-      reopened_by_anonymous: Újraaktiválva névtelenül <abbr title='%{exact_time}'>%{when}</abbr>
-      title: "Jegyzet: %{id}"
     part_of: Része ennek
-    redacted: 
-      message_html: A %{type} %{version} verzióját nem lehet megjeleníteni, mert el lett távolítva. További részletekért lásd %{redaction_link}
-      redaction: Eltávolítás %{id}
-      type: 
-        node: pont
-        relation: kapcsolat
-        way: vonal
-    relation: 
-      history_title: "Kapcsolat történet: %{name}"
+    download_xml: XML letöltése
+    view_history: Előzmények megjelenítése
+    view_details: Részletek megtekintése
+    location: 'Hely:'
+    changeset:
+      title: 'Módosításcsomag: %{id}'
+      belongs_to: Szerző
+      node: 'Pontok (%{count})'
+      node_paginated: 'Pontok (%{x}-%{y} összesen %{count})'
+      way: 'Vonalak (%{count})'
+      way_paginated: 'Vonalak (%{x}-%{y} összesen %{count})'
+      relation: 'Kapcsolatok (%{count})'
+      relation_paginated: 'Kapcsolatok (%{x}-%{y} összesen %{count})'
+      changesetxml: Changeset XML
+      osmchangexml: osmChange XML
+      feed:
+        title: 'Módosításcsomag: %{id}'
+        title_comment: 'Módosításcsomag: %{id} - %{comment}'
+    node:
+      title: 'Pont: %{name}'
+      history_title: 'Pont történet: %{name}'
+    way:
+      title: 'Vonal: %{name}'
+      history_title: 'Vonal történet: %{name}'
+      nodes: Pontok
+      also_part_of:
+        one: '%{related_ways} vonal része'
+        other: '%{related_ways} vonalak része'
+    relation:
+      title: 'Kapcsolat:%{name}'
+      history_title: 'Kapcsolat történet: %{name}'
       members: Tagok
-      title: Kapcsolat:%{name}
-    relation_member: 
-      entry_role: "%{type} %{name} mint %{role}"
-      type: 
-        node: "Pont:"
-        relation: "Kapcsolat:"
-        way: "Vonal:"
-    start_rjs: 
-      feature_warning: "%{num_features} adat ábrázolása jelentősen lassíthatja a böngészőt. Biztos hogy meg akarod jeleníteni ezen adatokat?"
+    relation_member:
+      entry_role: '%{type} %{name} mint %{role}'
+      type:
+        node: 'Pont:'
+        way: 'Vonal:'
+        relation: 'Kapcsolat:'
+    containing_relation:
+      entry: 'Kapcsolat: %{relation_name}'
+      entry_role: 'Kapcsolat: %{relation_name} (mint %{relation_role})'
+    not_found:
+      sorry: 'Sajnálom, a(z) %{id} azonosítójú %{type} nem található.'
+      type:
+        node: pont
+        way: vonal
+        relation: kapcsolat
+        changeset: módosításcsomag
+    timeout:
+      sorry: 'Sajnálom, a(z) %{type} típusú %{id} azonosítójú adatok kinyerése túl sokáig tartott.'
+      type:
+        node: pont
+        way: vonal
+        relation: kapcsolat
+        changeset: módosításcsomag
+    redacted:
+      redaction: 'Eltávolítás %{id}'
+      message_html: 'A %{type} %{version} verzióját nem lehet megjeleníteni, mert el lett távolítva. További részletekért lásd %{redaction_link}'
+      type:
+        node: pont
+        way: vonal
+        relation: kapcsolat
+    start_rjs:
+      feature_warning: '%{num_features} adat ábrázolása jelentősen lassíthatja a böngészőt. Biztos hogy meg akarod jeleníteni ezen adatokat?'
       load_data: Adatok betöltése
       loading: Betöltés…
-    tag_details: 
+    tag_details:
       tags: Címkék
-      wiki_link: 
-        key: Wiki leírás oldal a %{key} címkéhez
-        tag: Wiki leírás oldal a %{key}=%{value} címkéhez
-      wikipedia_link: A(z) %{page} szócikk a Wikipédián
-    timeout: 
-      sorry: Sajnálom, a(z) %{type} típusú %{id} azonosítójú adatok kinyerése túl sokáig tartott.
-      type: 
-        changeset: módosításcsomag
-        node: pont
-        relation: kapcsolat
-        way: vonal
-    version: Verzió
-    view_details: Részletek megtekintése
-    view_history: Előzmények megjelenítése
-    way: 
-      also_part_of: 
-        one: "%{related_ways} vonal része"
-        other: "%{related_ways} vonalak része"
-      history_title: "Vonal történet: %{name}"
-      nodes: Pontok
-      title: "Vonal: %{name}"
-  changeset: 
-    changeset: 
-      anonymous: Névtelen
-      no_edits: (nincs szerkesztés)
-      view_changeset_details: Módosításcsomag részleteinek megtekintése
-    changeset_paging_nav: 
+      wiki_link:
+        key: 'Wiki leírás oldal a %{key} címkéhez'
+        tag: 'Wiki leírás oldal a %{key}=%{value} címkéhez'
+      wikipedia_link: 'A(z) %{page} szócikk a Wikipédián'
+    note:
+      title: 'Jegyzet: %{id}'
+      new_note: Új jegyzet
+      description: Leírás
+      open_title: 'Megoldatlan jegyzet: %{note_name}'
+      closed_title: 'Megoldott jegyzet: %{note_name}'
+      hidden_title: 'Rejtett jegyzet %{note_name}'
+      open_by: "Létrehozta %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      open_by_anonymous: "Létrehozva névtelenül <abbr title='%{exact_time}'>%{when}</abbr>"
+      commented_by: "%{user} megjegyzése <abbr title='%{exact_time}'>%{when}</abbr>"
+      commented_by_anonymous: "Névtelen felhasználó megjegyzése <abbr title='%{exact_time}'>%{when}</abbr>"
+      closed_by: "Megoldotta %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      closed_by_anonymous: "Megoldva névtelenül <abbr title='%{exact_time}'>%{when}</abbr>"
+      reopened_by: "Újraaktiválta %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+      reopened_by_anonymous: "Újraaktiválva névtelenül <abbr title='%{exact_time}'>%{when}</abbr>"
+      hidden_by: "Elrejtette %{user} <abbr title='%{exact_time}'>%{when}</abbr>"
+  changeset:
+    changeset_paging_nav:
+      showing_page: '%{page} oldal'
       next: következő »
       previous: « előző
-      showing_page: "%{page} oldal"
-    changesets: 
-      area: Terület
-      comment: Megjegyzés
+    changeset:
+      anonymous: Névtelen
+      no_edits: (nincs szerkesztés)
+      view_changeset_details: >
+        Módosításcsomag részleteinek
+        megtekintése
+    changesets:
       id: Azonosító
       saved_at: Mentve
       user: Felhasználó
-    list: 
-      empty: Nincs módosításcsomag
-      empty_area: Nincs módosításcsomag erre a területre.
-      empty_user: Nincs módosításcsomag ettől a felhasználótól.
-      load_more: További betöltése
-      no_more: Nem található módosításcsomag
-      no_more_area: Nincs több módosításcsomag ezen a területen.
-      no_more_user: Nincs több módosításcsomag ettől a felhasználótól.
-      title: Módosításcsomagok
-      title_friend: Ismerőseid módosításcsomagjai
-      title_nearby: Közeli felhasználók módosításcsomagjai
-      title_user: "%{user} módosításcsomagjai"
-    timeout: 
-      sorry: Sajnálom, az általad kért módosításcsomagok listájának lekérése túl sokáig tartott.
-  diary_entry: 
-    comments: 
-      ago: "%{ago}"
       comment: Megjegyzés
-      has_commented_on: "%{display_name} hozzászólt az alábbi naplóbejegyzésekhez"
-      newer_comments: Úabb hozzászólások
-      older_comments: Régebbi hozzászólások
-      post: Hozzászólás
-      when: Mikor
-    diary_comment: 
-      comment_from: "%{link_user} hozzászólása ekkor: %{comment_created_at}"
-      confirm: Megerősítés
-      hide_link: Hozzászólás elrejtése
-    diary_entry: 
-      comment_count: 
-        one: Egy hozzászólás
-        other: "%{count} hozzászólás"
-        zero: Nincs hozzászólás
-      comment_link: Hozzászólás ehhez a bejegyzéshez
-      confirm: Megerősítés
-      edit_link: Ezen bejegyzés szerkesztése
-      hide_link: Bejegyzés elrejtése
-      posted_by: "%{link_user} küldte ekkor: %{created} %{language_link} nyelven"
-      reply_link: Válasz ezen bejegyzésre
-    edit: 
-      body: "Szöveg:"
-      language: "Nyelv:"
-      latitude: "Földrajzi szélesség:"
-      location: "Hely:"
-      longitude: "Földrajzi hosszúság:"
-      marker_text: Naplóbejegyzés helye
-      save_button: Mentés
-      subject: "Tárgy:"
-      title: Naplóbejegyzés szerkesztése
-      use_map_link: térkép használata
-    feed: 
-      all: 
-        description: Legutóbbi naplóbejegyzések az OpenStreetMap felhasználóitól
-        title: OpenStreetMap naplóbejegyzések
-      language: 
-        description: Legutóbbi naplóbejegyzések az OpenStreetMap felhasználóitól %{language_name} nyelven
-        title: OpenStreetMap naplóbejegyzések %{language_name} nyelven
-      user: 
-        description: Legutóbbi OpenStreetMap naplóbejegyzések %{user} felhasználótól
-        title: "%{user} OpenStreetMap naplóbejegyzései"
-    list: 
-      in_language_title: Naplóbejegyzések %{language} nyelven
-      new: Új naplóbejegyzés
-      new_title: Új naplóbejegyzés írása a felhasználói naplóba
-      newer_entries: Újabb bejegyzések
-      no_entries: Nincsenek naplóbejegyzések
-      older_entries: Régebbi bejegyzések
-      recent_entries: Legutóbbi naplóbejegyzések
+      area: Terület
+    list:
+      title: Módosításcsomagok
+      title_user: '%{user} módosításcsomagjai'
+      title_friend: Ismerőseid módosításcsomagjai
+      title_nearby: >
+        Közeli felhasználók
+        módosításcsomagjai
+      empty: Nincs módosításcsomag
+      empty_area: >
+        Nincs módosításcsomag erre a
+        területre.
+      empty_user: >
+        Nincs módosításcsomag ettől a
+        felhasználótól.
+      no_more: Nem található módosításcsomag
+      no_more_area: >
+        Nincs több módosításcsomag ezen a
+        területen.
+      no_more_user: >
+        Nincs több módosításcsomag ettől a
+        felhasználótól.
+      load_more: További betöltése
+    timeout:
+      sorry: >
+        Sajnálom, az általad kért
+        módosításcsomagok listájának
+        lekérése túl sokáig tartott.
+  diary_entry:
+    new:
+      title: Új naplóbejegyzés
+    list:
       title: Felhasználók naplói
       title_friends: Ismerősök naplói
       title_nearby: Közeli felhasználók naplói
-      user_title: "%{user} naplója"
-    location: 
-      edit: Szerkesztés
-      location: "Hely:"
-      view: Megtekintés
-    new: 
-      title: Új naplóbejegyzés
-    no_such_entry: 
-      body: Sajnálom, de nincs naplóbejegyzés vagy hozzászólás %{id} azonosítóval. Ellenőrizd a helyességét, vagy lehet, hogy a link, amire kattintottál, rossz.
-      heading: "Nincs naplóbejegyzés ezzel az azonosítóval: %{id}"
-      title: Nincs ilyen naplóbejegyzés
-    view: 
-      leave_a_comment: Hozzászólás írása
-      login: Jelentkezz be
-      login_to_leave_a_comment: "%{login_link} a hozzászóláshoz"
+      user_title: '%{user} naplója'
+      in_language_title: 'Naplóbejegyzések %{language} nyelven'
+      new: Új naplóbejegyzés
+      new_title: >
+        Új naplóbejegyzés írása a
+        felhasználói naplóba
+      no_entries: Nincsenek naplóbejegyzések
+      recent_entries: Legutóbbi naplóbejegyzések
+      older_entries: Régebbi bejegyzések
+      newer_entries: Újabb bejegyzések
+    edit:
+      title: Naplóbejegyzés szerkesztése
+      subject: 'Tárgy:'
+      body: 'Szöveg:'
+      language: 'Nyelv:'
+      location: 'Hely:'
+      latitude: 'Földrajzi szélesség:'
+      longitude: 'Földrajzi hosszúság:'
+      use_map_link: térkép használata
       save_button: Mentés
-      title: "%{user} naplója | %{title}"
-      user_title: "%{user} naplója"
-  editor: 
-    default: Alapértelmezett (jelenleg %{name})
-    id: 
-      description: iD (böngészőben futó szerkesztő)
-      name: iD
-    potlatch: 
-      description: Potlatch 1 (böngészőn belüli szerkesztő)
-      name: Potlatch 1
-    potlatch2: 
-      description: Potlatch 2 (böngészőn belüli szerkesztő)
-      name: Potlatch 2
-    remote: 
-      description: Távirányító (JOSM vagy Merkaartor)
-      name: Távirányító
-  export: 
-    start: 
-      add_marker: Jelölő hozzáadása a térképhez
-      area_to_export: Exportálandó terület
-      embeddable_html: Beágyazható HTML
-      export_button: Exportálás
-      export_details: Az OpenStreetMap adatokra az <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database licenc </a> vonatkozik. (ODbL)
-      format: "Formátum:"
-      format_to_export: Exportálás formátuma
-      image_size: "Képméret:"
-      latitude: "Földrajzi szélesség:"
-      licence: Licenc
-      longitude: "Földrajzi hosszúság:"
-      manually_select: Más terület kézi kijelölése
-      map_image: Térkép (Alapértelmezett réteg)
-      max: max.
-      options: Beállítások
-      osm_xml_data: OpenStreetMap XML adat
-      output: Kimenet
-      paste_html: Webhelyekbe való beágyazáshoz illeszd be a HTML kódot
-      scale: Méretarány
-      too_large: 
-        advice: Ha a fenti exportálás sikertelen lenne, próbáld meg az alábbi listából valamelyik lehetőséget.
-        body: Ez a terület túl nagy ahhoz, hogy exportálásra kerüljön OpenStreetMap XML adatként. Közelíts, vagy jelölj ki kisebb területet. Esetleg használd az alábbi listából valamelyik nagy adatmennyiségek letöltését támogató módszert.
-        geofabrik: 
-          description: Kontinensek, országok és kiválasztott városok rendszeresen frissített kivonata
-          title: Geofabrik letöltések
-        other: 
-          title: Más források
-        overpass: 
-          description: A megjelenített befoglaló keret letöltése egy OpenStreetMap tükörserverről
-          title: Overpass API
-        planet: 
-          description: A teljes OpenStreetMap adatbázis rendszeresen frissített másolatai
-          title: Planet OSM
-      zoom: Nagyítási szint
+      marker_text: Naplóbejegyzés helye
+    view:
+      title: '%{user} naplója | %{title}'
+      user_title: '%{user} naplója'
+      leave_a_comment: Hozzászólás írása
+      login_to_leave_a_comment: '%{login_link} a hozzászóláshoz'
+      login: Jelentkezz be
+      save_button: Mentés
+    no_such_entry:
+      title: Nincs ilyen naplóbejegyzés
+      heading: 'Nincs naplóbejegyzés ezzel az azonosítóval: %{id}'
+      body: 'Sajnálom, de nincs naplóbejegyzés vagy hozzászólás %{id} azonosítóval. Ellenőrizd a helyességét, vagy lehet, hogy a link, amire kattintottál, rossz.'
+    diary_entry:
+      posted_by: '%{link_user} küldte ekkor: %{created} %{language_link} nyelven'
+      comment_link: Hozzászólás ehhez a bejegyzéshez
+      reply_link: Válasz ezen bejegyzésre
+      comment_count:
+        one: Egy hozzászólás
+        zero: Nincs hozzászólás
+        other: '%{count} hozzászólás'
+      edit_link: Ezen bejegyzés szerkesztése
+      hide_link: Bejegyzés elrejtése
+      confirm: Megerősítés
+    diary_comment:
+      comment_from: '%{link_user} hozzászólása ekkor: %{comment_created_at}'
+      hide_link: Hozzászólás elrejtése
+      confirm: Megerősítés
+    location:
+      location: 'Hely:'
+      view: Megtekintés
+      edit: Szerkesztés
+    feed:
+      user:
+        title: '%{user} OpenStreetMap naplóbejegyzései'
+        description: 'Legutóbbi OpenStreetMap naplóbejegyzések %{user} felhasználótól'
+      language:
+        title: 'OpenStreetMap naplóbejegyzések %{language_name} nyelven'
+        description: 'Legutóbbi naplóbejegyzések az OpenStreetMap felhasználóitól %{language_name} nyelven'
+      all:
+        title: OpenStreetMap naplóbejegyzések
+        description: >
+          Legutóbbi naplóbejegyzések az
+          OpenStreetMap felhasználóitól
+    comments:
+      has_commented_on: '%{display_name} hozzászólt az alábbi naplóbejegyzésekhez'
+      post: Hozzászólás
+      when: Mikor
+      comment: Megjegyzés
+      ago: '%{ago}'
+      newer_comments: Úabb hozzászólások
+      older_comments: Régebbi hozzászólások
+  export:
     title: Exportálás
-  fixthemap: 
-    how_to_help: 
-      add_a_note: 
-        instructions_html: Csak kattints a <a class='icon note'></a> ikonra a térképnézetben. Ez felrak egy helyjelölőt a térképre, amit húzással tudsz a megfelelő helyre mozgatni. Írd meg hozzá az üzeneted, majd kattints a mentésre, és a többi térképész meg fogja vizsgálni.
-      join_the_community: 
-        explanation_html: Ha bármilyen hibát találtál a térképadatokban, például hiányzik egy út vagy cím, a legjobb, ha csatlakozol az OpenStreetMap közösséghez és kijavítod az adatot saját magad.
-        title: Csatlakozás a közösséghez
-      title: Hogyan segíthetsz
-    other_concerns: 
-      title: Egyéb aggályok
-    title: Hibabejelentés / Térkép javítása
-  geocoder: 
-    description: 
-      title: 
-        geonames: Helyek a <a href="http://www.geonames.org/">GeoNames</a>ről
-        osm_nominatim: Helyek az <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>tól
-      types: 
-        cities: Nagyvárosok
-        places: Helyek
-        towns: Városok
-    direction: 
-      east: keletre
-      north: északra
-      north_east: északkeletre
-      north_west: északnyugatra
-      south: délre
-      south_east: délkeletre
-      south_west: délnyugatra
-      west: nyugatra
-    distance: 
-      one: kb. 1 km
-      other: kb. %{count} km
-      zero: kevesebb mint 1 km
-    results: 
-      more_results: További eredmények
-      no_results: Nem találhatók eredmények
-    search: 
-      title: 
-        ca_postcode: Eredmények a <a href="http://geocoder.ca/">Geocoder.CA</a>-ről
-        geonames: Eredmények a <a href="http://www.geonames.org/">GeoNames</a>ről
-        geonames_reverse: Eredmények a <a href="http://www.geonames.org/">GeoNames-ről</a>
-        latlon: Eredmények az <a href="http://openstreetmap.org/">Internal</a>ról
-        osm_nominatim: Eredmények az <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>tól
-        osm_nominatim_reverse: Eredmények az <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatimról</a>
-        uk_postcode: Eredmények a <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>-ról
-        us_postcode: Eredmények a <a href="http://geocoder.us/">Geocoder.us</a>-ról
-    search_osm_nominatim: 
-      admin_levels: 
-        level10: Városrészhatár
-        level2: Országhatár
-        level4: Államhatár
-        level5: Régióhatár
-        level6: Megyehatár
-        level8: Városhatár
-        level9: Faluhatár
-      prefix: 
-        aerialway: 
+    start:
+      area_to_export: Exportálandó terület
+      manually_select: Más terület kézi kijelölése
+      format_to_export: Exportálás formátuma
+      osm_xml_data: OpenStreetMap XML adat
+      map_image: Térkép (Alapértelmezett réteg)
+      embeddable_html: Beágyazható HTML
+      licence: Licenc
+      export_details: 'Az OpenStreetMap adatokra az <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database licenc </a> vonatkozik. (ODbL)'
+      too_large:
+        advice: >
+          Ha a fenti exportálás sikertelen
+          lenne, próbáld meg az alábbi
+          listából valamelyik lehetőséget.
+        body: >
+          Ez a terület túl nagy ahhoz, hogy
+          exportálásra kerüljön OpenStreetMap
+          XML adatként. Közelíts, vagy jelölj
+          ki kisebb területet. Esetleg használd
+          az alábbi listából valamelyik nagy
+          adatmennyiségek letöltését
+          támogató módszert.
+        planet:
+          title: Planet OSM
+          description: >
+            A teljes OpenStreetMap adatbázis
+            rendszeresen frissített másolatai
+        overpass:
+          title: Overpass API
+          description: >
+            A megjelenített befoglaló keret
+            letöltése egy OpenStreetMap
+            tükörserverről
+        geofabrik:
+          title: Geofabrik letöltések
+          description: >
+            Kontinensek, országok és kiválasztott
+            városok rendszeresen frissített
+            kivonata
+        other:
+          title: Más források
+      options: Beállítások
+      format: 'Formátum:'
+      scale: Méretarány
+      max: max.
+      image_size: 'Képméret:'
+      zoom: Nagyítási szint
+      add_marker: Jelölő hozzáadása a térképhez
+      latitude: 'Földrajzi szélesség:'
+      longitude: 'Földrajzi hosszúság:'
+      output: Kimenet
+      paste_html: >
+        Webhelyekbe való beágyazáshoz illeszd
+        be a HTML kódot
+      export_button: Exportálás
+  geocoder:
+    search:
+      title:
+        latlon: 'Eredmények az <a href="http://openstreetmap.org/">Internal</a>ról'
+        us_postcode: 'Eredmények a <a href="http://geocoder.us/">Geocoder.us</a>-ról'
+        uk_postcode: 'Eredmények a <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>-ról'
+        ca_postcode: 'Eredmények a <a href="http://geocoder.ca/">Geocoder.CA</a>-ről'
+        osm_nominatim: 'Eredmények az <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>tól'
+        geonames: 'Eredmények a <a href="http://www.geonames.org/">GeoNames</a>ről'
+        osm_nominatim_reverse: 'Eredmények az <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatimról</a>'
+        geonames_reverse: 'Eredmények a <a href="http://www.geonames.org/">GeoNames-ről</a>'
+    search_osm_nominatim:
+      prefix:
+        aerialway:
           chair_lift: Libegő
           drag_lift: Sífelvonó
-        aeroway: 
+        aeroway:
           aerodrome: Repülőtér
           apron: Forgalmi előtér
           gate: Kapu
@@ -422,8 +412,7 @@ hu:
           runway: Kifutópálya
           taxiway: gurulóút
           terminal: Utasterminál
-        amenity: 
-          WLAN: WiFi hozzáférés
+        amenity:
           airport: Repülőtér
           arts_centre: Művészeti központ
           artwork: Műalkotás
@@ -467,7 +456,7 @@ hu:
           fountain: Szökőkút
           fuel: Benzinkút
           grave_yard: Kis temető
-          gym: Fitnesz- / Tornaterem
+          gym: 'Fitnesz- / Tornaterem'
           hall: Csarnok
           health_centre: Egészségügyi központ
           hospital: Kórház
@@ -522,24 +511,25 @@ hu:
           village_hall: Községháza
           waste_basket: Szemétgyűjtő kosár
           wifi: WiFi hozzáférés
+          WLAN: WiFi hozzáférés
           youth_centre: Ifjúsági központ
-        boundary: 
+        boundary:
           administrative: Közigazgatási határ
           census: Népszámlálási határ
           national_park: Nemzeti Park
           protected_area: Védett terület
-        bridge: 
+        bridge:
           aqueduct: Vízvezeték
           suspension: Függőhíd
           swing: Nyitható híd
           viaduct: Viadukt
-          "yes": Híd
-        building: 
-          "yes": Épület
-        emergency: 
+          yes: Híd
+        building:
+          yes: Épület
+        emergency:
           fire_hydrant: Tűzcsap
           phone: Segélyhívó
-        highway: 
+        highway:
           bridleway: Lovaglóút
           bus_guideway: Buszsín
           bus_stop: Buszmegálló
@@ -571,8 +561,8 @@ hu:
           services: Autópálya-pihenőhely
           speed_camera: Sebességmérő kamera
           steps: Lépcső
-          stile: Lépcsős átjáró
           street_lamp: Utcai lámpa
+          stile: Lépcsős átjáró
           tertiary: Bekötőút
           tertiary_link: Bekötőút
           track: Földút
@@ -581,7 +571,7 @@ hu:
           trunk_link: Autóút
           unclassified: Egyéb út
           unsurfaced: Burkolatlan út
-        historic: 
+        historic:
           archaeological_site: Régészeti lelőhely
           battlefield: Csatamező
           boundary_stone: Határkő
@@ -603,7 +593,7 @@ hu:
           wayside_cross: Útszéli kereszt
           wayside_shrine: Útszéli kegyhely
           wreck: Hajóroncs
-        landuse: 
+        landuse:
           allotments: Kert
           basin: Medence
           brownfield: Barnamező
@@ -623,8 +613,8 @@ hu:
           meadow: Rét
           military: Katonai terület
           mine: Bánya
-          nature_reserve: Természetvédelmi terület
           orchard: Gyümölcsös
+          nature_reserve: Természetvédelmi terület
           park: Park
           piste: Sípálya
           quarry: Kőfejtő
@@ -638,7 +628,7 @@ hu:
           vineyard: Szőlős
           wetland: Láp
           wood: Erdő
-        leisure: 
+        leisure:
           beach_resort: Tengerparti üdülőhely
           bird_hide: Madárles
           common: Közös terület
@@ -661,13 +651,13 @@ hu:
           swimming_pool: Uszoda
           track: Futópálya
           water_park: Vízipark
-        military: 
+        military:
           airfield: Katonai repülőtér
           barracks: Laktanya
           bunker: Bunker
-        mountain_pass: 
-          "yes": Hegyszoros
-        natural: 
+        mountain_pass:
+          yes: Hegyszoros
+        natural:
           bay: Öböl
           beach: Part
           cape: Partfok
@@ -708,7 +698,7 @@ hu:
           wetland: Láp
           wetlands: Láp
           wood: Erdő
-        office: 
+        office:
           accountant: Könyvelő
           architect: Építész
           company: Cég
@@ -720,8 +710,8 @@ hu:
           ngo: Nem kormányzati iroda
           telecommunication: Távközlési iroda
           travel_agent: Utazási iroda
-          "yes": Iroda
-        place: 
+          yes: Iroda
+        place:
           airport: Repülőtér
           city: Nagyváros
           country: Ország
@@ -744,9 +734,11 @@ hu:
           subdivision: Településrész
           suburb: Városrész
           town: Város
-          unincorporated_area: Jogi személyiséggel nem rendelkező terület
+          unincorporated_area: >
+            Jogi személyiséggel nem rendelkező
+            terület
           village: Nagyközség
-        railway: 
+        railway:
           abandoned: Felhagyott vasút
           construction: Építés alatt álló vasút
           disused: Használaton kívüli vasút
@@ -772,7 +764,7 @@ hu:
           tram: Villamos
           tram_stop: Villamosmegálló
           yard: Rendező-pályaudvar
-        shop: 
+        shop:
           alcohol: Alkoholos italbolt
           antiques: Régiségek
           art: Művészeti bolt
@@ -846,8 +838,8 @@ hu:
           travel_agency: Utazási iroda
           video: Videókölcsönző
           wine: Borárusító italbolt
-          "yes": Bolt
-        tourism: 
+          yes: Bolt
+        tourism:
           alpine_hut: Alpesi kunyhó
           artwork: Műalkotás
           attraction: Látnivaló
@@ -868,10 +860,10 @@ hu:
           valley: Völgy
           viewpoint: Kilátó
           zoo: Állatkert
-        tunnel: 
+        tunnel:
           culvert: Áteresz
-          "yes": Alagút
-        waterway: 
+          yes: Alagút
+        waterway:
           artificial: Mesterséges víziút
           boatyard: Hajóhangár
           canal: Csatorna
@@ -890,1038 +882,1506 @@ hu:
           riverbank: Folyópart
           stream: Patak
           wadi: Vádi
-          water_point: Vízi fordítópont
           waterfall: Vízesés
+          water_point: Vízi fordítópont
           weir: Bukógát
-  help_page: 
-    help: 
-      title: help.openstreetmap.org
-      url: https://help.openstreetmap.org/
-    title: Segítségkérés
-    welcome: 
-      title: Üdvözlünk az OSM-en
-      url: /welcome
-    wiki: 
-      title: wiki.openstreetmap.org
-      url: https://wiki.openstreetmap.org/wiki/Hu:Main_Page
-  javascripts: 
-    close: Bezárás
-    key: 
-      title: Jelmagyarázat
-      tooltip: Jelmagyarázat
-      tooltip_disabled: A jelmagyarázat csak az alapértelmezett rétegen érhető el
-    map: 
-      base: 
-        cycle_map: Kerékpártérkép
-        hot: Humanitáriánus
-        mapquest: MapQuest Open
-        standard: Alapértelmezett
-        transport_map: Tömegközlekedési térkép
-      copyright: © <a href='%{copyright_url}'>OpenStreetMap közreműködők</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Támogatás</a>
-      layers: 
-        data: Térképadatok
-        header: Térképnézetek
-        notes: Térképjegyzetek
-        overlays: További rétegek engedélyezése a térkép hibáinak javítása érdekében
-        title: Rétegek
-      locate: 
-        popup: "{distance} {unit} távolságra vagy ettől a ponttól"
-        title: Mutasd a helyzetemet
-      zoom: 
-        in: Nagyítás
-        out: Kicsinyítés
-    notes: 
-      new: 
-        add: Jegyzet hozzáadása
-        intro: Hibát találtál vagy valami hiányzik? Tudasd a többi térképezővel hogy javítani tudjuk. Mozgasd a jelölőt a megfelelő helyre és minél pontosabban írd le a problémát. (Kérjük itt ne adj meg személyes adatokat.)
-      show: 
-        anonymous_warning: Ez a jegyzet anonim felhasználók megjegyzéseit is tartalmazza melyeket ellenőrizni szükséges.
-        comment: Hozzászólás
-        comment_and_resolve: Hozzászólás és lezárás
-        hide: Elrejtés
-        reactivate: Újraaktiválás
-        resolve: Megoldás
-    share: 
-      cancel: Mégsem
-      center_marker: Térkép középpontja a helyjelölő
-      custom_dimensions: Kiterjedés megadása
-      download: Letöltés
-      embed: HTML
-      format: "Formátum:"
-      image: Kép
-      image_size: "A kép az alapértelmezett réteget fogja tartalmazni ekkora méretben:"
-      include_marker: Helyjelölővel
-      link: Link vagy HTML
-      long_link: Link
-      paste_html: Weboldalba beágyazáshoz illeszd be ezt a HTML-t
-      scale: "Méretarány:"
-      short_link: Rövid link
-      short_url: Rövid URL
-      title: Megosztás
-      view_larger_map: Nagyobb térkép
-    site: 
-      createnote_disabled_tooltip: Nagyíts térképes jegyzet hozzáadásához
-      createnote_tooltip: Jegyzet hozzáadása a térképhez
-      edit_disabled_tooltip: Közelíts a térkép szerkesztéséhez
-      edit_tooltip: Térkép szerkesztése
-      map_data_zoom_in_tooltip: Nagyítsd fel a térképet a térképadatok megjelenítéséhez
-      map_notes_zoom_in_tooltip: Nagyítsd fel a térképet a jegyzetek megjelenítéséhez
-  layouts: 
-    about: Névjegy
-    community: Közösség
-    community_blogs: Közösségi blogok
-    community_blogs_title: Blogok az OpenStreetMap közösség tagjaitól
-    copyright: Szerzői jog és licenc
-    data: Adatok
-    donate: Támogasd az OpenStreetMapot a Hardverfrissítési Alapba történő %{link}sal.
+      admin_levels:
+        level2: Országhatár
+        level4: Államhatár
+        level5: Régióhatár
+        level6: Megyehatár
+        level8: Városhatár
+        level9: Faluhatár
+        level10: Városrészhatár
+    description:
+      title:
+        osm_nominatim: 'Helyek az <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>tól'
+        geonames: 'Helyek a <a href="http://www.geonames.org/">GeoNames</a>ről'
+      types:
+        cities: Nagyvárosok
+        towns: Városok
+        places: Helyek
+    results:
+      no_results: Nem találhatók eredmények
+      more_results: További eredmények
+    distance:
+      one: kb. 1 km
+      zero: kevesebb mint 1 km
+      other: 'kb. %{count} km'
+    direction:
+      south_west: délnyugatra
+      south: délre
+      south_east: délkeletre
+      east: keletre
+      north_east: északkeletre
+      north: északra
+      north_west: északnyugatra
+      west: nyugatra
+  layouts:
+    logo:
+      alt_text: OpenStreetMap logó
+    home: Ugrás az otthonodhoz
+    logout: Kijelentkezés
+    log_in: Bejelentkezés
+    log_in_tooltip: >
+      Bejelentkezés egy meglévő
+      felhasználói fiókkal
+    sign_up: Regisztráció
+    start_mapping: Térképezés indítása
+    sign_up_tooltip: >
+      Új felhasználói fiók létrehozása
+      szerkesztéshez
     edit: Szerkesztés
-    edit_with: "Szerkesztés a következővel: %{editor}"
+    history: Előzmények
     export: Exportálás
+    data: Adatok
     export_data: Adatok exportálása
-    foundation: Alapítvány
-    foundation_title: Az „OpenStreetMap Foundation”
     gps_traces: Nyomvonalak
     gps_traces_tooltip: GPS nyomvonalak kezelése
-    help: Súgó
-    history: Előzmények
-    home: Ugrás az otthonodhoz
-    intro_2_create_account: Felhasználói fiók létrehozása
-    intro_header: Üdvözöljük az OpenStreetMap-en!
-    intro_text: Az OpenStreetMap egy világtérkép, amelyet hozzád hasonló emberek készítenek és szabad licenc alatt elérhető.
-    learn_more: További info
-    log_in: Bejelentkezés
-    log_in_tooltip: Bejelentkezés egy meglévő felhasználói fiókkal
-    logo: 
-      alt_text: OpenStreetMap logó
-    logout: Kijelentkezés
-    make_a_donation: 
-      text: Adományozz
-      title: Támogasd az OpenStreetMapot pénzadománnyal
-    more: Több
-    osm_offline: Az OpenStreetMap-adatbázis jelenleg offline, miközben alapvető adatbázis-karbantartási munkát végzeznek.
-    osm_read_only: Az OpenStreetMap-adatbázis jelenleg csak olvasható, miközben alapvető adatbázis-karbantartási munkát végzeznek.
-    partners_bytemark: Bytemark Hosting
-    partners_html: A szerver üzemeltetését támogatja az %{ucl}, %{ic} és %{bytemark}, valamint további %{partners}.
-    partners_ic: Imperial College London
-    partners_partners: partnerek
-    partners_ucl: az UCL VR központ
-    sign_up: Regisztráció
-    sign_up_tooltip: Új felhasználói fiók létrehozása szerkesztéshez
-    start_mapping: Térképezés indítása
-    tag_line: A szabad világtérkép
     user_diaries: Naplók
     user_diaries_tooltip: Felhasználói naplók megtekintése
-  license_page: 
-    foreign: 
-      english_link: az eredeti angol nyelvű
-      text: Abban az esetben, ha ez a lefordított oldal és %{english_original_link} eltér egymástól, akkor az angol nyelvű oldal élvez elsőbbséget
+    edit_with: 'Szerkesztés a következővel: %{editor}'
+    tag_line: A szabad világtérkép
+    intro_header: Üdvözöljük az OpenStreetMap-en!
+    intro_text: >
+      Az OpenStreetMap egy világtérkép,
+      amelyet hozzád hasonló emberek
+      készítenek és szabad licenc alatt
+      elérhető.
+    intro_2_create_account: Felhasználói fiók létrehozása
+    partners_html: 'A szerver üzemeltetését támogatja az %{ucl}, %{ic} és %{bytemark}, valamint további %{partners}.'
+    partners_ucl: az UCL VR központ
+    partners_ic: Imperial College London
+    partners_bytemark: Bytemark Hosting
+    partners_partners: partnerek
+    osm_offline: >
+      Az OpenStreetMap-adatbázis jelenleg
+      offline, miközben alapvető
+      adatbázis-karbantartási munkát
+      végzeznek.
+    osm_read_only: >
+      Az OpenStreetMap-adatbázis jelenleg
+      csak olvasható, miközben alapvető
+      adatbázis-karbantartási munkát
+      végzeznek.
+    donate: 'Támogasd az OpenStreetMapot a Hardverfrissítési Alapba történő %{link}sal.'
+    help: Súgó
+    about: Névjegy
+    copyright: Szerzői jog és licenc
+    community: Közösség
+    community_blogs: Közösségi blogok
+    community_blogs_title: >
+      Blogok az OpenStreetMap közösség
+      tagjaitól
+    foundation: Alapítvány
+    foundation_title: Az „OpenStreetMap Foundation”
+    make_a_donation:
+      title: >
+        Támogasd az OpenStreetMapot
+        pénzadománnyal
+      text: Adományozz
+    learn_more: További info
+    more: Több
+  license_page:
+    foreign:
       title: Erről a fordításról
-    legal_babble: 
-      attribution_example: 
-        alt: Példa arra, hogyan jelenjen meg az OpenStreetMap-re való hivatkozás egy weboldalon
-        title: Példa egy hivatkozásra
-      contributors_at_html: "<strong>Ausztria</strong>: adatokat tartalmaz a következő forrásból:\n   <a href=\"http://data.wien.gv.at/\">Bécs városa</a>\n   <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a> licenc alatt."
-      contributors_ca_html: "<strong>Kanada</strong>: adatokat tartalmaz a következő forrásokból:\n   GeoBase&reg;, GeoGratis (&copy; Department of Natural\n   Resources Canada), CanVec (&copy; Department of Natural\n   Resources Canada), and StatCan (Geography Division,\n   Statistics Canada)."
-      contributors_footer_1_html: "További részletekért, és az OpenStreetMap javításához használt más forrásokról,\nkérjük, olvassa el <a href=\"http://wiki.openstreetmap.org/wiki/contributors\">a hozzájárulók oldalát\naz OpenStreetMap wikin.</a>"
-      contributors_footer_2_html: "  Az adatok befoglalása az OpenStreetMapba nem jelenti azt, hogy az eredeti\n  adatszolgáltató támogatja az OpenStreetMapot, nyújt garanciát vagy\n  vállal rá felelősséget."
-      contributors_fr_html: "<strong>France</strong>: adatokat tartalmaz a következő forrásból:\n   Direction Générale des Impôts."
-      contributors_gb_html: "<strong>Egyesült Királyság</strong>:  Térképészeti Szolgálat adatokat &copy; Királyi szerzői és adatbázisjog \n2010 - 12."
-      contributors_intro_html: "Többszáz egyéni közreműködőnk van. További, szabadon elérhető adatokat is felhasználunk nemzeti térkép intézetektől és más forrásokból, többek között:"
-      contributors_nl_html: "<strong>Hollandia</strong>: adatokat tartalmaz innen: Automotive Navigation Data, 2007\n(<a href=\"http://www.and.com\">www.and.com</a>)"
-      contributors_nz_html: "<strong>Új-Zéland</strong>: adatokat tartalmaz a következő forrásból:\n   Land Information New Zealand. Szerzői jog fenntartva."
-      contributors_title_html: Közreműködőink
-      contributors_za_html: "<strong>Dél-Afrika</strong>: tartalmaz olyan adatokat, amik a\n<a href=\"http://www.ngi.gov.za/\">Chief Directorate:\nNational Geo-Spatial Information</a>-tól származnak, az állami szerzői jogok fenntartva."
-      credit_1_html: "  Ha az OpenStreetMap térkép képeit használod, kérjük \n  legyen feltüntetve legalább az &ldquo;&copy; OpenStreetMap\n  közreműködői, CC BY-SA&rdquo; szöveg. Ha csak a térkép adatait használod,\n  akkor a &ldquo;Térképadatok &copy; OpenStreetMap közreműködői,\n  CC BY-SA&rdquo; feltüntetését kérjük."
-      credit_2_html: Azt is egyértelművé kell tenned, hogy az adatok az Open Database Licenc alatt elérhetőek, illetve ha a mi térkép csempéinket használod akkor azt, hogy a grafikai megjelenítés a CC-BY-SA licenc feltételeivel használható. Ezt megteheted egy erre a <a href="http://www.openstreetmap.org/copyright">copyright oldalra</a> való hivatkozással. Alternatívaként, ha az OSM-et adatokként terjeszted, akkor fel kell tüntetned a nevet és linket közvetlenül a licencre. Ha a formátum a linkelést nem teszi lehetővé (pl. nyomtatásban), javasoljuk, hogy a felhasználókat irányítsd az openstreetmap.org címre (esetlegesen az "OpenStreetMap" szót kiegészítve erre a teljes címre), és az opendatacommons.org címre, illetve - ha szükséges - a creativecommons.org címre.
-      credit_3_html: "Böngészhető elektronikus térkép esetén a forrásra vonatkozó hivatkozás jelenjen meg a térkép sarkában.\nPéldául:"
-      credit_title_html: Hogyan kell feltüntetned az OpenStreetMapot?
-      infringement_1_html: "  Az OSM közreműködői emlékeztetve lettek arra, hogy soha ne adjanak hozzá adatokat egyetlen\n  szerzői jogvédett forrásból se (pl. Google Térkép vagy nyomtatott térképek) a\n  szerzői jog tulajdonosának kifejezett engedélye nélkül."
-      infringement_2_html: "Ha úgy gondolod, hogy jogvédett anyag került jogszerűtlenül az OpenStreetMap adatbázisba vagy erre a weblapra, kérjük olvasd el az <a href=\"http://www.osmfoundation.org/wiki/License/Takedown_procedure\">eltávolítási\nfolyamat leírását</a> vagy jelentsd be közvetlenül az\n<a href=\"http://dmca.openstreetmap.org/\">online bejelentő oldalon</a>."
-      infringement_title_html: Copyright megsértése
-      intro_1_html: "   Az OpenStreetMap egy <i>szabad adathalmaz</i>, amelyre az <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data\nCommons Open Database License</a> licenc (ODbL) vonatkozik."
-      intro_2_html: "  Szabadon másolhatod, terjesztheted, továbbíthatod és átdolgozhatod adatainkat mindaddig, amíg feltünteted az OpenStreetMapot és közreműködőit. Ha módosítod vagy felhasználod az adatainkat, akkor az eredményt is csak azonos licenccel terjesztheted. A teljes <a\n  href=\"http://opendatacommons.org/licenses/odbl/1.0/\">jogi\n  szabályzat</a> ismerteti a jogaidat és kötelezettségeidet."
-      intro_3_html: "   Az OpenStreetMap <i>térképeire</i> a <a\n   href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\n   Commons Nevezd meg! - Így add tovább! 2.0</a> licenc (CC BY-SA) vonatkozik."
-      more_1_html: "További információ adataink használatáról a <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">Jogi\n  GYIK</a>-ban."
-      more_2_html: "Habár az OpenStreetMap egy nyílt adatforrás, nem tudunk ingyenes térkép API elérést biztosítani külső fejlesztőknek.\n\nLásd az <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">API Felhasználási Irányelveinket</a>, a <a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Csempe Felhasználási Irányelveinket</a> és a <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Nominatim Felhasználási Irányelveinket</a>."
-      more_title_html: Tudj meg többet!
-      title_html: Szerzői jog és licenc
-    native: 
-      mapping_link: kezdheted a térképezést
-      native_link: magyar nyelvű változatára
-      text: Jelenleg a szerzői jogi oldal angol nyelvű változatát látod. Visszaléphetsz ezen oldal %{native_link}, vagy befejezheted a szerzői jogról szóló oldal olvasását, és %{mapping_link}.
+      text: 'Abban az esetben, ha ez a lefordított oldal és %{english_original_link} eltér egymástól, akkor az angol nyelvű oldal élvez elsőbbséget'
+      english_link: az eredeti angol nyelvű
+    native:
       title: Erről az oldalról
-  message: 
-    delete: 
-      deleted: Üzenet törölve
-    inbox: 
-      date: Érkezett
-      from: Feladó
-      messages: "%{new_messages} és %{old_messages} van"
-      my_inbox: Beérkezett üzenetek
-      new_messages: 
-        one: egy új üzenet
-        other: "%{count} új üzenet"
-      no_messages_yet: Nincs még üzeneted. Miért nem veszed fel a kapcsolatot néhány %{people_mapping_nearby_link}vel?
-      old_messages: 
-        one: egy régi üzeneted
-        other: "%{count} régi üzeneted"
-      outbox: Elküldött üzenetek
-      people_mapping_nearby: közeli térképszerkesztő
-      subject: Tárgy
+      text: 'Jelenleg a szerzői jogi oldal angol nyelvű változatát látod. Visszaléphetsz ezen oldal %{native_link}, vagy befejezheted a szerzői jogról szóló oldal olvasását, és %{mapping_link}.'
+      native_link: magyar nyelvű változatára
+      mapping_link: kezdheted a térképezést
+    legal_babble:
+      title_html: Szerzői jog és licenc
+      intro_1_html: |
+           Az OpenStreetMap egy <i>szabad adathalmaz</i>, amelyre az <a
+        href="http://opendatacommons.org/licenses/odbl/">Open Data
+        Commons Open Database License</a> licenc (ODbL) vonatkozik.
+      intro_2_html: |
+          Szabadon másolhatod, terjesztheted, továbbíthatod és átdolgozhatod adatainkat mindaddig, amíg feltünteted az OpenStreetMapot és közreműködőit. Ha módosítod vagy felhasználod az adatainkat, akkor az eredményt is csak azonos licenccel terjesztheted. A teljes <a
+          href="http://opendatacommons.org/licenses/odbl/1.0/">jogi
+          szabályzat</a> ismerteti a jogaidat és kötelezettségeidet.
+      intro_3_html: |
+           Az OpenStreetMap <i>térképeire</i> a <a
+           href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+           Commons Nevezd meg! - Így add tovább! 2.0</a> licenc (CC BY-SA) vonatkozik.
+      credit_title_html: >
+        Hogyan kell feltüntetned az
+        OpenStreetMapot?
+      credit_1_html: |
+          Ha az OpenStreetMap térkép képeit használod, kérjük 
+          legyen feltüntetve legalább az &ldquo;&copy; OpenStreetMap
+          közreműködői, CC BY-SA&rdquo; szöveg. Ha csak a térkép adatait használod,
+          akkor a &ldquo;Térképadatok &copy; OpenStreetMap közreműködői,
+          CC BY-SA&rdquo; feltüntetését kérjük.
+      credit_2_html: 'Azt is egyértelművé kell tenned, hogy az adatok az Open Database Licenc alatt elérhetőek, illetve ha a mi térkép csempéinket használod akkor azt, hogy a grafikai megjelenítés a CC-BY-SA licenc feltételeivel használható. Ezt megteheted egy erre a <a href="http://www.openstreetmap.org/copyright">copyright oldalra</a> való hivatkozással. Alternatívaként, ha az OSM-et adatokként terjeszted, akkor fel kell tüntetned a nevet és linket közvetlenül a licencre. Ha a formátum a linkelést nem teszi lehetővé (pl. nyomtatásban), javasoljuk, hogy a felhasználókat irányítsd az openstreetmap.org címre (esetlegesen az "OpenStreetMap" szót kiegészítve erre a teljes címre), és az opendatacommons.org címre, illetve - ha szükséges - a creativecommons.org címre.'
+      credit_3_html: |
+        Böngészhető elektronikus térkép esetén a forrásra vonatkozó hivatkozás jelenjen meg a térkép sarkában.
+        Például:
+      attribution_example:
+        alt: >
+          Példa arra, hogyan jelenjen meg az
+          OpenStreetMap-re való hivatkozás egy
+          weboldalon
+        title: Példa egy hivatkozásra
+      more_title_html: Tudj meg többet!
+      more_1_html: |
+        További információ adataink használatáról a <a
+          href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Jogi
+          GYIK</a>-ban.
+      more_2_html: |
+        Habár az OpenStreetMap egy nyílt adatforrás, nem tudunk ingyenes térkép API elérést biztosítani külső fejlesztőknek.
+        
+        Lásd az <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">API Felhasználási Irányelveinket</a>, a <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Csempe Felhasználási Irányelveinket</a> és a <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Nominatim Felhasználási Irányelveinket</a>.
+      contributors_title_html: Közreműködőink
+      contributors_intro_html: 'Többszáz egyéni közreműködőnk van. További, szabadon elérhető adatokat is felhasználunk nemzeti térkép intézetektől és más forrásokból, többek között:'
+      contributors_at_html: |
+        <strong>Ausztria</strong>: adatokat tartalmaz a következő forrásból:
+           <a href="http://data.wien.gv.at/">Bécs városa</a>
+           <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a> licenc alatt.
+      contributors_ca_html: |
+        <strong>Kanada</strong>: adatokat tartalmaz a következő forrásokból:
+           GeoBase&reg;, GeoGratis (&copy; Department of Natural
+           Resources Canada), CanVec (&copy; Department of Natural
+           Resources Canada), and StatCan (Geography Division,
+           Statistics Canada).
+      contributors_fr_html: |
+        <strong>France</strong>: adatokat tartalmaz a következő forrásból:
+           Direction Générale des Impôts.
+      contributors_nl_html: |
+        <strong>Hollandia</strong>: adatokat tartalmaz innen: Automotive Navigation Data, 2007
+        (<a href="http://www.and.com">www.and.com</a>)
+      contributors_nz_html: |
+        <strong>Új-Zéland</strong>: adatokat tartalmaz a következő forrásból:
+           Land Information New Zealand. Szerzői jog fenntartva.
+      contributors_za_html: |
+        <strong>Dél-Afrika</strong>: tartalmaz olyan adatokat, amik a
+        <a href="http://www.ngi.gov.za/">Chief Directorate:
+        National Geo-Spatial Information</a>-tól származnak, az állami szerzői jogok fenntartva.
+      contributors_gb_html: |
+        <strong>Egyesült Királyság</strong>:  Térképészeti Szolgálat adatokat &copy; Királyi szerzői és adatbázisjog 
+        2010 - 12.
+      contributors_footer_1_html: |
+        További részletekért, és az OpenStreetMap javításához használt más forrásokról,
+        kérjük, olvassa el <a href="http://wiki.openstreetmap.org/wiki/contributors">a hozzájárulók oldalát
+        az OpenStreetMap wikin.</a>
+      contributors_footer_2_html: |
+          Az adatok befoglalása az OpenStreetMapba nem jelenti azt, hogy az eredeti
+          adatszolgáltató támogatja az OpenStreetMapot, nyújt garanciát vagy
+          vállal rá felelősséget.
+      infringement_title_html: Copyright megsértése
+      infringement_1_html: |
+          Az OSM közreműködői emlékeztetve lettek arra, hogy soha ne adjanak hozzá adatokat egyetlen
+          szerzői jogvédett forrásból se (pl. Google Térkép vagy nyomtatott térképek) a
+          szerzői jog tulajdonosának kifejezett engedélye nélkül.
+      infringement_2_html: |
+        Ha úgy gondolod, hogy jogvédett anyag került jogszerűtlenül az OpenStreetMap adatbázisba vagy erre a weblapra, kérjük olvasd el az <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">eltávolítási
+        folyamat leírását</a> vagy jelentsd be közvetlenül az
+        <a href="http://dmca.openstreetmap.org/">online bejelentő oldalon</a>.
+  welcome_page:
+    title: Üdvözlet!
+    introduction_html: 'Üdvözöl az OpenStreetMap - a szabad és szerkeszthető világtérkép - közössége. Most, hogy regisztráltál, máris elkezdheted a térképezést. Itt elérhető egy gyors összefoglaló a legfontosabb tudnivalókkal.'
+    whats_on_the_map:
+      title: Mi van a térképen
+      on_html: 'Az OpenStreetMapen olyan dolgokat ábrázolunk, amelyek <em>valódiak és jelenleg is léteznek</em> - épületek milliói, utak és egyéb részletek a különböző helyeken. Bármi olyan, téged érdeklő elemet ábrázolhatsz, ami fizikailag létezik.'
+      off_html: 'Amit <em>nem ábrázolunk</em> azok szubjektív adatok mint például értékelés, történelmi vagy történeti helyek, adatok jogvédett forrásokból. Sose másolj semmit más internetes vagy papír térképekről, hacsak nincs erre külön engedélyed.'
+    basic_terms:
+      title: >
+        Alapvető kifejezések a
+        térképezéshez
+      paragraph_1_html: >
+        Az OpenStretMapnek megvan a saját
+        nyelvjárása. Felsorolunk néhány
+        fontosabb kifejezést, amelyek
+        segítenek az elindulásban.
+      editor_html: 'A <strong>szerkesztőprogram</strong> egy olyan letölthető program vagy weboldal, amellyel a térképet tudod módosítani.'
+      node_html: 'A <strong>pont</strong> egy pontszerű objektum a térképen, mint például étterem vagy egy fa.'
+      way_html: 'A <strong>vonal</strong> egy vonalas vagy terület objektum, mint például egy út, folyó, tó vagy épület.'
+      tag_html: 'A <strong>címke</strong> egy pici adat egy ponthoz vagy vonalhoz, mint például egy étterem neve vagy egy sebességkorlátozás mértéke.'
+    questions:
+      title: Kérdésed van?
+      paragraph_1_html: "Az OpenStreetMap számos anyagot kínál fel ahhoz, hogy ismerkedj a projekttel, kérdéseket tégy fel vagy válaszolj meg, vagy térképezési témákat beszélj meg a közösség tagjaival. <a href='%{help_url}'>Itt találsz segítséget</a>."
+    start_mapping: Térképezés indítása
+    add_a_note:
+      title: >
+        Nincs időd szerkeszteni? Küldj be
+        jegyzetet!
+      paragraph_1_html: >
+        Ha valami apróságot szeretnél
+        kijavíttatni és nincs időd
+        regisztrálni és megtanulni a
+        szerkesztést, nagyon egyszerűen
+        beküldhetsz egy jegyzetet!
+      paragraph_2_html: |
+        Menj a <a href='%{map_url}'>térképre</a> és kattints a jegyzet ikonra:
+        <span class='icon note'></span>. Ez elhelyez egy jelzést a térképen, amelyet áthúzhatsz a pontos helyére. Majd írd be az üzeneted és nyomd meg az Elküldés gombot, hogy a térképezők megvizsgálhassák.
+  fixthemap:
+    title: Hibabejelentés / Térkép javítása
+    how_to_help:
+      title: Hogyan segíthetsz
+      join_the_community:
+        title: Csatlakozás a közösséghez
+        explanation_html: >
+          Ha bármilyen hibát találtál a
+          térképadatokban, például hiányzik
+          egy út vagy cím, a legjobb, ha
+          csatlakozol az OpenStreetMap
+          közösséghez és kijavítod az adatot
+          saját magad.
+      add_a_note:
+        instructions_html: "Csak kattints a <a class='icon note'></a> ikonra a térképnézetben. Ez felrak egy helyjelölőt a térképre, amit húzással tudsz a megfelelő helyre mozgatni. Írd meg hozzá az üzeneted, majd kattints a mentésre, és a többi térképész meg fogja vizsgálni."
+    other_concerns:
+      title: Egyéb aggályok
+  help_page:
+    title: Segítségkérés
+    welcome:
+      url: /welcome
+      title: Üdvözlünk az OSM-en
+    help:
+      url: https://help.openstreetmap.org/
+      title: help.openstreetmap.org
+    wiki:
+      url: >
+        https://wiki.openstreetmap.org/wiki/Hu:Main_Page
+      title: wiki.openstreetmap.org
+  about_page:
+    next: Következő
+    copyright_html: '<span>&copy;</span>OpenStreetMap<br />közreműködők'
+    local_knowledge_title: Helyi tudásbázis
+    open_data_title: Szabad adatok
+    partners_title: Partnerek
+  notifier:
+    diary_comment_notification:
+      subject: '[OpenStreetMap] %{user} hozzászólt a naplóbejegyzésedhez'
+      hi: 'Szia %{to_user}!'
+      header: '%{from_user} hozzászólt a legutóbbi OpenStreetMap naplóbejegyzésedhez %{subject} tárggyal:'
+      footer: 'A hozzászólást elolvashatod itt is: %{readurl} és hozzászólhatsz itt: %{commenturl} vagy válaszolhatsz rá itt: %{replyurl}'
+    message_notification:
+      hi: 'Szia %{to_user}!'
+      header: '%{from_user} küldött neked egy üzenetet az OpenStreetMapon keresztül %{subject} tárggyal:'
+      footer_html: 'Az üzenet a %{readurl} címen is elolvashatod, vagy válaszolhatsz rá itt: %{replyurl}'
+    friend_notification:
+      subject: '[OpenStreetMap] %{user} felvett a barátai közé'
+      had_added_you: '%{user} felvett a barátai közé az OpenStreetMapon.'
+      see_their_profile: 'Megnézheted a profilját itt: %{userurl}.'
+      befriend_them: 'Felveheted őt barátnak is itt: %{befriendurl}.'
+    gpx_notification:
+      greeting: Szia!
+      your_gpx_file: 'Úgy tűnik, hogy ez a GPX fájlod:'
+      with_description: 'ezzel a leírással:'
+      and_the_tags: 'és a következő címkékkel:'
+      and_no_tags: és címkék nélkül
+      failure:
+        subject: '[OpenStreetMap] GPX importálás sikertelen'
+        failed_to_import: 'importálása sikertelen. Ez a hiba:'
+        more_info_1: >
+          További információ a GPX importálás
+          sikertelenségeiről és
+        more_info_2: 'megelőzéséről itt található:'
+      success:
+        subject: '[OpenStreetMap] GPX importálás sikeres'
+        loaded_successfully: |
+          sikeresen betöltődött %{trace_points} ponttal a lehetséges
+          %{possible_points} pontból.
+    signup_confirm:
+      subject: '[OpenStreetMap] Üdvözlünk az OpenStreetMapnál'
+      greeting: Szia!
+      created: 'Valaki (remélhetőleg te) most hozott létre egy fiókot az %{site_url}-on.'
+      confirm: 'Mielőtt folytathatnánk, meg kell bizonyosodnunk arról, hogy ez a kérés tőled származik. Ha igen, akkor kérjük, kattints az alábbi linkre a regisztrációd jóváhagyásárért:'
+      welcome: >
+        Miután jóváhagytad a regisztrációt,
+        további hasznos információkat
+        olvashatsz az elinduláshoz.
+    email_confirm:
+      subject: '[OpenStreetMap] E-mail cím megerősítése'
+    email_confirm_plain:
+      greeting: Szia!
+      hopefully_you: 'Valaki (remélhetőleg te) szeretné megváltoztatni az e-mail címét a %{server_url} címen, erre: %{new_address}.'
+      click_the_link: >
+        Ha ez Te vagy, akkor a módosítás
+        megerősítéséhez kattints az alábbi
+        hivatkozásra.
+    email_confirm_html:
+      greeting: Szia!
+      hopefully_you: 'Valaki (remélhetőleg Te) meg szeretné változtatni az e-mail címét erről: %{server_url} erre: %{new_address}.'
+      click_the_link: >
+        Ha ez Te vagy, akkor a módosítás
+        megerősítéséhez kattints az alábbi
+        hivatkozásra.
+    lost_password:
+      subject: '[OpenStreetMap] Jelszó alaphelyzetbe állításának kérése'
+    lost_password_plain:
+      greeting: Szia!
+      hopefully_you: >
+        Valaki (remélhetőleg te) jelszó
+        visszaállítást kért, ehhez az e-mail
+        címhez tartozó openstreetmap.org
+        felhasználónak.
+      click_the_link: >
+        Ha ez Te vagy, akkor a jelszó
+        alaphelyzetbe állításához kattints
+        az alábbi hivatkozásra.
+    lost_password_html:
+      greeting: Szia!
+      hopefully_you: >
+        Valaki (esetleg Te) kérte, hogy az
+        ehhez az e-mail címhez tartozó
+        openstreetmap.org felhasználói fiók
+        jelszava kerüljön alaphelyzetbe.
+      click_the_link: >
+        Ha ez Te vagy, akkor a jelszó
+        alaphelyzetbe állításához kattints
+        az alábbi hivatkozásra.
+    note_comment_notification:
+      anonymous: Egy névtelen felhasználó
+      greeting: Szia!
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} hozzászólt az egyik jegyzetedhez'
+        subject_other: '[OpenStreetMap] %{commenter} hozzászólt az egyik jegyzethez, amelyet te is figyelsz'
+        your_note: '%{commenter} hozzászólt az egyik jegyzetedhez, %{place} közelében.'
+        commented_note: '%{commenter} hozzászólt az egyik jegyzethez, amelyhez te is, %{place} közelében.'
+      closed:
+        subject_own: '[OpenStreetMap] %{commenter} megoldotta az egyik jegyztetedet'
+        subject_other: '[OpenStreetMap] %{commenter} megoldotta az egyik jegyzetet, amelyet te is figyelsz'
+        your_note: '[OpenStreetMap] %{commenter} megoldotta az egyik jegyzetedet %{place} közelében.'
+        commented_note: '%{commenter} megoldotta az egyik jegyzetet amelyhez hozzászóltál, %{place} közelében.'
+      reopened:
+        subject_own: '[OpenStreetMap] %{commenter} újra megnyitotta az egyik jegyzetedet'
+        subject_other: '[OpenStreetMap] %{commenter} újra megnyitotta az egyik jegyzetet, amelyet te is figyelsz'
+        your_note: '[OpenStreetMap] %{commenter} újra megnyitotta az egyik jegyzetedet %{place} közelében.'
+        commented_note: '[OpenStreetMap] %{commenter} újra megnyitotta az egyik jegyzetet amelyhez te is hozzászóltál, %{place} közelében.'
+      details: 'A jegyzetről további információk: %{url}.'
+  message:
+    inbox:
       title: Beérkezett üzenetek
-    mark: 
-      as_read: Üzenet megjelölve olvasottként
-      as_unread: Üzenet megjelölve olvasatlanként
-    message_summary: 
-      delete_button: Törlés
+      my_inbox: Beérkezett üzenetek
+      outbox: Elküldött üzenetek
+      messages: '%{new_messages} és %{old_messages} van'
+      new_messages:
+        one: egy új üzenet
+        other: '%{count} új üzenet'
+      old_messages:
+        one: egy régi üzeneted
+        other: '%{count} régi üzeneted'
+      from: Feladó
+      subject: Tárgy
+      date: Érkezett
+      no_messages_yet: 'Nincs még üzeneted. Miért nem veszed fel a kapcsolatot néhány %{people_mapping_nearby_link}vel?'
+      people_mapping_nearby: közeli térképszerkesztő
+    message_summary:
+      unread_button: Jelölés olvasatlanként
       read_button: Jelölés olvasottként
       reply_button: Válasz
-      unread_button: Jelölés olvasatlanként
-    new: 
-      back_to_inbox: Vissza a beérkezett üzenetekhez
-      body: Szöveg
-      limit_exceeded: Sok üzenetet küldtél az utóbbi időben. Várj egy kicsit, mielőtt újabbakat küldenél.
-      message_sent: Üzenet elküldve
-      send_button: Küldés
-      send_message_to: "Új üzenet küldése neki: %{name}"
-      subject: Tárgy
-      title: Üzenet küldése
-    no_such_message: 
-      body: Sajnálom, nincs üzenet ezzel az azonosítóval.
-      heading: Nincs ilyen üzenet
-      title: Nincs ilyen üzenet
-    outbox: 
-      date: Elküldve
-      inbox: Beérkezett üzenetek
-      messages: 
-        one: Egy elküldött üzeneted van
-        other: "%{count} elküldött üzeneted van"
-      my_inbox: "%{inbox_link}"
-      no_sent_messages: Nincs még elküldött üzeneted. Miért nem veszed fel a kapcsolatot néhány %{people_mapping_nearby_link}vel?
-      outbox: Elküldött üzenetek
-      people_mapping_nearby: közeli térképszerkesztő
-      subject: Tárgy
-      title: Elküldött üzenetek
-      to: Címzett
-    read: 
-      back: Vissza
-      date: Érkezett
-      from: Feladó
-      reply_button: Válasz
-      subject: Tárgy
-      title: Üzenet olvasása
-      to: Címzett
-      unread_button: Jelölés olvasatlanként
-      wrong_user: „%{user}” néven jelentkeztél be, de a levelet, amit lekérdeztél olvasásra, nem ez a felhasználó küldte vagy kapta. Annak érdekében, hogy elolvashasd a levelet, jelentkezz be a helyes felhasználóval.
-    reply: 
-      wrong_user: „%{user}” néven jelentkeztél be, de a levelet, amit lekérdeztél válaszolásra, nem ez a felhasználó kapta. Annak érdekében, hogy válaszolhass, jelentkezz be a helyes felhasználóval.
-    sent_message_summary: 
       delete_button: Törlés
-  note: 
-    description: 
-      closed_at_by_html: "Megoldva: %{when} (%{user})"
-      closed_at_html: "Megoldva: %{when}"
-      commented_at_by_html: Frissítette %{user} %{when}
-      commented_at_html: "Frissítve: %{when}"
-      opened_at_by_html: Létrehozta %{user} %{when}
-      opened_at_html: Létrehozva %{when}
-      reopened_at_by_html: Újraaktiválta %{user} %{when}
-      reopened_at_html: "Újra aktiválva: %{when}"
-    entry: 
-      comment: Hozzászólás
-      full: Teljes jegyzet
-    mine: 
-      ago_html: "%{when}"
-      created_at: Létrehozva ekkor
-      creator: Létrehozta
-      description: Leírás
-      heading: "%{user} jegyzetei"
-      id: ID
-      last_changed: Utoljára módosítva
-    rss: 
-      closed: Lezárt megjegyzés (%{place} közelében)
-      commented: Új hozzászólás (%{place} közelében)
-      description_item: RSS hírcsatorna a %{id} jegyzethez
-      opened: Új megjegyzés (%{place} közelében)
-      reopened: újraaktivált megjegyzés (%{place} közelében)
-      title: OpenStreetMap jegyzetek
-  notifier: 
-    diary_comment_notification: 
-      footer: "A hozzászólást elolvashatod itt is: %{readurl} és hozzászólhatsz itt: %{commenturl} vagy válaszolhatsz rá itt: %{replyurl}"
-      header: "%{from_user} hozzászólt a legutóbbi OpenStreetMap naplóbejegyzésedhez %{subject} tárggyal:"
-      hi: Szia %{to_user}!
-      subject: "[OpenStreetMap] %{user} hozzászólt a naplóbejegyzésedhez"
-    email_confirm: 
-      subject: "[OpenStreetMap] E-mail cím megerősítése"
-    email_confirm_html: 
-      click_the_link: Ha ez Te vagy, akkor a módosítás megerősítéséhez kattints az alábbi hivatkozásra.
-      greeting: Szia!
-      hopefully_you: "Valaki (remélhetőleg Te) meg szeretné változtatni az e-mail címét erről: %{server_url} erre: %{new_address}."
-    email_confirm_plain: 
-      click_the_link: Ha ez Te vagy, akkor a módosítás megerősítéséhez kattints az alábbi hivatkozásra.
-      greeting: Szia!
-      hopefully_you: "Valaki (remélhetőleg te) szeretné megváltoztatni az e-mail címét a %{server_url} címen, erre: %{new_address}."
-    friend_notification: 
-      befriend_them: "Felveheted őt barátnak is itt: %{befriendurl}."
-      had_added_you: "%{user} felvett a barátai közé az OpenStreetMapon."
-      see_their_profile: "Megnézheted a profilját itt: %{userurl}."
-      subject: "[OpenStreetMap] %{user} felvett a barátai közé"
-    gpx_notification: 
-      and_no_tags: és címkék nélkül
-      and_the_tags: "és a következő címkékkel:"
-      failure: 
-        failed_to_import: "importálása sikertelen. Ez a hiba:"
-        more_info_1: További információ a GPX importálás sikertelenségeiről és
-        more_info_2: "megelőzéséről itt található:"
-        subject: "[OpenStreetMap] GPX importálás sikertelen"
-      greeting: Szia!
-      success: 
-        loaded_successfully: "sikeresen betöltődött %{trace_points} ponttal a lehetséges\n%{possible_points} pontból."
-        subject: "[OpenStreetMap] GPX importálás sikeres"
-      with_description: "ezzel a leírással:"
-      your_gpx_file: "Úgy tűnik, hogy ez a GPX fájlod:"
-    lost_password: 
-      subject: "[OpenStreetMap] Jelszó alaphelyzetbe állításának kérése"
-    lost_password_html: 
-      click_the_link: Ha ez Te vagy, akkor a jelszó alaphelyzetbe állításához kattints az alábbi hivatkozásra.
-      greeting: Szia!
-      hopefully_you: Valaki (esetleg Te) kérte, hogy az ehhez az e-mail címhez tartozó openstreetmap.org felhasználói fiók jelszava kerüljön alaphelyzetbe.
-    lost_password_plain: 
-      click_the_link: Ha ez Te vagy, akkor a jelszó alaphelyzetbe állításához kattints az alábbi hivatkozásra.
-      greeting: Szia!
-      hopefully_you: Valaki (remélhetőleg te) jelszó visszaállítást kért, ehhez az e-mail címhez tartozó openstreetmap.org felhasználónak.
-    message_notification: 
-      footer_html: "Az üzenet a %{readurl} címen is elolvashatod, vagy válaszolhatsz rá itt: %{replyurl}"
-      header: "%{from_user} küldött neked egy üzenetet az OpenStreetMapon keresztül %{subject} tárggyal:"
-      hi: Szia %{to_user}!
-    note_comment_notification: 
-      anonymous: Egy névtelen felhasználó
-      closed: 
-        commented_note: "%{commenter} megoldotta az egyik jegyzetet amelyhez hozzászóltál, %{place} közelében."
-        subject_other: "[OpenStreetMap] %{commenter} megoldotta az egyik jegyzetet, amelyet te is figyelsz"
-        subject_own: "[OpenStreetMap] %{commenter} megoldotta az egyik jegyztetedet"
-        your_note: "[OpenStreetMap] %{commenter} megoldotta az egyik jegyzetedet %{place} közelében."
-      commented: 
-        commented_note: "%{commenter} hozzászólt az egyik jegyzethez, amelyhez te is, %{place} közelében."
-        subject_other: "[OpenStreetMap] %{commenter} hozzászólt az egyik jegyzethez, amelyet te is figyelsz"
-        subject_own: "[OpenStreetMap] %{commenter} hozzászólt az egyik jegyzetedhez"
-        your_note: "%{commenter} hozzászólt az egyik jegyzetedhez, %{place} közelében."
-      details: "A jegyzetről további információk: %{url}."
-      greeting: Szia!
-      reopened: 
-        commented_note: "[OpenStreetMap] %{commenter} újra megnyitotta az egyik jegyzetet amelyhez te is hozzászóltál, %{place} közelében."
-        subject_other: "[OpenStreetMap] %{commenter} újra megnyitotta az egyik jegyzetet, amelyet te is figyelsz"
-        subject_own: "[OpenStreetMap] %{commenter} újra megnyitotta az egyik jegyzetedet"
-        your_note: "[OpenStreetMap] %{commenter} újra megnyitotta az egyik jegyzetedet %{place} közelében."
-    signup_confirm: 
-      confirm: "Mielőtt folytathatnánk, meg kell bizonyosodnunk arról, hogy ez a kérés tőled származik. Ha igen, akkor kérjük, kattints az alábbi linkre a regisztrációd jóváhagyásárért:"
-      created: Valaki (remélhetőleg te) most hozott létre egy fiókot az %{site_url}-on.
-      greeting: Szia!
-      subject: "[OpenStreetMap] Üdvözlünk az OpenStreetMapnál"
-      welcome: Miután jóváhagytad a regisztrációt, további hasznos információkat olvashatsz az elinduláshoz.
-  oauth: 
-    oauthorize: 
-      allow_read_gpx: magán GPS nyomvonalak olvasása.
-      allow_read_prefs: felhasználói beállítások olvasása.
-      allow_to: "Az alábbiak engedélyezése a kliensalkalmazásnak:"
-      allow_write_api: a térkép módosítása.
-      allow_write_diary: naplóbejegyzések, hozzászólások készítése és barátok hozzáadása.
-      allow_write_gpx: GPS nyomvonalak feltöltése.
-      allow_write_notes: jegyzet módosítása
-      allow_write_prefs: felhasználói beállítások módosítása.
-      request_access: A(z) %{app_name} alkalmazás hozzáférést kér a felhasználói fiókodhoz, %{user}. Kérlek, jelöld, ha azt szeretnéd, hogy az alkalmazás rendelkezzen a következő képességekkel. Választhatsz olyan sokat vagy keveset, amennyit szeretnél.
-    oauthorize_failure: 
-      title: Az azonosítás sikertelen.
-    oauthorize_success: 
-      verification: "Az ellenőrző kód: %{code}."
-    revoke: 
-      flash: Visszavontad az utalványt a(z) %{application} alkalmazáshoz
-  oauth_clients: 
-    create: 
-      flash: Az információ sikeresen regisztrálva
-    destroy: 
-      flash: A kliensalkalmazás regisztrációja törölve
-    edit: 
-      submit: Szerkesztés
-      title: Alkalmazás szerkesztése
-    form: 
-      allow_read_gpx: magán GPS nyomvonalainak olvasása.
-      allow_read_prefs: felhasználó beállításainak olvasása.
-      allow_write_api: a térkép módosítása.
-      allow_write_diary: naplóbejegyzések, hozzászólások készítése és barátok hozzáadása.
-      allow_write_gpx: GPS nyomvonalak feltöltése.
-      allow_write_notes: jegyzetek módosítása.
-      allow_write_prefs: felhasználó beállításainak módosítása.
-      callback_url: Visszahívási URL
-      name: Név
-      requests: "A következő engedélyek kérése a felhasználótól:"
-      required: Szükséges
-      support_url: Támogatás URL
-      url: Fő alkalmazás URL
-    index: 
-      application: Alkalmazás neve
-      issued_at: Kibocsátva ekkor
-      list_tokens: "A következő utalványok kerültek kibocsátásra a nevedben:"
-      my_apps: Kliensalkalmazások
-      my_tokens: Engedélyezett alkalmazások
-      no_apps: Van olyan alkalmazásod, amit szeretnél regisztrálni a velünk való használathoz a(z) %{oauth} szabvány használatával? Regisztrálnod kell a webalkalmazásod, mielőtt OAuth kéréseket küld ehhez a szolgáltatáshoz.
-      register_new: Alkalmazás regisztrálása
-      registered_apps: "A következő kliensalkalmazások vannak regisztrálva:"
-      revoke: Visszavonás!
-      title: OAuth részletek
-    new: 
-      submit: Regisztrálás
-      title: Új alkalmazás regisztrálása
-    not_found: 
-      sorry: Sajnálom, a(z) %{type} nem található.
-    show: 
-      access_url: "Utalvány-hozzáférési URL:"
-      allow_read_gpx: magán GPS nyomvonalainak olvasása.
-      allow_read_prefs: felhasználó beállításainak olvasása.
-      allow_write_api: a térkép módosítása.
-      allow_write_diary: naplóbejegyzések, hozzászólások készítése és barátok hozzáadása.
-      allow_write_gpx: GPS nyomvonalak feltöltése.
-      allow_write_notes: jegyzet módosítása.
-      allow_write_prefs: felhasználó beállításainak módosítása.
-      authorize_url: "Felhatalmazási URL:"
-      confirm: Biztos vagy benne?
-      delete: Ügyfél törlése
-      edit: Részletek szerkesztése
-      key: "Fogyasztói kulcs:"
-      requests: "A következő engedélyek kérése a felhasználótól:"
-      secret: "Fogyasztói titok:"
-      support_notice: Támogatjuk a HMAC-SHA1 (ajánlott) és az RSA-SHA1 hitelesítést.
-      title: "%{app_name} OAuth részletei"
-      url: "Utalványkérési URL:"
-    update: 
-      flash: A kliens információi sikeresen frissítve
-  redaction: 
-    edit: 
-      description: Leírás
-    new: 
-      description: Leírás
-    show: 
-      confirm: Biztos vagy benne?
-      description: "Leírás:"
-      user: "Készítő:"
-    update: 
-      flash: Változtatások elmentve.
-  site: 
-    edit: 
-      anon_edits_link_text: Nézz utána, miért van ez.
-      flash_player_required: A Potlatch, az OpenStreetMap Flash szerkesztő használatához Flash Player szükséges. <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Letöltheted a Flash Playert az Adobe.com-ról</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Számos más lehetőség</a> is elérhető az OpenStreetMap szerkesztéséhez.
-      id_not_configured: Az iD nincs beállítva
-      no_iframe_support: A böngésződ nem támogatja a HTML-kereteket, amely ehhez a funkcióhoz szükséges.
-      not_public: Nem állítottad a szerkesztéseidet nyilvánossá.
-      not_public_description: Nem szerkesztheted tovább a térképet, amíg nem teszed meg. Nyilvánossá teheted szerkesztéseidet a %{user_page}adról.
-      potlatch2_not_configured: "A Potlatch 2 nincs beállítva – további információért lásd: http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2"
-      potlatch2_unsaved_changes: Mentetlen módosításaid vannak. (A mentéshez a Potlatch 2-ben kattintanod kell a mentésre.)
-      potlatch_unsaved_changes: Nem mentett módosítások vannak. (Potlatchban való mentéshez szüntesd meg a jelenlegi vonal vagy pont kijelölését, ha élő módban szerkesztesz, vagy kattints a mentésre, ha van mentés gomb.)
-      user_page_link: felhasználói oldal
-    index: 
-      createnote: Új jegyzet
-      js_1: Vagy egy olyan böngészőt használsz, amely nem támogatja a JavaScriptet, vagy letiltottad a JavaScriptet.
-      js_2: Az OpenStreetMap JavaScriptet használ a slippy maphoz.
-      license: 
-        copyright: Copyright OpenStreetMap és közreműködői, egy nyílt licenc alatt
+    new:
+      title: Üzenet küldése
+      send_message_to: 'Új üzenet küldése neki: %{name}'
+      subject: Tárgy
+      body: Szöveg
+      send_button: Küldés
+      back_to_inbox: Vissza a beérkezett üzenetekhez
+      message_sent: Üzenet elküldve
+      limit_exceeded: >
+        Sok üzenetet küldtél az utóbbi
+        időben. Várj egy kicsit, mielőtt
+        újabbakat küldenél.
+    no_such_message:
+      title: Nincs ilyen üzenet
+      heading: Nincs ilyen üzenet
+      body: >
+        Sajnálom, nincs üzenet ezzel az
+        azonosítóval.
+    outbox:
+      title: Elküldött üzenetek
+      my_inbox: '%{inbox_link}'
+      inbox: Beérkezett üzenetek
+      outbox: Elküldött üzenetek
+      messages:
+        one: Egy elküldött üzeneted van
+        other: '%{count} elküldött üzeneted van'
+      to: Címzett
+      subject: Tárgy
+      date: Elküldve
+      no_sent_messages: 'Nincs még elküldött üzeneted. Miért nem veszed fel a kapcsolatot néhány %{people_mapping_nearby_link}vel?'
+      people_mapping_nearby: közeli térképszerkesztő
+    reply:
+      wrong_user: '„%{user}” néven jelentkeztél be, de a levelet, amit lekérdeztél válaszolásra, nem ez a felhasználó kapta. Annak érdekében, hogy válaszolhass, jelentkezz be a helyes felhasználóval.'
+    read:
+      title: Üzenet olvasása
+      from: Feladó
+      subject: Tárgy
+      date: Érkezett
+      reply_button: Válasz
+      unread_button: Jelölés olvasatlanként
+      back: Vissza
+      to: Címzett
+      wrong_user: '„%{user}” néven jelentkeztél be, de a levelet, amit lekérdeztél olvasásra, nem ez a felhasználó küldte vagy kapta. Annak érdekében, hogy elolvashasd a levelet, jelentkezz be a helyes felhasználóval.'
+    sent_message_summary:
+      delete_button: Törlés
+    mark:
+      as_read: Üzenet megjelölve olvasottként
+      as_unread: Üzenet megjelölve olvasatlanként
+    delete:
+      deleted: Üzenet törölve
+  site:
+    index:
+      js_1: >
+        Vagy egy olyan böngészőt használsz,
+        amely nem támogatja a JavaScriptet,
+        vagy letiltottad a JavaScriptet.
+      js_2: >
+        Az OpenStreetMap JavaScriptet használ a
+        slippy maphoz.
       permalink: Permalink
-      remote_failed: A szerkesztés nem sikerült. Győződj meg róla, hogy a JOSM vagy a Merkaartor be van töltve, és a távirányító opció engedélyezve van
       shortlink: Shortlink
-    key: 
-      table: 
-        entry: 
-          admin: Közigazgatási határ
-          allotments: Kert
-          apron: 
-            - Forgalmi előtér
-            - utasterminál
-          bridge: Fekete szegély = híd
-          bridleway: Lovaglóút
-          brownfield: Bontási terület
-          building: Fontosabb épület
-          byway: Ösvény
-          cable: 
-            - Fülkés
-            - függőszékes felvonó
-          cemetery: Temető
-          centre: Sportközpont
-          commercial: Kereskedelmi terület
-          common: 
-            - Füves terület
-            - rét
-          construction: Utak építés alatt
-          cycleway: Kerékpárút
-          destination: Csak célforgalom
-          farm: Tanya
-          footway: Gyalogút
-          forest: Erdő
-          golf: Golfpálya
-          heathland: Kopár terület
-          industrial: Ipari terület
-          lake: 
-            - Tó
-            - víztározó
-          military: Katonai terület
+      createnote: Új jegyzet
+      license:
+        copyright: >
+          Copyright OpenStreetMap és
+          közreműködői, egy nyílt licenc
+          alatt
+      remote_failed: >
+        A szerkesztés nem sikerült. Győződj
+        meg róla, hogy a JOSM vagy a Merkaartor
+        be van töltve, és a távirányító
+        opció engedélyezve van
+    edit:
+      not_public: >
+        Nem állítottad a szerkesztéseidet
+        nyilvánossá.
+      not_public_description: 'Nem szerkesztheted tovább a térképet, amíg nem teszed meg. Nyilvánossá teheted szerkesztéseidet a %{user_page}adról.'
+      user_page_link: felhasználói oldal
+      anon_edits_link_text: Nézz utána, miért van ez.
+      flash_player_required: 'A Potlatch, az OpenStreetMap Flash szerkesztő használatához Flash Player szükséges. <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Letöltheted a Flash Playert az Adobe.com-ról</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Számos más lehetőség</a> is elérhető az OpenStreetMap szerkesztéséhez.'
+      potlatch_unsaved_changes: >
+        Nem mentett módosítások vannak.
+        (Potlatchban való mentéshez szüntesd
+        meg a jelenlegi vonal vagy pont
+        kijelölését, ha élő módban
+        szerkesztesz, vagy kattints a mentésre,
+        ha van mentés gomb.)
+      potlatch2_not_configured: 'A Potlatch 2 nincs beállítva – további információért lásd: http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2'
+      potlatch2_unsaved_changes: >
+        Mentetlen módosításaid vannak. (A
+        mentéshez a Potlatch 2-ben kattintanod
+        kell a mentésre.)
+      id_not_configured: Az iD nincs beállítva
+      no_iframe_support: >
+        A böngésződ nem támogatja a
+        HTML-kereteket, amely ehhez a
+        funkcióhoz szükséges.
+    sidebar:
+      search_results: Keresés eredményei
+      close: Bezár
+    search:
+      search: Keresés
+      where_am_i: Hol vagyok?
+      where_am_i_title: >
+        A jelenlegi helyszín leírása a
+        keresőmotor segítségével
+      submit_text: Menj
+    key:
+      table:
+        entry:
           motorway: Autópálya
-          park: Park
-          permissive: Behajtás engedélyezett
-          pitch: Labdarúgópálya
-          primary: Főút
-          private: Behajtás csak engedéllyel
-          rail: Vasút
-          reserve: Természetvédelmi terület
-          resident: Gyalogos övezet
-          retail: Kereskedelmi terület
-          runway: 
-            - Kifutópálya
-            - gurulóút
-          school: 
-            - Iskola
-            - egyetem
-          secondary: Összekötő út
-          station: Vasútállomás
-          subway: Metró
-          summit: 
-            - Hegycsúcs
-            - magaslat
-          tourist: Turisztikai látványosság
-          track: Földút
-          tram: 
-            - HÉV
-            - villamos
           trunk: Autóút
-          tunnel: Szaggatott szegély = alagút
+          primary: Főút
+          secondary: Összekötő út
           unclassified: Egyéb út
           unsurfaced: Burkolatlan út
+          track: Földút
+          byway: Ösvény
+          bridleway: Lovaglóút
+          cycleway: Kerékpárút
+          footway: Gyalogút
+          rail: Vasút
+          subway: Metró
+          tram:
+            - HÉV
+            - villamos
+          cable:
+            - Fülkés
+            - függőszékes felvonó
+          runway:
+            - Kifutópálya
+            - gurulóút
+          apron:
+            - Forgalmi előtér
+            - utasterminál
+          admin: Közigazgatási határ
+          forest: Erdő
           wood: Erdő
-    markdown_help: 
-      alt: ALT szöveg
-      first: Első tétel
-      heading: Címsor
-      headings: Címsorok
-      image: Kép
-      link: Hivatkozás
-      ordered: Rendezett lista
-      second: Második tétel
-      subheading: Alcím
-      text: Szöveg
-      title_html: "Megjelenítés: <a href=\"http://daringfireball.net/projects/markdown/\">Markdown</a>"
-      unordered: Rendezetlen lista
-      url: URL
-    richtext_area: 
+          golf: Golfpálya
+          park: Park
+          resident: Gyalogos övezet
+          tourist: Turisztikai látványosság
+          common:
+            - Füves terület
+            - rét
+          retail: Kereskedelmi terület
+          industrial: Ipari terület
+          commercial: Kereskedelmi terület
+          heathland: Kopár terület
+          lake:
+            - Tó
+            - víztározó
+          farm: Tanya
+          brownfield: Bontási terület
+          cemetery: Temető
+          allotments: Kert
+          pitch: Labdarúgópálya
+          centre: Sportközpont
+          reserve: Természetvédelmi terület
+          military: Katonai terület
+          school:
+            - Iskola
+            - egyetem
+          building: Fontosabb épület
+          station: Vasútállomás
+          summit:
+            - Hegycsúcs
+            - magaslat
+          tunnel: Szaggatott szegély = alagút
+          bridge: Fekete szegély = híd
+          private: Behajtás csak engedéllyel
+          permissive: Behajtás engedélyezett
+          destination: Csak célforgalom
+          construction: Utak építés alatt
+    richtext_area:
       edit: Szerkeszt
       preview: Előnézet
-    search: 
-      search: Keresés
-      submit_text: Menj
-      where_am_i: Hol vagyok?
-      where_am_i_title: A jelenlegi helyszín leírása a keresőmotor segítségével
-    sidebar: 
-      close: Bezár
-      search_results: Keresés eredményei
-  time: 
-    formats: 
-      friendly: "%Y. %B %e., %H.%M"
-  trace: 
-    create: 
-      trace_uploaded: A GPX fájl feltöltése megtörtént, és várakozik az adatbázisba való beillesztésre. Ez általában fél órán belül megtörténik, és fogsz kapni egy e-mailt, amint elkészült.
+    markdown_help:
+      title_html: 'Megjelenítés: <a href="http://daringfireball.net/projects/markdown/">Markdown</a>'
+      headings: Címsorok
+      heading: Címsor
+      subheading: Alcím
+      unordered: Rendezetlen lista
+      ordered: Rendezett lista
+      first: Első tétel
+      second: Második tétel
+      link: Hivatkozás
+      text: Szöveg
+      image: Kép
+      alt: ALT szöveg
+      url: URL
+  trace:
+    visibility:
+      private: >
+        Magán (megosztva csak névtelenül,
+        rendezetlen pontok)
+      public: >
+        Nyilvános (megjelenik a nyomvonalak
+        listáján névtelenül, rendezetlen
+        pontok)
+      trackable: >
+        Követhető (megosztva csak
+        névtelenül, rendezett pontok
+        időbélyeggel)
+      identifiable: >
+        Azonosítható (megjelenik a nyomvonalak
+        listáján, és azonosítható,
+        rendezett pontok időbélyeggel)
+    create:
       upload_trace: GPS nyomvonal feltöltése
-    delete: 
-      scheduled_for_deletion: A nyomvonal törlésre kijelölve
-    description: 
-      description_with_count: GPX fájl %{count} ponttal %{user} felhasználótól
-      description_without_count: GPX fájl %{user} felhasználótól
-    edit: 
-      description: "Leírás:"
+      trace_uploaded: >
+        A GPX fájl feltöltése megtörtént,
+        és várakozik az adatbázisba való
+        beillesztésre. Ez általában fél
+        órán belül megtörténik, és fogsz
+        kapni egy e-mailt, amint elkészült.
+    edit:
+      title: 'Nyomvonal szerkesztése: %{name}'
+      heading: 'Nyomvonal szerkesztése: %{name}'
+      filename: 'Fájlnév:'
       download: letöltés
-      edit: szerkesztés
-      filename: "Fájlnév:"
-      heading: "Nyomvonal szerkesztése: %{name}"
+      uploaded_at: 'Feltöltve:'
+      points: 'Pontok száma:'
+      start_coord: 'Kezdőkoordináta:'
       map: térkép
-      owner: "Tulajdonos:"
-      points: "Pontok száma:"
+      edit: szerkesztés
+      owner: 'Tulajdonos:'
+      description: 'Leírás:'
+      tags: 'Címkék:'
+      tags_help: vesszővel elválasztva
       save_button: Módosítások mentése
-      start_coord: "Kezdőkoordináta:"
-      tags: "Címkék:"
-      tags_help: vesszővel elválasztva
-      title: "Nyomvonal szerkesztése: %{name}"
-      uploaded_at: "Feltöltve:"
-      visibility: "Láthatóság:"
+      visibility: 'Láthatóság:'
       visibility_help: Mit jelent ez?
-    georss: 
-      title: OpenStreetMap GPS nyomvonalak
-    list: 
-      description: Legfrissebb GPS nyomvonalak tallózása
-      empty_html: Még nincs mit megjeleníteni. <a href='%{upload_link}'>Tölts fel új nyomvonalat</a>, vagy olvass bővebben a GPS nyomvonalrögzítésről a <a href='http://wiki.openstreetmap.org/wiki/HU:Beginners_Guide_1.2'>wiki lapon</a>.
-      public_traces: Nyilvános GPS nyomvonalak
-      public_traces_from: "%{user} nyilvános GPS nyomvonalai"
-      tagged_with: " %{tags} címkével"
-      your_traces: Saját GPS nyomvonalak
-    make_public: 
-      made_public: A nyomvonal nyilvános lett
-    offline: 
-      heading: A GPX-tároló offline
-      message: A GPX-fájltároló és -feltöltő rendszer jelenleg nem érhető el.
-    offline_warning: 
-      message: A GPX-fájlfeltöltő rendszer jelenleg nem érhető el
-    trace: 
-      ago: "ennyivel ezelőtt: %{time_in_words_ago}"
-      by: "készítette:"
-      count_points: "%{count} pont"
-      edit: szerkesztés
-      edit_map: Térkép szerkesztése
-      identifiable: AZONOSÍTHATÓ
-      in: "címkék:"
-      map: térkép
-      more: tovább
-      pending: FÜGGŐBEN
-      private: NEM NYILVÁNOS
-      public: NYILVÁNOS
-      trace_details: Nyomvonal részleteinek megtekintése
-      trackable: NYOMKÖVETHETŐ
-      view_map: Térkép megtekintése
-    trace_form: 
-      description: "Leírás:"
-      help: Segítség
-      tags: "Címkék:"
+    trace_form:
+      upload_gpx: 'GPX fájl feltöltése:'
+      description: 'Leírás:'
+      tags: 'Címkék:'
       tags_help: vesszővel elválasztva
+      visibility: 'Láthatóság:'
+      visibility_help: Mit jelent ez?
       upload_button: Feltöltés
-      upload_gpx: "GPX fájl feltöltése:"
-      visibility: "Láthatóság:"
-      visibility_help: Mit jelent ez?
-    trace_header: 
+      help: Segítség
+    trace_header:
+      upload_trace: Nyomvonal feltöltése
       see_all_traces: Összes nyomvonal megtekintése
       see_your_traces: Összes saját nyomvonal megtekintése
-      traces_waiting: "%{count} nyomvonalad várakozik feltöltésre. Kérlek fontold meg, hogy megvárod, amíg ezek befejeződnek mielőtt feltöltesz továbbiakat, hogy így ne tartsd fel a többi felhasználót a sorban."
-      upload_trace: Nyomvonal feltöltése
-    trace_optionals: 
+      traces_waiting: '%{count} nyomvonalad várakozik feltöltésre. Kérlek fontold meg, hogy megvárod, amíg ezek befejeződnek mielőtt feltöltesz továbbiakat, hogy így ne tartsd fel a többi felhasználót a sorban.'
+    trace_optionals:
       tags: Címkék
-    trace_paging_nav: 
-      newer: Újabb nyomvonalak
-      older: Régebbi nyomvonalak
-      showing_page: "%{page}. oldal"
-    view: 
-      delete_track: Ezen nyomvonal törlése
-      description: "Leírás:"
-      download: letöltés
-      edit: szerkesztés
-      edit_track: Ezen nyomvonal szerkesztése
-      filename: "Fájlnév:"
-      heading: "Nyomvonal megtekintése: %{name}"
-      map: térkép
-      none: nincsenek
-      owner: "Tulajdonos:"
+    view:
+      title: 'Nyomvonal megtekintése: %{name}'
+      heading: 'Nyomvonal megtekintése: %{name}'
       pending: FÜGGŐBEN
-      points: "Pontok száma:"
-      start_coordinates: "Kezdőkoordináta:"
-      tags: "Címkék:"
-      title: "Nyomvonal megtekintése: %{name}"
+      filename: 'Fájlnév:'
+      download: letöltés
+      uploaded: 'Feltöltve:'
+      points: 'Pontok száma:'
+      start_coordinates: 'Kezdőkoordináta:'
+      map: térkép
+      edit: szerkesztés
+      owner: 'Tulajdonos:'
+      description: 'Leírás:'
+      tags: 'Címkék:'
+      none: nincsenek
+      edit_track: Ezen nyomvonal szerkesztése
+      delete_track: Ezen nyomvonal törlése
       trace_not_found: Nem található nyomvonal!
-      uploaded: "Feltöltve:"
-      visibility: "Láthatóság:"
-    visibility: 
-      identifiable: Azonosítható (megjelenik a nyomvonalak listáján, és azonosítható, rendezett pontok időbélyeggel)
-      private: Magán (megosztva csak névtelenül, rendezetlen pontok)
-      public: Nyilvános (megjelenik a nyomvonalak listáján névtelenül, rendezetlen pontok)
-      trackable: Követhető (megosztva csak névtelenül, rendezett pontok időbélyeggel)
-  user: 
-    account: 
-      contributor terms: 
-        agreed: Elfogadtad az új hozzájárulási feltételeket.
-        agreed_with_pd: Azt is kijelentetted, hogy a szerkesztéseid közkincsnek tekinthetők.
-        heading: "Hozzájárulási feltételek:"
-        link text: mi ez?
-        not yet agreed: Még nem fogadtad el az új hozzájárulási feltételeket.
-        review link text: Kérlek, kövesd ezt a hivatkozást az új hozzájárulási feltételek áttekintéséhez és elfogadásához.
-      current email address: "Jelenlegi e-mail cím:"
-      delete image: Jelenlegi kép eltávolítása
-      email never displayed publicly: (soha nem jelenik meg nyilvánosan)
-      flash update success: Felhasználói információk sikeresen frissítve.
-      flash update success confirm needed: Felhasználói információk sikeresen frissítve. Nézd meg az e-mailjeidet az új e-mail címedet megerősítő levélhez.
-      gravatar: 
-        gravatar: Gravatar használata
-        link text: mi ez?
-      home location: "Otthon:"
-      image: "Kép:"
-      image size hint: (legalább 100x100 pixel nagyságú négyzetes kép javasolt)
-      keep image: Jelenlegi kép megtartása
-      latitude: "Földrajzi szélesség:"
-      longitude: "Földrajzi hosszúság:"
-      make edits public button: Szerkesztéseim nyilvánossá tétele
-      my settings: Beállításaim
-      new email address: "Új e-mail cím:"
-      new image: Kép hozzáadása
-      no home location: Nem adtad meg az otthonod helyét.
-      openid: 
-        link: http://wiki.openstreetmap.org/wiki/OpenID
-        link text: mi ez?
-        openid: "OpenID:"
-      preferred editor: "Előnyben részesített szerkesztő:"
-      preferred languages: "Előnyben részesített nyelvek:"
-      profile description: "Profil leírása:"
-      public editing: 
-        disabled: Tiltva, így nem szerkesztheted az adatokat, az összes eddigi szerkesztés névtelen.
-        disabled link text: miért nem tudok szerkeszteni?
-        enabled: Engedélyezve. Nem vagy névtelen, így szerkesztheted az adatokat.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: mi ez?
-        heading: "Nyilvános szerkesztés:"
-      public editing note: 
-        heading: Nyilvános szerkesztés
-        text: Jelenleg a szerkesztéseid névtelenek, és az emberek nem küldhetnek neked üzeneteket, és nem láthatják a tartózkodási helyedet. Hogy megmutasd, mit szerkesztettél, és megengedd az embereknek, hogy a webhelyen keresztül kapcsolatba lépjenek veled, kattints az alábbi gombra. <b>A 0.6 API-ra történt átállás óta csak nyilvános felhasználók szerkeszthetik a térképadatokat</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">nézz utána, miért</a>).<ul><li>Az e-mail címed nem kerül felfedésre azzal, hogy nyilvános leszel.</li><li>Ez a művelet nem vonható vissza, és alapértelmezésben az összes új felhasználó már nyilvános.</li></ul>
-      replace image: Jelenlegi kép cseréje
-      return to profile: Vissza a profilhoz
-      save changes button: Módosítások mentése
-      title: Felhasználói fiók szerkesztése
-      update home location on click: Otthon helyének frissítése, amikor a térképre kattintok?
-    confirm: 
-      already active: Ez a fiók már megerősítésre került.
-      button: Megerősítés
-      heading: Nézd meg az e-mailjeidet!
-      introduction_1: Jóváhagyó e-mailt küldtünk a címedre.
-      introduction_2: Erősítsd meg a regisztrációt a levélben található linkre kattintva és máris kezdheted a térképezést.
-      press confirm button: Felhasználói fiókod megerősítéséhez nyomd meg az alábbi megerősítés gombot.
-      reconfirm_html: A jóváhagyó link újraküldéséhez <a href="%{reconfirm}">kattints ide</a>.
-      unknown token: Ez a megerősítési kód lejárt vagy nem létezik.
-    confirm_email: 
-      button: Megerősítés
-      failure: Egy e-mail cím már megerősítésre került ezzel az utalvánnyal.
-      heading: E-mail cím módosításának megerősítése
-      press confirm button: Új e-mail címed megerősítéséhez nyomd meg az alábbi megerősítés gombot.
-      success: E-mail címed megerősítve, köszönjük a regisztrációt!
-    confirm_resend: 
-      failure: "%{name} felhasználó nem található."
-      success: Elküldtünk egy új megerősítő üzenetet a(z) %{email} címre, és amint megerősíted a felhasználói fiókodat, hozzákezdhetsz a térképezéshez.<br /><br />Ha használsz olyan antispam rendszert, amely megerősítési kérelmeket küld, akkor győződj meg róla, hogy engedélylistára tetted a webmaster@openstreetmap.org címet, mivel nem tudunk válaszolni megerősítési kérelmekre.
-    filter: 
-      not_an_administrator: Ennek a műveletnek az elvégzéséhez adminisztrátori jogosultsággal kell rendelkezned.
-    go_public: 
-      flash success: Mostantól az összes szerkesztésed nyilvános, és engedélyezett a szerkesztés.
-    list: 
-      confirm: Kijelölt felhasználók megerősítése
-      empty: Nem találtam egyező felhasználót
-      heading: Felhasználók
-      hide: Kijelölt felhasználók elrejtése
-      showing: 
-        one: "%{page}. oldal (%{first_item}. elem, összesen: %{items})"
-        other: "%{page}. oldal (%{first_item}-%{last_item}. elem, összesen: %{items})"
-      summary: "%{name} létrejött innen: %{ip_address}, ekkor: %{date}"
-      summary_no_ip: "%{name} letrejött ekkor: %{date}"
-      title: Felhasználók
-    login: 
-      account is suspended: "Sajnáljuk, a fiókodat felfüggesztettük gyanús tevékenység miatt.<br>Lépj kapcsolatba ezen a címen: <a href=\"%{webmaster}\">a webmasterrel</a>  a kérdés tisztázásához."
-      account not active: Sajnálom, a felhasználói fiókod még nincs aktiválva.<br />Fiókod aktiválásához kérlek, használd a fiókodat megerősítő emailben található hivatkozást, vagy <a href="%{reconfirm}">kérj egy új megerősítő emailt</a>.
-      auth failure: Sajnálom, ilyen adatokkal nem tudsz bejelentkezni.
-      create account minute: Hozz létre egy felhasználói fiókot. Csak egy percet vesz igénybe.
-      email or username: "E-mail cím vagy felhasználónév:"
-      heading: Bejelentkezés
-      login_button: Bejelentkezés
-      lost password link: Elfelejtetted a jelszavad?
-      new to osm: Új vagy az OpenStreetMapnál?
-      no account: Nem rendelkezel még felhasználói fiókkal?
-      openid: "%{logo} OpenID:"
-      openid invalid: Sajnos úgy tűnik, hogy az OpenID azonosítód hibás
-      openid missing provider: Sajnos nem sikerült kapcsolódni az OpenID szolgáltatódhoz
-      openid_logo_alt: Bejelentkezés egy OpenID-vel
-      openid_providers: 
-        aol: 
-          alt: Bejelentkezés egy AOL OpenID-vel
-          title: Bejelentkezés AOL-lal
-        google: 
-          alt: Bejelentkezés egy Google OpenID-vel
-          title: Bejelentkezés Google-lel
-        openid: 
-          alt: Bejelentkezés egy OpenID URL-lel
-          title: Bejelentkezés OpenID-vel
-        wordpress: 
-          alt: Bejelentkezés egy Wordpress OpenID-vel
-          title: Bejelentkezés Wordpress-szel
-        yahoo: 
-          alt: Bejelentkezés egy Yahoo OpenID-vel
-          title: Bejelentkezés Yahoo-val
-      password: "Jelszó:"
-      register now: Regisztrálj most
-      remember: "Emlékezz rám:"
+      visibility: 'Láthatóság:'
+    trace_paging_nav:
+      showing_page: '%{page}. oldal'
+      older: Régebbi nyomvonalak
+      newer: Újabb nyomvonalak
+    trace:
+      pending: FÜGGŐBEN
+      count_points: '%{count} pont'
+      ago: 'ennyivel ezelőtt: %{time_in_words_ago}'
+      more: tovább
+      trace_details: Nyomvonal részleteinek megtekintése
+      view_map: Térkép megtekintése
+      edit: szerkesztés
+      edit_map: Térkép szerkesztése
+      public: NYILVÁNOS
+      identifiable: AZONOSÍTHATÓ
+      private: NEM NYILVÁNOS
+      trackable: NYOMKÖVETHETŐ
+      by: 'készítette:'
+      in: 'címkék:'
+      map: térkép
+    list:
+      public_traces: Nyilvános GPS nyomvonalak
+      your_traces: Saját GPS nyomvonalak
+      public_traces_from: '%{user} nyilvános GPS nyomvonalai'
+      description: Legfrissebb GPS nyomvonalak tallózása
+      tagged_with: ' %{tags} címkével'
+      empty_html: "Még nincs mit megjeleníteni. <a href='%{upload_link}'>Tölts fel új nyomvonalat</a>, vagy olvass bővebben a GPS nyomvonalrögzítésről a <a href='http://wiki.openstreetmap.org/wiki/HU:Beginners_Guide_1.2'>wiki lapon</a>."
+    delete:
+      scheduled_for_deletion: A nyomvonal törlésre kijelölve
+    make_public:
+      made_public: A nyomvonal nyilvános lett
+    offline_warning:
+      message: >
+        A GPX-fájlfeltöltő rendszer jelenleg
+        nem érhető el
+    offline:
+      heading: A GPX-tároló offline
+      message: >
+        A GPX-fájltároló és -feltöltő
+        rendszer jelenleg nem érhető el.
+    georss:
+      title: OpenStreetMap GPS nyomvonalak
+    description:
+      description_with_count: 'GPX fájl %{count} ponttal %{user} felhasználótól'
+      description_without_count: 'GPX fájl %{user} felhasználótól'
+  application:
+    require_cookies:
+      cookies_needed: >
+        Úgy tűnik, hogy a böngésződben le
+        vannak tiltva a sütik – a folytatás
+        előtt engedélyezd azokat.
+    require_moderator:
+      not_a_moderator: >
+        A művelet végrehajtásához
+        moderátornak kell lenned.
+    setup_user_auth:
+      blocked: >
+        Az API-hoz való hozzáférésed
+        blokkolva lett. Jelentkezz be a webes
+        felületen a részletek
+        megtekintéséhez.
+      need_to_see_terms: >
+        Az API-hoz való hozzáférésed
+        ideiglenesen felfüggesztésre került.
+        Jelentkezz be a webes felületen a
+        közreműködési feltételek
+        megtekintéséhez. Ezt nem kell
+        elfogadnod, de meg kell tekintened.
+  oauth:
+    oauthorize:
+      request_access: 'A(z) %{app_name} alkalmazás hozzáférést kér a felhasználói fiókodhoz, %{user}. Kérlek, jelöld, ha azt szeretnéd, hogy az alkalmazás rendelkezzen a következő képességekkel. Választhatsz olyan sokat vagy keveset, amennyit szeretnél.'
+      allow_to: 'Az alábbiak engedélyezése a kliensalkalmazásnak:'
+      allow_read_prefs: felhasználói beállítások olvasása.
+      allow_write_prefs: >
+        felhasználói beállítások
+        módosítása.
+      allow_write_diary: >
+        naplóbejegyzések, hozzászólások
+        készítése és barátok hozzáadása.
+      allow_write_api: a térkép módosítása.
+      allow_read_gpx: magán GPS nyomvonalak olvasása.
+      allow_write_gpx: GPS nyomvonalak feltöltése.
+      allow_write_notes: jegyzet módosítása
+    oauthorize_success:
+      verification: 'Az ellenőrző kód: %{code}.'
+    oauthorize_failure:
+      title: Az azonosítás sikertelen.
+    revoke:
+      flash: 'Visszavontad az utalványt a(z) %{application} alkalmazáshoz'
+  oauth_clients:
+    new:
+      title: Új alkalmazás regisztrálása
+      submit: Regisztrálás
+    edit:
+      title: Alkalmazás szerkesztése
+      submit: Szerkesztés
+    show:
+      title: '%{app_name} OAuth részletei'
+      key: 'Fogyasztói kulcs:'
+      secret: 'Fogyasztói titok:'
+      url: 'Utalványkérési URL:'
+      access_url: 'Utalvány-hozzáférési URL:'
+      authorize_url: 'Felhatalmazási URL:'
+      support_notice: >
+        Támogatjuk a HMAC-SHA1 (ajánlott) és
+        az RSA-SHA1 hitelesítést.
+      edit: Részletek szerkesztése
+      delete: Ügyfél törlése
+      confirm: Biztos vagy benne?
+      requests: 'A következő engedélyek kérése a felhasználótól:'
+      allow_read_prefs: >
+        felhasználó beállításainak
+        olvasása.
+      allow_write_prefs: >
+        felhasználó beállításainak
+        módosítása.
+      allow_write_diary: >
+        naplóbejegyzések, hozzászólások
+        készítése és barátok hozzáadása.
+      allow_write_api: a térkép módosítása.
+      allow_read_gpx: magán GPS nyomvonalainak olvasása.
+      allow_write_gpx: GPS nyomvonalak feltöltése.
+      allow_write_notes: jegyzet módosítása.
+    index:
+      title: OAuth részletek
+      my_tokens: Engedélyezett alkalmazások
+      list_tokens: 'A következő utalványok kerültek kibocsátásra a nevedben:'
+      application: Alkalmazás neve
+      issued_at: Kibocsátva ekkor
+      revoke: Visszavonás!
+      my_apps: Kliensalkalmazások
+      no_apps: 'Van olyan alkalmazásod, amit szeretnél regisztrálni a velünk való használathoz a(z) %{oauth} szabvány használatával? Regisztrálnod kell a webalkalmazásod, mielőtt OAuth kéréseket küld ehhez a szolgáltatáshoz.'
+      registered_apps: 'A következő kliensalkalmazások vannak regisztrálva:'
+      register_new: Alkalmazás regisztrálása
+    form:
+      name: Név
+      required: Szükséges
+      url: Fő alkalmazás URL
+      callback_url: Visszahívási URL
+      support_url: Támogatás URL
+      requests: 'A következő engedélyek kérése a felhasználótól:'
+      allow_read_prefs: >
+        felhasználó beállításainak
+        olvasása.
+      allow_write_prefs: >
+        felhasználó beállításainak
+        módosítása.
+      allow_write_diary: >
+        naplóbejegyzések, hozzászólások
+        készítése és barátok hozzáadása.
+      allow_write_api: a térkép módosítása.
+      allow_read_gpx: magán GPS nyomvonalainak olvasása.
+      allow_write_gpx: GPS nyomvonalak feltöltése.
+      allow_write_notes: jegyzetek módosítása.
+    not_found:
+      sorry: 'Sajnálom, a(z) %{type} nem található.'
+    create:
+      flash: Az információ sikeresen regisztrálva
+    update:
+      flash: >
+        A kliens információi sikeresen
+        frissítve
+    destroy:
+      flash: >
+        A kliensalkalmazás regisztrációja
+        törölve
+  user:
+    login:
       title: Bejelentkezés
-      to make changes: Ahhoz, hogy módosíthasd az OpenStreetMap-adatokat, rendelkezned kell egy felhasználói fiókkal.
-      with openid: "A bejelentkezéshez az OpenID azonosítódat is használhatod:"
-      with username: "Már van OpenStreetMap fiókod? Jelentkezz be a felhasználóneveddel és jelszavaddal:"
-    logout: 
+      heading: Bejelentkezés
+      email or username: 'E-mail cím vagy felhasználónév:'
+      password: 'Jelszó:'
+      openid: '%{logo} OpenID:'
+      remember: 'Emlékezz rám:'
+      lost password link: Elfelejtetted a jelszavad?
+      login_button: Bejelentkezés
+      register now: Regisztrálj most
+      with username: 'Már van OpenStreetMap fiókod? Jelentkezz be a felhasználóneveddel és jelszavaddal:'
+      with openid: 'A bejelentkezéshez az OpenID azonosítódat is használhatod:'
+      new to osm: Új vagy az OpenStreetMapnál?
+      to make changes: >
+        Ahhoz, hogy módosíthasd az
+        OpenStreetMap-adatokat, rendelkezned
+        kell egy felhasználói fiókkal.
+      create account minute: >
+        Hozz létre egy felhasználói fiókot.
+        Csak egy percet vesz igénybe.
+      no account: >
+        Nem rendelkezel még felhasználói
+        fiókkal?
+      account not active: 'Sajnálom, a felhasználói fiókod még nincs aktiválva.<br />Fiókod aktiválásához kérlek, használd a fiókodat megerősítő emailben található hivatkozást, vagy <a href="%{reconfirm}">kérj egy új megerősítő emailt</a>.'
+      account is suspended: 'Sajnáljuk, a fiókodat felfüggesztettük gyanús tevékenység miatt.<br>Lépj kapcsolatba ezen a címen: <a href="%{webmaster}">a webmasterrel</a>  a kérdés tisztázásához.'
+      auth failure: >
+        Sajnálom, ilyen adatokkal nem tudsz
+        bejelentkezni.
+      openid missing provider: >
+        Sajnos nem sikerült kapcsolódni az
+        OpenID szolgáltatódhoz
+      openid invalid: >
+        Sajnos úgy tűnik, hogy az OpenID
+        azonosítód hibás
+      openid_logo_alt: Bejelentkezés egy OpenID-vel
+      openid_providers:
+        openid:
+          title: Bejelentkezés OpenID-vel
+          alt: Bejelentkezés egy OpenID URL-lel
+        google:
+          title: Bejelentkezés Google-lel
+          alt: Bejelentkezés egy Google OpenID-vel
+        yahoo:
+          title: Bejelentkezés Yahoo-val
+          alt: Bejelentkezés egy Yahoo OpenID-vel
+        wordpress:
+          title: Bejelentkezés Wordpress-szel
+          alt: Bejelentkezés egy Wordpress OpenID-vel
+        aol:
+          title: Bejelentkezés AOL-lal
+          alt: Bejelentkezés egy AOL OpenID-vel
+    logout:
+      title: Kijelentkezés
       heading: Kijelentkezés az OpenStreetMapból
       logout_button: Kijelentkezés
-      title: Kijelentkezés
-    lost_password: 
-      email address: "E-mail cím:"
-      heading: Elfelejtetted jelszavad?
-      help_text: Add meg az e-mail címed, amellyel regisztráltál; küldeni fogunk egy hivatkozást, amivel visszaállíthatod a jelszavad.
-      new password button: Jelszó alaphelyzetbe állítása
-      notice email cannot find: Az e-mail cím nem található, sajnálom.
-      notice email on way: Sajnálom, hogy elvesztetted :-( de már úton van egy e-mail, így nemsokára alaphelyzetbe állíthatod.
+    lost_password:
       title: Elvesztett jelszó
-    make_friend: 
-      already_a_friend: "%{name} már a barátod."
-      button: Ismerősnek jelölöm
-      failed: Sajnáljuk, sikertelen volt %{name} felvétele barátnak.
-      heading: "%{user} felhasználó hozzáadása barátként?"
-      success: "%{name} mostantól a barátod."
-    new: 
-      about: 
-        header: Szabad és szerkeszthető
-        html: "<p>Ellentétben más térképekkel, az OpenStreetMapet teljes mértékben hozzád hasonló emberek készítik és bárki szabadon javíthatja, frissítheti, letöltheti vagy felhasználhatja.</p>\n<p>Regisztrálj és máris kezdheted a térképszerkesztést. Egy jóváhagyó e-mailt fogunk küldeni a címedre.</p>"
-      confirm email address: "E-mail cím megerősítése:"
-      confirm password: "Jelszó megerősítése:"
-      contact_webmaster: Kérlek fordulj a <a href="mailto:webmaster@openstreetmap.org">webmesterhez</a> (angolul), hogy lehetővé tegye felhasználói fiók létrehozását - mi igyekszünk olyan gyorsan foglalkozni a kéréssel, amilyen gyorsan csak lehet.
-      continue: Regisztráció
-      display name: "Megjelenítendő név:"
-      display name description: A nyilvánosan megjelenített felhasználóneved. A beállításaidban később megváltoztathatod.
-      email address: "E-mail cím:"
-      license_agreement: Amikor megerősíted a felhasználói fiókodat, el kell fogadnod a <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">hozzájárulási feltételeket</a>.
-      no_auto_account_create: Sajnos jelenleg nem tudunk neked létrehozni automatikusan egy felhasználói fiókot.
-      not displayed publicly: Nem jelenik meg nyilvánosan (lásd <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="a wiki adatvédelmi irányelvei tartalmazzák az e-mail címekről szóló részt">adatvédelmi irányelvek</a>)
-      openid: "%{logo} OpenID:"
-      openid association: "<p>Az OpenID azonosítód még nincs hozzákapcsolva egy OpenStreetMap fiókhoz.</p>\n<ul>\n  <li>Ha még új vagy az OpenStreetMapnál, hozz létre egy új fiókot az alábbi űrlap használatával.</li>\n  <li>\n    Ha már rendelkezel fiókkal, felhasználóneved és jelszavad\n    használatával bejelentkezhetsz a fiókodba, majd a felhasználói\n    beállításoknál hozzákapcsolhatod azt az OpenID-hez.\n  </li>\n</ul>"
-      openid no password: Az OpenID-vel nincs szükség jelszóra, de szükség lehet néhány többleteszközre vagy szerverre.
-      password: "Jelszó:"
-      terms accepted: Köszönjük, hogy elfogadtad az új hozzájárulási feltételeket!
-      terms declined: Sajnáljuk, hogy úgy döntöttél, nem fogadod el az új hozzájárulási feltételeket. További információért lásd <a href="%{url}">ezt a wiki oldalt</a>.
-      title: Felhasználói fiók létrehozása
-      use openid: A bejelentkezéshez használhatod az %{logo} OpenID-t is.
-    no_such_user: 
-      body: Sajnálom, nincs %{user} nevű felhasználó. Ellenőrizd a helyességét, vagy lehet, hogy a link, amire kattintottál, rossz.
-      heading: "%{user} felhasználó nem létezik"
-      title: Nincs ilyen felhasználó
-    popup: 
-      friend: Barát
-      nearby mapper: Közeli térképszerkesztő
-      your location: Helyed
-    remove_friend: 
-      button: Barát eltávolítása
-      heading: "%{user} felhasználó eltávolítása a barátaid közül?"
-      not_a_friend: "%{name} nem tartozik a barátaid közé."
-      success: "%{name} eltávolítva a barátaid közül."
-    reset_password: 
-      confirm password: "Jelszó megerősítése:"
-      flash changed: Jelszavad megváltozott.
-      flash token bad: Nem található ez az utalvány, ellenőrizd az URL-t.
-      heading: "%{user} jelszavának alaphelyzetbe állítása"
-      password: "Jelszó:"
-      reset: Jelszó alaphelyzetbe állítása
+      heading: Elfelejtetted jelszavad?
+      email address: 'E-mail cím:'
+      new password button: Jelszó alaphelyzetbe állítása
+      help_text: >
+        Add meg az e-mail címed, amellyel
+        regisztráltál; küldeni fogunk egy
+        hivatkozást, amivel visszaállíthatod
+        a jelszavad.
+      notice email on way: >
+        Sajnálom, hogy elvesztetted :-( de már
+        úton van egy e-mail, így nemsokára
+        alaphelyzetbe állíthatod.
+      notice email cannot find: >
+        Az e-mail cím nem található,
+        sajnálom.
+    reset_password:
       title: Jelszó alaphelyzetbe állítása
-    set_home: 
-      flash success: Otthon helye sikeresen mentve
-    suspended: 
-      body: "<p>\n  Sajnáljuk, a felhasználói fiókodat automatikusan felfüggesztették\n  gyanús tevékenységed miatt.\n</p>\n<p>\n  Ezt a döntést rövidesen felül fogja vizsgálni egy adminisztrátor, vagy\n  kapcsolatba léphetsz a %{webmaster}rel, ha meg szeretnéd vitatni ezt.\n</p>"
-      heading: Felhasználói fiók felfüggesztve
-      title: Felhasználói fiók felfüggesztve
-      webmaster: webmester
-    terms: 
-      agree: Elfogadom
-      consider_pd: A fenti megállapodáson felül, a hozzájárulásaimat közkinccsé nyilvánítom
-      consider_pd_why: mi ez?
-      decline: Elutasítom
-      guidance: "Információk a fogalmak megértéséhez: egy <a href=\"%{summary}\">közérthető nyelven megfogalmazott kivonat</a> és néhány <a href=\"%{translations}\">nemhivatalos fordítás</a>"
+      heading: '%{user} jelszavának alaphelyzetbe állítása'
+      password: 'Jelszó:'
+      confirm password: 'Jelszó megerősítése:'
+      reset: Jelszó alaphelyzetbe állítása
+      flash changed: Jelszavad megváltozott.
+      flash token bad: >
+        Nem található ez az utalvány,
+        ellenőrizd az URL-t.
+    new:
+      title: Felhasználói fiók létrehozása
+      no_auto_account_create: >
+        Sajnos jelenleg nem tudunk neked
+        létrehozni automatikusan egy
+        felhasználói fiókot.
+      contact_webmaster: 'Kérlek fordulj a <a href="mailto:webmaster@openstreetmap.org">webmesterhez</a> (angolul), hogy lehetővé tegye felhasználói fiók létrehozását - mi igyekszünk olyan gyorsan foglalkozni a kéréssel, amilyen gyorsan csak lehet.'
+      about:
+        header: Szabad és szerkeszthető
+        html: |
+          <p>Ellentétben más térképekkel, az OpenStreetMapet teljes mértékben hozzád hasonló emberek készítik és bárki szabadon javíthatja, frissítheti, letöltheti vagy felhasználhatja.</p>
+          <p>Regisztrálj és máris kezdheted a térképszerkesztést. Egy jóváhagyó e-mailt fogunk küldeni a címedre.</p>
+      license_agreement: 'Amikor megerősíted a felhasználói fiókodat, el kell fogadnod a <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">hozzájárulási feltételeket</a>.'
+      email address: 'E-mail cím:'
+      confirm email address: 'E-mail cím megerősítése:'
+      not displayed publicly: 'Nem jelenik meg nyilvánosan (lásd <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="a wiki adatvédelmi irányelvei tartalmazzák az e-mail címekről szóló részt">adatvédelmi irányelvek</a>)'
+      display name: 'Megjelenítendő név:'
+      display name description: >
+        A nyilvánosan megjelenített
+        felhasználóneved. A beállításaidban
+        később megváltoztathatod.
+      openid: '%{logo} OpenID:'
+      password: 'Jelszó:'
+      confirm password: 'Jelszó megerősítése:'
+      use openid: 'A bejelentkezéshez használhatod az %{logo} OpenID-t is.'
+      openid no password: >
+        Az OpenID-vel nincs szükség jelszóra,
+        de szükség lehet néhány
+        többleteszközre vagy szerverre.
+      openid association: |
+        <p>Az OpenID azonosítód még nincs hozzákapcsolva egy OpenStreetMap fiókhoz.</p>
+        <ul>
+          <li>Ha még új vagy az OpenStreetMapnál, hozz létre egy új fiókot az alábbi űrlap használatával.</li>
+          <li>
+            Ha már rendelkezel fiókkal, felhasználóneved és jelszavad
+            használatával bejelentkezhetsz a fiókodba, majd a felhasználói
+            beállításoknál hozzákapcsolhatod azt az OpenID-hez.
+          </li>
+        </ul>
+      continue: Regisztráció
+      terms accepted: >
+        Köszönjük, hogy elfogadtad az új
+        hozzájárulási feltételeket!
+      terms declined: 'Sajnáljuk, hogy úgy döntöttél, nem fogadod el az új hozzájárulási feltételeket. További információért lásd <a href="%{url}">ezt a wiki oldalt</a>.'
+    terms:
+      title: Hozzájárulási feltételek
       heading: Hozzájárulási feltételek
-      legale_names: 
+      read and accept: >
+        Kérlek, olvasd el az alábbi
+        megállapodást, és nyomd meg az
+        „egyetértek” gombot, amellyel
+        megerősíted, hogy elfogadod ezen
+        megállapodás feltételeit a jelenlegi
+        és jövőbeni hozzájárulásaidhoz.
+      consider_pd: >
+        A fenti megállapodáson felül, a
+        hozzájárulásaimat közkinccsé
+        nyilvánítom
+      consider_pd_why: mi ez?
+      guidance: 'Információk a fogalmak megértéséhez: egy <a href="%{summary}">közérthető nyelven megfogalmazott kivonat</a> és néhány <a href="%{translations}">nemhivatalos fordítás</a>'
+      agree: Elfogadom
+      decline: Elutasítom
+      you need to accept or decline: >
+        Kérünk, hogy olvasd el, ezután fogadd
+        vagy utasítsd el az új
+        hozzájárulási feltételeket a
+        folytatáshoz.
+      legale_select: 'Kérlek, válaszd ki a lakóhelyed szerinti országot:'
+      legale_names:
         france: Franciaország
         italy: Olaszország
         rest_of_world: A világ többi része
-      legale_select: "Kérlek, válaszd ki a lakóhelyed szerinti országot:"
-      read and accept: Kérlek, olvasd el az alábbi megállapodást, és nyomd meg az „egyetértek” gombot, amellyel megerősíted, hogy elfogadod ezen megállapodás feltételeit a jelenlegi és jövőbeni hozzájárulásaidhoz.
-      title: Hozzájárulási feltételek
-      you need to accept or decline: Kérünk, hogy olvasd el, ezután fogadd vagy utasítsd el az új hozzájárulási feltételeket a folytatáshoz.
-    view: 
-      activate_user: felhasználó aktiválása
-      add as friend: Felvétel barátnak
-      ago: (%{time_in_words_ago} óta)
-      block_history: kapott blokkolások megjelenítése
-      blocks by me: Általam kiosztott blokkolások
-      blocks on me: Saját blokkolásaim
-      comments: Megjegyzések
-      confirm: Megerősítés
-      confirm_user: felhasználó megerősítése
-      create_block: ezen felhasználó blokkolása
-      created from: "Készítve innen:"
-      ct accepted: "Elfogadva: %{ago} óta"
-      ct declined: Elutasítva
-      ct status: "Hozzájárulási feltételek:"
-      ct undecided: Nem eldöntött
-      deactivate_user: felhasználó deaktiválása
-      delete_user: ezen felhasználó törlése
-      description: Leírás
-      diary: Napló
-      edits: Szerkesztések
-      email address: "E-mail cím:"
-      friends_changesets: Ismerőseid módosításcsomagjai
-      friends_diaries: barátok naplóbejegyzései
-      hide_user: ezen felhasználó elrejtése
-      if set location: Ha beállítod a lakhelyedet a %{settings_link} oldalon, megnézheted a hozzád közeli felhasználókat.
-      km away: "%{count} km-re innen"
-      latest edit: "Utolsó szerkesztés %{ago}:"
-      m away: "%{count} m-re innen"
-      mapper since: "Térképszerkesztő ezóta:"
-      moderator_history: kiosztott blokkolások megjelenítése
-      my comments: Saját megjegyzések
+    no_such_user:
+      title: Nincs ilyen felhasználó
+      heading: '%{user} felhasználó nem létezik'
+      body: 'Sajnálom, nincs %{user} nevű felhasználó. Ellenőrizd a helyességét, vagy lehet, hogy a link, amire kattintottál, rossz.'
+    view:
       my diary: Naplóm
+      new diary entry: új naplóbejegyzés
       my edits: Szerkesztéseim
-      my messages: Üzeneteim
+      my traces: Saját nyomvonalak
       my notes: Saját jegyzeteim
+      my messages: Üzeneteim
       my profile: Profilom
       my settings: Beállításaim
-      my traces: Saját nyomvonalak
-      nearby users: Egyéb közeli felhasználók
-      nearby_changesets: közeli felhasználók módosításai
-      nearby_diaries: közeli felhasználók naplóbejegyzései
-      new diary entry: új naplóbejegyzés
-      no friends: Még nem adtál meg egyetlen barátot sem.
-      no nearby users: Még nincsenek más felhasználók, akik megadták, hogy a közelben szerkesztenek.
-      notes: Térkép jegyzetek
+      my comments: Saját megjegyzések
       oauth settings: oauth beállítások
+      blocks on me: Saját blokkolásaim
+      blocks by me: Általam kiosztott blokkolások
+      send message: Üzenet küldése
+      diary: Napló
+      edits: Szerkesztések
+      traces: Nyomvonalak
+      notes: Térkép jegyzetek
       remove as friend: Barát eltávolítása
-      role: 
+      add as friend: Felvétel barátnak
+      mapper since: 'Térképszerkesztő ezóta:'
+      ago: '(%{time_in_words_ago} óta)'
+      ct status: 'Hozzájárulási feltételek:'
+      ct undecided: Nem eldöntött
+      ct declined: Elutasítva
+      ct accepted: 'Elfogadva: %{ago} óta'
+      latest edit: 'Utolsó szerkesztés %{ago}:'
+      email address: 'E-mail cím:'
+      created from: 'Készítve innen:'
+      status: 'Állapot:'
+      spam score: 'Spam pontszám:'
+      description: Leírás
+      user location: Felhasználó helye
+      if set location: 'Ha beállítod a lakhelyedet a %{settings_link} oldalon, megnézheted a hozzád közeli felhasználókat.'
+      settings_link_text: beállítások
+      your friends: Barátaid
+      no friends: >
+        Még nem adtál meg egyetlen barátot
+        sem.
+      km away: '%{count} km-re innen'
+      m away: '%{count} m-re innen'
+      nearby users: Egyéb közeli felhasználók
+      no nearby users: >
+        Még nincsenek más felhasználók, akik
+        megadták, hogy a közelben
+        szerkesztenek.
+      role:
         administrator: Ez a felhasználó adminisztrátor
-        grant: 
+        moderator: Ez a felhasználó moderátor
+        grant:
           administrator: Adminisztrátori hozzáférés megadása
           moderator: Moderátori hozzáférés megadása
-        moderator: Ez a felhasználó moderátor
-        revoke: 
-          administrator: Adminisztrátori hozzáférés visszavonása
+        revoke:
+          administrator: >
+            Adminisztrátori hozzáférés
+            visszavonása
           moderator: Moderátori hozzáférés viszzavonása
-      send message: Üzenet küldése
-      settings_link_text: beállítások
-      spam score: "Spam pontszám:"
-      status: "Állapot:"
-      traces: Nyomvonalak
-      unhide_user: felhasználó elrejtésének megszüntetése
-      user location: Felhasználó helye
-      your friends: Barátaid
-  user_block: 
-    blocks_by: 
-      empty: "%{name} még nem osztott ki blokkolást."
-      heading: "%{name} által kiosztott blokkolások listája"
-      title: "%{name} által kiosztott blokkolások"
-    blocks_on: 
-      empty: "%{name} még nem volt blokkolva."
-      heading: "%{name} blokkolásainak felsorolása"
-      title: "%{name} blokkolásai"
-    create: 
-      flash: "%{name} felhasználó blokkolva lett."
-      try_contacting: Kérlek, próbálj meg kapcsolatba lépni a felhasználóval, mielőtt blokkolod őt, és a válaszoláshoz adj neki ésszerű időt a válasz.
-      try_waiting: Kérlek, adj a felhasználónak ésszerű időt a válaszoláshoz, mielőtt blokkolod őt.
-    edit: 
-      back: Összes blokkolás megjelenítése
-      heading: "%{name} blokkolásának szerkesztése"
-      needs_view: Be kell jelentkeznie a felhasználónak, mielőtt a blokkolás feloldódik?
-      period: Mennyi ideig lesz a felhasználó blokkolva az API-tól, mostantól számítva.
-      reason: Az ok, amiért %{name} blokkolásra került. Kérlek légy nyugodt és méltányos, amennyire csak lehetséges, olyan sok részlet megadásával, amennyit csak tudsz a helyzetről. Tartsd szem előtt, hogy nem minden felhasználó érti a közösségi zsargont, ezért próbálj laikus nyelvezetet használni.
-      show: Ezen blokkolás megjelenítése
-      submit: Blokkolás frissítése
-      title: "%{name} blokkolásának szerkesztése"
-    filter: 
-      block_expired: A blokkolás már lejárt, és nem szerkeszthető.
-      block_period: A blokkolási időszaknak egy, a legördülő listából kiválasztható értéknek kell lennie.
-    helper: 
-      time_future: Véget ér %{time} múlva.
-      time_past: Véget ért %{time} óta.
-      until_login: Aktív a felhasználó bejelentkezéséig.
-    index: 
-      empty: Még nem lett kiosztva blokkolás.
-      heading: Felhasználói blokkolások listája
-      title: Felhasználói blokkolások
-    model: 
-      non_moderator_revoke: Blokkolás visszavonásához moderátornak kell lenned.
-      non_moderator_update: Blokkolás kiosztásához vagy frissítéséhez moderátornak kell lenned.
-    new: 
-      back: Összes blokkolás megtekintése
-      heading: "%{name} blokkolása"
-      needs_view: A felhasználónak be kell jelentkeznie, mielőtt a blokkolás feloldódna
-      period: Mennyi ideig lesz a felhasználó blokkolva az API-tól, mostantól számítva.
-      reason: Az ok, amiért %{name} blokkolásra került. Kérlek légy nyugodt és méltányos, amennyire csak lehetséges, olyan sok részlet megadásával, amennyit csak tudsz a helyzetről, emlékezve arra, hogy ez az üzenet nyilvánosan látható lesz. Tartsd szem előtt, hogy nem minden felhasználó érti a közösségi zsargont, ezért próbálj laikus nyelvezetet használni.
-      submit: Blokkolás kiosztása
-      title: "%{name} blokkolása"
-      tried_contacting: Kapcsolatba léptem a felhasználóval, és megkértem, hogy hagyja abba.
-      tried_waiting: Adtam egy ésszerű határidőt a felhasználónak, hogy válaszoljon az értesítésre.
-    not_found: 
-      back: Vissza a tartalomjegyzékhez
-      sorry: Sajnálom, a(z) %{id} azonosítójú felhasználói blokkolás nem található.
-    partial: 
-      confirm: Biztos vagy benne?
-      creator_name: Készítő
-      display_name: Blokkolt felhasználó
-      edit: Szerkesztés
-      next: Következő »
-      not_revoked: (nincs visszavonva)
-      previous: « Előző
-      reason: Blokkolás indoklása
-      revoke: Visszavonás!
-      revoker_name: "Visszavonta:"
-      show: Megjelenítés
-      showing_page: "%{page}. oldal"
-      status: Állapot
-    period: 
-      one: 1 órája
-      other: "%{count} órája"
-    revoke: 
-      confirm: Biztosan vissza szeretnéd vonni ezt a blokkolást?
-      flash: Ez a blokkolás vissza lett vonva.
-      heading: "%{block_on} blokkolásának visszavonása %{block_by} által"
-      past: Ez a blokkolás véget ért %{time} óta, és már nem vonható vissza.
-      revoke: Visszavonás!
-      time_future: Ez a blokkolás %{time} múlva véget ér.
-      title: "%{block_on} blokkolásának visszavonása"
-    show: 
-      back: Összes blokkolás megjelenítése
-      confirm: Biztos vagy benne?
-      edit: Szerkesztés
-      heading: "%{block_by} blokkolta %{block_on} felhasználót"
-      needs_view: A felhasználónak be kell jelentkeznie, mielőtt a blokkolás feloldódna.
-      reason: "Blokkolás indoklása:"
-      revoke: Visszavonás!
-      revoker: "Visszavonó:"
-      show: Megjelenítés
-      status: Állapot
-      time_future: Véget ér %{time} múlva
-      time_past: Véget ért %{time} óta
-      title: "%{block_on} blokkolva %{block_by} által"
-    update: 
-      only_creator_can_edit: Csak a blokkolást létrehozó moderátor szerkesztheti.
-      success: Blokkolás frissítve.
-  user_role: 
-    filter: 
-      already_has_role: A felhasználó szerepe már %{role}.
-      doesnt_have_role: A felhasználó szerepe nem %{role}.
-      not_a_role: A '%{role}' kifejezés nem érvényes szerep.
-      not_an_administrator: Csak adminisztrátorok végezhetik a felhasználói szerepek kezelését, és te nem vagy adminisztrátor.
-    grant: 
-      are_you_sure: Biztosan kiosztod '%{name}' felhasználónak a '%{role}' szerepet?
+      block_history: kapott blokkolások megjelenítése
+      moderator_history: kiosztott blokkolások megjelenítése
+      comments: Megjegyzések
+      create_block: ezen felhasználó blokkolása
+      activate_user: felhasználó aktiválása
+      deactivate_user: felhasználó deaktiválása
+      confirm_user: felhasználó megerősítése
+      hide_user: ezen felhasználó elrejtése
+      unhide_user: >
+        felhasználó elrejtésének
+        megszüntetése
+      delete_user: ezen felhasználó törlése
       confirm: Megerősítés
-      fail: A '%{role}' szerep nem osztható ki '%{name}' felhasználónak. Kérlek ellenőrizd, hogy mind a felhasználó, mind a szerep érvényes-e.
-      heading: Szerep kiosztásának megerősítése
+      friends_changesets: Ismerőseid módosításcsomagjai
+      friends_diaries: barátok naplóbejegyzései
+      nearby_changesets: közeli felhasználók módosításai
+      nearby_diaries: >
+        közeli felhasználók
+        naplóbejegyzései
+    popup:
+      your location: Helyed
+      nearby mapper: Közeli térképszerkesztő
+      friend: Barát
+    account:
+      title: Felhasználói fiók szerkesztése
+      my settings: Beállításaim
+      current email address: 'Jelenlegi e-mail cím:'
+      new email address: 'Új e-mail cím:'
+      email never displayed publicly: (soha nem jelenik meg nyilvánosan)
+      openid:
+        openid: 'OpenID:'
+        link: >
+          http://wiki.openstreetmap.org/wiki/OpenID
+        link text: mi ez?
+      public editing:
+        heading: 'Nyilvános szerkesztés:'
+        enabled: >
+          Engedélyezve. Nem vagy névtelen, így
+          szerkesztheted az adatokat.
+        enabled link: >
+          http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: mi ez?
+        disabled: >
+          Tiltva, így nem szerkesztheted az
+          adatokat, az összes eddigi szerkesztés
+          névtelen.
+        disabled link text: miért nem tudok szerkeszteni?
+      public editing note:
+        heading: Nyilvános szerkesztés
+        text: 'Jelenleg a szerkesztéseid névtelenek, és az emberek nem küldhetnek neked üzeneteket, és nem láthatják a tartózkodási helyedet. Hogy megmutasd, mit szerkesztettél, és megengedd az embereknek, hogy a webhelyen keresztül kapcsolatba lépjenek veled, kattints az alábbi gombra. <b>A 0.6 API-ra történt átállás óta csak nyilvános felhasználók szerkeszthetik a térképadatokat</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">nézz utána, miért</a>).<ul><li>Az e-mail címed nem kerül felfedésre azzal, hogy nyilvános leszel.</li><li>Ez a művelet nem vonható vissza, és alapértelmezésben az összes új felhasználó már nyilvános.</li></ul>'
+      contributor terms:
+        heading: 'Hozzájárulási feltételek:'
+        agreed: >
+          Elfogadtad az új hozzájárulási
+          feltételeket.
+        not yet agreed: >
+          Még nem fogadtad el az új
+          hozzájárulási feltételeket.
+        review link text: >
+          Kérlek, kövesd ezt a hivatkozást az
+          új hozzájárulási feltételek
+          áttekintéséhez és elfogadásához.
+        agreed_with_pd: >
+          Azt is kijelentetted, hogy a
+          szerkesztéseid közkincsnek
+          tekinthetők.
+        link text: mi ez?
+      profile description: 'Profil leírása:'
+      preferred languages: 'Előnyben részesített nyelvek:'
+      preferred editor: 'Előnyben részesített szerkesztő:'
+      image: 'Kép:'
+      gravatar:
+        gravatar: Gravatar használata
+        link text: mi ez?
+      new image: Kép hozzáadása
+      keep image: Jelenlegi kép megtartása
+      delete image: Jelenlegi kép eltávolítása
+      replace image: Jelenlegi kép cseréje
+      image size hint: >
+        (legalább 100x100 pixel nagyságú
+        négyzetes kép javasolt)
+      home location: 'Otthon:'
+      no home location: Nem adtad meg az otthonod helyét.
+      latitude: 'Földrajzi szélesség:'
+      longitude: 'Földrajzi hosszúság:'
+      update home location on click: >
+        Otthon helyének frissítése, amikor a
+        térképre kattintok?
+      save changes button: Módosítások mentése
+      make edits public button: Szerkesztéseim nyilvánossá tétele
+      return to profile: Vissza a profilhoz
+      flash update success confirm needed: >
+        Felhasználói információk sikeresen
+        frissítve. Nézd meg az e-mailjeidet az
+        új e-mail címedet megerősítő
+        levélhez.
+      flash update success: >
+        Felhasználói információk sikeresen
+        frissítve.
+    confirm:
+      heading: Nézd meg az e-mailjeidet!
+      introduction_1: >
+        Jóváhagyó e-mailt küldtünk a
+        címedre.
+      introduction_2: >
+        Erősítsd meg a regisztrációt a
+        levélben található linkre kattintva
+        és máris kezdheted a térképezést.
+      press confirm button: >
+        Felhasználói fiókod
+        megerősítéséhez nyomd meg az alábbi
+        megerősítés gombot.
+      button: Megerősítés
+      already active: >
+        Ez a fiók már megerősítésre
+        került.
+      unknown token: >
+        Ez a megerősítési kód lejárt vagy
+        nem létezik.
+      reconfirm_html: 'A jóváhagyó link újraküldéséhez <a href="%{reconfirm}">kattints ide</a>.'
+    confirm_resend:
+      success: 'Elküldtünk egy új megerősítő üzenetet a(z) %{email} címre, és amint megerősíted a felhasználói fiókodat, hozzákezdhetsz a térképezéshez.<br /><br />Ha használsz olyan antispam rendszert, amely megerősítési kérelmeket küld, akkor győződj meg róla, hogy engedélylistára tetted a webmaster@openstreetmap.org címet, mivel nem tudunk válaszolni megerősítési kérelmekre.'
+      failure: '%{name} felhasználó nem található.'
+    confirm_email:
+      heading: >
+        E-mail cím módosításának
+        megerősítése
+      press confirm button: >
+        Új e-mail címed megerősítéséhez
+        nyomd meg az alábbi megerősítés
+        gombot.
+      button: Megerősítés
+      success: >
+        E-mail címed megerősítve,
+        köszönjük a regisztrációt!
+      failure: >
+        Egy e-mail cím már megerősítésre
+        került ezzel az utalvánnyal.
+    set_home:
+      flash success: Otthon helye sikeresen mentve
+    go_public:
+      flash success: >
+        Mostantól az összes szerkesztésed
+        nyilvános, és engedélyezett a
+        szerkesztés.
+    make_friend:
+      heading: '%{user} felhasználó hozzáadása barátként?'
+      button: Ismerősnek jelölöm
+      success: '%{name} mostantól a barátod.'
+      failed: 'Sajnáljuk, sikertelen volt %{name} felvétele barátnak.'
+      already_a_friend: '%{name} már a barátod.'
+    remove_friend:
+      heading: '%{user} felhasználó eltávolítása a barátaid közül?'
+      button: Barát eltávolítása
+      success: '%{name} eltávolítva a barátaid közül.'
+      not_a_friend: '%{name} nem tartozik a barátaid közé.'
+    filter:
+      not_an_administrator: >
+        Ennek a műveletnek az elvégzéséhez
+        adminisztrátori jogosultsággal kell
+        rendelkezned.
+    list:
+      title: Felhasználók
+      heading: Felhasználók
+      showing:
+        one: '%{page}. oldal (%{first_item}. elem, összesen: %{items})'
+        other: '%{page}. oldal (%{first_item}-%{last_item}. elem, összesen: %{items})'
+      summary: '%{name} létrejött innen: %{ip_address}, ekkor: %{date}'
+      summary_no_ip: '%{name} letrejött ekkor: %{date}'
+      confirm: Kijelölt felhasználók megerősítése
+      hide: Kijelölt felhasználók elrejtése
+      empty: Nem találtam egyező felhasználót
+    suspended:
+      title: Felhasználói fiók felfüggesztve
+      heading: Felhasználói fiók felfüggesztve
+      webmaster: webmester
+      body: |
+        <p>
+          Sajnáljuk, a felhasználói fiókodat automatikusan felfüggesztették
+          gyanús tevékenységed miatt.
+        </p>
+        <p>
+          Ezt a döntést rövidesen felül fogja vizsgálni egy adminisztrátor, vagy
+          kapcsolatba léphetsz a %{webmaster}rel, ha meg szeretnéd vitatni ezt.
+        </p>
+  user_role:
+    filter:
+      not_an_administrator: >
+        Csak adminisztrátorok végezhetik a
+        felhasználói szerepek kezelését, és
+        te nem vagy adminisztrátor.
+      not_a_role: "A '%{role}' kifejezés nem érvényes szerep."
+      already_has_role: 'A felhasználó szerepe már %{role}.'
+      doesnt_have_role: 'A felhasználó szerepe nem %{role}.'
+    grant:
       title: Szerep kiosztásának megerősítése
-    revoke: 
-      are_you_sure: Biztosan megfosztod '%{name}' felhasználót '%{role}' szerepétől?
+      heading: Szerep kiosztásának megerősítése
+      are_you_sure: "Biztosan kiosztod '%{name}' felhasználónak a '%{role}' szerepet?"
       confirm: Megerősítés
-      fail: A '%{role}' szerep nem vonható vissza '%{name}' felhasználótól. Kérlek ellenőrizd, hogy mind a felhasználó, mind a szerep érvényes-e.
-      heading: Szerep visszavonásának megerősítése
+      fail: "A '%{role}' szerep nem osztható ki '%{name}' felhasználónak. Kérlek ellenőrizd, hogy mind a felhasználó, mind a szerep érvényes-e."
+    revoke:
       title: Szerep visszavonásának megerősítése
-  welcome_page: 
-    add_a_note: 
-      paragraph_1_html: Ha valami apróságot szeretnél kijavíttatni és nincs időd regisztrálni és megtanulni a szerkesztést, nagyon egyszerűen beküldhetsz egy jegyzetet!
-      paragraph_2_html: "Menj a <a href='%{map_url}'>térképre</a> és kattints a jegyzet ikonra:\n<span class='icon note'></span>. Ez elhelyez egy jelzést a térképen, amelyet áthúzhatsz a pontos helyére. Majd írd be az üzeneted és nyomd meg az Elküldés gombot, hogy a térképezők megvizsgálhassák."
-      title: Nincs időd szerkeszteni? Küldj be jegyzetet!
-    basic_terms: 
-      editor_html: A <strong>szerkesztőprogram</strong> egy olyan letölthető program vagy weboldal, amellyel a térképet tudod módosítani.
-      node_html: A <strong>pont</strong> egy pontszerű objektum a térképen, mint például étterem vagy egy fa.
-      paragraph_1_html: Az OpenStretMapnek megvan a saját nyelvjárása. Felsorolunk néhány fontosabb kifejezést, amelyek segítenek az elindulásban.
-      tag_html: A <strong>címke</strong> egy pici adat egy ponthoz vagy vonalhoz, mint például egy étterem neve vagy egy sebességkorlátozás mértéke.
-      title: Alapvető kifejezések a térképezéshez
-      way_html: A <strong>vonal</strong> egy vonalas vagy terület objektum, mint például egy út, folyó, tó vagy épület.
-    introduction_html: Üdvözöl az OpenStreetMap - a szabad és szerkeszthető világtérkép - közössége. Most, hogy regisztráltál, máris elkezdheted a térképezést. Itt elérhető egy gyors összefoglaló a legfontosabb tudnivalókkal.
-    questions: 
-      paragraph_1_html: Az OpenStreetMap számos anyagot kínál fel ahhoz, hogy ismerkedj a projekttel, kérdéseket tégy fel vagy válaszolj meg, vagy térképezési témákat beszélj meg a közösség tagjaival. <a href='%{help_url}'>Itt találsz segítséget</a>.
-      title: Kérdésed van?
-    start_mapping: Térképezés indítása
-    title: Üdvözlet!
-    whats_on_the_map: 
-      off_html: Amit <em>nem ábrázolunk</em> azok szubjektív adatok mint például értékelés, történelmi vagy történeti helyek, adatok jogvédett forrásokból. Sose másolj semmit más internetes vagy papír térképekről, hacsak nincs erre külön engedélyed.
-      on_html: Az OpenStreetMapen olyan dolgokat ábrázolunk, amelyek <em>valódiak és jelenleg is léteznek</em> - épületek milliói, utak és egyéb részletek a különböző helyeken. Bármi olyan, téged érdeklő elemet ábrázolhatsz, ami fizikailag létezik.
-      title: Mi van a térképen
+      heading: Szerep visszavonásának megerősítése
+      are_you_sure: "Biztosan megfosztod '%{name}' felhasználót '%{role}' szerepétől?"
+      confirm: Megerősítés
+      fail: "A '%{role}' szerep nem vonható vissza '%{name}' felhasználótól. Kérlek ellenőrizd, hogy mind a felhasználó, mind a szerep érvényes-e."
+  user_block:
+    model:
+      non_moderator_update: >
+        Blokkolás kiosztásához vagy
+        frissítéséhez moderátornak kell
+        lenned.
+      non_moderator_revoke: >
+        Blokkolás visszavonásához
+        moderátornak kell lenned.
+    not_found:
+      sorry: 'Sajnálom, a(z) %{id} azonosítójú felhasználói blokkolás nem található.'
+      back: Vissza a tartalomjegyzékhez
+    new:
+      title: '%{name} blokkolása'
+      heading: '%{name} blokkolása'
+      reason: 'Az ok, amiért %{name} blokkolásra került. Kérlek légy nyugodt és méltányos, amennyire csak lehetséges, olyan sok részlet megadásával, amennyit csak tudsz a helyzetről, emlékezve arra, hogy ez az üzenet nyilvánosan látható lesz. Tartsd szem előtt, hogy nem minden felhasználó érti a közösségi zsargont, ezért próbálj laikus nyelvezetet használni.'
+      period: >
+        Mennyi ideig lesz a felhasználó
+        blokkolva az API-tól, mostantól
+        számítva.
+      submit: Blokkolás kiosztása
+      tried_contacting: >
+        Kapcsolatba léptem a felhasználóval,
+        és megkértem, hogy hagyja abba.
+      tried_waiting: >
+        Adtam egy ésszerű határidőt a
+        felhasználónak, hogy válaszoljon az
+        értesítésre.
+      needs_view: >
+        A felhasználónak be kell jelentkeznie,
+        mielőtt a blokkolás feloldódna
+      back: Összes blokkolás megtekintése
+    edit:
+      title: '%{name} blokkolásának szerkesztése'
+      heading: '%{name} blokkolásának szerkesztése'
+      reason: 'Az ok, amiért %{name} blokkolásra került. Kérlek légy nyugodt és méltányos, amennyire csak lehetséges, olyan sok részlet megadásával, amennyit csak tudsz a helyzetről. Tartsd szem előtt, hogy nem minden felhasználó érti a közösségi zsargont, ezért próbálj laikus nyelvezetet használni.'
+      period: >
+        Mennyi ideig lesz a felhasználó
+        blokkolva az API-tól, mostantól
+        számítva.
+      submit: Blokkolás frissítése
+      show: Ezen blokkolás megjelenítése
+      back: Összes blokkolás megjelenítése
+      needs_view: >
+        Be kell jelentkeznie a felhasználónak,
+        mielőtt a blokkolás feloldódik?
+    filter:
+      block_expired: >
+        A blokkolás már lejárt, és nem
+        szerkeszthető.
+      block_period: >
+        A blokkolási időszaknak egy, a
+        legördülő listából kiválasztható
+        értéknek kell lennie.
+    create:
+      try_contacting: >
+        Kérlek, próbálj meg kapcsolatba
+        lépni a felhasználóval, mielőtt
+        blokkolod őt, és a válaszoláshoz adj
+        neki ésszerű időt a válasz.
+      try_waiting: >
+        Kérlek, adj a felhasználónak
+        ésszerű időt a válaszoláshoz,
+        mielőtt blokkolod őt.
+      flash: '%{name} felhasználó blokkolva lett.'
+    update:
+      only_creator_can_edit: >
+        Csak a blokkolást létrehozó
+        moderátor szerkesztheti.
+      success: Blokkolás frissítve.
+    index:
+      title: Felhasználói blokkolások
+      heading: Felhasználói blokkolások listája
+      empty: Még nem lett kiosztva blokkolás.
+    revoke:
+      title: '%{block_on} blokkolásának visszavonása'
+      heading: '%{block_on} blokkolásának visszavonása %{block_by} által'
+      time_future: 'Ez a blokkolás %{time} múlva véget ér.'
+      past: 'Ez a blokkolás véget ért %{time} óta, és már nem vonható vissza.'
+      confirm: >
+        Biztosan vissza szeretnéd vonni ezt a
+        blokkolást?
+      revoke: Visszavonás!
+      flash: Ez a blokkolás vissza lett vonva.
+    period:
+      one: 1 órája
+      other: '%{count} órája'
+    partial:
+      show: Megjelenítés
+      edit: Szerkesztés
+      revoke: Visszavonás!
+      confirm: Biztos vagy benne?
+      display_name: Blokkolt felhasználó
+      creator_name: Készítő
+      reason: Blokkolás indoklása
+      status: Állapot
+      revoker_name: 'Visszavonta:'
+      not_revoked: (nincs visszavonva)
+      showing_page: '%{page}. oldal'
+      next: Következő »
+      previous: « Előző
+    helper:
+      time_future: 'Véget ér %{time} múlva.'
+      until_login: >
+        Aktív a felhasználó
+        bejelentkezéséig.
+      time_past: 'Véget ért %{time} óta.'
+    blocks_on:
+      title: '%{name} blokkolásai'
+      heading: '%{name} blokkolásainak felsorolása'
+      empty: '%{name} még nem volt blokkolva.'
+    blocks_by:
+      title: '%{name} által kiosztott blokkolások'
+      heading: '%{name} által kiosztott blokkolások listája'
+      empty: '%{name} még nem osztott ki blokkolást.'
+    show:
+      title: '%{block_on} blokkolva %{block_by} által'
+      heading: '%{block_by} blokkolta %{block_on} felhasználót'
+      time_future: 'Véget ér %{time} múlva'
+      time_past: 'Véget ért %{time} óta'
+      status: Állapot
+      show: Megjelenítés
+      edit: Szerkesztés
+      revoke: Visszavonás!
+      confirm: Biztos vagy benne?
+      reason: 'Blokkolás indoklása:'
+      back: Összes blokkolás megjelenítése
+      revoker: 'Visszavonó:'
+      needs_view: >
+        A felhasználónak be kell jelentkeznie,
+        mielőtt a blokkolás feloldódna.
+  note:
+    description:
+      opened_at_html: 'Létrehozva %{when}'
+      opened_at_by_html: 'Létrehozta %{user} %{when}'
+      commented_at_html: 'Frissítve: %{when}'
+      commented_at_by_html: 'Frissítette %{user} %{when}'
+      closed_at_html: 'Megoldva: %{when}'
+      closed_at_by_html: 'Megoldva: %{when} (%{user})'
+      reopened_at_html: 'Újra aktiválva: %{when}'
+      reopened_at_by_html: 'Újraaktiválta %{user} %{when}'
+    rss:
+      title: OpenStreetMap jegyzetek
+      description_item: 'RSS hírcsatorna a %{id} jegyzethez'
+      opened: 'Új megjegyzés (%{place} közelében)'
+      commented: 'Új hozzászólás (%{place} közelében)'
+      closed: 'Lezárt megjegyzés (%{place} közelében)'
+      reopened: 'újraaktivált megjegyzés (%{place} közelében)'
+    entry:
+      comment: Hozzászólás
+      full: Teljes jegyzet
+    mine:
+      heading: '%{user} jegyzetei'
+      id: ID
+      creator: Létrehozta
+      description: Leírás
+      created_at: Létrehozva ekkor
+      last_changed: Utoljára módosítva
+      ago_html: '%{when}'
+  javascripts:
+    close: Bezárás
+    share:
+      title: Megosztás
+      cancel: Mégsem
+      image: Kép
+      link: Link vagy HTML
+      long_link: Link
+      short_link: Rövid link
+      embed: HTML
+      custom_dimensions: Kiterjedés megadása
+      format: 'Formátum:'
+      scale: 'Méretarány:'
+      image_size: 'A kép az alapértelmezett réteget fogja tartalmazni ekkora méretben:'
+      download: Letöltés
+      short_url: Rövid URL
+      include_marker: Helyjelölővel
+      center_marker: Térkép középpontja a helyjelölő
+      paste_html: >
+        Weboldalba beágyazáshoz illeszd be ezt
+        a HTML-t
+      view_larger_map: Nagyobb térkép
+    key:
+      title: Jelmagyarázat
+      tooltip: Jelmagyarázat
+      tooltip_disabled: >
+        A jelmagyarázat csak az
+        alapértelmezett rétegen érhető el
+    map:
+      zoom:
+        in: Nagyítás
+        out: Kicsinyítés
+      locate:
+        title: Mutasd a helyzetemet
+        popup: '{distance} {unit} távolságra vagy ettől a ponttól'
+      base:
+        standard: Alapértelmezett
+        cycle_map: Kerékpártérkép
+        transport_map: Tömegközlekedési térkép
+        mapquest: MapQuest Open
+        hot: Humanitáriánus
+      layers:
+        header: Térképnézetek
+        notes: Térképjegyzetek
+        data: Térképadatok
+        overlays: >
+          További rétegek engedélyezése a
+          térkép hibáinak javítása
+          érdekében
+        title: Rétegek
+      copyright: "© <a href='%{copyright_url}'>OpenStreetMap közreműködők</a>"
+      donate_link_text: "<a class='donate-attr' href='%{donate_url}'>Támogatás</a>"
+    site:
+      edit_tooltip: Térkép szerkesztése
+      edit_disabled_tooltip: Közelíts a térkép szerkesztéséhez
+      createnote_tooltip: Jegyzet hozzáadása a térképhez
+      createnote_disabled_tooltip: >
+        Nagyíts térképes jegyzet
+        hozzáadásához
+      map_notes_zoom_in_tooltip: >
+        Nagyítsd fel a térképet a jegyzetek
+        megjelenítéséhez
+      map_data_zoom_in_tooltip: >
+        Nagyítsd fel a térképet a
+        térképadatok megjelenítéséhez
+    notes:
+      new:
+        intro: >
+          Hibát találtál vagy valami hiányzik?
+          Tudasd a többi térképezővel hogy
+          javítani tudjuk. Mozgasd a jelölőt a
+          megfelelő helyre és minél pontosabban
+          írd le a problémát. (Kérjük itt ne
+          adj meg személyes adatokat.)
+        add: Jegyzet hozzáadása
+      show:
+        anonymous_warning: >
+          Ez a jegyzet anonim felhasználók
+          megjegyzéseit is tartalmazza melyeket
+          ellenőrizni szükséges.
+        hide: Elrejtés
+        resolve: Megoldás
+        reactivate: Újraaktiválás
+        comment_and_resolve: Hozzászólás és lezárás
+        comment: Hozzászólás
+  redaction:
+    edit:
+      description: Leírás
+    new:
+      description: Leírás
+    show:
+      description: 'Leírás:'
+      user: 'Készítő:'
+      confirm: Biztos vagy benne?
+    update:
+      flash: Változtatások elmentve.

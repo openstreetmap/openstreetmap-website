@@ -1,46 +1,19 @@
 # Messages for Serbian (Latin script) (srpski (latinica)‎)
 # Exported from translatewiki.net
-# Export driver: syck-pecl
+# Export driver: spyc
 # Author: McDutchie
 # Author: Milicevic01
 # Author: Nemo bis
 # Author: Rancher
-sr-Latn: 
-  activerecord: 
-    attributes: 
-      diary_comment: 
-        body: Tekst
-      diary_entry: 
-        language: Jezik
-        latitude: Geografska širina
-        longitude: Geografska dužina
-        title: Naslov
-        user: Korisnik
-      friend: 
-        friend: Prijatelj
-        user: Korisnik
-      message: 
-        body: Tekst
-        recipient: Primalac
-        sender: Pošiljalac
-        title: Naslov
-      trace: 
-        description: Opis
-        latitude: Geografska širina
-        longitude: Geografska dužina
-        name: Ime
-        public: Javno
-        size: Veličina
-        user: Korisnik
-        visible: Vidljivo
-      user: 
-        active: Aktivan
-        description: Opis
-        display_name: Ime prikaza
-        email: E-pošta
-        languages: Jezici
-        pass_crypt: Lozinka
-    models: 
+---
+sr-Latn:
+  html:
+    dir: ltr
+  time:
+    formats:
+      friendly: %e %B %Y u %H:%M
+  activerecord:
+    models:
       acl: Upravljanje pristupom
       changeset: Skup izmena
       changeset_tag: Oznaka skupa izmena
@@ -74,228 +47,245 @@ sr-Latn:
       way: Putanja
       way_node: Čvor putanje
       way_tag: Oznaka puta
-  application: 
-    require_cookies: 
-      cookies_needed: Izgleda da ste onemogućili kolačiće. Omogućite ih pre nego što nastavite.
-    require_moderator: 
-      not_a_moderator: Da biste izveli ovu radnju, treba da budete moderator.
-    setup_user_auth: 
-      blocked: Vaš pristup API-ju je blokiran. Prijavite se da saznate više.
-      need_to_see_terms: Vaš pristup API-ju je privremeno ukinut. Prijavite se da biste pogledali uslove uređivanja. Ne morate da ih prihvatite, već samo da ih vidite.
-  browse: 
-    changeset: 
-      changesetxml: XML skup izmena
-      feed: 
-        title: Skup izmena %{id}
-        title_comment: Skup izmena %{id} – %{comment}
-      osmchangexml: osmChange XML
+    attributes:
+      diary_comment:
+        body: Tekst
+      diary_entry:
+        user: Korisnik
+        title: Naslov
+        latitude: Geografska širina
+        longitude: Geografska dužina
+        language: Jezik
+      friend:
+        user: Korisnik
+        friend: Prijatelj
+      trace:
+        user: Korisnik
+        visible: Vidljivo
+        name: Ime
+        size: Veličina
+        latitude: Geografska širina
+        longitude: Geografska dužina
+        public: Javno
+        description: Opis
+      message:
+        sender: Pošiljalac
+        title: Naslov
+        body: Tekst
+        recipient: Primalac
+      user:
+        email: E-pošta
+        active: Aktivan
+        display_name: Ime prikaza
+        description: Opis
+        languages: Jezici
+        pass_crypt: Lozinka
+  printable_name:
+    with_version: '%{id}, ver. %{version}'
+  editor:
+    default: 'Podrazumevano (trenutno %{name})'
+    potlatch:
+      name: Potlač 1
+      description: Potlač 1 (uređivač u pregledaču)
+    potlatch2:
+      name: Potlač 2
+      description: Potlač 2 (uređivač u pregledaču)
+    remote:
+      name: Daljinsko upravljanje
+      description: >
+        Daljinsko upravljanje (JOSM ili
+        Merkaartor)
+  browse:
+    changeset:
       title: Skup izmena
-    containing_relation: 
-      entry: Odnos %{relation_name}
-      entry_role: Odnos %{relation_name} (kao %{relation_role})
-    not_found: 
-      sorry: Žao nam je, ali %{type} s IB %{id} nije pronađen.
-      type: 
-        changeset: skup izmena
-        node: čvor
-        relation: odnos
-        way: putanja
-    redacted: 
-      message_html: Verzija %{version} ove %{type} ne može da se prikaže budući da je redigovana. Više na %{redaction_link}.
-      redaction: Redakcija %{id}
-      type: 
-        node: čvor
-        relation: odnos
-        way: putanja
-    relation_member: 
-      entry: "%{type} %{name}"
-      entry_role: "%{type} %{name} kao %{role}"
-      type: 
+      changesetxml: XML skup izmena
+      osmchangexml: osmChange XML
+      feed:
+        title: 'Skup izmena %{id}'
+        title_comment: 'Skup izmena %{id} – %{comment}'
+    relation_member:
+      entry: '%{type} %{name}'
+      entry_role: '%{type} %{name} kao %{role}'
+      type:
         node: Čvor
-        relation: Odnos
         way: Putanja
-    start_rjs: 
+        relation: Odnos
+    containing_relation:
+      entry: 'Odnos %{relation_name}'
+      entry_role: 'Odnos %{relation_name} (kao %{relation_role})'
+    not_found:
+      sorry: 'Žao nam je, ali %{type} s IB %{id} nije pronađen.'
+      type:
+        node: čvor
+        way: putanja
+        relation: odnos
+        changeset: skup izmena
+    timeout:
+      sorry: 'Žao nam je, ali dobavljanje podataka za %{type} s IB %{id} predugo traje.'
+      type:
+        node: tačka
+        way: putanja
+        relation: odnos
+        changeset: skup izmena
+    redacted:
+      redaction: 'Redakcija %{id}'
+      message_html: 'Verzija %{version} ove %{type} ne može da se prikaže budući da je redigovana. Više na %{redaction_link}.'
+      type:
+        node: čvor
+        way: putanja
+        relation: odnos
+    start_rjs:
       load_data: Učitaj podatke
       loading: Učitavam…
-    tag_details: 
-      tags: "Oznake:"
-      wiki_link: 
-        key: Stranica s opisom za oznaku %{key}
-        tag: Stranica s opisom za oznaku %{key}=%{value}
-      wikipedia_link: "%{page} članak na Vikipediji"
-    timeout: 
-      sorry: Žao nam je, ali dobavljanje podataka za %{type} s IB %{id} predugo traje.
-      type: 
-        changeset: skup izmena
-        node: tačka
-        relation: odnos
-        way: putanja
-  changeset: 
-    changeset: 
+    tag_details:
+      tags: 'Oznake:'
+      wiki_link:
+        key: 'Stranica s opisom za oznaku %{key}'
+        tag: 'Stranica s opisom za oznaku %{key}=%{value}'
+      wikipedia_link: '%{page} članak na Vikipediji'
+  changeset:
+    changeset_paging_nav:
+      showing_page: 'Prikaz stranice %{page}'
+      next: Sledeća »
+      previous: « Prethodna
+    changeset:
       anonymous: Anonimno
       no_edits: (nema izmena)
       view_changeset_details: Pogledaj detalje skupa izmena
-    changeset_paging_nav: 
-      next: Sledeća »
-      previous: « Prethodna
-      showing_page: Prikaz stranice %{page}
-    changesets: 
-      area: Područje
-      comment: Komentar
+    changesets:
       id: Naznaka
       saved_at: Sačuvano u
       user: Korisnik
-    list: 
+      comment: Komentar
+      area: Područje
+    list:
       title: Skupovi izmena
+      title_user: 'Skupovi izmena korisnika %{user}'
       title_friend: Izmene vaših prijatelja
       title_nearby: Izmene od okolnih korisnika
-      title_user: Skupovi izmena korisnika %{user}
-    timeout: 
-      sorry: Žao nam je, ali spisak izmena koji ste zahtevali je predugačak.
-  diary_entry: 
-    comments: 
-      ago: pre %{ago}
-      comment: Komentar
-      has_commented_on: "%{display_name} je prokomentarisao sledeće unose u dnevniku"
-      newer_comments: Noviji komentari
-      older_comments: Stariji komentari
-      post: Postavi
-      when: Kada
-    diary_comment: 
-      comment_from: Komentar korisnika %{link_user} u %{comment_created_at}
-      confirm: Potvrdi
-      hide_link: Sakrij ovaj komentar
-    diary_entry: 
-      comment_count: 
-        one: 1 komentar
-        other: "%{count} komentara"
-      comment_link: Prokomentariši ovaj unos
-      confirm: Potvrdi
-      edit_link: Uredi ovaj unos
-      hide_link: Sakrij ovaj unos
-      posted_by: Postavio korisnik %{link_user} u %{created} na %{language_link}
-      reply_link: Odgovori na ovaj unos
-    edit: 
-      body: "Tekst:"
-      language: "Jezik:"
-      latitude: "Geografska širina:"
-      location: "Lokacija:"
-      longitude: "Geografska dužina:"
-      marker_text: Lokacija unosa u dnevniku
-      save_button: Sačuvaj
-      subject: "Tema:"
-      title: Uredi unos u dnevniku
-      use_map_link: koristi mapu
-    feed: 
-      all: 
-        description: Skorašnji unosi u dnevniku od korisnika Openstritmapa
-        title: Unosi u dnevniku Openstritmapa
-      language: 
-        description: Skorašnji unosi u dnevniku od korisnika na %{language_name}
-        title: Unosi u dnevniku na %{language_name}
-      user: 
-        description: Skorašnji unosi u dnevniku od korisnika %{user}
-        title: Unosi u dnevniku za korisnika %{user}
-    list: 
-      in_language_title: Dnevnici na %{language}
-      new: Novi unos u dnevniku
-      new_title: Zapišite novi unos u korisnički dnevnik
-      newer_entries: Noviji unosi
-      no_entries: Nema unosa u dnevniku
-      older_entries: Stariji unosi
-      recent_entries: "Skorašnji unosi u dnevniku:"
+    timeout:
+      sorry: >
+        Žao nam je, ali spisak izmena koji ste
+        zahtevali je predugačak.
+  diary_entry:
+    new:
+      title: Novi unos u dnevniku
+    list:
       title: Korisnički dnevnici
       title_friends: Dnevnici prijatelja
       title_nearby: Dnevnici okolnih korisnika
-      user_title: Dnevnik korisnika %{user}
-    location: 
-      edit: Uredi
-      location: "Lokacija:"
-      view: Pogledaj
-    new: 
-      title: Novi unos u dnevniku
-    no_such_entry: 
-      body: Žao nam je, ali nema unosa u dnevniku ili komentar s IB %{id}. Proverite ispravnost upisa ili veze koju ste kliknuli.
-      heading: "Nema unosa s IB: %{id}"
-      title: Nema takvog unosa u dnevniku
-    view: 
-      leave_a_comment: Ostavite komentar
-      login: Prijavite se
-      login_to_leave_a_comment: "%{login_link} da ostavite komentar"
+      user_title: 'Dnevnik korisnika %{user}'
+      in_language_title: 'Dnevnici na %{language}'
+      new: Novi unos u dnevniku
+      new_title: >
+        Zapišite novi unos u korisnički
+        dnevnik
+      no_entries: Nema unosa u dnevniku
+      recent_entries: 'Skorašnji unosi u dnevniku:'
+      older_entries: Stariji unosi
+      newer_entries: Noviji unosi
+    edit:
+      title: Uredi unos u dnevniku
+      subject: 'Tema:'
+      body: 'Tekst:'
+      language: 'Jezik:'
+      location: 'Lokacija:'
+      latitude: 'Geografska širina:'
+      longitude: 'Geografska dužina:'
+      use_map_link: koristi mapu
       save_button: Sačuvaj
-      title: Dnevnik korisnika %{user} | %{title}
-      user_title: Dnevnik korisnika %{user}
-  editor: 
-    default: Podrazumevano (trenutno %{name})
-    potlatch: 
-      description: Potlač 1 (uređivač u pregledaču)
-      name: Potlač 1
-    potlatch2: 
-      description: Potlač 2 (uređivač u pregledaču)
-      name: Potlač 2
-    remote: 
-      description: Daljinsko upravljanje (JOSM ili Merkaartor)
-      name: Daljinsko upravljanje
-  export: 
-    start: 
-      add_marker: Dodaj marker na mapu
+      marker_text: Lokacija unosa u dnevniku
+    view:
+      title: 'Dnevnik korisnika %{user} | %{title}'
+      user_title: 'Dnevnik korisnika %{user}'
+      leave_a_comment: Ostavite komentar
+      login_to_leave_a_comment: '%{login_link} da ostavite komentar'
+      login: Prijavite se
+      save_button: Sačuvaj
+    no_such_entry:
+      title: Nema takvog unosa u dnevniku
+      heading: 'Nema unosa s IB: %{id}'
+      body: 'Žao nam je, ali nema unosa u dnevniku ili komentar s IB %{id}. Proverite ispravnost upisa ili veze koju ste kliknuli.'
+    diary_entry:
+      posted_by: 'Postavio korisnik %{link_user} u %{created} na %{language_link}'
+      comment_link: Prokomentariši ovaj unos
+      reply_link: Odgovori na ovaj unos
+      comment_count:
+        one: 1 komentar
+        other: '%{count} komentara'
+      edit_link: Uredi ovaj unos
+      hide_link: Sakrij ovaj unos
+      confirm: Potvrdi
+    diary_comment:
+      comment_from: 'Komentar korisnika %{link_user} u %{comment_created_at}'
+      hide_link: Sakrij ovaj komentar
+      confirm: Potvrdi
+    location:
+      location: 'Lokacija:'
+      view: Pogledaj
+      edit: Uredi
+    feed:
+      user:
+        title: 'Unosi u dnevniku za korisnika %{user}'
+        description: 'Skorašnji unosi u dnevniku od korisnika %{user}'
+      language:
+        title: 'Unosi u dnevniku na %{language_name}'
+        description: 'Skorašnji unosi u dnevniku od korisnika na %{language_name}'
+      all:
+        title: Unosi u dnevniku Openstritmapa
+        description: >
+          Skorašnji unosi u dnevniku od korisnika
+          Openstritmapa
+    comments:
+      has_commented_on: '%{display_name} je prokomentarisao sledeće unose u dnevniku'
+      post: Postavi
+      when: Kada
+      comment: Komentar
+      ago: 'pre %{ago}'
+      newer_comments: Noviji komentari
+      older_comments: Stariji komentari
+  export:
+    start:
       area_to_export: Područje za izvoz
-      embeddable_html: Ugradivi HTML kod
-      export_button: Izvezi
-      export_details: Podaci Openstritmapa su dostupni pod licencom <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.sr">Krijejtiv komons Autorstvo-Deliti pod istim uslovima 2.0</a>.
-      format: Format
-      format_to_export: Format za izvoz
-      image_size: Veličina slike
-      latitude: "GŠ:"
-      licence: Licenca
-      longitude: "GD:"
       manually_select: Ručno izaberite drugo područje
-      map_image: Slika mape (prikazuje standardni sloj)
-      max: najviše
-      options: Mogućnosti
+      format_to_export: Format za izvoz
       osm_xml_data: Openstritmap XML podaci
-      output: Izlaz
-      paste_html: Ubacite HTML kod za ugrađivanje na stranice
+      map_image: Slika mape (prikazuje standardni sloj)
+      embeddable_html: Ugradivi HTML kod
+      licence: Licenca
+      export_details: 'Podaci Openstritmapa su dostupni pod licencom <a href="http://creativecommons.org/licenses/by-sa/2.0/deed.sr">Krijejtiv komons Autorstvo-Deliti pod istim uslovima 2.0</a>.'
+      too_large:
+        body: >
+          Ovo područje je preveliko da bi bilo
+          izvezeno u formatu XML. Uvećajte prikaz
+          ili izaberite manju površinu.
+      options: Mogućnosti
+      format: Format
       scale: Razmera
-      too_large: 
-        body: Ovo područje je preveliko da bi bilo izvezeno u formatu XML. Uvećajte prikaz ili izaberite manju površinu.
+      max: najviše
+      image_size: Veličina slike
       zoom: Uvećanje
-  geocoder: 
-    description: 
-      title: 
-        geonames: Lokacija iz <a href="http://www.geonames.org/">Geografskih imena</a>
-        osm_nominatim: Lokacija iz <a href="http://nominatim.openstreetmap.org/">Nominatima</a>
-      types: 
-        cities: Gradovi
-        places: Mesta
-        towns: Varošice
-    direction: 
-      east: istočno
-      north: severno
-      north_east: severoistočno
-      north_west: severozapadno
-      south: južno
-      south_east: jugoistočno
-      south_west: jugozapadno
-      west: zapadno
-    distance: 
-      one: oko jednog kilometra
-      other: oko %{count} kilometra
-      zero: manje od jednog kilometra
-    results: 
-      more_results: Više rezultata
-      no_results: Nema rezultata
-    search: 
-      title: 
-        ca_postcode: Rezultati iz <a href="http://geocoder.ca/">Geokodera</a>
-        geonames: Rezultati iz <a href="http://www.geonames.org/">Geografskih imena</a>
-        latlon: Rezultati iz <a href="http://openstreetmap.org/">Internala</a>
-        osm_nominatim: Rezultati iz <a href="http://nominatim.openstreetmap.org/">Nominatima</a>
-        uk_postcode: Rezultati iz <a href="http://www.npemap.org.uk/">NPEMap-a</a>
-        us_postcode: Rezultati iz <a href="http://geocoder.us/">Geokodera</a>
-    search_osm_nominatim: 
-      prefix: 
-        aeroway: 
+      add_marker: Dodaj marker na mapu
+      latitude: 'GŠ:'
+      longitude: 'GD:'
+      output: Izlaz
+      paste_html: >
+        Ubacite HTML kod za ugrađivanje na
+        stranice
+      export_button: Izvezi
+  geocoder:
+    search:
+      title:
+        latlon: 'Rezultati iz <a href="http://openstreetmap.org/">Internala</a>'
+        us_postcode: 'Rezultati iz <a href="http://geocoder.us/">Geokodera</a>'
+        uk_postcode: 'Rezultati iz <a href="http://www.npemap.org.uk/">NPEMap-a</a>'
+        ca_postcode: 'Rezultati iz <a href="http://geocoder.ca/">Geokodera</a>'
+        osm_nominatim: 'Rezultati iz <a href="http://nominatim.openstreetmap.org/">Nominatima</a>'
+        geonames: 'Rezultati iz <a href="http://www.geonames.org/">Geografskih imena</a>'
+    search_osm_nominatim:
+      prefix_format: '%{name}'
+      prefix:
+        aeroway:
           aerodrome: Aerodrom
           apron: Rampa
           gate: Kapija
@@ -303,8 +293,7 @@ sr-Latn:
           runway: Pista
           taxiway: Rulna staza
           terminal: Terminal
-        amenity: 
-          WLAN: Bežični internet
+        amenity:
           airport: Aerodrom
           arts_centre: Umetnički centar
           artwork: Umetničko delo
@@ -360,7 +349,7 @@ sr-Latn:
           market: Pijaca
           marketplace: Pijaca
           mountain_rescue: Gorska služba
-          nightclub: 'Noćni klub'
+          nightclub: Noćni klub
           nursery: Jaslice
           nursing_home: Starački dom
           office: Poslovnica
@@ -402,21 +391,22 @@ sr-Latn:
           village_hall: Seoski dom
           waste_basket: Korpa za otpatke
           wifi: Bežični internet
+          WLAN: Bežični internet
           youth_centre: Dom omladine
-        boundary: 
+        boundary:
           administrative: Administrativna granica
           census: Popisna granica
           national_park: Nacionalni park
           protected_area: Zaštićeno područje
-        bridge: 
+        bridge:
           aqueduct: Akvadukt
           suspension: Viseći most
           swing: Vrteški most
           viaduct: Vijadukt
-          "yes": Most
-        building: 
-          "yes": Zgrada
-        highway: 
+          yes: Most
+        building:
+          yes: Zgrada
+        highway:
           bridleway: Konjička staza
           bus_guideway: Autobuska traka
           bus_stop: Autobuska stanica
@@ -456,7 +446,7 @@ sr-Latn:
           trunk_link: Magistralni put
           unclassified: Nekategorisani put
           unsurfaced: Neasfaltirani put
-        historic: 
+        historic:
           archaeological_site: Arheološko nalazište
           battlefield: Bojište
           boundary_stone: Granični kamen
@@ -476,7 +466,7 @@ sr-Latn:
           wayside_cross: Krajputaš
           wayside_shrine: Usputno svetište
           wreck: Olupina
-        landuse: 
+        landuse:
           allotments: Bašte
           basin: Basen
           brownfield: Zemljište za prenamenu
@@ -496,8 +486,8 @@ sr-Latn:
           meadow: Livada
           military: Vojno područje
           mine: Rudnik
-          nature_reserve: Rezervat prirode
           orchard: Voćnjak
+          nature_reserve: Rezervat prirode
           park: Park
           piste: Skijaška staza
           quarry: Kamenolom
@@ -512,7 +502,7 @@ sr-Latn:
           vineyard: Vinograd
           wetland: Močvara
           wood: Šuma
-        leisure: 
+        leisure:
           beach_resort: Morsko odmaralište
           bird_hide: Sklonište za ptice
           common: Opštinsko zemljište
@@ -535,11 +525,11 @@ sr-Latn:
           swimming_pool: Bazen
           track: Staza za trčanje
           water_park: Vodeni park
-        military: 
+        military:
           airfield: Vojni aerodrom
           barracks: Kasarna
           bunker: Bunker
-        natural: 
+        natural:
           bay: Zaliv
           beach: Plaža
           cape: Rt
@@ -580,7 +570,7 @@ sr-Latn:
           wetland: Močvara
           wetlands: Močvara
           wood: Šuma
-        office: 
+        office:
           accountant: Računovođa
           architect: Arhitekta
           company: Firma
@@ -592,8 +582,8 @@ sr-Latn:
           ngo: NVO kancelarija
           telecommunication: Telekomunikaciona služba
           travel_agent: Turistička agencija
-          "yes": Kancelarija
-        place: 
+          yes: Kancelarija
+        place:
           airport: Aerodrom
           city: Grad
           country: Zemlja
@@ -617,7 +607,7 @@ sr-Latn:
           town: Varošica
           unincorporated_area: Slobodna zemlja
           village: Selo
-        railway: 
+        railway:
           abandoned: Napuštena železnica
           construction: Železnička pruga u izgradnji
           disused: Napuštena železnica
@@ -641,7 +631,7 @@ sr-Latn:
           tram: Tramvaj
           tram_stop: Tramvajsko stajalište
           yard: Ranžirna stanica
-        shop: 
+        shop:
           alcohol: Trgovina pićem
           antiques: Antikvarnica
           art: Atelje
@@ -710,7 +700,7 @@ sr-Latn:
           travel_agency: Turistička agencija
           video: Videoteka
           wine: Trgovina pićem
-        tourism: 
+        tourism:
           alpine_hut: Planinarski dom
           artwork: Galerija
           attraction: Atrakcija
@@ -731,9 +721,9 @@ sr-Latn:
           valley: Dolina
           viewpoint: Vidikovac
           zoo: Zoološki vrt
-        tunnel: 
-          "yes": Tunel
-        waterway: 
+        tunnel:
+          yes: Tunel
+        waterway:
           artificial: Veštački vodeni put
           boatyard: Brodogradilište
           canal: Kanal
@@ -752,889 +742,1192 @@ sr-Latn:
           riverbank: Rečna obala
           stream: Potok
           wadi: Suvo korito reke
-          water_point: Tačka vodotoka
           waterfall: Vodopad
+          water_point: Tačka vodotoka
           weir: Brana
-      prefix_format: "%{name}"
-  html: 
-    dir: ltr
-  javascripts: 
-    map: 
-      base: 
-        cycle_map: Biciklistička mapa
-        mapquest: Mapkvest open
-        standard: Standardna
-        transport_map: Saobraćajna mapa
-    site: 
-      edit_disabled_tooltip: Uvećajte prikaz da biste uredili mapu
-      edit_tooltip: Uredite mapu
-  layouts: 
+    description:
+      title:
+        osm_nominatim: 'Lokacija iz <a href="http://nominatim.openstreetmap.org/">Nominatima</a>'
+        geonames: 'Lokacija iz <a href="http://www.geonames.org/">Geografskih imena</a>'
+      types:
+        cities: Gradovi
+        towns: Varošice
+        places: Mesta
+    results:
+      no_results: Nema rezultata
+      more_results: Više rezultata
+    distance:
+      one: oko jednog kilometra
+      zero: manje od jednog kilometra
+      other: 'oko %{count} kilometra'
+    direction:
+      south_west: jugozapadno
+      south: južno
+      south_east: jugoistočno
+      east: istočno
+      north_east: severoistočno
+      north: severno
+      north_west: severozapadno
+      west: zapadno
+  layouts:
+    project_name:
+      title: Openstritmap
+      h1: Openstritmap
+    logo:
+      alt_text: Logotip Openstritmapa
+    home: dom
+    logout: odjavi me
+    log_in: prijavi me
+    log_in_tooltip: Prijavite se s postojećim nalogom
+    sign_up: otvori nalog
+    sign_up_tooltip: Otvorite nalog da biste uređivali
+    edit: Uredi
+    history: Istorija
+    export: Izvezi
+    gps_traces: GPS tragovi
+    gps_traces_tooltip: Upravljajte GPS tragovima
+    user_diaries: Dnevnici
+    user_diaries_tooltip: Pogledajte korisničke dnevnike
+    edit_with: 'Uredi uređivačem %{editor}'
+    tag_line: Slobodna viki mapa sveta
+    intro_2_create_account: Otvorite nalog
+    partners_html: 'Hosting podržava %{ucl}, %{ic} i %{bytemark}, kao i drugi %{partners}.'
+    partners_ucl: VR centar UCL-a
+    partners_ic: Londonski kraljevski koledž
+    partners_bytemark: Hosting „Bajtmark“
+    partners_partners: partneri
+    osm_offline: >
+      Baza podataka Openstritmapa je trenutno
+      nedostupna dok se ne završe važni
+      radovi na održavanju.
+    osm_read_only: >
+      Zbog radova na održavanju baze podataka
+      Openstritmapa, istu trenutno nije
+      moguće menjati.
+    donate: 'Pomozite nam tako što ćete %{link} radi održavanja potrebnog hardvera.'
+    help: Pomoć
+    copyright: Autorska prava i licenca
     community: Zajednica
     community_blogs: Blogovi zajednice
     community_blogs_title: Blogovi članova zajednice
-    copyright: Autorska prava i licenca
-    donate: Pomozite nam tako što ćete %{link} radi održavanja potrebnog hardvera.
-    edit: Uredi
-    edit_with: Uredi uređivačem %{editor}
-    export: Izvezi
     foundation: Zadužbina
     foundation_title: Zadužbina Openstritmap
-    gps_traces: GPS tragovi
-    gps_traces_tooltip: Upravljajte GPS tragovima
-    help: Pomoć
-    history: Istorija
-    home: dom
-    intro_2_create_account: Otvorite nalog
-    log_in: prijavi me
-    log_in_tooltip: Prijavite se s postojećim nalogom
-    logo: 
-      alt_text: Logotip Openstritmapa
-    logout: odjavi me
-    make_a_donation: 
+    make_a_donation:
+      title: >
+        Podržite Openstritmap novčanim
+        prilogom
       text: Priložite novac
-      title: Podržite Openstritmap novčanim prilogom
-    osm_offline: Baza podataka Openstritmapa je trenutno nedostupna dok se ne završe važni radovi na održavanju.
-    osm_read_only: Zbog radova na održavanju baze podataka Openstritmapa, istu trenutno nije moguće menjati.
-    partners_bytemark: Hosting „Bajtmark“
-    partners_html: Hosting podržava %{ucl}, %{ic} i %{bytemark}, kao i drugi %{partners}.
-    partners_ic: Londonski kraljevski koledž
-    partners_partners: partneri
-    partners_ucl: VR centar UCL-a
-    project_name: 
-      h1: Openstritmap
-      title: Openstritmap
-    sign_up: otvori nalog
-    sign_up_tooltip: Otvorite nalog da biste uređivali
-    tag_line: Slobodna viki mapa sveta
-    user_diaries: Dnevnici
-    user_diaries_tooltip: Pogledajte korisničke dnevnike
-  license_page: 
-    foreign: 
-      english_link: engleskog originala
-      text: U slučaju sukoba između prevedene stranice i %{english_original_link}, engleska stranica ima prednost
+  license_page:
+    foreign:
       title: O prevodu
-    legal_babble: 
-      contributors_at_html: "<strong>Austrija</strong>: sadrži podatke iz\n   <a href=\"http://data.wien.gv.at/\">Štata Viena</a> pod licencom\n   <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>),\n   <a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Forarlberg</a> i\n  \t+ \t\nLand Tirol (pod licencom <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY AT sa izmenama i dopunama</a>)."
-      contributors_ca_html: "<strong>Kanada</strong>: sadrži podatke iz\n    Beobaze&reg;, Geogratisa (&copy; Odeljenje za prirodne\n    resurse Kanade), Kanvek (&copy; Odeljenje za prirodne\n    resurse Kanade) i Statkan (Geografski odsek,\n    Zavod za statistiku Kanade)."
-      contributors_footer_1_html: "Više informacija o ovim i drugim izvorima korišćenim\nza poboljšavanje Openstritmapa možete naći na stranici <a\nhref=\"http://wiki.openstreetmap.org/wiki/Contributors\">Doprinosioci</a> na našem vikiju."
-      contributors_footer_2_html: "  Uključivanje podataka u Openstritmap ne podrazumeva da izvorni\n  vlasnik podataka prihvata Openstritmap, obezbeđuje bilo kakvu\n  garanciju ili prihvata odgovornost."
-      contributors_fr_html: "<strong>Francuska</strong>: sadrži podatke koji potiču od\n    Generalne direkcije za oporezivanje."
-      contributors_gb_html: "<strong>Ujedinjeno Kraljevstvo</strong>: sadrži Zvanične\n    podatke geodetskog premeravanja &copy; Autorska prava 2010."
-      contributors_intro_html: "  Naša licenca CC BY-SA zahteva od vas da &ldquo;morate\n  navesti ime izvornog autora ili davaoca licence&rdquo;.\n  Pojedinačni kartografi ne zahtevaju isticanje zasluga osim\n  &ldquo;Openstritmap doprinosioca&rdquo;, ali kada podaci\n  pripadaju nacionalnoj geografskoj agenciji ili drugom\n  većem izvoru koji je uključen u Openstritmap, razumno je\n  navesti izvor ili ostaviti hipervezu do njega."
-      contributors_nl_html: "<strong>Holandija</strong>: sadrži &copy; AND podaci, 2007\n  \t+ \t\n    (<a href=\"http://www.and.com\">www.and.com</a>)"
-      contributors_nz_html: "<strong>Novi Zeland</strong>: sadrži podatke koji potiču od\n    Land Information New Zealand. Krunska autorska prava zadržana."
-      contributors_title_html: Naši saradnici
-      contributors_za_html: "<strong>Južnoafrička Republika</strong>: sadrži podatke iz\n<a href=\"http://www.ngi.gov.za/\">Glavne uprave:\nNacionalna katastarska služba</a>, državna autorska prava zadržana."
-      credit_1_html: "  Ako koristite naše slike mapa, tražimo da zasluge sadrže\n  bar &ldquo;&copy; Doprinosioci\n  Openstritmapa, CC BY-SA&rdquo;. Ako koristite samo podatke mapa,\n  navedite &ldquo;Kartografski podaci &copy; Doprinosioci Openstritmapa,\n  CC BY-SA&rdquo;."
-      credit_2_html: "  Gde je moguće, Openstritmap bi trebalo da vodi do adrese <a\n  href=\"http://www.openstreetmap.org/\">http://www.openstreetmap.org/</a>\n  i CC BY-SA do <a\n  href=\"http://creativecommons.org/licenses/by-sa/2.0/\">http://creativecommons.org/licenses/by-sa/2.0/</a>.\n  Ako koristite medijum u kom se veze ne mogu postaviti\n  (npr. štampani rad), predlažemo da usmerite vaše\n  čitaoce na www.openstreetmap.org (po mogućstvu\n  proširavanjem &lsquo;Openstritmapa&rsquo; na celu adresu)\n  i na www.creativecommons.org."
-      credit_title_html: Kako da imenujete Openstritmap
-      intro_1_html: "OpenStreetMap is <i>open data</i>, licensed under the <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data\nCommons Open Database License</a> (ODbL)."
-      intro_2_html: "  Možete da umnožavate, delite, prenosite i prilagođavate\n  naše mape i podatke, sve dok imenujete Openstritmap i njene\n  urednike. Ako želite da menjate i dograđujete naše podatke,\n  možete ih deliti samo pod istom licencom.\n  Ceo <a href=\"http://creativecommons.org/licenses/by-sa/2.0/legalcode\">\n  tekst ugovora</a> objašnjava vam vaša prava i odgovornosti."
-      more_1_html: "  Pročitajte više o korišćenju naših podataka na <a\n  href=\"http://wiki.openstreetmap.org/wiki/Legal_FAQ\">ČPP</a>."
-      more_2_html: "  Podsećamo urednike Openstritmapa da nikada ne dodaju podatke\n  od bilo kog izvora zaštićenog autorskim pravima (npr.\n  Gugl mape ili štampane mape) bez izričite dozvole\n  nosioca autorskog prava."
-      more_title_html: Saznajte više
-      title_html: Autorska prava i licenca
-    native: 
-      mapping_link: počnite s mapiranjem
-      native_link: srpsko izdanje
-      text: Trenutno posmatrate englesko izdanje stranice o autorskim pravima. Možete se vratiti na %{native_link} ove stranice ili jednostavno zaboravite na autorska prava i %{mapping_link}.
+      text: 'U slučaju sukoba između prevedene stranice i %{english_original_link}, engleska stranica ima prednost'
+      english_link: engleskog originala
+    native:
       title: O stranici
-  message: 
-    delete: 
-      deleted: Poruka je obrisana
-    inbox: 
-      date: Datum
-      from: Od
-      messages: Imate %{new_messages} i %{old_messages}
-      my_inbox: Primljene
-      new_messages: 
-        one: "%{count} nova poruka"
-        other: "%{count} nove poruke"
-      no_messages_yet: Još uvek nemate poruka. Zašto ne biste stupili u kontakt s %{people_mapping_nearby_link}?
-      old_messages: 
-        one: "%{count} stara poruka"
-        other: "%{count} stare poruke"
-      outbox: poslate
-      people_mapping_nearby: maperima u vašoj okolini
-      subject: Naslov
+      text: 'Trenutno posmatrate englesko izdanje stranice o autorskim pravima. Možete se vratiti na %{native_link} ove stranice ili jednostavno zaboravite na autorska prava i %{mapping_link}.'
+      native_link: srpsko izdanje
+      mapping_link: počnite s mapiranjem
+    legal_babble:
+      title_html: Autorska prava i licenca
+      intro_1_html: |
+        OpenStreetMap is <i>open data</i>, licensed under the <a
+        href="http://opendatacommons.org/licenses/odbl/">Open Data
+        Commons Open Database License</a> (ODbL).
+      intro_2_html: |
+          Možete da umnožavate, delite, prenosite i prilagođavate
+          naše mape i podatke, sve dok imenujete Openstritmap i njene
+          urednike. Ako želite da menjate i dograđujete naše podatke,
+          možete ih deliti samo pod istom licencom.
+          Ceo <a href="http://creativecommons.org/licenses/by-sa/2.0/legalcode">
+          tekst ugovora</a> objašnjava vam vaša prava i odgovornosti.
+      credit_title_html: Kako da imenujete Openstritmap
+      credit_1_html: |
+          Ako koristite naše slike mapa, tražimo da zasluge sadrže
+          bar &ldquo;&copy; Doprinosioci
+          Openstritmapa, CC BY-SA&rdquo;. Ako koristite samo podatke mapa,
+          navedite &ldquo;Kartografski podaci &copy; Doprinosioci Openstritmapa,
+          CC BY-SA&rdquo;.
+      credit_2_html: |
+          Gde je moguće, Openstritmap bi trebalo da vodi do adrese <a
+          href="http://www.openstreetmap.org/">http://www.openstreetmap.org/</a>
+          i CC BY-SA do <a
+          href="http://creativecommons.org/licenses/by-sa/2.0/">http://creativecommons.org/licenses/by-sa/2.0/</a>.
+          Ako koristite medijum u kom se veze ne mogu postaviti
+          (npr. štampani rad), predlažemo da usmerite vaše
+          čitaoce na www.openstreetmap.org (po mogućstvu
+          proširavanjem &lsquo;Openstritmapa&rsquo; na celu adresu)
+          i na www.creativecommons.org.
+      more_title_html: Saznajte više
+      more_1_html: |
+          Pročitajte više o korišćenju naših podataka na <a
+          href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">ČPP</a>.
+      more_2_html: |
+          Podsećamo urednike Openstritmapa da nikada ne dodaju podatke
+          od bilo kog izvora zaštićenog autorskim pravima (npr.
+          Gugl mape ili štampane mape) bez izričite dozvole
+          nosioca autorskog prava.
+      contributors_title_html: Naši saradnici
+      contributors_intro_html: |
+          Naša licenca CC BY-SA zahteva od vas da &ldquo;morate
+          navesti ime izvornog autora ili davaoca licence&rdquo;.
+          Pojedinačni kartografi ne zahtevaju isticanje zasluga osim
+          &ldquo;Openstritmap doprinosioca&rdquo;, ali kada podaci
+          pripadaju nacionalnoj geografskoj agenciji ili drugom
+          većem izvoru koji je uključen u Openstritmap, razumno je
+          navesti izvor ili ostaviti hipervezu do njega.
+      contributors_at_html: |
+        <strong>Austrija</strong>: sadrži podatke iz
+           <a href="http://data.wien.gv.at/">Štata Viena</a> pod licencom
+           <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
+           <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Forarlberg</a> i
+        Land Tirol (pod licencom <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT sa izmenama i dopunama</a>).
+      contributors_ca_html: |
+        <strong>Kanada</strong>: sadrži podatke iz
+            Beobaze&reg;, Geogratisa (&copy; Odeljenje za prirodne
+            resurse Kanade), Kanvek (&copy; Odeljenje za prirodne
+            resurse Kanade) i Statkan (Geografski odsek,
+            Zavod za statistiku Kanade).
+      contributors_fr_html: |
+        <strong>Francuska</strong>: sadrži podatke koji potiču od
+            Generalne direkcije za oporezivanje.
+      contributors_nl_html: |
+        <strong>Holandija</strong>: sadrži &copy; AND podaci, 2007
+        (<a href="http://www.and.com">www.and.com</a>)
+      contributors_nz_html: |
+        <strong>Novi Zeland</strong>: sadrži podatke koji potiču od
+            Land Information New Zealand. Krunska autorska prava zadržana.
+      contributors_za_html: |
+        <strong>Južnoafrička Republika</strong>: sadrži podatke iz
+        <a href="http://www.ngi.gov.za/">Glavne uprave:
+        Nacionalna katastarska služba</a>, državna autorska prava zadržana.
+      contributors_gb_html: |
+        <strong>Ujedinjeno Kraljevstvo</strong>: sadrži Zvanične
+            podatke geodetskog premeravanja &copy; Autorska prava 2010.
+      contributors_footer_1_html: |
+        Više informacija o ovim i drugim izvorima korišćenim
+        za poboljšavanje Openstritmapa možete naći na stranici <a
+        href="http://wiki.openstreetmap.org/wiki/Contributors">Doprinosioci</a> na našem vikiju.
+      contributors_footer_2_html: |
+          Uključivanje podataka u Openstritmap ne podrazumeva da izvorni
+          vlasnik podataka prihvata Openstritmap, obezbeđuje bilo kakvu
+          garanciju ili prihvata odgovornost.
+  notifier:
+    diary_comment_notification:
+      subject: '[OpenStreetMap] %{user} prokomentarisa vaš unos u dnevniku'
+      hi: 'Pozdrav, %{to_user},'
+      header: '%{from_user} prokomentarisa vaš skorašnji unos u dnevniku pod naslovom %{subject}:'
+      footer: 'Možete pročitati komentare na %{readurl}, prokomentarisati na %{commenturl} ili odgovoriti na %{replyurl}'
+    message_notification:
+      subject_header: '[Openstritmap] – %{subject}'
+      hi: 'Pozdrav, %{to_user},'
+      header: '%{from_user} vam posla poruku preko Openstritmapa pod naslovom %{subject}:'
+    friend_notification:
+      subject: '[Openstritmap] %{user} vas je dodao kao prijatelja'
+      had_added_you: '%{user} vas je dodao kao prijatelja na Openstritmapu.'
+      see_their_profile: 'Možete videti njegov/njen profil na %{userurl}.'
+      befriend_them: 'Možete ga/je dodati i kao prijatelja na %{befriendurl}.'
+    gpx_notification:
+      greeting: Pozdrav,
+      your_gpx_file: Liči na vašu GPX datoteku
+      with_description: s opisom
+      and_the_tags: 'i sa sledećim oznakama:'
+      and_no_tags: i bez oznaka.
+      failure:
+        subject: '[OpenStreetMap] GPX uvoz nije uspeo'
+        failed_to_import: 'Uvoz nije uspeo. Greška:'
+        more_info_1: >
+          Više o neuspelom GPX uvozu i kako to
+          izbeći
+        more_info_2: 'može se naći na:'
+        import_failures_url: >
+          http://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=sr-ec
+      success:
+        subject: '[OpenStreetMap] GPX uvoz je uspeo'
+        loaded_successfully: 'uspešno učitano sa %{trace_points} od mogućih %{possible_points} tačaka.'
+    signup_confirm:
+      subject: '[OpenStreetMap] Potvrdite vašu e-adresu'
+    email_confirm:
+      subject: '[OpenStreetMap] Potvrdite vašu e-adresu'
+    email_confirm_plain:
+      greeting: Pozdrav,
+      click_the_link: >
+        Ako ste to vi, kliknite na vezu ispod da
+        biste potvrdili izmene.
+    email_confirm_html:
+      greeting: Pozdrav,
+      hopefully_you: 'Neko (verovatno vi) želeo bi da promeni e-adresu sa %{server_url} na %{new_address}.'
+      click_the_link: >
+        Ako ste to vi, kliknite na vezu ispod da
+        biste potvrdili izmene.
+    lost_password:
+      subject: '[OpenStreetMap] Zahtev za poništavanje lozinke'
+    lost_password_plain:
+      greeting: Pozdrav,
+      click_the_link: >
+        Ako ste to vi, kliknite na vezu ispod da
+        biste poništili lozinku.
+    lost_password_html:
+      greeting: Pozdrav,
+      hopefully_you: >
+        Neko (verovatno vi) zatražio je
+        poništavanje lozinke za ovaj nalog.
+      click_the_link: >
+        Ako ste to vi, kliknite na vezu ispod da
+        biste poništili lozinku.
+  message:
+    inbox:
       title: Primljene
-    mark: 
-      as_read: Poruka je označena kao pročitana
-      as_unread: Poruka je označena kao nepročitana
-    message_summary: 
-      delete_button: Obriši
+      my_inbox: Primljene
+      outbox: poslate
+      messages: 'Imate %{new_messages} i %{old_messages}'
+      new_messages:
+        one: '%{count} nova poruka'
+        other: '%{count} nove poruke'
+      old_messages:
+        one: '%{count} stara poruka'
+        other: '%{count} stare poruke'
+      from: Od
+      subject: Naslov
+      date: Datum
+      no_messages_yet: 'Još uvek nemate poruka. Zašto ne biste stupili u kontakt s %{people_mapping_nearby_link}?'
+      people_mapping_nearby: maperima u vašoj okolini
+    message_summary:
+      unread_button: Označi kao nepročitano
       read_button: Označi kao pročitano
       reply_button: Odgovori
-      unread_button: Označi kao nepročitano
-    new: 
-      back_to_inbox: Nazad na primljene
-      body: Tekst
-      limit_exceeded: Nedavno ste poslali mnogo poruka. Sačekajte neko vreme pre nego pokušavate da pošaljete još neku.
-      message_sent: Poruka je poslata.
-      send_button: Pošalji
-      send_message_to: Pošalji novu poruku za %{name}
-      subject: Naslov
-      title: Pošalji poruku
-    no_such_message: 
-      body: Nažalost, nema poruke s tim IB.
-      heading: Nema takve poruke
-      title: Nema takve poruke
-    outbox: 
-      date: Datum
-      inbox: primljene
-      messages: 
-        one: Imate %{count} poslatu poruku
-        other: Imate %{count} poslate poruke
-      my_inbox: "%{inbox_link}"
-      no_sent_messages: Još uvek nemate poslatih poruka. Zašto ne biste stupili u kontakt s %{people_mapping_nearby_link}?
-      outbox: poslate
-      people_mapping_nearby: maperima u vašoj okolini
-      subject: Naslov
-      title: Poslate
-      to: Za
-    read: 
-      date: Datum
-      from: Od
-      reply_button: Odgovori
-      subject: Naslov
-      title: Pročitaj poruku
-      to: Za
-      unread_button: Označi kao nepročitano
-      wrong_user: Prijavljeni ste kao %{user}, ali poruka koju ste želeli da pročitate nije poslata tom korisniku. Prijavite se kao ispravan korisnik da biste je pročitali.
-    reply: 
-      wrong_user: Prijavljeni ste kao %{user}, ali poruka na koju ste želeli da odgovorite nije poslata tom korisniku. Prijavite se kao ispravan korisnik da biste odgovorili.
-    sent_message_summary: 
       delete_button: Obriši
-  notifier: 
-    diary_comment_notification: 
-      footer: Možete pročitati komentare na %{readurl}, prokomentarisati na %{commenturl} ili odgovoriti na %{replyurl}
-      header: "%{from_user} prokomentarisa vaš skorašnji unos u dnevniku pod naslovom %{subject}:"
-      hi: Pozdrav, %{to_user},
-      subject: "[OpenStreetMap] %{user} prokomentarisa vaš unos u dnevniku"
-    email_confirm: 
-      subject: "[OpenStreetMap] Potvrdite vašu e-adresu"
-    email_confirm_html: 
-      click_the_link: Ako ste to vi, kliknite na vezu ispod da biste potvrdili izmene.
-      greeting: Pozdrav,
-      hopefully_you: Neko (verovatno vi) želeo bi da promeni e-adresu sa %{server_url} na %{new_address}.
-    email_confirm_plain: 
-      click_the_link: Ako ste to vi, kliknite na vezu ispod da biste potvrdili izmene.
-      greeting: Pozdrav,
-    friend_notification: 
-      befriend_them: Možete ga/je dodati i kao prijatelja na %{befriendurl}.
-      had_added_you: "%{user} vas je dodao kao prijatelja na Openstritmapu."
-      see_their_profile: Možete videti njegov/njen profil na %{userurl}.
-      subject: "[Openstritmap] %{user} vas je dodao kao prijatelja"
-    gpx_notification: 
-      and_no_tags: i bez oznaka.
-      and_the_tags: "i sa sledećim oznakama:"
-      failure: 
-        failed_to_import: "Uvoz nije uspeo. Greška:"
-        import_failures_url: http://wiki.openstreetmap.org/wiki/GPX_Import_Failures?uselang=sr-ec
-        more_info_1: Više o neuspelom GPX uvozu i kako to izbeći
-        more_info_2: "može se naći na:"
-        subject: "[OpenStreetMap] GPX uvoz nije uspeo"
-      greeting: Pozdrav,
-      success: 
-        loaded_successfully: uspešno učitano sa %{trace_points} od mogućih %{possible_points} tačaka.
-        subject: "[OpenStreetMap] GPX uvoz je uspeo"
-      with_description: s opisom
-      your_gpx_file: Liči na vašu GPX datoteku
-    lost_password: 
-      subject: "[OpenStreetMap] Zahtev za poništavanje lozinke"
-    lost_password_html: 
-      click_the_link: Ako ste to vi, kliknite na vezu ispod da biste poništili lozinku.
-      greeting: Pozdrav,
-      hopefully_you: Neko (verovatno vi) zatražio je poništavanje lozinke za ovaj nalog.
-    lost_password_plain: 
-      click_the_link: Ako ste to vi, kliknite na vezu ispod da biste poništili lozinku.
-      greeting: Pozdrav,
-    message_notification: 
-      header: "%{from_user} vam posla poruku preko Openstritmapa pod naslovom %{subject}:"
-      hi: Pozdrav, %{to_user},
-      subject_header: "[Openstritmap] – %{subject}"
-    signup_confirm: 
-      subject: "[OpenStreetMap] Potvrdite vašu e-adresu"
-  oauth: 
-    oauthorize: 
-      allow_read_gpx: čita vaše privatne GPS tragove.
+    new:
+      title: Pošalji poruku
+      send_message_to: 'Pošalji novu poruku za %{name}'
+      subject: Naslov
+      body: Tekst
+      send_button: Pošalji
+      back_to_inbox: Nazad na primljene
+      message_sent: Poruka je poslata.
+      limit_exceeded: >
+        Nedavno ste poslali mnogo poruka.
+        Sačekajte neko vreme pre nego
+        pokušavate da pošaljete još neku.
+    no_such_message:
+      title: Nema takve poruke
+      heading: Nema takve poruke
+      body: Nažalost, nema poruke s tim IB.
+    outbox:
+      title: Poslate
+      my_inbox: '%{inbox_link}'
+      inbox: primljene
+      outbox: poslate
+      messages:
+        one: 'Imate %{count} poslatu poruku'
+        other: 'Imate %{count} poslate poruke'
+      to: Za
+      subject: Naslov
+      date: Datum
+      no_sent_messages: 'Još uvek nemate poslatih poruka. Zašto ne biste stupili u kontakt s %{people_mapping_nearby_link}?'
+      people_mapping_nearby: maperima u vašoj okolini
+    reply:
+      wrong_user: 'Prijavljeni ste kao %{user}, ali poruka na koju ste želeli da odgovorite nije poslata tom korisniku. Prijavite se kao ispravan korisnik da biste odgovorili.'
+    read:
+      title: Pročitaj poruku
+      from: Od
+      subject: Naslov
+      date: Datum
+      reply_button: Odgovori
+      unread_button: Označi kao nepročitano
+      to: Za
+      wrong_user: 'Prijavljeni ste kao %{user}, ali poruka koju ste želeli da pročitate nije poslata tom korisniku. Prijavite se kao ispravan korisnik da biste je pročitali.'
+    sent_message_summary:
+      delete_button: Obriši
+    mark:
+      as_read: Poruka je označena kao pročitana
+      as_unread: Poruka je označena kao nepročitana
+    delete:
+      deleted: Poruka je obrisana
+  site:
+    index:
+      js_1: >
+        Koristite pregledač koji ne podržava
+        javaskript ili ste ga onemogućili.
+      js_2: >
+        Openstritmap koristi javaskript za
+        prikazivanje mapa.
+      permalink: Trajna veza
+      shortlink: Kratka veza
+      remote_failed: >
+        Uređivanje nije uspelo. Proverite da li
+        je JOSM ili Merkaartor učitan i da je
+        mogućnost daljinskog upravljanja
+        omogućena
+    edit:
+      not_public: >
+        Niste podesili da vaše izmene budu
+        javne.
+      not_public_description: 'Ne možete uređivati mapu sve dok to ne uradite. Možete podesiti da vaše izmene budu javne s %{user_page}.'
+      user_page_link: korisničke stranice
+      anon_edits: '(%{link})'
+      anon_edits_link_text: Saznajte zašto je to slučaj.
+      flash_player_required: 'Potreban vam je fleš plejer da biste koristili uređivač mapa. Preuzmite ga <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">odavde</a>. Dostupne su i <a href="http://wiki.openstreetmap.org/wiki/Editing">neke druge mogućnosti</a> za uređivanje Openstritmapa.'
+      potlatch_unsaved_changes: >
+        Niste sačuvali izmene. Da biste to
+        uradili, poništite tekuću putanju ili
+        tačku, ako uređujete naživo, ili
+        kliknite na dugme za čuvanje.
+      potlatch2_not_configured: >
+        Potlač 2 nije podešen. Pogledajte
+        http://wiki.openstreetmap.org/wiki/The_Rails_Port
+      potlatch2_unsaved_changes: >
+        Niste sačuvali izmene. Da biste to
+        uradili, kliknite na dugme za čuvanje.
+      no_iframe_support: >
+        Vaš pregledač ne podržava HTML
+        iframes, a oni su potrebni za ovu
+        mogućnost.
+    sidebar:
+      search_results: Rezultati pretrage
+      close: Zatvori
+    search:
+      search: Pretraga
+      where_am_i: Gde sam?
+      where_am_i_title: >
+        Ustanovite trenutnu lokaciju pomoću
+        pretraživača
+      submit_text: Idi
+    key:
+      table:
+        entry:
+          motorway: Auto-put
+          trunk: Magistralni put
+          primary: Glavni put
+          secondary: Sporedni put
+          unclassified: Nekategorisani put
+          unsurfaced: Neasfaltirani put
+          track: Makadam
+          byway: Sporedni put
+          bridleway: Konjička staza
+          cycleway: Biciklistička staza
+          footway: Pešačka staza
+          rail: Železnička pruga
+          subway: Podzemna železnica
+          tram:
+            - Laka železnica
+            - tramvaj
+          cable:
+            - Žičara
+            - sedišnica
+          runway:
+            - Aerodromska pista
+            - rulne staze
+          apron:
+            - Aerodromski peron
+            - terminal
+          admin: Administrativna granica
+          forest: Šuma
+          wood: Šuma
+          golf: Golf teren
+          park: Park
+          resident: Stambeno područje
+          tourist: Turistička atrakcija
+          common:
+            - Poljana
+            - livada
+          retail: Maloprodajno područje
+          industrial: Industrijsko područje
+          commercial: Poslovno područje
+          heathland: Pustoš
+          lake:
+            - Jezero
+            - rezervoar
+          farm: Farma
+          brownfield: Građevinsko zemljište
+          cemetery: Groblje
+          allotments: Bašte
+          pitch: Sportsko igralište
+          centre: Sportski centar
+          reserve: Rezervat prirode
+          military: Vojno područje
+          school:
+            - Škola
+            - univerzitet
+          building: Značajna zgrada
+          station: Železnička stanica
+          summit:
+            - Uzvišenje
+            - vrh
+          tunnel: Isprekidan okvir – tunel
+          bridge: Crni okvir – most
+          private: Privatni posed
+          permissive: Pristup uz dozvolu
+          destination: Pristup odredištu
+          construction: Putevi u izgradnji
+    richtext_area:
+      edit: Uredi
+      preview: Pregled
+    markdown_help:
+      title_html: 'Raščlanjeno sa <a href="http://daringfireball.net/projects/markdown/">markdaunom</a>'
+      headings: Naslovi
+      heading: Naslov
+      subheading: Podnaslov
+      unordered: Nesvrstan spisak
+      ordered: Svrstan spisak
+      first: Prva stavka
+      second: Druga stavka
+      link: Veza
+      text: Tekst
+      image: Slika
+      alt: Rezervni tekst
+      url: Adresa
+  trace:
+    visibility:
+      private: >
+        Privatni (prikazuje se kao anonimne,
+        neraspoređene tačke)
+      public: >
+        Javni (prikazane u spisku tragova kao
+        anonimne, neraspoređene tačke)
+      trackable: >
+        Može se pratiti (prikazuje se kao
+        anonimne, poređane i datirane tačke)
+      identifiable: >
+        Može se prepoznati (prikazano u spisku
+        tragova kao javne, poređane i datirane
+        tačke)
+    create:
+      upload_trace: Otpremi GPS trag
+      trace_uploaded: >
+        GPX datoteka je otpremljena i čeka
+        ubacivanje u bazu. Ovo obično traje oko
+        pola sata, nakon čega ćete dobiti
+        obaveštenje o završetku.
+    edit:
+      title: 'Uređivanje traga %{name}'
+      heading: 'Uređivanje traga %{name}'
+      filename: 'Naziv datoteke:'
+      download: preuzmi
+      uploaded_at: 'Otpremljeno:'
+      points: 'Tačaka:'
+      start_coord: 'Početna koordinata:'
+      map: mapa
+      edit: uredi
+      owner: 'Vlasnik:'
+      description: 'Opis:'
+      tags: 'Oznake:'
+      tags_help: razdvojeno zapetama
+      save_button: Sačuvaj izmene
+      visibility: 'Vidljivost:'
+      visibility_help: šta ovo znači?
+      visibility_help_url: >
+        http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
+    trace_form:
+      upload_gpx: 'Otpremi GPX datoteku:'
+      description: 'Opis:'
+      tags: 'Oznake:'
+      tags_help: razdvojeno zapetama
+      visibility: 'Vidljivost:'
+      visibility_help: šta ovo znači?
+      visibility_help_url: >
+        http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
+      upload_button: Otpremi
+      help: Pomoć
+      help_url: >
+        http://wiki.openstreetmap.org/wiki/Upload?uselang=sr-ec
+    trace_header:
+      upload_trace: Otpremi trag
+      see_all_traces: Pogledaj sve tragove
+      see_your_traces: Pogledaj svoje tragove
+      traces_waiting: 'Imate %{count} tragova na čekanju za slanje. Sačekajte da se prvo oni završe pre otpremanja novih tragova, da ne biste blokirali druge korisnike.'
+    trace_optionals:
+      tags: Oznake
+    view:
+      title: 'Pregled traga %{name}'
+      heading: 'Pregled traga %{name}'
+      pending: NA_ČEKANJU
+      filename: 'Naziv datoteke:'
+      download: preuzmi
+      uploaded: 'Otpremljeno:'
+      points: 'Tačaka:'
+      start_coordinates: 'Početna koordinata:'
+      map: mapa
+      edit: uredi
+      owner: 'Vlasnik:'
+      description: 'Opis:'
+      tags: 'Oznake:'
+      none: ništa
+      edit_track: Uredi ovaj trag
+      delete_track: Obriši ovaj trag
+      trace_not_found: Trag nije pronađen.
+      visibility: 'Vidljivost:'
+    trace_paging_nav:
+      showing_page: 'Prikaz stranice %{page}'
+      older: Stariji tragovi
+      newer: Noviji tragovi
+    trace:
+      pending: NA_ČEKANJU
+      count_points: '%{count} tačaka'
+      ago: 'pre %{time_in_words_ago}'
+      more: više
+      trace_details: Pogledajte detalje o tragu
+      view_map: Pogledaj kartu
+      edit: uredi
+      edit_map: Uredi mapu
+      public: JAVNI
+      identifiable: MOŽE SE PREPOZNATI
+      private: PRIVATNI
+      trackable: MOŽE SE PRATITI
+      by: od
+      in: u
+      map: mapa
+    list:
+      public_traces: Javni GPS tragovi
+      your_traces: Vaši GPS tragovi
+      public_traces_from: 'Javni GPS tragovi korisnika %{user}'
+      tagged_with: ' označeni sa %{tags}'
+      empty_html: "Ovde još nema ništa. <a href='%{upload_link}'>Otpremite novi trag</a> ili saznajte više o GPS traganju na <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>viki stranici</a>."
+    delete:
+      scheduled_for_deletion: Trag postavljen za brisanje
+    make_public:
+      made_public: Javni trag
+    offline_warning:
+      message: >
+        Sistem za otpremanje GPX datoteka
+        trenutno nije dostupan
+    offline:
+      heading: GPX ostava je van mreže
+      message: >
+        GPX ostava i otpremanje trenutno nisu
+        dostupni.
+  application:
+    require_cookies:
+      cookies_needed: >
+        Izgleda da ste onemogućili kolačiće.
+        Omogućite ih pre nego što nastavite.
+    require_moderator:
+      not_a_moderator: >
+        Da biste izveli ovu radnju, treba da
+        budete moderator.
+    setup_user_auth:
+      blocked: >
+        Vaš pristup API-ju je blokiran.
+        Prijavite se da saznate više.
+      need_to_see_terms: >
+        Vaš pristup API-ju je privremeno
+        ukinut. Prijavite se da biste pogledali
+        uslove uređivanja. Ne morate da ih
+        prihvatite, već samo da ih vidite.
+  oauth:
+    oauthorize:
+      request_access: 'Program %{app_name} zahteva pristup vašem nalogu, %{user}. Odlučite se da li želite da mu ga omogućite. Možete izabrati bilo koji program.'
+      allow_to: 'Dozvoli programu da:'
       allow_read_prefs: čita vaše korisničke postavke.
-      allow_to: "Dozvoli programu da:"
-      allow_write_api: menja mapu.
-      allow_write_diary: pravi unose u dnevniku, komentariše i dodaje prijatelje.
-      allow_write_gpx: otprema GPS tragove.
       allow_write_prefs: menja vaše korisničke postavke.
-      request_access: Program %{app_name} zahteva pristup vašem nalogu, %{user}. Odlučite se da li želite da mu ga omogućite. Možete izabrati bilo koji program.
-    revoke: 
-      flash: Opozvali ste novčić za %{application}
-  oauth_clients: 
-    create: 
-      flash: Podaci su uspešno upisani
-    destroy: 
-      flash: Upis programa je ukinut
-    edit: 
-      submit: Uredi
+      allow_write_diary: >
+        pravi unose u dnevniku, komentariše i
+        dodaje prijatelje.
+      allow_write_api: menja mapu.
+      allow_read_gpx: čita vaše privatne GPS tragove.
+      allow_write_gpx: otprema GPS tragove.
+    revoke:
+      flash: 'Opozvali ste novčić za %{application}'
+  oauth_clients:
+    new:
+      title: Upiši novi program
+      submit: Otvori nalog
+    edit:
       title: Uredi program
-    form: 
-      allow_read_gpx: čitanje privatnih GPS tragova.
-      allow_read_prefs: čitanje korisničkih postavki.
-      allow_write_api: menjanje mape.
-      allow_write_diary: pravljenje unosa u dnevniku, komentarisanje i dodavanje prijatelja.
-      allow_write_gpx: otpremanje GPS tragova.
-      allow_write_prefs: menjanje korisničkih postavki.
-      callback_url: Povratna adresa
-      name: Ime
-      requests: "Zahtevaj sledeće dozvole od korisnika:"
-      required: Neophodno
-      support_url: Adresa podrške
-      url: Adresa glavnog programa
-    index: 
+      submit: Uredi
+    show:
+      title: 'OAuth detalji za %{app_name}'
+      key: 'Ključ potrošača:'
+      secret: 'Tajna potrošača:'
+      url: 'Adresa zahtevnog novčića:'
+      access_url: 'Adresa pristupnog novčića:'
+      authorize_url: 'Adresa ovlašćenja:'
+      support_notice: >
+        Podržavamo HMAC-SHA1, kao i običan
+        tekst u režimu SSL.
+      edit: Detalji izmene
+      delete: Obriši klijent
+      confirm: Jeste li sigurni?
+      requests: 'Zahtevanje sledećih dozvola od korisnika:'
+      allow_read_prefs: čita korisničke postavke.
+      allow_write_prefs: menja korisničke postavke.
+      allow_write_diary: >
+        pravi unose u dnevniku, komentariše i
+        dodaje prijatelje.
+      allow_write_api: menja mapu.
+      allow_read_gpx: čita privatne GPS tragove.
+      allow_write_gpx: otprema GPS tragove.
+    index:
+      title: OAuth detalji
+      my_tokens: Odobreni programi
+      list_tokens: 'Sledeći novčići su izdani programima na vaše ime:'
       application: Naziv programa
       issued_at: Izdano
-      list_tokens: "Sledeći novčići su izdani programima na vaše ime:"
-      my_apps: Programi
-      my_tokens: Odobreni programi
-      no_apps: Imate li program koji želite da koristite sa standardom %{oauth}? Morate upisati vaš program pre nego što on može da traži OAuth zahteve.
-      register_new: Upiši program
-      registered_apps: "Sledeći programi su upisani:"
       revoke: Opozovi
-      title: OAuth detalji
-    new: 
-      submit: Otvori nalog
-      title: Upiši novi program
-    not_found: 
-      sorry: Žao nam je, %{type} nije pronađen.
-    show: 
-      access_url: "Adresa pristupnog novčića:"
-      allow_read_gpx: čita privatne GPS tragove.
-      allow_read_prefs: čita korisničke postavke.
-      allow_write_api: menja mapu.
-      allow_write_diary: pravi unose u dnevniku, komentariše i dodaje prijatelje.
-      allow_write_gpx: otprema GPS tragove.
-      allow_write_prefs: menja korisničke postavke.
-      authorize_url: "Adresa ovlašćenja:"
-      confirm: Jeste li sigurni?
-      delete: Obriši klijent
-      edit: Detalji izmene
-      key: "Ključ potrošača:"
-      requests: "Zahtevanje sledećih dozvola od korisnika:"
-      secret: "Tajna potrošača:"
-      support_notice: Podržavamo HMAC-SHA1, kao i običan tekst u režimu SSL.
-      title: OAuth detalji za %{app_name}
-      url: "Adresa zahtevnog novčića:"
-    update: 
+      my_apps: Programi
+      no_apps: 'Imate li program koji želite da koristite sa standardom %{oauth}? Morate upisati vaš program pre nego što on može da traži OAuth zahteve.'
+      registered_apps: 'Sledeći programi su upisani:'
+      register_new: Upiši program
+    form:
+      name: Ime
+      required: Neophodno
+      url: Adresa glavnog programa
+      callback_url: Povratna adresa
+      support_url: Adresa podrške
+      requests: 'Zahtevaj sledeće dozvole od korisnika:'
+      allow_read_prefs: čitanje korisničkih postavki.
+      allow_write_prefs: menjanje korisničkih postavki.
+      allow_write_diary: >
+        pravljenje unosa u dnevniku,
+        komentarisanje i dodavanje prijatelja.
+      allow_write_api: menjanje mape.
+      allow_read_gpx: čitanje privatnih GPS tragova.
+      allow_write_gpx: otpremanje GPS tragova.
+    not_found:
+      sorry: 'Žao nam je, %{type} nije pronađen.'
+    create:
+      flash: Podaci su uspešno upisani
+    update:
       flash: Podaci o klijentu su uspešno ažurirani
-  printable_name: 
-    with_version: "%{id}, ver. %{version}"
-  redaction: 
-    create: 
-      flash: Redakcija je napravljena.
-    destroy: 
-      error: Došlo je do greške pri uklanjanju redakcije.
-      flash: Redakcija je uklonjena.
-      not_empty: Redakcija nije prazna. Poništite redigovanje svih verzija koje pripadaju ovoj redakciji pre nego što je uklonite.
-    edit: 
+    destroy:
+      flash: Upis programa je ukinut
+  user:
+    login:
+      title: Prijava
+      heading: Prijava
+      email or username: 'E-adresa ili korisničko ime:'
+      password: 'Lozinka:'
+      openid: '%{logo} OpenID:'
+      remember: 'Zapamti me:'
+      lost password link: Zaboravili ste lozinku?
+      login_button: Prijavi me
+      register now: Otvorite nalog
+      with username: 'Već imate nalog? Prijavite se s korisničkim imenom i lozinkom:'
+      with openid: 'Rezervni način je da koristite OpenID:'
+      new to osm: Novi ste na sajtu?
+      to make changes: >
+        Da biste pravili izmene, morate imati
+        nalog.
+      create account minute: >
+        Otvorite nalog. Potrebno je samo
+        nekoliko trenutaka.
+      no account: Nemate nalog?
+      account not active: 'Žao nam je, vaš nalog još uvek nije aktiviran. <br />Pratite vezu u poruci za potvrdu e-pošte da biste ga aktivirali ili <a href="%{reconfirm}">zatražite novu poruku</a>.'
+      account is suspended: 'Nažalost, vaš nalog je ukinut zbog sumnjive aktivnosti.<br />Obratite se <a href="%{webmaster}">administratoru</a> ako želite da porazgovarate o problemu.'
+      auth failure: >
+        Ne mogu da vas prijavim s unetim
+        podacima.
+      openid missing provider: >
+        Ne mogu da se povežem s OpenID
+        dobavljačem
+      openid invalid: Izgleda da OpenID nije ispravan
+      openid_logo_alt: Prijavite se s OpenID-jem
+      openid_providers:
+        openid:
+          title: Prijava putem OpenID-ja
+          alt: Prijavite se s OpenID-jem
+        google:
+          title: Prijava putem Gugla
+          alt: Prijavite se preko Gugla
+        yahoo:
+          title: Prijava putem Jahua
+          alt: Prijavite se preko Jahua
+        wordpress:
+          title: Prijava putem Vordpresa
+          alt: Prijavite se preko Vordpresa
+        aol:
+          title: Prijava putem AOL-a
+          alt: Prijavite se preko AOL-a
+    logout:
+      title: Odjava
+      heading: Odjava
+      logout_button: Odjavi me
+    lost_password:
+      title: Povratak lozinke
+      heading: Zaboravili ste lozinku?
+      email address: 'E-adresa:'
+      new password button: Poništi lozinku
+      help_text: >
+        Unesite e-adresu koju ste uneli pri
+        upisu, a mi ćemo vam poslati vezu
+        pomoću koje možete da poništite
+        lozinku.
+      notice email on way: >
+        Poruka za poništavanje lozinke je
+        poslata.
+      notice email cannot find: E-adresa nije pronađena.
+    reset_password:
+      title: Poništi lozinku
+      heading: 'Poništavanje lozinke za %{user}'
+      password: 'Lozinka:'
+      confirm password: 'Potvrdite lozinku:'
+      reset: Poništi lozinku
+      flash changed: Vaša lozinka je promenjena.
+      flash token bad: >
+        Takav novčić nije pronađen. Proverite
+        adresu.
+    new:
+      title: Otvaranje naloga
+      no_auto_account_create: >
+        Nažalost, trenutno nismo u mogućnosti
+        da otvorimo novi nalog.
+      contact_webmaster: 'Kontaktirajte <a href="mailto:webmaster@openstreetmap.org">administratora</a> za otvaranje novog naloga. Obradićemo zahtev što je pre moguće.'
+      license_agreement: 'Nakon što potvrdite nalog, moraćete da prihvatite <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">uslove uređivanja</a>.'
+      email address: 'E-adresa:'
+      confirm email address: 'Potvrdite e-adresu:'
+      not displayed publicly: 'Ne prikazuje se javno (pogledajte <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">politiku privatnosti</a>)'
+      display name: 'Ime prikaza:'
+      display name description: >
+        Javno prikazano korisničko ime. Kasnije
+        ga možete promeniti u postavkama.
+      openid: '%{logo} OpenID:'
+      password: 'Lozinka:'
+      confirm password: 'Potvrdite lozinku:'
+      use openid: 'Rezervni način je da koristite %{logo} OpenID'
+      openid no password: >
+        S OpenID-jem, lozinka nije potrebna, ali
+        neke dodatne alatke ipak zahtevaju
+        lozinku.
+      openid association: |
+        <p>Vaš OpenID nije povezan s nalogom na Openstritmapu.</p>
+        <ul>
+          <li>Ako još uvek nemate nalog, otvorite ga koristeći obrazac ispod.</li>
+          <li>
+            Ako imate nalog, prijavite se sa svojim korisničkim imenom
+            i lozinkom, pa ga onda povežite s OpenID-jem u postavkama.
+          </li>
+        </ul>
+      continue: Nastavi
+      terms accepted: >
+        Hvala vam što prihvatate nove uslove
+        uređivanja.
+      terms declined: 'Žao nam je što ste odlučili da ne prihvatite nove uslove uređivanja. Pogledajte <a href="%{url}">ovu stranicu</a> za više informacija.'
+      terms declined url: >
+        http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
+    terms:
+      title: Uslovi uređivanja
+      heading: Uslovi uređivanja
+      read and accept: >
+        Pročitajte ugovor ispod i pritisnite
+        dugme za potvrdu da biste prihvatili
+        uslove za postojeće i buduće
+        doprinose.
+      consider_pd: >
+        Prema gorenavedenom ugovoru, smatram da
+        moji doprinosi pripadaju javnom
+        vlasništvu
+      consider_pd_why: šta je ovo?
+      consider_pd_why_url: >
+        http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain?uselang=sr-ec
+      guidance: 'Podaci koji će vam pomoći da razumete ove uslove: <a href="%{summary}">kratak opis</a> i neki <a href="%{translations}">neformalni prevodi</a>'
+      agree: Prihvati
+      declined: >
+        http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
+      decline: Odbaci
+      you need to accept or decline: >
+        Molimo vas da pročitate ugovor pre nego
+        što ga prihvatite.
+      legale_select: 'Izaberite zemlju prebivališta:'
+      legale_names:
+        france: Francuska
+        italy: Italija
+        rest_of_world: Ostatak sveta
+    no_such_user:
+      title: Nema takvog korisnika
+      heading: 'Korisnik %{user} ne postoji'
+      body: 'Ne postoji korisnik s imenom %{user}. Proverite ispravnost upisa ili veze koju ste kliknuli.'
+    view:
+      my diary: moj dnevnik
+      new diary entry: novi unos u dnevniku
+      my edits: moje izmene
+      my traces: moji tragovi
+      my settings: moje postavke
+      my comments: moji komentari
+      oauth settings: oAuth postavke
+      blocks on me: blokiranja na mene
+      blocks by me: moja blokiranja
+      send message: pošalji poruku
+      diary: dnevnik
+      edits: izmene
+      traces: tragovi
+      remove as friend: ukloni kao prijatelja
+      add as friend: dodaj kao prijatelja
+      mapper since: 'Kartograf od:'
+      ago: '(pre %{time_in_words_ago})'
+      ct status: 'Uslovi za učešće:'
+      ct undecided: Neodlučeno
+      ct declined: Odbijeno
+      ct accepted: 'Prihvaćeno pre %{ago} dana'
+      latest edit: 'Poslednja izmena pre %{ago}:'
+      email address: 'E-adresa:'
+      created from: 'Napravljeno iz:'
+      status: 'Stanje:'
+      spam score: 'Ocena spama:'
+      description: Opis
+      user location: Boravište korisnika
+      if set location: 'Ako postavite svoju lokaciju, zgodna mapa će biti prikazana ispod. Možete je podesiti u %{settings_link}.'
+      settings_link_text: postavkama
+      your friends: Vaši prijatelji
+      no friends: Niste dodali nijednog prijatelja.
+      km away: 'udaljeno %{count} km'
+      m away: 'udaljeno %{count} m'
+      nearby users: 'Ostali obližnji korisnici:'
+      no nearby users: >
+        Još uvek nema obližnjih korisnika koji
+        mapiraju.
+      role:
+        administrator: Ovaj korisnik je administrator
+        moderator: Ovaj korisnik je urednik
+        grant:
+          administrator: Dodeli ovlašćenja administratora
+          moderator: Dodeli ovlašćenja urednika
+        revoke:
+          administrator: Opozovi ovlašćenja administratora
+          moderator: Opozovi ovlašćenja urednika
+      block_history: dobijene blokade
+      moderator_history: date blokade
+      comments: komentari
+      create_block: blokiraj ovog korisnika
+      activate_user: aktiviraj ovog korisnika
+      deactivate_user: deaktiviraj ovog korisnika
+      confirm_user: potvrdi ovog korisnika
+      hide_user: sakrij ovog korisnika
+      unhide_user: otkrij ovog korisnika
+      delete_user: obriši ovog korisnika
+      confirm: Potvrdi
+      friends_changesets: Sve izmene prijatelja
+      friends_diaries: >
+        Pregled svih zapisa u dnevniku
+        prijatelja
+      nearby_changesets: Pregled svih izmena okolnih korisnika
+      nearby_diaries: >
+        Pregled svih zapisa u dnevniku okolnih
+        korisnika
+    popup:
+      your location: Vaša lokacija
+      nearby mapper: Obližnji kartograf
+      friend: Prijatelj
+    account:
+      title: Uredi nalog
+      my settings: Postavke
+      current email address: 'Trenutna e-adresa:'
+      new email address: 'Nova e-adresa:'
+      email never displayed publicly: (nikada se ne prikazuje javno)
+      openid:
+        openid: 'OpenID:'
+        link: >
+          http://wiki.openstreetmap.org/wiki/OpenID
+        link text: šta je ovo?
+      public editing:
+        heading: 'Javno uređivanje:'
+        enabled: >
+          Omogućeno. Nije anonimno i mogu se
+          uređivati podaci.
+        enabled link: >
+          http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: šta je ovo?
+        disabled: >
+          Onemogućeno i ne mogu se uređivati
+          podaci. Sve prethodne izmene su
+          anonimne.
+        disabled link text: zašto ne mogu da uređujem?
+      public editing note:
+        heading: Javno uređivanje
+        text: 'Trenutno su vaše izmene anonimne i ljudi vam ne mogu slati poruke ili videti vašu lokaciju. Da biste pokazali vaše izmene i dozvolili ljudima da vas kontaktiraju, kliknite na dugme ispod. <b>Od promena API-ja 0.6, samo javni korisnici mogu uređivati mape</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">saznajte zašto</a>).<ul><li>Vaša e-adresa neće biti otkrivena na ovaj način.</li><li>Ova radnja ne može biti opozvana i svi novi korisnici su od sada postavljeni kao javni.</li></ul>'
+      contributor terms:
+        heading: 'Uslovi uređivanja:'
+        agreed: Prihvatili ste nove uslove uređivanja.
+        not yet agreed: >
+          Niste prihvatili nove uslove
+          uređivanja.
+        review link text: >
+          Pratite ovu vezu da biste pregledali i
+          prihvatili nove uslove uređivanja.
+        agreed_with_pd: >
+          Takođe se slažete da vaše izmene budu
+          u javnom vlasništvu.
+        link: >
+          http://www.osmfoundation.org/wiki/License/Contributor_Terms?uselang=sr-ec
+        link text: šta je ovo?
+      profile description: 'Opis profila:'
+      preferred languages: 'Željeni jezici:'
+      preferred editor: 'Željeni uređivač:'
+      image: 'Slika:'
+      new image: Dodaj sliku
+      keep image: Zadrži trenutnu sliku
+      delete image: Ukloni trenutnu sliku
+      replace image: Zameni trenutnu sliku
+      image size hint: >
+        (kvadratne slike od barem 100×100
+        piksela rade najbolje)
+      home location: 'Mesto stanovanja:'
+      no home location: Niste uneli mesto stanovanja.
+      latitude: 'Geografska širina:'
+      longitude: 'Geografska dužina:'
+      update home location on click: >
+        Ažurirati mesto stanovanja kada kliknem
+        na mapu?
+      save changes button: Sačuvaj izmene
+      make edits public button: Neka sve moje izmene budu javne
+      return to profile: Nazad na profil
+      flash update success confirm needed: >
+        Podaci o korisniku su uspešno
+        ažurirani. Proverite e-poštu da biste
+        potvrdili svoju novu e-adresu.
+      flash update success: >
+        Podaci o korisniku su uspešno
+        ažurirani.
+    confirm:
+      heading: Potvrda korisničkog naloga
+      press confirm button: >
+        Pritisnite dugme za potvrdu da biste
+        aktivirali nalog.
+      button: Potvrdi
+      already active: Ovaj nalog je već potvrđen.
+      unknown token: Izgleda da taj novčić ne postoji.
+    confirm_resend:
+      success: 'Poslali smo novu potvrdnu poruku na %{email}. Nakon što potvrdite svoj nalog, moći ćete da počnete s mapiranjem.<br /><br />Ako koristite sistem protiv nepoželjnih poruka, dodajte webmaster@openstreetmap.org u spisak dozvoljenih adresa jer nismo u mogućnosti da odgovorimo na bilo koji zahtev za potvrdu.'
+      failure: 'Korisnik %{name} nije pronađen.'
+    confirm_email:
+      heading: Potvrda promene e-adrese
+      press confirm button: >
+        Kliknite na dugme za potvrdu da biste
+        potvrdili svoju novu e-adresu.
+      button: Potvrdi
+      success: >
+        Vaša e-adresa je potvrđena. Hvala vam
+        na upisu!
+      failure: >
+        E-adresa s ovim novčićem je već
+        potvrđena.
+    set_home:
+      flash success: Mesto stanovanja je uspešno sačuvano
+    go_public:
+      flash success: >
+        Sve vaše izmene su sada javne.
+        Dozvoljeno vam je uređivanje.
+    make_friend:
+      heading: 'Dodati korisnika %{user} kao prijatelja?'
+      button: Dodaj kao prijatelja
+      success: '%{name} je sada vaš prijatelj.'
+      failed: 'Ne mogu da dodam %{name} kao prijatelja.'
+      already_a_friend: 'Već ste prijatelj sa %{name}.'
+    remove_friend:
+      heading: 'Ukloniti korisnika %{user} iz prijatelja?'
+      button: Ukloni iz prijatelja
+      success: '%{name} je izbačen iz prijatelja.'
+      not_a_friend: '%{name} nije vaš prijatelj.'
+    filter:
+      not_an_administrator: >
+        Treba da budete administrator da biste
+        izvršili ovu radnju.
+    list:
+      title: Korisnici
+      heading: Korisnici
+      showing:
+        one: 'Prikaz stranice %{page} (%{first_item} od %{items})'
+        other: 'Prikaz stranica %{page} (%{first_item}-%{last_item} od %{items})'
+      summary: '%{name} napravljeno od %{ip_address} dana %{date}'
+      summary_no_ip: '%{name} napravljeno %{date}'
+      confirm: Potvrdi izabrane korisnike
+      hide: Sakrij izabrane korisnike
+      empty: Nije pronađen nijedan korisnik
+    suspended:
+      title: Suspendovan nalog
+      heading: Suspendovan nalog
+      webmaster: administrator
+      body: |
+        <p>
+          Žao nam je, vaš nalog je privremeno ukinut
+          zbog sumnjive aktivnosti.
+        </p>
+        <p>
+          Ovu odluku će ubrzo razmotriti administrator. Takođe,
+          možete kontaktirati %{webmaster}a ako želite da se žalite.
+        </p>
+  user_role:
+    filter:
+      not_an_administrator: >
+        Samo administratori mogu da upravljaju
+        ulogama korisnika, a vi to niste.
+      not_a_role: '„%{role}“ nije ispravna uloga.'
+      already_has_role: 'Korisnik već ima ulogu %{role}.'
+      doesnt_have_role: 'Korisnik nema ulogu %{role}.'
+    grant:
+      title: Potvrda dodele uloge
+      heading: Potvrda dodele uloge
+      are_you_sure: 'Želite li da dodelite ulogu „%{role}“ korisniku %{name}?'
+      confirm: Potvrdi
+      fail: 'Ne mogu da dodelim ulogu „%{role}“ korisniku %{name}. Proverite da li su korisnik i uloga ispravni.'
+    revoke:
+      title: Potvrda oduzimanja uloge
+      heading: Potvrda oduzimanja uloge
+      are_you_sure: 'Želite li da oduzmete ulogu „%{role}“ od korisnika %{name}?'
+      confirm: Potvrdi
+      fail: 'Ne mogu da oduzmem ulogu „%{role}“ od korisnika %{name}. Proverite da li su korisnik i uloga ispravni.'
+  user_block:
+    model:
+      non_moderator_update: >
+        Morate biti urednik da biste postavljali
+        ili ažurirali blokadu.
+      non_moderator_revoke: >
+        Morate biti urednik da biste ukinuli
+        blokadu.
+    not_found:
+      sorry: 'Korisnička blokada s IB %{id} nije pronađena.'
+      back: Nazad na indeks
+    new:
+      title: 'Blokiranje %{name}'
+      heading: 'Blokiranje %{name}'
+      reason: 'Razlog zašto je %{name} blokiran/a. Budite razumni i pružite nam što više detalja. Imajte na umu da ne znaju svi korisnici žargon zajednice, te im pokušajte objasniti jednostavnim jezikom.'
+      period: >
+        Koliko dugo će korisnik biti blokiran
+        od API-ja, počev od sada.
+      submit: Napravi blokadu
+      tried_contacting: >
+        Kontaktirao sam korisnika i pitao ga da
+        prestane.
+      tried_waiting: >
+        Dao sam dovoljno vremena korisniku da
+        odgovori.
+      needs_view: >
+        Korisnik mora da se prijavi da bi
+        blokada bila uklonjena
+      back: Pogledaj sve blokade
+    edit:
+      title: 'Uređivanje blokade za %{name}'
+      heading: 'Uređivanje blokade za %{name}'
+      reason: 'Razlog zašto je %{name} blokiran/a. Budite razumni i pružite nam što više detalja. Imajte na umu da ne znaju svi korisnici žargon zajednice, te im pokušajte objasniti jednostavnim jezikom.'
+      period: >
+        Koliko dugo će korisnik biti blokiran
+        od API-ja, počev od sada.
+      submit: Ažuriraj blokadu
+      show: Pogledaj ovu blokadu
+      back: Pogledaj sve blokade
+      needs_view: >
+        Da li korisnik mora da se prijavi da bi
+        blokada bila uklonjena?
+    filter:
+      block_expired: >
+        Blokada je već istekla i ne može se
+        uređivati.
+      block_period: >
+        Period blokade mora biti jedna od
+        vrednosti iz padajućeg spiska.
+    create:
+      try_contacting: >
+        Kontaktirajte korisnika pre blokiranja
+        da biste mu dali dovoljno vremena da
+        odgovori.
+      try_waiting: >
+        Dajte korisniku dovoljno vremena da
+        odgovori pre nego što ga blokirate.
+      flash: 'Blokiraj korisnika %{name}.'
+    update:
+      only_creator_can_edit: >
+        Samo urednik koji je napravio ovu
+        blokadu može da je uredi.
+      success: Blokada je ažurirana.
+    index:
+      title: Korisničke blokade
+      heading: Spisak korisničkih blokada
+      empty: Nije napravljena nijedna blokada.
+    revoke:
+      title: 'Opozivanje blokade na %{block_on}'
+      heading: 'Opozivanje blokade na %{block_on} od %{block_by}'
+      time_future: 'Ova blokada će se završiti za %{time}.'
+      past: 'Ova blokada je završena pre %{time} i ne može se sada opozvati.'
+      confirm: Želite li da opozovete ovu blokadu?
+      revoke: Opozovi
+      flash: Ova blokada je opozvana.
+    period:
+      one: 1 sat
+      other: '%{count} sata'
+    partial:
+      show: Prikaži
+      edit: Uredi
+      revoke: Opozovi
+      confirm: Jeste li sigurni?
+      display_name: Blokirani korisnik
+      creator_name: Tvorac
+      reason: Razlozi za blokiranje
+      status: Stanje
+      revoker_name: Opozvao
+      not_revoked: (nije opozvano)
+      showing_page: 'Prikaz stranice %{page}'
+      next: Sledeće »
+      previous: « Prethodno
+    helper:
+      time_future: 'Završava se u %{time}.'
+      until_login: Aktivno sve dok se korisnik ne prijavi.
+      time_past: 'Završeno pre %{time}.'
+    blocks_on:
+      title: 'Blokade za %{name}'
+      heading: 'Spisak blokada za %{name}'
+      empty: '%{name} još nije bio blokiran/a.'
+    blocks_by:
+      title: 'Blokade od %{name}'
+      heading: 'Spisak blokada od %{name}'
+      empty: '%{name} još uvek nije blokirao nikoga.'
+    show:
+      title: '%{block_on} je blokiran/a od %{block_by}'
+      heading: '%{block_on} je blokiran/a od %{block_by}'
+      time_future: 'Završava se u %{time}'
+      time_past: 'Završeno pre %{time}'
+      status: Stanje
+      show: Prikaži
+      edit: Uredi
+      revoke: Opozovi
+      confirm: Jeste li sigurni?
+      reason: 'Razlog za blokiranje:'
+      back: Pogledaj sve blokade
+      revoker: 'Opozivalac:'
+      needs_view: >
+        Korisnik mora da se prijavi da bi
+        blokada bila uklonjena.
+  javascripts:
+    map:
+      base:
+        standard: Standardna
+        cycle_map: Biciklistička mapa
+        transport_map: Saobraćajna mapa
+        mapquest: Mapkvest open
+    site:
+      edit_tooltip: Uredite mapu
+      edit_disabled_tooltip: Uvećajte prikaz da biste uredili mapu
+  redaction:
+    edit:
       description: Opis
       heading: Uredi redakciju
       submit: Sačuvaj redakciju
       title: Uređivanje redakcije
-    index: 
+    index:
       empty: Nema redakcija.
       heading: Spisak redakcija
       title: Spisak redakcija
-    new: 
+    new:
       description: Opis
       heading: Unesite podatke za novu redakciju
       submit: Napravi redakciju
       title: Pravljenje nove redakcije
-    show: 
-      confirm: Jeste li sigurni?
-      description: "Opis:"
-      destroy: Ukloni ovu redakciju
-      edit: Uredi ovu redakciju
-      heading: Prikaz redakcije „%{title}“
+    show:
+      description: 'Opis:'
+      heading: 'Prikaz redakcije „%{title}“'
       title: Prikaz redakcije
-      user: "Tvorac:"
-    update: 
+      user: 'Tvorac:'
+      edit: Uredi ovu redakciju
+      destroy: Ukloni ovu redakciju
+      confirm: Jeste li sigurni?
+    create:
+      flash: Redakcija je napravljena.
+    update:
       flash: Izmene su sačuvane.
-  site: 
-    edit: 
-      anon_edits: (%{link})
-      anon_edits_link_text: Saznajte zašto je to slučaj.
-      flash_player_required: Potreban vam je fleš plejer da biste koristili uređivač mapa. Preuzmite ga <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">odavde</a>. Dostupne su i <a href="http://wiki.openstreetmap.org/wiki/Editing">neke druge mogućnosti</a> za uređivanje Openstritmapa.
-      no_iframe_support: Vaš pregledač ne podržava HTML iframes, a oni su potrebni za ovu mogućnost.
-      not_public: Niste podesili da vaše izmene budu javne.
-      not_public_description: Ne možete uređivati mapu sve dok to ne uradite. Možete podesiti da vaše izmene budu javne s %{user_page}.
-      potlatch2_not_configured: Potlač 2 nije podešen. Pogledajte http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 za više informacija
-      potlatch2_unsaved_changes: Niste sačuvali izmene. Da biste to uradili, kliknite na dugme za čuvanje.
-      potlatch_unsaved_changes: Niste sačuvali izmene. Da biste to uradili, poništite tekuću putanju ili tačku, ako uređujete naživo, ili kliknite na dugme za čuvanje.
-      user_page_link: korisničke stranice
-    index: 
-      js_1: Koristite pregledač koji ne podržava javaskript ili ste ga onemogućili.
-      js_2: Openstritmap koristi javaskript za prikazivanje mapa.
-      permalink: Trajna veza
-      remote_failed: Uređivanje nije uspelo. Proverite da li je JOSM ili Merkaartor učitan i da je mogućnost daljinskog upravljanja omogućena
-      shortlink: Kratka veza
-    key: 
-      table: 
-        entry: 
-          admin: Administrativna granica
-          allotments: Bašte
-          apron: 
-            - Aerodromski peron
-            - terminal
-          bridge: Crni okvir – most
-          bridleway: Konjička staza
-          brownfield: Građevinsko zemljište
-          building: Značajna zgrada
-          byway: Sporedni put
-          cable: 
-            - Žičara
-            - sedišnica
-          cemetery: Groblje
-          centre: Sportski centar
-          commercial: Poslovno područje
-          common: 
-            - Poljana
-            - livada
-          construction: Putevi u izgradnji
-          cycleway: Biciklistička staza
-          destination: Pristup odredištu
-          farm: Farma
-          footway: Pešačka staza
-          forest: Šuma
-          golf: Golf teren
-          heathland: Pustoš
-          industrial: Industrijsko područje
-          lake: 
-            - Jezero
-            - rezervoar
-          military: Vojno područje
-          motorway: Auto-put
-          park: Park
-          permissive: Pristup uz dozvolu
-          pitch: Sportsko igralište
-          primary: Glavni put
-          private: Privatni posed
-          rail: Železnička pruga
-          reserve: Rezervat prirode
-          resident: Stambeno područje
-          retail: Maloprodajno područje
-          runway: 
-            - Aerodromska pista
-            - rulne staze
-          school: 
-            - Škola
-            - univerzitet
-          secondary: Sporedni put
-          station: Železnička stanica
-          subway: Podzemna železnica
-          summit: 
-            - Uzvišenje
-            - vrh
-          tourist: Turistička atrakcija
-          track: Makadam
-          tram: 
-            - Laka železnica
-            - tramvaj
-          trunk: Magistralni put
-          tunnel: Isprekidan okvir – tunel
-          unclassified: Nekategorisani put
-          unsurfaced: Neasfaltirani put
-          wood: Šuma
-    markdown_help: 
-      alt: Rezervni tekst
-      first: Prva stavka
-      heading: Naslov
-      headings: Naslovi
-      image: Slika
-      link: Veza
-      ordered: Svrstan spisak
-      second: Druga stavka
-      subheading: Podnaslov
-      text: Tekst
-      title_html: Raščlanjeno sa <a href="http://daringfireball.net/projects/markdown/">markdaunom</a>
-      unordered: Nesvrstan spisak
-      url: Adresa
-    richtext_area: 
-      edit: Uredi
-      preview: Pregled
-    search: 
-      search: Pretraga
-      submit_text: Idi
-      where_am_i: Gde sam?
-      where_am_i_title: Ustanovite trenutnu lokaciju pomoću pretraživača
-    sidebar: 
-      close: Zatvori
-      search_results: Rezultati pretrage
-  time: 
-    formats: 
-      friendly: "%e %B %Y u %H:%M"
-  trace: 
-    create: 
-      trace_uploaded: GPX datoteka je otpremljena i čeka ubacivanje u bazu. Ovo obično traje oko pola sata, nakon čega ćete dobiti obaveštenje o završetku.
-      upload_trace: Otpremi GPS trag
-    delete: 
-      scheduled_for_deletion: Trag postavljen za brisanje
-    edit: 
-      description: "Opis:"
-      download: preuzmi
-      edit: uredi
-      filename: "Naziv datoteke:"
-      heading: Uređivanje traga %{name}
-      map: mapa
-      owner: "Vlasnik:"
-      points: "Tačaka:"
-      save_button: Sačuvaj izmene
-      start_coord: "Početna koordinata:"
-      tags: "Oznake:"
-      tags_help: razdvojeno zapetama
-      title: Uređivanje traga %{name}
-      uploaded_at: "Otpremljeno:"
-      visibility: "Vidljivost:"
-      visibility_help: šta ovo znači?
-      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
-    list: 
-      empty_html: Ovde još nema ništa. <a href='%{upload_link}'>Otpremite novi trag</a> ili saznajte više o GPS traganju na <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>viki stranici</a>.
-      public_traces: Javni GPS tragovi
-      public_traces_from: Javni GPS tragovi korisnika %{user}
-      tagged_with: " označeni sa %{tags}"
-      your_traces: Vaši GPS tragovi
-    make_public: 
-      made_public: Javni trag
-    offline: 
-      heading: GPX ostava je van mreže
-      message: GPX ostava i otpremanje trenutno nisu dostupni.
-    offline_warning: 
-      message: Sistem za otpremanje GPX datoteka trenutno nije dostupan
-    trace: 
-      ago: pre %{time_in_words_ago}
-      by: od
-      count_points: "%{count} tačaka"
-      edit: uredi
-      edit_map: Uredi mapu
-      identifiable: MOŽE SE PREPOZNATI
-      in: u
-      map: mapa
-      more: više
-      pending: NA_ČEKANJU
-      private: PRIVATNI
-      public: JAVNI
-      trace_details: Pogledajte detalje o tragu
-      trackable: MOŽE SE PRATITI
-      view_map: Pogledaj kartu
-    trace_form: 
-      description: "Opis:"
-      help: Pomoć
-      help_url: http://wiki.openstreetmap.org/wiki/Upload?uselang=sr-ec
-      tags: "Oznake:"
-      tags_help: razdvojeno zapetama
-      upload_button: Otpremi
-      upload_gpx: "Otpremi GPX datoteku:"
-      visibility: "Vidljivost:"
-      visibility_help: šta ovo znači?
-      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=sr-ec
-    trace_header: 
-      see_all_traces: Pogledaj sve tragove
-      see_your_traces: Pogledaj svoje tragove
-      traces_waiting: Imate %{count} tragova na čekanju za slanje. Sačekajte da se prvo oni završe pre otpremanja novih tragova, da ne biste blokirali druge korisnike.
-      upload_trace: Otpremi trag
-    trace_optionals: 
-      tags: Oznake
-    trace_paging_nav: 
-      newer: Noviji tragovi
-      older: Stariji tragovi
-      showing_page: Prikaz stranice %{page}
-    view: 
-      delete_track: Obriši ovaj trag
-      description: "Opis:"
-      download: preuzmi
-      edit: uredi
-      edit_track: Uredi ovaj trag
-      filename: "Naziv datoteke:"
-      heading: Pregled traga %{name}
-      map: mapa
-      none: ništa
-      owner: "Vlasnik:"
-      pending: NA_ČEKANJU
-      points: "Tačaka:"
-      start_coordinates: "Početna koordinata:"
-      tags: "Oznake:"
-      title: Pregled traga %{name}
-      trace_not_found: Trag nije pronađen.
-      uploaded: "Otpremljeno:"
-      visibility: "Vidljivost:"
-    visibility: 
-      identifiable: Može se prepoznati (prikazano u spisku tragova kao javne, poređane i datirane tačke)
-      private: Privatni (prikazuje se kao anonimne, neraspoređene tačke)
-      public: Javni (prikazane u spisku tragova kao anonimne, neraspoređene tačke)
-      trackable: Može se pratiti (prikazuje se kao anonimne, poređane i datirane tačke)
-  user: 
-    account: 
-      contributor terms: 
-        agreed: Prihvatili ste nove uslove uređivanja.
-        agreed_with_pd: Takođe se slažete da vaše izmene budu u javnom vlasništvu.
-        heading: "Uslovi uređivanja:"
-        link: http://www.osmfoundation.org/wiki/License/Contributor_Terms?uselang=sr-ec
-        link text: šta je ovo?
-        not yet agreed: Niste prihvatili nove uslove uređivanja.
-        review link text: Pratite ovu vezu da biste pregledali i prihvatili nove uslove uređivanja.
-      current email address: "Trenutna e-adresa:"
-      delete image: Ukloni trenutnu sliku
-      email never displayed publicly: (nikada se ne prikazuje javno)
-      flash update success: Podaci o korisniku su uspešno ažurirani.
-      flash update success confirm needed: Podaci o korisniku su uspešno ažurirani. Proverite e-poštu da biste potvrdili svoju novu e-adresu.
-      home location: "Mesto stanovanja:"
-      image: "Slika:"
-      image size hint: (kvadratne slike od barem 100×100 piksela rade najbolje)
-      keep image: Zadrži trenutnu sliku
-      latitude: "Geografska širina:"
-      longitude: "Geografska dužina:"
-      make edits public button: Neka sve moje izmene budu javne
-      my settings: Postavke
-      new email address: "Nova e-adresa:"
-      new image: Dodaj sliku
-      no home location: Niste uneli mesto stanovanja.
-      openid: 
-        link: http://wiki.openstreetmap.org/wiki/OpenID
-        link text: šta je ovo?
-        openid: "OpenID:"
-      preferred editor: "Željeni uređivač:"
-      preferred languages: "Željeni jezici:"
-      profile description: "Opis profila:"
-      public editing: 
-        disabled: Onemogućeno i ne mogu se uređivati podaci. Sve prethodne izmene su anonimne.
-        disabled link text: zašto ne mogu da uređujem?
-        enabled: Omogućeno. Nije anonimno i mogu se uređivati podaci.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: šta je ovo?
-        heading: "Javno uređivanje:"
-      public editing note: 
-        heading: Javno uređivanje
-        text: Trenutno su vaše izmene anonimne i ljudi vam ne mogu slati poruke ili videti vašu lokaciju. Da biste pokazali vaše izmene i dozvolili ljudima da vas kontaktiraju, kliknite na dugme ispod. <b>Od promena API-ja 0.6, samo javni korisnici mogu uređivati mape</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">saznajte zašto</a>).<ul><li>Vaša e-adresa neće biti otkrivena na ovaj način.</li><li>Ova radnja ne može biti opozvana i svi novi korisnici su od sada postavljeni kao javni.</li></ul>
-      replace image: Zameni trenutnu sliku
-      return to profile: Nazad na profil
-      save changes button: Sačuvaj izmene
-      title: Uredi nalog
-      update home location on click: Ažurirati mesto stanovanja kada kliknem na mapu?
-    confirm: 
-      already active: Ovaj nalog je već potvrđen.
-      button: Potvrdi
-      heading: Potvrda korisničkog naloga
-      press confirm button: Pritisnite dugme za potvrdu da biste aktivirali nalog.
-      unknown token: Izgleda da taj novčić ne postoji.
-    confirm_email: 
-      button: Potvrdi
-      failure: E-adresa s ovim novčićem je već potvrđena.
-      heading: Potvrda promene e-adrese
-      press confirm button: Kliknite na dugme za potvrdu da biste potvrdili svoju novu e-adresu.
-      success: Vaša e-adresa je potvrđena. Hvala vam na upisu!
-    confirm_resend: 
-      failure: Korisnik %{name} nije pronađen.
-      success: Poslali smo novu potvrdnu poruku na %{email}. Nakon što potvrdite svoj nalog, moći ćete da počnete s mapiranjem.<br /><br />Ako koristite sistem protiv nepoželjnih poruka, dodajte webmaster@openstreetmap.org u spisak dozvoljenih adresa jer nismo u mogućnosti da odgovorimo na bilo koji zahtev za potvrdu.
-    filter: 
-      not_an_administrator: Treba da budete administrator da biste izvršili ovu radnju.
-    go_public: 
-      flash success: Sve vaše izmene su sada javne. Dozvoljeno vam je uređivanje.
-    list: 
-      confirm: Potvrdi izabrane korisnike
-      empty: Nije pronađen nijedan korisnik
-      heading: Korisnici
-      hide: Sakrij izabrane korisnike
-      showing: 
-        one: Prikaz stranice %{page} (%{first_item} od %{items})
-        other: Prikaz stranica %{page} (%{first_item}-%{last_item} od %{items})
-      summary: "%{name} napravljeno od %{ip_address} dana %{date}"
-      summary_no_ip: "%{name} napravljeno %{date}"
-      title: Korisnici
-    login: 
-      account is suspended: Nažalost, vaš nalog je ukinut zbog sumnjive aktivnosti.<br />Obratite se <a href="%{webmaster}">administratoru</a> ako želite da porazgovarate o problemu.
-      account not active: Žao nam je, vaš nalog još uvek nije aktiviran. <br />Pratite vezu u poruci za potvrdu e-pošte da biste ga aktivirali ili <a href="%{reconfirm}">zatražite novu poruku</a>.
-      auth failure: Ne mogu da vas prijavim s unetim podacima.
-      create account minute: Otvorite nalog. Potrebno je samo nekoliko trenutaka.
-      email or username: "E-adresa ili korisničko ime:"
-      heading: Prijava
-      login_button: Prijavi me
-      lost password link: Zaboravili ste lozinku?
-      new to osm: Novi ste na sajtu?
-      no account: Nemate nalog?
-      openid: "%{logo} OpenID:"
-      openid invalid: Izgleda da OpenID nije ispravan
-      openid missing provider: Ne mogu da se povežem s OpenID dobavljačem
-      openid_logo_alt: Prijavite se s OpenID-jem
-      openid_providers: 
-        aol: 
-          alt: Prijavite se preko AOL-a
-          title: Prijava putem AOL-a
-        google: 
-          alt: Prijavite se preko Gugla
-          title: Prijava putem Gugla
-        openid: 
-          alt: Prijavite se s OpenID-jem
-          title: Prijava putem OpenID-ja
-        wordpress: 
-          alt: Prijavite se preko Vordpresa
-          title: Prijava putem Vordpresa
-        yahoo: 
-          alt: Prijavite se preko Jahua
-          title: Prijava putem Jahua
-      password: "Lozinka:"
-      register now: Otvorite nalog
-      remember: "Zapamti me:"
-      title: Prijava
-      to make changes: Da biste pravili izmene, morate imati nalog.
-      with openid: "Rezervni način je da koristite OpenID:"
-      with username: "Već imate nalog? Prijavite se s korisničkim imenom i lozinkom:"
-    logout: 
-      heading: Odjava
-      logout_button: Odjavi me
-      title: Odjava
-    lost_password: 
-      email address: "E-adresa:"
-      heading: Zaboravili ste lozinku?
-      help_text: Unesite e-adresu koju ste uneli pri upisu, a mi ćemo vam poslati vezu pomoću koje možete da poništite lozinku.
-      new password button: Poništi lozinku
-      notice email cannot find: E-adresa nije pronađena.
-      notice email on way: Poruka za poništavanje lozinke je poslata.
-      title: Povratak lozinke
-    make_friend: 
-      already_a_friend: Već ste prijatelj sa %{name}.
-      button: Dodaj kao prijatelja
-      failed: Ne mogu da dodam %{name} kao prijatelja.
-      heading: Dodati korisnika %{user} kao prijatelja?
-      success: "%{name} je sada vaš prijatelj."
-    new: 
-      confirm email address: "Potvrdite e-adresu:"
-      confirm password: "Potvrdite lozinku:"
-      contact_webmaster: Kontaktirajte <a href="mailto:webmaster@openstreetmap.org">administratora</a> za otvaranje novog naloga. Obradićemo zahtev što je pre moguće.
-      continue: Nastavi
-      display name: "Ime prikaza:"
-      display name description: Javno prikazano korisničko ime. Kasnije ga možete promeniti u postavkama.
-      email address: "E-adresa:"
-      license_agreement: Nakon što potvrdite nalog, moraćete da prihvatite <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">uslove uređivanja</a>.
-      no_auto_account_create: Nažalost, trenutno nismo u mogućnosti da otvorimo novi nalog.
-      not displayed publicly: Ne prikazuje se javno (pogledajte <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">politiku privatnosti</a>)
-      openid: "%{logo} OpenID:"
-      openid association: "<p>Vaš OpenID nije povezan s nalogom na Openstritmapu.</p>\n<ul>\n  <li>Ako još uvek nemate nalog, otvorite ga koristeći obrazac ispod.</li>\n  <li>\n    Ako imate nalog, prijavite se sa svojim korisničkim imenom\n    i lozinkom, pa ga onda povežite s OpenID-jem u postavkama.\n  </li>\n</ul>"
-      openid no password: S OpenID-jem, lozinka nije potrebna, ali neke dodatne alatke ipak zahtevaju lozinku.
-      password: "Lozinka:"
-      terms accepted: Hvala vam što prihvatate nove uslove uređivanja.
-      terms declined: Žao nam je što ste odlučili da ne prihvatite nove uslove uređivanja. Pogledajte <a href="%{url}">ovu stranicu</a> za više informacija.
-      terms declined url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
-      title: Otvaranje naloga
-      use openid: Rezervni način je da koristite %{logo} OpenID
-    no_such_user: 
-      body: Ne postoji korisnik s imenom %{user}. Proverite ispravnost upisa ili veze koju ste kliknuli.
-      heading: Korisnik %{user} ne postoji
-      title: Nema takvog korisnika
-    popup: 
-      friend: Prijatelj
-      nearby mapper: Obližnji kartograf
-      your location: Vaša lokacija
-    remove_friend: 
-      button: Ukloni iz prijatelja
-      heading: Ukloniti korisnika %{user} iz prijatelja?
-      not_a_friend: "%{name} nije vaš prijatelj."
-      success: "%{name} je izbačen iz prijatelja."
-    reset_password: 
-      confirm password: "Potvrdite lozinku:"
-      flash changed: Vaša lozinka je promenjena.
-      flash token bad: Takav novčić nije pronađen. Proverite adresu.
-      heading: Poništavanje lozinke za %{user}
-      password: "Lozinka:"
-      reset: Poništi lozinku
-      title: Poništi lozinku
-    set_home: 
-      flash success: Mesto stanovanja je uspešno sačuvano
-    suspended: 
-      body: "<p>\n  Žao nam je, vaš nalog je privremeno ukinut\n  zbog sumnjive aktivnosti.\n</p>\n<p>\n  Ovu odluku će ubrzo razmotriti administrator. Takođe,\n  možete kontaktirati %{webmaster}a ako želite da se žalite.\n</p>"
-      heading: Suspendovan nalog
-      title: Suspendovan nalog
-      webmaster: administrator
-    terms: 
-      agree: Prihvati
-      consider_pd: Prema gorenavedenom ugovoru, smatram da moji doprinosi pripadaju javnom vlasništvu
-      consider_pd_why: šta je ovo?
-      consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain?uselang=sr-ec
-      decline: Odbaci
-      declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined?uselang=sr-ec
-      guidance: "Podaci koji će vam pomoći da razumete ove uslove: <a href=\"%{summary}\">kratak opis</a> i neki <a href=\"%{translations}\">neformalni prevodi</a>"
-      heading: Uslovi uređivanja
-      legale_names: 
-        france: Francuska
-        italy: Italija
-        rest_of_world: Ostatak sveta
-      legale_select: "Izaberite zemlju prebivališta:"
-      read and accept: Pročitajte ugovor ispod i pritisnite dugme za potvrdu da biste prihvatili uslove za postojeće i buduće doprinose.
-      title: Uslovi uređivanja
-      you need to accept or decline: Molimo vas da pročitate ugovor pre nego što ga prihvatite.
-    view: 
-      activate_user: aktiviraj ovog korisnika
-      add as friend: dodaj kao prijatelja
-      ago: (pre %{time_in_words_ago})
-      block_history: dobijene blokade
-      blocks by me: moja blokiranja
-      blocks on me: blokiranja na mene
-      comments: komentari
-      confirm: Potvrdi
-      confirm_user: potvrdi ovog korisnika
-      create_block: blokiraj ovog korisnika
-      created from: "Napravljeno iz:"
-      ct accepted: Prihvaćeno pre %{ago} dana
-      ct declined: Odbijeno
-      ct status: "Uslovi za učešće:"
-      ct undecided: Neodlučeno
-      deactivate_user: deaktiviraj ovog korisnika
-      delete_user: obriši ovog korisnika
-      description: Opis
-      diary: dnevnik
-      edits: izmene
-      email address: "E-adresa:"
-      friends_changesets: Sve izmene prijatelja
-      friends_diaries: Pregled svih zapisa u dnevniku prijatelja
-      hide_user: sakrij ovog korisnika
-      if set location: Ako postavite svoju lokaciju, zgodna mapa će biti prikazana ispod. Možete je podesiti u %{settings_link}.
-      km away: udaljeno %{count} km
-      latest edit: "Poslednja izmena pre %{ago}:"
-      m away: udaljeno %{count} m
-      mapper since: "Kartograf od:"
-      moderator_history: date blokade
-      my comments: moji komentari
-      my diary: moj dnevnik
-      my edits: moje izmene
-      my settings: moje postavke
-      my traces: moji tragovi
-      nearby users: "Ostali obližnji korisnici:"
-      nearby_changesets: Pregled svih izmena okolnih korisnika
-      nearby_diaries: Pregled svih zapisa u dnevniku okolnih korisnika
-      new diary entry: novi unos u dnevniku
-      no friends: Niste dodali nijednog prijatelja.
-      no nearby users: Još uvek nema obližnjih korisnika koji mapiraju.
-      oauth settings: oAuth postavke
-      remove as friend: ukloni kao prijatelja
-      role: 
-        administrator: Ovaj korisnik je administrator
-        grant: 
-          administrator: Dodeli ovlašćenja administratora
-          moderator: Dodeli ovlašćenja urednika
-        moderator: Ovaj korisnik je urednik
-        revoke: 
-          administrator: Opozovi ovlašćenja administratora
-          moderator: Opozovi ovlašćenja urednika
-      send message: pošalji poruku
-      settings_link_text: postavkama
-      spam score: "Ocena spama:"
-      status: "Stanje:"
-      traces: tragovi
-      unhide_user: otkrij ovog korisnika
-      user location: Boravište korisnika
-      your friends: Vaši prijatelji
-  user_block: 
-    blocks_by: 
-      empty: "%{name} još uvek nije blokirao nikoga."
-      heading: Spisak blokada od %{name}
-      title: Blokade od %{name}
-    blocks_on: 
-      empty: "%{name} još nije bio blokiran/a."
-      heading: Spisak blokada za %{name}
-      title: Blokade za %{name}
-    create: 
-      flash: Blokiraj korisnika %{name}.
-      try_contacting: Kontaktirajte korisnika pre blokiranja da biste mu dali dovoljno vremena da odgovori.
-      try_waiting: Dajte korisniku dovoljno vremena da odgovori pre nego što ga blokirate.
-    edit: 
-      back: Pogledaj sve blokade
-      heading: Uređivanje blokade za %{name}
-      needs_view: Da li korisnik mora da se prijavi da bi blokada bila uklonjena?
-      period: Koliko dugo će korisnik biti blokiran od API-ja, počev od sada.
-      reason: Razlog zašto je %{name} blokiran/a. Budite razumni i pružite nam što više detalja. Imajte na umu da ne znaju svi korisnici žargon zajednice, te im pokušajte objasniti jednostavnim jezikom.
-      show: Pogledaj ovu blokadu
-      submit: Ažuriraj blokadu
-      title: Uređivanje blokade za %{name}
-    filter: 
-      block_expired: Blokada je već istekla i ne može se uređivati.
-      block_period: Period blokade mora biti jedna od vrednosti iz padajućeg spiska.
-    helper: 
-      time_future: Završava se u %{time}.
-      time_past: Završeno pre %{time}.
-      until_login: Aktivno sve dok se korisnik ne prijavi.
-    index: 
-      empty: Nije napravljena nijedna blokada.
-      heading: Spisak korisničkih blokada
-      title: Korisničke blokade
-    model: 
-      non_moderator_revoke: Morate biti urednik da biste ukinuli blokadu.
-      non_moderator_update: Morate biti urednik da biste postavljali ili ažurirali blokadu.
-    new: 
-      back: Pogledaj sve blokade
-      heading: Blokiranje %{name}
-      needs_view: Korisnik mora da se prijavi da bi blokada bila uklonjena
-      period: Koliko dugo će korisnik biti blokiran od API-ja, počev od sada.
-      reason: Razlog zašto je %{name} blokiran/a. Budite razumni i pružite nam što više detalja. Imajte na umu da ne znaju svi korisnici žargon zajednice, te im pokušajte objasniti jednostavnim jezikom.
-      submit: Napravi blokadu
-      title: Blokiranje %{name}
-      tried_contacting: Kontaktirao sam korisnika i pitao ga da prestane.
-      tried_waiting: Dao sam dovoljno vremena korisniku da odgovori.
-    not_found: 
-      back: Nazad na indeks
-      sorry: Korisnička blokada s IB %{id} nije pronađena.
-    partial: 
-      confirm: Jeste li sigurni?
-      creator_name: Tvorac
-      display_name: Blokirani korisnik
-      edit: Uredi
-      next: Sledeće »
-      not_revoked: (nije opozvano)
-      previous: « Prethodno
-      reason: Razlozi za blokiranje
-      revoke: Opozovi
-      revoker_name: Opozvao
-      show: Prikaži
-      showing_page: Prikaz stranice %{page}
-      status: Stanje
-    period: 
-      one: 1 sat
-      other: "%{count} sata"
-    revoke: 
-      confirm: Želite li da opozovete ovu blokadu?
-      flash: Ova blokada je opozvana.
-      heading: Opozivanje blokade na %{block_on} od %{block_by}
-      past: Ova blokada je završena pre %{time} i ne može se sada opozvati.
-      revoke: Opozovi
-      time_future: Ova blokada će se završiti za %{time}.
-      title: Opozivanje blokade na %{block_on}
-    show: 
-      back: Pogledaj sve blokade
-      confirm: Jeste li sigurni?
-      edit: Uredi
-      heading: "%{block_on} je blokiran/a od %{block_by}"
-      needs_view: Korisnik mora da se prijavi da bi blokada bila uklonjena.
-      reason: "Razlog za blokiranje:"
-      revoke: Opozovi
-      revoker: "Opozivalac:"
-      show: Prikaži
-      status: Stanje
-      time_future: Završava se u %{time}
-      time_past: Završeno pre %{time}
-      title: "%{block_on} je blokiran/a od %{block_by}"
-    update: 
-      only_creator_can_edit: Samo urednik koji je napravio ovu blokadu može da je uredi.
-      success: Blokada je ažurirana.
-  user_role: 
-    filter: 
-      already_has_role: Korisnik već ima ulogu %{role}.
-      doesnt_have_role: Korisnik nema ulogu %{role}.
-      not_a_role: „%{role}“ nije ispravna uloga.
-      not_an_administrator: Samo administratori mogu da upravljaju ulogama korisnika, a vi to niste.
-    grant: 
-      are_you_sure: Želite li da dodelite ulogu „%{role}“ korisniku %{name}?
-      confirm: Potvrdi
-      fail: Ne mogu da dodelim ulogu „%{role}“ korisniku %{name}. Proverite da li su korisnik i uloga ispravni.
-      heading: Potvrda dodele uloge
-      title: Potvrda dodele uloge
-    revoke: 
-      are_you_sure: Želite li da oduzmete ulogu „%{role}“ od korisnika %{name}?
-      confirm: Potvrdi
-      fail: Ne mogu da oduzmem ulogu „%{role}“ od korisnika %{name}. Proverite da li su korisnik i uloga ispravni.
-      heading: Potvrda oduzimanja uloge
-      title: Potvrda oduzimanja uloge
+    destroy:
+      not_empty: >
+        Redakcija nije prazna. Poništite
+        redigovanje svih verzija koje pripadaju
+        ovoj redakciji pre nego što je
+        uklonite.
+      flash: Redakcija je uklonjena.
+      error: >
+        Došlo je do greške pri uklanjanju
+        redakcije.
