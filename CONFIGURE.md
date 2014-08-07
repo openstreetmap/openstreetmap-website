@@ -115,3 +115,5 @@ If you want to deploy The Rails Port for production use, you'll need to make a f
 * Your production database will also need the extensions and functions installed - see [INSTALL.md](INSTALL.md)
 * The included version of the map call is quite slow and eats a lot of memory. You should consider using [CGIMap](https://github.com/zerebubuth/openstreetmap-cgimap) instead.
 * The included version of the GPX importer is slow and/or completely inoperable. You should consider using [the high-speed GPX importer](http://git.openstreetmap.org/gpx-import.git/).
+* Make sure you precompile the production assets: `RAILS_ENV=production rake assets:precompile`
+* Make sure the web server user as well as the rails user can read, write and create directories in `tmp/`.
