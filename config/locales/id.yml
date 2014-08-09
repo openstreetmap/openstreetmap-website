@@ -1,6 +1,7 @@
 # Messages for Indonesian (Bahasa Indonesia)
 # Exported from translatewiki.net
-# Export driver: syck-pecl
+# Export driver: phpyaml
+# Author: Arifin.wijaya
 # Author: C5st4wr6ch
 # Author: Dewisulistio
 # Author: Emirhartato
@@ -12,47 +13,13 @@
 # Author: Vasanthi
 # Author: Wulankhairunisa
 # Author: 아라
-id: 
-  about_page: 
-    next: Berikutnya
-    open_data_html: "OpenStreetMap adalah <i>data terbuka</i>: Anda bebas untuk menggunakannya untuk tujuan apapun selama Anda memberi penghargaan pada OpenStreetMap dan kontributornya. Jika Anda mengubah atau membangun dari data dengan cara tertentu, Anda dapat menyebarkan hasilnya hanya di bawah lisensi yang sama. Lihat <a href='%{copyright_path}'>halaman Hak Cipta dan Lisensi</a> untuk perinciannya."
-    open_data_title: Buka Data
-    partners_title: Rekan
-  activerecord: 
-    attributes: 
-      diary_comment: 
-        body: Isi
-      diary_entry: 
-        language: Bahasa
-        latitude: Garis Lintang
-        longitude: Garis Bujur
-        title: Subjek
-        user: Pengguna
-      friend: 
-        friend: Teman
-        user: Pengguna
-      message: 
-        body: Isi
-        recipient: Penerima
-        sender: Pengirim
-        title: Subyek
-      trace: 
-        description: Deskripsi
-        latitude: Garis Lintang
-        longitude: Garis Bujur
-        name: Nama
-        public: Publik
-        size: Ukuran
-        user: Pengguna
-        visible: Terlihat
-      user: 
-        active: Aktif
-        description: Keterangan
-        display_name: Nama Tampilan
-        email: Email
-        languages: Bahasa
-        pass_crypt: Kata Sandi
-    models: 
+---
+id:
+  time:
+    formats:
+      friendly: '%e %B %Y pada %H:%M'
+  activerecord:
+    models:
       acl: Daftar Kontrol Akses
       changeset: Set Perubahan
       changeset_tag: Tag Set Perubahan
@@ -86,292 +53,342 @@ id:
       way: Garis
       way_node: Node/Titik dari garis
       way_tag: Tag way/garis
-  application: 
-    require_cookies: 
-      cookies_needed: Anda tampaknya memiliki cookies yang tidak aktif - mohon aktifkan cookies pada browser anda sebelum melanjutkan.
-    require_moderator: 
-      not_a_moderator: Anda perlu menjadi moderator untuk melakukan tindakan ini.
-    setup_user_auth: 
-      blocked: Akses Anda ke API telah diblokir. Silahkan log-in ke antarmuka web untuk mengetahui lebih lanjut.
-      need_to_see_terms: Akses Anda ke API untuk sementara ditangguhkan. Silahkan log-in ke antarmuka web untuk melihat persyaratan kontributor. Anda tidak perlu untuk setuju, tapi Anda harus melihat mereka.
-  browse: 
+    attributes:
+      diary_comment:
+        body: Isi
+      diary_entry:
+        user: Pengguna
+        title: Subjek
+        latitude: Garis Lintang
+        longitude: Garis Bujur
+        language: Bahasa
+      friend:
+        user: Pengguna
+        friend: Teman
+      trace:
+        user: Pengguna
+        visible: Terlihat
+        name: Nama
+        size: Ukuran
+        latitude: Garis Lintang
+        longitude: Garis Bujur
+        public: Publik
+        description: Deskripsi
+      message:
+        sender: Pengirim
+        title: Subyek
+        body: Isi
+        recipient: Penerima
+      user:
+        email: Email
+        active: Aktif
+        display_name: Nama Tampilan
+        description: Keterangan
+        languages: Bahasa
+        pass_crypt: Kata Sandi
+  editor:
+    default: Standar (saat ini %{name})
+    potlatch:
+      name: Potlatch 1
+      description: Potlatch 1 (editor di dalam browser)
+    id:
+      name: iD
+      description: iD (editor di dalam browser internet)
+    potlatch2:
+      name: Potlatch 2
+      description: Potlatch 2 (editor di dalam browser)
+    remote:
+      name: Pengendali Jarak Jauh
+      description: Remote Control (JOSM atau Merkaartor)
+  browse:
+    created: Dibuat
+    closed: Ditutup
+    created_html: Dibuat <abbr title='%{title}'>%{time} yang lalu</abbr>
+    closed_html: Ditutup <abbr title='%{title}'>%{time} yang lalu</abbr>
+    created_by_html: Dibuat <abbr title='%{title}'>%{time} yang lalu</abbr> oleh %{user}
+    deleted_by_html: Dihapus <abbr title='%{title}'>%{time} yang lalu</abbr> oleh
+      %{user}
+    edited_by_html: Disunting <abbr title='%{title}'>%{time} yang lalu</abbr> oleh
+      %{user}
+    closed_by_html: Ditutup <abbr title='%{title}'>%{time} yang lalu</abbr> oleh %{user}
+    version: Versi
+    in_changeset: Ubahset
     anonymous: Anonimitas
-    changeset: 
+    no_comment: (tidak ada komentar)
+    part_of: Bagian dari
+    download_xml: Unduh XML
+    view_history: Versi terdahulu
+    view_details: Lihat Rincian
+    location: 'Lokasi:'
+    changeset:
+      title: 'Set Perubahan: %{id}'
       belongs_to: Pembuat
+      node: Simpul (%{count})
+      node_paginated: Simpul (%{x}-%{y} dari %{count})
+      way: Jalan (%{count})
+      way_paginated: Jalan (%{x}-%{y} dari %{count})
+      relation: Hubungan (%{count})
+      relation_paginated: Hubungan (%{x}-%{y} dari %{count})
       changesetxml: Set Perubahan XML
-      feed: 
+      osmchangexml: osmChange XML
+      feed:
         title: Set Perubahan %{id}
         title_comment: Set Perubahan %{id} - %{comment}
-      node: Node (% {count})
-      node_paginated: Node ( %{x}-% {y} % {count})
-      osmchangexml: osmChange XML
-      relation: Hubungan (% {count})
-      relation_paginated: Hubungan ( %{x}-% {y} % {count})
-      title: "Set Perubahan: %{id}"
-      way: Cara (% {count})
-      way_paginated: Cara ( %{x}-% {y} % {count})
-    closed: Ditutup
-    closed_by_html: Ditutup <abbr title='<span class="notranslate" translate="no">%{title}'>% {waktu} yang lalu</abbr> oleh % {pengguna}
-    closed_html: Ditutup <abbr title='<span class="notranslate" translate="no">%{title}'>% {waktu} yang lalu</abbr>
-    containing_relation: 
+    node:
+      title: 'Simpul: %{name}'
+      history_title: 'Riwayat Simpul: %{name}'
+    way:
+      title: 'Jalan: %{name}'
+      history_title: 'Riwayat Jalan: %{name}'
+      nodes: Simpul
+      also_part_of:
+        one: bagian dari jalan %{related_ways}
+        other: bagian dari jalan %{related_ways}
+    relation:
+      title: 'Hubungan: %{name}'
+      history_title: 'Riwayat Hubungan: %{name}'
+      members: Anggota
+    relation_member:
+      entry_role: '%{type} %{name} sebagai %{role}'
+      type:
+        node: Node/Titik
+        way: Way/Garis
+        relation: Relasi
+    containing_relation:
       entry: Relasi %{relation_name}
       entry_role: Relasi %{relation_name} (as %{relation_role})
-    created: Dibuat
-    created_by_html: Dibuat <abbr title='<span class="notranslate" translate="no">%{title}'>% {waktu} yang lalu</abbr> oleh % {pengguna}
-    created_html: Dibuat <abbr title='<span class="notranslate" translate="no">%{title}'>% {waktu} yang lalu</abbr>
-    deleted_by_html: Dihapus <abbr title='<span class="notranslate" translate="no">%{title}'>% {waktu} yang lalu</abbr> oleh % {pengguna}
-    download_xml: Unduh XML
-    edited_by_html: Disunting <abbr title='<span class="notranslate" translate="no">%{title}'>% {waktu} yang lalu</abbr> oleh % {pengguna}
-    in_changeset: Ubahset
-    location: "Lokasi:"
-    no_comment: (tidak ada komentar)
-    node: 
-      title: "Node: % {name}"
-    not_found: 
-      sorry: "Maaf, %{type} #%{id} tidak dapat ditemukan."
-      type: 
+    not_found:
+      sorry: 'Maaf, %{type} #%{id} tidak dapat ditemukan.'
+      type:
+        node: node/titik
+        way: way/garis
+        relation: relasi
         changeset: Set perubahan
+    timeout:
+      sorry: Maaf, data untuk %{type} dengan id %{id}, terlalu lama untuk dibuka.
+      type:
         node: node/titik
-        relation: relasi
         way: way/garis
-    note: 
-      closed_title: "Catatan tuntas: %{note_name}"
-      commented_by: Komentar dari %{user} <abbr title='%{exact_time}'>%{when} yang lalu</abbr>
-      commented_by_anonymous: Komentar dari anonim <abbr title='%{exact_time}'>%{when} yang lalu</abbr>
-      description: Deskripsi
-      hidden_title: "Catatan tersembunyi #% {note_name}"
-      new_note: Catatan Baru
-      open_by: Dibuat oleh %{user} <abbr title='%{exact_time}'>%{when} yang lalu</abbr>
-      open_by_anonymous: Dibuat oleh anonim <abbr title='%{exact_time}'>%{when} yang lalu</abbr>
-      open_title: "Catatan belum tuntas: %{note_name}"
-      title: "Catatan: %{id}"
-    part_of: Bagian dari
-    redacted: 
-      message_html: Versi %{version} %{type} ini tidak dapat ditampilkan karena telah diedit. Silahkan lihat %{redaction_link} untuk rincian.
+        relation: relasi
+        changeset: set perubahan
+    redacted:
       redaction: Redaksi %{id}
-      type: 
+      message_html: Versi %{version} %{type} ini tidak dapat ditampilkan karena telah
+        diedit. Silahkan lihat %{redaction_link} untuk rincian.
+      type:
         node: node/titik
-        relation: relasi
         way: way/garis
-    relation: 
-      members: Anggota
-    relation_member: 
-      entry_role: "%{type} %{name} sebagai %{role}"
-      type: 
-        node: Node/Titik
-        relation: Relasi
-        way: Way/Garis
-    start_rjs: 
-      feature_warning: Memuat %{num_features} fitur, yang dapat membuat peramban Anda lambat atau tidak responsif. Apakah Anda yakin ingin menampilkan data ini?
+        relation: relasi
+    start_rjs:
+      feature_warning: Memuat %{num_features} fitur, yang dapat membuat peramban Anda
+        lambat atau tidak responsif. Apakah Anda yakin ingin menampilkan data ini?
       load_data: Memuat Data
       loading: Memuat...
-    tag_details: 
+    tag_details:
       tags: Tanda
-      wiki_link: 
+      wiki_link:
         key: Deskripsi halaman wiki untuk tag %{key}
         tag: Deskripsi halaman wiki untuk  %{key}=%{value} tag
       wikipedia_link: Artikel %{page} di Wikipedia
-    timeout: 
-      sorry: Maaf, data untuk %{type} dengan id %{id}, terlalu lama untuk dibuka.
-      type: 
-        changeset: set perubahan
-        node: node/titik
-        relation: relasi
-        way: way/garis
-    version: Versi
-    view_details: Lihat Rincian
-    view_history: Versi terdahulu
-  changeset: 
-    changeset: 
+      telephone_link: Hubungi %{phone_number}
+    note:
+      title: 'Catatan: %{id}'
+      new_note: Catatan Baru
+      description: Deskripsi
+      open_title: 'Catatan belum tuntas: %{note_name}'
+      closed_title: 'Catatan tuntas: %{note_name}'
+      hidden_title: 'Catatan tersembunyi #%{note_name}'
+      open_by: Dibuat oleh %{user} <abbr title='%{exact_time}'>%{when} yang lalu</abbr>
+      open_by_anonymous: Dibuat oleh anonim <abbr title='%{exact_time}'>%{when} yang
+        lalu</abbr>
+      commented_by: Komentar dari %{user} <abbr title='%{exact_time}'>%{when} yang
+        lalu</abbr>
+      commented_by_anonymous: Komentar dari anonim <abbr title='%{exact_time}'>%{when}
+        yang lalu</abbr>
+      closed_by: Diselesaikan oleh %{user} <abbr title='%{exact_time}'>%{when} yang
+        lalu</abbr>
+      closed_by_anonymous: Diselesaikan oleh anonim <abbr title='%{exact_time}'>%{when}
+        yang lalu</abbr>
+      reopened_by: Diaktifkan kembali oleh %{user} <abbr title='%{exact_time}'>%{when}
+        yang lalu</abbr>
+      reopened_by_anonymous: Diaktifkan kembali oleh anonim <abbr title='%{exact_time}'>%{when}
+        yang lalu</abbr>
+      hidden_by: Disembunyikan oleh %{user} <abbr title='%{exact_time}'>%{when} yang
+        lalu</abbr>
+  changeset:
+    changeset_paging_nav:
+      showing_page: Halaman %{page}
+      next: Berikutnya »
+      previous: « Sebelumnya
+    changeset:
       anonymous: Anonim
       no_edits: (tidak ada edit)
       view_changeset_details: Lihat detail dari set perubahan
-    changeset_paging_nav: 
-      next: Berikutnya »
-      previous: « Sebelumnya
-      showing_page: Halaman %{page}
-    changesets: 
-      area: Area
-      comment: Komentar
+    changesets:
       id: ID
       saved_at: Disimpan di
       user: Pengguna
-    list: 
-      empty: Tidak ada set perubahan yang ditemukan.
-      load_more: Baca lebih lanjut
+      comment: Komentar
+      area: Area
+    list:
       title: Set perubahan
+      title_user: Set perubahan oleh %{user}
       title_friend: Set perubahan oleh teman Anda
       title_nearby: Set perubahan oleh pengguna terdekat
-      title_user: Set perubahan oleh %{user}
-    timeout: 
-      sorry: Maaf, daftar kumpulan set perubahan yang Anda minta terlalu lama untuk diambil.
-  diary_entry: 
-    comments: 
-      ago: "%{ago} yang lalu"
-      comment: Komentar
-      has_commented_on: "%{display_name} telah mengomentari entri catatan harian berikut"
-      newer_comments: Komentar Baru
-      older_comments: Komentar Lama
-      post: Artikel
-      when: Kapan
-    diary_comment: 
-      comment_from: Komentar dari %{link_user} pada %{comment_created_at}
-      confirm: Konfirmasi
-      hide_link: Sembunyikan komentar ini
-    diary_entry: 
-      comment_count: 
-        one: "%{count} komentar"
-        other: "%{count} komentar"
-        zero: Tidak ada komentar
-      comment_link: Komentar pada entri ini
-      confirm: Konfirmasi
-      edit_link: Edit entri ini
-      hide_link: Sembunyikan entri ini
-      posted_by: Dipost oleh %{link_user} pada %{created} dalam %{language_link}
-      reply_link: Balasan untuk entri ini
-    edit: 
-      body: "Isi:"
-      language: "Bahasa:"
-      latitude: Lintang
-      location: Lokasi
-      longitude: Bujur
-      marker_text: Lokasi entri catatan harian
-      save_button: Simpan
-      subject: Subjek
-      title: Edit entri catatan harian
-      use_map_link: Gunakan peta
-    feed: 
-      all: 
-        description: Entri catatan harian terbaru dari pengguna OpenStreetMap
-        title: Entri catatan harian OpenStreetMap
-      language: 
-        description: Entri catatan harian terbaru dari pengguna OpenStreetMap dalam %{language_name}
-        title: Entri catatan harian OpenStreetMap dalam %{language_name}
-      user: 
-        description: Entri catatan harian OpenStreetMap terbaru dari %{user}
-        title: Entri catatan harian OpenStreetMap untuk %{user}
-    list: 
-      in_language_title: Entri catatan harian dalam %{language}
-      new: Entri baru catatan harian
-      new_title: Buat entri baru dalam catatan harian Anda
-      newer_entries: Entri baru
-      no_entries: Tidak ada entri catatan harian
-      older_entries: Entri Lama
-      recent_entries: "Entri buku harian terbaru:"
+      empty: Tidak ada set perubahan yang ditemukan.
+      empty_area: Tidak ada set perubahan di daerah ini.
+      empty_user: Tidak ada set perubahan oleh pengguna ini.
+      no_more: Tidak ada set perubahan lainnya yang ditemukan.
+      no_more_area: Tidak ada set perubahan lainnya di daerah ini.
+      no_more_user: Tidak ada set perubahan lainnya oleh pengguna ini.
+      load_more: Baca lebih lanjut
+    timeout:
+      sorry: Maaf, daftar kumpulan set perubahan yang Anda minta terlalu lama untuk
+        diambil.
+  diary_entry:
+    new:
+      title: Entri Baru Catatan Harian
+    list:
       title: Catatan harian pengguna
       title_friends: Catatan harian teman
       title_nearby: Catatan harian pengguna terdekat
       user_title: Catatan harian %{user}
-    location: 
-      edit: Edit
-      location: "Lokasi:"
-      view: Lihat
-    new: 
-      title: Entri Baru Catatan Harian
-    no_such_entry: 
-      body: Maaf, tidak ada catatan harian atau komentar dengan id %{id}. Harap memeriksa ejaan, atau mungkin Anda mengklik link yang salah.
-      heading: "Tidak ada entri dengan id: %{id}"
-      title: Tidak ada entri catatan harian tersebut
-    view: 
-      leave_a_comment: Tinggalkan komentar
-      login: Masuk
-      login_to_leave_a_comment: "%{login_link} untuk meninggalkan komentar"
+      in_language_title: Entri catatan harian dalam %{language}
+      new: Entri baru catatan harian
+      new_title: Buat entri baru dalam catatan harian Anda
+      no_entries: Tidak ada entri catatan harian
+      recent_entries: 'Entri buku harian terbaru:'
+      older_entries: Entri Lama
+      newer_entries: Entri baru
+    edit:
+      title: Edit entri catatan harian
+      subject: Subjek
+      body: 'Isi:'
+      language: 'Bahasa:'
+      location: Lokasi
+      latitude: Lintang
+      longitude: Bujur
+      use_map_link: Gunakan peta
       save_button: Simpan
+      marker_text: Lokasi entri catatan harian
+    view:
       title: Catatan harian %{user} | %{title}
       user_title: Catatan harian %{user}
-  editor: 
-    default: Standar (saat ini %{name})
-    id: 
-      description: iD (editor di dalam browser internet)
-      name: iD
-    potlatch: 
-      description: Potlatch 1 (editor di dalam browser)
-      name: Potlatch 1
-    potlatch2: 
-      description: Potlatch 2 (editor di dalam browser)
-      name: Potlatch 2
-    remote: 
-      description: Remote Control (JOSM atau Merkaartor)
-      name: Pengendali Jarak Jauh
-  export: 
-    start: 
-      add_marker: Tambahkan penanda ke peta
+      leave_a_comment: Tinggalkan komentar
+      login_to_leave_a_comment: '%{login_link} untuk meninggalkan komentar'
+      login: Masuk
+      save_button: Simpan
+    no_such_entry:
+      title: Tidak ada entri catatan harian tersebut
+      heading: 'Tidak ada entri dengan id: %{id}'
+      body: Maaf, tidak ada catatan harian atau komentar dengan id %{id}. Harap memeriksa
+        ejaan, atau mungkin Anda mengklik link yang salah.
+    diary_entry:
+      posted_by: Dipost oleh %{link_user} pada %{created} dalam %{language_link}
+      comment_link: Komentar pada entri ini
+      reply_link: Balasan untuk entri ini
+      comment_count:
+        one: '%{count} komentar'
+        zero: Tidak ada komentar
+        other: '%{count} komentar'
+      edit_link: Edit entri ini
+      hide_link: Sembunyikan entri ini
+      confirm: Konfirmasi
+    diary_comment:
+      comment_from: Komentar dari %{link_user} pada %{comment_created_at}
+      hide_link: Sembunyikan komentar ini
+      confirm: Konfirmasi
+    location:
+      location: 'Lokasi:'
+      view: Lihat
+      edit: Edit
+    feed:
+      user:
+        title: Entri catatan harian OpenStreetMap untuk %{user}
+        description: Entri catatan harian OpenStreetMap terbaru dari %{user}
+      language:
+        title: Entri catatan harian OpenStreetMap dalam %{language_name}
+        description: Entri catatan harian terbaru dari pengguna OpenStreetMap dalam
+          %{language_name}
+      all:
+        title: Entri catatan harian OpenStreetMap
+        description: Entri catatan harian terbaru dari pengguna OpenStreetMap
+    comments:
+      has_commented_on: '%{display_name} telah mengomentari entri catatan harian berikut'
+      post: Artikel
+      when: Kapan
+      comment: Komentar
+      ago: '%{ago} yang lalu'
+      newer_comments: Komentar Baru
+      older_comments: Komentar Lama
+  export:
+    title: Ekspor
+    start:
       area_to_export: Wilayah untuk diekspor
-      embeddable_html: HTML yang terkait
-      export_button: Ekspor
-      export_details: Data OpenStreetMap memiliki lisensi <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons Open Database License</a> (ODbL).
-      format: Format
-      format_to_export: Format untuk diekspor
-      image_size: Ukuran gambar
-      latitude: "Lintang:"
-      licence: Lisensi
-      longitude: "Bujur:"
       manually_select: Pilih wilayah berbeda secara manual
-      map_image: Gambar Peta (menunjukkan layer standar)
-      max: Maks
-      options: Pilihan
+      format_to_export: Format untuk diekspor
       osm_xml_data: Data XML OpenStreetMap
+      map_image: Gambar Peta (menunjukkan layer standar)
+      embeddable_html: HTML yang terkait
+      licence: Lisensi
+      export_details: Data OpenStreetMap memiliki lisensi <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
+        Data Commons Open Database License</a> (ODbL).
+      too_large:
+        advice: 'Jika ekspor di atas gagal, silakan pertimbangkan untuk menggunakan
+          satu dari sumber yang tercantum di bawah ini:'
+        body: Wilayah ini terlalu besar untuk diekspor sebagai data XML OpenStreetMap.
+          Silakan perbesar atau pilih wilayah yang lebih kecil, atau gunakan salah
+          satu sumber di bawah ini untuk mengunduh data massal.
+        planet:
+          title: Planet OSM
+          description: Salinan lengkap basis data OpenStreetMap yang dimutakhiran
+            secara rutin
+        overpass:
+          title: Melebihi API
+          description: Unduh kotak pembatas ini dari cermin dari database OpenStreetMap
+        geofabrik:
+          title: Unduhan Geofabrik
+          description: Diperbarui secara rutin ekstrak benua, negara dan kota-kota
+            yang dipilih
+        metro:
+          title: Ekstrak Metro
+          description: Ekstrak untuk kota-kota besar dunia dan daerah sekitarnya
+        other:
+          title: Sumber Lain
+          description: Sumber-sumber tambahan yang tercantum di wiki OpenStreetMap
+      options: Pilihan
+      format: Format
+      scale: Skala
+      max: Maks
+      image_size: Ukuran gambar
+      zoom: Perbesar
+      add_marker: Tambahkan penanda ke peta
+      latitude: 'Lintang:'
+      longitude: 'Bujur:'
       output: Hasil
       paste_html: Salin HTML untuk menyimpan di website
-      scale: Skala
-      too_large: 
-        advice: "Jika ekspor di atas gagal, silakan pertimbangkan untuk menggunakan satu dari sumber yang tercantum di bawah ini:"
-        body: Wilayah ini terlalu besar untuk diekspor sebagai data XML OpenStreetMap. Silakan perbesar atau pilih wilayah yang lebih kecil, atau gunakan salah satu sumber di bawah ini untuk mengunduh data massal.
-        planet: 
-          description: Salinan lengkap basis data OpenStreetMap yang dimutakhiran secara rutin
-          title: Planet OSM
-      zoom: Perbesar
-    title: Ekspor
-  fixthemap: 
-    how_to_help: 
-      join_the_community: 
-        title: Bergabung dengan komunitas
-      title: Cara Membantu
-    title: Laporkan kesalahan / Perbaiki peta
-  geocoder: 
-    description: 
-      title: 
-        geonames: Lokasi dari <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim: Lokasi dari <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
-      types: 
-        cities: Kota (jamak)
-        places: Tempat (jamak)
-        towns: Kota Kecil (jamak)
-    direction: 
-      east: timur
-      north: utara
-      north_east: timur laut
-      north_west: barat laut
-      south: selatan
-      south_east: tenggara
-      south_west: barat daya
-      west: barat
-    distance: 
-      one: sekitar 1km
-      other: about km %{count}
-      zero: kurang daripada 1km
-    results: 
-      more_results: Hasil lainnya
-      no_results: Tidak ada hasil yang ditemukan
-    search: 
-      title: 
-        ca_postcode: Hasil dari <a href="http://geocoder.ca/">Geocoder.CA</a>
-        geonames: Hasil dari <a href="http://www.geonames.org/">GeoNames</a>
+      export_button: Ekspor
+  geocoder:
+    search:
+      title:
         latlon: Hasil dari <a href="http://openstreetmap.org/">Internal</a>
-        osm_nominatim: Hasil dari <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
-        uk_postcode: Hasil dari <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Hasil dari <a href="http://geocoder.us/">Geocoder.us</a>
-    search_osm_nominatim: 
-      admin_levels: 
-        level10: Batas kota pinggiran
-        level2: Batas Negara
-        level4: Batas Negara Bagian
-        level5: Batas Wilayah
-        level6: Batas Provinsi
-        level8: Batas Kota/Kabupaten
-        level9: Batas Desa
-      prefix: 
-        aeroway: 
+        uk_postcode: Hasil dari <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
+          Postcode</a>
+        ca_postcode: Hasil dari <a href="http://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim: Hasil dari <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
+        geonames: Hasil dari <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse: Hasil dari <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
+        geonames_reverse: Hasil dari <a href="http://www.geonames.org/">GeoNames</a>
+    search_osm_nominatim:
+      prefix:
+        aerialway:
+          chair_lift: Kursi Gantung
+          drag_lift: Angkat Tarik
+          station: Stasiun Aerialway
+        aeroway:
           aerodrome: Lapangan Terbang
           apron: Landasan Pesawat
           gate: Gerbang
@@ -379,8 +396,7 @@ id:
           runway: Landasan pacu
           taxiway: Jalur taxi
           terminal: Terminal
-        amenity: 
-          WLAN: Akses WiFi
+        amenity:
           airport: Bandara
           arts_centre: Pusat Kesenian
           artwork: Karya Seni
@@ -479,24 +495,25 @@ id:
           village_hall: Balai Desa
           waste_basket: Keranjang Sampah
           wifi: Akses WiFi
+          WLAN: Akses WiFi
           youth_centre: Pusat Pemuda
-        boundary: 
+        boundary:
           administrative: Batas Administratif
           census: Batas Sensus
           national_park: Taman Nasional
           protected_area: Kawasan lindung
-        bridge: 
+        bridge:
           aqueduct: Saluran Air
           suspension: Jembatan Suspensi
           swing: Jembatan Gantung
           viaduct: Jembatan Viaduct
           "yes": Jembatan
-        building: 
+        building:
           "yes": Bangunan
-        emergency: 
+        emergency:
           fire_hydrant: Hidran Kebakaran
           phone: Telepon Darurat
-        highway: 
+        highway:
           bridleway: Jalan Tanah
           bus_guideway: Jalur Bus Terpandu
           bus_stop: Halte Bus
@@ -517,6 +534,7 @@ id:
           platform: Peron
           primary: Jalam Primer
           primary_link: Jalan Primer
+          proposed: Jalan yang Diajukan
           raceway: Lintasan Balap
           residential: Jalan Permukiman
           rest_area: Area Peristirahatan
@@ -527,8 +545,8 @@ id:
           services: Pelayanan Jalan Tol
           speed_camera: Kamera Pendeteksi Kecepatan
           steps: Langkah-langkah
-          stile: Pijakan kaki pada pagar
           street_lamp: Lampu Jalan
+          stile: Pijakan kaki pada pagar
           tertiary: Jalan Tersier
           tertiary_link: Jalan Tersier
           track: Trek
@@ -537,13 +555,14 @@ id:
           trunk_link: Jalan Utama Bukan Tol
           unclassified: Jalan Tidak Terklasifikasi
           unsurfaced: Jalan Tanpa Permukaan
-        historic: 
+        historic:
           archaeological_site: Situs arkeologi
           battlefield: Medan perang
           boundary_stone: Batu Pembatas
           building: Bangunan
           castle: Kastil
           church: Gereja
+          citywalls: Dinding Kota
           fort: Benteng
           house: Rumah
           icon: Ikon
@@ -553,11 +572,12 @@ id:
           monument: Monumen
           museum: Museum
           ruins: Reruntuhan
+          tomb: Makam
           tower: Menara
           wayside_cross: Pinggir persimpangan
           wayside_shrine: Kuil pinggir jalan
           wreck: Rongsokan
-        landuse: 
+        landuse:
           allotments: Tanah garap
           basin: Cekungan
           brownfield: Lahan industri
@@ -577,8 +597,8 @@ id:
           meadow: Padang rumput
           military: Kawasan militer
           mine: Tambang
-          nature_reserve: Cagar Alam
           orchard: Kebun buah-buahan
+          nature_reserve: Cagar Alam
           park: Taman
           piste: Piste
           quarry: Tempat Penggalian
@@ -593,7 +613,7 @@ id:
           vineyard: Kebun anggur
           wetland: Lahan Basah
           wood: Kayu
-        leisure: 
+        leisure:
           beach_resort: Resort Pantai
           bird_hide: Tempat Observasi Burung
           common: Lahan Publik
@@ -616,13 +636,13 @@ id:
           swimming_pool: Kolam Renang
           track: Trek Lari
           water_park: Taman Air
-        military: 
+        military:
           airfield: Lapangan Udara Militer
           barracks: Barak
           bunker: Bunker
-        mountain_pass: 
+        mountain_pass:
           "yes": Perlintasan Pegunungan
-        natural: 
+        natural:
           bay: Teluk
           beach: Pantai
           cape: Tanjung
@@ -663,7 +683,7 @@ id:
           wetland: Lahan Basah
           wetlands: Lahan Basah (jamak)
           wood: Kayu
-        office: 
+        office:
           accountant: Akuntan
           architect: Arsitek
           company: Perusahaan
@@ -676,7 +696,7 @@ id:
           telecommunication: Kantor Telekomunikasi
           travel_agent: Agen Perjalanan
           "yes": Kantor
-        place: 
+        place:
           airport: Bandara
           city: Kota
           country: Negara
@@ -691,6 +711,7 @@ id:
           locality: Lokal
           moor: Tegalan
           municipality: Kotamadya/Kabupaten
+          neighbourhood: Lingkungan
           postcode: Kode Pos
           region: Wilayah
           sea: Laut
@@ -700,7 +721,7 @@ id:
           town: Kota
           unincorporated_area: Wilayah lepas
           village: Desa
-        railway: 
+        railway:
           abandoned: Rel kereta yang diabaikan
           construction: Rel kereta yang diperbaiki
           disused: Rel kereta yang bekas
@@ -716,15 +737,17 @@ id:
           narrow_gauge: Sepur Sempit
           platform: Peron Kereta
           preserved: Jalur Kereta Terlindungi
+          proposed: Kereta Api yang Diusulkan
           spur: Sepur Kereta
           station: Stasiun Kereta Api
+          stop: Perhentian Kereta Api
           subway: Stasiun Kereta Bawah Tanah
           subway_entrance: Pintu Masuk Kereta Bawah Tanah
           switch: Titik Kereta Api
           tram: Jalur Trem
           tram_stop: Perhentian Trem
           yard: Emplasemen
-        shop: 
+        shop:
           alcohol: Pub (di Inggris)
           antiques: Toko Benda Antik
           art: Toko Kerajinan Tangan
@@ -799,7 +822,7 @@ id:
           video: Toko Video
           wine: Lisensi Toko Minuman Beralkohol
           "yes": Toko
-        tourism: 
+        tourism:
           alpine_hut: Gubuk Pegunungan
           artwork: Karya Seni
           attraction: Atraksi
@@ -820,10 +843,10 @@ id:
           valley: Lembah
           viewpoint: Sudut Pandang
           zoo: Kebun Binatang
-        tunnel: 
+        tunnel:
           culvert: Gorong-gorong
           "yes": Terowongan
-        waterway: 
+        waterway:
           artificial: Jalur Air Buatan
           boatyard: Halaman Kapal
           canal: Kanal
@@ -842,1056 +865,1402 @@ id:
           riverbank: Bantaran Sungai
           stream: Arus
           wadi: Sungai Kering
-          water_point: Titik Air
           waterfall: Air Terjun
+          water_point: Titik Air
           weir: Tanggul Sungai
-  help_page: 
-    welcome: 
-      title: Selamat datang di OSM
-  javascripts: 
-    close: Tutup
-    edit_help: Memindahkan peta dan memperbesar lokasi yang ingin Anda sunting, kemudian klik di sini.
-    key: 
-      title: Kunci Peta
-      tooltip: Kunci Peta
-      tooltip_disabled: Kunci Peta tersedia hanya untuk lapisan standar
-    map: 
-      base: 
-        cycle_map: Peta Sepeda
-        hot: Kemanusiaan
-        standard: Standar
-        transport_map: Peta Transportasi
-      copyright: © <a href='%{copyright_url}'>Kontributor OpenStreetMap</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Beri Sumbangan</a>
-      layers: 
-        data: Data Peta
-        header: Layer Peta
-        notes: Catatan Peta
-        overlays: Mengaktifkan overlay untuk penyelesaian masalah peta
-        title: Lapisan
-      locate: 
-        popup: Anda dalam {distance} {unit} dari sini
-        title: Tampilkan Lokasiku
-      zoom: 
-        in: Perbesar
-        out: Perkecil
-    notes: 
-      new: 
-        add: Tambah Catatan
-        intro: Untuk meningkatkan informasi peta yang Anda masukkan untuk pemeta lainnya, jadi harap mendeskripsikan serinci dan setepat mungkin ketika memindahkan penanda ke posisi yang benar dan masukan catatan Anda di bawah ini.
-      show: 
-        anonymous_warning: Catatan ini termasuk komentar dari pengguna anonim yang harus diverifikasi secara independen.
-        comment: Komentar
-        comment_and_resolve: Komentar & Selesaikan
-        hide: Sembunyikan
-        reactivate: Aktifkan kembali
-        resolve: Selesaikan
-    share: 
-      cancel: Batal
-      center_marker: Tengahkan peta pada penanda
-      custom_dimensions: Pengaturan dimensi
-      download: Unduh
-      embed: HTML
-      format: "Format:"
-      image: Gambar
-      image_size: Gambar akan menampilkan lapisan standar di
-      include_marker: Termasuk penanda
-      link: Pranala atau HTML
-      long_link: Pranala
-      paste_html: Tempel HTML untuk menyimpan di situs web
-      scale: "Skala:"
-      short_link: Tautan Pendek
-      short_url: URL Singkat
-      title: Bagikan
-      view_larger_map: Lihat peta lebih besar
-    site: 
-      createnote_disabled_tooltip: Perbesar untuk menambahkan catatan pada peta
-      createnote_tooltip: Tambahkan catatan pada peta
-      edit_disabled_tooltip: Perbesar untuk mengedit peta
-      edit_tooltip: Edit peta
-      map_data_zoom_in_tooltip: Perbesar untuk melihat data peta
-      map_notes_zoom_in_tooltip: Perbesar untuk melihat catatan peta
-  layouts: 
+      admin_levels:
+        level2: Batas Negara
+        level4: Batas Negara Bagian
+        level5: Batas Wilayah
+        level6: Batas Provinsi
+        level8: Batas Kota/Kabupaten
+        level9: Batas Desa
+        level10: Batas kota pinggiran
+    description:
+      title:
+        osm_nominatim: Lokasi dari <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
+        geonames: Lokasi dari <a href="http://www.geonames.org/">GeoNames</a>
+      types:
+        cities: Kota (jamak)
+        towns: Kota Kecil (jamak)
+        places: Tempat (jamak)
+    results:
+      no_results: Tidak ada hasil yang ditemukan
+      more_results: Hasil lainnya
+    distance:
+      one: sekitar 1km
+      zero: kurang daripada 1km
+      other: about km %{count}
+    direction:
+      south_west: barat daya
+      south: selatan
+      south_east: tenggara
+      east: timur
+      north_east: timur laut
+      north: utara
+      north_west: barat laut
+      west: barat
+  layouts:
+    logo:
+      alt_text: logo OpenStreetMap
+    home: Menuju ke Halaman Utama
+    logout: Keluar Log
+    log_in: Masuk Log
+    log_in_tooltip: Masuk dengan akun yang sudah ada
+    sign_up: Mendaftar
+    start_mapping: Mulai Pemetaan
+    sign_up_tooltip: Buat akun untuk mengedit
+    edit: Edit
+    history: Riwayat
+    export: Ekspor
+    data: Data
+    export_data: Ekspor Data
+    gps_traces: Trek GPS
+    gps_traces_tooltip: Mengatur trek GPS
+    user_diaries: Catatan Harian Pengguna
+    user_diaries_tooltip: Lihat catatan harian pengguna
+    edit_with: Edit menggunakan %{editor}
+    tag_line: Peta Dunia Wiki Gratis
+    intro_header: Selamat datang di OpenStreetMap!
+    intro_text: OpenStreetMap adalah peta dunia, diciptakan oleh orang-orang seperti
+      Anda dan bebas untuk digunakan di bawah lisensi terbuka.
+    intro_2_create_account: Buat Akun
+    partners_html: Hosting didukung oleh %{ucl}, %{ic} dan %{bytemark} dan %{partners}
+      lainnya.
+    partners_ucl: Pusat UCL VR
+    partners_ic: Imperial College London
+    partners_bytemark: Hosting Bytemark
+    partners_partners: mitra
+    osm_offline: Database OpenStreetMap saat ini sedang dimatikan karena sedang dilakukan
+      pekerjaan pemeliharaan database penting.
+    osm_read_only: OpenStreetMap database saat ini adalah pada mode read-only (hanya
+      dapat dilihat) sementara pekerjaan pemeliharaan database penting sedang dilakukan.
+    donate: Dukung OpenStreetMap %{link} untuk biaya upgrade Hardware.
+    help: Bantuan
     about: Tentang
+    copyright: Hak cipta
     community: Komunitas
     community_blogs: Blog Komunitas
     community_blogs_title: Blog dari anggota komunitas OpenStreetMap
-    copyright: Hak cipta
-    data: Data
-    donate: Dukung OpenStreetMap %{link} untuk biaya upgrade Hardware.
-    edit: Edit
-    edit_with: Edit menggunakan %{editor}
-    export: Ekspor
-    export_data: Ekspor Data
     foundation: Foundation (Yayasan)
     foundation_title: Yayasan OpenStreetMap
-    gps_traces: Trek GPS
-    gps_traces_tooltip: Mengatur trek GPS
-    help: Bantuan
-    history: Riwayat
-    home: Menuju ke Halaman Utama
-    intro_2_create_account: Buat Akun
-    intro_header: Selamat datang di OpenStreetMap!
-    intro_text: OpenStreetMap adalah peta dunia, diciptakan oleh orang-orang seperti Anda dan bebas untuk digunakan di bawah lisensi terbuka.
-    learn_more: Pelajari Lagi
-    log_in: Masuk Log
-    log_in_tooltip: Masuk dengan akun yang sudah ada
-    logo: 
-      alt_text: logo OpenStreetMap
-    logout: Keluar Log
-    make_a_donation: 
-      text: Menyumbang
+    make_a_donation:
       title: Dukung OpenStreetMap dengan donasi finansial
+      text: Menyumbang
+    learn_more: Pelajari Lagi
     more: Selanjutnya
-    osm_offline: Database OpenStreetMap saat ini sedang dimatikan karena sedang dilakukan pekerjaan pemeliharaan database penting.
-    osm_read_only: OpenStreetMap database saat ini adalah pada mode read-only (hanya dapat dilihat) sementara pekerjaan pemeliharaan database penting sedang dilakukan.
-    partners_bytemark: Hosting Bytemark
-    partners_html: Hosting didukung oleh %{ucl}, %{ic} dan %{bytemark} dan %{partners} lainnya.
-    partners_ic: Imperial College London
-    partners_partners: mitra
-    partners_ucl: Pusat UCL VR
-    sign_up: Mendaftar
-    sign_up_tooltip: Buat akun untuk mengedit
-    start_mapping: Mulai Pemetaan
-    tag_line: Peta Dunia Wiki Gratis
-    user_diaries: Catatan Harian Pengguna
-    user_diaries_tooltip: Lihat catatan harian pengguna
-  license_page: 
-    foreign: 
-      english_link: Bahasa Inggris asli
-      text: Saat terjadi konflik antara halaman diterjemahkan dan %{english_original_link}, halaman bahasa Inggris akan diutamakan
+  license_page:
+    foreign:
       title: Tentang terjemahan ini
-    legal_babble: 
-      attribution_example: 
-        alt: Contoh tentang bagaimana memberikan atribusi untuk OpenStreetMap pada halaman web
-        title: Contoh atribusi
-      contributors_at_html: "<strong>Austria</strong>: Berisi data dari\n<a href=\"http://data.wien.gv.at/\">Stadt Wien</a> (lisensi\n<a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>),\n<a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Land Vorarlberg</a> dan\nLand Tirol (lisensi <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY AT dengan perubahan</a>)."
-      contributors_ca_html: "<strong>Kanada</strong>: Berisi data dari\nGeoBase&reg;, GeoGratis (&copy; Department of Natural\nResources Canada), CanVec (&copy; Department of Natural\nResources Canada), dan StatCan (Geography Division,\nStatistics Canada)."
-      contributors_fi_html: "<strong>Finlandia</strong>: Berisi data dari basis data topografi\nSurvei Pertanahan Nasional Finlandia \n dan dataset lainnya, di bawah\n<a href=\"http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501\">Lisensi NLSFI</a>."
-      contributors_footer_1_html: "Untuk rincian lebih lanjut, dan sumber-sumber lainnya yang telah digunakan untuk meningkatkan OpenStreetMap, silahkan lihat <a\nhref=\"http://wiki.openstreetmap.org/wiki/Contributors\">Kontributor halaman</a> pada Wiki OpenStreetMap."
-      contributors_footer_2_html: Dimasukkannya data dalam OpenStreetMap tidak berarti bahwa penyedia data yang asli mendukung OpenStreetMap, menyediakan jaminan, atau menerima tanggung jawab apapun.
-      contributors_fr_html: "<strong>Perancis</strong>: Berisi data yang bersumber dari\nDirection Générale des Impôts."
-      contributors_gb_html: "<strong>Britania Raya</strong>: Berisi data Ordnance\nSurvey &copy; Hak cipta dan basis data milik Kerajaan\n2010-12."
-      contributors_intro_html: "Kontributor kami terdiri dari ribuan orang. Kami juga memasukkan data dengan lisensi terbuka yang didapat dari badan-badan pemetaan nasional dan sumber lainnya, diantaranya:"
-      contributors_nl_html: "<strong>Belanda</strong>: Berisi &copy; data AND, 2007\n(<a href=\"http://www.and.com\">www.and.com</a>)"
-      contributors_nz_html: "<strong>Selandia Baru</strong>: Berisi data yang bersumber dari\nLand Information New Zealand. Hak cipta milik Kerajaan."
-      contributors_title_html: Kontributor kami
-      contributors_za_html: "<strong>Afrika Selatan</strong>: Berisi data yang bersumber dari\n<a href=\"http://www.ngi.gov.za/\">Chief Directorate:\nNational Geo-Spatial Information</a>, hak cipta milik negara."
-      credit_1_html: "Kami meminta anda untunk menggunakan kredit &ldquo;&copy; Kontributor OpenStreetMap\n&rdquo;."
-      credit_2_html: Anda juga harus memperjelas bahwa data tersedia di bawah Lisensi Database Terbuka, dan jika menggunakan tiles peta kami, kartografi berlisensi sebagai CC-BY-SA. Anda dapat melakukannya dengan menghubungkan ke <a href="http://www.openstreetmap.org/copyright">halaman hak cipta</a>. Alternatifnya, dan sebagai sebuah persyaratan jika Anda mendistribusikan OSM dalam bentuk data, Anda dapat menamakan dan menghubungkannya langsung pada lisensinya. Pada media dimana tautan tidak dimungkinkan (misalnya hasil cetak), kami menyarankan anda untuk mengarahkan pembaca anda pada openstreetmap.org (mungkin dengan memperluas halaman 'OpenStreetMap' secara penuh), untuk opendatacommons.org, dan jika relevan, untuk creativecommons.org.
-      credit_3_html: "Untuk peta elektronik dapat ditelusuri, kredit harus muncul di sudut peta.\nSebagai contoh:"
-      credit_title_html: Cara memberikan kredit pada OpenStreetMap
-      infringement_1_html: Kontributor OSM diingatkan untuk tidak menambahkan data dari sumber yang memiliki hak cipta sendiri (misalnya, Google Maps atau peta cetak) tanpa izin eksplisit dari pemegang hak cipta.
-      infringement_2_html: "Jika Anda percaya bahwa materi berhak cipta telah tidak tepat\n ditambahkan ke OpenStreetMap database atau situs ini, silakan lihat <a href=\"http://www.osmfoundation.org/wiki/License/Takedown_procedure\">prosedur takedown</a> kami atau kirimkan file langsung pada\n<a href=\"http://dmca.openstreetmap.org/\">pengajuan halaman on-line</a>."
-      infringement_title_html: Pelanggaran hak cipta
-      intro_1_html: Data OpenStreetMap memiliki lisensi <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL).
-      intro_2_html: "Anda dibebaskan untuk menyalin, mendistribusikan, mentransfer dan mengadaptasi data kami,\nselama Anda menyertakan OpenStreetMap dan kontributornya. Jika anda merubah atau membangun\ndata kami, Anda harus mendistribusikan hasilnya dalam lisensi yang sama.\n<a href=\"http://opendatacommons.org/licenses/odbl/1.0/\">kode legal\ncode</a> akan menjelaskan hak dan kewajiban Anda"
-      intro_3_html: "Kartografi dalam tampilan peta dan dokumentasi kami\n berlisensi di bawah <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">Creative\nCommons Attribution-ShareAlike 2.0</a> lisensi (CC-BY-SA)."
-      more_1_html: "Baca lebih lanjut tentang menggunakan data kami, dan cara kredit kita, di <a\nhref=\"http: wiki.openstreetmap.org/wiki/legal_faq\"=\"\">Pertanyaan Legal yang sering diajukan (FAQ)</a\nhref=\"http:>"
-      more_2_html: "Meskipun OpenStreetMap merupakan data yang terbuka, kami tidak dapat menyediakan API peta gratis bagi pengembang (developer) pihak ketiga.\nLihat <a href=\"http://wiki.openstreetmap.org/wiki/API_usage_policy\">Kebijakan Penggunaan API</a>,\n<a href=\"http://wiki.openstreetmap.org/wiki/Tile_usage_policy\">Kebijakan Penggunaan Tile</a>\ndan <a href=\"http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy\">Kebijakan Penggunaan Nominatim</a>."
-      more_title_html: Mengetahui lebih lanjut
-      title_html: Hak Cipta & Lisensi
-    native: 
-      mapping_link: memulai pemetaan
-      native_link: Versi Bahasa Indonesia
-      text: Anda melihat versi bahasa Inggris dari halaman hak cipta. Anda dapat kembali ke %{native_link} dari Halaman ini atau Anda dapat berhenti membaca tentang hak cipta dan %{mapping_link}.
+      text: Saat terjadi konflik antara halaman diterjemahkan dan %{english_original_link},
+        halaman bahasa Inggris akan diutamakan
+      english_link: Bahasa Inggris asli
+    native:
       title: Tentang Halaman ini
-  message: 
-    delete: 
-      deleted: Pesan dihapus
-    inbox: 
-      date: Tanggal
-      from: Dari
-      messages: Anda memiliki %{new_messages} dan %{old_messages}
-      my_inbox: Kotak Masuk Saya
-      new_messages: 
-        one: "%{count} pesan baru"
-        other: "%{count} pesan baru"
-      no_messages_yet: Anda belum memiliki pesan. Mengapa tidak  berhubungan dengan beberapa %{people_mapping_nearby_link}?
-      old_messages: 
-        one: "%{count} pesan lama"
-        other: "%{count} pesan lama"
-      outbox: Kotak keluar
-      people_mapping_nearby: orang-orang disekitar Anda yang melakukan pemetaan
-      subject: Subyek
+      text: Anda melihat versi bahasa Inggris dari halaman hak cipta. Anda dapat kembali
+        ke %{native_link} dari Halaman ini atau Anda dapat berhenti membaca tentang
+        hak cipta dan %{mapping_link}.
+      native_link: Versi Bahasa Indonesia
+      mapping_link: memulai pemetaan
+    legal_babble:
+      title_html: Hak Cipta & Lisensi
+      intro_1_html: Data OpenStreetMap memiliki lisensi <a href="http://opendatacommons.org/licenses/odbl/">Open
+        Data Commons Open Database License</a> (ODbL).
+      intro_2_html: |-
+        Anda dibebaskan untuk menyalin, mendistribusikan, mentransfer dan mengadaptasi data kami,
+        selama Anda menyertakan OpenStreetMap dan kontributornya. Jika anda merubah atau membangun
+        data kami, Anda harus mendistribusikan hasilnya dalam lisensi yang sama.
+        <a href="http://opendatacommons.org/licenses/odbl/1.0/">kode legal
+        code</a> akan menjelaskan hak dan kewajiban Anda
+      intro_3_html: |-
+        Kartografi dalam tampilan peta dan dokumentasi kami
+         berlisensi di bawah <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+        Commons Attribution-ShareAlike 2.0</a> lisensi (CC-BY-SA).
+      credit_title_html: Cara memberikan kredit pada OpenStreetMap
+      credit_1_html: |-
+        Kami meminta anda untunk menggunakan kredit &ldquo;&copy; Kontributor OpenStreetMap
+        &rdquo;.
+      credit_2_html: Anda juga harus memperjelas bahwa data tersedia di bawah Lisensi
+        Database Terbuka, dan jika menggunakan tiles peta kami, kartografi berlisensi
+        sebagai CC-BY-SA. Anda dapat melakukannya dengan menghubungkan ke <a href="http://www.openstreetmap.org/copyright">halaman
+        hak cipta</a>. Alternatifnya, dan sebagai sebuah persyaratan jika Anda mendistribusikan
+        OSM dalam bentuk data, Anda dapat menamakan dan menghubungkannya langsung
+        pada lisensinya. Pada media dimana tautan tidak dimungkinkan (misalnya hasil
+        cetak), kami menyarankan anda untuk mengarahkan pembaca anda pada openstreetmap.org
+        (mungkin dengan memperluas halaman 'OpenStreetMap' secara penuh), untuk opendatacommons.org,
+        dan jika relevan, untuk creativecommons.org.
+      credit_3_html: |-
+        Untuk peta elektronik dapat ditelusuri, kredit harus muncul di sudut peta.
+        Sebagai contoh:
+      attribution_example:
+        alt: Contoh tentang bagaimana memberikan atribusi untuk OpenStreetMap pada
+          halaman web
+        title: Contoh atribusi
+      more_title_html: Mengetahui lebih lanjut
+      more_1_html: |-
+        Baca lebih lanjut tentang menggunakan data kami, dan cara kredit kita, di <a
+        href="http: wiki.openstreetmap.org/wiki/legal_faq"="">Pertanyaan Legal yang sering diajukan (FAQ)</a
+        href="http:>
+      more_2_html: |-
+        Meskipun OpenStreetMap merupakan data yang terbuka, kami tidak dapat menyediakan API peta gratis bagi pengembang (developer) pihak ketiga.
+        Lihat <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">Kebijakan Penggunaan API</a>,
+        <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Kebijakan Penggunaan Tile</a>
+        dan <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Kebijakan Penggunaan Nominatim</a>.
+      contributors_title_html: Kontributor kami
+      contributors_intro_html: 'Kontributor kami terdiri dari ribuan orang. Kami juga
+        memasukkan data dengan lisensi terbuka yang didapat dari badan-badan pemetaan
+        nasional dan sumber lainnya, diantaranya:'
+      contributors_at_html: |-
+        <strong>Austria</strong>: Berisi data dari
+        <a href="http://data.wien.gv.at/">Stadt Wien</a> (lisensi
+        <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>),
+        <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Land Vorarlberg</a> dan
+        Land Tirol (lisensi <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT dengan perubahan</a>).
+      contributors_ca_html: |-
+        <strong>Kanada</strong>: Berisi data dari
+        GeoBase&reg;, GeoGratis (&copy; Department of Natural
+        Resources Canada), CanVec (&copy; Department of Natural
+        Resources Canada), dan StatCan (Geography Division,
+        Statistics Canada).
+      contributors_fi_html: "<strong>Finlandia</strong>: Berisi data dari basis data
+        topografi\nSurvei Pertanahan Nasional Finlandia \n dan dataset lainnya, di
+        bawah\n<a href=\"http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501\">Lisensi
+        NLSFI</a>."
+      contributors_fr_html: |-
+        <strong>Perancis</strong>: Berisi data yang bersumber dari
+        Direction Générale des Impôts.
+      contributors_nl_html: |-
+        <strong>Belanda</strong>: Berisi &copy; data AND, 2007
+        (<a href="http://www.and.com">www.and.com</a>)
+      contributors_nz_html: |-
+        <strong>Selandia Baru</strong>: Berisi data yang bersumber dari
+        Land Information New Zealand. Hak cipta milik Kerajaan.
+      contributors_za_html: |-
+        <strong>Afrika Selatan</strong>: Berisi data yang bersumber dari
+        <a href="http://www.ngi.gov.za/">Chief Directorate:
+        National Geo-Spatial Information</a>, hak cipta milik negara.
+      contributors_gb_html: |-
+        <strong>Britania Raya</strong>: Berisi data Ordnance
+        Survey &copy; Hak cipta dan basis data milik Kerajaan
+        2010-12.
+      contributors_footer_1_html: |-
+        Untuk rincian lebih lanjut, dan sumber-sumber lainnya yang telah digunakan untuk meningkatkan OpenStreetMap, silahkan lihat <a
+        href="http://wiki.openstreetmap.org/wiki/Contributors">Kontributor halaman</a> pada Wiki OpenStreetMap.
+      contributors_footer_2_html: Dimasukkannya data dalam OpenStreetMap tidak berarti
+        bahwa penyedia data yang asli mendukung OpenStreetMap, menyediakan jaminan,
+        atau menerima tanggung jawab apapun.
+      infringement_title_html: Pelanggaran hak cipta
+      infringement_1_html: Kontributor OSM diingatkan untuk tidak menambahkan data
+        dari sumber yang memiliki hak cipta sendiri (misalnya, Google Maps atau peta
+        cetak) tanpa izin eksplisit dari pemegang hak cipta.
+      infringement_2_html: |-
+        Jika Anda percaya bahwa materi berhak cipta telah tidak tepat
+         ditambahkan ke OpenStreetMap database atau situs ini, silakan lihat <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">prosedur takedown</a> kami atau kirimkan file langsung pada
+        <a href="http://dmca.openstreetmap.org/">pengajuan halaman on-line</a>.
+  welcome_page:
+    title: Selamat datang!
+    introduction_html: Selamat datang di OpenStreetMap, peta dunia gratis dan dapat
+      disunting. Kini setelah Anda mendaftar, Anda sudah siap untuk memulai pemetaan.
+      Berikut ini adalah panduan cepat dengan hal-hal terpenting yang perlu Anda ketahui.
+    whats_on_the_map:
+      title: Apa yang ada di Peta
+      on_html: OpenStreetMap adalah tempat untuk memetakan hal-hal, baik <em>nyata
+        dan saat ini</em> - ini mencakup jutaan bangunan, jalan, dan rincian lainnya
+        tentang tempat-tempat. Anda dapat memetakan fitur dunia-nyata apapun yang
+        menarik untuk Anda.
+      off_html: Apa yang <em>tidak</em> termasuk adalah data pendapat seperti peringkat,
+        fitur sejarah atau hipotesis, dan data dari sumber berhak cipta. Kecuali Anda
+        mempunyai izin khusus, jangan menyalin dari peta online atau kertas.
+    basic_terms:
+      title: Istilah-Istilah Dasar untuk Pemetaan
+      paragraph_1_html: OpenStreetMap memiliki beberapa istilah tersendiri. Berikut
+        ini beberapa kata kunci yang dapat digunakan.
+      editor_html: <strong>Editor</strong> adalah sebuah program atau situs web yang
+        dapat Anda gunakan untuk menyunting peta.
+      node_html: Sebuah <strong>node</strong> adalah sebuah titik pada peta, seperti
+        sebuah restoran tunggal atau sebuah pohon.
+      way_html: Sebuah <strong>jalur</strong> berupa garis merupakan wilayah seperti
+        jalan, sungai, danau, atau bangunan.
+      tag_html: "Sebuah <strong>tag</strong> adalah sedikit data tentang simpul atau
+        jalan, seperti \nnama restoran atau batas kecepatan jalan"
+    questions:
+      title: Ada pertanyaan?
+      paragraph_1_html: "OpenStreetMap memiliki beberapa sumber daya untuk belajar
+        tentang proyek, bertanya dan menjawab \npertanyaan, dan bersama-sama mendiskusikan
+        dan mendokumentasikan topik pemetaan.\n<a href='%{help_url}'>Dapatkan bantuan
+        di sini</a>."
+    start_mapping: Mulai pemetaan
+    add_a_note:
+      title: Keberatan menyunting? Tambahkan catatan!
+      paragraph_1_html: Jika Anda ingin memberi perbaikan kecil dan tidak mau mendaftar
+        ataupun mempelajari cara penyuntingan, Anda cukup memberi catatan.
+      paragraph_2_html: |-
+        Langsung ke <a href='%{map_url}'>peta</a> dan klik ikon catatan:
+        <span class='icon note'></span>. Ini akan menambahkan sebuah penanda ke peta yang dapat bergerak
+         dengan menyeretnya. Tambahkan pesan, lalu klik simpan, dan pemeta lainnya akan menyelidiki.
+  fixthemap:
+    title: Laporkan kesalahan / Perbaiki peta
+    how_to_help:
+      title: Cara Membantu
+      join_the_community:
+        title: Bergabung dengan komunitas
+        explanation_html: "Jika Anda telah melihat masalah dengan data peta kami,
+          misalnya jalan yang hilang atau alamat Anda, cara terbaik untuk \nmelanjutkan
+          adalah untuk bergabung dengan komunitas OpenStreetMap dan menambah atau
+          memperbaiki data diri."
+      add_a_note:
+        instructions_html: "Hanya klik <a class='icon note'></a> atau ikon yang sama
+          pada layar peta. \nIni akan menambahkan penanda ke peta, yang dapat Anda
+          bergerak \ndengan menyeret. Tambahkan pesan Anda, lalu klik simpan, dan
+          pembuat peta lainnya akan menyelidiki."
+    other_concerns:
+      title: Kekhawatiran lain
+      explanation_html: "Jika Anda memiliki kekhawatiran tentang bagaimana data kami
+        sedang digunakan atau tentang isi silakan baca\n<a href='/copyright'>halaman
+        hak cipta</a> untuk informasi hukum lainnya, atau hubungi \n<a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>kelompok
+        kerja OSMF</a> yang sesuai."
+  help_page:
+    title: Dapatkan Bantuan
+    introduction: "OpenStreetMap memiliki beberapa sumber daya untuk belajar tentang
+      proyek, bertanya dan menjawab pertanyaan, \ndan bersama-sama mendiskusikan dan
+      mendokumentasikan topik pemetaan."
+    welcome:
+      url: /welcome
+      title: Selamat datang di OSM
+      description: Mulailah dengan panduan cepat meliputi dasar-dasar OpenStreetMap.
+    help:
+      url: https://help.openstreetmap.org/
+      title: help.openstreetmap.org
+      description: Ajukan pertanyaan atau mencari jawaban di situs tanya-jawab OSM
+        ini.
+    wiki:
+      url: http://wiki.openstreetmap.org/
+      title: wiki.openstreetmap.org
+      description: Telusuri wiki untuk mendalam dokumentasi OSM.
+  about_page:
+    next: Berikutnya
+    copyright_html: <span>&copy;</span>Kontributor<br>OpenStreetMap
+    used_by: Kekuatan %{name} memetakan data pada ratusan situs web, aplikasi seluler,
+      dan perangkat keras
+    lede_text: "OpenStreetMap dibangun oleh komunitas pembuat peta yang berkontribusi
+      dan memelihara data \ntentang jalan, jalur, kafe, stasiun kereta api, dan masih
+      banyak lagi, di seluruh dunia."
+    local_knowledge_title: Pengetahuan Lokal
+    local_knowledge_html: "OpenStreetMap menekankan pengetahuan lokal. Kontributor
+      menggunakan \ncitra udara, perangkat GPS, dan lapangan berteknologi rendah peta
+      untuk memverifikasi bahwa OSM akurat dan termutakhir."
+    community_driven_title: Berbasis Masyarakat
+    open_data_title: Buka Data
+    open_data_html: 'OpenStreetMap adalah <i>data terbuka</i>: Anda bebas untuk menggunakannya
+      untuk tujuan apapun selama Anda memberi penghargaan pada OpenStreetMap dan kontributornya.
+      Jika Anda mengubah atau membangun dari data dengan cara tertentu, Anda dapat
+      menyebarkan hasilnya hanya di bawah lisensi yang sama. Lihat <a href=''%{copyright_path}''>halaman
+      Hak Cipta dan Lisensi</a> untuk perinciannya.'
+    partners_title: Rekan
+  notifier:
+    diary_comment_notification:
+      subject: '[OpenStreetMap] %{user} mengomentari entri catatan harian Anda'
+      hi: Halo %{to_user},
+      header: '%{from_user} mengomentari entri terbaru dari catatan harian OpenStreetMap
+        Anda dengan subjek %{subject}:'
+      footer: Anda juga dapat membaca komentar pada %{readurl} dan Anda juga dapat
+        berkomentar pada %{commenturl} atau membalas pada %{replyurl}
+    message_notification:
+      hi: Halo %{to_user},
+      header: '%{from_user} telah mengirim sebuah pesan kepada Anda melalui OpenStreetMap
+        dengan subjek %{subject}:'
+      footer_html: Anda juga dapat membaca pesan di  %{readurl} dan membalasnya di
+        %{replyurl}
+    friend_notification:
+      subject: '[OpenStreetMap] %{user} menambahkan Anda sebagai teman'
+      had_added_you: '%{user} telah menambahkan Anda sebagai teman pada OpenStreetMap.'
+      see_their_profile: Anda dapat melihat profilnya pada %{userurl}.
+      befriend_them: Anda juga dapat menambahkannua sebagai teman di %{befriendurl}.
+    gpx_notification:
+      greeting: Halo,
+      your_gpx_file: Kelihatannya ini file GPX Anda
+      with_description: dengan deskripsi
+      and_the_tags: 'dan tag berikut:'
+      and_no_tags: dan tanpa tag.
+      failure:
+        subject: '[OpenStreetMap] gagal impor GPX'
+        failed_to_import: 'gagal melakukan impor. Berikut ini adalah kesalahannya:'
+        more_info_1: Informasi lebih lanjut mengenai kegagalan mengimpor GPX dan bagaimana
+          menghindarinya
+        more_info_2: 'dapat ditemukan pada:'
+      success:
+        subject: '[OpenStreetMap] impor GPX sukses'
+        loaded_successfully: telah berhasil dengan %{trace_points} dari %{possible_points}
+          titik yang mungkin.
+    signup_confirm:
+      subject: '[OpenStreetMap] Selamat datang di OpenStreetMap'
+      greeting: Halo!
+      created: Seseorang (mudah-mudahan Anda) baru saja membuat sebuah akun pada %{site_url}.
+      confirm: 'Sebelum kita melakukan hal lainnya, kita perlu melakukan konfirmasi
+        bahwa permintaan ini datang dari Anda, jadi bila benar silahkan Anda klik
+        link di bawah ini untuk melakukan konfirmasi akun Anda:'
+      welcome: Setelah Anda mengkonfirmasi akun Anda, kami akan memberikan Anda beberapa
+        informasi tambahan agar Anda dapat segera memulainya.
+    email_confirm:
+      subject: '[OpenStreetMap] Konfirmasi alamat email Anda'
+    email_confirm_plain:
+      greeting: Halo,
+      hopefully_you: Seseorang (semoga saja Anda) ingin mengubah alamat  email pada
+        %{server_url} menjadi %{new_address}.
+      click_the_link: Jika ini adalah Anda, silahkan klik link di bawah ini untuk
+        mengkonfirmasi perubahan.
+    email_confirm_html:
+      greeting: Halo,
+      hopefully_you: Seseorang (semoga saja Anda) ingin mengubah alamat  email pada
+        %{server_url} menjadi %{new_address}.
+      click_the_link: Jika ini adalah Anda, silahkan klik link di bawah ini untuk
+        mengkonfirmasi perubahan.
+    lost_password:
+      subject: '[OpenStreetMap] Permintaan atur ulang sandi'
+    lost_password_plain:
+      greeting: Halo,
+      hopefully_you: Seseorang (kemungkinan Anda) telah meminta untuk mengatur ulang
+        password pada alamat email dari akun openstreetmap.org ini.
+      click_the_link: Jika ini Anda, silahkan klik link di bawah ini untuk menyetel
+        ulang kata sandi.
+    lost_password_html:
+      greeting: Halo,
+      hopefully_you: Seseorang (kemungkinan Anda) telah meminta untuk mengatur ulang
+        password pada alamat email dari akun openstreetmap.org ini.
+      click_the_link: Jika ini Anda, silahkan klik link di bawah ini untuk menyetel
+        ulang kata sandi.
+    note_comment_notification:
+      anonymous: Seorang pengguna anonim
+      greeting: Halo,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} memberikan komentar di salah satu
+          catatan Anda'
+        subject_other: '[OpenStreetMap] %{commenter} telah berkomentar pada catatan
+          yang Anda minati'
+        your_note: '%{commenter} telah meninggalkan komentar pada salah satu catatan
+          peta Anda dekat %{place}.'
+        commented_note: '%{commenter} memberi komentar pada catatan peta yang Anda
+          komentari. Catatan ini dekat %{place}.'
+      closed:
+        subject_own: '[OpenStreetMap] %{commenter} telah menyelesaikan salah satu
+          catatan Anda'
+        subject_other: '[OpenStreetMap] %{commenter} telah menyelesaikan sebuah catatan
+          yang Anda minati'
+        your_note: '%{commenter} telah menyelesaikan salah satu catatan peta Anda
+          dekat %{place}.'
+        commented_note: '%{commenter} telah meninggalkan komentar pada peta catatan
+          yang Anda komentari. Catatan ini dekat %{place}.'
+      reopened:
+        subject_own: '[OpenStreetMap] %{commenter} telah mengaktifkan kembali salah
+          satu catatan Anda'
+        subject_other: '[OpenStreetMap] %{commenter} telah mengaktifkan kembali catatan
+          yang Anda minati'
+        your_note: '%{commenter} telah mengaktifkan kembali salah satu catatan peta
+          Anda dekat %{place}.'
+        commented_note: '%{commenter} telah meninggalkan komentar pada catatan peta
+          yang Anda komentari. Catatan ini dekat %{place}.'
+      details: Rincian lebih lanjut mengenai catatan dapat ditemukan di %{url}.
+  message:
+    inbox:
       title: Kotak Masuk
-    mark: 
-      as_read: Pesan ditandai sebagai telah dibaca
-      as_unread: Pesan ditandai sebagai belum dibaca
-    message_summary: 
-      delete_button: Hapus
+      my_inbox: Kotak Masuk Saya
+      outbox: Kotak keluar
+      messages: Anda memiliki %{new_messages} dan %{old_messages}
+      new_messages:
+        one: '%{count} pesan baru'
+        other: '%{count} pesan baru'
+      old_messages:
+        one: '%{count} pesan lama'
+        other: '%{count} pesan lama'
+      from: Dari
+      subject: Subyek
+      date: Tanggal
+      no_messages_yet: Anda belum memiliki pesan. Mengapa tidak  berhubungan dengan
+        beberapa %{people_mapping_nearby_link}?
+      people_mapping_nearby: orang-orang disekitar Anda yang melakukan pemetaan
+    message_summary:
+      unread_button: Tandai belum dibaca
       read_button: Tandai sudah dibaca
       reply_button: Balas
-      unread_button: Tandai belum dibaca
-    new: 
-      back_to_inbox: Kembali ke kotak masuk
-      body: Isi Pesan
-      limit_exceeded: Anda telah mengirim banyak sekali pesan baru akhir-akhir ini. Silahkan tunggu sebentar sebelum mencoba mengirimkan lagi.
-      message_sent: Pesan terkirim
-      send_button: Kirim
+      delete_button: Hapus
+    new:
+      title: Kirim Pesan
       send_message_to: Kirim pesan baru ke %{name}
       subject: Subyek
-      title: Kirim Pesan
-    no_such_message: 
-      body: Maaf tidak ada pesan dengan id tersebut.
-      heading: Tidak ada pesan
+      body: Isi Pesan
+      send_button: Kirim
+      back_to_inbox: Kembali ke kotak masuk
+      message_sent: Pesan terkirim
+      limit_exceeded: Anda telah mengirim banyak sekali pesan baru akhir-akhir ini.
+        Silahkan tunggu sebentar sebelum mencoba mengirimkan lagi.
+    no_such_message:
       title: Tidak ada pesan
-    outbox: 
-      date: Tanggal
+      heading: Tidak ada pesan
+      body: Maaf tidak ada pesan dengan id tersebut.
+    outbox:
+      title: Kotak keluar
+      my_inbox: '%{inbox_link} saya'
       inbox: kotak masuk
-      messages: 
+      outbox: kotak keluar
+      messages:
         one: Anda memiliki %{count} pesan terkirim
         other: Anda memiliki %{count} pesan terkirim
-      my_inbox: "%{inbox_link} saya"
-      no_sent_messages: Anda belum memiliki pesan. Mengapa tidak  berhubungan dengan beberapa %{people_mapping_nearby_link}?
-      outbox: kotak keluar
-      people_mapping_nearby: orang-orang disekitar Anda yang melakukan pemetaan
-      subject: Subjek
-      title: Kotak keluar
       to: Kepada
-    read: 
-      back: Kembali
+      subject: Subjek
       date: Tanggal
-      from: Dari
-      reply_button: Balas
-      subject: Subjek
+      no_sent_messages: Anda belum memiliki pesan. Mengapa tidak  berhubungan dengan
+        beberapa %{people_mapping_nearby_link}?
+      people_mapping_nearby: orang-orang disekitar Anda yang melakukan pemetaan
+    reply:
+      wrong_user: Anda login sebagai '%{user}' tapi pesan yang Anda balas tidak terkirim
+        ke pengguna. Silahkan login sebagai pengguna yang benar untuk membalas.
+    read:
       title: Baca pesan
-      to: Kepada
+      from: Dari
+      subject: Subjek
+      date: Tanggal
+      reply_button: Balas
       unread_button: Tandai belum dibaca
-      wrong_user: Anda login sebagai '%{user}' tetapi pesan yang anda balas tidak dikirim oleh atau untuk pengguna tersebut. Silahkan login sebagai pengguna yang benar untuk membacanya.
-    reply: 
-      wrong_user: Anda login sebagai '%{user}' tapi pesan yang Anda balas tidak terkirim ke pengguna. Silahkan login sebagai pengguna yang benar untuk membalas.
-    sent_message_summary: 
+      back: Kembali
+      to: Kepada
+      wrong_user: Anda login sebagai '%{user}' tetapi pesan yang anda balas tidak
+        dikirim oleh atau untuk pengguna tersebut. Silahkan login sebagai pengguna
+        yang benar untuk membacanya.
+    sent_message_summary:
       delete_button: Hapus
-  note: 
-    description: 
-      closed_at_by_html: Diselesaikan %{when} yang lalu oleh %{user}
-      closed_at_html: Diselesaikan %{when} yang lalu
-      commented_at_by_html: Diperbarui %{when} yang lalu oleh %{user}
-      commented_at_html: Diperbarui %{when} yang lalu
-      opened_at_by_html: Dibuat %{when} yang lalu oleh %{user}
-      opened_at_html: Dibuat %{when} yang lalu
-      reopened_at_by_html: Diaktifkan kembali %{when} yang lalu oleh %{user}
-      reopened_at_html: Diaktifkan kembali %{when} yang lalu
-    entry: 
-      comment: Komentar
-      full: Catatan lengkap
-    mine: 
-      ago_html: "%{when} yang lalu"
-      created_at: Dibuat pada
-      creator: Pembuat
+    mark:
+      as_read: Pesan ditandai sebagai telah dibaca
+      as_unread: Pesan ditandai sebagai belum dibaca
+    delete:
+      deleted: Pesan dihapus
+  site:
+    index:
+      js_1: Anda menggunakan browser yang tidak mendukung JavaScript, atau Anda telah
+        menonaktifkan JavaScript.
+      js_2: OpenStreetMap menggunakan JavaScript untuk slippy map nya.
+      permalink: Permalink
+      shortlink: Shortlink
+      createnote: Tambahkan catatan
+      license:
+        copyright: Hak cipta dan kontributor OpenStreetMap, di bawah lisensi terbuka
+      remote_failed: Gagal melakukan edit - pastikan JOSM atau Merkaartor telah termuat
+        dan opsi remote control telah diaktifkan
+    edit:
+      not_public: Anda belum mengatur hasil edit Anda menjadi publik.
+      not_public_description: Anda tidak dapat mengedit peta kecuali Anda melakukannya.
+        Anda dapat mengatur editan Anda sebagai umum dari halaman %{user_page}.
+      user_page_link: halaman pengguna
+      anon_edits_link_text: Cari tahu mengapa hal ini terjadi.
+      flash_player_required: Anda membutuhkan Flash player untuk menggunakan Potlatch,
+        editor OpenStreetMap berbasis Flash. Anda dapat <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">men-download
+        Flash Player dari Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Beberapa
+        opsi lain</a> juga tersedia untuk mengedit OpenStreetMap.
+      potlatch_unsaved_changes: Anda memiliki perubahan yang belum disimpan. (Untuk
+        menyimpan di Potlatch, Anda harus membatalkan pilihan garis atau titik saat
+        ini, jika mengedit dalam modus live, atau klik Simpan jika Anda memiliki tombol
+        simpan.)
+      potlatch2_not_configured: Potlatch 2 belum dikonfigurasi - silakan lihat http://wiki.openstreetmap.org/wiki/The_Rails_Port
+      potlatch2_unsaved_changes: Anda memiliki perubahan yang belum disimpan. (Untuk
+        menyimpannya dengan Potlatch 2, Anda dapat klik simpan.)
+      id_not_configured: iD belum dikonfigurasikan
+      no_iframe_support: Browser Anda tidak mendukung iframes HTML yang diperlukan
+        untuk fitur ini.
+    sidebar:
+      search_results: Hasil Pencarian
+      close: Tutup
+    search:
+      search: Pencarian
+      where_am_i: Di mana saya?
+      where_am_i_title: Deskripsikan lokasi Anda saat ini menggunakan mesin pencari
+      submit_text: Lanjut
+    key:
+      table:
+        entry:
+          motorway: Jalan Tol
+          trunk: Jalan Utama Bukan Tol
+          primary: Jalan Primer
+          secondary: Jalan Sekunder
+          unclassified: Jalan Tidak Terklasifikasi
+          unsurfaced: Jalan Tanpa Permukaan
+          track: Trek
+          byway: Jalan Kampung
+          bridleway: Jalan Tanah
+          cycleway: Jalur Sepeda
+          footway: Jalan Setapak
+          rail: Rel Kereta
+          subway: Kereta bawah tanah
+          tram:
+          - Kereta listrik
+          - trem
+          cable:
+          - Kereta Kabel
+          - Kereta Gantung
+          runway:
+          - Landasan bandara
+          - Jalur taxi
+          apron:
+          - Tempat Parkir Pesawat
+          - terminal
+          admin: Batas administrasi
+          forest: Hutan
+          wood: Kayu
+          golf: Lapangan Golf
+          park: Taman
+          resident: Area Permukiman
+          tourist: Objek wisata
+          common:
+          - Umum
+          - Padang rumput
+          retail: Area pertokoan retail
+          industrial: Kawasan industri
+          commercial: Area komersial
+          heathland: Semak
+          lake:
+          - Danau
+          - Wilayah Serapan (Reservoir)
+          farm: Pertanian
+          brownfield: Lahan kosong
+          cemetery: Pemakaman
+          allotments: Tanah garap
+          pitch: Lapangan Olahraga
+          centre: Pusat Olahraga
+          reserve: Cagar Alam
+          military: Kawasan militer
+          school:
+          - Sekolah
+          - universitas
+          building: Bangunan Penting
+          station: Stasiun Kereta Api
+          summit:
+          - Puncak
+          - puncak
+          tunnel: Dashed Casing = terowongan
+          bridge: Black casing = jembatan
+          private: Akses pribadi
+          permissive: Akses Permisif
+          destination: Akses Tujuan
+          construction: Jalan sedang diperbaiki
+    richtext_area:
+      edit: Edit
+      preview: Tinjauan
+    markdown_help:
+      title_html: Diurai dengan <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      headings: Judul
+      heading: Judul
+      subheading: Subjudul
+      unordered: Daftar tak berurut
+      ordered: Daftar terurut
+      first: Objek pertama
+      second: Objek kedua
+      link: Tautan
+      text: Teks
+      image: Gambar
+      alt: Teks Alternatif
+      url: URL
+  trace:
+    visibility:
+      private: Pribadi (hanya berbagi sebagai anonim, poin tidak berurut)
+      public: Publik (ditampilkan dalam daftar jejak dan sebagai anonim, poin tidak
+        berurut)
+      trackable: Dapat Dilacak (hanya berbagi sebagai anonim, memerintahkan poin dengan
+        cap waktu)
+      identifiable: Dapat Diidentifikasi (ditampilkan dalam daftar jejak dan sebagai
+        diidentifikasi, mengatur poin dengan waktu pengambilan)
+    create:
+      upload_trace: Upload trek GPS
+      trace_uploaded: File GPX Anda telah di-upload dan menunggu penyisipan dalam
+        database. Ini biasanya akan membutuhkan waktu setengah jam, dan sebuah email
+        akan dikirim kepada Anda ketika sudah selesai.
+    edit:
+      title: Mengedit jejak %{name}
+      heading: Mengedit dijitasi %{name}
+      filename: 'Nama File:'
+      download: download
+      uploaded_at: 'Diupload:'
+      points: 'Poin/Titik:'
+      start_coord: 'Koordinat awal:'
+      map: peta
+      edit: edit
+      owner: 'Pemilik:'
+      description: 'Deskripsi:'
+      tags: 'Tags:'
+      tags_help: dipisahkan oleh koma
+      save_button: Simpan Perubahan
+      visibility: Visibilitas
+      visibility_help: apa artinya ini?
+    trace_form:
+      upload_gpx: 'Upload File GPX:'
       description: Deskripsi
-      heading: catatan oleh %{user}
-      id: Id
-      last_changed: Terakhir diubah
-      subheading: Catatan dimasukkan atau dikomentari oleh %{user}
-      title: Catatan dimasukkan atau dikomentari oleh %{user}
-    rss: 
-      closed: catatan ditutup (near %{place})
-      commented: komentar baru (near %{place})
-      description_area: Daftar catatan, laporan, komentar atau ditutup di daerah Anda [( %{min_lat}|%{min_lon})--( %{max_lat}|%{max_lon})]
-      description_item: Sebuah rss feed untuk catatan %{id}
-      opened: catatan baru (near %{place})
-      reopened: catatan yang diaktifkan kembali (near %{place})
-      title: Catatan OpenStreetMap
-  notifier: 
-    diary_comment_notification: 
-      footer: Anda juga dapat membaca komentar pada %{readurl} dan Anda juga dapat berkomentar pada %{commenturl} atau membalas pada %{replyurl}
-      header: "%{from_user} mengomentari entri terbaru dari catatan harian OpenStreetMap Anda dengan subjek %{subject}:"
-      hi: Halo %{to_user},
-      subject: "[OpenStreetMap] %{user} mengomentari entri catatan harian Anda"
-    email_confirm: 
-      subject: "[OpenStreetMap] Konfirmasi alamat email Anda"
-    email_confirm_html: 
-      click_the_link: Jika ini adalah Anda, silahkan klik link di bawah ini untuk mengkonfirmasi perubahan.
-      greeting: Halo,
-      hopefully_you: Seseorang (semoga saja Anda) ingin mengubah alamat  email pada %{server_url} menjadi %{new_address}.
-    email_confirm_plain: 
-      click_the_link: Jika ini adalah Anda, silahkan klik link di bawah ini untuk mengkonfirmasi perubahan.
-      greeting: Halo,
-      hopefully_you: Seseorang (semoga saja Anda) ingin mengubah alamat  email pada %{server_url} menjadi %{new_address}.
-    friend_notification: 
-      befriend_them: Anda juga dapat menambahkannua sebagai teman di %{befriendurl}.
-      had_added_you: "%{user} telah menambahkan Anda sebagai teman pada OpenStreetMap."
-      see_their_profile: Anda dapat melihat profilnya pada %{userurl}.
-      subject: "[OpenStreetMap] %{user} menambahkan Anda sebagai teman"
-    gpx_notification: 
-      and_no_tags: dan tanpa tag.
-      and_the_tags: "dan tag berikut:"
-      failure: 
-        failed_to_import: "gagal melakukan impor. Berikut ini adalah kesalahannya:"
-        more_info_1: Informasi lebih lanjut mengenai kegagalan mengimpor GPX dan bagaimana menghindarinya
-        more_info_2: "dapat ditemukan pada:"
-        subject: "[OpenStreetMap] gagal impor GPX"
-      greeting: Halo,
-      success: 
-        loaded_successfully: telah berhasil dengan %{trace_points} dari %{possible_points} titik yang mungkin.
-        subject: "[OpenStreetMap] impor GPX sukses"
-      with_description: dengan deskripsi
-      your_gpx_file: Kelihatannya ini file GPX Anda
-    lost_password: 
-      subject: "[OpenStreetMap] Permintaan atur ulang sandi"
-    lost_password_html: 
-      click_the_link: Jika ini Anda, silahkan klik link di bawah ini untuk menyetel ulang kata sandi.
-      greeting: Halo,
-      hopefully_you: Seseorang (kemungkinan Anda) telah meminta untuk mengatur ulang password pada alamat email dari akun openstreetmap.org ini.
-    lost_password_plain: 
-      click_the_link: Jika ini Anda, silahkan klik link di bawah ini untuk menyetel ulang kata sandi.
-      greeting: Halo,
-      hopefully_you: Seseorang (kemungkinan Anda) telah meminta untuk mengatur ulang password pada alamat email dari akun openstreetmap.org ini.
-    message_notification: 
-      footer_html: Anda juga dapat membaca pesan di  %{readurl} dan membalasnya di %{replyurl}
-      header: "%{from_user} telah mengirim sebuah pesan kepada Anda melalui OpenStreetMap dengan subjek %{subject}:"
-      hi: Halo %{to_user},
-    note_comment_notification: 
-      anonymous: Seorang pengguna anonim
-      closed: 
-        commented_note: "%{commenter} telah meninggalkan komentar pada peta catatan yang Anda komentari. Catatan ini dekat %{place}."
-        subject_other: "[OpenStreetMap] %{commenter} telah menyelesaikan sebuah catatan yang Anda minati"
-        subject_own: "[OpenStreetMap] %{commenter} telah menyelesaikan salah satu catatan Anda"
-        your_note: "%{commenter} telah menyelesaikan salah satu catatan peta Anda dekat %{place}."
-      commented: 
-        commented_note: "%{commenter} memberi komentar pada catatan peta yang Anda komentari. Catatan ini dekat %{place}."
-        subject_other: "[OpenStreetMap] %{commenter} telah berkomentar pada catatan yang Anda minati"
-        subject_own: "[OpenStreetMap] %{commenter} memberikan komentar di salah satu catatan Anda"
-        your_note: "%{commenter} telah meninggalkan komentar pada salah satu catatan peta Anda dekat %{place}."
-      details: Rincian lebih lanjut mengenai catatan dapat ditemukan di %{url}.
-      greeting: Halo,
-      reopened: 
-        commented_note: "%{commenter} telah meninggalkan komentar pada catatan peta yang Anda komentari. Catatan ini dekat %{place}."
-        subject_other: "[OpenStreetMap] %{commenter} telah mengaktifkan kembali catatan yang Anda minati"
-        subject_own: "[OpenStreetMap] %{commenter} telah mengaktifkan kembali salah satu catatan Anda"
-        your_note: "%{commenter} telah mengaktifkan kembali salah satu catatan peta Anda dekat %{place}."
-    signup_confirm: 
-      confirm: "Sebelum kita melakukan hal lainnya, kita perlu melakukan konfirmasi bahwa permintaan ini datang dari Anda, jadi bila benar silahkan Anda klik link di bawah ini untuk melakukan konfirmasi akun Anda:"
-      created: Seseorang (mudah-mudahan Anda) baru saja membuat sebuah akun pada %{site_url}.
-      greeting: Halo!
-      subject: "[OpenStreetMap] Selamat datang di OpenStreetMap"
-      welcome: Setelah Anda mengkonfirmasi akun Anda, kami akan memberikan Anda beberapa informasi tambahan agar Anda dapat segera memulainya.
-  oauth: 
-    oauthorize: 
-      allow_read_gpx: baca trek GPS pribadi Anda.
+      tags: 'Tags:'
+      tags_help: dipisahkan oleh koma
+      visibility: Visibilitas
+      visibility_help: apa artinya ini?
+      upload_button: Upload
+      help: Bantuan
+    trace_header:
+      upload_trace: Upload trek GPS
+      see_all_traces: Lihat semua dijitasi
+      see_your_traces: Melihat dijitasi Anda
+      traces_waiting:
+        one: 'Anda memiliki trek GPS %{count} yang menunggu untuk diupload. Harap
+          pertimbangkan proses ini untuk diselesaikan sebelum meng-upload lagi, sehingga
+          Anda tidak memblokir antrian untuk %{count} pengguna lain. '
+        other: Anda memiliki %{count} trek GPS yang menunggu untuk diupload. Harap
+          pertimbangkan proses ini untuk diselesaikan sebelum meng-upload lagi, sehingga
+          Anda tidak memblokir antrian untuk %{count} pengguna lain.
+    trace_optionals:
+      tags: 'Tags:'
+    view:
+      title: Melihat trek %{name}
+      heading: Melihat trek %{name}
+      pending: TERTUNDA
+      filename: 'Nama File:'
+      download: download
+      uploaded: 'Diupload:'
+      points: 'Poin/Titik:'
+      start_coordinates: Koordinat Awal
+      map: peta
+      edit: edit
+      owner: 'Pemilik:'
+      description: 'Deskripsi:'
+      tags: 'Tag:'
+      none: Tidak ada
+      edit_track: 'Edit trek ini:'
+      delete_track: Hapus trek ini
+      trace_not_found: Trek tidak ditemukan!
+      visibility: Visibilitas
+    trace_paging_nav:
+      showing_page: Halaman %{page}
+      older: Trek-trek lama
+      newer: Trek-trek terbaru
+    trace:
+      pending: TERTUNDA
+      count_points: '%{count} titik'
+      ago: '%{time_in_words_ago} yang lalu'
+      more: selebihnya
+      trace_details: Lihat rincian trek
+      view_map: Lihat peta
+      edit: edit
+      edit_map: Edit Peta
+      public: UMUM
+      identifiable: DIIDENTIFIKASI
+      private: PRIBADI
+      trackable: DILACAK
+      by: oleh
+      in: dalam
+      map: peta
+    list:
+      public_traces: Trek GPS umum
+      your_traces: Trek GPS Anda
+      public_traces_from: Trek GPS umum dari %{user}
+      description: Telusuri hasil upload trek GPS terbaru
+      tagged_with: di tag dengan %{tags}
+      empty_html: Belum ada apapun di sini. <a href='%{upload_link}'>Meng-upload trek
+        GPS baru</a> atau belajar lebih banyak tentang trek GPS pada <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>halaman
+        wiki</a>.
+    delete:
+      scheduled_for_deletion: Trek yang dijadwalkan untuk dihapus
+    make_public:
+      made_public: Trek GPS yang dipublikasikan
+    offline_warning:
+      message: Sistem upload file GPX saat ini tidak tersedia
+    offline:
+      heading: Penyimpanan GPX Offline
+      message: Sistem upload dan penyimpanan file GPX saat ini tidak tersedia.
+    georss:
+      title: Jejak SPG (sistem pemosisi global) OpenStreetMap
+  application:
+    require_cookies:
+      cookies_needed: Anda tampaknya memiliki cookies yang tidak aktif - mohon aktifkan
+        cookies pada browser anda sebelum melanjutkan.
+    require_moderator:
+      not_a_moderator: Anda perlu menjadi moderator untuk melakukan tindakan ini.
+    setup_user_auth:
+      blocked: Akses Anda ke API telah diblokir. Silahkan log-in ke antarmuka web
+        untuk mengetahui lebih lanjut.
+      need_to_see_terms: Akses Anda ke API untuk sementara ditangguhkan. Silahkan
+        log-in ke antarmuka web untuk melihat persyaratan kontributor. Anda tidak
+        perlu untuk setuju, tapi Anda harus melihat mereka.
+  oauth:
+    oauthorize:
+      title: Otorisasi akses ke akun Anda
+      request_access: Aplikasi %{app_name} akan meminta akses ke akun, %{user}. Periksa
+        apakah Anda ingin aplikasi untuk memiliki kemampuan berikut. Anda dapat memilih
+        sebanyak atau sesedikit yang Anda inginkan.
+      allow_to: 'Memungkinkan klien aplikasi untuk:'
       allow_read_prefs: baca pengaturan pengguna anda.
-      allow_to: "Memungkinkan klien aplikasi untuk:"
-      allow_write_api: memodifikasi peta.
+      allow_write_prefs: modifikasi pengaturan pengguna anda.
       allow_write_diary: membuat entri buku harian, komentar dan berteman.
+      allow_write_api: memodifikasi peta.
+      allow_read_gpx: baca trek GPS pribadi Anda.
       allow_write_gpx: Upload trek GPS
       allow_write_notes: memodifikasi catatan.
-      allow_write_prefs: modifikasi pengaturan pengguna anda.
-      request_access: Aplikasi %{app_name} akan meminta akses ke akun, %{user}. Periksa apakah Anda ingin aplikasi untuk memiliki kemampuan berikut. Anda dapat memilih sebanyak atau sesedikit yang Anda inginkan.
-      title: Otorisasi akses ke akun Anda
-    oauthorize_failure: 
+    oauthorize_success:
+      title: Permintaan otorisasi diperbolehkan
+      allowed: Anda telah memberikan aplikasi %{app_name} akses ke akun Anda.
+      verification: Kode verifikasi adalah %{code}.
+    oauthorize_failure:
+      title: Permintaan otorisasi gagal
       denied: Anda telah menolak aplikasi %{app_name} mengakses akun Anda.
       invalid: Otorisasi token ini tidak berlaku.
-      title: Permintaan otorisasi gagal
-    oauthorize_success: 
-      allowed: Anda telah memberikan aplikasi %{app_name} akses ke akun Anda.
-      title: Permintaan otorisasi diperbolehkan
-      verification: Kode verifikasi adalah %{code}.
-    revoke: 
+    revoke:
       flash: Anda telah menolak token untuk %(application}
-  oauth_clients: 
-    create: 
-      flash: Informasi telah terdaftar dengan sukses.
-    destroy: 
-      flash: Registrasi aplikasi klien telah dibatalkan.
-    edit: 
-      submit: Edit
-      title: Edit aplikasi Anda
-    form: 
-      allow_read_gpx: baca trek GPS pribadi mereka
-      allow_read_prefs: Baca pengaturan mereka sebagai pengguna.
-      allow_write_api: modifikasi peta
-      allow_write_diary: membuat entri buku harian, komentar dan buat pertemanan.
-      allow_write_gpx: upload trek GPS
-      allow_write_notes: memodifikasi catatan.
-      allow_write_prefs: memodifikasi pengaturan mereka sebagai pengguna.
-      callback_url: Panggilan kembali URL
-      name: Nama
-      requests: "Meminta izin berikut dari pengguna:"
-      required: Diperlukan
-      support_url: URL Dukungan
-      url: URL Aplikasi utama
-    index: 
-      application: Nama aplikasi
-      issued_at: Diterbitkan di
-      list_tokens: "Token berikut telah dikeluarkan untuk aplikasi untuk nama Anda:"
-      my_apps: Aplikasi klien saya
-      my_tokens: Aplikasi yang telah saya setujui
-      no_apps: Apakah anda memiliki aplikasi yang ingin didaftarkan untuk digunakan dengan menggunakan standar %{oauth}? Anda harus mendaftar aplikasi web Anda sebelum dapat membuat permintaan OAuth untuk layanan ini.
-      register_new: Daftarkan aplikasi anda
-      registered_apps: "Anda memiliki aplikasi klien terdaftar berikut:"
-      revoke: Batalkan!
-      title: Rincian OAuth saya
-    new: 
-      submit: Daftar
+  oauth_clients:
+    new:
       title: Daftar aplikasi baru
-    not_found: 
-      sorry: Maaf, %{type} tidak dapat ditemukan.
-    show: 
-      access_url: "Akses URL Token:"
-      allow_read_gpx: baca trek GPS pribadi mereka
+      submit: Daftar
+    edit:
+      title: Edit aplikasi Anda
+      submit: Edit
+    show:
+      title: Rincian OAuth untuk %{app_name}
+      key: 'Key konsumen:'
+      secret: 'Rahasia konsumen:'
+      url: 'Minta URL Token:'
+      access_url: 'Akses URL Token:'
+      authorize_url: 'Otorisasi URL:'
+      support_notice: Kami mendukung tanda tangan HMAC-SHA1 (disarankan) dan RSA-SHA1
+      edit: Edit Rincian
+      delete: Menghapus klien
+      confirm: Apakah Anda yakin?
+      requests: 'Meminta izin berikut dari pengguna:'
       allow_read_prefs: Baca pengaturan mereka sebagai pengguna.
-      allow_write_api: modifikasi peta.
+      allow_write_prefs: memodifikasi pengaturan mereka sebagai pengguna.
       allow_write_diary: membuat entri buku harian, komentar dan membuat pertemanan.
+      allow_write_api: modifikasi peta.
+      allow_read_gpx: baca trek GPS pribadi mereka
       allow_write_gpx: upload trek GPS.
       allow_write_notes: memodifikasi catatan.
+    index:
+      title: Rincian OAuth saya
+      my_tokens: Aplikasi yang telah saya setujui
+      list_tokens: 'Token berikut telah dikeluarkan untuk aplikasi untuk nama Anda:'
+      application: Nama aplikasi
+      issued_at: Diterbitkan di
+      revoke: Batalkan!
+      my_apps: Aplikasi klien saya
+      no_apps: Apakah anda memiliki aplikasi yang ingin didaftarkan untuk digunakan
+        dengan menggunakan standar %{oauth}? Anda harus mendaftar aplikasi web Anda
+        sebelum dapat membuat permintaan OAuth untuk layanan ini.
+      registered_apps: 'Anda memiliki aplikasi klien terdaftar berikut:'
+      register_new: Daftarkan aplikasi anda
+    form:
+      name: Nama
+      required: Diperlukan
+      url: URL Aplikasi utama
+      callback_url: Panggilan kembali URL
+      support_url: URL Dukungan
+      requests: 'Meminta izin berikut dari pengguna:'
+      allow_read_prefs: Baca pengaturan mereka sebagai pengguna.
       allow_write_prefs: memodifikasi pengaturan mereka sebagai pengguna.
-      authorize_url: "Otorisasi URL:"
-      confirm: Apakah Anda yakin?
-      delete: Menghapus klien
-      edit: Edit Rincian
-      key: "Key konsumen:"
-      requests: "Meminta izin berikut dari pengguna:"
-      secret: "Rahasia konsumen:"
-      support_notice: Kami mendukung tanda tangan HMAC-SHA1 (disarankan) dan RSA-SHA1
-      title: Rincian OAuth untuk %{app_name}
-      url: "Minta URL Token:"
-    update: 
+      allow_write_diary: membuat entri buku harian, komentar dan buat pertemanan.
+      allow_write_api: modifikasi peta
+      allow_read_gpx: baca trek GPS pribadi mereka
+      allow_write_gpx: upload trek GPS
+      allow_write_notes: memodifikasi catatan.
+    not_found:
+      sorry: Maaf, %{type} tidak dapat ditemukan.
+    create:
+      flash: Informasi telah terdaftar dengan sukses.
+    update:
       flash: Informasi klien telah sukses diperbarui.
-  redaction: 
-    create: 
-      flash: Redaksi dibuat.
-    destroy: 
-      error: Ada kesalahan menghancurkan Redaksi ini.
-      flash: Redaksi dihancurkan.
-      not_empty: Redaksi tidak kosong. Silakan tidak-menyusun semua versi milik redaksi ini sebelum merusaknya.
-    edit: 
+    destroy:
+      flash: Registrasi aplikasi klien telah dibatalkan.
+  user:
+    login:
+      title: Login
+      heading: Login
+      email or username: 'Alamat Email atau Nama Pengguna:'
+      password: 'Kata Sandi:'
+      openid: '%{logo} OpenID:'
+      remember: Inget saya
+      lost password link: Kehilangan kata sandi Anda?
+      login_button: Login
+      register now: Daftar sekarang
+      with username: 'Sudah memiliki akun OpenStreetMap? Silahkan login menggunakan
+        nama pengguna dan kata sandi Anda:'
+      with openid: 'Sebagai alternatif silahkan gunakan OpenID Anda untuk melakukan
+        login:'
+      new to osm: Baru di OpenStreetMap?
+      to make changes: Untuk membuat perubahan data OpenStreetMap, Anda harus memiliki
+        sebuah akun.
+      create account minute: Buat sebuah akun. Hanya membutuhkan satu menit.
+      no account: Belum memiliki akun?
+      account not active: Maaf, akun Anda belum aktif.<br />Silahkan gunakan link
+        pada email konfirmasi untuk mengaktifkan akun Anda, atau <a href="%{reconfirm}">minta
+        email konfirmasi yang baru</a>.
+      account is suspended: Maaf, akun Anda telah dihentikan karena adanya aktivitas
+        mencurigakan.<br />Silahkan kontak/hubungi<a href="%{webmaster}">webmaster</a>
+        jika Anda ingin mendiskusikannya.
+      auth failure: Maaf, tidak bisa login dengan rincian tersebut.
+      openid missing provider: Maaf, tidak bisa menghubungi penyedia OpenID Anda
+      openid invalid: Maaf, OpenID Anda tampaknya cacat.
+      openid_logo_alt: Login dengan OpenID
+      openid_providers:
+        openid:
+          title: Login dengan OpenID
+          alt: Login menggunakan URL OpenID
+        google:
+          title: Login dengan Google
+          alt: Login dengan Google OpenID
+        yahoo:
+          title: Login dengan Yahoo
+          alt: Login dengan Yahoo OpenID
+        wordpress:
+          title: Login dengan Wordpress
+          alt: Login dengan Wordpress OpenID
+        aol:
+          title: Login dengan AOL
+          alt: Login dengan AOL OpenID
+    logout:
+      title: Logout
+      heading: Logout dari OpenStreetMap
+      logout_button: Logout
+    lost_password:
+      title: Kehilangan kata sandi
+      heading: Lupa Kata Sandi?
+      email address: 'Alamat Email:'
+      new password button: Setel ulang kata sandi
+      help_text: Masukkan alamat email yang Anda gunakan untuk mendaftar, kami akan
+        mengirim link ke alamat tersebut yang dapat Anda gunakan untuk menyetel ulang
+        kata sandi Anda.
+      notice email on way: Maaf sudah hilang :-( namun sebuah email telah dikirimkan
+        agar Anda dapat segera mengatur ulang.
+      notice email cannot find: Tidak dapat menemukan alamat email tersebut, maaf.
+    reset_password:
+      title: Setel ulang kata sandi
+      heading: Setel ulang kata sandi untuk %{user}
+      password: 'Kata Sandi:'
+      confirm password: 'Konfirmasi Kata Sandi:'
+      reset: Setel Ulang Kata Sandi
+      flash changed: Kata sandi Anda telah diubah.
+      flash token bad: Tidak dapat menemukan token tersebut, cek URL nya mungkin?
+    new:
+      title: Mendaftar
+      no_auto_account_create: Sayangnya saat ini kami tidak dapat membuatkan akun
+        secara otomatis untuk Anda.
+      contact_webmaster: Silahkan kontak <a href="mailto:webmaster@openstreetmap.org">webmaster</a>
+        untuk mengatur sebuah akun untuk dibuat - kami akan mencoba menangani permintaan
+        ini secepat mungkin.
+      about:
+        header: Gratis dan dapat disunting
+        html: |-
+          <p>Tidak seperti peta lainnya, OpenStreetMap benar-benar dibuat oleh orang-orang seperti Anda
+           dan gratis bagi siapa saja untuk memperbaiki, memutakhirkan, mengunduh, dan menggunakan.</p>
+          <p>Mendaftar untuk mulai memberikan kontribusi. Kami akan mengirimkan surel konfirmasi akun Anda.</p>
+      license_agreement: Ketika Anda mengkonfirmasi akun Anda, Anda harus setuju dengan
+        <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">persyaratan
+        kontributor</a>.
+      email address: 'Alamat Email:'
+      confirm email address: 'Konfirmasi Alamat Email:'
+      not displayed publicly: Tidak dipajangkan secara umum (Lihat <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
+        title="wiki privacy policy including section on email addresses">kebijakan
+        privasi</a>)
+      display name: 'Tampilan Nama:'
+      display name description: Username Anda yang ditampilkan pada publik. Anda dapat
+        mengubahnya dalam pengaturan.
+      openid: '%{logo} OpenID:'
+      password: 'Kata Sandi:'
+      confirm password: 'Konfirmasi Kata Sandi:'
+      use openid: Atau gunakan %{logo} OpenID untuk login
+      openid no password: Dengan OpenID, kata sandi tidak diperlukan, namun untuk
+        beberapa alat tambahan atau server mungkin masih membutuhkannya.
+      openid association: |-
+        <p>OpenID Anda belum diasosiasikan dengan akun OpenStreetMap.</p>
+        <ul>
+          <li>Jika Anda baru di OpenStreetMap, silahkan buat sebuah akun baru menggunakan formulir di bawah ini.</li>
+          <li>
+            Jika Anda telah memiliki akun, Anda dapat login ke akun Anda
+            menggunakan username (nama pengguna) dan kata sandi kemudian asosiasikan akun tersebut
+            dengan OpenID Anda pada pegaturan pengguna.
+          </li>
+        </ul>
+      continue: Mendaftar
+      terms accepted: Terima kasih telah menerima persyaratan kontributor yang baru!
+      terms declined: Kami mohon maaf Anda tidak menerima Persyaratan Kontributor
+        baru. Untuk informasi lebih lanjut, silahkan lihat <a href="%{url}">this wiki
+        page</a>.
+    terms:
+      title: Persyaratan Kontributor
+      heading: Persyaratan Kontributor
+      read and accept: Silahkan baca perjanjian di bawah dan tekan tombol setuju untuk
+        mengkonfirmasi bahwa Anda menerima persyaratan dari perjanjian ini untuk kontribusi
+        Anda yang sudah ada dan di masa yang akan datang.
+      consider_pd: Sebagai tambahan perjanjian di atas, saya menganggap kontribusi
+        saya berada di dalam Domain Publik
+      consider_pd_why: Apa ini?
+      guidance: 'Informasi untuk membantu Anda memahami persyaratan ini: sebuah <a
+        href="%{summary}">ringkasan yang mudah dibaca</a> dan beberapa <a href="%{translations}">terjemahan
+        informal</a>'
+      agree: Setuju
+      decline: Tolak
+      you need to accept or decline: Silahkan baca dan setujui atau tolak Persyaratan
+        Kontributor yang baru untuk melanjutkan.
+      legale_select: 'Silahkan pilih negara tempat tinggal Anda:'
+      legale_names:
+        france: Perancis
+        italy: Italia
+        rest_of_world: Bagian Lainnya dari Dunia
+    no_such_user:
+      title: Pengguna tersebut tidak ditemukan
+      heading: Pengguna %{user} tidak dapat ditemukan
+      body: Maaf, tidak ada pengguna dengan nama %{user}. Silahkan cek kembali ejaan,
+        atau mungkin link yang Anda klik salah.
+    view:
+      my diary: Diariku
+      new diary entry: Entri baru catatan harian
+      my edits: Suntingan Saya
+      my traces: Pelacakan Saya
+      my notes: Catatanku
+      my messages: Pesanku
+      my profile: Profilku
+      my settings: Pengaturanku
+      my comments: Komentarku
+      oauth settings: Pengaturan oauth
+      blocks on me: Blok kepada saya
+      blocks by me: Blok oleh saya
+      send message: Kirim Pesan
+      diary: Catatan Harian
+      edits: Suntingan
+      traces: Jejak
+      notes: Catatan Peta
+      remove as friend: Hapus pertemanan
+      add as friend: Jadikan Teman
+      mapper since: 'Melakukan pemetaan sejak:'
+      ago: (%{time_in_words_ago} yang lalu)
+      ct status: 'Syarat-syarat kontributor:'
+      ct undecided: Belum diputuskan
+      ct declined: Tolak
+      ct accepted: Telah diterima %{ago} yang lalu
+      latest edit: 'Hasil edit terakhir %{ago}:'
+      email address: 'Alamat email:'
+      created from: 'Dibuat pada:'
+      status: 'Status:'
+      spam score: 'Jumlah Spam:'
+      description: Deskripsi
+      user location: Lokasi pengguna
+      if set location: Menyetel lokasi rumah %{settings_link} untuk melihat pengguna
+        terdekat
+      settings_link_text: pengaturan
+      your friends: Teman Anda
+      no friends: Anda belum menambahkan teman.
+      km away: sejauh %{count}km
+      m away: sejauh %{count} meter
+      nearby users: Pengguna lain terdekat
+      no nearby users: Tidak ada pengguna lain yang mengaku untuk melakukan pemetaan
+        terdekat.
+      role:
+        administrator: Pengguna ini merupakan administrator
+        moderator: Pengguna ini adalah moderator
+        grant:
+          administrator: Memberikan akses administrator
+          moderator: Memberikan akses moderator
+        revoke:
+          administrator: Mencabut akses administrator
+          moderator: Mencabut akses moderator
+      block_history: blok diterima
+      moderator_history: blok yang diberikan
+      comments: Komentar
+      create_block: Blokir pengguna ini
+      activate_user: aktifkan pengguna ini
+      deactivate_user: nonaktifkan pengguna ini
+      confirm_user: konfirmasi pengguna ini
+      hide_user: sembunyikan pengguna ini
+      unhide_user: munculkan kembali pengguna ini
+      delete_user: hapus pengguna ini
+      confirm: Konfirmasi
+      friends_changesets: Telusuri semua set perubahan yang dibuat oleh teman-teman
+      friends_diaries: Telusuri seluruh entri catatan harian oleh teman-teman
+      nearby_changesets: Telusuri seluruh set perubahan oleh pengguna terdekat
+      nearby_diaries: Telurusi seluruh entri catatan harian oleh pengguna terdekat
+    popup:
+      your location: Lokasi Anda
+      nearby mapper: Pembuat peta disekitar Anda
+      friend: Teman
+    account:
+      title: Edit akun
+      my settings: Pengaturan saya
+      current email address: 'Alamat Email Saat Ini:'
+      new email address: 'Alamat Email Baru:'
+      email never displayed publicly: (jangan pernah ditampilkan ke publik)
+      openid:
+        openid: 'OpenID:'
+        link: http://wiki.openstreetmap.org/wiki/OpenID
+        link text: Apa ini?
+      public editing:
+        heading: 'Mengedit secara publik:'
+        enabled: Diaktifkan. Tidak anonim dan dapat mengedit data.
+        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
+        enabled link text: Apa ini?
+        disabled: Dinonaktifkan dan tidak dapat mengedit data, seluruh hasil edit
+          sebelumnya anonim.
+        disabled link text: mengapa saya tidak bisa mengedit?
+      public editing note:
+        heading: Mengedit secara publik
+        text: Saat ini suntingan Anda adalah tanpa nama dan orang tidak dapat mengirimkan
+          pesan atau melihat lokasi Anda. Untuk menunjukkan apa yang Anda telah edit
+          dan memungkinkan orang menghubungi Anda melalui situs web, klik tombol di
+          bawah ini. <b>Sejak perubahan ke API 0.6 , hanya pengguna umum yang dapat
+          mengedit data peta</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">Cari
+          tahu mengapa</a>).<ul><li>Alamat email Anda akan tidak dipublikasikan apabila
+          anda menjadi pengguna umum.</li><li>Tindakan ini tidak dapat dikembalikan
+          dan semua pengguna baru akan diatur sebagai pengguna umum secara standar.</li></ul>
+      contributor terms:
+        heading: 'Syarat-syarat Kontributor:'
+        agreed: Anda telah menyetujui Persyaratan Kontributor yang baru.
+        not yet agreed: Anda belum menyetujui Persyaratan Kontributor yang baru.
+        review link text: Silahkan ikuti link ini untuk kenyamanan Anda untuk meninjau
+          dan menyetujui Persyaratan Kontributor yang baru.
+        agreed_with_pd: Anda juga telah menyatakan bahwa Anda mempertimbangkan suntingan
+          Anda berada dalam Domain publik.
+        link text: Apa ini?
+      profile description: 'Deskripsi Profil:'
+      preferred languages: 'Bahasa yang Dipilih:'
+      preferred editor: 'Editor yang Dipilih:'
+      image: 'Gambar:'
+      gravatar:
+        gravatar: Gunakan Gravatar
+        link text: apa ini?
+      new image: Tambahkan gambar
+      keep image: Gunakan gambar saat ini
+      delete image: Hapus gambar saat ini
+      replace image: Ganti gambar saat ini
+      image size hint: (kotak gambar yang dapat bekerja terbaik paling tidak berukuran
+        100x100)
+      home location: 'Lokasi Beranda:'
+      no home location: Anda telah memasukkan lokasi rumah Anda.
+      latitude: 'Garis Lintang:'
+      longitude: 'Garis Bujur:'
+      update home location on click: Memperbarui lokasi rumah ketika saya klik pada
+        peta?
+      save changes button: Simpan Perubahan
+      make edits public button: Membuat seluruh suntingan saya menjadi publik
+      return to profile: Kembali ke profil
+      flash update success confirm needed: Informasi pengguna telah berhasil diperbarui.
+        Periksa email untuk melakukan konfirmasi alamat email.
+      flash update success: Informasi mengenai pengguna sudah berhasil diperbarui.
+    confirm:
+      heading: Periksa surel Anda!
+      introduction_1: Kami telah mengirim konfirmasi ke surel Anda.
+      introduction_2: Konfirmasi akun Anda dengan mengklik pranala dalam surel dan
+        Anda akan dapat memulai pemetaan.
+      press confirm button: Tekan tombol konfirmasi di bawah ini untuk mengaktifkan
+        akun Anda.
+      button: Konfirmasi
+      already active: Akun ini telah dikonfirmasi.
+      unknown token: Kode konfirmasi telah kedaluwarsa atau tidak ada.
+      reconfirm_html: Jika Anda membutuhkan kami mengirimkan ulang surel konfirmasi,
+        <a href="%{reconfirm}">klik di sini</a>.
+    confirm_resend:
+      success: Kami telah mengirim catatan konfirmasi baru ke %{email} dan setelah
+        Anda mengkonfirmasi akun, Anda akan dapat mulai melakukan pemetaan.<br /><br
+        />Jika Anda menggunakan sistem anti spam yang mengirimkan permintaan konfirmasi
+        silahkan pastikan Anda memasukkan webmaster@openstreetmap.org ke dalam daftar
+        putih karena kami tidak dapat membalas permintaan konfirmasi Anda.
+      failure: Pengguna %{name} tidak ditemukan.
+    confirm_email:
+      heading: Konfirmasi perubahan alamat email
+      press confirm button: Tekan tombol konfirmasi di bawah ini untuk melakukan konfirmasi
+        alamat email baru Anda.
+      button: Konfirmasi
+      success: Mengkonfirmasi alamat email Anda, terima kasih telah mendaftar!
+      failure: Sebuah alamat email telah dikonfirmasikan dengan token ini.
+    set_home:
+      flash success: Lokasi rumah berhasil disimpan
+    go_public:
+      flash success: Semua hasil edit Anda sekarang sudah publik, dan Anda diperbolehkan
+        untuk mengedit.
+    make_friend:
+      heading: Tambahkan %{user} sebagai teman?
+      button: Tambahkan sebagai teman
+      success: '%{name} sekarang adalah teman Anda!'
+      failed: Maaf, gagal menambahkan %{name} sebagai teman.
+      already_a_friend: Anda sudah berteman dengan %{name}.
+    remove_friend:
+      heading: Hapus %{user} sebagai teman?
+      button: Hapus sebagai teman
+      success: '%{name} telah dihapus dari daftar teman Anda.'
+      not_a_friend: '%{name} bukanlah salah satu dari teman Anda.'
+    filter:
+      not_an_administrator: Anda harus merupakan administrator untuk melakukan tindakan
+        ini.
+    list:
+      title: Pengguna
+      heading: Pengguna
+      showing:
+        one: Page %{page} (%{first_item} dari %{items})
+        other: Page %{page} (%{first_item}-%{last_item} of %{items})
+      summary: '%{name} dibuat dari %{ip_address} pada %{date}'
+      summary_no_ip: '%{name} dibuat pada %{date}'
+      confirm: Konfirmasi Pengguna yang Dipilih
+      hide: Sembunyikan Pengguna yang Dipilih
+      empty: Tidak ditemukan pengguna yang sesuai
+    suspended:
+      title: Akun Ditangguhkan
+      heading: Akun Ditangguhkan
+      webmaster: webmaster
+      body: "<p>\n  Maaf, akun Anda telah ditangguhkan secara otomatis dikarenakan
+        \n  aktivitas yang mencurigakan. \n</p>\n<p>\n  Keputusan ini akan ditinjau
+        ulang oleh seorang administrator sesaat lagi, atau\n  anda dapat menghubungi
+        %{webmaster} jika Anda ingin mendiskusikannya.\n</p>"
+  user_role:
+    filter:
+      not_an_administrator: Hanya administrator yang dapat melakukan peran manajemen
+        pengguna, dan Anda bukan administrator.
+      not_a_role: String `%{role}' bukan merupakan peran yang valid.
+      already_has_role: Pengguna telah memiliki peran %{role}.
+      doesnt_have_role: Pengguna tidak memiliki peran %{role}.
+    grant:
+      title: Konfirmasi pemberian peran
+      heading: Konfirmasi pemberian peran
+      are_you_sure: Apakah Anda yakin ingin memberikan peran `%{role}' kepada pengguna
+        `%{name}'?
+      confirm: Konfirmasi
+      fail: Tidak bisa memberikan peran `%{role}' kepada pengguna `%{name}'. Silahkan
+        periksa bahwa pengguna dan perannya valid.
+    revoke:
+      title: Konfirmasi pencabutan peran
+      heading: Konfirmasi pencabutan peran
+      are_you_sure: Apakah Anda yakin Anda ingin mencabut peran `%{role}' dari pengguna
+        `%{name}'?
+      confirm: Konfirmasi
+      fail: Tidak dapat mencabut peran `%{role}' dari pengguna `%{name}'. Silahkan
+        periksa bahwa pengguna dan perannya valid.
+  user_block:
+    model:
+      non_moderator_update: Harus merupakan moderator untuk membuat atau memperbarui
+        blokir.
+      non_moderator_revoke: Harus merupakan moderator untuk mencabut blokir.
+    not_found:
+      sorry: Maaf, blokir pengguna dengan ID %{id} tidak dapat ditemukan.
+      back: Kembali ke indeks
+    new:
+      title: Membuat blokir pada %{name}
+      heading: Membuat blokir pada %{name}
+      reason: Alasan mengapa %{name} diblokir. Harap tenang, berikan detail sebanyak
+        mungkin dan masuk akal mengenai situasi Anda, mengingat bahwa persan akan
+        terlihat oleh umum. Perlu diingat bahwa tidak semua pengguna memahami jargon
+        masyarakat, jadi silakan coba untuk menggunakan istilah-istilah laymans.
+      period: Berapa lama, mulai dari sekarang, pengguna akan diblokir dari API.
+      submit: Buat blokir
+      tried_contacting: Saya telah menghubungi pengguna tersebut dan memintanya untuk
+        berhenti.
+      tried_waiting: Saya telah memberi jumlah waktu yang wajar kepada pengguna untuk
+        menanggapi komunikasi tersebut.
+      needs_view: Pengguna perlu log in sebelum blokir ini dihapus
+      back: Lihat semua blokir
+    edit:
+      title: Mengedit blokir pada %{name}
+      heading: Mengedit blokir pada %{name}
+      reason: Alasan mengapa %{name} diblokir. Harap tenang, berikan detail sebanyak
+        mungkin dan masuk akal mengenai situasi Anda. Perlu diingat bahwa tidak semua
+        pengguna memahami jargon masyarakat, jadi silakan coba untuk menggunakan istilah-istilah
+        laymans.
+      period: Berapa lama, mulai dari sekarang, pengguna akan diblokir dari API.
+      submit: Perbarui blokir
+      show: Lihat blokir ini
+      back: Lihat semua blokir
+      needs_view: Apakah pengguna harus login sebelum blokirnya dihapus?
+    filter:
+      block_expired: Blokir sudah kadaluwarsa dan tidak bisa diedit.
+      block_period: Periode blokir harus merupakan salah satu nilai yang dapat dipilih
+        dari daftar drop-down atau pilihan.
+    create:
+      try_contacting: Silahkan coba untuk menghubungi pengguna sebelum memblokir mereka
+        dan memberi waktu yang wajar bagi mereka untuk menanggapi.
+      try_waiting: Cobalah berikan waktu yang wajar bagi pengguna untuk merespon sebelum
+        memblokir mereka.
+      flash: Telah melakukan blokir pada pengguna %{name}.
+    update:
+      only_creator_can_edit: Hanya moderator yang membuat blokir ini yang dapat mengeditnya.
+      success: Blokir diperbarui.
+    index:
+      title: Blokir oleh pegguna
+      heading: Daftar blokir oleh pengguna
+      empty: Belum ada blokir yang dibuat.
+    revoke:
+      title: Membatalkan lokir pada %{block_on}
+      heading: Membatalkan blokir pada %{block_on} oleh %{block_by}
+      time_future: Blokir ini akan berakhir pada %{time}.
+      past: Blokir ini telah berakhir %{time} yang lalu dan tidak dapat dibatalkan
+        kembali sekarang.
+      confirm: Apakah Anda yakin untuk membatalkan blokir ini?
+      revoke: Batalkan!
+      flash: Blokir ini telah dibatalkan.
+    period:
+      one: 1 hour
+      other: '%{count} hours'
+    partial:
+      show: Tampilkan
+      edit: Edit
+      revoke: Batalkan!
+      confirm: Apakah Anda yakin?
+      display_name: Pengguna yang Diblokir
+      creator_name: Pencipta
+      reason: Alasan untuk blokir
+      status: Status
+      revoker_name: Dibatalkan oleh
+      not_revoked: (tidak dicabut)
+      showing_page: Halaman %{page}
+      next: Berikutnya »
+      previous: « Sebelumnya
+    helper:
+      time_future: Berakhir pada %{time}.
+      until_login: Aktif sampai pengguna melakukan log in.
+      time_past: Berakhir %{time} yang lalu.
+    blocks_on:
+      title: Diblokir pada %{name}
+      heading: Daftar blokir pada %{name}
+      empty: '%{name} belum diblokir.'
+    blocks_by:
+      title: Blokir oleh %{name}
+      heading: Daftar blokir oleh %{name}
+      empty: '%{name} belum membuat blokir apapun.'
+    show:
+      title: '%{block_on} diblokir oleh %{block_by}'
+      heading: '%{block_on} diblokir oleh %{block_by}'
+      time_future: Berakhir dalam %{time}
+      time_past: Berakhir %{time} yang lalu
+      status: Status
+      show: Tampilkan
+      edit: Edit
+      revoke: Batalkan!
+      confirm: Apakah Anda yakin?
+      reason: 'Alasan untuk blokir:'
+      back: Lihat semua blokir
+      revoker: 'Pembatal:'
+      needs_view: Pengguna harus log in sebelum blokir ini dihapus.
+  note:
+    description:
+      opened_at_html: Dibuat %{when} yang lalu
+      opened_at_by_html: Dibuat %{when} yang lalu oleh %{user}
+      commented_at_html: Diperbarui %{when} yang lalu
+      commented_at_by_html: Diperbarui %{when} yang lalu oleh %{user}
+      closed_at_html: Diselesaikan %{when} yang lalu
+      closed_at_by_html: Diselesaikan %{when} yang lalu oleh %{user}
+      reopened_at_html: Diaktifkan kembali %{when} yang lalu
+      reopened_at_by_html: Diaktifkan kembali %{when} yang lalu oleh %{user}
+    rss:
+      title: Catatan OpenStreetMap
+      description_area: Daftar catatan, laporan, komentar atau ditutup di daerah Anda
+        [( %{min_lat}|%{min_lon})--( %{max_lat}|%{max_lon})]
+      description_item: Sebuah rss feed untuk catatan %{id}
+      opened: catatan baru (near %{place})
+      commented: komentar baru (near %{place})
+      closed: catatan ditutup (near %{place})
+      reopened: catatan yang diaktifkan kembali (near %{place})
+    entry:
+      comment: Komentar
+      full: Catatan lengkap
+    mine:
+      title: Catatan dimasukkan atau dikomentari oleh %{user}
+      heading: catatan oleh %{user}
+      subheading: Catatan dimasukkan atau dikomentari oleh %{user}
+      id: Id
+      creator: Pembuat
+      description: Deskripsi
+      created_at: Dibuat pada
+      last_changed: Terakhir diubah
+      ago_html: '%{when} yang lalu'
+  javascripts:
+    close: Tutup
+    share:
+      title: Bagikan
+      cancel: Batal
+      image: Gambar
+      link: Pranala atau HTML
+      long_link: Pranala
+      short_link: Tautan Pendek
+      embed: HTML
+      custom_dimensions: Pengaturan dimensi
+      format: 'Format:'
+      scale: 'Skala:'
+      image_size: Gambar akan menampilkan lapisan standar di
+      download: Unduh
+      short_url: URL Singkat
+      include_marker: Termasuk penanda
+      center_marker: Tengahkan peta pada penanda
+      paste_html: Tempel HTML untuk menyimpan di situs web
+      view_larger_map: Lihat peta lebih besar
+    key:
+      title: Kunci Peta
+      tooltip: Kunci Peta
+      tooltip_disabled: Kunci Peta tersedia hanya untuk lapisan standar
+    map:
+      zoom:
+        in: Perbesar
+        out: Perkecil
+      locate:
+        title: Tampilkan Lokasiku
+        popup: Anda dalam {distance} {unit} dari sini
+      base:
+        standard: Standar
+        cycle_map: Peta Sepeda
+        transport_map: Peta Transportasi
+        hot: Kemanusiaan
+      layers:
+        header: Layer Peta
+        notes: Catatan Peta
+        data: Data Peta
+        overlays: Mengaktifkan overlay untuk penyelesaian masalah peta
+        title: Lapisan
+      copyright: © <a href='%{copyright_url}'>Kontributor OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Beri Sumbangan</a>
+    site:
+      edit_tooltip: Edit peta
+      edit_disabled_tooltip: Perbesar untuk mengedit peta
+      createnote_tooltip: Tambahkan catatan pada peta
+      createnote_disabled_tooltip: Perbesar untuk menambahkan catatan pada peta
+      map_notes_zoom_in_tooltip: Perbesar untuk melihat catatan peta
+      map_data_zoom_in_tooltip: Perbesar untuk melihat data peta
+    notes:
+      new:
+        intro: Melihat kesalahan atau sesuatu yang hilang? Biarkan pembuat peta lainnya
+          agar kami dapat memperbaikinya. Pindahkan penanda ke posisi yang benar dan
+          ketik catatan untuk menjelaskan masalah. (Jangan memasukkan informasi pribadi
+          atau informasi dari peta berhak cipta atau daftar direktori.)
+        add: Tambah Catatan
+      show:
+        anonymous_warning: Catatan ini termasuk komentar dari pengguna anonim yang
+          harus diverifikasi secara independen.
+        hide: Sembunyikan
+        resolve: Selesaikan
+        reactivate: Aktifkan kembali
+        comment_and_resolve: Komentar & Selesaikan
+        comment: Komentar
+    edit_help: Memindahkan peta dan memperbesar lokasi yang ingin Anda sunting, kemudian
+      klik di sini.
+  redaction:
+    edit:
       description: Deskripsi
       heading: Mengedit Redaksi
       submit: Simpan Redaksi
       title: Mengedit Redaksi
-    index: 
+    index:
       empty: Tidak ada redaksi untuk menunjukkan.
       heading: Daftar redaksi
       title: Daftar redaksi
-    new: 
+    new:
       description: Deskripsi
       heading: Masukkan informasi untuk redaksi baru
       submit: Membuat Redaksi
       title: Membuat redaksi baru
-    show: 
-      confirm: Apakah Anda yakin?
-      description: "Deskripsi:"
-      destroy: Menghapus Redaksi ini
-      edit: Mengedit Redaksi ini
+    show:
+      description: 'Deskripsi:'
       heading: Menampilkan Redaksi "%{title}"
       title: Menampilkan Redaksi
-      user: "Pembuat:"
-    update: 
+      user: 'Pembuat:'
+      edit: Mengedit Redaksi ini
+      destroy: Menghapus Redaksi ini
+      confirm: Apakah Anda yakin?
+    create:
+      flash: Redaksi dibuat.
+    update:
       flash: Perubahan telah disimpan.
-  site: 
-    edit: 
-      anon_edits_link_text: Cari tahu mengapa hal ini terjadi.
-      flash_player_required: Anda membutuhkan Flash player untuk menggunakan Potlatch, editor OpenStreetMap berbasis Flash. Anda dapat <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">men-download Flash Player dari Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Beberapa opsi lain</a> juga tersedia untuk mengedit OpenStreetMap.
-      id_not_configured: iD belum dikonfigurasikan
-      no_iframe_support: Browser Anda tidak mendukung iframes HTML yang diperlukan untuk fitur ini.
-      not_public: Anda belum mengatur hasil edit Anda menjadi publik.
-      not_public_description: Anda tidak dapat mengedit peta kecuali Anda melakukannya. Anda dapat mengatur editan Anda sebagai umum dari halaman %{user_page}.
-      potlatch2_not_configured: Potlatch 2 belum dikonfigurasi - silakan lihat http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2 untuk informasi lebih lanjut
-      potlatch2_unsaved_changes: Anda memiliki perubahan yang belum disimpan. (Untuk menyimpannya dengan Potlatch 2, Anda dapat klik simpan.)
-      potlatch_unsaved_changes: Anda memiliki perubahan yang belum disimpan. (Untuk menyimpan di Potlatch, Anda harus membatalkan pilihan garis atau titik saat ini, jika mengedit dalam modus live, atau klik Simpan jika Anda memiliki tombol simpan.)
-      user_page_link: halaman pengguna
-    index: 
-      createnote: Tambahkan catatan
-      js_1: Anda menggunakan browser yang tidak mendukung JavaScript, atau Anda telah menonaktifkan JavaScript.
-      js_2: OpenStreetMap menggunakan JavaScript untuk slippy map nya.
-      license: 
-        copyright: Hak cipta dan kontributor OpenStreetMap, di bawah lisensi terbuka
-      permalink: Permalink
-      remote_failed: Gagal melakukan edit - pastikan JOSM atau Merkaartor telah termuat dan opsi remote control telah diaktifkan
-      shortlink: Shortlink
-    key: 
-      table: 
-        entry: 
-          admin: Batas administrasi
-          allotments: Tanah garap
-          apron: 
-            - Tempat Parkir Pesawat
-            - terminal
-          bridge: Black casing = jembatan
-          bridleway: Jalan Tanah
-          brownfield: Lahan kosong
-          building: Bangunan Penting
-          byway: Jalan Kampung
-          cable: 
-            - Kereta Kabel
-            - Kereta Gantung
-          cemetery: Pemakaman
-          centre: Pusat Olahraga
-          commercial: Area komersial
-          common: 
-            - Umum
-            - Padang rumput
-          construction: Jalan sedang diperbaiki
-          cycleway: Jalur Sepeda
-          destination: Akses Tujuan
-          farm: Pertanian
-          footway: Jalan Setapak
-          forest: Hutan
-          golf: Lapangan Golf
-          heathland: Semak
-          industrial: Kawasan industri
-          lake: 
-            - Danau
-            - Wilayah Serapan (Reservoir)
-          military: Kawasan militer
-          motorway: Jalan Tol
-          park: Taman
-          permissive: Akses Permisif
-          pitch: Lapangan Olahraga
-          primary: Jalan Primer
-          private: Akses pribadi
-          rail: Rel Kereta
-          reserve: Cagar Alam
-          resident: Area Permukiman
-          retail: Area pertokoan retail
-          runway: 
-            - Landasan bandara
-            - Jalur taxi
-          school: 
-            - Sekolah
-            - universitas
-          secondary: Jalan Sekunder
-          station: Stasiun Kereta Api
-          subway: Kereta bawah tanah
-          summit: 
-            - Puncak
-            - puncak
-          tourist: Objek wisata
-          track: Trek
-          tram: 
-            - Kereta listrik
-            - trem
-          trunk: Jalan Utama Bukan Tol
-          tunnel: Dashed Casing = terowongan
-          unclassified: Jalan Tidak Terklasifikasi
-          unsurfaced: Jalan Tanpa Permukaan
-          wood: Kayu
-    markdown_help: 
-      alt: Teks Alternatif
-      first: Objek pertama
-      heading: Judul
-      headings: Judul
-      image: Gambar
-      link: Tautan
-      ordered: Daftar terurut
-      second: Objek kedua
-      subheading: Subjudul
-      text: Teks
-      title_html: Diurai dengan <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
-      unordered: Daftar tak berurut
-      url: URL
-    richtext_area: 
-      edit: Edit
-      preview: Tinjauan
-    search: 
-      search: Pencarian
-      submit_text: Lanjut
-      where_am_i: Di mana saya?
-      where_am_i_title: Deskripsikan lokasi Anda saat ini menggunakan mesin pencari
-    sidebar: 
-      close: Tutup
-      search_results: Hasil Pencarian
-  time: 
-    formats: 
-      friendly: "%e %B %Y pada %H:%M"
-  trace: 
-    create: 
-      trace_uploaded: File GPX Anda telah di-upload dan menunggu penyisipan dalam database. Ini biasanya akan membutuhkan waktu setengah jam, dan sebuah email akan dikirim kepada Anda ketika sudah selesai.
-      upload_trace: Upload trek GPS
-    delete: 
-      scheduled_for_deletion: Trek yang dijadwalkan untuk dihapus
-    edit: 
-      description: "Deskripsi:"
-      download: download
-      edit: edit
-      filename: "Nama File:"
-      heading: Mengedit dijitasi %{name}
-      map: peta
-      owner: "Pemilik:"
-      points: "Poin/Titik:"
-      save_button: Simpan Perubahan
-      start_coord: "Koordinat awal:"
-      tags: "Tags:"
-      tags_help: dipisahkan oleh koma
-      title: Mengedit jejak %{name}
-      uploaded_at: "Diupload:"
-      visibility: Visibilitas
-      visibility_help: apa artinya ini?
-    georss: 
-      title: Jejak SPG (sistem pemosisi global) OpenStreetMap
-    list: 
-      description: Telusuri hasil upload trek GPS terbaru
-      empty_html: Belum ada apapun di sini. <a href='%{upload_link}'>Meng-upload trek GPS baru</a> atau belajar lebih banyak tentang trek GPS pada <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>halaman wiki</a>.
-      public_traces: Trek GPS umum
-      public_traces_from: Trek GPS umum dari %{user}
-      tagged_with: di tag dengan %{tags}
-      your_traces: Trek GPS Anda
-    make_public: 
-      made_public: Trek GPS yang dipublikasikan
-    offline: 
-      heading: Penyimpanan GPX Offline
-      message: Sistem upload dan penyimpanan file GPX saat ini tidak tersedia.
-    offline_warning: 
-      message: Sistem upload file GPX saat ini tidak tersedia
-    trace: 
-      ago: "%{time_in_words_ago} yang lalu"
-      by: oleh
-      count_points: "%{count} titik"
-      edit: edit
-      edit_map: Edit Peta
-      identifiable: DIIDENTIFIKASI
-      in: dalam
-      map: peta
-      more: selebihnya
-      pending: TERTUNDA
-      private: PRIBADI
-      public: UMUM
-      trace_details: Lihat rincian trek
-      trackable: DILACAK
-      view_map: Lihat peta
-    trace_form: 
-      description: Deskripsi
-      help: Bantuan
-      tags: "Tags:"
-      tags_help: dipisahkan oleh koma
-      upload_button: Upload
-      upload_gpx: "Upload File GPX:"
-      visibility: Visibilitas
-      visibility_help: apa artinya ini?
-    trace_header: 
-      see_all_traces: Lihat semua dijitasi
-      see_your_traces: Melihat dijitasi Anda
-      traces_waiting: 
-        one: "Anda memiliki trek GPS %{count} yang menunggu untuk diupload. Harap pertimbangkan proses ini untuk diselesaikan sebelum meng-upload lagi, sehingga Anda tidak memblokir antrian untuk %{count} pengguna lain. "
-        other: Anda memiliki %{count} trek GPS yang menunggu untuk diupload. Harap pertimbangkan proses ini untuk diselesaikan sebelum meng-upload lagi, sehingga Anda tidak memblokir antrian untuk %{count} pengguna lain.
-      upload_trace: Upload trek GPS
-    trace_optionals: 
-      tags: "Tags:"
-    trace_paging_nav: 
-      newer: Trek-trek terbaru
-      older: Trek-trek lama
-      showing_page: Halaman %{page}
-    view: 
-      delete_track: Hapus trek ini
-      description: "Deskripsi:"
-      download: download
-      edit: edit
-      edit_track: "Edit trek ini:"
-      filename: "Nama File:"
-      heading: Melihat trek %{name}
-      map: peta
-      none: Tidak ada
-      owner: "Pemilik:"
-      pending: TERTUNDA
-      points: "Poin/Titik:"
-      start_coordinates: Koordinat Awal
-      tags: "Tag:"
-      title: Melihat trek %{name}
-      trace_not_found: Trek tidak ditemukan!
-      uploaded: "Diupload:"
-      visibility: Visibilitas
-    visibility: 
-      identifiable: Dapat Diidentifikasi (ditampilkan dalam daftar jejak dan sebagai diidentifikasi, mengatur poin dengan waktu pengambilan)
-      private: Pribadi (hanya berbagi sebagai anonim, poin tidak berurut)
-      public: Publik (ditampilkan dalam daftar jejak dan sebagai anonim, poin tidak berurut)
-      trackable: Dapat Dilacak (hanya berbagi sebagai anonim, memerintahkan poin dengan cap waktu)
-  user: 
-    account: 
-      contributor terms: 
-        agreed: Anda telah menyetujui Persyaratan Kontributor yang baru.
-        agreed_with_pd: Anda juga telah menyatakan bahwa Anda mempertimbangkan suntingan Anda berada dalam Domain publik.
-        heading: "Syarat-syarat Kontributor:"
-        link text: Apa ini?
-        not yet agreed: Anda belum menyetujui Persyaratan Kontributor yang baru.
-        review link text: Silahkan ikuti link ini untuk kenyamanan Anda untuk meninjau dan menyetujui Persyaratan Kontributor yang baru.
-      current email address: "Alamat Email Saat Ini:"
-      delete image: Hapus gambar saat ini
-      email never displayed publicly: (jangan pernah ditampilkan ke publik)
-      flash update success: Informasi mengenai pengguna sudah berhasil diperbarui.
-      flash update success confirm needed: Informasi pengguna telah berhasil diperbarui. Periksa email untuk melakukan konfirmasi alamat email.
-      gravatar: 
-        gravatar: Gunakan Gravatar
-        link text: apa ini?
-      home location: "Lokasi Beranda:"
-      image: "Gambar:"
-      image size hint: (kotak gambar yang dapat bekerja terbaik paling tidak berukuran 100x100)
-      keep image: Gunakan gambar saat ini
-      latitude: "Garis Lintang:"
-      longitude: "Garis Bujur:"
-      make edits public button: Membuat seluruh suntingan saya menjadi publik
-      my settings: Pengaturan saya
-      new email address: "Alamat Email Baru:"
-      new image: Tambahkan gambar
-      no home location: Anda telah memasukkan lokasi rumah Anda.
-      openid: 
-        link: http://wiki.openstreetmap.org/wiki/OpenID
-        link text: Apa ini?
-        openid: "OpenID:"
-      preferred editor: "Editor yang Dipilih:"
-      preferred languages: "Bahasa yang Dipilih:"
-      profile description: "Deskripsi Profil:"
-      public editing: 
-        disabled: Dinonaktifkan dan tidak dapat mengedit data, seluruh hasil edit sebelumnya anonim.
-        disabled link text: mengapa saya tidak bisa mengedit?
-        enabled: Diaktifkan. Tidak anonim dan dapat mengedit data.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: Apa ini?
-        heading: "Mengedit secara publik:"
-      public editing note: 
-        heading: Mengedit secara publik
-        text: Saat ini suntingan Anda adalah tanpa nama dan orang tidak dapat mengirimkan pesan atau melihat lokasi Anda. Untuk menunjukkan apa yang Anda telah edit dan memungkinkan orang menghubungi Anda melalui situs web, klik tombol di bawah ini. <b>Sejak perubahan ke API 0.6 , hanya pengguna umum yang dapat mengedit data peta</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">Cari tahu mengapa</a>).<ul><li>Alamat email Anda akan tidak dipublikasikan apabila anda menjadi pengguna umum.</li><li>Tindakan ini tidak dapat dikembalikan dan semua pengguna baru akan diatur sebagai pengguna umum secara standar.</li></ul>
-      replace image: Ganti gambar saat ini
-      return to profile: Kembali ke profil
-      save changes button: Simpan Perubahan
-      title: Edit akun
-      update home location on click: Memperbarui lokasi rumah ketika saya klik pada peta?
-    confirm: 
-      already active: Akun ini telah dikonfirmasi.
-      button: Konfirmasi
-      heading: Periksa surel Anda!
-      introduction_1: Kami telah mengirim konfirmasi ke surel Anda.
-      introduction_2: Konfirmasi akun Anda dengan mengklik pranala dalam surel dan Anda akan dapat memulai pemetaan.
-      press confirm button: Tekan tombol konfirmasi di bawah ini untuk mengaktifkan akun Anda.
-      reconfirm_html: Jika Anda membutuhkan kami mengirimkan ulang surel konfirmasi, <a href="%{reconfirm}">klik di sini</a>.
-      unknown token: Kode konfirmasi telah kedaluwarsa atau tidak ada.
-    confirm_email: 
-      button: Konfirmasi
-      failure: Sebuah alamat email telah dikonfirmasikan dengan token ini.
-      heading: Konfirmasi perubahan alamat email
-      press confirm button: Tekan tombol konfirmasi di bawah ini untuk melakukan konfirmasi alamat email baru Anda.
-      success: Mengkonfirmasi alamat email Anda, terima kasih telah mendaftar!
-    confirm_resend: 
-      failure: Pengguna %{name} tidak ditemukan.
-      success: Kami telah mengirim catatan konfirmasi baru ke %{email} dan setelah Anda mengkonfirmasi akun, Anda akan dapat mulai melakukan pemetaan.<br /><br />Jika Anda menggunakan sistem anti spam yang mengirimkan permintaan konfirmasi silahkan pastikan Anda memasukkan webmaster@openstreetmap.org ke dalam daftar putih karena kami tidak dapat membalas permintaan konfirmasi Anda.
-    filter: 
-      not_an_administrator: Anda harus merupakan administrator untuk melakukan tindakan ini.
-    go_public: 
-      flash success: Semua hasil edit Anda sekarang sudah publik, dan Anda diperbolehkan untuk mengedit.
-    list: 
-      confirm: Konfirmasi Pengguna yang Dipilih
-      empty: Tidak ditemukan pengguna yang sesuai
-      heading: Pengguna
-      hide: Sembunyikan Pengguna yang Dipilih
-      showing: 
-        one: Page %{page} (%{first_item} dari %{items})
-        other: Page %{page} (%{first_item}-%{last_item} of %{items})
-      summary: "%{name} dibuat dari %{ip_address} pada %{date}"
-      summary_no_ip: "%{name} dibuat pada %{date}"
-      title: Pengguna
-    login: 
-      account is suspended: Maaf, akun Anda telah dihentikan karena adanya aktivitas mencurigakan.<br />Silahkan kontak/hubungi<a href="%{webmaster}">webmaster</a> jika Anda ingin mendiskusikannya.
-      account not active: Maaf, akun Anda belum aktif.<br />Silahkan gunakan link pada email konfirmasi untuk mengaktifkan akun Anda, atau <a href="%{reconfirm}">minta email konfirmasi yang baru</a>.
-      auth failure: Maaf, tidak bisa login dengan rincian tersebut.
-      create account minute: Buat sebuah akun. Hanya membutuhkan satu menit.
-      email or username: "Alamat Email atau Nama Pengguna:"
-      heading: Login
-      login_button: Login
-      lost password link: Kehilangan kata sandi Anda?
-      new to osm: Baru di OpenStreetMap?
-      no account: Belum memiliki akun?
-      openid: "%{logo} OpenID:"
-      openid invalid: Maaf, OpenID Anda tampaknya cacat.
-      openid missing provider: Maaf, tidak bisa menghubungi penyedia OpenID Anda
-      openid_logo_alt: Login dengan OpenID
-      openid_providers: 
-        aol: 
-          alt: Login dengan AOL OpenID
-          title: Login dengan AOL
-        google: 
-          alt: Login dengan Google OpenID
-          title: Login dengan Google
-        openid: 
-          alt: Login menggunakan URL OpenID
-          title: Login dengan OpenID
-        wordpress: 
-          alt: Login dengan Wordpress OpenID
-          title: Login dengan Wordpress
-        yahoo: 
-          alt: Login dengan Yahoo OpenID
-          title: Login dengan Yahoo
-      password: "Kata Sandi:"
-      register now: Daftar sekarang
-      remember: Inget saya
-      title: Login
-      to make changes: Untuk membuat perubahan data OpenStreetMap, Anda harus memiliki sebuah akun.
-      with openid: "Sebagai alternatif silahkan gunakan OpenID Anda untuk melakukan login:"
-      with username: "Sudah memiliki akun OpenStreetMap? Silahkan login menggunakan nama pengguna dan kata sandi Anda:"
-    logout: 
-      heading: Logout dari OpenStreetMap
-      logout_button: Logout
-      title: Logout
-    lost_password: 
-      email address: "Alamat Email:"
-      heading: Lupa Kata Sandi?
-      help_text: Masukkan alamat email yang Anda gunakan untuk mendaftar, kami akan mengirim link ke alamat tersebut yang dapat Anda gunakan untuk menyetel ulang kata sandi Anda.
-      new password button: Setel ulang kata sandi
-      notice email cannot find: Tidak dapat menemukan alamat email tersebut, maaf.
-      notice email on way: Maaf sudah hilang :-( namun sebuah email telah dikirimkan agar Anda dapat segera mengatur ulang.
-      title: Kehilangan kata sandi
-    make_friend: 
-      already_a_friend: Anda sudah berteman dengan %{name}.
-      button: Tambahkan sebagai teman
-      failed: Maaf, gagal menambahkan %{name} sebagai teman.
-      heading: Tambahkan %{user} sebagai teman?
-      success: "%{name} sekarang adalah teman Anda!"
-    new: 
-      about: 
-        header: Gratis dan dapat disunting
-        html: "<p>Tidak seperti peta lainnya, OpenStreetMap benar-benar dibuat oleh orang-orang seperti Anda\n dan gratis bagi siapa saja untuk memperbaiki, memutakhirkan, mengunduh, dan menggunakan.</p>\n<p>Mendaftar untuk mulai memberikan kontribusi. Kami akan mengirimkan surel konfirmasi akun Anda.</p>"
-      confirm email address: "Konfirmasi Alamat Email:"
-      confirm password: "Konfirmasi Kata Sandi:"
-      contact_webmaster: Silahkan kontak <a href="mailto:webmaster@openstreetmap.org">webmaster</a> untuk mengatur sebuah akun untuk dibuat - kami akan mencoba menangani permintaan ini secepat mungkin.
-      continue: Mendaftar
-      display name: "Tampilan Nama:"
-      display name description: Username Anda yang ditampilkan pada publik. Anda dapat mengubahnya dalam pengaturan.
-      email address: "Alamat Email:"
-      license_agreement: Ketika Anda mengkonfirmasi akun Anda, Anda harus setuju dengan <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">persyaratan kontributor</a>.
-      no_auto_account_create: Sayangnya saat ini kami tidak dapat membuatkan akun secara otomatis untuk Anda.
-      not displayed publicly: Tidak dipajangkan secara umum (Lihat <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy" title="wiki privacy policy including section on email addresses">kebijakan privasi</a>)
-      openid: "%{logo} OpenID:"
-      openid association: "<p>OpenID Anda belum diasosiasikan dengan akun OpenStreetMap.</p>\n<ul>\n  <li>Jika Anda baru di OpenStreetMap, silahkan buat sebuah akun baru menggunakan formulir di bawah ini.</li>\n  <li>\n    Jika Anda telah memiliki akun, Anda dapat login ke akun Anda\n    menggunakan username (nama pengguna) dan kata sandi kemudian asosiasikan akun tersebut\n    dengan OpenID Anda pada pegaturan pengguna.\n  </li>\n</ul>"
-      openid no password: Dengan OpenID, kata sandi tidak diperlukan, namun untuk beberapa alat tambahan atau server mungkin masih membutuhkannya.
-      password: "Kata Sandi:"
-      terms accepted: Terima kasih telah menerima persyaratan kontributor yang baru!
-      terms declined: Kami mohon maaf Anda tidak menerima Persyaratan Kontributor baru. Untuk informasi lebih lanjut, silahkan lihat <a href="%{url}">this wiki page</a>.
-      title: Mendaftar
-      use openid: Atau gunakan %{logo} OpenID untuk login
-    no_such_user: 
-      body: Maaf, tidak ada pengguna dengan nama %{user}. Silahkan cek kembali ejaan, atau mungkin link yang Anda klik salah.
-      heading: Pengguna %{user} tidak dapat ditemukan
-      title: Pengguna tersebut tidak ditemukan
-    popup: 
-      friend: Teman
-      nearby mapper: Pembuat peta disekitar Anda
-      your location: Lokasi Anda
-    remove_friend: 
-      button: Hapus sebagai teman
-      heading: Hapus %{user} sebagai teman?
-      not_a_friend: "%{name} bukanlah salah satu dari teman Anda."
-      success: "%{name} telah dihapus dari daftar teman Anda."
-    reset_password: 
-      confirm password: "Konfirmasi Kata Sandi:"
-      flash changed: Kata sandi Anda telah diubah.
-      flash token bad: Tidak dapat menemukan token tersebut, cek URL nya mungkin?
-      heading: Setel ulang kata sandi untuk %{user}
-      password: "Kata Sandi:"
-      reset: Setel Ulang Kata Sandi
-      title: Setel ulang kata sandi
-    set_home: 
-      flash success: Lokasi rumah berhasil disimpan
-    suspended: 
-      body: "<p>\n  Maaf, akun Anda telah ditangguhkan secara otomatis dikarenakan \n  aktivitas yang mencurigakan. \n</p>\n<p>\n  Keputusan ini akan ditinjau ulang oleh seorang administrator sesaat lagi, atau\n  anda dapat menghubungi %{webmaster} jika Anda ingin mendiskusikannya.\n</p>"
-      heading: Akun Ditangguhkan
-      title: Akun Ditangguhkan
-      webmaster: webmaster
-    terms: 
-      agree: Setuju
-      consider_pd: Sebagai tambahan perjanjian di atas, saya menganggap kontribusi saya berada di dalam Domain Publik
-      consider_pd_why: Apa ini?
-      decline: Tolak
-      guidance: "Informasi untuk membantu Anda memahami persyaratan ini: sebuah <a href=\"%{summary}\">ringkasan yang mudah dibaca</a> dan beberapa <a href=\"%{translations}\">terjemahan informal</a>"
-      heading: Persyaratan Kontributor
-      legale_names: 
-        france: Perancis
-        italy: Italia
-        rest_of_world: Bagian Lainnya dari Dunia
-      legale_select: "Silahkan pilih negara tempat tinggal Anda:"
-      read and accept: Silahkan baca perjanjian di bawah dan tekan tombol setuju untuk mengkonfirmasi bahwa Anda menerima persyaratan dari perjanjian ini untuk kontribusi Anda yang sudah ada dan di masa yang akan datang.
-      title: Persyaratan Kontributor
-      you need to accept or decline: Silahkan baca dan setujui atau tolak Persyaratan Kontributor yang baru untuk melanjutkan.
-    view: 
-      activate_user: aktifkan pengguna ini
-      add as friend: Jadikan Teman
-      ago: (%{time_in_words_ago} yang lalu)
-      block_history: blok diterima
-      blocks by me: Blok oleh saya
-      blocks on me: Blok kepada saya
-      comments: Komentar
-      confirm: Konfirmasi
-      confirm_user: konfirmasi pengguna ini
-      create_block: Blokir pengguna ini
-      created from: "Dibuat pada:"
-      ct accepted: Telah diterima %{ago} yang lalu
-      ct declined: Tolak
-      ct status: "Syarat-syarat kontributor:"
-      ct undecided: Belum diputuskan
-      deactivate_user: nonaktifkan pengguna ini
-      delete_user: hapus pengguna ini
-      description: Deskripsi
-      diary: Catatan Harian
-      edits: Suntingan
-      email address: "Alamat email:"
-      friends_changesets: Telusuri semua set perubahan yang dibuat oleh teman-teman
-      friends_diaries: Telusuri seluruh entri catatan harian oleh teman-teman
-      hide_user: sembunyikan pengguna ini
-      if set location: Menyetel lokasi rumah %{settings_link} untuk melihat pengguna terdekat
-      km away: sejauh %{count}km
-      latest edit: "Hasil edit terakhir %{ago}:"
-      m away: sejauh %{count} meter
-      mapper since: "Melakukan pemetaan sejak:"
-      moderator_history: blok yang diberikan
-      my comments: Komentarku
-      my diary: Diariku
-      my edits: Suntingan Saya
-      my messages: Pesanku
-      my notes: Catatanku
-      my profile: Profilku
-      my settings: Pengaturanku
-      my traces: Pelacakan Saya
-      nearby users: Pengguna lain terdekat
-      nearby_changesets: Telusuri seluruh set perubahan oleh pengguna terdekat
-      nearby_diaries: Telurusi seluruh entri catatan harian oleh pengguna terdekat
-      new diary entry: Entri baru catatan harian
-      no friends: Anda belum menambahkan teman.
-      no nearby users: Tidak ada pengguna lain yang mengaku untuk melakukan pemetaan terdekat.
-      notes: Catatan Peta
-      oauth settings: Pengaturan oauth
-      remove as friend: Hapus pertemanan
-      role: 
-        administrator: Pengguna ini merupakan administrator
-        grant: 
-          administrator: Memberikan akses administrator
-          moderator: Memberikan akses moderator
-        moderator: Pengguna ini adalah moderator
-        revoke: 
-          administrator: Mencabut akses administrator
-          moderator: Mencabut akses moderator
-      send message: Kirim Pesan
-      settings_link_text: pengaturan
-      spam score: "Jumlah Spam:"
-      status: "Status:"
-      traces: Jejak
-      unhide_user: munculkan kembali pengguna ini
-      user location: Lokasi pengguna
-      your friends: Teman Anda
-  user_block: 
-    blocks_by: 
-      empty: "%{name} belum membuat blokir apapun."
-      heading: Daftar blokir oleh %{name}
-      title: Blokir oleh %{name}
-    blocks_on: 
-      empty: "%{name} belum diblokir."
-      heading: Daftar blokir pada %{name}
-      title: Diblokir pada %{name}
-    create: 
-      flash: Telah melakukan blokir pada pengguna %{name}.
-      try_contacting: Silahkan coba untuk menghubungi pengguna sebelum memblokir mereka dan memberi waktu yang wajar bagi mereka untuk menanggapi.
-      try_waiting: Cobalah berikan waktu yang wajar bagi pengguna untuk merespon sebelum memblokir mereka.
-    edit: 
-      back: Lihat semua blokir
-      heading: Mengedit blokir pada %{name}
-      needs_view: Apakah pengguna harus login sebelum blokirnya dihapus?
-      period: Berapa lama, mulai dari sekarang, pengguna akan diblokir dari API.
-      reason: Alasan mengapa %{name} diblokir. Harap tenang, berikan detail sebanyak mungkin dan masuk akal mengenai situasi Anda. Perlu diingat bahwa tidak semua pengguna memahami jargon masyarakat, jadi silakan coba untuk menggunakan istilah-istilah laymans.
-      show: Lihat blokir ini
-      submit: Perbarui blokir
-      title: Mengedit blokir pada %{name}
-    filter: 
-      block_expired: Blokir sudah kadaluwarsa dan tidak bisa diedit.
-      block_period: Periode blokir harus merupakan salah satu nilai yang dapat dipilih dari daftar drop-down atau pilihan.
-    helper: 
-      time_future: Berakhir pada %{time}.
-      time_past: Berakhir %{time} yang lalu.
-      until_login: Aktif sampai pengguna melakukan log in.
-    index: 
-      empty: Belum ada blokir yang dibuat.
-      heading: Daftar blokir oleh pengguna
-      title: Blokir oleh pegguna
-    model: 
-      non_moderator_revoke: Harus merupakan moderator untuk mencabut blokir.
-      non_moderator_update: Harus merupakan moderator untuk membuat atau memperbarui blokir.
-    new: 
-      back: Lihat semua blokir
-      heading: Membuat blokir pada %{name}
-      needs_view: Pengguna perlu log in sebelum blokir ini dihapus
-      period: Berapa lama, mulai dari sekarang, pengguna akan diblokir dari API.
-      reason: Alasan mengapa %{name} diblokir. Harap tenang, berikan detail sebanyak mungkin dan masuk akal mengenai situasi Anda, mengingat bahwa persan akan terlihat oleh umum. Perlu diingat bahwa tidak semua pengguna memahami jargon masyarakat, jadi silakan coba untuk menggunakan istilah-istilah laymans.
-      submit: Buat blokir
-      title: Membuat blokir pada %{name}
-      tried_contacting: Saya telah menghubungi pengguna tersebut dan memintanya untuk berhenti.
-      tried_waiting: Saya telah memberi jumlah waktu yang wajar kepada pengguna untuk menanggapi komunikasi tersebut.
-    not_found: 
-      back: Kembali ke indeks
-      sorry: Maaf, blokir pengguna dengan ID %{id} tidak dapat ditemukan.
-    partial: 
-      confirm: Apakah Anda yakin?
-      creator_name: Pencipta
-      display_name: Pengguna yang Diblokir
-      edit: Edit
-      next: Berikutnya »
-      not_revoked: (tidak dicabut)
-      previous: « Sebelumnya
-      reason: Alasan untuk blokir
-      revoke: Batalkan!
-      revoker_name: Dibatalkan oleh
-      show: Tampilkan
-      showing_page: Halaman %{page}
-      status: Status
-    period: 
-      one: 1 hour
-      other: "%{count} hours"
-    revoke: 
-      confirm: Apakah Anda yakin untuk membatalkan blokir ini?
-      flash: Blokir ini telah dibatalkan.
-      heading: Membatalkan blokir pada %{block_on} oleh %{block_by}
-      past: Blokir ini telah berakhir %{time} yang lalu dan tidak dapat dibatalkan kembali sekarang.
-      revoke: Batalkan!
-      time_future: Blokir ini akan berakhir pada %{time}.
-      title: Membatalkan lokir pada %{block_on}
-    show: 
-      back: Lihat semua blokir
-      confirm: Apakah Anda yakin?
-      edit: Edit
-      heading: "%{block_on} diblokir oleh %{block_by}"
-      needs_view: Pengguna harus log in sebelum blokir ini dihapus.
-      reason: "Alasan untuk blokir:"
-      revoke: Batalkan!
-      revoker: "Pembatal:"
-      show: Tampilkan
-      status: Status
-      time_future: Berakhir dalam %{time}
-      time_past: Berakhir %{time} yang lalu
-      title: "%{block_on} diblokir oleh %{block_by}"
-    update: 
-      only_creator_can_edit: Hanya moderator yang membuat blokir ini yang dapat mengeditnya.
-      success: Blokir diperbarui.
-  user_role: 
-    filter: 
-      already_has_role: Pengguna telah memiliki peran %{role}.
-      doesnt_have_role: Pengguna tidak memiliki peran %{role}.
-      not_a_role: String `%{role}' bukan merupakan peran yang valid.
-      not_an_administrator: Hanya administrator yang dapat melakukan peran manajemen pengguna, dan Anda bukan administrator.
-    grant: 
-      are_you_sure: Apakah Anda yakin ingin memberikan peran `%{role}' kepada pengguna `%{name}'?
-      confirm: Konfirmasi
-      fail: Tidak bisa memberikan peran `%{role}' kepada pengguna `%{name}'. Silahkan periksa bahwa pengguna dan perannya valid.
-      heading: Konfirmasi pemberian peran
-      title: Konfirmasi pemberian peran
-    revoke: 
-      are_you_sure: Apakah Anda yakin Anda ingin mencabut peran `%{role}' dari pengguna `%{name}'?
-      confirm: Konfirmasi
-      fail: Tidak dapat mencabut peran `%{role}' dari pengguna `%{name}'. Silahkan periksa bahwa pengguna dan perannya valid.
-      heading: Konfirmasi pencabutan peran
-      title: Konfirmasi pencabutan peran
-  welcome_page: 
-    add_a_note: 
-      paragraph_1_html: Jika Anda ingin memberi perbaikan kecil dan tidak mau mendaftar ataupun mempelajari cara penyuntingan, Anda cukup memberi catatan.
-      paragraph_2_html: "Langsung ke <a href='%{map_url}'>peta</a> dan klik ikon catatan:\n<span class='icon note'></span>. Ini akan menambahkan sebuah penanda ke peta yang dapat bergerak\n dengan menyeretnya. Tambahkan pesan, lalu klik simpan, dan pemeta lainnya akan menyelidiki."
-      title: Keberatan menyunting? Tambahkan catatan!
-    basic_terms: 
-      editor_html: <strong>Editor</strong> adalah sebuah program atau situs web yang dapat Anda gunakan untuk menyunting peta.
-      node_html: Sebuah <strong>node</strong> adalah sebuah titik pada peta, seperti sebuah restoran tunggal atau sebuah pohon.
-      paragraph_1_html: OpenStreetMap memiliki beberapa istilah tersendiri. Berikut ini beberapa kata kunci yang dapat digunakan.
-      title: Istilah-Istilah Dasar untuk Pemetaan
-      way_html: Sebuah <strong>jalur</strong> berupa garis merupakan wilayah seperti jalan, sungai, danau, atau bangunan.
-    introduction_html: Selamat datang di OpenStreetMap, peta dunia gratis dan dapat disunting. Kini setelah Anda mendaftar, Anda sudah siap untuk memulai pemetaan. Berikut ini adalah panduan cepat dengan hal-hal terpenting yang perlu Anda ketahui.
-    questions: 
-      title: Ada pertanyaan?
-    start_mapping: Mulai pemetaan
-    title: Selamat datang!
-    whats_on_the_map: 
-      off_html: Apa yang <em>tidak</em> termasuk adalah data pendapat seperti peringkat, fitur sejarah atau hipotesis, dan data dari sumber berhak cipta. Kecuali Anda mempunyai izin khusus, jangan menyalin dari peta online atau kertas.
-      on_html: OpenStreetMap adalah tempat untuk memetakan hal-hal, baik <em>nyata dan saat ini</em> - ini mencakup jutaan bangunan, jalan, dan rincian lainnya tentang tempat-tempat. Anda dapat memetakan fitur dunia-nyata apapun yang menarik untuk Anda.
-      title: Apa yang ada di Peta
+    destroy:
+      not_empty: Redaksi tidak kosong. Silakan tidak-menyusun semua versi milik redaksi
+        ini sebelum merusaknya.
+      flash: Redaksi dihancurkan.
+      error: Ada kesalahan menghancurkan Redaksi ini.
+...
