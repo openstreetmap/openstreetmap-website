@@ -26,7 +26,7 @@ class ChangesetControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1", :method => :get },
-      { :controller => "changeset", :action => "read", :id => "1", :format => 'xml' }
+      { :controller => "changeset", :action => "read", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1", :method => :put },

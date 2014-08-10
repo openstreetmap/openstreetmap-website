@@ -41,10 +41,9 @@ class ChangesetController < ApplicationController
   # Return XML giving the basic info about the changeset. Does not
   # return anything about the nodes, ways and relations in the changeset.
   def read
-    @changeset = Changeset.find(params[:id])
-    @comments = @changeset.comments.includes(:author) if params[:include_discussion].presence
+    changeset = Changeset.find(params[:id])
 
-    render :action => :show
+    render :text => changeset.to_xml(params[:include_discussion].presence).to_s, :content_type => "text/xml"
   end
 
   ##
@@ -324,28 +323,28 @@ class ChangesetController < ApplicationController
     body = params[:text]
 
     # Find the changeset and check it is valid
-    @changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError.new(@changeset) if @changeset.is_open?
+    changeset = Changeset.find(id)
+    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
 
     # Add a comment to the changeset
     attributes = {
-      :changeset => @changeset,
+      :changeset => changeset,
       :body => body,
       :author => @user
     }
 
-    comment = @changeset.comments.create(attributes)
+    comment = changeset.comments.create(attributes)
 
-    @changeset.subscribers.each do |user|
+    changeset.subscribers.each do |user|
       if @user != user
         Notifier.changeset_comment_notification(comment, user).deliver
       end
     end
 
-    @changeset.subscribers << @user unless @changeset.subscribers.exists?(@user)
+    changeset.subscribers << @user unless changeset.subscribers.exists?(@user)
 
     # Return a copy of the updated changeset
-    render :action => :show
+    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
   end
 
   ## 
@@ -358,13 +357,13 @@ class ChangesetController < ApplicationController
     id = params[:id].to_i
 
     # Find the changeset and check it is valid
-    @changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError.new(@changeset) if @changeset.is_open?
-    raise OSM::APIChangesetAlreadySubscribedError.new(@changeset) if @changeset.subscribers.exists?(@user)
+    changeset = Changeset.find(id)
+    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
+    raise OSM::APIChangesetAlreadySubscribedError.new(changeset) if changeset.subscribers.exists?(@user)
 
-    @changeset.subscribers << @user
+    changeset.subscribers << @user
     # Return a copy of the updated changeset
-    render :action => :show
+    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
   end
 
   ## 
@@ -377,14 +376,14 @@ class ChangesetController < ApplicationController
     id = params[:id].to_i
 
     # Find the changeset and check it is valid
-    @changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError.new(@changeset) if @changeset.is_open?
-    raise OSM::APIChangesetNotSubscribedError.new(@changeset) unless @changeset.subscribers.exists?(@user)
+    changeset = Changeset.find(id)
+    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
+    raise OSM::APIChangesetNotSubscribedError.new(changeset) unless changeset.subscribers.exists?(@user)
 
-    @changeset.subscribers.delete(@user)
+    changeset.subscribers.delete(@user)
 
     # Return a copy of the updated changeset
-    render :action => :show
+    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
   end
 
   ## 
@@ -398,12 +397,12 @@ class ChangesetController < ApplicationController
 
     # Find the changeset
     @comment = ChangesetComment.find(id)
-    @changeset = @comment.changeset
+    changeset = @comment.changeset
 
     @comment.update(:visible => false)
 
     # Return a copy of the updated changeset
-    render :action => :show
+    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
   end
 
   ## 
@@ -417,12 +416,12 @@ class ChangesetController < ApplicationController
 
     # Find the changeset
     @comment = ChangesetComment.find(id)
-    @changeset = @comment.changeset
+    changeset = @comment.changeset
 
     @comment.update :visible => true
 
     # Return a copy of the updated changeset
-    render :action => :show
+    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
   end
 
   ##
@@ -433,10 +432,10 @@ class ChangesetController < ApplicationController
       id = params[:id].to_i
 
       # Find the changeset
-      @changeset = Changeset.find(id)
+      changeset = Changeset.find(id)
 
       # Find the comments we want to return
-      @comments = @changeset.comments.includes(:author, :changeset).limit(comments_limit)
+      @comments = changeset.comments.includes(:author, :changeset).limit(comments_limit)
     else
       @comments = ChangesetComment.includes(:author, :changeset).where(:visible => :true).order("created_at DESC").limit(comments_limit).preload(:changeset)
     end
