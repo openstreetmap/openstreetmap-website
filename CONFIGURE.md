@@ -110,10 +110,22 @@ For information on contributing changes to the codes, see [CONTRIBUTING.md](CONT
 
 If you want to deploy The Rails Port for production use, you'll need to make a few changes.
 
-* It's not recommended to use `rails server` in production. Our recommended approach is to use [Phusion Passenger](https://www.phusionpassenger.com/).
+* It's not recommended to use `rails server` in production. Our recommended approach is to use [Phusion Passenger](https://www.phusionpassenger.com/). There are [straightforward installation instructions for Apache](https://www.phusionpassenger.com/documentation/Users%20guide%20Apache.html#_deploying_a_rack_based_ruby_application_including_rails_gt_3) and other web servers. This is a basic virtual host configuration you can save to `/etc/apache2/sites-available/openstreetmap.conf` and then enable using `a2ensite openstreetmap.conf`. (Yes, you need the `.conf` extension or it will not work.)
+
+    <VirtualHost *:80>
+        ServerName yourserver.com
+        DocumentRoot /path/to/openstreetmap-website/public
+        <Directory /path/to/openstreetmap-website/public/>
+            Allow from all
+            Options -MultiViews
+            Require all granted
+        </Directory>
+    </VirtualHost>
+
 * Passenger will, by design, use the Production environment and therefore the production database - make sure it contains the appropriate data and user accounts.
 * Your production database will also need the extensions and functions installed - see [INSTALL.md](INSTALL.md)
 * The included version of the map call is quite slow and eats a lot of memory. You should consider using [CGIMap](https://github.com/zerebubuth/openstreetmap-cgimap) instead.
 * The included version of the GPX importer is slow and/or completely inoperable. You should consider using [the high-speed GPX importer](http://git.openstreetmap.org/gpx-import.git/).
 * Make sure you precompile the production assets: `RAILS_ENV=production rake assets:precompile`
 * Make sure the web server user as well as the rails user can read, write and create directories in `tmp/`.
+* Prepend all `rake` commands in [the installation instructions](INSTALL.md) with `RAILS_ENV=production ` (example `RAILS_ENV=production rake db:create`) to make sure the production environment is set up properly.
