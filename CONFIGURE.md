@@ -112,15 +112,17 @@ If you want to deploy The Rails Port for production use, you'll need to make a f
 
 * It's not recommended to use `rails server` in production. Our recommended approach is to use [Phusion Passenger](https://www.phusionpassenger.com/). There are [straightforward installation instructions for Apache](https://www.phusionpassenger.com/documentation/Users%20guide%20Apache.html#_deploying_a_rack_based_ruby_application_including_rails_gt_3) and other web servers. This is a basic virtual host configuration you can save to `/etc/apache2/sites-available/openstreetmap.conf` and then enable using `a2ensite openstreetmap.conf`. (Yes, you need the `.conf` extension or it will not work.)
 
-    <VirtualHost *:80>
-        ServerName yourserver.com
-        DocumentRoot /path/to/openstreetmap-website/public
-        <Directory /path/to/openstreetmap-website/public/>
-            Allow from all
-            Options -MultiViews
-            Require all granted
-        </Directory>
-    </VirtualHost>
+```
+<VirtualHost *:80>
+    ServerName yourserver.com
+    DocumentRoot /path/to/openstreetmap-website/public
+    <Directory /path/to/openstreetmap-website/public/>
+        Allow from all
+        Options -MultiViews
+        Require all granted
+    </Directory>
+</VirtualHost>
+```
 
 * Passenger will, by design, use the Production environment and therefore the production database - make sure it contains the appropriate data and user accounts.
 * Your production database will also need the extensions and functions installed - see [INSTALL.md](INSTALL.md)
