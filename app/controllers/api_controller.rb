@@ -287,8 +287,16 @@ class ApiController < ApplicationController
     status['api'] = api_status.to_s
     status['gpx'] = gpx_status.to_s
     api << status
-
     doc.root << api
+    policy = XML::Node.new 'policy'
+    blacklist = XML::Node.new 'imagery'
+    IMAGERY_BLACKLIST.each do |url_regex| 
+      xnd = XML::Node.new 'blacklist'
+      xnd['regex'] = url_regex.to_s
+      blacklist << xnd
+    end
+    policy << blacklist
+    doc.root << policy
 
     render :text => doc.to_s, :content_type => "text/xml"
   end
