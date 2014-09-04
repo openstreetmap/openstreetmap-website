@@ -154,6 +154,15 @@ $(document).ready(function () {
     $.cookie("_osm_location", OSM.locationCookie(map), { expires: expiry, path: "/" });
   });
 
+  if ($.cookie('_osm_sotm') == 'hide') {
+    $('#sotm').hide();
+  }
+
+  $('#sotm .close').on('click', function() {
+    $('#sotm').hide();
+    $.cookie("_osm_sotm", 'hide', { expires: expiry });
+  });
+
   if ($.cookie('_osm_welcome') == 'hide') {
     $('.welcome').hide();
   }
