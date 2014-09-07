@@ -58,6 +58,8 @@ class BrowseController < ApplicationController
   def changeset
     @type = "changeset"
     @changeset = Changeset.find(params[:id])
+    @comments = @changeset.comments.unscope(:where => :visible).includes(:author) if @user and @user.moderator?
+    @comments ||= @changeset.comments.includes(:author)
     @node_pages, @nodes = paginate(:old_nodes, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'node_page')
     @way_pages, @ways = paginate(:old_ways, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'way_page')
     @relation_pages, @relations = paginate(:old_relations, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'relation_page')
