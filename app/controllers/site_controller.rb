@@ -52,7 +52,7 @@ class SiteController < ApplicationController
       new_params[:anchor] += "&layers=#{params[:layers]}"
     end
 
-    redirect_to new_params
+    redirect_to Hash[new_params]
   end
 
   def key
@@ -151,7 +151,7 @@ class SiteController < ApplicationController
     end
 
     if anchor.present?
-      redirect_to params.merge(:anchor => anchor.join('&'))
+      redirect_to Hash[params].merge(:anchor => anchor.join('&'))
     end
   end
 end
