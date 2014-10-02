@@ -45,6 +45,7 @@ class User < ActiveRecord::Base
   validates_format_of :display_name, :with => /\A[^\x00-\x1f\x7f\ufffe\uffff\/;.,?%#]*\z/, :if => Proc.new { |u| u.display_name_changed? }
   validates_format_of :display_name, :with => /\A\S/, :message => "has leading whitespace", :if => Proc.new { |u| u.display_name_changed? }
   validates_format_of :display_name, :with => /\S\z/, :message => "has trailing whitespace", :if => Proc.new { |u| u.display_name_changed? }
+  validates_exclusion_of :display_name, :in => %w(new terms save confirm confirm-email go_public reset-password forgot-password suspended)
   validates_numericality_of :home_lat, :allow_nil => true
   validates_numericality_of :home_lon, :allow_nil => true
   validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true
