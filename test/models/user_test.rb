@@ -87,7 +87,9 @@ class UserTest < ActiveSupport::TestCase
     # should be used.
     bad = [ "<hr/>", "test@example.com", "s/f", "aa/", "aa;", "aa.",
             "aa,", "aa?", "/;.,?", "も対応します/", "#ping",
-            "foo\x1fbar", "foo\x7fbar", "foo\ufffebar", "foo\uffffbar" ]
+            "foo\x1fbar", "foo\x7fbar", "foo\ufffebar", "foo\uffffbar",
+            "new", "terms", "save", "confirm", "confirm-email",
+            "go_public", "reset-password", "forgot-password", "suspended" ]
     ok.each do |display_name|
       user = users(:normal_user)
       user.display_name = display_name
@@ -98,7 +100,6 @@ class UserTest < ActiveSupport::TestCase
       user = users(:normal_user)
       user.display_name = display_name
       assert !user.valid?, "#{display_name} is valid when it shouldn't be"
-      assert user.errors[:display_name].include?("is invalid")
     end
   end
   
