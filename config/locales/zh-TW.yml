@@ -10,6 +10,7 @@
 # Author: Justincheng12345
 # Author: LNDDYL
 # Author: Liuxinyu970226
+# Author: Mikepanhu
 # Author: Mmyangfl
 # Author: Mywood
 # Author: Orinx
@@ -18,6 +19,7 @@
 # Author: Simon Shek
 # Author: StephDC
 # Author: SupaplexTW
+# Author: Wehwei
 # Author: Wrightbus
 ---
 zh-TW:
@@ -194,6 +196,7 @@ zh-TW:
       wiki_link:
         key: '%{key}標籤的wiki說明頁面'
         tag: '%{key}=%{value}標籤的wiki說明頁面'
+      wikidata_link: 維基數據上的%{page}項目
       wikipedia_link: 維基百科上的%{page}條目
       telephone_link: 打給 %{phone_number}
     note:
@@ -1165,6 +1168,8 @@ zh-TW:
         subject_own: '[OpenStreetMap] %{commenter} 再次開啟你其中一筆筆記。'
         subject_other: '[OpenStreetMap] %{commenter} 再次開啟你感興趣的筆記。'
         your_note: '%{commenter} 已經再次開啟你其中一筆接近 %{place} 的地圖筆記。'
+        commented_note: '%{commenter}重新啟用了一個您曾留言的地圖註記。該註記位於%{place}附近。'
+      details: 關於註記的更多詳細訊息可在%{url}找到。
   message:
     inbox:
       title: 收件匣
@@ -1252,6 +1257,8 @@ zh-TW:
         Adobe.com 下載 Flash Player</a>。<a href="http://wiki.openstreetmap.org/wiki/Editing">還有其他許多選擇</a>也可以編輯
         OpenStreetMap。
       potlatch_unsaved_changes: 您還有未儲存的變更。 (要在 Potlatch 中儲存，您應該取消選擇目前的路徑或節點(如果是在清單模式編輯)，或是點選儲存(如果有儲存按鈕)。)
+      potlatch2_not_configured: Potlatch 2尚未設定 - 請參閱http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
+        以獲取更多資訊
       potlatch2_unsaved_changes: 您有未儲存的更改。（要在 Potlatch 2 中儲存，您應按一下儲存。)
       id_not_configured: iD 尚未設定
       no_iframe_support: 您的瀏覽器不支持 HTML 嵌入式框架，這是這項功能所必要的。
@@ -1261,7 +1268,7 @@ zh-TW:
     search:
       search: 搜尋
       where_am_i: 我在哪裡？
-      where_am_i_title: 使用搜索引擎描述目前的位置
+      where_am_i_title: 使用搜尋引擎描述目前的位置
       submit_text: 出發
     key:
       table:
@@ -1304,12 +1311,14 @@ zh-TW:
           retail: 零售區
           industrial: 工業區
           commercial: 商業區
+          heathland: 荒地
           lake:
           - 湖泊
           - 水庫
           farm: 農田
           brownfield: 棕地
           cemetery: 墳場
+          allotments: 小園地
           pitch: 運動場地
           centre: 體育中心
           reserve: 自然保護區
@@ -1952,6 +1961,8 @@ zh-TW:
     mine:
       title: 由%{user}提交或評論的筆記
       heading: '%{user}的筆記'
+      subheading: '%{user}提交或評論的註記'
+      id: Id
       creator: 建立者
       description: 說明
       created_at: 建立於：
@@ -1978,6 +1989,7 @@ zh-TW:
       paste_html: 貼上HTML以嵌入網站
       view_larger_map: 查看更大的地圖
     key:
+      title: 圖例
       tooltip: 圖例
       tooltip_disabled: 圖例僅適用於標準圖層
     map:
@@ -2023,12 +2035,32 @@ zh-TW:
   redaction:
     edit:
       description: 說明
+      heading: 編輯修訂
+      submit: 儲存修訂
+      title: 編輯修訂
+    index:
+      empty: 沒有可顯示的修訂。
+      heading: 修訂列表
+      title: 修訂列表
     new:
       description: 說明
+      heading: 輸入新增修訂資訊
+      submit: 建立修訂
+      title: 建立修訂中
     show:
       description: 說明：
+      heading: 正顯示修訂「%{title}」
+      title: 顯示修訂
       user: 建立者：
+      edit: 編輯此修訂
+      destroy: 移除此修訂
       confirm: 您確定嗎？
+    create:
+      flash: 修訂已建立
     update:
       flash: 已儲存更改。
+    destroy:
+      not_empty: 修訂尚未清空。請在銷毀前清除所有此修訂的版本。
+      flash: 修訂已銷毀。
+      error: 銷毀此修訂時發生錯誤。
 ...

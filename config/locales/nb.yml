@@ -189,7 +189,9 @@ nb:
       wiki_link:
         key: Wiki-beskrivelsessiden for %{key}-elementet
         tag: Wiki-beskrivelsessiden for %{key}=%{value}-elementet
+      wikidata_link: Elementet %{page} på Wikidata
       wikipedia_link: Artikkelen %{page} på Wikipedia
+      telephone_link: Ring %{phone_number}
     note:
       title: 'Merknad: %{id}'
       new_note: Ny notis
@@ -1134,6 +1136,11 @@ nb:
       for at OSM er nøyaktig og oppdatert.
     community_driven_title: Fellesskapsdrevet
     open_data_title: Åpne data
+    open_data_html: 'OpenStreetMap er <i>åpne data</i>: Du kan fritt bruke det for
+      alle formål, så lenge du krediterer OpenStreetMap og dets bidragsytere. Hvis
+      du gjør endringer eller bygger på dataene på enkelte måter, kan du kun distribuere
+      resultatet under samme lisens. Se <a href=''%{copyright_path}''>Opphavsrett
+      og lisenssiden</a> for detaljer.'
     partners_title: Partnere
   notifier:
     diary_comment_notification:
@@ -1711,6 +1718,9 @@ nb:
         mulig.
       about:
         header: Gratis og redigerbar
+        html: |-
+          <p>I motsetning til andre kart, er OpenStreetMap laget av folk som deg, og det er fritt for alle å rette, oppdatere, laste ned og bruke kartet.</p>
+          <p>Registrer deg for å komme i gang med å bidra. Vi vil sende en e-mail for å bekrefte din konto.</p>
       license_agreement: Når du bekrefter kontoen din må du godkjenne <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">bidragsytervilkårene</a>.
       email address: 'E-postadresse:'
       confirm email address: 'Bekreft e-postadresse:'
@@ -1898,10 +1908,15 @@ nb:
       flash update success: Brukerinformasjon oppdatert.
     confirm:
       heading: Sjekk e-posten din!
+      introduction_1: Vi har sendt deg en bekreftelsesepost.
+      introduction_2: Bekreft kontoen din ved å klikke på lenken i eposten så kan
+        du begynne å lage kartene.
       press confirm button: Klikk bekreftknappen nedenfor for å aktivere kontoen din.
       button: Bekreft
       already active: Denne kontoen har allerede blitt bekreftet.
       unknown token: Denne bekreftelseskoden finnes ikke eller har utløpt.
+      reconfirm_html: Hvis du trenger at vi sender bekreftelseseposten på nytt, <a
+        href="%{reconfirm}">klikk her</a>
     confirm_resend:
       success: Vi har sendt en ny bekreftelsesmelding til %{email} og så snart du
         bekrefter kontoen din kan du begynne å lage kart.<br /><br />Om du bruker
@@ -2117,30 +2132,41 @@ nb:
       long_link: Lenke
       short_link: Kort lenke
       embed: HTML
+      custom_dimensions: Sett egendefinerte dimensjoner
       format: 'Format:'
+      scale: 'Skala:'
+      image_size: Bilde vil vise standard lag ved
       download: Last ned
       short_url: Kort-URL
+      include_marker: Inkluder markør
+      center_marker: Sentrer kart på markøren
+      paste_html: Lim inn HTML for å inkluderes på webside
       view_larger_map: Vis større kart
     key:
       title: Kartsymbol
       tooltip: Kartsymbol
+      tooltip_disabled: Kartnøkkel bare tilgjengelig for standardlag
     map:
       zoom:
         in: Zoom inn
         out: Zoom ut
       locate:
         title: Vis min posisjon
+        popup: Du er innenfor {distance} {unit} av dette punktet
       base:
         standard: Standard
         cycle_map: Sykkelkart
         transport_map: Transport-kart
         mapquest: MapQuest Open
+        hot: Humanitært
       layers:
         header: Kartlag
         notes: Kartmerknader
         data: Kartdata
         overlays: Aktiver overlag for å feilsøke kartet
         title: Lag
+      copyright: © <a href='%{copyright_url}'>OpenStreetMap bidragsytere</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Gi en donasjon</a>
     site:
       edit_tooltip: Rediger kartet
       edit_disabled_tooltip: Zoom inn for å redigere kartet
@@ -2152,7 +2178,8 @@ nb:
       new:
         intro: Oppdaget en feil eller noe som mangler? La andre kartleggere få vite
           det så vi kan fikse det. Flytt markøren to korrekt posisjon og skriv merknad
-          som forklarer problemet. (Ikke oppgi personlig informasjon her.)
+          som forklarer problemet. (Ikke oppgi personlig informasjon eller informasjon
+          fra opphavsrettsbeskyttede kart eller katalogoppføringer.)
         add: Legg til merknad
       show:
         anonymous_warning: Denne merknaden inneholder kommentarer fra anonyme brukere
@@ -2162,6 +2189,7 @@ nb:
         reactivate: Reaktiver
         comment_and_resolve: Kommenter og løs
         comment: Kommenter
+    edit_help: Flytt kartet og zoom inn på et sted du vil redigere, og klikk så her.
   redaction:
     edit:
       description: Beskrivelse

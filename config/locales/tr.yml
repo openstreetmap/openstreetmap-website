@@ -175,6 +175,9 @@ tr:
         way: yol
         relation: ilişki
     start_rjs:
+      feature_warning: Tarayıcınızın yavaşlamasına veya yanıt vermemesine sebep olabilecek
+        %{num_features} özellik yükleniyor. Bu veriyi görüntülemek istediğinize emin
+        misiniz?
       load_data: Veri Yükle
       loading: Yükleniyor...
     tag_details:
@@ -183,6 +186,7 @@ tr:
         key: '%{key} parametresi için Viki açıklaması'
         tag: '%{key}=%{value} parametresi için Viki açıklaması'
       wikipedia_link: '%{page} hakkında Vikipedi maddesi'
+      telephone_link: '%{phone_number} ara'
     note:
       title: 'Not: %{id}'
       new_note: Yeni Not
@@ -190,6 +194,14 @@ tr:
       open_title: 'Çözümlenmemiş not: #%{note_name}'
       closed_title: 'Çözümlenmiş not: #%{note_name}'
       hidden_title: 'Saklı not #%{note_name}'
+      open_by: '%{user} tarafından <abbr title=''%{exact_time}''>%{when} önce</abbr>
+        oluşturuldu'
+      open_by_anonymous: Anonim olarak <abbr title='%{exact_time}'>%{when} önce</abbr>
+        oluşturuldu
+      commented_by: '%{user} kullanıcısının <abbr title=''%{exact_time}''>%{when}
+        önceki</abbr> yorumu'
+      commented_by_anonymous: Anonim kullanıcının <abbr title='%{exact_time}'>%{when}
+        önceki</abbr> yorumu
   changeset:
     changeset_paging_nav:
       showing_page: 'Sayfa: %{page}'
@@ -210,7 +222,7 @@ tr:
       title_user: '%{user} tarafından değişiklik setleri'
       title_friend: Arkadaşların değişiklik kayıtları
       title_nearby: Yakındaki kullanıcıların değişiklik kayıtları
-      load_more: Fazla görüntüle
+      load_more: Daha fazla
     timeout:
       sorry: Üzgünüz, değişiklik kayıtlarının listelenmesi fazla sürdü.
   diary_entry:
@@ -310,6 +322,9 @@ tr:
           title: OSM Gezegeni
         geofabrik:
           title: Geofabrik İndirmeleri
+        metro:
+          title: Büyükşehir Çıktıları
+          description: Büyükşehir ile banliyölerin çıktıkları
         other:
           title: Diğer Kaynaklar
       options: Seçenekler
@@ -327,16 +342,17 @@ tr:
   geocoder:
     search:
       title:
-        latlon: <a href="http://openstreetmap.org/">OSM</a>'un sonuçları
-        us_postcode: <a href="http://geocoder.us/">Geocoder.us</a>'dan sonuçları
+        latlon: <a href="http://openstreetmap.org/">OSM</a>'in sonuçları
+        us_postcode: <a href="http://geocoder.us/">Geocoder.us</a>'ın sonuçları
         uk_postcode: <a href="http://www.npemap.org.uk/">FreeThe Postcode</a> sonuçları
           (İngiltere)
         ca_postcode: <a href="http://geocoder.ca/">Geocoder.CA</a>'dan sonuçları
         osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OSM Nominatim</a>
           sonuçları
-        geonames: <a href="http://www.geonames.org/">GeoNames.org</a>'un sonuçları
+        geonames: <a href="http://www.geonames.org/">GeoNames</a>'in sonuçları
         osm_nominatim_reverse: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a>'in sonuçları
+        geonames_reverse: <a href="http://www.geonames.org/">GeoNames</a>'in sonuçları
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -513,6 +529,7 @@ tr:
           castle: Kale
           church: Kilise
           citywalls: Şehir Surları
+          fort: Hisar
           house: Tarihi Konak
           icon: Simge
           manor: Köşk
@@ -563,6 +580,7 @@ tr:
         leisure:
           beach_resort: Plajlı tatilköyü
           bird_hide: Kuş Gözleme Yeri
+          common: Genel Arazi
           fishing: Balıkçılık alanı
           fitness_station: Spor Merkezi
           garden: Bahçe
@@ -644,7 +662,7 @@ tr:
           "yes": Ofis
         place:
           airport: Havaalanı
-          city: Büyükşehir / il merkezi
+          city: Büyükşehir / İl Merkezi
           country: Ülke
           county: İlçe
           farm: Tarla
@@ -653,6 +671,7 @@ tr:
           houses: Evler
           island: Ada
           islet: Adacık
+          isolated_dwelling: İzole Konut
           locality: Yer/mevkii
           moor: Bataklık
           municipality: Belediye
@@ -722,11 +741,13 @@ tr:
           furniture: Mobilya
           gallery: Galeri
           garden_centre: Bahçe Merkezi
+          general: Bakkal
           gift: Hediye eşya
           greengrocer: Manav
           grocery: Manav
           hairdresser: Kuaför
           hardware: Hırdavatçı
+          hifi: Hi-Fi
           insurance: Sigorta
           jewelry: Kuyumcu
           kiosk: Tekel Bayii
@@ -807,7 +828,7 @@ tr:
         level4: Eyalet Sınırı
         level5: Bölge Sınırı
         level6: İlçe Sınırı
-        level8: Büyükşehir Sınırı
+        level8: Şehir Sınırı
         level9: Köy Sınırı
         level10: Mahalle Sınırı
     description:
@@ -847,7 +868,7 @@ tr:
     sign_up_tooltip: Düzenleme moduna girmek için bir hesap oluştur
     edit: Düzenle
     history: Geçmiş
-    export: Dışalım
+    export: Dışa aktar
     data: Veri
     export_data: Verinin Dışalımı
     gps_traces: GPS İzleri
@@ -881,7 +902,7 @@ tr:
     foundation_title: OpenStreetMap Vakfı
     make_a_donation:
       title: OpenStreetMap para bağışı ile destek verebilirsiniz
-      text: Bir bağışta bulunun
+      text: Bağış Yapın
     learn_more: Daha Fazla Bilgi
     more: Daha fazla
   license_page:
@@ -899,28 +920,51 @@ tr:
         Örnegin:
       contributors_title_html: Katkıcılarımız
   welcome_page:
-    title: Hoşgeldiniz!
+    title: Hoş geldiniz!
+    introduction_html: Dünyanın düzenlenebilir ve ücretsiz haritası OpenStreetMap'e
+      hoş geldiniz. Şu an kaydoldunuz ve bütün haritalama işlemlerine başlamanız için
+      her şey hazır. İşte bilmeniz gereken en önemli şeylerin hızlı bir kılavuzu.
     whats_on_the_map:
       title: Haritada ne bulunur
+      on_html: OpenStreetMap, <em>gerçek ve güncel</em> şeyleri haritalamak için bir
+        yerdir. Bu milyonlarca binaları, yolları ve yerler hakkında diğer ayrıntıları
+        içerir. İlgini çeken her türlü gerçek dünya özelliklerini haritalayabilirsin.
+      off_html: Neyi <em>içermez?</em> Ön yargılı veriler gibi değerlendirmeler, tarihî
+        ya da farazi özellikler ve telif hakkı olan kaynaklardan gelen verileri <em>içermez.</em>
+        Özel izniniz yoksa, çevrim içi ya da kağıt haritaları kopyalamayın.
     basic_terms:
       title: Haritacılığın temel terimleri
+      paragraph_1_html: OpenStreetMap'in kendine ait bazı argoları vardır. İşte kullanışlı
+        gelecek birkaç anahtar kelime.
       editor_html: <strong>Düzenleyici</strong> haritayı düzenlemek için kullanabileceğiniz
         bir program ya da web sayfasıdır.
-      way_html: Bir <strong>yol</strong> bir çizgi ya da alan, bir cadde, akarsu,
-        göl veya bina olabilir.
+      node_html: <strong>Düğüm</strong>, haritadaki bir noktadır. Bu bir restoran
+        ya da bir ağaç olabilir.
+      way_html: <strong>Yol</strong>, bir çizgi ya da alan, bir cadde, akarsu, göl
+        ya da bina olabilir.
+      tag_html: <strong>Etiket</strong>, bir düğümün ya da yolun veri parçasıdır.
+        Bu bir restoranın ismi ya da yolun hız sınırı olabilir.
     questions:
       title: Sorularınız var mı?
+      paragraph_1_html: OpenStreetMap, proje hakkında bilgiler içeren, soru sormak
+        ve soruları cevaplamak için ve işbirliği halinde tartışma yapılan ve haritalama
+        konularını belgelemek için çeşitli kaynaklara sahiptir. <a href='%{help_url}'>Buradan
+        yardım alın</a>.
     start_mapping: Harita çizmeye başla
     add_a_note:
-      title: Düzenlemek için vaktın yok mu? O zaman bir not ekle...!
+      title: Düzenlemek için vaktin yok mu? O zaman bir not ekle!
   fixthemap:
     title: Sorun bildir / Haritayı onar
     how_to_help:
       title: Nasıl yardım edebilirim?
+      join_the_community:
+        title: Topluluğa katılın
       add_a_note:
         instructions_html: |-
           Sadece <a class='icon note'></a> ikonuna tıklayın veya harita görünümü üzerinde aynı ikona tıklayın.
           Bu haritaya daha sonra sürükleyerek taşıyabileceğiniz bir işaretleyici ekleyecek. Mesajınızı ekleyin ve kaydedin, diğer haritacılar bunu araştıracaklar.
+    other_concerns:
+      title: Diğer sorunlar
   help_page:
     title: Yardım Almak
     welcome:
@@ -934,8 +978,9 @@ tr:
       title: wiki.openstreetmap.org
   about_page:
     next: İleri
-    copyright_html: <span>&copy;</span>OpenStreetMap<br>katkıda bulunanlar
+    copyright_html: <span>&copy;</span>OpenStreetMap<br>katkıda bulunanları
     local_knowledge_title: Yerel Bilgi
+    partners_title: Ortaklar
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] günlük kayıdın %{user} tarafından yorumlandı'
@@ -1011,6 +1056,8 @@ tr:
       send_button: Gönder
       back_to_inbox: Gelen kutusuna dön
       message_sent: Mesaj gönderildi
+      limit_exceeded: Kısa sürede birçok ileti gönderdiniz. Lütfen daha fazla göndermeden
+        önce bir süre bekleyin.
     no_such_message:
       title: Böyle bir mesaj yok
       heading: Böyle bir mesaj yok
@@ -1202,6 +1249,8 @@ tr:
       visibility: 'Görünürlük:'
     trace_paging_nav:
       showing_page: Sayfa %{page}
+      older: Daha Eski İzler
+      newer: En Yeni İzler
     trace:
       pending: BEKLEMEDE
       count_points: '%{count} puan'
@@ -1222,6 +1271,7 @@ tr:
       public_traces: Herkese açık GPS izleri
       your_traces: Senin GPS izleri
       public_traces_from: '%{user} tarafından gelen herkese açık GPS izleri'
+      description: Son GPS izi güncellemelerine göz at
       tagged_with: ' %{tags} ile etiketlendi'
     make_public:
       made_public: Iz herkese açık
@@ -1229,6 +1279,12 @@ tr:
       message: GPX dosya gönderme sistemi şu anda kullanılamıyor
     offline:
       heading: GPX Yükleme Servisi Çevrimdışı
+  oauth:
+    oauthorize_success:
+      verification: Doğrulama kodu %{code}.
+    oauthorize_failure:
+      title: Yetkilendirme isteği başarısız oldu
+      denied: '%{app_name} uygulamasının hesabınıza erişmesini engellediniz.'
   oauth_clients:
     new:
       submit: Kayıt ol
@@ -1258,7 +1314,7 @@ tr:
       register now: Şimdi kayıt ol
       with username: 'OpenStreetMap hesabınız var mı? Lütfen kullanıcı adı ve şifrenizle
         giriş yapınız:'
-      with openid: 'Alternatif olarak OpenID ile giriş yapın:'
+      with openid: 'Bunun yerine, OpenID kullanarak giriş yapın:'
       new to osm: OpenStreetMap sitesinde yeni misiniz?
       to make changes: OpenStreetMap verileri değiştirmek için bir hesabın olması
         gerekir.
@@ -1306,14 +1362,23 @@ tr:
       flash changed: Şifren başarıyla değiştirildi.
     new:
       title: Hesap oluştur
+      about:
+        header: Ücretsiz ve düzenlenebilir
+        html: |-
+          <p>Diğer haritaların aksine, OpenStreetMap tamamıyla sizin gibi insanlar tarafından oluşturulur ve düzeltme, güncelleme, indirme ve kullanma herkes için ücretsizdir.</p>
+          <p>Katkıda bulunmaya başlamak için kayıt olun. Hesabınızın onaylanması için size bir e-posta göndereceğiz.</p>
       email address: 'E-posta Adresi:'
       confirm email address: E-posta Adresini Onayla
+      not displayed publicly: Herkes tarafından görüntülenemez (bkz. <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
+        title="e-posta adresleri bölümünü de içinde bulunduran viki gizlilik politikası">gizlilik
+        politikası</a>)
       display name: 'Görünen Ad:'
       display name description: Herkes tarafından görünen ad. Bu adı istediği zaman
         'tercihlerim' bölümünde değiştirebilirsin.
       openid: '%{logo} OpenID:'
       password: 'Şifre:'
       confirm password: 'Şifre Onayla:'
+      use openid: Bunun yerine, %{logo} kullanarak giriş yapın
       continue: Kaydol
       terms accepted: Yeni katılımcı şartları kabul ettiğin için teşekkür ederiz!
     terms:
@@ -1331,7 +1396,7 @@ tr:
       decline: Reddet
       you need to accept or decline: Lütfen katılımcı şartlarını okuyunuz ve şartları
         kabul ya da ret ediniz.
-      legale_select: 'İkamet ettiğiniz ülke seç:'
+      legale_select: 'İkamet edilen ülke:'
       legale_names:
         france: Fransa
         italy: İtalya
@@ -1461,7 +1526,12 @@ tr:
       flash update success: Kullanıcı bilgisi başarıyla güncellendi.
     confirm:
       heading: E-postalarını kontrol et!
+      introduction_1: Size bir doğrulama e-postası gönderdik.
+      introduction_2: E-postadaki bağlantıya tıklayarak hesabınızı doğrulayın ve daha
+        sonra haritalama yapmanız mümkün olacak.
       button: Onayla
+      reconfirm_html: Doğrulama e-postasının tekrar gönderimi için bize ihtiyacınız
+        varsa, <a href="%{reconfirm}">buraya tıklayın</a>.
     confirm_resend:
       success: Yeni bir onay mesajı %{email} adresine gönderdik. Mesajı onaylar onaylamaz
         haritacılığı başlayabilirsiniz.<br><br>Eğer onaylama mesajını almadısanız
@@ -1558,6 +1628,9 @@ tr:
       back: Tüm engellemeleri göster
       revoker: 'Geri alan:'
       needs_view: Engel kaldırılmadan önce kullanıcının giriş yapması gerekiyor.
+  note:
+    description:
+      opened_at_by_html: '%{when} önce %{user} tarafından oluşturuldu'
   javascripts:
     share:
       title: Paylaş
@@ -1594,6 +1667,8 @@ tr:
         data: Harita Verileri
         overlays: Sorun giderebilmek için kaplamaları etkinleştir
         title: Katmanlar
+      copyright: © <a href='%{copyright_url}'>OpenStreetMap katkıda bulunanları</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Bağış Yapın</a>
     site:
       edit_tooltip: Haritayı düzenle
       edit_disabled_tooltip: Haritayı düzenlemek için yakınlaştırın
@@ -1601,9 +1676,20 @@ tr:
       createnote_disabled_tooltip: Not eklemek için haritayı yakınlaştır
       map_data_zoom_in_tooltip: Harita verileri görmek için yakınlaştır
     notes:
+      new:
+        intro: Bir hata ya da eksik bir şey mi var? Bu sorunun düzeltilebilmesi için
+          diğer haritacılara bildirin. İmleci doğru konuma taşıyın ve sorunu açıklayan
+          bir not yazın. (Lütfen kişisel bilgilerinizi ya da telif hakkı saklı olan
+          haritalardaki bilgileri ya da rehber listeleri girmeyiniz.)
+        add: Not Ekle
       show:
+        anonymous_warning: Bu not anonim kullanıcılardan yorumlar içerdiğinden bağımsız
+          olarak doğrulanması gerekir.
         hide: Gizle
+        resolve: Çözümle
         comment: Yorum
+    edit_help: Haritayı sürükleyip ve düzenleme yapmak istediğiniz konuma yakınlaştırdıktan
+      sonra buraya tıklayın.
   redaction:
     edit:
       description: Açıklama

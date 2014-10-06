@@ -15,6 +15,7 @@
 # Author: TTMTT
 # Author: Zaher kadour
 # Author: ترجمان05
+# Author: عباد ديرانية
 # Author: عبد الرحمان أيمن
 ---
 ar:
@@ -105,16 +106,32 @@ ar:
       name: تحكم عن بعد
       description: تحكم عن بعد (JOSM أو Merkaartor)
   browse:
+    created: تم الإنشاء
+    closed: تم الإغلاق
+    created_html: تم الإغلاق قبل <abbr title='%{title}'>%{time}</abbr>
+    closed_html: تم الإغلاق قبل <abbr title='%{title}'>%{time}</abbr>
+    created_by_html: تم الإنشاء قبل <abbr title='%{title}'>%{time}</abbr> على يد %{user}
+    deleted_by_html: تم الحذف قبل <abbr title='%{title}'>%{time}</abbr> على يد %{user}
+    edited_by_html: تم التعديل قبل <abbr title='%{title}'>%{time}</abbr> على يد %{user}
+    closed_by_html: تم الإغلاق قبل <abbr title='%{title}'>%{time}</abbr> على يد %{user}
     version: الإصدار
+    in_changeset: مجموعة تغييرات
     anonymous: مجهول
     no_comment: (لا تعليق)
+    part_of: جزء من
+    download_xml: حمّل XML
+    view_history: شاهد التاريخ
+    view_details: شاهد التفاصيل
     location: 'الموقع:'
     changeset:
-      title: حزمة التغييرات
+      title: حزمة التغييرات %{id}
+      belongs_to: الصانع
       changesetxml: حزمة التغييرات إكس إم أل
       feed:
         title: حزمة التغييرات %{id}
         title_comment: حزمة التغييرات %{id} - %{comment}
+    relation:
+      members: الأعضاء
     relation_member:
       entry_role: '%{type} %{name} كــ %{role}'
       type:
@@ -140,21 +157,44 @@ ar:
         changeset: حزمة التغييرات
     redacted:
       redaction: التنقيح %{id}
+      message_html: لا يمكن إظهار الإصدارة  %{version} من هذا %{type} لأن صياغتها
+        غُيِّرت، رجاءً اطلع على %{redaction_link} للمزيد من التفاصيل
       type:
         node: العقدة
         way: طريق
         relation: علاقة
     start_rjs:
+      feature_warning: يجري تحميل ميزات %{num_features}، والتي يمكن أن تجعل متصفّحك
+        بطيئاً أو عديم الاستجابة. هل أنت متأكد من رغبتك بعرض هذه البيانات؟
       load_data: تحميل البيانات
       loading: جاري التحميل...
     tag_details:
       tags: الوسوم
+      wiki_link:
+        key: صفحة وصف الويكي لعلامة %{key}
+        tag: صفحة وصف الويكي لعلامة %{key}=%{value}
+      wikidata_link: صفحة %{page} على ويكي داتا
       wikipedia_link: الـ%{page} مقالة على ويكيبيديا
+      telephone_link: اتصل بـ %{phone_number}
     note:
       title: 'ملاحظة: %{id}'
+      new_note: ملاحظة جديدة
       description: الوصف
       open_title: 'ملاحظة لم يتم حلها: %{note_name}'
       closed_title: 'ملاحظات محلولة: %{note_name}'
+      hidden_title: 'ملاحظة مخفيّة #%{note_name}'
+      open_by: أنشأه المستخدم %{user} قبل <abbr title='%{exact_time}'>%{when}</abbr>
+      open_by_anonymous: أنشأه مستخدم مجهول قبل  <abbr title='%{exact_time}'>%{when}
+        </abbr>
+      commented_by: تعليق من %{user} قبل <abbr title='%{exact_time}'>%{when} </abbr>
+      commented_by_anonymous: تعليق من مجهول قبل <abbr title='%{exact_time}'>%{when}
+        </abbr>
+      closed_by: حلّه %{user} قبل <abbr title='%{exact_time}'>%{when} </abbr>
+      closed_by_anonymous: حلّه مجهول قبل <abbr title='%{exact_time}'>%{when} </abbr>
+      reopened_by: أعاد تنشيطه %{user} قبل <abbr title='%{exact_time}'>%{when} </abbr>
+      reopened_by_anonymous: أعاد تنشيطه مجهول قبل <abbr title='%{exact_time}'>%{when}
+        </abbr>
+      hidden_by: أخفاه %{user} قبل <abbr title='%{exact_time}'>%{when} =</abbr>
   changeset:
     changeset_paging_nav:
       showing_page: الصفحة %{page}
@@ -175,6 +215,13 @@ ar:
       title_user: حزم التغييرات بواسطة %{user}
       title_friend: حزم التغييرات بواسطة أصدقائك
       title_nearby: تغييرات من قبل مستخدمين قريبين
+      empty: لم يُعثَر على أي حزم تغييرات.
+      empty_area: لم يُعثَر على أي حزم تغييرات في هذه المنطقة.
+      empty_user: لم يُعثَر على أي حزم تغييرات لهذا المستخدم.
+      no_more: لم يُعثَر على حزم تغييرات أخرى.
+      no_more_area: لم يُعثَر على حزم تغييرات أخرى في هذه المنطقة.
+      no_more_user: ' يُعثَر على حزم تغييرات أخرى لهذا المستخدم.'
+      load_more: حمِّل المزيد؟
     timeout:
       sorry: عذراً، لقد إستمرت لائحة حزم التغييرات اللتي طلبتها وقتاً طويلاً للسحب.
   diary_entry:
@@ -257,6 +304,7 @@ ar:
       newer_comments: التعليقات الجديدة
       older_comments: التعليقات القديمة
   export:
+    title: صدِّر
     start:
       area_to_export: المنطقة المطلوب تصديرها
       manually_select: اختر يدويًا منطقة أخرى
@@ -268,6 +316,8 @@ ar:
       export_details: بيانات خريطة الشارع المفتوحة مرخصة تحت <a href="http://opendatacommons.org/licenses/odbl/1.0/">رخصة
         قاعدة البيانات المفتوحة المشاعة </a>.
       too_large:
+        advice: 'إذا فشل التصدير أعلاه، فكّر من فضلك باستخدام أحد المصادر الموضَّحة
+          أدناه:'
         body: 'هذه المنطقة كبيرة جدًا للتصدير على هيئة بيانات إكس إم إل لخريطة الشارع
           المفتوحة. يرجى تكبير الخريطة أو استخدام منطقة أصغر أو استخدام أحد المصادر
           التالية لتنزيل البيانات الضخمة:'
@@ -275,6 +325,8 @@ ar:
           title: كوكب OSM
           description: نسخ محدثة بشكل دوري من قاعدة بيانات خرائط الشوارع المفتوحة
             OpenStreetMap
+        overpass:
+          title: تجاوز API
         geofabrik:
           title: تنزيلات موقع جيوفابريك
       options: خيارات
