@@ -337,7 +337,7 @@ $(document).ready(function () {
     if (query) {
       OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
     } else {
-      OSM.router.route("/" + OSM.formatHash(map));
+      OSM.router.route("/");
     }
   });
 
