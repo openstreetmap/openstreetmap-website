@@ -117,7 +117,8 @@ private
     # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
     return nil if value =~ /^https?:\/\//
 
-    if key == "wikipedia"
+    # match wikipedia or xxxxx:wikipedia
+    if key =~ /^(?:.*:)*wikipedia$/
       # This regex should match Wikipedia language codes, everything
       # from de to zh-classical
       if value =~ /^([a-z-]{2,12}):(.+)$/i
@@ -128,7 +129,8 @@ private
         # Value is <title> so default to English Wikipedia
         lang = 'en'
       end
-    elsif key =~ /^wikipedia:(\S+)$/
+    # match wikipedia:yy or xxxxx:wikipedia:yy
+    elsif key =~ /^(?:.*:)*wikipedia:(\S+)$/
       # Language is in the key, so assume value is the title
       lang = $1
     else
@@ -151,8 +153,9 @@ private
     }
   end
 
+  # match wikidata or xxxx:wikidata
   def wikidata_link(key, value)
-    if key == "wikidata" and value =~ /^[Qq][1-9][0-9]*$/
+    if key =~ /^(?:.*:)*wikidata$/ and value =~ /^[Qq][1-9][0-9]*$/
       return {
         :url => "//www.wikidata.org/wiki/#{value}?uselang=#{I18n.locale}",
         :title => value
