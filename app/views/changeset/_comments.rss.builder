@@ -1,5 +1,4 @@
 comments.each do |comment|
-
   xml.item do
     xml.title t("changeset.rss.comment", :author => comment.author.display_name, :changeset_id => comment.changeset.id.to_s)
     

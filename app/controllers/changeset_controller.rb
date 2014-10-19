@@ -327,27 +327,27 @@ class ChangesetController < ApplicationController
     raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
 
     # Add a comment to the changeset
-    attributes = {
+    comment = changeset.comments.create({
       :changeset => changeset,
       :body => body,
       :author => @user
-    }
+    })
 
-    comment = changeset.comments.create(attributes)
-
+    # Notify current subscribers of the new comment
     changeset.subscribers.each do |user|
       if @user != user
         Notifier.changeset_comment_notification(comment, user).deliver
       end
     end
 
+    # Add the commenter to the subscribers if necessary
     changeset.subscribers << @user unless changeset.subscribers.exists?(@user)
 
     # Return a copy of the updated changeset
     render :text => changeset.to_xml.to_s, :content_type => "text/xml"
   end
 
-  ## 
+  ##
   # Adds a subscriber to the changeset
   def subscribe
     # Check the arguments are sane
@@ -361,14 +361,16 @@ class ChangesetController < ApplicationController
     raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
     raise OSM::APIChangesetAlreadySubscribedError.new(changeset) if changeset.subscribers.exists?(@user)
 
+    # Add the subscriber
     changeset.subscribers << @user
+
     # Return a copy of the updated changeset
     render :text => changeset.to_xml.to_s, :content_type => "text/xml"
   end
 
-  ## 
+  ##
   # Removes a subscriber from the changeset
-  def unsubscribe 
+  def unsubscribe
     # Check the arguments are sane
     raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
@@ -380,13 +382,14 @@ class ChangesetController < ApplicationController
     raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
     raise OSM::APIChangesetNotSubscribedError.new(changeset) unless changeset.subscribers.exists?(@user)
 
+    # Remove the subscriber
     changeset.subscribers.delete(@user)
 
     # Return a copy of the updated changeset
     render :text => changeset.to_xml.to_s, :content_type => "text/xml"
   end
 
-  ## 
+  ##
   # Sets visible flag on comment to false
   def hide_comment
     # Check the arguments are sane
@@ -396,16 +399,16 @@ class ChangesetController < ApplicationController
     id = params[:id].to_i
 
     # Find the changeset
-    @comment = ChangesetComment.find(id)
-    changeset = @comment.changeset
+    comment = ChangesetComment.find(id)
 
-    @comment.update(:visible => false)
+    # Hide the comment
+    comment.update(:visible => false)
 
     # Return a copy of the updated changeset
-    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+    render :text => comment.changeset.to_xml.to_s, :content_type => "text/xml"
   end
 
-  ## 
+  ##
   # Sets visible flag on comment to true
   def unhide_comment
     # Check the arguments are sane
@@ -415,13 +418,13 @@ class ChangesetController < ApplicationController
     id = params[:id].to_i
 
     # Find the changeset
-    @comment = ChangesetComment.find(id)
-    changeset = @comment.changeset
+    comment = ChangesetComment.find(id)
 
-    @comment.update :visible => true
+    # Unhide the comment
+    comment.update(:visible => true)
 
     # Return a copy of the updated changeset
-    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+    render :text => comment.changeset.to_xml.to_s, :content_type => "text/xml"
   end
 
   ##
@@ -434,9 +437,10 @@ class ChangesetController < ApplicationController
       # Find the changeset
       changeset = Changeset.find(id)
 
-      # Find the comments we want to return
+      # Return comments for this changeset only
       @comments = changeset.comments.includes(:author, :changeset).limit(comments_limit)
     else
+      # Return comments
       @comments = ChangesetComment.includes(:author, :changeset).where(:visible => :true).order("created_at DESC").limit(comments_limit).preload(:changeset)
     end
 
@@ -589,5 +593,4 @@ private
       100
     end
   end
-
 end

@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets, -> { order(:created_at => :desc) }
-  has_many :changeset_comments, :foreign_key =>  'author_id'
+  has_many :changeset_comments, :foreign_key =>  :author_id
   has_and_belongs_to_many :changeset_subscriptions, :class_name => 'Changeset', :join_table => 'changesets_subscribers', :foreign_key => 'subscriber_id'
   has_many :note_comments, :foreign_key => :author_id
   has_many :notes, :through => :note_comments
