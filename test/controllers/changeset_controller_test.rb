@@ -29,12 +29,12 @@ class ChangesetControllerTest < ActionController::TestCase
       { :controller => "changeset", :action => "read", :id => "1" }
     )
     assert_routing(
-        { :path => "/api/0.6/changeset/1/subscribe", :method => :post },
-        { :controller => "changeset", :action => "subscribe", :id => "1" }
+      { :path => "/api/0.6/changeset/1/subscribe", :method => :post },
+      { :controller => "changeset", :action => "subscribe", :id => "1" }
     )
     assert_routing(
-        { :path => "/api/0.6/changeset/1/unsubscribe", :method => :post },
-        { :controller => "changeset", :action => "unsubscribe", :id => "1" }
+      { :path => "/api/0.6/changeset/1/unsubscribe", :method => :post },
+      { :controller => "changeset", :action => "unsubscribe", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changeset/1", :method => :put },
@@ -45,28 +45,24 @@ class ChangesetControllerTest < ActionController::TestCase
       { :controller => "changeset", :action => "close", :id => "1" }
     )
     assert_routing(
-        { :path => "/api/0.6/changeset/1/comment", :method => :post },
-        { :controller => "changeset", :action => "comment", :id => "1" }
+      { :path => "/api/0.6/changeset/1/comment", :method => :post },
+      { :controller => "changeset", :action => "comment", :id => "1" }
     )
     assert_routing(
-        { :path => "/api/0.6/changeset/comments/feed", :method => :get },
-        { :controller => "changeset", :action => "comments_feed", :format =>"rss" }
+      { :path => "/api/0.6/changeset/comment/1/hide", :method => :post },
+      { :controller => "changeset", :action => "hide_comment", :id => "1" }
     )
     assert_routing(
-        { :path => "/api/0.6/changeset/1/comments/feed", :method => :get },
-        { :controller => "changeset", :action => "comments_feed", :id => "1", :format =>"rss" }
-    )
-    assert_routing(
-        { :path => "/api/0.6/changeset/comment/1/hide", :method => :post },
-        { :controller => "changeset", :action => "hide_comment", :id => "1" }
-    )
-    assert_routing(
-        { :path => "/api/0.6/changeset/comment/1/unhide", :method => :post },
-        { :controller => "changeset", :action => "unhide_comment", :id => "1" }
+      { :path => "/api/0.6/changeset/comment/1/unhide", :method => :post },
+      { :controller => "changeset", :action => "unhide_comment", :id => "1" }
     )
     assert_routing(
       { :path => "/api/0.6/changesets", :method => :get },
       { :controller => "changeset", :action => "query" }
+    )
+    assert_routing(
+      { :path => "/changeset/1/comments/feed", :method => :get },
+      { :controller => "changeset", :action => "comments_feed", :id => "1", :format =>"rss" }
     )
     assert_routing(
       { :path => "/user/name/history", :method => :get },
@@ -91,6 +87,10 @@ class ChangesetControllerTest < ActionController::TestCase
     assert_routing(
       { :path => "/history/feed", :method => :get },
       { :controller => "changeset", :action => "feed", :format => :atom }
+    )
+    assert_routing(
+      { :path => "/history/comments/feed", :method => :get },
+      { :controller => "changeset", :action => "comments_feed", :format =>"rss" }
     )
   end
 

@@ -15,7 +15,6 @@ OpenStreetMap::Application.routes.draw do
   match 'api/0.6/changeset/:id/close' => 'changeset#close', :via => :put, :id => /\d+/
   match 'api/0.6/changesets' => 'changeset#query', :via => :get
   post 'api/0.6/changeset/:id/comment' => 'changeset#comment', :as => :changeset_comment, :id => /\d+/
-  get 'api/0.6/changeset(/:id)/comments/feed' => 'changeset#comments_feed', :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => 'rss' }
   post 'api/0.6/changeset/comment/:id/hide' => 'changeset#hide_comment', :as => :changeset_comment_hide, :id => /\d+/
   post 'api/0.6/changeset/comment/:id/unhide' => 'changeset#unhide_comment', :as => :changeset_comment_unhide, :id => /\d+/
 
@@ -115,6 +114,7 @@ OpenStreetMap::Application.routes.draw do
   match '/relation/:id' => 'browse#relation', :via => :get, :id => /\d+/, :as => :relation
   match '/relation/:id/history' => 'browse#relation_history', :via => :get, :id => /\d+/
   match '/changeset/:id' => 'browse#changeset', :via => :get, :as => :changeset, :id => /\d+/
+  match '/changeset/:id/comments/feed' => 'changeset#comments_feed', :via => :get, :as => :changeset_comments_feed, :id => /\d*/, :defaults => { :format => 'rss' }
   match '/note/:id' => 'browse#note', :via => :get, :id => /\d+/, :as => "browse_note"
   match '/note/new' => 'browse#new_note', :via => :get
   match '/user/:display_name/history' => 'changeset#list', :via => :get
@@ -150,6 +150,7 @@ OpenStreetMap::Application.routes.draw do
   match '/about' => 'site#about', :via => :get, :as => :about
   match '/history' => 'changeset#list', :via => :get
   match '/history/feed' => 'changeset#feed', :via => :get, :defaults => { :format => :atom }
+  match '/history/comments/feed' => 'changeset#comments_feed', :via => :get, :as => :changesets_comments_feed, :defaults => { :format => 'rss' }
   match '/export' => 'site#export', :via => :get
   match '/login' => 'user#login', :via => [:get, :post]
   match '/logout' => 'user#logout', :via => [:get, :post]
