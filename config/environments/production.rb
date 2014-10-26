@@ -84,5 +84,7 @@ OpenStreetMap::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   # Do not dump schema after migrations.
-  config.active_record.dump_schema_after_migration = false
+  unless STATUS == :database_offline
+    config.active_record.dump_schema_after_migration = false
+  end
 end
