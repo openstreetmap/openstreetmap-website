@@ -121,11 +121,16 @@ en:
       way_paginated: "Ways (%{x}-%{y} of %{count})"
       relation: "Relations (%{count})"
       relation_paginated: "Relations (%{x}-%{y} of %{count})"
+      comment: "Comments (%{count})"
+      hidden_commented_by: "Hidden comment from %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
+      commented_by: "Comment from %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>"
       changesetxml: "Changeset XML"
       osmchangexml: "osmChange XML"
       feed:
         title: "Changeset %{id}"
         title_comment: "Changeset %{id} - %{comment}"
+      join_discussion: "Log in to join the discussion"
+      discussion: Discussion
     node:
       title: "Node: %{name}"
       history_title: "Node History: %{name}"
@@ -228,6 +233,13 @@ en:
       load_more: "Load more"
     timeout:
       sorry: "Sorry, the list of changesets you requested took too long to retrieve."
+    rss:
+      title_all: OpenStreetMap changeset discussion
+      title_particular: "OpenStreetMap changeset #%{changeset_id} discussion"
+      comment: "New comment on changeset #%{changeset_id} by %{author}"
+      commented_at_html: "Updated %{when} ago"
+      commented_at_by_html: "Updated %{when} ago by %{user}"
+      full: Full discussion
   diary_entry:
     new:
       title: New Diary Entry
@@ -1234,6 +1246,16 @@ en:
         your_note: "%{commenter} has reactivated one of your map notes near %{place}."
         commented_note: "%{commenter} has reactivated a map note you have commented on. The note is near %{place}."
       details: "More details about the note can be found at %{url}."
+    changeset_comment_notification:
+      greeting: "Hi,"
+      commented:
+        subject_own: "[OpenStreetMap] %{commenter} has commented on one of your changesets"
+        subject_other: "[OpenStreetMap] %{commenter} has commented on a changeset you are interested in"
+        your_changeset: "%{commenter} has left a comment on one of your changesets created at %{time}"
+        commented_changeset: "%{commenter} has left a comment on a map changeset you are watching created by %{changeset_author} at %{time}"
+        partial_changeset_with_comment: "with comment '%{changeset_comment}'"
+        partial_changeset_without_comment: "without comment"
+      details: "More details about the changeset can be found at %{url}."
   message:
     inbox:
       title: "Inbox"
@@ -2104,6 +2126,13 @@ en:
       createnote_disabled_tooltip: Zoom in to add a note to the map
       map_notes_zoom_in_tooltip: Zoom in to see map notes
       map_data_zoom_in_tooltip: Zoom in to see map data
+    changesets:
+      show:
+        comment: "Comment"
+        subscribe: "Subscribe"
+        unsubscribe: "Unsubscribe"
+        hide_comment: "hide"
+        unhide_comment: "unhide"
     notes:
       new:
         intro: "Spotted a mistake or something missing? Let other mappers know so we can fix it. Move the marker to the correct position and type a note to explain the problem. (Please don't enter personal information or information from copyrighted maps or directory listings.)"

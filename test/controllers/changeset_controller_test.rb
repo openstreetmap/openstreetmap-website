@@ -3,6 +3,7 @@ require 'changeset_controller'
 
 class ChangesetControllerTest < ActionController::TestCase
   api_fixtures
+  fixtures :changeset_comments
 
   ##
   # test all routes which lead to this controller
@@ -34,6 +35,30 @@ class ChangesetControllerTest < ActionController::TestCase
     assert_routing(
       { :path => "/api/0.6/changeset/1/close", :method => :put },
       { :controller => "changeset", :action => "close", :id => "1" }
+    )
+    assert_routing(
+        { :path => "/api/0.6/changeset/1/subscribe", :method => :post },
+        { :controller => "changeset", :action => "subscribe", :id => "1" }
+    )
+    assert_routing(
+        { :path => "/api/0.6/changeset/1/unsubscribe", :method => :post },
+        { :controller => "changeset", :action => "unsubscribe", :id => "1" }
+    )
+    assert_routing(
+        { :path => "/api/0.6/changeset/comment/1/hide", :method => :post },
+        { :controller => "changeset", :action => "hide_comment", :id => "1" }
+    )
+    assert_routing(
+        { :path => "/api/0.6/changeset/comment/1/unhide", :method => :post },
+        { :controller => "changeset", :action => "unhide_comment", :id => "1" }
+    )
+    assert_routing(
+        { :path => "/api/0.6/changeset/comments/feed", :method => :get },
+        { :controller => "changeset", :action => "comments_feed", :format =>"rss" }
+    )
+    assert_routing(
+        { :path => "/api/0.6/changeset/1/comments/feed", :method => :get },
+        { :controller => "changeset", :action => "comments_feed", :id => "1", :format =>"rss" }
     )
     assert_routing(
       { :path => "/api/0.6/changesets", :method => :get },
@@ -100,6 +125,9 @@ class ChangesetControllerTest < ActionController::TestCase
       # must be number of seconds...
       assert_equal 3600, duration.round, "initial idle timeout should be an hour (#{cs.created_at} -> #{cs.closed_at})"
     end
+
+    # checks if uploader was subscribed
+    assert_equal 1, cs.subscribers.length
   end
 
   def test_create_invalid
@@ -149,11 +177,15 @@ class ChangesetControllerTest < ActionController::TestCase
   # document structure.
   def test_read
     changeset_id = changesets(:normal_user_first_change).id
-    get :read, :id => changeset_id
+    get :read, :id => changeset_id, :format => :xml
     assert_response :success, "cannot get first changeset"
 
     assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
     assert_select "osm>changeset[id=#{changeset_id}]", 1
+    assert_select "osm>changeset>discussion", 0
+
+    get :read, :id => changeset_id, :format => :xml, :include_discussion => true
+    assert_select "osm>changeset>discussion", 1
   end
 
   ##
@@ -1382,7 +1414,8 @@ EOF
     end
 
     # get the bounding box back from the changeset
-    get :read, :id => changeset_id
+    get :read, :id => changeset_id, :format => :xml
+
     assert_response :success, "Couldn't read back changeset."
     assert_select "osm>changeset[min_lon=1.0]", 1
     assert_select "osm>changeset[max_lon=1.0]", 1
@@ -1397,7 +1430,7 @@ EOF
     end
 
     # get the bounding box back from the changeset
-    get :read, :id => changeset_id
+    get :read, :id => changeset_id, :format => :xml
     assert_response :success, "Couldn't read back changeset for the second time."
     assert_select "osm>changeset[min_lon=1.0]", 1
     assert_select "osm>changeset[max_lon=2.0]", 1
@@ -1413,7 +1446,7 @@ EOF
     end
 
     # get the bounding box back from the changeset
-    get :read, :id => changeset_id
+    get :read, :id => changeset_id, :format => 'xml'
     assert_response :success, "Couldn't read back changeset for the third time."
     # note that the 3.1 here is because of the bbox overexpansion
     assert_select "osm>changeset[min_lon=1.0]", 1
@@ -1840,6 +1873,234 @@ EOF
     assert_select "osmChange node[id=17][version=1]", 0
   end
 
+  ##
+  # create comment success
+  def test_create_comment_success
+    basic_authorization(users(:public_user).email, 'test')
+
+    assert_difference('ChangesetComment.count') do
+      post :comment, { :id => changesets(:normal_user_closed_change).id, :text => 'This is a comment', :format => :xml }
+    end
+    assert_response :success
+  end
+
+  ##
+  # create comment fail
+  def test_create_comment_fail
+    # unauthorized
+    post :comment, { :id => changesets(:normal_user_closed_change).id, :text => 'This is a comment' }
+    assert_response :unauthorized
+
+    basic_authorization(users(:public_user).email, 'test')
+
+    # bad changeset id
+    assert_no_difference('ChangesetComment.count') do
+      post :comment, { :id => 999111, :text => 'This is a comment' }
+    end
+    assert_response :not_found
+
+    # not closed changeset
+    assert_no_difference('ChangesetComment.count') do
+      post :comment, { :id => changesets(:normal_user_first_change).id, :text => 'This is a comment' }
+    end
+    assert_response :conflict
+
+    # no text
+    assert_no_difference('ChangesetComment.count') do
+      post :comment, { :id => changesets(:normal_user_closed_change).id }
+    end
+    assert_response :bad_request
+
+    # empty text
+    assert_no_difference('ChangesetComment.count') do
+      post :comment, { :id => changesets(:normal_user_closed_change).id, :text => '' }
+    end
+    assert_response :bad_request    
+  end
+
+  ##
+  # test subscribe success
+  def test_subscribe_success
+    basic_authorization(users(:public_user).email, 'test')
+    changeset = changesets(:normal_user_closed_change)
+
+    assert_difference('changeset.subscribers.count') do
+      post :subscribe, { :id => changeset.id, :format => :xml }
+    end
+    assert_response :success
+  end
+
+  ##
+  # test subscribe fail
+  def test_subscribe_fail
+    changeset = changesets(:normal_user_closed_change)
+    assert_no_difference('changeset.subscribers.count') do
+      post :subscribe, { :id => changeset.id, :format => :xml }
+    end
+    assert_response :unauthorized
+
+    basic_authorization(users(:public_user).email, 'test')
+
+    assert_no_difference('changeset.subscribers.count') do
+      post :subscribe, { :id => 999111 }
+    end
+    assert_response :not_found
+
+    changeset = changesets(:normal_user_first_change)
+    assert_no_difference('changeset.subscribers.count') do
+      post :subscribe, { :id => changeset.id }
+    end
+    assert_response :conflict
+
+    # subscribing
+    changeset = changesets(:normal_user_closed_change)
+    post :subscribe, { :id => changeset.id, :format => :xml }
+    assert_response :success
+
+    # trying to subsrcirbe one more time
+    assert_no_difference('changeset.subscribers.count') do
+      post :subscribe, { :id => changeset.id, :format => :xml }
+    end
+    assert_response :conflict
+  end
+
+  ##
+  # test unsubscribe success
+  def test_unsubscribe_success
+    basic_authorization(users(:public_user).email, 'test')
+    changeset = changesets(:normal_user_closed_change)
+    post :subscribe, { :id => changeset.id, :format => :xml }
+    # unsubscribe
+    assert_difference('changeset.subscribers.count', -1) do
+      post :unsubscribe, { :id => changeset.id, :format => :xml }
+    end
+    assert_response :success
+  end
+
+  ##
+  # test unsubscribe fail
+  def test_unsubscribe_fail
+    changeset = changesets(:normal_user_closed_change)
+    assert_no_difference('changeset.subscribers.count') do
+      post :unsubscribe, { :id => changeset.id }
+    end
+    assert_response :unauthorized
+
+    basic_authorization(users(:public_user).email, 'test')
+
+    assert_no_difference('changeset.subscribers.count', -1) do
+      post :unsubscribe, { :id => 999111 }
+    end
+    assert_response :not_found
+
+    changeset = changesets(:normal_user_first_change)
+    assert_no_difference('changeset.subscribers.count', -1) do
+      post :unsubscribe, { :id => changeset.id }
+    end
+    assert_response :conflict
+
+    # trying to unsubscribe when not subscribed
+    changeset = changesets(:normal_user_closed_change)
+    assert_no_difference('changeset.subscribers.count') do
+      post :unsubscribe, { :id => changeset.id }
+    end
+    assert_response :not_found
+  end
+
+  ##
+  # test hide comment fail
+  def test_hide_comment_fail
+    comment = changeset_comments(:normal_comment_1)
+    assert('comment.visible') do
+      post :hide_comment, { :id => comment.id, :format => "xml" }
+      assert_response :unauthorized
+    end
+    
+
+    basic_authorization(users(:public_user).email, 'test')
+
+    assert('comment.visible') do
+      post :hide_comment, { :id => comment.id, :format => "xml" }
+      assert_response :forbidden
+    end
+
+    basic_authorization(users(:moderator_user).email, 'test')
+
+    post :hide_comment, { :id => 999111, :format => "xml" }
+    assert_response :not_found
+  end
+
+  ##
+  # test hide comment succes
+  def test_hide_comment_success
+    comment = changeset_comments(:normal_comment_1)
+
+    basic_authorization(users(:moderator_user).email, 'test')
+
+    assert('!comment.visible') do
+      post :hide_comment, { :id => comment.id, :format => "xml" }
+    end
+    assert_response :success
+  end
+
+  ##
+  # test unhide comment fail
+  def test_unhide_comment_fail
+    comment = changeset_comments(:normal_comment_1)
+    assert('comment.visible') do
+      post :unhide_comment, { :id => comment.id, :format => "xml" }
+      assert_response :unauthorized
+    end
+    
+
+    basic_authorization(users(:public_user).email, 'test')
+
+    assert('comment.visible') do
+      post :unhide_comment, { :id => comment.id, :format => "xml" }
+      assert_response :forbidden
+    end
+
+    basic_authorization(users(:moderator_user).email, 'test')
+
+    post :unhide_comment, { :id => 999111, :format => "xml" }
+    assert_response :not_found
+  end
+
+  ##
+  # test unhide comment succes
+  def test_unhide_comment_success
+    comment = changeset_comments(:normal_comment_1)
+
+    basic_authorization(users(:moderator_user).email, 'test')
+
+    assert('!comment.visible') do
+      post :unhide_comment, { :id => comment.id, :format => "xml" }
+    end
+    assert_response :success
+  end
+
+  ##
+  # test comments feed
+  def test_comments_feed
+    get :comments_feed, {:format => "rss"}
+    assert_response :success
+    assert_equal "application/rss+xml", @response.content_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "item", :count => 3
+      end
+    end
+
+    get :comments_feed, { :id => changesets(:normal_user_closed_change), :format => "rss"}
+    assert_response :success
+    assert_equal "application/rss+xml", @response.content_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "item", :count => 3
+      end
+    end
+  end
+
   #------------------------------------------------------------
   # utility functions
   #------------------------------------------------------------
@@ -1886,5 +2147,4 @@ EOF
     xml.find("//osm/way").first[name] = value.to_s
     return xml
   end
-
 end
