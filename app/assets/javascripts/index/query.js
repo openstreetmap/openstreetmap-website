@@ -71,11 +71,6 @@ OSM.Query = function(map) {
 
   function interestingFeature(feature, origin, radius) {
     if (feature.tags) {
-      if (feature.type === "node" &&
-          OSM.distance(origin, L.latLng(feature.lat, feature.lon)) > radius) {
-        return false;
-      }
-
       for (var key in feature.tags) {
         if (uninterestingTags.indexOf(key) < 0) {
           return true;
@@ -134,27 +129,21 @@ OSM.Query = function(map) {
     }
   }
 
-  function featureGeometry(feature, features) {
+  function featureGeometry(feature) {
     var geometry;
 
-    if (feature.type === "node") {
+    if (feature.type === "node" && feature.lat && feature.lon) {
       geometry = L.circleMarker([feature.lat, feature.lon], featureStyle);
-    } else if (feature.type === "way") {
-      geometry = L.polyline(feature.nodes.map(function (node) {
-        return features["node" + node].getLatLng();
+    } else if (feature.type === "way" && feature.geometry) {
+      geometry = L.polyline(feature.geometry.filter(function (point) {
+        return point !== null;
+      }).map(function (point) {
+        return [point.lat, point.lon];
       }), featureStyle);
-    } else if (feature.type === "relation") {
-      geometry = L.featureGroup();
-
-      feature.members.forEach(function (member) {
-        if (features[member.type + member.ref]) {
-          geometry.addLayer(features[member.type + member.ref]);
-        }
-      });
-    }
-
-    if (geometry) {
-      features[feature.type + feature.id] = geometry;
+    } else if (feature.type === "relation" && feature.members) {
+      geometry = L.featureGroup(feature.members.map(featureGeometry).filter(function (geometry) {
+        return geometry !== undefined;
+      }));
     }
 
     return geometry;
@@ -181,18 +170,15 @@ OSM.Query = function(map) {
         data: "[timeout:5][out:json];" + query,
       },
       success: function(results) {
-        var features = {};
-
         $section.find(".loader").stopTime("loading").hide();
 
         for (var i = 0; i < results.elements.length; i++) {
-          var element = results.elements[i],
-            geometry = featureGeometry(element, features);
+          var element = results.elements[i];
 
           if (interestingFeature(element, latlng, radius)) {
             var $li = $("<li>")
               .addClass("query-result")
-              .data("geometry", geometry)
+              .data("geometry", featureGeometry(element))
               .appendTo($ul);
             var $p = $("<p>")
               .text(featurePrefix(element) + " ")
@@ -227,7 +213,6 @@ OSM.Query = function(map) {
    *
    *   node(around:<radius>,<lat>,lng>)
    *   way(around:<radius>,<lat>,lng>)
-   *   node(w)
    *   relation(around:<radius>,<lat>,lng>)
    *
    * to find enclosing objects we first find all the enclosing areas:
@@ -238,21 +223,21 @@ OSM.Query = function(map) {
    *
    *   relation(pivot.a)
    *   way(pivot.a)
-   *   node(w)
    *
-   * In order to avoid overly large responses we don't currently
-   * attempt to complete any relations and instead just show those
-   * ways and nodes which are returned for other reasons.
+   * In both cases we then ask to retrieve tags and the geometry
+   * for each object.
    */
   function queryOverpass(lat, lng) {
     var latlng = L.latLng(lat, lng),
+      bounds = map.getBounds(),
+      bbox = bounds.getSouth() + "," + bounds.getWest() + "," + bounds.getNorth() + "," + bounds.getEast(),
       radius = 10 * Math.pow(1.5, 19 - map.getZoom()),
       around = "around:" + radius + "," + lat + "," + lng,
       nodes = "node(" + around + ")",
-      ways = "way(" + around + ");node(w)",
+      ways = "way(" + around + ")",
       relations = "relation(" + around + ")",
-      nearby = "(" + nodes + ";" + ways + ";" + relations + ");out;",
-      isin = "is_in(" + lat + "," + lng + ")->.a;(relation(pivot.a);way(pivot.a);node(w));out;";
+      nearby = "(" + nodes + ";" + ways + ");out tags geom(" + bbox + ");" + relations + ";out geom(" + bbox + ");",
+      isin = "is_in(" + lat + "," + lng + ")->.a;(relation(pivot.a);way(pivot.a));out geom(" + bbox + ");";
 
     $("#sidebar_content .query-intro")
       .hide();
