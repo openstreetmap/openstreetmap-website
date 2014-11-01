@@ -126,7 +126,7 @@ CREATE TYPE user_status_enum AS ENUM (
 
 CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
     LANGUAGE c STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
+    AS '/home/ukasiu/repos/openstreetmap-website/db/functions/libpgosm', 'maptile_for_point';
 
 
 --
@@ -135,7 +135,7 @@ CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
 
 CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
     LANGUAGE c STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
+    AS '/home/ukasiu/repos/openstreetmap-website/db/functions/libpgosm', 'tile_for_point';
 
 
 --
@@ -143,8 +143,8 @@ CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
 --
 
 CREATE FUNCTION xid_to_int4(xid) RETURNS integer
-    LANGUAGE c IMMUTABLE STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
+    LANGUAGE c STRICT
+    AS '/home/ukasiu/repos/openstreetmap-website/db/functions/libpgosm', 'xid_to_int4';
 
 
 SET default_tablespace = '';
@@ -181,6 +181,39 @@ CREATE SEQUENCE acls_id_seq
 --
 
 ALTER SEQUENCE acls_id_seq OWNED BY acls.id;
+
+
+--
+-- Name: changeset_comments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE changeset_comments (
+    id integer NOT NULL,
+    changeset_id bigint NOT NULL,
+    author_id bigint NOT NULL,
+    body text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    visible boolean NOT NULL
+);
+
+
+--
+-- Name: changeset_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE changeset_comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: changeset_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE changeset_comments_id_seq OWNED BY changeset_comments.id;
 
 
 --
@@ -228,6 +261,16 @@ CREATE SEQUENCE changesets_id_seq
 --
 
 ALTER SEQUENCE changesets_id_seq OWNED BY changesets.id;
+
+
+--
+-- Name: changesets_subscribers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE changesets_subscribers (
+    subscriber_id bigint NOT NULL,
+    changeset_id bigint NOT NULL
+);
 
 
 --
@@ -698,7 +741,7 @@ CREATE TABLE nodes (
 --
 
 CREATE TABLE note_comments (
-    id integer NOT NULL,
+    id bigint NOT NULL,
     note_id bigint NOT NULL,
     visible boolean NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -733,7 +776,7 @@ ALTER SEQUENCE note_comments_id_seq OWNED BY note_comments.id;
 --
 
 CREATE TABLE notes (
-    id integer NOT NULL,
+    id bigint NOT NULL,
     latitude integer NOT NULL,
     longitude integer NOT NULL,
     tile bigint NOT NULL,
@@ -851,8 +894,8 @@ CREATE TABLE redactions (
     id integer NOT NULL,
     title character varying(255),
     description text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     user_id bigint NOT NULL,
     description_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
@@ -1064,9 +1107,9 @@ CREATE TABLE users (
     status user_status_enum DEFAULT 'pending'::user_status_enum NOT NULL,
     terms_agreed timestamp without time zone,
     consider_pd boolean DEFAULT false NOT NULL,
+    openid_url character varying(255),
     preferred_editor character varying(255),
     terms_seen boolean DEFAULT false NOT NULL,
-    openid_url character varying(255),
     description_format format_enum DEFAULT 'html'::format_enum NOT NULL,
     image_fingerprint character varying(255),
     changesets_count integer DEFAULT 0 NOT NULL,
@@ -1139,6 +1182,13 @@ CREATE TABLE ways (
 --
 
 ALTER TABLE ONLY acls ALTER COLUMN id SET DEFAULT nextval('acls_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY changeset_comments ALTER COLUMN id SET DEFAULT nextval('changeset_comments_id_seq'::regclass);
 
 
 --
@@ -1287,6 +1337,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY acls
     ADD CONSTRAINT acls_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: changeset_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY changeset_comments
+    ADD CONSTRAINT changeset_comments_pkey PRIMARY KEY (id);
 
 
 --
@@ -1738,6 +1796,34 @@ CREATE INDEX gpx_files_visible_visibility_idx ON gpx_files USING btree (visible,
 
 
 --
+-- Name: index_changeset_comments_on_body; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_changeset_comments_on_body ON changeset_comments USING btree (body);
+
+
+--
+-- Name: index_changeset_comments_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_changeset_comments_on_created_at ON changeset_comments USING btree (created_at);
+
+
+--
+-- Name: index_changesets_subscribers_on_changeset_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_changesets_subscribers_on_changeset_id ON changesets_subscribers USING btree (changeset_id);
+
+
+--
+-- Name: index_changesets_subscribers_on_subscriber_id_and_changeset_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_changesets_subscribers_on_subscriber_id_and_changeset_id ON changesets_subscribers USING btree (subscriber_id, changeset_id);
+
+
+--
 -- Name: index_client_applications_on_key; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1969,11 +2055,43 @@ CREATE INDEX ways_timestamp_idx ON ways USING btree ("timestamp");
 
 
 --
+-- Name: changeset_comments_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY changeset_comments
+    ADD CONSTRAINT changeset_comments_author_id_fkey FOREIGN KEY (author_id) REFERENCES users(id);
+
+
+--
+-- Name: changeset_comments_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY changeset_comments
+    ADD CONSTRAINT changeset_comments_changeset_id_fkey FOREIGN KEY (changeset_id) REFERENCES changesets(id);
+
+
+--
 -- Name: changeset_tags_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY changeset_tags
     ADD CONSTRAINT changeset_tags_id_fkey FOREIGN KEY (changeset_id) REFERENCES changesets(id);
+
+
+--
+-- Name: changesets_subscribers_changeset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY changesets_subscribers
+    ADD CONSTRAINT changesets_subscribers_changeset_id_fkey FOREIGN KEY (changeset_id) REFERENCES changesets(id);
+
+
+--
+-- Name: changesets_subscribers_subscriber_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY changesets_subscribers
+    ADD CONSTRAINT changesets_subscribers_subscriber_id_fkey FOREIGN KEY (subscriber_id) REFERENCES users(id);
 
 
 --
@@ -2425,6 +2543,10 @@ INSERT INTO schema_migrations (version) VALUES ('20140115192822');
 INSERT INTO schema_migrations (version) VALUES ('20140117185510');
 
 INSERT INTO schema_migrations (version) VALUES ('20140210003018');
+
+INSERT INTO schema_migrations (version) VALUES ('20140507110937');
+
+INSERT INTO schema_migrations (version) VALUES ('20140519141742');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

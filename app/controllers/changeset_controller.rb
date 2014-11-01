@@ -7,11 +7,12 @@ class ChangesetController < ApplicationController
   skip_before_filter :verify_authenticity_token, :except => [:list]
   before_filter :authorize_web, :only => [:list, :feed]
   before_filter :set_locale, :only => [:list, :feed]
-  before_filter :authorize, :only => [:create, :update, :delete, :upload, :include, :close]
-  before_filter :require_allow_write_api, :only => [:create, :update, :delete, :upload, :include, :close]
-  before_filter :require_public_data, :only => [:create, :update, :delete, :upload, :include, :close]
-  before_filter :check_api_writable, :only => [:create, :update, :delete, :upload, :include]
-  before_filter :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query, :list, :feed]
+  before_filter :authorize, :only => [:create, :update, :delete, :upload, :include, :close, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
+  before_filter :require_moderator, :only => [:hide_comment, :unhide_comment]
+  before_filter :require_allow_write_api, :only => [:create, :update, :delete, :upload, :include, :close, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
+  before_filter :require_public_data, :only => [:create, :update, :delete, :upload, :include, :close, :comment, :subscribe, :unsubscribe]
+  before_filter :check_api_writable, :only => [:create, :update, :delete, :upload, :include, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
+  before_filter :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query, :list, :feed, :comment, :subscribe, :unsubscribe, :comments_feed]
   before_filter(:only => [:list, :feed]) { |c| c.check_database_readable(true) }
   after_filter :compress_output
   around_filter :api_call_handle_error, :except => [:list, :feed]
@@ -29,6 +30,10 @@ class ChangesetController < ApplicationController
     # Assume that Changeset.from_xml has thrown an exception if there is an error parsing the xml
     cs.user_id = @user.id
     cs.save_with_tags!
+
+    # Subscribe user to changeset comments
+    cs.subscribers << @user
+
     render :text => cs.id.to_s, :content_type => "text/plain"
   end
 
@@ -37,7 +42,8 @@ class ChangesetController < ApplicationController
   # return anything about the nodes, ways and relations in the changeset.
   def read
     changeset = Changeset.find(params[:id])
-    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+
+    render :text => changeset.to_xml(params[:include_discussion].presence).to_s, :content_type => "text/xml"
   end
 
   ##
@@ -305,6 +311,145 @@ class ChangesetController < ApplicationController
     list
   end
 
+  ##
+  # Add a comment to a changeset
+  def comment
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
+
+    # Extract the arguments
+    id = params[:id].to_i
+    body = params[:text]
+
+    # Find the changeset and check it is valid
+    changeset = Changeset.find(id)
+    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
+
+    # Add a comment to the changeset
+    comment = changeset.comments.create({
+      :changeset => changeset,
+      :body => body,
+      :author => @user
+    })
+
+    # Notify current subscribers of the new comment
+    changeset.subscribers.each do |user|
+      if @user != user
+        Notifier.changeset_comment_notification(comment, user).deliver
+      end
+    end
+
+    # Add the commenter to the subscribers if necessary
+    changeset.subscribers << @user unless changeset.subscribers.exists?(@user)
+
+    # Return a copy of the updated changeset
+    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+  end
+
+  ##
+  # Adds a subscriber to the changeset
+  def subscribe
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+
+    # Extract the arguments
+    id = params[:id].to_i
+
+    # Find the changeset and check it is valid
+    changeset = Changeset.find(id)
+    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
+    raise OSM::APIChangesetAlreadySubscribedError.new(changeset) if changeset.subscribers.exists?(@user)
+
+    # Add the subscriber
+    changeset.subscribers << @user
+
+    # Return a copy of the updated changeset
+    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+  end
+
+  ##
+  # Removes a subscriber from the changeset
+  def unsubscribe
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+
+    # Extract the arguments
+    id = params[:id].to_i
+
+    # Find the changeset and check it is valid
+    changeset = Changeset.find(id)
+    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
+    raise OSM::APIChangesetNotSubscribedError.new(changeset) unless changeset.subscribers.exists?(@user)
+
+    # Remove the subscriber
+    changeset.subscribers.delete(@user)
+
+    # Return a copy of the updated changeset
+    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+  end
+
+  ##
+  # Sets visible flag on comment to false
+  def hide_comment
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+
+    # Extract the arguments
+    id = params[:id].to_i
+
+    # Find the changeset
+    comment = ChangesetComment.find(id)
+
+    # Hide the comment
+    comment.update(:visible => false)
+
+    # Return a copy of the updated changeset
+    render :text => comment.changeset.to_xml.to_s, :content_type => "text/xml"
+  end
+
+  ##
+  # Sets visible flag on comment to true
+  def unhide_comment
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+
+    # Extract the arguments
+    id = params[:id].to_i
+
+    # Find the changeset
+    comment = ChangesetComment.find(id)
+
+    # Unhide the comment
+    comment.update(:visible => true)
+
+    # Return a copy of the updated changeset
+    render :text => comment.changeset.to_xml.to_s, :content_type => "text/xml"
+  end
+
+  ##
+  # Get a feed of recent changeset comments
+  def comments_feed
+    if params[:id]
+      # Extract the arguments
+      id = params[:id].to_i
+
+      # Find the changeset
+      changeset = Changeset.find(id)
+
+      # Return comments for this changeset only
+      @comments = changeset.comments.includes(:author, :changeset).limit(comments_limit)
+    else
+      # Return comments
+      @comments = ChangesetComment.includes(:author, :changeset).where(:visible => :true).order("created_at DESC").limit(comments_limit).preload(:changeset)
+    end
+
+    # Render the result
+    respond_to do |format|
+      format.rss
+    end
+  end
+
 private
   #------------------------------------------------------------
   # utility functions below.
@@ -435,4 +580,17 @@ private
     return changesets.where("num_changes > 0")
   end
 
+  ##
+  # Get the maximum number of comments to return
+  def comments_limit
+    if params[:limit]
+      if params[:limit].to_i > 0 and params[:limit].to_i <= 10000
+        params[:limit].to_i
+      else
+        raise OSM::APIBadUserInput.new("Comments limit must be between 1 and 10000")
+      end
+    else
+      100
+    end
+  end
 end

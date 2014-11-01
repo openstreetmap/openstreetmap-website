@@ -11,6 +11,69 @@
 
   <%= render :partial => "tag_details", :object => @changeset.tags.except('comment') %>
 
+  <h4 class="comments-header"><%= t('browse.changeset.discussion') %></h4>
+  
+  <div class="buttons clearfix subscribe-buttons">
+    <form action="#" class="hide_unless_logged_in">
+      <% if @changeset.subscribers.exists?(@user) %>
+        <input class="action-button" type="submit" name="unsubscribe" value="<%= t('javascripts.changesets.show.unsubscribe') %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
+      <% else %>
+        <input class="action-button" type="submit" name="subscribe" value="<%= t('javascripts.changesets.show.subscribe') %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />
+      <% end %>
+    </form>
+  </div>
+
+  <div class="clearfix"></div>
+
+  <% if @comments.length > 0 %>
+    <div class='changeset-comments'>
+      <form action="#">
+        <ul>
+          <% @comments.each do |comment| %>
+            <% if comment.visible %>
+              <li id="c<%= comment.id %>">
+                <small class='deemphasize'>
+                  <%= t("browse.changeset.commented_by",
+                    :when => friendly_date(comment.created_at), :exact_time => l(comment.created_at),
+                    :user => link_to(h(comment.author.display_name), {:controller => "user", :action => "view",
+                    :display_name => comment.author.display_name})).html_safe %>
+                  <% if @user and @user.moderator? %>
+                    — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_hide_url(comment.id) %>"><%= t('javascripts.changesets.show.hide_comment') %></span>
+                  <% end %>
+                </small>
+                <%= comment.body.to_html %>
+              </li>
+            <% elsif @user and @user.moderator? %>
+              <li id="c<%= comment.id %>">
+                <small class='deemphasize'>
+                  <%= t("browse.changeset.hidden_commented_by",
+                    :when => friendly_date(comment.created_at), :exact_time => l(comment.created_at),
+                    :user => link_to(h(comment.author.display_name), {:controller => "user", :action => "view",
+                    :display_name => comment.author.display_name})).html_safe %>
+                  — <span class="action-button deemphasize" data-comment-id="<%= comment.id %>" data-method="POST" data-url="<%= changeset_comment_unhide_url(comment.id) %>"><%= t('javascripts.changesets.show.unhide_comment') %></span>
+                 </small>
+                <%= comment.body.to_html %>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      </form>
+    </div>
+  <% end %>
+
+  <div class="notice hide_if_logged_in">
+    <%= link_to(t("browse.changeset.join_discussion"), :controller => 'user', :action => 'login', :referer => request.fullpath) %>
+  </div>
+
+  <% unless @changeset.is_open? %>
+    <form action="#" class="hide_unless_logged_in">
+      <textarea class="comment" name="text" cols="40" rows="5"></textarea>
+      <div class="buttons clearfix">
+        <input type="submit" name="comment" value="<%= t('javascripts.changesets.show.comment') %>" data-changeset-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_comment_url(@changeset) %>" disabled="1"/>
+      </div>
+    </form>
+  <% end %>
+
   <% unless @ways.empty? %>
     <h4>
       <%= type_and_paginated_count('way', @way_pages) %>

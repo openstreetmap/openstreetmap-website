@@ -12,6 +12,7 @@
 //= require index/history
 //= require index/note
 //= require index/new_note
+//= require index/changeset
 //= require router
 
 (function() {
@@ -304,7 +305,7 @@ $(document).ready(function () {
     "/node/:id(/history)":         OSM.Browse(map, 'node'),
     "/way/:id(/history)":          OSM.Browse(map, 'way'),
     "/relation/:id(/history)":     OSM.Browse(map, 'relation'),
-    "/changeset/:id":              OSM.Browse(map, 'changeset')
+    "/changeset/:id":              OSM.Changeset(map)
   });
 
   if (OSM.preferred_editor == "remote" && document.location.pathname == "/edit") {
