@@ -13,6 +13,7 @@
 //= require index/history
 //= require index/note
 //= require index/new_note
+//= require index/changeset
 //= require index/query
 //= require router
 
@@ -161,6 +162,15 @@ $(document).ready(function () {
     $.cookie("_osm_location", OSM.locationCookie(map), { expires: expiry, path: "/" });
   });
 
+  if ($.cookie('_osm_sotm') == 'hide') {
+    $('#sotm').hide();
+  }
+
+  $('#sotm .close').on('click', function() {
+    $('#sotm').hide();
+    $.cookie("_osm_sotm", 'hide', { expires: expiry });
+  });
+
   if ($.cookie('_osm_welcome') == 'hide') {
     $('.welcome').hide();
   }
@@ -302,7 +312,7 @@ $(document).ready(function () {
     "/node/:id(/history)":         OSM.Browse(map, 'node'),
     "/way/:id(/history)":          OSM.Browse(map, 'way'),
     "/relation/:id(/history)":     OSM.Browse(map, 'relation'),
-    "/changeset/:id":              OSM.Browse(map, 'changeset'),
+    "/changeset/:id":              OSM.Changeset(map),
     "/query":                      OSM.Query(map)
   });
 
@@ -336,7 +346,7 @@ $(document).ready(function () {
     if (query) {
       OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
     } else {
-      OSM.router.route("/" + OSM.formatHash(map));
+      OSM.router.route("/");
     }
   });
 

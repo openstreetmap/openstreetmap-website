@@ -12,13 +12,14 @@ OSM.Search = function(map) {
 
   $("#sidebar_content")
     .on("click", ".search_more a", clickSearchMore)
+    .on("click", ".search_results_entry a.set_position", clickSearchResult)
     .on("mouseover", "p.search_results_entry:has(a.set_position)", showSearchResult)
     .on("mouseout", "p.search_results_entry:has(a.set_position)", hideSearchResult)
     .on("mousedown", "p.search_results_entry:has(a.set_position)", function () {
       var moved = false;
       $(this).one("click", function (e) {
         if (!moved && !$(e.target).is('a')) {
-          clickSearchResult(this, e);
+          $(this).find("a.set_position").simulate("click", e);
         }
       }).one("mousemove", function () {
         moved = true;
@@ -45,12 +46,12 @@ OSM.Search = function(map) {
     if (!marker) {
       var data = $(this).find("a.set_position").data();
 
-      marker = L.marker([data.lat, data.lon]);
+      marker = L.marker([data.lat, data.lon], {icon: getUserIcon()});
 
       $(this).data("marker", marker);
     }
 
-    map.addLayer(marker);
+    markers.addLayer(marker);
 
     $(this).closest("li").addClass("selected");
   }
@@ -59,15 +60,14 @@ OSM.Search = function(map) {
     var marker = $(this).data("marker");
 
     if (marker) {
-      map.removeLayer(marker);
+      markers.removeLayer(marker);
     }
 
     $(this).closest("li").removeClass("selected");
   }
 
-  function clickSearchResult(result, e) {
-    var link = $(result).find("a.set_position"),
-      data = link.data(),
+  function clickSearchResult(e) {
+    var data = $(this).data(),
       center = L.latLng(data.lat, data.lon);
 
     if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
@@ -76,18 +76,14 @@ OSM.Search = function(map) {
       map.setView(center, data.zoom);
     }
 
+    // Let clicks to object browser links propagate.
+    if (data.type && data.id) return;
+
     e.preventDefault();
     e.stopPropagation();
-
-    // Let clicks to object browser links propagate.
-    if (data.type && data.id) {
-      link.simulate("click", e);
-    } else {
-      marker.setLatLng(center).addTo(map);
-    }
   }
 
-  var marker = L.marker([0, 0], {icon: getUserIcon()});
+  var markers = L.layerGroup().addTo(map);
 
   var page = {};
 
@@ -120,8 +116,7 @@ OSM.Search = function(map) {
   };
 
   page.unload = function() {
-    map.removeLayer(marker);
-    map.removeObject();
+    markers.clearLayers();
     $(".search_form input[name=query]").val("");
     $(".describe_location").fadeIn(100);
   };

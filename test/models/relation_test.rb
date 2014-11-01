@@ -144,4 +144,21 @@ class RelationTest < ActiveSupport::TestCase
     assert_equal "added in relation version 3", tags["testing"]
     assert_equal "modified in relation version 4", tags["testing two"]
   end
+
+  def test_containing_relation_members
+    relation = current_relations(:used_relation)
+    crm = Relation.find(relation.id).containing_relation_members.order(:relation_id)
+#    assert_equal 1, crm.size
+    assert_equal 1, crm.first.relation_id
+    assert_equal "Relation", crm.first.member_type
+    assert_equal relation.id, crm.first.member_id
+    assert_equal 1, crm.first.relation.id
+  end
+
+  def test_containing_relations
+    relation = current_relations(:used_relation)
+    cr = Relation.find(relation.id).containing_relations.order(:id)
+    assert_equal 1, cr.size
+    assert_equal 1, cr.first.id
+  end
 end

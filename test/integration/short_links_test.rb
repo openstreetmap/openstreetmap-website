@@ -25,9 +25,9 @@ class ShortLinksTest < ActionDispatch::IntegrationTest
 
     # test with layers and a marker
     get '/go/' + short_link + "?m&layers=B000FTF"
-    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat.to_s, :mlon => lon.to_s, :layers => "B000FTF", :anchor => anchor
+    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat.to_s, :mlon => lon.to_s, :anchor => "#{anchor}&layers=B000FTF"
     get '/go/' + short_link + "?layers=B000FTF&m"
-    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat.to_s, :mlon => lon.to_s, :layers => "B000FTF", :anchor => anchor
+    assert_redirected_to :controller => 'site', :action => 'index', :mlat => lat.to_s, :mlon => lon.to_s, :anchor => "#{anchor}&layers=B000FTF"
 
     # test with some random query parameters we haven't even implemented yet
     get '/go/' + short_link + "?foobar=yes"

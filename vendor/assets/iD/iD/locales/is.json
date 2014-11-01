@@ -71,6 +71,9 @@
         },
         "orthogonalize": {
             "title": "Ferhyrningur",
+            "description": {
+                "area": "Rétta horn þessa svæðis."
+            },
             "key": "S",
             "annotation": {
                 "line": "Réttaði horn á línu.",
@@ -79,12 +82,12 @@
             "not_squarish": "Það er ekki hægt að hornrétta þetta því að það er ekki kassalaga"
         },
         "straighten": {
+            "title": "Slétta",
             "annotation": "Slétti úr línu",
             "too_bendy": "Það er ekki hægt að slétta úr þessu því að það beygir of skarplega"
         },
         "delete": {
             "title": "Eyða",
-            "description": "Fjarlægja af korti.",
             "annotation": {
                 "point": "Eyddi punkti.",
                 "vertex": "Eyddi hnút af leið.",
@@ -167,6 +170,11 @@
             },
             "not_eligible": "Ekki er hægt að aðskilja línur við upphaf þeirra eða endi.",
             "multiple_ways": "Of margar línur hér til að hægt sé að aðskilja."
+        },
+        "restriction": {
+            "help": {
+                "select": "Smelltu til að velja veghluta"
+            }
         }
     },
     "undo": {
@@ -242,6 +250,8 @@
         "edit": "Breyta eigindi",
         "none": "Ekkert",
         "node": "Hnútur",
+        "way": "Ferill",
+        "relation": "Vensl",
         "location": "Staðsetning"
     },
     "background": {
@@ -338,7 +348,6 @@
         },
         "areas": {
             "title": "Svæði",
-            "add": "Svæði eru nákvæmari leið til að tákna hluti. Þau sýna ytri mörk hlutarins. Svæði er hægt að nota fyrir flestallt það sem punktar sýna, og eru oft fyrsta val. **Smelltu á takkann 'Svæði' til að bæta nýju svæði við**",
             "corner": "Svæði eru dregin með því að setja niður hnúta sem tákna ytri mörk svæðisins. **Settu byrjunarhnútinn í eitt horn leiksvæðisins.**",
             "place": "Teiknaðu svæðið með því að setja fleiri hnúta á kortið. Kláraðu svæðið með því að smella í lokin á upphafshnútinn. **Teiknaðu svæði fyrir leikvöllinn.**",
             "search": "**Leita að '{name}'.**",
@@ -424,10 +433,8 @@
             "address": {
                 "label": "Heimilisfang",
                 "placeholders": {
-                    "number": "123",
                     "street": "Gata",
-                    "city": "Sveitarfélag",
-                    "postcode": "Póstnúmer"
+                    "city": "Sveitarfélag"
                 }
             },
             "admin_level": {
@@ -639,16 +646,7 @@
                 "label": "Tegund"
             },
             "religion": {
-                "label": "Trúarbrögð",
-                "options": {
-                    "christian": "Kristni",
-                    "muslim": "Múhameðstrú",
-                    "buddhist": "Búddismi",
-                    "jewish": "Gyðingdómur",
-                    "hindu": "Hindu",
-                    "shinto": "Shinto",
-                    "taoist": "Tao"
-                }
+                "label": "Trúarbrögð"
             },
             "restriction": {
                 "label": "Tegund"
@@ -658,9 +656,6 @@
             },
             "route_master": {
                 "label": "Tegund"
-            },
-            "sac_scale": {
-                "label": "Erfiðleikastig"
             },
             "seasonal": {
                 "label": "Árstíðabundið"
@@ -707,9 +702,6 @@
             },
             "towertype": {
                 "label": "Turntegund"
-            },
-            "tracktype": {
-                "label": "Tegund"
             },
             "trail_visibility": {
                 "label": "Sýnileiki"
@@ -812,18 +804,12 @@
             "amenity/car_wash": {
                 "name": "Bílaþvottur"
             },
-            "amenity/childcare": {
-                "name": "Barnagæsla"
-            },
             "amenity/cinema": {
                 "name": "Kvikmyndahús",
                 "terms": "bíó"
             },
             "amenity/clock": {
                 "name": "Klukka"
-            },
-            "amenity/college": {
-                "name": "Háskóli"
             },
             "amenity/courthouse": {
                 "name": "Dómhús"
@@ -851,9 +837,6 @@
             },
             "amenity/hospital": {
                 "name": "Spítalalóð"
-            },
-            "amenity/kindergarten": {
-                "name": "Leikskólalóð"
             },
             "amenity/library": {
                 "name": "Bókasafn"
@@ -929,9 +912,6 @@
             },
             "amenity/townhall": {
                 "name": "Ráðhús"
-            },
-            "amenity/university": {
-                "name": "Háskóli"
             },
             "amenity/veterinary": {
                 "name": "Dýralæknir"
@@ -1414,9 +1394,6 @@
             "man_made/water_tower": {
                 "name": "Vatnsturn"
             },
-            "man_made/water_well": {
-                "name": "Brunnur"
-            },
             "man_made/water_works": {
                 "name": "Vatnsveita"
             },
@@ -1579,9 +1556,6 @@
             "shop/alcohol": {
                 "name": "Vínbúð"
             },
-            "shop/art": {
-                "name": "Listverslun"
-            },
             "shop/bakery": {
                 "name": "Bakarí"
             },
@@ -1596,9 +1570,6 @@
             },
             "shop/bookmaker": {
                 "name": "Veðmangari"
-            },
-            "shop/books": {
-                "name": "Bóksala"
             },
             "shop/boutique": {
                 "name": "Búð"
@@ -1624,9 +1595,6 @@
             "shop/computer": {
                 "name": "Tölvuverslun"
             },
-            "shop/confectionery": {
-                "name": "Konfektbúð"
-            },
             "shop/convenience": {
                 "name": "Kjörbúð"
             },
@@ -1638,9 +1606,6 @@
             },
             "shop/doityourself": {
                 "name": "Handlaginna verslun"
-            },
-            "shop/dry_cleaning": {
-                "name": "Þurrhreinsun"
             },
             "shop/electronics": {
                 "name": "Raftækjaverslun"
@@ -1681,9 +1646,6 @@
             "shop/jewelry": {
                 "name": "Skartgripabúð"
             },
-            "shop/kiosk": {
-                "name": "Blaðastandur"
-            },
             "shop/laundry": {
                 "name": "Þvottur"
             },
@@ -1699,14 +1661,8 @@
             "shop/music": {
                 "name": "Tónlistarbúð"
             },
-            "shop/newsagent": {
-                "name": "Blaðasali"
-            },
             "shop/optician": {
                 "name": "Gleraugnaverslun"
-            },
-            "shop/outdoor": {
-                "name": "Útivistarbúð"
             },
             "shop/pet": {
                 "name": "Dýrabúð"

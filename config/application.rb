@@ -5,7 +5,7 @@ require File.expand_path('../preinitializer', __FILE__)
 if STATUS == :database_offline
 require "action_controller/railtie"
 require "action_mailer/railtie"
-require "active_resource/railtie"
+require "active_model/railtie"
 require "sprockets/railtie"
 require "rails/test_unit/railtie"
 else
@@ -14,7 +14,7 @@ end
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env)
+Bundler.require(*Rails.groups)
 
 module OpenStreetMap
   class Application < Rails::Application
@@ -33,21 +33,12 @@ module OpenStreetMap
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib)
 
-    # Configure the default encoding used in templates for Ruby 1.9.
-    config.encoding = "utf-8"
-
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types
     unless STATUS == :database_offline
       config.active_record.schema_format = :sql
     end
-
-    # Enable the asset pipeline
-    config.assets.enabled = true
-
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
 
     # Don't eager load models when the database is offline
     if STATUS == :database_offline

@@ -253,10 +253,22 @@ g.vertex.shared .stroke {
 }
 
 g.midpoint .fill {
-    fill: #ddd;
-    stroke: black;
-    stroke-opacity: .5;
-    opacity: .5;
+    fill: #eee;
+    stroke: #444;
+    stroke-opacity: .6;
+    opacity: .7;
+}
+
+g.midpoint.tag-highway-pedestrian .fill,
+g.midpoint.tag-highway-steps .fill,
+g.midpoint.tag-highway-path .fill,
+g.midpoint.tag-highway-footway .fill,
+g.midpoint.tag-highway-cycleway .fill,
+g.midpoint.tag-highway-bridleway .fill {
+    fill: #fff;
+    stroke: #333;
+    stroke-opacity: .8;
+    opacity: .8;
 }
 
 g.vertex .shadow,
@@ -361,26 +373,27 @@ path.fill.tag-natural-water {
     background-color: rgba(119, 211, 222, 0.3);
 }
 
-path.stroke.tag-amenity-school {
-    stroke: rgb(255, 255, 148);
-}
-path.fill.tag-amenity-school {
-    fill: rgba(255, 255, 148, 0.2);
-}
-.preset-icon-fill-area.tag-amenity-school {
-    border-color: rgb(255, 255, 148);
-    background-color: rgba(255, 255, 148, 0.2);
-}
-
+path.stroke.tag-amenity-childcare,
+path.stroke.tag-amenity-kindergarten,
+path.stroke.tag-amenity-school,
+path.stroke.tag-amenity-college,
 path.stroke.tag-amenity-university {
     stroke: rgb(255, 255, 148);
 }
+path.fill.tag-amenity-childcare,
+path.fill.tag-amenity-kindergarten,
+path.fill.tag-amenity-school,
+path.fill.tag-amenity-college,
 path.fill.tag-amenity-university {
-    fill: rgba(255, 255, 148, 0.1);
+    fill: rgba(255, 255, 148, 0.15);
 }
+.preset-icon-fill-area.tag-amenity-childcare,
+.preset-icon-fill-area.tag-amenity-kindergarten,
+.preset-icon-fill-area.tag-amenity-school,
+.preset-icon-fill-area.tag-amenity-college,
 .preset-icon-fill-area.tag-amenity-university {
     border-color: rgb(255, 255, 148);
-    background-color: rgba(255, 255, 148, 0.1);
+    background-color: rgba(255, 255, 148, 0.15);
 }
 
 path.stroke.tag-landuse,
@@ -412,40 +425,51 @@ path.fill.tag-leisure-park {
     background-color: rgba(140, 208, 95, 0.2);
 }
 
+path.fill.tag-landuse-residential,
+path.fill.tag-landuse-retail,
+path.fill.tag-landuse-commercial,
+path.fill.tag-landuse-industrial {
+    fill: none;
+    stroke-width: 60px;
+}
+
 path.stroke.tag-landuse-residential {
-    stroke: rgb(224, 110, 95);
+    stroke: rgb(196, 189, 25);
 }
 path.fill.tag-landuse-residential {
-    fill: rgba(224, 110, 95, 0.1);
+    stroke: rgba(196, 189, 25, 0.3);
 }
 .preset-icon-fill-area.tag-landuse-residential {
-    border-color: rgb(224, 110, 95);
-    background-color: rgba(224, 110, 95, 0.1);
+    border-color: rgb(196, 189, 25);
+    background: none;
+    box-shadow: inset 0 0 0 5px rgba(196, 189, 25, 0.3);
 }
 
 path.stroke.tag-landuse-retail,
 path.stroke.tag-landuse-commercial {
-    stroke: rgb(234, 176, 86);
+    stroke: rgb(214, 136, 26);
 }
 path.fill.tag-landuse-retail,
 path.fill.tag-landuse-commercial {
-    fill: rgba(234, 176, 86, 0.1);
+    stroke: rgba(214, 136, 26, 0.3);
 }
 .preset-icon-fill-area.tag-landuse-retail,
 .preset-icon-fill-area.tag-landuse-commercial {
-    border-color: rgb(234, 176, 86);
-    background-color: rgba(234, 176, 86, 0.1);
+    border-color: rgb(214, 136, 26);
+    background: none;
+    box-shadow: inset 0 0 0 5px rgba(214, 136, 26, 0.3);
 }
 
 path.stroke.tag-landuse-industrial {
     stroke: rgb(228, 164, 245);
 }
 path.fill.tag-landuse-industrial {
-    fill: rgba(228, 164, 245, 0.1);
+    stroke: rgba(228, 164, 245, 0.3);
 }
 .preset-icon-fill-area.tag-landuse-industrial {
     border-color: rgb(228, 164, 245);
-    background-color: rgba(228, 164, 245, 0.1);
+    background: none;
+    box-shadow: inset 0 0 0 5px rgba(228, 164, 245, 0.3);
 }
 
 path.stroke.tag-landuse-basin,
@@ -485,22 +509,22 @@ path.fill.tag-landuse-landfill {
 }
 
 path.stroke.tag-landuse-construction {
-    stroke: rgb(224, 110, 95);
+    stroke: rgb(196, 189, 25);
 }
 .pattern-color-construction {
-    fill: rgba(224, 110, 95, 0.2);
+    fill: rgba(196, 189, 25, 0.2);
 }
 .preset-icon-fill-area.tag-landuse-construction {
-    border-color: rgb(224, 110, 95);
-    background-color: rgba(224, 110, 95, 0.2);
+    border-color: rgb(196, 189, 25);
+    background-color: rgba(196, 189, 25, 0.2);
 }
 
 path.stroke.tag-landuse-military {
-    stroke: rgb(224, 110, 95);
+    stroke: rgb(214, 136, 26);
 }
 .preset-icon-fill-area.tag-landuse-military {
-    border-color: rgb(224, 110, 95);
-    background-color: rgba(224, 110, 95, 0.2);
+    border-color: rgb(214, 136, 26);
+    background-color: rgba(214, 136, 26, 0.2);
 }
 
 path.stroke.tag-natural-wetland {
@@ -937,41 +961,81 @@ path.casing.tag-boundary-national_park {
 /* bridges */
 
 path.casing.tag-bridge {
-    stroke-width: 14;
-    stroke-opacity: 0.5;
+    stroke-width: 16;
+    stroke-opacity: 0.6;
     stroke: #000;
+    stroke-linecap: butt;
 }
 
+path.shadow.tag-bridge {
+    stroke-width: 22;
+}
+
+path.casing.line.tag-railway.tag-bridge,
 path.casing.tag-highway-living_street.tag-bridge,
-path.casing.tag-highway-path.tag-bridge {
-    stroke-width: 6;
-}
-
-path.casing.line.tag-highway-pedestrian,
+path.casing.tag-highway-path.tag-bridge,
+path.casing.line.tag-highway-pedestrian.tag-bridge,
 path.casing.tag-highway-service.tag-bridge,
 path.casing.tag-highway-track.tag-bridge,
 path.casing.tag-highway-steps.tag-bridge,
 path.casing.tag-highway-footway.tag-bridge,
 path.casing.tag-highway-cycleway.tag-bridge,
 path.casing.tag-highway-bridleway.tag-bridge {
-    stroke-width: 8;
+    stroke-width: 10;
 }
 
-path.shadow.tag-highway-residential.tag-bridge {
-    stroke-width:22;
-}
-
+path.shadow.line.tag-railway.tag-bridge,
 path.shadow.tag-highway-living_street.tag-bridge,
 path.shadow.tag-highway-path.tag-bridge,
-path.shadow.line.tag-highway-pedestrian,
+path.shadow.line.tag-highway-pedestrian.tag-bridge,
 path.shadow.tag-highway-service.tag-bridge,
 path.shadow.tag-highway-track.tag-bridge,
 path.shadow.tag-highway-steps.tag-bridge,
 path.shadow.tag-highway-footway.tag-bridge,
 path.shadow.tag-highway-cycleway.tag-bridge,
 path.shadow.tag-highway-bridleway.tag-bridge {
-    stroke-width: 16;
+    stroke-width: 17;
 }
+
+
+.low-zoom path.casing.tag-bridge {
+    stroke-width: 10;
+    stroke-opacity: 0.6;
+    stroke: #000;
+    stroke-linecap: butt;
+}
+
+.low-zoom path.shadow.tag-bridge {
+    stroke-width: 14;
+}
+
+.low-zoom path.casing.line.tag-railway.tag-bridge,
+.low-zoom path.casing.tag-highway-living_street.tag-bridge,
+.low-zoom path.casing.tag-highway-path.tag-bridge,
+.low-zoom path.casing.line.tag-highway-pedestrian.tag-bridge,
+.low-zoom path.casing.tag-highway-service.tag-bridge,
+.low-zoom path.casing.tag-highway-track.tag-bridge,
+.low-zoom path.casing.tag-highway-steps.tag-bridge,
+.low-zoom path.casing.tag-highway-footway.tag-bridge,
+.low-zoom path.casing.tag-highway-cycleway.tag-bridge,
+.low-zoom path.casing.tag-highway-bridleway.tag-bridge {
+    stroke-width: 6;
+}
+
+.low-zoom path.shadow.line.tag-railway.tag-bridge,
+.low-zoom path.shadow.tag-highway-living_street.tag-bridge,
+.low-zoom path.shadow.tag-highway-path.tag-bridge,
+.low-zoom path.shadow.line.tag-highway-pedestrian.tag-bridge,
+.low-zoom path.shadow.tag-highway-service.tag-bridge,
+.low-zoom path.shadow.tag-highway-track.tag-bridge,
+.low-zoom path.shadow.tag-highway-steps.tag-bridge,
+.low-zoom path.shadow.tag-highway-footway.tag-bridge,
+.low-zoom path.shadow.tag-highway-cycleway.tag-bridge,
+.low-zoom path.shadow.tag-highway-bridleway.tag-bridge {
+    stroke-width: 13;
+}
+
+
 
 /* tunnels */
 
@@ -1237,6 +1301,36 @@ path.gpx {
 /* GPS Labels */
 text.gpx {
     fill:#FF26D4;
+}
+
+/* Mapillary Layer */
+
+.layer-mapillary {
+    pointer-events: none;
+}
+
+.layer-mapillary g {
+    pointer-events: visible;
+    cursor: pointer; /* Opera */
+    cursor: url(<%= asset_path("iD/img/cursor-select-mapillary.png") %>) 6 1, pointer; /* FF */
+}
+
+.layer-mapillary g * {
+    stroke-width: 2;
+    stroke: #ffc600;
+    fill: #ffc600;
+}
+
+.layer-mapillary g:hover * {
+    stroke-width: 2;
+    stroke: #ff9900;
+    fill: #ff9900;
+}
+
+.layer-mapillary g.selected * {
+    stroke-width: 4;
+    stroke: #ff5800;
+    fill: #ff5800;
 }
 
 /* Modes */
@@ -1603,6 +1697,7 @@ a.hide {
     height:100%;
     right: -100%;
 }
+
 
 .pane {
     position:absolute;
@@ -1978,6 +2073,48 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     right: 0;
     left: 0;
     bottom: 0;
+}
+
+.mapillary-image {
+    position: absolute;
+    right: 0;
+    bottom: 30px;
+    width: 330px;
+    height: 250px;
+    padding: 5px;
+    background-color: #fff;
+}
+
+.mapillary-image a {
+    display: block;
+    position: absolute;
+    height: auto;
+    background-color: rgba(0,0,0,.5);
+    bottom: 0;
+    right: 0;
+    padding: 5px 10px;
+}
+
+.mapillary-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.mapillary-image.hidden {
+    visibility: hidden;
+}
+
+.mapillary-image.temp button {
+    display: none;
+}
+
+.mapillary-image button {
+    border-radius: 0;
+    padding: 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .feature-list-pane .inspector-body {
@@ -2761,37 +2898,28 @@ input[type=number] {
 
 /* Preset form address */
 
-.form-field .addr-housename {
-    border: 0;
-    border-radius: 0;
+.addr-row input {
+    border-right: 0;
+    border-bottom: 0;
 }
 
-.form-field .addr-number {
-    width: 33.3333%;
-    border: 0;
-    border-radius: 0;
-}
-
-.form-field .addr-street {
-    width: 66.6666%;
+.addr-row:first-of-type input {
     border-top: 0;
-    border-right: 0;
-    border-bottom: 0;
+}
+
+.addr-row input:first-of-type {
+    border-left: 0;
+}
+
+.addr-row input {
     border-radius: 0;
 }
 
-.form-field .addr-city {
-    width: 66.6666%;
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
+.addr-row:last-of-type input:first-of-type {
     border-radius: 0 0 0 4px;
 }
 
-.form-field .addr-postcode {
-    width: 33.3333%;
-    border-right: 0;
-    border-bottom: 0;
+.addr-row:last-of-type input:last-of-type {
     border-radius: 0 0 4px 0;
 }
 
@@ -3454,7 +3582,8 @@ img.wiki-image {
 /* About Section
 ------------------------------------------------------- */
 
-.about-block {
+#footer {
+    width: 100%;
     position: absolute;
     right:0;
     bottom:0;
@@ -3465,13 +3594,47 @@ img.wiki-image {
     transition: opacity 200ms;
 }
 
-.about-block:hover {
+#footer:hover {
     opacity: 1;
 }
 
-#about {
+#scale-block {
+    display: table-cell;
+    vertical-align: bottom;
+    width: 250px;
+    height: 30px;
+    float: left;
+    clear: left;
+}
+
+#info-block {
+    float: right;
+    clear: right;
+}
+
+#scale {
+    height: 30px;
+    width: 100%;
+}
+
+#scale text {
+    font: 12px sans-serif;
+    stroke: none;
+    fill: #ccc;
+    text-anchor: start;
+}
+
+#scale path {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+#about-list {
     text-align: right;
     margin-right: 10px;
+    clear: right;
 }
 
 .source-switch a {
@@ -3513,29 +3676,18 @@ img.wiki-image {
     content: ', ';
 }
 
-/* API Status */
-
 .api-status {
-    float: left;
+    float: right;
+    clear: both;
+    text-align: right;
+    width: 100%;
 }
 
 .api-status.offline,
-.api-status.readonly {
+.api-status.readonly,
+.api-status.error {
     background: red;
-    padding: 5px 10px;
-}
-
-/* Account Information */
-
-.account {
-    float: left;
-    padding: 5px 10px;
-}
-
-.account .logout {
-    margin-left:10px;
-    border-left: 1px solid white;
-    padding-left: 10px;
+    padding: 0px 5px;
 }
 
 /* Modals
@@ -4304,6 +4456,8 @@ img.wiki-image {
 .feature-chemist{background-position:-54px -528px;}
 .feature-mobilephone{background-position:-108px -528px;}
 .feature-scooter{background-position:-162px -528px;}
+.feature-gift{background-position:-216px -528px;}
+.feature-ice-cream{background-position:-0px -552px;}
 .preset-icon-line.feature-highway-motorway{background-position:-20px -25px;}
 .preset-icon-line.feature-highway-trunk{background-position:-80px -25px;}
 .preset-icon-line.feature-highway-primary{background-position:-140px -25px;}

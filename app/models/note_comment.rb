@@ -9,6 +9,7 @@ class NoteComment < ActiveRecord::Base
   validates_presence_of :visible
   validates_associated :author
   validates_inclusion_of :event, :in => [ "opened", "closed", "reopened", "commented", "hidden" ]
+  validates_format_of :body, :with => /\A[^\x00-\x08\x0b-\x0c\x0e-\x1f\x7f\ufffe\uffff]*\z/
 
   # Return the comment text
   def body
