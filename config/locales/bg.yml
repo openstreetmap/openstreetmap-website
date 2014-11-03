@@ -1,155 +1,485 @@
-# Messages for Bulgarian (Български)
+# Messages for Bulgarian (български)
 # Exported from translatewiki.net
-# Export driver: syck-pecl
+# Export driver: spyc
 # Author: DCLXVI
-bg: 
-  activerecord: 
-    attributes: 
-      diary_entry: 
-        language: Език
-        user: Потребител
-      friend: 
-        user: Потребител
-      trace: 
-        name: Име
-        size: Размер
-        user: Потребител
-      user: 
-        languages: Езици
-        pass_crypt: Парола
-    models: 
+# Author: MrPanyGoff
+---
+bg:
+  activerecord:
+    models:
       language: Език
       message: Съобщение
       session: Сесия
       user: Потребител
-  browse: 
-    changeset_details: 
-      belongs_to: "Принадлежи към:"
-    common_details: 
-      changeset_comment: "Коментар:"
-      version: "Версия:"
-    containing_relation: 
-      entry: Релация %{relation_name}
-      entry_role: Релация %{relation_name} (като %{relation_role})
-    map: 
-      loading: Зареждане...
-    node: 
-      download: "%{download_xml_link}, %{view_history_link} или %{edit_link}"
-      download_xml: Изтегляне на XML
-      edit: редактиране
-      node: Възел
-      node_title: "Възел: %{node_name}"
-      view_history: преглед на историята
-    node_details: 
-      coordinates: "Координати:"
-      part_of: "Част от:"
-    node_history: 
-      download: "%{download_xml_link} или %{view_details_link}"
-      download_xml: Изтегляне на XML
-      view_details: преглед на детайлите
-    not_found: 
-      type: 
-        node: възел
-        relation: релация
-        way: път
-    paging_nav: 
-      of: от
-      showing_page: Показване на страница
-    relation: 
-      download_xml: Изтегляне на XML
-    relation_details: 
-      members: "Членове:"
-    relation_history: 
-      download: "%{download_xml_link} или %{view_details_link}"
-      download_xml: Изтегляне на XML
-      view_details: преглед на детайлите
-    relation_member: 
-      type: 
+    attributes:
+      diary_entry:
+        user: Потребител
+        language: Език
+      friend:
+        user: Потребител
+        friend: Приятел
+      trace:
+        user: Потребител
+        name: Име
+        size: Размер
+      user:
+        description: Описание
+        languages: Езици
+        pass_crypt: Парола
+  browse:
+    relation_member:
+      type:
         node: Възел
         relation: Релация
-    start_rjs: 
-      details: Подробности
+    containing_relation:
+      entry: 'Релация %{relation_name}'
+      entry_role: 'Релация %{relation_name} (като %{relation_role})'
+    not_found:
+      type:
+        node: възел
+        way: път
+        relation: релация
+    redacted:
+      type:
+        node: възел
+    start_rjs:
       loading: Зареждане...
-      object_list: 
-        details: Подробности
-    way: 
-      download: "%{download_xml_link}, %{view_history_link} или %{edit_link}"
-      download_xml: Изтегляне на XML
-      edit: редактиране
-      view_history: преглед на историята
-      way: Път
-    way_details: 
-      part_of: "Част от:"
-    way_history: 
-      download: "%{download_xml_link} или %{view_details_link}"
-      download_xml: Изтегляне на XML
-      view_details: преглед на детайлите
-  changeset: 
-    changesets: 
-      comment: Коментар
+    note:
+      description: 'Описание:'
+  changeset:
+    changeset:
+      anonymous: Анонимен
+    changesets:
       id: Номер
       user: Потребител
-  diary_entry: 
-    diary_entry: 
-      comment_count: 
-        one: 1 коментар
-        other: "%{count} коментара"
-    view: 
+      comment: Коментар
+  diary_entry:
+    edit:
+      language: 'Език:'
+      location: 'Местоположение:'
+      latitude: 'Географска ширина:'
+      longitude: 'Географска дължина:'
+      save_button: Запази
+    view:
+      leave_a_comment: Оставете коментар
       login: Влизане
       save_button: Съхраняване
-  export: 
-    start: 
+    diary_entry:
+      comment_count:
+        one: 1 коментар
+        other: '%{count} коментара'
+      confirm: Потвърди
+    comments:
+      newer_comments: По-нови коментари
+      older_comments: По-стари коментари
+  export:
+    start:
       licence: Лиценз
+      too_large:
+        other:
+          title: Други източници
       options: Настройки
-  message: 
-    new: 
+  geocoder:
+    search_osm_nominatim:
+      prefix:
+        amenity:
+          airport: Летище
+          arts_centre: Арт център
+          bank: Банка
+          bar: Бар
+          bbq: Барбекю
+          bench: Пейка
+          bicycle_parking: Паркинг за велосипеди
+          bus_station: Автобусна спирка
+          cafe: Кафене
+          car_rental: Коли под наем
+          car_wash: Автомивка
+          casino: Казино
+          cinema: Кино
+          clinic: Поликлиника
+          club: Клуб
+          college: Колеж
+          community_centre: Обществен център
+          courthouse: Съд
+          crematorium: Крематориум
+          dentist: Стоматолог
+          dormitory: Пансион
+          drinking_water: Питейна вода
+          embassy: Посолство
+          emergency_phone: >
+            Телефон за спешни
+            повиквания
+          fast_food: >
+            Заведения за бързо
+            хранене
+          fire_hydrant: Пожарен кран
+          fire_station: Пожарна станция
+          fountain: Фонтан
+          grave_yard: Гробище
+          gym: Фитнес зала
+          hall: Зала
+          hospital: Болница
+          hotel: Хотел
+          ice_cream: Сладолед
+          kindergarten: Детска градина
+          library: Библиотека
+          market: Пазар
+          marketplace: Пазар
+          mountain_rescue: >
+            Планинска спасителна
+            служба
+          nightclub: Нощен клуб
+          office: Офис
+          park: Парк
+          parking: Паркинг
+          pharmacy: Аптека
+          place_of_worship: Място за поклонение
+          police: Полиция
+          post_box: Пощенска кутия
+          post_office: Поща
+          prison: Затвор
+          pub: Кръчма
+          public_building: Обществена сграда
+          public_market: Общински пазар
+          reception_area: Рецепция
+          restaurant: Ресторант
+          sauna: Сауна
+          school: Училище
+          shelter: Подслон
+          shop: Магазин
+          shower: Душ
+          studio: Студио
+          supermarket: Супэрмаркет
+          swimming_pool: Плувен басейн
+          taxi: Такси
+          telephone: Телефон
+          theatre: Театър
+          toilets: Тоалетна
+          townhall: Кметство
+          university: Университет
+          veterinary: Ветеринарна клиника
+          village_hall: Кметство
+          wifi: Достъп до WiFi
+          WLAN: Достъп до WiFi
+          youth_centre: Младежки център
+        boundary:
+          administrative: >
+            Административна
+            граница
+          national_park: Национален парк
+          protected_area: Защитена зона
+        bridge:
+          aqueduct: Акведукт
+          suspension: Висящ мост
+          viaduct: Виадукт
+          yes: Мост
+        building:
+          yes: Сграда
+        emergency:
+          fire_hydrant: Пожарен кран
+          phone: >
+            Телефон за спешна
+            връзка
+        highway:
+          bus_stop: Автобусна спирка
+          construction: Магистрала в строеж
+          cycleway: Велосипедна пътека
+          footway: Пешеходна пътека
+          minor: Второстепенен път
+          motorway: Магистрала
+          motorway_link: Скоростен път
+          path: Пътека
+          pedestrian: Пешеходна пътека
+          platform: Платформа
+          primary: Главен път
+          primary_link: Главен път
+          raceway: Състезателна писта
+          residential: Жилищен
+          rest_area: Зона за почивка
+          road: Път
+          secondary: Второстепенен път
+          secondary_link: Второстепенен път
+          service: Сервизен път
+          speed_camera: >
+            Камера за контрол на
+            скоростта
+          steps: Стълбище
+          street_lamp: Улична лампа
+          unsurfaced: Път без настилка
+        historic:
+          archaeological_site: Археологическа зона
+          battlefield: Бойно поле
+          boundary_stone: Граничен камък
+          building: Сграда
+          castle: Замък
+          church: Църква
+          citywalls: Градски стени
+          fort: Форт
+          house: Къща
+          icon: Икона
+          mine: Мина
+          monument: Паметник
+          museum: Музей
+          ruins: Руини
+          tomb: Гробница
+          tower: Кула
+        landuse:
+          basin: Басейн
+          cemetery: Гробище
+          construction: Строителство
+          farm: Ферма
+          farmland: Обработваема земя
+          forest: Гора
+          grass: Трева
+          industrial: Промишлена зона
+          military: Военна зона
+          mine: Мина
+          orchard: Овощна градина
+          nature_reserve: Природен резерват
+          park: Парк
+          reservoir: Язовир
+          residential: Жилищна зона
+          vineyard: Лозя
+        leisure:
+          beach_resort: Морски курорт
+          fishing: Място за риболов
+          garden: Градина
+          golf_course: Голф игрище
+          ice_rink: Ледена пързалка
+          miniature_golf: Мини-голф
+          nature_reserve: Природен резерват
+          park: Парк
+          sauna: Сауна
+          sports_centre: Спортен център
+          stadium: Стадион
+          swimming_pool: Плувен басейн
+          water_park: Аква парк
+        military:
+          airfield: Военен летище
+          barracks: Казарма
+          bunker: Бункер
+        mountain_pass:
+          yes: Планински проход
+        natural:
+          bay: Залив
+          beach: Плаж
+          cape: Нос
+          channel: Канал
+          cliff: Скала
+          crater: Кратер
+          dune: Дюна
+          fjord: Фиорд
+          forest: Гора
+          geyser: Гейзер
+          glacier: Ледник
+          heath: Здраве
+          hill: Хълм
+          island: Остров
+          land: Земя
+          peak: Връх
+          river: Река
+          rock: Скала
+          tree: Дърво
+          valley: Долина
+          volcano: Вулкан
+          water: Вода
+        office:
+          accountant: Счетоводител
+          architect: Архитект
+          employment_agency: >
+            Агенцията по
+            заетостта
+          insurance: Застрахователно бюро
+          lawyer: Адвокат
+          travel_agent: Туристическа агенция
+          yes: Офис
+        place:
+          airport: Летище
+          city: Град
+          country: Страна
+          county: Област
+          farm: Ферма
+          hamlet: Селце
+          house: Къща
+          houses: Къщи
+          island: Остров
+          islet: островче
+          moor: тресавище
+          municipality: община
+          neighbourhood: квартал
+          postcode: пощенски код
+          region: Регион
+          sea: море
+          suburb: предградие
+          town: град
+          village: село
+        railway:
+          abandoned: >
+            изоставена
+            железопътна линия
+          construction: >
+            железопътна линия в
+            строеж
+          disused_station: изоставена гара
+          halt: железопътна спирка
+          historic_station: >
+            гара с историческо
+            значение
+          junction: железопътен възел
+          level_crossing: прелез
+          monorail: монорелсов
+          narrow_gauge: Теснолинейка
+          platform: >
+            Железопътната
+            платформа
+          station: Жп-гара
+          stop: Железопътна спирка
+          subway: Метростанция
+          subway_entrance: вход към метростанция
+          tram: Трамвай
+          tram_stop: Трамвайна спирка
+        shop:
+          antiques: Антики
+          art: Арт Магазин
+          bakery: пекарна
+          beauty: Салон за красота
+          beverages: Магазин за напитки
+          bicycle: Магазин за велосипеди
+          books: Книжарница
+          boutique: Бутик
+          butcher: месар
+          department_store: универсален магазин
+          dry_cleaning: химическо чистене
+          fish: рибен магазин
+          food: хранителни стоки
+          furniture: мебели
+          gallery: Галерия
+          garden_centre: градински център
+          gift: магазин за подаръци
+          greengrocer: плод и зеленчук
+          grocery: бакалия
+          hairdresser: фризьор
+          insurance: застраховане
+          jewelry: Бижутериен магазин
+          laundry: Пералня
+          mall: търговски център
+          market: Пазар
+          mobile_phone: >
+            Магазин за мобилни
+            телефони
+          music: Музикален магазин
+          optician: Оптика
+          pet: >
+            Магазин за домашни
+            любимци
+          pharmacy: Аптека
+          photo: Фотомагазин
+          shoes: Магазин за обувки
+          shopping_centre: Търговски център
+          sports: Спортен магазин
+          stationery: >
+            Канцеларски
+            материали
+          supermarket: Супермаркет
+          tailor: Шивач
+          toys: Магазин за играчки
+          travel_agency: Туристическа агенция
+        tourism:
+          guest_house: Къща за гости
+          hostel: Хостел
+          hotel: Хотел
+          information: Информация
+          motel: Мотел
+          museum: Музей
+          picnic_site: Място за пикник
+          theme_park: Увеселителен парк
+          valley: Долина
+          zoo: зологическа градина
+        tunnel:
+          yes: Тунел
+        waterway:
+          canal: Канал
+          dam: язовирна стена
+          mineral_spring: Минерален извор
+          river: Река
+          waterfall: Водопад
+      admin_levels:
+        level2: Държавна граница
+        level5: Граница на региона
+        level6: Държавна граница
+        level8: граница на града
+        level9: Граница на селото
+        level10: >
+          Граница на
+          предградията
+    results:
+      no_results: >
+        Не бяха открити
+        резултати
+      more_results: Повече резултати
+    direction:
+      south_west: югозапад
+      south: юг
+      south_east: югоизток
+      east: изток
+      north_east: североизток
+      north: север
+      north_west: северозапад
+      west: запад
+  layouts:
+    logout: Излизане
+    log_in: влизане
+  notifier:
+    diary_comment_notification:
+      hi: Здравейте ((to_user)),
+    email_confirm:
+      subject: '[OpenStreetMap] Потвърждаване на вашия адрес за е-поща'
+  message:
+    new:
       send_button: Изпращане
-    read: 
-      date: Дата
+    read:
       from: От
       subject: Тема
+      date: Дата
+      unread_button: >
+        Отбелязване като
+        непрочетено
       to: До
-      unread_button: Отбелязване като непрочетено
-  notifier: 
-    diary_comment_notification: 
-      hi: Здравейте ((to_user)),
-    email_confirm: 
-      subject: "[OpenStreetMap] Потвърждаване на вашия адрес за е-поща"
-  oauth_clients: 
-    edit: 
-      submit: Редактиране
-    form: 
-      name: Име
-    new: 
-      submit: Регистриране
-  trace: 
-    edit: 
-      description: "Описание:"
+  trace:
+    edit:
+      filename: 'Име на файл:'
       edit: редактиране
-      filename: "Име на файл:"
-      save_button: Съхраняване на промените
-    no_such_user: 
-      title: Няма такъв потребител
-    trace: 
+      description: 'Описание:'
+      save_button: >
+        Съхраняване на
+        промените
+    trace_form:
+      help: Помощ
+    view:
+      filename: 'Име на файл:'
+      edit: редактиране
+    trace:
       edit: редактиране
       in: в
-    trace_form: 
-      help: Помощ
-    view: 
-      edit: редактиране
-      filename: "Име на файл:"
-  user: 
-    reset_password: 
-      password: "Парола:"
-  user_block: 
-    partial: 
-      creator_name: Създател
-      display_name: Блокиран потребител
+  oauth_clients:
+    new:
+      submit: Регистриране
+    edit:
+      submit: Редактиране
+    form:
+      name: Име
+  user:
+    reset_password:
+      password: 'Парола:'
+  user_role:
+    grant:
+      confirm: Потвърждаване
+    revoke:
+      confirm: Потвърждаване
+  user_block:
+    partial:
       edit: Редактиране
+      display_name: Блокиран потребител
+      creator_name: Създател
       reason: Причина за блокиране
       status: Статут
-  user_role: 
-    grant: 
-      confirm: Потвърждаване
-    revoke: 
-      confirm: Потвърждаване

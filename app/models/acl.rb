@@ -11,6 +11,10 @@ class Acl < ActiveRecord::Base
     self.match(address, domain).where(:k => "no_account_creation").exists?
   end
 
+  def self.no_note_comment(address, domain = nil)
+    self.match(address, domain).where(:k => "no_note_comment").exists?
+  end
+
   def self.no_trace_download(address, domain = nil)
     self.match(address, domain).where(:k => "no_trace_download").exists?
   end

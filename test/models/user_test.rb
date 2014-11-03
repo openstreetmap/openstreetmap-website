@@ -86,7 +86,10 @@ class UserTest < ActiveSupport::TestCase
     # These need to be 3 chars in length, otherwise the length test above
     # should be used.
     bad = [ "<hr/>", "test@example.com", "s/f", "aa/", "aa;", "aa.",
-            "aa,", "aa?", "/;.,?", "も対応します/", "#ping" ]
+            "aa,", "aa?", "/;.,?", "も対応します/", "#ping",
+            "foo\x1fbar", "foo\x7fbar", "foo\ufffebar", "foo\uffffbar",
+            "new", "terms", "save", "confirm", "confirm-email",
+            "go_public", "reset-password", "forgot-password", "suspended" ]
     ok.each do |display_name|
       user = users(:normal_user)
       user.display_name = display_name
@@ -97,7 +100,6 @@ class UserTest < ActiveSupport::TestCase
       user = users(:normal_user)
       user.display_name = display_name
       assert !user.valid?, "#{display_name} is valid when it shouldn't be"
-      assert user.errors[:display_name].include?("is invalid")
     end
   end
   
@@ -179,10 +181,10 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  def test_public
-    assert_equal 16, User.public.count
+  def test_identifiable
+    assert_equal 16, User.identifiable.count
     assert_raise ActiveRecord::RecordNotFound do
-      User.public.find(users(:normal_user).id)
+      User.identifiable.find(users(:normal_user).id)
     end
   end
 

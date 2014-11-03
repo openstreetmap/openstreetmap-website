@@ -13,14 +13,20 @@ module BrowseHelper
     # don't look at object tags if redacted, so as to avoid giving
     # away redacted version tag information.
     unless object.redacted?
-      if object.tags.include? "name:#{I18n.locale}"
-        name = t 'printable_name.with_name',  :name => object.tags["name:#{I18n.locale}"].to_s, :id => name
+      locale = I18n.locale.to_s
+
+      while locale =~ /-[^-]+/ and not object.tags.include? "name:#{I18n.locale}"
+        locale = locale.sub(/-[^-]+/, "")
+      end
+
+      if object.tags.include? "name:#{locale}"
+        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags["name:#{locale}"].to_s ), :id => content_tag(:bdi, name)
       elsif object.tags.include? 'name'
-        name = t 'printable_name.with_name',  :name => object.tags['name'].to_s, :id => name
+        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags['name'].to_s ), :id => content_tag(:bdi, name)
       end
     end
 
-    return name
+    name
   end
 
   def link_class(type, object)
@@ -55,8 +61,12 @@ module BrowseHelper
   def format_value(key, value)
     if wp = wikipedia_link(key, value)
       link_to h(wp[:title]), wp[:url], :title => t('browse.tag_details.wikipedia_link', :page => wp[:title])
+    elsif wdt = wikidata_link(key, value)
+      link_to h(wdt[:title]), wdt[:url], :title => t('browse.tag_details.wikidata_link', :page => wdt[:title])
     elsif url = wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t('browse.tag_details.wiki_link.tag', :key => key, :value => value)
+    elsif url = telephone_link(key, value)
+      link_to h(value), url, :title => t('browse.tag_details.telephone_link', :phone_number => value)
     else
       linkify h(value)
     end
@@ -82,7 +92,7 @@ private
   ]
 
   def icon_tags(object)
-    object.tags.find_all { |k,v| ICON_TAGS.include? k }
+    object.tags.find_all { |k,v| ICON_TAGS.include? k }.sort
   end
 
   def wiki_link(type, lookup)
@@ -139,5 +149,26 @@ private
       :url => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}#{section}",
       :title => value + section
     }
+  end
+
+  def wikidata_link(key, value)
+    if key == "wikidata" and value =~ /^[Qq][1-9][0-9]*$/
+      return {
+        :url => "//www.wikidata.org/wiki/#{value}?uselang=#{I18n.locale}",
+        :title => value
+      }
+    end
+    return nil
+  end
+
+  def telephone_link(key, value)
+    # does it look like a phone number? eg "+1 (234) 567-8901 " ?
+    return nil unless value =~ /^\s*\+[\d\s\(\)\/\.-]{6,25}\s*$/
+
+    # remove all whitespace instead of encoding it http://tools.ietf.org/html/rfc3966#section-5.1.1
+    # "+1 (234) 567-8901 " -> "+1(234)567-8901"
+    valueNoWhitespace = value.gsub(/\s+/, '')
+
+    return "tel:#{valueNoWhitespace}"
   end
 end

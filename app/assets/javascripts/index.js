@@ -14,6 +14,7 @@
 //= require index/note
 //= require index/new_note
 //= require index/directions
+//= require index/changeset
 //= require router
 
 $(document).ready(function () {
@@ -156,6 +157,15 @@ $(document).ready(function () {
     $.cookie("_osm_location", OSM.locationCookie(map), { expires: expiry, path: "/" });
   });
 
+  if ($.cookie('_osm_sotm') == 'hide') {
+    $('#sotm').hide();
+  }
+
+  $('#sotm .close').on('click', function() {
+    $('#sotm').hide();
+    $.cookie("_osm_sotm", 'hide', { expires: expiry });
+  });
+
   if ($.cookie('_osm_welcome') == 'hide') {
     $('.welcome').hide();
   }
@@ -252,10 +262,11 @@ $(document).ready(function () {
 
     function addObject(type, id, center) {
       var bounds = map.addObject({type: type, id: parseInt(id)}, function(bounds) {
-        if (!window.location.hash && bounds.isValid()) {
-          OSM.router.moveListenerOff();
-          map.once('moveend', OSM.router.moveListenerOn);
-          if (center || !map.getBounds().contains(bounds)) map.fitBounds(bounds);
+        if (!window.location.hash && bounds.isValid() &&
+            (center || !map.getBounds().contains(bounds))) {
+          OSM.router.withoutMoveListener(function () {
+            map.fitBounds(bounds);
+          });
         }
       });
     }
@@ -283,7 +294,7 @@ $(document).ready(function () {
     "/node/:id(/history)":         OSM.Browse(map, 'node'),
     "/way/:id(/history)":          OSM.Browse(map, 'way'),
     "/relation/:id(/history)":     OSM.Browse(map, 'relation'),
-    "/changeset/:id":              OSM.Browse(map, 'changeset')
+    "/changeset/:id":              OSM.Changeset(map)
   });
 
   if (OSM.preferred_editor == "remote" && document.location.pathname == "/edit") {
@@ -307,5 +318,25 @@ $(document).ready(function () {
 
     if (OSM.router.route(this.pathname + this.search + this.hash))
       e.preventDefault();
+  });
+
+  $(".search_form").on("submit", function(e) {
+    e.preventDefault();
+    $("header").addClass("closed");
+    var query = $(this).find("input[name=query]").val();
+    if (query) {
+      OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
+    } else {
+      OSM.router.route("/");
+    }
+  });
+
+  $(".describe_location").on("click", function(e) {
+    e.preventDefault();
+    var center = map.getCenter().wrap(),
+      precision = OSM.zoomPrecision(map.getZoom());
+    OSM.router.route("/search?query=" + encodeURIComponent(
+      center.lat.toFixed(precision) + "," + center.lng.toFixed(precision)
+    ));
   });
 });

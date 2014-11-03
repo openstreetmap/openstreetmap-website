@@ -63,6 +63,7 @@ for my $lang ('', map { "${_}:" } qw[ Pt Fi De It HU Cz Fr RU Pl ]) {
     # Key pages
     ok(1, "    Getting key pages");
     my $cnt = stick_content_in_hash("key", "Template:${lang}KeyDescription", \%feature);
+    $cnt += stick_content_in_hash("key", "Template:${lang}Feature", \%feature);
     ok(1, "    Got $cnt key pages");
     $count{key} += $cnt;
 
@@ -97,27 +98,52 @@ sub stick_content_in_hash
     };
 
     my $count = 0;
+
+    my $process_link = sub {
+        my $link = shift;
+        $count++;
+        ok(1, "    ... got $count links") if $count % 200 == 0;
+        my $title = $link->{title};
+        my $lang;
+        my $key_name;
+        if ($title =~ /^$ukey:(?<key_name>.*?)$/) {
+            # English by default
+            $lang = "en";
+            $key_name = $space_to_underscore->($+{key_name});
+        } elsif ($title =~ /^(?<lang>[^:]+):$ukey:(?<key_name>.*?)$/) {
+            $lang = lc $+{lang};
+            $key_name = $space_to_underscore->($+{key_name});
+        }
+        if ($lang && !exists($hash->{$lang}->{$key}->{$key_name})) {
+            $hash->{$lang}->{$key}->{$key_name} = $title;
+        }
+    };
+
     get_embeddedin(
         $title,
         sub {
-            my ($links) = @_;
-            my (@links) = @$links;
-            ok(1, "    ... got " . scalar(@links) . " more links");
-            for my $link (@links) {
-                $count++;
-                my $title = $link->{title};
-
-                if ($title =~ /^$ukey:(?<key_name>.*?)$/) {
-                    # English by default
-                    $hash->{en}->{$key}->{ $space_to_underscore->($+{key_name}) } = $title;
-                } elsif ($title =~ /^(?<lang>[^:]+):$ukey:(?<key_name>.*?)$/) {
-                    $hash->{lc $+{lang}}->{$key}->{ $space_to_underscore->($+{key_name}) } = $title;
+            my $link = shift;
+            $process_link->($link);
+            get_redirects(
+                $link->{title},
+                sub {
+                    my $link = shift;
+                    $process_link->($link) if exists($link->{redirect});
                 }
-            }
+            );
         }
     );
 
     return $count;
+}
+
+sub process_list
+{
+    my $callback = shift;
+    my $links = shift;
+    for my $link (@$links) {
+        $callback->($link);
+    }
 }
 
 sub get_embeddedin
@@ -135,7 +161,28 @@ sub get_embeddedin
         },
         {
             max => '0',
-            hook => $callback,
+            hook => sub { process_list($callback, @_) },
+            skip_encoding => 1,
+        }
+    ) || die $mw->{error}->{code} . ': ' . $mw->{error}->{details};
+}
+
+sub get_redirects
+{
+    my ($title, $callback) = @_;
+    my $articles = $mw->list(
+        {
+            action => 'query',
+            list => 'backlinks',
+            bltitle => $title,
+            blfilterredir => 'redirects',
+            # Doesn't work for De:* and anything non-en. Odd.
+            # einamespace => '0|8',
+            bllimit => '200',
+        },
+        {
+            max => '0',
+            hook => sub { process_list($callback, @_) },
             skip_encoding => 1,
         }
     ) || die $mw->{error}->{code} . ': ' . $mw->{error}->{details};

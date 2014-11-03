@@ -2,7 +2,7 @@ require 'test_helper'
 
 class TraceControllerTest < ActionController::TestCase
   fixtures :users, :gpx_files
-  set_fixture_class :gpx_files => 'Trace'
+  set_fixture_class :gpx_files => Trace
 
   def setup
     @gpx_trace_dir = Object.send("remove_const", "GPX_TRACE_DIR")
@@ -163,10 +163,10 @@ class TraceControllerTest < ActionController::TestCase
   # Check that the list of changesets is displayed
   def test_list
     get :list
-    check_trace_list Trace.public
+    check_trace_list Trace.visible_to_all
 
     get :list, :tag => "London"
-    check_trace_list Trace.tagged("London").public
+    check_trace_list Trace.tagged("London").visible_to_all
   end
 
   # Check that I can get mine
@@ -188,15 +188,15 @@ class TraceControllerTest < ActionController::TestCase
   def test_list_user
     # Test a user with no traces
     get :list, :display_name => users(:second_public_user).display_name
-    check_trace_list users(:second_public_user).traces.public
+    check_trace_list users(:second_public_user).traces.visible_to_all
 
     # Test a user with some traces - should see only public ones
     get :list, :display_name => users(:public_user).display_name
-    check_trace_list users(:public_user).traces.public
+    check_trace_list users(:public_user).traces.visible_to_all
 
     # Should still see only public ones when authenticated as another user
     get :list, {:display_name => users(:public_user).display_name}, {:user => users(:normal_user).id}
-    check_trace_list users(:public_user).traces.public
+    check_trace_list users(:public_user).traces.visible_to_all
 
     # Should see all traces when authenticated as the target user
     get :list, {:display_name => users(:public_user).display_name}, {:user => users(:public_user).id}
@@ -210,16 +210,16 @@ class TraceControllerTest < ActionController::TestCase
   # Check that the rss loads
   def test_rss
     get :georss, :format => :rss
-    check_trace_feed Trace.public
+    check_trace_feed Trace.visible_to_all
 
     get :georss, :tag => "London", :format => :rss
-    check_trace_feed Trace.tagged("London").public
+    check_trace_feed Trace.tagged("London").visible_to_all
 
     get :georss, :display_name => users(:public_user).display_name, :format => :rss
-    check_trace_feed users(:public_user).traces.public
+    check_trace_feed users(:public_user).traces.visible_to_all
 
     get :georss, :display_name => users(:public_user).display_name, :tag => "Birmingham", :format => :rss
-    check_trace_feed users(:public_user).traces.tagged("Birmingham").public
+    check_trace_feed users(:public_user).traces.tagged("Birmingham").visible_to_all
   end
 
   # Test viewing a trace

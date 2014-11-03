@@ -49,8 +49,8 @@ class NodeTest < ActiveSupport::TestCase
   def valid_node_test(nod)
     node = current_nodes(nod)
     dbnode = Node.find(node.id)
-    assert_equal dbnode.lat, node.latitude.to_f/SCALE
-    assert_equal dbnode.lon, node.longitude.to_f/SCALE
+    assert_equal dbnode.lat, node.latitude.to_f / Node::SCALE
+    assert_equal dbnode.lon, node.longitude.to_f / Node::SCALE
     assert_equal dbnode.changeset_id, node.changeset_id
     assert_equal dbnode.timestamp, node.timestamp
     assert_equal dbnode.version, node.version
@@ -65,8 +65,8 @@ class NodeTest < ActiveSupport::TestCase
   def invalid_node_test(nod)
     node = current_nodes(nod)
     dbnode = Node.find(node.id)
-    assert_equal dbnode.lat, node.latitude.to_f/SCALE
-    assert_equal dbnode.lon, node.longitude.to_f/SCALE
+    assert_equal dbnode.lat, node.latitude.to_f / Node::SCALE
+    assert_equal dbnode.lon, node.longitude.to_f / Node::SCALE
     assert_equal dbnode.changeset_id, node.changeset_id
     assert_equal dbnode.timestamp, node.timestamp
     assert_equal dbnode.version, node.version
@@ -330,5 +330,32 @@ class NodeTest < ActiveSupport::TestCase
     assert_equal 2, tags.size
     assert_equal "added in node version 3", tags["testing"]
     assert_equal "modified in node version 4", tags["testing two"]
+  end
+
+  def test_containing_relation_members
+    node = current_nodes(:node_used_by_relationship)
+    crm = Node.find(node.id).containing_relation_members.order(:relation_id)
+#    assert_equal 3, crm.size
+    assert_equal 1, crm.first.relation_id
+    assert_equal "Node", crm.first.member_type
+    assert_equal node.id, crm.first.member_id
+    assert_equal 1, crm.first.relation.id
+    assert_equal 2, crm.second.relation_id
+    assert_equal "Node", crm.second.member_type
+    assert_equal node.id, crm.second.member_id
+    assert_equal 2, crm.second.relation.id
+    assert_equal 3, crm.third.relation_id
+    assert_equal "Node", crm.third.member_type
+    assert_equal node.id, crm.third.member_id
+    assert_equal 3, crm.third.relation.id
+  end
+
+  def test_containing_relations
+    node = current_nodes(:node_used_by_relationship)
+    cr = Node.find(node.id).containing_relations.order(:id)
+    assert_equal 3, cr.size
+    assert_equal 1, cr.first.id
+    assert_equal 2, cr.second.id
+    assert_equal 3, cr.third.id
   end
 end

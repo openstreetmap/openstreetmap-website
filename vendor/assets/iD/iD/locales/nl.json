@@ -3,16 +3,16 @@
         "add_area": {
             "title": "Vlak",
             "description": "Voeg parken, gebouwen, meren of andere vlakken aan de kaart toe.",
-            "tail": "Klik in de kaart om het tekenen van een vlak zoals een park, gebouw of meer te starten."
+            "tail": "Klik in de kaart om een vlak te beginnen tekenen, zoals een meer, park of gebouw."
         },
         "add_line": {
             "title": "Lijn",
-            "description": "Lijnen zijn bijvoorbeeld rijkswegen, straten, voetpaden of kanalen.",
-            "tail": "Klik in de kaart om het tekenen van straat, pad of route te starten."
+            "description": "Voeg rijkswegen, straten, voetpaden, kanalen of andere lijnen toe aan de kaart.",
+            "tail": "Klik in de kaart om een straat, pad of route te beginnen tekenen."
         },
         "add_point": {
             "title": "Punt",
-            "description": "Restaurants, monumenten en brievenbussen zijn bijvoorbeeld punten.",
+            "description": "Voeg restaurants, monumenten, brievenbussen of andere punten toe aan de kaart.",
             "tail": "Klik in de kaart om een punt toe te voegen."
         },
         "browse": {
@@ -63,7 +63,7 @@
         "circularize": {
             "title": "Rond maken",
             "description": {
-                "line": "Maak een lijn rond.",
+                "line": "Maak deze lijn rond.",
                 "area": "Maak dit vlak rond."
             },
             "key": "O",
@@ -71,7 +71,8 @@
                 "line": "Maak een lijn rond.",
                 "area": "Maak een vlak rond."
             },
-            "not_closed": "Dit kan niet rond worden gemaakt omdat het geen lus is."
+            "not_closed": "Dit kan niet rond worden gemaakt omdat het geen lus is.",
+            "too_large": "Dit kan niet rond worden gemaakt omdat slechts een te klein deel ervan momenteel zichtbaar is."
         },
         "orthogonalize": {
             "title": "Vierkant maken",
@@ -84,7 +85,8 @@
                 "line": "Hoeken van een lijn zijn haaks gemaakt.",
                 "area": "Hoeken van een vlak zijn haaks gemaakt."
             },
-            "not_squarish": "Dit kan niet vierkant gemaakt worden omdat het niet vierkantig is."
+            "not_squarish": "Dit kan niet vierkant gemaakt worden omdat het niet vierkantig is.",
+            "too_large": "Dit kan niet vierkant gemaakt worden omdat slechts een te klein deel ervan momenteel zichtbaar is."
         },
         "straighten": {
             "title": "Rechttrekken",
@@ -95,7 +97,7 @@
         },
         "delete": {
             "title": "Verwijderen",
-            "description": "Verwijder dit van de kaart.",
+            "description": "Verwijder object permanent.",
             "annotation": {
                 "point": "Punt verwijderd.",
                 "vertex": "Knoop uit een weg verwijderd.",
@@ -134,7 +136,8 @@
             "annotation": "{n} lijnen samengevoegd.",
             "not_eligible": "Deze objecten kunnen niet worden samengevoegd.",
             "not_adjacent": "Deze lijnen kunnen niet worden samengevoegd omdat ze niet zijn verbonden.",
-            "restriction": "De lijnen kunnen niet worden samengevoegd, omdat ten minste een onderdeel uitmaakt van een \"{relation}\" relatie."
+            "restriction": "De lijnen kunnen niet worden samengevoegd, omdat ten minste een onderdeel uitmaakt van een \"{relation}\" relatie.",
+            "incomplete_relation": "Deze objecten kunnen niet worden samengevoegd omdat minstens één ervan niet volledig is gedownload."
         },
         "move": {
             "title": "Verschuiven",
@@ -147,7 +150,8 @@
                 "area": "Vlak verschoven.",
                 "multiple": "Meerdere objecten verschoven."
             },
-            "incomplete_relation": "Dit object kan niet worden verplaatst omdat het niet volledig is gedownload."
+            "incomplete_relation": "Dit object kan niet worden verplaatst omdat het niet volledig is gedownload.",
+            "too_large": "Dit kan niet worden verplaatst omdat slechts een te klein deel ervan momenteel zichtbaar is."
         },
         "rotate": {
             "title": "Roteer",
@@ -156,7 +160,8 @@
             "annotation": {
                 "line": "Lijn geroteerd.",
                 "area": "Vlak geroteerd."
-            }
+            },
+            "too_large": "Dit kan niet geroteerd worden omdat slechts een klein deel ervan momenteel zichtbaar is."
         },
         "reverse": {
             "title": "Omdraaien",
@@ -179,6 +184,18 @@
             },
             "not_eligible": "lijnen kunnen niet op hun begin op eindpunt worden gesplitst.",
             "multiple_ways": "Er zijn hier teveel lijnen om op te splitsen."
+        },
+        "restriction": {
+            "help": {
+                "select": "Klik om een stuk weg te selecteren.",
+                "toggle": "Klik om te kiezen tussen afslagbeperkingen.",
+                "toggle_on": "Klik om een \"{restriction}\"-beperking toe te voegen.",
+                "toggle_off": "Klik om de \"{restriction}\"-beperking weg te halen."
+            },
+            "annotation": {
+                "create": "Afslagbeperking toegevoegd",
+                "delete": "Afslagbeperking weggehaald"
+            }
         }
     },
     "undo": {
@@ -252,7 +269,11 @@
         "incomplete": "<niet gedownload>",
         "feature_list": "Zoek objecttype",
         "edit": "Wijzig het object",
-        "none": "Geen"
+        "none": "Geen",
+        "node": "Punt",
+        "way": "Weg",
+        "relation": "Relatie",
+        "location": "Locatie"
     },
     "background": {
         "title": "Achtergrond",
@@ -260,7 +281,8 @@
         "percent_brightness": "{opacity}% doorzichtigheid",
         "none": "Geen",
         "custom": "Aangepast",
-        "custom_prompt": "Voer een tegelschema in. Geldige waarden zijn {z}, {x}, {y} voor Z/X/Y schema en {u} voor het quadtile schema.",
+        "custom_button": "Aangepaste achtergrond aanpassen",
+        "custom_prompt": "Voeg een tegel-URL-sjabloon toe. Geldige placeholders zijn {z}, {x}, {y} voor het Z/X/Y-schema en {u} voor het quadtile-schema.",
         "fix_misalignment": "Repareer de ligging",
         "reset": "Standaard herstellen"
     },
@@ -275,6 +297,7 @@
         "help": "Sla de aanpassingen bij OpenStreetMap op om deze voor andere gebruikers zichtbaar te maken",
         "no_changes": "Geen aanpassingen om op te slaan.",
         "error": "Bij het opslaan is een fout opgetreden",
+        "unknown_error_details": "Controleer of je bent verbonden met het internet.",
         "uploading": "De aanpassingen worden naar OpenStreetMap geüpload.",
         "unsaved_changes": "Je hebt niet-opgeslagen aanpassingen"
     },
@@ -285,13 +308,13 @@
         "facebook": "Deel op Facebook",
         "twitter": "Deel op Twitter",
         "google": "Deel op Google+",
-        "help_html": "Uw wijzigingen zouden binnen enkele minuten zichtbaar moeten zijn in de \n\"Standaard\" laag. Andere lagen, en sommige kenmerken, kunnen langer duren\n(<a href='https://help.openstreetmap.org/questions/4705/why-havent-my-changes-appeared-on-the-map' target='_blank'>details</a>).\n"
+        "help_html": "Uw wijzigingen zouden binnen enkele minuten zichtbaar moeten zijn in de \n\"Standaard\"-laag. Andere lagen, en sommige kenmerken, kunnen langer duren\n(<a href='https://help.openstreetmap.org/questions/4705/why-havent-my-changes-appeared-on-the-map' target='_blank'>details</a>).\n"
     },
     "confirm": {
         "okay": "OK"
     },
     "splash": {
-        "welcome": "Welkom bij de iD OpenStreetMap editor",
+        "welcome": "Welkom bij de iD OpenStreetMap-editor",
         "text": "iD biedt een gebruiksvriendelijke en krachtige manier om bij te dragen aan de beste, open wereldkaart ter wereld. Dit is versie {version}. Voor meer informatie, zie {website} en meld softwarefouten op {github}.",
         "walkthrough": "Start de rondleiding",
         "start": "Pas nu aan"
@@ -310,8 +333,11 @@
         "untagged_point": "Punt zonder tags",
         "untagged_line": "Lijn zonder tags",
         "untagged_area": "Vlak zonder tags",
-        "many_deletions": "U staat op het punt om {n} objecten te verwijderen. Weet u zeker dat u dit wilt doen? Dit zal de objecten verwijderen van de kaart die iedereen ziet op openstreetmap.org.",
+        "many_deletions": "Je staat op het punt om {n} objecten te verwijderen. Weet je zeker dat je dit wil doen? Dit zal de objecten verwijderen van de kaart die iedereen ziet op openstreetmap.org.",
         "tag_suggests_area": "De tag {tag} suggereert dat de lijn een vlak is, maar het is geen vlak",
+        "untagged_point_tooltip": "Kies een objecttype dat beschrijft wat dit punt is.",
+        "untagged_line_tooltip": "Selecteer een objecttype dat beschrijft wat deze lijn is.",
+        "untagged_area_tooltip": "Selecteer een objecttype dat beschrijft wat dit vlak is.",
         "deprecated_tags": "Afgeschafte tags: {tags}"
     },
     "zoom": {
@@ -325,58 +351,64 @@
         "zoom": "Zoom de GPX-route",
         "browse": "Blader naar een .gpx bestand"
     },
+    "mapillary": {
+        "tooltip": "Foto's op straatniveau van Mapillary",
+        "title": "Foto Overheen Leggen (Mapillary)",
+        "view_on_mapillary": "Bekijk deze afbeelding op Mapillary"
+    },
     "help": {
         "title": "Help",
+        "help": "# Hulp\n\nDit is een bewerkingsprogramma voor\n[OpenStreetMap](http://www.openstreetmap.org/), de vrije en bewerkbare kaart van de wereld. Je kan\nhet gebruiken om data in je regio toe te voegen en bij te werken.\nZo maak je de open-source- en open-data-kaart van de wereld\nbeter voor iedereen.\n\nWijzingen die je maakt aan deze kaart worden zichtbaar voor iedereen\ndie OpenStreetMap gebruikt. Om te kunnen bewerken, zal je een\n[gratis OpenStreetMap-account](https://www.openstreetmap.org/user/new) nodig hebben.\n\nDe [iD-bewerker](http://ideditor.com/) is een samenwerkingsproject\nwaarvan de [broncode beschikbaar is op GitHub](https://github.com/openstreetmap/iD).\n",
         "editing_saving": "# Bewerken & Opslaan\n\nDeze editor is ontworpen om voornamelijk online te gebruiken, en je via de website hebt er toegang toe op dit moment.\n\n### Objecten selecteren\n\nOm objecten in een kaart te selecteren, zoals een weg of interessant punt, moet je op de kaart erop kikken. Het geselecteerde object zal dan oplichten, er zal een paneel met details geopend worden en een menu zal getoond worden dat je met dit object kan doen.\n\nHoud de 'Shift'-toets vast om meerdere objecten te kunnen selecteren. Klik daarna of op objecten die je wil selecteren of op de kaart wil verslepen of teken een rechthoek. Dit laatste zal een alle punten die erin vallen selecteren.\n\n### Opslaan van bewerkingen\n\nAls je wijzigingen maakt aan bestaande wegen, gebouwen en andere plaatsen worden deze eerst lokaal opgeslagen totdat je ze op de server opslaat. Maak je geen zorgen als je een fout maakt - je kan wijzigingen altijd ongedaan maken door op de undo-knop te klikken en ze weer herstellen door op de redo-knop te klikken.\n\nKlik op 'Opslaan' om een groep van bewerkingen op te slaan. - bijvoorbeeld als je een gebied of dorp hebt afgerond en je aan een ander gebied wil beginnen. Je krijgt de mogelijkheid om te herzien wat je hebt aangepast en de editor geeft je suggesties voor verbeteringen en waarschuwingen als er iets mis lijkt te zijn.\n\nAls alles er goed uit ziet kun je kort commentaar toevoegen die de wijziging die je hebt gemaakt beschrijft en klik daarna nogmaals op 'Opslaan' om de wijzigingen op te sturen aan [OpenStreetMap.org](http://www.openstreetmap.org/), waar ze zichtbaar zijn voor alle gebruikers en voor anderen om op voort te bouwen of uit te verbeteren.\n\nAls je in een sessie niet al je bewerkingen door kan voeren kun je het bewerkwindow open laten en later terugkomen (in dezelfde browser op dezelfde computer) en de bewerkapplicatie zal je aanbieden je werk weer terug te zetten.\n",
-        "roads": "# Wegen\n\nJe kan met deze editor wegen maken, verbeteren en verwijderen. Wegen zijn er in\nallerlei soorten en maten: landweggetjes, snelwegen, paadjes, fietspaden en veel\nmeer - ieder stukje dat vaak wordt gebruikt kan in kaart worden gebracht.\n\n### Selecteren\n\nKlik op een weg om deze te selecteren. De omtrek verschijnt samen met een klein\nmenu op de kaart en een schermpje met informatie over de weg.\n\n### Aanpassen\n\nVaak kom je wegen tegen, die niet precies over het beeldmateriaal of de GPS-route\nerachter lopen. Je kan deze wegen aanpassen, zodat ze op de juiste plek komen te\nliggen.\n\nKlik eerst op de weg die je wilt aanpassen. Deze zal dan oplichten en er verschijnen\npuntjes langs de lijn die je kan verslepen naar een betere plek. Als je nieuwe\npuntjes wilt toevoegen voor meer detaillering, dubbelklik op een weggedeelte\nzonder een knooppunt en een nieuwe wordt toegevoegd.\n\nAls een weg is verbonden met een andere weg, maar niet in de kaart dan versleep\nje een van de puntjes op de andere weg om ze te verbinden. Dat wegen met elkaar\nzijn verbonden is belangrijk voor de kaart en essentieel om een routebeschrijving\nte kunnen maken.\n\nJe kan bovendien het 'Verplaats' gereedschap aanklikken of de 'V' snelkoppeling om\nde gehele weg in een keer te verplaatsen en opnieuw aanklikken om deze verplaatsing\nop te slaan.\n\n### Verwijderen\n\nAls een weg helemaal verkeerd is - je ziet dat het niet op het satellietbeeld te zien is\nen je hebt idealiter ter plaatse gecontroleerd, dat de weg er niet is - dan kan je het\nverwijderen, zodat het van de kaart verdwijnt. Wees voorzichtig met het verwijderen\nvan objecten - zoals bij iedere aanpassing is het resultaat voor iedereen zichtbaar en\nsatellietbeelden zijn vaak verouderd, dus de weg zou gewoon nieuw kunnen zijn aangelegd.\n\nJe kan een weg verwijderen door er op te klikken om het te selecteren, waarna je op het\nprullenbakicoon drukt of de 'Verwijderen' toets.\n\n### Aanmaken\n\nHeb je ergens een weg gevonden die nog niet op de kaart staat? Klik op het 'Lijn'\ngereedschap in de linker bovenhoek van de editor of druk op de snelkoppeling '2' om\neen lijn te tekenen.\n\nKlik op het begin van de weg op de kaart en begin te tekenen. Als de weg zich vertakt\nvan de bestaande weg, begin dan op de plek waar ze elkaar kruisen.\n\nKlik dan de punten langs de weg, zodat deze het juiste tracé volgt, volgens het\nsatellietbeeld of de GPS-route. Als de weg die je aan het tekenen bent een andere weg\nkruist, verbindt deze door op het kruispunt te klikken. Als je klaar met tekenen bent,\ndubbelklik of druk op 'Return' of 'Enter' op je toetsenbord.\n",
-        "gps": "# GPS\n\nGP- gegevens vormen voor OpenStreetMap de meest betrouwbare bron voor gegevens. Deze editor\nondersteunt lokale routes - '.gpx' bestanden op je lokale computer. Je kan dit soort\nGPS-routes vastleggen met allerlei smartphoneapplicaties of\nmet je eigen GPS-apparatuur.\n\nVoor meer informatie over het doen van een GPS-veldwerk, lees\n[Surveying with a GPS](http://learnosm.org/en/beginner/using-gps/)\n\nOm een GPS-route te gebruiken om te karteren, sleep een '.gpx.' bestand in je editor\nAls het wordt herkend, wordt het aan de kaart toegevoegd als een heldergroene\nlijn. Klik op het menu 'Achtergondinstellingen' aan de linkerkant om deze nieuwe kaartlaag\naan te zetten, uit te zetten of ernaar toe te zoomen.\n\nDe GPS-route wordt niet meteen naar OpenStreetMap verstuurd - de beste manier om\nhet te gebruiken is als een sjabloon voor het nieuwe objecten dat\nje toevoegt en ook om [het te uploaden naar OpenStreetMap](http://www.openstreetmap.org/trace/create)\nzodat andere gebruikers het ook kunnen gebruiken.\n",
-        "imagery": "# Beeldmateriaal\n\nLuchtfoto's vormen een belangrijke bron voor het karteren. Een combinatie van luchtfoto's, satellietbeelden en vrij-beschikbare bronnen is beschikbaar in de editor onder het menu 'Achtergrondinstellingen' aan de linkerzijde.\n\nStandaard wordt een [Bing Maps](http://www.bing.com/maps/) satellietbeeld in de editor getoond, maar als je de kaart verschaalt of verplaatst naar andere gebieden, worden nieuwe bronnen getoond. Sommige landen, zoals de Verenigde Staten, Frankrijk en Denemarken hebben beeldmateriaal van zeer hoge kwaliteit in sommige gebieden.\n\nSoms is het beeldmateriaal ten opzichte van de kaart verschoven door een fout van de leverancier van het beeldmateriaal. Als je ziet, dat een heleboel wegen zijn verschoven ten opzichte van de achtergrond, ga deze dan niet meteen allemaal verplaatsen zodat de ligging overeenkomt met de achtergrond. In plaats daarvan kan je het beeldmateriaal aanpassen, zodat de ligging overeenkomt met de bestaande gegevens door op de knop 'Verbeter de ligging' te klikken onderaan de 'Achtergrondinstellingen'.\n",
-        "addresses": "# Adressen\n\nAdressen zijn één van de meest nuttige informatie-elementen voor de kaart.\n\nHoewel adressen vaak als deel van een straat worden weergegeven, worden zij\nin OpenstreetMap vastgelegd als eigenschap van gebouwen en plaatsen langs\nde straten.\n\nJe kan adresgegevens toevoegen aan plaatsen die als gebouwcontouren\nzijn gekarteerd, maar ook aan plaatsen die als een enkel punt zijn gekarteerd.\nDe meest betrouwbare bron voor adresgegevens is een veldonderzoek ter\nplaatse of eigen bekendheid - zoals met ieder ander object is kopiëren uit\ncommerciële bronnen zoals Google Maps strict verboden\n",
-        "inspector": "# Het inspectiegereedschap\n\nHet inspectiegereedschap is het schermelement links op de pagina dat verschijnt als een object wordt geselecteerd en maakt het je mogelijk om eigenschappen aan te passen.\n\n### Een objecttype selecteren\n\nNadat je een punt, lijn of vlak hebt toegevoegd, kan je kiezen wat voor type object het is, bijvoorbeeld of het een snelweg of woonerf is, een supermarkt of een café. Het inspectiegereedschap toont knoppen voor veelvoorkomende objecttypen en je kan andere vinden door een term in het zoekscherm in te vullen.\n\nKlik op de 'i' in de rechter onderhoek van een objecttypeknop om meer te weten te komen. Klik op een knop om het type te selecteren.\n\n### Formulieren gebruiken en tags bewerken\n\nNadat je een objecttype hebt gekozen, of wanneer je een object selecteert, dat al een type toegekend heeft gekregen, dan toont het inspectiegereedschap allerlei eigenschappen van het object, zoals naam en adres.\n\nOnder de getoonde eigenschappen, kan je op icoontjes klikken om meer eigenschappen toe te voegen, zoals informatie uit [Wikipedia](http://www.wikipedia.org/), toegankelijkheid, etc.\n\nOnderaan het inspectiegereedschap klik je op 'Extra tags' om willekeurig andere tags toe te voegen. [Taginfo](http://taginfo.openstreetmap.org/) biedt een prachtig overzicht om meer te weten te komen over veelgebruikte combinaties van tags.\n\nAanpassingen die je in het inspectiegereedschap maakt zijn meteen zichtbaar in de kaart. Je kan ze op ieder moment ongedaan maken, door op de knop 'Ongedaan maken' te klikken.\n",
-        "buildings": "# Gebouwen\n\nOpenStreetMap is 's werelds grootste gebouwendatabase. Jij kan deze\ndatabase maken en verbeteren.\n\n### Selecteren\n\nJe kan een gebouw selecteren door op de omtrek te klikken. Dit doet het\ngebouw oplichten en opent een klein menu en een scherm met meer\n informatie over het gebouw.\n\n### Aanpassen\n\nSoms staan gebouwen niet op de juiste plaats of hebben ze onjuiste tags.\n\nOm een heel gebouw te verplaatsen, selecteer het en klik dan op het knop 'Verplaats'.\nBeweeg je muis om het gebouw te verplaatsen en klik als het op de goede plek staat.\n\nOm de vorm van een gebouw te verbeteren klik en versleep je de punten die samen\nde omtrek vormen naar de juiste plek.\n\n### Toevoegen\n\nEen van de onduidelijkheden over het toevoegen van gebouwen is dat in\nOpenStreetMap de gebouwen als vlakken en als punten kunnen worden vastgelegd.\nDe vuistregel is dat gebouwen zoveel mogelijk als een vlak worden ingetekend en\ndat bedrijven, woningen en voorzieningen die in die gebouwen zijn gevestigd als\npunt worden ingetekend binnen de omtrek.\n\nBegin om een gebouw als een vlak in te tekenen door op de knop 'Vlak' te klikken\nin de linker  bovenhoek van het scherm en beëindig het tekenen door de 'Return' toets\nin te drukken of door op het eerste, getekende punt te klikken om de omtrek te sluiten.\n\n### Verwijderen\n\nAls een gebouw helemaal verkeerd is - je kan zien, dat het niet in het satellietbeeld\nzichtbaar is en idealiter heb je ter plekke geconstateerd dat het niet bestaat - dan\nkan je het verwijderen. Wees voorzichtig bij het verwijderen van objecten - zoals\nalle andere aanpassigen, is het resultaat voor iedereen zichtbaar en satellietbeelden\nzijn vaak verouderd, dus het gebouw kan simpelweg onlangs zijn gebouwd.\n\nJe kan een gebouw verwijderen door erop te klikken om het te selecteren en dan\nop het prullenbakicoon te klikken of op de 'Verwijderen' toets te drukken.\n",
-        "relations": "# Relaties\n\nEen relatie is een speciaal type object in OpenStreetMap die andere objecten\ngroepeert. Twee vaak voorkomende type relaties zijn, bijvoorbeeld, *route relatie*,\ndie delen van een weg die tot eenzelfde snelweg behoren groepeert, en\n*multipolygonen*, die verschillende lijnen groeperen die samen een complex vlak\ndefiniëren (een van verschillende delen met gaten erin als een donut).\n\nThe group of features in a relation are called *members*. In the sidebar, you can\nsee which relations a feature is a member of, and click on a relation there\nto select the it. When the relation is selected, you can see all of its\nmembers listed in the sidebar and highlighted on the map.\n\nFor the most part, iD will take care of maintaining relations automatically\nwhile you edit. The main thing you should be aware of is that if you delete a\nsection of road to redraw it more accurately, you should make sure that the\nnew section is a member of the same relations as the original.\n\n## Relaties bewerken\n\nAls je relaties wilt bewerken, zijn hier de basisvaardigheden.\n\nOm een object aan een relatie toe te voegen, selecteer het object, klik op de \"+\" knop in het\n\"Alle relaties\" gedeelte van de sidebar en selecteer of type de naam van de relatie.\n\nOm een nieuwe relatie te creëren, selecteer het eerste object dat er deel uit moet maken,\nklik de \"+\" knop in het \"Alle relaties\" gedeelte en kies \"Nieuwe relatie...\".\n\nOm een object van een relatie ver verwijderen, selecteer het object en klik op de\nvuilnisbak knop naast de relatie van welke die verwijdert dient te worden.\n\nYou can create multipolygons with holes using the \"Merge\" tool. Draw two areas (inner\nand outer), hold the Shift key and click on each of them to select them both, and then\nclick the \"Merge\" (+) knop.\n"
+        "roads": "# Wegen\n\nJe kan met deze editor wegen maken, verbeteren en verwijderen. Wegen zijn er in\nallerlei soorten en maten: landweggetjes, snelwegen, paadjes, fietspaden en veel\nmeer - ieder stukje dat vaak wordt gebruikt kan in kaart worden gebracht.\n\n### Selecteren\n\nKlik op een weg om deze te selecteren. De omtrek verschijnt samen met een klein\nmenu op de kaart en een schermpje met informatie over de weg.\n\n### Aanpassen\n\nVaak kom je wegen tegen, die niet precies over het beeldmateriaal of de GPS-route\nerachter lopen. Je kan deze wegen aanpassen, zodat ze op de juiste plek komen te\nliggen.\n\nKlik eerst op de weg die je wil aanpassen. Deze zal dan oplichten en er verschijnen\npuntjes langs de lijn die je kan verslepen naar een betere plek. Als je nieuwe\npuntjes wil toevoegen voor meer detaillering, dubbelklik op een weggedeelte\nzonder een knooppunt en er wordt een nieuwe ingevoegd.\n\nAls een weg in het echt is verbonden met een andere weg, maar op de kaart niet, dan versleep\nje een van de puntjes op de andere weg om ze te verbinden. Dat wegen met elkaar\nzijn verbonden is belangrijk voor de kaart en essentieel om een routebeschrijving\nte kunnen maken.\n\nJe kan bovendien het 'Verplaats'-gereedschap aanklikken of de 'V'-snelkoppeling om\nde gehele weg in een keer te verplaatsen en opnieuw aanklikken om deze verplaatsing\nop te slaan.\n\n### Verwijderen\n\nAls een weg helemaal verkeerd is - je ziet dat het niet op het satellietbeeld te zien is\nen je hebt idealiter ter plaatse gecontroleerd, dat de weg er niet is - dan kan je het\nverwijderen, zodat het van de kaart verdwijnt. Wees voorzichtig met het verwijderen\nvan objecten - zoals bij iedere aanpassing is het resultaat voor iedereen zichtbaar en\nsatellietbeelden zijn vaak verouderd, dus de weg zou gewoon nieuw kunnen zijn aangelegd.\n\nJe kan een weg verwijderen door er op te klikken om het te selecteren, waarna je op het\nprullenbakicoon drukt of de 'Verwijderen'-toets.\n\n### Aanmaken\n\nHeb je ergens een weg gevonden die nog niet op de kaart staat? Klik op het 'Lijn'-\ngereedschap in de linkerbovenhoek van de editor of druk op de snelkoppeling '2' om\neen lijn te tekenen.\n\nKlik op het begin van de weg op de kaart en begin te tekenen. Als de weg zich vertakt\nvan de bestaande weg, begin dan op de plek waar ze elkaar kruisen.\n\nKlik dan de punten langs de weg, zodat deze het juiste tracé volgt, volgens het\nsatellietbeeld of de GPS-route. Als de weg die je aan het tekenen bent een andere weg\nkruist, verbind deze dan door op het kruispunt te klikken. Als je klaar met tekenen bent,\ndubbelklik of druk op 'Return' of 'Enter' op je toetsenbord.\n",
+        "gps": "# GPS\n\nGPS-gegevens vormen voor OpenStreetMap de meest betrouwbare bron voor gegevens. Deze editor\nondersteunt lokale routes - '.gpx'-bestanden op je lokale computer. Je kan dit soort\nGPS-routes vastleggen met allerlei smartphoneapplicaties of\nmet je eigen GPS-apparatuur.\n\nVoor meer informatie over het doen van een GPS-veldwerk, lees\n[Surveying with a GPS](http://learnosm.org/en/beginner/using-gps/)\n\nOm een GPS-route te gebruiken om te karteren, sleep een '.gpx.'-bestand in de editor.\nAls het wordt herkend, wordt het aan de kaart toegevoegd als een heldergroene\nlijn. Klik op het menu 'Achtergrondinstellingen' aan de linkerkant om deze nieuwe kaartlaag\naan te zetten, uit te zetten of ernaar toe te zoomen.\n\nDe GPS-route wordt niet meteen naar OpenStreetMap verstuurd - de beste manier om\nhet te gebruiken is als een sjabloon voor de nieuwe objecten die\nje toevoegt, en de route dan ook [te uploaden naar OpenStreetMap](http://www.openstreetmap.org/trace/create)\nzodat andere gebruikers hem ook kunnen gebruiken.\n",
+        "imagery": "# Beeldmateriaal\n\nLuchtfoto's vormen een belangrijke bron voor het karteren. Een combinatie van luchtfoto's, satellietbeelden en vrij-beschikbare bronnen is beschikbaar in de editor onder het menu 'Achtergrondinstellingen' aan de linkerzijde.\n\nStandaard wordt een [Bing Maps](http://www.bing.com/maps/)-satellietbeeld in de editor getoond, maar als je de kaart verschaalt of verplaatst naar andere gebieden, worden nieuwe bronnen getoond. Sommige landen, zoals de Verenigde Staten, Frankrijk en Denemarken hebben beeldmateriaal van zeer hoge kwaliteit in sommige gebieden.\n\nSoms is het beeldmateriaal ten opzichte van de kaart verschoven door een fout van de leverancier van het beeldmateriaal. Als je ziet dat een heleboel wegen zijn verschoven ten opzichte van de achtergrond, ga deze dan niet meteen allemaal verplaatsen zodat de ligging overeenkomt met de achtergrond. In plaats daarvan kan je het beeldmateriaal aanpassen, zodat de ligging overeenkomt met de bestaande gegevens door op de knop 'Verbeter de ligging' te klikken onderaan de 'Achtergrondinstellingen'.\n",
+        "addresses": "# Adressen\n\nAdressen zijn één van de meest nuttige informatie-elementen voor de kaart.\n\nHoewel adressen vaak als deel van een straat worden weergegeven, worden zij\nin OpenStreetMap vastgelegd als eigenschap van gebouwen en plaatsen langs\nde straten.\n\nJe kan adresgegevens toevoegen aan plaatsen die als gebouwcontouren\nzijn gekarteerd, maar ook aan plaatsen die als een enkel punt zijn gekarteerd.\nDe meest betrouwbare bron voor adresgegevens is een veldonderzoek ter\nplaatse of eigen bekendheid - zoals met ieder ander object is kopiëren uit\ncommerciële bronnen zoals Google Maps strict verboden.\n",
+        "inspector": "# Het inspectiegereedschap\n\nHet inspectiegereedschap is het schermelement links op de pagina dat verschijnt als een object wordt geselecteerd en maakt het je mogelijk om eigenschappen aan te passen.\n\n### Een objecttype selecteren\n\nNadat je een punt, lijn of vlak hebt toegevoegd, kan je kiezen wat voor type object het is, bijvoorbeeld of het een snelweg of woonerf is, een supermarkt of een café. Het inspectiegereedschap toont knoppen voor veelvoorkomende objecttypen en je kan andere vinden door een term in het zoekscherm in te vullen.\n\nKlik op de 'i' in de rechterbenedenhoek van een objecttypeknop om meer te weten te komen. Klik op een knop om het type te selecteren.\n\n### Formulieren gebruiken en tags bewerken\n\nNadat je een objecttype hebt gekozen, of wanneer je een object selecteert dat al een type toegekend heeft gekregen, dan toont het inspectiegereedschap allerlei eigenschappen van het object, zoals naam en adres.\n\nOnder de getoonde eigenschappen kan je op icoontjes klikken om meer eigenschappen toe te voegen, zoals informatie uit [Wikipedia](http://www.wikipedia.org/), toegankelijkheid voor rolstoelgebruikers, etc.\n\nOnderaan het inspectiegereedschap klik je op 'Extra tags' om andere tags toe te voegen. [Taginfo](http://taginfo.openstreetmap.org/) biedt een prachtig overzicht om meer te weten te komen over veelgebruikte combinaties van tags.\n\nAanpassingen die je in het inspectiegereedschap maakt zijn meteen zichtbaar in de kaart. Je kan ze op ieder moment ongedaan maken, door op de knop 'Ongedaan maken' te klikken.\n",
+        "buildings": "# Gebouwen\n\nOpenStreetMap is 's werelds grootste gebouwendatabase. Jij kan deze\ndatabase maken en verbeteren.\n\n### Selecteren\n\nJe kan een gebouw selecteren door op de omtrek te klikken. Dit doet het\ngebouw oplichten en opent een klein menu en een scherm met meer\n informatie over het gebouw.\n\n### Aanpassen\n\nSoms staan gebouwen niet op de juiste plaats of hebben ze onjuiste tags.\n\nOm een heel gebouw te verplaatsen, selecteer het en klik dan op het knop 'Verplaats'.\nBeweeg je muis om het gebouw te verplaatsen en klik als het op de goede plek staat.\n\nOm de vorm van een gebouw te verbeteren klik en versleep je de punten die samen\nde omtrek vormen naar de juiste plek.\n\n### Toevoegen\n\nEen van de onduidelijkheden over het toevoegen van gebouwen is dat in\nOpenStreetMap de gebouwen als vlakken en als punten kunnen worden vastgelegd.\nDe vuistregel is dat _gebouwen zoveel mogelijk als een vlak_ worden ingetekend en\ndat bedrijven, woningen en voorzieningen die in die gebouwen zijn gevestigd als\npunt worden ingetekend binnen de omtrek.\n\nBegin om een gebouw als een vlak in te tekenen door op de knop 'Vlak' te klikken\nin de linkerbovenhoek van het scherm en beëindig het tekenen door de 'Return'-toets\nin te drukken of door op het eerst getekende punt te klikken om de omtrek te sluiten.\n\n### Verwijderen\n\nAls een gebouw helemaal verkeerd is - je kan zien dat het niet in het satellietbeeld\nzichtbaar is en idealiter heb je ter plekke geconstateerd dat het niet bestaat - dan\nkan je het verwijderen. Wees voorzichtig bij het verwijderen van objecten - zoals\nalle andere aanpassingen, is het resultaat voor iedereen zichtbaar en satellietbeelden\nzijn vaak verouderd, dus het gebouw kan simpelweg onlangs zijn gebouwd.\n\nJe kan een gebouw verwijderen door erop te klikken om het te selecteren en dan\nop het prullenbakicoon te klikken of op de 'Verwijderen'-toets te drukken.\n",
+        "relations": "# Relaties\n\nEen relatie is een speciaal type object in OpenStreetMap dat andere objecten\ngroepeert. Twee vaak voorkomende type relaties zijn bijvoorbeeld de *routerelatie*,\ndie delen van een weg die tot eenzelfde snelweg behoren groepeert, en\n*multipolygonen*, die verschillende lijnen groeperen die samen een complex vlak\ndefiniëren (een van verschillende delen met gaten erin, zoals bij een donut).\n\nDe groep van elementen in een relatie heten *leden*. In de zijbalk kan je zien van\nwelke relaties een element lid is, en daar op een relatie klikken om die te\nselecteren. Wanneer de relatie is geselecteerd, kan je al haar leden in een lijst in de zijbalk zien, en worden ze gehighlight op de kaart.\n\niD zal meestal relaties automatisch voor je in orde houden terwijl je bewerkt. Het belangrijkste waar je moet aan denken is dat als je een deel van een weg verwijdert om het nauwkeuriger opnieuw te tekenen, het nieuwe stuk weg lid moet zijn van dezelfde relaties als het oude.\n\n## Relaties bewerken\n\nAls je relaties wilt bewerken, zijn hier de basisvaardigheden.\n\nOm een object aan een relatie toe te voegen, selecteer het object, klik op de \"+\"-knop in het\n\"Alle relaties\"-gedeelte van de zijbalk en selecteer of typ de naam van de relatie.\n\nOm een nieuwe relatie te maken, selecteer je het eerste object dat er deel van uit moet maken,\nklik je op de \"+\"-knop in het \"Alle relaties\"-gedeelte en kies je \"Nieuwe relatie...\"\n\nOm een object van een relatie te verwijderen, selecteer je dat object en klik je op de\nvuilnisbakknop naast de relatie waaruit je het object wil verwijderen.\n\nJe kan multipolygonen met gaten maken door het \"Samenvoegen\"-gereedschap te gebruken. Teken twee vlakken (de binnenkant en de buitenkant), hou de Shift-toets ingedrukt en klik achtereenvolgens op hen allemaal om ze te selecteren. Klik dan op de \"Samenvoegen\"-knop (+).\n"
     },
     "intro": {
         "navigation": {
             "title": "Navigatie",
-            "drag": "De grote kaart toont de OpenStreetMap gegevens bovenop een achtergrond. Je kan navigeren door te slepen en te schuiven, net zoals iedere online kaart. **Versleep de kaart!**",
-            "select": "Kaartobjecten worden op drie manier weergegeven: door punten, lijnen of vlakken. Alle objecten kunnen worden geselecteerd door erop te klikken. **Klik op de punt om 'm te selecteren.**",
+            "drag": "De grote kaart toont de OpenStreetMap-gegevens bovenop een achtergrond. Je kan navigeren door te slepen en te schuiven, net zoals iedere online kaart. **Versleep de kaart!**",
+            "select": "Kaartobjecten worden op drie manieren weergegeven: door punten, lijnen of vlakken. Alle objecten kunnen worden geselecteerd door erop te klikken. **Klik op de punt om 'm te selecteren.**",
             "header": "De titel toont ons het objecttype.",
-            "pane": "Als een object wordt geselecteerd, wordt de objecteneditor getoond. De titel toont ons het objecttype en het hoofdscherm toont eigenschappen van het object, zoals de naam en het adres. **Sluit de objecteneditor met de sluitknop rechtsboven.**"
+            "pane": "Als een object wordt geselecteerd, wordt de objectenbewerker getoond. De titel toont ons het objecttype en het hoofdscherm toont eigenschappen van het object, zoals de naam en het adres. **Sluit de objectenbewerker met de sluitknop rechtsboven.**"
         },
         "points": {
             "title": "Punten",
-            "add": "Punten kunnen worden gebruikt om objecten zoals winkels, restaurants en monumenten weer te geven. Ze geven een specifieke locatie aan en beschrijven wat daar is. **Klik op de Punt knop om een nieuw punt toe te voegen.**",
+            "add": "Punten kunnen worden gebruikt om objecten zoals winkels, restaurants en monumenten weer te geven. Ze geven een specifieke locatie aan en beschrijven wat daar is. **Klik op de Punt-knop om een nieuw punt toe te voegen.**",
             "place": "Het punt kan worden geplaatst door op de kaart te klikken. **Plaats het punt bovenop het gebouw.**",
-            "search": "Er zijn veel verschillende objecten die door een punt kunnen worden weergegeven. Het punt, dat je zojuist hebt toegevoegd is een Café. **Zoek naar '{name}'**",
-            "choose": "**Selecteer 'Café' uit de lijst.**",
-            "describe": "Het punt wordt nu aangeduid als een café. Door de objecteditor te gebruiken kunnen we meer informatie over een object toevoegen. **Voeg een naam toe**",
-            "close": "De objecteditor kan worden gesloten door op de sluitknop te klikken. **Sluit de objecteditor**",
-            "reselect": "Vaak zullen er al wel punten staan, maar bevatten ze fouten of zijn ze onvolledig. We kunnen bestaande punten aanpassen. **Selecteer het punt, dat je zojuist hebt aangemaakt.**",
-            "fixname": "**Wijzig de naam en sluit de objecteditor.**",
-            "reselect_delete": "Allen objecten in de kaart kunnen worden verwijderd. **Klik op het punt dat je hebt aangemaakt.**",
-            "delete": "Het menu rond het punt bevat handelingen die erop kunt uitvoeren, waaronder verwijderen. **Verwijder het punt.**"
+            "search": "Er zijn veel verschillende objecten die door een punt kunnen worden weergegeven. Het punt dat je zojuist hebt toegevoegd is een Cafetaria. **Zoek naar '{name}'**",
+            "choose": "**Selecteer 'Cafetaria' uit de lijst.**",
+            "describe": "Het punt wordt nu aangeduid als een cafetaria. Door de objectbewerker te gebruiken kunnen we meer informatie over een object toevoegen. **Voeg een naam toe**",
+            "close": "De objectbewerker kan worden gesloten door op de sluitknop te klikken. **Sluit de objectbewerker**",
+            "reselect": "Vaak zullen er al wel punten staan, maar bevatten ze fouten of zijn ze onvolledig. We kunnen bestaande punten aanpassen. **Selecteer het punt dat je zojuist hebt aangemaakt.**",
+            "fixname": "**Wijzig de naam en sluit de objectbewerker.**",
+            "reselect_delete": "Alle objecten in de kaart kunnen worden verwijderd. **Klik op het punt dat je hebt aangemaakt.**",
+            "delete": "Het menu rond het punt bevat handelingen die je erop kunt uitvoeren, waaronder verwijderen. **Verwijder het punt.**"
         },
         "areas": {
             "title": "Vlakken",
-            "add": "Vlakken bieden een gedetailleerdere manier om objecten weer te geven. Zij geven informatie over de grenzen van het object. Vlakken kunnen voor de meeste objecttypen worden toegepast waar punten voor worden gebruikt, maar hebben meestal de voorkeur. **Klik op de Vlak knop om een nieuw vlak toe te voegen.**",
-            "corner": "Vlakken worden getekend door punten te plaatsen die de grens van een vlak markeren. **Plaats het startpunt op een van de hoeken van de speelplaats.**",
-            "place": "Teken het vlak door meer knooppunten te plaatsen. Beëindig het vlak door op het eerste knooppunt te klikken. **Teken een vlak voor een speelplaats.**",
+            "add": "Vlakken worden gebruikt om de grenzen van de objecten, zoals meren, gebouwen en woonwijken te tonen. Ze kunnen ook worden gebruikt voor het in kaart brengen van meer gedetailleerde objecten die je normaal als punten in kaart zou brengen. **Klik op de knop Vlak om een nieuw vlak toe te voegen.**",
+            "corner": "Vlakken worden getekend door punten te plaatsen die de grens van een vlak markeren. **Plaats het startpunt op een van de hoeken van de speeltuin.**",
+            "place": "Teken het vlak door meer knooppunten te plaatsen. Beëindig het vlak door op het eerste knooppunt te klikken. **Teken een vlak voor de speeltuin.**",
             "search": "**Zoek naar '{name}'.**",
             "choose": "**Selecteer Speeltuin uit de lijst.**",
-            "describe": "**Voeg een naam toe en sluit de objecteditor**"
+            "describe": "**Voeg een naam toe en sluit de objectbewerker**"
         },
         "lines": {
             "title": "Lijnen",
-            "add": "Lijnen worden gebruikt om objecten zoals wegen, spoorlijnen en rivieren weer te geven. **Klik op de Lijn knop om een nieuwe lijn toe te voegen.**",
-            "start": "**Begin de lijn door te klikken op het eindpunt van de weg.**",
-            "intersect": "Klik om meer knooppunten aan de lijn toe te voegen. Je kan de kaart verslepen tijdens het tekenen als dat nodig mocht zijn. Wegen en veel andere lijnen zijn onderdeel van een groter netwerk. Het is belangrijk, dat deze lijnen juist aan elkaar zijn verbonden, zodat je een route kan laten berekenen. **Klik op 'Flower Street' om een kruising te maken waar de twee lijnen worden verbonden.**",
+            "add": "Lijnen worden gebruikt om objecten zoals wegen, spoorlijnen en rivieren weer te geven. **Klik op de Lijn-knop om een nieuwe lijn toe te voegen.**",
+            "start": "**Begin de lijn door te klikken op een uiteinde van de weg.**",
+            "intersect": "Klik om meer knooppunten aan de lijn toe te voegen. Je kan de kaart verslepen tijdens het tekenen als dat nodig zou zijn. Wegen en veel andere lijnen zijn onderdeel van een groter netwerk. Het is belangrijk dat deze lijnen correct aan elkaar zijn verbonden, zodat je een route kan laten berekenen. **Klik op 'Flower Street' om een kruising te maken waar de twee lijnen worden verbonden.**",
             "finish": "Lijnen kunnen worden beëindigd door nogmaals op het laatste knooppunt te klikken. **Beëindig het tekenen van de weg.**",
             "road": "**Selecteer 'Weg' uit de lijst**",
-            "residential": "Er zijn verschillende wegtypen, het meest voorkomende type is 'Residential'. **Kies het wegtype 'Residential'**",
-            "describe": "**Geef de weg een naam en sluit de objecteditor.**",
+            "residential": "Er zijn verschillende soorten wegen, het meest voorkomende type is 'Straat'. **Kies het wegtype 'Straat'**",
+            "describe": "**Geef de weg een naam en sluit de objectbewerker.**",
             "restart": "De weg moet 'Flower Street' kruisen.",
-            "wrong_preset": "Je hebt niet het wegtype 'Residential' geselecteerd. **Klik hier om opnieuw te kiezen**"
+            "wrong_preset": "Je hebt niet het wegtype 'Straat' geselecteerd. **Klik hier om opnieuw te kiezen**"
         },
         "startediting": {
             "title": "Begin met aanpassen",
@@ -387,6 +419,12 @@
     },
     "presets": {
         "categories": {
+            "category-building": {
+                "name": "Gebouw"
+            },
+            "category-golf": {
+                "name": "Golf"
+            },
             "category-landuse": {
                 "name": "Landgebruik"
             },
@@ -396,11 +434,20 @@
             "category-rail": {
                 "name": "Spoor"
             },
+            "category-restriction": {
+                "name": "Beperking"
+            },
             "category-road": {
                 "name": "Weg"
             },
             "category-route": {
                 "name": "Route"
+            },
+            "category-water-area": {
+                "name": "Water"
+            },
+            "category-water-line": {
+                "name": "Water"
             }
         },
         "fields": {
@@ -441,18 +488,66 @@
                     }
                 }
             },
+            "access_simple": {
+                "label": "Toegang",
+                "placeholder": "ja"
+            },
+            "access_toilets": {
+                "label": "Toegang"
+            },
             "address": {
                 "label": "Adres",
                 "placeholders": {
                     "housename": "Huisnaam",
-                    "number": "123",
+                    "housenumber": "123",
                     "street": "Straat",
                     "city": "Stad",
-                    "postcode": "Postcode"
+                    "postcode": "Postcode",
+                    "place": "Plaats",
+                    "province": "Provincie",
+                    "state": "Staat",
+                    "country": "Land"
                 }
             },
             "admin_level": {
                 "label": "Bestuurlijk niveau"
+            },
+            "aerialway": {
+                "label": "Type"
+            },
+            "aerialway/access": {
+                "label": "Toegang",
+                "options": {
+                    "entry": "Ingang",
+                    "exit": "Uitgang",
+                    "both": "Beide"
+                }
+            },
+            "aerialway/bubble": {
+                "label": "Bubbel"
+            },
+            "aerialway/capacity": {
+                "label": "Capaciteit (per uur)",
+                "placeholder": "500, 2500, 5000, ..."
+            },
+            "aerialway/duration": {
+                "label": "Duur (minuten)",
+                "placeholder": "1, 2, 3, ..."
+            },
+            "aerialway/heating": {
+                "label": "Verwarmd"
+            },
+            "aerialway/occupancy": {
+                "label": "Bezetting",
+                "placeholder": "2, 4, 8, ..."
+            },
+            "aerialway/summer/access": {
+                "label": "Toegang (zomer)",
+                "options": {
+                    "entry": "Ingang",
+                    "exit": "Uitgang",
+                    "both": "Beide"
+                }
             },
             "aeroway": {
                 "label": "Type"
@@ -489,10 +584,28 @@
             },
             "capacity": {
                 "label": "Inhoud",
-                "placeholder": "50, 100, 200..."
+                "placeholder": "50, 100, 200, ..."
             },
             "cardinal_direction": {
-                "label": "Richting"
+                "label": "Richting",
+                "options": {
+                    "N": "Noord",
+                    "E": "Oost",
+                    "S": "Zuid",
+                    "W": "West",
+                    "NE": "Noordoost",
+                    "SE": "Zuidoost",
+                    "SW": "Zuidwest",
+                    "NW": "Noordwest",
+                    "NNE": "Noordnoordoost",
+                    "ENE": "Oostnoordoost",
+                    "ESE": "Oostzuidoost",
+                    "SSE": "Zuidzuidoost",
+                    "SSW": "Zuidzuidwest",
+                    "WSW": "Westzuidwest",
+                    "WNW": "Westnoordwest",
+                    "NNW": "Noordnoordwest"
+                }
             },
             "clock_direction": {
                 "label": "Richting",
@@ -510,6 +623,15 @@
             "country": {
                 "label": "Land"
             },
+            "covered": {
+                "label": "Overdekt"
+            },
+            "craft": {
+                "label": "type"
+            },
+            "crop": {
+                "label": "Gewas"
+            },
             "crossing": {
                 "label": "Type"
             },
@@ -525,6 +647,13 @@
             "description": {
                 "label": "Omschrijving"
             },
+            "electrified": {
+                "label": "Bovenleiding",
+                "options": {
+                    "yes": "Ja (ongespecificeerd)",
+                    "no": "Nee"
+                }
+            },
             "elevation": {
                 "label": "Hoogte"
             },
@@ -534,6 +663,9 @@
             "entrance": {
                 "label": "Type"
             },
+            "except": {
+                "label": "Uitzonderingen"
+            },
             "fax": {
                 "label": "Fax",
                 "placeholder": "+31 42 123 4567"
@@ -542,10 +674,42 @@
                 "label": "Tarief"
             },
             "fire_hydrant/type": {
-                "label": "TYpe"
+                "label": "TYpe",
+                "options": {
+                    "pillar": "Pilaar/Bovengronds",
+                    "wall": "Muur",
+                    "pond": "Vijver"
+                }
             },
             "fixme": {
                 "label": "Repareer me"
+            },
+            "fuel": {
+                "label": "Brandstof"
+            },
+            "fuel/biodiesel": {
+                "label": "Verkoopt Biodiesel"
+            },
+            "fuel/diesel": {
+                "label": "Verkoopt Diesel"
+            },
+            "fuel/e10": {
+                "label": "Verkoopt E10"
+            },
+            "fuel/e85": {
+                "label": "Verkoopt E85"
+            },
+            "fuel/lpg": {
+                "label": "Verkoopt Propaan"
+            },
+            "fuel/octane_91": {
+                "label": "Verkoopt Gewone Benzine"
+            },
+            "fuel/octane_98": {
+                "label": "Verkoopt Premium Benzine"
+            },
+            "gauge": {
+                "label": "Spoorwijdte"
             },
             "generator/method": {
                 "label": "Methode"
@@ -556,11 +720,22 @@
             "generator/type": {
                 "label": "Type"
             },
+            "golf_hole": {
+                "label": "Referentie",
+                "placeholder": "Holenummer (1-18)"
+            },
+            "handicap": {
+                "label": "Handicap",
+                "placeholder": "1-18"
+            },
             "highway": {
                 "label": "Type"
             },
             "historic": {
                 "label": "Type"
+            },
+            "hoops": {
+                "placeholder": "1, 2, 4, ..."
             },
             "iata": {
                 "label": "IATA"
@@ -571,20 +746,28 @@
             "incline": {
                 "label": "Helling"
             },
+            "information": {
+                "label": "Type"
+            },
             "internet_access": {
                 "label": "Internettoegang",
                 "options": {
+                    "yes": "Ja",
+                    "no": "Nee",
                     "wlan": "Wifi",
                     "wired": "Vast netwerk",
                     "terminal": "Computer"
                 }
+            },
+            "lamp_type": {
+                "label": "Type"
             },
             "landuse": {
                 "label": "Type"
             },
             "lanes": {
                 "label": "Rijbanen",
-                "placeholder": "1, 2, 3..."
+                "placeholder": "1, 2, 3, ..."
             },
             "layer": {
                 "label": "Relatieve hoogteligging"
@@ -592,9 +775,15 @@
             "leisure": {
                 "label": "Type"
             },
+            "length": {
+                "label": "Lengte (Meter)"
+            },
             "levels": {
                 "label": "Niveaus",
-                "placeholder": "2, 4, 6..."
+                "placeholder": "2, 4, 6, ..."
+            },
+            "lit": {
+                "label": "Verlicht"
             },
             "location": {
                 "label": "Locatie"
@@ -604,7 +793,13 @@
             },
             "maxspeed": {
                 "label": "Maximum snelheid",
-                "placeholder": "40, 50, 60..."
+                "placeholder": "40, 50, 60, ..."
+            },
+            "mtb/scale": {
+                "placeholder": "0, 1, 2, ..."
+            },
+            "mtb/scale/uphill": {
+                "placeholder": "0, 1, 2, ..."
             },
             "name": {
                 "label": "Naam",
@@ -623,10 +818,20 @@
                 "label": "Type"
             },
             "oneway": {
-                "label": "Eenrichtingsverkeer"
+                "label": "Eenrichtingsverkeer",
+                "options": {
+                    "undefined": "Aangenomen dat het Nee is",
+                    "yes": "Ja",
+                    "no": "Nee"
+                }
             },
             "oneway_yes": {
-                "label": "Eenrichtingsverkeer"
+                "label": "Eenrichtingsverkeer",
+                "options": {
+                    "undefined": "Aangenomen dat het Ja is",
+                    "yes": "Ja",
+                    "no": "Nee"
+                }
             },
             "opening_hours": {
                 "label": "Openingstijden"
@@ -634,18 +839,43 @@
             "operator": {
                 "label": "Keten"
             },
+            "par": {
+                "placeholder": "3, 4, 5..."
+            },
             "park_ride": {
                 "label": "Parkeren en Reizen"
             },
             "parking": {
-                "label": "Type"
+                "label": "Type",
+                "options": {
+                    "surface": "Oppervlak",
+                    "underground": "ondergrond",
+                    "sheds": "Stallen",
+                    "garage_boxes": "Garageboxen"
+                }
             },
             "phone": {
                 "label": "Telefoonnummer",
                 "placeholder": "+31 42 123 4567"
             },
+            "piste/difficulty": {
+                "label": "Moeilijkheidsgraad",
+                "options": {
+                    "easy": "makkelijk (groene rondje)"
+                }
+            },
+            "piste/type": {
+                "label": "Type",
+                "options": {
+                    "sled": "Slee",
+                    "playground": "Speelplaats"
+                }
+            },
             "place": {
                 "label": "Type"
+            },
+            "population": {
+                "label": "Bevolkingsaantal"
             },
             "power": {
                 "label": "Type"
@@ -660,19 +890,13 @@
                 "label": "Type"
             },
             "religion": {
-                "label": "Religie",
-                "options": {
-                    "christian": "Christelijk",
-                    "muslim": "Moslim",
-                    "buddhist": "Boeddist",
-                    "jewish": "Joods",
-                    "hindu": "Hindoestaans",
-                    "shinto": "Shinto",
-                    "taoist": "Taoisme"
-                }
+                "label": "Religie"
             },
             "restriction": {
                 "label": "Type"
+            },
+            "restrictions": {
+                "label": "Afslagbeperkingen"
             },
             "route": {
                 "label": "Type"
@@ -680,22 +904,44 @@
             "route_master": {
                 "label": "Type"
             },
-            "sac_scale": {
-                "label": "Moeilijkheidsgraad"
-            },
             "service": {
                 "label": "Type"
             },
             "shelter": {
                 "label": "Beschutting"
             },
+            "shelter_type": {
+                "label": "Type"
+            },
             "shop": {
                 "label": "Type"
+            },
+            "smoking": {
+                "label": "Roken",
+                "placeholder": "Nee, Gescheiden, Ja, ...",
+                "options": {
+                    "no": "Roken nergens toegestaan",
+                    "separated": "Roken toegestaan op aangegeven plaatsen, fysiek niet gescheiden",
+                    "isolated": "Roken toegestaan op aangegeven plaatsen, fysiek gescheiden",
+                    "outside": "Toegestaan buiten",
+                    "yes": "Overal toegestaan",
+                    "dedicated": "Toegespitst op rokers (bv. rookclub)"
+                }
+            },
+            "social_facility_for": {
+                "label": "Bedoeld voor",
+                "placeholder": "Daklozen, Andersvaliden, Kinderen enz ..."
             },
             "source": {
                 "label": "Bron"
             },
             "sport": {
+                "label": "Sport"
+            },
+            "sport_ice": {
+                "label": "Sport"
+            },
+            "sport_racing": {
                 "label": "Sport"
             },
             "structure": {
@@ -705,8 +951,12 @@
                     "bridge": "Brug",
                     "tunnel": "Tunnel",
                     "embankment": "Dijk, talud",
-                    "cutting": "Landuitsnijding"
+                    "cutting": "Landuitsnijding",
+                    "ford": "fort"
                 }
+            },
+            "studio_type": {
+                "label": "Type"
             },
             "supervised": {
                 "label": "Onder toezicht"
@@ -715,7 +965,12 @@
                 "label": "Oppervlak"
             },
             "toilets/disposal": {
-                "label": "Afvoer"
+                "label": "Afvoer",
+                "options": {
+                    "pitlatrine": "Kuil/Latrine",
+                    "chemical": "Chemisch",
+                    "bucket": "Emmer"
+                }
             },
             "tourism": {
                 "label": "Type"
@@ -723,11 +978,18 @@
             "towertype": {
                 "label": "Type toren"
             },
-            "tracktype": {
+            "trail_visibility": {
+                "label": "Zichtbaarheid van de weg",
+                "placeholder": "Uitmuntend, Goed, Slecht, ..."
+            },
+            "tree_type": {
                 "label": "Type"
             },
-            "trail_visibility": {
-                "label": "Zichtbaarheid van de weg"
+            "trees": {
+                "label": "Bomen"
+            },
+            "tunnel": {
+                "label": "Tunnel"
             },
             "vending": {
                 "label": "Soort goederen"
@@ -748,6 +1010,9 @@
             "wheelchair": {
                 "label": "Rolstoeltoegankelijkheid"
             },
+            "width": {
+                "label": "Breedte (Meter)"
+            },
             "wikipedia": {
                 "label": "Wikipedia"
             },
@@ -759,6 +1024,10 @@
             "address": {
                 "name": "Adres",
                 "terms": "Adres"
+            },
+            "aerialway/chair_lift": {
+                "name": "Stoeltjeslift",
+                "terms": "stoeltjeslift"
             },
             "aeroway": {
                 "name": "Vliegveld",
@@ -815,6 +1084,9 @@
                 "name": "Café",
                 "terms": "Bar, café"
             },
+            "amenity/bbq": {
+                "name": "Barbecue/Grill"
+            },
             "amenity/bench": {
                 "name": "Bank",
                 "terms": "Bankje"
@@ -831,8 +1103,8 @@
                 "name": "Bootverhuur"
             },
             "amenity/cafe": {
-                "name": "Café",
-                "terms": "Café, bar"
+                "name": "Cafetaria",
+                "terms": "Cafetaria, tea-room, tea room, koffiehuis, koffie, thee, vieruurtje, cake, taart"
             },
             "amenity/car_rental": {
                 "name": "Autoverhuur",
@@ -846,20 +1118,37 @@
                 "name": "Autowasstraat",
                 "terms": "Autowasstraat"
             },
-            "amenity/childcare": {
-                "name": "Kinderopvang"
+            "amenity/charging_station": {
+                "name": "Oplaadstation"
             },
             "amenity/cinema": {
                 "name": "Bioscoop",
                 "terms": "Bioscoop"
             },
-            "amenity/college": {
-                "name": "Hogeschool",
-                "terms": "Hogeschool, universiteit"
+            "amenity/clinic": {
+                "name": "Kliniek"
+            },
+            "amenity/clock": {
+                "name": "Klok",
+                "terms": "klok, uurwerk, horloge, uur, tijd"
+            },
+            "amenity/compressed_air": {
+                "name": "Perslucht"
             },
             "amenity/courthouse": {
                 "name": "Rechtbank",
                 "terms": "Rechtzaal"
+            },
+            "amenity/dentist": {
+                "name": "Tandarts",
+                "terms": "tandarts, tandheelkundige"
+            },
+            "amenity/doctor": {
+                "name": "Dokter",
+                "terms": "dokter, arts, geneesheer"
+            },
+            "amenity/dojo": {
+                "name": "Dojo / School voor Krijgskunsten"
             },
             "amenity/drinking_water": {
                 "name": "Drinkwater",
@@ -890,12 +1179,8 @@
                 "terms": "Begraafplaats, kerkhof"
             },
             "amenity/hospital": {
-                "name": "Ziekenhuis",
-                "terms": "Ziekenhuis, hospitaal"
-            },
-            "amenity/kindergarten": {
-                "name": "Kindercrèche",
-                "terms": "Kinderdagverblijf, peuterspeelzaal"
+                "name": "Ziekenhuisgebied",
+                "terms": "ziekenhuis, hospitaal, ziekenhuisgrond, hospitaalgrond, ziekenhuisgebied, hospitaalgebied, kliniek"
             },
             "amenity/library": {
                 "name": "Bibliotheek",
@@ -905,8 +1190,15 @@
                 "name": "Markt",
                 "terms": "Markt"
             },
+            "amenity/nightclub": {
+                "name": "Nachtclub"
+            },
             "amenity/parking": {
-                "name": "Parkeerplaats"
+                "name": "Parkeerplaats",
+                "terms": "parking, parkeerplaats"
+            },
+            "amenity/parking_entrance": {
+                "name": "Ingang/Uitgang van Parkingcomplex"
             },
             "amenity/pharmacy": {
                 "name": "Apotheek",
@@ -946,18 +1238,35 @@
             },
             "amenity/pub": {
                 "name": "Café",
-                "terms": "Café, bar"
+                "terms": "Café, bar, kroeg, bierhuis, bier"
             },
             "amenity/ranger_station": {
                 "name": "Boswachtershut"
+            },
+            "amenity/recycling": {
+                "name": "Recyclage",
+                "terms": "milieustraat, milieupark, glasbol, containerpark, recycling, recyclage, stort"
             },
             "amenity/restaurant": {
                 "name": "Restaurant",
                 "terms": "Restaurant"
             },
             "amenity/school": {
-                "name": "School",
-                "terms": "School"
+                "name": "Schoolgebied"
+            },
+            "amenity/shelter": {
+                "name": "Beschutting",
+                "terms": "afdak, schuilplaats, bescherming, beschutting, wachthuisje, wachthokje, bushokje, buskotje"
+            },
+            "amenity/social_facility/food_bank": {
+                "name": "Voedselbank",
+                "terms": "voedselbank"
+            },
+            "amenity/social_facility/homeless_shelter": {
+                "name": "Opvangcentrum voor Daklozen"
+            },
+            "amenity/studio": {
+                "name": "Studio"
             },
             "amenity/swimming_pool": {
                 "name": "Zwembad",
@@ -983,12 +1292,13 @@
                 "name": "Gemeentehuis",
                 "terms": "Gemeentehuis, stadhuis"
             },
-            "amenity/university": {
-                "name": "Universiteit",
-                "terms": "Universtiteit, academie"
-            },
             "amenity/vending_machine": {
-                "name": "Automaat"
+                "name": "Automaat",
+                "terms": "automaat"
+            },
+            "amenity/veterinary": {
+                "name": "Dierenarts",
+                "terms": "veearts, dierenarts"
             },
             "amenity/waste_basket": {
                 "name": "Prullenbak",
@@ -1017,19 +1327,22 @@
                 "name": "Slingerhek"
             },
             "barrier/ditch": {
-                "name": "Gracht"
+                "name": "Gracht",
+                "terms": "gracht, sloot, water"
             },
             "barrier/entrance": {
                 "name": "Ingang"
             },
             "barrier/fence": {
-                "name": "Afrastering"
+                "name": "Afrastering",
+                "terms": "afscheiding, omheining, hek, hekwerk, omrastering, raster, afrastering, heining"
             },
             "barrier/gate": {
                 "name": "Hek"
             },
             "barrier/hedge": {
-                "name": "Haag of heg"
+                "name": "Haag of heg",
+                "terms": "heg, haag"
             },
             "barrier/kissing_gate": {
                 "name": "Voetgangershek"
@@ -1056,19 +1369,63 @@
                 "name": "Gebouw"
             },
             "building/apartments": {
-                "name": "Apartementen"
+                "name": "Appartementen"
+            },
+            "building/barn": {
+                "name": "Schuur"
+            },
+            "building/bunker": {
+                "name": "Bunker",
+                "terms": "bunker, oorlog, leger, verdedigingswerk, beton, bombardement, beschieting, kazemat, schuilkelder"
+            },
+            "building/cabin": {
+                "name": "Blokhut",
+                "terms": "hut, blokhut, cabine, hout, balken, boomstammen"
+            },
+            "building/cathedral": {
+                "name": "Kathedraal"
+            },
+            "building/chapel": {
+                "name": "Kapel"
+            },
+            "building/church": {
+                "name": "Kerk"
             },
             "building/commercial": {
                 "name": "Kantoorgebouw"
             },
+            "building/construction": {
+                "name": "Gebouw In Opbouw"
+            },
+            "building/detached": {
+                "name": "Alleenstaand Huis"
+            },
+            "building/dormitory": {
+                "name": "Slaapzaal"
+            },
             "building/entrance": {
-                "name": "Ingang"
+                "name": "Ingang/Uitgang"
             },
             "building/garage": {
-                "name": "Garage"
+                "name": "Garage",
+                "terms": "garage"
+            },
+            "building/garages": {
+                "name": "Garages"
+            },
+            "building/greenhouse": {
+                "name": "Serre"
+            },
+            "building/hospital": {
+                "name": "Ziekenhuisgebouw",
+                "terms": "ziekenhuis, hospitaal, kliniek"
+            },
+            "building/hotel": {
+                "name": "Hotelgebouw"
             },
             "building/house": {
-                "name": "Huis"
+                "name": "Huis",
+                "terms": "huis, woning"
             },
             "building/hut": {
                 "name": "Hut"
@@ -1076,8 +1433,194 @@
             "building/industrial": {
                 "name": "Industrieel gebouw"
             },
+            "building/public": {
+                "name": "Openbaar Gebouw"
+            },
             "building/residential": {
                 "name": "Woongebouw"
+            },
+            "building/retail": {
+                "name": "Handelspand",
+                "terms": "verkoop, winkel, handel, winkelgebouw"
+            },
+            "building/roof": {
+                "name": "Dak"
+            },
+            "building/school": {
+                "name": "Schoolgebouw"
+            },
+            "building/shed": {
+                "name": "Schuurtje"
+            },
+            "building/stable": {
+                "name": "Stal"
+            },
+            "building/static_caravan": {
+                "name": "Stacaravan"
+            },
+            "building/terrace": {
+                "name": "Rijhuizen"
+            },
+            "building/train_station": {
+                "name": "Treinstation"
+            },
+            "building/university": {
+                "name": "Universiteitsgebouw"
+            },
+            "building/warehouse": {
+                "name": "Opslagplaats"
+            },
+            "craft/basket_maker": {
+                "name": "Mandenvlechter",
+                "terms": "mand, vlecht, handwerk"
+            },
+            "craft/beekeeper": {
+                "name": "Imker",
+                "terms": "imker, bijenhouder"
+            },
+            "craft/blacksmith": {
+                "name": "Smid",
+                "terms": "smid, hoefsmid"
+            },
+            "craft/boatbuilder": {
+                "name": "Scheepsbouwer"
+            },
+            "craft/bookbinder": {
+                "name": "Boekbinder"
+            },
+            "craft/brewery": {
+                "name": "Brouwerij",
+                "terms": "brouwerij"
+            },
+            "craft/carpenter": {
+                "name": "Timmerman",
+                "terms": "timmerman"
+            },
+            "craft/caterer": {
+                "name": "Catering"
+            },
+            "craft/clockmaker": {
+                "name": "Klokmaker",
+                "terms": "klok, uurwerk"
+            },
+            "craft/confectionary": {
+                "name": "Snoep",
+                "terms": "snoep, zoetwaar, zoetigheid, zoet"
+            },
+            "craft/electrician": {
+                "name": "Elektricien",
+                "terms": "monteur, elektriciteit, installatie, stielman, elektrisch"
+            },
+            "craft/gardener": {
+                "name": "Tuinman"
+            },
+            "craft/glaziery": {
+                "name": "Glazenmaker",
+                "terms": "glas, ruitenmaker, ruiten, vensters"
+            },
+            "craft/handicraft": {
+                "name": "Handenarbeid"
+            },
+            "craft/hvac": {
+                "name": "HVAC",
+                "terms": "airco, verwarming, ventilatie, koeling, airconditioning, cv, loodgieter"
+            },
+            "craft/insulator": {
+                "name": "Isolatie"
+            },
+            "craft/jeweler": {
+                "name": "Juwelier"
+            },
+            "craft/key_cutter": {
+                "name": "Sleutelmaker"
+            },
+            "craft/locksmith": {
+                "name": "Slotenmaker",
+                "terms": "sleutels, slotenmaker, slot"
+            },
+            "craft/metal_construction": {
+                "name": "Metalen Constructies"
+            },
+            "craft/optician": {
+                "name": "Opticien",
+                "terms": "opticien, brillenwinkel, brillenwinkel, lenzen, bril, zonnebril, oogarts"
+            },
+            "craft/painter": {
+                "name": "Schilder"
+            },
+            "craft/photographer": {
+                "name": "Fotograaf"
+            },
+            "craft/plasterer": {
+                "name": "Stukadoor",
+                "terms": "pleister, plaaster, stucadoor, stucwerker, plakwerker, pleisterwerker, stiel"
+            },
+            "craft/plumber": {
+                "name": "Loodgieter",
+                "terms": "loodgieter"
+            },
+            "craft/pottery": {
+                "name": "Pottenbakkerij"
+            },
+            "craft/rigger": {
+                "name": "Tuigage",
+                "terms": "zeilen, masten, boten, boot, zeilboot"
+            },
+            "craft/roofer": {
+                "name": "Dakwerker",
+                "terms": "dakwerker"
+            },
+            "craft/saddler": {
+                "name": "Zadelmaker",
+                "terms": "Zadelmaker"
+            },
+            "craft/sailmaker": {
+                "name": "Zeilenmaker",
+                "terms": "zeilen, boten, boot, zeilenhersteller, hersteller"
+            },
+            "craft/sawmill": {
+                "name": "Zagerij",
+                "terms": "zagerij"
+            },
+            "craft/scaffolder": {
+                "name": "Stellingen"
+            },
+            "craft/sculpter": {
+                "name": "Beeldhouwer",
+                "terms": "beeldhouwer"
+            },
+            "craft/shoemaker": {
+                "name": "Schoenmaker"
+            },
+            "craft/stonemason": {
+                "name": "Metselaar",
+                "terms": "metselaar"
+            },
+            "craft/sweep": {
+                "name": "Schoorsteenveger"
+            },
+            "craft/tailor": {
+                "name": "Kleermaker"
+            },
+            "craft/tiler": {
+                "name": "Tegelmaker",
+                "terms": "plavuis, tegel, tegellegger, tegelmaker"
+            },
+            "craft/tinsmith": {
+                "name": "Loodgieter"
+            },
+            "craft/upholsterer": {
+                "name": "Stoffeerder"
+            },
+            "craft/watchmaker": {
+                "name": "Horlogemaker"
+            },
+            "craft/window_construction": {
+                "terms": "raamconstructie, ramen, vensters, kozijnen, deuren"
+            },
+            "embankment": {
+                "name": "Dijk",
+                "terms": "dijk"
             },
             "emergency/ambulance_station": {
                 "name": "Ambulancestandplaats"
@@ -1089,16 +1632,26 @@
                 "name": "Praatpaal"
             },
             "entrance": {
-                "name": "Ingang"
+                "name": "Ingang/Uitgang"
+            },
+            "footway/crossing": {
+                "name": "Zebrapad",
+                "terms": "oversteekplaats, voetganger"
+            },
+            "footway/sidewalk": {
+                "name": "Voetpad",
+                "terms": "trottoir, voetpad, stoep"
             },
             "highway": {
                 "name": "Autosnelweg"
             },
             "highway/bridleway": {
-                "name": "Ruiterpad"
+                "name": "Ruiterpad",
+                "terms": "jaagpad"
             },
             "highway/bus_stop": {
-                "name": "Bushalte"
+                "name": "Bushalte",
+                "terms": "bushalte"
             },
             "highway/crossing": {
                 "name": "Oversteekplaats"
@@ -1107,7 +1660,8 @@
                 "name": "Fietspad"
             },
             "highway/footway": {
-                "name": "Voetpad"
+                "name": "Voetpad",
+                "terms": "voetpad, wandelpad"
             },
             "highway/living_street": {
                 "name": "Woonerf"
@@ -1119,7 +1673,7 @@
                 "name": "Snelweg"
             },
             "highway/motorway_junction": {
-                "name": "Afslag op autosnelweg"
+                "name": "Afslag / Afrit op Autosnelweg"
             },
             "highway/motorway_link": {
                 "name": "Invoegstrook"
@@ -1139,6 +1693,9 @@
             "highway/residential": {
                 "name": "Straat"
             },
+            "highway/rest_area": {
+                "terms": "verzorgingsplaats, autoweg, autosnelweg, snelweg, aire, servicestation, picknick"
+            },
             "highway/road": {
                 "name": "Onbekende weg"
             },
@@ -1152,7 +1709,8 @@
                 "name": "Toegangsweg"
             },
             "highway/service/alley": {
-                "name": "Steeg"
+                "name": "Steeg",
+                "terms": "steeg, steegje"
             },
             "highway/service/drive-through": {
                 "name": "Drive-in"
@@ -1166,11 +1724,16 @@
             "highway/service/parking_aisle": {
                 "name": "Rijbaan in parkeergelegenheid"
             },
+            "highway/services": {
+                "terms": "verzorgingsplaats, autoweg, autosnelweg, snelweg, aire, servicestation, picknick"
+            },
             "highway/steps": {
-                "name": "Trap"
+                "name": "Trap",
+                "terms": "trap, trappen"
             },
             "highway/stop": {
-                "name": "Stopbord"
+                "name": "Stopbord",
+                "terms": "stopbord"
             },
             "highway/tertiary": {
                 "name": "Tertiare weg"
@@ -1182,7 +1745,8 @@
                 "name": "Veldweg"
             },
             "highway/traffic_signals": {
-                "name": "Verkeerslichten"
+                "name": "Verkeerslichten",
+                "terms": "verkeerslichten, rode lichten"
             },
             "highway/trunk": {
                 "name": "Autoweg"
@@ -1206,7 +1770,8 @@
                 "name": "Historische grenspaal"
             },
             "historic/castle": {
-                "name": "Kasteel"
+                "name": "Kasteel",
+                "terms": "kasteel, burcht"
             },
             "historic/memorial": {
                 "name": "Gedenkplaats"
@@ -1233,7 +1798,12 @@
                 "name": "Waterbekken"
             },
             "landuse/cemetery": {
-                "name": "Begraafplaats"
+                "name": "Begraafplaats",
+                "terms": "begraafplaats, kerkhof"
+            },
+            "landuse/churchyard": {
+                "name": "Kerkhof",
+                "terms": "begraafplaats, zerk, kerk, dood, graf"
             },
             "landuse/commercial": {
                 "name": "Kantoren"
@@ -1244,23 +1814,37 @@
             "landuse/farm": {
                 "name": "Landbouwgrond"
             },
+            "landuse/farmland": {
+                "name": "Landbouwgrond",
+                "terms": "akker, veld, landbouwgebied, landbouwgrond"
+            },
             "landuse/farmyard": {
                 "name": "Boerenerf"
             },
             "landuse/forest": {
-                "name": "Bosbouw"
+                "name": "Bosbouw",
+                "terms": "bos, woud"
             },
             "landuse/grass": {
-                "name": "Grasland"
+                "name": "Grasland",
+                "terms": "gras, gazon"
             },
             "landuse/industrial": {
                 "name": "Industriegebied"
             },
+            "landuse/landfill": {
+                "name": "Stort"
+            },
             "landuse/meadow": {
-                "name": "Hooiland"
+                "name": "Hooiland",
+                "terms": "wei, weide"
+            },
+            "landuse/military": {
+                "name": "Militair Domein"
             },
             "landuse/orchard": {
-                "name": "Boomgaard"
+                "name": "Boomgaard",
+                "terms": "boomgaard"
             },
             "landuse/quarry": {
                 "name": "Mijnbouw"
@@ -1272,7 +1856,8 @@
                 "name": "Detailhandel"
             },
             "landuse/vineyard": {
-                "name": "Wijngaard"
+                "name": "Wijngaard",
+                "terms": "wijngaard"
             },
             "leisure": {
                 "name": "Vrijetijd"
@@ -1283,17 +1868,28 @@
             "leisure/dog_park": {
                 "name": "Hondenpark"
             },
+            "leisure/firepit": {
+                "name": "Kampvuur"
+            },
             "leisure/garden": {
                 "name": "Tuin"
             },
             "leisure/golf_course": {
-                "name": "Golfbaan"
+                "name": "Golfbaan",
+                "terms": "golfterrein"
+            },
+            "leisure/ice_rink": {
+                "name": "Schaatsbaan"
             },
             "leisure/marina": {
                 "name": "Jachthaven"
             },
             "leisure/park": {
-                "name": "Park"
+                "name": "Park",
+                "terms": "park"
+            },
+            "leisure/picnic_table": {
+                "name": "Picknicktafel"
             },
             "leisure/pitch": {
                 "name": "Sportveld"
@@ -1311,31 +1907,32 @@
                 "name": "Skatepark"
             },
             "leisure/pitch/soccer": {
-                "name": "Voetbalveld"
+                "name": "Voetbalveld",
+                "terms": "voetbalveld, voetbalterrein"
             },
             "leisure/pitch/tennis": {
-                "name": "Tennisbaan"
+                "name": "Tennisbaan",
+                "terms": "tennisveld, tennisterrein"
             },
             "leisure/pitch/volleyball": {
                 "name": "Volleybalveld"
             },
             "leisure/playground": {
-                "name": "Speelplaats"
+                "name": "Speelplaats",
+                "terms": "speeltuin, speelterrein"
             },
             "leisure/slipway": {
                 "name": "Botenhelling"
             },
             "leisure/sports_center": {
-                "name": "Sportcentrum"
+                "name": "Sportcentrum / Sportschool / Fitnesscentrum",
+                "terms": "fitness, fitnesscentrum, sportschool, gym"
             },
             "leisure/stadium": {
                 "name": "Stadion"
             },
             "leisure/swimming_pool": {
                 "name": "Zwembad"
-            },
-            "leisure/track": {
-                "name": "Racebaan"
             },
             "line": {
                 "name": "Lijn"
@@ -1349,17 +1946,27 @@
             "man_made/cutline": {
                 "name": "Scheidingslijn"
             },
+            "man_made/embankment": {
+                "name": "Dijk",
+                "terms": "dijk"
+            },
+            "man_made/flagpole": {
+                "name": "Vlaggemast",
+                "terms": "vlaggemast"
+            },
             "man_made/lighthouse": {
                 "name": "Vuurtoren"
             },
             "man_made/observation": {
-                "name": "Uitkijktoren"
+                "name": "Uitkijktoren",
+                "terms": "uitkijktoren"
             },
             "man_made/pier": {
                 "name": "Pier"
             },
             "man_made/pipeline": {
-                "name": "Pijpleiding"
+                "name": "Pijpleiding",
+                "terms": "pijplijn, pijpleiding"
             },
             "man_made/survey_point": {
                 "name": "Landmeetkundig referentiepunt"
@@ -1368,7 +1975,8 @@
                 "name": "Toren"
             },
             "man_made/wastewater_plant": {
-                "name": "Waterzuiveringsinstallatie"
+                "name": "Waterzuiveringsinstallatie",
+                "terms": "waterzuiveringsstation, zuiveringsstation"
             },
             "man_made/water_tower": {
                 "name": "Watertoren"
@@ -1378,6 +1986,22 @@
             },
             "man_made/water_works": {
                 "name": "Waterwinstation"
+            },
+            "military/airfield": {
+                "name": "Vliegveld",
+                "terms": "vliegveld"
+            },
+            "military/barracks": {
+                "name": "Kazerne",
+                "terms": "kazerne"
+            },
+            "military/bunker": {
+                "name": "Bunker",
+                "terms": "bunker"
+            },
+            "military/range": {
+                "name": "Legerterrein",
+                "terms": "legerterrein"
             },
             "natural": {
                 "name": "Natuurlijk"
@@ -1394,6 +2018,9 @@
             "natural/coastline": {
                 "name": "Kustlijn"
             },
+            "natural/fell": {
+                "name": "Fjell"
+            },
             "natural/glacier": {
                 "name": "Ijsgletsjer"
             },
@@ -1405,6 +2032,9 @@
             },
             "natural/peak": {
                 "name": "Top"
+            },
+            "natural/scree": {
+                "name": "Puinhelling"
             },
             "natural/scrub": {
                 "name": "Ruigte"
@@ -1419,10 +2049,12 @@
                 "name": "Water"
             },
             "natural/water/lake": {
-                "name": "Meer"
+                "name": "Meer",
+                "terms": "meer"
             },
             "natural/water/pond": {
-                "name": "Vijver"
+                "name": "Vijver",
+                "terms": "vijver"
             },
             "natural/water/reservoir": {
                 "name": "Reservoir"
@@ -1436,17 +2068,62 @@
             "office": {
                 "name": "Kantoor"
             },
+            "office/accountant": {
+                "name": "Boekhouder"
+            },
+            "office/administrative": {
+                "name": "Bestuurlijke Instantie"
+            },
+            "office/architect": {
+                "name": "Architect"
+            },
+            "office/company": {
+                "name": "Bedrijfskantoor"
+            },
+            "office/educational_institution": {
+                "name": "Onderwijsinstelling"
+            },
+            "office/employment_agency": {
+                "name": "Uitzendbureau",
+                "terms": "uitzendkantoor, interimkantoor, werkloos, werk zoeken, werkwinkel"
+            },
+            "office/estate_agent": {
+                "name": "Immobiliënkantoor"
+            },
+            "office/government": {
+                "name": "Overheidskantoor"
+            },
+            "office/insurance": {
+                "name": "Verzekeringskantoor"
+            },
             "office/newspaper": {
                 "name": "Krant"
             },
+            "office/ngo": {
+                "name": "Kantoor van NGO",
+                "terms": "niet-gouvernementele organisatie, vzw, ngo, kantoor"
+            },
+            "office/physician": {
+                "name": "Huisdokter"
+            },
             "office/political_party": {
                 "name": "Politieke Partij"
+            },
+            "office/research": {
+                "name": "Onderzoekskantoor"
+            },
+            "office/telecommunication": {
+                "name": "Telecomkantoor"
             },
             "office/therapist": {
                 "name": "Therapeut"
             },
             "office/travel_agent": {
                 "name": "Reisbureau"
+            },
+            "piste": {
+                "name": "Skipiste",
+                "terms": "skipiste"
             },
             "place": {
                 "name": "Plaats"
@@ -1458,7 +2135,8 @@
                 "name": "Dorp/gehucht/buurtschap"
             },
             "place/island": {
-                "name": "Eiland"
+                "name": "Eiland",
+                "terms": "eiland"
             },
             "place/isolated_dwelling": {
                 "name": "Alleenstaande bebouwing"
@@ -1496,14 +2174,26 @@
             "power/transformer": {
                 "name": "Transformator"
             },
+            "public_transport/platform": {
+                "name": "Perron",
+                "terms": "perron"
+            },
+            "public_transport/stop_position": {
+                "name": "Stopplaats"
+            },
             "railway": {
-                "name": "Spoorwegemplacement"
+                "name": "Spoorwegemplacement",
+                "terms": "spoorweg"
             },
             "railway/abandoned": {
                 "name": "In onbruik geraakte spoorbaan"
             },
             "railway/disused": {
                 "name": "In onbruik geraakte spoorbaan"
+            },
+            "railway/funicular": {
+                "name": "Kabelspoorweg",
+                "terms": "kabelbaan, teleferiek, funiculaire"
             },
             "railway/halt": {
                 "name": "Treinhalte"
@@ -1512,7 +2202,12 @@
                 "name": "Gelijkvloerse spoorwegovergang"
             },
             "railway/monorail": {
-                "name": "Monorail, magneetzweefbaan"
+                "name": "Monorail, magneetzweefbaan",
+                "terms": "monorail"
+            },
+            "railway/narrow_gauge": {
+                "name": "Smalspoor",
+                "terms": "smalspoor"
             },
             "railway/platform": {
                 "name": "Perron"
@@ -1530,7 +2225,8 @@
                 "name": "Metrostation"
             },
             "railway/tram": {
-                "name": "Tram"
+                "name": "Tram",
+                "terms": "tram"
             },
             "relation": {
                 "name": "Relatie"
@@ -1539,13 +2235,15 @@
                 "name": "Veerboottraject"
             },
             "shop": {
-                "name": "Winkel"
+                "name": "Winkel",
+                "terms": "winkel, handelszaak"
             },
             "shop/alcohol": {
                 "name": "Slijterij"
             },
             "shop/bakery": {
-                "name": "Bakkerij"
+                "name": "Bakkerij",
+                "terms": "bakkerij"
             },
             "shop/beauty": {
                 "name": "Schoonheidssalon"
@@ -1554,16 +2252,18 @@
                 "name": "Drankenwinkel"
             },
             "shop/bicycle": {
-                "name": "Fietswinkel"
+                "name": "Fietswinkel",
+                "terms": "fietsenwinkel"
             },
-            "shop/books": {
-                "name": "Boekwinkel"
+            "shop/bookmaker": {
+                "name": "Bookmaker (gokkantoor)"
             },
             "shop/boutique": {
                 "name": "Boutique"
             },
             "shop/butcher": {
-                "name": "Slagerij"
+                "name": "Slagerij",
+                "terms": "slagerij, beenhouwerij"
             },
             "shop/car": {
                 "name": "Autoshowroom"
@@ -1575,16 +2275,14 @@
                 "name": "Autogarage"
             },
             "shop/chemist": {
-                "name": "Drogist"
+                "name": "Drogist",
+                "terms": "apotheek, apotheker, apothekerij"
             },
             "shop/clothes": {
                 "name": "Kledingwinkel"
             },
             "shop/computer": {
                 "name": "Computerwinkel"
-            },
-            "shop/confectionery": {
-                "name": "Banketbakkerij"
             },
             "shop/convenience": {
                 "name": "Buurtsuper"
@@ -1598,20 +2296,22 @@
             "shop/doityourself": {
                 "name": "Bouwmarkt, doe-het-zelfwinkel"
             },
-            "shop/dry_cleaning": {
-                "name": "Stomerij"
-            },
             "shop/electronics": {
                 "name": "Bruingoedwinkel"
             },
             "shop/farm": {
-                "name": "Groente- en fruitkraam"
+                "name": "Groente- en fruitkraam",
+                "terms": "groentenkraam"
             },
             "shop/fishmonger": {
-                "name": "Visboer"
+                "name": "Visboer",
+                "terms": "viswinkel"
             },
             "shop/florist": {
                 "name": "Bloemenwinkel"
+            },
+            "shop/funeral_directors": {
+                "name": "Begrafenisondernemer"
             },
             "shop/furniture": {
                 "name": "Woonwarenhuis"
@@ -1626,7 +2326,8 @@
                 "name": "Groenteboer"
             },
             "shop/hairdresser": {
-                "name": "Kapper"
+                "name": "Kapper",
+                "terms": "kapper"
             },
             "shop/hardware": {
                 "name": "Bouwmarkt"
@@ -1635,16 +2336,17 @@
                 "name": "Bruingoedwinkel"
             },
             "shop/jewelry": {
-                "name": "Juwelier"
-            },
-            "shop/kiosk": {
-                "name": "Kiosk"
+                "name": "Juwelier",
+                "terms": "juwelier"
             },
             "shop/laundry": {
                 "name": "Wasserette"
             },
             "shop/locksmith": {
                 "name": "Slotenmaker"
+            },
+            "shop/lottery": {
+                "name": "Loterij"
             },
             "shop/mall": {
                 "name": "Winkelcentrum"
@@ -1658,17 +2360,17 @@
             "shop/music": {
                 "name": "Muziekwinkel"
             },
-            "shop/newsagent": {
-                "name": "Krantenkiosk"
-            },
             "shop/optician": {
                 "name": "Opticien"
             },
-            "shop/outdoor": {
-                "name": "Buitensportzaak"
-            },
             "shop/pet": {
                 "name": "Dierenwinkel"
+            },
+            "shop/photo": {
+                "name": "Fotowinkel"
+            },
+            "shop/seafood": {
+                "name": "Viswinkel"
             },
             "shop/shoes": {
                 "name": "Schoenenwinkel"
@@ -1680,13 +2382,23 @@
                 "name": "Kantoorboekhandel"
             },
             "shop/supermarket": {
-                "name": "Supermarkt"
+                "name": "Supermarkt",
+                "terms": "supermarkt, grootwarenhuis"
+            },
+            "shop/tea": {
+                "name": "thee winkel"
+            },
+            "shop/tobacco": {
+                "name": "tabak winkel",
+                "terms": "sigaret winkel"
             },
             "shop/toys": {
-                "name": "Speelgoedwinkel"
+                "name": "Speelgoedwinkel",
+                "terms": "speelgoedwinkel"
             },
             "shop/travel_agency": {
-                "name": "Reisbureau"
+                "name": "Reisbureau",
+                "terms": "reisbureau"
             },
             "shop/tyres": {
                 "name": "Bandenwinkel"
@@ -1699,6 +2411,15 @@
             },
             "shop/video": {
                 "name": "Videotheek"
+            },
+            "shop/video_games": {
+                "name": "videogame winkel"
+            },
+            "shop/weapons": {
+                "name": "wapen winkel"
+            },
+            "shop/wine": {
+                "name": "Wijnwinkel"
             },
             "tourism": {
                 "name": "Toerisme"
@@ -1713,7 +2434,8 @@
                 "name": "Toeristische attractie"
             },
             "tourism/camp_site": {
-                "name": "Camping"
+                "name": "Camping",
+                "terms": "camping, kampeerterrein, kampeerplaats"
             },
             "tourism/caravan_site": {
                 "name": "Terrein voor kampeerwagens"
@@ -1728,7 +2450,8 @@
                 "name": "Jeugdherberg"
             },
             "tourism/hotel": {
-                "name": "Hotel"
+                "name": "Hotel",
+                "terms": "hotel"
             },
             "tourism/information": {
                 "name": "Informatie"
@@ -1737,7 +2460,8 @@
                 "name": "Motel"
             },
             "tourism/museum": {
-                "name": "Museum"
+                "name": "Museum",
+                "terms": "museum"
             },
             "tourism/picnic_site": {
                 "name": "Picknickplek"
@@ -1762,6 +2486,28 @@
             },
             "type/restriction": {
                 "name": "Beperking"
+            },
+            "type/restriction/no_left_turn": {
+                "name": "Niet Links Afslaan"
+            },
+            "type/restriction/no_right_turn": {
+                "name": "Niet Rechts Afslaan"
+            },
+            "type/restriction/no_straight_on": {
+                "name": "Niet Rechtdoor"
+            },
+            "type/restriction/no_u_turn": {
+                "name": "Niet Omkeren"
+            },
+            "type/restriction/only_left_turn": {
+                "name": "Enkel Links Afslaan"
+            },
+            "type/restriction/only_right_turn": {
+                "name": "Enkel Rechts Afslaan"
+            },
+            "type/restriction/only_straight_on": {
+                "name": "Niet Afslaan",
+                "terms": "rechtdoor, niet, draaien, afslaan"
             },
             "type/route": {
                 "name": "Route"
@@ -1812,7 +2558,8 @@
                 "name": "Kanaal"
             },
             "waterway/dam": {
-                "name": "Dam"
+                "name": "Dam",
+                "terms": "dam"
             },
             "waterway/ditch": {
                 "name": "Sloot, greppel of gracht"
@@ -1821,13 +2568,15 @@
                 "name": "Sloot, greppel of gracht"
             },
             "waterway/river": {
-                "name": "Rivier"
+                "name": "Rivier",
+                "terms": "rivier, stroom"
             },
             "waterway/riverbank": {
                 "name": "Rivieroever"
             },
             "waterway/stream": {
-                "name": "Beek"
+                "name": "Beek",
+                "terms": "stroom, rivier"
             },
             "waterway/weir": {
                 "name": "Stuw"

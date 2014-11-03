@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Dominik Moritz
+Copyright (c) 2014 Dominik Moritz
 
 This file is part of the leaflet locate control. It is licensed under the MIT license.
 You can find the project at: https://github.com/domoritz/leaflet-locatecontrol
@@ -34,6 +34,8 @@ L.Control.Locate = L.Control.extend({
             //color: '#FFA500',
             //fillColor: '#FFB000'
         },
+        icon: 'icon-location',  // icon-location or icon-direction
+        iconLoading: 'icon-spinner animate-spin',
         circlePadding: [0, 0],
         metric: true,
         onLocationError: function(err) {
@@ -41,17 +43,23 @@ L.Control.Locate = L.Control.extend({
             // that is not a time out error.
             alert(err.message);
         },
-        onLocationOutsideMapBounds: function(context) {
+        onLocationOutsideMapBounds: function(control) {
             // this event is repeatedly called when the location changes
+            control.stopLocate();
             alert(context.options.strings.outsideMapBoundsMsg);
         },
         setView: true, // automatically sets the map view to the user's location
+        // keep the current map zoom level when displaying the user's location. (if 'false', use maxZoom)
+        keepCurrentZoomLevel: false,
         strings: {
             title: "Show me where I am",
             popup: "You are within {distance} {unit} from this point",
             outsideMapBoundsMsg: "You seem located outside the boundaries of the map"
         },
-        locateOptions: {}
+        locateOptions: {
+            maxZoom: Infinity,
+            watch: true  // if you overwrite this, visualization cannot be updated
+        }
     },
 
     onAdd: function (map) {
@@ -62,9 +70,7 @@ L.Control.Locate = L.Control.extend({
         this._layer.addTo(map);
         this._event = undefined;
 
-        this._locateOptions = {
-            watch: true  // if you overwrite this, visualization cannot be updated
-        };
+        this._locateOptions = this.options.locateOptions;
         L.extend(this._locateOptions, this.options.locateOptions);
         L.extend(this._locateOptions, {
             setView: false // have to set this to false because we have to
@@ -79,7 +85,7 @@ L.Control.Locate = L.Control.extend({
         L.extend(tmp, this.options.circleStyle, this.options.followCircleStyle);
         this.options.followCircleStyle = tmp;
 
-        var link = L.DomUtil.create('a', 'control-button', container);
+        var link = L.DomUtil.create('a', 'control-button ' + this.options.icon, container);
         link.innerHTML = "<span class='icon geolocate'></span>";
         link.href = '#';
         link.title = this.options.strings.title;
@@ -88,7 +94,7 @@ L.Control.Locate = L.Control.extend({
             .on(link, 'click', L.DomEvent.stopPropagation)
             .on(link, 'click', L.DomEvent.preventDefault)
             .on(link, 'click', function() {
-                if (self._active && (map.getBounds().contains(self._event.latlng) || !self.options.setView ||
+                if (self._active && (self._event === undefined || map.getBounds().contains(self._event.latlng) || !self.options.setView ||
                     isOutsideMapBounds())) {
                     stopLocate();
                 } else {
@@ -109,9 +115,7 @@ L.Control.Locate = L.Control.extend({
                 startFollowing();
             }
             if (!self._event) {
-                L.DomUtil.addClass(self._container, "requesting");
-                L.DomUtil.removeClass(self._container, "active");
-                L.DomUtil.removeClass(self._container, "following");
+                setClasses('requesting');
             } else {
                 visualizeLocation();
             }
@@ -140,7 +144,7 @@ L.Control.Locate = L.Control.extend({
         };
 
         var startFollowing = function() {
-            map.fire('startfollowing');
+            map.fire('startfollowing', self);
             self._following = true;
             if (self.options.stopFollowingOnDrag) {
                 map.on('dragstart', stopFollowing);
@@ -148,7 +152,7 @@ L.Control.Locate = L.Control.extend({
         };
 
         var stopFollowing = function() {
-            map.fire('stopfollowing');
+            map.fire('stopfollowing', self);
             self._following = false;
             if (self.options.stopFollowingOnDrag) {
                 map.off('dragstart', stopFollowing);
@@ -172,7 +176,10 @@ L.Control.Locate = L.Control.extend({
                 if (isOutsideMapBounds()) {
                     self.options.onLocationOutsideMapBounds(self);
                 } else {
-                    map.fitBounds(self._event.bounds, { padding: self.options.circlePadding });
+                    map.fitBounds(self._event.bounds, {
+                        padding: self.options.circlePadding,
+                        maxZoom: self.options.keepCurrentZoomLevel ? map.getZoom() : self._locateOptions.maxZoom
+                    });
                 }
                 self._locateOnNextLocationFound = false;
             }
@@ -231,15 +238,33 @@ L.Control.Locate = L.Control.extend({
             if (!self._container)
                 return;
             if (self._following) {
-                L.DomUtil.removeClass(self._container, "requesting");
-                L.DomUtil.addClass(self._container, "active");
-                L.DomUtil.addClass(self._container, "following");
+                setClasses('following');
             } else {
-                L.DomUtil.removeClass(self._container, "requesting");
-                L.DomUtil.addClass(self._container, "active");
-                L.DomUtil.removeClass(self._container, "following");
+                setClasses('active');
             }
         };
+
+        var setClasses = function(state) {
+            if (state == 'requesting') {
+                L.DomUtil.removeClasses(self._container, "active following");
+                L.DomUtil.addClasses(self._container, "requesting");
+
+                L.DomUtil.removeClasses(link, self.options.icon);
+                L.DomUtil.addClasses(link, self.options.iconLoading);
+            } else if (state == 'active') {
+                L.DomUtil.removeClasses(self._container, "requesting following");
+                L.DomUtil.addClasses(self._container, "active");
+
+                L.DomUtil.removeClasses(link, self.options.iconLoading);
+                L.DomUtil.addClasses(link, self.options.icon);
+            } else if (state == 'following') {
+                L.DomUtil.removeClasses(self._container, "requesting");
+                L.DomUtil.addClasses(self._container, "active following");
+
+                L.DomUtil.removeClasses(link, self.options.iconLoading);
+                L.DomUtil.addClasses(link, self.options.icon);
+            }
+        }
 
         var resetVariables = function() {
             self._active = false;
@@ -252,6 +277,9 @@ L.Control.Locate = L.Control.extend({
         var stopLocate = function() {
             map.stopLocate();
             map.off('dragstart', stopFollowing);
+            if (self.options.follow && self._following) {
+                stopFollowing();
+            }
 
             L.DomUtil.removeClass(self._container, "requesting");
             L.DomUtil.removeClass(self._container, "active");
@@ -265,7 +293,7 @@ L.Control.Locate = L.Control.extend({
 
         var onLocationError = function (err) {
             // ignore time out error if the location is watched
-            if (err.code == 3 && this._locateOptions.watch) {
+            if (err.code == 3 && self._locateOptions.watch) {
                 return;
             }
 
@@ -296,3 +324,17 @@ L.Map.addInitHook(function () {
 L.control.locate = function (options) {
     return new L.Control.Locate(options);
 };
+
+(function(){
+  // leaflet.js raises bug when trying to addClass / removeClass multiple classes at once
+  // Let's create a wrapper on it which fixes it.
+  var LDomUtilApplyClassesMethod = function(method, element, classNames) {
+    classNames = classNames.split(' ');
+    classNames.forEach(function(className) {
+        L.DomUtil[method].call(this, element, className);
+    });
+  };
+
+  L.DomUtil.addClasses = function(el, names) { LDomUtilApplyClassesMethod('addClass', el, names); }
+  L.DomUtil.removeClasses = function(el, names) { LDomUtilApplyClassesMethod('removeClass', el, names); }
+})();

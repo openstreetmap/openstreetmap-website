@@ -26,9 +26,17 @@
       params.background = hashParams.background;
     }
 
+    if (hashParams.comment) {
+      params.comment = hashParams.comment;
+    }
+
+<% if params[:gpx] -%>
+    params.gpx = '<%= trace_data_url(params[:gpx]) %>';
+<% else -%>
     if (hashParams.gpx) {
       params.gpx = hashParams.gpx;
     }
+<% end -%>
 
     $('#id-embed').attr('src', '<%= id_url :locale => params[:locale] %>#' + querystring.stringify(params));
   </script>
