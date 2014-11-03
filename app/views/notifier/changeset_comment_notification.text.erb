@@ -1,0 +1,18 @@
+<%= t 'notifier.changeset_comment_notification.greeting' %>
+
+<% if @owner %>
+  <%= t "notifier.changeset_comment_notification.commented.your_changeset", :commenter => @commenter, :time => @time %>
+<% else %>
+  <%= t "notifier.changeset_comment_notification.commented.commented_changeset", :commenter => @commenter, :time => @time, :changeset_author => @changeset_author %>
+<% end %>
+<% if @changeset_comment %>
+  <%= t "notifier.changeset_comment_notification.commented.partial_changeset_with_comment", :changeset_comment => @changeset_comment %>
+<% else %>
+  <%= t "notifier.changeset_comment_notification.commented.partial_changeset_without_comment" %>
+<% end %>
+
+==
+<%= @comment.to_text %>
+==
+
+<%= t 'notifier.changeset_comment_notification.details', :url => @changeset_url %>

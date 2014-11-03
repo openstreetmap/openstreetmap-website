@@ -1,6 +1,6 @@
 # Messages for Esperanto (Esperanto)
 # Exported from translatewiki.net
-# Export driver: syck-pecl
+# Export driver: phpyaml
 # Author: Airon90
 # Author: Cfoucher
 # Author: KuboF
@@ -14,39 +14,13 @@
 # Author: Tradukisto
 # Author: Umbert'
 # Author: Yekrats
-eo: 
-  activerecord: 
-    attributes: 
-      diary_entry: 
-        language: Lingvo
-        latitude: Latitudo
-        longitude: Longitudo
-        title: Titolo
-        user: Uzanto
-      friend: 
-        friend: Amiko
-        user: Uzanto
-      message: 
-        recipient: Ricevonto
-        sender: Sendinto
-        title: Titolo
-      trace: 
-        description: Priskribo
-        latitude: Latitudo
-        longitude: Longitudo
-        name: Nomo
-        public: Publika
-        size: Grandeco
-        user: Uzanto
-        visible: Videbla
-      user: 
-        active: Aktiva
-        description: Priskribo
-        display_name: Salutnomo
-        email: Retpoŝto
-        languages: Lingvoj
-        pass_crypt: Pasvorto
-    models: 
+---
+eo:
+  time:
+    formats:
+      friendly: '%e %B %Y je %H:%M'
+  activerecord:
+    models:
       acl: Listo de kontrolo de akiroj
       changeset: Ŝanĝaro
       changeset_tag: Etikedo de ŝanĝaro
@@ -74,328 +48,177 @@ eo:
       way: Vojo
       way_node: Vojnodo
       way_tag: Vojetikedo
-  browse: 
-    changeset: 
-      changeset: "Ŝanĝaro: %{id}"
+    attributes:
+      diary_entry:
+        user: Uzanto
+        title: Titolo
+        latitude: Latitudo
+        longitude: Longitudo
+        language: Lingvo
+      friend:
+        user: Uzanto
+        friend: Amiko
+      trace:
+        user: Uzanto
+        visible: Videbla
+        name: Nomo
+        size: Grandeco
+        latitude: Latitudo
+        longitude: Longitudo
+        public: Publika
+        description: Priskribo
+      message:
+        sender: Sendinto
+        title: Titolo
+        recipient: Ricevonto
+      user:
+        email: Retpoŝto
+        active: Aktiva
+        display_name: Salutnomo
+        description: Priskribo
+        languages: Lingvoj
+        pass_crypt: Pasvorto
+  editor:
+    potlatch:
+      name: Potlatch 1
+      description: Potlatch 1 (redaktilo en TTT-legilo)
+    potlatch2:
+      name: Potlatch 2
+      description: Potlatch 2 (redaktilo en TTT-legilo)
+    remote:
+      name: Teleregilo
+  browse:
+    changeset:
+      title: Ŝanĝaro
       changesetxml: Ŝanĝaro XML
-      feed: 
+      osmchangexml: osmŜanĝo XML
+      feed:
         title: Ŝanĝaro %{id}
         title_comment: Ŝanĝaro %{id} - %{comment}
-      osmchangexml: osmŜanĝo XML
-      title: Ŝanĝaro
-    changeset_details: 
-      belongs_to: "Apartenas al:"
-      bounding_box: "Limskatolo:"
-      box: kesto
-      closed_at: Fermita ja
-      created_at: "Kreita je:"
-      has_nodes: 
-        one: "havas tiun %{count} nodon:"
-        other: "havas tiujn %{count} nodojn:"
-      has_relations: 
-        one: "havas tiun %{count} rilaton:"
-        other: "havas tiujn %{count} rilatojn:"
-      has_ways: 
-        one: "havas tiun %{count} vojon:"
-        other: "havas tiujn %{count} vojojn:"
-      no_bounding_box: Neniu limskatolo estis registrita por tiu ŝanĝaro.
-      show_area_box: Montri la skatolon de la areo
-    common_details: 
-      changeset_comment: "Komento:"
-      deleted_at: "Forigita je:"
-      deleted_by: "Forigita fare de:"
-      edited_at: "Redaktita je:"
-      edited_by: "Redaktita de:"
-      in_changeset: "En ŝanĝaro:"
-      version: "Versio:"
-    containing_relation: 
+    relation_member:
+      entry_role: '%{type} %{name} kiel %{role}'
+      type:
+        node: Nodo
+        way: Vojo
+        relation: Rilato
+    containing_relation:
       entry: Rilato %{relation_name}
       entry_role: Rilato %{relation_name} (kiel %{relation_role})
-    map: 
-      deleted: Forviŝita
-      edit: 
-        area: Redakti areon
-        node: Redakti nodon
-        note: Redakti noton
-        relation: Redakti rilaton
-        way: Redakti vojon
-      larger: 
-        area: Vidi la areon en pli granda mapo
-        node: Vidi la nodon en pli granda mapo
-        note: Vidi la noton en pli granda mapo
-        relation: Vidi la rilaton en pli granda mapo
-        way: Vidi la vojon en pli granda mapo
-      loading: Ŝarĝante...
-    navigation: 
-      all: 
-        next_changeset_tooltip: Sekvanta ŝanĝaro
-        next_node_tooltip: Sekva nodo
-        next_note_tooltip: Sekva noto
-        next_relation_tooltip: Sekva rilato
-        next_way_tooltip: Sekva vojo
-        prev_changeset_tooltip: Antaŭa ŝanĝaro
-        prev_node_tooltip: Antaŭa nodo
-        prev_note_tooltip: Antaŭa noto
-        prev_relation_tooltip: Antaŭa rilato
-        prev_way_tooltip: Antaŭa vojo
-      user: 
-        name_changeset_tooltip: Vidi redaktojn el %{user}
-        next_changeset_tooltip: Sekvanta redakto de %{user}
-        prev_changeset_tooltip: Antaŭa redakto de %{user}
-    node: 
-      download_xml: Elŝuti XML
-      edit: Redakti nodon
-      node: Nodo
-      node_title: "Nodo: %{node_name}"
-      view_history: Vidi historion
-    node_details: 
-      coordinates: "Koordinatoj:"
-      part_of: "Parto de:"
-    node_history: 
-      download_xml: Elŝuti XML
-      node_history: Historio de la nodo
-      node_history_title: "Historio de la nodo: %{node_name}"
-      view_details: Vidi detalojn
-    not_found: 
+    not_found:
       sorry: Bedaŭrinde, la %{type} kun id %{id}, ne troveblas.
-      type: 
+      type:
+        node: nodo
+        way: vojo
+        relation: rilato
         changeset: ŝanĝaro
+    timeout:
+      sorry: Bedaŭrinde, la datumoj por la %{type} kun la identigilo %{id} alvenis
+        tro malrapide.
+      type:
         node: nodo
-        relation: rilato
         way: vojo
-    note: 
-      at_by_html: antaŭ %{when} fare de %{user}
-      at_html: antaŭ %{when}
-      closed: "Fermita:"
-      comments: "Komentoj:"
-      description: "Priskribo:"
-      last_modified: Laste ŝanĝita
-      opened: "Malfermita:"
-      title: Noto
-    paging_nav: 
-      of: de
-      showing_page: paĝo
-    redacted: 
-      message_html: Ne eblas montri la version %{version} de tiu ĉi %{type} ĉar ĝi estas redaktita. Vidu %{redaction_link} por pli da detaloj.
+        relation: rilato
+        changeset: ŝanĝaro
+    redacted:
       redaction: Redakto %{id}
-      type: 
+      message_html: Ne eblas montri la version %{version} de tiu ĉi %{type} ĉar ĝi
+        estas redaktita. Vidu %{redaction_link} por pli da detaloj.
+      type:
         node: nodo
-        relation: rilato
         way: vojo
-    relation: 
-      download_xml: Elŝuti XML
-      relation: Rilato
-      relation_title: "Rilato: %{relation_name}"
-      view_history: Vidi historion
-    relation_details: 
-      members: "Anoj:"
-      part_of: "Parto de:"
-    relation_history: 
-      download_xml: Elŝuti XML
-      relation_history: Historio de la rilato
-      relation_history_title: "Historio de la rilato: %{relation_name}"
-      view_details: Vidi detalojn
-    relation_member: 
-      entry_role: "%{type} %{name} kiel %{role}"
-      type: 
-        node: Nodo
-        relation: Rilato
-        way: Vojo
-    start_rjs: 
-      data_frame_title: Datumo
-      data_layer_name: Foliumi mapajn datumojn
-      details: Detaloj
-      edited_by_user_at_timestamp: Redaktita de %{user} je %{timestamp}
-      hide_areas: Kaŝi areojn
-      history_for_feature: Historio por %{feature}
+        relation: rilato
+    start_rjs:
       load_data: Elŝuti datumojn
       loading: Ŝarĝante...
-      manually_select: Mane elektu alian areon
-      object_list: 
-        api: Obteni tiun areon el la API
-        back: Reen al listo de objektoj
-        details: Detaloj
-        heading: Objektlisto
-        history: 
-          type: 
-            node: Nodo %{id}
-            way: Vojo %{id}
-        selected: 
-          type: 
-            node: Nodo %{id}
-            way: Vojo %{id}
-        type: 
-          node: Nodo
-          way: Vojo
-      private_user: privata uzanto
-      show_areas: Montri areojn
-      show_history: Montri Historion
-      unable_to_load_size: "Ne ŝarĝeblas: limskatolo kun dimensio de %{bbox_size} estas tro granda (devas esti malgranda ol %{max_bbox_size})"
-      wait: Atendu...
-      zoom_or_select: Zomu aŭ elektu videndan mapareon
-    tag_details: 
-      tags: "Etikedoj:"
+    tag_details:
+      tags: 'Etikedoj:'
       wikipedia_link: La artikolo %{page} en Vikipedio
-    timeout: 
-      sorry: Bedaŭrinde, la datumoj por la %{type} kun la identigilo %{id} alvenis tro malrapide.
-      type: 
-        changeset: ŝanĝaro
-        node: nodo
-        relation: rilato
-        way: vojo
-    way: 
-      download_xml: Elŝuti XML
-      edit: Redakti vojon
-      view_history: Vidi historion
-      way: Vojo
-      way_title: "Vojo: %{way_name}"
-    way_details: 
-      also_part_of: 
-        one: ankaŭ parto de vojo %{related_ways}
-        other: ankaŭ parto de vojoj %{related_ways}
-      nodes: "Nodoj:"
-      part_of: "Parto de:"
-    way_history: 
-      download_xml: Elŝuti XML
-      view_details: Vidi detalojn
-      way_history: Historio de vojo
-      way_history_title: Historio de vojo
-  changeset: 
-    changeset: 
-      anonymous: Anonima
-      big_area: (granda)
-      no_comment: (nenio)
-      no_edits: (neniaj redaktoj)
-      still_editing: (estas ankoraŭ redaktata)
-    changeset_paging_nav: 
+    note:
+      title: Noto
+      description: 'Priskribo:'
+  changeset:
+    changeset_paging_nav:
+      showing_page: Paĝo %{page}
       next: Sekvanta »
       previous: « Antaŭa
-      showing_page: Paĝo %{page}
-    changesets: 
-      area: Areo
-      comment: Komento
+    changeset:
+      anonymous: Anonima
+      no_edits: (neniaj redaktoj)
+    changesets:
       id: ID
       saved_at: Konservita la
       user: Uzanto
-    list: 
-      description: Foliumi lastajn ŝanĝojn en la mapo
-      description_bbox: Ŝanĝaroj en %{bbox}
-      description_friend: Ŝanĝaroj de viaj amikoj
-      description_nearby: Ŝanĝaroj de proksimaj uzuloj
-      description_user: Ŝanĝaroj de %{user}
-      description_user_bbox: Ŝanĝaroj de %{user} ene de %{bbox}
-      empty_anon_html: Ankoraŭ ne estis redaktoj.
-      empty_user_html: Ŝajne vi ankoraŭ ne redaktis. Por komenci bonvolu konsulti la <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.3'>konsilojn por komencantoj</a>.
-      heading: Ŝanĝaroj
-      heading_bbox: Ŝanĝaroj
-      heading_friend: Ŝanĝaroj
-      heading_nearby: Ŝanĝaroj
-      heading_user: Ŝanĝaroj
-      heading_user_bbox: Ŝanĝaroj
+      comment: Komento
+      area: Areo
+    list:
       title_friend: Ŝanĝaroj de viaj amikoj
       title_nearby: Ŝanĝaroj de proksimaj uzuloj
-    timeout: 
+    timeout:
       sorry: Pardonu; daŭris tro longe kompili la petitan liston de ŝanĝaroj.
-  diary_entry: 
-    diary_comment: 
-      confirm: Konfirmi
-      hide_link: Kaši ĉi tiun komenton
-    diary_entry: 
-      comment_count: 
-        one: "%{count} komento"
-        other: "%{count} komentoj"
-        zero: Sen komentoj
-      confirm: Konfirmi
-      edit_link: Redakti ĉi tiun enskribon
-    edit: 
-      language: "Lingvo:"
-      latitude: "Latitudo:"
-      location: "Loko:"
-      longitude: "Longitudo:"
-      save_button: Konservi
-      use_map_link: uzi mapon
-    list: 
-      newer_entries: Pli novaj enskriboj
-      older_entries: Pli malnovaj enskriboj
+  diary_entry:
+    new:
+      title: Nova taglibra ero
+    list:
       title: Uzantĵurnaloj
       title_friends: Taglibroj de amikoj
       user_title: Ĵurnalo de %{user}
-    new: 
-      title: Nova taglibra ero
-    view: 
+      older_entries: Pli malnovaj enskriboj
+      newer_entries: Pli novaj enskriboj
+    edit:
+      language: 'Lingvo:'
+      location: 'Loko:'
+      latitude: 'Latitudo:'
+      longitude: 'Longitudo:'
+      use_map_link: uzi mapon
+      save_button: Konservi
+    view:
+      title: Uzantĵurnaloj | %{user}
+      user_title: Ĵurnalo de %{user}
       leave_a_comment: Komenti
       login: Ensaluti
       save_button: Konservi
-      title: Uzantĵurnaloj | %{user}
-      user_title: Ĵurnalo de %{user}
-  editor: 
-    potlatch: 
-      description: Potlatch 1 (redaktilo en TTT-legilo)
-      name: Potlatch 1
-    potlatch2: 
-      description: Potlatch 2 (redaktilo en TTT-legilo)
-      name: Potlatch 2
-    remote: 
-      name: Teleregilo
-  export: 
-    start: 
-      add_marker: Aldoni markon al la mapo
+    diary_entry:
+      comment_count:
+        one: '%{count} komento'
+        zero: Sen komentoj
+        other: '%{count} komentoj'
+      edit_link: Redakti ĉi tiun enskribon
+      confirm: Konfirmi
+    diary_comment:
+      hide_link: Kaši ĉi tiun komenton
+      confirm: Konfirmi
+  export:
+    start:
       area_to_export: Eksportonta areo
-      export_button: Eksporti
-      format: Formato
+      manually_select: Mane elekti alian aeron.
       format_to_export: Formato por Eksportado
-      image_size: Bildamplekso
-      latitude: "Lat:"
-      licence: Permesilo
-      longitude: "Lon:"
-      manually_select: Mane elekti alian aeron.
-      max: maks
-      options: Opcioj
       osm_xml_data: XML datumoj de OpenStreetMap
-      output: Eliro
+      licence: Permesilo
+      options: Opcioj
+      format: Formato
       scale: Skalo
+      max: maks
+      image_size: Bildamplekso
       zoom: Zomi
-    start_rjs: 
       add_marker: Aldoni markon al la mapo
-      change_marker: Ŝanĝi lokon de la marko.
-      click_add_marker: Kliku al la mapo por aldoni markon
-      export: Eksporti
-      manually_select: Mane elekti alian aeron.
-  geocoder: 
-    description: 
-      title: 
-        geonames: Loko el <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim: Loko el <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
-      types: 
-        cities: Grandurboj
-        places: Lokoj
-        towns: Urboj
-    direction: 
-      east: oriento
-      north: nordo
-      north_east: nordoriento
-      north_west: nordokcidento
-      south: sudo
-      south_east: sudoriento
-      south_west: sudokcidento
-      west: okcidento
-    distance: 
-      one: ĉirkaŭ 1km
-      other: ĉirkaŭ %{count}km
-      zero: malpi ol 1km
-    results: 
-      no_results: Neniu rezulto trovita
-    search: 
-      title: 
-        ca_postcode: Rezultoj el <a href="http://geocoder.ca/">Geocoder.CA</a>
-        geonames: Rezultoj el <a href="http://www.geonames.org/">GeoNames</a>
+      latitude: 'Lat:'
+      longitude: 'Lon:'
+      output: Eliro
+      export_button: Eksporti
+  geocoder:
+    search:
+      title:
         latlon: Rezultoj el <a href="http://openstreetmap.org/">Internal</a>
-        osm_nominatim: Rezultoj el <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
-        uk_postcode: Rezultoj el <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Rezultoj el <a href="http://geocoder.us/">Geocoder.us</a>
-    search_osm_nominatim: 
-      prefix: 
-        amenity: 
+        uk_postcode: Rezultoj el <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
+          Postcode</a>
+        ca_postcode: Rezultoj el <a href="http://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim: Rezultoj el <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
+        geonames: Rezultoj el <a href="http://www.geonames.org/">GeoNames</a>
+    search_osm_nominatim:
+      prefix:
+        amenity:
           bank: Banko
           bar: Bufedo
           bus_station: Bus-stacio
@@ -426,30 +249,30 @@ eo:
           theatre: Teatro
           university: Universitato
           wifi: WiFi-atingo
-        boundary: 
+        boundary:
           national_park: Nacia parko
-        bridge: 
+        bridge:
           aqueduct: Akvedukto
           viaduct: Viadukto
           "yes": Ponto
-        building: 
+        building:
           "yes": Konstruaĵo
-        highway: 
+        highway:
           bus_stop: Bus-haltejo
           path: Vojo
           primary_link: Strato de unua ordo
           road: Vojo
-        historic: 
+        historic:
           house: Domo
           monument: Monumento
           museum: Muzeo
           tower: Turo
-        landuse: 
+        landuse:
           mine: Minejo
           park: Parko
           railway: Fervojo
           wood: Arbaro
-        natural: 
+        natural:
           fjord: Fjordo
           forest: Arbaro
           hill: Monteto
@@ -459,7 +282,7 @@ eo:
           tree: Arbo
           volcano: Vulkano
           water: Akvo
-        place: 
+        place:
           city: Urbego
           country: Lando
           farm: Farmobieno
@@ -469,423 +292,451 @@ eo:
           sea: Maro
           state: Ŝtato
           town: Urbo
-        railway: 
+        railway:
           tram: Tramlinio
           tram_stop: Tram-haltejo
-        shop: 
+        shop:
           books: Libro-vendejo
           computer: Komputil-vendejo
           hifi: Hi-Fi
           music: Muzik-vendejo
-        tourism: 
+        tourism:
           museum: Muzeo
-  layouts: 
-    donate: Subtenu OpenStreetMap %{link} al Fonduso de Ĝisdatigo de Aparataro.
-    donate_link_text: donacante
-    edit: Redakti
-    gps_traces: GPS spuroj
-    gps_traces_tooltip: Manipuli la GPS-spurojn
-    history: Historio
+    description:
+      title:
+        osm_nominatim: Loko el <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
+        geonames: Loko el <a href="http://www.geonames.org/">GeoNames</a>
+      types:
+        cities: Grandurboj
+        towns: Urboj
+        places: Lokoj
+    results:
+      no_results: Neniu rezulto trovita
+    distance:
+      one: ĉirkaŭ 1km
+      zero: malpi ol 1km
+      other: ĉirkaŭ %{count}km
+    direction:
+      south_west: sudokcidento
+      south: sudo
+      south_east: sudoriento
+      east: oriento
+      north_east: nordoriento
+      north: nordo
+      north_west: nordokcidento
+      west: okcidento
+  layouts:
+    logo:
+      alt_text: Emblemo de OpenStreetMap
     home: hejmo
+    logout: elsaluti
     log_in: ensaluti
     log_in_tooltip: Ensaluti kun ekzistanta konto
-    logo: 
-      alt_text: Emblemo de OpenStreetMap
-    logout: elsaluti
-    make_a_donation: 
-      text: Donaci
-      title: Subteni OpenStreetMap per mondonaco
     sign_up: aliĝi
     sign_up_tooltip: Krei konton por redaktado
-    tag_line: La libera vikia mondmapo
+    edit: Redakti
+    history: Historio
+    export: Eksporti
+    gps_traces: GPS spuroj
+    gps_traces_tooltip: Manipuli la GPS-spurojn
     user_diaries: Uzantĵurnaloj
     user_diaries_tooltip: Vidi uzantĵurnalojn
-    view: Vidi
-    view_tooltip: Vidi la mapon
-  license_page: 
-    foreign: 
+    tag_line: La libera vikia mondmapo
+    donate: Subtenu OpenStreetMap %{link} al Fonduso de Ĝisdatigo de Aparataro.
+    make_a_donation:
+      title: Subteni OpenStreetMap per mondonaco
+      text: Donaci
+  license_page:
+    foreign:
       title: Pri ĉi tiu traduko
-  message: 
-    delete: 
-      deleted: Mesaĝo forigita
-    inbox: 
-      date: Dato
-      from: De
-      my_inbox: Mia leterkesto
-      title: Alvenkesto
-    mark: 
-      as_read: Mesaĝo markita kiel legita
-      as_unread: Mesaĝo markita kiel nelegita
-    message_summary: 
-      delete_button: Forigi
-      read_button: Marki kiel legita
-      reply_button: Respondi
-      unread_button: Marki kiel nelegita
-    new: 
-      back_to_inbox: Reen al mesaĝejo
-      message_sent: Mesaĝo sendita
-      send_button: Sendi
-      send_message_to: Sendi novan mesaĝon al %{name}
-      title: Sendi mesaĝon
-    outbox: 
-      date: Dato
-      inbox: Alvenkesto
-      my_inbox: Mia %{inbox_link}
-      subject: Temo
-      to: Al
-    read: 
-      date: Dato
-      from: De
-      reply_button: Respondi
-      subject: Temo
-      title: Legi mesaĝon
-      to: Al
-      unread_button: Marki kiel nelegita
-    sent_message_summary: 
-      delete_button: Forigi
-  note: 
-    mine: 
-      description: Priskribo
-  notifier: 
-    diary_comment_notification: 
+  notifier:
+    diary_comment_notification:
       hi: Saluton %{to_user},
-    email_confirm: 
-      subject: "[OpenStreetMap] Konfirmi vian retpoŝtadreson"
-    email_confirm_html: 
-      greeting: Saluton,
-    email_confirm_plain: 
-      greeting: Saluton,
-    friend_notification: 
-      subject: "[OpenStreetMap] %{user} aldonis vin kiel amikon"
-    gpx_notification: 
+    message_notification:
+      hi: Saluton %{to_user},
+    friend_notification:
+      subject: '[OpenStreetMap] %{user} aldonis vin kiel amikon'
+    gpx_notification:
       greeting: Saluton,
       with_description: kun la priskribo
-    lost_password_html: 
+    email_confirm:
+      subject: '[OpenStreetMap] Konfirmi vian retpoŝtadreson'
+    email_confirm_plain:
       greeting: Saluton,
-    lost_password_plain: 
+    email_confirm_html:
       greeting: Saluton,
-    message_notification: 
-      hi: Saluton %{to_user},
-  oauth_clients: 
-    edit: 
-      submit: Redakti
-      title: Redakti vian aplikaĵon
-    form: 
-      name: Nomo
-      required: Necesa
-      support_url: Subtena URL
-      url: URL de ĉefaplikaĵo
-    index: 
-      application: Aplikaĵa nomo
-      issued_at: Eldonita la
-      register_new: Registri vian aplikaĵon
-      title: Miaj detaloj OAuth
-    new: 
-      submit: Registri
-      title: Registri novan aplikaĵon
-    show: 
-      edit: Redakti detalojn
-      title: OAuth-detaloj por %{app_name}
-  redaction: 
-    edit: 
-      description: Priskribo
-    new: 
-      description: Priskribo
-    show: 
-      description: "Priskribo:"
-  site: 
-    edit: 
+    lost_password_plain:
+      greeting: Saluton,
+    lost_password_html:
+      greeting: Saluton,
+  message:
+    inbox:
+      title: Alvenkesto
+      my_inbox: Mia leterkesto
+      from: De
+      date: Dato
+    message_summary:
+      unread_button: Marki kiel nelegita
+      read_button: Marki kiel legita
+      reply_button: Respondi
+      delete_button: Forigi
+    new:
+      title: Sendi mesaĝon
+      send_message_to: Sendi novan mesaĝon al %{name}
+      send_button: Sendi
+      back_to_inbox: Reen al mesaĝejo
+      message_sent: Mesaĝo sendita
+    outbox:
+      my_inbox: Mia %{inbox_link}
+      inbox: Alvenkesto
+      to: Al
+      subject: Temo
+      date: Dato
+    read:
+      title: Legi mesaĝon
+      from: De
+      subject: Temo
+      date: Dato
+      reply_button: Respondi
+      unread_button: Marki kiel nelegita
+      to: Al
+    sent_message_summary:
+      delete_button: Forigi
+    mark:
+      as_read: Mesaĝo markita kiel legita
+      as_unread: Mesaĝo markita kiel nelegita
+    delete:
+      deleted: Mesaĝo forigita
+  site:
+    edit:
       user_page_link: uzantpaĝo
-    key: 
-      table: 
-        entry: 
-          admin: Administra limo
-          allotments: Publikaj ĝardenoj
-          building: Grava konstruaĵo
-          byway: Flanka strato
-          cable: 
-            1: seĝtelfero
-          cemetery: Tombejo
-          common: 
-            - herbejo
-            - herbejo
-          cycleway: Bicikla vojo
-          destination: Nur por lokaj loĝantoj
-          farm: Farmobieno
-          footway: Trotuaro
-          forest: Forsto
-          golf: Golfejo
-          heathland: Erikejo
-          industrial: Industria areo
-          lake: 
-            - Lago
-            - akvorezervujo
-          military: Milita areo
-          motorway: Aŭtovojo
-          park: Parko
-          primary: Strato de unua ordo
-          rail: Fervojo
-          reserve: Naturrezervejo
-          resident: Loĝkvartalo
-          retail: Butikcentro
-          school: 
-            - Lernejo
-            - universitato
-          secondary: Strato de dua ordo
-          station: Stacidomo
-          subway: Subtera fervojo
-          summit: 
-            - Montosupro
-            - montopinto
-          tourist: Turista atrakcio
-          track: Spuro
-          tram: 
-            - tramo
-            - tramo
-          wood: Arbaro
-    markdown_help: 
-      image: Bildo
-      text: Teksto
-    search: 
-      search: Serĉi
-      search_help: "ekzemploj: 'Alkmaar', 'Regent Street, Cambridge', 'CB2 5AQ' aŭ 'poŝtoficejoj proksime de Lünen' <a href='http://wiki.openstreetmap.org/wiki/Search'>pliaj ekzemploj...</a>"
-      submit_text: Ek
-      where_am_i: Kie mi estas?
-    sidebar: 
-      close: Fermi
+    sidebar:
       search_results: Serĉrezultoj
-  time: 
-    formats: 
-      friendly: "%e %B %Y je %H:%M"
-  trace: 
-    create: 
-      trace_uploaded: Via GPX dosiero estis alŝutita kaj atendas enkonduko en la datumbason. Tiu ĝenerale okazas antaŭ duonhoro, kaj retletero estos sendita al vi je finaĵo.
-      upload_trace: Alŝuti GPS spuron
-    delete: 
-      scheduled_for_deletion: Spuro forviŝota
-    edit: 
-      description: "Priskribo:"
-      download: elŝuti
-      edit: redakti
-      filename: "Dosiernomo:"
-      heading: Redaktanta spuron %{name}
-      map: mapo
-      owner: "Posedanto:"
-      points: "Punktoj:"
-      save_button: Konservi Ŝanĝojn
-      start_coord: "Komencaj koordinatoj:"
-      tags: "Etikedoj:"
-      tags_help: dislimataj de komoj
-      title: Redaktante spuron %{name}
-      uploaded_at: "Alŝutita je:"
-      visibility: "Videbleco:"
-      visibility_help: Kion tio signifas ?
-    list: 
-      public_traces: Publikaj GPS spuroj
-      public_traces_from: Publikaj GPS spuroj el %{user}
-      tagged_with: "  etikedata kun %{tags}"
-      your_traces: Viaj GPS spuroj
-    make_public: 
-      made_public: Publikigita spuro
-    trace: 
-      ago: Antaŭ  %{time_in_words_ago}
-      by: de
-      count_points: "%{count} punktoj"
-      edit: redakti
-      edit_map: Redakti Mapon
-      in: en
-      map: mapo
-      more: pli
-      pending: OKAZANTA
-      private: PRIVATA
-      public: PUBLIKA
-      trace_details: Vidi detalojn de spuro
-      view_map: Vidi Mapon
-    trace_form: 
-      description: "Priskribo:"
-      help: Helpo
-      tags: "Etikedoj:"
-      tags_help: dislimataj de komoj
-      upload_button: Alŝuti
-      upload_gpx: "Alŝuti GPX dosieron:"
-      visibility: "Videbleco:"
-      visibility_help: Kion tio signifas ?
-    trace_header: 
-      see_all_traces: Vidi ĉiujn spurojn
-      see_your_traces: Vidi ĉiujn viajn spurojn
-      traces_waiting: Vi havas %{count} spurojn atendanta alŝutado. Bonvolu konsideri atendi ke ili terminas alŝuti antaŭ alŝuti aliajn. Tiel vi ne blokus la atendovicon por aliaj uzantoj.
-    trace_optionals: 
-      tags: Etikedoj
-    view: 
-      delete_track: Forviŝi tiun spuron
-      description: "Priskribo:"
-      download: elŝuti
-      edit: redakti
-      edit_track: Redakti tiun spuron
-      filename: "Dosiernomo:"
-      heading: Montrante spuron %{name}
-      map: mapo
-      none: Neniu
-      owner: "Posedanto:"
-      pending: OKAZANTA
-      points: "Punktoj:"
-      start_coordinates: "Komencaj koordinatoj:"
-      tags: "Etikedoj:"
-      title: Montrante spuron %{name}
-      trace_not_found: Spuro ne trovebla!
-      uploaded: "Alŝutita je:"
-      visibility: "Videbleco:"
-    visibility: 
-      identifiable: Identigebla (montrata en spurlisto kaj kiel identigeblaj, ordigitaj punktoj kun tempstampo)
+      close: Fermi
+    search:
+      search: Serĉi
+      where_am_i: Kie mi estas?
+      submit_text: Ek
+    key:
+      table:
+        entry:
+          motorway: Aŭtovojo
+          primary: Strato de unua ordo
+          secondary: Strato de dua ordo
+          track: Spuro
+          byway: Flanka strato
+          cycleway: Bicikla vojo
+          footway: Trotuaro
+          rail: Fervojo
+          subway: Subtera fervojo
+          tram:
+          - tramo
+          - tramo
+          cable:
+            1: seĝtelfero
+          admin: Administra limo
+          forest: Forsto
+          wood: Arbaro
+          golf: Golfejo
+          park: Parko
+          resident: Loĝkvartalo
+          tourist: Turista atrakcio
+          common:
+          - herbejo
+          - herbejo
+          retail: Butikcentro
+          industrial: Industria areo
+          heathland: Erikejo
+          lake:
+          - Lago
+          - akvorezervujo
+          farm: Farmobieno
+          cemetery: Tombejo
+          allotments: Publikaj ĝardenoj
+          reserve: Naturrezervejo
+          military: Milita areo
+          school:
+          - Lernejo
+          - universitato
+          building: Grava konstruaĵo
+          station: Stacidomo
+          summit:
+          - Montosupro
+          - montopinto
+          destination: Nur por lokaj loĝantoj
+    markdown_help:
+      text: Teksto
+      image: Bildo
+  trace:
+    visibility:
       private: Privata (nur partigita kiel sennomaj, neordigitaj punktoj)
       public: Publika (montrata en spurlisto kaj kiel sennomaj, neordigitaj punktoj)
       trackable: Spurebla (nur partigita kiel sennomaj, ordigitaj punktoj kun tempstampoj)
-  user: 
-    account: 
-      email never displayed publicly: (neniam publike montrita)
-      flash update success: Uzantinformoj sukcese freŝigitaj.
-      flash update success confirm needed: Uzantinformoj sukcese freŝigitaj. Kontrolu vian retpoŝtilon por iu mesaĝo kiu konfirmos vian novan retadreso.
-      home location: "Hejma Loko:"
-      latitude: "Latitudo:"
-      longitude: "Longitudo:"
-      make edits public button: Publikigu ĉiujn miajn redaktojn.
+      identifiable: Identigebla (montrata en spurlisto kaj kiel identigeblaj, ordigitaj
+        punktoj kun tempstampo)
+    create:
+      upload_trace: Alŝuti GPS spuron
+      trace_uploaded: Via GPX dosiero estis alŝutita kaj atendas enkonduko en la datumbason.
+        Tiu ĝenerale okazas antaŭ duonhoro, kaj retletero estos sendita al vi je finaĵo.
+    edit:
+      title: Redaktante spuron %{name}
+      heading: Redaktanta spuron %{name}
+      filename: 'Dosiernomo:'
+      download: elŝuti
+      uploaded_at: 'Alŝutita je:'
+      points: 'Punktoj:'
+      start_coord: 'Komencaj koordinatoj:'
+      map: mapo
+      edit: redakti
+      owner: 'Posedanto:'
+      description: 'Priskribo:'
+      tags: 'Etikedoj:'
+      tags_help: dislimataj de komoj
+      save_button: Konservi Ŝanĝojn
+      visibility: 'Videbleco:'
+      visibility_help: Kion tio signifas ?
+    trace_form:
+      upload_gpx: 'Alŝuti GPX dosieron:'
+      description: 'Priskribo:'
+      tags: 'Etikedoj:'
+      tags_help: dislimataj de komoj
+      visibility: 'Videbleco:'
+      visibility_help: Kion tio signifas ?
+      upload_button: Alŝuti
+      help: Helpo
+    trace_header:
+      see_all_traces: Vidi ĉiujn spurojn
+      see_your_traces: Vidi ĉiujn viajn spurojn
+      traces_waiting: Vi havas %{count} spurojn atendanta alŝutado. Bonvolu konsideri
+        atendi ke ili terminas alŝuti antaŭ alŝuti aliajn. Tiel vi ne blokus la atendovicon
+        por aliaj uzantoj.
+    trace_optionals:
+      tags: Etikedoj
+    view:
+      title: Montrante spuron %{name}
+      heading: Montrante spuron %{name}
+      pending: OKAZANTA
+      filename: 'Dosiernomo:'
+      download: elŝuti
+      uploaded: 'Alŝutita je:'
+      points: 'Punktoj:'
+      start_coordinates: 'Komencaj koordinatoj:'
+      map: mapo
+      edit: redakti
+      owner: 'Posedanto:'
+      description: 'Priskribo:'
+      tags: 'Etikedoj:'
+      none: Neniu
+      edit_track: Redakti tiun spuron
+      delete_track: Forviŝi tiun spuron
+      trace_not_found: Spuro ne trovebla!
+      visibility: 'Videbleco:'
+    trace:
+      pending: OKAZANTA
+      count_points: '%{count} punktoj'
+      ago: Antaŭ  %{time_in_words_ago}
+      more: pli
+      trace_details: Vidi detalojn de spuro
+      view_map: Vidi Mapon
+      edit: redakti
+      edit_map: Redakti Mapon
+      public: PUBLIKA
+      private: PRIVATA
+      by: de
+      in: en
+      map: mapo
+    list:
+      public_traces: Publikaj GPS spuroj
+      your_traces: Viaj GPS spuroj
+      public_traces_from: Publikaj GPS spuroj el %{user}
+      tagged_with: '  etikedata kun %{tags}'
+    delete:
+      scheduled_for_deletion: Spuro forviŝota
+    make_public:
+      made_public: Publikigita spuro
+  oauth_clients:
+    new:
+      title: Registri novan aplikaĵon
+      submit: Registri
+    edit:
+      title: Redakti vian aplikaĵon
+      submit: Redakti
+    show:
+      title: OAuth-detaloj por %{app_name}
+      edit: Redakti detalojn
+    index:
+      title: Miaj detaloj OAuth
+      application: Aplikaĵa nomo
+      issued_at: Eldonita la
+      register_new: Registri vian aplikaĵon
+    form:
+      name: Nomo
+      required: Necesa
+      url: URL de ĉefaplikaĵo
+      support_url: Subtena URL
+  user:
+    login:
+      title: Ensaluti
+      heading: Ensaluti
+      email or username: 'Retpoŝtadreso aŭ Salutnomo:'
+      password: 'Pasvorto:'
+      remember: 'Memori min:'
+      lost password link: Ĉu vi forgesis vian pasvorton ?
+      login_button: Ensaluti
+    lost_password:
+      title: Perdita pasvorto
+      heading: Forgesis vian pasvorton ?
+      email address: 'Retpoŝtadreso:'
+      new password button: Nuligi pasvorton
+      notice email cannot find: Bedaŭrinde, tiu retadreso ne troveblas.
+    reset_password:
+      title: Nuligi pasvorton
+      heading: Nuligi Pasvorton por %{user}
+      password: 'Pasvorto:'
+      confirm password: 'Konfirmi Pasvorton:'
+      reset: Nuligi Pasvorton
+      flash changed: Via pasvorto estis ŝanĝita.
+      flash token bad: Netrovebla ĵetono, bonvolu kontroli la URLon.
+    new:
+      title: Krei konton
+      no_auto_account_create: Bedaŭrinde ni nun ne povas aŭtomate krei konton por
+        vi.
+      email address: 'Retpoŝtadreso:'
+      confirm email address: 'Konfirmi retpoŝtadreson:'
+      display name: 'Montrita Nomo:'
+      password: 'Pasvorto:'
+      confirm password: 'Konfirmi Pasvorton:'
+      continue: Pli...
+    no_such_user:
+      title: Neniu tiel uzanto
+      heading: La uzanto %{user} ne ekzistas
+    view:
+      my diary: mia ĵurnalo
+      new diary entry: nova ĵurnalrikordo
+      my edits: miaj redaktoj
+      my traces: miaj spuroj
+      my settings: miaj agordoj
+      blocks on me: blokas min
+      send message: sendi mesaĝon
+      diary: ĵurnalo
+      edits: redaktoj
+      traces: spuroj
+      remove as friend: eksamikigi
+      add as friend: aldoni kiel amikon
+      mapper since: 'Mapisto ekde:'
+      ago: (antaŭ %{time_in_words_ago})
+      email address: 'Retpoŝtadreso:'
+      created from: 'Kreita de:'
+      description: Priskribo
+      user location: Loko de uzanto
+      settings_link_text: agordoj
+      your friends: Viaj amikoj
+      no friends: Vi jam ne aldonis neniun amikon.
+      km away: '%{count} km for'
+      m away: '%{count} m for'
+      nearby users: 'Pliaj proksimaj uzantoj:'
+      role:
+        administrator: Ĉi tiu uzanto estas administranto
+        moderator: Ĉi tiu uzanto estas kontrolanto
+      create_block: Bloki la uzanton
+      activate_user: ebligi tiun uzanto
+      deactivate_user: malebligi tiun uzanto
+      hide_user: kaŝi tiun uzanto
+      unhide_user: aperigi tiun uzanto
+      delete_user: forviŝi ĉi tiun uzanton
+      confirm: Konfirmi
+    popup:
+      your location: Via loko
+      nearby mapper: Proksima uzanto
+    account:
+      title: Redakti konton
       my settings: Miaj agordoj
-      no home location: Vi ne enigis vian hejmlokon.
-      preferred languages: "Preferataj Lingvoj:"
-      profile description: "Priskribo de profilo:"
-      public editing: 
-        disabled: Malebligita kaj ne rajtas redakti, ĉiuj antaŭaj redaktoj naŭ estas publikaj.
-        disabled link text: kial mi ne povas redakti?
+      email never displayed publicly: (neniam publike montrita)
+      public editing:
+        heading: 'Publika redaktado:'
         enabled: Ebligita. Ne anonima kaj rajtas redakti.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: Kio estas tio ?
-        heading: "Publika redaktado:"
-      public editing note: 
+        disabled: Malebligita kaj ne rajtas redakti, ĉiuj antaŭaj redaktoj naŭ estas
+          publikaj.
+        disabled link text: kial mi ne povas redakti?
+      public editing note:
         heading: Publika redaktado
-      return to profile: Reen al profilo
+      profile description: 'Priskribo de profilo:'
+      preferred languages: 'Preferataj Lingvoj:'
+      home location: 'Hejma Loko:'
+      no home location: Vi ne enigis vian hejmlokon.
+      latitude: 'Latitudo:'
+      longitude: 'Longitudo:'
+      update home location on click: Freŝigi la hejmlokon kiam mi klikas sur la mapo
+        ?
       save changes button: Konservi Ŝanĝojn
-      title: Redakti konton
-      update home location on click: Freŝigi la hejmlokon kiam mi klikas sur la mapo ?
-    confirm: 
-      button: Konfirmi
+      make edits public button: Publikigu ĉiujn miajn redaktojn.
+      return to profile: Reen al profilo
+      flash update success confirm needed: Uzantinformoj sukcese freŝigitaj. Kontrolu
+        vian retpoŝtilon por iu mesaĝo kiu konfirmos vian novan retadreso.
+      flash update success: Uzantinformoj sukcese freŝigitaj.
+    confirm:
       heading: Konfirmi uzantan konton
       press confirm button: Premu la konfirmbutonon sube por aktivigi vian konton.
-    confirm_email: 
       button: Konfirmi
-      failure: Retadreso jam estis konfirmita per tiu ĵetono.
+    confirm_email:
       heading: Konfirmi ŝanĝon de retadreso.
       press confirm button: Premu la butonon sube por konfirmi vian novan retadreson.
+      button: Konfirmi
       success: Via retadreso estis konfirmita, dankon pro registriĝo.
-    filter: 
-      not_an_administrator: Vi devas esti administristo por fari tion.
-    go_public: 
-      flash success: Ĉiuj viaj redaktoj naŭ estas publikaj, kaj vi naŭ rajtas redakti.
-    login: 
-      email or username: "Retpoŝtadreso aŭ Salutnomo:"
-      heading: Ensaluti
-      login_button: Ensaluti
-      lost password link: Ĉu vi forgesis vian pasvorton ?
-      password: "Pasvorto:"
-      remember: "Memori min:"
-      title: Ensaluti
-    lost_password: 
-      email address: "Retpoŝtadreso:"
-      heading: Forgesis vian pasvorton ?
-      new password button: Nuligi pasvorton
-      notice email cannot find: Bedaŭrinde, tiu retadreso ne troveblas.
-      title: Perdita pasvorto
-    make_friend: 
-      already_a_friend: Vi jam estas amiko de %{name}.
-      failed: Bedaŭrinde, malsukcesis aldoni %{name} kiel amiko.
-      success: "%{name} nun estas via amiko."
-    new: 
-      confirm email address: "Konfirmi retpoŝtadreson:"
-      confirm password: "Konfirmi Pasvorton:"
-      continue: Pli...
-      display name: "Montrita Nomo:"
-      email address: "Retpoŝtadreso:"
-      no_auto_account_create: Bedaŭrinde ni nun ne povas aŭtomate krei konton por vi.
-      password: "Pasvorto:"
-      title: Krei konton
-    no_such_user: 
-      heading: La uzanto %{user} ne ekzistas
-      title: Neniu tiel uzanto
-    popup: 
-      nearby mapper: Proksima uzanto
-      your location: Via loko
-    remove_friend: 
-      not_a_friend: "%{name} ne estas amiko via."
-      success: "%{name} estis forviŝita el viaj amikoj."
-    reset_password: 
-      confirm password: "Konfirmi Pasvorton:"
-      flash changed: Via pasvorto estis ŝanĝita.
-      flash token bad: Netrovebla ĵetono, bonvolu kontroli la URLon.
-      heading: Nuligi Pasvorton por %{user}
-      password: "Pasvorto:"
-      reset: Nuligi Pasvorton
-      title: Nuligi pasvorton
-    set_home: 
+      failure: Retadreso jam estis konfirmita per tiu ĵetono.
+    set_home:
       flash success: Hejma loko sukcese konservita
-    view: 
-      activate_user: ebligi tiun uzanto
-      add as friend: aldoni kiel amikon
-      ago: (antaŭ %{time_in_words_ago})
-      blocks on me: blokas min
-      confirm: Konfirmi
-      create_block: Bloki la uzanton
-      created from: "Kreita de:"
-      deactivate_user: malebligi tiun uzanto
-      delete_user: forviŝi ĉi tiun uzanton
-      description: Priskribo
-      diary: ĵurnalo
-      edits: redaktoj
-      email address: "Retpoŝtadreso:"
-      hide_user: kaŝi tiun uzanto
-      km away: "%{count} km for"
-      m away: "%{count} m for"
-      mapper since: "Mapisto ekde:"
-      my diary: mia ĵurnalo
-      my edits: miaj redaktoj
-      my settings: miaj agordoj
-      my traces: miaj spuroj
-      nearby users: "Pliaj proksimaj uzantoj:"
-      new diary entry: nova ĵurnalrikordo
-      no friends: Vi jam ne aldonis neniun amikon.
-      remove as friend: eksamikigi
-      role: 
-        administrator: Ĉi tiu uzanto estas administranto
-        moderator: Ĉi tiu uzanto estas kontrolanto
-      send message: sendi mesaĝon
-      settings_link_text: agordoj
-      traces: spuroj
-      unhide_user: aperigi tiun uzanto
-      user location: Loko de uzanto
-      your friends: Viaj amikoj
-  user_block: 
-    helper: 
-      time_future: Finiĝos %{time}.
-      time_past: Finiĝis antaŭ %{time}
-    partial: 
-      creator_name: Kreinto
-      edit: Redakti
-      show: Montri
-      status: Stato
-    period: 
-      one: 1 horo
-      other: "%{count} horoj"
-    show: 
-      edit: Redakti
-      show: Montri
-      status: Stato
-      time_future: Finiĝas %{time}
-      time_past: Finiĝis antaŭ %{time}
-  user_role: 
-    filter: 
+    go_public:
+      flash success: Ĉiuj viaj redaktoj naŭ estas publikaj, kaj vi naŭ rajtas redakti.
+    make_friend:
+      success: '%{name} nun estas via amiko.'
+      failed: Bedaŭrinde, malsukcesis aldoni %{name} kiel amiko.
+      already_a_friend: Vi jam estas amiko de %{name}.
+    remove_friend:
+      success: '%{name} estis forviŝita el viaj amikoj.'
+      not_a_friend: '%{name} ne estas amiko via.'
+    filter:
+      not_an_administrator: Vi devas esti administristo por fari tion.
+  user_role:
+    filter:
+      not_an_administrator: Nur administrantoj eblas ŝanĝi uzantrolojn, kaj vi ne
+        estas administranto.
+      not_a_role: La ĉeno `%{role}' ne estas valida rolo.
       already_has_role: La uzanto jam rolas %{role}.
       doesnt_have_role: La uzanto ne rolas %{role}.
-      not_a_role: La ĉeno `%{role}' ne estas valida rolo.
-      not_an_administrator: Nur administrantoj eblas ŝanĝi uzantrolojn, kaj vi ne estas administranto.
-    grant: 
+    grant:
       confirm: Konfirmi
-    revoke: 
+    revoke:
       confirm: Konfirmi
+  user_block:
+    period:
+      one: 1 horo
+      other: '%{count} horoj'
+    partial:
+      show: Montri
+      edit: Redakti
+      creator_name: Kreinto
+      status: Stato
+    helper:
+      time_future: Finiĝos %{time}.
+      time_past: Finiĝis antaŭ %{time}
+    show:
+      time_future: Finiĝas %{time}
+      time_past: Finiĝis antaŭ %{time}
+      status: Stato
+      show: Montri
+      edit: Redakti
+  note:
+    mine:
+      description: Priskribo
+  redaction:
+    edit:
+      description: Priskribo
+    new:
+      description: Priskribo
+    show:
+      description: 'Priskribo:'
+...

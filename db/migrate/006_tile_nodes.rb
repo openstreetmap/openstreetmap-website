@@ -19,7 +19,7 @@ class TileNodes < ActiveRecord::Migration
       FROM #{from_table}
       END_SQL
 
-      model.find(:all).each do |n|
+      model.all.each do |n|
         n.save!
       end
     end

@@ -100,7 +100,8 @@ L.LocationFilter = L.Class.extend({
         },
         adjustButton: {
             text: "Select area within current zoom"
-        }
+        },
+        buttonPosition: 'topleft'
     },
 
     initialize: function(options) {
@@ -468,7 +469,10 @@ L.LocationFilter = L.Class.extend({
        toggles the location filter */
     _initializeButtonContainer: function() {
         var that = this;
-        this._buttonContainer = new L.Control.ButtonContainer({className: "location-filter button-container"});
+        this._buttonContainer = new L.Control.ButtonContainer({
+	    className: "location-filter button-container",
+	    position: this.options.buttonPosition
+	});
 
         if (this.options.enableButton) {
             this._enableButton = new L.Control.Button({

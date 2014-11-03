@@ -15,11 +15,11 @@ puts "<h2>OpenStreetMap stats report run at #{start_time.to_s}</h2>"
 
 begin
   ActiveRecord::Base.transaction do
-    user_count = User.count(:conditions => { :status => ["active", "confirmed", "suspended"] })
-    tracepoint_count = Tracepoint.count()
-    node_count = Node.count(:conditions => "visible = true")
-    way_count = Way.count(:conditions => "visible = true")
-    relation_count = Relation.count(:conditions => "visible = true")
+    user_count = User.where(:status => ["active", "confirmed", "suspended"]).count
+    tracepoint_count = Tracepoint.count
+    node_count = Node.where(:visible => true).count
+    way_count = Way.where(:visible => true).count
+    relation_count = Relation.where(:visible => true).count
 
     puts "<table>"
     puts "<tr><td>Number of users</td><td>#{user_count}</td></tr>"
@@ -33,7 +33,7 @@ begin
     puts "<table>"
     puts "<tr><th>User</th><th>Number of Points</th></tr>"
 
-    Trace.sum(:size, :conditions => { :inserted => true }, :group => :user_id, :order => "sum_size DESC", :limit => 50).each do |user, count|
+    Trace.where(:inserted => true).group(:user_id).order("sum_size DESC").limit(50).sum(:size).each do |user, count|
       display_name = User.find(user).display_name.gsub('@', ' at ').gsub('.', ' dot ')
       puts "<tr><td><a href=\"/user/#{display_name}\">#{display_name}</a></td><td>#{count}</td></tr>"
     end
@@ -44,21 +44,15 @@ begin
     puts "<table>"
     puts "<tr><th>Data Type</th><th>Day</th><th>Week</th><th>Month</th></tr>"
 
-    day_count = Trace.count(:user_id, :distinct => true, 
-                            :conditions => "timestamp > NOW() - '1 DAY'::INTERVAL")
-    week_count = Trace.count(:user_id, :distinct => true, 
-                             :conditions => "timestamp > NOW() - '7 DAYS'::INTERVAL")
-    month_count = Trace.count(:user_id, :distinct => true, 
-                              :conditions => "timestamp > NOW() - '28 DAYS'::INTERVAL")
+    day_count = Trace.where("timestamp > NOW() - '1 DAY'::INTERVAL").distinct.count(:user_id)
+    week_count = Trace.where("timestamp > NOW() - '7 DAYS'::INTERVAL").distinct.count(:user_id)
+    month_count = Trace.where("timestamp > NOW() - '28 DAYS'::INTERVAL").distinct.count(:user_id)
 
     puts "<tr><th>GPX Files</th><td>#{day_count}</td><td>#{week_count}</td><td>#{month_count}</td></tr>"
 
-    day_count = OldNode.count(:user_id, :distinct => true, :joins => :changeset,
-                              :conditions => "timestamp > NOW() - '1 DAY'::INTERVAL")
-    week_count = OldNode.count(:user_id, :distinct => true,  :joins => :changeset,
-                               :conditions => "timestamp > NOW() - '7 DAYS'::INTERVAL")
-    month_count = OldNode.count(:user_id, :distinct => true, :joins => :changeset,
-                                :conditions => "timestamp > NOW() - '28 DAYS'::INTERVAL")
+    day_count = OldNode.where("timestamp > NOW() - '1 DAY'::INTERVAL").joins(:changeset).distinct.count(:user_id)
+    week_count = OldNode.where("timestamp > NOW() - '7 DAYS'::INTERVAL").joins(:changeset).distinct.count(:user_id)
+    month_count = OldNode.where("timestamp > NOW() - '28 DAYS'::INTERVAL").joins(:changeset).distinct.count(:user_id)
 
     puts "<tr><th>Nodes</th><td>#{day_count}</td><td>#{week_count}</td><td>#{month_count}</td></tr>"
 
@@ -68,15 +62,9 @@ begin
     puts "<table>"
     puts "<tr><th>Day</th><th>Week</th><th>Month</th></tr>"
 
-    day_users = OldNode.count(:conditions => "timestamp > NOW() - '1 DAY'::INTERVAL",
-                              :joins => :changeset, :group => :user_id,
-                              :order => "count_all DESC")
-    week_users = OldNode.count(:conditions => "timestamp > NOW() - '7 DAYS'::INTERVAL",
-                               :joins => :changeset, :group => :user_id,
-                               :order => "count_all DESC", :limit => 60)
-    month_users = OldNode.count(:conditions => "timestamp > NOW() - '28 DAYS'::INTERVAL",
-                                :joins => :changeset, :group => :user_id,
-                                :order => "count_all DESC", :limit => 60)
+    day_users = OldNode.where("timestamp > NOW() - '1 DAY'::INTERVAL").joins(:changeset).order("count_all DESC").group(:user_id).count
+    week_users = OldNode.where("timestamp > NOW() - '7 DAYS'::INTERVAL").joins(:changeset).order("count_all DESC").limit(60).group(:user_id).count
+    month_users = OldNode.where("timestamp > NOW() - '28 DAYS'::INTERVAL").joins(:changeset).order("count_all DESC").limit(60).group(:user_id).count
 
     day_users.zip(week_users, month_users).each do |row|
       puts "<tr>"

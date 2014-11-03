@@ -223,9 +223,10 @@ class UserBlocksControllerTest < ActionController::TestCase
         :user_block_period => "12",
         :user_block => { :needs_view => false, :reason => "Vandalism" }
     end
-    assert_redirected_to user_block_path(:id => 4)
+    id = UserBlock.order(:id).ids.last
+    assert_redirected_to user_block_path(:id => id)
     assert_equal "Created a block on user #{users(:unblocked_user).display_name}.", flash[:notice]
-    b = UserBlock.find(4)
+    b = UserBlock.find(id)
     assert_in_delta Time.now, b.created_at, 1
     assert_in_delta Time.now, b.updated_at, 1
     assert_in_delta Time.now + 12.hour, b.ends_at, 1

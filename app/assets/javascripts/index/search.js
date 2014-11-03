@@ -1,3 +1,5 @@
+//= require jquery.simulate
+
 OSM.Search = function(map) {
   $(".search_form input[name=query]").on("input", function(e) {
     if ($(e.target).val() == "") {
@@ -28,7 +30,19 @@ OSM.Search = function(map) {
 
   $("#sidebar_content")
     .on("click", ".search_more a", clickSearchMore)
-    .on("click", ".search_results_entry a.set_position", clickSearchResult);
+    .on("click", ".search_results_entry a.set_position", clickSearchResult)
+    .on("mouseover", "p.search_results_entry:has(a.set_position)", showSearchResult)
+    .on("mouseout", "p.search_results_entry:has(a.set_position)", hideSearchResult)
+    .on("mousedown", "p.search_results_entry:has(a.set_position)", function () {
+      var moved = false;
+      $(this).one("click", function (e) {
+        if (!moved && !$(e.target).is('a')) {
+          $(this).find("a.set_position").simulate("click", e);
+        }
+      }).one("mousemove", function () {
+        moved = true;
+      });
+    });
 
   function clickSearchMore(e) {
     e.preventDefault();
@@ -44,6 +58,32 @@ OSM.Search = function(map) {
     });
   }
 
+  function showSearchResult(e) {
+    var marker = $(this).data("marker");
+
+    if (!marker) {
+      var data = $(this).find("a.set_position").data();
+
+      marker = L.marker([data.lat, data.lon], {icon: getUserIcon()});
+
+      $(this).data("marker", marker);
+    }
+
+    markers.addLayer(marker);
+
+    $(this).closest("li").addClass("selected");
+  }
+
+  function hideSearchResult(e) {
+    var marker = $(this).data("marker");
+
+    if (marker) {
+      markers.removeLayer(marker);
+    }
+
+    $(this).closest("li").removeClass("selected");
+  }
+
   function clickSearchResult(e) {
     var data = $(this).data(),
       center = L.latLng(data.lat, data.lon);
@@ -57,13 +97,11 @@ OSM.Search = function(map) {
     // Let clicks to object browser links propagate.
     if (data.type && data.id) return;
 
-    marker.setLatLng(center).addTo(map);
-
     e.preventDefault();
     e.stopPropagation();
   }
 
-  var marker = L.marker([0, 0], {icon: getUserIcon()});
+  var markers = L.layerGroup().addTo(map);
 
   var page = {};
 
@@ -96,8 +134,7 @@ OSM.Search = function(map) {
   };
 
   page.unload = function() {
-    map.removeLayer(marker);
-    map.removeObject();
+    markers.clearLayers();
     $(".search_form input[name=query]").val("");
     $(".describe_location").fadeIn(100);
   };

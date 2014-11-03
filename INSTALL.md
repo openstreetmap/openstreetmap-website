@@ -3,11 +3,12 @@
 These instructions are designed for setting up The Rails Port for development and testing.
 If you want to deploy the software for your own project, then see the notes at the end.
 
+You can install the software directly on your machine, which is the traditional and probably best-bupported approach. However, there is an alternative which may be easier: Vagrant. This installs the software into a virtual machine, which makes it easier to get a consistent development environment and may avoid installation difficulties. For Vagrant instructions, see [VAGRANT.md](VAGRANT.md).
+
 These instructions are based on Ubuntu 12.04 LTS, which is the platform used by the OSMF servers.
 The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and MacOSX
 
-We don't recommend attempting to develop or deploy this software on Windows. If you need to use Windows, then
-try developing this sofware using Ubuntu in a virtual machine.
+We don't recommend attempting to develop or deploy this software on Windows. If you need to use Windows, then try developing this sofware using Ubuntu in a virtual machine, or use [Vagrant](VAGRANT.md).
 
 ## Dependencies
 
@@ -32,7 +33,7 @@ sudo apt-get install ruby1.9.1 libruby1.9.1 ruby1.9.1-dev ri1.9.1 \
                      apache2 apache2-threaded-dev build-essential git-core \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
                      libsasl2-dev
-gem1.9.1 install bundle
+sudo gem1.9.1 install bundler
 ```
 
 Note that the "1.9.1" Ubuntu packages do in fact contain ruby 1.9.3.

@@ -14,7 +14,7 @@
       <h4><%= t 'browse.part_of' %></h4>
       <ul>
         <% node.ways.uniq.each do |way| %>
-          <li><%= link_to h(printable_name(way)), { :action => "way", :id => way.id.to_s }, :class => link_class('way', way), :title => link_title(way) %></li>
+          <li><%= link_to printable_name(way), { :action => "way", :id => way.id.to_s }, :class => link_class('way', way), :title => link_title(way) %></li>
         <% end %>
         <%= render :partial => "containing_relation", :collection => node.containing_relation_members.uniq %>
       </ul>

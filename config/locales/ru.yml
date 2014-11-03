@@ -1,6 +1,6 @@
 # Messages for Russian (русский)
 # Exported from translatewiki.net
-# Export driver: syck-pecl
+# Export driver: phpyaml
 # Author: AMDmi3
 # Author: AOleg
 # Author: AZISS
@@ -35,54 +35,13 @@
 # Author: Zverik
 # Author: Александр Сигачёв
 # Author: Сrower
-ru: 
-  about_page: 
-    community_driven_html: "Сообщество OpenStreetMap — разнообразное, неравнодущное и растущее с каждым днём.\nНаши участники — это энтузиасты-картографы, ГИС-профессионалы, инженеры, содержащие серверы OSM, люди, отмечающие районы, пострадавшие от бедствий, и многие другие.\nЧтобы узнать больше о сообществе, читайте <a href='%{diary_path}'>дневники участников</a>,\n<a href='http://blogs.openstreetmap.org/'>блоги сообщества</a> и сайт <a href='http://www.osmfoundation.org/'>Фонда OSM</a>."
-    community_driven_title: Силами сообщества
-    copyright_html: <span>&copy;</span>Участники<br />OpenStreetMap
-    lede_text: OpenStreetMap создан сообществом картографов, которые добавляют и поддерживают данные о дорогах, тропах, кафе, вокзалах и многих других объектах по всему миру.
-    local_knowledge_html: OpenStreetMap придаёт особое значение локальным знаниям. Участники используют аэрофотоснимки, GPS-устройства и низкотехнологичных карты земель для проверки того, что данные OSM являются точными и актуальными.
-    local_knowledge_title: Знание местности
-    next: Далее
-    open_data_html: "OpenStreetMap являются <i>открытыми данными</i>: вы можете использовать их для любых целей до тех пор, пока вы указываете авторские права OpenStreetMap и его участников. Если вы изменяете данные или определенным образом основываетесь на них, вы можете распространять свой результат только под той же лицензии. Смотрите <a href='%{copyright_path}'>Авторские права и Страница лицензии</a> для более подробной информации."
-    open_data_title: Открытые данные
-    partners_title: Партнёры
-    used_by: "%{name} предоставляет данные для сотен сайтов, мобильных приложений и устройств"
-  activerecord: 
-    attributes: 
-      diary_comment: 
-        body: Текст
-      diary_entry: 
-        language: Язык
-        latitude: Широта
-        longitude: Долгота
-        title: Тема
-        user: Пользователь
-      friend: 
-        friend: Друг
-        user: Пользователь
-      message: 
-        body: Текст
-        recipient: Получатель
-        sender: Отправитель
-        title: Тема
-      trace: 
-        description: Описание
-        latitude: Широта
-        longitude: Долгота
-        name: Название
-        public: Общий
-        size: Размер
-        user: Пользователь
-        visible: Видимость
-      user: 
-        active: Активен
-        description: Описание
-        display_name: Отображаемое имя
-        email: Адрес электронной почты
-        languages: Языки
-        pass_crypt: Пароль
-    models: 
+---
+ru:
+  time:
+    formats:
+      friendly: '%e %B %Y в %H:%M'
+  activerecord:
+    models:
       acl: Список ограничения доступа
       changeset: Пакет правок
       changeset_tag: Тег пакета правок
@@ -116,336 +75,342 @@ ru:
       way: Линия
       way_node: Точка линии
       way_tag: Тег линии
-  application: 
-    require_cookies: 
-      cookies_needed: Похоже, что у вас выключены куки. Пожалуйста, включите куки в вашем браузере, прежде чем продолжить.
-    require_moderator: 
-      not_a_moderator: Чтобы выполнить это действие, нужно быть модератором.
-    setup_user_auth: 
-      blocked: Ваш доступ к API заблокирован. Пожалуйста, войдите через веб-интерфейсе, чтобы узнать подробности.
-      need_to_see_terms: Ваш доступ к API временно приостановлен. Пожалуйста войдите через веб-интерфейс для просмотра условий участия. Вам не обязательно соглашаться, но вы должны просмотреть их.
-  browse: 
+    attributes:
+      diary_comment:
+        body: Текст
+      diary_entry:
+        user: Пользователь
+        title: Тема
+        latitude: Широта
+        longitude: Долгота
+        language: Язык
+      friend:
+        user: Пользователь
+        friend: Друг
+      trace:
+        user: Пользователь
+        visible: Видимость
+        name: Название
+        size: Размер
+        latitude: Широта
+        longitude: Долгота
+        public: Общий
+        description: Описание
+      message:
+        sender: Отправитель
+        title: Тема
+        body: Текст
+        recipient: Получатель
+      user:
+        email: Адрес электронной почты
+        active: Активен
+        display_name: Отображаемое имя
+        description: Описание
+        languages: Языки
+        pass_crypt: Пароль
+  editor:
+    default: По умолчанию (назначен %{name})
+    potlatch:
+      name: Potlatch 1
+      description: Potlatch 1 (редактор в браузере)
+    id:
+      name: iD
+      description: iD (редактор в браузере)
+    potlatch2:
+      name: Potlatch 2
+      description: Potlatch 2 (редактор в браузере)
+    remote:
+      name: Дистанционное управление
+      description: Дистанционное управление (JOSM или Merkaartor)
+  browse:
+    created: Создано
+    closed: Закрыто
+    created_html: Создано <abbr title='%{title}'>%{time} назад</abbr>
+    closed_html: Закрыто <abbr title='%{title}'>%{time} назад</abbr>
+    created_by_html: Создано <abbr title='%{title}'>%{time} назад</abbr> пользовталем
+      %{user}
+    deleted_by_html: Удалено <abbr title='%{title}'>%{time} назад</abbr> пользователем
+      %{user}
+    edited_by_html: Отредактировано <abbr title='%{title}'>%{time} назад</abbr> пользователем
+      %{user}
+    closed_by_html: Закрыто <abbr title='%{title}'>%{time} назад</abbr> пользователем
+      %{user}
+    version: Версия
+    in_changeset: Пакет правок
     anonymous: аноним
-    changeset: 
+    no_comment: (комментарий отсутствует)
+    part_of: Участвует в
+    download_xml: Скачать XML
+    view_history: Посмотреть историю
+    view_details: Подробнее
+    location: 'Географическое положение:'
+    changeset:
+      title: 'Пакет правок: %{id}'
       belongs_to: Автор
-      changesetxml: XML пакета правок
-      feed: 
-        title: Пакет правок %{id}
-        title_comment: Пакет правок %{id} — %{comment}
       node: Точки (%{count})
       node_paginated: Точки (%{x}-%{y} из %{count})
-      osmchangexml: osmChange XML
-      relation: Отношения (%{count})
-      relation_paginated: Отношения (%{x}-%{y} из %{count})
-      title: "Пакет правок: %{id}"
       way: Линии (%{count})
       way_paginated: Линии (%{x}-%{y} из %{count})
-    closed: Закрыто
-    closed_by_html: Закрыто <abbr title='%{title}'>%{time} назад</abbr> пользователем %{user}
-    closed_html: Закрыто <abbr title='%{title}'>%{time} назад</abbr>
-    containing_relation: 
-      entry: Отношение %{relation_name}
-      entry_role: Отношение %{relation_name} (в роли %{relation_role})
-    created: Создано
-    created_by_html: Создано <abbr title='%{title}'>%{time} назад</abbr> пользовталем %{user}
-    created_html: Создано <abbr title='%{title}'>%{time} назад</abbr>
-    deleted_by_html: Удалено <abbr title='%{title}'>%{time} назад</abbr> пользователем %{user}
-    download_xml: Скачать XML
-    edited_by_html: Отредактировано <abbr title='%{title}'>%{time} назад</abbr> пользователем %{user}
-    in_changeset: Пакет правок
-    location: "Географическое положение:"
-    no_comment: (комментарий отсутствует)
-    node: 
-      history_title: "История точки: %{name}"
-      title: "Точка: %{name}"
-    not_found: 
-      sorry: "К сожалению, %{type} #%{id} не найден."
-      type: 
-        changeset: пакет правок
-        node: точка
-        relation: отношение
-        way: линия
-    note: 
-      closed_by: Обработана %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
-      closed_by_anonymous: Обработана анонимом <abbr title='%{exact_time}'>%{when} назад</abbr>
-      closed_title: "Обработанная заметка #%{note_name}"
-      commented_by: Комментарий пользователя %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
-      commented_by_anonymous: Комментарий анонима <abbr title='%{exact_time}'>%{when} назад</abbr>
-      hidden_by: Скрыта %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
-      hidden_title: "Скрытая заметка #%{note_name}"
-      new_note: Новая заметка
-      open_by: Создано пользователем %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
-      open_by_anonymous: Создано анонимом <abbr title='%{exact_time}'>%{when} назад</abbr>
-      open_title: "Необработанная заметка #%{note_name}"
-      reopened_by: Обработана %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
-      reopened_by_anonymous: Обработана анонимом <abbr title='%{exact_time}'>%{when} назад</abbr>
-      title: "Примечание: %{id}"
-    part_of: Участвует в
-    redacted: 
-      message_html: Версия %{version} этого объекта вырезана и не может быть отображена. Смотрите %{redaction_link} для дополнительной информации.
-      redaction: Редакция %{id}
-      type: 
-        node: точка
-        relation: отношение
-        way: линия
-    relation: 
-      history_title: "История отношения: %{name}"
-      members: Участники
-      title: "Отношение: %{name}"
-    relation_member: 
-      entry_role: "%{type} %{name} в роли %{role}"
-      type: 
-        node: Точка
-        relation: Отношение
-        way: Линия
-    start_rjs: 
-      feature_warning: Необходимо загрузить %{num_features} объектов, что может замедлить ваш браузер. Вы уверены что хотите просмотреть эти данные?
-      load_data: Загрузить данные
-      loading: Загрузка...
-    tag_details: 
-      tags: Теги
-      wiki_link: 
-        key: Страница вики, описывающая тег %{key}
-        tag: Страница вики, описывающая тег %{key}=%{value}
-      wikipedia_link: Статья %{page} в Википедии
-    timeout: 
-      sorry: Извините, данные для %{type} с %{id} слишком длинные для извлечения.
-      type: 
-        changeset: пакета правок
-        node: точки
-        relation: отношения
-        way: линии
-    version: Версия
-    view_details: Подробнее
-    view_history: Посмотреть историю
-    way: 
-      also_part_of: 
+      relation: Отношения (%{count})
+      relation_paginated: Отношения (%{x}-%{y} из %{count})
+      changesetxml: XML пакета правок
+      osmchangexml: osmChange XML
+      feed:
+        title: Пакет правок %{id}
+        title_comment: Пакет правок %{id} — %{comment}
+    node:
+      title: 'Точка: %{name}'
+      history_title: 'История точки: %{name}'
+    way:
+      title: 'Линия: %{name}'
+      history_title: 'История линии: %{name}'
+      nodes: Точки
+      also_part_of:
         one: содержится в линии %{related_ways}
         other: содержится в линиях %{related_ways}
-      history_title: "История линии: %{name}"
-      nodes: Точки
-      title: "Линия: %{name}"
-  changeset: 
-    changeset: 
+    relation:
+      title: 'Отношение: %{name}'
+      history_title: 'История отношения: %{name}'
+      members: Участники
+    relation_member:
+      entry_role: '%{type} %{name} в роли %{role}'
+      type:
+        node: Точка
+        way: Линия
+        relation: Отношение
+    containing_relation:
+      entry: Отношение %{relation_name}
+      entry_role: Отношение %{relation_name} (в роли %{relation_role})
+    not_found:
+      sorry: 'К сожалению, %{type} #%{id} не найден.'
+      type:
+        node: точка
+        way: линия
+        relation: отношение
+        changeset: пакет правок
+    timeout:
+      sorry: Извините, данные для %{type} с %{id} слишком длинные для извлечения.
+      type:
+        node: точки
+        way: линии
+        relation: отношения
+        changeset: пакета правок
+    redacted:
+      redaction: Редакция %{id}
+      message_html: Версия %{version} этого объекта вырезана и не может быть отображена.
+        Смотрите %{redaction_link} для дополнительной информации.
+      type:
+        node: точка
+        way: линия
+        relation: отношение
+    start_rjs:
+      feature_warning: Необходимо загрузить %{num_features} объектов, что может замедлить
+        ваш браузер. Вы уверены что хотите просмотреть эти данные?
+      load_data: Загрузить данные
+      loading: Загрузка...
+    tag_details:
+      tags: Теги
+      wiki_link:
+        key: Страница вики, описывающая тег %{key}
+        tag: Страница вики, описывающая тег %{key}=%{value}
+      wikidata_link: Элемент %{page} в Викиданных
+      wikipedia_link: Статья %{page} в Википедии
+      telephone_link: Позвонить %{phone_number}
+    note:
+      title: 'Примечание: %{id}'
+      new_note: Новая заметка
+      description: Описание
+      open_title: 'Необработанная заметка #%{note_name}'
+      closed_title: 'Обработанная заметка #%{note_name}'
+      hidden_title: 'Скрытая заметка #%{note_name}'
+      open_by: Создано пользователем %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
+      open_by_anonymous: Создано анонимом <abbr title='%{exact_time}'>%{when} назад</abbr>
+      commented_by: Комментарий пользователя %{user} <abbr title='%{exact_time}'>%{when}
+        назад</abbr>
+      commented_by_anonymous: Комментарий анонима <abbr title='%{exact_time}'>%{when}
+        назад</abbr>
+      closed_by: Обработана %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
+      closed_by_anonymous: Обработана анонимом <abbr title='%{exact_time}'>%{when}
+        назад</abbr>
+      reopened_by: Обработана %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
+      reopened_by_anonymous: Обработана анонимом <abbr title='%{exact_time}'>%{when}
+        назад</abbr>
+      hidden_by: Скрыта %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
+  changeset:
+    changeset_paging_nav:
+      showing_page: Страница %{page}
+      next: Следующая →
+      previous: ← Предыдущая
+    changeset:
       anonymous: Аноним
       no_edits: (нет правок)
       view_changeset_details: Просмотреть подробности пакета правок
-    changeset_paging_nav: 
-      next: Следующая →
-      previous: ← Предыдущая
-      showing_page: Страница %{page}
-    changesets: 
-      area: Область
-      comment: Комментарий
+    changesets:
       id: ID
       saved_at: Завершено
       user: Пользователь
-    list: 
+      comment: Комментарий
+      area: Область
+    list:
+      title: Пакет правок
+      title_user: Пакеты правок пользователя %{user}
+      title_friend: Пакеты правок ваших друзей
+      title_nearby: Пакеты правок соседних участников
       empty: Пакеты правок не найдены.
       empty_area: Нет пакетов правок в этой области.
       empty_user: Нет пакетов правок от этого пользователя.
-      load_more: Загрузить ещё
       no_more: Больше никаких пакетов правок не обнаружено.
       no_more_area: Нет больше пакетов правок в этой области.
       no_more_user: Нет больше пакетов правок от этого пользователя.
-      title: Пакет правок
-      title_friend: Пакеты правок ваших друзей
-      title_nearby: Пакеты правок соседних участников
-      title_user: Пакеты правок пользователя %{user}
-    timeout: 
-      sorry: К сожалению, список пакетов правок, который вы запросили, слишком большой для извлечения.
-  diary_entry: 
-    comments: 
-      ago: "%{ago} назад"
-      comment: Комментарий
-      has_commented_on: "%{display_name} только что прокомментировал следующие записи дневника"
-      newer_comments: Более новые комментарии
-      older_comments: Более старые комментарии
-      post: Пост
-      when: Когда
-    diary_comment: 
-      comment_from: Комментарий %{link_user} %{comment_created_at}
-      confirm: Подтвердить
-      hide_link: Скрыть этот комментарий
-    diary_entry: 
-      comment_count: 
-        few: "%{count} комментария"
-        one: "%{count} комментарий"
-        other: "%{count} комментариев"
-        zero: Нет комментариев
-      comment_link: Комментировать
-      confirm: Подтвердить
-      edit_link: Изменить запись
-      hide_link: Скрыть эту запись
-      posted_by: "Отправил %{link_user} %{created}, язык: %{language_link}"
-      reply_link: Ответить
-    edit: 
-      body: "Текст:"
-      language: "Язык:"
-      latitude: "Широта:"
-      location: "Место:"
-      longitude: "Долгота:"
-      marker_text: Место написания заметки
-      save_button: Сохранить
-      subject: "Тема:"
-      title: Редактирование записи
-      use_map_link: Указать на карте
-    feed: 
-      all: 
-        description: Последнее дневниковые записи пользователей OpenStreetMap
-        title: Дневниковые записи OpenStreetMap
-      language: 
-        description: Последнее дневниковые записи пользователей OpenStreetMap на %{language_name}
-        title: Дневниковые записи OpenStreetMap на %{language_name}
-      user: 
-        description: Последнее дневниковые записи OpenStreetMap для %{user}
-        title: Дневниковые записи OpenStreetMap для %{user}
-    list: 
-      in_language_title: Дневниковые записи на языке %{language}
-      new: Новая запись в дневнике
-      new_title: Сделать новую запись в своем дневнике
-      newer_entries: Более новые записи
-      no_entries: В дневнике нет записей
-      older_entries: Более старые записи
-      recent_entries: Недавние записи
+      load_more: Загрузить ещё
+    timeout:
+      sorry: К сожалению, список пакетов правок, который вы запросили, слишком большой
+        для извлечения.
+  diary_entry:
+    new:
+      title: Сделать новую запись в дневнике
+    list:
       title: Дневники
       title_friends: Дневники друзей
       title_nearby: Дневники соседних участников
       user_title: Дневник пользователя %{user}
-    location: 
-      edit: Правка
-      location: "Положение:"
-      view: Вид
-    new: 
-      title: Сделать новую запись в дневнике
-    no_such_entry: 
-      body: К сожалению, записи или комментария с id %{id} не найдено. Проверьте правильность написания. Возможно, ссылка, по которой вы перешли, ошибочна.
-      heading: "Нет записи с id: %{id}"
-      title: Нет такой дневниковой записи
-    view: 
-      leave_a_comment: Оставить комментарий
-      login: Представиться
-      login_to_leave_a_comment: "%{login_link}, чтобы оставить комментарий"
+      in_language_title: Дневниковые записи на языке %{language}
+      new: Новая запись в дневнике
+      new_title: Сделать новую запись в своем дневнике
+      no_entries: В дневнике нет записей
+      recent_entries: Недавние записи
+      older_entries: Более старые записи
+      newer_entries: Более новые записи
+    edit:
+      title: Редактирование записи
+      subject: 'Тема:'
+      body: 'Текст:'
+      language: 'Язык:'
+      location: 'Место:'
+      latitude: 'Широта:'
+      longitude: 'Долгота:'
+      use_map_link: Указать на карте
       save_button: Сохранить
+      marker_text: Место написания заметки
+    view:
       title: Дневник пользователя %{user} | %{title}
       user_title: Дневник пользователя %{user}
-  editor: 
-    default: По умолчанию (назначен %{name})
-    id: 
-      description: iD (редактор в браузере)
-      name: iD
-    potlatch: 
-      description: Potlatch 1 (редактор в браузере)
-      name: Potlatch 1
-    potlatch2: 
-      description: Potlatch 2 (редактор в браузере)
-      name: Potlatch 2
-    remote: 
-      description: Дистанционное управление (JOSM или Merkaartor)
-      name: Дистанционное управление
-  export: 
-    start: 
-      add_marker: Поставить на карту маркер
+      leave_a_comment: Оставить комментарий
+      login_to_leave_a_comment: '%{login_link}, чтобы оставить комментарий'
+      login: Представиться
+      save_button: Сохранить
+    no_such_entry:
+      title: Нет такой дневниковой записи
+      heading: 'Нет записи с id: %{id}'
+      body: К сожалению, записи или комментария с id %{id} не найдено. Проверьте правильность
+        написания. Возможно, ссылка, по которой вы перешли, ошибочна.
+    diary_entry:
+      posted_by: 'Отправил %{link_user} %{created}, язык: %{language_link}'
+      comment_link: Комментировать
+      reply_link: Ответить
+      comment_count:
+        few: '%{count} комментария'
+        one: '%{count} комментарий'
+        zero: Нет комментариев
+        other: '%{count} комментариев'
+      edit_link: Изменить запись
+      hide_link: Скрыть эту запись
+      confirm: Подтвердить
+    diary_comment:
+      comment_from: Комментарий %{link_user} %{comment_created_at}
+      hide_link: Скрыть этот комментарий
+      confirm: Подтвердить
+    location:
+      location: 'Положение:'
+      view: Вид
+      edit: Правка
+    feed:
+      user:
+        title: Дневниковые записи OpenStreetMap для %{user}
+        description: Последнее дневниковые записи OpenStreetMap для %{user}
+      language:
+        title: Дневниковые записи OpenStreetMap на %{language_name}
+        description: Последнее дневниковые записи пользователей OpenStreetMap на %{language_name}
+      all:
+        title: Дневниковые записи OpenStreetMap
+        description: Последнее дневниковые записи пользователей OpenStreetMap
+    comments:
+      has_commented_on: '%{display_name} только что прокомментировал следующие записи
+        дневника'
+      post: Пост
+      when: Когда
+      comment: Комментарий
+      ago: '%{ago} назад'
+      newer_comments: Более новые комментарии
+      older_comments: Более старые комментарии
+  export:
+    title: Экспортировать
+    start:
       area_to_export: Область для экспорта
-      embeddable_html: Встраиваемый HTML
-      export_button: Экспортировать
-      export_details: Данные OpenStreetMap распространяются по <a href="http://opendatacommons.org/licenses/odbl/1.0/">лицензии Open Data Commons Open Database License</a> (ODbL).
-      format: Формат
-      format_to_export: Формат экспорта
-      image_size: "Размер изображения:"
-      latitude: "Широта:"
-      licence: Лицензия
-      longitude: "Долгота:"
       manually_select: Выделить другую область
-      map_image: Изображение карты (показывает стандартный слой)
-      max: макс.
-      options: Настройки
+      format_to_export: Формат экспорта
       osm_xml_data: Данные в формате OpenStreetMap XML
+      map_image: Изображение карты (показывает стандартный слой)
+      embeddable_html: Встраиваемый HTML
+      licence: Лицензия
+      export_details: Данные OpenStreetMap распространяются по <a href="http://opendatacommons.org/licenses/odbl/1.0/">лицензии
+        Open Data Commons Open Database License</a> (ODbL).
+      too_large:
+        advice: 'Если этот экспорт пройдёт неудачно, пожалуйста, попробуйте использовать
+          один из перечисленных ниже источников:'
+        body: 'Эта область слишком велика для экспорта в качестве данных в формате
+          OpenStreetMap XML. Пожалуйста, увеличьте масштаб, выберите меньшую область
+          или используйте один из следующих источников для массовой загрузки данных:'
+        planet:
+          title: Планета OSM
+          description: Регулярно обновляемые копии полной базы данных OpenStreetMap
+        overpass:
+          title: Overpass API
+          description: Скачать ограниченную этим прямоугольником область с зеркала
+            базы данных OpenStreetMap
+        geofabrik:
+          title: Загрузки Geofabrik
+          description: Регулярно обновляемые выгрузки континентов, стран и отдельных
+            городов
+        metro:
+          title: Выгрузки городов
+          description: Выгрузки крупных городов мира и окружающих их районов
+        other:
+          title: Другие источники
+          description: Дополнительные источники, перечисленные в вики OpenStreetMap
+      options: Настройки
+      format: Формат
+      scale: Масштаб
+      max: макс.
+      image_size: 'Размер изображения:'
+      zoom: Приблизить
+      add_marker: Поставить на карту маркер
+      latitude: 'Широта:'
+      longitude: 'Долгота:'
       output: Результат
       paste_html: HTML-код для встраивания на сайт
-      scale: Масштаб
-      too_large: 
-        advice: "Если этот экспорт пройдёт неудачно, пожалуйста, попробуйте использовать один из перечисленных ниже источников:"
-        body: "Эта область слишком велика для экспорта в качестве данных в формате OpenStreetMap XML. Пожалуйста, увеличьте масштаб, выберите меньшую область или используйте один из следующих источников для массовой загрузки данных:"
-        geofabrik: 
-          description: Регулярно обновляемые выгрузки континентов, стран и отдельных городов
-          title: Загрузки Geofabrik
-        metro: 
-          description: Выгрузки крупных городов мира и окружающих их районов
-          title: Выгрузки городов
-        other: 
-          description: Дополнительные источники, перечисленные в вики OpenStreetMap
-          title: Другие источники
-        overpass: 
-          description: Скачать ограниченную этим прямоугольником область с зеркала базы данных OpenStreetMap
-          title: Overpass API
-        planet: 
-          description: Регулярно обновляемые копии полной базы данных OpenStreetMap
-          title: Планета OSM
-      zoom: Приблизить
-    title: Экспортировать
-  fixthemap: 
-    how_to_help: 
-      add_a_note: 
-        instructions_html: "Просто нажмите <a class='icon note'></a> или на тот же значок на карте.\nЭто добавит на карту маркер, который можно передвигать перетаскиванием. Добавьте сообщение, а затем нажмите кнопку сохранения, и другие картографы увидят его."
-      join_the_community: 
-        explanation_html: Если вы заметили проблему в данных нашей карты, например, отсутствие дорога или вашего адреса, лучший способ для дальнейших действий — вступить в сообщество OpenStreetMap и добавить или восстановить данные самостоятельно.
-        title: Присоединиться к сообществу
-      title: Как помочь
-    other_concerns: 
-      explanation_html: "Если у вас есть вопросы о том, как используются наши данные, или о содержимом сайта, обратитесь к нашей\n<a href='/copyright'>странице авторских прав</a> для получения дополнительной правовой информации или свяжитесь с  соответствующий\n<a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>рабочей группой OSMF</a>."
-      title: Другие проблемы
-    title: Сообщить о проблеме / исправить карту
-  geocoder: 
-    description: 
-      title: 
-        geonames: Местоположение из <a href="http://www.geonames.org/">GeoNames</a>
-        osm_nominatim: Местоположение из <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
-      types: 
-        cities: Города
-        places: Места
-        towns: Городские поселения
-    direction: 
-      east: восточнее
-      north: севернее
-      north_east: северо-восточнее
-      north_west: северо-западнее
-      south: южнее
-      south_east: юго-восточнее
-      south_west: юго-западнее
-      west: западнее
-    distance: 
-      one: около %{count} км
-      other: около %{count} км
-      zero: менее 1 км
-    results: 
-      more_results: Ещё результаты
-      no_results: Ничего не найдено
-    search: 
-      title: 
-        ca_postcode: Результаты от <a href="http://geocoder.ca/">Geocoder.CA</a>
-        geonames: Результаты от <a href="http://www.geonames.org/">GeoNames</a>
-        geonames_reverse: Результаты с <a href="http://www.geonames.org/">GeoNames</a>
+      export_button: Экспортировать
+  geocoder:
+    search:
+      title:
         latlon: <a href="http://openstreetmap.org/">Внутренние результаты</a>
-        osm_nominatim: Результаты, полученные из <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
-        osm_nominatim_reverse: Результаты с <a href="http://nominatim.openstreetmap.org/">OpenStreetMap Nominatim</a>
-        uk_postcode: Результаты от <a href="http://www.npemap.org.uk/">NPEMap / FreeThe Postcode</a>
         us_postcode: Результаты от <a href="http://geocoder.us/">Geocoder.us</a>
-    search_osm_nominatim: 
-      admin_levels: 
-        level10: Граница пригорода
-        level2: Граница страны
-        level4: Граница штата, субъекта
-        level5: Граница региона
-        level6: Граница страны
-        level8: Граница города
-        level9: Граница села, деревни
-      prefix: 
-        aerialway: 
+        uk_postcode: Результаты от <a href="http://www.npemap.org.uk/">NPEMap / FreeThe
+          Postcode</a>
+        ca_postcode: Результаты от <a href="http://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim: Результаты, полученные из <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
+        geonames: Результаты от <a href="http://www.geonames.org/">GeoNames</a>
+        osm_nominatim_reverse: Результаты с <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
+        geonames_reverse: Результаты с <a href="http://www.geonames.org/">GeoNames</a>
+    search_osm_nominatim:
+      prefix:
+        aerialway:
           chair_lift: Кресельный канатный подъёмник
           drag_lift: Якорный (бугельный) подъёмник
           station: Станция канатного подъёмника
-        aeroway: 
+        aeroway:
           aerodrome: Аэродром
           apron: Перрон
           gate: Выход на посадку
@@ -453,8 +418,7 @@ ru:
           runway: Взлётно-посадочная полоса
           taxiway: Рулёжная дорожка
           terminal: Терминал
-        amenity: 
-          WLAN: WiFi доступ
+        amenity:
           airport: Аэропорт
           arts_centre: Дом искусств
           artwork: Произведения искусства
@@ -553,24 +517,25 @@ ru:
           village_hall: Усадьба
           waste_basket: Мусорка
           wifi: WiFi доступ
+          WLAN: WiFi доступ
           youth_centre: Молодёжный центр
-        boundary: 
+        boundary:
           administrative: Административная граница
           census: Граница переписного участка
           national_park: Национальный парк
           protected_area: Охраняемый район
-        bridge: 
+        bridge:
           aqueduct: Акведук
           suspension: Висячий мост
           swing: Разводной мост
           viaduct: Виадук
           "yes": Мост
-        building: 
+        building:
           "yes": Здание
-        emergency: 
+        emergency:
           fire_hydrant: Пожарный гидрант
           phone: Телефон экстренной связи
-        highway: 
+        highway:
           bridleway: Конный путь
           bus_guideway: Автобусная полоса-рельс
           bus_stop: Автобусная остановка
@@ -602,8 +567,8 @@ ru:
           services: Придорожный сервис
           speed_camera: Камера по контролю скорости
           steps: Ступеньки
-          stile: Турникет
           street_lamp: Уличный фонарь
+          stile: Турникет
           tertiary: Дорога третьего класса
           tertiary_link: Дорога третьего класса
           track: Неофициальная грунтовка
@@ -612,7 +577,7 @@ ru:
           trunk_link: Развязка
           unclassified: Дорога местная
           unsurfaced: Дорога без покрытия
-        historic: 
+        historic:
           archaeological_site: Раскопки
           battlefield: Поле боя
           boundary_stone: Пограничный камень
@@ -634,7 +599,7 @@ ru:
           wayside_cross: Придорожный крест
           wayside_shrine: Придорожная святыня
           wreck: Остов судна
-        landuse: 
+        landuse:
           allotments: Сады-огороды
           basin: Бассейн
           brownfield: Заброшенная зона, пустырь
@@ -654,8 +619,8 @@ ru:
           meadow: Луг
           military: Военная зона
           mine: Шахта
-          nature_reserve: Заповедник
           orchard: Фруктовый сад
+          nature_reserve: Заповедник
           park: Парк
           piste: Лыжня
           quarry: Карьер
@@ -670,7 +635,7 @@ ru:
           vineyard: Виноградник
           wetland: Заболоченность
           wood: Обслуживаемый лес
-        leisure: 
+        leisure:
           beach_resort: Пляж с насаждениями
           bird_hide: Засидка (пункт скрытого наблюдения за птицами)
           common: Альменда
@@ -693,13 +658,13 @@ ru:
           swimming_pool: Бассейн
           track: Спортивная дорожка
           water_park: Аквапарк
-        military: 
+        military:
           airfield: Военный аэродром
           barracks: Казармы
           bunker: Бункер
-        mountain_pass: 
+        mountain_pass:
           "yes": Перевал
-        natural: 
+        natural:
           bay: Залив
           beach: Пляж
           cape: Мыс
@@ -740,7 +705,7 @@ ru:
           wetland: Заболоченная территория
           wetlands: Заболоченные земли
           wood: Лес
-        office: 
+        office:
           accountant: Бухгалтер
           architect: Архитектор
           company: Компания
@@ -753,7 +718,7 @@ ru:
           telecommunication: Офис телекоммуникационной компании
           travel_agent: Туристическое агентство
           "yes": Офисы
-        place: 
+        place:
           airport: Аэропорт
           city: Город
           country: Страна
@@ -778,7 +743,7 @@ ru:
           town: Городок
           unincorporated_area: Загородная зона
           village: Деревня
-        railway: 
+        railway:
           abandoned: Разобранные железнодорожные пути
           construction: Ремонт ж/д путей
           disused: Заброшеная ж/д ветка
@@ -804,7 +769,7 @@ ru:
           tram: Трамвай
           tram_stop: Трамвайная остановка
           yard: Депо
-        shop: 
+        shop:
           alcohol: Винный магазин
           antiques: Антиквариат
           art: Художественный салон
@@ -879,7 +844,7 @@ ru:
           video: Магазин видеозаписей
           wine: Винный магазин
           "yes": Магазин
-        tourism: 
+        tourism:
           alpine_hut: Альпийский Домик
           artwork: Произведения искусства
           attraction: Аттракцион
@@ -900,10 +865,10 @@ ru:
           valley: Долина
           viewpoint: Смотровая площадка
           zoo: Зоопарк
-        tunnel: 
+        tunnel:
           culvert: Водопропускная труба, кульверт
           "yes": Туннель
-        waterway: 
+        waterway:
           artificial: Искусственный водоток
           boatyard: Верфь
           canal: Канал
@@ -922,1090 +887,1421 @@ ru:
           riverbank: Берег реки
           stream: Ручей
           wadi: Высохшее русло
-          water_point: Пункт водоснабжения
           waterfall: Водопад
+          water_point: Пункт водоснабжения
           weir: Плотина
-  help_page: 
-    help: 
-      description: Задать вопрос или найти ответы на сайте вопросов и ответов OSM.
-      title: help.openstreetmap.org
-      url: https://help.openstreetmap.org/
-    introduction: На OpenStreetMap есть несколько ресурсов, где можно узнать о проекте, задать вопросы или ответить на них и совместно обсудить темы, касающиеся картографии.
-    title: Получение справки
-    welcome: 
-      description: Начните с этого краткого руководства, охватывающего основы OpenStreetMap.
-      title: Добро пожаловать на OSM
-      url: /welcome
-    wiki: 
-      description: Посмотреть вики с подробной документацией по OSM
-      title: wiki.openstreetmap.org
-      url: http://wiki.openstreetmap.org/wiki/RU:Main_Page
-  javascripts: 
-    close: Закрыть
-    edit_help: Передвиньте карту и увеличьте место, которые вы хотите править, затем кликните здесь.
-    key: 
-      title: Легенда карты
-      tooltip: Условные знаки
-      tooltip_disabled: Легенда карты доступна только для Стандартного слоя
-    map: 
-      base: 
-        cycle_map: Карта для велосипедистов
-        hot: Humanitarian‎
-        mapquest: MapQuest Open
-        standard: Стандартный
-        transport_map: Карта транспорта
-      copyright: © <a href='%{copyright_url}'>Участники OpenStreetMap</a>
-      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Сделать пожертвование</a>
-      layers: 
-        data: Просмотр данных карты
-        header: Слои карты
-        notes: Заметки
-        overlays: Дополнительные слои для устранения неисправностей карты
-        title: Слои
-      locate: 
-        popup: Вы находитесь в {distance} {unit} от этой точки
-        title: Показать мое местоположение
-      zoom: 
-        in: Приблизить
-        out: Отдалить
-    notes: 
-      new: 
-        add: Добавить заметку
-        intro: Введённая вами информация будет доступна другим пользователям, возможно, она поможет улучшить карту. Пожалуйста, оставьте в заметке чёткое описание, установите маркер в точное место на карте.
-      show: 
-        anonymous_warning: Эта заметка содержит комментарии анонимных участников. Требуется независимая проверка сведений.
-        comment: Прокомментировать
-        comment_and_resolve: Прокомментировать и обработать
-        hide: Скрыть
-        reactivate: Переоткрыть
-        resolve: Обработана
-    share: 
-      cancel: Отмена
-      center_marker: Центрировать карту на маркер
-      custom_dimensions: Выбрать размер вручную
-      download: Загрузить
-      embed: Код
-      format: "Формат:"
-      image: Изображение
-      image_size: Будет сохранён участок стандартного слоя размером
-      include_marker: Включая маркер
-      link: Ссылка или код для вставки
-      long_link: Полная ссылка
-      paste_html: HTML-код для встраивания на сайт
-      scale: "Масштаб:"
-      short_link: Короткая ссылка
-      short_url: Короткая ссылка
-      title: Поделиться
-      view_larger_map: Посмотреть более крупную карту
-    site: 
-      createnote_disabled_tooltip: Приблизьте карту, чтобы добавить заметку
-      createnote_tooltip: Добавить заметку на карту
-      edit_disabled_tooltip: Увеличить масштаб для редактирования карты
-      edit_tooltip: Править карту
-      map_data_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть данные карты
-      map_notes_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть примечания к карте
-  layouts: 
+      admin_levels:
+        level2: Граница страны
+        level4: Граница штата, субъекта
+        level5: Граница региона
+        level6: Граница страны
+        level8: Граница города
+        level9: Граница села, деревни
+        level10: Граница пригорода
+    description:
+      title:
+        osm_nominatim: Местоположение из <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
+        geonames: Местоположение из <a href="http://www.geonames.org/">GeoNames</a>
+      types:
+        cities: Города
+        towns: Городские поселения
+        places: Места
+    results:
+      no_results: Ничего не найдено
+      more_results: Ещё результаты
+    distance:
+      one: около %{count} км
+      zero: менее 1 км
+      other: около %{count} км
+    direction:
+      south_west: юго-западнее
+      south: южнее
+      south_east: юго-восточнее
+      east: восточнее
+      north_east: северо-восточнее
+      north: севернее
+      north_west: северо-западнее
+      west: западнее
+  layouts:
+    logo:
+      alt_text: Логотип OpenStreetMap
+    home: Домой
+    logout: Выйти
+    log_in: Войти
+    log_in_tooltip: Войти под существующей учётной записью
+    sign_up: Зарегистрироваться
+    start_mapping: Начать картографировать
+    sign_up_tooltip: Создать учётную запись для редактирования
+    edit: Правка
+    history: История
+    export: Экспорт
+    data: Данные
+    export_data: Экспортировать данные
+    gps_traces: GPS-треки
+    gps_traces_tooltip: Работать с GPS треками
+    user_diaries: Дневники участников
+    user_diaries_tooltip: Посмотреть дневники участников
+    edit_with: Править с помощью %{editor}
+    tag_line: Свободная вики-карта мира
+    intro_header: Добро пожаловать на OpenStreetMap!
+    intro_text: OpenStreetMap является картой мира, созданной такими же людьми, как
+      и вы, и может свободно использоваться под открытой лицензией.
+    intro_2_create_account: Создайте учётную запись
+    partners_html: Хостинг поддерживается %{ucl}, %{ic} и %{bytemark}, а также другими
+      %{partners}.
+    partners_ucl: UCL VR Centre
+    partners_ic: Имперским колледжем Лондона
+    partners_bytemark: Bytemark Hosting
+    partners_partners: партнёрами
+    osm_offline: База данных OpenStreetMap в данный момент не доступна, так как проводится
+      необходимое техническое обслуживание.
+    osm_read_only: База данных OpenStreetMap в данный момент доступна только для чтения,
+      так как проводится необходимое техническое обслуживание.
+    donate: Поддержите OpenStreetMap %{link} в Фонд обновления оборудования.
+    help: Помощь
     about: О проекте
+    copyright: Авторские права
     community: Сообщество
     community_blogs: Блоги сообщества
     community_blogs_title: Блоги членов сообщества OpenStreetMap
-    copyright: Авторские права
-    data: Данные
-    donate: Поддержите OpenStreetMap %{link} в Фонд обновления оборудования.
-    edit: Правка
-    edit_with: Править с помощью %{editor}
-    export: Экспорт
-    export_data: Экспортировать данные
     foundation: Фонд OpenStreetMap
     foundation_title: Фонд OpenStreetMap
-    gps_traces: GPS-треки
-    gps_traces_tooltip: Работать с GPS треками
-    help: Помощь
-    history: История
-    home: Домой
-    intro_2_create_account: Создайте учётную запись
-    intro_header: Добро пожаловать на OpenStreetMap!
-    intro_text: OpenStreetMap является картой мира, созданной такими же людьми, как и вы, и может свободно использоваться под открытой лицензией.
-    learn_more: Узнать больше
-    log_in: Войти
-    log_in_tooltip: Войти под существующей учётной записью
-    logo: 
-      alt_text: Логотип OpenStreetMap
-    logout: Выйти
-    make_a_donation: 
-      text: Поддержать проект
+    make_a_donation:
       title: Поддержите OpenStreetMap денежным пожертвованием
+      text: Поддержать проект
+    learn_more: Узнать больше
     more: Ещё
-    osm_offline: База данных OpenStreetMap в данный момент не доступна, так как проводится необходимое техническое обслуживание.
-    osm_read_only: База данных OpenStreetMap в данный момент доступна только для чтения, так как проводится необходимое техническое обслуживание.
-    partners_bytemark: Bytemark Hosting
-    partners_html: Хостинг поддерживается %{ucl}, %{ic} и %{bytemark}, а также другими %{partners}.
-    partners_ic: Имперским колледжем Лондона
-    partners_partners: партнёрами
-    partners_ucl: UCL VR Centre
-    sign_up: Зарегистрироваться
-    sign_up_tooltip: Создать учётную запись для редактирования
-    start_mapping: Начать картографировать
-    tag_line: Свободная вики-карта мира
-    user_diaries: Дневники участников
-    user_diaries_tooltip: Посмотреть дневники участников
-  license_page: 
-    foreign: 
-      english_link: английского оригинала
-      text: В случае конфликта между этой переведённой страницей и %{english_original_link}, английская страница должна иметь приоритет
+    sotm_header: State of the Map 2014
+    sotm_line_1: 8-я ежегодная конференция
+    sotm_line_2: 7—9 ноября 2014 года
+    sotm_line_3: Буэнос-Айрес, Аргентина
+  license_page:
+    foreign:
       title: Об этом переводе
-    legal_babble: 
-      attribution_example: 
+      text: В случае конфликта между этой переведённой страницей и %{english_original_link},
+        английская страница должна иметь приоритет
+      english_link: английского оригинала
+    native:
+      title: Об этой странице
+      text: Вы просматриваете английскую версию страницы авторских прав. Вы можете
+        вернуться к %{native_link} этой страницы или можете прекратить чтение об авторских
+        правах и %{mapping_link}.
+      native_link: русской версии
+      mapping_link: начать картографирование
+    legal_babble:
+      title_html: Авторские права и лицензирование
+      intro_1_html: |-
+        OpenStreetMap содержит <i>свободные данные</i>, распространяемые по лицензии <a
+        href="http://opendatacommons.org/licenses/odbl/">Open Data
+        Commons Open Database License</a> (ODbL).
+      intro_2_html: Вы можете свободно копировать, распространять, передавать и дорабатывать
+        наши данные до тех пор, пока вы ссылаетесь на OpenStreetMap и его сообщество.
+        Если вы изменяете или берёте наши данные за основу, то вы должны распространять
+        результат только по такой же лицензии. Полный <a href="http://opendatacommons.org/licenses/odbl/1.0/">юридический
+        текст лицензии</a> разъясняет ваши права и обязанности.
+      intro_3_html: Изготовленные нами изображения карты, также как и наша документация
+        распространяются по лицензии <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
+        Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA).
+      credit_title_html: Как сослаться на OpenStreetMap
+      credit_1_html: Мы требуем, чтобы вы указывали «© Участники OpenStreetMap».
+      credit_2_html: Вы должны также ясно обозначить, что по лицензии Open Database
+        License распространяется база геоданных, в то время как готовые изображения
+        карты лицензированы под CC-BY-SA. Вы можете сделать это, разместив ссылку
+        на <a href="http://www.openstreetmap.org/copyright">эту страницу</a>. Если
+        же вы распространяете OSM только в виде базы данных, мы можете размещать гиперссылку
+        напрямую на текст соответствующей лицензии. Если формат медиа делает использование
+        гиперссылок невозможным (как например бумажные карты), мы рассчитываем, что
+        вы направите читателей на openstreetmap.org (обозначив именно адрес сайта
+        вместо только лишь названия проекта, 'OpenStreetMap'), на opendatacommons.org,
+        и, при необходимости, на creativecommons.org.
+      credit_3_html: |-
+        В случае электронной карты с прокруткой, ссылка должна всегда находиться в углу окна просмотра карты.
+        Например:
+      attribution_example:
         alt: Пример того, как сослаться на OpenStreetMap с веб-страницы
         title: Пример указания авторства
-      contributors_at_html: "<strong>Австрия.</strong> Данные <a href=\"http://data.wien.gv.at/\">города Вена</a> (на условиях <a href=\"http://creativecommons.org/licenses/by/3.0/at/deed.de\">CC BY</a>), а также земель <a href=\"http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm\">Форарльберга</a> и\n   Тироля (на условиях <a href=\"http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/\">CC-BY AT с дополнениями</a>)."
-      contributors_ca_html: <strong>Канада.</strong> Данные от GeoBase ®, GeoGratis (© Департамент природных ресурсов Канады), CanVec (© Департамент природных ресурсов Канады) и StatCan (Отдел Географии, Статистическое ведомство Канады).
-      contributors_fi_html: "<strong>Финляндия</strong>: Содержит данные из топографической базы национальной земельной службы Финляндии\n и других наборов данных, под\n<a href=\"http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501\">лицензией NLSFI</a>."
-      contributors_footer_1_html: Более подробную информацию об этих и других источниках, использованных для наполнения OpenStreetMap, смотрите на <a href="http://wiki.openstreetmap.org/wiki/Contributors">странице Contributors</a> вики-сервера OpenStreetMap.
-      contributors_footer_2_html: Включение данных в OpenStreetMap не означает, что поставщик первичных данных каким-либо образом поддерживает OpenStreetMap, предоставляет гарантии или принимает на себя какую-любую ответственность.
-      contributors_fr_html: "<strong>Франция</strong>: Данные от Главного налогового управления."
-      contributors_gb_html: <strong>Великобритания.</strong> Данные Ordnance Survey © Crown copyright и права на базы данных 2010-12.
-      contributors_intro_html: "Участниками проекта являются тысячи отдельных людей. Проект также включает данные под свободными лицензиями от национальных картографических агентств и от других источников, среди которых:"
-      contributors_nl_html: "<strong>Нидерланды</strong>: Contains &copy; AND data, 2007 (<a href=\"http://www.and.com\">www.and.com</a>)"
-      contributors_nz_html: <strong>Новая Зеландия.</strong> Данные из сведений о земельных ресурсах Новой Зеландии. Crown Copyright reserved.
-      contributors_title_html: Кто вносит вклад в наш проект
-      contributors_za_html: "<strong>ЮАР</strong>: Имеются данные из\n<a href=\"http://www.ngi.gov.za/\">Главное управление:\nНациональная геоинформационная система</a>, права принадлежат государству."
-      credit_1_html: Мы требуем, чтобы вы указывали «© Участники OpenStreetMap».
-      credit_2_html: Вы должны также ясно обозначить, что по лицензии Open Database License распространяется база геоданных, в то время как готовые изображения карты лицензированы под CC-BY-SA. Вы можете сделать это, разместив ссылку на <a href="http://www.openstreetmap.org/copyright">эту страницу</a>. Если же вы распространяете OSM только в виде базы данных, мы можете размещать гиперссылку напрямую на текст соответствующей лицензии. Если формат медиа делает использование гиперссылок невозможным (как например бумажные карты), мы рассчитываем, что вы направите читателей на openstreetmap.org (обозначив именно адрес сайта вместо только лишь названия проекта, 'OpenStreetMap'), на opendatacommons.org, и, при необходимости, на creativecommons.org.
-      credit_3_html: "В случае электронной карты с прокруткой, ссылка должна всегда находиться в углу окна просмотра карты.\nНапример:"
-      credit_title_html: Как сослаться на OpenStreetMap
-      infringement_1_html: Напоминаем участникам сообщества OSM, что добавление данных из любых защищённых авторским правом источников (например, с Google Maps или печатных карт) не должно проводиться без явного предварительного согласия правообладателей.
-      infringement_2_html: "Если вы считаете, что защищённый авторским правом материал был неправомерно\n добавлен к базе OpenStreetMap или к этому сайту, пожалуйста, обратитесь\n к нашей <a href=\"http://www.osmfoundation.org/wiki/License/Takedown_procedure\">процедуре\n изымания</a> или непосредственно на нашу\n<a href=\"http://dmca.openstreetmap.org/\">вебстраницу регистрации</a>."
-      infringement_title_html: Нарушение авторских прав
-      intro_1_html: "OpenStreetMap содержит <i>свободные данные</i>, распространяемые по лицензии <a\nhref=\"http://opendatacommons.org/licenses/odbl/\">Open Data\nCommons Open Database License</a> (ODbL)."
-      intro_2_html: Вы можете свободно копировать, распространять, передавать и дорабатывать наши данные до тех пор, пока вы ссылаетесь на OpenStreetMap и его сообщество. Если вы изменяете или берёте наши данные за основу, то вы должны распространять результат только по такой же лицензии. Полный <a href="http://opendatacommons.org/licenses/odbl/1.0/">юридический текст лицензии</a> разъясняет ваши права и обязанности.
-      intro_3_html: Изготовленные нами изображения карты, также как и наша документация распространяются по лицензии <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA).
-      more_1_html: Прочитайте больше об использовании наших данных и о поддержке на странице <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ?uselang=ru">ответов на юридические вопросы</a>.
-      more_2_html: Хотя данные OpenStreetMap открыты для использования, мы не в состоянии предоставить бесплатный API к нашим картам для сторонних разработчиков. См. <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">Правила использования API</a>, <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Правила использования частей карты</a> и <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Правила использования службы Nominatim</a> .
       more_title_html: Узнайте больше
-      title_html: Авторские права и лицензирование
-    native: 
-      mapping_link: начать картографирование
-      native_link: русской версии
-      text: Вы просматриваете английскую версию страницы авторских прав. Вы можете вернуться к %{native_link} этой страницы или можете прекратить чтение об авторских правах и %{mapping_link}.
-      title: Об этой странице
-  message: 
-    delete: 
-      deleted: Сообщение удалено
-    inbox: 
-      date: Дата
-      from: От
-      messages: У вас есть %{new_messages} и %{old_messages}
-      my_inbox: Мои входящие
-      new_messages: 
-        few: "%{count} новых сообщения"
-        many: "%{count} новых сообщений"
-        one: "%{count} новое сообщение"
-        other: "%{count} новых сообщений"
-      no_messages_yet: У вас пока нет сообщений. Почему бы не пообщаться с %{people_mapping_nearby_link}?
-      old_messages: 
-        few: "%{count} старых"
-        many: "%{count} старых"
-        one: "%{count} старое"
-        other: "%{count} старых"
-      outbox: исходящие
-      people_mapping_nearby: пользователями поблизости
-      subject: Тема
+      more_1_html: Прочитайте больше об использовании наших данных и о поддержке на
+        странице <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ?uselang=ru">ответов
+        на юридические вопросы</a>.
+      more_2_html: Хотя данные OpenStreetMap открыты для использования, мы не в состоянии
+        предоставить бесплатный API к нашим картам для сторонних разработчиков. См.
+        <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">Правила использования
+        API</a>, <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Правила
+        использования частей карты</a> и <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Правила
+        использования службы Nominatim</a> .
+      contributors_title_html: Кто вносит вклад в наш проект
+      contributors_intro_html: 'Участниками проекта являются тысячи отдельных людей.
+        Проект также включает данные под свободными лицензиями от национальных картографических
+        агентств и от других источников, среди которых:'
+      contributors_at_html: |-
+        <strong>Австрия.</strong> Данные <a href="http://data.wien.gv.at/">города Вена</a> (на условиях <a href="http://creativecommons.org/licenses/by/3.0/at/deed.de">CC BY</a>), а также земель <a href="http://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm">Форарльберга</a> и
+           Тироля (на условиях <a href="http://www.tirol.gv.at/applikationen/e-government/data/nutzungsbedingungen/">CC-BY AT с дополнениями</a>).
+      contributors_ca_html: <strong>Канада.</strong> Данные от GeoBase ®, GeoGratis
+        (© Департамент природных ресурсов Канады), CanVec (© Департамент природных
+        ресурсов Канады) и StatCan (Отдел Географии, Статистическое ведомство Канады).
+      contributors_fi_html: |-
+        <strong>Финляндия</strong>: Содержит данные из топографической базы национальной земельной службы Финляндии
+         и других наборов данных, под
+        <a href="http://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501">лицензией NLSFI</a>.
+      contributors_fr_html: '<strong>Франция</strong>: Данные от Главного налогового
+        управления.'
+      contributors_nl_html: '<strong>Нидерланды</strong>: Contains &copy; AND data,
+        2007 (<a href="http://www.and.com">www.and.com</a>)'
+      contributors_nz_html: <strong>Новая Зеландия.</strong> Данные из сведений о
+        земельных ресурсах Новой Зеландии. Crown Copyright reserved.
+      contributors_za_html: |-
+        <strong>ЮАР</strong>: Имеются данные из
+        <a href="http://www.ngi.gov.za/">Главное управление:
+        Национальная геоинформационная система</a>, права принадлежат государству.
+      contributors_gb_html: <strong>Великобритания.</strong> Данные Ordnance Survey
+        © Crown copyright и права на базы данных 2010-12.
+      contributors_footer_1_html: Более подробную информацию об этих и других источниках,
+        использованных для наполнения OpenStreetMap, смотрите на <a href="http://wiki.openstreetmap.org/wiki/Contributors">странице
+        Contributors</a> вики-сервера OpenStreetMap.
+      contributors_footer_2_html: Включение данных в OpenStreetMap не означает, что
+        поставщик первичных данных каким-либо образом поддерживает OpenStreetMap,
+        предоставляет гарантии или принимает на себя какую-любую ответственность.
+      infringement_title_html: Нарушение авторских прав
+      infringement_1_html: Напоминаем участникам сообщества OSM, что добавление данных
+        из любых защищённых авторским правом источников (например, с Google Maps или
+        печатных карт) не должно проводиться без явного предварительного согласия
+        правообладателей.
+      infringement_2_html: |-
+        Если вы считаете, что защищённый авторским правом материал был неправомерно
+         добавлен к базе OpenStreetMap или к этому сайту, пожалуйста, обратитесь
+         к нашей <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">процедуре
+         изымания</a> или непосредственно на нашу
+        <a href="http://dmca.openstreetmap.org/">вебстраницу регистрации</a>.
+  welcome_page:
+    title: Добро пожаловать!
+    introduction_html: Добро пожаловать на OpenStreetMap, открытую и свободную карту
+      мира. Теперь, когда регистрация завершена, можно начинать картографировать.
+      Вот небольшая инструкция по самым важным вещам, которые необходимо знать.
+    whats_on_the_map:
+      title: Что находится на карте
+      on_html: |-
+        На карте OpenStreetMap расположены объекты, которые <em>существуют в данный момент</em> -
+        то есть миллионы зданий, дорог и других элементов местности. Вы вольны отмечать любые детали окружающего мира, которые вам интересны.
+      off_html: Карта <em>не</em> включает оценочные данные вроде рейтингов, бывшие
+        или гипотетические постройки, и информацию из источников, защищённых авторским
+        правом. Если вы не получили специального разрешения, не копируйте данные с
+        любых других карт.
+    basic_terms:
+      title: Небольшой словарь картографа
+      paragraph_1_html: У OpenStreetMap выработался локальный сленг. Вот несколько
+        понятий, которые стоит иметь ввиду.
+      editor_html: <strong>Редактор</strong> — это программа или веб-сайт, которые
+        можно использовать для редактирования карты.
+      node_html: <strong>Точка</strong> — простейший элемент карты, вроде входа в
+        ресторан или отдельного дерева.
+      way_html: <strong>Линия</strong> — это отрезок или кривая, соединяющая точки,
+        обозначающая, к примеру, дорогу, ручей, контур озера или здания.
+      tag_html: <strong>Тег</strong> – это единица описания точки или линии, например
+        название ресторана или скоростное ограничение конкретной дороги.
+    questions:
+      title: Появились вопросы?
+      paragraph_1_html: |-
+        На OpenStreetMap есть несколько ресурсов, где можно узнать о проекте, задать вопросы или ответить на них и совместно обсудить темы, касающиеся картографии.
+        <a href='%{help_url}'>Получите помощь здесь</a>.
+    start_mapping: Начать картографировать
+    add_a_note:
+      title: Нет времени править карту? Добавьте заметку!
+      paragraph_1_html: Если нужно сделать небольшое уточнение, ради которого слишком
+        долго регистрироваться и изучать правила правки, можно просто добавить заметку
+        на карту.
+      paragraph_2_html: |-
+        Просто перейдите <a href='%{map_url}'>к карте</a> и кликните на иконку заметок:
+        <span class='icon note'></span> Это добавит на карту маркер, который можно перетаскивать мышью. Просто напишите сообщение и нажмите "добавить", и другие участники увидят это.
+  fixthemap:
+    title: Сообщить о проблеме / исправить карту
+    how_to_help:
+      title: Как помочь
+      join_the_community:
+        title: Присоединиться к сообществу
+        explanation_html: Если вы заметили проблему в данных нашей карты, например,
+          отсутствие дорога или вашего адреса, лучший способ для дальнейших действий
+          — вступить в сообщество OpenStreetMap и добавить или восстановить данные
+          самостоятельно.
+      add_a_note:
+        instructions_html: |-
+          Просто нажмите <a class='icon note'></a> или на тот же значок на карте.
+          Это добавит на карту маркер, который можно передвигать перетаскиванием. Добавьте сообщение, а затем нажмите кнопку сохранения, и другие картографы увидят его.
+    other_concerns:
+      title: Другие проблемы
+      explanation_html: |-
+        Если у вас есть вопросы о том, как используются наши данные, или о содержимом сайта, обратитесь к нашей
+        <a href='/copyright'>странице авторских прав</a> для получения дополнительной правовой информации или свяжитесь с  соответствующий
+        <a href='http://wiki.osmfoundation.org/wiki/Working_Groups'>рабочей группой OSMF</a>.
+  help_page:
+    title: Получение справки
+    introduction: На OpenStreetMap есть несколько ресурсов, где можно узнать о проекте,
+      задать вопросы или ответить на них и совместно обсудить темы, касающиеся картографии.
+    welcome:
+      url: /welcome
+      title: Добро пожаловать на OSM
+      description: Начните с этого краткого руководства, охватывающего основы OpenStreetMap.
+    help:
+      url: https://help.openstreetmap.org/
+      title: help.openstreetmap.org
+      description: Задать вопрос или найти ответы на сайте вопросов и ответов OSM.
+    wiki:
+      url: http://wiki.openstreetmap.org/wiki/RU:Main_Page
+      title: wiki.openstreetmap.org
+      description: Посмотреть вики с подробной документацией по OSM
+  about_page:
+    next: Далее
+    copyright_html: <span>&copy;</span>Участники<br />OpenStreetMap
+    used_by: '%{name} предоставляет данные для сотен сайтов, мобильных приложений
+      и устройств'
+    lede_text: OpenStreetMap создан сообществом картографов, которые добавляют и поддерживают
+      данные о дорогах, тропах, кафе, вокзалах и многих других объектах по всему миру.
+    local_knowledge_title: Знание местности
+    local_knowledge_html: OpenStreetMap придаёт особое значение локальным знаниям.
+      Участники используют аэрофотоснимки, GPS-устройства и низкотехнологичных карты
+      земель для проверки того, что данные OSM являются точными и актуальными.
+    community_driven_title: Силами сообщества
+    community_driven_html: |-
+      Сообщество OpenStreetMap — разнообразное, неравнодущное и растущее с каждым днём.
+      Наши участники — это энтузиасты-картографы, ГИС-профессионалы, инженеры, содержащие серверы OSM, люди, отмечающие районы, пострадавшие от бедствий, и многие другие.
+      Чтобы узнать больше о сообществе, читайте <a href='%{diary_path}'>дневники участников</a>,
+      <a href='http://blogs.openstreetmap.org/'>блоги сообщества</a> и сайт <a href='http://www.osmfoundation.org/'>Фонда OSM</a>.
+    open_data_title: Открытые данные
+    open_data_html: 'OpenStreetMap являются <i>открытыми данными</i>: вы можете использовать
+      их для любых целей до тех пор, пока вы указываете авторские права OpenStreetMap
+      и его участников. Если вы изменяете данные или определенным образом основываетесь
+      на них, вы можете распространять свой результат только под той же лицензии.
+      Смотрите <a href=''%{copyright_path}''>Авторские права и Страница лицензии</a>
+      для более подробной информации.'
+    partners_title: Партнёры
+  notifier:
+    diary_comment_notification:
+      subject: Пользователь [OpenStreetMap] %{user} оставил комментарий в вашем дневнике
+      hi: Привет, %{to_user},
+      header: '%{from_user} прокомментировал вашу дневниковую запись на OpenStreetMap
+        с темой %{subject}:'
+      footer: Вы можете также прочитать комментарий — %{readurl}, оставить свой —
+        %{commenturl} или ответить — %{replyurl}
+    message_notification:
+      hi: Привет, %{to_user},
+      header: 'Пользователь OpenStreetMap %{from_user} отправил вам сообщение с темой
+        %{subject}:'
+      footer_html: Вы можете также прочитать сообщение на странице %{readurl}, ответить
+        на него на странице %{replyurl}
+    friend_notification:
+      subject: Пользователь [OpenStreetMap] %{user} добавил вас в список своих друзей
+      had_added_you: '%{user} добавил вас в друзья на OpenStreetMap.'
+      see_their_profile: 'Вы можете просмотреть информацию о них по ссылке: %{userurl}.'
+      befriend_them: Вы также можете добавить их в качестве друзей в %{befriendurl}.
+    gpx_notification:
+      greeting: Привет,
+      your_gpx_file: Это выглядит как ваш файл GPX
+      with_description: с описанием
+      and_the_tags: 'и следующими тегами:'
+      and_no_tags: и без меток.
+      failure:
+        subject: '[OpenStreetMap] Сбой импорта GPX'
+        failed_to_import: 'сбой импорта. Произошла ошибка:'
+        more_info_1: Дополнительную информацию о сбое импорта GPX и о том, как избежать
+        more_info_2: 'сбой, можно найти здесь:'
+        import_failures_url: http://wiki.openstreetmap.org/wiki/RU:GPX_Import_Failures
+      success:
+        subject: '[OpenStreetMap] Импорт GPX прошёл успешно'
+        loaded_successfully: |-
+          успешно загружено %{trace_points} точек из
+          %{possible_points} возможных.
+    signup_confirm:
+      subject: '[OpenStreetMap] Добро пожаловать в OpenStreetMap'
+      greeting: Привет!
+      created: Кто-то (надеемся, вы) только что создал учетную запись на %{site_url}.
+      confirm: 'Прежде чем мы сможем что-либо сделать, мы должны убедиться, что эта
+        просьба исходит от вас, так что если это так, то, пожалуйста, нажмите на ссылку
+        ниже для подтверждения вашей учетной записи:'
+      welcome: После подтверждения вашей учётной записи, мы предоставим вам немного
+        дополнительной информации для начального ознакомления.
+    email_confirm:
+      subject: '[OpenStreetMap] Подтвердите ваш адрес электронной почты'
+    email_confirm_plain:
+      greeting: Здравствуйте,
+      hopefully_you: Кто-то (надеемся, что Вы) хочет изменить свой адрес электронной
+        почты в %{server_url} на адрес %{new_address}.
+      click_the_link: Если это вы, то перейдите по ссылке, расположенной ниже, чтобы
+        подтвердить изменение.
+    email_confirm_html:
+      greeting: Здравствуйте,
+      hopefully_you: Кто-то (надеемся, что вы) хочет изменить свой адрес электронной
+        почты в %{server_url} на адрес %{new_address}.
+      click_the_link: Если это вы, то перейдите по ссылке, расположенной ниже, чтобы
+        подтвердить изменение.
+    lost_password:
+      subject: '[OpenStreetMap] Запрос на смену пароля'
+    lost_password_plain:
+      greeting: Здравствуйте,
+      hopefully_you: Кто-то (надеемся, что Вы) запросил смену пароля для этого адреса
+        электронной почты, зарегистрированного на openstreetmap.org.
+      click_the_link: Если это вы, пожалуйста, перейдите по ссылке, указанной ниже,
+        чтобы сменить ваш пароль.
+    lost_password_html:
+      greeting: Здравствуйте,
+      hopefully_you: Кто-то (надеемся, что вы) запросил смену пароля для этого адреса
+        электронной почты, зарегистрированного на openstreetmap.org.
+      click_the_link: Если это вы, пожалуйста, перейдите по ссылке, указанной ниже,
+        чтобы сменить ваш пароль.
+    note_comment_notification:
+      anonymous: анонимный участник
+      greeting: Привет,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} прокомментировал вашу заметку'
+        subject_other: '[OpenStreetMap] %{commenter} прокомментировал интересную вам
+          заметку'
+        your_note: '%{commenter} оставил комментарий к одной из ваших картографических
+          заметок около %{place}.'
+        commented_note: '%{commenter} оставил комментарий к одной из картографических
+          заметок, которую вы тоже комментировали. Заметка находится около %{place}.'
+      closed:
+        subject_own: '[OpenStreetMap] %{commenter} обработал вашу заметку'
+        subject_other: '[OpenStreetMap] %{commenter} обработал интересную вам заметку'
+        your_note: '%{commenter} разрешил одну из ваших отметок на карте недалеко
+          от %{place}.'
+        commented_note: '%{commenter} разрешил одну из отметок, которые вы комментировали.
+          Отметка недалеко от %{place}.'
+      reopened:
+        subject_own: '[OpenStreetMap] %{комментатор} переоткрыл вашу заметку'
+        subject_other: '[OpenStreetMap] %{комментатор} переоткрыл интересную вам заметку'
+        your_note: '%{commenter} переоткрыл одну из ваших отметок на карте недалеко
+          от %{place}.'
+        commented_note: '%{commenter} переоткрыл одну из отметок, которые вы комментировали.
+          Отметка недалеко от %{place}.'
+      details: Подробнее о заметке %{url}.
+  message:
+    inbox:
       title: Входящие
-    mark: 
-      as_read: Сообщение отмечено как прочитанное
-      as_unread: Сообщение отмечено как непрочитанное
-    message_summary: 
-      delete_button: Удалить
+      my_inbox: Мои входящие
+      outbox: исходящие
+      messages: У вас есть %{new_messages} и %{old_messages}
+      new_messages:
+        few: '%{count} новых сообщения'
+        many: '%{count} новых сообщений'
+        one: '%{count} новое сообщение'
+        other: '%{count} новых сообщений'
+      old_messages:
+        few: '%{count} старых'
+        many: '%{count} старых'
+        one: '%{count} старое'
+        other: '%{count} старых'
+      from: От
+      subject: Тема
+      date: Дата
+      no_messages_yet: У вас пока нет сообщений. Почему бы не пообщаться с %{people_mapping_nearby_link}?
+      people_mapping_nearby: пользователями поблизости
+    message_summary:
+      unread_button: Пометить как непрочитанное
       read_button: Пометить как прочитанное
       reply_button: Ответить
-      unread_button: Пометить как непрочитанное
-    new: 
-      back_to_inbox: Назад ко входящим
-      body: "Текст:"
-      limit_exceeded: Вы недавно отправили много сообщений. Подождите немного, прежде чем отправлять ещё.
-      message_sent: Сообщение отправлено
-      send_button: Отправить
-      send_message_to: Отправить новое сообщение для %{name}
-      subject: "Тема:"
+      delete_button: Удалить
+    new:
       title: Отправить сообщение
-    no_such_message: 
-      body: "\nИзвините, но сообщения с таким ID нет."
-      heading: "\nНет такого сообщения"
-      title: "\nНет такого сообщения"
-    outbox: 
-      date: Дата
+      send_message_to: Отправить новое сообщение для %{name}
+      subject: 'Тема:'
+      body: 'Текст:'
+      send_button: Отправить
+      back_to_inbox: Назад ко входящим
+      message_sent: Сообщение отправлено
+      limit_exceeded: Вы недавно отправили много сообщений. Подождите немного, прежде
+        чем отправлять ещё.
+    no_such_message:
+      title: |2-
+
+        Нет такого сообщения
+      heading: |2-
+
+        Нет такого сообщения
+      body: |2-
+
+        Извините, но сообщения с таким ID нет.
+    outbox:
+      title: Исходящие
+      my_inbox: Мои %{inbox_link}
       inbox: входящие
-      messages: 
+      outbox: исходящие
+      messages:
         few: У вас %{count} отправленных сообщения
         many: У вас %{count} отправленных сообщений
         one: У вас %{count} отправленное сообщение
         other: У вас %{count} отправленных сообщений
-      my_inbox: Мои %{inbox_link}
-      no_sent_messages: Нет отправленных сообщений. Почему бы не пообщаться с %{people_mapping_nearby_link}?
-      outbox: исходящие
-      people_mapping_nearby: пользователями поблизости
-      subject: Тема
-      title: Исходящие
       to: Кому
-    read: 
-      back: Назад
-      date: Дата
-      from: От
-      reply_button: Ответить
       subject: Тема
+      date: Дата
+      no_sent_messages: Нет отправленных сообщений. Почему бы не пообщаться с %{people_mapping_nearby_link}?
+      people_mapping_nearby: пользователями поблизости
+    reply:
+      wrong_user: |2-
+
+        Вы вошли как `%{user}' но ответ на ваш вопрос был отправлен не этому пользователю. Пожалуйста, войдите как соответствующий вашему вопросу пользователь, чтобы прочитать ответ.
+    read:
       title: Просмотр сообщения
-      to: "Кому:"
+      from: От
+      subject: Тема
+      date: Дата
+      reply_button: Ответить
       unread_button: Пометить как непрочитанное
-      wrong_user: "\nВы вошли как пользователь `%{user}' но сообщение, которое вы хотите прочитать, отправлено не этим или не этому пользователю. Пожалуйста, войдите как правильный пользователь, чтобы прочитать его."
-    reply: 
-      wrong_user: "\nВы вошли как `%{user}' но ответ на ваш вопрос был отправлен не этому пользователю. Пожалуйста, войдите как соответствующий вашему вопросу пользователь, чтобы прочитать ответ."
-    sent_message_summary: 
+      back: Назад
+      to: 'Кому:'
+      wrong_user: |2-
+
+        Вы вошли как пользователь `%{user}' но сообщение, которое вы хотите прочитать, отправлено не этим или не этому пользователю. Пожалуйста, войдите как правильный пользователь, чтобы прочитать его.
+    sent_message_summary:
       delete_button: Удалить
-  note: 
-    description: 
-      closed_at_by_html: Решена %{when} назад %{user}
-      closed_at_html: Решена %{when} назад
-      commented_at_by_html: Обновлена %{when} назад %{user}
-      commented_at_html: Обновлена %{when} назад
-      opened_at_by_html: Создана %{when} назад %{user}
-      opened_at_html: Создана %{when} назад
-      reopened_at_by_html: Возобновлена %{when} назад %{user}
-      reopened_at_html: Возобновлена %{when} назад
-    entry: 
-      comment: Комментарий
-      full: Полный текст
-    mine: 
-      ago_html: "%{when} назад"
-      created_at: Создана
-      creator: Автор
-      description: Описание
-      heading: Заметки участника %{user}
-      id: ИД
-      last_changed: Изменена
-      subheading: Заметки, созданные или прокомментированные участником %{user}
-      title: Заметки, созданные или прокомментированный участником %{user}
-    rss: 
-      closed: закрытая заметка (около %{place})
-      commented: новый комментарий (около %{place})
-      description_area: Список заметок, созданных, прокомментированных или закрытых в вашей области [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-      description_item: RSS-поток заметки %{id}
-      opened: новая заметка (около %{place})
-      reopened: переоткрытая заметка (около %{place})
-      title: Заметки OpenStreetMap
-  notifier: 
-    diary_comment_notification: 
-      footer: Вы можете также прочитать комментарий — %{readurl}, оставить свой — %{commenturl} или ответить — %{replyurl}
-      header: "%{from_user} прокомментировал вашу дневниковую запись на OpenStreetMap с темой %{subject}:"
-      hi: Привет, %{to_user},
-      subject: Пользователь [OpenStreetMap] %{user} оставил комментарий в вашем дневнике
-    email_confirm: 
-      subject: "[OpenStreetMap] Подтвердите ваш адрес электронной почты"
-    email_confirm_html: 
-      click_the_link: Если это вы, то перейдите по ссылке, расположенной ниже, чтобы подтвердить изменение.
-      greeting: Здравствуйте,
-      hopefully_you: Кто-то (надеемся, что вы) хочет изменить свой адрес электронной почты в %{server_url} на адрес %{new_address}.
-    email_confirm_plain: 
-      click_the_link: Если это вы, то перейдите по ссылке, расположенной ниже, чтобы подтвердить изменение.
-      greeting: Здравствуйте,
-      hopefully_you: Кто-то (надеемся, что Вы) хочет изменить свой адрес электронной почты в %{server_url} на адрес %{new_address}.
-    friend_notification: 
-      befriend_them: Вы также можете добавить их в качестве друзей в %{befriendurl}.
-      had_added_you: "%{user} добавил вас в друзья на OpenStreetMap."
-      see_their_profile: "Вы можете просмотреть информацию о них по ссылке: %{userurl}."
-      subject: Пользователь [OpenStreetMap] %{user} добавил вас в список своих друзей
-    gpx_notification: 
-      and_no_tags: и без меток.
-      and_the_tags: "и следующими тегами:"
-      failure: 
-        failed_to_import: "сбой импорта. Произошла ошибка:"
-        import_failures_url: http://wiki.openstreetmap.org/wiki/RU:GPX_Import_Failures
-        more_info_1: Дополнительную информацию о сбое импорта GPX и о том, как избежать
-        more_info_2: "сбой, можно найти здесь:"
-        subject: "[OpenStreetMap] Сбой импорта GPX"
-      greeting: Привет,
-      success: 
-        loaded_successfully: "успешно загружено %{trace_points} точек из\n%{possible_points} возможных."
-        subject: "[OpenStreetMap] Импорт GPX прошёл успешно"
-      with_description: с описанием
-      your_gpx_file: Это выглядит как ваш файл GPX
-    lost_password: 
-      subject: "[OpenStreetMap] Запрос на смену пароля"
-    lost_password_html: 
-      click_the_link: Если это вы, пожалуйста, перейдите по ссылке, указанной ниже, чтобы сменить ваш пароль.
-      greeting: Здравствуйте,
-      hopefully_you: Кто-то (надеемся, что вы) запросил смену пароля для этого адреса электронной почты, зарегистрированного на openstreetmap.org.
-    lost_password_plain: 
-      click_the_link: Если это вы, пожалуйста, перейдите по ссылке, указанной ниже, чтобы сменить ваш пароль.
-      greeting: Здравствуйте,
-      hopefully_you: Кто-то (надеемся, что Вы) запросил смену пароля для этого адреса электронной почты, зарегистрированного на openstreetmap.org.
-    message_notification: 
-      footer_html: Вы можете также прочитать сообщение на странице %{readurl}, ответить на него на странице %{replyurl}
-      header: "Пользователь OpenStreetMap %{from_user} отправил вам сообщение с темой %{subject}:"
-      hi: Привет, %{to_user},
-    note_comment_notification: 
-      anonymous: анонимный участник
-      closed: 
-        commented_note: "%{commenter} разрешил одну из отметок, которые вы комментировали. Отметка недалеко от %{place}."
-        subject_other: "[OpenStreetMap] %{commenter} обработал интересную вам заметку"
-        subject_own: "[OpenStreetMap] %{commenter} обработал вашу заметку"
-        your_note: "%{commenter} разрешил одну из ваших отметок на карте недалеко от %{place}."
-      commented: 
-        commented_note: "%{commenter} оставил комментарий к одной из картографических заметок, которую вы тоже комментировали. Заметка находится около %{place}."
-        subject_other: "[OpenStreetMap] %{commenter} прокомментировал интересную вам заметку"
-        subject_own: "[OpenStreetMap] %{commenter} прокомментировал вашу заметку"
-        your_note: "%{commenter} оставил комментарий к одной из ваших картографических заметок около %{place}."
-      details: Подробнее о заметке %{url}.
-      greeting: Привет,
-      reopened: 
-        commented_note: "%{commenter} переоткрыл одну из отметок, которые вы комментировали. Отметка недалеко от %{place}."
-        subject_other: "[OpenStreetMap] %{комментатор} переоткрыл интересную вам заметку"
-        subject_own: "[OpenStreetMap] %{комментатор} переоткрыл вашу заметку"
-        your_note: "%{commenter} переоткрыл одну из ваших отметок на карте недалеко от %{place}."
-    signup_confirm: 
-      confirm: "Прежде чем мы сможем что-либо сделать, мы должны убедиться, что эта просьба исходит от вас, так что если это так, то, пожалуйста, нажмите на ссылку ниже для подтверждения вашей учетной записи:"
-      created: Кто-то (надеемся, вы) только что создал учетную запись на %{site_url}.
-      greeting: Привет!
-      subject: "[OpenStreetMap] Добро пожаловать в OpenStreetMap"
-      welcome: После подтверждения вашей учётной записи, мы предоставим вам немного дополнительной информации для начального ознакомления.
-  oauth: 
-    oauthorize: 
-      allow_read_gpx: читать ваши частные GPS-треки
+    mark:
+      as_read: Сообщение отмечено как прочитанное
+      as_unread: Сообщение отмечено как непрочитанное
+    delete:
+      deleted: Сообщение удалено
+  site:
+    index:
+      js_1: Вы используете браузер, в котором не поддерживается или отключен JavaScript.
+      js_2: OpenStreetMap использует JavaScript для отображения карт.
+      permalink: Постоянная ссылка
+      shortlink: Короткая ссылка
+      createnote: Добавить заметку
+      license:
+        copyright: Авторские права принадлежат OpenStreetMap и его участникам на условиях
+          открытой лицензии
+      remote_failed: Редактирование не удалось. Убедитесь, что JOSM или Merkaartor
+        загружены и включена настройка дистанционного управления
+    edit:
+      not_public: Вы не сделали свои правки общедоступными.
+      not_public_description: 'Вы не можете больше анонимно редактировать карту. Вы
+        можете сделать ваши правки общедоступными здесь: %{user_page}.'
+      user_page_link: страница пользователя
+      anon_edits_link_text: Выяснить, в чём дело.
+      flash_player_required: Для использования редактора Potlatch необходим Flash-плеер.
+        Вы можете <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">загрузить
+        Flash-плеер с Adobe.com</a>. Существуют и <a href="http://wiki.openstreetmap.org/index.php?title=RU:Editing&uselang=ru">другие
+        способы</a> редактирования OpenStreetMap.
+      potlatch_unsaved_changes: Имеются несохранённые изменения. (Для сохранения в
+        Potlatch снимите выделение с пути или точки, если редактируете в «живом» режиме,
+        либо нажмите кнопку «сохранить», если вы в режиме отложенного сохранения.)
+      potlatch2_not_configured: Potlatch 2 не был настроен — подробнее см. http://wiki.openstreetmap.org/wiki/The_Rails_Port
+      potlatch2_unsaved_changes: Имеются несохранённые изменения. (Для сохранения
+        в Potlatch 2, следует нажать «сохранить».)
+      id_not_configured: iD не был настроен
+      no_iframe_support: Ваш браузер не поддерживает рамки в HTML, а они нужны для
+        этого режима.
+    sidebar:
+      search_results: Результаты поиска
+      close: Закрыть
+    search:
+      search: Поиск
+      where_am_i: Где я?
+      where_am_i_title: Опишите ваше местоположение, воспользовавшись инструментом
+        поиска
+      submit_text: Перейти
+    key:
+      table:
+        entry:
+          motorway: Автомагистраль
+          trunk: Шоссе
+          primary: Магистральная дорога
+          secondary: Второстепенная дорога
+          unclassified: Дорога местного значения
+          unsurfaced: Грунтовая дорога
+          track: Просёлочная дорога
+          byway: Тропинка
+          bridleway: Дорога для верховой езды
+          cycleway: Велосипедная дорога
+          footway: Пешеходная дорожка
+          rail: Железная дорога
+          subway: Линия метро
+          tram:
+          - Легкорельсовый транспорт
+          - трамвай
+          cable:
+          - Канатная дорога
+          - кресельный подъёмник
+          runway:
+          - Взлётно-посадочная полоса аэропорта
+          - рулёжная дорожка
+          apron:
+          - Перрон аэродрома
+          - терминал
+          admin: Административная граница
+          forest: Лес
+          wood: Роща
+          golf: Площадка для гольфа
+          park: Парк
+          resident: Жилой район
+          tourist: Достопримечательность
+          common:
+          - Общественная земля
+          - луг
+          retail: Торговый район
+          industrial: Промышленный район
+          commercial: Коммерческий район
+          heathland: Пустошь
+          lake:
+          - Озеро
+          - водохранилище
+          farm: Ферма
+          brownfield: Заброшенная зона
+          cemetery: Кладбище
+          allotments: Сады-огороды, дачные участки
+          pitch: Спортивная площадка
+          centre: Спортивный центр
+          reserve: Заповедник
+          military: Военная зона
+          school:
+          - Школа
+          - университет
+          building: Значительное здание
+          station: Железнодорожная станция
+          summit:
+          - Вершина
+          - пик
+          tunnel: Туннель (пунктир)
+          bridge: Мост (жирная линия)
+          private: Частный доступ
+          permissive: Разрешительный доступ
+          destination: Целевой доступ
+          construction: Строительство дороги
+    richtext_area:
+      edit: Изменить
+      preview: Предпросмотр
+    markdown_help:
+      title_html: Разобрано с помощью <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
+      headings: Заголовки
+      heading: Заголовок
+      subheading: Подзаголовок
+      unordered: Неупорядоченный список
+      ordered: Упорядоченный список
+      first: Первый элемент
+      second: Второй элемент
+      link: Ссылка
+      text: Текст
+      image: Изображение
+      alt: Альтернативный текст
+      url: URL
+  trace:
+    visibility:
+      private: Частный (доступно только анонимно, неупорядоченные точки)
+      public: Общедоступный (показывается в списке треков и анонимно, неупорядоченные
+        точки)
+      trackable: Отслеживаемый (доступно только анонимно, упорядоченные точки с отметками
+        времени)
+      identifiable: Идентифицируемый (показывается в списке треков и персонально,
+        упорядоченные точки с отметками времени)
+    create:
+      upload_trace: Передать GPS-трек на сервер
+      trace_uploaded: Ваш файл GPX был передан на сервер и сейчас вносится в базу
+        данных. Обычно это занимает от минуты до получаса. По завершении вам будет
+        прислано уведомление на электронную почту.
+    edit:
+      title: Редактирование трека %{name}
+      heading: Редактирование трека %{name}
+      filename: 'Имя файла:'
+      download: скачать
+      uploaded_at: 'Передан на сервер:'
+      points: 'Точек:'
+      start_coord: 'Координаты начала:'
+      map: карта
+      edit: править
+      owner: 'Владелец:'
+      description: 'Описание:'
+      tags: 'Теги:'
+      tags_help: через запятую
+      save_button: Сохранить изменения
+      visibility: 'Видимость:'
+      visibility_help: Что это значит?
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/RU:%D0%92%D0%B8%D0%B4%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C_GPS-%D1%82%D1%80%D0%B5%D0%BA%D0%BE%D0%B2?uselang=ru
+    trace_form:
+      upload_gpx: Загрузить GPX-файл
+      description: 'Описание:'
+      tags: 'Теги:'
+      tags_help: через запятую
+      visibility: 'Видимость:'
+      visibility_help: Что это значит?
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/RU:%D0%92%D0%B8%D0%B4%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C_GPS-%D1%82%D1%80%D0%B5%D0%BA%D0%BE%D0%B2?uselang=ru
+      upload_button: Передать на сервер
+      help: Справка
+      help_url: http://wiki.openstreetmap.org/wiki/RU:%D0%97%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0_%D1%82%D1%80%D0%B5%D0%BA%D0%BE%D0%B2?uselang=ru
+    trace_header:
+      upload_trace: Загрузить треки
+      see_all_traces: Показать все треки
+      see_your_traces: Показать все ваши треки
+      traces_waiting:
+        one: '%{count} ваш трек ожидает передачи на сервер. Пожалуйста, дождитесь
+          окончания передачи этого трека, перед тем как начать передавать на сервер
+          другие. Это позволит не блокировать сервер для других пользователей.'
+        other: '%{count} ваших треков ожидают передачи на сервер. Пожалуйста, дождитесь
+          окончания передачи этих треков, перед тем как начать передавать на сервер
+          другие. Это позволит не блокировать сервер для других пользователей.'
+    trace_optionals:
+      tags: 'Теги:'
+    view:
+      title: Просмотр трека %{name}
+      heading: Просмотр трека %{name}
+      pending: ОБРАБОТКА
+      filename: 'Имя файла:'
+      download: скачать
+      uploaded: 'Передан на сервер:'
+      points: 'Точек:'
+      start_coordinates: 'Координаты начала:'
+      map: на карте
+      edit: править
+      owner: 'Владелец:'
+      description: 'Описание:'
+      tags: 'Теги:'
+      none: Нет
+      edit_track: Редактировать свойства
+      delete_track: Удалить этот трек
+      trace_not_found: Трек не найден!
+      visibility: 'Видимость:'
+    trace_paging_nav:
+      showing_page: Страница %{page}
+      older: Более старые треки
+      newer: Более новые треки
+    trace:
+      pending: ОБРАБОТКА
+      count_points: '%{count} точек'
+      ago: '%{time_in_words_ago} назад'
+      more: подробнее
+      trace_details: Показать данные трека
+      view_map: Просмотр карты
+      edit: править
+      edit_map: Править карту
+      public: ОБЩЕДОСТУПНЫЙ
+      identifiable: ИДЕНТИФИЦИРУЕМЫЙ
+      private: ЧАСТНЫЙ
+      trackable: ОТСЛЕЖИВАЕМЫЙ
+      by: 'Автор:'
+      in: в
+      map: карта
+    list:
+      public_traces: Общедоступные GPS-треки
+      your_traces: Ваши GPS-треки
+      public_traces_from: Общедоступные треки пользователя %{user}
+      description: Обзор последних загруженных маршрутов GPS
+      tagged_with: ' отмеченные %{tags}'
+      empty_html: Пока здесь ничего нет. <a href='%{upload_link}'>Загрузите новый
+        трек</a> или почитайте про GPS-треки на <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>вики-странице</a>.
+    delete:
+      scheduled_for_deletion: Запланировано к удалению
+    make_public:
+      made_public: Трек сделан общедоступным
+    offline_warning:
+      message: Система загрузки файлов GPX в настоящий момент недоступна
+    offline:
+      heading: GPX хранилище отключено
+      message: Хранилище GPX файлов и система их загрузки в настоящий момент недоступна.
+    georss:
+      title: OpenStreetMap GPS-треки
+    description:
+      description_with_count:
+        one: GPX-файл с %{count} точкой от %{user}}
+        other: GPX-файл с %{count} точками от %{user}
+      description_without_count: GPX-файл от %{user}
+  application:
+    require_cookies:
+      cookies_needed: Похоже, что у вас выключены куки. Пожалуйста, включите куки
+        в вашем браузере, прежде чем продолжить.
+    require_moderator:
+      not_a_moderator: Чтобы выполнить это действие, нужно быть модератором.
+    setup_user_auth:
+      blocked: Ваш доступ к API заблокирован. Пожалуйста, войдите через веб-интерфейсе,
+        чтобы узнать подробности.
+      need_to_see_terms: Ваш доступ к API временно приостановлен. Пожалуйста войдите
+        через веб-интерфейс для просмотра условий участия. Вам не обязательно соглашаться,
+        но вы должны просмотреть их.
+  oauth:
+    oauthorize:
+      title: Разрешить доступ к вашей учётной записи
+      request_access: Приложение %{app_name} запрашивает доступ к вашей учётной записи,
+        %{user}. Пожалуйста, проверьте желаете ли вы, чтобы приложение имело следующие
+        возможности. Вы можете выбрать любое количество.
+      allow_to: 'Разрешить клиентскому приложению:'
       allow_read_prefs: читать ваши пользовательские настройки
-      allow_to: "Разрешить клиентскому приложению:"
+      allow_write_prefs: изменять ваши пользовательские настройки
+      allow_write_diary: создавать дневниковые записи, комментарии, устанавливать
+        друзей
       allow_write_api: изменять карту
-      allow_write_diary: создавать дневниковые записи, комментарии, устанавливать друзей
+      allow_read_gpx: читать ваши частные GPS-треки
       allow_write_gpx: передавать GPS-треки на сервер.
       allow_write_notes: изменять заметки.
-      allow_write_prefs: изменять ваши пользовательские настройки
-      request_access: Приложение %{app_name} запрашивает доступ к вашей учётной записи, %{user}. Пожалуйста, проверьте желаете ли вы, чтобы приложение имело следующие возможности. Вы можете выбрать любое количество.
-      title: Разрешить доступ к вашей учётной записи
-    oauthorize_failure: 
+    oauthorize_success:
+      title: Запрос на авторизацию разрешён
+      allowed: Вы предоставили приложению %{app_name} доступ к вашей учётной записи.
+      verification: 'Проверочный код: %{code}.'
+    oauthorize_failure:
+      title: Сбой запроса авторизации
       denied: Вы запретили приложению %{app_name} доступ к вашей учётной записи.
       invalid: Токен авторизации недействителен.
-      title: Сбой запроса авторизации
-    oauthorize_success: 
-      allowed: Вы предоставили приложению %{app_name} доступ к вашей учётной записи.
-      title: Запрос на авторизацию разрешён
-      verification: "Проверочный код: %{code}."
-    revoke: 
+    revoke:
       flash: Вы отозвали токен для приложения %{application}
-  oauth_clients: 
-    create: 
-      flash: Информация успешно зарегистрирована
-    destroy: 
-      flash: Уничтожена регистрация клиентского приложения
-    edit: 
-      submit: Изменить
+  oauth_clients:
+    new:
+      title: Зарегистрировать новое приложение
+      submit: Зарегистрировать
+    edit:
       title: Изменить ваше приложение
-    form: 
-      allow_read_gpx: читать их частные GPS-треки
+      submit: Изменить
+    show:
+      title: Подробности OAuth для %{app_name}
+      key: 'Потребительский ключ:'
+      secret: 'Потребительский секрет:'
+      url: 'URL маркера запроса:'
+      access_url: 'URL маркера доступа:'
+      authorize_url: 'Авторизующий URL:'
+      support_notice: Мы поддерживаем HMAC-SHA1 (рекомендуется) и RSA-SHA1 подписи.
+      edit: Изменить подробности
+      delete: Удаление клиента
+      confirm: Вы уверены?
+      requests: 'Запрос следующих разрешений со стороны пользователя:'
       allow_read_prefs: читать их пользовательские настройки
-      allow_write_api: изменять карту.
-      allow_write_diary: создать дневниковые записи, комментарии, устанавливать друзей
+      allow_write_prefs: изменять их пользовательские настройки.
+      allow_write_diary: создавать дневниковые записи, комментарии, устанавливать
+        друзей
+      allow_write_api: изменять карту
+      allow_read_gpx: читать их частные GPS-треки
       allow_write_gpx: передавать GPS-треки на сервер.
       allow_write_notes: изменять заметки.
-      allow_write_prefs: изменять их пользовательские настройки
-      callback_url: URL обратного вызова
-      name: Имя
-      requests: "Запросить у пользователя следующие разрешения:"
-      required: Требуется
-      support_url: URL поддержки
-      url: Основной URL приложения
-    index: 
+    index:
+      title: Мои подробности OAuth
+      my_tokens: Мои авторизованные приложения
+      list_tokens: 'Следующие токены были выпущены для приложений на ваше имя:'
       application: Название приложения
       issued_at: Выдан в
-      list_tokens: "Следующие токены были выпущены для приложений на ваше имя:"
-      my_apps: Мои клиентские приложения
-      my_tokens: Мои авторизованные приложения
-      no_apps: Есть ли у вас приложения, которые бы вы хотели зарегистрироваться для взаимодействия с нами через стандарт %{oauth}? Вы должны зарегистрировать ваше веб-приложение перед тем, как оно сможет сделать OAuth-запрос к этой службе.
-      register_new: Зарегистрировать ваше приложение
-      registered_apps: "У вас зарегистрированы следующие клиентские приложения:"
       revoke: Отозвать!
-      title: Мои подробности OAuth
-    new: 
-      submit: Зарегистрировать
-      title: Зарегистрировать новое приложение
-    not_found: 
-      sorry: К сожалению, этот %{type} не может быть найден.
-    show: 
-      access_url: "URL маркера доступа:"
-      allow_read_gpx: читать их частные GPS-треки
+      my_apps: Мои клиентские приложения
+      no_apps: Есть ли у вас приложения, которые бы вы хотели зарегистрироваться для
+        взаимодействия с нами через стандарт %{oauth}? Вы должны зарегистрировать
+        ваше веб-приложение перед тем, как оно сможет сделать OAuth-запрос к этой
+        службе.
+      registered_apps: 'У вас зарегистрированы следующие клиентские приложения:'
+      register_new: Зарегистрировать ваше приложение
+    form:
+      name: Имя
+      required: Требуется
+      url: Основной URL приложения
+      callback_url: URL обратного вызова
+      support_url: URL поддержки
+      requests: 'Запросить у пользователя следующие разрешения:'
       allow_read_prefs: читать их пользовательские настройки
-      allow_write_api: изменять карту
-      allow_write_diary: создавать дневниковые записи, комментарии, устанавливать друзей
+      allow_write_prefs: изменять их пользовательские настройки
+      allow_write_diary: создать дневниковые записи, комментарии, устанавливать друзей
+      allow_write_api: изменять карту.
+      allow_read_gpx: читать их частные GPS-треки
       allow_write_gpx: передавать GPS-треки на сервер.
       allow_write_notes: изменять заметки.
-      allow_write_prefs: изменять их пользовательские настройки.
-      authorize_url: "Авторизующий URL:"
-      confirm: Вы уверены?
-      delete: Удаление клиента
-      edit: Изменить подробности
-      key: "Потребительский ключ:"
-      requests: "Запрос следующих разрешений со стороны пользователя:"
-      secret: "Потребительский секрет:"
-      support_notice: Мы поддерживаем HMAC-SHA1 (рекомендуется) и RSA-SHA1 подписи.
-      title: Подробности OAuth для %{app_name}
-      url: "URL маркера запроса:"
-    update: 
+    not_found:
+      sorry: К сожалению, этот %{type} не может быть найден.
+    create:
+      flash: Информация успешно зарегистрирована
+    update:
       flash: Клиентская информация успешно обновлена
-  redaction: 
-    create: 
-      flash: Редакция создана.
-    destroy: 
-      error: Произошла ошибка при уничтожении этой редакции.
-      flash: Редакция уничтожена.
-      not_empty: Редакция не пуста. Пожалуйста, откатите все версии, принадлежащие к этой редакции перед удалением.
-    edit: 
+    destroy:
+      flash: Уничтожена регистрация клиентского приложения
+  user:
+    login:
+      title: Представьтесь
+      heading: Представьтесь
+      email or username: 'Эл. почта или имя пользователя:'
+      password: 'Пароль:'
+      openid: '%{logo} OpenID:'
+      remember: 'Запомнить меня:'
+      lost password link: Забыли пароль?
+      login_button: Представиться
+      register now: Зарегистрируйтесь
+      with username: 'У вас уже есть учётная запись OpenStreetMap? Пожалуйста, войдите
+        с вашим именем пользователя и паролем:'
+      with openid: 'Вы также можете использовать для входа ваш OpenID:'
+      new to osm: Впервые на OpenStreetMap?
+      to make changes: Чтобы вносить изменения в данные OpenStreetMap, вы должны иметь
+        учётную запись.
+      create account minute: Создайте учётную запись. Это займёт не больше минуты.
+      no account: У вас нет аккаунта?
+      account not active: Извините, ваша учётная запись ещё не активирована.<br />Чтобы
+        активировать её, пожалуйста, нажмите на ссылку в отправленном вам письме,
+        или <a href="%{reconfirm}">запросите отправку нового письма-подтверждения</a>.
+      account is suspended: Извините, ваша учётная запись была приостановлена из-за
+        подозрительной активности.<br />Пожалуйста, свяжитесь с <a href="%{webmaster}">веб-мастером</a>,
+        если вы хотите выяснить подробности.
+      auth failure: Извините, вход с этими именем или паролем невозможен.
+      openid missing provider: К сожалению, не удалось связаться с вашим поставщиком
+        OpenID
+      openid invalid: Извините, похоже, что ваш OpenID введён неправильно
+      openid_logo_alt: Войти с помощью OpenID
+      openid_providers:
+        openid:
+          title: Войти с помощью OpenID
+          alt: Войти с помощью OpenID URL
+        google:
+          title: Войти с помощью  Google
+          alt: Войти с помощью  Google OpenID
+        yahoo:
+          title: Войти с помощью Yahoo
+          alt: Войти с помощью Yahoo OpenID
+        wordpress:
+          title: Войти с помощью Wordpress
+          alt: Войти с помощью Wordpress OpenID
+        aol:
+          title: Войти с помощью AOL
+          alt: Войти с помощью AOL OpenID
+    logout:
+      title: Выйти
+      heading: Выйти из OpenStreetMap
+      logout_button: Выйти
+    lost_password:
+      title: Восстановление пароля
+      heading: Забыли пароль?
+      email address: 'Адрес электронной почты:'
+      new password button: Вышлите мне новый пароль
+      help_text: Введите адрес вашей электронной почты, который вы использовали для
+        подписки, и мы вышлем инструкции, как можно обновить ваш пароль.
+      notice email on way: Жаль, что вы потеряли пароль :-( но ничего, скоро придёт
+        письмо и вы сможете поменять свой пароль.
+      notice email cannot find: Такой адрес не зарегистрирован.
+    reset_password:
+      title: Повторная установка пароля
+      heading: Повторная установка пароля для %{user}
+      password: 'Пароль:'
+      confirm password: 'Подтверждение пароля:'
+      reset: Установить пароль
+      flash changed: Ваш пароль был изменён.
+      flash token bad: Невозможно найти такой код подтверждения, проверьте ссылку.
+    new:
+      title: Регистрация
+      no_auto_account_create: К сожалению, сейчас мы не можем автоматически создать
+        для вас учётную запись.
+      contact_webmaster: Пожалуйста, свяжитесь с <a href="mailto:webmaster@openstreetmap.org">вебмастером</a>
+        с просьбой создать подобную учётную запись. Мы попробуем и ответим настолько
+        быстро, насколько сможем.
+      about:
+        header: Свободно редактируемая
+        html: |-
+          <p>в Отличие от других карт, карты OpenStreetMap полностью создаются обычными людьми вроде вас
+          и они свободны для исправления, обновления, загрузки и использования каждым.</p>
+          <p>Зарегистрируйтесь, чтобы сделать свой вклад. Мы отправим вам письмо, чтобы подтвердить ваш аккаунт.</p>
+      license_agreement: Для подтверждения своей учётной записи вам необходимо согласиться
+        с <a href="http://wiki.openstreetmap.org/wiki/RU:Open_Database_License/Contributor_Terms?uselang=ru">условиями
+        сотрудничества</a>.
+      email address: 'Адрес эл. почты:'
+      confirm email address: 'Подтвердите адрес эл. почты:'
+      not displayed publicly: Не отображается публично (см. <a href="http://wiki.openstreetmap.org/index.php?title=Privacy_Policy&uselang=ru"
+        title="вики политика конфиденциальности включая часть про адрес эл. почты">политику
+        конфиденциальности</a>)
+      display name: 'Отображаемое имя:'
+      display name description: Ваше имя, как оно будет видно другим пользователям.
+        Вы сможете изменить его позже в настройках.
+      openid: '%{logo} OpenID:'
+      password: 'Пароль:'
+      confirm password: 'Повторите пароль:'
+      use openid: Или используйте для входа %{logo} OpenID
+      openid no password: При использовании OpenID пароль не требуется, но некоторым
+        дополнительным инструменты и серверам он всё-таки нужен.
+      openid association: |-
+        <p>Ваш OpenID ещё не связан с учётной записью OpenStreetMap.</p>
+        <ul>
+          <li>Если вы новичок на OpenStreetMap, пожалуйста, создайте новую учётную запись, используя приведённую ниже форму.</li>
+          <li>
+            Если у вас уже есть учётная запись, вы можете войти
+            используя ваше имя пользователя и пароль, а затем связать учётную запись
+            с вашим OpenID через меню настроек.
+          </li>
+        </ul>
+      continue: Зарегистрироваться
+      terms accepted: Спасибо за принятие новых условий участия!
+      terms declined: Нам жаль, что вы решили не принимать новые условия участия.
+        Дополнительную информацию можно найти <a href="%{url}">на следующей странице</a>.
+    terms:
+      title: Условия сотрудничества
+      heading: Условия сотрудничества
+      read and accept: Пожалуйста, прочтите приведённое ниже соглашение и нажмите
+        кнопку «Согласен», чтобы подтвердить, что вы согласны с условиями этого соглашения
+        относительно вашего существующего и будущего вклада.
+      consider_pd: В дополнение к вышеизложенному соглашению, я считаю, что мой вклад
+        находиться в общественном достоянии
+      consider_pd_why: что это значит?
+      guidance: 'Информация, которая поможет понять эти условия: <a href="%{summary}">краткое
+        описание</a> и несколько <a href="%{translations}">неофициальных переводов</a>'
+      agree: Принять
+      decline: Отклонить
+      you need to accept or decline: Пожалуйста, прочитайте, а затем согласитесь или
+        отклоните новые Условия участия.
+      legale_select: 'Пожалуйста, выберите страну вашего проживания:'
+      legale_names:
+        france: На французском
+        italy: На итальянском
+        rest_of_world: Остальной мир
+    no_such_user:
+      title: Нет такого пользователя
+      heading: Пользователя %{user} не существует
+      body: Извините, нет пользователя с именем %{user}. Пожалуйста, проверьте правильность
+        ввода. Возможно, вы перешли по ошибочной ссылке.
+    view:
+      my diary: Мой дневник
+      new diary entry: новая запись
+      my edits: Мои правки
+      my traces: Мои треки
+      my notes: Мои заметки
+      my messages: Мои сообщения
+      my profile: Мой профиль
+      my settings: Мои настройки
+      my comments: Мои комментарии
+      oauth settings: |2-
+
+        настройки OAuth
+      blocks on me: Мои блокировки
+      blocks by me: Наложенные мною блокировки
+      send message: Отправить сообщение
+      diary: Дневник
+      edits: Правки
+      traces: Треки
+      notes: Заметки
+      remove as friend: Удалить из друзей
+      add as friend: Добавить в друзья
+      mapper since: 'Зарегистрирован:'
+      ago: (%{time_in_words_ago} назад)
+      ct status: 'Условия участия:'
+      ct undecided: Неопределено
+      ct declined: Отклонены
+      ct accepted: Приняты %{ago} назад
+      latest edit: 'Последняя правка %{ago}:'
+      email address: 'Адрес Email:'
+      created from: 'Создано из:'
+      status: 'Статус:'
+      spam score: 'Оценка спама:'
+      description: Описание
+      user location: Местонахождение пользователя
+      if set location: Укажите свое местоположение на вашей странице %{settings_link}
+        чтобы увидеть своих соседей.
+      settings_link_text: настройки
+      your friends: Ваши друзья
+      no friends: Вы не добавили ещё ни одного друга.
+      km away: '%{count} км от вас'
+      m away: '%{count} м от вас'
+      nearby users: Другие ближайшие пользователи
+      no nearby users: Пока нет других пользователей, признающих, что занимающихся
+        составлением карты поблизости.
+      role:
+        administrator: Этот пользователь является администратором
+        moderator: Этот пользователь является модератором
+        grant:
+          administrator: Присвоить права администратора
+          moderator: Присвоить права модератора
+        revoke:
+          administrator: Отозвать права администратора
+          moderator: Отозвать права модератора
+      block_history: полученные блокировки
+      moderator_history: созданные блокировки
+      comments: Комментарии
+      create_block: блокировать пользователя
+      activate_user: активировать этого пользователя
+      deactivate_user: деактивировать этого пользователя
+      confirm_user: подтвердить этого пользователя
+      hide_user: скрыть этого пользователя
+      unhide_user: отобразить этого пользователя
+      delete_user: удалить этого пользователя
+      confirm: Подтвердить
+      friends_changesets: наборы правок друзей
+      friends_diaries: дневники друзей
+      nearby_changesets: правки соседей
+      nearby_diaries: дневники соседей
+    popup:
+      your location: Ваше местоположение
+      nearby mapper: Ближайший пользователь
+      friend: Друг
+    account:
+      title: Изменить учетную запись
+      my settings: Мои настройки
+      current email address: 'Текущий адрес электронной почты:'
+      new email address: 'Новый адрес электронной почты:'
+      email never displayed publicly: (не будет показан)
+      openid:
+        openid: 'OpenID:'
+        link: http://wiki.openstreetmap.org/wiki/RU:OpenID
+        link text: что это?
+      public editing:
+        heading: 'Публичная правка:'
+        enabled: Включено. Можно редактировать. Правки не анонимны.
+        enabled link: http://wiki.openstreetmap.org/wiki/RU:Anonymous_edits&uselang=ru
+        enabled link text: что это?
+        disabled: Отключён и не может вносить правки, все предыдущие изменения анонимны.
+        disabled link text: почему я не могу вносить изменения?
+      public editing note:
+        heading: Общедоступная правка
+        text: В настоящий момент ваши правки анонимны и никто не может отправлять
+          вам сообщения или видеть ваше местоположение. Чтобы указать авторство своих
+          правок и позволить другим связываться с вами через вебсайт, нажмите на кнопку
+          внизу. <b>После перехода на API  версии 0.6, только доступные для связи
+          пользователи могут править данные карты</b>. (<a href="http://wiki.openstreetmap.org/wiki/RU:Anonymous_edits">узнайте,
+          почему</a>).<ul> <li>Ваш адрес электронной почты не будет раскрыт для других,
+          но связаться с вами будет возможно.</li> <li>Это действие не имеет обратной
+          силы, а все новые пользователи теперь доступны для связи по умолчанию.</li>
+          </ul>
+      contributor terms:
+        heading: 'Условия участия:'
+        agreed: Вы согласились с новыми Условиями участия.
+        not yet agreed: Вы ещё не согласились с новыми Условиями участия.
+        review link text: Пожалуйста, перейдите по этой ссылке в удобное для вас время
+          и подтвердите согласие с новыми Условиями участия.
+        agreed_with_pd: Вы также заявили, что вы считаете свои правки находящимися
+          в общественном достоянии.
+        link: http://wiki.openstreetmap.org/wiki/RU:Open_Database_License/Contributor_Terms?uselang=ru
+        link text: что это?
+      profile description: 'Описание профиля:'
+      preferred languages: 'Предпочитаемые языки:'
+      preferred editor: 'Предпочтительный редактор:'
+      image: 'Изображение:'
+      gravatar:
+        gravatar: Использовать Gravatar
+        link text: что это?
+      new image: Добавить изображение
+      keep image: Оставить текущее изображение
+      delete image: Удалить текущее изображение
+      replace image: Заменить текущее изображение
+      image size hint: (квадратные изображения, по крайней мере 100×100, работают
+        лучше)
+      home location: 'Моё местоположение:'
+      no home location: Вы не обозначили свое домашнее местоположение.
+      latitude: 'Широта:'
+      longitude: 'Долгота:'
+      update home location on click: Обновлять моё местоположение, когда я нажимаю
+        на карту?
+      save changes button: Сохранить изменения
+      make edits public button: Сделать все мои правки доступными
+      return to profile: Вернуться к профилю
+      flash update success confirm needed: Информация о пользователе успешно обновлена.
+        Проверьте свою электронную почту для подтверждения вашего нового адреса.
+      flash update success: Информация о пользователе успешно обновлена.
+    confirm:
+      heading: Проверьте свою электронную почту!
+      introduction_1: Мы отправили вам подтверждение по электронной почте.
+      introduction_2: Подтвердите аккаунт, нажав на ссылку в письме. Затем вы сможете
+        править карту.
+      press confirm button: Нажмите кнопку ниже, чтобы активировать вашу учетную запись.
+      button: Подтвердить
+      already active: Эта учётная запись уже подтверждена.
+      unknown token: Такой код подтверждения истек или не существует.
+      reconfirm_html: Если хотите, чтобы мы выслали ещё одно подтверждение по электронной
+        почте, <a href="%{reconfirm}">нажмите здесь</a>.
+    confirm_resend:
+      success: Мы выслали новое письмо с подтверждением на адрес %{email}, и как только
+        вы подтвердите вашу учётную запись, вы можете начать работать с картами.<br
+        /><br />Если вы используете антиспам-систему, посылающую запросы на подтверждение,
+        пожалуйста, внесите адрес webmaster@openstreetmap.org в ваш белый список,
+        так как мы не можем отвечать на такие запросы.
+      failure: Участник %{name} не найден.
+    confirm_email:
+      heading: Подтвердите изменение адреса электронной почты
+      press confirm button: Нажмите кнопку подтверждения чтобы подтвердить ваш новый
+        адрес электронной почты.
+      button: Подтвердить
+      success: Ваш адрес электронной почты подтверждён, спасибо за регистрацию!
+      failure: Адрес электронной почты уже был подтверждён этим токеном.
+    set_home:
+      flash success: Домашнее местоположение сохранено
+    go_public:
+      flash success: Все ваши правки теперь общедоступны, и вы теперь можете редактировать.
+    make_friend:
+      heading: Добавить %{user} в друзья?
+      button: Добавить в друзья
+      success: '%{name} теперь ваш друг!'
+      failed: Не удалось добавить %{name} в друзья.
+      already_a_friend: Вы всё ещё друзья с %{name}.
+    remove_friend:
+      heading: Удалить %{user} из друзей?
+      button: Удалить из друзей
+      success: '%{name} удалён из друзей.'
+      not_a_friend: '%{name} не является вашим другом.'
+    filter:
+      not_an_administrator: Только администратор может выполнить это действие.
+    list:
+      title: Пользователи
+      heading: Пользователи
+      showing:
+        one: Страница %{page} (%{first_item} из %{items})
+        other: Страница %{page} (%{first_item}-%{last_item} из %{items})
+      summary: '%{name} создан %{date}, с адреса %{ip_address}'
+      summary_no_ip: '%{name} создан %{date}'
+      confirm: Подтвердить выделенных пользователей
+      hide: Скрыть выделенных пользователей
+      empty: Не найдено соответствующих пользователей
+    suspended:
+      title: Учётная запись приостановлена
+      heading: Учётная запись приостановлена
+      webmaster: веб-мастер
+      body: |-
+        <p>
+          Извините, ваша учётная запись была автоматически приостановлена из-за
+          подозрительной активности.
+        </p>
+        <p>
+          Это решение может быть вскоре пересмотрено администратором, или
+          вы можете связаться с %{webmaster}, если вы хотите это обсудить.
+        </p>
+  user_role:
+    filter:
+      not_an_administrator: Только администраторы могут управлять ролями пользователей,
+        а вы не являетесь администратором.
+      not_a_role: Строка «%{role}» не является допустимой ролью.
+      already_has_role: Пользователь уже имеет роль %{role}.
+      doesnt_have_role: У пользователя нет роли %{role}.
+    grant:
+      title: Подтвердить присвоение роли
+      heading: Подтверждение присвоения роли
+      are_you_sure: Вы уверены, что хотите присвоить роль «%{role}» пользователю «%{name}»?
+      confirm: Подтвердить
+      fail: Не возможно присвоить роль «%{role}» пользователю «%{name}». Пожалуйста,
+        проверьте, что пользователь и роль являются допустимыми.
+    revoke:
+      title: Подтвердить отзыв роли
+      heading: Подтверждение отзыва роли
+      are_you_sure: Вы уверены, что хотите отозвать роль «%{role}» у пользователя
+        «%{name}»?
+      confirm: Подтвердить
+      fail: Не удалось отозвать роль «%{role}» у пользователя «%{name}. Пожалуйста,
+        проверьте, что пользователь и роль являются допустимыми.
+  user_block:
+    model:
+      non_moderator_update: Нужно быть модератором, чтобы создать или изменить блокирование.
+      non_moderator_revoke: Нужно быть модератором, чтобы снять блокирование.
+    not_found:
+      sorry: Извините, блокирование пользователя с ID %{id} не найдено.
+      back: Вернуться к индексу
+    new:
+      title: Создание блокирования для пользователя %{name}
+      heading: Создание блокирования для пользователя %{name}
+      reason: Объясните, почему %{name} был заблокирован. Пожалуйста, будьте терпимы
+        и поступайте разумно, предоставляя пользователю, как можно больше информации
+        о причинах блокирования, помня, что сообщение будет видно всем. Помните, что
+        не все пользователи понимают жаргон, потому пользуйтесь при объяснении дилетантским
+        языком.
+      period: Как долго, начиная с этого момента, пользователь будет заблокирован
+        от API.
+      submit: Создать блокирование
+      tried_contacting: Я связывался с пользователем и просил его остановиться.
+      tried_waiting: Я дал достаточно времени пользователю, чтобы он отреагировал
+        на те сообщения.
+      needs_view: Пользователю необходимо войти в систему до того, как это блокирование
+        будет очищено
+      back: Показать все блокирования
+    edit:
+      title: Правка блокирования пользователя %{name}
+      heading: Правка блокирования пользователя %{name}
+      reason: Объясните, почему %{name} был заблокирован. Пожалуйста, будьте терпимы
+        и поступайте разумно, предоставляя пользователю, как можно больше информации
+        о ситуации. Помните, что не все пользователи понимают жаргон, потому пользуйтесь
+        при объяснении дилетантским языком.
+      period: На какой срок, начиная с этого момента, заблокировать пользователя от
+        API.
+      submit: Обновить блокирование
+      show: Просмотреть эту блокировку
+      back: Просмотреть все блокирования
+      needs_view: Позволить ли пользователю входить в систему, прежде, чем блокирование
+        будет снято?
+    filter:
+      block_expired: Блокирование уже закончилось и не может быть отредактировано.
+      block_period: Время блокирования должно быть выбрано из значений,  рвзворачивающегося
+        списка.
+    create:
+      try_contacting: Пожалуйста, перед блокировкой пользователя попробуйте связаться
+        с ним и дать ему разумное время для ответа.
+      try_waiting: Пожалуйста, дайте пользователю разумное время для ответа, перед
+        тем, как блокировать его.
+      flash: Заблокирован пользователь %{name}.
+    update:
+      only_creator_can_edit: Только модератор, который создал это блокирование, может
+        править его.
+      success: Блокирование обновлено.
+    index:
+      title: Блокировки участника
+      heading: Список блокирований пользователя
+      empty: Блокирования ещё не были созданы.
+    revoke:
+      title: Снять блокирование для  %{block_on}
+      heading: Отмена блокирования для пользователя %{block_on}, которое создал %{block_by}
+      time_future: Это блокирование закончится %{time}.
+      past: Это блокирование закончилось %{time} назад и уже не может быть отменено.
+      confirm: Вы уверены, что хотите снять это блокирование?
+      revoke: Снять блокирование!
+      flash: Это блокирование было снято.
+    period:
+      one: 1 час
+      other: '%{count} час.'
+    partial:
+      show: Показать
+      edit: Править
+      revoke: Разблокировать!
+      confirm: Вы уверены?
+      display_name: Заблокированный пользователь
+      creator_name: Автор
+      reason: Причина блокирования
+      status: Состояние
+      revoker_name: Разблокировал
+      not_revoked: (не разблокирован)
+      showing_page: Страница %{page}
+      next: Следующая →
+      previous: ← Предыдущая
+    helper:
+      time_future: Заканчивается в %{time}.
+      until_login: Активно до тех пор, пока пользователь не войдёт в систему.
+      time_past: Закончилось %{time} назад.
+    blocks_on:
+      title: Блокирования для %{name}
+      heading: Список блокирований пользователя %{name}
+      empty: ' %{name} ни разу не был заблокирован.'
+    blocks_by:
+      title: Блокирования, которые сделал
+      heading: Список блокирований, которые сделал
+      empty: '%{name} ещё не делал никаких блокирований.'
+    show:
+      title: '%{block_on}, наложил блокировку: %{block_by}'
+      heading: '%{block_on}, наложил блокировку: %{block_by}'
+      time_future: Заканчивается %{time}
+      time_past: Закончилась %{time} назад
+      status: Состояние
+      show: Показывать
+      edit: Изменить
+      revoke: Разблокировать!
+      confirm: Вы уверены?
+      reason: 'Причина блокировки:'
+      back: Показать все блокировки
+      revoker: 'Разблокировавший:'
+      needs_view: Пользователь должен зарегистрироваться, прежде чем это блокирование
+        будет снято.
+  note:
+    description:
+      opened_at_html: Создана %{when} назад
+      opened_at_by_html: Создана %{when} назад %{user}
+      commented_at_html: Обновлена %{when} назад
+      commented_at_by_html: Обновлена %{when} назад %{user}
+      closed_at_html: Решена %{when} назад
+      closed_at_by_html: Решена %{when} назад %{user}
+      reopened_at_html: Возобновлена %{when} назад
+      reopened_at_by_html: Возобновлена %{when} назад %{user}
+    rss:
+      title: Заметки OpenStreetMap
+      description_area: Список заметок, созданных, прокомментированных или закрытых
+        в вашей области [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+      description_item: RSS-поток заметки %{id}
+      opened: новая заметка (около %{place})
+      commented: новый комментарий (около %{place})
+      closed: закрытая заметка (около %{place})
+      reopened: переоткрытая заметка (около %{place})
+    entry:
+      comment: Комментарий
+      full: Полный текст
+    mine:
+      title: Заметки, созданные или прокомментированный участником %{user}
+      heading: Заметки участника %{user}
+      subheading: Заметки, созданные или прокомментированные участником %{user}
+      id: ИД
+      creator: Автор
+      description: Описание
+      created_at: Создана
+      last_changed: Изменена
+      ago_html: '%{when} назад'
+  javascripts:
+    close: Закрыть
+    share:
+      title: Поделиться
+      cancel: Отмена
+      image: Изображение
+      link: Ссылка или код для вставки
+      long_link: Полная ссылка
+      short_link: Короткая ссылка
+      embed: Код
+      custom_dimensions: Выбрать размер вручную
+      format: 'Формат:'
+      scale: 'Масштаб:'
+      image_size: Будет сохранён участок стандартного слоя размером
+      download: Скачать
+      short_url: Короткая ссылка
+      include_marker: Включая маркер
+      center_marker: Центрировать карту на маркер
+      paste_html: HTML-код для встраивания на сайт
+      view_larger_map: Посмотреть более крупную карту
+    key:
+      title: Легенда карты
+      tooltip: Условные знаки
+      tooltip_disabled: Легенда карты доступна только для Стандартного слоя
+    map:
+      zoom:
+        in: Приблизить
+        out: Отдалить
+      locate:
+        title: Показать мое местоположение
+        popup: Вы находитесь в {distance} {unit} от этой точки
+      base:
+        standard: Стандартный
+        cycle_map: Карта для велосипедистов
+        transport_map: Карта транспорта
+        mapquest: MapQuest Open
+        hot: Humanitarian‎
+      layers:
+        header: Слои карты
+        notes: Заметки
+        data: Просмотр данных карты
+        overlays: Дополнительные слои для устранения неисправностей карты
+        title: Слои
+      copyright: © <a href='%{copyright_url}'>Участники OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Сделать пожертвование</a>
+    site:
+      edit_tooltip: Править карту
+      edit_disabled_tooltip: Увеличить масштаб для редактирования карты
+      createnote_tooltip: Добавить заметку на карту
+      createnote_disabled_tooltip: Приблизьте карту, чтобы добавить заметку
+      map_notes_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть примечания к карте
+      map_data_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть данные карты
+    notes:
+      new:
+        intro: Заметили ошибку или отсутствие чего-то? Дайте знать об этом другим
+          картографами, чтоб мы могли это исправить. Поместите маркер в правильное
+          положение и напишите пояснение, объясняющее проблему. (Пожалуйста, не вводите
+          здесь личные данные, информацию из карт, защищённых авторскими правами или
+          списки каталогов.)
+        add: Добавить заметку
+      show:
+        anonymous_warning: Эта заметка содержит комментарии анонимных участников.
+          Требуется независимая проверка сведений.
+        hide: Скрыть
+        resolve: Обработана
+        reactivate: Переоткрыть
+        comment_and_resolve: Прокомментировать и обработать
+        comment: Прокомментировать
+    edit_help: Передвиньте карту и увеличьте место, которые вы хотите править, затем
+      кликните здесь.
+  redaction:
+    edit:
       description: Описание
       heading: Редактировать исправление
       submit: Сохранить исправление
       title: Редактировать исправление
-    index: 
+    index:
       empty: Нет исправлений для показа.
       heading: Список исправлений
       title: Список исправлений
-    new: 
+    new:
       description: Описание
       heading: Введите информацию для нового исправления
       submit: Создание исправления
       title: Создание нового исправления
-    show: 
-      confirm: Вы уверены?
-      description: "Описание:"
-      destroy: Удалить это исправление
-      edit: Редактировать это исправление
+    show:
+      description: 'Описание:'
       heading: Отображение исправления «%{title}»
       title: Отображение исправления
-      user: "Создано:"
-    update: 
+      user: 'Создано:'
+      edit: Редактировать это исправление
+      destroy: Удалить это исправление
+      confirm: Вы уверены?
+    create:
+      flash: Редакция создана.
+    update:
       flash: Изменения сохранены.
-  site: 
-    edit: 
-      anon_edits_link_text: Выяснить, в чём дело.
-      flash_player_required: Для использования редактора Potlatch необходим Flash-плеер. Вы можете <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">загрузить Flash-плеер с Adobe.com</a>. Существуют и <a href="http://wiki.openstreetmap.org/index.php?title=RU:Editing&uselang=ru">другие способы</a> редактирования OpenStreetMap.
-      id_not_configured: iD не был настроен
-      no_iframe_support: Ваш браузер не поддерживает рамки в HTML, а они нужны для этого режима.
-      not_public: Вы не сделали свои правки общедоступными.
-      not_public_description: "Вы не можете больше анонимно редактировать карту. Вы можете сделать ваши правки общедоступными здесь: %{user_page}."
-      potlatch2_not_configured: Potlatch 2 не был настроен — подробнее см. http://wiki.openstreetmap.org/wiki/The_Rails_Port#Potlatch_2
-      potlatch2_unsaved_changes: Имеются несохранённые изменения. (Для сохранения в Potlatch 2, следует нажать «сохранить».)
-      potlatch_unsaved_changes: Имеются несохранённые изменения. (Для сохранения в Potlatch снимите выделение с пути или точки, если редактируете в «живом» режиме, либо нажмите кнопку «сохранить», если вы в режиме отложенного сохранения.)
-      user_page_link: страница пользователя
-    index: 
-      createnote: Добавить заметку
-      js_1: Вы используете браузер, в котором не поддерживается или отключен JavaScript.
-      js_2: OpenStreetMap использует JavaScript для отображения карт.
-      license: 
-        copyright: Авторские права принадлежат OpenStreetMap и его участникам на условиях открытой лицензии
-      permalink: Постоянная ссылка
-      remote_failed: Редактирование не удалось. Убедитесь, что JOSM или Merkaartor загружены и включена настройка дистанционного управления
-      shortlink: Короткая ссылка
-    key: 
-      table: 
-        entry: 
-          admin: Административная граница
-          allotments: Сады-огороды, дачные участки
-          apron: 
-            - Перрон аэродрома
-            - терминал
-          bridge: Мост (жирная линия)
-          bridleway: Дорога для верховой езды
-          brownfield: Заброшенная зона
-          building: Значительное здание
-          byway: Тропинка
-          cable: 
-            - Канатная дорога
-            - кресельный подъёмник
-          cemetery: Кладбище
-          centre: Спортивный центр
-          commercial: Коммерческий район
-          common: 
-            - Общественная земля
-            - луг
-          construction: Строительство дороги
-          cycleway: Велосипедная дорога
-          destination: Целевой доступ
-          farm: Ферма
-          footway: Пешеходная дорожка
-          forest: Лес
-          golf: Площадка для гольфа
-          heathland: Пустошь
-          industrial: Промышленный район
-          lake: 
-            - Озеро
-            - водохранилище
-          military: Военная зона
-          motorway: Автомагистраль
-          park: Парк
-          permissive: Разрешительный доступ
-          pitch: Спортивная площадка
-          primary: Магистральная дорога
-          private: Частный доступ
-          rail: Железная дорога
-          reserve: Заповедник
-          resident: Жилой район
-          retail: Торговый район
-          runway: 
-            - Взлётно-посадочная полоса аэропорта
-            - рулёжная дорожка
-          school: 
-            - Школа
-            - университет
-          secondary: Второстепенная дорога
-          station: Железнодорожная станция
-          subway: Линия метро
-          summit: 
-            - Вершина
-            - пик
-          tourist: Достопримечательность
-          track: Просёлочная дорога
-          tram: 
-            - Легкорельсовый транспорт
-            - трамвай
-          trunk: Шоссе
-          tunnel: Туннель (пунктир)
-          unclassified: Дорога местного значения
-          unsurfaced: Грунтовая дорога
-          wood: Роща
-    markdown_help: 
-      alt: Альтернативный текст
-      first: Первый элемент
-      heading: Заголовок
-      headings: Заголовки
-      image: Изображение
-      link: Ссылка
-      ordered: Упорядоченный список
-      second: Второй элемент
-      subheading: Подзаголовок
-      text: Текст
-      title_html: Разобрано с помощью <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
-      unordered: Неупорядоченный список
-      url: URL
-    richtext_area: 
-      edit: Изменить
-      preview: Предпросмотр
-    search: 
-      search: Поиск
-      submit_text: Перейти
-      where_am_i: Где я?
-      where_am_i_title: Опишите ваше местоположение, воспользовавшись инструментом поиска
-    sidebar: 
-      close: Закрыть
-      search_results: Результаты поиска
-  time: 
-    formats: 
-      friendly: "%e %B %Y в %H:%M"
-  trace: 
-    create: 
-      trace_uploaded: Ваш файл GPX был передан на сервер и сейчас вносится в базу данных. Обычно это занимает от минуты до получаса. По завершении вам будет прислано уведомление на электронную почту.
-      upload_trace: Передать GPS-трек на сервер
-    delete: 
-      scheduled_for_deletion: Запланировано к удалению
-    description: 
-      description_with_count: 
-        one: GPX-файл с %{count} точкой от %{user}}
-        other: GPX-файл с %{count} точками от %{user}
-      description_without_count: GPX-файл от %{user}
-    edit: 
-      description: "Описание:"
-      download: загрузить
-      edit: править
-      filename: "Имя файла:"
-      heading: Редактирование трека %{name}
-      map: карта
-      owner: "Владелец:"
-      points: "Точек:"
-      save_button: Сохранить изменения
-      start_coord: "Координаты начала:"
-      tags: "Теги:"
-      tags_help: через запятую
-      title: Редактирование трека %{name}
-      uploaded_at: "Передан на сервер:"
-      visibility: "Видимость:"
-      visibility_help: Что это значит?
-      visibility_help_url: http://wiki.openstreetmap.org/wiki/RU:%D0%92%D0%B8%D0%B4%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C_GPS-%D1%82%D1%80%D0%B5%D0%BA%D0%BE%D0%B2?uselang=ru
-    georss: 
-      title: OpenStreetMap GPS-треки
-    list: 
-      description: Обзор последних загруженных маршрутов GPS
-      empty_html: Пока здесь ничего нет. <a href='%{upload_link}'>Загрузите новый трек</a> или почитайте про GPS-треки на <a href='http://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2'>вики-странице</a>.
-      public_traces: Общедоступные GPS-треки
-      public_traces_from: Общедоступные треки пользователя %{user}
-      tagged_with: " отмеченные %{tags}"
-      your_traces: Ваши GPS-треки
-    make_public: 
-      made_public: Трек сделан общедоступным
-    offline: 
-      heading: GPX хранилище отключено
-      message: Хранилище GPX файлов и система их загрузки в настоящий момент недоступна.
-    offline_warning: 
-      message: Система загрузки файлов GPX в настоящий момент недоступна
-    trace: 
-      ago: "%{time_in_words_ago} назад"
-      by: "Автор:"
-      count_points: "%{count} точек"
-      edit: править
-      edit_map: Править карту
-      identifiable: ИДЕНТИФИЦИРУЕМЫЙ
-      in: в
-      map: карта
-      more: подробнее
-      pending: ОБРАБОТКА
-      private: ЧАСТНЫЙ
-      public: ОБЩЕДОСТУПНЫЙ
-      trace_details: Показать данные трека
-      trackable: ОТСЛЕЖИВАЕМЫЙ
-      view_map: Просмотр карты
-    trace_form: 
-      description: "Описание:"
-      help: Справка
-      help_url: http://wiki.openstreetmap.org/wiki/RU:%D0%97%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0_%D1%82%D1%80%D0%B5%D0%BA%D0%BE%D0%B2?uselang=ru
-      tags: "Теги:"
-      tags_help: через запятую
-      upload_button: Передать на сервер
-      upload_gpx: Загрузить GPX-файл
-      visibility: "Видимость:"
-      visibility_help: Что это значит?
-      visibility_help_url: http://wiki.openstreetmap.org/wiki/RU:%D0%92%D0%B8%D0%B4%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C_GPS-%D1%82%D1%80%D0%B5%D0%BA%D0%BE%D0%B2?uselang=ru
-    trace_header: 
-      see_all_traces: Показать все треки
-      see_your_traces: Показать все ваши треки
-      traces_waiting: 
-        one: "%{count} ваш трек ожидает передачи на сервер. Пожалуйста, дождитесь окончания передачи этого трека, перед тем как начать передавать на сервер другие. Это позволит не блокировать сервер для других пользователей."
-        other: "%{count} ваших треков ожидают передачи на сервер. Пожалуйста, дождитесь окончания передачи этих треков, перед тем как начать передавать на сервер другие. Это позволит не блокировать сервер для других пользователей."
-      upload_trace: Загрузить треки
-    trace_optionals: 
-      tags: "Теги:"
-    trace_paging_nav: 
-      newer: Более новые треки
-      older: Более старые треки
-      showing_page: Страница %{page}
-    view: 
-      delete_track: Удалить этот трек
-      description: "Описание:"
-      download: скачать
-      edit: править
-      edit_track: Редактировать свойства
-      filename: "Имя файла:"
-      heading: Просмотр трека %{name}
-      map: на карте
-      none: Нет
-      owner: "Владелец:"
-      pending: ОБРАБОТКА
-      points: "Точек:"
-      start_coordinates: "Координаты начала:"
-      tags: "Теги:"
-      title: Просмотр трека %{name}
-      trace_not_found: Трек не найден!
-      uploaded: "Передан на сервер:"
-      visibility: "Видимость:"
-    visibility: 
-      identifiable: Идентифицируемый (показывается в списке треков и персонально, упорядоченные точки с отметками времени)
-      private: Частный (доступно только анонимно, неупорядоченные точки)
-      public: Общедоступный (показывается в списке треков и анонимно, неупорядоченные точки)
-      trackable: Отслеживаемый (доступно только анонимно, упорядоченные точки с отметками времени)
-  user: 
-    account: 
-      contributor terms: 
-        agreed: Вы согласились с новыми Условиями участия.
-        agreed_with_pd: Вы также заявили, что вы считаете свои правки находящимися в общественном достоянии.
-        heading: "Условия участия:"
-        link: http://wiki.openstreetmap.org/wiki/RU:Open_Database_License/Contributor_Terms?uselang=ru
-        link text: что это?
-        not yet agreed: Вы ещё не согласились с новыми Условиями участия.
-        review link text: Пожалуйста, перейдите по этой ссылке в удобное для вас время и подтвердите согласие с новыми Условиями участия.
-      current email address: "Текущий адрес электронной почты:"
-      delete image: Удалить текущее изображение
-      email never displayed publicly: (не будет показан)
-      flash update success: Информация о пользователе успешно обновлена.
-      flash update success confirm needed: Информация о пользователе успешно обновлена. Проверьте свою электронную почту для подтверждения вашего нового адреса.
-      gravatar: 
-        gravatar: Использовать Gravatar
-        link text: что это?
-      home location: "Моё местоположение:"
-      image: "Изображение:"
-      image size hint: (квадратные изображения, по крайней мере 100×100, работают лучше)
-      keep image: Оставить текущее изображение
-      latitude: "Широта:"
-      longitude: "Долгота:"
-      make edits public button: Сделать все мои правки доступными
-      my settings: Мои настройки
-      new email address: "Новый адрес электронной почты:"
-      new image: Добавить изображение
-      no home location: Вы не обозначили свое домашнее местоположение.
-      openid: 
-        link: http://wiki.openstreetmap.org/wiki/RU:OpenID
-        link text: что это?
-        openid: "OpenID:"
-      preferred editor: "Предпочтительный редактор:"
-      preferred languages: "Предпочитаемые языки:"
-      profile description: "Описание профиля:"
-      public editing: 
-        disabled: Отключён и не может вносить правки, все предыдущие изменения анонимны.
-        disabled link text: почему я не могу вносить изменения?
-        enabled: Включено. Можно редактировать. Правки не анонимны.
-        enabled link: http://wiki.openstreetmap.org/wiki/RU:Anonymous_edits&uselang=ru
-        enabled link text: что это?
-        heading: "Публичная правка:"
-      public editing note: 
-        heading: Общедоступная правка
-        text: В настоящий момент ваши правки анонимны и никто не может отправлять вам сообщения или видеть ваше местоположение. Чтобы указать авторство своих правок и позволить другим связываться с вами через вебсайт, нажмите на кнопку внизу. <b>После перехода на API  версии 0.6, только доступные для связи пользователи могут править данные карты</b>. (<a href="http://wiki.openstreetmap.org/wiki/RU:Anonymous_edits">узнайте, почему</a>).<ul> <li>Ваш адрес электронной почты не будет раскрыт для других, но связаться с вами будет возможно.</li> <li>Это действие не имеет обратной силы, а все новые пользователи теперь доступны для связи по умолчанию.</li> </ul>
-      replace image: Заменить текущее изображение
-      return to profile: Вернуться к профилю
-      save changes button: Сохранить изменения
-      title: Изменить учетную запись
-      update home location on click: Обновлять моё местоположение, когда я нажимаю на карту?
-    confirm: 
-      already active: Эта учётная запись уже подтверждена.
-      button: Подтвердить
-      heading: Проверьте свою электронную почту!
-      introduction_1: Мы отправили вам подтверждение по электронной почте.
-      introduction_2: Подтвердите аккаунт, нажав на ссылку в письме. Затем вы сможете править карту.
-      press confirm button: Нажмите кнопку ниже, чтобы активировать вашу учетную запись.
-      reconfirm_html: Если хотите, чтобы мы выслали ещё одно подтверждение по электронной почте, <a href="%{reconfirm}">нажмите здесь</a>.
-      unknown token: Такой код подтверждения истек или не существует.
-    confirm_email: 
-      button: Подтвердить
-      failure: Адрес электронной почты уже был подтверждён этим токеном.
-      heading: Подтвердите изменение адреса электронной почты
-      press confirm button: Нажмите кнопку подтверждения чтобы подтвердить ваш новый адрес электронной почты.
-      success: Ваш адрес электронной почты подтверждён, спасибо за регистрацию!
-    confirm_resend: 
-      failure: Участник %{name} не найден.
-      success: Мы выслали новое письмо с подтверждением на адрес %{email}, и как только вы подтвердите вашу учётную запись, вы можете начать работать с картами.<br /><br />Если вы используете антиспам-систему, посылающую запросы на подтверждение, пожалуйста, внесите адрес webmaster@openstreetmap.org в ваш белый список, так как мы не можем отвечать на такие запросы.
-    filter: 
-      not_an_administrator: Только администратор может выполнить это действие.
-    go_public: 
-      flash success: Все ваши правки теперь общедоступны, и вы теперь можете редактировать.
-    list: 
-      confirm: Подтвердить выделенных пользователей
-      empty: Не найдено соответствующих пользователей
-      heading: Пользователи
-      hide: Скрыть выделенных пользователей
-      showing: 
-        one: Страница %{page} (%{first_item} из %{items})
-        other: Страница %{page} (%{first_item}-%{last_item} из %{items})
-      summary: "%{name} создан %{date}, с адреса %{ip_address}"
-      summary_no_ip: "%{name} создан %{date}"
-      title: Пользователи
-    login: 
-      account is suspended: Извините, ваша учётная запись была приостановлена из-за подозрительной активности.<br />Пожалуйста, свяжитесь с <a href="%{webmaster}">веб-мастером</a>, если вы хотите выяснить подробности.
-      account not active: Извините, ваша учётная запись ещё не активирована.<br />Чтобы активировать её, пожалуйста, нажмите на ссылку в отправленном вам письме, или <a href="%{reconfirm}">запросите отправку нового письма-подтверждения</a>.
-      auth failure: Извините, вход с этими именем или паролем невозможен.
-      create account minute: Создайте учётную запись. Это займёт не больше минуты.
-      email or username: "Эл. почта или имя пользователя:"
-      heading: Представьтесь
-      login_button: Представиться
-      lost password link: Забыли пароль?
-      new to osm: Впервые на OpenStreetMap?
-      no account: У вас нет аккаунта?
-      openid: "%{logo} OpenID:"
-      openid invalid: Извините, похоже, что ваш OpenID введён неправильно
-      openid missing provider: К сожалению, не удалось связаться с вашим поставщиком OpenID
-      openid_logo_alt: Войти с помощью OpenID
-      openid_providers: 
-        aol: 
-          alt: Войти с помощью AOL OpenID
-          title: Войти с помощью AOL
-        google: 
-          alt: Войти с помощью  Google OpenID
-          title: Войти с помощью  Google
-        myopenid: 
-          alt: Войти с помощью MyOpenID OpenID
-          title: Войти с помощью MyOpenID
-        openid: 
-          alt: Войти с помощью OpenID URL
-          title: Войти с помощью OpenID
-        wordpress: 
-          alt: Войти с помощью Wordpress OpenID
-          title: Войти с помощью Wordpress
-        yahoo: 
-          alt: Войти с помощью Yahoo OpenID
-          title: Войти с помощью Yahoo
-      password: "Пароль:"
-      register now: Зарегистрируйтесь
-      remember: "Запомнить меня:"
-      title: Представьтесь
-      to make changes: Чтобы вносить изменения в данные OpenStreetMap, вы должны иметь учётную запись.
-      with openid: "Вы также можете использовать для входа ваш OpenID:"
-      with username: "У вас уже есть учётная запись OpenStreetMap? Пожалуйста, войдите с вашим именем пользователя и паролем:"
-    logout: 
-      heading: Выйти из OpenStreetMap
-      logout_button: Выйти
-      title: Выйти
-    lost_password: 
-      email address: "Адрес электронной почты:"
-      heading: Забыли пароль?
-      help_text: Введите адрес вашей электронной почты, который вы использовали для подписки, и мы вышлем инструкции, как можно обновить ваш пароль.
-      new password button: Вышлите мне новый пароль
-      notice email cannot find: Такой адрес не зарегистрирован.
-      notice email on way: Жаль, что вы потеряли пароль :-( но ничего, скоро придёт письмо и вы сможете поменять свой пароль.
-      title: Восстановление пароля
-    make_friend: 
-      already_a_friend: Вы всё ещё друзья с %{name}.
-      button: Добавить в друзья
-      failed: Не удалось добавить %{name} в друзья.
-      heading: Добавить %{user} в друзья?
-      success: "%{name} теперь ваш друг!"
-    new: 
-      about: 
-        header: Свободно редактируемая
-        html: "<p>в Отличие от других карт, карты OpenStreetMap полностью создаются обычными людьми вроде вас\nи они свободны для исправления, обновления, загрузки и использования каждым.</p>\n<p>Зарегистрируйтесь, чтобы сделать свой вклад. Мы отправим вам письмо, чтобы подтвердить ваш аккаунт.</p>"
-      confirm email address: "Подтвердите адрес эл. почты:"
-      confirm password: "Повторите пароль:"
-      contact_webmaster: Пожалуйста, свяжитесь с <a href="mailto:webmaster@openstreetmap.org">вебмастером</a> с просьбой создать подобную учётную запись. Мы попробуем и ответим настолько быстро, насколько сможем.
-      continue: Зарегистрироваться
-      display name: "Отображаемое имя:"
-      display name description: Ваше имя, как оно будет видно другим пользователям. Вы сможете изменить его позже в настройках.
-      email address: "Адрес эл. почты:"
-      license_agreement: Для подтверждения своей учётной записи вам необходимо согласиться с <a href="http://wiki.openstreetmap.org/wiki/RU:Open_Database_License/Contributor_Terms?uselang=ru">условиями сотрудничества</a>.
-      no_auto_account_create: К сожалению, сейчас мы не можем автоматически создать для вас учётную запись.
-      not displayed publicly: Не отображается публично (см. <a href="http://wiki.openstreetmap.org/index.php?title=Privacy_Policy&uselang=ru" title="вики политика конфиденциальности включая часть про адрес эл. почты">политику конфиденциальности</a>)
-      openid: "%{logo} OpenID:"
-      openid association: "<p>Ваш OpenID ещё не связан с учётной записью OpenStreetMap.</p>\n<ul>\n  <li>Если вы новичок на OpenStreetMap, пожалуйста, создайте новую учётную запись, используя приведённую ниже форму.</li>\n  <li>\n    Если у вас уже есть учётная запись, вы можете войти\n    используя ваше имя пользователя и пароль, а затем связать учётную запись\n    с вашим OpenID через меню настроек.\n  </li>\n</ul>"
-      openid no password: При использовании OpenID пароль не требуется, но некоторым дополнительным инструменты и серверам он всё-таки нужен.
-      password: "Пароль:"
-      terms accepted: Спасибо за принятие новых условий участия!
-      terms declined: Нам жаль, что вы решили не принимать новые условия участия. Дополнительную информацию можно найти <a href="%{url}">на следующей странице</a>.
-      title: Регистрация
-      use openid: Или используйте для входа %{logo} OpenID
-    no_such_user: 
-      body: Извините, нет пользователя с именем %{user}. Пожалуйста, проверьте правильность ввода. Возможно, вы перешли по ошибочной ссылке.
-      heading: Пользователя %{user} не существует
-      title: Нет такого пользователя
-    popup: 
-      friend: Друг
-      nearby mapper: Ближайший пользователь
-      your location: Ваше местоположение
-    remove_friend: 
-      button: Удалить из друзей
-      heading: Удалить %{user} из друзей?
-      not_a_friend: "%{name} не является вашим другом."
-      success: "%{name} удалён из друзей."
-    reset_password: 
-      confirm password: "Подтверждение пароля:"
-      flash changed: Ваш пароль был изменён.
-      flash token bad: Невозможно найти такой код подтверждения, проверьте ссылку.
-      heading: Повторная установка пароля для %{user}
-      password: "Пароль:"
-      reset: Установить пароль
-      title: Повторная установка пароля
-    set_home: 
-      flash success: Домашнее местоположение сохранено
-    suspended: 
-      body: "<p>\n  Извините, ваша учётная запись была автоматически приостановлена из-за\n  подозрительной активности.\n</p>\n<p>\n  Это решение может быть вскоре пересмотрено администратором, или\n  вы можете связаться с %{webmaster}, если вы хотите это обсудить.\n</p>"
-      heading: Учётная запись приостановлена
-      title: Учётная запись приостановлена
-      webmaster: веб-мастер
-    terms: 
-      agree: Принять
-      consider_pd: В дополнение к вышеизложенному соглашению, я считаю, что мой вклад находиться в общественном достоянии
-      consider_pd_why: что это значит?
-      decline: Отклонить
-      guidance: "Информация, которая поможет понять эти условия: <a href=\"%{summary}\">краткое описание</a> и несколько <a href=\"%{translations}\">неофициальных переводов</a>"
-      heading: Условия сотрудничества
-      legale_names: 
-        france: На французском
-        italy: На итальянском
-        rest_of_world: Остальной мир
-      legale_select: "Пожалуйста, выберите страну вашего проживания:"
-      read and accept: Пожалуйста, прочтите приведённое ниже соглашение и нажмите кнопку «Согласен», чтобы подтвердить, что вы согласны с условиями этого соглашения относительно вашего существующего и будущего вклада.
-      title: Условия сотрудничества
-      you need to accept or decline: Пожалуйста, прочитайте, а затем согласитесь или отклоните новые Условия участия.
-    view: 
-      activate_user: активировать этого пользователя
-      add as friend: Добавить в друзья
-      ago: (%{time_in_words_ago} назад)
-      block_history: полученные блокировки
-      blocks by me: Наложенные мною блокировки
-      blocks on me: Мои блокировки
-      comments: Комментарии
-      confirm: Подтвердить
-      confirm_user: подтвердить этого пользователя
-      create_block: блокировать пользователя
-      created from: "Создано из:"
-      ct accepted: Приняты %{ago} назад
-      ct declined: Отклонены
-      ct status: "Условия участия:"
-      ct undecided: Неопределено
-      deactivate_user: деактивировать этого пользователя
-      delete_user: удалить этого пользователя
-      description: Описание
-      diary: Дневник
-      edits: Правки
-      email address: "Адрес Email:"
-      friends_changesets: наборы правок друзей
-      friends_diaries: дневники друзей
-      hide_user: скрыть этого пользователя
-      if set location: Укажите свое местоположение на вашей странице %{settings_link} чтобы увидеть своих соседей.
-      km away: "%{count} км от вас"
-      latest edit: "Последняя правка %{ago}:"
-      m away: "%{count} м от вас"
-      mapper since: "Зарегистрирован:"
-      moderator_history: созданные блокировки
-      my comments: Мои комментарии
-      my diary: Мой дневник
-      my edits: Мои правки
-      my messages: Мои сообщения
-      my notes: Мои заметки
-      my profile: Мой профиль
-      my settings: Мои настройки
-      my traces: Мои треки
-      nearby users: Другие ближайшие пользователи
-      nearby_changesets: правки соседей
-      nearby_diaries: дневники соседей
-      new diary entry: новая запись
-      no friends: Вы не добавили ещё ни одного друга.
-      no nearby users: Пока нет других пользователей, признающих, что занимающихся составлением карты поблизости.
-      notes: Заметки
-      oauth settings: "\nнастройки OAuth"
-      remove as friend: Удалить из друзей
-      role: 
-        administrator: Этот пользователь является администратором
-        grant: 
-          administrator: Присвоить права администратора
-          moderator: Присвоить права модератора
-        moderator: Этот пользователь является модератором
-        revoke: 
-          administrator: Отозвать права администратора
-          moderator: Отозвать права модератора
-      send message: Отправить сообщение
-      settings_link_text: настройки
-      spam score: "Оценка спама:"
-      status: "Статус:"
-      traces: Треки
-      unhide_user: отобразить этого пользователя
-      user location: Местонахождение пользователя
-      your friends: Ваши друзья
-  user_block: 
-    blocks_by: 
-      empty: "%{name} ещё не делал никаких блокирований."
-      heading: Список блокирований, которые сделал
-      title: Блокирования, которые сделал
-    blocks_on: 
-      empty: " %{name} ни разу не был заблокирован."
-      heading: Список блокирований пользователя %{name}
-      title: Блокирования для %{name}
-    create: 
-      flash: Заблокирован пользователь %{name}.
-      try_contacting: Пожалуйста, перед блокировкой пользователя попробуйте связаться с ним и дать ему разумное время для ответа.
-      try_waiting: Пожалуйста, дайте пользователю разумное время для ответа, перед тем, как блокировать его.
-    edit: 
-      back: Просмотреть все блокирования
-      heading: Правка блокирования пользователя %{name}
-      needs_view: Позволить ли пользователю входить в систему, прежде, чем блокирование будет снято?
-      period: На какой срок, начиная с этого момента, заблокировать пользователя от API.
-      reason: Объясните, почему %{name} был заблокирован. Пожалуйста, будьте терпимы и поступайте разумно, предоставляя пользователю, как можно больше информации о ситуации. Помните, что не все пользователи понимают жаргон, потому пользуйтесь при объяснении дилетантским языком.
-      show: Просмотреть эту блокировку
-      submit: Обновить блокирование
-      title: Правка блокирования пользователя %{name}
-    filter: 
-      block_expired: Блокирование уже закончилось и не может быть отредактировано.
-      block_period: Время блокирования должно быть выбрано из значений,  рвзворачивающегося списка.
-    helper: 
-      time_future: Заканчивается в %{time}.
-      time_past: Закончилось %{time} назад.
-      until_login: Активно до тех пор, пока пользователь не войдёт в систему.
-    index: 
-      empty: Блокирования ещё не были созданы.
-      heading: Список блокирований пользователя
-      title: Блокировки участника
-    model: 
-      non_moderator_revoke: Нужно быть модератором, чтобы снять блокирование.
-      non_moderator_update: Нужно быть модератором, чтобы создать или изменить блокирование.
-    new: 
-      back: Показать все блокирования
-      heading: Создание блокирования для пользователя %{name}
-      needs_view: Пользователю необходимо войти в систему до того, как это блокирование будет очищено
-      period: Как долго, начиная с этого момента, пользователь будет заблокирован от API.
-      reason: Объясните, почему %{name} был заблокирован. Пожалуйста, будьте терпимы и поступайте разумно, предоставляя пользователю, как можно больше информации о причинах блокирования, помня, что сообщение будет видно всем. Помните, что не все пользователи понимают жаргон, потому пользуйтесь при объяснении дилетантским языком.
-      submit: Создать блокирование
-      title: Создание блокирования для пользователя %{name}
-      tried_contacting: Я связывался с пользователем и просил его остановиться.
-      tried_waiting: Я дал достаточно времени пользователю, чтобы он отреагировал на те сообщения.
-    not_found: 
-      back: Вернуться к индексу
-      sorry: Извините, блокирование пользователя с ID %{id} не найдено.
-    partial: 
-      confirm: Вы уверены?
-      creator_name: Автор
-      display_name: Заблокированный пользователь
-      edit: Править
-      next: Следующая →
-      not_revoked: (не разблокирован)
-      previous: ← Предыдущая
-      reason: Причина блокирования
-      revoke: Разблокировать!
-      revoker_name: Разблокировал
-      show: Показать
-      showing_page: Страница %{page}
-      status: Состояние
-    period: 
-      one: 1 час
-      other: "%{count} час."
-    revoke: 
-      confirm: Вы уверены, что хотите снять это блокирование?
-      flash: Это блокирование было снято.
-      heading: Отмена блокирования для пользователя %{block_on}, которое создал %{block_by}
-      past: Это блокирование закончилось %{time} назад и уже не может быть отменено.
-      revoke: Снять блокирование!
-      time_future: Это блокирование закончится %{time}.
-      title: Снять блокирование для  %{block_on}
-    show: 
-      back: Показать все блокировки
-      confirm: Вы уверены?
-      edit: Изменить
-      heading: "%{block_on}, наложил блокировку: %{block_by}"
-      needs_view: Пользователь должен зарегистрироваться, прежде чем это блокирование будет снято.
-      reason: "Причина блокировки:"
-      revoke: Разблокировать!
-      revoker: "Разблокировавший:"
-      show: Показывать
-      status: Состояние
-      time_future: Заканчивается %{time}
-      time_past: Закончилась %{time} назад
-      title: "%{block_on}, наложил блокировку: %{block_by}"
-    update: 
-      only_creator_can_edit: Только модератор, который создал это блокирование, может править его.
-      success: Блокирование обновлено.
-  user_role: 
-    filter: 
-      already_has_role: Пользователь уже имеет роль %{role}.
-      doesnt_have_role: У пользователя нет роли %{role}.
-      not_a_role: Строка «%{role}» не является допустимой ролью.
-      not_an_administrator: Только администраторы могут управлять ролями пользователей, а вы не являетесь администратором.
-    grant: 
-      are_you_sure: Вы уверены, что хотите присвоить роль «%{role}» пользователю «%{name}»?
-      confirm: Подтвердить
-      fail: Не возможно присвоить роль «%{role}» пользователю «%{name}». Пожалуйста, проверьте, что пользователь и роль являются допустимыми.
-      heading: Подтверждение присвоения роли
-      title: Подтвердить присвоение роли
-    revoke: 
-      are_you_sure: Вы уверены, что хотите отозвать роль «%{role}» у пользователя «%{name}»?
-      confirm: Подтвердить
-      fail: Не удалось отозвать роль «%{role}» у пользователя «%{name}. Пожалуйста, проверьте, что пользователь и роль являются допустимыми.
-      heading: Подтверждение отзыва роли
-      title: Подтвердить отзыв роли
-  welcome_page: 
-    add_a_note: 
-      paragraph_1_html: Если нужно сделать небольшое уточнение, ради которого слишком долго регистрироваться и изучать правила правки, можно просто добавить заметку на карту.
-      paragraph_2_html: "Просто перейдите <a href='%{map_url}'>к карте</a> и кликните на иконку заметок:\n<span class='icon note'></span> Это добавит на карту маркер, который можно перетаскивать мышью. Просто напишите сообщение и нажмите \"добавить\", и другие участники увидят это."
-      title: Нет времени править карту? Добавьте заметку!
-    basic_terms: 
-      editor_html: <strong>Редактор</strong> — это программа или веб-сайт, которые можно использовать для редактирования карты.
-      node_html: <strong>Точка</strong> — простейший элемент карты, вроде входа в ресторан или отдельного дерева.
-      paragraph_1_html: У OpenStreetMap выработался локальный сленг. Вот несколько понятий, которые стоит иметь ввиду.
-      tag_html: <strong>Тег</strong> – это единица описания точки или линии, например название ресторана или скоростное ограничение конкретной дороги.
-      title: Небольшой словарь картографа
-      way_html: <strong>Линия</strong> — это отрезок или кривая, соединяющая точки, обозначающая, к примеру, дорогу, ручей, контур озера или здания.
-    introduction_html: Добро пожаловать на OpenStreetMap, открытую и свободную карту мира. Теперь, когда регистрация завершена, можно начинать картографировать. Вот небольшая инструкция по самым важным вещам, которые необходимо знать.
-    questions: 
-      paragraph_1_html: "На OpenStreetMap есть несколько ресурсов, где можно узнать о проекте, задать вопросы или ответить на них и совместно обсудить темы, касающиеся картографии.\n<a href='%{help_url}'>Получите помощь здесь</a>."
-      title: Появились вопросы?
-    start_mapping: Начать картографировать
-    title: Добро пожаловать!
-    whats_on_the_map: 
-      off_html: Карта <em>не</em> включает оценочные данные вроде рейтингов, бывшие или гипотетические постройки, и информацию из источников, защищённых авторским правом. Если вы не получили специального разрешения, не копируйте данные с любых других карт.
-      on_html: "На карте OpenStreetMap расположены объекты, которые <em>существуют в данный момент</em> -\nто есть миллионы зданий, дорог и других элементов местности. Вы вольны отмечать любые детали окружающего мира, которые вам интересны."
-      title: Что находится на карте
+    destroy:
+      not_empty: Редакция не пуста. Пожалуйста, откатите все версии, принадлежащие
+        к этой редакции перед удалением.
+      flash: Редакция уничтожена.
+      error: Произошла ошибка при уничтожении этой редакции.
+...

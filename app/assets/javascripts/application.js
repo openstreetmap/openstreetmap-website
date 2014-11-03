@@ -22,19 +22,22 @@ var querystring = require('querystring-component');
 
 function remoteEditHandler(bbox, object) {
   var loaded = false,
-      query = {
-          left: bbox.getWest() - 0.0001,
-          top: bbox.getNorth() + 0.0001,
-          right: bbox.getEast() + 0.0001,
-          bottom: bbox.getSouth() - 0.0001
-      };
+    url = document.location.protocol === "https:" ?
+            "https://127.0.0.1:8112/load_and_zoom?" :
+            "http://127.0.0.1:8111/load_and_zoom?",
+    query = {
+        left: bbox.getWest() - 0.0001,
+        top: bbox.getNorth() + 0.0001,
+        right: bbox.getEast() + 0.0001,
+        bottom: bbox.getSouth() - 0.0001
+    };
 
   if (object) query.select = object.type + object.id;
 
   var iframe = $('<iframe>')
     .hide()
     .appendTo('body')
-    .attr("src", "http://127.0.0.1:8111/load_and_zoom?" + querystring.stringify(query))
+    .attr("src", url + querystring.stringify(query))
     .on('load', function() {
       $(this).remove();
       loaded = true;

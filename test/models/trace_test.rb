@@ -27,8 +27,8 @@ class TraceTest < ActiveSupport::TestCase
     check_query(Trace.visible_to(3), [:public_trace_file, :identifiable_trace_file])
   end
 
-  def test_public
-    check_query(Trace.public, [:public_trace_file, :identifiable_trace_file, :deleted_trace_file])
+  def test_visible_to_all
+    check_query(Trace.visible_to_all, [:public_trace_file, :identifiable_trace_file, :deleted_trace_file])
   end
 
   def test_tagged

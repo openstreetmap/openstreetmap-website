@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
     if request.cookies["_osm_session"].to_s == ""
       if params[:cookie_test].nil?
         session[:cookie_test] = true
-        redirect_to params.merge(:cookie_test => "true")
+        redirect_to Hash[params].merge(:cookie_test => "true")
         return false
       else
         flash.now[:warning] = t 'application.require_cookies.cookies_needed'

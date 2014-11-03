@@ -24,13 +24,13 @@ L.OSM.Map = L.Map.extend({
         name: I18n.t("javascripts.map.base.standard")
       }),
       new L.OSM.CycleMap({
-        attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+        attribution: copyright + ". Tiles courtesy of <a href='http://www.thunderforest.com/' target='_blank'>Andy Allan</a>",
         code: "C",
         keyid: "cyclemap",
         name: I18n.t("javascripts.map.base.cycle_map")
       }),
       new L.OSM.TransportMap({
-        attribution: copyright + ". Tiles courtesy of <a href='http://www.opencyclemap.org/' target='_blank'>Andy Allan</a>",
+        attribution: copyright + ". Tiles courtesy of <a href='http://www.thunderforest.com/' target='_blank'>Andy Allan</a>",
         code: "T",
         keyid: "transportmap",
         name: I18n.t("javascripts.map.base.transport_map")
@@ -241,7 +241,7 @@ L.OSM.Map = L.Map.extend({
 
   setState: function(state, options) {
     if (state.center) this.setView(state.center, state.zoom, options);
-    this.updateLayers(state.layers);
+    if (state.layers) this.updateLayers(state.layers);
   },
 
   setSidebarOverlaid: function(overlaid) {
@@ -263,8 +263,7 @@ L.Icon.Default.imagePath = "/images";
 L.Icon.Default.imageUrls = {
   "/images/marker-icon.png": "<%= asset_path("images/marker-icon.png") %>",
   "/images/marker-icon-2x.png": "<%= asset_path("images/marker-icon-2x.png") %>",
-  "/images/marker-shadow.png": "<%= asset_path("images/marker-shadow.png") %>",
-  "/images/marker-shadow-2x.png": "<%= asset_path("images/marker-shadow-2x.png") %>"
+  "/images/marker-shadow.png": "<%= asset_path("images/marker-shadow.png") %>"
 };
 
 L.extend(L.Icon.Default.prototype, {

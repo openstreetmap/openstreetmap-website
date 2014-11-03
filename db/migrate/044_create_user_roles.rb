@@ -11,7 +11,7 @@ class CreateUserRoles < ActiveRecord::Migration
     end
     add_column :user_roles, :role, :user_role_enum, :null => false
 
-    User.all(:conditions => ['administrator = ?', true]).each do |user|
+    User.where(:administrator => true).each do |user|
       UserRole.create(:user_id => user.id, :role => "administrator")
     end
     remove_column :users, :administrator
@@ -21,7 +21,7 @@ class CreateUserRoles < ActiveRecord::Migration
 
   def self.down
     add_column :users, :administrator, :boolean, :default => false, :null => false
-    UserRole.all(:conditions => ['role = ?', "administrator"]).each do |role|
+    UserRole.where(:role => "administrator").each do |role|
       user = User.find(role.user_id)
       user.administrator = true
       user.save!

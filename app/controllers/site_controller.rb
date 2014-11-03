@@ -6,7 +6,7 @@ class SiteController < ApplicationController
   before_filter :set_locale
   before_filter :redirect_browse_params, :only => :index
   before_filter :redirect_map_params, :only => [:index, :edit, :export]
-  before_filter :require_user, :only => [:edit, :welcome]
+  before_filter :require_user, :only => [:welcome]
   before_filter :require_oauth, :only => [:index]
 
   def index
@@ -17,7 +17,7 @@ class SiteController < ApplicationController
 
   def permalink
     lon, lat, zoom = ShortLink::decode(params[:code])
-    new_params = params.except(:code, :lon, :lat, :zoom, :node, :way, :relation, :changeset)
+    new_params = params.except(:code, :lon, :lat, :zoom, :layers, :node, :way, :relation, :changeset)
 
     if new_params.has_key? :m
       new_params.delete :m
@@ -48,7 +48,11 @@ class SiteController < ApplicationController
 
     new_params[:anchor] = "map=#{zoom}/#{lat}/#{lon}"
 
-    redirect_to new_params
+    if params.has_key? :layers
+      new_params[:anchor] += "&layers=#{params[:layers]}"
+    end
+
+    redirect_to Hash[new_params]
   end
 
   def key
@@ -63,6 +67,8 @@ class SiteController < ApplicationController
       require_oauth
       render :action => :index, :layout => map_layout
       return
+    else
+      require_user
     end
 
     if params[:node]
@@ -145,7 +151,7 @@ class SiteController < ApplicationController
     end
 
     if anchor.present?
-      redirect_to params.merge(:anchor => anchor.join('&'))
+      redirect_to Hash[params].merge(:anchor => anchor.join('&'))
     end
   end
 end
