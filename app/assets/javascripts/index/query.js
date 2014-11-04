@@ -149,7 +149,7 @@ OSM.Query = function(map) {
     return geometry;
   }
 
-  function runQuery(latlng, radius, query, $section) {
+  function runQuery(latlng, radius, query, $section, compare) {
     var $ul = $section.find("ul");
 
     $ul.empty();
@@ -170,10 +170,18 @@ OSM.Query = function(map) {
         data: "[timeout:5][out:json];" + query,
       },
       success: function(results) {
+        var elements;
+
         $section.find(".loader").stopTime("loading").hide();
 
-        for (var i = 0; i < results.elements.length; i++) {
-          var element = results.elements[i];
+        if (compare) {
+          elements = results.elements.sort(compare);
+        } else {
+          elements = results.elements;
+        }
+
+        for (var i = 0; i < elements.length; i++) {
+          var element = elements[i];
 
           if (interestingFeature(element, latlng, radius)) {
             var $li = $("<li>")
@@ -207,6 +215,17 @@ OSM.Query = function(map) {
     }));
   }
 
+  function compareSize(feature1, feature2) {
+    var width1 = feature1.bounds.maxlon - feature1.bounds.minlon,
+      height1 = feature1.bounds.maxlat - feature1.bounds.minlat,
+      area1 = width1 * height1,
+      width2 = feature2.bounds.maxlat - feature2.bounds.minlat,
+      height2 = feature2.bounds.maxlat - feature2.bounds.minlat,
+      area2 = width2 * height2;
+
+    return area1 - area2;
+  }
+
   /*
    * To find nearby objects we ask overpass for the union of the
    * following sets:
@@ -237,7 +256,7 @@ OSM.Query = function(map) {
       ways = "way(" + around + ")",
       relations = "relation(" + around + ")",
       nearby = "(" + nodes + ";" + ways + ");out tags geom(" + bbox + ");" + relations + ";out geom(" + bbox + ");",
-      isin = "is_in(" + lat + "," + lng + ")->.a;(relation(pivot.a);way(pivot.a));out geom(" + bbox + ");";
+      isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags geom(" + bbox + ");relation(pivot.a);out tags bb;";
 
     $("#sidebar_content .query-intro")
       .hide();
@@ -257,7 +276,7 @@ OSM.Query = function(map) {
     }, 10);
 
     runQuery(latlng, radius, nearby, $("#query-nearby"));
-    runQuery(latlng, radius, isin, $("#query-isin"));
+    runQuery(latlng, radius, isin, $("#query-isin"), compareSize);
   }
 
   function clickHandler(e) {
