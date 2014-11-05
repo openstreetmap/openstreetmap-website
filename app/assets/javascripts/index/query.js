@@ -317,11 +317,12 @@ OSM.Query = function(map) {
     }
 
     queryOverpass(params.lat, params.lon);
-    enableQueryMode();
   };
 
-  page.unload = function() {
-    disableQueryMode();
+  page.unload = function(sameController) {
+    if (!sameController) {
+      disableQueryMode();
+    }
   };
 
   return page;
