@@ -22,9 +22,7 @@ OSM.Query = function(map) {
     if (queryButton.hasClass("disabled")) return;
 
     if (queryButton.hasClass("active")) {
-      if ($("#content").hasClass("overlay-sidebar")) {
-        disableQueryMode();
-      }
+      disableQueryMode();
     } else {
       enableQueryMode();
     }
