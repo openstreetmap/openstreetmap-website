@@ -4,7 +4,7 @@ OSM.Query = function(map) {
   var protocol = document.location.protocol === "https:" ? "https:" : "http:",
     url = protocol + OSM.OVERPASS_URL,
     queryButton = $(".control-query .control-button"),
-    uninterestingTags = ['source', 'source_ref', 'source:ref', 'history', 'attribution', 'created_by', 'tiger:county', 'tiger:tlid', 'tiger:upload_uuid'],
+    uninterestingTags = ['source', 'source_ref', 'source:ref', 'history', 'attribution', 'created_by', 'tiger:county', 'tiger:tlid', 'tiger:upload_uuid', 'KSJ2:curve_id', 'KSJ2:lat', 'KSJ2:lon', 'KSJ2:coordinate', 'KSJ2:filename', 'note:ja'],
     marker;
 
   var featureStyle = {
