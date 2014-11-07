@@ -82,7 +82,10 @@ OSM.Query = function(map) {
     var prefix = "";
 
     if (tags.boundary === "administrative" && tags.admin_level) {
-      prefix = I18n.t("geocoder.search_osm_nominatim.admin_levels.level" + tags.admin_level)
+      prefix =
+      I18n.t("geocoder.search_osm_nominatim.admin_levels.level" + tags.admin_level, {
+        defaultValue: I18n.t("geocoder.search_osm_nominatim.prefix.boundary.administrative")
+      })
     } else {
       var prefixes = I18n.t("geocoder.search_osm_nominatim.prefix");
 
