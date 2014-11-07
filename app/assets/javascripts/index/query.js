@@ -112,7 +112,14 @@ OSM.Query = function(map) {
   }
 
   function featureName(feature) {
-    var tags = feature.tags;
+    var tags = feature.tags,
+      locales = I18n.locales.get();
+
+    for (var i = 0; i < locales.length; i++) {
+      if (tags["name:" + locales[i]]) {
+        return tags["name:" + locales[i]];
+      }
+    }
 
     if (tags["name"]) {
       return tags["name"];
