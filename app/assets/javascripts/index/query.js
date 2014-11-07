@@ -19,11 +19,9 @@ OSM.Query = function(map) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (queryButton.hasClass("disabled")) return;
-
     if (queryButton.hasClass("active")) {
       disableQueryMode();
-    } else {
+    } else if (!queryButton.hasClass("disabled")) {
       enableQueryMode();
     }
   }).on("disabled", function (e) {
