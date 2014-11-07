@@ -126,7 +126,7 @@ CREATE TYPE user_status_enum AS ENUM (
 
 CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
     LANGUAGE c STRICT
-    AS '/home/ukasiu/repos/openstreetmap-website/db/functions/libpgosm', 'maptile_for_point';
+    AS '/srv/www/overpass.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
 
 
 --
@@ -135,7 +135,7 @@ CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
 
 CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
     LANGUAGE c STRICT
-    AS '/home/ukasiu/repos/openstreetmap-website/db/functions/libpgosm', 'tile_for_point';
+    AS '/srv/www/overpass.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
 
 
 --
@@ -143,8 +143,8 @@ CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
 --
 
 CREATE FUNCTION xid_to_int4(xid) RETURNS integer
-    LANGUAGE c STRICT
-    AS '/home/ukasiu/repos/openstreetmap-website/db/functions/libpgosm', 'xid_to_int4';
+    LANGUAGE c IMMUTABLE STRICT
+    AS '/srv/www/overpass.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
 
 
 SET default_tablespace = '';
@@ -1796,13 +1796,6 @@ CREATE INDEX gpx_files_visible_visibility_idx ON gpx_files USING btree (visible,
 
 
 --
--- Name: index_changeset_comments_on_body; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_changeset_comments_on_body ON changeset_comments USING btree (body);
-
-
---
 -- Name: index_changeset_comments_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2635,3 +2628,4 @@ INSERT INTO schema_migrations (version) VALUES ('7');
 INSERT INTO schema_migrations (version) VALUES ('8');
 
 INSERT INTO schema_migrations (version) VALUES ('9');
+
