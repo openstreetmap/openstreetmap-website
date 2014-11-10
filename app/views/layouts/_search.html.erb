@@ -11,11 +11,11 @@
   <form method="GET" action="<%= directions_path %>" class="directions_form">
     <div width="100%" align="right"><%= link_to image_tag('search.png', :class => 'button'), root_path, { :class => "button", :title => t('site.search.close_directions_title') } %></div>
 
-    <div width="100%">
+    <div class="line">
       <%= image_tag "marker-green.png", :class => 'routing_marker', :id => 'marker_from', :draggable => 'true' %>
       <span class="force_width"><%= text_field_tag "route_from", params[:from], :placeholder => t('site.search.from') %></span>
     </div>
-    <div width="100%">
+    <div class="line">
       <%= image_tag "marker-red.png"  , :class => 'routing_marker', :id => 'marker_to'  , :draggable => 'true' %>
       <span class="force_width"><%= text_field_tag "route_to"  , params[:to]  , :placeholder => t('site.search.to') %></span>
     </div>
