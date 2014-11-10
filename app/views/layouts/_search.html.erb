@@ -1,32 +1,26 @@
 <div class="search_forms">
   <form method="GET" action="<%= search_path %>" class="search_form">
-    <div class='query_options'>
-      <%= link_to t('site.search.where_am_i'), '#', { :class => "describe_location", :title => t('site.search.where_am_i_title') } %>
-      &middot;
-      <%= link_to t('site.search.get_directions'), directions_path, { :class => "geolink", :title => t('site.search.get_directions_title') } %>
-    </div>
-
-    <%= submit_tag t('site.search.submit_text') %>
-
+    <%= link_to image_tag('directions.png', :class => 'button'), directions_path, { :class => "button switch_link", :title => t('site.search.get_directions_title') } %>
+    <%= submit_tag t('site.search.submit_text'), :class => 'float' %>
     <div class='query_wrapper'>
-      <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus %>
+      <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus, :class => 'overflow' %>
+      <%= link_to t('site.search.where_am_i'), '#', { :class => "describe_location", :title => t('site.search.where_am_i_title') } %>
     </div>
   </form>
 
   <form method="GET" action="<%= directions_path %>" class="directions_form">
-    <div class='query_options'>
-      <%= link_to t('site.search.close_directions'), root_path, { :class => "geolink", :title => t('site.search.close_directions_title') } %>
-    </div>
+    <div width="100%" align="right"><%= link_to image_tag('search.png', :class => 'button'), root_path, { :class => "button", :title => t('site.search.close_directions_title') } %></div>
 
-    <%= submit_tag t('site.search.submit_text') %>
-
-    <div class='query_wrapper'>
+    <div width="100%">
       <%= image_tag "marker-green.png", :class => 'routing_marker', :id => 'marker_from', :draggable => 'true' %>
-      <%= text_field_tag "route_from", params[:from], :placeholder => t('site.search.from') %>
-      <%= image_tag "marker-red.png"  , :class => 'routing_marker', :id => 'marker_to'  , :draggable => 'true' %>
-      <%= text_field_tag "route_to"  , params[:to]  , :placeholder => t('site.search.to') %>
-      <select class='routing_engines' name='routing_engines'></select>
-      <%= image_tag "searching-small.gif", :class => 'spinner', :style => "vertical-align: middle; display: none;" %>
+      <span class="force_width"><%= text_field_tag "route_from", params[:from], :placeholder => t('site.search.from') %></span>
     </div>
+    <div width="100%">
+      <%= image_tag "marker-red.png"  , :class => 'routing_marker', :id => 'marker_to'  , :draggable => 'true' %>
+      <span class="force_width"><%= text_field_tag "route_to"  , params[:to]  , :placeholder => t('site.search.to') %></span>
+    </div>
+    <select class='routing_engines' name='routing_engines'></select>
+    <div width="100%" align="right"><%= submit_tag t('site.search.submit_text') %></div>
+    <%= image_tag "searching-small.gif", :class => 'spinner', :style => "vertical-align: middle; display: none;" %>
   </form>
 </div>
