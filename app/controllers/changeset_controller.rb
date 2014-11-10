@@ -5,18 +5,18 @@ class ChangesetController < ApplicationController
   require 'xml/libxml'
 
   skip_before_filter :verify_authenticity_token, :except => [:list]
-  before_filter :authorize_web, :only => [:list, :feed]
-  before_filter :set_locale, :only => [:list, :feed]
+  before_filter :authorize_web, :only => [:list, :feed, :comments_feed]
+  before_filter :set_locale, :only => [:list, :feed, :comments_feed]
   before_filter :authorize, :only => [:create, :update, :delete, :upload, :include, :close, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
   before_filter :require_moderator, :only => [:hide_comment, :unhide_comment]
   before_filter :require_allow_write_api, :only => [:create, :update, :delete, :upload, :include, :close, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
   before_filter :require_public_data, :only => [:create, :update, :delete, :upload, :include, :close, :comment, :subscribe, :unsubscribe]
   before_filter :check_api_writable, :only => [:create, :update, :delete, :upload, :include, :comment, :subscribe, :unsubscribe, :hide_comment, :unhide_comment]
   before_filter :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query, :list, :feed, :comment, :subscribe, :unsubscribe, :comments_feed]
-  before_filter(:only => [:list, :feed]) { |c| c.check_database_readable(true) }
+  before_filter(:only => [:list, :feed, :comments_feed]) { |c| c.check_database_readable(true) }
   after_filter :compress_output
-  around_filter :api_call_handle_error, :except => [:list, :feed]
-  around_filter :web_timeout, :only => [:list, :feed]
+  around_filter :api_call_handle_error, :except => [:list, :feed, :comments_feed]
+  around_filter :web_timeout, :only => [:list, :feed, :comments_feed]
 
   # Helper methods for checking consistency
   include ConsistencyValidations

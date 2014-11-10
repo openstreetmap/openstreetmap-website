@@ -10,6 +10,10 @@ if (OSM.PIWIK) {
       success: function () {
         piwikTracker = Piwik.getTracker(base + "piwik.php", OSM.PIWIK.site);
       
+        if (OSM.user) {
+          piwikTracker.setUserId(OSM.user);
+        }
+
         piwikTracker.trackPageView();
         piwikTracker.enableLinkTracking();
       

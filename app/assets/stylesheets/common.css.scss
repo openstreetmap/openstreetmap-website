@@ -169,7 +169,7 @@ small, aside {
 .icon.close:hover { background-position: -200px -20px; }
 .icon.check       { background-position: -220px 0; }
 .icon.note        { background-position: -240px 0; }
-.icon.gear        { background-position: -260px 0; }
+.icon.query       { background-position: -260px 0; }
 
 /* Rules for links */
 
@@ -566,14 +566,14 @@ nav.secondary {
     background-color: black;
   }
 
-  &.active {
-    background-color: #9ed485;
-  }
-
   &.disabled {
     background-color: #333;
     background-color: rgba(0,0,0,.5);
     cursor: default;
+  }
+
+  &.active {
+    background-color: #9ed485;
   }
 
   .icon {
@@ -680,6 +680,14 @@ nav.secondary {
   #map {
     height: 100%;
     overflow: hidden;
+
+    &.query-active {
+      cursor: help;
+    }
+
+    &.query-disabled {
+      cursor: not-allowed;
+    }
   }
 
   #map-ui {
@@ -1179,6 +1187,34 @@ tr.turn:hover {
   .note-description {
     overflow: hidden;
     margin: 0 0 10px 10px;
+  }
+
+  .query-intro p {
+    padding: $lineheight $lineheight $lineheight/2;
+  }
+
+  .query-results {
+    display: none;
+
+    h3 {
+      padding: $lineheight $lineheight $lineheight/2;
+      margin: 0;
+    }
+
+    ul {
+      li {
+        padding: 15px 20px;
+        border-bottom: 1px solid #ddd;
+
+        &.query-result {
+          cursor: pointer;
+        }
+
+        &.selected {
+          background: #FFFFE6;
+        }
+      }
+    }
   }
 }
 
@@ -2615,36 +2651,6 @@ input.richtext_title[type="text"] {
     &.open         { background-position: 0px  -80px; }
     &.partners     { background-position: 0px -120px; }
     &.infringement { background-position: 0px -160px; }
-  }
-}
-
-#sidebar #sotm {
-  padding: 10px;
-  min-height: 120px;
-
-  img {
-    float: left;
-    width: 100px;
-    height: 100px;
-  }
-
-  h2 {
-    margin-left: 100px;
-    padding: 7px 10px 6px 15px;
-  }
-
-  p {
-    margin-left: 100px;
-    padding: 6px 10px 7px 15px;
-  }
-
-  a {
-    color: $darkgrey;
-  }
-
-  :hover {
-    text-decoration: none;
-    color: darken($darkgrey, 25%);
   }
 }
 
