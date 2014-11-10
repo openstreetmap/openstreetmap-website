@@ -1034,13 +1034,14 @@ header .search_forms,
     border-collapse: separate;
 }
 
-td.direction {
-    background-image: image-url('routing-sprite.png'); 
-    width: 20px; height: 20px; 
-    background-repeat: no-repeat;
+div.direction {
+  background-image: image-url('routing-sprite.png');
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
 }
 @for $i from 1 through 17 {
-td.direction.i#{$i}  { background-position: #{($i)*-20+20}px 0px; }
+div.direction.i#{$i} { background-position: #{($i)*-20+20}px 0px; }
 }
 
 p#routing_summary {
@@ -1048,7 +1049,8 @@ p#routing_summary {
 }
 
 td.instruction, td.distance {
-    padding-top: 0;
+    padding-top: $lineheight/5;
+    padding-bottom: $lineheight/5;
     border-bottom: 1px solid #DDD;
 }
 td.distance {
