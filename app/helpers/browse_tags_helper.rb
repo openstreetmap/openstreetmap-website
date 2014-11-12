@@ -17,6 +17,8 @@ module BrowseTagsHelper
         link_to(w[:title], w[:url], :title => t("browse.tag_details.wikidata_link", :page => w[:title].strip))
       end
       safe_join(wdt, ";")
+    elsif wmc = wikimedia_commons_link(key, value)
+      link_to h(wmc[:title]), wmc[:url], :title => t("browse.tag_details.wikimedia_commons_link", :page => wmc[:title])
     elsif url = wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
     elsif phones = telephone_links(key, value)
@@ -107,6 +109,16 @@ module BrowseTagsHelper
       return value.split(";").map do |id|
         { :title => id, :url => "//www.wikidata.org/entity/#{id.strip}?uselang=#{I18n.locale}" }
       end
+    end
+    nil
+  end
+
+  def wikimedia_commons_link(key, value)
+    if key == "wikimedia_commons" && value =~ /^(?:file|category):/i
+      return {
+        :url => "//commons.wikimedia.org/wiki/#{value}?uselang=#{I18n.locale}",
+        :title => value
+      }
     end
     nil
   end

@@ -48,6 +48,9 @@ class BrowseTagsHelperTest < ActionView::TestCase
     html = format_value("name:etymology:wikidata", "Q123")
     assert_dom_equal "<a title=\"The Q123 item on Wikidata\" href=\"//www.wikidata.org/entity/Q123?uselang=en\">Q123</a>", html
 
+    html = format_value("wikimedia_commons", "File:Test.jpg")
+    assert_dom_equal "<a title=\"The File:Test.jpg item on Wikimedia Commons\" href=\"//commons.wikimedia.org/wiki/File:Test.jpg?uselang=en\">File:Test.jpg</a>", html
+
     html = format_value("colour", "#f00")
     assert_dom_equal %(<span class="colour-preview-box" data-colour="#f00" title="Colour #f00 preview"></span>#f00), html
   end
@@ -187,6 +190,34 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "zh-classical:Test#Section", link[:title]
 
     link = wikipedia_link("foo", "Test")
+    assert_nil link
+  end
+
+  def test_wikimedia_commons_link
+    link = wikimedia_commons_link("wikimedia_commons", "http://commons.wikimedia.org/wiki/File:Full%20URL.jpg")
+    assert_nil link
+
+    link = wikimedia_commons_link("wikimedia_commons", "https://commons.wikimedia.org/wiki/File:Full%20URL.jpg")
+    assert_nil link
+
+    link = wikimedia_commons_link("wikimedia_commons", "Test.jpg")
+    assert_nil link
+
+    link = wikimedia_commons_link("wikimedia_commons", "File:Test.jpg")
+    assert_equal "//commons.wikimedia.org/wiki/File:Test.jpg?uselang=en", link[:url]
+    assert_equal "File:Test.jpg", link[:title]
+
+    link = wikimedia_commons_link("wikimedia_commons", "Category:Test_Category")
+    assert_equal "//commons.wikimedia.org/wiki/Category:Test_Category?uselang=en", link[:url]
+    assert_equal "Category:Test_Category", link[:title]
+
+    I18n.locale = "pt-BR"
+
+    link = wikimedia_commons_link("wikimedia_commons", "File:Test.jpg")
+    assert_equal "//commons.wikimedia.org/wiki/File:Test.jpg?uselang=pt-BR", link[:url]
+    assert_equal "File:Test.jpg", link[:title]
+
+    link = wikimedia_commons_link("foo", "Test")
     assert_nil link
   end
 
