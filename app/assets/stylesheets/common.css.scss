@@ -169,7 +169,7 @@ small, aside {
 .icon.close:hover { background-position: -200px -20px; }
 .icon.check       { background-position: -220px 0; }
 .icon.note        { background-position: -240px 0; }
-.icon.gear        { background-position: -260px 0; }
+.icon.query       { background-position: -260px 0; }
 
 /* Rules for links */
 
@@ -566,14 +566,14 @@ nav.secondary {
     background-color: black;
   }
 
-  &.active {
-    background-color: #9ed485;
-  }
-
   &.disabled {
     background-color: #333;
     background-color: rgba(0,0,0,.5);
     cursor: default;
+  }
+
+  &.active {
+    background-color: #9ed485;
   }
 
   .icon {
@@ -680,6 +680,14 @@ nav.secondary {
   #map {
     height: 100%;
     overflow: hidden;
+
+    &.query-active {
+      cursor: help;
+    }
+
+    &.query-disabled {
+      cursor: not-allowed;
+    }
   }
 
   #map-ui {
@@ -910,7 +918,6 @@ header .search_forms,
 .directions_form {
   position: relative;
   padding: $lineheight/2;
-  padding-top: 1px;
   background-color: $lightgrey;
 
   .query_wrapper {
@@ -922,9 +929,11 @@ header .search_forms,
   input[type=text] {
     width: 100%;
     height: 30px;
-    border-right: none;
-
     transition: 300ms linear;
+  }
+
+  input[type=text].overflow {
+    border-right: none;
   }
 
   input:focus {
@@ -932,7 +941,7 @@ header .search_forms,
     box-shadow: 0px 0px 7px #9ED485;
   }
 
-  input[type=submit] {
+  input[type=submit].float {
     float: right;
     width: auto;
     min-width: 0;
@@ -943,6 +952,41 @@ header .search_forms,
     text-align: right;
     font-size: 10px;
     color: $blue;
+  }
+
+  .describe_location {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 10px;
+    color: $blue;
+  }
+
+  .switch_link {
+    float: right;
+    width: auto;
+    min-width: 0;
+    margin-left: 6px;
+  }
+
+  img.button {
+    display: block;
+  }
+
+  span.force_width {
+    width: 100%;
+    padding-right: 25px;
+    display: block;
+  }
+
+  select.routing_engines {
+    min-height: 30px;
+    margin: 0px 0px 5px 25px;
+  }
+
+  div.line {
+    width: 100%;
+    margin: 0px 0px 5px 0px;
   }
 }
 
@@ -966,7 +1010,7 @@ header .search_forms,
     border-bottom: $keyline;
     cursor: pointer;
     &:first-child { border-top: $keyline; }
-    &.selected { background: #FFFFE6; }
+    &.selected { background: $list-highlight; }
   }
 
   .search_details {
@@ -990,17 +1034,14 @@ header .search_forms,
     border-collapse: separate;
 }
 
-td.direction {
-    background-image: image-url('routing-sprite.png'); 
-    width: 20px; height: 20px; 
-    background-repeat: no-repeat;
+div.direction {
+  background-image: image-url('routing-sprite.png');
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
 }
 @for $i from 1 through 17 {
-td.direction.i#{$i}  { background-position: #{($i)*-20+20}px 0px; }
-}
-
-.directions_form input[type="submit"] {
-    margin-top: 30px !important;
+div.direction.i#{$i} { background-position: #{($i)*-20+20}px 0px; }
 }
 
 p#routing_summary {
@@ -1008,7 +1049,8 @@ p#routing_summary {
 }
 
 td.instruction, td.distance {
-    padding-top: 0;
+    padding-top: $lineheight/5;
+    padding-bottom: $lineheight/5;
     border-bottom: 1px solid #DDD;
 }
 td.distance {
@@ -1020,7 +1062,7 @@ tr.turn {
     cursor: pointer;
 }
 tr.turn:hover {
-    background: lighten($green, 30%); 
+    background: $list-highlight;
 }
 .routing_engines, #route_from, #route_to { margin-left: 25px; }
 .routing_marker { width: 15px; position: absolute; }
@@ -1046,7 +1088,7 @@ tr.turn:hover {
     border-bottom: 1px solid #ddd;
     cursor: pointer;
 
-    &.selected { background: #FFFFE6; }
+    &.selected { background: $list-highlight; }
     /* color is derived from changeset bbox fillColor in history.js */
   }
 
@@ -1179,6 +1221,34 @@ tr.turn:hover {
   .note-description {
     overflow: hidden;
     margin: 0 0 10px 10px;
+  }
+
+  .query-intro p {
+    padding: $lineheight $lineheight $lineheight/2;
+  }
+
+  .query-results {
+    display: none;
+
+    h3 {
+      padding: $lineheight $lineheight $lineheight/2;
+      margin: 0;
+    }
+
+    ul {
+      li {
+        padding: 15px 20px;
+        border-bottom: 1px solid #ddd;
+
+        &.query-result {
+          cursor: pointer;
+        }
+
+        &.selected {
+          background: $list-highlight;
+        }
+      }
+    }
   }
 }
 
@@ -2615,36 +2685,6 @@ input.richtext_title[type="text"] {
     &.open         { background-position: 0px  -80px; }
     &.partners     { background-position: 0px -120px; }
     &.infringement { background-position: 0px -160px; }
-  }
-}
-
-#sidebar #sotm {
-  padding: 10px;
-  min-height: 120px;
-
-  img {
-    float: left;
-    width: 100px;
-    height: 100px;
-  }
-
-  h2 {
-    margin-left: 100px;
-    padding: 7px 10px 6px 15px;
-  }
-
-  p {
-    margin-left: 100px;
-    padding: 6px 10px 7px 15px;
-  }
-
-  a {
-    color: $darkgrey;
-  }
-
-  :hover {
-    text-decoration: none;
-    color: darken($darkgrey, 25%);
   }
 }
 

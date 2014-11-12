@@ -8,6 +8,7 @@ OSM = {
   API_VERSION:           <%= API_VERSION.to_json %>,
   STATUS:                <%= STATUS.to_json %>,
   MAX_NOTE_REQUEST_AREA: <%= MAX_NOTE_REQUEST_AREA.to_json %>,
+  OVERPASS_URL:          <%= OVERPASS_URL.to_json %>,
 
   apiUrl: function (object) {
     var url = "/api/" + OSM.API_VERSION + "/" + object.type + "/" + object.id;
@@ -71,10 +72,6 @@ OSM = {
       mapParams.bounds = L.latLngBounds(
         [parseFloat(params.minlat), parseFloat(params.minlon)],
         [parseFloat(params.maxlat), parseFloat(params.maxlon)]);
-    } else if (params.lon && params.lat) {
-      mapParams.lon = parseFloat(params.lon);
-      mapParams.lat = parseFloat(params.lat);
-      mapParams.zoom = parseInt(params.zoom || 5);
     } else if (params.mlon && params.mlat) {
       mapParams.lon = parseFloat(params.mlon);
       mapParams.lat = parseFloat(params.mlat);
@@ -174,5 +171,20 @@ OSM = {
       zoom = map.getZoom(),
       precision = OSM.zoomPrecision(zoom);
     return [center.lng.toFixed(precision), center.lat.toFixed(precision), zoom, map.getLayersCode()].join('|');
+  },
+
+  distance: function(latlng1, latlng2) {
+    var lat1 = latlng1.lat * Math.PI / 180,
+      lng1 = latlng1.lng * Math.PI / 180,
+      lat2 = latlng2.lat * Math.PI / 180,
+      lng2 = latlng2.lng * Math.PI / 180,
+      latdiff = lat2 - lat1,
+      lngdiff = lng2 - lng1;
+
+    return 6372795 * 2 * Math.asin(
+      Math.sqrt(
+        Math.pow(Math.sin(latdiff / 2), 2) + 
+        Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(lngdiff / 2), 2)
+      ));
   }
 };
