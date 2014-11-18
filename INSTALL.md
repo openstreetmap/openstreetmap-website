@@ -190,6 +190,8 @@ psql -d openstreetmap -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int
 psql -d openstreetmap -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '`pwd`/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT"
 ```
 
+If that doesn't work ("permission denied" no matter how you run it), copy `db/function/libpgosm.so` to the PostgreSQL libraries directory (usually `/usr/lib/pgsql` or `/usr/lib64/pgsql`) and run the same queries, but with just `'libpgosm'` instead of full paths.
+
 ### Database structure
 
 To create all the tables, indexes and constraints, run:
