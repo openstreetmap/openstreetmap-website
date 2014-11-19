@@ -10,7 +10,7 @@ class RedactionsController < ApplicationController
   before_filter :check_database_writable, :only => [:create, :update, :destroy]
 
   def index
-    @redactions_pages, @redactions = paginate(:redactions, :order => :id, :per_page => 10)
+    @redactions = Redaction.order(:id)
   end
 
   def new
