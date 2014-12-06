@@ -13,13 +13,13 @@ function GraphHopperEngine(id, vehicleParam) {
 
   return {
     id: id,
-    creditline: '<a href="http://graphhopper.com/" target="_blank">Graphhopper</a>',
+    creditline: '<a href="https://graphhopper.com/" target="_blank">Graphhopper</a>',
     draggable: false,
 
     getRoute: function (points, callback) {
       // documentation
       // https://github.com/graphhopper/graphhopper/blob/master/docs/web/api-doc.md
-      var url = "http://graphhopper.com/api/1/route?"
+      var url = "https://graphhopper.com/api/1/route?"
         + vehicleParam
         + "&locale=" + I18n.currentLocale()
         + "&key=LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn"
