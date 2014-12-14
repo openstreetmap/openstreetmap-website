@@ -20,7 +20,9 @@ OpenStreetMap::Application.configure do
   config.active_support.deprecation = :log
 
   # Raise an error on page load if there are pending migrations.
-  config.active_record.migration_error = :page_load
+  unless STATUS == :database_offline
+    config.active_record.migration_error = :page_load
+  end
 
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
