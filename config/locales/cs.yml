@@ -13,6 +13,7 @@
 # Author: Masox
 # Author: Matěj Grabovský
 # Author: Michaelbrabec
+# Author: Mkyral
 # Author: Mormegil
 # Author: Mr. Richard Bolla
 # Author: Nemo bis
@@ -137,11 +138,17 @@ cs:
       way_paginated: Cesty (%{x}–%{y} z %{count})
       relation: Relace (%{count})
       relation_paginated: Relace (%{x}–%{y} z %{count})
+      comment: Komentáře (%{count})
+      hidden_commented_by: Skrytý komentář od %{user} <abbr title='%{exact_time}'>Před
+        %{when}</abbr>
+      commented_by: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval %{user}
       changesetxml: Soubor změn XML
       osmchangexml: osmChange XML
       feed:
         title: Sada změn %{id}
         title_comment: 'Sada změn: %{id} - %{comment}'
+      join_discussion: Pokud chcete diskutovat, přihlaste se
+      discussion: Diskuse
     node:
       title: 'Uzel: %{name}'
       history_title: 'Historie uzlu: %{name}'
@@ -219,6 +226,11 @@ cs:
       reopened_by_anonymous: Reaktivoval <abbr title='%{exact_time}'>před %{when}</abbr>
         anonym
       hidden_by: Skryl <abbr title='%{exact_time}'>před %{when}</abbr> %{user}
+    query:
+      title: Průzkum prvků
+      introduction: Pro nalezení okolních prvků klikněte do mapy.
+      nearby: Okolní prvky
+      enclosing: Umístění prvku
   changeset:
     changeset_paging_nav:
       showing_page: Stránka %{page}
@@ -248,6 +260,13 @@ cs:
       load_more: Načíst další
     timeout:
       sorry: Omlouváme se, ale vámi požadovaný seznam sad změn se načítal příliš dlouho.
+    rss:
+      title_all: Diskuse k sadě změn na OpenStreetMap
+      title_particular: 'Diskuse k sadě změn #%{changeset_id} na OpenStreetMap'
+      comment: '%{author} napsal nový komentář k sadě změn #%{changeset_id}'
+      commented_at_html: Aktualizováno před %{when}
+      commented_at_by_html: Aktualizováno před %{when} uživatelem %{user}
+      full: Celá diskuse
   diary_entry:
     new:
       title: Nový záznam do deníčku
@@ -750,6 +769,8 @@ cs:
           tram: Tramvajová trať
           tram_stop: Tramvajová zastávka
           yard: Přednádraží
+        route:
+          bus: Autobusová linka
         shop:
           alcohol: Prodej alkoholu
           antiques: Starožitnosti
@@ -1238,6 +1259,20 @@ cs:
         commented_note: '%{commenter} reaktivoval poznámku k mapě, kterou jste komentovali.
           Poznámka je umístěna poblíž %{place}.'
       details: Podrobnosti k poznámce můžete najít na %{url}.
+    changeset_comment_notification:
+      greeting: Ahoj,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} okomentoval jednu z vašich sad
+          změn'
+        subject_other: '[OpenStreetMap] %{commenter} okomentoval jednu ze sad změn,
+          která vás zajímá'
+        your_changeset: '%{commenter} zanechal komentář na jedné z vašich sad změn,
+          vytvořené %{time}.'
+        commented_changeset: '%{commenter} zanechal komentář na sadě změn, kterou
+          %{time} vytvořil %{changeset_author} a kterou sledujete.'
+        partial_changeset_with_comment: s komentářem „%{changeset_comment}“
+        partial_changeset_without_comment: bez komentáře
+      details: Více informací o této sadě změn lze nalézt na %{url}.
   message:
     inbox:
       title: Doručená pošta
@@ -2192,6 +2227,15 @@ cs:
       createnote_disabled_tooltip: Pro přidání poznámky přejděte na větší měřítko
       map_notes_zoom_in_tooltip: Pro zobrazení poznámek k mapě přejděte na větší měřítko.
       map_data_zoom_in_tooltip: Pro zobrazení mapových dat přejděte na větší měřítko.
+      queryfeature_tooltip: Průzkum prvků
+      queryfeature_disabled_tooltip: Pro průzkum prvků přejděte na větší měřítko
+    changesets:
+      show:
+        comment: Okomentovat
+        subscribe: Odebírat
+        unsubscribe: Zrušit odebírání
+        hide_comment: skrýt
+        unhide_comment: odkrýt
     notes:
       new:
         intro: Zahlédli jste chybu nebo prázdné místo? Dejte vědět ostatním uživatelům,
@@ -2209,6 +2253,13 @@ cs:
         comment: Okomentovat
     edit_help: Posuňte si mapu a zvětšete si místo, které chcete editovat, a klikněte
       zde.
+    query:
+      node: Uzel
+      way: Cesta
+      relation: Relace
+      nothing_found: Žádné nalezené objekty
+      error: 'Chyba při připojování k %{server}: %{error}'
+      timeout: Vypršel čas při připojování k %{server}
   redaction:
     edit:
       description: Popis

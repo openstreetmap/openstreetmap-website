@@ -31,6 +31,7 @@
 # Author: Santacloud
 # Author: Spider
 # Author: TarzanASG
+# Author: Tourorist
 # Author: XAN
 # Author: Yuri Nazarov
 # Author: Zverik
@@ -154,11 +155,14 @@ ru:
       way_paginated: Линии (%{x}-%{y} из %{count})
       relation: Отношения (%{count})
       relation_paginated: Отношения (%{x}-%{y} из %{count})
+      comment: Комментарии (%{count})
       changesetxml: XML пакета правок
       osmchangexml: osmChange XML
       feed:
         title: Пакет правок %{id}
         title_comment: Пакет правок %{id} — %{comment}
+      join_discussion: Войдите в систему, чтобы присоединиться к обсуждению
+      discussion: Обсуждение
     node:
       title: 'Точка: %{name}'
       history_title: 'История точки: %{name}'
@@ -267,6 +271,10 @@ ru:
     timeout:
       sorry: К сожалению, список пакетов правок, который вы запросили, слишком большой
         для извлечения.
+    rss:
+      commented_at_html: Обновлена %{when} назад
+      commented_at_by_html: Обновлена %{when} назад %{user}
+      full: Полное обсуждение
   diary_entry:
     new:
       title: Сделать новую запись в дневнике
@@ -770,6 +778,8 @@ ru:
           tram: Трамвай
           tram_stop: Трамвайная остановка
           yard: Депо
+        route:
+          bus: Автобусный маршрут
         shop:
           alcohol: Винный магазин
           antiques: Антиквариат
@@ -1091,8 +1101,8 @@ ru:
         понятий, которые стоит иметь ввиду.
       editor_html: <strong>Редактор</strong> — это программа или веб-сайт, которые
         можно использовать для редактирования карты.
-      node_html: <strong>Точка</strong> — простейший элемент карты, вроде входа в
-        ресторан или отдельного дерева.
+      node_html: <strong>Точка</strong> (node) — простейший элемент карты, вроде входа
+        в ресторан или отдельного дерева.
       way_html: <strong>Линия</strong> — это отрезок или кривая, соединяющая точки,
         обозначающая, к примеру, дорогу, ручей, контур озера или здания.
       tag_html: <strong>Тег</strong> – это единица описания точки или линии, например
@@ -1271,6 +1281,11 @@ ru:
         commented_note: '%{commenter} переоткрыл одну из отметок, которые вы комментировали.
           Отметка недалеко от %{place}.'
       details: Подробнее о заметке %{url}.
+    changeset_comment_notification:
+      greeting: Привет,
+      commented:
+        partial_changeset_with_comment: с комментарием '%{changeset_comment}'
+        partial_changeset_without_comment: без комментария
   message:
     inbox:
       title: Входящие
@@ -1716,7 +1731,7 @@ ru:
       to make changes: Чтобы вносить изменения в данные OpenStreetMap, вы должны иметь
         учётную запись.
       create account minute: Создайте учётную запись. Это займёт не больше минуты.
-      no account: У вас нет аккаунта?
+      no account: У вас нет учётной записи?
       account not active: Извините, ваша учётная запись ещё не активирована.<br />Чтобы
         активировать её, пожалуйста, нажмите на ссылку в отправленном вам письме,
         или <a href="%{reconfirm}">запросите отправку нового письма-подтверждения</a>.
@@ -1776,7 +1791,7 @@ ru:
       about:
         header: Свободно редактируемая
         html: |-
-          <p>в Отличие от других карт, карты OpenStreetMap полностью создаются обычными людьми вроде вас
+          <p>В отличие от других карт, OpenStreetMap полностью создаются такими же людьми, как и вы,
           и они свободны для исправления, обновления, загрузки и использования каждым.</p>
           <p>Зарегистрируйтесь, чтобы сделать свой вклад. Мы отправим вам письмо, чтобы подтвердить ваш аккаунт.</p>
       license_agreement: Для подтверждения своей учётной записи вам необходимо согласиться
@@ -2251,6 +2266,13 @@ ru:
       createnote_disabled_tooltip: Приблизьте карту, чтобы добавить заметку
       map_notes_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть примечания к карте
       map_data_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть данные карты
+    changesets:
+      show:
+        comment: Комментарий
+        subscribe: Подписаться
+        unsubscribe: Отписаться
+        hide_comment: скрыть
+        unhide_comment: показать
     notes:
       new:
         intro: Заметили ошибку или отсутствие чего-то? Дайте знать об этом другим
@@ -2269,6 +2291,12 @@ ru:
         comment: Прокомментировать
     edit_help: Передвиньте карту и увеличьте место, которые вы хотите править, затем
       кликните здесь.
+    query:
+      node: Точка
+      way: Линия
+      relation: Отношение
+      error: 'Ошибка связи с %{server}: %{error}'
+      timeout: Тайм-аут обращения к %{server}
   redaction:
     edit:
       description: Описание

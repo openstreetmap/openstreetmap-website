@@ -134,17 +134,24 @@ fi:
     changeset:
       title: 'Muutoskokoelma: %{id}'
       belongs_to: Lähettäjä
-      node: Pisteet(%{count})
-      node_paginated: Pisteet(%{x}-%{y} / %{count})
+      node: Pisteet (%{count})
+      node_paginated: Pisteet (%{x}-%{y} / %{count})
       way: Reitit (%{count})
       way_paginated: Reitit (%{x}-%{y} of %{count})
       relation: Relaatiot (%{count})
       relation_paginated: Relaatiot (%{x}-%{y} / %{count})
+      comment: Kommentit (%{count})
+      hidden_commented_by: Käyttäjän %{user} piilotettu kommentti <abbr title='%{exact_time}'>%{when}
+        sitten</abbr>
+      commented_by: Kommentti käyttäjältä %{user} <abbr title='%{exact_time}'>%{when}
+        sitten</abbr>
       changesetxml: Muutoskokoelman XML
       osmchangexml: osmChange XML
       feed:
         title: Muutoskokoelma %{id}
         title_comment: Muutoskokoelma %{id} - %{comment}
+      join_discussion: Kirjaudu sisään, jos haluat osallistua keskusteluun
+      discussion: Keskustelu
     node:
       title: 'Piste: %{name}'
       history_title: Pisteen %{name} historia
@@ -226,6 +233,11 @@ fi:
         sitten</abbr>
       hidden_by: Piilottanut käyttäjä %{user} <abbr title='%{exact_time}'>%{when}
         sitten</abbr>
+    query:
+      title: Ominaisuuskysely
+      introduction: Näytä luettelo lähistön karttakohteista napsauttamalla karttaa.
+      nearby: Lähistön karttakohteet
+      enclosing: Ympäröivät karttakohteet
   changeset:
     changeset_paging_nav:
       showing_page: Sivu %{page}
@@ -256,6 +268,10 @@ fi:
     timeout:
       sorry: Valitettavasti pyytämäsi muutoskokoelmien listan hakeminen kesti liian
         kauan.
+    rss:
+      commented_at_html: Päivitetty %{when} sitten
+      commented_at_by_html: '%{user} päivittänyt %{when} sitten'
+      full: Koko keskustelu
   diary_entry:
     new:
       title: Uusi päiväkirjamerkintä
@@ -754,6 +770,8 @@ fi:
           tram: Raitiotie
           tram_stop: Raitiovaunupysäkki
           yard: Ratapiha
+        route:
+          bus: Bussireitti
         shop:
           alcohol: Alkoholikauppa
           antiques: Antiikkia
@@ -1250,6 +1268,10 @@ fi:
           viesti lähetetään siksi, että olet kommentoinut tätä karttailmoitusta, joka
           on lähellä paikkaa %{place}.'
       details: Lisää tietoja merkinnästä löytyy osoitteesta %{url}.
+    changeset_comment_notification:
+      greeting: Hei,
+      commented:
+        partial_changeset_without_comment: ei kommenttia
   message:
     inbox:
       title: Saapuneet
@@ -2176,6 +2198,14 @@ fi:
       createnote_disabled_tooltip: Lähennä karttaa ennen karttavirheestä ilmoittamista.
       map_notes_zoom_in_tooltip: Näytä karttailmoitukset lähentämällä karttaa
       map_data_zoom_in_tooltip: Näytä kartta-aineisto lähentämällä karttaa
+      queryfeature_tooltip: Karttakohdeluettelo
+      queryfeature_disabled_tooltip: Näytä ominaisuusluettelo suurentamalla karttaa
+    changesets:
+      show:
+        comment: Kommentti
+        unsubscribe: Lopeta tilaus
+        hide_comment: piilota
+        unhide_comment: näytä
     notes:
       new:
         intro: Auta parantamaan karttatietokantaa ilmoittamalla virheistä. Muut kartoittajat
@@ -2191,6 +2221,13 @@ fi:
         comment_and_resolve: Kommentoi + ratkaise
         comment: Kommentoi
     edit_help: Siirrä ja lähennä kartta muokattavaan paikkaan ja napsauta sitten tästä.
+    query:
+      node: Piste
+      way: Viiva
+      relation: Relaatio
+      nothing_found: Karttakohteita ei löytynyt
+      error: 'Yhteysvirhe palvelimeen %{server}: %{error}'
+      timeout: Yhteyden aikakatkaisu palvelimeen %{server}
   redaction:
     edit:
       description: Kuvaus

@@ -121,11 +121,17 @@ br:
       way_paginated: Hentoù (%{x}-%{y} diwar %{count})
       relation: Darempredoù (%{count})
       relation_paginated: Darempredoù (%{x}-%{y} diwar %{count})
+      comment: Addisplegoù(%{count})
+      hidden_commented_by: Addispleg kuzhet gant %{user} <abbr title='%{exact_time}'>%{when}
+        zo</abbr>
+      commented_by: Addispleg gant %{user} <abbr title='%{exact_time}'>%{when}zo</abbr>
       changesetxml: Strollad kemmoù XML
       osmchangexml: osmChange XML
       feed:
         title: Strollad kemmoù %{id}
         title_comment: Strollad kemmoù %{id} - %{comment}
+      join_discussion: Kevreañ evit kaozeal
+      discussion: Kaozeadenn
     node:
       title: 'Skoulm : %{name}'
       history_title: 'Istor ar skoulm : %{name}'
@@ -206,6 +212,11 @@ br:
       reopened_by_anonymous: Adweredekaet gant un den dianv <abbr title='%{exact_time}'>%{when}
         zo</abbr>
       hidden_by: Kuzhet gant %{user} <abbr title='%{exact_time}'>%{when} zo</abbr>
+    query:
+      title: Arc'hweladurioù enklask
+      introduction: Klikit war ar gartenn evit kavout arc'hweladurioù e-kichen.
+      nearby: Arc'hweladurioù e-kichen
+      enclosing: Arc'hweladurioù stag
   changeset:
     changeset_paging_nav:
       showing_page: Pajenn %{page}
@@ -235,6 +246,14 @@ br:
       load_more: Kargañ muioc'h
     timeout:
       sorry: Ho tigarez, re hir eo adtapout ar roll cheñchamantoù hoc'h eus goulennet.
+    rss:
+      title_all: Kaozeal diwar-benn an holl gemmoù degaset en OpenStreetMap
+      title_particular: 'Kaoz diwar-benn an holl gemmoù #%{changeset_id}degaset en
+        OpenStreetMap'
+      comment: 'Addispleg nevez eus ar strollad kemmoù #%{changeset_id} dre %{author}'
+      commented_at_html: Hizivaet %{when} zo
+      commented_at_by_html: Hizivaet %{when} zo gant %{user}
+      full: Kaoz klok
   diary_entry:
     new:
       title: Enmoned nevez en deizlevr
@@ -279,15 +298,15 @@ br:
       comment_link: Addisplegañ an enmoned-mañ
       reply_link: Respont d'an enmoned-mañ
       comment_count:
-        one: Un evezhiadenn
-        zero: Evezhiadenn ebet
-        other: '%{count} evezhiadenn'
+        one: Un addipleg
+        zero: Addispleg ebet
+        other: '%{count} addipleg'
       edit_link: Aozañ an enmoned-mañ
       hide_link: Kuzhat an elfenn-mañ
       confirm: Kadarnaat
     diary_comment:
       comment_from: Addispleg gant %{link_user}  d'an %{comment_created_at}
-      hide_link: Kuzhat an evezhiadenn-mañ
+      hide_link: Kuzhat an addispleg-mañ
       confirm: Kadarnaat
     location:
       location: 'Lec''hiadur :'
@@ -309,9 +328,9 @@ br:
         pennadoù deizlevr-mañ
       post: Postañ
       when: Peur
-      comment: Evezhiadenn
+      comment: Addipleg
       ago: '%{ago} zo'
-      newer_comments: Evezhiadennoù nevesañ
+      newer_comments: Evezhiadennoù nevesoo'h
       older_comments: Evezhiadennoù koshañ
   export:
     title: Ezporzhiañ
@@ -328,8 +347,9 @@ br:
       too_large:
         advice: 'Ma c''hwit an ezporzhiadur amañ a-us, implijit unan eus an elfennoù
           amañ dindan :'
-        body: Re vras eo an takad-mañ evit bezañ ezporzhiet evel roadennoù XML OpenStreetMap.
-          Zoumit, mar plij, pe diuzit un takad bihanoc'h.
+        body: 'Re vras eo an takad-mañ evit bezañ ezporzhiet evel roadennoù XML OpenStreetMap.
+          Zoumit, mar plij, pe diuzit un takad bihanoc''h pe immplijit unan eus an
+          tarzhioù-mañ evit pellgargañ roadennoù a-yoc''h :'
         planet:
           title: Planedenn OSM
           description: Eilennoù hizivaet ingal eus diaz roadennoù klok OpenStreetMap
@@ -346,7 +366,7 @@ br:
           description: Eztennadennoù evit brasañ kêrioù ar bed hag o ardemezioù
         other:
           title: Tarzhioù all
-          description: Mamennoù all a gaver o roll er wiki OpenStreetMap
+          description: Mammennoù all a gaver o roll er wiki OpenStreetMap
       options: Dibarzhioù
       format: Furmad
       scale: Skeuliad
@@ -384,7 +404,7 @@ br:
           apron: ↓Parklec'h nijerezioù
           gate: Dor
           helipad: biñsporzh
-          runway: Pistenn
+          runway: Leurenn
           taxiway: Roudenn evit an taksioù
           terminal: Termenva
         amenity:
@@ -738,6 +758,8 @@ br:
           tram: Tramgarr
           tram_stop: Arsav tramgarr
           yard: Gar-dibab
+        route:
+          bus: Pennad-hent ar bus
         shop:
           alcohol: Gwezher alkool
           antiques: Hendraezoù
@@ -1253,6 +1275,13 @@ br:
         commented_note: '%{commenter} en deus adweredekaet un notenn war ur gartenn
           hoc''h eus addispleget. Emañ an notenn tost da %{place}.'
       details: Munudoù ouzhpenn diwar-benn an notenn a c'hall bezañ kavet e %{url}.
+    changeset_comment_notification:
+      greeting: Demat,
+      commented:
+        subject_other: '[OpenStreetMap] %{commenter} en deus addispleget unan eus
+          ho notennoù a sell ouzhoc''h'
+        partial_changeset_with_comment: gant an addispleg '%{changeset_comment}'
+        partial_changeset_without_comment: Hep evezhiadenn
   message:
     inbox:
       title: Boest resev
@@ -2204,6 +2233,15 @@ br:
       createnote_disabled_tooltip: Zoumañ da ouzhpennañ un notenn d'ar gartenn
       map_notes_zoom_in_tooltip: Zoumiñ evit gwelet notennoù ar gartenn
       map_data_zoom_in_tooltip: Zoumiñ evit gwelet roadennoù ar gartenn
+      queryfeature_tooltip: Arc'hweladurioù enklask
+      queryfeature_disabled_tooltip: Zoumañ evit an arc'hweladurioù enklask
+    changesets:
+      show:
+        comment: Evezhiadenn
+        subscribe: Koumanantiñ
+        unsubscribe: Digoumanantiñ
+        hide_comment: kuzhat
+        unhide_comment: diskouez
     notes:
       new:
         intro: Gwelet ho peus ur fazi pe un dra a vank ? Roit an dra-se da c'houzout
@@ -2222,6 +2260,11 @@ br:
         comment: Evezhiadenn
     edit_help: Dilec'hiit ar gartenn ha zoumit war ul lec'h a fell deoc'h aozañ, ha
       neuze klikit amañ.
+    query:
+      node: Skoulm
+      way: Hent
+      relation: Darempred
+      nothing_found: Arc'hweladur ebet kavet
   redaction:
     edit:
       description: Deskrivadur

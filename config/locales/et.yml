@@ -120,11 +120,18 @@ et:
       way_paginated: Jooned (%{x}-%{y}/%{count})
       relation: Relatsioonid (%{count})
       relation_paginated: Relatsioonid (%{x}-%{y}/%{count})
+      comment: Kommentaare (%{count})
+      hidden_commented_by: Peidetud kommentaar kasutajalt %{user} <abbr title='%{exact_time}'>%{when}
+        tagasi</abbr>
+      commented_by: Kommentaar kasutajalt %{user} <abbr title='%{exact_time}'>%{when}
+        tagasi</abbr>
       changesetxml: Muutuskogumi XML
       osmchangexml: osmChange XML
       feed:
         title: Muutuskogum %{id}
         title_comment: Muutuskogum %{id} - %{comment}
+      join_discussion: Logi sisse, kui soovid arutelus osaleda
+      discussion: Arutelu
     node:
       title: 'Sõlm: %{name}'
       history_title: 'Sõlme ajalugu: %{name}'
@@ -182,7 +189,9 @@ et:
       wiki_link:
         key: Sildi %{key} kirjelduse leht vikis
         tag: Sildi %{key}=%{value} kirjelduse leht vikis
+      wikidata_link: '%{page} Wikidatas'
       wikipedia_link: Artikkel %{page} Vikipeedias
+      telephone_link: Helista %{phone_number}
     note:
       title: 'Märkus: %{id}'
       new_note: Uus märkus
@@ -236,6 +245,13 @@ et:
       load_more: Laadi veel
     timeout:
       sorry: Kahjuks võttis taotletud muutuskogumite laadimine liiga kaua aega.
+    rss:
+      title_all: OpenStreetMap muutuskogumi arutelu
+      title_particular: 'OpenStreetMap muutuskogumi #%{changeset_id} arutelu'
+      comment: 'Uus kommentaar muutuskogumis #%{changeset_id} kasutajalt %{author}'
+      commented_at_html: Uuendatud %{when} tagasi
+      commented_at_by_html: Uuendatud %{when} tagasi kasutaja %{user} poolt
+      full: Kogu arutelu
   diary_entry:
     new:
       title: Uus päeviku sissekanne
@@ -441,6 +457,8 @@ et:
           preschool: Lasteaed
           prison: Vangla
           pub: Pubi
+          public_building: Ühiskondlik hoone
+          public_market: Turg
           reception_area: Vastuvõtt
           recycling: Jäätmekäitluspunkt
           restaurant: Restoran
@@ -641,6 +659,7 @@ et:
           tram_stop: Trammipeatus
         shop:
           antiques: Antikvariaat
+          bakery: Pagariäri
           bicycle: Rattapood
           books: Raamatupood
           boutique: Butiik
@@ -682,6 +701,7 @@ et:
           optician: Prillipood
           pet: Lemmikloomapood
           pharmacy: Apteek
+          photo: Fotopood
           salon: Ilusalong
           shoes: Kingapood
           shopping_centre: Kaubanduskeskus
@@ -691,6 +711,7 @@ et:
           tailor: Rätsep
           toys: Mänguasjapood
           travel_agency: Reisiagentuur
+          wine: Alkoholipood
           "yes": Pood
         tourism:
           alpine_hut: Alpimaja
@@ -712,6 +733,7 @@ et:
         tunnel:
           "yes": Tunnel
         waterway:
+          boatyard: Verf
           canal: Kanal
           dam: Tamm
           ditch: Kraav
@@ -720,7 +742,9 @@ et:
           river: Jõgi
           riverbank: Jõekallas
           stream: Oja
+          wadi: Vadi
           waterfall: Kosk
+          water_point: Veevõtukoht
           weir: Pais
       admin_levels:
         level2: Riigipiir
@@ -1654,6 +1678,7 @@ et:
       ct accepted: Vastu võetud %{ago}  tagasi
       latest edit: 'Viimane muudatus %{ago}:'
       email address: 'E-posti aadress:'
+      created from: 'Loodud:'
       status: 'Staatus:'
       spam score: 'Rämpsposti tulemus:'
       description: Kirjeldus
@@ -2028,12 +2053,20 @@ et:
       createnote_disabled_tooltip: Suurenda, et lisada kaardile märkus
       map_notes_zoom_in_tooltip: Suumi sisse, et näha kaardil märkuseid
       map_data_zoom_in_tooltip: Suumi sisse, et näha kaardi andmeid
+    changesets:
+      show:
+        comment: Kommentaar
+        subscribe: Telli
+        unsubscribe: Lõpeta tellimus
+        hide_comment: peida
+        unhide_comment: nähtavale
     notes:
       new:
         intro: Märkasid viga või või midagi, mis vajab täiendamist? Anna sellest teada
           teistele kaardistajatele, et me võiksime seda parandada. Lohista marker
           õigele kohale ja kirjuta märkus, et probleemi selgitada. (Palun ära kirjuta
-          siia isiklikku informatsiooni.)
+          siia isiklikku informatsiooni või infot autoriõigustega kaitstud kaartidelt
+          või kataloogide nimekirjast.)
         add: Lisa märkus
       show:
         anonymous_warning: Käesolev märkus sisaldab kommentaare anonüümsetelt kasutajatelt,
@@ -2045,6 +2078,12 @@ et:
         comment: Kommenteeri
     edit_help: Nihuta kaarti ja suumi sisse asukohta mida soovid redigeerida ja seejärel
       kliki siia.
+    query:
+      node: Sõlm
+      way: Joon
+      relation: Relatsioon
+      error: 'Viga ühendumisel serveriga %{server}: %{error}'
+      timeout: Ühendumine aegus serveriga %{server}
   redaction:
     edit:
       description: Kirjeldus

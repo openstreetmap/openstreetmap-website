@@ -146,11 +146,17 @@ es:
       way_paginated: Vías (%{x}-%{y} de %{count})
       relation: Relaciones (%{count})
       relation_paginated: Relaciones (%{x}-%{y} de %{count})
+      comment: Comentarios (%{count})
+      hidden_commented_by: Comentario oculto de %{user} <abbr title='%{exact_time}'>hace
+        %{when}</abbr>
+      commented_by: Comentario de %{user} <abbr title='%{exact_time}'>hace %{when}</abbr>
       changesetxml: XML del conjunto de cambios
       osmchangexml: XML en formato osmChange
       feed:
         title: Conjunto de cambios %{id}
         title_comment: Conjunto de cambios %{id} - %{comment}
+      join_discussion: Inicie sesión para unirse a la discusión
+      discussion: Discusión
     node:
       title: 'Nodo: %{name}'
       history_title: 'Historial de nodo: %{name}'
@@ -229,6 +235,11 @@ es:
       reopened_by_anonymous: Reactivado por anónimo <abbr title='%{exact_time}'>hace
         %{when}</abbr>
       hidden_by: Oculto por %{user} <abbr title='%{exact_time}'>hace %{when}</abbr>
+    query:
+      title: Características de la consulta
+      introduction: Haga clic en el mapa para encontrar características cercanas.
+      nearby: Características cercanas
+      enclosing: Características envolventes
   changeset:
     changeset_paging_nav:
       showing_page: Página %{page}
@@ -259,6 +270,14 @@ es:
     timeout:
       sorry: Lo sentimos, la lista de conjuntos de cambios que has solicitado ha tardado
         mucho tiempo en obtenerse.
+    rss:
+      title_all: Discusión del conjunto de cambios de OpenStreetMap
+      title_particular: 'Discusión del conjunto de cambios #%{changeset_id} de OpenStreetMap'
+      comment: 'Comentario nuevo sobre el conjunto de cambios #%{changeset_id} de
+        %{author}'
+      commented_at_html: Actualizado hace %{when}
+      commented_at_by_html: Actualizado hace %{when} por %{user}
+      full: Discusión completa
   diary_entry:
     new:
       title: Nueva entrada en el diario
@@ -552,7 +571,7 @@ es:
           primary_link: Carretera primaria
           proposed: Carretera propuesta
           raceway: Pista de carreras
-          residential: Calle
+          residential: Calle residencial
           rest_area: Área de descanso
           road: Carretera
           secondary: Carretera secundaria
@@ -763,6 +782,8 @@ es:
           tram: Ruta de tranvía
           tram_stop: Parada de tranvía
           yard: Estación de clasificación
+        route:
+          bus: Ruta de autobús
         shop:
           alcohol: Licorería
           antiques: Antigüedades
@@ -1263,6 +1284,21 @@ es:
         commented_note: '%{commenter} ha reactivado un nota del mapa en la que usted
           ha comentado. La nota está cerca de %{place}.'
       details: Más detalles acerca de la nota pueden encontrarse en %{url}.
+    changeset_comment_notification:
+      greeting: Hola,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} ha comentado en uno de tus conjuntos
+          de cambios'
+        subject_other: '[OpenStreetMap] %{commenter} ha comentado en un conjunto de
+          cambios en el que usted está interesado'
+        your_changeset: '%{commenter} ha dejado un comentario en uno de sus conjuntos
+          de cambios creado el %{time}'
+        commented_changeset: '%{commenter} ha dejado un comentario en un conjunto
+          de cambios de mapa que está siguiendo, creado por %{changeset_author} el
+          %{time}'
+        partial_changeset_with_comment: con el comentario '%{changeset_comment}'
+        partial_changeset_without_comment: sin comentarios
+      details: Más detalles acerca del conjunto de cambios pueden encontrarse en %{url}.
   message:
     inbox:
       title: Buzón de entrada
@@ -2226,6 +2262,15 @@ es:
       createnote_disabled_tooltip: Acercar para añadir una nota al mapa
       map_notes_zoom_in_tooltip: Acercar para ver notas del mapa
       map_data_zoom_in_tooltip: Acercar para ver datos del mapa
+      queryfeature_tooltip: Consultar características
+      queryfeature_disabled_tooltip: Acercar para consultar características
+    changesets:
+      show:
+        comment: Comentar
+        subscribe: Suscribirse
+        unsubscribe: Desuscribir
+        hide_comment: ocultar
+        unhide_comment: mostrar
     notes:
       new:
         intro: ¿Has detectado un error o falta algo? Hazlo saber a otros cartógrafos
@@ -2243,6 +2288,13 @@ es:
         comment: Comentar
     edit_help: Mueva el mapa el mapa y acerca a una ubicación que desees editar, luego
       haga clic aquí.
+    query:
+      node: Nodo
+      way: Vía
+      relation: Relación
+      nothing_found: No se encontraron características
+      error: 'Error al contactar a %{server}: %{error}'
+      timeout: Tiempo de espera agotado al contactar a %{server}
   redaction:
     edit:
       description: Descripción

@@ -120,11 +120,17 @@ vi:
       way_paginated: Các lối (%{x}–%{y} trên %{count})
       relation: Các quan hệ (%{count})
       relation_paginated: Các quan hệ (%{x}–%{y} trên %{count})
+      comment: Bình luận (%{count})
+      hidden_commented_by: Bình luận ẩn của %{user} <abbr title='%{exact_time}'>cách
+        đây %{when}</abbr>
+      commented_by: Bình luận của %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
       changesetxml: Bộ thay đổi XML
       osmchangexml: osmChange XML
       feed:
         title: Bộ thay đổi %{id}
         title_comment: Bộ thay đổi %{id} – %{comment}
+      join_discussion: Đăng nhập để tham gia thảo luận
+      discussion: Thảo luận
     node:
       title: 'Nốt: %{name}'
       history_title: 'Lịch sử Nốt: %{name}'
@@ -202,6 +208,11 @@ vi:
       reopened_by: Mở lại bởi %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
       reopened_by_anonymous: Mở lại vô danh <abbr title='%{exact_time}'>cách đây %{when}</abbr>
       hidden_by: Ẩn bởi %{user} <abbr title='%{exact_time}'>cách đây %{when}</abbr>
+    query:
+      title: Thăm dò Yếu tố
+      introduction: Nhấn chuột vào bản đồ để tìm những yếu tố lân cận.
+      nearby: Yếu tố lân cận
+      enclosing: Yếu tố bao gồm
   changeset:
     changeset_paging_nav:
       showing_page: Trang %{page}
@@ -231,6 +242,13 @@ vi:
       load_more: Tải tiếp
     timeout:
       sorry: Rất tiếc, lấy danh sách bộ thay đổi tốn quá nhiều thì giờ.
+    rss:
+      title_all: Thảo luận về bộ thay đổi tại OpenStreetMap
+      title_particular: 'Thảo luận về bộ thay đổi #%{changeset_id} tại OpenStreetMap'
+      comment: 'Bình luận mới về bộ thay đổi #%{changeset_id} của %{author}'
+      commented_at_html: Được cập nhật cách đây %{when}
+      commented_at_by_html: Được %{user} cập nhật cách đây %{when}
+      full: Thảo luận đầy đủ
   diary_entry:
     new:
       title: Mục Nhật ký Mới
@@ -731,6 +749,8 @@ vi:
           tram: Đường Xe điện
           tram_stop: Ga Xép Điện
           yard: Sân ga
+        route:
+          bus: Tuyến Xe buýt
         shop:
           alcohol: Tiệm Rượu
           antiques: Tiệm Đồ cổ
@@ -1234,6 +1254,20 @@ vi:
         commented_note: '%{commenter} đã mở lại một ghi chú mà bạn đã bình luận, ghi
           chú gần %{place}.'
       details: Xem chi tiết về ghi chú tại %{url}.
+    changeset_comment_notification:
+      greeting: Chào bạn,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} đã bình luận về một bộ thay đổi
+          của bạn'
+        subject_other: '[OpenStreetMap] %{commenter} đã bình luận về một bộ thay đổi
+          mà bạn đang quan tâm'
+        your_changeset: '%{commenter} đã bình luận về một bộ thay đổi do bạn lưu vào
+          %{time}'
+        commented_changeset: '%{commenter} đã bình luận về một bộ thay đổi mà bạn
+          đang theo dõi do %{changeset_author} lưu vào %{time}'
+        partial_changeset_with_comment: với lời bình luận “%{changeset_comment}”
+        partial_changeset_without_comment: không có lời bình luận
+      details: Xem chi tiết về bộ thay đổi tại %{url}.
   message:
     inbox:
       title: Hộp thư
@@ -2169,6 +2203,15 @@ vi:
       createnote_disabled_tooltip: Phóng to để thêm một ghi chú vào bản đồ
       map_notes_zoom_in_tooltip: Phóng to để xem các ghi chú trên bản đồ
       map_data_zoom_in_tooltip: Phóng to để xem dữ liệu bản đồ
+      queryfeature_tooltip: Thăm dò yếu tố
+      queryfeature_disabled_tooltip: Phóng to để thăm dò yếu tố
+    changesets:
+      show:
+        comment: Bình luận
+        subscribe: Theo dõi
+        unsubscribe: Không theo dõi
+        hide_comment: ẩn
+        unhide_comment: bỏ ẩn
     notes:
       new:
         intro: Bản đồ có thiếu gì hay sai lầm không? Hãy báo cho chúng tôi để chúng
@@ -2186,6 +2229,13 @@ vi:
         comment: Bình luận
     edit_help: Di chuyển bản đồ và phóng to một vị trí mà bạn muốn sửa đổi, rồi nhấn
       chuột vào đây.
+    query:
+      node: Nốt
+      way: Lối
+      relation: Quan hệ
+      nothing_found: Không tìm thấy yếu tố nào
+      error: 'Lỗi khi kết nối với %{server}: %{error}'
+      timeout: Hết thời gian kết nối với %{server}
   redaction:
     edit:
       description: Miêu tả
