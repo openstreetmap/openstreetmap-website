@@ -4,6 +4,7 @@
 # Author: B891202
 # Author: Freebiekr
 # Author: Hym411
+# Author: IRTC1015
 # Author: Kwj2772
 # Author: Priviet
 # Author: Revi
@@ -110,7 +111,7 @@ ko:
     in_changeset: 바뀜집합
     anonymous: 익명
     no_comment: (덧글 없음)
-    part_of: '다음의 부분:'
+    part_of: '다음의 일부:'
     download_xml: XML 다운로드
     view_history: 역사 보기
     view_details: 자세한 내용 보기
@@ -125,8 +126,12 @@ ko:
       relation: 관계 (%{count})
       relation_paginated: 관계 (%{count} 중 %{x}-%{y})
       comment: 의견 (%{count})
+      hidden_commented_by: '%{user} 사용자가 <abbr title=''%{exact_time}''>%{when} 전</abbr>에
+        남긴 숨겨진 덧글'
+      commented_by: '%{user} 사용자가 <abbr title=''%{exact_time}''>%{when} 전</abbr>에
+        덧글을 남김'
       changesetxml: 바뀜집합 XML
-      osmchangexml: osm바뀜 XML
+      osmchangexml: osmChange XML
       feed:
         title: 바뀜집합 %{id}
         title_comment: 바뀜집합 %{id} - %{comment}
@@ -140,8 +145,8 @@ ko:
       history_title: '길 역사: %{name}'
       nodes: 노드
       also_part_of:
-        one: '%{related_ways} 길의 부분'
-        other: '%{related_ways} 길의 부분'
+        one: '%{related_ways} 길의 일부'
+        other: '%{related_ways} 길의 일부'
     relation:
       title: '관계: %{name}'
       history_title: '관계 역사: %{name}'
@@ -1240,6 +1245,13 @@ ko:
       details: 참고에 대한 자세한 사항은 %{url} 에서 찾을 수 있습니다.
     changeset_comment_notification:
       greeting: 안녕하세요,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} 사용자가 당신의 바뀜집합에 덧글을 남겼습니다'
+        subject_other: '[OpenStreetMap] %{commenter} 사용자가 당신이 관심 있는 바뀜집합에 덧글을 남겼습니다'
+        your_changeset: '%{commenter} 사용자가 당신이 %{time}에 만든 바뀜집합에 덧글을 달았습니다'
+        commented_changeset: '%{commenter} 사용자가 %{changeset_author}이 %{time}에 만든,
+          주시 중인 지도 바뀜집합에 덧글을 달았습니다'
+      details: 바뀜집합에 대한 자세한 사항은 %{url} 에서 찾을 수 있습니다.
   message:
     inbox:
       title: 받은 쪽지함
@@ -2128,6 +2140,12 @@ ko:
       createnote_disabled_tooltip: 지도에 참고를 추가하려면 확대
       map_notes_zoom_in_tooltip: 지도 참고를 보려면 확대
       map_data_zoom_in_tooltip: 지도 데이터를 보려면 확대
+    changesets:
+      show:
+        comment: 덧글
+        subscribe: 구독
+        unsubscribe: 구독 해지
+        hide_comment: 숨기기
     notes:
       new:
         intro: 실수했거나 없는 무언가를 발견했나요? 다른 매퍼에게 알려주어 고칠 수 있게 해주세요. 마커를 올바른 위치로 옮기고, 참고를
@@ -2141,6 +2159,10 @@ ko:
         comment_and_resolve: 덧글 & 해결
         comment: 덧글
     edit_help: 편집하려는 위치에 지도를 이동하고 확대한 다음, 여기를 클릭하세요.
+    query:
+      node: 노드
+      way: 길
+      relation: 관계
   redaction:
     edit:
       description: 설명
