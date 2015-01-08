@@ -4,7 +4,7 @@ class ChangesetTest < ActiveSupport::TestCase
   api_fixtures
 
   def test_changeset_count
-    assert_equal 7, Changeset.count
+    assert_equal 8, Changeset.count
   end
 
   def test_from_xml_no_text

@@ -135,6 +135,27 @@ class MessageControllerTest < ActionController::TestCase
   end
 
   ##
+  # test the new action message limit
+  def test_new_limit
+    # Login as a normal user
+    session[:user] = users(:normal_user).id
+
+    # Check that sending a message fails when the message limit is hit
+    assert_no_difference "ActionMailer::Base.deliveries.size" do
+      assert_no_difference "Message.count" do
+        with_message_limit(0) do
+          post :new,
+            :display_name => users(:public_user).display_name,
+            :message => { :title => "Test Message", :body => "Test message body" }
+          assert_response :success
+          assert_template "new"
+          assert_select "p.error", /wait a while/
+        end
+      end
+    end
+  end
+
+  ##
   # test the reply action
   def test_reply
     # Check that the message reply page requires us to login
@@ -361,5 +382,17 @@ class MessageControllerTest < ActionController::TestCase
     post :delete, :message_id => 99999
     assert_response :not_found
     assert_template "no_such_message"
+  end
+
+private
+
+  def with_message_limit(value)
+    max_messages_per_hour = Object.send("remove_const", "MAX_MESSAGES_PER_HOUR")
+    Object.const_set("MAX_MESSAGES_PER_HOUR", value)
+
+    yield
+
+    Object.send("remove_const", "MAX_MESSAGES_PER_HOUR")
+    Object.const_set("MAX_MESSAGES_PER_HOUR", max_messages_per_hour)
   end
 end

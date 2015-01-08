@@ -87,9 +87,7 @@ strong {
 /* Default rules for the body of every page */
 
 * {
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -171,7 +169,7 @@ small, aside {
 .icon.close:hover { background-position: -200px -20px; }
 .icon.check       { background-position: -220px 0; }
 .icon.note        { background-position: -240px 0; }
-.icon.gear        { background-position: -260px 0; }
+.icon.query       { background-position: -260px 0; }
 
 /* Rules for links */
 
@@ -464,9 +462,8 @@ nav.secondary {
 
 #noscript {
   z-index: 20000000;
-  position: absolute;
-  top: 15px;
-  left: 15px;
+  margin-left: 400px;
+  margin-top: 50px;
 }
 
 /* Rules for bootstrap tooltips */
@@ -569,14 +566,14 @@ nav.secondary {
     background-color: black;
   }
 
-  &.active {
-    background-color: #9ed485;
-  }
-
   &.disabled {
     background-color: #333;
     background-color: rgba(0,0,0,.5);
     cursor: default;
+  }
+
+  &.active {
+    background-color: #9ed485;
   }
 
   .icon {
@@ -683,6 +680,14 @@ nav.secondary {
   #map {
     height: 100%;
     overflow: hidden;
+
+    &.query-active {
+      cursor: help;
+    }
+
+    &.query-disabled {
+      cursor: not-allowed;
+    }
   }
 
   #map-ui {
@@ -846,7 +851,6 @@ nav.secondary {
 
 .leaflet-popup-content-wrapper {
   border-radius: 4px !important;
-  -webkit-border-radius: 4px !important;
 }
 
 /* Rules for attribution text under the main map shown on printouts */
@@ -926,8 +930,6 @@ header .search_form {
     border-right: none;
 
     transition: 300ms linear;
-    -webkit-transition: 300ms linear;
-    -moz-transition: 300ms linear;
   }
 
   input:focus {
@@ -969,7 +971,9 @@ header .search_form {
 .search_results_entry {
   ul li {
     border-bottom: $keyline;
+    cursor: pointer;
     &:first-child { border-top: $keyline; }
+    &.selected { background: #FFFFE6; }
   }
 
   .search_details {
@@ -1107,7 +1111,7 @@ header .search_form {
     font-size: 90%;
   }
 
-  .note-comments li {
+  .note-comments li, .changeset-comments li {
     margin: $lineheight/2 0;
 
     p {
@@ -1115,9 +1119,58 @@ header .search_form {
     }
   }
 
+  .comments-header {
+    float: left;
+  }
+
+  .subscribe-buttons {
+    float: left;
+    margin: 18px 10px 10px;
+    min-width: 80px;
+  }
+
+  .subscribe-buttons input {
+    font-size: 90%;
+    line-height: 15px;
+    min-height: 20px;
+  }
+
+  span.action-button:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
   .note-description {
     overflow: hidden;
     margin: 0 0 10px 10px;
+  }
+
+  .query-intro p {
+    padding: $lineheight $lineheight $lineheight/2;
+  }
+
+  .query-results {
+    display: none;
+
+    h3 {
+      padding: $lineheight $lineheight $lineheight/2;
+      margin: 0;
+    }
+
+    ul {
+      li {
+        padding: 15px 20px;
+        border-bottom: 1px solid #ddd;
+
+        &.query-result {
+          cursor: pointer;
+        }
+
+        &.selected {
+          background: #FFFFE6;
+        }
+      }
+    }
   }
 }
 
@@ -1316,6 +1369,30 @@ header .search_form {
 
   .trace_private {
     color: red;
+  }
+}
+
+/* Rules for the new trace form */
+
+#new_trace {
+  input[type=text] {
+    width: 50%;
+    width: calc(100% - 150px);
+    max-width: 500px;
+  }
+}
+
+/* Rules for the edit trace form */
+
+.edit_trace {
+  .form-row p {
+    margin-bottom: 0px;
+  }
+
+  input[type=text] {
+    width: 50%;
+    width: calc(100% - 150px);
+    max-width: 500px;
   }
 }
 
@@ -1901,7 +1978,6 @@ a.button {
   cursor: pointer;
   border: 0;
   display: inline-block;
-  line-height: 20px;
   padding: $lineheight/4 $lineheight/2;
   min-height: 20px + $lineheight/2;
   min-width: 120px;
@@ -1910,7 +1986,6 @@ a.button {
   background: $blue;
   text-align: center;
   border-radius: 2px;
-  -moz-border-radius: 2px;
   &:hover {
     background: darken($blue, $hovercolor);
     text-decoration: none;
@@ -1932,12 +2007,23 @@ a.button {
   }
 }
 
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  line-height: normal;
+}
+
+a.button {
+  line-height: 20px;
+}
+
 .buttons {
   min-width: 200px;
   input[type="submit"],
   input[type="button"],
   input[type="reset"],
-  .button {
+  .button,
+  .button_to {
     box-sizing: border-box;
     float: left;
     border-radius: 0;
@@ -1950,30 +2036,36 @@ a.button {
     overflow: hidden;
   }
   input:first-child,
-  .button:first-child {
+  .button:first-child,
+  .button_to:first-child {
     border-radius:2px 0 0 2px;
   }
   input:last-child,
-  .button:last-child {
+  .button:last-child,
+  .button_to:last-child {
     border-radius:0 2px 2px 0;
     border-right-width: 0;
   }
   input:only-child,
   .button:only-child,
+  .button_to:only-child,
   *[value="Hide"] + input:last-child,
-  *[value="Hide"] + .button:last-child {
+  *[value="Hide"] + .button:last-child,
+  *[value="Hide"] + .button_to:last-child {
     border-radius:2px;
     border-right-width: 0;
   }
     /* if a 3-button set has a hidden middle button */
   *[value="Hide"] + input:nth-child(3),
-  *[value="Hide"] + .button:nth-child(3) {
+  *[value="Hide"] + .button:nth-child(3),
+  *[value="Hide"] + .button_to:nth-child(3) {
     border-radius:0 2px 2px 0;
     border-right-width: 0;
   }
   /* if a 3-button set starts with a hidden button */
   *[value="Hide"] + input:nth-child(2):not(:last-child),
-  *[value="Hide"] + .button:nth-child(2):not(:last-child) {
+  *[value="Hide"] + .button:nth-child(2):not(:last-child),
+  *[value="Hide"] + .button_to:nth-child(2):not(:last-child) {
     border-radius:2px 0 0 2px;
     border-right-width: 1px;
   }
@@ -2079,8 +2171,6 @@ a.button {
 
 input.richtext_title[type="text"] {
   width: 50%;
-  width: -moz-calc(100% - 235px);
-  width: -webkit-calc(100% - 235px);
   width: calc(100% - 235px);
 
   @media only screen and (max-width:768px) {
@@ -2093,8 +2183,6 @@ input.richtext_title[type="text"] {
 
   .richtext_content {
     width: 50%;
-    width: -moz-calc(100% - 235px);
-    width: -webkit-calc(100% - 235px);
     width: calc(100% - 235px);
     display: inline-block;
     vertical-align: top;
@@ -2229,12 +2317,8 @@ input.richtext_title[type="text"] {
   border-radius: 0 3px 3px;
   *border-right-width: 2px;
   *border-bottom-width: 2px;
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-     -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  -webkit-background-clip: padding-box;
-     -moz-background-clip: padding;
-          background-clip: padding-box;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  background-clip: padding-box;
 }
 
 .dropdown-menu.pull-right {

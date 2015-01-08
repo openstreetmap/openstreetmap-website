@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
     if request.cookies["_osm_session"].to_s == ""
       if params[:cookie_test].nil?
         session[:cookie_test] = true
-        redirect_to params.merge(:cookie_test => "true")
+        redirect_to Hash[params].merge(:cookie_test => "true")
         return false
       else
         flash.now[:warning] = t 'application.require_cookies.cookies_needed'
@@ -192,14 +192,22 @@ class ApplicationController < ActionController::Base
 
   def check_database_readable(need_api = false)
     if STATUS == :database_offline or (need_api and STATUS == :api_offline)
-      redirect_to :controller => 'site', :action => 'offline'
+      if request.xhr?
+        report_error "Database offline for maintenance", :service_unavailable
+      else
+        redirect_to :controller => 'site', :action => 'offline'
+      end
     end
   end
 
   def check_database_writable(need_api = false)
     if STATUS == :database_offline or STATUS == :database_readonly or
        (need_api and (STATUS == :api_offline or STATUS == :api_readonly))
-      redirect_to :controller => 'site', :action => 'offline'
+      if request.xhr?
+        report_error "Database offline for maintenance", :service_unavailable
+      else
+        redirect_to :controller => 'site', :action => 'offline'
+      end
     end
   end
 

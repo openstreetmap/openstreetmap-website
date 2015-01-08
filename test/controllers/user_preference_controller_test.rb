@@ -92,10 +92,10 @@ class UserPreferenceControllerTest < ActionController::TestCase
       put :update
     end
     assert_response :unauthorized, "should be authenticated"
-    assert_equal "value", UserPreference.find(1, "key").v
-    assert_equal "some_value", UserPreference.find(1, "some_key").v
+    assert_equal "value", UserPreference.find([1, "key"]).v
+    assert_equal "some_value", UserPreference.find([1, "some_key"]).v
     assert_raises ActiveRecord::RecordNotFound do
-      UserPreference.find(1, "new_key")
+      UserPreference.find([1, "new_key"])
     end
 
     # authenticate as a user with preferences
@@ -109,10 +109,10 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal "text/plain", @response.content_type
     assert_equal "", @response.body
-    assert_equal "new_value", UserPreference.find(1, "key").v
-    assert_equal "value", UserPreference.find(1, "new_key").v
+    assert_equal "new_value", UserPreference.find([1, "key"]).v
+    assert_equal "value", UserPreference.find([1, "new_key"]).v
     assert_raises ActiveRecord::RecordNotFound do
-      UserPreference.find(1, "some_key")
+      UserPreference.find([1, "some_key"])
     end
 
     # try a put with duplicate keys
@@ -123,7 +123,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_response :bad_request
     assert_equal "text/plain", @response.content_type
     assert_equal "Duplicate preferences with key key", @response.body
-    assert_equal "new_value", UserPreference.find(1, "key").v
+    assert_equal "new_value", UserPreference.find([1, "key"]).v
 
     # try a put with invalid content
     assert_no_difference "UserPreference.count" do
@@ -143,7 +143,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     end
     assert_response :unauthorized, "should be authenticated"
     assert_raises ActiveRecord::RecordNotFound do
-      UserPreference.find(1, "new_key")
+      UserPreference.find([1, "new_key"])
     end
 
     # authenticate as a user with preferences
@@ -157,7 +157,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal "text/plain", @response.content_type
     assert_equal "", @response.body
-    assert_equal "new_value", UserPreference.find(1, "new_key").v
+    assert_equal "new_value", UserPreference.find([1, "new_key"]).v
 
     # try changing the value of a preference
     assert_no_difference "UserPreference.count" do
@@ -167,7 +167,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal "text/plain", @response.content_type
     assert_equal "", @response.body
-    assert_equal "newer_value", UserPreference.find(1, "new_key").v
+    assert_equal "newer_value", UserPreference.find([1, "new_key"]).v
   end
 
   ##
@@ -178,7 +178,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
       delete :delete_one, :preference_key => "key"
     end
     assert_response :unauthorized, "should be authenticated"
-    assert_equal "value", UserPreference.find(1, "key").v
+    assert_equal "value", UserPreference.find([1, "key"]).v
 
     # authenticate as a user with preferences
     basic_authorization("test@openstreetmap.org", "test")
@@ -191,7 +191,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_equal "text/plain", @response.content_type
     assert_equal "", @response.body
     assert_raises ActiveRecord::RecordNotFound do
-      UserPreference.find(1, "key")
+      UserPreference.find([1, "key"])
     end
 
     # try the delete again for the same key
@@ -200,7 +200,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     end
     assert_response :not_found
     assert_raises ActiveRecord::RecordNotFound do
-      UserPreference.find(1, "key")
+      UserPreference.find([1, "key"])
     end
   end
 end

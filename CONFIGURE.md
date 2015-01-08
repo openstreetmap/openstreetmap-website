@@ -6,7 +6,17 @@ After [installing](INSTALL.md) this software, you may need to carry out some of 
 
 Your installation comes with no geographic data loaded. You can either create new data using one of the editors (Potlatch 2, iD, JOSM etc) or by loading an OSM extract.
 
-* Use this [yet-to-be-written script](https://github.com/openstreetmap/openstreetmap-website/issues/282)
+After installing but before creating any users or data, import an extract with [Osmosis](http://wiki.openstreetmap.org/wiki/Osmosis) and the [``--write-apidb``](http://wiki.openstreetmap.org/wiki/Osmosis/Detailed_Usage#--write-apidb_.28--wd.29) task.
+
+```
+osmosis --read-pbf greater-london-latest.osm.pbf \
+  --write-apidb host="localhost" database="openstreetmap" \
+  user="openstreetmap" password="" validateSchemaVersion="no"
+```
+
+Loading an apidb database with Osmosis is about **twenty** times slower than loading the equivalent data with osm2pgsql into a rendering database. [``--log-progress``](http://wiki.openstreetmap.org/wiki/Osmosis/Detailed_Usage#--log-progress_.28--lp.29) may be desirable for status updates.
+
+To be able to edit the data you have loaded, you will need to use this [yet-to-be-written script](https://github.com/openstreetmap/openstreetmap-website/issues/282).
 
 ## Managing Users
 
@@ -110,8 +120,10 @@ For information on contributing changes to the codes, see [CONTRIBUTING.md](CONT
 
 If you want to deploy The Rails Port for production use, you'll need to make a few changes.
 
-* It's not recommended to use `rails server` in production. Our recommended approach is to use [Phusion Passenger](https://www.phusionpassenger.com/).
+* It's not recommended to use `rails server` in production. Our recommended approach is to use [Phusion Passenger](https://www.phusionpassenger.com/). Instructions are available for [setting it up with most web servers](https://www.phusionpassenger.com/documentation_and_support#documentation).
 * Passenger will, by design, use the Production environment and therefore the production database - make sure it contains the appropriate data and user accounts.
 * Your production database will also need the extensions and functions installed - see [INSTALL.md](INSTALL.md)
 * The included version of the map call is quite slow and eats a lot of memory. You should consider using [CGIMap](https://github.com/zerebubuth/openstreetmap-cgimap) instead.
 * The included version of the GPX importer is slow and/or completely inoperable. You should consider using [the high-speed GPX importer](http://git.openstreetmap.org/gpx-import.git/).
+* Make sure you precompile the production assets: `RAILS_ENV=production rake assets:precompile`
+* Make sure the web server user as well as the rails user can read, write and create directories in `tmp/`.

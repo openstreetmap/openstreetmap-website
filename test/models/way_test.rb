@@ -180,4 +180,21 @@ class WayTest < ActiveSupport::TestCase
     assert_equal "added in way version 3", tags["testing"]
     assert_equal "modified in way version 4", tags["testing two"]
   end
+
+  def test_containing_relation_members
+    way = current_ways(:used_way)
+    crm = Way.find(way.id).containing_relation_members.order(:relation_id)
+#    assert_equal 1, crm.size
+    assert_equal 1, crm.first.relation_id
+    assert_equal "Way", crm.first.member_type
+    assert_equal way.id, crm.first.member_id
+    assert_equal 1, crm.first.relation.id
+  end
+
+  def test_containing_relations
+    way = current_ways(:used_way)
+    cr = Way.find(way.id).containing_relations.order(:id)
+    assert_equal 1, cr.size
+    assert_equal 1, cr.first.id
+  end
 end

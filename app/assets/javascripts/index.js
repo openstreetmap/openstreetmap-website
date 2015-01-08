@@ -6,6 +6,7 @@
 //= require leaflet.key
 //= require leaflet.note
 //= require leaflet.share
+//= require leaflet.query
 //= require index/search
 //= require index/browse
 //= require index/export
@@ -15,6 +16,8 @@
 //= require index/history
 //= require index/note
 //= require index/new_note
+//= require index/changeset
+//= require index/query
 //= require router
 
 (function() {
@@ -122,6 +125,11 @@ $(document).ready(function () {
   }).addTo(map);
 
   L.OSM.note({
+    position: position,
+    sidebar: sidebar
+  }).addTo(map);
+
+  L.OSM.query({
     position: position,
     sidebar: sidebar
   }).addTo(map);
@@ -313,7 +321,8 @@ $(document).ready(function () {
     "/node/:id(/history)":         OSM.Browse(map, 'node'),
     "/way/:id(/history)":          OSM.Browse(map, 'way'),
     "/relation/:id(/history)":     OSM.Browse(map, 'relation'),
-    "/changeset/:id":              OSM.Browse(map, 'changeset')
+    "/changeset/:id":              OSM.Changeset(map),
+    "/query":                      OSM.Query(map)
   });
 
   if (OSM.preferred_editor == "remote" && document.location.pathname == "/edit") {
@@ -346,15 +355,16 @@ $(document).ready(function () {
     if (query) {
       OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
     } else {
-      OSM.router.route("/" + OSM.formatHash(map));
+      OSM.router.route("/");
     }
   });
 
   $(".describe_location").on("click", function(e) {
     e.preventDefault();
-    var precision = OSM.zoomPrecision(map.getZoom());
+    var center = map.getCenter().wrap(),
+      precision = OSM.zoomPrecision(map.getZoom());
     OSM.router.route("/search?query=" + encodeURIComponent(
-      map.getCenter().lat.toFixed(precision) + "," +
-      map.getCenter().lng.toFixed(precision)));
+      center.lat.toFixed(precision) + "," + center.lng.toFixed(precision)
+    ));
   });
 });
