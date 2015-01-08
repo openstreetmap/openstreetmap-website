@@ -24,22 +24,22 @@ class BrowseHelperTest < ActionView::TestCase
     assert_equal "<bdi>Test Node</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
     assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
 
-    I18n.locale = "ru"
+    I18n.locale = "pt"
 
     assert_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_equal "<bdi>проверки узла</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
-    assert_equal "<bdi>проверки узла</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
+    assert_equal "<bdi>Nó teste</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
+    assert_equal "<bdi>Nó teste</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
     assert_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_equal "<bdi>проверки узла</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
+    assert_equal "<bdi>Nó teste</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
     assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
 
-    I18n.locale = "ru-RU"
+    I18n.locale = "pt-BR"
 
     assert_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_equal "<bdi>проверки узла</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
-    assert_equal "<bdi>проверки узла</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
+    assert_equal "<bdi>Nó teste</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
+    assert_equal "<bdi>Nó teste</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
     assert_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_equal "<bdi>проверки узла</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
+    assert_equal "<bdi>Nó teste</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
     assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
 
     I18n.locale = "de"
