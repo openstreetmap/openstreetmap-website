@@ -28,20 +28,20 @@ class RemoveSegments < ActiveRecord::Migration
 
     drop_table :segments
     drop_table :way_segments
-    create_table :way_nodes, myisam_table do |t|
-      t.column :id,          :bigint, :limit => 64, :null => false
-      t.column :node_id,     :bigint, :limit => 64, :null => false
-      t.column :version,     :bigint, :limit => 20, :null => false
-      t.column :sequence_id, :bigint, :limit => 11, :null => false
+    create_table :way_nodes, :id => false do |t|
+      t.column :id,          :bigint, :null => false
+      t.column :node_id,     :bigint, :null => false
+      t.column :version,     :bigint, :null => false
+      t.column :sequence_id, :bigint, :null => false
     end
     add_primary_key :way_nodes, [:id, :version, :sequence_id]
 
     drop_table :current_segments
     drop_table :current_way_segments
-    create_table :current_way_nodes, innodb_table do |t|
-      t.column :id,          :bigint, :limit => 64, :null => false
-      t.column :node_id,     :bigint, :limit => 64, :null => false
-      t.column :sequence_id, :bigint, :limit => 11, :null => false
+    create_table :current_way_nodes, :id => false do |t|
+      t.column :id,          :bigint, :null => false
+      t.column :node_id,     :bigint, :null => false
+      t.column :sequence_id, :bigint, :null => false
     end
     add_primary_key :current_way_nodes, [:id, :sequence_id]
     add_index :current_way_nodes, [:node_id], :name => "current_way_nodes_node_idx"

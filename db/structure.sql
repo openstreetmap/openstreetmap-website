@@ -126,7 +126,7 @@ CREATE TYPE user_status_enum AS ENUM (
 
 CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
     LANGUAGE c STRICT
-    AS '/srv/www/overpass.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
+    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
 
 
 --
@@ -135,7 +135,7 @@ CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
 
 CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
     LANGUAGE c STRICT
-    AS '/srv/www/overpass.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
+    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
 
 
 --
@@ -144,7 +144,7 @@ CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
 
 CREATE FUNCTION xid_to_int4(xid) RETURNS integer
     LANGUAGE c IMMUTABLE STRICT
-    AS '/srv/www/overpass.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
+    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
 
 
 SET default_tablespace = '';
@@ -158,9 +158,9 @@ SET default_with_oids = false;
 CREATE TABLE acls (
     id integer NOT NULL,
     address inet,
-    k character varying(255) NOT NULL,
-    v character varying(255),
-    domain character varying(255)
+    k character varying NOT NULL,
+    v character varying,
+    domain character varying
 );
 
 
@@ -222,8 +222,8 @@ ALTER SEQUENCE changeset_comments_id_seq OWNED BY changeset_comments.id;
 
 CREATE TABLE changeset_tags (
     changeset_id bigint NOT NULL,
-    k character varying(255) DEFAULT ''::character varying NOT NULL,
-    v character varying(255) DEFAULT ''::character varying NOT NULL
+    k character varying DEFAULT ''::character varying NOT NULL,
+    v character varying DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -279,10 +279,10 @@ CREATE TABLE changesets_subscribers (
 
 CREATE TABLE client_applications (
     id integer NOT NULL,
-    name character varying(255),
-    url character varying(255),
-    support_url character varying(255),
-    callback_url character varying(255),
+    name character varying,
+    url character varying,
+    support_url character varying,
+    callback_url character varying,
     key character varying(50),
     secret character varying(50),
     user_id integer,
@@ -323,8 +323,8 @@ ALTER SEQUENCE client_applications_id_seq OWNED BY client_applications.id;
 
 CREATE TABLE current_node_tags (
     node_id bigint NOT NULL,
-    k character varying(255) DEFAULT ''::character varying NOT NULL,
-    v character varying(255) DEFAULT ''::character varying NOT NULL
+    k character varying DEFAULT ''::character varying NOT NULL,
+    v character varying DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -371,7 +371,7 @@ CREATE TABLE current_relation_members (
     relation_id bigint NOT NULL,
     member_type nwr_enum NOT NULL,
     member_id bigint NOT NULL,
-    member_role character varying(255) NOT NULL,
+    member_role character varying NOT NULL,
     sequence_id integer DEFAULT 0 NOT NULL
 );
 
@@ -382,8 +382,8 @@ CREATE TABLE current_relation_members (
 
 CREATE TABLE current_relation_tags (
     relation_id bigint NOT NULL,
-    k character varying(255) DEFAULT ''::character varying NOT NULL,
-    v character varying(255) DEFAULT ''::character varying NOT NULL
+    k character varying DEFAULT ''::character varying NOT NULL,
+    v character varying DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -436,8 +436,8 @@ CREATE TABLE current_way_nodes (
 
 CREATE TABLE current_way_tags (
     way_id bigint NOT NULL,
-    k character varying(255) DEFAULT ''::character varying NOT NULL,
-    v character varying(255) DEFAULT ''::character varying NOT NULL
+    k character varying DEFAULT ''::character varying NOT NULL,
+    v character varying DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -515,13 +515,13 @@ ALTER SEQUENCE diary_comments_id_seq OWNED BY diary_comments.id;
 CREATE TABLE diary_entries (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
-    title character varying(255) NOT NULL,
+    title character varying NOT NULL,
     body text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     latitude double precision,
     longitude double precision,
-    language_code character varying(255) DEFAULT 'en'::character varying NOT NULL,
+    language_code character varying DEFAULT 'en'::character varying NOT NULL,
     visible boolean DEFAULT true NOT NULL,
     body_format format_enum DEFAULT 'html'::format_enum NOT NULL
 );
@@ -597,7 +597,7 @@ CREATE TABLE gps_points (
 
 CREATE TABLE gpx_file_tags (
     gpx_id bigint DEFAULT 0 NOT NULL,
-    tag character varying(255) NOT NULL,
+    tag character varying NOT NULL,
     id bigint NOT NULL
 );
 
@@ -629,12 +629,12 @@ CREATE TABLE gpx_files (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    name character varying DEFAULT ''::character varying NOT NULL,
     size bigint,
     latitude double precision,
     longitude double precision,
     "timestamp" timestamp without time zone NOT NULL,
-    description character varying(255) DEFAULT ''::character varying NOT NULL,
+    description character varying DEFAULT ''::character varying NOT NULL,
     inserted boolean NOT NULL,
     visibility gpx_visibility_enum DEFAULT 'public'::gpx_visibility_enum NOT NULL
 );
@@ -664,9 +664,9 @@ ALTER SEQUENCE gpx_files_id_seq OWNED BY gpx_files.id;
 --
 
 CREATE TABLE languages (
-    code character varying(255) NOT NULL,
-    english_name character varying(255) NOT NULL,
-    native_name character varying(255)
+    code character varying NOT NULL,
+    english_name character varying NOT NULL,
+    native_name character varying
 );
 
 
@@ -677,7 +677,7 @@ CREATE TABLE languages (
 CREATE TABLE messages (
     id bigint NOT NULL,
     from_user_id bigint NOT NULL,
-    title character varying(255) NOT NULL,
+    title character varying NOT NULL,
     body text NOT NULL,
     sent_on timestamp without time zone NOT NULL,
     message_read boolean DEFAULT false NOT NULL,
@@ -714,8 +714,8 @@ ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
 CREATE TABLE node_tags (
     node_id bigint NOT NULL,
     version bigint NOT NULL,
-    k character varying(255) DEFAULT ''::character varying NOT NULL,
-    v character varying(255) DEFAULT ''::character varying NOT NULL
+    k character varying DEFAULT ''::character varying NOT NULL,
+    v character varying DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -812,7 +812,7 @@ ALTER SEQUENCE notes_id_seq OWNED BY notes.id;
 
 CREATE TABLE oauth_nonces (
     id integer NOT NULL,
-    nonce character varying(255),
+    nonce character varying,
     "timestamp" integer,
     created_at timestamp without time zone,
     updated_at timestamp without time zone
@@ -859,9 +859,9 @@ CREATE TABLE oauth_tokens (
     allow_write_api boolean DEFAULT false NOT NULL,
     allow_read_gpx boolean DEFAULT false NOT NULL,
     allow_write_gpx boolean DEFAULT false NOT NULL,
-    callback_url character varying(255),
+    callback_url character varying,
     verifier character varying(20),
-    scope character varying(255),
+    scope character varying,
     valid_to timestamp without time zone,
     allow_write_notes boolean DEFAULT false NOT NULL
 );
@@ -892,7 +892,7 @@ ALTER SEQUENCE oauth_tokens_id_seq OWNED BY oauth_tokens.id;
 
 CREATE TABLE redactions (
     id integer NOT NULL,
-    title character varying(255),
+    title character varying,
     description text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -928,7 +928,7 @@ CREATE TABLE relation_members (
     relation_id bigint DEFAULT 0 NOT NULL,
     member_type nwr_enum NOT NULL,
     member_id bigint NOT NULL,
-    member_role character varying(255) NOT NULL,
+    member_role character varying NOT NULL,
     version bigint DEFAULT 0 NOT NULL,
     sequence_id integer DEFAULT 0 NOT NULL
 );
@@ -940,8 +940,8 @@ CREATE TABLE relation_members (
 
 CREATE TABLE relation_tags (
     relation_id bigint DEFAULT 0 NOT NULL,
-    k character varying(255) DEFAULT ''::character varying NOT NULL,
-    v character varying(255) DEFAULT ''::character varying NOT NULL,
+    k character varying DEFAULT ''::character varying NOT NULL,
+    v character varying DEFAULT ''::character varying NOT NULL,
     version bigint NOT NULL
 );
 
@@ -965,7 +965,7 @@ CREATE TABLE relations (
 --
 
 CREATE TABLE schema_migrations (
-    version character varying(255) NOT NULL
+    version character varying NOT NULL
 );
 
 
@@ -1012,8 +1012,8 @@ ALTER SEQUENCE user_blocks_id_seq OWNED BY user_blocks.id;
 
 CREATE TABLE user_preferences (
     user_id bigint NOT NULL,
-    k character varying(255) NOT NULL,
-    v character varying(255) NOT NULL
+    k character varying NOT NULL,
+    v character varying NOT NULL
 );
 
 
@@ -1024,9 +1024,9 @@ CREATE TABLE user_preferences (
 CREATE TABLE user_roles (
     id integer NOT NULL,
     user_id bigint NOT NULL,
+    role user_role_enum NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    role user_role_enum NOT NULL,
     granter_id bigint NOT NULL
 );
 
@@ -1057,7 +1057,7 @@ ALTER SEQUENCE user_roles_id_seq OWNED BY user_roles.id;
 CREATE TABLE user_tokens (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
-    token character varying(255) NOT NULL,
+    token character varying NOT NULL,
     expiry timestamp without time zone NOT NULL,
     referer text
 );
@@ -1087,36 +1087,36 @@ ALTER SEQUENCE user_tokens_id_seq OWNED BY user_tokens.id;
 --
 
 CREATE TABLE users (
-    email character varying(255) NOT NULL,
+    email character varying NOT NULL,
     id bigint NOT NULL,
-    pass_crypt character varying(255) NOT NULL,
+    pass_crypt character varying NOT NULL,
     creation_time timestamp without time zone NOT NULL,
-    display_name character varying(255) DEFAULT ''::character varying NOT NULL,
+    display_name character varying DEFAULT ''::character varying NOT NULL,
     data_public boolean DEFAULT false NOT NULL,
     description text DEFAULT ''::text NOT NULL,
     home_lat double precision,
     home_lon double precision,
     home_zoom smallint DEFAULT 3,
     nearby integer DEFAULT 50,
-    pass_salt character varying(255),
+    pass_salt character varying,
     image_file_name text,
     email_valid boolean DEFAULT false NOT NULL,
-    new_email character varying(255),
-    creation_ip character varying(255),
-    languages character varying(255),
+    new_email character varying,
+    creation_ip character varying,
+    languages character varying,
     status user_status_enum DEFAULT 'pending'::user_status_enum NOT NULL,
     terms_agreed timestamp without time zone,
     consider_pd boolean DEFAULT false NOT NULL,
-    openid_url character varying(255),
-    preferred_editor character varying(255),
+    openid_url character varying,
+    preferred_editor character varying,
     terms_seen boolean DEFAULT false NOT NULL,
     description_format format_enum DEFAULT 'html'::format_enum NOT NULL,
-    image_fingerprint character varying(255),
+    image_fingerprint character varying,
     changesets_count integer DEFAULT 0 NOT NULL,
     traces_count integer DEFAULT 0 NOT NULL,
     diary_entries_count integer DEFAULT 0 NOT NULL,
     image_use_gravatar boolean DEFAULT true NOT NULL,
-    image_content_type character varying(255)
+    image_content_type character varying
 );
 
 
@@ -1157,8 +1157,8 @@ CREATE TABLE way_nodes (
 
 CREATE TABLE way_tags (
     way_id bigint DEFAULT 0 NOT NULL,
-    k character varying(255) NOT NULL,
-    v character varying(255) NOT NULL,
+    k character varying NOT NULL,
+    v character varying NOT NULL,
     version bigint NOT NULL
 );
 

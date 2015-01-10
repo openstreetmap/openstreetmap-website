@@ -23,21 +23,21 @@ class KeyConstraints < ActiveRecord::Migration
     remove_index :nodes, :name => :nodes_uid_idx
 
     # Foreign keys (between ways, way_tags, way_nodes, etc.)
-    add_foreign_key :current_node_tags, [:id], :current_nodes
-    add_foreign_key :node_tags, [:id, :version], :nodes
+    add_foreign_key :current_node_tags, :current_nodes, :column => :id, :name => "current_node_tags_id_fkey"
+    add_foreign_key :node_tags, :nodes, :column => [:id, :version], :primary_key => [:id, :version], :name => "node_tags_id_fkey"
 
-    add_foreign_key :current_way_tags, [:id], :current_ways
-    add_foreign_key :current_way_nodes, [:id], :current_ways
-    add_foreign_key :way_tags, [:id, :version], :ways
-    add_foreign_key :way_nodes, [:id, :version], :ways
+    add_foreign_key :current_way_tags, :current_ways, :column => :id, :name => "current_way_tags_id_fkey"
+    add_foreign_key :current_way_nodes, :current_ways, :column => :id, :name => "current_way_nodes_id_fkey"
+    add_foreign_key :way_tags, :ways, :column => [:id, :version], :primary_key => [:id, :version], :name => "way_tags_id_fkey"
+    add_foreign_key :way_nodes, :ways, :column => [:id, :version], :primary_key => [:id, :version], :name => "way_nodes_id_fkey"
 
-    add_foreign_key :current_relation_tags, [:id], :current_relations
-    add_foreign_key :current_relation_members, [:id], :current_relations
-    add_foreign_key :relation_tags, [:id, :version], :relations
-    add_foreign_key :relation_members, [:id, :version], :relations
+    add_foreign_key :current_relation_tags, :current_relations, :column => :id, :name => "current_relation_tags_id_fkey"
+    add_foreign_key :current_relation_members, :current_relations, :column => :id, :name => "current_relation_members_id_fkey"
+    add_foreign_key :relation_tags, :relations, :column => [:id, :version], :primary_key => [:id, :version], :name => "relation_tags_id_fkey"
+    add_foreign_key :relation_members, :relations, :column => [:id, :version], :primary_key => [:id, :version], :name => "relation_members_id_fkey"
 
     # Foreign keys (between different types of primitives)
-    add_foreign_key :current_way_nodes, [:node_id], :current_nodes, [:id]
+    add_foreign_key :current_way_nodes, :current_nodes, :column => :node_id, :name => "current_way_nodes_node_id_fkey"
 
     # FIXME: We don't have foreign keys for relation members since the id
     # might point to a different table depending on the `type' column.

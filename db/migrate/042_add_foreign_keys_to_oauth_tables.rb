@@ -1,15 +1,9 @@
 require 'migrate'
 
 class AddForeignKeysToOauthTables < ActiveRecord::Migration
-  def self.up
-    add_foreign_key :oauth_tokens, [:user_id], :users, [:id]
-    add_foreign_key :oauth_tokens, [:client_application_id], :client_applications, [:id]
-    add_foreign_key :client_applications, [:user_id], :users, [:id]
-  end
-
-  def self.down
-    remove_foreign_key :oauth_tokens, [:user_id], :users
-    remove_foreign_key :oauth_tokens, [:client_application_id], :client_applications
-    remove_foreign_key :client_applications, [:user_id], :users
+  def change
+    add_foreign_key :oauth_tokens, :users, :name => "oauth_tokens_user_id_fkey"
+    add_foreign_key :oauth_tokens, :client_applications, :name => "oauth_tokens_client_application_id_fkey"
+    add_foreign_key :client_applications, :users, :name => "client_applications_user_id_fkey"
   end
 end
