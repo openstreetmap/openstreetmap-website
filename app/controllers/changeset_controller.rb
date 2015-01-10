@@ -341,7 +341,7 @@ class ChangesetController < ApplicationController
     end
 
     # Add the commenter to the subscribers if necessary
-    changeset.subscribers << @user unless changeset.subscribers.exists?(@user)
+    changeset.subscribers << @user unless changeset.subscribers.exists?(@user.id)
 
     # Return a copy of the updated changeset
     render :text => changeset.to_xml.to_s, :content_type => "text/xml"
@@ -359,7 +359,7 @@ class ChangesetController < ApplicationController
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
     raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
-    raise OSM::APIChangesetAlreadySubscribedError.new(changeset) if changeset.subscribers.exists?(@user)
+    raise OSM::APIChangesetAlreadySubscribedError.new(changeset) if changeset.subscribers.exists?(@user.id)
 
     # Add the subscriber
     changeset.subscribers << @user
@@ -380,7 +380,7 @@ class ChangesetController < ApplicationController
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
     raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
-    raise OSM::APIChangesetNotSubscribedError.new(changeset) unless changeset.subscribers.exists?(@user)
+    raise OSM::APIChangesetNotSubscribedError.new(changeset) unless changeset.subscribers.exists?(@user.id)
 
     # Remove the subscriber
     changeset.subscribers.delete(@user)
