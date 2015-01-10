@@ -243,7 +243,6 @@ private
 
   def set_defaults
     self.creation_time = Time.now.getutc unless self.attribute_present?(:creation_time)
-    self.description_format = "markdown" unless self.attribute_present?(:description_format)
   end
 
   def encrypt_password

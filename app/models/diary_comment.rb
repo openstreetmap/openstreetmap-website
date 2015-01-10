@@ -5,7 +5,6 @@ class DiaryComment < ActiveRecord::Base
   validates_presence_of :body
   validates_associated :diary_entry
 
-  after_initialize :set_defaults
   after_save :spam_check
 
   def body
@@ -22,10 +21,6 @@ class DiaryComment < ActiveRecord::Base
   end
 
 private
-
-  def set_defaults
-    self.body_format = "markdown" unless self.attribute_present?(:body_format)
-  end
 
   def spam_check
     user.spam_check

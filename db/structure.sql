@@ -485,7 +485,7 @@ CREATE TABLE diary_comments (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    body_format format_enum DEFAULT 'html'::format_enum NOT NULL
+    body_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
 
 
@@ -523,7 +523,7 @@ CREATE TABLE diary_entries (
     longitude double precision,
     language_code character varying DEFAULT 'en'::character varying NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    body_format format_enum DEFAULT 'html'::format_enum NOT NULL
+    body_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
 
 
@@ -684,7 +684,7 @@ CREATE TABLE messages (
     to_user_id bigint NOT NULL,
     to_user_visible boolean DEFAULT true NOT NULL,
     from_user_visible boolean DEFAULT true NOT NULL,
-    body_format format_enum DEFAULT 'html'::format_enum NOT NULL
+    body_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
 
 
@@ -983,7 +983,7 @@ CREATE TABLE user_blocks (
     revoker_id bigint,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    reason_format format_enum DEFAULT 'html'::format_enum NOT NULL
+    reason_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
 
 
@@ -1110,7 +1110,7 @@ CREATE TABLE users (
     openid_url character varying,
     preferred_editor character varying,
     terms_seen boolean DEFAULT false NOT NULL,
-    description_format format_enum DEFAULT 'html'::format_enum NOT NULL,
+    description_format format_enum DEFAULT 'markdown'::format_enum NOT NULL,
     image_fingerprint character varying,
     changesets_count integer DEFAULT 0 NOT NULL,
     traces_count integer DEFAULT 0 NOT NULL,
@@ -2540,6 +2540,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140210003018');
 INSERT INTO schema_migrations (version) VALUES ('20140507110937');
 
 INSERT INTO schema_migrations (version) VALUES ('20140519141742');
+
+INSERT INTO schema_migrations (version) VALUES ('20150110152606');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
