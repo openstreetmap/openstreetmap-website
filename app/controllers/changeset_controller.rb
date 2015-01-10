@@ -336,7 +336,7 @@ class ChangesetController < ApplicationController
     # Notify current subscribers of the new comment
     changeset.subscribers.each do |user|
       if @user != user
-        Notifier.changeset_comment_notification(comment, user).deliver
+        Notifier.changeset_comment_notification(comment, user).deliver_now
       end
     end
 
