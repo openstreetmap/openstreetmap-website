@@ -425,7 +425,7 @@ EOF
       "can't upload a simple valid creation to changeset: #{@response.body}"
 
     # check the returned payload
-    assert_select "diffResult[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+    assert_select "diffResult[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
     assert_select "diffResult>node", 1
     assert_select "diffresult>way", 1
     assert_select "diffResult>relation", 1
@@ -722,7 +722,7 @@ EOF
       "can't upload a complex diff to changeset: #{@response.body}"
 
     # check the returned payload
-    assert_select "diffResult[version=#{API_VERSION}][generator=\"#{GENERATOR}\"]", 1
+    assert_select "diffResult[version='#{API_VERSION}'][generator='#{GENERATOR}']", 1
     assert_select "diffResult>node", 1
     assert_select "diffResult>way", 1
     assert_select "diffResult>relation", 1
@@ -954,7 +954,7 @@ EOF
 
     # check the response is well-formed
     assert_select "diffResult>node", 3
-    assert_select "diffResult>node[old_id=-1]", 3
+    assert_select "diffResult>node[old_id='-1']", 3
   end
 
   ##
@@ -1677,7 +1677,7 @@ EOF
 
     assert_select "osm>changeset[id='#{changeset.id}']", 1
     assert_select "osm>changeset>tag", 2
-    assert_select "osm>changeset>tag[k=tagtesting][v=valuetesting]", 1
+    assert_select "osm>changeset>tag[k='tagtesting'][v='valuetesting']", 1
   end
 
   ##
