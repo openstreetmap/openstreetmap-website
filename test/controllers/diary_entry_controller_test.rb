@@ -170,7 +170,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_template 'diary_entry/view'
     assert_select "title", :text => /Users' diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
-      assert_select "h2", :text => /#{entry.user.display_name}&#39;s diary/, :count => 1
+      assert_select "h2", :text => /#{entry.user.display_name}'s diary/, :count => 1
     end
     assert_select "div#content", :count => 1 do
       assert_select "div.post_heading", :text => /#{new_title}/, :count => 1
@@ -189,7 +189,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_template 'diary_entry/view'
     assert_select "title", :text => /Users' diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
-      assert_select "h2", :text => /#{users(:normal_user).display_name}&#39;s diary/, :count => 1
+      assert_select "h2", :text => /#{users(:normal_user).display_name}'s diary/, :count => 1
     end
     assert_select "div#content", :count => 1 do
       assert_select "div.post_heading", :text => /#{new_title}/, :count => 1
