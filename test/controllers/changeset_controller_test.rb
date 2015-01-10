@@ -427,7 +427,7 @@ EOF
     # check the returned payload
     assert_select "diffResult[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
     assert_select "diffResult>node", 1
-    assert_select "diffresult>way", 1
+    assert_select "diffResult>way", 1
     assert_select "diffResult>relation", 1
 
     # inspect the response to find out what the new element IDs are
@@ -633,7 +633,7 @@ EOF
     # check the returned payload
     assert_select "diffResult[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
     assert_select "diffResult>node", 1
-    assert_select "diffresult>way", 1
+    assert_select "diffResult>way", 1
     assert_select "diffResult>relation", 1
 
     # parse the response
