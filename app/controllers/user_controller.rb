@@ -742,7 +742,7 @@ private
           @user.errors.set(:email, [])
         end
 
-        user.reset_email!
+        user.restore_email!
       end
     end
   end
