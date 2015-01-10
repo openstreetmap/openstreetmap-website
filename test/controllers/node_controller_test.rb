@@ -434,11 +434,11 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :success
     assert_select "osm" do
       assert_select "node", :count => 5
-      assert_select "node[id=1][visible=true]", :count => 1
-      assert_select "node[id=2][visible=false]", :count => 1
-      assert_select "node[id=4][visible=true]", :count => 1
-      assert_select "node[id=15][visible=true]", :count => 1
-      assert_select "node[id=17][visible=false]", :count => 1
+      assert_select "node[id='1'][visible='true']", :count => 1
+      assert_select "node[id='2'][visible='false']", :count => 1
+      assert_select "node[id='4'][visible='true']", :count => 1
+      assert_select "node[id='15'][visible='true']", :count => 1
+      assert_select "node[id='17'][visible='false']", :count => 1
     end
 
     # check error when a non-existent node is included

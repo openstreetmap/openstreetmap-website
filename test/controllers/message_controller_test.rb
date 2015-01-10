@@ -78,7 +78,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_select "title", "OpenStreetMap | Send message"
     assert_select "form[action='#{new_message_path(:display_name => users(:public_user).display_name)}']", :count => 1 do
       assert_select "input#message_title", :count => 1 do
-        assert_select "[value=Test Message]"
+        assert_select "[value='Test Message']"
       end
       assert_select "textarea#message_body", :text => "", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1
@@ -97,7 +97,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_select "title", "OpenStreetMap | Send message"
     assert_select "form[action='#{new_message_path(:display_name => users(:public_user).display_name)}']", :count => 1 do
       assert_select "input#message_title", :count => 1 do
-        assert_select "[value=]"
+        assert_select "[value='']"
       end
       assert_select "textarea#message_body", :text => "Test message body", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1
