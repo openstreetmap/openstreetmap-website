@@ -169,7 +169,7 @@ small, aside {
 .icon.close:hover { background-position: -200px -20px; }
 .icon.check       { background-position: -220px 0; }
 .icon.note        { background-position: -240px 0; }
-.icon.gear        { background-position: -260px 0; }
+.icon.query       { background-position: -260px 0; }
 
 /* Rules for links */
 
@@ -566,14 +566,14 @@ nav.secondary {
     background-color: black;
   }
 
-  &.active {
-    background-color: #9ed485;
-  }
-
   &.disabled {
     background-color: #333;
     background-color: rgba(0,0,0,.5);
     cursor: default;
+  }
+
+  &.active {
+    background-color: #9ed485;
   }
 
   .icon {
@@ -680,6 +680,14 @@ nav.secondary {
   #map {
     height: 100%;
     overflow: hidden;
+
+    &.query-active {
+      cursor: help;
+    }
+
+    &.query-disabled {
+      cursor: not-allowed;
+    }
   }
 
   #map-ui {
@@ -1103,7 +1111,7 @@ header .search_form {
     font-size: 90%;
   }
 
-  .note-comments li {
+  .note-comments li, .changeset-comments li {
     margin: $lineheight/2 0;
 
     p {
@@ -1111,9 +1119,58 @@ header .search_form {
     }
   }
 
+  .comments-header {
+    float: left;
+  }
+
+  .subscribe-buttons {
+    float: left;
+    margin: 18px 10px 10px;
+    min-width: 80px;
+  }
+
+  .subscribe-buttons input {
+    font-size: 90%;
+    line-height: 15px;
+    min-height: 20px;
+  }
+
+  span.action-button:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
   .note-description {
     overflow: hidden;
     margin: 0 0 10px 10px;
+  }
+
+  .query-intro p {
+    padding: $lineheight $lineheight $lineheight/2;
+  }
+
+  .query-results {
+    display: none;
+
+    h3 {
+      padding: $lineheight $lineheight $lineheight/2;
+      margin: 0;
+    }
+
+    ul {
+      li {
+        padding: 15px 20px;
+        border-bottom: 1px solid #ddd;
+
+        &.query-result {
+          cursor: pointer;
+        }
+
+        &.selected {
+          background: #FFFFE6;
+        }
+      }
+    }
   }
 }
 
@@ -1965,7 +2022,8 @@ a.button {
   input[type="submit"],
   input[type="button"],
   input[type="reset"],
-  .button {
+  .button,
+  .button_to {
     box-sizing: border-box;
     float: left;
     border-radius: 0;
@@ -1978,30 +2036,36 @@ a.button {
     overflow: hidden;
   }
   input:first-child,
-  .button:first-child {
+  .button:first-child,
+  .button_to:first-child {
     border-radius:2px 0 0 2px;
   }
   input:last-child,
-  .button:last-child {
+  .button:last-child,
+  .button_to:last-child {
     border-radius:0 2px 2px 0;
     border-right-width: 0;
   }
   input:only-child,
   .button:only-child,
+  .button_to:only-child,
   *[value="Hide"] + input:last-child,
-  *[value="Hide"] + .button:last-child {
+  *[value="Hide"] + .button:last-child,
+  *[value="Hide"] + .button_to:last-child {
     border-radius:2px;
     border-right-width: 0;
   }
     /* if a 3-button set has a hidden middle button */
   *[value="Hide"] + input:nth-child(3),
-  *[value="Hide"] + .button:nth-child(3) {
+  *[value="Hide"] + .button:nth-child(3),
+  *[value="Hide"] + .button_to:nth-child(3) {
     border-radius:0 2px 2px 0;
     border-right-width: 0;
   }
   /* if a 3-button set starts with a hidden button */
   *[value="Hide"] + input:nth-child(2):not(:last-child),
-  *[value="Hide"] + .button:nth-child(2):not(:last-child) {
+  *[value="Hide"] + .button:nth-child(2):not(:last-child),
+  *[value="Hide"] + .button_to:nth-child(2):not(:last-child) {
     border-radius:2px 0 0 2px;
     border-right-width: 1px;
   }
@@ -2541,36 +2605,6 @@ input.richtext_title[type="text"] {
     &.open         { background-position: 0px  -80px; }
     &.partners     { background-position: 0px -120px; }
     &.infringement { background-position: 0px -160px; }
-  }
-}
-
-#sidebar #sotm {
-  padding: 10px;
-  min-height: 120px;
-
-  img {
-    float: left;
-    width: 100px;
-    height: 100px;
-  }
-
-  h2 {
-    margin-left: 100px;
-    padding: 7px 10px 6px 15px;
-  }
-
-  p {
-    margin-left: 100px;
-    padding: 6px 10px 7px 15px;
-  }
-
-  a {
-    color: $darkgrey;
-  }
-
-  :hover {
-    text-decoration: none;
-    color: darken($darkgrey, 25%);
   }
 }
 

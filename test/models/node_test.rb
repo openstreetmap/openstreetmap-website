@@ -137,7 +137,7 @@ class NodeTest < ActiveSupport::TestCase
   end
 
   def test_delete
-    node_template = Node.find(current_nodes(:visible_node))
+    node_template = Node.find(current_nodes(:visible_node).id)
     assert_not_nil node_template
 
     assert_equal OldNode.where(:node_id => node_template.id).count, 1

@@ -84,11 +84,13 @@ lb:
       way_paginated: Weeër (%{x}–%{y} vu(n) %{count})
       relation: Relatiounen (%{count})
       relation_paginated: Relatiounen (%{x}-%{y} vu(n) %{count})
+      comment: Bemierkungen (%{count})
       changesetxml: XML mam Set vun Ännerungen
       osmchangexml: osmChange XML
       feed:
         title: 'Set vun Ännerungen: %{id}'
         title_comment: Set vun Ännerungen %{id} - %{comment}
+      discussion: Diskussioun
     node:
       title: 'Knuet: %{name}'
     way:
@@ -141,10 +143,18 @@ lb:
       new_note: Nei Notiz
       description: Beschreiwung
       hidden_title: Verstoppt Notiz N° %{note_name}
+      open_by: Ugeluecht vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
+      open_by_anonymous: Ugeluecht vun engem Anonymen <abbr title='%{exact_time}'>
+        viru(n) %{when}</abbr>
       commented_by: Bemierkung vum %{user} <abbr title='%{exact_time}'> viru(n) %{when}</abbr>
       commented_by_anonymous: Bemierkung vun engem Anonymen <abbr title='%{exact_time}'>
         viru(n) %{when}</abbr>
+      closed_by: Geléist vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
+      closed_by_anonymous: Geléist vun engem Anonymen <abbr title='%{exact_time}'>
+        viru(n) %{when}</abbr>
       reopened_by: Reaktivéiert vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
+      reopened_by_anonymous: Reaktivéiert vun engem Anonymen <abbr title='%{exact_time}'>
+        viru(n) %{when}</abbr>
       hidden_by: Verstoppt vum %{user} <abbr title='%{exact_time}'>viru(n) %{when}</abbr>
   changeset:
     changeset_paging_nav:
@@ -172,6 +182,10 @@ lb:
       no_more_area: Keng weider Sette vun Ännerungen an dëser Géigend.
       no_more_user: Keng weider Sette vun Ännerunge vun dësem Benotzer.
       load_more: Méi lueden
+    rss:
+      commented_at_html: Viru(n) %{when} aktualiséiert
+      commented_at_by_html: Viru(n) %{when} vum %{user} aktualiséiert
+      full: Komplett Diskussioun
   diary_entry:
     list:
       title: Blogge vun de Benotzer
@@ -299,6 +313,7 @@ lb:
           preschool: Spillschoul
           prison: Prisong
           pub: Bistro
+          public_market: Ëffentleche Maart
           reception_area: Rezeptiounsberäich
           recycling: Recycling-Center
           restaurant: Restaurant
@@ -320,6 +335,8 @@ lb:
           vending_machine: Verkaafsautomat
           veterinary: Déiereklinik
           waste_basket: Drecksback
+        boundary:
+          national_park: Nationalpark
         bridge:
           suspension: Hänkbréck
           viaduct: Viadukt
@@ -403,7 +420,10 @@ lb:
           airfield: Militärfluchhafen
           barracks: Kasär
           bunker: Bunker
+        mountain_pass:
+          "yes": Pass an de Bierger
         natural:
+          bay: Bucht
           beach: Plage
           cape: Kap
           channel: Kanal
@@ -458,6 +478,7 @@ lb:
           abandoned: Fréier Eisebunn
           construction: Eisebunn (am Bau)
           disused: Fréier Eisebunn
+          historic_station: Historesch Eisebunnsstatioun
           miniature: Miniatur-Eisebunn
           proposed: Proposéiert Eisebunnslinn
           station: Gare (Eisebunn)
@@ -512,6 +533,7 @@ lb:
           motel: Motel
           museum: Musée
           picnic_site: Piknikplaz
+          theme_park: Fräizäitpark
           valley: Dall
           viewpoint: Aussiichtspunkt
           zoo: Zoo
@@ -556,6 +578,7 @@ lb:
     export_data: Donnéeën exportéieren
     user_diaries: Benotzer Bloggen
     edit_with: Ännere mat %{editor}
+    intro_header: Wëllkomm bei OpenStreetMap!
     intro_2_create_account: E Benotzerkont uleeën
     partners_partners: Partner
     osm_offline: D'OpenStreetMap Datebank ass elo net disponibel well dru geschafft
@@ -657,6 +680,8 @@ lb:
       anonymous: En anonyme Benotzer
       greeting: Salut,
       details: Méi Detailer iwwer d'Notiz fannt Dir op %{url}.
+    changeset_comment_notification:
+      greeting: Salut,
   message:
     inbox:
       messages: Dir hutt %{new_messages} a(n) %{old_messages}
@@ -745,6 +770,7 @@ lb:
           - Spëtzt
     richtext_area:
       edit: Änneren
+      preview: Kucken ouni ofzespäicheren
     markdown_help:
       headings: Iwwerschrëften
       heading: Iwwerschrëft
@@ -815,6 +841,8 @@ lb:
       description_without_count: GPX-Fichier vum %{user}
   oauth:
     oauthorize:
+      allow_read_prefs: Är Benotzerastellunge liesen.
+      allow_write_prefs: Är Benotzerastellungen änneren.
       allow_write_api: d'Kaart änneren.
       allow_write_notes: Notizen änneren.
   oauth_clients:
@@ -846,15 +874,25 @@ lb:
       login_button: Umellen
       register now: Elo aschreiwen
       new to osm: Nei bei OpenStreetMap?
+      create account minute: Maacht e Benotzerkont. Et dauert nëmmen eng Minutt.
+      no account: Hutt Dir kee Benotzerkont?
+      openid_logo_alt: Alogge mat enger OpenID
       openid_providers:
         openid:
           title: Alogge mat OpenID
+          alt: Alogge mat enger OpenID URL
         google:
           title: Alogge mat Google
+          alt: Alogge mat enger Google OpenID
         yahoo:
           title: Alogge mat Yahoo
+          alt: Alogge mat enger Yahoo OpenID
+        wordpress:
+          title: Alogge mat Wordpress
+          alt: Alogge mat enger Wordpress OpenID
         aol:
           title: Alogge mat AOL
+          alt: Alogge mat enger AOL OpenID
     logout:
       title: Ofmellen
       heading: Vun OpenStreetMap ofmellen
@@ -912,6 +950,8 @@ lb:
       remove as friend: Frënd ewechhuelen
       add as friend: Frënd derbäisetzen
       ago: (viru(n) %{time_in_words_ago})
+      ct accepted: Viru(n) %{ago} akzeptéert
+      latest edit: 'Lescht Ännerung %{ago}:'
       email address: 'E-Mail-Adress:'
       status: 'Status:'
       description: Beschreiwung
@@ -948,6 +988,7 @@ lb:
       new email address: 'Nei E-Mail-Adress:'
       email never displayed publicly: (ni ëffentlech gewisen)
       openid:
+        link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: wat ass dat?
       public editing:
         enabled link text: wat ass dëst?
@@ -1097,12 +1138,18 @@ lb:
         title: Weise wou ech sinn
         popup: Dir sidd {distance} {unit} vun dësem Punkt ewech
       base:
+        standard: Standard
         cycle_map: Vëloskaart
         hot: Humanitär
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Maacht een Don</a>
     site:
       edit_tooltip: Kaart änneren
       edit_disabled_tooltip: Erazoomen fir d'Kaart z'änneren
+    changesets:
+      show:
+        comment: Bemierkung
+        hide_comment: verstoppen
+        unhide_comment: nees weisen
     notes:
       new:
         add: Notiz derbäisetzen
@@ -1111,6 +1158,9 @@ lb:
         resolve: Léisen
         reactivate: Reaktivéieren
         comment: Bemierkung
+    query:
+      way: Wee
+      relation: Relatioun
   redaction:
     edit:
       description: Beschreiwung

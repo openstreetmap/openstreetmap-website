@@ -118,11 +118,17 @@ fur:
       way_paginated: Viis (%{x}-%{y} su %{count})
       relation: Relazions (%{count})
       relation_paginated: Relazions (%{x}-%{y} su %{count})
+      comment: Coments (%{count})
+      hidden_commented_by: Coment platât di %{user} <abbr title='%{exact_time}'>%{when}
+        indaûr</abbr>
+      commented_by: Coment di %{user} <abbr title='%{exact_time}'>%{when} indaûr</abbr>
       changesetxml: Grup di cambiaments XML
       osmchangexml: XML in formât osmChange
       feed:
         title: Grup di cambiaments %{id}
         title_comment: Grup di cambiaments %{id} - %{comment}
+      join_discussion: Jentre par partecipâ ae discussion
+      discussion: Discussion
     node:
       title: 'Grop: %{name}'
       history_title: 'Storic dal grop: %{name}'
@@ -174,7 +180,9 @@ fur:
       wiki_link:
         key: La pagjine de vichi cu la descrizion de etichete %{key}.
         tag: La pagjine de vichi cu la descrizion de etichete %{key}=%{value}
+      wikidata_link: L'element %{page} su Wikidata
       wikipedia_link: La vôs su %{page} te Vichipedie
+      telephone_link: Clame %{phone_number}
     note:
       title: 'Note: %{id}'
       new_note: Gnove note
@@ -194,6 +202,10 @@ fur:
       reopened_by_anonymous: Tornade a ativâ di un anonim <abbr title='%{exact_time}'>%{when}
         indaûr</abbr>
       hidden_by: Platade di %{user} <abbr title='%{exact_time}'>%{when} indaûr</abbr>
+    query:
+      introduction: Frache su la mape par cjatâ lis robis dongje.
+      nearby: Elements dongje
+      enclosing: Elements includûts
   changeset:
     changeset_paging_nav:
       showing_page: Pagjine %{page}
@@ -217,10 +229,20 @@ fur:
       empty: Nissun grup di cambiaments cjatât.
       empty_area: Nissun grup di cambiaments in cheste zone.
       empty_user: Nissun grup di cambiaments par chest utent.
+      no_more: Nissun altri grup di cambiaments cjatât.
+      no_more_area: Nissun altri grup di cambiaments in cheste zone cjatât.
+      no_more_user: Nissun altri grup di cambiaments par chest utent.
       load_more: Cjame di plui
     timeout:
       sorry: Nus displâs, la liste dai grups di cambiaments che tu âs domandât e je
         stade masse timp a cjamâsi.
+    rss:
+      title_all: Discussion sul grup di cambiaments di OpenStreetMap
+      title_particular: 'Discussion sul grup di cambiaments #%{changeset_id} di OpenStreetMap'
+      comment: 'Gnûf coment sul grup di cambiaments #%{changeset_id} di %{author}'
+      commented_at_html: Inzornât %{when} indaûr
+      commented_at_by_html: Inzornât %{when} indaûr di %{user}
+      full: Dute la discussion
   diary_entry:
     new:
       title: Gnove vôs dal diari
@@ -309,6 +331,8 @@ fur:
         body: Cheste aree e je masse grande par espuartâle come dâts XML di OpenStreetMap.
           Par plasê incrès il zoom, sielç une aree plui piçule o dopre une des sorzints
           ca sot par discjamâ un grum di dâts.
+        overpass:
+          title: API Overpass
         other:
           title: Altris sorzints
           description: Altris sorzints elencadis su la wiki di OpenStreetMap
@@ -362,6 +386,7 @@ fur:
           cinema: Cine
           clinic: Cliniche
           community_centre: Centri civic
+          crematorium: Crematori
           dentist: Dentist
           doctors: Dotôrs
           dormitory: Dormitori
@@ -381,6 +406,7 @@ fur:
           kindergarten: Scuelute
           library: Biblioteche
           market: Marcjât
+          nightclub: Club noturni
           office: Ufizi
           park: Parc
           parking: Parcament
@@ -575,10 +601,12 @@ fur:
           bicycle: Buteghe di bicicletis
           books: Librerie
           butcher: Becjarie
+          car: Vendite di machinis
           car_parts: Tocs par machinis
           car_repair: Riparazion di machinis
           carpet: Buteghe di tapêts
           clothes: Buteghe di vistîts
+          copyshop: Copisterie
           electronics: Buteghe di eletroniche
           gallery: Galarie di art
           hairdresser: Piruchîr o barbîr
@@ -592,11 +620,13 @@ fur:
           pharmacy: Farmacie
           photo: Buteghe di fotografie
           shoes: Buteghe di scarpis
+          sports: Buteghe di articui sportîfs
           supermarket: Supermarcjât
           toys: Negozi di zugatui
           travel_agency: Agjenzie di viaçs
           "yes": Buteghe
         tourism:
+          attraction: Atrazion
           hostel: Ostel
           hotel: Hotel
           information: Informazions
@@ -1028,6 +1058,8 @@ fur:
       allow_write_prefs: modificâ lis tôs preferencis dal utent.
       allow_write_diary: creâ vôs dal diari, comentâ e zontâ amîs.
       allow_write_api: modificâ la mape.
+      allow_read_gpx: lei i tiei percors GPS privâts.
+      allow_write_gpx: cjamâ percors GPS.
       allow_write_notes: cambiâ lis notis.
     oauthorize_success:
       verification: Il codiç di verifiche al è %{code}.
@@ -1477,11 +1509,19 @@ fur:
       createnote_disabled_tooltip: Aumente il zoom par zontâ une note ae mape
       map_notes_zoom_in_tooltip: Aumente il zoom par viodi lis notis su la mape
       map_data_zoom_in_tooltip: Aumente il zoom par viodi i dâts de mape
+    changesets:
+      show:
+        comment: Coment
+        subscribe: Notiti
+        unsubscribe: Disnotiti
+        hide_comment: plate
+        unhide_comment: mostre
     notes:
       new:
         intro: Âstu cjatât un erôr o alc ch'al mancje? Informe i altris mapadôrs cussì
           che al podedi jessi corezût. Sposte il segnalut te posizion juste e inserìs
-          une note par spiegâ il probleme. (Par plasê no stâ zontâ informazions personâls).
+          une note par spiegâ il probleme. (Par plasê no stâ zontâ informazions personâls
+          ni informazions che a vegnin di mapis cuviertis pal copyright o di elencs).
         add: Zonte une note
       show:
         anonymous_warning: Cheste note e inclût coments di utents anonims che a varessin
@@ -1493,6 +1533,13 @@ fur:
         comment: Coment
     edit_help: Môf la mape e aumente il zoom tal lûc che tu vuelis cambiâ, po frache
       culì
+    query:
+      node: Grop
+      way: Vie
+      relation: Relazion
+      nothing_found: Nissune carataristiche cjatade
+      error: 'Erôr contatant %{server}: %{error}'
+      timeout: Timp scjadût contatant %{server}
   redaction:
     edit:
       description: Descrizion

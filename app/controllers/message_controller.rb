@@ -28,10 +28,10 @@ class MessageController < ApplicationController
           redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
         end
       end
-    else
-      @message = Message.new(:recipient => @this_user)
-      @title = t 'message.new.title'
     end
+
+    @message ||= Message.new(:recipient => @this_user)
+    @title = t 'message.new.title'
   end
 
   # Allow the user to reply to another message.

@@ -123,11 +123,18 @@ sl:
       way_paginated: Poti (%{x}-%{y} od %{count})
       relation: Zveze (%{count})
       relation_paginated: Zveze (%{x}-%{y} od %{count})
+      comment: Komentarji (%{count})
+      hidden_commented_by: Skrit komentar uporabnika %{user} <abbr title='%{exact_time}'>%{when}
+        nazaj</abbr>
+      commented_by: Komentar uporabnika %{user} <abbr title='%{exact_time}'>%{when}
+        nazaj</abbr>
       changesetxml: Paket sprememb XML
       osmchangexml: osmChange XML
       feed:
         title: Paket sprememb %{id}
         title_comment: Paket sprememb %{id} - %{comment}
+      join_discussion: Prijavite se za pridružitev pogovoru
+      discussion: Pogovor
     node:
       title: 'Vozlišče: %{name}'
       history_title: 'Zgodovina vozlišča: %{name}'
@@ -225,6 +232,8 @@ sl:
       load_more: Naloži več
     timeout:
       sorry: Žal je seznam zahtevanih sprememb predolg za prenos.
+    rss:
+      full: Celoten pogovor
   diary_entry:
     new:
       title: Nov zapis v dnevnik uporabnikov
@@ -509,7 +518,7 @@ sl:
           primary_link: Priključek na glavno cesto
           proposed: Predlagana cesta
           raceway: Dirkališče
-          residential: Stanovanjska
+          residential: Stanovanjska cesta
           rest_area: Počivališče
           road: Nedoločena cesta
           secondary: Regionalna cesta
@@ -1106,6 +1115,20 @@ sl:
         commented_note: '%{commenter} je zopet aktiviral/-a opombo na zemljevidu,
           ki ste jo vi komentirali. Opomba je v bližini %{place}.'
       details: Več podrobnosti o opombi lahko najdete na %{url}.
+    changeset_comment_notification:
+      greeting: Pozdravljeni,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} je komentiral enega izmed vaših
+          paketov sprememb'
+        subject_other: '[OpenStreetMap] %{commenter} je komentiral paket sprememb,
+          ki vas zanima'
+        your_changeset: '%{commenter} je podal komentar na enega od vaših paketov
+          sprememb ustvarjen %{time}'
+        commented_changeset: '%{commenter} je podal komentar na paket sprememb, ki
+          vas zanima, katerega je %{changeset_author} ustvaril %{time}'
+        partial_changeset_with_comment: s komentarjem "%{changeset_comment}"
+        partial_changeset_without_comment: brez komentarja
+      details: Več podrobnosti o tem paketu sprememb lahko najdete na %{url}.
   message:
     inbox:
       title: Prejeta pošta
@@ -2052,6 +2075,12 @@ sl:
       createnote_disabled_tooltip: Povečaj za dodati opombo na zemljevid
       map_notes_zoom_in_tooltip: Povečaj za prikaz opomb zemljevida
       map_data_zoom_in_tooltip: Povečaj za prikaz podatkov zemljevida
+    changesets:
+      show:
+        comment: Komentiraj
+        subscribe: Naroči me
+        unsubscribe: Odjavi me
+        hide_comment: skrij
     notes:
       new:
         add: Dodaj opombo
@@ -2063,6 +2092,10 @@ sl:
         reactivate: Znova aktiviraj
         comment_and_resolve: Komentiraj in razreši
         comment: Komentar
+    query:
+      node: Vozlišče
+      way: Pot
+      relation: Zveza
   redaction:
     edit:
       description: Opis

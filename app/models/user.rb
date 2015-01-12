@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   has_many :tokens, :class_name => "UserToken"
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets, -> { order(:created_at => :desc) }
+  has_many :changeset_comments, :foreign_key =>  :author_id
+  has_and_belongs_to_many :changeset_subscriptions, :class_name => 'Changeset', :join_table => 'changesets_subscribers', :foreign_key => 'subscriber_id'
   has_many :note_comments, :foreign_key => :author_id
   has_many :notes, :through => :note_comments
 
@@ -214,6 +216,7 @@ class User < ActiveRecord::Base
     diary_comment_score = self.diary_comments.inject(0) { |s,c| s += c.body.spam_score }
 
     score = self.description.spam_score / 4.0
+    score += self.diary_entries.where("created_at > ?", 1.day.ago).count * 10
     score += diary_entry_score / self.diary_entries.length if self.diary_entries.length > 0
     score += diary_comment_score / self.diary_comments.length if self.diary_comments.length > 0
     score -= changeset_score

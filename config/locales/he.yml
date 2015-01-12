@@ -135,11 +135,17 @@ he:
       way_paginated: דרכים (%{x}–%{y} מתוך %{count})
       relation: יחסים (%{count})
       relation_paginated: יחסים (%{x}–%{y} מתוך %{count})
+      comment: הערות (%{count})
+      hidden_commented_by: הערה מוסתרת ממשתמש %{user} <abbr title='%{exact_time}'>לפני
+        %{when}</abbr>
+      commented_by: הערה ממשתמש %{user} <abbr title='%{exact_time}'>לפני %{when}</abbr>
       changesetxml: XML של ערכת שינויים
       osmchangexml: osmChange XML
       feed:
         title: ערכת שינויים %{id}
         title_comment: ערכת שינויים %{id} – %{comment}
+      join_discussion: נא להיכנס לחשבון כדי להצטרף לדיון
+      discussion: דיון
     node:
       title: 'צומת: %{name}'
       history_title: 'היסטוריית הצומת: %{name}'
@@ -187,7 +193,7 @@ he:
         way: דרך
         relation: יחס
     start_rjs:
-      feature_warning: תתבצע טעינת %{num_features} תכונות, וזה עלול לגרום לדפדפן להיות
+      feature_warning: תתבצע טעינת %{num_features} ישויות, וזה עלול לגרום לדפדפן להיות
         תקוע. האם ברצונך באמת להציג את הנתונים האלה?
       load_data: טעינת נתונים
       loading: בטעינה...
@@ -216,6 +222,11 @@ he:
       reopened_by_anonymous: הופעל מחדש על־ידי אלמוני <abbr title='%{exact_time}'>לפני
         %{when}</abbr>
       hidden_by: הוסתר על־ידי %{user} <abbr title='%{exact_time}'>לפני %{when}</abbr>
+    query:
+      title: שאילתת ישויות
+      introduction: יש ללחוץ עלהמפה כדי למצוא ישויות בסביבה.
+      nearby: ישויות בסביבה
+      enclosing: ישויות סובבות
   changeset:
     changeset_paging_nav:
       showing_page: הדף %{page}
@@ -245,6 +256,13 @@ he:
       load_more: לטעון עוד
     timeout:
       sorry: סליחה, לוקח יותר מדי זמן לאחזר על רשימת ערכות השינויים שביקשת.
+    rss:
+      title_all: דיון בערכת שינויים של OpenStreetMap
+      title_particular: דיון בערכת שינויים מס' %{changeset_id} של OpenStreetMap
+      comment: הערה חדשה על בערכת שינויים מס' %{changeset_id} מאת %{author}
+      commented_at_html: עודכן לפני %{when}
+      commented_at_by_html: עודכן לפני %{when} על־ידי %{user}
+      full: דיון מלא
   diary_entry:
     new:
       title: רשומת יומן חדשה
@@ -532,7 +550,7 @@ he:
           primary_link: דרך ראשית
           proposed: דרך מוצעת
           raceway: מסלול מרוצים
-          residential: מגורים
+          residential: דרך באזור מגורים
           rest_area: אזור מנוחה
           road: דרך
           secondary: דרך משנית
@@ -647,7 +665,7 @@ he:
           cliff: מצוק
           crater: מכתש
           dune: חולית
-          feature: תכונה
+          feature: ישות
           fell: תל
           fjord: פיורד
           forest: יער
@@ -743,6 +761,8 @@ he:
           tram: חשמלית
           tram_stop: תחנת חשמלית
           yard: מוסך רכבות
+        route:
+          bus: נתיב אוטובוסים
         shop:
           alcohol: חנות אלכוהול
           antiques: עתיקות
@@ -1070,7 +1090,7 @@ he:
     whats_on_the_map:
       title: מה על המפה
       on_html: OpenStreetMap הוא מקום למיפוי דברים אמתיים ונוכחיים – הוא מכיל מיליוני
-        מבנים, דרכים ופרטים אחרים על מקומות. אפשר למפות כל דבר מהעולם מהאמתי שמעניין
+        מבנים, דרכים ופרטים אחרים על מקומות. אפשר למפות כל ישות מהעולם האמתי שמעניין
         אותך.
       off_html: מה שאין פה זה מידע דעתני כמו דירוגים, מקומות היסטוריים או היפותטיים
         ונתונים ומקורות שמוגבלים בזכויות יוצרים. אנו דורשים ממך לא להוסיף  מידע ממפות
@@ -1248,6 +1268,20 @@ he:
         commented_note: הערה במפה שהגבת עליה הופעלה מחדש על־ידי %{commenter}. ההערה
           היא ליד %{place}.
       details: אפשר למצוא פרטים נוספים על ההערה בכתובת %{url}
+    changeset_comment_notification:
+      greeting: שלום,
+      commented:
+        subject_own: '[OpenStreetMap] המשתמש %{commenter} העיר על אחד מערכות השינויים
+          שלך'
+        subject_other: '[OpenStreetMap] המשתמש %{commenter} העיר על אחד מערכות השינויים
+          שהתעניית בהן'
+        your_changeset: המשתמש %{commenter} העיר על אחד מערכות השינויים שלך שיצרת
+          ב־%{time}
+        commented_changeset: המשתמש %{commenter} העיר על אחד מערכות השינויים במפה
+          שעקבת אחריה שנוצרה על־ידי %{changeset_author} ב־%{time}
+        partial_changeset_with_comment: עם ההערה '%{changeset_comment}'
+        partial_changeset_without_comment: ללא הערה
+      details: פרטים נוספים על ערכת השינויים אפשר למצוא בכתובת %{url}
   message:
     inbox:
       title: תיבת דואר נכנס
@@ -2161,6 +2195,15 @@ he:
       createnote_disabled_tooltip: נא להתקרב כדי להוסיף הערה למפה
       map_notes_zoom_in_tooltip: התקרבות כדי לראות הערות על המפה
       map_data_zoom_in_tooltip: יש לקרב את המפה כדי לראות נתוני מפה
+      queryfeature_tooltip: שאילתת ישויות
+      queryfeature_disabled_tooltip: תקריב לשאילתת ישויות
+    changesets:
+      show:
+        comment: הערה
+        subscribe: מינוי
+        unsubscribe: ביטול מינוי
+        hide_comment: הסתרה
+        unhide_comment: ביטול הסתרה
     notes:
       new:
         intro: יש פה טעות או שחסר משהו? אנו מבקשים ממך לספר את זה לממפים אחרים. לשם
@@ -2176,6 +2219,13 @@ he:
         comment_and_resolve: להגיב ולפתור
         comment: להגיב
     edit_help: יש להזיז את המפה ולהתמקד על מיקום שברצונך לערוך ואז ללחוץ כאן.
+    query:
+      node: צומת
+      way: דרך
+      relation: יחס
+      nothing_found: לא נמצאו ישויות
+      error: 'שגיאה תקשורת עם %{server}, מידע נוסף: %{error}'
+      timeout: פג זמן ההתקשרות על %{server}
   redaction:
     edit:
       description: תיאור

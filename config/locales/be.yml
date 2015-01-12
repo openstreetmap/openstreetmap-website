@@ -1,6 +1,7 @@
 # Messages for Belarusian (беларуская)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Alex73
 # Author: Jim-by
 # Author: Unomano
 # Author: Дзяніс Тутэйшы
@@ -120,11 +121,17 @@ be:
       way_paginated: Лініі (%{x}-%{y} з %{count})
       relation: Сувязі (%{count})
       relation_paginated: Сувязі (%{x}-%{y} з %{count})
+      comment: Каментары (%{count})
+      hidden_commented_by: Схаваны каментар ад %{user} <abbr title='%{exact_time}'>%{when}
+        таму</abbr>
+      commented_by: Каментар ад %{user} <abbr title='%{exact_time}'>%{when} таму</abbr>
       changesetxml: Набор змен у XML
       osmchangexml: osmChange XML
       feed:
         title: Набор змен %{id}
         title_comment: Набор змен %{id} - %{comment}
+      join_discussion: Увайдзіце ў сістэму, каб далучыцца да абмеркавання
+      discussion: Абмеркаванне
     node:
       title: 'Вузел: %{name}'
       history_title: 'Гісторыя вузла: %{name}'
@@ -181,6 +188,7 @@ be:
       wiki_link:
         key: Вікі-старонка апісання тэгу %{key}
         tag: Вікі-старонка апісання тэгу %{key}=%{value}
+      wikidata_link: Элемент %{page} у Вікідадзеных
       wikipedia_link: Артыкул %{page} на Вікіпедыі
       telephone_link: Патэлефанаваць %{phone_number}
     note:
@@ -204,6 +212,11 @@ be:
       reopened_by_anonymous: Пераадкрыта ананімным карыстальнікам <abbr title='%{exact_time}'>%{when}
         таму</abbr>
       hidden_by: Схавана %{user} <abbr title='%{exact_time}'>%{when} таму</abbr>
+    query:
+      title: Запыт аб’ектаў
+      introduction: Пстрыкніце на карце, каб атрымаць звесткі пра аб'екты паблізу.
+      nearby: Аб’екты паблізу
+      enclosing: Навакольныя аб'екты
   changeset:
     changeset_paging_nav:
       showing_page: Старонка %{page}
@@ -233,6 +246,13 @@ be:
       load_more: Загрузіць больш
     timeout:
       sorry: Прабачце, спіс набораў зменаў, які Вы запыталі, занадта вялікі для атрымання.
+    rss:
+      title_all: Абмеркаванне зменаў OpenStreetMap
+      title_particular: 'Абмеркаванне зменаў OpenStreetMap #%{changeset_id}'
+      comment: Новы каментар на набор зменаў %{changeset_id} ад %{author}
+      commented_at_html: Абноўлена %{when} таму
+      commented_at_by_html: Абноўлена %{when} таму %{user}
+      full: Поўнае абмеркаванне
   diary_entry:
     new:
       title: Новы запіс дзённіку
@@ -621,7 +641,7 @@ be:
           sauna: Сауна
           slipway: Стапель
           sports_centre: Спартыўны цэнтр
-          stadium: Стадыен
+          stadium: Стадыён
           swimming_pool: Плавальны басейн
           track: Бегавая дарожка
           water_park: Аквапарк
@@ -736,6 +756,8 @@ be:
           tram: Трамвай
           tram_stop: Трамвайны прыпынак
           yard: Сартавальная станцыя
+        route:
+          bus: Аўтобусны маршрут
         shop:
           alcohol: Алкагольная крама
           antiques: Антыкварыят
@@ -1247,6 +1269,20 @@ be:
         commented_note: '%{commenter} пераадчыніў заўвагу на карце, якую вы каментавалі.
           Заўвага каля %{place}.'
       details: Больш падрабязна пра ўвагу можна прачытаць на %{url}.
+    changeset_comment_notification:
+      greeting: Прывітанне,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} пракаментаваў адзін з вашых набораў
+          зменаў'
+        subject_other: '[OpenStreetMap] %{commenter} пракаментаваў цікавы вам набор
+          зменаў'
+        your_changeset: '%{commenter} пакінуў каментар на адзін з вашых набораў зменаў,
+          створаных %{time}'
+        commented_changeset: '%{commenter}% пакінуў каментар да набору зменаў, які
+          вы адсочваеце і што быў створаны %{changeset_author} %{time}'
+        partial_changeset_with_comment: з каментаром '%{changeset_comment}'
+        partial_changeset_without_comment: без каментароў
+      details: Дадатковыя звесткі аб наборы зьменаў можна знайсці ў %{url}.
   message:
     inbox:
       title: Уваходныя
@@ -2192,6 +2228,15 @@ be:
       createnote_disabled_tooltip: Наблізце, каб дадаць заўвагу на карту
       map_notes_zoom_in_tooltip: Наблізце, каб убачыць заўвагі на карце
       map_data_zoom_in_tooltip: Павялічце, каб убачыць картаграфічныя дадзеныя
+      queryfeature_tooltip: Атрыманне аб’ектаў
+      queryfeature_disabled_tooltip: Наблізіцеся для атрымання аб'ектаў
+    changesets:
+      show:
+        comment: Каментаваць
+        subscribe: Падпісацца
+        unsubscribe: Адпісацца
+        hide_comment: схаваць
+        unhide_comment: паказаць
     notes:
       new:
         intro: Заўважылі памылку або чагосьці не стае? Дайце іншым удзельнікам магчымасць
@@ -2209,6 +2254,13 @@ be:
         comment: Каментаваць
     edit_help: Перамясціце карту і наблізце месца, якое вы хочаце рэдагаваць, затым
       націсніце тут.
+    query:
+      node: Вузел
+      way: Крывая
+      relation: Сувязь
+      nothing_found: Аб’екты не знойдзены
+      error: 'Памылка сувязі %{server}: %{error}'
+      timeout: Тайм-аўт падключэння да %{server}
   redaction:
     edit:
       description: Апісанне

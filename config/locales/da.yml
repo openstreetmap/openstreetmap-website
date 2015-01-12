@@ -131,11 +131,18 @@ da:
       way_paginated: Veje (%{x}-%{y} af %{count})
       relation: Relationer (%{count})
       relation_paginated: Relationer (%{x}-%{y} af %{count})
+      comment: Kommentarer (%{count})
+      hidden_commented_by: Skjult kommentar fra %{user} <abbr title='%{exact_time}'>%{when}
+        siden</abbr>
+      commented_by: Kommentar fra %{user} for <abbr title='%{exact_time}'>%{when}
+        siden</abbr>
       changesetxml: XML for ændringssæt
       osmchangexml: XML for osmChange
       feed:
         title: Ændringssæt %{id}
         title_comment: Ændringssæt %{id} - %{comment}
+      join_discussion: Log på for at deltage i diskussionen
+      discussion: Diskussion
     node:
       title: 'Punkt: %{name}'
       history_title: 'Punkthistorik: %{name}'
@@ -217,6 +224,10 @@ da:
       reopened_by_anonymous: Genaktiveret af en anonym for <abbr title='%{exact_time}'>%{when}
         siden</abbr>
       hidden_by: Skjult af %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
+    query:
+      title: Forespørgselsfunktioner
+      introduction: Klik på kortet for at finde funktioner i nærheden.
+      nearby: Funktioner i nærheden
   changeset:
     changeset_paging_nav:
       showing_page: Side %{page}
@@ -247,6 +258,13 @@ da:
     timeout:
       sorry: Desværre tog det for lang tid for at hente den liste af ændringssæt du
         har bedt om.
+    rss:
+      title_all: OpenStreetMap diskussion om ændringssæt
+      title_particular: OpenStreetMap diskussion om ændringssæt nummer %{changeset_id}
+      comment: Ny kommentar om ændringssæt nummer %{changeset_id} af %{author}
+      commented_at_html: Opdateret for %{when} siden
+      commented_at_by_html: Opdateret for %{when} siden af %{user}
+      full: Fuldstændig diskussion
   diary_entry:
     new:
       title: Nyt blogindlæg
@@ -749,6 +767,8 @@ da:
           tram: Sporvej
           tram_stop: Sporvognsstoppested
           yard: Jernbaneterræn
+        route:
+          bus: Busrute
         shop:
           alcohol: Spiritusforretning
           antiques: Antikviteter
@@ -1268,6 +1288,19 @@ da:
         commented_note: '%{commenter} har genaktiveret en kortbemærkning du har kommenteret.
           Bemærkningen er i nærheden af %{place}.'
       details: Flere oplysninger om bemærkningen kan findes på %{url}.
+    changeset_comment_notification:
+      greeting: Hej,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} har kommenteret på et af dine ændringssæt'
+        subject_other: '[OpenStreetMap] %{commenter} har kommenteret på et ændringssæt,
+          du er interesseret i'
+        your_changeset: '%{commenter} har efterladt en kommentar på et af dine ændringssæt,
+          oprettet %{time}'
+        commented_changeset: '%{commenter} har efterladt en kommenter på et kort ændringssæt
+          som du overvåger, oprettet %{time} af %{changeset_author}'
+        partial_changeset_with_comment: med kommentaren '%{changeset_comment}'
+        partial_changeset_without_comment: uden kommentar
+      details: Flere oplysninger om ændringssættet kan findes på %{url}.
   message:
     inbox:
       title: Indbakke
@@ -2213,6 +2246,15 @@ da:
       createnote_disabled_tooltip: Zoom ind for at tilføje en bemærkning til kortet
       map_notes_zoom_in_tooltip: Zoom ind for at se kort kommentarer
       map_data_zoom_in_tooltip: Zoom ind for at se kortdata
+      queryfeature_tooltip: Forespørgselsfunktioner
+      queryfeature_disabled_tooltip: Zoom ind for at få forespørgselsfunktioner
+    changesets:
+      show:
+        comment: Kommentar
+        subscribe: Abonnér
+        unsubscribe: Afmeld
+        hide_comment: skjul
+        unhide_comment: fjern skjul
     notes:
       new:
         intro: Opdaget en fejl eller noget der mangler? Lad andre kortlæggere vide
@@ -2229,6 +2271,13 @@ da:
         comment_and_resolve: Kommentere på og løse
         comment: Kommenter
     edit_help: Flyt kortet og zoom ind på et sted, du vil redigere, og klik så her.
+    query:
+      node: Punkt
+      way: Vej
+      relation: Relation
+      nothing_found: Ingen funktioner fundet
+      error: 'Fejl med at kontakte %{server}: %{error}'
+      timeout: Timeout for kontakt til %{server}
   redaction:
     edit:
       description: Beskrivelse

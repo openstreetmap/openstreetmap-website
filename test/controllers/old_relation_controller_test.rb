@@ -87,14 +87,14 @@ class OldRelationControllerTest < ActionController::TestCase
 
     get :history, :id => relation.relation_id
     assert_response :success, "Redaction shouldn't have stopped history working."
-    assert_select "osm relation[id=#{relation.relation_id}][version=#{relation.version}]", 0, "redacted relation #{relation.relation_id} version #{relation.version} shouldn't be present in the history."
+    assert_select "osm relation[id='#{relation.relation_id}'][version='#{relation.version}']", 0, "redacted relation #{relation.relation_id} version #{relation.version} shouldn't be present in the history."
 
     # not even to a logged-in user
     basic_authorization(users(:public_user).email, "test")
     get :version, :id => relation.relation_id, :version => relation.version
     get :history, :id => relation.relation_id
     assert_response :success, "Redaction shouldn't have stopped history working."
-    assert_select "osm relation[id=#{relation.relation_id}][version=#{relation.version}]", 0, "redacted node #{relation.relation_id} version #{relation.version} shouldn't be present in the history, even when logged in."
+    assert_select "osm relation[id='#{relation.relation_id}'][version='#{relation.version}']", 0, "redacted node #{relation.relation_id} version #{relation.version} shouldn't be present in the history, even when logged in."
   end
 
   ##
@@ -117,10 +117,10 @@ class OldRelationControllerTest < ActionController::TestCase
     # and when accessed via history
     get :history, :id => relation.relation_id
     assert_response :success, "Redaction shouldn't have stopped history working."
-    assert_select "osm relation[id=#{relation.relation_id}][version=#{relation.version}]", 0, "relation #{relation.relation_id} version #{relation.version} should not be present in the history for moderators when not passing flag."
+    assert_select "osm relation[id='#{relation.relation_id}'][version='#{relation.version}']", 0, "relation #{relation.relation_id} version #{relation.version} should not be present in the history for moderators when not passing flag."
     get :history, :id => relation.relation_id, :show_redactions => 'true'
     assert_response :success, "Redaction shouldn't have stopped history working."
-    assert_select "osm relation[id=#{relation.relation_id}][version=#{relation.version}]", 1, "relation #{relation.relation_id} version #{relation.version} should still be present in the history for moderators when passing flag."
+    assert_select "osm relation[id='#{relation.relation_id}'][version='#{relation.version}']", 1, "relation #{relation.relation_id} version #{relation.version} should still be present in the history for moderators when passing flag."
   end
 
   # testing that if the moderator drops auth, he can't see the
@@ -142,7 +142,7 @@ class OldRelationControllerTest < ActionController::TestCase
     # and when accessed via history
     get :history, :id => relation.relation_id
     assert_response :success, "Redaction shouldn't have stopped history working."
-    assert_select "osm relation[id=#{relation.relation_id}][version=#{relation.version}]", 0, "redacted relation #{relation.relation_id} version #{relation.version} shouldn't be present in the history."
+    assert_select "osm relation[id='#{relation.relation_id}'][version='#{relation.version}']", 0, "redacted relation #{relation.relation_id} version #{relation.version} shouldn't be present in the history."
   end
 
   ##

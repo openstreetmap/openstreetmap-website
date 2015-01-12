@@ -11,6 +11,9 @@ class Changeset < ActiveRecord::Base
   has_many :old_nodes
   has_many :old_ways
   has_many :old_relations
+  
+  has_many :comments, -> { where(:visible => true).order(:created_at) }, :class_name => "ChangesetComment"
+  has_and_belongs_to_many :subscribers, :class_name => 'User', :join_table => 'changesets_subscribers', :association_foreign_key => 'subscriber_id'
 
   validates_presence_of :id, :on => :update
   validates_presence_of :user_id, :created_at, :closed_at, :num_changes
@@ -179,13 +182,13 @@ class Changeset < ActiveRecord::Base
     end
   end
 
-  def to_xml
+  def to_xml(include_discussion = false)
     doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node()
+    doc.root << to_xml_node(nil, include_discussion)
     return doc
   end
 
-  def to_xml_node(user_display_name_cache = nil)
+  def to_xml_node(user_display_name_cache = nil, include_discussion = false)
     el1 = XML::Node.new 'changeset'
     el1['id'] = self.id.to_s
 
@@ -215,6 +218,23 @@ class Changeset < ActiveRecord::Base
 
     if bbox.complete?
       bbox.to_unscaled.add_bounds_to(el1, '_')
+    end
+
+    el1['comments_count'] = self.comments.count.to_s
+
+    if include_discussion
+      el2 = XML::Node.new('discussion')
+      self.comments.includes(:author).each do |comment|
+        el3 = XML::Node.new('comment')
+        el3['date'] = comment.created_at.xmlschema
+        el3['uid'] = comment.author.id.to_s if comment.author.data_public?
+        el3['user'] = comment.author.display_name.to_s if comment.author.data_public?
+        el4 = XML::Node.new('text')
+        el4.content = comment.body.to_s
+        el3 << el4
+        el2 << el3
+      end
+      el1 << el2
     end
 
     # NOTE: changesets don't include the XML of the changes within them,

@@ -78,7 +78,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_select "title", "OpenStreetMap | Send message"
     assert_select "form[action='#{new_message_path(:display_name => users(:public_user).display_name)}']", :count => 1 do
       assert_select "input#message_title", :count => 1 do
-        assert_select "[value=Test Message]"
+        assert_select "[value='Test Message']"
       end
       assert_select "textarea#message_body", :text => "", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1
@@ -97,7 +97,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_select "title", "OpenStreetMap | Send message"
     assert_select "form[action='#{new_message_path(:display_name => users(:public_user).display_name)}']", :count => 1 do
       assert_select "input#message_title", :count => 1 do
-        assert_select "[value=]"
+        assert_select "[value='']"
       end
       assert_select "textarea#message_body", :text => "Test message body", :count => 1
       assert_select "input[type='submit'][value='Send']", :count => 1
@@ -132,6 +132,27 @@ class MessageControllerTest < ActionController::TestCase
     assert_response :not_found
     assert_template "user/no_such_user"
     assert_select "h1", "The user non_existent_user does not exist"
+  end
+
+  ##
+  # test the new action message limit
+  def test_new_limit
+    # Login as a normal user
+    session[:user] = users(:normal_user).id
+
+    # Check that sending a message fails when the message limit is hit
+    assert_no_difference "ActionMailer::Base.deliveries.size" do
+      assert_no_difference "Message.count" do
+        with_message_limit(0) do
+          post :new,
+            :display_name => users(:public_user).display_name,
+            :message => { :title => "Test Message", :body => "Test message body" }
+          assert_response :success
+          assert_template "new"
+          assert_select "p.error", /wait a while/
+        end
+      end
+    end
   end
 
   ##
@@ -361,5 +382,17 @@ class MessageControllerTest < ActionController::TestCase
     post :delete, :message_id => 99999
     assert_response :not_found
     assert_template "no_such_message"
+  end
+
+private
+
+  def with_message_limit(value)
+    max_messages_per_hour = Object.send("remove_const", "MAX_MESSAGES_PER_HOUR")
+    Object.const_set("MAX_MESSAGES_PER_HOUR", value)
+
+    yield
+
+    Object.send("remove_const", "MAX_MESSAGES_PER_HOUR")
+    Object.const_set("MAX_MESSAGES_PER_HOUR", max_messages_per_hour)
   end
 end

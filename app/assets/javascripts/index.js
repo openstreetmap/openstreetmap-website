@@ -5,6 +5,7 @@
 //= require leaflet.key
 //= require leaflet.note
 //= require leaflet.share
+//= require leaflet.query
 //= require index/search
 //= require index/browse
 //= require index/export
@@ -12,6 +13,8 @@
 //= require index/history
 //= require index/note
 //= require index/new_note
+//= require index/changeset
+//= require index/query
 //= require router
 
 (function() {
@@ -123,6 +126,11 @@ $(document).ready(function () {
     sidebar: sidebar
   }).addTo(map);
 
+  L.OSM.query({
+    position: position,
+    sidebar: sidebar
+  }).addTo(map);
+
   L.control.scale()
     .addTo(map);
 
@@ -152,15 +160,6 @@ $(document).ready(function () {
 
     $.removeCookie("_osm_location");
     $.cookie("_osm_location", OSM.locationCookie(map), { expires: expiry, path: "/" });
-  });
-
-  if ($.cookie('_osm_sotm') == 'hide') {
-    $('#sotm').hide();
-  }
-
-  $('#sotm .close').on('click', function() {
-    $('#sotm').hide();
-    $.cookie("_osm_sotm", 'hide', { expires: expiry });
   });
 
   if ($.cookie('_osm_welcome') == 'hide') {
@@ -304,7 +303,8 @@ $(document).ready(function () {
     "/node/:id(/history)":         OSM.Browse(map, 'node'),
     "/way/:id(/history)":          OSM.Browse(map, 'way'),
     "/relation/:id(/history)":     OSM.Browse(map, 'relation'),
-    "/changeset/:id":              OSM.Browse(map, 'changeset')
+    "/changeset/:id":              OSM.Changeset(map),
+    "/query":                      OSM.Query(map)
   });
 
   if (OSM.preferred_editor == "remote" && document.location.pathname == "/edit") {

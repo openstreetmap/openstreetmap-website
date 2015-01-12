@@ -120,7 +120,7 @@ For information on contributing changes to the codes, see [CONTRIBUTING.md](CONT
 
 If you want to deploy The Rails Port for production use, you'll need to make a few changes.
 
-* It's not recommended to use `rails server` in production. Our recommended approach is to use [Phusion Passenger](https://www.phusionpassenger.com/).
+* It's not recommended to use `rails server` in production. Our recommended approach is to use [Phusion Passenger](https://www.phusionpassenger.com/). Instructions are available for [setting it up with most web servers](https://www.phusionpassenger.com/documentation_and_support#documentation).
 * Passenger will, by design, use the Production environment and therefore the production database - make sure it contains the appropriate data and user accounts.
 * Your production database will also need the extensions and functions installed - see [INSTALL.md](INSTALL.md)
 * The included version of the map call is quite slow and eats a lot of memory. You should consider using [CGIMap](https://github.com/zerebubuth/openstreetmap-cgimap) instead.
