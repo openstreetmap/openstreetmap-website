@@ -3,8 +3,14 @@
 
 OSM.Search = function(map) {
   $(".search_form input[name=query]")
-    .on("keyup", function triggerAlgoliaSearch( e ){ 
+    .on("keyup", function triggerAlgoliaSearch( e ){
       OSM.algoliaIntegration.keyupHandler( e.target, map );
+    })
+    .on("keydown", function clear( e ){
+      OSM.algoliaIntegration.keydownHandler( e.target );
+    })
+    .on("blur", function blur( e ){
+      OSM.algoliaIntegration.blurHandler( e.target );
     })
     .on("input", function(e) {
       if ($(e.target).val() == "") {
@@ -144,10 +150,18 @@ OSM.algoliaIntegration = (function sudoMakeMagic(){
     };
   })();
 
-  
-  var success  = function success( $out, results ){
-    if( results.hits.length === 0) $out.addClass( "hidden" );
-    else $out.removeClass( "hidden" );
+  var success  = function success( $out, $shadowInput, results ){
+    if( results.hits.length === 0) {
+      $out.addClass( "hidden" );
+      $shadowInput.val("");
+    }
+    else {
+      $out.removeClass( "hidden" );
+      var cityFound = results.hits[0].city;
+      var query = results.query;
+      if( cityFound.toLowerCase().indexOf( query.toLowerCase() ) === 0) $shadowInput.val( query[0] + cityFound.slice(1) );
+      else $shadowInput.val("");
+    }
 
     var citiesList = results.hits.reduce( function( str, hit ) {
       return str + "<li class='city'>" + hit.city + "</li>";
@@ -163,7 +177,7 @@ OSM.algoliaIntegration = (function sudoMakeMagic(){
   };
   var getOrCreateResultList = function getOrCreateResultList( $searchField ){
     var $resultList = $searchField.parent().find( ".algolia.results" );
-    if( $resultList.length === 0 ){ 
+    if( $resultList.length === 0 ){
       var $newResultList = createResultList();
       $searchField.parent().append( $newResultList );
       return $newResultList;
@@ -176,10 +190,23 @@ OSM.algoliaIntegration = (function sudoMakeMagic(){
   return {
     keyupHandler: function( searchInput, map ){
       var $searchIntput = $( searchInput );
+      var $shadowInput  = $searchIntput.siblings(".shadow-input");
       var $output       = getOrCreateResultList( $searchIntput );
-      var query         = $searchIntput.val(); 
-      searchCity( query ).then( success.bind( window, $output),
-                                error.bind(   window, $output) );
+      var query         = $searchIntput.val();
+      searchCity( query ).then( success.bind( window, $output, $shadowInput),
+                                error.bind(   window, $output, $shadowInput) );
+    },
+    keydownHandler: function( searchInput ){
+      var $searchIntput = $( searchInput );
+      var $shadowInput  = $searchIntput.siblings(".shadow-input");
+      $shadowInput.val("");
+    },
+    blurHandler: function( searchInput ){
+      var $searchIntput = $( searchInput );
+      var $output       = getOrCreateResultList( $searchIntput );
+      var $shadowInput  = $searchIntput.siblings(".shadow-input");
+      $shadowInput.val("");
+      $output.html("").addClass("hidden");
     }
   };
 })();
