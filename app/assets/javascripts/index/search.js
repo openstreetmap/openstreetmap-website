@@ -4,13 +4,13 @@
 OSM.Search = function(map) {
   $(".search_form input[name=query]")
     .on("keyup", function triggerAlgoliaSearch( e ){
-      OSM.algoliaIntegration.keyupHandler( e.target, map );
+      OSM.algoliaIntegration.keyupHandler( e, map );
     })
     .on("keydown", function clear( e ){
-      OSM.algoliaIntegration.keydownHandler( e.target );
+      OSM.algoliaIntegration.keydownHandler( e );
     })
     .on("blur", function blur( e ){
-      OSM.algoliaIntegration.blurHandler( e.target );
+      OSM.algoliaIntegration.blurHandler( e );
     })
     .on("input", function(e) {
       if ($(e.target).val() == "") {
@@ -187,24 +187,33 @@ OSM.algoliaIntegration = (function sudoMakeMagic(){
     }
   };
 
+  var specialKeys = [];
+  specialKeys[27] = function handleEscape( $searchInput ){ $searchInput.blur(); };
+
   return {
-    keyupHandler: function( searchInput, map ){
-      var $searchIntput = $( searchInput );
-      var $shadowInput  = $searchIntput.siblings(".shadow-input");
-      var $output       = getOrCreateResultList( $searchIntput );
-      var query         = $searchIntput.val();
-      searchCity( query ).then( success.bind( window, $output, $shadowInput),
-                                error.bind(   window, $output, $shadowInput) );
+    keyupHandler: function( e, map ){
+      var $searchInput = $( e.target );
+      var $shadowInput  = $searchInput.siblings(".shadow-input");
+      var $output       = getOrCreateResultList( $searchInput );
+      if( specialKeys[e.keyCode] !== undefined ){
+        var specialKeyHandler = specialKeys[e.keyCode];
+        specialKeyHandler( $searchInput );
+      }
+      else {
+        var query         = $searchInput.val();
+        searchCity( query ).then( success.bind( window, $output, $shadowInput),
+                                  error.bind(   window, $output, $shadowInput) );
+      }
     },
-    keydownHandler: function( searchInput ){
-      var $searchIntput = $( searchInput );
-      var $shadowInput  = $searchIntput.siblings(".shadow-input");
+    keydownHandler: function( e ){
+      var $searchInput = $( e.target );
+      var $shadowInput  = $searchInput.siblings(".shadow-input");
       $shadowInput.val("");
     },
-    blurHandler: function( searchInput ){
-      var $searchIntput = $( searchInput );
-      var $output       = getOrCreateResultList( $searchIntput );
-      var $shadowInput  = $searchIntput.siblings(".shadow-input");
+    blurHandler: function( e ){
+      var $searchInput = $( e.target );
+      var $output       = getOrCreateResultList( $searchInput );
+      var $shadowInput  = $searchInput.siblings(".shadow-input");
       $shadowInput.val("");
       $output.html("").addClass("hidden");
     }
