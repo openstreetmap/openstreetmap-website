@@ -1,7 +1,11 @@
 //= require jquery.simulate
+//= require algoliaSearch
 
 OSM.Search = function(map) {
   $(".search_form input[name=query]")
+    .on("keyup", function triggerAlgoliaSearch( e ){ 
+      OSM.algoliaIntegration.keyupHandler( e.target, map );
+    })
     .on("input", function(e) {
       if ($(e.target).val() == "") {
         $(".describe_location").fadeIn(100);
@@ -123,3 +127,59 @@ OSM.Search = function(map) {
 
   return page;
 };
+
+OSM.algoliaIntegration = (function sudoMakeMagic(){
+  var searchCity = (function initAlgolia(){
+    var client = new AlgoliaSearch("XS2XU0OW47", "ef286aa43862d8b04cc8030e499f4813"); // public credentials
+    var index  = client.initIndex('worldCities');
+
+    return function searchCity( query ){
+      if( query === "" ) return $.Deferred().resolve( {hits: []} ).promise();
+      var d = $.Deferred();
+      index.search( query, function resolveIntoPromise( success, content ){
+        if(success) d.resolve( content );
+        else d.reject();
+      } );
+      return d.promise();
+    };
+  })();
+
+  
+  var success  = function success( $out, results ){
+    if( results.hits.length === 0) $out.addClass( "hidden" );
+    else $out.removeClass( "hidden" );
+
+    var citiesList = results.hits.reduce( function( str, hit ) {
+      return str + "<li class='city'>" + hit.city + "</li>";
+    }, "");
+
+    $out.html( citiesList );
+  };
+  var error    = function error( $out ){
+    $out.html( "Erreur" );
+  };
+  var createResultList = function createResultList(){
+    return $( "<ul class='algolia results'></ul>" );
+  };
+  var getOrCreateResultList = function getOrCreateResultList( $searchField ){
+    var $resultList = $searchField.parent().find( ".algolia.results" );
+    if( $resultList.length === 0 ){ 
+      var $newResultList = createResultList();
+      $searchField.parent().append( $newResultList );
+      return $newResultList;
+    }
+    else {
+      return $resultList;
+    }
+  };
+
+  return {
+    keyupHandler: function( searchInput, map ){
+      var $searchIntput = $( searchInput );
+      var $output       = getOrCreateResultList( $searchIntput );
+      var query         = $searchIntput.val(); 
+      searchCity( query ).then( success.bind( window, $output),
+                                error.bind(   window, $output) );
+    }
+  };
+})();
