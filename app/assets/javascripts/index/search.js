@@ -186,17 +186,6 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     }
 
   };
-  var getOrCreateResultList = function getOrCreateResultList( $searchField ){
-    var $resultsList = $searchField.parent().find( ".algolia.results" );
-    if( $resultsList.length === 0 ){
-      var $newResultList = $( "<ul class='algolia results'></ul>" );
-      $searchField.parent().append( $newResultList );
-      return $newResultList;
-    }
-    else {
-      return $resultsList;
-    }
-  };
 
   var specialKeys = [];
   specialKeys[27] = function handleEscape( $searchInput, state ){
@@ -224,12 +213,16 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
   //Left and right arrow shall not trigger anything
   specialKeys[37] = specialKeys[39] = function noop( $in, state ){ return state;}
   specialKeys[13] = function handleReturn( $searchInput, state, map ){
-    if( state.selectedResult === -1 ) return ;
+    if( state.selectedResult === -1 ) return state;
+
     var currentCity = state.resultsList[ state.selectedResult ];
     var center = L.latLng( currentCity._geoloc.lat, currentCity._geoloc.lng );
     map.setView( center, map.getZoom() );
-    $searchInput.blur();
-    return state;
+
+    var nextState = new AlgoliaIntegrationState( state );
+    nextState.userInputValue = currentCity.city + ", " + currentCity.country;
+    setTimeout( function(){ $searchInput.blur() }, 0);
+    return nextState;
   };
 
   var AlgoliaIntegrationState = function AlgoliaIntegrationState( state ){
@@ -241,8 +234,12 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
 
   var AlgoliaIntegration = function AlgoliaIntegration( searchInput, map ){
     this.$searchInput = $( searchInput );
-    this.$shadowInput = this.$searchInput.siblings(".shadow-input");
-    this.$resultsList = getOrCreateResultList( this.$searchInput );
+    this.$shadowInput = this.$searchInput.siblings( ".shadow-input" );
+
+    var $resultsList = $( "<ul class='algolia results hidden'></ul>" );
+    this.$searchInput.parent().append( $resultsList );
+    this.$resultsList = $resultsList;
+
     this.state        = new AlgoliaIntegrationState( {
       userInputValue : this.$searchInput.val()
     } );
