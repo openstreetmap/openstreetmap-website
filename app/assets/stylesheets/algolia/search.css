@@ -1,7 +1,6 @@
 .algolia.results {
   background: white;
   border    : 1px solid #ccc;
-  padding   : 2px 5px;
   margin    : 0;
   font      : 14px/20px "Helvetica Neue", Arial, sans-serif
 }
@@ -20,4 +19,19 @@
   background: none;
   position  : relative;
   z-index   : 2;
+}
+
+.algolia.results > .city {
+  padding: 2px 5px;
+}
+.algolia.results > .city::before{
+  content: "· ";
+  font-weight: bolder;
+}
+
+.algolia.results > .city.selected {
+  background: #EEE;
+}
+.algolia.results > .city.selected::before{
+  color: red;
 }

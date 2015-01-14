@@ -144,11 +144,11 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     };
   })();
 
-  var render  = function render( $out, $shadowInput, state ){
+  var render  = function render( $out, $searchInput, $shadowInput, previousState, state ){
     var results = state.resultsList;
     var query   = state.userInputValue;
 
-    if( results.length === 0) {
+    if( results.length < 2) {
       $out.addClass( "hidden" );
       $shadowInput.val("");
     }
@@ -159,9 +159,21 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       else $shadowInput.val("");
     }
 
-    var citiesList = results.reduce( function( str, hit ) {
-      return str + "<li class='city'>" + hit.city + "</li>";
+    var citiesList = results.reduce( function( str, hit, i ) {
+      var isSelected = (i === state.selectedResult);
+      var className  = isSelected ? "city selected":
+                                    "city";
+      return str + "<li class='" + className + "'>" + hit.city + ", " + hit.country + "</li>";
     }, "");
+
+    if( previousState.selectedResult !== state.selectedResult) {
+      if( state.selectedResult === -1 ) $searchInput.val( state.userInputValue );
+      else {
+        var selectedResult = results[ state.selectedResult ];
+        $shadowInput.val("");
+        $searchInput.val( selectedResult.city + ", " + selectedResult.country);
+      }
+    }
 
     $out.html( citiesList );
   };
@@ -186,13 +198,25 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
   };
   specialKeys[40] = function handleDownArrow( $searchInput, state ){
     var nextState = new AlgoliaIntegrationState( state );
-
+    selectedResult = state.selectedResult + 1;
+    if( selectedResult === state.resultsList.length )
+      nextState.selectedResult = -1;
+    else nextState.selectedResult = selectedResult;
+    return nextState;
+  };
+  specialKeys[38] = function handleUpArrow( $searchInput, state ){
+    var nextState = new AlgoliaIntegrationState( state );
+    selectedResult = state.selectedResult - 1;
+    if( selectedResult < -1 )
+      nextState.selectedResult = state.resultsList.length -1;
+    else nextState.selectedResult = selectedResult;
+    return nextState;
   };
 
   var AlgoliaIntegrationState = function AlgoliaIntegrationState( state ){
-    state = state || { userInputValue: "", selectedItem: -1, resultsList: []};
+    state = state || { userInputValue: "", selectedResult: -1, resultsList: []};
     this.userInputValue = state.userInputValue || "";
-    this.selectedResult = state.selectedItem === undefined ? -1 : state.selectedItem;
+    this.selectedResult = state.selectedResult === undefined ? -1 : state.selectedResult;
     this.resultsList    = state.resultsList || [];
   };
 
@@ -225,17 +249,18 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
 
       if( specialKeys[e.keyCode] !== undefined ){
         var specialKeyHandler = specialKeys[e.keyCode];
-        this.state = specialKeyHandler( $searchInput, this.state );
-        render( $output, $shadowInput, this.state );
+        var nextState = specialKeyHandler( $searchInput, this.state);
+        render( $output, $searchInput, $shadowInput, this.state, nextState );
+        this.state = nextState;
       }
       else {
         var query = $searchInput.val();
         var self  = this;
         searchCity( query ).then( this.handleSearchSuccess,
                                   this.handleSearchError )
-                           .then( function( state ) {
-                             self.state = state;
-                             render( $output, $shadowInput, state );
+                           .then( function( nextState ) {
+                             render( $output, $searchInput, $shadowInput, self.state, nextState );
+                             self.state = nextState;
                            });
       }
     },
@@ -255,6 +280,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       $shadowInput.val("");
     },
     blurHandler: function( map, e ){
+      return;
       var $searchInput = this.$searchInput;
       var $output      = getOrCreateResultList( $searchInput );
       var $shadowInput = this.$shadowInput;
