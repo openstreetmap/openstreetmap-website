@@ -233,10 +233,11 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
   };
 
   var AlgoliaIntegration = function AlgoliaIntegration( searchInput, map ){
+    this.map          = map;
     this.$searchInput = $( searchInput );
     this.$shadowInput = this.$searchInput.siblings( ".shadow-input" );
 
-    var $resultsList = $( "<ul class='algolia results hidden'></ul>" );
+    var $resultsList  = $( "<ul class='algolia results hidden'></ul>" );
     this.$searchInput.parent().append( $resultsList );
     this.$resultsList = $resultsList;
 
@@ -245,28 +246,29 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     } );
   };
   AlgoliaIntegration.bind = function createAndBindAlgolia( searchInput, map ){
-    var search = new AlgoliaIntegration( searchInput );
+    var search       = new AlgoliaIntegration( searchInput, map );
     var $searchInput = search.$searchInput;
     var $resultsList = search.$resultsList;
 
     search.handleSearchSuccess.bind(search);
     search.handleSearchError.bind(search);
 
-    $searchInput.on( "keyup",   search.keyupHandler.bind( search, map ) )
-                .on( "keydown", search.keydownHandler.bind( search, map ) )
-                .on( "blur",    search.blurHandler.bind( search, map ) );
+    $searchInput.on( "keyup",   search.keyupHandler.bind(   search ) )
+                .on( "keydown", search.keydownHandler.bind( search ) )
+                .on( "blur",    search.blurHandler.bind(    search ) );
 
     $resultsList.mouseover(  search.hoverHandler.bind( search ) )
-                .mouseleave( search.leaveHandler.bind( search ) );
+                .mouseleave( search.leaveHandler.bind( search ) )
+                .mousedown(  search.clickHandler.bind( search ) );
 
     return search;
   };
   AlgoliaIntegration.prototype = {
     constructor : AlgoliaIntegration,
-    keyupHandler: function( map, e ){
+    keyupHandler: function( e ){
       if( specialKeys[e.keyCode] !== undefined ){
         var specialKeyHandler = specialKeys[e.keyCode];
-        var nextState = specialKeyHandler( this.$searchInput, this.state, map);
+        var nextState = specialKeyHandler( this.$searchInput, this.state, this.map);
         render( this, nextState );
         this.state = nextState;
 
@@ -282,22 +284,11 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
                            });
       }
     },
-    handleSearchSuccess : function( results ){
-      var nextState = new AlgoliaIntegrationState( this.state );
-      nextState.userInputValue = results.query;
-      nextState.resultsList = results.hits;
-      return nextState;
-    },
-    handleSearchError   : function(){
-      var nextState = new AlgoliaIntegrationState( this.state );
-      nextState.resultsList = [];
-      return nextState;
-    },
-    keydownHandler: function( map, e ){
+    keydownHandler: function( e ){
       if( specialKeys[e.keyCode] ) return;
       this.$shadowInput.val("");
     },
-    blurHandler: function( map, e ){
+    blurHandler: function( e ){
       var nextState = new AlgoliaIntegrationState( this.state );
       nextState.resultsList = [];
       nextState.selectedResult = -1;
@@ -318,6 +309,27 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       nextState.selectedResult = -1;
       render( this, nextState );
       this.state = nextState;
+    },
+    clickHandler: function( e ){
+      var selectedElement = e.target;
+      var position = Array.prototype.indexOf.call( this.$resultsList.children(), selectedElement );
+
+      var nextState = new AlgoliaIntegrationState( this.state );
+      nextState.selectedResult = position;
+      nextState = specialKeys[13]( this.$searchInput, nextState, this.map );
+      render( this, nextState );
+      this.state = nextState;
+    },
+    handleSearchSuccess : function( results ){
+      var nextState = new AlgoliaIntegrationState( this.state );
+      nextState.userInputValue = results.query;
+      nextState.resultsList = results.hits;
+      return nextState;
+    },
+    handleSearchError   : function(){
+      var nextState = new AlgoliaIntegrationState( this.state );
+      nextState.resultsList = [];
+      return nextState;
     }
   };
   return AlgoliaIntegration;
