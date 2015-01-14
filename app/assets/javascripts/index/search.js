@@ -2,6 +2,8 @@
 //= require algoliaSearch
 
 OSM.Search = function(map) {
+  map.zoomAnimationThreshold = 20;
+
   $(".search_form input[name=query]")
     .each( function( i, searchInput ){
       OSM.AlgoliaIntegration.bind( searchInput, map );
@@ -14,115 +16,23 @@ OSM.Search = function(map) {
       }
     })
 
-  $("#sidebar_content")
-    .on("click", ".search_more a", clickSearchMore)
-    .on("click", ".search_results_entry a.set_position", clickSearchResult)
-    .on("mouseover", "p.search_results_entry:has(a.set_position)", showSearchResult)
-    .on("mouseout", "p.search_results_entry:has(a.set_position)", hideSearchResult)
-    .on("mousedown", "p.search_results_entry:has(a.set_position)", function () {
-      var moved = false;
-      $(this).one("click", function (e) {
-        if (!moved && !$(e.target).is('a')) {
-          $(this).find("a.set_position").simulate("click", e);
-        }
-      }).one("mousemove", function () {
-        moved = true;
-      });
-    });
-
-  function clickSearchMore(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    var div = $(this).parents(".search_more");
-
-    $(this).hide();
-    div.find(".loader").show();
-
-    $.get($(this).attr("href"), function(data) {
-      div.replaceWith(data);
-    });
-  }
-
-  function showSearchResult(e) {
-    var marker = $(this).data("marker");
-
-    if (!marker) {
-      var data = $(this).find("a.set_position").data();
-
-      marker = L.marker([data.lat, data.lon], {icon: getUserIcon()});
-
-      $(this).data("marker", marker);
-    }
-
-    markers.addLayer(marker);
-
-    $(this).closest("li").addClass("selected");
-  }
-
-  function hideSearchResult(e) {
-    var marker = $(this).data("marker");
-
-    if (marker) {
-      markers.removeLayer(marker);
-    }
-
-    $(this).closest("li").removeClass("selected");
-  }
-
-  function clickSearchResult(e) {
-    var data = $(this).data(),
-      center = L.latLng(data.lat, data.lon);
-
-    if (data.minLon && data.minLat && data.maxLon && data.maxLat) {
-      map.fitBounds([[data.minLat, data.minLon], [data.maxLat, data.maxLon]]);
-    } else {
-      map.setView(center, data.zoom);
-    }
-
-    // Let clicks to object browser links propagate.
-    if (data.type && data.id) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  var markers = L.layerGroup().addTo(map);
 
   var page = {};
 
   page.pushstate = page.popstate = function(path) {
     var params = querystring.parse(path.substring(path.indexOf('?') + 1));
     $(".search_form input[name=query]").val(params.query);
-    OSM.loadSidebarContent(path, page.load);
+    //OSM.loadSidebarContent(path, page.load);
   };
 
   page.load = function() {
-    $(".search_results_entry").each(function() {
-      var entry = $(this);
-      $.ajax({
-        url: entry.data("href"),
-        method: 'GET',
-        data: {
-          zoom: map.getZoom(),
-          minlon: map.getBounds().getWest(),
-          minlat: map.getBounds().getSouth(),
-          maxlon: map.getBounds().getEast(),
-          maxlat: map.getBounds().getNorth()
-        },
-        success: function(html) {
-          entry.html(html);
-        }
-      });
-    });
-
     return map.getState();
   };
 
   page.unload = function() {
-    markers.clearLayers();
-    $(".search_form input[name=query]").val("");
-    $(".describe_location").fadeIn(100);
+    //markers.clearLayers();
+    //$(".search_form input[name=query]").val("");
+    //$(".describe_location").fadeIn(100);
   };
 
   return page;
@@ -165,13 +75,24 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     }
 
     if( previousState.resultsList !== nextState.resultsList ) {
-      var citiesList = results.reduce( function( str, hit, i ) {
-        var isSelected = (i === nextState.selectedResult);
-        var className  = isSelected ? "city selected":
-                                      "city";
-        return str + "<li class='" + className + "'>" + hit.city + ", " + hit.country + "</li>";
-      }, "");
-      $out.html( citiesList );
+      if(nextState.resultsList.length > 0){
+        if(nextState.resultsList.length > 1) {
+          component.map.setZoom( 2, {animate: true} );
+        }
+        var citiesList = results.map( function( hit, i ) {
+          return "<li class='city'>" + hit._highlightResult.city.value + ", " + hit.country + "</li>";
+        }).join("");
+        $out.html( citiesList );
+        component.markersLayout.clearLayers()
+        results.forEach( function( hit, i ){
+          var marker = L.marker([hit._geoloc.lat, hit._geoloc.lng], {icon: getUserIcon()});
+          component.markersLayout.addLayer(marker);
+        });
+      }
+      else{
+        $out.html( "" );
+        component.markersLayout.clearLayers()
+      }
     }
 
     if( previousState.selectedResult !== nextState.selectedResult) {
@@ -217,7 +138,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
 
     var currentCity = state.resultsList[ state.selectedResult ];
     var center = L.latLng( currentCity._geoloc.lat, currentCity._geoloc.lng );
-    map.setView( center, 12 ); // 12 seems like an ok value for cities
+    map.setView( center, 12, {animate: true}); // 12 seems like an ok value for cities
 
     var nextState = new AlgoliaIntegrationState( state );
     nextState.userInputValue = currentCity.city + ", " + currentCity.country;
@@ -244,6 +165,8 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     this.state        = new AlgoliaIntegrationState( {
       userInputValue : this.$searchInput.val()
     } );
+
+    this.markersLayout = L.layerGroup().addTo(map);
   };
   AlgoliaIntegration.bind = function createAndBindAlgolia( searchInput, map ){
     var search       = new AlgoliaIntegration( searchInput, map );

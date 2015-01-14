@@ -323,13 +323,13 @@ $(document).ready(function () {
 
   $(".search_form").on("submit", function(e) {
     e.preventDefault();
-    $("header").addClass("closed");
-    var query = $(this).find("input[name=query]").val();
-    if (query) {
-      OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
-    } else {
-      OSM.router.route("/" + OSM.formatHash(map));
-    }
+//  $("header").addClass("closed");
+//  var query = $(this).find("input[name=query]").val();
+//  if (query) {
+//    OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
+//  } else {
+//    OSM.router.route("/" + OSM.formatHash(map));
+//  }
   });
 
   $(".describe_location").on("click", function(e) {
