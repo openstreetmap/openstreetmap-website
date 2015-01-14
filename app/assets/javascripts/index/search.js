@@ -217,7 +217,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
 
     var currentCity = state.resultsList[ state.selectedResult ];
     var center = L.latLng( currentCity._geoloc.lat, currentCity._geoloc.lng );
-    map.setView( center, map.getZoom() );
+    map.setView( center, 12 ); // 12 seems like an ok value for cities
 
     var nextState = new AlgoliaIntegrationState( state );
     nextState.userInputValue = currentCity.city + ", " + currentCity.country;
