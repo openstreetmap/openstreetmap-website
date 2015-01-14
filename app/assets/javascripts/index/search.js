@@ -144,11 +144,15 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     };
   })();
 
-  var render  = function render( $out, $searchInput, $shadowInput, previousState, state ){
-    var results = state.resultsList;
-    var query   = state.userInputValue;
+  var render  = function render( component, nextState ){
+    var $out         = component.$resultsList;
+    var $searchInput = component.$searchInput;
+    var $shadowInput = component.$shadowInput;
+    var previousState= component.state;
+    var results      = nextState.resultsList;
+    var query        = nextState.userInputValue;
 
-    if( results.length < 2) {
+    if( results.length < 1 ) {
       $out.addClass( "hidden" );
       $shadowInput.val("");
     }
@@ -156,13 +160,13 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       $out.removeClass( "hidden" );
       var cityFound = results[0].city;
       if( cityFound.toLowerCase().indexOf( query.toLowerCase() ) === 0 &&
-          state.selectedResult === -1) $shadowInput.val( query[0] + cityFound.slice(1) );
+          nextState.selectedResult === -1) $shadowInput.val( query[0] + cityFound.slice(1) );
       else $shadowInput.val("");
     }
 
-    if( previousState.resultsList !== state.resultsList ) {
+    if( previousState.resultsList !== nextState.resultsList ) {
       var citiesList = results.reduce( function( str, hit, i ) {
-        var isSelected = (i === state.selectedResult);
+        var isSelected = (i === nextState.selectedResult);
         var className  = isSelected ? "city selected":
                                       "city";
         return str + "<li class='" + className + "'>" + hit.city + ", " + hit.country + "</li>";
@@ -170,12 +174,12 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       $out.html( citiesList );
     }
 
-    if( previousState.selectedResult !== state.selectedResult) {
+    if( previousState.selectedResult !== nextState.selectedResult) {
       $out.children().eq( previousState.selectedResult ).removeClass( "selected" );
-      if( state.selectedResult === -1 ) $searchInput.val( state.userInputValue );
+      if( nextState.selectedResult === -1 ) $searchInput.val( nextState.userInputValue );
       else {
-        $out.children().eq( state.selectedResult ).addClass( "selected" );
-        var selectedResult = results[ state.selectedResult ];
+        $out.children().eq( nextState.selectedResult ).addClass( "selected" );
+        var selectedResult = results[ nextState.selectedResult ];
         $shadowInput.val( "" );
         $searchInput.val( selectedResult.city + ", " + selectedResult.country );
       }
@@ -183,14 +187,14 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
 
   };
   var getOrCreateResultList = function getOrCreateResultList( $searchField ){
-    var $resultList = $searchField.parent().find( ".algolia.results" );
-    if( $resultList.length === 0 ){
+    var $resultsList = $searchField.parent().find( ".algolia.results" );
+    if( $resultsList.length === 0 ){
       var $newResultList = $( "<ul class='algolia results'></ul>" );
       $searchField.parent().append( $newResultList );
       return $newResultList;
     }
     else {
-      return $resultList;
+      return $resultsList;
     }
   };
 
@@ -219,6 +223,14 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
   };
   //Left and right arrow shall not trigger anything
   specialKeys[37] = specialKeys[39] = function noop( $in, state ){ return state;}
+  specialKeys[13] = function handleReturn( $searchInput, state, map ){
+    if( state.selectedResult === -1 ) return ;
+    var currentCity = state.resultsList[ state.selectedResult ];
+    var center = L.latLng( currentCity._geoloc.lat, currentCity._geoloc.lng );
+    map.setView( center, map.getZoom() );
+    $searchInput.blur();
+    return state;
+  };
 
   var AlgoliaIntegrationState = function AlgoliaIntegrationState( state ){
     state = state || { userInputValue: "", selectedResult: -1, resultsList: []};
@@ -255,23 +267,20 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
   AlgoliaIntegration.prototype = {
     constructor : AlgoliaIntegration,
     keyupHandler: function( map, e ){
-      var $searchInput = this.$searchInput;
-      var $shadowInput = this.$shadowInput;
-      var $output      = this.$resultsList;
-
       if( specialKeys[e.keyCode] !== undefined ){
         var specialKeyHandler = specialKeys[e.keyCode];
-        var nextState = specialKeyHandler( $searchInput, this.state);
-        render( $output, $searchInput, $shadowInput, this.state, nextState );
+        var nextState = specialKeyHandler( this.$searchInput, this.state, map);
+        render( this, nextState );
         this.state = nextState;
+
       }
       else {
-        var query = $searchInput.val();
+        var query = this.$searchInput.val();
         var self  = this;
         searchCity( query ).then( this.handleSearchSuccess,
                                   this.handleSearchError )
                            .then( function renderAndUpdateState( nextState ) {
-                             render( $output, $searchInput, $shadowInput, self.state, nextState );
+                             render( self, nextState );
                              self.state = nextState;
                            });
       }
@@ -289,38 +298,28 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     },
     keydownHandler: function( map, e ){
       if( specialKeys[e.keyCode] ) return;
-
-      var $shadowInput = this.$shadowInput;
-      $shadowInput.val("");
+      this.$shadowInput.val("");
     },
     blurHandler: function( map, e ){
-      var $searchInput = this.$searchInput;
-      var $output      = this.$resultsList;
-      var $shadowInput = this.$shadowInput;
-      $shadowInput.val("");
-      $output.html("").addClass("hidden");
+      var nextState = new AlgoliaIntegrationState( this.state );
+      nextState.resultsList = [];
+      nextState.selectedResult = -1;
+      render( this, nextState );
+      this.state = nextState;
     },
     hoverHandler: function( e ) {
-      var $searchInput = this.$searchInput;
-      var $output      = this.$resultsList;
-      var $shadowInput = this.$shadowInput;
-
       var selectedElement = e.target;
       var position = Array.prototype.indexOf.call( this.$resultsList.children(), selectedElement );
 
       var nextState = new AlgoliaIntegrationState( this.state );
       nextState.selectedResult = position;
-      render( $output, $searchInput, $shadowInput, this.state, nextState );
+      render( this, nextState );
       this.state = nextState;
     },
     leaveHandler: function( e ){
-      var $searchInput = this.$searchInput;
-      var $output      = this.$resultsList;
-      var $shadowInput = this.$shadowInput;
-
       var nextState = new AlgoliaIntegrationState( this.state );
       nextState.selectedResult = -1;
-      render( $output, $searchInput, $shadowInput, this.state, nextState );
+      render( this, nextState );
       this.state = nextState;
     }
   };
