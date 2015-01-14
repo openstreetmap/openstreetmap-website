@@ -223,6 +223,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
   var AlgoliaIntegration = function AlgoliaIntegration( searchInput, map ){
     this.$searchInput = $( searchInput );
     this.$shadowInput = this.$searchInput.siblings(".shadow-input");
+    this.$resultsList = getOrCreateResultList( this.$searchInput );
     this.state        = new AlgoliaIntegrationState( {
       userInputValue : this.$searchInput.val()
     } );
@@ -245,7 +246,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     keyupHandler: function( map, e ){
       var $searchInput = this.$searchInput;
       var $shadowInput = this.$shadowInput;
-      var $output      = getOrCreateResultList( $searchInput );
+      var $output      = this.$resultsList;
 
       if( specialKeys[e.keyCode] !== undefined ){
         var specialKeyHandler = specialKeys[e.keyCode];
@@ -282,7 +283,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     blurHandler: function( map, e ){
       return;
       var $searchInput = this.$searchInput;
-      var $output      = getOrCreateResultList( $searchInput );
+      var $output      = this.$resultsList;
       var $shadowInput = this.$shadowInput;
       $shadowInput.val("");
       $output.html("").addClass("hidden");
