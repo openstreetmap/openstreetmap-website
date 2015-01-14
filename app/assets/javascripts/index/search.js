@@ -255,7 +255,8 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
 
     $searchInput.on( "keyup",   search.keyupHandler.bind(   search ) )
                 .on( "keydown", search.keydownHandler.bind( search ) )
-                .on( "blur",    search.blurHandler.bind(    search ) );
+                .on( "blur",    search.blurHandler.bind(    search ) )
+                .on( "focus",   search.focusHandler.bind(   search ) );
 
     $resultsList.mouseover(  search.hoverHandler.bind( search ) )
                 .mouseleave( search.leaveHandler.bind( search ) )
@@ -294,6 +295,18 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       nextState.selectedResult = -1;
       render( this, nextState );
       this.state = nextState;
+    },
+    focusHandler: function( e ) {
+      var query = this.$searchInput.val();
+      if( query === "" ) return ;
+
+      var self  = this;
+      searchCity( query ).then( this.handleSearchSuccess,
+                                this.handleSearchError )
+                         .then( function renderAndUpdateState( nextState ) {
+                           render( self, nextState );
+                           self.state = nextState;
+                         });
     },
     hoverHandler: function( e ) {
       var selectedElement = e.target;
