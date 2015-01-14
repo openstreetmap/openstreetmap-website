@@ -158,8 +158,13 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     this.$searchInput = $( searchInput );
     this.$shadowInput = this.$searchInput.siblings( ".shadow-input" );
 
-    var $resultsList  = $( "<ul class='algolia results hidden'></ul>" );
-    this.$searchInput.parent().append( $resultsList );
+    var searchInputPosition = this.$searchInput.offset(); // top + height() left
+    var $content = $("#content");
+    var $resultsList  = $( "<ul class='algolia results hidden'></ul>" ).css( {
+      top   : searchInputPosition.top + this.$searchInput.height() + 10,
+      left  : searchInputPosition.left
+    } );
+    $content.append( $resultsList );
     this.$resultsList = $resultsList;
 
     this.state        = new AlgoliaIntegrationState( {
