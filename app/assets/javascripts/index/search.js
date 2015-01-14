@@ -3,15 +3,9 @@
 
 OSM.Search = function(map) {
   $(".search_form input[name=query]")
-    .on("keyup", function triggerAlgoliaSearch( e ){
-      OSM.algoliaIntegration.keyupHandler( e, map );
-    })
-    .on("keydown", function clear( e ){
-      OSM.algoliaIntegration.keydownHandler( e );
-    })
-    .on("blur", function blur( e ){
-      OSM.algoliaIntegration.blurHandler( e );
-    })
+    .each( function( i, searchInput ){
+      OSM.AlgoliaIntegration.bind( searchInput, map );
+    } )
     .on("input", function(e) {
       if ($(e.target).val() == "") {
         $(".describe_location").fadeIn(100);
@@ -134,7 +128,7 @@ OSM.Search = function(map) {
   return page;
 };
 
-OSM.algoliaIntegration = (function sudoMakeMagic(){
+OSM.AlgoliaIntegration = (function sudoMakeMagic(){
   var searchCity = (function initAlgolia(){
     var client = new AlgoliaSearch("XS2XU0OW47", "ef286aa43862d8b04cc8030e499f4813"); // public credentials
     var index  = client.initIndex('worldCities');
@@ -150,35 +144,31 @@ OSM.algoliaIntegration = (function sudoMakeMagic(){
     };
   })();
 
-  var success  = function success( $out, $shadowInput, results ){
-    if( results.hits.length === 0) {
+  var render  = function render( $out, $shadowInput, state ){
+    var results = state.resultsList;
+    var query   = state.userInputValue;
+
+    if( results.length === 0) {
       $out.addClass( "hidden" );
       $shadowInput.val("");
     }
     else {
       $out.removeClass( "hidden" );
-      var cityFound = results.hits[0].city;
-      var query = results.query;
+      var cityFound = results[0].city;
       if( cityFound.toLowerCase().indexOf( query.toLowerCase() ) === 0) $shadowInput.val( query[0] + cityFound.slice(1) );
       else $shadowInput.val("");
     }
 
-    var citiesList = results.hits.reduce( function( str, hit ) {
+    var citiesList = results.reduce( function( str, hit ) {
       return str + "<li class='city'>" + hit.city + "</li>";
     }, "");
 
     $out.html( citiesList );
   };
-  var error    = function error( $out ){
-    $out.html( "Erreur" );
-  };
-  var createResultList = function createResultList(){
-    return $( "<ul class='algolia results'></ul>" );
-  };
   var getOrCreateResultList = function getOrCreateResultList( $searchField ){
     var $resultList = $searchField.parent().find( ".algolia.results" );
     if( $resultList.length === 0 ){
-      var $newResultList = createResultList();
+      var $newResultList = $( "<ul class='algolia results'></ul>" );
       $searchField.parent().append( $newResultList );
       return $newResultList;
     }
@@ -188,34 +178,89 @@ OSM.algoliaIntegration = (function sudoMakeMagic(){
   };
 
   var specialKeys = [];
-  specialKeys[27] = function handleEscape( $searchInput ){ $searchInput.blur(); };
+  specialKeys[27] = function handleEscape( $searchInput, state ){
+    $searchInput.blur();
+    var nextState = new AlgoliaIntegrationState( state );
+    nextState.resultsList = [];
+    return nextState;
+  };
+  specialKeys[40] = function handleDownArrow( $searchInput, state ){
+    var nextState = new AlgoliaIntegrationState( state );
 
-  return {
-    keyupHandler: function( e, map ){
-      var $searchInput = $( e.target );
-      var $shadowInput  = $searchInput.siblings(".shadow-input");
-      var $output       = getOrCreateResultList( $searchInput );
+  };
+
+  var AlgoliaIntegrationState = function AlgoliaIntegrationState( state ){
+    state = state || { userInputValue: "", selectedItem: -1, resultsList: []};
+    this.userInputValue = state.userInputValue || "";
+    this.selectedResult = state.selectedItem === undefined ? -1 : state.selectedItem;
+    this.resultsList    = state.resultsList || [];
+  };
+
+  var AlgoliaIntegration = function AlgoliaIntegration( searchInput, map ){
+    this.$searchInput = $( searchInput );
+    this.$shadowInput = this.$searchInput.siblings(".shadow-input");
+    this.state        = new AlgoliaIntegrationState( {
+      userInputValue : this.$searchInput.val()
+    } );
+  };
+  AlgoliaIntegration.bind = function createAndBindAlgolia( searchInput, map ){
+    var search = new AlgoliaIntegration( searchInput );
+    var $searchInput = search.$searchInput;
+
+    search.handleSearchSuccess.bind(search);
+    search.handleSearchError.bind(search);
+
+    $searchInput.on( "keyup",   search.keyupHandler.bind( search, map ) )
+                .on( "keydown", search.keydownHandler.bind( search, map ) )
+                .on( "blur",    search.blurHandler.bind( search, map ) )
+
+    return search;
+  };
+  AlgoliaIntegration.prototype = {
+    constructor : AlgoliaIntegration,
+    keyupHandler: function( map, e ){
+      var $searchInput = this.$searchInput;
+      var $shadowInput = this.$shadowInput;
+      var $output      = getOrCreateResultList( $searchInput );
+
       if( specialKeys[e.keyCode] !== undefined ){
         var specialKeyHandler = specialKeys[e.keyCode];
-        specialKeyHandler( $searchInput );
+        this.state = specialKeyHandler( $searchInput, this.state );
+        render( $output, $shadowInput, this.state );
       }
       else {
-        var query         = $searchInput.val();
-        searchCity( query ).then( success.bind( window, $output, $shadowInput),
-                                  error.bind(   window, $output, $shadowInput) );
+        var query = $searchInput.val();
+        var self  = this;
+        searchCity( query ).then( this.handleSearchSuccess,
+                                  this.handleSearchError )
+                           .then( function( state ) {
+                             self.state = state;
+                             render( $output, $shadowInput, state );
+                           });
       }
     },
-    keydownHandler: function( e ){
-      var $searchInput = $( e.target );
-      var $shadowInput  = $searchInput.siblings(".shadow-input");
+    handleSearchSuccess : function( results ){
+      var nextState = new AlgoliaIntegrationState( this.state );
+      nextState.userInputValue = results.query;
+      nextState.resultsList = results.hits;
+      return nextState;
+    },
+    handleSearchError   : function(){
+      var nextState = new AlgoliaIntegrationState( this.state );
+      nextState.resultsList = [];
+      return nextState;
+    },
+    keydownHandler: function( map, e ){
+      var $shadowInput = this.$shadowInput;
       $shadowInput.val("");
     },
-    blurHandler: function( e ){
-      var $searchInput = $( e.target );
-      var $output       = getOrCreateResultList( $searchInput );
-      var $shadowInput  = $searchInput.siblings(".shadow-input");
+    blurHandler: function( map, e ){
+      var $searchInput = this.$searchInput;
+      var $output      = getOrCreateResultList( $searchInput );
+      var $shadowInput = this.$shadowInput;
       $shadowInput.val("");
       $output.html("").addClass("hidden");
     }
   };
+  return AlgoliaIntegration;
 })();
