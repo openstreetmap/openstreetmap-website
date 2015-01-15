@@ -70,6 +70,8 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     var results      = nextState.resultsList;
     var query        = nextState.userInputValue;
 
+    this.fixMenuPosition( component );
+
     if( results.length < 1 ) {
       $out.addClass( "hidden" );
       $shadowInput.val("");
@@ -142,7 +144,14 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       }
     }
   };
-  render.unselectMarker = function unselectMarker(component, idx){
+  render.fixMenuPosition = function fixMenuPosition( component ){
+    var searchInputPosition = component.$searchInput.offset();
+    var $resultsList = component.$resultsList.css( {
+      top   : searchInputPosition.top + component.$searchInput.height() + 10,
+      left  : searchInputPosition.left
+    } );
+  };
+  render.unselectMarker = function unselectMarker( component, idx ){
     var marker = component.markersLayout.getLayers()[ idx ];
     marker.setIcon(getUserIcon( "/assets/marker-grey.png" ))
     .setZIndexOffset( 0 );
@@ -211,12 +220,8 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     this.$searchInput = $( searchInput );
     this.$shadowInput = this.$searchInput.siblings( ".shadow-input" );
 
-    var searchInputPosition = this.$searchInput.offset(); // top + height() left
     var $content = $("#content");
-    var $resultsList  = $( "<ul class='algolia results hidden'></ul>" ).css( {
-      top   : searchInputPosition.top + this.$searchInput.height() + 10,
-      left  : searchInputPosition.left
-    } );
+    var $resultsList  = $( "<ul class='algolia results hidden'></ul>" );
     $content.append( $resultsList );
     this.$resultsList = $resultsList;
 
