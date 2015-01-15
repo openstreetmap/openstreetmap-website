@@ -49,7 +49,10 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       index.search( query, function resolveIntoPromise( success, content ){
         if(success) d.resolve( content );
         else d.reject();
-      } );
+      } , {
+        aroundLatLngViaIP: true,
+        aroundRadius: 1000000000
+      });
       return d.promise();
     };
   })();
@@ -76,7 +79,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       $out.removeClass( "hidden" );
       var cityFound = results[0].city;
       if( cityFound.toLowerCase().indexOf( query.toLowerCase() ) === 0 &&
-          nextState.selectedResult === -1) $shadowInput.val( query[0] + cityFound.slice(1) );
+          nextState.selectedResult === -1) $shadowInput.val( query[0] + cityFound.slice( 1 ) );
       else $shadowInput.val("");
     }
 
@@ -222,7 +225,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
   specialKeys[37] = specialKeys[39] = function noop( $in, state ){ return state;}
   specialKeys[13] = function handleReturn( $searchInput, state, map ){
     if( state.resultsList.length === 0 ) return state;
-    if( state.selectedResult === -1 && state.resultsList > 1){ 
+    if( state.selectedResult === -1 && state.resultsList.length > 1){ 
       var currentCity = state.resultsList[ 0 ];
       var nextState   = new AlgoliaIntegrationState( state );
       nextState.selectedResult = 0;
