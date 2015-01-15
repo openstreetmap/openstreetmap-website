@@ -195,16 +195,27 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
   //Left and right arrow shall not trigger anything
   specialKeys[37] = specialKeys[39] = function noop( $in, state ){ return state;}
   specialKeys[13] = function handleReturn( $searchInput, state, map ){
-    if( state.selectedResult === -1 ) return state;
+    if( state.selectedResult === -1 ){ 
+      if( state.resultsList.length === 0 ) return state;
+      else {
+        var currentCity = state.resultsList[ 0 ];
+        var nextState = new AlgoliaIntegrationState( state );
+        nextState.selectedResult = 0;
+        $searchInput.val( currentCity.city + ", " + currentCity.country );
+        return nextState;
+      }
+    }
+    else {
+      var currentCity = state.resultsList[ state.selectedResult ];
+      var center = L.latLng( currentCity._geoloc.lat, currentCity._geoloc.lng );
+      map.setView( center, 12, {animate: true}); // 12 seems like an ok value for cities
 
-    var currentCity = state.resultsList[ state.selectedResult ];
-    var center = L.latLng( currentCity._geoloc.lat, currentCity._geoloc.lng );
-    map.setView( center, 12, {animate: true}); // 12 seems like an ok value for cities
-
-    var nextState = new AlgoliaIntegrationState( state );
-    nextState.userInputValue = currentCity.city + ", " + currentCity.country;
-    setTimeout( function(){ $searchInput.blur() }, 0);
-    return nextState;
+      var nextState = new AlgoliaIntegrationState( state );
+      nextState.userInputValue = currentCity.city + ", " + currentCity.country;
+      $searchInput.val( currentCity.city + ", " + currentCity.country );
+      setTimeout( function(){ $searchInput.blur() }, 0);
+      return nextState;
+    }
   };
 
   var AlgoliaIntegrationState = function AlgoliaIntegrationState( state ){
