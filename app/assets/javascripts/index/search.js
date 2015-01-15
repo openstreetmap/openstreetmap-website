@@ -279,11 +279,14 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
                           .on( "mouseover", function(){ resultMarker.openPopup(); } )
                           .on( "mouseout",  function(){ resultMarker.closePopup(); } );
     this.resultMarker  = resultMarker;
+
+    this.$goButton = this.$searchInput.parent().prev();
   };
   AlgoliaIntegration.bind = function createAndBindAlgolia( searchInput, map ){
     var search       = new AlgoliaIntegration( searchInput, map );
     var $searchInput = search.$searchInput;
     var $resultsList = search.$resultsList;
+    var $goButton    = search.$goButton;
 
     search.handleSearchSuccess.bind( search );
     search.handleSearchError.bind(   search );
@@ -297,6 +300,8 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
                 .mouseleave( search.leaveHandler.bind( search ) )
                 .mousedown(  search.clickHandler.bind( search ) );
 
+    $goButton.on( "mousedown", search.clickGoButton.bind( search ) );
+
     return search;
   };
   AlgoliaIntegration.prototype = {
@@ -307,7 +312,6 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
         var nextState = specialKeyHandler( this.$searchInput, this.state, this.map);
         render( this, nextState );
         this.state = nextState;
-
       }
       else {
         var query = this.$searchInput.val();
@@ -367,6 +371,26 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       nextState = specialKeys[13]( this.$searchInput, nextState, this.map );
       render( this, nextState );
       this.state = nextState;
+    },
+    clickGoButton: function(){
+      if( this.state.resultsList.length === 0 ){
+        var self = this;
+        setTimeout( function(){
+          self.$searchInput.focus();
+        }, 1);
+      }
+      else {
+        var currentCity    = this.state.resultsList[ 0 ];
+        var center         = L.latLng( currentCity._geoloc.lat, currentCity._geoloc.lng );
+        this.map.setView( center, 12, {animate: true}); // FIXME : 12 seems like an ok value for cities...
+
+        var nextState = new AlgoliaIntegrationState( this.state );
+        nextState.userInputValue    = render.formatHit( currentCity );
+        nextState.userAcceptedEntry = currentCity;
+        this.$searchInput.val( render.formatHit( currentCity ) );
+        render( this, nextState ); 
+        this.state = nextState;  
+      }
     },
     handleSearchSuccess : function( results ){
       var nextState = new AlgoliaIntegrationState( this.state );
