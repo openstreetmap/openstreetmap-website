@@ -79,7 +79,9 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       $out.removeClass( "hidden" );
       var cityFound = results[0].city;
       if( cityFound.toLowerCase().indexOf( query.toLowerCase() ) === 0 &&
-          nextState.selectedResult === -1) $shadowInput.val( query[0] + cityFound.slice( 1 ) );
+          nextState.selectedResult === -1){
+        $shadowInput.val( query[0] + render.formatHit( results[0] ).slice( 1 ) );
+      }
       else $shadowInput.val("");
     }
 
