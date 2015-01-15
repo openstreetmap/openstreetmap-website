@@ -65,6 +65,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     var results      = nextState.resultsList;
     var query        = nextState.userInputValue;
 
+    this.renderUserAcceptedEntry( component, nextState );
     this.fixMenuPosition( component );
 
     if( results.length < 1 ) {
@@ -149,6 +150,13 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       left  : searchInputPosition.left
     } );
   };
+  render.renderUserAcceptedEntry = function renderUserAcceptedEntry( component, state ){
+    if( !!state.userAcceptedEntry ) {
+      component.resultMarker.setLatLng( [ state.userAcceptedEntry._geoloc.lat,
+                                          state.userAcceptedEntry._geoloc.lng ] )
+                            .setOpacity( 1 );
+    }
+  };
   render.unselectMarker = function unselectMarker( component, idx ){
     var marker = component.markersLayout.getLayers()[ idx ];
     marker.setIcon(getUserIcon( "/assets/marker-grey.png" ))
@@ -212,6 +220,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
 
       var nextState = new AlgoliaIntegrationState( state );
       nextState.userInputValue = currentCity.city + ", " + currentCity.country;
+      nextState.userAcceptedEntry = currentCity;
       $searchInput.val( currentCity.city + ", " + currentCity.country );
       setTimeout( function(){ $searchInput.blur() }, 0);
       return nextState;
@@ -219,10 +228,11 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
   };
 
   var AlgoliaIntegrationState = function AlgoliaIntegrationState( state ){
-    state = state || { userInputValue: "", selectedResult: -1, resultsList: []};
-    this.userInputValue = state.userInputValue || "";
-    this.selectedResult = state.selectedResult === undefined ? -1 : state.selectedResult;
-    this.resultsList    = state.resultsList || [];
+    state = state || { userInputValue: "", selectedResult: -1, resultsList: [], userAcceptedEntry: null};
+    this.userInputValue    = state.userInputValue || "";
+    this.selectedResult    = state.selectedResult === undefined ? -1 : state.selectedResult;
+    this.resultsList       = state.resultsList || [];
+    this.userAcceptedEntry = null;
   };
 
   var AlgoliaIntegration = function AlgoliaIntegration( searchInput, map ){
@@ -240,6 +250,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     } );
 
     this.markersLayout = L.layerGroup().addTo(map);
+    this.resultMarker  = L.marker( [0,0], { opacity: 0, icon: getUserIcon( "/assets/marker-green.png" ) } ).addTo(map);
   };
   AlgoliaIntegration.bind = function createAndBindAlgolia( searchInput, map ){
     var search       = new AlgoliaIntegration( searchInput, map );
