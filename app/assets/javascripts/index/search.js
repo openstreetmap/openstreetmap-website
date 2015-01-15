@@ -97,7 +97,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
           component.map.fitBounds( bounds );
         }
         var citiesList = results.map( function( hit, i ) {
-          return "<li class='city'>" + hit._highlightResult.city.value + ", " + hit.country + "</li>";
+          return "<li class='city'>" + hit._highlightResult.city.value + ", " + hit._highlightResult.country.value + "</li>";
         }).join("");
         $out.html( citiesList );
         component.markersLayout.clearLayers()
@@ -215,11 +215,11 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     }
     else {
       var currentCity = state.resultsList[ state.selectedResult ];
-      var center = L.latLng( currentCity._geoloc.lat, currentCity._geoloc.lng );
-      map.setView( center, 12, {animate: true}); // 12 seems like an ok value for cities
+      var center      = L.latLng( currentCity._geoloc.lat, currentCity._geoloc.lng );
+      map.setView( center, 12, {animate: true}); // FIXME : 12 seems like an ok value for cities...
 
       var nextState = new AlgoliaIntegrationState( state );
-      nextState.userInputValue = currentCity.city + ", " + currentCity.country;
+      nextState.userInputValue    = currentCity.city + ", " + currentCity.country;
       nextState.userAcceptedEntry = currentCity;
       $searchInput.val( currentCity.city + ", " + currentCity.country );
       setTimeout( function(){ $searchInput.blur() }, 0);
@@ -257,8 +257,8 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     var $searchInput = search.$searchInput;
     var $resultsList = search.$resultsList;
 
-    search.handleSearchSuccess.bind(search);
-    search.handleSearchError.bind(search);
+    search.handleSearchSuccess.bind( search );
+    search.handleSearchError.bind(   search );
 
     $searchInput.on( "keyup",   search.keyupHandler.bind(   search ) )
                 .on( "keydown", search.keydownHandler.bind( search ) )
@@ -274,8 +274,8 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
   AlgoliaIntegration.prototype = {
     constructor : AlgoliaIntegration,
     keyupHandler: function( e ){
-      if( specialKeys[e.keyCode] !== undefined ){
-        var specialKeyHandler = specialKeys[e.keyCode];
+      if( specialKeys[ e.keyCode ] !== undefined ){
+        var specialKeyHandler = specialKeys[ e.keyCode ];
         var nextState = specialKeyHandler( this.$searchInput, this.state, this.map);
         render( this, nextState );
         this.state = nextState;
@@ -294,7 +294,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     },
     keydownHandler: function( e ){
       if( specialKeys[e.keyCode] ) return;
-      this.$shadowInput.val("");
+      this.$shadowInput.val( "" );
     },
     blurHandler: function( e ){
       var nextState = new AlgoliaIntegrationState( this.state );
