@@ -54,11 +54,6 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     };
   })();
 
-  var getBoundingBox = function getBoundingBox( hits ){
-    var positions = hits.map( function( hit ) {
-    } );
-  };
-
   var render  = function render( component, nextState ){
     render.do( component, nextState );
   };
