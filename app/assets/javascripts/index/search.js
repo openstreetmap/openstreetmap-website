@@ -173,6 +173,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     $searchInput.blur();
     var nextState = new AlgoliaIntegrationState( state );
     nextState.resultsList = [];
+    $searchInput.val( state.userInputValue );
     return nextState;
   };
   specialKeys[40] = function handleDownArrow( $searchInput, state ){
