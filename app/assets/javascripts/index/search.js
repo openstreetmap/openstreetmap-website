@@ -54,7 +54,15 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     };
   })();
 
+  var getBoundingBox = function getBoundingBox( hits ){
+    var positions = hits.map( function( hit ) {
+    } );
+  };
+
   var render  = function render( component, nextState ){
+    render.do( component, nextState );
+  };
+  render.do = function( component, nextState ){
     var $out         = component.$resultsList;
     var $searchInput = component.$searchInput;
     var $shadowInput = component.$shadowInput;
@@ -74,10 +82,21 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       else $shadowInput.val("");
     }
 
+    //User input change
     if( previousState.resultsList !== nextState.resultsList ) {
       if(nextState.resultsList.length > 0){
         if(nextState.resultsList.length > 1) {
-          component.map.setZoom( 2, {animate: true} );
+          var head = results[0];
+          var initBounds = [ [ head._geoloc.lat, head._geoloc.lng ], [ head._geoloc.lat, head._geoloc.lng ] ];
+          var bounds = results.reduce( function( current, result ){
+            var geo = result._geoloc;
+            if( geo.lat < current[0][0] ) current[0][0] = geo.lat;
+            if( geo.lng < current[0][1] ) current[0][1] = geo.lng;
+            if( geo.lat > current[1][0] ) current[1][0] = geo.lat;
+            if( geo.lng > current[1][1] ) current[1][1] = geo.lng;
+            return current;
+          }, initBounds);
+          component.map.fitBounds( bounds );
         }
         var citiesList = results.map( function( hit, i ) {
           return "<li class='city'>" + hit._highlightResult.city.value + ", " + hit.country + "</li>";
@@ -94,32 +113,52 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
         component.markersLayout.clearLayers()
       }
     }
+    //User navigation in the search results
+    else {
+      if( previousState.selectedResult !== nextState.selectedResult) {
+        var nextSelect     = nextState.selectedResult;
+        var previousSelect = previousState.selectedResult;
 
-    if( previousState.selectedResult !== nextState.selectedResult) {
-      if( previousState.selectedResult !== -1){
-        $out.children().eq( previousState.selectedResult ).removeClass( "selected" );
-        var previouslySelectedMarker = component.markersLayout.getLayers()[ previousState.selectedResult ];
-        if( !!previouslySelectedMarker ) {
-          previouslySelectedMarker.setIcon(getUserIcon( "/assets/marker-grey.png" ))
-                                  .setZIndexOffset( 0 );
+        //Changing selection
+        if( previousSelect !== -1 && nextSelect !== -1 ){
+          $shadowInput.val( "" );
+          this.unselectMarker(   component, previousState.selectedResult );
+          this.unselectMenuItem( component, previousState.selectedResult );
+          this.selectMarker(     component, nextState.selectedResult );
+          this.selectMenuItem(   component, nextState.selectedResult )
+        }
+        //Starting selection
+        else if( previousSelect === -1 && nextSelect !== -1 ){
+          $shadowInput.val( "" );
+          this.selectMarker(     component, nextState.selectedResult );
+          this.selectMenuItem(   component, nextState.selectedResult )
+        }
+        //Ending selection
+        else if( previousSelect !== -1 && nextSelect === -1 ){
+          $searchInput.val( nextState.userInputValue );
+          this.unselectMarker(   component, previousState.selectedResult );
+          this.unselectMenuItem( component, previousState.selectedResult );
         }
       }
-
-      if( nextState.selectedResult === -1 ){
-        $searchInput.val( nextState.userInputValue );
-      }
-      else {
-        $out.children().eq( nextState.selectedResult ).addClass( "selected" );
-        var selectedMarker = component.markersLayout.getLayers()[ nextState.selectedResult ];
-        selectedMarker.setIcon(getUserIcon( "/assets/marker-red.png" ))
-                      .setZIndexOffset( 1000 );
-
-        var selectedResult = results[ nextState.selectedResult ];
-        $shadowInput.val( "" );
-        $searchInput.val( selectedResult.city + ", " + selectedResult.country );
-      }
     }
-
+  };
+  render.unselectMarker = function unselectMarker(component, idx){
+    var marker = component.markersLayout.getLayers()[ idx ];
+    marker.setIcon(getUserIcon( "/assets/marker-grey.png" ))
+    .setZIndexOffset( 0 );
+  };
+  render.selectMarker = function selectMarker( component, idx ){
+    var marker = component.markersLayout.getLayers()[ idx ];
+    marker.setIcon(getUserIcon( "/assets/marker-red.png" ))
+    .setZIndexOffset( 1000 );
+  };
+  render.unselectMenuItem = function unselectMenuItem( component, idx ){
+    var menuItem = component.$resultsList.children().eq( idx );
+    menuItem.removeClass( "selected" );
+  };
+  render.selectMenuItem = function selectMenuItem( component, idx ){
+    var menuItem = component.$resultsList.children().eq( idx );
+    menuItem.addClass( "selected" );
   };
 
   var specialKeys = [];
