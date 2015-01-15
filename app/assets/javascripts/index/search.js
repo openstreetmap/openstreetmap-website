@@ -85,7 +85,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
         $out.html( citiesList );
         component.markersLayout.clearLayers()
         results.forEach( function( hit, i ){
-          var marker = L.marker([hit._geoloc.lat, hit._geoloc.lng], {icon: getUserIcon()});
+          var marker = L.marker([hit._geoloc.lat, hit._geoloc.lng], {icon: getUserIcon( "/assets/marker-grey.png" )});
           component.markersLayout.addLayer(marker);
         });
       }
@@ -96,10 +96,24 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     }
 
     if( previousState.selectedResult !== nextState.selectedResult) {
-      $out.children().eq( previousState.selectedResult ).removeClass( "selected" );
-      if( nextState.selectedResult === -1 ) $searchInput.val( nextState.userInputValue );
+      if( previousState.selectedResult !== -1){
+        $out.children().eq( previousState.selectedResult ).removeClass( "selected" );
+        var previouslySelectedMarker = component.markersLayout.getLayers()[ previousState.selectedResult ];
+        if( !!previouslySelectedMarker ) {
+          previouslySelectedMarker.setIcon(getUserIcon( "/assets/marker-grey.png" ))
+                                  .setZIndexOffset( 0 );
+        }
+      }
+
+      if( nextState.selectedResult === -1 ){
+        $searchInput.val( nextState.userInputValue );
+      }
       else {
         $out.children().eq( nextState.selectedResult ).addClass( "selected" );
+        var selectedMarker = component.markersLayout.getLayers()[ nextState.selectedResult ];
+        selectedMarker.setIcon(getUserIcon( "/assets/marker-red.png" ))
+                      .setZIndexOffset( 1000 );
+
         var selectedResult = results[ nextState.selectedResult ];
         $shadowInput.val( "" );
         $searchInput.val( selectedResult.city + ", " + selectedResult.country );
