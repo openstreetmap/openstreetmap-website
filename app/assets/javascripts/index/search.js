@@ -115,10 +115,12 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       if( previousState.selectedResult !== nextState.selectedResult) {
         var nextSelect     = nextState.selectedResult;
         var previousSelect = previousState.selectedResult;
+        var nextCity       = nextState.resultsList[ nextState.selectedResult ];
 
         //Changing selection
         if( previousSelect !== -1 && nextSelect !== -1 ){
           $shadowInput.val( "" );
+          $searchInput.val( nextCity.city + ", " + nextCity.country );
           this.unselectMarker(   component, previousState.selectedResult );
           this.unselectMenuItem( component, previousState.selectedResult );
           this.selectMarker(     component, nextState.selectedResult );
@@ -127,6 +129,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
         //Starting selection
         else if( previousSelect === -1 && nextSelect !== -1 ){
           $shadowInput.val( "" );
+          $searchInput.val( nextCity.city + ", " + nextCity.country );
           this.selectMarker(     component, nextState.selectedResult );
           this.selectMenuItem(   component, nextState.selectedResult )
         }
