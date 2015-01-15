@@ -221,19 +221,18 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
   //Left and right arrow shall not trigger anything
   specialKeys[37] = specialKeys[39] = function noop( $in, state ){ return state;}
   specialKeys[13] = function handleReturn( $searchInput, state, map ){
-    if( state.selectedResult === -1 ){ 
-      if( state.resultsList.length === 0 ) return state;
-      else {
-        var currentCity = state.resultsList[ 0 ];
-        var nextState = new AlgoliaIntegrationState( state );
-        nextState.selectedResult = 0;
-        $searchInput.val( render.formatHit( currentCity ) );
-        return nextState;
-      }
+    if( state.resultsList.length === 0 ) return state;
+    if( state.selectedResult === -1 && state.resultsList > 1){ 
+      var currentCity = state.resultsList[ 0 ];
+      var nextState   = new AlgoliaIntegrationState( state );
+      nextState.selectedResult = 0;
+      $searchInput.val( render.formatHit( currentCity ) );
+      return nextState;
     }
     else {
-      var currentCity = state.resultsList[ state.selectedResult ];
-      var center      = L.latLng( currentCity._geoloc.lat, currentCity._geoloc.lng );
+      var selectedResult = state.selectedResult === -1 ? 0 : state.selectedResult;
+      var currentCity    = state.resultsList[ selectedResult ];
+      var center         = L.latLng( currentCity._geoloc.lat, currentCity._geoloc.lng );
       map.setView( center, 12, {animate: true}); // FIXME : 12 seems like an ok value for cities...
 
       var nextState = new AlgoliaIntegrationState( state );
