@@ -97,13 +97,24 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
           component.map.fitBounds( bounds );
         }
         var citiesList = results.map( function( hit, i ) {
-          return "<li class='city'>" + hit._highlightResult.city.value + ", " + hit._highlightResult.country.value + "</li>";
+          return "<li class='city'>" + render.formatHit( hit, true ) + "</li>";
         }).join("");
         $out.html( citiesList );
         component.markersLayout.clearLayers()
         results.forEach( function( hit, i ){
-          var marker = L.marker([hit._geoloc.lat, hit._geoloc.lng], {icon: getUserIcon( "/assets/marker-grey.png" )});
-          component.markersLayout.addLayer(marker);
+          var marker = L.marker([hit._geoloc.lat, hit._geoloc.lng])
+                        .setIcon( getUserIcon( "/assets/marker-grey.png" ) )
+                        .bindPopup( render.formatHit( hit, true ) )
+                        .on( "mouseover", function(){ marker.openPopup() } )
+                        .on( "mouseout" , function(){ marker.closePopup() } )
+                        .on( "mousedown",     function(){ 
+                                            setTimeout( function(){
+                                              component.$searchInput
+                                                       .val( render.formatHit( hit ) )
+                                                       .focus();
+                                            },1);
+                                          });
+          component.markersLayout.addLayer( marker );
         });
       }
       else{
@@ -121,7 +132,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
         //Changing selection
         if( previousSelect !== -1 && nextSelect !== -1 ){
           $shadowInput.val( "" );
-          $searchInput.val( nextCity.city + ", " + nextCity.country );
+          $searchInput.val( render.formatHit( nextCity ) );
           this.unselectMarker(   component, previousState.selectedResult );
           this.unselectMenuItem( component, previousState.selectedResult );
           this.selectMarker(     component, nextState.selectedResult );
@@ -130,7 +141,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
         //Starting selection
         else if( previousSelect === -1 && nextSelect !== -1 ){
           $shadowInput.val( "" );
-          $searchInput.val( nextCity.city + ", " + nextCity.country );
+          $searchInput.val( render.formatHit( nextCity ) );
           this.selectMarker(     component, nextState.selectedResult );
           this.selectMenuItem(   component, nextState.selectedResult )
         }
@@ -143,6 +154,11 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       }
     }
   };
+  render.formatHit = function formatHit( hit, isHighlighted ){
+    var city    = isHighlighted ? hit._highlightResult.city.value : hit.city;
+    var country = isHighlighted ? hit._highlightResult.country.value : hit.country;
+    return city + ", " + country;
+  },
   render.fixMenuPosition = function fixMenuPosition( component ){
     var searchInputPosition = component.$searchInput.offset();
     var $resultsList = component.$resultsList.css( {
@@ -154,18 +170,20 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     if( !!state.userAcceptedEntry ) {
       component.resultMarker.setLatLng( [ state.userAcceptedEntry._geoloc.lat,
                                           state.userAcceptedEntry._geoloc.lng ] )
-                            .setOpacity( 1 );
+                            .setOpacity( 1 )
+                            .unbindPopup()
+                            .bindPopup( render.formatHit( state.userAcceptedEntry ) );
     }
   };
   render.unselectMarker = function unselectMarker( component, idx ){
     var marker = component.markersLayout.getLayers()[ idx ];
-    marker.setIcon(getUserIcon( "/assets/marker-grey.png" ))
-    .setZIndexOffset( 0 );
+    marker.setIcon( getUserIcon( "/assets/marker-grey.png" ) )
+          .setZIndexOffset( 0 );
   };
   render.selectMarker = function selectMarker( component, idx ){
     var marker = component.markersLayout.getLayers()[ idx ];
-    marker.setIcon(getUserIcon( "/assets/marker-red.png" ))
-    .setZIndexOffset( 1000 );
+    marker.setIcon( getUserIcon( "/assets/marker-red.png" ) )
+          .setZIndexOffset( 1000 );
   };
   render.unselectMenuItem = function unselectMenuItem( component, idx ){
     var menuItem = component.$resultsList.children().eq( idx );
@@ -209,7 +227,7 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
         var currentCity = state.resultsList[ 0 ];
         var nextState = new AlgoliaIntegrationState( state );
         nextState.selectedResult = 0;
-        $searchInput.val( currentCity.city + ", " + currentCity.country );
+        $searchInput.val( render.formatHit( currentCity ) );
         return nextState;
       }
     }
@@ -219,9 +237,9 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
       map.setView( center, 12, {animate: true}); // FIXME : 12 seems like an ok value for cities...
 
       var nextState = new AlgoliaIntegrationState( state );
-      nextState.userInputValue    = currentCity.city + ", " + currentCity.country;
+      nextState.userInputValue    = render.formatHit( currentCity );
       nextState.userAcceptedEntry = currentCity;
-      $searchInput.val( currentCity.city + ", " + currentCity.country );
+      $searchInput.val( render.formatHit( currentCity ) );
       setTimeout( function(){ $searchInput.blur() }, 0);
       return nextState;
     }
@@ -250,7 +268,13 @@ OSM.AlgoliaIntegration = (function sudoMakeMagic(){
     } );
 
     this.markersLayout = L.layerGroup().addTo(map);
-    this.resultMarker  = L.marker( [0,0], { opacity: 0, icon: getUserIcon( "/assets/marker-green.png" ) } ).addTo(map);
+    var resultMarker   = L.marker( [0,0], {
+                            opacity: 0,
+                            icon: getUserIcon( "/assets/marker-green.png" ) } )
+                          .addTo(map)
+                          .on( "mouseover", function(){ resultMarker.openPopup(); } )
+                          .on( "mouseout",  function(){ resultMarker.closePopup(); } );
+    this.resultMarker  = resultMarker;
   };
   AlgoliaIntegration.bind = function createAndBindAlgolia( searchInput, map ){
     var search       = new AlgoliaIntegration( searchInput, map );
