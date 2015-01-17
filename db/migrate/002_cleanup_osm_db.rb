@@ -2,34 +2,33 @@ require 'migrate'
 
 class CleanupOsmDb < ActiveRecord::Migration
   def self.up
-    change_column "current_nodes", "latitude", :double, :null => false
-    change_column "current_nodes", "longitude", :double, :null => false
-    change_column "current_nodes", "user_id", :bigint, :limit => 20, :null => false
+    change_column "current_nodes", "latitude", :float, :limit => 53, :null => false
+    change_column "current_nodes", "longitude", :float, :limit => 53, :null => false
+    change_column "current_nodes", "user_id", :bigint, :null => false
     change_column "current_nodes", "visible", :boolean, :null => false
     change_column "current_nodes", "timestamp", :datetime, :null => false
     add_primary_key "current_nodes", ["id"]
     remove_index "current_nodes", :name => "current_nodes_id_idx"
 
-    change_column "current_segments", "node_a", :bigint, :limit => 64, :null => false
-    change_column "current_segments", "node_b", :bigint, :limit => 64, :null => false
-    change_column "current_segments", "user_id", :bigint, :limit => 20, :null => false
+    change_column "current_segments", "node_a", :bigint, :null => false
+    change_column "current_segments", "node_b", :bigint, :null => false
+    change_column "current_segments", "user_id", :bigint, :null => false
     change_column "current_segments", "visible", :boolean, :null => false
     change_column "current_segments", "timestamp", :datetime, :null => false
     add_primary_key "current_segments", ["id"]
     remove_index "current_segments", :name => "current_segments_id_visible_idx"
 
-    change_column "current_way_segments", "id", :bigint, :limit => 64, :null => false
-    change_column "current_way_segments", "segment_id", :bigint, :limit => 64, :null => false
-    change_column "current_way_segments", "sequence_id", :bigint, :limit => 11, :null => false
+    change_column "current_way_segments", "id", :bigint, :null => false
+    change_column "current_way_segments", "segment_id", :bigint, :null => false
+    change_column "current_way_segments", "sequence_id", :bigint, :null => false
     add_primary_key "current_way_segments", ["id", "sequence_id"]
     remove_index "current_way_segments", :name => "current_way_segments_id_idx"
 
-    change_column "current_way_tags", "id", :bigint, :limit => 64, :null => false
+    change_column "current_way_tags", "id", :bigint, :null => false
 
-    change_column "current_ways", "user_id", :bigint, :limit => 20, :null => false
+    change_column "current_ways", "user_id", :bigint, :null => false
     change_column "current_ways", "timestamp", :datetime, :null => false
     change_column "current_ways", "visible", :boolean, :null => false
-    change_engine "current_ways", "InnoDB"
 
     change_column "diary_entries", "title", :string, :null => false
     change_column "diary_entries", "body", :text, :null => false
@@ -45,11 +44,11 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "gps_points", "trackid", :integer, :null => false
     change_column "gps_points", "latitude", :integer, :null => false
     change_column "gps_points", "longitude", :integer, :null => false
-    change_column "gps_points", "gpx_id", :bigint, :limit => 64, :null => false
+    change_column "gps_points", "gpx_id", :bigint, :null => false
 
     change_column "gpx_file_tags", "tag", :string, :null => false
 
-    change_column "gpx_files", "user_id", :bigint,   :limit => 20, :null => false
+    change_column "gpx_files", "user_id", :bigint, :null => false
     change_column "gpx_files", "timestamp", :datetime, :null => false
     change_column "gpx_files", "description", :string, :default => "", :null => false
     change_column "gpx_files", "inserted", :boolean, :null => false
@@ -67,18 +66,18 @@ class CleanupOsmDb < ActiveRecord::Migration
 
     drop_table "meta_areas"
 
-    change_column "nodes", "id", :bigint, :limit => 64, :null => false
-    change_column "nodes", "latitude", :double, :null => false
-    change_column "nodes", "longitude", :double, :null => false
-    change_column "nodes", "user_id", :bigint, :limit => 20, :null => false
+    change_column "nodes", "id", :bigint, :null => false
+    change_column "nodes", "latitude", :float, :limit => 53, :null => false
+    change_column "nodes", "longitude", :float, :limit => 53, :null => false
+    change_column "nodes", "user_id", :bigint, :null => false
     change_column "nodes", "visible", :boolean, :null => false
     change_column "nodes", "timestamp", :datetime, :null => false
     add_index "nodes", ["timestamp"], :name => "nodes_timestamp_idx"
 
-    change_column "segments", "id", :bigint, :limit => 64, :null => false
-    change_column "segments", "node_a", :bigint, :limit => 64, :null => false
-    change_column "segments", "node_b", :bigint, :limit => 64, :null => false
-    change_column "segments", "user_id", :bigint, :limit => 20, :null => false
+    change_column "segments", "id", :bigint, :null => false
+    change_column "segments", "node_a", :bigint, :null => false
+    change_column "segments", "node_b", :bigint, :null => false
+    change_column "segments", "user_id", :bigint, :null => false
     change_column "segments", "visible", :boolean, :null => false
     change_column "segments", "timestamp", :datetime, :null => false
     add_index "segments", ["timestamp"], :name => "segments_timestamp_idx"
@@ -89,20 +88,20 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "users", "creation_time", :datetime, :null => false
     change_column "users", "display_name", :string, :default => "", :null => false
     change_column "users", "data_public", :boolean, :default => false, :null => false
-    change_column "users", "home_lat", :double, :default => nil
-    change_column "users", "home_lon", :double, :default => nil
+    change_column "users", "home_lat", :float, :limit => 53, :default => nil
+    change_column "users", "home_lon", :float, :limit => 53, :default => nil
     remove_index "users", :name => "users_email_idx"
     add_index "users", ["email"], :name => "users_email_idx", :unique => true
     remove_index "users", :name => "users_display_name_idx"
     add_index "users", ["display_name"], :name => "users_display_name_idx", :unique => true
 
-    change_column "way_segments", "segment_id", :bigint, :limit => 64, :null => false
+    change_column "way_segments", "segment_id", :bigint, :null => false
  
     change_column "way_tags", "k", :string, :null => false
     change_column "way_tags", "v", :string, :null => false
-    change_column "way_tags", "version", :bigint, :limit => 20, :null => false
+    change_column "way_tags", "version", :bigint, :null => false
 
-    change_column "ways", "user_id", :bigint, :limit => 20, :null => false
+    change_column "ways", "user_id", :bigint, :null => false
     change_column "ways", "timestamp", :datetime, :null => false
     change_column "ways", "visible", :boolean, :default => true, :null => false
     remove_index "ways", :name => "ways_id_version_idx"
@@ -114,9 +113,9 @@ class CleanupOsmDb < ActiveRecord::Migration
     add_index "ways", ["id"], :name => "ways_id_version_idx"
     change_column "ways", "visible", :boolean, :default => true
     change_column "ways", "timestamp", :datetime
-    change_column "ways", "user_id", :bigint, :limit => 20
+    change_column "ways", "user_id", :bigint
 
-    change_column "way_tags", "version", :bigint, :limit => 20
+    change_column "way_tags", "version", :bigint
     change_column "way_tags", "v", :string, :default => nil
     change_column "way_tags", "k", :string, :default => nil
 
@@ -126,8 +125,8 @@ class CleanupOsmDb < ActiveRecord::Migration
     add_index "users", ["display_name"], :name => "users_display_name_idx"
     remove_index "users", :name => "users_email_idx"
     add_index "users", ["email"], :name => "users_email_idx"
-    change_column "users", "home_lon", :double, :default => 1
-    change_column "users", "home_lat", :double, :default => 1
+    change_column "users", "home_lon", :float, :limit => 53, :default => 1
+    change_column "users", "home_lat", :float, :limit => 53, :default => 1
     change_column "users", "data_public", :boolean, :default => false
     change_column "users", "display_name", :string, :default => ""
     change_column "users", "creation_time", :datetime
@@ -138,22 +137,22 @@ class CleanupOsmDb < ActiveRecord::Migration
     remove_index "segments", :name => "segments_timestamp_idx"
     change_column "segments", "timestamp", :datetime
     change_column "segments", "visible", :boolean
-    change_column "segments", "user_id", :bigint, :limit => 20
-    change_column "segments", "node_b", :bigint, :limit => 64
-    change_column "segments", "node_a", :bigint, :limit => 64
-    change_column "segments", "id", :bigint, :limit => 64
+    change_column "segments", "user_id", :bigint
+    change_column "segments", "node_b", :bigint
+    change_column "segments", "node_a", :bigint
+    change_column "segments", "id", :bigint
 
     remove_index "nodes", :name => "nodes_timestamp_idx"
     change_column "nodes", "timestamp", :datetime
     change_column "nodes", "visible", :boolean
-    change_column "nodes", "user_id", :bigint, :limit => 20
-    change_column "nodes", "longitude", :double
-    change_column "nodes", "latitude", :double
-    change_column "nodes", "id", :bigint, :limit => 64
+    change_column "nodes", "user_id", :bigint
+    change_column "nodes", "longitude", :float, :limit => 53
+    change_column "nodes", "latitude", :float, :limit => 53
+    change_column "nodes", "id", :bigint
 
-    create_table "meta_areas", myisam_table do |t|
-      t.column "id",        :bigint_pk_64, :null => false
-      t.column "user_id",   :bigint,  :limit => 20
+    create_table "meta_areas", :id => false do |t|
+      t.column "id", :bigserial, :primary_key => true, :null => false
+      t.column "user_id", :bigint
       t.column "timestamp", :datetime
     end
 
@@ -163,27 +162,27 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "messages", "body", :text
     change_column "messages", "title", :string, :default => nil
     add_column "messages", "from_display_name", :string, :default => ""
-    add_column "messages", "user_id", :bigint, :limit => 20, :null => false
+    add_column "messages", "user_id", :bigint, :null => false
     add_index "messages", ["from_display_name"], :name => "from_name_idx"
 
-    create_table "gpx_pending_files", myisam_table do |t|
+    create_table "gpx_pending_files", :id => false do |t|
       t.column "originalname", :string
-      t.column "tmpname",      :string
-      t.column "user_id",      :bigint,  :limit => 20
+      t.column "tmpname", :string
+      t.column "user_id", :bigint
     end
 
     change_column "gpx_files", "inserted", :boolean
     change_column "gpx_files", "description", :string, :default => ""
     change_column "gpx_files", "timestamp", :datetime
-    change_column "gpx_files", "user_id", :bigint,   :limit => 20
+    change_column "gpx_files", "user_id", :bigint
 
     change_column "gpx_file_tags", "tag", :string, :default => nil
 
-    change_column "gps_points", "gpx_id", :integer, :limit => 20
+    change_column "gps_points", "gpx_id", :integer
     change_column "gps_points", "longitude", :integer
     change_column "gps_points", "latitude", :integer
     change_column "gps_points", "trackid", :integer
-    add_column "gps_points", "user_id", :integer, :limit => 20
+    add_column "gps_points", "user_id", :integer
     add_index "gps_points", ["user_id"], :name => "points_uid_idx"
 
     remove_index "friends", :name => "friends_user_id_idx"
@@ -193,34 +192,32 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "diary_entries", "body", :text
     change_column "diary_entries", "title", :string, :default => nil
 
-    change_engine "current_ways", "MyISAM"
     change_column "current_ways", "visible", :boolean
     change_column "current_ways", "timestamp", :datetime
-    change_column "current_ways", "user_id", :bigint, :limit => 20
+    change_column "current_ways", "user_id", :bigint
 
-    change_column "current_way_tags", "id", :bigint, :limit => 64
+    change_column "current_way_tags", "id", :bigint
 
     add_index "current_way_segments", ["id"], :name => "current_way_segments_id_idx"
     remove_primary_key "current_way_segments"
-    change_column "current_way_segments", "sequence_id", :bigint, :limit => 11
-    change_column "current_way_segments", "segment_id", :bigint, :limit => 11
-    change_column "current_way_segments", "id", :bigint, :limit => 64
+    change_column "current_way_segments", "sequence_id", :bigint
+    change_column "current_way_segments", "segment_id", :bigint
+    change_column "current_way_segments", "id", :bigint
 
     add_index "current_segments", ["id", "visible"], :name => "current_segments_id_visible_idx"
     remove_primary_key "current_segments"
     change_column "current_segments", "timestamp", :datetime
     change_column "current_segments", "visible", :boolean
-    change_column "current_segments", "user_id", :bigint, :limit => 20
-    change_column "current_segments", "node_b", :bigint, :limit => 64
-    change_column "current_segments", "node_a", :bigint, :limit => 64
+    change_column "current_segments", "user_id", :bigint
+    change_column "current_segments", "node_b", :bigint
+    change_column "current_segments", "node_a", :bigint
     
     add_index "current_nodes", ["id"], :name => "current_nodes_id_idx"
     remove_primary_key "current_nodes"
     change_column "current_nodes", "timestamp", :datetime
     change_column "current_nodes", "visible", :boolean
-    change_column "current_nodes", "user_id", :bigint, :limit => 20
-    change_column "current_nodes", "longitude", :double
-    change_column "current_nodes", "latitude", :double
-    change_column "current_nodes", "id", :bigint_auto_64
+    change_column "current_nodes", "user_id", :bigint
+    change_column "current_nodes", "longitude", :float, :limit => 53
+    change_column "current_nodes", "latitude", :float, :limit => 53
   end
 end

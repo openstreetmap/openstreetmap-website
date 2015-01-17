@@ -184,15 +184,15 @@ class ChangesetControllerTest < ActionController::TestCase
     get :read, :id => changeset_id
     assert_response :success, "cannot get first changeset"
 
-    assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
-    assert_select "osm>changeset[id=#{changeset_id}]", 1
+    assert_select "osm[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
+    assert_select "osm>changeset[id='#{changeset_id}']", 1
     assert_select "osm>changeset>discussion", 0
 
     get :read, :id => changeset_id, :include_discussion => true
     assert_response :success, "cannot get first changeset with comments"
 
-    assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
-    assert_select "osm>changeset[id=#{changeset_id}]", 1
+    assert_select "osm[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
+    assert_select "osm>changeset[id='#{changeset_id}']", 1
     assert_select "osm>changeset>discussion", 1
   end
 
@@ -425,9 +425,9 @@ EOF
       "can't upload a simple valid creation to changeset: #{@response.body}"
 
     # check the returned payload
-    assert_select "diffResult[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+    assert_select "diffResult[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
     assert_select "diffResult>node", 1
-    assert_select "diffresult>way", 1
+    assert_select "diffResult>way", 1
     assert_select "diffResult>relation", 1
 
     # inspect the response to find out what the new element IDs are
@@ -631,9 +631,9 @@ EOF
       "can't do a conditional delete of in use objects: #{@response.body}"
 
     # check the returned payload
-    assert_select "diffResult[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+    assert_select "diffResult[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
     assert_select "diffResult>node", 1
-    assert_select "diffresult>way", 1
+    assert_select "diffResult>way", 1
     assert_select "diffResult>relation", 1
 
     # parse the response
@@ -722,7 +722,7 @@ EOF
       "can't upload a complex diff to changeset: #{@response.body}"
 
     # check the returned payload
-    assert_select "diffResult[version=#{API_VERSION}][generator=\"#{GENERATOR}\"]", 1
+    assert_select "diffResult[version='#{API_VERSION}'][generator='#{GENERATOR}']", 1
     assert_select "diffResult>node", 1
     assert_select "diffResult>way", 1
     assert_select "diffResult>relation", 1
@@ -954,7 +954,7 @@ EOF
 
     # check the response is well-formed
     assert_select "diffResult>node", 3
-    assert_select "diffResult>node[old_id=-1]", 3
+    assert_select "diffResult>node[old_id='-1']", 3
   end
 
   ##
@@ -1207,7 +1207,7 @@ EOF
       "failed to return error in XML format"
 
     # check the returned payload
-    assert_select "osmError[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+    assert_select "osmError[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
     assert_select "osmError>status", 1
     assert_select "osmError>message", 1
 
@@ -1395,10 +1395,10 @@ EOF
     # FIXME needs more assert_select tests
     assert_select "osmChange[version='#{API_VERSION}'][generator='#{GENERATOR}']" do
       assert_select "create", :count => 5
-      assert_select "create>node[id=#{nodes(:used_node_2).node_id}][visible=#{nodes(:used_node_2).visible?}][version=#{nodes(:used_node_2).version}]" do
-        assert_select "tag[k=#{node_tags(:t3).k}][v=#{node_tags(:t3).v}]"
+      assert_select "create>node[id='#{nodes(:used_node_2).node_id}'][visible='#{nodes(:used_node_2).visible?}'][version='#{nodes(:used_node_2).version}']" do
+        assert_select "tag[k='#{node_tags(:t3).k}'][v='#{node_tags(:t3).v}']"
       end
-      assert_select "create>node[id=#{nodes(:visible_node).node_id}]"
+      assert_select "create>node[id='#{nodes(:visible_node).node_id}']"
     end
   end
 
@@ -1424,10 +1424,10 @@ EOF
     # get the bounding box back from the changeset
     get :read, :id => changeset_id
     assert_response :success, "Couldn't read back changeset."
-    assert_select "osm>changeset[min_lon=1.0]", 1
-    assert_select "osm>changeset[max_lon=1.0]", 1
-    assert_select "osm>changeset[min_lat=2.0]", 1
-    assert_select "osm>changeset[max_lat=2.0]", 1
+    assert_select "osm>changeset[min_lon='1.0']", 1
+    assert_select "osm>changeset[max_lon='1.0']", 1
+    assert_select "osm>changeset[min_lat='2.0']", 1
+    assert_select "osm>changeset[max_lat='2.0']", 1
 
     # add another node to it
     with_controller(NodeController.new) do
@@ -1439,10 +1439,10 @@ EOF
     # get the bounding box back from the changeset
     get :read, :id => changeset_id
     assert_response :success, "Couldn't read back changeset for the second time."
-    assert_select "osm>changeset[min_lon=1.0]", 1
-    assert_select "osm>changeset[max_lon=2.0]", 1
-    assert_select "osm>changeset[min_lat=1.0]", 1
-    assert_select "osm>changeset[max_lat=2.0]", 1
+    assert_select "osm>changeset[min_lon='1.0']", 1
+    assert_select "osm>changeset[max_lon='2.0']", 1
+    assert_select "osm>changeset[min_lat='1.0']", 1
+    assert_select "osm>changeset[max_lat='2.0']", 1
 
     # add (delete) a way to it, which contains a point at (3,3)
     with_controller(WayController.new) do
@@ -1456,10 +1456,10 @@ EOF
     get :read, :id => changeset_id
     assert_response :success, "Couldn't read back changeset for the third time."
     # note that the 3.1 here is because of the bbox overexpansion
-    assert_select "osm>changeset[min_lon=1.0]", 1
-    assert_select "osm>changeset[max_lon=3.1]", 1
-    assert_select "osm>changeset[min_lat=1.0]", 1
-    assert_select "osm>changeset[max_lat=3.1]", 1
+    assert_select "osm>changeset[min_lon='1.0']", 1
+    assert_select "osm>changeset[max_lon='3.1']", 1
+    assert_select "osm>changeset[min_lat='1.0']", 1
+    assert_select "osm>changeset[max_lat='3.1']", 1
   end
 
   ##
@@ -1675,9 +1675,9 @@ EOF
     put :update, :id => changeset.id
     assert_response :success
 
-    assert_select "osm>changeset[id=#{changeset.id}]", 1
+    assert_select "osm>changeset[id='#{changeset.id}']", 1
     assert_select "osm>changeset>tag", 2
-    assert_select "osm>changeset>tag[k=tagtesting][v=valuetesting]", 1
+    assert_select "osm>changeset>tag[k='tagtesting'][v='valuetesting']", 1
   end
 
   ##
@@ -1876,8 +1876,8 @@ EOF
     assert_select "osmChange", 1
     # this changeset contains node 17 in versions 1 & 2, but 1 should
     # be hidden.
-    assert_select "osmChange node[id=17]", 1
-    assert_select "osmChange node[id=17][version=1]", 0
+    assert_select "osmChange node[id='17']", 1
+    assert_select "osmChange node[id='17'][version='1']", 0
   end
 
   ##
@@ -2123,7 +2123,7 @@ EOF
   def assert_changesets(ids)
     assert_select "osm>changeset", ids.size
     ids.each do |id|
-      assert_select "osm>changeset[id=#{id}]", 1
+      assert_select "osm>changeset[id='#{id}']", 1
     end
   end
 
@@ -2136,7 +2136,7 @@ EOF
 
     # check exactly one changeset
     assert_select "osm>changeset", 1
-    assert_select "osm>changeset[id=#{changeset_id}]", 1
+    assert_select "osm>changeset[id='#{changeset_id}']", 1
 
     # check the bbox
     doc = XML::Parser.string(@response.body).parse

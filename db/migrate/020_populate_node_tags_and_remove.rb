@@ -27,17 +27,17 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration
     remove_column :nodes, :tags
     remove_column :current_nodes, :tags
 
-    add_column :nodes, :version, :bigint, :limit => 20, :null => false
+    add_column :nodes, :version, :bigint, :null => false
 
-    create_table :current_node_tags, innodb_table do |t|
-      t.column :id,          :bigint, :limit => 64, :null => false
+    create_table :current_node_tags, :id => false do |t|
+      t.column :id,          :bigint, :null => false
       t.column :k,	     :string, :default => "", :null => false
       t.column :v,	     :string, :default => "", :null => false
     end
 
-    create_table :node_tags, innodb_table do |t|
-      t.column :id,          :bigint, :limit => 64, :null => false
-      t.column :version,     :bigint, :limit => 20, :null => false
+    create_table :node_tags, :id => false do |t|
+      t.column :id,          :bigint, :null => false
+      t.column :version,     :bigint, :null => false
       t.column :k,	     :string, :default => "", :null => false
       t.column :v,	     :string, :default => "", :null => false
     end

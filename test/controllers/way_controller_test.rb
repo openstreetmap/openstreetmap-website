@@ -67,14 +67,14 @@ class WayControllerTest < ActionController::TestCase
       assert_response :success
       
       # Check the way is correctly returned
-      assert_select "osm way[id=#{way.id}][version=#{way.version}][visible=#{way.visible}]", 1
+      assert_select "osm way[id='#{way.id}'][version='#{way.version}'][visible='#{way.visible}']", 1
       
       # check that each node in the way appears once in the output as a 
       # reference and as the node element.
       way.nodes.each do |n|
         count = (way.nodes - (way.nodes - [n])).length
-        assert_select "osm way nd[ref=#{n.id}]", count
-        assert_select "osm node[id=#{n.id}][version=#{n.version}][lat=#{n.lat}][lon=#{n.lon}]", 1
+        assert_select "osm way nd[ref='#{n.id}']", count
+        assert_select "osm node[id='#{n.id}'][version='#{n.version}'][lat='#{n.lat}'][lon='#{n.lon}']", 1
       end
     end
   end
@@ -95,10 +95,10 @@ class WayControllerTest < ActionController::TestCase
     assert_response :success
     assert_select "osm" do
       assert_select "way", :count => 4
-      assert_select "way[id=1][visible=true]", :count => 1
-      assert_select "way[id=2][visible=false]", :count => 1
-      assert_select "way[id=4][visible=true]", :count => 1
-      assert_select "way[id=6][visible=true]", :count => 1
+      assert_select "way[id='1'][visible='true']", :count => 1
+      assert_select "way[id='2'][visible='false']", :count => 1
+      assert_select "way[id='4'][visible='true']", :count => 1
+      assert_select "way[id='6'][visible='true']", :count => 1
     end
 
     # check error when a non-existent way is included
@@ -515,7 +515,7 @@ class WayControllerTest < ActionController::TestCase
     
     # check the full ways to ensure we're not missing anything
     expected_way_ids.each do |id|
-      way_xml = ways_xml.find("//osm/way[@id=#{id}]").first
+      way_xml = ways_xml.find("//osm/way[@id='#{id}']").first
       assert_ways_are_equal(Way.find(id),
                             Way.from_xml_node(way_xml))
     end

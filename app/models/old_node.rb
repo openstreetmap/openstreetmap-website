@@ -63,11 +63,6 @@ class OldNode < ActiveRecord::Base
 
   def save_with_dependencies!
     save!
-    #not sure whats going on here
-    clear_aggregation_cache
-    clear_association_cache
-    #ok from here
-    @attributes.update(OldNode.where(:node_id => self.node_id, :timestamp => self.timestamp, :version => self.version).first.instance_variable_get('@attributes'))
    
     self.tags.each do |k,v|
       tag = OldNodeTag.new

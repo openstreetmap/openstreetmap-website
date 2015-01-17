@@ -31,19 +31,7 @@ class OldWay < ActiveRecord::Base
   end
 
   def save_with_dependencies!
-
-    # dont touch this unless you really have figured out why it's called
-    # (Rails doesn't deal well with the old ways table (called 'ways') because
-    # it doesn't have a unique key. It knows how to insert and auto_increment
-    # id and get it back but we have that and we want to get the 'version' back
-    # we could add another column but thats a lot of data. No, set_primary_key
-    # doesn't work either.
     save!
-    clear_aggregation_cache
-    clear_association_cache
-    @attributes.update(OldWay.where(:way_id => self.way_id, :timestamp => self.timestamp).order("version DESC").first.instance_variable_get('@attributes'))
-
-    # ok, you can touch from here on
 
     self.tags.each do |k,v|
       tag = OldWayTag.new

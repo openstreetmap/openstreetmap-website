@@ -24,7 +24,7 @@ class MessageController < ApplicationController
 
         if @message.save
           flash[:notice] = t 'message.new.message_sent'
-          Notifier.message_notification(@message).deliver
+          Notifier.message_notification(@message).deliver_now
           redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
         end
       end
