@@ -105,7 +105,7 @@ class UserController < ApplicationController
             successful_login(@user)
           else
             session[:token] = @user.tokens.create.token
-            Notifier.signup_confirm(@user, @user.tokens.create(:referer => referer)).deliver
+            Notifier.signup_confirm(@user, @user.tokens.create(:referer => referer)).deliver_now
             redirect_to :action => 'confirm', :display_name => @user.display_name
           end
         else
@@ -165,7 +165,7 @@ class UserController < ApplicationController
 
       if user
         token = user.tokens.create
-        Notifier.lost_password(user, token).deliver
+        Notifier.lost_password(user, token).deliver_now
         flash[:notice] = t 'user.lost_password.notice email on way'
         redirect_to :action => 'login'
       else
@@ -353,7 +353,7 @@ class UserController < ApplicationController
 
   def confirm_resend
     if user = User.find_by_display_name(params[:display_name])
-      Notifier.signup_confirm(user, user.tokens.create).deliver
+      Notifier.signup_confirm(user, user.tokens.create).deliver_now
       flash[:notice] = t 'user.confirm_resend.success', :email => user.email
     else
       flash[:notice] = t 'user.confirm_resend.failure', :name => params[:display_name]
@@ -424,7 +424,7 @@ class UserController < ApplicationController
         unless @user.is_friends_with?(@new_friend)
           if friend.save
             flash[:notice] = t 'user.make_friend.success', :name => @new_friend.display_name
-            Notifier.friend_notification(friend).deliver
+            Notifier.friend_notification(friend).deliver_now
           else
             friend.add_error(t('user.make_friend.failed', :name => @new_friend.display_name))
           end
@@ -733,7 +733,7 @@ private
           flash.now[:notice] = t 'user.account.flash update success confirm needed'
 
           begin
-            Notifier.email_confirm(user, user.tokens.create).deliver
+            Notifier.email_confirm(user, user.tokens.create).deliver_now
           rescue
             # Ignore errors sending email
           end
@@ -742,7 +742,7 @@ private
           @user.errors.set(:email, [])
         end
 
-        user.reset_email!
+        user.restore_email!
       end
     end
   end

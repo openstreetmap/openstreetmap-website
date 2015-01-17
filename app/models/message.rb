@@ -9,8 +9,6 @@ class Message < ActiveRecord::Base
   validates_inclusion_of :message_read, :in => [ true, false ]
   validates_as_utf8 :title
 
-  after_initialize :set_defaults
-
   def self.from_mail(mail, from, to)
     if mail.multipart?
       if mail.text_part
@@ -46,11 +44,5 @@ class Message < ActiveRecord::Base
     md5 << title
     md5 << body
     md5.hexdigest
-  end
-
-private
-
-  def set_defaults
-    self.body_format = "markdown" unless self.attribute_present?(:body_format)
   end
 end

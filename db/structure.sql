@@ -1796,13 +1796,6 @@ CREATE INDEX gpx_files_visible_visibility_idx ON gpx_files USING btree (visible,
 
 
 --
--- Name: index_changeset_comments_on_body; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_changeset_comments_on_body ON changeset_comments USING btree (body);
-
-
---
 -- Name: index_changeset_comments_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 

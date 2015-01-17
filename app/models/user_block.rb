@@ -4,8 +4,6 @@ class UserBlock < ActiveRecord::Base
   belongs_to :user, :class_name => "User", :foreign_key => :user_id
   belongs_to :creator, :class_name => "User", :foreign_key => :creator_id
   belongs_to :revoker, :class_name => "User", :foreign_key => :revoker_id
-  
-  after_initialize :set_defaults
 
   PERIODS = USER_BLOCK_PERIODS
 
@@ -40,12 +38,6 @@ class UserBlock < ActiveRecord::Base
   end
 
 private
-
-  ##
-  # set default values for new records.
-  def set_defaults
-    self.reason_format = "markdown" unless self.attribute_present?(:reason_format)
-  end
 
   ##
   # validate that only moderators are allowed to change the

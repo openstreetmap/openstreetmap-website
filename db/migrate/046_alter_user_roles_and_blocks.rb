@@ -8,7 +8,7 @@ class AlterUserRolesAndBlocks < ActiveRecord::Migration
     add_column :user_roles, :granter_id, :bigint
     UserRole.update_all("granter_id = user_id")
     change_column :user_roles, :granter_id, :bigint, :null => false
-    add_foreign_key :user_roles, [:granter_id], :users, [:id]
+    add_foreign_key :user_roles, :users, :column => :granter_id, :name => "user_roles_granter_id_fkey"
 
     # make sure that [user_id, role] is unique
     add_index :user_roles, [:user_id, :role], :name => "user_roles_id_role_unique", :unique => true
@@ -21,9 +21,9 @@ class AlterUserRolesAndBlocks < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :user_roles, :granter_id
-    remove_index :user_roles, :name => "user_roles_id_role_unique"
-    rename_column :user_blocks, :creator_id, :moderator_id
     rename_column :user_blocks, :ends_at, :end_at
+    rename_column :user_blocks, :creator_id, :moderator_id
+    remove_index :user_roles, :name => "user_roles_id_role_unique"
+    remove_column :user_roles, :granter_id
   end
 end

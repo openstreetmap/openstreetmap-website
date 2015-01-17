@@ -2,23 +2,23 @@ require 'migrate'
 
 class UserEnhancements < ActiveRecord::Migration
   def self.up
-    add_column "diary_entries", "latitude", :double
-    add_column "diary_entries", "longitude", :double
+    add_column "diary_entries", "latitude", :float, :limit => 53
+    add_column "diary_entries", "longitude", :float, :limit => 53
     add_column "diary_entries", "language", :string, :limit => 3
 
-    create_table "user_preferences", innodb_table do |t|
-      t.column "user_id", :bigint, :limit => 20, :null => false
-      t.column "k",       :string, :null => false
-      t.column "v",       :string, :null => false
+    create_table "user_preferences", :id => false do |t|
+      t.column "user_id", :bigint, :null => false
+      t.column "k", :string, :null => false
+      t.column "v", :string, :null => false
     end
 
     add_primary_key "user_preferences", ["user_id", "k"]
 
-    create_table "user_tokens", innodb_table do |t|
-      t.column "id",      :bigint_pk, :null => false
-      t.column "user_id", :bigint,   :limit => 20, :null => false
-      t.column "token",   :string,   :null => false
-      t.column "expiry",  :datetime, :null => false
+    create_table "user_tokens", :id => false do |t|
+      t.column "id", :bigserial, :primary_key => true, :null => false
+      t.column "user_id", :bigint, :null => false
+      t.column "token", :string, :null => false
+      t.column "expiry", :datetime, :null => false
     end
 
     add_index "user_tokens", ["token"], :name => "user_tokens_token_idx", :unique => true
@@ -41,8 +41,8 @@ class UserEnhancements < ActiveRecord::Migration
   def self.down
     remove_column "users", "pass_salt"
     remove_column "users", "nearby"
-    add_column "users", "within_lat", :double
-    add_column "users", "within_lon", :double
+    add_column "users", "within_lat", :float, :limit => 53
+    add_column "users", "within_lon", :float, :limit => 53
     add_column "users", "timeout", :datetime
     add_column "users", "token", :string
 

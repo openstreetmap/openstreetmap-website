@@ -102,7 +102,7 @@ class ApiControllerTest < ActionController::TestCase
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     assert_response :success
-    assert_select "gpx[version='1.0'][creator='OpenStreetMap.org'][xmlns='http://www.topografix.com/GPX/1/0']", :count => 1 do
+    assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
       assert_select "trk" do
         assert_select "trkseg"
       end
@@ -118,7 +118,7 @@ class ApiControllerTest < ActionController::TestCase
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     assert_response :success
-    assert_select "gpx[version='1.0'][creator='OpenStreetMap.org'][xmlns='http://www.topografix.com/GPX/1/0']", :count => 1 do
+    assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
       assert_select "trk", :count => 1 do
         assert_select "trk > trkseg", :count => 2 do |trksegs|
           trksegs.each do |trkseg|
@@ -140,7 +140,7 @@ class ApiControllerTest < ActionController::TestCase
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     assert_response :success
-    assert_select "gpx[version='1.0'][creator='OpenStreetMap.org'][xmlns='http://www.topografix.com/GPX/1/0']", :count => 1 do
+    assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
       assert_select "trk", :count => 1 do
         assert_select "trk>name", :count => 1
         assert_select "trk>desc", :count => 1

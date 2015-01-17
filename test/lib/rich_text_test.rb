@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class RichTextTest < ActiveSupport::TestCase
-  include ActionDispatch::Assertions::SelectorAssertions
+  include Rails::Dom::Testing::Assertions::SelectorAssertions
 
   def test_html_to_html
     r = RichText.new("html", "foo http://example.com/ bar")
@@ -152,7 +152,7 @@ class RichTextTest < ActiveSupport::TestCase
 
     r = RichText.new("text", "foo < bar & baz > qux")
     assert_html r do
-      assert_select "p", "foo &lt; bar &amp; baz &gt; qux"
+      assert_select "p", "foo < bar & baz > qux"
     end
   end
 
@@ -161,7 +161,7 @@ private
   def assert_html(richtext, &block)
     html = richtext.to_html
     assert html.html_safe?
-    root = HTML::Document.new(richtext.to_html, false, true).root
+    root = Nokogiri::HTML::DocumentFragment.parse(html)
     assert_select root, "*" do
       yield block
     end
