@@ -42,6 +42,7 @@ if [ "$db_user_exists" != "1" ]; then
 		sudo -u vagrant -H createdb -E UTF-8 -O vagrant osm_test
 		# add btree_gist extension
 		sudo -u vagrant -H psql -c "create extension btree_gist" openstreetmap
+		sudo -u vagrant -H psql -c "create extension btree_gist" osm_test
 fi
 # build and set up postgres extensions
 pushd db/functions
