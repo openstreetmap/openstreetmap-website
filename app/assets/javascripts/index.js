@@ -156,7 +156,9 @@ $(document).ready(function () {
   var expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
 
-  map.on('moveend layeradd layerremove', function() {
+  // TODO This causes a large performance hit with OWL since OWL layer triggers a lot of
+  // layeradd/layerremove events
+  /*map.on('moveend layeradd layerremove', function() {
     updateLinks(
       map.getCenter().wrap(),
       map.getZoom(),
@@ -165,7 +167,7 @@ $(document).ready(function () {
 
     $.removeCookie("_osm_location");
     $.cookie("_osm_location", OSM.locationCookie(map), { expires: expiry, path: "/" });
-  });
+  });*/
 
   if ($.cookie('_osm_welcome') == 'hide') {
     $('.welcome').hide();
