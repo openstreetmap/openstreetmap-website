@@ -5,7 +5,9 @@ L.OWL.Layer = L.TileLayer.GeoJSON.extend({
   pageSize: 15,
   currentOffset: 0,
   owlObjectLayers: {},
+  changes: {},
   styles: {},
+  elements: {},
 
   initialize: function(options) {
     this.styles = options.styles;
@@ -15,7 +17,6 @@ L.OWL.Layer = L.TileLayer.GeoJSON.extend({
         return feature.properties.changeset_id + '_' + feature.properties.change_id;
       }
     });
-    var layer = this;
   },
 
   getChangeset: function(id) {
@@ -23,9 +24,10 @@ L.OWL.Layer = L.TileLayer.GeoJSON.extend({
   },
 
   _getChangesetsFromTiles: function() {
+    //console.log('called _getChangesetsFromTiles')
     var changesets = {};
     var layer = this;
-    $.each(this._tiles, function(index, tile) {
+    $.each(this._tiles, function(tileId, tile) {
       if (tile.datum == null) {
         return;
       }
@@ -37,7 +39,6 @@ L.OWL.Layer = L.TileLayer.GeoJSON.extend({
 
         $.each(changeset.changes, function(changeIndex, change) {
           if (change.id in changesets[changeset.id].changes) {
-            console.log(change);
             changesets[changeset.id].changes[change.id] = change;
           } else {
             changesets[changeset.id].changes[change.id] = change;
@@ -147,11 +148,17 @@ L.OWL.Layer = L.TileLayer.GeoJSON.extend({
     }
   },
 
+  _elementAlreadyShown: function (el_type, el_id) {
+    return this.elements[el_type + el_id] !== undefined;
+  },
+
   // Add GeoJSON features, build internal structures.
   _tileLoaded: function(tile, tilePoint) {
     if (tile.datum == null) {
       return;
     }
+
+    console.log('loaded tile', tilePoint)
 
     var layer = this;
     $.each(tile.datum, function(index, changeset) {
@@ -173,13 +180,15 @@ L.OWL.Layer = L.TileLayer.GeoJSON.extend({
           change.diffTags = diffTags(change.tags, change.tags);
         }
 
+        //console.log('adding change for el_id', change.el_id, change)
         layer.addChangeFeatureLayer(changeset, change);
       });
     });
 
     this.fire('loaded', {
       changesets: this._getChangesetsFromTiles(),
-      gotMore: true
+      gotMore: true,
+      loadedAllTiles: layer._requests.length === 0
     });
   },
 
@@ -201,6 +210,12 @@ L.OWL.Layer = L.TileLayer.GeoJSON.extend({
 
   // Prepares a GeoJSON layer for a given change feature and adds it to the map.
   addChangeFeatureLayer: function(changeset, change) {
+    if (this._elementAlreadyShown(change.el_type, change.el_id)) {
+      // TODO should we show only one change for an element or all of them or...?
+      //console.log('Already shown', change);
+      //return;
+    }
+    this.elements[change.el_type + change.el_id] = change.tstamp;
     var layer = this;
     var style = this._getStyle(change);
 

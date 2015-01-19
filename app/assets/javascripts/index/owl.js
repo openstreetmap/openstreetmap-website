@@ -21,6 +21,7 @@ OSM.OWL = function(map) {
   });
 
   owlGeoJsonLayer.on('loading', function(geojson) {
+    console.log('loading')
     $('#history-sidebar-loadmore').show();
     loadingInProgress = true;
   });
@@ -34,16 +35,22 @@ OSM.OWL = function(map) {
   owlGeoJsonLayer.on('change_clicked', onChangeClicked);
 
   owlGeoJsonLayer.on('loaded', function(data) {
+    if (!data.loadedAllTiles) {
+      return;
+    }
+
     $('#history-sidebar-loadmore').hide();
     gotMoreChangesets = data.gotMore;
     loadingInProgress = false;
 
-    var changesets = data.changesets;
+    var changesets = owlGeoJsonLayer._getChangesetsFromTiles();//data.changesets;
     var userIds = [];
 
     $.each(changesets, function(index, changeset) {
       prepareChangesetInfo(changeset);
-      userIds.push(changeset.user_id);
+      if (changeset.user_id) {
+        userIds.push(changeset.user_id);
+      }
     });
 
     fetchUserDetails($.unique(userIds), function(user) {
@@ -52,10 +59,10 @@ OSM.OWL = function(map) {
 
     var existing = $('#history-sidebar').html();
     $('#history-sidebar').html(
-    JST["templates/owl/changeset_list"]({
-      changesets: changesets,
-      owlLayer: owlGeoJsonLayer
-    }));
+      JST["templates/owl/changeset_list"]({
+        changesets: changesets,
+        owlLayer: owlGeoJsonLayer
+      }));
 
     $('.changeset-info').click(function(e) {
       toggleChanges(findChangesetId(e.target));
@@ -75,21 +82,22 @@ OSM.OWL = function(map) {
     $('abbr.timeago').timeago();
 
     $('#sidebar_content').scroll(function(e) {
-      console.log('ss');
       if (isLoadMoreInView() && gotMoreChangesets && !loadingInProgress) {
         owlGeoJsonLayer.nextPage();
       }
     });
 
     $('.changeset-info').hover(
+      function(e) {
+        owlGeoJsonLayer.highlightChangesetFeatures(findChangesetId(e.target));
+      }, function(e) {
+        owlGeoJsonLayer.unhighlightChangesetFeatures(findChangesetId(e.target));
+      }
+    );
 
-    function(e) {
-      owlGeoJsonLayer.highlightChangesetFeatures(findChangesetId(e.target));
-    }, function(e) {
-      owlGeoJsonLayer.unhighlightChangesetFeatures(findChangesetId(e.target));
-    });
-
-    $('#sidebar_title').html('History <a target="_blank" href="" class="rsssmall owl_feed_link"><img alt="RSS" border="0" height="16" src="/assets/RSS.png" width="16"></a>');
+    $('#sidebar_title').html(
+      'History <a target="_blank" href="" class="rsssmall owl_feed_link"><img alt="RSS" border="0" height="16" src="/assets/RSS.png" width="16"></a>'
+    );
 
     owlUpdateFeedLink();
   });

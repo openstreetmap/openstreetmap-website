@@ -79,6 +79,9 @@ gem 'soap4r-ruby1.9'
 gem 'dalli'
 gem 'kgio'
 
+# Javascript templates (used by OWL)
+gem 'ejs'
+
 # Gems useful for development
 group :development do
   gem 'vendorer'

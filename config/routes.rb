@@ -148,6 +148,7 @@ OpenStreetMap::Application.routes.draw do
   match '/fixthemap' => 'site#fixthemap', :via => :get, :as => :fixthemap
   match '/help' => 'site#help', :via => :get, :as => :help
   match '/about' => 'site#about', :via => :get, :as => :about
+  match '/activity' => 'activity#display', :via => :get
   match '/history' => 'changeset#list', :via => :get
   match '/history/feed' => 'changeset#feed', :via => :get, :defaults => { :format => :atom }
   match '/history/comments/feed' => 'changeset#comments_feed', :via => :get, :as => :changesets_comments_feed, :defaults => { :format => 'rss' }

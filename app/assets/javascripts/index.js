@@ -313,6 +313,7 @@ $(document).ready(function () {
     "/search":                     OSM.Search(map),
     "/export":                     OSM.Export(map),
     "/note/new":                   OSM.NewNote(map),
+    "/activity":                   OSM.OWL(map),
     "/history/friends":            history,
     "/history/nearby":             history,
     "/history":                    OSM.OWL(map),

@@ -12,6 +12,9 @@ L.TileLayer.Ajax = L.TileLayer.extend({
             if (req.readyState !== 4) {
                 return;
             }
+            // Remove the request from the list
+            layer._requests.splice(layer._requests.indexOf(req), 1);
+
             var s = req.status;
             if ((s >= 200 && s < 300) || s === 304) {
                 tile.datum = JSON.parse(req.responseText);
