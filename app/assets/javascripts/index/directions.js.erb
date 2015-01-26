@@ -166,13 +166,15 @@ OSM.Directions = function (map) {
              d.lat.toFixed(precision) + ',' + d.lng.toFixed(precision)
     }));
 
-    $(".directions_form .spinner").show();
+    // copy loading item to sidebar and display it. we copy it, rather than
+    // just using it in-place and replacing it in case it has to be used
+    // again.
+    $('#sidebar_content').html($('.directions_form .loader_copy').html());
     awaitingRoute = true;
+    map.setSidebarOverlaid(false);
 
     chosenEngine.getRoute([o, d], function (err, route) {
       awaitingRoute = false;
-
-      $(".directions_form .spinner").hide();
 
       if (err) {
         map.removeLayer(polyline);
@@ -187,8 +189,6 @@ OSM.Directions = function (map) {
       polyline
         .setLatLngs(route.line)
         .addTo(map);
-
-      map.setSidebarOverlaid(false);
 
       if (!dragging) {
         map.fitBounds(polyline.getBounds().pad(0.05));
