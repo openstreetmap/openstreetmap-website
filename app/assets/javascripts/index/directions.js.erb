@@ -32,8 +32,8 @@ OSM.Directions = function (map) {
   });
 
   var endpoints = [
-    Endpoint($("input[name='route_from']"), <%= asset_path('marker-green.png').to_json %>),
-    Endpoint($("input[name='route_to']"),   <%= asset_path('marker-red.png').to_json %>)
+    Endpoint($("#content input[name='route_from']"), <%= asset_path('marker-green.png').to_json %>),
+    Endpoint($("#content input[name='route_to']"),   <%= asset_path('marker-red.png').to_json %>)
   ];
 
   function Endpoint(input, iconUrl) {
@@ -62,10 +62,23 @@ OSM.Directions = function (map) {
     });
 
     input.on("change", function (e) {
+      endpoint.getGeocode();
+    });
+
+    endpoint.getGeocode = function() {
+      var value = input.val();
+
+      // if no one has entered a value yet, then we can't geocode, so don't
+      // even try.
+      if (!value) {
+        return;
+      }
+
       endpoint.awaitingGeocode = true;
 
-      $.getJSON('<%= NOMINATIM_URL %>search?q=' + encodeURIComponent(e.target.value) + '&format=json', function (json) {
+      $.getJSON('<%= NOMINATIM_URL %>search?q=' + encodeURIComponent(value) + '&format=json', function (json) {
         endpoint.awaitingGeocode = false;
+        endpoint.hasGeocode = true;
 
         if (json.length == 0) {
           alert(I18n.t('javascripts.directions.errors.no_place'));
@@ -84,11 +97,12 @@ OSM.Directions = function (map) {
           getRoute();
         }
       });
-    });
+    }
 
     endpoint.setLatLng = function (ll) {
       var precision = OSM.zoomPrecision(map.getZoom());
       input.val(ll.lat.toFixed(precision) + ", " + ll.lng.toFixed(precision));
+      endpoint.hasGeocode = true;
       endpoint.latlng = ll;
       endpoint.marker
         .setLatLng(ll)
@@ -125,6 +139,15 @@ OSM.Directions = function (map) {
   }
 
   function getRoute() {
+    // go fetch geocodes for any endpoints which have not already
+    // been geocoded.
+    for (var ep_i = 0; ep_i < 2; ++ep_i) {
+      var endpoint = endpoints[ep_i];
+      if (!endpoint.hasGeocode && !endpoint.awaitingGeocode) {
+        endpoint.getGeocode();
+        awaitingGeocode = true;
+      }
+    }
     if (endpoints[0].awaitingGeocode || endpoints[1].awaitingGeocode) {
       awaitingGeocode = true;
       return;
