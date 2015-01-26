@@ -290,6 +290,10 @@ OSM.Directions = function (map) {
       setEngine(params.engine);
     }
 
+    if (params.from) {
+      $(".directions_form input[name='route_from']").val(params.from);
+    }
+
     var o = route[0] && L.latLng(route[0].split(',')),
         d = route[1] && L.latLng(route[1].split(','));
 

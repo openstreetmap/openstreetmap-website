@@ -9,6 +9,16 @@ OSM.Search = function(map) {
     }
   });
 
+  $(".search_form a.button.switch_link").on("click", function(e) {
+    e.preventDefault();
+    var query = $(e.target).parent().parent().find("input[name=query]").val();
+    if (query) {
+      OSM.router.route("/directions?from=" + encodeURIComponent(query) + OSM.formatHash(map));
+    } else {
+      OSM.router.route("/directions" + OSM.formatHash(map));
+    }
+  });
+
   $(".search_form").on("submit", function(e) {
     e.preventDefault();
     $("header").addClass("closed");
