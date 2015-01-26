@@ -253,6 +253,14 @@ OSM.Directions = function (map) {
       $('#sidebar_content').append('<p id="routing_credit">' +
         I18n.t('javascripts.directions.instructions.courtesy', {link: chosenEngine.creditline}) +
         '</p>');
+
+      $('#sidebar_content a.geolink').on('click', function(e) {
+        e.preventDefault();
+        map.removeLayer(polyline);
+        $('#sidebar_content').html('');
+        map.setSidebarOverlaid(true);
+        // TODO: collapse width of sidebar back to previous
+      });
     });
   }
 
