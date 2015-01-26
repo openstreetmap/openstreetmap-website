@@ -4,6 +4,7 @@
 # Author: B891202
 # Author: Freebiekr
 # Author: Hym411
+# Author: IRTC1015
 # Author: Kwj2772
 # Author: Priviet
 # Author: Revi
@@ -110,7 +111,7 @@ ko:
     in_changeset: 바뀜집합
     anonymous: 익명
     no_comment: (덧글 없음)
-    part_of: '다음의 부분:'
+    part_of: '다음의 일부:'
     download_xml: XML 다운로드
     view_history: 역사 보기
     view_details: 자세한 내용 보기
@@ -124,11 +125,18 @@ ko:
       way_paginated: 길 (%{count} 중 %{x}-%{y})
       relation: 관계 (%{count})
       relation_paginated: 관계 (%{count} 중 %{x}-%{y})
+      comment: 의견 (%{count})
+      hidden_commented_by: '%{user} 사용자가 <abbr title=''%{exact_time}''>%{when} 전</abbr>에
+        남긴 숨겨진 덧글'
+      commented_by: '%{user} 사용자가 <abbr title=''%{exact_time}''>%{when} 전</abbr>에
+        덧글을 남김'
       changesetxml: 바뀜집합 XML
-      osmchangexml: osm바뀜 XML
+      osmchangexml: osmChange XML
       feed:
         title: 바뀜집합 %{id}
         title_comment: 바뀜집합 %{id} - %{comment}
+      join_discussion: 토론에 참여하려면 로그인
+      discussion: 토론
     node:
       title: '노드: %{name}'
       history_title: '노드 역사: %{name}'
@@ -137,8 +145,8 @@ ko:
       history_title: '길 역사: %{name}'
       nodes: 노드
       also_part_of:
-        one: '%{related_ways} 길의 부분'
-        other: '%{related_ways} 길의 부분'
+        one: '%{related_ways} 길의 일부'
+        other: '%{related_ways} 길의 일부'
     relation:
       title: '관계: %{name}'
       history_title: '관계 역사: %{name}'
@@ -345,7 +353,7 @@ ko:
       format: 형식
       scale: 축척
       max: 최대
-      image_size: 이미지 크기
+      image_size: 그림 크기
       zoom: 확대
       add_marker: 지도에 표시 추가
       latitude: '위도:'
@@ -521,7 +529,7 @@ ko:
           primary_link: 주요 도로
           proposed: 제안 도로
           raceway: 경마장
-          residential: 주택
+          residential: 주거 도로
           rest_area: 휴게소
           road: 도로
           secondary: 보조 도로
@@ -732,6 +740,8 @@ ko:
           tram: 전차
           tram_stop: 전차 정거장
           yard: 철도 기지
+        route:
+          bus: 버스 노선
         shop:
           alcohol: 주점
           antiques: 골동품 상점
@@ -931,10 +941,6 @@ ko:
       text: 기부하기
     learn_more: 더 알아보기
     more: 더 보기
-    sotm_header: 지도의 나라 2014
-    sotm_line_1: 8차 연례 회의
-    sotm_line_2: 2014년 11월 7일~9일
-    sotm_line_3: 아르헨티나, 부에노스 아이레스
   license_page:
     foreign:
       title: 이 번역에 대한 정보
@@ -1237,6 +1243,15 @@ ko:
         commented_note: '%{commenter} 사용자가 당신이 덧글을 남긴 지도 참고를 다시 활성했습니다. 참고는 %{place}
           근처에 있습니다.'
       details: 참고에 대한 자세한 사항은 %{url} 에서 찾을 수 있습니다.
+    changeset_comment_notification:
+      greeting: 안녕하세요,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} 사용자가 당신의 바뀜집합에 덧글을 남겼습니다'
+        subject_other: '[OpenStreetMap] %{commenter} 사용자가 당신이 관심 있는 바뀜집합에 덧글을 남겼습니다'
+        your_changeset: '%{commenter} 사용자가 당신이 %{time}에 만든 바뀜집합에 덧글을 달았습니다'
+        commented_changeset: '%{commenter} 사용자가 %{changeset_author}이 %{time}에 만든,
+          주시 중인 지도 바뀜집합에 덧글을 달았습니다'
+      details: 바뀜집합에 대한 자세한 사항은 %{url} 에서 찾을 수 있습니다.
   message:
     inbox:
       title: 받은 쪽지함
@@ -2125,6 +2140,12 @@ ko:
       createnote_disabled_tooltip: 지도에 참고를 추가하려면 확대
       map_notes_zoom_in_tooltip: 지도 참고를 보려면 확대
       map_data_zoom_in_tooltip: 지도 데이터를 보려면 확대
+    changesets:
+      show:
+        comment: 덧글
+        subscribe: 구독
+        unsubscribe: 구독 해지
+        hide_comment: 숨기기
     notes:
       new:
         intro: 실수했거나 없는 무언가를 발견했나요? 다른 매퍼에게 알려주어 고칠 수 있게 해주세요. 마커를 올바른 위치로 옮기고, 참고를
@@ -2138,6 +2159,10 @@ ko:
         comment_and_resolve: 덧글 & 해결
         comment: 덧글
     edit_help: 편집하려는 위치에 지도를 이동하고 확대한 다음, 여기를 클릭하세요.
+    query:
+      node: 노드
+      way: 길
+      relation: 관계
   redaction:
     edit:
       description: 설명

@@ -91,7 +91,7 @@ class RelationControllerTest < ActionController::TestCase
     assert_response :success
 
     # count one osm element
-    assert_select "osm[version=#{API_VERSION}][generator=\"OpenStreetMap server\"]", 1
+    assert_select "osm[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
 
     # we should have only the expected number of relations
     assert_select "osm>relation", expected_relations.size
@@ -99,8 +99,7 @@ class RelationControllerTest < ActionController::TestCase
     # and each of them should contain the node we originally searched for
     expected_relations.each do |r|
       relation_id = current_relations(r).id
-      assert_select "osm>relation#?", relation_id
-      assert_select "osm>relation#?>member[type=\"#{type}\"][ref=#{id}]", relation_id
+      assert_select "osm>relation[id='#{relation_id}']>member[type='#{type}'][ref='#{id}']", 1
     end
   end
 
@@ -130,10 +129,10 @@ class RelationControllerTest < ActionController::TestCase
     assert_response :success
     assert_select "osm" do
       assert_select "relation", :count => 4
-      assert_select "relation[id=1][visible=true]", :count => 1
-      assert_select "relation[id=2][visible=false]", :count => 1
-      assert_select "relation[id=4][visible=true]", :count => 1
-      assert_select "relation[id=7][visible=true]", :count => 1
+      assert_select "relation[id='1'][visible='true']", :count => 1
+      assert_select "relation[id='2'][visible='false']", :count => 1
+      assert_select "relation[id='4'][visible='true']", :count => 1
+      assert_select "relation[id='7'][visible='true']", :count => 1
     end
 
     # check error when a non-existent relation is included
@@ -862,11 +861,11 @@ OSM
       get :read, :id => changeset_id
       assert_response :success, "can't re-read changeset for modify test"
       assert_select "osm>changeset", 1, "Changeset element doesn't exist in #{@response.body}"
-      assert_select "osm>changeset[id=#{changeset_id}]", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
-      assert_select "osm>changeset[min_lon=#{bbox.min_lon}]", 1, "Changeset min_lon wrong in #{@response.body}"
-      assert_select "osm>changeset[min_lat=#{bbox.min_lat}]", 1, "Changeset min_lat wrong in #{@response.body}"
-      assert_select "osm>changeset[max_lon=#{bbox.max_lon}]", 1, "Changeset max_lon wrong in #{@response.body}"
-      assert_select "osm>changeset[max_lat=#{bbox.max_lat}]", 1, "Changeset max_lat wrong in #{@response.body}"
+      assert_select "osm>changeset[id='#{changeset_id}']", 1, "Changeset id=#{changeset_id} doesn't exist in #{@response.body}"
+      assert_select "osm>changeset[min_lon='#{bbox.min_lon}']", 1, "Changeset min_lon wrong in #{@response.body}"
+      assert_select "osm>changeset[min_lat='#{bbox.min_lat}']", 1, "Changeset min_lat wrong in #{@response.body}"
+      assert_select "osm>changeset[max_lon='#{bbox.max_lon}']", 1, "Changeset max_lon wrong in #{@response.body}"
+      assert_select "osm>changeset[max_lat='#{bbox.max_lat}']", 1, "Changeset max_lat wrong in #{@response.body}"
     end
   end
 

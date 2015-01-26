@@ -123,11 +123,17 @@ mk:
       way_paginated: Патишта (%{x}-%{y} од вкупно %{count})
       relation: Односи (%{count})
       relation_paginated: Односи (%{x}-%{y} од вкупно %{count})
+      comment: Коментари (%{count})
+      hidden_commented_by: Скриен коментар на %{user} <abbr title='%{exact_time}'>пред
+        %{when}</abbr>
+      commented_by: Коментар на %{user} <abbr title='%{exact_time}'>пред %{when}</abbr>
       changesetxml: XML за измените
       osmchangexml: osmChange XML
       feed:
         title: Измени %{id}
         title_comment: Измени %{id} - %{comment}
+      join_discussion: Најавете се за да се приклучите во разговорот
+      discussion: Разговор
     node:
       title: 'Јазол: %{name}'
       history_title: 'Историја на јазолот: %{name}'
@@ -204,6 +210,11 @@ mk:
       reopened_by_anonymous: Преактивирано од анонимен <abbr title='%{exact_time}'>пред
         %{when}</abbr>
       hidden_by: Скриено од %{user} <abbr title='%{exact_time}'>пред %{when}</abbr>
+    query:
+      title: Пребарување на особености
+      introduction: Стиснете на картата за да ги најдете особеностите во близина.
+      nearby: Особености во близина
+      enclosing: Обиколни особености
   changeset:
     changeset_paging_nav:
       showing_page: Страница %{page}
@@ -234,6 +245,13 @@ mk:
     timeout:
       sorry: За жал, на списокот на измени што го побаравте му требаше предолго за
         да се преземе.
+    rss:
+      title_all: Разговор за промена на OpenStreetMap
+      title_particular: 'Разговор за промената #%{changeset_id} на OpenStreetMap'
+      comment: 'Нов коментар за промената #%{changeset_id} на %{author}'
+      commented_at_html: Подновено пред %{when}
+      commented_at_by_html: Подновено пред %{when} од %{user}
+      full: Целосен разговор
   diary_entry:
     new:
       title: Нова дневничка ставка
@@ -333,7 +351,7 @@ mk:
           title: Планетата на OSM
           description: Редовно подновувани примероци на целата база на OpenStreetMap
         overpass:
-          title: Прилог „Надвозник“
+          title: Извршник „Надвозник“
           description: Преземете ја оваа рамка од огледална база на базата на OpenStreetMap
         geofabrik:
           title: Geofabrik
@@ -525,7 +543,7 @@ mk:
           primary_link: Главен пат
           proposed: Предложен пат
           raceway: Тркачка патека
-          residential: Станбен
+          residential: Станбена улица
           rest_area: Одмориште
           road: Пат
           secondary: Спореден пат
@@ -736,6 +754,8 @@ mk:
           tram: Трамвајска линија
           tram_stop: Трамвајска постојка
           yard: Железничко депо
+        route:
+          bus: Автобуска линија
         shop:
           alcohol: Алкохол на црно
           antiques: Старинарница
@@ -941,10 +961,6 @@ mk:
       text: Дарувајте
     learn_more: Дознајте повеќе
     more: Повеќе
-    sotm_header: Состојба на картата 2014 г.
-    sotm_line_1: XVIII Годишна конференција
-    sotm_line_2: 7-9 ноември 2014 г.
-    sotm_line_3: Буенос Аирес, Аргентина
   license_page:
     foreign:
       title: За овој превод
@@ -998,8 +1014,8 @@ mk:
         href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Правни ЧПП</a>.
       more_2_html: |-
         Иако OpenStreetMap работи со отворени податоци, ние не можеме да понудиме
-        бесплатни програмски прилози (API) за карти на трети програмери.
-        Погледајте ги <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">правилата за употреба на прилогот</a>,
+        бесплатни извршници (API) за карти на трети програмери.
+        Погледајте ги <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">правилата за употреба на извршникот</a>,
         <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">правилата за употреба на полињата</a>
         и <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Nominatim</a>.
       contributors_title_html: Нашите учесници
@@ -1135,7 +1151,7 @@ mk:
     next: Следно
     copyright_html: <span>&copy;</span>Учесници на<br>OpenStreetMap
     used_by: '%{name} обезбедува картографски податоци на стотици мрежни места, мобилни
-      прилози и сметачки уреди'
+      извршници и сметачки уреди'
     lede_text: |-
       OpenStreetMap ја гради заедница од учесници што придонесуваат со свои содржини и ги одржуваат податоците
       за патишта, патеки, кафеани, железнички станици и многу друго ширум светот.
@@ -1255,6 +1271,19 @@ mk:
         commented_note: '%{commenter} реши картографска белешка на која имате коментирано.
           Белешката се наоѓа близу %{place}.'
       details: Поподробно за белешката на %{url}.
+    changeset_comment_notification:
+      greeting: Здраво,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} искоментира на една од вашите промени'
+        subject_other: '[OpenStreetMap] %{commenter} искоментира на промена што ве
+          интересира'
+        your_changeset: '%{commenter} даде коментар на една од вашите промени направени
+          во %{time}'
+        commented_changeset: '%{commenter} даде коментар на променa што ја набљудувате
+          направена од %{changeset_author} во %{time}'
+        partial_changeset_with_comment: со коментарот „%{changeset_comment}“
+        partial_changeset_without_comment: без коментар
+      details: Поподробно за промената на %{url}.
   message:
     inbox:
       title: Примени
@@ -1479,7 +1508,7 @@ mk:
       description: 'Опис:'
       tags: 'Ознаки:'
       tags_help: одделено со запирка
-      save_button: Сочувај промени
+      save_button: Зачувај промени
       visibility: 'Видливост:'
       visibility_help: што значи ова?
       visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces?uselang=mk
@@ -1580,15 +1609,15 @@ mk:
     setup_user_auth:
       blocked: Пристапот кон API ви е блокиран. Најавете се на посредникот за да дознаете
         повеќе.
-      need_to_see_terms: Вашиот пристап до приложниот програм (API) е привремено запрен.
+      need_to_see_terms: Вашиот пристап до извршничкиот програм е привремено запрен.
         Најавете се на мрежниот посредник за да ги погледате Условите за учесниците.
         Нема потреба да се согласувате со услоците, но мора да ги прочитате.
   oauth:
     oauthorize:
       title: Овластете пристап до вашата сметка
-      request_access: Програмскиот прилог %{app_name} бара пристап до вашата сметка,
-        %{user}. Видете дали би сакале прилогот да ги има следните можности. Можете
-        да одберете колку што сакате.
+      request_access: Извршникот %{app_name} бара пристап до вашата сметка, %{user}.
+        Видете дали би сакале извршникот да ги има следните можности. Можете да одберете
+        колку што сакате.
       allow_to: 'Дозволи му на клиентскиот програм да:'
       allow_read_prefs: ви ги чита корисничките прилагодувања.
       allow_write_prefs: ги менува вашите кориснички прилагодувања.
@@ -1599,11 +1628,11 @@ mk:
       allow_write_notes: измена на белешки.
     oauthorize_success:
       title: Барањето за овластување е дозволено
-      allowed: На прилогот %{app_name} му дадовте пристап до вашата сметка.
+      allowed: На извршникот %{app_name} му дадовте пристап до вашата сметка.
       verification: Потврдниот код гласи %{code}.
     oauthorize_failure:
       title: Барањето за овластување не успеа
-      denied: На прилогот %{app_name} му го одбивте пристапот до вашата сметка.
+      denied: На извршникот %{app_name} му го одбивте пристапот до вашата сметка.
       invalid: Шифрата за овластување е неважечка.
     revoke:
       flash: Ja поништивте шифрата за %{application}
@@ -2216,6 +2245,15 @@ mk:
       createnote_disabled_tooltip: Приближете за да додадете белешка
       map_notes_zoom_in_tooltip: Приближете за да ги видите белешките
       map_data_zoom_in_tooltip: Приближете за да ги видите податоците
+      queryfeature_tooltip: Пребарување на особености
+      queryfeature_disabled_tooltip: Зголеми на пребарувањето на особеностите
+    changesets:
+      show:
+        comment: Коментар
+        subscribe: Претплати се
+        unsubscribe: Откажи претплата
+        hide_comment: скриј
+        unhide_comment: откриј
     notes:
       new:
         intro: Забележавте некоја грешка или нешто недостасува? Дајте им на знаење
@@ -2234,6 +2272,13 @@ mk:
         comment: Коментирај
     edit_help: Поместете ја картата и приближете во местото што сакате да го уредите,
       па стиснете тука.
+    query:
+      node: Јазол
+      way: Пат
+      relation: Однос
+      nothing_found: Не пронајдов ниедна особеност
+      error: 'Грешка при поврзувањето со %{server}: %{error}'
+      timeout: Истече времето за поврзување со %{server}
   redaction:
     edit:
       description: Опис

@@ -140,11 +140,17 @@ ca:
       way_paginated: Vies (%{x}-%{y} de %{count})
       relation: Relacions (%{count})
       relation_paginated: Relacions (%{x}-%{y} de %{count})
+      comment: (%{count}) comentaris
+      hidden_commented_by: Comentari ocult de l'usuari %{user} <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
+      commented_by: Comentari de %{user} <abbr title='%{exact_time}'>%{when} ago</abbr>
       changesetxml: XML del conjunt de canvis
       osmchangexml: XML en format osmChange
       feed:
         title: Conjunt de canvis %{id}
         title_comment: Conjunt de canvis %{id} - %{comment}
+      join_discussion: Inicieu sessió per unir-vos a la discussió
+      discussion: Discussió
     node:
       title: 'Node: %{name}'
       history_title: 'Historial del node: %{name}'
@@ -221,6 +227,11 @@ ca:
       reopened_by: Reactivat per %{user}  fa <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous: Reactivat per un anònim fa <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Ocultat per %{user} fa <abbr title='%{exact_time}'>%{when}</abbr>
+    query:
+      title: Consultar característiques
+      introduction: Cliqueu al mapa per trobar característques properes.
+      nearby: Característiques properes
+      enclosing: Característiques adjuntes
   changeset:
     changeset_paging_nav:
       showing_page: Pàgina %{page}
@@ -251,6 +262,13 @@ ca:
     timeout:
       sorry: La llista de conjunt de canvis que heu sol·licitat ha trigat massa a
         recuperar-se.
+    rss:
+      title_all: Discussió del conjunt de canvis d'OpenStreetMap
+      title_particular: 'Discussió del conjunt de canvis #%{changeset_id} d''OpenStreetMap'
+      comment: 'Nou comentari de %{author} al conjunt de canvis #%{changeset_id}'
+      commented_at_html: Actualitzat fa %{when}
+      commented_at_by_html: Actualitzat fa %{when} per %{user}
+      full: Discussió sencera
   diary_entry:
     new:
       title: Nova Entrada de Diari
@@ -546,7 +564,7 @@ ca:
           primary_link: Carretera principal
           proposed: Carretera proposada
           raceway: Vial Ràpid
-          residential: Residencial
+          residential: Carrer Residencial
           rest_area: Àrea de descans
           road: Carretera
           secondary: Carretera secundària
@@ -712,7 +730,7 @@ ca:
           country: País
           county: Comtat
           farm: Granja
-          hamlet: Aldea
+          hamlet: Llogaret
           house: Casa
           houses: Cases
           island: Illa
@@ -757,6 +775,8 @@ ca:
           tram: Tramvia
           tram_stop: Parada de tramvia
           yard: Pati de ferrocarril
+        route:
+          bus: Ruta d'autobús
         shop:
           alcohol: De llicència
           antiques: Antiquari
@@ -879,13 +899,13 @@ ca:
           water_point: Punt d'aigua
           weir: Weir
       admin_levels:
-        level2: Frontera
+        level2: Frontera internacional
         level4: Límit d'estat
         level5: Límit de regió
         level6: Frontera
         level8: Límit de municipi
-        level9: Límit de poble
-        level10: Límit de suburbi
+        level9: Límit de districte
+        level10: Límit de barri
     description:
       title:
         osm_nominatim: Localització des de <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
@@ -964,9 +984,6 @@ ca:
       text: Feu una donació
     learn_more: Aprèn-ne més
     more: Més
-    sotm_line_1: 8a Conferència Annual
-    sotm_line_2: 7-9 de novembre de 2014
-    sotm_line_3: Buenos Aires, Argentina
   license_page:
     foreign:
       title: Quant a la traducció
@@ -1279,6 +1296,20 @@ ca:
         commented_note: '%{commenter} ha reactivat una nota de mapa en la qual hi
           heu comentat. La nota és a prop de %{place}.'
       details: Podeu trobar més detalls de la nota a %{url}.
+    changeset_comment_notification:
+      greeting: Hola,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} ha comentat en un dels vostres
+          conjunts de canvis'
+        subject_other: '[OpenStreetMap] %{commenter} ha comentat en un conjunt de
+          canvis el qual hi esteu interessat'
+        your_changeset: '%{commenter} ha fet un comentari en un dels vostres conjunts
+          de canvis creats a %{time}'
+        commented_changeset: '%{commenter} ha fet un comentari en un conjunt de canvis
+          de %{changeset_author} a %{time} i que esteu seguint'
+        partial_changeset_with_comment: amb comentari '%{changeset_comment}'
+        partial_changeset_without_comment: sense comentari
+      details: Més detalls del conjunt de canvis es poden trobar a %{url}
   message:
     inbox:
       title: Safata d'entrada
@@ -2213,8 +2244,8 @@ ca:
       tooltip_disabled: La llegenda només està disponible per a la capa estàndard
     map:
       zoom:
-        in: Apropar-se
-        out: Allunyar-se
+        in: Amplia
+        out: Allunya
       locate:
         title: Mostra la meva ubicació
         popup: Esteu a {distance} {unit} d'aquest punt
@@ -2239,6 +2270,15 @@ ca:
       createnote_disabled_tooltip: Fes zoom per afegir una nota al mapa
       map_notes_zoom_in_tooltip: Feu zoom per veure les notes del mapa
       map_data_zoom_in_tooltip: Feu zoom per veure les dades del mapa
+      queryfeature_tooltip: Consulta característiques
+      queryfeature_disabled_tooltip: Apropeu-vos per consultar característiques
+    changesets:
+      show:
+        comment: Comentari
+        subscribe: Subscriure's
+        unsubscribe: Donar-se de baixa
+        hide_comment: ocultar
+        unhide_comment: mostrar
     notes:
       new:
         intro: Heu trobat un error o bé hi falta res? Informeu-ne a d'altres col·laboradors
@@ -2257,6 +2297,13 @@ ca:
         comment: Comenta
     edit_help: Moveu el mapa i feu zoom sobre una ubicació que vulgueu editar, i a
       continuació, feu clic aquí.
+    query:
+      node: Node
+      way: Via
+      relation: Relació
+      nothing_found: No s'han trobat característiques
+      error: 'Error en contactar amb %{server}: %{error}'
+      timeout: Temps de contacte amb %{server} excedit
   redaction:
     edit:
       description: Descripció

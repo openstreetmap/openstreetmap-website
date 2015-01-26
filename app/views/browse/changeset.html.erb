@@ -15,7 +15,7 @@
   
   <div class="buttons clearfix subscribe-buttons">
     <form action="#" class="hide_unless_logged_in">
-      <% if @changeset.subscribers.exists?(@user) %>
+      <% if @user and @changeset.subscribers.exists?(@user.id) %>
         <input class="action-button" type="submit" name="unsubscribe" value="<%= t('javascripts.changesets.show.unsubscribe') %>" data-method="POST" data-url="<%= changeset_unsubscribe_url(@changeset) %>" />
       <% else %>
         <input class="action-button" type="submit" name="subscribe" value="<%= t('javascripts.changesets.show.subscribe') %>" data-method="POST" data-url="<%= changeset_subscribe_url(@changeset) %>" />

@@ -138,11 +138,17 @@ nl:
       way_paginated: Wegen (%{x}-%{y} van %{count})
       relation: Relaties (%{count})
       relation_paginated: Relaties (%{x}-%{y} van %{count})
+      comment: Reacties (%{count})
+      hidden_commented_by: Verborgen reactie van %{user} <abbr title='%{exact_time}'>%{when}
+        geleden</abbr>
+      commented_by: Reactie van %{user} <abbr title='%{exact_time}'>%{when} geleden</abbr>
       changesetxml: Changeset-XML
       osmchangexml: osmChange-XML
       feed:
         title: Set wijzigingen %{id}
         title_comment: Set wijzigingen %{id} - %{comment}
+      join_discussion: Meld u aan om mee te praten
+      discussion: Overleg
     node:
       title: 'Node: %{name}'
       history_title: 'Nodegeschiedenis: %{name}'
@@ -201,9 +207,9 @@ nl:
       wiki_link:
         key: De wikipagina die het label %{key} beschrijft
         tag: De wikipagina die het label %{key}=%{value} beschrijft
-      wikidata_link: Het %{page}-item op Wikidata
+      wikidata_link: Het item %{page} op Wikidata
       wikipedia_link: De pagina %{page} op Wikipedia
-      telephone_link: Bel %{phone_number}
+      telephone_link: '%{phone_number} bellen'
     note:
       title: 'Opmerking: %{id}'
       new_note: Nieuwe opmerking
@@ -227,6 +233,11 @@ nl:
       reopened_by_anonymous: <abbr title='%{exact_time}'>%{when} geleden</abbr> opnieuw
         geactiveerd door anoniem
       hidden_by: <abbr title='%{exact_time}'>%{when} ago</abbr> verborgen door %{user}
+    query:
+      title: Nabije objecten opvragen
+      introduction: Klik op de kaart om nabije eigenschappen te ontdekken.
+      nearby: Nabije eigenschappen
+      enclosing: Omsluitende eigenschappen
   changeset:
     changeset_paging_nav:
       showing_page: Pagina %{page}
@@ -257,6 +268,13 @@ nl:
     timeout:
       sorry: Het duurde te lang om de lijst met wijzigingensets die u hebt opgevraagd
         op te halen.
+    rss:
+      title_all: Overleg over een wijzigingenset van OpenStreetMap
+      title_particular: 'Overleg over een wijzigingenset van OpenStreetMap #%{changeset_id}'
+      comment: 'Nieuwe reactie bij wijzigingenset #%{changeset_id} door %{author}'
+      commented_at_html: '%{when} geleden bijgewerkt'
+      commented_at_by_html: '%{when} geleden bijgewerkt door %{user}'
+      full: Volledig overleg
   diary_entry:
     new:
       title: Nieuw dagboekbericht
@@ -362,9 +380,9 @@ nl:
         geofabrik:
           title: Geofabrik downloads
           description: Regelmatig bijgewerkt extracten van continenten, landen en
-            geselecteerde steden
+            een selectie van steden
         metro:
-          title: Metro extracten
+          title: Metro-extracten
           description: Extracten voor grote wereldsteden en hun omliggende gebieden
         other:
           title: Andere bronnen
@@ -406,7 +424,7 @@ nl:
           apron: Platform
           gate: Gate
           helipad: Helikopterplatform
-          runway: Start-en landingsbaan
+          runway: Start- en landingsbaan
           taxiway: Taxibaan
           terminal: Terminal
         amenity:
@@ -760,6 +778,8 @@ nl:
           tram: Tramrails
           tram_stop: Tramhalte
           yard: Rangeerterrein
+        route:
+          bus: Busroute
         shop:
           alcohol: Slijterij
           antiques: Antiek
@@ -963,10 +983,6 @@ nl:
       text: Doneren
     learn_more: Meer lezen
     more: Meer
-    sotm_header: Staat van de kaart 2014
-    sotm_line_1: 8e jaarlijkse conferentie
-    sotm_line_2: 7-9 november 2014
-    sotm_line_3: Buenos Aires, Argentinië
   license_page:
     foreign:
       title: Over deze vertaling
@@ -1020,7 +1036,7 @@ nl:
       more_title_html: Meer informatie
       more_1_html: |-
         U kunt meer lezen over het gebruik van onze gegevens en hoe naamsvermelding toe te passen in de <a
-        href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Veel gestelde juridische
+        href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Veelgestelde juridische
         vragen</a>.
       more_2_html: |-
         Hoewel OpenStreetMap open data is, kunnen we geen gratis
@@ -1286,6 +1302,20 @@ nl:
         commented_note: '%{commenter} heeft een kaartopmerking waarop u hebt gereageerd
           opnieuw geactiveerd. De opmerking is gemaakt bij %{place}.'
       details: Meer details over de opmerking zijn te vinden op %{url}.
+    changeset_comment_notification:
+      greeting: Hallo,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} heeft gereageerd op een van uw
+          wijzigingensets'
+        subject_other: '[OpenStreetMap] %{commenter} heeft gereageerd op een wijzigingenset
+          waar u interesse in hebt'
+        your_changeset: '%{commenter} heeft gereageerd op een van uw wijzigingenset
+          gemaakt op %{time}'
+        commented_changeset: '%{commenter} heeft gereageerd op een wijzigingenset
+          die u volgt die gemaakt is door %{changeset_author} op %{time}'
+        partial_changeset_with_comment: met reactie "%{changeset_comment}"
+        partial_changeset_without_comment: zonder reactie
+      details: Meer details over de wijzigingenset kunt u vinden op %{url}.
   message:
     inbox:
       title: Postvak IN
@@ -1363,7 +1393,7 @@ nl:
     index:
       js_1: U gebruikt een browser die JavaScript niet ondersteunt, of u hebt JavaScript
         uitgeschakeld.
-      js_2: OpenStreetMap gebruikt JavaScript voor de slippy-kaart.
+      js_2: OpenStreetMap gebruikt JavaScript voor de slippykaart.
       permalink: Permanente koppeling
       shortlink: Korte koppeling
       createnote: Opmerking toevoegen
@@ -1384,7 +1414,8 @@ nl:
       potlatch_unsaved_changes: U hebt wijzigingen gemaakt die nog niet zijn opgeslagen.
         Om op te slaan in Potlach, deselecteert u de huidige weg of het huidige punt
         als u in livemodus bewerkt, of klikt u op de knop Opslaan.
-      potlatch2_not_configured: Potlatch 2 is niet ingesteld - zi http://wiki.openstreetmap.org/wiki/The_Rails_Port
+      potlatch2_not_configured: Potlatch 2 is niet ingesteld - zie http://wiki.openstreetmap.org/wiki/The_Rails_Port
+        voor meer informatie
       potlatch2_unsaved_changes: U hebt wijzigingen die nog niet zijn opgeslagen.
         Om op te slaan in Potlatch 2 moet u op "Opslaan" klikken.
       id_not_configured: iD is niet ingesteld
@@ -1484,7 +1515,7 @@ nl:
       url: URL
   trace:
     visibility:
-      private: Privé (alleen gedeeld als anoniem; ongeordende punten)
+      private: Persoonlijk (alleen gedeeld als anoniem; ongeordende punten)
       public: Publiek (weergegeven in tracklijst en als anonieme, ongeordende punten)
       trackable: Traceerbaar (alleen gedeeld als anoniem; geordende punten met tijdstempels)
       identifiable: Identificeerbaar (weergegeven in tracklijst en als identificeerbare,
@@ -1568,7 +1599,7 @@ nl:
       edit_map: Kaart bewerken
       public: OPENBAAR
       identifiable: IDENTIFICEERBAAR
-      private: PRIVÉ
+      private: PERSOONLIJK
       trackable: TRACEERBAAR
       by: door
       in: in
@@ -1622,7 +1653,7 @@ nl:
       allow_write_prefs: uw gebruikersvoorkeuren wijzigen
       allow_write_diary: dagboekberichten schrijven, reacties geven en vrienden maken
       allow_write_api: de kaart wijzigen
-      allow_read_gpx: uw privé-GPS-tracks lezen
+      allow_read_gpx: uw persoonlijke GPS-tracks lezen
       allow_write_gpx: GPS-tracks uploaden
       allow_write_notes: opmerkingen wijzigen.
     oauthorize_success:
@@ -1676,7 +1707,7 @@ nl:
       register_new: Uw toepassing registreren
     form:
       name: Naam
-      required: verplicht
+      required: Vereist
       url: Toepassings-URL
       callback_url: Callback-URL
       support_url: Ondersteunings-URL
@@ -1685,11 +1716,11 @@ nl:
       allow_write_prefs: gebruikersinstellingen wijzigen
       allow_write_diary: dagboekberichten schrijven, reacties en vrienden toevoegen
       allow_write_api: de kaart wijzigen
-      allow_read_gpx: privé-GPS-tracks lezen
+      allow_read_gpx: Persoonlijke GPS-tracks lezen
       allow_write_gpx: GPS-tracks uploaden
       allow_write_notes: opmerkingen wijzigen.
     not_found:
-      sorry: Sorry, die %{type} kan niet gevonden worden.
+      sorry: Die %{type} kan helaas niet gevonden worden.
     create:
       flash: De informatie is geregistreerd
     update:
@@ -1707,23 +1738,23 @@ nl:
       lost password link: Wachtwoord vergeten?
       login_button: Aanmelden
       register now: Nu inschrijven
-      with username: 'Hebt u al een account bij OpenStreetMap? Meld aan met uw gebruikersnaam
+      with username: 'Hebt u al een gebruiker bij OpenStreetMap? Meld aan met uw gebruikersnaam
         en wachtwoord:'
       with openid: 'U kunt ook aanmelden met uw OpenID:'
       new to osm: Is OpenStreetMap nieuw voor u?
       to make changes: Om wijzigingen in OpenStreetMap te maken, moet u een gebruiker
         hebben.
       create account minute: Maak een gebruiker aan. Dat is snel gebeurd.
-      no account: Hebt u geen account?
+      no account: Hebt u geen gebruiker?
       account not active: Uw gebruiker is helaas nog niet actief.<br />Klik op de
         koppeling in de bevestiging om deze te activeren of <a href="%{reconfirm}">vraag
         een nieuwe bevestiging per e-mail aan</a>.
       account is suspended: Uw gebruiker is automatisch opgeschort vanwege verdachte
         activiteit.<br />Neem contact op met de <a href="%{webmaster}">webmaster</a>
         als u deze handeling wilt bespreken.
-      auth failure: Sorry, met deze gegevens kunt u niet aanmelden.
-      openid missing provider: Sorry, we konden geen contact maken met uw OpenID-provider
-      openid invalid: Sorry, uw OpenID lijkt misvormd te zijn
+      auth failure: Met deze gegevens kunt u helaas niet aanmelden.
+      openid missing provider: We konden helaas geen contact maken met uw OpenID-provider
+      openid invalid: Uw OpenID lijkt helaas misvormd te zijn
       openid_logo_alt: Aanmelden met een OpenID
       openid_providers:
         openid:
@@ -1755,9 +1786,9 @@ nl:
         in te stellen.
       notice email on way: Spijtig om te horen dat u het vergeten bent, maar er is
         een e-mail onderweg zodat u uw wachtwoord opnieuw kunt instellen.
-      notice email cannot find: Kon dat e-mailadres niet vinden, sorry.
+      notice email cannot find: Dat e-mailadres kon helaas niet gevonden worden.
     reset_password:
-      title: reset wachtwoord
+      title: Wachtwoord opnieuw instellen
       heading: Wachtwoord voor %{user} opnieuw instellen
       password: 'Wachtwoord:'
       confirm password: 'Wachtwoord bevestigen:'
@@ -1793,12 +1824,12 @@ nl:
       openid no password: Met OpenID is een wachtwoord niet verplicht, maar sommige
         extra hulpmiddelen of servers kunnen het nog steeds nodig hebben.
       openid association: |-
-        <p>Uw OpenID is nog niet gekoppeld aan een OpenStreetMap-account.</p>
+        <p>Uw OpenID is nog niet gekoppeld aan een OpenStreetMapgebruiker.</p>
         <ul>
-          <li>Als u nieuw bent bij OpenStreetMap, maak dan een account aan met behulp van het onderstaande formulier.</li>
+          <li>Als u nieuw bent bij OpenStreetMap, maak dan een gebruiker aan met behulp van het onderstaande formulier.</li>
           <li>
-            Als u al een account heeft, kunt u zich aanmelden met uw gebruikersnaam en wachtwoord
-            en daarna uw account koppelen aan uw OpenID in uw gebruikersinstellingen.
+            Als u al een gebruiker heeft, kunt u zich aanmelden met uw gebruikersnaam en wachtwoord
+            en daarna uw gebruiker koppelen aan uw OpenID in uw gebruikersinstellingen.
           </li>
         </ul>
       continue: Registreren
@@ -1829,8 +1860,8 @@ nl:
     no_such_user:
       title: Deze gebruiker bestaat niet
       heading: De gebruiker %{user} bestaat niet
-      body: Sorry, er is geen gebruiker met de naam %{user}. Controleer de spelling,
-        of misschien is de koppeling waarop u hebt geklikt onjuist.
+      body: Er is geen gebruiker met de naam %{user}. Controleer de spelling, of misschien
+        is de koppeling waarop u hebt geklikt onjuist.
     view:
       my diary: Dagboek
       new diary entry: nieuw dagboekbericht
@@ -1866,7 +1897,7 @@ nl:
       user location: Gebruikerslocatie
       if set location: Stel uw thuislocatie in via de pagina %{settings_link} om gebruikers
         in uw buurt te zien.
-      settings_link_text: voorkeuren
+      settings_link_text: instellingen
       your friends: Uw vrienden
       no friends: U hebt nog geen vrienden toegevoegd.
       km away: '%{count} km verwijderd'
@@ -1997,7 +2028,7 @@ nl:
       heading: '%{user} als vriend toevoegen?'
       button: Als vriend toevoegen
       success: '%{name} is nu uw vriend.'
-      failed: Sorry, het toevoegen van %{name} als vriend is mislukt.
+      failed: Het toevoegen van %{name} als vriend is helaas mislukt.
       already_a_friend: U bent al bevriend met %{name}.
     remove_friend:
       heading: '%{user} als vriend verwijderen?'
@@ -2061,7 +2092,7 @@ nl:
       heading: Blokkade aanmaken voor %{name}
       reason: De reden waarom %{name} is geblokkeerd. Blijf kalm en redelijk en geef
         zoveel mogelijk details over de situatie. Dit bericht is voor iedereen zichtbaar.
-        Bedank u dat niet alle gebruikers het gemeenschapsjargon begrijpen, dus formuleer
+        Bedenk u dat niet alle gebruikers het gemeenschapsjargon begrijpen, dus formuleer
         begrijpelijk.
       period: Hoe lang, per nu, moet de gebruiker worden uitgesloten van het gebruik
         van de API?
@@ -2236,13 +2267,22 @@ nl:
       createnote_disabled_tooltip: Zoom in om een opmerking bij de kaart te maken
       map_notes_zoom_in_tooltip: Inzoomen om de kaartnotities te bekijken
       map_data_zoom_in_tooltip: Inzommen om de kaartgegeven te bekijken
+      queryfeature_tooltip: Nabije objecten opvragen
+      queryfeature_disabled_tooltip: Zoom in om objectinformatie op te vragen
+    changesets:
+      show:
+        comment: Reactie
+        subscribe: Abonneren
+        unsubscribe: Uitschrijven
+        hide_comment: verbergen
+        unhide_comment: zichtbaar maken
     notes:
       new:
-        intro: Een fout gezien of mist er iets? Laat het andere kaartmakers weten
+        intro: Een fout gezien of ontbreekt er iets? Laat het andere kaartmakers weten
           zodat wij het kunnen oplossen. Verplaats de markering naar de correcte positie
-          en beschrijf het probleem. (Vul hier alstublieft geen persoonlijke informatie
+          en beschrijf het probleem. Vul hier alstublieft geen persoonlijke informatie
           of informatie van auteursrechtelijk beschermde kaarten of mappenlijsten
-          in.)
+          in.
         add: Opmerking toevoegen
       show:
         anonymous_warning: In deze opmerking staan reacties van anonieme gebruikers
@@ -2254,6 +2294,13 @@ nl:
         comment: Reageren
     edit_help: Verplaats de kaar en zoom in op een plaats die u wilt bewerken. Klik
       er daarna op.
+    query:
+      node: Node
+      way: Weg
+      relation: Relatie
+      nothing_found: Geen eigenschappen gevonden
+      error: 'Fout bij het verbinding maken met %{server}: %{error}'
+      timeout: Timeout bij het verbinding maken met %{server}
   redaction:
     edit:
       description: Beschrijving

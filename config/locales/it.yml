@@ -16,6 +16,7 @@
 # Author: Karika
 # Author: Lollo
 # Author: LucioGE
+# Author: Macofe
 # Author: Massimo itaca
 # Author: McDutchie
 # Author: Nemo bis
@@ -144,11 +145,15 @@ it:
       way_paginated: Ways (%{x}-%{y} di %{count})
       relation: Relazioni (%{count})
       relation_paginated: Relazioni (%{x}-%{y} di %{count})
+      comment: Commenti (%{count})
+      commented_by: Commento da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
       changesetxml: Gruppo di modifiche XML
       osmchangexml: modificheOsm XML
       feed:
         title: Gruppo di modifiche %{id}
         title_comment: Gruppo di modifiche %{id} - %{comment}
+      join_discussion: Fai login per unirti alla discussione
+      discussion: Discussione
     node:
       title: 'Nodo: %{name}'
       history_title: 'Cronologia nodo: %{name}'
@@ -229,6 +234,10 @@ it:
       reopened_by_anonymous: Riattivata da anonimo <abbr title='%{exact_time}'>%{when}
         fa</abbr>
       hidden_by: Nascosta da %{user} <abbr title='%{exact_time}'>%{when} fa</abbr>
+    query:
+      title: Funzionalità di query
+      introduction: Clicca sulla cartina per disponibilità nei pressi.
+      nearby: Disponibilità nei pressi
   changeset:
     changeset_paging_nav:
       showing_page: Pagina %{page}
@@ -259,6 +268,10 @@ it:
     timeout:
       sorry: Siamo spiacenti, l'elenco delle modifiche che hai richiesto necessitava
         di troppo tempo per poter essere recuperato.
+    rss:
+      commented_at_html: Aggiornato %{when} fa
+      commented_at_by_html: Aggiornato %{when} fa da %{user}
+      full: Discussione completa
   diary_entry:
     new:
       title: Nuova voce del diario
@@ -550,7 +563,7 @@ it:
           primary_link: Strada primaria
           proposed: Strada proposta
           raceway: Pista
-          residential: Residenziale
+          residential: Strada residenziale
           rest_area: Area di Sosta
           road: Strada generica
           secondary: Strada secondaria
@@ -761,6 +774,8 @@ it:
           tram: Tramvia
           tram_stop: Fermata del tram
           yard: Zona di manovra ferroviaria
+        route:
+          bus: Percorso bus
         shop:
           alcohol: Alcolici
           antiques: Antiquario
@@ -964,10 +979,6 @@ it:
       text: Fai una donazione
     learn_more: Ulteriori informazioni
     more: Altro
-    sotm_header: Stato della mappa 2014
-    sotm_line_1: 8ª conferenza annuale
-    sotm_line_2: 7-9 novembre 2014
-    sotm_line_3: Buenos Aires, Argentina
   license_page:
     foreign:
       title: A proposito di questa traduzione
@@ -1276,6 +1287,15 @@ it:
         commented_note: '%{commenter} ha riattivato una nota che avevi commentato.
           La nota si trova vicino a %{place}.'
       details: Ulteriori dettagli sulla nota possono essere trovati su %{url}.
+    changeset_comment_notification:
+      greeting: Ciao,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} ha commentato uno dei tuoi changeset'
+        subject_other: '[OpenStreetMap] %{commenter} ha commentato su uno dei changeset
+          cui sei interessato'
+        your_changeset: '%{commenter} ha lasciato un commento su uno dei tuoi changeset
+          creato il %{time}'
+        partial_changeset_without_comment: senza commento
   message:
     inbox:
       title: Posta in arrivo
@@ -2235,6 +2255,12 @@ it:
       createnote_disabled_tooltip: Ingrandisci la mappa per aggiungere una nota
       map_notes_zoom_in_tooltip: Zooma per vedere le note della mappa
       map_data_zoom_in_tooltip: Zooma per vedere i dati della mappa
+    changesets:
+      show:
+        comment: Commento
+        subscribe: Iscriviti
+        unsubscribe: Cancella iscrizione
+        hide_comment: nascondi
     notes:
       new:
         intro: Ti sei accorto di un errore o di qualcosa che manca? Fallo sapere agli
@@ -2253,6 +2279,8 @@ it:
         comment: Commenta
     edit_help: Sposta la mappa e usa lo zoom sulla posizione che vuoi modificare,
       quindi clicca qui.
+    query:
+      relation: Relazione
   redaction:
     edit:
       description: Descrizione

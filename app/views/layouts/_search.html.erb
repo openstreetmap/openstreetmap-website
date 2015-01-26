@@ -9,7 +9,7 @@
   </form>
 
   <form method="GET" action="<%= directions_path %>" class="directions_form">
-    <div width="100%" align="right" style="height:30px"><%= link_to tag('span', { :class => "icon close"}), root_path, { :title => t('site.search.close_directions_title') } %></div>
+    <div width="100%" align="right" style="height:30px"><%= link_to tag('span', { :class => "icon close"}), root_path, { :title => t('site.search.close_directions_title'), :class => "directions_close" } %></div>
 
     <div class="line">
       <%= image_tag "marker-green.png", :class => 'routing_marker', :id => 'marker_from', :draggable => 'true' %>
@@ -21,6 +21,6 @@
     </div>
     <select class='routing_engines' name='routing_engines'></select>
     <div width="100%" align="right"><%= submit_tag t('site.search.submit_text') %></div>
-    <%= image_tag "searching-small.gif", :class => 'spinner', :style => "vertical-align: middle; display: none;" %>
+    <div class="loader_copy" style="display:none;"><div class="loader"><%= image_tag "searching.gif", :style => "vertical-align: middle;" %></div></div>
   </form>
 </div>

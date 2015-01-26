@@ -14,7 +14,7 @@ This repository consists of:
 
 A fully-functional Rails Port installation depends on other services, including map tile
 servers and geocoding services, that are provided by other software. The default installation
-uses publically-available services to help with development and testing.
+uses publicly-available services to help with development and testing.
 
 # License
 

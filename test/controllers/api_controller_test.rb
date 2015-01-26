@@ -67,8 +67,8 @@ class ApiControllerTest < ActionController::TestCase
     end
     assert_response :success, "Expected scucess with the map call"
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
-      assert_select "bounds[minlon=#{minlon}][minlat=#{minlat}][maxlon=#{maxlon}][maxlat=#{maxlat}]", :count => 1
-      assert_select "node[id=#{node.id}][lat=#{node.lat}][lon=#{node.lon}][version=#{node.version}][changeset=#{node.changeset_id}][visible=#{node.visible}][timestamp=#{node.timestamp.xmlschema}]", :count => 1 do
+      assert_select "bounds[minlon='#{minlon}'][minlat='#{minlat}'][maxlon='#{maxlon}'][maxlat='#{maxlat}']", :count => 1
+      assert_select "node[id='#{node.id}'][lat='#{node.lat}'][lon='#{node.lon}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
         # This should really be more generic
         assert_select "tag[k='test'][v='yes']"
       end
@@ -84,8 +84,8 @@ class ApiControllerTest < ActionController::TestCase
     get :map, :bbox => bbox
     assert_response :success, "The map call should have succeeded"
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
-      assert_select "bounds[minlon=#{node.lon}][minlat=#{node.lat}][maxlon=#{node.lon}][maxlat=#{node.lat}]", :count => 1
-      assert_select "node[id=#{node.id}][lat=#{node.lat}][lon=#{node.lon}][version=#{node.version}][changeset=#{node.changeset_id}][visible=#{node.visible}][timestamp=#{node.timestamp.xmlschema}]", :count => 1 do
+      assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
+      assert_select "node[id='#{node.id}'][lat='#{node.lat}'][lon='#{node.lon}'][version='#{node.version}'][changeset='#{node.changeset_id}'][visible='#{node.visible}'][timestamp='#{node.timestamp.xmlschema}']", :count => 1 do
         # This should really be more generic
         assert_select "tag[k='test'][v='yes']"
       end
@@ -102,7 +102,7 @@ class ApiControllerTest < ActionController::TestCase
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     assert_response :success
-    assert_select "gpx[version=1.0][creator=OpenStreetMap.org][xmlns=http://www.topografix.com/GPX/1/0]", :count => 1 do
+    assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
       assert_select "trk" do
         assert_select "trkseg"
       end
@@ -118,7 +118,7 @@ class ApiControllerTest < ActionController::TestCase
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     assert_response :success
-    assert_select "gpx[version=1.0][creator=OpenStreetMap.org][xmlns=http://www.topografix.com/GPX/1/0]", :count => 1 do
+    assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
       assert_select "trk", :count => 1 do
         assert_select "trk > trkseg", :count => 2 do |trksegs|
           trksegs.each do |trkseg|
@@ -140,7 +140,7 @@ class ApiControllerTest < ActionController::TestCase
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     assert_response :success
-    assert_select "gpx[version=1.0][creator=OpenStreetMap.org][xmlns=http://www.topografix.com/GPX/1/0]", :count => 1 do
+    assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
       assert_select "trk", :count => 1 do
         assert_select "trk>name", :count => 1
         assert_select "trk>desc", :count => 1
@@ -287,13 +287,13 @@ class ApiControllerTest < ActionController::TestCase
     assert_response :success
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
       assert_select "api", :count => 1 do
-        assert_select "version[minimum=#{API_VERSION}][maximum=#{API_VERSION}]", :count => 1
-        assert_select "area[maximum=#{MAX_REQUEST_AREA}]", :count => 1
-        assert_select "tracepoints[per_page=#{TRACEPOINTS_PER_PAGE}]", :count => 1
-        assert_select "changesets[maximum_elements=#{Changeset::MAX_ELEMENTS}]", :count => 1
-        assert_select "status[database=online]", :count => 1
-        assert_select "status[api=online]", :count => 1
-        assert_select "status[gpx=online]", :count => 1
+        assert_select "version[minimum='#{API_VERSION}'][maximum='#{API_VERSION}']", :count => 1
+        assert_select "area[maximum='#{MAX_REQUEST_AREA}']", :count => 1
+        assert_select "tracepoints[per_page='#{TRACEPOINTS_PER_PAGE}']", :count => 1
+        assert_select "changesets[maximum_elements='#{Changeset::MAX_ELEMENTS}']", :count => 1
+        assert_select "status[database='online']", :count => 1
+        assert_select "status[api='online']", :count => 1
+        assert_select "status[gpx='online']", :count => 1
       end
     end
   end
@@ -313,7 +313,7 @@ class ApiControllerTest < ActionController::TestCase
     assert_select "osm > permissions", :count => 1 do
       assert_select "permission", :count => ClientApplication.all_permissions.size
       ClientApplication.all_permissions.each do |p|
-        assert_select "permission[name=#{p}]", :count => 1
+        assert_select "permission[name='#{p}']", :count => 1
       end
     end
   end
@@ -329,9 +329,9 @@ class ApiControllerTest < ActionController::TestCase
     assert_response :success
     assert_select "osm > permissions", :count => 1 do
       assert_select "permission", :count => 2
-      assert_select "permission[name=allow_read_prefs]", :count => 1
-      assert_select "permission[name=allow_write_api]", :count => 1
-      assert_select "permission[name=allow_read_gpx]", :count => 0
+      assert_select "permission[name='allow_read_prefs']", :count => 1
+      assert_select "permission[name='allow_write_api']", :count => 1
+      assert_select "permission[name='allow_read_gpx']", :count => 0
     end
   end
 end

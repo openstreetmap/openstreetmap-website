@@ -113,14 +113,14 @@ class OldWayControllerTest < ActionController::TestCase
 
     get :history, :id => way.way_id
     assert_response :success, "Redaction shouldn't have stopped history working."
-    assert_select "osm way[id=#{way.way_id}][version=#{way.version}]", 0, "redacted way #{way.way_id} version #{way.version} shouldn't be present in the history."
+    assert_select "osm way[id='#{way.way_id}'][version='#{way.version}']", 0, "redacted way #{way.way_id} version #{way.version} shouldn't be present in the history."
 
     # not even to a logged-in user
     basic_authorization(users(:public_user).email, "test")
     get :version, :id => way.way_id, :version => way.version
     get :history, :id => way.way_id
     assert_response :success, "Redaction shouldn't have stopped history working."
-    assert_select "osm way[id=#{way.way_id}][version=#{way.version}]", 0, "redacted node #{way.way_id} version #{way.version} shouldn't be present in the history, even when logged in."
+    assert_select "osm way[id='#{way.way_id}'][version='#{way.version}']", 0, "redacted node #{way.way_id} version #{way.version} shouldn't be present in the history, even when logged in."
   end
 
   ##
@@ -143,10 +143,10 @@ class OldWayControllerTest < ActionController::TestCase
     # and when accessed via history
     get :history, :id => way.way_id
     assert_response :success, "Redaction shouldn't have stopped history working."
-    assert_select "osm way[id=#{way.way_id}][version=#{way.version}]", 0, "way #{way.way_id} version #{way.version} should not be present in the history for moderators when not passing flag."
+    assert_select "osm way[id='#{way.way_id}'][version='#{way.version}']", 0, "way #{way.way_id} version #{way.version} should not be present in the history for moderators when not passing flag."
     get :history, :id => way.way_id, :show_redactions => 'true'
     assert_response :success, "Redaction shouldn't have stopped history working."
-    assert_select "osm way[id=#{way.way_id}][version=#{way.version}]", 1, "way #{way.way_id} version #{way.version} should still be present in the history for moderators when passing flag."
+    assert_select "osm way[id='#{way.way_id}'][version='#{way.version}']", 1, "way #{way.way_id} version #{way.version} should still be present in the history for moderators when passing flag."
   end
 
   # testing that if the moderator drops auth, he can't see the
@@ -168,7 +168,7 @@ class OldWayControllerTest < ActionController::TestCase
     # and when accessed via history
     get :history, :id => way.way_id
     assert_response :success, "Redaction shouldn't have stopped history working."
-    assert_select "osm way[id=#{way.way_id}][version=#{way.version}]", 0, "redacted way #{way.way_id} version #{way.version} shouldn't be present in the history."
+    assert_select "osm way[id='#{way.way_id}'][version='#{way.version}']", 0, "redacted way #{way.way_id} version #{way.version} shouldn't be present in the history."
   end
 
   ##

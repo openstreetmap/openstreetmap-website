@@ -241,7 +241,7 @@ class DiffReader
           if action_attributes["if-unused"]
             begin
               old.delete_with_history!(new, @changeset.user)
-            rescue OSM::APIPreconditionFailedError => ex
+            rescue OSM::APIAlreadyDeletedError, OSM::APIPreconditionFailedError => ex
               xml_result["new_id"] = old.id.to_s
               xml_result["new_version"] = old.version.to_s
             end

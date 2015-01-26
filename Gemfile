@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Require rails
-gem 'rails', '4.1.7'
+gem 'rails', '4.2.0'
 
 # Require things which have moved to gems in ruby 1.9
 gem 'bigdecimal', "~> 1.1.0", :platforms => :ruby_19
@@ -16,19 +16,19 @@ gem 'json'
 gem 'pg'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails', '~> 5.0'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 4.1.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 1.2'
+# gem 'jbuilder', '~> 2.0'
 gem 'jsonify-rails'
 
 # Use R2 for RTL conversion
@@ -44,7 +44,7 @@ gem 'rinku', '>= 1.2.2', :require => 'rails_rinku'
 gem 'oauth-plugin', '>= 0.5.1'
 gem 'open_id_authentication', '>= 1.1.0'
 gem 'validates_email_format_of', '>= 1.5.1'
-gem 'composite_primary_keys', '~> 7.0.11'
+gem 'composite_primary_keys', '~> 8.0.0'
 gem 'http_accept_language', '~> 2.0.0'
 gem 'paperclip', '~> 4.0'
 gem 'deadlock_retry', '>= 1.2.0'

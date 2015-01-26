@@ -36,6 +36,6 @@ class ChangesetCommentTest < ActiveSupport::TestCase
   end
 
   def test_comments_of_changeset_count
-    assert_equal 3, Changeset.find(changesets(:normal_user_closed_change)).comments.count
+    assert_equal 3, Changeset.find(changesets(:normal_user_closed_change).id).comments.count
   end
 end

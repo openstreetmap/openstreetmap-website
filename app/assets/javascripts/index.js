@@ -236,6 +236,10 @@ $(document).ready(function () {
     };
 
     page.load = function() {
+      var params = querystring.parse(location.search.substring(1));
+      if (params.query) {
+        $("#sidebar .search_form input[name=query]").value(params.query);
+      }
       if (!("autofocus" in document.createElement("input"))) {
         $("#sidebar .search_form input[name=query]").focus();
       }

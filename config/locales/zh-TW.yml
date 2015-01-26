@@ -138,11 +138,16 @@ zh-TW:
       way_paginated: 路線（%{count}的%{x}-%{y}）
       relation: 關係（%{count}）
       relation_paginated: 關係（%{count}的%{x}-%{y}）
+      comment: 留言（%{count}）
+      hidden_commented_by: 隱藏來自%{user}，<abbr title='%{exact_time}'>%{when} ago</abbr>的評論
+      commented_by: '%{user}於<abbr title=''%{exact_time}''>%{when}前</abbr>發表的評論'
       changesetxml: 變更組合 XML
       osmchangexml: osmChange格式 XML
       feed:
         title: 變更組合 %{id}
         title_comment: 變更組合 %{id} - %{comment}
+      join_discussion: 登入後參與討論
+      discussion: 討論
     node:
       title: 節點：%{name}
       history_title: 節點歷史：%{name}
@@ -197,7 +202,7 @@ zh-TW:
         key: '%{key}標籤的wiki說明頁面'
         tag: '%{key}=%{value}標籤的wiki說明頁面'
       wikidata_link: 維基數據上的%{page}項目
-      wikipedia_link: 維基百科上的%{page}條目
+      wikipedia_link: 維基百科上的 %{page} 條目
       telephone_link: 打給 %{phone_number}
     note:
       title: 節點：%{id}
@@ -215,6 +220,11 @@ zh-TW:
       reopened_by: 於<abbr title='%{exact_time}'>%{when}前</abbr>由%{user}重開
       reopened_by_anonymous: 於<abbr title='%{exact_time}'>%{when}前</abbr>由匿名用户重開
       hidden_by: 於<abbr title='%{exact_time}'>%{when}前</abbr>由%{user}隱藏
+    query:
+      title: 查詢圖徵
+      introduction: 點擊地圖以尋找附近的圖徵
+      nearby: 附近圖徵
+      enclosing: 區域內圖徵
   changeset:
     changeset_paging_nav:
       showing_page: 第%{page}頁
@@ -228,7 +238,7 @@ zh-TW:
       id: ID
       saved_at: 儲存於
       user: 使用者
-      comment: 註解
+      comment: 評論
       area: 區域
     list:
       title: 變更組合
@@ -244,6 +254,13 @@ zh-TW:
       load_more: 載入更多
     timeout:
       sorry: 對不起，索取您所要求的變更組合清單，花費時間過長。
+    rss:
+      title_all: OpenStreetMap變更組合討論
+      title_particular: OpenStreetMap變更組合%{changeset_id}討論
+      comment: '%{author}對變更組合#%{changeset_id}的新評論'
+      commented_at_html: 於%{when}前更新
+      commented_at_by_html: 於%{when}前由%{user}更新
+      full: 完整討論
   diary_entry:
     new:
       title: 新日記項目
@@ -402,7 +419,7 @@ zh-TW:
           biergarten: 啤酒花園
           brothel: 妓院
           bureau_de_change: 找換店
-          bus_station: 巴士總站
+          bus_station: 客運站
           cafe: 咖啡廳
           car_rental: 租車
           car_sharing: 汽車共用
@@ -527,7 +544,7 @@ zh-TW:
           primary_link: 主要道路
           proposed: 擬議道路
           raceway: 賽道
-          residential: 住宅道路
+          residential: 住宅區道路
           rest_area: 休息區
           road: 道路
           secondary: 次級道路
@@ -738,6 +755,8 @@ zh-TW:
           tram: 電車軌道
           tram_stop: 電車站
           yard: 鐵路站場
+        route:
+          bus: 公車路線
         shop:
           alcohol: 無許可證
           antiques: 古玩店
@@ -937,10 +956,6 @@ zh-TW:
       text: 進行捐款
     learn_more: 了解更多
     more: 更多
-    sotm_header: State of the Map 2014
-    sotm_line_1: 第8屆年會
-    sotm_line_2: 2014年11月7~9日
-    sotm_line_3: 阿根庭布宜諾艾莉絲
   license_page:
     foreign:
       title: 關於這個翻譯
@@ -1174,6 +1189,16 @@ zh-TW:
         your_note: '%{commenter} 已經再次開啟你其中一筆接近 %{place} 的地圖筆記。'
         commented_note: '%{commenter}重新啟用了一個您曾留言的地圖註記。該註記位於%{place}附近。'
       details: 關於註記的更多詳細訊息可在%{url}找到。
+    changeset_comment_notification:
+      greeting: 您好，
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter}% 在您的變更組合留言'
+        subject_other: '[OpenStreetMap] %{commenter} 就您感興趣的變更組合留言'
+        your_changeset: '%{commenter} 在您於 %{time} 創建的變更組合留言'
+        commented_changeset: '%{commenter} 在您監視，由 %{changeset_author} 於 %{time} 創建的變更組合留言'
+        partial_changeset_with_comment: 評論“%{changeset_comment}”
+        partial_changeset_without_comment: 沒有評論
+      details: 關於變更組合的詳情可在%{url}找到。
   message:
     inbox:
       title: 收件匣
@@ -1333,7 +1358,7 @@ zh-TW:
           building: 重要建築
           station: 鐵路站
           summit:
-          - 提交
+          - 頂峰
           - 山頂
           tunnel: 虛線描邊 = 隧道
           bridge: 黑線描邊 = 橋樑
@@ -1527,7 +1552,7 @@ zh-TW:
       application: 應用程式名稱
       issued_at: 簽發於
       revoke: 註銷！
-      my_apps: 我的客戶端應用程式
+      my_apps: 我的用戶端應用程式
       no_apps: 您是否有想要註冊以使用於 %{oauth} 標準的應用程式？您必須先註冊您的網頁應用程式，才能對這個服務進行 OAuth 要求。
       registered_apps: 您已經註冊下列客戶端應用程式：
       register_new: 註冊您的應用程式
@@ -1550,7 +1575,7 @@ zh-TW:
     create:
       flash: 註冊資訊成功
     update:
-      flash: 更新客戶端資訊成功
+      flash: 更新用戶端資訊成功
     destroy:
       flash: 已銷毀此客戶端應用程式註冊
   user:
@@ -2024,6 +2049,15 @@ zh-TW:
       createnote_disabled_tooltip: 放大以在地圖加入筆記
       map_notes_zoom_in_tooltip: 放大以查看筆記
       map_data_zoom_in_tooltip: 放大以查看地圖圖資
+      queryfeature_tooltip: 查詢圖徵
+      queryfeature_disabled_tooltip: 放大地圖以查询圖徵
+    changesets:
+      show:
+        comment: 留言
+        subscribe: 訂閱
+        unsubscribe: 取消訂閱
+        hide_comment: 隱藏
+        unhide_comment: 取消隱藏
     notes:
       new:
         intro: 發現錯誤或缺少些什麼東西嗎？請告訴其他地圖製作者以便於我們處理。將標記移動到正確的位置並輸入筆記，以解釋問題。（切勿在此輸入個人資料、抄襲自其他地圖的資訊，或者目錄清單。）
@@ -2036,6 +2070,13 @@ zh-TW:
         comment_and_resolve: 評論並關閉
         comment: 提交評論
     edit_help: 將地圖移至你想編輯的位置並放大，然後按這裡。
+    query:
+      node: 節點
+      way: 路徑
+      relation: 關係
+      nothing_found: 找不到圖徵
+      error: '%{server}連線錯誤：%{error}'
+      timeout: '%{server}連線逾時'
   redaction:
     edit:
       description: 說明

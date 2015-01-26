@@ -38,6 +38,7 @@
 # Author: The Evil IP address
 # Author: Thomas Bohn
 # Author: Umherirrender
+# Author: Woodpeck
 ---
 de:
   time:
@@ -154,11 +155,17 @@ de:
       way_paginated: Wege (%{x}–%{y} von %{count})
       relation: Relationen (%{count})
       relation_paginated: Relationen (%{x}–%{y} von %{count})
+      comment: Kommentare (%{count})
+      hidden_commented_by: Versteckter Kommentar von %{user} <abbr title='%{exact_time}'>vor
+        %{when}</abbr>
+      commented_by: Kommentar von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
       changesetxml: Änderungssatz-XML
       osmchangexml: osmChange XML
       feed:
         title: 'Änderungssatz: %{id}'
         title_comment: Änderungssatz %{id} - %{comment}
+      join_discussion: Melde dich an, um der Diskussion beizutreten
+      discussion: Diskussion
     node:
       title: 'Knoten: %{name}'
       history_title: 'Knotenchronik: %{name}'
@@ -236,6 +243,11 @@ de:
       reopened_by_anonymous: Reaktiviert von anonym <abbr title='%{exact_time}'>vor
         %{when}</abbr>
       hidden_by: Versteckt von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
+    query:
+      title: Objektabfrage
+      introduction: Klicke auf die Karte, um benachbarte Objekte zu finden.
+      nearby: Objekte in der Nähe
+      enclosing: Einschließende Objekte
   changeset:
     changeset_paging_nav:
       showing_page: Seite %{page}
@@ -266,6 +278,13 @@ de:
     timeout:
       sorry: Es hat leider zu lange gedauert, die von dir angeforderten Änderungssätze
         abzurufen.
+    rss:
+      title_all: Diskussion zum OpenStreetMap-Änderungssatz
+      title_particular: Diskussion zum OpenStreetMap-Änderungssatz Nr. %{changeset_id}
+      comment: Neuer Kommentar zum Änderungssatz Nr. %{changeset_id} von %{author}
+      commented_at_html: vor %{when} aktualisiert
+      commented_at_by_html: vor %{when} durch %{user} aktualisiert
+      full: Vollständige Diskussion
   diary_entry:
     new:
       title: Selbst Bloggen
@@ -558,7 +577,7 @@ de:
           primary_link: Bundesstraße-Auffahrt
           proposed: Geplante Straße
           raceway: Rennstrecke
-          residential: Straße
+          residential: Wohnstraße
           rest_area: Rastplatz
           road: Straße
           secondary: Landesstraße
@@ -769,6 +788,8 @@ de:
           tram: Straßenbahn
           tram_stop: Haltestelle
           yard: Rangierbahnhof
+        route:
+          bus: Buslinie
         shop:
           alcohol: Spirituosenladen
           antiques: Antiquitätengeschäft
@@ -977,10 +998,6 @@ de:
       text: Spenden
     learn_more: Mehr erfahren
     more: Mehr
-    sotm_header: State of the Map 2014
-    sotm_line_1: 8. Jahreskonferenz
-    sotm_line_2: 7. bis 9. November 2014
-    sotm_line_3: Buenos Aires, Argentinien
   license_page:
     foreign:
       title: Über diese Übersetzung
@@ -1298,6 +1315,21 @@ de:
         commented_note: '%{commenter} hat einen Hinweis in der Nähe von %{place},
           den du kommentiert hattest, reaktivert.'
       details: Weitere Details über den Hinweis findest du unter %{url}.
+    changeset_comment_notification:
+      greeting: Hallo,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} hat zu einem deiner Änderungssätze
+          kommentiert'
+        subject_other: '[OpenStreetMap] %{commenter} hat zu einem Änderungssatz kommentiert,
+          an dem du interessiert bist'
+        your_changeset: '%{commenter} hinterließ einen Kommentar zu einem deiner Änderungssätze,
+          erstellt am %{time}'
+        commented_changeset: '%{commenter} hinterließ einen Kommentar zu einem Kartenänderungssatz,
+          den du beobachtest, erstellt von %{changeset_author} am %{time}'
+        partial_changeset_with_comment: mit dem Kommentar „%{changeset_comment}“
+        partial_changeset_without_comment: ohne Kommentar
+      details: Weitere Einzelheiten über den Änderungssatz können gefunden werden
+        unter %{url}.
   message:
     inbox:
       title: Posteingang
@@ -2275,6 +2307,15 @@ de:
         gewählt werden
       map_notes_zoom_in_tooltip: Vergrößere die Karte, um die Fehler zu sehen.
       map_data_zoom_in_tooltip: Vergrößere die Karte, um die Daten zu sehen.
+      queryfeature_tooltip: Objektabfrage
+      queryfeature_disabled_tooltip: Für Objektabfrage vergrößern
+    changesets:
+      show:
+        comment: Kommentar
+        subscribe: Abonnieren
+        unsubscribe: Abbestellen
+        hide_comment: verstecken
+        unhide_comment: einblenden
     notes:
       new:
         intro: Fehlt etwas oder hast du einen Fehler gefunden? Bitte verschiebe den
@@ -2327,6 +2368,13 @@ de:
         end_oneway: "Ende der Einbahnstrasse "
         unnamed: "(unbekannt)"
         courtesy: "Fahranweisungen stammen von %{link}"
+    query:
+      node: Knoten
+      way: Weg
+      relation: Relation
+      nothing_found: Keine Funktionen gefunden
+      error: 'Fehler beim Kontaktieren von %{server}: %{error}'
+      timeout: Zeitüberschreitung beim Kontaktieren von %{server}
   redaction:
     edit:
       description: Beschreibung

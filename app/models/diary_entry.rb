@@ -16,7 +16,6 @@ class DiaryEntry < ActiveRecord::Base
                             :greater_than_or_equal_to => -180, :less_than_or_equal_to => 180
   validates_associated :language
 
-  after_initialize :set_defaults
   after_save :spam_check
 
   def body
@@ -24,10 +23,6 @@ class DiaryEntry < ActiveRecord::Base
   end
 
 private
-
-  def set_defaults
-    self.body_format = "markdown" unless self.attribute_present?(:body_format)
-  end
 
   def spam_check
     user.spam_check

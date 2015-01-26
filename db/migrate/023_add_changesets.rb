@@ -5,19 +5,19 @@ class AddChangesets < ActiveRecord::Migration
   'current_relations', 'current_ways', 'nodes', 'relations', 'ways' ]
   
   def self.up
-    create_table "changesets", innodb_table do |t|
-      t.column "id",             :bigint_pk,              :null => false
-      t.column "user_id",        :bigint,   :limit => 20, :null => false
-      t.column "created_at",     :datetime,               :null => false
-      t.column "open",           :boolean,                :null => false, :default => true
-      t.column "min_lat",        :integer,                :null => true
-      t.column "max_lat",        :integer,                :null => true
-      t.column "min_lon",        :integer,                :null => true
-      t.column "max_lon",        :integer,                :null => true
+    create_table "changesets", :id => false do |t|
+      t.column "id",             :bigserial, :primary_key => true, :null => false
+      t.column "user_id",        :bigint, :null => false
+      t.column "created_at",     :datetime, :null => false
+      t.column "open",           :boolean, :null => false, :default => true
+      t.column "min_lat",        :integer, :null => true
+      t.column "max_lat",        :integer, :null => true
+      t.column "min_lon",        :integer, :null => true
+      t.column "max_lon",        :integer, :null => true
     end
 
-    create_table "changeset_tags", innodb_table do |t|
-      t.column "id", :bigint, :limit => 64, :null => false
+    create_table "changeset_tags", :id => false do |t|
+      t.column "id", :bigint, :null => false
       t.column "k",  :string, :default => "", :null => false
       t.column "v",  :string, :default => "", :null => false
     end
@@ -35,7 +35,7 @@ class AddChangesets < ActiveRecord::Migration
     @@conv_user_tables.each { |tbl|
       rename_column tbl, :user_id, :changeset_id
       #foreign keys too
-      add_foreign_key tbl, [:changeset_id], :changesets, [:id]
+      add_foreign_key tbl, :changesets, :name => "#{tbl}_changeset_id_fkey"
     }
   end
 

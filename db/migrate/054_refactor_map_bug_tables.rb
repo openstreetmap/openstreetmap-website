@@ -18,13 +18,13 @@ class RefactorMapBugTables < ActiveRecord::Migration
 
     add_index :map_bug_comment, [:bug_id], :name => "map_bug_comment_id_idx"
 
-    add_foreign_key :map_bug_comment, [:bug_id], :map_bugs, [:id]
-    add_foreign_key :map_bug_comment, [:commenter_id], :users, [:id]
+    add_foreign_key :map_bug_comment, :map_bugs, :column => :bug_id, :name => "note_comments_note_id_fkey"
+    add_foreign_key :map_bug_comment, :users, :column => :commenter_id, :name => "note_comments_author_id_fkey"
   end
 
   def self.down
-    remove_foreign_key :map_bug_comment, [:commenter_id]
-    remove_foreign_key :map_bug_comment, [:bug_id]
+    remove_foreign_key :map_bug_comment, :users, :column => :commenter_id, :name => "note_comments_author_id_fkey"
+    remove_foreign_key :map_bug_comment, :map_bugs, :column => :bug_id, :name => "note_comments_note_id_fkey"
 
     remove_index :map_bugs, :name => "map_bug_comment_id_idx"
 

@@ -361,7 +361,7 @@ private
 
     note.comments.map { |c| c.author }.uniq.each do |user|
       if notify and user and user != @user
-        Notifier.note_comment_notification(comment, user).deliver
+        Notifier.note_comment_notification(comment, user).deliver_now
       end
     end
   end
