@@ -2,16 +2,6 @@
 //= require_tree ./directions_engines
 
 OSM.Directions = function (map) {
-  $(".directions_form a.directions_close").on("click", function(e) {
-    e.preventDefault();
-    var route_from = $(e.target).parent().parent().parent().find("input[name=route_from]").val();
-    if (route_from) {
-      OSM.router.route("/?query=" + encodeURIComponent(route_from) + OSM.formatHash(map));
-    } else {
-      OSM.router.route("/" + OSM.formatHash(map));
-    }
-  });
-
   var awaitingGeocode; // true if the user has requested a route, but we're waiting on a geocode result
   var awaitingRoute;   // true if we've asked the engine for a route and are waiting to hear back
   var dragging;        // true if the user is dragging a start/end point
@@ -32,8 +22,8 @@ OSM.Directions = function (map) {
   });
 
   var endpoints = [
-    Endpoint($("#content input[name='route_from']"), <%= asset_path('marker-green.png').to_json %>),
-    Endpoint($("#content input[name='route_to']"),   <%= asset_path('marker-red.png').to_json %>)
+    Endpoint($("input[name='route_from']"), <%= asset_path('marker-green.png').to_json %>),
+    Endpoint($("input[name='route_to']"),   <%= asset_path('marker-red.png').to_json %>)
   ];
 
   function Endpoint(input, iconUrl) {
@@ -62,24 +52,29 @@ OSM.Directions = function (map) {
     });
 
     input.on("change", function (e) {
+      // make text the same in both text boxes
+      var value = e.target.value;
+      endpoint.setValue(value)
       endpoint.getGeocode();
     });
 
-    endpoint.getGeocode = function() {
-      var value = input.val();
+    endpoint.setValue = function(value) {
+      endpoint.value = value;
+      input.val(value);
+    }
 
+    endpoint.getGeocode = function() {
       // if no one has entered a value yet, then we can't geocode, so don't
       // even try.
-      if (!value) {
+      if (!endpoint.value) {
         return;
       }
 
       endpoint.awaitingGeocode = true;
 
-      $.getJSON('<%= NOMINATIM_URL %>search?q=' + encodeURIComponent(value) + '&format=json', function (json) {
+      $.getJSON('<%= NOMINATIM_URL %>search?q=' + encodeURIComponent(endpoint.value) + '&format=json', function (json) {
         endpoint.awaitingGeocode = false;
         endpoint.hasGeocode = true;
-
         if (json.length == 0) {
           alert(I18n.t('javascripts.directions.errors.no_place'));
           return;
@@ -111,6 +106,16 @@ OSM.Directions = function (map) {
 
     return endpoint;
   }
+
+  $(".directions_form a.directions_close").on("click", function(e) {
+    e.preventDefault();
+    var route_from = endpoint[0].value;
+    if (route_from) {
+      OSM.router.route("/?query=" + encodeURIComponent(route_from) + OSM.formatHash(map));
+    } else {
+      OSM.router.route("/" + OSM.formatHash(map));
+    }
+  });
 
   function formatDistance(m) {
     if (m < 1000) {
@@ -332,7 +337,7 @@ OSM.Directions = function (map) {
     }
 
     if (params.from) {
-      $(".directions_form input[name='route_from']").val(params.from);
+      endpoints[0].setValue(params.from);
     }
 
     var o = route[0] && L.latLng(route[0].split(',')),
