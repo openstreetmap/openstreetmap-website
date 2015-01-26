@@ -1,20 +1,16 @@
 require 'migrate'
 
 class AddUserForeignKeys < ActiveRecord::Migration
-  def self.up
-    add_foreign_key :changesets, [:user_id], :users, [:id]
-    add_foreign_key :diary_comments, [:user_id], :users, [:id]
-    add_foreign_key :diary_entries, [:user_id], :users, [:id]
-    add_foreign_key :friends, [:user_id], :users, [:id]
-    add_foreign_key :friends, [:friend_user_id], :users, [:id]
-    add_foreign_key :gpx_files, [:user_id], :users, [:id]
-    add_foreign_key :messages, [:from_user_id], :users, [:id]
-    add_foreign_key :messages, [:to_user_id], :users, [:id]
-    add_foreign_key :user_preferences, [:user_id], :users, [:id]
-    add_foreign_key :user_tokens, [:user_id], :users, [:id]
-  end
-
-  def self.down
-    raise ActiveRecord::IrreversibleMigration
+  def change
+    add_foreign_key :changesets, :users, :name => "changesets_user_id_fkey"
+    add_foreign_key :diary_comments, :users, :name => "diary_comments_user_id_fkey"
+    add_foreign_key :diary_entries, :users, :name => "diary_entries_user_id_fkey"
+    add_foreign_key :friends, :users, :name => "friends_user_id_fkey"
+    add_foreign_key :friends, :users, :column => :friend_user_id, :name => "friends_friend_user_id_fkey"
+    add_foreign_key :gpx_files, :users, :name => "gpx_files_user_id_fkey"
+    add_foreign_key :messages, :users, :column => :from_user_id, :name => "messages_from_user_id_fkey"
+    add_foreign_key :messages, :users, :column => :to_user_id, :name => "messages_to_user_id_fkey"
+    add_foreign_key :user_preferences, :users, :name => "user_preferences_user_id_fkey"
+    add_foreign_key :user_tokens, :users, :name => "user_tokens_user_id_fkey"
   end
 end

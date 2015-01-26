@@ -135,7 +135,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template 'user/confirm'
 
-    post "user/#{display_name}/confirm", { :confirm_string => confirm_string }
+    post "/user/#{display_name}/confirm", { :confirm_string => confirm_string }
     assert_response :redirect
     follow_redirect!
     assert_response :success

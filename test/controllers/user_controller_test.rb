@@ -195,13 +195,13 @@ class UserControllerTest < ActionController::TestCase
       end
       assert_select "body", :count => 1 do
         assert_select "div#content", :count => 1 do
-          assert_select "form[action='/user/new'][method=post]", :count => 1 do
-            assert_select "input[id=user_email]", :count => 1
-            assert_select "input[id=user_email_confirmation]", :count => 1
-            assert_select "input[id=user_display_name]", :count => 1
-            assert_select "input[id=user_pass_crypt][type=password]", :count => 1
-            assert_select "input[id=user_pass_crypt_confirmation][type=password]", :count => 1
-            assert_select "input[type=submit][value=Sign Up]", :count => 1
+          assert_select "form[action='/user/new'][method='post']", :count => 1 do
+            assert_select "input[id='user_email']", :count => 1
+            assert_select "input[id='user_email_confirmation']", :count => 1
+            assert_select "input[id='user_display_name']", :count => 1
+            assert_select "input[id='user_pass_crypt'][type='password']", :count => 1
+            assert_select "input[id='user_pass_crypt_confirmation'][type='password']", :count => 1
+            assert_select "input[type='submit'][value='Sign Up']", :count => 1
           end
         end
       end
@@ -568,42 +568,42 @@ class UserControllerTest < ActionController::TestCase
     get :view, {:display_name => "test"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^=/user/test/history]", 1
-      assert_select "a[href=/user/test/traces]", 1
-      assert_select "a[href=/user/test/diary]", 1
-      assert_select "a[href=/user/test/diary/comments]", 1
-      assert_select "a[href=/user/test/account]", 0
-      assert_select "a[href=/user/test/blocks]", 0
-      assert_select "a[href=/user/test/blocks_by]", 0
-      assert_select "a[href=/blocks/new/test]", 0
+      assert_select "a[href^='/user/test/history']", 1
+      assert_select "a[href='/user/test/traces']", 1
+      assert_select "a[href='/user/test/diary']", 1
+      assert_select "a[href='/user/test/diary/comments']", 1
+      assert_select "a[href='/user/test/account']", 0
+      assert_select "a[href='/user/test/blocks']", 0
+      assert_select "a[href='/user/test/blocks_by']", 0
+      assert_select "a[href='/blocks/new/test']", 0
     end
     
     # Test a user who has been blocked
     get :view, {:display_name => "blocked"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^=/user/blocked/history]", 1
-      assert_select "a[href=/user/blocked/traces]", 1
-      assert_select "a[href=/user/blocked/diary]", 1
-      assert_select "a[href=/user/blocked/diary/comments]", 1
-      assert_select "a[href=/user/blocked/account]", 0
-      assert_select "a[href=/user/blocked/blocks]", 1
-      assert_select "a[href=/user/blocked/blocks_by]", 0
-      assert_select "a[href=/blocks/new/blocked]", 0
+      assert_select "a[href^='/user/blocked/history']", 1
+      assert_select "a[href='/user/blocked/traces']", 1
+      assert_select "a[href='/user/blocked/diary']", 1
+      assert_select "a[href='/user/blocked/diary/comments']", 1
+      assert_select "a[href='/user/blocked/account']", 0
+      assert_select "a[href='/user/blocked/blocks']", 1
+      assert_select "a[href='/user/blocked/blocks_by']", 0
+      assert_select "a[href='/blocks/new/blocked']", 0
     end
     
     # Test a moderator who has applied blocks
     get :view, {:display_name => "moderator"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^=/user/moderator/history]", 1
-      assert_select "a[href=/user/moderator/traces]", 1
-      assert_select "a[href=/user/moderator/diary]", 1
-      assert_select "a[href=/user/moderator/diary/comments]", 1
-      assert_select "a[href=/user/moderator/account]", 0
-      assert_select "a[href=/user/moderator/blocks]", 0
-      assert_select "a[href=/user/moderator/blocks_by]", 1
-      assert_select "a[href=/blocks/new/moderator]", 0
+      assert_select "a[href^='/user/moderator/history']", 1
+      assert_select "a[href='/user/moderator/traces']", 1
+      assert_select "a[href='/user/moderator/diary']", 1
+      assert_select "a[href='/user/moderator/diary/comments']", 1
+      assert_select "a[href='/user/moderator/account']", 0
+      assert_select "a[href='/user/moderator/blocks']", 0
+      assert_select "a[href='/user/moderator/blocks_by']", 1
+      assert_select "a[href='/blocks/new/moderator']", 0
     end
 
     # Login as a normal user
@@ -613,14 +613,14 @@ class UserControllerTest < ActionController::TestCase
     get :view, {:display_name => "test"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^=/user/test/history]", 1
-      assert_select "a[href=/traces/mine]", 1
-      assert_select "a[href=/user/test/diary]", 1
-      assert_select "a[href=/user/test/diary/comments]", 1
-      assert_select "a[href=/user/test/account]", 1
-      assert_select "a[href=/user/test/blocks]", 0
-      assert_select "a[href=/user/test/blocks_by]", 0
-      assert_select "a[href=/blocks/new/test]", 0
+      assert_select "a[href^='/user/test/history']", 1
+      assert_select "a[href='/traces/mine']", 1
+      assert_select "a[href='/user/test/diary']", 1
+      assert_select "a[href='/user/test/diary/comments']", 1
+      assert_select "a[href='/user/test/account']", 1
+      assert_select "a[href='/user/test/blocks']", 0
+      assert_select "a[href='/user/test/blocks_by']", 0
+      assert_select "a[href='/blocks/new/test']", 0
     end
 
     # Login as a moderator
@@ -630,14 +630,14 @@ class UserControllerTest < ActionController::TestCase
     get :view, {:display_name => "test"}
     assert_response :success
     assert_select "div#userinformation" do
-      assert_select "a[href^=/user/test/history]", 1
-      assert_select "a[href=/user/test/traces]", 1
-      assert_select "a[href=/user/test/diary]", 1
-      assert_select "a[href=/user/test/diary/comments]", 1
-      assert_select "a[href=/user/test/account]", 0
-      assert_select "a[href=/user/test/blocks]", 0
-      assert_select "a[href=/user/test/blocks_by]", 0
-      assert_select "a[href=/blocks/new/test]", 1
+      assert_select "a[href^='/user/test/history']", 1
+      assert_select "a[href='/user/test/traces']", 1
+      assert_select "a[href='/user/test/diary']", 1
+      assert_select "a[href='/user/test/diary/comments']", 1
+      assert_select "a[href='/user/test/account']", 0
+      assert_select "a[href='/user/test/blocks']", 0
+      assert_select "a[href='/user/test/blocks_by']", 0
+      assert_select "a[href='/blocks/new/test']", 1
     end
   end
 
@@ -649,21 +649,21 @@ class UserControllerTest < ActionController::TestCase
     # check the data that is returned
     assert_select "description", :count => 1, :text => "test"
     assert_select "contributor-terms", :count => 1 do
-      assert_select "[agreed=true]"
+      assert_select "[agreed='true']"
     end
     assert_select "img", :count => 1
     assert_select "roles", :count => 1 do
       assert_select "role", :count => 0
     end
     assert_select "changesets", :count => 1 do
-      assert_select "[count=0]"
+      assert_select "[count='0']"
     end
     assert_select "traces", :count => 1 do
-      assert_select "[count=0]"
+      assert_select "[count='0']"
     end
     assert_select "blocks", :count => 1 do
       assert_select "received", :count => 1 do
-        assert_select "[count=0][active=0]"
+        assert_select "[count='0'][active='0']"
       end
       assert_select "issued", :count => 0
     end
@@ -700,36 +700,36 @@ class UserControllerTest < ActionController::TestCase
     # check the data that is returned
     assert_select "description", :count => 1, :text => "test"
     assert_select "contributor-terms", :count => 1 do
-      assert_select "[agreed=true][pd=false]"
+      assert_select "[agreed='true'][pd='false']"
     end
     assert_select "img", :count => 1
     assert_select "roles", :count => 1 do
       assert_select "role", :count => 0
     end
     assert_select "changesets", :count => 1 do
-      assert_select "[count=0]", :count => 1
+      assert_select "[count='0']", :count => 1
     end
     assert_select "traces", :count => 1 do
-      assert_select "[count=0]", :count => 1
+      assert_select "[count='0']", :count => 1
     end
     assert_select "blocks", :count => 1 do
       assert_select "received", :count => 1 do
-        assert_select "[count=0][active=0]"
+        assert_select "[count='0'][active='0']"
       end
       assert_select "issued", :count => 0
     end
     assert_select "home", :count => 1 do
-      assert_select "[lat=12.1][lon=12.1][zoom=3]"
+      assert_select "[lat='12.1'][lon='12.1'][zoom='3']"
     end
     assert_select "languages", :count => 1 do
       assert_select "lang", :count => 1, :text => "en"
     end
     assert_select "messages", :count => 1 do
       assert_select "received", :count => 1 do
-        assert_select "[count=1][unread=0]"
+        assert_select "[count='1'][unread='0']"
       end
       assert_select "sent", :count => 1 do
-        assert_select "[count=1]"
+        assert_select "[count='1']"
       end
     end
   end
@@ -756,8 +756,8 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :make_friend
     assert_select "form" do
-      assert_select "input[type=hidden][name=referer]", 0
-      assert_select "input[type=submit]", 1
+      assert_select "input[type='hidden'][name='referer']", 0
+      assert_select "input[type='submit']", 1
     end
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
@@ -766,8 +766,8 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :make_friend
     assert_select "form" do
-      assert_select "input[type=hidden][name=referer][value=/test]", 1
-      assert_select "input[type=submit]", 1
+      assert_select "input[type='hidden'][name='referer'][value='/test']", 1
+      assert_select "input[type='submit']", 1
     end
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
@@ -814,8 +814,8 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :remove_friend
     assert_select "form" do
-      assert_select "input[type=hidden][name=referer]", 0
-      assert_select "input[type=submit]", 1
+      assert_select "input[type='hidden'][name='referer']", 0
+      assert_select "input[type='submit']", 1
     end
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
@@ -824,8 +824,8 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :remove_friend
     assert_select "form" do
-      assert_select "input[type=hidden][name=referer][value=/test]", 1
-      assert_select "input[type=submit]", 1
+      assert_select "input[type='hidden'][name='referer'][value='/test']", 1
+      assert_select "input[type='submit']", 1
     end
     assert Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 

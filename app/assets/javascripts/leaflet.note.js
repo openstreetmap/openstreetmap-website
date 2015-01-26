@@ -16,7 +16,7 @@ L.OSM.note = function (options) {
     update();
 
     function update() {
-      var disabled = map.getZoom() < 12;
+      var disabled = OSM.STATUS === "database_offline" || map.getZoom() < 12;
       link
         .toggleClass('disabled', disabled)
         .attr('data-original-title', I18n.t(disabled ?

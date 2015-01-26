@@ -27,6 +27,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'changeset/history'
+    assert_select "span.username", "test"
   end
 
   def test_login_email_password_normal_upcase
@@ -48,7 +49,8 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template 'login'
+    assert_template 'changeset/history'
+    assert_select "span.username", "TEST"
   end
 
   def test_login_email_password_normal_titlecase
@@ -71,6 +73,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'login'
+    assert_select "span.username", false
   end
 
   def test_login_email_password_public
@@ -93,6 +96,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'changeset/history'
+    assert_select "span.username", "test2"
   end
 
   def test_login_email_password_public_upcase
@@ -115,6 +119,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'changeset/history'
+    assert_select "span.username", "test2"
   end
 
   def test_login_email_password_public_titlecase
@@ -137,6 +142,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'changeset/history'
+    assert_select "span.username", "test2"
   end
 
   def test_login_username_password_normal
@@ -159,6 +165,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'changeset/history'
+    assert_select "span.username", "test"
   end
 
   def test_login_username_password_normal_upcase
@@ -180,7 +187,8 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     follow_redirect!
     assert_response :success
-    assert_template 'login'
+    assert_template 'changeset/history'
+    assert_select "span.username", "TEST"
   end
 
   def test_login_username_password_normal_titlecase
@@ -203,6 +211,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'login'
+    assert_select "span.username", false
   end
 
   def test_login_username_password_public
@@ -225,6 +234,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'changeset/history'
+    assert_select "span.username", "test2"
   end
 
   def test_login_username_password_public_upcase
@@ -247,6 +257,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'changeset/history'
+    assert_select "span.username", "test2"
   end
 
   def test_login_username_password_public_titlecase
@@ -269,6 +280,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'changeset/history'
+    assert_select "span.username", "test2"
   end
 
   def test_login_openid_success
@@ -287,6 +299,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'changeset/history'
+    assert_select "span.username", "openIDuser"
   end
 
   def test_login_openid_cancel
@@ -305,6 +318,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'login'
+    assert_select "span.username", false
   end
 
   def test_login_openid_invalid_provider
@@ -319,6 +333,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'login'
+    assert_select "span.username", false
   end
 
   def test_login_openid_invalid_url
@@ -333,6 +348,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'login'
+    assert_select "span.username", false
   end
 
   def test_login_openid_unknown
@@ -351,5 +367,6 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template 'user/new'
+    assert_select "span.username", false
   end
 end

@@ -12,15 +12,11 @@ class MoveToInnodb < ActiveRecord::Migration
     remove_index :current_relation_tags, :name=> :current_relation_tags_v_idx
 
     @@ver_tbl.each { |tbl|
-      change_column tbl, "version", :bigint, :limit => 20, :null => false
-    }
-
-    @@conv_tables.each { |tbl|
-      change_engine tbl, "InnoDB"
+      change_column tbl, "version", :bigint, :null => false
     }
 
     @@ver_tbl.each { |tbl|
-      add_column "current_#{tbl}", "version", :bigint, :limit => 20, :null => false
+      add_column "current_#{tbl}", "version", :bigint, :null => false
       # As the initial version of all nodes, ways and relations is 0, we set the 
       # current version to something less so that we can update the version in 
       # batches of 10000

@@ -95,12 +95,18 @@ OSM.Query = function(map) {
         if (prefixes[key]) {
           if (prefixes[key][value]) {
             return prefixes[key][value];
-          } else {
-            var first = value.substr(0, 1).toUpperCase(),
-              rest = value.substr(1).replace(/_/g, " ");
-
-            return first + rest;
           }
+        }
+      }
+
+      for (var key in tags) {
+        var value = tags[key];
+
+        if (prefixes[key]) {
+          var first = value.substr(0, 1).toUpperCase(),
+            rest = value.substr(1).replace(/_/g, " ");
+
+          return first + rest;
         }
       }
     }

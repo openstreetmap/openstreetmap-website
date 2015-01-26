@@ -31,14 +31,7 @@ class OldRelation < ActiveRecord::Base
   end
 
   def save_with_dependencies!
-
-    # see comment in old_way.rb ;-)
     save!
-    clear_aggregation_cache
-    clear_association_cache
-    @attributes.update(OldRelation.where(:relation_id => self.relation_id, :timestamp => self.timestamp).order("version DESC").first.instance_variable_get('@attributes'))
-
-    # ok, you can touch from here on
 
     self.tags.each do |k,v|
       tag = OldRelationTag.new

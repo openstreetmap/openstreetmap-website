@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: Amgauna
 # Author: BraulioBezerra
+# Author: Brunomelnic
 # Author: Dianakc
 # Author: Diego Queiroz
 # Author: Fmca
@@ -20,6 +21,7 @@
 # Author: Rodrigo Avila
 # Author: Tuliouel
 # Author: Vgeorge
+# Author: Wille
 # Author: 555
 ---
 pt-BR:
@@ -92,7 +94,7 @@ pt-BR:
       user:
         email: E-mail
         active: Ativo
-        display_name: Nome para Exibição
+        display_name: Nome para exibição
         description: Descrição
         languages: Idiomas
         pass_crypt: Senha
@@ -139,11 +141,17 @@ pt-BR:
       way_paginated: Linhas (%{x}-%{y} de %{count})
       relation: Relações (%{count})
       relation_paginated: Relações (%{x}-%{y} of %{count})
+      comment: Comentários (%{count})
+      hidden_commented_by: Comentário oculto de %{user} <abbr title='%{exact_time}'>%{when}
+        atrás</abbr>
+      commented_by: Comentado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
       changesetxml: XML do conjunto de alterações
       osmchangexml: osmChange XML
       feed:
         title: Conjunto de alterações %{id}
         title_comment: Conjunto de alterações %{id} - %{comment}
+      join_discussion: Entre para participar da discussão
+      discussion: Discussão
     node:
       title: 'Ponto: %{name}'
       history_title: 'Histórico do nó: %{name}'
@@ -192,8 +200,8 @@ pt-BR:
         way: caminho
         relation: relação
     start_rjs:
-      feature_warning: Carregando %{num_features} feições, o que pode deixar seu navegador
-        lento ou sem resposta. Tem certeza que quer exibir estes dados?
+      feature_warning: Carregando %{num_features} elementos, o que pode deixar seu
+        navegador lento ou sem resposta. Tem certeza que quer exibir estes dados?
       load_data: Carregar dados
       loading: Carregando...
     tag_details:
@@ -224,6 +232,11 @@ pt-BR:
       reopened_by_anonymous: Reaberto por um usuário anônimo há <abbr title='%{exact_time}'>%{when}
         atrás</abbr>
       hidden_by: Ocultado por %{user} há <abbr title='%{exact_time}'>%{when} atrás</abbr>
+    query:
+      title: Características da consulta
+      introduction: Clique no mapa para encontrar características ao redor
+      nearby: Características próximas
+      enclosing: Características envolventes
   changeset:
     changeset_paging_nav:
       showing_page: Página %{page}
@@ -254,6 +267,13 @@ pt-BR:
     timeout:
       sorry: Desculpe. A lista de conjuntos de alterações que você solicitou está
         demorando muito tempo para ser recuperada.
+    rss:
+      title_all: Discussão de conjunto de alterações do OpenStreetMap
+      title_particular: 'Discussão do conjunto de alteração #%{changeset_id} do OpenStreetMap'
+      comment: 'Comentário novo no conjunto de alterações #%{changeset_id} por %{author}'
+      commented_at_html: Atualizando %{when} atrás
+      commented_at_by_html: Atualizado há %{when} por %{user}
+      full: Discussão completa
   diary_entry:
     new:
       title: Nova Entrada de Diário
@@ -547,7 +567,7 @@ pt-BR:
           primary_link: Via Primária
           proposed: Via em planejamento
           raceway: Pista de corrida
-          residential: Residencial
+          residential: Via Residencial
           rest_area: Área de Descanso
           road: Estrada
           secondary: Via Secundária
@@ -758,6 +778,8 @@ pt-BR:
           tram: Rota de bonde
           tram_stop: Parada de bonde
           yard: Estação de classificação
+        route:
+          bus: Rota de Ônibus
         shop:
           alcohol: Loja de bebidas alcoolicas
           antiques: Antiguidades
@@ -965,10 +987,6 @@ pt-BR:
       text: Faça uma doação
     learn_more: Saiba mais
     more: Mais
-    sotm_header: Estado do Mapa 2014
-    sotm_line_1: 8ª Conferência anual
-    sotm_line_2: De 7 a 9 de novembro de 2014
-    sotm_line_3: Buenos Aires, Argentina
   license_page:
     foreign:
       title: Sobre esta tradução
@@ -1173,7 +1191,7 @@ pt-BR:
       por grandes desastres, e muitos mais.
       Para saber mais sobre a nossa comunidade, veja os <a href='%{diary_path}'>diários dos editores</a>,
       <a href='http://blogs.openstreetmap.org/'>blogues da comunidade</a>, e o site da <a href='http://www.osmfoundation.org/'>OSM Foundation</a>.
-    open_data_title: Data de Abertura
+    open_data_title: Dados Abertos
     open_data_html: |-
       O OpenStreetMap é constituído por <i>dados abertos</i>: qualquer
       pessoa tem a liberdade de usar os dados para qualquer fim desde
@@ -1282,6 +1300,21 @@ pt-BR:
         commented_note: '%{commenter} reativou uma nota de um mapa que você comentou.
           A nota está próxima a %{place}.'
       details: Mais detalhes sobre a nota podem ser encontradas em %{url}.
+    changeset_comment_notification:
+      greeting: Olá,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} comentou um de seus conjuntos de
+          alterações'
+        subject_other: '[OpenStreetMap] %{commenter} comentou um conjunto de alterações
+          que interessa a você'
+        your_changeset: '%{commenter} deixou um comentários em seu conjunto de alterações
+          em %{time}'
+        commented_changeset: '%{commenter} deixou um comentário em um grupo de alterações
+          do mapa criado por %{changeset_author} em %{time}, que você está acompanhando'
+        partial_changeset_with_comment: com comentário %{changeset_comment}
+        partial_changeset_without_comment: sem comentários
+      details: Mais detalhes sobre o conjunto de alterações podem ser encontrados
+        em %{url}
   message:
     inbox:
       title: Caixa de Entrada
@@ -1781,7 +1814,7 @@ pt-BR:
       not displayed publicly: Não será exibido publicamente (veja a <a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
         title="política de privacidade no wiki incluindo seção sobre endereços de
         e-mail">política de privacidade</a>)
-      display name: 'Nome a ser exibido:'
+      display name: 'Nome para exibição:'
       display name description: Seu nome de usuário disponível publicamente. Você
         pode mudá-lo posteriormente nas preferências.
       openid: '%{logo} OpenID:'
@@ -1826,7 +1859,7 @@ pt-BR:
       legale_names:
         france: França
         italy: Itália
-        rest_of_world: Resto do mundo
+        rest_of_world: Outros países
     no_such_user:
       title: Usuário não existe
       heading: O usuário %{user} não existe
@@ -2238,6 +2271,15 @@ pt-BR:
       createnote_disabled_tooltip: Ampliar para adicionar uma nota ao mapa
       map_notes_zoom_in_tooltip: Zoom para ver notas no mapa
       map_data_zoom_in_tooltip: Zoom para ver dados do mapa
+      queryfeature_tooltip: Consultar elementos
+      queryfeature_disabled_tooltip: Aproxime para consultar elementos
+    changesets:
+      show:
+        comment: Comentário
+        subscribe: Inscrever
+        unsubscribe: Cancelar inscrição
+        hide_comment: esconder
+        unhide_comment: mostrar
     notes:
       new:
         intro: Localizou um erro ou algo faltando? Informe outros mapeadores para
@@ -2255,6 +2297,13 @@ pt-BR:
         comment: Comentar
     edit_help: Mover o mapa e ampliar uma localização que pretende editar e clique
       aqui.
+    query:
+      node: Ponto
+      way: Linha
+      relation: Relação
+      nothing_found: Nenhum elemento encontrado
+      error: 'Erro ao contatar %{server}: %{error}'
+      timeout: Tempo esgotado com %{server}
   redaction:
     edit:
       description: Descrição

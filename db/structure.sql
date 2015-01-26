@@ -45,8 +45,7 @@ SET search_path = public, pg_catalog;
 
 CREATE TYPE format_enum AS ENUM (
     'html',
-    'markdown',
-    'text'
+    'markdown'
 );
 
 
@@ -126,7 +125,7 @@ CREATE TYPE user_status_enum AS ENUM (
 
 CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
     LANGUAGE c STRICT
-    AS '/srv/www/overpass.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
+    AS '/srv/www/next.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
 
 
 --
@@ -135,7 +134,7 @@ CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
 
 CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
     LANGUAGE c STRICT
-    AS '/srv/www/overpass.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
+    AS '/srv/www/next.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
 
 
 --
@@ -144,7 +143,7 @@ CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
 
 CREATE FUNCTION xid_to_int4(xid) RETURNS integer
     LANGUAGE c IMMUTABLE STRICT
-    AS '/srv/www/overpass.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
+    AS '/srv/www/next.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
 
 
 SET default_tablespace = '';
@@ -485,7 +484,7 @@ CREATE TABLE diary_comments (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    body_format format_enum DEFAULT 'html'::format_enum NOT NULL
+    body_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
 
 
@@ -523,7 +522,7 @@ CREATE TABLE diary_entries (
     longitude double precision,
     language_code character varying(255) DEFAULT 'en'::character varying NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    body_format format_enum DEFAULT 'html'::format_enum NOT NULL
+    body_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
 
 
@@ -684,7 +683,7 @@ CREATE TABLE messages (
     to_user_id bigint NOT NULL,
     to_user_visible boolean DEFAULT true NOT NULL,
     from_user_visible boolean DEFAULT true NOT NULL,
-    body_format format_enum DEFAULT 'html'::format_enum NOT NULL
+    body_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
 
 
@@ -741,7 +740,7 @@ CREATE TABLE nodes (
 --
 
 CREATE TABLE note_comments (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     note_id bigint NOT NULL,
     visible boolean NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -776,7 +775,7 @@ ALTER SEQUENCE note_comments_id_seq OWNED BY note_comments.id;
 --
 
 CREATE TABLE notes (
-    id bigint NOT NULL,
+    id integer NOT NULL,
     latitude integer NOT NULL,
     longitude integer NOT NULL,
     tile bigint NOT NULL,
@@ -894,8 +893,8 @@ CREATE TABLE redactions (
     id integer NOT NULL,
     title character varying(255),
     description text,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     user_id bigint NOT NULL,
     description_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
@@ -983,7 +982,7 @@ CREATE TABLE user_blocks (
     revoker_id bigint,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    reason_format format_enum DEFAULT 'html'::format_enum NOT NULL
+    reason_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
 
 
@@ -1110,8 +1109,8 @@ CREATE TABLE users (
     openid_url character varying(255),
     preferred_editor character varying(255),
     terms_seen boolean DEFAULT false NOT NULL,
-    description_format format_enum DEFAULT 'html'::format_enum NOT NULL,
     image_fingerprint character varying(255),
+    description_format format_enum DEFAULT 'markdown'::format_enum NOT NULL,
     changesets_count integer DEFAULT 0 NOT NULL,
     traces_count integer DEFAULT 0 NOT NULL,
     diary_entries_count integer DEFAULT 0 NOT NULL,
@@ -2540,6 +2539,10 @@ INSERT INTO schema_migrations (version) VALUES ('20140210003018');
 INSERT INTO schema_migrations (version) VALUES ('20140507110937');
 
 INSERT INTO schema_migrations (version) VALUES ('20140519141742');
+
+INSERT INTO schema_migrations (version) VALUES ('20150110152606');
+
+INSERT INTO schema_migrations (version) VALUES ('20150111192335');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

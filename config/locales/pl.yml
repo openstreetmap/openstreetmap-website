@@ -2,12 +2,14 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Ajank
+# Author: Alan ffm
 # Author: Andrzej aa
 # Author: BdgwksxD
 # Author: BeginaFelicysym
 # Author: Chrumps
 # Author: Cysioland
 # Author: Dalis
+# Author: Darellur
 # Author: Debeet
 # Author: Deejay1
 # Author: Ireun
@@ -46,22 +48,22 @@ pl:
       message: Wiadomość
       node: Węzeł
       node_tag: Znacznik węzła
-      notifier: Notifier
+      notifier: Zgłaszający
       old_node: Wcześniejszy węzeł
       old_node_tag: Tag wcześniejszego węzła
       old_relation: Stara relacja
-      old_relation_member: Członek wcześniejszej relacji
+      old_relation_member: Członek starej relacji
       old_relation_tag: Tag wcześniejszej relacji
       old_way: Wcześniejsza droga
-      old_way_node: Węzeł wcześniejszej linii
-      old_way_tag: Tag wcześniejszej linii
+      old_way_node: Węzeł starej linii
+      old_way_tag: Tag starej linii
       relation: Relacja
       relation_member: Członek relacji
-      relation_tag: Znacznik relacji
+      relation_tag: Tag relacji
       session: Sesja
       trace: Ślad
       tracepoint: Punkt śladu
-      tracetag: Znacznik śladu
+      tracetag: Tag śladu
       user: Użytkownik
       user_preference: Preferencje użytkownika
       user_token: Token użytkownika
@@ -97,7 +99,7 @@ pl:
       user:
         email: E-mail
         active: Aktywny
-        display_name: Publiczna nazwa
+        display_name: Wyświetlana nazwa
         description: Opis
         languages: Języki
         pass_crypt: Hasło
@@ -114,9 +116,9 @@ pl:
       description: Potlatch 2 (w przeglądarce)
     remote:
       name: Zdalne sterowanie
-      description: JOSM lub Markaartor
+      description: Zdalne sterowanie (JOSM lub Merkaartor)
   browse:
-    created: Utworzenie
+    created: Utworzone
     closed: Zamknięte
     created_html: Utworzone <abbr title='%{title}'>%{time} temu</abbr>
     closed_html: Zamknięte <abbr title='%{title}'>%{time} temu</abbr>
@@ -142,11 +144,17 @@ pl:
       way_paginated: Linie (%{x}-%{y} z %{count})
       relation: Relacje (%{count})
       relation_paginated: Relacje (%{x}-%{y} z %{count})
+      comment: Komentarze (%{count})
+      hidden_commented_by: Ukryty komentarz od użytkownika %{user} <abbr title='%{exact_time}'>%{when}
+        temu</abbr>
+      commented_by: Komentarz od %{user} <abbr title='%{exact_time}'>%{when} temu</abbr>
       changesetxml: XML w formacie zestawu zmian
       osmchangexml: XML w formacie osmChange
       feed:
         title: Zestaw zmian %{id}
         title_comment: Zestaw zmian %{id} - %{comment}
+      join_discussion: Zaloguj się, aby dołączyć do dyskusji
+      discussion: Dyskusja
     node:
       title: 'Węzeł: %{name}'
       history_title: 'Historia węzła: %{name}'
@@ -227,6 +235,11 @@ pl:
       reopened_by_anonymous: Reaktywowana anonimowo <abbr title='%{exact_time}'>%{when}
         temu</abbr>
       hidden_by: Ukryte przez %{user} <abbr title='%{exact_time}'>%{when} temu</abbr>
+    query:
+      title: Dane obiektu
+      introduction: Kliknij na mapie, by sprawdzić obiekty w pobliżu
+      nearby: Obiekty w pobliżu
+      enclosing: Większe, zakrywające obiekty
   changeset:
     changeset_paging_nav:
       showing_page: Strona %{page}
@@ -257,6 +270,13 @@ pl:
     timeout:
       sorry: Niestety, pobieranie listy zestawów zmian, którą chciałeś zobaczyć, trwało
         zbyt długo.
+    rss:
+      title_all: Dyskusja na temat zestawu zmian
+      title_particular: 'Dyskusja na temat zestawu zmian #%{changeset_id}'
+      comment: 'Nowy komentarz do zestawu zmian #%{changeset_id}% autorstwa %{author}'
+      commented_at_html: Zaktualizowano %{when} temu
+      commented_at_by_html: Zaktualizowano %{when} temu przez %{user}
+      full: Pełna dyskusja
   diary_entry:
     new:
       title: Nowy wpis do dziennika
@@ -548,7 +568,7 @@ pl:
           primary_link: Droga pierwszorzędna – dojazd
           proposed: Droga planowana
           raceway: Tor wyścigowy
-          residential: Droga osiedlowa
+          residential: Droga lokalna
           rest_area: Miejsce obsługi podróżnych
           road: Droga
           secondary: Droga drugorzędna
@@ -759,6 +779,8 @@ pl:
           tram: Linia tramwajowa
           tram_stop: Przystanek tramwajowy
           yard: Stacja postojowa, lokomotywownia
+        route:
+          bus: Linia autobusowa
         shop:
           alcohol: Sklep monopolowy
           antiques: Antyki
@@ -882,10 +904,10 @@ pl:
           weir: Jaz
       admin_levels:
         level2: Granica kraju
-        level4: Granica stanu
+        level4: 'Granica:'
         level5: Granica regionu
-        level6: Granica hrabstwa
-        level8: Granica miasta
+        level6: 'Granica:'
+        level8: Granica miejscowości
         level9: Granica wsi
         level10: Granica przedmieścia
     description:
@@ -961,7 +983,6 @@ pl:
       text: Przekaż darowiznę
     learn_more: Dowiedz się więcej
     more: Więcej
-    sotm_line_3: Buenos Aires, Argentyna
   license_page:
     foreign:
       title: Informacje o tłumaczeniu
@@ -1253,6 +1274,20 @@ pl:
         commented_note: '%{commenter} ponownie aktywował uwagę, którą skomentowałeś.
           Znajduje się ona w lokalizacji: %{place}.'
       details: 'Więcej informacji na temat uwagi można znaleźć pod adresem: %{url}.'
+    changeset_comment_notification:
+      greeting: Cześć,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} skomentował jeden z twoich zestawów
+          zmian'
+        subject_other: '[OpenStreetMap] %{commenter} skomentował zestaw zmian'
+        your_changeset: '%{commenter} zostawił komentarz do jednego z twoich zestawów
+          zmian, utworzonego %{time}'
+        commented_changeset: '%{commenter} zostawił komentarz do zestawu zmian, który
+          śledzisz, utworzonego %{time} przez %{changeset_author}'
+        partial_changeset_with_comment: z komentarzem '%{changeset_comment}'
+        partial_changeset_without_comment: bez komentarza
+      details: 'Więcej informacji na temat zestawu zmian można znaleźć pod adresem:
+        %{url}.'
   message:
     inbox:
       title: Wiadomości odebrane
@@ -1399,7 +1434,7 @@ pl:
           apron:
           - Płyta lotniska
           - terminal
-          admin: Granica administracyjna
+          admin: 'Granica:'
           forest: Las
           wood: Puszcza
           golf: Pole golfowe
@@ -1579,7 +1614,7 @@ pl:
       description_without_count: Plik GPX od %{user}
   application:
     require_cookies:
-      cookies_needed: Wydaje się, że masz wyłączoną obsługę ciasteczek (cookies) w
+      cookies_needed: Wydaje się, że masz wyłączoną obsługę cookies (ciasteczek) w
         swojej przeglądarce internetowej – włącz ją, zanim przejdziesz dalej.
     require_moderator:
       not_a_moderator: Musisz być moderatorem, aby wykonać tą akcję.
@@ -2102,7 +2137,7 @@ pl:
       reason: Powód blokady
       status: Status
       revoker_name: Odwołana przez
-      not_revoked: (nie odwołana)
+      not_revoked: (nieodwołana)
       showing_page: Strona %{page}
       next: Następna »
       previous: « Poprzednia
@@ -2215,6 +2250,15 @@ pl:
       createnote_disabled_tooltip: Przybliż mapę, by dodać uwagę
       map_notes_zoom_in_tooltip: Powiększ, aby zobaczyć uwagi
       map_data_zoom_in_tooltip: Powiększ, aby zobaczyć dane mapy
+      queryfeature_tooltip: Obejrzyj dane obiektu
+      queryfeature_disabled_tooltip: Użyj powiększenia, aby obejrzeć dane obiektu
+    changesets:
+      show:
+        comment: Komentarz
+        subscribe: Obserwuj
+        unsubscribe: Nie obserwuj
+        hide_comment: ukryj
+        unhide_comment: pokaż
     notes:
       new:
         intro: Zauważyłeś błąd lub brak czegoś? Daj znać innym maperom, aby mogli
@@ -2232,6 +2276,13 @@ pl:
         comment: Dodaj komentarz
     edit_help: Przesuń mapę i powiększ miejsce, które chcesz edytować, a następnie
       kliknij tutaj.
+    query:
+      node: Węzeł
+      way: Linia
+      relation: Relacja
+      nothing_found: Nie znaleziono obiektów
+      error: 'Błąd komunikacji z %{server}: %{error}'
+      timeout: Przekroczono czas oczekiwania z:%{server}
   redaction:
     edit:
       description: Opis

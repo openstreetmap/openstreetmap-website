@@ -19,6 +19,7 @@
 # Author: Sev
 # Author: Shirayuki
 # Author: SteveR
+# Author: Ypryima
 # Author: Yurkoy
 # Author: Ата
 # Author: Тест
@@ -138,11 +139,17 @@ uk:
       way_paginated: Лінії (%{x}-%{y} із %{count})
       relation: Зв’язки (%{count})
       relation_paginated: Зв’язки (%{x}-%{y} із %{count})
+      comment: Коментарі (%{count})
+      hidden_commented_by: Прихований коментар від %{user} <abbr title='%{exact_time}'>%{when}
+        тому</abbr>
+      commented_by: Коментар від %{user} <abbr title='%{exact_time}'>%{when} тому</abbr>
       changesetxml: XML набір змін
       osmchangexml: osmChange XML
       feed:
         title: Набір змін %{id}
         title_comment: Набір змін %{id} — %{comment}
+      join_discussion: Увійдіть в систему, щоб приєднатися до обговорення
+      discussion: Обговорення
     node:
       title: 'Точка: %{name}'
       history_title: 'Історія точки: %{name}'
@@ -226,6 +233,11 @@ uk:
       reopened_by_anonymous: Відновлено анонімом <abbr title='%{exact_time}'>%{when}
         тому</abbr>
       hidden_by: Приховано учасником %{user} <abbr title='%{exact_time}'>%{when} тому</abbr>
+    query:
+      title: Отримати об’єкти
+      introduction: Клацніть на мапі, щоб отримати дані про об’єкти поруч.
+      nearby: Об’єкти поруч
+      enclosing: Оточуючі об’єкти
   changeset:
     changeset_paging_nav:
       showing_page: Сторінка %{page}
@@ -256,6 +268,13 @@ uk:
     timeout:
       sorry: На жаль, список наборів змін який ви запросили, потребує забагато часу
         для завантаження.
+    rss:
+      title_all: Обговорення наборів змін в OpenStreetMap
+      title_particular: 'Обговорення набору змін OpenStreetMap #%{changeset_id}'
+      comment: 'Новий коментар до набору змін #%{changeset_id} від %{author}'
+      commented_at_html: Оновлено %{when} тому
+      commented_at_by_html: Оновлено %{when} тому користувачем %{user}
+      full: Все обговорення
   diary_entry:
     new:
       title: Створити новий запис у щоденнику
@@ -546,7 +565,7 @@ uk:
           primary_link: З’єднання з головною дорогою
           proposed: Пропонована дорога
           raceway: Гоночна траса
-          residential: Вулиця місцевого значення
+          residential: Дорога місцевого значення
           rest_area: Зона відпочинку
           road: Дорога
           secondary: Другорядна дорога
@@ -757,6 +776,8 @@ uk:
           tram: Трамвайні колії
           tram_stop: Трамвайна зупинка
           yard: Депо
+        route:
+          bus: Автобусний Маршрут
         shop:
           alcohol: Спиртні напої
           antiques: Антикваріат
@@ -959,10 +980,6 @@ uk:
       text: Підтримайте проект
     learn_more: Дізнатись більше
     more: Більше
-    sotm_header: Мапа за станом на 2014 рік
-    sotm_line_1: 8-ма щорічна конференція
-    sotm_line_2: 7-9 листопада 2014 року
-    sotm_line_3: Буенос-Айрес, Аргентина
   license_page:
     foreign:
       title: Про цей переклад
@@ -1252,6 +1269,22 @@ uk:
         commented_note: '%{commenter} поновив нотатку, прокоментовану вами, що знаходиться
           біля %{place}.'
       details: Докладніше про нотатку %{url}.
+    changeset_comment_notification:
+      greeting: Привіт,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} прокоментував один з ваших наборів
+          змін'
+        subject_other: '[OpenStreetMap] %{commenter} прокоментував набір змін, до
+          якого ви залишали свій коментар'
+        your_changeset: '%{commenter} залишив коментар до одного з ваших наборів змін,
+          створених %{time}'
+        commented_changeset: '%{commenter} залишив коментар до набору змін, що ви
+          переглядаєте, створений %{changeset_author} – %{time}'
+        partial_changeset_with_comment: з коментарем '%{changeset_comment}'
+        partial_changeset_without_comment: без коментарів
+      details: |2-
+
+        Більше деталей про зміни, які можуть бути знайдені в %{url}.
   message:
     inbox:
       title: Вхідні
@@ -1304,9 +1337,9 @@ uk:
         з кимось із %{people_mapping_nearby_link}?
       people_mapping_nearby: користувачів поблизу вас
     reply:
-      wrong_user: Ви увійшли як `%{user}', але повідомлення, на яке ви хочете відповісти,
-        було відправлено не цьому користувачу. Будь ласка, увійдіть з правильним ім’ям
-        користувача щоб відповісти.
+      wrong_user: Ви увійшли як „%{user}“, але повідомлення, на яке ви хочете відповісти,
+        було надіслане не вам. Будь ласка, увійдіть з відповідним ім’ям користувача
+        щоб відповісти.
     read:
       title: Перегляд повідомлення
       from: Від
@@ -1316,9 +1349,9 @@ uk:
       unread_button: Позначити як непрочитане
       back: Назад
       to: 'Кому:'
-      wrong_user: Ви увійшли як `%{user}', але повідомлення, яке ви хочете прочитати,
-        не було відправлено цим користувачем, чи призначено для цього користувача.
-        Будь ласка, увійдіть під правильним ім'ям користувача, щоб прочитати його.
+      wrong_user: Ви увійшли як „%{user}“, але повідомлення, яке ви хочете прочитати,
+        не було надіслане вами, чи призначено для вас. Будь ласка, увійдіть під відповідним
+        ім’ям користувача, щоб прочитати його.
     sent_message_summary:
       delete_button: Вилучити
     mark:
@@ -2205,6 +2238,15 @@ uk:
       createnote_disabled_tooltip: Треба наблизитись для додання нотатки
       map_notes_zoom_in_tooltip: Збільшить масштаб, щоб побачити більше нотаток
       map_data_zoom_in_tooltip: Збільшить, щоб побачити дані мапи
+      queryfeature_tooltip: Отримати об’єкти
+      queryfeature_disabled_tooltip: Наблизитись для отримання об’єктів
+    changesets:
+      show:
+        comment: Коментар
+        subscribe: Підписатися
+        unsubscribe: Відписатись
+        hide_comment: приховати
+        unhide_comment: показати
     notes:
       new:
         intro: Помітили помилку або чогось не вистачає? Дайте знати іншим картографам,
@@ -2222,6 +2264,13 @@ uk:
         comment: Коментар
     edit_help: Перемістіть мапу і наблизьтесь до місця, яке ви бажаєте змінити, потім
       клацніть тут.
+    query:
+      node: Точка
+      way: Лінія
+      relation: Зв’язок
+      nothing_found: Об’єкти не знайдені
+      error: 'Помилка зв’язку %{server}: %{error}'
+      timeout: Сервер не відповідає %{server}
   redaction:
     edit:
       description: Опис

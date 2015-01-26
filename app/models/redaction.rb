@@ -14,19 +14,9 @@ class Redaction < ActiveRecord::Base
   has_many :old_ways
   has_many :old_relations
 
-  after_initialize :set_defaults
-
   # this method overrides the AR default to provide the rich 
   # text object for the description field.
   def description
     RichText.new(read_attribute(:description_format), read_attribute(:description))
-  end
-
-  private
-
-  # set the default format to be markdown, in the absence of
-  # any other setting.
-  def set_defaults
-    self.description_format = "markdown" unless self.attribute_present?(:description_format)
   end
 end

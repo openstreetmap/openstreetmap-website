@@ -17,39 +17,39 @@ class BrowseHelperTest < ActionView::TestCase
   end
 
   def test_printable_name
-    assert_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
-    assert_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
-    assert_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_equal "<bdi>Test Node</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
-    assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
+    assert_dom_equal "17", printable_name(current_nodes(:redacted_node))
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
+    assert_dom_equal "18", printable_name(nodes(:node_with_name_redacted_version))
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
+    assert_dom_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
 
-    I18n.locale = "ru"
+    I18n.locale = "pt"
 
-    assert_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_equal "<bdi>проверки узла</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
-    assert_equal "<bdi>проверки узла</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
-    assert_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_equal "<bdi>проверки узла</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
-    assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
+    assert_dom_equal "17", printable_name(current_nodes(:redacted_node))
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
+    assert_dom_equal "18", printable_name(nodes(:node_with_name_redacted_version))
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
+    assert_dom_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
 
-    I18n.locale = "ru-RU"
+    I18n.locale = "pt-BR"
 
-    assert_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_equal "<bdi>проверки узла</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
-    assert_equal "<bdi>проверки узла</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
-    assert_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_equal "<bdi>проверки узла</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
-    assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
+    assert_dom_equal "17", printable_name(current_nodes(:redacted_node))
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
+    assert_dom_equal "18", printable_name(nodes(:node_with_name_redacted_version))
+    assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
+    assert_dom_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
 
     I18n.locale = "de"
 
-    assert_equal "17", printable_name(current_nodes(:redacted_node))
-    assert_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
-    assert_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
-    assert_equal "18", printable_name(nodes(:node_with_name_redacted_version))
-    assert_equal "<bdi>Test Node</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
-    assert_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
+    assert_dom_equal "17", printable_name(current_nodes(:redacted_node))
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(current_nodes(:node_with_name))
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18</bdi>)", printable_name(nodes(:node_with_name_current_version))
+    assert_dom_equal "18", printable_name(nodes(:node_with_name_redacted_version))
+    assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
+    assert_dom_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
   end
 
   def test_link_class
@@ -72,24 +72,24 @@ class BrowseHelperTest < ActionView::TestCase
 
   def test_format_key
     html = format_key("highway")
-    assert_equal "<a href=\"http://wiki.openstreetmap.org/wiki/Key:highway?uselang=en\" title=\"The wiki description page for the highway tag\">highway</a>", html
+    assert_dom_equal "<a href=\"http://wiki.openstreetmap.org/wiki/Key:highway?uselang=en\" title=\"The wiki description page for the highway tag\">highway</a>", html
 
     html = format_key("unknown")
-    assert_equal "unknown", html
+    assert_dom_equal "unknown", html
   end
 
   def test_format_value
     html = format_value("highway", "primary")
-    assert_equal "<a href=\"http://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=en\" title=\"The wiki description page for the highway=primary tag\">primary</a>", html
+    assert_dom_equal "<a href=\"http://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=en\" title=\"The wiki description page for the highway=primary tag\">primary</a>", html
 
     html = format_value("highway", "unknown")
-    assert_equal "unknown", html
+    assert_dom_equal "unknown", html
 
     html = format_value("unknown", "unknown")
-    assert_equal "unknown", html
+    assert_dom_equal "unknown", html
 
     html = format_value("phone", "+1234567890")
-    assert_equal "<a href=\"tel:+1234567890\" title=\"Call +1234567890\">+1234567890</a>", html
+    assert_dom_equal "<a href=\"tel:+1234567890\" title=\"Call +1234567890\">+1234567890</a>", html
   end
 
   def test_icon_tags
