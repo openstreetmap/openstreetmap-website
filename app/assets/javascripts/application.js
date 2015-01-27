@@ -2,6 +2,7 @@
 //= require jquery_ujs
 //= require jquery.timers
 //= require jquery.cookie
+//= require jquery.timeago
 //= require jquery.throttle-debounce
 //= require bootstrap.tooltip
 //= require bootstrap.dropdown
@@ -98,6 +99,15 @@ function updateLinks(loc, zoom, layers, object) {
     .toggleClass('disabled', editDisabled)
     .attr('data-original-title', editDisabled ?
       I18n.t('javascripts.site.edit_disabled_tooltip') : '');
+
+  var historyDisabled = zoom < 5;
+  $('#history_tab')
+    .tooltip({placement: 'bottom'})
+    .off('click.minzoom')
+    .on('click.minzoom', function() { return !historyDisabled; })
+    .toggleClass('disabled', historyDisabled)
+    .attr('data-original-title', historyDisabled ?
+      I18n.t('javascripts.site.history_disabled_tooltip') : '');
 }
 
 function escapeHTML(string) {

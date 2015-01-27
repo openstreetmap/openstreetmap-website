@@ -1,4 +1,5 @@
 //= require_self
+//= require jquery.scrollIntoView
 //= require leaflet.sidebar
 //= require leaflet.locate
 //= require leaflet.layers
@@ -10,6 +11,8 @@
 //= require index/browse
 //= require index/export
 //= require index/notes
+//= require owl/owl
+//= require index/owl
 //= require index/history
 //= require index/note
 //= require index/new_note
@@ -148,10 +151,14 @@ $(document).ready(function () {
 
   $('.leaflet-control .control-button').tooltip({placement: 'left', container: 'body'});
 
+  //map.on('moveend', updateLocation);
+
   var expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
 
-  map.on('moveend layeradd layerremove', function() {
+  // TODO This causes a large performance hit with OWL since OWL layer triggers a lot of
+  // layeradd/layerremove events
+  /*map.on('moveend layeradd layerremove', function() {
     updateLinks(
       map.getCenter().wrap(),
       map.getZoom(),
@@ -160,7 +167,7 @@ $(document).ready(function () {
 
     $.removeCookie("_osm_location");
     $.cookie("_osm_location", OSM.locationCookie(map), { expires: expiry, path: "/" });
-  });
+  });*/
 
   if ($.cookie('_osm_welcome') == 'hide') {
     $('.welcome').hide();
@@ -210,6 +217,19 @@ $(document).ready(function () {
     remoteEditHandler(map.getBounds(), params.object);
     e.preventDefault();
   });
+
+  // Setup History tab.
+  OWL.initTagSymbols();
+  /*$("li[id=history_tab]").click(function (e) {
+    // TODO highlight History tab $("body").removeClass("site-index").addClass("site-history");
+    openSidebar({title: I18n.t('site.sidebar.history')});
+    $("a[class=sidebar_close]").click(function (e) {
+      destroyOwlLayer(map);
+      $("body").removeClass("site-history").addClass("site-index");
+    });
+    initOwlLayer(map);
+    return false;
+  });*/
 
   if (OSM.params().edit_help) {
     $('#editanchor')
@@ -295,9 +315,10 @@ $(document).ready(function () {
     "/search":                     OSM.Search(map),
     "/export":                     OSM.Export(map),
     "/note/new":                   OSM.NewNote(map),
+    "/activity":                   OSM.OWL(map),
     "/history/friends":            history,
     "/history/nearby":             history,
-    "/history":                    history,
+    "/history":                    OSM.OWL(map),
     "/user/:display_name/history": history,
     "/note/:id":                   OSM.Note(map),
     "/node/:id(/history)":         OSM.Browse(map, 'node'),

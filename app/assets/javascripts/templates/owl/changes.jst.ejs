@@ -1,0 +1,35 @@
+<% $.each(changeset.changes, function (index, change) { %>
+  <div class="change" data-change-id="<%- change.uid %>">
+    <span>
+      <a target="_blank" href="<%- hrefForChange(change) %>" class="change-link change-action-<%- change.action %> <%- cssClassForChange(change) %>">
+        <%- nameForChange(change) %>
+      </a>
+
+      <span class="change-actions">
+        <% if (change.action == 'MODIFY' && change.prevGeomLayer) { %>
+          <a class="show-prev-geom" data-change-id="<%- change.uid %>"><img src="/assets/undo.png"></a>
+        <% } %>
+        <!--<img src="/assets/info.png">-->
+      </span>
+    </span>
+
+    <ul class="change-tags">
+    <% $.each(change.diffTags.added, function (k, v) { %>
+      <li class="tag-added"><span class="tag-key"><%- k %></span> = <%- v %></li>
+    <% }); %>
+
+    <% $.each(change.diffTags.removed, function (k, v) { %>
+      <li class="tag-removed"><span class="tag-key"><%- k %></span> = <%- v %></li>
+    <% }); %>
+
+    <% $.each(change.diffTags.modified, function (k, v) { %>
+      <li class="tag-modified"><span class="tag-key"><%- k %></span> = <span style="font-weight: bold; color: green;"><%- v[0] %></span>
+      (was: <span style="font-weight: bold; color: red;"><%- v[1] %></span>)</li>
+    <% }); %>
+
+    <% $.each(change.diffTags.same, function (k, v) { %>
+      <li class="tag-same"><span class="tag-key"><%- k %></span> = <%- v %></li>
+    <% }); %>
+    </ul>
+  </div>
+<% }); %>

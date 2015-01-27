@@ -1,0 +1,71 @@
+var OWL = {
+
+  geoJsonStyles: {
+    'Point': {
+      fill: true,
+      stroke: false,
+      opacity: 0.60,
+      radius: 8
+    },
+    'LineString': {
+      fill: false,
+      opacity: 0.60,
+      weight: 5
+    },
+    'MultiLineString': {
+      fill: false,
+      opacity: 0.60,
+      weight: 5
+    },
+    'Polygon': {
+      fill: false,
+      stroke: true,
+      fillOpacity: 0.10,
+      opacity: 0.60,
+      weight: 5
+    },
+    'MultiPolygon': {
+      fill: false,
+      stroke: true,
+      fillOpacity: 0.10,
+      opacity: 0.60,
+      weight: 5
+    },
+    'action_CREATE': {
+      color: 'green',
+      fillColor: 'green'
+    },
+    'action_MODIFY': {
+      color: 'blue',
+      fillColor: 'blue'
+    },
+    'action_DELETE': {
+      color: 'red',
+      fillColor: 'red'
+    },
+    'hover': {
+      opacity: 0.75,
+      fillOpacity: 0.25
+    }
+  },
+
+  // Mapping from "tag=value" to tag symbol image URL. Calling initTagSymbols populates this hash.
+  tagSymbols: {},
+
+  // Goes through CSS rules and extracts tag=value and image URL information (see browse.css.scss)
+  // to the tagSymbols hash.
+  initTagSymbols: function() {
+    var symbols = this.tagSymbols;
+    $.each(document.styleSheets, function(index, stylesheet) {
+      $.each(stylesheet.rules || stylesheet.cssRules, function(index, rule) {
+        var text = rule.cssText || rule.style.cssText;
+        if (text.search(/browse\/.*?\.png/) != -1) {
+          // It's a rule for a tag symbol, let's process it!
+          var key = text.substring(1, text.indexOf(" {")).replace('.', '=').replace('::before', '').replace(':before', '');
+          var value = text.match(/\([\"]*(.*?browse\/.*?\.png)/)[1];
+          symbols[key] = value;
+        }
+      });
+    });
+  }
+};

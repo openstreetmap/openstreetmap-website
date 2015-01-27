@@ -1,0 +1,166 @@
+// Calculates a diff between two hashes containing tags.
+function diffTags(tags, prev_tags) {
+  var result = {added: {}, removed: {}, same: {}, modified: {}};
+  $.each(tags, function (k, v) {
+    if (prev_tags && k in prev_tags) {
+      if (v == prev_tags[k]) {
+        result.same[k] = v;
+      } else {
+        result.modified[k] = [v, prev_tags[k]];
+      }
+    } else {
+      result.added[k] = v;
+    }
+  });
+  if (prev_tags) {
+    $.each(prev_tags, function (k, v) {
+      if (!(k in tags)) {
+        result.removed[k] = v;
+      }
+    });
+  }
+  return result;
+}
+
+function hrefForChange(change) {
+  return OSM.OWL_LINKS_BASE_URL
+    + 'browse/'
+    + (change.el_type == 'N' ? 'node' : 'way')
+    + '/'
+    + change.el_id;
+}
+
+// Calculates symbols for changes, aggregates tag symbols on changeset level.
+function prepareChangesetInfo(changeset) {
+  var data = {symbols: {}};
+  $.each(changeset.changes, function (index, change) {
+      var symbolKey = symbolForChange(change);
+      if (symbolKey) {
+        change.symbolKey = symbolKey;
+        if (!(symbolKey in data.symbols)) {
+          data.symbols[symbolKey] = 1;
+        } else {
+          data.symbols[symbolKey]++;
+        }
+      }
+  });
+  changeset.info = data;
+}
+
+// Calculates what symbol should be used for given change. Returns symbol key.
+function symbolForChange(change) {
+  var result = null;
+  $.each ($.extend(change.tags, change.prev_tags), function (key, value) {
+    var symbolKey = key + '=' + value;
+    if (symbolKey in OWL.tagSymbols) {
+      result = symbolKey;
+      return false;
+    }
+  });
+  return result;
+}
+
+function cssClassForChange(change) {
+  var result = (change.el_type == 'N' ? 'node' : 'way');
+  if (change.symbolKey) {
+    result += ' ' + change.symbolKey.split('=').join(' ');
+  }
+  return result;
+}
+
+function nameForChange(change) {
+  var friendlyTagInfo = null, name = null;
+  if (change.prev_tags) {
+    friendlyTagInfo = findTagWithFriendlyName(change.prev_tags);
+    name = findName(change.prev_tags);
+  }
+  if (change.tags) {
+    if (friendlyTagInfo == null) {
+      friendlyTagInfo = findTagWithFriendlyName(change.tags);
+    }
+    if (name == null) {
+      name = findName(change.tags);
+    }
+  }
+  if (!name) {
+    name = change.el_id;
+  }
+  var result = '';
+  if (friendlyTagInfo) {
+    result = friendlyTagInfo.toLowerCase();
+    if (name) {
+      result += ' (' + name + ')';
+    }
+  } else {
+    result = name;
+  }
+  return result;
+}
+
+// Searches for a tag that has a translation and returns the translation or null if no such tags found.
+function findTagWithFriendlyName(tags) {
+  var result = null;
+  $.each(tags, function (k, v) {
+    if (I18n.lookup('geocoder.search_osm_nominatim.prefix.' + k + '.' + v)) {
+      result = I18n.t('geocoder.search_osm_nominatim.prefix.' + k + '.' + v);
+      return false;
+    }
+  });
+  return result;
+}
+
+function findName(tags) {
+  var result = null;
+  if ('name' in tags) {
+    result = tags['name'];
+  }
+  return result;
+}
+
+
+function findChangesetId(el) {
+  return findDataValue(el, 'changeset-id');
+}
+
+function findChangeId(el) {
+  return findDataValue(el, 'change-id');
+}
+
+// Tries to find data with given key attribute for given element (searches parents if needed).
+function findDataValue(el, key) {
+  var result = null;
+  $.each([$(el), $(el).parent(), $(el).parent().parent(), $(el).parent().parent().parent(),
+    $(el).parent().parent().parent().parent()], function (index, e) {
+      if (e.data(key)) {
+        result = e.data(key);
+        return false;
+      }
+  });
+  return result;
+}
+
+// Determines if the "Load more" element is in view - means that we need to load another page of results!
+function isLoadMoreInView() {
+  return $('#sidebar_content').scrollTop() + $('#sidebar').height() + 100 >= $('#history-sidebar').height();
+}
+
+function fetchUserDetails(ids, callback) {
+  $.each(ids, function (index, id) {
+    $.ajax({
+      context: this,
+      url: "http://www.openstreetmap.org/api/0.6/user/" + id,
+      dataType: 'xml',
+      success: function(xml, status, xhr) {
+        // Some users returned by the API don't have the avatar link for some reason...
+        if (xml.getElementsByTagName('img').length > 0) {
+          callback({
+              user_id: parseInt(xml.getElementsByTagName('user')[0].attributes.getNamedItem('id').value),
+              img_href: xml.getElementsByTagName('img')[0].attributes.getNamedItem('href').value
+          });
+        }
+      },
+      error: function(x,xx,xxx) {
+      }
+    }, this);
+  });
+}

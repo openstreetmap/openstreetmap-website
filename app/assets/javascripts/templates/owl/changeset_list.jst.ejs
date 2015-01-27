@@ -1,0 +1,40 @@
+<% $.each(changesets, function (index, changeset) { %>
+  <div class="changeset-item" data-changeset-id="<%- changeset.id %>">
+    <div class="changeset-info">
+    <img class="user_avatar_<%- changeset.user_id %>" src="" style="float:right;width:48px" />
+    <% if (typeof changeset.tags['comment'] != 'undefined') { %>
+      <a href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>" class="changeset-comment"><%- changeset.tags['comment'] %></a>
+    <% } else { %>
+      <a href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>" class="changeset-comment empty-comment">(no comment)</a>
+    <% } %>
+
+    <div style="color: #cccccc">
+    <% $.each(changeset.info.symbols, function (symbolKey, count) { %>
+      <% for (i = 0; i < count && i < 40; i++) { %>
+        <img src="<%- OWL.tagSymbols[symbolKey] %>">
+      <% } %>
+    <% }); %>
+    </div>
+
+    <div class="changeset-metadata">
+      <div class="metadata-left">
+        <abbr class="timeago" title="<%- changeset.created_at %>">
+          <%- changeset.created_at.replace('T', ' ').replace('Z', '') %>
+        </abbr>
+        by
+        <a href="<%- OSM.OWL_LINKS_BASE_URL %>user/<%- changeset.user_name %>"><%- changeset.user_name %></a>
+        ·
+        <a class="show-changes" href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>">show changes</a>
+        <!--·
+        <a href="<%- OSM.OWL_LINKS_BASE_URL %>browse/changeset/<%- changeset.id %>">examine</a>-->
+      </div>
+      <div class="changeset-actions">
+        
+      </div>
+    </div>
+    <br style="clear:both" />
+    </div>
+    <div class="change-list" data-changeset-id="<%- changeset.id %>"></div>
+  </div>
+  <hr style="margin: 0; padding: 0">
+<% }); %>
