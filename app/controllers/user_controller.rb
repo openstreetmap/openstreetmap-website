@@ -276,12 +276,13 @@ class UserController < ApplicationController
 
   def login
     if params[:username] or using_open_id?
-      session[:remember_me] ||= params[:remember_me]
       session[:referer] ||= params[:referer]
 
       if using_open_id?
+        session[:remember_me] ||= params[:remember_me_openid]
         openid_authentication(params[:openid_url])
       else
+        session[:remember_me] ||= params[:remember_me]
         password_authentication(params[:username], params[:password])
       end
     end
