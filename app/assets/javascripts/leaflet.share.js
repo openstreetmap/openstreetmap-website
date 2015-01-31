@@ -73,6 +73,10 @@ L.OSM.share = function (options) {
         .attr('id', 'short_link')
         .text(I18n.t('javascripts.share.short_link')))
       .append($('<a>')
+        .attr('for', 'geo_input')
+        .attr('id', 'geo_link')
+        .text(I18n.t('javascripts.share.geo_link')))
+      .append($('<a>')
         .attr('for', 'embed_html')
         .attr('href', '#')
         .text(I18n.t('javascripts.share.embed')))
@@ -104,6 +108,14 @@ L.OSM.share = function (options) {
       .appendTo($form)
       .append($('<input>')
         .attr('id', 'short_input')
+        .attr('type', 'text')
+        .on('click', select));
+
+    $('<div>')
+      .attr('class', 'form-row share-tab')
+      .appendTo($form)
+      .append($('<input>')
+        .attr('id', 'geo_input')
         .attr('type', 'text')
         .on('click', select));
 
@@ -300,8 +312,10 @@ L.OSM.share = function (options) {
 
       $('#short_input').val(map.getShortUrl(marker));
       $('#long_input').val(map.getUrl(marker));
+      $('#geo_input').val(map.getGeoUrl(marker));
       $('#short_link').attr('href', map.getShortUrl(marker));
       $('#long_link').attr('href', map.getUrl(marker));
+      $('#geo_link').attr('href', map.getGeoUrl(marker));
 
       var params = {
         bbox: bounds.toBBoxString(),
