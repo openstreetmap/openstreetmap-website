@@ -54,11 +54,9 @@ function OSRMEngine() {
           previousPoints = points;
           hintData = data.hint_data;
 
-          var line = L.PolylineUtil.decode(data.route_geometry);
-          for (var i = 0; i < line.length; i++) {
-            line[i].lat /= 10;
-            line[i].lng /= 10;
-          }
+          var line = L.PolylineUtil.decode(data.route_geometry, {
+            precision: 6
+          });
 
           var steps = [];
           for (i = 0; i < data.route_instructions.length; i++) {

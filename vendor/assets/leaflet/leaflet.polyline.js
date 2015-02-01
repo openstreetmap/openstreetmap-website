@@ -1,127 +1,235 @@
 /*
- * L.PolylineUtil contains utilify functions for polylines, two methods
- * are added to the L.Polyline object to support creation of polylines
- * from an encoded string and converting existing polylines to an
- * encoded string.
+ * Utility functions to decode/encode numbers and array's of numbers
+ * to/from strings (Google maps polyline encoding)
  *
- *  - L.Polyline.fromEncoded(encoded [, options]) returns a L.Polyline
- *  - L.Polyline.encodePath() returns a string
+ * Extends the L.Polyline and L.Polygon object with methods to convert
+ * to and create from these strings.
  *
- * Actual code from:
- * http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/\
+ * Jan Pieter Waagmeester <jieter@jieter.nl>
+ *
+ * Original code from:
+ * http://facstaff.unca.edu/mcmcclur/GoogleMaps/EncodePolyline/
+ * (which is down as of december 2014)
  */
 
-/*jshint browser:true, debug: true, strict:false, globalstrict:false, indent:4, white:true, smarttabs:true*/
-/*global L:true, console:true*/
+(function () {
+	'use strict';
 
-
-// Inject functionality into Leaflet
-(function (L) {
-	if (!(L.Polyline.prototype.fromEncoded)) {
-		L.Polyline.fromEncoded = function (encoded, options) {
-			return new L.Polyline(L.PolylineUtil.decode(encoded), options);
-		};
-	}
-	if (!(L.Polygon.prototype.fromEncoded)) {
-		L.Polygon.fromEncoded = function (encoded, options) {
-			return new L.Polygon(L.PolylineUtil.decode(encoded), options);
-		};
-	}
-
-	var encodeMixin = {
-		encodePath: function () {
-			return L.PolylineUtil.encode(this.getLatLngs());
+	var defaultOptions = function (options) {
+		if (typeof options === 'number') {
+			// Legacy
+			options = { precision: options };
+		} else {
+			options = options || {};
 		}
+
+		options.precision = options.precision || 5;
+		options.factor = options.factor || Math.pow(10, options.precision);
+		options.dimension = options.dimension || 2;
+		return options;
 	};
 
-	if (!L.Polyline.prototype.encodePath) {
-		L.Polyline.include(encodeMixin);
+	var PolylineUtil = {
+		encode: function (points, options) {
+			options = defaultOptions(options);
+
+			var flatPoints = [];
+			for (var i = 0, len = points.length; i < len; ++i) {
+				var point = points[i];
+
+				if (options.dimension === 2) {
+					flatPoints.push(point.lat || point[0]);
+					flatPoints.push(point.lng || point[1]);
+				} else {
+					for (var dim = 0; dim < options.dimension; ++dim) {
+						flatPoints.push(point[dim]);
+					}
+				}
+			}
+
+			return this.encodeDeltas(flatPoints, options);
+		},
+
+		decode: function (encoded, options) {
+			options = defaultOptions(options);
+
+			var flatPoints = this.decodeDeltas(encoded, options);
+
+			var points = [];
+			for (var i = 0, len = flatPoints.length; i + (options.dimension - 1) < len;) {
+				var point = [];
+
+				for (var dim = 0; dim < options.dimension; ++dim) {
+					point.push(flatPoints[i++]);
+				}
+
+				points.push(point);
+			}
+
+			return points;
+		},
+
+		encodeDeltas: function(numbers, options) {
+			options = defaultOptions(options);
+
+			var lastNumbers = [];
+
+			for (var i = 0, len = numbers.length; i < len;) {
+				for (var d = 0; d < options.dimension; ++d, ++i) {
+					var num = numbers[i];
+					var delta = num - (lastNumbers[d] || 0);
+					lastNumbers[d] = num;
+
+					numbers[i] = delta;
+				}
+			}
+
+			return this.encodeFloats(numbers, options);
+		},
+
+		decodeDeltas: function(encoded, options) {
+			options = defaultOptions(options);
+
+			var lastNumbers = [];
+
+			var numbers = this.decodeFloats(encoded, options);
+			for (var i = 0, len = numbers.length; i < len;) {
+				for (var d = 0; d < options.dimension; ++d, ++i) {
+					numbers[i] = lastNumbers[d] = numbers[i] + (lastNumbers[d] || 0);
+				}
+			}
+
+			return numbers;
+		},
+
+		encodeFloats: function(numbers, options) {
+			options = defaultOptions(options);
+
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				numbers[i] = Math.round(numbers[i] * options.factor);
+			}
+
+			return this.encodeSignedIntegers(numbers);
+		},
+
+		decodeFloats: function(encoded, options) {
+			options = defaultOptions(options);
+
+			var numbers = this.decodeSignedIntegers(encoded);
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				numbers[i] /= options.factor;
+			}
+
+			return numbers;
+		},
+
+		/* jshint bitwise:false */
+
+		encodeSignedIntegers: function(numbers) {
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				var num = numbers[i];
+				numbers[i] = (num < 0) ? ~(num << 1) : (num << 1);
+			}
+
+			return this.encodeUnsignedIntegers(numbers);
+		},
+
+		decodeSignedIntegers: function(encoded) {
+			var numbers = this.decodeUnsignedIntegers(encoded);
+
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				var num = numbers[i];
+				numbers[i] = (num & 1) ? ~(num >> 1) : (num >> 1);
+			}
+
+			return numbers;
+		},
+
+		encodeUnsignedIntegers: function(numbers) {
+			var encoded = '';
+			for (var i = 0, len = numbers.length; i < len; ++i) {
+				encoded += this.encodeUnsignedInteger(numbers[i]);
+			}
+			return encoded;
+		},
+
+		decodeUnsignedIntegers: function(encoded) {
+			var numbers = [];
+
+			var current = 0;
+			var shift = 0;
+
+			for (var i = 0, len = encoded.length; i < len; ++i) {
+				var b = encoded.charCodeAt(i) - 63;
+
+				current |= (b & 0x1f) << shift;
+
+				if (b < 0x20) {
+					numbers.push(current);
+					current = 0;
+					shift = 0;
+				} else {
+					shift += 5;
+				}
+			}
+
+			return numbers;
+		},
+
+		encodeSignedInteger: function (num) {
+			num = (num < 0) ? ~(num << 1) : (num << 1);
+			return this.encodeUnsignedInteger(num);
+		},
+
+		// This function is very similar to Google's, but I added
+		// some stuff to deal with the double slash issue.
+		encodeUnsignedInteger: function (num) {
+			var value, encoded = '';
+			while (num >= 0x20) {
+				value = (0x20 | (num & 0x1f)) + 63;
+				encoded += (String.fromCharCode(value));
+				num >>= 5;
+			}
+			value = num + 63;
+			encoded += (String.fromCharCode(value));
+
+			return encoded;
+		}
+
+		/* jshint bitwise:true */
+	};
+
+	// Export Node module
+	if (typeof module === 'object' && typeof module.exports === 'object') {
+		module.exports = PolylineUtil;
 	}
-	if (!L.Polygon.prototype.encodePath) {
-		L.Polygon.include(encodeMixin);
+
+	// Inject functionality into Leaflet
+	if (typeof L === 'object') {
+		if (!(L.Polyline.prototype.fromEncoded)) {
+			L.Polyline.fromEncoded = function (encoded, options) {
+				return new L.Polyline(PolylineUtil.decode(encoded), options);
+			};
+		}
+		if (!(L.Polygon.prototype.fromEncoded)) {
+			L.Polygon.fromEncoded = function (encoded, options) {
+				return new L.Polygon(PolylineUtil.decode(encoded), options);
+			};
+		}
+
+		var encodeMixin = {
+			encodePath: function () {
+				return PolylineUtil.encode(this.getLatLngs());
+			}
+		};
+
+		if (!L.Polyline.prototype.encodePath) {
+			L.Polyline.include(encodeMixin);
+		}
+		if (!L.Polygon.prototype.encodePath) {
+			L.Polygon.include(encodeMixin);
+		}
+
+		L.PolylineUtil = PolylineUtil;
 	}
-})(L);
-
-// Utility functions.
-L.PolylineUtil = {};
-
-L.PolylineUtil.encode = function (latlngs) {
-	var i, dlat, dlng;
-	var plat = 0;
-	var plng = 0;
-	var encoded_points = "";
-
-	for (i = 0; i < latlngs.length; i++) {
-		var lat = latlngs[i].lat;
-		var lng = latlngs[i].lng;
-		var late5 = Math.floor(lat * 1e5);
-		var lnge5 = Math.floor(lng * 1e5);
-		dlat = late5 - plat;
-		dlng = lnge5 - plng;
-		plat = late5;
-		plng = lnge5;
-		encoded_points +=
-			L.PolylineUtil.encodeSignedNumber(dlat) +
-			L.PolylineUtil.encodeSignedNumber(dlng);
-	}
-	return encoded_points;
-};
-
-// This function is very similar to Google's, but I added
-// some stuff to deal with the double slash issue.
-L.PolylineUtil.encodeNumber = function (num) {
-	var encodeString = "";
-	var nextValue, finalValue;
-	while (num >= 0x20) {
-		nextValue = (0x20 | (num & 0x1f)) + 63;
-		encodeString += (String.fromCharCode(nextValue));
-		num >>= 5;
-	}
-	finalValue = num + 63;
-	encodeString += (String.fromCharCode(finalValue));
-	return encodeString;
-};
-
-// This one is Google's verbatim.
-L.PolylineUtil.encodeSignedNumber = function (num) {
-	var sgn_num = num << 1;
-	if (num < 0) {
-		sgn_num = ~(sgn_num);
-	}
-	return (L.PolylineUtil.encodeNumber(sgn_num));
-};
-
-L.PolylineUtil.decode = function (encoded) {
-	var len = encoded.length;
-	var index = 0;
-	var latlngs = [];
-	var lat = 0;
-	var lng = 0;
-
-	while (index < len) {
-		var b;
-		var shift = 0;
-		var result = 0;
-		do {
-			b = encoded.charCodeAt(index++) - 63;
-			result |= (b & 0x1f) << shift;
-			shift += 5;
-		} while (b >= 0x20);
-		var dlat = ((result & 1) ? ~(result >> 1) : (result >> 1));
-		lat += dlat;
-
-		shift = 0;
-		result = 0;
-		do {
-			b = encoded.charCodeAt(index++) - 63;
-			result |= (b & 0x1f) << shift;
-			shift += 5;
-		} while (b >= 0x20);
-		var dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
-		lng += dlng;
-
-		latlngs.push(new L.LatLng(lat * 1e-5, lng * 1e-5));
-	}
-
-	return latlngs;
-};
+})();

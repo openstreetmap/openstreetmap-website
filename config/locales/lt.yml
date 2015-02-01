@@ -54,7 +54,7 @@ lt:
         body: Tekstas
       diary_entry:
         user: Naudotojas
-        title: Pavadinimas
+        title: Antraštė
         latitude: Platuma
         longitude: Ilguma
         language: Kalba
@@ -97,13 +97,62 @@ lt:
       name: nuotoliniu valdymu
       description: nuotolinį valdymą (JOSM arba Merkaartor)
   browse:
+    created: Sukurtas
+    closed: Uždarytas
+    created_html: Sukurtas <abbr title='%{title}'>prieš %{time}</abbr>
+    closed_html: Uždarytas <abbr title='%{title}'>prieš %{time}</abbr>
+    created_by_html: Sukurtas <abbr title='%{title}'>prieš %{time}</abbr> naudotojo
+      %{user}
+    deleted_by_html: Ištrintas <abbr title='%{title}'>prieš %{time}</abbr> naudotojo
+      %{user}
+    edited_by_html: Keistas <abbr title='%{title}'>prieš %{time}</abbr> naudotojo
+      %{user}
+    closed_by_html: Uždarytas <abbr title='%{title}'>prieš %{time}</abbr> naudotojo
+      %{user}
+    version: Versija
+    in_changeset: Pakeitimas
+    anonymous: anonimas
+    no_comment: (nėra komentaro)
+    part_of: Dalis
+    download_xml: Atsisiųsti XML
+    view_history: Žiūrėti istoriją
+    view_details: Žiūrėti detales
+    location: 'Vieta:'
     changeset:
-      title: Pakeitimas
+      title: 'Pakeitimas: %{id}'
+      belongs_to: Autorius
+      node: Taškų (%{count})
+      node_paginated: Taškų (%{x}-%{y} iš %{count})
+      way: Keliai (%{count})
+      way_paginated: Keliai (%{x}-%{y} iš %{count})
+      relation: Ryšiai (%{count})
+      relation_paginated: Ryšiai (%{x}-%{y} iš %{count})
+      comment: Komentarai (%{count})
+      hidden_commented_by: Paslėptas naudotojo %{user} komentaras <abbr title='%{exact_time}'>prieš
+        %{when}</abbr>
+      commented_by: Naudotojo %{user} komentaras <abbr title='%{exact_time}'>prieš
+        %{when}</abbr>
       changesetxml: Pakeitimo XML
       osmchangexml: osmChange XML
       feed:
         title: Pakeitimas %{id}
         title_comment: Pakeitimas %{id} - %{comment}
+      join_discussion: Prisijunkite norėdami dalyvauti aptarime
+      discussion: Diskusija
+    node:
+      title: 'Taškas: %{name}'
+      history_title: 'Taško istorija: %{name}'
+    way:
+      title: 'Kelias: %{name}'
+      history_title: 'Kelio istorija: %{name}'
+      nodes: Taškai
+      also_part_of:
+        one: dalis kelio %{related_ways}
+        other: dalis kelių %{related_ways}
+    relation:
+      title: 'Ryšys: %{name}'
+      history_title: 'Ryšio istorija: %{name}'
+      members: Nariai
     relation_member:
       entry_role: '%{type} %{name} kaip %{role}'
       type:
@@ -137,6 +186,8 @@ lt:
         way: kelias
         relation: ryšys
     start_rjs:
+      feature_warning: Įkeliami %{num_features} geoobjektai, todėl jūsų naršyklė gali
+        sulėtėti ir nesugebėti klausyti komandų. Ar tikrai norite rodyti šiuos duomenis?
       load_data: Kraunami duomenys
       loading: Kraunama...
     tag_details:
@@ -145,11 +196,32 @@ lt:
         key: Žymos %{key} wiki aprašymo puslapis
         tag: Žymos %{key}=%{value} wiki aprašymo puslapis
       wikipedia_link: '%{page} straipsnis Vikipedijoje'
+      telephone_link: Skambinti %{phone_number}
     note:
-      title: Pastaba
+      title: 'Pastaba: %{id}'
+      new_note: Nauja pastaba
       description: Aprašymas
       open_title: 'Neišspręsta pastaba: %{note_name}'
       closed_title: 'Išspręsta pastaba: %{note_name}'
+      hidden_title: 'Paslėpta pastaba #%{note_name}'
+      open_by: Sukurta naudotojo %{user} <abbr title='%{exact_time}'>prieš %{when}</abbr>
+      open_by_anonymous: Sukurta anonimo <abbr title='%{exact_time}'>prieš %{when}</abbr>
+      commented_by: Naudotojo %{user} komentaras <abbr title='%{exact_time}'>prieš
+        %{when}</abbr>
+      commented_by_anonymous: Anonimo komentaras <abbr title='%{exact_time}'>prieš
+        %{when}</abbr>
+      closed_by: Išsprendė naudotojas %{user} <abbr title='%{exact_time}'>prieš %{when}</abbr>
+      closed_by_anonymous: Išsprendė anonimas <abbr title='%{exact_time}'>prieš %{when}</abbr>
+      reopened_by: Iš naujo aktyvavo naudotojas %{user} <abbr title='%{exact_time}'>prieš
+        %{when}</abbr>
+      reopened_by_anonymous: Iš naujo aktyvavo anonimas <abbr title='%{exact_time}'>prieš
+        %{when}</abbr>
+      hidden_by: Paslėpė naudotojas %{user} <abbr title='%{exact_time}'>prieš %{when}</abbr>
+    query:
+      title: Ieškoti geoobjektų
+      introduction: Spauskite ant žemėlapio, norėdami rasti gretimus objektus
+      nearby: Artimi objektai
+      enclosing: Gaubiantys objektai
   changeset:
     changeset_paging_nav:
       showing_page: Puslapis %{page}
@@ -170,8 +242,22 @@ lt:
       title_user: Naudotojo %{user} pakeitimai
       title_friend: Jūsų draugų pakeitimai
       title_nearby: Netoliese esančių naudotojų pakeitimai
+      empty: Nerasta pakeitimų.
+      empty_area: Nėra šios vietos pakeitimų.
+      empty_user: Nėra šio naudotojo pakeitimų.
+      no_more: Daugiau pakeitimų nerasta.
+      no_more_area: Daugiau pakeitimų šioje vietoje nėra.
+      no_more_user: Daugiau šio naudotojo pakeitimų nėra.
+      load_more: Įkelti daugiau
     timeout:
       sorry: Atsiprašome, bet jūsų prašytų pakeitimų ištraukimas užtruko per ilgai.
+    rss:
+      title_all: OpenStreetMap pakeitimo aptarimas
+      title_particular: 'OpenStreetMap pakeitimo #%{changeset_id} aptarimas'
+      comment: 'Naujas pakeitimo #%{changeset_id} komentaras, parašytas %{author}'
+      commented_at_html: Pakeista prieš %{when}
+      commented_at_by_html: '%{user} pakeitė prieš %{when}'
+      full: Pilnas aptarimas
   diary_entry:
     new:
       title: Naujas dienoraščio įrašas
@@ -248,6 +334,7 @@ lt:
       newer_comments: Naujesni komentarai
       older_comments: Senesni komentarai
   export:
+    title: Eksportuoti
     start:
       area_to_export: Eksportuotinas plotas
       manually_select: Rankiniu būdu parinkti kitą sritį
@@ -259,8 +346,29 @@ lt:
       export_details: OpenStreetMap duomenų licencija - <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
         Data Commons Open Database License</a> (ODbL).
       too_large:
+        advice: 'Jei aukščiau pateiktas eksportas nepavyko, pabandykite vieną iš žemiau
+          išvardintų šaltinių:'
         body: Ši sritis per didelė, kad būtų galima eksportuoti OpenStreetMap XML
-          duomenis. Parinkite mažesnę sritį.
+          duomenis. Padidinkite, parinkite mažesnę sritį arba naudokite vieną iš didelio
+          duomenų kiekio atsiuntimo šaltinių.
+        planet:
+          title: OSM planeta
+          description: Periodiškai atnaujinamos pilnos OpenStreetMap duomenų bazės
+            kopijos
+        overpass:
+          title: Overpass API
+          description: Atsisiųsti šią apimtį iš OpenStreetMap duombazės kopijos
+        geofabrik:
+          title: Geofabrik atsisiuntimai
+          description: Periodiškai atnaujinami kontinentų, šalių ir kai kurių miestų
+            duomenys.
+        metro:
+          title: Metro iškarpos
+          description: Pagrindinių pasaulio miestų ir aplinkinių teritorijų duomenų
+            iškarpos
+        other:
+          title: Kiti šaltiniai
+          description: Papildomi šaltiniai išvardinti OpenStreetMap wiki
       options: Parinktys
       format: Formatas
       scale: Mastelis
@@ -284,6 +392,9 @@ lt:
         osm_nominatim: <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
           Nominatim</a> rezultatai
         geonames: <a href="http://www.geonames.org/">GeoNames</a> rezultatai
+        osm_nominatim_reverse: Rezultatai iš <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
+        geonames_reverse: Rezultatai iš <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
         aeroway:
@@ -378,6 +489,7 @@ lt:
           shower: Dušas
           social_centre: Socialinių reikalų centras
           social_club: Socialinių reikalų klubas
+          social_facility: Socialinė įstaiga
           studio: Studija
           supermarket: Prekybos centras
           swimming_pool: Plaukiojimo baseinas
