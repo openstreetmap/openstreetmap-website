@@ -55,12 +55,13 @@ OSM.Directions = function (map) {
       // make text the same in both text boxes
       var value = e.target.value;
       endpoint.setValue(value)
-      endpoint.getGeocode();
     });
 
     endpoint.setValue = function(value) {
       endpoint.value = value;
+      delete endpoint.latlng;
       input.val(value);
+      endpoint.getGeocode();
     }
 
     endpoint.getGeocode = function() {
@@ -338,6 +339,10 @@ OSM.Directions = function (map) {
 
     if (params.from) {
       endpoints[0].setValue(params.from);
+      endpoints[1].setValue("");
+    } else {
+      endpoints[0].setValue("");
+      endpoints[1].setValue("");
     }
 
     var o = route[0] && L.latLng(route[0].split(',')),
