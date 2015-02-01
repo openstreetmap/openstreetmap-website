@@ -19,7 +19,7 @@ function GraphHopperEngine(id, vehicleParam) {
     getRoute: function (points, callback) {
       // documentation
       // https://github.com/graphhopper/graphhopper/blob/master/docs/web/api-doc.md
-      var url = "https://graphhopper.com/api/1/route?"
+      var url = document.location.protocol + "//graphhopper.com/api/1/route?"
         + vehicleParam
         + "&locale=" + I18n.currentLocale()
         + "&key=LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn"
@@ -70,5 +70,5 @@ function GraphHopperEngine(id, vehicleParam) {
   };
 }
 
-OSM.Directions.addEngine(GraphHopperEngine("graphhopper_bicycle", "vehicle=bike"), false);
-OSM.Directions.addEngine(GraphHopperEngine("graphhopper_foot", "vehicle=foot"), false);
+OSM.Directions.addEngine(GraphHopperEngine("graphhopper_bicycle", "vehicle=bike"), true);
+OSM.Directions.addEngine(GraphHopperEngine("graphhopper_foot", "vehicle=foot"), true);

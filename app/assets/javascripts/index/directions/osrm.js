@@ -31,7 +31,7 @@ function OSRMEngine() {
         I18n.t('javascripts.directions.instructions.end_oneway')        // 17
       ];
 
-      var url = "http://router.project-osrm.org/viaroute?z=14&output=json&instructions=true";
+      var url = document.location.protocol + "//router.project-osrm.org/viaroute?z=14&output=json&instructions=true";
 
       for (var i = 0; i < points.length; i++) {
         url += "&loc=" + points[i].lat + ',' + points[i].lng;
@@ -91,4 +91,4 @@ function OSRMEngine() {
   };
 }
 
-OSM.Directions.addEngine(OSRMEngine(), false);
+OSM.Directions.addEngine(OSRMEngine(), true);
