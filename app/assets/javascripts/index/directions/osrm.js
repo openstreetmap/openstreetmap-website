@@ -91,4 +91,4 @@ function OSRMEngine() {
   };
 }
 
-OSM.Directions.addEngine(OSRMEngine(), false);
+OSM.Directions.addEngine(OSRMEngine(), true);

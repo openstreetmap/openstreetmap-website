@@ -70,5 +70,5 @@ function GraphHopperEngine(id, vehicleParam) {
   };
 }
 
-OSM.Directions.addEngine(GraphHopperEngine("graphhopper_bicycle", "vehicle=bike"), false);
-OSM.Directions.addEngine(GraphHopperEngine("graphhopper_foot", "vehicle=foot"), false);
+OSM.Directions.addEngine(GraphHopperEngine("graphhopper_bicycle", "vehicle=bike"), true);
+OSM.Directions.addEngine(GraphHopperEngine("graphhopper_foot", "vehicle=foot"), true);
