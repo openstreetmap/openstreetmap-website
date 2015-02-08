@@ -163,6 +163,7 @@ OSM.Directions = function (map) {
         d = endpoints[1].latlng;
 
     if (!o || !d) return;
+    $("header").addClass("closed");
 
     var precision = OSM.zoomPrecision(map.getZoom());
 
@@ -295,7 +296,6 @@ OSM.Directions = function (map) {
 
   $(".directions_form").on("submit", function(e) {
     e.preventDefault();
-    $("header").addClass("closed");
     getRoute();
   });
 
