@@ -343,6 +343,8 @@ path.area.stroke {
     stroke-width: 1;
 }
 path.area.fill {
+    stroke-width: 0;
+    stroke: rgba(255, 255, 255, 0.3);
     fill: rgba(255, 255, 255, 0.3);
     fill-rule: evenodd;
 }
@@ -355,6 +357,7 @@ path.stroke.tag-natural {
     stroke: rgb(182, 225, 153);
 }
 path.fill.tag-natural {
+    stroke: rgba(182, 225, 153, 0.3);
     fill: rgba(182, 225, 153, 0.3);
 }
 .preset-icon-fill-area.tag-natural {
@@ -362,12 +365,52 @@ path.fill.tag-natural {
     background-color: rgba(182, 225, 153, 0.3);
 }
 
-path.stroke.tag-natural-water {
+path.stroke.tag-landuse,
+path.stroke.tag-natural-wood,
+path.stroke.tag-natural-tree,
+path.stroke.tag-natural-grassland,
+path.stroke.tag-natural-grass,
+path.stroke.tag-leisure-nature_reserve,
+path.stroke.tag-leisure-pitch,
+path.stroke.tag-leisure-park {
+    stroke: rgb(140, 208, 95);
+}
+path.fill.tag-landuse,
+path.fill.tag-natural-wood,
+path.fill.tag-natural-tree,
+path.fill.tag-natural-grassland,
+path.fill.tag-natural-grass,
+path.fill.tag-leisure-nature_reserve,
+path.fill.tag-leisure-pitch,
+path.fill.tag-leisure-park {
+    stroke: rgba(140, 208, 95, 0.3);
+    fill: rgba(140, 208, 95, 0.3);
+}
+.preset-icon-fill-area.tag-landuse,
+.preset-icon-fill-area.tag-natural-wood,
+.preset-icon-fill-area.tag-natural-tree,
+.preset-icon-fill-area.tag-natural-grassland,
+.preset-icon-fill-area.tag-natural-grass,
+.preset-icon-fill-area.tag-leisure-nature_reserve,
+.preset-icon-fill-area.tag-leisure-pitch,
+.preset-icon-fill-area.tag-leisure-park {
+    border-color: rgb(140, 208, 95);
+    background-color: rgba(140, 208, 95, 0.3);
+}
+
+path.stroke.tag-natural-water,
+path.stroke.tag-landuse-basin,
+path.stroke.tag-landuse-reservoir {
     stroke: rgb(119, 211, 222);
 }
+path.fill.tag-landuse-basin,
+path.fill.tag-landuse-reservoir,
 path.fill.tag-natural-water {
+    stroke: rgba(119, 211, 222, 0.3);
     fill: rgba(119, 211, 222, 0.3);
 }
+.preset-icon-fill-area.tag-landuse-basin,
+.preset-icon-fill-area.tag-landuse-reservoir,
 .preset-icon-fill-area.tag-natural-water {
     border-color: rgb(119, 211, 222);
     background-color: rgba(119, 211, 222, 0.3);
@@ -385,6 +428,7 @@ path.fill.tag-amenity-kindergarten,
 path.fill.tag-amenity-school,
 path.fill.tag-amenity-college,
 path.fill.tag-amenity-university {
+    stroke: rgba(255, 255, 148, 0.15);
     fill: rgba(255, 255, 148, 0.15);
 }
 .preset-icon-fill-area.tag-amenity-childcare,
@@ -396,48 +440,12 @@ path.fill.tag-amenity-university {
     background-color: rgba(255, 255, 148, 0.15);
 }
 
-path.stroke.tag-landuse,
-path.stroke.tag-natural-wood,
-path.stroke.tag-natural-tree,
-path.stroke.tag-natural-grassland,
-path.stroke.tag-natural-grass,
-path.stroke.tag-leisure-pitch,
-path.stroke.tag-leisure-park {
-    stroke: rgb(140, 208, 95);
-}
-path.fill.tag-landuse,
-path.fill.tag-natural-wood,
-path.fill.tag-natural-tree,
-path.fill.tag-natural-grassland,
-path.fill.tag-natural-grass,
-path.fill.tag-leisure-pitch,
-path.fill.tag-leisure-park {
-    fill: rgba(140, 208, 95, 0.2);
-}
-.preset-icon-fill-area.tag-landuse,
-.preset-icon-fill-area.tag-natural-wood,
-.preset-icon-fill-area.tag-natural-tree,
-.preset-icon-fill-area.tag-natural-grassland,
-.preset-icon-fill-area.tag-natural-grass,
-.preset-icon-fill-area.tag-leisure-pitch,
-.preset-icon-fill-area.tag-leisure-park {
-    border-color: rgb(140, 208, 95);
-    background-color: rgba(140, 208, 95, 0.2);
-}
-
-path.fill.tag-landuse-residential,
-path.fill.tag-landuse-retail,
-path.fill.tag-landuse-commercial,
-path.fill.tag-landuse-industrial {
-    fill: none;
-    stroke-width: 60px;
-}
-
 path.stroke.tag-landuse-residential {
     stroke: rgb(196, 189, 25);
 }
 path.fill.tag-landuse-residential {
     stroke: rgba(196, 189, 25, 0.3);
+    fill: rgba(196, 189, 25, 0.3);
 }
 .preset-icon-fill-area.tag-landuse-residential {
     border-color: rgb(196, 189, 25);
@@ -452,6 +460,7 @@ path.stroke.tag-landuse-commercial {
 path.fill.tag-landuse-retail,
 path.fill.tag-landuse-commercial {
     stroke: rgba(214, 136, 26, 0.3);
+    fill: rgba(214, 136, 26, 0.3);
 }
 .preset-icon-fill-area.tag-landuse-retail,
 .preset-icon-fill-area.tag-landuse-commercial {
@@ -465,6 +474,7 @@ path.stroke.tag-landuse-industrial {
 }
 path.fill.tag-landuse-industrial {
     stroke: rgba(228, 164, 245, 0.3);
+    fill: rgba(228, 164, 245, 0.3);
 }
 .preset-icon-fill-area.tag-landuse-industrial {
     border-color: rgb(228, 164, 245);
@@ -472,24 +482,11 @@ path.fill.tag-landuse-industrial {
     box-shadow: inset 0 0 0 5px rgba(228, 164, 245, 0.3);
 }
 
-path.stroke.tag-landuse-basin,
-path.stroke.tag-landuse-reservoir {
-    stroke: rgb(119, 211, 222);
-}
-path.fill.tag-landuse-basin,
-path.fill.tag-landuse-reservoir {
-    fill: rgba(119, 211, 222, 0.3);
-}
-.preset-icon-fill-area.tag-landuse-basin,
-.preset-icon-fill-area.tag-landuse-reservoir {
-    border-color: rgb(119, 211, 222);
-    background-color: rgba(119, 211, 222, 0.3);
-}
-
 path.stroke.tag-landuse-quarry {
     stroke: rgb(166, 149, 123);
 }
 path.fill.tag-landuse-quarry {
+    stroke: rgba(166, 149, 123, 0.2);
     fill: rgba(166, 149, 123, 0.2);
 }
 .preset-icon-fill-area.tag-landuse-quarry {
@@ -501,6 +498,7 @@ path.stroke.tag-landuse-landfill {
     stroke: rgb(255, 153, 51);
 }
 path.fill.tag-landuse-landfill {
+    stroke: rgba(255, 153, 51, 0.2);
     fill: rgba(255, 153, 51, 0.2);
 }
 .preset-icon-fill-area.tag-landuse-landfill {
@@ -508,11 +506,11 @@ path.fill.tag-landuse-landfill {
     background-color: rgba(255, 153, 51, 0.2);
 }
 
-path.stroke.tag-landuse-construction {
-    stroke: rgb(196, 189, 25);
-}
 .pattern-color-construction {
     fill: rgba(196, 189, 25, 0.2);
+}
+path.stroke.tag-landuse-construction {
+    stroke: rgb(196, 189, 25);
 }
 .preset-icon-fill-area.tag-landuse-construction {
     border-color: rgb(196, 189, 25);
@@ -522,49 +520,53 @@ path.stroke.tag-landuse-construction {
 path.stroke.tag-landuse-military {
     stroke: rgb(214, 136, 26);
 }
+path.fill.tag-landuse-military {
+    stroke: rgba(214, 136, 26, 0.2);
+    fill: rgba(214, 136, 26, 0.2);
+}
 .preset-icon-fill-area.tag-landuse-military {
     border-color: rgb(214, 136, 26);
     background-color: rgba(214, 136, 26, 0.2);
 }
 
-path.stroke.tag-natural-wetland {
-    stroke: rgb(182, 225, 153);
-}
 .pattern-color-wetland {
     fill: rgba(182, 225, 153, 0.2);
+}
+path.stroke.tag-natural-wetland {
+    stroke: rgb(182, 225, 153);
 }
 .preset-icon-fill-area.tag-natural-wetland {
     border-color: rgb(182, 225, 153);
     background-color: rgba(182, 225, 153, 0.2);
 }
 
-path.stroke.tag-landuse-meadow {
-    stroke: rgb(182, 225, 153);
-}
 .pattern-color-meadow {
     fill: rgba(182, 225, 153, 0.2);
+}
+path.stroke.tag-landuse-meadow {
+    stroke: rgb(182, 225, 153);
 }
 .preset-icon-fill-area.tag-landuse-meadow {
     border-color: rgb(182, 225, 153);
     background-color: rgba(182, 225, 153, 0.2);
 }
 
-path.stroke.tag-natural-beach {
-    stroke: rgb(255, 255, 126);
-}
 .pattern-color-beach {
     fill: rgba(255, 255, 126, 0.2);
+}
+path.stroke.tag-natural-beach {
+    stroke: rgb(255, 255, 126);
 }
 .preset-icon-fill-area.tag-natural-beach {
     border-color: rgb(255, 255, 126);
     background-color: rgba(255, 255, 126, 0.2);
 }
 
-path.stroke.tag-natural-scrub {
-    stroke: rgb(219, 240, 139);
-}
 .pattern-color-scrub {
     fill: rgba(219, 240, 139, 0.2);
+}
+path.stroke.tag-natural-scrub {
+    stroke: rgb(219, 240, 139);
 }
 .preset-icon-fill-area.tag-natural-scrub {
     border-color: rgb(219, 240, 139);
@@ -575,29 +577,33 @@ path.stroke.tag-natural-scrub {
 .pattern-color-farmland {
     fill: rgba(140, 208, 95, 0.2);
 }
+path.stroke.tag-landuse-farm,
+path.stroke.tag-landuse-farmland {
+    stroke: rgb(140, 208, 95);
+}
 .preset-icon-fill-area.tag-landuse-farm,
 .preset-icon-fill-area.tag-landuse-farmland {
     background-color: rgba(140, 208, 95, 0.2);
 }
 
-.pattern-color-cemetery {
-    fill: rgba(140, 208, 95, 0.2)
-}
-.preset-icon-fill-area.tag-landuse-cemetery {
-    background-color: rgba(140, 208, 95, 0.2);
-}
-
+.pattern-color-cemetery,
 .pattern-color-orchard {
-    fill: rgba(140, 208, 95, 0.2)
+    fill: rgba(140, 208, 95, 0.2);
 }
+path.stroke.tag-landuse-cemetery,
+path.stroke.tag-landuse-orchard {
+    stroke: rgb(140, 208, 95);
+}
+.preset-icon-fill-area.tag-landuse-cemetery,
 .preset-icon-fill-area.tag-landuse-orchard {
-    background-color: rgba(140, 208, 95, 0.8);
+    background-color: rgba(140, 208, 95, 0.2);
 }
 
 path.stroke.tag-amenity-parking {
     stroke: rgb(170, 170, 170);
 }
 path.fill.tag-amenity-parking {
+    stroke: rgba(170, 170, 170, 0.3);
     fill: rgba(170, 170, 170, 0.3);
 }
 .preset-icon-fill-area.tag-amenity-parking {
@@ -717,18 +723,18 @@ path.casing.tag-highway-living_street {
     stroke-width:6;
 }
 
-path.stroke.line.tag-highway-pedestrian {
+path.stroke.tag-highway-pedestrian {
     stroke:#fff;
     stroke-dasharray: 2, 8;
-    stroke-width:4 !important;
-    shapeRendering: auto;
+    stroke-width:4;
 }
-path.casing.line.tag-highway-pedestrian {
+path.casing.tag-highway-pedestrian {
     stroke:#8cd05f;
-    stroke-width:6 !important;
+    stroke-width:6;
 }
 path.stroke.area.tag-highway-pedestrian {
     stroke:#fff;
+    stroke-dasharray: none;
     stroke-width: 2;
 }
 
@@ -842,12 +848,14 @@ path.casing.tag-aeroway-runway {
     stroke-linecap: square;
 }
 path.fill.tag-aeroway-runway {
+    stroke: rgba(0, 0, 0, 0.6);
     fill: rgba(0, 0, 0, 0.6);
 }
 path.stroke.tag-aeroway-apron {
     stroke: #805C80;
 }
 path.fill.tag-aeroway-apron {
+    stroke: rgba(128, 92, 128, 0.2);
     fill: rgba(128, 92, 128, 0.2);
 }
 
@@ -901,6 +909,7 @@ path.casing.tag-railway-platform {
 /* waterways */
 
 path.fill.tag-waterway {
+    stroke: rgba(119, 211, 222, 0.3);
     fill: rgba(119, 211, 222, 0.3);
 }
 
@@ -1035,8 +1044,6 @@ path.shadow.tag-highway-bridleway.tag-bridge {
     stroke-width: 13;
 }
 
-
-
 /* tunnels */
 
 path.stroke.tag-tunnel {
@@ -1116,6 +1123,7 @@ path.stroke.tag-amenity-shelter {
 }
 path.fill.tag-building,
 path.fill.tag-amenity-shelter {
+    stroke: rgba(224, 110, 95, 0.3);
     fill: rgba(224, 110, 95, 0.3);
 }
 .preset-icon-fill-area.tag-building,
@@ -1291,16 +1299,18 @@ g.turn circle {
 }
 
 /* GPX Paths */
+div.layer-gpx {
+    pointer-events: none;
+}
+
 path.gpx {
     stroke: #FF26D4;
     stroke-width: 2;
     fill: none;
-    pointer-events: none;
 }
 
-/* GPS Labels */
 text.gpx {
-    fill:#FF26D4;
+    fill: #FF26D4;
 }
 
 /* Mapillary Layer */
@@ -1355,6 +1365,42 @@ text.gpx {
 .mode-add-area .area.fill,
 .mode-drag-node .area.fill {
     pointer-events: none;
+}
+
+
+/* Fill Styles */
+.low-zoom.fill-wireframe path.stroke,
+.fill-wireframe path.stroke {
+    stroke-width: 1;
+    stroke-opacity: 0.5;
+    stroke-dasharray: none;
+    fill: none;
+}
+
+.low-zoom.fill-wireframe path.shadow,
+.fill-wireframe path.shadow {
+    stroke-width: 8;
+}
+
+.fill-wireframe path.shadow.hover:not(.selected) {
+    stroke-opacity: 0.2;
+}
+.fill-wireframe path.shadow.selected {
+    stroke-opacity: 0.4;
+}
+
+.fill-wireframe .point,
+.fill-wireframe .icon,
+.fill-wireframe path.casing,
+.fill-wireframe path.fill,
+.fill-wireframe path.oneway {
+    display: none;
+}
+
+.fill-partial path.fill {
+    fill-opacity: 0;
+    stroke-width: 60px;
+    pointer-events: visibleStroke;
 }
 /* Basics
 ------------------------------------------------------- */
@@ -1633,18 +1679,6 @@ ul li { list-style: none;}
     background: #E8EBFF;
 }
 
-.link-list li {
-    float: right;
-    border-left: 1px solid rgba(255,255,255,.5);
-    padding: 5px 0 5px 5px;
-    margin-left: 5px;
-}
-
-ul.link-list li:last-child {
-    border-left: 0;
-    margin-left: 0;
-    padding-left: 0;
-}
 
 /* Utility Classes
 ------------------------------------------------------- */
@@ -1674,7 +1708,8 @@ ul.link-list li:last-child {
 div.hide,
 form.hide,
 button.hide,
-a.hide {
+a.hide,
+li.hide {
     display: none;
 }
 
@@ -1897,6 +1932,7 @@ button.save.has-count .count::before {
 .icon.relation.route         { background-position: -540px 0;}
 .icon.relation.multipolygon  { background-position: -560px 0;}
 .icon.vertex     { background-position: -580px 0;}
+.icon.data       { background-position: -600px 0;}
 
 .icon.inspect.light    { background-position: -220px -20px;}
 .icon.plus.light       { background-position: -240px -20px;}
@@ -1909,6 +1945,7 @@ button.save.has-count .count::before {
 .icon.geolocate.light  { background-position: -360px -20px;}
 .icon.bug.light        { background-position: -400px -20px;}
 .icon.help.light       { background-position: -460px -20px;}
+.icon.data.light       { background-position: -600px -20px;}
 
 .icon.back.blue        { background-position: -420px -20px;}
 .icon.forward.blue     { background-position: -440px -20px;}
@@ -1930,6 +1967,7 @@ button[disabled] .icon.geocode    { background-position: -280px -40px;}
 button[disabled] .icon.layers     { background-position: -300px -40px;}
 button[disabled] .icon.avatar     { background-position: -320px -40px;}
 button[disabled] .icon.nearby     { background-position: -340px -40px;}
+button[disabled] .icon.data       { background-position: -600px -40px;}
 
 .icon.point.deleted  { background-position: -302px -80px;}
 .icon.line.deleted   { background-position: -320px -80px;}
@@ -2360,7 +2398,7 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 
 .inspector-preset .preset-form {
     padding: 10px;
-    margin: 0 10px 20px 10px;
+    margin: 0 10px 10px 10px;
     border-radius: 8px;
 }
 
@@ -2494,7 +2532,7 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
 .inspector-hover .entity-editor-pane .header button,
 .inspector-hover .spin-control,
 .inspector-hover .hide-toggle:before,
-.inspector-hover .more-buttons,
+.inspector-hover .more-fields,
 .inspector-hover .form-label-button-wrap,
 .inspector-hover .tag-reference-button,
 .inspector-hover .view-on-osm {
@@ -2519,9 +2557,9 @@ a:hover .icon.out-link   { background-position: -500px -14px;}
     border-bottom-left-radius: 4px;
 }
 
-.inspector-hover .inspector-body .more-buttons {
+.inspector-hover .more-fields {
     max-height: 0;
-    padding-bottom: 0;
+    margin-bottom: -10px;
 }
 
 /* Unstyle button fields */
@@ -2589,7 +2627,7 @@ input,
 .entity-editor-pane .header button,
 .toggle-list label span,
 .spin-control,
-.more-buttons,
+.more-fields,
 .view-on-osm,
 .hide-toggle:before,
 .entity-editor-pane .toggle-list label::before,
@@ -2623,75 +2661,17 @@ input,
 
 /* adding additional preset fields */
 
-.inspector-body .more-buttons {
-    max-height: 100px;
-    padding-top: 0;
+.more-fields {
+    padding: 0 20px 20px 20px;
+    font-weight: bold;
     -webkit-transition: padding 200ms 200ms, max-height 200ms 200ms;
        -moz-transition: padding 200ms 200ms, max-height 200ms 200ms;
          -o-transition: padding 200ms 200ms, max-height 200ms 200ms;
             transition: padding 200ms 200ms, max-height 200ms 200ms;
 }
 
-button.preset-add-field {
-    background: #f6f6f6;
-    width: 25%;
-    height: 40px;
-    -webkit-transition: width 200ms;
-       -moz-transition: width 200ms;
-         -o-transition: width 200ms;
-            transition: width 200ms;
-}
-
-button.preset-add-field:hover {
-    background: #ececec;
-}
-
-/* set width based on # of buttons */
-
-button.preset-add-field:only-child {
-    width: 100%;
-}
-
-button.preset-add-field:nth-last-child(2),
-button.preset-add-field:nth-last-child(2) ~ button.preset-add-field {
-    width: 50%;
-}
-
-button.preset-add-field:nth-last-child(3),
-button.preset-add-field:nth-last-child(3) ~ button.preset-add-field {
-    width: 33.3333%;
-}
-
-button.preset-add-field:nth-last-child(4),
-button.preset-add-field:nth-last-child(4) ~ button.preset-add-field {
-    width: 25%;
-}
-
-button.preset-add-field:nth-last-child(5),
-button.preset-add-field:nth-last-child(5) ~ button.preset-add-field {
-    width: 20%;
-}
-
-button.preset-add-field:nth-last-child(6),
-button.preset-add-field:nth-last-child(6) ~ button.preset-add-field {
-    width: 16.6666%;
-}
-
-button.preset-add-field:nth-last-child(7),
-button.preset-add-field:nth-last-child(7) ~ button.preset-add-field {
-    width: 14.2857%;
-}
-
-button.preset-add-field:nth-last-child(8),
-button.preset-add-field:nth-last-child(8) ~ button.preset-add-field {
-    width: 12.5%;
-}
-
-.preset-fav button.fav {
-    height: 30px;
-    margin: 5px;
-    padding: 0 10px;
-}
+.more-fields label { padding: 5px 10px 5px 0; }
+.more-fields input { width: 50%;}
 
 /* preset form access */
 
@@ -3244,12 +3224,18 @@ img.wiki-image {
     border-radius: 4px 0 0 0;
 }
 
-/* Background Settings */
+/* Background / Map Data Settings */
+
+
+.map-data-control button {
+    border-radius: 0;
+}
 
 .background-control button {
     border-radius: 4px 0 0 0;
 }
 
+.map-data-control,
 .background-control {
     position: relative;
 }
@@ -3262,7 +3248,8 @@ img.wiki-image {
     border: 0;
 }
 
-.background-control .hide-toggle  {
+.map-data-control .hide-toggle,
+.background-control .hide-toggle {
     padding-bottom: 10px;
 }
 
@@ -3407,6 +3394,8 @@ img.wiki-image {
     z-index: 9999;
 }
 
+.map-data-control li:hover .select-box,
+.map-data-control li.selected .select-box,
 .background-control li:hover .select-box,
 .background-control li.selected .select-box {
     border: 2px solid #7092ff;
@@ -3414,6 +3403,8 @@ img.wiki-image {
     opacity: .5;
 }
 
+.map-data-control li.selected:hover .select-box,
+.map-data-control li.selected .select-box,
 .background-control li.selected:hover .select-box,
 .background-control li.selected .select-box {
     opacity: 1;
@@ -3426,6 +3417,7 @@ img.wiki-image {
     height:18px;
 }
 
+.map-data-control .layer-list button,
 .background-control .layer-list button {
     float: right;
     height: 100%;
@@ -3434,13 +3426,22 @@ img.wiki-image {
     border-radius: 0;
 }
 
+.map-data-control .layer-list button .icon,
 .background-control .layer-list button .icon {
     opacity: 0.5;
 }
 
+.map-data-control .layer-list button:first-of-type,
 .background-control .layer-list button:first-of-type {
     border-radius: 0 3px 3px 0;
 }
+
+.map-data-control .map-overlay,
+.background-control .map-overlay,
+.help-control .map-overlay {
+    z-index: -1;
+}
+
 
 /* Geolocator */
 
@@ -3461,9 +3462,6 @@ img.wiki-image {
     overflow: auto;
 }
 
-.background-control .map-overlay {
-    z-index: -1;
-}
 /* Help */
 
 .help-control button {
@@ -3582,20 +3580,49 @@ img.wiki-image {
 /* About Section
 ------------------------------------------------------- */
 
-#footer {
+#about {
     width: 100%;
     position: absolute;
     right:0;
     bottom:0;
     border-radius: 0;
-    opacity: .625;
-    -webkit-transition: opacity 200ms;
-    -moz-transition: opacity 200ms;
-    transition: opacity 200ms;
 }
 
-#footer:hover {
-    opacity: 1;
+#attrib {
+    width: 100%;
+    height: 20px;
+    float: left;
+    clear: both;
+}
+
+.base-layer-attribution,
+.overlay-layer-attribution {
+    position: absolute;
+    color: #888;
+    font-size: 10px;
+}
+
+.base-layer-attribution {
+    left: 10px;
+}
+
+.overlay-layer-attribution {
+    right: 10px;
+}
+
+.overlay-layer-attribution .attribution:not(:last-child):after {
+    content: '; ';
+}
+
+.source-image {
+    height:20px;
+    vertical-align:top;
+}
+
+#footer {
+    width: 100%;
+    float: left;
+    clear: both;
 }
 
 #scale-block {
@@ -3637,6 +3664,19 @@ img.wiki-image {
     clear: right;
 }
 
+#about-list li {
+    float: right;
+    border-left: 1px solid rgba(255,255,255,.5);
+    padding: 5px 0 5px 5px;
+    margin-left: 5px;
+}
+
+#about-list li:last-child {
+    border-left: 0;
+    margin-left: 0;
+    padding-left: 0;
+}
+
 .source-switch a {
     padding: 2px 4px 4px 4px;
     border-radius: 2px;
@@ -3646,30 +3686,11 @@ img.wiki-image {
     color:#fff;
 }
 
-/* Attribution overlay */
-.base-layer-attribution,
-.overlay-layer-attribution {
-    position: absolute;
-    bottom: 35px;
-    color: #888;
-    font-size: 10px;
-}
-
-.base-layer-attribution {
-    left: 10px;
-}
-
-.overlay-layer-attribution {
-    right: 10px;
-}
-
-.overlay-layer-attribution .attribution:not(:last-child):after {
-    content: '; ';
-}
-
-.source-image {
-    height:20px;
-    vertical-align:top;
+.feature-warning a {
+    background: #1e90ff;
+    padding: 2px 4px 4px 4px;
+    border-radius: 2px;
+    color: #eee;
 }
 
 .user-list a:not(:last-child):after {
@@ -3681,13 +3702,13 @@ img.wiki-image {
     clear: both;
     text-align: right;
     width: 100%;
+    padding: 0px 5px;
 }
 
 .api-status.offline,
 .api-status.readonly,
 .api-status.error {
     background: red;
-    padding: 0px 5px;
 }
 
 /* Modals
@@ -3986,6 +4007,7 @@ img.wiki-image {
 
 .tooltip-inner {
     display: inline-block;
+    border-radius: 3px;
     max-width: 200px;
     min-width: 80px;
     padding: 10px;
@@ -4018,6 +4040,7 @@ img.wiki-image {
 }
 
 .tail div {
+    border-radius: 3px;
     padding: 10px;
     background: white;
     position: absolute;
@@ -4085,6 +4108,7 @@ img.wiki-image {
     background: #F6F6F6;
     padding: 10px;
     margin: 10px -10px -10px;
+    border-radius: 0 0 3px 3px;
 }
 
 .tooltip-inner .keyhint {
@@ -4140,6 +4164,7 @@ img.wiki-image {
 }
 
 .map-overlay .tooltip-inner,
+.map-overlay .keyhint-wrap,
 .entity-editor-pane .tooltip-inner,
 .warning-section .tooltip-inner {
     background: #000;
@@ -4209,6 +4234,19 @@ img.wiki-image {
     /* override hide for save button */
     #bar .save .label { display: block;}
 }
+
+@media screen and (max-width: 1200px) {
+    .user-list { display: none !important; }
+}
+
+@media screen and (max-width: 1000px) {
+    #userLink { display: none !important; }
+}
+
+@media screen and (max-width: 900px) {
+    #scale-block { display: none !important; }
+}
+
 
 /* Scrollbars
  ----------------------------------------------------- */
