@@ -19,8 +19,11 @@
     <% locale = select_locale(ID::LOCALES).to_s %>
 
     var id = iD()
+      .presets(iD.data.presets)
+      .imagery(iD.data.imagery)
+      .taginfo(iD.taginfo())
       .embed(true)
-      .assetPath("/iD/") <%# Can't use asset_path('iD/') in production. %>
+      .assetPath("/iD/") <%# Cant use asset_path('iD/') in production. %>
       .assetMap(<%= assets("iD").to_json.html_safe %>)
       .locale("<%= locale %>", "<%= asset_path("iD/locales/#{locale}.json") %>")
       .preauth({
