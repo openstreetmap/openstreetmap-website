@@ -22,7 +22,7 @@ class Message < ActiveRecord::Base
       body = mail.decoded
     end
 
-    message = Message.new(
+    Message.new(
       :sender => from,
       :recipient => to,
       :sent_on => mail.date.new_offset(0),

@@ -71,6 +71,7 @@ module Potlatch
       d += encodestring("null")
       d += [-1].pack("N")
       d += encodevalue(n)
+      d
     end
 
     # Pack variables as AMF
@@ -154,7 +155,7 @@ module Potlatch
       bodies.times do                     # Read each body
         name = AMF.getstring(@request)    #  | get message name
         index = AMF.getstring(@request)   #  | get index in response sequence
-        bytes = AMF.getlong(@request)     #  | get total size in bytes
+        AMF.getlong(@request)             #  | get total size in bytes
         args = AMF.getvalue(@request)     #  | get response (probably an array)
 
         result = @dispatch.call(name, *args)
@@ -247,8 +248,11 @@ module Potlatch
           t = line.chomp
           if t =~ /^([\w:]+)\/(\w+)\s+(.+)$/
             tag = $1; type = $2; values = $3
-            if values == '-' then autotags[type][tag] = []
-            else autotags[type][tag] = values.split(',').sort.reverse end
+            if values == '-'
+              autotags[type][tag] = []
+            else
+              autotags[type][tag] = values.split(',').sort.reverse
+            end
           end
         end
       end

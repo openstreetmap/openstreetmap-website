@@ -73,7 +73,7 @@ class GeocoderController < ApplicationController
     end
 
     render :action => "results"
-  rescue Exception => ex
+  rescue StandardError => ex
     @error = "Error contacting rpc.geocoder.us: #{ex}"
     render :action => "error"
   end
@@ -99,7 +99,7 @@ class GeocoderController < ApplicationController
     end
 
     render :action => "results"
-  rescue Exception => ex
+  rescue StandardError => ex
     @error = "Error contacting www.npemap.org.uk: #{ex}"
     render :action => "error"
   end
@@ -121,7 +121,7 @@ class GeocoderController < ApplicationController
     end
 
     render :action => "results"
-  rescue Exception => ex
+  rescue StandardError => ex
     @error = "Error contacting geocoder.ca: #{ex}"
     render :action => "error"
   end
@@ -188,7 +188,7 @@ class GeocoderController < ApplicationController
     end
 
     render :action => "results"
-    #  rescue Exception => ex
+    #  rescue StandardError => ex
     #    @error = "Error contacting nominatim.openstreetmap.org: #{ex.to_s}"
     #    render :action => "error"
   end
@@ -219,7 +219,7 @@ class GeocoderController < ApplicationController
     end
 
     render :action => "results"
-  rescue Exception => ex
+  rescue StandardError => ex
     @error = "Error contacting ws.geonames.org: #{ex}"
     render :action => "error"
   end
@@ -251,7 +251,7 @@ class GeocoderController < ApplicationController
     end
 
     render :action => "results"
-  rescue Exception => ex
+  rescue StandardError => ex
     @error = "Error contacting nominatim.openstreetmap.org: #{ex}"
     render :action => "error"
   end
@@ -281,7 +281,7 @@ class GeocoderController < ApplicationController
     end
 
     render :action => "results"
-  rescue Exception => ex
+  rescue StandardError => ex
     @error = "Error contacting ws.geonames.org: #{ex}"
     render :action => "error"
   end

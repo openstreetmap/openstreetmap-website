@@ -25,7 +25,7 @@ class MessageTest < ActiveSupport::TestCase
   def test_validating_msgs
     message = messages(:unread_message)
     assert message.valid?
-    massage = messages(:read_message)
+    message = messages(:read_message)
     assert message.valid?
   end
 
@@ -79,8 +79,6 @@ class MessageTest < ActiveSupport::TestCase
       rescue ArgumentError => ex
         assert_equal ex.to_s, "invalid byte sequence in UTF-8"
 
-      rescue ActiveRecord::RecordInvalid
-        # because we only test invalid sequences it is OK to barf on them
       end
     end
   end

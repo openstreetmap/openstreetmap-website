@@ -194,14 +194,12 @@ class NodeControllerTest < ActionController::TestCase
     # in a way...
     content(nodes(:used_node_1).to_xml)
     delete :delete, :id => current_nodes(:used_node_1).id
-    assert_require_public_data
-    "shouldn't be able to delete a node used in a way (#{@response.body})"
+    assert_require_public_data "shouldn't be able to delete a node used in a way (#{@response.body})"
 
     # in a relation...
     content(nodes(:node_used_by_relationship).to_xml)
     delete :delete, :id => current_nodes(:node_used_by_relationship).id
-    assert_require_public_data
-    "shouldn't be able to delete a node used in a relation (#{@response.body})"
+    assert_require_public_data "shouldn't be able to delete a node used in a relation (#{@response.body})"
 
     ## now set auth for the public data user
     basic_authorization(users(:public_user).email, "test")

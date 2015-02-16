@@ -144,7 +144,6 @@ class BoundingBoxTest < ActiveSupport::TestCase
   end
 
   def test_expand_max_lat_with_margin
-    bbox = @bbox_expand
     @expand_max_lat_array.each_with_index do |array_string, index|
       check_expand(@bbox_expand_minus_two, array_string, 1, @expand_max_lat_margin_response[index])
     end

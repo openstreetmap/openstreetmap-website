@@ -16,7 +16,6 @@ LOCALE_DIR = File.dirname(__FILE__) + '/../../config/locales/'
 EN = YAML.load_file(LOCALE_DIR + 'en.yml')
 
 def iterate(hash, fhash = {}, path = '', outfile = $stdout)
-  postr = ''
   hash.each do |key, val|
     fhash[key] = {} unless fhash.key? key
     if val.is_a? Hash
@@ -32,7 +31,6 @@ end
 
 def lang2po(lang, outfile = $stdout)
   puts lang
-  oth = {}
   infile = LOCALE_DIR + lang + '.yml'
   if File.exist? infile
     oth = YAML.load_file(infile)

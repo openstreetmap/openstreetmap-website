@@ -171,7 +171,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   def test_user_create_openid_failure
     new_email = "newtester-openid2@osm.org"
     display_name = "new_tester-openid2"
-    password = "testtest2"
     assert_difference('User.count', 0) do
       assert_difference('ActionMailer::Base.deliveries.size', 0) do
         post "/user/new",
@@ -190,7 +189,6 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   def test_user_create_openid_redirect
     new_email = "redirect_tester_openid@osm.org"
     display_name = "redirect_tester_openid"
-    password = ""
     # nothing special about this page, just need a protected page to redirect back to.
     referer = "/traces/mine"
     assert_difference('User.count') do

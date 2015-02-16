@@ -72,6 +72,20 @@ class ActiveSupport::TestCase
   end
 
   ##
+  # for some reason assert_equal a, b fails when the relations are
+  # actually equal, so this method manually checks the fields...
+  def assert_relations_are_equal(a, b)
+    assert_not_nil a, "first relation is not allowed to be nil"
+    assert_not_nil b, "second relation #{a.id} is not allowed to be nil"
+    assert_equal a.id, b.id, "relation IDs"
+    assert_equal a.changeset_id, b.changeset_id, "changeset ID on relation #{a.id}"
+    assert_equal a.visible, b.visible, "visible on relation #{a.id}, #{a.visible.inspect} != #{b.visible.inspect}"
+    assert_equal a.version, b.version, "version on relation #{a.id}"
+    assert_equal a.tags, b.tags, "tags on relation #{a.id}"
+    assert_equal a.members, b.members, "member references on relation #{a.id}"
+  end
+
+  ##
   # for some reason assert_equal a, b fails when the ways are actually
   # equal, so this method manually checks the fields...
   def assert_ways_are_equal(a, b)
@@ -130,20 +144,21 @@ class ActiveSupport::TestCase
 
   # Set things up for OpenID testing
   def openid_setup
-    rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
+    Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
   rescue
     # It isn't, so start a new instance.
     rots = IO.popen("#{Rails.root}/vendor/gems/rots-0.2.1/bin/rots --silent")
 
     # Wait for up to 30 seconds for the server to start and respond before continuing
-    for i in (1..30)
+    1.upto(30).each do
       begin
         sleep 1
-        rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
+        Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
         # If the rescue block doesn't fire, ROTS is up and running and we can continue
         break
-        rescue
+      rescue
         # If the connection failed, do nothing and repeat the loop
+        next
       end
     end
 

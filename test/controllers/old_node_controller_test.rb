@@ -35,7 +35,6 @@ class OldNodeControllerTest < ActionController::TestCase
   def test_version
     ## First try this with a non-public user
     basic_authorization(users(:normal_user).email, "test")
-    changeset_id = changesets(:normal_user_first_change).id
 
     # setup a simple XML node
     xml_doc = current_nodes(:visible_node).to_xml
@@ -85,7 +84,6 @@ class OldNodeControllerTest < ActionController::TestCase
 
     ## Now do it with the public user
     basic_authorization(users(:public_user).email, "test")
-    changeset_id = changesets(:public_user_first_change).id
 
     # setup a simple XML node
     xml_doc = current_nodes(:node_with_versions).to_xml

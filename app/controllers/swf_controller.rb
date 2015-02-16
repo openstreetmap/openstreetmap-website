@@ -102,10 +102,10 @@ class SwfController < ApplicationController
   # Line-drawing
 
   def startShape
-    s = 0.chr										# No fill styles
-    s += 2.chr										# Two line styles
-    s += packUI16(0) + 0.chr + 255.chr + 255.chr		# Width 5, RGB #00FFFF
-    s += packUI16(0) + 255.chr + 0.chr + 255.chr		# Width 5, RGB #FF00FF
+    s = 0.chr						# No fill styles
+    s += 2.chr						# Two line styles
+    s += packUI16(0) + 0.chr + 255.chr + 255.chr	# Width 5, RGB #00FFFF
+    s += packUI16(0) + 255.chr + 0.chr + 255.chr	# Width 5, RGB #FF00FF
     s += 34.chr										# 2 fill, 2 line index bits
     s
   end
@@ -115,10 +115,11 @@ class SwfController < ApplicationController
   end
 
   def startAndMove(x, y, col)
-    d = '001001'										# Line style change, moveTo
+    d = '001001'					# Line style change, moveTo
     l = [lengthSB(x), lengthSB(y)].max
     d += sprintf("%05b%0#{l}b%0#{l}b", l, x, y)
-    d += col											# Select line style
+    d += col						# Select line style
+    d
   end
 
   def drawTo(absx, absy, x, y)
@@ -131,7 +132,7 @@ class SwfController < ApplicationController
     xstep = dx / mstep
     ystep = dy / mstep
     d = ''
-    for i in (1..mstep)
+    1.upto(mstep).each do
       d += drawSection(x, y, x + xstep, y + ystep)
       x += xstep
       y += ystep
@@ -147,6 +148,7 @@ class SwfController < ApplicationController
     d += sprintf("%04b", l - 2)
     d += '1'											# GeneralLine
     d += sprintf("%0#{l}b%0#{l}b", dx, dy)
+    d
   end
 
   # -----------------------------------------------------------------------

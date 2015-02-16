@@ -681,7 +681,7 @@ OSM
     content doc
     put :update, :id => relation_id
     assert_response :success, "can't update relation: #{@response.body}"
-    new_version = @response.body.to_i
+    assert_equal 2, @response.body.to_i
 
     # get it back again and check the ordering again
     get :read, :id => relation_id

@@ -30,7 +30,7 @@ class NoteTest < ActiveSupport::TestCase
     assert_not_nil note.closed_at
   end
 
-  def test_close
+  def test_reopen
     note = notes(:closed_note_with_comment)
     assert_equal "closed", note.status
     assert_not_nil note.closed_at

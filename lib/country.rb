@@ -13,8 +13,6 @@ class Country
     countries[code]
   end
 
-  private
-
   def self.countries
     @@countries ||= load_countries
   end

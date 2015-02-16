@@ -25,7 +25,7 @@ class ApiController < ApplicationController
       bbox = BoundingBox.from_bbox_params(params)
       bbox.check_boundaries
       bbox.check_size
-    rescue Exception => err
+    rescue StandardError => err
       report_error(err.message)
       return
     end
@@ -121,7 +121,7 @@ class ApiController < ApplicationController
       bbox = BoundingBox.from_bbox_params(params)
       bbox.check_boundaries
       bbox.check_size
-    rescue Exception => err
+    rescue StandardError => err
       report_error(err.message)
       return
     end

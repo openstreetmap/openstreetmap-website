@@ -24,13 +24,13 @@ class ApplicationController < ActionController::Base
         else
           redirect_to :controller => "user", :action => "terms", :referer => request.fullpath
         end
-        end
+      end
     elsif session[:token]
       if @user = User.authenticate(:token => session[:token])
         session[:user] = @user.id
       end
     end
-  rescue Exception => ex
+  rescue StandardError => ex
     logger.info("Exception authorizing user: #{ex}")
     reset_session
     @user = nil
@@ -345,7 +345,7 @@ class ApplicationController < ActionController::Base
     report_error ex.message, ex.status
   rescue AbstractController::ActionNotFound => ex
     raise
-  rescue Exception => ex
+  rescue StandardError => ex
     logger.info("API threw unexpected #{ex.class} exception: #{ex.message}")
     ex.backtrace.each { |l| logger.info(l) }
     report_error "#{ex.class}: #{ex.message}", :internal_server_error
@@ -441,7 +441,7 @@ class ApplicationController < ActionController::Base
                @user.preferred_editor
              else
                DEFAULT_EDITOR
-    end
+             end
 
     if request.env['HTTP_USER_AGENT'] =~ /MSIE|Trident/ && editor == 'id'
       editor = 'potlatch2'

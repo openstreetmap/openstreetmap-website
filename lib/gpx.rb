@@ -63,21 +63,15 @@ module GPX
       highlightgc.stroke('#000000')
       highlightgc.fill('#000000')
 
-      images = []
-
-      frames.times do
-        image = Magick::Image.new(width, height) do |image|
+      images = frames.times.collect do
+        Magick::Image.new(width, height) do |image|
           image.background_color = 'white'
           image.format = 'GIF'
         end
-
-        images << image
       end
 
       oldpx = 0.0
       oldpy = 0.0
-
-      first = true
 
       m = 0
       mm = 0
@@ -131,9 +125,9 @@ module GPX
       gc.stroke('#000000')
       gc.fill('#000000')
 
-      image = Magick::Image.new(width, height) do |image|
-        image.background_color = 'white'
-        image.format = 'GIF'
+      image = Magick::Image.new(width, height) do |i|
+        i.background_color = 'white'
+        i.format = 'GIF'
       end
 
       oldpx = 0.0

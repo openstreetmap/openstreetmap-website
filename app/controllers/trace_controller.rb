@@ -372,7 +372,7 @@ class TraceController < ApplicationController
 
         # Rename the temporary file to the final name
         FileUtils.mv(filename, @trace.trace_name)
-      rescue Exception => ex
+      rescue StandardError
         # Remove the file as we have failed to update the database
         FileUtils.rm_f(filename)
 
@@ -384,7 +384,7 @@ class TraceController < ApplicationController
         # Clear the inserted flag to make the import daemon load the trace
         @trace.inserted = false
         @trace.save!
-      rescue Exception => ex
+      rescue StandardError
         # Remove the file as we have failed to update the database
         FileUtils.rm_f(@trace.trace_name)
 

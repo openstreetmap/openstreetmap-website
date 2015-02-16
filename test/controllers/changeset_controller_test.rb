@@ -521,7 +521,6 @@ EOF
         put :create
       end
       assert_response :success
-      changeset_id = @response.body.to_i
     end
   end
 
@@ -778,6 +777,7 @@ EOF
     # check that objects are unmodified
     assert_nodes_are_equal(node, Node.find(1))
     assert_ways_are_equal(way, Way.find(1))
+    assert_relations_are_equal(rel, Relation.find(1))
   end
 
   ##

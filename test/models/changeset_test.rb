@@ -40,7 +40,7 @@ class ChangesetTest < ActiveSupport::TestCase
     message_update = assert_raise(OSM::APIBadXMLError) do
       Changeset.from_xml(nokv, false)
     end
-    assert_match /tag is missing key/, message_create.message
+    assert_match /tag is missing key/, message_update.message
   end
 
   def test_from_xml_no_v

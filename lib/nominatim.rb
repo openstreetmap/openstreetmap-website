@@ -12,7 +12,7 @@ module Nominatim
         response = OSM::Timer.timeout(4) do
           REXML::Document.new(Net::HTTP.get(URI.parse(url)))
         end
-      rescue Exception
+      rescue StandardError
         response = nil
       end
 

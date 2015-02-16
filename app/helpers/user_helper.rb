@@ -64,7 +64,7 @@ module UserHelper
     size = options[:size] || 100
     hash = Digest::MD5.hexdigest(user.email.downcase)
     default_image_url = image_url("users/images/large.png")
-    url = "#{request.protocol}www.gravatar.com/avatar/#{hash}.jpg?s=#{size}&d=#{u(default_image_url)}"
+    "#{request.protocol}www.gravatar.com/avatar/#{hash}.jpg?s=#{size}&d=#{u(default_image_url)}"
   end
 
   def user_gravatar_tag(user, options = {})

@@ -510,7 +510,7 @@ module OSM
     end
 
     return nil
-  rescue Exception
+  rescue StandardError
     return nil
   end
 

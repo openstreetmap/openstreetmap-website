@@ -129,7 +129,7 @@ class Relation < ActiveRecord::Base
         member_el['ref'] = member.member_id.to_s
         member_el['role'] = member.member_role
         el << member_el
-       end
+      end
     end
 
     add_tags_to_xml_node(el, relation_tags)

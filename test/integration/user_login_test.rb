@@ -292,8 +292,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     post '/login', 'openid_url' => "http://localhost:1123/john.doe?openid.success=true", :referer => "/history"
     assert_response :redirect
 
-    res = openid_request(@response.redirect_url)
-    res2 = post '/login', res
+    post '/login', openid_request(@response.redirect_url)
 
     assert_response :redirect
     follow_redirect!
@@ -311,8 +310,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     post '/login', 'openid_url' => "http://localhost:1123/john.doe", :referer => "/diary"
     assert_response :redirect
 
-    res = openid_request(@response.redirect_url)
-    post '/login', res
+    post '/login', openid_request(@response.redirect_url)
 
     assert_response :redirect
     follow_redirect!
@@ -361,7 +359,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :redirect
 
     res = openid_request(@response.redirect_url)
-    res2 = post '/login', res
+    post '/login', res
 
     assert_response :redirect
     follow_redirect!

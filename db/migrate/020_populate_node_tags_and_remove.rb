@@ -48,6 +48,7 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration
     if have_nodes
       execute "LOAD DATA INFILE '#{nodes}' INTO TABLE nodes #{csvopts} (id, latitude, longitude, user_id, visible, timestamp, tile, version)"
       execute "LOAD DATA INFILE '#{node_tags}' INTO TABLE node_tags #{csvopts} (id, version, k, v)"
+      execute "LOAD DATA INFILE '#{current_nodes}' INTO TABLE current_nodes #{csvopts} (id, latitude, longitude, user_id, visible, timestamp, tile)"
       execute "LOAD DATA INFILE '#{current_node_tags}' INTO TABLE current_node_tags #{csvopts} (id, k, v)"
     end
 

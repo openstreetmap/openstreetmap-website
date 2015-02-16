@@ -26,7 +26,7 @@ loop do
         Notifier.gpx_failure(trace, '0 points parsed ok. Do they all have lat,lng,alt,timestamp?').deliver
         trace.destroy
       end
-    rescue Exception => ex
+    rescue StandardError => ex
       logger.info ex.to_s
       ex.backtrace.each { |l| logger.info l }
       Notifier.gpx_failure(trace, ex.to_s + "\n" + ex.backtrace.join("\n")).deliver
@@ -45,7 +45,7 @@ loop do
 
     begin
       trace.destroy
-    rescue Exception => ex
+    rescue StandardError => ex
       logger.info ex.to_s
       ex.backtrace.each { |l| logger.info l }
     end

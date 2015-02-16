@@ -3,7 +3,7 @@ require 'test_helper'
 class I18nTest < ActiveSupport::TestCase
   I18n.available_locales.each do |locale|
     define_method("test_#{locale.to_s.underscore}".to_sym) do
-      plural_keys = plural_keys(locale)
+      # plural_keys = plural_keys(locale)
 
       translation_keys.each do |key|
         variables = []
@@ -32,7 +32,7 @@ class I18nTest < ActiveSupport::TestCase
 
         if value.is_a?(Hash)
           value.each do |subkey, subvalue|
-            #            assert plural_keys.include?(subkey), "#{key}.#{subkey} is not a valid plural key"
+            # assert plural_keys.include?(subkey), "#{key}.#{subkey} is not a valid plural key"
 
             unless subvalue.nil?
               subvalue.scan(/%\{(\w+)\}/) do

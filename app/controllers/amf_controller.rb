@@ -114,7 +114,7 @@ class AmfController < ApplicationController
     return [-2, "Sorry - I can't get the map for that area. The server said: #{ex}"]
   rescue OSM::APIError => ex
     return [-1, ex.to_s]
-  rescue Exception => ex
+  rescue StandardError => ex
     return [-2, "An unusual error happened (in #{call}). The server said: #{ex}"]
   end
 
@@ -375,6 +375,7 @@ class AmfController < ApplicationController
         rescue ArgumentError
           # thrown by date parsing method. leave old_way as nil for
           # the error handler below.
+          old_way = nil
         end
       end
 
@@ -691,7 +692,7 @@ class AmfController < ApplicationController
           new_node.id = id.to_i
           begin
             node.delete_with_history!(new_node, user)
-          rescue OSM::APIPreconditionFailedError => ex
+          rescue OSM::APIPreconditionFailedError
             # We don't do anything here as the node is being used elsewhere
             # and we don't want to delete it
           end
@@ -827,7 +828,7 @@ class AmfController < ApplicationController
           begin
             node.delete_with_history!(new_node, user)
             nodeversions[node.id] = node.version
-          rescue OSM::APIPreconditionFailedError => ex
+          rescue OSM::APIPreconditionFailedError
             # We don't do anything with the exception as the node is in use
             # elsewhere and we don't want to delete it
           end

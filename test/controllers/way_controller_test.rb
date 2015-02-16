@@ -124,11 +124,9 @@ class WayControllerTest < ActionController::TestCase
       "<nd ref='#{nid1}'/><nd ref='#{nid2}'/>" +
       "<tag k='test' v='yes' /></way></osm>"
     put :create
-    # hope for success
+    # hope for failure
     assert_response :forbidden,
-                    "way upload did not return success status"
-    # read id of created way and search for it
-    wayid = @response.body
+                    "way upload did not return forbidden status"
 
     ## Now use a public user
     nid1 = current_nodes(:used_node_1).id

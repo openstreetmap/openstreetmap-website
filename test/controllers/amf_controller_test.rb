@@ -446,7 +446,7 @@ class AmfControllerTest < ActionController::TestCase
   # Using similar method for the node controller test
   def test_putpoi_create_valid
     # This node has no tags
-    nd = Node.new
+
     # create a node with random lat/lon
     lat = rand(100) - 50 + rand
     lon = rand(100) - 50 + rand
@@ -485,7 +485,7 @@ class AmfControllerTest < ActionController::TestCase
 
     ####
     # This node has some tags
-    tnd = Node.new
+
     # create a node with random lat/lon
     lat = rand(100) - 50 + rand
     lon = rand(100) - 50 + rand
@@ -528,7 +528,7 @@ class AmfControllerTest < ActionController::TestCase
   # try creating a POI with rubbish in the tags
   def test_putpoi_create_with_control_chars
     # This node has no tags
-    nd = Node.new
+
     # create a node with random lat/lon
     lat = rand(100) - 50 + rand
     lon = rand(100) - 50 + rand
@@ -563,7 +563,7 @@ class AmfControllerTest < ActionController::TestCase
   # try creating a POI with rubbish in the tags
   def test_putpoi_create_with_invalid_utf8
     # This node has no tags
-    nd = Node.new
+
     # create a node with random lat/lon
     lat = rand(100) - 50 + rand
     lon = rand(100) - 50 + rand
@@ -649,21 +649,21 @@ class AmfControllerTest < ActionController::TestCase
     req.read(2)   # version
 
     # parse through any headers
-    headers = AMF.getint(req)					# Read number of headers
-    headers.times do						# Read each header
-      name = AMF.getstring(req)				#  |
-      req.getc				   				#  | skip boolean
-      value = AMF.getvalue(req)				#  |
+    headers = AMF.getint(req)		# Read number of headers
+    headers.times do			# Read each header
+      AMF.getstring(req)		#  |
+      req.getc				#  | skip boolean
+      AMF.getvalue(req)			#  |
     end
 
     # parse through responses
     results = {}
-    bodies = AMF.getint(req)					# Read number of bodies
-    bodies.times do							# Read each body
-      message = AMF.getstring(req)			#  | get message name
-      index = AMF.getstring(req)				#  | get index in response sequence
-      bytes = AMF.getlong(req)				#  | get total size in bytes
-      args = AMF.getvalue(req)				#  | get response (probably an array)
+    bodies = AMF.getint(req)		# Read number of bodies
+    bodies.times do			# Read each body
+      message = AMF.getstring(req)	#  | get message name
+      AMF.getstring(req)		#  | get index in response sequence
+      AMF.getlong(req)			#  | get total size in bytes
+      args = AMF.getvalue(req)		#  | get response (probably an array)
       results[message] = args
     end
     @amf_result = results

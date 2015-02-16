@@ -138,7 +138,6 @@ class User < ActiveRecord::Base
   def nearby(radius = NEARBY_RADIUS, num = NEARBY_USERS)
     if home_lon && home_lat
       gc = OSM::GreatCircle.new(home_lat, home_lon)
-      bounds = gc.bounds(radius)
       sql_for_distance = gc.sql_for_distance("home_lat", "home_lon")
       nearby = User.where("id != ? AND status IN (\'active\', \'confirmed\') AND data_public = ? AND #{sql_for_distance} <= ?", id, true, radius).order(sql_for_distance).limit(num)
     else
@@ -212,8 +211,8 @@ class User < ActiveRecord::Base
   def spam_score
     changeset_score = changesets.size * 50
     trace_score = traces.size * 50
-    diary_entry_score = diary_entries.inject(0) { |s, e| s += e.body.spam_score }
-    diary_comment_score = diary_comments.inject(0) { |s, c| s += c.body.spam_score }
+    diary_entry_score = diary_entries.inject(0) { |s, e| s + e.body.spam_score }
+    diary_comment_score = diary_comments.inject(0) { |s, c| s + c.body.spam_score }
 
     score = description.spam_score / 4.0
     score += diary_entries.where("created_at > ?", 1.day.ago).count * 10
