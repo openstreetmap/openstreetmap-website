@@ -907,13 +907,15 @@ nav.secondary {
   }
 }
 
-/* Rules for the search box */
+/* Rules for the search and direction forms */
 
-header .search_form {
+header .search_forms,
+.directions_form {
   display: none;
 }
 
-.search_form {
+.search_form,
+.directions_form {
   position: relative;
   padding: $lineheight/2;
   background-color: $lightgrey;
@@ -927,9 +929,11 @@ header .search_form {
   input[type=text] {
     width: 100%;
     height: 30px;
-    border-right: none;
-
     transition: 300ms linear;
+  }
+
+  input[type=text].overflow {
+    border-right: none;
   }
 
   input:focus {
@@ -937,11 +941,23 @@ header .search_form {
     box-shadow: 0px 0px 7px #9ED485;
   }
 
-  input[type=submit] {
+  input[type=submit].float {
     float: right;
     width: auto;
     min-width: 0;
     border-radius: 0 2px 2px 0;
+  }
+
+  select {
+    /* this next line is to polyfill the vertical alignment of text within a select element,
+     * which is different between firefox and chrome. */
+    padding: 0.3em 0;
+  }
+
+  .query_options {
+    text-align: right;
+    font-size: 10px;
+    color: $blue;
   }
 
   .describe_location {
@@ -950,6 +966,38 @@ header .search_form {
     right: 6px;
     font-size: 10px;
     color: $blue;
+  }
+
+  .switch_link {
+    float: right;
+    width: auto;
+    min-width: 0;
+    margin-left: 6px;
+  }
+
+  img.button {
+    display: block;
+  }
+
+  span.force_width {
+    width: 100%;
+    padding-right: 25px;
+    display: block;
+  }
+
+  select.routing_engines {
+    min-height: 30px;
+    margin: 0px 0px 5px 25px;
+  }
+
+  input.routing_go {
+    min-width: 100px;
+    float: right;
+  }
+
+  div.line {
+    width: 100%;
+    margin: 0px 0px 5px 0px;
   }
 }
 
@@ -973,7 +1021,7 @@ header .search_form {
     border-bottom: $keyline;
     cursor: pointer;
     &:first-child { border-top: $keyline; }
-    &.selected { background: #FFFFE6; }
+    &.selected { background: $list-highlight; }
   }
 
   .search_details {
@@ -988,6 +1036,47 @@ header .search_form {
 .search_results_error {
   color: #f00;
 }
+
+/* Rules for routing */
+
+#sidebar_content>table {
+    padding: 5px 20px 10px 15px;
+    width: 100%;
+    border-collapse: separate;
+}
+
+div.direction {
+  background-image: image-url('routing-sprite.png');
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+}
+@for $i from 1 through 17 {
+div.direction.i#{$i} { background-position: #{($i)*-20+20}px 0px; }
+}
+
+p#routing_summary {
+    padding: 0 $lineheight $lineheight/4;
+}
+
+td.instruction, td.distance {
+    padding-top: $lineheight/5;
+    padding-bottom: $lineheight/5;
+    border-bottom: 1px solid #DDD;
+}
+td.distance {
+    color: #BBB;
+    text-align: right;
+    font-size: x-small;
+}
+tr.turn {
+    cursor: pointer;
+}
+tr.turn:hover {
+    background: $list-highlight;
+}
+.routing_engines, #route_from, #route_to { margin-left: 25px; }
+.routing_marker { width: 15px; position: absolute; }
 
 /* Rules for entity history */
 
@@ -1010,7 +1099,7 @@ header .search_form {
     border-bottom: 1px solid #ddd;
     cursor: pointer;
 
-    &.selected { background: #FFFFE6; }
+    &.selected { background: $list-highlight; }
     /* color is derived from changeset bbox fillColor in history.js */
   }
 
@@ -1167,7 +1256,7 @@ header .search_form {
         }
 
         &.selected {
-          background: #FFFFE6;
+          background: $list-highlight;
         }
       }
     }
@@ -1225,6 +1314,15 @@ header .search_form {
       margin-left: 0;
       margin-bottom: 10px;
     }
+  }
+}
+
+/* Rules for the routing sidebar */
+
+#sidebar_content {
+  #routing_credit {
+    text-align: center;
+    padding: 0.5em;
   }
 }
 

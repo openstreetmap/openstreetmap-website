@@ -242,6 +242,19 @@ L.OSM.Map = L.Map.extend({
   setState: function(state, options) {
     if (state.center) this.setView(state.center, state.zoom, options);
     if (state.layers) this.updateLayers(state.layers);
+  },
+
+  setSidebarOverlaid: function(overlaid) {
+    if (overlaid && !$("#content").hasClass("overlay-sidebar")) {
+      $("#content").addClass("overlay-sidebar");
+      this.invalidateSize({pan: false})
+        .panBy([-350, 0], {animate: false});
+    } else if (!overlaid && $("#content").hasClass("overlay-sidebar")) {
+      this.panBy([350, 0], {animate: false});
+      $("#content").removeClass("overlay-sidebar");
+      this.invalidateSize({pan: false});
+    }
+    return this;
   }
 });
 

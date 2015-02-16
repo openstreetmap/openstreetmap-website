@@ -5,6 +5,7 @@
 //= require leaflet.key
 //= require leaflet.note
 //= require leaflet.share
+//= require leaflet.polyline
 //= require leaflet.query
 //= require index/search
 //= require index/browse
@@ -13,14 +14,17 @@
 //= require index/history
 //= require index/note
 //= require index/new_note
+//= require index/directions
 //= require index/changeset
 //= require index/query
 //= require router
 
-(function() {
+$(document).ready(function () {
   var loaderTimeout;
 
   OSM.loadSidebarContent = function(path, callback) {
+    map.setSidebarOverlaid(false);
+
     clearTimeout(loaderTimeout);
 
     loaderTimeout = setTimeout(function() {
@@ -68,9 +72,7 @@
       }
     });
   };
-})();
 
-$(document).ready(function () {
   var params = OSM.mapParams();
 
   var map = new L.OSM.Map("map", {
@@ -228,30 +230,20 @@ $(document).ready(function () {
   OSM.Index = function(map) {
     var page = {};
 
-    page.pushstate = function() {
-      $("#content").addClass("overlay-sidebar");
-      map.invalidateSize({pan: false})
-        .panBy([-350, 0], {animate: false});
+    page.pushstate = page.popstate = function() {
+      map.setSidebarOverlaid(true);
       document.title = I18n.t('layouts.project_name.title');
     };
 
     page.load = function() {
+      var params = querystring.parse(location.search.substring(1));
+      if (params.query) {
+        $("#sidebar .search_form input[name=query]").value(params.query);
+      }
       if (!("autofocus" in document.createElement("input"))) {
         $("#sidebar .search_form input[name=query]").focus();
       }
       return map.getState();
-    };
-
-    page.popstate = function() {
-      $("#content").addClass("overlay-sidebar");
-      map.invalidateSize({pan: false});
-      document.title = I18n.t('layouts.project_name.title');
-    };
-
-    page.unload = function() {
-      map.panBy([350, 0], {animate: false});
-      $("#content").removeClass("overlay-sidebar");
-      map.invalidateSize({pan: false});
     };
 
     return page;
@@ -293,6 +285,7 @@ $(document).ready(function () {
   OSM.router = OSM.Router(map, {
     "/":                           OSM.Index(map),
     "/search":                     OSM.Search(map),
+    "/directions":                 OSM.Directions(map),
     "/export":                     OSM.Export(map),
     "/note/new":                   OSM.NewNote(map),
     "/history/friends":            history,

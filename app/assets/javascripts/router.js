@@ -127,6 +127,10 @@ OSM.Router = function(map, rts) {
       return true;
     };
 
+    router.replace = function (url) {
+      window.history.replaceState(OSM.parseHash(url), document.title, url);
+    };
+
     router.stateChange = function(state) {
       if (state.center) {
         window.history.replaceState(state, document.title, OSM.formatHash(state));
@@ -135,7 +139,7 @@ OSM.Router = function(map, rts) {
       }
     };
   } else {
-    router.route = function (url) {
+    router.route = router.replace = function (url) {
       window.location.assign(url);
     };
 

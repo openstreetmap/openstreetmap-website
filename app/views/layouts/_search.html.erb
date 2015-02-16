@@ -1,7 +1,29 @@
-<form method="GET" action="<%= search_path %>" class="search_form">
-  <%= submit_tag t('site.search.submit_text') %>
-  <div class='query_wrapper'>
-    <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus %>
-    <%= link_to t('site.search.where_am_i'), '#', { :class => "describe_location", :title => t('site.search.where_am_i_title') } %>
-  </div>
-</form>
+<div class="search_forms">
+  <form method="GET" action="<%= search_path %>" class="search_form">
+    <%= link_to image_tag('directions.png', :class => 'button'), directions_path, { :class => "button switch_link", :title => t('site.search.get_directions_title') } %>
+    <%= submit_tag t('site.search.submit_text'), :class => 'float' %>
+    <div class='query_wrapper'>
+      <%= text_field_tag "query", params[:query], :placeholder => t("site.search.search"), :autofocus => autofocus, :class => 'overflow' %>
+      <%= link_to t('site.search.where_am_i'), '#', { :class => "describe_location", :title => t('site.search.where_am_i_title') } %>
+    </div>
+  </form>
+
+  <form method="GET" action="<%= directions_path %>" class="directions_form">
+    <div style="width:100%; text-align:right; height:30px;"><%= link_to tag('span', { :class => "icon close"}), root_path, { :title => t('site.search.close_directions_title'), :class => "directions_close" } %></div>
+
+    <div class="line">
+      <%= image_tag "marker-green.png", :class => "routing_marker", :id => "marker_from", :draggable => "true" %>
+      <span class="force_width"><%= text_field_tag "route_from", params[:from], :placeholder => t('site.search.from') %></span>
+    </div>
+    <div class="line">
+      <%= image_tag "marker-red.png", :class => "routing_marker", :id => "marker_to", :draggable => "true" %>
+      <span class="force_width"><%= text_field_tag "route_to"  , params[:to]  , :placeholder => t('site.search.to') %></span>
+    </div>
+    <div class="line">
+      <select class="routing_engines" name="routing_engines"></select>
+      <%= submit_tag t('site.search.submit_text'), :class => "routing_go" %>
+    </div>
+
+    <div class="loader_copy" style="display:none;"><div class="loader"><%= image_tag "searching.gif", :style => "vertical-align: middle;" %></div></div>
+  </form>
+</div>
