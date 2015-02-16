@@ -35,12 +35,12 @@ class NodeController < ApplicationController
       render :text => "", :status => :gone
     end
   end
-  
+
   # Update a node from given XML
   def update
     node = Node.find(params[:id])
     new_node = Node.from_xml(request.raw_post)
-       
+
     unless new_node and new_node.id == node.id
       raise OSM::APIBadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
     end
@@ -48,13 +48,13 @@ class NodeController < ApplicationController
     render :text => node.version.to_s, :content_type => "text/plain"
   end
 
-  # Delete a node. Doesn't actually delete it, but retains its history 
+  # Delete a node. Doesn't actually delete it, but retains its history
   # in a wiki-like way. We therefore treat it like an update, so the delete
   # method returns the new version number.
   def delete
     node = Node.find(params[:id])
     new_node = Node.from_xml(request.raw_post)
-    
+
     unless new_node and new_node.id == node.id
       raise OSM::APIBadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
     end

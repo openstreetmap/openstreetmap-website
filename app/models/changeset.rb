@@ -11,7 +11,7 @@ class Changeset < ActiveRecord::Base
   has_many :old_nodes
   has_many :old_ways
   has_many :old_relations
-  
+
   has_many :comments, -> { where(:visible => true).order(:created_at) }, :class_name => "ChangesetComment"
   has_and_belongs_to_many :subscribers, :class_name => 'User', :join_table => 'changesets_subscribers', :association_foreign_key => 'subscriber_id'
 
@@ -107,7 +107,7 @@ class Changeset < ActiveRecord::Base
   # suggested on the wiki page by kleptog.
   def update_bbox!(bbox_update)
     bbox.expand!(bbox_update, EXPAND)
-      
+
     # update active record. rails 2.1's dirty handling should take care of
     # whether this object needs saving or not.
     self.min_lon, self.min_lat, self.max_lon, self.max_lat = @bbox.to_a if bbox.complete?

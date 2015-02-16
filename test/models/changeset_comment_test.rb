@@ -10,7 +10,7 @@ class ChangesetCommentTest < ActiveSupport::TestCase
   # validations
   def test_does_not_accept_invalid_author
     comment = changeset_comments(:normal_comment_1)
-    
+
     comment.author = nil
     assert !comment.valid?
 

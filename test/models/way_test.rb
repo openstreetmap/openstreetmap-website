@@ -8,7 +8,7 @@ class WayTest < ActiveSupport::TestCase
   def test_db_count
     assert_equal 7, Way.count
   end
-  
+
   def test_bbox
     node = current_nodes(:used_node_1)
     [ :visible_way,
@@ -21,8 +21,8 @@ class WayTest < ActiveSupport::TestCase
       assert_equal node.bbox.max_lat, way.bbox.max_lat, 'max_lat'
     end
   end
-  
-  # Check that the preconditions fail when you are over the defined limit of 
+
+  # Check that the preconditions fail when you are over the defined limit of
   # the maximum number of nodes in each way.
   def test_max_nodes_per_way_limit
     # Take one of the current ways and add nodes to it until we are near the limit
@@ -39,7 +39,7 @@ class WayTest < ActiveSupport::TestCase
     way.add_nd_num(current_nodes(:visible_node).id)
     assert way.valid?
   end
-  
+
   def test_from_xml_no_id
     noid = "<osm><way version='12' changeset='23' /></osm>"
     assert_nothing_raised(OSM::APIBadXMLError) {
@@ -50,7 +50,7 @@ class WayTest < ActiveSupport::TestCase
     }
     assert_match /ID is required when updating/, message.message
   end
-  
+
   def test_from_xml_no_changeset_id
     nocs = "<osm><way id='123' version='23' /></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) {
@@ -62,7 +62,7 @@ class WayTest < ActiveSupport::TestCase
     }
     assert_match /Changeset id is missing/, message_update.message
   end
-  
+
   def test_from_xml_no_version
     no_version = "<osm><way id='123' changeset='23' /></osm>"
     assert_nothing_raised(OSM::APIBadXMLError) {
@@ -87,7 +87,7 @@ class WayTest < ActiveSupport::TestCase
       assert_match /ID of way cannot be zero when updating/, message_update.message
     end
   end
-  
+
   def test_from_xml_no_text
     no_text = ""
     message_create = assert_raise(OSM::APIBadXMLError) {
@@ -99,7 +99,7 @@ class WayTest < ActiveSupport::TestCase
     }
     assert_match /Must specify a string with one or more characters/, message_update.message
   end
-  
+
   def test_from_xml_no_k_v
     nokv = "<osm><way id='23' changeset='23' version='23'><tag /></way></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) {
@@ -111,7 +111,7 @@ class WayTest < ActiveSupport::TestCase
     }
     assert_match /tag is missing key/, message_update.message
   end
-  
+
   def test_from_xml_no_v
     no_v = "<osm><way id='23' changeset='23' version='23'><tag k='key' /></way></osm>"
     message_create = assert_raise(OSM::APIBadXMLError) {
@@ -123,7 +123,7 @@ class WayTest < ActiveSupport::TestCase
     }
     assert_match /tag is missing value/, message_update.message
   end
-  
+
   def test_from_xml_duplicate_k
     dupk = "<osm><way id='23' changeset='23' version='23'><tag k='dup' v='test' /><tag k='dup' v='tester' /></way></osm>"
     message_create = assert_raise(OSM::APIDuplicateTagsError) {
@@ -167,7 +167,7 @@ class WayTest < ActiveSupport::TestCase
     way = current_ways(:way_with_versions)
     tags = Way.find(way.id).way_tags.order(:k)
     assert_equal 2, tags.count
-    assert_equal "testing", tags[0].k 
+    assert_equal "testing", tags[0].k
     assert_equal "added in way version 3", tags[0].v
     assert_equal "testing two", tags[1].k
     assert_equal "modified in way version 4", tags[1].v

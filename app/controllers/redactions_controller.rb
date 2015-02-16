@@ -1,6 +1,6 @@
 class RedactionsController < ApplicationController
   layout 'site'
-  
+
   before_filter :authorize_web
   before_filter :set_locale
   before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
@@ -16,7 +16,7 @@ class RedactionsController < ApplicationController
   def new
     @redaction = Redaction.new
   end
-     
+
   def create
     @redaction = Redaction.new
     @redaction.user = @user
@@ -31,13 +31,13 @@ class RedactionsController < ApplicationController
       render :action => 'new'
     end
   end
-     
+
   def show
   end
-  
+
   def edit
   end
-     
+
   def update
     # note - don't update the user ID
     @redaction.title = params[:redaction][:title]
@@ -50,7 +50,7 @@ class RedactionsController < ApplicationController
       render :action => 'edit'
     end
   end
-     
+
   def destroy
     unless @redaction.old_nodes.empty? and
         @redaction.old_ways.empty? and

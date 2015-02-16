@@ -16,7 +16,7 @@ class Node < ActiveRecord::Base
   has_many :ways, :through => :way_nodes
 
   has_many :node_tags
-  
+
   has_many :old_way_nodes
   has_many :ways_via_history, :class_name=> "Way", :through => :old_way_nodes, :source => :way
 
@@ -57,7 +57,7 @@ class Node < ActiveRecord::Base
 
   def self.from_xml_node(pt, create=false)
     node = Node.new
-    
+
     raise OSM::APIBadXMLError.new("node", pt, "lat missing") if pt['lat'].nil?
     raise OSM::APIBadXMLError.new("node", pt, "lon missing") if pt['lon'].nil?
     node.lat = OSM.parse_float(pt['lat'], OSM::APIBadXMLError, "node", pt, "lat not a number")
@@ -74,7 +74,7 @@ class Node < ActiveRecord::Base
     unless create
       raise OSM::APIBadXMLError.new("node", pt, "ID is required when updating.") if pt['id'].nil?
       node.id = pt['id'].to_i
-      # .to_i will return 0 if there is no number that can be parsed. 
+      # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
       raise OSM::APIBadUserInput.new("ID of node cannot be zero when updating.") if node.id == 0
     end
@@ -110,7 +110,7 @@ class Node < ActiveRecord::Base
       raise OSM::APIAlreadyDeletedError.new("node", new_node.id)
     end
 
-    # need to start the transaction here, so that the database can 
+    # need to start the transaction here, so that the database can
     # provide repeatable reads for the used-by checks. this means it
     # shouldn't be possible to get race conditions.
     Node.transaction do
@@ -118,17 +118,17 @@ class Node < ActiveRecord::Base
       check_consistency(self, new_node, user)
       ways = Way.joins(:way_nodes).where(:visible => true, :current_way_nodes => { :node_id => id }).order(:id)
       raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by ways #{ways.collect { |w| w.id }.join(",")}.") unless ways.empty?
-      
+
       rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Node", :member_id => id }).order(:id)
       raise OSM::APIPreconditionFailedError.new("Node #{self.id} is still used by relations #{rels.collect { |r| r.id }.join(",")}.") unless rels.empty?
 
       self.changeset_id = new_node.changeset_id
       self.tags = {}
       self.visible = false
-      
+
       # update the changeset with the deleted position
       changeset.update_bbox!(bbox)
-      
+
       save_with_history!
     end
   end
@@ -137,27 +137,27 @@ class Node < ActiveRecord::Base
     Node.transaction do
       self.lock!
       check_consistency(self, new_node, user)
-      
+
       # update changeset first
       self.changeset_id = new_node.changeset_id
       self.changeset = new_node.changeset
-      
+
       # update changeset bbox with *old* position first
       changeset.update_bbox!(bbox);
-      
+
       # FIXME logic needs to be double checked
-      self.latitude = new_node.latitude 
+      self.latitude = new_node.latitude
       self.longitude = new_node.longitude
       self.tags = new_node.tags
       self.visible = true
-      
+
       # update changeset bbox with *new* position
       changeset.update_bbox!(bbox);
-      
+
       save_with_history!
     end
   end
-  
+
   def create_with_history(user)
     check_create_consistency(self, user)
     self.version = 0
@@ -200,8 +200,8 @@ class Node < ActiveRecord::Base
   end
 
   def tags=(t)
-    @tags = t 
-  end 
+    @tags = t
+  end
 
   def add_tag_key_val(k,v)
     @tags = Hash.new unless @tags
@@ -226,7 +226,7 @@ class Node < ActiveRecord::Base
   def fix_placeholders!(id_map, placeholder_id = nil)
     # nodes don't refer to anything, so there is nothing to do here
   end
-  
+
   private
 
   def save_with_history!
@@ -242,10 +242,10 @@ class Node < ActiveRecord::Base
       tags.each do |k,v|
         tag = NodeTag.new
         tag.node_id = self.id
-        tag.k = k 
-        tag.v = v 
+        tag.k = k
+        tag.v = v
         tag.save!
-      end 
+      end
 
       # Create an OldNode
       old_node = OldNode.from_node(self)
@@ -259,5 +259,5 @@ class Node < ActiveRecord::Base
       changeset.save!
     end
   end
-  
+
 end

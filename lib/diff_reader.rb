@@ -7,9 +7,9 @@ class DiffReader
   include ConsistencyValidations
 
   # maps each element type to the model class which handles it
-  MODELS = { 
-    "node"     => Node, 
-    "way"      => Way, 
+  MODELS = {
+    "node"     => Node,
+    "way"      => Way,
     "relation" => Relation
   }
 
@@ -40,7 +40,7 @@ class DiffReader
   end
 
   ##
-  # An element-block mapping for using the LibXML reader interface. 
+  # An element-block mapping for using the LibXML reader interface.
   #
   # Since a lot of LibXML reader usage is boilerplate iteration through
   # elements, it would be better to DRY and do this in a block. This
@@ -73,13 +73,13 @@ class DiffReader
         else
           read_or_die
         end
-      end 
+      end
     end
     read_or_die
   end
 
   ##
-  # An element-block mapping for using the LibXML reader interface. 
+  # An element-block mapping for using the LibXML reader interface.
   #
   # Since a lot of LibXML reader usage is boilerplate iteration through
   # elements, it would be better to DRY and do this in a block. This
@@ -89,7 +89,7 @@ class DiffReader
       model = MODELS[model_name]
       raise OSM::APIBadUserInput.new("Unexpected element type #{model_name}, " +
                                      "expected node, way or relation.") if model.nil?
-      # new in libxml-ruby >= 2, expand returns an element not associated 
+      # new in libxml-ruby >= 2, expand returns an element not associated
       # with a document. this means that there's no encoding parameter,
       # which means basically nothing works.
       expanded = @reader.expand
@@ -112,7 +112,7 @@ class DiffReader
   # such as save_ and delete_with_history.
   def check(model, xml, new)
     raise OSM::APIBadXMLError.new(model, xml) if new.nil?
-    unless new.changeset_id == @changeset.id 
+    unless new.changeset_id == @changeset.id
       raise OSM::APIChangesetMismatchError.new(new.changeset_id, @changeset.id)
     end
   end
@@ -122,7 +122,7 @@ class DiffReader
   # is *not* transactional, so code which calls it should ensure that the
   # appropriate transaction block is in place.
   #
-  # On a failure to meet preconditions (e.g: optimistic locking fails) 
+  # On a failure to meet preconditions (e.g: optimistic locking fails)
   # an exception subclassing OSM::APIError will be thrown.
   def commit
 
@@ -162,7 +162,7 @@ class DiffReader
 
           # create element given user
           new.create_with_history(@changeset.user)
-          
+
           # save placeholder => allocated ID map
           ids[model_sym][placeholder_id] = new.id
 
@@ -173,7 +173,7 @@ class DiffReader
           xml_result["new_version"] = new.version.to_s
           result.root << xml_result
         end
-        
+
       elsif action_name == 'modify'
         # modify an existing element. again, this code doesn't directly deal
         # with types, but uses duck typing to handle them transparently.
@@ -199,7 +199,7 @@ class DiffReader
 
           xml_result = XML::Node.new model.to_s.downcase
           xml_result["old_id"] = client_id.to_s
-          xml_result["new_id"] = id.to_s 
+          xml_result["new_id"] = id.to_s
           # version is updated in "old" through the update, so we must not
           # return new.version here but old.version!
           xml_result["new_version"] = old.version.to_s

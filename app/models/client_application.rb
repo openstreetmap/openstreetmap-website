@@ -16,7 +16,7 @@ class ClientApplication < ActiveRecord::Base
   before_validation :generate_keys, :on => :create
 
   attr_accessor :token_callback_url
-  
+
   def self.find_token(token_key)
     token = OauthToken.find_by_token(token_key, :include => :client_application)
     if token && token.authorized?
@@ -36,7 +36,7 @@ class ClientApplication < ActiveRecord::Base
       false
     end
   end
-  
+
   def self.all_permissions
     PERMISSIONS
   end
@@ -44,11 +44,11 @@ class ClientApplication < ActiveRecord::Base
   def oauth_server
     @oauth_server ||= OAuth::Server.new("http://" + SERVER_URL)
   end
-  
+
   def credentials
     @oauth_client ||= OAuth::Consumer.new(key, secret)
   end
-    
+
   def create_request_token(params={})
     params = { :client_application => self, :callback_url => self.token_callback_url }
     permissions.each do |p|
@@ -67,7 +67,7 @@ class ClientApplication < ActiveRecord::Base
 
       token = access_tokens.create(params)
     end
-    
+
     token
   end
 
@@ -77,7 +77,7 @@ class ClientApplication < ActiveRecord::Base
   end
 
 protected
-  
+
   # this is the set of permissions that the client can ask for. clients
   # have to say up-front what permissions they want and when users sign up they
   # can agree or not agree to each of them.

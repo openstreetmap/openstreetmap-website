@@ -44,21 +44,21 @@ class ActiveSupport::TestCase
     fixtures :relation_members, :relation_tags
     set_fixture_class :relation_members => OldRelationMember
     set_fixture_class :relation_tags => OldRelationTag
-    
+
     fixtures :gpx_files, :gps_points, :gpx_file_tags
     set_fixture_class :gpx_files => Trace
     set_fixture_class :gps_points => Tracepoint
     set_fixture_class :gpx_file_tags => Tracetag
 
     fixtures :client_applications
-    
+
     fixtures :redactions
 
     fixtures :notes, :note_comments
   end
 
   ##
-  # takes a block which is executed in the context of a different 
+  # takes a block which is executed in the context of a different
   # ActionController instance. this is used so that code can call methods
   # on the node controller whilst testing the old_node controller.
   def with_controller(new_controller)
@@ -86,8 +86,8 @@ class ActiveSupport::TestCase
   end
 
   ##
-  # for some reason a==b is false, but there doesn't seem to be any 
-  # difference between the nodes, so i'm checking all the attributes 
+  # for some reason a==b is false, but there doesn't seem to be any
+  # difference between the nodes, so i'm checking all the attributes
   # manually and blaming it on ActiveRecord
   def assert_nodes_are_equal(a, b)
     assert_equal a.id, b.id, "node IDs"
@@ -110,20 +110,20 @@ class ActiveSupport::TestCase
   def content(c)
     @request.env["RAW_POST_DATA"] = c.to_s
   end
-  
+
   # Used to check that the error header and the forbidden responses are given
   # when the owner of the changset has their data not marked as public
   def assert_require_public_data(msg = "Shouldn't be able to use API when the user's data is not public")
     assert_response :forbidden, msg
     assert_equal @response.headers['Error'], "You must make your edits public to upload new data", "Wrong error message"
   end
-  
+
   # Not sure this is the best response we could give
   def assert_inactive_user(msg = "an inactive user shouldn't be able to access the API")
     assert_response :unauthorized, msg
     #assert_equal @response.headers['Error'], ""
   end
-  
+
   def assert_no_missing_translations(msg="")
     assert_select "span[class=translation_missing]", false, "Missing translation #{msg}"
   end
@@ -165,6 +165,6 @@ class ActiveSupport::TestCase
     return openid_response_qs
   end
 
-  
+
   # Add more helper methods to be used by all tests here...
 end

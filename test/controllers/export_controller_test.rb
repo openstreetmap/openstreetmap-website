@@ -22,7 +22,7 @@ class ExportControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to "http://api.openstreetmap.org/api/#{API_VERSION}/map?bbox=0.0,50.0,1.0,51.0"
   end
-  
+
   ###
   # test the finish action for mapnik images
   def test_finish_mapnik

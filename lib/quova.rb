@@ -53,7 +53,7 @@ module Quova
     def status
       @ipinfo["GetIpInfoResult"]["Response"]["Status"].to_i
     end
- 
+
     def country_code
       @ipinfo["GetIpInfoResult"]["Location"]["Country"]["Name"]
     end
@@ -63,4 +63,3 @@ module Quova
     end
   end
 end
-

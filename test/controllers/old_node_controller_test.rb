@@ -27,16 +27,16 @@ class OldNodeControllerTest < ActionController::TestCase
 
   ##
   # test the version call by submitting several revisions of a new node
-  # to the API and ensuring that later calls to version return the 
+  # to the API and ensuring that later calls to version return the
   # matching versions of the object.
   #
   ##
-  # FIXME Move this test to being an integration test since it spans multiple controllers 
+  # FIXME Move this test to being an integration test since it spans multiple controllers
   def test_version
     ## First try this with a non-public user
     basic_authorization(users(:normal_user).email, "test")
     changeset_id = changesets(:normal_user_first_change).id
-    
+
     # setup a simple XML node
     xml_doc = current_nodes(:visible_node).to_xml
     xml_node = xml_doc.find("//osm/node").first
@@ -50,7 +50,7 @@ class OldNodeControllerTest < ActionController::TestCase
     versions[xml_node['version']] = xml_doc.to_s
 
     # randomly move the node about
-    20.times do 
+    20.times do
       # move the node somewhere else
       xml_node['lat'] = precision(rand * 180 -  90).to_s
       xml_node['lon'] = precision(rand * 360 - 180).to_s
@@ -65,7 +65,7 @@ class OldNodeControllerTest < ActionController::TestCase
     end
 
     # add a bunch of random tags
-    30.times do 
+    30.times do
       xml_tag = XML::Node.new("tag")
       xml_tag['k'] = random_string
       xml_tag['v'] = random_string
@@ -83,7 +83,7 @@ class OldNodeControllerTest < ActionController::TestCase
 
     # probably should check that they didn't get written to the database
 
-    
+
     ## Now do it with the public user
     basic_authorization(users(:public_user).email, "test")
     changeset_id = changesets(:public_user_first_change).id
@@ -101,7 +101,7 @@ class OldNodeControllerTest < ActionController::TestCase
     versions[xml_node['version']] = xml_doc.to_s
 
     # randomly move the node about
-    20.times do 
+    20.times do
       # move the node somewhere else
       xml_node['lat'] = precision(rand * 180 -  90).to_s
       xml_node['lon'] = precision(rand * 360 - 180).to_s
@@ -116,7 +116,7 @@ class OldNodeControllerTest < ActionController::TestCase
     end
 
     # add a bunch of random tags
-    30.times do 
+    30.times do
       xml_tag = XML::Node.new("tag")
       xml_tag['k'] = random_string
       xml_tag['v'] = random_string
@@ -145,21 +145,21 @@ class OldNodeControllerTest < ActionController::TestCase
       assert_nodes_are_equal check_node, api_node
     end
   end
-  
+
   def test_not_found_version
     check_not_found_id_version(70000,312344)
     check_not_found_id_version(-1, -13)
     check_not_found_id_version(nodes(:visible_node).id, 24354)
     check_not_found_id_version(24356,   nodes(:visible_node).version)
   end
-  
+
   def check_not_found_id_version(id, version)
     get :version, :id => id, :version => version
     assert_response :not_found
   rescue ActionController::UrlGenerationError => ex
     assert_match /No route matches/, ex.to_s
   end
-  
+
   ##
   # Test that getting the current version is identical to picking
   # that version with the version URI call.
@@ -181,7 +181,7 @@ class OldNodeControllerTest < ActionController::TestCase
   end
 
   ##
-  # test the redaction of an old version of a node, while being 
+  # test the redaction of an old version of a node, while being
   # authorised as a normal user.
   def test_redact_node_normal_user
     basic_authorization(users(:public_user).email, "test")
@@ -200,10 +200,10 @@ class OldNodeControllerTest < ActionController::TestCase
     do_redact_node(nodes(:node_with_versions_v4),
                    redactions(:example))
     assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
-  end    
+  end
 
   ##
-  # test that redacted nodes aren't visible, regardless of 
+  # test that redacted nodes aren't visible, regardless of
   # authorisation except as moderator...
   def test_version_redacted
     node = nodes(:redacted_node_redacted_version)
@@ -234,7 +234,7 @@ class OldNodeControllerTest < ActionController::TestCase
   end
 
   ##
-  # test the redaction of an old version of a node, while being 
+  # test the redaction of an old version of a node, while being
   # authorised as a moderator.
   def test_redact_node_moderator
     node = nodes(:node_with_versions_v3)
@@ -249,7 +249,7 @@ class OldNodeControllerTest < ActionController::TestCase
     assert_response :forbidden, "After redaction, node should be gone for moderator, when flag not passed."
     get :version, :id => node.node_id, :version => node.version, :show_redactions => 'true'
     assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
-    
+
     # and when accessed via history
     get :history, :id => node.node_id
     assert_response :success, "Redaction shouldn't have stopped history working."
@@ -274,7 +274,7 @@ class OldNodeControllerTest < ActionController::TestCase
     # check can't see the redacted data
     get :version, :id => node.node_id, :version => node.version
     assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
-    
+
     # and when accessed via history
     get :history, :id => node.node_id
     assert_response :success, "Redaction shouldn't have stopped history working."
@@ -284,7 +284,7 @@ class OldNodeControllerTest < ActionController::TestCase
   def do_redact_node(node, redaction)
     get :version, :id => node.node_id, :version => node.version
     assert_response :success, "should be able to get version #{node.version} of node #{node.node_id}."
-    
+
     # now redact it
     post :redact, :id => node.node_id, :version => node.version, :redaction => redaction.id
   end
@@ -293,14 +293,14 @@ class OldNodeControllerTest < ActionController::TestCase
     # get the current version of the node
     current_node = with_controller(NodeController.new) do
       get :read, :id => node_id
-      assert_response :success, "cant get current node #{node_id}" 
+      assert_response :success, "cant get current node #{node_id}"
       Node.from_xml(@response.body)
     end
     assert_not_nil current_node, "getting node #{node_id} returned nil"
 
     # get the "old" version of the node from the old_node interface
     get :version, :id => node_id, :version => current_node.version
-    assert_response :success, "cant get old node #{node_id}, v#{current_node.version}" 
+    assert_response :success, "cant get old node #{node_id}, v#{current_node.version}"
     old_node = Node.from_xml(@response.body)
 
     # check the nodes are the same

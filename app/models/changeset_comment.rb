@@ -9,7 +9,7 @@ class ChangesetComment < ActiveRecord::Base
   validates_presence_of :author
   validates_associated :author
   validates :visible, :inclusion => { :in => [true,false] }
-  
+
   # Return the comment text
   def body
     RichText.new("text", read_attribute(:body))

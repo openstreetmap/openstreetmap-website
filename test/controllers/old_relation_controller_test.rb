@@ -44,7 +44,7 @@ class OldRelationControllerTest < ActionController::TestCase
   end
 
     ##
-  # test the redaction of an old version of a relation, while being 
+  # test the redaction of an old version of a relation, while being
   # authorised as a normal user.
   def test_redact_relation_normal_user
     basic_authorization(users(:public_user).email, "test")
@@ -63,10 +63,10 @@ class OldRelationControllerTest < ActionController::TestCase
     do_redact_relation(relations(:relation_with_versions_v4),
                        redactions(:example))
     assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
-  end    
+  end
 
   ##
-  # test that redacted relations aren't visible, regardless of 
+  # test that redacted relations aren't visible, regardless of
   # authorisation except as moderator...
   def test_version_redacted
     relation = relations(:relation_with_redacted_versions_v2)
@@ -98,7 +98,7 @@ class OldRelationControllerTest < ActionController::TestCase
   end
 
   ##
-  # test the redaction of an old version of a relation, while being 
+  # test the redaction of an old version of a relation, while being
   # authorised as a moderator.
   def test_redact_relation_moderator
     relation = relations(:relation_with_versions_v3)
@@ -113,7 +113,7 @@ class OldRelationControllerTest < ActionController::TestCase
     assert_response :forbidden, "After redaction, node should be gone for moderator, when flag not passed."
     get :version, :id => relation.relation_id, :version => relation.version, :show_redactions => 'true'
     assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
-    
+
     # and when accessed via history
     get :history, :id => relation.relation_id
     assert_response :success, "Redaction shouldn't have stopped history working."
@@ -138,7 +138,7 @@ class OldRelationControllerTest < ActionController::TestCase
     # check can't see the redacted data
     get :version, :id => relation.relation_id, :version => relation.version
     assert_response :forbidden, "Redacted node shouldn't be visible via the version API."
-    
+
     # and when accessed via history
     get :history, :id => relation.relation_id
     assert_response :success, "Redaction shouldn't have stopped history working."
@@ -183,7 +183,7 @@ class OldRelationControllerTest < ActionController::TestCase
       assert_response :success, "couldn't get relation #{relation_id}, v#{history_relation.version}"
       version_relation = Relation.from_xml(@response.body)
       assert_not_nil version_relation, "failed to parse #{relation_id}, v#{history_relation.version}"
-      
+
       assert_relations_are_equal history_relation, version_relation
     end
   end
@@ -191,7 +191,7 @@ class OldRelationControllerTest < ActionController::TestCase
   def do_redact_relation(relation, redaction)
     get :version, :id => relation.relation_id, :version => relation.version
     assert_response :success, "should be able to get version #{relation.version} of node #{relation.relation_id}."
-    
+
     # now redact it
     post :redact, :id => relation.relation_id, :version => relation.version, :redaction => redaction.id
   end

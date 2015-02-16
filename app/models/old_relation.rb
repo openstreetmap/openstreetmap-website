@@ -1,7 +1,7 @@
 class OldRelation < ActiveRecord::Base
   include ConsistencyValidations
   include ObjectMetadata
-  
+
   self.table_name = "relations"
   self.primary_keys = "relation_id", "version"
 
@@ -15,7 +15,7 @@ class OldRelation < ActiveRecord::Base
 
   has_many :old_members, -> { order(:sequence_id) }, :class_name => 'OldRelationMember', :foreign_key => [:relation_id, :version]
   has_many :old_tags, :class_name => 'OldRelationTag', :foreign_key => [:relation_id, :version]
-  
+
   validates_associated :changeset
 
   def self.from_relation(relation)
@@ -89,7 +89,7 @@ class OldRelation < ActiveRecord::Base
       member_el['role'] = member.member_role.to_s
       el << member_el
     end
-    
+
     add_tags_to_xml_node(el, self.old_tags)
 
     return el

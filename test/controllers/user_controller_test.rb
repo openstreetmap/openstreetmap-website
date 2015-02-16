@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UserControllerTest < ActionController::TestCase
   fixtures :users
-  
+
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -269,7 +269,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template 'new'
     assert_select "form > fieldset > div.form-row > input.field_with_errors#user_email"
   end
-    
+
   def test_user_create_submit_duplicate_name
     user = new_user
     user.display_name = users(:public_user).display_name
@@ -284,7 +284,7 @@ class UserControllerTest < ActionController::TestCase
     assert_template 'new'
     assert_select "form > fieldset > div.form-row > input.field_with_errors#user_display_name"
   end
-  
+
   def test_user_create_submit_duplicate_name_uppercase
     user = new_user
     user.display_name = users(:public_user).display_name.upcase
@@ -556,14 +556,14 @@ class UserControllerTest < ActionController::TestCase
     assert_equal user.new_email, email.to.first
     ActionMailer::Base.deliveries.clear
   end
-  
+
   # Check that the user account page will display and contains some relevant
   # information for the user
   def test_user_view_account
     # Test a non-existent user
     get :view, {:display_name => "unknown"}
     assert_response :not_found
-    
+
     # Test a normal user
     get :view, {:display_name => "test"}
     assert_response :success
@@ -577,7 +577,7 @@ class UserControllerTest < ActionController::TestCase
       assert_select "a[href='/user/test/blocks_by']", 0
       assert_select "a[href='/blocks/new/test']", 0
     end
-    
+
     # Test a user who has been blocked
     get :view, {:display_name => "blocked"}
     assert_response :success
@@ -591,7 +591,7 @@ class UserControllerTest < ActionController::TestCase
       assert_select "a[href='/user/blocked/blocks_by']", 0
       assert_select "a[href='/blocks/new/blocked']", 0
     end
-    
+
     # Test a moderator who has applied blocks
     get :view, {:display_name => "moderator"}
     assert_response :success
@@ -691,7 +691,7 @@ class UserControllerTest < ActionController::TestCase
     # check that nothing is returned when not logged in
     get :api_details
     assert_response :unauthorized
-    
+
     # check that we get a response when logged in
     basic_authorization(users(:normal_user).email, "test")
     get :api_details

@@ -724,7 +724,7 @@ class NotesControllerTest < ActionController::TestCase
     end
 
     get :feed, {:bbox => "1,1,1.2,1.2", :format => "rss"}
-    assert_response :success	
+    assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
@@ -755,6 +755,6 @@ class NotesControllerTest < ActionController::TestCase
     assert_response :success
 
     get :mine, {:display_name => "non-existent"}
-    assert_response :not_found	
+    assert_response :not_found
   end
 end

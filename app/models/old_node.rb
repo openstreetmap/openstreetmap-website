@@ -38,7 +38,7 @@ class OldNode < ActiveRecord::Base
     old_node.version = node.version
     return old_node
   end
-  
+
   def to_xml
     doc = OSM::API.new.get_xml_doc
     doc.root << to_xml_node()
@@ -63,7 +63,7 @@ class OldNode < ActiveRecord::Base
 
   def save_with_dependencies!
     save!
-   
+
     self.tags.each do |k,v|
       tag = OldNodeTag.new
       tag.k = k
@@ -79,22 +79,22 @@ class OldNode < ActiveRecord::Base
   end
 
   def tags=(t)
-    @tags = t 
+    @tags = t
   end
 
-  def tags_as_hash 
+  def tags_as_hash
     return self.tags
-  end 
- 
-  # Pretend we're not in any ways 
-  def ways 
-    return [] 
-  end 
- 
-  # Pretend we're not in any relations 
-  def containing_relation_members 
-    return [] 
-  end 
+  end
+
+  # Pretend we're not in any ways
+  def ways
+    return []
+  end
+
+  # Pretend we're not in any relations
+  def containing_relation_members
+    return []
+  end
 
   # check whether this element is the latest version - that is,
   # has the same version as its "current" counterpart.

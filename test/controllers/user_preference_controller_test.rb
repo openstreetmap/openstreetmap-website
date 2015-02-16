@@ -45,7 +45,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
         assert_select "preference", :count => 0
       end
     end
-    
+
     # authenticate as a user with preferences
     basic_authorization("test@openstreetmap.org", "test")
 

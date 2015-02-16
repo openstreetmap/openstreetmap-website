@@ -40,7 +40,7 @@ class ApiController < ApplicationController
     root['version'] = '1.0'
     root['creator'] = 'OpenStreetMap.org'
     root['xmlns'] = "http://www.topografix.com/GPX/1/0"
-    
+
     doc.root = root
 
     # initialise these variables outside of the loop so that they
@@ -75,21 +75,21 @@ class ApiController < ApplicationController
           # use the anonymous track segment if the user hasn't allowed
           # their GPX points to be tracked.
           timestamps = false
-          if anon_track.nil? 
+          if anon_track.nil?
             anon_track = XML::Node.new 'trk'
             doc.root << anon_track
           end
           track = anon_track
         end
       end
-      
+
       if trackid != point.trackid
         if gpx_file.trackable?
           trkseg = XML::Node.new 'trkseg'
           track << trkseg
           trackid = point.trackid
         else
-          if anon_trkseg.nil? 
+          if anon_trkseg.nil?
             anon_trkseg = XML::Node.new 'trkseg'
             anon_track << anon_trkseg
           end
@@ -105,14 +105,14 @@ class ApiController < ApplicationController
     render :text => doc.to_s, :content_type => "text/xml"
   end
 
-  # This is probably the most common call of all. It is used for getting the 
+  # This is probably the most common call of all. It is used for getting the
   # OSM data for a specified bounding box, usually for editing. First the
-  # bounding box (bbox) is checked to make sure that it is sane. All nodes 
+  # bounding box (bbox) is checked to make sure that it is sane. All nodes
   # are searched, then all the ways that reference those nodes are found.
   # All Nodes that are referenced by those ways are fetched and added to the list
   # of nodes.
   # Then all the relations that reference the already found nodes and ways are
-  # fetched. All the nodes and ways that are referenced by those ways are then 
+  # fetched. All the nodes and ways that are referenced by those ways are then
   # fetched. Finally all the xml is returned.
   def map
     # Figure out the bbox
@@ -185,15 +185,15 @@ class ApiController < ApplicationController
         doc.root << way.to_xml_node(visible_nodes, changeset_cache, user_display_name_cache)
         way_ids << way.id
       end
-    end 
+    end
 
     relations = Relation.nodes(visible_nodes.keys).visible +
                 Relation.ways(way_ids).visible
 
-    # we do not normally return the "other" partners referenced by an relation, 
-    # e.g. if we return a way A that is referenced by relation X, and there's 
-    # another way B also referenced, that is not returned. But we do make 
-    # an exception for cases where an relation references another *relation*; 
+    # we do not normally return the "other" partners referenced by an relation,
+    # e.g. if we return a way A that is referenced by relation X, and there's
+    # another way B also referenced, that is not returned. But we do make
+    # an exception for cases where an relation references another *relation*;
     # in that case we return that as well (but we don't go recursive here)
     relations += Relation.relations(relations.collect { |r| r.id }).visible
 
@@ -254,8 +254,8 @@ class ApiController < ApplicationController
     end
   end
 
-  # External apps that use the api are able to query the api to find out some 
-  # parameters of the API. It currently returns: 
+  # External apps that use the api are able to query the api to find out some
+  # parameters of the API. It currently returns:
   # * minimum and maximum API versions that can be used.
   # * maximum area that can be requested in a bbox request in square degrees
   # * number of tracepoints that are returned in each tracepoints page
@@ -290,7 +290,7 @@ class ApiController < ApplicationController
     doc.root << api
     policy = XML::Node.new 'policy'
     blacklist = XML::Node.new 'imagery'
-    IMAGERY_BLACKLIST.each do |url_regex| 
+    IMAGERY_BLACKLIST.each do |url_regex|
       xnd = XML::Node.new 'blacklist'
       xnd['regex'] = url_regex.to_s
       blacklist << xnd

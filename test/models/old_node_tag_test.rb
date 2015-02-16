@@ -6,7 +6,7 @@ class OldNodeTagTest < ActiveSupport::TestCase
   def test_old_node_tag_count
     assert_equal 19, OldNodeTag.count, "Unexpected number of fixtures loaded."
   end
-  
+
   def test_length_key_valid
     key = "k"
     (0..255).each do |i|
@@ -18,7 +18,7 @@ class OldNodeTagTest < ActiveSupport::TestCase
       assert tag.valid?
     end
   end
-  
+
   def test_length_value_valid
     val = "v"
     (0..255).each do |i|
@@ -30,7 +30,7 @@ class OldNodeTagTest < ActiveSupport::TestCase
       assert tag.valid?
     end
   end
-  
+
   def test_length_key_invalid
     ["k"*256].each do |i|
       tag = OldNodeTag.new
@@ -42,7 +42,7 @@ class OldNodeTagTest < ActiveSupport::TestCase
       assert tag.errors[:k].any?
     end
   end
-  
+
   def test_length_value_invalid
     ["k"*256].each do |i|
       tag = OldNodeTag.new
@@ -54,13 +54,13 @@ class OldNodeTagTest < ActiveSupport::TestCase
       assert tag.errors[:v].any?
     end
   end
-  
+
   def test_empty_tag_invalid
     tag = OldNodeTag.new
     assert !tag.valid?, "Empty tag should be invalid"
     assert tag.errors[:old_node].any?
   end
-  
+
   def test_uniqueness
     tag = OldNodeTag.new
     tag.node_id = node_tags(:t1).node_id

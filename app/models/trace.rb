@@ -63,7 +63,7 @@ class Trace < ActiveRecord::Base
     f.syswrite(data)
     f.close
   end
-  
+
   def icon_picture= (data)
     f = File.new(icon_picture_name, "wb")
     f.syswrite(data)
@@ -78,7 +78,7 @@ class Trace < ActiveRecord::Base
     f.close
     data
   end
-  
+
   def icon_picture
     f = File.new(icon_picture_name, "rb")
     logger.info "icon picture file: '#{f.path}'"
@@ -86,7 +86,7 @@ class Trace < ActiveRecord::Base
     f.close
     data
   end
-  
+
   def large_picture_name
     "#{GPX_IMAGE_DIR}/#{id}.gif"
   end
@@ -192,14 +192,14 @@ class Trace < ActiveRecord::Base
 
   def self.from_xml_node(pt, create=false)
     trace = Trace.new
-    
+
     raise OSM::APIBadXMLError.new("trace", pt, "visibility missing") if pt['visibility'].nil?
     trace.visibility = pt['visibility']
 
     unless create
       raise OSM::APIBadXMLError.new("trace", pt, "ID is required when updating.") if pt['id'].nil?
       trace.id = pt['id'].to_i
-      # .to_i will return 0 if there is no number that can be parsed. 
+      # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
       raise OSM::APIBadUserInput.new("ID of trace cannot be zero when updating.") if trace.id == 0
     end

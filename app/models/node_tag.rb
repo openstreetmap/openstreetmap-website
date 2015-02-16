@@ -3,7 +3,7 @@ class NodeTag < ActiveRecord::Base
   self.primary_keys = "node_id", "k"
 
   belongs_to :node
-  
+
   validates_presence_of :node
   validates_length_of :k, :maximum => 255, :allow_blank => true
   validates_uniqueness_of :k, :scope => :node_id

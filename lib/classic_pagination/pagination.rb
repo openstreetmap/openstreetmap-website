@@ -13,23 +13,23 @@ module ActionController
   #
   # Pagination is included automatically for all controllers.
   #
-  # For help rendering pagination links, see 
+  # For help rendering pagination links, see
   # ActionView::Helpers::PaginationHelper.
   #
   # ==== Automatic pagination for every action in a controller
   #
-  #   class PersonController < ApplicationController   
+  #   class PersonController < ApplicationController
   #     model :person
   #
   #     paginate :people, :order => 'last_name, first_name',
   #              :per_page => 20
-  #     
+  #
   #     # ...
   #   end
   #
   # Each action in this controller now has access to a <tt>@people</tt>
   # instance variable, which is an ordered collection of model objects for the
-  # current page (at most 20, sorted by last name and first name), and a 
+  # current page (at most 20, sorted by last name and first name), and a
   # <tt>@person_pages</tt> Paginator instance. The current page is determined
   # by the <tt>params[:page]</tt> variable.
   #
@@ -44,23 +44,23 @@ module ActionController
   # and <tt>@people</tt> for a single action, and uses the default of 10 items
   # per page.
   #
-  # ==== Custom/"classic" pagination 
+  # ==== Custom/"classic" pagination
   #
   #   def list
   #     @person_pages = Paginator.new self, Person.count, 10, params[:page]
-  #     @people = Person.find :all, :order => 'last_name, first_name', 
+  #     @people = Person.find :all, :order => 'last_name, first_name',
   #                           :limit  =>  @person_pages.items_per_page,
   #                           :offset =>  @person_pages.current.offset
   #   end
-  # 
-  # Explicitly creates the paginator from the previous example and uses 
+  #
+  # Explicitly creates the paginator from the previous example and uses
   # Paginator#to_sql to retrieve <tt>@people</tt> from the model.
   #
   module Pagination
     unless const_defined?(:OPTIONS)
       # A hash holding options for controllers using macro-style pagination
       OPTIONS = Hash.new
-  
+
       # The default options for pagination
       DEFAULT_OPTIONS = {
         :class_name => nil,
@@ -80,18 +80,18 @@ module ActionController
     else
       DEFAULT_OPTIONS[:group] = nil
     end
-      
+
     def self.included(base) #:nodoc:
       super
       base.extend(ClassMethods)
     end
-  
+
     def self.validate_options!(collection_id, options, in_action) #:nodoc:
       options.merge!(DEFAULT_OPTIONS) {|key, old, new| old}
 
       valid_options = DEFAULT_OPTIONS.keys
       valid_options << :actions unless in_action
-    
+
       unknown_option_keys = options.keys - valid_options
       raise ActionController::ActionControllerError,
             "Unknown options: #{unknown_option_keys.join(', ')}" unless
@@ -110,7 +110,7 @@ module ActionController
     # <tt>:singular_name</tt>:: the singular name to use, if it can't be inferred by singularizing the collection name
     # <tt>:class_name</tt>:: the class name to use, if it can't be inferred by
     #                        camelizing the singular name
-    # <tt>:per_page</tt>::   the maximum number of items to include in a 
+    # <tt>:per_page</tt>::   the maximum number of items to include in a
     #                        single page. Defaults to 10
     # <tt>:conditions</tt>:: optional conditions passed to Model.find(:all, *params) and
     #                        Model.count
@@ -133,13 +133,13 @@ module ActionController
       paginator_and_collection_for(collection_id, options)
     end
 
-    # These methods become class methods on any controller 
+    # These methods become class methods on any controller
     module ClassMethods
       # Creates a +before_filter+ which automatically paginates an Active
       # Record model for all actions in a controller (or certain actions if
       # specified with the <tt>:actions</tt> option).
       #
-      # +options+ are the same as PaginationHelper#paginate, with the addition 
+      # +options+ are the same as PaginationHelper#paginate, with the addition
       # of:
       # <tt>:actions</tt>:: an array of actions for which the pagination is
       #                     active. Defaults to +nil+ (i.e., every action)
@@ -158,17 +158,17 @@ module ActionController
         next unless options[:actions].include? action_name if
           options[:actions]
 
-        paginator, collection = 
+        paginator, collection =
           paginator_and_collection_for(collection_id, options)
 
         paginator_name = "@#{options[:singular_name]}_pages"
         self.instance_variable_set(paginator_name, paginator)
 
         collection_name = "@#{collection_id.to_s}"
-        self.instance_variable_set(collection_name, collection)     
+        self.instance_variable_set(collection_name, collection)
       end
     end
-  
+
     # Returns the total number of items in the collection to be paginated for
     # the +model+ and given +conditions+. Override this method to implement a
     # custom counter.
@@ -185,7 +185,7 @@ module ActionController
 
       collection.count
     end
-    
+
     # Returns a collection of items for the given +model+ and +options[conditions]+,
     # ordered by +options[order]+, for the current page in the given +paginator+.
     # Override this method to implement a custom finder.
@@ -199,10 +199,10 @@ module ActionController
       if options[:select]
         collection = collection.select(options[:select])
       end
-         
+
       collection.offset(paginator.current.offset).limit(options[:per_page])
     end
-  
+
     protected :create_paginators_and_retrieve_collections,
               :count_collection_for_pagination,
               :find_collection_for_pagination
@@ -213,10 +213,10 @@ module ActionController
       count = count_collection_for_pagination(klass, options)
       paginator = Paginator.new(self, count, options[:per_page], page)
       collection = find_collection_for_pagination(klass, options, paginator)
-    
-      return paginator, collection 
+
+      return paginator, collection
     end
-      
+
     private :paginator_and_collection_for
 
     # A class representing a paginator for an Active Record collection.
@@ -236,13 +236,13 @@ module ActionController
         @item_count = item_count || 0
         @items_per_page = items_per_page
         @pages = {}
-        
+
         self.current_page = current_page
       end
       attr_reader :controller, :item_count, :items_per_page
-      
+
       # Sets the current page number of this paginator. If +page+ is a Page
-      # object, its +number+ attribute is used as the value; if the page does 
+      # object, its +number+ attribute is used as the value; if the page does
       # not belong to this Paginator, an ArgumentError is raised.
       def current_page=(page)
         if page.is_a? Page
@@ -267,7 +267,7 @@ module ActionController
 
       # Returns a new Page representing the last page in this paginator.
       def last_page
-        @last_page ||= self[page_count] 
+        @last_page ||= self[page_count]
       end
       alias last :last_page
 
@@ -312,12 +312,12 @@ module ActionController
         attr_reader :paginator, :number
         alias to_i :number
 
-        # Compares two Page objects and returns true when they represent the 
+        # Compares two Page objects and returns true when they represent the
         # same page (i.e., their paginators are the same and they have the
         # same page number).
         def ==(page)
           return false if page.nil?
-          @paginator == page.paginator and 
+          @paginator == page.paginator and
             @number == page.number
         end
 
@@ -334,12 +334,12 @@ module ActionController
         def offset
           @paginator.items_per_page * (@number - 1)
         end
-        
+
         # Returns the number of the first item displayed.
         def first_item
           offset + 1
         end
-        
+
         # Returns the number of the last item displayed.
         def last_item
           [@paginator.items_per_page * @number, @paginator.item_count].min
@@ -367,7 +367,7 @@ module ActionController
           if last? then nil else @paginator[@number + 1] end
         end
 
-        # Returns a new Window object for this page with the specified 
+        # Returns a new Window object for this page with the specified
         # +padding+.
         def window(padding=2)
           Window.new(self, padding)
@@ -377,7 +377,7 @@ module ActionController
         def to_sql
           [@paginator.items_per_page, offset]
         end
-        
+
         def to_param #:nodoc:
           @number.to_s
         end

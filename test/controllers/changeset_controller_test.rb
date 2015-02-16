@@ -1922,7 +1922,7 @@ EOF
     assert_no_difference('ChangesetComment.count') do
       post :comment, { :id => changesets(:normal_user_closed_change).id, :text => '' }
     end
-    assert_response :bad_request    
+    assert_response :bad_request
   end
 
   ##
@@ -2062,7 +2062,7 @@ EOF
       post :unhide_comment, { :id => comment.id }
       assert_response :unauthorized
     end
-    
+
     basic_authorization(users(:public_user).email, 'test')
 
     # not a moderator

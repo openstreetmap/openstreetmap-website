@@ -23,5 +23,5 @@ class Language < ActiveRecord::Base
     name = english_name
     name += " (#{native_name})" unless native_name.nil?
     name
-  end  
+  end
 end

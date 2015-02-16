@@ -3,16 +3,16 @@ require 'api_controller'
 
 class ApiControllerTest < ActionController::TestCase
   api_fixtures
-  
+
   def setup
     super
     @badbigbbox = %w{ -0.1,-0.1,1.1,1.1  10,10,11,11 }
-    @badmalformedbbox = %w{ -0.1  hello 
+    @badmalformedbbox = %w{ -0.1  hello
     10N2W10.1N2.1W }
     @badlatmixedbbox = %w{ 0,0.1,0.1,0  -0.1,80,0.1,70  0.24,54.34,0.25,54.33 }
-    @badlonmixedbbox = %w{ 80,-0.1,70,0.1  54.34,0.24,54.33,0.25 }  
+    @badlonmixedbbox = %w{ 80,-0.1,70,0.1  54.34,0.24,54.33,0.25 }
     #@badlatlonoutboundsbbox = %w{ 191,-0.1,193,0.1  -190.1,89.9,-190,90 }
-    @goodbbox = %w{ -0.1,-0.1,0.1,0.1  51.1,-0.1,51.2,0 
+    @goodbbox = %w{ -0.1,-0.1,0.1,0.1  51.1,-0.1,51.2,0
     -0.1,%20-0.1,%200.1,%200.1  -0.1edcd,-0.1d,0.1,0.1  -0.1E,-0.1E,0.1S,0.1N S0.1,W0.1,N0.1,E0.1}
     # That last item in the goodbbox really shouldn't be there, as the API should
     # reall reject it, however this is to test to see if the api changes.
@@ -26,7 +26,7 @@ class ApiControllerTest < ActionController::TestCase
       { :controller => "api", :action => "capabilities" }
     )
     assert_recognizes(
-      { :controller => "api", :action => "capabilities" }, 
+      { :controller => "api", :action => "capabilities" },
       { :path => "/api/0.6/capabilities", :method => :get }
     )
     assert_routing(
@@ -75,7 +75,7 @@ class ApiControllerTest < ActionController::TestCase
       # Should also test for the ways and relation
     end
   end
-  
+
   # This differs from the above test in that we are making the bbox exactly
   # the same as the node we are looking at
   def test_map_inclusive
@@ -92,7 +92,7 @@ class ApiControllerTest < ActionController::TestCase
       # Should also test for the ways and relation
     end
   end
-  
+
   def test_tracepoints
     point = gpx_files(:public_trace_file)
     minlon = point.longitude-0.001
@@ -108,7 +108,7 @@ class ApiControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   def test_tracepoints_trackable
     point = gpx_files(:trackable_trace_file)
     minlon = point.longitude-0.002
@@ -130,7 +130,7 @@ class ApiControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   def test_tracepoints_identifiable
     point = gpx_files(:identifiable_trace_file)
     minlon = point.longitude-0.002
@@ -153,7 +153,7 @@ class ApiControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   def test_map_without_bbox
     ["trackpoints", "map"].each do |tq|
       get tq
@@ -161,7 +161,7 @@ class ApiControllerTest < ActionController::TestCase
       assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body, "A bbox param was expected"
     end
   end
-  
+
   def test_traces_page_less_than_0
     -10.upto(-1) do |i|
       get :trackpoints, :page => i, :bbox => "-0.1,-0.1,0.1,0.1"
@@ -173,7 +173,7 @@ class ApiControllerTest < ActionController::TestCase
       assert_response :success, "The page number was #{i} and should have been accepted"
     end
   end
-  
+
   def test_bbox_too_big
     @badbigbbox.each do |bbox|
       [ "trackpoints", "map" ].each do |tq|
@@ -183,7 +183,7 @@ class ApiControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   def test_bbox_malformed
     @badmalformedbbox.each do |bbox|
       [ "trackpoints", "map" ].each do |tq|
@@ -193,7 +193,7 @@ class ApiControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   def test_bbox_lon_mixedup
     @badlonmixedbbox.each do |bbox|
       [ "trackpoints", "map" ].each do |tq|
@@ -203,7 +203,7 @@ class ApiControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   def test_bbox_lat_mixedup
     @badlatmixedbbox.each do |bbox|
       ["trackpoints", "map"].each do |tq|
@@ -213,7 +213,7 @@ class ApiControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   # We can't actually get an out of bounds error, as the bbox is sanitised.
   #def test_latlon_outofbounds
   #  @badlatlonoutboundsbbox.each do |bbox|
@@ -225,8 +225,8 @@ class ApiControllerTest < ActionController::TestCase
   #    end
   #  end
   #end
-  
-  # MySQL and Postgres require that the C based functions are installed for 
+
+  # MySQL and Postgres require that the C based functions are installed for
   # this test to work. More information is available from:
   # http://wiki.openstreetmap.org/wiki/Rails#Installing_the_quadtile_functions
   # or by looking at the readme in db/README
@@ -235,7 +235,7 @@ class ApiControllerTest < ActionController::TestCase
     get :changes
     assert_response :success
     #print @response.body
-    # As we have loaded the fixtures, we can assume that there are no 
+    # As we have loaded the fixtures, we can assume that there are no
     # changes at the time we have frozen at
     now = Time.now.getutc
     hourago = now - 1.hour
@@ -244,7 +244,7 @@ class ApiControllerTest < ActionController::TestCase
     end
     Timecop.return
   end
-  
+
   def test_changes_zoom_invalid
     zoom_to_test = %w{ p -1 0 17 one two }
     zoom_to_test.each do |zoom|
@@ -253,7 +253,7 @@ class ApiControllerTest < ActionController::TestCase
       assert_equal @response.body, "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours"
     end
   end
-  
+
   def test_changes_zoom_valid
     1.upto(16) do |zoom|
       get :changes, :zoom => zoom
@@ -265,7 +265,7 @@ class ApiControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   def test_hours_invalid
     invalid = %w{ -21 335 -1 0 25 26 100 one two three ping pong : }
     invalid.each do |hour|
@@ -274,14 +274,14 @@ class ApiControllerTest < ActionController::TestCase
       assert_equal @response.body, "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours", "Problem with the hour: #{hour}."
     end
   end
-  
+
   def test_hours_valid
     1.upto(24) do |hour|
       get :changes, :hours => hour
       assert_response :success
     end
   end
-  
+
   def test_capabilities
     get :capabilities
     assert_response :success

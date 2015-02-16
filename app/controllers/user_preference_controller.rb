@@ -70,7 +70,7 @@ class UserPreferenceController < ApplicationController
   def update_one
     begin
       pref = UserPreference.find([@user.id, params[:preference_key]])
-    rescue ActiveRecord::RecordNotFound 
+    rescue ActiveRecord::RecordNotFound
       pref = UserPreference.new
       pref.user = @user
       pref.k = params[:preference_key]

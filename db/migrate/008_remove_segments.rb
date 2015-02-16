@@ -9,7 +9,7 @@ class RemoveSegments < ActiveRecord::Migration
 
       cmd = "db/migrate/008_remove_segments_helper"
       src = "#{cmd}.cc"
-      if not File.exists? cmd or File.mtime(cmd) < File.mtime(src) then 
+      if not File.exists? cmd or File.mtime(cmd) < File.mtime(src) then
 	system 'c++ -O3 -Wall `mysql_config --cflags --libs` ' +
 	  "#{src} -o #{cmd}" or fail
       end

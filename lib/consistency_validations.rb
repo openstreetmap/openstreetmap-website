@@ -1,9 +1,9 @@
 module ConsistencyValidations
   # Generic checks that are run for the updates and deletes of
-  # node, ways and relations. This code is here to avoid duplication, 
+  # node, ways and relations. This code is here to avoid duplication,
   # and allow the extention of the checks without having to modify the
-  # code in 6 places for all the updates and deletes. Some of these tests are 
-  # needed for creates, but are currently not run :-( 
+  # code in 6 places for all the updates and deletes. Some of these tests are
+  # needed for creates, but are currently not run :-(
   # This will throw an exception if there is an inconsistency
   def check_consistency(old, new, user)
     if new.id != old.id or new.id.nil? or old.id.nil?
@@ -18,7 +18,7 @@ module ConsistencyValidations
       raise OSM::APIChangesetAlreadyClosedError.new(new.changeset)
     end
   end
-  
+
   # This is similar to above, just some validations don't apply
   def check_create_consistency(new, user)
     if new.changeset.nil?
@@ -38,7 +38,7 @@ module ConsistencyValidations
     # may alter it.
     if changeset.nil?
       raise OSM::APIChangesetMissingError.new
-    elsif user.id != changeset.user_id 
+    elsif user.id != changeset.user_id
       raise OSM::APIUserChangesetMismatchError.new
     elsif not changeset.is_open?
       raise OSM::APIChangesetAlreadyClosedError.new(changeset)

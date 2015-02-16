@@ -8,7 +8,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10_web_app
     client = client_applications(:oauth_web_app)
 
-    post_via_redirect "/login", 
+    post_via_redirect "/login",
       :username => client.user.email, :password => "test"
     assert_response :success
 
@@ -21,8 +21,8 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, client.permissions
 
-    post "/oauth/authorize", 
-      :oauth_token => token.token, 
+    post "/oauth/authorize",
+      :oauth_token => token.token,
       :allow_read_prefs => true, :allow_write_prefs => true
     assert_response :redirect
     assert_redirected_to "http://some.web.app.org/callback?oauth_token=#{token.token}"
@@ -65,9 +65,9 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, client.permissions
 
-    post "/oauth/authorize", 
-      :oauth_token => token.token, 
-      :oauth_callback => "http://another.web.app.org/callback", 
+    post "/oauth/authorize",
+      :oauth_token => token.token,
+      :oauth_callback => "http://another.web.app.org/callback",
       :allow_write_api => true, :allow_read_gpx => true
     assert_response :redirect
     assert_redirected_to "http://another.web.app.org/callback?oauth_token=#{token.token}"
@@ -105,7 +105,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10_desktop_app
     client = client_applications(:oauth_desktop_app)
 
-    post_via_redirect "/login", 
+    post_via_redirect "/login",
       :username => client.user.email, :password => "test"
     assert_response :success
 
@@ -118,8 +118,8 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, client.permissions
 
-    post "/oauth/authorize", 
-      :oauth_token => token.token, 
+    post "/oauth/authorize",
+      :oauth_token => token.token,
       :allow_read_prefs => true, :allow_write_prefs => true
     assert_response :success
     assert_template "authorize_success"
@@ -266,7 +266,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
   def test_oauth10a_desktop_app
     client = client_applications(:oauth_desktop_app)
 
-    post_via_redirect "/login", 
+    post_via_redirect "/login",
       :username => client.user.email, :password => "test"
     assert_response :success
 
@@ -280,8 +280,8 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_nil token.invalidated_at
     assert_allowed token, client.permissions
 
-    post "/oauth/authorize", 
-      :oauth_token => token.token, 
+    post "/oauth/authorize",
+      :oauth_token => token.token,
       :allow_read_prefs => true, :allow_write_prefs => true
     assert_response :success
     assert_template "authorize_success"

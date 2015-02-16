@@ -1,12 +1,12 @@
 class Way < ActiveRecord::Base
   require 'xml/libxml'
-  
+
   include ConsistencyValidations
   include NotRedactable
   include ObjectMetadata
 
   self.table_name = "current_ways"
-  
+
   belongs_to :changeset
 
   has_many :old_ways, -> { order(:version) }
@@ -56,13 +56,13 @@ class Way < ActiveRecord::Base
     unless create
       raise OSM::APIBadXMLError.new("way", pt, "ID is required when updating") if pt['id'].nil?
       way.id = pt['id'].to_i
-      # .to_i will return 0 if there is no number that can be parsed. 
+      # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
       raise OSM::APIBadUserInput.new("ID of way cannot be zero when updating.") if way.id == 0
     end
 
     # We don't care about the timestamp nor the visibility as these are either
-    # set explicitly or implicit in the action. The visibility is set to true, 
+    # set explicitly or implicit in the action. The visibility is set to true,
     # and manually set to false before the actual delete.
     way.visible = true
 
@@ -85,7 +85,7 @@ class Way < ActiveRecord::Base
 
   # Find a way given it's ID, and in a single SQL call also grab its nodes
   #
-  
+
   # You can't pull in all the tags too unless we put a sequence_id on the way_tags table and have a multipart key
   def self.find_eager(id)
     way = Way.find(id, :include => {:way_nodes => :node})
@@ -133,7 +133,7 @@ class Way < ActiveRecord::Base
     add_tags_to_xml_node(el, self.way_tags)
 
     return el
-  end 
+  end
 
   def nds
     @nds ||= self.way_nodes.collect { |n| n.node_id }
@@ -182,7 +182,7 @@ class Way < ActiveRecord::Base
       unless new_way.preconditions_ok?(self.nds)
         raise OSM::APIPreconditionFailedError.new("Cannot update way #{self.id}: data is invalid.")
       end
-      
+
       self.changeset_id = new_way.changeset_id
       self.changeset = new_way.changeset
       self.tags = new_way.tags
@@ -228,8 +228,8 @@ class Way < ActiveRecord::Base
     unless self.visible
       raise OSM::APIAlreadyDeletedError.new("way", new_way.id)
     end
-    
-    # need to start the transaction here, so that the database can 
+
+    # need to start the transaction here, so that the database can
     # provide repeatable reads for the used-by checks. this means it
     # shouldn't be possible to get race conditions.
     Way.transaction do
@@ -255,8 +255,8 @@ class Way < ActiveRecord::Base
 
   ##
   # if any referenced nodes are placeholder IDs (i.e: are negative) then
-  # this calling this method will fix them using the map from placeholders 
-  # to IDs +id_map+. 
+  # this calling this method will fix them using the map from placeholders
+  # to IDs +id_map+.
   def fix_placeholders!(id_map, placeholder_id = nil)
     self.nds.map! do |node_id|
       if node_id < 0
@@ -270,12 +270,12 @@ class Way < ActiveRecord::Base
   end
 
   private
-  
+
   def save_with_history!
     t = Time.now.getutc
 
-    # update the bounding box, note that this has to be done both before 
-    # and after the save, so that nodes from both versions are included in the 
+    # update the bounding box, note that this has to be done both before
+    # and after the save, so that nodes from both versions are included in the
     # bbox. we use a copy of the changeset so that it isn't reloaded
     # later in the save.
     cs = self.changeset
@@ -315,7 +315,7 @@ class Way < ActiveRecord::Base
       # new set of nodes.
       self.reload
 
-      # update and commit the bounding box, now that way nodes 
+      # update and commit the bounding box, now that way nodes
       # have been updated and we're in a transaction.
       cs.update_bbox!(bbox) unless nodes.empty?
 

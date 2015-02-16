@@ -24,7 +24,7 @@ class AmfControllerTest < ActionController::TestCase
     amf_content "getway", "/1", [id]
     post :amf_read
     assert_response :success
-    amf_parse_response                                         
+    amf_parse_response
     way = amf_result("/1")
     assert_equal 0, way[0]
     assert_equal "", way[1]
@@ -55,7 +55,7 @@ class AmfControllerTest < ActionController::TestCase
     amf_content "getway", "/1", [id]
     post :amf_read
     assert_response :success
-    amf_parse_response                                         
+    amf_parse_response
     way = amf_result("/1")
     assert_equal 0, way[0]
     assert_equal "", way[1]
@@ -72,7 +72,7 @@ class AmfControllerTest < ActionController::TestCase
     amf_content "getway", "/1", [id]
     post :amf_read
     assert_response :success
-    amf_parse_response                                         
+    amf_parse_response
     way = amf_result("/1")
     assert_equal 0, way[0]
     assert_equal "", way[1]
@@ -90,7 +90,7 @@ class AmfControllerTest < ActionController::TestCase
     amf_content "getway", "/1", [id]
     post :amf_read
     assert_response :success
-    amf_parse_response                                         
+    amf_parse_response
     way = amf_result("/1")
     assert_equal 0, way[0]
     assert_equal "", way[1]
@@ -125,7 +125,7 @@ class AmfControllerTest < ActionController::TestCase
     amf_content "whichways", "/1", [minlon, minlat, maxlon, maxlat]
     post :amf_read
     assert_response :success
-    amf_parse_response 
+    amf_parse_response
 
     # check contents of message
     map = amf_result "/1"
@@ -230,7 +230,7 @@ class AmfControllerTest < ActionController::TestCase
     amf_content "whichways_deleted", "/1", bbox
     post :amf_read
     assert_response :success
-    amf_parse_response 
+    amf_parse_response
 
     map = amf_result "/1"
     assert_deleted_boundary_error map, " The server said: The maximum bbox size is 0.25, and your request was too large. Either request a smaller area, or use planet.osm"
@@ -280,11 +280,11 @@ class AmfControllerTest < ActionController::TestCase
     # instead of a version number...
     # try to get version 1
     v1 = ways(:way_with_versions_v1)
-    { latest.id => '', 
+    { latest.id => '',
       v1.way_id => v1.timestamp.strftime("%d %b %Y, %H:%M:%S")
     }.each do |id, t|
       amf_content "getway_old", "/1", [id, t]
-      post :amf_read      
+      post :amf_read
       assert_response :success
       amf_parse_response
       returned_way = amf_result("/1")
@@ -294,7 +294,7 @@ class AmfControllerTest < ActionController::TestCase
       assert_equal latest.version, returned_way[5]
     end
   end
-  
+
   ##
   # test that the server doesn't fall over when rubbish is passed
   # into the method args.
@@ -323,8 +323,8 @@ class AmfControllerTest < ActionController::TestCase
     v1 = ways(:way_with_versions_v1)
     # try to get last visible version of non-existent way
     # try to get specific version of non-existent way
-    [[0, ''], 
-     [0, '1 Jan 1970, 00:00:00'], 
+    [[0, ''],
+     [0, '1 Jan 1970, 00:00:00'],
      [v1.way_id, (v1.timestamp - 10).strftime("%d %b %Y, %H:%M:%S")]
     ].each do |id, t|
       amf_content "getway_old", "/1", [id, t]
@@ -351,7 +351,7 @@ class AmfControllerTest < ActionController::TestCase
 
     # ['way',wayid,history]
     assert_equal 'way', history[0]
-    assert_equal latest.id, history[1] 
+    assert_equal latest.id, history[1]
     # We use dates rather than version numbers here, because you might
     # have moved a node within a way (i.e. way version not incremented).
     # The timestamp is +1 because we say "give me the revision of 15:33:02",
@@ -384,14 +384,14 @@ class AmfControllerTest < ActionController::TestCase
     # ['node',nodeid,history]
     # note that (as per getway_history) we actually round up
     # to the next second
-    assert_equal history[0], 'node', 
+    assert_equal history[0], 'node',
       'first element should be "node"'
     assert_equal history[1], latest.id,
       'second element should be the input node ID'
-    assert_equal history[2].first[0], 
+    assert_equal history[2].first[0],
       (latest.timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
       'first element in third element (array) should be the latest version'
-    assert_equal history[2].last[0], 
+    assert_equal history[2].last[0],
       (nodes(:node_with_versions_v1).timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
       'last element in third element (array) should be the initial version'
   end
@@ -419,13 +419,13 @@ class AmfControllerTest < ActionController::TestCase
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
-    
+
     assert_equal 0, result[0]
     assert_equal "", result[1]
     assert_equal nd.id, result[2]
     assert_equal nd.id, result[3]
     assert_equal nd.version+1, result[4]
-    
+
     # Now try to update again, with a different lat/lon, using the updated version number
     lat = nd.lat+0.1
     lon = nd.lon-0.1
@@ -434,14 +434,14 @@ class AmfControllerTest < ActionController::TestCase
     assert_response :success
     amf_parse_response
     result = amf_result("/2")
-    
+
     assert_equal 0, result[0]
     assert_equal "", result[1]
     assert_equal nd.id, result[2]
     assert_equal nd.id, result[3]
     assert_equal nd.version+2, result[4]
   end
-  
+
   # Check that we can create a no valid poi
   # Using similar method for the node controller test
   def test_putpoi_create_valid
@@ -452,21 +452,21 @@ class AmfControllerTest < ActionController::TestCase
     lon = rand(100)-50 + rand
     # normal user has a changeset open
     changeset = changesets(:public_user_first_change)
-    
+
     amf_content "putpoi", "/1", ["test@example.com:test", changeset.id, nil, nil, lon, lat, {}, nil]
     post :amf_write
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
-    
+
     # check the array returned by the amf
     assert_equal 5, result.size
     assert_equal 0, result[0], "expected to get the status ok from the amf"
     assert_equal 0, result[2], "The old id should be 0"
     assert result[3] > 0, "The new id should be greater than 0"
     assert_equal 1, result[4], "The new version should be 1"
-    
-    # Finally check that the node that was saved has saved the data correctly 
+
+    # Finally check that the node that was saved has saved the data correctly
     # in both the current and history tables
     # First check the current table
     current_node = Node.find(result[3].to_i)
@@ -482,7 +482,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_in_delta lon, first_historic_node.lon, 0.00001, "The longitude was not retreuved correctly"
     assert_equal 0, first_historic_node.tags.size, "There seems to be a tag that have been attached to this node"
     assert_equal result[4], first_historic_node.version, "The version returned, is different to the one returned by the amf"
-    
+
     ####
     # This node has some tags
     tnd = Node.new
@@ -491,7 +491,7 @@ class AmfControllerTest < ActionController::TestCase
     lon = rand(100)-50 + rand
     # normal user has a changeset open
     changeset = changesets(:public_user_first_change)
-    
+
     amf_content "putpoi", "/2", ["test@example.com:test", changeset.id, nil, nil, lon, lat, { "key" => "value", "ping" => "pong" }, nil]
     post :amf_write
     assert_response :success
@@ -504,8 +504,8 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 0, result[2], "The old id should be 0"
     assert result[3] > 0, "The new id should be greater than 0"
     assert_equal 1, result[4], "The new version should be 1"
-    
-    # Finally check that the node that was saved has saved the data correctly 
+
+    # Finally check that the node that was saved has saved the data correctly
     # in both the current and history tables
     # First check the current table
     current_node = Node.find(result[3].to_i)
@@ -524,7 +524,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal({ "key" => "value", "ping" => "pong" }, first_historic_node.tags, "tags are different")
     assert_equal result[4], first_historic_node.version, "The version returned, is different to the one returned by the amf"
   end
-  
+
   # try creating a POI with rubbish in the tags
   def test_putpoi_create_with_control_chars
     # This node has no tags
@@ -534,24 +534,24 @@ class AmfControllerTest < ActionController::TestCase
     lon = rand(100)-50 + rand
     # normal user has a changeset open
     changeset = changesets(:public_user_first_change)
-    
+
     mostly_invalid = (0..31).to_a.map {|i| i.chr}.join
     tags = { "something" => "foo#{mostly_invalid}bar" }
-      
+
     amf_content "putpoi", "/1", ["test@example.com:test", changeset.id, nil, nil, lon, lat, tags, nil]
     post :amf_write
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
-      
+
     # check the array returned by the amf
     assert_equal 5, result.size
     assert_equal 0, result[0], "Expected to get the status ok in the amf"
     assert_equal 0, result[2], "The old id should be 0"
     assert result[3] > 0, "The new id should be greater than 0"
     assert_equal 1, result[4], "The new version should be 1"
-    
-    # Finally check that the node that was saved has saved the data correctly 
+
+    # Finally check that the node that was saved has saved the data correctly
     # in both the current and history tables
     # First check the current table
     current_node = Node.find(result[3].to_i)
@@ -569,10 +569,10 @@ class AmfControllerTest < ActionController::TestCase
     lon = rand(100)-50 + rand
     # normal user has a changeset open
     changeset = changesets(:public_user_first_change)
-    
+
     invalid = "\xc0\xc0"
     tags = { "something" => "foo#{invalid}bar" }
-      
+
     amf_content "putpoi", "/1", ["test@example.com:test", changeset.id, nil, nil, lon, lat, tags, nil]
     post :amf_write
     assert_response :success
@@ -581,29 +581,29 @@ class AmfControllerTest < ActionController::TestCase
 
     assert_equal 2, result.size
     assert_equal -1, result[0], "Expected to get the status FAIL in the amf"
-    assert_equal "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1.", result[1] 
+    assert_equal "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1.", result[1]
   end
-      
+
   def test_putpoi_delete_valid
-    
+
   end
-  
+
   def test_putpoi_delete_already_deleted
-    
+
   end
-  
+
   def test_putpoi_delete_not_found
-    
+
   end
-  
+
   def test_putpoi_invalid_latlon
-    
+
   end
 
   def test_startchangeset_invalid_xmlchar_comment
     invalid = "\035\022"
     comment = "foo#{invalid}bar"
-      
+
     amf_content "startchangeset", "/1", ["test@example.com:test", Hash.new, nil, comment, 1]
     post :amf_write
     assert_response :success
@@ -691,7 +691,7 @@ class AmfControllerTest < ActionController::TestCase
       yield map, bbox
     end
   end
-  
+
   # this should be what AMF controller returns when the bbox of a
   # whichways request is invalid or too large.
   def assert_boundary_error(map, msg=nil, error_hint=nil)

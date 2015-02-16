@@ -96,7 +96,7 @@ class CleanupOsmDb < ActiveRecord::Migration
     add_index "users", ["display_name"], :name => "users_display_name_idx", :unique => true
 
     change_column "way_segments", "segment_id", :bigint, :null => false
- 
+
     change_column "way_tags", "k", :string, :null => false
     change_column "way_tags", "v", :string, :null => false
     change_column "way_tags", "version", :bigint, :null => false
@@ -120,7 +120,7 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "way_tags", "k", :string, :default => nil
 
     change_column "way_segments", "segment_id", :integer
- 
+
     remove_index "users", :name => "users_display_name_idx"
     add_index "users", ["display_name"], :name => "users_display_name_idx"
     remove_index "users", :name => "users_email_idx"
@@ -211,7 +211,7 @@ class CleanupOsmDb < ActiveRecord::Migration
     change_column "current_segments", "user_id", :bigint
     change_column "current_segments", "node_b", :bigint
     change_column "current_segments", "node_a", :bigint
-    
+
     add_index "current_nodes", ["id"], :name => "current_nodes_id_idx"
     remove_primary_key "current_nodes"
     change_column "current_nodes", "timestamp", :datetime

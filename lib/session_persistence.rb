@@ -37,7 +37,7 @@ module SessionPersistence
   #   session_expires_after 1.hour
   #   session_expires_after 2.weeks
   def session_expires_after(seconds)
-    session[session_persistence_key] = seconds 
+    session[session_persistence_key] = seconds
   end
 
   # Expire the session.

@@ -6,7 +6,7 @@ module Redactable
     # in scope for the module itself.
     base.scope :unredacted, -> { base.where(:redaction_id => nil) }
   end
-  
+
   def redacted?
     not self.redaction.nil?
   end

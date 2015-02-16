@@ -31,7 +31,7 @@ class UserRolesController < ApplicationController
   end
 
   ##
-  # require that the given role is valid. the role is a URL 
+  # require that the given role is valid. the role is a URL
   # parameter, so should always be present.
   def require_valid_role
     @role = params[:role]

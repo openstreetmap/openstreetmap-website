@@ -20,7 +20,7 @@ class ApplicationHelperTest < ActionView::TestCase
       assert_dom_equal "Test <a href=\"#{link}\" rel=\"nofollow\">#{link}</a> is made into a link", html
 
       html = linkify(text.html_safe)
-      assert_equal true, html.html_safe?    
+      assert_equal true, html.html_safe?
       assert_dom_equal "Test <a href=\"#{link}\" rel=\"nofollow\">#{link}</a> is made into a link", html
     end
 
@@ -32,7 +32,7 @@ class ApplicationHelperTest < ActionView::TestCase
       assert_dom_equal text, html
 
       html = linkify(text.html_safe)
-      assert_equal true, html.html_safe?    
+      assert_equal true, html.html_safe?
       assert_dom_equal text, html
     end
   end

@@ -89,8 +89,8 @@ class OauthClientsControllerTest < ActionController::TestCase
       }
     end
     assert_response :success
-    assert_template "new"  
-    
+    assert_template "new"
+
     assert_difference "ClientApplication.count", 1 do
       post :create, {
         :display_name => user.display_name,
@@ -161,7 +161,7 @@ class OauthClientsControllerTest < ActionController::TestCase
     assert_template "not_found"
 
     put :update, {
-      :display_name => user.display_name, 
+      :display_name => user.display_name,
       :id => client.id,
       :client_application => {
         :name => "New Name",
@@ -174,7 +174,7 @@ class OauthClientsControllerTest < ActionController::TestCase
     assert_template "edit"
 
     put :update, {
-      :display_name => user.display_name, 
+      :display_name => user.display_name,
       :id => client.id,
       :client_application => {
         :name => "New Name",

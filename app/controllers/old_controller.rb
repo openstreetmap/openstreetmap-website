@@ -18,12 +18,12 @@ class OldController < ApplicationController
 
   def history
     # the .where() method used in the lookup_old_element_versions
-    # call won't throw an error if no records are found, so we have 
+    # call won't throw an error if no records are found, so we have
     # to do that ourselves.
     raise OSM::APINotFoundError.new if @elements.empty?
 
     doc = OSM::API.new.get_xml_doc
-    
+
     visible_elements = if show_redactions?
                          @elements
                        else
@@ -33,20 +33,20 @@ class OldController < ApplicationController
     visible_elements.each do |element|
       doc.root << element.to_xml_node
     end
-    
+
     render :text => doc.to_s, :content_type => "text/xml"
   end
-  
+
   def version
     if @old_element.redacted? and not show_redactions?
       render :text => "", :status => :forbidden
 
     else
       response.last_modified = @old_element.timestamp
-      
+
       doc = OSM::API.new.get_xml_doc
       doc.root << @old_element.to_xml_node
-        
+
       render :text => doc.to_s, :content_type => "text/xml"
     end
   end
@@ -58,19 +58,19 @@ class OldController < ApplicationController
       # be redacted in that redaction.
       redaction = Redaction.find(redaction_id.to_i)
       @old_element.redact!(redaction)
-      
+
     else
       # if no redaction ID was provided, then this is an unredact
       # operation.
       @old_element.redact!(nil)
     end
-    
+
     # just return an empty 200 OK for success
     render :text => ""
   end
 
   private
-  
+
   def show_redactions?
     @user and @user.moderator? and params[:show_redactions] == "true"
   end

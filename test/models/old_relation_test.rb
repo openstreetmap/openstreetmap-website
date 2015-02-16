@@ -19,7 +19,7 @@ class OldRelationTest < ActiveSupport::TestCase
     relation = relations(:relation_with_versions_v3)
     tags = OldRelation.find(relation.id).old_tags.order(:k)
     assert_equal 3, tags.count
-    assert_equal "testing", tags[0].k 
+    assert_equal "testing", tags[0].k
     assert_equal "added in relation version 3", tags[0].v
     assert_equal "testing three", tags[1].k
     assert_equal "added in relation version 3", tags[1].v
@@ -29,7 +29,7 @@ class OldRelationTest < ActiveSupport::TestCase
     relation = relations(:relation_with_versions_v4)
     tags = OldRelation.find(relation.id).old_tags.order(:k)
     assert_equal 2, tags.count
-    assert_equal "testing", tags[0].k 
+    assert_equal "testing", tags[0].k
     assert_equal "added in relation version 3", tags[0].v
     assert_equal "testing two", tags[1].k
     assert_equal "modified in relation version 4", tags[1].v

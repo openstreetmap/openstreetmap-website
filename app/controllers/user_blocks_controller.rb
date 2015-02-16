@@ -34,7 +34,7 @@ class UserBlocksController < ApplicationController
   end
 
   def create
-    if @valid_params 
+    if @valid_params
       @user_block = UserBlock.new(
         :user_id => @this_user.id,
         :creator_id => @user.id,
@@ -42,7 +42,7 @@ class UserBlocksController < ApplicationController
         :ends_at => Time.now.getutc() + @block_period.hours,
         :needs_view => params[:user_block][:needs_view]
       )
-    
+
       if @user_block.save
         flash[:notice] = t('user_block.create.flash', :name => @this_user.display_name)
         redirect_to @user_block
@@ -54,8 +54,8 @@ class UserBlocksController < ApplicationController
     end
   end
 
-  def update  
-    if @valid_params 
+  def update
+    if @valid_params
       if @user_block.creator_id != @user.id
         flash[:error] = t('user_block.update.only_creator_can_edit')
         redirect_to :action => "edit"
@@ -125,10 +125,10 @@ class UserBlocksController < ApplicationController
 
     if !UserBlock::PERIODS.include?(@block_period)
       flash[:error] = t('user_block.filter.block_period')
-      
+
     elsif @user_block and !@user_block.active?
       flash[:error] = t('user_block.filter.block_expired')
-      
+
     else
       @valid_params = true
     end

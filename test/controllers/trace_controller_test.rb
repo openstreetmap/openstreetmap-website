@@ -493,7 +493,7 @@ class TraceControllerTest < ActionController::TestCase
     basic_authorization(users(:normal_user).display_name, "test")
     content gpx_files(:anon_trace_file).to_xml
     put :api_update, :id => gpx_files(:public_trace_file).id
-    assert_response :bad_request, 
+    assert_response :bad_request,
        "should not be able to update a trace with a different ID from the XML"
 
     # And finally try an update that should work

@@ -5,33 +5,33 @@ module Potlatch
 
   # The AMF class is a set of helper functions for encoding and decoding AMF.
   class AMF
-    
+
     # Return two-byte integer
-    def self.getint(s) 
+    def self.getint(s)
       s.getbyte*256+s.getbyte
     end
 
     # Return four-byte long
-    def self.getlong(s) 
+    def self.getlong(s)
       ((s.getbyte*256+s.getbyte)*256+s.getbyte)*256+s.getbyte
     end
 
-    # Return string with two-byte length 
-    def self.getstring(s) 
+    # Return string with two-byte length
+    def self.getstring(s)
       len=s.getbyte*256+s.getbyte
       str=s.read(len)
       str.force_encoding("UTF-8") if str.respond_to?("force_encoding")
       str
     end
 
-    # Return eight-byte double-precision float 
-    def self.getdouble(s) 
+    # Return eight-byte double-precision float
+    def self.getdouble(s)
       a=s.read(8).unpack('G')			# G big-endian, E little-endian
       a[0]
     end
 
     # Return numeric array
-    def self.getarray(s) 
+    def self.getarray(s)
       len=getlong(s)
       arr=[]
       for i in (0..len-1)
@@ -40,8 +40,8 @@ module Potlatch
       arr
     end
 
-    # Return object/hash 
-    def self.getobject(s) 
+    # Return object/hash
+    def self.getobject(s)
       arr={}
       while (key=getstring(s))
         if (key=='') then break end
@@ -52,7 +52,7 @@ module Potlatch
     end
 
     # Parse and get value
-    def self.getvalue(s) 
+    def self.getvalue(s)
       case s.getbyte
       when 0;	return getdouble(s)			# number
       when 1;	return s.getbyte			# boolean
@@ -68,7 +68,7 @@ module Potlatch
     end
 
     # Envelope data into AMF writeable form
-    def self.putdata(index,n) 
+    def self.putdata(index,n)
       d =encodestring(index+"/onResult")
       d+=encodestring("null")
       d+=[-1].pack("N")
@@ -76,7 +76,7 @@ module Potlatch
     end
 
     # Pack variables as AMF
-    def self.encodevalue(n) 
+    def self.encodevalue(n)
       case n.class.to_s
       when 'Array'
         a=10.chr+encodelong(n.length)
@@ -112,13 +112,13 @@ module Potlatch
       a.chr+b.chr+n
     end
 
-    # Encode number as eight-byte double precision float 
-    def self.encodedouble(n) 
+    # Encode number as eight-byte double precision float
+    def self.encodedouble(n)
       [n].pack('G')
     end
 
     # Encode number as four-byte long
-    def self.encodelong(n) 
+    def self.encodelong(n)
       [n].pack('N')
     end
 
@@ -243,7 +243,7 @@ module Potlatch
         }
       end
       icon_list.reverse!
-      
+
       # Read auto-complete
       autotags={}; autotags['point']={}; autotags['way']={}; autotags['POI']={};
       File.open("#{Rails.root}/config/potlatch/autocomplete.txt") do |file|
@@ -262,4 +262,3 @@ module Potlatch
   end
 
 end
-

@@ -18,7 +18,7 @@ module UserRolesHelper
         url = grant_role_path(:display_name => user.display_name, :role => role)
         confirm = t("user_role.grant.are_you_sure", :name => user.display_name, :role => role)
       end
-    elsif user.has_role?(role) 
+    elsif user.has_role?(role)
       image = "roles/#{role}.png"
       alt = t("user.view.role.#{role}")
       title = t("user.view.role.#{role}")

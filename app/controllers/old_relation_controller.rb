@@ -1,7 +1,7 @@
 class OldRelationController < OldController
 
   private
-  
+
   def lookup_old_element
     @old_element = OldRelation.find([params[:id], params[:version]])
   end

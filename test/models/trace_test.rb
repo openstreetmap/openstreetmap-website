@@ -2,7 +2,7 @@ require 'test_helper'
 
 class TraceTest < ActiveSupport::TestCase
   api_fixtures
-  
+
   def setup
     @gpx_trace_dir = Object.send("remove_const", "GPX_TRACE_DIR")
     Object.const_set("GPX_TRACE_DIR", File.dirname(__FILE__) + "/../traces")

@@ -4,7 +4,7 @@ class RefactorMapBugTables < ActiveRecord::Migration
   def self.up
     create_table :map_bug_comment do |t|
       t.column :bug_id, :bigint, :null => false
-      t.boolean :visible, :null => false 
+      t.boolean :visible, :null => false
       t.datetime :date_created, :null => false
       t.string :commenter_name
       t.string :commenter_ip
@@ -12,7 +12,7 @@ class RefactorMapBugTables < ActiveRecord::Migration
       t.string :comment
     end
 
-    remove_column :map_bugs, :text 
+    remove_column :map_bugs, :text
 
     change_column :map_bug_comment, :id, :bigint
 

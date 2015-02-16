@@ -1,9 +1,9 @@
 module GeoRecord
-  # This scaling factor is used to convert between the float lat/lon that is 
+  # This scaling factor is used to convert between the float lat/lon that is
   # returned by the API, and the integer lat/lon equivalent that is stored in
   # the database.
   SCALE = 10000000
-  
+
   def self.included(base)
     base.scope :bbox, ->(bbox) { base.where(OSM.sql_for_area(bbox)) }
     base.before_save :update_tile
@@ -40,7 +40,7 @@ module GeoRecord
   end
 
 private
-  
+
   def lat2y(a)
     180/Math::PI * Math.log(Math.tan(Math::PI/4+a*(Math::PI/180)/2))
   end

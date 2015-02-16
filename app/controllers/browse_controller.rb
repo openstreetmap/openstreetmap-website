@@ -1,8 +1,8 @@
 class BrowseController < ApplicationController
   layout :map_layout
 
-  before_filter :authorize_web  
-  before_filter :set_locale 
+  before_filter :authorize_web
+  before_filter :set_locale
   before_filter :except => [ :query ] { |c| c.check_database_readable(true) }
   before_filter :require_oauth
   around_filter :web_timeout

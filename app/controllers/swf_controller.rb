@@ -10,23 +10,23 @@ class SwfController < ApplicationController
 
 	# ====================================================================
 	# Public methods
-	
+
 	# ---- trackpoints	compile SWF of trackpoints
 
-	def trackpoints	
-	
+	def trackpoints
+
 		# -	Initialise
-	
+
 		baselong	=params['baselong'].to_f
 		basey		=params['basey'].to_f
 		masterscale	=params['masterscale'].to_f
-	
+
 		bbox = BoundingBox.new(params['xmin'], params['ymin'],
 		                       params['xmax'], params['ymax'])
 		start=params['start'].to_i;
-	
+
 		# -	Begin movie
-	
+
 		bounds_left  =0
 		bounds_right =320*20
 		bounds_bottom=0
@@ -38,13 +38,13 @@ class SwfController < ApplicationController
 		absy=0
 		xl=yb= 9999999
 		xr=yt=-9999999
-	
+
 		# -	Send SQL for GPS tracks
-	
+
 		b=''
 		lasttime=0
 		lasttrack=lastfile='-1'
-	
+
 		if params['token']
 		  user=User.authenticate(:token => params[:token])
 		  sql="SELECT gps_points.latitude*0.0000001 AS lat,gps_points.longitude*0.0000001 AS lon,gpx_files.id AS fileid,"+
@@ -66,9 +66,9 @@ class SwfController < ApplicationController
 				 "LIMIT 10000 OFFSET #{start}"
 		end
 		gpslist=ActiveRecord::Base.connection.select_all sql
-	
+
 		# - Draw GPS trace lines
-	
+
 		r=startShape()
 		gpslist.each do |row|
 			xs=(long2coord(row['lon'].to_f,baselong,masterscale)*20).floor
@@ -88,24 +88,24 @@ class SwfController < ApplicationController
 				r+=[b.slice!(0...80)].pack("B*")
 			end
 		end
-		
+
 		#   (Unwayed segments removed)
-	
+
 		# - Write shape
-	
+
 		b+=endShape()
 		r+=[b].pack("B*")
 		m+=swfRecord(2,packUI16(1) + packRect(xl,xr,yb,yt) + r)
 		m+=swfRecord(4,packUI16(1) + packUI16(1))
-		
+
 		# -	Create Flash header and write to browser
-	
+
 		m+=swfRecord(1,'')									# Show frame
 		m+=swfRecord(0,'')									# End
-		
+
 		m=packRect(bounds_left,bounds_right,bounds_bottom,bounds_top) + 0.chr + 12.chr + packUI16(1) + m
 		m='FWS' + 6.chr + packUI32(m.length+8) + m
-	
+
 		render :text => m, :content_type => "application/x-shockwave-flash"
 	end
 
@@ -113,7 +113,7 @@ class SwfController < ApplicationController
 
 	# =======================================================================
 	# SWF functions
-	
+
 	# -----------------------------------------------------------------------
 	# Line-drawing
 
@@ -125,18 +125,18 @@ class SwfController < ApplicationController
 		s+=34.chr										# 2 fill, 2 line index bits
 		s
 	end
-	
+
 	def endShape
 		'000000'
 	end
-	
+
 	def startAndMove(x,y,col)
 		d='001001'										# Line style change, moveTo
 		l =[lengthSB(x),lengthSB(y)].max
 		d+=sprintf("%05b%0#{l}b%0#{l}b",l,x,y)
 		d+=col											# Select line style
 	end
-	
+
 	def drawTo(absx,absy,x,y)
 		dx=x-absx
 		dy=y-absy
@@ -154,7 +154,7 @@ class SwfController < ApplicationController
     end
     d
 	end
-	
+
 	def drawSection(x1,y1,x2,y2)
 		d='11'											# TypeFlag, EdgeFlag
 	  dx=x2-x1
@@ -195,33 +195,33 @@ class SwfController < ApplicationController
 
 	# -----------------------------------------------------------------------
 	# Generic pack functions
-	
+
 	def packUI16(n)
 		[n.floor].pack("v")
 	end
-	
+
 	def packUI32(n)
 		[n.floor].pack("V")
 	end
-	
+
 	# Find number of bits required to store arbitrary-length binary
-	
+
 	def lengthSB(n)
 		Math.frexp(n+ (n==0?1:0) )[1]+1
 	end
-	
+
 	# ====================================================================
 	# Co-ordinate conversion
 	# (this is duplicated from amf_controller, should probably share)
-	
+
 	def lat2coord(a,basey,masterscale)
 		-(lat2y(a)-basey)*masterscale
 	end
-	
+
 	def long2coord(a,baselong,masterscale)
 		(a-baselong)*masterscale
 	end
-	
+
 	def lat2y(a)
 		180/Math::PI * Math.log(Math.tan(Math::PI/4+a*(Math::PI/180)/2))
 	end

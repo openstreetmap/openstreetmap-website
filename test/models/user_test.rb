@@ -16,11 +16,11 @@ class UserTest < ActiveSupport::TestCase
     assert !user.errors[:home_lon].any?
     assert !user.errors[:home_zoom].any?
   end
-  
+
   def test_unique_email
     new_user = User.new(
       :email => users(:normal_user).email,
-      :status => "active", 
+      :status => "active",
       :pass_crypt => Digest::MD5.hexdigest('test'),
       :display_name => "new user",
       :data_public => 1,
@@ -29,39 +29,39 @@ class UserTest < ActiveSupport::TestCase
     assert !new_user.save
     assert new_user.errors[:email].include?("has already been taken")
   end
-  
+
   def test_unique_display_name
     new_user = User.new(
       :email => "tester@openstreetmap.org",
       :status => "pending",
       :pass_crypt => Digest::MD5.hexdigest('test'),
-      :display_name => users(:normal_user).display_name, 
+      :display_name => users(:normal_user).display_name,
       :data_public => 1,
       :description => "desc"
     )
     assert !new_user.save
     assert new_user.errors[:display_name].include?("has already been taken")
   end
-  
+
   def test_email_valid
-    ok = %w{ a@s.com test@shaunmcdonald.me.uk hello_local@ping-d.ng 
+    ok = %w{ a@s.com test@shaunmcdonald.me.uk hello_local@ping-d.ng
     test_local@openstreetmap.org test-local@example.com }
     bad = %w{ hi ht@ n@ @.com help@.me.uk help"hi.me.uk も対@応します
     輕觸搖晃的遊戲@ah.com も対応します@s.name }
-    
+
     ok.each do |name|
       user = users(:normal_user)
       user.email = name
       assert user.valid?(:save), user.errors.full_messages.join(",")
     end
-    
+
     bad.each do |name|
       user = users(:normal_user)
       user.email = name
-      assert user.invalid?(:save), "#{name} is valid when it shouldn't be" 
+      assert user.invalid?(:save), "#{name} is valid when it shouldn't be"
     end
   end
-  
+
   def test_display_name_length
     user = users(:normal_user)
     user.display_name = "123"
@@ -71,17 +71,17 @@ class UserTest < ActiveSupport::TestCase
     user.display_name = ""
     assert !user.valid?
     user.display_name = nil
-    # Don't understand why it isn't allowing a nil value, 
+    # Don't understand why it isn't allowing a nil value,
     # when the validates statements specifically allow it
     # It appears the database does not allow null values
     assert !user.valid?
   end
-  
+
   def test_display_name_valid
-    # Due to sanitisation in the view some of these that you might not 
+    # Due to sanitisation in the view some of these that you might not
     # expact are allowed
     # However, would they affect the xml planet dumps?
-    ok = [ "Name", "'me", "he\"", "<hr>", "*ho", "\"help\"@", 
+    ok = [ "Name", "'me", "he\"", "<hr>", "*ho", "\"help\"@",
            "vergrößern", "ルシステムにも対応します", "輕觸搖晃的遊戲" ]
     # These need to be 3 chars in length, otherwise the length test above
     # should be used.
@@ -95,14 +95,14 @@ class UserTest < ActiveSupport::TestCase
       user.display_name = display_name
       assert user.valid?, "#{display_name} is invalid, when it should be"
     end
-    
+
     bad.each do |display_name|
       user = users(:normal_user)
       user.display_name = display_name
       assert !user.valid?, "#{display_name} is valid when it shouldn't be"
     end
   end
-  
+
   def test_friend_with
     assert users(:normal_user).is_friends_with?(users(:public_user))
     assert !users(:normal_user).is_friends_with?(users(:inactive_user))

@@ -3,7 +3,7 @@ require 'migrate'
 class AddChangesets < ActiveRecord::Migration
   @@conv_user_tables = ['current_nodes',
   'current_relations', 'current_ways', 'nodes', 'relations', 'ways' ]
-  
+
   def self.up
     create_table "changesets", :id => false do |t|
       t.column "id",             :bigserial, :primary_key => true, :null => false
@@ -23,13 +23,13 @@ class AddChangesets < ActiveRecord::Migration
     end
 
     add_index "changeset_tags", ["id"], :name => "changeset_tags_id_idx"
-    
+
     #
-    # Initially we will have one changeset for every user containing 
-    # all edits up to the API change,  
+    # Initially we will have one changeset for every user containing
+    # all edits up to the API change,
     # all the changesets will have the id of the user that made them.
     # We need to generate a changeset for each user in the database
-    execute "INSERT INTO changesets (id, user_id, created_at, open)" + 
+    execute "INSERT INTO changesets (id, user_id, created_at, open)" +
       "SELECT id, id, creation_time, false from users;"
 
     @@conv_user_tables.each { |tbl|

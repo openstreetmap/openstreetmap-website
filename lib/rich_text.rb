@@ -102,7 +102,7 @@ module RichText
         else
           "<a rel=\"nofollow\" href=\"#{link}\">#{link}</a>"
         end
-      end 
+      end
     end
   end
 

@@ -146,7 +146,7 @@ class NotesController < ApplicationController
       format.xml { render :action => :show }
       format.json { render :action => :show }
     end
-  end 
+  end
 
   ##
   # Reopen a note
@@ -176,7 +176,7 @@ class NotesController < ApplicationController
       format.xml { render :action => :show }
       format.json { render :action => :show }
     end
-  end 
+  end
 
   ##
   # Get a feed of recent notes and comments
@@ -278,33 +278,33 @@ class NotesController < ApplicationController
   ##
   # Display a list of notes by a specified user
   def mine
-    if params[:display_name] 
+    if params[:display_name]
       if @this_user = User.active.find_by_display_name(params[:display_name])
-        @title =  t 'note.mine.title', :user => @this_user.display_name 
-        @heading =  t 'note.mine.heading', :user => @this_user.display_name 
+        @title =  t 'note.mine.title', :user => @this_user.display_name
+        @heading =  t 'note.mine.heading', :user => @this_user.display_name
         @description = t 'note.mine.subheading', :user => render_to_string(:partial => "user", :object => @this_user)
-        @page = (params[:page] || 1).to_i 
+        @page = (params[:page] || 1).to_i
         @page_size = 10
         @notes = @this_user.notes.order("updated_at DESC, id").uniq.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author).to_a
       else
-        @title = t 'user.no_such_user.title' 
-        @not_found_user = params[:display_name] 
+        @title = t 'user.no_such_user.title'
+        @not_found_user = params[:display_name]
 
-        render :template => 'user/no_such_user', :status => :not_found 
-      end 
+        render :template => 'user/no_such_user', :status => :not_found
+      end
     end
   end
 
-private 
-  #------------------------------------------------------------ 
-  # utility functions below. 
-  #------------------------------------------------------------   
- 
+private
+  #------------------------------------------------------------
+  # utility functions below.
+  #------------------------------------------------------------
+
   ##
   # Render an OK response
   def render_ok
     if params[:format] == "js"
-      render :text => "osbResponse();", :content_type => "text/javascript" 
+      render :text => "osbResponse();", :content_type => "text/javascript"
     else
       render :text => "ok " + @note.id.to_s + "\n", :content_type => "text/plain" if @note
       render :text => "ok\n", :content_type => "text/plain" unless @note
@@ -334,7 +334,7 @@ private
     else
       closed_since = 7
     end
-	
+
     if closed_since < 0
       notes = notes.where("status != 'hidden'")
     elsif closed_since > 0
@@ -351,9 +351,9 @@ private
   def add_comment(note, text, event, notify = true)
     attributes = { :visible => true, :event => event, :body => text }
 
-    if @user  
+    if @user
       attributes[:author_id] = @user.id
-    else  
+    else
       attributes[:author_ip] = request.remote_ip
     end
 

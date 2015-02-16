@@ -7,12 +7,12 @@
 module ShortLink
 
   # array of 64 chars to encode 6 bits. this is almost like base64 encoding, but
-  # the symbolic chars are different, as base64's + and / aren't very 
+  # the symbolic chars are different, as base64's + and / aren't very
   # URL-friendly.
   ARRAY = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a + ['_','~']
 
   ##
-  # Given a string encoding a location, returns the [lon, lat, z] tuple of that 
+  # Given a string encoding a location, returns the [lon, lat, z] tuple of that
   # location.
   def self.decode(str)
     x = 0
@@ -42,15 +42,15 @@ module ShortLink
     y <<= (32 - z)
 
     # project the parameters back to their coordinate ranges.
-    [(x * 360.0 / 2**32) - 180.0, 
-     (y * 180.0 / 2**32) - 90.0, 
+    [(x * 360.0 / 2**32) - 180.0,
+     (y * 180.0 / 2**32) - 90.0,
      z - 8 - (z_offset % 3)]
   end
 
   ##
   # given a location and zoom, return a short string representing it.
   def self.encode(lon, lat, z)
-    code = interleave_bits(((lon + 180.0) * 2**32 / 360.0).to_i, 
+    code = interleave_bits(((lon + 180.0) * 2**32 / 360.0).to_i,
                            ((lat +  90.0) * 2**32 / 180.0).to_i)
     str = ""
     # add eight to the zoom level, which approximates an accuracy of
@@ -63,12 +63,12 @@ module ShortLink
     # partial zoom levels (characters themselves have a granularity
     # of 3 zoom levels).
     ((z + 8) % 3).times { str << "-" }
-    
+
     return str
   end
 
   private
-  
+
   ##
   # interleaves the bits of two 32-bit numbers. the result is known
   # as a Morton code.

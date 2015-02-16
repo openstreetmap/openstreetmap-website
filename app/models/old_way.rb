@@ -17,7 +17,7 @@ class OldWay < ActiveRecord::Base
   has_many :old_tags, :class_name => 'OldWayTag', :foreign_key => [:way_id, :version]
 
   validates_associated :changeset
-  
+
   def self.from_way(way)
     old_way = OldWay.new
     old_way.visible = way.visible
@@ -79,7 +79,7 @@ class OldWay < ActiveRecord::Base
       node_el['ref'] = nd.node_id.to_s
       el << node_el
     end
-      
+
     add_tags_to_xml_node(el, self.old_tags)
 
     return el
@@ -87,7 +87,7 @@ class OldWay < ActiveRecord::Base
 
   # Read full version of old way
   # For get_nodes_undelete, uses same nodes, even if they've moved since
-  # For get_nodes_revert,   allocates new ids 
+  # For get_nodes_revert,   allocates new ids
   # Currently returns Potlatch-style array
   # where [5] indicates whether latest version is usable as is (boolean)
   # (i.e. is it visible? are we actually reverting to an earlier version?)
@@ -98,7 +98,7 @@ class OldWay < ActiveRecord::Base
       [node.lon, node.lat, n, node.version, node.tags_as_hash, node.visible]
     end
   end
-  
+
   def get_nodes_revert(timestamp)
     points=[]
     self.nds.each do |n|

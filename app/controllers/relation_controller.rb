@@ -14,8 +14,8 @@ class RelationController < ApplicationController
     assert_method :put
 
     relation = Relation.from_xml(request.raw_post, true)
-    
-    # We assume that an exception has been thrown if there was an error 
+
+    # We assume that an exception has been thrown if there was an error
     # generating the relation
     #if relation
     relation.create_with_history @user
@@ -40,7 +40,7 @@ class RelationController < ApplicationController
 
     relation = Relation.find(params[:id])
     new_relation = Relation.from_xml(request.raw_post)
-    
+
     if new_relation and new_relation.id == relation.id
       relation.update_from new_relation, @user
       render :text => relation.version.to_s, :content_type => "text/plain"
@@ -62,7 +62,7 @@ class RelationController < ApplicationController
 
   # -----------------------------------------------------------------
   # full
-  # 
+  #
   # input parameters: id
   #
   # returns XML representation of one relation object plus all its
@@ -70,37 +70,37 @@ class RelationController < ApplicationController
   # -----------------------------------------------------------------
   def full
     relation = Relation.find(params[:id])
-    
+
     if relation.visible
-      
+
       # first find the ids of nodes, ways and relations referenced by this
       # relation - note that we exclude this relation just in case.
-      
+
       node_ids = relation.members.select { |m| m[0] == 'Node' }.map { |m| m[1] }
       way_ids = relation.members.select { |m| m[0] == 'Way' }.map { |m| m[1] }
       relation_ids = relation.members.select { |m| m[0] == 'Relation' and m[1] != relation.id }.map { |m| m[1] }
-      
+
       # next load the relations and the ways.
-      
+
       relations = Relation.where(:id => relation_ids).includes(:relation_tags)
       ways = Way.where(:id => way_ids).includes(:way_nodes, :way_tags)
-      
-      # now additionally collect nodes referenced by ways. Note how we 
+
+      # now additionally collect nodes referenced by ways. Note how we
       # recursively evaluate ways but NOT relations.
-      
+
       way_node_ids = ways.collect { |way|
         way.way_nodes.collect { |way_node| way_node.node_id }
       }
       node_ids += way_node_ids.flatten
       nodes = Node.where(:id => node_ids.uniq).includes(:node_tags)
-      
+
       # create XML.
       doc = OSM::API.new.get_xml_doc
       visible_nodes = {}
       visible_members = { "Node" => {}, "Way" => {}, "Relation" => {} }
       changeset_cache = {}
       user_display_name_cache = {}
-      
+
       nodes.each do |node|
         if node.visible? # should be unnecessary if data is consistent.
           doc.root << node.to_xml_node(changeset_cache, user_display_name_cache)
@@ -123,7 +123,7 @@ class RelationController < ApplicationController
       # finally add self and output
       doc.root << relation.to_xml_node(visible_members, changeset_cache, user_display_name_cache)
       render :text => doc.to_s, :content_type => "text/xml"
-      
+
     else
       render :text => "", :status => :gone
     end

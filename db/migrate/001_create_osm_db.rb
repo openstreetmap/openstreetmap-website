@@ -217,6 +217,6 @@ class CreateOsmDb < ActiveRecord::Migration
   end
 
   def self.down
-    
+
   end
 end

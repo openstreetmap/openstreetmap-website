@@ -11,16 +11,16 @@ if defined?(SOFT_MEMORY_LIMIT) and defined?(PhusionPassenger)
     def initialize(app)
       @app = app
     end
-    
+
     def call(env)
       # Process this requst
       status, headers, body = @app.call(env)
-      
+
       # Restart if we've hit our memory limit
       if resident_size > SOFT_MEMORY_LIMIT
         Process.kill("USR1", Process.pid)
       end
-      
+
       # Return the result of this request
       [status, headers, body]
     end
@@ -31,7 +31,7 @@ if defined?(SOFT_MEMORY_LIMIT) and defined?(PhusionPassenger)
       fields = File.open("/proc/self/statm") do |file|
         fields = file.gets.split(" ")
       end
-      
+
       # Return resident size in megabytes
       return fields[1].to_i / 256
     end

@@ -38,7 +38,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       post "/user/save", {'decline' => 'decline', 'referer' => '/'}
       assert_redirected_to "/"
       follow_redirect!
-    
+
       # should be carried through to a normal login with a message
       assert_response :success
       assert !flash[:notice].nil?

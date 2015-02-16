@@ -21,14 +21,14 @@ class MessageTest < ActiveSupport::TestCase
     assert message.errors[:sent_on].any?
     assert !message.message_read
   end
-  
+
   def test_validating_msgs
     message = messages(:unread_message)
     assert message.valid?
     massage = messages(:read_message)
     assert message.valid?
   end
-  
+
   def test_invalid_send_recipient
     message = messages(:unread_message)
     message.sender = nil
@@ -69,9 +69,9 @@ class MessageTest < ActiveSupport::TestCase
         msg = make_message(char, 1)
         # if the save throws, thats fine and the test should pass, as we're
         # only testing invalid sequences anyway.
-        msg.save! 
+        msg.save!
 
-        # get the saved message back and check that it is identical - i.e: 
+        # get the saved message back and check that it is identical - i.e:
         # its OK to accept invalid UTF-8 as long as we return it unmodified.
         db_msg = msg.class.find(msg.id)
         assert_equal char, db_msg.title, "Database silently truncated message title"
@@ -83,7 +83,7 @@ class MessageTest < ActiveSupport::TestCase
         # because we only test invalid sequences it is OK to barf on them
       end
     end
-  end  
+  end
 
   def test_from_mail_plain
     mail = Mail.new do

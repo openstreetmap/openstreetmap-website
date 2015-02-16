@@ -56,7 +56,7 @@ class TileNodes < ActiveRecord::Migration
     change_column "current_nodes", "tile", :bigint
 
     upgrade_table "current_nodes_v5", "current_nodes", Node
-    
+
     drop_table "current_nodes_v5"
 
     remove_index "nodes", :name=> "nodes_uid_idx"

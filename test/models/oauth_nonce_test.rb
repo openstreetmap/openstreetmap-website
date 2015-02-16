@@ -9,7 +9,7 @@ class OauthNonceTest < ActiveSupport::TestCase
   def test_nonce_uniqueness
     string = "0123456789ABCDEF"
     timestamp = Time.now
-    
+
     nonce1 = OauthNonce.remember(string, timestamp)
     assert_not_equal false, nonce1, "First nonce should be unique. Check your test database is empty."
 

@@ -68,7 +68,7 @@ class RelationControllerTest < ActionController::TestCase
   # check that all relations containing a particular node, and no extra
   # relations, are returned from the relations_for_node call.
   def test_relations_for_node
-    check_relations_for_element(:relations_for_node, "node", 
+    check_relations_for_element(:relations_for_node, "node",
                                 current_nodes(:node_used_by_relationship).id,
                                 [ :visible_relation, :used_relation ])
   end
@@ -146,7 +146,7 @@ class RelationControllerTest < ActionController::TestCase
 
   def test_create
     basic_authorization users(:normal_user).email, "test"
-    
+
     # put the relation in a dummy fixture changset
     changeset_id = changesets(:normal_user_first_change).id
 
@@ -154,7 +154,7 @@ class RelationControllerTest < ActionController::TestCase
     content "<osm><relation changeset='#{changeset_id}'><tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden, due to user
-    assert_response :forbidden, 
+    assert_response :forbidden,
     "relation upload should have failed with forbidden"
 
     ###
@@ -166,11 +166,11 @@ class RelationControllerTest < ActionController::TestCase
       "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden due to user
-    assert_response :forbidden, 
+    assert_response :forbidden,
     "relation upload did not return forbidden status"
-    
+
     ###
-    # create an relation with a node as member, this time test that we don't 
+    # create an relation with a node as member, this time test that we don't
     # need a role attribute to be included
     nid = current_nodes(:used_node_1).id
     content "<osm><relation changeset='#{changeset_id}'>" +
@@ -178,7 +178,7 @@ class RelationControllerTest < ActionController::TestCase
       "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden due to user
-    assert_response :forbidden, 
+    assert_response :forbidden,
     "relation upload did not return forbidden status"
 
     ###
@@ -191,14 +191,14 @@ class RelationControllerTest < ActionController::TestCase
       "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden, due to user
-    assert_response :forbidden, 
+    assert_response :forbidden,
         "relation upload did not return success status"
 
 
 
     ## Now try with the public user
     basic_authorization users(:public_user).email, "test"
-    
+
     # put the relation in a dummy fixture changset
     changeset_id = changesets(:public_user_first_change).id
 
@@ -206,23 +206,23 @@ class RelationControllerTest < ActionController::TestCase
     content "<osm><relation changeset='#{changeset_id}'><tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
-    assert_response :success, 
+    assert_response :success,
         "relation upload did not return success status"
     # read id of created relation and search for it
     relationid = @response.body
     checkrelation = Relation.find(relationid)
-    assert_not_nil checkrelation, 
+    assert_not_nil checkrelation,
         "uploaded relation not found in data base after upload"
     # compare values
-    assert_equal checkrelation.members.length, 0, 
+    assert_equal checkrelation.members.length, 0,
         "saved relation contains members but should not"
-    assert_equal checkrelation.tags.length, 1, 
+    assert_equal checkrelation.tags.length, 1,
         "saved relation does not contain exactly one tag"
     assert_equal changeset_id, checkrelation.changeset.id,
         "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:public_user).id, checkrelation.changeset.user_id, 
+    assert_equal users(:public_user).id, checkrelation.changeset.user_id,
         "saved relation does not belong to user that created it"
-    assert_equal true, checkrelation.visible, 
+    assert_equal true, checkrelation.visible,
         "saved relation is not visible"
     # ok the relation is there but can we also retrieve it?
     get :read, :id => relationid
@@ -238,32 +238,32 @@ class RelationControllerTest < ActionController::TestCase
       "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
-    assert_response :success, 
+    assert_response :success,
         "relation upload did not return success status"
     # read id of created relation and search for it
     relationid = @response.body
     checkrelation = Relation.find(relationid)
-    assert_not_nil checkrelation, 
+    assert_not_nil checkrelation,
         "uploaded relation not found in data base after upload"
     # compare values
-    assert_equal checkrelation.members.length, 1, 
+    assert_equal checkrelation.members.length, 1,
         "saved relation does not contain exactly one member"
-    assert_equal checkrelation.tags.length, 1, 
+    assert_equal checkrelation.tags.length, 1,
         "saved relation does not contain exactly one tag"
     assert_equal changeset_id, checkrelation.changeset.id,
         "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:public_user).id, checkrelation.changeset.user_id, 
+    assert_equal users(:public_user).id, checkrelation.changeset.user_id,
         "saved relation does not belong to user that created it"
-    assert_equal true, checkrelation.visible, 
+    assert_equal true, checkrelation.visible,
         "saved relation is not visible"
     # ok the relation is there but can we also retrieve it?
-    
+
     get :read, :id => relationid
     assert_response :success
-    
-    
+
+
     ###
-    # create an relation with a node as member, this time test that we don't 
+    # create an relation with a node as member, this time test that we don't
     # need a role attribute to be included
     nid = current_nodes(:used_node_1).id
     content "<osm><relation changeset='#{changeset_id}'>" +
@@ -271,26 +271,26 @@ class RelationControllerTest < ActionController::TestCase
       "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
-    assert_response :success, 
+    assert_response :success,
         "relation upload did not return success status"
     # read id of created relation and search for it
     relationid = @response.body
     checkrelation = Relation.find(relationid)
-    assert_not_nil checkrelation, 
+    assert_not_nil checkrelation,
         "uploaded relation not found in data base after upload"
     # compare values
-    assert_equal checkrelation.members.length, 1, 
+    assert_equal checkrelation.members.length, 1,
         "saved relation does not contain exactly one member"
-    assert_equal checkrelation.tags.length, 1, 
+    assert_equal checkrelation.tags.length, 1,
         "saved relation does not contain exactly one tag"
     assert_equal changeset_id, checkrelation.changeset.id,
         "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:public_user).id, checkrelation.changeset.user_id, 
+    assert_equal users(:public_user).id, checkrelation.changeset.user_id,
         "saved relation does not belong to user that created it"
-    assert_equal true, checkrelation.visible, 
+    assert_equal true, checkrelation.visible,
         "saved relation is not visible"
     # ok the relation is there but can we also retrieve it?
-    
+
     get :read, :id => relationid
     assert_response :success
 
@@ -304,23 +304,23 @@ class RelationControllerTest < ActionController::TestCase
       "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
-    assert_response :success, 
+    assert_response :success,
         "relation upload did not return success status"
     # read id of created relation and search for it
     relationid = @response.body
     checkrelation = Relation.find(relationid)
-    assert_not_nil checkrelation, 
+    assert_not_nil checkrelation,
         "uploaded relation not found in data base after upload"
     # compare values
-    assert_equal checkrelation.members.length, 2, 
+    assert_equal checkrelation.members.length, 2,
         "saved relation does not have exactly two members"
-    assert_equal checkrelation.tags.length, 1, 
+    assert_equal checkrelation.tags.length, 1,
         "saved relation does not contain exactly one tag"
     assert_equal changeset_id, checkrelation.changeset.id,
         "saved relation does not belong in the changeset it was assigned to"
-    assert_equal users(:public_user).id, checkrelation.changeset.user_id, 
+    assert_equal users(:public_user).id, checkrelation.changeset.user_id,
         "saved relation does not belong to user that created it"
-    assert_equal true, checkrelation.visible, 
+    assert_equal true, checkrelation.visible,
         "saved relation is not visible"
     # ok the relation is there but can we also retrieve it?
     get :read, :id => relationid
@@ -334,7 +334,7 @@ class RelationControllerTest < ActionController::TestCase
 
   ##
   # test that, when tags are updated on a relation, the correct things
-  # happen to the correct tables and the API gives sensible results. 
+  # happen to the correct tables and the API gives sensible results.
   # this is to test a case that gregory marler noticed and posted to
   # josm-dev.
   ## FIXME Move this to an integration test
@@ -364,8 +364,8 @@ class RelationControllerTest < ActionController::TestCase
 
   ##
   # test that, when tags are updated on a relation when using the diff
-  # upload function, the correct things happen to the correct tables 
-  # and the API gives sensible results. this is to test a case that 
+  # upload function, the correct things happen to the correct tables
+  # and the API gives sensible results. this is to test a case that
   # gregory marler noticed and posted to josm-dev.
   def test_update_relation_tags_via_upload
     basic_authorization users(:public_user).email, "test"
@@ -407,7 +407,7 @@ class RelationControllerTest < ActionController::TestCase
       "</relation></osm>"
     put :create
     # expect failure
-    assert_response :precondition_failed, 
+    assert_response :precondition_failed,
         "relation upload with invalid node did not return 'precondition failed'"
     assert_equal "Precondition failed: Relation with id  cannot be saved due to Node with id 0", @response.body
   end
@@ -417,10 +417,10 @@ class RelationControllerTest < ActionController::TestCase
   # -------------------------------------
   def test_create_invalid_xml
     basic_authorization users(:public_user).email, "test"
-    
+
     # put the relation in a dummy fixture changeset that works
     changeset_id = changesets(:public_user_first_change).id
-    
+
     # create some xml that should return an error
     content "<osm><relation changeset='#{changeset_id}'>" +
     "<member type='type' ref='#{current_nodes(:used_node_1).id}' role=''/>" +
@@ -431,21 +431,21 @@ class RelationControllerTest < ActionController::TestCase
     assert_match(/Cannot parse valid relation from xml string/, @response.body)
     assert_match(/The type is not allowed only, /, @response.body)
   end
-  
-  
+
+
   # -------------------------------------
   # Test deleting relations.
   # -------------------------------------
-  
+
   def test_delete
     ## First try to delete relation without auth
     delete :delete, :id => current_relations(:visible_relation).id
     assert_response :unauthorized
-    
-    
+
+
     ## Then try with the private user, to make sure that you get a forbidden
     basic_authorization(users(:normal_user).email, "test")
-    
+
     # this shouldn't work, as we should need the payload...
     delete :delete, :id => current_relations(:visible_relation).id
     assert_response :forbidden
@@ -481,7 +481,7 @@ class RelationControllerTest < ActionController::TestCase
     delete :delete, :id => current_relations(:invisible_relation).id
     assert_response :forbidden
 
-    # this works now because the relation which was using this one 
+    # this works now because the relation which was using this one
     # has been deleted.
     content(relations(:used_relation).to_xml)
     delete :delete, :id => current_relations(:used_relation).id
@@ -491,10 +491,10 @@ class RelationControllerTest < ActionController::TestCase
     delete :delete, :id => 0
     assert_response :forbidden
 
-    
+
 
     ## now set auth for the public user
-    basic_authorization(users(:public_user).email, "test");  
+    basic_authorization(users(:public_user).email, "test");
 
     # this shouldn't work, as we should need the payload...
     delete :delete, :id => current_relations(:visible_relation).id
@@ -520,7 +520,7 @@ class RelationControllerTest < ActionController::TestCase
     # this won't work because the relation is in a changeset owned by someone else
     content(relations(:used_relation).to_xml)
     delete :delete, :id => current_relations(:used_relation).id
-    assert_response :conflict, 
+    assert_response :conflict,
     "shouldn't be able to delete a relation in a changeset owned by someone else (#{@response.body})"
 
     # this won't work because the relation in the payload is different to that passed
@@ -528,11 +528,11 @@ class RelationControllerTest < ActionController::TestCase
     delete :delete, :id => current_relations(:used_relation).id
     assert_not_equal relations(:public_used_relation).id, current_relations(:used_relation).id
     assert_response :bad_request, "shouldn't be able to delete a relation when payload is different to the url"
-    
+
     # this won't work because the relation is in-use by another relation
     content(relations(:public_used_relation).to_xml)
     delete :delete, :id => current_relations(:public_used_relation).id
-    assert_response :precondition_failed, 
+    assert_response :precondition_failed,
        "shouldn't be able to delete a relation used in a relation (#{@response.body})"
     assert_equal "Precondition failed: The relation 5 is used in relation 6.", @response.body
 
@@ -550,17 +550,17 @@ class RelationControllerTest < ActionController::TestCase
     content(relations(:invisible_relation).to_xml)
     delete :delete, :id => current_relations(:invisible_relation).id
     assert_response :gone
-    
+
     # Public visible relation needs to be deleted
     content(relations(:public_visible_relation).to_xml)
     delete :delete, :id => current_relations(:public_visible_relation).id
     assert_response :success
 
-    # this works now because the relation which was using this one 
+    # this works now because the relation which was using this one
     # has been deleted.
     content(relations(:public_used_relation).to_xml)
     delete :delete, :id => current_relations(:public_used_relation).id
-    assert_response :success, 
+    assert_response :success,
        "should be able to delete a relation used in an old relation (#{@response.body})"
 
     # this won't work since the relation never existed
@@ -582,10 +582,10 @@ class RelationControllerTest < ActionController::TestCase
       new_tag['k'] = "some_new_tag"
       new_tag['v'] = "some_new_value"
       relation_element << new_tag
-      
+
       # update changeset ID to point to new changeset
       update_changeset(relation_xml, changeset_id)
-      
+
       # upload the change
       content relation_xml
       put :update, :id => current_relations(:visible_relation).id
@@ -613,25 +613,25 @@ class RelationControllerTest < ActionController::TestCase
         new_member['type'] = element.class.to_s.downcase
         new_member['role'] = "some_role"
         relation_element << new_member
-      
+
         # update changeset ID to point to new changeset
         update_changeset(relation_xml, changeset_id)
-      
+
         # upload the change
         content relation_xml
         put :update, :id => current_relations(:visible_relation).id
         assert_response :success, "can't update relation for add #{element.class}/bbox test: #{@response.body}"
 
-        # get it back and check the ordering 
+        # get it back and check the ordering
         get :read, :id => relation_id
         assert_response :success, "can't read back the relation: #{@response.body}"
         check_ordering(relation_xml, @response.body)
       end
     end
   end
-  
+
   ##
-  # remove a member from a relation and check the bounding box is 
+  # remove a member from a relation and check the bounding box is
   # only that element.
   def test_remove_member_bounding_box
     check_changeset_modify(BoundingBox.new(5,5,5,5)) do |changeset_id|
@@ -640,22 +640,22 @@ class RelationControllerTest < ActionController::TestCase
       relation_xml.
         find("//osm/relation/member[@type='node'][@ref='5']").
         first.remove!
-      
+
       # update changeset ID to point to new changeset
       update_changeset(relation_xml, changeset_id)
-      
+
       # upload the change
       content relation_xml
       put :update, :id => current_relations(:visible_relation).id
       assert_response :success, "can't update relation for remove node/bbox test"
     end
   end
-  
+
   ##
   # check that relations are ordered
   def test_relation_member_ordering
     basic_authorization(users(:public_user).email, "test")
-    
+
     doc_str = <<OSM
 <osm>
  <relation changeset='4'>
@@ -707,7 +707,7 @@ OSM
     end
   end
 
-  ## 
+  ##
   # check that relations can contain duplicate members
   def test_relation_member_duplicates
     doc_str = <<OSM
@@ -723,14 +723,14 @@ OSM
     doc = XML::Parser.string(doc_str).parse
 
     ## First try with the private user
-    basic_authorization(users(:normal_user).email, "test");  
+    basic_authorization(users(:normal_user).email, "test");
 
     content doc
     put :create
     assert_response :forbidden
 
     ## Now try with the public user
-    basic_authorization(users(:public_user).email, "test");  
+    basic_authorization(users(:public_user).email, "test");
 
     content doc
     put :create
@@ -757,7 +757,7 @@ OSM
 </osm>
 OSM
     doc = XML::Parser.string(doc_str).parse
-    basic_authorization(users(:public_user).email, "test");  
+    basic_authorization(users(:public_user).email, "test");
 
     content doc
     put :create
@@ -780,28 +780,28 @@ OSM
   ##
   # remove all the members from a relation. the result is pretty useless, but
   # still technically valid.
-  def test_remove_all_members 
+  def test_remove_all_members
     check_changeset_modify(BoundingBox.new(3,3,5,5)) do |changeset_id|
       relation_xml = current_relations(:visible_relation).to_xml
       relation_xml.
         find("//osm/relation/member").
         each {|m| m.remove!}
-      
+
       # update changeset ID to point to new changeset
       update_changeset(relation_xml, changeset_id)
-      
+
       # upload the change
       content relation_xml
       put :update, :id => current_relations(:visible_relation).id
       assert_response :success, "can't update relation for remove all members test"
       checkrelation = Relation.find(current_relations(:visible_relation).id)
-      assert_not_nil(checkrelation, 
+      assert_not_nil(checkrelation,
                      "uploaded relation not found in database after upload")
       assert_equal(0, checkrelation.members.length,
                    "relation contains members but they should have all been deleted")
     end
   end
-  
+
   # ============================================================
   # utility functions
   # ============================================================
@@ -830,7 +830,7 @@ OSM
   # that the changeset bounding box is +bbox+.
   def check_changeset_modify(bbox)
     ## First test with the private user to check that you get a forbidden
-    basic_authorization(users(:normal_user).email, "test");  
+    basic_authorization(users(:normal_user).email, "test");
 
     # create a new changeset for this operation, so we are assured
     # that the bounding box will be newly-generated.
@@ -840,10 +840,10 @@ OSM
       assert_response :forbidden, "shouldn't be able to create changeset for modify test, as should get forbidden"
     end
 
-    
+
     ## Now do the whole thing with the public user
     basic_authorization(users(:public_user).email, "test")
-    
+
     # create a new changeset for this operation, so we are assured
     # that the bounding box will be newly-generated.
     changeset_id = with_controller(ChangesetController.new) do
@@ -886,8 +886,8 @@ OSM
   end
 
   ##
-  # updates the relation (XML) +rel+ and 
-  # yields the new version of that relation into the block. 
+  # updates the relation (XML) +rel+ and
+  # yields the new version of that relation into the block.
   # the parsed XML doc is retured.
   def with_update(rel)
     rel_id = rel.find("//osm/relation").first["id"].to_i
@@ -908,7 +908,7 @@ OSM
 
   ##
   # updates the relation (XML) +rel+ via the diff-upload API and
-  # yields the new version of that relation into the block. 
+  # yields the new version of that relation into the block.
   # the parsed XML doc is retured.
   def with_update_diff(rel)
     rel_id = rel.find("//osm/relation").first["id"].to_i
@@ -927,29 +927,29 @@ OSM
       post :upload, :id => cs_id
       assert_response :success, "can't upload diff relation: #{@response.body}"
       version = xml_parse(@response.body).find("//diffResult/relation").first["new_version"].to_i
-    end      
-    
+    end
+
     # now get the new version
     get :read, :id => rel_id
     assert_response :success
     new_rel = xml_parse(@response.body)
-    
+
     yield new_rel
-    
+
     return version
   end
 
   ##
   # returns a k->v hash of tags from an xml doc
-  def get_tags_as_hash(a) 
+  def get_tags_as_hash(a)
     a.find("//osm/relation/tag").sort_by { |v| v['k'] }.inject({}) do |h,v|
       h[v['k']] = v['v']
       h
     end
   end
-  
+
   ##
-  # assert that all tags on relation documents +a+ and +b+ 
+  # assert that all tags on relation documents +a+ and +b+
   # are equal
   def assert_tags_equal(a, b)
     # turn the XML doc into tags hashes
@@ -958,7 +958,7 @@ OSM
 
     assert_equal a_tags.keys, b_tags.keys, "Tag keys should be identical."
     a_tags.each do |k, v|
-      assert_equal v, b_tags[k], 
+      assert_equal v, b_tags[k],
         "Tags which were not altered should be the same. " +
         "#{a_tags.inspect} != #{b_tags.inspect}"
     end

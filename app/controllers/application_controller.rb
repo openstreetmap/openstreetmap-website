@@ -51,8 +51,8 @@ class ApplicationController < ActionController::Base
   end
 
   ##
-  # requires the user to be logged in by the token or HTTP methods, or have an 
-  # OAuth token with the right capability. this method is a bit of a pain to call 
+  # requires the user to be logged in by the token or HTTP methods, or have an
+  # OAuth token with the right capability. this method is a bit of a pain to call
   # directly, since it's cumbersome to call filters with arguments in rails. to
   # make it easier to read and write the code, there are some utility methods
   # below.
@@ -161,18 +161,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def authorize(realm='Web Password', errormessage="Couldn't authenticate you") 
+  def authorize(realm='Web Password', errormessage="Couldn't authenticate you")
     # make the @user object from any auth sources we have
     setup_user_auth
 
     # handle authenticate pass/fail
     unless @user
       # no auth, the user does not exist or the password was wrong
-      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\"" 
+      response.headers["WWW-Authenticate"] = "Basic realm=\"#{realm}\""
       render :text => errormessage, :status => :unauthorized
       return false
-    end 
-  end 
+    end
+  end
 
   ##
   # to be used as a before_filter *after* authorize. this checks that
@@ -180,15 +180,15 @@ class ApplicationController < ActionController::Base
   #
   # NOTE: this isn't a very good way of doing it - it duplicates logic
   # from require_moderator - but what we really need to do is a fairly
-  # drastic refactoring based on :format and respond_to? but not a 
+  # drastic refactoring based on :format and respond_to? but not a
   # good idea to do that in this branch.
-  def authorize_moderator(errormessage="Access restricted to moderators") 
+  def authorize_moderator(errormessage="Access restricted to moderators")
     # check user is a moderator
     unless @user.moderator?
       render :text => errormessage, :status => :forbidden
       return false
-    end 
-  end 
+    end
+  end
 
   def check_database_readable(need_api = false)
     if STATUS == :database_offline or (need_api and STATUS == :api_offline)
@@ -230,7 +230,7 @@ class ApplicationController < ActionController::Base
       :offline
     elsif STATUS == :database_readonly
       :readonly
-    else 
+    else
       :online
     end
   end
@@ -264,7 +264,7 @@ class ApplicationController < ActionController::Base
 
   # Report and error to the user
   # (If anyone ever fixes Rails so it can set a http status "reason phrase",
-  #  rather than only a status code and having the web engine make up a 
+  #  rather than only a status code and having the web engine make up a
   #  phrase from that, we can also put the error message into the status
   #  message. For now, rails won't let us)
   def report_error(message, status = :bad_request)
@@ -283,7 +283,7 @@ class ApplicationController < ActionController::Base
       render :text => message, :status => status, :content_type => "text/plain"
     end
   end
-  
+
   def set_locale
     response.header['Vary'] = 'Accept-Language'
 
@@ -448,23 +448,23 @@ class ApplicationController < ActionController::Base
 
   helper_method :preferred_editor
 
-private 
+private
 
   # extract authorisation credentials from headers, returns user = nil if none
-  def get_auth_data 
-    if request.env.has_key? 'X-HTTP_AUTHORIZATION'          # where mod_rewrite might have put it 
-      authdata = request.env['X-HTTP_AUTHORIZATION'].to_s.split 
-    elsif request.env.has_key? 'REDIRECT_X_HTTP_AUTHORIZATION'          # mod_fcgi 
-      authdata = request.env['REDIRECT_X_HTTP_AUTHORIZATION'].to_s.split 
+  def get_auth_data
+    if request.env.has_key? 'X-HTTP_AUTHORIZATION'          # where mod_rewrite might have put it
+      authdata = request.env['X-HTTP_AUTHORIZATION'].to_s.split
+    elsif request.env.has_key? 'REDIRECT_X_HTTP_AUTHORIZATION'          # mod_fcgi
+      authdata = request.env['REDIRECT_X_HTTP_AUTHORIZATION'].to_s.split
     elsif request.env.has_key? 'HTTP_AUTHORIZATION'         # regular location
       authdata = request.env['HTTP_AUTHORIZATION'].to_s.split
-    end 
+    end
     # only basic authentication supported
-    if authdata and authdata[0] == 'Basic' 
+    if authdata and authdata[0] == 'Basic'
       user, pass = Base64.decode64(authdata[1]).split(':',2)
-    end 
-    return [user, pass] 
-  end 
+    end
+    return [user, pass]
+  end
 
   # used by oauth plugin to get the current user
   def current_user

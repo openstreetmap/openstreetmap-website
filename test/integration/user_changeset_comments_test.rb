@@ -7,7 +7,7 @@ class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
   def test_log_in_message
     get "/changeset/#{changesets(:normal_user_closed_change).id}"
     assert_response :success
-    
+
     assert_select "div#content" do
       assert_select "div#sidebar" do
         assert_select "div#sidebar_content" do
@@ -30,7 +30,7 @@ class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
     assert_response :redirect
 
     get "/changeset/#{changesets(:normal_user_closed_change).id}"
-    
+
     assert_response :success
     assert_template 'browse/changeset'
 
