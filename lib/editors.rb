@@ -1,4 +1,4 @@
 module Editors
-  ALL_EDITORS = [ "potlatch", "potlatch2", "id", "remote" ]
-  RECOMMENDED_EDITORS = [ "id", "potlatch2", "remote" ]
+  ALL_EDITORS = %w(potlatch potlatch2 id remote)
+  RECOMMENDED_EDITORS = %w(id potlatch2 remote)
 end

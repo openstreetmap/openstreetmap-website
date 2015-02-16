@@ -3,7 +3,7 @@ require 'migrate'
 class AddRelations < ActiveRecord::Migration
   def self.up
     # enums work like strings but are more efficient
-    create_enumeration :nwr_enum, ["Node", "Way", "Relation"]
+    create_enumeration :nwr_enum, %w(Node Way Relation)
 
     # a relation can have members much like a way can have nodes.
     # differences:
@@ -16,8 +16,8 @@ class AddRelations < ActiveRecord::Migration
       t.column "member_role", :string
     end
 
-    add_primary_key "current_relation_members", ["id", "member_type", "member_id", "member_role"]
-    add_index "current_relation_members", ["member_type", "member_id"], :name => "current_relation_members_member_idx"
+    add_primary_key "current_relation_members", %w(id member_type member_id member_role)
+    add_index "current_relation_members", %w(member_type member_id), :name => "current_relation_members_member_idx"
     # the following is obsolete given the primary key, is it not?
     # add_index "current_relation_members", ["id"], :name => "current_relation_members_id_idx"
     create_table "current_relation_tags", :id => false do |t|
@@ -44,8 +44,8 @@ class AddRelations < ActiveRecord::Migration
       t.column "version",     :bigint, :default => 0, :null => false
     end
 
-    add_primary_key "relation_members", ["id", "version", "member_type", "member_id", "member_role"]
-    add_index "relation_members", ["member_type", "member_id"], :name => "relation_members_member_idx"
+    add_primary_key "relation_members", %w(id version member_type member_id member_role)
+    add_index "relation_members", %w(member_type member_id), :name => "relation_members_member_idx"
 
     create_table "relation_tags", :id => false do |t|
       t.column "id",      :bigint, :default => 0, :null => false
@@ -54,7 +54,7 @@ class AddRelations < ActiveRecord::Migration
       t.column "version", :bigint, :null => false
     end
 
-    add_index "relation_tags", ["id", "version"], :name => "relation_tags_id_version_idx"
+    add_index "relation_tags", %w(id version), :name => "relation_tags_id_version_idx"
 
     create_table "relations", :id => false do |t|
       t.column "id",        :bigint, :null => false, :default => 0
@@ -64,7 +64,7 @@ class AddRelations < ActiveRecord::Migration
       t.column "visible",   :boolean, :null => false, :default => true
     end
 
-    add_primary_key "relations", ["id", "version"]
+    add_primary_key "relations", %w(id version)
     add_index "relations", ["timestamp"], :name => "relations_timestamp_idx"
   end
 

@@ -33,7 +33,7 @@ class UserPreferenceController < ApplicationController
 
   # update the entire set of preferences
   def update
-    old_preferences = @user.preferences.reduce({}) do |preferences,preference|
+    old_preferences = @user.preferences.reduce({}) do |preferences, preference|
       preferences[preference.k] = preference
       preferences
     end
@@ -46,7 +46,7 @@ class UserPreferenceController < ApplicationController
       if preference = old_preferences.delete(pt["k"])
         preference.v = pt["v"]
       elsif new_preferences.include?(pt["k"])
-        raise OSM::APIDuplicatePreferenceError.new(pt["k"])
+        fail OSM::APIDuplicatePreferenceError.new(pt["k"])
       else
         preference = @user.preferences.build(:k => pt["k"], :v => pt["v"])
       end
@@ -54,13 +54,9 @@ class UserPreferenceController < ApplicationController
       new_preferences[preference.k] = preference
     end
 
-    old_preferences.each_value do |preference|
-      preference.delete
-    end
+    old_preferences.each_value(&:delete)
 
-    new_preferences.each_value do |preference|
-      preference.save!
-    end
+    new_preferences.each_value(&:save!)
 
     render :text => "", :content_type => "text/plain"
   end

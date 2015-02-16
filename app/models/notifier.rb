@@ -166,7 +166,7 @@ class Notifier < ActionMailer::Base
     end
   end
 
-private
+  private
 
   def with_recipient_locale(recipient)
     old_locale = I18n.locale
@@ -181,8 +181,8 @@ private
   end
 
   def from_address(name, type, id, digest)
-    if Object.const_defined?(:MESSAGES_DOMAIN) and domain = MESSAGES_DOMAIN
-      "#{name} <#{type}-#{id}-#{digest[0,6]}@#{domain}>"
+    if Object.const_defined?(:MESSAGES_DOMAIN) && domain = MESSAGES_DOMAIN
+      "#{name} <#{type}-#{id}-#{digest[0, 6]}@#{domain}>"
     else
       EMAIL_FROM
     end

@@ -43,7 +43,7 @@ class OldRelationControllerTest < ActionController::TestCase
     assert_response :unauthorized, "should need to be authenticated to redact."
   end
 
-    ##
+  ##
   # test the redaction of an old version of a relation, while being
   # authorised as a normal user.
   def test_redact_relation_normal_user

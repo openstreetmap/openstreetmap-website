@@ -55,7 +55,7 @@ class OldNodeTest < ActiveSupport::TestCase
     assert_equal dbnode.version, node.version
     assert_equal dbnode.visible, node.visible
     assert_equal dbnode.timestamp, node.timestamp
-    #assert_equal node.tile, QuadTile.tile_for_point(nodes(nod).lat, nodes(nod).lon)
+    # assert_equal node.tile, QuadTile.tile_for_point(nodes(nod).lat, nodes(nod).lon)
     assert node.valid?
   end
 
@@ -71,7 +71,7 @@ class OldNodeTest < ActiveSupport::TestCase
     assert_equal dbnode.version, node.version
     assert_equal dbnode.visible, node.visible
     assert_equal dbnode.timestamp, node.timestamp
-    #assert_equal node.tile, QuadTile.tile_for_point(nodes(nod).lat, nodes(nod).lon)
+    # assert_equal node.tile, QuadTile.tile_for_point(nodes(nod).lat, nodes(nod).lon)
     assert_equal false, node.valid?
   end
 

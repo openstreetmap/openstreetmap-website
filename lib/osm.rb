@@ -1,6 +1,5 @@
 # The OSM module provides support functions for OSM.
 module OSM
-
   require 'time'
   require 'rexml/parsers/sax2parser'
   require 'rexml/text'
@@ -203,7 +202,7 @@ module OSM
   # Raised when bad XML is encountered which stops things parsing as
   # they should.
   class APIBadXMLError < APIError
-    def initialize(model, xml, message="")
+    def initialize(model, xml, message = "")
       @model, @xml, @message = model, xml, message
     end
 
@@ -397,7 +396,7 @@ module OSM
   class Mercator
     include Math
 
-    #init me with your bounding box and the size of your image
+    # init me with your bounding box and the size of your image
     def initialize(min_lat, min_lon, max_lat, max_lon, width, height)
       xsize = xsheet(max_lon) - xsheet(min_lon)
       ysize = ysheet(max_lat) - ysheet(min_lat)
@@ -418,7 +417,7 @@ module OSM
       @by = ysheet(max_lat) + ypad / 2
     end
 
-    #the following two functions will give you the x/y on the entire sheet
+    # the following two functions will give you the x/y on the entire sheet
 
     def ysheet(lat)
       log(tan(PI / 4 + (lat * PI / 180 / 2))) / (PI / 180)
@@ -428,14 +427,14 @@ module OSM
       lon
     end
 
-    #and these two will give you the right points on your image. all the constants can be reduced to speed things up. FIXME
+    # and these two will give you the right points on your image. all the constants can be reduced to speed things up. FIXME
 
     def y(lat)
-      return @height - ((ysheet(lat) - @ty) / (@by - @ty) * @height)
+      @height - ((ysheet(lat) - @ty) / (@by - @ty) * @height)
     end
 
     def x(lon)
-      return  ((xsheet(lon) - @tx) / (@bx - @tx) * @width)
+      ((xsheet(lon) - @tx) / (@bx - @tx) * @width)
     end
   end
 
@@ -452,15 +451,15 @@ module OSM
     def distance(lat, lon)
       lat = lat * PI / 180
       lon = lon * PI / 180
-      return 6372.795 * 2 * asin(sqrt(sin((lat - @lat) / 2) ** 2 + cos(@lat) * cos(lat) * sin((lon - @lon)/2) ** 2))
+      6372.795 * 2 * asin(sqrt(sin((lat - @lat) / 2)**2 + cos(@lat) * cos(lat) * sin((lon - @lon) / 2)**2))
     end
 
     # get the worst case bounds for a given radius from the base position
     def bounds(radius)
-      latradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2) ** 2))
+      latradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2)**2))
 
       begin
-        lonradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2) ** 2 / cos(@lat) ** 2))
+        lonradius = 2 * asin(sqrt(sin(radius / 6372.795 / 2)**2 / cos(@lat)**2))
       rescue Errno::EDOM, Math::DomainError
         lonradius = PI
       end
@@ -470,7 +469,7 @@ module OSM
       minlon = (@lon - lonradius) * 180 / PI
       maxlon = (@lon + lonradius) * 180 / PI
 
-      return { :minlat => minlat, :maxlat => maxlat, :minlon => minlon, :maxlon => maxlon }
+      { :minlat => minlat, :maxlat => maxlat, :minlon => minlon, :maxlon => maxlon }
     end
 
     # get the SQL to use to calculate distance
@@ -490,7 +489,7 @@ module OSM
       root['attribution'] = ATTRIBUTION_URL
       root['license'] =  LICENSE_URL
       doc.root = root
-      return doc
+      doc
     end
   end
 
@@ -498,7 +497,7 @@ module OSM
     Timer.timeout(4) do
       ipinfo = Quova::IpInfo.new(ip_address)
 
-      if ipinfo.status == Quova::Success then
+      if ipinfo.status == Quova::Success
         country = ipinfo.country_code
       else
         Net::HTTP.start('api.hostip.info') do |http|
@@ -518,11 +517,11 @@ module OSM
   def self.IPLocation(ip_address)
     code = OSM.IPToCountry(ip_address)
 
-    if code and country = Country.find_by_code(code)
+    if code && country = Country.find_by_code(code)
       return { :minlon => country.min_lon, :minlat => country.min_lat, :maxlon => country.max_lon, :maxlat => country.max_lat }
     end
 
-    return nil
+    nil
   end
 
   # Parse a float, raising a specified exception on failure
@@ -541,7 +540,7 @@ module OSM
       token += chars[(rand * chars.length).to_i].chr
     end
 
-    return token
+    token
   end
 
   # Return an SQL fragment to select a given area of the globe
@@ -549,13 +548,13 @@ module OSM
     tilesql = QuadTile.sql_for_area(bbox, prefix)
     bbox = bbox.to_scaled
 
-    return "#{tilesql} AND #{prefix}latitude BETWEEN #{bbox.min_lat} AND #{bbox.max_lat} " +
-                      "AND #{prefix}longitude BETWEEN #{bbox.min_lon} AND #{bbox.max_lon}"
+    "#{tilesql} AND #{prefix}latitude BETWEEN #{bbox.min_lat} AND #{bbox.max_lat} " +
+      "AND #{prefix}longitude BETWEEN #{bbox.min_lon} AND #{bbox.max_lon}"
   end
 
   def self.legal_text_for_country(country_code)
     file_name = File.join(Rails.root, "config", "legales", country_code.to_s + ".yml")
     file_name = File.join(Rails.root, "config", "legales", DEFAULT_LEGALE + ".yml") unless File.exist? file_name
-    YAML::load_file(file_name)
+    YAML.load_file(file_name)
   end
 end

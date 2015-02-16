@@ -156,7 +156,7 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
-private
+  private
 
   def assert_html(richtext, &block)
     html = richtext.to_html

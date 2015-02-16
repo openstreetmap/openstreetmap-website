@@ -6,27 +6,27 @@ module ConsistencyValidations
   # needed for creates, but are currently not run :-(
   # This will throw an exception if there is an inconsistency
   def check_consistency(old, new, user)
-    if new.id != old.id or new.id.nil? or old.id.nil?
-      raise OSM::APIPreconditionFailedError.new("New and old IDs don't match on #{new.class.to_s}. #{new.id} != #{old.id}.")
+    if new.id != old.id || new.id.nil? || old.id.nil?
+      fail OSM::APIPreconditionFailedError.new("New and old IDs don't match on #{new.class}. #{new.id} != #{old.id}.")
     elsif new.version != old.version
-      raise OSM::APIVersionMismatchError.new(new.id, new.class.to_s, new.version, old.version)
+      fail OSM::APIVersionMismatchError.new(new.id, new.class.to_s, new.version, old.version)
     elsif new.changeset.nil?
-      raise OSM::APIChangesetMissingError.new
+      fail OSM::APIChangesetMissingError.new
     elsif new.changeset.user_id != user.id
-      raise OSM::APIUserChangesetMismatchError.new
-    elsif not new.changeset.is_open?
-      raise OSM::APIChangesetAlreadyClosedError.new(new.changeset)
+      fail OSM::APIUserChangesetMismatchError.new
+    elsif !new.changeset.is_open?
+      fail OSM::APIChangesetAlreadyClosedError.new(new.changeset)
     end
   end
 
   # This is similar to above, just some validations don't apply
   def check_create_consistency(new, user)
     if new.changeset.nil?
-      raise OSM::APIChangesetMissingError.new
+      fail OSM::APIChangesetMissingError.new
     elsif new.changeset.user_id != user.id
-      raise OSM::APIUserChangesetMismatchError.new
-    elsif not new.changeset.is_open?
-      raise OSM::APIChangesetAlreadyClosedError.new(new.changeset)
+      fail OSM::APIUserChangesetMismatchError.new
+    elsif !new.changeset.is_open?
+      fail OSM::APIChangesetAlreadyClosedError.new(new.changeset)
     end
   end
 
@@ -37,11 +37,11 @@ module ConsistencyValidations
     # check user credentials - only the user who opened a changeset
     # may alter it.
     if changeset.nil?
-      raise OSM::APIChangesetMissingError.new
+      fail OSM::APIChangesetMissingError.new
     elsif user.id != changeset.user_id
-      raise OSM::APIUserChangesetMismatchError.new
-    elsif not changeset.is_open?
-      raise OSM::APIChangesetAlreadyClosedError.new(changeset)
+      fail OSM::APIUserChangesetMismatchError.new
+    elsif !changeset.is_open?
+      fail OSM::APIChangesetAlreadyClosedError.new(changeset)
     end
   end
 end

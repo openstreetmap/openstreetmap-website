@@ -9,29 +9,29 @@ class ApplicationController < ActionController::Base
     if session[:user]
       @user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
 
-    if @user.status == "suspended"
+      if @user.status == "suspended"
         session.delete(:user)
         session_expires_automatically
 
         redirect_to :controller => "user", :action => "suspended"
 
-        # don't allow access to any auth-requiring part of the site unless
-        # the new CTs have been seen (and accept/decline chosen).
-      elsif !@user.terms_seen and flash[:skip_terms].nil?
+      # don't allow access to any auth-requiring part of the site unless
+      # the new CTs have been seen (and accept/decline chosen).
+      elsif !@user.terms_seen && flash[:skip_terms].nil?
         flash[:notice] = t 'user.terms.you need to accept or decline'
         if params[:referer]
           redirect_to :controller => "user", :action => "terms", :referer => params[:referer]
         else
           redirect_to :controller => "user", :action => "terms", :referer => request.fullpath
         end
-      end
+        end
     elsif session[:token]
       if @user = User.authenticate(:token => session[:token])
         session[:user] = @user.id
       end
     end
   rescue Exception => ex
-    logger.info("Exception authorizing user: #{ex.to_s}")
+    logger.info("Exception authorizing user: #{ex}")
     reset_session
     @user = nil
   end
@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_oauth
-    @oauth = @user.access_token(OAUTH_KEY) if @user and defined? OAUTH_KEY
+    @oauth = @user.access_token(OAUTH_KEY) if @user && defined? OAUTH_KEY
   end
 
   ##
@@ -87,26 +87,32 @@ class ApplicationController < ActionController::Base
   def require_allow_read_prefs
     require_capability(:allow_read_prefs)
   end
+
   def require_allow_write_prefs
     require_capability(:allow_write_prefs)
   end
+
   def require_allow_write_diary
     require_capability(:allow_write_diary)
   end
+
   def require_allow_write_api
     require_capability(:allow_write_api)
 
-    if REQUIRE_TERMS_AGREED and @user.terms_agreed.nil?
+    if REQUIRE_TERMS_AGREED && @user.terms_agreed.nil?
       report_error "You must accept the contributor terms before you can edit.", :forbidden
       return false
     end
   end
+
   def require_allow_read_gpx
     require_capability(:allow_read_gpx)
   end
+
   def require_allow_write_gpx
     require_capability(:allow_write_gpx)
   end
+
   def require_allow_write_notes
     require_capability(:allow_write_notes)
   end
@@ -131,7 +137,7 @@ class ApplicationController < ActionController::Base
   # is optional.
   def setup_user_auth
     # try and setup using OAuth
-    if not Authenticator.new(self, [:token]).allow?
+    unless Authenticator.new(self, [:token]).allow?
       username, passwd = get_auth_data # parse from headers
       # authenticate per-scheme
       if username.nil?
@@ -154,14 +160,14 @@ class ApplicationController < ActionController::Base
       # if the user hasn't seen the contributor terms then don't
       # allow editing - they have to go to the web site and see
       # (but can decline) the CTs to continue.
-      if REQUIRE_TERMS_SEEN and not @user.terms_seen and flash[:skip_terms].nil?
+      if REQUIRE_TERMS_SEEN && !@user.terms_seen && flash[:skip_terms].nil?
         set_locale
         report_error t('application.setup_user_auth.need_to_see_terms'), :forbidden
       end
     end
   end
 
-  def authorize(realm='Web Password', errormessage="Couldn't authenticate you")
+  def authorize(realm = 'Web Password', errormessage = "Couldn't authenticate you")
     # make the @user object from any auth sources we have
     setup_user_auth
 
@@ -182,7 +188,7 @@ class ApplicationController < ActionController::Base
   # from require_moderator - but what we really need to do is a fairly
   # drastic refactoring based on :format and respond_to? but not a
   # good idea to do that in this branch.
-  def authorize_moderator(errormessage="Access restricted to moderators")
+  def authorize_moderator(errormessage = "Access restricted to moderators")
     # check user is a moderator
     unless @user.moderator?
       render :text => errormessage, :status => :forbidden
@@ -191,7 +197,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_database_readable(need_api = false)
-    if STATUS == :database_offline or (need_api and STATUS == :api_offline)
+    if STATUS == :database_offline || (need_api && STATUS == :api_offline)
       if request.xhr?
         report_error "Database offline for maintenance", :service_unavailable
       else
@@ -201,8 +207,8 @@ class ApplicationController < ActionController::Base
   end
 
   def check_database_writable(need_api = false)
-    if STATUS == :database_offline or STATUS == :database_readonly or
-       (need_api and (STATUS == :api_offline or STATUS == :api_readonly))
+    if STATUS == :database_offline || STATUS == :database_readonly ||
+       (need_api && (STATUS == :api_offline || STATUS == :api_readonly))
       if request.xhr?
         report_error "Database offline for maintenance", :service_unavailable
       else
@@ -244,7 +250,7 @@ class ApplicationController < ActionController::Base
         status = :readonly
       end
     end
-    return status
+    status
   end
 
   def gpx_status
@@ -252,7 +258,7 @@ class ApplicationController < ActionController::Base
     if status == :online
       status = :offline if STATUS == :gpx_offline
     end
-    return status
+    status
   end
 
   def require_public_data
@@ -271,7 +277,7 @@ class ApplicationController < ActionController::Base
     # Todo: some sort of escaping of problem characters in the message
     response.headers['Error'] = message
 
-    if request.headers['X-Error-Format'] and
+    if request.headers['X-Error-Format'] &&
        request.headers['X-Error-Format'].downcase == "xml"
       result = OSM::API.new.get_xml_doc
       result.root.name = "osmError"
@@ -304,15 +310,15 @@ class ApplicationController < ActionController::Base
 
   def select_locale(locales = I18n.available_locales)
     if params[:locale]
-      http_accept_language.user_preferred_languages = [ params[:locale] ]
+      http_accept_language.user_preferred_languages = [params[:locale]]
     end
 
     if http_accept_language.compatible_language_from(locales).nil?
       http_accept_language.user_preferred_languages = http_accept_language.user_preferred_languages.collect do |pl|
-        pls = [ pl ]
+        pls = [pl]
 
         while pl.match(/^(.*)-[^-]+$/)
-          pls.push($1) if locales.include?($1) or locales.include?($1.to_sym)
+          pls.push($1) if locales.include?($1) || locales.include?($1.to_sym)
           pl = $1
         end
 
@@ -326,25 +332,23 @@ class ApplicationController < ActionController::Base
   helper_method :select_locale
 
   def api_call_handle_error
-    begin
-      yield
-    rescue ActiveRecord::RecordNotFound => ex
-      render :text => "", :status => :not_found
-    rescue LibXML::XML::Error, ArgumentError => ex
-      report_error ex.message, :bad_request
-    rescue ActiveRecord::RecordInvalid => ex
-      message = "#{ex.record.class} #{ex.record.id}: "
-      ex.record.errors.each { |attr,msg| message << "#{attr}: #{msg} (#{ex.record[attr].inspect})" }
-      report_error message, :bad_request
-    rescue OSM::APIError => ex
-      report_error ex.message, ex.status
-    rescue AbstractController::ActionNotFound => ex
-      raise
-    rescue Exception => ex
-      logger.info("API threw unexpected #{ex.class} exception: #{ex.message}")
-      ex.backtrace.each { |l| logger.info(l) }
-      report_error "#{ex.class}: #{ex.message}", :internal_server_error
-    end
+    yield
+  rescue ActiveRecord::RecordNotFound => ex
+    render :text => "", :status => :not_found
+  rescue LibXML::XML::Error, ArgumentError => ex
+    report_error ex.message, :bad_request
+  rescue ActiveRecord::RecordInvalid => ex
+    message = "#{ex.record.class} #{ex.record.id}: "
+    ex.record.errors.each { |attr, msg| message << "#{attr}: #{msg} (#{ex.record[attr].inspect})" }
+    report_error message, :bad_request
+  rescue OSM::APIError => ex
+    report_error ex.message, ex.status
+  rescue AbstractController::ActionNotFound => ex
+    raise
+  rescue Exception => ex
+    logger.info("API threw unexpected #{ex.class} exception: #{ex.message}")
+    ex.backtrace.each { |l| logger.info(l) }
+    report_error "#{ex.class}: #{ex.message}", :internal_server_error
   end
 
   ##
@@ -352,7 +356,7 @@ class ApplicationController < ActionController::Base
   # or raises a suitable error. +method+ should be a symbol, e.g: :put or :get.
   def assert_method(method)
     ok = request.send((method.to_s.downcase + "?").to_sym)
-    raise OSM::APIBadMethodError.new(method) unless ok
+    fail OSM::APIBadMethodError.new(method) unless ok
   end
 
   ##
@@ -374,7 +378,7 @@ class ApplicationController < ActionController::Base
   rescue ActionView::Template::Error => ex
     ex = ex.original_exception
 
-    if ex.is_a?(ActiveRecord::StatementInvalid) and ex.message =~ /execution expired/
+    if ex.is_a?(ActiveRecord::StatementInvalid) && ex.message =~ /execution expired/
       ex = Timeout::Error.new
     end
 
@@ -432,14 +436,14 @@ class ApplicationController < ActionController::Base
 
   def preferred_editor
     editor = if params[:editor]
-      params[:editor]
-    elsif @user and @user.preferred_editor
-      @user.preferred_editor
-    else
-      DEFAULT_EDITOR
+               params[:editor]
+             elsif @user && @user.preferred_editor
+               @user.preferred_editor
+             else
+               DEFAULT_EDITOR
     end
 
-    if request.env['HTTP_USER_AGENT'] =~ /MSIE|Trident/ and editor == 'id'
+    if request.env['HTTP_USER_AGENT'] =~ /MSIE|Trident/ && editor == 'id'
       editor = 'potlatch2'
     end
 
@@ -448,22 +452,22 @@ class ApplicationController < ActionController::Base
 
   helper_method :preferred_editor
 
-private
+  private
 
   # extract authorisation credentials from headers, returns user = nil if none
   def get_auth_data
-    if request.env.has_key? 'X-HTTP_AUTHORIZATION'          # where mod_rewrite might have put it
+    if request.env.key? 'X-HTTP_AUTHORIZATION'          # where mod_rewrite might have put it
       authdata = request.env['X-HTTP_AUTHORIZATION'].to_s.split
-    elsif request.env.has_key? 'REDIRECT_X_HTTP_AUTHORIZATION'          # mod_fcgi
+    elsif request.env.key? 'REDIRECT_X_HTTP_AUTHORIZATION'          # mod_fcgi
       authdata = request.env['REDIRECT_X_HTTP_AUTHORIZATION'].to_s.split
-    elsif request.env.has_key? 'HTTP_AUTHORIZATION'         # regular location
+    elsif request.env.key? 'HTTP_AUTHORIZATION'         # regular location
       authdata = request.env['HTTP_AUTHORIZATION'].to_s.split
     end
     # only basic authentication supported
-    if authdata and authdata[0] == 'Basic'
-      user, pass = Base64.decode64(authdata[1]).split(':',2)
+    if authdata && authdata[0] == 'Basic'
+      user, pass = Base64.decode64(authdata[1]).split(':', 2)
     end
-    return [user, pass]
+    [user, pass]
   end
 
   # used by oauth plugin to get the current user
@@ -473,11 +477,10 @@ private
 
   # used by oauth plugin to set the current user
   def current_user=(user)
-    @user=user
+    @user = user
   end
 
   # override to stop oauth plugin sending errors
   def invalid_oauth_response
   end
-
 end

@@ -1,5 +1,5 @@
 module BrowseHelper
-  def printable_name(object, version=false)
+  def printable_name(object, version = false)
     if object.id.is_a?(Array)
       id = object.id[0]
     else
@@ -15,14 +15,14 @@ module BrowseHelper
     unless object.redacted?
       locale = I18n.locale.to_s
 
-      while locale =~ /-[^-]+/ and not object.tags.include? "name:#{I18n.locale}"
+      while locale =~ /-[^-]+/ && !object.tags.include?("name:#{I18n.locale}")
         locale = locale.sub(/-[^-]+/, "")
       end
 
       if object.tags.include? "name:#{locale}"
-        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags["name:#{locale}"].to_s ), :id => content_tag(:bdi, name)
+        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags["name:#{locale}"].to_s), :id => content_tag(:bdi, name)
       elsif object.tags.include? 'name'
-        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags['name'].to_s ), :id => content_tag(:bdi, name)
+        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags['name'].to_s), :id => content_tag(:bdi, name)
       end
     end
 
@@ -30,7 +30,7 @@ module BrowseHelper
   end
 
   def link_class(type, object)
-    classes = [ type ]
+    classes = [type]
 
     if object.redacted?
       classes << "deleted"
@@ -46,7 +46,7 @@ module BrowseHelper
     if object.redacted?
       ""
     else
-      h(icon_tags(object).map { |k,v| k + '=' + v }.to_sentence)
+      h(icon_tags(object).map { |k, v| k + '=' + v }.to_sentence)
     end
   end
 
@@ -84,15 +84,12 @@ module BrowseHelper
     end
   end
 
-private
+  private
 
-  ICON_TAGS = [
-    "aeroway", "amenity", "barrier", "building", "highway", "historic", "landuse",
-    "leisure", "man_made", "natural", "railway", "shop", "tourism", "waterway"
-  ]
+  ICON_TAGS = %w(aeroway amenity barrier building highway historic landuse leisure man_made natural railway shop tourism waterway)
 
   def icon_tags(object)
-    object.tags.find_all { |k,v| ICON_TAGS.include? k }.sort
+    object.tags.find_all { |k, _v| ICON_TAGS.include? k }.sort
   end
 
   def wiki_link(type, lookup)
@@ -110,7 +107,7 @@ private
       url = "http://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}"
     end
 
-    return url
+    url
   end
 
   def wikipedia_link(key, value)
@@ -136,7 +133,7 @@ private
       return nil
     end
 
-    if value =~ /^([^#]*)(#.*)/ then
+    if value =~ /^([^#]*)(#.*)/
       # Contains a reference to a section of the wikipedia article
       # Must break it up to correctly build the url
       value = $1
@@ -145,23 +142,23 @@ private
       section = ""
     end
 
-    return {
+    {
       :url => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}#{section}",
       :title => value + section
     }
   end
 
   def wikidata_link(key, value)
-    if key == "wikidata" and value =~ /^[Qq][1-9][0-9]*$/
+    if key == "wikidata" && value =~ /^[Qq][1-9][0-9]*$/
       return {
         :url => "//www.wikidata.org/wiki/#{value}?uselang=#{I18n.locale}",
         :title => value
       }
     end
-    return nil
+    nil
   end
 
-  def telephone_link(key, value)
+  def telephone_link(_key, value)
     # does it look like a phone number? eg "+1 (234) 567-8901 " ?
     return nil unless value =~ /^\s*\+[\d\s\(\)\/\.-]{6,25}\s*$/
 
@@ -169,6 +166,6 @@ private
     # "+1 (234) 567-8901 " -> "+1(234)567-8901"
     valueNoWhitespace = value.gsub(/\s+/, '')
 
-    return "tel:#{valueNoWhitespace}"
+    "tel:#{valueNoWhitespace}"
   end
 end

@@ -19,7 +19,7 @@ class UserBlocksController < ApplicationController
   end
 
   def show
-    if @user and @user.id == @user_block.user_id
+    if @user && @user.id == @user_block.user_id
       @user_block.needs_view = false
       @user_block.save!
     end
@@ -39,7 +39,7 @@ class UserBlocksController < ApplicationController
         :user_id => @this_user.id,
         :creator_id => @user.id,
         :reason => params[:user_block][:reason],
-        :ends_at => Time.now.getutc() + @block_period.hours,
+        :ends_at => Time.now.getutc + @block_period.hours,
         :needs_view => params[:user_block][:needs_view]
       )
 
@@ -60,9 +60,9 @@ class UserBlocksController < ApplicationController
         flash[:error] = t('user_block.update.only_creator_can_edit')
         redirect_to :action => "edit"
       elsif @user_block.update_attributes(
-              :ends_at => Time.now.getutc() + @block_period.hours,
-              :reason => params[:user_block][:reason],
-              :needs_view => params[:user_block][:needs_view]
+        :ends_at => Time.now.getutc + @block_period.hours,
+        :reason => params[:user_block][:reason],
+        :needs_view => params[:user_block][:needs_view]
             )
         flash[:notice] = t('user_block.update.success')
         redirect_to(@user_block)
@@ -79,7 +79,7 @@ class UserBlocksController < ApplicationController
   def revoke
     if params[:confirm]
       if @user_block.revoke! @user
-        flash[:notice] = t'user_block.revoke.flash'
+        flash[:notice] = t 'user_block.revoke.flash'
         redirect_to(@user_block)
       end
     end
@@ -90,7 +90,7 @@ class UserBlocksController < ApplicationController
   def blocks_on
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
-                                                :conditions => {:user_id => @this_user.id},
+                                                :conditions => { :user_id => @this_user.id },
                                                 :order => "user_blocks.ends_at DESC",
                                                 :per_page => 20)
   end
@@ -100,12 +100,13 @@ class UserBlocksController < ApplicationController
   def blocks_by
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,
                                                 :include => [:user, :creator, :revoker],
-                                                :conditions => {:creator_id => @this_user.id},
+                                                :conditions => { :creator_id => @this_user.id },
                                                 :order => "user_blocks.ends_at DESC",
                                                 :per_page => 20)
   end
 
   private
+
   ##
   # ensure that there is a "user_block" instance variable
   def lookup_user_block
@@ -126,12 +127,11 @@ class UserBlocksController < ApplicationController
     if !UserBlock::PERIODS.include?(@block_period)
       flash[:error] = t('user_block.filter.block_period')
 
-    elsif @user_block and !@user_block.active?
+    elsif @user_block && !@user_block.active?
       flash[:error] = t('user_block.filter.block_expired')
 
     else
       @valid_params = true
     end
   end
-
 end

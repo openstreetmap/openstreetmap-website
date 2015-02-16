@@ -13,7 +13,7 @@ class OldNodeTagTest < ActiveSupport::TestCase
       tag = OldNodeTag.new
       tag.node_id = node_tags(:t1).node_id
       tag.version = node_tags(:t1).version
-      tag.k = key*i
+      tag.k = key * i
       tag.v = "v"
       assert tag.valid?
     end
@@ -26,13 +26,13 @@ class OldNodeTagTest < ActiveSupport::TestCase
       tag.node_id = node_tags(:t1).node_id
       tag.version = node_tags(:t1).version
       tag.k = "k"
-      tag.v = val*i
+      tag.v = val * i
       assert tag.valid?
     end
   end
 
   def test_length_key_invalid
-    ["k"*256].each do |i|
+    ["k" * 256].each do |i|
       tag = OldNodeTag.new
       tag.node_id = node_tags(:t1).node_id
       tag.version = node_tags(:t1).version
@@ -44,7 +44,7 @@ class OldNodeTagTest < ActiveSupport::TestCase
   end
 
   def test_length_value_invalid
-    ["k"*256].each do |i|
+    ["k" * 256].each do |i|
       tag = OldNodeTag.new
       tag.node_id = node_tags(:t1).node_id
       tag.version = node_tags(:t1).version
@@ -69,7 +69,7 @@ class OldNodeTagTest < ActiveSupport::TestCase
     tag.v = node_tags(:t1).v
     assert tag.new_record?
     assert !tag.valid?
-    assert_raise(ActiveRecord::RecordInvalid) {tag.save!}
+    assert_raise(ActiveRecord::RecordInvalid) { tag.save! }
     assert tag.new_record?
   end
 end

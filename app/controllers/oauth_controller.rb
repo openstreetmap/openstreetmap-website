@@ -35,11 +35,11 @@ class OauthController < ApplicationController
     redirect_to oauth_clients_url(:display_name => @token.user.display_name)
   end
 
-protected
+  protected
 
   def oauth1_authorize
     unless @token
-      render :action=>"authorize_failure"
+      render :action => "authorize_failure"
       return
     end
 

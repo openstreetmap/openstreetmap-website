@@ -2,6 +2,6 @@
 # does a half assed job of making TempFile act as a File
 class Tempfile
   def file
-    return @tmpfile
+    @tmpfile
   end
 end

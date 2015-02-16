@@ -6,7 +6,7 @@ module ActionDispatch
     class Router
       class Utils
         def self.normalize_path_with_encoding(path)
-          self.normalize_path_without_encoding(path).force_encoding("UTF-8")
+          normalize_path_without_encoding(path).force_encoding("UTF-8")
         end
 
         class << self

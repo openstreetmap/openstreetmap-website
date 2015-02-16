@@ -46,7 +46,7 @@ class Changeset < ActiveRecord::Base
     # note that this may not be a hard limit - due to timing changes and
     # concurrency it is possible that some changesets may be slightly
     # longer than strictly allowed or have slightly more changes in them.
-    return ((closed_at > Time.now.getutc) and (num_changes <= MAX_ELEMENTS))
+    ((closed_at > Time.now.getutc) && (num_changes <= MAX_ELEMENTS))
   end
 
   def set_closed_time_now
@@ -55,21 +55,19 @@ class Changeset < ActiveRecord::Base
     end
   end
 
-  def self.from_xml(xml, create=false)
-    begin
-      p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
-      doc = p.parse
+  def self.from_xml(xml, create = false)
+    p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
+    doc = p.parse
 
-      doc.find('//osm/changeset').each do |pt|
-        return Changeset.from_xml_node(pt, create)
-      end
-      raise OSM::APIBadXMLError.new("changeset", xml, "XML doesn't contain an osm/changeset element.")
-    rescue LibXML::XML::Error, ArgumentError => ex
-      raise OSM::APIBadXMLError.new("changeset", xml, ex.message)
+    doc.find('//osm/changeset').each do |pt|
+      return Changeset.from_xml_node(pt, create)
     end
+    fail OSM::APIBadXMLError.new("changeset", xml, "XML doesn't contain an osm/changeset element.")
+  rescue LibXML::XML::Error, ArgumentError => ex
+    raise OSM::APIBadXMLError.new("changeset", xml, ex.message)
   end
 
-  def self.from_xml_node(pt, create=false)
+  def self.from_xml_node(pt, create = false)
     cs = Changeset.new
     if create
       cs.created_at = Time.now.getutc
@@ -81,12 +79,12 @@ class Changeset < ActiveRecord::Base
     end
 
     pt.find('tag').each do |tag|
-      raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing key") if tag['k'].nil?
-      raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing value") if tag['v'].nil?
+      fail OSM::APIBadXMLError.new("changeset", pt, "tag is missing key") if tag['k'].nil?
+      fail OSM::APIBadXMLError.new("changeset", pt, "tag is missing value") if tag['v'].nil?
       cs.add_tag_keyval(tag['k'], tag['v'])
     end
 
-    return cs
+    cs
   end
 
   ##
@@ -122,29 +120,27 @@ class Changeset < ActiveRecord::Base
   end
 
   def tags_as_hash
-    return tags
+    tags
   end
 
   def tags
     unless @tags
       @tags = {}
-      self.changeset_tags.each do |tag|
+      changeset_tags.each do |tag|
         @tags[tag.k] = tag.v
       end
     end
     @tags
   end
 
-  def tags=(t)
-    @tags = t
-  end
+  attr_writer :tags
 
   def add_tag_keyval(k, v)
-    @tags = Hash.new unless @tags
+    @tags = {} unless @tags
 
     # duplicate tags are now forbidden, so we can't allow values
     # in the hash to be overwritten.
-    raise OSM::APIDuplicateTagsError.new("changeset", self.id, k) if @tags.include? k
+    fail OSM::APIDuplicateTagsError.new("changeset", id, k) if @tags.include? k
 
     @tags[k] = v
   end
@@ -156,11 +152,11 @@ class Changeset < ActiveRecord::Base
       self.save!
 
       tags = self.tags
-      ChangesetTag.delete_all(:changeset_id => self.id)
+      ChangesetTag.delete_all(:changeset_id => id)
 
-      tags.each do |k,v|
+      tags.each do |k, v|
         tag = ChangesetTag.new
-        tag.changeset_id = self.id
+        tag.changeset_id = id
         tag.k = k
         tag.v = v
         tag.save!
@@ -185,46 +181,46 @@ class Changeset < ActiveRecord::Base
   def to_xml(include_discussion = false)
     doc = OSM::API.new.get_xml_doc
     doc.root << to_xml_node(nil, include_discussion)
-    return doc
+    doc
   end
 
   def to_xml_node(user_display_name_cache = nil, include_discussion = false)
     el1 = XML::Node.new 'changeset'
-    el1['id'] = self.id.to_s
+    el1['id'] = id.to_s
 
     user_display_name_cache = {} if user_display_name_cache.nil?
 
-    if user_display_name_cache and user_display_name_cache.key?(self.user_id)
+    if user_display_name_cache && user_display_name_cache.key?(user_id)
       # use the cache if available
-    elsif self.user.data_public?
-      user_display_name_cache[self.user_id] = self.user.display_name
+    elsif user.data_public?
+      user_display_name_cache[user_id] = user.display_name
     else
-      user_display_name_cache[self.user_id] = nil
+      user_display_name_cache[user_id] = nil
     end
 
-    el1['user'] = user_display_name_cache[self.user_id] unless user_display_name_cache[self.user_id].nil?
-    el1['uid'] = self.user_id.to_s if self.user.data_public?
+    el1['user'] = user_display_name_cache[user_id] unless user_display_name_cache[user_id].nil?
+    el1['uid'] = user_id.to_s if user.data_public?
 
-    self.tags.each do |k,v|
+    tags.each do |k, v|
       el2 = XML::Node.new('tag')
       el2['k'] = k.to_s
       el2['v'] = v.to_s
       el1 << el2
     end
 
-    el1['created_at'] = self.created_at.xmlschema
-    el1['closed_at'] = self.closed_at.xmlschema unless is_open?
+    el1['created_at'] = created_at.xmlschema
+    el1['closed_at'] = closed_at.xmlschema unless is_open?
     el1['open'] = is_open?.to_s
 
     if bbox.complete?
       bbox.to_unscaled.add_bounds_to(el1, '_')
     end
 
-    el1['comments_count'] = self.comments.count.to_s
+    el1['comments_count'] = comments.count.to_s
 
     if include_discussion
       el2 = XML::Node.new('discussion')
-      self.comments.includes(:author).each do |comment|
+      comments.includes(:author).each do |comment|
         el3 = XML::Node.new('comment')
         el3['date'] = comment.created_at.xmlschema
         el3['uid'] = comment.author.id.to_s if comment.author.data_public?
@@ -241,7 +237,7 @@ class Changeset < ActiveRecord::Base
     # they are just structures for tagging. to get the osmChange of a
     # changeset, see the download method of the controller.
 
-    return el1
+    el1
   end
 
   ##
@@ -250,13 +246,13 @@ class Changeset < ActiveRecord::Base
   # bounding box, only the tags of the changeset.
   def update_from(other, user)
     # ensure that only the user who opened the changeset may modify it.
-    unless user.id == self.user_id
-      raise OSM::APIUserChangesetMismatchError.new
+    unless user.id == user_id
+      fail OSM::APIUserChangesetMismatchError.new
     end
 
     # can't change a closed changeset
     unless is_open?
-      raise OSM::APIChangesetAlreadyClosedError.new(self)
+      fail OSM::APIChangesetAlreadyClosedError.new(self)
     end
 
     # copy the other's tags

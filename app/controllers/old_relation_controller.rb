@@ -1,5 +1,4 @@
 class OldRelationController < OldController
-
   private
 
   def lookup_old_element

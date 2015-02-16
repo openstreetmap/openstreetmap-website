@@ -5,7 +5,7 @@ class MessageTest < ActiveSupport::TestCase
   api_fixtures
   fixtures :messages
 
-  EURO = "\xe2\x82\xac" #euro symbol
+  EURO = "\xe2\x82\xac" # euro symbol
 
   # This needs to be updated when new fixtures are added
   # or removed.
@@ -38,7 +38,7 @@ class MessageTest < ActiveSupport::TestCase
     assert_raise(ActiveRecord::RecordNotFound) { User.find(0) }
     message.from_user_id = 0
     message.to_user_id = 0
-    assert_raise(ActiveRecord::RecordInvalid) {message.save!}
+    assert_raise(ActiveRecord::RecordInvalid) { message.save! }
   end
 
   def test_utf8_roundtrip
@@ -184,18 +184,18 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal "text", message.body_format
   end
 
-private
+  private
 
   def make_message(char, count)
     message = messages(:unread_message)
     message.title = char * count
-    return message
+    message
   end
 
   def assert_message_ok(char, count)
     message = make_message(char, count)
     assert message.save!
     response = message.class.find(message.id) # stand by for some über-generalisation...
-    assert_equal char * count, response.title, "message with #{count} #{char} chars (i.e. #{char.length*count} bytes) fails"
+    assert_equal char * count, response.title, "message with #{count} #{char} chars (i.e. #{char.length * count} bytes) fails"
   end
 end

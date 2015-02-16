@@ -6,5 +6,4 @@ class TracepointTest < ActiveSupport::TestCase
   def test_tracepoint_count
     assert_equal 4, Tracepoint.count
   end
-
 end

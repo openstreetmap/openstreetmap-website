@@ -9,7 +9,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_create_user_form
     I18n.available_locales.each do |locale|
-      get_via_redirect '/user/new', {}, {"HTTP_ACCEPT_LANGUAGE" => locale.to_s}
+      get_via_redirect '/user/new', {}, { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
       assert_response :success
       assert_template 'user/new'
     end
@@ -18,12 +18,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   def test_user_create_submit_duplicate_email
     I18n.available_locales.each do |locale|
       dup_email = users(:public_user).email
-      display_name = "#{locale.to_s}_new_tester"
+      display_name = "#{locale}_new_tester"
       assert_difference('User.count', 0) do
         assert_difference('ActionMailer::Base.deliveries.size', 0) do
           post '/user/new',
-            {:user => { :email => dup_email, :email_confirmation => dup_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}},
-            {"HTTP_ACCEPT_LANGUAGE" => locale.to_s}
+               { :user => { :email => dup_email, :email_confirmation => dup_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } },
+               { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
         end
       end
       assert_response :success
@@ -37,12 +37,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   def test_user_create_submit_duplicate_username
     I18n.available_locales.each do |locale|
       dup_display_name = users(:public_user).display_name
-      email = "#{locale.to_s}_new_tester"
+      email = "#{locale}_new_tester"
       assert_difference('User.count', 0) do
         assert_difference('ActionMailer::Base.deliveries.size', 0) do
           post '/user/new',
-          {:user => {:email => email, :email_confirmation => email, :display_name => dup_display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}},
-          {"HTTP_ACCEPT_LANGUAGE" => locale.to_s}
+               { :user => { :email => email, :email_confirmation => email, :display_name => dup_display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" } },
+               { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
         end
       end
       assert_response :success
@@ -54,14 +54,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
   def test_user_create_success
     I18n.available_locales.each do |locale|
-      new_email = "#{locale.to_s}newtester@osm.org"
-      display_name = "#{locale.to_s}_new_tester"
+      new_email = "#{locale}newtester@osm.org"
+      display_name = "#{locale}_new_tester"
 
       assert_difference('User.count', 0) do
         assert_difference('ActionMailer::Base.deliveries.size', 0) do
           post "/user/new",
-            {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"}}
-          end
+               :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }
+        end
       end
 
       assert_redirected_to "/user/terms"
@@ -69,7 +69,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
       assert_difference('User.count') do
         assert_difference('ActionMailer::Base.deliveries.size', 1) do
           post_via_redirect "/user/save", {},
-            {"HTTP_ACCEPT_LANGUAGE" => "#{locale.to_s}"}
+                            { "HTTP_ACCEPT_LANGUAGE" => "#{locale}" }
         end
       end
 
@@ -106,10 +106,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference('User.count') do
       assert_difference('ActionMailer::Base.deliveries.size', 1) do
         post "/user/new",
-        {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => password, :pass_crypt_confirmation => password}, :referer => referer }
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => password, :pass_crypt_confirmation => password }, :referer => referer
         assert_redirected_to "/user/terms"
         post_via_redirect "/user/save",
-        {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => password, :pass_crypt_confirmation => password} }
+                          :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :pass_crypt => password, :pass_crypt_confirmation => password }
       end
     end
 
@@ -131,11 +131,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
-    get "/user/#{display_name}/confirm", { :confirm_string => confirm_string }
+    get "/user/#{display_name}/confirm", :confirm_string => confirm_string
     assert_response :success
     assert_template 'user/confirm'
 
-    post "/user/#{display_name}/confirm", { :confirm_string => confirm_string }
+    post "/user/#{display_name}/confirm", :confirm_string => confirm_string
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -149,13 +149,13 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference('User.count') do
       assert_difference('ActionMailer::Base.deliveries.size', 1) do
         post "/user/new",
-          {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => "", :pass_crypt_confirmation => ""}}
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => "", :pass_crypt_confirmation => "" }
         assert_response :redirect
         res = openid_request(@response.redirect_url)
         get "/user/new", res
         assert_redirected_to "/user/terms"
         post '/user/save',
-          {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => password, :pass_crypt_confirmation => password}}
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => password, :pass_crypt_confirmation => password }
         assert_response :redirect
         follow_redirect!
       end
@@ -172,10 +172,10 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     new_email = "newtester-openid2@osm.org"
     display_name = "new_tester-openid2"
     password = "testtest2"
-    assert_difference('User.count',0) do
-      assert_difference('ActionMailer::Base.deliveries.size',0) do
+    assert_difference('User.count', 0) do
+      assert_difference('ActionMailer::Base.deliveries.size', 0) do
         post "/user/new",
-          {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.failure=newuser", :pass_crypt => "", :pass_crypt_confirmation => ""}}
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.failure=newuser", :pass_crypt => "", :pass_crypt_confirmation => "" }
         assert_response :redirect
         res = openid_request(@response.redirect_url)
         get '/user/new', res
@@ -196,13 +196,13 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference('User.count') do
       assert_difference('ActionMailer::Base.deliveries.size', 1) do
         post "/user/new",
-          {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => "", :pass_crypt_confirmation => ""}, :referer => referer }
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer
         assert_response :redirect
         res = openid_request(@response.location)
         get "/user/new", res
         assert_redirected_to "/user/terms"
         post_via_redirect "/user/save",
-          {:user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest"} }
+                          :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }
       end
     end
 
@@ -224,11 +224,11 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     ActionMailer::Base.deliveries.clear
 
     # Go to the confirmation page
-    get "/user/#{display_name}/confirm", { :confirm_string => confirm_string }
+    get "/user/#{display_name}/confirm", :confirm_string => confirm_string
     assert_response :success
     assert_template 'user/confirm'
 
-    post "/user/#{display_name}/confirm", { :confirm_string => confirm_string }
+    post "/user/#{display_name}/confirm", :confirm_string => confirm_string
     assert_response :redirect
     follow_redirect!
     assert_response :success

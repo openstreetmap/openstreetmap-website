@@ -10,12 +10,12 @@ namespace 'db' do
     while offset < (id_max + increment)
       hash = {}
 
-     #should be offsetting not selecting
+      # should be offsetting not selecting
       OldNode.find(:all, :limit => increment, :offset => offset, :order => 'timestamp').each do |node|
-         if hash[node.id].nil?
-           hash[node.id] = []
-         end
-         hash[node.id] << node
+        if hash[node.id].nil?
+          hash[node.id] = []
+        end
+        hash[node.id] << node
       end
 
       hash.each_value do |node_array|
@@ -30,8 +30,8 @@ namespace 'db' do
           temp_old_node.timestamp = node.timestamp
           temp_old_node.tile = node.tile
           temp_old_node.version = n
-          temp_old_node.save! || raise
-          n +=1
+          temp_old_node.save! || fail
+          n += 1
         end
       end
       offset += increment

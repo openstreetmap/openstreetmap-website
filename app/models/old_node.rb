@@ -11,7 +11,7 @@ class OldNode < ActiveRecord::Base
   include Redactable
 
   validates_presence_of :changeset_id, :timestamp
-  validates_inclusion_of :visible, :in => [ true, false ]
+  validates_inclusion_of :visible, :in => [true, false]
   validates_numericality_of :latitude, :longitude
   validate :validate_position
   validates_associated :changeset
@@ -36,69 +36,67 @@ class OldNode < ActiveRecord::Base
     old_node.changeset_id = node.changeset_id
     old_node.node_id = node.id
     old_node.version = node.version
-    return old_node
+    old_node
   end
 
   def to_xml
     doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node()
-    return doc
+    doc.root << to_xml_node
+    doc
   end
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el = XML::Node.new 'node'
-    el['id'] = self.node_id.to_s
+    el['id'] = node_id.to_s
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     if self.visible?
-      el['lat'] = self.lat.to_s
-      el['lon'] = self.lon.to_s
+      el['lat'] = lat.to_s
+      el['lon'] = lon.to_s
     end
 
-    add_tags_to_xml_node(el, self.old_tags)
+    add_tags_to_xml_node(el, old_tags)
 
-    return el
+    el
   end
 
   def save_with_dependencies!
     save!
 
-    self.tags.each do |k,v|
+    tags.each do |k, v|
       tag = OldNodeTag.new
       tag.k = k
       tag.v = v
-      tag.node_id = self.node_id
-      tag.version = self.version
+      tag.node_id = node_id
+      tag.version = version
       tag.save!
     end
   end
 
   def tags
-    @tags ||= Hash[self.old_tags.collect { |t| [t.k, t.v] }]
+    @tags ||= Hash[old_tags.collect { |t| [t.k, t.v] }]
   end
 
-  def tags=(t)
-    @tags = t
-  end
+  attr_writer :tags
 
   def tags_as_hash
-    return self.tags
+    tags
   end
 
   # Pretend we're not in any ways
   def ways
-    return []
+    []
   end
 
   # Pretend we're not in any relations
   def containing_relation_members
-    return []
+    []
   end
 
   # check whether this element is the latest version - that is,
   # has the same version as its "current" counterpart.
   def is_latest_version?
-    current_node.version == self.version
+    current_node.version == version
   end
 end

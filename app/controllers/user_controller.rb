@@ -28,10 +28,10 @@ class UserController < ApplicationController
     else
       @title = t 'user.terms.title'
 
-      if @user and @user.terms_agreed?
+      if @user && @user.terms_agreed?
         # Already agreed to terms, so just show settings
         redirect_to :action => :account, :display_name => @user.display_name
-      elsif @user.nil? and session[:new_user].nil?
+      elsif @user.nil? && session[:new_user].nil?
         redirect_to :action => :login, :referer => request.fullpath
       end
     end
@@ -57,7 +57,7 @@ class UserController < ApplicationController
         redirect_to t('user.terms.declined')
       end
     elsif @user
-      if !@user.terms_agreed?
+      unless @user.terms_agreed?
         @user.consider_pd = params[:user][:consider_pd]
         @user.terms_agreed = Time.now.getutc
         @user.terms_seen = true
@@ -81,7 +81,7 @@ class UserController < ApplicationController
         @user.languages = http_accept_language.user_preferred_languages
         @user.terms_agreed = Time.now.getutc
         @user.terms_seen = true
-        @user.openid_url = nil if @user.openid_url and @user.openid_url.empty?
+        @user.openid_url = nil if @user.openid_url && @user.openid_url.empty?
 
         if @user.save
           flash[:piwik_goal] = PIWIK["goals"]["signup"] if defined?(PIWIK)
@@ -92,9 +92,9 @@ class UserController < ApplicationController
             uri = URI(session[:referer])
             /map=(.*)\/(.*)\/(.*)/.match(uri.fragment) do |m|
               editor = Rack::Utils.parse_query(uri.query).slice('editor')
-              referer = welcome_path({'zoom' => m[1],
-                                      'lat' => m[2],
-                                      'lon' => m[3]}.merge(editor))
+              referer = welcome_path({ 'zoom' => m[1],
+                                       'lat' => m[2],
+                                       'lon' => m[3] }.merge(editor))
             end
           rescue
             # Use default
@@ -119,9 +119,9 @@ class UserController < ApplicationController
     @title = t 'user.account.title'
     @tokens = @user.oauth_tokens.authorized
 
-    if params[:user] and params[:user][:display_name] and params[:user][:description]
-      if params[:user][:openid_url] and
-         params[:user][:openid_url].length > 0 and
+    if params[:user] && params[:user][:display_name] && params[:user][:description]
+      if params[:user][:openid_url] &&
+         params[:user][:openid_url].length > 0 &&
          params[:user][:openid_url] != @user.openid_url
         # If the OpenID has changed, we want to check that it is a
         # valid OpenID and one the user has control over before saving
@@ -152,7 +152,7 @@ class UserController < ApplicationController
   def lost_password
     @title = t 'user.lost_password.title'
 
-    if params[:user] and params[:user][:email]
+    if params[:user] && params[:user][:email]
       user = User.visible.find_by_email(params[:user][:email])
 
       if user.nil?
@@ -218,7 +218,7 @@ class UserController < ApplicationController
         user.status = "active" if user.email == verified_email
       end
 
-      if @user.openid_url.nil? or @user.invalid?
+      if @user.openid_url.nil? || @user.invalid?
         render :action => 'new'
       else
         session[:new_user] = @user
@@ -275,7 +275,7 @@ class UserController < ApplicationController
   end
 
   def login
-    if params[:username] or using_open_id?
+    if params[:username] || using_open_id?
       session[:referer] ||= params[:referer]
 
       if using_open_id?
@@ -333,7 +333,7 @@ class UserController < ApplicationController
           token = nil
         end
 
-        if token.nil? or token.user != user
+        if token.nil? || token.user != user
           flash[:notice] = t('user.confirm.success')
           redirect_to :action => :login, :referer => referer
         else
@@ -366,7 +366,7 @@ class UserController < ApplicationController
   def confirm_email
     if request.post?
       token = UserToken.find_by_token(params[:confirm_string])
-      if token and token.user.new_email?
+      if token && token.user.new_email?
         @user = token.user
         @user.email = @user.new_email
         @user.new_email = nil
@@ -398,7 +398,7 @@ class UserController < ApplicationController
   def api_gpx_files
     doc = OSM::API.new.get_xml_doc
     @user.traces.each do |trace|
-      doc.root << trace.to_xml_node() if trace.public? or trace.user == @user
+      doc.root << trace.to_xml_node if trace.public? || trace.user == @user
     end
     render :text => doc.to_s, :content_type => "text/xml"
   end
@@ -406,8 +406,8 @@ class UserController < ApplicationController
   def view
     @this_user = User.find_by_display_name(params[:display_name])
 
-    if @this_user and
-       (@this_user.visible? or (@user and @user.administrator?))
+    if @this_user &&
+       (@this_user.visible? || (@user && @user.administrator?))
       @title = @this_user.display_name
     else
       render_unknown_user params[:display_name]
@@ -486,14 +486,14 @@ class UserController < ApplicationController
   # display a list of users matching specified criteria
   def list
     if request.post?
-      ids = params[:user].keys.collect { |id| id.to_i }
+      ids = params[:user].keys.collect(&:to_i)
 
       User.update_all("status = 'confirmed'", :id => ids) if params[:confirm]
       User.update_all("status = 'deleted'", :id => ids) if params[:hide]
 
       redirect_to url_for(:status => params[:status], :ip => params[:ip], :page => params[:page])
     else
-      conditions = Hash.new
+      conditions = {}
       conditions[:status] = params[:status] if params[:status]
       conditions[:creation_ip] = params[:ip] if params[:ip]
 
@@ -504,7 +504,7 @@ class UserController < ApplicationController
     end
   end
 
-private
+  private
 
   ##
   # handle password authentication
@@ -525,7 +525,7 @@ private
   def openid_authentication(openid_url)
     # If we don't appear to have a user for this URL then ask the
     # provider for some extra information to help with signup
-    if openid_url and User.find_by_openid_url(openid_url)
+    if openid_url && User.find_by_openid_url(openid_url)
       required = nil
     else
       required = [:nickname, :email, "http://axschema.org/namePerson/friendly", "http://axschema.org/contact/email"]
@@ -553,8 +553,8 @@ private
           end
         else
           # Guard against not getting any extension data
-          sreg = Hash.new if sreg.nil?
-          ax = Hash.new if ax.nil?
+          sreg = {} if sreg.nil?
+          ax = {} if ax.nil?
 
           # We don't have a user registered to this OpenID, so redirect
           # to the create account page with username and email filled
@@ -585,8 +585,8 @@ private
         # Do we trust the emails this provider returns?
         if openid_email_verified(identity_url)
           # Guard against not getting any extension data
-          sreg = Hash.new if sreg.nil?
-          ax = Hash.new if ax.nil?
+          sreg = {} if sreg.nil?
+          ax = {} if ax.nil?
 
           # Get the verified email
           verified_email = sreg["email"] || ax["http://axschema.org/contact/email"].first
@@ -616,7 +616,7 @@ private
   def openid_expand_url(openid_url)
     if openid_url.nil?
       return nil
-    elsif openid_url.match(/(.*)gmail.com(\/?)$/) or openid_url.match(/(.*)googlemail.com(\/?)$/)
+    elsif openid_url.match(/(.*)gmail.com(\/?)$/) || openid_url.match(/(.*)googlemail.com(\/?)$/)
       # Special case gmail.com as it is potentially a popular OpenID
       # provider and, unlike yahoo.com, where it works automatically, Google
       # have hidden their OpenID endpoint somewhere obscure this making it
@@ -631,8 +631,8 @@ private
   # check if we trust an OpenID provider to return a verified
   # email, so that we can skpi verifying it ourselves
   def openid_email_verified(openid_url)
-    openid_url.match(/https:\/\/www.google.com\/accounts\/o8\/id?(.*)/) or
-    openid_url.match(/https:\/\/me.yahoo.com\/(.*)/)
+    openid_url.match(/https:\/\/www.google.com\/accounts\/o8\/id?(.*)/) ||
+      openid_url.match(/https:\/\/me.yahoo.com\/(.*)/)
   end
 
   ##
@@ -649,7 +649,7 @@ private
     # - If they have a block on them, show them that.
     # - If they were referred to the login, send them back there.
     # - Otherwise, send them to the home page.
-    if REQUIRE_TERMS_SEEN and not user.terms_seen
+    if REQUIRE_TERMS_SEEN && !user.terms_seen
       redirect_to :controller => :user, :action => :terms, :referer => target
     elsif user.blocked_on_view
       redirect_to user.blocked_on_view, :referer => target
@@ -687,7 +687,7 @@ private
     user.display_name = params[:user][:display_name]
     user.new_email = params[:user][:new_email]
 
-    if params[:user][:pass_crypt].length > 0 or params[:user][:pass_crypt_confirmation].length > 0
+    if params[:user][:pass_crypt].length > 0 || params[:user][:pass_crypt_confirmation].length > 0
       user.pass_crypt = params[:user][:pass_crypt]
       user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
     end
@@ -725,7 +725,7 @@ private
     if user.save
       set_locale
 
-      if user.new_email.blank? or user.new_email == user.email
+      if user.new_email.blank? || user.new_email == user.email
         flash.now[:notice] = t 'user.account.flash update success'
       else
         user.email = user.new_email
@@ -752,7 +752,7 @@ private
   # require that the user is a administrator, or fill out a helpful error message
   # and return them to the user page.
   def require_administrator
-    if @user and not @user.administrator?
+    if @user && !@user.administrator?
       flash[:error] = t('user.filter.not_an_administrator')
 
       if params[:display_name]
@@ -760,7 +760,7 @@ private
       else
         redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath
       end
-    elsif not @user
+    elsif !@user
       redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath
     end
   end
@@ -817,6 +817,6 @@ private
       render :action => 'blocked'
     end
 
-    not blocked
+    !blocked
   end
 end

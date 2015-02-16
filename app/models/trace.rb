@@ -7,16 +7,16 @@ class Trace < ActiveRecord::Base
 
   scope :visible, -> { where(:visible => true) }
   scope :visible_to, ->(u) { visible.where("visibility IN ('public', 'identifiable') OR user_id = ?", u) }
-  scope :visible_to_all, -> { where(:visibility => ["public", "identifiable"]) }
+  scope :visible_to_all, -> { where(:visibility => %w(public identifiable)) }
   scope :tagged, ->(t) { joins(:tags).where(:gpx_file_tags => { :tag => t }) }
 
   validates_presence_of :user_id, :name, :timestamp
   validates_presence_of :description, :on => :create
   validates_length_of :name, :maximum => 255
   validates_length_of :description, :maximum => 255
-#  validates_numericality_of :latitude, :longitude
-  validates_inclusion_of :inserted, :in => [ true, false ]
-  validates_inclusion_of :visibility, :in => ["private", "public", "trackable", "identifiable"]
+  #  validates_numericality_of :latitude, :longitude
+  validates_inclusion_of :inserted, :in => [true, false]
+  validates_inclusion_of :visibility, :in => %w(private public trackable identifiable)
 
   def destroy
     super
@@ -26,19 +26,19 @@ class Trace < ActiveRecord::Base
   end
 
   def tagstring
-    return tags.collect {|tt| tt.tag}.join(", ")
+    tags.collect(&:tag).join(", ")
   end
 
   def tagstring=(s)
     if s.include? ','
-      self.tags = s.split(/\s*,\s*/).select {|tag| tag !~ /^\s*$/}.collect {|tag|
+      self.tags = s.split(/\s*,\s*/).select { |tag| tag !~ /^\s*$/ }.collect {|tag|
         tt = Tracetag.new
         tt.tag = tag
         tt
       }
     else
-      #do as before for backwards compatibility:
-      self.tags = s.split().collect {|tag|
+      # do as before for backwards compatibility:
+      self.tags = s.split.collect {|tag|
         tt = Tracetag.new
         tt.tag = tag
         tt
@@ -58,13 +58,13 @@ class Trace < ActiveRecord::Base
     visibility == "identifiable"
   end
 
-  def large_picture= (data)
+  def large_picture=(data)
     f = File.new(large_picture_name, "wb")
     f.syswrite(data)
     f.close
   end
 
-  def icon_picture= (data)
+  def icon_picture=(data)
     f = File.new(icon_picture_name, "wb")
     f.syswrite(data)
     f.close
@@ -105,9 +105,9 @@ class Trace < ActiveRecord::Base
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
 
-    if gzipped then
+    if gzipped
       mimetype = "application/x-gzip"
-    elsif bzipped then
+    elsif bzipped
       mimetype = "application/x-bzip2"
     elsif zipped
       mimetype = "application/x-zip"
@@ -115,7 +115,7 @@ class Trace < ActiveRecord::Base
       mimetype = "application/gpx+xml"
     end
 
-    return mimetype
+    mimetype
   end
 
   def extension_name
@@ -125,9 +125,9 @@ class Trace < ActiveRecord::Base
     zipped = filetype =~ /Zip archive/
     tarred = filetype =~ /tar archive/
 
-    if tarred and gzipped then
+    if tarred && gzipped
       extension = ".tar.gz"
-    elsif tarred and bzipped then
+    elsif tarred && bzipped
       extension = ".tar.bz2"
     elsif tarred
       extension = ".tar"
@@ -141,67 +141,65 @@ class Trace < ActiveRecord::Base
       extension = ".gpx"
     end
 
-    return extension
+    extension
   end
 
   def to_xml
     doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node()
-    return doc
+    doc.root << to_xml_node
+    doc
   end
 
   def to_xml_node
     el1 = XML::Node.new 'gpx_file'
-    el1['id'] = self.id.to_s
-    el1['name'] = self.name.to_s
-    el1['lat'] = self.latitude.to_s if self.inserted
-    el1['lon'] = self.longitude.to_s if self.inserted
-    el1['user'] = self.user.display_name
-    el1['visibility'] = self.visibility
-    el1['pending'] = (!self.inserted).to_s
-    el1['timestamp'] = self.timestamp.xmlschema
+    el1['id'] = id.to_s
+    el1['name'] = name.to_s
+    el1['lat'] = latitude.to_s if inserted
+    el1['lon'] = longitude.to_s if inserted
+    el1['user'] = user.display_name
+    el1['visibility'] = visibility
+    el1['pending'] = (!inserted).to_s
+    el1['timestamp'] = timestamp.xmlschema
 
     el2 = XML::Node.new 'description'
-    el2 << self.description
+    el2 << description
     el1 << el2
 
-    self.tags.each do |tag|
+    tags.each do |tag|
       el2 = XML::Node.new('tag')
       el2 << tag.tag
       el1 << el2
     end
 
-    return el1
+    el1
   end
 
   # Read in xml as text and return it's Node object representation
-  def self.from_xml(xml, create=false)
-    begin
-      p = XML::Parser.string(xml)
-      doc = p.parse
+  def self.from_xml(xml, create = false)
+    p = XML::Parser.string(xml)
+    doc = p.parse
 
-      doc.find('//osm/gpx_file').each do |pt|
-        return Trace.from_xml_node(pt, create)
-      end
-
-      raise OSM::APIBadXMLError.new("trace", xml, "XML doesn't contain an osm/gpx_file element.")
-    rescue LibXML::XML::Error, ArgumentError => ex
-      raise OSM::APIBadXMLError.new("trace", xml, ex.message)
+    doc.find('//osm/gpx_file').each do |pt|
+      return Trace.from_xml_node(pt, create)
     end
+
+    fail OSM::APIBadXMLError.new("trace", xml, "XML doesn't contain an osm/gpx_file element.")
+  rescue LibXML::XML::Error, ArgumentError => ex
+    raise OSM::APIBadXMLError.new("trace", xml, ex.message)
   end
 
-  def self.from_xml_node(pt, create=false)
+  def self.from_xml_node(pt, create = false)
     trace = Trace.new
 
-    raise OSM::APIBadXMLError.new("trace", pt, "visibility missing") if pt['visibility'].nil?
+    fail OSM::APIBadXMLError.new("trace", pt, "visibility missing") if pt['visibility'].nil?
     trace.visibility = pt['visibility']
 
     unless create
-      raise OSM::APIBadXMLError.new("trace", pt, "ID is required when updating.") if pt['id'].nil?
+      fail OSM::APIBadXMLError.new("trace", pt, "ID is required when updating.") if pt['id'].nil?
       trace.id = pt['id'].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of trace cannot be zero when updating.") if trace.id == 0
+      fail OSM::APIBadUserInput.new("ID of trace cannot be zero when updating.") if trace.id == 0
     end
 
     # We don't care about the time, as it is explicitly set on create/update/delete
@@ -210,14 +208,14 @@ class Trace < ActiveRecord::Base
     trace.visible = true
 
     description = pt.find('description').first
-    raise OSM::APIBadXMLError.new("trace", pt, "description missing") if description.nil?
+    fail OSM::APIBadXMLError.new("trace", pt, "description missing") if description.nil?
     trace.description = description.content
 
     pt.find('tag').each do |tag|
       trace.tags.build(:tag => tag.content)
     end
 
-    return trace
+    trace
   end
 
   def xml_file
@@ -228,12 +226,12 @@ class Trace < ActiveRecord::Base
     zipped = filetype =~ /Zip archive/
     tarred = filetype =~ /tar archive/
 
-    if gzipped or bzipped or zipped or tarred then
-      tmpfile = Tempfile.new("trace.#{id}");
+    if gzipped || bzipped || zipped || tarred
+      tmpfile = Tempfile.new("trace.#{id}")
 
-      if tarred and gzipped then
+      if tarred && gzipped
         system("tar -zxOf #{trace_name} > #{tmpfile.path}")
-      elsif tarred and bzipped then
+      elsif tarred && bzipped
         system("tar -jxOf #{trace_name} > #{tmpfile.path}")
       elsif tarred
         system("tar -xOf #{trace_name} > #{tmpfile.path}")
@@ -252,13 +250,13 @@ class Trace < ActiveRecord::Base
       file = File.open(trace_name)
     end
 
-    return file
+    file
   end
 
   def import
     logger.info("GPX Import importing #{name} (#{id}) from #{user.email}")
 
-    gpx = GPX::File.new(self.xml_file)
+    gpx = GPX::File.new(xml_file)
 
     f_lat = 0
     f_lon = 0
@@ -267,8 +265,8 @@ class Trace < ActiveRecord::Base
     # If there are any existing points for this trace then delete
     # them - we check for existing points first to avoid locking
     # the table in the common case where there aren't any.
-    if Tracepoint.where(:gpx_id => self.id).exists?
-      Tracepoint.delete_all(:gpx_id => self.id)
+    if Tracepoint.where(:gpx_id => id).exists?
+      Tracepoint.delete_all(:gpx_id => id)
     end
 
     gpx.points do |point|
@@ -310,6 +308,6 @@ class Trace < ActiveRecord::Base
 
     logger.info "done trace #{id}"
 
-    return gpx
+    gpx
   end
 end

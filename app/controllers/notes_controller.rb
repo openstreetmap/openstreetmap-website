@@ -1,5 +1,4 @@
 class NotesController < ApplicationController
-
   layout 'site', :only => [:mine]
 
   before_filter :check_api_readable
@@ -21,10 +20,10 @@ class NotesController < ApplicationController
     if params[:bbox]
       bbox = BoundingBox.from_bbox_params(params)
     else
-      raise OSM::APIBadUserInput.new("No l was given") unless params[:l]
-      raise OSM::APIBadUserInput.new("No r was given") unless params[:r]
-      raise OSM::APIBadUserInput.new("No b was given") unless params[:b]
-      raise OSM::APIBadUserInput.new("No t was given") unless params[:t]
+      fail OSM::APIBadUserInput.new("No l was given") unless params[:l]
+      fail OSM::APIBadUserInput.new("No r was given") unless params[:r]
+      fail OSM::APIBadUserInput.new("No b was given") unless params[:b]
+      fail OSM::APIBadUserInput.new("No t was given") unless params[:t]
 
       bbox = BoundingBox.from_lrbt_params(params)
     end
@@ -54,12 +53,12 @@ class NotesController < ApplicationController
   # Create a new note
   def create
     # Check the ACLs
-    raise OSM::APIAccessDenied if Acl.no_note_comment(request.remote_ip)
+    fail OSM::APIAccessDenied if Acl.no_note_comment(request.remote_ip)
 
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No lat was given") unless params[:lat]
-    raise OSM::APIBadUserInput.new("No lon was given") unless params[:lon]
-    raise OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
+    fail OSM::APIBadUserInput.new("No lat was given") unless params[:lat]
+    fail OSM::APIBadUserInput.new("No lon was given") unless params[:lon]
+    fail OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
 
     # Extract the arguments
     lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
@@ -70,7 +69,7 @@ class NotesController < ApplicationController
     Note.transaction do
       # Create the note
       @note = Note.create(:lat => lat, :lon => lon)
-      raise OSM::APIBadUserInput.new("The note is outside this world") unless @note.in_world?
+      fail OSM::APIBadUserInput.new("The note is outside this world") unless @note.in_world?
 
       # Save the note
       @note.save!
@@ -90,11 +89,11 @@ class NotesController < ApplicationController
   # Add a comment to an existing note
   def comment
     # Check the ACLs
-    raise OSM::APIAccessDenied if Acl.no_note_comment(request.remote_ip)
+    fail OSM::APIAccessDenied if Acl.no_note_comment(request.remote_ip)
 
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
-    raise OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
+    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    fail OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
 
     # Extract the arguments
     id = params[:id].to_i
@@ -102,9 +101,9 @@ class NotesController < ApplicationController
 
     # Find the note and check it is valid
     @note = Note.find(id)
-    raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
-    raise OSM::APINoteAlreadyClosedError.new(@note) if @note.closed?
+    fail OSM::APINotFoundError unless @note
+    fail OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+    fail OSM::APINoteAlreadyClosedError.new(@note) if @note.closed?
 
     # Add a comment to the note
     Note.transaction do
@@ -122,7 +121,7 @@ class NotesController < ApplicationController
   # Close a note
   def close
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
@@ -130,9 +129,9 @@ class NotesController < ApplicationController
 
     # Find the note and check it is valid
     @note = Note.find_by_id(id)
-    raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
-    raise OSM::APINoteAlreadyClosedError.new(@note) if @note.closed?
+    fail OSM::APINotFoundError unless @note
+    fail OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+    fail OSM::APINoteAlreadyClosedError.new(@note) if @note.closed?
 
     # Close the note and add a comment
     Note.transaction do
@@ -152,7 +151,7 @@ class NotesController < ApplicationController
   # Reopen a note
   def reopen
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
@@ -160,9 +159,9 @@ class NotesController < ApplicationController
 
     # Find the note and check it is valid
     @note = Note.find_by_id(id)
-    raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? or @user.moderator?
-    raise OSM::APINoteAlreadyOpenError.new(@note) unless @note.closed? or not @note.visible?
+    fail OSM::APINotFoundError unless @note
+    fail OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || @user.moderator?
+    fail OSM::APINoteAlreadyOpenError.new(@note) unless @note.closed? || !@note.visible?
 
     # Reopen the note and add a comment
     Note.transaction do
@@ -207,12 +206,12 @@ class NotesController < ApplicationController
   # Read a note
   def show
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
     # Find the note and check it is valid
     @note = Note.find(params[:id])
-    raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+    fail OSM::APINotFoundError unless @note
+    fail OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
 
     # Render the result
     respond_to do |format|
@@ -227,7 +226,7 @@ class NotesController < ApplicationController
   # Delete (hide) a note
   def destroy
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
@@ -235,8 +234,8 @@ class NotesController < ApplicationController
 
     # Find the note and check it is valid
     @note = Note.find(id)
-    raise OSM::APINotFoundError unless @note
-    raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
+    fail OSM::APINotFoundError unless @note
+    fail OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
 
     # Mark the note as hidden
     Note.transaction do
@@ -257,7 +256,7 @@ class NotesController < ApplicationController
   # Return a list of notes matching a given string
   def search
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No query string was given") unless params[:q]
+    fail OSM::APIBadUserInput.new("No query string was given") unless params[:q]
 
     # Get any conditions that need to be applied
     @notes = closed_condition(Note.all)
@@ -295,7 +294,8 @@ class NotesController < ApplicationController
     end
   end
 
-private
+  private
+
   #------------------------------------------------------------
   # utility functions below.
   #------------------------------------------------------------
@@ -315,10 +315,10 @@ private
   # Get the maximum number of results to return
   def result_limit
     if params[:limit]
-      if params[:limit].to_i > 0 and params[:limit].to_i <= 10000
+      if params[:limit].to_i > 0 && params[:limit].to_i <= 10000
         params[:limit].to_i
       else
-        raise OSM::APIBadUserInput.new("Note limit must be between 1 and 10000")
+        fail OSM::APIBadUserInput.new("Note limit must be between 1 and 10000")
       end
     else
       100
@@ -343,7 +343,7 @@ private
       notes = notes.where("status = 'open'")
     end
 
-    return notes
+    notes
   end
 
   ##
@@ -359,8 +359,8 @@ private
 
     comment = note.comments.create(attributes)
 
-    note.comments.map { |c| c.author }.uniq.each do |user|
-      if notify and user and user != @user
+    note.comments.map(&:author).uniq.each do |user|
+      if notify && user && user != @user
         Notifier.note_comment_notification(comment, user).deliver_now
       end
     end

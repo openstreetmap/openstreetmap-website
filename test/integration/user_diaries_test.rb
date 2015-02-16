@@ -11,9 +11,9 @@ class UserDiariesTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template 'user/login'
     # We can now login
-    post  '/login', {'username' => "test@openstreetmap.org", 'password' => "test", :referer => '/diary/new'}
+    post '/login', 'username' => "test@openstreetmap.org", 'password' => "test", :referer => '/diary/new'
     assert_response :redirect
-    #print @response.body
+    # print @response.body
     # Check that there is some payload alerting the user to the redirect
     # and allowing them to get to the page they are being directed to
     assert_select "html:root" do
@@ -28,8 +28,8 @@ class UserDiariesTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template 'diary_entry/edit'
-    #print @response.body
-    #print @html_document.to_yaml
+    # print @response.body
+    # print @html_document.to_yaml
 
     # We will make sure that the form exists here, full
     # assert testing of the full form should be done in the

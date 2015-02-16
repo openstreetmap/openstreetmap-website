@@ -59,7 +59,7 @@ module ActionController
   module Pagination
     unless const_defined?(:OPTIONS)
       # A hash holding options for controllers using macro-style pagination
-      OPTIONS = Hash.new
+      OPTIONS = {}
 
       # The default options for pagination
       DEFAULT_OPTIONS = {
@@ -87,14 +87,14 @@ module ActionController
     end
 
     def self.validate_options!(collection_id, options, in_action) #:nodoc:
-      options.merge!(DEFAULT_OPTIONS) {|key, old, new| old}
+      options.merge!(DEFAULT_OPTIONS) { |_key, old, _new| old }
 
       valid_options = DEFAULT_OPTIONS.keys
       valid_options << :actions unless in_action
 
       unknown_option_keys = options.keys - valid_options
-      raise ActionController::ActionControllerError,
-            "Unknown options: #{unknown_option_keys.join(', ')}" unless
+      fail ActionController::ActionControllerError,
+           "Unknown options: #{unknown_option_keys.join(', ')}" unless
               unknown_option_keys.empty?
 
       options[:singular_name] ||= ActiveSupport::Inflector.singularize(collection_id.to_s)
@@ -128,7 +128,7 @@ module ActionController
     #
     # <tt>:group</tt>::     :group parameter passed to Model.find(:all, *params). It forces the use of DISTINCT instead of plain COUNT to come up with the total number of records
     #
-    def paginate(collection_id, options={})
+    def paginate(collection_id, options = {})
       Pagination.validate_options!(collection_id, options, true)
       paginator_and_collection_for(collection_id, options)
     end
@@ -143,11 +143,11 @@ module ActionController
       # of:
       # <tt>:actions</tt>:: an array of actions for which the pagination is
       #                     active. Defaults to +nil+ (i.e., every action)
-      def paginate(collection_id, options={})
+      def paginate(collection_id, options = {})
         Pagination.validate_options!(collection_id, options, false)
         module_eval do
           before_filter :create_paginators_and_retrieve_collections
-          OPTIONS[self] ||= Hash.new
+          OPTIONS[self] ||= {}
           OPTIONS[self][collection_id] = options
         end
       end
@@ -162,10 +162,10 @@ module ActionController
           paginator_and_collection_for(collection_id, options)
 
         paginator_name = "@#{options[:singular_name]}_pages"
-        self.instance_variable_set(paginator_name, paginator)
+        instance_variable_set(paginator_name, paginator)
 
-        collection_name = "@#{collection_id.to_s}"
-        self.instance_variable_set(collection_name, collection)
+        collection_name = "@#{collection_id}"
+        instance_variable_set(collection_name, collection)
       end
     end
 
@@ -207,14 +207,14 @@ module ActionController
               :count_collection_for_pagination,
               :find_collection_for_pagination
 
-    def paginator_and_collection_for(collection_id, options) #:nodoc:
+    def paginator_and_collection_for(_collection_id, options) #:nodoc:
       klass = options[:class_name].constantize
       page  = params[options[:parameter]]
       count = count_collection_for_pagination(klass, options)
       paginator = Paginator.new(self, count, options[:per_page], page)
       collection = find_collection_for_pagination(klass, options, paginator)
 
-      return paginator, collection
+      [paginator, collection]
     end
 
     private :paginator_and_collection_for
@@ -228,8 +228,8 @@ module ActionController
       # Raises ArgumentError if items_per_page is out of bounds (i.e., less
       # than or equal to zero). The page CGI parameter for links defaults to
       # "page" and can be overridden with +page_parameter+.
-      def initialize(controller, item_count, items_per_page, current_page=1)
-        raise ArgumentError, 'must have at least one item per page' if
+      def initialize(controller, item_count, items_per_page, current_page = 1)
+        fail ArgumentError, 'must have at least one item per page' if
           items_per_page <= 0
 
         @controller = controller
@@ -246,7 +246,7 @@ module ActionController
       # not belong to this Paginator, an ArgumentError is raised.
       def current_page=(page)
         if page.is_a? Page
-          raise ArgumentError, 'Page/Paginator mismatch' unless
+          fail ArgumentError, 'Page/Paginator mismatch' unless
             page.paginator == self
         end
         page = page.to_i
@@ -257,31 +257,31 @@ module ActionController
       def current_page
         @current_page ||= self[@current_page_number]
       end
-      alias current :current_page
+      alias_method :current, :current_page
 
       # Returns a new Page representing the first page in this paginator.
       def first_page
         @first_page ||= self[1]
       end
-      alias first :first_page
+      alias_method :first, :first_page
 
       # Returns a new Page representing the last page in this paginator.
       def last_page
         @last_page ||= self[page_count]
       end
-      alias last :last_page
+      alias_method :last, :last_page
 
       # Returns the number of pages in this paginator.
       def page_count
         @page_count ||= @item_count.zero? ? 1 :
-                          (q,r=@item_count.divmod(@items_per_page); r==0? q : q+1)
+                          (q, r = @item_count.divmod(@items_per_page); r == 0 ? q : q + 1)
       end
 
-      alias length :page_count
+      alias_method :length, :page_count
 
       # Returns true if this paginator contains the page of index +number+.
       def has_page_number?(number)
-        number >= 1 and number <= page_count
+        number >= 1 && number <= page_count
       end
 
       # Returns a new Page representing the page with the given index
@@ -291,9 +291,9 @@ module ActionController
       end
 
       # Successively yields all the paginator's pages to the given block.
-      def each(&block)
+      def each(&_block)
         page_count.times do |n|
-          yield self[n+1]
+          yield self[n + 1]
         end
       end
 
@@ -310,14 +310,14 @@ module ActionController
           @number = 1 unless @paginator.has_page_number? @number
         end
         attr_reader :paginator, :number
-        alias to_i :number
+        alias_method :to_i, :number
 
         # Compares two Page objects and returns true when they represent the
         # same page (i.e., their paginators are the same and they have the
         # same page number).
         def ==(page)
           return false if page.nil?
-          @paginator == page.paginator and
+          @paginator == page.paginator &&
             @number == page.number
         end
 
@@ -326,7 +326,7 @@ module ActionController
         # left-hand page comes after the right-hand page. Raises ArgumentError
         # if the pages do not belong to the same Paginator object.
         def <=>(page)
-          raise ArgumentError unless @paginator == page.paginator
+          fail ArgumentError unless @paginator == page.paginator
           @number <=> page.number
         end
 
@@ -369,7 +369,7 @@ module ActionController
 
         # Returns a new Window object for this page with the specified
         # +padding+.
-        def window(padding=2)
+        def window(padding = 2)
           Window.new(self, padding)
         end
 
@@ -387,7 +387,7 @@ module ActionController
       class Window
         # Creates a new Window object for the given +page+ with the specified
         # +padding+.
-        def initialize(page, padding=2)
+        def initialize(page, padding = 2)
           @paginator = page.paginator
           @page = page
           self.padding = padding
@@ -408,11 +408,10 @@ module ActionController
 
         # Returns an array of Page objects in the current window.
         def pages
-          (@first.number..@last.number).to_a.collect! {|n| @paginator[n]}
+          (@first.number..@last.number).to_a.collect! { |n| @paginator[n] }
         end
-        alias to_a :pages
+        alias_method :to_a, :pages
       end
     end
-
   end
 end

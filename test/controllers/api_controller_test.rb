@@ -6,14 +6,14 @@ class ApiControllerTest < ActionController::TestCase
 
   def setup
     super
-    @badbigbbox = %w{ -0.1,-0.1,1.1,1.1  10,10,11,11 }
-    @badmalformedbbox = %w{ -0.1  hello
-    10N2W10.1N2.1W }
-    @badlatmixedbbox = %w{ 0,0.1,0.1,0  -0.1,80,0.1,70  0.24,54.34,0.25,54.33 }
-    @badlonmixedbbox = %w{ 80,-0.1,70,0.1  54.34,0.24,54.33,0.25 }
-    #@badlatlonoutboundsbbox = %w{ 191,-0.1,193,0.1  -190.1,89.9,-190,90 }
-    @goodbbox = %w{ -0.1,-0.1,0.1,0.1  51.1,-0.1,51.2,0
-    -0.1,%20-0.1,%200.1,%200.1  -0.1edcd,-0.1d,0.1,0.1  -0.1E,-0.1E,0.1S,0.1N S0.1,W0.1,N0.1,E0.1}
+    @badbigbbox = %w(-0.1,-0.1,1.1,1.1  10,10,11,11)
+    @badmalformedbbox = %w(-0.1  hello
+                           10N2W10.1N2.1W)
+    @badlatmixedbbox = %w(0,0.1,0.1,0  -0.1,80,0.1,70  0.24,54.34,0.25,54.33)
+    @badlonmixedbbox = %w(80,-0.1,70,0.1  54.34,0.24,54.33,0.25)
+    # @badlatlonoutboundsbbox = %w{ 191,-0.1,193,0.1  -190.1,89.9,-190,90 }
+    @goodbbox = %w(-0.1,-0.1,0.1,0.1  51.1,-0.1,51.2,0
+                   -0.1,%20-0.1,%200.1,%200.1  -0.1edcd,-0.1d,0.1,0.1  -0.1E,-0.1E,0.1S,0.1N S0.1,W0.1,N0.1,E0.1)
     # That last item in the goodbbox really shouldn't be there, as the API should
     # reall reject it, however this is to test to see if the api changes.
   end
@@ -55,10 +55,10 @@ class ApiControllerTest < ActionController::TestCase
     node = current_nodes(:used_node_1)
     # Need to split the min/max lat/lon out into their own variables here
     # so that we can test they are returned later.
-    minlon = node.lon-0.1
-    minlat = node.lat-0.1
-    maxlon = node.lon+0.1
-    maxlat = node.lat+0.1
+    minlon = node.lon - 0.1
+    minlat = node.lat - 0.1
+    maxlon = node.lon + 0.1
+    maxlat = node.lat + 0.1
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :map, :bbox => bbox
     if $VERBOSE
@@ -95,10 +95,10 @@ class ApiControllerTest < ActionController::TestCase
 
   def test_tracepoints
     point = gpx_files(:public_trace_file)
-    minlon = point.longitude-0.001
-    minlat = point.latitude-0.001
-    maxlon = point.longitude+0.001
-    maxlat = point.latitude+0.001
+    minlon = point.longitude - 0.001
+    minlat = point.latitude - 0.001
+    maxlon = point.longitude + 0.001
+    maxlat = point.latitude + 0.001
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     assert_response :success
@@ -111,10 +111,10 @@ class ApiControllerTest < ActionController::TestCase
 
   def test_tracepoints_trackable
     point = gpx_files(:trackable_trace_file)
-    minlon = point.longitude-0.002
-    minlat = point.latitude-0.002
-    maxlon = point.longitude+0.002
-    maxlat = point.latitude+0.002
+    minlon = point.longitude - 0.002
+    minlat = point.latitude - 0.002
+    maxlon = point.longitude + 0.002
+    maxlat = point.latitude + 0.002
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     assert_response :success
@@ -133,10 +133,10 @@ class ApiControllerTest < ActionController::TestCase
 
   def test_tracepoints_identifiable
     point = gpx_files(:identifiable_trace_file)
-    minlon = point.longitude-0.002
-    minlat = point.latitude-0.002
-    maxlon = point.longitude+0.002
-    maxlat = point.latitude+0.002
+    minlon = point.longitude - 0.002
+    minlat = point.latitude - 0.002
+    maxlon = point.longitude + 0.002
+    maxlat = point.latitude + 0.002
     bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
     get :trackpoints, :bbox => bbox
     assert_response :success
@@ -155,7 +155,7 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   def test_map_without_bbox
-    ["trackpoints", "map"].each do |tq|
+    %w(trackpoints map).each do |tq|
       get tq
       assert_response :bad_request
       assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body, "A bbox param was expected"
@@ -176,7 +176,7 @@ class ApiControllerTest < ActionController::TestCase
 
   def test_bbox_too_big
     @badbigbbox.each do |bbox|
-      [ "trackpoints", "map" ].each do |tq|
+      %w(trackpoints map).each do |tq|
         get tq, :bbox => bbox
         assert_response :bad_request, "The bbox:#{bbox} was expected to be too big"
         assert_equal "The maximum bbox size is #{MAX_REQUEST_AREA}, and your request was too large. Either request a smaller area, or use planet.osm", @response.body, "bbox: #{bbox}"
@@ -186,7 +186,7 @@ class ApiControllerTest < ActionController::TestCase
 
   def test_bbox_malformed
     @badmalformedbbox.each do |bbox|
-      [ "trackpoints", "map" ].each do |tq|
+      %w(trackpoints map).each do |tq|
         get tq, :bbox => bbox
         assert_response :bad_request, "The bbox:#{bbox} was expected to be malformed"
         assert_equal "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat", @response.body, "bbox: #{bbox}"
@@ -196,7 +196,7 @@ class ApiControllerTest < ActionController::TestCase
 
   def test_bbox_lon_mixedup
     @badlonmixedbbox.each do |bbox|
-      [ "trackpoints", "map" ].each do |tq|
+      %w(trackpoints map).each do |tq|
         get tq, :bbox => bbox
         assert_response :bad_request, "The bbox:#{bbox} was expected to have the longitude mixed up"
         assert_equal "The minimum longitude must be less than the maximum longitude, but it wasn't", @response.body, "bbox: #{bbox}"
@@ -206,7 +206,7 @@ class ApiControllerTest < ActionController::TestCase
 
   def test_bbox_lat_mixedup
     @badlatmixedbbox.each do |bbox|
-      ["trackpoints", "map"].each do |tq|
+      %w(trackpoints map).each do |tq|
         get tq, :bbox => bbox
         assert_response :bad_request, "The bbox:#{bbox} was expected to have the latitude mixed up"
         assert_equal "The minimum latitude must be less than the maximum latitude, but it wasn't", @response.body, "bbox: #{bbox}"
@@ -215,7 +215,7 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   # We can't actually get an out of bounds error, as the bbox is sanitised.
-  #def test_latlon_outofbounds
+  # def test_latlon_outofbounds
   #  @badlatlonoutboundsbbox.each do |bbox|
   #    [ "trackpoints", "map" ].each do |tq|
   #      get tq, :bbox => bbox
@@ -224,7 +224,7 @@ class ApiControllerTest < ActionController::TestCase
   #      assert_equal "The latitudes must be between -90 an 90, and longitudes between -180 and 180", @response.body, "bbox: #{bbox}"
   #    end
   #  end
-  #end
+  # end
 
   # MySQL and Postgres require that the C based functions are installed for
   # this test to work. More information is available from:
@@ -234,7 +234,7 @@ class ApiControllerTest < ActionController::TestCase
     Timecop.freeze(Time.parse('2010-04-03 10:55:00'))
     get :changes
     assert_response :success
-    #print @response.body
+    # print @response.body
     # As we have loaded the fixtures, we can assume that there are no
     # changes at the time we have frozen at
     now = Time.now.getutc
@@ -246,7 +246,7 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   def test_changes_zoom_invalid
-    zoom_to_test = %w{ p -1 0 17 one two }
+    zoom_to_test = %w(p -1 0 17 one two)
     zoom_to_test.each do |zoom|
       get :changes, :zoom => zoom
       assert_response :bad_request
@@ -267,7 +267,7 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   def test_hours_invalid
-    invalid = %w{ -21 335 -1 0 25 26 100 one two three ping pong : }
+    invalid = %w(-21 335 -1 0 25 26 100 one two three ping pong :)
     invalid.each do |hour|
       get :changes, :hours => hour
       assert_response :bad_request, "Problem with the hour: #{hour}"

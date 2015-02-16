@@ -49,7 +49,7 @@ module CompressionSystem
   def strip_whitespace
     response.body.gsub!(/()|(.*?<\/script>)|()|()|\s+/m) do |m|
       if m =~ /^()(.*?)<\/script>$/m
-        $1 + $2.strip.gsub(/\s+/, ' ').gsub('',"\n-->") + ''
+        $1 + $2.strip.gsub(/\s+/, ' ').gsub('', "\n-->") + ''
       elsif m =~ /^$/m
         ''
       elsif m =~ /^<(textarea|pre)/

@@ -9,7 +9,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     client = client_applications(:oauth_web_app)
 
     post_via_redirect "/login",
-      :username => client.user.email, :password => "test"
+                      :username => client.user.email, :password => "test"
     assert_response :success
 
     signed_get "/oauth/request_token", :consumer => client
@@ -22,15 +22,15 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_allowed token, client.permissions
 
     post "/oauth/authorize",
-      :oauth_token => token.token,
-      :allow_read_prefs => true, :allow_write_prefs => true
+         :oauth_token => token.token,
+         :allow_read_prefs => true, :allow_write_prefs => true
     assert_response :redirect
     assert_redirected_to "http://some.web.app.org/callback?oauth_token=#{token.token}"
     token.reload
     assert_not_nil token.created_at
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_allowed token, [ :allow_read_prefs ]
+    assert_allowed token, [:allow_read_prefs]
 
     signed_get "/oauth/access_token", :consumer => client, :token => token
     assert_response :success
@@ -43,7 +43,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_not_nil token.created_at
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_allowed token, [ :allow_read_prefs ]
+    assert_allowed token, [:allow_read_prefs]
 
     signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
     assert_response :success
@@ -66,16 +66,16 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_allowed token, client.permissions
 
     post "/oauth/authorize",
-      :oauth_token => token.token,
-      :oauth_callback => "http://another.web.app.org/callback",
-      :allow_write_api => true, :allow_read_gpx => true
+         :oauth_token => token.token,
+         :oauth_callback => "http://another.web.app.org/callback",
+         :allow_write_api => true, :allow_read_gpx => true
     assert_response :redirect
     assert_redirected_to "http://another.web.app.org/callback?oauth_token=#{token.token}"
     token.reload
     assert_not_nil token.created_at
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_allowed token, [ :allow_write_api, :allow_read_gpx ]
+    assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
     signed_get "/oauth/access_token", :consumer => client, :token => token
     assert_response :success
@@ -88,7 +88,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_not_nil token.created_at
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_allowed token, [ :allow_write_api, :allow_read_gpx ]
+    assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
     signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
     assert_response :success
@@ -106,7 +106,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     client = client_applications(:oauth_desktop_app)
 
     post_via_redirect "/login",
-      :username => client.user.email, :password => "test"
+                      :username => client.user.email, :password => "test"
     assert_response :success
 
     signed_get "/oauth/request_token", :consumer => client
@@ -119,15 +119,15 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_allowed token, client.permissions
 
     post "/oauth/authorize",
-      :oauth_token => token.token,
-      :allow_read_prefs => true, :allow_write_prefs => true
+         :oauth_token => token.token,
+         :allow_read_prefs => true, :allow_write_prefs => true
     assert_response :success
     assert_template "authorize_success"
     token.reload
     assert_not_nil token.created_at
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_allowed token, [ :allow_read_prefs ]
+    assert_allowed token, [:allow_read_prefs]
 
     signed_get "/oauth/access_token", :consumer => client, :token => token
     assert_response :success
@@ -140,7 +140,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_not_nil token.created_at
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_allowed token, [ :allow_read_prefs ]
+    assert_allowed token, [:allow_read_prefs]
 
     signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
     assert_response :success
@@ -158,11 +158,11 @@ class OAuthTest < ActionDispatch::IntegrationTest
     client = client_applications(:oauth_web_app)
 
     post_via_redirect "/login",
-      :username => client.user.email, :password => "test"
+                      :username => client.user.email, :password => "test"
     assert_response :success
 
     signed_get "/oauth/request_token",
-      :consumer => client, :oauth_callback => "oob"
+               :consumer => client, :oauth_callback => "oob"
     assert_response :success
     token = parse_token(response)
     assert_instance_of RequestToken, token
@@ -172,8 +172,8 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_allowed token, client.permissions
 
     post "/oauth/authorize",
-      :oauth_token => token.token,
-      :allow_read_prefs => true, :allow_write_prefs => true
+         :oauth_token => token.token,
+         :allow_read_prefs => true, :allow_write_prefs => true
     assert_response :redirect
     verifier = parse_verifier(response)
     assert_redirected_to "http://some.web.app.org/callback?oauth_token=#{token.token}&oauth_verifier=#{verifier}"
@@ -181,13 +181,13 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_not_nil token.created_at
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_allowed token, [ :allow_read_prefs ]
+    assert_allowed token, [:allow_read_prefs]
 
     signed_get "/oauth/access_token", :consumer => client, :token => token
     assert_response :unauthorized
 
     signed_get "/oauth/access_token",
-      :consumer => client, :token => token, :oauth_verifier => verifier
+               :consumer => client, :token => token, :oauth_verifier => verifier
     assert_response :success
     token.reload
     assert_not_nil token.created_at
@@ -198,7 +198,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_not_nil token.created_at
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_allowed token, [ :allow_read_prefs ]
+    assert_allowed token, [:allow_read_prefs]
 
     signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
     assert_response :success
@@ -212,8 +212,8 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
 
     signed_get "/oauth/request_token",
-      :consumer => client,
-      :oauth_callback => "http://another.web.app.org/callback"
+               :consumer => client,
+               :oauth_callback => "http://another.web.app.org/callback"
     assert_response :success
     token = parse_token(response)
     assert_instance_of RequestToken, token
@@ -223,8 +223,8 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_allowed token, client.permissions
 
     post "/oauth/authorize",
-      :oauth_token => token.token,
-      :allow_write_api => true, :allow_read_gpx => true
+         :oauth_token => token.token,
+         :allow_write_api => true, :allow_read_gpx => true
     assert_response :redirect
     verifier = parse_verifier(response)
     assert_redirected_to "http://another.web.app.org/callback?oauth_token=#{token.token}&oauth_verifier=#{verifier}"
@@ -232,13 +232,13 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_not_nil token.created_at
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_allowed token, [ :allow_write_api, :allow_read_gpx ]
+    assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
     signed_get "/oauth/access_token", :consumer => client, :token => token
     assert_response :unauthorized
 
     signed_get "/oauth/access_token",
-      :consumer => client, :token => token, :oauth_verifier => verifier
+               :consumer => client, :token => token, :oauth_verifier => verifier
     assert_response :success
     token.reload
     assert_not_nil token.created_at
@@ -249,7 +249,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_not_nil token.created_at
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_allowed token, [ :allow_write_api, :allow_read_gpx ]
+    assert_allowed token, [:allow_write_api, :allow_read_gpx]
 
     signed_get "/api/0.6/gpx/2", :consumer => client, :token => token
     assert_response :success
@@ -267,11 +267,11 @@ class OAuthTest < ActionDispatch::IntegrationTest
     client = client_applications(:oauth_desktop_app)
 
     post_via_redirect "/login",
-      :username => client.user.email, :password => "test"
+                      :username => client.user.email, :password => "test"
     assert_response :success
 
     signed_get "/oauth/request_token",
-      :consumer => client, :oauth_callback => "oob"
+               :consumer => client, :oauth_callback => "oob"
     assert_response :success
     token = parse_token(response)
     assert_instance_of RequestToken, token
@@ -281,8 +281,8 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_allowed token, client.permissions
 
     post "/oauth/authorize",
-      :oauth_token => token.token,
-      :allow_read_prefs => true, :allow_write_prefs => true
+         :oauth_token => token.token,
+         :allow_read_prefs => true, :allow_write_prefs => true
     assert_response :success
     assert_template "authorize_success"
     m = response.body.match("<p>The verification code is ([A-Za-z0-9]+).</p>")
@@ -292,13 +292,13 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_not_nil token.created_at
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_allowed token, [ :allow_read_prefs ]
+    assert_allowed token, [:allow_read_prefs]
 
     signed_get "/oauth/access_token", :consumer => client, :token => token
     assert_response :unauthorized
 
     signed_get "/oauth/access_token",
-      :consumer => client, :token => token, :oauth_verifier => verifier
+               :consumer => client, :token => token, :oauth_verifier => verifier
     assert_response :success
     token.reload
     assert_not_nil token.created_at
@@ -309,7 +309,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_not_nil token.created_at
     assert_not_nil token.authorized_at
     assert_nil token.invalidated_at
-    assert_allowed token, [ :allow_read_prefs ]
+    assert_allowed token, [:allow_read_prefs]
 
     signed_get "/api/0.6/user/preferences", :consumer => client, :token => token
     assert_response :success
@@ -323,7 +323,7 @@ class OAuthTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
-private
+  private
 
   def signed_get(uri, options)
     uri = URI.parse(uri)

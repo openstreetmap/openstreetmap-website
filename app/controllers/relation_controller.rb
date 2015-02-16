@@ -17,12 +17,12 @@ class RelationController < ApplicationController
 
     # We assume that an exception has been thrown if there was an error
     # generating the relation
-    #if relation
+    # if relation
     relation.create_with_history @user
     render :text => relation.id.to_s, :content_type => "text/plain"
-    #else
+    # else
     # render :text => "Couldn't get turn the input into a relation.", :status => :bad_request
-    #end
+    # end
   end
 
   def read
@@ -41,7 +41,7 @@ class RelationController < ApplicationController
     relation = Relation.find(params[:id])
     new_relation = Relation.from_xml(request.raw_post)
 
-    if new_relation and new_relation.id == relation.id
+    if new_relation && new_relation.id == relation.id
       relation.update_from new_relation, @user
       render :text => relation.version.to_s, :content_type => "text/plain"
     else
@@ -52,7 +52,7 @@ class RelationController < ApplicationController
   def delete
     relation = Relation.find(params[:id])
     new_relation = Relation.from_xml(request.raw_post)
-    if new_relation and new_relation.id == relation.id
+    if new_relation && new_relation.id == relation.id
       relation.delete_with_history!(new_relation, @user)
       render :text => relation.version.to_s, :content_type => "text/plain"
     else
@@ -78,7 +78,7 @@ class RelationController < ApplicationController
 
       node_ids = relation.members.select { |m| m[0] == 'Node' }.map { |m| m[1] }
       way_ids = relation.members.select { |m| m[0] == 'Way' }.map { |m| m[1] }
-      relation_ids = relation.members.select { |m| m[0] == 'Relation' and m[1] != relation.id }.map { |m| m[1] }
+      relation_ids = relation.members.select { |m| m[0] == 'Relation' && m[1] != relation.id }.map { |m| m[1] }
 
       # next load the relations and the ways.
 
@@ -88,9 +88,9 @@ class RelationController < ApplicationController
       # now additionally collect nodes referenced by ways. Note how we
       # recursively evaluate ways but NOT relations.
 
-      way_node_ids = ways.collect { |way|
-        way.way_nodes.collect { |way_node| way_node.node_id }
-      }
+      way_node_ids = ways.collect do |way|
+        way.way_nodes.collect(&:node_id)
+      end
       node_ids += way_node_ids.flatten
       nodes = Node.where(:id => node_ids.uniq).includes(:node_tags)
 
@@ -130,14 +130,14 @@ class RelationController < ApplicationController
   end
 
   def relations
-    if not params['relations']
-      raise OSM::APIBadUserInput.new("The parameter relations is required, and must be of the form relations=id[,id[,id...]]")
+    unless params['relations']
+      fail OSM::APIBadUserInput.new("The parameter relations is required, and must be of the form relations=id[,id[,id...]]")
     end
 
-    ids = params['relations'].split(',').collect { |w| w.to_i }
+    ids = params['relations'].split(',').collect(&:to_i)
 
     if ids.length == 0
-      raise OSM::APIBadUserInput.new("No relations were given to search for")
+      fail OSM::APIBadUserInput.new("No relations were given to search for")
     end
 
     doc = OSM::API.new.get_xml_doc
@@ -162,7 +162,7 @@ class RelationController < ApplicationController
   end
 
   def relations_for_object(objtype)
-    relationids = RelationMember.where(:member_type => objtype, :member_id => params[:id]).collect { |ws| ws.relation_id }.uniq
+    relationids = RelationMember.where(:member_type => objtype, :member_id => params[:id]).collect(&:relation_id).uniq
 
     doc = OSM::API.new.get_xml_doc
 

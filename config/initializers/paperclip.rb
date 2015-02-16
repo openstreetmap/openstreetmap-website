@@ -14,7 +14,7 @@ module Paperclip
   end
 end
 
-Rails.application.config.after_initialize do |app|
+Rails.application.config.after_initialize do |_app|
   Paperclip::AssetUrlGenerator::VIEW_ACCESSORS.each do |attr|
     Paperclip::AssetUrlGenerator.send("#{attr}=", ActionView::Base.send(attr))
   end

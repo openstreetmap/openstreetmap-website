@@ -8,7 +8,7 @@ class Note < ActiveRecord::Base
   validates_numericality_of :latitude, :only_integer => true
   validates_numericality_of :longitude, :only_integer => true
   validates_presence_of :closed_at if :status == "closed"
-  validates_inclusion_of :status, :in => ["open", "closed", "hidden"]
+  validates_inclusion_of :status, :in => %w(open closed hidden)
   validate :validate_position
 
   scope :visible, -> { where("status != 'hidden'") }
@@ -25,14 +25,14 @@ class Note < ActiveRecord::Base
   def close
     self.status = "closed"
     self.closed_at = Time.now.getutc
-    self.save
+    save
   end
 
   # Reopen a note
   def reopen
     self.status = "open"
     self.closed_at = nil
-    self.save
+    save
   end
 
   # Check if a note is visible
@@ -42,20 +42,20 @@ class Note < ActiveRecord::Base
 
   # Check if a note is closed
   def closed?
-    not closed_at.nil?
+    !closed_at.nil?
   end
 
   # Return the author object, derived from the first comment
   def author
-    self.comments.first.author
+    comments.first.author
   end
 
   # Return the author IP address, derived from the first comment
   def author_ip
-    self.comments.first.author_ip
+    comments.first.author_ip
   end
 
-private
+  private
 
   # Fill in default values for new notes
   def set_defaults

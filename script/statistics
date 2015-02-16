@@ -11,11 +11,11 @@ puts "<title>OpenStreetMap Statistics</title>"
 puts "<style>th { text-align: left }</style>"
 puts "</head>"
 puts "<body>"
-puts "<h2>OpenStreetMap stats report run at #{start_time.to_s}</h2>"
+puts "<h2>OpenStreetMap stats report run at #{start_time}</h2>"
 
 begin
   ActiveRecord::Base.transaction do
-    user_count = User.where(:status => ["active", "confirmed", "suspended"]).count
+    user_count = User.where(:status => %w(active confirmed suspended)).count
     tracepoint_count = Tracepoint.count
     node_count = Node.where(:visible => true).count
     way_count = Way.where(:visible => true).count
@@ -83,10 +83,10 @@ begin
     puts "</table>"
   end
 rescue Exception => e
-  puts "<p><em>Exception: #{e.to_s}</em><br />#{e.backtrace.join('<br />')}</p>"
+  puts "<p><em>Exception: #{e}</em><br />#{e.backtrace.join('<br />')}</p>"
 end
 
-puts "<p>Report took #{(Time.new - start_time).to_s} seconds to run</p>"
+puts "<p>Report took #{(Time.new - start_time)} seconds to run</p>"
 puts "</body>"
 puts "</html>"
 

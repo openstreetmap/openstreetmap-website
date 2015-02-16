@@ -13,7 +13,7 @@ class OldRelationTagTest < ActiveSupport::TestCase
       tag = OldRelationTag.new
       tag.relation_id = relation_tags(:t1).relation_id
       tag.version = 1
-      tag.k = key*i
+      tag.k = key * i
       tag.v = "v"
       assert tag.valid?
     end
@@ -26,13 +26,13 @@ class OldRelationTagTest < ActiveSupport::TestCase
       tag.relation_id = relation_tags(:t1).relation_id
       tag.version = 1
       tag.k = "k"
-      tag.v = val*i
+      tag.v = val * i
       assert tag.valid?
     end
   end
 
   def test_length_key_invalid
-    ["k"*256].each do |i|
+    ["k" * 256].each do |i|
       tag = OldRelationTag.new
       tag.relation_id = relation_tags(:t1).relation_id
       tag.version = 1
@@ -44,7 +44,7 @@ class OldRelationTagTest < ActiveSupport::TestCase
   end
 
   def test_length_value_invalid
-    ["k"*256].each do |i|
+    ["k" * 256].each do |i|
       tag = OldRelationTag.new
       tag.relation_id = relation_tags(:t1).relation_id
       tag.version = 1
@@ -69,7 +69,7 @@ class OldRelationTagTest < ActiveSupport::TestCase
     tag.v = relation_tags(:t1).v
     assert tag.new_record?
     assert !tag.valid?
-    assert_raise(ActiveRecord::RecordInvalid) {tag.save!}
+    assert_raise(ActiveRecord::RecordInvalid) { tag.save! }
     assert tag.new_record?
   end
 end

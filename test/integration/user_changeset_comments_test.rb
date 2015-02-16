@@ -26,7 +26,7 @@ class UserChangesetCommentsTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template 'user/login'
     # We can now login
-    post  '/login', {'username' => "test@openstreetmap.org", 'password' => "test"}
+    post '/login', 'username' => "test@openstreetmap.org", 'password' => "test"
     assert_response :redirect
 
     get "/changeset/#{changesets(:normal_user_closed_change).id}"

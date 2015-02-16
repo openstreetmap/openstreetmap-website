@@ -20,7 +20,7 @@ module ActiveRecord
       end
 
       module SchemaStatements
-        def add_primary_key(table_name, column_name, options = {})
+        def add_primary_key(table_name, column_name, _options = {})
           execute "ALTER TABLE #{quote_table_name(table_name)} ADD PRIMARY KEY (#{quote_column_name(column_name)})"
         end
 

@@ -27,7 +27,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       get_via_redirect "/login"
       assert_response :success
       assert_template 'user/login'
-      post "/login", {'username' => user.email, 'password' => 'test', :referer => "/"}
+      post "/login", 'username' => user.email, 'password' => 'test', :referer => "/"
       assert_response :redirect
       # but now we need to look at the terms
       assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/"
@@ -35,7 +35,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       assert_response :success
 
       # don't agree to the terms, but hit decline
-      post "/user/save", {'decline' => 'decline', 'referer' => '/'}
+      post "/user/save", 'decline' => 'decline', 'referer' => '/'
       assert_redirected_to "/"
       follow_redirect!
 
@@ -53,7 +53,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       get_via_redirect "/login"
       assert_response :success
       assert_template 'user/login'
-      post "/login", {'username' => user.email, 'password' => 'test', :referer => "/"}
+      post "/login", 'username' => user.email, 'password' => 'test', :referer => "/"
       assert_response :redirect
       # but now we need to look at the terms
       assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/"
@@ -67,10 +67,10 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
     end
   end
 
-private
+  private
 
   def auth_header(user, pass)
-    {"HTTP_AUTHORIZATION" => "Basic %s" % Base64.encode64("#{user}:#{pass}")}
+    { "HTTP_AUTHORIZATION" => "Basic %s" % Base64.encode64("#{user}:#{pass}") }
   end
 
   def with_terms_seen(value)

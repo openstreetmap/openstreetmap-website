@@ -52,9 +52,9 @@ class RedactionsController < ApplicationController
   end
 
   def destroy
-    unless @redaction.old_nodes.empty? and
-        @redaction.old_ways.empty? and
-        @redaction.old_relations.empty?
+    unless @redaction.old_nodes.empty? &&
+           @redaction.old_ways.empty? &&
+           @redaction.old_relations.empty?
       flash[:error] = t('redaction.destroy.not_empty')
       redirect_to @redaction
     else

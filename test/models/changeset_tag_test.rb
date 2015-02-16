@@ -12,7 +12,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
     (0..255).each do |i|
       tag = ChangesetTag.new
       tag.changeset_id = 1
-      tag.k = key*i
+      tag.k = key * i
       tag.v = "v"
       assert tag.valid?
     end
@@ -24,13 +24,13 @@ class ChangesetTagTest < ActiveSupport::TestCase
       tag = ChangesetTag.new
       tag.changeset_id = 1
       tag.k = "k"
-      tag.v = val*i
+      tag.v = val * i
       assert tag.valid?
     end
   end
 
   def test_length_key_invalid
-    ["k"*256].each do |k|
+    ["k" * 256].each do |k|
       tag = ChangesetTag.new
       tag.changeset_id = 1
       tag.k = k
@@ -41,7 +41,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
   end
 
   def test_length_value_invalid
-    ["v"*256].each do |v|
+    ["v" * 256].each do |v|
       tag = ChangesetTag.new
       tag.changeset_id = 1
       tag.k = "k"
@@ -64,7 +64,7 @@ class ChangesetTagTest < ActiveSupport::TestCase
     tag.v = changeset_tags(:changeset_1_tag_1).v
     assert tag.new_record?
     assert !tag.valid?
-    assert_raise(ActiveRecord::RecordInvalid) {tag.save!}
+    assert_raise(ActiveRecord::RecordInvalid) { tag.save! }
     assert tag.new_record?
   end
 end

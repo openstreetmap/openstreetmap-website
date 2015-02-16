@@ -38,12 +38,12 @@ class DiaryEntryController < ApplicationController
   end
 
   def edit
-    @title= t 'diary_entry.edit.title'
+    @title = t 'diary_entry.edit.title'
     @diary_entry = DiaryEntry.find(params[:id])
 
     if @user != @diary_entry.user
       redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
-    elsif params[:diary_entry] and @diary_entry.update_attributes(entry_params)
+    elsif params[:diary_entry] && @diary_entry.update_attributes(entry_params)
       redirect_to :controller => 'diary_entry', :action => 'view', :id => params[:id]
     end
 
@@ -85,19 +85,19 @@ class DiaryEntryController < ApplicationController
         @title = t 'diary_entry.list.title_friends'
         @entries = DiaryEntry.where(:user_id => @user.friend_users)
       else
-          require_user
-          return
+        require_user
+        return
       end
     elsif params[:nearby]
       if @user
         @title = t 'diary_entry.list.title_nearby'
         @entries = DiaryEntry.where(:user_id => @user.nearby)
       else
-          require_user
-          return
+        require_user
+        return
       end
     else
-      @entries = DiaryEntry.joins(:user).where(:users => { :status => ["active", "confirmed"] })
+      @entries = DiaryEntry.joins(:user).where(:users => { :status => %w(active confirmed) })
 
       if params[:language]
         @title = t 'diary_entry.list.in_language_title', :language => Language.find(params[:language]).english_name
@@ -131,7 +131,7 @@ class DiaryEntryController < ApplicationController
         return
       end
     else
-      @entries = DiaryEntry.joins(:user).where(:users => { :status => ["active", "confirmed"] })
+      @entries = DiaryEntry.joins(:user).where(:users => { :status => %w(active confirmed) })
 
       if params[:language]
         @entries = @entries.where(:language_code => params[:language])
@@ -180,7 +180,9 @@ class DiaryEntryController < ApplicationController
                                          :per_page => 20)
     @page = (params[:page] || 1).to_i
   end
-private
+
+  private
+
   ##
   # return permitted diary entry parameters
   def entry_params
@@ -206,17 +208,17 @@ private
   ##
   # is this list user specific?
   def user_specific_list?
-    params[:friends] or params[:nearby]
+    params[:friends] || params[:nearby]
   end
 
   ##
   # decide on a location for the diary entry map
   def set_map_location
-    if @diary_entry.latitude and @diary_entry.longitude
+    if @diary_entry.latitude && @diary_entry.longitude
       @lon = @diary_entry.longitude
       @lat = @diary_entry.latitude
       @zoom = 12
-    elsif @user.home_lat.nil? or @user.home_lon.nil?
+    elsif @user.home_lat.nil? || @user.home_lon.nil?
       @lon = params[:lon] || -0.1
       @lat = params[:lat] || 51.5
       @zoom = params[:zoom] || 4

@@ -6,7 +6,7 @@ require 'soap/wsdlDriver'
 # Monkey patch WSDL parser to stop it moaning
 module WSDL
   class Parser
-    def warn(msg)
+    def warn(_msg)
     end
   end
 end
@@ -16,7 +16,7 @@ end
 module Quova
   ##
   # Access details for WSDL description
-  WSDL_URL="https://webservices.quova.com/OnDemand/GeoPoint/v1/default.asmx?WSDL"
+  WSDL_URL = "https://webservices.quova.com/OnDemand/GeoPoint/v1/default.asmx?WSDL"
   WSDL_USER = QUOVA_USERNAME
   WSDL_PASS = QUOVA_PASSWORD
 
@@ -47,7 +47,7 @@ module Quova
   # Class representing geolocation details for an IP address
   class IpInfo
     def initialize(ip_address)
-      @ipinfo = Quova::soap.GetIpInfo(:ipAddress => ip_address)
+      @ipinfo = Quova.soap.GetIpInfo(:ipAddress => ip_address)
     end
 
     def status

@@ -16,7 +16,7 @@ class UserRolesTest < ActionDispatch::IntegrationTest
     check_fail(:revoke, :administrator_user, :moderator)
   end
 
-private
+  private
 
   def check_fail(action, user, role)
     get '/login'
@@ -24,7 +24,7 @@ private
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post '/login', {'username' => users(user).email, 'password' => "test", :referer => "/"}
+    post '/login', 'username' => users(user).email, 'password' => "test", :referer => "/"
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -41,7 +41,7 @@ private
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post '/login', {'username' => users(user).email, 'password' => "test", :referer => "/"}
+    post '/login', 'username' => users(user).email, 'password' => "test", :referer => "/"
     assert_response :redirect
     follow_redirect!
     assert_response :success

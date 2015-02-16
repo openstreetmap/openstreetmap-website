@@ -13,7 +13,7 @@ class R2Template < Tilt::Template
     @output = R2.r2(data)
   end
 
-  def evaluate(scope, locals, &block)
+  def evaluate(_scope, _locals, &_block)
     @output
   end
 end

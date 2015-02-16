@@ -20,7 +20,7 @@ class DiaryComment < ActiveRecord::Base
     md5.hexdigest
   end
 
-private
+  private
 
   def spam_check
     user.spam_check

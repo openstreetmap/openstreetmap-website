@@ -5,11 +5,10 @@
 # Each character encodes 3 bits of x and 3 of y, so there are extra characters
 # tacked on the end to make the zoom levels "work".
 module ShortLink
-
   # array of 64 chars to encode 6 bits. this is almost like base64 encoding, but
   # the symbolic chars are different, as base64's + and / aren't very
   # URL-friendly.
-  ARRAY = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a + ['_','~']
+  ARRAY = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a + ['_', '~']
 
   ##
   # Given a string encoding a location, returns the [lon, lat, z] tuple of that
@@ -23,7 +22,7 @@ module ShortLink
     # keep support for old shortlinks which use the @ character, now
     # replaced by the ~ character because twitter is horribly broken
     # and we can't have that.
-    str.gsub!("@","~")
+    str.gsub!("@", "~")
 
     str.each_char do |c|
       t = ARRAY.index c
@@ -31,8 +30,8 @@ module ShortLink
         z_offset -= 1
       else
         3.times do
-          x <<= 1; x = x | 1 unless (t & 32).zero?; t <<= 1
-          y <<= 1; y = y | 1 unless (t & 32).zero?; t <<= 1
+          x <<= 1; x |= 1 unless (t & 32).zero?; t <<= 1
+          y <<= 1; y |= 1 unless (t & 32).zero?; t <<= 1
         end
         z += 3
       end
@@ -55,7 +54,7 @@ module ShortLink
     str = ""
     # add eight to the zoom level, which approximates an accuracy of
     # one pixel in a tile.
-    ((z + 8)/3.0).ceil.times do |i|
+    ((z + 8) / 3.0).ceil.times do |i|
       digit = (code >> (58 - 6 * i)) & 0x3f
       str << ARRAY[digit]
     end
@@ -64,7 +63,7 @@ module ShortLink
     # of 3 zoom levels).
     ((z + 8) % 3).times { str << "-" }
 
-    return str
+    str
   end
 
   private
@@ -80,5 +79,4 @@ module ShortLink
     end
     c
   end
-
 end

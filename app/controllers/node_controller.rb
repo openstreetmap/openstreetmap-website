@@ -41,8 +41,8 @@ class NodeController < ApplicationController
     node = Node.find(params[:id])
     new_node = Node.from_xml(request.raw_post)
 
-    unless new_node and new_node.id == node.id
-      raise OSM::APIBadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
+    unless new_node && new_node.id == node.id
+      fail OSM::APIBadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
     end
     node.update_from(new_node, @user)
     render :text => node.version.to_s, :content_type => "text/plain"
@@ -55,8 +55,8 @@ class NodeController < ApplicationController
     node = Node.find(params[:id])
     new_node = Node.from_xml(request.raw_post)
 
-    unless new_node and new_node.id == node.id
-      raise OSM::APIBadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
+    unless new_node && new_node.id == node.id
+      fail OSM::APIBadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
     end
     node.delete_with_history!(new_node, @user)
     render :text => node.version.to_s, :content_type => "text/plain"
@@ -64,14 +64,14 @@ class NodeController < ApplicationController
 
   # Dump the details on many nodes whose ids are given in the "nodes" parameter.
   def nodes
-    if not params['nodes']
-      raise OSM::APIBadUserInput.new("The parameter nodes is required, and must be of the form nodes=id[,id[,id...]]")
+    unless params['nodes']
+      fail OSM::APIBadUserInput.new("The parameter nodes is required, and must be of the form nodes=id[,id[,id...]]")
     end
 
-    ids = params['nodes'].split(',').collect { |n| n.to_i }
+    ids = params['nodes'].split(',').collect(&:to_i)
 
     if ids.length == 0
-      raise OSM::APIBadUserInput.new("No nodes were given to search for")
+      fail OSM::APIBadUserInput.new("No nodes were given to search for")
     end
     doc = OSM::API.new.get_xml_doc
 

@@ -1,7 +1,6 @@
 module ActiveRecord
   module Validations
     module ClassMethods
-
       # error message when invalid UTF-8 is detected
       @@invalid_utf8_message = " is invalid UTF-8"
 
@@ -14,7 +13,6 @@ module ActiveRecord
           record.errors.add(attr, @@invalid_utf8_message) unless UTF8.valid? value
         end
       end
-
     end
   end
 end

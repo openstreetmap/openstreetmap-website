@@ -8,7 +8,7 @@ class ChangesetComment < ActiveRecord::Base
   validates_associated :changeset
   validates_presence_of :author
   validates_associated :author
-  validates :visible, :inclusion => { :in => [true,false] }
+  validates :visible, :inclusion => { :in => [true, false] }
 
   # Return the comment text
   def body

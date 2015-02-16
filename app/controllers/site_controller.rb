@@ -10,34 +10,34 @@ class SiteController < ApplicationController
   before_filter :require_oauth, :only => [:index]
 
   def index
-    unless STATUS == :database_readonly or STATUS == :database_offline
+    unless STATUS == :database_readonly || STATUS == :database_offline
       session[:location] ||= OSM::IPLocation(request.env['REMOTE_ADDR'])
     end
   end
 
   def permalink
-    lon, lat, zoom = ShortLink::decode(params[:code])
+    lon, lat, zoom = ShortLink.decode(params[:code])
     new_params = params.except(:code, :lon, :lat, :zoom, :layers, :node, :way, :relation, :changeset)
 
-    if new_params.has_key? :m
+    if new_params.key? :m
       new_params.delete :m
       new_params[:mlat] = lat
       new_params[:mlon] = lon
     end
 
-    if params.has_key? :node
+    if params.key? :node
       new_params[:controller] = 'browse'
       new_params[:action] = 'node'
       new_params[:id] = params[:node]
-    elsif params.has_key? :way
+    elsif params.key? :way
       new_params[:controller] = 'browse'
       new_params[:action] = 'way'
       new_params[:id] = params[:way]
-    elsif params.has_key? :relation
+    elsif params.key? :relation
       new_params[:controller] = 'browse'
       new_params[:action] = 'relation'
       new_params[:id] = params[:relation]
-    elsif params.has_key? :changeset
+    elsif params.key? :changeset
       new_params[:controller] = 'browse'
       new_params[:action] = 'changeset'
       new_params[:id] = params[:changeset]
@@ -48,7 +48,7 @@ class SiteController < ApplicationController
 
     new_params[:anchor] = "map=#{zoom}/#{lat}/#{lon}"
 
-    if params.has_key? :layers
+    if params.key? :layers
       new_params[:anchor] += "&layers=#{params[:layers]}"
     end
 

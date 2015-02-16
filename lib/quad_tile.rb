@@ -6,7 +6,7 @@ module QuadTile
       x = ((lon.to_f + 180) * 65535 / 360).round
       y = ((lat.to_f + 90) * 65535 / 180).round
 
-      return tile_for_xy(x, y)
+      tile_for_xy(x, y)
     end
 
     def self.tiles_for_area(bbox)
@@ -22,7 +22,7 @@ module QuadTile
         end
       end
 
-      return tiles
+      tiles
     end
 
     def self.tile_for_xy(x, y)
@@ -30,14 +30,14 @@ module QuadTile
 
       16.times do
         t = t << 1
-        t = t | 1 unless (x & 0x8000).zero?
+        t |= 1 unless (x & 0x8000).zero?
         x <<= 1
         t = t << 1
-        t = t | 1 unless (y & 0x8000).zero?
+        t |= 1 unless (y & 0x8000).zero?
         y <<= 1
       end
 
-      return t
+      t
     end
 
     def self.iterate_tiles_for_area(bbox)
@@ -61,10 +61,10 @@ module QuadTile
   end
 
   def self.sql_for_area(bbox, prefix)
-    sql = Array.new
-    single = Array.new
+    sql = []
+    single = []
 
-    iterate_tiles_for_area(bbox) do |first,last|
+    iterate_tiles_for_area(bbox) do |first, last|
       if first == last
         single.push(first)
       else
@@ -74,7 +74,7 @@ module QuadTile
 
     sql.push("#{prefix}tile IN (#{single.join(',')})") if single.size > 0
 
-    return "( " + sql.join(" OR ") + " )"
+    "( " + sql.join(" OR ") + " )"
   end
 
   private_class_method :tile_for_xy, :iterate_tiles_for_area

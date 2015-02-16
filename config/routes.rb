@@ -86,7 +86,7 @@ OpenStreetMap::Application.routes.draw do
 
   # Map notes API
   scope "api/0.6" do
-    resources :notes, :except => [ :new, :edit, :update ], :constraints => { :id => /\d+/ }, :defaults => { :format => "xml" } do
+    resources :notes, :except => [:new, :edit, :update], :constraints => { :id => /\d+/ }, :defaults => { :format => "xml" } do
       collection do
         get 'search'
         get 'feed', :defaults => { :format => "rss" }

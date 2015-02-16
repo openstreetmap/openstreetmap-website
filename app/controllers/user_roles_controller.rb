@@ -15,17 +15,18 @@ class UserRolesController < ApplicationController
   end
 
   def revoke
-    UserRole.delete_all({:user_id => @this_user.id, :role => @role})
+    UserRole.delete_all(:user_id => @this_user.id, :role => @role)
     redirect_to :controller => 'user', :action => 'view', :display_name => @this_user.display_name
   end
 
   private
+
   ##
   # require that the user is an administrator, or fill out a helpful error message
   # and return them to theuser page.
   def require_administrator
     unless @user.administrator?
-      flash[:error] = t'user_role.filter.not_an_administrator'
+      flash[:error] = t 'user_role.filter.not_an_administrator'
       redirect_to :controller => 'user', :action => 'view', :display_name => @this_user.display_name
     end
   end

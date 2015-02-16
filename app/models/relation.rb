@@ -18,9 +18,9 @@ class Relation < ActiveRecord::Base
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
   validates_presence_of :id, :on => :update
-  validates_presence_of :timestamp,:version,  :changeset_id
+  validates_presence_of :timestamp, :version,  :changeset_id
   validates_uniqueness_of :id
-  validates_inclusion_of :visible, :in => [ true, false ]
+  validates_inclusion_of :visible, :in => [true, false]
   validates_numericality_of :id, :on => :update, :integer_only => true
   validates_numericality_of :changeset_id, :version, :integer_only => true
   validates_associated :changeset
@@ -31,36 +31,34 @@ class Relation < ActiveRecord::Base
   scope :ways, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Way", :member_id => ids.flatten }) }
   scope :relations, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Relation", :member_id => ids.flatten }) }
 
-  TYPES = ["node", "way", "relation"]
+  TYPES = %w(node way relation)
 
-  def self.from_xml(xml, create=false)
-    begin
-      p = XML::Parser.string(xml)
-      doc = p.parse
+  def self.from_xml(xml, create = false)
+    p = XML::Parser.string(xml)
+    doc = p.parse
 
-      doc.find('//osm/relation').each do |pt|
-        return Relation.from_xml_node(pt, create)
-      end
-      raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/relation element.")
-    rescue LibXML::XML::Error, ArgumentError => ex
-      raise OSM::APIBadXMLError.new("relation", xml, ex.message)
+    doc.find('//osm/relation').each do |pt|
+      return Relation.from_xml_node(pt, create)
     end
+    fail OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/relation element.")
+  rescue LibXML::XML::Error, ArgumentError => ex
+    raise OSM::APIBadXMLError.new("relation", xml, ex.message)
   end
 
-  def self.from_xml_node(pt, create=false)
+  def self.from_xml_node(pt, create = false)
     relation = Relation.new
 
-    raise OSM::APIBadXMLError.new("relation", pt, "Version is required when updating") unless create or not pt['version'].nil?
+    fail OSM::APIBadXMLError.new("relation", pt, "Version is required when updating") unless create || !pt['version'].nil?
     relation.version = pt['version']
-    raise OSM::APIBadXMLError.new("relation", pt, "Changeset id is missing") if pt['changeset'].nil?
+    fail OSM::APIBadXMLError.new("relation", pt, "Changeset id is missing") if pt['changeset'].nil?
     relation.changeset_id = pt['changeset']
 
     unless create
-      raise OSM::APIBadXMLError.new("relation", pt, "ID is required when updating") if pt['id'].nil?
+      fail OSM::APIBadXMLError.new("relation", pt, "ID is required when updating") if pt['id'].nil?
       relation.id = pt['id'].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      raise OSM::APIBadUserInput.new("ID of relation cannot be zero when updating.") if relation.id == 0
+      fail OSM::APIBadUserInput.new("ID of relation cannot be zero when updating.") if relation.id == 0
     end
 
     # We don't care about the timestamp nor the visibility as these are either
@@ -69,12 +67,12 @@ class Relation < ActiveRecord::Base
     relation.visible = true
 
     # Start with no tags
-    relation.tags = Hash.new
+    relation.tags = {}
 
     # Add in any tags from the XML
     pt.find('tag').each do |tag|
-      raise OSM::APIBadXMLError.new("relation", pt, "tag is missing key") if tag['k'].nil?
-      raise OSM::APIBadXMLError.new("relation", pt, "tag is missing value") if tag['v'].nil?
+      fail OSM::APIBadXMLError.new("relation", pt, "tag is missing key") if tag['k'].nil?
+      fail OSM::APIBadXMLError.new("relation", pt, "tag is missing value") if tag['v'].nil?
       relation.add_tag_keyval(tag['k'], tag['v'])
     end
 
@@ -82,47 +80,47 @@ class Relation < ActiveRecord::Base
     # isn't done for a new relation then @members attribute will be nil,
     # and the members will be loaded from the database instead of being
     # empty, as intended.
-    relation.members = Array.new
+    relation.members = []
 
     pt.find('member').each do |member|
-      #member_type =
+      # member_type =
       logger.debug "each member"
-      raise OSM::APIBadXMLError.new("relation", pt, "The #{member['type']} is not allowed only, #{TYPES.inspect} allowed") unless TYPES.include? member['type']
+      fail OSM::APIBadXMLError.new("relation", pt, "The #{member['type']} is not allowed only, #{TYPES.inspect} allowed") unless TYPES.include? member['type']
       logger.debug "after raise"
-      #member_ref = member['ref']
-      #member_role
+      # member_ref = member['ref']
+      # member_role
       member['role'] ||= "" # Allow  the upload to not include this, in which case we default to an empty string.
       logger.debug member['role']
       relation.add_member(member['type'].classify, member['ref'], member['role'])
     end
-    raise OSM::APIBadUserInput.new("Some bad xml in relation") if relation.nil?
+    fail OSM::APIBadUserInput.new("Some bad xml in relation") if relation.nil?
 
-    return relation
+    relation
   end
 
   def to_xml
     doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node()
-    return doc
+    doc.root << to_xml_node
+    doc
   end
 
   def to_xml_node(visible_members = nil, changeset_cache = {}, user_display_name_cache = {})
     el = XML::Node.new 'relation'
-    el['id'] = self.id.to_s
+    el['id'] = id.to_s
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
-    self.relation_members.each do |member|
-      p=0
+    relation_members.each do |member|
+      p = 0
       if visible_members
         # if there is a list of visible members then use that to weed out deleted segments
         if visible_members[member.member_type][member.member_id]
-          p=1
+          p = 1
         end
       else
         # otherwise, manually go to the db to check things
         if member.member.visible?
-          p=1
+          p = 1
         end
       end
       if p
@@ -134,29 +132,25 @@ class Relation < ActiveRecord::Base
        end
     end
 
-    add_tags_to_xml_node(el, self.relation_tags)
+    add_tags_to_xml_node(el, relation_tags)
 
-    return el
+    el
   end
 
   # FIXME is this really needed?
   def members
-    @members ||= self.relation_members.map do |member|
+    @members ||= relation_members.map do |member|
       [member.member_type, member.member_id, member.member_role]
     end
   end
 
   def tags
-    @tags ||= Hash[self.relation_tags.collect { |t| [t.k, t.v] }]
+    @tags ||= Hash[relation_tags.collect { |t| [t.k, t.v] }]
   end
 
-  def members=(m)
-    @members = m
-  end
+  attr_writer :members
 
-  def tags=(t)
-    @tags = t
-  end
+  attr_writer :tags
 
   def add_member(type, id, role)
     @members ||= []
@@ -164,11 +158,11 @@ class Relation < ActiveRecord::Base
   end
 
   def add_tag_keyval(k, v)
-    @tags = Hash.new unless @tags
+    @tags = {} unless @tags
 
     # duplicate tags are now forbidden, so we can't allow values
     # in the hash to be overwritten.
-    raise OSM::APIDuplicateTagsError.new("relation", self.id, k) if @tags.include? k
+    fail OSM::APIDuplicateTagsError.new("relation", id, k) if @tags.include? k
 
     @tags[k] = v
   end
@@ -184,8 +178,8 @@ class Relation < ActiveRecord::Base
   end
 
   def delete_with_history!(new_relation, user)
-    unless self.visible
-      raise OSM::APIAlreadyDeletedError.new("relation", new_relation.id)
+    unless visible
+      fail OSM::APIAlreadyDeletedError.new("relation", new_relation.id)
     end
 
     # need to start the transaction here, so that the database can
@@ -195,8 +189,8 @@ class Relation < ActiveRecord::Base
       self.lock!
       check_consistency(self, new_relation, user)
       # This will check to see if this relation is used by another relation
-      rel = RelationMember.joins(:relation).where("visible = ? AND member_type = 'Relation' and member_id = ? ", true, self.id).first
-      raise OSM::APIPreconditionFailedError.new("The relation #{new_relation.id} is used in relation #{rel.relation.id}.") unless rel.nil?
+      rel = RelationMember.joins(:relation).where("visible = ? AND member_type = 'Relation' and member_id = ? ", true, id).first
+      fail OSM::APIPreconditionFailedError.new("The relation #{new_relation.id} is used in relation #{rel.relation.id}.") unless rel.nil?
 
       self.changeset_id = new_relation.changeset_id
       self.tags = {}
@@ -210,8 +204,8 @@ class Relation < ActiveRecord::Base
     Relation.transaction do
       self.lock!
       check_consistency(self, new_relation, user)
-      unless new_relation.preconditions_ok?(self.members)
-        raise OSM::APIPreconditionFailedError.new("Cannot update relation #{self.id}: data or member data is invalid.")
+      unless new_relation.preconditions_ok?(members)
+        fail OSM::APIPreconditionFailedError.new("Cannot update relation #{id}: data or member data is invalid.")
       end
       self.changeset_id = new_relation.changeset_id
       self.changeset = new_relation.changeset
@@ -225,7 +219,7 @@ class Relation < ActiveRecord::Base
   def create_with_history(user)
     check_create_consistency(self, user)
     unless self.preconditions_ok?
-      raise OSM::APIPreconditionFailedError.new("Cannot create relation: data or member data is invalid.")
+      fail OSM::APIPreconditionFailedError.new("Cannot create relation: data or member data is invalid.")
     end
     self.version = 0
     self.visible = true
@@ -240,14 +234,15 @@ class Relation < ActiveRecord::Base
     # Thus if you have nodes with the ids of 50 and 1 already in the
     # relation, then the hash table nodes would contain:
     # => {50=>true, 1=>true}
-    elements = { :node => Hash.new, :way => Hash.new, :relation => Hash.new }
+    elements = { :node => {}, :way => {}, :relation => {} }
 
     # pre-set all existing members to good
     good_members.each { |m| elements[m[0].downcase.to_sym][m[1]] = true }
 
-    self.members.each do |m|
+    members.each do |m|
       # find the hash for the element type or die
-      hash = elements[m[0].downcase.to_sym] or return false
+      hash = elements[m[0].downcase.to_sym]
+      return false unless hash
       # unless its in the cache already
       unless hash.key? m[1]
         # use reflection to look up the appropriate class
@@ -256,19 +251,19 @@ class Relation < ActiveRecord::Base
         element = model.where(:id => m[1]).first
 
         # and check that it is OK to use.
-        unless element and element.visible? and element.preconditions_ok?
-          raise OSM::APIPreconditionFailedError.new("Relation with id #{self.id} cannot be saved due to #{m[0]} with id #{m[1]}")
+        unless element && element.visible? && element.preconditions_ok?
+          fail OSM::APIPreconditionFailedError.new("Relation with id #{id} cannot be saved due to #{m[0]} with id #{m[1]}")
         end
         hash[m[1]] = true
       end
     end
 
-    return true
+    true
   end
 
   # Temporary method to match interface to nodes
   def tags_as_hash
-    return self.tags
+    tags
   end
 
   ##
@@ -276,11 +271,11 @@ class Relation < ActiveRecord::Base
   # this calling this method will fix them using the map from placeholders
   # to IDs +id_map+.
   def fix_placeholders!(id_map, placeholder_id = nil)
-    self.members.map! do |type, id, role|
+    members.map! do |type, id, role|
       old_id = id.to_i
       if old_id < 0
         new_id = id_map[type.downcase.to_sym][old_id]
-        raise OSM::APIBadUserInput.new("Placeholder #{type} not found for reference #{old_id} in relation #{self.id.nil? ? placeholder_id : self.id}.") if new_id.nil?
+        fail OSM::APIBadUserInput.new("Placeholder #{type} not found for reference #{old_id} in relation #{self.id.nil? ? placeholder_id : self.id}.") if new_id.nil?
         [type, new_id, role]
       else
         [type, id, role]
@@ -302,13 +297,13 @@ class Relation < ActiveRecord::Base
       self.save!
 
       tags = self.tags.clone
-      self.relation_tags.each do |old_tag|
+      relation_tags.each do |old_tag|
         key = old_tag.k
         # if we can match the tags we currently have to the list
         # of old tags, then we never set the tags_changed flag. but
         # if any are different then set the flag and do the DB
         # update.
-        if tags.has_key? key
+        if tags.key? key
           tags_changed |= (old_tag.v != tags[key])
 
           # remove from the map, so that we can expect an empty map
@@ -322,11 +317,11 @@ class Relation < ActiveRecord::Base
       end
       # if there are left-over tags then they are new and will have to
       # be added.
-      tags_changed |= (not tags.empty?)
-      RelationTag.delete_all(:relation_id => self.id)
-      self.tags.each do |k,v|
+      tags_changed |= (!tags.empty?)
+      RelationTag.delete_all(:relation_id => id)
+      self.tags.each do |k, v|
         tag = RelationTag.new
-        tag.relation_id = self.id
+        tag.relation_id = id
         tag.k = k
         tag.v = v
         tag.save!
@@ -335,9 +330,9 @@ class Relation < ActiveRecord::Base
       # same pattern as before, but this time we're collecting the
       # changed members in an array, as the bounding box updates for
       # elements are per-element, not blanked on/off like for tags.
-      changed_members = Array.new
+      changed_members = []
       members = self.members.clone
-      self.relation_members.each do |old_member|
+      relation_members.each do |old_member|
         key = [old_member.member_type, old_member.member_id, old_member.member_role]
         i = members.index key
         if i.nil?
@@ -353,10 +348,10 @@ class Relation < ActiveRecord::Base
       # members may be in a different order and i don't feel like implementing
       # a longest common subsequence algorithm to optimise this.
       members = self.members
-      RelationMember.delete_all(:relation_id => self.id)
-      members.each_with_index do |m,i|
+      RelationMember.delete_all(:relation_id => id)
+      members.each_with_index do |m, i|
         mem = RelationMember.new
-        mem.relation_id = self.id
+        mem.relation_id = id
         mem.sequence_id = i
         mem.member_type = m[0]
         mem.member_id = m[1]
@@ -379,10 +374,10 @@ class Relation < ActiveRecord::Base
       # reasonable on the assumption that adding or removing members doesn't
       # materially change the rest of the relation.
       any_relations =
-        changed_members.collect { |id,type| type == "relation" }.
-        inject(false) { |b,s| b or s }
+        changed_members.collect { |_id, type| type == "relation" }
+        .inject(false) { |b, s| b || s }
 
-      update_members = if tags_changed or any_relations
+      update_members = if tags_changed || any_relations
                          # add all non-relation bounding boxes to the changeset
                          # FIXME: check for tag changes along with element deletions and
                          # make sure that the deleted element's bounding box is hit.
@@ -390,7 +385,7 @@ class Relation < ActiveRecord::Base
                        else
                          changed_members
                        end
-      update_members.each do |type, id, role|
+      update_members.each do |type, id, _role|
         if type != "Relation"
           update_changeset_element(type, id)
         end
@@ -403,5 +398,4 @@ class Relation < ActiveRecord::Base
       changeset.save!
     end
   end
-
 end

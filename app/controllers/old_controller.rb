@@ -5,22 +5,22 @@ class OldController < ApplicationController
   require 'xml/libxml'
 
   skip_before_filter :verify_authenticity_token
-  before_filter :setup_user_auth, :only => [ :history, :version ]
-  before_filter :authorize, :only => [ :redact ]
-  before_filter :authorize_moderator, :only => [ :redact ]
-  before_filter :require_allow_write_api, :only => [ :redact ]
+  before_filter :setup_user_auth, :only => [:history, :version]
+  before_filter :authorize, :only => [:redact]
+  before_filter :authorize_moderator, :only => [:redact]
+  before_filter :require_allow_write_api, :only => [:redact]
   before_filter :check_api_readable
-  before_filter :check_api_writable, :only => [ :redact ]
+  before_filter :check_api_writable, :only => [:redact]
   after_filter :compress_output
   around_filter :api_call_handle_error, :api_call_timeout
-  before_filter :lookup_old_element, :except => [ :history ]
-  before_filter :lookup_old_element_versions, :only => [ :history ]
+  before_filter :lookup_old_element, :except => [:history]
+  before_filter :lookup_old_element_versions, :only => [:history]
 
   def history
     # the .where() method used in the lookup_old_element_versions
     # call won't throw an error if no records are found, so we have
     # to do that ourselves.
-    raise OSM::APINotFoundError.new if @elements.empty?
+    fail OSM::APINotFoundError.new if @elements.empty?
 
     doc = OSM::API.new.get_xml_doc
 
@@ -38,7 +38,7 @@ class OldController < ApplicationController
   end
 
   def version
-    if @old_element.redacted? and not show_redactions?
+    if @old_element.redacted? && !show_redactions?
       render :text => "", :status => :forbidden
 
     else
@@ -72,6 +72,6 @@ class OldController < ApplicationController
   private
 
   def show_redactions?
-    @user and @user.moderator? and params[:show_redactions] == "true"
+    @user && @user.moderator? && params[:show_redactions] == "true"
   end
 end

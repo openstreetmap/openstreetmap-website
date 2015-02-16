@@ -5,8 +5,8 @@ class NoteTest < ActiveSupport::TestCase
   fixtures :users, :notes, :note_comments
 
   def test_status_valid
-    ok = [ "open", "closed", "hidden" ]
-    bad = [ "expropriated", "fubared" ]
+    ok = %w(open closed hidden)
+    bad = %w(expropriated fubared)
 
     ok.each do |status|
       note = notes(:open_note)

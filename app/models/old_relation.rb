@@ -27,24 +27,24 @@ class OldRelation < ActiveRecord::Base
     old_relation.version = relation.version
     old_relation.members = relation.members
     old_relation.tags = relation.tags
-    return old_relation
+    old_relation
   end
 
   def save_with_dependencies!
     save!
 
-    self.tags.each do |k,v|
+    tags.each do |k, v|
       tag = OldRelationTag.new
       tag.k = k
       tag.v = v
-      tag.relation_id = self.relation_id
-      tag.version = self.version
+      tag.relation_id = relation_id
+      tag.version = version
       tag.save!
     end
 
-    self.members.each_with_index do |m,i|
+    members.each_with_index do |m, i|
       member = OldRelationMember.new
-      member.id = [self.relation_id, self.version, i]
+      member.id = [relation_id, version, i]
       member.member_type = m[0].classify
       member.member_id = m[1]
       member.member_role = m[2]
@@ -53,36 +53,32 @@ class OldRelation < ActiveRecord::Base
   end
 
   def members
-    @members ||= self.old_members.collect do |member|
+    @members ||= old_members.collect do |member|
       [member.member_type, member.member_id, member.member_role]
     end
   end
 
   def tags
-    @tags ||= Hash[self.old_tags.collect { |t| [t.k, t.v] }]
+    @tags ||= Hash[old_tags.collect { |t| [t.k, t.v] }]
   end
 
-  def members=(s)
-    @members = s
-  end
+  attr_writer :members
 
-  def tags=(t)
-    @tags = t
-  end
+  attr_writer :tags
 
   def to_xml
     doc = OSM::API.new.get_xml_doc
-    doc.root << to_xml_node()
-    return doc
+    doc.root << to_xml_node
+    doc
   end
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el = XML::Node.new 'relation'
-    el['id'] = self.relation_id.to_s
+    el['id'] = relation_id.to_s
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
-    self.old_members.each do |member|
+    old_members.each do |member|
       member_el = XML::Node.new 'member'
       member_el['type'] = member.member_type.to_s.downcase
       member_el['ref'] = member.member_id.to_s # "id" is considered uncool here as it should be unique in XML
@@ -90,29 +86,29 @@ class OldRelation < ActiveRecord::Base
       el << member_el
     end
 
-    add_tags_to_xml_node(el, self.old_tags)
+    add_tags_to_xml_node(el, old_tags)
 
-    return el
+    el
   end
 
   # Temporary method to match interface to nodes
   def tags_as_hash
-    return self.tags
+    tags
   end
 
   # Temporary method to match interface to relations
   def relation_members
-    return self.old_members
+    old_members
   end
 
   # Pretend we're not in any relations
   def containing_relation_members
-    return []
+    []
   end
 
   # check whether this element is the latest version - that is,
   # has the same version as its "current" counterpart.
   def is_latest_version?
-    current_relation.version == self.version
+    current_relation.version == version
   end
 end

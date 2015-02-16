@@ -7,10 +7,10 @@ class UserToken < ActiveRecord::Base
     expiry < Time.now
   end
 
-private
+  private
 
   def set_defaults
-    self.token = OSM::make_token() if self.token.blank?
-    self.expiry = 1.week.from_now if self.expiry.blank?
+    self.token = OSM.make_token if token.blank?
+    self.expiry = 1.week.from_now if expiry.blank?
   end
 end

@@ -5,25 +5,24 @@ class RemoveSegments < ActiveRecord::Migration
     have_segs = select_value("SELECT count(*) FROM current_segments").to_i != 0
 
     if have_segs
-      prefix = File.join Dir.tmpdir, "008_remove_segments.#{$$}."
+      prefix = File.join Dir.tmpdir, "008_remove_segments.#{$PROCESS_ID}."
 
       cmd = "db/migrate/008_remove_segments_helper"
       src = "#{cmd}.cc"
-      if not File.exists? cmd or File.mtime(cmd) < File.mtime(src) then
-	system 'c++ -O3 -Wall `mysql_config --cflags --libs` ' +
-	  "#{src} -o #{cmd}" or fail
+      if !File.exist?(cmd) || File.mtime(cmd) < File.mtime(src)
+        system('c++ -O3 -Wall `mysql_config --cflags --libs` ' +
+          "#{src} -o #{cmd}") || fail
       end
 
-      conn_opts = ActiveRecord::Base.connection.
-	instance_eval { @connection_options }
-      args = conn_opts.map { |arg| arg.to_s } + [prefix]
+      conn_opts = ActiveRecord::Base.connection
+                  .instance_eval { @connection_options }
+      args = conn_opts.map(&:to_s) + [prefix]
       fail "#{cmd} failed" unless system cmd, *args
 
-      tempfiles = ['ways', 'way_nodes', 'way_tags',
-	'relations', 'relation_members', 'relation_tags'].
-	map { |base| prefix + base }
+      tempfiles = %w(ways way_nodes way_tags relations relation_members relation_tags)
+                  .map { |base| prefix + base }
       ways, way_nodes, way_tags,
-	relations, relation_members, relation_tags = tempfiles
+  relations, relation_members, relation_tags = tempfiles
     end
 
     drop_table :segments
@@ -82,6 +81,6 @@ class RemoveSegments < ActiveRecord::Migration
   end
 
   def self.down
-    raise ActiveRecord::IrreversibleMigration
+    fail ActiveRecord::IrreversibleMigration
   end
 end

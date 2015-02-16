@@ -6,7 +6,7 @@ class Message < ActiveRecord::Base
 
   validates_presence_of :title, :body, :sent_on, :sender, :recipient
   validates_length_of :title, :within => 1..255
-  validates_inclusion_of :message_read, :in => [ true, false ]
+  validates_inclusion_of :message_read, :in => [true, false]
   validates_as_utf8 :title
 
   def self.from_mail(mail, from, to)
@@ -16,7 +16,7 @@ class Message < ActiveRecord::Base
       elsif mail.html_part
         body = HTMLEntities.new.decode(Sanitize.clean(mail.html_part.decoded))
       end
-    elsif mail.text? and mail.sub_type == "html"
+    elsif mail.text? && mail.sub_type == "html"
       body = HTMLEntities.new.decode(Sanitize.clean(mail.decoded))
     else
       body = mail.decoded

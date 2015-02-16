@@ -10,18 +10,18 @@ class DiaryEntryTest < ActiveSupport::TestCase
 
   def test_diary_entry_validations
     diary_entry_valid({})
-    diary_entry_valid({:title => ''}, false)
-    diary_entry_valid({:title => 'a'*255})
-    diary_entry_valid({:title => 'a'*256}, false)
-    diary_entry_valid({:body => ''}, false)
-    diary_entry_valid({:latitude => 90})
-    diary_entry_valid({:latitude => 90.00001}, false)
-    diary_entry_valid({:latitude => -90})
-    diary_entry_valid({:latitude => -90.00001}, false)
-    diary_entry_valid({:longitude => 180})
-    diary_entry_valid({:longitude => 180.00001}, false)
-    diary_entry_valid({:longitude => -180})
-    diary_entry_valid({:longitude => -180.00001}, false)
+    diary_entry_valid({ :title => '' }, false)
+    diary_entry_valid(:title => 'a' * 255)
+    diary_entry_valid({ :title => 'a' * 256 }, false)
+    diary_entry_valid({ :body => '' }, false)
+    diary_entry_valid(:latitude => 90)
+    diary_entry_valid({ :latitude => 90.00001 }, false)
+    diary_entry_valid(:latitude => -90)
+    diary_entry_valid({ :latitude => -90.00001 }, false)
+    diary_entry_valid(:longitude => 180)
+    diary_entry_valid({ :longitude => 180.00001 }, false)
+    diary_entry_valid(:longitude => -180)
+    diary_entry_valid({ :longitude => -180.00001 }, false)
   end
 
   def test_diary_entry_visible
@@ -41,7 +41,7 @@ class DiaryEntryTest < ActiveSupport::TestCase
     assert_equal 1, diary_entries(:normal_user_geo_entry).visible_comments.count
   end
 
-private
+  private
 
   def diary_entry_valid(attrs, result = true)
     entry = DiaryEntry.new(diary_entries(:normal_user_entry_1).attributes)

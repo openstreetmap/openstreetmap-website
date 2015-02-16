@@ -210,8 +210,8 @@ class UserBlocksControllerTest < ActionController::TestCase
     # A bogus block period should result in an error
     assert_no_difference "UserBlock.count" do
       post :create,
-        :display_name => users(:unblocked_user).display_name,
-        :user_block_period => "99"
+           :display_name => users(:unblocked_user).display_name,
+           :user_block_period => "99"
     end
     assert_redirected_to new_user_block_path(:display_name => users(:unblocked_user).display_name)
     assert_equal "The blocking period must be one of the values selectable in the drop-down list.", flash[:error]
@@ -219,9 +219,9 @@ class UserBlocksControllerTest < ActionController::TestCase
     # Check that creating a block works
     assert_difference "UserBlock.count", 1 do
       post :create,
-        :display_name => users(:unblocked_user).display_name,
-        :user_block_period => "12",
-        :user_block => { :needs_view => false, :reason => "Vandalism" }
+           :display_name => users(:unblocked_user).display_name,
+           :user_block_period => "12",
+           :user_block => { :needs_view => false, :reason => "Vandalism" }
     end
     id = UserBlock.order(:id).ids.last
     assert_redirected_to user_block_path(:id => id)
@@ -268,9 +268,9 @@ class UserBlocksControllerTest < ActionController::TestCase
     # Check that only the person who created a block can update it
     assert_no_difference "UserBlock.count" do
       put :update,
-        :id => user_blocks(:active_block).id,
-        :user_block_period => "12",
-        :user_block => { :needs_view => true, :reason => "Vandalism" }
+          :id => user_blocks(:active_block).id,
+          :user_block_period => "12",
+          :user_block => { :needs_view => true, :reason => "Vandalism" }
     end
     assert_redirected_to edit_user_block_path(:id => user_blocks(:active_block).id)
     assert_equal "Only the moderator who created this block can edit it.", flash[:error]
@@ -281,8 +281,8 @@ class UserBlocksControllerTest < ActionController::TestCase
     # A bogus block period should result in an error
     assert_no_difference "UserBlock.count" do
       put :update,
-        :id => user_blocks(:active_block).id,
-        :user_block_period => "99"
+          :id => user_blocks(:active_block).id,
+          :user_block_period => "99"
     end
     assert_redirected_to edit_user_block_path(:id => user_blocks(:active_block).id)
     assert_equal "The blocking period must be one of the values selectable in the drop-down list.", flash[:error]
@@ -290,9 +290,9 @@ class UserBlocksControllerTest < ActionController::TestCase
     # Check that updating a block works
     assert_no_difference "UserBlock.count" do
       put :update,
-        :id => user_blocks(:active_block).id,
-        :user_block_period => "12",
-        :user_block => { :needs_view => true, :reason => "Vandalism" }
+          :id => user_blocks(:active_block).id,
+          :user_block_period => "12",
+          :user_block => { :needs_view => true, :reason => "Vandalism" }
     end
     assert_redirected_to user_block_path(:id => user_blocks(:active_block).id)
     assert_equal "Block updated.", flash[:notice]

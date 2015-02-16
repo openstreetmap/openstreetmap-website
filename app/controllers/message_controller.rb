@@ -38,13 +38,13 @@ class MessageController < ApplicationController
   def reply
     message = Message.find(params[:message_id])
 
-    if message.to_user_id == @user.id then
+    if message.to_user_id == @user.id
       message.update_attribute(:message_read, true)
 
       @message = Message.new(
         :recipient => message.sender,
         :title => "Re: #{message.title.sub(/^Re:\s*/, '')}",
-        :body => "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}",
+        :body => "On #{message.sent_on} #{message.sender.display_name} wrote:\n\n#{message.body.gsub(/^/, '> ')}"
       )
 
       @title = @message.title
@@ -55,7 +55,7 @@ class MessageController < ApplicationController
       redirect_to :controller => "user", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t'message.no_such_message.title'
+    @title = t 'message.no_such_message.title'
     render :action => 'no_such_message', :status => :not_found
   end
 
@@ -64,7 +64,7 @@ class MessageController < ApplicationController
     @title = t 'message.read.title'
     @message = Message.find(params[:message_id])
 
-    if @message.to_user_id == @user.id or @message.from_user_id == @user.id then
+    if @message.to_user_id == @user.id || @message.from_user_id == @user.id
       @message.message_read = true if @message.to_user_id == @user.id
       @message.save
     else
@@ -72,14 +72,14 @@ class MessageController < ApplicationController
       redirect_to :controller => "user", :action => "login", :referer => request.fullpath
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t'message.no_such_message.title'
+    @title = t 'message.no_such_message.title'
     render :action => 'no_such_message', :status => :not_found
   end
 
   # Display the list of messages that have been sent to the user.
   def inbox
     @title = t 'message.inbox.title'
-    if @user and params[:display_name] == @user.display_name
+    if @user && params[:display_name] == @user.display_name
     else
       redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
     end
@@ -88,7 +88,7 @@ class MessageController < ApplicationController
   # Display the list of messages that the user has sent to other users.
   def outbox
     @title = t 'message.outbox.title'
-    if @user and params[:display_name] == @user.display_name
+    if @user && params[:display_name] == @user.display_name
     else
       redirect_to :controller => 'message', :action => 'outbox', :display_name => @user.display_name
     end
@@ -105,12 +105,12 @@ class MessageController < ApplicationController
       notice = t 'message.mark.as_read'
     end
     @message.message_read = message_read
-    if @message.save and not request.xhr?
+    if @message.save && !request.xhr?
       flash[:notice] = notice
       redirect_to :controller => 'message', :action => 'inbox', :display_name => @user.display_name
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t'message.no_such_message.title'
+    @title = t 'message.no_such_message.title'
     render :action => 'no_such_message', :status => :not_found
   end
 
@@ -119,7 +119,7 @@ class MessageController < ApplicationController
     @message = Message.where("to_user_id = ? OR from_user_id = ?", @user.id, @user.id).find(params[:message_id])
     @message.from_user_visible = false if @message.sender == @user
     @message.to_user_visible = false if @message.recipient == @user
-    if @message.save and not request.xhr?
+    if @message.save && !request.xhr?
       flash[:notice] = t 'message.delete.deleted'
 
       if params[:referer]
@@ -129,10 +129,12 @@ class MessageController < ApplicationController
       end
     end
   rescue ActiveRecord::RecordNotFound
-    @title = t'message.no_such_message.title'
+    @title = t 'message.no_such_message.title'
     render :action => 'no_such_message', :status => :not_found
   end
-private
+
+  private
+
   ##
   # return permitted message parameters
   def message_params

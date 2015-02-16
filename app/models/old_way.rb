@@ -27,25 +27,25 @@ class OldWay < ActiveRecord::Base
     old_way.version = way.version
     old_way.nds = way.nds
     old_way.tags = way.tags
-    return old_way
+    old_way
   end
 
   def save_with_dependencies!
     save!
 
-    self.tags.each do |k,v|
+    tags.each do |k, v|
       tag = OldWayTag.new
       tag.k = k
       tag.v = v
-      tag.way_id = self.way_id
-      tag.version = self.version
+      tag.way_id = way_id
+      tag.version = version
       tag.save!
     end
 
     sequence = 1
-    self.nds.each do |n|
+    nds.each do |n|
       nd = OldWayNode.new
-      nd.id = [self.way_id, self.version, sequence]
+      nd.id = [way_id, version, sequence]
       nd.node_id = n
       nd.save!
       sequence += 1
@@ -53,36 +53,32 @@ class OldWay < ActiveRecord::Base
   end
 
   def nds
-    @nds ||= self.old_nodes.order(:sequence_id).collect { |n| n.node_id }
+    @nds ||= old_nodes.order(:sequence_id).collect(&:node_id)
   end
 
   def tags
-    @tags ||= Hash[self.old_tags.collect { |t| [t.k, t.v] }]
+    @tags ||= Hash[old_tags.collect { |t| [t.k, t.v] }]
   end
 
-  def nds=(s)
-    @nds = s
-  end
+  attr_writer :nds
 
-  def tags=(t)
-    @tags = t
-  end
+  attr_writer :tags
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
     el = XML::Node.new 'way'
-    el['id'] = self.way_id.to_s
+    el['id'] = way_id.to_s
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
-    self.old_nodes.each do |nd| # FIXME need to make sure they come back in the right order
+    old_nodes.each do |nd| # FIXME need to make sure they come back in the right order
       node_el = XML::Node.new 'nd'
       node_el['ref'] = nd.node_id.to_s
       el << node_el
     end
 
-    add_tags_to_xml_node(el, self.old_tags)
+    add_tags_to_xml_node(el, old_tags)
 
-    return el
+    el
   end
 
   # Read full version of old way
@@ -93,21 +89,21 @@ class OldWay < ActiveRecord::Base
   # (i.e. is it visible? are we actually reverting to an earlier version?)
 
   def get_nodes_undelete
-    self.nds.collect do |n|
+    nds.collect do |n|
       node = Node.find(n)
       [node.lon, node.lat, n, node.version, node.tags_as_hash, node.visible]
     end
   end
 
   def get_nodes_revert(timestamp)
-    points=[]
-    self.nds.each do |n|
+    points = []
+    nds.each do |n|
       oldnode = OldNode.where('node_id = ? AND timestamp <= ?', n, timestamp).unredacted.order("timestamp DESC").first
       curnode = Node.find(n)
       id = n; reuse = curnode.visible
-      if oldnode.lat != curnode.lat or oldnode.lon != curnode.lon or oldnode.tags != curnode.tags then
+      if oldnode.lat != curnode.lat || oldnode.lon != curnode.lon || oldnode.tags != curnode.tags
         # node has changed: if it's in other ways, give it a new id
-        if curnode.ways-[self.way_id] then id=-1; reuse=false end
+        if curnode.ways - [way_id] then id = -1; reuse = false end
       end
       points << [oldnode.lon, oldnode.lat, id, curnode.version, oldnode.tags_as_hash, reuse]
     end
@@ -116,22 +112,22 @@ class OldWay < ActiveRecord::Base
 
   # Temporary method to match interface to nodes
   def tags_as_hash
-    return self.tags
+    tags
   end
 
   # Temporary method to match interface to ways
   def way_nodes
-    return self.old_nodes
+    old_nodes
   end
 
   # Pretend we're not in any relations
   def containing_relation_members
-    return []
+    []
   end
 
   # check whether this element is the latest version - that is,
   # has the same version as its "current" counterpart.
   def is_latest_version?
-    current_way.version == self.version
+    current_way.version == version
   end
 end

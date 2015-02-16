@@ -9,35 +9,35 @@ class RelationTest < ActiveSupport::TestCase
 
   def test_from_xml_no_id
     noid = "<osm><relation version='12' changeset='23' /></osm>"
-    assert_nothing_raised(OSM::APIBadXMLError) {
+    assert_nothing_raised(OSM::APIBadXMLError) do
       Relation.from_xml(noid, true)
-    }
-    message = assert_raise(OSM::APIBadXMLError) {
+    end
+    message = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(noid, false)
-    }
+    end
     assert_match /ID is required when updating/, message.message
   end
 
   def test_from_xml_no_changeset_id
     nocs = "<osm><relation id='123' version='12' /></osm>"
-    message_create = assert_raise(OSM::APIBadXMLError) {
+    message_create = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(nocs, true)
-    }
+    end
     assert_match /Changeset id is missing/, message_create.message
-    message_update = assert_raise(OSM::APIBadXMLError) {
+    message_update = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(nocs, false)
-    }
+    end
     assert_match /Changeset id is missing/, message_update.message
   end
 
   def test_from_xml_no_version
     no_version = "<osm><relation id='123' changeset='23' /></osm>"
-    assert_nothing_raised(OSM::APIBadXMLError) {
+    assert_nothing_raised(OSM::APIBadXMLError) do
       Relation.from_xml(no_version, true)
-    }
-    message_update = assert_raise(OSM::APIBadXMLError) {
+    end
+    message_update = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(no_version, false)
-    }
+    end
     assert_match /Version is required when updating/, message_update.message
   end
 
@@ -45,61 +45,61 @@ class RelationTest < ActiveSupport::TestCase
     id_list = ["", "0", "00", "0.0", "a"]
     id_list.each do |id|
       zero_id = "<osm><relation id='#{id}' changeset='332' version='23' /></osm>"
-      assert_nothing_raised(OSM::APIBadUserInput) {
+      assert_nothing_raised(OSM::APIBadUserInput) do
         Relation.from_xml(zero_id, true)
-      }
-      message_update = assert_raise(OSM::APIBadUserInput) {
+      end
+      message_update = assert_raise(OSM::APIBadUserInput) do
         Relation.from_xml(zero_id, false)
-      }
+      end
       assert_match /ID of relation cannot be zero when updating/, message_update.message
     end
   end
 
   def test_from_xml_no_text
     no_text = ""
-    message_create = assert_raise(OSM::APIBadXMLError) {
+    message_create = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(no_text, true)
-    }
+    end
     assert_match /Must specify a string with one or more characters/, message_create.message
-    message_update = assert_raise(OSM::APIBadXMLError) {
+    message_update = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(no_text, false)
-    }
+    end
     assert_match /Must specify a string with one or more characters/, message_update.message
   end
 
   def test_from_xml_no_k_v
     nokv = "<osm><relation id='23' changeset='23' version='23'><tag /></relation></osm>"
-    message_create = assert_raise(OSM::APIBadXMLError) {
+    message_create = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(nokv, true)
-    }
+    end
     assert_match /tag is missing key/, message_create.message
-    message_update = assert_raise(OSM::APIBadXMLError) {
+    message_update = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(nokv, false)
-    }
+    end
     assert_match /tag is missing key/, message_update.message
   end
 
   def test_from_xml_no_v
     no_v = "<osm><relation id='23' changeset='23' version='23'><tag k='key' /></relation></osm>"
-    message_create = assert_raise(OSM::APIBadXMLError) {
+    message_create = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(no_v, true)
-    }
+    end
     assert_match /tag is missing value/, message_create.message
-    message_update = assert_raise(OSM::APIBadXMLError) {
+    message_update = assert_raise(OSM::APIBadXMLError) do
       Relation.from_xml(no_v, false)
-    }
+    end
     assert_match /tag is missing value/, message_update.message
   end
 
   def test_from_xml_duplicate_k
     dupk = "<osm><relation id='23' changeset='23' version='23'><tag k='dup' v='test'/><tag k='dup' v='tester'/></relation></osm>"
-    message_create = assert_raise(OSM::APIDuplicateTagsError) {
+    message_create = assert_raise(OSM::APIDuplicateTagsError) do
       Relation.from_xml(dupk, true)
-    }
+    end
     assert_equal "Element relation/ has duplicate tags with key dup", message_create.message
-    message_update = assert_raise(OSM::APIDuplicateTagsError) {
+    message_update = assert_raise(OSM::APIDuplicateTagsError) do
       Relation.from_xml(dupk, false)
-    }
+    end
     assert_equal "Element relation/23 has duplicate tags with key dup", message_update.message
   end
 
@@ -148,7 +148,7 @@ class RelationTest < ActiveSupport::TestCase
   def test_containing_relation_members
     relation = current_relations(:used_relation)
     crm = Relation.find(relation.id).containing_relation_members.order(:relation_id)
-#    assert_equal 1, crm.size
+    #    assert_equal 1, crm.size
     assert_equal 1, crm.first.relation_id
     assert_equal "Relation", crm.first.member_type
     assert_equal relation.id, crm.first.member_id

@@ -46,7 +46,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal -4, way[0], -4
     assert_equal "way", way[1]
     assert_equal id, way[2]
-    assert way[3].nil? and way[4].nil? and way[5].nil? and way[6].nil?
+    assert(way[3].nil?) && way[4].nil? && way[5].nil? && way[6].nil?
   end
 
   def test_getway_with_versions
@@ -113,15 +113,15 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal -4, way[0]
     assert_equal "way", way[1]
     assert_equal 0, way[2]
-    assert way[3].nil? and way[4].nil? and way[5].nil? and way[6].nil?
+    assert(way[3].nil?) && way[4].nil? && way[5].nil? && way[6].nil?
   end
 
   def test_whichways
     node = current_nodes(:used_node_1)
-    minlon = node.lon-0.1
-    minlat = node.lat-0.1
-    maxlon = node.lon+0.1
-    maxlat = node.lat+0.1
+    minlon = node.lon - 0.1
+    minlat = node.lat - 0.1
+    maxlon = node.lon + 0.1
+    maxlat = node.lat + 0.1
     amf_content "whichways", "/1", [minlon, minlat, maxlon, maxlat]
     post :amf_read
     assert_response :success
@@ -164,16 +164,16 @@ class AmfControllerTest < ActionController::TestCase
     # so someone who knows what they're doing should check this!
     ways = map[2].collect { |x| x[0] }
     assert ways.include?(current_ways(:used_way).id),
-      "map should include used way"
+           "map should include used way"
     assert !ways.include?(current_ways(:invisible_way).id),
-      'map should not include deleted way'
+           'map should not include deleted way'
   end
 
   ##
   # checks that too-large a bounding box will not be served.
   def test_whichways_toobig
-    bbox = [-0.1,-0.1,1.1,1.1]
-    check_bboxes_are_bad [bbox] do |map,bbox|
+    bbox = [-0.1, -0.1, 1.1, 1.1]
+    check_bboxes_are_bad [bbox] do |map, _bbox|
       assert_boundary_error map, " The server said: The maximum bbox size is 0.25, and your request was too large. Either request a smaller area, or use planet.osm"
     end
   end
@@ -184,7 +184,7 @@ class AmfControllerTest < ActionController::TestCase
   #
   # NOTE: the controller expands the bbox by 0.01 in each direction!
   def test_whichways_badlat
-    bboxes = [[0,0.1,0.1,0], [-0.1,80,0.1,70], [0.24,54.35,0.25,54.33]]
+    bboxes = [[0, 0.1, 0.1, 0], [-0.1, 80, 0.1, 70], [0.24, 54.35, 0.25, 54.33]]
     check_bboxes_are_bad bboxes do |map, bbox|
       assert_boundary_error map, " The server said: The minimum latitude must be less than the maximum latitude, but it wasn't", bbox.inspect
     end
@@ -195,7 +195,7 @@ class AmfControllerTest < ActionController::TestCase
   #
   # NOTE: the controller expands the bbox by 0.01 in each direction!
   def test_whichways_badlon
-    bboxes = [[80,-0.1,70,0.1], [54.35,0.24,54.33,0.25]]
+    bboxes = [[80, -0.1, 70, 0.1], [54.35, 0.24, 54.33, 0.25]]
     check_bboxes_are_bad bboxes do |map, bbox|
       assert_boundary_error map, " The server said: The minimum longitude must be less than the maximum longitude, but it wasn't", bbox.inspect
     end
@@ -203,10 +203,10 @@ class AmfControllerTest < ActionController::TestCase
 
   def test_whichways_deleted
     node = current_nodes(:used_node_1)
-    minlon = node.lon-0.1
-    minlat = node.lat-0.1
-    maxlon = node.lon+0.1
-    maxlat = node.lat+0.1
+    minlon = node.lon - 0.1
+    minlat = node.lat - 0.1
+    maxlon = node.lon + 0.1
+    maxlat = node.lat + 0.1
     amf_content "whichways_deleted", "/1", [minlon, minlat, maxlon, maxlat]
     post :amf_read
     assert_response :success
@@ -220,13 +220,13 @@ class AmfControllerTest < ActionController::TestCase
     # TODO: looks like amf_controller changed since this test was written
     # so someone who knows what they're doing should check this!
     assert !map[2].include?(current_ways(:used_way).id),
-      "map should not include used way"
+           "map should not include used way"
     assert map[2].include?(current_ways(:invisible_way).id),
-      'map should include deleted way'
+           'map should include deleted way'
   end
 
   def test_whichways_deleted_toobig
-    bbox = [-0.1,-0.1,1.1,1.1]
+    bbox = [-0.1, -0.1, 1.1, 1.1]
     amf_content "whichways_deleted", "/1", bbox
     post :amf_read
     assert_response :success
@@ -257,7 +257,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal rel[0], -4
     assert_equal rel[1], "relation"
     assert_equal rel[2], id
-    assert rel[3].nil? and rel[4].nil?
+    assert(rel[3].nil?) && rel[4].nil?
   end
 
   def test_getrelation_nonexistent
@@ -270,7 +270,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal rel[0], -4
     assert_equal rel[1], "relation"
     assert_equal rel[2], id
-    assert rel[3].nil? and rel[4].nil?
+    assert(rel[3].nil?) && rel[4].nil?
   end
 
   def test_getway_old
@@ -385,15 +385,15 @@ class AmfControllerTest < ActionController::TestCase
     # note that (as per getway_history) we actually round up
     # to the next second
     assert_equal history[0], 'node',
-      'first element should be "node"'
+                 'first element should be "node"'
     assert_equal history[1], latest.id,
-      'second element should be the input node ID'
+                 'second element should be the input node ID'
     assert_equal history[2].first[0],
-      (latest.timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
-      'first element in third element (array) should be the latest version'
+                 (latest.timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
+                 'first element in third element (array) should be the latest version'
     assert_equal history[2].last[0],
-      (nodes(:node_with_versions_v1).timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
-      'last element in third element (array) should be the initial version'
+                 (nodes(:node_with_versions_v1).timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
+                 'last element in third element (array) should be the initial version'
   end
 
   def test_getnode_history_nonexistent
@@ -424,12 +424,12 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal "", result[1]
     assert_equal nd.id, result[2]
     assert_equal nd.id, result[3]
-    assert_equal nd.version+1, result[4]
+    assert_equal nd.version + 1, result[4]
 
     # Now try to update again, with a different lat/lon, using the updated version number
-    lat = nd.lat+0.1
-    lon = nd.lon-0.1
-    amf_content "putpoi", "/2", ["test@example.com:test", cs_id, nd.version+1, nd.id, lon, lat, nd.tags, nd.visible]
+    lat = nd.lat + 0.1
+    lon = nd.lon - 0.1
+    amf_content "putpoi", "/2", ["test@example.com:test", cs_id, nd.version + 1, nd.id, lon, lat, nd.tags, nd.visible]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -439,7 +439,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal "", result[1]
     assert_equal nd.id, result[2]
     assert_equal nd.id, result[3]
-    assert_equal nd.version+2, result[4]
+    assert_equal nd.version + 2, result[4]
   end
 
   # Check that we can create a no valid poi
@@ -448,8 +448,8 @@ class AmfControllerTest < ActionController::TestCase
     # This node has no tags
     nd = Node.new
     # create a node with random lat/lon
-    lat = rand(100)-50 + rand
-    lon = rand(100)-50 + rand
+    lat = rand(100) - 50 + rand
+    lon = rand(100) - 50 + rand
     # normal user has a changeset open
     changeset = changesets(:public_user_first_change)
 
@@ -487,8 +487,8 @@ class AmfControllerTest < ActionController::TestCase
     # This node has some tags
     tnd = Node.new
     # create a node with random lat/lon
-    lat = rand(100)-50 + rand
-    lon = rand(100)-50 + rand
+    lat = rand(100) - 50 + rand
+    lon = rand(100) - 50 + rand
     # normal user has a changeset open
     changeset = changesets(:public_user_first_change)
 
@@ -530,12 +530,12 @@ class AmfControllerTest < ActionController::TestCase
     # This node has no tags
     nd = Node.new
     # create a node with random lat/lon
-    lat = rand(100)-50 + rand
-    lon = rand(100)-50 + rand
+    lat = rand(100) - 50 + rand
+    lon = rand(100) - 50 + rand
     # normal user has a changeset open
     changeset = changesets(:public_user_first_change)
 
-    mostly_invalid = (0..31).to_a.map {|i| i.chr}.join
+    mostly_invalid = (0..31).to_a.map(&:chr).join
     tags = { "something" => "foo#{mostly_invalid}bar" }
 
     amf_content "putpoi", "/1", ["test@example.com:test", changeset.id, nil, nil, lon, lat, tags, nil]
@@ -565,8 +565,8 @@ class AmfControllerTest < ActionController::TestCase
     # This node has no tags
     nd = Node.new
     # create a node with random lat/lon
-    lat = rand(100)-50 + rand
-    lon = rand(100)-50 + rand
+    lat = rand(100) - 50 + rand
+    lon = rand(100) - 50 + rand
     # normal user has a changeset open
     changeset = changesets(:public_user_first_change)
 
@@ -585,26 +585,22 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_putpoi_delete_valid
-
   end
 
   def test_putpoi_delete_already_deleted
-
   end
 
   def test_putpoi_delete_not_found
-
   end
 
   def test_putpoi_invalid_latlon
-
   end
 
   def test_startchangeset_invalid_xmlchar_comment
     invalid = "\035\022"
     comment = "foo#{invalid}bar"
 
-    amf_content "startchangeset", "/1", ["test@example.com:test", Hash.new, nil, comment, 1]
+    amf_content "startchangeset", "/1", ["test@example.com:test", {}, nil, comment, 1]
     post :amf_write
     assert_response :success
     amf_parse_response
@@ -623,19 +619,19 @@ class AmfControllerTest < ActionController::TestCase
 
   # Get the result record for the specified ID
   # It's an assertion FAIL if the record does not exist
-  def amf_result ref
-    assert @amf_result.has_key?("#{ref}/onResult")
+  def amf_result(ref)
+    assert @amf_result.key?("#{ref}/onResult")
     @amf_result["#{ref}/onResult"]
   end
 
   # Encode the AMF message to invoke "target" with parameters as
   # the passed data. The ref is used to retrieve the results.
   def amf_content(target, ref, data)
-    a,b=1.divmod(256)
-    c = StringIO.new()
-    c.write 0.chr+0.chr   # version 0
-    c.write 0.chr+0.chr   # n headers
-    c.write a.chr+b.chr   # n bodies
+    a, b = 1.divmod(256)
+    c = StringIO.new
+    c.write 0.chr + 0.chr   # version 0
+    c.write 0.chr + 0.chr   # n headers
+    c.write a.chr + b.chr   # n bodies
     c.write AMF.encodestring(target)
     c.write AMF.encodestring(ref)
     c.write [-1].pack("N")
@@ -653,21 +649,21 @@ class AmfControllerTest < ActionController::TestCase
     req.read(2)   # version
 
     # parse through any headers
-	headers=AMF.getint(req)					# Read number of headers
-	headers.times do						# Read each header
-	  name=AMF.getstring(req)				#  |
-	  req.getc				   				#  | skip boolean
-	  value=AMF.getvalue(req)				#  |
-	end
+    headers = AMF.getint(req)					# Read number of headers
+    headers.times do						# Read each header
+      name = AMF.getstring(req)				#  |
+      req.getc				   				#  | skip boolean
+      value = AMF.getvalue(req)				#  |
+    end
 
     # parse through responses
     results = {}
-    bodies=AMF.getint(req)					# Read number of bodies
-	bodies.times do							# Read each body
-	  message=AMF.getstring(req)			#  | get message name
-	  index=AMF.getstring(req)				#  | get index in response sequence
-	  bytes=AMF.getlong(req)				#  | get total size in bytes
-	  args=AMF.getvalue(req)				#  | get response (probably an array)
+    bodies = AMF.getint(req)					# Read number of bodies
+    bodies.times do							# Read each body
+      message = AMF.getstring(req)			#  | get message name
+      index = AMF.getstring(req)				#  | get index in response sequence
+      bytes = AMF.getlong(req)				#  | get total size in bytes
+      args = AMF.getvalue(req)				#  | get response (probably an array)
       results[message] = args
     end
     @amf_result = results
@@ -694,14 +690,14 @@ class AmfControllerTest < ActionController::TestCase
 
   # this should be what AMF controller returns when the bbox of a
   # whichways request is invalid or too large.
-  def assert_boundary_error(map, msg=nil, error_hint=nil)
+  def assert_boundary_error(map, msg = nil, error_hint = nil)
     expected_map = [-2, "Sorry - I can't get the map for that area.#{msg}"]
     assert_equal expected_map, map, "AMF controller should have returned an error. (#{error_hint})"
   end
 
   # this should be what AMF controller returns when the bbox of a
   # whichways_deleted request is invalid or too large.
-  def assert_deleted_boundary_error(map, msg=nil, error_hint=nil)
+  def assert_deleted_boundary_error(map, msg = nil, error_hint = nil)
     expected_map = [-2, "Sorry - I can't get the map for that area.#{msg}"]
     assert_equal expected_map, map, "AMF controller should have returned an error. (#{error_hint})"
   end

@@ -21,7 +21,7 @@ class TraceController < ApplicationController
   def list
     # from display name, pick up user id if one user's traces only
     display_name = params[:display_name]
-    if !display_name.blank?
+    unless display_name.blank?
       target_user = User.active.where(:display_name => display_name).first
       if target_user.nil?
         render_unknown_user display_name
@@ -32,7 +32,7 @@ class TraceController < ApplicationController
     # set title
     if target_user.nil?
       @title = t 'trace.list.public_traces'
-    elsif @user and @user == target_user
+    elsif @user && @user == target_user
       @title = t 'trace.list.your_traces'
     else
       @title = t 'trace.list.public_traces_from', :user => target_user.display_name
@@ -47,15 +47,15 @@ class TraceController < ApplicationController
     # 4 - user's traces, not logged in as that user = all user's public traces
     if target_user.nil? # all traces
       if @user
-        @traces = Trace.visible_to(@user) #1
+        @traces = Trace.visible_to(@user) # 1
       else
-        @traces = Trace.visible_to_all #2
+        @traces = Trace.visible_to_all # 2
       end
     else
-      if @user and @user == target_user
-        @traces = @user.traces #3 (check vs user id, so no join + can't pick up non-public traces by changing name)
+      if @user && @user == target_user
+        @traces = @user.traces # 3 (check vs user id, so no join + can't pick up non-public traces by changing name)
       else
-        @traces = target_user.traces.visible_to_all #4
+        @traces = target_user.traces.visible_to_all # 4
       end
     end
 
@@ -73,7 +73,7 @@ class TraceController < ApplicationController
     @traces = @traces.includes(:user, :tags)
 
     # put together SET of tags across traces, for related links
-    tagset = Hash.new
+    tagset = {}
     @traces.each do |trace|
       trace.tags.reload if params[:tag] # if searched by tag, ActiveRecord won't bring back other tags, so do explicitly here
       trace.tags.each do |tag|
@@ -94,8 +94,8 @@ class TraceController < ApplicationController
   def view
     @trace = Trace.find(params[:id])
 
-    if @trace and @trace.visible? and
-       (@trace.public? or @trace.user == @user)
+    if @trace && @trace.visible? &&
+       (@trace.public? || @trace.user == @user)
       @title = t 'trace.view.title', :name => @trace.name
     else
       flash[:error] = t 'trace.view.trace_not_found'
@@ -129,12 +129,12 @@ class TraceController < ApplicationController
           redirect_to :action => :list, :display_name => @user.display_name
         end
       else
-        @trace = Trace.new({:name => "Dummy",
-                            :tagstring => params[:trace][:tagstring],
-                            :description => params[:trace][:description],
-                            :visibility => params[:trace][:visibility],
-                            :inserted => false, :user => @user,
-                            :timestamp => Time.now.getutc})
+        @trace = Trace.new(:name => "Dummy",
+                           :tagstring => params[:trace][:tagstring],
+                           :description => params[:trace][:description],
+                           :visibility => params[:trace][:visibility],
+                           :inserted => false, :user => @user,
+                           :timestamp => Time.now.getutc)
         @trace.valid?
         @trace.errors.add(:gpx_file, "can't be blank")
       end
@@ -148,7 +148,7 @@ class TraceController < ApplicationController
   def data
     trace = Trace.find(params[:id])
 
-    if trace.visible? and (trace.public? or (@user and @user == trace.user))
+    if trace.visible? && (trace.public? || (@user && @user == trace.user))
       if Acl.no_trace_download(request.remote_ip)
         render :text => "", :status => :forbidden
       elsif request.format == Mime::XML
@@ -168,9 +168,9 @@ class TraceController < ApplicationController
   def edit
     @trace = Trace.find(params[:id])
 
-    if not @trace.visible?
+    if !@trace.visible?
       render :text => "", :status => :not_found
-    elsif @user.nil? or @trace.user != @user
+    elsif @user.nil? || @trace.user != @user
       render :text => "", :status => :forbidden
     else
       @title = t 'trace.edit.title', :name => @trace.name
@@ -191,9 +191,9 @@ class TraceController < ApplicationController
   def delete
     trace = Trace.find(params[:id])
 
-    if not trace.visible?
+    if !trace.visible?
       render :text => "", :status => :not_found
-    elsif @user.nil? or trace.user != @user
+    elsif @user.nil? || trace.user != @user
       render :text => "", :status => :forbidden
     else
       trace.visible = false
@@ -209,7 +209,7 @@ class TraceController < ApplicationController
     @traces = Trace.visible_to_all.visible
 
     if params[:display_name]
-      @traces = @traces.joins(:user).where(:users => {:display_name => params[:display_name]})
+      @traces = @traces.joins(:user).where(:users => { :display_name => params[:display_name] })
     end
 
     if params[:tag]
@@ -225,7 +225,7 @@ class TraceController < ApplicationController
     trace = Trace.find(params[:id])
 
     if trace.inserted?
-      if trace.public? or (@user and @user == trace.user)
+      if trace.public? || (@user && @user == trace.user)
         expires_in 7.days, :private => !trace.public?, :public => trace.public?
         send_file(trace.large_picture_name, :filename => "#{trace.id}.gif", :type => 'image/gif', :disposition => 'inline')
       else
@@ -242,7 +242,7 @@ class TraceController < ApplicationController
     trace = Trace.find(params[:id])
 
     if trace.inserted?
-      if trace.public? or (@user and @user == trace.user)
+      if trace.public? || (@user && @user == trace.user)
         expires_in 7.days, :private => !trace.public?, :public => trace.public?
         send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => 'image/gif', :disposition => 'inline')
       else
@@ -258,7 +258,7 @@ class TraceController < ApplicationController
   def api_read
     trace = Trace.visible.find(params[:id])
 
-    if trace.public? or trace.user == @user
+    if trace.public? || trace.user == @user
       render :text => trace.to_xml.to_s, :content_type => "text/xml"
     else
       render :text => "", :status => :forbidden
@@ -271,8 +271,8 @@ class TraceController < ApplicationController
     if trace.user == @user
       new_trace = Trace.from_xml(request.raw_post)
 
-      unless new_trace and new_trace.id == trace.id
-        raise OSM::APIBadUserInput.new("The id in the url (#{trace.id}) is not the same as provided in the xml (#{new_trace.id})")
+      unless new_trace && new_trace.id == trace.id
+        fail OSM::APIBadUserInput.new("The id in the url (#{trace.id}) is not the same as provided in the xml (#{new_trace.id})")
       end
 
       trace.description = new_trace.description
@@ -302,8 +302,8 @@ class TraceController < ApplicationController
   def api_data
     trace = Trace.find(params[:id])
 
-    if trace.public? or trace.user == @user
-      if request.format == Mime::XML or request.format == Mime::GPX
+    if trace.public? || trace.user == @user
+      if request.format == Mime::XML || request.format == Mime::GPX
         send_file(trace.xml_file, :filename => "#{trace.id}.xml", :type => request.format.to_s, :disposition => 'attachment')
       else
         send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => 'attachment')
@@ -341,7 +341,7 @@ class TraceController < ApplicationController
     end
   end
 
-private
+  private
 
   def do_create(file, tags, description, visibility)
     # Sanitise the user's filename
@@ -400,7 +400,6 @@ private
     else
       @user.preferences.create(:k => "gps.trace.visibility", :v => visibility)
     end
-
   end
 
   def offline_warning
@@ -422,5 +421,4 @@ private
       "public"
     end
   end
-
 end

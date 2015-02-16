@@ -56,7 +56,7 @@ module ActionView
       #  pagination_links(@person_pages, :params => { :viewer => "flash" })
       #  # => 1 <a href="/?page=2&amp;viewer=flash/">2</a> <a href="/?page=3&amp;viewer=flash/">3</a>  ...
       #  #    <a href="/?page=10&amp;viewer=flash/">10</a>
-      def pagination_links(paginator, options={}, html_options={})
+      def pagination_links(paginator, options = {}, html_options = {})
         name = options[:name] || DEFAULT_OPTIONS[:name]
         params = (options[:params] || DEFAULT_OPTIONS[:params]).clone
 
@@ -105,7 +105,7 @@ module ActionView
 
         html << prefix if prefix
 
-        if always_show_anchors and not (wp_first = window_pages[0]).first?
+        if always_show_anchors && !(wp_first = window_pages[0]).first?
           html << yield(first.number)
           html << ' ... ' if wp_first.number - first.number > 1
           html << ' '
@@ -120,7 +120,7 @@ module ActionView
           html << ' '
         end
 
-        if always_show_anchors and not (wp_last = window_pages[-1]).last?
+        if always_show_anchors && !(wp_last = window_pages[-1]).last?
           html << ' ... ' if last.number - wp_last.number > 1
           html << yield(last.number)
         end
@@ -129,7 +129,6 @@ module ActionView
 
         html
       end
-
     end # PaginationHelper
   end # Helpers
 end # ActionView

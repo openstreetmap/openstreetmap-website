@@ -9,10 +9,9 @@ class UserPreference < ActiveRecord::Base
   # Turn this Node in to an XML Node without the <osm> wrapper.
   def to_xml_node
     el1 = XML::Node.new 'preference'
-    el1['k'] = self.k
-    el1['v'] = self.v
+    el1['k'] = k
+    el1['v'] = v
 
-    return el1
+    el1
   end
-
 end

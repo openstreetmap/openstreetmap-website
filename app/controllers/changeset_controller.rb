@@ -78,8 +78,8 @@ class ChangesetController < ApplicationController
     check_changeset_consistency(cs, @user)
 
     # keep an array of lons and lats
-    lon = Array.new
-    lat = Array.new
+    lon = []
+    lat = []
 
     # the request is in pseudo-osm format... this is kind-of an
     # abuse, maybe should change to some other format?
@@ -257,8 +257,8 @@ class ChangesetController < ApplicationController
   ##
   # list edits (open changesets) in reverse chronological order
   def list
-    if request.format == :atom and params[:max_id]
-      redirect_to params.merge({ :max_id => nil }), :status => :moved_permanently
+    if request.format == :atom && params[:max_id]
+      redirect_to params.merge(:max_id => nil), :status => :moved_permanently
       return
     end
 
@@ -275,14 +275,14 @@ class ChangesetController < ApplicationController
       return
     end
 
-    if request.format == :html and !params[:list]
+    if request.format == :html && !params[:list]
       require_oauth
       render :action => :history, :layout => map_layout
     else
       changesets = conditions_nonempty(Changeset.all)
 
       if params[:display_name]
-        if user.data_public? or user == @user
+        if user.data_public? || user == @user
           changesets = changesets.where(:user_id => user.id)
         else
           changesets = changesets.where("false")
@@ -315,8 +315,8 @@ class ChangesetController < ApplicationController
   # Add a comment to a changeset
   def comment
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
-    raise OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
+    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    fail OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
 
     # Extract the arguments
     id = params[:id].to_i
@@ -324,14 +324,12 @@ class ChangesetController < ApplicationController
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
+    fail OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
 
     # Add a comment to the changeset
-    comment = changeset.comments.create({
-      :changeset => changeset,
-      :body => body,
-      :author => @user
-    })
+    comment = changeset.comments.create(:changeset => changeset,
+                                        :body => body,
+                                        :author => @user)
 
     # Notify current subscribers of the new comment
     changeset.subscribers.each do |user|
@@ -351,15 +349,15 @@ class ChangesetController < ApplicationController
   # Adds a subscriber to the changeset
   def subscribe
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
-    raise OSM::APIChangesetAlreadySubscribedError.new(changeset) if changeset.subscribers.exists?(@user.id)
+    fail OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
+    fail OSM::APIChangesetAlreadySubscribedError.new(changeset) if changeset.subscribers.exists?(@user.id)
 
     # Add the subscriber
     changeset.subscribers << @user
@@ -372,15 +370,15 @@ class ChangesetController < ApplicationController
   # Removes a subscriber from the changeset
   def unsubscribe
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
-    raise OSM::APIChangesetNotSubscribedError.new(changeset) unless changeset.subscribers.exists?(@user.id)
+    fail OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
+    fail OSM::APIChangesetNotSubscribedError.new(changeset) unless changeset.subscribers.exists?(@user.id)
 
     # Remove the subscriber
     changeset.subscribers.delete(@user)
@@ -393,7 +391,7 @@ class ChangesetController < ApplicationController
   # Sets visible flag on comment to false
   def hide_comment
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
@@ -412,7 +410,7 @@ class ChangesetController < ApplicationController
   # Sets visible flag on comment to true
   def unhide_comment
     # Check the arguments are sane
-    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
@@ -450,7 +448,8 @@ class ChangesetController < ApplicationController
     end
   end
 
-private
+  private
+
   #------------------------------------------------------------
   # utility functions below.
   #------------------------------------------------------------
@@ -474,21 +473,21 @@ private
   ##
   # restrict changesets to those by a particular user
   def conditions_user(changesets, user, name)
-    unless user.nil? and name.nil?
+    unless user.nil? && name.nil?
       # shouldn't provide both name and UID
-      raise OSM::APIBadUserInput.new("provide either the user ID or display name, but not both") if user and name
+      fail OSM::APIBadUserInput.new("provide either the user ID or display name, but not both") if user && name
 
       # use either the name or the UID to find the user which we're selecting on.
       u = if name.nil?
             # user input checking, we don't have any UIDs < 1
-            raise OSM::APIBadUserInput.new("invalid user ID") if user.to_i < 1
+            fail OSM::APIBadUserInput.new("invalid user ID") if user.to_i < 1
             u = User.find(user.to_i)
           else
             u = User.find_by_display_name(name)
           end
 
       # make sure we found a user
-      raise OSM::APINotFoundError.new if u.nil?
+      fail OSM::APINotFoundError.new if u.nil?
 
       # should be able to get changesets of public users only, or
       # our own changesets regardless of public-ness.
@@ -497,7 +496,7 @@ private
         # changesets if they're non-public
         setup_user_auth
 
-        raise OSM::APINotFoundError if @user.nil? or @user.id != u.id
+        fail OSM::APINotFoundError if @user.nil? || @user.id != u.id
       end
       return changesets.where(:user_id => u.id)
     else
@@ -514,7 +513,7 @@ private
       if time.count(',') == 1
         # check that we actually have 2 elements in the array
         times = time.split(/,/)
-        raise OSM::APIBadUserInput.new("bad time range") if times.size != 2
+        fail OSM::APIBadUserInput.new("bad time range") if times.size != 2
 
         from, to = times.collect { |t| DateTime.parse(t) }
         return changesets.where("closed_at >= ? and created_at <= ?", from, to)
@@ -566,9 +565,9 @@ private
     if ids.nil?
       return changesets
     elsif ids.empty?
-      raise OSM::APIBadUserInput.new("No changesets were given to search for")
+      fail OSM::APIBadUserInput.new("No changesets were given to search for")
     else
-      ids = ids.split(',').collect { |n| n.to_i }
+      ids = ids.split(',').collect(&:to_i)
       return changesets.where(:id => ids)
     end
   end
@@ -577,17 +576,17 @@ private
   # eliminate empty changesets (where the bbox has not been set)
   # this should be applied to all changeset list displays
   def conditions_nonempty(changesets)
-    return changesets.where("num_changes > 0")
+    changesets.where("num_changes > 0")
   end
 
   ##
   # Get the maximum number of comments to return
   def comments_limit
     if params[:limit]
-      if params[:limit].to_i > 0 and params[:limit].to_i <= 10000
+      if params[:limit].to_i > 0 && params[:limit].to_i <= 10000
         params[:limit].to_i
       else
-        raise OSM::APIBadUserInput.new("Comments limit must be between 1 and 10000")
+        fail OSM::APIBadUserInput.new("Comments limit must be between 1 and 10000")
       end
     else
       100

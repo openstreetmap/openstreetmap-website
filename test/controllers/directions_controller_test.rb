@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class DirectionsControllerTest < ActionController::TestCase
-
   ##
   # test all routes which lead to this controller
   def test_routes
@@ -17,5 +16,4 @@ class DirectionsControllerTest < ActionController::TestCase
     get :search
     assert_response :success
   end
-
 end

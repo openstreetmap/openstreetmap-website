@@ -38,16 +38,16 @@ class GeocoderController < ApplicationController
   def search_latlon
     lat = params[:lat].to_f
     lon = params[:lon].to_f
-    if lat < -90 or lat > 90
+    if lat < -90 || lat > 90
       @error = "Latitude #{lat} out of range"
       render :action => "error"
-    elsif lon < -180 or lon > 180
+    elsif lon < -180 || lon > 180
       @error = "Longitude #{lon} out of range"
       render :action => "error"
     else
-      @results = [{:lat => lat, :lon => lon,
-                   :zoom => params[:zoom],
-                   :name => "#{lat}, #{lon}"}]
+      @results = [{ :lat => lat, :lon => lon,
+                    :zoom => params[:zoom],
+                    :name => "#{lat}, #{lon}" }]
 
       render :action => "results"
     end
@@ -58,7 +58,7 @@ class GeocoderController < ApplicationController
     query = params[:query]
 
     # create result array
-    @results = Array.new
+    @results = []
 
     # ask geocoder.us (they have a non-commercial use api)
     response = fetch_text("http://rpc.geocoder.us/service/csv?zip=#{escape_query(query)}")
@@ -66,15 +66,15 @@ class GeocoderController < ApplicationController
     # parse the response
     unless response.match(/couldn't find this zip/)
       data = response.split(/\s*,\s+/) # lat,long,town,state,zip
-      @results.push({:lat => data[0], :lon => data[1],
-                     :zoom => POSTCODE_ZOOM,
-                     :prefix => "#{data[2]}, #{data[3]},",
-                     :name => data[4]})
+      @results.push(:lat => data[0], :lon => data[1],
+                    :zoom => POSTCODE_ZOOM,
+                    :prefix => "#{data[2]}, #{data[3]},",
+                    :name => data[4])
     end
 
     render :action => "results"
   rescue Exception => ex
-    @error = "Error contacting rpc.geocoder.us: #{ex.to_s}"
+    @error = "Error contacting rpc.geocoder.us: #{ex}"
     render :action => "error"
   end
 
@@ -83,7 +83,7 @@ class GeocoderController < ApplicationController
     query = params[:query]
 
     # create result array
-    @results = Array.new
+    @results = []
 
     # ask npemap.org.uk to do a combined npemap + freethepostcode search
     response = fetch_text("http://www.npemap.org.uk/cgi/geocoder.fcgi?format=text&postcode=#{escape_query(query)}")
@@ -94,35 +94,35 @@ class GeocoderController < ApplicationController
       data = dataline.split(/,/) # easting,northing,postcode,lat,long
       postcode = data[2].gsub(/'/, "")
       zoom = POSTCODE_ZOOM - postcode.count("#")
-      @results.push({:lat => data[3], :lon => data[4], :zoom => zoom,
-                     :name => postcode})
+      @results.push(:lat => data[3], :lon => data[4], :zoom => zoom,
+                    :name => postcode)
     end
 
     render :action => "results"
   rescue Exception => ex
-    @error = "Error contacting www.npemap.org.uk: #{ex.to_s}"
+    @error = "Error contacting www.npemap.org.uk: #{ex}"
     render :action => "error"
   end
 
   def search_ca_postcode
     # get query parameters
     query = params[:query]
-    @results = Array.new
+    @results = []
 
     # ask geocoder.ca (note - they have a per-day limit)
     response = fetch_xml("http://geocoder.ca/?geoit=XML&postal=#{escape_query(query)}")
 
     # parse the response
     if response.get_elements("geodata/error").empty?
-      @results.push({:lat => response.get_text("geodata/latt").to_s,
-                     :lon => response.get_text("geodata/longt").to_s,
-                     :zoom => POSTCODE_ZOOM,
-                     :name => query.upcase})
+      @results.push(:lat => response.get_text("geodata/latt").to_s,
+                    :lon => response.get_text("geodata/longt").to_s,
+                    :zoom => POSTCODE_ZOOM,
+                    :name => query.upcase)
     end
 
     render :action => "results"
   rescue Exception => ex
-    @error = "Error contacting geocoder.ca: #{ex.to_s}"
+    @error = "Error contacting geocoder.ca: #{ex}"
     render :action => "error"
   end
 
@@ -154,12 +154,10 @@ class GeocoderController < ApplicationController
     more_url_params = CGI.parse(URI.parse(results.attributes["more_url"]).query)
 
     # create result array
-    @results = Array.new
+    @results = []
 
     # create parameter hash for "more results" link
-    @more_params = params.merge({
-      :exclude => more_url_params["exclude_place_ids"].first
-    })
+    @more_params = params.merge(:exclude => more_url_params["exclude_place_ids"].first)
 
     # parse the response
     results.elements.each("place") do |place|
@@ -168,13 +166,13 @@ class GeocoderController < ApplicationController
       klass = place.attributes["class"].to_s
       type = place.attributes["type"].to_s
       name = place.attributes["display_name"].to_s
-      min_lat,max_lat,min_lon,max_lon = place.attributes["boundingbox"].to_s.split(",")
+      min_lat, max_lat, min_lon, max_lon = place.attributes["boundingbox"].to_s.split(",")
       if type.empty?
         prefix_name = ""
       else
         prefix_name = t "geocoder.search_osm_nominatim.prefix.#{klass}.#{type}", :default => type.gsub("_", " ").capitalize
       end
-      if klass == 'boundary' and type == 'administrative'
+      if klass == 'boundary' && type == 'administrative'
         rank = (place.attributes["place_rank"].to_i + 1) / 2
         prefix_name = t "geocoder.search_osm_nominatim.admin_levels.level#{rank}", :default => prefix_name
       end
@@ -182,17 +180,17 @@ class GeocoderController < ApplicationController
       object_type = place.attributes["osm_type"]
       object_id = place.attributes["osm_id"]
 
-      @results.push({:lat => lat, :lon => lon,
-                     :min_lat => min_lat, :max_lat => max_lat,
-                     :min_lon => min_lon, :max_lon => max_lon,
-                     :prefix => prefix, :name => name,
-                     :type => object_type, :id => object_id})
+      @results.push(:lat => lat, :lon => lon,
+                    :min_lat => min_lat, :max_lat => max_lat,
+                    :min_lon => min_lon, :max_lon => max_lon,
+                    :prefix => prefix, :name => name,
+                    :type => object_type, :id => object_id)
     end
 
     render :action => "results"
-#  rescue Exception => ex
-#    @error = "Error contacting nominatim.openstreetmap.org: #{ex.to_s}"
-#    render :action => "error"
+    #  rescue Exception => ex
+    #    @error = "Error contacting nominatim.openstreetmap.org: #{ex.to_s}"
+    #    render :action => "error"
   end
 
   def search_geonames
@@ -203,7 +201,7 @@ class GeocoderController < ApplicationController
     lang = I18n.locale.to_s.split("-").first
 
     # create result array
-    @results = Array.new
+    @results = []
 
     # ask geonames.org
     response = fetch_xml("http://api.geonames.org/search?q=#{escape_query(query)}&lang=#{lang}&maxRows=20&username=#{GEONAMES_USERNAME}")
@@ -214,15 +212,15 @@ class GeocoderController < ApplicationController
       lon = geoname.get_text("lng").to_s
       name = geoname.get_text("name").to_s
       country = geoname.get_text("countryName").to_s
-      @results.push({:lat => lat, :lon => lon,
-                     :zoom => GEONAMES_ZOOM,
-                     :name => name,
-                     :suffix => ", #{country}"})
+      @results.push(:lat => lat, :lon => lon,
+                    :zoom => GEONAMES_ZOOM,
+                    :name => name,
+                    :suffix => ", #{country}")
     end
 
     render :action => "results"
   rescue Exception => ex
-    @error = "Error contacting ws.geonames.org: #{ex.to_s}"
+    @error = "Error contacting ws.geonames.org: #{ex}"
     render :action => "error"
   end
 
@@ -233,7 +231,7 @@ class GeocoderController < ApplicationController
     zoom = params[:zoom]
 
     # create result array
-    @results = Array.new
+    @results = []
 
     # ask nominatim
     response = fetch_xml("http:#{NOMINATIM_URL}reverse?lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")
@@ -246,15 +244,15 @@ class GeocoderController < ApplicationController
       object_id = result.attributes["osm_id"]
       description = result.get_text.to_s
 
-      @results.push({:lat => lat, :lon => lon,
-                     :zoom => zoom,
-                     :name => description,
-                     :type => object_type, :id => object_id})
+      @results.push(:lat => lat, :lon => lon,
+                    :zoom => zoom,
+                    :name => description,
+                    :type => object_type, :id => object_id)
     end
 
     render :action => "results"
   rescue Exception => ex
-    @error = "Error contacting nominatim.openstreetmap.org: #{ex.to_s}"
+    @error = "Error contacting nominatim.openstreetmap.org: #{ex}"
     render :action => "error"
   end
 
@@ -267,7 +265,7 @@ class GeocoderController < ApplicationController
     lang = I18n.locale.to_s.split("-").first
 
     # create result array
-    @results = Array.new
+    @results = []
 
     # ask geonames.org
     response = fetch_xml("http://api.geonames.org/countrySubdivision?lat=#{lat}&lng=#{lon}&lang=#{lang}&username=#{GEONAMES_USERNAME}")
@@ -276,45 +274,45 @@ class GeocoderController < ApplicationController
     response.elements.each("geonames/countrySubdivision") do |geoname|
       name = geoname.get_text("adminName1").to_s
       country = geoname.get_text("countryName").to_s
-      @results.push({:lat => lat, :lon => lon,
-                     :zoom => GEONAMES_ZOOM,
-                     :name => name,
-                     :suffix => ", #{country}"})
+      @results.push(:lat => lat, :lon => lon,
+                    :zoom => GEONAMES_ZOOM,
+                    :name => name,
+                    :suffix => ", #{country}")
     end
 
     render :action => "results"
   rescue Exception => ex
-    @error = "Error contacting ws.geonames.org: #{ex.to_s}"
+    @error = "Error contacting ws.geonames.org: #{ex}"
     render :action => "error"
   end
 
-private
+  private
 
   def fetch_text(url)
-    return Net::HTTP.get(URI.parse(url))
+    Net::HTTP.get(URI.parse(url))
   end
 
   def fetch_xml(url)
-    return REXML::Document.new(fetch_text(url))
+    REXML::Document.new(fetch_text(url))
   end
 
   def format_distance(distance)
-    return t("geocoder.distance", :count => distance)
+    t("geocoder.distance", :count => distance)
   end
 
   def format_direction(bearing)
-    return t("geocoder.direction.south_west") if bearing >= 22.5 and bearing < 67.5
-    return t("geocoder.direction.south") if bearing >= 67.5 and bearing < 112.5
-    return t("geocoder.direction.south_east") if bearing >= 112.5 and bearing < 157.5
-    return t("geocoder.direction.east") if bearing >= 157.5 and bearing < 202.5
-    return t("geocoder.direction.north_east") if bearing >= 202.5 and bearing < 247.5
-    return t("geocoder.direction.north") if bearing >= 247.5 and bearing < 292.5
-    return t("geocoder.direction.north_west") if bearing >= 292.5 and bearing < 337.5
-    return t("geocoder.direction.west")
+    return t("geocoder.direction.south_west") if bearing >= 22.5 && bearing < 67.5
+    return t("geocoder.direction.south") if bearing >= 67.5 && bearing < 112.5
+    return t("geocoder.direction.south_east") if bearing >= 112.5 && bearing < 157.5
+    return t("geocoder.direction.east") if bearing >= 157.5 && bearing < 202.5
+    return t("geocoder.direction.north_east") if bearing >= 202.5 && bearing < 247.5
+    return t("geocoder.direction.north") if bearing >= 247.5 && bearing < 292.5
+    return t("geocoder.direction.north_west") if bearing >= 292.5 && bearing < 337.5
+    t("geocoder.direction.west")
   end
 
   def format_name(name)
-    return name.gsub(/( *\[[^\]]*\])*$/, "")
+    name.gsub(/( *\[[^\]]*\])*$/, "")
   end
 
   def count_results(results)
@@ -324,11 +322,11 @@ private
       count += source[:results].length if source[:results]
     end
 
-    return count
+    count
   end
 
   def escape_query(query)
-    return URI.escape(query, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]", false, 'N'))
+    URI.escape(query, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]", false, 'N'))
   end
 
   def normalize_params
@@ -353,7 +351,7 @@ private
       params.merge!(dms_to_decdeg(latlon)).delete(:query)
 
     elsif latlon = query.match(/^\s*([+-]?\d+(\.\d*)?)\s*[\s,]\s*([+-]?\d+(\.\d*)?)\s*$/)
-      params.merge!({:lat => latlon[1].to_f, :lon => latlon[3].to_f}).delete(:query)
+      params.merge!(:lat => latlon[1].to_f, :lon => latlon[3].to_f).delete(:query)
     end
   end
 
@@ -366,31 +364,30 @@ private
       captures[0].downcase != 's' ? lat = captures[1].to_f : lat = -(captures[1].to_f)
       captures[3].downcase != 'w' ? lon = captures[4].to_f : lon = -(captures[4].to_f)
     end
-    {:lat => lat, :lon => lon}
+    { :lat => lat, :lon => lon }
   end
 
   def ddm_to_decdeg(captures)
     begin
       Float(captures[0])
-      captures[3].downcase != 's' ? lat = captures[0].to_f + captures[1].to_f/60 : lat = -(captures[0].to_f + captures[1].to_f/60)
-      captures[7].downcase != 'w' ? lon = captures[4].to_f + captures[5].to_f/60 : lon = -(captures[4].to_f + captures[5].to_f/60)
+      captures[3].downcase != 's' ? lat = captures[0].to_f + captures[1].to_f / 60 : lat = -(captures[0].to_f + captures[1].to_f / 60)
+      captures[7].downcase != 'w' ? lon = captures[4].to_f + captures[5].to_f / 60 : lon = -(captures[4].to_f + captures[5].to_f / 60)
     rescue
-      captures[0].downcase != 's' ? lat = captures[1].to_f + captures[2].to_f/60 : lat = -(captures[1].to_f + captures[2].to_f/60)
-      captures[4].downcase != 'w' ? lon = captures[5].to_f + captures[6].to_f/60 : lon = -(captures[5].to_f + captures[6].to_f/60)
+      captures[0].downcase != 's' ? lat = captures[1].to_f + captures[2].to_f / 60 : lat = -(captures[1].to_f + captures[2].to_f / 60)
+      captures[4].downcase != 'w' ? lon = captures[5].to_f + captures[6].to_f / 60 : lon = -(captures[5].to_f + captures[6].to_f / 60)
     end
-    {:lat => lat, :lon => lon}
+    { :lat => lat, :lon => lon }
   end
 
   def dms_to_decdeg(captures)
     begin
       Float(captures[0])
-      captures[4].downcase != 's' ? lat = captures[0].to_f + (captures[1].to_f + captures[2].to_f/60)/60 : lat = -(captures[0].to_f + (captures[1].to_f + captures[2].to_f/60)/60)
-      captures[9].downcase != 'w' ? lon = captures[5].to_f + (captures[6].to_f + captures[7].to_f/60)/60 : lon = -(captures[5].to_f + (captures[6].to_f + captures[7].to_f/60)/60)
+      captures[4].downcase != 's' ? lat = captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60 : lat = -(captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60)
+      captures[9].downcase != 'w' ? lon = captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60 : lon = -(captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60)
     rescue
-      captures[0].downcase != 's' ? lat = captures[1].to_f + (captures[2].to_f + captures[3].to_f/60)/60 : lat = -(captures[1].to_f + (captures[2].to_f + captures[3].to_f/60)/60)
-      captures[5].downcase != 'w' ? lon = captures[6].to_f + (captures[7].to_f + captures[8].to_f/60)/60 : lon = -(captures[6].to_f + (captures[7].to_f + captures[8].to_f/60)/60)
+      captures[0].downcase != 's' ? lat = captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60 : lat = -(captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60)
+      captures[5].downcase != 'w' ? lon = captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60 : lon = -(captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60)
     end
-    {:lat => lat, :lon => lon}
+    { :lat => lat, :lon => lon }
   end
-
 end

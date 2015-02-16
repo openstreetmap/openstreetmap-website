@@ -44,7 +44,7 @@ class OldNodeControllerTest < ActionController::TestCase
 
     # keep a hash of the versions => string, as we'll need something
     # to test against later
-    versions = Hash.new
+    versions = {}
 
     # save a version for later checking
     versions[xml_node['version']] = xml_doc.to_s
@@ -74,7 +74,7 @@ class OldNodeControllerTest < ActionController::TestCase
         content xml_doc
         put :update, :id => nodeid
         assert_response :forbidden,
-        "should have rejected node #{nodeid} (#{@response.body}) with forbidden"
+                        "should have rejected node #{nodeid} (#{@response.body}) with forbidden"
         xml_node['version'] = @response.body.to_s
       end
       # save a version for later checking
@@ -82,7 +82,6 @@ class OldNodeControllerTest < ActionController::TestCase
     end
 
     # probably should check that they didn't get written to the database
-
 
     ## Now do it with the public user
     basic_authorization(users(:public_user).email, "test")
@@ -95,7 +94,7 @@ class OldNodeControllerTest < ActionController::TestCase
 
     # keep a hash of the versions => string, as we'll need something
     # to test against later
-    versions = Hash.new
+    versions = {}
 
     # save a version for later checking
     versions[xml_node['version']] = xml_doc.to_s
@@ -125,7 +124,7 @@ class OldNodeControllerTest < ActionController::TestCase
         content xml_doc
         put :update, :id => nodeid
         assert_response :success,
-        "couldn't update node #{nodeid} (#{@response.body})"
+                        "couldn't update node #{nodeid} (#{@response.body})"
         xml_node['version'] = @response.body.to_s
       end
       # save a version for later checking
@@ -137,7 +136,7 @@ class OldNodeControllerTest < ActionController::TestCase
       get :version, :id => nodeid, :version => key.to_i
 
       assert_response :success,
-         "couldn't get version #{key.to_i} of node #{nodeid}"
+                      "couldn't get version #{key.to_i} of node #{nodeid}"
 
       check_node = Node.from_xml(versions[key])
       api_node = Node.from_xml(@response.body.to_s)
@@ -147,7 +146,7 @@ class OldNodeControllerTest < ActionController::TestCase
   end
 
   def test_not_found_version
-    check_not_found_id_version(70000,312344)
+    check_not_found_id_version(70000, 312344)
     check_not_found_id_version(-1, -13)
     check_not_found_id_version(nodes(:visible_node).id, 24354)
     check_not_found_id_version(24356,   nodes(:visible_node).version)
@@ -311,11 +310,11 @@ class OldNodeControllerTest < ActionController::TestCase
   # returns a 16 character long string with some nasty characters in it.
   # this ought to stress-test the tag handling as well as the versioning.
   def random_string
-    letters = [['!','"','$','&',';','@'],
+    letters = [['!', '"', '$', '&', ';', '@'],
                ('a'..'z').to_a,
                ('A'..'Z').to_a,
                ('0'..'9').to_a].flatten
-    (1..16).map { |i| letters[ rand(letters.length) ] }.join
+    (1..16).map { |_i| letters[rand(letters.length)] }.join
   end
 
   ##
@@ -323,6 +322,6 @@ class OldNodeControllerTest < ActionController::TestCase
   # the database. otherwise rounding errors can produce failing unit
   # tests when they shouldn't.
   def precision(f)
-    return (f * GeoRecord::SCALE).round.to_f / GeoRecord::SCALE
+    (f * GeoRecord::SCALE).round.to_f / GeoRecord::SCALE
   end
 end

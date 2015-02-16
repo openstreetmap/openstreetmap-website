@@ -4,7 +4,7 @@ module ActionController
     alias_method :old_send_file, :send_file
 
     def send_file(file, options = {})
-      if file.is_a? File or file.is_a? Tempfile
+      if file.is_a?(File) || file.is_a?(Tempfile)
         headers["Content-Length"] ||= file.size.to_s
 
         options[:filename] ||= File.basename(file.path) unless options[:url_based_filename]

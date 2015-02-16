@@ -1,5 +1,4 @@
 class ApiController < ApplicationController
-
   skip_before_filter :verify_authenticity_token
   before_filter :check_api_readable, :except => [:capabilities]
   before_filter :setup_user_auth, :only => [:permissions]
@@ -9,12 +8,12 @@ class ApiController < ApplicationController
   # Get an XML response containing a list of tracepoints that have been uploaded
   # within the specified bounding box, and in the specified page.
   def trackpoints
-    #retrieve the page number
+    # retrieve the page number
     page = params['page'].to_s.to_i
 
     unless page >= 0
-        report_error("Page number must be greater than or equal to 0")
-        return
+      report_error("Page number must be greater than or equal to 0")
+      return
     end
 
     offset = page * TRACEPOINTS_PER_PAGE
@@ -127,7 +126,7 @@ class ApiController < ApplicationController
       return
     end
 
-    @nodes = Node.bbox(bbox).where(:visible => true).includes(:node_tags).limit(MAX_NUMBER_OF_NODES+1)
+    @nodes = Node.bbox(bbox).where(:visible => true).includes(:node_tags).limit(MAX_NUMBER_OF_NODES + 1)
 
     node_ids = @nodes.collect(&:id)
     if node_ids.length > MAX_NUMBER_OF_NODES
@@ -146,19 +145,19 @@ class ApiController < ApplicationController
 
     # get ways
     # find which ways are needed
-    ways = Array.new
+    ways = []
     if node_ids.length > 0
       way_nodes = WayNode.where(:node_id => node_ids)
       way_ids = way_nodes.collect { |way_node| way_node.id[0] }
       ways = Way.preload(:way_nodes, :way_tags).find(way_ids)
 
-      list_of_way_nodes = ways.collect { |way|
-        way.way_nodes.collect { |way_node| way_node.node_id }
-      }
+      list_of_way_nodes = ways.collect do |way|
+        way.way_nodes.collect(&:node_id)
+      end
       list_of_way_nodes.flatten!
 
     else
-      list_of_way_nodes = Array.new
+      list_of_way_nodes = []
     end
 
     # - [0] in case some thing links to node 0 which doesn't exist. Shouldn't actually ever happen but it does. FIXME: file a ticket for this
@@ -179,7 +178,7 @@ class ApiController < ApplicationController
       end
     end
 
-    way_ids = Array.new
+    way_ids = []
     ways.each do |way|
       if way.visible?
         doc.root << way.to_xml_node(visible_nodes, changeset_cache, user_display_name_cache)
@@ -195,7 +194,7 @@ class ApiController < ApplicationController
     # another way B also referenced, that is not returned. But we do make
     # an exception for cases where an relation references another *relation*;
     # in that case we return that as well (but we don't go recursive here)
-    relations += Relation.relations(relations.collect { |r| r.id }).visible
+    relations += Relation.relations(relations.collect(&:id)).visible
 
     # this "uniq" may be slightly inefficient; it may be better to first collect and output
     # all node-related relations, then find the *not yet covered* way-related ones etc.
@@ -213,7 +212,7 @@ class ApiController < ApplicationController
   def changes
     zoom = (params[:zoom] || '12').to_i
 
-    if params.include?(:start) and params.include?(:end)
+    if params.include?(:start) && params.include?(:end)
       starttime = Time.parse(params[:start])
       endtime = Time.parse(params[:end])
     else
@@ -222,11 +221,11 @@ class ApiController < ApplicationController
       starttime = endtime - hours
     end
 
-    if zoom >= 1 and zoom <= 16 and
-       endtime > starttime and endtime - starttime <= 24.hours
+    if zoom >= 1 && zoom <= 16 &&
+       endtime > starttime && endtime - starttime <= 24.hours
       mask = (1 << zoom) - 1
 
-      tiles = Node.where(:timestamp => starttime .. endtime).group("maptile_for_point(latitude, longitude, #{zoom})").count
+      tiles = Node.where(:timestamp => starttime..endtime).group("maptile_for_point(latitude, longitude, #{zoom})").count
 
       doc = OSM::API.new.get_xml_doc
       changes = XML::Node.new 'changes'
@@ -264,11 +263,11 @@ class ApiController < ApplicationController
 
     api = XML::Node.new 'api'
     version = XML::Node.new 'version'
-    version['minimum'] = "#{API_VERSION}";
-    version['maximum'] = "#{API_VERSION}";
+    version['minimum'] = "#{API_VERSION}"
+    version['maximum'] = "#{API_VERSION}"
     api << version
     area = XML::Node.new 'area'
-    area['maximum'] = MAX_REQUEST_AREA.to_s;
+    area['maximum'] = MAX_REQUEST_AREA.to_s
     api << area
     tracepoints = XML::Node.new 'tracepoints'
     tracepoints['per_page'] = TRACEPOINTS_PER_PAGE.to_s

@@ -12,7 +12,7 @@ class ClientApplicationTest < ActionDispatch::IntegrationTest
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post '/login', {'username' => "test@example.com", 'password' => "test", :referer => '/user/test2'}
+    post '/login', 'username' => "test@example.com", 'password' => "test", :referer => '/user/test2'
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -41,7 +41,7 @@ class ClientApplicationTest < ActionDispatch::IntegrationTest
     end
     assert_in_body do
       assert_select "form[action='/user/test2/oauth_clients']" do
-        [ :name, :url, :callback_url, :support_url ].each do |inp|
+        [:name, :url, :callback_url, :support_url].each do |inp|
           assert_select "input[name=?]", "client_application[#{inp}]"
         end
         ClientApplication.all_permissions.each do |perm|
@@ -50,11 +50,10 @@ class ClientApplicationTest < ActionDispatch::IntegrationTest
       end
     end
 
-    post '/user/test2/oauth_clients', {
-      'client_application[name]' => 'My New App',
-      'client_application[url]' => 'http://my.new.app.org/',
-      'client_application[callback_url]' => 'http://my.new.app.org/callback',
-      'client_application[support_url]' => 'http://my.new.app.org/support'}
+    post '/user/test2/oauth_clients',       'client_application[name]' => 'My New App',
+                                            'client_application[url]' => 'http://my.new.app.org/',
+                                            'client_application[callback_url]' => 'http://my.new.app.org/callback',
+                                            'client_application[support_url]' => 'http://my.new.app.org/support'
     assert_response :redirect
     follow_redirect!
     assert_response :success

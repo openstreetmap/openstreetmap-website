@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-#You might want to change this
-#ENV["RAILS_ENV"] ||= "development"
+# You might want to change this
+# ENV["RAILS_ENV"] ||= "development"
 
 require File.dirname(__FILE__) + "/../../config/environment"
 
@@ -9,7 +9,7 @@ terminated = false
 
 logger = ActiveRecord::Base.logger
 
-while(true) do
+loop do
   ActiveRecord::Base.logger.info("GPX Import daemon wake @ #{Time.now}.")
 
   Trace.find(:all, :conditions => { :inserted => false, :visible => true }, :order => "id").each do |trace|
@@ -28,7 +28,7 @@ while(true) do
       end
     rescue Exception => ex
       logger.info ex.to_s
-      ex.backtrace.each {|l| logger.info l }
+      ex.backtrace.each { |l| logger.info l }
       Notifier.gpx_failure(trace, ex.to_s + "\n" + ex.backtrace.join("\n")).deliver
       trace.destroy
     end
@@ -47,7 +47,7 @@ while(true) do
       trace.destroy
     rescue Exception => ex
       logger.info ex.to_s
-      ex.backtrace.each {|l| logger.info l }
+      ex.backtrace.each { |l| logger.info l }
     end
 
     Signal.trap("TERM", "DEFAULT")

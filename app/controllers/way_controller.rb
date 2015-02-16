@@ -39,7 +39,7 @@ class WayController < ApplicationController
     way = Way.find(params[:id])
     new_way = Way.from_xml(request.raw_post)
 
-    if new_way and new_way.id == way.id
+    if new_way && new_way.id == way.id
       way.update_from(new_way, @user)
       render :text => way.version.to_s, :content_type => "text/plain"
     else
@@ -52,7 +52,7 @@ class WayController < ApplicationController
     way = Way.find(params[:id])
     new_way = Way.from_xml(request.raw_post)
 
-    if new_way and new_way.id == way.id
+    if new_way && new_way.id == way.id
       way.delete_with_history!(new_way, @user)
       render :text => way.version.to_s, :content_type => "text/plain"
     else
@@ -84,14 +84,14 @@ class WayController < ApplicationController
   end
 
   def ways
-    if not params['ways']
-      raise OSM::APIBadUserInput.new("The parameter ways is required, and must be of the form ways=id[,id[,id...]]")
+    unless params['ways']
+      fail OSM::APIBadUserInput.new("The parameter ways is required, and must be of the form ways=id[,id[,id...]]")
     end
 
-    ids = params['ways'].split(',').collect { |w| w.to_i }
+    ids = params['ways'].split(',').collect(&:to_i)
 
     if ids.length == 0
-      raise OSM::APIBadUserInput.new("No ways were given to search for")
+      fail OSM::APIBadUserInput.new("No ways were given to search for")
     end
 
     doc = OSM::API.new.get_xml_doc

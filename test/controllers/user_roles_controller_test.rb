@@ -35,7 +35,6 @@ class UserRolesControllerTest < ActionController::TestCase
     session[:user] = users(:administrator_user).id
 
     UserRole::ALL_ROLES.each do |role|
-
       # Granting a role to a non-existent user should fail
       assert_difference "UserRole.count", 0 do
         post :grant, :display_name => "non_existent_user", :role => role
@@ -63,7 +62,6 @@ class UserRolesControllerTest < ActionController::TestCase
       end
       assert_redirected_to user_path(users(:normal_user).display_name)
       assert_equal "The user already has role #{role}.", flash[:error]
-
     end
 
     # Granting a non-existent role should fail
@@ -93,7 +91,6 @@ class UserRolesControllerTest < ActionController::TestCase
     session[:user] = users(:administrator_user).id
 
     UserRole::ALL_ROLES.each do |role|
-
       # Removing a role from a non-existent user should fail
       assert_difference "UserRole.count", 0 do
         post :revoke, :display_name => "non_existent_user", :role => role
@@ -121,7 +118,6 @@ class UserRolesControllerTest < ActionController::TestCase
       end
       assert_redirected_to user_path(users(:super_user).display_name)
       assert_equal "The user does not have role #{role}.", flash[:error]
-
     end
 
     # Revoking a non-existent role should fail

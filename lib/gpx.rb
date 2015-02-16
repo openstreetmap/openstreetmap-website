@@ -28,13 +28,13 @@ module GPX
           if reader.name == "trkpt"
             point = TrkPt.new(@tracksegs, reader["lat"].to_f, reader["lon"].to_f)
             @possible_points += 1
-          elsif reader.name == "ele" and point
+          elsif reader.name == "ele" && point
             point.altitude = reader.read_string.to_f
-          elsif reader.name == "time" and point
+          elsif reader.name == "time" && point
             point.timestamp = DateTime.parse(reader.read_string)
           end
         elsif reader.node_type == XML::Reader::TYPE_END_ELEMENT
-          if reader.name == "trkpt" and point and point.valid?
+          if reader.name == "trkpt" && point && point.valid?
             point.altitude ||= 0
             yield point
             @actual_points += 1
@@ -100,7 +100,7 @@ module GPX
         end
 
         m += 1
-        if m > num_points.to_f / frames.to_f * (mm+1)
+        if m > num_points.to_f / frames.to_f * (mm + 1)
           mm += 1
         end
 
@@ -117,7 +117,7 @@ module GPX
       il.delay = 50
       il.format = 'GIF'
 
-      return il.to_blob
+      il.to_blob
     end
 
     def icon(min_lat, min_lon, max_lat, max_lon)
@@ -152,17 +152,17 @@ module GPX
         oldpx = px
       end
 
-      return image.to_blob
+      image.to_blob
     end
   end
 
-private
+  private
 
   class TrkPt < Struct.new(:segment, :latitude, :longitude, :altitude, :timestamp)
     def valid?
-      self.latitude and self.longitude and self.timestamp and
-      self.latitude >= -90 and self.latitude <= 90 and
-      self.longitude >= -180 and self.longitude <= 180
+      latitude && longitude && timestamp &&
+        latitude >= -90 && latitude <= 90 &&
+        longitude >= -180 && longitude <= 180
     end
   end
 end

@@ -1,11 +1,11 @@
 # Setup any specified hard limit on the virtual size of the process
-if defined?(HARD_MEMORY_LIMIT) and defined?(PhusionPassenger) and Process.const_defined?(:RLIMIT_AS)
-  Process.setrlimit Process::RLIMIT_AS, HARD_MEMORY_LIMIT*1024*1024, Process::RLIM_INFINITY
+if defined?(HARD_MEMORY_LIMIT) && defined?(PhusionPassenger) && Process.const_defined?(:RLIMIT_AS)
+  Process.setrlimit Process::RLIMIT_AS, HARD_MEMORY_LIMIT * 1024 * 1024, Process::RLIM_INFINITY
 end
 
 # If we're running under passenger and a soft memory limit is
 # configured then setup some rack middleware to police the limit
-if defined?(SOFT_MEMORY_LIMIT) and defined?(PhusionPassenger)
+if defined?(SOFT_MEMORY_LIMIT) && defined?(PhusionPassenger)
   # Define some rack middleware to police the soft memory limit
   class MemoryLimit
     def initialize(app)
@@ -24,7 +24,9 @@ if defined?(SOFT_MEMORY_LIMIT) and defined?(PhusionPassenger)
       # Return the result of this request
       [status, headers, body]
     end
-  private
+
+    private
+
     def resident_size
       # Read statm to get process sizes. Format is
       #   Size RSS Shared Text Lib Data
@@ -33,7 +35,7 @@ if defined?(SOFT_MEMORY_LIMIT) and defined?(PhusionPassenger)
       end
 
       # Return resident size in megabytes
-      return fields[1].to_i / 256
+      fields[1].to_i / 256
     end
   end
 

@@ -3,13 +3,13 @@ require File.expand_path('../boot', __FILE__)
 require File.expand_path('../preinitializer', __FILE__)
 
 if STATUS == :database_offline
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "active_model/railtie"
-require "sprockets/railtie"
-require "rails/test_unit/railtie"
+  require "action_controller/railtie"
+  require "action_mailer/railtie"
+  require "active_model/railtie"
+  require "sprockets/railtie"
+  require "rails/test_unit/railtie"
 else
-require 'rails/all'
+  require 'rails/all'
 end
 
 # Require the gems listed in Gemfile, including any gems

@@ -39,7 +39,7 @@ class OauthClientsControllerTest < ActionController::TestCase
   def test_index
     user = users(:public_user)
 
-    get :index, { :display_name => user.display_name }
+    get :index, :display_name => user.display_name
     assert_response :redirect
     assert_redirected_to login_path(:referer => oauth_clients_path(:display_name => user.display_name))
 
@@ -52,7 +52,7 @@ class OauthClientsControllerTest < ActionController::TestCase
   def test_new
     user = users(:public_user)
 
-    get :new, { :display_name => user.display_name }
+    get :new, :display_name => user.display_name
     assert_response :redirect
     assert_redirected_to login_path(:referer => new_oauth_client_path(:display_name => user.display_name))
 
@@ -74,7 +74,7 @@ class OauthClientsControllerTest < ActionController::TestCase
     user = users(:public_user)
 
     assert_difference "ClientApplication.count", 0 do
-      post :create, { :display_name => user.display_name }
+      post :create, :display_name => user.display_name
     end
     assert_response :forbidden
 
@@ -82,11 +82,9 @@ class OauthClientsControllerTest < ActionController::TestCase
       post :create, {
         :display_name => user.display_name,
         :client_application => {
-        :name => "Test Application"
+          :name => "Test Application"
         }
-      }, {
-        :user => user
-      }
+      },         { :user => user }
     end
     assert_response :success
     assert_template "new"
@@ -98,9 +96,7 @@ class OauthClientsControllerTest < ActionController::TestCase
           :name => "Test Application",
           :url => "http://test.example.com/"
         }
-      }, {
-        :user => user
-      }
+      },         { :user => user }
     end
     assert_response :redirect
     assert_redirected_to oauth_client_path(:id => ClientApplication.find_by_name("Test Application").id)
@@ -110,7 +106,7 @@ class OauthClientsControllerTest < ActionController::TestCase
     user = users(:public_user)
     client = client_applications(:oauth_web_app)
 
-    get :show, { :display_name => user.display_name, :id => client.id }
+    get :show, :display_name => user.display_name, :id => client.id
     assert_response :redirect
     assert_redirected_to login_path(:referer => oauth_client_path(:display_name => user.display_name, :id => client.id))
 
@@ -127,7 +123,7 @@ class OauthClientsControllerTest < ActionController::TestCase
     user = users(:public_user)
     client = client_applications(:oauth_web_app)
 
-    get :edit, { :display_name => user.display_name, :id => client.id }
+    get :edit, :display_name => user.display_name, :id => client.id
     assert_response :redirect
     assert_redirected_to login_path(:referer => edit_oauth_client_path(:display_name => user.display_name, :id => client.id))
 
@@ -153,7 +149,7 @@ class OauthClientsControllerTest < ActionController::TestCase
     user = users(:public_user)
     client = client_applications(:oauth_web_app)
 
-    put :update, { :display_name => user.display_name, :id => client.id }
+    put :update, :display_name => user.display_name, :id => client.id
     assert_response :forbidden
 
     put :update, { :display_name => user.display_name, :id => client_applications(:normal_user_app).id }, { :user => user }
@@ -167,9 +163,7 @@ class OauthClientsControllerTest < ActionController::TestCase
         :name => "New Name",
         :url => nil
       }
-    }, {
-      :user => user
-    }
+    },       { :user => user }
     assert_response :success
     assert_template "edit"
 
@@ -180,9 +174,7 @@ class OauthClientsControllerTest < ActionController::TestCase
         :name => "New Name",
         :url => "http://new.example.com/url"
       }
-    }, {
-      :user => user
-    }
+    },       { :user => user }
     assert_response :redirect
     assert_redirected_to oauth_client_path(:id => client.id)
   end
@@ -192,7 +184,7 @@ class OauthClientsControllerTest < ActionController::TestCase
     client = client_applications(:oauth_web_app)
 
     assert_difference "ClientApplication.count", 0 do
-      delete :destroy, { :display_name => user.display_name, :id => client.id }
+      delete :destroy, :display_name => user.display_name, :id => client.id
     end
     assert_response :forbidden
 

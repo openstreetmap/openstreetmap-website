@@ -12,7 +12,7 @@ module PasswordHash
   def self.create(password)
     salt = SecureRandom.base64(SALT_BYTE_SIZE)
     hash = self.hash(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE, DIGEST_ALGORITHM)
-    return hash, [DIGEST_ALGORITHM, PBKDF2_ITERATIONS, salt].join("!")
+    [hash, [DIGEST_ALGORITHM, PBKDF2_ITERATIONS, salt].join("!")]
   end
 
   def self.check(hash, salt, candidate)
@@ -26,7 +26,7 @@ module PasswordHash
       candidate = Digest::MD5.hexdigest(salt + candidate)
     end
 
-    return hash == candidate
+    hash == candidate
   end
 
   def self.upgrade?(hash, salt)
@@ -42,14 +42,14 @@ module PasswordHash
       return true
     end
 
-    return false
+    false
   end
 
-private
+  private
 
   def self.hash(password, salt, iterations, size, algorithm)
     digest = OpenSSL::Digest.new(algorithm)
-    pbkdf2 = OpenSSL::PKCS5::pbkdf2_hmac(password, salt, iterations, size, digest)
+    pbkdf2 = OpenSSL::PKCS5.pbkdf2_hmac(password, salt, iterations, size, digest)
     Base64.strict_encode64(pbkdf2)
   end
 end

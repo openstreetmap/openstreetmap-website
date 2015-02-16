@@ -135,7 +135,7 @@ class BrowseControllerTest < ActionController::TestCase
     assert_select ".browse-section.browse-relation", 2
   end
 
-private
+  private
 
   # This is a convenience method for most of the above checks
   # First we check that when we don't have an id, it will correctly return a 404
@@ -147,15 +147,15 @@ private
     end
 
     assert_raise ActionController::UrlGenerationError do
-      get type, {:id => -10} # we won't have an id that's negative
+      get type, :id => -10 # we won't have an id that's negative
     end
 
-    get type, {:id => id}
+    get type, :id => id
     assert_response :success
     assert_template template
     assert_template :layout => "map"
 
-    xhr :get, type, {:id => id}
+    xhr :get, type, :id => id
     assert_response :success
     assert_template template
     assert_template :layout => "xhr"

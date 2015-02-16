@@ -13,6 +13,6 @@ class CreateLanguages < ActiveRecord::Migration
     Language.load("#{Rails.root}/config/languages.yml")
 
     add_foreign_key :users, :languages, :column => :locale, :primary_key => :code, :name => "users_locale_fkey"
-    add_foreign_key :diary_entries, :languages, :column => :language_code , :primary_key => :code, :name => "diary_entries_language_code_fkey"
+    add_foreign_key :diary_entries, :languages, :column => :language_code, :primary_key => :code, :name => "diary_entries_language_code_fkey"
   end
 end

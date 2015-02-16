@@ -95,21 +95,21 @@ class BrowseHelperTest < ActionView::TestCase
   def test_icon_tags
     tags = icon_tags(current_nodes(:node_with_name))
     assert_equal 3, tags.count
-    assert tags.include?(["building", "yes"])
-    assert tags.include?(["tourism", "museum"])
-    assert tags.include?(["shop", "gift"])
+    assert tags.include?(%w(building yes))
+    assert tags.include?(%w(tourism museum))
+    assert tags.include?(%w(shop gift))
 
     tags = icon_tags(nodes(:node_with_name_current_version))
     assert_equal 3, tags.count
-    assert tags.include?(["building", "yes"])
-    assert tags.include?(["tourism", "museum"])
-    assert tags.include?(["shop", "gift"])
+    assert tags.include?(%w(building yes))
+    assert tags.include?(%w(tourism museum))
+    assert tags.include?(%w(shop gift))
 
     tags = icon_tags(nodes(:node_with_name_redacted_version))
     assert_equal 3, tags.count
-    assert tags.include?(["building", "yes"])
-    assert tags.include?(["tourism", "museum"])
-    assert tags.include?(["shop", "gift"])
+    assert tags.include?(%w(building yes))
+    assert tags.include?(%w(tourism museum))
+    assert tags.include?(%w(shop gift))
   end
 
   def test_wiki_link

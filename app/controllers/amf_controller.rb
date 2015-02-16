@@ -47,21 +47,21 @@ class AmfController < ApplicationController
   def amf_read
     self.status = :ok
     self.content_type = Mime::AMF
-    self.response_body = Dispatcher.new(request.raw_post) do |message,*args|
+    self.response_body = Dispatcher.new(request.raw_post) do |message, *args|
       logger.info("Executing AMF #{message}(#{args.join(',')})")
 
       case message
-        when 'getpresets';        result = getpresets(*args)
-        when 'whichways';         result = whichways(*args)
-        when 'whichways_deleted'; result = whichways_deleted(*args)
-        when 'getway';            result = getway(args[0].to_i)
-        when 'getrelation';       result = getrelation(args[0].to_i)
-        when 'getway_old';        result = getway_old(args[0].to_i,args[1])
-        when 'getway_history';    result = getway_history(args[0].to_i)
-        when 'getnode_history';   result = getnode_history(args[0].to_i)
-        when 'findgpx';           result = findgpx(*args)
-        when 'findrelations';     result = findrelations(*args)
-        when 'getpoi';            result = getpoi(*args)
+        when 'getpresets' then        result = getpresets(*args)
+        when 'whichways' then         result = whichways(*args)
+        when 'whichways_deleted' then result = whichways_deleted(*args)
+        when 'getway' then            result = getway(args[0].to_i)
+        when 'getrelation' then       result = getrelation(args[0].to_i)
+        when 'getway_old' then        result = getway_old(args[0].to_i, args[1])
+        when 'getway_history' then    result = getway_history(args[0].to_i)
+        when 'getnode_history' then   result = getnode_history(args[0].to_i)
+        when 'findgpx' then           result = findgpx(*args)
+        when 'findrelations' then     result = findrelations(*args)
+        when 'getpoi' then            result = getpoi(*args)
       end
 
       result
@@ -75,22 +75,22 @@ class AmfController < ApplicationController
 
     self.status = :ok
     self.content_type = Mime::AMF
-    self.response_body = Dispatcher.new(request.raw_post) do |message,*args|
+    self.response_body = Dispatcher.new(request.raw_post) do |message, *args|
       logger.info("Executing AMF #{message}")
 
       if err
         result = [-5, nil]
       else
         case message
-          when 'putway';         orn = renumberednodes.dup
-                                 result = putway(renumberednodes, *args)
-                                 result[4] = renumberednodes.reject { |k,v| orn.has_key?(k) }
-                                 if result[0] == 0 and result[2] != result[3] then renumberedways[result[2]] = result[3] end
-          when 'putrelation';    result = putrelation(renumberednodes, renumberedways, *args)
-          when 'deleteway';      result = deleteway(*args)
-          when 'putpoi';         result = putpoi(*args)
-                                 if result[0] == 0 and result[2] != result[3] then renumberednodes[result[2]] = result[3] end
-          when 'startchangeset'; result = startchangeset(*args)
+          when 'putway' then         orn = renumberednodes.dup
+                                     result = putway(renumberednodes, *args)
+                                     result[4] = renumberednodes.reject { |k, _v| orn.key?(k) }
+                                     if result[0] == 0 && result[2] != result[3] then renumberedways[result[2]] = result[3] end
+          when 'putrelation' then    result = putrelation(renumberednodes, renumberedways, *args)
+          when 'deleteway' then      result = deleteway(*args)
+          when 'putpoi' then         result = putpoi(*args)
+                                     if result[0] == 0 && result[2] != result[3] then renumberednodes[result[2]] = result[3] end
+          when 'startchangeset' then result = startchangeset(*args)
         end
 
         err = true if result[0] == -3  # If a conflict is detected, don't execute any more writes
@@ -102,7 +102,7 @@ class AmfController < ApplicationController
 
   private
 
-  def amf_handle_error(call,rootobj,rootid)
+  def amf_handle_error(call, rootobj, rootid)
     yield
   rescue OSM::APIAlreadyDeletedError => ex
     return [-4, ex.object, ex.object_id]
@@ -111,15 +111,15 @@ class AmfController < ApplicationController
   rescue OSM::APIUserChangesetMismatchError => ex
     return [-2, ex.to_s]
   rescue OSM::APIBadBoundingBox => ex
-    return [-2, "Sorry - I can't get the map for that area. The server said: #{ex.to_s}"]
+    return [-2, "Sorry - I can't get the map for that area. The server said: #{ex}"]
   rescue OSM::APIError => ex
     return [-1, ex.to_s]
   rescue Exception => ex
-    return [-2, "An unusual error happened (in #{call}). The server said: #{ex.to_s}"]
+    return [-2, "An unusual error happened (in #{call}). The server said: #{ex}"]
   end
 
-  def amf_handle_error_with_timeout(call,rootobj,rootid)
-    amf_handle_error(call,rootobj,rootid) do
+  def amf_handle_error_with_timeout(call, rootobj, rootid)
+    amf_handle_error(call, rootobj, rootid) do
       OSM::Timer.timeout(API_TIMEOUT, OSM::APITimeoutError) do
         yield
       end
@@ -130,14 +130,14 @@ class AmfController < ApplicationController
   # Returns success_code,success_message,changeset id
 
   def startchangeset(usertoken, cstags, closeid, closecomment, opennew)
-    amf_handle_error("'startchangeset'",nil,nil) do
+    amf_handle_error("'startchangeset'", nil, nil) do
       user = getuser(usertoken)
-      if !user then return -1,"You are not logged in, so Potlatch can't write any changes to the database." end
-      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
-      if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
+      unless user then return -1, "You are not logged in, so Potlatch can't write any changes to the database." end
+      if user.blocks.active.exists? then return -1, t('application.setup_user_auth.blocked') end
+      if REQUIRE_TERMS_AGREED && user.terms_agreed.nil? then return -1, "You must accept the contributor terms before you can edit." end
 
       if cstags
-        if !tags_ok(cstags) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
+        unless tags_ok(cstags) then return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
         cstags = strip_non_xml_chars cstags
       end
 
@@ -145,12 +145,12 @@ class AmfController < ApplicationController
       if closeid
         cs = Changeset.find(closeid.to_i)
         cs.set_closed_time_now
-        if cs.user_id!=user.id
-          raise OSM::APIUserChangesetMismatchError.new
+        if cs.user_id != user.id
+          fail OSM::APIUserChangesetMismatchError.new
         elsif closecomment.empty?
           cs.save!
         else
-          cs.tags['comment']=closecomment
+          cs.tags['comment'] = closecomment
           # in case closecomment has chars not allowed in xml
           cs.tags = strip_non_xml_chars cs.tags
           cs.save_with_tags!
@@ -158,12 +158,12 @@ class AmfController < ApplicationController
       end
 
       # open a new changeset
-      if opennew!=0
+      if opennew != 0
         cs = Changeset.new
         cs.tags = cstags
         cs.user_id = user.id
-        if !closecomment.empty?
-          cs.tags['comment']=closecomment
+        unless closecomment.empty?
+          cs.tags['comment'] = closecomment
           # in case closecomment has chars not allowed in xml
           cs.tags = strip_non_xml_chars cs.tags
         end
@@ -171,9 +171,9 @@ class AmfController < ApplicationController
         cs.created_at = Time.now.getutc
         cs.closed_at = cs.created_at + Changeset::IDLE_TIMEOUT
         cs.save_with_tags!
-        return [0,'',cs.id]
+        return [0, '', cs.id]
       else
-        return [0,'',nil]
+        return [0, '', nil]
       end
     end
   end
@@ -181,7 +181,7 @@ class AmfController < ApplicationController
   # Return presets (default tags, localisation etc.):
   # uses POTLATCH_PRESETS global, set up in OSM::Potlatch.
 
-  def getpresets(usertoken,lang) #:doc:
+  def getpresets(usertoken, lang) #:doc:
     user = getuser(usertoken)
 
     if user && !user.languages.empty?
@@ -200,12 +200,12 @@ class AmfController < ApplicationController
     localised.delete("help_html")
 
     # Populate icon names
-    POTLATCH_PRESETS[10].each { |id|
+    POTLATCH_PRESETS[10].each do |id|
       POTLATCH_PRESETS[11][id] = localised["preset_icon_#{id}"]
       localised.delete("preset_icon_#{id}")
-    }
+    end
 
-    return POTLATCH_PRESETS+[localised,help]
+    POTLATCH_PRESETS + [localised, help]
   end
 
   def getlocalized(lang)
@@ -213,14 +213,14 @@ class AmfController < ApplicationController
     loaded_lang = 'en'
 
     # Load English defaults
-    en = YAML::load(File.open("#{Rails.root}/config/potlatch/locales/en.yml"))["en"]
+    en = YAML.load(File.open("#{Rails.root}/config/potlatch/locales/en.yml"))["en"]
 
     if lang == 'en'
       return [loaded_lang, en]
     else
       # Use English as a fallback
       begin
-        other = YAML::load(File.open("#{Rails.root}/config/potlatch/locales/#{lang}.yml"))[lang]
+        other = YAML.load(File.open("#{Rails.root}/config/potlatch/locales/#{lang}.yml"))[lang]
         loaded_lang = lang
       rescue
         other = en
@@ -247,8 +247,8 @@ class AmfController < ApplicationController
   # used in any way, rel is any relation which refers to either a way
   # or node that we're returning.
   def whichways(xmin, ymin, xmax, ymax) #:doc:
-    amf_handle_error_with_timeout("'whichways'",nil,nil) do
-      enlarge = [(xmax-xmin)/8,0.01].min
+    amf_handle_error_with_timeout("'whichways'", nil, nil) do
+      enlarge = [(xmax - xmin) / 8, 0.01].min
       xmin -= enlarge; ymin -= enlarge
       xmax += enlarge; ymax += enlarge
 
@@ -258,17 +258,17 @@ class AmfController < ApplicationController
       bbox.check_boundaries
       bbox.check_size
 
-      if POTLATCH_USE_SQL then
+      if POTLATCH_USE_SQL
         ways = sql_find_ways_in_area(bbox)
         points = sql_find_pois_in_area(bbox)
-        relations = sql_find_relations_in_area_and_ways(bbox, ways.collect {|x| x[0]})
+        relations = sql_find_relations_in_area_and_ways(bbox, ways.collect { |x| x[0] })
       else
         # find the way ids in an area
         nodes_in_area = Node.bbox(bbox).visible.includes(:ways)
-        ways = nodes_in_area.inject([]) { |sum, node|
-          visible_ways = node.ways.select { |w| w.visible? }
-          sum + visible_ways.collect { |w| [w.id,w.version] }
-        }.uniq
+        ways = nodes_in_area.inject([]) do |sum, node|
+          visible_ways = node.ways.select(&:visible?)
+          sum + visible_ways.collect { |w| [w.id, w.version] }
+        end.uniq
         ways.delete([])
 
         # find the node ids in an area that aren't part of ways
@@ -276,9 +276,9 @@ class AmfController < ApplicationController
         points = nodes_not_used_in_area.collect { |n| [n.id, n.lon, n.lat, n.tags, n.version] }.uniq
 
         # find the relations used by those nodes and ways
-        relations = Relation.nodes(nodes_in_area.collect { |n| n.id }).visible +
+        relations = Relation.nodes(nodes_in_area.collect(&:id)).visible +
                     Relation.ways(ways.collect { |w| w[0] }).visible
-        relations = relations.collect { |relation| [relation.id,relation.version] }.uniq
+        relations = relations.collect { |relation| [relation.id, relation.version] }.uniq
       end
 
       [0, '', ways, points, relations]
@@ -289,8 +289,8 @@ class AmfController < ApplicationController
   # with a deleted node only - not POIs or relations).
 
   def whichways_deleted(xmin, ymin, xmax, ymax) #:doc:
-    amf_handle_error_with_timeout("'whichways_deleted'",nil,nil) do
-      enlarge = [(xmax-xmin)/8,0.01].min
+    amf_handle_error_with_timeout("'whichways_deleted'", nil, nil) do
+      enlarge = [(xmax - xmin) / 8, 0.01].min
       xmin -= enlarge; ymin -= enlarge
       xmax += enlarge; ymax += enlarge
 
@@ -301,9 +301,9 @@ class AmfController < ApplicationController
       bbox.check_size
 
       nodes_in_area = Node.bbox(bbox).joins(:ways_via_history).where(:current_ways => { :visible => false })
-      way_ids = nodes_in_area.collect { |node| node.ways_via_history.invisible.collect { |way| way.id } }.flatten.uniq
+      way_ids = nodes_in_area.collect { |node| node.ways_via_history.invisible.collect(&:id) }.flatten.uniq
 
-      [0,'',way_ids]
+      [0, '', way_ids]
     end
   end
 
@@ -311,8 +311,8 @@ class AmfController < ApplicationController
   # Returns the way id, a Potlatch-style array of points, a hash of tags, the version number, and the user ID.
 
   def getway(wayid) #:doc:
-    amf_handle_error_with_timeout("'getway' #{wayid}" ,'way',wayid) do
-      if POTLATCH_USE_SQL then
+    amf_handle_error_with_timeout("'getway' #{wayid}", 'way', wayid) do
+      if POTLATCH_USE_SQL
         points = sql_get_nodes_in_way(wayid)
         tags = sql_get_tags_in_way(wayid)
         version = sql_get_way_version(wayid)
@@ -324,10 +324,10 @@ class AmfController < ApplicationController
         way = Way.where(:id => wayid).first
 
         # check case where way has been deleted or doesn't exist
-        return [-4, 'way', wayid] if way.nil? or !way.visible
+        return [-4, 'way', wayid] if way.nil? || !way.visible
 
         points = way.nodes.preload(:node_tags).collect do |node|
-          nodetags=node.tags
+          nodetags = node.tags
           nodetags.delete('created_by')
           [node.lon, node.lat, node.id, nodetags, node.version]
         end
@@ -356,7 +356,7 @@ class AmfController < ApplicationController
   # 5. is this the current, visible version? (boolean)
 
   def getway_old(id, timestamp) #:doc:
-    amf_handle_error_with_timeout("'getway_old' #{id}, #{timestamp}", 'way',id) do
+    amf_handle_error_with_timeout("'getway_old' #{id}, #{timestamp}", 'way', id) do
       if timestamp == ''
         # undelete
         old_way = OldWay.where(:visible => true, :way_id => id).unredacted.order("version DESC").first
@@ -368,7 +368,7 @@ class AmfController < ApplicationController
           old_way = OldWay.where("way_id = ? AND timestamp <= ?", id, timestamp).unredacted.order("timestamp DESC").first
           unless old_way.nil?
             points = old_way.get_nodes_revert(timestamp)
-            if !old_way.visible
+            unless old_way.visible
               return [-1, "Sorry, the way was deleted at that time - please revert to a previous version.", id]
             end
           end
@@ -381,9 +381,9 @@ class AmfController < ApplicationController
       if old_way.nil?
         return [-1, "Sorry, the server could not find a way at that time.", id]
       else
-        curway=Way.find(id)
+        curway = Way.find(id)
         old_way.tags['history'] = "Retrieved from v#{old_way.version}"
-        return [0, '', id, points, old_way.tags, curway.version, (curway.version==old_way.version and curway.visible)]
+        return [0, '', id, points, old_way.tags, curway.version, (curway.version == old_way.version && curway.visible)]
       end
     end
   end
@@ -399,70 +399,65 @@ class AmfController < ApplicationController
   # start date of the way.
 
   def getway_history(wayid) #:doc:
-    begin
-      # Find list of revision dates for way and all constituent nodes
-      revdates=[]
-      revusers={}
-      Way.find(wayid).old_ways.unredacted.collect do |a|
-        revdates.push(a.timestamp)
-        unless revusers.has_key?(a.timestamp.to_i) then revusers[a.timestamp.to_i]=change_user(a) end
-        a.nds.each do |n|
-          Node.find(n).old_nodes.unredacted.collect do |o|
-            revdates.push(o.timestamp)
-            unless revusers.has_key?(o.timestamp.to_i) then revusers[o.timestamp.to_i]=change_user(o) end
-          end
+    revdates = []
+    revusers = {}
+    Way.find(wayid).old_ways.unredacted.collect do |a|
+      revdates.push(a.timestamp)
+      unless revusers.key?(a.timestamp.to_i) then revusers[a.timestamp.to_i] = change_user(a) end
+      a.nds.each do |n|
+        Node.find(n).old_nodes.unredacted.collect do |o|
+          revdates.push(o.timestamp)
+          unless revusers.key?(o.timestamp.to_i) then revusers[o.timestamp.to_i] = change_user(o) end
         end
       end
-      waycreated=revdates[0]
-      revdates.uniq!
-      revdates.sort!
-      revdates.reverse!
-
-      # Remove any dates (from nodes) before first revision date of way
-      revdates.delete_if { |d| d<waycreated }
-      # Remove any elements where 2 seconds doesn't elapse before next one
-      revdates.delete_if { |d| revdates.include?(d+1) or revdates.include?(d+2) }
-      # Collect all in one nested array
-      revdates.collect! {|d| [(d + 1).strftime("%d %b %Y, %H:%M:%S")] + revusers[d.to_i] }
-      revdates.uniq!
-
-      return ['way', wayid, revdates]
-    rescue ActiveRecord::RecordNotFound
-      return ['way', wayid, []]
     end
+    waycreated = revdates[0]
+    revdates.uniq!
+    revdates.sort!
+    revdates.reverse!
+
+    # Remove any dates (from nodes) before first revision date of way
+    revdates.delete_if { |d| d < waycreated }
+    # Remove any elements where 2 seconds doesn't elapse before next one
+    revdates.delete_if { |d| revdates.include?(d + 1) || revdates.include?(d + 2) }
+    # Collect all in one nested array
+    revdates.collect! { |d| [(d + 1).strftime("%d %b %Y, %H:%M:%S")] + revusers[d.to_i] }
+    revdates.uniq!
+
+    return ['way', wayid, revdates]
+  rescue ActiveRecord::RecordNotFound
+    return ['way', wayid, []]
   end
 
   # Find history of a node. Returns 'node', id, and an array of previous versions as above.
 
   def getnode_history(nodeid) #:doc:
-    begin
-      history = Node.find(nodeid).old_nodes.unredacted.reverse.collect do |old_node|
-        [(old_node.timestamp + 1).strftime("%d %b %Y, %H:%M:%S")] + change_user(old_node)
-      end
-      return ['node', nodeid, history]
-    rescue ActiveRecord::RecordNotFound
-      return ['node', nodeid, []]
+    history = Node.find(nodeid).old_nodes.unredacted.reverse.collect do |old_node|
+      [(old_node.timestamp + 1).strftime("%d %b %Y, %H:%M:%S")] + change_user(old_node)
     end
+    return ['node', nodeid, history]
+  rescue ActiveRecord::RecordNotFound
+    return ['node', nodeid, []]
   end
 
   def change_user(obj)
     user_object = obj.changeset.user
     user = user_object.data_public? ? user_object.display_name : 'anonymous'
     uid  = user_object.data_public? ? user_object.id : 0
-    [user,uid]
+    [user, uid]
   end
 
   # Find GPS traces with specified name/id.
   # Returns array listing GPXs, each one comprising id, name and description.
 
   def findgpx(searchterm, usertoken)
-    amf_handle_error_with_timeout("'findgpx'" ,nil,nil) do
+    amf_handle_error_with_timeout("'findgpx'", nil, nil) do
       user = getuser(usertoken)
-      if !user then return -1,"You must be logged in to search for GPX traces." end
-      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
+      unless user then return -1, "You must be logged in to search for GPX traces." end
+      if user.blocks.active.exists? then return -1, t('application.setup_user_auth.blocked') end
 
       query = Trace.visible_to(user)
-      if searchterm.to_i > 0 then
+      if searchterm.to_i > 0
         query = query.where(:id => searchterm.to_i)
       else
         query = query.where("MATCH(name) AGAINST (?)", searchterm).limit(21)
@@ -470,7 +465,7 @@ class AmfController < ApplicationController
       gpxs = query.collect do |gpx|
         [gpx.id, gpx.name, gpx.description]
       end
-      [0,'',gpxs]
+      [0, '', gpxs]
     end
   end
 
@@ -484,10 +479,10 @@ class AmfController < ApplicationController
   # 5. version.
 
   def getrelation(relid) #:doc:
-    amf_handle_error("'getrelation' #{relid}" ,'relation',relid) do
+    amf_handle_error("'getrelation' #{relid}", 'relation', relid) do
       rel = Relation.where(:id => relid).first
 
-      return [-4, 'relation', relid] if rel.nil? or !rel.visible
+      return [-4, 'relation', relid] if rel.nil? || !rel.visible
       [0, '', relid, rel.tags, rel.members, rel.version]
     end
   end
@@ -497,14 +492,14 @@ class AmfController < ApplicationController
 
   def findrelations(searchterm)
     rels = []
-    if searchterm.to_i>0 then
+    if searchterm.to_i > 0
       rel = Relation.where(:id => searchterm.to_i).first
-      if rel and rel.visible then
+      if rel && rel.visible
         rels.push([rel.id, rel.tags, rel.members, rel.version])
       end
     else
       RelationTag.where("v like ?", "%#{searchterm}%").limit(11).each do |t|
-        if t.relation.visible then
+        if t.relation.visible
           rels.push([t.relation.id, t.relation.tags, t.relation.members, t.relation.version])
         end
       end
@@ -520,13 +515,13 @@ class AmfController < ApplicationController
   # 3. version.
 
   def putrelation(renumberednodes, renumberedways, usertoken, changeset_id, version, relid, tags, members, visible) #:doc:
-    amf_handle_error("'putrelation' #{relid}" ,'relation',relid)  do
+    amf_handle_error("'putrelation' #{relid}", 'relation', relid)  do
       user = getuser(usertoken)
-      if !user then return -1,"You are not logged in, so the relation could not be saved." end
-      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
-      if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
+      unless user then return -1, "You are not logged in, so the relation could not be saved." end
+      if user.blocks.active.exists? then return -1, t('application.setup_user_auth.blocked') end
+      if REQUIRE_TERMS_AGREED && user.terms_agreed.nil? then return -1, "You must accept the contributor terms before you can edit." end
 
-      if !tags_ok(tags) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
+      unless tags_ok(tags) then return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
       tags = strip_non_xml_chars tags
 
       relid = relid.to_i
@@ -581,7 +576,7 @@ class AmfController < ApplicationController
       else
         return [0, '', relid, relid, relation.version]
       end
-   end
+    end
   end
 
   # Save a way to the database, including all nodes. Any nodes in the previous
@@ -608,26 +603,25 @@ class AmfController < ApplicationController
   # 6. hash of node versions (node=>version)
 
   def putway(renumberednodes, usertoken, changeset_id, wayversion, originalway, pointlist, attributes, nodes, deletednodes) #:doc:
-    amf_handle_error("'putway' #{originalway}" ,'way',originalway) do
+    amf_handle_error("'putway' #{originalway}", 'way', originalway) do
       # -- Initialise
 
       user = getuser(usertoken)
-      if !user then return -1,"You are not logged in, so the way could not be saved." end
-      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
-      if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
+      unless user then return -1, "You are not logged in, so the way could not be saved." end
+      if user.blocks.active.exists? then return -1, t('application.setup_user_auth.blocked') end
+      if REQUIRE_TERMS_AGREED && user.terms_agreed.nil? then return -1, "You must accept the contributor terms before you can edit." end
 
-      if pointlist.length < 2 then return -2,"Server error - way is only #{points.length} points long." end
+      if pointlist.length < 2 then return -2, "Server error - way is only #{points.length} points long." end
 
-      if !tags_ok(attributes) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
+      unless tags_ok(attributes) then return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
       attributes = strip_non_xml_chars attributes
 
       originalway = originalway.to_i
-      pointlist.collect! {|a| a.to_i }
+      pointlist.collect!(&:to_i)
 
-      way=nil # this is returned, so scope it outside the transaction
+      way = nil # this is returned, so scope it outside the transaction
       nodeversions = {}
       Way.transaction do
-
         # -- Update each changed node
 
         nodes.each do |a|
@@ -636,8 +630,8 @@ class AmfController < ApplicationController
           id = a[2].to_i
           version = a[3].to_i
 
-          if id == 0  then return -2,"Server error - node with id 0 found in way #{originalway}." end
-          if lat== 90 then return -2,"Server error - node with latitude -90 found in way #{originalway}." end
+          if id == 0  then return -2, "Server error - node with id 0 found in way #{originalway}." end
+          if lat == 90 then return -2, "Server error - node with latitude -90 found in way #{originalway}." end
           if renumberednodes[id] then id = renumberednodes[id] end
 
           node = Node.new
@@ -647,7 +641,7 @@ class AmfController < ApplicationController
           node.tags = a[4]
 
           # fixup node tags in a way as well
-          if !tags_ok(node.tags) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
+          unless tags_ok(node.tags) then return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
           node.tags = strip_non_xml_chars node.tags
 
           node.tags.delete('created_by')
@@ -659,8 +653,8 @@ class AmfController < ApplicationController
             nodeversions[node.id] = node.version
           else
             # We're updating an existing node
-            previous=Node.find(id)
-            node.id=id
+            previous = Node.find(id)
+            node.id = id
             previous.update_from(node, user)
             nodeversions[previous.id] = previous.version
           end
@@ -668,9 +662,9 @@ class AmfController < ApplicationController
 
         # -- Save revised way
 
-        pointlist.collect! {|a|
-          renumberednodes[a] ? renumberednodes[a]:a
-        } # renumber nodes
+        pointlist.collect! do|a|
+          renumberednodes[a] ? renumberednodes[a] : a
+        end # renumber nodes
         new_way = Way.new
         new_way.tags = attributes
         new_way.nds = pointlist
@@ -678,18 +672,18 @@ class AmfController < ApplicationController
         new_way.version = wayversion
         if originalway <= 0
           new_way.create_with_history(user)
-          way=new_way # so we can get way.id and way.version
+          way = new_way # so we can get way.id and way.version
         else
           way = Way.find(originalway)
-          if way.tags!=attributes or way.nds!=pointlist or !way.visible?
-            new_way.id=originalway
-          way.update_from(new_way, user)
+          if way.tags != attributes || way.nds != pointlist || !way.visible?
+            new_way.id = originalway
+            way.update_from(new_way, user)
           end
         end
 
         # -- Delete unwanted nodes
 
-        deletednodes.each do |id,v|
+        deletednodes.each do |id, v|
           node = Node.find(id.to_i)
           new_node = Node.new
           new_node.changeset_id = changeset_id
@@ -702,7 +696,6 @@ class AmfController < ApplicationController
             # and we don't want to delete it
           end
         end
-
       end # transaction
 
       [0, '', originalway, way.id, renumberednodes, way.version, nodeversions, deletednodes]
@@ -719,13 +712,13 @@ class AmfController < ApplicationController
   # 4. version.
 
   def putpoi(usertoken, changeset_id, version, id, lon, lat, tags, visible) #:doc:
-    amf_handle_error("'putpoi' #{id}", 'node',id) do
+    amf_handle_error("'putpoi' #{id}", 'node', id) do
       user = getuser(usertoken)
-      if !user then return -1,"You are not logged in, so the point could not be saved." end
-      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
-      if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
+      unless user then return -1, "You are not logged in, so the point could not be saved." end
+      if user.blocks.active.exists? then return -1, t('application.setup_user_auth.blocked') end
+      if REQUIRE_TERMS_AGREED && user.terms_agreed.nil? then return -1, "You must accept the contributor terms before you can edit." end
 
-      if !tags_ok(tags) then return -1,"One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
+      unless tags_ok(tags) then return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
       tags = strip_non_xml_chars tags
 
       id = id.to_i
@@ -733,11 +726,11 @@ class AmfController < ApplicationController
       node = nil
       new_node = nil
       Node.transaction do
-        if id > 0 then
+        if id > 0
           node = Node.find(id)
 
-          if !visible then
-            unless node.ways.empty? then return -1,"Point #{id} has since become part of a way, so you cannot save it as a POI.",id,id,version end
+          unless visible
+            unless node.ways.empty? then return -1, "Point #{id} has since become part of a way, so you cannot save it as a POI.", id, id, version end
           end
         end
         # We always need a new node, based on the data that has been sent to us
@@ -753,14 +746,13 @@ class AmfController < ApplicationController
           new_node.create_with_history(user)
         elsif visible
           # We're updating the node
-          new_node.id=id
+          new_node.id = id
           node.update_from(new_node, user)
         else
           # We're deleting the node
-          new_node.id=id
+          new_node.id = id
           node.delete_with_history!(new_node, user)
         end
-
       end # transaction
 
       if id <= 0
@@ -776,8 +768,8 @@ class AmfController < ApplicationController
   #
   # Returns array of id, long, lat, hash of tags, (current) version.
 
-  def getpoi(id,timestamp) #:doc:
-    amf_handle_error("'getpoi' #{id}" ,'node',id) do
+  def getpoi(id, timestamp) #:doc:
+    amf_handle_error("'getpoi' #{id}", 'node', id) do
       id = id.to_i
       n = Node.find(id)
       v = n.version
@@ -804,18 +796,17 @@ class AmfController < ApplicationController
   # Returns 0 (success), unchanged way id, new way version, new node versions.
 
   def deleteway(usertoken, changeset_id, way_id, way_version, deletednodes) #:doc:
-    amf_handle_error("'deleteway' #{way_id}" ,'way', way_id) do
+    amf_handle_error("'deleteway' #{way_id}", 'way', way_id) do
       user = getuser(usertoken)
-      unless user then return -1,"You are not logged in, so the way could not be deleted." end
-      if user.blocks.active.exists? then return -1,t('application.setup_user_auth.blocked') end
-      if REQUIRE_TERMS_AGREED and user.terms_agreed.nil? then return -1,"You must accept the contributor terms before you can edit." end
+      unless user then return -1, "You are not logged in, so the way could not be deleted." end
+      if user.blocks.active.exists? then return -1, t('application.setup_user_auth.blocked') end
+      if REQUIRE_TERMS_AGREED && user.terms_agreed.nil? then return -1, "You must accept the contributor terms before you can edit." end
 
       way_id = way_id.to_i
       nodeversions = {}
-      old_way=nil # returned, so scope it outside the transaction
+      old_way = nil # returned, so scope it outside the transaction
       # Need a transaction so that if one item fails to delete, the whole delete fails.
       Way.transaction do
-
         # -- Delete the way
 
         old_way = Way.find(way_id)
@@ -827,7 +818,7 @@ class AmfController < ApplicationController
 
         # -- Delete unwanted nodes
 
-        deletednodes.each do |id,v|
+        deletednodes.each do |id, v|
           node = Node.find(id.to_i)
           new_node = Node.new
           new_node.changeset_id = changeset_id
@@ -835,18 +826,16 @@ class AmfController < ApplicationController
           new_node.id = id.to_i
           begin
             node.delete_with_history!(new_node, user)
-            nodeversions[node.id]=node.version
+            nodeversions[node.id] = node.version
           rescue OSM::APIPreconditionFailedError => ex
             # We don't do anything with the exception as the node is in use
             # elsewhere and we don't want to delete it
           end
         end
-
       end # transaction
       [0, '', way_id, old_way.version, nodeversions]
     end
   end
-
 
   # ====================================================================
   # Support functions
@@ -857,12 +846,12 @@ class AmfController < ApplicationController
   # not just the id, hence this abstraction
 
   def getuser(token) #:doc:
-    if (token =~ /^(.+)\:(.+)$/) then
+    if token =~ /^(.+)\:(.+)$/
       user = User.authenticate(:username => $1, :password => $2)
     else
       user = User.authenticate(:token => token)
     end
-    return user
+    user
   end
 
   def getlocales
@@ -876,14 +865,14 @@ class AmfController < ApplicationController
       return false unless UTF8.valid? k
       return false unless UTF8.valid? v
     end
-    return true
+    true
   end
 
   ##
   # strip characters which are invalid in XML documents from the strings
   # in the +tags+ hash.
   def strip_non_xml_chars(tags)
-    new_tags = Hash.new
+    new_tags = {}
     unless tags.nil?
       tags.each do |k, v|
         new_k = k.delete "\000-\037\ufffe\uffff", "^\011\012\015"
@@ -891,14 +880,14 @@ class AmfController < ApplicationController
         new_tags[new_k] = new_v
       end
     end
-    return new_tags
+    new_tags
   end
 
   # ====================================================================
   # Alternative SQL queries for getway/whichways
 
   def sql_find_ways_in_area(bbox)
-    sql=<<-EOF
+    sql = <<-EOF
     SELECT DISTINCT current_ways.id AS wayid,current_ways.version AS version
       FROM current_way_nodes
     INNER JOIN current_nodes ON current_nodes.id=current_way_nodes.node_id
@@ -907,12 +896,12 @@ class AmfController < ApplicationController
        AND current_ways.visible=TRUE
        AND #{OSM.sql_for_area(bbox, "current_nodes.")}
     EOF
-    return ActiveRecord::Base.connection.select_all(sql).collect { |a| [a['wayid'].to_i,a['version'].to_i] }
+    ActiveRecord::Base.connection.select_all(sql).collect { |a| [a['wayid'].to_i, a['version'].to_i] }
   end
 
   def sql_find_pois_in_area(bbox)
-    pois=[]
-    sql=<<-EOF
+    pois = []
+    sql = <<-EOF
       SELECT current_nodes.id,current_nodes.latitude*0.0000001 AS lat,current_nodes.longitude*0.0000001 AS lon,current_nodes.version
       FROM current_nodes
        LEFT OUTER JOIN current_way_nodes cwn ON cwn.node_id=current_nodes.id
@@ -921,19 +910,19 @@ class AmfController < ApplicationController
        AND #{OSM.sql_for_area(bbox, "current_nodes.")}
     EOF
     ActiveRecord::Base.connection.select_all(sql).each do |row|
-      poitags={}
+      poitags = {}
       ActiveRecord::Base.connection.select_all("SELECT k,v FROM current_node_tags WHERE id=#{row['id']}").each do |n|
-        poitags[n['k']]=n['v']
+        poitags[n['k']] = n['v']
       end
       pois << [row['id'].to_i, row['lon'].to_f, row['lat'].to_f, poitags, row['version'].to_i]
     end
     pois
   end
 
-  def sql_find_relations_in_area_and_ways(bbox,way_ids)
+  def sql_find_relations_in_area_and_ways(bbox, way_ids)
     # ** It would be more Potlatchy to get relations for nodes within ways
     #    during 'getway', not here
-    sql=<<-EOF
+    sql = <<-EOF
       SELECT DISTINCT cr.id AS relid,cr.version AS version
       FROM current_relations cr
       INNER JOIN current_relation_members crm ON crm.id=cr.id
@@ -941,7 +930,7 @@ class AmfController < ApplicationController
        WHERE #{OSM.sql_for_area(bbox, "cn.")}
       EOF
     unless way_ids.empty?
-      sql+=<<-EOF
+      sql += <<-EOF
        UNION
         SELECT DISTINCT cr.id AS relid,cr.version AS version
         FROM current_relations cr
@@ -950,12 +939,12 @@ class AmfController < ApplicationController
          AND crm.member_id IN (#{way_ids.join(',')})
         EOF
     end
-    ActiveRecord::Base.connection.select_all(sql).collect { |a| [a['relid'].to_i,a['version'].to_i] }
+    ActiveRecord::Base.connection.select_all(sql).collect { |a| [a['relid'].to_i, a['version'].to_i] }
   end
 
   def sql_get_nodes_in_way(wayid)
-    points=[]
-    sql=<<-EOF
+    points = []
+    sql = <<-EOF
       SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,current_nodes.id,current_nodes.version
       FROM current_way_nodes,current_nodes
        WHERE current_way_nodes.id=#{wayid.to_i}
@@ -964,20 +953,20 @@ class AmfController < ApplicationController
       ORDER BY sequence_id
     EOF
     ActiveRecord::Base.connection.select_all(sql).each do |row|
-      nodetags={}
+      nodetags = {}
       ActiveRecord::Base.connection.select_all("SELECT k,v FROM current_node_tags WHERE id=#{row['id']}").each do |n|
-        nodetags[n['k']]=n['v']
+        nodetags[n['k']] = n['v']
       end
       nodetags.delete('created_by')
-      points << [row['lon'].to_f,row['lat'].to_f,row['id'].to_i,nodetags,row['version'].to_i]
+      points << [row['lon'].to_f, row['lat'].to_f, row['id'].to_i, nodetags, row['version'].to_i]
     end
     points
   end
 
   def sql_get_tags_in_way(wayid)
-    tags={}
+    tags = {}
     ActiveRecord::Base.connection.select_all("SELECT k,v FROM current_way_tags WHERE id=#{wayid.to_i}").each do |row|
-      tags[row['k']]=row['v']
+      tags[row['k']] = row['v']
     end
     tags
   end

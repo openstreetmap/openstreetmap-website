@@ -3,7 +3,7 @@ class BrowseController < ApplicationController
 
   before_filter :authorize_web
   before_filter :set_locale
-  before_filter :except => [ :query ] { |c| c.check_database_readable(true) }
+  before_filter :except => [:query] { |c| c.check_database_readable(true) }
   before_filter :require_oauth
   around_filter :web_timeout
 
@@ -58,14 +58,14 @@ class BrowseController < ApplicationController
   def changeset
     @type = "changeset"
     @changeset = Changeset.find(params[:id])
-    if @user and @user.moderator?
+    if @user && @user.moderator?
       @comments = @changeset.comments.unscope(:where => :visible).includes(:author)
     else
       @comments = @changeset.comments.includes(:author)
     end
-    @node_pages, @nodes = paginate(:old_nodes, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'node_page')
-    @way_pages, @ways = paginate(:old_ways, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'way_page')
-    @relation_pages, @relations = paginate(:old_relations, :conditions => {:changeset_id => @changeset.id}, :per_page => 20, :parameter => 'relation_page')
+    @node_pages, @nodes = paginate(:old_nodes, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => 'node_page')
+    @way_pages, @ways = paginate(:old_ways, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => 'way_page')
+    @relation_pages, @relations = paginate(:old_relations, :conditions => { :changeset_id => @changeset.id }, :per_page => 20, :parameter => 'relation_page')
     if @changeset.user.data_public?
       @next_by_user = @changeset.user.changesets.where("id > ?", @changeset.id).reorder(:id => :asc).first
       @prev_by_user = @changeset.user.changesets.where("id < ?", @changeset.id).reorder(:id => :desc).first

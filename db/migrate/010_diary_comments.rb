@@ -11,8 +11,7 @@ class DiaryComments < ActiveRecord::Migration
       t.column "updated_at",     :datetime, :null => false
     end
 
-    add_index "diary_comments", ["diary_entry_id", "id"], :name => "diary_comments_entry_id_idx", :unique => true
-
+    add_index "diary_comments", %w(diary_entry_id id), :name => "diary_comments_entry_id_idx", :unique => true
   end
 
   def self.down

@@ -19,7 +19,7 @@ class MergeAclAddressAndMask < ActiveRecord::Migration
 
       while netmask != "0.0.0.0"
         netmask = netmask << 1
-        prefix = prefix + 1
+        prefix += 1
       end
 
       acl.address = "#{address.mask(prefix)}/#{prefix}"

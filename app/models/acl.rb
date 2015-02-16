@@ -8,14 +8,14 @@ class Acl < ActiveRecord::Base
   end
 
   def self.no_account_creation(address, domain = nil)
-    self.match(address, domain).where(:k => "no_account_creation").exists?
+    match(address, domain).where(:k => "no_account_creation").exists?
   end
 
   def self.no_note_comment(address, domain = nil)
-    self.match(address, domain).where(:k => "no_note_comment").exists?
+    match(address, domain).where(:k => "no_note_comment").exists?
   end
 
   def self.no_trace_download(address, domain = nil)
-    self.match(address, domain).where(:k => "no_trace_download").exists?
+    match(address, domain).where(:k => "no_trace_download").exists?
   end
 end

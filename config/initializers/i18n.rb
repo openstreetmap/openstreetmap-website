@@ -4,7 +4,7 @@ module I18n
       def pluralize(locale, entry, count)
         super
       rescue InvalidPluralizationData => ex
-        raise ex unless ex.entry.has_key?(:other)
+        raise ex unless ex.entry.key?(:other)
         ex.entry[:other]
       end
     end
@@ -15,7 +15,7 @@ module I18n
       def make_ordered(unordered)
         ordered = ActiveSupport::OrderedHash.new
 
-        unordered.keys.sort { |a,b| a.to_s <=> b.to_s }.each do |key|
+        unordered.keys.sort { |a, b| a.to_s <=> b.to_s }.each do |key|
           value = unordered[key]
 
           if value.is_a?(Hash)

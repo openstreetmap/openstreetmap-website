@@ -155,7 +155,7 @@ class SiteControllerTest < ActionController::TestCase
 
   # Test the right editor gets used when the user hasn't set a preference
   def test_edit_without_preference
-    get :edit, nil, { :user => users(:public_user).id }
+    get :edit, nil, :user => users(:public_user).id
     assert_response :success
     assert_template "edit"
     assert_template :partial => "_#{DEFAULT_EDITOR}", :count => 1
@@ -167,7 +167,7 @@ class SiteControllerTest < ActionController::TestCase
     user.preferred_editor = "id"
     user.save!
 
-    get :edit, nil, { :user => user.id }
+    get :edit, nil, :user => user.id
     assert_response :success
     assert_template "edit"
     assert_template :partial => "_id", :count => 1
@@ -176,7 +176,7 @@ class SiteControllerTest < ActionController::TestCase
     user.preferred_editor = "potlatch2"
     user.save!
 
-    get :edit, nil, { :user => user.id }
+    get :edit, nil, :user => user.id
     assert_response :success
     assert_template "edit"
     assert_template :partial => "_potlatch2", :count => 1
@@ -185,7 +185,7 @@ class SiteControllerTest < ActionController::TestCase
     user.preferred_editor = "potlatch"
     user.save!
 
-    get :edit, nil, { :user => user.id }
+    get :edit, nil, :user => user.id
     assert_response :success
     assert_template "edit"
     assert_template :partial => "_potlatch", :count => 1
@@ -194,7 +194,7 @@ class SiteControllerTest < ActionController::TestCase
     user.preferred_editor = "remote"
     user.save!
 
-    get :edit, nil, { :user => user.id }
+    get :edit, nil, :user => user.id
     assert_response :success
     assert_template "index"
   end
@@ -276,7 +276,7 @@ class SiteControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :controller => :user, :action => :login, :referer => "/welcome"
 
-    get :welcome, nil, { :user => users(:public_user).id }
+    get :welcome, nil, :user => users(:public_user).id
     assert_response :success
     assert_template "welcome"
   end
@@ -336,7 +336,7 @@ class SiteControllerTest < ActionController::TestCase
 
   # Test the id frame
   def test_id
-    get :id, nil, { :user => users(:public_user).id }
+    get :id, nil, :user => users(:public_user).id
     assert_response :success
     assert_template "id"
     assert_template :layout => false

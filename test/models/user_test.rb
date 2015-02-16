@@ -44,10 +44,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_email_valid
-    ok = %w{ a@s.com test@shaunmcdonald.me.uk hello_local@ping-d.ng
-    test_local@openstreetmap.org test-local@example.com }
-    bad = %w{ hi ht@ n@ @.com help@.me.uk help"hi.me.uk も対@応します
-    輕觸搖晃的遊戲@ah.com も対応します@s.name }
+    ok = %w(a@s.com test@shaunmcdonald.me.uk hello_local@ping-d.ng
+            test_local@openstreetmap.org test-local@example.com)
+    bad = %w(hi ht@ n@ @.com help@.me.uk help"hi.me.uk も対@応します
+             輕觸搖晃的遊戲@ah.com も対応します@s.name)
 
     ok.each do |name|
       user = users(:normal_user)
@@ -81,15 +81,15 @@ class UserTest < ActiveSupport::TestCase
     # Due to sanitisation in the view some of these that you might not
     # expact are allowed
     # However, would they affect the xml planet dumps?
-    ok = [ "Name", "'me", "he\"", "<hr>", "*ho", "\"help\"@",
-           "vergrößern", "ルシステムにも対応します", "輕觸搖晃的遊戲" ]
+    ok = ["Name", "'me", "he\"", "<hr>", "*ho", "\"help\"@",
+          "vergrößern", "ルシステムにも対応します", "輕觸搖晃的遊戲"]
     # These need to be 3 chars in length, otherwise the length test above
     # should be used.
-    bad = [ "<hr/>", "test@example.com", "s/f", "aa/", "aa;", "aa.",
-            "aa,", "aa?", "/;.,?", "も対応します/", "#ping",
-            "foo\x1fbar", "foo\x7fbar", "foo\ufffebar", "foo\uffffbar",
-            "new", "terms", "save", "confirm", "confirm-email",
-            "go_public", "reset-password", "forgot-password", "suspended" ]
+    bad = ["<hr/>", "test@example.com", "s/f", "aa/", "aa;", "aa.",
+           "aa,", "aa?", "/;.,?", "も対応します/", "#ping",
+           "foo\x1fbar", "foo\x7fbar", "foo\ufffebar", "foo\uffffbar",
+           "new", "terms", "save", "confirm", "confirm-email",
+           "go_public", "reset-password", "forgot-password", "suspended"]
     ok.each do |display_name|
       user = users(:normal_user)
       user.display_name = display_name
@@ -129,10 +129,10 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 1, Friend.count
     norm = users(:normal_user)
     sec = users(:public_user)
-    #friend = Friend.new
-    #friend.befriender = norm
-    #friend.befriendee = sec
-    #friend.save
+    # friend = Friend.new
+    # friend.befriender = norm
+    # friend.befriendee = sec
+    # friend.save
     assert_equal [sec], norm.nearby
     assert_equal 1, norm.nearby.size
     assert_equal 1, Friend.count
@@ -143,8 +143,8 @@ class UserTest < ActiveSupport::TestCase
     assert !users(:public_user).is_friends_with?(users(:inactive_user))
     assert !users(:inactive_user).is_friends_with?(users(:normal_user))
     assert !users(:inactive_user).is_friends_with?(users(:public_user))
-    #Friend.delete(friend)
-    #assert_equal 0, Friend.count
+    # Friend.delete(friend)
+    # assert_equal 0, Friend.count
   end
 
   def test_user_preferred_editor
@@ -190,12 +190,12 @@ class UserTest < ActiveSupport::TestCase
 
   def test_languages
     user = users(:normal_user)
-    assert_equal [ "en" ], user.languages
-    user.languages = [ "de", "fr", "en" ]
-    assert_equal [ "de", "fr", "en" ], user.languages
-    user.languages = [ "fr", "de", "sl" ]
+    assert_equal ["en"], user.languages
+    user.languages = %w(de fr en)
+    assert_equal %w(de fr en), user.languages
+    user.languages = %w(fr de sl)
     assert_equal "de", user.preferred_language
-    assert_equal "de", user.preferred_language_from(["en", "sl", "de", "es"])
+    assert_equal "de", user.preferred_language_from(%w(en sl de es))
   end
 
   def test_visible?

@@ -69,8 +69,8 @@ class MessageControllerTest < ActionController::TestCase
     assert_difference "ActionMailer::Base.deliveries.size", 0 do
       assert_difference "Message.count", 0 do
         post :new,
-          :display_name => users(:public_user).display_name,
-          :message => { :title => "Test Message", :body => "" }
+             :display_name => users(:public_user).display_name,
+             :message => { :title => "Test Message", :body => "" }
       end
     end
     assert_response :success
@@ -88,8 +88,8 @@ class MessageControllerTest < ActionController::TestCase
     assert_difference "ActionMailer::Base.deliveries.size", 0 do
       assert_difference "Message.count", 0 do
         post :new,
-          :display_name => users(:public_user).display_name,
-          :message => { :title => "", :body => "Test message body" }
+             :display_name => users(:public_user).display_name,
+             :message => { :title => "", :body => "Test message body" }
       end
     end
     assert_response :success
@@ -107,14 +107,14 @@ class MessageControllerTest < ActionController::TestCase
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       assert_difference "Message.count", 1 do
         post :new,
-          :display_name => users(:public_user).display_name,
-          :message => { :title => "Test Message", :body => "Test message body" }
+             :display_name => users(:public_user).display_name,
+             :message => { :title => "Test Message", :body => "Test message body" }
       end
     end
     assert_redirected_to inbox_path(:display_name => users(:normal_user).display_name)
     assert_equal "Message sent", flash[:notice]
     e = ActionMailer::Base.deliveries.first
-    assert_equal [ users(:public_user).email ], e.to
+    assert_equal [users(:public_user).email], e.to
     assert_equal "[OpenStreetMap] Test Message", e.subject
     assert_match /Test message body/, e.text_part.decoded
     assert_match /Test message body/, e.html_part.decoded
@@ -145,8 +145,8 @@ class MessageControllerTest < ActionController::TestCase
       assert_no_difference "Message.count" do
         with_message_limit(0) do
           post :new,
-            :display_name => users(:public_user).display_name,
-            :message => { :title => "Test Message", :body => "Test message body" }
+               :display_name => users(:public_user).display_name,
+               :message => { :title => "Test Message", :body => "Test message body" }
           assert_response :success
           assert_template "new"
           assert_select ".error", /wait a while/
@@ -384,7 +384,7 @@ class MessageControllerTest < ActionController::TestCase
     assert_template "no_such_message"
   end
 
-private
+  private
 
   def with_message_limit(value)
     max_messages_per_hour = Object.send("remove_const", "MAX_MESSAGES_PER_HOUR")

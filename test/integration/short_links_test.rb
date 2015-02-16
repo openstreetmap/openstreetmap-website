@@ -6,13 +6,13 @@ class ShortLinksTest < ActionDispatch::IntegrationTest
   # kept in the redirect.
   def test_short_link_params
     assert_short_link_redirect('1N8H@P_5W')
-    assert_short_link_redirect(ShortLink::encode(-0.107846, 51.50771, 18))
+    assert_short_link_redirect(ShortLink.encode(-0.107846, 51.50771, 18))
   end
 
   ##
   # utility method to test short links
   def assert_short_link_redirect(short_link)
-    lon, lat, zoom = ShortLink::decode(short_link)
+    lon, lat, zoom = ShortLink.decode(short_link)
     anchor = "map=#{zoom}/#{lat}/#{lon}"
 
     # test without marker

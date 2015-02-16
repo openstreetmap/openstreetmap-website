@@ -12,7 +12,7 @@ class UserEnhancements < ActiveRecord::Migration
       t.column "v", :string, :null => false
     end
 
-    add_primary_key "user_preferences", ["user_id", "k"]
+    add_primary_key "user_preferences", %w(user_id k)
 
     create_table "user_tokens", :id => false do |t|
       t.column "id", :bigserial, :primary_key => true, :null => false
@@ -35,7 +35,7 @@ class UserEnhancements < ActiveRecord::Migration
     add_column "users", "nearby", :integer, :default => 50
     add_column "users", "pass_salt", :string
 
-    User.update_all("nearby = 50");
+    User.update_all("nearby = 50")
   end
 
   def self.down

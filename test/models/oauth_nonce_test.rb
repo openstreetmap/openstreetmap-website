@@ -16,5 +16,4 @@ class OauthNonceTest < ActiveSupport::TestCase
     nonce2 = OauthNonce.remember(string, timestamp)
     assert_equal false, nonce2, "Shouldn't be able to remember the same nonce twice."
   end
-
 end

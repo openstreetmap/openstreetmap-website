@@ -6,14 +6,14 @@ load 'composite_primary_keys/fixtures.rb'
 class ActiveSupport::TestCase
   # Load standard fixtures needed to test API methods
   def self.api_fixtures
-    #print "setting up the api_fixtures"
+    # print "setting up the api_fixtures"
     fixtures :users, :user_roles, :changesets, :changeset_tags
 
     fixtures :current_nodes, :nodes
     set_fixture_class :current_nodes => Node
     set_fixture_class :nodes => OldNode
 
-    fixtures  :current_node_tags,:node_tags
+    fixtures :current_node_tags, :node_tags
     set_fixture_class :current_node_tags => NodeTag
     set_fixture_class :node_tags => OldNodeTag
 
@@ -121,39 +121,36 @@ class ActiveSupport::TestCase
   # Not sure this is the best response we could give
   def assert_inactive_user(msg = "an inactive user shouldn't be able to access the API")
     assert_response :unauthorized, msg
-    #assert_equal @response.headers['Error'], ""
+    # assert_equal @response.headers['Error'], ""
   end
 
-  def assert_no_missing_translations(msg="")
+  def assert_no_missing_translations(msg = "")
     assert_select "span[class=translation_missing]", false, "Missing translation #{msg}"
   end
 
   # Set things up for OpenID testing
   def openid_setup
-    begin
-      # Test if the ROTS (Ruby OpenID Test Server) is already running
-      rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
-    rescue
-      # It isn't, so start a new instance.
-      rots = IO.popen("#{Rails.root}/vendor/gems/rots-0.2.1/bin/rots --silent")
+    rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
+  rescue
+    # It isn't, so start a new instance.
+    rots = IO.popen("#{Rails.root}/vendor/gems/rots-0.2.1/bin/rots --silent")
 
-      # Wait for up to 30 seconds for the server to start and respond before continuing
-      for i in (1 .. 30)
-	begin
-	  sleep 1
-	  rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
-	  # If the rescue block doesn't fire, ROTS is up and running and we can continue
-	  break
-	rescue
-	  # If the connection failed, do nothing and repeat the loop
-	end
+    # Wait for up to 30 seconds for the server to start and respond before continuing
+    for i in (1..30)
+      begin
+        sleep 1
+        rots_response = Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
+        # If the rescue block doesn't fire, ROTS is up and running and we can continue
+        break
+        rescue
+        # If the connection failed, do nothing and repeat the loop
       end
+    end
 
-      # Arrange to kill the process when we exit - note that we need
-      # to kill it really har due to a bug in ROTS
-      Kernel.at_exit do
-        Process.kill("KILL", rots.pid)
-      end
+    # Arrange to kill the process when we exit - note that we need
+    # to kill it really har due to a bug in ROTS
+    Kernel.at_exit do
+      Process.kill("KILL", rots.pid)
     end
   end
 
@@ -162,9 +159,8 @@ class ActiveSupport::TestCase
     openid_response_uri = URI(openid_response['Location'])
     openid_response_qs = Rack::Utils.parse_query(openid_response_uri.query)
 
-    return openid_response_qs
+    openid_response_qs
   end
-
 
   # Add more helper methods to be used by all tests here...
 end

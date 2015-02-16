@@ -69,7 +69,7 @@ class OldWayControllerTest < ActionController::TestCase
     assert_response :unauthorized, "should need to be authenticated to redact."
   end
 
-    ##
+  ##
   # test the redaction of an old version of a way, while being
   # authorised as a normal user.
   def test_redact_way_normal_user
@@ -87,7 +87,7 @@ class OldWayControllerTest < ActionController::TestCase
     basic_authorization(users(:moderator_user).email, "test")
 
     do_redact_way(ways(:way_with_versions_v4),
-                   redactions(:example))
+                  redactions(:example))
     assert_response :bad_request, "shouldn't be OK to redact current version as moderator."
   end
 
@@ -221,5 +221,4 @@ class OldWayControllerTest < ActionController::TestCase
     # now redact it
     post :redact, :id => way.way_id, :version => way.version, :redaction => redaction.id
   end
-
 end

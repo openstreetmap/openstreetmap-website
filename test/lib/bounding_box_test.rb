@@ -10,39 +10,39 @@ class BoundingBoxTest < ActiveSupport::TestCase
     @nil_error_message = "Should not contain nil"
 
     @bbox_from_nils = BoundingBox.new(nil, nil, nil, nil)
-    @bbox_expand = BoundingBox.new(0,0,0,0)
-    @bbox_expand_ten = BoundingBox.new(10,10,10,10)
-    @bbox_expand_minus_two = BoundingBox.new(-2,-2,-2,-2)
+    @bbox_expand = BoundingBox.new(0, 0, 0, 0)
+    @bbox_expand_ten = BoundingBox.new(10, 10, 10, 10)
+    @bbox_expand_minus_two = BoundingBox.new(-2, -2, -2, -2)
     @bbox_from_string = BoundingBox.from_s("1,2,3,4")
     @min_lon = 1.0
     @min_lat = 2.0
     @max_lon = 3.0
     @max_lat = 4.0
 
-    @bad_positive_boundary_bbox  = %w{ 181,91,0,0 0,0,181,91 }
-    @bad_negative_boundary_bbox  = %w{ -181,-91,0,0 0,0,-181,-91 }
-    @bad_big_bbox       = %w{ -0.1,-0.1,1.1,1.1  10,10,11,11 }
-    @bad_malformed_bbox = %w{ -0.1  hello 10N2W10.1N2.1W }
-    @bad_lat_mixed_bbox  = %w{ 0,0.1,0.1,0  -0.1,80,0.1,70  0.24,54.34,0.25,54.33 }
-    @bad_lon_mixed_bbox  = %w{ 80,-0.1,70,0.1  54.34,0.24,54.33,0.25 }
-    @bad_limit_bbox = %w{ -180.1,-90,180,90 -180,-90.1,180,90 -180,-90,180.1,90 -180,-90,180,90.1}
-    @good_bbox         = %w{ -0.1,-0.1,0.1,0.1  51.1,-0.1,51.2,0 -0.1,%20-0.1,%200.1,%200.1
-                            -0.1edcd,-0.1d,0.1,0.1  -0.1E,-0.1E,0.1S,0.1N S0.1,W0.1,N0.1,E0.1}
+    @bad_positive_boundary_bbox  = %w(181,91,0,0 0,0,181,91)
+    @bad_negative_boundary_bbox  = %w(-181,-91,0,0 0,0,-181,-91)
+    @bad_big_bbox       = %w(-0.1,-0.1,1.1,1.1  10,10,11,11)
+    @bad_malformed_bbox = %w(-0.1  hello 10N2W10.1N2.1W)
+    @bad_lat_mixed_bbox  = %w(0,0.1,0.1,0  -0.1,80,0.1,70  0.24,54.34,0.25,54.33)
+    @bad_lon_mixed_bbox  = %w(80,-0.1,70,0.1  54.34,0.24,54.33,0.25)
+    @bad_limit_bbox = %w(-180.1,-90,180,90 -180,-90.1,180,90 -180,-90,180.1,90 -180,-90,180,90.1)
+    @good_bbox         = %w(-0.1,-0.1,0.1,0.1  51.1,-0.1,51.2,0 -0.1,%20-0.1,%200.1,%200.1
+                            -0.1edcd,-0.1d,0.1,0.1  -0.1E,-0.1E,0.1S,0.1N S0.1,W0.1,N0.1,E0.1)
 
-    @expand_min_lon_array = %w{ 2,10,10,10 1,10,10,10 0,10,10,10 -1,10,10,10 -2,10,10,10 -8,10,10,10 }
-    @expand_min_lat_array = %w{ 10,2,10,10 10,1,10,10 10,0,10,10 10,-1,10,10 10,-2,10,10 10,-8,10,10 }
-    @expand_max_lon_array = %w{ -2,-2,-1,-2 -2,-2,0,-2 -2,-2,1,-2 -2,-2,2,-2 }
-    @expand_max_lat_array = %w{ -2,-2,-2,-1 -2,-2,-2,0 -2,-2,-2,1 -2,-2,-2,2 }
-    @expand_min_lon_margin_response = [[2,10,10,10], [-7,10,10,10], [-7,10,10,10], [-7,10,10,10], [-7,10,10,10], [-25,10,10,10]]
-    @expand_min_lat_margin_response = [[10,2,10,10], [10,-7,10,10], [10,-7,10,10], [10,-7,10,10], [10,-7,10,10], [10,-25,10,10]]
-    @expand_max_lon_margin_response = [[-2,-2,-1,-2], [-2,-2,1,-2], [-2,-2,1,-2], [-2,-2,5,-2]]
-    @expand_max_lat_margin_response = [[-2,-2,-2,-1], [-2,-2,-2,1], [-2,-2,-2,1], [-2,-2,-2,5]]
+    @expand_min_lon_array = %w(2,10,10,10 1,10,10,10 0,10,10,10 -1,10,10,10 -2,10,10,10 -8,10,10,10)
+    @expand_min_lat_array = %w(10,2,10,10 10,1,10,10 10,0,10,10 10,-1,10,10 10,-2,10,10 10,-8,10,10)
+    @expand_max_lon_array = %w(-2,-2,-1,-2 -2,-2,0,-2 -2,-2,1,-2 -2,-2,2,-2)
+    @expand_max_lat_array = %w(-2,-2,-2,-1 -2,-2,-2,0 -2,-2,-2,1 -2,-2,-2,2)
+    @expand_min_lon_margin_response = [[2, 10, 10, 10], [-7, 10, 10, 10], [-7, 10, 10, 10], [-7, 10, 10, 10], [-7, 10, 10, 10], [-25, 10, 10, 10]]
+    @expand_min_lat_margin_response = [[10, 2, 10, 10], [10, -7, 10, 10], [10, -7, 10, 10], [10, -7, 10, 10], [10, -7, 10, 10], [10, -25, 10, 10]]
+    @expand_max_lon_margin_response = [[-2, -2, -1, -2], [-2, -2, 1, -2], [-2, -2, 1, -2], [-2, -2, 5, -2]]
+    @expand_max_lat_margin_response = [[-2, -2, -2, -1], [-2, -2, -2, 1], [-2, -2, -2, 1], [-2, -2, -2, 5]]
   end
 
   def test_good_bbox_from_string
     @good_bbox.each do |string|
       bbox = BoundingBox.from_s(string)
-      array = string.split(',').collect {|s| s.to_f}
+      array = string.split(',').collect(&:to_f)
       check_bbox(bbox, array)
     end
   end
@@ -56,8 +56,8 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
   def test_good_bbox_from_params
     @good_bbox.each do |string|
-      bbox = BoundingBox.from_bbox_params({:bbox => string})
-      array = string.split(',').collect {|s| s.to_f}
+      bbox = BoundingBox.from_bbox_params(:bbox => string)
+      array = string.split(',').collect(&:to_f)
       check_bbox(bbox, array)
     end
   end
@@ -65,14 +65,14 @@ class BoundingBoxTest < ActiveSupport::TestCase
   def test_good_bbox_from_lon_lat_params
     @good_bbox.each do |string|
       array = string.split(',')
-      bbox = BoundingBox.from_lon_lat_params({:minlon => array[0], :minlat => array[1], :maxlon => array[2], :maxlat => array[3]})
-      check_bbox(bbox, array.collect {|s| s.to_f})
+      bbox = BoundingBox.from_lon_lat_params(:minlon => array[0], :minlat => array[1], :maxlon => array[2], :maxlat => array[3])
+      check_bbox(bbox, array.collect(&:to_f))
     end
   end
 
   def test_bbox_from_params_malformed
     @bad_malformed_bbox.each do |bbox_string|
-      exception = assert_raise(OSM::APIBadUserInput) {BoundingBox.from_bbox_params({:bbox => bbox_string})}
+      exception = assert_raise(OSM::APIBadUserInput) { BoundingBox.from_bbox_params(:bbox => bbox_string) }
       assert_equal(@malformed_error_message, exception.message)
     end
   end
@@ -81,7 +81,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
     @good_bbox.each do |string|
       array = string.split(',')
       bbox = BoundingBox.new(array[0], array[1], array[2], array[3])
-      check_bbox(bbox, array.collect {|s| s.to_f})
+      check_bbox(bbox, array.collect(&:to_f))
     end
   end
 
@@ -90,27 +90,27 @@ class BoundingBoxTest < ActiveSupport::TestCase
   end
 
   def test_expand_min_lon_boundary
-    @bbox_expand.expand!(BoundingBox.new(-1810000000,0,0,0))
+    @bbox_expand.expand!(BoundingBox.new(-1810000000, 0, 0, 0))
     check_expand(@bbox_expand, "-1800000000,0,0,0")
   end
 
   def test_expand_min_lat_boundary
-    @bbox_expand.expand!(BoundingBox.new(0,-910000000,0,0))
+    @bbox_expand.expand!(BoundingBox.new(0, -910000000, 0, 0))
     check_expand(@bbox_expand, "0,-900000000,0,0")
   end
 
   def test_expand_max_lon_boundary
-    @bbox_expand.expand!(BoundingBox.new(0,0,1810000000,0))
+    @bbox_expand.expand!(BoundingBox.new(0, 0, 1810000000, 0))
     check_expand(@bbox_expand, "0,0,1800000000,0")
   end
 
   def test_expand_max_lat_boundary
-    @bbox_expand.expand!(BoundingBox.new(0,0,0,910000000))
+    @bbox_expand.expand!(BoundingBox.new(0, 0, 0, 910000000))
     check_expand(@bbox_expand, "0,0,0,900000000")
   end
 
   def test_expand_min_lon_without_margin
-    @expand_min_lon_array.each {|array_string| check_expand(@bbox_expand_ten, array_string)}
+    @expand_min_lon_array.each { |array_string| check_expand(@bbox_expand_ten, array_string) }
   end
 
   def test_expand_min_lon_with_margin
@@ -120,7 +120,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
   end
 
   def test_expand_min_lat_without_margin
-    @expand_min_lat_array.each {|array_string| check_expand(@bbox_expand_ten, array_string)}
+    @expand_min_lat_array.each { |array_string| check_expand(@bbox_expand_ten, array_string) }
   end
 
   def test_expand_min_lat_with_margin
@@ -130,7 +130,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
   end
 
   def test_expand_max_lon_without_margin
-    @expand_max_lon_array.each {|array_string| check_expand(@bbox_expand_minus_two, array_string)}
+    @expand_max_lon_array.each { |array_string| check_expand(@bbox_expand_minus_two, array_string) }
   end
 
   def test_expand_max_lon_with_margin
@@ -140,7 +140,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
   end
 
   def test_expand_max_lat_without_margin
-    @expand_max_lat_array.each {|array_string| check_expand(@bbox_expand_minus_two, array_string)}
+    @expand_max_lat_array.each { |array_string| check_expand(@bbox_expand_minus_two, array_string) }
   end
 
   def test_expand_max_lat_with_margin
@@ -152,13 +152,13 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
   def test_good_bbox_boundaries
     @good_bbox.each do |bbox_string|
-      assert_nothing_raised(OSM::APIBadBoundingBox) {BoundingBox.from_s(bbox_string).check_boundaries}
+      assert_nothing_raised(OSM::APIBadBoundingBox) { BoundingBox.from_s(bbox_string).check_boundaries }
     end
   end
 
   def test_from_params_with_positive_out_of_boundary
     @bad_positive_boundary_bbox.each do |bbox_string|
-      bbox = BoundingBox.from_bbox_params({:bbox => bbox_string})
+      bbox = BoundingBox.from_bbox_params(:bbox => bbox_string)
       array = bbox.to_a
       assert_equal 180, [array[0], array[2]].max
       assert_equal 90, [array[1], array[3]].max
@@ -167,7 +167,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
   def test_from_params_with_negative_out_of_boundary
     @bad_negative_boundary_bbox.each do |bbox_string|
-      bbox = BoundingBox.from_bbox_params({:bbox => bbox_string})
+      bbox = BoundingBox.from_bbox_params(:bbox => bbox_string)
       array = bbox.to_a
       assert_equal -180, [array[0], array[2]].min
       assert_equal -90, [array[1], array[3]].min
@@ -176,36 +176,36 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
   def test_boundaries_mixed_lon
     @bad_lon_mixed_bbox.each do |bbox_string|
-      exception = assert_raise(OSM::APIBadBoundingBox) {BoundingBox.from_s(bbox_string).check_boundaries}
+      exception = assert_raise(OSM::APIBadBoundingBox) { BoundingBox.from_s(bbox_string).check_boundaries }
       assert_equal(@lon_order_error_message, exception.message)
     end
   end
 
   def test_boundaries_mixed_lat
     @bad_lat_mixed_bbox.each do |bbox_string|
-      exception = assert_raise(OSM::APIBadBoundingBox) {BoundingBox.from_s(bbox_string).check_boundaries}
+      exception = assert_raise(OSM::APIBadBoundingBox) { BoundingBox.from_s(bbox_string).check_boundaries }
       assert_equal(@lat_order_error_message, exception.message)
     end
   end
 
   def test_boundaries_out_of_limits
     @bad_limit_bbox.each do |bbox_string|
-      exception = assert_raise(OSM::APIBadBoundingBox) {BoundingBox.from_s(bbox_string).check_boundaries}
+      exception = assert_raise(OSM::APIBadBoundingBox) { BoundingBox.from_s(bbox_string).check_boundaries }
       assert_equal(@bbox_out_of_limits_error_message, exception.message)
     end
   end
 
   def test_good_bbox_size
     @good_bbox.each do |bbox_string|
-      assert_nothing_raised(OSM::APIBadBoundingBox) {BoundingBox.from_s(bbox_string).check_size}
+      assert_nothing_raised(OSM::APIBadBoundingBox) { BoundingBox.from_s(bbox_string).check_size }
     end
   end
 
   def test_size_to_big
     @bad_big_bbox.each do |bbox_string|
       bbox = nil
-      assert_nothing_raised(OSM::APIBadBoundingBox) {bbox = BoundingBox.from_bbox_params({:bbox => bbox_string}).check_boundaries}
-      exception = assert_raise(OSM::APIBadBoundingBox) {bbox.check_size}
+      assert_nothing_raised(OSM::APIBadBoundingBox) { bbox = BoundingBox.from_bbox_params(:bbox => bbox_string).check_boundaries }
+      exception = assert_raise(OSM::APIBadBoundingBox) { bbox.check_size }
       assert_equal(@size_error_message, exception.message)
     end
   end
@@ -292,7 +292,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
   end
 
   def test_to_a
-    assert_equal [1.0,2.0,3.0,4.0], @bbox_from_string.to_a
+    assert_equal [1.0, 2.0, 3.0, 4.0], @bbox_from_string.to_a
   end
 
   def test_to_string
@@ -300,8 +300,9 @@ class BoundingBoxTest < ActiveSupport::TestCase
   end
 
   private
+
   def check_expand(bbox, array_string, margin = 0, result = nil)
-    array = array_string.split(',').collect {|s| s.to_f}
+    array = array_string.split(',').collect(&:to_f)
     result = array unless result
     bbox.expand!(BoundingBox.new(array[0], array[1], array[2], array[3]), margin)
     check_bbox(bbox, result)

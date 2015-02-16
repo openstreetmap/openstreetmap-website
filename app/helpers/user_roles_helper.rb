@@ -1,10 +1,10 @@
 module UserRolesHelper
   def role_icons(user)
-    UserRole::ALL_ROLES.reduce("".html_safe) { |s,r| s + " " + role_icon(user, r) }
+    UserRole::ALL_ROLES.reduce("".html_safe) { |s, r| s + " " + role_icon(user, r) }
   end
 
   def role_icon(user, role)
-    if @user and @user.administrator?
+    if @user && @user.administrator?
       if user.has_role?(role)
         image = "roles/#{role}.png"
         alt = t("user.view.role.revoke.#{role}")

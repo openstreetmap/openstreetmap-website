@@ -22,5 +22,4 @@ class OauthTokenTest < ActiveSupport::TestCase
     tok.invalidate!
     assert_equal false, tok.authorized?, "Token should now be invalid."
   end
-
 end

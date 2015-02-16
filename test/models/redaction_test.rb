@@ -32,5 +32,4 @@ class RedactionTest < ActiveSupport::TestCase
     end
     assert_equal(true, n.redacted?, "Expected node to be redacted after redact! call.")
   end
-
 end
