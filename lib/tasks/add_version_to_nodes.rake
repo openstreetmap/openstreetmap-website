@@ -12,9 +12,7 @@ namespace 'db' do
 
       # should be offsetting not selecting
       OldNode.find(:all, :limit => increment, :offset => offset, :order => 'timestamp').each do |node|
-        if hash[node.id].nil?
-          hash[node.id] = []
-        end
+        hash[node.id] ||= []
         hash[node.id] << node
       end
 

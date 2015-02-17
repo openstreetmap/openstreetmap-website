@@ -164,8 +164,8 @@ module BrowseHelper
 
     # remove all whitespace instead of encoding it http://tools.ietf.org/html/rfc3966#section-5.1.1
     # "+1 (234) 567-8901 " -> "+1(234)567-8901"
-    valueNoWhitespace = value.gsub(/\s+/, '')
+    value_no_whitespace = value.gsub(/\s+/, '')
 
-    "tel:#{valueNoWhitespace}"
+    "tel:#{value_no_whitespace}"
   end
 end

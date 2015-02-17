@@ -33,9 +33,8 @@ class UserPreferenceController < ApplicationController
 
   # update the entire set of preferences
   def update
-    old_preferences = @user.preferences.reduce({}) do |preferences, preference|
+    old_preferences = @user.preferences.each_with_object({}) do |preference, preferences|
       preferences[preference.k] = preference
-      preferences
     end
 
     new_preferences = {}

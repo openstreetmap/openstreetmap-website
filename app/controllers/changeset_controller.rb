@@ -185,14 +185,14 @@ class ChangesetController < ApplicationController
           created = XML::Node.new "create"
           created << elt.to_xml_node(changeset_cache, user_display_name_cache)
         else
-          unless elt.visible
-            # if the element isn't visible then it must have been deleted
-            deleted = XML::Node.new "delete"
-            deleted << elt.to_xml_node(changeset_cache, user_display_name_cache)
-          else
+          if elt.visible
             # must be a modify
             modified = XML::Node.new "modify"
             modified << elt.to_xml_node(changeset_cache, user_display_name_cache)
+          else
+            # if the element isn't visible then it must have been deleted
+            deleted = XML::Node.new "delete"
+            deleted << elt.to_xml_node(changeset_cache, user_display_name_cache)
           end
         end
     end
@@ -204,9 +204,7 @@ class ChangesetController < ApplicationController
   # query changesets by bounding box, time, user or open/closed status.
   def query
     # find any bounding box
-    if params['bbox']
-      bbox = BoundingBox.from_bbox_params(params)
-    end
+    bbox = BoundingBox.from_bbox_params(params) if params['bbox']
 
     # create the conditions that the user asked for. some or all of
     # these may be nil.
@@ -244,13 +242,12 @@ class ChangesetController < ApplicationController
     changeset = Changeset.find(params[:id])
     new_changeset = Changeset.from_xml(request.raw_post)
 
-    unless new_changeset.nil?
+    if new_changeset.nil?
+      render :text => "", :status => :bad_request
+    else
       check_changeset_consistency(changeset, @user)
       changeset.update_from(new_changeset, @user)
       render :text => changeset.to_xml, :mime_type => "text/xml"
-    else
-
-      render :text => "", :status => :bad_request
     end
   end
 
@@ -473,7 +470,9 @@ class ChangesetController < ApplicationController
   ##
   # restrict changesets to those by a particular user
   def conditions_user(changesets, user, name)
-    unless user.nil? && name.nil?
+    if user.nil? && name.nil?
+      return changesets
+    else
       # shouldn't provide both name and UID
       fail OSM::APIBadUserInput.new("provide either the user ID or display name, but not both") if user && name
 
@@ -499,15 +498,15 @@ class ChangesetController < ApplicationController
         fail OSM::APINotFoundError if @user.nil? || @user.id != u.id
       end
       return changesets.where(:user_id => u.id)
-    else
-      return changesets
     end
   end
 
   ##
   # restrict changes to those closed during a particular time period
   def conditions_time(changesets, time)
-    unless time.nil?
+    if time.nil?
+      return changesets
+    else
       # if there is a range, i.e: comma separated, then the first is
       # low, second is high - same as with bounding boxes.
       if time.count(',') == 1
@@ -521,8 +520,6 @@ class ChangesetController < ApplicationController
         # if there is no comma, assume its a lower limit on time
         return changesets.where("closed_at >= ?", DateTime.parse(time))
       end
-    else
-      return changesets
     end
     # stupid DateTime seems to throw both of these for bad parsing, so
     # we have to catch both and ensure the correct code path is taken.

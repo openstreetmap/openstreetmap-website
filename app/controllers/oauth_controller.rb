@@ -43,7 +43,10 @@ class OauthController < ApplicationController
       return
     end
 
-    unless @token.invalidated?
+    if @token.invalidated?
+      @message = t "oauth.oauthorize_failure.invalid"
+      render :action => "authorize_failure"
+    else
       if request.post?
         if user_authorizes_token?
           @token.authorize!(current_user)
@@ -54,16 +57,21 @@ class OauthController < ApplicationController
           end
           @redirect_url = URI.parse(callback_url) unless callback_url.blank?
 
-          unless @redirect_url.to_s.blank?
-            @redirect_url.query = @redirect_url.query.blank? ?
-            "oauth_token=#{@token.token}" :
-              @redirect_url.query + "&oauth_token=#{@token.token}"
+          if @redirect_url.to_s.blank?
+            render :action => "authorize_success"
+          else
+            @redirect_url.query = if @redirect_url.query.blank?
+                                    "oauth_token=#{@token.token}"
+                                  else
+                                    @redirect_url.query +
+                                      "&oauth_token=#{@token.token}"
+                                  end
+
             unless @token.oauth10?
               @redirect_url.query += "&oauth_verifier=#{@token.verifier}"
             end
+
             redirect_to @redirect_url.to_s
-          else
-            render :action => "authorize_success"
           end
         else
           @token.invalidate!
@@ -71,9 +79,6 @@ class OauthController < ApplicationController
           render :action => "authorize_failure"
         end
       end
-    else
-      @message = t "oauth.oauthorize_failure.invalid"
-      render :action => "authorize_failure"
     end
   end
 end

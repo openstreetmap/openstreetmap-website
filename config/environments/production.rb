@@ -52,9 +52,7 @@ OpenStreetMap::Application.configure do
   # config.log_tags = [ :subdomain, :uuid ]
 
   # Use a different log path in production.
-  if defined?(LOG_PATH)
-    config.paths["log"] = LOG_PATH
-  end
+  config.paths["log"] = LOG_PATH if defined?(LOG_PATH)
 
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)

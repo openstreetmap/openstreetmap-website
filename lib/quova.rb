@@ -22,15 +22,15 @@ module Quova
 
   ##
   # Status codes
-  Success = 0
-  IPV6NoSupport = 1
-  InvalidCredentials = 2
-  NotMapped = 3
-  InvalidIPFormat = 4
-  IPAddressNull = 5
-  AccessDenied = 6
-  QueryLimit = 7
-  OutOfService = 10
+  SUCCESS = 0
+  IPV6_NO_SUPPORT = 1
+  INVALID_CREDENTIALS = 2
+  NOT_MAPPED = 3
+  INVALID_IP_FORMAT = 4
+  IP_ADDRESS_NULL = 5
+  ACCESS_DENIED = 6
+  QUERY_LIMIT = 7
+  OUT_OF_SERVICE = 10
 
   ##
   # Create SOAP endpoint

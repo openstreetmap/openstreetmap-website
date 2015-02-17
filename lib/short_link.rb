@@ -30,8 +30,13 @@ module ShortLink
         z_offset -= 1
       else
         3.times do
-          x <<= 1; x |= 1 unless (t & 32).zero?; t <<= 1
-          y <<= 1; y |= 1 unless (t & 32).zero?; t <<= 1
+          x <<= 1
+          x |= 1 unless (t & 32).zero?
+          t <<= 1
+
+          y <<= 1
+          y |= 1 unless (t & 32).zero?
+          t <<= 1
         end
         z += 3
       end

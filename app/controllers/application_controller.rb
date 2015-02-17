@@ -255,9 +255,7 @@ class ApplicationController < ActionController::Base
 
   def gpx_status
     status = database_status
-    if status == :online
-      status = :offline if STATUS == :gpx_offline
-    end
+    status = :offline if status == :online && STATUS == :gpx_offline
     status
   end
 

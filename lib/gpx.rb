@@ -94,9 +94,7 @@ module GPX
         end
 
         m += 1
-        if m > num_points.to_f / frames.to_f * (mm + 1)
-          mm += 1
-        end
+        mm += 1 if m > num_points.to_f / frames.to_f * (mm + 1)
 
         oldpy = py
         oldpx = px

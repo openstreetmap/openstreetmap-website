@@ -57,9 +57,9 @@ class RedactionsControllerTest < ActionController::TestCase
 
     # remove all elements from the redaction
     redaction = redactions(:example)
-    redaction.old_nodes.each     { |n| n.redaction = nil; n.save! }
-    redaction.old_ways.each      { |w| w.redaction = nil; w.save! }
-    redaction.old_relations.each { |r| r.redaction = nil; r.save! }
+    redaction.old_nodes.each     { |n| n.update!(:redaction => nil) }
+    redaction.old_ways.each      { |w| w.update!(:redaction => nil) }
+    redaction.old_relations.each { |r| r.update!(:redaction => nil) }
 
     delete :destroy, :id => redaction.id
     assert_response :redirect

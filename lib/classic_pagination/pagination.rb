@@ -57,7 +57,9 @@ module ActionController
   # Paginator#to_sql to retrieve <tt>@people</tt> from the model.
   #
   module Pagination
-    unless const_defined?(:OPTIONS)
+    if const_defined?(:OPTIONS)
+      DEFAULT_OPTIONS[:group] = nil
+    else
       # A hash holding options for controllers using macro-style pagination
       OPTIONS = {}
 
@@ -77,8 +79,6 @@ module ActionController
         :group      => nil,
         :parameter  => 'page'
       }
-    else
-      DEFAULT_OPTIONS[:group] = nil
     end
 
     def self.included(base) #:nodoc:
@@ -195,10 +195,7 @@ module ActionController
       collection = collection.order(options[:order_by] || options[:order])
       collection = collection.includes(options[:include])
       collection = collection.group(options[:group])
-
-      if options[:select]
-        collection = collection.select(options[:select])
-      end
+      collection = collection.select(options[:select]) if options[:select]
 
       collection.offset(paginator.current.offset).limit(options[:per_page])
     end
@@ -273,8 +270,12 @@ module ActionController
 
       # Returns the number of pages in this paginator.
       def page_count
-        @page_count ||= @item_count.zero? ? 1 :
-                          (q, r = @item_count.divmod(@items_per_page); r == 0 ? q : q + 1)
+        @page_count ||= if @item_count.zero?
+                          1
+                        else
+                          q, r = @item_count.divmod(@items_per_page)
+                          r == 0 ? q : q + 1
+                        end
       end
 
       alias_method :length, :page_count
@@ -315,19 +316,19 @@ module ActionController
         # Compares two Page objects and returns true when they represent the
         # same page (i.e., their paginators are the same and they have the
         # same page number).
-        def ==(page)
-          return false if page.nil?
-          @paginator == page.paginator &&
-            @number == page.number
+        def ==(other)
+          return false if other.nil?
+          @paginator == other.paginator &&
+            @number == other.number
         end
 
         # Compares two Page objects and returns -1 if the left-hand page comes
         # before the right-hand page, 0 if the pages are equal, and 1 if the
         # left-hand page comes after the right-hand page. Raises ArgumentError
         # if the pages do not belong to the same Paginator object.
-        def <=>(page)
-          fail ArgumentError unless @paginator == page.paginator
-          @number <=> page.number
+        def <=>(other)
+          fail ArgumentError unless @paginator == other.paginator
+          @number <=> other.number
         end
 
         # Returns the item offset for the first item in this page.
@@ -399,10 +400,16 @@ module ActionController
         def padding=(padding)
           @padding = padding < 0 ? 0 : padding
           # Find the beginning and end pages of the window
-          @first = @paginator.has_page_number?(@page.number - @padding) ?
-            @paginator[@page.number - @padding] : @paginator.first
-          @last =  @paginator.has_page_number?(@page.number + @padding) ?
-            @paginator[@page.number + @padding] : @paginator.last
+          @first = if @paginator.has_page_number?(@page.number - @padding)
+                     @paginator[@page.number - @padding]
+                   else
+                     @paginator.first
+                   end
+          @last = if @paginator.has_page_number?(@page.number + @padding)
+                    @paginator[@page.number + @padding]
+                  else
+                    @paginator.last
+                  end
         end
         attr_reader :padding, :first, :last
 

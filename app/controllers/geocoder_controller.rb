@@ -140,9 +140,7 @@ class GeocoderController < ApplicationController
     end
 
     # get objects to excude
-    if params[:exclude]
-      exclude = "&exclude_place_ids=#{params[:exclude]}"
-    end
+    exclude = "&exclude_place_ids=#{params[:exclude]}" if params[:exclude]
 
     # ask nominatim
     response = fetch_xml("http:#{NOMINATIM_URL}search?format=xml&q=#{escape_query(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}")

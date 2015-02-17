@@ -19,11 +19,7 @@ class ClientApplication < ActiveRecord::Base
 
   def self.find_token(token_key)
     token = OauthToken.find_by_token(token_key, :include => :client_application)
-    if token && token.authorized?
-      token
-    else
-      nil
-    end
+    token if token && token.authorized?
   end
 
   def self.verify_request(request, options = {}, &block)

@@ -121,11 +121,11 @@ class Way < ActiveRecord::Base
     end
 
     ordered_nodes.each do |nd_id|
-      if nd_id && nd_id != '0'
-        node_el = XML::Node.new 'nd'
-        node_el['ref'] = nd_id
-        el << node_el
-      end
+      next unless nd_id && nd_id != '0'
+
+      node_el = XML::Node.new 'nd'
+      node_el['ref'] = nd_id
+      el << node_el
     end
 
     add_tags_to_xml_node(el, way_tags)
@@ -219,9 +219,7 @@ class Way < ActiveRecord::Base
   end
 
   def delete_with_history!(new_way, user)
-    unless visible
-      fail OSM::APIAlreadyDeletedError.new("way", new_way.id)
-    end
+    fail OSM::APIAlreadyDeletedError.new("way", new_way.id) unless visible
 
     # need to start the transaction here, so that the database can
     # provide repeatable reads for the used-by checks. this means it

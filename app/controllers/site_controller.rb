@@ -11,7 +11,7 @@ class SiteController < ApplicationController
 
   def index
     unless STATUS == :database_readonly || STATUS == :database_offline
-      session[:location] ||= OSM::IPLocation(request.env['REMOTE_ADDR'])
+      session[:location] ||= OSM.ip_location(request.env['REMOTE_ADDR'])
     end
   end
 
@@ -47,10 +47,7 @@ class SiteController < ApplicationController
     end
 
     new_params[:anchor] = "map=#{zoom}/#{lat}/#{lon}"
-
-    if params.key? :layers
-      new_params[:anchor] += "&layers=#{params[:layers]}"
-    end
+    new_params[:anchor] += "&layers=#{params[:layers]}" if params.key? :layers
 
     redirect_to Hash[new_params]
   end

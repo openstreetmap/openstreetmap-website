@@ -112,24 +112,22 @@ class Relation < ActiveRecord::Base
 
     relation_members.each do |member|
       p = 0
+
       if visible_members
         # if there is a list of visible members then use that to weed out deleted segments
-        if visible_members[member.member_type][member.member_id]
-          p = 1
-        end
+        p = 1 if visible_members[member.member_type][member.member_id]
       else
         # otherwise, manually go to the db to check things
-        if member.member.visible?
-          p = 1
-        end
+        p = 1 if member.member.visible?
       end
-      if p
-        member_el = XML::Node.new 'member'
-        member_el['type'] = member.member_type.downcase
-        member_el['ref'] = member.member_id.to_s
-        member_el['role'] = member.member_role
-        el << member_el
-      end
+
+      next unless p
+
+      member_el = XML::Node.new 'member'
+      member_el['type'] = member.member_type.downcase
+      member_el['ref'] = member.member_id.to_s
+      member_el['role'] = member.member_role
+      el << member_el
     end
 
     add_tags_to_xml_node(el, relation_tags)
@@ -243,19 +241,20 @@ class Relation < ActiveRecord::Base
       # find the hash for the element type or die
       hash = elements[m[0].downcase.to_sym]
       return false unless hash
-      # unless its in the cache already
-      unless hash.key? m[1]
-        # use reflection to look up the appropriate class
-        model = Kernel.const_get(m[0].capitalize)
-        # get the element with that ID
-        element = model.where(:id => m[1]).first
 
-        # and check that it is OK to use.
-        unless element && element.visible? && element.preconditions_ok?
-          fail OSM::APIPreconditionFailedError.new("Relation with id #{id} cannot be saved due to #{m[0]} with id #{m[1]}")
-        end
-        hash[m[1]] = true
+      # unless its in the cache already
+      next if hash.key? m[1]
+
+      # use reflection to look up the appropriate class
+      model = Kernel.const_get(m[0].capitalize)
+      # get the element with that ID
+      element = model.where(:id => m[1]).first
+
+      # and check that it is OK to use.
+      unless element && element.visible? && element.preconditions_ok?
+        fail OSM::APIPreconditionFailedError.new("Relation with id #{id} cannot be saved due to #{m[0]} with id #{m[1]}")
       end
+      hash[m[1]] = true
     end
 
     true
@@ -375,7 +374,7 @@ class Relation < ActiveRecord::Base
       # materially change the rest of the relation.
       any_relations =
         changed_members.collect { |_id, type| type == "relation" }
-        .inject(false) { |b, s| b || s }
+        .inject(false) { |a, e| a || e }
 
       update_members = if tags_changed || any_relations
                          # add all non-relation bounding boxes to the changeset
@@ -386,9 +385,7 @@ class Relation < ActiveRecord::Base
                          changed_members
                        end
       update_members.each do |type, id, _role|
-        if type != "Relation"
-          update_changeset_element(type, id)
-        end
+        update_changeset_element(type, id) if type != "Relation"
       end
 
       # tell the changeset we updated one element only

@@ -59,9 +59,7 @@ class TraceController < ApplicationController
       end
     end
 
-    if params[:tag]
-      @traces = @traces.tagged(params[:tag])
-    end
+    @traces = @traces.tagged(params[:tag]) if params[:tag]
 
     @page = (params[:page] || 1).to_i
     @page_size = 20
@@ -212,10 +210,7 @@ class TraceController < ApplicationController
       @traces = @traces.joins(:user).where(:users => { :display_name => params[:display_name] })
     end
 
-    if params[:tag]
-      @traces = @traces.tagged(params[:tag])
-    end
-
+    @traces = @traces.tagged(params[:tag]) if params[:tag]
     @traces = @traces.order("timestamp DESC")
     @traces = @traces.limit(20)
     @traces = @traces.includes(:user)

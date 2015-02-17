@@ -11,9 +11,8 @@ def add_translation(hash, keys, value)
   if keys.empty?
     hash[key] = value
   else
-    unless hash.key? key
-      hash[key] = {}
-    end
+    hash[key] ||= {}
+
     add_translation(hash[key], keys, value)
   end
   hash
@@ -31,11 +30,11 @@ def po2hash(f)
       msgstr = line[8..-2]
     end
 
-    if !path.empty? && !msgstr.empty?
-      add_translation(trs, path, msgstr)
-      path = []
-      msgstr = ''
-    end
+    next if path.empty? || msgstr.empty?
+
+    add_translation(trs, path, msgstr)
+    path = []
+    msgstr = ''
   end
   trs
 end

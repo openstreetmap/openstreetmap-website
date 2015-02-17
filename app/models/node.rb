@@ -104,9 +104,7 @@ class Node < ActiveRecord::Base
 
   # Should probably be renamed delete_from to come in line with update
   def delete_with_history!(new_node, user)
-    unless visible
-      fail OSM::APIAlreadyDeletedError.new("node", new_node.id)
-    end
+    fail OSM::APIAlreadyDeletedError.new("node", new_node.id) unless visible
 
     # need to start the transaction here, so that the database can
     # provide repeatable reads for the used-by checks. this means it

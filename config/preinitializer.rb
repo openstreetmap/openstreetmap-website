@@ -15,7 +15,5 @@ ENV.each do |key, value|
 end
 
 config[env].each do |key, value|
-  unless Object.const_defined?(key.upcase)
-    Object.const_set(key.upcase, value)
-  end
+  Object.const_set(key.upcase, value) unless Object.const_defined?(key.upcase)
 end

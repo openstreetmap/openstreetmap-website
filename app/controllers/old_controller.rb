@@ -53,16 +53,15 @@ class OldController < ApplicationController
 
   def redact
     redaction_id = params['redaction']
-    unless redaction_id.nil?
+    if redaction_id.nil?
+      # if no redaction ID was provided, then this is an unredact
+      # operation.
+      @old_element.redact!(nil)
+    else
       # if a redaction ID was specified, then set this element to
       # be redacted in that redaction.
       redaction = Redaction.find(redaction_id.to_i)
       @old_element.redact!(redaction)
-
-    else
-      # if no redaction ID was provided, then this is an unredact
-      # operation.
-      @old_element.redact!(nil)
     end
 
     # just return an empty 200 OK for success

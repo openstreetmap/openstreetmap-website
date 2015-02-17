@@ -100,10 +100,14 @@ class OldWay < ActiveRecord::Base
     nds.each do |n|
       oldnode = OldNode.where('node_id = ? AND timestamp <= ?', n, timestamp).unredacted.order("timestamp DESC").first
       curnode = Node.find(n)
-      id = n; reuse = curnode.visible
+      id = n
+      reuse = curnode.visible
       if oldnode.lat != curnode.lat || oldnode.lon != curnode.lon || oldnode.tags != curnode.tags
         # node has changed: if it's in other ways, give it a new id
-        if curnode.ways - [way_id] then id = -1; reuse = false end
+        if curnode.ways - [way_id]
+          id = -1
+          reuse = false
+        end
       end
       points << [oldnode.lon, oldnode.lat, id, curnode.version, oldnode.tags_as_hash, reuse]
     end

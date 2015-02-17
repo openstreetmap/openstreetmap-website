@@ -17,9 +17,7 @@ if defined?(SOFT_MEMORY_LIMIT) && defined?(PhusionPassenger)
       status, headers, body = @app.call(env)
 
       # Restart if we've hit our memory limit
-      if resident_size > SOFT_MEMORY_LIMIT
-        Process.kill("USR1", Process.pid)
-      end
+      Process.kill("USR1", Process.pid) if resident_size > SOFT_MEMORY_LIMIT
 
       # Return the result of this request
       [status, headers, body]

@@ -34,10 +34,10 @@ class I18nTest < ActiveSupport::TestCase
           value.each do |subkey, subvalue|
             # assert plural_keys.include?(subkey), "#{key}.#{subkey} is not a valid plural key"
 
-            unless subvalue.nil?
-              subvalue.scan(/%\{(\w+)\}/) do
-                assert variables.include?($1), "#{key}.#{subkey} uses unknown interpolation variable #{$1}"
-              end
+            next if subvalue.nil?
+
+            subvalue.scan(/%\{(\w+)\}/) do
+              assert variables.include?($1), "#{key}.#{subkey} uses unknown interpolation variable #{$1}"
             end
           end
         else

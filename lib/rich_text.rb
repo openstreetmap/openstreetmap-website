@@ -4,7 +4,6 @@ module RichText
     when "html" then HTML.new(text || "")
     when "markdown" then Markdown.new(text || "")
     when "text" then Text.new(text || "")
-    else; nil
     end
   end
 

@@ -493,11 +493,11 @@ module OSM
     end
   end
 
-  def self.IPToCountry(ip_address)
+  def self.ip_to_country(ip_address)
     Timer.timeout(4) do
       ipinfo = Quova::IpInfo.new(ip_address)
 
-      if ipinfo.status == Quova::Success
+      if ipinfo.status == Quova::SUCCESS
         country = ipinfo.country_code
       else
         Net::HTTP.start('api.hostip.info') do |http|
@@ -514,8 +514,8 @@ module OSM
     return nil
   end
 
-  def self.IPLocation(ip_address)
-    code = OSM.IPToCountry(ip_address)
+  def self.ip_location(ip_address)
+    code = OSM.ip_to_country(ip_address)
 
     if code && country = Country.find_by_code(code)
       return { :minlon => country.min_lon, :minlat => country.min_lat, :maxlon => country.max_lon, :maxlat => country.max_lat }

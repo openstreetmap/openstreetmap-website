@@ -16,11 +16,7 @@ class BoundingBox
   end
 
   def self.from_s(s)
-    if s.count(',') == 3
-      BoundingBox.new(*s.split(/,/))
-    else
-      nil
-    end
+    BoundingBox.new(*s.split(/,/)) if s.count(',') == 3
   end
 
   def self.from_bbox_params(params)

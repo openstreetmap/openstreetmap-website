@@ -30,19 +30,16 @@ module Potlatch
 
     # Return numeric array
     def self.getarray(s)
-      len = getlong(s)
-      arr = []
-      for i in (0..len - 1)
-        arr[i] = getvalue(s)
+      getlong(s).times.collect do
+        getvalue(s)
       end
-      arr
     end
 
     # Return object/hash
     def self.getobject(s)
       arr = {}
       while (key = getstring(s))
-        if (key == '') then break end
+        break if key == ''
         arr[key] = getvalue(s)
       end
       s.getbyte		# skip the 9 'end of object' value
@@ -52,16 +49,16 @@ module Potlatch
     # Parse and get value
     def self.getvalue(s)
       case s.getbyte
-      when 0 then	return getdouble(s)			# number
-      when 1 then	return s.getbyte			# boolean
-      when 2 then	return getstring(s)			# string
-      when 3 then	return getobject(s)			# object/hash
-      when 5 then	return nil				# null
-      when 6 then	return nil				# undefined
-      when 8 then	s.read(4)				# mixedArray
+      when 0 then return getdouble(s)			# number
+      when 1 then return s.getbyte			# boolean
+      when 2 then return getstring(s)			# string
+      when 3 then return getobject(s)			# object/hash
+      when 5 then return nil				# null
+      when 6 then return nil				# undefined
+      when 8 then s.read(4)				# mixedArray
                   return getobject(s)			#  |
-      when 10 then  return getarray(s)			# array
-      else;	return nil				# error
+      when 10 then return getarray(s)			# array
+      else         return nil				# error
       end
     end
 
@@ -95,12 +92,12 @@ module Potlatch
         0.chr + encodedouble(n)
       when 'NilClass'
         5.chr
-    when 'TrueClass'
-      0.chr + encodedouble(1)
-    when 'FalseClass'
-      0.chr + encodedouble(0)
-    else
-      Rails.logger.error("Unexpected Ruby type for AMF conversion: " + n.class.to_s)
+      when 'TrueClass'
+        0.chr + encodedouble(1)
+      when 'FalseClass'
+        0.chr + encodedouble(0)
+      else
+        Rails.logger.error("Unexpected Ruby type for AMF conversion: " + n.class.to_s)
       end
     end
 
@@ -178,8 +175,8 @@ module Potlatch
 
       # Read preset menus
       presets = {}
-      presetmenus = {}; presetmenus['point'] = []; presetmenus['way'] = []; presetmenus['POI'] = []
-      presetnames = {}; presetnames['point'] = {}; presetnames['way'] = {}; presetnames['POI'] = {}
+      presetmenus = { 'point' => [], 'way' => [], 'POI' => [] }
+      presetnames = { 'point' => {}, 'way' => {}, 'POI' => {} }
       presettype = ''
       presetcategory = ''
       #	StringIO.open(txt) do |file|
@@ -192,48 +189,52 @@ module Potlatch
             presetmenus[presettype].push(presetcategory)
             presetnames[presettype][presetcategory] = ["(no preset)"]
           elsif t =~ /^([\w\s]+):\s?(.+)$/
-            pre = $1; kv = $2
+            pre = $1
+            kv = $2
             presetnames[presettype][presetcategory].push(pre)
             presets[pre] = {}
             kv.split(',').each do|a|
-              if a =~ /^(.+)=(.*)$/ then presets[pre][$1] = $2 end
+              presets[pre][$1] = $2 if a =~ /^(.+)=(.*)$/
             end
           end
         end
       end
 
       # Read colours/styling
-      colours = {}; casing = {}; areas = {}
+      colours = {}
+      casing = {}
+      areas = {}
       File.open("#{Rails.root}/config/potlatch/colours.txt") do |file|
-        file.each_line do|line|
-          t = line.chomp
-          if t =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
-            tag = $1
-            if ($2 != '-') then colours[tag] = $2.hex end
-            if ($3 != '-') then casing[tag] = $3.hex end
-            if ($4 != '-') then areas[tag] = $4.hex end
-          end
+        file.each_line do |line|
+          next unless line.chomp =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
+
+          tag = $1
+          colours[tag] = $2.hex if $2 != '-'
+          casing[tag] = $3.hex if $3 != '-'
+          areas[tag] = $4.hex if $4 != '-'
         end
       end
 
       # Read relations colours/styling
-      relcolours = {}; relalphas = {}; relwidths = {}
+      relcolours = {}
+      relalphas = {}
+      relwidths = {}
       File.open("#{Rails.root}/config/potlatch/relation_colours.txt") do |file|
-        file.each_line do|line|
-          t = line.chomp
-          if t =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
-            tag = $1
-            if ($2 != '-') then relcolours[tag] = $2.hex end
-            if ($3 != '-') then relalphas[tag] = $3.to_i end
-            if ($4 != '-') then relwidths[tag] = $4.to_i end
-          end
+        file.each_line do |line|
+          next unless line.chomp =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
+
+          tag = $1
+          relcolours[tag] = $2.hex if $2 != '-'
+          relalphas[tag] = $3.to_i if $3 != '-'
+          relwidths[tag] = $4.to_i if $4 != '-'
         end
       end
 
       # Read POI presets
-      icon_list = []; icon_tags = {}
+      icon_list = []
+      icon_tags = {}
       File.open("#{Rails.root}/config/potlatch/icon_presets.txt") do |file|
-        file.each_line do|line|
+        file.each_line do |line|
           (icon, tags) = line.chomp.split("\t")
           icon_list.push(icon)
           icon_tags[icon] = Hash[*tags.scan(/([^;=]+)=([^;=]+)/).flatten]
@@ -242,17 +243,18 @@ module Potlatch
       icon_list.reverse!
 
       # Read auto-complete
-      autotags = {}; autotags['point'] = {}; autotags['way'] = {}; autotags['POI'] = {}
+      autotags = { 'point' => {}, 'way' => {}, 'POI' => {} }
       File.open("#{Rails.root}/config/potlatch/autocomplete.txt") do |file|
         file.each_line do|line|
-          t = line.chomp
-          if t =~ /^([\w:]+)\/(\w+)\s+(.+)$/
-            tag = $1; type = $2; values = $3
-            if values == '-'
-              autotags[type][tag] = []
-            else
-              autotags[type][tag] = values.split(',').sort.reverse
-            end
+          next unless line.chomp =~ /^([\w:]+)\/(\w+)\s+(.+)$/
+
+          tag = $1
+          type = $2
+          values = $3
+          if values == '-'
+            autotags[type][tag] = []
+          else
+            autotags[type][tag] = values.split(',').sort.reverse
           end
         end
       end

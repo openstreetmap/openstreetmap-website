@@ -50,9 +50,7 @@ class Changeset < ActiveRecord::Base
   end
 
   def set_closed_time_now
-    if is_open?
-      self.closed_at = Time.now.getutc
-    end
+    self.closed_at = Time.now.getutc if is_open?
   end
 
   def self.from_xml(xml, create = false)
@@ -212,9 +210,7 @@ class Changeset < ActiveRecord::Base
     el1['closed_at'] = closed_at.xmlschema unless is_open?
     el1['open'] = is_open?.to_s
 
-    if bbox.complete?
-      bbox.to_unscaled.add_bounds_to(el1, '_')
-    end
+    bbox.to_unscaled.add_bounds_to(el1, '_') if bbox.complete?
 
     el1['comments_count'] = comments.count.to_s
 
@@ -246,14 +242,10 @@ class Changeset < ActiveRecord::Base
   # bounding box, only the tags of the changeset.
   def update_from(other, user)
     # ensure that only the user who opened the changeset may modify it.
-    unless user.id == user_id
-      fail OSM::APIUserChangesetMismatchError.new
-    end
+    fail OSM::APIUserChangesetMismatchError.new unless user.id == user_id
 
     # can't change a closed changeset
-    unless is_open?
-      fail OSM::APIChangesetAlreadyClosedError.new(self)
-    end
+    fail OSM::APIChangesetAlreadyClosedError.new(self) unless is_open?
 
     # copy the other's tags
     self.tags = other.tags

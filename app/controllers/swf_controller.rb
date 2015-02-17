@@ -31,7 +31,7 @@ class SwfController < ApplicationController
     bounds_top = 240 * 20
 
     m = ''
-    m += swfRecord(9, 255.chr + 155.chr + 155.chr)			# Background
+    m += swf_record(9, 255.chr + 155.chr + 155.chr)			# Background
     absx = 0
     absy = 0
     xl = yb = 9999999
@@ -53,42 +53,44 @@ class SwfController < ApplicationController
 
     # - Draw GPS trace lines
 
-    r = startShape
+    r = start_shape
     gpslist.each do |row|
       xs = (long2coord(row['lon'].to_f, baselong, masterscale) * 20).floor
       ys = (lat2coord(row['lat'].to_f, basey, masterscale) * 20).floor
-      xl = [xs, xl].min; xr = [xs, xr].max
-      yb = [ys, yb].min; yt = [ys, yt].max
+      xl = [xs, xl].min
+      xr = [xs, xr].max
+      yb = [ys, yb].min
+      yt = [ys, yt].max
       if row['ts'].to_i - lasttime > 180 || row['fileid'] != lastfile || row['trackid'] != lasttrack # or row['ts'].to_i==lasttime
-        b += startAndMove(xs, ys, '01')
-        absx = xs.floor; absy = ys.floor
+        b += start_and_move(xs, ys, '01')
+        absx = xs.floor
+        absy = ys.floor
       end
-      b += drawTo(absx, absy, xs, ys)
-      absx = xs.floor; absy = ys.floor
+      b += draw_to(absx, absy, xs, ys)
+      absx = xs.floor
+      absy = ys.floor
       lasttime = row['ts'].to_i
       lastfile = row['fileid']
       lasttrack = row['trackid']
-      while b.length > 80
-        r += [b.slice!(0...80)].pack("B*")
-      end
+      r += [b.slice!(0...80)].pack("B*") while b.length > 80
     end
 
     #   (Unwayed segments removed)
 
     # - Write shape
 
-    b += endShape
+    b += end_shape
     r += [b].pack("B*")
-    m += swfRecord(2, packUI16(1) + packRect(xl, xr, yb, yt) + r)
-    m += swfRecord(4, packUI16(1) + packUI16(1))
+    m += swf_record(2, pack_u16(1) + pack_rect(xl, xr, yb, yt) + r)
+    m += swf_record(4, pack_u16(1) + pack_u16(1))
 
     # -	Create Flash header and write to browser
 
-    m += swfRecord(1, '')									# Show frame
-    m += swfRecord(0, '')									# End
+    m += swf_record(1, '')									# Show frame
+    m += swf_record(0, '')									# End
 
-    m = packRect(bounds_left, bounds_right, bounds_bottom, bounds_top) + 0.chr + 12.chr + packUI16(1) + m
-    m = 'FWS' + 6.chr + packUI32(m.length + 8) + m
+    m = pack_rect(bounds_left, bounds_right, bounds_bottom, bounds_top) + 0.chr + 12.chr + pack_u16(1) + m
+    m = 'FWS' + 6.chr + pack_u32(m.length + 8) + m
 
     render :text => m, :content_type => "application/x-shockwave-flash"
   end
@@ -101,28 +103,28 @@ class SwfController < ApplicationController
   # -----------------------------------------------------------------------
   # Line-drawing
 
-  def startShape
+  def start_shape
     s = 0.chr						# No fill styles
     s += 2.chr						# Two line styles
-    s += packUI16(0) + 0.chr + 255.chr + 255.chr	# Width 5, RGB #00FFFF
-    s += packUI16(0) + 255.chr + 0.chr + 255.chr	# Width 5, RGB #FF00FF
+    s += pack_u16(0) + 0.chr + 255.chr + 255.chr	# Width 5, RGB #00FFFF
+    s += pack_u16(0) + 255.chr + 0.chr + 255.chr	# Width 5, RGB #FF00FF
     s += 34.chr										# 2 fill, 2 line index bits
     s
   end
 
-  def endShape
+  def end_shape
     '000000'
   end
 
-  def startAndMove(x, y, col)
+  def start_and_move(x, y, col)
     d = '001001'					# Line style change, moveTo
-    l = [lengthSB(x), lengthSB(y)].max
+    l = [length_sb(x), length_sb(y)].max
     d += sprintf("%05b%0#{l}b%0#{l}b", l, x, y)
     d += col						# Select line style
     d
   end
 
-  def drawTo(absx, absy, x, y)
+  def draw_to(absx, absy, x, y)
     dx = x - absx
     dy = y - absy
 
@@ -133,18 +135,18 @@ class SwfController < ApplicationController
     ystep = dy / mstep
     d = ''
     1.upto(mstep).each do
-      d += drawSection(x, y, x + xstep, y + ystep)
+      d += draw_section(x, y, x + xstep, y + ystep)
       x += xstep
       y += ystep
     end
     d
   end
 
-  def drawSection(x1, y1, x2, y2)
+  def draw_section(x1, y1, x2, y2)
     d = '11'											# TypeFlag, EdgeFlag
     dx = x2 - x1
     dy = y2 - y1
-    l = [lengthSB(dx), lengthSB(dy)].max
+    l = [length_sb(dx), length_sb(dy)].max
     d += sprintf("%04b", l - 2)
     d += '1'											# GeneralLine
     d += sprintf("%0#{l}b%0#{l}b", dx, dy)
@@ -156,23 +158,23 @@ class SwfController < ApplicationController
 
   # SWF data block type
 
-  def swfRecord(id, r)
+  def swf_record(id, r)
     if r.length > 62
       # Long header: tag id, 0x3F, length
-      return packUI16((id << 6) + 0x3F) + packUI32(r.length) + r
+      return pack_u16((id << 6) + 0x3F) + pack_u32(r.length) + r
     else
       # Short header: tag id, length
-      return packUI16((id << 6) + r.length) + r
+      return pack_u16((id << 6) + r.length) + r
     end
   end
 
   # SWF RECT type
 
-  def packRect(a, b, c, d)
-    l = [lengthSB(a),
-         lengthSB(b),
-         lengthSB(c),
-         lengthSB(d)].max
+  def pack_rect(a, b, c, d)
+    l = [length_sb(a),
+         length_sb(b),
+         length_sb(c),
+         length_sb(d)].max
     # create binary string (00111001 etc.) - 5-byte length, then bbox
     n = sprintf("%05b%0#{l}b%0#{l}b%0#{l}b%0#{l}b", l, a, b, c, d)
     # pack into byte string
@@ -182,17 +184,17 @@ class SwfController < ApplicationController
   # -----------------------------------------------------------------------
   # Generic pack functions
 
-  def packUI16(n)
+  def pack_u16(n)
     [n.floor].pack("v")
   end
 
-  def packUI32(n)
+  def pack_u32(n)
     [n.floor].pack("V")
   end
 
   # Find number of bits required to store arbitrary-length binary
 
-  def lengthSB(n)
+  def length_sb(n)
     Math.frexp(n + (n == 0 ? 1 : 0))[1] + 1
   end
 

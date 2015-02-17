@@ -12,21 +12,16 @@ addresses = User.count(
 )
 
 addresses.each do |address, count|
-  if count > 1
-    acl = Acl.find(:first, :conditions => {
-                     :address => address
-                   })
+  next unless count > 1
+  next if Acl.where(:address => address).exists?
 
-    unless acl
-      Acl.create({
-                   :address => address,
-                   :k => "no_account_creation",
-                   :v => "auto_spam_block"
-                 }, { :without_protection => true })
+  Acl.create({
+               :address => address,
+               :k => "no_account_creation",
+               :v => "auto_spam_block"
+             }, { :without_protection => true })
 
-      puts "Blocked #{address}"
-    end
-  end
+  puts "Blocked #{address}"
 end
 
 acls = Acl.find(:all, :conditions => {
@@ -35,11 +30,11 @@ acls = Acl.find(:all, :conditions => {
                 })
 
 acls.each do |acl|
-  unless addresses[acl.address]
-    acl.delete
+  next if addresses[acl.address]
 
-    puts "Unblocked #{acl.address}"
-  end
+  acl.delete
+
+  puts "Unblocked #{acl.address}"
 end
 
 exit 0

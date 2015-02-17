@@ -1,6 +1,6 @@
 module UserRolesHelper
   def role_icons(user)
-    UserRole::ALL_ROLES.reduce("".html_safe) { |s, r| s + " " + role_icon(user, r) }
+    UserRole::ALL_ROLES.reduce("".html_safe) { |a, e| a + " " + role_icon(user, e) }
   end
 
   def role_icon(user, role)
@@ -26,10 +26,7 @@ module UserRolesHelper
 
     if image
       icon = image_tag(image, :size => "20x20", :border => 0, :alt => alt, :title => title)
-
-      if url
-        icon = link_to(icon, url, :method => :post, :confirm => confirm)
-      end
+      icon = link_to(icon, url, :method => :post, :confirm => confirm) if url
     end
 
     icon

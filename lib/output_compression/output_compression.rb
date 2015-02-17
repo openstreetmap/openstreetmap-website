@@ -61,6 +61,8 @@ module CompressionSystem
   end
 end
 
-class ActionController::Base
-  include CompressionSystem
+module ActionController
+  class Base
+    include CompressionSystem
+  end
 end

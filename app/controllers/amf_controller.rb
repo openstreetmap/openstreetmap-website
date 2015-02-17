@@ -51,17 +51,17 @@ class AmfController < ApplicationController
       logger.info("Executing AMF #{message}(#{args.join(',')})")
 
       case message
-        when 'getpresets' then        result = getpresets(*args)
-        when 'whichways' then         result = whichways(*args)
-        when 'whichways_deleted' then result = whichways_deleted(*args)
-        when 'getway' then            result = getway(args[0].to_i)
-        when 'getrelation' then       result = getrelation(args[0].to_i)
-        when 'getway_old' then        result = getway_old(args[0].to_i, args[1])
-        when 'getway_history' then    result = getway_history(args[0].to_i)
-        when 'getnode_history' then   result = getnode_history(args[0].to_i)
-        when 'findgpx' then           result = findgpx(*args)
-        when 'findrelations' then     result = findrelations(*args)
-        when 'getpoi' then            result = getpoi(*args)
+      when 'getpresets' then        result = getpresets(*args)
+      when 'whichways' then         result = whichways(*args)
+      when 'whichways_deleted' then result = whichways_deleted(*args)
+      when 'getway' then            result = getway(args[0].to_i)
+      when 'getrelation' then       result = getrelation(args[0].to_i)
+      when 'getway_old' then        result = getway_old(args[0].to_i, args[1])
+      when 'getway_history' then    result = getway_history(args[0].to_i)
+      when 'getnode_history' then   result = getnode_history(args[0].to_i)
+      when 'findgpx' then           result = findgpx(*args)
+      when 'findrelations' then     result = findrelations(*args)
+      when 'getpoi' then            result = getpoi(*args)
       end
 
       result
@@ -82,15 +82,20 @@ class AmfController < ApplicationController
         result = [-5, nil]
       else
         case message
-          when 'putway' then         orn = renumberednodes.dup
-                                     result = putway(renumberednodes, *args)
-                                     result[4] = renumberednodes.reject { |k, _v| orn.key?(k) }
-                                     if result[0] == 0 && result[2] != result[3] then renumberedways[result[2]] = result[3] end
-          when 'putrelation' then    result = putrelation(renumberednodes, renumberedways, *args)
-          when 'deleteway' then      result = deleteway(*args)
-          when 'putpoi' then         result = putpoi(*args)
-                                     if result[0] == 0 && result[2] != result[3] then renumberednodes[result[2]] = result[3] end
-          when 'startchangeset' then result = startchangeset(*args)
+        when 'putway' then
+          orn = renumberednodes.dup
+          result = putway(renumberednodes, *args)
+          result[4] = renumberednodes.reject { |k, _v| orn.key?(k) }
+          if result[0] == 0 && result[2] != result[3] then renumberedways[result[2]] = result[3] end
+        when 'putrelation' then
+          result = putrelation(renumberednodes, renumberedways, *args)
+        when 'deleteway' then
+          result = deleteway(*args)
+        when 'putpoi' then
+          result = putpoi(*args)
+          if result[0] == 0 && result[2] != result[3] then renumberednodes[result[2]] = result[3] end
+        when 'startchangeset' then
+          result = startchangeset(*args)
         end
 
         err = true if result[0] == -3  # If a conflict is detected, don't execute any more writes
@@ -249,8 +254,10 @@ class AmfController < ApplicationController
   def whichways(xmin, ymin, xmax, ymax) #:doc:
     amf_handle_error_with_timeout("'whichways'", nil, nil) do
       enlarge = [(xmax - xmin) / 8, 0.01].min
-      xmin -= enlarge; ymin -= enlarge
-      xmax += enlarge; ymax += enlarge
+      xmin -= enlarge
+      ymin -= enlarge
+      xmax += enlarge
+      ymax += enlarge
 
       # check boundary is sane and area within defined
       # see /config/application.yml
@@ -291,8 +298,10 @@ class AmfController < ApplicationController
   def whichways_deleted(xmin, ymin, xmax, ymax) #:doc:
     amf_handle_error_with_timeout("'whichways_deleted'", nil, nil) do
       enlarge = [(xmax - xmin) / 8, 0.01].min
-      xmin -= enlarge; ymin -= enlarge
-      xmax += enlarge; ymax += enlarge
+      xmin -= enlarge
+      ymin -= enlarge
+      xmax += enlarge
+      ymax += enlarge
 
       # check boundary is sane and area within defined
       # see /config/application.yml
@@ -454,8 +463,9 @@ class AmfController < ApplicationController
   def findgpx(searchterm, usertoken)
     amf_handle_error_with_timeout("'findgpx'", nil, nil) do
       user = getuser(usertoken)
-      unless user then return -1, "You must be logged in to search for GPX traces." end
-      if user.blocks.active.exists? then return -1, t('application.setup_user_auth.blocked') end
+
+      return -1, "You must be logged in to search for GPX traces." unless user
+      return -1, t('application.setup_user_auth.blocked') if user.blocks.active.exists?
 
       query = Trace.visible_to(user)
       if searchterm.to_i > 0
@@ -532,9 +542,7 @@ class AmfController < ApplicationController
       relation = nil
       Relation.transaction do
         # create a new relation, or find the existing one
-        if relid > 0
-          relation = Relation.find(relid)
-        end
+        relation = Relation.find(relid) if relid > 0
         # We always need a new node, based on the data that has been sent to us
         new_relation = Relation.new
 
@@ -633,7 +641,8 @@ class AmfController < ApplicationController
 
           if id == 0  then return -2, "Server error - node with id 0 found in way #{originalway}." end
           if lat == 90 then return -2, "Server error - node with latitude -90 found in way #{originalway}." end
-          if renumberednodes[id] then id = renumberednodes[id] end
+
+          id = renumberednodes[id]  if renumberednodes[id]
 
           node = Node.new
           node.changeset_id = changeset_id

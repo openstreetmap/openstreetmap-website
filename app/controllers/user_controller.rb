@@ -20,7 +20,7 @@ class UserController < ApplicationController
   before_filter :lookup_user_by_name, :only => [:set_status, :delete]
 
   def terms
-    @legale = params[:legale] || OSM.IPToCountry(request.remote_ip) || DEFAULT_LEGALE
+    @legale = params[:legale] || OSM.ip_to_country(request.remote_ip) || DEFAULT_LEGALE
     @text = OSM.legal_text_for_country(@legale)
 
     if request.xhr?
@@ -61,9 +61,8 @@ class UserController < ApplicationController
         @user.consider_pd = params[:user][:consider_pd]
         @user.terms_agreed = Time.now.getutc
         @user.terms_seen = true
-        if @user.save
-          flash[:notice] = t 'user.new.terms accepted'
-        end
+
+        flash[:notice] = t 'user.new.terms accepted' if @user.save
       end
 
       if params[:referer]
@@ -158,9 +157,7 @@ class UserController < ApplicationController
       if user.nil?
         users = User.visible.where("LOWER(email) = LOWER(?)", params[:user][:email])
 
-        if users.count == 1
-          user = users.first
-        end
+        user = users.first if users.count == 1
       end
 
       if user
@@ -294,9 +291,7 @@ class UserController < ApplicationController
     if params[:session] == request.session_options[:id]
       if session[:token]
         token = UserToken.find_by_token(session[:token])
-        if token
-          token.destroy
-        end
+        token.destroy if token
         session.delete(:token)
       end
       session.delete(:user)
@@ -346,9 +341,8 @@ class UserController < ApplicationController
       end
     else
       user = User.find_by_display_name(params[:display_name])
-      if !user || user.active?
-        redirect_to root_path
-      end
+
+      redirect_to root_path if !user || user.active?
     end
   end
 
@@ -422,15 +416,15 @@ class UserController < ApplicationController
         friend = Friend.new
         friend.user_id = @user.id
         friend.friend_user_id = @new_friend.id
-        unless @user.is_friends_with?(@new_friend)
+        if @user.is_friends_with?(@new_friend)
+          flash[:warning] = t 'user.make_friend.already_a_friend', :name => @new_friend.display_name
+        else
           if friend.save
             flash[:notice] = t 'user.make_friend.success', :name => @new_friend.display_name
             Notifier.friend_notification(friend).deliver_now
           else
             friend.add_error(t('user.make_friend.failed', :name => @new_friend.display_name))
           end
-        else
-          flash[:warning] = t 'user.make_friend.already_a_friend', :name => @new_friend.display_name
         end
 
         if params[:referer]
@@ -542,14 +536,14 @@ class UserController < ApplicationController
         # provider do we know the unique address for the user.
         if user = User.find_by_openid_url(identity_url)
           case user.status
-            when "pending" then
-              unconfirmed_login(user)
-            when "active", "confirmed" then
-              successful_login(user)
-            when "suspended" then
-              failed_login t('user.login.account is suspended', :webmaster => "mailto:webmaster@openstreetmap.org")
-            else
-              failed_login t('user.login.auth failure')
+          when "pending" then
+            unconfirmed_login(user)
+          when "active", "confirmed" then
+            successful_login(user)
+          when "suspended" then
+            failed_login t('user.login.account is suspended', :webmaster => "mailto:webmaster@openstreetmap.org")
+          else
+            failed_login t('user.login.auth failure')
           end
         else
           # Guard against not getting any extension data
