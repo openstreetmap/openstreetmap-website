@@ -511,7 +511,7 @@ module OSM
     end
 
     return nil
-  rescue Exception
+  rescue
     return nil
   end
 
