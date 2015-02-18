@@ -109,6 +109,7 @@ OpenStreetMap::Application.routes.draw do
   # Data browsing
   match '/way/:id' => 'browse#way', :via => :get, :id => /\d+/, :as => :way
   match '/way/:id/history' => 'browse#way_history', :via => :get, :id => /\d+/
+  match '/way/:id/history/:version' => 'browse#way_version', :via => :get, :id => /\d+/, :version => /\d+/
   match '/node/:id' => 'browse#node', :via => :get, :id => /\d+/, :as => :node
   match '/node/:id/history' => 'browse#node_history', :via => :get, :id => /\d+/
   match '/relation/:id' => 'browse#relation', :via => :get, :id => /\d+/, :as => :relation

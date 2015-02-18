@@ -39,6 +39,16 @@ class BrowseController < ApplicationController
     render :action => "not_found", :status => :not_found
   end
 
+  def way_version
+    @type = "way"
+    @feature = Way.find(params[:id])
+    @version = params[:version]
+    @change = @feature.send("old_#{@type}s").where(:version => @version).first!
+    render 'version'
+  rescue ActiveRecord::RecordNotFound
+    render :action => "not_found", :status => :not_found
+  end
+
   def node
     @type = "node"
     @feature = Node.find(params[:id])
