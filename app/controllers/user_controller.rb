@@ -89,7 +89,7 @@ class UserController < ApplicationController
 
           begin
             uri = URI(session[:referer])
-            /map=(.*)\/(.*)\/(.*)/.match(uri.fragment) do |m|
+            %r{map=(.*)/(.*)/(.*)}.match(uri.fragment) do |m|
               editor = Rack::Utils.parse_query(uri.query).slice("editor")
               referer = welcome_path({ "zoom" => m[1],
                                        "lat" => m[2],
@@ -625,8 +625,8 @@ class UserController < ApplicationController
   # check if we trust an OpenID provider to return a verified
   # email, so that we can skpi verifying it ourselves
   def openid_email_verified(openid_url)
-    openid_url.match(/https:\/\/www.google.com\/accounts\/o8\/id?(.*)/) ||
-      openid_url.match(/https:\/\/me.yahoo.com\/(.*)/)
+    openid_url.match(%r{https://www.google.com/accounts/o8/id?(.*)}) ||
+      openid_url.match(%r{https://me.yahoo.com/(.*)})
   end
 
   ##

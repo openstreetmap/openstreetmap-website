@@ -10,6 +10,6 @@ class ChangesetHelperTest < ActionView::TestCase
 
   def test_changeset_details
     assert_match /^Created <abbr title='Mon, 01 Jan 2007 00:00:00 \+0000'>.*<\/abbr> by anonymous$/, changeset_details(changesets(:normal_user_first_change))
-    assert_match /^Closed <abbr title='Created: Mon, 01 Jan 2007 00:00:00 \+0000&#10;Closed: Tue, 02 Jan 2007 00:00:00 \+0000'>.*<\/abbr> by <a href="\/user\/test2">test2<\/a>$/, changeset_details(changesets(:public_user_closed_change))
+    assert_match %r{^Closed <abbr title='Created: Mon, 01 Jan 2007 00:00:00 \+0000&#10;Closed: Tue, 02 Jan 2007 00:00:00 \+0000'>.*</abbr> by <a href="/user/test2">test2</a>$}, changeset_details(changesets(:public_user_closed_change))
   end
 end

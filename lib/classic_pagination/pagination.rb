@@ -359,13 +359,13 @@ module ActionController
         # Returns a new Page object representing the page just before this
         # page, or nil if this is the first page.
         def previous
-          if first? then nil else @paginator[@number - 1] end
+          first? ? nil : @paginator[@number - 1]
         end
 
         # Returns a new Page object representing the page just after this
         # page, or nil if this is the last page.
         def next
-          if last? then nil else @paginator[@number + 1] end
+          last? ? nil : @paginator[@number + 1]
         end
 
         # Returns a new Window object for this page with the specified

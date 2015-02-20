@@ -5,7 +5,7 @@ module Paperclip
     def for(style_name, options)
       url = super(style_name, options)
 
-      if url =~ /^\/assets\/(.*)$/
+      if url =~ %r{^/assets/(.*)$}
         asset_path($1)
       else
         url

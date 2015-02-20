@@ -112,7 +112,7 @@ module BrowseHelper
 
   def wikipedia_link(key, value)
     # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
-    return nil if value =~ /^https?:\/\//
+    return nil if value =~ %r{^https?://}
 
     if key == "wikipedia"
       # This regex should match Wikipedia language codes, everything

@@ -86,14 +86,14 @@ class AmfController < ApplicationController
           orn = renumberednodes.dup
           result = putway(renumberednodes, *args)
           result[4] = renumberednodes.reject { |k, _v| orn.key?(k) }
-          if result[0] == 0 && result[2] != result[3] then renumberedways[result[2]] = result[3] end
+          renumberedways[result[2]] = result[3] if result[0] == 0 && result[2] != result[3]
         when "putrelation" then
           result = putrelation(renumberednodes, renumberedways, *args)
         when "deleteway" then
           result = deleteway(*args)
         when "putpoi" then
           result = putpoi(*args)
-          if result[0] == 0 && result[2] != result[3] then renumberednodes[result[2]] = result[3] end
+          renumberednodes[result[2]] = result[3] if result[0] == 0 && result[2] != result[3]
         when "startchangeset" then
           result = startchangeset(*args)
         end
@@ -137,12 +137,12 @@ class AmfController < ApplicationController
   def startchangeset(usertoken, cstags, closeid, closecomment, opennew)
     amf_handle_error("'startchangeset'", nil, nil) do
       user = getuser(usertoken)
-      unless user then return -1, "You are not logged in, so Potlatch can't write any changes to the database." end
-      if user.blocks.active.exists? then return -1, t("application.setup_user_auth.blocked") end
-      if REQUIRE_TERMS_AGREED && user.terms_agreed.nil? then return -1, "You must accept the contributor terms before you can edit." end
+      return -1, "You are not logged in, so Potlatch can't write any changes to the database." unless user
+      return -1, t("application.setup_user_auth.blocked") if user.blocks.active.exists?
+      return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
 
       if cstags
-        unless tags_ok(cstags) then return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
+        return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(cstags)
         cstags = strip_non_xml_chars cstags
       end
 
@@ -413,11 +413,11 @@ class AmfController < ApplicationController
     revusers = {}
     Way.find(wayid).old_ways.unredacted.collect do |a|
       revdates.push(a.timestamp)
-      unless revusers.key?(a.timestamp.to_i) then revusers[a.timestamp.to_i] = change_user(a) end
+      revusers[a.timestamp.to_i] = change_user(a) unless revusers.key?(a.timestamp.to_i)
       a.nds.each do |n|
         Node.find(n).old_nodes.unredacted.collect do |o|
           revdates.push(o.timestamp)
-          unless revusers.key?(o.timestamp.to_i) then revusers[o.timestamp.to_i] = change_user(o) end
+          revusers[o.timestamp.to_i] = change_user(o) unless revusers.key?(o.timestamp.to_i)
         end
       end
     end
@@ -528,11 +528,12 @@ class AmfController < ApplicationController
   def putrelation(renumberednodes, renumberedways, usertoken, changeset_id, version, relid, tags, members, visible) #:doc:
     amf_handle_error("'putrelation' #{relid}", "relation", relid)  do
       user = getuser(usertoken)
-      unless user then return -1, "You are not logged in, so the relation could not be saved." end
-      if user.blocks.active.exists? then return -1, t("application.setup_user_auth.blocked") end
-      if REQUIRE_TERMS_AGREED && user.terms_agreed.nil? then return -1, "You must accept the contributor terms before you can edit." end
 
-      unless tags_ok(tags) then return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
+      return -1, "You are not logged in, so the relation could not be saved." unless user
+      return -1, t("application.setup_user_auth.blocked") if user.blocks.active.exists?
+      return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
+
+      return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(tags)
       tags = strip_non_xml_chars tags
 
       relid = relid.to_i
@@ -616,13 +617,13 @@ class AmfController < ApplicationController
       # -- Initialise
 
       user = getuser(usertoken)
-      unless user then return -1, "You are not logged in, so the way could not be saved." end
-      if user.blocks.active.exists? then return -1, t("application.setup_user_auth.blocked") end
-      if REQUIRE_TERMS_AGREED && user.terms_agreed.nil? then return -1, "You must accept the contributor terms before you can edit." end
+      return -1, "You are not logged in, so the way could not be saved." unless user
+      return -1, t("application.setup_user_auth.blocked") if user.blocks.active.exists?
+      return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
 
-      if pointlist.length < 2 then return -2, "Server error - way is only #{points.length} points long." end
+      return -2, "Server error - way is only #{points.length} points long." if pointlist.length < 2
 
-      unless tags_ok(attributes) then return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
+      return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(attributes)
       attributes = strip_non_xml_chars attributes
 
       originalway = originalway.to_i
@@ -639,8 +640,8 @@ class AmfController < ApplicationController
           id = a[2].to_i
           version = a[3].to_i
 
-          if id == 0  then return -2, "Server error - node with id 0 found in way #{originalway}." end
-          if lat == 90 then return -2, "Server error - node with latitude -90 found in way #{originalway}." end
+          return -2, "Server error - node with id 0 found in way #{originalway}." if id == 0
+          return -2, "Server error - node with latitude -90 found in way #{originalway}." if lat == 90
 
           id = renumberednodes[id]  if renumberednodes[id]
 
@@ -651,7 +652,7 @@ class AmfController < ApplicationController
           node.tags = a[4]
 
           # fixup node tags in a way as well
-          unless tags_ok(node.tags) then return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
+          return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(node.tags)
           node.tags = strip_non_xml_chars node.tags
 
           node.tags.delete("created_by")
@@ -724,11 +725,11 @@ class AmfController < ApplicationController
   def putpoi(usertoken, changeset_id, version, id, lon, lat, tags, visible) #:doc:
     amf_handle_error("'putpoi' #{id}", "node", id) do
       user = getuser(usertoken)
-      unless user then return -1, "You are not logged in, so the point could not be saved." end
-      if user.blocks.active.exists? then return -1, t("application.setup_user_auth.blocked") end
-      if REQUIRE_TERMS_AGREED && user.terms_agreed.nil? then return -1, "You must accept the contributor terms before you can edit." end
+      return -1, "You are not logged in, so the point could not be saved." unless user
+      return -1, t("application.setup_user_auth.blocked") if user.blocks.active.exists?
+      return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
 
-      unless tags_ok(tags) then return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." end
+      return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(tags)
       tags = strip_non_xml_chars tags
 
       id = id.to_i
@@ -739,8 +740,8 @@ class AmfController < ApplicationController
         if id > 0
           node = Node.find(id)
 
-          unless visible
-            unless node.ways.empty? then return -1, "Point #{id} has since become part of a way, so you cannot save it as a POI.", id, id, version end
+          unless visible || node.ways.empty?
+            return -1, "Point #{id} has since become part of a way, so you cannot save it as a POI.", id, id, version
           end
         end
         # We always need a new node, based on the data that has been sent to us
@@ -808,9 +809,9 @@ class AmfController < ApplicationController
   def deleteway(usertoken, changeset_id, way_id, way_version, deletednodes) #:doc:
     amf_handle_error("'deleteway' #{way_id}", "way", way_id) do
       user = getuser(usertoken)
-      unless user then return -1, "You are not logged in, so the way could not be deleted." end
-      if user.blocks.active.exists? then return -1, t("application.setup_user_auth.blocked") end
-      if REQUIRE_TERMS_AGREED && user.terms_agreed.nil? then return -1, "You must accept the contributor terms before you can edit." end
+      return -1, "You are not logged in, so the way could not be deleted." unless user
+      return -1, t("application.setup_user_auth.blocked") if user.blocks.active.exists?
+      return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
 
       way_id = way_id.to_i
       nodeversions = {}
