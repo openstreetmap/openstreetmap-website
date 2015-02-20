@@ -2,9 +2,9 @@ require "migrate"
 
 class AddJoinTableBetweenUsersAndChangesets < ActiveRecord::Migration
   def change
-    create_table :changesets_subscribers, id: false do |t|
-      t.column :subscriber_id, :bigint, null: false
-      t.column :changeset_id, :bigint, null: false
+    create_table :changesets_subscribers, :id => false do |t|
+      t.column :subscriber_id, :bigint, :null => false
+      t.column :changeset_id, :bigint, :null => false
     end
 
     add_foreign_key :changesets_subscribers, :users, :column => :subscriber_id, :name => "changesets_subscribers_subscriber_id_fkey"

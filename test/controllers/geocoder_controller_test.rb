@@ -241,7 +241,7 @@ class GeocoderControllerTest < ActionController::TestCase
       "12345",
       "12345-6789"
     ].each do |code|
-      post :search, query: code
+      post :search, :query => code
       assert_response :success
       assert_equal %w(us_postcode osm_nominatim), assigns(:sources)
     end
