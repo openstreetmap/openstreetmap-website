@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'old_node_controller'
+require "test_helper"
+require "old_node_controller"
 
 class OldNodeControllerTest < ActionController::TestCase
   api_fixtures
@@ -46,38 +46,38 @@ class OldNodeControllerTest < ActionController::TestCase
     versions = {}
 
     # save a version for later checking
-    versions[xml_node['version']] = xml_doc.to_s
+    versions[xml_node["version"]] = xml_doc.to_s
 
     # randomly move the node about
     20.times do
       # move the node somewhere else
-      xml_node['lat'] = precision(rand * 180 -  90).to_s
-      xml_node['lon'] = precision(rand * 360 - 180).to_s
+      xml_node["lat"] = precision(rand * 180 -  90).to_s
+      xml_node["lon"] = precision(rand * 360 - 180).to_s
       with_controller(NodeController.new) do
         content xml_doc
         put :update, :id => nodeid
         assert_response :forbidden, "Should have rejected node update"
-        xml_node['version'] = @response.body.to_s
+        xml_node["version"] = @response.body.to_s
       end
       # save a version for later checking
-      versions[xml_node['version']] = xml_doc.to_s
+      versions[xml_node["version"]] = xml_doc.to_s
     end
 
     # add a bunch of random tags
     30.times do
       xml_tag = XML::Node.new("tag")
-      xml_tag['k'] = random_string
-      xml_tag['v'] = random_string
+      xml_tag["k"] = random_string
+      xml_tag["v"] = random_string
       xml_node << xml_tag
       with_controller(NodeController.new) do
         content xml_doc
         put :update, :id => nodeid
         assert_response :forbidden,
                         "should have rejected node #{nodeid} (#{@response.body}) with forbidden"
-        xml_node['version'] = @response.body.to_s
+        xml_node["version"] = @response.body.to_s
       end
       # save a version for later checking
-      versions[xml_node['version']] = xml_doc.to_s
+      versions[xml_node["version"]] = xml_doc.to_s
     end
 
     # probably should check that they didn't get written to the database
@@ -95,38 +95,38 @@ class OldNodeControllerTest < ActionController::TestCase
     versions = {}
 
     # save a version for later checking
-    versions[xml_node['version']] = xml_doc.to_s
+    versions[xml_node["version"]] = xml_doc.to_s
 
     # randomly move the node about
     20.times do
       # move the node somewhere else
-      xml_node['lat'] = precision(rand * 180 -  90).to_s
-      xml_node['lon'] = precision(rand * 360 - 180).to_s
+      xml_node["lat"] = precision(rand * 180 -  90).to_s
+      xml_node["lon"] = precision(rand * 360 - 180).to_s
       with_controller(NodeController.new) do
         content xml_doc
         put :update, :id => nodeid
         assert_response :success
-        xml_node['version'] = @response.body.to_s
+        xml_node["version"] = @response.body.to_s
       end
       # save a version for later checking
-      versions[xml_node['version']] = xml_doc.to_s
+      versions[xml_node["version"]] = xml_doc.to_s
     end
 
     # add a bunch of random tags
     30.times do
       xml_tag = XML::Node.new("tag")
-      xml_tag['k'] = random_string
-      xml_tag['v'] = random_string
+      xml_tag["k"] = random_string
+      xml_tag["v"] = random_string
       xml_node << xml_tag
       with_controller(NodeController.new) do
         content xml_doc
         put :update, :id => nodeid
         assert_response :success,
                         "couldn't update node #{nodeid} (#{@response.body})"
-        xml_node['version'] = @response.body.to_s
+        xml_node["version"] = @response.body.to_s
       end
       # save a version for later checking
-      versions[xml_node['version']] = xml_doc.to_s
+      versions[xml_node["version"]] = xml_doc.to_s
     end
 
     # check all the versions
@@ -244,14 +244,14 @@ class OldNodeControllerTest < ActionController::TestCase
     # the appropriate flag
     get :version, :id => node.node_id, :version => node.version
     assert_response :forbidden, "After redaction, node should be gone for moderator, when flag not passed."
-    get :version, :id => node.node_id, :version => node.version, :show_redactions => 'true'
+    get :version, :id => node.node_id, :version => node.version, :show_redactions => "true"
     assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
 
     # and when accessed via history
     get :history, :id => node.node_id
     assert_response :success, "Redaction shouldn't have stopped history working."
     assert_select "osm node[id='#{node.node_id}'][version='#{node.version}']", 0, "node #{node.node_id} version #{node.version} should not be present in the history for moderators when not passing flag."
-    get :history, :id => node.node_id, :show_redactions => 'true'
+    get :history, :id => node.node_id, :show_redactions => "true"
     assert_response :success, "Redaction shouldn't have stopped history working."
     assert_select "osm node[id='#{node.node_id}'][version='#{node.version}']", 1, "node #{node.node_id} version #{node.version} should still be present in the history for moderators when passing flag."
   end
@@ -308,10 +308,10 @@ class OldNodeControllerTest < ActionController::TestCase
   # returns a 16 character long string with some nasty characters in it.
   # this ought to stress-test the tag handling as well as the versioning.
   def random_string
-    letters = [['!', '"', '$', '&', ';', '@'],
-               ('a'..'z').to_a,
-               ('A'..'Z').to_a,
-               ('0'..'9').to_a].flatten
+    letters = [["!", '"', "$", "&", ";", "@"],
+               ("a".."z").to_a,
+               ("A".."Z").to_a,
+               ("0".."9").to_a].flatten
     (1..16).map { |_i| letters[rand(letters.length)] }.join
   end
 

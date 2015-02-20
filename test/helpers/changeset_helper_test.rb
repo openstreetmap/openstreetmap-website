@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class ChangesetHelperTest < ActionView::TestCase
   fixtures :changesets, :users

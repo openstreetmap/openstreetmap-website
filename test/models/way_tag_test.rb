@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class WayTagTest < ActiveSupport::TestCase
   api_fixtures

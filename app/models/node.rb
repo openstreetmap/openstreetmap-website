@@ -1,5 +1,5 @@
 class Node < ActiveRecord::Base
-  require 'xml/libxml'
+  require "xml/libxml"
 
   include GeoRecord
   include ConsistencyValidations
@@ -45,7 +45,7 @@ class Node < ActiveRecord::Base
     p = XML::Parser.string(xml)
     doc = p.parse
 
-    doc.find('//osm/node').each do |pt|
+    doc.find("//osm/node").each do |pt|
       return Node.from_xml_node(pt, create)
     end
     fail OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/node element.")
@@ -56,22 +56,22 @@ class Node < ActiveRecord::Base
   def self.from_xml_node(pt, create = false)
     node = Node.new
 
-    fail OSM::APIBadXMLError.new("node", pt, "lat missing") if pt['lat'].nil?
-    fail OSM::APIBadXMLError.new("node", pt, "lon missing") if pt['lon'].nil?
-    node.lat = OSM.parse_float(pt['lat'], OSM::APIBadXMLError, "node", pt, "lat not a number")
-    node.lon = OSM.parse_float(pt['lon'], OSM::APIBadXMLError, "node", pt, "lon not a number")
-    fail OSM::APIBadXMLError.new("node", pt, "Changeset id is missing") if pt['changeset'].nil?
-    node.changeset_id = pt['changeset'].to_i
+    fail OSM::APIBadXMLError.new("node", pt, "lat missing") if pt["lat"].nil?
+    fail OSM::APIBadXMLError.new("node", pt, "lon missing") if pt["lon"].nil?
+    node.lat = OSM.parse_float(pt["lat"], OSM::APIBadXMLError, "node", pt, "lat not a number")
+    node.lon = OSM.parse_float(pt["lon"], OSM::APIBadXMLError, "node", pt, "lon not a number")
+    fail OSM::APIBadXMLError.new("node", pt, "Changeset id is missing") if pt["changeset"].nil?
+    node.changeset_id = pt["changeset"].to_i
 
     fail OSM::APIBadUserInput.new("The node is outside this world") unless node.in_world?
 
     # version must be present unless creating
-    fail OSM::APIBadXMLError.new("node", pt, "Version is required when updating") unless create || !pt['version'].nil?
-    node.version = create ? 0 : pt['version'].to_i
+    fail OSM::APIBadXMLError.new("node", pt, "Version is required when updating") unless create || !pt["version"].nil?
+    node.version = create ? 0 : pt["version"].to_i
 
     unless create
-      fail OSM::APIBadXMLError.new("node", pt, "ID is required when updating.") if pt['id'].nil?
-      node.id = pt['id'].to_i
+      fail OSM::APIBadXMLError.new("node", pt, "ID is required when updating.") if pt["id"].nil?
+      node.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
       fail OSM::APIBadUserInput.new("ID of node cannot be zero when updating.") if node.id == 0
@@ -86,10 +86,10 @@ class Node < ActiveRecord::Base
     node.tags = {}
 
     # Add in any tags from the XML
-    pt.find('tag').each do |tag|
-      fail OSM::APIBadXMLError.new("node", pt, "tag is missing key") if tag['k'].nil?
-      fail OSM::APIBadXMLError.new("node", pt, "tag is missing value") if tag['v'].nil?
-      node.add_tag_key_val(tag['k'], tag['v'])
+    pt.find("tag").each do |tag|
+      fail OSM::APIBadXMLError.new("node", pt, "tag is missing key") if tag["k"].nil?
+      fail OSM::APIBadXMLError.new("node", pt, "tag is missing value") if tag["v"].nil?
+      node.add_tag_key_val(tag["k"], tag["v"])
     end
 
     node
@@ -172,14 +172,14 @@ class Node < ActiveRecord::Base
   end
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new 'node'
-    el['id'] = id.to_s
+    el = XML::Node.new "node"
+    el["id"] = id.to_s
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     if self.visible?
-      el['lat'] = lat.to_s
-      el['lon'] = lon.to_s
+      el["lat"] = lat.to_s
+      el["lon"] = lon.to_s
     end
 
     add_tags_to_xml_node(el, node_tags)

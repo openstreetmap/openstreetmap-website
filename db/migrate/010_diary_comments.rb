@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class DiaryComments < ActiveRecord::Migration
   def self.up

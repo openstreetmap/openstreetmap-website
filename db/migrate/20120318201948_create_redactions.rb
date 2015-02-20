@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class CreateRedactions < ActiveRecord::Migration
   def change

@@ -5,9 +5,9 @@ module BrowseHelper
     else
       id = object.id
     end
-    name = t 'printable_name.with_id', :id => id.to_s
+    name = t "printable_name.with_id", :id => id.to_s
     if version
-      name = t 'printable_name.with_version', :id => name, :version => object.version.to_s
+      name = t "printable_name.with_version", :id => name, :version => object.version.to_s
     end
 
     # don't look at object tags if redacted, so as to avoid giving
@@ -20,9 +20,9 @@ module BrowseHelper
       end
 
       if object.tags.include? "name:#{locale}"
-        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags["name:#{locale}"].to_s), :id => content_tag(:bdi, name)
-      elsif object.tags.include? 'name'
-        name = t 'printable_name.with_name_html', :name => content_tag(:bdi, object.tags['name'].to_s), :id => content_tag(:bdi, name)
+        name = t "printable_name.with_name_html", :name => content_tag(:bdi, object.tags["name:#{locale}"].to_s), :id => content_tag(:bdi, name)
+      elsif object.tags.include? "name"
+        name = t "printable_name.with_name_html", :name => content_tag(:bdi, object.tags["name"].to_s), :id => content_tag(:bdi, name)
       end
     end
 
@@ -46,13 +46,13 @@ module BrowseHelper
     if object.redacted?
       ""
     else
-      h(icon_tags(object).map { |k, v| k + '=' + v }.to_sentence)
+      h(icon_tags(object).map { |k, v| k + "=" + v }.to_sentence)
     end
   end
 
   def format_key(key)
     if url = wiki_link("key", key)
-      link_to h(key), url, :title => t('browse.tag_details.wiki_link.key', :key => key)
+      link_to h(key), url, :title => t("browse.tag_details.wiki_link.key", :key => key)
     else
       h(key)
     end
@@ -60,13 +60,13 @@ module BrowseHelper
 
   def format_value(key, value)
     if wp = wikipedia_link(key, value)
-      link_to h(wp[:title]), wp[:url], :title => t('browse.tag_details.wikipedia_link', :page => wp[:title])
+      link_to h(wp[:title]), wp[:url], :title => t("browse.tag_details.wikipedia_link", :page => wp[:title])
     elsif wdt = wikidata_link(key, value)
-      link_to h(wdt[:title]), wdt[:url], :title => t('browse.tag_details.wikidata_link', :page => wdt[:title])
+      link_to h(wdt[:title]), wdt[:url], :title => t("browse.tag_details.wikidata_link", :page => wdt[:title])
     elsif url = wiki_link("tag", "#{key}=#{value}")
-      link_to h(value), url, :title => t('browse.tag_details.wiki_link.tag', :key => key, :value => value)
+      link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
     elsif url = telephone_link(key, value)
-      link_to h(value), url, :title => t('browse.tag_details.telephone_link', :phone_number => value)
+      link_to h(value), url, :title => t("browse.tag_details.telephone_link", :phone_number => value)
     else
       linkify h(value)
     end
@@ -123,7 +123,7 @@ module BrowseHelper
         lang  = $1
       else
         # Value is <title> so default to English Wikipedia
-        lang = 'en'
+        lang = "en"
       end
     elsif key =~ /^wikipedia:(\S+)$/
       # Language is in the key, so assume value is the title
@@ -164,7 +164,7 @@ module BrowseHelper
 
     # remove all whitespace instead of encoding it http://tools.ietf.org/html/rfc3966#section-5.1.1
     # "+1 (234) 567-8901 " -> "+1(234)567-8901"
-    value_no_whitespace = value.gsub(/\s+/, '')
+    value_no_whitespace = value.gsub(/\s+/, "")
 
     "tel:#{value_no_whitespace}"
   end

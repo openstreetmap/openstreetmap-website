@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'stringio'
+require "test_helper"
+require "stringio"
 include Potlatch
 
 class AmfControllerTest < ActionController::TestCase
@@ -129,35 +129,35 @@ class AmfControllerTest < ActionController::TestCase
 
     # check contents of message
     map = amf_result "/1"
-    assert_equal 0, map[0], 'map error code should be 0'
-    assert_equal "", map[1], 'map error text should be empty'
+    assert_equal 0, map[0], "map error code should be 0"
+    assert_equal "", map[1], "map error text should be empty"
 
     # check the formatting of the message
-    assert_equal 5, map.length, 'map should have length 5'
+    assert_equal 5, map.length, "map should have length 5"
     assert_equal Array, map[2].class, 'map "ways" element should be an array'
     assert_equal Array, map[3].class, 'map "nodes" element should be an array'
     assert_equal Array, map[4].class, 'map "relations" element should be an array'
     map[2].each do |w|
-      assert_equal 2, w.length, 'way should be (id, version) pair'
-      assert w[0] == w[0].floor, 'way ID should be an integer'
-      assert w[1] == w[1].floor, 'way version should be an integer'
+      assert_equal 2, w.length, "way should be (id, version) pair"
+      assert w[0] == w[0].floor, "way ID should be an integer"
+      assert w[1] == w[1].floor, "way version should be an integer"
     end
 
     map[3].each do |n|
-      assert_equal 5, w.length, 'node should be (id, lat, lon, [tags], version) tuple'
-      assert n[0] == n[0].floor, 'node ID should be an integer'
-      assert n[1] >= minlat - 0.01, 'node lat should be greater than min'
-      assert n[1] <= maxlat - 0.01, 'node lat should be less than max'
-      assert n[2] >= minlon - 0.01, 'node lon should be greater than min'
-      assert n[2] <= maxlon - 0.01, 'node lon should be less than max'
-      assert_equal Array, a[3].class, 'node tags should be array'
-      assert n[4] == n[4].floor, 'node version should be an integer'
+      assert_equal 5, w.length, "node should be (id, lat, lon, [tags], version) tuple"
+      assert n[0] == n[0].floor, "node ID should be an integer"
+      assert n[1] >= minlat - 0.01, "node lat should be greater than min"
+      assert n[1] <= maxlat - 0.01, "node lat should be less than max"
+      assert n[2] >= minlon - 0.01, "node lon should be greater than min"
+      assert n[2] <= maxlon - 0.01, "node lon should be less than max"
+      assert_equal Array, a[3].class, "node tags should be array"
+      assert n[4] == n[4].floor, "node version should be an integer"
     end
 
     map[4].each do |r|
-      assert_equal 2, r.length, 'relation should be (id, version) pair'
-      assert r[0] == r[0].floor, 'relation ID should be an integer'
-      assert r[1] == r[1].floor, 'relation version should be an integer'
+      assert_equal 2, r.length, "relation should be (id, version) pair"
+      assert r[0] == r[0].floor, "relation ID should be an integer"
+      assert r[1] == r[1].floor, "relation version should be an integer"
     end
 
     # TODO: looks like amf_controller changed since this test was written
@@ -166,7 +166,7 @@ class AmfControllerTest < ActionController::TestCase
     assert ways.include?(current_ways(:used_way).id),
            "map should include used way"
     assert !ways.include?(current_ways(:invisible_way).id),
-           'map should not include deleted way'
+           "map should not include deleted way"
   end
 
   ##
@@ -214,15 +214,15 @@ class AmfControllerTest < ActionController::TestCase
 
     # check contents of message
     map = amf_result "/1"
-    assert_equal 0, map[0], 'first map element should be 0'
-    assert_equal "", map[1], 'second map element should be an empty string'
-    assert_equal Array, map[2].class, 'third map element should be an array'
+    assert_equal 0, map[0], "first map element should be 0"
+    assert_equal "", map[1], "second map element should be an empty string"
+    assert_equal Array, map[2].class, "third map element should be an array"
     # TODO: looks like amf_controller changed since this test was written
     # so someone who knows what they're doing should check this!
     assert !map[2].include?(current_ways(:used_way).id),
            "map should not include used way"
     assert map[2].include?(current_ways(:invisible_way).id),
-           'map should include deleted way'
+           "map should include deleted way"
   end
 
   def test_whichways_deleted_toobig
@@ -280,7 +280,7 @@ class AmfControllerTest < ActionController::TestCase
     # instead of a version number...
     # try to get version 1
     v1 = ways(:way_with_versions_v1)
-    { latest.id => '',
+    { latest.id => "",
       v1.way_id => v1.timestamp.strftime("%d %b %Y, %H:%M:%S")
     }.each do |id, t|
       amf_content "getway_old", "/1", [id, t]
@@ -323,8 +323,8 @@ class AmfControllerTest < ActionController::TestCase
     v1 = ways(:way_with_versions_v1)
     # try to get last visible version of non-existent way
     # try to get specific version of non-existent way
-    [[0, ''],
-     [0, '1 Jan 1970, 00:00:00'],
+    [[0, ""],
+     [0, "1 Jan 1970, 00:00:00"],
      [v1.way_id, (v1.timestamp - 10).strftime("%d %b %Y, %H:%M:%S")]
     ].each do |id, t|
       amf_content "getway_old", "/1", [id, t]
@@ -350,7 +350,7 @@ class AmfControllerTest < ActionController::TestCase
     history = amf_result("/1")
 
     # ['way',wayid,history]
-    assert_equal 'way', history[0]
+    assert_equal "way", history[0]
     assert_equal latest.id, history[1]
     # We use dates rather than version numbers here, because you might
     # have moved a node within a way (i.e. way version not incremented).
@@ -368,7 +368,7 @@ class AmfControllerTest < ActionController::TestCase
     history = amf_result("/1")
 
     # ['way',wayid,history]
-    assert_equal history[0], 'way'
+    assert_equal history[0], "way"
     assert_equal history[1], 0
     assert history[2].empty?
   end
@@ -384,16 +384,16 @@ class AmfControllerTest < ActionController::TestCase
     # ['node',nodeid,history]
     # note that (as per getway_history) we actually round up
     # to the next second
-    assert_equal history[0], 'node',
+    assert_equal history[0], "node",
                  'first element should be "node"'
     assert_equal history[1], latest.id,
-                 'second element should be the input node ID'
+                 "second element should be the input node ID"
     assert_equal history[2].first[0],
                  (latest.timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
-                 'first element in third element (array) should be the latest version'
+                 "first element in third element (array) should be the latest version"
     assert_equal history[2].last[0],
                  (nodes(:node_with_versions_v1).timestamp + 1).strftime("%d %b %Y, %H:%M:%S"),
-                 'last element in third element (array) should be the initial version'
+                 "last element in third element (array) should be the initial version"
   end
 
   def test_getnode_history_nonexistent
@@ -404,7 +404,7 @@ class AmfControllerTest < ActionController::TestCase
     history = amf_result("/1")
 
     # ['node',nodeid,history]
-    assert_equal history[0], 'node'
+    assert_equal history[0], "node"
     assert_equal history[1], 0
     assert history[2].empty?
   end

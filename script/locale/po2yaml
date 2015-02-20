@@ -21,11 +21,11 @@ end
 def po2hash(f)
   trs = {}
   path = []
-  msgstr = ''
+  msgstr = ""
   f.each_line do |line|
     line.strip!
     if line[0..8] == 'msgctxt "'
-      path = line[9..-2].split(':')
+      path = line[9..-2].split(":")
     elsif line[0..7] == 'msgstr "'
       msgstr = line[8..-2]
     end
@@ -34,7 +34,7 @@ def po2hash(f)
 
     add_translation(trs, path, msgstr)
     path = []
-    msgstr = ''
+    msgstr = ""
   end
   trs
 end
@@ -42,7 +42,7 @@ end
 filename = ARGV[0]
 pofile = File.open(filename, "r")
 
-langcode = File.basename(filename, '.po')
+langcode = File.basename(filename, ".po")
 
 tr = { langcode => po2hash(pofile) }
 

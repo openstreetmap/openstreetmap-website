@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class UserEnhancements < ActiveRecord::Migration
   def self.up

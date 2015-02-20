@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'old_relation_controller'
+require "test_helper"
+require "old_relation_controller"
 
 class OldRelationControllerTest < ActionController::TestCase
   api_fixtures
@@ -111,14 +111,14 @@ class OldRelationControllerTest < ActionController::TestCase
     # the appropriate flag
     get :version, :id => relation.relation_id, :version => relation.version
     assert_response :forbidden, "After redaction, node should be gone for moderator, when flag not passed."
-    get :version, :id => relation.relation_id, :version => relation.version, :show_redactions => 'true'
+    get :version, :id => relation.relation_id, :version => relation.version, :show_redactions => "true"
     assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
 
     # and when accessed via history
     get :history, :id => relation.relation_id
     assert_response :success, "Redaction shouldn't have stopped history working."
     assert_select "osm relation[id='#{relation.relation_id}'][version='#{relation.version}']", 0, "relation #{relation.relation_id} version #{relation.version} should not be present in the history for moderators when not passing flag."
-    get :history, :id => relation.relation_id, :show_redactions => 'true'
+    get :history, :id => relation.relation_id, :show_redactions => "true"
     assert_response :success, "Redaction shouldn't have stopped history working."
     assert_select "osm relation[id='#{relation.relation_id}'][version='#{relation.version}']", 1, "relation #{relation.relation_id} version #{relation.version} should still be present in the history for moderators when passing flag."
   end

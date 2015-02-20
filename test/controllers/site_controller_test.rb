@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class SiteControllerTest < ActionController::TestCase
   api_fixtures
@@ -86,56 +86,56 @@ class SiteControllerTest < ActionController::TestCase
   def test_index
     get :index
     assert_response :success
-    assert_template 'index'
+    assert_template "index"
   end
 
   # Test the index page redirects
   def test_index_redirect
     get :index, :lat => 4, :lon => 5
-    assert_redirected_to :controller => :site, :action => :index, :anchor => 'map=5/4/5'
+    assert_redirected_to :controller => :site, :action => :index, :anchor => "map=5/4/5"
 
     get :index, :lat => 4, :lon => 5, :zoom => 3
-    assert_redirected_to :controller => :site, :action => :index, :anchor => 'map=3/4/5'
+    assert_redirected_to :controller => :site, :action => :index, :anchor => "map=3/4/5"
 
-    get :index, :layers => 'T'
-    assert_redirected_to :controller => :site, :action => :index, :anchor => 'layers=T'
+    get :index, :layers => "T"
+    assert_redirected_to :controller => :site, :action => :index, :anchor => "layers=T"
 
-    get :index, :notes => 'yes'
-    assert_redirected_to :controller => :site, :action => :index, :anchor => 'layers=N'
+    get :index, :notes => "yes"
+    assert_redirected_to :controller => :site, :action => :index, :anchor => "layers=N"
 
-    get :index, :lat => 4, :lon => 5, :zoom => 3, :layers => 'T'
-    assert_redirected_to :controller => :site, :action => :index, :anchor => 'map=3/4/5&layers=T'
+    get :index, :lat => 4, :lon => 5, :zoom => 3, :layers => "T"
+    assert_redirected_to :controller => :site, :action => :index, :anchor => "map=3/4/5&layers=T"
   end
 
   # Test the permalink redirect
   def test_permalink
-    get :permalink, :code => 'wBz3--'
+    get :permalink, :code => "wBz3--"
     assert_response :redirect
-    assert_redirected_to :controller => :site, :action => :index, :anchor => 'map=3/4.8779296875/3.955078125'
+    assert_redirected_to :controller => :site, :action => :index, :anchor => "map=3/4.8779296875/3.955078125"
 
-    get :permalink, :code => 'wBz3--', :m => ''
+    get :permalink, :code => "wBz3--", :m => ""
     assert_response :redirect
-    assert_redirected_to :controller => :site, :action => :index, :mlat => '4.8779296875', :mlon => '3.955078125', :anchor => 'map=3/4.8779296875/3.955078125'
+    assert_redirected_to :controller => :site, :action => :index, :mlat => "4.8779296875", :mlon => "3.955078125", :anchor => "map=3/4.8779296875/3.955078125"
 
-    get :permalink, :code => 'wBz3--', :layers => 'T'
+    get :permalink, :code => "wBz3--", :layers => "T"
     assert_response :redirect
-    assert_redirected_to :controller => :site, :action => :index, :anchor => 'map=3/4.8779296875/3.955078125&layers=T'
+    assert_redirected_to :controller => :site, :action => :index, :anchor => "map=3/4.8779296875/3.955078125&layers=T"
 
-    get :permalink, :code => 'wBz3--', :node => 1
+    get :permalink, :code => "wBz3--", :node => 1
     assert_response :redirect
-    assert_redirected_to :controller => :browse, :action => :node, :id => 1, :anchor => 'map=3/4.8779296875/3.955078125'
+    assert_redirected_to :controller => :browse, :action => :node, :id => 1, :anchor => "map=3/4.8779296875/3.955078125"
 
-    get :permalink, :code => 'wBz3--', :way => 2
+    get :permalink, :code => "wBz3--", :way => 2
     assert_response :redirect
-    assert_redirected_to :controller => :browse, :action => :way, :id => 2, :anchor => 'map=3/4.8779296875/3.955078125'
+    assert_redirected_to :controller => :browse, :action => :way, :id => 2, :anchor => "map=3/4.8779296875/3.955078125"
 
-    get :permalink, :code => 'wBz3--', :relation => 3
+    get :permalink, :code => "wBz3--", :relation => 3
     assert_response :redirect
-    assert_redirected_to :controller => :browse, :action => :relation, :id => 3, :anchor => 'map=3/4.8779296875/3.955078125'
+    assert_redirected_to :controller => :browse, :action => :relation, :id => 3, :anchor => "map=3/4.8779296875/3.955078125"
 
-    get :permalink, :code => 'wBz3--', :changeset => 4
+    get :permalink, :code => "wBz3--", :changeset => 4
     assert_response :redirect
-    assert_redirected_to :controller => :browse, :action => :changeset, :id => 4, :anchor => 'map=3/4.8779296875/3.955078125'
+    assert_redirected_to :controller => :browse, :action => :changeset, :id => 4, :anchor => "map=3/4.8779296875/3.955078125"
   end
 
   # Test the key page
@@ -254,13 +254,13 @@ class SiteControllerTest < ActionController::TestCase
   # Test the edit page redirects
   def test_edit_redirect
     get :edit, :lat => 4, :lon => 5
-    assert_redirected_to :controller => :site, :action => :edit, :anchor => 'map=5/4/5'
+    assert_redirected_to :controller => :site, :action => :edit, :anchor => "map=5/4/5"
 
     get :edit, :lat => 4, :lon => 5, :zoom => 3
-    assert_redirected_to :controller => :site, :action => :edit, :anchor => 'map=3/4/5'
+    assert_redirected_to :controller => :site, :action => :edit, :anchor => "map=3/4/5"
 
-    get :edit, :lat => 4, :lon => 5, :zoom => 3, :editor => 'id'
-    assert_redirected_to :controller => :site, :action => :edit, :editor => 'id', :anchor => 'map=3/4/5'
+    get :edit, :lat => 4, :lon => 5, :zoom => 3, :editor => "id"
+    assert_redirected_to :controller => :site, :action => :edit, :editor => "id", :anchor => "map=3/4/5"
   end
 
   # Test the copyright page

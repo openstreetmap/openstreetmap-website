@@ -11,7 +11,7 @@ module GeocoderHelper
     end
 
     result.each do |key, value|
-      html_options[:data][key.to_s.tr('_', '-')] = value
+      html_options[:data][key.to_s.tr("_", "-")] = value
     end
 
     html = ""

@@ -1,5 +1,5 @@
 module ApplicationHelper
-  require 'rexml/document'
+  require "rexml/document"
 
   def linkify(text)
     if text.html_safe?

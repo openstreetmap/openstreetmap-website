@@ -12,15 +12,15 @@
 require "yaml"
 require "optparse"
 
-LOCALE_DIR = File.dirname(__FILE__) + '/../../config/locales/'
-EN = YAML.load_file(LOCALE_DIR + 'en.yml')
+LOCALE_DIR = File.dirname(__FILE__) + "/../../config/locales/"
+EN = YAML.load_file(LOCALE_DIR + "en.yml")
 
-def iterate(hash, fhash = {}, path = '', outfile = $stdout)
+def iterate(hash, fhash = {}, path = "", outfile = $stdout)
   hash.each do |key, val|
     fhash[key] = {} unless fhash.key? key
     if val.is_a? Hash
       fhash[key] = {} unless fhash[key].is_a? Hash
-      iterate(val, fhash[key], path + key + ':', outfile)
+      iterate(val, fhash[key], path + key + ":", outfile)
     else
       outfile.puts "msgctxt \"#{path}#{key}\""
       outfile.puts "msgid \"#{val}\""
@@ -31,34 +31,34 @@ end
 
 def lang2po(lang, outfile = $stdout)
   puts lang
-  infile = LOCALE_DIR + lang + '.yml'
+  infile = LOCALE_DIR + lang + ".yml"
   if File.exist? infile
     oth = YAML.load_file(infile)
     oth = oth[lang]
-    iterate(EN['en'], oth, '', outfile)
+    iterate(EN["en"], oth, "", outfile)
   else
-    iterate(EN['en'], {}, '', outfile)
+    iterate(EN["en"], {}, "", outfile)
   end
 end
 
 opt = ARGV[0]
-if opt == '--all'
+if opt == "--all"
   # Produce .po files for all langs, and a .pot template
-  PO_DIR = LOCALE_DIR + 'po/'
+  PO_DIR = LOCALE_DIR + "po/"
   Dir.mkdir(PO_DIR) unless File.directory?(PO_DIR)
   Dir.glob(LOCALE_DIR + "*.yml") do |filename|
-    lang = File.basename(filename, '.yml')
-    unless lang == 'en'
-      outfile = File.new(PO_DIR + "#{lang}.po", 'w')
+    lang = File.basename(filename, ".yml")
+    unless lang == "en"
+      outfile = File.new(PO_DIR + "#{lang}.po", "w")
       lang2po(lang, outfile)
       outfile.close
     end
   end
-  outfile = File.new(PO_DIR + "rails_port.pot", 'w')
-  iterate(EN['en'], {}, '', outfile)
+  outfile = File.new(PO_DIR + "rails_port.pot", "w")
+  iterate(EN["en"], {}, "", outfile)
   outfile.close
 elsif opt
   lang2po(opt)
 else
-  iterate(EN['en'])
+  iterate(EN["en"])
 end

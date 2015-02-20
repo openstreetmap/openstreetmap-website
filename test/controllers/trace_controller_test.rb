@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class TraceControllerTest < ActionController::TestCase
   fixtures :users, :gpx_files
@@ -173,11 +173,11 @@ class TraceControllerTest < ActionController::TestCase
   def test_list_mine
     # First try to get it when not logged in
     get :mine
-    assert_redirected_to :controller => 'user', :action => 'login', :referer => '/traces/mine'
+    assert_redirected_to :controller => "user", :action => "login", :referer => "/traces/mine"
 
     # Now try when logged in
     get :mine, {}, { :user => users(:public_user).id }
-    assert_redirected_to :controller => 'trace', :action => 'list', :display_name => users(:public_user).display_name
+    assert_redirected_to :controller => "trace", :action => "list", :display_name => users(:public_user).display_name
 
     # Fetch the actual list
     get :list, { :display_name => users(:public_user).display_name }, { :user => users(:public_user).id }

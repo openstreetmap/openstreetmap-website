@@ -1,4 +1,4 @@
-require 'osm'
+require "osm"
 
 module Redactable
   def self.included(base)

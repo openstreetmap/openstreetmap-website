@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class RefactorMapBugTables < ActiveRecord::Migration
   def self.up

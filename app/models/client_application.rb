@@ -1,4 +1,4 @@
-require 'oauth'
+require "oauth"
 
 class ClientApplication < ActiveRecord::Base
   belongs_to :user

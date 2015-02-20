@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require 'test_helper'
+require "test_helper"
 
 class MessageTest < ActiveSupport::TestCase
   api_fixtures
@@ -43,13 +43,13 @@ class MessageTest < ActiveSupport::TestCase
 
   def test_utf8_roundtrip
     (1..255).each do |i|
-      assert_message_ok('c', i)
+      assert_message_ok("c", i)
       assert_message_ok(EURO, i)
     end
   end
 
   def test_length_oversize
-    assert_raise(ActiveRecord::RecordInvalid) { make_message('c', 256).save! }
+    assert_raise(ActiveRecord::RecordInvalid) { make_message("c", 256).save! }
     assert_raise(ActiveRecord::RecordInvalid) { make_message(EURO, 256).save! }
   end
 
@@ -89,7 +89,7 @@ class MessageTest < ActiveSupport::TestCase
       to "to@example.com"
       subject "Test message"
       date Time.now
-      content_type 'text/plain; charset=utf-8'
+      content_type "text/plain; charset=utf-8"
       body "This is a test & a message"
     end
     message = Message.from_mail(mail, users(:normal_user), users(:public_user))
@@ -107,7 +107,7 @@ class MessageTest < ActiveSupport::TestCase
       to "to@example.com"
       subject "Test message"
       date Time.now
-      content_type 'text/html; charset=utf-8'
+      content_type "text/html; charset=utf-8"
       body "<p>This is a <b>test</b> &amp; a message</p>"
     end
     message = Message.from_mail(mail, users(:normal_user), users(:public_user))
@@ -127,12 +127,12 @@ class MessageTest < ActiveSupport::TestCase
       date Time.now
 
       text_part do
-        content_type 'text/plain; charset=utf-8'
+        content_type "text/plain; charset=utf-8"
         body "This is a test & a message in text format"
       end
 
       html_part do
-        content_type 'text/html; charset=utf-8'
+        content_type "text/html; charset=utf-8"
         body "<p>This is a <b>test</b> &amp; a message in HTML format</p>"
       end
     end
@@ -151,7 +151,7 @@ class MessageTest < ActiveSupport::TestCase
       date Time.now
 
       html_part do
-        content_type 'text/html; charset=utf-8'
+        content_type "text/html; charset=utf-8"
         body "<p>This is a <b>test</b> &amp; a message in HTML format</p>"
       end
     end
@@ -170,7 +170,7 @@ class MessageTest < ActiveSupport::TestCase
       to "to@example.com"
       subject "[OpenStreetMap] Test message"
       date Time.now
-      content_type 'text/plain; charset=utf-8'
+      content_type "text/plain; charset=utf-8"
       body "This is a test & a message"
     end
     message = Message.from_mail(mail, users(:normal_user), users(:public_user))

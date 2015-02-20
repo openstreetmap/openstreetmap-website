@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class UserTermsSeenTest < ActionDispatch::IntegrationTest
   fixtures :users
@@ -26,8 +26,8 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       # try to log in
       get_via_redirect "/login"
       assert_response :success
-      assert_template 'user/login'
-      post "/login", 'username' => user.email, 'password' => 'test', :referer => "/"
+      assert_template "user/login"
+      post "/login", "username" => user.email, "password" => "test", :referer => "/"
       assert_response :redirect
       # but now we need to look at the terms
       assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/"
@@ -35,7 +35,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       assert_response :success
 
       # don't agree to the terms, but hit decline
-      post "/user/save", 'decline' => 'decline', 'referer' => '/'
+      post "/user/save", "decline" => "decline", "referer" => "/"
       assert_redirected_to "/"
       follow_redirect!
 
@@ -52,8 +52,8 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       # try to log in
       get_via_redirect "/login"
       assert_response :success
-      assert_template 'user/login'
-      post "/login", 'username' => user.email, 'password' => 'test', :referer => "/"
+      assert_template "user/login"
+      post "/login", "username" => user.email, "password" => "test", :referer => "/"
       assert_response :redirect
       # but now we need to look at the terms
       assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/"

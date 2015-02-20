@@ -1,1 +1,1 @@
-require 'output_compression/output_compression'
+require "output_compression/output_compression"

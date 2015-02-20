@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class UserRolesTest < ActionDispatch::IntegrationTest
   fixtures :users, :user_roles
@@ -19,35 +19,35 @@ class UserRolesTest < ActionDispatch::IntegrationTest
   private
 
   def check_fail(action, user, role)
-    get '/login'
+    get "/login"
     assert_response :redirect
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post '/login', 'username' => users(user).email, 'password' => "test", :referer => "/"
+    post "/login", "username" => users(user).email, "password" => "test", :referer => "/"
     assert_response :redirect
     follow_redirect!
     assert_response :success
 
     post "/user/#{users(:second_public_user).display_name}/role/#{role}/#{action}"
-    assert_redirected_to :controller => 'user', :action => 'view', :display_name => users(:second_public_user).display_name
+    assert_redirected_to :controller => "user", :action => "view", :display_name => users(:second_public_user).display_name
 
     reset!
   end
 
   def check_success(action, user, role)
-    get '/login'
+    get "/login"
     assert_response :redirect
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post '/login', 'username' => users(user).email, 'password' => "test", :referer => "/"
+    post "/login", "username" => users(user).email, "password" => "test", :referer => "/"
     assert_response :redirect
     follow_redirect!
     assert_response :success
 
     post "/user/#{users(:second_public_user).display_name}/role/#{role}/#{action}"
-    assert_redirected_to :controller => 'user', :action => 'view', :display_name => users(:second_public_user).display_name
+    assert_redirected_to :controller => "user", :action => "view", :display_name => users(:second_public_user).display_name
 
     reset!
   end

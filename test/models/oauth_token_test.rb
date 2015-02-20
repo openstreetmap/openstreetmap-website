@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class OauthTokenTest < ActiveSupport::TestCase
   api_fixtures

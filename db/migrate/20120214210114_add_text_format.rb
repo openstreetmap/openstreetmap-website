@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class AddTextFormat < ActiveRecord::Migration
   def up

@@ -13,7 +13,7 @@ class UserPreferenceController < ApplicationController
 
     prefs = @user.preferences
 
-    el1 = XML::Node.new 'preferences'
+    el1 = XML::Node.new "preferences"
 
     prefs.each do |pref|
       el1 <<  pref.to_xml_node
@@ -41,7 +41,7 @@ class UserPreferenceController < ApplicationController
 
     doc = XML::Parser.string(request.raw_post).parse
 
-    doc.find('//preferences/preference').each do |pt|
+    doc.find("//preferences/preference").each do |pt|
       if preference = old_preferences.delete(pt["k"])
         preference.v = pt["v"]
       elsif new_preferences.include?(pt["k"])

@@ -129,14 +129,14 @@ class DiffReader
 
     # take the first element and check that it is an osmChange element
     @reader.read
-    fail OSM::APIBadUserInput.new("Document element should be 'osmChange'.") if @reader.name != 'osmChange'
+    fail OSM::APIBadUserInput.new("Document element should be 'osmChange'.") if @reader.name != "osmChange"
 
     result = OSM::API.new.get_xml_doc
     result.root.name = "diffResult"
 
     # loop at the top level, within the <osmChange> element
     with_element do |action_name, action_attributes|
-      if action_name == 'create'
+      if action_name == "create"
         # create a new element. this code is agnostic of the element type
         # because all the elements support the methods that we're using.
         with_model do |model, xml|
@@ -145,7 +145,7 @@ class DiffReader
 
           # when this element is saved it will get a new ID, so we save it
           # to produce the mapping which is sent to other elements.
-          placeholder_id = xml['id'].to_i
+          placeholder_id = xml["id"].to_i
           fail OSM::APIBadXMLError.new(model, xml) if placeholder_id.nil?
 
           # check if the placeholder ID has been given before and throw
@@ -171,7 +171,7 @@ class DiffReader
           result.root << xml_result
         end
 
-      elsif action_name == 'modify'
+      elsif action_name == "modify"
         # modify an existing element. again, this code doesn't directly deal
         # with types, but uses duck typing to handle them transparently.
         with_model do |model, xml|
@@ -203,13 +203,13 @@ class DiffReader
           result.root << xml_result
         end
 
-      elsif action_name == 'delete'
+      elsif action_name == "delete"
         # delete action. this takes a payload in API 0.6, so we need to do
         # most of the same checks that are done for the modify.
         with_model do |model, xml|
           # delete doesn't have to contain a full payload, according to
           # the wiki docs, so we just extract the things we need.
-          new_id = xml['id'].to_i
+          new_id = xml["id"].to_i
           fail OSM::APIBadXMLError.new(model, xml, "ID attribute is required") if new_id.nil?
 
           # if the ID is a placeholder then map it to the real ID
@@ -219,8 +219,8 @@ class DiffReader
 
           # build the "new" element by modifying the existing one
           new = model.find(id)
-          new.changeset_id = xml['changeset'].to_i
-          new.version = xml['version'].to_i
+          new.changeset_id = xml["changeset"].to_i
+          new.version = xml["version"].to_i
           check(model, xml, new)
 
           # fetch the matching old element from the DB

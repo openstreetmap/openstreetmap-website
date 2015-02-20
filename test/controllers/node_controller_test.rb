@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class NodeControllerTest < ActionController::TestCase
   api_fixtures
@@ -39,7 +39,7 @@ class NodeControllerTest < ActionController::TestCase
     changeset = changesets(:normal_user_first_change)
     # create a minimal xml file
     content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
-    assert_difference('OldNode.count', 0) do
+    assert_difference("OldNode.count", 0) do
       put :create
     end
     # hope for unauthorized
@@ -55,7 +55,7 @@ class NodeControllerTest < ActionController::TestCase
     changeset = changesets(:normal_user_first_change)
     # create a minimal xml file
     content("<osm><node lat='#{lat}' lon='#{lon}' changeset='#{changeset.id}'/></osm>")
-    assert_difference('Node.count', 0) do
+    assert_difference("Node.count", 0) do
       put :create
     end
     # hope for success
@@ -298,19 +298,19 @@ class NodeControllerTest < ActionController::TestCase
     assert_require_public_data("update with changeset=0 should be forbidden, when data isn't public")
 
     ## try and submit invalid updates
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lat', 91.0)
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lat", 91.0)
     put :update, :id => current_nodes(:visible_node).id
     assert_require_public_data "node at lat=91 should be forbidden, when data isn't public"
 
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lat', -91.0)
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lat", -91.0)
     put :update, :id => current_nodes(:visible_node).id
     assert_require_public_data "node at lat=-91 should be forbidden, when data isn't public"
 
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lon', 181.0)
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lon", 181.0)
     put :update, :id => current_nodes(:visible_node).id
     assert_require_public_data "node at lon=181 should be forbidden, when data isn't public"
 
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lon', -181.0)
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lon", -181.0)
     put :update, :id => current_nodes(:visible_node).id
     assert_require_public_data "node at lon=-181 should be forbidden, when data isn't public"
 
@@ -350,19 +350,19 @@ class NodeControllerTest < ActionController::TestCase
     assert_response :conflict, "update with changeset=0 should be rejected"
 
     ## try and submit invalid updates
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lat', 91.0)
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lat", 91.0)
     put :update, :id => current_nodes(:visible_node).id
     assert_response :bad_request, "node at lat=91 should be rejected"
 
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lat', -91.0)
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lat", -91.0)
     put :update, :id => current_nodes(:visible_node).id
     assert_response :bad_request, "node at lat=-91 should be rejected"
 
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lon', 181.0)
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lon", 181.0)
     put :update, :id => current_nodes(:visible_node).id
     assert_response :bad_request, "node at lon=181 should be rejected"
 
-    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, 'lon', -181.0)
+    content xml_attr_rewrite(current_nodes(:visible_node).to_xml, "lon", -181.0)
     put :update, :id => current_nodes(:visible_node).id
     assert_response :bad_request, "node at lon=-181 should be rejected"
 
@@ -371,19 +371,19 @@ class NodeControllerTest < ActionController::TestCase
 
     # try and submit a version behind
     content xml_attr_rewrite(current_nodes(:visible_node).to_xml,
-                             'version', current_node_version - 1)
+                             "version", current_node_version - 1)
     put :update, :id => current_nodes(:visible_node).id
     assert_response :conflict, "should have failed on old version number"
 
     # try and submit a version ahead
     content xml_attr_rewrite(current_nodes(:visible_node).to_xml,
-                             'version', current_node_version + 1)
+                             "version", current_node_version + 1)
     put :update, :id => current_nodes(:visible_node).id
     assert_response :conflict, "should have failed on skipped version number"
 
     # try and submit total crap in the version field
     content xml_attr_rewrite(current_nodes(:visible_node).to_xml,
-                             'version', 'p1r4t3s!')
+                             "version", "p1r4t3s!")
     put :update, :id => current_nodes(:visible_node).id
     assert_response :conflict,
                     "should not be able to put 'p1r4at3s!' in the version field"
@@ -442,8 +442,8 @@ class NodeControllerTest < ActionController::TestCase
 
     # add an identical tag to the node
     tag_xml = XML::Node.new("tag")
-    tag_xml['k'] = current_node_tags(:public_v_t1).k
-    tag_xml['v'] = current_node_tags(:public_v_t1).v
+    tag_xml["k"] = current_node_tags(:public_v_t1).k
+    tag_xml["v"] = current_node_tags(:public_v_t1).v
 
     # add the tag into the existing xml
     node_xml = current_nodes(:public_visible_node).to_xml
@@ -467,7 +467,7 @@ class NodeControllerTest < ActionController::TestCase
     # use unquoted and therefore allow code injection...
     content "<osm><node lat='0' lon='0' changeset='#{changeset_id}'>" +
       '<tag k="#{@user.inspect}" v="0"/>' +
-      '</node></osm>'
+      "</node></osm>"
     put :create
     assert_require_public_data "Shouldn't be able to create with non-public user"
 
@@ -479,7 +479,7 @@ class NodeControllerTest < ActionController::TestCase
     # use unquoted and therefore allow code injection...
     content "<osm><node lat='0' lon='0' changeset='#{changeset_id}'>" +
       '<tag k="#{@user.inspect}" v="0"/>' +
-      '</node></osm>'
+      "</node></osm>"
     put :create
     assert_response :success
     nodeid = @response.body
@@ -496,7 +496,7 @@ class NodeControllerTest < ActionController::TestCase
 
     # check the tags are not corrupted
     assert_equal checknode.tags, apinode.tags
-    assert apinode.tags.include?('#{@user.inspect}')
+    assert apinode.tags.include?("\#{@user.inspect}")
   end
 
   def basic_authorization(user, pass)
@@ -510,7 +510,7 @@ class NodeControllerTest < ActionController::TestCase
   ##
   # update the changeset_id of a node element
   def update_changeset(xml, changeset_id)
-    xml_attr_rewrite(xml, 'changeset', changeset_id)
+    xml_attr_rewrite(xml, "changeset", changeset_id)
   end
 
   ##

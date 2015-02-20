@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
       # don't allow access to any auth-requiring part of the site unless
       # the new CTs have been seen (and accept/decline chosen).
       elsif !@user.terms_seen && flash[:skip_terms].nil?
-        flash[:notice] = t 'user.terms.you need to accept or decline'
+        flash[:notice] = t "user.terms.you need to accept or decline"
         if params[:referer]
           redirect_to :controller => "user", :action => "terms", :referer => params[:referer]
         else
@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   def require_user
     unless @user
       if request.get?
-        redirect_to :controller => 'user', :action => 'login', :referer => request.fullpath
+        redirect_to :controller => "user", :action => "login", :referer => request.fullpath
       else
         render :text => "", :status => :forbidden
       end
@@ -76,7 +76,7 @@ class ApplicationController < ActionController::Base
         redirect_to Hash[params].merge(:cookie_test => "true")
         return false
       else
-        flash.now[:warning] = t 'application.require_cookies.cookies_needed'
+        flash.now[:warning] = t "application.require_cookies.cookies_needed"
       end
     else
       session.delete(:cookie_test)
@@ -123,8 +123,8 @@ class ApplicationController < ActionController::Base
   def require_moderator
     unless @user.moderator?
       if request.get?
-        flash[:error] = t('application.require_moderator.not_a_moderator')
-        redirect_to :action => 'index'
+        flash[:error] = t("application.require_moderator.not_a_moderator")
+        redirect_to :action => "index"
       else
         render :text => "", :status => :forbidden
       end
@@ -142,7 +142,7 @@ class ApplicationController < ActionController::Base
       # authenticate per-scheme
       if username.nil?
         @user = nil # no authentication provided - perhaps first connect (client should retry after 401)
-      elsif username == 'token'
+      elsif username == "token"
         @user = User.authenticate(:token => passwd) # preferred - random token for user from db, passed in basic auth
       else
         @user = User.authenticate(:username => username, :password => passwd) # basic auth
@@ -154,7 +154,7 @@ class ApplicationController < ActionController::Base
       # check if the user has been banned
       if @user.blocks.active.exists?
         # NOTE: need slightly more helpful message than this.
-        report_error t('application.setup_user_auth.blocked'), :forbidden
+        report_error t("application.setup_user_auth.blocked"), :forbidden
       end
 
       # if the user hasn't seen the contributor terms then don't
@@ -162,12 +162,12 @@ class ApplicationController < ActionController::Base
       # (but can decline) the CTs to continue.
       if REQUIRE_TERMS_SEEN && !@user.terms_seen && flash[:skip_terms].nil?
         set_locale
-        report_error t('application.setup_user_auth.need_to_see_terms'), :forbidden
+        report_error t("application.setup_user_auth.need_to_see_terms"), :forbidden
       end
     end
   end
 
-  def authorize(realm = 'Web Password', errormessage = "Couldn't authenticate you")
+  def authorize(realm = "Web Password", errormessage = "Couldn't authenticate you")
     # make the @user object from any auth sources we have
     setup_user_auth
 
@@ -201,7 +201,7 @@ class ApplicationController < ActionController::Base
       if request.xhr?
         report_error "Database offline for maintenance", :service_unavailable
       else
-        redirect_to :controller => 'site', :action => 'offline'
+        redirect_to :controller => "site", :action => "offline"
       end
     end
   end
@@ -212,7 +212,7 @@ class ApplicationController < ActionController::Base
       if request.xhr?
         report_error "Database offline for maintenance", :service_unavailable
       else
-        redirect_to :controller => 'site', :action => 'offline'
+        redirect_to :controller => "site", :action => "offline"
       end
     end
   end
@@ -273,10 +273,10 @@ class ApplicationController < ActionController::Base
   #  message. For now, rails won't let us)
   def report_error(message, status = :bad_request)
     # Todo: some sort of escaping of problem characters in the message
-    response.headers['Error'] = message
+    response.headers["Error"] = message
 
-    if request.headers['X-Error-Format'] &&
-       request.headers['X-Error-Format'].downcase == "xml"
+    if request.headers["X-Error-Format"] &&
+       request.headers["X-Error-Format"].downcase == "xml"
       result = OSM::API.new.get_xml_doc
       result.root.name = "osmError"
       result.root << (XML::Node.new("status") << "#{Rack::Utils.status_code(status)} #{Rack::Utils::HTTP_STATUS_CODES[status]}")
@@ -289,11 +289,11 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    response.header['Vary'] = 'Accept-Language'
+    response.header["Vary"] = "Accept-Language"
 
     if @user && !@user.languages.empty?
       http_accept_language.user_preferred_languages = @user.languages
-      response.header['Vary'] = '*'
+      response.header["Vary"] = "*"
     end
 
     I18n.locale = select_locale
@@ -303,7 +303,7 @@ class ApplicationController < ActionController::Base
       @user.save
     end
 
-    response.headers['Content-Language'] = I18n.locale.to_s
+    response.headers["Content-Language"] = I18n.locale.to_s
   end
 
   def select_locale(locales = I18n.available_locales)
@@ -429,7 +429,7 @@ class ApplicationController < ActionController::Base
   end
 
   def map_layout
-    request.xhr? ? 'xhr' : 'map'
+    request.xhr? ? "xhr" : "map"
   end
 
   def preferred_editor
@@ -441,8 +441,8 @@ class ApplicationController < ActionController::Base
                DEFAULT_EDITOR
              end
 
-    if request.env['HTTP_USER_AGENT'] =~ /MSIE|Trident/ && editor == 'id'
-      editor = 'potlatch2'
+    if request.env["HTTP_USER_AGENT"] =~ /MSIE|Trident/ && editor == "id"
+      editor = "potlatch2"
     end
 
     editor
@@ -454,16 +454,16 @@ class ApplicationController < ActionController::Base
 
   # extract authorisation credentials from headers, returns user = nil if none
   def get_auth_data
-    if request.env.key? 'X-HTTP_AUTHORIZATION'          # where mod_rewrite might have put it
-      authdata = request.env['X-HTTP_AUTHORIZATION'].to_s.split
-    elsif request.env.key? 'REDIRECT_X_HTTP_AUTHORIZATION'          # mod_fcgi
-      authdata = request.env['REDIRECT_X_HTTP_AUTHORIZATION'].to_s.split
-    elsif request.env.key? 'HTTP_AUTHORIZATION'         # regular location
-      authdata = request.env['HTTP_AUTHORIZATION'].to_s.split
+    if request.env.key? "X-HTTP_AUTHORIZATION"          # where mod_rewrite might have put it
+      authdata = request.env["X-HTTP_AUTHORIZATION"].to_s.split
+    elsif request.env.key? "REDIRECT_X_HTTP_AUTHORIZATION"          # mod_fcgi
+      authdata = request.env["REDIRECT_X_HTTP_AUTHORIZATION"].to_s.split
+    elsif request.env.key? "HTTP_AUTHORIZATION"         # regular location
+      authdata = request.env["HTTP_AUTHORIZATION"].to_s.split
     end
     # only basic authentication supported
-    if authdata && authdata[0] == 'Basic'
-      user, pass = Base64.decode64(authdata[1]).split(':', 2)
+    if authdata && authdata[0] == "Basic"
+      user, pass = Base64.decode64(authdata[1]).split(":", 2)
     end
     [user, pass]
   end

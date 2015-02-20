@@ -8,7 +8,7 @@ module ShortLink
   # array of 64 chars to encode 6 bits. this is almost like base64 encoding, but
   # the symbolic chars are different, as base64's + and / aren't very
   # URL-friendly.
-  ARRAY = ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a + ['_', '~']
+  ARRAY = ("A".."Z").to_a + ("a".."z").to_a + ("0".."9").to_a + ["_", "~"]
 
   ##
   # Given a string encoding a location, returns the [lon, lat, z] tuple of that

@@ -1,8 +1,8 @@
 # The ChangesetController is the RESTful interface to Changeset objects
 
 class ChangesetController < ApplicationController
-  layout 'site'
-  require 'xml/libxml'
+  layout "site"
+  require "xml/libxml"
 
   skip_before_filter :verify_authenticity_token, :except => [:list]
   before_filter :authorize_web, :only => [:list, :feed, :comments_feed]
@@ -85,8 +85,8 @@ class ChangesetController < ApplicationController
     # abuse, maybe should change to some other format?
     doc = XML::Parser.string(request.raw_post).parse
     doc.find("//osm/node").each do |n|
-      lon << n['lon'].to_f * GeoRecord::SCALE
-      lat << n['lat'].to_f * GeoRecord::SCALE
+      lon << n["lon"].to_f * GeoRecord::SCALE
+      lat << n["lat"].to_f * GeoRecord::SCALE
     end
 
     # add the existing bounding box to the lon-lat array
@@ -204,17 +204,17 @@ class ChangesetController < ApplicationController
   # query changesets by bounding box, time, user or open/closed status.
   def query
     # find any bounding box
-    bbox = BoundingBox.from_bbox_params(params) if params['bbox']
+    bbox = BoundingBox.from_bbox_params(params) if params["bbox"]
 
     # create the conditions that the user asked for. some or all of
     # these may be nil.
     changesets = Changeset.all
     changesets = conditions_bbox(changesets, bbox)
-    changesets = conditions_user(changesets, params['user'], params['display_name'])
-    changesets = conditions_time(changesets, params['time'])
-    changesets = conditions_open(changesets, params['open'])
-    changesets = conditions_closed(changesets, params['closed'])
-    changesets = conditions_ids(changesets, params['changesets'])
+    changesets = conditions_user(changesets, params["user"], params["display_name"])
+    changesets = conditions_time(changesets, params["time"])
+    changesets = conditions_open(changesets, params["open"])
+    changesets = conditions_closed(changesets, params["closed"])
+    changesets = conditions_ids(changesets, params["changesets"])
 
     # create the results document
     results = OSM::API.new.get_xml_doc
@@ -509,7 +509,7 @@ class ChangesetController < ApplicationController
     else
       # if there is a range, i.e: comma separated, then the first is
       # low, second is high - same as with bounding boxes.
-      if time.count(',') == 1
+      if time.count(",") == 1
         # check that we actually have 2 elements in the array
         times = time.split(/,/)
         fail OSM::APIBadUserInput.new("bad time range") if times.size != 2
@@ -564,7 +564,7 @@ class ChangesetController < ApplicationController
     elsif ids.empty?
       fail OSM::APIBadUserInput.new("No changesets were given to search for")
     else
-      ids = ids.split(',').collect(&:to_i)
+      ids = ids.split(",").collect(&:to_i)
       return changesets.where(:id => ids)
     end
   end

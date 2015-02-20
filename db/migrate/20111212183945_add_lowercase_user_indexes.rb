@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class AddLowercaseUserIndexes < ActiveRecord::Migration
   def up

@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class DropSessionTable < ActiveRecord::Migration
   def up

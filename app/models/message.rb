@@ -1,4 +1,4 @@
-require 'validators'
+require "validators"
 
 class Message < ActiveRecord::Base
   belongs_to :sender, :class_name => "User", :foreign_key => :from_user_id

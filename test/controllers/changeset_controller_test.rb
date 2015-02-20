@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'changeset_controller'
+require "test_helper"
+require "changeset_controller"
 
 class ChangesetControllerTest < ActionController::TestCase
   api_fixtures
@@ -464,7 +464,7 @@ EOF
     changeset_id = changesets(:public_user_first_change).id
     %w(node way relation).each do |type|
       delete.find("//osmChange/delete/#{type}").each do |n|
-        n['changeset'] = changeset_id.to_s
+        n["changeset"] = changeset_id.to_s
       end
     end
 
@@ -517,7 +517,7 @@ EOF
       content "<osm><changeset>" +
         "<tag k='created_by' v='osm test suite checking changesets'/>" +
         "</changeset></osm>"
-      assert_difference('Changeset.count', 1) do
+      assert_difference("Changeset.count", 1) do
         put :create
       end
       assert_response :success
@@ -726,7 +726,7 @@ EOF
     assert_equal 2, Node.find(new_node_id).tags.size, "new node should have two tags"
     assert_equal [new_node_id, 3], Way.find(1).nds, "way nodes should match"
     Relation.find(1).members.each do |type, id, _role|
-      if type == 'node'
+      if type == "node"
         assert_equal new_node_id, id, "relation should contain new node"
       end
     end
@@ -1544,39 +1544,39 @@ EOF
     assert_response :success, "can't get changesets by user and open"
     assert_changesets [1]
 
-    get :query, :time => '2007-12-31'
+    get :query, :time => "2007-12-31"
     assert_response :success, "can't get changesets by time-since"
     assert_changesets [1, 2, 4, 5, 6]
 
-    get :query, :time => '2008-01-01T12:34Z'
+    get :query, :time => "2008-01-01T12:34Z"
     assert_response :success, "can't get changesets by time-since with hour"
     assert_changesets [1, 2, 4, 5, 6]
 
-    get :query, :time => '2007-12-31T23:59Z,2008-01-01T00:01Z'
+    get :query, :time => "2007-12-31T23:59Z,2008-01-01T00:01Z"
     assert_response :success, "can't get changesets by time-range"
     assert_changesets [1, 5, 6]
 
-    get :query, :open => 'true'
+    get :query, :open => "true"
     assert_response :success, "can't get changesets by open-ness"
     assert_changesets [1, 2, 4]
 
-    get :query, :closed => 'true'
+    get :query, :closed => "true"
     assert_response :success, "can't get changesets by closed-ness"
     assert_changesets [3, 5, 6, 7, 8]
 
-    get :query, :closed => 'true', :user => users(:normal_user).id
+    get :query, :closed => "true", :user => users(:normal_user).id
     assert_response :success, "can't get changesets by closed-ness and user"
     assert_changesets [3, 6, 8]
 
-    get :query, :closed => 'true', :user => users(:public_user).id
+    get :query, :closed => "true", :user => users(:public_user).id
     assert_response :success, "can't get changesets by closed-ness and user"
     assert_changesets [7]
 
-    get :query, :changesets => '1,2,3'
+    get :query, :changesets => "1,2,3"
     assert_response :success, "can't get changesets by id (as comma-separated string)"
     assert_changesets [1, 2, 3]
 
-    get :query, :changesets => ''
+    get :query, :changesets => ""
     assert_response :bad_request, "should be a bad request since changesets is empty"
   end
 
@@ -1619,8 +1619,8 @@ EOF
     changeset = changesets(:normal_user_first_change)
     new_changeset = changeset.to_xml
     new_tag = XML::Node.new "tag"
-    new_tag['k'] = "tagtesting"
-    new_tag['v'] = "valuetesting"
+    new_tag["k"] = "tagtesting"
+    new_tag["v"] = "valuetesting"
     new_changeset.find("//osm/changeset").first << new_tag
     content new_changeset
 
@@ -1642,8 +1642,8 @@ EOF
     changeset = changesets(:public_user_first_change)
     new_changeset = changeset.to_xml
     new_tag = XML::Node.new "tag"
-    new_tag['k'] = "tagtesting"
-    new_tag['v'] = "valuetesting"
+    new_tag["k"] = "tagtesting"
+    new_tag["v"] = "valuetesting"
     new_changeset.find("//osm/changeset").first << new_tag
     content new_changeset
 
@@ -1676,8 +1676,8 @@ EOF
     changeset = changesets(:normal_user_first_change)
     new_changeset = changeset.to_xml
     new_tag = XML::Node.new "tag"
-    new_tag['k'] = "testing"
-    new_tag['v'] = "testing"
+    new_tag["k"] = "testing"
+    new_tag["v"] = "testing"
     new_changeset.find("//osm/changeset").first << new_tag
 
     content new_changeset
@@ -1719,9 +1719,9 @@ EOF
 
       # loop until we fill the changeset with nodes
       offset.times do |i|
-        node_xml['lat'] = rand.to_s
-        node_xml['lon'] = rand.to_s
-        node_xml['version'] = (i + 1).to_s
+        node_xml["lat"] = rand.to_s
+        node_xml["lon"] = rand.to_s
+        node_xml["version"] = (i + 1).to_s
 
         content node_doc
         put :update, :id => node_id
@@ -1729,9 +1729,9 @@ EOF
       end
 
       # trying again should fail
-      node_xml['lat'] = rand.to_s
-      node_xml['lon'] = rand.to_s
-      node_xml['version'] = offset.to_s
+      node_xml["lat"] = rand.to_s
+      node_xml["lon"] = rand.to_s
+      node_xml["version"] = offset.to_s
 
       content node_doc
       put :update, :id => node_id
@@ -1756,7 +1756,7 @@ EOF
     assert_template :layout => "map"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get :list, :format => "html", :list => '1', :bbox => '-180,-90,90,180'
+    get :list, :format => "html", :list => "1", :bbox => "-180,-90,90,180"
     assert_response :success
     assert_template "list"
 
@@ -1782,7 +1782,7 @@ EOF
     assert_template :layout => "xhr"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get :list, :format => "html", :list => '1', :bbox => '-180,-90,90,180'
+    get :list, :format => "html", :list => "1", :bbox => "-180,-90,90,180"
     assert_response :success
     assert_template "list"
 
@@ -1814,7 +1814,7 @@ EOF
   def test_list_user_not_found
     get :list, :format => "html", :display_name => "Some random user"
     assert_response :not_found
-    assert_template 'user/no_such_user'
+    assert_template "user/no_such_user"
   end
 
   ##
@@ -1870,10 +1870,10 @@ EOF
   ##
   # create comment success
   def test_create_comment_success
-    basic_authorization(users(:public_user).email, 'test')
+    basic_authorization(users(:public_user).email, "test")
 
-    assert_difference('ChangesetComment.count') do
-      post :comment, :id => changesets(:normal_user_closed_change).id, :text => 'This is a comment'
+    assert_difference("ChangesetComment.count") do
+      post :comment, :id => changesets(:normal_user_closed_change).id, :text => "This is a comment"
     end
     assert_response :success
   end
@@ -1882,32 +1882,32 @@ EOF
   # create comment fail
   def test_create_comment_fail
     # unauthorized
-    post :comment, :id => changesets(:normal_user_closed_change).id, :text => 'This is a comment'
+    post :comment, :id => changesets(:normal_user_closed_change).id, :text => "This is a comment"
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, 'test')
+    basic_authorization(users(:public_user).email, "test")
 
     # bad changeset id
-    assert_no_difference('ChangesetComment.count') do
-      post :comment, :id => 999111, :text => 'This is a comment'
+    assert_no_difference("ChangesetComment.count") do
+      post :comment, :id => 999111, :text => "This is a comment"
     end
     assert_response :not_found
 
     # not closed changeset
-    assert_no_difference('ChangesetComment.count') do
-      post :comment, :id => changesets(:normal_user_first_change).id, :text => 'This is a comment'
+    assert_no_difference("ChangesetComment.count") do
+      post :comment, :id => changesets(:normal_user_first_change).id, :text => "This is a comment"
     end
     assert_response :conflict
 
     # no text
-    assert_no_difference('ChangesetComment.count') do
+    assert_no_difference("ChangesetComment.count") do
       post :comment, :id => changesets(:normal_user_closed_change).id
     end
     assert_response :bad_request
 
     # empty text
-    assert_no_difference('ChangesetComment.count') do
-      post :comment, :id => changesets(:normal_user_closed_change).id, :text => ''
+    assert_no_difference("ChangesetComment.count") do
+      post :comment, :id => changesets(:normal_user_closed_change).id, :text => ""
     end
     assert_response :bad_request
   end
@@ -1915,10 +1915,10 @@ EOF
   ##
   # test subscribe success
   def test_subscribe_success
-    basic_authorization(users(:public_user).email, 'test')
+    basic_authorization(users(:public_user).email, "test")
     changeset = changesets(:normal_user_closed_change)
 
-    assert_difference('changeset.subscribers.count') do
+    assert_difference("changeset.subscribers.count") do
       post :subscribe, :id => changeset.id
     end
     assert_response :success
@@ -1929,29 +1929,29 @@ EOF
   def test_subscribe_fail
     # unauthorized
     changeset = changesets(:normal_user_closed_change)
-    assert_no_difference('changeset.subscribers.count') do
+    assert_no_difference("changeset.subscribers.count") do
       post :subscribe, :id => changeset.id
     end
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, 'test')
+    basic_authorization(users(:public_user).email, "test")
 
     # bad changeset id
-    assert_no_difference('changeset.subscribers.count') do
+    assert_no_difference("changeset.subscribers.count") do
       post :subscribe, :id => 999111
     end
     assert_response :not_found
 
     # not closed changeset
     changeset = changesets(:normal_user_first_change)
-    assert_no_difference('changeset.subscribers.count') do
+    assert_no_difference("changeset.subscribers.count") do
       post :subscribe, :id => changeset.id
     end
     assert_response :conflict
 
     # trying to subscribe when already subscribed
     changeset = changesets(:normal_user_subscribed_change)
-    assert_no_difference('changeset.subscribers.count') do
+    assert_no_difference("changeset.subscribers.count") do
       post :subscribe, :id => changeset.id
     end
     assert_response :conflict
@@ -1960,10 +1960,10 @@ EOF
   ##
   # test unsubscribe success
   def test_unsubscribe_success
-    basic_authorization(users(:public_user).email, 'test')
+    basic_authorization(users(:public_user).email, "test")
     changeset = changesets(:normal_user_subscribed_change)
 
-    assert_difference('changeset.subscribers.count', -1) do
+    assert_difference("changeset.subscribers.count", -1) do
       post :unsubscribe, :id => changeset.id
     end
     assert_response :success
@@ -1974,29 +1974,29 @@ EOF
   def test_unsubscribe_fail
     # unauthorized
     changeset = changesets(:normal_user_closed_change)
-    assert_no_difference('changeset.subscribers.count') do
+    assert_no_difference("changeset.subscribers.count") do
       post :unsubscribe, :id => changeset.id
     end
     assert_response :unauthorized
 
-    basic_authorization(users(:public_user).email, 'test')
+    basic_authorization(users(:public_user).email, "test")
 
     # bad changeset id
-    assert_no_difference('changeset.subscribers.count', -1) do
+    assert_no_difference("changeset.subscribers.count", -1) do
       post :unsubscribe, :id => 999111
     end
     assert_response :not_found
 
     # not closed changeset
     changeset = changesets(:normal_user_first_change)
-    assert_no_difference('changeset.subscribers.count', -1) do
+    assert_no_difference("changeset.subscribers.count", -1) do
       post :unsubscribe, :id => changeset.id
     end
     assert_response :conflict
 
     # trying to unsubscribe when not subscribed
     changeset = changesets(:normal_user_closed_change)
-    assert_no_difference('changeset.subscribers.count') do
+    assert_no_difference("changeset.subscribers.count") do
       post :unsubscribe, :id => changeset.id
     end
     assert_response :not_found
@@ -2007,20 +2007,20 @@ EOF
   def test_hide_comment_fail
     # unauthorized
     comment = changeset_comments(:normal_comment_1)
-    assert('comment.visible') do
+    assert("comment.visible") do
       post :hide_comment, :id => comment.id
       assert_response :unauthorized
     end
 
-    basic_authorization(users(:public_user).email, 'test')
+    basic_authorization(users(:public_user).email, "test")
 
     # not a moderator
-    assert('comment.visible') do
+    assert("comment.visible") do
       post :hide_comment, :id => comment.id
       assert_response :forbidden
     end
 
-    basic_authorization(users(:moderator_user).email, 'test')
+    basic_authorization(users(:moderator_user).email, "test")
 
     # bad comment id
     post :hide_comment, :id => 999111
@@ -2032,9 +2032,9 @@ EOF
   def test_hide_comment_success
     comment = changeset_comments(:normal_comment_1)
 
-    basic_authorization(users(:moderator_user).email, 'test')
+    basic_authorization(users(:moderator_user).email, "test")
 
-    assert('!comment.visible') do
+    assert("!comment.visible") do
       post :hide_comment, :id => comment.id
     end
     assert_response :success
@@ -2045,20 +2045,20 @@ EOF
   def test_unhide_comment_fail
     # unauthorized
     comment = changeset_comments(:normal_comment_1)
-    assert('comment.visible') do
+    assert("comment.visible") do
       post :unhide_comment, :id => comment.id
       assert_response :unauthorized
     end
 
-    basic_authorization(users(:public_user).email, 'test')
+    basic_authorization(users(:public_user).email, "test")
 
     # not a moderator
-    assert('comment.visible') do
+    assert("comment.visible") do
       post :unhide_comment, :id => comment.id
       assert_response :forbidden
     end
 
-    basic_authorization(users(:moderator_user).email, 'test')
+    basic_authorization(users(:moderator_user).email, "test")
 
     # bad comment id
     post :unhide_comment, :id => 999111
@@ -2070,9 +2070,9 @@ EOF
   def test_unhide_comment_success
     comment = changeset_comments(:normal_comment_1)
 
-    basic_authorization(users(:moderator_user).email, 'test')
+    basic_authorization(users(:moderator_user).email, "test")
 
-    assert('!comment.visible') do
+    assert("!comment.visible") do
       post :unhide_comment, :id => comment.id
     end
     assert_response :success
@@ -2128,16 +2128,16 @@ EOF
     # check the bbox
     doc = XML::Parser.string(@response.body).parse
     changeset = doc.find("//osm/changeset").first
-    assert_equal bbox[0], changeset['min_lon'].to_f, "min lon"
-    assert_equal bbox[1], changeset['min_lat'].to_f, "min lat"
-    assert_equal bbox[2], changeset['max_lon'].to_f, "max lon"
-    assert_equal bbox[3], changeset['max_lat'].to_f, "max lat"
+    assert_equal bbox[0], changeset["min_lon"].to_f, "min lon"
+    assert_equal bbox[1], changeset["min_lat"].to_f, "min lat"
+    assert_equal bbox[2], changeset["max_lon"].to_f, "max lon"
+    assert_equal bbox[3], changeset["max_lat"].to_f, "max lat"
   end
 
   ##
   # update the changeset_id of a way element
   def update_changeset(xml, changeset_id)
-    xml_attr_rewrite(xml, 'changeset', changeset_id)
+    xml_attr_rewrite(xml, "changeset", changeset_id)
   end
 
   ##

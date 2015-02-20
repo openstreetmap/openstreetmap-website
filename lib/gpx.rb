@@ -52,21 +52,21 @@ module GPX
       proj = OSM::Mercator.new(min_lat, min_lon, max_lat, max_lon, width, height)
 
       linegc = Magick::Draw.new
-      linegc.stroke_linejoin('miter')
+      linegc.stroke_linejoin("miter")
       linegc.stroke_width(1)
-      linegc.stroke('#BBBBBB')
-      linegc.fill('#BBBBBB')
+      linegc.stroke("#BBBBBB")
+      linegc.fill("#BBBBBB")
 
       highlightgc = Magick::Draw.new
-      highlightgc.stroke_linejoin('miter')
+      highlightgc.stroke_linejoin("miter")
       highlightgc.stroke_width(3)
-      highlightgc.stroke('#000000')
-      highlightgc.fill('#000000')
+      highlightgc.stroke("#000000")
+      highlightgc.fill("#000000")
 
       images = frames.times.collect do
         Magick::Image.new(width, height) do |image|
-          image.background_color = 'white'
-          image.format = 'GIF'
+          image.background_color = "white"
+          image.format = "GIF"
         end
       end
 
@@ -107,7 +107,7 @@ module GPX
       end
 
       il.delay = 50
-      il.format = 'GIF'
+      il.format = "GIF"
 
       il.to_blob
     end
@@ -118,14 +118,14 @@ module GPX
       proj = OSM::Mercator.new(min_lat, min_lon, max_lat, max_lon, width, height)
 
       gc = Magick::Draw.new
-      gc.stroke_linejoin('miter')
+      gc.stroke_linejoin("miter")
       gc.stroke_width(1)
-      gc.stroke('#000000')
-      gc.fill('#000000')
+      gc.stroke("#000000")
+      gc.fill("#000000")
 
       image = Magick::Image.new(width, height) do |i|
-        i.background_color = 'white'
-        i.format = 'GIF'
+        i.background_color = "white"
+        i.format = "GIF"
       end
 
       oldpx = 0.0

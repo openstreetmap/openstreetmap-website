@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class PopulateNodeTagsAndRemove < ActiveRecord::Migration
   def self.up
@@ -10,7 +10,7 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration
       cmd = "db/migrate/020_populate_node_tags_and_remove_helper"
       src = "#{cmd}.c"
       if !File.exist?(cmd) || File.mtime(cmd) < File.mtime(src)
-        system('cc -O3 -Wall `mysql_config --cflags --libs` ' +
+        system("cc -O3 -Wall `mysql_config --cflags --libs` " +
           "#{src} -o #{cmd}") || fail
       end
 

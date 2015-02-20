@@ -13,8 +13,8 @@
 # end
 
 begin
-  require 'zlib'
-  require 'stringio'
+  require "zlib"
+  require "stringio"
   GZIP_SUPPORTED = true
 rescue
   GZIP_SUPPORTED = false
@@ -34,13 +34,13 @@ module CompressionSystem
     if output.length < response.body.length
       @old_response_body = response.body
       response.body = output.string
-      response.headers['Content-encoding'] = @compression_encoding
+      response.headers["Content-encoding"] = @compression_encoding
     end
   end
 
   def accepts_gzip?
     return false unless GZIP_SUPPORTED
-    accepts = request.env['HTTP_ACCEPT_ENCODING']
+    accepts = request.env["HTTP_ACCEPT_ENCODING"]
     return false unless accepts && accepts =~ /(x-gzip|gzip)/
     @compression_encoding = $1
     true
@@ -49,15 +49,15 @@ module CompressionSystem
   def strip_whitespace
     response.body.gsub!(/()|(.*?<\/script>)|()|()|\s+/m) do |m|
       if m =~ /^()(.*?)<\/script>$/m
-        $1 + $2.strip.gsub(/\s+/, ' ').gsub('', "\n-->") + ''
+        $1 + $2.strip.gsub(/\s+/, " ").gsub("", "\n-->") + ""
       elsif m =~ /^$/m
-        ''
+        ""
       elsif m =~ /^<(textarea|pre)/
         m
-      else ' '
+      else " "
       end
     end
-    response.body.gsub! /\s+\s+/, '>'
+    response.body.gsub! /\s+\s+/, ">"
   end
 end
 

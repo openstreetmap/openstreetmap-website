@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class TraceTest < ActiveSupport::TestCase
   api_fixtures
@@ -40,11 +40,11 @@ class TraceTest < ActiveSupport::TestCase
   def test_validations
     trace_valid({})
     trace_valid({ :user_id => nil }, false)
-    trace_valid(:name => 'a' * 255)
-    trace_valid({ :name => 'a' * 256 }, false)
+    trace_valid(:name => "a" * 255)
+    trace_valid({ :name => "a" * 256 }, false)
     trace_valid({ :description => nil }, false)
-    trace_valid(:description => 'a' * 255)
-    trace_valid({ :description => 'a' * 256 }, false)
+    trace_valid(:description => "a" * 255)
+    trace_valid({ :description => "a" * 256 }, false)
     trace_valid(:visibility => "private")
     trace_valid(:visibility => "public")
     trace_valid(:visibility => "trackable")

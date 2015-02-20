@@ -2,7 +2,7 @@ class Oauth2Token < AccessToken
   attr_accessor :state
 
   def as_json(_options = {})
-    d = { :access_token => token, :token_type => 'bearer' }
+    d = { :access_token => token, :token_type => "bearer" }
     d[:expires_in] = expires_in if expires_at
     d
   end

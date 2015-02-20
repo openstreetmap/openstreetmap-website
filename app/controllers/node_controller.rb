@@ -1,7 +1,7 @@
 # The NodeController is the RESTful interface to Node objects
 
 class NodeController < ApplicationController
-  require 'xml/libxml'
+  require "xml/libxml"
 
   skip_before_filter :verify_authenticity_token
   before_filter :authorize, :only => [:create, :update, :delete]
@@ -64,11 +64,11 @@ class NodeController < ApplicationController
 
   # Dump the details on many nodes whose ids are given in the "nodes" parameter.
   def nodes
-    unless params['nodes']
+    unless params["nodes"]
       fail OSM::APIBadUserInput.new("The parameter nodes is required, and must be of the form nodes=id[,id[,id...]]")
     end
 
-    ids = params['nodes'].split(',').collect(&:to_i)
+    ids = params["nodes"].split(",").collect(&:to_i)
 
     if ids.length == 0
       fail OSM::APIBadUserInput.new("No nodes were given to search for")

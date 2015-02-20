@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class UserDiariesTest < ActionDispatch::IntegrationTest
   fixtures :users, :diary_entries
@@ -6,12 +6,12 @@ class UserDiariesTest < ActionDispatch::IntegrationTest
   # Test the creation of a diary entry, making sure that you are redirected to
   # login page when not logged in
   def test_showing_create_diary_entry
-    get_via_redirect '/diary/new'
+    get_via_redirect "/diary/new"
     # We should now be at the login page
     assert_response :success
-    assert_template 'user/login'
+    assert_template "user/login"
     # We can now login
-    post '/login', 'username' => "test@openstreetmap.org", 'password' => "test", :referer => '/diary/new'
+    post "/login", "username" => "test@openstreetmap.org", "password" => "test", :referer => "/diary/new"
     assert_response :redirect
     # print @response.body
     # Check that there is some payload alerting the user to the redirect
@@ -27,7 +27,7 @@ class UserDiariesTest < ActionDispatch::IntegrationTest
     follow_redirect!
 
     assert_response :success
-    assert_template 'diary_entry/edit'
+    assert_template "diary_entry/edit"
     # print @response.body
     # print @html_document.to_yaml
 

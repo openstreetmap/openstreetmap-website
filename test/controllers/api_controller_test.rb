@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'api_controller'
+require "test_helper"
+require "api_controller"
 
 class ApiControllerTest < ActionController::TestCase
   api_fixtures
@@ -231,7 +231,7 @@ class ApiControllerTest < ActionController::TestCase
   # http://wiki.openstreetmap.org/wiki/Rails#Installing_the_quadtile_functions
   # or by looking at the readme in db/README
   def test_changes_simple
-    Timecop.freeze(Time.parse('2010-04-03 10:55:00'))
+    Timecop.freeze(Time.parse("2010-04-03 10:55:00"))
     get :changes
     assert_response :success
     # print @response.body

@@ -1,10 +1,10 @@
 module ObjectMetadata
   def add_metadata_to_xml_node(el, osm, changeset_cache, user_display_name_cache)
-    el['changeset'] = osm.changeset_id.to_s
-    el['redacted'] = osm.redaction.id.to_s if osm.redacted?
-    el['timestamp'] = osm.timestamp.xmlschema
-    el['version'] = osm.version.to_s
-    el['visible'] = osm.visible.to_s
+    el["changeset"] = osm.changeset_id.to_s
+    el["redacted"] = osm.redaction.id.to_s if osm.redacted?
+    el["timestamp"] = osm.timestamp.xmlschema
+    el["version"] = osm.version.to_s
+    el["visible"] = osm.visible.to_s
 
     if changeset_cache.key?(osm.changeset_id)
       # use the cache if available
@@ -23,17 +23,17 @@ module ObjectMetadata
     end
 
     unless user_display_name_cache[user_id].nil?
-      el['user'] = user_display_name_cache[user_id]
-      el['uid'] = user_id.to_s
+      el["user"] = user_display_name_cache[user_id]
+      el["uid"] = user_id.to_s
     end
   end
 
   def add_tags_to_xml_node(el, tags)
     tags.each do |tag|
-      tag_el = XML::Node.new('tag')
+      tag_el = XML::Node.new("tag")
 
-      tag_el['k'] = tag.k
-      tag_el['v'] = tag.v
+      tag_el["k"] = tag.k
+      tag_el["v"] = tag.v
 
       el << tag_el
     end

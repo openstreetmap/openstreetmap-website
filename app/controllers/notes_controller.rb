@@ -1,5 +1,5 @@
 class NotesController < ApplicationController
-  layout 'site', :only => [:mine]
+  layout "site", :only => [:mine]
 
   before_filter :check_api_readable
   before_filter :authorize_web, :only => [:mine]
@@ -279,17 +279,17 @@ class NotesController < ApplicationController
   def mine
     if params[:display_name]
       if @this_user = User.active.find_by_display_name(params[:display_name])
-        @title =  t 'note.mine.title', :user => @this_user.display_name
-        @heading =  t 'note.mine.heading', :user => @this_user.display_name
-        @description = t 'note.mine.subheading', :user => render_to_string(:partial => "user", :object => @this_user)
+        @title =  t "note.mine.title", :user => @this_user.display_name
+        @heading =  t "note.mine.heading", :user => @this_user.display_name
+        @description = t "note.mine.subheading", :user => render_to_string(:partial => "user", :object => @this_user)
         @page = (params[:page] || 1).to_i
         @page_size = 10
         @notes = @this_user.notes.order("updated_at DESC, id").uniq.offset((@page - 1) * @page_size).limit(@page_size).preload(:comments => :author).to_a
       else
-        @title = t 'user.no_such_user.title'
+        @title = t "user.no_such_user.title"
         @not_found_user = params[:display_name]
 
-        render :template => 'user/no_such_user', :status => :not_found
+        render :template => "user/no_such_user", :status => :not_found
       end
     end
   end

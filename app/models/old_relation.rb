@@ -13,8 +13,8 @@ class OldRelation < ActiveRecord::Base
   belongs_to :redaction
   belongs_to :current_relation, :class_name => "Relation", :foreign_key => "relation_id"
 
-  has_many :old_members, -> { order(:sequence_id) }, :class_name => 'OldRelationMember', :foreign_key => [:relation_id, :version]
-  has_many :old_tags, :class_name => 'OldRelationTag', :foreign_key => [:relation_id, :version]
+  has_many :old_members, -> { order(:sequence_id) }, :class_name => "OldRelationMember", :foreign_key => [:relation_id, :version]
+  has_many :old_tags, :class_name => "OldRelationTag", :foreign_key => [:relation_id, :version]
 
   validates_associated :changeset
 
@@ -73,16 +73,16 @@ class OldRelation < ActiveRecord::Base
   end
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new 'relation'
-    el['id'] = relation_id.to_s
+    el = XML::Node.new "relation"
+    el["id"] = relation_id.to_s
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     old_members.each do |member|
-      member_el = XML::Node.new 'member'
-      member_el['type'] = member.member_type.to_s.downcase
-      member_el['ref'] = member.member_id.to_s # "id" is considered uncool here as it should be unique in XML
-      member_el['role'] = member.member_role.to_s
+      member_el = XML::Node.new "member"
+      member_el["type"] = member.member_type.to_s.downcase
+      member_el["ref"] = member.member_id.to_s # "id" is considered uncool here as it should be unique in XML
+      member_el["role"] = member.member_role.to_s
       el << member_el
     end
 

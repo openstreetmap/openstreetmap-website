@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class I18nTest < ActiveSupport::TestCase
   I18n.available_locales.each do |locale|

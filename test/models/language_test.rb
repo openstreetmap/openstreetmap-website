@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class LanguageTest < ActiveSupport::TestCase
   test "language count" do

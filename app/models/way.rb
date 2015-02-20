@@ -1,5 +1,5 @@
 class Way < ActiveRecord::Base
-  require 'xml/libxml'
+  require "xml/libxml"
 
   include ConsistencyValidations
   include NotRedactable
@@ -35,7 +35,7 @@ class Way < ActiveRecord::Base
     p = XML::Parser.string(xml)
     doc = p.parse
 
-    doc.find('//osm/way').each do |pt|
+    doc.find("//osm/way").each do |pt|
       return Way.from_xml_node(pt, create)
     end
     fail OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/way element.")
@@ -46,14 +46,14 @@ class Way < ActiveRecord::Base
   def self.from_xml_node(pt, create = false)
     way = Way.new
 
-    fail OSM::APIBadXMLError.new("way", pt, "Version is required when updating") unless create || !pt['version'].nil?
-    way.version = pt['version']
-    fail OSM::APIBadXMLError.new("way", pt, "Changeset id is missing") if pt['changeset'].nil?
-    way.changeset_id = pt['changeset']
+    fail OSM::APIBadXMLError.new("way", pt, "Version is required when updating") unless create || !pt["version"].nil?
+    way.version = pt["version"]
+    fail OSM::APIBadXMLError.new("way", pt, "Changeset id is missing") if pt["changeset"].nil?
+    way.changeset_id = pt["changeset"]
 
     unless create
-      fail OSM::APIBadXMLError.new("way", pt, "ID is required when updating") if pt['id'].nil?
-      way.id = pt['id'].to_i
+      fail OSM::APIBadXMLError.new("way", pt, "ID is required when updating") if pt["id"].nil?
+      way.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
       fail OSM::APIBadUserInput.new("ID of way cannot be zero when updating.") if way.id == 0
@@ -68,14 +68,14 @@ class Way < ActiveRecord::Base
     way.tags = {}
 
     # Add in any tags from the XML
-    pt.find('tag').each do |tag|
-      fail OSM::APIBadXMLError.new("way", pt, "tag is missing key") if tag['k'].nil?
-      fail OSM::APIBadXMLError.new("way", pt, "tag is missing value") if tag['v'].nil?
-      way.add_tag_keyval(tag['k'], tag['v'])
+    pt.find("tag").each do |tag|
+      fail OSM::APIBadXMLError.new("way", pt, "tag is missing key") if tag["k"].nil?
+      fail OSM::APIBadXMLError.new("way", pt, "tag is missing value") if tag["v"].nil?
+      way.add_tag_keyval(tag["k"], tag["v"])
     end
 
-    pt.find('nd').each do |nd|
-      way.add_nd_num(nd['ref'])
+    pt.find("nd").each do |nd|
+      way.add_nd_num(nd["ref"])
     end
 
     way
@@ -99,8 +99,8 @@ class Way < ActiveRecord::Base
   end
 
   def to_xml_node(visible_nodes = nil, changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new 'way'
-    el['id'] = id.to_s
+    el = XML::Node.new "way"
+    el["id"] = id.to_s
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
@@ -121,10 +121,10 @@ class Way < ActiveRecord::Base
     end
 
     ordered_nodes.each do |nd_id|
-      next unless nd_id && nd_id != '0'
+      next unless nd_id && nd_id != "0"
 
-      node_el = XML::Node.new 'nd'
-      node_el['ref'] = nd_id
+      node_el = XML::Node.new "nd"
+      node_el["ref"] = nd_id
       el << node_el
     end
 

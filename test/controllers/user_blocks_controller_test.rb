@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class UserBlocksControllerTest < ActionController::TestCase
   fixtures :users, :user_roles, :user_blocks

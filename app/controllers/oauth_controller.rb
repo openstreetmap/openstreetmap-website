@@ -1,9 +1,9 @@
-require 'oauth/controllers/provider_controller'
+require "oauth/controllers/provider_controller"
 
 class OauthController < ApplicationController
   include OAuth::Controllers::ProviderController
 
-  layout 'site'
+  layout "site"
 
   def login_required
     authorize_web
@@ -30,7 +30,7 @@ class OauthController < ApplicationController
     @token = current_user.oauth_tokens.find_by_token params[:token]
     if @token
       @token.invalidate!
-      flash[:notice] = t('oauth.revoke.flash', :application => @token.client_application.name)
+      flash[:notice] = t("oauth.revoke.flash", :application => @token.client_application.name)
     end
     redirect_to oauth_clients_url(:display_name => @token.user.display_name)
   end

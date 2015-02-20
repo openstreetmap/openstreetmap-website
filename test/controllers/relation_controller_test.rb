@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'relation_controller'
+require "test_helper"
+require "relation_controller"
 
 class RelationControllerTest < ActionController::TestCase
   api_fixtures
@@ -337,7 +337,7 @@ class RelationControllerTest < ActionController::TestCase
     with_relation(rel_id) do |rel|
       # alter one of the tags
       tag = rel.find("//osm/relation/tag").first
-      tag['v'] = 'some changed value'
+      tag["v"] = "some changed value"
       update_changeset(rel, cs_id)
 
       # check that the downloaded tags are the same as the uploaded tags...
@@ -366,7 +366,7 @@ class RelationControllerTest < ActionController::TestCase
     with_relation(rel_id) do |rel|
       # alter one of the tags
       tag = rel.find("//osm/relation/tag").first
-      tag['v'] = 'some changed value'
+      tag["v"] = "some changed value"
       update_changeset(rel, cs_id)
 
       # check that the downloaded tags are the same as the uploaded tags...
@@ -566,8 +566,8 @@ class RelationControllerTest < ActionController::TestCase
       relation_xml = current_relations(:visible_relation).to_xml
       relation_element = relation_xml.find("//osm/relation").first
       new_tag = XML::Node.new("tag")
-      new_tag['k'] = "some_new_tag"
-      new_tag['v'] = "some_new_value"
+      new_tag["k"] = "some_new_tag"
+      new_tag["v"] = "some_new_value"
       relation_element << new_tag
 
       # update changeset ID to point to new changeset
@@ -596,9 +596,9 @@ class RelationControllerTest < ActionController::TestCase
         relation_xml = Relation.find(relation_id).to_xml
         relation_element = relation_xml.find("//osm/relation").first
         new_member = XML::Node.new("member")
-        new_member['ref'] = element.id.to_s
-        new_member['type'] = element.class.to_s.downcase
-        new_member['role'] = "some_role"
+        new_member["ref"] = element.id.to_s
+        new_member["type"] = element.class.to_s.downcase
+        new_member["role"] = "some_role"
         relation_element << new_member
 
         # update changeset ID to point to new changeset
@@ -667,13 +667,13 @@ OSM
 
     # insert a member at the front
     new_member = XML::Node.new "member"
-    new_member['ref'] = 5.to_s
-    new_member['type'] = 'node'
-    new_member['role'] = 'new first'
+    new_member["ref"] = 5.to_s
+    new_member["type"] = "node"
+    new_member["role"] = "new first"
     doc.find("//osm/relation").first.child.prev = new_member
     # update the version, should be 1?
-    doc.find("//osm/relation").first['id'] = relation_id.to_s
-    doc.find("//osm/relation").first['version'] = 1.to_s
+    doc.find("//osm/relation").first["id"] = relation_id.to_s
+    doc.find("//osm/relation").first["version"] = 1.to_s
 
     # upload the next version of the relation
     content doc
@@ -800,11 +800,11 @@ OSM
     new_doc = XML::Parser.string(xml).parse
 
     doc_members = doc.find("//osm/relation/member").collect do |m|
-      [m['ref'].to_i, m['type'].to_sym, m['role']]
+      [m["ref"].to_i, m["type"].to_sym, m["role"]]
     end
 
     new_members = new_doc.find("//osm/relation/member").collect do |m|
-      [m['ref'].to_i, m['type'].to_sym, m['role']]
+      [m["ref"].to_i, m["type"].to_sym, m["role"]]
     end
 
     doc_members.zip(new_members).each do |d, n|
@@ -898,14 +898,14 @@ OSM
   # the parsed XML doc is retured.
   def with_update_diff(rel)
     rel_id = rel.find("//osm/relation").first["id"].to_i
-    cs_id = rel.find("//osm/relation").first['changeset'].to_i
+    cs_id = rel.find("//osm/relation").first["changeset"].to_i
     version = nil
 
     with_controller(ChangesetController.new) do
       doc = OSM::API.new.get_xml_doc
-      change = XML::Node.new 'osmChange'
+      change = XML::Node.new "osmChange"
       doc.root = change
-      modify = XML::Node.new 'modify'
+      modify = XML::Node.new "modify"
       change << modify
       modify << doc.import(rel.find("//osm/relation").first)
 
@@ -928,8 +928,8 @@ OSM
   ##
   # returns a k->v hash of tags from an xml doc
   def get_tags_as_hash(a)
-    a.find("//osm/relation/tag").sort_by { |v| v['k'] }.each_with_object({}) do |v, h|
-      h[v['k']] = v['v']
+    a.find("//osm/relation/tag").sort_by { |v| v["k"] }.each_with_object({}) do |v, h|
+      h[v["k"]] = v["v"]
     end
   end
 
@@ -952,7 +952,7 @@ OSM
   ##
   # update the changeset_id of a node element
   def update_changeset(xml, changeset_id)
-    xml_attr_rewrite(xml, 'changeset', changeset_id)
+    xml_attr_rewrite(xml, "changeset", changeset_id)
   end
 
   ##

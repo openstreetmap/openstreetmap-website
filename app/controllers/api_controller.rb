@@ -9,7 +9,7 @@ class ApiController < ApplicationController
   # within the specified bounding box, and in the specified page.
   def trackpoints
     # retrieve the page number
-    page = params['page'].to_s.to_i
+    page = params["page"].to_s.to_i
 
     unless page >= 0
       report_error("Page number must be greater than or equal to 0")
@@ -35,10 +35,10 @@ class ApiController < ApplicationController
 
     doc = XML::Document.new
     doc.encoding = XML::Encoding::UTF_8
-    root = XML::Node.new 'gpx'
-    root['version'] = '1.0'
-    root['creator'] = 'OpenStreetMap.org'
-    root['xmlns'] = "http://www.topografix.com/GPX/1/0"
+    root = XML::Node.new "gpx"
+    root["version"] = "1.0"
+    root["creator"] = "OpenStreetMap.org"
+    root["xmlns"] = "http://www.topografix.com/GPX/1/0"
 
     doc.root = root
 
@@ -61,21 +61,21 @@ class ApiController < ApplicationController
         gpx_file = Trace.find(gpx_id)
 
         if gpx_file.trackable?
-          track = XML::Node.new 'trk'
+          track = XML::Node.new "trk"
           doc.root << track
           timestamps = true
 
           if gpx_file.identifiable?
             track << (XML::Node.new("name") << gpx_file.name)
             track << (XML::Node.new("desc") << gpx_file.description)
-            track << (XML::Node.new("url") << url_for(:controller => 'trace', :action => 'view', :display_name => gpx_file.user.display_name, :id => gpx_file.id))
+            track << (XML::Node.new("url") << url_for(:controller => "trace", :action => "view", :display_name => gpx_file.user.display_name, :id => gpx_file.id))
           end
         else
           # use the anonymous track segment if the user hasn't allowed
           # their GPX points to be tracked.
           timestamps = false
           if anon_track.nil?
-            anon_track = XML::Node.new 'trk'
+            anon_track = XML::Node.new "trk"
             doc.root << anon_track
           end
           track = anon_track
@@ -84,12 +84,12 @@ class ApiController < ApplicationController
 
       if trackid != point.trackid
         if gpx_file.trackable?
-          trkseg = XML::Node.new 'trkseg'
+          trkseg = XML::Node.new "trkseg"
           track << trkseg
           trackid = point.trackid
         else
           if anon_trkseg.nil?
-            anon_trkseg = XML::Node.new 'trkseg'
+            anon_trkseg = XML::Node.new "trkseg"
             anon_track << anon_trkseg
           end
           trkseg = anon_trkseg
@@ -141,7 +141,7 @@ class ApiController < ApplicationController
     doc = OSM::API.new.get_xml_doc
 
     # add bounds
-    doc.root << bbox.add_bounds_to(XML::Node.new 'bounds')
+    doc.root << bbox.add_bounds_to(XML::Node.new "bounds")
 
     # get ways
     # find which ways are needed
@@ -210,13 +210,13 @@ class ApiController < ApplicationController
   # Get a list of the tiles that have changed within a specified time
   # period
   def changes
-    zoom = (params[:zoom] || '12').to_i
+    zoom = (params[:zoom] || "12").to_i
 
     if params.include?(:start) && params.include?(:end)
       starttime = Time.parse(params[:start])
       endtime = Time.parse(params[:end])
     else
-      hours = (params[:hours] || '1').to_i.hours
+      hours = (params[:hours] || "1").to_i.hours
       endtime = Time.now.getutc
       starttime = endtime - hours
     end
@@ -228,7 +228,7 @@ class ApiController < ApplicationController
       tiles = Node.where(:timestamp => starttime..endtime).group("maptile_for_point(latitude, longitude, #{zoom})").count
 
       doc = OSM::API.new.get_xml_doc
-      changes = XML::Node.new 'changes'
+      changes = XML::Node.new "changes"
       changes["starttime"] = starttime.xmlschema
       changes["endtime"] = endtime.xmlschema
 
@@ -236,7 +236,7 @@ class ApiController < ApplicationController
         x = (tile.to_i >> zoom) & mask
         y = tile.to_i & mask
 
-        t = XML::Node.new 'tile'
+        t = XML::Node.new "tile"
         t["x"] = x.to_s
         t["y"] = y.to_s
         t["z"] = zoom.to_s
@@ -261,37 +261,37 @@ class ApiController < ApplicationController
   def capabilities
     doc = OSM::API.new.get_xml_doc
 
-    api = XML::Node.new 'api'
-    version = XML::Node.new 'version'
-    version['minimum'] = "#{API_VERSION}"
-    version['maximum'] = "#{API_VERSION}"
+    api = XML::Node.new "api"
+    version = XML::Node.new "version"
+    version["minimum"] = "#{API_VERSION}"
+    version["maximum"] = "#{API_VERSION}"
     api << version
-    area = XML::Node.new 'area'
-    area['maximum'] = MAX_REQUEST_AREA.to_s
+    area = XML::Node.new "area"
+    area["maximum"] = MAX_REQUEST_AREA.to_s
     api << area
-    tracepoints = XML::Node.new 'tracepoints'
-    tracepoints['per_page'] = TRACEPOINTS_PER_PAGE.to_s
+    tracepoints = XML::Node.new "tracepoints"
+    tracepoints["per_page"] = TRACEPOINTS_PER_PAGE.to_s
     api << tracepoints
-    waynodes = XML::Node.new 'waynodes'
-    waynodes['maximum'] = MAX_NUMBER_OF_WAY_NODES.to_s
+    waynodes = XML::Node.new "waynodes"
+    waynodes["maximum"] = MAX_NUMBER_OF_WAY_NODES.to_s
     api << waynodes
-    changesets = XML::Node.new 'changesets'
-    changesets['maximum_elements'] = Changeset::MAX_ELEMENTS.to_s
+    changesets = XML::Node.new "changesets"
+    changesets["maximum_elements"] = Changeset::MAX_ELEMENTS.to_s
     api << changesets
-    timeout = XML::Node.new 'timeout'
-    timeout['seconds'] = API_TIMEOUT.to_s
+    timeout = XML::Node.new "timeout"
+    timeout["seconds"] = API_TIMEOUT.to_s
     api << timeout
-    status = XML::Node.new 'status'
-    status['database'] = database_status.to_s
-    status['api'] = api_status.to_s
-    status['gpx'] = gpx_status.to_s
+    status = XML::Node.new "status"
+    status["database"] = database_status.to_s
+    status["api"] = api_status.to_s
+    status["gpx"] = gpx_status.to_s
     api << status
     doc.root << api
-    policy = XML::Node.new 'policy'
-    blacklist = XML::Node.new 'imagery'
+    policy = XML::Node.new "policy"
+    blacklist = XML::Node.new "imagery"
     IMAGERY_BLACKLIST.each do |url_regex|
-      xnd = XML::Node.new 'blacklist'
-      xnd['regex'] = url_regex.to_s
+      xnd = XML::Node.new "blacklist"
+      xnd["regex"] = url_regex.to_s
       blacklist << xnd
     end
     policy << blacklist

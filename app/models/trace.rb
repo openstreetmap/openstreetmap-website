@@ -2,8 +2,8 @@ class Trace < ActiveRecord::Base
   self.table_name = "gpx_files"
 
   belongs_to :user, :counter_cache => true
-  has_many :tags, :class_name => 'Tracetag', :foreign_key => 'gpx_id', :dependent => :delete_all
-  has_many :points, :class_name => 'Tracepoint', :foreign_key => 'gpx_id', :dependent => :delete_all
+  has_many :tags, :class_name => "Tracetag", :foreign_key => "gpx_id", :dependent => :delete_all
+  has_many :points, :class_name => "Tracepoint", :foreign_key => "gpx_id", :dependent => :delete_all
 
   scope :visible, -> { where(:visible => true) }
   scope :visible_to, ->(u) { visible.where("visibility IN ('public', 'identifiable') OR user_id = ?", u) }
@@ -30,7 +30,7 @@ class Trace < ActiveRecord::Base
   end
 
   def tagstring=(s)
-    if s.include? ','
+    if s.include? ","
       self.tags = s.split(/\s*,\s*/).select { |tag| tag !~ /^\s*$/ }.collect {|tag|
         tt = Tracetag.new
         tt.tag = tag
@@ -151,22 +151,22 @@ class Trace < ActiveRecord::Base
   end
 
   def to_xml_node
-    el1 = XML::Node.new 'gpx_file'
-    el1['id'] = id.to_s
-    el1['name'] = name.to_s
-    el1['lat'] = latitude.to_s if inserted
-    el1['lon'] = longitude.to_s if inserted
-    el1['user'] = user.display_name
-    el1['visibility'] = visibility
-    el1['pending'] = (!inserted).to_s
-    el1['timestamp'] = timestamp.xmlschema
+    el1 = XML::Node.new "gpx_file"
+    el1["id"] = id.to_s
+    el1["name"] = name.to_s
+    el1["lat"] = latitude.to_s if inserted
+    el1["lon"] = longitude.to_s if inserted
+    el1["user"] = user.display_name
+    el1["visibility"] = visibility
+    el1["pending"] = (!inserted).to_s
+    el1["timestamp"] = timestamp.xmlschema
 
-    el2 = XML::Node.new 'description'
+    el2 = XML::Node.new "description"
     el2 << description
     el1 << el2
 
     tags.each do |tag|
-      el2 = XML::Node.new('tag')
+      el2 = XML::Node.new("tag")
       el2 << tag.tag
       el1 << el2
     end
@@ -179,7 +179,7 @@ class Trace < ActiveRecord::Base
     p = XML::Parser.string(xml)
     doc = p.parse
 
-    doc.find('//osm/gpx_file').each do |pt|
+    doc.find("//osm/gpx_file").each do |pt|
       return Trace.from_xml_node(pt, create)
     end
 
@@ -191,12 +191,12 @@ class Trace < ActiveRecord::Base
   def self.from_xml_node(pt, create = false)
     trace = Trace.new
 
-    fail OSM::APIBadXMLError.new("trace", pt, "visibility missing") if pt['visibility'].nil?
-    trace.visibility = pt['visibility']
+    fail OSM::APIBadXMLError.new("trace", pt, "visibility missing") if pt["visibility"].nil?
+    trace.visibility = pt["visibility"]
 
     unless create
-      fail OSM::APIBadXMLError.new("trace", pt, "ID is required when updating.") if pt['id'].nil?
-      trace.id = pt['id'].to_i
+      fail OSM::APIBadXMLError.new("trace", pt, "ID is required when updating.") if pt["id"].nil?
+      trace.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
       fail OSM::APIBadUserInput.new("ID of trace cannot be zero when updating.") if trace.id == 0
@@ -207,11 +207,11 @@ class Trace < ActiveRecord::Base
     # and set manually before the actual delete
     trace.visible = true
 
-    description = pt.find('description').first
+    description = pt.find("description").first
     fail OSM::APIBadXMLError.new("trace", pt, "description missing") if description.nil?
     trace.description = description.content
 
-    pt.find('tag').each do |tag|
+    pt.find("tag").each do |tag|
       trace.tags.build(:tag => tag.content)
     end
 

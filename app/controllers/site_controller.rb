@@ -1,5 +1,5 @@
 class SiteController < ApplicationController
-  layout 'site'
+  layout "site"
   layout :map_layout, :only => [:index, :export]
 
   before_filter :authorize_web
@@ -11,7 +11,7 @@ class SiteController < ApplicationController
 
   def index
     unless STATUS == :database_readonly || STATUS == :database_offline
-      session[:location] ||= OSM.ip_location(request.env['REMOTE_ADDR'])
+      session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"])
     end
   end
 
@@ -26,24 +26,24 @@ class SiteController < ApplicationController
     end
 
     if params.key? :node
-      new_params[:controller] = 'browse'
-      new_params[:action] = 'node'
+      new_params[:controller] = "browse"
+      new_params[:action] = "node"
       new_params[:id] = params[:node]
     elsif params.key? :way
-      new_params[:controller] = 'browse'
-      new_params[:action] = 'way'
+      new_params[:controller] = "browse"
+      new_params[:action] = "way"
       new_params[:id] = params[:way]
     elsif params.key? :relation
-      new_params[:controller] = 'browse'
-      new_params[:action] = 'relation'
+      new_params[:controller] = "browse"
+      new_params[:action] = "relation"
       new_params[:id] = params[:relation]
     elsif params.key? :changeset
-      new_params[:controller] = 'browse'
-      new_params[:action] = 'changeset'
+      new_params[:controller] = "browse"
+      new_params[:action] = "changeset"
       new_params[:id] = params[:changeset]
     else
-      new_params[:controller] = 'site'
-      new_params[:action] = 'index'
+      new_params[:controller] = "site"
+      new_params[:action] = "index"
     end
 
     new_params[:anchor] = "map=#{zoom}/#{lat}/#{lon}"
@@ -143,12 +143,12 @@ class SiteController < ApplicationController
 
     if params[:layers]
       anchor << "layers=#{params.delete(:layers)}"
-    elsif params.delete(:notes) == 'yes'
+    elsif params.delete(:notes) == "yes"
       anchor << "layers=N"
     end
 
     if anchor.present?
-      redirect_to Hash[params].merge(:anchor => anchor.join('&'))
+      redirect_to Hash[params].merge(:anchor => anchor.join("&"))
     end
   end
 end

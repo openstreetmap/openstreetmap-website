@@ -1,6 +1,6 @@
-require File.expand_path('../boot', __FILE__)
+require File.expand_path("../boot", __FILE__)
 
-require File.expand_path('../preinitializer', __FILE__)
+require File.expand_path("../preinitializer", __FILE__)
 
 if STATUS == :database_offline
   require "action_controller/railtie"
@@ -9,7 +9,7 @@ if STATUS == :database_offline
   require "sprockets/railtie"
   require "rails/test_unit/railtie"
 else
-  require 'rails/all'
+  require "rails/all"
 end
 
 # Require the gems listed in Gemfile, including any gems

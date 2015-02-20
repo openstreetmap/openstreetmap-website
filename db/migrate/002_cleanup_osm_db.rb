@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class CleanupOsmDb < ActiveRecord::Migration
   def self.up

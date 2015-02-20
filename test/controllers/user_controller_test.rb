@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class UserControllerTest < ActionController::TestCase
   fixtures :users
@@ -222,8 +222,8 @@ class UserControllerTest < ActionController::TestCase
   def test_user_create_success
     user = new_user
 
-    assert_difference('User.count', 1) do
-      assert_difference('ActionMailer::Base.deliveries.size', 1) do
+    assert_difference("User.count", 1) do
+      assert_difference("ActionMailer::Base.deliveries.size", 1) do
         post :save, {}, { :new_user => user }
       end
     end
@@ -235,7 +235,7 @@ class UserControllerTest < ActionController::TestCase
     assert_match /#{@url}/, register_email.body.to_s
 
     # Check the page
-    assert_redirected_to :action => 'confirm', :display_name => user.display_name
+    assert_redirected_to :action => "confirm", :display_name => user.display_name
 
     ActionMailer::Base.deliveries.clear
   end
@@ -244,14 +244,14 @@ class UserControllerTest < ActionController::TestCase
     user = new_user
     user.email = users(:public_user).email
 
-    assert_no_difference('User.count') do
-      assert_no_difference('ActionMailer::Base.deliveries.size') do
+    assert_no_difference("User.count") do
+      assert_no_difference("ActionMailer::Base.deliveries.size") do
         post :save, {}, { :new_user => user }
       end
     end
 
     assert_response :success
-    assert_template 'new'
+    assert_template "new"
     assert_select "form > fieldset > div.form-row > input.field_with_errors#user_email"
   end
 
@@ -259,14 +259,14 @@ class UserControllerTest < ActionController::TestCase
     user = new_user
     user.email = users(:public_user).email.upcase
 
-    assert_no_difference('User.count') do
-      assert_no_difference('ActionMailer::Base.deliveries.size') do
+    assert_no_difference("User.count") do
+      assert_no_difference("ActionMailer::Base.deliveries.size") do
         post :save, {}, { :new_user => user }
       end
     end
 
     assert_response :success
-    assert_template 'new'
+    assert_template "new"
     assert_select "form > fieldset > div.form-row > input.field_with_errors#user_email"
   end
 
@@ -274,14 +274,14 @@ class UserControllerTest < ActionController::TestCase
     user = new_user
     user.display_name = users(:public_user).display_name
 
-    assert_no_difference('User.count') do
-      assert_no_difference('ActionMailer::Base.deliveries.size') do
+    assert_no_difference("User.count") do
+      assert_no_difference("ActionMailer::Base.deliveries.size") do
         post :save, {}, { :new_user => user }
       end
     end
 
     assert_response :success
-    assert_template 'new'
+    assert_template "new"
     assert_select "form > fieldset > div.form-row > input.field_with_errors#user_display_name"
   end
 
@@ -289,28 +289,28 @@ class UserControllerTest < ActionController::TestCase
     user = new_user
     user.display_name = users(:public_user).display_name.upcase
 
-    assert_no_difference('User.count') do
-      assert_no_difference('ActionMailer::Base.deliveries.size') do
+    assert_no_difference("User.count") do
+      assert_no_difference("ActionMailer::Base.deliveries.size") do
         post :save, {}, { :new_user => user }
       end
     end
 
     assert_response :success
-    assert_template 'new'
+    assert_template "new"
     assert_select "form > fieldset > div.form-row > input.field_with_errors#user_display_name"
   end
 
   def test_user_save_referer_params
     user = new_user
 
-    assert_difference('User.count', 1) do
-      assert_difference('ActionMailer::Base.deliveries.size', 1) do
+    assert_difference("User.count", 1) do
+      assert_difference("ActionMailer::Base.deliveries.size", 1) do
         post :save, {}, { :new_user => user,
-                          :referer => '/edit?editor=id#map=1/2/3' }
+                          :referer => "/edit?editor=id#map=1/2/3" }
       end
     end
 
-    assert_equal welcome_path(:editor => 'id', :zoom => 1, :lat => 2, :lon => 3),
+    assert_equal welcome_path(:editor => "id", :zoom => 1, :lat => 2, :lon => 3),
                  user.tokens.order("id DESC").first.referer
 
     ActionMailer::Base.deliveries.clear
@@ -325,7 +325,7 @@ class UserControllerTest < ActionController::TestCase
     @request.cookies["_osm_session"] = user.display_name
     post :confirm, :confirm_string => token.token
 
-    assert_redirected_to :action => 'confirm'
+    assert_redirected_to :action => "confirm"
     assert_match /expired/, flash[:error]
   end
 
@@ -336,7 +336,7 @@ class UserControllerTest < ActionController::TestCase
     @request.cookies["_osm_session"] = user.display_name
     post :confirm, :confirm_string => token.token
 
-    assert_redirected_to :action => 'login'
+    assert_redirected_to :action => "login"
     assert_match /confirmed/, flash[:error]
   end
 
@@ -370,7 +370,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Test resetting using the address as recorded for a user that has an
     # address which is duplicated in a different case by another user
-    assert_difference('ActionMailer::Base.deliveries.size', 1) do
+    assert_difference("ActionMailer::Base.deliveries.size", 1) do
       post :lost_password, :user => { :email => users(:normal_user).email }
     end
     assert_response :redirect
@@ -383,7 +383,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Test resetting using an address that matches a different user
     # that has the same address in a different case
-    assert_difference('ActionMailer::Base.deliveries.size', 1) do
+    assert_difference("ActionMailer::Base.deliveries.size", 1) do
       post :lost_password, :user => { :email => users(:normal_user).email.upcase }
     end
     assert_response :redirect
@@ -396,7 +396,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Test resetting using an address that is a case insensitive match
     # for more than one user but not an exact match for either
-    assert_difference('ActionMailer::Base.deliveries.size', 0) do
+    assert_difference("ActionMailer::Base.deliveries.size", 0) do
       post :lost_password, :user => { :email => users(:normal_user).email.titlecase }
     end
     assert_response :success
@@ -405,7 +405,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Test resetting using the address as recorded for a user that has an
     # address which is case insensitively unique
-    assert_difference('ActionMailer::Base.deliveries.size', 1) do
+    assert_difference("ActionMailer::Base.deliveries.size", 1) do
       post :lost_password, :user => { :email => users(:public_user).email }
     end
     assert_response :redirect
@@ -418,7 +418,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Test resetting using an address that matches a user that has the
     # same (case insensitively unique) address in a different case
-    assert_difference('ActionMailer::Base.deliveries.size', 1) do
+    assert_difference("ActionMailer::Base.deliveries.size", 1) do
       post :lost_password, :user => { :email => users(:public_user).email.upcase }
     end
     assert_response :redirect
@@ -521,7 +521,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Changing email to one that exists should fail
     user.new_email = users(:public_user).email
-    assert_no_difference('ActionMailer::Base.deliveries.size') do
+    assert_no_difference("ActionMailer::Base.deliveries.size") do
       post :account, { :display_name => user.display_name, :user => user.attributes }, { "user" => user.id }
     end
     assert_response :success
@@ -532,7 +532,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Changing email to one that exists should fail, regardless of case
     user.new_email = users(:public_user).email.upcase
-    assert_no_difference('ActionMailer::Base.deliveries.size') do
+    assert_no_difference("ActionMailer::Base.deliveries.size") do
       post :account, { :display_name => user.display_name, :user => user.attributes }, { "user" => user.id }
     end
     assert_response :success
@@ -543,7 +543,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Changing email to one that doesn't exist should work
     user.new_email = "new_tester@example.com"
-    assert_difference('ActionMailer::Base.deliveries.size', 1) do
+    assert_difference("ActionMailer::Base.deliveries.size", 1) do
       post :account, { :display_name => user.display_name, :user => user.attributes }, { "user" => user.id }
     end
     assert_response :success
@@ -772,7 +772,7 @@ class UserControllerTest < ActionController::TestCase
     assert_nil Friend.where(:user_id => user.id, :friend_user_id => friend.id).first
 
     # When logged in a POST should add the friendship
-    assert_difference('ActionMailer::Base.deliveries.size', 1) do
+    assert_difference("ActionMailer::Base.deliveries.size", 1) do
       post :make_friend, { :display_name => friend.display_name }, { "user" => user }
     end
     assert_redirected_to user_path(:display_name => friend.display_name)
@@ -784,7 +784,7 @@ class UserControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
 
     # A second POST should report that the friendship already exists
-    assert_no_difference('ActionMailer::Base.deliveries.size') do
+    assert_no_difference("ActionMailer::Base.deliveries.size") do
       post :make_friend, { :display_name => friend.display_name }, { "user" => user }
     end
     assert_redirected_to user_path(:display_name => friend.display_name)

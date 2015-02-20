@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class AddTextIndexToNoteComments < ActiveRecord::Migration
   def up

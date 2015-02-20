@@ -1,10 +1,10 @@
 # coding: utf-8
 
 class GeocoderController < ApplicationController
-  require 'cgi'
-  require 'uri'
-  require 'net/http'
-  require 'rexml/document'
+  require "cgi"
+  require "uri"
+  require "net/http"
+  require "rexml/document"
 
   before_filter :authorize_web
   before_filter :set_locale
@@ -170,7 +170,7 @@ class GeocoderController < ApplicationController
       else
         prefix_name = t "geocoder.search_osm_nominatim.prefix.#{klass}.#{type}", :default => type.gsub("_", " ").capitalize
       end
-      if klass == 'boundary' && type == 'administrative'
+      if klass == "boundary" && type == "administrative"
         rank = (place.attributes["place_rank"].to_i + 1) / 2
         prefix_name = t "geocoder.search_osm_nominatim.admin_levels.level#{rank}", :default => prefix_name
       end
@@ -324,7 +324,7 @@ class GeocoderController < ApplicationController
   end
 
   def escape_query(query)
-    URI.escape(query, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]", false, 'N'))
+    URI.escape(query, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]", false, "N"))
   end
 
   def normalize_params
@@ -356,11 +356,11 @@ class GeocoderController < ApplicationController
   def nsew_to_decdeg(captures)
     begin
       Float(captures[0])
-      captures[2].downcase != 's' ? lat = captures[0].to_f : lat = -(captures[0].to_f)
-      captures[5].downcase != 'w' ? lon = captures[3].to_f : lon = -(captures[3].to_f)
+      captures[2].downcase != "s" ? lat = captures[0].to_f : lat = -(captures[0].to_f)
+      captures[5].downcase != "w" ? lon = captures[3].to_f : lon = -(captures[3].to_f)
     rescue
-      captures[0].downcase != 's' ? lat = captures[1].to_f : lat = -(captures[1].to_f)
-      captures[3].downcase != 'w' ? lon = captures[4].to_f : lon = -(captures[4].to_f)
+      captures[0].downcase != "s" ? lat = captures[1].to_f : lat = -(captures[1].to_f)
+      captures[3].downcase != "w" ? lon = captures[4].to_f : lon = -(captures[4].to_f)
     end
     { :lat => lat, :lon => lon }
   end
@@ -368,11 +368,11 @@ class GeocoderController < ApplicationController
   def ddm_to_decdeg(captures)
     begin
       Float(captures[0])
-      captures[3].downcase != 's' ? lat = captures[0].to_f + captures[1].to_f / 60 : lat = -(captures[0].to_f + captures[1].to_f / 60)
-      captures[7].downcase != 'w' ? lon = captures[4].to_f + captures[5].to_f / 60 : lon = -(captures[4].to_f + captures[5].to_f / 60)
+      captures[3].downcase != "s" ? lat = captures[0].to_f + captures[1].to_f / 60 : lat = -(captures[0].to_f + captures[1].to_f / 60)
+      captures[7].downcase != "w" ? lon = captures[4].to_f + captures[5].to_f / 60 : lon = -(captures[4].to_f + captures[5].to_f / 60)
     rescue
-      captures[0].downcase != 's' ? lat = captures[1].to_f + captures[2].to_f / 60 : lat = -(captures[1].to_f + captures[2].to_f / 60)
-      captures[4].downcase != 'w' ? lon = captures[5].to_f + captures[6].to_f / 60 : lon = -(captures[5].to_f + captures[6].to_f / 60)
+      captures[0].downcase != "s" ? lat = captures[1].to_f + captures[2].to_f / 60 : lat = -(captures[1].to_f + captures[2].to_f / 60)
+      captures[4].downcase != "w" ? lon = captures[5].to_f + captures[6].to_f / 60 : lon = -(captures[5].to_f + captures[6].to_f / 60)
     end
     { :lat => lat, :lon => lon }
   end
@@ -380,11 +380,11 @@ class GeocoderController < ApplicationController
   def dms_to_decdeg(captures)
     begin
       Float(captures[0])
-      captures[4].downcase != 's' ? lat = captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60 : lat = -(captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60)
-      captures[9].downcase != 'w' ? lon = captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60 : lon = -(captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60)
+      captures[4].downcase != "s" ? lat = captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60 : lat = -(captures[0].to_f + (captures[1].to_f + captures[2].to_f / 60) / 60)
+      captures[9].downcase != "w" ? lon = captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60 : lon = -(captures[5].to_f + (captures[6].to_f + captures[7].to_f / 60) / 60)
     rescue
-      captures[0].downcase != 's' ? lat = captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60 : lat = -(captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60)
-      captures[5].downcase != 'w' ? lon = captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60 : lon = -(captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60)
+      captures[0].downcase != "s" ? lat = captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60 : lat = -(captures[1].to_f + (captures[2].to_f + captures[3].to_f / 60) / 60)
+      captures[5].downcase != "w" ? lon = captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60 : lon = -(captures[6].to_f + (captures[7].to_f + captures[8].to_f / 60) / 60)
     end
     { :lat => lat, :lon => lon }
   end

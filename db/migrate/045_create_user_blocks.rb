@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class CreateUserBlocks < ActiveRecord::Migration
   def change

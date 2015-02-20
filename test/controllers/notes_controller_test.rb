@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class NotesControllerTest < ActionController::TestCase
   fixtures :users, :notes, :note_comments
@@ -122,8 +122,8 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_create_success
-    assert_difference('Note.count') do
-      assert_difference('NoteComment.count') do
+    assert_difference("Note.count") do
+      assert_difference("NoteComment.count") do
         post :create, :lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json"
       end
     end
@@ -156,65 +156,65 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_create_fail
-    assert_no_difference('Note.count') do
-      assert_no_difference('NoteComment.count') do
+    assert_no_difference("Note.count") do
+      assert_no_difference("NoteComment.count") do
         post :create, :lon => -1.0, :text => "This is a comment"
       end
     end
     assert_response :bad_request
 
-    assert_no_difference('Note.count') do
-      assert_no_difference('NoteComment.count') do
+    assert_no_difference("Note.count") do
+      assert_no_difference("NoteComment.count") do
         post :create, :lat => -1.0, :text => "This is a comment"
       end
     end
     assert_response :bad_request
 
-    assert_no_difference('Note.count') do
-      assert_no_difference('NoteComment.count') do
+    assert_no_difference("Note.count") do
+      assert_no_difference("NoteComment.count") do
         post :create, :lat => -1.0, :lon => -1.0
       end
     end
     assert_response :bad_request
 
-    assert_no_difference('Note.count') do
-      assert_no_difference('NoteComment.count') do
+    assert_no_difference("Note.count") do
+      assert_no_difference("NoteComment.count") do
         post :create, :lat => -1.0, :lon => -1.0, :text => ""
       end
     end
     assert_response :bad_request
 
-    assert_no_difference('Note.count') do
-      assert_no_difference('NoteComment.count') do
+    assert_no_difference("Note.count") do
+      assert_no_difference("NoteComment.count") do
         post :create, :lat => -100.0, :lon => -1.0, :text => "This is a comment"
       end
     end
     assert_response :bad_request
 
-    assert_no_difference('Note.count') do
-      assert_no_difference('NoteComment.count') do
+    assert_no_difference("Note.count") do
+      assert_no_difference("NoteComment.count") do
         post :create, :lat => -1.0, :lon => -200.0, :text => "This is a comment"
       end
     end
     assert_response :bad_request
 
-    assert_no_difference('Note.count') do
-      assert_no_difference('NoteComment.count') do
-        post :create, :lat => 'abc', :lon => -1.0, :text => "This is a comment"
+    assert_no_difference("Note.count") do
+      assert_no_difference("NoteComment.count") do
+        post :create, :lat => "abc", :lon => -1.0, :text => "This is a comment"
       end
     end
     assert_response :bad_request
 
-    assert_no_difference('Note.count') do
-      assert_no_difference('NoteComment.count') do
-        post :create, :lat => -1.0, :lon => 'abc', :text => "This is a comment"
+    assert_no_difference("Note.count") do
+      assert_no_difference("NoteComment.count") do
+        post :create, :lat => -1.0, :lon => "abc", :text => "This is a comment"
       end
     end
     assert_response :bad_request
   end
 
   def test_comment_success
-    assert_difference('NoteComment.count') do
+    assert_difference("NoteComment.count") do
       post :comment, :id => notes(:open_note_with_comment).id, :text => "This is an additional comment", :format => "json"
     end
     assert_response :success
@@ -242,32 +242,32 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_comment_fail
-    assert_no_difference('NoteComment.count') do
+    assert_no_difference("NoteComment.count") do
       post :comment, :text => "This is an additional comment"
     end
     assert_response :bad_request
 
-    assert_no_difference('NoteComment.count') do
+    assert_no_difference("NoteComment.count") do
       post :comment, :id => notes(:open_note_with_comment).id
     end
     assert_response :bad_request
 
-    assert_no_difference('NoteComment.count') do
+    assert_no_difference("NoteComment.count") do
       post :comment, :id => notes(:open_note_with_comment).id, :text => ""
     end
     assert_response :bad_request
 
-    assert_no_difference('NoteComment.count') do
+    assert_no_difference("NoteComment.count") do
       post :comment, :id => 12345, :text => "This is an additional comment"
     end
     assert_response :not_found
 
-    assert_no_difference('NoteComment.count') do
+    assert_no_difference("NoteComment.count") do
       post :comment, :id => notes(:hidden_note_with_comment).id, :text => "This is an additional comment"
     end
     assert_response :gone
 
-    assert_no_difference('NoteComment.count') do
+    assert_no_difference("NoteComment.count") do
       post :comment, :id => notes(:closed_note_with_comment).id, :text => "This is an additional comment"
     end
     assert_response :conflict
@@ -478,7 +478,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "This is a hide comment", js["properties"]["comments"].last["text"]
     assert_equal "moderator", js["properties"]["comments"].last["user"]
 
-    get :show, :id => notes(:open_note_with_comment).id, :format => 'json'
+    get :show, :id => notes(:open_note_with_comment).id, :format => "json"
     assert_response :gone
   end
 
@@ -501,7 +501,7 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_index_success
-    get :index, :bbox => '1,1,1.2,1.2', :format => 'rss'
+    get :index, :bbox => "1,1,1.2,1.2", :format => "rss"
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -510,7 +510,7 @@ class NotesControllerTest < ActionController::TestCase
       end
     end
 
-    get :index, :bbox => '1,1,1.2,1.2', :format => 'json'
+    get :index, :bbox => "1,1,1.2,1.2", :format => "json"
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -518,14 +518,14 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 2, js["features"].count
 
-    get :index, :bbox => '1,1,1.2,1.2', :format => 'xml'
+    get :index, :bbox => "1,1,1.2,1.2", :format => "xml"
     assert_response :success
     assert_equal "application/xml", @response.content_type
     assert_select "osm", :count => 1 do
       assert_select "note", :count => 2
     end
 
-    get :index, :bbox => '1,1,1.2,1.2', :format => 'gpx'
+    get :index, :bbox => "1,1,1.2,1.2", :format => "gpx"
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
     assert_select "gpx", :count => 1 do
@@ -534,7 +534,7 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_index_empty_area
-    get :index, :bbox => '5,5,5.1,5.1', :format => 'rss'
+    get :index, :bbox => "5,5,5.1,5.1", :format => "rss"
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -543,7 +543,7 @@ class NotesControllerTest < ActionController::TestCase
       end
     end
 
-    get :index, :bbox => '5,5,5.1,5.1', :format => 'json'
+    get :index, :bbox => "5,5,5.1,5.1", :format => "json"
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -551,14 +551,14 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 0, js["features"].count
 
-    get :index, :bbox => '5,5,5.1,5.1', :format => 'xml'
+    get :index, :bbox => "5,5,5.1,5.1", :format => "xml"
     assert_response :success
     assert_equal "application/xml", @response.content_type
     assert_select "osm", :count => 1 do
       assert_select "note", :count => 0
     end
 
-    get :index, :bbox => '5,5,5.1,5.1', :format => 'gpx'
+    get :index, :bbox => "5,5,5.1,5.1", :format => "gpx"
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
     assert_select "gpx", :count => 1 do
@@ -567,25 +567,25 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_index_large_area
-    get :index, :bbox => '-2.5,-2.5,2.5,2.5', :format => :json
+    get :index, :bbox => "-2.5,-2.5,2.5,2.5", :format => :json
     assert_response :success
     assert_equal "application/json", @response.content_type
 
-    get :index, :l => '-2.5', :b => '-2.5', :r => '2.5', :t => '2.5', :format => :json
+    get :index, :l => "-2.5", :b => "-2.5", :r => "2.5", :t => "2.5", :format => :json
     assert_response :success
     assert_equal "application/json", @response.content_type
 
-    get :index, :bbox => '-10,-10,12,12', :format => :json
+    get :index, :bbox => "-10,-10,12,12", :format => :json
     assert_response :bad_request
     assert_equal "text/plain", @response.content_type
 
-    get :index, :l => '-10', :b => '-10', :r => '12', :t => '12', :format => :json
+    get :index, :l => "-10", :b => "-10", :r => "12", :t => "12", :format => :json
     assert_response :bad_request
     assert_equal "text/plain", @response.content_type
   end
 
   def test_index_closed
-    get :index, :bbox => '1,1,1.7,1.7', :closed => '7', :format => 'json'
+    get :index, :bbox => "1,1,1.7,1.7", :closed => "7", :format => "json"
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -593,7 +593,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 4, js["features"].count
 
-    get :index, :bbox => '1,1,1.7,1.7', :closed => '0', :format => 'json'
+    get :index, :bbox => "1,1,1.7,1.7", :closed => "0", :format => "json"
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -601,7 +601,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 4, js["features"].count
 
-    get :index, :bbox => '1,1,1.7,1.7', :closed => '-1', :format => 'json'
+    get :index, :bbox => "1,1,1.7,1.7", :closed => "-1", :format => "json"
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -611,40 +611,40 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_index_bad_params
-    get :index, :bbox => '-2.5,-2.5,2.5'
+    get :index, :bbox => "-2.5,-2.5,2.5"
     assert_response :bad_request
 
-    get :index, :bbox => '-2.5,-2.5,2.5,2.5,2.5'
+    get :index, :bbox => "-2.5,-2.5,2.5,2.5,2.5"
     assert_response :bad_request
 
-    get :index, :b => '-2.5', :r => '2.5', :t => '2.5'
+    get :index, :b => "-2.5", :r => "2.5", :t => "2.5"
     assert_response :bad_request
 
-    get :index, :l => '-2.5', :r => '2.5', :t => '2.5'
+    get :index, :l => "-2.5", :r => "2.5", :t => "2.5"
     assert_response :bad_request
 
-    get :index, :l => '-2.5', :b => '-2.5', :t => '2.5'
+    get :index, :l => "-2.5", :b => "-2.5", :t => "2.5"
     assert_response :bad_request
 
-    get :index, :l => '-2.5', :b => '-2.5', :r => '2.5'
+    get :index, :l => "-2.5", :b => "-2.5", :r => "2.5"
     assert_response :bad_request
 
-    get :index, :bbox => '1,1,1.7,1.7', :limit => '0', :format => 'json'
+    get :index, :bbox => "1,1,1.7,1.7", :limit => "0", :format => "json"
     assert_response :bad_request
 
-    get :index, :bbox => '1,1,1.7,1.7', :limit => '10001', :format => 'json'
+    get :index, :bbox => "1,1,1.7,1.7", :limit => "10001", :format => "json"
     assert_response :bad_request
   end
 
   def test_search_success
-    get :search, :q => 'note 1', :format => 'xml'
+    get :search, :q => "note 1", :format => "xml"
     assert_response :success
     assert_equal "application/xml", @response.content_type
     assert_select "osm", :count => 1 do
       assert_select "note", :count => 1
     end
 
-    get :search, :q => 'note 1', :format => 'json'
+    get :search, :q => "note 1", :format => "json"
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -652,7 +652,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 1, js["features"].count
 
-    get :search, :q => 'note 1', :format => 'rss'
+    get :search, :q => "note 1", :format => "rss"
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -661,7 +661,7 @@ class NotesControllerTest < ActionController::TestCase
       end
     end
 
-    get :search, :q => 'note 1', :format => 'gpx'
+    get :search, :q => "note 1", :format => "gpx"
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
     assert_select "gpx", :count => 1 do
@@ -670,14 +670,14 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_search_no_match
-    get :search, :q => 'no match', :format => 'xml'
+    get :search, :q => "no match", :format => "xml"
     assert_response :success
     assert_equal "application/xml", @response.content_type
     assert_select "osm", :count => 1 do
       assert_select "note", :count => 0
     end
 
-    get :search, :q => 'no match', :format => 'json'
+    get :search, :q => "no match", :format => "json"
     assert_response :success
     assert_equal "application/json", @response.content_type
     js = ActiveSupport::JSON.decode(@response.body)
@@ -685,7 +685,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "FeatureCollection", js["type"]
     assert_equal 0, js["features"].count
 
-    get :search, :q => 'no match', :format => 'rss'
+    get :search, :q => "no match", :format => "rss"
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
@@ -694,7 +694,7 @@ class NotesControllerTest < ActionController::TestCase
       end
     end
 
-    get :search, :q => 'no match', :format => 'gpx'
+    get :search, :q => "no match", :format => "gpx"
     assert_response :success
     assert_equal "application/gpx+xml", @response.content_type
     assert_select "gpx", :count => 1 do
@@ -706,10 +706,10 @@ class NotesControllerTest < ActionController::TestCase
     get :search
     assert_response :bad_request
 
-    get :search, :q => 'no match', :limit => '0', :format => 'json'
+    get :search, :q => "no match", :limit => "0", :format => "json"
     assert_response :bad_request
 
-    get :search, :q => 'no match', :limit => '10001', :format => 'json'
+    get :search, :q => "no match", :limit => "10001", :format => "json"
     assert_response :bad_request
   end
 
@@ -740,10 +740,10 @@ class NotesControllerTest < ActionController::TestCase
     get :feed, :bbox => "1,1,1.2,1.2,1.2", :format => "rss"
     assert_response :bad_request
 
-    get :feed, :bbox => "1,1,1.2,1.2", :limit => '0', :format => "rss"
+    get :feed, :bbox => "1,1,1.2,1.2", :limit => "0", :format => "rss"
     assert_response :bad_request
 
-    get :feed, :bbox => "1,1,1.2,1.2", :limit => '10001', :format => "rss"
+    get :feed, :bbox => "1,1,1.2,1.2", :limit => "10001", :format => "rss"
     assert_response :bad_request
   end
 

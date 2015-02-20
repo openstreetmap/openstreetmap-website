@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class RedirectTest  < ActionDispatch::IntegrationTest
   def test_legacy_redirects

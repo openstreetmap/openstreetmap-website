@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'old_way_controller'
+require "test_helper"
+require "old_way_controller"
 
 class OldWayControllerTest < ActionController::TestCase
   api_fixtures
@@ -137,14 +137,14 @@ class OldWayControllerTest < ActionController::TestCase
     # the appropriate flag
     get :version, :id => way.way_id, :version => way.version
     assert_response :forbidden, "After redaction, node should be gone for moderator, when flag not passed."
-    get :version, :id => way.way_id, :version => way.version, :show_redactions => 'true'
+    get :version, :id => way.way_id, :version => way.version, :show_redactions => "true"
     assert_response :success, "After redaction, node should not be gone for moderator, when flag passed."
 
     # and when accessed via history
     get :history, :id => way.way_id
     assert_response :success, "Redaction shouldn't have stopped history working."
     assert_select "osm way[id='#{way.way_id}'][version='#{way.version}']", 0, "way #{way.way_id} version #{way.version} should not be present in the history for moderators when not passing flag."
-    get :history, :id => way.way_id, :show_redactions => 'true'
+    get :history, :id => way.way_id, :show_redactions => "true"
     assert_response :success, "Redaction shouldn't have stopped history working."
     assert_select "osm way[id='#{way.way_id}'][version='#{way.version}']", 1, "way #{way.way_id} version #{way.version} should still be present in the history for moderators when passing flag."
   end

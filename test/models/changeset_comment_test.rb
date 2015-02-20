@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class ChangesetCommentTest < ActiveSupport::TestCase
   fixtures :changesets, :changeset_comments

@@ -77,7 +77,7 @@ module ActionController
         :include    => nil,
         :select     => nil,
         :group      => nil,
-        :parameter  => 'page'
+        :parameter  => "page"
       }
     end
 
@@ -226,7 +226,7 @@ module ActionController
       # than or equal to zero). The page CGI parameter for links defaults to
       # "page" and can be overridden with +page_parameter+.
       def initialize(controller, item_count, items_per_page, current_page = 1)
-        fail ArgumentError, 'must have at least one item per page' if
+        fail ArgumentError, "must have at least one item per page" if
           items_per_page <= 0
 
         @controller = controller
@@ -243,7 +243,7 @@ module ActionController
       # not belong to this Paginator, an ArgumentError is raised.
       def current_page=(page)
         if page.is_a? Page
-          fail ArgumentError, 'Page/Paginator mismatch' unless
+          fail ArgumentError, "Page/Paginator mismatch" unless
             page.paginator == self
         end
         page = page.to_i

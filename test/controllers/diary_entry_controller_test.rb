@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class DiaryEntryControllerTest < ActionController::TestCase
   fixtures :users, :diary_entries, :diary_comments, :languages
@@ -91,7 +91,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :user, :action => "login", :referer => "/diary/new"
     # Now pretend to login by using the session hash, with the
     # id of the person we want to login as through session(:user)=user.id
-    get(:new, nil, 'user' => users(:normal_user).id)
+    get(:new, nil, "user" => users(:normal_user).id)
     assert_response :success
     # print @response.body
 
@@ -123,7 +123,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :user, :action => "login", :referer => "/user/#{entry.user.display_name}/diary/#{entry.id}/edit"
 
     # Verify that you get a not found error, when you pass a bogus id
-    get(:edit, { :display_name => entry.user.display_name, :id => 9999 }, { 'user' => entry.user.id })
+    get(:edit, { :display_name => entry.user.display_name, :id => 9999 }, { "user" => entry.user.id })
     assert_response :not_found
     assert_select "div.content-heading", :count => 1 do
       assert_select "h2", :text => "No entry with the id: 9999", :count => 1
@@ -131,7 +131,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
     # Now pass the id, and check that you can edit it, when using the same
     # user as the person who created the entry
-    get(:edit, { :display_name => entry.user.display_name, :id => entry.id }, { 'user' => entry.user.id })
+    get(:edit, { :display_name => entry.user.display_name, :id => entry.id }, { "user" => entry.user.id })
     assert_response :success
     assert_select "title", :text => /Edit diary entry/, :count => 1
     assert_select "div.content-heading", :count => 1 do
@@ -157,17 +157,17 @@ class DiaryEntryControllerTest < ActionController::TestCase
     new_latitude = "1.1"
     new_longitude = "2.2"
     new_language_code = "en"
-    post(:edit, { :display_name => entry.user.display_name, :id => entry.id, 'commit' => 'save',
-                  'diary_entry' => { 'title' => new_title, 'body' => new_body, 'latitude' => new_latitude,
-                                     'longitude' => new_longitude, 'language_code' => new_language_code } },
-         { 'user' => entry.user.id })
+    post(:edit, { :display_name => entry.user.display_name, :id => entry.id, "commit" => "save",
+                  "diary_entry" => { "title" => new_title, "body" => new_body, "latitude" => new_latitude,
+                                     "longitude" => new_longitude, "language_code" => new_language_code } },
+         { "user" => entry.user.id })
     assert_response :redirect
     assert_redirected_to :action => :view, :display_name => entry.user.display_name, :id => entry.id
 
     # Now check that the new data is rendered, when logged in
-    get :view, { :display_name => entry.user.display_name, :id => entry.id }, { 'user' => entry.user.id }
+    get :view, { :display_name => entry.user.display_name, :id => entry.id }, { "user" => entry.user.id }
     assert_response :success
-    assert_template 'diary_entry/view'
+    assert_template "diary_entry/view"
     assert_select "title", :text => /Users' diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
       assert_select "h2", :text => /#{entry.user.display_name}'s diary/, :count => 1
@@ -184,9 +184,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
     end
 
     # and when not logged in as the user who wrote the entry
-    get :view, { :display_name => entry.user.display_name, :id => entry.id }, { 'user' => entry.user.id }
+    get :view, { :display_name => entry.user.display_name, :id => entry.id }, { "user" => entry.user.id }
     assert_response :success
-    assert_template 'diary_entry/view'
+    assert_template "diary_entry/view"
     assert_select "title", :text => /Users' diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
       assert_select "h2", :text => /#{users(:normal_user).display_name}'s diary/, :count => 1
@@ -205,7 +205,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   end
 
   def test_edit_diary_entry_i18n
-    get :edit, { :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id }, { 'user' => users(:normal_user).id }
+    get :edit, { :display_name => users(:normal_user).display_name, :id => diary_entries(:normal_user_entry_1).id }, { "user" => users(:normal_user).id }
     assert_response :success
     assert_select "span[class=translation_missing]", false, "Missing translation in edit diary entry"
   end
@@ -245,9 +245,9 @@ class DiaryEntryControllerTest < ActionController::TestCase
     new_longitude = "2.2"
     new_language_code = "en"
     assert_difference "DiaryEntry.count", 1 do
-      post(:new, { 'commit' => 'save',
-                   'diary_entry' => { 'title' => new_title, 'body' => new_body, 'latitude' => new_latitude,
-                                      'longitude' => new_longitude, 'language_code' => new_language_code } },
+      post(:new, { "commit" => "save",
+                   "diary_entry" => { "title" => new_title, "body" => new_body, "latitude" => new_latitude,
+                                      "longitude" => new_longitude, "language_code" => new_language_code } },
            { :user => users(:normal_user).id })
     end
     assert_response :redirect
@@ -310,13 +310,13 @@ class DiaryEntryControllerTest < ActionController::TestCase
   def test_listing_diary_entries
     get :list
     assert_response :success, "Should be able to list the diary entries in locale"
-    assert_template 'list', "Should use the list template in locale"
+    assert_template "list", "Should use the list template in locale"
     assert_select "span[class=translation_missing]", false, "Missing translation in list of diary entries"
 
     # Now try to find a specific user's diary entry
     get :list, :display_name => users(:normal_user).display_name
     assert_response :success, "Should be able to list the diary entries for a user in locale"
-    assert_template 'list', "Should use the list template for a user in locale"
+    assert_template "list", "Should use the list template for a user in locale"
     assert_no_missing_translations
   end
 
@@ -344,7 +344,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
   #  end
 
   def test_rss_language_with_no_entries
-    get :rss, :language => 'sl', :format => :rss
+    get :rss, :language => "sl", :format => :rss
     assert_response :success, "Should be able to get a specific language diary RSS"
     assert_select "rss>channel>item", :count => 0 # , "Diary entries should be filtered by language"
   end
@@ -357,7 +357,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
 
   def test_rss_nonexisting_user
     # Try a user that has never existed
-    get :rss, :display_name => 'fakeUsername76543', :format => :rss
+    get :rss, :display_name => "fakeUsername76543", :format => :rss
     assert_response :not_found, "Should not be able to get a nonexisting users diary RSS"
 
     # Try a suspended user

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require 'test_helper'
+require "test_helper"
 
 class UTF8Test < ActiveSupport::TestCase
   def test_valid?

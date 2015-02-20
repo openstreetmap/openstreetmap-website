@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class AddUserAndDescriptionToRedaction < ActiveRecord::Migration
   def change

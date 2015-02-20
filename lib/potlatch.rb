@@ -1,4 +1,4 @@
-require 'stringio'
+require "stringio"
 
 # The Potlatch module provides helper functions for potlatch and its communication with the server
 module Potlatch
@@ -24,7 +24,7 @@ module Potlatch
 
     # Return eight-byte double-precision float
     def self.getdouble(s)
-      a = s.read(8).unpack('G')			# G big-endian, E little-endian
+      a = s.read(8).unpack("G")			# G big-endian, E little-endian
       a[0]
     end
 
@@ -39,7 +39,7 @@ module Potlatch
     def self.getobject(s)
       arr = {}
       while (key = getstring(s))
-        break if key == ''
+        break if key == ""
         arr[key] = getvalue(s)
       end
       s.getbyte		# skip the 9 'end of object' value
@@ -74,27 +74,27 @@ module Potlatch
     # Pack variables as AMF
     def self.encodevalue(n)
       case n.class.to_s
-      when 'Array'
+      when "Array"
         a = 10.chr + encodelong(n.length)
         n.each do |b|
           a += encodevalue(b)
         end
         a
-      when 'Hash'
+      when "Hash"
         a = 3.chr
         n.each do |k, v|
           a += encodestring(k.to_s) + encodevalue(v)
         end
         a + 0.chr + 0.chr + 9.chr
-      when 'String'
+      when "String"
         2.chr + encodestring(n)
-      when 'Bignum', 'Fixnum', 'Float'
+      when "Bignum", "Fixnum", "Float"
         0.chr + encodedouble(n)
-      when 'NilClass'
+      when "NilClass"
         5.chr
-      when 'TrueClass'
+      when "TrueClass"
         0.chr + encodedouble(1)
-      when 'FalseClass'
+      when "FalseClass"
         0.chr + encodedouble(0)
       else
         Rails.logger.error("Unexpected Ruby type for AMF conversion: " + n.class.to_s)
@@ -110,12 +110,12 @@ module Potlatch
 
     # Encode number as eight-byte double precision float
     def self.encodedouble(n)
-      [n].pack('G')
+      [n].pack("G")
     end
 
     # Encode number as four-byte long
     def self.encodelong(n)
-      [n].pack('N')
+      [n].pack("N")
     end
   end
 
@@ -175,10 +175,10 @@ module Potlatch
 
       # Read preset menus
       presets = {}
-      presetmenus = { 'point' => [], 'way' => [], 'POI' => [] }
-      presetnames = { 'point' => {}, 'way' => {}, 'POI' => {} }
-      presettype = ''
-      presetcategory = ''
+      presetmenus = { "point" => [], "way" => [], "POI" => [] }
+      presetnames = { "point" => {}, "way" => {}, "POI" => {} }
+      presettype = ""
+      presetcategory = ""
       #	StringIO.open(txt) do |file|
       File.open("#{Rails.root}/config/potlatch/presets.txt") do |file|
         file.each_line do|line|
@@ -193,7 +193,7 @@ module Potlatch
             kv = $2
             presetnames[presettype][presetcategory].push(pre)
             presets[pre] = {}
-            kv.split(',').each do|a|
+            kv.split(",").each do|a|
               presets[pre][$1] = $2 if a =~ /^(.+)=(.*)$/
             end
           end
@@ -209,9 +209,9 @@ module Potlatch
           next unless line.chomp =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
 
           tag = $1
-          colours[tag] = $2.hex if $2 != '-'
-          casing[tag] = $3.hex if $3 != '-'
-          areas[tag] = $4.hex if $4 != '-'
+          colours[tag] = $2.hex if $2 != "-"
+          casing[tag] = $3.hex if $3 != "-"
+          areas[tag] = $4.hex if $4 != "-"
         end
       end
 
@@ -224,9 +224,9 @@ module Potlatch
           next unless line.chomp =~ /(\w+)\s+([^\s]+)\s+([^\s]+)\s+([^\s]+)/
 
           tag = $1
-          relcolours[tag] = $2.hex if $2 != '-'
-          relalphas[tag] = $3.to_i if $3 != '-'
-          relwidths[tag] = $4.to_i if $4 != '-'
+          relcolours[tag] = $2.hex if $2 != "-"
+          relalphas[tag] = $3.to_i if $3 != "-"
+          relwidths[tag] = $4.to_i if $4 != "-"
         end
       end
 
@@ -243,7 +243,7 @@ module Potlatch
       icon_list.reverse!
 
       # Read auto-complete
-      autotags = { 'point' => {}, 'way' => {}, 'POI' => {} }
+      autotags = { "point" => {}, "way" => {}, "POI" => {} }
       File.open("#{Rails.root}/config/potlatch/autocomplete.txt") do |file|
         file.each_line do|line|
           next unless line.chomp =~ /^([\w:]+)\/(\w+)\s+(.+)$/
@@ -251,10 +251,10 @@ module Potlatch
           tag = $1
           type = $2
           values = $3
-          if values == '-'
+          if values == "-"
             autotags[type][tag] = []
           else
-            autotags[type][tag] = values.split(',').sort.reverse
+            autotags[type][tag] = values.split(",").sort.reverse
           end
         end
       end

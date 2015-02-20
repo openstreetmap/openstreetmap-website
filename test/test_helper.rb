@@ -1,7 +1,7 @@
 ENV["RAILS_ENV"] = "test"
-require File.expand_path('../../config/environment', __FILE__)
-require 'rails/test_help'
-load 'composite_primary_keys/fixtures.rb'
+require File.expand_path("../../config/environment", __FILE__)
+require "rails/test_help"
+load "composite_primary_keys/fixtures.rb"
 
 module ActiveSupport
   class TestCase
@@ -130,7 +130,7 @@ module ActiveSupport
     # when the owner of the changset has their data not marked as public
     def assert_require_public_data(msg = "Shouldn't be able to use API when the user's data is not public")
       assert_response :forbidden, msg
-      assert_equal @response.headers['Error'], "You must make your edits public to upload new data", "Wrong error message"
+      assert_equal @response.headers["Error"], "You must make your edits public to upload new data", "Wrong error message"
     end
 
     # Not sure this is the best response we could give
@@ -172,7 +172,7 @@ module ActiveSupport
 
     def openid_request(openid_request_uri)
       openid_response = Net::HTTP.get_response(URI.parse(openid_request_uri))
-      openid_response_uri = URI(openid_response['Location'])
+      openid_response_uri = URI(openid_response["Location"])
       openid_response_qs = Rack::Utils.parse_query(openid_response_uri.query)
 
       openid_response_qs

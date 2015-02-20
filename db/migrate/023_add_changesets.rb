@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class AddChangesets < ActiveRecord::Migration
   @@conv_user_tables = %w(current_nodes current_relations current_ways nodes relations ways)

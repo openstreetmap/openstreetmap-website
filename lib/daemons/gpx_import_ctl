@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
-require 'rubygems'
+require "rubygems"
 require "daemons"
-require 'yaml'
-require 'erb'
+require "yaml"
+require "erb"
 
 class Hash
   def with_symbols!
@@ -18,4 +18,4 @@ options = YAML.load(
     )).result).with_symbols!
 options[:dir_mode] = options[:dir_mode].to_sym
 
-Daemons.run File.dirname(__FILE__) + '/gpx_import.rb', options
+Daemons.run File.dirname(__FILE__) + "/gpx_import.rb", options

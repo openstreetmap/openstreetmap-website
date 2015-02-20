@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-require 'test_helper'
+require "test_helper"
 
 class BrowseHelperTest < ActionView::TestCase
   include ERB::Util

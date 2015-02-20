@@ -1,7 +1,7 @@
 class Language < ActiveRecord::Base
   self.primary_key = "code"
 
-  has_many :diary_entries, :foreign_key => 'language'
+  has_many :diary_entries, :foreign_key => "language"
 
   def self.load(file)
     Language.transaction do

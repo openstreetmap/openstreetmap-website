@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'redactions_controller'
+require "test_helper"
+require "redactions_controller"
 
 class RedactionsControllerTest < ActionController::TestCase
   api_fixtures

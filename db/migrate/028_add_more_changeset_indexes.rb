@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class AddMoreChangesetIndexes < ActiveRecord::Migration
   def self.up

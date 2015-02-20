@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class AddForeignKeysToOauthTables < ActiveRecord::Migration
   def change

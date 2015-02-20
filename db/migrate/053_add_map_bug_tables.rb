@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class AddMapBugTables < ActiveRecord::Migration
   def self.up

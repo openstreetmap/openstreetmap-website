@@ -3,7 +3,7 @@ module ChangesetHelper
     if changeset.user.data_public?
       link_to(changeset.user.display_name, user_path(changeset.user.display_name))
     else
-      t('browse.anonymous')
+      t("browse.anonymous")
     end
   end
 

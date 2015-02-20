@@ -60,8 +60,8 @@ module ActionView
         name = options[:name] || DEFAULT_OPTIONS[:name]
         params = (options[:params] || DEFAULT_OPTIONS[:params]).clone
 
-        prefix = options[:prefix] || ''
-        suffix = options[:suffix] || ''
+        prefix = options[:prefix] || ""
+        suffix = options[:suffix] || ""
 
         pagination_links_each(paginator, options, prefix, suffix) do |n|
           params[name] = n
@@ -101,14 +101,14 @@ module ActionView
 
         first, last = paginator.first, paginator.last
 
-        html = ''
+        html = ""
 
         html << prefix if prefix
 
         if always_show_anchors && !(wp_first = window_pages[0]).first?
           html << yield(first.number)
-          html << ' ... ' if wp_first.number - first.number > 1
-          html << ' '
+          html << " ... " if wp_first.number - first.number > 1
+          html << " "
         end
 
         window_pages.each do |page|
@@ -117,11 +117,11 @@ module ActionView
           else
             html << yield(page.number)
           end
-          html << ' '
+          html << " "
         end
 
         if always_show_anchors && !(wp_last = window_pages[-1]).last?
-          html << ' ... ' if last.number - wp_last.number > 1
+          html << " ... " if last.number - wp_last.number > 1
           html << yield(last.number)
         end
 

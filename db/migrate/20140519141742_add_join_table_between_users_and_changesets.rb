@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class AddJoinTableBetweenUsersAndChangesets < ActiveRecord::Migration
   def change

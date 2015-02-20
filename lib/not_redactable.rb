@@ -1,4 +1,4 @@
-require 'osm'
+require "osm"
 
 module NotRedactable
   def redacted?

@@ -23,7 +23,7 @@ loop do
       if gpx.actual_points > 0
         Notifier.gpx_success(trace, gpx.actual_points).deliver
       else
-        Notifier.gpx_failure(trace, '0 points parsed ok. Do they all have lat,lng,alt,timestamp?').deliver
+        Notifier.gpx_failure(trace, "0 points parsed ok. Do they all have lat,lng,alt,timestamp?").deliver
         trace.destroy
       end
     rescue StandardError => ex

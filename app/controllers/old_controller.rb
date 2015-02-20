@@ -2,7 +2,7 @@
 # into one place. as it turns out, the API methods for historical
 # nodes, ways and relations are basically identical.
 class OldController < ApplicationController
-  require 'xml/libxml'
+  require "xml/libxml"
 
   skip_before_filter :verify_authenticity_token
   before_filter :setup_user_auth, :only => [:history, :version]
@@ -52,7 +52,7 @@ class OldController < ApplicationController
   end
 
   def redact
-    redaction_id = params['redaction']
+    redaction_id = params["redaction"]
     if redaction_id.nil?
       # if no redaction ID was provided, then this is an unredact
       # operation.

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require 'test_helper'
+require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   api_fixtures
@@ -21,7 +21,7 @@ class UserTest < ActiveSupport::TestCase
     new_user = User.new(
       :email => users(:normal_user).email,
       :status => "active",
-      :pass_crypt => Digest::MD5.hexdigest('test'),
+      :pass_crypt => Digest::MD5.hexdigest("test"),
       :display_name => "new user",
       :data_public => 1,
       :description => "desc"
@@ -34,7 +34,7 @@ class UserTest < ActiveSupport::TestCase
     new_user = User.new(
       :email => "tester@openstreetmap.org",
       :status => "pending",
-      :pass_crypt => Digest::MD5.hexdigest('test'),
+      :pass_crypt => Digest::MD5.hexdigest("test"),
       :display_name => users(:normal_user).display_name,
       :data_public => 1,
       :description => "desc"

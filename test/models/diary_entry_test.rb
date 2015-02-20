@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class DiaryEntryTest < ActiveSupport::TestCase
   api_fixtures
@@ -10,10 +10,10 @@ class DiaryEntryTest < ActiveSupport::TestCase
 
   def test_diary_entry_validations
     diary_entry_valid({})
-    diary_entry_valid({ :title => '' }, false)
-    diary_entry_valid(:title => 'a' * 255)
-    diary_entry_valid({ :title => 'a' * 256 }, false)
-    diary_entry_valid({ :body => '' }, false)
+    diary_entry_valid({ :title => "" }, false)
+    diary_entry_valid(:title => "a" * 255)
+    diary_entry_valid({ :title => "a" * 256 }, false)
+    diary_entry_valid({ :body => "" }, false)
     diary_entry_valid(:latitude => 90)
     diary_entry_valid({ :latitude => 90.00001 }, false)
     diary_entry_valid(:latitude => -90)

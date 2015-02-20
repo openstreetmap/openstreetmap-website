@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class CreateLanguages < ActiveRecord::Migration
   def change

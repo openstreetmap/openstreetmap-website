@@ -1,5 +1,5 @@
 class WayController < ApplicationController
-  require 'xml/libxml'
+  require "xml/libxml"
 
   skip_before_filter :verify_authenticity_token
   before_filter :authorize, :only => [:create, :update, :delete]
@@ -84,11 +84,11 @@ class WayController < ApplicationController
   end
 
   def ways
-    unless params['ways']
+    unless params["ways"]
       fail OSM::APIBadUserInput.new("The parameter ways is required, and must be of the form ways=id[,id[,id...]]")
     end
 
-    ids = params['ways'].split(',').collect(&:to_i)
+    ids = params["ways"].split(",").collect(&:to_i)
 
     if ids.length == 0
       fail OSM::APIBadUserInput.new("No ways were given to search for")

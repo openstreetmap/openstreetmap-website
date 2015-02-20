@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class OauthClientsControllerTest < ActionController::TestCase
   fixtures :users, :client_applications

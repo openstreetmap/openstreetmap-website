@@ -1,6 +1,6 @@
 ##
 # Load required libraries
-require 'soap/wsdlDriver'
+require "soap/wsdlDriver"
 
 ##
 # Monkey patch WSDL parser to stop it moaning

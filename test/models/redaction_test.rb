@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'osm'
+require "test_helper"
+require "osm"
 
 class RedactionTest < ActiveSupport::TestCase
   api_fixtures

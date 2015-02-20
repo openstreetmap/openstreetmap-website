@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class CreateChangesetComments < ActiveRecord::Migration
   def change

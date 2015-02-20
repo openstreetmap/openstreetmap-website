@@ -1,5 +1,5 @@
 class R2Template < Tilt::Template
-  self.default_mime_type = 'text/css'
+  self.default_mime_type = "text/css"
 
   def self.engine_initialized?
     defined? ::R2

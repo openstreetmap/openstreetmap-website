@@ -1,4 +1,4 @@
-require 'migrate'
+require "migrate"
 
 class ChangeMapBugCommentType < ActiveRecord::Migration
   def self.up

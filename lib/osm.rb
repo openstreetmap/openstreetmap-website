@@ -1,14 +1,14 @@
 # The OSM module provides support functions for OSM.
 module OSM
-  require 'time'
-  require 'rexml/parsers/sax2parser'
-  require 'rexml/text'
-  require 'xml/libxml'
+  require "time"
+  require "rexml/parsers/sax2parser"
+  require "rexml/text"
+  require "xml/libxml"
 
   if defined?(SystemTimer)
     Timer = SystemTimer
   else
-    require 'timeout'
+    require "timeout"
     Timer = Timeout
   end
 
@@ -482,12 +482,12 @@ module OSM
     def get_xml_doc
       doc = XML::Document.new
       doc.encoding = XML::Encoding::UTF_8
-      root = XML::Node.new 'osm'
-      root['version'] = API_VERSION.to_s
-      root['generator'] = GENERATOR
-      root['copyright'] = COPYRIGHT_OWNER
-      root['attribution'] = ATTRIBUTION_URL
-      root['license'] =  LICENSE_URL
+      root = XML::Node.new "osm"
+      root["version"] = API_VERSION.to_s
+      root["generator"] = GENERATOR
+      root["copyright"] = COPYRIGHT_OWNER
+      root["attribution"] = ATTRIBUTION_URL
+      root["license"] =  LICENSE_URL
       doc.root = root
       doc
     end
@@ -500,7 +500,7 @@ module OSM
       if ipinfo.status == Quova::SUCCESS
         country = ipinfo.country_code
       else
-        Net::HTTP.start('api.hostip.info') do |http|
+        Net::HTTP.start("api.hostip.info") do |http|
           country = http.get("/country.php?ip=#{ip_address}").body
           country = "GB" if country == "UK"
         end
@@ -533,8 +533,8 @@ module OSM
 
   # Construct a random token of a given length
   def self.make_token(length = 30)
-    chars = 'abcdefghijklmnopqrtuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    token = ''
+    chars = "abcdefghijklmnopqrtuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    token = ""
 
     length.times do
       token += chars[(rand * chars.length).to_i].chr

@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class WayTest < ActiveSupport::TestCase
   api_fixtures
@@ -15,10 +15,10 @@ class WayTest < ActiveSupport::TestCase
      :invisible_way,
      :used_way].each do |way_symbol|
       way = current_ways(way_symbol)
-      assert_equal node.bbox.min_lon, way.bbox.min_lon, 'min_lon'
-      assert_equal node.bbox.min_lat, way.bbox.min_lat, 'min_lat'
-      assert_equal node.bbox.max_lon, way.bbox.max_lon, 'max_lon'
-      assert_equal node.bbox.max_lat, way.bbox.max_lat, 'max_lat'
+      assert_equal node.bbox.min_lon, way.bbox.min_lon, "min_lon"
+      assert_equal node.bbox.min_lat, way.bbox.min_lat, "min_lat"
+      assert_equal node.bbox.max_lon, way.bbox.max_lon, "max_lon"
+      assert_equal node.bbox.max_lat, way.bbox.max_lat, "max_lat"
     end
   end
 

@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class MessageControllerTest < ActionController::TestCase
   fixtures :users, :messages

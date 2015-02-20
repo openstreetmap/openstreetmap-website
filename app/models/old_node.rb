@@ -20,7 +20,7 @@ class OldNode < ActiveRecord::Base
   belongs_to :redaction
   belongs_to :current_node, :class_name => "Node", :foreign_key => "node_id"
 
-  has_many :old_tags, :class_name => 'OldNodeTag', :foreign_key => [:node_id, :version]
+  has_many :old_tags, :class_name => "OldNodeTag", :foreign_key => [:node_id, :version]
 
   def validate_position
     errors.add(:base, "Node is not in the world") unless in_world?
@@ -46,14 +46,14 @@ class OldNode < ActiveRecord::Base
   end
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new 'node'
-    el['id'] = node_id.to_s
+    el = XML::Node.new "node"
+    el["id"] = node_id.to_s
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     if self.visible?
-      el['lat'] = lat.to_s
-      el['lon'] = lon.to_s
+      el["lat"] = lat.to_s
+      el["lon"] = lon.to_s
     end
 
     add_tags_to_xml_node(el, old_tags)

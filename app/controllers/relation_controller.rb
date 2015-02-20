@@ -1,5 +1,5 @@
 class RelationController < ApplicationController
-  require 'xml/libxml'
+  require "xml/libxml"
 
   skip_before_filter :verify_authenticity_token
   before_filter :authorize, :only => [:create, :update, :delete]
@@ -76,9 +76,9 @@ class RelationController < ApplicationController
       # first find the ids of nodes, ways and relations referenced by this
       # relation - note that we exclude this relation just in case.
 
-      node_ids = relation.members.select { |m| m[0] == 'Node' }.map { |m| m[1] }
-      way_ids = relation.members.select { |m| m[0] == 'Way' }.map { |m| m[1] }
-      relation_ids = relation.members.select { |m| m[0] == 'Relation' && m[1] != relation.id }.map { |m| m[1] }
+      node_ids = relation.members.select { |m| m[0] == "Node" }.map { |m| m[1] }
+      way_ids = relation.members.select { |m| m[0] == "Way" }.map { |m| m[1] }
+      relation_ids = relation.members.select { |m| m[0] == "Relation" && m[1] != relation.id }.map { |m| m[1] }
 
       # next load the relations and the ways.
 
@@ -133,11 +133,11 @@ class RelationController < ApplicationController
   end
 
   def relations
-    unless params['relations']
+    unless params["relations"]
       fail OSM::APIBadUserInput.new("The parameter relations is required, and must be of the form relations=id[,id[,id...]]")
     end
 
-    ids = params['relations'].split(',').collect(&:to_i)
+    ids = params["relations"].split(",").collect(&:to_i)
 
     if ids.length == 0
       fail OSM::APIBadUserInput.new("No relations were given to search for")

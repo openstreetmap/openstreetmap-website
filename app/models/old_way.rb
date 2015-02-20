@@ -13,8 +13,8 @@ class OldWay < ActiveRecord::Base
   belongs_to :redaction
   belongs_to :current_way, :class_name => "Way", :foreign_key => "way_id"
 
-  has_many :old_nodes, :class_name => 'OldWayNode', :foreign_key => [:way_id, :version]
-  has_many :old_tags, :class_name => 'OldWayTag', :foreign_key => [:way_id, :version]
+  has_many :old_nodes, :class_name => "OldWayNode", :foreign_key => [:way_id, :version]
+  has_many :old_tags, :class_name => "OldWayTag", :foreign_key => [:way_id, :version]
 
   validates_associated :changeset
 
@@ -65,14 +65,14 @@ class OldWay < ActiveRecord::Base
   attr_writer :tags
 
   def to_xml_node(changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new 'way'
-    el['id'] = way_id.to_s
+    el = XML::Node.new "way"
+    el["id"] = way_id.to_s
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
     old_nodes.each do |nd| # FIXME need to make sure they come back in the right order
-      node_el = XML::Node.new 'nd'
-      node_el['ref'] = nd.node_id.to_s
+      node_el = XML::Node.new "nd"
+      node_el["ref"] = nd.node_id.to_s
       el << node_el
     end
 
@@ -98,7 +98,7 @@ class OldWay < ActiveRecord::Base
   def get_nodes_revert(timestamp)
     points = []
     nds.each do |n|
-      oldnode = OldNode.where('node_id = ? AND timestamp <= ?', n, timestamp).unredacted.order("timestamp DESC").first
+      oldnode = OldNode.where("node_id = ? AND timestamp <= ?", n, timestamp).unredacted.order("timestamp DESC").first
       curnode = Node.find(n)
       id = n
       reuse = curnode.visible

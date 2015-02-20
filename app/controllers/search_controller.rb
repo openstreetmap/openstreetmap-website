@@ -22,24 +22,24 @@ class SearchController < ApplicationController
   end
 
   def do_search(do_ways, do_nodes, do_relations)
-    type = params['type']
-    value = params['value']
+    type = params["type"]
+    value = params["value"]
     unless type || value
-      name = params['name']
+      name = params["name"]
       if name
-        type = 'name'
+        type = "name"
         value = name
       end
     end
 
     if do_nodes
-      response.headers['Error'] = "Searching of nodes is currently unavailable"
+      response.headers["Error"] = "Searching of nodes is currently unavailable"
       render :text => "", :status => :service_unavailable
       return false
     end
 
     unless value
-      response.headers['Error'] = "Searching for a key without value is currently unavailable"
+      response.headers["Error"] = "Searching for a key without value is currently unavailable"
       render :text => "", :status => :service_unavailable
       return false
     end

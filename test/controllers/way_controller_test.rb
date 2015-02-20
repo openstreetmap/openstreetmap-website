@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'way_controller'
+require "test_helper"
+require "way_controller"
 
 class WayControllerTest < ActionController::TestCase
   api_fixtures
@@ -369,8 +369,8 @@ class WayControllerTest < ActionController::TestCase
 
     # add an identical tag to the way
     tag_xml = XML::Node.new("tag")
-    tag_xml['k'] = current_way_tags(:t1).k
-    tag_xml['v'] = current_way_tags(:t1).v
+    tag_xml["k"] = current_way_tags(:t1).k
+    tag_xml["v"] = current_way_tags(:t1).v
 
     # add the tag into the existing xml
     way_xml = current_ways(:visible_way).to_xml
@@ -388,8 +388,8 @@ class WayControllerTest < ActionController::TestCase
 
     # add an identical tag to the way
     tag_xml = XML::Node.new("tag")
-    tag_xml['k'] = current_way_tags(:t1).k
-    tag_xml['v'] = current_way_tags(:t1).v
+    tag_xml["k"] = current_way_tags(:t1).k
+    tag_xml["v"] = current_way_tags(:t1).v
 
     # add the tag into the existing xml
     way_xml = current_ways(:visible_way).to_xml
@@ -412,8 +412,8 @@ class WayControllerTest < ActionController::TestCase
 
     # create duplicate tag
     tag_xml = XML::Node.new("tag")
-    tag_xml['k'] = "i_am_a_duplicate"
-    tag_xml['v'] = "foobar"
+    tag_xml["k"] = "i_am_a_duplicate"
+    tag_xml["v"] = "foobar"
 
     # add the tag into the existing xml
     way_xml = current_ways(:visible_way).to_xml
@@ -433,8 +433,8 @@ class WayControllerTest < ActionController::TestCase
 
     # create duplicate tag
     tag_xml = XML::Node.new("tag")
-    tag_xml['k'] = "i_am_a_duplicate"
-    tag_xml['v'] = "foobar"
+    tag_xml["k"] = "i_am_a_duplicate"
+    tag_xml["v"] = "foobar"
 
     # add the tag into the existing xml
     way_xml = current_ways(:visible_way).to_xml
@@ -519,7 +519,7 @@ class WayControllerTest < ActionController::TestCase
   ##
   # update the changeset_id of a node element
   def update_changeset(xml, changeset_id)
-    xml_attr_rewrite(xml, 'changeset', changeset_id)
+    xml_attr_rewrite(xml, "changeset", changeset_id)
   end
 
   ##

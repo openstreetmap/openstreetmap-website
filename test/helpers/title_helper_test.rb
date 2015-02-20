@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class TitleHelperTest < ActionView::TestCase
   def test_set_title

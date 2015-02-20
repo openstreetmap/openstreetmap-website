@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require 'test_helper'
+require "test_helper"
 
 class NoteTest < ActiveSupport::TestCase
   fixtures :users, :notes, :note_comments

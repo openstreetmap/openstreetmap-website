@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class RichTextTest < ActiveSupport::TestCase
   include Rails::Dom::Testing::Assertions::SelectorAssertions

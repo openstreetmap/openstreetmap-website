@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class PasswordHashTest < ActiveSupport::TestCase
   def test_md5_without_salt

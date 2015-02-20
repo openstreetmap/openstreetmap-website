@@ -1,5 +1,5 @@
 class Relation < ActiveRecord::Base
-  require 'xml/libxml'
+  require "xml/libxml"
 
   include ConsistencyValidations
   include NotRedactable
@@ -37,7 +37,7 @@ class Relation < ActiveRecord::Base
     p = XML::Parser.string(xml)
     doc = p.parse
 
-    doc.find('//osm/relation').each do |pt|
+    doc.find("//osm/relation").each do |pt|
       return Relation.from_xml_node(pt, create)
     end
     fail OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/relation element.")
@@ -48,14 +48,14 @@ class Relation < ActiveRecord::Base
   def self.from_xml_node(pt, create = false)
     relation = Relation.new
 
-    fail OSM::APIBadXMLError.new("relation", pt, "Version is required when updating") unless create || !pt['version'].nil?
-    relation.version = pt['version']
-    fail OSM::APIBadXMLError.new("relation", pt, "Changeset id is missing") if pt['changeset'].nil?
-    relation.changeset_id = pt['changeset']
+    fail OSM::APIBadXMLError.new("relation", pt, "Version is required when updating") unless create || !pt["version"].nil?
+    relation.version = pt["version"]
+    fail OSM::APIBadXMLError.new("relation", pt, "Changeset id is missing") if pt["changeset"].nil?
+    relation.changeset_id = pt["changeset"]
 
     unless create
-      fail OSM::APIBadXMLError.new("relation", pt, "ID is required when updating") if pt['id'].nil?
-      relation.id = pt['id'].to_i
+      fail OSM::APIBadXMLError.new("relation", pt, "ID is required when updating") if pt["id"].nil?
+      relation.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
       fail OSM::APIBadUserInput.new("ID of relation cannot be zero when updating.") if relation.id == 0
@@ -70,10 +70,10 @@ class Relation < ActiveRecord::Base
     relation.tags = {}
 
     # Add in any tags from the XML
-    pt.find('tag').each do |tag|
-      fail OSM::APIBadXMLError.new("relation", pt, "tag is missing key") if tag['k'].nil?
-      fail OSM::APIBadXMLError.new("relation", pt, "tag is missing value") if tag['v'].nil?
-      relation.add_tag_keyval(tag['k'], tag['v'])
+    pt.find("tag").each do |tag|
+      fail OSM::APIBadXMLError.new("relation", pt, "tag is missing key") if tag["k"].nil?
+      fail OSM::APIBadXMLError.new("relation", pt, "tag is missing value") if tag["v"].nil?
+      relation.add_tag_keyval(tag["k"], tag["v"])
     end
 
     # need to initialise the relation members array explicitly, as if this
@@ -82,16 +82,16 @@ class Relation < ActiveRecord::Base
     # empty, as intended.
     relation.members = []
 
-    pt.find('member').each do |member|
+    pt.find("member").each do |member|
       # member_type =
       logger.debug "each member"
-      fail OSM::APIBadXMLError.new("relation", pt, "The #{member['type']} is not allowed only, #{TYPES.inspect} allowed") unless TYPES.include? member['type']
+      fail OSM::APIBadXMLError.new("relation", pt, "The #{member['type']} is not allowed only, #{TYPES.inspect} allowed") unless TYPES.include? member["type"]
       logger.debug "after raise"
       # member_ref = member['ref']
       # member_role
-      member['role'] ||= "" # Allow  the upload to not include this, in which case we default to an empty string.
-      logger.debug member['role']
-      relation.add_member(member['type'].classify, member['ref'], member['role'])
+      member["role"] ||= "" # Allow  the upload to not include this, in which case we default to an empty string.
+      logger.debug member["role"]
+      relation.add_member(member["type"].classify, member["ref"], member["role"])
     end
     fail OSM::APIBadUserInput.new("Some bad xml in relation") if relation.nil?
 
@@ -105,8 +105,8 @@ class Relation < ActiveRecord::Base
   end
 
   def to_xml_node(visible_members = nil, changeset_cache = {}, user_display_name_cache = {})
-    el = XML::Node.new 'relation'
-    el['id'] = id.to_s
+    el = XML::Node.new "relation"
+    el["id"] = id.to_s
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
@@ -123,10 +123,10 @@ class Relation < ActiveRecord::Base
 
       next unless p
 
-      member_el = XML::Node.new 'member'
-      member_el['type'] = member.member_type.downcase
-      member_el['ref'] = member.member_id.to_s
-      member_el['role'] = member.member_role
+      member_el = XML::Node.new "member"
+      member_el["type"] = member.member_type.downcase
+      member_el["ref"] = member.member_id.to_s
+      member_el["role"] = member.member_role
       el << member_el
     end
 

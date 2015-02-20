@@ -15,13 +15,13 @@ class SwfController < ApplicationController
   def trackpoints
     # -	Initialise
 
-    baselong = params['baselong'].to_f
-    basey = params['basey'].to_f
-    masterscale = params['masterscale'].to_f
+    baselong = params["baselong"].to_f
+    basey = params["basey"].to_f
+    masterscale = params["masterscale"].to_f
 
-    bbox = BoundingBox.new(params['xmin'], params['ymin'],
-                           params['xmax'], params['ymax'])
-    start = params['start'].to_i
+    bbox = BoundingBox.new(params["xmin"], params["ymin"],
+                           params["xmax"], params["ymax"])
+    start = params["start"].to_i
 
     # -	Begin movie
 
@@ -30,7 +30,7 @@ class SwfController < ApplicationController
     bounds_bottom = 0
     bounds_top = 240 * 20
 
-    m = ''
+    m = ""
     m += swf_record(9, 255.chr + 155.chr + 155.chr)			# Background
     absx = 0
     absy = 0
@@ -39,11 +39,11 @@ class SwfController < ApplicationController
 
     # -	Send SQL for GPS tracks
 
-    b = ''
+    b = ""
     lasttime = 0
-    lasttrack = lastfile = '-1'
+    lasttrack = lastfile = "-1"
 
-    if params['token']
+    if params["token"]
       user = User.authenticate(:token => params[:token])
       sql = "SELECT gps_points.latitude*0.0000001 AS lat,gps_points.longitude*0.0000001 AS lon,gpx_files.id AS fileid," + 		       "      EXTRACT(EPOCH FROM gps_points.timestamp) AS ts, gps_points.trackid AS trackid " + 			   " FROM gpx_files,gps_points " + 			   "WHERE gpx_files.id=gpx_id " + 			   "  AND gpx_files.user_id=#{user.id} " + 			   "  AND " + OSM.sql_for_area(bbox, "gps_points.") + 			   "  AND (gps_points.timestamp IS NOT NULL) " + 			   "ORDER BY fileid DESC,ts " + 			   "LIMIT 10000 OFFSET #{start}"
     else
@@ -55,23 +55,23 @@ class SwfController < ApplicationController
 
     r = start_shape
     gpslist.each do |row|
-      xs = (long2coord(row['lon'].to_f, baselong, masterscale) * 20).floor
-      ys = (lat2coord(row['lat'].to_f, basey, masterscale) * 20).floor
+      xs = (long2coord(row["lon"].to_f, baselong, masterscale) * 20).floor
+      ys = (lat2coord(row["lat"].to_f, basey, masterscale) * 20).floor
       xl = [xs, xl].min
       xr = [xs, xr].max
       yb = [ys, yb].min
       yt = [ys, yt].max
-      if row['ts'].to_i - lasttime > 180 || row['fileid'] != lastfile || row['trackid'] != lasttrack # or row['ts'].to_i==lasttime
-        b += start_and_move(xs, ys, '01')
+      if row["ts"].to_i - lasttime > 180 || row["fileid"] != lastfile || row["trackid"] != lasttrack # or row['ts'].to_i==lasttime
+        b += start_and_move(xs, ys, "01")
         absx = xs.floor
         absy = ys.floor
       end
       b += draw_to(absx, absy, xs, ys)
       absx = xs.floor
       absy = ys.floor
-      lasttime = row['ts'].to_i
-      lastfile = row['fileid']
-      lasttrack = row['trackid']
+      lasttime = row["ts"].to_i
+      lastfile = row["fileid"]
+      lasttrack = row["trackid"]
       r += [b.slice!(0...80)].pack("B*") while b.length > 80
     end
 
@@ -86,11 +86,11 @@ class SwfController < ApplicationController
 
     # -	Create Flash header and write to browser
 
-    m += swf_record(1, '')									# Show frame
-    m += swf_record(0, '')									# End
+    m += swf_record(1, "")									# Show frame
+    m += swf_record(0, "")									# End
 
     m = pack_rect(bounds_left, bounds_right, bounds_bottom, bounds_top) + 0.chr + 12.chr + pack_u16(1) + m
-    m = 'FWS' + 6.chr + pack_u32(m.length + 8) + m
+    m = "FWS" + 6.chr + pack_u32(m.length + 8) + m
 
     render :text => m, :content_type => "application/x-shockwave-flash"
   end
@@ -113,11 +113,11 @@ class SwfController < ApplicationController
   end
 
   def end_shape
-    '000000'
+    "000000"
   end
 
   def start_and_move(x, y, col)
-    d = '001001'					# Line style change, moveTo
+    d = "001001"					# Line style change, moveTo
     l = [length_sb(x), length_sb(y)].max
     d += sprintf("%05b%0#{l}b%0#{l}b", l, x, y)
     d += col						# Select line style
@@ -133,7 +133,7 @@ class SwfController < ApplicationController
     mstep = [dx.abs / 16383, dy.abs / 16383, 1].max.ceil
     xstep = dx / mstep
     ystep = dy / mstep
-    d = ''
+    d = ""
     1.upto(mstep).each do
       d += draw_section(x, y, x + xstep, y + ystep)
       x += xstep
@@ -143,12 +143,12 @@ class SwfController < ApplicationController
   end
 
   def draw_section(x1, y1, x2, y2)
-    d = '11'											# TypeFlag, EdgeFlag
+    d = "11"											# TypeFlag, EdgeFlag
     dx = x2 - x1
     dy = y2 - y1
     l = [length_sb(dx), length_sb(dy)].max
     d += sprintf("%04b", l - 2)
-    d += '1'											# GeneralLine
+    d += "1"											# GeneralLine
     d += sprintf("%0#{l}b%0#{l}b", dx, dy)
     d
   end

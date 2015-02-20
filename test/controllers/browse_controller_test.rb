@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'browse_controller'
+require "test_helper"
+require "browse_controller"
 
 class BrowseControllerTest < ActionController::TestCase
   api_fixtures
@@ -46,35 +46,35 @@ class BrowseControllerTest < ActionController::TestCase
   end
 
   def test_read_relation
-    browse_check 'relation', relations(:visible_relation).relation_id, 'browse/feature'
+    browse_check "relation", relations(:visible_relation).relation_id, "browse/feature"
   end
 
   def test_read_relation_history
-    browse_check 'relation_history', relations(:visible_relation).relation_id, 'browse/history'
+    browse_check "relation_history", relations(:visible_relation).relation_id, "browse/history"
   end
 
   def test_read_way
-    browse_check 'way', ways(:visible_way).way_id, 'browse/feature'
+    browse_check "way", ways(:visible_way).way_id, "browse/feature"
   end
 
   def test_read_way_history
-    browse_check 'way_history', ways(:visible_way).way_id, 'browse/history'
+    browse_check "way_history", ways(:visible_way).way_id, "browse/history"
   end
 
   def test_read_node
-    browse_check 'node', nodes(:visible_node).node_id, 'browse/feature'
+    browse_check "node", nodes(:visible_node).node_id, "browse/feature"
   end
 
   def test_read_node_history
-    browse_check 'node_history', nodes(:visible_node).node_id, 'browse/history'
+    browse_check "node_history", nodes(:visible_node).node_id, "browse/history"
   end
 
   def test_read_changeset
-    browse_check 'changeset', changesets(:normal_user_first_change).id, 'browse/changeset'
+    browse_check "changeset", changesets(:normal_user_first_change).id, "browse/changeset"
   end
 
   def test_read_note
-    browse_check 'note', notes(:open_note).id, 'browse/note'
+    browse_check "note", notes(:open_note).id, "browse/note"
   end
 
   ##
@@ -114,7 +114,7 @@ class BrowseControllerTest < ActionController::TestCase
   def test_redacted_way_history
     get :way_history, :id => ways(:way_with_redacted_versions_v1).way_id
     assert_response :success
-    assert_template 'browse/history'
+    assert_template "browse/history"
 
     # there are 4 revisions of the redacted way, but only 2
     # should be showing details here.
@@ -126,7 +126,7 @@ class BrowseControllerTest < ActionController::TestCase
   def test_redacted_relation_history
     get :relation_history, :id => relations(:relation_with_redacted_versions_v1).relation_id
     assert_response :success
-    assert_template 'browse/history'
+    assert_template "browse/history"
 
     # there are 4 revisions of the redacted relation, but only 2
     # should be showing details here.

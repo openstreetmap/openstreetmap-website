@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class BoundingBoxTest < ActiveSupport::TestCase
   def setup
@@ -42,7 +42,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
   def test_good_bbox_from_string
     @good_bbox.each do |string|
       bbox = BoundingBox.from_s(string)
-      array = string.split(',').collect(&:to_f)
+      array = string.split(",").collect(&:to_f)
       check_bbox(bbox, array)
     end
   end
@@ -57,14 +57,14 @@ class BoundingBoxTest < ActiveSupport::TestCase
   def test_good_bbox_from_params
     @good_bbox.each do |string|
       bbox = BoundingBox.from_bbox_params(:bbox => string)
-      array = string.split(',').collect(&:to_f)
+      array = string.split(",").collect(&:to_f)
       check_bbox(bbox, array)
     end
   end
 
   def test_good_bbox_from_lon_lat_params
     @good_bbox.each do |string|
-      array = string.split(',')
+      array = string.split(",")
       bbox = BoundingBox.from_lon_lat_params(:minlon => array[0], :minlat => array[1], :maxlon => array[2], :maxlat => array[3])
       check_bbox(bbox, array.collect(&:to_f))
     end
@@ -79,7 +79,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
   def test_good_bbox_from_new
     @good_bbox.each do |string|
-      array = string.split(',')
+      array = string.split(",")
       bbox = BoundingBox.new(array[0], array[1], array[2], array[3])
       check_bbox(bbox, array.collect(&:to_f))
     end
@@ -212,7 +212,7 @@ class BoundingBoxTest < ActiveSupport::TestCase
   def test_bbox_area
     @good_bbox.each do |string|
       bbox = BoundingBox.from_s(string)
-      array = string.split(',')
+      array = string.split(",")
       assert_equal ((array[2].to_f - array[0].to_f) * (array[3].to_f - array[1].to_f)), bbox.area
     end
   end
@@ -224,28 +224,28 @@ class BoundingBoxTest < ActiveSupport::TestCase
 
   def test_centre_lon
     @good_bbox.each do |bbox_string|
-      array = bbox_string.split(',')
+      array = bbox_string.split(",")
       assert_equal ((array[0].to_f + array[2].to_f) / 2.0), BoundingBox.from_s(bbox_string).centre_lon
     end
   end
 
   def test_centre_lat
     @good_bbox.each do |bbox_string|
-      array = bbox_string.split(',')
+      array = bbox_string.split(",")
       assert_equal ((array[1].to_f + array[3].to_f) / 2.0), BoundingBox.from_s(bbox_string).centre_lat
     end
   end
 
   def test_width
     @good_bbox.each do |bbox_string|
-      array = bbox_string.split(',')
+      array = bbox_string.split(",")
       assert_equal (array[2].to_f - array[0].to_f), BoundingBox.from_s(bbox_string).width
     end
   end
 
   def test_height
     @good_bbox.each do |bbox_string|
-      array = bbox_string.split(',')
+      array = bbox_string.split(",")
       assert_equal (array[3].to_f - array[1].to_f), BoundingBox.from_s(bbox_string).height
     end
   end
@@ -261,19 +261,19 @@ class BoundingBoxTest < ActiveSupport::TestCase
   def test_add_bounds_to_no_underscore
     bounds = @bbox_from_string.add_bounds_to({})
     assert_equal 4, bounds.size
-    assert_equal @min_lon.to_s, bounds['minlon']
-    assert_equal @min_lat.to_s, bounds['minlat']
-    assert_equal @max_lon.to_s, bounds['maxlon']
-    assert_equal @max_lat.to_s, bounds['maxlat']
+    assert_equal @min_lon.to_s, bounds["minlon"]
+    assert_equal @min_lat.to_s, bounds["minlat"]
+    assert_equal @max_lon.to_s, bounds["maxlon"]
+    assert_equal @max_lat.to_s, bounds["maxlat"]
   end
 
   def test_add_bounds_to_with_underscore
-    bounds = @bbox_from_string.add_bounds_to({}, '_')
+    bounds = @bbox_from_string.add_bounds_to({}, "_")
     assert_equal 4, bounds.size
-    assert_equal @min_lon.to_s, bounds['min_lon']
-    assert_equal @min_lat.to_s, bounds['min_lat']
-    assert_equal @max_lon.to_s, bounds['max_lon']
-    assert_equal @max_lat.to_s, bounds['max_lat']
+    assert_equal @min_lon.to_s, bounds["min_lon"]
+    assert_equal @min_lat.to_s, bounds["min_lat"]
+    assert_equal @max_lon.to_s, bounds["max_lon"]
+    assert_equal @max_lat.to_s, bounds["max_lat"]
   end
 
   def test_to_scaled
@@ -301,16 +301,16 @@ class BoundingBoxTest < ActiveSupport::TestCase
   private
 
   def check_expand(bbox, array_string, margin = 0, result = nil)
-    array = array_string.split(',').collect(&:to_f)
+    array = array_string.split(",").collect(&:to_f)
     result = array unless result
     bbox.expand!(BoundingBox.new(array[0], array[1], array[2], array[3]), margin)
     check_bbox(bbox, result)
   end
 
   def check_bbox(bbox, result)
-    assert_equal result[0], bbox.min_lon, 'min_lon'
-    assert_equal result[1], bbox.min_lat, 'min_lat'
-    assert_equal result[2], bbox.max_lon, 'max_lon'
-    assert_equal result[3], bbox.max_lat, 'max_lat'
+    assert_equal result[0], bbox.min_lon, "min_lon"
+    assert_equal result[1], bbox.min_lat, "min_lat"
+    assert_equal result[2], bbox.max_lon, "max_lon"
+    assert_equal result[3], bbox.max_lat, "max_lat"
   end
 end

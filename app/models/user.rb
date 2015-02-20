@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  require 'xml/libxml'
+  require "xml/libxml"
 
   has_many :traces, -> { where(:visible => true) }
   has_many :diary_entries, -> { order(:created_at => :desc) }
@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   has_many :preferences, :class_name => "UserPreference"
   has_many :changesets, -> { order(:created_at => :desc) }
   has_many :changeset_comments, :foreign_key =>  :author_id
-  has_and_belongs_to_many :changeset_subscriptions, :class_name => 'Changeset', :join_table => 'changesets_subscribers', :foreign_key => 'subscriber_id'
+  has_and_belongs_to_many :changeset_subscriptions, :class_name => "Changeset", :join_table => "changesets_subscribers", :foreign_key => "subscriber_id"
   has_many :note_comments, :foreign_key => :author_id
   has_many :notes, :through => :note_comments
 
@@ -100,14 +100,14 @@ class User < ActiveRecord::Base
   end
 
   def to_xml_node
-    el1 = XML::Node.new 'user'
-    el1['display_name'] = display_name.to_s
-    el1['account_created'] = creation_time.xmlschema
+    el1 = XML::Node.new "user"
+    el1["display_name"] = display_name.to_s
+    el1["account_created"] = creation_time.xmlschema
     if home_lat && home_lon
-      home = XML::Node.new 'home'
-      home['lat'] = home_lat.to_s
-      home['lon'] = home_lon.to_s
-      home['zoom'] = home_zoom.to_s
+      home = XML::Node.new "home"
+      home["lat"] = home_lat.to_s
+      home["lon"] = home_lon.to_s
+      home["zoom"] = home_zoom.to_s
       el1 << home
     end
     el1
@@ -167,13 +167,13 @@ class User < ActiveRecord::Base
   ##
   # returns true if the user has the moderator role, false otherwise
   def moderator?
-    has_role? 'moderator'
+    has_role? "moderator"
   end
 
   ##
   # returns true if the user has the administrator role, false otherwise
   def administrator?
-    has_role? 'administrator'
+    has_role? "administrator"
   end
 
   ##

@@ -12,7 +12,7 @@ class Notifier < ActionMailer::Base
                      :confirm_string => token.token)
 
       mail :to => user.email,
-           :subject => I18n.t('notifier.signup_confirm.subject')
+           :subject => I18n.t("notifier.signup_confirm.subject")
     end
   end
 
@@ -24,7 +24,7 @@ class Notifier < ActionMailer::Base
                      :confirm_string => token.token)
 
       mail :to => user.new_email,
-           :subject => I18n.t('notifier.email_confirm.subject')
+           :subject => I18n.t("notifier.email_confirm.subject")
     end
   end
 
@@ -35,7 +35,7 @@ class Notifier < ActionMailer::Base
                      :token => token.token)
 
       mail :to => user.email,
-           :subject => I18n.t('notifier.lost_password.subject')
+           :subject => I18n.t("notifier.lost_password.subject")
     end
   end
 
@@ -48,7 +48,7 @@ class Notifier < ActionMailer::Base
       @possible_points = possible_points
 
       mail :to => trace.user.email,
-           :subject => I18n.t('notifier.gpx_notification.success.subject')
+           :subject => I18n.t("notifier.gpx_notification.success.subject")
     end
   end
 
@@ -60,7 +60,7 @@ class Notifier < ActionMailer::Base
       @error = error
 
       mail :to => trace.user.email,
-           :subject => I18n.t('notifier.gpx_notification.failure.subject')
+           :subject => I18n.t("notifier.gpx_notification.failure.subject")
     end
   end
 
@@ -79,7 +79,7 @@ class Notifier < ActionMailer::Base
 
       mail :from => from_address(message.sender.display_name, "m", message.id, message.digest),
            :to => message.recipient.email,
-           :subject => I18n.t('notifier.message_notification.subject_header', :subject => message.title)
+           :subject => I18n.t("notifier.message_notification.subject_header", :subject => message.title)
     end
   end
 
@@ -109,7 +109,7 @@ class Notifier < ActionMailer::Base
 
       mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest),
            :to =>  comment.diary_entry.user.email,
-           :subject => I18n.t('notifier.diary_comment_notification.subject', :user => comment.user.display_name)
+           :subject => I18n.t("notifier.diary_comment_notification.subject", :user => comment.user.display_name)
     end
   end
 
@@ -118,7 +118,7 @@ class Notifier < ActionMailer::Base
       @friend = friend
 
       mail :to => friend.befriendee.email,
-           :subject => I18n.t('notifier.friend_notification.subject', :user => friend.befriender.display_name)
+           :subject => I18n.t("notifier.friend_notification.subject", :user => friend.befriender.display_name)
     end
   end
 
@@ -152,7 +152,7 @@ class Notifier < ActionMailer::Base
       @comment = comment.body
       @owner = recipient == comment.changeset.user
       @commenter = comment.author.display_name
-      @changeset_comment = comment.changeset.tags['comment'].presence
+      @changeset_comment = comment.changeset.tags["comment"].presence
       @time = comment.created_at
       @changeset_author = comment.changeset.user.display_name
 
