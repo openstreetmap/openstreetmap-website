@@ -42,8 +42,8 @@
 
         <ul class='clearfix' id="login_openid_buttons">
           <li><%= link_to image_tag("openid.png", :alt => t("user.login.openid_providers.openid.title")), "#", :id => "openid_open_url", :title => t("user.login.openid_providers.openid.title") %></li>
-          <li><%= openid_button "google", "gmail.com" %></li>
-          <li><%= openid_button "yahoo", "me.yahoo.com" %></li>
+          <li><%= openid_button "google", "https://www.google.com/accounts/o8/id" %></li>
+          <li><%= openid_button "yahoo", "yahoo.com" %></li>
           <li><%= openid_button "wordpress", "wordpress.com" %></li>
           <li><%= openid_button "aol", "aol.com" %></li>
         </ul>
@@ -81,11 +81,6 @@ $(document).ready(function() {
     $("#login_openid_buttons").hide();
     $("#login_openid_url").show();
     $("#login_openid_submit").show();
-  });
-
-  $(".openid_button").click(function() {
-    $("#openid_url").val($(this).attr("data-url"));
-    $("#login_form").submit();
   });
 
   $("#login_openid_url").hide();

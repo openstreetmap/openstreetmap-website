@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   layout "site", :except => [:api_details]
 
-  skip_before_filter :verify_authenticity_token, :only => [:api_read, :api_details, :api_gpx_files]
+  skip_before_filter :verify_authenticity_token, :only => [:api_read, :api_details, :api_gpx_files, :auth_success]
   before_filter :disable_terms_redirect, :only => [:terms, :save, :logout, :api_details]
   before_filter :authorize, :only => [:api_details, :api_gpx_files]
   before_filter :authorize_web, :except => [:api_read, :api_details, :api_gpx_files]
@@ -126,17 +126,10 @@ class UserController < ApplicationController
         # valid OpenID and one the user has control over before saving
         # it as a password equivalent for the user.
         session[:new_user_settings] = params
-        openid_verify(params[:user][:openid_url], @user)
+        openid_url = openid_expand_url(params[:user][:openid_url])
+        redirect_to auth_path(:provider => "openid", :openid_url => openid_url, :origin => request.path)
       else
         update_user(@user, params)
-      end
-    elsif using_open_id?
-      # The redirect from the OpenID provider reenters here
-      # again and we need to pass the parameters through to
-      # the open_id_authentication function
-      settings = session.delete(:new_user_settings)
-      openid_verify(nil, @user) do |user|
-        update_user(user, settings)
       end
     end
   end
@@ -205,23 +198,7 @@ class UserController < ApplicationController
     @title = t "user.new.title"
     @referer = params[:referer] || session[:referer]
 
-    if using_open_id?
-      # The redirect from the OpenID provider reenters here
-      # again and we need to pass the parameters through to
-      # the open_id_authentication function
-      @user = session.delete(:new_user)
-
-      openid_verify(nil, @user) do |user, verified_email|
-        user.status = "active" if user.email == verified_email
-      end
-
-      if @user.openid_url.nil? || @user.invalid?
-        render :action => "new"
-      else
-        session[:new_user] = @user
-        redirect_to :action => "terms"
-      end
-    elsif @user
+    if @user
       # The user is logged in already, so don't show them the signup
       # page, instead send them to the home page
       if @referer
@@ -262,7 +239,8 @@ class UserController < ApplicationController
       elsif @user.openid_url.present?
         # Verify OpenID before moving on
         session[:new_user] = @user
-        openid_verify(@user.openid_url, @user)
+        openid_url = openid_expand_url(@user.openid_url)
+        redirect_to auth_path(:provider => "openid", :openid_url => openid_url, :origin => request.path)
       else
         # Save the user record
         session[:new_user] = @user
@@ -272,12 +250,13 @@ class UserController < ApplicationController
   end
 
   def login
-    if params[:username] || using_open_id?
+    if params[:username] || params[:openid_url]
       session[:referer] ||= params[:referer]
 
-      if using_open_id?
+      if params[:openid_url].present?
         session[:remember_me] ||= params[:remember_me_openid]
-        openid_authentication(params[:openid_url])
+        openid_url = openid_expand_url(params[:openid_url])
+        redirect_to auth_path(:provider => "openid", :openid_url => openid_url, :origin => request.path)
       else
         session[:remember_me] ||= params[:remember_me]
         password_authentication(params[:username], params[:password])
@@ -498,6 +477,52 @@ class UserController < ApplicationController
     end
   end
 
+  ##
+  # omniauth success callback
+  def auth_success
+    auth_info = env["omniauth.auth"]
+
+    openid_url = auth_info[:uid]
+    name = auth_info[:info][:name]
+    email = auth_info[:info][:email]
+
+    if user = User.find_by_openid_url(openid_url)
+      case user.status
+      when "pending" then
+        unconfirmed_login(user)
+      when "active", "confirmed" then
+        successful_login(user)
+      when "suspended" then
+        failed_login t("user.login.account is suspended", :webmaster => "mailto:webmaster@openstreetmap.org")
+      else
+        failed_login t("user.login.auth failure")
+      end
+    elsif settings = session.delete(:new_user_settings)
+      @user.openid_url = openid_url
+
+      update_user(@user, settings)
+
+      redirect_to :action => "account", :display_name => @user.display_name
+    elsif session[:new_user]
+      session[:new_user].openid_url = openid_url
+
+      if email == session[:new_user].email && openid_email_verified(email)
+        session[:new_user].status = "active"
+      end
+
+      redirect_to :action => "terms"
+    else
+      redirect_to :action => "new", :nickname => name, :email => email, :openid => openid_url
+    end
+  end
+
+  ##
+  # omniauth failure callback
+  def auth_failure
+    flash[:error] = t("user.auth_failure." + params[:message])
+    redirect_to params[:origin]
+  end
+
   private
 
   ##
@@ -511,96 +536,6 @@ class UserController < ApplicationController
       failed_login t("user.login.account is suspended", :webmaster => "mailto:webmaster@openstreetmap.org")
     else
       failed_login t("user.login.auth failure")
-    end
-  end
-
-  ##
-  # handle OpenID authentication
-  def openid_authentication(openid_url)
-    # If we don't appear to have a user for this URL then ask the
-    # provider for some extra information to help with signup
-    if openid_url && User.find_by_openid_url(openid_url)
-      required = nil
-    else
-      required = [:nickname, :email, "http://axschema.org/namePerson/friendly", "http://axschema.org/contact/email"]
-    end
-
-    # Start the authentication
-    authenticate_with_open_id(openid_expand_url(openid_url), :method => :get, :required => required) do |result, identity_url, sreg, ax|
-      if result.successful?
-        # We need to use the openid url passed back from the OpenID provider
-        # rather than the one supplied by the user, as these can be different.
-        #
-        # For example, you can simply enter yahoo.com in the login box rather
-        # than a user specific url. Only once it comes back from the provider
-        # provider do we know the unique address for the user.
-        if user = User.find_by_openid_url(identity_url)
-          case user.status
-          when "pending" then
-            unconfirmed_login(user)
-          when "active", "confirmed" then
-            successful_login(user)
-          when "suspended" then
-            failed_login t("user.login.account is suspended", :webmaster => "mailto:webmaster@openstreetmap.org")
-          else
-            failed_login t("user.login.auth failure")
-          end
-        else
-          # Guard against not getting any extension data
-          sreg = {} if sreg.nil?
-          ax = {} if ax.nil?
-
-          # We don't have a user registered to this OpenID, so redirect
-          # to the create account page with username and email filled
-          # in if they have been given by the OpenID provider through
-          # the simple registration protocol.
-          nickname = sreg["nickname"] || ax["http://axschema.org/namePerson/friendly"].first
-          email = sreg["email"] || ax["http://axschema.org/contact/email"].first
-
-          redirect_to :controller => "user", :action => "new", :nickname => nickname, :email => email, :openid => identity_url
-        end
-      elsif result.missing?
-        failed_login t("user.login.openid missing provider")
-      elsif result.invalid?
-        failed_login t("user.login.openid invalid")
-      else
-        failed_login t("user.login.auth failure")
-      end
-    end
-  end
-
-  ##
-  # verify an OpenID URL
-  def openid_verify(openid_url, user)
-    user.openid_url = openid_url
-
-    authenticate_with_open_id(openid_expand_url(openid_url), :method => :get, :required => [:email, "http://axschema.org/contact/email"]) do |result, identity_url, sreg, ax|
-      if result.successful?
-        # Do we trust the emails this provider returns?
-        if openid_email_verified(identity_url)
-          # Guard against not getting any extension data
-          sreg = {} if sreg.nil?
-          ax = {} if ax.nil?
-
-          # Get the verified email
-          verified_email = sreg["email"] || ax["http://axschema.org/contact/email"].first
-        end
-
-        # We need to use the openid url passed back from the OpenID provider
-        # rather than the one supplied by the user, as these can be different.
-        #
-        # For example, you can simply enter yahoo.com in the login box rather
-        # than a user specific url. Only once it comes back from the provider
-        # provider do we know the unique address for the user.
-        user.openid_url = identity_url
-        yield user, verified_email
-      elsif result.missing?
-        flash.now[:error] = t "user.login.openid missing provider"
-      elsif result.invalid?
-        flash.now[:error] = t "user.login.openid invalid"
-      else
-        flash.now[:error] = t "user.login.auth failure"
-      end
     end
   end
 

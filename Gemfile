@@ -42,7 +42,6 @@ gem "rails-i18n", "~> 4.0.0"
 gem "dynamic_form"
 gem "rinku", ">= 1.2.2", :require => "rails_rinku"
 gem "oauth-plugin", ">= 0.5.1"
-gem "open_id_authentication", ">= 1.1.0"
 gem "validates_email_format_of", ">= 1.5.1"
 gem "composite_primary_keys", "~> 8.0.0"
 gem "http_accept_language", "~> 2.0.0"
@@ -52,8 +51,9 @@ gem "openstreetmap-i18n-js", ">= 3.0.0.rc5.3", :require => "i18n-js"
 gem "rack-cors"
 gem "actionpack-page_caching"
 
-# We need ruby-openid 2.2.0 or later for ruby 1.9 support
-gem "ruby-openid", ">= 2.2.0"
+# Omniauth for authentication
+gem "omniauth"
+gem "omniauth-openid"
 
 # Markdown formatting support
 gem "redcarpet"
