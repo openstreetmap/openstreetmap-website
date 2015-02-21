@@ -4,7 +4,12 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   fixtures :users
 
   def setup
-    openid_setup
+    OmniAuth.config.test_mode = true
+  end
+
+  def teardown
+    OmniAuth.config.mock_auth[:openid] = nil
+    OmniAuth.config.test_mode = false
   end
 
   def test_create_user_form
@@ -143,19 +148,25 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_create_openid_success
+    OmniAuth.config.add_mock(:openid, :uid => "http://localhost:1123/new.tester")
+
     new_email = "newtester-openid@osm.org"
     display_name = "new_tester-openid"
     password = "testtest"
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
         post "/user/new",
-             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => "", :pass_crypt_confirmation => "" }
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" }
         assert_response :redirect
-        res = openid_request(@response.redirect_url)
-        get "/user/new", res
+        assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
         assert_redirected_to "/user/terms"
         post "/user/save",
-             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => password, :pass_crypt_confirmation => password }
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/new.tester", :pass_crypt => password, :pass_crypt_confirmation => password }
         assert_response :redirect
         follow_redirect!
       end
@@ -169,15 +180,25 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_create_openid_failure
+    OmniAuth.config.mock_auth[:openid] = :connection_failed
+
     new_email = "newtester-openid2@osm.org"
     display_name = "new_tester-openid2"
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         post "/user/new",
-             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.failure=newuser", :pass_crypt => "", :pass_crypt_confirmation => "" }
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" }
         assert_response :redirect
-        res = openid_request(@response.redirect_url)
-        get "/user/new", res
+        assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to auth_failure_path(:strategy => "openid", :message => "connection_failed", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        follow_redirect!
         assert_response :success
         assert_template "user/new"
       end
@@ -187,6 +208,8 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_create_openid_redirect
+    OmniAuth.config.add_mock(:openid, :uid => "http://localhost:1123/new.tester")
+
     new_email = "redirect_tester_openid@osm.org"
     display_name = "redirect_tester_openid"
     # nothing special about this page, just need a protected page to redirect back to.
@@ -194,13 +217,17 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
         post "/user/new",
-             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer
         assert_response :redirect
-        res = openid_request(@response.location)
-        get "/user/new", res
+        assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
         assert_redirected_to "/user/terms"
         post_via_redirect "/user/save",
-                          :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/john.doe?openid.success=newuser", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }
+                          :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }
       end
     end
 

@@ -4,7 +4,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   fixtures :users
 
   def setup
-    openid_setup
+    OmniAuth.config.test_mode = true
+  end
+
+  def teardown
+    OmniAuth.config.mock_auth[:openid] = nil
+    OmniAuth.config.test_mode = false
   end
 
   def test_login_email_password_normal
@@ -284,16 +289,20 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_openid_success
+    OmniAuth.config.add_mock(:openid, :uid => "http://localhost:1123/john.doe")
+
     get "/login"
     assert_response :redirect
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post "/login", "openid_url" => "http://localhost:1123/john.doe?openid.success=true", :referer => "/history"
+    post "/login", "openid_url" => "http://localhost:1123/john.doe", :referer => "/history"
     assert_response :redirect
-
-    post "/login", openid_request(@response.redirect_url)
-
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    follow_redirect!
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -301,66 +310,73 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_select "span.username", "openIDuser"
   end
 
-  def test_login_openid_cancel
+  def test_login_openid_connection_failed
+    OmniAuth.config.mock_auth[:openid] = :connection_failed
+
     get "/login"
     assert_response :redirect
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post "/login", "openid_url" => "http://localhost:1123/john.doe", :referer => "/diary"
+    post "/login", "openid_url" => "http://localhost:1123/john.doe", :referer => "/history"
     assert_response :redirect
-
-    post "/login", openid_request(@response.redirect_url)
-
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_failure_path(:strategy => "openid", :message => "connection_failed", :origin => "/login")
+    follow_redirect!
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
+    assert_select "div.flash.error", "Connection to authentication provider failed"
     assert_select "span.username", false
   end
 
-  def test_login_openid_invalid_provider
-    get "/login"
-    assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
-    follow_redirect!
-    assert_response :success
-    # Use a different port that doesn't have the OpenID provider running on to test an invalid openID
-    post "/login", "openid_url" => "http://localhost:1124/john.doe", :referer => "/diary"
-    assert_response :redirect
-    follow_redirect!
-    assert_response :success
-    assert_template "login"
-    assert_select "span.username", false
-  end
+  def test_login_openid_invalid_credentials
+    OmniAuth.config.mock_auth[:openid] = :invalid_credentials
 
-  def test_login_openid_invalid_url
     get "/login"
     assert_response :redirect
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    # Use a url with an invalid protocol to make sure it handles that correctly too
-    post "/login", "openid_url" => "htt://localhost:1123/john.doe", :referer => "/diary"
+    post "/login", "openid_url" => "http://localhost:1123/john.doe", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_failure_path(:strategy => "openid", :message => "invalid_credentials", :origin => "/login")
+    follow_redirect!
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
+    assert_select "div.flash.error", "Invalid authentication credentials"
     assert_select "span.username", false
   end
 
   def test_login_openid_unknown
+    OmniAuth.config.add_mock(:openid, :uid => "http://localhost:1123/fred.bloggs")
+
     get "/login"
     assert_response :redirect
     assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
     follow_redirect!
     assert_response :success
-    post "/login", "openid_url" => "http://localhost:1123/john.doe?openid.success=true_somethingelse", :referer => "/diary"
+    post "/login", "openid_url" => "http://localhost:1123/fred.bloggs", :referer => "/diary"
     assert_response :redirect
-
-    res = openid_request(@response.redirect_url)
-    post "/login", res
-
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/fred.bloggs", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/fred.bloggs", :origin => "/login")
+    follow_redirect!
     assert_response :redirect
     follow_redirect!
     assert_response :success

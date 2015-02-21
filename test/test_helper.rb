@@ -142,42 +142,5 @@ module ActiveSupport
     def assert_no_missing_translations(msg = "")
       assert_select "span[class=translation_missing]", false, "Missing translation #{msg}"
     end
-
-    # Set things up for OpenID testing
-    def openid_setup
-      Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
-    rescue
-      # It isn't, so start a new instance.
-      rots = IO.popen("#{Rails.root}/vendor/gems/rots-0.2.1/bin/rots --silent")
-
-      # Wait for up to 30 seconds for the server to start and respond before continuing
-      1.upto(30).each do
-        begin
-          sleep 1
-          Net::HTTP.get_response(URI.parse("http://localhost:1123/"))
-          # If the rescue block doesn't fire, ROTS is up and running and we can continue
-          break
-        rescue
-          # If the connection failed, do nothing and repeat the loop
-          next
-        end
-      end
-
-      # Arrange to kill the process when we exit - note that we need
-      # to kill it really har due to a bug in ROTS
-      Kernel.at_exit do
-        Process.kill("KILL", rots.pid)
-      end
-    end
-
-    def openid_request(openid_request_uri)
-      openid_response = Net::HTTP.get_response(URI.parse(openid_request_uri))
-      openid_response_uri = URI(openid_response["Location"])
-      openid_response_qs = Rack::Utils.parse_query(openid_response_uri.query)
-
-      openid_response_qs
-    end
-
-    # Add more helper methods to be used by all tests here...
   end
 end

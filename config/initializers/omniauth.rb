@@ -14,3 +14,16 @@ end
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :openid, :name => "openid", :store => openid_store
 end
+
+# Pending fix for: https://github.com/intridea/omniauth/pull/795
+module OmniAuth
+  module Strategy
+    def mock_callback_call_with_origin
+      @env["omniauth.origin"] = session["omniauth.origin"]
+
+      mock_callback_call_without_origin
+    end
+
+    alias_method_chain :mock_callback_call, :origin
+  end
+end
