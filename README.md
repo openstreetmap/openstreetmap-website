@@ -1,5 +1,7 @@
 # "The Rails Port"
 
+[![Build Status](https://travis-ci.org/openstreetmap/openstreetmap-website.svg?branch=master)](https://travis-ci.org/openstreetmap/openstreetmap-website)
+
 This is The Rails Port, the [Ruby on Rails](http://rubyonrails.org/)
 application that powers the [OpenStreetMap](http://www.openstreetmap.org) website and API.
 The software is also known as "openstreetmap-website".

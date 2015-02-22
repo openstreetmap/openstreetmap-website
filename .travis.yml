@@ -1,0 +1,24 @@
+language: ruby
+rvm:
+  - 1.9.3
+addons:
+  postgresql: 9.1
+services:
+  - memcached
+env:
+  global:
+    - OSM_MEMCACHE_SERVERS="127.0.0.1"
+before_script:
+  - sudo apt-get update
+  - sudo apt-get install postgresql-server-dev-9.1
+  - psql -U postgres -c "CREATE DATABASE openstreetmap"
+  - psql -U postgres -c "CREATE EXTENSION btree_gist" openstreetmap
+  - make -C db/functions libpgosm.so
+  - psql -U postgres -c "CREATE FUNCTION maptile_for_point(int8, int8, int4) RETURNS int4 AS '${PWD}/db/functions/libpgosm', 'maptile_for_point' LANGUAGE C STRICT" openstreetmap
+  - psql -U postgres -c "CREATE FUNCTION tile_for_point(int4, int4) RETURNS int8 AS '${PWD}/db/functions/libpgosm', 'tile_for_point' LANGUAGE C STRICT" openstreetmap
+  - psql -U postgres -c "CREATE FUNCTION xid_to_int4(xid) RETURNS int4 AS '${PWD}/db/functions/libpgosm', 'xid_to_int4' LANGUAGE C STRICT" openstreetmap
+  - cp config/travis.database.yml config/database.yml
+  - bundle exec rake db:migrate
+script:
+  - bundle exec rubocop -f fuubar
+  - bundle exec rake test
