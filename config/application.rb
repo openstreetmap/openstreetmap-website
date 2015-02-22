@@ -43,5 +43,10 @@ module OpenStreetMap
 
     # Don't eager load models when the database is offline
     config.paths["app/models"].skip_eager_load! if STATUS == :database_offline
+
+    # Use memcached for caching if required
+    if defined?(MEMCACHE_SERVERS)
+      config.cache_store = :mem_cache_store, MEMCACHE_SERVERS, { :namespace => "rails:cache" }
+    end
   end
 end

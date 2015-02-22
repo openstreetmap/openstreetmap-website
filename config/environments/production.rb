@@ -58,9 +58,7 @@ OpenStreetMap::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production.
-  if defined?(MEMCACHE_SERVERS)
-    config.cache_store = :mem_cache_store, MEMCACHE_SERVERS, { :namespace => "rails:cache" }
-  end
+  # config.cache_store = :mem_cache_store
 
   # Configure caching of static assets
   config.action_controller.page_cache_directory = Rails.public_path
