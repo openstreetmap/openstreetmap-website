@@ -58,9 +58,6 @@ gem "ruby-openid", ">= 2.2.0"
 # Markdown formatting support
 gem "redcarpet"
 
-# Character conversion support for ruby 1.8
-gem "iconv", "= 0.1", :platforms => :ruby_18
-
 # Load libxml support for XML parsing and generation
 gem "libxml-ruby", ">= 2.0.5", :require => "libxml"
 
