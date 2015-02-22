@@ -39,7 +39,6 @@ class User < ActiveRecord::Base
   validates_confirmation_of :pass_crypt # , :message => ' must match the confirmation password'
   validates_uniqueness_of :display_name, :allow_nil => true, :case_sensitive => false, :if => proc { |u| u.display_name_changed? }
   validates_uniqueness_of :email, :case_sensitive => false, :if => proc { |u| u.email_changed? }
-  validates_uniqueness_of :openid_url, :allow_nil => true
   validates_length_of :pass_crypt, :within => 8..255
   validates_length_of :display_name, :within => 3..255, :allow_nil => true
   validates_email_format_of :email, :if => proc { |u| u.email_changed? }
@@ -199,7 +198,8 @@ class User < ActiveRecord::Base
     self.image = nil
     self.email_valid = false
     self.new_email = nil
-    self.openid_url = nil
+    self.auth_provider = nil
+    self.auth_uid = nil
     self.status = "deleted"
     save
   end

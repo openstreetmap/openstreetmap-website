@@ -156,7 +156,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
         post "/user/new",
-             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" }
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" }
         assert_response :redirect
         assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
         follow_redirect!
@@ -166,7 +166,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         assert_response :redirect
         assert_redirected_to "/user/terms"
         post "/user/save",
-             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/new.tester", :pass_crypt => password, :pass_crypt_confirmation => password }
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => password, :pass_crypt_confirmation => password }
         assert_response :redirect
         follow_redirect!
       end
@@ -187,7 +187,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count", 0) do
       assert_difference("ActionMailer::Base.deliveries.size", 0) do
         post "/user/new",
-             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" }
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" }
         assert_response :redirect
         assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
         follow_redirect!
@@ -217,7 +217,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_difference("User.count") do
       assert_difference("ActionMailer::Base.deliveries.size", 1) do
         post "/user/new",
-             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer
         assert_response :redirect
         assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/new.tester", :origin => "/user/new")
         follow_redirect!
@@ -227,7 +227,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
         assert_response :redirect
         assert_redirected_to "/user/terms"
         post_via_redirect "/user/save",
-                          :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :openid_url => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }
+                          :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "openid", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }
       end
     end
 

@@ -886,7 +886,8 @@ class UserControllerTest < ActionController::TestCase
     assert_equal false, user.image.file?
     assert_equal false, user.email_valid
     assert_nil user.new_email
-    assert_nil user.openid_url
+    assert_nil user.auth_provider
+    assert_nil user.auth_uid
     assert_equal "deleted", user.status
   end
 end

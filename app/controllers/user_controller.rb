@@ -80,7 +80,11 @@ class UserController < ApplicationController
         @user.languages = http_accept_language.user_preferred_languages
         @user.terms_agreed = Time.now.getutc
         @user.terms_seen = true
-        @user.openid_url = nil if @user.openid_url && @user.openid_url.empty?
+
+        if @user.auth_uid.nil? || @user.auth_uid.empty?
+          @user.auth_provider = nil
+          @user.auth_uid = nil
+        end
 
         if @user.save
           flash[:piwik_goal] = PIWIK["goals"]["signup"] if defined?(PIWIK)
@@ -119,17 +123,13 @@ class UserController < ApplicationController
     @tokens = @user.oauth_tokens.authorized
 
     if params[:user] && params[:user][:display_name] && params[:user][:description]
-      if params[:user][:openid_url] &&
-         params[:user][:openid_url].length > 0 &&
-         params[:user][:openid_url] != @user.openid_url
-        # If the OpenID has changed, we want to check that it is a
-        # valid OpenID and one the user has control over before saving
-        # it as a password equivalent for the user.
-        session[:new_user_settings] = params
-        openid_url = openid_expand_url(params[:user][:openid_url])
-        redirect_to auth_path(:provider => "openid", :openid_url => openid_url, :origin => request.path)
-      else
+      if params[:user][:auth_provider].blank? ||
+         (params[:user][:auth_provider] == @user.auth_provider &&
+          params[:user][:auth_uid] == @user.auth_uid)
         update_user(@user, params)
+      else
+        session[:new_user_settings] = params
+        redirect_to auth_url(params[:user][:auth_provider], params[:user][:auth_uid])
       end
     end
   end
@@ -206,13 +206,14 @@ class UserController < ApplicationController
       else
         redirect_to :controller => "site", :action => "index"
       end
-    elsif params.key?(:openid)
+    elsif params.key?(:auth_provider) && params.key?(:auth_uid)
       @user = User.new(:email => params[:email],
                        :email_confirmation => params[:email],
                        :display_name => params[:nickname],
-                       :openid_url => params[:openid])
+                       :auth_provider => params[:auth_provider],
+                       :auth_uid => params[:auth_uid])
 
-      flash.now[:notice] = t "user.new.openid association"
+      flash.now[:notice] = t "user.new.auth association"
     else
       check_signup_allowed
     end
@@ -226,9 +227,9 @@ class UserController < ApplicationController
 
       @user.status = "pending"
 
-      if @user.openid_url.present? && @user.pass_crypt.empty?
-        # We are creating an account with OpenID and no password
-        # was specified so create a random one
+      if @user.auth_provider.present? && @user.auth_uid.present? && @user.pass_crypt.empty?
+        # We are creating an account with external authentication and
+        # no password was specified so create a random one
         @user.pass_crypt = SecureRandom.base64(16)
         @user.pass_crypt_confirmation = @user.pass_crypt
       end
@@ -236,11 +237,10 @@ class UserController < ApplicationController
       if @user.invalid?
         # Something is wrong with a new user, so rerender the form
         render :action => "new"
-      elsif @user.openid_url.present?
-        # Verify OpenID before moving on
+      elsif @user.auth_provider.present? && @user.auth_uid.present?
+        # Verify external authenticator before moving on
         session[:new_user] = @user
-        openid_url = openid_expand_url(@user.openid_url)
-        redirect_to auth_path(:provider => "openid", :openid_url => openid_url, :origin => request.path)
+        redirect_to auth_url(@user.auth_provider, @user.auth_uid)
       else
         # Save the user record
         session[:new_user] = @user
@@ -255,8 +255,7 @@ class UserController < ApplicationController
 
       if params[:openid_url].present?
         session[:remember_me] ||= params[:remember_me_openid]
-        openid_url = openid_expand_url(params[:openid_url])
-        redirect_to auth_path(:provider => "openid", :openid_url => openid_url, :origin => request.path)
+        redirect_to auth_url("openid", params[:openid_url])
       else
         session[:remember_me] ||= params[:remember_me]
         password_authentication(params[:username], params[:password])
@@ -482,11 +481,20 @@ class UserController < ApplicationController
   def auth_success
     auth_info = env["omniauth.auth"]
 
-    openid_url = auth_info[:uid]
+    provider = auth_info[:provider]
+    uid = auth_info[:uid]
     name = auth_info[:info][:name]
     email = auth_info[:info][:email]
 
-    if user = User.find_by_openid_url(openid_url)
+    case provider
+    when "openid"
+      email_verified = uid.match(%r{https://www.google.com/accounts/o8/id?(.*)}) ||
+                       uid.match(%r{https://me.yahoo.com/(.*)})
+    else
+      email_verified = false
+    end
+
+    if user = User.find_by_auth_provider_and_auth_uid(provider, uid)
       case user.status
       when "pending" then
         unconfirmed_login(user)
@@ -498,21 +506,24 @@ class UserController < ApplicationController
         failed_login t("user.login.auth failure")
       end
     elsif settings = session.delete(:new_user_settings)
-      @user.openid_url = openid_url
+      @user.auth_provider = provider
+      @user.auth_uid = uid
 
       update_user(@user, settings)
 
       redirect_to :action => "account", :display_name => @user.display_name
     elsif session[:new_user]
-      session[:new_user].openid_url = openid_url
+      session[:new_user].auth_provider = provider
+      session[:new_user].auth_uid = uid
 
-      if email == session[:new_user].email && openid_email_verified(email)
+      if email_verified && email == session[:new_user].email
         session[:new_user].status = "active"
       end
 
       redirect_to :action => "terms"
     else
-      redirect_to :action => "new", :nickname => name, :email => email, :openid => openid_url
+      redirect_to :action => "new", :nickname => name, :email => email,
+                  :auth_provider => provider, :auth_uid => uid
     end
   end
 
@@ -540,6 +551,16 @@ class UserController < ApplicationController
   end
 
   ##
+  # return the URL to use for authentication
+  def auth_url(provider, uid)
+    if provider == "openid"
+      auth_path(:provider => "openid", :openid_url => openid_expand_url(uid), :origin => request.path)
+    else
+      auth_path(:provider => provider, :origin => request.path)
+    end
+  end
+
+  ##
   # special case some common OpenID providers by applying heuristics to
   # try and come up with the correct URL based on what the user entered
   def openid_expand_url(openid_url)
@@ -554,14 +575,6 @@ class UserController < ApplicationController
     else
       return openid_url
     end
-  end
-
-  ##
-  # check if we trust an OpenID provider to return a verified
-  # email, so that we can skpi verifying it ourselves
-  def openid_email_verified(openid_url)
-    openid_url.match(%r{https://www.google.com/accounts/o8/id?(.*)}) ||
-      openid_url.match(%r{https://me.yahoo.com/(.*)})
   end
 
   ##
@@ -649,7 +662,11 @@ class UserController < ApplicationController
       user.preferred_editor = params[:user][:preferred_editor]
     end
 
-    user.openid_url = nil if params[:user][:openid_url].blank?
+    if params[:user][:auth_provider].nil? || params[:user][:auth_provider].blank? ||
+       params[:user][:auth_uid].nil? || params[:user][:auth_uid].blank?
+      user.auth_provider = nil
+      user.auth_uid = nil
+    end
 
     if user.save
       set_locale
@@ -728,7 +745,9 @@ class UserController < ApplicationController
   ##
   # return permitted user parameters
   def user_params
-    params.require(:user).permit(:email, :email_confirmation, :display_name, :openid_url, :pass_crypt, :pass_crypt_confirmation)
+    params.require(:user).permit(:email, :email_confirmation, :display_name,
+                                 :auth_provider, :auth_uid,
+                                 :pass_crypt, :pass_crypt_confirmation)
   end
 
   ##

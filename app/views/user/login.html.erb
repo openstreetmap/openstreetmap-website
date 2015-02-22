@@ -38,26 +38,26 @@
 
       <fieldset class='form-divider'>
 
-        <p class='standard-label'><%= t 'user.login.with openid' %></p>
+        <p class='standard-label'><%= t 'user.login.with external' %></p>
 
-        <ul class='clearfix' id="login_openid_buttons">
-          <li><%= link_to image_tag("openid.png", :alt => t("user.login.openid_providers.openid.title")), "#", :id => "openid_open_url", :title => t("user.login.openid_providers.openid.title") %></li>
-          <li><%= openid_button "google", "https://www.google.com/accounts/o8/id" %></li>
-          <li><%= openid_button "yahoo", "yahoo.com" %></li>
-          <li><%= openid_button "wordpress", "wordpress.com" %></li>
-          <li><%= openid_button "aol", "aol.com" %></li>
+        <ul class='clearfix' id="login_auth_buttons">
+          <li><%= link_to image_tag("openid.png", :alt => t("user.login.auth_providers.openid.title")), "#", :id => "openid_open_url", :title => t("user.login.auth_providers.openid.title") %></li>
+          <li><%= auth_button "google", "openid", :openid_url => "https://www.google.com/accounts/o8/id" %></li>
+          <li><%= auth_button "yahoo", "openid", :openid_url => "yahoo.com" %></li>
+          <li><%= auth_button "wordpress", "openid", :openid_url => "wordpress.com" %></li>
+          <li><%= auth_button "aol", "openid", :openid_url => "aol.com" %></li>
         </ul>
 
-          <div id='login_openid_url' class='form-row'>
-            <label class="standard-label"><%= raw t 'user.login.openid', :logo => openid_logo %></label>
-            <%= text_field_tag("openid_url", "", { :tabindex => 3, :class => "openid_url" }) %>
-            <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
-          </div>
+        <div id='login_openid_url' class='form-row'>
+          <label class="standard-label"><%= raw t 'user.login.openid', :logo => openid_logo %></label>
+          <%= text_field_tag("openid_url", "", { :tabindex => 3, :class => "openid_url" }) %>
+          <span class="minorNote">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
+        </div>
 
-          <div class='form-row'>
-            <%= check_box_tag "remember_me_openid", "yes", false, :tabindex => 5 %>
-            <label class="standard-label" for="remember_me_openid"><%= t 'user.login.remember' %></label>
-          </div>
+        <div class='form-row'>
+          <%= check_box_tag "remember_me_openid", "yes", false, :tabindex => 5 %>
+          <label class="standard-label" for="remember_me_openid"><%= t 'user.login.remember' %></label>
+        </div>
 
         <%= submit_tag t('user.login.login_button'), :tabindex => 6, :id => "login_openid_submit" %>
 
@@ -78,7 +78,7 @@ $(document).ready(function() {
 
   $("#openid_open_url").click(function() {
     $("#openid_url").val("http://");
-    $("#login_openid_buttons").hide();
+    $("#login_auth_buttons").hide();
     $("#login_openid_url").show();
     $("#login_openid_submit").show();
   });

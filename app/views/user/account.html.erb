@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "user" %>
+<% end %>
+
 <% content_for :heading do %>
   <h1><%= t 'user.account.my settings' %></h1>
   <ul class='secondary-actions clearfix'>
@@ -43,8 +47,9 @@
 
   <fieldset>
     <div class="form-row">
-      <label class="standard-label"><%= t 'user.account.openid.openid' %></label>
-      <%= f.text_field :openid_url, {:id => "openid_url", :class => "openid_url"} %>
+      <label class="standard-label"><%= t 'user.account.external auth' %></label>
+      <%= f.select :auth_provider, { "None" => "", "OpenID" => "openid" } %>
+      <%= f.text_field :auth_uid %>
       <span class="form-help deemphasize">(<a href="<%= t 'user.account.openid.link' %>" target="_new"><%= t 'user.account.openid.link text' %></a>)</span>
     </diV>
   </fieldset>
@@ -161,9 +166,6 @@
       <input type="checkbox" name="updatehome" value="1" <% unless @user.home_lat and @user.home_lon %> checked="checked" <% end %> id="updatehome" />
       <label class="standard-label" for="updatehome"><%= t 'user.account.update home location on click' %></label>
     </div>
-    <% content_for :head do %>
-      <%= javascript_include_tag "user" %>
-    <% end %>
     <%= content_tag "div", "", :id => "map", :class => "content_map settings_map set_location" %>
   </fieldset>
 

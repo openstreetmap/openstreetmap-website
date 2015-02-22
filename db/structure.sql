@@ -120,6 +120,33 @@ CREATE TYPE user_status_enum AS ENUM (
 );
 
 
+--
+-- Name: maptile_for_point(bigint, bigint, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
+    LANGUAGE c STRICT
+    AS '/srv/www/omniauth.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
+
+
+--
+-- Name: tile_for_point(integer, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
+    LANGUAGE c STRICT
+    AS '/srv/www/omniauth.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
+
+
+--
+-- Name: xid_to_int4(xid); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION xid_to_int4(xid) RETURNS integer
+    LANGUAGE c IMMUTABLE STRICT
+    AS '/srv/www/omniauth.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -1080,7 +1107,7 @@ CREATE TABLE users (
     status user_status_enum DEFAULT 'pending'::user_status_enum NOT NULL,
     terms_agreed timestamp without time zone,
     consider_pd boolean DEFAULT false NOT NULL,
-    openid_url character varying,
+    auth_uid character varying,
     preferred_editor character varying,
     terms_seen boolean DEFAULT false NOT NULL,
     description_format format_enum DEFAULT 'markdown'::format_enum NOT NULL,
@@ -1089,7 +1116,8 @@ CREATE TABLE users (
     traces_count integer DEFAULT 0 NOT NULL,
     diary_entries_count integer DEFAULT 0 NOT NULL,
     image_use_gravatar boolean DEFAULT true NOT NULL,
-    image_content_type character varying
+    image_content_type character varying,
+    auth_provider character varying
 );
 
 
@@ -1944,13 +1972,6 @@ CREATE INDEX user_id_idx ON friends USING btree (friend_user_id);
 
 
 --
--- Name: user_openid_url_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX user_openid_url_idx ON users USING btree (openid_url);
-
-
---
 -- Name: user_roles_id_role_unique; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1969,6 +1990,13 @@ CREATE UNIQUE INDEX user_tokens_token_idx ON user_tokens USING btree (token);
 --
 
 CREATE INDEX user_tokens_user_id_idx ON user_tokens USING btree (user_id);
+
+
+--
+-- Name: users_auth_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX users_auth_idx ON users USING btree (auth_provider, auth_uid);
 
 
 --
@@ -2517,6 +2545,8 @@ INSERT INTO schema_migrations (version) VALUES ('20140519141742');
 INSERT INTO schema_migrations (version) VALUES ('20150110152606');
 
 INSERT INTO schema_migrations (version) VALUES ('20150111192335');
+
+INSERT INTO schema_migrations (version) VALUES ('20150222101847');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

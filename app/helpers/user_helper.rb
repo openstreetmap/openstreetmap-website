@@ -42,18 +42,18 @@ module UserHelper
     end
   end
 
-  # OpenID support
+  # External authentication support
 
   def openid_logo
     image_tag "openid_small.png", :alt => t("user.login.openid_logo_alt"), :class => "openid_logo"
   end
 
-  def openid_button(name, url)
+  def auth_button(name, provider, options)
     link_to(
-      image_tag("#{name}.png", :alt => t("user.login.openid_providers.#{name}.alt")),
-      auth_path(:provider => "openid", :openid_url => url),
-      :class => "openid_button",
-      :title => t("user.login.openid_providers.#{name}.title")
+      image_tag("#{name}.png", :alt => t("user.login.auth_providers.#{name}.alt")),
+      auth_path(options.merge(:provider => provider)),
+      :class => "auth_button",
+      :title => t("user.login.auth_providers.#{name}.title")
     )
   end
 
