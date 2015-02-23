@@ -90,6 +90,7 @@ end
 
 # Needed in development as well so rake can see konacha tasks
 group :development, :test do
+  gem "jshint"
   gem "konacha"
   gem "poltergeist"
 end
