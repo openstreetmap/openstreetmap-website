@@ -107,7 +107,7 @@ L.OSM.layers = function(options) {
       });
     });
 
-    if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
+    if (OSM.STATUS !== 'api_offline' && OSM.STATUS !== 'database_offline') {
       var overlaySection = $('<div>')
         .attr('class', 'section overlay-layers')
         .appendTo($ui);
@@ -120,7 +120,7 @@ L.OSM.layers = function(options) {
       var list = $('<ul>')
         .appendTo(overlaySection);
 
-      function addOverlay(layer, name, maxArea) {
+      var addOverlay = function (layer, name, maxArea) {
         var item = $('<li>')
           .tooltip({
             placement: 'top'
@@ -170,7 +170,7 @@ L.OSM.layers = function(options) {
           item.attr('data-original-title', disabled ?
             I18n.t('javascripts.site.map_' + name + '_zoom_in_tooltip') : '');
         });
-      }
+      };
 
       addOverlay(map.noteLayer, 'notes', OSM.MAX_NOTE_REQUEST_AREA);
       addOverlay(map.dataLayer, 'data', OSM.MAX_REQUEST_AREA);

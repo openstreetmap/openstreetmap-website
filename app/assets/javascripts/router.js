@@ -86,7 +86,7 @@ OSM.Router = function(map, rts) {
 
   var routes = [];
   for (var r in rts)
-    routes.push(Route(r, rts[r]));
+    routes.push(new Route(r, rts[r]));
 
   routes.recognize = function(path) {
     for (var i = 0; i < this.length; i++) {

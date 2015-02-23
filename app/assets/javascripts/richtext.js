@@ -44,7 +44,7 @@ $(document).ready(function () {
     var width = editor.outerWidth() - preview.outerWidth() + preview.width();
     var minHeight = editor.outerHeight() - preview.outerHeight() + preview.height();
 
-    if (preview.contents().length == 0) {
+    if (preview.contents().length === 0) {
       preview.oneTime(500, "loading", function () {
         preview.addClass("loading");
       });

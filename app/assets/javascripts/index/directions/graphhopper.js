@@ -19,12 +19,12 @@ function GraphHopperEngine(id, vehicleParam) {
     getRoute: function (points, callback) {
       // documentation
       // https://github.com/graphhopper/graphhopper/blob/master/docs/web/api-doc.md
-      var url = document.location.protocol + "//graphhopper.com/api/1/route?"
-        + vehicleParam
-        + "&locale=" + I18n.currentLocale()
-        + "&key=LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn"
-        + "&type=jsonp"
-        + "&instructions=true";
+      var url = document.location.protocol + "//graphhopper.com/api/1/route?" +
+          vehicleParam +
+          "&locale=" + I18n.currentLocale() +
+          "&key=LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn" +
+          "&type=jsonp" +
+          "&instructions=true";
 
       for (var i = 0; i < points.length; i++) {
         url += "&point=" + points[i].lat + ',' + points[i].lng;
@@ -34,7 +34,7 @@ function GraphHopperEngine(id, vehicleParam) {
         url: url,
         dataType: 'jsonp',
         success: function (data) {
-          if (!data.paths || data.paths.length == 0)
+          if (!data.paths || data.paths.length === 0)
             return callback(true);
 
           var path = data.paths[0];
@@ -70,5 +70,5 @@ function GraphHopperEngine(id, vehicleParam) {
   };
 }
 
-OSM.Directions.addEngine(GraphHopperEngine("graphhopper_bicycle", "vehicle=bike"), true);
-OSM.Directions.addEngine(GraphHopperEngine("graphhopper_foot", "vehicle=foot"), true);
+OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_bicycle", "vehicle=bike"), true);
+OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_foot", "vehicle=foot"), true);

@@ -17,7 +17,7 @@ OSM.Changeset = function (map) {
   };
 
   function addChangeset(id, center) {
-    var bounds = map.addObject({type: 'changeset', id: parseInt(id)}, function(bounds) {
+    map.addObject({type: 'changeset', id: parseInt(id)}, function(bounds) {
       if (!window.location.hash && bounds.isValid() &&
           (center || !map.getBounds().contains(bounds))) {
         OSM.router.withoutMoveListener(function () {
@@ -28,7 +28,10 @@ OSM.Changeset = function (map) {
   }
 
   function updateChangeset(form, method, url, include_data) {
+    var data;
+
     $(form).find("input[type=submit]").prop("disabled", true);
+
     if(include_data) {
       data = {text: $(form.text).val()};
     } else {
@@ -62,7 +65,7 @@ OSM.Changeset = function (map) {
     content.find("textarea").on("input", function (e) {
       var form = e.target.form;
 
-      if ($(e.target).val() == "") {
+      if ($(e.target).val() === "") {
         $(form.comment).prop("disabled", true);
       } else {
         $(form.comment).prop("disabled", false);
@@ -70,7 +73,7 @@ OSM.Changeset = function (map) {
     });
 
     content.find("textarea").val('').trigger("input");
-  };
+  }
 
   page.unload = function() {
     map.removeObject();

@@ -81,7 +81,7 @@ OSM.NewNote = function(map) {
   };
 
   function newHalo(loc, a) {
-    if (a == 'dragstart' && map.hasLayer(halo)) {
+    if (a === 'dragstart' && map.hasLayer(halo)) {
       map.removeLayer(halo);
     } else {
       if (map.hasLayer(halo)) map.removeLayer(halo);

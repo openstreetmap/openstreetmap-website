@@ -60,12 +60,13 @@ L.OSM.key = function (options) {
     }
 
     function updateButton() {
-      var disabled = map.getMapBaseLayerId() !== 'mapnik'
+      var disabled = map.getMapBaseLayerId() !== 'mapnik';
       button
         .toggleClass('disabled', disabled)
-        .attr('data-original-title', I18n.t(disabled ?
-          'javascripts.key.tooltip_disabled' :
-          'javascripts.key.tooltip'))
+        .attr('data-original-title',
+              I18n.t(disabled ?
+                     'javascripts.key.tooltip_disabled' :
+                     'javascripts.key.tooltip'));
     }
 
     function update() {
@@ -74,7 +75,7 @@ L.OSM.key = function (options) {
 
       $('.mapkey-table-entry').each(function () {
         var data = $(this).data();
-        if (layer == data.layer && zoom >= data.zoomMin && zoom <= data.zoomMax) {
+        if (layer === data.layer && zoom >= data.zoomMin && zoom <= data.zoomMax) {
           $(this).show();
         } else {
           $(this).hide();

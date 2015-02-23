@@ -17,13 +17,13 @@ $(document).ready(function() {
     $('.start-mapping').attr('href', url);
 
   } else {
-    function geoSuccess(position) {
+    var geoSuccess = function (position) {
       window.location = '/edit' + OSM.formatHash({
         zoom: 17,
         lat: position.coords.latitude,
         lon: position.coords.longitude
       });
-    }
+    };
 
     $('.start-mapping').on('click', function(e) {
       e.preventDefault();

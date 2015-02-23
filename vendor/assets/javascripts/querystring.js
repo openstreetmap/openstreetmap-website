@@ -17,16 +17,16 @@ var trim = require('trim');
  */
 
 exports.parse = function(str){
-  if ('string' != typeof str) return {};
+  if ('string' !== typeof str) return {};
 
   str = trim(str);
-  if ('' == str) return {};
+  if ('' === str) return {};
 
   var obj = {};
   var pairs = str.split('&');
   for (var i = 0; i < pairs.length; i++) {
     var parts = pairs[i].split('=');
-    obj[parts[0]] = null == parts[1]
+    obj[parts[0]] = null === parts[1]
       ? ''
       : decodeURIComponent(parts[1]);
   }

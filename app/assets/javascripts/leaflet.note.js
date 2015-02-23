@@ -13,8 +13,6 @@ L.OSM.note = function (options) {
 
     map.on('zoomend', update);
 
-    update();
-
     function update() {
       var disabled = OSM.STATUS === "database_offline" || map.getZoom() < 12;
       link
@@ -23,6 +21,8 @@ L.OSM.note = function (options) {
           'javascripts.site.createnote_disabled_tooltip' :
           'javascripts.site.createnote_tooltip'));
     }
+
+    update();
 
     return $container[0];
   };

@@ -42,7 +42,7 @@ OSM.Directions = function (map) {
     });
 
     endpoint.marker.on('drag dragend', function (e) {
-      dragging = (e.type == 'drag');
+      dragging = (e.type === 'drag');
       if (dragging && !chosenEngine.draggable) return;
       if (dragging && awaitingRoute) return;
       endpoint.setLatLng(e.target.getLatLng());
@@ -54,7 +54,7 @@ OSM.Directions = function (map) {
     input.on("change", function (e) {
       // make text the same in both text boxes
       var value = e.target.value;
-      endpoint.setValue(value)
+      endpoint.setValue(value);
     });
 
     endpoint.setValue = function(value) {
@@ -62,7 +62,7 @@ OSM.Directions = function (map) {
       delete endpoint.latlng;
       input.val(value);
       endpoint.getGeocode();
-    }
+    };
 
     endpoint.getGeocode = function() {
       // if no one has entered a value yet, then we can't geocode, so don't
@@ -76,7 +76,7 @@ OSM.Directions = function (map) {
       $.getJSON(document.location.protocol + OSM.NOMINATIM_URL + 'search?q=' + encodeURIComponent(endpoint.value) + '&format=json', function (json) {
         endpoint.awaitingGeocode = false;
         endpoint.hasGeocode = true;
-        if (json.length == 0) {
+        if (json.length === 0) {
           alert(I18n.t('javascripts.directions.errors.no_place'));
           return;
         }
@@ -93,7 +93,7 @@ OSM.Directions = function (map) {
           getRoute();
         }
       });
-    }
+    };
 
     endpoint.setLatLng = function (ll) {
       var precision = OSM.zoomPrecision(map.getZoom());
@@ -137,7 +137,7 @@ OSM.Directions = function (map) {
 
   function setEngine(id) {
     engines.forEach(function(engine, i) {
-      if (engine.id == id) {
+      if (engine.id === id) {
         chosenEngine = engine;
         select.val(i);
       }
@@ -378,7 +378,7 @@ OSM.Directions = function (map) {
 OSM.Directions.engines = [];
 
 OSM.Directions.addEngine = function (engine, supportsHTTPS) {
-  if (document.location.protocol == "http:" || supportsHTTPS) {
+  if (document.location.protocol === "http:" || supportsHTTPS) {
     OSM.Directions.engines.push(engine);
   }
 };

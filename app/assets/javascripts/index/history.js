@@ -62,7 +62,7 @@ OSM.History = function(map) {
       url: window.location.pathname,
       method: "GET",
       data: data,
-      success: function(html, status, xhr) {
+      success: function(html) {
         $('#sidebar_content .changesets').html(html);
         updateMap();
       }

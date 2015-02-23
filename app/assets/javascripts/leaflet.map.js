@@ -64,7 +64,7 @@ L.OSM.Map = L.Map.extend({
       if (layerParam.indexOf(this.baseLayers[i].options.code) >= 0) {
         this.addLayer(this.baseLayers[i]);
         layersAdded = layersAdded + this.baseLayers[i].options.code;
-      } else if (i == 0 && layersAdded == "") {
+      } else if (i === 0 && layersAdded === "") {
         this.addLayer(this.baseLayers[i]);
       } else {
         this.removeLayer(this.baseLayers[i]);
@@ -210,7 +210,7 @@ L.OSM.Map = L.Map.extend({
             return true;
           } else if (object.type === "relation") {
             for (var i = 0; i < relations.length; i++)
-              if (relations[i].members.indexOf(node) != -1)
+              if (relations[i].members.indexOf(node) !== -1)
                 return true;
           } else {
             return false;
@@ -236,7 +236,7 @@ L.OSM.Map = L.Map.extend({
       center: this.getCenter().wrap(),
       zoom: this.getZoom(),
       layers: this.getLayersCode()
-    }
+    };
   },
 
   setState: function(state, options) {

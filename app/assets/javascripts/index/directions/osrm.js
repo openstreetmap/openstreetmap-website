@@ -48,7 +48,7 @@ function OSRMEngine() {
         url: url,
         dataType: 'json',
         success: function (data) {
-          if (data.status == 207)
+          if (data.status === 207)
             return callback(true);
 
           previousPoints = points;
@@ -68,7 +68,7 @@ function OSRMEngine() {
             if (instCodes[1]) {
               instText += "exit " + instCodes[1] + " ";
             }
-            if (instCodes[0] != 15) {
+            if (instCodes[0] !== 15) {
               instText += s[1] ? "<b>" + s[1] + "</b>" : I18n.t('javascripts.directions.instructions.unnamed');
             }
             if ((i + 1) < data.route_instructions.length) {
@@ -91,4 +91,4 @@ function OSRMEngine() {
   };
 }
 
-OSM.Directions.addEngine(OSRMEngine(), true);
+OSM.Directions.addEngine(new OSRMEngine(), true);

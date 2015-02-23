@@ -34,9 +34,9 @@ $(document).ready(function () {
     // IE<10 doesn't respect Vary: X-Requested-With header, so
     // prevent caching the XHR response as a full-page URL.
     if (path.indexOf('?') >= 0) {
-      path += '&xhr=1'
+      path += '&xhr=1';
     } else {
-      path += '?xhr=1'
+      path += '?xhr=1';
     }
 
     $('#sidebar_content')
@@ -136,7 +136,7 @@ $(document).ready(function () {
   L.control.scale()
     .addTo(map);
 
-  if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
+  if (OSM.STATUS !== 'api_offline' && OSM.STATUS !== 'database_offline') {
     initializeNotes(map);
     if (params.layers.indexOf(map.noteLayer.options.code) >= 0) {
       map.addLayer(map.noteLayer);
@@ -164,7 +164,7 @@ $(document).ready(function () {
     $.cookie("_osm_location", OSM.locationCookie(map), { expires: expiry, path: "/" });
   });
 
-  if ($.cookie('_osm_welcome') == 'hide') {
+  if ($.cookie('_osm_welcome') === 'hide') {
     $('.welcome').hide();
   }
 
@@ -263,7 +263,7 @@ $(document).ready(function () {
     };
 
     function addObject(type, id, center) {
-      var bounds = map.addObject({type: type, id: parseInt(id)}, function(bounds) {
+      map.addObject({type: type, id: parseInt(id)}, function(bounds) {
         if (!window.location.hash && bounds.isValid() &&
             (center || !map.getBounds().contains(bounds))) {
           OSM.router.withoutMoveListener(function () {
@@ -300,7 +300,7 @@ $(document).ready(function () {
     "/query":                      OSM.Query(map)
   });
 
-  if (OSM.preferred_editor == "remote" && document.location.pathname == "/edit") {
+  if (OSM.preferred_editor === "remote" && document.location.pathname === "/edit") {
     remoteEditHandler(map.getBounds(), params.object);
     OSM.router.setCurrentPath("/");
   }

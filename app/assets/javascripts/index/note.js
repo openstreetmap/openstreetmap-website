@@ -60,7 +60,7 @@ OSM.Note = function (map) {
     content.find("textarea").on("input", function (e) {
       var form = e.target.form;
 
-      if ($(e.target).val() == "") {
+      if ($(e.target).val() === "") {
         $(form.close).val(I18n.t("javascripts.notes.show.resolve"));
         $(form.comment).prop("disabled", true);
       } else {
@@ -94,7 +94,7 @@ OSM.Note = function (map) {
     map.addLayer(currentNote);
 
     if (callback) callback();
-  };
+  }
 
   function moveToNote() {
     var data = $('.details').data(),

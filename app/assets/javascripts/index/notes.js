@@ -21,12 +21,12 @@ function initializeNotes(map) {
   };
 
   map.on("layeradd", function (e) {
-    if (e.layer == noteLayer) {
+    if (e.layer === noteLayer) {
       loadNotes();
       map.on("moveend", loadNotes);
     }
   }).on("layerremove", function (e) {
-    if (e.layer == noteLayer) {
+    if (e.layer === noteLayer) {
       map.off("moveend", loadNotes);
       noteLayer.clearLayers();
       notes = {};

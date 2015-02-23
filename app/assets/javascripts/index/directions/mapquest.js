@@ -45,7 +45,7 @@ function MapQuestEngine(id, vehicleParam) {
       $.ajax({
         url: url,
         success: function (data) {
-          if (data.info.statuscode != 0)
+          if (data.info.statuscode !== 0)
             return callback(true);
 
           var line = [];
@@ -63,7 +63,7 @@ function MapQuestEngine(id, vehicleParam) {
             var d;
             var linesegstart, linesegend, lineseg;
             linesegstart = data.route.shape.maneuverIndexes[i];
-            if (i == mq.length - 1) {
+            if (i === mq.length - 1) {
               d = 15;
               linesegend = linesegstart + 1;
             } else {
@@ -81,7 +81,7 @@ function MapQuestEngine(id, vehicleParam) {
             line: line,
             steps: steps,
             distance: data.route.distance * 1000,
-            time: data.route['time']
+            time: data.route.time
           });
         }
       });
@@ -89,6 +89,6 @@ function MapQuestEngine(id, vehicleParam) {
   };
 }
 
-OSM.Directions.addEngine(MapQuestEngine("mapquest_bicycle", "routeType=bicycle"), true);
-OSM.Directions.addEngine(MapQuestEngine("mapquest_foot", "routeType=pedestrian"), true);
-OSM.Directions.addEngine(MapQuestEngine("mapquest_car", "routeType=fastest"), true);
+OSM.Directions.addEngine(new MapQuestEngine("mapquest_bicycle", "routeType=bicycle"), true);
+OSM.Directions.addEngine(new MapQuestEngine("mapquest_foot", "routeType=pedestrian"), true);
+OSM.Directions.addEngine(new MapQuestEngine("mapquest_car", "routeType=fastest"), true);

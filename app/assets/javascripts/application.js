@@ -63,10 +63,10 @@ function updateLinks(loc, zoom, layers, object) {
       args = querystring.parse(link.search.substring(1)),
       editlink = $(link).hasClass("editlink");
 
-    delete args['node'];
-    delete args['way'];
-    delete args['relation'];
-    delete args['changeset'];
+    delete args.node;
+    delete args.way;
+    delete args.relation;
+    delete args.changeset;
 
     if (object && editlink) {
       args[object.type] = object.id;
@@ -108,7 +108,7 @@ function escapeHTML(string) {
     '"': '&quot;',
     "'": '&#x27;'
   };
-  return string == null ? '' : (string + '').replace(/[&<>"']/g, function(match) {
+  return string === null ? '' : (string + '').replace(/[&<>"']/g, function(match) {
       return htmlEscapes[match];
   });
 }

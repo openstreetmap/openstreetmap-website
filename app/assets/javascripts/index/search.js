@@ -2,7 +2,7 @@
 
 OSM.Search = function(map) {
   $(".search_form input[name=query]").on("input", function(e) {
-    if ($(e.target).val() == "") {
+    if ($(e.target).val() === "") {
       $(".describe_location").fadeIn(100);
     } else {
       $(".describe_location").fadeOut(100);
@@ -68,7 +68,7 @@ OSM.Search = function(map) {
     });
   }
 
-  function showSearchResult(e) {
+  function showSearchResult() {
     var marker = $(this).data("marker");
 
     if (!marker) {
@@ -84,7 +84,7 @@ OSM.Search = function(map) {
     $(this).closest("li").addClass("selected");
   }
 
-  function hideSearchResult(e) {
+  function hideSearchResult() {
     var marker = $(this).data("marker");
 
     if (marker) {
