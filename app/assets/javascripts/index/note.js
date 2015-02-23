@@ -6,17 +6,17 @@ OSM.Note = function (map) {
 
   var noteIcons = {
     "new": L.icon({
-      iconUrl: "<%= image_path('new_note_marker.png') %>",
+      iconUrl: OSM.NEW_NOTE_MARKER,
       iconSize: [25, 40],
       iconAnchor: [12, 40]
     }),
     "open": L.icon({
-      iconUrl: "<%= image_path('open_note_marker.png') %>",
+      iconUrl: OSM.OPEN_NOTE_MARKER,
       iconSize: [25, 40],
       iconAnchor: [12, 40]
     }),
     "closed": L.icon({
-      iconUrl: "<%= image_path('closed_note_marker.png') %>",
+      iconUrl: OSM.CLOSED_NOTE_MARKER,
       iconSize: [25, 40],
       iconAnchor: [12, 40]
     })

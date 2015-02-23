@@ -22,8 +22,8 @@ OSM.Directions = function (map) {
   });
 
   var endpoints = [
-    Endpoint($("input[name='route_from']"), <%= asset_path('marker-green.png').to_json %>),
-    Endpoint($("input[name='route_to']"),   <%= asset_path('marker-red.png').to_json %>)
+    Endpoint($("input[name='route_from']"), OSM.MARKER_GREEN),
+    Endpoint($("input[name='route_to']"), OSM.MARKER_RED)
   ];
 
   function Endpoint(input, iconUrl) {
@@ -35,7 +35,7 @@ OSM.Directions = function (map) {
         iconSize: [25, 41],
         iconAnchor: [12, 41],
         popupAnchor: [1, -34],
-        shadowUrl: <%= asset_path('images/marker-shadow.png').to_json %>,
+        shadowUrl: OSM.MARKER_SHADOW,
         shadowSize: [41, 41]
       }),
       draggable: true
@@ -73,7 +73,7 @@ OSM.Directions = function (map) {
 
       endpoint.awaitingGeocode = true;
 
-      $.getJSON(document.location.protocol + '<%= NOMINATIM_URL %>search?q=' + encodeURIComponent(endpoint.value) + '&format=json', function (json) {
+      $.getJSON(document.location.protocol + OSM.NOMINATIM_URL + 'search?q=' + encodeURIComponent(endpoint.value) + '&format=json', function (json) {
         endpoint.awaitingGeocode = false;
         endpoint.hasGeocode = true;
         if (json.length == 0) {

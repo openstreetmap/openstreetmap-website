@@ -28,10 +28,10 @@ window.onload = function () {
 
   if (args.marker) {
     L.marker(args.marker.split(','), {icon: L.icon({
-      iconUrl: <%= asset_path('images/marker-icon.png').to_json %>,
+      iconUrl: OSM.MARKER_ICON,
       iconSize: new L.Point(25, 41),
       iconAnchor: new L.Point(12, 41),
-      shadowUrl: <%= asset_path('images/marker-shadow.png').to_json %>,
+      shadowUrl: OSM.MARKER_SHADOW,
       shadowSize: new L.Point(41, 41)
     })}).addTo(map);
   }
