@@ -48,9 +48,10 @@ function MapQuestEngine(id, vehicleParam) {
           if (data.info.statuscode !== 0)
             return callback(true);
 
+          var i;
           var line = [];
           var shape = data.route.shape.shapePoints;
-          for (var i = 0; i < shape.length; i += 2) {
+          for (i = 0; i < shape.length; i += 2) {
             line.push(L.latLng(shape[i], shape[i + 1]));
           }
 
@@ -58,7 +59,7 @@ function MapQuestEngine(id, vehicleParam) {
           // data.route.legs[0].maneuvers is list of turns
           var steps = [];
           var mq = data.route.legs[0].maneuvers;
-          for (var i = 0; i < mq.length; i++) {
+          for (i = 0; i < mq.length; i++) {
             var s = mq[i];
             var d;
             var linesegstart, linesegend, lineseg;

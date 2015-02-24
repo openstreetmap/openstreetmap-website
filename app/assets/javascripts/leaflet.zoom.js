@@ -37,7 +37,7 @@ L.OSM.Zoom = L.Control.extend({
 		link.href = '#';
 		link.title = title;
 
-		var sprite = L.DomUtil.create('span', 'icon ' + className, link);
+		L.DomUtil.create('span', 'icon ' + className, link);
 
 		var stop = L.DomEvent.stopPropagation;
 

@@ -34,12 +34,12 @@ L.OSM.layers = function(options) {
       .attr('class', 'section base-layers')
       .appendTo($ui);
 
-    list = $('<ul>')
+    var baseLayers = $('<ul>')
       .appendTo(baseSection);
 
     layers.forEach(function(layer) {
       var item = $('<li>')
-        .appendTo(list);
+        .appendTo(baseLayers);
 
       if (map.hasLayer(layer)) {
         item.addClass('active');
@@ -117,7 +117,7 @@ L.OSM.layers = function(options) {
         .attr("class", "deemphasize")
         .appendTo(overlaySection);
 
-      var list = $('<ul>')
+      var overlays = $('<ul>')
         .appendTo(overlaySection);
 
       var addOverlay = function (layer, name, maxArea) {
@@ -125,7 +125,7 @@ L.OSM.layers = function(options) {
           .tooltip({
             placement: 'top'
           })
-          .appendTo(list);
+          .appendTo(overlays);
 
         var label = $('<label>')
           .appendTo(item);

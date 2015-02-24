@@ -1,6 +1,5 @@
 OSM.Note = function (map) {
-  var noteLayer = map.noteLayer,
-    content = $('#sidebar_content'),
+  var content = $('#sidebar_content'),
     page = {},
     halo, currentNote;
 

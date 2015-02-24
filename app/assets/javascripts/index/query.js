@@ -87,9 +87,10 @@ OSM.Query = function(map) {
       });
     } else {
       var prefixes = I18n.t("geocoder.search_osm_nominatim.prefix");
+      var key, value;
 
-      for (var key in tags) {
-        var value = tags[key];
+      for (key in tags) {
+        value = tags[key];
 
         if (prefixes[key]) {
           if (prefixes[key][value]) {
@@ -98,8 +99,8 @@ OSM.Query = function(map) {
         }
       }
 
-      for (var key in tags) {
-        var value = tags[key];
+      for (key in tags) {
+        value = tags[key];
 
         if (prefixes[key]) {
           var first = value.substr(0, 1).toUpperCase(),
