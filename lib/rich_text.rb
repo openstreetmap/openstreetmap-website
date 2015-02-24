@@ -72,18 +72,19 @@ module RichText
 
   class Markdown < Base
     def to_html
-      html_parser.render(self).html_safe
+      Markdown.html_parser.render(self).html_safe
     end
 
     def to_text
       to_s
     end
 
-    private
+    def self.html_renderer
+      @html_renderer ||= Renderer.new(:filter_html => true, :safe_links_only => true)
+    end
 
-    def html_parser
-      @@html_renderer ||= Renderer.new(:filter_html => true, :safe_links_only => true)
-      @@html_parser ||= Redcarpet::Markdown.new(@@html_renderer,         :no_intra_emphasis => true, :autolink => true, :space_after_headers => true)
+    def self.html_parser
+      @html_parser ||= Redcarpet::Markdown.new(html_renderer, :no_intra_emphasis => true, :autolink => true, :space_after_headers => true)
     end
 
     class Renderer < Redcarpet::Render::XHTML

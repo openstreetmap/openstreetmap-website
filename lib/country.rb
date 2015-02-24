@@ -14,7 +14,7 @@ class Country
   end
 
   def self.countries
-    @@countries ||= load_countries
+    @countries ||= load_countries
   end
 
   def self.load_countries

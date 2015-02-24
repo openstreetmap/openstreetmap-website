@@ -119,7 +119,7 @@ class SwfController < ApplicationController
   def start_and_move(x, y, col)
     d = "001001"					# Line style change, moveTo
     l = [length_sb(x), length_sb(y)].max
-    d += sprintf("%05b%0#{l}b%0#{l}b", l, x, y)
+    d += format("%05b%0*b%0*b", l, l, x, l, y)
     d += col						# Select line style
     d
   end
@@ -147,9 +147,9 @@ class SwfController < ApplicationController
     dx = x2 - x1
     dy = y2 - y1
     l = [length_sb(dx), length_sb(dy)].max
-    d += sprintf("%04b", l - 2)
+    d += format("%04b", l - 2)
     d += "1"											# GeneralLine
-    d += sprintf("%0#{l}b%0#{l}b", dx, dy)
+    d += format("%0*b%0*b", l, dx, l, dy)
     d
   end
 
@@ -176,7 +176,7 @@ class SwfController < ApplicationController
          length_sb(c),
          length_sb(d)].max
     # create binary string (00111001 etc.) - 5-byte length, then bbox
-    n = sprintf("%05b%0#{l}b%0#{l}b%0#{l}b%0#{l}b", l, a, b, c, d)
+    n = format("%05b%0*b%0*b%0*b%0*b", l, l, a, l, b, l, c, l, d)
     # pack into byte string
     [n].pack("B*")
   end

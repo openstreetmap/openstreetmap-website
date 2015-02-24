@@ -1381,7 +1381,7 @@ EOF
     assert_response :success
     assert_template nil
     # print @response.body
-    # FIXME needs more assert_select tests
+    # FIXME: needs more assert_select tests
     assert_select "osmChange[version='#{API_VERSION}'][generator='#{GENERATOR}']" do
       assert_select "create", :count => 5
       assert_select "create>node[id='#{nodes(:used_node_2).node_id}'][visible='#{nodes(:used_node_2).visible?}'][version='#{nodes(:used_node_2).version}']" do
@@ -1393,7 +1393,7 @@ EOF
 
   ##
   # check that the bounding box of a changeset gets updated correctly
-  ## FIXME: This should really be moded to a integration test due to the with_controller
+  # FIXME: This should really be moded to a integration test due to the with_controller
   def test_changeset_bbox
     basic_authorization users(:public_user).email, "test"
 
@@ -1769,7 +1769,7 @@ EOF
     # Now check that all 20 (or however many were returned) changesets are in the html
     assert_select "li", :count => changesets.size
     changesets.each do |_changeset|
-      # FIXME this test needs rewriting - test for table contents
+      # FIXME: this test needs rewriting - test for table contents
     end
   end
 
@@ -1795,7 +1795,7 @@ EOF
     # Now check that all 20 (or however many were returned) changesets are in the html
     assert_select "li", :count => changesets.size
     changesets.each do |_changeset|
-      # FIXME this test needs rewriting - test for table contents
+      # FIXME: this test needs rewriting - test for table contents
     end
   end
 
@@ -1806,7 +1806,7 @@ EOF
     get :list, :format => "html", :display_name => user.display_name
     assert_response :success
     assert_template "history"
-    ## FIXME need to add more checks to see which if edits are actually shown if your data is public
+    # FIXME: need to add more checks to see which if edits are actually shown if your data is public
   end
 
   ##
@@ -1829,7 +1829,7 @@ EOF
     assert_select "feed", :count => 1
     assert_select "entry", :count => changesets.size
     changesets.each do |_changeset|
-      # FIXME this test needs rewriting - test for feed contents
+      # FIXME: this test needs rewriting - test for feed contents
     end
   end
 
@@ -1841,7 +1841,7 @@ EOF
     assert_response :success
     assert_template "list"
     assert_equal "application/atom+xml", response.content_type
-    ## FIXME need to add more checks to see which if edits are actually shown if your data is public
+    # FIXME: need to add more checks to see which if edits are actually shown if your data is public
   end
 
   ##

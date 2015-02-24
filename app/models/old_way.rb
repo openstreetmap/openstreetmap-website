@@ -70,7 +70,7 @@ class OldWay < ActiveRecord::Base
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
-    old_nodes.each do |nd| # FIXME need to make sure they come back in the right order
+    old_nodes.each do |nd| # FIXME: need to make sure they come back in the right order
       node_el = XML::Node.new "nd"
       node_el["ref"] = nd.node_id.to_s
       el << node_el

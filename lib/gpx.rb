@@ -150,11 +150,11 @@ module GPX
 
   private
 
-  class TrkPt < Struct.new(:segment, :latitude, :longitude, :altitude, :timestamp)
+  TrkPt = Struct.new(:segment, :latitude, :longitude, :altitude, :timestamp) do
     def valid?
       latitude && longitude && timestamp &&
-        latitude >= -90 && latitude <= 90 &&
-        longitude >= -180 && longitude <= 180
+      latitude >= -90 && latitude <= 90 &&
+      longitude >= -180 && longitude <= 180
     end
   end
 end

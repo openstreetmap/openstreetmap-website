@@ -219,7 +219,7 @@ class Trace < ActiveRecord::Base
   end
 
   def xml_file
-    # TODO *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
+    # TODO: *nix specific, could do to work on windows... would be functionally inferior though - check for '.gz'
     filetype = `/usr/bin/file -bz #{trace_name}`.chomp
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/

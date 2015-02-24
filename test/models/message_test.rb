@@ -55,7 +55,7 @@ class MessageTest < ActiveSupport::TestCase
 
   def test_invalid_utf8
     # See e.g http://en.wikipedia.org/wiki/UTF-8 for byte sequences
-    # FIXME - Invalid Unicode characters can still be encoded into "valid" utf-8 byte sequences - maybe check this too?
+    # FIXME: Invalid Unicode characters can still be encoded into "valid" utf-8 byte sequences - maybe check this too?
     invalid_sequences = ["\xC0",         # always invalid utf8
                          "\xC2\x4a",     # 2-byte multibyte identifier, followed by plain ASCII
                          "\xC2\xC2",     # 2-byte multibyte identifier, followed by another one

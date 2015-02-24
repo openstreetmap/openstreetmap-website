@@ -135,7 +135,7 @@ class Relation < ActiveRecord::Base
     el
   end
 
-  # FIXME is this really needed?
+  # FIXME: is this really needed?
   def members
     @members ||= relation_members.map do |member|
       [member.member_type, member.member_id, member.member_role]

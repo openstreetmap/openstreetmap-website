@@ -1,19 +1,19 @@
 require "migrate"
 
 class MoveToInnodb < ActiveRecord::Migration
-  @@conv_tables = %w(nodes ways way_tags way_nodes current_way_tags relation_members relations relation_tags current_relation_tags)
+  @conv_tables = %w(nodes ways way_tags way_nodes current_way_tags relation_members relations relation_tags current_relation_tags)
 
-  @@ver_tbl = %w(nodes ways relations)
+  @ver_tbl = %w(nodes ways relations)
 
   def self.up
     remove_index :current_way_tags, :name => :current_way_tags_v_idx
     remove_index :current_relation_tags, :name => :current_relation_tags_v_idx
 
-    @@ver_tbl.each do |tbl|
+    @ver_tbl.each do |tbl|
       change_column tbl, "version", :bigint, :null => false
     end
 
-    @@ver_tbl.each do |tbl|
+    @ver_tbl.each do |tbl|
       add_column "current_#{tbl}", "version", :bigint, :null => false
       # As the initial version of all nodes, ways and relations is 0, we set the
       # current version to something less so that we can update the version in

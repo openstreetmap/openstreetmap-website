@@ -115,7 +115,7 @@ module ActiveSupport
     end
 
     def basic_authorization(user, pass)
-      @request.env["HTTP_AUTHORIZATION"] = "Basic %s" % Base64.encode64("#{user}:#{pass}")
+      @request.env["HTTP_AUTHORIZATION"] = format("Basic %s", Base64.encode64("#{user}:#{pass}"))
     end
 
     def error_format(format)

@@ -34,13 +34,13 @@ module Quova
 
   ##
   # Create SOAP endpoint
-  @@soap = SOAP::WSDLDriverFactory.new(WSDL_URL).create_rpc_driver
-  @@soap.options["protocol.http.basic_auth"] << [WSDL_URL, WSDL_USER, WSDL_PASS]
+  @soap = SOAP::WSDLDriverFactory.new(WSDL_URL).create_rpc_driver
+  @soap.options["protocol.http.basic_auth"] << [WSDL_URL, WSDL_USER, WSDL_PASS]
 
   ##
   # Accessor for SOAP endpoint
   def self.soap
-    @@soap
+    @soap
   end
 
   ##

@@ -1,7 +1,7 @@
 require "migrate"
 
 class AddChangesets < ActiveRecord::Migration
-  @@conv_user_tables = %w(current_nodes current_relations current_ways nodes relations ways)
+  @conv_user_tables = %w(current_nodes current_relations current_ways nodes relations ways)
 
   def self.up
     create_table "changesets", :id => false do |t|
@@ -31,7 +31,7 @@ class AddChangesets < ActiveRecord::Migration
     execute "INSERT INTO changesets (id, user_id, created_at, open)" +
       "SELECT id, id, creation_time, false from users;"
 
-    @@conv_user_tables.each do |tbl|
+    @conv_user_tables.each do |tbl|
       rename_column tbl, :user_id, :changeset_id
       # foreign keys too
       add_foreign_key tbl, :changesets, :name => "#{tbl}_changeset_id_fkey"

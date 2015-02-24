@@ -499,14 +499,6 @@ class NodeControllerTest < ActionController::TestCase
     assert apinode.tags.include?("\#{@user.inspect}")
   end
 
-  def basic_authorization(user, pass)
-    @request.env["HTTP_AUTHORIZATION"] = "Basic %s" % Base64.encode64("#{user}:#{pass}")
-  end
-
-  def content(c)
-    @request.env["RAW_POST_DATA"] = c.to_s
-  end
-
   ##
   # update the changeset_id of a node element
   def update_changeset(xml, changeset_id)

@@ -141,7 +141,7 @@ class Node < ActiveRecord::Base
       # update changeset bbox with *old* position first
       changeset.update_bbox!(bbox)
 
-      # FIXME logic needs to be double checked
+      # FIXME: logic needs to be double checked
       self.latitude = new_node.latitude
       self.longitude = new_node.longitude
       self.tags = new_node.tags

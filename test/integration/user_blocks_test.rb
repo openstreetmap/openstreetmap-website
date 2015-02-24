@@ -4,7 +4,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
   fixtures :users, :user_blocks, :user_roles
 
   def auth_header(user, pass)
-    { "HTTP_AUTHORIZATION" => "Basic %s" % Base64.encode64("#{user}:#{pass}") }
+    { "HTTP_AUTHORIZATION" => format("Basic %s", Base64.encode64("#{user}:#{pass}")) }
   end
 
   def test_api_blocked

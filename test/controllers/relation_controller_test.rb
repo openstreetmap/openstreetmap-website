@@ -107,7 +107,7 @@ class RelationControllerTest < ActionController::TestCase
     # check the "full" mode
     get :full, :id => current_relations(:visible_relation).id
     assert_response :success
-    # FIXME check whether this contains the stuff we want!
+    # FIXME: check whether this contains the stuff we want!
     print @response.body if $VERBOSE
   end
 

@@ -31,7 +31,7 @@ class OldNodeControllerTest < ActionController::TestCase
   # matching versions of the object.
   #
   ##
-  # FIXME Move this test to being an integration test since it spans multiple controllers
+  # FIXME: Move this test to being an integration test since it spans multiple controllers
   def test_version
     ## First try this with a non-public user
     basic_authorization(users(:normal_user).email, "test")
