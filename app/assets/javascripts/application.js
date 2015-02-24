@@ -24,7 +24,7 @@ var querystring = require('querystring-component');
  * Called as the user scrolls/zooms around to maniplate hrefs of the
  * view tab and various other links
  */
-function updateLinks(loc, zoom, layers, object) {
+window.updateLinks = function (loc, zoom, layers, object) {
   $(".geolink").each(function(index, link) {
     var href = link.href.split(/[?#]/)[0],
       args = querystring.parse(link.search.substring(1)),
@@ -65,15 +65,15 @@ function updateLinks(loc, zoom, layers, object) {
     .toggleClass('disabled', editDisabled)
     .attr('data-original-title', editDisabled ?
       I18n.t('javascripts.site.edit_disabled_tooltip') : '');
-}
+};
 
-function maximiseMap() {
+window.maximiseMap = function () {
   $("#content").addClass("maximised");
-}
+};
 
-function minimiseMap() {
+window.minimiseMap = function () {
   $("#content").removeClass("maximised");
-}
+};
 
 $(document).ready(function () {
   $("#menu-icon").on("click", function(e) {
