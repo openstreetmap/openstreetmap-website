@@ -1,4 +1,4 @@
-function initializeBrowse(map) {
+OSM.initializeBrowse = function (map) {
   var browseBounds;
   var selectedLayer;
   var dataLayer = map.dataLayer;
@@ -127,4 +127,4 @@ function initializeBrowse(map) {
     // Stash the currently drawn feature
     selectedLayer = layer;
   }
-}
+};

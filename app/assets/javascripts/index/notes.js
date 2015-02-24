@@ -1,4 +1,4 @@
-function initializeNotes(map) {
+OSM.initializeNotes = function (map) {
   var noteLayer = map.noteLayer,
       notes = {};
 
@@ -93,4 +93,4 @@ function initializeNotes(map) {
       noteLoader = null;
     }
   }
-}
+};

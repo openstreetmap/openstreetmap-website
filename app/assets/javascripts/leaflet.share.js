@@ -274,6 +274,19 @@ L.OSM.share = function (options) {
       update();
     }
 
+    function escapeHTML(string) {
+      var htmlEscapes = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#x27;'
+      };
+      return string === null ? '' : (string + '').replace(/[&<>"']/g, function(match) {
+        return htmlEscapes[match];
+      });
+    }
+
     function update() {
       var bounds = map.getBounds();
 

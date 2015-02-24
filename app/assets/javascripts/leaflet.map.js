@@ -275,7 +275,7 @@ L.extend(L.Icon.Default.prototype, {
   }
 });
 
-function getUserIcon(url) {
+OSM.getUserIcon = function (url) {
   return L.icon({
     iconUrl: url || OSM.MARKER_RED,
     iconSize: [25, 41],
@@ -284,4 +284,4 @@ function getUserIcon(url) {
     shadowUrl: OSM.MARKER_SHADOW,
     shadowSize: [41, 41]
   });
-}
+};

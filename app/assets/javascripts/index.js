@@ -137,12 +137,12 @@ $(document).ready(function () {
     .addTo(map);
 
   if (OSM.STATUS !== 'api_offline' && OSM.STATUS !== 'database_offline') {
-    initializeNotes(map);
+    OSM.initializeNotes(map);
     if (params.layers.indexOf(map.noteLayer.options.code) >= 0) {
       map.addLayer(map.noteLayer);
     }
 
-    initializeBrowse(map);
+    OSM.initializeBrowse(map);
     if (params.layers.indexOf(map.dataLayer.options.code) >= 0) {
       map.addLayer(map.dataLayer);
     }
@@ -191,7 +191,7 @@ $(document).ready(function () {
     map.setView([params.lat, params.lon], params.zoom);
   }
 
-  var marker = L.marker([0, 0], {icon: getUserIcon()});
+  var marker = L.marker([0, 0], {icon: OSM.getUserIcon()});
 
   if (params.marker) {
     marker.setLatLng([params.mlat, params.mlon]).addTo(map);
@@ -206,6 +206,39 @@ $(document).ready(function () {
     map.setView(center, data.zoom);
     marker.setLatLng(center).addTo(map);
   });
+
+  function remoteEditHandler(bbox, object) {
+    var loaded = false,
+        url = document.location.protocol === "https:" ?
+        "https://127.0.0.1:8112/load_and_zoom?" :
+        "http://127.0.0.1:8111/load_and_zoom?",
+        query = {
+          left: bbox.getWest() - 0.0001,
+          top: bbox.getNorth() + 0.0001,
+          right: bbox.getEast() + 0.0001,
+          bottom: bbox.getSouth() - 0.0001
+        };
+
+    if (object) query.select = object.type + object.id;
+
+    var iframe = $('<iframe>')
+        .hide()
+        .appendTo('body')
+        .attr("src", url + querystring.stringify(query))
+        .on('load', function() {
+          $(this).remove();
+          loaded = true;
+        });
+
+    setTimeout(function () {
+      if (!loaded) {
+        alert(I18n.t('site.index.remote_failed'));
+        iframe.remove();
+      }
+    }, 1000);
+
+    return false;
+  }
 
   $("a[data-editor=remote]").click(function(e) {
     var params = OSM.mapParams(this.search);
