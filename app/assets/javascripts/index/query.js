@@ -259,8 +259,8 @@ OSM.Query = function(map) {
    * for each object.
    */
   function queryOverpass(lat, lng) {
-    var latlng = L.latLng(lat, lng),
-      bounds = map.getBounds(),
+    var latlng = L.latLng(lat, lng).wrap(),
+      bounds = map.getBounds().wrap(),
       bbox = bounds.getSouth() + "," + bounds.getWest() + "," + bounds.getNorth() + "," + bounds.getEast(),
       radius = 10 * Math.pow(1.5, 19 - map.getZoom()),
       around = "around:" + radius + "," + lat + "," + lng,
@@ -293,8 +293,9 @@ OSM.Query = function(map) {
 
   function clickHandler(e) {
     var precision = OSM.zoomPrecision(map.getZoom()),
-      lat = e.latlng.lat.toFixed(precision),
-      lng = e.latlng.lng.toFixed(precision);
+      latlng = e.latlng.wrap(),
+      lat = latlng.lat.toFixed(precision),
+      lng = latlng.lng.toFixed(precision);
 
     OSM.router.route("/query?lat=" + lat + "&lon=" + lng);
   }
