@@ -2,13 +2,13 @@ class DiaryComment < ActiveRecord::Base
   belongs_to :user
   belongs_to :diary_entry
 
-  validates_presence_of :body
-  validates_associated :diary_entry
+  validates :body, :presence => true
+  validates :diary_entry, :user, :associated => true
 
   after_save :spam_check
 
   def body
-    RichText.new(read_attribute(:body_format), read_attribute(:body))
+    RichText.new(self[:body_format], self[:body])
   end
 
   def digest

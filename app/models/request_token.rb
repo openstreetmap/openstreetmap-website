@@ -17,7 +17,7 @@ class RequestToken < OauthToken
       params = { :user => user, :client_application => client_application }
       # copy the permissions from the authorised request token to the access token
       client_application.permissions.each do |p|
-        params[p] = read_attribute(p)
+        params[p] = self[p]
       end
 
       access_token = AccessToken.create(params)

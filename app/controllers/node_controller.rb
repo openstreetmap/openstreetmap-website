@@ -3,14 +3,14 @@
 class NodeController < ApplicationController
   require "xml/libxml"
 
-  skip_before_filter :verify_authenticity_token
-  before_filter :authorize, :only => [:create, :update, :delete]
-  before_filter :require_allow_write_api, :only => [:create, :update, :delete]
-  before_filter :require_public_data, :only => [:create, :update, :delete]
-  before_filter :check_api_writable, :only => [:create, :update, :delete]
-  before_filter :check_api_readable, :except => [:create, :update, :delete]
-  after_filter :compress_output
-  around_filter :api_call_handle_error, :api_call_timeout
+  skip_before_action :verify_authenticity_token
+  before_action :authorize, :only => [:create, :update, :delete]
+  before_action :require_allow_write_api, :only => [:create, :update, :delete]
+  before_action :require_public_data, :only => [:create, :update, :delete]
+  before_action :check_api_writable, :only => [:create, :update, :delete]
+  before_action :check_api_readable, :except => [:create, :update, :delete]
+  after_action :compress_output
+  around_action :api_call_handle_error, :api_call_timeout
 
   # Create a node from XML.
   def create

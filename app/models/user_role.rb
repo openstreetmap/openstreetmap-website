@@ -3,6 +3,5 @@ class UserRole < ActiveRecord::Base
 
   ALL_ROLES = %w(administrator moderator)
 
-  validates_inclusion_of :role, :in => ALL_ROLES
-  validates_uniqueness_of :role, :scope => :user_id
+  validates :role, :inclusion => ALL_ROLES, :uniqueness => { :scope => :user_id }
 end

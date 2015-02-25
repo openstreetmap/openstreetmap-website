@@ -4,7 +4,7 @@ class AccessToken < OauthToken
 
   scope :valid, -> { where(:invalidated_at => nil) }
 
-  validates_presence_of :user, :secret
+  validates :user, :secret, :presence => true
 
   before_create :set_authorized_at
 

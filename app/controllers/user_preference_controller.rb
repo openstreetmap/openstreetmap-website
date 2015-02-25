@@ -1,10 +1,10 @@
 # Update and read user preferences, which are arbitrayr key/val pairs
 class UserPreferenceController < ApplicationController
-  skip_before_filter :verify_authenticity_token
-  before_filter :authorize
-  before_filter :require_allow_read_prefs, :only => [:read_one, :read]
-  before_filter :require_allow_write_prefs, :except => [:read_one, :read]
-  around_filter :api_call_handle_error
+  skip_before_action :verify_authenticity_token
+  before_action :authorize
+  before_action :require_allow_read_prefs, :only => [:read_one, :read]
+  before_action :require_allow_write_prefs, :except => [:read_one, :read]
+  around_action :api_call_handle_error
 
   ##
   # return all the preferences as an XML document

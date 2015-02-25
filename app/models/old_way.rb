@@ -16,7 +16,9 @@ class OldWay < ActiveRecord::Base
   has_many :old_nodes, :class_name => "OldWayNode", :foreign_key => [:way_id, :version]
   has_many :old_tags, :class_name => "OldWayTag", :foreign_key => [:way_id, :version]
 
-  validates_associated :changeset
+  validates :changeset, :presence => true, :associated => true
+  validates :timestamp, :presence => true
+  validates :visible, :inclusion => [true, false]
 
   def self.from_way(way)
     old_way = OldWay.new

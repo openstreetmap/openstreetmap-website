@@ -10,13 +10,11 @@ class Trace < ActiveRecord::Base
   scope :visible_to_all, -> { where(:visibility => %w(public identifiable)) }
   scope :tagged, ->(t) { joins(:tags).where(:gpx_file_tags => { :tag => t }) }
 
-  validates_presence_of :user_id, :name, :timestamp
-  validates_presence_of :description, :on => :create
-  validates_length_of :name, :maximum => 255
-  validates_length_of :description, :maximum => 255
-  #  validates_numericality_of :latitude, :longitude
-  validates_inclusion_of :inserted, :in => [true, false]
-  validates_inclusion_of :visibility, :in => %w(private public trackable identifiable)
+  validates :user, :presence => true, :associated => true
+  validates :name, :presence => true, :length => 1..255
+  validates :description, :presence => { :on => :create }, :length => 1..255
+  validates :timestamp, :presence => true
+  validates :visibility, :inclusion => %w(private public trackable identifiable)
 
   def destroy
     super

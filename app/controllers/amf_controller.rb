@@ -38,8 +38,8 @@
 class AmfController < ApplicationController
   include Potlatch
 
-  skip_before_filter :verify_authenticity_token
-  before_filter :check_api_writable
+  skip_before_action :verify_authenticity_token
+  before_action :check_api_writable
 
   # Main AMF handlers: process the raw AMF string (using AMF library) and
   # calls each action (private method) accordingly.

@@ -1,12 +1,12 @@
 class MessageController < ApplicationController
   layout "site"
 
-  before_filter :authorize_web
-  before_filter :set_locale
-  before_filter :require_user
-  before_filter :lookup_this_user, :only => [:new]
-  before_filter :check_database_readable
-  before_filter :check_database_writable, :only => [:new, :reply, :mark]
+  before_action :authorize_web
+  before_action :set_locale
+  before_action :require_user
+  before_action :lookup_this_user, :only => [:new]
+  before_action :check_database_readable
+  before_action :check_database_writable, :only => [:new, :reply, :mark]
 
   # Allow the user to write a new message to another user. This action also
   # deals with the sending of that message to the other user when the user

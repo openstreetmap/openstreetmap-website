@@ -1,9 +1,9 @@
 class OauthClientsController < ApplicationController
   layout "site"
 
-  before_filter :authorize_web
-  before_filter :set_locale
-  before_filter :require_user
+  before_action :authorize_web
+  before_action :set_locale
+  before_action :require_user
 
   def index
     @client_applications = @user.client_applications

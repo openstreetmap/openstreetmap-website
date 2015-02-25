@@ -3,12 +3,12 @@ class Note < ActiveRecord::Base
 
   has_many :comments, -> { where(:visible => true).order(:created_at) }, :class_name => "NoteComment", :foreign_key => :note_id
 
-  validates_presence_of :id, :on => :update
-  validates_uniqueness_of :id
-  validates_numericality_of :latitude, :only_integer => true
-  validates_numericality_of :longitude, :only_integer => true
-  validates_presence_of :closed_at if :status == "closed"
-  validates_inclusion_of :status, :in => %w(open closed hidden)
+  validates :id, :uniqueness => true, :presence => { :on => :update },
+                 :numericality => { :on => :update, :integer_only => true }
+  validates :latitude, :longitude, :numericality => { :only_integer => true }
+  validates :closed_at, :presence => true, :if => proc { :status == "closed" }
+  validates :status, :inclusion => %w(open closed hidden)
+
   validate :validate_position
 
   scope :visible, -> { where("status != 'hidden'") }

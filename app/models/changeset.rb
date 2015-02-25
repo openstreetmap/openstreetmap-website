@@ -15,13 +15,16 @@ class Changeset < ActiveRecord::Base
   has_many :comments, -> { where(:visible => true).order(:created_at) }, :class_name => "ChangesetComment"
   has_and_belongs_to_many :subscribers, :class_name => "User", :join_table => "changesets_subscribers", :association_foreign_key => "subscriber_id"
 
-  validates_presence_of :id, :on => :update
-  validates_presence_of :user_id, :created_at, :closed_at, :num_changes
-  validates_uniqueness_of :id
-  validates_numericality_of :id, :on => :update, :integer_only => true
-  validates_numericality_of :min_lat, :max_lat, :min_lon, :max_lat, :allow_nil => true, :integer_only => true
-  validates_numericality_of :user_id,  :integer_only => true
-  validates_numericality_of :num_changes, :integer_only => true, :greater_than_or_equal_to => 0
+  validates :id, :uniqueness => true, :presence => { :on => :update },
+                 :numericality => { :on => :update, :integer_only => true }
+  validates :user_id, :presence => true,
+                      :numericality => { :integer_only => true }
+  validates :num_changes, :presence => true,
+                          :numericality => { :integer_only => true,
+                                             :greater_than_or_equal_to => 0 }
+  validates :created_at, :closed_at, :presence => true
+  validates :min_lat, :max_lat, :min_lon, :max_lat, :allow_nil => true,
+                                                    :numericality => { :integer_only => true }
 
   before_save :update_closed_at
 

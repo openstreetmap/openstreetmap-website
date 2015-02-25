@@ -4,8 +4,7 @@ class NodeTag < ActiveRecord::Base
 
   belongs_to :node
 
-  validates_presence_of :node
-  validates_length_of :k, :maximum => 255, :allow_blank => true
-  validates_uniqueness_of :k, :scope => :node_id
-  validates_length_of :v, :maximum => 255, :allow_blank => true
+  validates :node, :presence => true, :associated => true
+  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }
+  validates :k, :uniqueness => { :scope => :node_id }
 end

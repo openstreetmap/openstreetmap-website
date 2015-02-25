@@ -34,24 +34,27 @@ class User < ActiveRecord::Base
                     :default_url => "/assets/:class/:attachment/:style.png",
                     :styles => { :large => "100x100>", :small => "50x50>" }
 
-  validates_presence_of :email, :display_name
-  validates_confirmation_of :email # , :message => ' addresses must match'
-  validates_confirmation_of :pass_crypt # , :message => ' must match the confirmation password'
-  validates_uniqueness_of :display_name, :allow_nil => true, :case_sensitive => false, :if => proc { |u| u.display_name_changed? }
-  validates_uniqueness_of :email, :case_sensitive => false, :if => proc { |u| u.email_changed? }
-  validates_length_of :pass_crypt, :within => 8..255
-  validates_length_of :display_name, :within => 3..255, :allow_nil => true
+  validates :display_name, :presence => true, :allow_nil => true, :length => 3..255,
+                           :exclusion => %w(new terms save confirm confirm-email go_public reset-password forgot-password suspended)
+  validates :display_name, :if => proc { |u| u.display_name_changed? },
+                           :uniqueness => { :case_sensitive => false }
+  validates :display_name, :if => proc { |u| u.display_name_changed? },
+                           :format => { :with => /\A[^\x00-\x1f\x7f\ufffe\uffff\/;.,?%#]*\z/ }
+  validates :display_name, :if => proc { |u| u.display_name_changed? },
+                           :format => { :with => /\A\S/, :message => "has leading whitespace" }
+  validates :display_name, :if => proc { |u| u.display_name_changed? },
+                           :format => { :with => /\S\z/, :message => "has trailing whitespace" }
+  validates :email, :presence => true, :confirmation => true
+  validates :email, :if => proc { |u| u.email_changed? },
+                    :uniqueness => { :case_sensitive => false }
+  validates :pass_crypt, :confirmation => true, :length => 8..255
+  validates :home_lat, :home_lon, :allow_nil => true, :numericality => true
+  validates :home_zoom, :allow_nil => true, :numericality => { :only_integer => true }
+  validates :preferred_editor, :inclusion => Editors::ALL_EDITORS, :allow_nil => true
+  validates :image, :attachment_content_type => { :content_type => /\Aimage\/.*\Z/ }
+
   validates_email_format_of :email, :if => proc { |u| u.email_changed? }
   validates_email_format_of :new_email, :allow_blank => true, :if => proc { |u| u.new_email_changed? }
-  validates_format_of :display_name, :with => /\A[^\x00-\x1f\x7f\ufffe\uffff\/;.,?%#]*\z/, :if => proc { |u| u.display_name_changed? }
-  validates_format_of :display_name, :with => /\A\S/, :message => "has leading whitespace", :if => proc { |u| u.display_name_changed? }
-  validates_format_of :display_name, :with => /\S\z/, :message => "has trailing whitespace", :if => proc { |u| u.display_name_changed? }
-  validates_exclusion_of :display_name, :in => %w(new terms save confirm confirm-email go_public reset-password forgot-password suspended)
-  validates_numericality_of :home_lat, :allow_nil => true
-  validates_numericality_of :home_lon, :allow_nil => true
-  validates_numericality_of :home_zoom, :only_integer => true, :allow_nil => true
-  validates_inclusion_of :preferred_editor, :in => Editors::ALL_EDITORS, :allow_nil => true
-  validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
 
   after_initialize :set_defaults
   before_save :encrypt_password
@@ -113,15 +116,15 @@ class User < ActiveRecord::Base
   end
 
   def description
-    RichText.new(read_attribute(:description_format), read_attribute(:description))
+    RichText.new(self[:description_format], self[:description])
   end
 
   def languages
-    attribute_present?(:languages) ? read_attribute(:languages).split(/ *, */) : []
+    attribute_present?(:languages) ? self[:languages].split(/ *, */) : []
   end
 
   def languages=(languages)
-    write_attribute(:languages, languages.join(","))
+    self[:languages] = languages.join(",")
   end
 
   def preferred_language

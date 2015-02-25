@@ -4,10 +4,8 @@ class Message < ActiveRecord::Base
   belongs_to :sender, :class_name => "User", :foreign_key => :from_user_id
   belongs_to :recipient, :class_name => "User", :foreign_key => :to_user_id
 
-  validates_presence_of :title, :body, :sent_on, :sender, :recipient
-  validates_length_of :title, :within => 1..255
-  validates_inclusion_of :message_read, :in => [true, false]
-  validates_as_utf8 :title
+  validates :title, :presence => true, :utf8 => true, :length => 1..255
+  validates :body, :sent_on, :sender, :recipient, :presence => true
 
   def self.from_mail(mail, from, to)
     if mail.multipart?
@@ -33,7 +31,7 @@ class Message < ActiveRecord::Base
   end
 
   def body
-    RichText.new(read_attribute(:body_format), read_attribute(:body))
+    RichText.new(self[:body_format], self[:body])
   end
 
   def digest

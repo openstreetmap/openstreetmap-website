@@ -6,9 +6,9 @@ class GeocoderController < ApplicationController
   require "net/http"
   require "rexml/document"
 
-  before_filter :authorize_web
-  before_filter :set_locale
-  before_filter :require_oauth, :only => [:search]
+  before_action :authorize_web
+  before_action :set_locale
+  before_action :require_oauth, :only => [:search]
 
   def search
     normalize_params

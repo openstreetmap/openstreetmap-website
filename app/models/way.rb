@@ -19,13 +19,15 @@ class Way < ActiveRecord::Base
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
-  validates_presence_of :id, :on => :update
-  validates_presence_of :changeset_id, :version,  :timestamp
-  validates_uniqueness_of :id
-  validates_inclusion_of :visible, :in => [true, false]
-  validates_numericality_of :changeset_id, :version, :integer_only => true
-  validates_numericality_of :id, :on => :update, :integer_only => true
-  validates_associated :changeset
+  validates :id, :uniqueness => true, :presence => { :on => :update },
+                 :numericality => { :on => :update, :integer_only => true }
+  validates :version, :presence => true,
+                      :numericality => { :integer_only => true }
+  validates :changeset_id, :presence => true,
+                           :numericality => { :integer_only => true }
+  validates :timestamp, :presence => true
+  validates :changeset, :associated => true
+  validates :visible, :inclusion => [true, false]
 
   scope :visible, -> { where(:visible => true) }
   scope :invisible, -> { where(:visible => false) }

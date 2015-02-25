@@ -3,8 +3,7 @@ class ChangesetTag < ActiveRecord::Base
 
   belongs_to :changeset
 
-  validates_presence_of :changeset
-  validates_length_of :k, :maximum => 255, :allow_blank => true
-  validates_uniqueness_of :k, :scope => :changeset_id
-  validates_length_of :v, :maximum => 255, :allow_blank => true
+  validates :changeset, :presence => true, :associated => true
+  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }
+  validates :k, :uniqueness => { :scope => :changeset_id }
 end

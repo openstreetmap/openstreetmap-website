@@ -3,11 +3,10 @@ class Tracepoint < ActiveRecord::Base
 
   self.table_name = "gps_points"
 
-  validates_numericality_of :trackid, :only_integer => true
-  validates_numericality_of :latitude, :only_integer => true
-  validates_numericality_of :longitude, :only_integer => true
-  validates_associated :trace
-  validates_presence_of :timestamp
+  validates :trackid, :numericality => { :only_integer => true }
+  validates :latitude, :longitude, :numericality => { :only_integer => true }
+  validates :trace, :associated => true
+  validates :timestamp, :presence => true
 
   belongs_to :trace, :foreign_key => "gpx_id"
 

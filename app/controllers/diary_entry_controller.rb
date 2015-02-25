@@ -1,13 +1,13 @@
 class DiaryEntryController < ApplicationController
   layout "site", :except => :rss
 
-  before_filter :authorize_web
-  before_filter :set_locale
-  before_filter :require_user, :only => [:new, :edit, :comment, :hide, :hidecomment]
-  before_filter :lookup_this_user, :only => [:view, :comments]
-  before_filter :check_database_readable
-  before_filter :check_database_writable, :only => [:new, :edit]
-  before_filter :require_administrator, :only => [:hide, :hidecomment]
+  before_action :authorize_web
+  before_action :set_locale
+  before_action :require_user, :only => [:new, :edit, :comment, :hide, :hidecomment]
+  before_action :lookup_this_user, :only => [:view, :comments]
+  before_action :check_database_readable
+  before_action :check_database_writable, :only => [:new, :edit]
+  before_action :require_administrator, :only => [:hide, :hidecomment]
 
   def new
     @title = t "diary_entry.new.title"

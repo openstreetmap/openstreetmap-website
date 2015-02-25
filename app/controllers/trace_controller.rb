@@ -1,20 +1,20 @@
 class TraceController < ApplicationController
   layout "site"
 
-  skip_before_filter :verify_authenticity_token, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
-  before_filter :authorize_web
-  before_filter :set_locale
-  before_filter :require_user, :only => [:mine, :create, :edit, :delete]
-  before_filter :authorize, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
-  before_filter :check_database_readable, :except => [:api_read, :api_data]
-  before_filter :check_database_writable, :only => [:create, :edit, :delete, :api_create, :api_update, :api_delete]
-  before_filter :check_api_readable, :only => [:api_read, :api_data]
-  before_filter :check_api_writable, :only => [:api_create, :api_update, :api_delete]
-  before_filter :require_allow_read_gpx, :only => [:api_read, :api_data]
-  before_filter :require_allow_write_gpx, :only => [:api_create, :api_update, :api_delete]
-  before_filter :offline_warning, :only => [:mine, :view]
-  before_filter :offline_redirect, :only => [:create, :edit, :delete, :data, :api_create, :api_delete, :api_data]
-  around_filter :api_call_handle_error, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
+  skip_before_action :verify_authenticity_token, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
+  before_action :authorize_web
+  before_action :set_locale
+  before_action :require_user, :only => [:mine, :create, :edit, :delete]
+  before_action :authorize, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
+  before_action :check_database_readable, :except => [:api_read, :api_data]
+  before_action :check_database_writable, :only => [:create, :edit, :delete, :api_create, :api_update, :api_delete]
+  before_action :check_api_readable, :only => [:api_read, :api_data]
+  before_action :check_api_writable, :only => [:api_create, :api_update, :api_delete]
+  before_action :require_allow_read_gpx, :only => [:api_read, :api_data]
+  before_action :require_allow_write_gpx, :only => [:api_create, :api_update, :api_delete]
+  before_action :offline_warning, :only => [:mine, :view]
+  before_action :offline_redirect, :only => [:create, :edit, :delete, :data, :api_create, :api_delete, :api_data]
+  around_action :api_call_handle_error, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
 
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces

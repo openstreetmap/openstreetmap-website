@@ -23,14 +23,21 @@ class Node < ActiveRecord::Base
   has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
   has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
 
-  validates_presence_of :id, :on => :update
-  validates_presence_of :timestamp, :version,  :changeset_id
-  validates_uniqueness_of :id
-  validates_inclusion_of :visible, :in => [true, false]
-  validates_numericality_of :latitude, :longitude, :changeset_id, :version, :integer_only => true
-  validates_numericality_of :id, :on => :update, :integer_only => true
+  validates :id, :uniqueness => true, :presence => { :on => :update },
+                 :numericality => { :on => :update, :integer_only => true }
+  validates :version, :presence => true,
+                      :numericality => { :integer_only => true }
+  validates :changeset_id, :presence => true,
+                           :numericality => { :integer_only => true }
+  validates :latitude, :presence => true,
+                       :numericality => { :integer_only => true }
+  validates :longitude, :presence => true,
+                        :numericality => { :integer_only => true }
+  validates :timestamp, :presence => true
+  validates :changeset, :associated => true
+  validates :visible, :inclusion => [true, false]
+
   validate :validate_position
-  validates_associated :changeset
 
   scope :visible, -> { where(:visible => true) }
   scope :invisible, -> { where(:visible => false) }

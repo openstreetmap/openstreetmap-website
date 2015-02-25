@@ -4,8 +4,7 @@ class WayTag < ActiveRecord::Base
 
   belongs_to :way
 
-  validates_presence_of :way
-  validates_length_of :k, :maximum => 255, :allow_blank => true
-  validates_uniqueness_of :k, :scope => :way_id
-  validates_length_of :v, :maximum => 255, :allow_blank => true
+  validates :way, :presence => true, :associated => true
+  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }
+  validates :k, :uniqueness => { :scope => :way_id }
 end

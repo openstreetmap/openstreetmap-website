@@ -1,13 +1,13 @@
 class UserRolesController < ApplicationController
   layout "site"
 
-  before_filter :authorize_web
-  before_filter :require_user
-  before_filter :lookup_this_user
-  before_filter :require_administrator
-  before_filter :require_valid_role
-  before_filter :not_in_role, :only => [:grant]
-  before_filter :in_role, :only => [:revoke]
+  before_action :authorize_web
+  before_action :require_user
+  before_action :lookup_this_user
+  before_action :require_administrator
+  before_action :require_valid_role
+  before_action :not_in_role, :only => [:grant]
+  before_action :in_role, :only => [:revoke]
 
   def grant
     @this_user.roles.create(:role => @role, :granter_id => @user.id)

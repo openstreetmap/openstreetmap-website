@@ -17,6 +17,6 @@ class Redaction < ActiveRecord::Base
   # this method overrides the AR default to provide the rich
   # text object for the description field.
   def description
-    RichText.new(read_attribute(:description_format), read_attribute(:description))
+    RichText.new(self[:description_format], self[:description])
   end
 end

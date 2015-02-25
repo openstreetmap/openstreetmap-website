@@ -4,8 +4,9 @@ class OauthToken < ActiveRecord::Base
 
   scope :authorized, -> { where("authorized_at IS NOT NULL and invalidated_at IS NULL") }
 
-  validates_uniqueness_of :token
-  validates_presence_of :client_application, :token
+  validates :token, :presence => true, :uniqueness => true
+  validates :user, :associated => true
+  validates :client_application, :presence => true
 
   before_validation :generate_keys, :on => :create
 

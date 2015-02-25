@@ -16,7 +16,7 @@ class UserBlock < ActiveRecord::Base
   ##
   # return a renderable version of the reason text.
   def reason
-    RichText.new(read_attribute(:reason_format), read_attribute(:reason))
+    RichText.new(self[:reason_format], self[:reason])
   end
 
   ##

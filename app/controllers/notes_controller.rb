@@ -1,16 +1,16 @@
 class NotesController < ApplicationController
   layout "site", :only => [:mine]
 
-  before_filter :check_api_readable
-  before_filter :authorize_web, :only => [:mine]
-  before_filter :setup_user_auth, :only => [:create, :comment]
-  before_filter :authorize, :only => [:close, :reopen, :destroy]
-  before_filter :require_moderator, :only => [:destroy]
-  before_filter :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
-  before_filter :require_allow_write_notes, :only => [:create, :comment, :close, :reopen, :destroy]
-  before_filter :set_locale
-  after_filter :compress_output
-  around_filter :api_call_handle_error, :api_call_timeout
+  before_action :check_api_readable
+  before_action :authorize_web, :only => [:mine]
+  before_action :setup_user_auth, :only => [:create, :comment]
+  before_action :authorize, :only => [:close, :reopen, :destroy]
+  before_action :require_moderator, :only => [:destroy]
+  before_action :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
+  before_action :require_allow_write_notes, :only => [:create, :comment, :close, :reopen, :destroy]
+  before_action :set_locale
+  after_action :compress_output
+  around_action :api_call_handle_error, :api_call_timeout
 
   ##
   # Return a list of notes in a given area

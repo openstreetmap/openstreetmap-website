@@ -4,17 +4,17 @@
 class OldController < ApplicationController
   require "xml/libxml"
 
-  skip_before_filter :verify_authenticity_token
-  before_filter :setup_user_auth, :only => [:history, :version]
-  before_filter :authorize, :only => [:redact]
-  before_filter :authorize_moderator, :only => [:redact]
-  before_filter :require_allow_write_api, :only => [:redact]
-  before_filter :check_api_readable
-  before_filter :check_api_writable, :only => [:redact]
-  after_filter :compress_output
-  around_filter :api_call_handle_error, :api_call_timeout
-  before_filter :lookup_old_element, :except => [:history]
-  before_filter :lookup_old_element_versions, :only => [:history]
+  skip_before_action :verify_authenticity_token
+  before_action :setup_user_auth, :only => [:history, :version]
+  before_action :authorize, :only => [:redact]
+  before_action :authorize_moderator, :only => [:redact]
+  before_action :require_allow_write_api, :only => [:redact]
+  before_action :check_api_readable
+  before_action :check_api_writable, :only => [:redact]
+  after_action :compress_output
+  around_action :api_call_handle_error, :api_call_timeout
+  before_action :lookup_old_element, :except => [:history]
+  before_action :lookup_old_element_versions, :only => [:history]
 
   def history
     # the .where() method used in the lookup_old_element_versions

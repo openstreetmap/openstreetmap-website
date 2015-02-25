@@ -2,12 +2,12 @@ class SiteController < ApplicationController
   layout "site"
   layout :map_layout, :only => [:index, :export]
 
-  before_filter :authorize_web
-  before_filter :set_locale
-  before_filter :redirect_browse_params, :only => :index
-  before_filter :redirect_map_params, :only => [:index, :edit, :export]
-  before_filter :require_user, :only => [:welcome]
-  before_filter :require_oauth, :only => [:index]
+  before_action :authorize_web
+  before_action :set_locale
+  before_action :redirect_browse_params, :only => :index
+  before_action :redirect_map_params, :only => [:index, :edit, :export]
+  before_action :require_user, :only => [:welcome]
+  before_action :require_oauth, :only => [:index]
 
   def index
     unless STATUS == :database_readonly || STATUS == :database_offline

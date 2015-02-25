@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
-  before_filter :fetch_body
+  before_action :fetch_body
 
   def authorize_web
     if session[:user]

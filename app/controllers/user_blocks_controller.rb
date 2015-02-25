@@ -1,15 +1,15 @@
 class UserBlocksController < ApplicationController
   layout "site"
 
-  before_filter :authorize_web
-  before_filter :set_locale
-  before_filter :require_user, :only => [:new, :create, :edit, :update, :revoke]
-  before_filter :require_moderator, :only => [:new, :create, :edit, :update, :revoke]
-  before_filter :lookup_this_user, :only => [:new, :create, :blocks_on, :blocks_by]
-  before_filter :lookup_user_block, :only => [:show, :edit, :update, :revoke]
-  before_filter :require_valid_params, :only => [:create, :update]
-  before_filter :check_database_readable
-  before_filter :check_database_writable, :only => [:create, :update, :revoke]
+  before_action :authorize_web
+  before_action :set_locale
+  before_action :require_user, :only => [:new, :create, :edit, :update, :revoke]
+  before_action :require_moderator, :only => [:new, :create, :edit, :update, :revoke]
+  before_action :lookup_this_user, :only => [:new, :create, :blocks_on, :blocks_by]
+  before_action :lookup_user_block, :only => [:show, :edit, :update, :revoke]
+  before_action :require_valid_params, :only => [:create, :update]
+  before_action :check_database_readable
+  before_action :check_database_writable, :only => [:create, :update, :revoke]
 
   def index
     @user_blocks_pages, @user_blocks = paginate(:user_blocks,

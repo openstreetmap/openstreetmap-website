@@ -4,8 +4,7 @@ class OldNodeTag < ActiveRecord::Base
 
   belongs_to :old_node, :foreign_key => [:node_id, :version]
 
-  validates_presence_of :old_node
-  validates_length_of :k, :maximum => 255, :allow_blank => true
-  validates_uniqueness_of :k, :scope => [:node_id, :version]
-  validates_length_of :v, :maximum => 255, :allow_blank => true
+  validates :old_node, :presence => true, :associated => true
+  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }
+  validates :k, :uniqueness => { :scope => [:node_id, :version] }
 end

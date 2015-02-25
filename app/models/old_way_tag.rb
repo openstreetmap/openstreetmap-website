@@ -4,8 +4,7 @@ class OldWayTag < ActiveRecord::Base
 
   belongs_to :old_way, :foreign_key => [:way_id, :version]
 
-  validates_presence_of :old_way
-  validates_length_of :k, :maximum => 255, :allow_blank => true
-  validates_uniqueness_of :k, :scope => [:way_id, :version]
-  validates_length_of :v, :maximum => 255, :allow_blank => true
+  validates :old_way, :presence => true, :associated => true
+  validates :k, :v, :allow_blank => true, :length => { :maximum => 255 }
+  validates :k, :uniqueness => { :scope => [:way_id, :version] }
 end

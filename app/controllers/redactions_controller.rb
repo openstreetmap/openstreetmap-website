@@ -1,13 +1,13 @@
 class RedactionsController < ApplicationController
   layout "site"
 
-  before_filter :authorize_web
-  before_filter :set_locale
-  before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
-  before_filter :require_moderator, :only => [:new, :create, :edit, :update, :destroy]
-  before_filter :lookup_redaction, :only => [:show, :edit, :update, :destroy]
-  before_filter :check_database_readable
-  before_filter :check_database_writable, :only => [:create, :update, :destroy]
+  before_action :authorize_web
+  before_action :set_locale
+  before_action :require_user, :only => [:new, :create, :edit, :update, :destroy]
+  before_action :require_moderator, :only => [:new, :create, :edit, :update, :destroy]
+  before_action :lookup_redaction, :only => [:show, :edit, :update, :destroy]
+  before_action :check_database_readable
+  before_action :check_database_writable, :only => [:create, :update, :destroy]
 
   def index
     @redactions = Redaction.order(:id)

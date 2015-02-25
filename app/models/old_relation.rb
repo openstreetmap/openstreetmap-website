@@ -16,7 +16,9 @@ class OldRelation < ActiveRecord::Base
   has_many :old_members, -> { order(:sequence_id) }, :class_name => "OldRelationMember", :foreign_key => [:relation_id, :version]
   has_many :old_tags, :class_name => "OldRelationTag", :foreign_key => [:relation_id, :version]
 
-  validates_associated :changeset
+  validates :changeset, :presence => true, :associated => true
+  validates :timestamp, :presence => true
+  validates :visible, :inclusion => [true, false]
 
   def self.from_relation(relation)
     old_relation = OldRelation.new
