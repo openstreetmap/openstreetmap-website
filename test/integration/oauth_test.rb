@@ -2,6 +2,7 @@ require "test_helper"
 
 class OAuthTest < ActionDispatch::IntegrationTest
   fixtures :users, :client_applications, :gpx_files
+  set_fixture_class :gpx_files => Trace
 
   include OAuth::Helper
 
