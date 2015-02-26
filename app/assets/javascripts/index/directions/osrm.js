@@ -44,7 +44,7 @@ function OSRMEngine() {
         url += "&checksum=" + hintData.checksum;
       }
 
-      $.ajax({
+      return $.ajax({
         url: url,
         dataType: 'json',
         success: function (data) {

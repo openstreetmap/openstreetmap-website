@@ -32,7 +32,7 @@ function GraphHopperEngine(id, vehicleParam) {
         url += "&point=" + points[i].lat + ',' + points[i].lng;
       }
 
-      $.ajax({
+      return $.ajax({
         url: url,
         dataType: 'jsonp',
         success: function (data) {

@@ -145,6 +145,9 @@ OSM.Directions = function (map) {
   }
 
   function getRoute() {
+    // Cancel any route that is already in progress
+    if (awaitingRoute) awaitingRoute.abourt();
+
     // go fetch geocodes for any endpoints which have not already
     // been geocoded.
     for (var ep_i = 0; ep_i < 2; ++ep_i) {
@@ -177,11 +180,10 @@ OSM.Directions = function (map) {
     // just using it in-place and replacing it in case it has to be used
     // again.
     $('#sidebar_content').html($('.directions_form .loader_copy').html());
-    awaitingRoute = true;
     map.setSidebarOverlaid(false);
 
-    chosenEngine.getRoute([o, d], function (err, route) {
-      awaitingRoute = false;
+    awaitingRoute = chosenEngine.getRoute([o, d], function (err, route) {
+      awaitingRoute = null;
 
       if (err) {
         map.removeLayer(polyline);

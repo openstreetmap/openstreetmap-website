@@ -42,7 +42,7 @@ function MapQuestEngine(id, vehicleParam) {
       url += "&manMaps=false";
       url += "&shapeFormat=raw&generalize=0&unit=k";
 
-      $.ajax({
+      return $.ajax({
         url: url,
         success: function (data) {
           if (data.info.statuscode !== 0)
