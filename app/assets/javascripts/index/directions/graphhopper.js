@@ -8,7 +8,8 @@ function GraphHopperEngine(id, vehicleParam) {
     2: 2, // right
     3: 3, // sharp right
     4: -1, // finish reached
-    5: -1 // via reached
+    5: -1, // via reached
+    6: 11 // roundabout
   };
 
   return {
@@ -17,13 +18,14 @@ function GraphHopperEngine(id, vehicleParam) {
     draggable: false,
 
     getRoute: function (points, callback) {
-      // documentation
-      // https://github.com/graphhopper/graphhopper/blob/master/docs/web/api-doc.md
+      // GraphHopper Directions API documentation
+      // https://github.com/graphhopper/directions-api/blob/master/docs-routing.md
       var url = document.location.protocol + "//graphhopper.com/api/1/route?" +
           vehicleParam +
           "&locale=" + I18n.currentLocale() +
           "&key=LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn" +
           "&type=jsonp" +
+          "&elevation=false" +
           "&instructions=true";
 
       for (var i = 0; i < points.length; i++) {
