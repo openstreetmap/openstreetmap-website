@@ -1,16 +1,18 @@
+sudo: false
 language: ruby
 rvm:
   - 1.9.3
+cache: bundler
 addons:
   postgresql: 9.1
+  apt_packages:
+    - postgresql-server-dev-9.1
 services:
   - memcached
 env:
   global:
     - OSM_MEMCACHE_SERVERS="127.0.0.1"
 before_script:
-  - sudo apt-get update
-  - sudo apt-get install postgresql-server-dev-9.1
   - psql -U postgres -c "CREATE DATABASE openstreetmap"
   - psql -U postgres -c "CREATE EXTENSION btree_gist" openstreetmap
   - make -C db/functions libpgosm.so
