@@ -146,7 +146,7 @@ OSM.Directions = function (map) {
 
   function getRoute() {
     // Cancel any route that is already in progress
-    if (awaitingRoute) awaitingRoute.abourt();
+    if (awaitingRoute) awaitingRoute.abort();
 
     // go fetch geocodes for any endpoints which have not already
     // been geocoded.
