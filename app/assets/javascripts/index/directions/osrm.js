@@ -66,9 +66,10 @@ function OSRMEngine() {
             var instText = "<b>" + (i + 1) + ".</b> ";
             instText += TURN_INSTRUCTIONS[instCodes[0]];
             if (instCodes[1]) {
-              instText += "exit " + instCodes[1] + " ";
+              instText += I18n.t('javascripts.directions.instructions.exit', { exit: instCodes[1] } );
             }
             if (instCodes[0] !== 15) {
+              instText += " ";
               instText += s[1] ? "<b>" + s[1] + "</b>" : I18n.t('javascripts.directions.instructions.unnamed');
             }
             if ((i + 1) < data.route_instructions.length) {
