@@ -53,14 +53,16 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def test_tagstring
-    trace = Trace.new
+    trace = Trace.new(gpx_files(:public_trace_file).attributes)
     trace.tagstring = "foo bar baz"
+    assert trace.valid?
     assert_equal 3, trace.tags.length
     assert_equal "foo", trace.tags[0].tag
     assert_equal "bar", trace.tags[1].tag
     assert_equal "baz", trace.tags[2].tag
     assert_equal "foo, bar, baz", trace.tagstring
     trace.tagstring = "foo, bar baz ,qux"
+    assert trace.valid?
     assert_equal 3, trace.tags.length
     assert_equal "foo", trace.tags[0].tag
     assert_equal "bar baz", trace.tags[1].tag
