@@ -180,6 +180,7 @@ class ChangesetControllerTest < ActionController::TestCase
   # document structure.
   def test_read
     changeset_id = changesets(:normal_user_first_change).id
+
     get :read, :id => changeset_id
     assert_response :success, "cannot get first changeset"
 
@@ -193,6 +194,17 @@ class ChangesetControllerTest < ActionController::TestCase
     assert_select "osm[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
     assert_select "osm>changeset[id='#{changeset_id}']", 1
     assert_select "osm>changeset>discussion", 1
+    assert_select "osm>changeset>discussion>comment", 0
+
+    changeset_id = changesets(:normal_user_closed_change).id
+
+    get :read, :id => changeset_id, :include_discussion => true
+    assert_response :success, "cannot get closed changeset with comments"
+
+    assert_select "osm[version='#{API_VERSION}'][generator='OpenStreetMap server']", 1
+    assert_select "osm>changeset[id='#{changeset_id}']", 1
+    assert_select "osm>changeset>discussion", 1
+    assert_select "osm>changeset>discussion>comment", 3
   end
 
   ##

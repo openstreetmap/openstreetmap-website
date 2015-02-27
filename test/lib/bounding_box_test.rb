@@ -209,12 +209,16 @@ class BoundingBoxTest < ActiveSupport::TestCase
     end
   end
 
-  def test_bbox_area
+  def test_good_bbox_area
     @good_bbox.each do |string|
       bbox = BoundingBox.from_s(string)
       array = string.split(",")
       assert_equal ((array[2].to_f - array[0].to_f) * (array[3].to_f - array[1].to_f)), bbox.area
     end
+  end
+
+  def test_nil_bbox_area
+    assert_equal 0, @bbox_from_nils.area
   end
 
   def test_complete

@@ -83,16 +83,6 @@ class Way < ActiveRecord::Base
     way
   end
 
-  # Find a way given it's ID, and in a single SQL call also grab its nodes
-  #
-
-  # You can't pull in all the tags too unless we put a sequence_id on the way_tags table and have a multipart key
-  def self.find_eager(id)
-    Way.find(id, :include => { :way_nodes => :node })
-    # If waytag had a multipart key that was real, you could do this:
-    # Way.find(id, :include => [:way_tags, {:way_nodes => :node}])
-  end
-
   # Find a way given it's ID, and in a single SQL call also grab its nodes and tags
   def to_xml
     doc = OSM::API.new.get_xml_doc
@@ -240,11 +230,6 @@ class Way < ActiveRecord::Base
       self.visible = false
       save_with_history!
     end
-  end
-
-  # Temporary method to match interface to nodes
-  def tags_as_hash
-    tags
   end
 
   ##

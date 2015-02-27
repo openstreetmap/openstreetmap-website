@@ -116,11 +116,6 @@ class OldWay < ActiveRecord::Base
     points
   end
 
-  # Temporary method to match interface to nodes
-  def tags_as_hash
-    tags
-  end
-
   # Temporary method to match interface to ways
   def way_nodes
     old_nodes

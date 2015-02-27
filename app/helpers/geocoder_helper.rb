@@ -18,6 +18,7 @@ module GeocoderHelper
     html << result[:prefix] if result[:prefix]
     html << " " if result[:prefix] && result[:name]
     html << link_to(result[:name], url, html_options) if result[:name]
+    html << " " if result[:suffix] && result[:name]
     html << result[:suffix] if result[:suffix]
     html.html_safe
   end

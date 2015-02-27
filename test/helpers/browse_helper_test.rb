@@ -90,6 +90,12 @@ class BrowseHelperTest < ActionView::TestCase
 
     html = format_value("phone", "+1234567890")
     assert_dom_equal "<a href=\"tel:+1234567890\" title=\"Call +1234567890\">+1234567890</a>", html
+
+    html = format_value("wikipedia", "Test")
+    assert_dom_equal "<a title=\"The Test article on Wikipedia\" href=\"http://en.wikipedia.org/wiki/Test?uselang=en\">Test</a>", html
+
+    html = format_value("wikidata", "Q42")
+    assert_dom_equal "<a title=\"The Q42 item on Wikidata\" href=\"//www.wikidata.org/wiki/Q42?uselang=en\">Q42</a>", html
   end
 
   def test_icon_tags

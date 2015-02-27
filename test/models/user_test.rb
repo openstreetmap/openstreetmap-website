@@ -2,6 +2,8 @@
 require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
+  include Rails::Dom::Testing::Assertions::SelectorAssertions
+
   api_fixtures
   fixtures :friends, :languages, :user_roles
 
@@ -121,6 +123,8 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [], users(:inactive_user).nearby
     # north_pole_user has no user nearby, and doesn't throw exception
     assert_equal [], users(:north_pole_user).nearby
+    # confirmed_user has no home location
+    assert_equal [], users(:confirmed_user).nearby
   end
 
   def test_friends_with
@@ -242,5 +246,25 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "deleted", user.status
     assert_equal false, user.visible?
     assert_equal false, user.active?
+  end
+
+  def test_to_xml
+    user = users(:normal_user)
+    xml = user.to_xml
+    assert_select Nokogiri::XML::Document.parse(xml.to_s), "user" do
+      assert_select "[display_name=?]", user.display_name
+      assert_select "[account_created=?]", user.creation_time.xmlschema
+      assert_select "home[lat=?][lon=?][zoom=?]", user.home_lat.to_s, user.home_lon.to_s, user.home_zoom.to_s
+    end
+  end
+
+  def test_to_xml_node
+    user = users(:normal_user)
+    xml = user.to_xml_node
+    assert_select Nokogiri::XML::DocumentFragment.parse(xml.to_s), "user" do
+      assert_select "[display_name=?]", user.display_name
+      assert_select "[account_created=?]", user.creation_time.xmlschema
+      assert_select "home[lat=?][lon=?][zoom=?]", user.home_lat.to_s, user.home_lon.to_s, user.home_zoom.to_s
+    end
   end
 end

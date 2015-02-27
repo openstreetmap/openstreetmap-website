@@ -262,11 +262,6 @@ class Relation < ActiveRecord::Base
     true
   end
 
-  # Temporary method to match interface to nodes
-  def tags_as_hash
-    tags
-  end
-
   ##
   # if any members are referenced by placeholder IDs (i.e: negative) then
   # this calling this method will fix them using the map from placeholders

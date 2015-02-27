@@ -366,8 +366,8 @@ class MessageControllerTest < ActionController::TestCase
     assert_equal false, m.to_user_visible
 
     # Check that the deleting a sent message works
-    post :delete, :message_id => messages(:unread_message).id
-    assert_redirected_to inbox_path(:display_name => users(:normal_user).display_name)
+    post :delete, :message_id => messages(:unread_message).id, :referer => outbox_path(:display_name => users(:normal_user).display_name)
+    assert_redirected_to outbox_path(:display_name => users(:normal_user).display_name)
     assert_equal "Message deleted", flash[:notice]
     m = Message.find(messages(:unread_message).id)
     assert_equal false, m.from_user_visible

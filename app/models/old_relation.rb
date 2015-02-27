@@ -93,11 +93,6 @@ class OldRelation < ActiveRecord::Base
     el
   end
 
-  # Temporary method to match interface to nodes
-  def tags_as_hash
-    tags
-  end
-
   # Temporary method to match interface to relations
   def relation_members
     old_members

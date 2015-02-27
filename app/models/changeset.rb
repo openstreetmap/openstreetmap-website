@@ -120,10 +120,6 @@ class Changeset < ActiveRecord::Base
     self.num_changes += elements
   end
 
-  def tags_as_hash
-    tags
-  end
-
   def tags
     unless @tags
       @tags = {}
