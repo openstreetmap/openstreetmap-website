@@ -48,7 +48,7 @@ module UserHelper
     image_tag "openid_small.png", :alt => t("user.login.openid_logo_alt"), :class => "openid_logo"
   end
 
-  def auth_button(name, provider, options)
+  def auth_button(name, provider, options = {})
     link_to(
       image_tag("#{name}.png", :alt => t("user.login.auth_providers.#{name}.alt")),
       auth_path(options.merge(:provider => provider)),

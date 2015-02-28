@@ -45,7 +45,7 @@
       <label for="openid_url" class="standard-label">
         <%= raw t 'user.new.external auth' %>
       </label>
-      <%= select(:user, :auth_provider, { "None" => "", "OpenID" => "openid" }, { :default => "", :tabindex => 4 }) %>
+      <%= select(:user, :auth_provider, Auth::PROVIDERS, { :default => "", :tabindex => 4 }) %>
       <%= text_field(:user, :auth_uid, { :tabindex => 5 }) %>
       <%= error_message_on(:user, :auth_uid) %>
     </div>

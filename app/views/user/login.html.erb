@@ -42,7 +42,9 @@
 
         <ul class='clearfix' id="login_auth_buttons">
           <li><%= link_to image_tag("openid.png", :alt => t("user.login.auth_providers.openid.title")), "#", :id => "openid_open_url", :title => t("user.login.auth_providers.openid.title") %></li>
-          <li><%= auth_button "google", "openid", :openid_url => "https://www.google.com/accounts/o8/id" %></li>
+          <% if defined?(GOOGLE_AUTH_ID) -%>
+          <li><%= auth_button "google", "google" %></li>
+          <% end -%>
           <li><%= auth_button "yahoo", "openid", :openid_url => "yahoo.com" %></li>
           <li><%= auth_button "wordpress", "openid", :openid_url => "wordpress.com" %></li>
           <li><%= auth_button "aol", "openid", :openid_url => "aol.com" %></li>

@@ -227,7 +227,7 @@ class UserController < ApplicationController
 
       @user.status = "pending"
 
-      if @user.auth_provider.present? && @user.auth_uid.present? && @user.pass_crypt.empty?
+      if @user.auth_provider.present? && @user.pass_crypt.empty?
         # We are creating an account with external authentication and
         # no password was specified so create a random one
         @user.pass_crypt = SecureRandom.base64(16)
@@ -237,7 +237,7 @@ class UserController < ApplicationController
       if @user.invalid?
         # Something is wrong with a new user, so rerender the form
         render :action => "new"
-      elsif @user.auth_provider.present? && @user.auth_uid.present?
+      elsif @user.auth_provider.present?
         # Verify external authenticator before moving on
         session[:new_user] = @user
         redirect_to auth_url(@user.auth_provider, @user.auth_uid)
@@ -250,9 +250,9 @@ class UserController < ApplicationController
   end
 
   def login
-    if params[:username] || params[:openid_url]
-      session[:referer] ||= params[:referer]
+    session[:referer] = params[:referer] if params[:referer]
 
+    if params[:username] || params[:openid_url]
       if params[:openid_url].present?
         session[:remember_me] ||= params[:remember_me_openid]
         redirect_to auth_url("openid", params[:openid_url])
@@ -496,11 +496,21 @@ class UserController < ApplicationController
     when "openid"
       email_verified = uid.match(%r{https://www.google.com/accounts/o8/id?(.*)}) ||
                        uid.match(%r{https://me.yahoo.com/(.*)})
+    when "google"
+      email_verified = true
     else
       email_verified = false
     end
 
-    if user = User.find_by_auth_provider_and_auth_uid(provider, uid)
+    user = User.find_by_auth_provider_and_auth_uid(provider, uid)
+
+    if user.nil? && provider == "google"
+      openid_url = auth_info[:extra][:id_info]["openid_id"]
+      user = User.find_by_auth_provider_and_auth_uid("openid", openid_url) if openid_url
+      user.update(:auth_provider => provider, :auth_uid => uid) if user
+    end
+
+    if user
       case user.status
       when "pending" then
         unconfirmed_login(user)
@@ -668,8 +678,7 @@ class UserController < ApplicationController
       user.preferred_editor = params[:user][:preferred_editor]
     end
 
-    if params[:user][:auth_provider].nil? || params[:user][:auth_provider].blank? ||
-       params[:user][:auth_uid].nil? || params[:user][:auth_uid].blank?
+    if params[:user][:auth_provider].nil? || params[:user][:auth_provider].blank?
       user.auth_provider = nil
       user.auth_uid = nil
     end
