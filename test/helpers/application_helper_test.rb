@@ -7,6 +7,10 @@ class ApplicationHelperTest < ActionView::TestCase
     I18n.locale = "en"
   end
 
+  def teardown
+    I18n.locale = "en"
+  end
+
   def test_linkify
     %w(http://example.com/test ftp://example.com/test https://example.com/test).each do |link|
       text = "Test #{link} is made into a link"
