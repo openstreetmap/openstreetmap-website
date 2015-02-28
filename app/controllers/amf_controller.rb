@@ -621,7 +621,7 @@ class AmfController < ApplicationController
       return -1, t("application.setup_user_auth.blocked") if user.blocks.active.exists?
       return -1, "You must accept the contributor terms before you can edit." if REQUIRE_TERMS_AGREED && user.terms_agreed.nil?
 
-      return -2, "Server error - way is only #{points.length} points long." if pointlist.length < 2
+      return -2, "Server error - way is only #{pointlist.length} points long." if pointlist.length < 2
 
       return -1, "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1." unless tags_ok(attributes)
       attributes = strip_non_xml_chars attributes
@@ -738,7 +738,11 @@ class AmfController < ApplicationController
       new_node = nil
       Node.transaction do
         if id > 0
-          node = Node.find(id)
+          begin
+            node = Node.find(id)
+          rescue ActiveRecord::RecordNotFound
+            return [-4, "node", id]
+          end
 
           unless visible || node.ways.empty?
             return -1, "Point #{id} has since become part of a way, so you cannot save it as a POI.", id, id, version
@@ -782,14 +786,16 @@ class AmfController < ApplicationController
   def getpoi(id, timestamp) #:doc:
     amf_handle_error("'getpoi' #{id}", "node", id) do
       id = id.to_i
-      n = Node.find(id)
-      v = n.version
-      unless timestamp == ""
-        n = OldNode.where("node_id = ? AND timestamp <= ?", id, timestamp).unredacted.order("timestamp DESC").first
+      n = Node.where(:id => id).first
+      if n
+        v = n.version
+        unless timestamp == ""
+          n = OldNode.where("node_id = ? AND timestamp <= ?", id, timestamp).unredacted.order("timestamp DESC").first
+        end
       end
 
       if n
-        return [0, "", n.id, n.lon, n.lat, n.tags, v]
+        return [0, "", id, n.lon, n.lat, n.tags, v]
       else
         return [-4, "node", id]
       end

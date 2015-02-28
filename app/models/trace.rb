@@ -102,6 +102,7 @@ class Trace < ActiveRecord::Base
     gzipped = filetype =~ /gzip compressed/
     bzipped = filetype =~ /bzip2 compressed/
     zipped = filetype =~ /Zip archive/
+    tarred = filetype =~ /tar archive/
 
     if gzipped
       mimetype = "application/x-gzip"
@@ -109,6 +110,8 @@ class Trace < ActiveRecord::Base
       mimetype = "application/x-bzip2"
     elsif zipped
       mimetype = "application/x-zip"
+    elsif tarred
+      mimetype = "application/x-tar"
     else
       mimetype = "application/gpx+xml"
     end
@@ -238,7 +241,7 @@ class Trace < ActiveRecord::Base
       elsif bzipped
         system("bunzip2 -c #{trace_name} > #{tmpfile.path}")
       elsif zipped
-        system("unzip -p #{trace_name} -x '__MACOSX/*' > #{tmpfile.path}")
+        system("unzip -p #{trace_name} -x '__MACOSX/*' > #{tmpfile.path} 2> /dev/null")
       end
 
       tmpfile.unlink
@@ -260,12 +263,8 @@ class Trace < ActiveRecord::Base
     f_lon = 0
     first = true
 
-    # If there are any existing points for this trace then delete
-    # them - we check for existing points first to avoid locking
-    # the table in the common case where there aren't any.
-    if Tracepoint.where(:gpx_id => id).exists?
-      Tracepoint.delete_all(:gpx_id => id)
-    end
+    # If there are any existing points for this trace then delete them
+    Tracepoint.delete_all(:gpx_id => id)
 
     gpx.points do |point|
       if first

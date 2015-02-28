@@ -18,6 +18,28 @@ class AmfControllerTest < ActionController::TestCase
     )
   end
 
+  def test_getpresets
+    amf_content "getpresets", "/1", ["test@example.com:test", ""]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    presets = amf_result("/1")
+
+    assert_equal 15, presets.length
+    assert_equal POTLATCH_PRESETS[0], presets[0]
+    assert_equal POTLATCH_PRESETS[1], presets[1]
+    assert_equal POTLATCH_PRESETS[2], presets[2]
+    assert_equal POTLATCH_PRESETS[3], presets[3]
+    assert_equal POTLATCH_PRESETS[4], presets[4]
+    assert_equal POTLATCH_PRESETS[5], presets[5]
+    assert_equal POTLATCH_PRESETS[6], presets[6]
+    assert_equal POTLATCH_PRESETS[7], presets[7]
+    assert_equal POTLATCH_PRESETS[8], presets[8]
+    assert_equal POTLATCH_PRESETS[9], presets[9]
+    assert_equal POTLATCH_PRESETS[10], presets[10]
+    assert_equal POTLATCH_PRESETS[12], presets[12]
+  end
+
   def test_getway
     # check a visible way
     id = current_ways(:visible_way).id
@@ -409,8 +431,192 @@ class AmfControllerTest < ActionController::TestCase
     assert history[2].empty?
   end
 
+  def test_findgpx_bad_user
+    amf_content "findgpx", "/1", [1, "test@example.com:wrong"]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 2, result.length
+    assert_equal -1, result[0]
+    assert_match /must be logged in/, result[1]
+
+    amf_content "findgpx", "/1", [1, "blocked@openstreetmap.org:test"]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 2, result.length
+    assert_equal -1, result[0]
+    assert_match /access to the API has been blocked/, result[1]
+  end
+
+  def test_findgpx_by_id
+    trace = gpx_files(:anon_trace_file)
+
+    amf_content "findgpx", "/1", [trace.id, "test@example.com:test"]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 3, result.length
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    traces = result[2]
+    assert_equal 1, traces.length
+    assert_equal 3, traces[0].length
+    assert_equal trace.id, traces[0][0]
+    assert_equal trace.name, traces[0][1]
+    assert_equal trace.description, traces[0][2]
+  end
+
+  def test_findgpx_by_name
+    amf_content "findgpx", "/1", ["Trace", "test@example.com:test"]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    # find by name fails as it uses mysql text search syntax...
+    assert_equal 2, result.length
+    assert_equal -2, result[0]
+  end
+
+  def test_findrelations_by_id
+    relation = current_relations(:relation_with_versions)
+
+    amf_content "findrelations", "/1", [relation.id]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 1, result.length
+    assert_equal 4, result[0].length
+    assert_equal relation.id, result[0][0]
+    assert_equal relation.tags, result[0][1]
+    assert_equal relation.members, result[0][2]
+    assert_equal relation.version, result[0][3]
+
+    amf_content "findrelations", "/1", [999999]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 0, result.length
+  end
+
+  def test_findrelations_by_tags
+    visible_relation = current_relations(:visible_relation)
+    used_relation = current_relations(:used_relation)
+
+    amf_content "findrelations", "/1", ["yes"]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1").sort
+
+    assert_equal 2, result.length
+    assert_equal 4, result[0].length
+    assert_equal visible_relation.id, result[0][0]
+    assert_equal visible_relation.tags, result[0][1]
+    assert_equal visible_relation.members, result[0][2]
+    assert_equal visible_relation.version, result[0][3]
+    assert_equal 4, result[1].length
+    assert_equal used_relation.id, result[1][0]
+    assert_equal used_relation.tags, result[1][1]
+    assert_equal used_relation.members, result[1][2]
+    assert_equal used_relation.version, result[1][3]
+
+    amf_content "findrelations", "/1", ["no"]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1").sort
+
+    assert_equal 0, result.length
+  end
+
+  def test_getpoi_without_timestamp
+    node = current_nodes(:node_with_versions)
+
+    amf_content "getpoi", "/1", [node.id, ""]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 7, result.length
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal node.id, result[2]
+    assert_equal node.lon, result[3]
+    assert_equal node.lat, result[4]
+    assert_equal node.tags, result[5]
+    assert_equal node.version, result[6]
+
+    amf_content "getpoi", "/1", [999999, ""]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 3, result.length
+    assert_equal -4, result[0]
+    assert_equal "node", result[1]
+    assert_equal 999999, result[2]
+  end
+
+  def test_getpoi_with_timestamp
+    node = nodes(:node_with_versions_v2)
+    current_node = current_nodes(:node_with_versions)
+
+    amf_content "getpoi", "/1", [node.node_id, node.timestamp.xmlschema]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 7, result.length
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal node.node_id, result[2]
+    assert_equal node.lon, result[3]
+    assert_equal node.lat, result[4]
+    assert_equal node.tags, result[5]
+    assert_equal current_node.version, result[6]
+
+    amf_content "getpoi", "/1", [node.node_id, "2000-01-01T00:00:00Z"]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 3, result.length
+    assert_equal -4, result[0]
+    assert_equal "node", result[1]
+    assert_equal node.node_id, result[2]
+
+    amf_content "getpoi", "/1", [999999, Time.now.xmlschema]
+    post :amf_read
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 3, result.length
+    assert_equal -4, result[0]
+    assert_equal "node", result[1]
+    assert_equal 999999, result[2]
+  end
+
   # ************************************************************
   # AMF Write tests
+
+  # check that we can update a poi
   def test_putpoi_update_valid
     nd = current_nodes(:visible_node)
     cs_id = changesets(:public_user_first_change).id
@@ -420,6 +626,7 @@ class AmfControllerTest < ActionController::TestCase
     amf_parse_response
     result = amf_result("/1")
 
+    assert_equal 5, result.size
     assert_equal 0, result[0]
     assert_equal "", result[1]
     assert_equal nd.id, result[2]
@@ -435,6 +642,7 @@ class AmfControllerTest < ActionController::TestCase
     amf_parse_response
     result = amf_result("/2")
 
+    assert_equal 5, result.size
     assert_equal 0, result[0]
     assert_equal "", result[1]
     assert_equal nd.id, result[2]
@@ -584,16 +792,118 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal "One of the tags is invalid. Linux users may need to upgrade to Flash Player 10.1.", result[1]
   end
 
+  # try deleting a node
   def test_putpoi_delete_valid
+    nd = current_nodes(:visible_node)
+    cs_id = changesets(:public_user_first_change).id
+    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 5, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal nd.id, result[2]
+    assert_equal nd.id, result[3]
+    assert_equal nd.version + 1, result[4]
+
+    current_node = Node.find(result[3].to_i)
+    assert_equal false, current_node.visible
   end
 
+  # try deleting a node that is already deleted
   def test_putpoi_delete_already_deleted
+    nd = current_nodes(:invisible_node)
+    cs_id = changesets(:public_user_first_change).id
+    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, nd.version, nd.id, nd.lon, nd.lat, nd.tags, false]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 3, result.size
+    assert_equal -4, result[0]
+    assert_equal "node", result[1]
+    assert_equal nd.id, result[2]
   end
 
+  # try deleting a node that has never existed
   def test_putpoi_delete_not_found
+    cs_id = changesets(:public_user_first_change).id
+    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, 1, 999999, 0, 0, {}, false]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 3, result.size
+    assert_equal -4, result[0]
+    assert_equal "node", result[1]
+    assert_equal 999999, result[2]
   end
 
+  # try setting an invalid location on a node
   def test_putpoi_invalid_latlon
+    nd = current_nodes(:visible_node)
+    cs_id = changesets(:public_user_first_change).id
+    amf_content "putpoi", "/1", ["test@example.com:test", cs_id, nd.version, nd.id, 200, 100, nd.tags, true]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 2, result.size
+    assert_equal -2, result[0]
+    assert_match /Node is not in the world/, result[1]
+  end
+
+  # check that we can update way
+  def test_putway_update_valid
+    way = current_ways(:way_with_multiple_nodes)
+    cs_id = changesets(:public_user_first_change).id
+    amf_content "putway", "/1", ["test@example.com:test", cs_id, way.version, way.id, way.nds, { "test" => "ok" }, [], {}]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 8, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal way.id, result[2]
+    assert_equal way.id, result[3]
+    assert_equal({}, result[4])
+    assert_equal way.version + 1, result[5]
+    assert_equal({}, result[6])
+    assert_equal({}, result[7])
+
+    new_way = Way.find(way.id)
+    assert_equal way.version + 1, new_way.version
+    assert_equal way.nds, new_way.nds
+    assert_equal({ "test" => "ok" }, new_way.tags)
+
+    amf_content "putway", "/1", ["test@example.com:test", cs_id, way.version + 1, way.id, [4, 6, 15, 1], way.tags, [], {}]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 8, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal way.id, result[2]
+    assert_equal way.id, result[3]
+    assert_equal({}, result[4])
+    assert_equal way.version + 2, result[5]
+    assert_equal({}, result[6])
+    assert_equal({}, result[7])
+
+    new_way = Way.find(way.id)
+    assert_equal way.version + 2, new_way.version
+    assert_equal [4, 6, 15, 1], new_way.nds
+    assert_equal way.tags, new_way.tags
   end
 
   def test_startchangeset_invalid_xmlchar_comment
@@ -613,6 +923,8 @@ class AmfControllerTest < ActionController::TestCase
     cs = Changeset.find(new_cs_id)
     assert_equal "foobar", cs.tags["comment"]
   end
+
+  private
 
   # ************************************************************
   # AMF Helper functions

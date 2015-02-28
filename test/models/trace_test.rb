@@ -1,4 +1,5 @@
 require "test_helper"
+require "digest"
 
 class TraceTest < ActiveSupport::TestCase
   api_fixtures
@@ -14,21 +15,34 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def test_trace_count
-    assert_equal 5, Trace.count
+    assert_equal 9, Trace.count
   end
 
   def test_visible
-    check_query(Trace.visible, [:public_trace_file, :anon_trace_file, :trackable_trace_file, :identifiable_trace_file])
+    check_query(Trace.visible, [
+      :public_trace_file, :anon_trace_file, :trackable_trace_file,
+      :identifiable_trace_file, :zipped_trace_file, :tar_trace_file,
+      :tar_gzip_trace_file, :tar_bzip_trace_file
+    ])
   end
 
   def test_visible_to
-    check_query(Trace.visible_to(1), [:public_trace_file, :identifiable_trace_file])
-    check_query(Trace.visible_to(2), [:public_trace_file, :anon_trace_file, :trackable_trace_file, :identifiable_trace_file])
-    check_query(Trace.visible_to(3), [:public_trace_file, :identifiable_trace_file])
+    check_query(Trace.visible_to(1), [
+      :public_trace_file, :identifiable_trace_file
+    ])
+    check_query(Trace.visible_to(2), [
+      :public_trace_file, :anon_trace_file, :trackable_trace_file,
+      :identifiable_trace_file
+    ])
+    check_query(Trace.visible_to(3), [
+      :public_trace_file, :identifiable_trace_file
+    ])
   end
 
   def test_visible_to_all
-    check_query(Trace.visible_to_all, [:public_trace_file, :identifiable_trace_file, :deleted_trace_file])
+    check_query(Trace.visible_to_all, [
+      :public_trace_file, :identifiable_trace_file, :deleted_trace_file
+    ])
   end
 
   def test_tagged
@@ -99,6 +113,10 @@ class TraceTest < ActiveSupport::TestCase
     assert_equal "application/gpx+xml", gpx_files(:anon_trace_file).mime_type
     assert_equal "application/x-bzip2", gpx_files(:trackable_trace_file).mime_type
     assert_equal "application/x-gzip", gpx_files(:identifiable_trace_file).mime_type
+    assert_equal "application/x-zip", gpx_files(:zipped_trace_file).mime_type
+    assert_equal "application/x-tar", gpx_files(:tar_trace_file).mime_type
+    assert_equal "application/x-gzip", gpx_files(:tar_gzip_trace_file).mime_type
+    assert_equal "application/x-bzip2", gpx_files(:tar_bzip_trace_file).mime_type
   end
 
   def test_extension_name
@@ -106,18 +124,37 @@ class TraceTest < ActiveSupport::TestCase
     assert_equal ".gpx", gpx_files(:anon_trace_file).extension_name
     assert_equal ".gpx.bz2", gpx_files(:trackable_trace_file).extension_name
     assert_equal ".gpx.gz", gpx_files(:identifiable_trace_file).extension_name
+    assert_equal ".zip", gpx_files(:zipped_trace_file).extension_name
+    assert_equal ".tar", gpx_files(:tar_trace_file).extension_name
+    assert_equal ".tar.gz", gpx_files(:tar_gzip_trace_file).extension_name
+    assert_equal ".tar.bz2", gpx_files(:tar_bzip_trace_file).extension_name
+  end
+
+  def test_xml_file
+    assert_equal "848caa72f2f456d1bd6a0fdf228aa1b9", md5sum(gpx_files(:public_trace_file).xml_file)
+    assert_equal "66179ca44f1e93d8df62e2b88cbea732", md5sum(gpx_files(:anon_trace_file).xml_file)
+    assert_equal "848caa72f2f456d1bd6a0fdf228aa1b9", md5sum(gpx_files(:trackable_trace_file).xml_file)
+    assert_equal "abd6675fdf3024a84fc0a1deac147c0d", md5sum(gpx_files(:identifiable_trace_file).xml_file)
+    assert_equal "848caa72f2f456d1bd6a0fdf228aa1b9", md5sum(gpx_files(:zipped_trace_file).xml_file)
+    assert_equal "848caa72f2f456d1bd6a0fdf228aa1b9", md5sum(gpx_files(:tar_trace_file).xml_file)
+    assert_equal "848caa72f2f456d1bd6a0fdf228aa1b9", md5sum(gpx_files(:tar_gzip_trace_file).xml_file)
+    assert_equal "848caa72f2f456d1bd6a0fdf228aa1b9", md5sum(gpx_files(:tar_bzip_trace_file).xml_file)
   end
 
   private
 
   def check_query(query, traces)
-    traces = traces.map { |t| gpx_files(t) }.sort
-    assert_equal traces, query.order(:id)
+    traces = traces.map { |t| gpx_files(t).id }.sort
+    assert_equal traces, query.order(:id).ids
   end
 
   def trace_valid(attrs, result = true)
     entry = Trace.new(gpx_files(:public_trace_file).attributes)
     entry.assign_attributes(attrs)
     assert_equal result, entry.valid?, "Expected #{attrs.inspect} to be #{result}"
+  end
+
+  def md5sum(io)
+    io.each_with_object(Digest::MD5.new) { |l, d| d.update(l) }.hexdigest
   end
 end
