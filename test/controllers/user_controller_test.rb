@@ -1321,7 +1321,7 @@ class UserControllerTest < ActionController::TestCase
     get :list, :page => 3
     assert_response :success
     assert_template :list
-    assert_select "table#user_list tr", :count => 19
+    assert_select "table#user_list tr", :count => 20
   end
 
   def test_list_post_confirm

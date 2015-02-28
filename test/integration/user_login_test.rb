@@ -9,6 +9,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
   def teardown
     OmniAuth.config.mock_auth[:openid] = nil
+    OmniAuth.config.mock_auth[:google] = nil
     OmniAuth.config.test_mode = false
   end
 
@@ -729,11 +730,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   def test_login_openid_success
     OmniAuth.config.add_mock(:openid, :uid => "http://localhost:1123/john.doe")
 
-    get "/login"
+    get "/login", :referer => "/history"
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true, :referer => "/history"
     follow_redirect!
     assert_response :success
+    assert_template "user/login"
     post "/login", :openid_url => "http://localhost:1123/john.doe", :referer => "/history"
     assert_response :redirect
     assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
@@ -751,11 +753,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   def test_login_openid_remember_me
     OmniAuth.config.add_mock(:openid, :uid => "http://localhost:1123/john.doe")
 
-    get "/login"
+    get "/login", :referer => "/history"
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true, :referer => "/history"
     follow_redirect!
     assert_response :success
+    assert_template "user/login"
     post "/login", :openid_url => "http://localhost:1123/john.doe", :remember_me_openid => true, :referer => "/history"
     assert_response :redirect
     assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
@@ -774,11 +777,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   def test_login_openid_connection_failed
     OmniAuth.config.mock_auth[:openid] = :connection_failed
 
-    get "/login"
+    get "/login", :referer => "/history"
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true, :referer => "/history"
     follow_redirect!
     assert_response :success
+    assert_template "user/login"
     post "/login", :openid_url => "http://localhost:1123/john.doe", :referer => "/history"
     assert_response :redirect
     assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
@@ -800,11 +804,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   def test_login_openid_invalid_credentials
     OmniAuth.config.mock_auth[:openid] = :invalid_credentials
 
-    get "/login"
+    get "/login", :referer => "/history"
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true, :referer => "/history"
     follow_redirect!
     assert_response :success
+    assert_template "user/login"
     post "/login", :openid_url => "http://localhost:1123/john.doe", :referer => "/history"
     assert_response :redirect
     assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
@@ -826,12 +831,13 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   def test_login_openid_unknown
     OmniAuth.config.add_mock(:openid, :uid => "http://localhost:1123/fred.bloggs")
 
-    get "/login"
+    get "/login", :referer => "/history"
     assert_response :redirect
-    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true, :referer => "/history"
     follow_redirect!
     assert_response :success
-    post "/login", :openid_url => "http://localhost:1123/fred.bloggs", :referer => "/diary"
+    assert_template "user/login"
+    post "/login", :openid_url => "http://localhost:1123/fred.bloggs", :referer => "/history"
     assert_response :redirect
     assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/fred.bloggs", :origin => "/login")
     follow_redirect!
@@ -843,5 +849,123 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "user/new"
     assert_select "span.username", false
+  end
+
+  def test_login_google_success
+    OmniAuth.config.add_mock(:google, :uid => "123456789", :extra => {
+                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
+                             })
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "google", :origin => "/login")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "google")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "changeset/history"
+    assert_select "span.username", "googleuser"
+  end
+
+  def test_login_google_connection_failed
+    OmniAuth.config.mock_auth[:google] = :connection_failed
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "google", :origin => "/login")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "google")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_failure_path(:strategy => "google", :message => "connection_failed", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", "Connection to authentication provider failed"
+    assert_select "span.username", false
+  end
+
+  def test_login_google_invalid_credentials
+    OmniAuth.config.mock_auth[:google] = :invalid_credentials
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "google", :origin => "/login")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "google")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_failure_path(:strategy => "google", :message => "invalid_credentials", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", "Invalid authentication credentials"
+    assert_select "span.username", false
+  end
+
+  def test_login_google_unknown
+    OmniAuth.config.add_mock(:google, :uid => "987654321", :extra => {
+                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
+                             })
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "google", :origin => "/login")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "google")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "user/new"
+    assert_select "span.username", false
+  end
+
+  def test_login_google_upgrade
+    OmniAuth.config.add_mock(:google, :uid => "987654321", :extra => {
+                               :id_info => { "openid_id" => "http://localhost:1123/john.doe" }
+                             })
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "google", :origin => "/login")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "google")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "changeset/history"
+    assert_select "span.username", "openIDuser"
+
+    user = User.find_by_display_name("openIDuser")
+    assert_equal "google", user.auth_provider
+    assert_equal "987654321", user.auth_uid
   end
 end
