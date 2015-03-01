@@ -223,7 +223,7 @@ class TraceControllerTest < ActionController::TestCase
     check_trace_list users(:public_user).traces.tagged("London")
 
     # Should get an error if the user does not exist
-    get :list, { :display_name => "UnknownUser" }
+    get :list, :display_name => "UnknownUser"
     assert_response :not_found
     assert_template "user/no_such_user"
   end
@@ -479,7 +479,7 @@ class TraceControllerTest < ActionController::TestCase
     file = Rack::Test::UploadedFile.new(gpx_files(:public_trace_file).trace_name, "application/gpx+xml")
 
     # First with no auth
-    post :create, { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "trackable" } }
+    post :create, :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "trackable" }
     assert_response :forbidden
 
     # Now authenticated
@@ -639,12 +639,12 @@ class TraceControllerTest < ActionController::TestCase
 
     # Now with some other user, which should work since the trace is public
     basic_authorization(users(:public_user).display_name, "test")
-    get :api_data, { :display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id }
+    get :api_data, :display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id
     check_trace_data gpx_files(:public_trace_file)
 
     # And finally we should be able to do it with the owner of the trace
     basic_authorization(users(:normal_user).display_name, "test")
-    get :api_data, { :display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id }
+    get :api_data, :display_name => users(:normal_user).display_name, :id => gpx_files(:public_trace_file).id
     check_trace_data gpx_files(:public_trace_file)
   end
 
@@ -674,12 +674,12 @@ class TraceControllerTest < ActionController::TestCase
 
     # Now with some other user, which shouldn't work since the trace is anon
     basic_authorization(users(:normal_user).display_name, "test")
-    get :api_data, { :display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id }
+    get :api_data, :display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id
     assert_response :forbidden
 
     # And finally we should be able to do it with the owner of the trace
     basic_authorization(users(:public_user).display_name, "test")
-    get :api_data, { :display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id }
+    get :api_data, :display_name => users(:public_user).display_name, :id => gpx_files(:anon_trace_file).id
     check_trace_data gpx_files(:anon_trace_file)
   end
 
@@ -691,12 +691,12 @@ class TraceControllerTest < ActionController::TestCase
 
     # Now with a trace that has never existed
     basic_authorization(users(:public_user).display_name, "test")
-    get :api_data, { :display_name => users(:public_user).display_name, :id => 0 }
+    get :api_data, :display_name => users(:public_user).display_name, :id => 0
     assert_response :not_found
 
     # Now with a trace that has been deleted
     basic_authorization(users(:public_user).display_name, "test")
-    get :api_data, { :display_name => users(:public_user).display_name, :id => 5 }
+    get :api_data, :display_name => users(:public_user).display_name, :id => 5
     assert_response :not_found
   end
 
@@ -706,13 +706,13 @@ class TraceControllerTest < ActionController::TestCase
     file = Rack::Test::UploadedFile.new(gpx_files(:public_trace_file).trace_name, "application/gpx+xml")
 
     # First with no auth
-    post :api_create, { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
+    post :api_create, :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable"
     assert_response :unauthorized
 
     # Now authenticated
     assert_not_equal "trackable", users(:public_user).preferences.where(:k => "gps.trace.visibility").first.v
     basic_authorization(users(:public_user).display_name, "test")
-    post :api_create, { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable" }
+    post :api_create, :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "trackable"
     assert_response :success
     trace = Trace.find(response.body.to_i)
     assert_equal "1.gpx", trace.name
@@ -730,7 +730,7 @@ class TraceControllerTest < ActionController::TestCase
     # Now authenticated, with the legacy public flag
     assert_not_equal "private", users(:public_user).preferences.where(:k => "gps.trace.visibility").first.v
     basic_authorization(users(:public_user).display_name, "test")
-    post :api_create, { :file => file, :description => "New Trace", :tags => "new,trace", :public => 0 }
+    post :api_create, :file => file, :description => "New Trace", :tags => "new,trace", :public => 0
     assert_response :success
     trace = Trace.find(response.body.to_i)
     assert_equal "1.gpx", trace.name
