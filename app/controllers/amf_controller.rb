@@ -610,7 +610,8 @@ class AmfController < ApplicationController
   # 3. new way id,
   # 4. hash of renumbered nodes (old id=>new id),
   # 5. way version,
-  # 6. hash of node versions (node=>version)
+  # 6. hash of changed node versions (node=>version)
+  # 7. hash of deleted node versions (node=>version)
 
   def putway(renumberednodes, usertoken, changeset_id, wayversion, originalway, pointlist, attributes, nodes, deletednodes) #:doc:
     amf_handle_error("'putway' #{originalway}", "way", originalway) do

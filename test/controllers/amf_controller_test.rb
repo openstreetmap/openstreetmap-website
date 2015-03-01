@@ -19,25 +19,30 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getpresets
-    amf_content "getpresets", "/1", ["test@example.com:test", ""]
-    post :amf_read
-    assert_response :success
-    amf_parse_response
-    presets = amf_result("/1")
+    [:public_user, :german_user].each do |id|
+      user = users(id)
 
-    assert_equal 15, presets.length
-    assert_equal POTLATCH_PRESETS[0], presets[0]
-    assert_equal POTLATCH_PRESETS[1], presets[1]
-    assert_equal POTLATCH_PRESETS[2], presets[2]
-    assert_equal POTLATCH_PRESETS[3], presets[3]
-    assert_equal POTLATCH_PRESETS[4], presets[4]
-    assert_equal POTLATCH_PRESETS[5], presets[5]
-    assert_equal POTLATCH_PRESETS[6], presets[6]
-    assert_equal POTLATCH_PRESETS[7], presets[7]
-    assert_equal POTLATCH_PRESETS[8], presets[8]
-    assert_equal POTLATCH_PRESETS[9], presets[9]
-    assert_equal POTLATCH_PRESETS[10], presets[10]
-    assert_equal POTLATCH_PRESETS[12], presets[12]
+      amf_content "getpresets", "/1", ["#{user.email}:test", ""]
+      post :amf_read
+      assert_response :success
+      amf_parse_response
+      presets = amf_result("/1")
+
+      assert_equal 15, presets.length
+      assert_equal POTLATCH_PRESETS[0], presets[0]
+      assert_equal POTLATCH_PRESETS[1], presets[1]
+      assert_equal POTLATCH_PRESETS[2], presets[2]
+      assert_equal POTLATCH_PRESETS[3], presets[3]
+      assert_equal POTLATCH_PRESETS[4], presets[4]
+      assert_equal POTLATCH_PRESETS[5], presets[5]
+      assert_equal POTLATCH_PRESETS[6], presets[6]
+      assert_equal POTLATCH_PRESETS[7], presets[7]
+      assert_equal POTLATCH_PRESETS[8], presets[8]
+      assert_equal POTLATCH_PRESETS[9], presets[9]
+      assert_equal POTLATCH_PRESETS[10], presets[10]
+      assert_equal POTLATCH_PRESETS[12], presets[12]
+      assert_equal user.languages.first, presets[13]["__potlatch_locale"]
+    end
   end
 
   def test_getway
@@ -863,6 +868,7 @@ class AmfControllerTest < ActionController::TestCase
   def test_putway_update_valid
     way = current_ways(:way_with_multiple_nodes)
     cs_id = changesets(:public_user_first_change).id
+
     amf_content "putway", "/1", ["test@example.com:test", cs_id, way.version, way.id, way.nds, { "test" => "ok" }, [], {}]
     post :amf_write
     assert_response :success
@@ -904,6 +910,46 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal way.version + 2, new_way.version
     assert_equal [4, 6, 15, 1], new_way.nds
     assert_equal way.tags, new_way.tags
+
+    amf_content "putway", "/1", ["test@example.com:test", cs_id, way.version + 2, way.id, [4, -1, 6, 15], way.tags, [[4.56, 12.34, -1, 0, { "test" => "new" }], [12.34, 4.56, 6, 1, { "test" => "ok" }]], { 1 => 1 }]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+    new_node_id = result[4]["-1"].to_i
+
+    assert_equal 8, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal way.id, result[2]
+    assert_equal way.id, result[3]
+    assert_equal({ "-1" => new_node_id }, result[4])
+    assert_equal way.version + 3, result[5]
+    assert_equal({ new_node_id.to_s => 1, "6" => 2 }, result[6])
+    assert_equal({ "1" => 1 }, result[7])
+
+    new_way = Way.find(way.id)
+    assert_equal way.version + 3, new_way.version
+    assert_equal [4, new_node_id, 6, 15], new_way.nds
+    assert_equal way.tags, new_way.tags
+
+    new_node = Node.find(new_node_id)
+    assert_equal 1, new_node.version
+    assert_equal true, new_node.visible
+    assert_equal 4.56, new_node.lon
+    assert_equal 12.34, new_node.lat
+    assert_equal({ "test" => "new" }, new_node.tags)
+
+    changed_node = Node.find(6)
+    assert_equal 2, changed_node.version
+    assert_equal true, changed_node.visible
+    assert_equal 12.34, changed_node.lon
+    assert_equal 4.56, changed_node.lat
+    assert_equal({ "test" => "ok" }, changed_node.tags)
+
+    deleted_node = Node.find(1)
+    assert_equal 2, deleted_node.version
+    assert_equal false, deleted_node.visible
   end
 
   def test_startchangeset_invalid_xmlchar_comment
