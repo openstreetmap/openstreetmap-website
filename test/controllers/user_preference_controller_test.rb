@@ -36,7 +36,7 @@ class UserPreferenceControllerTest < ActionController::TestCase
     assert_response :unauthorized, "should be authenticated"
 
     # authenticate as a user with no preferences
-    basic_authorization("test@example.com", "test")
+    basic_authorization("moderator@example.com", "test")
 
     # try the read again
     get :read

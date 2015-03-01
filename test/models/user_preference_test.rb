@@ -9,7 +9,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
   # This test needs to be updated for every addition/deletion from
   # the fixture file
   def test_check_count
-    assert_equal 2, UserPreference.count
+    assert_equal 4, UserPreference.count
   end
 
   # Checks that you cannot add a new preference, that is a duplicate
