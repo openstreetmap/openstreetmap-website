@@ -213,8 +213,4 @@ class SwfController < ApplicationController
   def lat2y(a)
     180 / Math::PI * Math.log(Math.tan(Math::PI / 4 + a * (Math::PI / 180) / 2))
   end
-
-  def sqlescape(a)
-    a.gsub("'", "''").gsub(92.chr, 92.chr + 92.chr)
-  end
 end
