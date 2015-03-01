@@ -2,7 +2,6 @@ class ApiController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :check_api_readable, :except => [:capabilities]
   before_action :setup_user_auth, :only => [:permissions]
-  after_action :compress_output
   around_action :api_call_handle_error, :api_call_timeout
 
   # Get an XML response containing a list of tracepoints that have been uploaded

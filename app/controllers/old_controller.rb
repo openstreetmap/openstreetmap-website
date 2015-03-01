@@ -11,7 +11,6 @@ class OldController < ApplicationController
   before_action :require_allow_write_api, :only => [:redact]
   before_action :check_api_readable
   before_action :check_api_writable, :only => [:redact]
-  after_action :compress_output
   around_action :api_call_handle_error, :api_call_timeout
   before_action :lookup_old_element, :except => [:history]
   before_action :lookup_old_element_versions, :only => [:history]

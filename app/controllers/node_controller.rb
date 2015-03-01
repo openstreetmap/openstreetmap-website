@@ -9,7 +9,6 @@ class NodeController < ApplicationController
   before_action :require_public_data, :only => [:create, :update, :delete]
   before_action :check_api_writable, :only => [:create, :update, :delete]
   before_action :check_api_readable, :except => [:create, :update, :delete]
-  after_action :compress_output
   around_action :api_call_handle_error, :api_call_timeout
 
   # Create a node from XML.

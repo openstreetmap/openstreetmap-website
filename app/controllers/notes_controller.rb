@@ -9,7 +9,6 @@ class NotesController < ApplicationController
   before_action :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
   before_action :require_allow_write_notes, :only => [:create, :comment, :close, :reopen, :destroy]
   before_action :set_locale
-  after_action :compress_output
   around_action :api_call_handle_error, :api_call_timeout
 
   ##
