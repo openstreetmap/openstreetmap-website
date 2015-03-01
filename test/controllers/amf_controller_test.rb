@@ -125,7 +125,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal 3, way[3].length
     assert_equal 4, way[3][0][2]
     assert_equal 15, way[3][1][2]
-    assert_equal 6, way[3][2][2]
+    assert_equal 11, way[3][2][2]
     assert_equal 2, way[5]
     assert_equal 2, way[6]
   end
@@ -864,11 +864,103 @@ class AmfControllerTest < ActionController::TestCase
     assert_match /Node is not in the world/, result[1]
   end
 
-  # check that we can update way
+  # check that we can create a way
+  def test_putway_create_valid
+    cs_id = changesets(:public_user_first_change).id
+
+    amf_content "putway", "/1", ["test@example.com:test", cs_id, 0, -1, [1, 4, 7], { "test" => "new" }, [], {}]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+    new_way_id = result[3].to_i
+
+    assert_equal 8, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal -1, result[2]
+    assert_not_equal -1, result[3]
+    assert_equal({}, result[4])
+    assert_equal 1, result[5]
+    assert_equal({}, result[6])
+    assert_equal({}, result[7])
+
+    new_way = Way.find(new_way_id)
+    assert_equal 1, new_way.version
+    assert_equal [1, 4, 7], new_way.nds
+    assert_equal({ "test" => "new" }, new_way.tags)
+
+    amf_content "putway", "/1", ["test@example.com:test", cs_id, 0, -1, [4, 6, 15, 1], { "test" => "newer" }, [], {}]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+    new_way_id = result[3].to_i
+
+    assert_equal 8, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal -1, result[2]
+    assert_not_equal -1, result[3]
+    assert_equal({}, result[4])
+    assert_equal 1, result[5]
+    assert_equal({}, result[6])
+    assert_equal({}, result[7])
+
+    new_way = Way.find(new_way_id)
+    assert_equal 1, new_way.version
+    assert_equal [4, 6, 15, 1], new_way.nds
+    assert_equal({ "test" => "newer" }, new_way.tags)
+
+    amf_content "putway", "/1", ["test@example.com:test", cs_id, 0, -1, [4, -1, 6, 15], { "test" => "newest" }, [[4.56, 12.34, -1, 0, { "test" => "new" }], [12.34, 4.56, 6, 1, { "test" => "ok" }]], { 1 => 1 }]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+    new_way_id = result[3].to_i
+    new_node_id = result[4]["-1"].to_i
+
+    assert_equal 8, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal -1, result[2]
+    assert_not_equal -1, result[3]
+    assert_equal({ "-1" => new_node_id }, result[4])
+    assert_equal 1, result[5]
+    assert_equal({ new_node_id.to_s => 1, "6" => 2 }, result[6])
+    assert_equal({ "1" => 1 }, result[7])
+
+    new_way = Way.find(new_way_id)
+    assert_equal 1, new_way.version
+    assert_equal [4, new_node_id, 6, 15], new_way.nds
+    assert_equal({ "test" => "newest" }, new_way.tags)
+
+    new_node = Node.find(new_node_id)
+    assert_equal 1, new_node.version
+    assert_equal true, new_node.visible
+    assert_equal 4.56, new_node.lon
+    assert_equal 12.34, new_node.lat
+    assert_equal({ "test" => "new" }, new_node.tags)
+
+    changed_node = Node.find(6)
+    assert_equal 2, changed_node.version
+    assert_equal true, changed_node.visible
+    assert_equal 12.34, changed_node.lon
+    assert_equal 4.56, changed_node.lat
+    assert_equal({ "test" => "ok" }, changed_node.tags)
+
+    # node is not deleted because our other ways are using it
+    deleted_node = Node.find(1)
+    assert_equal 1, deleted_node.version
+    assert_equal true, deleted_node.visible
+  end
+
+  # check that we can update a way
   def test_putway_update_valid
     way = current_ways(:way_with_multiple_nodes)
     cs_id = changesets(:public_user_first_change).id
 
+    assert_not_equal({ "test" => "ok" }, way.tags)
     amf_content "putway", "/1", ["test@example.com:test", cs_id, way.version, way.id, way.nds, { "test" => "ok" }, [], {}]
     post :amf_write
     assert_response :success
@@ -890,6 +982,7 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal way.nds, new_way.nds
     assert_equal({ "test" => "ok" }, new_way.tags)
 
+    assert_not_equal [4, 6, 15, 1], way.tags
     amf_content "putway", "/1", ["test@example.com:test", cs_id, way.version + 1, way.id, [4, 6, 15, 1], way.tags, [], {}]
     post :amf_write
     assert_response :success
@@ -952,6 +1045,248 @@ class AmfControllerTest < ActionController::TestCase
     assert_equal false, deleted_node.visible
   end
 
+  # check that we can delete a way
+  def test_deleteway_valid
+    way = current_ways(:way_with_multiple_nodes)
+    nodes = way.nodes.each_with_object({}) { |n, ns| ns[n.id] = n.version }
+    cs_id = changesets(:public_user_first_change).id
+
+    amf_content "deleteway", "/1", ["test@example.com:test", cs_id, way.id, way.version, nodes]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 5, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal way.id, result[2]
+    assert_equal way.version + 1, result[3]
+    assert_equal({ "11" => 2 }, result[4])
+
+    new_way = Way.find(way.id)
+    assert_equal way.version + 1, new_way.version
+    assert_equal false, new_way.visible
+
+    way.nds.each do |node_id|
+      assert_equal result[4][node_id.to_s].nil?, Node.find(node_id).visible
+    end
+  end
+
+  # check that we can't delete a way that is in use
+  def test_deleteway_inuse
+    way = current_ways(:used_way)
+    nodes = way.nodes.each_with_object({}) { |n, ns| ns[n.id] = n.version }
+    cs_id = changesets(:public_user_first_change).id
+
+    amf_content "deleteway", "/1", ["test@example.com:test", cs_id, way.id, way.version, nodes]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 2, result.size
+    assert_equal -1, result[0]
+    assert_match /Way #{way.id} is still used/, result[1]
+
+    new_way = Way.find(way.id)
+    assert_equal way.version, new_way.version
+    assert_equal true, new_way.visible
+
+    way.nds.each do |node_id|
+      assert_equal true, Node.find(node_id).visible
+    end
+  end
+
+  # check that we can create a relation
+  def test_putrelation_create_valid
+    cs_id = changesets(:public_user_first_change).id
+
+    amf_content "putrelation", "/1", ["test@example.com:test", cs_id, 0, -1, { "test" => "new" }, [["Node", 3, "node"], ["Way", 7, "way"], ["Relation", 1, "relation"]], true]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+    new_relation_id = result[3].to_i
+
+    assert_equal 5, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal -1, result[2]
+    assert_not_equal -1, result[3]
+    assert_equal 1, result[4]
+
+    new_relation = Relation.find(new_relation_id)
+    assert_equal 1, new_relation.version
+    assert_equal [["Node", 3, "node"], ["Way", 7, "way"], ["Relation", 1, "relation"]], new_relation.members
+    assert_equal({ "test" => "new" }, new_relation.tags)
+    assert_equal true, new_relation.visible
+  end
+
+  # check that we can update a relation
+  def test_putrelation_update_valid
+    relation = current_relations(:visible_relation)
+    cs_id = changesets(:public_user_first_change).id
+
+    assert_not_equal({ "test" => "ok" }, relation.tags)
+    amf_content "putrelation", "/1", ["test@example.com:test", cs_id, relation.version, relation.id, { "test" => "ok" }, relation.members, true]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 5, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal relation.id, result[2]
+    assert_equal relation.id, result[3]
+    assert_equal relation.version + 1, result[4]
+
+    new_relation = Relation.find(relation.id)
+    assert_equal relation.version + 1, new_relation.version
+    assert_equal relation.members, new_relation.members
+    assert_equal({ "test" => "ok" }, new_relation.tags)
+    assert_equal true, new_relation.visible
+  end
+
+  # check that we can delete a relation
+  def test_putrelation_delete_valid
+    relation = current_relations(:visible_relation)
+    cs_id = changesets(:public_user_first_change).id
+
+    amf_content "putrelation", "/1", ["test@example.com:test", cs_id, relation.version, relation.id, relation.tags, relation.members, false]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 5, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_equal relation.id, result[2]
+    assert_equal relation.id, result[3]
+    assert_equal relation.version + 1, result[4]
+
+    new_relation = Relation.find(relation.id)
+    assert_equal relation.version + 1, new_relation.version
+    assert_equal [], new_relation.members
+    assert_equal({}, new_relation.tags)
+    assert_equal false, new_relation.visible
+  end
+
+  # check that we can't delete a relation that is in use
+  def test_putrelation_delete_inuse
+    relation = current_relations(:public_used_relation)
+    cs_id = changesets(:public_user_first_change).id
+
+    amf_content "putrelation", "/1", ["test@example.com:test", cs_id, relation.version, relation.id, relation.tags, relation.members, false]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 2, result.size
+    assert_equal -1, result[0]
+    assert_match /relation #{relation.id} is used in/, result[1]
+
+    new_relation = Relation.find(relation.id)
+    assert_equal relation.version, new_relation.version
+    assert_equal relation.members, new_relation.members
+    assert_equal relation.tags, new_relation.tags
+    assert_equal true, new_relation.visible
+  end
+
+  # check that we can open a changeset
+  def test_startchangeset_valid
+    amf_content "startchangeset", "/1", ["test@example.com:test", { "source" => "new" }, nil, "new", 1]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+    new_cs_id = result[2].to_i
+
+    assert_equal 3, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+
+    cs = Changeset.find(new_cs_id)
+    assert_equal true, cs.is_open?
+    assert_equal({ "comment" => "new", "source" => "new" }, cs.tags)
+
+    old_cs_id = new_cs_id
+
+    amf_content "startchangeset", "/1", ["test@example.com:test", { "source" => "newer" }, old_cs_id, "newer", 1]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+    new_cs_id = result[2].to_i
+
+    assert_not_equal old_cs_id, new_cs_id
+
+    assert_equal 3, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+
+    cs = Changeset.find(old_cs_id)
+    assert_equal false, cs.is_open?
+    assert_equal({ "comment" => "newer", "source" => "new" }, cs.tags)
+
+    cs = Changeset.find(new_cs_id)
+    assert_equal true, cs.is_open?
+    assert_equal({ "comment" => "newer", "source" => "newer" }, cs.tags)
+
+    old_cs_id = new_cs_id
+
+    amf_content "startchangeset", "/1", ["test@example.com:test", {}, old_cs_id, "", 0]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 3, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+    assert_nil result[2]
+
+    cs = Changeset.find(old_cs_id)
+    assert_equal false, cs.is_open?
+    assert_equal({ "comment" => "newer", "source" => "newer" }, cs.tags)
+  end
+
+  # check that we can't close somebody elses changeset
+  def test_startchangeset_invalid_wrong_user
+    amf_content "startchangeset", "/1", ["test@example.com:test", { "source" => "new" }, nil, "new", 1]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+    cs_id = result[2].to_i
+
+    assert_equal 3, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+
+    cs = Changeset.find(cs_id)
+    assert_equal true, cs.is_open?
+    assert_equal({ "comment" => "new", "source" => "new" }, cs.tags)
+
+    amf_content "startchangeset", "/1", ["test@openstreetmap.org:test", {}, cs_id, "delete", 0]
+    post :amf_write
+    assert_response :success
+    amf_parse_response
+    result = amf_result("/1")
+
+    assert_equal 2, result.size
+    assert_equal -2, result[0]
+    assert_equal "The user doesn't own that changeset", result[1]
+
+    cs = Changeset.find(cs_id)
+    assert_equal true, cs.is_open?
+    assert_equal({ "comment" => "new", "source" => "new" }, cs.tags)
+  end
+
+  # check that invalid characters are stripped from changeset tags
   def test_startchangeset_invalid_xmlchar_comment
     invalid = "\035\022"
     comment = "foo#{invalid}bar"
@@ -961,13 +1296,15 @@ class AmfControllerTest < ActionController::TestCase
     assert_response :success
     amf_parse_response
     result = amf_result("/1")
-
-    assert_equal 3, result.size, result.inspect
-    assert_equal 0, result[0]
     new_cs_id = result[2].to_i
 
+    assert_equal 3, result.size
+    assert_equal 0, result[0]
+    assert_equal "", result[1]
+
     cs = Changeset.find(new_cs_id)
-    assert_equal "foobar", cs.tags["comment"]
+    assert_equal true, cs.is_open?
+    assert_equal({ "comment" => "foobar" }, cs.tags)
   end
 
   private

@@ -142,7 +142,7 @@ class WayTest < ActiveSupport::TestCase
     assert_equal 3, nodes.count
     assert_equal 4, nodes[0].node_id
     assert_equal 15, nodes[1].node_id
-    assert_equal 6, nodes[2].node_id
+    assert_equal 11, nodes[2].node_id
   end
 
   def test_nodes
@@ -151,7 +151,7 @@ class WayTest < ActiveSupport::TestCase
     assert_equal 3, nodes.count
     assert_equal 4, nodes[0].id
     assert_equal 15, nodes[1].id
-    assert_equal 6, nodes[2].id
+    assert_equal 11, nodes[2].id
   end
 
   def test_nds
@@ -160,7 +160,7 @@ class WayTest < ActiveSupport::TestCase
     assert_equal 3, nodes.count
     assert_equal 4, nodes[0]
     assert_equal 15, nodes[1]
-    assert_equal 6, nodes[2]
+    assert_equal 11, nodes[2]
   end
 
   def test_way_tags

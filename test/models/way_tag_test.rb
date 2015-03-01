@@ -4,7 +4,7 @@ class WayTagTest < ActiveSupport::TestCase
   api_fixtures
 
   def test_way_tag_count
-    assert_equal 5, WayTag.count
+    assert_equal 6, WayTag.count
   end
 
   def test_length_key_valid
