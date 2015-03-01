@@ -71,6 +71,7 @@ class BrowseControllerTest < ActionController::TestCase
 
   def test_read_changeset
     browse_check "changeset", changesets(:normal_user_first_change).id, "browse/changeset"
+    browse_check "changeset", changesets(:public_user_first_change).id, "browse/changeset"
   end
 
   def test_read_note
@@ -149,6 +150,16 @@ class BrowseControllerTest < ActionController::TestCase
     assert_raise ActionController::UrlGenerationError do
       get type, :id => -10 # we won't have an id that's negative
     end
+
+    get type, :id => 0
+    assert_response :not_found
+    assert_template "browse/not_found"
+    assert_template :layout => "map"
+
+    xhr :get, type, :id => 0
+    assert_response :not_found
+    assert_template "browse/not_found"
+    assert_template :layout => "xhr"
 
     get type, :id => id
     assert_response :success

@@ -117,18 +117,25 @@ module ActiveSupport
       assert_equal a.tags, b.tags, "tags on node #{a.id}"
     end
 
+    ##
+    # set request headers for HTTP basic authentication
     def basic_authorization(user, pass)
       @request.env["HTTP_AUTHORIZATION"] = format("Basic %s", Base64.encode64("#{user}:#{pass}"))
     end
 
+    ##
+    # set request readers to ask for a particular error format
     def error_format(format)
       @request.env["HTTP_X_ERROR_FORMAT"] = format
     end
 
+    ##
+    # set the raw body to be sent with a POST request
     def content(c)
       @request.env["RAW_POST_DATA"] = c.to_s
     end
 
+    ##
     # Used to check that the error header and the forbidden responses are given
     # when the owner of the changset has their data not marked as public
     def assert_require_public_data(msg = "Shouldn't be able to use API when the user's data is not public")
@@ -136,14 +143,39 @@ module ActiveSupport
       assert_equal @response.headers["Error"], "You must make your edits public to upload new data", "Wrong error message"
     end
 
+    ##
     # Not sure this is the best response we could give
     def assert_inactive_user(msg = "an inactive user shouldn't be able to access the API")
       assert_response :unauthorized, msg
       # assert_equal @response.headers['Error'], ""
     end
 
+    ##
+    # Check for missing translations in an HTML response
     def assert_no_missing_translations(msg = "")
       assert_select "span[class=translation_missing]", false, "Missing translation #{msg}"
+    end
+
+    ##
+    # execute a block with a given set of HTTP responses stubbed
+    def with_http_stubs(stubs_file)
+      http_client_save = OSM.http_client
+
+      begin
+        stubs = YAML.load_file(File.expand_path("../http/#{stubs_file}.yml", __FILE__))
+
+        OSM.http_client = Faraday.new do |builder|
+          builder.adapter :test do |stub|
+            stubs.each do |url, body|
+              stub.get(url) { |_env| [200, {}, body] }
+            end
+          end
+        end
+
+        yield
+      ensure
+        OSM.http_client = http_client_save
+      end
     end
   end
 end

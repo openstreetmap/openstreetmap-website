@@ -728,8 +728,26 @@ class TraceControllerTest < ActionController::TestCase
     file.rewind
 
     # Now authenticated, with the legacy public flag
-    assert_not_equal "private", users(:public_user).preferences.where(:k => "gps.trace.visibility").first.v
+    assert_not_equal "public", users(:public_user).preferences.where(:k => "gps.trace.visibility").first.v
     basic_authorization(users(:public_user).display_name, "test")
+    post :api_create, :file => file, :description => "New Trace", :tags => "new,trace", :public => 1
+    assert_response :success
+    trace = Trace.find(response.body.to_i)
+    assert_equal "1.gpx", trace.name
+    assert_equal "New Trace", trace.description
+    assert_equal "new, trace", trace.tagstring
+    assert_equal "public", trace.visibility
+    assert_equal false, trace.inserted
+    assert_equal File.new(gpx_files(:public_trace_file).trace_name).read, File.new(trace.trace_name).read
+    trace.destroy
+    assert_equal "public", users(:public_user).preferences.where(:k => "gps.trace.visibility").first.v
+
+    # Rewind the file
+    file.rewind
+
+    # Now authenticated, with the legacy private flag
+    assert_nil users(:second_public_user).preferences.where(:k => "gps.trace.visibility").first
+    basic_authorization(users(:second_public_user).display_name, "test")
     post :api_create, :file => file, :description => "New Trace", :tags => "new,trace", :public => 0
     assert_response :success
     trace = Trace.find(response.body.to_i)
@@ -740,7 +758,7 @@ class TraceControllerTest < ActionController::TestCase
     assert_equal false, trace.inserted
     assert_equal File.new(gpx_files(:public_trace_file).trace_name).read, File.new(trace.trace_name).read
     trace.destroy
-    assert_equal "private", users(:public_user).preferences.where(:k => "gps.trace.visibility").first.v
+    assert_equal "private", users(:second_public_user).preferences.where(:k => "gps.trace.visibility").first.v
   end
 
   # Check updating a trace through the api

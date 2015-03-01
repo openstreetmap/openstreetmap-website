@@ -185,9 +185,9 @@ class GeocoderController < ApplicationController
     end
 
     render :action => "results"
-    #  rescue StandardError => ex
-    #    @error = "Error contacting nominatim.openstreetmap.org: #{ex.to_s}"
-    #    render :action => "error"
+  rescue StandardError => ex
+    @error = "Error contacting nominatim.openstreetmap.org: #{ex}"
+    render :action => "error"
   end
 
   def search_geonames
@@ -217,7 +217,7 @@ class GeocoderController < ApplicationController
 
     render :action => "results"
   rescue StandardError => ex
-    @error = "Error contacting ws.geonames.org: #{ex}"
+    @error = "Error contacting api.geonames.org: #{ex}"
     render :action => "error"
   end
 
@@ -279,7 +279,7 @@ class GeocoderController < ApplicationController
 
     render :action => "results"
   rescue StandardError => ex
-    @error = "Error contacting ws.geonames.org: #{ex}"
+    @error = "Error contacting api.geonames.org: #{ex}"
     render :action => "error"
   end
 
