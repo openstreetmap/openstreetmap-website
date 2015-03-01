@@ -3,7 +3,6 @@
 class GeocoderController < ApplicationController
   require "cgi"
   require "uri"
-  require "net/http"
   require "rexml/document"
 
   before_action :authorize_web
@@ -287,7 +286,7 @@ class GeocoderController < ApplicationController
   private
 
   def fetch_text(url)
-    Net::HTTP.get(URI.parse(url))
+    OSM.http_client.get(URI.parse(url)).body
   end
 
   def fetch_xml(url)

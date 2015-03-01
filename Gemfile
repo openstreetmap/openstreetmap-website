@@ -68,6 +68,9 @@ gem "htmlentities"
 # Load SystemTimer for implementing request timeouts
 gem "SystemTimer", ">= 1.1.3", :require => "system_timer", :platforms => :ruby_18
 
+# Load faraday for mockable HTTP client
+gem "faraday"
+
 # Load httpclient and soap4r for SOAP support for Quova GeoIP queries
 gem "httpclient"
 gem "soap4r-ruby1.9"

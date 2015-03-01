@@ -495,15 +495,13 @@ module OSM
 
   def self.ip_to_country(ip_address)
     Timer.timeout(4) do
-      ipinfo = Quova::IpInfo.new(ip_address)
+      ipinfo = Quova::IpInfo.new(ip_address) if defined?(QUOVA_USERNAME)
 
-      if ipinfo.status == Quova::SUCCESS
+      if ipinfo && ipinfo.status == Quova::SUCCESS
         country = ipinfo.country_code
       else
-        Net::HTTP.start("api.hostip.info") do |http|
-          country = http.get("/country.php?ip=#{ip_address}").body
-          country = "GB" if country == "UK"
-        end
+        country = http_client.get("http://api.hostip.info/country.php?ip=#{ip_address}").body
+        country = "GB" if country == "UK"
       end
 
       return country.upcase
@@ -552,9 +550,20 @@ module OSM
       "AND #{prefix}longitude BETWEEN #{bbox.min_lon} AND #{bbox.max_lon}"
   end
 
+  # Return the terms and conditions text for a given country
   def self.legal_text_for_country(country_code)
     file_name = File.join(Rails.root, "config", "legales", country_code.to_s + ".yml")
     file_name = File.join(Rails.root, "config", "legales", DEFAULT_LEGALE + ".yml") unless File.exist? file_name
     YAML.load_file(file_name)
+  end
+
+  # Return the HTTP client to use
+  def self.http_client
+    @http_client ||= Faraday.new
+  end
+
+  # Set the HTTP client to use
+  def self.http_client=(client)
+    @http_client = client
   end
 end
