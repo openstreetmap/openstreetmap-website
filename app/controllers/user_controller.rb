@@ -329,7 +329,7 @@ class UserController < ApplicationController
       Notifier.signup_confirm(user, user.tokens.create).deliver_now
       flash[:notice] = t "user.confirm_resend.success", :email => user.email
     else
-      flash[:notice] = t "user.confirm_resend.failure", :name => params[:display_name]
+      flash[:error] = t "user.confirm_resend.failure", :name => params[:display_name]
     end
 
     redirect_to :action => "login"
@@ -351,26 +351,32 @@ class UserController < ApplicationController
         token.destroy
         session[:user] = @user.id
         redirect_to :action => "account", :display_name => @user.display_name
-      else
+      elsif token
         flash[:error] = t "user.confirm_email.failure"
-        redirect_to :action => "account", :display_name => @user.display_name
+        redirect_to :action => "account", :display_name => token.user.display_name
+      else
+        flash[:error] = t "user.confirm_email.unknown_token"
       end
     end
   end
 
   def api_read
-    render :text => "", :status => :gone unless @this_user.visible?
+    if @this_user.visible?
+      render :action => :api_read, :content_type => "text/xml"
+    else
+      render :text => "", :status => :gone
+    end
   end
 
   def api_details
     @this_user = @user
-    render :action => :api_read
+    render :action => :api_read, :content_type => "text/xml"
   end
 
   def api_gpx_files
     doc = OSM::API.new.get_xml_doc
-    @user.traces.each do |trace|
-      doc.root << trace.to_xml_node if trace.public? || trace.user == @user
+    @user.traces.reload.each do |trace|
+      doc.root << trace.to_xml_node
     end
     render :text => doc.to_s, :content_type => "text/xml"
   end

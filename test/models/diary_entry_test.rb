@@ -5,7 +5,7 @@ class DiaryEntryTest < ActiveSupport::TestCase
   fixtures :diary_entries, :diary_comments, :languages
 
   def test_diary_entry_count
-    assert_equal 5, DiaryEntry.count
+    assert_equal 6, DiaryEntry.count
   end
 
   def test_diary_entry_validations
@@ -25,7 +25,7 @@ class DiaryEntryTest < ActiveSupport::TestCase
   end
 
   def test_diary_entry_visible
-    assert_equal 4, DiaryEntry.visible.count
+    assert_equal 5, DiaryEntry.visible.count
     assert_raise ActiveRecord::RecordNotFound do
       DiaryEntry.visible.find(diary_entries(:deleted_entry).id)
     end

@@ -116,9 +116,9 @@ class UserTest < ActiveSupport::TestCase
 
   def test_users_nearby
     # second user has their data public and is close by normal user
-    assert_equal [users(:public_user)], users(:normal_user).nearby
+    assert_equal [users(:public_user), users(:german_user)], users(:normal_user).nearby
     # second_user has normal user nearby, but normal user has their data private
-    assert_equal [], users(:public_user).nearby
+    assert_equal [users(:german_user)], users(:public_user).nearby
     # inactive_user has no user nearby
     assert_equal [], users(:inactive_user).nearby
     # north_pole_user has no user nearby, and doesn't throw exception
@@ -137,8 +137,8 @@ class UserTest < ActiveSupport::TestCase
     # friend.befriender = norm
     # friend.befriendee = sec
     # friend.save
-    assert_equal [sec], norm.nearby
-    assert_equal 1, norm.nearby.size
+    assert_equal [sec], norm.friend_users
+    assert_equal 1, norm.friend_users.size
     assert_equal 1, Friend.count
     assert norm.is_friends_with?(sec)
     assert !sec.is_friends_with?(norm)

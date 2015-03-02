@@ -206,12 +206,6 @@ class DiaryEntryController < ApplicationController
   end
 
   ##
-  # is this list user specific?
-  def user_specific_list?
-    params[:friends] || params[:nearby]
-  end
-
-  ##
   # decide on a location for the diary entry map
   def set_map_location
     if @diary_entry.latitude && @diary_entry.longitude
