@@ -293,35 +293,6 @@ class GeocoderController < ApplicationController
     REXML::Document.new(fetch_text(url))
   end
 
-  def format_distance(distance)
-    t("geocoder.distance", :count => distance)
-  end
-
-  def format_direction(bearing)
-    return t("geocoder.direction.south_west") if bearing >= 22.5 && bearing < 67.5
-    return t("geocoder.direction.south") if bearing >= 67.5 && bearing < 112.5
-    return t("geocoder.direction.south_east") if bearing >= 112.5 && bearing < 157.5
-    return t("geocoder.direction.east") if bearing >= 157.5 && bearing < 202.5
-    return t("geocoder.direction.north_east") if bearing >= 202.5 && bearing < 247.5
-    return t("geocoder.direction.north") if bearing >= 247.5 && bearing < 292.5
-    return t("geocoder.direction.north_west") if bearing >= 292.5 && bearing < 337.5
-    t("geocoder.direction.west")
-  end
-
-  def format_name(name)
-    name.gsub(/( *\[[^\]]*\])*$/, "")
-  end
-
-  def count_results(results)
-    count = 0
-
-    results.each do |source|
-      count += source[:results].length if source[:results]
-    end
-
-    count
-  end
-
   def escape_query(query)
     URI.escape(query, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]", false, "N"))
   end
