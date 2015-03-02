@@ -122,8 +122,8 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_create_success
-    assert_difference("Note.count") do
-      assert_difference("NoteComment.count") do
+    assert_difference "Note.count", 1 do
+      assert_difference "NoteComment.count", 1 do
         post :create, :lat => -1.0, :lon => -1.0, :text => "This is a comment", :format => "json"
       end
     end
@@ -156,57 +156,57 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_create_fail
-    assert_no_difference("Note.count") do
-      assert_no_difference("NoteComment.count") do
+    assert_no_difference "Note.count" do
+      assert_no_difference "NoteComment.count" do
         post :create, :lon => -1.0, :text => "This is a comment"
       end
     end
     assert_response :bad_request
 
-    assert_no_difference("Note.count") do
-      assert_no_difference("NoteComment.count") do
+    assert_no_difference "Note.count" do
+      assert_no_difference "NoteComment.count" do
         post :create, :lat => -1.0, :text => "This is a comment"
       end
     end
     assert_response :bad_request
 
-    assert_no_difference("Note.count") do
-      assert_no_difference("NoteComment.count") do
+    assert_no_difference "Note.count" do
+      assert_no_difference "NoteComment.count" do
         post :create, :lat => -1.0, :lon => -1.0
       end
     end
     assert_response :bad_request
 
-    assert_no_difference("Note.count") do
-      assert_no_difference("NoteComment.count") do
+    assert_no_difference "Note.count" do
+      assert_no_difference "NoteComment.count" do
         post :create, :lat => -1.0, :lon => -1.0, :text => ""
       end
     end
     assert_response :bad_request
 
-    assert_no_difference("Note.count") do
-      assert_no_difference("NoteComment.count") do
+    assert_no_difference "Note.count" do
+      assert_no_difference "NoteComment.count" do
         post :create, :lat => -100.0, :lon => -1.0, :text => "This is a comment"
       end
     end
     assert_response :bad_request
 
-    assert_no_difference("Note.count") do
-      assert_no_difference("NoteComment.count") do
+    assert_no_difference "Note.count" do
+      assert_no_difference "NoteComment.count" do
         post :create, :lat => -1.0, :lon => -200.0, :text => "This is a comment"
       end
     end
     assert_response :bad_request
 
-    assert_no_difference("Note.count") do
-      assert_no_difference("NoteComment.count") do
+    assert_no_difference "Note.count" do
+      assert_no_difference "NoteComment.count" do
         post :create, :lat => "abc", :lon => -1.0, :text => "This is a comment"
       end
     end
     assert_response :bad_request
 
-    assert_no_difference("Note.count") do
-      assert_no_difference("NoteComment.count") do
+    assert_no_difference "Note.count" do
+      assert_no_difference "NoteComment.count" do
         post :create, :lat => -1.0, :lon => "abc", :text => "This is a comment"
       end
     end
@@ -214,8 +214,10 @@ class NotesControllerTest < ActionController::TestCase
   end
 
   def test_comment_success
-    assert_difference("NoteComment.count") do
-      post :comment, :id => notes(:open_note_with_comment).id, :text => "This is an additional comment", :format => "json"
+    assert_difference "NoteComment.count", 1 do
+      assert_no_difference "ActionMailer::Base.deliveries.size" do
+        post :comment, :id => notes(:open_note_with_comment).id, :text => "This is an additional comment", :format => "json"
+      end
     end
     assert_response :success
     js = ActiveSupport::JSON.decode(@response.body)
@@ -239,35 +241,75 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
     assert_nil js["properties"]["comments"].last["user"]
+
+    assert_difference "NoteComment.count", 1 do
+      assert_difference "ActionMailer::Base.deliveries.size", 2 do
+        post :comment, :id => notes(:note_with_comments_by_users).id, :text => "This is an additional comment", :format => "json"
+      end
+    end
+    assert_response :success
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "Feature", js["type"]
+    assert_equal notes(:note_with_comments_by_users).id, js["properties"]["id"]
+    assert_equal "open", js["properties"]["status"]
+    assert_equal 3, js["properties"]["comments"].count
+    assert_equal "commented", js["properties"]["comments"].last["action"]
+    assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
+    assert_nil js["properties"]["comments"].last["user"]
+
+    email = ActionMailer::Base.deliveries.first
+    assert_equal 1, email.to.length
+    assert_equal "[OpenStreetMap] An anonymous user has commented on one of your notes", email.subject
+    assert_equal "test@openstreetmap.org", email.to.first
+
+    email = ActionMailer::Base.deliveries.second
+    assert_equal 1, email.to.length
+    assert_equal "[OpenStreetMap] An anonymous user has commented on a note you are interested in", email.subject
+    assert_equal "public@OpenStreetMap.org", email.to.first
+
+    get :show, :id => notes(:note_with_comments_by_users).id, :format => "json"
+    assert_response :success
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "Feature", js["type"]
+    assert_equal notes(:note_with_comments_by_users).id, js["properties"]["id"]
+    assert_equal "open", js["properties"]["status"]
+    assert_equal 3, js["properties"]["comments"].count
+    assert_equal "commented", js["properties"]["comments"].last["action"]
+    assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
+    assert_nil js["properties"]["comments"].last["user"]
+
+    ActionMailer::Base.deliveries.clear
   end
 
   def test_comment_fail
-    assert_no_difference("NoteComment.count") do
+    assert_no_difference "NoteComment.count" do
       post :comment, :text => "This is an additional comment"
     end
     assert_response :bad_request
 
-    assert_no_difference("NoteComment.count") do
+    assert_no_difference "NoteComment.count" do
       post :comment, :id => notes(:open_note_with_comment).id
     end
     assert_response :bad_request
 
-    assert_no_difference("NoteComment.count") do
+    assert_no_difference "NoteComment.count" do
       post :comment, :id => notes(:open_note_with_comment).id, :text => ""
     end
     assert_response :bad_request
 
-    assert_no_difference("NoteComment.count") do
+    assert_no_difference "NoteComment.count" do
       post :comment, :id => 12345, :text => "This is an additional comment"
     end
     assert_response :not_found
 
-    assert_no_difference("NoteComment.count") do
+    assert_no_difference "NoteComment.count" do
       post :comment, :id => notes(:hidden_note_with_comment).id, :text => "This is an additional comment"
     end
     assert_response :gone
 
-    assert_no_difference("NoteComment.count") do
+    assert_no_difference "NoteComment.count" do
       post :comment, :id => notes(:closed_note_with_comment).id, :text => "This is an additional comment"
     end
     assert_response :conflict

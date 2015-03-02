@@ -529,7 +529,7 @@ EOF
       content "<osm><changeset>" +
         "<tag k='created_by' v='osm test suite checking changesets'/>" +
         "</changeset></osm>"
-      assert_difference("Changeset.count", 1) do
+      assert_difference "Changeset.count", 1 do
         put :create
       end
       assert_response :success
@@ -1884,10 +1884,35 @@ EOF
   def test_create_comment_success
     basic_authorization(users(:public_user).email, "test")
 
-    assert_difference("ChangesetComment.count") do
-      post :comment, :id => changesets(:normal_user_closed_change).id, :text => "This is a comment"
+    assert_difference "ChangesetComment.count", 1 do
+      assert_no_difference "ActionMailer::Base.deliveries.size" do
+        post :comment, :id => changesets(:normal_user_closed_change).id, :text => "This is a comment"
+      end
     end
     assert_response :success
+
+    assert_difference "ChangesetComment.count", 1 do
+      assert_no_difference "ActionMailer::Base.deliveries.size" do
+        post :comment, :id => changesets(:normal_user_subscribed_change).id, :text => "This is a comment"
+      end
+    end
+    assert_response :success
+
+    basic_authorization(users(:second_public_user).email, "test")
+
+    assert_difference "ChangesetComment.count", 1 do
+      assert_difference "ActionMailer::Base.deliveries.size", 1 do
+        post :comment, :id => changesets(:normal_user_subscribed_change).id, :text => "This is a comment"
+      end
+    end
+    assert_response :success
+
+    email = ActionMailer::Base.deliveries.first
+    assert_equal 1, email.to.length
+    assert_equal "[OpenStreetMap] pulibc_test2 has commented on a changeset you are interested in", email.subject
+    assert_equal "test@example.com", email.to.first
+
+    ActionMailer::Base.deliveries.clear
   end
 
   ##
@@ -1900,25 +1925,25 @@ EOF
     basic_authorization(users(:public_user).email, "test")
 
     # bad changeset id
-    assert_no_difference("ChangesetComment.count") do
+    assert_no_difference "ChangesetComment.count" do
       post :comment, :id => 999111, :text => "This is a comment"
     end
     assert_response :not_found
 
     # not closed changeset
-    assert_no_difference("ChangesetComment.count") do
+    assert_no_difference "ChangesetComment.count" do
       post :comment, :id => changesets(:normal_user_first_change).id, :text => "This is a comment"
     end
     assert_response :conflict
 
     # no text
-    assert_no_difference("ChangesetComment.count") do
+    assert_no_difference "ChangesetComment.count" do
       post :comment, :id => changesets(:normal_user_closed_change).id
     end
     assert_response :bad_request
 
     # empty text
-    assert_no_difference("ChangesetComment.count") do
+    assert_no_difference "ChangesetComment.count" do
       post :comment, :id => changesets(:normal_user_closed_change).id, :text => ""
     end
     assert_response :bad_request
@@ -1930,7 +1955,7 @@ EOF
     basic_authorization(users(:public_user).email, "test")
     changeset = changesets(:normal_user_closed_change)
 
-    assert_difference("changeset.subscribers.count") do
+    assert_difference "changeset.subscribers.count", 1 do
       post :subscribe, :id => changeset.id
     end
     assert_response :success
@@ -1941,7 +1966,7 @@ EOF
   def test_subscribe_fail
     # unauthorized
     changeset = changesets(:normal_user_closed_change)
-    assert_no_difference("changeset.subscribers.count") do
+    assert_no_difference "changeset.subscribers.count" do
       post :subscribe, :id => changeset.id
     end
     assert_response :unauthorized
@@ -1949,21 +1974,21 @@ EOF
     basic_authorization(users(:public_user).email, "test")
 
     # bad changeset id
-    assert_no_difference("changeset.subscribers.count") do
+    assert_no_difference "changeset.subscribers.count" do
       post :subscribe, :id => 999111
     end
     assert_response :not_found
 
     # not closed changeset
     changeset = changesets(:normal_user_first_change)
-    assert_no_difference("changeset.subscribers.count") do
+    assert_no_difference "changeset.subscribers.count" do
       post :subscribe, :id => changeset.id
     end
     assert_response :conflict
 
     # trying to subscribe when already subscribed
     changeset = changesets(:normal_user_subscribed_change)
-    assert_no_difference("changeset.subscribers.count") do
+    assert_no_difference "changeset.subscribers.count" do
       post :subscribe, :id => changeset.id
     end
     assert_response :conflict
@@ -1975,7 +2000,7 @@ EOF
     basic_authorization(users(:public_user).email, "test")
     changeset = changesets(:normal_user_subscribed_change)
 
-    assert_difference("changeset.subscribers.count", -1) do
+    assert_difference "changeset.subscribers.count", -1 do
       post :unsubscribe, :id => changeset.id
     end
     assert_response :success
@@ -1986,7 +2011,7 @@ EOF
   def test_unsubscribe_fail
     # unauthorized
     changeset = changesets(:normal_user_closed_change)
-    assert_no_difference("changeset.subscribers.count") do
+    assert_no_difference "changeset.subscribers.count" do
       post :unsubscribe, :id => changeset.id
     end
     assert_response :unauthorized
@@ -1994,21 +2019,21 @@ EOF
     basic_authorization(users(:public_user).email, "test")
 
     # bad changeset id
-    assert_no_difference("changeset.subscribers.count", -1) do
+    assert_no_difference "changeset.subscribers.count" do
       post :unsubscribe, :id => 999111
     end
     assert_response :not_found
 
     # not closed changeset
     changeset = changesets(:normal_user_first_change)
-    assert_no_difference("changeset.subscribers.count", -1) do
+    assert_no_difference "changeset.subscribers.count" do
       post :unsubscribe, :id => changeset.id
     end
     assert_response :conflict
 
     # trying to unsubscribe when not subscribed
     changeset = changesets(:normal_user_closed_change)
-    assert_no_difference("changeset.subscribers.count") do
+    assert_no_difference "changeset.subscribers.count" do
       post :unsubscribe, :id => changeset.id
     end
     assert_response :not_found

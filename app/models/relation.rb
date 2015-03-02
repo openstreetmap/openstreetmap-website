@@ -86,13 +86,10 @@ class Relation < ActiveRecord::Base
 
     pt.find("member").each do |member|
       # member_type =
-      logger.debug "each member"
       fail OSM::APIBadXMLError.new("relation", pt, "The #{member['type']} is not allowed only, #{TYPES.inspect} allowed") unless TYPES.include? member["type"]
-      logger.debug "after raise"
       # member_ref = member['ref']
       # member_role
       member["role"] ||= "" # Allow  the upload to not include this, in which case we default to an empty string.
-      logger.debug member["role"]
       relation.add_member(member["type"].classify, member["ref"], member["role"])
     end
     fail OSM::APIBadUserInput.new("Some bad xml in relation") if relation.nil?
