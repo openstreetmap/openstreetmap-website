@@ -1,6 +1,8 @@
 require "test_helper"
 
 class SearchControllerTest < ActionController::TestCase
+  api_fixtures
+
   ##
   # test all routes which lead to this controller
   def test_routes
