@@ -72,7 +72,11 @@ class ApiControllerTest < ActionController::TestCase
         # This should really be more generic
         assert_select "tag[k='test'][v='yes']"
       end
-      # Should also test for the ways and relation
+      assert_select "way", :count => 2
+      assert_select "way[id='1']", :count => 1
+      assert_select "way[id='3']", :count => 1
+      assert_select "relation", :count => 1
+      assert_select "relation[id='1']", :count => 1
     end
   end
 
@@ -89,7 +93,41 @@ class ApiControllerTest < ActionController::TestCase
         # This should really be more generic
         assert_select "tag[k='test'][v='yes']"
       end
-      # Should also test for the ways and relation
+      assert_select "way", :count => 2
+      assert_select "way[id='1']", :count => 1
+      assert_select "way[id='3']", :count => 1
+      assert_select "relation", :count => 1
+      assert_select "relation[id='1']", :count => 1
+    end
+  end
+
+  def test_map_complete_way
+    node = current_nodes(:used_node_2)
+    bbox = "#{node.lon},#{node.lat},#{node.lon},#{node.lat}"
+    get :map, :bbox => bbox
+    assert_response :success, "The map call should have succeeded"
+    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
+      assert_select "bounds[minlon='#{node.lon}'][minlat='#{node.lat}'][maxlon='#{node.lon}'][maxlat='#{node.lat}']", :count => 1
+      assert_select "node", :count => 3
+      assert_select "node[id='4']", :count => 1
+      assert_select "node[id='11']", :count => 1
+      assert_select "node[id='15']", :count => 1
+      assert_select "way", :count => 2
+      assert_select "way[id='5']", :count => 1
+      assert_select "way[id='7']", :count => 1
+      assert_select "relation", :count => 1
+      assert_select "relation[id='8']", :count => 1
+    end
+  end
+
+  def test_map_empty
+    get :map, :bbox => "179.998,89.998,179.999.1,89.999"
+    assert_response :success, "The map call should have succeeded"
+    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
+      assert_select "bounds[minlon='179.998'][minlat='89.998'][maxlon='179.999'][maxlat='89.999']", :count => 1
+      assert_select "node", :count => 0
+      assert_select "way", :count => 0
+      assert_select "relation", :count => 0
     end
   end
 
@@ -240,7 +278,24 @@ class ApiControllerTest < ActionController::TestCase
     now = Time.now.getutc
     hourago = now - 1.hour
     assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
-      assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1
+      assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1 do
+        assert_select "tile", :count => 0
+      end
+    end
+    Timecop.return
+
+    Timecop.freeze(Time.parse("2007-01-01 00:30:00"))
+    get :changes
+    assert_response :success
+    # print @response.body
+    # As we have loaded the fixtures, we can assume that there are some
+    # changes at the time we have frozen at
+    now = Time.now.getutc
+    hourago = now - 1.hour
+    assert_select "osm[version='#{API_VERSION}'][generator='#{GENERATOR}']", :count => 1 do
+      assert_select "changes[starttime='#{hourago.xmlschema}'][endtime='#{now.xmlschema}']", :count => 1 do
+        assert_select "tile", :count => 10
+      end
     end
     Timecop.return
   end
@@ -266,7 +321,7 @@ class ApiControllerTest < ActionController::TestCase
     end
   end
 
-  def test_hours_invalid
+  def test_changes_hours_invalid
     invalid = %w(-21 335 -1 0 25 26 100 one two three ping pong :)
     invalid.each do |hour|
       get :changes, :hours => hour
@@ -275,11 +330,22 @@ class ApiControllerTest < ActionController::TestCase
     end
   end
 
-  def test_hours_valid
+  def test_changes_hours_valid
     1.upto(24) do |hour|
       get :changes, :hours => hour
       assert_response :success
     end
+  end
+
+  def test_changes_start_end_invalid
+    get :changes, :start => "2010-04-03 10:55:00", :end => "2010-04-03 09:55:00"
+    assert_response :bad_request
+    assert_equal @response.body, "Requested zoom is invalid, or the supplied start is after the end time, or the start duration is more than 24 hours"
+  end
+
+  def test_changes_start_end_valid
+    get :changes, :start => "2010-04-03 09:55:00", :end => "2010-04-03 10:55:00"
+    assert_response :success
   end
 
   def test_capabilities

@@ -125,15 +125,11 @@ class ApiController < ApplicationController
       return
     end
 
-    @nodes = Node.bbox(bbox).where(:visible => true).includes(:node_tags).limit(MAX_NUMBER_OF_NODES + 1)
+    nodes = Node.bbox(bbox).where(:visible => true).includes(:node_tags).limit(MAX_NUMBER_OF_NODES + 1)
 
-    node_ids = @nodes.collect(&:id)
+    node_ids = nodes.collect(&:id)
     if node_ids.length > MAX_NUMBER_OF_NODES
       report_error("You requested too many nodes (limit is #{MAX_NUMBER_OF_NODES}). Either request a smaller area, or use planet.osm")
-      return
-    end
-    if node_ids.length == 0
-      render :text => "<osm version='#{API_VERSION}' generator='#{GENERATOR}'></osm>", :content_type => "text/xml"
       return
     end
 
@@ -163,14 +159,14 @@ class ApiController < ApplicationController
     nodes_to_fetch = (list_of_way_nodes.uniq - node_ids) - [0]
 
     if nodes_to_fetch.length > 0
-      @nodes += Node.includes(:node_tags).find(nodes_to_fetch)
+      nodes += Node.includes(:node_tags).find(nodes_to_fetch)
     end
 
     visible_nodes = {}
     changeset_cache = {}
     user_display_name_cache = {}
 
-    @nodes.each do |node|
+    nodes.each do |node|
       if node.visible?
         doc.root << node.to_xml_node(changeset_cache, user_display_name_cache)
         visible_nodes[node.id] = node

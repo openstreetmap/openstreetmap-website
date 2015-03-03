@@ -14,6 +14,9 @@ class Redaction < ActiveRecord::Base
   has_many :old_ways
   has_many :old_relations
 
+  validates :description, :presence => true
+  validates :description_format, :inclusion => { :in => %w(text html markdown) }
+
   # this method overrides the AR default to provide the rich
   # text object for the description field.
   def description
