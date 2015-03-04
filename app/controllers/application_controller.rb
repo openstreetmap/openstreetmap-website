@@ -390,12 +390,6 @@ class ApplicationController < ActionController::Base
   end
 
   ##
-  # is the requestor logged in?
-  def logged_in?
-    !@user.nil?
-  end
-
-  ##
   # ensure that there is a "this_user" instance variable
   def lookup_this_user
     unless @this_user = User.active.find_by_display_name(params[:display_name])

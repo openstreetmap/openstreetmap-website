@@ -7,11 +7,17 @@ class TraceTest < ActiveSupport::TestCase
   def setup
     @gpx_trace_dir = Object.send("remove_const", "GPX_TRACE_DIR")
     Object.const_set("GPX_TRACE_DIR", File.dirname(__FILE__) + "/../traces")
+
+    @gpx_image_dir = Object.send("remove_const", "GPX_IMAGE_DIR")
+    Object.const_set("GPX_IMAGE_DIR", File.dirname(__FILE__) + "/../traces")
   end
 
   def teardown
     Object.send("remove_const", "GPX_TRACE_DIR")
     Object.const_set("GPX_TRACE_DIR", @gpx_trace_dir)
+
+    Object.send("remove_const", "GPX_IMAGE_DIR")
+    Object.const_set("GPX_IMAGE_DIR", @gpx_image_dir)
   end
 
   def test_trace_count
@@ -140,6 +146,28 @@ class TraceTest < ActiveSupport::TestCase
     assert_equal "848caa72f2f456d1bd6a0fdf228aa1b9", md5sum(gpx_files(:tar_trace_file).xml_file)
     assert_equal "848caa72f2f456d1bd6a0fdf228aa1b9", md5sum(gpx_files(:tar_gzip_trace_file).xml_file)
     assert_equal "848caa72f2f456d1bd6a0fdf228aa1b9", md5sum(gpx_files(:tar_bzip_trace_file).xml_file)
+  end
+
+  def test_large_picture
+    picture = gpx_files(:public_trace_file).large_picture
+    trace = Trace.create
+
+    trace.large_picture = picture
+    assert_equal "7c841749e084ee4a5d13f12cd3bef456", md5sum(File.new(trace.large_picture_name))
+    assert_equal picture, trace.large_picture
+
+    trace.destroy
+  end
+
+  def test_icon_picture
+    picture = gpx_files(:public_trace_file).icon_picture
+    trace = Trace.create
+
+    trace.icon_picture = picture
+    assert_equal "b47baf22ed0e85d77e808694fad0ee27", md5sum(File.new(trace.icon_picture_name))
+    assert_equal picture, trace.icon_picture
+
+    trace.destroy
   end
 
   private

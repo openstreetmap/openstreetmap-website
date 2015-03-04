@@ -199,6 +199,28 @@ class SiteControllerTest < ActionController::TestCase
     assert_template "index"
   end
 
+  # Test the right editor gets used when the URL has an override
+  def test_edit_with_override
+    get :edit, { :editor => "id" }, { :user => users(:public_user).id }
+    assert_response :success
+    assert_template "edit"
+    assert_template :partial => "_id", :count => 1
+
+    get :edit, { :editor => "potlatch2" }, { :user => users(:public_user).id }
+    assert_response :success
+    assert_template "edit"
+    assert_template :partial => "_potlatch2", :count => 1
+
+    get :edit, { :editor => "potlatch" }, { :user => users(:public_user).id }
+    assert_response :success
+    assert_template "edit"
+    assert_template :partial => "_potlatch", :count => 1
+
+    get :edit, { :editor => "remote" }, { :user => users(:public_user).id }
+    assert_response :success
+    assert_template "index"
+  end
+
   # Test editing a specific node
   def test_edit_with_node
     user = users(:public_user)

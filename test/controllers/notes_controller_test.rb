@@ -281,6 +281,48 @@ class NotesControllerTest < ActionController::TestCase
     assert_nil js["properties"]["comments"].last["user"]
 
     ActionMailer::Base.deliveries.clear
+
+    basic_authorization(users(:public_user).email, "test")
+
+    assert_difference "NoteComment.count", 1 do
+      assert_difference "ActionMailer::Base.deliveries.size", 2 do
+        post :comment, :id => notes(:note_with_comments_by_users).id, :text => "This is an additional comment", :format => "json"
+      end
+    end
+    assert_response :success
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "Feature", js["type"]
+    assert_equal notes(:note_with_comments_by_users).id, js["properties"]["id"]
+    assert_equal "open", js["properties"]["status"]
+    assert_equal 4, js["properties"]["comments"].count
+    assert_equal "commented", js["properties"]["comments"].last["action"]
+    assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
+    assert_equal "test2", js["properties"]["comments"].last["user"]
+
+    email = ActionMailer::Base.deliveries.first
+    assert_equal 1, email.to.length
+    assert_equal "[OpenStreetMap] test2 has commented on one of your notes", email.subject
+    assert_equal "test@openstreetmap.org", email.to.first
+
+    email = ActionMailer::Base.deliveries.second
+    assert_equal 1, email.to.length
+    assert_equal "[OpenStreetMap] test2 has commented on a note you are interested in", email.subject
+    assert_equal "public@OpenStreetMap.org", email.to.first
+
+    get :show, :id => notes(:note_with_comments_by_users).id, :format => "json"
+    assert_response :success
+    js = ActiveSupport::JSON.decode(@response.body)
+    assert_not_nil js
+    assert_equal "Feature", js["type"]
+    assert_equal notes(:note_with_comments_by_users).id, js["properties"]["id"]
+    assert_equal "open", js["properties"]["status"]
+    assert_equal 4, js["properties"]["comments"].count
+    assert_equal "commented", js["properties"]["comments"].last["action"]
+    assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
+    assert_equal "test2", js["properties"]["comments"].last["user"]
+
+    ActionMailer::Base.deliveries.clear
   end
 
   def test_comment_fail

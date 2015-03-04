@@ -64,6 +64,8 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       # back to the terms page.
       get "/traces/mine"
       assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/traces/mine"
+      get "/traces/mine", :referer => "/test"
+      assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/test"
     end
   end
 

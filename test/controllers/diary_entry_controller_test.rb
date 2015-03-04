@@ -147,6 +147,32 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal new_language_code, entry.language_code
   end
 
+  def test_new_spammy
+    # Generate some spammy content
+    spammy_title = "Spam Spam Spam Spam Spam"
+    spammy_body = 1.upto(50).map { |n| "http://example.com/spam#{n}" }.join(" ")
+
+    # Try creating a spammy diary entry
+    assert_difference "DiaryEntry.count", 1 do
+      post :new, { :commit => "save",
+                   :diary_entry => { :title => spammy_title, :body => spammy_body, :language_code => "en" } },
+           { :user => users(:normal_user).id }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :list, :display_name => users(:normal_user).display_name
+    entry = DiaryEntry.order(:id).last
+    assert_equal users(:normal_user).id, entry.user_id
+    assert_equal spammy_title, entry.title
+    assert_equal spammy_body, entry.body
+    assert_equal "en", entry.language_code
+    assert_equal "suspended", User.find(users(:normal_user).id).status
+
+    # Follow the redirect
+    get :list, { :display_name => users(:normal_user).display_name }, { :user => users(:normal_user).id }
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :suspended
+  end
+
   def test_edit
     entry = diary_entries(:normal_user_entry_1)
 
@@ -287,7 +313,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_match /New comment/, email.text_part.decoded
     assert_match /New comment/, email.html_part.decoded
     ActionMailer::Base.deliveries.clear
-    comment = DiaryComment.find(5)
+    comment = DiaryComment.order(:id).last
     assert_equal entry.id, comment.diary_entry_id
     assert_equal users(:public_user).id, comment.user_id
     assert_equal "New comment", comment.body
@@ -296,11 +322,49 @@ class DiaryEntryControllerTest < ActionController::TestCase
     get :view, :display_name => entry.user.display_name, :id => entry.id
     assert_response :success
     assert_select ".diary-comment", :count => 1 do
-      assert_select "#comment5", :count => 1 do
+      assert_select "#comment#{comment.id}", :count => 1 do
         assert_select "a[href='/user/#{users(:public_user).display_name}']", :text => users(:public_user).display_name, :count => 1
       end
       assert_select ".richtext", :text => /New comment/, :count => 1
     end
+  end
+
+  def test_comment_spammy
+    # Find the entry to comment on
+    entry = diary_entries(:normal_user_entry_1)
+
+    # Generate some spammy content
+    spammy_text = 1.upto(50).map { |n| "http://example.com/spam#{n}" }.join(" ")
+
+    # Try creating a spammy comment
+    assert_difference "ActionMailer::Base.deliveries.size", 1 do
+      assert_difference "DiaryComment.count", 1 do
+        post :comment, { :display_name => entry.user.display_name, :id => entry.id, :diary_comment => { :body => spammy_text } }, { :user => users(:public_user).id }
+      end
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :view, :display_name => entry.user.display_name, :id => entry.id
+    email = ActionMailer::Base.deliveries.first
+    assert_equal [users(:normal_user).email], email.to
+    assert_equal "[OpenStreetMap] #{users(:public_user).display_name} commented on your diary entry", email.subject
+    assert_match %r{http://example.com/spam}, email.text_part.decoded
+    assert_match %r{http://example.com/spam}, email.html_part.decoded
+    ActionMailer::Base.deliveries.clear
+    comment = DiaryComment.order(:id).last
+    assert_equal entry.id, comment.diary_entry_id
+    assert_equal users(:public_user).id, comment.user_id
+    assert_equal spammy_text, comment.body
+    assert_equal "suspended", User.find(users(:public_user).id).status
+
+    # Follow the redirect
+    get :list, { :display_name => users(:normal_user).display_name }, { :user => users(:public_user).id }
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :suspended
+
+    # Now view the diary entry, and check the new comment is not present
+    get :view, :display_name => entry.user.display_name, :id => entry.id
+    assert_response :success
+    assert_select ".diary-comment", :count => 0
   end
 
   def test_list_all

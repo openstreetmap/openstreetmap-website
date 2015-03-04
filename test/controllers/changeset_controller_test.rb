@@ -1892,15 +1892,6 @@ EOF
     assert_response :success
 
     assert_difference "ChangesetComment.count", 1 do
-      assert_no_difference "ActionMailer::Base.deliveries.size" do
-        post :comment, :id => changesets(:normal_user_subscribed_change).id, :text => "This is a comment"
-      end
-    end
-    assert_response :success
-
-    basic_authorization(users(:second_public_user).email, "test")
-
-    assert_difference "ChangesetComment.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
         post :comment, :id => changesets(:normal_user_subscribed_change).id, :text => "This is a comment"
       end
@@ -1908,6 +1899,27 @@ EOF
     assert_response :success
 
     email = ActionMailer::Base.deliveries.first
+    assert_equal 1, email.to.length
+    assert_equal "[OpenStreetMap] test2 has commented on one of your changesets", email.subject
+    assert_equal "test@openstreetmap.org", email.to.first
+
+    ActionMailer::Base.deliveries.clear
+
+    basic_authorization(users(:second_public_user).email, "test")
+
+    assert_difference "ChangesetComment.count", 1 do
+      assert_difference "ActionMailer::Base.deliveries.size", 2 do
+        post :comment, :id => changesets(:normal_user_subscribed_change).id, :text => "This is a comment"
+      end
+    end
+    assert_response :success
+
+    email = ActionMailer::Base.deliveries.first
+    assert_equal 1, email.to.length
+    assert_equal "[OpenStreetMap] pulibc_test2 has commented on one of your changesets", email.subject
+    assert_equal "test@openstreetmap.org", email.to.first
+
+    email = ActionMailer::Base.deliveries.second
     assert_equal 1, email.to.length
     assert_equal "[OpenStreetMap] pulibc_test2 has commented on a changeset you are interested in", email.subject
     assert_equal "test@example.com", email.to.first
