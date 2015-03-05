@@ -258,15 +258,15 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
     assert_nil js["properties"]["comments"].last["user"]
 
-    email = ActionMailer::Base.deliveries.first
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "test@openstreetmap.org" }
+    assert_not_nil email
     assert_equal 1, email.to.length
     assert_equal "[OpenStreetMap] An anonymous user has commented on one of your notes", email.subject
-    assert_equal "test@openstreetmap.org", email.to.first
 
-    email = ActionMailer::Base.deliveries.second
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "public@OpenStreetMap.org" }
+    assert_not_nil email
     assert_equal 1, email.to.length
     assert_equal "[OpenStreetMap] An anonymous user has commented on a note you are interested in", email.subject
-    assert_equal "public@OpenStreetMap.org", email.to.first
 
     get :show, :id => notes(:note_with_comments_by_users).id, :format => "json"
     assert_response :success
@@ -300,15 +300,16 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
     assert_equal "test2", js["properties"]["comments"].last["user"]
 
-    email = ActionMailer::Base.deliveries.first
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "test@openstreetmap.org" }
+    assert_not_nil email
     assert_equal 1, email.to.length
     assert_equal "[OpenStreetMap] test2 has commented on one of your notes", email.subject
     assert_equal "test@openstreetmap.org", email.to.first
 
-    email = ActionMailer::Base.deliveries.second
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "public@OpenStreetMap.org" }
+    assert_not_nil email
     assert_equal 1, email.to.length
     assert_equal "[OpenStreetMap] test2 has commented on a note you are interested in", email.subject
-    assert_equal "public@OpenStreetMap.org", email.to.first
 
     get :show, :id => notes(:note_with_comments_by_users).id, :format => "json"
     assert_response :success

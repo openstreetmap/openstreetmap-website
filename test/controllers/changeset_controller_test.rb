@@ -1914,15 +1914,15 @@ EOF
     end
     assert_response :success
 
-    email = ActionMailer::Base.deliveries.first
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "test@openstreetmap.org" }
+    assert_not_nil email
     assert_equal 1, email.to.length
     assert_equal "[OpenStreetMap] pulibc_test2 has commented on one of your changesets", email.subject
-    assert_equal "test@openstreetmap.org", email.to.first
 
-    email = ActionMailer::Base.deliveries.second
+    email = ActionMailer::Base.deliveries.find { |e| e.to.first == "test@example.com" }
+    assert_not_nil email
     assert_equal 1, email.to.length
     assert_equal "[OpenStreetMap] pulibc_test2 has commented on a changeset you are interested in", email.subject
-    assert_equal "test@example.com", email.to.first
 
     ActionMailer::Base.deliveries.clear
   end
