@@ -355,24 +355,4 @@ $(document).ready(function () {
     if (OSM.router.route(this.pathname + this.search + this.hash))
       e.preventDefault();
   });
-
-  $(".search_form").on("submit", function(e) {
-    e.preventDefault();
-    $("header").addClass("closed");
-    var query = $(this).find("input[name=query]").val();
-    if (query) {
-      OSM.router.route("/search?query=" + encodeURIComponent(query) + OSM.formatHash(map));
-    } else {
-      OSM.router.route("/");
-    }
-  });
-
-  $(".describe_location").on("click", function(e) {
-    e.preventDefault();
-    var center = map.getCenter().wrap(),
-      precision = OSM.zoomPrecision(map.getZoom());
-    OSM.router.route("/search?query=" + encodeURIComponent(
-      center.lat.toFixed(precision) + "," + center.lng.toFixed(precision)
-    ));
-  });
 });
