@@ -300,17 +300,6 @@ class NotesController < ApplicationController
   #------------------------------------------------------------
 
   ##
-  # Render an OK response
-  def render_ok
-    if params[:format] == "js"
-      render :text => "osbResponse();", :content_type => "text/javascript"
-    else
-      render :text => "ok " + @note.id.to_s + "\n", :content_type => "text/plain" if @note
-      render :text => "ok\n", :content_type => "text/plain" unless @note
-    end
-  end
-
-  ##
   # Get the maximum number of results to return
   def result_limit
     if params[:limit]

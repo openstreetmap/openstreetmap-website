@@ -129,6 +129,8 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :edit
 
+    assert_nil UserPreference.where(:user_id => users(:normal_user).id, :k => "diary.default_language").first
+
     # Now try creating a diary entry
     assert_difference "DiaryEntry.count", 1 do
       post :new, { :commit => "save",
@@ -145,6 +147,29 @@ class DiaryEntryControllerTest < ActionController::TestCase
     assert_equal new_latitude.to_f, entry.latitude
     assert_equal new_longitude.to_f, entry.longitude
     assert_equal new_language_code, entry.language_code
+
+    assert_equal new_language_code, UserPreference.where(:user_id => users(:normal_user).id, :k => "diary.default_language").first.v
+
+    new_language_code = "de"
+
+    # Now try creating a diary entry in a different language
+    assert_difference "DiaryEntry.count", 1 do
+      post :new, { :commit => "save",
+                   :diary_entry => { :title => new_title, :body => new_body, :latitude => new_latitude,
+                                     :longitude => new_longitude, :language_code => new_language_code } },
+           { :user => users(:normal_user).id }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :list, :display_name => users(:normal_user).display_name
+    entry = DiaryEntry.order(:id).last
+    assert_equal users(:normal_user).id, entry.user_id
+    assert_equal new_title, entry.title
+    assert_equal new_body, entry.body
+    assert_equal new_latitude.to_f, entry.latitude
+    assert_equal new_longitude.to_f, entry.longitude
+    assert_equal new_language_code, entry.language_code
+
+    assert_equal new_language_code, UserPreference.where(:user_id => users(:normal_user).id, :k => "diary.default_language").first.v
   end
 
   def test_new_spammy
