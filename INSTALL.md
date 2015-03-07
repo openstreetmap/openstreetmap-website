@@ -206,6 +206,20 @@ To ensure that everything is set up properly, you should now run:
 bundle exec rake test
 ```
 
+You may run into the following error:
+
+```
+PG::UndefinedObject: ERROR:  data type integer has no default operator class for access method "gist"
+HINT:  You must specify an operator class for the index or define a default operator class for the data type.
+```
+
+If so, install the btree-gist extension for the test database by running:
+
+```
+psql -d osm_test -c "CREATE EXTENSION btree_gist"
+```
+
+
 This test will take a few minutes, reporting tests run, assertions, and any errors. If you receive no errors, then your installation is successful.
 
 The unit tests may output parser errors related to "Attribute lat redefined." These can be ignored.
