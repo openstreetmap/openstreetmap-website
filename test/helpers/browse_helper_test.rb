@@ -206,7 +206,7 @@ class BrowseHelperTest < ActionView::TestCase
     assert_equal "Q1568346", links[2][:title]
     I18n.locale = "en"
 
-    # and now with whitespaces…
+    # and now with whitespaces...
     links = wikidata_links("subject:wikidata", "Q6542248 ;\tQ180\n ;\rQ364\t\n\r ;\nQ4006")
     assert_equal 4, links.length
     assert_equal "//www.wikidata.org/wiki/Q6542248?uselang=en", links[0][:url]
