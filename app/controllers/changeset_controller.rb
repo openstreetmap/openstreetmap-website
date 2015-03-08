@@ -254,7 +254,7 @@ class ChangesetController < ApplicationController
   # list edits (open changesets) in reverse chronological order
   def list
     if request.format == :atom && params[:max_id]
-      redirect_to params.merge(:max_id => nil), :status => :moved_permanently
+      redirect_to url_for(params.merge(:max_id => nil)), :status => :moved_permanently
       return
     end
 
@@ -266,7 +266,7 @@ class ChangesetController < ApplicationController
       end
     end
 
-    if (params[:friends] || params[:nearby]) && !@user && request.format == :html
+    if (params[:friends] || params[:nearby]) && !@user
       require_user
       return
     end

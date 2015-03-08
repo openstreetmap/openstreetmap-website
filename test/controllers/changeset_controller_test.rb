@@ -3,7 +3,7 @@ require "changeset_controller"
 
 class ChangesetControllerTest < ActionController::TestCase
   api_fixtures
-  fixtures :changeset_comments, :changesets_subscribers
+  fixtures :friends, :changeset_comments, :changesets_subscribers
 
   ##
   # test all routes which lead to this controller
@@ -74,11 +74,11 @@ class ChangesetControllerTest < ActionController::TestCase
     )
     assert_routing(
       { :path => "/history/friends", :method => :get },
-      { :controller => "changeset", :action => "list", :friends => true }
+      { :controller => "changeset", :action => "list", :friends => true, :format => :html }
     )
     assert_routing(
       { :path => "/history/nearby", :method => :get },
-      { :controller => "changeset", :action => "list", :nearby => true }
+      { :controller => "changeset", :action => "list", :nearby => true, :format => :html }
     )
     assert_routing(
       { :path => "/history", :method => :get },
@@ -1760,7 +1760,7 @@ EOF
   end
 
   ##
-  # This should display the last 20 changesets closed.
+  # This should display the last 20 changesets closed
   def test_list
     get :list, :format => "html"
     assert_response :success
@@ -1768,25 +1768,15 @@ EOF
     assert_template :layout => "map"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get :list, :format => "html", :list => "1", :bbox => "-180,-90,90,180"
+    xhr :get, :list, :format => "html", :list => "1"
     assert_response :success
     assert_template "list"
 
-    changesets = Changeset
-                 .where("num_changes > 0 and min_lon is not null")
-                 .order(:created_at => :desc)
-                 .limit(20)
-    assert changesets.size <= 20
-
-    # Now check that all 20 (or however many were returned) changesets are in the html
-    assert_select "li", :count => changesets.size
-    changesets.each do |_changeset|
-      # FIXME: this test needs rewriting - test for table contents
-    end
+    check_list_result(Changeset.all)
   end
 
   ##
-  # This should display the last 20 changesets closed.
+  # This should display the last 20 changesets closed
   def test_list_xhr
     xhr :get, :list, :format => "html"
     assert_response :success
@@ -1794,31 +1784,59 @@ EOF
     assert_template :layout => "xhr"
     assert_select "h2", :text => "Changesets", :count => 1
 
-    get :list, :format => "html", :list => "1", :bbox => "-180,-90,90,180"
+    xhr :get, :list, :format => "html", :list => "1"
     assert_response :success
     assert_template "list"
 
-    changesets = Changeset
-                 .where("num_changes > 0 and min_lon is not null")
-                 .order(:created_at => :desc)
-                 .limit(20)
-    assert changesets.size <= 20
+    check_list_result(Changeset.all)
+  end
 
-    # Now check that all 20 (or however many were returned) changesets are in the html
-    assert_select "li", :count => changesets.size
-    changesets.each do |_changeset|
-      # FIXME: this test needs rewriting - test for table contents
-    end
+  ##
+  # This should display the last 20 changesets closed in a specific area
+  def test_list_bbox
+    get :list, :format => "html", :bbox => "4.5,4.5,5.5,5.5"
+    assert_response :success
+    assert_template "history"
+    assert_template :layout => "map"
+    assert_select "h2", :text => "Changesets", :count => 1
+
+    xhr :get, :list, :format => "html", :bbox => "4.5,4.5,5.5,5.5", :list => "1"
+    assert_response :success
+    assert_template "list"
+
+    check_list_result(Changeset.where("min_lon < 55000000 and max_lon > 45000000 and min_lat < 55000000 and max_lat > 45000000"))
   end
 
   ##
   # Checks the display of the user changesets listing
   def test_list_user
     user = users(:public_user)
+
     get :list, :format => "html", :display_name => user.display_name
     assert_response :success
     assert_template "history"
-    # FIXME: need to add more checks to see which if edits are actually shown if your data is public
+
+    get :list, :format => "html", :display_name => user.display_name, :list => "1"
+    assert_response :success
+    assert_template "list"
+
+    check_list_result(user.changesets)
+  end
+
+  ##
+  # Checks the display of the user changesets listing for a private user
+  def test_list_private_user
+    user = users(:normal_user)
+
+    get :list, :format => "html", :display_name => user.display_name
+    assert_response :success
+    assert_template "history"
+
+    get :list, :format => "html", :display_name => user.display_name, :list => "1"
+    assert_response :success
+    assert_template "list"
+
+    check_list_result(Changeset.none)
   end
 
   ##
@@ -1827,33 +1845,89 @@ EOF
     get :list, :format => "html", :display_name => "Some random user"
     assert_response :not_found
     assert_template "user/no_such_user"
+
+    get :list, :format => "html", :display_name => "Some random user", :list => "1"
+    assert_response :not_found
+    assert_template "user/no_such_user"
   end
 
   ##
-  # This should display the last 20 changesets closed.
-  def test_feed
-    changesets = Changeset.where("num_changes > 0").order(:created_at => :desc).limit(20)
-    assert changesets.size <= 20
-    get :feed, :format => "atom"
+  # Checks the display of the friends changesets listing
+  def test_list_friends
+    user = users(:normal_user)
+
+    get :list, :friends => true
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :referer => friend_changesets_path
+
+    session[:user] = user.id
+
+    get :list, :friends => true
+    assert_response :success
+    assert_template "history"
+
+    get :list, :friends => true, :list => "1"
     assert_response :success
     assert_template "list"
-    # Now check that all 20 (or however many were returned) changesets are in the html
-    assert_select "feed", :count => 1
-    assert_select "entry", :count => changesets.size
-    changesets.each do |_changeset|
-      # FIXME: this test needs rewriting - test for feed contents
-    end
+
+    check_list_result(Changeset.where(:user => user.friend_users.identifiable))
+  end
+
+  ##
+  # Checks the display of the nearby user changesets listing
+  def test_list_nearby
+    user = users(:normal_user)
+
+    get :list, :nearby => true
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :referer => nearby_changesets_path
+
+    session[:user] = user.id
+
+    get :list, :nearby => true
+    assert_response :success
+    assert_template "history"
+
+    get :list, :nearby => true, :list => "1"
+    assert_response :success
+    assert_template "list"
+
+    check_list_result(Changeset.where(:user => user.nearby))
+  end
+
+  ##
+  # This should display the last 20 changesets closed
+  def test_feed
+    get :feed, :format => :atom
+    assert_response :success
+    assert_template "list"
+    assert_equal "application/atom+xml", response.content_type
+
+    check_feed_result(Changeset.all)
+  end
+
+  ##
+  # This should display the last 20 changesets closed in a specific area
+  def test_feed_bbox
+    get :feed, :format => :atom, :bbox => "4.5,4.5,5.5,5.5"
+    assert_response :success
+    assert_template "list"
+    assert_equal "application/atom+xml", response.content_type
+
+    check_feed_result(Changeset.where("min_lon < 55000000 and max_lon > 45000000 and min_lat < 55000000 and max_lat > 45000000"))
   end
 
   ##
   # Checks the display of the user changesets feed
   def test_feed_user
     user = users(:public_user)
-    get :feed, :format => "atom", :display_name => user.display_name
+
+    get :feed, :format => :atom, :display_name => user.display_name
     assert_response :success
     assert_template "list"
     assert_equal "application/atom+xml", response.content_type
-    # FIXME: need to add more checks to see which if edits are actually shown if your data is public
+
+    check_feed_result(user.changesets)
   end
 
   ##
@@ -1861,6 +1935,14 @@ EOF
   def test_feed_user_not_found
     get :feed, :format => "atom", :display_name => "Some random user"
     assert_response :not_found
+  end
+
+  ##
+  # Check that we can't request later pages of the changesets feed
+  def test_feed_max_id
+    get :feed, :format => "atom", :max_id => 100
+    assert_response :redirect
+    assert_redirected_to :action => :feed
   end
 
   ##
@@ -2149,9 +2231,7 @@ EOF
     end
   end
 
-  #------------------------------------------------------------
-  # utility functions
-  #------------------------------------------------------------
+  private
 
   ##
   # boilerplate for checking that certain changesets exist in the
@@ -2194,5 +2274,39 @@ EOF
   def xml_attr_rewrite(xml, name, value)
     xml.find("//osm/way").first[name] = value.to_s
     xml
+  end
+
+  ##
+  # check the result of a list
+  def check_list_result(changesets)
+    changesets = changesets.where("num_changes > 0")
+                 .order(:created_at => :desc)
+                 .limit(20)
+    assert changesets.size <= 20
+
+    assert_select "ol.changesets", :count => [changesets.size, 1].min do
+      assert_select "li", :count => changesets.size
+
+      changesets.each do |changeset|
+        assert_select "li#changeset_#{changeset.id}", :count => 1
+      end
+    end
+  end
+
+  ##
+  # check the result of a feed
+  def check_feed_result(changesets)
+    changesets = changesets.where("num_changes > 0")
+                 .order(:created_at => :desc)
+                 .limit(20)
+    assert changesets.size <= 20
+
+    assert_select "feed", :count => [changesets.size, 1].min do
+      assert_select "entry", :count => changesets.size
+
+      changesets.each do |changeset|
+        assert_select "entry > id", changeset_url(:id => changeset.id)
+      end
+    end
   end
 end

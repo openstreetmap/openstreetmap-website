@@ -38,11 +38,6 @@ class OauthController < ApplicationController
   protected
 
   def oauth1_authorize
-    unless @token
-      render :action => "authorize_failure"
-      return
-    end
-
     if @token.invalidated?
       @message = t "oauth.oauthorize_failure.invalid"
       render :action => "authorize_failure"

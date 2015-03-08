@@ -120,8 +120,8 @@ OpenStreetMap::Application.routes.draw do
   match "/user/:display_name/history" => "changeset#list", :via => :get
   match "/user/:display_name/history/feed" => "changeset#feed", :via => :get, :defaults => { :format => :atom }
   match "/user/:display_name/notes" => "notes#mine", :via => :get
-  match "/history/friends" => "changeset#list", :via => :get, :friends => true, :as => "friend_changesets"
-  match "/history/nearby" => "changeset#list", :via => :get, :nearby => true, :as => "nearby_changesets"
+  match "/history/friends" => "changeset#list", :via => :get, :friends => true, :as => "friend_changesets", :defaults => { :format => :html }
+  match "/history/nearby" => "changeset#list", :via => :get, :nearby => true, :as => "nearby_changesets", :defaults => { :format => :html }
 
   get "/browse/way/:id",                :to => redirect(:path => "/way/%{id}")
   get "/browse/way/:id/history",        :to => redirect(:path => "/way/%{id}/history")
