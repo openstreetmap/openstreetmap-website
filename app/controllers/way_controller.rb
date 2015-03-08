@@ -14,12 +14,9 @@ class WayController < ApplicationController
 
     way = Way.from_xml(request.raw_post, true)
 
-    if way
-      way.create_with_history @user
-      render :text => way.id.to_s, :content_type => "text/plain"
-    else
-      render :text => "", :status => :bad_request
-    end
+    # Assume that Way.from_xml has thrown an exception if there is an error parsing the xml
+    way.create_with_history @user
+    render :text => way.id.to_s, :content_type => "text/plain"
   end
 
   def read
@@ -38,12 +35,12 @@ class WayController < ApplicationController
     way = Way.find(params[:id])
     new_way = Way.from_xml(request.raw_post)
 
-    if new_way && new_way.id == way.id
-      way.update_from(new_way, @user)
-      render :text => way.version.to_s, :content_type => "text/plain"
-    else
-      render :text => "", :status => :bad_request
+    unless new_way && new_way.id == way.id
+      fail OSM::APIBadUserInput.new("The id in the url (#{way.id}) is not the same as provided in the xml (#{new_way.id})")
     end
+
+    way.update_from(new_way, @user)
+    render :text => way.version.to_s, :content_type => "text/plain"
   end
 
   # This is the API call to delete a way

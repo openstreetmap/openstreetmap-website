@@ -356,9 +356,180 @@ class WayControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
+  ##
+  # tests whether the API works and prevents incorrect use while trying
+  # to update ways.
+  def test_update
+    ## First test with no user credentials
+    # try and update a way without authorisation
+    # first try to delete way without auth
+    content current_ways(:visible_way).to_xml
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :unauthorized
+
+    ## Second test with the private user
+
+    # setup auth
+    basic_authorization(users(:normal_user).email, "test")
+
+    ## trying to break changesets
+
+    # try and update in someone else's changeset
+    content update_changeset(current_ways(:visible_way).to_xml,
+                             changesets(:public_user_first_change).id)
+    put :update, :id => current_ways(:visible_way).id
+    assert_require_public_data "update with other user's changeset should be forbidden when date isn't public"
+
+    # try and update in a closed changeset
+    content update_changeset(current_ways(:visible_way).to_xml,
+                             changesets(:normal_user_closed_change).id)
+    put :update, :id => current_ways(:visible_way).id
+    assert_require_public_data "update with closed changeset should be forbidden, when data isn't public"
+
+    # try and update in a non-existant changeset
+    content update_changeset(current_ways(:visible_way).to_xml, 0)
+    put :update, :id => current_ways(:visible_way).id
+    assert_require_public_data("update with changeset=0 should be forbidden, when data isn't public")
+
+    ## try and submit invalid updates
+    content xml_replace_node(current_ways(:visible_way).to_xml, 3, 9999)
+    put :update, :id => current_ways(:visible_way).id
+    assert_require_public_data "way with non-existent node should be forbidden, when data isn't public"
+
+    content xml_replace_node(current_ways(:visible_way).to_xml, 3, current_nodes(:invisible_node).id)
+    put :update, :id => current_ways(:visible_way).id
+    assert_require_public_data "way with deleted node should be forbidden, when data isn't public"
+
+    ## finally, produce a good request which should work
+    content current_ways(:visible_way).to_xml
+    put :update, :id => current_ways(:visible_way).id
+    assert_require_public_data "should have failed with a forbidden when data isn't public"
+
+    ## Finally test with the public user
+
+    # try and update a way without authorisation
+    # first try to delete way without auth
+    content current_ways(:visible_way).to_xml
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :forbidden
+
+    # setup auth
+    basic_authorization(users(:public_user).email, "test")
+
+    ## trying to break changesets
+
+    # try and update in someone else's changeset
+    content update_changeset(current_ways(:visible_way).to_xml,
+                             changesets(:normal_user_first_change).id)
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :conflict, "update with other user's changeset should be rejected"
+
+    # try and update in a closed changeset
+    content update_changeset(current_ways(:visible_way).to_xml,
+                             changesets(:normal_user_closed_change).id)
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :conflict, "update with closed changeset should be rejected"
+
+    # try and update in a non-existant changeset
+    content update_changeset(current_ways(:visible_way).to_xml, 0)
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :conflict, "update with changeset=0 should be rejected"
+
+    ## try and submit invalid updates
+    content xml_replace_node(current_ways(:visible_way).to_xml, 3, 9999)
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :precondition_failed, "way with non-existent node should be rejected"
+
+    content xml_replace_node(current_ways(:visible_way).to_xml, 3, current_nodes(:invisible_node).id)
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :precondition_failed, "way with deleted node should be rejected"
+
+    ## next, attack the versioning
+    current_way_version = current_ways(:visible_way).version
+
+    # try and submit a version behind
+    content xml_attr_rewrite(current_ways(:visible_way).to_xml,
+                             "version", current_way_version - 1)
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :conflict, "should have failed on old version number"
+
+    # try and submit a version ahead
+    content xml_attr_rewrite(current_ways(:visible_way).to_xml,
+                             "version", current_way_version + 1)
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :conflict, "should have failed on skipped version number"
+
+    # try and submit total crap in the version field
+    content xml_attr_rewrite(current_ways(:visible_way).to_xml,
+                             "version", "p1r4t3s!")
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :conflict,
+                    "should not be able to put 'p1r4at3s!' in the version field"
+
+    ## try an update with the wrong ID
+    content current_ways(:used_way).to_xml
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :bad_request,
+                    "should not be able to update a way with a different ID from the XML"
+
+    ## try an update with a minimal valid XML doc which isn't a well-formed OSM doc.
+    content "<update/>"
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :bad_request,
+                    "should not be able to update a way with non-OSM XML doc."
+
+    ## finally, produce a good request which should work
+    content current_ways(:visible_way).to_xml
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :success, "a valid update request failed"
+  end
+
   # ------------------------------------------------------------
   # test tags handling
   # ------------------------------------------------------------
+
+  ##
+  # Try adding a new tag to a way
+  def test_add_tags
+    ## Try with the non-public user
+    # setup auth
+    basic_authorization(users(:normal_user).email, "test")
+
+    # add an identical tag to the way
+    tag_xml = XML::Node.new("tag")
+    tag_xml["k"] = "new"
+    tag_xml["v"] = "yes"
+
+    # add the tag into the existing xml
+    way_xml = current_ways(:visible_way).to_xml
+    way_xml.find("//osm/way").first << tag_xml
+
+    # try and upload it
+    content way_xml
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :forbidden,
+                    "adding a duplicate tag to a way for a non-public should fail with 'forbidden'"
+
+    ## Now try with the public user
+    # setup auth
+    basic_authorization(users(:public_user).email, "test")
+
+    # add an identical tag to the way
+    tag_xml = XML::Node.new("tag")
+    tag_xml["k"] = "new"
+    tag_xml["v"] = "yes"
+
+    # add the tag into the existing xml
+    way_xml = current_ways(:visible_way).to_xml
+    way_xml.find("//osm/way").first << tag_xml
+
+    # try and upload it
+    content way_xml
+    put :update, :id => current_ways(:visible_way).id
+    assert_response :success,
+                    "adding a new tag to a way should succeed"
+    assert_equal current_ways(:visible_way).version + 1, @response.body.to_i
+  end
 
   ##
   # Try adding a duplicate of an existing tag to a way
@@ -517,15 +688,22 @@ class WayControllerTest < ActionController::TestCase
   end
 
   ##
-  # update the changeset_id of a node element
+  # update the changeset_id of a way element
   def update_changeset(xml, changeset_id)
     xml_attr_rewrite(xml, "changeset", changeset_id)
   end
 
   ##
-  # update an attribute in the node element
+  # update an attribute in the way element
   def xml_attr_rewrite(xml, name, value)
     xml.find("//osm/way").first[name] = value.to_s
+    xml
+  end
+
+  ##
+  # replace a node in a way element
+  def xml_replace_node(xml, old_node, new_node)
+    xml.find("//osm/way/nd[@ref='#{old_node}']").first["ref"] = new_node.to_s
     xml
   end
 end

@@ -14,14 +14,9 @@ class RelationController < ApplicationController
 
     relation = Relation.from_xml(request.raw_post, true)
 
-    # We assume that an exception has been thrown if there was an error
-    # generating the relation
-    # if relation
+    # Assume that Relation.from_xml has thrown an exception if there is an error parsing the xml
     relation.create_with_history @user
     render :text => relation.id.to_s, :content_type => "text/plain"
-    # else
-    # render :text => "Couldn't get turn the input into a relation.", :status => :bad_request
-    # end
   end
 
   def read
@@ -40,12 +35,12 @@ class RelationController < ApplicationController
     relation = Relation.find(params[:id])
     new_relation = Relation.from_xml(request.raw_post)
 
-    if new_relation && new_relation.id == relation.id
-      relation.update_from new_relation, @user
-      render :text => relation.version.to_s, :content_type => "text/plain"
-    else
-      render :text => "", :status => :bad_request
+    unless new_relation && new_relation.id == relation.id
+      fail OSM::APIBadUserInput.new("The id in the url (#{relation.id}) is not the same as provided in the xml (#{new_relation.id})")
     end
+
+    relation.update_from new_relation, @user
+    render :text => relation.version.to_s, :content_type => "text/plain"
   end
 
   def delete

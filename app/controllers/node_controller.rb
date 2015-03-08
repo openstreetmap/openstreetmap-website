@@ -43,6 +43,7 @@ class NodeController < ApplicationController
     unless new_node && new_node.id == node.id
       fail OSM::APIBadUserInput.new("The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})")
     end
+
     node.update_from(new_node, @user)
     render :text => node.version.to_s, :content_type => "text/plain"
   end
