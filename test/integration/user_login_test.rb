@@ -558,6 +558,42 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_select "div.flash.error", /your account has been suspended/
   end
 
+  def test_login_email_password_remember_me
+    user = users(:normal_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.email, :password => "test", :remember_me => true, :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "changeset/history"
+    assert_select "span.username", "test"
+    assert session.key?(:_remember_for)
+  end
+
+  def test_login_username_password_remember_me
+    user = users(:normal_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.display_name, :password => "test", :remember_me => true, :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "changeset/history"
+    assert_select "span.username", "test"
+    assert session.key?(:_remember_for)
+  end
+
   def test_login_openid_success
     OmniAuth.config.add_mock(:openid, :uid => "http://localhost:1123/john.doe")
 
@@ -578,6 +614,29 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "changeset/history"
     assert_select "span.username", "openIDuser"
+  end
+
+  def test_login_openid_remember_me
+    OmniAuth.config.add_mock(:openid, :uid => "http://localhost:1123/john.doe")
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+    post "/login", :openid_url => "http://localhost:1123/john.doe", :remember_me_openid => true, :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "changeset/history"
+    assert_select "span.username", "openIDuser"
+    assert session.key?(:_remember_for)
   end
 
   def test_login_openid_connection_failed

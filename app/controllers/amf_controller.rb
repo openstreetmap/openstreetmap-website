@@ -376,8 +376,9 @@ class AmfController < ApplicationController
           timestamp = DateTime.strptime(timestamp.to_s, "%d %b %Y, %H:%M:%S")
           old_way = OldWay.where("way_id = ? AND timestamp <= ?", id, timestamp).unredacted.order("timestamp DESC").first
           unless old_way.nil?
-            points = old_way.get_nodes_revert(timestamp)
-            unless old_way.visible
+            if old_way.visible
+              points = old_way.get_nodes_revert(timestamp)
+            else
               return [-1, "Sorry, the way was deleted at that time - please revert to a previous version.", id]
             end
           end

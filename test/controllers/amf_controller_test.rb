@@ -306,7 +306,7 @@ class AmfControllerTest < ActionController::TestCase
     # NOTE: looks from the API changes that this now expects a timestamp
     # instead of a version number...
     # try to get version 1
-    v1 = ways(:way_with_versions_v1)
+    v1 = ways(:way_with_versions_v2)
     { latest.id => "",
       v1.way_id => v1.timestamp.strftime("%d %b %Y, %H:%M:%S")
     }.each do |id, t|
@@ -346,13 +346,30 @@ class AmfControllerTest < ActionController::TestCase
   end
 
   def test_getway_old_nonexistent
-    # try to get the last version+10 (shoudn't exist)
+    # try to get the last version-10 (shoudn't exist)
     v1 = ways(:way_with_versions_v1)
     # try to get last visible version of non-existent way
     # try to get specific version of non-existent way
     [[0, ""],
      [0, "1 Jan 1970, 00:00:00"],
      [v1.way_id, (v1.timestamp - 10).strftime("%d %b %Y, %H:%M:%S")]
+    ].each do |id, t|
+      amf_content "getway_old", "/1", [id, t]
+      post :amf_read
+      assert_response :success
+      amf_parse_response
+      returned_way = amf_result("/1")
+      assert_equal -1, returned_way[0]
+      assert returned_way[3].nil?
+      assert returned_way[4].nil?
+      assert returned_way[5].nil?
+    end
+  end
+
+  def test_getway_old_invisible
+    v1 = ways(:invisible_way)
+    # try to get deleted version
+    [[v1.way_id, (v1.timestamp + 10).strftime("%d %b %Y, %H:%M:%S")]
     ].each do |id, t|
       amf_content "getway_old", "/1", [id, t]
       post :amf_read
