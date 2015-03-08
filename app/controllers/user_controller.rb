@@ -466,8 +466,8 @@ class UserController < ApplicationController
     if request.post?
       ids = params[:user].keys.collect(&:to_i)
 
-      User.update_all("status = 'confirmed'", :id => ids) if params[:confirm]
-      User.update_all("status = 'deleted'", :id => ids) if params[:hide]
+      User.where(:id => ids).update_all(:status => "confirmed") if params[:confirm]
+      User.where(:id => ids).update_all(:status => "deleted") if params[:hide]
 
       redirect_to url_for(:status => params[:status], :ip => params[:ip], :page => params[:page])
     else

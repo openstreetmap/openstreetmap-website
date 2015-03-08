@@ -636,26 +636,78 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :user, :action => "login", :referer => "/user/test/account"
 
     # Make sure that you are blocked when not logged in as the right user
-    get :account, { :display_name => user.display_name }, { "user" => users(:public_user).id }
+    get :account, { :display_name => user.display_name }, { :user => users(:public_user).id }
     assert_response :forbidden
 
     # Make sure we get the page when we are logged in as the right user
-    get :account, { :display_name => user.display_name }, { "user" => user }
+    get :account, { :display_name => user.display_name }, { :user => user }
     assert_response :success
     assert_template :account
 
     # Updating the description should work
     user.description = "new description"
-    post :account, { :display_name => user.display_name, :user => user.attributes }, { "user" => user.id }
+    post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
     assert_select "form#accountForm > fieldset > div.form-row > div#user_description_container > div#user_description_content > textarea#user_description", user.description
 
+    # Changing to a invalid editor should fail
+    user.preferred_editor = "unknown"
+    post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
+    assert_response :success
+    assert_template :account
+    assert_select ".notice", false
+    assert_select "div#errorExplanation"
+    assert_select "form#accountForm > fieldset > div.form-row > select#user_preferred_editor > option[selected]", false
+
+    # Changing to a valid editor should work
+    user.preferred_editor = "potlatch2"
+    post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
+    assert_response :success
+    assert_template :account
+    assert_select "div#errorExplanation", false
+    assert_select ".notice", /^User information updated successfully/
+    assert_select "form#accountForm > fieldset > div.form-row > select#user_preferred_editor > option[selected][value=?]", "potlatch2"
+
+    # Changing to the default editor should work
+    user.preferred_editor = "default"
+    post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
+    assert_response :success
+    assert_template :account
+    assert_select "div#errorExplanation", false
+    assert_select ".notice", /^User information updated successfully/
+    assert_select "form#accountForm > fieldset > div.form-row > select#user_preferred_editor > option[selected]", false
+
+    # Changing to an uploaded image should work
+    image = Rack::Test::UploadedFile.new("test/traces/1.gif", "image/gif")
+    post :account, { :display_name => user.display_name, :image_action => "new", :user => user.attributes.merge(:image => image) }, { :user => user.id }
+    assert_response :success
+    assert_template :account
+    assert_select "div#errorExplanation", false
+    assert_select ".notice", /^User information updated successfully/
+    assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=image_action][checked][value=?]", "keep"
+
+    # Changing to a gravatar image should work
+    post :account, { :display_name => user.display_name, :image_action => "gravatar", :user => user.attributes }, { :user => user.id }
+    assert_response :success
+    assert_template :account
+    assert_select "div#errorExplanation", false
+    assert_select ".notice", /^User information updated successfully/
+    assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=image_action][checked][value=?]", "gravatar"
+
+    # Removing the image should work
+    post :account, { :display_name => user.display_name, :image_action => "delete", :user => user.attributes }, { :user => user.id }
+    assert_response :success
+    assert_template :account
+    assert_select "div#errorExplanation", false
+    assert_select ".notice", /^User information updated successfully/
+    assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=image_action][checked]", false
+
     # Changing name to one that exists should fail
     new_attributes = user.attributes.dup.merge(:display_name => users(:public_user).display_name)
-    post :account, { :display_name => user.display_name, :user => new_attributes }, { "user" => user.id }
+    post :account, { :display_name => user.display_name, :user => new_attributes }, { :user => user.id }
     assert_response :success
     assert_template :account
     assert_select ".notice", false
@@ -664,7 +716,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Changing name to one that exists should fail, regardless of case
     new_attributes = user.attributes.dup.merge(:display_name => users(:public_user).display_name.upcase)
-    post :account, { :display_name => user.display_name, :user => new_attributes }, { "user" => user.id }
+    post :account, { :display_name => user.display_name, :user => new_attributes }, { :user => user.id }
     assert_response :success
     assert_template :account
     assert_select ".notice", false
@@ -673,7 +725,7 @@ class UserControllerTest < ActionController::TestCase
 
     # Changing name to one that doesn't exist should work
     new_attributes = user.attributes.dup.merge(:display_name => "new tester")
-    post :account, { :display_name => user.display_name, :user => new_attributes }, { "user" => user.id }
+    post :account, { :display_name => user.display_name, :user => new_attributes }, { :user => user.id }
     assert_response :success
     assert_template :account
     assert_select "div#errorExplanation", false
@@ -686,7 +738,7 @@ class UserControllerTest < ActionController::TestCase
     # Changing email to one that exists should fail
     user.new_email = users(:public_user).email
     assert_no_difference "ActionMailer::Base.deliveries.size" do
-      post :account, { :display_name => user.display_name, :user => user.attributes }, { "user" => user.id }
+      post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
     end
     assert_response :success
     assert_template :account
@@ -697,7 +749,7 @@ class UserControllerTest < ActionController::TestCase
     # Changing email to one that exists should fail, regardless of case
     user.new_email = users(:public_user).email.upcase
     assert_no_difference "ActionMailer::Base.deliveries.size" do
-      post :account, { :display_name => user.display_name, :user => user.attributes }, { "user" => user.id }
+      post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
     end
     assert_response :success
     assert_template :account
@@ -708,7 +760,7 @@ class UserControllerTest < ActionController::TestCase
     # Changing email to one that doesn't exist should work
     user.new_email = "new_tester@example.com"
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
-      post :account, { :display_name => user.display_name, :user => user.attributes }, { "user" => user.id }
+      post :account, { :display_name => user.display_name, :user => user.attributes }, { :user => user.id }
     end
     assert_response :success
     assert_template :account
@@ -1124,6 +1176,166 @@ class UserControllerTest < ActionController::TestCase
     assert_nil user.auth_provider
     assert_nil user.auth_uid
     assert_equal "deleted", user.status
+  end
+
+  def test_list_get
+    # Shouldn't work when not logged in
+    get :list
+    assert_response :redirect
+    assert_redirected_to :action => :login, :referer => users_path
+
+    session[:user] = users(:normal_user).id
+
+    # Shouldn't work when logged in as a normal user
+    get :list
+    assert_response :redirect
+    assert_redirected_to :action => :login, :referer => users_path
+
+    session[:user] = users(:moderator_user).id
+
+    # Shouldn't work when logged in as a moderator
+    get :list
+    assert_response :redirect
+    assert_redirected_to :action => :login, :referer => users_path
+
+    session[:user] = users(:administrator_user).id
+
+    # Should work when logged in as an administrator
+    get :list
+    assert_response :success
+    assert_template :list
+    assert_select "table#user_list tr", :count => User.count + 1
+
+    # Should be able to limit by status
+    get :list, :status => "suspended"
+    assert_response :success
+    assert_template :list
+    assert_select "table#user_list tr", :count => User.where(:status => "suspended").count + 1
+
+    # Should be able to limit by IP address
+    get :list, :ip => "1.2.3.4"
+    assert_response :success
+    assert_template :list
+    assert_select "table#user_list tr", :count => User.where(:creation_ip => "1.2.3.4").count + 1
+  end
+
+  def test_list_get_paginated
+    1.upto(100).each do |n|
+      User.create(:display_name => "extra_#{n}",
+                  :email => "extra#{n}@example.com",
+                  :pass_crypt => "extraextra")
+    end
+
+    session[:user] = users(:administrator_user).id
+
+    get :list
+    assert_response :success
+    assert_template :list
+    assert_select "table#user_list tr", :count => 51
+
+    get :list, :page => 2
+    assert_response :success
+    assert_template :list
+    assert_select "table#user_list tr", :count => 51
+
+    get :list, :page => 3
+    assert_response :success
+    assert_template :list
+    assert_select "table#user_list tr", :count => 19
+  end
+
+  def test_list_post_confirm
+    inactive_user = users(:inactive_user)
+    suspended_user = users(:suspended_user)
+
+    # Shouldn't work when not logged in
+    assert_no_difference "User.active.count" do
+      post :list, :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :login, :referer => users_path(:confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 })
+    assert_equal "pending", inactive_user.reload.status
+    assert_equal "suspended", suspended_user.reload.status
+
+    session[:user] = users(:normal_user).id
+
+    # Shouldn't work when logged in as a normal user
+    assert_no_difference "User.active.count" do
+      post :list, :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :login, :referer => users_path(:confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 })
+    assert_equal "pending", inactive_user.reload.status
+    assert_equal "suspended", suspended_user.reload.status
+
+    session[:user] = users(:moderator_user).id
+
+    # Shouldn't work when logged in as a moderator
+    assert_no_difference "User.active.count" do
+      post :list, :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :login, :referer => users_path(:confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 })
+    assert_equal "pending", inactive_user.reload.status
+    assert_equal "suspended", suspended_user.reload.status
+
+    session[:user] = users(:administrator_user).id
+
+    # Should work when logged in as an administrator
+    assert_difference "User.active.count", 2 do
+      post :list, :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :list
+    assert_equal "confirmed", inactive_user.reload.status
+    assert_equal "confirmed", suspended_user.reload.status
+  end
+
+  def test_list_post_hide
+    normal_user = users(:normal_user)
+    confirmed_user = users(:confirmed_user)
+
+    # Shouldn't work when not logged in
+    assert_no_difference "User.active.count" do
+      post :list, :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :login, :referer => users_path(:hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 })
+    assert_equal "active", normal_user.reload.status
+    assert_equal "confirmed", confirmed_user.reload.status
+
+    session[:user] = users(:normal_user).id
+
+    # Shouldn't work when logged in as a normal user
+    assert_no_difference "User.active.count" do
+      post :list, :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :login, :referer => users_path(:hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 })
+    assert_equal "active", normal_user.reload.status
+    assert_equal "confirmed", confirmed_user.reload.status
+
+    session[:user] = users(:moderator_user).id
+
+    # Shouldn't work when logged in as a moderator
+    assert_no_difference "User.active.count" do
+      post :list, :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :login, :referer => users_path(:hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 })
+    assert_equal "active", normal_user.reload.status
+    assert_equal "confirmed", confirmed_user.reload.status
+
+    session[:user] = users(:administrator_user).id
+
+    # Should work when logged in as an administrator
+    assert_difference "User.active.count", -2 do
+      post :list, :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 }
+    end
+    assert_response :redirect
+    assert_redirected_to :action => :list
+    assert_equal "deleted", normal_user.reload.status
+    assert_equal "deleted", confirmed_user.reload.status
   end
 
   private

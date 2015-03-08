@@ -442,6 +442,8 @@ class ChangesetController < ApplicationController
     respond_to do |format|
       format.rss
     end
+  rescue OSM::APIBadUserInput
+    render :text => "", :status => :bad_request
   end
 
   private

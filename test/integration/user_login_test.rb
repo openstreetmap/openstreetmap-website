@@ -17,17 +17,17 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
 
-    post "/login", "username" => user.email, "password" => "wrong", :referer => "/history"
+    post "/login", :username => user.email, :password => "wrong", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
 
-    post "/login", "username" => user.email, "password" => "test", :referer => "/history"
+    post "/login", :username => user.email, :password => "test", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -40,17 +40,17 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
 
-    post "/login", "username" => user.email.upcase, "password" => "wrong", :referer => "/history"
+    post "/login", :username => user.email.upcase, :password => "wrong", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
 
-    post "/login", "username" => user.email.upcase, "password" => "test", :referer => "/history"
+    post "/login", :username => user.email.upcase, :password => "test", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -63,17 +63,17 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
 
-    post "/login", "username" => user.email.titlecase, "password" => "wrong", :referer => "/history"
+    post "/login", :username => user.email.titlecase, :password => "wrong", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
 
-    post "/login", "username" => user.email.titlecase, "password" => "test", :referer => "/history"
+    post "/login", :username => user.email.titlecase, :password => "test", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -86,17 +86,17 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
 
-    post "/login", "username" => user.email, "password" => "wrong", :referer => "/history"
+    post "/login", :username => user.email, :password => "wrong", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
 
-    post "/login", "username" => user.email, "password" => "test", :referer => "/history"
+    post "/login", :username => user.email, :password => "test", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -109,17 +109,17 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
 
-    post "/login", "username" => user.email.upcase, "password" => "wrong", :referer => "/history"
+    post "/login", :username => user.email.upcase, :password => "wrong", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
 
-    post "/login", "username" => user.email.upcase, "password" => "test", :referer => "/history"
+    post "/login", :username => user.email.upcase, :password => "test", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -132,17 +132,17 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
 
-    post "/login", "username" => user.email.titlecase, "password" => "wrong", :referer => "/history"
+    post "/login", :username => user.email.titlecase, :password => "wrong", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
 
-    post "/login", "username" => user.email.titlecase, "password" => "test", :referer => "/history"
+    post "/login", :username => user.email.titlecase, :password => "test", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -150,22 +150,157 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_select "span.username", "test2"
   end
 
-  def test_login_username_password_normal
-    user = users(:normal_user)
+  def test_login_email_password_inactive
+    user = users(:inactive_user)
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
 
-    post "/login", "username" => user.display_name, "password" => "wrong", :referer => "/history"
+    post "/login", :username => user.email, :password => "wrong", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
 
-    post "/login", "username" => user.display_name, "password" => "test", :referer => "/history"
+    post "/login", :username => user.email, :password => "test2", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "confirm"
+  end
+
+  def test_login_email_password_inactive_upcase
+    user = users(:inactive_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.email.upcase, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.email.upcase, :password => "test2", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "confirm"
+  end
+
+  def test_login_email_password_inactive_titlecase
+    user = users(:inactive_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.email.titlecase, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.email.titlecase, :password => "test2", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "confirm"
+  end
+
+  def test_login_email_password_suspended
+    user = users(:suspended_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.email, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.email, :password => "test", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", /your account has been suspended/
+  end
+
+  def test_login_email_password_suspended_upcase
+    user = users(:suspended_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.email.upcase, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.email.upcase, :password => "test", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", /your account has been suspended/
+  end
+
+  def test_login_email_password_suspended_titlecase
+    user = users(:suspended_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.email.titlecase, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.email.titlecase, :password => "test", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", /your account has been suspended/
+  end
+
+  def test_login_username_password_normal
+    user = users(:normal_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.display_name, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.display_name, :password => "test", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -178,17 +313,17 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
 
-    post "/login", "username" => user.display_name.upcase, "password" => "wrong", :referer => "/history"
+    post "/login", :username => user.display_name.upcase, :password => "wrong", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
 
-    post "/login", "username" => user.display_name.upcase, "password" => "test", :referer => "/history"
+    post "/login", :username => user.display_name.upcase, :password => "test", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -201,17 +336,17 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
 
-    post "/login", "username" => user.display_name.titlecase, "password" => "wrong", :referer => "/history"
+    post "/login", :username => user.display_name.titlecase, :password => "wrong", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
 
-    post "/login", "username" => user.display_name.titlecase, "password" => "test", :referer => "/history"
+    post "/login", :username => user.display_name.titlecase, :password => "test", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -224,17 +359,17 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
 
-    post "/login", "username" => user.display_name, "password" => "wrong", :referer => "/history"
+    post "/login", :username => user.display_name, :password => "wrong", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
 
-    post "/login", "username" => user.display_name, "password" => "test", :referer => "/history"
+    post "/login", :username => user.display_name, :password => "test", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -247,17 +382,17 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
 
-    post "/login", "username" => user.display_name.upcase, "password" => "wrong", :referer => "/history"
+    post "/login", :username => user.display_name.upcase, :password => "wrong", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
 
-    post "/login", "username" => user.display_name.upcase, "password" => "test", :referer => "/history"
+    post "/login", :username => user.display_name.upcase, :password => "test", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -270,17 +405,17 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
 
-    post "/login", "username" => user.display_name.titlecase, "password" => "wrong", :referer => "/history"
+    post "/login", :username => user.display_name.titlecase, :password => "wrong", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
     assert_template "login"
 
-    post "/login", "username" => user.display_name.titlecase, "password" => "test", :referer => "/history"
+    post "/login", :username => user.display_name.titlecase, :password => "test", :referer => "/history"
     assert_response :redirect
     follow_redirect!
     assert_response :success
@@ -288,15 +423,150 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_select "span.username", "test2"
   end
 
+  def test_login_username_password_inactive
+    user = users(:inactive_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.display_name, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.display_name, :password => "test2", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "confirm"
+  end
+
+  def test_login_username_password_inactive_upcase
+    user = users(:inactive_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.display_name.upcase, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.display_name.upcase, :password => "test2", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "confirm"
+  end
+
+  def test_login_username_password_inactive_titlecase
+    user = users(:inactive_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.display_name.titlecase, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.display_name.titlecase, :password => "test2", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "confirm"
+  end
+
+  def test_login_username_password_suspended
+    user = users(:suspended_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.display_name, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.display_name, :password => "test", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", /your account has been suspended/
+  end
+
+  def test_login_username_password_suspended_upcase
+    user = users(:suspended_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.display_name.upcase, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.display_name.upcase, :password => "test", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", /your account has been suspended/
+  end
+
+  def test_login_username_password_suspended_titlecase
+    user = users(:suspended_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.display_name.titlecase, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.display_name.titlecase, :password => "test", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", /your account has been suspended/
+  end
+
   def test_login_openid_success
     OmniAuth.config.add_mock(:openid, :uid => "http://localhost:1123/john.doe")
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
-    post "/login", "openid_url" => "http://localhost:1123/john.doe", :referer => "/history"
+    post "/login", :openid_url => "http://localhost:1123/john.doe", :referer => "/history"
     assert_response :redirect
     assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
     follow_redirect!
@@ -315,10 +585,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
-    post "/login", "openid_url" => "http://localhost:1123/john.doe", :referer => "/history"
+    post "/login", :openid_url => "http://localhost:1123/john.doe", :referer => "/history"
     assert_response :redirect
     assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
     follow_redirect!
@@ -341,10 +611,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
-    post "/login", "openid_url" => "http://localhost:1123/john.doe", :referer => "/history"
+    post "/login", :openid_url => "http://localhost:1123/john.doe", :referer => "/history"
     assert_response :redirect
     assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
     follow_redirect!
@@ -367,10 +637,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
 
     get "/login"
     assert_response :redirect
-    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true"
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
     follow_redirect!
     assert_response :success
-    post "/login", "openid_url" => "http://localhost:1123/fred.bloggs", :referer => "/diary"
+    post "/login", :openid_url => "http://localhost:1123/fred.bloggs", :referer => "/diary"
     assert_response :redirect
     assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/fred.bloggs", :origin => "/login")
     follow_redirect!

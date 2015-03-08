@@ -1816,7 +1816,7 @@ EOF
     assert_response :success
     assert_template "history"
 
-    get :list, :format => "html", :display_name => user.display_name, :list => "1"
+    xhr :get, :list, :format => "html", :display_name => user.display_name, :list => "1"
     assert_response :success
     assert_template "list"
 
@@ -1832,7 +1832,7 @@ EOF
     assert_response :success
     assert_template "history"
 
-    get :list, :format => "html", :display_name => user.display_name, :list => "1"
+    xhr :get, :list, :format => "html", :display_name => user.display_name, :list => "1"
     assert_response :success
     assert_template "list"
 
@@ -1846,7 +1846,7 @@ EOF
     assert_response :not_found
     assert_template "user/no_such_user"
 
-    get :list, :format => "html", :display_name => "Some random user", :list => "1"
+    xhr :get, :list, :format => "html", :display_name => "Some random user", :list => "1"
     assert_response :not_found
     assert_template "user/no_such_user"
   end
@@ -1866,7 +1866,7 @@ EOF
     assert_response :success
     assert_template "history"
 
-    get :list, :friends => true, :list => "1"
+    xhr :get, :list, :friends => true, :list => "1"
     assert_response :success
     assert_template "list"
 
@@ -1888,11 +1888,27 @@ EOF
     assert_response :success
     assert_template "history"
 
-    get :list, :nearby => true, :list => "1"
+    xhr :get, :list, :nearby => true, :list => "1"
     assert_response :success
     assert_template "list"
 
     check_list_result(Changeset.where(:user => user.nearby))
+  end
+
+  ##
+  # Check that we can't request later pages of the changesets list
+  def test_list_max_id
+    xhr :get, :list, :format => "html", :max_id => 4
+    assert_response :success
+    assert_template "history"
+    assert_template :layout => "xhr"
+    assert_select "h2", :text => "Changesets", :count => 1
+
+    xhr :get, :list, :format => "html", :list => "1", :max_id => 4
+    assert_response :success
+    assert_template "list"
+
+    check_list_result(Changeset.where("id <= 4"))
   end
 
   ##
@@ -2138,75 +2154,77 @@ EOF
   def test_hide_comment_fail
     # unauthorized
     comment = changeset_comments(:normal_comment_1)
-    assert("comment.visible") do
-      post :hide_comment, :id => comment.id
-      assert_response :unauthorized
-    end
+    assert_equal true, comment.visible
+
+    post :hide_comment, :id => comment.id
+    assert_response :unauthorized
+    assert_equal true, comment.reload.visible
 
     basic_authorization(users(:public_user).email, "test")
 
     # not a moderator
-    assert("comment.visible") do
-      post :hide_comment, :id => comment.id
-      assert_response :forbidden
-    end
+    post :hide_comment, :id => comment.id
+    assert_response :forbidden
+    assert_equal true, comment.reload.visible
 
     basic_authorization(users(:moderator_user).email, "test")
 
     # bad comment id
     post :hide_comment, :id => 999111
     assert_response :not_found
+    assert_equal true, comment.reload.visible
   end
 
   ##
   # test hide comment succes
   def test_hide_comment_success
     comment = changeset_comments(:normal_comment_1)
+    assert_equal true, comment.visible
 
     basic_authorization(users(:moderator_user).email, "test")
 
-    assert("!comment.visible") do
-      post :hide_comment, :id => comment.id
-    end
+    post :hide_comment, :id => comment.id
     assert_response :success
+    assert_equal false, comment.reload.visible
   end
 
   ##
   # test unhide comment fail
   def test_unhide_comment_fail
     # unauthorized
-    comment = changeset_comments(:normal_comment_1)
-    assert("comment.visible") do
-      post :unhide_comment, :id => comment.id
-      assert_response :unauthorized
-    end
+    comment = changeset_comments(:hidden_comment)
+    assert_equal false, comment.visible
+
+    post :unhide_comment, :id => comment.id
+    assert_response :unauthorized
+    assert_equal false, comment.reload.visible
 
     basic_authorization(users(:public_user).email, "test")
 
     # not a moderator
-    assert("comment.visible") do
-      post :unhide_comment, :id => comment.id
-      assert_response :forbidden
-    end
+    post :unhide_comment, :id => comment.id
+    assert_response :forbidden
+    assert_equal false, comment.reload.visible
 
     basic_authorization(users(:moderator_user).email, "test")
 
     # bad comment id
     post :unhide_comment, :id => 999111
     assert_response :not_found
+    assert_equal false, comment.reload.visible
   end
 
   ##
   # test unhide comment succes
   def test_unhide_comment_success
-    comment = changeset_comments(:normal_comment_1)
+    comment = changeset_comments(:hidden_comment)
+    assert_equal false, comment.visible
 
     basic_authorization(users(:moderator_user).email, "test")
 
-    assert("!comment.visible") do
-      post :unhide_comment, :id => comment.id
-    end
+    post :unhide_comment, :id => comment.id
     assert_response :success
+    assert_equal true, comment.reload.visible
   end
 
   ##
@@ -2221,6 +2239,15 @@ EOF
       end
     end
 
+    get :comments_feed, :format => "rss", :limit => 2
+    assert_response :success
+    assert_equal "application/rss+xml", @response.content_type
+    assert_select "rss", :count => 1 do
+      assert_select "channel", :count => 1 do
+        assert_select "item", :count => 2
+      end
+    end
+
     get :comments_feed, :id => changesets(:normal_user_closed_change), :format => "rss"
     assert_response :success
     assert_equal "application/rss+xml", @response.content_type
@@ -2229,6 +2256,16 @@ EOF
         assert_select "item", :count => 3
       end
     end
+  end
+
+  ##
+  # test comments feed
+  def test_comments_feed_bad_limit
+    get :comments_feed, :format => "rss", :limit => 0
+    assert_response :bad_request
+
+    get :comments_feed, :format => "rss", :limit => 100001
+    assert_response :bad_request
   end
 
   private
