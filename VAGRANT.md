@@ -38,7 +38,7 @@ To access the web pages you run the following commands then access the site in y
 ```
 vagrant ssh
 cd /srv/openstreetmap-website/
-rails server
+rails server --binding=0.0.0.0
 ```
 
 You edit the code on your computer using the code editor you are used to using, then through shared folders the code is updated on the VM instantly.
