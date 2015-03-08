@@ -74,6 +74,16 @@ class BrowseControllerTest < ActionController::TestCase
     browse_check "changeset", changesets(:public_user_first_change).id, "browse/changeset"
   end
 
+  def test_read_changeset_hidden_comments
+    browse_check "changeset", changesets(:normal_user_closed_change).id, "browse/changeset"
+    assert_select "div.changeset-comments ul li", :count => 3
+
+    session[:user] = users(:moderator_user).id
+
+    browse_check "changeset", changesets(:normal_user_closed_change).id, "browse/changeset"
+    assert_select "div.changeset-comments ul li", :count => 4
+  end
+
   def test_read_note
     browse_check "note", notes(:open_note).id, "browse/note"
   end

@@ -278,6 +278,61 @@ class OldNodeControllerTest < ActionController::TestCase
     assert_select "osm node[id='#{node.node_id}'][version='#{node.version}']", 0, "redacted node #{node.node_id} version #{node.version} shouldn't be present in the history."
   end
 
+  ##
+  # test the unredaction of an old version of a node, while not being
+  # authorised.
+  def test_unredact_node_unauthorised
+    node = nodes(:redacted_node_redacted_version)
+
+    post :redact, :id => node.node_id, :version => node.version
+    assert_response :unauthorized, "should need to be authenticated to unredact."
+  end
+
+  ##
+  # test the unredaction of an old version of a node, while being
+  # authorised as a normal user.
+  def test_unredact_node_normal_user
+    node = nodes(:redacted_node_redacted_version)
+    basic_authorization(users(:public_user).email, "test")
+
+    post :redact, :id => node.node_id, :version => node.version
+    assert_response :forbidden, "should need to be moderator to unredact."
+  end
+
+  ##
+  # test the unredaction of an old version of a node, while being
+  # authorised as a moderator.
+  def test_unredact_node_moderator
+    node = nodes(:redacted_node_redacted_version)
+    basic_authorization(users(:moderator_user).email, "test")
+
+    post :redact, :id => node.node_id, :version => node.version
+    assert_response :success, "should be OK to redact old version as moderator."
+
+    # check moderator can now see the redacted data, when not
+    # passing the aspecial flag
+    get :version, :id => node.node_id, :version => node.version
+    assert_response :success, "After unredaction, node should not be gone for moderator."
+
+    # and when accessed via history
+    get :history, :id => node.node_id
+    assert_response :success, "Unredaction shouldn't have stopped history working."
+    assert_select "osm node[id='#{node.node_id}'][version='#{node.version}']", 1, "node #{node.node_id} version #{node.version} should now be present in the history for moderators without passing flag."
+
+    basic_authorization(users(:normal_user).email, "test")
+
+    # check normal user can now see the redacted data
+    get :version, :id => node.node_id, :version => node.version
+    assert_response :success, "After unredaction, node should not be gone for moderator."
+
+    # and when accessed via history
+    get :history, :id => node.node_id
+    assert_response :success, "Unredaction shouldn't have stopped history working."
+    assert_select "osm node[id='#{node.node_id}'][version='#{node.version}']", 1, "node #{node.node_id} version #{node.version} should now be present in the history for moderators without passing flag."
+  end
+
+  private
+
   def do_redact_node(node, redaction)
     get :version, :id => node.node_id, :version => node.version
     assert_response :success, "should be able to get version #{node.version} of node #{node.node_id}."

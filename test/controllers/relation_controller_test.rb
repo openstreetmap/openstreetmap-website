@@ -105,10 +105,15 @@ class RelationControllerTest < ActionController::TestCase
 
   def test_full
     # check the "full" mode
+    get :full, :id => 999999
+    assert_response :not_found
+
+    get :full, :id => current_relations(:invisible_relation).id
+    assert_response :gone
+
     get :full, :id => current_relations(:visible_relation).id
     assert_response :success
     # FIXME: check whether this contains the stuff we want!
-    print @response.body if $VERBOSE
   end
 
   ##
@@ -379,6 +384,19 @@ class RelationControllerTest < ActionController::TestCase
 
       # now check the version in the history
       with_relation(rel_id, new_version) { |r| assert_tags_equal rel, r }
+    end
+  end
+
+  def test_update_wrong_id
+    basic_authorization users(:public_user).email, "test"
+    rel_id = current_relations(:multi_tag_relation).id
+    cs_id = changesets(:public_user_first_change).id
+
+    with_relation(rel_id) do |rel|
+      update_changeset(rel, cs_id)
+      content rel
+      put :update, :id => current_relations(:visible_relation).id
+      assert_response :bad_request
     end
   end
 

@@ -91,6 +91,21 @@ class SiteControllerTest < ActionController::TestCase
 
   # Test the index page redirects
   def test_index_redirect
+    get :index, :node => 123
+    assert_redirected_to :controller => :browse, :action => :node, :id => 123
+
+    get :index, :way => 123
+    assert_redirected_to :controller => :browse, :action => :way, :id => 123
+
+    get :index, :relation => 123
+    assert_redirected_to :controller => :browse, :action => :relation, :id => 123
+
+    get :index, :note => 123
+    assert_redirected_to :controller => :browse, :action => :note, :id => 123
+
+    get :index, :query => "test"
+    assert_redirected_to :controller => :geocoder, :action => :search, :query => "test"
+
     get :index, :lat => 4, :lon => 5
     assert_redirected_to :controller => :site, :action => :index, :anchor => "map=5/4/5"
 
