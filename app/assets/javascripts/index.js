@@ -148,7 +148,8 @@ $(document).ready(function () {
     }
   }
 
-  $('.leaflet-control .control-button').tooltip({placement: 'left', container: 'body'});
+  var placement = $('html').attr('dir') === 'rtl' ? 'right' : 'left';
+  $('.leaflet-control .control-button').tooltip({placement: placement, container: 'body'});
 
   var expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
