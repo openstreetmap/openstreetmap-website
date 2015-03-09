@@ -209,6 +209,24 @@ class UserControllerTest < ActionController::TestCase
     end
   end
 
+  def test_new_view_logged_in
+    session[:user] = users(:normal_user).id
+
+    get :new
+    assert_response :redirect
+    assert_redirected_to user_new_path(:cookie_test => "true")
+    get :new, :cookie_test => "true"
+    assert_response :redirect
+    assert_redirected_to root_path
+
+    get :new, :referer => "/test"
+    assert_response :redirect
+    assert_redirected_to user_new_path(:referer => "/test", :cookie_test => "true")
+    get :new, :referer => "/test", :cookie_test => "true"
+    assert_response :redirect
+    assert_redirected_to "/test"
+  end
+
   def test_new_success
     user = new_user
 
@@ -330,6 +348,27 @@ class UserControllerTest < ActionController::TestCase
     get :logout, :session => session_id, :referer => "/test"
     assert_response :redirect
     assert_redirected_to "/test"
+  end
+
+  def test_logout_with_token
+    token = users(:normal_user).tokens.create
+
+    session[:token] = token.token
+
+    get :logout
+    assert_response :success
+    assert_template :logout
+    assert_select "input[name=referer][value=?]", ""
+    assert_equal token.token, session[:token]
+    assert_not_nil UserToken.where(:id => token.id).first
+
+    session_id = assert_select("input[name=session]").first["value"]
+
+    get :logout, :session => session_id
+    assert_response :redirect
+    assert_redirected_to root_path
+    assert_nil session[:token]
+    assert_nil UserToken.where(:id => token.id).first
   end
 
   def test_confirm_get
@@ -505,17 +544,53 @@ class UserControllerTest < ActionController::TestCase
   def test_terms_seen
     user = users(:normal_user)
 
-    get :terms, {}, { :user => user }
+    session[:user] = user.id
+
+    get :terms
     assert_response :redirect
     assert_redirected_to :action => :account, :display_name => user.display_name
   end
 
-  def test_terms_not_seen
+  def test_terms_not_seen_without_referer
     user = users(:terms_not_seen_user)
 
-    get :terms, {}, { :user => user }
+    session[:user] = user.id
+
+    get :terms
     assert_response :success
     assert_template :terms
+
+    post :save, :user => { :consider_pd => true }
+    assert_response :redirect
+    assert_redirected_to :action => :account, :display_name => user.display_name
+    assert_equal "Thanks for accepting the new contributor terms!", flash[:notice]
+
+    user.reload
+
+    assert_equal true, user.consider_pd
+    assert_not_nil user.terms_agreed
+    assert_equal true, user.terms_seen
+  end
+
+  def test_terms_not_seen_with_referer
+    user = users(:terms_not_seen_user)
+
+    session[:user] = user.id
+
+    get :terms, :referer => "/test"
+    assert_response :success
+    assert_template :terms
+
+    post :save, :user => { :consider_pd => true }, :referer => "/test"
+    assert_response :redirect
+    assert_redirected_to "/test"
+    assert_equal "Thanks for accepting the new contributor terms!", flash[:notice]
+
+    user.reload
+
+    assert_equal true, user.consider_pd
+    assert_not_nil user.terms_agreed
+    assert_equal true, user.terms_seen
   end
 
   def test_go_public
@@ -704,6 +779,11 @@ class UserControllerTest < ActionController::TestCase
     assert_select "div#errorExplanation", false
     assert_select ".notice", /^User information updated successfully/
     assert_select "form#accountForm > fieldset > div.form-row.accountImage input[name=image_action][checked]", false
+
+    # Adding external authentication should redirect to the auth provider
+    post :account, { :display_name => user.display_name, :user => user.attributes.merge(:auth_provider => "openid", :auth_uid => "gmail.com") }, { :user => user.id }
+    assert_response :redirect
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => "https://www.google.com/accounts/o8/id", :origin => "/user/#{user.display_name}/account")
 
     # Changing name to one that exists should fail
     new_attributes = user.attributes.dup.merge(:display_name => users(:public_user).display_name)

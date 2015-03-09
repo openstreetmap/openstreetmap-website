@@ -285,6 +285,72 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_select "div.flash.error", /your account has been suspended/
   end
 
+  def test_login_email_password_blocked
+    user = users(:blocked_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.email, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.email, :password => "test", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "user_blocks/show"
+  end
+
+  def test_login_email_password_blocked_upcase
+    user = users(:blocked_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.email.upcase, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.email.upcase, :password => "test", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "user_blocks/show"
+  end
+
+  def test_login_email_password_blocked_titlecase
+    user = users(:blocked_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.email.titlecase, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.email.titlecase, :password => "test", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "user_blocks/show"
+  end
+
   def test_login_username_password_normal
     user = users(:normal_user)
 
@@ -556,6 +622,72 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "login"
     assert_select "div.flash.error", /your account has been suspended/
+  end
+
+  def test_login_username_password_blocked
+    user = users(:blocked_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.display_name, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.display_name, :password => "test", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "user_blocks/show"
+  end
+
+  def test_login_username_password_blocked_upcase
+    user = users(:blocked_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.display_name.upcase, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.display_name.upcase, :password => "test", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "user_blocks/show"
+  end
+
+  def test_login_username_password_blocked_titlecase
+    user = users(:blocked_user)
+
+    get "/login"
+    assert_response :redirect
+    assert_redirected_to :controller => :user, :action => :login, :cookie_test => true
+    follow_redirect!
+    assert_response :success
+
+    post "/login", :username => user.display_name.titlecase, :password => "wrong", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+
+    post "/login", :username => user.display_name.titlecase, :password => "test", :referer => "/history"
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "user_blocks/show"
   end
 
   def test_login_email_password_remember_me

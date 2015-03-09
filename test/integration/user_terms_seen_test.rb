@@ -27,16 +27,16 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       get_via_redirect "/login"
       assert_response :success
       assert_template "user/login"
-      post "/login", "username" => user.email, "password" => "test", :referer => "/"
+      post "/login", :username => user.email, :password => "test", :referer => "/diary/new"
       assert_response :redirect
       # but now we need to look at the terms
-      assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/"
+      assert_redirected_to :controller => :user, :action => :terms, :referer => "/diary/new"
       follow_redirect!
       assert_response :success
 
       # don't agree to the terms, but hit decline
-      post "/user/save", "decline" => "decline", "referer" => "/"
-      assert_redirected_to "/"
+      post "/user/save", :decline => true, :referer => "/diary/new"
+      assert_redirected_to "/diary/new"
       follow_redirect!
 
       # should be carried through to a normal login with a message
@@ -53,19 +53,17 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
       get_via_redirect "/login"
       assert_response :success
       assert_template "user/login"
-      post "/login", "username" => user.email, "password" => "test", :referer => "/"
+      post "/login", :username => user.email, :password => "test", :referer => "/diary/new"
       assert_response :redirect
       # but now we need to look at the terms
-      assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/"
-      follow_redirect!
-      assert_response :success
+      assert_redirected_to :controller => :user, :action => :terms, :referer => "/diary/new"
 
       # check that if we go somewhere else now, it redirects
       # back to the terms page.
       get "/traces/mine"
-      assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/traces/mine"
-      get "/traces/mine", :referer => "/test"
-      assert_redirected_to "controller" => "user", "action" => "terms", :referer => "/test"
+      assert_redirected_to :controller => :user, :action => :terms, :referer => "/traces/mine"
+      get "/traces/mine", :referer => "/diary/new"
+      assert_redirected_to :controller => :user, :action => :terms, :referer => "/diary/new"
     end
   end
 
