@@ -4,10 +4,14 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   fixtures :users
 
   def setup
+    I18n.locale = "en"
+
     OmniAuth.config.test_mode = true
   end
 
   def teardown
+    I18n.locale = "en"
+
     OmniAuth.config.mock_auth[:openid] = nil
     OmniAuth.config.test_mode = false
   end

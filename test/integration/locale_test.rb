@@ -3,6 +3,14 @@ require "test_helper"
 class LocaleTest < ActionDispatch::IntegrationTest
   fixtures :users
 
+  def setup
+    I18n.locale = "en"
+  end
+
+  def teardown
+    I18n.locale = "en"
+  end
+
   def test_defaulting
     user = users(:second_public_user)
 
