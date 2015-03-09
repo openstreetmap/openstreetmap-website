@@ -241,13 +241,9 @@ class ChangesetController < ApplicationController
     changeset = Changeset.find(params[:id])
     new_changeset = Changeset.from_xml(request.raw_post)
 
-    if new_changeset.nil?
-      render :text => "", :status => :bad_request
-    else
-      check_changeset_consistency(changeset, @user)
-      changeset.update_from(new_changeset, @user)
-      render :text => changeset.to_xml, :mime_type => "text/xml"
-    end
+    check_changeset_consistency(changeset, @user)
+    changeset.update_from(new_changeset, @user)
+    render :text => changeset.to_xml, :mime_type => "text/xml"
   end
 
   ##
