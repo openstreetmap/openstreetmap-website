@@ -5,6 +5,11 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.enable :apt
+    config.cache.scope = :box
+  end
+
   # port forward for webrick on 3000
   config.vm.network :forwarded_port, :guest => 3000, :host => 3000
 
