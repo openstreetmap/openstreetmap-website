@@ -107,6 +107,14 @@ L.OSM.layers = function(options) {
       });
     });
 
+    var moreServicesSection = $('<div>')
+      .appendTo(baseSection);
+
+    $('<a>')
+      .text(I18n.t('javascripts.map.layers.more'))
+      .attr('href', 'http://wiki.openstreetmap.org/wiki/List_of_OSM_based_Services')
+      .appendTo(moreServicesSection);
+
     if (OSM.STATUS != 'api_offline' && OSM.STATUS != 'database_offline') {
       var overlaySection = $('<div>')
         .attr('class', 'section overlay-layers')
