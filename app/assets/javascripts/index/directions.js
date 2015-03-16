@@ -108,7 +108,7 @@ OSM.Directions = function (map) {
     return endpoint;
   }
 
-  $(".directions_form a.directions_close").on("click", function(e) {
+  $(".directions_form .close").on("click", function(e) {
     e.preventDefault();
     var route_from = endpoints[0].value;
     if (route_from) {
