@@ -303,7 +303,7 @@ OSM.Directions = function (map) {
 
   $(".routing_marker").on('dragstart', function (e) {
     e.originalEvent.dataTransfer.effectAllowed = 'move';
-    e.originalEvent.dataTransfer.setData('id', this.id);
+    e.originalEvent.dataTransfer.setData('type', $(this).data('type'));
     var img = $("<img>").attr("src", $(e.originalEvent.target).attr("src"));
     e.originalEvent.dataTransfer.setDragImage(img.get(0), 12, 21);
   });
@@ -321,11 +321,11 @@ OSM.Directions = function (map) {
     $("#map").on('drop', function (e) {
       e.preventDefault();
       var oe = e.originalEvent;
-      var id = oe.dataTransfer.getData('id');
+      var type = oe.dataTransfer.getData('type');
       var pt = L.DomEvent.getMousePosition(oe, map.getContainer());  // co-ordinates of the mouse pointer at present
       pt.y += 20;
       var ll = map.containerPointToLatLng(pt);
-      endpoints[id === 'marker_from' ? 0 : 1].setLatLng(ll);
+      endpoints[type === 'from' ? 0 : 1].setLatLng(ll);
       getRoute();
     });
 
