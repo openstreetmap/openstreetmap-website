@@ -54,7 +54,7 @@ $(document).ready(function () {
 
         if (xhr.getResponseHeader('X-Page-Title')) {
           var title = xhr.getResponseHeader('X-Page-Title');
-          document.title = decodeURIComponent(escape(title));
+          document.title = decodeURIComponent(title);
         }
 
         $('head')
