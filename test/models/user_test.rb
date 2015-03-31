@@ -200,6 +200,8 @@ class UserTest < ActiveSupport::TestCase
     user.languages = %w(fr de sl)
     assert_equal "de", user.preferred_language
     assert_equal "de", user.preferred_language_from(%w(en sl de es))
+    user = users(:public_user)
+    assert_equal %w(en de), user.languages
   end
 
   def test_visible?

@@ -120,7 +120,7 @@ class User < ActiveRecord::Base
   end
 
   def languages
-    attribute_present?(:languages) ? self[:languages].split(/ *, */) : []
+    attribute_present?(:languages) ? self[:languages].split(/ *[, ] */) : []
   end
 
   def languages=(languages)
