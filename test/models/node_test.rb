@@ -271,11 +271,11 @@ class NodeTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(no_node, true)
     end
-    assert_match /XML doesn't contain an osm\/node element/, message_create.message
+    assert_match %r{XML doesn't contain an osm/node element}, message_create.message
     message_update = assert_raise(OSM::APIBadXMLError) do
       Node.from_xml(no_node, false)
     end
-    assert_match /XML doesn't contain an osm\/node element/, message_update.message
+    assert_match %r{XML doesn't contain an osm/node element}, message_update.message
   end
 
   def test_from_xml_no_k_v

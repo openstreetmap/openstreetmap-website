@@ -24,11 +24,11 @@ class ChangesetTest < ActiveSupport::TestCase
     message_create = assert_raise(OSM::APIBadXMLError) do
       Changeset.from_xml(nocs, true)
     end
-    assert_match /XML doesn't contain an osm\/changeset element/, message_create.message
+    assert_match %r{XML doesn't contain an osm/changeset element}, message_create.message
     message_update = assert_raise(OSM::APIBadXMLError) do
       Changeset.from_xml(nocs, false)
     end
-    assert_match /XML doesn't contain an osm\/changeset element/, message_update.message
+    assert_match %r{XML doesn't contain an osm/changeset element}, message_update.message
   end
 
   def test_from_xml_no_k_v

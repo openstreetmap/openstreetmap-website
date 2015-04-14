@@ -177,7 +177,7 @@ class RelationControllerTest < ActionController::TestCase
     # need a role attribute to be included
     nid = current_nodes(:used_node_1).id
     content "<osm><relation changeset='#{changeset_id}'>" +
-      "<member  ref='#{nid}' type='node'/>" +       "<tag k='test' v='yes' /></relation></osm>"
+      "<member  ref='#{nid}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for forbidden due to user
     assert_response :forbidden,
@@ -265,7 +265,7 @@ class RelationControllerTest < ActionController::TestCase
     # need a role attribute to be included
     nid = current_nodes(:used_node_1).id
     content "<osm><relation changeset='#{changeset_id}'>" +
-      "<member  ref='#{nid}' type='node'/>" +       "<tag k='test' v='yes' /></relation></osm>"
+      "<member  ref='#{nid}' type='node'/>" + "<tag k='test' v='yes' /></relation></osm>"
     put :create
     # hope for success
     assert_response :success,

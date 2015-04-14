@@ -572,7 +572,7 @@ class UserController < ApplicationController
   def openid_expand_url(openid_url)
     if openid_url.nil?
       return nil
-    elsif openid_url.match(/(.*)gmail.com(\/?)$/) || openid_url.match(/(.*)googlemail.com(\/?)$/)
+    elsif openid_url.match(%r{(.*)gmail.com(/?)$}) || openid_url.match(%r{(.*)googlemail.com(/?)$})
       # Special case gmail.com as it is potentially a popular OpenID
       # provider and, unlike yahoo.com, where it works automatically, Google
       # have hidden their OpenID endpoint somewhere obscure this making it

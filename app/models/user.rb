@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
   validates :display_name, :if => proc { |u| u.display_name_changed? },
                            :uniqueness => { :case_sensitive => false }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
-                           :format => { :with => /\A[^\x00-\x1f\x7f\ufffe\uffff\/;.,?%#]*\z/ }
+                           :format => { :with => %r{\A[^\x00-\x1f\x7f\ufffe\uffff/;.,?%#]*\z} }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
                            :format => { :with => /\A\S/, :message => "has leading whitespace" }
   validates :display_name, :if => proc { |u| u.display_name_changed? },
@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   validates :home_lat, :home_lon, :allow_nil => true, :numericality => true
   validates :home_zoom, :allow_nil => true, :numericality => { :only_integer => true }
   validates :preferred_editor, :inclusion => Editors::ALL_EDITORS, :allow_nil => true
-  validates :image, :attachment_content_type => { :content_type => /\Aimage\/.*\Z/ }
+  validates :image, :attachment_content_type => { :content_type => %r{\Aimage/.*\Z} }
 
   validates_email_format_of :email, :if => proc { |u| u.email_changed? }
   validates_email_format_of :new_email, :allow_blank => true, :if => proc { |u| u.new_email_changed? }
@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
 
   def self.authenticate(options)
     if options[:username] && options[:password]
-      user = where("email = ? OR display_name = ?", options[:username], options[:username]).first
+      user = find_by("email = ? OR display_name = ?", options[:username], options[:username])
 
       if user.nil?
         users = where("LOWER(email) = LOWER(?) OR LOWER(display_name) = LOWER(?)", options[:username], options[:username])

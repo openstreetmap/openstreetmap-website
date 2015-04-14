@@ -1,6 +1,6 @@
 require "test_helper"
 
-class RedirectTest  < ActionDispatch::IntegrationTest
+class RedirectTest < ActionDispatch::IntegrationTest
   def test_legacy_redirects
     get "/index.html"
     assert_response :redirect

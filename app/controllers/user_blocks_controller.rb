@@ -63,7 +63,7 @@ class UserBlocksController < ApplicationController
         :ends_at => Time.now.getutc + @block_period.hours,
         :reason => params[:user_block][:reason],
         :needs_view => params[:user_block][:needs_view]
-            )
+      )
         flash[:notice] = t("user_block.update.success")
         redirect_to(@user_block)
       else

@@ -4,5 +4,5 @@ class Tracetag < ActiveRecord::Base
   belongs_to :trace, :foreign_key => "gpx_id"
 
   validates :trace, :associated => true
-  validates :tag, :length => 1..255, :format => /\A[^\/;.,?]*\z/
+  validates :tag, :length => 1..255, :format => %r{\A[^/;.,?]*\z}
 end

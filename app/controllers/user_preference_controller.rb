@@ -16,7 +16,7 @@ class UserPreferenceController < ApplicationController
     el1 = XML::Node.new "preferences"
 
     prefs.each do |pref|
-      el1 <<  pref.to_xml_node
+      el1 << pref.to_xml_node
     end
 
     doc.root << el1

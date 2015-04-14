@@ -4,13 +4,13 @@ module NoteHelper
       I18n.t("browse.note." + event + "_by_anonymous",
              :when => friendly_date(at),
              :exact_time => l(at)
-      ).html_safe
+            ).html_safe
     else
       I18n.t("browse.note." + event + "_by",
              :when => friendly_date(at),
              :exact_time => l(at),
              :user => note_author(by)
-      ).html_safe
+            ).html_safe
     end
   end
 

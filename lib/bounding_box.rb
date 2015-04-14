@@ -3,8 +3,8 @@ class BoundingBox
 
   LON_LIMIT = 180.0
   LAT_LIMIT = 90.0
-  SCALED_LON_LIMIT = LON_LIMIT *  GeoRecord::SCALE
-  SCALED_LAT_LIMIT = LAT_LIMIT *  GeoRecord::SCALE
+  SCALED_LON_LIMIT = LON_LIMIT * GeoRecord::SCALE
+  SCALED_LAT_LIMIT = LAT_LIMIT * GeoRecord::SCALE
 
   public
 

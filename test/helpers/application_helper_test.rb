@@ -168,19 +168,19 @@ class ApplicationHelperTest < ActionView::TestCase
 
   def test_friendly_date
     date = friendly_date(Time.new(2014, 3, 5, 18, 58, 23))
-    assert_match /^<span title=" *5 March 2014 at 18:58">.*<\/span>$/, date
+    assert_match %r{^<span title=" *5 March 2014 at 18:58">.*</span>$}, date
 
     date = friendly_date(Time.now - 1.hour)
-    assert_match /^<span title=".*">about 1 hour<\/span>$/, date
+    assert_match %r{^<span title=".*">about 1 hour</span>$}, date
 
     date = friendly_date(Time.now - 2.days)
-    assert_match /^<span title=".*">2 days<\/span>$/, date
+    assert_match %r{^<span title=".*">2 days</span>$}, date
 
     date = friendly_date(Time.now - 3.weeks)
-    assert_match /^<span title=".*">21 days<\/span>$/, date
+    assert_match %r{^<span title=".*">21 days</span>$}, date
 
     date = friendly_date(Time.now - 4.months)
-    assert_match /^<span title=".*">4 months<\/span>$/, date
+    assert_match %r{^<span title=".*">4 months</span>$}, date
   end
 
   def test_body_class

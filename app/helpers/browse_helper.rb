@@ -160,7 +160,7 @@ module BrowseHelper
 
   def telephone_link(_key, value)
     # does it look like a phone number? eg "+1 (234) 567-8901 " ?
-    return nil unless value =~ /^\s*\+[\d\s\(\)\/\.-]{6,25}\s*$/
+    return nil unless value =~ %r{^\s*\+[\d\s\(\)/\.-]{6,25}\s*$}
 
     # remove all whitespace instead of encoding it http://tools.ietf.org/html/rfc3966#section-5.1.1
     # "+1 (234) 567-8901 " -> "+1(234)567-8901"

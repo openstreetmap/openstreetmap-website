@@ -98,7 +98,7 @@ module ActionController
               unknown_option_keys.empty?
 
       options[:singular_name] ||= ActiveSupport::Inflector.singularize(collection_id.to_s)
-      options[:class_name]  ||= ActiveSupport::Inflector.camelize(options[:singular_name])
+      options[:class_name] ||= ActiveSupport::Inflector.camelize(options[:singular_name])
     end
 
     # Returns a paginator and a collection of Active Record model instances

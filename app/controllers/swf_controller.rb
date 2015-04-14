@@ -45,9 +45,9 @@ class SwfController < ApplicationController
 
     if params["token"]
       user = User.authenticate(:token => params[:token])
-      sql = "SELECT gps_points.latitude*0.0000001 AS lat,gps_points.longitude*0.0000001 AS lon,gpx_files.id AS fileid," + 		       "      EXTRACT(EPOCH FROM gps_points.timestamp) AS ts, gps_points.trackid AS trackid " + 			   " FROM gpx_files,gps_points " + 			   "WHERE gpx_files.id=gpx_id " + 			   "  AND gpx_files.user_id=#{user.id} " + 			   "  AND " + OSM.sql_for_area(bbox, "gps_points.") + 			   "  AND (gps_points.timestamp IS NOT NULL) " + 			   "ORDER BY fileid DESC,ts " + 			   "LIMIT 10000 OFFSET #{start}"
+      sql = "SELECT gps_points.latitude*0.0000001 AS lat,gps_points.longitude*0.0000001 AS lon,gpx_files.id AS fileid," + "      EXTRACT(EPOCH FROM gps_points.timestamp) AS ts, gps_points.trackid AS trackid " + " FROM gpx_files,gps_points " + "WHERE gpx_files.id=gpx_id " + "  AND gpx_files.user_id=#{user.id} " + "  AND " + OSM.sql_for_area(bbox, "gps_points.") + "  AND (gps_points.timestamp IS NOT NULL) " + "ORDER BY fileid DESC,ts " + "LIMIT 10000 OFFSET #{start}"
     else
-      sql = "SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,gpx_id AS fileid," + 			     "      EXTRACT(EPOCH FROM timestamp) AS ts, gps_points.trackid AS trackid " + 				 " FROM gps_points " + 				 "WHERE " + OSM.sql_for_area(bbox, "gps_points.") + 				 "  AND (gps_points.timestamp IS NOT NULL) " + 				 "ORDER BY fileid DESC,ts " + 				 "LIMIT 10000 OFFSET #{start}"
+      sql = "SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,gpx_id AS fileid," + "      EXTRACT(EPOCH FROM timestamp) AS ts, gps_points.trackid AS trackid " + 				 " FROM gps_points " + 				 "WHERE " + OSM.sql_for_area(bbox, "gps_points.") + 				 "  AND (gps_points.timestamp IS NOT NULL) " + 				 "ORDER BY fileid DESC,ts " + 				 "LIMIT 10000 OFFSET #{start}"
     end
     gpslist = ActiveRecord::Base.connection.select_all sql
 

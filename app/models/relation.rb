@@ -186,7 +186,7 @@ class Relation < ActiveRecord::Base
       self.lock!
       check_consistency(self, new_relation, user)
       # This will check to see if this relation is used by another relation
-      rel = RelationMember.joins(:relation).where("visible = ? AND member_type = 'Relation' and member_id = ? ", true, id).first
+      rel = RelationMember.joins(:relation).find_by("visible = ? AND member_type = 'Relation' and member_id = ? ", true, id)
       fail OSM::APIPreconditionFailedError.new("The relation #{new_relation.id} is used in relation #{rel.relation.id}.") unless rel.nil?
 
       self.changeset_id = new_relation.changeset_id
@@ -247,7 +247,7 @@ class Relation < ActiveRecord::Base
       # use reflection to look up the appropriate class
       model = Kernel.const_get(m[0].capitalize)
       # get the element with that ID
-      element = model.where(:id => m[1]).first
+      element = model.find_by(:id => m[1])
 
       # and check that it is OK to use.
       unless element && element.visible? && element.preconditions_ok?

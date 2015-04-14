@@ -183,7 +183,7 @@ module Potlatch
       File.open("#{Rails.root}/config/potlatch/presets.txt") do |file|
         file.each_line do|line|
           t = line.chomp
-          if t =~ /(\w+)\/(\w+)/
+          if t =~ %r{(\w+)/(\w+)}
             presettype = $1
             presetcategory = $2
             presetmenus[presettype].push(presetcategory)
@@ -246,7 +246,7 @@ module Potlatch
       autotags = { "point" => {}, "way" => {}, "POI" => {} }
       File.open("#{Rails.root}/config/potlatch/autocomplete.txt") do |file|
         file.each_line do|line|
-          next unless line.chomp =~ /^([\w:]+)\/(\w+)\s+(.+)$/
+          next unless line.chomp =~ %r{^([\w:]+)/(\w+)\s+(.+)$}
 
           tag = $1
           type = $2

@@ -55,7 +55,7 @@ module ShortLink
   # given a location and zoom, return a short string representing it.
   def self.encode(lon, lat, z)
     code = interleave_bits(((lon + 180.0) * 2**32 / 360.0).to_i,
-                           ((lat +  90.0) * 2**32 / 180.0).to_i)
+                           ((lat + 90.0) * 2**32 / 180.0).to_i)
     str = ""
     # add eight to the zoom level, which approximates an accuracy of
     # one pixel in a tile.

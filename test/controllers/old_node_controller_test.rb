@@ -51,7 +51,7 @@ class OldNodeControllerTest < ActionController::TestCase
     # randomly move the node about
     20.times do
       # move the node somewhere else
-      xml_node["lat"] = precision(rand * 180 -  90).to_s
+      xml_node["lat"] = precision(rand * 180 - 90).to_s
       xml_node["lon"] = precision(rand * 360 - 180).to_s
       with_controller(NodeController.new) do
         content xml_doc
@@ -100,7 +100,7 @@ class OldNodeControllerTest < ActionController::TestCase
     # randomly move the node about
     20.times do
       # move the node somewhere else
-      xml_node["lat"] = precision(rand * 180 -  90).to_s
+      xml_node["lat"] = precision(rand * 180 - 90).to_s
       xml_node["lon"] = precision(rand * 360 - 180).to_s
       with_controller(NodeController.new) do
         content xml_doc
