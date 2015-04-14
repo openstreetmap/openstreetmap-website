@@ -3,6 +3,9 @@ source "https://rubygems.org"
 # Require rails
 gem "rails", "4.2.1"
 
+# Sprockets 3 seems to be buggy, so stick with 2 for now
+gem "sprockets", "~> 2.12.3"
+
 # Require things which have moved to gems in ruby 1.9
 gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
 
