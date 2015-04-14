@@ -45,6 +45,7 @@ OSM.initializeNotes = function (map) {
     } else {
       marker = L.marker(feature.geometry.coordinates.reverse(), {
         icon: noteIcons[feature.properties.status],
+        title: feature.properties.comments[0].text,
         opacity: 0.8,
         clickable: true
       });
