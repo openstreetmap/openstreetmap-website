@@ -269,7 +269,7 @@ class ApiControllerTest < ActionController::TestCase
   # http://wiki.openstreetmap.org/wiki/Rails#Installing_the_quadtile_functions
   # or by looking at the readme in db/README
   def test_changes_simple
-    Timecop.freeze(Time.parse("2010-04-03 10:55:00"))
+    Timecop.freeze(Time.utc(2010, 4, 3, 10, 55, 0))
     get :changes
     assert_response :success
     # print @response.body
@@ -284,7 +284,7 @@ class ApiControllerTest < ActionController::TestCase
     end
     Timecop.return
 
-    Timecop.freeze(Time.parse("2007-01-01 00:30:00"))
+    Timecop.freeze(Time.utc(2007, 1, 1, 0, 30, 0))
     get :changes
     assert_response :success
     # print @response.body
