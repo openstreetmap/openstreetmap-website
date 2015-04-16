@@ -252,14 +252,12 @@ class UserController < ApplicationController
   def login
     session[:referer] = params[:referer] if params[:referer]
 
-    if params[:username] || params[:openid_url]
-      if params[:openid_url].present?
-        session[:remember_me] ||= params[:remember_me_openid]
-        redirect_to auth_url("openid", params[:openid_url])
-      else
-        session[:remember_me] ||= params[:remember_me]
-        password_authentication(params[:username], params[:password])
-      end
+    if params[:username].present? && params[:password].present?
+      session[:remember_me] ||= params[:remember_me]
+      password_authentication(params[:username], params[:password])
+    elsif params[:openid_url].present?
+      session[:remember_me] ||= params[:remember_me_openid]
+      redirect_to auth_url("openid", params[:openid_url])
     end
   end
 
