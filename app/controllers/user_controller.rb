@@ -545,7 +545,7 @@ class UserController < ApplicationController
   # omniauth failure callback
   def auth_failure
     flash[:error] = t("user.auth_failure." + params[:message])
-    redirect_to params[:origin]
+    redirect_to params[:origin] || login_url
   end
 
   private
