@@ -9,6 +9,7 @@
 # Author: Priviet
 # Author: Revi
 # Author: Stleamist
+# Author: Twotwo2019
 # Author: Wrightbus
 # Author: 아라
 ---
@@ -16,6 +17,7 @@ ko:
   time:
     formats:
       friendly: '%Y년 %B %e일 %H:%M'
+      blog: '%Y년 %B %e일'
   activerecord:
     models:
       acl: 통행 제한 목록
@@ -33,13 +35,13 @@ ko:
       old_node: 이전 노드
       old_node_tag: 이전 노드 태그
       old_relation: 이전 관계
-      old_relation_member: 이전 관계 구성원
+      old_relation_member: 이전 관계 구성 요소
       old_relation_tag: 이전 관계 태그
       old_way: 이전 길
       old_way_node: 이전 길 노드
       old_way_tag: 이전 길 태그
       relation: 관계
-      relation_member: 관계 구성원
+      relation_member: 관계 구성 요소
       relation_tag: 관계 태그
       session: 세션
       trace: 추적
@@ -65,7 +67,7 @@ ko:
         friend: 친구
       trace:
         user: 사용자
-        visible: 일람 가능
+        visible: 보임
         name: 이름
         size: 크기
         latitude: 위도
@@ -150,7 +152,7 @@ ko:
     relation:
       title: '관계: %{name}'
       history_title: '관계 역사: %{name}'
-      members: 구성원
+      members: 구성 요소
     relation_member:
       entry_role: '%{type}에서 %{role}의 %{name}'
       type:
@@ -176,15 +178,15 @@ ko:
         changeset: 바뀜집합
     redacted:
       redaction: 개정 %{id}
-      message_html: 이 %{type}의 %{version} 판은 수정한 판으로 볼 수 없습니다. 자세한 내용은 %{redaction_link}(을)를
+      message_html: 이 %{type}의 %{version}판은 비공개 처리되었기 때문에 볼 수 없습니다. 자세한 내용은 %{redaction_link}(을)를
         참고하세요.
       type:
         node: 노드
         way: 길
         relation: 관계
     start_rjs:
-      feature_warning: 지물 %{num_features}개를 불러오고 있으며, 브라우저가 느려지거나 응답하지 않을 수 있습니다.
-        이 데이터를 보여줄까요?
+      feature_warning: 지물 %{num_features}개를 불러오고 있기 때문에 브라우저가 느려지거나 응답하지 않을 수 있습니다.
+        정말 이 데이터를 보시겠습니까?
       load_data: 데이터 불러오기
       loading: 불러오는 중...
     tag_details:
@@ -192,9 +194,9 @@ ko:
       wiki_link:
         key: '%{key} 태그에 대한 위키 설명 문서'
         tag: '%{key}=%{value} 태그에 대한 위키 설명 문서'
-      wikidata_link: 위키데이터에서의 %{page} 항목
-      wikipedia_link: 위키백과의 %{page} 문서
-      telephone_link: '%{phone_number} 걸기'
+      wikidata_link: 위키데이터 %{page} 항목
+      wikipedia_link: 위키백과 %{page} 문서
+      telephone_link: '%{phone_number}로 전화 걸기'
     note:
       title: '참고: %{id}'
       new_note: 새 참고
@@ -203,20 +205,20 @@ ko:
       closed_title: '해결된 참고 #%{note_name}'
       hidden_title: '숨겨진 참고 #%{note_name}'
       open_by: '%{user} 사용자가 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 만듦'
-      open_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 만듦
+      open_by_anonymous: 익명 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에 만듦
       commented_by: '%{user} 사용자가 <abbr title=''%{exact_time}''>%{when} 전</abbr>에
         덧글을 남김'
-      commented_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 덧글을
-        남김
+      commented_by_anonymous: 익명 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에
+        덧글을 남김
       closed_by: '%{user} 사용자가 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 해결함'
-      closed_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 해결함
+      closed_by_anonymous: 익명 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에 해결함
       reopened_by: '%{user} 사용자가 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 다시
         활성화함'
-      reopened_by_anonymous: 익명이 <abbr title='%{exact_time}'>%{when} 전</abbr>에 다시
-        활성화함
+      reopened_by_anonymous: 익명 사용자가 <abbr title='%{exact_time}'>%{when} 전</abbr>에
+        다시 활성화함
       hidden_by: '%{user} 사용자가 <abbr title=''%{exact_time}''>%{when} 전</abbr>에 숨김'
     query:
-      title: 지물 쿼리
+      title: 지물 정보
       introduction: 근처의 지물을 찾으려면 지도에서 클릭하세요.
       nearby: 근처 지물
       enclosing: 둘러싸는 지물
@@ -226,7 +228,7 @@ ko:
       next: 다음 »
       previous: « 이전
     changeset:
-      anonymous: 익명
+      anonymous: 익명 사용자
       no_edits: (편집 없음)
       view_changeset_details: 바뀜집합 자세한 사항 보기
     changesets:
@@ -250,8 +252,12 @@ ko:
     timeout:
       sorry: 죄송합니다, 요청하는 바뀜집합 목록을 얻는데 너무 오래 걸립니다.
     rss:
+      title_all: OpenStreetMap 바뀜집합 토론
+      title_particular: 'OpenStreetMap 바뀜집합 #%{changeset_id} 토론'
+      comment: '바뀜집합 #%{changeset_id}에 %{author}님이 새 덧글을 남김'
       commented_at_html: '%{when} 전에 업데이트함'
       commented_at_by_html: '%{user} 사용자가 %{when} 전에 업데이트함'
+      full: 전체 토론
   diary_entry:
     new:
       title: 새 일기 항목
@@ -386,8 +392,10 @@ ko:
     search_osm_nominatim:
       prefix:
         aerialway:
+          cable_car: 케이블 카
           chair_lift: 체어 리프트
           drag_lift: 드래그 리프트
+          gondola: 곤돌라 리프트
           station: 삭도장
         aeroway:
           aerodrome: 비행장
@@ -398,6 +406,7 @@ ko:
           taxiway: 유도로
           terminal: 터미널
         amenity:
+          animal_shelter: 동물 쉼터
           arts_centre: 예술 회관
           atm: ATM
           bank: 은행
@@ -407,6 +416,7 @@ ko:
           bicycle_parking: 자전거 주차장
           bicycle_rental: 자전거 대여
           biergarten: 비어 가든
+          boat_rental: 보트 대여
           brothel: 매음굴
           bureau_de_change: 환전소
           bus_station: 버스 정류장
@@ -416,8 +426,10 @@ ko:
           car_wash: 세차장
           casino: 카지노
           charging_station: 충전 스테이션
+          childcare: 육아
           cinema: 영화관
           clinic: 진료소
+          clock: 시계
           college: 전문대학
           community_centre: 커뮤니티 센터
           courthouse: 법원
@@ -436,6 +448,7 @@ ko:
           food_court: 푸드코트
           fountain: 분수대
           fuel: 주유소
+          gambling: 도박장
           grave_yard: 묘지
           gym: 피트니스 센터 / 체육관
           health_centre: 보건소
@@ -446,11 +459,14 @@ ko:
           library: 도서관
           market: 시장
           marketplace: 시장
+          monastery: 수도원
+          motorcycle_parking: 모터사이클 주차장
           nightclub: 나이트 클럽
           nursery: 보육원
           nursing_home: 복지관
           office: 사무실
           parking: 주차장
+          parking_entrance: 주차장 입구
           pharmacy: 약국
           place_of_worship: 예배당
           police: 경찰서
@@ -484,6 +500,7 @@ ko:
           veterinary: 동물병원
           village_hall: 주민센터
           waste_basket: 쓰레기통
+          waste_disposal: 폐기물 처리장
           youth_centre: 청소년 센터
         boundary:
           administrative: 행정 구역 경계
@@ -498,14 +515,30 @@ ko:
           "yes": 다리
         building:
           "yes": 건물
+        craft:
+          brewery: 주조공
+          carpenter: 목수
+          electrician: 전기공
+          gardener: 정원사
+          painter: 화가
+          photographer: 사진 작가
+          plumber: 배관공
+          shoemaker: 구두공
+          tailor: 재단사
+          "yes": 공예 가게
         emergency:
+          ambulance_station: 구급차 스테이션
+          defibrillator: 제세동기
+          landing_site: 비상 착륙지
           phone: 긴급 전화
         highway:
+          abandoned: 버려진 고속도로
           bridleway: 승마로
           bus_guideway: 가이드 버스 차선
           bus_stop: 버스 정류장
           construction: 건설 중인 고속도로
           cycleway: 자전거로
+          elevator: 엘리베이터
           emergency_access_point: 긴급 접근 지점
           footway: 보도
           ford: 여울
@@ -534,32 +567,41 @@ ko:
           tertiary: 3차 도로
           tertiary_link: 3차 도로
           track: 추적
+          traffic_signals: 교통 신호
           trail: 샛길
           trunk: 간선 도로
           trunk_link: 간선 도로
           unclassified: 분류하지 않은 도로
           unsurfaced: 비포장 도로
+          "yes": 도로
         historic:
           archaeological_site: 고고학장
           battlefield: 전쟁터
           boundary_stone: 경계석
-          building: 건물
+          building: 사적 건물
+          bunker: 벙커
           castle: 성
           church: 교회
+          city_gate: 성문
           citywalls: 성벽
           fort: 성채
+          heritage: 문화 유산지
           house: 주택
           icon: 아이콘
           manor: 장원
           memorial: 기념관
           mine: 광산
           monument: 기념물
+          roman_road: 로마 도로
           ruins: 유적
+          stone: 돌
           tomb: 무덤
           tower: 탑
           wayside_cross: 도로변의 십자가
           wayside_shrine: 길가의 신사
           wreck: 난파선
+        junction:
+          "yes": 분기점
         landuse:
           allotments: 텃밭
           basin: 웅덩이
@@ -591,14 +633,19 @@ ko:
           road: 도로 지역
           village_green: 녹색 마을
           vineyard: 포도밭
+          "yes": 토지 이용
         leisure:
           beach_resort: 해수욕장
           bird_hide: 조류 관찰지
+          club: 클럽
           common: 공유지
+          dog_park: 개 공원
           fishing: 낚시터
+          fitness_centre: 피트니스 센터
           fitness_station: 피트니스 스테이션
           garden: 정원
           golf_course: 골프장
+          horse_riding: 승마
           ice_rink: 아이스 링크
           marina: 마리나
           miniature_golf: 미니어처 골프
@@ -607,6 +654,7 @@ ko:
           pitch: 운동장
           playground: 놀이터
           recreation_ground: 놀이 공원
+          resort: 리조트
           sauna: 사우나
           slipway: 슬립 웨이
           sports_centre: 스포츠 센터
@@ -614,6 +662,13 @@ ko:
           swimming_pool: 수영장
           track: 육상 트랙
           water_park: 워터 파크
+          "yes": 여가
+        man_made:
+          lighthouse: 등대
+          pipeline: 파이프라인
+          tower: 탑
+          works: 공장
+          "yes": 인공물
         military:
           airfield: 군용 비행장
           barracks: 막사
@@ -633,6 +688,7 @@ ko:
           forest: 숲
           geyser: 간헐천
           glacier: 빙하
+          grassland: 초원
           heath: 황무지
           hill: 언덕
           island: 섬
@@ -645,10 +701,12 @@ ko:
           reef: 암초
           ridge: 산등성이
           rock: 바위
+          saddle: 안부
+          sand: 모래
           scree: 급사면
           scrub: 우거진 숲
           spring: 온천
-          stone: 암석
+          stone: 돌
           strait: 해협
           tree: 나무
           valley: 골짜기
@@ -658,6 +716,7 @@ ko:
           wood: 산림
         office:
           accountant: 회계 사무소
+          administrative: 관리실
           architect: 건축사
           company: 회사
           employment_agency: 직업 소개소
@@ -670,6 +729,8 @@ ko:
           travel_agent: 여행사
           "yes": 사무실
         place:
+          allotments: 텃밭
+          block: 벽돌
           airport: 공항
           city: 시
           country: 국가
@@ -694,8 +755,9 @@ ko:
           town: 마을
           unincorporated_area: 비법인 지역
           village: 마을
+          "yes": 장소
         railway:
-          abandoned: 폐지된 철도
+          abandoned: 버려진 철도
           construction: 건설 중인 철도
           disused: 폐선된 철도
           disused_station: 폐선된 철도역
@@ -796,6 +858,7 @@ ko:
           "yes": 상점
         tourism:
           alpine_hut: 고산장
+          apartment: 아파트먼트
           artwork: 예술 작품
           attraction: 견인
           bed_and_breakfast: 잠자기와 아침 식사(민박)
@@ -803,6 +866,7 @@ ko:
           camp_site: 캠프장
           caravan_site: 캐러밴 사이트
           chalet: 별장
+          gallery: 갤러리
           guest_house: 게스트 하우스
           hostel: 호스텔
           hotel: 호텔
@@ -834,6 +898,7 @@ ko:
           wadi: 와디
           waterfall: 폭포
           weir: 어량
+          "yes": 수로
       admin_levels:
         level2: 국가 경계
         level4: 주 경계
@@ -854,19 +919,6 @@ ko:
     results:
       no_results: 결과가 없습니다
       more_results: 더 많은 결과
-    distance:
-      one: 약 1km
-      zero: 1km보다 적음
-      other: 약 %{count}km
-    direction:
-      south_west: 남서
-      south: 남
-      south_east: 남동
-      east: 동
-      north_east: 북동
-      north: 북
-      north_west: 북서
-      west: 서
   layouts:
     logo:
       alt_text: OpenStreetMap 로고
@@ -1222,6 +1274,8 @@ ko:
         your_changeset: '%{commenter} 사용자가 당신이 %{time}에 만든 바뀜집합에 덧글을 달았습니다'
         commented_changeset: '%{commenter} 사용자가 %{changeset_author}이 %{time}에 만든,
           주시 중인 지도 바뀜집합에 덧글을 달았습니다'
+        partial_changeset_with_comment: '''%{changeset_comment}'' 덧글로'
+        partial_changeset_without_comment: 덧글 없이
       details: 바뀜집합에 대한 자세한 사항은 %{url} 에서 찾을 수 있습니다.
   message:
     inbox:
@@ -1325,6 +1379,10 @@ ko:
       close: 닫기
     search:
       search: 검색
+      get_directions: 길 찾기
+      get_directions_title: 두 지점 사이의 길 찾기
+      from: 출발지
+      to: 도착지
       where_am_i: 내가 어디있나요?
       where_am_i_title: 검색 엔진을 사용하여 현재 위치를 나타냅니다
       submit_text: 가기
@@ -1627,7 +1685,6 @@ ko:
       login_button: 로그인
       register now: 지금 등록하세요
       with username: '이미 OpenStreetMap 계정을 가지고 있나요? 계정 이름과 비밀번호로 로그인하세요:'
-      with openid: '또는 OpenID로 로그인하세요:'
       new to osm: OpenStreetMap이 처음이세요?
       to make changes: OpenStreetMap 데이터를 바꾸려면 계정이 있어야 합니다.
       create account minute: 계정을 만듭니다. 1분도 걸리지 않습니다.
@@ -1637,25 +1694,7 @@ ko:
       account is suspended: 죄송합니다, 의심스러운 활동으로 인해 계정이 일시 중지되었습니다.<br />이 문제를 토론하려면
         <a href="%{webmaster}">웹마스터</a>에게 문의하세요.
       auth failure: 죄송합니다, 입력한 정보로 로그인할 수 없습니다.
-      openid missing provider: 죄송합니다, OpenID 제공자에 문의할 수 없습니다
-      openid invalid: 죄송합니다, OpenID가 잘못된 형식인 것 같습니다
       openid_logo_alt: OpenID로 로그인
-      openid_providers:
-        openid:
-          title: OpenID로 로그인
-          alt: OpenID URL로 로그인
-        google:
-          title: Google로 로그인
-          alt: Google OpenID로 로그인
-        yahoo:
-          title: 야후로 로그인
-          alt: 야후 OpenID로 로그인
-        wordpress:
-          title: 워드프레스로 로그인
-          alt: 워드프레스 OpenID로 로그인
-        aol:
-          title: AOL로 로그인
-          alt: AOL OpenID로 로그인
     logout:
       title: 로그아웃
       heading: OpenStreetMap에서 로그아웃
@@ -1695,20 +1734,8 @@ ko:
         title="이메일 주소에 대한 부분을 포함한 위키 개인 정보 정책">개인 정보 정책</a>을 참고하세요)
       display name: '보여줄 이름:'
       display name description: 공개적으로 보여질 사용자 이름입니다. 나중에 환경 설정에서 바꿀 수 있습니다.
-      openid: '%{logo} OpenID:'
       password: '비밀번호:'
       confirm password: '비밀번호 확인:'
-      use openid: 또는 %{logo} OpenID를 사용하여 로그인하세요
-      openid no password: OpenID로 비밀번호가 필요하지 않지만 몇 가지 추가 도구나 서버는 여전히 비밀번호가 필요할 수 있습니다.
-      openid association: |-
-        <p>OpenID는 아직 OpenStreetMap 계정과 연결되지 않았습니다.</p>
-        <ul>
-          <li>OpenStreetMap에 새로 가입하려면 아래의 양식을 사용하여 새 계정을 만드세요.</li>
-          <li>
-            이미 계정이 있다면 사용자 이름과 비밀번호를 사용해 로그인하고 나서
-            사용자 설정에서 OpenID와 계정을 연결할 수 있습니다.
-          </li>
-        </ul>
       continue: 가입하기
       terms accepted: 새 기여자 약관에 동의하셔서 감사합니다!
       terms declined: 새 기여자 약관에 동의하지 않은 것으로 결정했기에 죄송합니다. 자세한 정보에 대해서는 <a href="%{url}">이
@@ -1809,22 +1836,22 @@ ko:
       new email address: '새 이메일 주소:'
       email never displayed publicly: (절대 공개하지 않습니다)
       openid:
-        openid: 'OpenID:'
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: 이게 뭐죠?
       public editing:
         heading: '공개 편집:'
-        enabled: 활성화했습니다. 익명이 아닌 사용자는 데이터를 편집할 수 있습니다.
+        enabled: 활성화했습니다. 익명이 아니며 데이터를 편집할 수 있습니다.
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
         enabled link text: 이게 뭐죠?
-        disabled: 바활성화되어 데이터를 편집할 수 없으며, 모든 이전 편집은 익명으로 됩니다.
+        disabled: 바활성화되어 데이터를 편집할 수 없으며, 모든 이전 편집은 익명입니다.
         disabled link text: 왜 편집할 수 없나요?
       public editing note:
         heading: 공개 편집
-        text: 현재 편집은 익명이고 사람이 당신에게 메시지를 보내거나 위치를 볼 수 없습니다. 당신이 편집한 것으로 나타내고 사람이 웹
-          사이트를 통해 연락을 허용하려면 아래 버튼을 클릭하세요. <b>0.6 API 역전 이후 공개 새용자만 지도 데이터를 편집할 수 있습니다</b>.
-          (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">이유 알아보기</a>).<ul><li>이메일
-          주소는 공개함으로서 추가로 공개하지 않습니다.</li><li>이 작업을 되돌릴 수 없고 모든 새 사용자는 지금 기본값으로 공개입니다.</li></ul>
+        text: 현재 편집은 익명으로 나타나며, 다른 사람에게서 메시지를 받을 수 없고 자신의 위치가 공개되지 않습니다. 자신이 편집한 것을
+          드러내고 다른 사람이 웹 사이트를 통해 연락할 수 있게 하려면 아래 버튼을 클릭하세요. <b>0.6 API 개편 이후 공개 사용자만
+          지도 데이터를 편집할 수 있습니다</b>. (<a href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">이유
+          알아보기</a>).<ul><li>공개 사용자가 되더라도 이메일 주소는 공개되지 않습니다.</li><li>이 조치는 취소할 수 없으며,
+          모든 신규 사용자는 현재 기본적으로 공개 계정입니다.</li></ul>
       contributor terms:
         heading: '기여자 약관:'
         agreed: 새 기여자 약관에 동의했습니다.
@@ -1861,6 +1888,7 @@ ko:
       introduction_2: 이메일에 있는 링크를 클릭하여 계정을 확인하면 매핑을 시작할 수 있습니다.
       press confirm button: 계정을 활성화하려면 아래 확인 버튼을 누르세요.
       button: 확인
+      success: 계정을 확인했습니다, 가입해주셔서 감사합니다!
       already active: 이 계정은 이미 확인했습니다.
       unknown token: 확인 코드가 만료되었거나 존재하지 않습니다.
       reconfirm_html: 확인 이메일을 다시 보낼 필요가 있다면, <a href="%{reconfirm}">여기를 클릭하세요</a>.
@@ -2111,7 +2139,8 @@ ko:
       createnote_disabled_tooltip: 지도에 참고를 추가하려면 확대
       map_notes_zoom_in_tooltip: 지도 참고를 보려면 확대
       map_data_zoom_in_tooltip: 지도 데이터를 보려면 확대
-      queryfeature_tooltip: 지물 쿼리
+      queryfeature_tooltip: 지물 정보
+      queryfeature_disabled_tooltip: 지물 정보를 확인하려면 지도를 확대하세요
     changesets:
       show:
         comment: 덧글
@@ -2132,6 +2161,40 @@ ko:
         comment_and_resolve: 덧글 & 해결
         comment: 덧글
     edit_help: 편집하려는 위치에 지도를 이동하고 확대한 다음, 여기를 클릭하세요.
+    directions:
+      engines:
+        graphhopper_bicycle: 자전거 (GraphHopper)
+        graphhopper_foot: 도보 (GraphHopper)
+        mapquest_bicycle: 자전거 (MapQuest)
+        mapquest_car: 자동차 (MapQuest)
+        mapquest_foot: 도보 (MapQuest)
+        osrm_car: 자동차 (OSRM)
+      directions: 길
+      distance: 거리
+      errors:
+        no_route: 두 장소 사이의 경로를 찾을 수 없습니다.
+        no_place: 죄송합니다 - 그 장소를 찾을 수 없습니다.
+      instructions:
+        continue_on: 계속 가세요
+        slight_right: 완만하게 오른쪽으로 도세요
+        turn_right: 오른쪽으로 도세요
+        sharp_right: 오른쪽으로 꺾으세요
+        uturn: 유턴하세요
+        sharp_left: 왼쪽으로 꺾으세요
+        turn_left: 왼쪽으로 도세요
+        slight_left: 완만하게 왼쪽으로 도세요
+        via_point: (지점을 통해)
+        follow: 따라가세요
+        roundabout: 회전교차로에서
+        leave_roundabout: 회전교차로에서 떠나세요 -
+        stay_roundabout: 회전교차로에 머무세요 -
+        start: 다음의 끝에서 시작
+        destination: 목적지에 도착합니다
+        against_oneway: 일방통행에 따라 가세요
+        end_oneway: 일반통행의 끝
+        unnamed: (이름 없음)
+        courtesy: '%{link}의 길 풍습'
+      time: 시간
     query:
       node: 노드
       way: 길

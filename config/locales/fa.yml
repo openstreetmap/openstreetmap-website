@@ -5,6 +5,7 @@
 # Author: Armin1392
 # Author: BMRG14
 # Author: Baqeri
+# Author: Danialbehzadi
 # Author: Ebraminio
 # Author: Fatemi127
 # Author: Grille chompa
@@ -12,6 +13,8 @@
 # Author: Huji
 # Author: Leyth
 # Author: Mcuteangel
+# Author: Mjbmr
+# Author: Movyn
 # Author: Omidh
 # Author: Reza1615
 # Author: Sahim
@@ -89,7 +92,7 @@ fa:
         body: بدنه
         recipient: گیرنده
       user:
-        email: رایانامه
+        email: ایمیل
         active: فعال
         display_name: نام نمایشی
         description: توضیحات
@@ -137,11 +140,15 @@ fa:
       relation: روابط (%{count})
       relation_paginated: روابط (%{x}-%{y} از %{count})
       comment: نظرها (%{count})
+      hidden_commented_by: نظر مخفی از %{user}، <abbr title='%{exact_time}'>%{when}
+        پیش</abbr>
+      commented_by: نظر از %{user} <abbr title='%{exact_time}'>%{when} قبل</abbr>
       changesetxml: تغییرات انجام شده XML
       osmchangexml: osmChange XML
       feed:
         title: تغییرات انجام شده %{id}
         title_comment: تغییرات انجام شده %{id} - %{comment}
+      join_discussion: وارد شوید تا به بحث بپیوندید
       discussion: بحث
     node:
       title: 'گره: %{name}'
@@ -224,6 +231,7 @@ fa:
       hidden_by: مخفی شد توسط %{user} <abbr title='%{exact_time}'>%{when} قبل</abbr>
     query:
       title: کوئری ویژگی‌ها
+      introduction: روی نقشه کلیک کنید تا ویژگی‌های نزدیک را پیدا کنید
       nearby: ویژگی‌های نزدیک
       enclosing: ویژگی‌های نزدیک
   changeset:
@@ -256,6 +264,10 @@ fa:
     timeout:
       sorry: پوزش، فهرست تغییرات انجام شده ی درخواستی شما برای بازیابی بیش از حد زمان
         میبرد.
+    rss:
+      commented_at_html: بروز شده %{when} قبل
+      commented_at_by_html: بروز شده %{when} قبل توسط %{user}
+      full: کل بحث
   diary_entry:
     new:
       title: ورودی یادداشت های روزانه جدید
@@ -393,8 +405,10 @@ fa:
     search_osm_nominatim:
       prefix:
         aerialway:
+          cable_car: ماشین کابلی
           chair_lift: صندلی بالابر
           drag_lift: بالابر کشیدنی
+          gondola: تلهکابین
           station: ایستگاه راه هوایی
         aeroway:
           aerodrome: فرودگاه هواپیما
@@ -405,6 +419,7 @@ fa:
           taxiway: فرود به صحن
           terminal: پایانه
         amenity:
+          animal_shelter: پناهگاه حیوانات
           arts_centre: مرکز هنری
           atm: خودپرداز
           bank: بانک
@@ -414,6 +429,7 @@ fa:
           bicycle_parking: پارکینگ دوچرخه
           bicycle_rental: اجارهٔ دوچرخه
           biergarten: باغ آبجو
+          boat_rental: کرایه قایق
           brothel: فاحشه‌خانه
           bureau_de_change: دفتر ارز
           bus_station: ایستگاه اتوبوس
@@ -423,8 +439,10 @@ fa:
           car_wash: کارواش
           casino: کازینو
           charging_station: ایستگاه شارژ
+          childcare: نگهداری کودکان
           cinema: سینما
           clinic: درمانگاه
+          clock: ساعت
           college: کالج
           community_centre: مرکز انجمن
           courthouse: دادگاه
@@ -443,6 +461,7 @@ fa:
           food_court: پذيرايي
           fountain: چشمه
           fuel: پمپ بنزین
+          gambling: قمار
           grave_yard: محوطهٔ گورستان
           gym: مرکز تناسب اندام / ورزشگاه
           health_centre: مركز بهداشت
@@ -453,11 +472,14 @@ fa:
           library: کتابخانه
           market: بازار
           marketplace: بازار
+          monastery: صومعه
+          motorcycle_parking: پارکینگ موتور سیکلت
           nightclub: باشگاه شبانه
           nursery: شیر خوارگاه
           nursing_home: خانه سالمندان
           office: دفتر
           parking: پارکینگ
+          parking_entrance: ورودی پارکینگ
           pharmacy: داروخانه
           place_of_worship: عبادتگاه
           police: پلیس
@@ -491,6 +513,7 @@ fa:
           veterinary: جراح دامپزشک
           village_hall: دهیاری
           waste_basket: سطل زباله
+          waste_disposal: دفع زباله
           youth_centre: مرکز جوانان
         boundary:
           administrative: مرز اداری
@@ -505,14 +528,28 @@ fa:
           "yes": پل
         building:
           "yes": ساختمان
+        craft:
+          brewery: ابجوسازی
+          carpenter: نجار
+          electrician: متخصص برق
+          gardener: باغبان
+          painter: نقاش
+          photographer: عکاس
+          plumber: لوله کش
+          shoemaker: کفاش
+          tailor: خیاط
         emergency:
+          ambulance_station: ایستگاه آمبولانس
+          landing_site: محوطه فرود اضطراری
           phone: تلفن اضطراری
         highway:
+          abandoned: بزرگراه متروکه
           bridleway: راه حیوان رو
           bus_guideway: خط هدایت کننده اتوبوس
           bus_stop: ایستگاه اتوبوس
           construction: بزرگراه در دست ساخت
           cycleway: مسیر دوچرخه
+          elevator: آسانسور
           emergency_access_point: نقطهٔ دسترسی اضطراری
           footway: پیاده رو
           ford: معبر کنار رود
@@ -541,32 +578,41 @@ fa:
           tertiary: راه سوم
           tertiary_link: راه سوم
           track: پیگیری
+          traffic_signals: چراغ راهنمایی
           trail: دنباله
           trunk: بزرگراه
           trunk_link: بزرگراه
           unclassified: جادهٔ طبقه‌بندی‌نشده
           unsurfaced: جاده ظاهر نشده
+          "yes": جاده
         historic:
           archaeological_site: پایگاه باستان‌شناسی
           battlefield: میدان جنگ
           boundary_stone: سنگ مرزی
-          building: ساختمان
+          building: ساختمان تاریخی
+          bunker: پناهگاه
           castle: قلعه
           church: کلیسا
+          city_gate: دروازه شهر
           citywalls: دیوارهای شهر
           fort: دژ
+          heritage: محوطه میراث فرهنگی
           house: خانه
           icon: نماد
           manor: ملک اربابی
           memorial: یادبود
           mine: معدن
           monument: بنای یادبود
+          roman_road: جاده رومی
           ruins: خرابه‌ها
+          stone: سنگ
           tomb: مقبره
           tower: برج
           wayside_cross: صلیب کنار جاده
           wayside_shrine: مقبره کنار جاده
           wreck: لاشه
+        junction:
+          "yes": تقاطع
         landuse:
           allotments: تقسیم بندی شده
           basin: حوزه رودخانه
@@ -601,11 +647,14 @@ fa:
         leisure:
           beach_resort: تفریحگاه ساحلی
           bird_hide: محل مشاهده ی پرندگان
+          club: باشگاه
           common: سرزمین مشترک
           fishing: منطقهٔ ماهی‌گیری
+          fitness_centre: مرکز تناسب اندام
           fitness_station: ایستگاه تناسب اندام
           garden: باغ
           golf_course: زمین گلف
+          horse_riding: اسب سواری
           ice_rink: رینک یخ
           marina: تفریح‌گاه ساحلی
           miniature_golf: گلف کوچک
@@ -621,6 +670,11 @@ fa:
           swimming_pool: استخر شنا
           track: مسیر دو میدانی
           water_park: پارک آبی
+          "yes": فراغت
+        man_made:
+          lighthouse: فانوس دریایی
+          tower: برج
+          works: کارخانه
         military:
           airfield: فرودگاه نظامی
           barracks: پادگان
@@ -640,6 +694,7 @@ fa:
           forest: جنگل
           geyser: چشمه آب گرم
           glacier: یخچال طبیعی
+          grassland: سبزه‌زار
           heath: خارزار
           hill: تپه
           island: جزیره
@@ -652,6 +707,8 @@ fa:
           reef: جزیره نما
           ridge: خط‌الرأس
           rock: صخره
+          saddle: زین
+          sand: شن
           scree: ریگ زار
           scrub: خارزار غیر قابل عبور
           spring: سرچشمه
@@ -665,6 +722,7 @@ fa:
           wood: جنگل
         office:
           accountant: حسابدار
+          administrative: مدیریت
           architect: معمار
           company: شرکت
           employment_agency: آژانس کاریابی
@@ -677,6 +735,7 @@ fa:
           travel_agent: آژانس مسافرتی
           "yes": دفتر
         place:
+          block: مسدود
           airport: فرودگاه
           city: شهر بزرگ
           country: کشور
@@ -701,6 +760,7 @@ fa:
           town: شهر
           unincorporated_area: منطقه گنجانده نشده
           village: دهکده
+          "yes": Siedlung
         railway:
           abandoned: راه‌آهن رهاشده
           construction: راه‌آهن در دست ساخت
@@ -803,6 +863,7 @@ fa:
           "yes": فروشگاه
         tourism:
           alpine_hut: کلبه بالای تپه
+          apartment: اپارتمان
           artwork: آثار هنری
           attraction: جاذبه
           bed_and_breakfast: تخت‌خواب و صبحانه
@@ -810,6 +871,7 @@ fa:
           camp_site: محل اردوگاه
           caravan_site: مکان خودرو کاروان
           chalet: کلبه ییلاقی
+          gallery: گالری
           guest_house: مهمانخانه
           hostel: شبانه روزی
           hotel: هتل
@@ -841,6 +903,7 @@ fa:
           wadi: Wadi
           waterfall: ابشار
           weir: آب بند
+          "yes": راه آبی
       admin_levels:
         level2: مرز کشور
         level4: مرز ایالت
@@ -861,18 +924,6 @@ fa:
     results:
       no_results: نتیجه‌ای پیدا نشد
       more_results: نتایج بیشتر
-    distance:
-      zero: کمتر از 1کیلومتر
-      other: حدود 1کیلومتر
-    direction:
-      south_west: جنوب غربی
-      south: جنوب
-      south_east: جنوب شرقی
-      east: شرق
-      north_east: شمال شرقی
-      north: شمال
-      north_west: شمال غربی
-      west: غرب
   layouts:
     logo:
       alt_text: لوگوی OpenStreetMap
@@ -1171,7 +1222,7 @@ fa:
       welcome: بعد از اینکه حسابتان را تأیید کردید، ما به شما برخی از اطلاعات اضافی
         را ارائه میدهیم تا بتوانید شروع کنید.
     email_confirm:
-      subject: '[OpenStreetMap] رایانامه‌یتان را تأیید کنید'
+      subject: '[OpenStreetMap] ایمیلتان را تأیید کنید'
     email_confirm_plain:
       greeting: سلام ،
       hopefully_you: کسی (امیدواریم شما) میخواهد آدرس ایمیلش را تغییر دهد از %{server_url}
@@ -1186,14 +1237,14 @@ fa:
       subject: '[OpenStreetMap] درخواست تنظیم مجدد رمز عبور'
     lost_password_plain:
       greeting: سلام ،
-      hopefully_you: کسی (احتمالاً شما) خواسته است که رمز عبورش تنظیم مجدد شود در
-        رایانامهٔ این حساب در openstreetmap.org.
+      hopefully_you: کسی (احتمالاً شما) خواسته است که بر روی حساب کاربری این آدرس
+        ایمیل در openstreetmap.org رمز عبورش تنظیم مجدد شود.
       click_the_link: اگر این شمایید، برای تنظیم مجدد رمز عبور لطفاً روی پیوند زیر
         کلیک کنید.
     lost_password_html:
       greeting: سلام ،
-      hopefully_you: کسی (احتمالاً شما) خواسته است که رمز عبورش تنظیم مجدد شود در
-        رایانامهٔ این حساب در openstreetmap.org.
+      hopefully_you: کسی (احتمالاً شما) خواسته است که بر روی حساب کاربری این آدرس
+        ایمیل در openstreetmap.org رمز عبورش تنظیم مجدد شود.
       click_the_link: اگر این شمایید، برای تنظیم مجدد لطفاً روی پیوند زیر کلیک کنید.
     note_comment_notification:
       anonymous: کاربر ناشناس
@@ -1340,6 +1391,10 @@ fa:
       close: بستن
     search:
       search: جستجو
+      get_directions: دریافت مسیرها
+      get_directions_title: یافتن مسیرهای بین دو نقطه
+      from: از
+      to: به
       where_am_i: من کجا هستم؟
       where_am_i_title: با استفاده از موتور جستجو مکان فعلی را توصیف کنید
       submit_text: برو
@@ -1439,8 +1494,8 @@ fa:
     create:
       upload_trace: بارگذاری پیگیری GPS
       trace_uploaded: پروندهٔ GPX شما بارگذاری شده است و در انتظار درج در پایگاه داده
-        است. این کار معمولاً نیم ساعت طول می‌کشد و در صورت تکمیل، رایانامه‌ای به شما
-        فرستاده خواهد شد.
+        است. این کار معمولاً نیم ساعت طول می‌کشد و در صورت تکمیل، ایمیلی به شما فرستاده
+        خواهد شد.
     edit:
       title: ویرایش پیگیری %{name}
       heading: ویرایش پیگیری %{name}
@@ -1645,7 +1700,7 @@ fa:
     login:
       title: ورود
       heading: ورود
-      email or username: 'رایانامه یا نام کاربری:'
+      email or username: 'آدرس ایمیل یا نام کاربری:'
       password: 'کلمه عبور:'
       openid: '%{logo} OpenID:'
       remember: مرا به خاطر بسپار
@@ -1654,39 +1709,19 @@ fa:
       register now: اکنون ثبت نام شود
       with username: 'از قبل حساب OpenStreetMap دارید؟ لطفاً با نام کاربری و رمز عبورتان
         وارد شوید:'
-      with openid: 'متناوبا، برای وارد شدن از OpenID استفاده کنید:'
       new to osm: در OpenStreetMap تازه‌وارد هستید؟
       to make changes: برای ایجاد تغییرات در داده های OpenStreetMap، شما باید یک حساب
         داشته باشید.
       create account minute: یک حساب بسازید. فقط یک دقیقه زمان می برد.
       no account: حساب کاربری ندارید؟
-      account not active: پوزش، حسابتان هنوز فعال نشده‌است.<br />لطفاً از پروندی که
-        در رایانامه‌یتان تأیید بود برای فعال‌سازی حسابتان استفاده کنید، یا <a href="%{reconfirm}">یک
-        رایانامهٔ تأیید تازه درخواست دهید</a>.
+      account not active: پوزش، حسابتان هنوز فعال نشده‌است.<br />لطفاً از پیوندی که
+        در ایمیل تأییدتان بود برای فعال‌سازی حسابتان استفاده کنید، یا <a href="%{reconfirm}">یک
+        ایمیل تأیید تازه درخواست دهید</a>.
       account is suspended: پوزش، حساب شما به دلیل فعالیت‌های مشکوک مسدود شده‌است.
         <br />لطفاً تماس بگیرید با <a href="%{webmaster}">مدیر سایت</a> اگر می‌خواهید
         آنرا مطرح کنید.
       auth failure: پوزش، با این اطلاعات نمی توان وارد شد.
-      openid missing provider: پوزش، با ارایه دهنده OpenID شما نمی توان ارتباط برقرار
-        کرد
-      openid invalid: پوزش، OpenID شما ناقص به نظر می رسد
       openid_logo_alt: ورود با OpenID
-      openid_providers:
-        openid:
-          title: ورود با OpenID
-          alt: ورود با یک آدرس OpenID
-        google:
-          title: ورود با گوگل
-          alt: ورود با یک OpenID گوگل
-        yahoo:
-          title: ورود با یاهو
-          alt: ورود با یک OpenID یاهو
-        wordpress:
-          title: ورود با وردپرس
-          alt: ورود با یک OpenID وردپرس
-        aol:
-          title: ورود با AOL
-          alt: ورود با یک OpenID ، AOL
     logout:
       title: خروج
       heading: خروج از OpenStreetMap
@@ -1694,13 +1729,13 @@ fa:
     lost_password:
       title: فراموشی کلمه عبور
       heading: کلمه عبور خود را فراموش کرده‌اید؟
-      email address: 'نشانی رایانامه:'
+      email address: 'آدرس ایمیل:'
       new password button: تنظیم مجدد کلمه عبور
       help_text: ایمیلی را که هنگام ثبت نام استفاده کرده‌اید وارد کنید، ما پیوندی
         به آن می‌فرستیم تا بتوانید به وسیلهٔ آن رمز عبورتان را مجدد تنظیم کنید.
       notice email on way: متاسفیم که آنرا گم کرده اید :-( اما ایمیلی در راه است که
         میتوانید بزودی آنرا مجدد تنظیم کنید.
-      notice email cannot find: نشانی رایانامه یافت نشد، متأسفیم.
+      notice email cannot find: آن آدرس ایمیل یافت نشد، متأسفیم.
     reset_password:
       title: تنظیم مجدد کلمه عبور
       heading: تنظیم مجدد کلمه عبور برای %{user}
@@ -1720,31 +1755,19 @@ fa:
         header: رایگان و قابل ویرایش
         html: |-
           <p>بر خلاف سایر نقشه‌ها، OpenStreetMap کاملاً توسط افرادی مثل شما ساخته‌شده و برای تعمیر، به‌روزرسانی، دریافت و استفاده برای هر کسی آزاد است.</p>
-          <p>برای شروع کمک ثبت نام کنید. برای تأیید حساب‌تان رایانامه‌ای می‌فرستیم.</p>
-      license_agreement: وقتی رایانامه‌یتان را تأیید کردید نیاز است که با <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">شرایط
+          <p>برای شروع کمک ثبت نام کنید. برای تأیید حساب‌تان ایمیلی می‌فرستیم.</p>
+      license_agreement: وقتی ایمیلتان را تأیید کردید نیاز است که با <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">شرایط
         همکاری</a> موافقت کنید.
-      email address: 'نشانی رایانامه:'
-      confirm email address: 'تأیید نشانی رایانامه:'
+      email address: 'آدرس ایمیل:'
+      confirm email address: 'تأیید آدرس ایمیل:'
       not displayed publicly: به عموم نشان داده نمیشود (<a href="http://wiki.openstreetmap.org/wiki/Privacy_Policy"
         title="wiki privacy policy including section on email addresses">حفظ حریم
         خصوصی</a>را ببینید)
       display name: 'نام نمایشی:'
       display name description: ' نام کاربری شما برای عموم نمایش داده شده. شما می
         توانید بعدا این مورد را در ترجیحات تغییر دهید.'
-      openid: '%{logo} OpenID:'
       password: 'کلمه عبور:'
       confirm password: 'تأیید گذرواژه:'
-      use openid: روش دیگر، استفاده از %{logo} OpenID برای وارد شدن
-      openid no password: با OpenID رمز عبور درخواست نمیشود، اما برخی ابزارهای اضافی
-        یا سرویس دهنده هنوز به یکی نیاز دارند.
-      openid association: |-
-        <p>OpenID شما هنوز با یک حساب OpenStreetMap همراه نیست.</p>
-        <ul>
-         <li>اگر در OpenStreetMap جدید هستید، لطفاً از زیر یک حساب بسازید.</li>
-        <li>
-        اگر از قبل حسابی دارید، می‌توانید با استفاده از نام کاربری و رمز عبورتان وارد حسابتان شوید و سپس حسابتان را در تنظیمات کاربری به OpenID وابسته سازید.
-        </li>
-        </ul>
       continue: ثبت نام
       terms accepted: با تشکر  از پذیرش شرایط شرکت کنندگان تازه!
       terms declined: متاسفیم که تصمیم گرفتید شرایط شرکت کننده تازه را نپذیرید. برای
@@ -1801,7 +1824,7 @@ fa:
       ct declined: رد شده
       ct accepted: پذیرفته شده %{ago} قبل
       latest edit: 'آخرین ویرایش %{ago}:'
-      email address: 'نشانی رایانامه:'
+      email address: 'آدرس ایمیل:'
       created from: 'ایجادشده از:'
       status: 'وضعیت:'
       spam score: 'امتیاز هرزنامه:'
@@ -1847,11 +1870,10 @@ fa:
     account:
       title: ویرایش حساب
       my settings: تنظیمات من
-      current email address: 'نشانی کنونی رایانامه:'
-      new email address: 'نشانی رایانامه جدید:'
+      current email address: 'آدرس ایمیل فعلی:'
+      new email address: 'آدرس ایمیل جدید:'
       email never displayed publicly: (هرگز به صورت عمومی نمایش داده نمی شود)
       openid:
-        openid: 'OpenID:'
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: این چیست؟
       public editing:
@@ -1869,8 +1891,8 @@ fa:
           برای برقراری ارتباط با شما از طریق وب سایت، روی دکمه ی زیر کلیک کنید. <b>از
           تغییرات 0.6 API، فقط کاربران عمومی میتوانند نقشه را ویرایش کنند</b>. (<a
           href="http://wiki.openstreetmap.org/wiki/Anonymous_edits">دلیل را پیدا کنید</a>).
-          <ul><li>آدرس رایانامهٔ شما با تبدیل به عمومی آشکار نخواهد شد.</li><li>این
-          عملیات را نمی شود برگرداند و همه ی کاربران تازه به طور پیشفرض عمومی هستند.</li></ul>
+          <ul><li>آدرس ایمیل شما با تبدیل به عمومی آشکار نخواهد شد.</li><li>این عملیات
+          را نمی شود برگرداند و همه ی کاربران تازه به طور پیشفرض عمومی هستند.</li></ul>
       contributor terms:
         heading: 'شرایط شرکت‌کنندگان:'
         agreed: شما باید با شرایط کاربرهای تازه موافقت کنید.
@@ -1900,18 +1922,19 @@ fa:
       make edits public button: همه ویرایش‌های من را عمومی کن
       return to profile: بازگشت به نمایه
       flash update success confirm needed: اطلاعات کاربر با موفقیت به روز شد. برای
-        تأیید نشانی رایانامه جدیدتان یادداشت موجود در رایانامه‌یتان را بررسی کنید.
+        تأیید آدرس ایمیل جدیدتان یادداشت موجود در ایمیلتان را بررسی کنید.
       flash update success: اطلاعات کاربر با موفقیت به روز شد.
     confirm:
-      heading: رایانامه‌یتان را بررسی کنید!
-      introduction_1: یک رایانامه تأیید به شما ارسال کردیم.
-      introduction_2: حسابتان را با کلیک روی پیوندی که در رایانامه‌یتان بود تأیید
-        کنید و قادر خواهید بود نقشه‌کشی را شروع کنید.
+      heading: ایمیلتان را بررسی کنید!
+      introduction_1: یک ایمیل تأیید به شما ارسال کردیم.
+      introduction_2: حسابتان را با کلیک روی پیوندی که در ایمیلتان بود تأیید کنید
+        و قادر خواهید بود نقشه‌کشی را شروع کنید.
       press confirm button: برای فعالسازی حساب تان روی دکمه ی تأیید زیر کلیک کنید.
       button: تأیید
+      success: ' تشکر از ثبت نام حساب کاربری تایید شد'
       already active: این حساب کاربری در حال حاضر تأیید شده است.
       unknown token: کد تأیید منقضی شده یا وجود ندارد.
-      reconfirm_html: اگر نیاز دارید رایانامه تأیید را دوباره بفرستیم، <a href="%{reconfirm}">اینجا
+      reconfirm_html: اگر نیاز دارید ایمیل تأیید را دوباره بفرستیم، <a href="%{reconfirm}">اینجا
         کلیک کنید</a>.
     confirm_resend:
       success: ما نکتهٔ تأیید جدیدی به %{email} فرستادیم و به محض اینکه شما حسابتان
@@ -1921,12 +1944,12 @@ fa:
         به هیچ درخواست تأییدی نیستیم.
       failure: کاربر %{name} یافت نشد.
     confirm_email:
-      heading: تأیید تغییر نشانی رایانامه
-      press confirm button: برای تأیید نشانی رایانامه‌ای جدیدتان دکمهٔ تأیید زیر را
-        فشار دهید.
+      heading: تأیید تغییر آدرس ایمیل
+      press confirm button: برای تأیید آدرس ایمیل جدیدتان دکمهٔ تأیید زیر را فشار
+        دهید.
       button: تأیید
-      success: نشانی رایانامه‌یتان تأیید شد، با تشکر از شما برای ثبت نام!
-      failure: یک نشانی رایانامه در حال حاضر با این نشانه تأیید شده‌است.
+      success: آدرس ایمیلتان تأیید شد، با تشکر از شما برای ثبت نام!
+      failure: یک آدرس ایمیل در حال حاضر با این نشانه تأیید شده است.
     set_home:
       flash success: موقعیت خانه با موفقیت ذخیره شد
     go_public:
@@ -2199,6 +2222,31 @@ fa:
         comment: نظر
     edit_help: نقشه را جابجا کنید و روی مکانی که میخواهید ویرایش کنید بزرگنمایی کنید،
       سپس اینجا کلیک کنید.
+    directions:
+      engines:
+        graphhopper_bicycle: دوچرخه (GraphHopper)
+        graphhopper_foot: پیاده (GraphHopper)
+        mapquest_bicycle: دوچرخه (MapQuest)
+        mapquest_car: اتومبیل (MapQuest)
+        mapquest_foot: پیاده (MapQuest)
+        osrm_car: اتومبیل (OSRM)
+      directions: جهت
+      distance: مسافت
+      errors:
+        no_route: نتوانستیم بین آن دو مکان، مسیری بیابیم.
+        no_place: متاسفیم - محل پیدا نشد.
+      instructions:
+        continue_on: مستقیم به طرف
+        slight_right: به آرامی به سمت راست به طرف
+        turn_right: گردش به راست به طرف
+        turn_left: گردش به چپ به طرف
+        slight_left: به آرامی به سمت چپ به طرف
+        follow: دنبال‌کردن
+        start: شروع در انتهای
+        destination: ورود به مقصد
+        unnamed: (بی نام)
+        courtesy: جهت از %{link}
+      time: مدت
     query:
       node: گره
       way: راه

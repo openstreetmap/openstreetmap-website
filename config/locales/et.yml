@@ -506,7 +506,7 @@ et:
         historic:
           battlefield: Lahinguväli
           boundary_stone: Piirikivi
-          building: Hoone
+          building: Ajalooline hoone
           castle: Kindlus
           church: Kirik
           citywalls: Linnamüürid
@@ -555,6 +555,9 @@ et:
           swimming_pool: Ujula
           track: Jooksurada
           water_park: Veepark
+        man_made:
+          tower: Torn
+          works: Vabrik
         military:
           airfield: Sõjaväe lennuväli
           barracks: Kasarmud
@@ -593,6 +596,7 @@ et:
           wetland: Märgala
           wood: Mets
         office:
+          accountant: Raamatupidaja
           architect: Arhitekt
         place:
           airport: Lennujaam
@@ -739,19 +743,6 @@ et:
     results:
       no_results: Ei leidnud midagi
       more_results: Veel tulemusi
-    distance:
-      one: umbes 1km
-      zero: vähem kui 1km
-      other: umbes %{count}km
-    direction:
-      south_west: edela
-      south: lõuna
-      south_east: kagu
-      east: ida
-      north_east: kirde
-      north: põhja
-      north_west: loode
-      west: lääne
   layouts:
     logo:
       alt_text: OpenStreetMapi logo
@@ -1112,6 +1103,8 @@ et:
         commented_note: '%{commenter} on taasaktiveerinud märkuse, mida sa oled kommenteerinud.
           Märkus on %{place} lähedal.'
       details: Märkuse lisateavet leiad %{url}.
+    changeset_comment_notification:
+      greeting: Tere,
   message:
     inbox:
       title: Saabunud kirjad
@@ -1222,6 +1215,8 @@ et:
       close: Sulge
     search:
       search: Otsi
+      from: Alguspunkt
+      to: Sihtpunkt
       where_am_i: Kus ma asun?
       where_am_i_title: Määra praegune asukoht otsimootori abil
       submit_text: Otsi
@@ -1235,6 +1230,7 @@ et:
           unclassified: Klassifitseerimata tee
           unsurfaced: Katteta tee
           track: Rada
+          byway: Kõrvaltee
           bridleway: Ratsatee
           cycleway: Jalgrattatee
           footway: Jalgtee
@@ -1503,7 +1499,6 @@ et:
       register now: 'Registreeru:'
       with username: Kas omad juba OpenStreetMap kasutajakontot? Palun logi sisse
         enda kasutajanime ja salasõnaga.
-      with openid: 'Või kasuta sisse logimiseks oma OpenID kasutajat:'
       new to osm: Oled uus OpenStreetMap kasutaja?
       to make changes: Muudatuste tegemiseks OpenStreetMap andmetes peab sul olema
         kasutajakonto.
@@ -1516,26 +1511,7 @@ et:
         tõttu.<br />Palun võta ühendust <a href="%{webmaster}">veebimeistriga</a>
         kui soovid sellel teemal arutleda.
       auth failure: Vabandust, kahjuks ei saa nende andmetega sisse.
-      openid missing provider: Vabandust, kahjuks ei õnnestu luua ühendust sinu OpenID
-        pakkujaga
-      openid invalid: Vabandust, sinu OpenID näib olevat vigane
       openid_logo_alt: Sisene OpenID tunnusega
-      openid_providers:
-        openid:
-          title: Sisene OpenID tunnusega
-          alt: Sisene OpenID URL abil
-        google:
-          title: Sisene Google'i tunnusega
-          alt: Sisene Google'i OpenID tunnusega
-        yahoo:
-          title: Sisene Yahoo tunnusega
-          alt: Sisene Yahoo OpenID tunnusega
-        wordpress:
-          title: Sisene Wordpress tunnusega
-          alt: Sisene Wordpress OpenID tunnusega
-        aol:
-          title: Sisene AOL tunnusega
-          alt: Sisene AOL OpenID tunnusega
     logout:
       title: Logi välja
       heading: Välju OpenStreetMap -st
@@ -1579,22 +1555,8 @@ et:
       display name: 'Kuvatav nimi:'
       display name description: Avalikult kuvatud kasutajanimi. Seda saate muuta hiljem
         eelistustes.
-      openid: '%{logo} OpenID:'
       password: 'Uus parool:'
       confirm password: 'Kinnita parool:'
-      use openid: Teise võimalusena kasuta %{logo} OpenID sisselogimist
-      openid no password: OpenID kasutamisel ei ole parool kohustuslik, kuid mõned
-        eritööriistad või serverid nõuavad seda siiski.
-      openid association: |-
-        <p>Sinu OpenID ei ole seotud veel OpenStreetMapi kasutajakontoga.</p>
-        <ul>
-          <li>Kui oled uus OpenStreetMapi kasutaja, siia loo palun uus konto, kasutades alljärgnevat vormi.</li>
-          <li>
-            Kui sul juba on kasutajakonto, siis võid siseneda oma kontoga,
-            kasutades oma kasutajanime ja parooli ja seejärel siduda oma
-            kasutajakonto oma OpenID-ga kasutaja seadistuste all.
-          </li>
-        </ul>
       continue: Registreeru
       terms accepted: Täname, et nõustusid uute kaastöö tingimustega!
       terms declined: Meil on kahju, et otsustasid mitte nõustuda uute kaastöö tingimustega.
@@ -1701,7 +1663,6 @@ et:
       new email address: 'Uus e-posti aadress:'
       email never displayed publicly: (ei näidata mitte kunagi avalikult)
       openid:
-        openid: 'OpenID:'
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: mis see on?
       public editing:
@@ -2051,6 +2012,26 @@ et:
         comment: Kommenteeri
     edit_help: Nihuta kaarti ja suumi sisse asukohta mida soovid redigeerida ja seejärel
       kliki siia.
+    directions:
+      engines:
+        graphhopper_bicycle: Rattaga (GraphHopper)
+        graphhopper_foot: Jalgsi (GraphHopper)
+        mapquest_bicycle: Rattaga (MapQuest)
+        mapquest_car: Autoga (MapQuest)
+        mapquest_foot: Jalgsi (MapQuest)
+        osrm_car: Autoga (OSRM)
+      directions: Juhised
+      distance: Vahemaa
+      errors:
+        no_route: Ei suutnud leida teekonda nende kahe koha vahel.
+        no_place: Vabandust - ei suuda leida sellist kohta.
+      instructions:
+        turn_right: Pööra paremale
+        turn_left: Pööra vasakule
+        roundabout: Ringristmikul keera
+        destination: Jõudsid sihtpunkti
+        unnamed: (nimetu)
+      time: Kestus
     query:
       node: Sõlm
       way: Joon

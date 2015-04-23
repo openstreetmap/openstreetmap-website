@@ -6,6 +6,7 @@
 # Author: KuboF
 # Author: Kusavica
 # Author: Lesny skriatok
+# Author: MartinSNV
 # Author: MichalP
 # Author: Mimarik
 # Author: Nemo bis
@@ -126,11 +127,17 @@ sk:
       way_paginated: Cesty (%{x}–%{y} z %{count})
       relation: Relácie (%{count})
       relation_paginated: Relácie (%{x}–%{y} z %{count})
+      comment: Komentáre (%{count})
+      hidden_commented_by: Skrytý komentár od %{user} <abbr title='%{exact_time}'>pred
+        %{when}</abbr>
+      commented_by: Komentár od %{user} <abbr title='%{exact_time}'>pred %{when}</abbr>
       changesetxml: XML sady zmien
       osmchangexml: osmChange XML
       feed:
         title: Sada zmien %{id}
         title_comment: Sada zmien %{id} - %{comment}
+      join_discussion: Zapojte sa do diskusie
+      discussion: Diskusia
     node:
       title: 'Uzol: %{name}'
       history_title: 'História uzlu: %{name}'
@@ -177,6 +184,9 @@ sk:
         way: cesta
         relation: vzťah
     start_rjs:
+      feature_warning: Načíta sa %{num_features} funkcií, ktoré môžu sposobiť, že
+        Váš prehliadač bude spomalený alebo nebude reagovať. Ste si istý, že chcete
+        zobraziť tieto údaje?
       load_data: Načítať údaje
       loading: Nahrávanie...
     tag_details:
@@ -185,12 +195,21 @@ sk:
         key: Stránka s popisom značky %{key} na wiki
         tag: Stránka s popisom značky %{key}=%{value} na wiki
       wikipedia_link: Článok %{page} na Wikipédii
+      telephone_link: Vytočiť %{phone_number}
     note:
       title: 'Poznámka: %{id}'
       new_note: Nová poznámka
       description: Popis
       open_title: 'Nevyriešená chyba #%{note_name}'
       closed_title: 'Vyriešená chyba #%{note_name}'
+      hidden_title: Skrytá poznámka %{note_name}
+      open_by: Vytvoril %{user} <abbr title='%{exact_time}'>pred %{when}</abbr>
+      open_by_anonymous: Vytvoril anonym <abbr title='%{exact_time}'>pred %{when}</abbr>
+      commented_by: Komentár od %{user} <abbr title='%{exact_time}'>pred %{when}</abbr>
+      commented_by_anonymous: Komentoval anonym <abbr title='%{exact_time}'>pred %{when}</abbr>
+      closed_by: Vyriešil %{user} <abbr title='%{exact_time}'>pred %{when}</abbr>
+      closed_by_anonymous: Vyriešil anonym <abbr title='%{exact_time}'>pred %{when}</abbr>
+      hidden_by: Skryl %{user} <abbr title='%{exact_time}'>pred %{when}</abbr>
   changeset:
     changeset_paging_nav:
       showing_page: Stránka %{page}
@@ -827,19 +846,6 @@ sk:
     results:
       no_results: Neboli nájdené žiadne výsledky
       more_results: Viac výsledkov
-    distance:
-      one: asi 1 km
-      zero: menej ako 1 km
-      other: asi %{count} km
-    direction:
-      south_west: juhozápad
-      south: juh
-      south_east: juhovýchod
-      east: východ
-      north_east: severovýchod
-      north: sever
-      north_west: severozápad
-      west: západ
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
@@ -1207,6 +1213,10 @@ sk:
       close: Zavrieť
     search:
       search: Hľadať
+      get_directions: Nájsť trasu
+      get_directions_title: Vyhľadať trasu medzi dvoma bodmi
+      from: Odkiaľ
+      to: Kam
       where_am_i: Kde som?
       where_am_i_title: Opis aktuálnej polohy pomocou vyhľadávača
       submit_text: hľ.
@@ -1498,7 +1508,6 @@ sk:
       register now: Zaregistrujte se
       with username: 'Už máte na OpenStreetMap konto? Prihláste sa svojim menom a
         heslom:'
-      with openid: 'Alternatívne sa môžete prihlásiť svojím OpenID:'
       new to osm: Ste na OpenStreetMap nový?
       to make changes: Ak chcete upravovať OpenStreetMap, musíte mať používateľské
         konto.
@@ -1510,25 +1519,7 @@ sk:
       account is suspended: Ľutujeme, ale vaše konto bolo pozastavené vzhľadom na
         podozrivú aktivitu.<br>Ak to chcete riešiť, môžete kontaktovať <a href="%{webmaster}">webmastera</a>.
       auth failure: Ľutujeme, s uvedenými údajmi sa nie je možné prihlásiť.
-      openid missing provider: Ľutujeme, nepodarilo se spojiť s vaším OpenID poskytovateľom
-      openid invalid: Ľutujeme, ale vaše OpenID sa zdá byť nesprávne
       openid_logo_alt: Prihlásenie pomocou OpenID
-      openid_providers:
-        openid:
-          title: Prihlásenie pomocou OpenID
-          alt: Prihlásenie pomocou OpenID URL
-        google:
-          title: Prihlásenie pomocou Google
-          alt: Prihlásenie pomocou Google OpenID
-        yahoo:
-          title: Prihlásenie pomocou Yahoo
-          alt: Prihlásenie pomocou Yahoo OpenID
-        wordpress:
-          title: Prihlásenie pomocou Wordpress
-          alt: Prihlásenie pomocou Wordpress OpenID
-        aol:
-          title: Prihlásenie pomocou AOL
-          alt: Prihlásenie pomocou AOL OpenID
     logout:
       title: Odhlásenie
       heading: Odhlásenie z OpenStreetMap
@@ -1568,22 +1559,8 @@ sk:
       display name: 'Zobrazované meno:'
       display name description: Vaše verejne zobrazené meno užívateľa. Môžete ho potom
         zmeniť v nastaveniach.
-      openid: '%{logo} OpenID:'
       password: 'Heslo:'
       confirm password: 'Potvrdiť heslo:'
-      use openid: Prípadne sa môžete prihlásiť pomocou %{logo} OpenID
-      openid no password: S OpenID nie je heslo potrebné. Niektoré ďalšie nástroje
-        alebo servery ho však vyžadovať môžu.
-      openid association: |-
-        <p>Vaše OpenID zatiaľ nebolo prepojené s kontom na OpenStreetMap.</p>
-        <ul>
-          <li>Ak ste na OpenStreetMap nový, vytvorte si konto pomocou formulára nižšie.</li>
-          <li>
-           Ak už konto máte, môžete sa prihlásiť
-           pomocou používateľského mena a hesla a následne ho
-           v používateľskom nastavení prepojiť s OpenID.
-          </li>
-        </ul>
       continue: Zaregistrovať sa
       terms accepted: Ďakujeme za odsúhlasenie nových podmienok prispievania!
       terms declined: Je nám ľúto, že ste sa rozhodli neprijať nové Podmienky prispievania.
@@ -1691,7 +1668,6 @@ sk:
       new email address: 'Nová e-mailová adresa:'
       email never displayed publicly: (nikde se verejne nezobrazuje)
       openid:
-        openid: 'OpenID:'
         link: http://wiki.openstreetmap.org/wiki/CS:OpenID
         link text: čo to znamená?
       public editing:
@@ -1753,6 +1729,7 @@ sk:
       press confirm button: Stlačte tlačítko na potvrdenie dole, pre aktiváciu vášho
         účtu.
       button: Potvrdiť
+      success: Váš účet je založený, ďakujeme, že ste sa zapísali!
       already active: Toto používateľské konto už bolo potvrdené.
       unknown token: Zadaný potvrdzovací kód vypršal alebo neexistuje.
       reconfirm_html: Ak potrebujete, aby sme vám potvrdzovací e-mail poslali znova,
@@ -1937,9 +1914,12 @@ sk:
       revoker: 'Odvolal:'
       needs_view: Aby sa blok zmazal, požívateľ sa musí najprv prihlásiť.
   note:
+    description:
+      opened_at_html: Vytvorené pred %{when}
     mine:
       creator: Autor
       description: Popis
+      created_at: Vytvorené
   javascripts:
     close: Zavrieť
     share:
@@ -1997,6 +1977,35 @@ sk:
         add: Pridať poznámku
       show:
         hide: Skryť
+    directions:
+      engines:
+        graphhopper_bicycle: Bicykel (GraphHopper)
+        graphhopper_foot: Pešo (GraphHopper)
+        mapquest_bicycle: Bicykel (MapQuest)
+        mapquest_car: Automobil (MapQuest)
+        mapquest_foot: Pešo (MapQuest)
+        osrm_car: Automobil (OSRM)
+      directions: Trasa
+      distance: Vzdialenosť
+      errors:
+        no_route: Nepodarilo sa nájsť trasu medzi týmito miestami.
+        no_place: Ospravedlňujeme sa - nepodarilo sa nájsť toto miesto.
+      instructions:
+        continue_on: Pokračujte na
+        slight_right: Mierne doprava na
+        turn_right: Odbočte vpravo na
+        sharp_right: Ostro doprava na
+        sharp_left: Ostro doľava na
+        turn_left: Odbočte vľavo na
+        slight_left: Mierne doľava na
+        via_point: (cez bod)
+        follow: Pokračujte po
+        roundabout: Na kruhovom objazde použite
+        leave_roundabout: Opustite kruhový objazd -
+        stay_roundabout: Zostaňte na kruhovom objazde -
+        start: Začnite na konci
+        destination: Došli ste do cieľa
+        unnamed: (nepomenované)
   redaction:
     edit:
       description: Popis

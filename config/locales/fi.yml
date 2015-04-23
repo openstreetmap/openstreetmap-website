@@ -440,8 +440,10 @@ fi:
           car_wash: Autopesu
           casino: Kasino
           charging_station: Latausasema
+          childcare: Lastenhoito
           cinema: Elokuvateatteri
           clinic: Klinikka
+          clock: Kello
           college: Oppilaitos
           community_centre: Yhteisökeskus
           courthouse: Oikeustalo
@@ -470,6 +472,7 @@ fi:
           library: Kirjasto
           market: Tori
           marketplace: Tori
+          monastery: Luostari
           nightclub: Yökerho
           nursery: Päiväkoti
           nursing_home: Hoitokoti
@@ -522,6 +525,8 @@ fi:
           "yes": Silta
         building:
           "yes": Rakennus
+        craft:
+          brewery: Panimo
         emergency:
           phone: Hätäpuhelin
         highway:
@@ -530,6 +535,7 @@ fi:
           bus_stop: Bussipysäkki
           construction: Rakenteilla oleva tie
           cycleway: Pyörätie
+          elevator: Hissi
           emergency_access_point: Hätätilapaikka
           footway: Polku
           ford: Kahluupaikka
@@ -567,7 +573,7 @@ fi:
           archaeological_site: Arkeologinen kohde
           battlefield: Taistelukenttä
           boundary_stone: Rajakivi
-          building: Rakennus
+          building: Historiallinen rakennus
           castle: Linna
           church: Kirkko
           citywalls: Kaupunginmuurit
@@ -578,6 +584,7 @@ fi:
           memorial: Muistomerkki
           mine: Kaivos
           monument: Muistomerkki
+          roman_road: Roomalainen tie
           ruins: Rauniot
           tomb: Hautakammio
           tower: Torni
@@ -619,6 +626,7 @@ fi:
           beach_resort: Rantakohde
           bird_hide: Linnunpesä
           common: Yhteinen maa
+          dog_park: Koirapuisto
           fishing: Kalastusalue
           fitness_station: Kuntosali
           garden: Puutarha
@@ -638,6 +646,10 @@ fi:
           swimming_pool: Uima-allas
           track: Juoksurata
           water_park: Vesipuisto
+        man_made:
+          lighthouse: Majakka
+          tower: Torni
+          works: Tehdas
         military:
           airfield: Sotilaskenttä
           barracks: Kasarmi
@@ -827,6 +839,7 @@ fi:
           camp_site: Leirintäalue
           caravan_site: Leirintäalue
           chalet: Alppimaja
+          gallery: Galleria
           guest_house: Vierasmaja
           hostel: Hostelli
           hotel: Hotelli
@@ -878,19 +891,6 @@ fi:
     results:
       no_results: Mitään ei löytynyt
       more_results: Lisää tuloksia
-    distance:
-      one: noin 1 km
-      zero: alle 1 km
-      other: noin %{count} km
-    direction:
-      south_west: lounaaseen
-      south: etelään
-      south_east: kaakkoon
-      east: itään
-      north_east: koilliseen
-      north: pohjoiseen
-      north_west: luoteeseen
-      west: länteen
   layouts:
     logo:
       alt_text: OpenStreetMap-logo
@@ -1345,6 +1345,10 @@ fi:
       close: Sulje
     search:
       search: Haku
+      get_directions: Hae reittiohjeet
+      get_directions_title: Hae reittiohjeet kahden paikan välille
+      from: Lähtöpaikka
+      to: Määränpää
       where_am_i: Nykyinen sijainti?
       where_am_i_title: Määrittää nykyisen sijainnin hakukoneella
       submit_text: Hae
@@ -1578,9 +1582,11 @@ fi:
       allow_write_notes: Muokkaa muistiinpanoja.
     oauthorize_success:
       title: Valtuutuspyyntö hyväksytty
+      allowed: Sovellukselle %{app_name} on myönnetty käyttöoikeus käyttäjätiliisi.
       verification: Vahvistuskoodi on %{code}.
     oauthorize_failure:
       title: Valtuutuspyyntö epäonnistui
+      denied: Sovelluksen %{app_name} käyttöoikeus käyttäjätiliisi on poistettu.
       invalid: Lupamerkki ei kelpaa.
     revoke:
       flash: Olet poistanut sovelluksen %{application} avaimen
@@ -1657,7 +1663,6 @@ fi:
       login_button: Kirjaudu sisään
       register now: Rekisteröidy
       with username: 'Onko sinulla jo OpenStreetMap-tunnus? Kirjaudu sillä sisään:'
-      with openid: 'Kirjaudu OpenID-tunnuksella:'
       new to osm: Oletko uusi OpenStreetMapin käyttäjä?
       to make changes: OpenStreetMapin karttatietojen muuttaminen vaatii käyttäjätunnuksen.
       create account minute: Luo käyttäjätunnus. Se kestää vain hetken.
@@ -1669,25 +1674,7 @@ fi:
         toiminnan seurauksena.<br />Ole hyvä ja ota yhteyttä <a href="%{webmaster}">webmasteriin</a>
         jos haluat keskustella tästä.
       auth failure: Kirjautuminen epäonnistui.
-      openid missing provider: Yhteyden muodostaminen OpenID-palvelimeen epäonnistui
-      openid invalid: Valitettavasti OpenID-tunnuksesi vaikuttaa olevan virheellinen.
       openid_logo_alt: Kirjaudu sisään OpenID-tunnuksella
-      openid_providers:
-        openid:
-          title: Kirjaudu sisään OpenID-tunnuksella
-          alt: Kirjaudu sisään OpenID-tunnuksen URL-osoitteella
-        google:
-          title: Kirjaudu sisään Google-tunnuksella
-          alt: Kirjaudu sisään Googlen OpenID-tunnuksella
-        yahoo:
-          title: Kirjaudu sisään Yahoo-tunnuksella
-          alt: Kirjaudu sisään Yahoon OpenID-tunnuksella
-        wordpress:
-          title: Kirjaudu sisään Wordpress-tunnuksella
-          alt: Kirjaudu sisään Wordpressin OpenID-tunnuksella
-        aol:
-          title: Kirjaudu sisään AOL-tunnuksella
-          alt: Kirjaudu sisään AOL:n OpenID-tunnuksella
     logout:
       title: Kirjaudu ulos
       heading: Kirjaudu ulos OpenStreetMapista
@@ -1731,18 +1718,8 @@ fi:
       display name: 'Käyttäjätunnus:'
       display name description: Julkisesti näkyvä käyttäjänimi. Tätä voi myöhemmin
         muuttaa asetuksista.
-      openid: '%{logo} OpenID:'
       password: 'Salasana:'
       confirm password: 'Salasana uudelleen:'
-      use openid: Rekisteröidy %{logo} OpenID-tunnuksella
-      openid no password: OpenID:iä käytettäessä salasana ei ole pakollinen, mutta
-        jotkut erikoistyökalut ja -palvelimet saattavat vaatia sen.
-      openid association: "<p>OpenID-tunnustasi ei ole vielä yhdistetty OpenStreetMap-käyttäjätiliin.</p>\n<ul>\n
-        \ <li>Jos olet uusi OpenStreetMapin käyttäjä, luo uusi tunnus käyttäen lomaketta,
-        joka näkyy alla.</li>\n  <li>\n   Jos sinulla on jo käyttäjätunnus, voit kirjautua
-        sisään\n   käyttäen käyttäjätunnustasi ja salasanaasi, jonka \n   jälkeen
-        voit liittää OpenID-tunnuksesi käyttäjätiliin\n   käyttäjäasetuksistasi.   \n
-        \ </li>\n</ul>"
       continue: Rekisteröidy
       terms accepted: Kiitos uusien osallistujaehtojen hyväksymisestä!
       terms declined: Olemme pahoillamme, ettet hyväksynyt uusia osallistujaehtoja.
@@ -1846,7 +1823,6 @@ fi:
       new email address: 'Uusi sähköpostiosoite:'
       email never displayed publicly: (ei näy muille)
       openid:
-        openid: 'OpenID:'
         link: http://wiki.openstreetmap.org/wiki/Fi:OpenID
         link text: Mitä tämä tarkoittaa?
       public editing:
@@ -1906,6 +1882,7 @@ fi:
         voit aloittaa kartoituksen.
       press confirm button: Aktivoi uusi käyttäjätunnuksesi valitsemalla Vahvista.
       button: Vahvista
+      success: Käyttäjätunnuksesi on nyt vahvistettu.
       already active: Tämä tunnus on jo vahvistettu.
       unknown token: Vahvistuskoodi on vanhentunut tai sitä ei ole.
       reconfirm_html: Tarvittaessa voimme lähettää vahvistuksen sähköpostitse, <a
@@ -2192,6 +2169,40 @@ fi:
         comment_and_resolve: Kommentoi + ratkaise
         comment: Kommentoi
     edit_help: Siirrä ja lähennä kartta muokattavaan paikkaan ja napsauta sitten tästä.
+    directions:
+      engines:
+        graphhopper_bicycle: Pyörällä (GraphHopper)
+        graphhopper_foot: Jalan (GraphHopper)
+        mapquest_bicycle: Pyörällä (MapQuest)
+        mapquest_car: Ajaen (MapQuest)
+        mapquest_foot: Jalan (MapQuest)
+        osrm_car: Ajaen (OSRM)
+      directions: Reittiohjeet
+      distance: Etäisyys
+      errors:
+        no_route: Reittiä näiden paikkojen välille ei löytynyt.
+        no_place: Paikkaa ei löytynyt.
+      instructions:
+        continue_on: Jatka tiellä
+        slight_right: Kaarra oikealle tielle
+        turn_right: Käänny oikealle tielle
+        sharp_right: Käänny jyrkästi oikealle tielle
+        uturn: Tee U-käännös tiellä
+        sharp_left: Käänny jyrkästi vasemmalle tielle
+        turn_left: Käänny vasemmalle tielle
+        slight_left: Kaarra vasemmalle tielle
+        via_point: (reittipiste)
+        follow: Seuraa tietä
+        roundabout: Liikenneympyrässä poistu
+        leave_roundabout: Poistu liikenneympyrästä -
+        stay_roundabout: Pysy liikenneympyrässä -
+        start: 'Aloita tien päästä:'
+        destination: Olet saapunut perille
+        against_oneway: 'Aja yksisuuntaista väärään suuntaan:'
+        end_oneway: 'Yksisuuntaisen tien pää:'
+        unnamed: (nimetön tie)
+        courtesy: Reittiohjeet tarjoaa %{link}
+      time: Matka-aika
     query:
       node: Piste
       way: Viiva

@@ -9,6 +9,7 @@
 # Author: Haakon K
 # Author: Hansfn
 # Author: Janhoy
+# Author: Kingu
 # Author: Laaknor
 # Author: Nemo bis
 # Author: Nghtwlkr
@@ -23,7 +24,7 @@ nb:
   activerecord:
     models:
       acl: Tilgangskontrolliste
-      changeset: Endringssett
+      changeset: Endringsforløp
       changeset_tag: Endringssettmerkelapp
       country: Land
       diary_comment: Dagbokskommentar
@@ -113,7 +114,7 @@ nb:
     edited_by_html: Redigert for <abbr title='%{title}'>%{time} siden</abbr> av %{user}
     closed_by_html: Lukket for <abbr title='%{title}'>%{time} siden</abbr> av %{user}
     version: Versjon
-    in_changeset: Endringssett
+    in_changeset: Endringsforløp
     anonymous: anonym
     no_comment: (ingen kommentar)
     part_of: Del av
@@ -122,7 +123,7 @@ nb:
     view_details: Vis detaljer
     location: 'Posisjon:'
     changeset:
-      title: 'Endringssett: %{id}'
+      title: 'Endringsforløp: %{id}'
       belongs_to: Forfatter
       node: Noder (%{count})
       node_paginated: Noder (%{x}-%{y} av %{count})
@@ -130,11 +131,17 @@ nb:
       way_paginated: Strekninger (%{x}-%{y} av %{count})
       relation: Forbindelser (%{count})
       relation_paginated: Forbindelser (%{x}-%{y} av %{count})
-      changesetxml: XML for endringssett
+      comment: Kommentarer (%{count})
+      hidden_commented_by: Skjult kommentar fra %{user} <abbr title='%{exact_time}'>%{when}
+        siden</abbr>
+      commented_by: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
+      changesetxml: XML for endringsforløp
       osmchangexml: osmChange-XML
       feed:
-        title: Endringssett %{id}
-        title_comment: 'Endringssett: %{id} - %{comment}'
+        title: Endringsforløp %{id}
+        title_comment: 'Endringsforløp: %{id} - %{comment}'
+      join_discussion: Logg inn for å delta i diskusjonen
+      discussion: Diskusjon
     node:
       title: 'Node: %{name}'
       history_title: 'Node-historikk: %{name}'
@@ -164,14 +171,14 @@ nb:
         node: node
         way: vei
         relation: relasjon
-        changeset: endringssett
+        changeset: endringsforløp
     timeout:
       sorry: Beklager, det tok for lang tid å hente data for %{type} med ID %{id}.
       type:
         node: node
         way: vei
         relation: relasjon
-        changeset: endringssett
+        changeset: endringsforløp
     redacted:
       redaction: Maskering %{id}
       message_html: Versjon %{version} av denne %{type} kan ikke vises fordi den er
@@ -213,6 +220,11 @@ nb:
       reopened_by_anonymous: Gjenaktivisert av anonym bruker <abbr title='%{exact_time}'>%{when}
         siden</abbr>
       hidden_by: Skjult av %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
+    query:
+      title: Forespørselsesfunksjoner
+      introduction: Klikk på kartet for å finne nærliggende trekkplaster.
+      nearby: Nærliggende trekkplaster
+      enclosing: Regionstilhørighet
   changeset:
     changeset_paging_nav:
       showing_page: Side %{page}
@@ -221,7 +233,7 @@ nb:
     changeset:
       anonymous: Anonym
       no_edits: (ingen redigeringer)
-      view_changeset_details: Vis detaljer for endringssett
+      view_changeset_details: Vis detaljert endringsforløp
     changesets:
       id: ID
       saved_at: Lagret
@@ -229,11 +241,11 @@ nb:
       comment: Kommentar
       area: Område
     list:
-      title: Endringssett
+      title: Endringsforløp
       title_user: Endringssett av %{user}
-      title_friend: Endringssett av dine venner
+      title_friend: Endringsforløp av dine venner
       title_nearby: Endringssett av brukere i nærheten
-      empty: Ingen endringssett funnet.
+      empty: Inget endringsforløp funnet.
       empty_area: Ingen endringssett i dette området.
       empty_user: Ingen endringssett fra denne brukeren.
       no_more: Ingen flere endringssett funnet.
@@ -242,6 +254,13 @@ nb:
       load_more: Last inn mer
     timeout:
       sorry: Beklager, listen over endringssett som du ba om tok for lang tid å hente.
+    rss:
+      title_all: Openstreetmap endringsforløps-diskusjon
+      title_particular: 'OpenStreetMap endringsforløp #%{changeset_id} diskusjon'
+      comment: Ny kommentar til endringsforløp %{changeset_id} av %{author}
+      commented_at_html: Uppdatert %{when} siden
+      commented_at_by_html: Oppdatert %{when} siden, av %{user}
+      full: Fullstendig diskusjon
   diary_entry:
     new:
       title: Ny dagbokoppføring
@@ -333,8 +352,8 @@ nb:
         advice: 'Hvis eksporten over feiler, vær vennlig å vurdere bruk av en av kildene
           i listen under:'
         body: Dette området er for stort for å bli eksportert som OpenStreetMap XML-data.
-          Vennligst zoom inn eller velg et mindre område. Eller du kan bruke en av
-          kildene angitt under for nedlasting av bulkdata.
+          Forstørr utvalg eller velg et mindre område. Eller du kan bruke en av kildene
+          angitt under for nedlasting av bulkdata.
         planet:
           title: Planet-OSM
           description: Regelmessig oppdaterte kopier av hele OpenStreetMap-databasen
@@ -356,7 +375,7 @@ nb:
       scale: Skala
       max: maks
       image_size: Bildestørrelse
-      zoom: Zoom
+      zoom: Forstørr
       add_marker: Legg til en markør på kartet
       latitude: 'Bre:'
       longitude: 'Len:'
@@ -381,8 +400,10 @@ nb:
       prefix_format: '%{name}'
       prefix:
         aerialway:
+          cable_car: Kabelbane
           chair_lift: Stolheis
           drag_lift: Skitrekk
+          gondola: Gondolheis
           station: Fjellheisstasjon
         aeroway:
           aerodrome: Flyplass
@@ -393,6 +414,7 @@ nb:
           taxiway: Taksebane
           terminal: Terminal
         amenity:
+          animal_shelter: Dyrehospits
           arts_centre: Kunstsenter
           atm: Minibank
           bank: Bank
@@ -402,6 +424,7 @@ nb:
           bicycle_parking: Sykkelparkering
           bicycle_rental: Sykkelutleie
           biergarten: Ølhage
+          boat_rental: Båtutleie
           brothel: Bordell
           bureau_de_change: Vekslingskontor
           bus_station: Busstasjon
@@ -411,8 +434,10 @@ nb:
           car_wash: Bilvask
           casino: Kasino
           charging_station: Ladestasjon
+          childcare: Barnepass
           cinema: Kino
           clinic: Klinikk
+          clock: Klokke
           college: Høyskole
           community_centre: Samfunnshus
           courthouse: Rettsbygning
@@ -431,6 +456,7 @@ nb:
           food_court: Serveringssteder
           fountain: Fontene
           fuel: Drivstoff
+          gambling: Hasard
           grave_yard: Gravlund
           gym: Treningssenter
           health_centre: Helsesenter
@@ -441,11 +467,14 @@ nb:
           library: Bibliotek
           market: Marked
           marketplace: Markedsplass
+          monastery: Kloster
+          motorcycle_parking: Motorsykkelparkering
           nightclub: Nattklubb
           nursery: Førskole
           nursing_home: Pleiehjem
           office: Kontor
           parking: Parkeringsplass
+          parking_entrance: Innkjøring til parkeringsgarasje
           pharmacy: Apotek
           place_of_worship: Tilbedelsesplass
           police: Politi
@@ -479,6 +508,7 @@ nb:
           veterinary: Veterinærklinikk
           village_hall: Forsamlingshus
           waste_basket: Søppelkasse
+          waste_disposal: Avfallshåndtering
           youth_centre: Ungdomssenter
         boundary:
           administrative: Administrativ grense
@@ -493,14 +523,30 @@ nb:
           "yes": Bru
         building:
           "yes": Bygning
+        craft:
+          brewery: Bryggeri
+          carpenter: Snekker
+          electrician: Elektriker
+          gardener: Gartner
+          painter: Maler
+          photographer: Fotograf
+          plumber: Rørlegger
+          shoemaker: Skomaker
+          tailor: Skredder
+          "yes": Handtverksbutikk
         emergency:
+          ambulance_station: Ambulansestasjon
+          defibrillator: Hjertestarter
+          landing_site: Nødlandingsplass
           phone: Nødtelefon
         highway:
+          abandoned: Forlatt motorvei
           bridleway: Ridevei
           bus_guideway: Ledet bussfelt
           bus_stop: Busstopp
           construction: Motorvei under konstruksjon
           cycleway: Sykkelsti
+          elevator: Heis
           emergency_access_point: Nødtilgangspunkt
           footway: Gangsti
           ford: Vadested
@@ -529,32 +575,41 @@ nb:
           tertiary: Tertiær vei
           tertiary_link: Lokalvei
           track: Sti
+          traffic_signals: Trafikksignalering
           trail: Sti
           trunk: Hovedvei
           trunk_link: Hovedvei
           unclassified: Uklassifisert vei
           unsurfaced: Vei uten dekke
+          "yes": Vei
         historic:
           archaeological_site: Arkeologisk plass
           battlefield: Slagmark
           boundary_stone: Grensestein
-          building: Bygning
+          building: Historisk bygning
+          bunker: Bunker
           castle: Slott
           church: Kirke
+          city_gate: Byport
           citywalls: Bymurer
           fort: Fort
+          heritage: Verdensarvssted
           house: Hus
           icon: Ikon
           manor: Herregård
           memorial: Minne
           mine: Gruve
           monument: Monument
+          roman_road: Romersk vei
           ruins: Ruiner
+          stone: Stein
           tomb: Grav
           tower: Tårn
           wayside_cross: Veikant kors
           wayside_shrine: Veikant alter
           wreck: Vrak
+        junction:
+          "yes": Korsvei
         landuse:
           allotments: Kolonihager
           basin: Elveområde
@@ -586,14 +641,19 @@ nb:
           road: Veiområde
           village_green: landsbypark
           vineyard: Vingård
+          "yes": Urbant område
         leisure:
           beach_resort: Strandsted
           bird_hide: Fugletårn
+          club: Klubb
           common: Allmenning
+          dog_park: Hundepark
           fishing: Fiskeområde
+          fitness_centre: Treningssenter
           fitness_station: Treningsstudio
           garden: Hage
           golf_course: Golfbane
+          horse_riding: Ridning
           ice_rink: Skøytebane
           marina: Båthavn
           miniature_golf: Minigolf
@@ -602,6 +662,7 @@ nb:
           pitch: Sportsarena
           playground: Lekeplass
           recreation_ground: Idrettsplass
+          resort: Utfluktssted
           sauna: Sauna
           slipway: Slipp
           sports_centre: Sportssenter
@@ -609,6 +670,13 @@ nb:
           swimming_pool: Svømmebaseng
           track: Løpebane
           water_park: Vannpark
+          "yes": Fritid
+        man_made:
+          lighthouse: Fyr
+          pipeline: Rørgate
+          tower: Tårn
+          works: Fabrikk
+          "yes": Menneskeskapt
         military:
           airfield: Militær flyplass
           barracks: Kaserne
@@ -628,6 +696,7 @@ nb:
           forest: Skog
           geyser: Geysir
           glacier: Isbre
+          grassland: Gresslette
           heath: Vidde
           hill: Ås
           island: Øy
@@ -640,6 +709,8 @@ nb:
           reef: Rev
           ridge: Rygg
           rock: Stein
+          saddle: Sal
+          sand: Sand
           scree: Ur
           scrub: Kratt
           spring: Kilde
@@ -653,6 +724,7 @@ nb:
           wood: Skog
         office:
           accountant: Revisor
+          administrative: Administrasjon
           architect: Arkitekt
           company: Firma
           employment_agency: Bemanningsfirma
@@ -665,6 +737,8 @@ nb:
           travel_agent: Reisebyrå
           "yes": Kontor
         place:
+          allotments: Jordlapper
+          block: Blokk
           airport: Flyplass
           city: By
           country: Land
@@ -689,6 +763,7 @@ nb:
           town: Tettsted
           unincorporated_area: Kommunefritt område
           village: Landsby
+          "yes": Sted
         railway:
           abandoned: Forlatt jernbane
           construction: Jernbane under konstruksjon
@@ -791,6 +866,7 @@ nb:
           "yes": Butikk
         tourism:
           alpine_hut: Fjellhytte
+          apartment: Leilighet
           artwork: Kunstverk
           attraction: Attraksjon
           bed_and_breakfast: Bed and Breakfast
@@ -798,6 +874,7 @@ nb:
           camp_site: Teltplass
           caravan_site: Campingplass
           chalet: Fjellhytte
+          gallery: Galleri
           guest_house: Gjestehus
           hostel: Vandrerhjem
           hotel: Hotell
@@ -829,6 +906,7 @@ nb:
           wadi: Elveleie
           waterfall: Foss
           weir: Overløpskant \
+          "yes": Vannvei
       admin_levels:
         level2: Riksgrense
         level4: Statsgrense
@@ -849,19 +927,6 @@ nb:
     results:
       no_results: Ingen resultat funnet
       more_results: Flere resultat
-    distance:
-      one: omtrent 1 km
-      zero: mindre enn 1 km
-      other: omtrent %{count} km
-    direction:
-      south_west: sørvest
-      south: sør
-      south_east: sørøst
-      east: øst
-      north_east: nordøst
-      north: nord
-      north_west: nordvest
-      west: vest
   layouts:
     project_name:
       title: OpenStreetMap
@@ -1101,6 +1166,10 @@ nb:
       Bidragsytere bruker flyfotografier, GPS-enheter og enkle feltkart for å gå god
       for at OSM er nøyaktig og oppdatert.
     community_driven_title: Fellesskapsdrevet
+    community_driven_html: |-
+      Gemenskapen i OpenStreetMap er mangfoldig, brennende, og den vokser for hver dag som går.
+      I våre rekker kan en finne entusiast-kartografer, GIS-proffer, ingeniører som kjører OSM-tjenere, humanister som kartlegger katestroferammede områder, og flere til.
+      For å lære mer om samholdet, sjekk ut <a href='%{diary_path}'>brukererkjennelser</a>, og <a href='http://www.osmfoundation.org/'>OSM-stiftelsens</a> nettside.
     open_data_title: Åpne data
     open_data_html: 'OpenStreetMap er <i>åpne data</i>: Du kan fritt bruke det for
       alle formål, så lenge du krediterer OpenStreetMap og dets bidragsytere. Hvis
@@ -1203,6 +1272,19 @@ nb:
         commented_note: '%{commenter} har reaktivert en kartmerknad som du har kommentert
           på. Merknaden er i nærheten av %{place}.'
       details: Flere opplysninger om merknaden finner du på %{url}.
+    changeset_comment_notification:
+      greeting: Heia,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} har kommentert en av dine endringer'
+        subject_other: '[OpenStreetMap] %{commenter} har kommentert en endring du
+          har vist interesse for'
+        your_changeset: '%{commenter} har kommentert en av dine endringer som ble
+          opprettet %{time}'
+        commented_changeset: '%{commenter} har kommentert en kartendring som du holder
+          oversikten over, opprettet av %{changeset_author} den %{time}'
+        partial_changeset_with_comment: med kommentaren '%{changeset_comment}'
+        partial_changeset_without_comment: uten kommentar
+      details: Flere detaljer om endringen finnes på %{url}.
   message:
     inbox:
       title: Innboks
@@ -1310,6 +1392,10 @@ nb:
       close: Lukk
     search:
       search: Søk
+      get_directions: Få veianvisninger
+      get_directions_title: Finn veien mellom to punkter
+      from: Fra
+      to: Til
       where_am_i: Hvor er jeg?
       where_am_i_title: Bruke søkemotoren til å beskrive gjeldende lokasjon.
       submit_text: Gå
@@ -1622,7 +1708,6 @@ nb:
       register now: Registrer deg nå
       with username: 'Har du allerede en OpenStreetMap-konto? Logg inn med brukernavnet
         og passordet ditt:'
-      with openid: 'Alternativt kan du bruke din OpenID for å logge inn:'
       new to osm: Ny på OpenStreetMap?
       to make changes: For å gjøre endringer på OpenStreetMap-data, må du ha en konto.
       create account minute: Opprett en konto. Det tar bare ett minutt.
@@ -1634,25 +1719,7 @@ nb:
         aktivitet.<br />Vennligst kontakt <a href="%{webmaster}">webmaster</a> hvis
         du ønsker å diskutere dette.
       auth failure: Beklager, kunne ikke logge inn med den informasjonen
-      openid missing provider: Beklager, fikk ikke kontakt med din OpenID-leverandør
-      openid invalid: Beklager, din OpenID ser ut til å være dårlig formatert
       openid_logo_alt: Logg inn med en OpenID
-      openid_providers:
-        openid:
-          title: Logg inn med OpenID
-          alt: Logg inn med en OpenID-URL
-        google:
-          title: Logg inn med Google
-          alt: Logg inn med en Google OpenID
-        yahoo:
-          title: Logg inn med Yahoo
-          alt: Logg inn med en Yahoo OpenID
-        wordpress:
-          title: Logg inn med Wordpress
-          alt: Logg inn med en Wordpress OpenID
-        aol:
-          title: Logg inn med AOL
-          alt: Logg inn med en AOL OpenID
     logout:
       title: Logg ut
       heading: Logg ut fra OpenStreetMap
@@ -1696,22 +1763,8 @@ nb:
       display name: 'Visningsnavn:'
       display name description: Ditt offentlig fremviste brukernavn. Du kan endre
         dette senere i innstillingene.
-      openid: '%{logo} OpenID:'
       password: 'Passord:'
       confirm password: 'Bekreft passord:'
-      use openid: Alternativt kan du bruke %{logo} OpenID for å logge inn
-      openid no password: Med OpenID kreves ikke et passord, men noen ekstraverktøy
-        eller en tjener kan fortsatt kreve et.
-      openid association: |-
-        <p>Din OpenID er ikke tilknyttet en OpenStreetMap-konto ennå.</p>
-        <ul>
-           <li>Hvis du er ny på OpenStreetMap, opprett en ny konto ved hjelp av skjemaet nedenfor.</li>
-           <li>
-              Hvis du allerede har en konto kan du logge inn på kontoen din
-              ved hjelp av brukernavnet og passordet ditt og deretter knytte kontoen
-              til din OpenID i brukerinnstillingene.
-           </li>
-        </ul>
       continue: Registrer deg
       terms accepted: Takk for at du godtok de nye bidragsytervilkårene!
       terms declined: Vi beklager at du har besluttet å ikke akseptere de nye bidragsytervilkårene.
@@ -1819,7 +1872,6 @@ nb:
       new email address: 'Ny e-postadresse:'
       email never displayed publicly: ' (vises aldri offentlig)'
       openid:
-        openid: 'OpenID:'
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: hva er dette?
       public editing:
@@ -1879,6 +1931,7 @@ nb:
         du begynne å lage kartene.
       press confirm button: Klikk bekreftknappen nedenfor for å aktivere kontoen din.
       button: Bekreft
+      success: Kontoen din er bekreftet - takk for at du registrerte deg.
       already active: Denne kontoen har allerede blitt bekreftet.
       unknown token: Denne bekreftelseskoden finnes ikke eller har utløpt.
       reconfirm_html: Hvis du trenger at vi sender bekreftelseseposten på nytt, <a
@@ -2114,8 +2167,8 @@ nb:
       tooltip_disabled: Kartnøkkel bare tilgjengelig for standardlag
     map:
       zoom:
-        in: Zoom inn
-        out: Zoom ut
+        in: Forstørr utvalg
+        out: Forminsk utvalg
       locate:
         title: Vis min posisjon
         popup: Du er innenfor {distance} {unit} av dette punktet
@@ -2135,11 +2188,20 @@ nb:
       donate_link_text: <a class='donate-attr' href='%{donate_url}'>Gi en donasjon</a>
     site:
       edit_tooltip: Rediger kartet
-      edit_disabled_tooltip: Zoom inn for å redigere kartet
+      edit_disabled_tooltip: Forstørr utvalg for å redigere kartet
       createnote_tooltip: Legg til en merknad på kartet
-      createnote_disabled_tooltip: Zoom inn for å legge til en merknad på kartet
-      map_notes_zoom_in_tooltip: Zoom inn for å se kartmerknader
-      map_data_zoom_in_tooltip: Zoom inn for å se kartdata
+      createnote_disabled_tooltip: Forstørr utvalg for å legge til en merknad på kartet
+      map_notes_zoom_in_tooltip: Forstørr utvalg for å se kartmerknader
+      map_data_zoom_in_tooltip: Forstørr utvalg for å se kartdata
+      queryfeature_tooltip: Forespørselsesfunksjoner
+      queryfeature_disabled_tooltip: Forstørr utvalg for å kjøre spørringsfunksjoner
+    changesets:
+      show:
+        comment: Kommentar
+        subscribe: Abonner
+        unsubscribe: Avbestill
+        hide_comment: skjul
+        unhide_comment: vis
     notes:
       new:
         intro: Oppdaget en feil eller noe som mangler? La andre kartleggere få vite
@@ -2155,7 +2217,49 @@ nb:
         reactivate: Reaktiver
         comment_and_resolve: Kommenter og løs
         comment: Kommenter
-    edit_help: Flytt kartet og zoom inn på et sted du vil redigere, og klikk så her.
+    edit_help: Flytt kartet og forstørr utvalg til et sted du vil redigere, og klikk
+      så her.
+    directions:
+      engines:
+        graphhopper_bicycle: Trøsykket (GrapHopper)
+        graphhopper_foot: Til fots (GrapHopper)
+        mapquest_bicycle: Trøsykkel (MapQuest)
+        mapquest_car: Bil (MapQuest)
+        mapquest_foot: Til fots (MapQuest)
+        osrm_car: Bil (OSRM)
+      directions: Veianvisninger
+      distance: Avstand
+      errors:
+        no_route: Kunne ikke finne veien mellom de to stedene.
+        no_place: Beklager - kunne ikke finne det stedet.
+      instructions:
+        continue_on: Fortsett på
+        slight_right: Slak høyre inn mot
+        turn_right: Sving til høyre inn på
+        sharp_right: Krapp høyre inn mot
+        uturn: U-sving langs
+        sharp_left: Krapp venstre inn mot
+        turn_left: Sving til venstre inn på
+        slight_left: Slak venstre inn mot
+        via_point: (via punkt)
+        follow: Følg
+        roundabout: I rundkjøringen, ta av mot
+        leave_roundabout: Forlat rundkjøring -
+        stay_roundabout: Hold deg i rundkjøringen -
+        start: Start på slutten av
+        destination: Nå målet
+        against_oneway: Kjør mot enveiskjøring på
+        end_oneway: Slutten av enveiskjøring på
+        unnamed: (ikke navngitt)
+        courtesy: Veianvisninger gitt av %{link}
+      time: Tid
+    query:
+      node: Node
+      way: Vei
+      relation: Relasjon
+      nothing_found: Ingen treff
+      error: 'Fikk ikke kontakt med tjener %{server}: %{error}'
+      timeout: Tidsavbrudd ved kontakt med tjener %{server}
   redaction:
     edit:
       description: Beskrivelse

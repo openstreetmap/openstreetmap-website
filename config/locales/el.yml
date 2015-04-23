@@ -112,12 +112,12 @@ el:
     created_html: Δημιουργήθηκε <abbr title='%{title}'>πριν από %{time}</abbr>
     closed_html: Κλείστηκε <abbr title='%{title}'>πριν από %{time}</abbr>
     created_by_html: Δημιουργήθηκε <abbr title='%{title}'>πριν από %{time}</abbr>
-      από τον %{user}
-    deleted_by_html: Διεγράφη <abbr title='%{title}'>πριν από %{time}</abbr> από τον
+      από χρήστη %{user}
+    deleted_by_html: Διεγράφη <abbr title='%{title}'>πριν από %{time}</abbr> από χρήστη
       %{user}
     edited_by_html: Επεξεργάστηκε <abbr title='%{title}'>πριν από %{time}</abbr> από
-      τον %{user}
-    closed_by_html: Κλείστηκε <abbr title='%{title}'>πριν από %{time}</abbr> από τον
+      χρήστη %{user}
+    closed_by_html: Κλείστηκε <abbr title='%{title}'>πριν από %{time}</abbr> από χρήστη
       %{user}
     version: Έκδοση
     in_changeset: Ομάδα αλλαγών
@@ -138,6 +138,8 @@ el:
       relation: Σχέσεις (%{count})
       relation_paginated: Σχέσεις (%{x}-%{y} από %{count})
       comment: Σχόλια (%{count})
+      commented_by: Σχόλιο από χρήστη %{user} <abbr title='%{exact_time}'>πριν από
+        %{when}</abbr>
       changesetxml: Ομάδας αλλαγών XML
       osmchangexml: osmChange XML
       feed:
@@ -421,6 +423,7 @@ el:
           taxiway: Τροχιόδρομος
           terminal: Τερματικός Σταθμός
         amenity:
+          animal_shelter: Καταφύγιο Ζώων
           arts_centre: Κέντρο Τεχνών
           atm: ΑΤΜ
           bank: Τράπεζα
@@ -430,6 +433,7 @@ el:
           bicycle_parking: Στάθμευση Ποδηλάτων
           bicycle_rental: Ενοικίαση Ποδηλάτων
           biergarten: Υπαίθρια Μπυραρία
+          boat_rental: Ενοικίαση Σκαφών
           brothel: Οίκος Ανοχής
           bureau_de_change: Ανταλλακτήριο Συναλλάγματος
           bus_station: Σταθμός Λεωφορείου
@@ -441,6 +445,7 @@ el:
           charging_station: Σταθμός Φόρτισης
           cinema: Κινηματογράφος
           clinic: Κλινική
+          clock: Ρολόι
           college: Κολέγιο
           community_centre: Κοινοτικό Κέντρο
           courthouse: Δικαστήριο
@@ -469,6 +474,7 @@ el:
           library: Βιβλιοθήκη
           market: Αγορά
           marketplace: Αγορά
+          monastery: Μοναστήρι
           nightclub: Νυχτερινό Κέντρο
           nursery: Παιδικός Σταθμός
           nursing_home: Οίκος Ευγηρίας
@@ -521,7 +527,15 @@ el:
           "yes": Γέφυρα
         building:
           "yes": Κτίριο
+        craft:
+          gardener: Κηπουρός
+          painter: Ζωγράφος
+          photographer: Φωτογράφος
+          plumber: Υδραυλικός
+          shoemaker: Τσαγκάρης
+          tailor: Ράφτης
         emergency:
+          defibrillator: Απινιδωτής
           phone: Τηλέφωνο Έκτακτης Ανάγκης
         highway:
           bridleway: Μονοπάτι για άλογα
@@ -529,6 +543,7 @@ el:
           bus_stop: Στάση Λεωφορείου
           construction: Δρόμος υπό Κατασκευή
           cycleway: Ποδηλατόδρομος
+          elevator: Ανελκυστήρας
           emergency_access_point: Σημείο Πρόσβασης Έκτακτης Ανάγκης
           footway: Μονοπάτι
           ford: Κοιτόστρωση
@@ -557,16 +572,18 @@ el:
           tertiary: Τριτεύων Δρόμος
           tertiary_link: Τριτεύων Δρόμος
           track: Χωματόδρομος
+          traffic_signals: Σήματα Κυκλοφορίας
           trail: Μονοπάτι
           trunk: Εθνική Οδός
           trunk_link: Εθνική Οδός
           unclassified: Αταξινόμητη Οδός
           unsurfaced: Δρόμος χωρίς Επίστρωση
+          "yes": Δρόμος
         historic:
           archaeological_site: Αρχαιολογικός Χώρος
           battlefield: Πεδίο Μάχης
           boundary_stone: Συνοριακή Στήλη
-          building: Κτίριο
+          building: Ιστορικό Κτίριο
           castle: Κάστρο
           church: Εκκλησία
           citywalls: Τείχη της Πόλης
@@ -577,7 +594,9 @@ el:
           memorial: Μνημείο
           mine: Ορυχείο
           monument: Μνημείο
+          roman_road: Ρωμαϊκός Δρόμος
           ruins: Ερείπιο
+          stone: Πέτρα
           tomb: Τάφος
           tower: Πύργος
           wayside_shrine: Εικονοστάσιο
@@ -621,6 +640,7 @@ el:
           fitness_station: Γυμναστήριο
           garden: Κήπος
           golf_course: Γήπεδο Γκολφ
+          horse_riding: Ιππασία
           ice_rink: Παγοδρόμιο
           marina: Μαρίνα
           miniature_golf: Μίνι Γκολφ
@@ -636,6 +656,11 @@ el:
           swimming_pool: Πισίνα
           track: Στίβος
           water_park: Υδάτινο Πάρκο
+          "yes": Ψυχαγωγία
+        man_made:
+          lighthouse: Φάρος
+          tower: Πύργος
+          works: Εργοστάσιο
         military:
           airfield: Στρατιωτικό Αεροδρόμιο
           barracks: Στρατώνας
@@ -655,6 +680,7 @@ el:
           forest: Δάσος
           geyser: Θερμοπίδακας
           glacier: Παγετώνας
+          grassland: Λιβάδι
           heath: Ρείκι
           hill: Λόφος
           island: Νησί
@@ -667,6 +693,7 @@ el:
           reef: Ύφαλος
           ridge: Σκόπελος
           rock: Βράχος
+          sand: Άμμος
           scrub: Θαμνότοπος
           spring: Πηγή
           stone: Πέτρα
@@ -679,6 +706,7 @@ el:
           wood: Δάσος
         office:
           accountant: Λογιστής
+          administrative: Διαχείριση
           architect: Αρχιτέκτονας
           company: Εταιρεία
           employment_agency: Οργανισμός Απασχόλησης
@@ -874,19 +902,6 @@ el:
     results:
       no_results: Δεν βρέθηκε κανένα αποτέλεσμα
       more_results: Περισσότερα αποτελέσματα
-    distance:
-      one: περίπου 1χλμ
-      zero: λιγότερο από 1χλμ
-      other: περίπου %{count}χλμ
-    direction:
-      south_west: νοτιοδυτικά
-      south: νότια
-      south_east: νοτιοανατολικά
-      east: ανατολικά
-      north_east: βορειοανατολικά
-      north: βόρεια
-      north_west: βορειοδυτικά
-      west: δυτικά
   layouts:
     logo:
       alt_text: Λογότυπο OpenStreetMap
@@ -1340,6 +1355,8 @@ el:
       close: Κλείσιμο
     search:
       search: Αναζήτηση
+      from: Από
+      to: Προς
       where_am_i: Πού είμαι;
       where_am_i_title: Περιέγραψε την τωρινή τοποθεσία με χρήση της μηχανής αναζήτησης
       submit_text: Μετάβαση
@@ -1605,7 +1622,6 @@ el:
       register now: Εγγραφείτε τώρα
       with username: 'Έχετε ήδη λογαριασμό OpenStreetMap; Παρακαλώ συνδεθείτε με το
         όνομα χρήστη και κωδικό πρόσβασης:'
-      with openid: 'Εναλλακτικά, χρησιμοποιήστε OpenID για να συνδεθείτε:'
       new to osm: Νέοι στο OpenStreetMap;
       to make changes: Για να κάνεις αλλαγές στα δεδομένα του OpenStreetMap, πρέπει
         να έχεις λογαριασμό.
@@ -1618,26 +1634,7 @@ el:
         δραστηριότητας.<br>Παρακαλώ επικοινωνήστε με τον <a href="%{webmaster}">webmaster</a>
         εάν θέλετε να το συζητήσετε.
       auth failure: Λυπάμαι, δεν μπορείτε να συνδεθείτε με αυτές τις λεπτομέρειες.
-      openid missing provider: Λυπάμαι, δεν μπορώ να έρθω σε επαφή με τον πάροχο σας
-        OpenID
-      openid invalid: Λυπάμαι, το OpenID φαίνεται να είναι ακατάλληλο
       openid_logo_alt: Σύνδεση με ένα OpenID
-      openid_providers:
-        openid:
-          title: Σύνδεση με OpenID
-          alt: Σύνδεση με ένα URL OpenID
-        google:
-          title: Σύνδεση με Google
-          alt: Σύνδεση με ένα Google OpenID
-        yahoo:
-          title: Σύνδεση με Yahoo
-          alt: Σύνδεση με ένα Yahoo OpenID
-        wordpress:
-          title: Σύνδεση με Wordpress
-          alt: Σύνδεση με ένα Wordpress OpenID
-        aol:
-          title: Σύνδεση με AOL
-          alt: Σύνδεση με AOL OpenID
     logout:
       title: Αποσύνδεση
       heading: Αποσύνδεση από το OpenStreetMap
@@ -1680,12 +1677,8 @@ el:
       display name: 'Εμφανιζόμενο όνομα:'
       display name description: Το δημόσια εμφανιζόμενο όνομα χρήστη. Μπορείτε να
         το αλλάξετε αργότερα από τις προτιμήσεις.
-      openid: '%{logo} OpenID:'
       password: 'Κωδικός:'
       confirm password: 'Επιβεβαίωση Κωδικού:'
-      use openid: 'Εναλλακτικά, χρήσιμοποιήστε %{logo} OpenID για να συνδεθείτε:'
-      openid no password: Με OpenID δεν απαιτείται κωδικός πρόσβασης, αλλά μερικά
-        τρίτα εργαλεία ή διακομιστές μπορεί να χρειαστούν κωδικό.
       continue: Εγγραφή
       terms accepted: Ευχαριστούμε για την αποδοχή των νέων όρων συνεισφοράς!
       terms declined: Λυπούμαστε για το ότι αποφασίσατε να μην αποδεχθείτε τους νέους
@@ -1792,7 +1785,6 @@ el:
       new email address: 'Νέα Διεύθυνση ηλεκτρονικού ταχυδρομείου:'
       email never displayed publicly: (όχι δημόσια εμφάνιση)
       openid:
-        openid: 'OpenID:'
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: τι είναι αυτό;
       public editing:
@@ -1857,6 +1849,7 @@ el:
       press confirm button: Πατήστε το κουμπί "Επιβεβαίωση" για να ενεργοποιήσετε
         το λογαριασμό σας.
       button: Επιβεβαίωση
+      success: Επιβεβαιώθηκε ο λογαριασμός σου, σε ευχαριστούμε για την εγγραφή σου!
       already active: Αυτός ο λογαριασμός έχει ήδη επιβεβαιωθεί.
       unknown token: Αυτός ο κωδικός επιβεβαίωσης έχει λήξει ή δεν υπάρχει.
       reconfirm_html: Εάν θέλετε να σας ξαναστείλουμε το email επιβεβαίωσης <a href="%{reconfirm}">πατήστε

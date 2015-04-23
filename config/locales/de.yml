@@ -18,9 +18,11 @@
 # Author: Grille chompa
 # Author: Holger
 # Author: Inkowik
+# Author: Jacobbraeutigam
 # Author: John07
 # Author: Jupiter
 # Author: Katpatuka
+# Author: Kerosin
 # Author: Kghbln
 # Author: Markobr
 # Author: McDutchie
@@ -160,7 +162,7 @@ de:
         %{when}</abbr>
       commented_by: Kommentar von %{user} <abbr title='%{exact_time}'>vor %{when}</abbr>
       changesetxml: Änderungssatz-XML
-      osmchangexml: osmChange XML
+      osmchangexml: osmChange-XML
       feed:
         title: 'Änderungssatz: %{id}'
         title_comment: Änderungssatz %{id} - %{comment}
@@ -426,8 +428,10 @@ de:
     search_osm_nominatim:
       prefix:
         aerialway:
+          cable_car: Kabelbahnwagen
           chair_lift: Sessellift
           drag_lift: Schlepplift
+          gondola: Gondelbahn
           station: Gondelstation
         aeroway:
           aerodrome: Flugplatz
@@ -438,6 +442,7 @@ de:
           taxiway: Rollbahn
           terminal: Terminal
         amenity:
+          animal_shelter: Tierheim
           arts_centre: Kulturzentrum
           atm: Geldautomat
           bank: Bank
@@ -447,6 +452,7 @@ de:
           bicycle_parking: Fahrrad-Stellplatz
           bicycle_rental: Fahrradverleih
           biergarten: Biergarten
+          boat_rental: Bootsverleih
           brothel: Bordell
           bureau_de_change: Wechselstube
           bus_station: Busbahnhof
@@ -478,6 +484,7 @@ de:
           food_court: Food-Court
           fountain: Springbrunnen
           fuel: Tankstelle
+          gambling: Glücksspiel
           grave_yard: Friedhof
           gym: Fitnessstudio
           health_centre: Gesundheitszentrum
@@ -488,11 +495,14 @@ de:
           library: Bücherei
           market: Markt
           marketplace: Marktplatz
+          monastery: Kloster
+          motorcycle_parking: Motorradparkplatz
           nightclub: Nachtklub
           nursery: Kindertagesstätte
           nursing_home: Altersheim
           office: Büro
           parking: Parkplatz
+          parking_entrance: Parkeinfahrt
           pharmacy: Apotheke
           place_of_worship: Andachtsstätte
           police: Polizei
@@ -548,11 +558,17 @@ de:
           gardener: Gärtner
           painter: Maler
           photographer: Fotograf
+          plumber: Klempner
           shoemaker: Schuhmacher
+          tailor: Schneider
           "yes": Handwerksgeschäft
         emergency:
+          ambulance_station: Rettungswache
+          defibrillator: Defibrillator
+          landing_site: Notlandeplatz
           phone: Notrufsäule
         highway:
+          abandoned: Verlassene Schnellstraße
           bridleway: Reitweg
           bus_guideway: Busspur
           bus_stop: Bushaltestelle
@@ -599,23 +615,29 @@ de:
           battlefield: Kampfgebiet
           boundary_stone: Grenzstein
           building: Historisches Gebäude
+          bunker: Bunker
           castle: Schloss
           church: Kirche
           city_gate: Stadttor
           citywalls: Stadtmauern
           fort: Fort
+          heritage: Bauerbe
           house: Historisches Haus
           icon: Symbol
           manor: Gutshaus
           memorial: Denkmal
           mine: Mine
           monument: Monument
+          roman_road: Römerstraße
           ruins: Ruine
+          stone: Findling
           tomb: Grabstätte
           tower: Historischer Turm
           wayside_cross: Wegkreuz
           wayside_shrine: Bildstock
           wreck: Schiffswrack
+        junction:
+          "yes": Kreuzung
         landuse:
           allotments: Kleingärten
           basin: Becken
@@ -647,9 +669,11 @@ de:
           road: Straßenfläche
           village_green: Dorfwiese (brit.)
           vineyard: Weingut
+          "yes": Bodennutzung
         leisure:
           beach_resort: Strandbad
           bird_hide: Vogelbeobachtungshütte
+          club: Verein
           common: öffentliche Grünfläche (brit.)
           dog_park: Hundepark
           fishing: Fischereigrund
@@ -666,6 +690,7 @@ de:
           pitch: Sportplatz
           playground: Spielplatz
           recreation_ground: Erholungsgebiet
+          resort: Ferienort
           sauna: Sauna
           slipway: Slipanlage
           sports_centre: Sportzentrum
@@ -673,10 +698,13 @@ de:
           swimming_pool: Schwimmbecken
           track: Laufbahn
           water_park: Wasserpark
+          "yes": Freizeit
         man_made:
           lighthouse: Leuchtturm
+          pipeline: Rohrleitung
           tower: Turm
           works: Fabrik
+          "yes": menschgemacht
         military:
           airfield: Militärflugplatz
           barracks: Kaserne
@@ -737,6 +765,8 @@ de:
           travel_agent: Reisebüro
           "yes": Büro
         place:
+          allotments: Schrebergärten
+          block: Block
           airport: Flughafen
           city: Stadt
           country: Staat
@@ -925,19 +955,6 @@ de:
     results:
       no_results: Keine Ergebnisse gefunden
       more_results: Mehr Treffer
-    distance:
-      zero: weniger als 1 km
-      one: ca. 1 km
-      other: ca. %{count} km
-    direction:
-      south_west: südwestlich
-      south: südlich
-      south_east: südöstlich
-      east: östlich
-      north_east: nordöstlich
-      north: nördlich
-      north_west: nordwestlich
-      west: westlich
   layouts:
     project_name:
       title: OpenStreetMap
@@ -1027,12 +1044,12 @@ de:
       credit_1_html: Wir verlangen die Verwendung des Hinweises „&copy; OpenStreetMap-Mitwirkende“.
       credit_2_html: |-
         Du musst auch klarstellen, dass die Daten unter der Open-Database-Lizenz
-        verfügbar sind, und sofern du unsere Kartenkacheln verwendest, dass die
+        verfügbar sind, und, sofern du unsere Kartenkacheln verwendest, dass die
         Kartografie gemäß CC BY-SA lizenziert ist. Du kannst dies tun, indem du auf
-        <a href="http://www.openstreetmap.org/copyright">www.openstretmap.org/copyright</a> verlinkst.
+        <a href="http://www.openstreetmap.org/copyright">www.openstreetmap.org/copyright</a> verlinkst.
         Ersatzweise, und als Erfordernis, falls du OSM in Datenform weitergibst,
         kannst du die Lizenz(en) direkt verlinken und benennen. In Medien, in denen
-        keine Links möglich sind (z.&nbsp;B. gedruckten Werken), empfehlen wir dir,
+        keine Links möglich sind (z.B. gedruckten Werken), empfehlen wir dir,
         deine Leser direkt auf openstreetmap.org zu verweisen (möglicherweise mit
         dem Erweitern von „OpenStreetMap“ zur vollen Adresse), auf opendatacommons.org,
         und, sofern zutreffend, auf creativecommons.org.
@@ -1439,8 +1456,6 @@ de:
       search: Suchen
       get_directions: Route berechnen
       get_directions_title: Routenberechnung zwischen zwei Orten
-      close_directions: Schliessen der Route
-      close_directions_title: Schliessen des Routenmenus
       from: Von
       to: Nach
       where_am_i: Wo bin ich?
@@ -1759,7 +1774,6 @@ de:
       register now: Jetzt registrieren
       with username: 'Hast du bereits ein Konto bei OpenStreetMap? Bitte melde dich
         mit deinem Benutzernamen und Passwort an:'
-      with openid: 'Alternativ kannst du deine OpenID zum Anmelden nutzen:'
       new to osm: Neu bei OpenStreetMap?
       to make changes: Um Datenänderungen bei OpenStreetMap vornehmen zu können, musst
         Du ein Benutzerkonto haben.
@@ -1772,26 +1786,7 @@ de:
         gesperrt.<br />Bitte kontaktiere den <a href="%{webmaster}">Webmaster</a>,
         falls du dies klären möchtest.
       auth failure: Mit diesen Daten leider keine Anmeldung möglich.
-      openid missing provider: Wir konnten leider keine Verbindung zu deinem OpenID-Dienst
-        herstellen.
-      openid invalid: Deine OpenID scheint leider fehlerhaft zu sein.
       openid_logo_alt: Mit einer OpenID anmelden
-      openid_providers:
-        openid:
-          title: Mit OpenID anmelden
-          alt: Mit einer OpenID-URL anmelden
-        google:
-          title: Mit Google anmelden
-          alt: Mit einer OpenID von Google anmelden
-        yahoo:
-          title: Mit Yahoo! anmelden
-          alt: Mit einer OpenID von Yahoo! anmelden
-        wordpress:
-          title: Mit Wordpress anmelden
-          alt: Mit einer OpenID von Wordpress anmelden
-        aol:
-          title: Mit AOL anmelden
-          alt: Mit einer OpenID von AOL anmelden
     logout:
       title: Abmelden
       heading: Von OpenStreetMap abmelden
@@ -1839,22 +1834,8 @@ de:
       display name: 'Benutzername:'
       display name description: Dein öffentlich angezeigter Benutzername. Er kann
         später in den Einstellungen geändert werden.
-      openid: '%{logo} OpenID:'
       password: 'Passwort:'
       confirm password: 'Passwort bestätigen:'
-      use openid: 'Alternativ kannst du eine OpenID von %{logo} zum Anmelden nutzen:'
-      openid no password: Für OpenID wird kein Passwort benötigt. Allerdings könnten
-        dennoch einige zusätzlich Hilfsprogramme oder Server ein Passwort benötigen.
-      openid association: |-
-        <p>Deine OpenID ist noch nicht mit einem Benutzerkonto bei OpenStreetMap verknüpft.</p>
-        <ul>
-         <li>Sofern Du noch kein Benutzerkonto bei OpenStreetMap hast, kannst Du eines mit dem Formular unten anlegen.</li>
-          <li>
-              Sofern Du bereits ein Benutzerkonto hast, kannst du dich dort mit deinem
-              Benutzernamen und Passwort anmelden und es danach mit deiner OpenID
-              unter deinen Benutzereinstellungen verknüpfen.
-          </li>
-        </ul>
       continue: Registrieren
       terms accepted: Vielen Dank, dass du den neuen Bedingungen für Mitwirkende zugestimmt
         hast!
@@ -1965,7 +1946,6 @@ de:
       new email address: 'Neue E-Mail-Adresse:'
       email never displayed publicly: (nicht öffentlich sichtbar)
       openid:
-        openid: 'OpenID:'
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: Was ist das?
       public editing:
@@ -2030,6 +2010,10 @@ de:
       press confirm button: Zur Aktivierung Deines Benutzerkontos klicke bitte unten
         auf „Bestätigen“.
       button: Bestätigen
+      success: |-
+        Dein Benutzerkonto wurde bestätigt, danke fürs Registrieren!
+        <br /><br />
+        Auf <a href="http://www.openstreetmap.de/willkommen/">dieser Seite</a> findest du nützliche Links und Informationen, die dir den Einstieg erleichtern.
       already active: Dieses Benutzerkonto wurde bereits bestätigt.
       unknown token: Dieser Bestätigungscode ist abgelaufen oder nicht vorhanden.
       reconfirm_html: Um die Bestätigungs-E-Mail erneut zuzusenden, <a href="%{reconfirm}">klicke
@@ -2331,28 +2315,28 @@ de:
     directions:
       engines:
         graphhopper_bicycle: Fahrrad (GraphHopper)
-        graphhopper_foot: Fuss (GraphHopper)
+        graphhopper_foot: Fuß (GraphHopper)
         mapquest_bicycle: Fahrrad (MapQuest)
         mapquest_car: Auto (MapQuest)
-        mapquest_foot: Fuss (MapQuest)
+        mapquest_foot: Fuß (MapQuest)
         osrm_car: Auto (OSRM)
-      directions: 'Fahranweisungen:'
-      distance: 'Distanz:'
+      directions: 'Routenanweisungen:'
+      distance: Distanz
       errors:
         no_route: Wir konnten keine Strecke zwischen diesen beiden Orten berechnen.
         no_place: Wir konnten den Ort nicht finden.
       instructions:
-        continue_on: Weiter auf
+        continue_on: Weiter auf&nbsp;
         slight_right: Rechts halten auf
-        turn_right: Rechts abbiegen auf
-        sharp_right: Hart rechts auf
+        turn_right: Rechts abbiegen auf&nbsp;
+        sharp_right: Scharf rechts auf
         uturn: U-turn along
-        sharp_left: Hart links auf
-        turn_left: Links abbiegen auf
+        sharp_left: Scharf links auf
+        turn_left: Links abbiegen auf&nbsp;
         slight_left: Links halten auf
         via_point: (via point)
-        follow: Folge
-        roundabout: Im Kreisverkehr nehme
+        follow: Folge&nbsp;
+        roundabout: Im Kreisverkehr&nbsp;
         leave_roundabout: Verlasse den Kreisverkehr -
         stay_roundabout: Stay on roundabout -
         start: Start at end of
@@ -2360,8 +2344,8 @@ de:
         against_oneway: Go against one-way on
         end_oneway: Ende der Einbahnstrasse
         unnamed: (unbekannt)
-        courtesy: Fahranweisungen stammen von %{link}
-      time: 'Zeit:'
+        courtesy: Routenanweisungen stammen von %{link}
+      time: Zeit
     query:
       node: Knoten
       way: Weg

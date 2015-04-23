@@ -9,6 +9,7 @@
 # Author: HarryMahar
 # Author: Irwangatot
 # Author: Iwan Novirion
+# Author: Kenrick95
 # Author: Relly Komaruzaman
 # Author: Rizkiahmadz
 # Author: Vasanthi
@@ -131,6 +132,10 @@ id:
       relation: Hubungan (%{count})
       relation_paginated: Hubungan (%{x}-%{y} dari %{count})
       comment: Komentar %{count}
+      hidden_commented_by: Komentar tersembunyi dari %{user} <abbr title='%{exact_time}'>%{when}
+        yang lalu</abbr>
+      commented_by: Komentar dari %{user} <abbr title='%{exact_time}'>%{when} yang
+        lalu</abbr>
       changesetxml: Set Perubahan XML
       osmchangexml: osmChange XML
       feed:
@@ -193,6 +198,7 @@ id:
       wiki_link:
         key: Deskripsi halaman wiki untuk tag %{key}
         tag: Deskripsi halaman wiki untuk  %{key}=%{value} tag
+      wikidata_link: Item %{page} di Wikidata
       wikipedia_link: Artikel %{page} di Wikipedia
       telephone_link: Hubungi %{phone_number}
     note:
@@ -219,6 +225,11 @@ id:
         yang lalu</abbr>
       hidden_by: Disembunyikan oleh %{user} <abbr title='%{exact_time}'>%{when} yang
         lalu</abbr>
+    query:
+      title: Fitur Kueri
+      introduction: Klik di peta untuk mencari fitur terdekat.
+      nearby: Fitur terdekat
+      enclosing: Fitur sekitar
   changeset:
     changeset_paging_nav:
       showing_page: Halaman %{page}
@@ -250,6 +261,11 @@ id:
       sorry: Maaf, daftar kumpulan set perubahan yang Anda minta terlalu lama untuk
         diambil.
     rss:
+      title_all: Diskusi perubahan OpenStreetMap
+      title_particular: 'Diskusi perubahan OpenStreetMap nomor #%{changeset_id}'
+      comment: 'Komentar baru di perubahan #%{changeset_id} oleh %{author}'
+      commented_at_html: Diperbarui %{when} yang lalu
+      commented_at_by_html: Diperbarui %{when} yang lalu oleh %{user}
       full: Diskusi penuh
   diary_entry:
     new:
@@ -391,8 +407,10 @@ id:
     search_osm_nominatim:
       prefix:
         aerialway:
+          cable_car: Kereta Gantung
           chair_lift: Kursi Gantung
           drag_lift: Angkat Tarik
+          gondola: Lift Gondola
           station: Stasiun Aerialway
         aeroway:
           aerodrome: Lapangan Terbang
@@ -403,6 +421,7 @@ id:
           taxiway: Jalur taxi
           terminal: Terminal
         amenity:
+          animal_shelter: Tempat Perlindungan Hewan
           arts_centre: Pusat Kesenian
           atm: ATM
           bank: Bank
@@ -412,6 +431,7 @@ id:
           bicycle_parking: Parkir Sepeda
           bicycle_rental: Penyewaan Sepeda
           biergarten: Beer Garden
+          boat_rental: Penyewaan Perahu
           brothel: Bordil
           bureau_de_change: Penukaran Valuta Asing
           bus_station: Terminal Bus
@@ -421,8 +441,10 @@ id:
           car_wash: Tempat Cuci Mobil
           casino: Kasino
           charging_station: Stasiun Pengisian
+          childcare: Perawatan Anak
           cinema: Bioskop
           clinic: Klinik
+          clock: Jam
           college: Perguruan Tinggi
           community_centre: Gedung Serbaguna
           courthouse: Gedung Pengadilan
@@ -441,6 +463,7 @@ id:
           food_court: Tempat Makan
           fountain: Air Mancur
           fuel: Stasiun Pengisian Bahan Bakar
+          gambling: Kasino
           grave_yard: Kuburan
           gym: Pusat Kebugaran / Gym
           health_centre: Pusat Kesehatan
@@ -451,11 +474,14 @@ id:
           library: Perpustakaan
           market: Pasar
           marketplace: Pasar
+          monastery: Biara
+          motorcycle_parking: Parkir Motor
           nightclub: Klub Malam
           nursery: Pendidikan Anak Usia Dini (PAUD)
           nursing_home: Panti Jompo
           office: Kantor
           parking: Parkir
+          parking_entrance: Pintu Masuk Parkiran
           pharmacy: Apotek
           place_of_worship: Tempat Ibadah
           police: Polisi
@@ -489,6 +515,7 @@ id:
           veterinary: Bedah Hewan
           village_hall: Balai Desa
           waste_basket: Keranjang Sampah
+          waste_disposal: Tempat Pembuangan Akhir
           youth_centre: Pusat Pemuda
         boundary:
           administrative: Batas Administratif
@@ -503,14 +530,30 @@ id:
           "yes": Jembatan
         building:
           "yes": Bangunan
+        craft:
+          brewery: Pabrik Bir
+          carpenter: Tukang Kayu
+          electrician: Tukang Listrik
+          gardener: Tukang Kebun
+          painter: Tukang Cat
+          photographer: Fotografer
+          plumber: Tukang Pipa
+          shoemaker: Perajin Sepatu
+          tailor: Penjahit
+          "yes": Toko Kerajinan
         emergency:
+          ambulance_station: Ambulans
+          defibrillator: Alat Pacu Jantung
+          landing_site: Pintu Masuk Darurat
           phone: Telepon Darurat
         highway:
+          abandoned: Jalan Bebas Hambatan Usang
           bridleway: Jalan Tanah
           bus_guideway: Jalur Bus Terpandu
           bus_stop: Halte Bus
           construction: Jalan raya sedang dalam perbaikan
           cycleway: Jalur Sepeda
+          elevator: Elevator
           emergency_access_point: Titik Akses Darurat
           footway: Jalan setapak
           ford: Arungan
@@ -539,32 +582,41 @@ id:
           tertiary: Jalan Tersier
           tertiary_link: Jalan Tersier
           track: Trek
+          traffic_signals: Lampu Lalu Lintas
           trail: Jejak
           trunk: Jalan Utama Bukan Tol
           trunk_link: Jalan Utama Bukan Tol
           unclassified: Jalan Tidak Terklasifikasi
           unsurfaced: Jalan Tanpa Permukaan
+          "yes": Jalan
         historic:
           archaeological_site: Situs arkeologi
           battlefield: Medan perang
           boundary_stone: Batu Pembatas
-          building: Bangunan
+          building: Bangunan Bersejarah
+          bunker: Bunker
           castle: Kastil
           church: Gereja
+          city_gate: Gerbang Kota
           citywalls: Dinding Kota
           fort: Benteng
+          heritage: Situs Warisan
           house: Rumah
           icon: Ikon
           manor: Tanah Bangsawan
           memorial: Memorial
           mine: Tambang
           monument: Monumen
+          roman_road: Jalan Romawi
           ruins: Reruntuhan
+          stone: Batu
           tomb: Makam
           tower: Menara
           wayside_cross: Pinggir persimpangan
           wayside_shrine: Kuil pinggir jalan
           wreck: Rongsokan
+        junction:
+          "yes": Persimpangan
         landuse:
           allotments: Tanah garap
           basin: Cekungan
@@ -596,14 +648,19 @@ id:
           road: Wilayah Jalan
           village_green: Desa Hijau
           vineyard: Kebun anggur
+          "yes": Lahan Guna
         leisure:
           beach_resort: Resort Pantai
           bird_hide: Tempat Observasi Burung
+          club: Klub
           common: Lahan Publik
+          dog_park: Taman Anjing
           fishing: Tempat Pemancingan
+          fitness_centre: Pusat Kebugaran
           fitness_station: Stasiun Kebugaran
           garden: Kebun
           golf_course: Taman Golf
+          horse_riding: Pacuan Kuda
           ice_rink: Gelanggang Es (Ice Rink)
           marina: Pantai
           miniature_golf: Mini Golf
@@ -612,6 +669,7 @@ id:
           pitch: Lapangan Olahraga
           playground: Taman Bermain
           recreation_ground: Taman Rekreasi
+          resort: Resor
           sauna: Sauna
           slipway: Tempat Peluncuran Kapal
           sports_centre: Pusat Olahraga
@@ -619,6 +677,13 @@ id:
           swimming_pool: Kolam Renang
           track: Trek Lari
           water_park: Taman Air
+          "yes": Plesir
+        man_made:
+          lighthouse: Mercusuar
+          pipeline: Jalur Pipa
+          tower: Menara
+          works: Pabrik
+          "yes": Buatan Manusia
         military:
           airfield: Lapangan Udara Militer
           barracks: Barak
@@ -638,6 +703,7 @@ id:
           forest: Hutan
           geyser: Mata air panas
           glacier: Gletser
+          grassland: Rerumputan
           heath: Padang Rumpur
           hill: Bukit
           island: Pulau
@@ -650,6 +716,8 @@ id:
           reef: Batu Karang
           ridge: Punggung Bukit
           rock: Batu
+          saddle: Sadel
+          sand: Pasir
           scree: Kerikil
           scrub: Semak Belukar
           spring: Mata Air
@@ -663,6 +731,7 @@ id:
           wood: Kayu
         office:
           accountant: Akuntan
+          administrative: Tata Usaha
           architect: Arsitek
           company: Perusahaan
           employment_agency: Badan Tenaga Kerja
@@ -675,6 +744,8 @@ id:
           travel_agent: Agen Perjalanan
           "yes": Kantor
         place:
+          allotments: Tanah Garapan
+          block: Blok
           airport: Bandara
           city: Kota
           country: Negara
@@ -699,6 +770,7 @@ id:
           town: Kota
           unincorporated_area: Wilayah lepas
           village: Desa
+          "yes": Tempat
         railway:
           abandoned: Rel kereta yang diabaikan
           construction: Rel kereta yang diperbaiki
@@ -801,6 +873,7 @@ id:
           "yes": Toko
         tourism:
           alpine_hut: Gubuk Pegunungan
+          apartment: Apartemen
           artwork: Karya Seni
           attraction: Atraksi
           bed_and_breakfast: Penginapan untuk Tidur dan Sarapan
@@ -808,6 +881,7 @@ id:
           camp_site: Perkemahan
           caravan_site: Tempat Karavan
           chalet: Vila
+          gallery: Galeri
           guest_house: Rumah Tamu
           hostel: Hostel
           hotel: Hotel
@@ -839,6 +913,7 @@ id:
           wadi: Sungai Kering
           waterfall: Air Terjun
           weir: Tanggul Sungai
+          "yes": Jalur Air
       admin_levels:
         level2: Batas Negara
         level4: Batas Negara Bagian
@@ -859,19 +934,6 @@ id:
     results:
       no_results: Tidak ada hasil yang ditemukan
       more_results: Hasil lainnya
-    distance:
-      one: sekitar 1km
-      zero: kurang daripada 1km
-      other: about km %{count}
-    direction:
-      south_west: barat daya
-      south: selatan
-      south_east: tenggara
-      east: timur
-      north_east: timur laut
-      north: utara
-      north_west: barat laut
-      west: barat
   layouts:
     logo:
       alt_text: logo OpenStreetMap
@@ -915,7 +977,7 @@ id:
     community_blogs: Blog Komunitas
     community_blogs_title: Blog dari anggota komunitas OpenStreetMap
     foundation: Foundation (Yayasan)
-    foundation_title: Yayasan OpenStreetMap
+    foundation_title: OpenStreetMap Foundation
     make_a_donation:
       title: Dukung OpenStreetMap dengan donasi finansial
       text: Menyumbang
@@ -1122,6 +1184,13 @@ id:
       menggunakan \ncitra udara, perangkat GPS, dan lapangan berteknologi rendah peta
       untuk memverifikasi bahwa OSM akurat dan termutakhir."
     community_driven_title: Berbasis Masyarakat
+    community_driven_html: |-
+      Komunitas OpenStreetMap sangat beragam, rajin berkontribusi, dan semakin besar setiap harinya.
+      Kontributor kami terdiri dari penggemar peta, pegiat SIG, teknisi
+      yang mengurus server OSM, relawan yang memetakan kawasan terdampak bencana,
+      dan lain-lain.
+      Untuk mengetahui lebih lanjut, baca <a href='%{diary_path}'>catatan harian pengguna</a>,
+      <a href='http://blogs.openstreetmap.org/'>blog komunitas</a>, dan situs web <a href='http://www.osmfoundation.org/'>OSM Foundation</a>.
     open_data_title: Buka Data
     open_data_html: 'OpenStreetMap adalah <i>data terbuka</i>: Anda bebas untuk menggunakannya
       untuk tujuan apapun selama Anda memberi penghargaan pada OpenStreetMap dan kontributornya.
@@ -1235,7 +1304,17 @@ id:
     changeset_comment_notification:
       greeting: Halo,
       commented:
+        subject_own: '[OpenStreetMap] %{commenter} mengomentari salah satu perubahan
+          Anda'
+        subject_other: '[OpenStreetMap] %{commenter} mengomentari perubahan yang Anda
+          ikuti'
+        your_changeset: '%{commenter} meninggalkan komentar di salah satu perubahan
+          Anda pukul %{time}'
+        commented_changeset: '%{commenter} meninggalkan komentar di perubahan peta
+          pantauan Anda yang dibuat %{changeset_author} pukul %{time}'
+        partial_changeset_with_comment: dengan komentar '%{changeset_comment}'
         partial_changeset_without_comment: tanpa komentar
+      details: Rincian lebuh lanjut soal perubahan ini dapat dilihat di %{url}.
   message:
     inbox:
       title: Kotak Masuk
@@ -1346,6 +1425,10 @@ id:
       close: Tutup
     search:
       search: Pencarian
+      get_directions: Dapatkan petunjuk arah
+      get_directions_title: Dapatkan petunjuk arah antara dua tempat
+      from: Dari
+      to: Ke
       where_am_i: Di mana saya?
       where_am_i_title: Deskripsikan lokasi Anda saat ini menggunakan mesin pencari
       submit_text: Lanjut
@@ -1545,6 +1628,8 @@ id:
       message: Sistem upload dan penyimpanan file GPX saat ini tidak tersedia.
     georss:
       title: Jejak SPG (sistem pemosisi global) OpenStreetMap
+    description:
+      description_without_count: Berkas GPX dari %{user}
   application:
     require_cookies:
       cookies_needed: Anda tampaknya memiliki cookies yang tidak aktif - mohon aktifkan
@@ -1655,8 +1740,6 @@ id:
       register now: Daftar sekarang
       with username: 'Sudah memiliki akun OpenStreetMap? Silahkan login menggunakan
         nama pengguna dan kata sandi Anda:'
-      with openid: 'Sebagai alternatif silahkan gunakan OpenID Anda untuk melakukan
-        login:'
       new to osm: Baru di OpenStreetMap?
       to make changes: Untuk membuat perubahan data OpenStreetMap, Anda harus memiliki
         sebuah akun.
@@ -1669,25 +1752,7 @@ id:
         mencurigakan.<br />Silahkan kontak/hubungi<a href="%{webmaster}">webmaster</a>
         jika Anda ingin mendiskusikannya.
       auth failure: Maaf, tidak bisa login dengan rincian tersebut.
-      openid missing provider: Maaf, tidak bisa menghubungi penyedia OpenID Anda
-      openid invalid: Maaf, OpenID Anda tampaknya cacat.
       openid_logo_alt: Login dengan OpenID
-      openid_providers:
-        openid:
-          title: Login dengan OpenID
-          alt: Login menggunakan URL OpenID
-        google:
-          title: Login dengan Google
-          alt: Login dengan Google OpenID
-        yahoo:
-          title: Login dengan Yahoo
-          alt: Login dengan Yahoo OpenID
-        wordpress:
-          title: Login dengan Wordpress
-          alt: Login dengan Wordpress OpenID
-        aol:
-          title: Login dengan AOL
-          alt: Login dengan AOL OpenID
     logout:
       title: Logout
       heading: Logout dari OpenStreetMap
@@ -1735,22 +1800,8 @@ id:
       display name: 'Tampilan Nama:'
       display name description: Username Anda yang ditampilkan pada publik. Anda dapat
         mengubahnya dalam pengaturan.
-      openid: '%{logo} OpenID:'
       password: 'Kata Sandi:'
       confirm password: 'Konfirmasi Kata Sandi:'
-      use openid: Atau gunakan %{logo} OpenID untuk login
-      openid no password: Dengan OpenID, kata sandi tidak diperlukan, namun untuk
-        beberapa alat tambahan atau server mungkin masih membutuhkannya.
-      openid association: |-
-        <p>OpenID Anda belum diasosiasikan dengan akun OpenStreetMap.</p>
-        <ul>
-          <li>Jika Anda baru di OpenStreetMap, silahkan buat sebuah akun baru menggunakan formulir di bawah ini.</li>
-          <li>
-            Jika Anda telah memiliki akun, Anda dapat login ke akun Anda
-            menggunakan username (nama pengguna) dan kata sandi kemudian asosiasikan akun tersebut
-            dengan OpenID Anda pada pegaturan pengguna.
-          </li>
-        </ul>
       continue: Mendaftar
       terms accepted: Terima kasih telah menerima persyaratan kontributor yang baru!
       terms declined: Kami mohon maaf Anda tidak menerima Persyaratan Kontributor
@@ -1860,7 +1911,6 @@ id:
       new email address: 'Alamat Email Baru:'
       email never displayed publicly: (jangan pernah ditampilkan ke publik)
       openid:
-        openid: 'OpenID:'
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: Apa ini?
       public editing:
@@ -1923,6 +1973,7 @@ id:
       press confirm button: Tekan tombol konfirmasi di bawah ini untuk mengaktifkan
         akun Anda.
       button: Konfirmasi
+      success: Akun Anda telah dikonfirmasi, terima kasih telah mendaftar!
       already active: Akun ini telah dikonfirmasi.
       unknown token: Kode konfirmasi telah kedaluwarsa atau tidak ada.
       reconfirm_html: Jika Anda membutuhkan kami mengirimkan ulang surel konfirmasi,
@@ -2189,6 +2240,8 @@ id:
       createnote_disabled_tooltip: Perbesar untuk menambahkan catatan pada peta
       map_notes_zoom_in_tooltip: Perbesar untuk melihat catatan peta
       map_data_zoom_in_tooltip: Perbesar untuk melihat data peta
+      queryfeature_tooltip: Fitur kueri
+      queryfeature_disabled_tooltip: Perbesar ke fitur kueri
     changesets:
       show:
         comment: Komentar
@@ -2213,8 +2266,43 @@ id:
         comment: Komentar
     edit_help: Memindahkan peta dan memperbesar lokasi yang ingin Anda sunting, kemudian
       klik di sini.
+    directions:
+      engines:
+        graphhopper_bicycle: Sepeda (GraphHopper)
+        graphhopper_foot: Jalan Kaki (GraphHopper)
+        mapquest_bicycle: Sepeda (MapQuest)
+        mapquest_car: Mobil (MapQuest)
+        mapquest_foot: Jalan Kaki (MapQuest)
+        osrm_car: Mobil (OSRM)
+      directions: Petunjuk Arah
+      distance: Jarak
+      errors:
+        no_route: Gagal menemukan rute antara dua tempat tersebut.
+        no_place: Maaf - tempat tidak ditemukan.
+      instructions:
+        continue_on: Jalan terus di
+        slight_right: Belok kanan sedikit ke
+        turn_right: Belok kanan ke
+        sharp_right: Belok kanan tajam ke
+        uturn: Berputar di
+        sharp_left: Belok kiri tajam ke
+        turn_left: Belok kiri ke
+        slight_left: Belok kiri sedikit ke
+        via_point: (lewat tempat)
+        follow: Ikuti
+        roundabout: Di bundaran, ambil
+        leave_roundabout: Tinggalkan bundaran -
+        stay_roundabout: Jalan terus di bundaran -
+        start: Mulai di ujung
+        destination: Tiba di tujuan
+        against_oneway: Jalan melawan satu arah di
+        end_oneway: Jalan satu arah berakhir di
+        unnamed: (tanpa nama)
+        courtesy: Petunjuk arah disediakan oleh %{link}
+      time: Waktu tempuh
     query:
       node: Node/Titik
+      way: Jalan
       relation: Relasi
       nothing_found: Tidak ada fasilitas yang ditemukan
       error: 'Kelasahan menghubungi %{server}: %{error}'

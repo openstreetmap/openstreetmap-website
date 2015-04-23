@@ -116,11 +116,17 @@ oc:
       way_paginated: Camins (%{x} a %{y} sus %{count})
       relation: Relacions (%{count})
       relation_paginated: Relacions (%{x} a %{y} sus %{count})
+      comment: Comentaris (%{count})
+      hidden_commented_by: Comentari amagat de %{user} <abbr title='%{exact_time}'>i
+        a %{when}</abbr>
+      commented_by: Comentari de %{user} <abbr title='%{exact_time}'>i a %{when}</abbr>
       changesetxml: Grop de modificacions XML
       osmchangexml: osmChange XML
       feed:
         title: Grop de modificacions %{id}
         title_comment: Grop de modificacions %{id} – %{comment}
+      join_discussion: Se connectar per rejónher la discussion
+      discussion: Discussion
     node:
       title: 'Nosèl : %{name}'
       history_title: 'Istoric del nosèl : %{name}'
@@ -200,6 +206,11 @@ oc:
       reopened_by: Reactivat per %{user}  fa <abbr title='%{exact_time}'>%{when}</abbr>
       reopened_by_anonymous: Reactivat per un utilizaire anonim fa <abbr title='%{exact_time}'>%{when}</abbr>
       hidden_by: Amagat per %{user} <abbr title='%{exact_time}'>fa %{when}</abbr>
+    query:
+      title: Requèsta suls objèctes
+      introduction: Clicar sus la mapa per trobar los objèctes a proximitat.
+      nearby: Objèctes a proximitat
+      enclosing: Objèctes englobants
   changeset:
     changeset_paging_nav:
       showing_page: Pagina %{page}
@@ -230,6 +241,13 @@ oc:
     timeout:
       sorry: O planhèm, la lista dels gropes de modificacions qu'avètz demandada met
         tròp de temps per èsser recuperada.
+    rss:
+      title_all: Discussion sul grop de modificacions OpenStreetMap
+      title_particular: Discussion sul grop de modificacions OpenStreetMap nº %{changeset_id}
+      comment: Comentari novèl sul grop de modificacions nº %{changeset_id} per %{author}
+      commented_at_html: Mes a jorn fa %{when}
+      commented_at_by_html: Mes a jorn fa %{when} per %{user}
+      full: Discussion completa
   diary_entry:
     new:
       title: Novèla entrada del jornal
@@ -372,8 +390,10 @@ oc:
     search_osm_nominatim:
       prefix:
         aerialway:
+          cable_car: Teleferic
           chair_lift: Telesèti
           drag_lift: Telesquí
+          gondola: Telecabina
           station: Gara de telecabina
         aeroway:
           aerodrome: Aerodròm
@@ -384,6 +404,7 @@ oc:
           taxiway: Via de manòbra
           terminal: Terminal
         amenity:
+          animal_shelter: Refugi per animals
           arts_centre: Centre artistic
           atm: Distribuidor automatic de bilhets
           bank: Banca
@@ -393,6 +414,7 @@ oc:
           bicycle_parking: Parcatge per bicicletas
           bicycle_rental: Logason de bicicletas
           biergarten: Braçariá a l’aire liure
+          boat_rental: Logason de vaissèls
           brothel: Bordèl
           bureau_de_change: Burèu de cambi
           bus_station: Arrèst de bus
@@ -404,6 +426,7 @@ oc:
           charging_station: Estacion de recarga
           cinema: Cinèma
           clinic: Clinica
+          clock: Relòtge
           college: Collègi
           community_centre: Sala polivalenta
           courthouse: Palais de justícia
@@ -422,6 +445,7 @@ oc:
           food_court: Airal de restauracion
           fountain: Font
           fuel: Carburant
+          gambling: Jòcs d'azard
           grave_yard: Cementèri
           gym: Fitness /gimnastica
           health_centre: Centre de santat
@@ -432,6 +456,7 @@ oc:
           library: Bibliotèca
           market: Mercat
           marketplace: Plaça del mercat
+          monastery: Mostièr
           nightclub: Discotèca
           nursery: Grépia
           nursing_home: Ostal de santat
@@ -484,6 +509,15 @@ oc:
           "yes": Pont
         building:
           "yes": Bastiment
+        craft:
+          carpenter: Fustièr
+          electrician: Electrician
+          gardener: Jardinièr
+          painter: Pintre
+          photographer: Fotograf
+          plumber: Plombièr
+          shoemaker: Sabatièr
+          "yes": Botiga d'artesanat
         emergency:
           phone: Telefòn d'urgéncia
         highway:
@@ -529,7 +563,8 @@ oc:
           archaeological_site: Site arqueologic
           battlefield: Camp de batalha
           boundary_stone: Bòrna frontièra
-          building: Bastiment
+          building: Bastiment istoric
+          bunker: Bunker
           castle: Castèl
           church: Glèisa
           citywalls: Muralhas de la vila
@@ -840,19 +875,6 @@ oc:
     results:
       no_results: Cap de resultat es pas estat trobat
       more_results: Mai de resultats
-    distance:
-      one: environ 1 km
-      zero: mens d'1 km
-      other: environ %{count} km
-    direction:
-      south_west: sud-oèst
-      south: sud
-      south_east: sud-èst
-      east: èst
-      north_east: nòrd-èst
-      north: nòrd
-      north_west: nòrd-oèst
-      west: oèst
   layouts:
     logo:
       alt_text: Lògo d'OpenStreetMap
@@ -1482,7 +1504,6 @@ oc:
       lost password link: Avètz perdut vòstre senhal ?
       login_button: Se connectar
       register now: S'inscriure ara
-      with openid: 'Tanben podètz utilizar OpenID per vos connectar :'
       new to osm: Novèl sus OpenStreetMap ?
       to make changes: Per aportar de modificacions a las donadas OpenStreetMap, vos
         cal possedir un compte.
@@ -1490,26 +1511,7 @@ oc:
       no account: Avètz pas de compte ?
       auth failure: O planhèm, mas las informacions provesidas an pas permés de vos
         identificar.
-      openid missing provider: O planhèm, impossible de contactar vòstre provesidor
-        OpenID
-      openid invalid: O planhèm, vòstre OpenID sembla malformat
       openid_logo_alt: Se connectar amb un OpenID
-      openid_providers:
-        openid:
-          title: Connexion amb OpenID
-          alt: Connexion amb una URL OpenID
-        google:
-          title: Connexion amb Google
-          alt: Connexion amb un OpenID Google
-        yahoo:
-          title: Connexion amb Yahoo
-          alt: Connexion amb un OpenID Yahoo
-        wordpress:
-          title: Connexion amb Wordpress
-          alt: Connexion amb un OpenID Wordpress
-        aol:
-          title: Connexion amb AOL
-          alt: Connexion amb un OpenID AOL
     logout:
       title: Desconnexion
       heading: Desconnexion d'OpenStreetMap
@@ -1542,10 +1544,8 @@ oc:
       display name: 'Nom afichat :'
       display name description: Vòstre nom d'utilizaire afichat publicament. Podètz
         cambiar aquò ulteriorament dins las preferéncias.
-      openid: '%{logo} OpenID :'
       password: 'Senhal :'
       confirm password: 'Confirmatz lo senhal :'
-      use openid: Tanben podètz utilizar %{logo} OpenID per vos identificar
       continue: S’inscriure
       terms accepted: Mercé d’aver acceptat los novèls tèrmes del contributor !
     terms:
@@ -1639,7 +1639,6 @@ oc:
       new email address: 'Novèla adreça de corrièr electronic :'
       email never displayed publicly: (pas jamai afichat publicament)
       openid:
-        openid: 'OpenID :'
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: qu’es aquò ?
       public editing:

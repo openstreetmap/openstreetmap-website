@@ -116,11 +116,17 @@ ast:
       way_paginated: Víes (%{x}-%{y} de %{count})
       relation: Rellaciones (%{count})
       relation_paginated: Rellaciones (%{x}-%{y} de %{count})
+      comment: Comentarios (%{count})
+      hidden_commented_by: Comentariu tapecíu de %{user} <abbr title='%{exact_time}'>hai
+        %{when}</abbr>
+      commented_by: Comentariu de %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
       changesetxml: Conxuntu de cambeos XML
       osmchangexml: osmChange XML
       feed:
         title: Conxuntu de cambeos %{id}
         title_comment: Conxuntu de cambeos %{id} - %{comment}
+      join_discussion: Anicia sesión pa xunite al alderique
+      discussion: Alderique
     node:
       title: 'Nuedu: %{name}'
       history_title: 'Historial del nuedu: %{name}'
@@ -199,6 +205,11 @@ ast:
       reopened_by_anonymous: Reactivao por un anónimu <abbr title='%{exact_time}'>hai
         %{when}</abbr>
       hidden_by: Tapecío por %{user} <abbr title='%{exact_time}'>hai %{when}</abbr>
+    query:
+      title: Consultar entidaes
+      introduction: Fai clic nel mapa p'alcontrar entidaes cercanes.
+      nearby: Entidaes cercanes
+      enclosing: Entidaes envolventes
   changeset:
     changeset_paging_nav:
       showing_page: Páxina %{page}
@@ -228,6 +239,14 @@ ast:
       load_more: Cargar más
     timeout:
       sorry: Llevó demasiao tiempu baxar la llista de conxuntos de cambeos que pidisti.
+    rss:
+      title_all: Alderique del conxuntu de cambios d'OpenStreetMap
+      title_particular: 'Alderique del conxuntu de cambios #%{changeset_id} d''OpenStreetMap'
+      comment: 'Comentariu nuevu sobro''l conxuntu de cambios #%{changeset_id} de
+        %{author}'
+      commented_at_html: Anovado hai %{when}
+      commented_at_by_html: Anovao hai %{when} por %{user}
+      full: Alderique completu
   diary_entry:
     new:
       title: Nueva entrada del diariu
@@ -368,8 +387,10 @@ ast:
     search_osm_nominatim:
       prefix:
         aerialway:
+          cable_car: Teleféricu
           chair_lift: Telesilla
           drag_lift: Telesquí
+          gondola: Telecabina
           station: Estación de cable
         aeroway:
           aerodrome: Aeródromu
@@ -380,6 +401,7 @@ ast:
           taxiway: Cai de rodaxe
           terminal: Terminal
         amenity:
+          animal_shelter: Refuxu d'animales
           arts_centre: Centru d'arte
           atm: Caxeru automáticu
           bank: Bancu
@@ -389,6 +411,7 @@ ast:
           bicycle_parking: Aparcaderu de bicicletes
           bicycle_rental: Alquiler de bicicletes
           biergarten: Merenderu
+          boat_rental: Alquiler d'embarcaciones
           brothel: Taburdiu
           bureau_de_change: Troquéu de moneda
           bus_station: Estación d'autobús
@@ -398,8 +421,10 @@ ast:
           car_wash: Llaváu de coches
           casino: Casino
           charging_station: Estación de carga
+          childcare: Ludoteca
           cinema: Cine
           clinic: Clínica
+          clock: Reló
           college: Colexu universitariu
           community_centre: Centru comunitariu
           courthouse: Xulgáu
@@ -418,6 +443,7 @@ ast:
           food_court: Zona de restaurantes
           fountain: Fonte
           fuel: Combustible
+          gambling: Xuegos d'azar
           grave_yard: Cementeriu
           gym: Ximnasiu / Fitness
           health_centre: Centru de salú
@@ -428,11 +454,14 @@ ast:
           library: Biblioteca
           market: Mercáu
           marketplace: Mercáu
+          monastery: Monasteriu
+          motorcycle_parking: Aparcamientu pa motocicletes
           nightclub: Sala de fiestes
           nursery: Preescolar
           nursing_home: Residencia asistencial
           office: Oficina
           parking: Aparcaderu
+          parking_entrance: Entrada d'aparcamientu
           pharmacy: Farmacia
           place_of_worship: Llugar de cultu
           police: Policía
@@ -466,6 +495,7 @@ ast:
           veterinary: Ciruxía veterinaria
           village_hall: Casa de la villa
           waste_basket: Papelera
+          waste_disposal: Contenedor pa basories
           youth_centre: Centru de mocedá
         boundary:
           administrative: Llende alministrativa
@@ -480,14 +510,30 @@ ast:
           "yes": Ponte
         building:
           "yes": Edificiu
+        craft:
+          brewery: Fábrica de cerveza
+          carpenter: Carpinteru
+          electrician: Electricista
+          gardener: Xardineru
+          painter: Pintor
+          photographer: Fotógrafu
+          plumber: Fontaneru
+          shoemaker: Zapateru
+          tailor: Alfayate
+          "yes": Tienda d'artesanía
         emergency:
+          ambulance_station: Base d'ambulancies
+          defibrillator: Desfibrilador
+          landing_site: Llugar de aterrizaxe d'emerxencia
           phone: Teléfonu d'emerxencia
         highway:
+          abandoned: Autopista abandonada
           bridleway: Caleya
           bus_guideway: Carril bus con guía
           bus_stop: Parada d'autobús
           construction: Carretera en construcción
           cycleway: Sienda ciclista
+          elevator: Ascensor
           emergency_access_point: Puntu de llocalización d'emerxencia
           footway: Sienda
           ford: Vau
@@ -503,7 +549,7 @@ ast:
           primary_link: Enllaz de carretera primaria
           proposed: Carretera propuesta
           raceway: Pista de carreres
-          residential: Residencial
+          residential: Cai residencial
           rest_area: Área de descansu
           road: Carretera
           secondary: Carretera secundaria
@@ -516,32 +562,41 @@ ast:
           tertiary: Carretera terciaria
           tertiary_link: Carretera terciaria
           track: Pista
+          traffic_signals: Semáforos
           trail: Camín
           trunk: Carretera nacional
           trunk_link: Enllaz de carretera nacional
           unclassified: Carretera ensin clasificar
           unsurfaced: Carretera ensin asfaltar
+          "yes": Carretera
         historic:
           archaeological_site: Llugar arqueolóxicu
           battlefield: Campu de batalla
           boundary_stone: Finxu
-          building: Edificiu
+          building: Edificiu históricu
+          bunker: Búnquer
           castle: Castiellu
           church: Ilesia
+          city_gate: Puerta de la ciudá
           citywalls: Muralla
           fort: Fuerte
+          heritage: Patrimoniu de la Humanidá
           house: Casa
           icon: Iconu
           manor: Casona
           memorial: Monumentu
           mine: Mina
           monument: Monumentu
+          roman_road: Via romana
           ruins: Ruines
+          stone: Piedra
           tomb: Sepulcru
           tower: Torre
           wayside_cross: Cruceru
           wayside_shrine: Ermita
           wreck: Naufraxu
+        junction:
+          "yes": Interseición
         landuse:
           allotments: Güertes recreatives
           basin: Conca
@@ -573,14 +628,19 @@ ast:
           road: Área de carretera
           village_green: Prau municipal
           vineyard: Viña
+          "yes": Usu del terrén
         leisure:
           beach_resort: Turismu de playa
           bird_hide: Observatoriu d'aves
+          club: Club
           common: Terrén común
+          dog_park: Parque pa perros
           fishing: Área de pesca
+          fitness_centre: Centru de fitness
           fitness_station: Ximnasiu
           garden: Xardín
           golf_course: Campu de golf
+          horse_riding: Equitación
           ice_rink: Pista de xelu
           marina: Puertu deportivu
           miniature_golf: Mini golf
@@ -589,6 +649,7 @@ ast:
           pitch: Campu deportivu
           playground: Xuegos infantiles
           recreation_ground: Campu recreativu
+          resort: Urbanización pa vacaciones
           sauna: Sauna
           slipway: Rampla de botadura
           sports_centre: Centru deportivu
@@ -596,6 +657,13 @@ ast:
           swimming_pool: Piscina
           track: Pista de carreres
           water_park: Parque acuáticu
+          "yes": Folganza
+        man_made:
+          lighthouse: Faru
+          pipeline: Tubería
+          tower: Torre
+          works: Fábrica
+          "yes": Fecho pol home
         military:
           airfield: Aeródromu militar
           barracks: Cuartel
@@ -615,6 +683,7 @@ ast:
           forest: Área forestal
           geyser: Guéiser
           glacier: Glaciar
+          grassland: Prau
           heath: Berezal
           hill: Llomba
           island: Islla
@@ -627,6 +696,8 @@ ast:
           reef: Petón
           ridge: Cordal
           rock: Roca
+          saddle: Colláu
+          sand: Sable
           scree: Llera
           scrub: Cotollal
           spring: Fonte
@@ -640,6 +711,7 @@ ast:
           wood: Viesca
         office:
           accountant: Contable
+          administrative: Alministración
           architect: Arquitectu
           company: Empresa
           employment_agency: Oficina d'emplegu
@@ -652,6 +724,8 @@ ast:
           travel_agent: Axencia de viaxes
           "yes": Oficina
         place:
+          allotments: Güertes recreatives
+          block: Bloque
           airport: Aeropuertu
           city: Ciudá
           country: País
@@ -676,6 +750,7 @@ ast:
           town: Villa
           unincorporated_area: Área ensin conceyu
           village: Pueblu
+          "yes": Llugar
         railway:
           abandoned: Ferrocarril abandonáu
           construction: Ferrocarril en construcción
@@ -778,6 +853,7 @@ ast:
           "yes": Tienda
         tourism:
           alpine_hut: Refuxu de montaña
+          apartment: Apartamentu
           artwork: Obra d'arte
           attraction: Interés turísticu
           bed_and_breakfast: Cama y almuerzu (B&B)
@@ -785,6 +861,7 @@ ast:
           camp_site: Camping
           caravan_site: Camping pa caravanes
           chalet: Xalé
+          gallery: Galería
           guest_house: Agospiamientu
           hostel: Albergue
           hotel: Hotel
@@ -816,6 +893,7 @@ ast:
           wadi: Riera
           waterfall: Saltu d'agua
           weir: Banzáu
+          "yes": Cursu d'agua
       admin_levels:
         level2: Frontera de país
         level4: Frontera d'estáu
@@ -836,19 +914,6 @@ ast:
     results:
       no_results: Nun s'alcontraron resultaos
       more_results: Más resultaos
-    distance:
-      zero: menos de 1km
-      one: como 1km
-      other: unos %{count}km
-    direction:
-      south_west: suroeste
-      south: sur
-      south_east: sureste
-      east: este
-      north_east: nordeste
-      north: norte
-      north_west: noroeste
-      west: oeste
   layouts:
     logo:
       alt_text: Logo d'OpenStreetMap
@@ -971,7 +1036,7 @@ ast:
       contributors_nz_html: '<strong>Nueva Zelanda</strong>: Contien datos sacaos
         de Land Information New Zealand. Crown Copyright reserved.'
       contributors_za_html: |-
-        <strong>Sudáfrica</strong>: Contién datos sacaos de
+        <strong>Sudáfrica</strong>: Contien datos sacaos de
         <a href="http://www.ngi.gov.za/">Chief Directorate:
         National Geo-Spatial Information</a>, State copyright reserved.
       contributors_gb_html: '<strong>Reinu Xuníu</strong>: Contien datos de Ordnance
@@ -1003,9 +1068,9 @@ ast:
     whats_on_the_map:
       title: Qué hai nel Mapa
       on_html: |-
-        OpenStreetMap ye un llugar pa facer mapes de coses que seyan al mesmu tiempu <em>reales y actuales</em> -
-        incluye millones d'edificios, carreteres, y otros detalles de llugares. Pue poner nel mapa
-        cualquier carauterística del mundu real que-y interese.
+        OpenStreetMap ye un llugar pa cartografiar coses que seyan al mesmu tiempu <em>reales y actuales</em> -
+        incluye millones d'edificios, carreteres, y otros detalles de llugares. Puedes poner nel mapa
+        cualquier carauterística del mundu real que t'interese.
       off_html: |-
         Lo que <em>nun</em> incluye son datos suxetivos como calificaciones, carauterístiques históriques o hipotétiques, y datos de fontes con drechos d'autor. Si nun tien
         un permisu especial, nun copie de mapes en llinia o en papel.
@@ -1188,6 +1253,20 @@ ast:
         commented_note: '%{commenter} reactivó una nota del mapa na que vusté comentó.
           La nota ta cerca de %{place}.'
       details: Pue alcontrar más detalles sobro la nota en %{url}.
+    changeset_comment_notification:
+      greeting: Bones,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} comentó unu de los tos conxuntos
+          de cambios'
+        subject_other: '[OpenStreetMap] %{commenter} comentó sobro un conxuntu de
+          cambios que t''interesa'
+        your_changeset: '%{commenter} dexó un comentariu n''unu de los tos conxuntos
+          de cambios creáu el %{time}'
+        commented_changeset: '%{commenter} dexó un comentariu nun conxuntu de cambios
+          del mapa que tas siguiendo creáu por %{changeset_author} el %{time}'
+        partial_changeset_with_comment: col comentariu '%{changeset_comment}'
+        partial_changeset_without_comment: ensin comentarios
+      details: Puen alcontrase más detalles del conxuntu de cambios en %{url}
   message:
     inbox:
       title: Buzón
@@ -1296,6 +1375,10 @@ ast:
       close: Zarrar
     search:
       search: Guetar
+      get_directions: Obtener indicaciones
+      get_directions_title: Alcuentra indicaciones ente dos puntos
+      from: Dende
+      to: A
       where_am_i: ¿Ú toi?
       where_am_i_title: Describi el to allugamientu actual usando el motor de gueta
       submit_text: Dir
@@ -1608,7 +1691,6 @@ ast:
       register now: Rexistrate agora
       with username: '¿Yá tienes cuenta n''OpenStreetMap? Anicia sesión col to nome
         d''usuariu y contraseña:'
-      with openid: 'D''otra miente, usa la to OpenID pa coneutar:'
       new to osm: ¿Yes nuevu con OpenStreetMap?
       to make changes: Pa camudar los datos d'OpenStreetMap, has de tener una cuenta.
       create account minute: Crea una cuenta. Lleva namái un minutu.
@@ -1620,26 +1702,7 @@ ast:
         sospechoses.<br />Ponte en contautu col <a href="%{webmaster}">webmaster</a>
         si quies discutilo.
       auth failure: Sentímoslo, nun se pudo coneutar al sistema con esos datos.
-      openid missing provider: Sentímoslo, nun pudimos ponenos en contautu col to
-        sirvidor d'OpenID
-      openid invalid: Sentímoslo, la to OpenID paez que ta mal formada
       openid_logo_alt: Coneutar con una OpenID
-      openid_providers:
-        openid:
-          title: Coneutar con OpenID
-          alt: Coneutar con una URL OpenID
-        google:
-          title: Coneutar con Google
-          alt: Coneutar con una OpenID de Google
-        yahoo:
-          title: Coneutar con Yahoo
-          alt: Coneutar con una OpenID de Yahoo
-        wordpress:
-          title: Coneutar con Wordpress
-          alt: Coneutar con una OpenID de Wordpress
-        aol:
-          title: Coneutar con AOL
-          alt: Coneutar con una OpenID d'AOL
     logout:
       title: Salir
       heading: Colar d'OpenStreetMap
@@ -1685,22 +1748,8 @@ ast:
       display name: 'Nome a amosar:'
       display name description: El nome d'usuariu que s'amuesa en público. Pue camudalo
         más sero nes preferencies.
-      openid: '%{logo} OpenID:'
       password: 'Contraseña:'
       confirm password: 'Confirma la contraseña:'
-      use openid: Como alternativa, usa %{logo} OpenID pa coneutar
-      openid no password: Con OpenID nun fai falta una contraseña, pero delles ferramientes
-        estra o sirvidores inda puen necesitala.
-      openid association: |-
-        <p>La to OpenID inda nun ta asociada con una cuenta d'OpenStreetMap.</p>
-        <ul>
-          <li>Si yes nuevu n'OpenStreetMap, por favor crea una cuenta nueva col formulariu de más abaxo.</li>
-          <li>
-            Si yá tienes una cuenta, pues entrar nella col to nome
-            d'usuariu y contraseña, y asociar llueu la cuenta cola OpenID
-            nes preferencies d'usuariu.
-          </li>
-        </ul>
       continue: Date d'alta
       terms accepted: ¡Gracies por aceutar les condiciones de collaboración!
       terms declined: Sentimos que decidieras nun aceutar les Condiciones de Collaborador.
@@ -1807,7 +1856,6 @@ ast:
       new email address: 'Nueva direición de corréu electrónicu:'
       email never displayed publicly: (nunca s'amuesa en público)
       openid:
-        openid: 'OpenID:'
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: ¿qué ye esto?
       public editing:
@@ -1870,6 +1918,7 @@ ast:
       press confirm button: Calca nel botón de confirmación d'abaxo p'activar la to
         cuenta.
       button: Confirmar
+      success: Cuenta confirmada, ¡gracies por rexistrate!
       already active: Esta cuenta yá se confirmó.
       unknown token: El códigu de confirmación caducó o nun esiste.
       reconfirm_html: Si necesites que volvamos a unviate'l corréu de confirmación,
@@ -2136,6 +2185,15 @@ ast:
       createnote_disabled_tooltip: Ampliar p'amestar una nota al mapa
       map_notes_zoom_in_tooltip: Averar pa ver les notes del mapa
       map_data_zoom_in_tooltip: Averar pa ver los datos del mapa
+      queryfeature_tooltip: Consultar entidaes
+      queryfeature_disabled_tooltip: Averar pa consultar entidaes
+    changesets:
+      show:
+        comment: Comentariu
+        subscribe: Suscribite
+        unsubscribe: Date de baxa
+        hide_comment: anubrir
+        unhide_comment: amosar
     notes:
       new:
         intro: ¿Alcontró un error o falta daqué? Informe a otros mapeadores pa que
@@ -2152,6 +2210,47 @@ ast:
         comment_and_resolve: Comentar y resolver
         comment: Comentar
     edit_help: Mueve'l mapa y amplía al llugar que quies editar, llueu calca equí.
+    directions:
+      engines:
+        graphhopper_bicycle: Bicicleta  (GraphHopper)
+        graphhopper_foot: A pie (GraphHopper)
+        mapquest_bicycle: Bicicleta (MapQuest)
+        mapquest_car: Coche (MapQuest)
+        mapquest_foot: A pie (MapQuest)
+        osrm_car: En coche (OSRM)
+      directions: Indicaciones
+      distance: Distancia
+      errors:
+        no_route: Nun pudo alcontrase una ruta ente estos dos llugares.
+        no_place: Sentímoslo. Nun  pudo alcontrase esi llugar.
+      instructions:
+        continue_on: Siguir en
+        slight_right: Llixeramente a la drecha haza
+        turn_right: Xira a la drecha haza
+        sharp_right: Fuerte a la drecha haza
+        uturn: Cambiu de sentíu en
+        sharp_left: Fuerte a la izquierda haza
+        turn_left: Xira a la izquierda haza
+        slight_left: Llixeramente a la izquierda haza
+        via_point: (pel puntu)
+        follow: Siguir
+        roundabout: Na rotonda toma
+        leave_roundabout: Dexa la rotonda -
+        stay_roundabout: Sigui na rotonda -
+        start: Principia al final de
+        destination: Aportasti al destín
+        against_oneway: Dir escontra direición per
+        end_oneway: Final de sentíu únicu en
+        unnamed: (ensin nome)
+        courtesy: Direiciones cortesía de %{link}
+      time: Tiempu
+    query:
+      node: Nuedu
+      way: Vía
+      relation: Rellación
+      nothing_found: Nun s'alcontraron entidaes
+      error: 'Error al comunicase con %{server}: %{error}'
+      timeout: Tiempu escosáu al comunicase con %{server}
   redaction:
     edit:
       description: Descripción

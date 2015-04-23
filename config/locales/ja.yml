@@ -19,6 +19,7 @@
 # Author: Schu
 # Author: Shirayuki
 # Author: Sudachi
+# Author: Surgical21
 # Author: Tombi-aburage
 # Author: Wrightbus
 # Author: 青子守歌
@@ -28,6 +29,7 @@ ja:
   time:
     formats:
       friendly: '%Y年%B%e日 %H:%M'
+      blog: '%Y年%B%e日'
   activerecord:
     models:
       acl: アクセス制御リスト
@@ -220,8 +222,10 @@ ja:
       reopened_by_anonymous: 誰かが<abbr title='%{exact_time}'>%{when}前</abbr>に再開
       hidden_by: '%{user}さんが<abbr title=''%{exact_time}''>%{when}前</abbr>に非表示化'
     query:
+      title: 地物を検索
       introduction: 地図上をクリックすると、近くの地物を探します。
       nearby: 近くの地物
+      enclosing: 付近の地物
   changeset:
     changeset_paging_nav:
       showing_page: ページ %{page}
@@ -251,6 +255,13 @@ ja:
       load_more: 続きを読み込む
     timeout:
       sorry: 申し訳ありませんが、要求した変更セットの一覧は大きすぎるため取得できませんでした。
+    rss:
+      title_all: OpenStreetMap変更セットの議論
+      title_particular: OpenStreetMap変更セット#%{changeset_id}の議論
+      comment: 変更セット#%{changeset_id}への%{author}による新しいコメント
+      commented_at_html: '%{when}前に更新'
+      commented_at_by_html: '%{when}前に%{user}さんが更新'
+      full: 議論全体
   diary_entry:
     new:
       title: 日記エントリの新規作成
@@ -383,8 +394,10 @@ ja:
     search_osm_nominatim:
       prefix:
         aerialway:
+          cable_car: 交走式ロープウェイ
           chair_lift: チェアリフト
           drag_lift: 牽引リフト
+          gondola: 循環式ロープウェイ
           station: 索道駅
         aeroway:
           aerodrome: 飛行場
@@ -395,6 +408,7 @@ ja:
           taxiway: 空港誘導路
           terminal: ターミナル
         amenity:
+          animal_shelter: 動物保護施設
           arts_centre: アート センター
           atm: ATM
           bank: 銀行
@@ -404,6 +418,7 @@ ja:
           bicycle_parking: 駐輪場
           bicycle_rental: レンタサイクル
           biergarten: ビアガーデン
+          boat_rental: 貸ボート
           brothel: 売春宿
           bureau_de_change: 両替
           bus_station: バス停
@@ -413,8 +428,10 @@ ja:
           car_wash: 洗車
           casino: 賭場
           charging_station: 充電ステーション
+          childcare: 保育所
           cinema: 映画館
           clinic: 診療所
+          clock: 時計
           college: 大学
           community_centre: コミュニティ センター
           courthouse: 裁判所
@@ -443,11 +460,13 @@ ja:
           library: 図書館
           market: 市場
           marketplace: 市場
+          motorcycle_parking: バイクの駐輪場
           nightclub: ナイト クラブ
           nursery: 保育所
           nursing_home: 特別養護老人ホーム
           office: オフィス
           parking: 駐車場
+          parking_entrance: 駐車場の入口
           pharmacy: 薬局
           place_of_worship: 神社仏閣
           police: 警察署
@@ -495,6 +514,8 @@ ja:
           "yes": 橋
         building:
           "yes": 建造物
+        craft:
+          photographer: 撮影者
         emergency:
           phone: 緊急電話
         highway:
@@ -503,6 +524,7 @@ ja:
           bus_stop: バス停
           construction: 建設中の高速道路
           cycleway: 自転車道
+          elevator: エレベータ
           emergency_access_point: 緊急アクセスポイント
           footway: 歩道
           ford: 砦
@@ -531,16 +553,18 @@ ja:
           tertiary: 周辺道路
           tertiary_link: 周辺道路
           track: 農道・林道
+          traffic_signals: 信号機
           trail: 小道
           trunk: 国道
           trunk_link: 国道
           unclassified: 未分類の道路
           unsurfaced: 未舗装道路
+          "yes": 道路
         historic:
           archaeological_site: 考古学サイト
           battlefield: 戦場
           boundary_stone: 境界石
-          building: ビル
+          building: 歴史的な建物
           castle: 城
           church: 教会
           citywalls: 城壁
@@ -552,6 +576,7 @@ ja:
           mine: 鉱山
           monument: 記念碑
           ruins: 廃墟
+          stone: 岩石
           tomb: 墓地
           tower: 塔
           wayside_cross: 道路際の十字架
@@ -591,6 +616,7 @@ ja:
         leisure:
           beach_resort: ビーチ リゾート
           bird_hide: 観察小屋
+          club: クラブ
           common: 共有地
           fishing: 釣り場
           fitness_station: フィットネス ステーション
@@ -611,6 +637,9 @@ ja:
           swimming_pool: 水泳用プール
           track: 陸上競技用トラック
           water_park: 親水公園
+        man_made:
+          tower: 塔
+          works: 工房
         military:
           airfield: 軍用飛行場
           barracks: バラック
@@ -655,6 +684,7 @@ ja:
           wood: 森林
         office:
           accountant: 会計
+          administrative: 管理
           architect: 建築士
           company: 会社
           employment_agency: 職業紹介
@@ -691,6 +721,7 @@ ja:
           town: 町
           unincorporated_area: 国有地
           village: 村
+          "yes": 場所
         railway:
           abandoned: 廃止鉄道
           construction: 建設中の鉄道
@@ -851,19 +882,6 @@ ja:
     results:
       no_results: 該当するものはありません
       more_results: その他の結果
-    distance:
-      one: 約 1 km
-      zero: 1 km 未満
-      other: 約 %{count} km
-    direction:
-      south_west: 南西
-      south: 南
-      south_east: 南東
-      east: 東
-      north_east: 北東
-      north: 北
-      north_west: 北西
-      west: 西
   layouts:
     logo:
       alt_text: OpenStreetMap ロゴ
@@ -942,12 +960,11 @@ ja:
       more_title_html: 詳細を見る
       more_1_html: |-
         データの利用についてやクレジット方法について、詳細は<a
-        href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">Legal
+        href="http://wiki.openstreetmap.org/wiki/JA:Legal_FAQ">Legal
         FAQ</a>をお読みください。
       more_2_html: OpenStreetMap はオープンデータですが、サードパーティーの開発者のための無料の地図 API は提供できません。 <a
         href="http://wiki.openstreetmap.org/wiki/API_usage_policy">API Usage Policy</a>、<a
-        href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Tile Usage Policy</a>、<a
-        href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Nominatim
+        href="http://wiki.openstreetmap.org/wiki/JA:タイル利用規約">タイル利用規約</a>、<a href="http://wiki.openstreetmap.org/wiki/JA:Nominatim#利用ポリシー">Nominatim
         Usage Policy</a>をお読みください。
       contributors_title_html: 協力者
       contributors_intro_html: 協力者は数千人もの個人です。それに加え、国立の地図作成組織や、次のようなその他の情報源による公開できるライセンスによるデータを含みます。
@@ -972,7 +989,7 @@ ja:
       contributors_gb_html: '<strong>イギリス</strong>: 陸地測量データ &copy; Crown copyright
         and database right 2010-12 を含みます。'
       contributors_footer_1_html: これらの詳細について、またOpenStreetMapの向上に使用されたその他のソースについては、OpenStreetMap
-        Wikiの<a href="http://wiki.openstreetmap.org/wiki/Contributors">協力者ページ</a>をご覧ください。
+        Wikiの<a href="http://wiki.openstreetmap.org/wiki/JA:Contributors">協力者ページ</a>をご覧ください。
       contributors_footer_2_html: OpenStreetMapのデータに含めることは、元データの提供者がOpenStreetMapを支持したり、何かしらの保証を行ったり、何かしらの責任を負ったりすることを意味するものではありません。
       infringement_title_html: 著作権侵害
       infringement_1_html: 'OSMの協力者は、著作権者から明確な許諾を得ずに、著作権のある情報源 (例: Google マップや印刷された地図)
@@ -1037,7 +1054,7 @@ ja:
     wiki:
       url: http://wiki.openstreetmap.org/wiki/JA:Main_Page
       title: wiki.openstreetmap.org
-      description: OSMの詳細な説明が書かれたWikiを参照してください。
+      description: 詳細なOSMの説明が書かれたウィキを参照します。
   about_page:
     next: 次へ
     copyright_html: <span>&copy;</span>OpenStreetMap<br>contributors
@@ -1157,7 +1174,7 @@ ja:
       body: 本文
       send_button: 送信
       back_to_inbox: 受信箱に戻る
-      message_sent: 送信したメッセージ
+      message_sent: メッセージを送信しました
       limit_exceeded: 短い間隔で大量のメッセージを送っていますね。次を送る前にしばらくお待ちください。
     no_such_message:
       title: 存在しないメッセージです
@@ -1245,7 +1262,7 @@ ja:
           - 軽便鉄道
           - 路面電車
           cable:
-          - ケーブルカー
+          - 交走式ロープウェイ
           - チェアリフト
           runway:
           - 空港滑走路
@@ -1519,7 +1536,6 @@ ja:
       login_button: ログイン
       register now: 今すぐ登録
       with username: 'OpenStreetMap アカウントを既にお持ちですか? 自分のユーザー名とパスワードでログインしてください:'
-      with openid: 'OpenID でもログインできます:'
       new to osm: OpenStreetMap は初めてですか?
       to make changes: OpenStreetMap データを変更するには、アカウントが必要です。
       create account minute: アカウントを作成します。1分でできます。
@@ -1529,25 +1545,7 @@ ja:
       account is suspended: 申し訳ありませんが、不審な活動のため、あなたのアカウントは一時停止されております。<br />本件についてご相談がある場合は
         <a href="%{webmaster}">ウェブマスター</a>にご連絡ください。
       auth failure: 申し訳ありませんが、入力した情報でログインできませんでした。
-      openid missing provider: 申し訳ありませんが、OpenID プロバイダーに接続できませんでした
-      openid invalid: 申し訳ありませんが、あなたの OpenID は正しくないようです
       openid_logo_alt: OpenID でログイン
-      openid_providers:
-        openid:
-          title: OpenID でログイン
-          alt: OpenID の URL でログイン
-        google:
-          title: Google アカウントでログイン
-          alt: Google の OpenID でログイン
-        yahoo:
-          title: Yahoo ID でログイン
-          alt: Yahoo の OpenID でログイン
-        wordpress:
-          title: WordPress でログイン
-          alt: Wordpress の OpenID でログイン
-        aol:
-          title: AOL でログイン
-          alt: AOL の OpenID でログイン
     logout:
       title: ログアウト
       heading: OpenStreetMap からログアウト
@@ -1585,20 +1583,8 @@ ja:
         title="メール アドレスの節を含む、ウィキのプライバシー ポリシー">プライバシー ポリシー</a>を参照してください)
       display name: '表示名:'
       display name description: 自分の公開ユーザー名です。あとで設定ページで変更できます。
-      openid: '%{logo} OpenID:'
       password: 'パスワード:'
       confirm password: 'パスワードの確認:'
-      use openid: 代わりに、%{logo} OpenID を使用してログイン
-      openid no password: OpenID ではパスワードは不要ですが、特殊なツール/サーバーでは必要な場合があります。
-      openid association: |-
-        <p>あなたの OpenID は、まだ OpenStreetMap のどのアカウントとも関連付けられていません。</p>
-        <ul>
-          <li>OpenStreetMap が初めての場合は、下のフォームで新規アカウントを作成してください。</li>
-          <li>
-            既にアカウントを持っている場合は、あなたのユーザー名とパスワードでログインしてください。
-            ログイン後、ユーザー設定であなたの OpenID と関連付けることができます。
-          </li>
-        </ul>
       continue: ユーザー登録
       terms accepted: 新しい協力者規約に同意いただき、ありがとうございます!
       terms declined: 新しい協力者規約に同意いただけず残念です。詳しい情報は、<a href="%{url}">このウィキページ</a>をご覧ください。
@@ -1700,7 +1686,6 @@ ja:
       new email address: '新しいメール アドレス:'
       email never displayed publicly: (非公開)
       openid:
-        openid: 'OpenID:'
         link: http://wiki.openstreetmap.org/wiki/JA:OpenID?uselang=ja
         link text: これは何ですか?
       public editing:
@@ -1751,6 +1736,7 @@ ja:
       introduction_2: メール内のリンクをクリックしてアカウントの確認をすれば、マッピングを始められます。
       press confirm button: アカウントを有効にして良ければ、以下の確認ボタンを押してください。
       button: 確認
+      success: アカウントを確認しました。登録ありがとうございます!
       already active: このアカウントは確認済みです。
       unknown token: この確認コードは期限切れ、または存在しません。
       reconfirm_html: 確認メールを再送する必要がある場合は、<a href="%{reconfirm}">ここをクリック</a>してください。
@@ -2011,6 +1997,12 @@ ja:
         comment_and_resolve: コメント & 解決
         comment: コメント
     edit_help: 編集したい位置に移動してズームインしてから、ここをクリックしてください。
+    directions:
+      distance: 距離
+      instructions:
+        unnamed: （名前なし）
+    query:
+      nothing_found: 地物が見つかりませんでした
   redaction:
     edit:
       description: 説明
