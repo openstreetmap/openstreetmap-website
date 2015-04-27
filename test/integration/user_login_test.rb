@@ -11,6 +11,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     OmniAuth.config.mock_auth[:openid] = nil
     OmniAuth.config.mock_auth[:google] = nil
     OmniAuth.config.mock_auth[:facebook] = nil
+    OmniAuth.config.mock_auth[:windowslive] = nil
     OmniAuth.config.test_mode = false
   end
 
@@ -1054,6 +1055,98 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     get auth_path(:provider => "facebook", :origin => "/login")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "facebook")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "user/new"
+    assert_select "span.username", false
+  end
+
+  def test_login_windowslive_success
+    OmniAuth.config.add_mock(:windowslive, :uid => "123456789", :extra => {
+                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
+                             })
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "windowslive", :origin => "/login")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "windowslive")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "changeset/history"
+    assert_select "span.username", "windowsliveuser"
+  end
+
+  def test_login_windowslive_connection_failed
+    OmniAuth.config.mock_auth[:windowslive] = :connection_failed
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "windowslive", :origin => "/login")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "windowslive")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_failure_path(:strategy => "windowslive", :message => "connection_failed", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", "Connection to authentication provider failed"
+    assert_select "span.username", false
+  end
+
+  def test_login_windowslive_invalid_credentials
+    OmniAuth.config.mock_auth[:windowslive] = :invalid_credentials
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "windowslive", :origin => "/login")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "windowslive")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_failure_path(:strategy => "windowslive", :message => "invalid_credentials", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", "Invalid authentication credentials"
+    assert_select "span.username", false
+  end
+
+  def test_login_windowslive_unknown
+    OmniAuth.config.add_mock(:windowslive, :uid => "987654321", :extra => {
+                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
+                             })
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "windowslive", :origin => "/login")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "windowslive")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
