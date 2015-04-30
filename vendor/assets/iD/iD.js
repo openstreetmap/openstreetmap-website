@@ -175,7 +175,7 @@
 
 })(this);
 !function(){
-  var d3 = {version: "3.4.6"}; // semver
+  var d3 = {version: "3.5.5"}; // semver
 d3.ascending = d3_ascending;
 
 function d3_ascending(a, b) {
@@ -190,10 +190,10 @@ d3.min = function(array, f) {
       a,
       b;
   if (arguments.length === 1) {
-    while (++i < n && !((a = array[i]) != null && a <= a)) a = undefined;
+    while (++i < n) if ((b = array[i]) != null && b >= b) { a = b; break; }
     while (++i < n) if ((b = array[i]) != null && a > b) a = b;
   } else {
-    while (++i < n && !((a = f.call(array, array[i], i)) != null && a <= a)) a = undefined;
+    while (++i < n) if ((b = f.call(array, array[i], i)) != null && b >= b) { a = b; break; }
     while (++i < n) if ((b = f.call(array, array[i], i)) != null && a > b) a = b;
   }
   return a;
@@ -204,10 +204,10 @@ d3.max = function(array, f) {
       a,
       b;
   if (arguments.length === 1) {
-    while (++i < n && !((a = array[i]) != null && a <= a)) a = undefined;
+    while (++i < n) if ((b = array[i]) != null && b >= b) { a = b; break; }
     while (++i < n) if ((b = array[i]) != null && b > a) a = b;
   } else {
-    while (++i < n && !((a = f.call(array, array[i], i)) != null && a <= a)) a = undefined;
+    while (++i < n) if ((b = f.call(array, array[i], i)) != null && b >= b) { a = b; break; }
     while (++i < n) if ((b = f.call(array, array[i], i)) != null && b > a) a = b;
   }
   return a;
@@ -219,13 +219,13 @@ d3.extent = function(array, f) {
       b,
       c;
   if (arguments.length === 1) {
-    while (++i < n && !((a = c = array[i]) != null && a <= a)) a = c = undefined;
+    while (++i < n) if ((b = array[i]) != null && b >= b) { a = c = b; break; }
     while (++i < n) if ((b = array[i]) != null) {
       if (a > b) a = b;
       if (c < b) c = b;
     }
   } else {
-    while (++i < n && !((a = c = f.call(array, array[i], i)) != null && a <= a)) a = undefined;
+    while (++i < n) if ((b = f.call(array, array[i], i)) != null && b >= b) { a = c = b; break; }
     while (++i < n) if ((b = f.call(array, array[i], i)) != null) {
       if (a > b) a = b;
       if (c < b) c = b;
@@ -233,23 +233,26 @@ d3.extent = function(array, f) {
   }
   return [a, c];
 };
+function d3_number(x) {
+  return x === null ? NaN : +x;
+}
+
+function d3_numeric(x) {
+  return !isNaN(x);
+}
+
 d3.sum = function(array, f) {
   var s = 0,
       n = array.length,
       a,
       i = -1;
-
   if (arguments.length === 1) {
-    while (++i < n) if (!isNaN(a = +array[i])) s += a;
+    while (++i < n) if (d3_numeric(a = +array[i])) s += a; // zero and null are equivalent
   } else {
-    while (++i < n) if (!isNaN(a = +f.call(array, array[i], i))) s += a;
+    while (++i < n) if (d3_numeric(a = +f.call(array, array[i], i))) s += a;
   }
-
   return s;
 };
-function d3_number(x) {
-  return x != null && !isNaN(x);
-}
 
 d3.mean = function(array, f) {
   var s = 0,
@@ -258,11 +261,11 @@ d3.mean = function(array, f) {
       i = -1,
       j = n;
   if (arguments.length === 1) {
-    while (++i < n) if (d3_number(a = array[i])) s += a; else --j;
+    while (++i < n) if (d3_numeric(a = d3_number(array[i]))) s += a; else --j;
   } else {
-    while (++i < n) if (d3_number(a = f.call(array, array[i], i))) s += a; else --j;
+    while (++i < n) if (d3_numeric(a = d3_number(f.call(array, array[i], i)))) s += a; else --j;
   }
-  return j ? s / j : undefined;
+  if (j) return s / j;
 };
 // R-7 per <http://en.wikipedia.org/wiki/Quantile>
 d3.quantile = function(values, p) {
@@ -274,9 +277,49 @@ d3.quantile = function(values, p) {
 };
 
 d3.median = function(array, f) {
-  if (arguments.length > 1) array = array.map(f);
-  array = array.filter(d3_number);
-  return array.length ? d3.quantile(array.sort(d3_ascending), .5) : undefined;
+  var numbers = [],
+      n = array.length,
+      a,
+      i = -1;
+  if (arguments.length === 1) {
+    while (++i < n) if (d3_numeric(a = d3_number(array[i]))) numbers.push(a);
+  } else {
+    while (++i < n) if (d3_numeric(a = d3_number(f.call(array, array[i], i)))) numbers.push(a);
+  }
+  if (numbers.length) return d3.quantile(numbers.sort(d3_ascending), .5);
+};
+
+d3.variance = function(array, f) {
+  var n = array.length,
+      m = 0,
+      a,
+      d,
+      s = 0,
+      i = -1,
+      j = 0;
+  if (arguments.length === 1) {
+    while (++i < n) {
+      if (d3_numeric(a = d3_number(array[i]))) {
+        d = a - m;
+        m += d / ++j;
+        s += d * (a - m);
+      }
+    }
+  } else {
+    while (++i < n) {
+      if (d3_numeric(a = d3_number(f.call(array, array[i], i)))) {
+        d = a - m;
+        m += d / ++j;
+        s += d * (a - m);
+      }
+    }
+  }
+  if (j > 1) return s / (j - 1);
+};
+
+d3.deviation = function() {
+  var v = d3.variance.apply(this, arguments);
+  return v ? Math.sqrt(v) : v;
 };
 
 function d3_bisector(compare) {
@@ -313,11 +356,12 @@ d3.bisector = function(f) {
       ? function(d, x) { return d3_ascending(f(d), x); }
       : f);
 };
-d3.shuffle = function(array) {
-  var m = array.length, t, i;
+d3.shuffle = function(array, i0, i1) {
+  if ((m = arguments.length) < 3) { i1 = array.length; if (m < 2) i0 = 0; }
+  var m = i1 - i0, t, i;
   while (m) {
     i = Math.random() * m-- | 0;
-    t = array[m], array[m] = array[i], array[i] = t;
+    t = array[m + i0], array[m + i0] = array[i + i0], array[i + i0] = t;
   }
   return array;
 };
@@ -412,80 +456,94 @@ function d3_range_integerScale(x) {
   return k;
 }
 function d3_class(ctor, properties) {
-  try {
-    for (var key in properties) {
-      Object.defineProperty(ctor.prototype, key, {
-        value: properties[key],
-        enumerable: false
-      });
-    }
-  } catch (e) {
-    ctor.prototype = properties;
+  for (var key in properties) {
+    Object.defineProperty(ctor.prototype, key, {
+      value: properties[key],
+      enumerable: false
+    });
   }
 }
 
-d3.map = function(object) {
+d3.map = function(object, f) {
   var map = new d3_Map;
-  if (object instanceof d3_Map) object.forEach(function(key, value) { map.set(key, value); });
-  else for (var key in object) map.set(key, object[key]);
+  if (object instanceof d3_Map) {
+    object.forEach(function(key, value) { map.set(key, value); });
+  } else if (Array.isArray(object)) {
+    var i = -1,
+        n = object.length,
+        o;
+    if (arguments.length === 1) while (++i < n) map.set(i, object[i]);
+    else while (++i < n) map.set(f.call(object, o = object[i], i), o);
+  } else {
+    for (var key in object) map.set(key, object[key]);
+  }
   return map;
 };
 
-function d3_Map() {}
+function d3_Map() {
+  this._ = Object.create(null);
+}
+
+var d3_map_proto = "__proto__",
+    d3_map_zero = "\0";
 
 d3_class(d3_Map, {
   has: d3_map_has,
   get: function(key) {
-    return this[d3_map_prefix + key];
+    return this._[d3_map_escape(key)];
   },
   set: function(key, value) {
-    return this[d3_map_prefix + key] = value;
+    return this._[d3_map_escape(key)] = value;
   },
   remove: d3_map_remove,
   keys: d3_map_keys,
   values: function() {
     var values = [];
-    this.forEach(function(key, value) { values.push(value); });
+    for (var key in this._) values.push(this._[key]);
     return values;
   },
   entries: function() {
     var entries = [];
-    this.forEach(function(key, value) { entries.push({key: key, value: value}); });
+    for (var key in this._) entries.push({key: d3_map_unescape(key), value: this._[key]});
     return entries;
   },
   size: d3_map_size,
   empty: d3_map_empty,
   forEach: function(f) {
-    for (var key in this) if (key.charCodeAt(0) === d3_map_prefixCode) f.call(this, key.substring(1), this[key]);
+    for (var key in this._) f.call(this, d3_map_unescape(key), this._[key]);
   }
 });
 
-var d3_map_prefix = "\0", // prevent collision with built-ins
-    d3_map_prefixCode = d3_map_prefix.charCodeAt(0);
+function d3_map_escape(key) {
+  return (key += "") === d3_map_proto || key[0] === d3_map_zero ? d3_map_zero + key : key;
+}
+
+function d3_map_unescape(key) {
+  return (key += "")[0] === d3_map_zero ? key.slice(1) : key;
+}
 
 function d3_map_has(key) {
-  return d3_map_prefix + key in this;
+  return d3_map_escape(key) in this._;
 }
 
 function d3_map_remove(key) {
-  key = d3_map_prefix + key;
-  return key in this && delete this[key];
+  return (key = d3_map_escape(key)) in this._ && delete this._[key];
 }
 
 function d3_map_keys() {
   var keys = [];
-  this.forEach(function(key) { keys.push(key); });
+  for (var key in this._) keys.push(d3_map_unescape(key));
   return keys;
 }
 
 function d3_map_size() {
   var size = 0;
-  for (var key in this) if (key.charCodeAt(0) === d3_map_prefixCode) ++size;
+  for (var key in this._) ++size;
   return size;
 }
 
 function d3_map_empty() {
-  for (var key in this) if (key.charCodeAt(0) === d3_map_prefixCode) return false;
+  for (var key in this._) return false;
   return true;
 }
 
@@ -591,42 +649,39 @@ d3.set = function(array) {
   return set;
 };
 
-function d3_Set() {}
+function d3_Set() {
+  this._ = Object.create(null);
+}
 
 d3_class(d3_Set, {
   has: d3_map_has,
-  add: function(value) {
-    this[d3_map_prefix + value] = true;
-    return value;
+  add: function(key) {
+    this._[d3_map_escape(key += "")] = true;
+    return key;
   },
-  remove: function(value) {
-    value = d3_map_prefix + value;
-    return value in this && delete this[value];
-  },
+  remove: d3_map_remove,
   values: d3_map_keys,
   size: d3_map_size,
   empty: d3_map_empty,
   forEach: function(f) {
-    for (var value in this) if (value.charCodeAt(0) === d3_map_prefixCode) f.call(this, value.substring(1));
+    for (var key in this._) f.call(this, d3_map_unescape(key));
   }
 });
 d3.behavior = {};
-var d3_arraySlice = [].slice,
-    d3_array = function(list) { return d3_arraySlice.call(list); }; // conversion for NodeLists
+var d3_document = this.document;
 
-var d3_document = document,
-    d3_documentElement = d3_document.documentElement,
-    d3_window = window;
+function d3_documentElement(node) {
+  return node
+      && (node.ownerDocument // node is a Node
+      || node.document // node is a Window
+      || node).documentElement; // node is a Document
+}
 
-// Redefine d3_array if the browser doesn’t support slice-based conversion.
-try {
-  d3_array(d3_documentElement.childNodes)[0].nodeType;
-} catch(e) {
-  d3_array = function(list) {
-    var i = list.length, array = new Array(i);
-    while (i--) array[i] = list[i];
-    return array;
-  };
+function d3_window(node) {
+  return node
+      && ((node.ownerDocument && node.ownerDocument.defaultView) // node is a Node
+        || (node.document && node) // node is a Window
+        || node.defaultView); // node is a Document
 }
 // Copies a variable number of methods from source to target.
 d3.rebind = function(target, source) {
@@ -644,10 +699,9 @@ function d3_rebind(target, source, method) {
     return value === source ? target : value;
   };
 }
-
 function d3_vendorSymbol(object, name) {
   if (name in object) return name;
-  name = name.charAt(0).toUpperCase() + name.substring(1);
+  name = name.charAt(0).toUpperCase() + name.slice(1);
   for (var i = 0, n = d3_vendorPrefixes.length; i < n; ++i) {
     var prefixName = d3_vendorPrefixes[i] + name;
     if (prefixName in object) return prefixName;
@@ -655,6 +709,8 @@ function d3_vendorSymbol(object, name) {
 }
 
 var d3_vendorPrefixes = ["webkit", "ms", "moz", "Moz", "o", "O"];
+var d3_arraySlice = [].slice,
+    d3_array = function(list) { return d3_arraySlice.call(list); }; // conversion for NodeLists
 function d3_noop() {}
 
 d3.dispatch = function() {
@@ -673,8 +729,8 @@ d3_dispatch.prototype.on = function(type, listener) {
 
   // Extract optional namespace, e.g., "click.foo"
   if (i >= 0) {
-    name = type.substring(i + 1);
-    type = type.substring(0, i);
+    name = type.slice(i + 1);
+    type = type.slice(0, i);
   }
 
   if (type) return arguments.length < 2
@@ -802,8 +858,13 @@ function d3_selection(groups) {
 
 var d3_select = function(s, n) { return n.querySelector(s); },
     d3_selectAll = function(s, n) { return n.querySelectorAll(s); },
-    d3_selectMatcher = d3_documentElement[d3_vendorSymbol(d3_documentElement, "matchesSelector")],
-    d3_selectMatches = function(n, s) { return d3_selectMatcher.call(n, s); };
+    d3_selectMatches = function(n, s) {
+      var d3_selectMatcher = n.matches || n[d3_vendorSymbol(n, "matchesSelector")];
+      d3_selectMatches = function(n, s) {
+        return d3_selectMatcher.call(n, s);
+      };
+      return d3_selectMatches(n, s);
+    };
 
 // Prefer Sizzle, if available.
 if (typeof Sizzle === "function") {
@@ -813,7 +874,7 @@ if (typeof Sizzle === "function") {
 }
 
 d3.selection = function() {
-  return d3_selectionRoot;
+  return d3.select(d3_document.documentElement);
 };
 
 var d3_selectionPrototype = d3.selection.prototype = [];
@@ -888,8 +949,8 @@ d3.ns = {
     var i = name.indexOf(":"),
         prefix = name;
     if (i >= 0) {
-      prefix = name.substring(0, i);
-      name = name.substring(i + 1);
+      prefix = name.slice(0, i);
+      name = name.slice(i + 1);
     }
     return d3_nsPrefix.hasOwnProperty(prefix)
         ? {space: d3_nsPrefix[prefix], local: name}
@@ -994,7 +1055,7 @@ function d3_selection_classedRe(name) {
 }
 
 function d3_selection_classes(name) {
-  return name.trim().split(/^|\s+/);
+  return (name + "").trim().split(/^|\s+/);
 }
 
 // Multiple class names are allowed (e.g., "foo bar").
@@ -1048,7 +1109,10 @@ d3_selectionPrototype.style = function(name, value, priority) {
     }
 
     // For style(string), return the computed style value for the first node.
-    if (n < 2) return d3_window.getComputedStyle(this.node(), null).getPropertyValue(name);
+    if (n < 2) {
+      var node = this.node();
+      return d3_window(node).getComputedStyle(node, null).getPropertyValue(name);
+    }
 
     // For style(string, string) or style(string, function), use the default
     // priority. The priority is ignored for style(string, null).
@@ -1155,9 +1219,22 @@ d3_selectionPrototype.append = function(name) {
 };
 
 function d3_selection_creator(name) {
+
+  function create() {
+    var document = this.ownerDocument,
+        namespace = this.namespaceURI;
+    return namespace
+        ? document.createElementNS(namespace, name)
+        : document.createElement(name);
+  }
+
+  function createNS() {
+    return this.ownerDocument.createElementNS(name.space, name.local);
+  }
+
   return typeof name === "function" ? name
-      : (name = d3.ns.qualify(name)).local ? function() { return this.ownerDocument.createElementNS(name.space, name.local); }
-      : function() { return this.ownerDocument.createElementNS(this.namespaceURI, name); };
+      : (name = d3.ns.qualify(name)).local ? createNS
+      : create;
 }
 
 d3_selectionPrototype.insert = function(name, before) {
@@ -1172,11 +1249,13 @@ d3_selectionPrototype.insert = function(name, before) {
 // TODO remove(node)?
 // TODO remove(function)?
 d3_selectionPrototype.remove = function() {
-  return this.each(function() {
-    var parent = this.parentNode;
-    if (parent) parent.removeChild(this);
-  });
+  return this.each(d3_selectionRemove);
 };
+
+function d3_selectionRemove() {
+  var parent = this.parentNode;
+  if (parent) parent.removeChild(this);
+}
 
 d3_selectionPrototype.data = function(value, key) {
   var i = -1,
@@ -1208,34 +1287,30 @@ d3_selectionPrototype.data = function(value, key) {
 
     if (key) {
       var nodeByKeyValue = new d3_Map,
-          dataByKeyValue = new d3_Map,
-          keyValues = [],
+          keyValues = new Array(n),
           keyValue;
 
       for (i = -1; ++i < n;) {
-        keyValue = key.call(node = group[i], node.__data__, i);
-        if (nodeByKeyValue.has(keyValue)) {
+        if (nodeByKeyValue.has(keyValue = key.call(node = group[i], node.__data__, i))) {
           exitNodes[i] = node; // duplicate selection key
         } else {
           nodeByKeyValue.set(keyValue, node);
         }
-        keyValues.push(keyValue);
+        keyValues[i] = keyValue;
       }
 
       for (i = -1; ++i < m;) {
-        keyValue = key.call(groupData, nodeData = groupData[i], i);
-        if (node = nodeByKeyValue.get(keyValue)) {
+        if (!(node = nodeByKeyValue.get(keyValue = key.call(groupData, nodeData = groupData[i], i)))) {
+          enterNodes[i] = d3_selection_dataNode(nodeData);
+        } else if (node !== true) { // no duplicate data key
           updateNodes[i] = node;
           node.__data__ = nodeData;
-        } else if (!dataByKeyValue.has(keyValue)) { // no duplicate data key
-          enterNodes[i] = d3_selection_dataNode(nodeData);
         }
-        dataByKeyValue.set(keyValue, nodeData);
-        nodeByKeyValue.remove(keyValue);
+        nodeByKeyValue.set(keyValue, true);
       }
 
       for (i = -1; ++i < n;) {
-        if (nodeByKeyValue.has(keyValues[i])) {
+        if (nodeByKeyValue.get(keyValues[i]) !== true) {
           exitNodes[i] = group[i];
         }
       }
@@ -1389,7 +1464,7 @@ d3_selectionPrototype.node = function() {
 
 d3_selectionPrototype.size = function() {
   var n = 0;
-  this.each(function() { ++n; });
+  d3_selection_each(this, function() { ++n; });
   return n;
 };
 
@@ -1453,50 +1528,30 @@ function d3_selection_enterInsertBefore(enter) {
   };
 }
 
-// import "../transition/transition";
-
-d3_selectionPrototype.transition = function() {
-  var id = d3_transitionInheritId || ++d3_transitionId,
-      subgroups = [],
-      subgroup,
-      node,
-      transition = d3_transitionInherit || {time: Date.now(), ease: d3_ease_cubicInOut, delay: 0, duration: 250};
-
-  for (var j = -1, m = this.length; ++j < m;) {
-    subgroups.push(subgroup = []);
-    for (var group = this[j], i = -1, n = group.length; ++i < n;) {
-      if (node = group[i]) d3_transitionNode(node, i, id, transition);
-      subgroup.push(node);
-    }
-  }
-
-  return d3_transition(subgroups, id);
-};
-// import "../transition/transition";
-
-d3_selectionPrototype.interrupt = function() {
-  return this.each(d3_selection_interrupt);
-};
-
-function d3_selection_interrupt() {
-  var lock = this.__transition__;
-  if (lock) ++lock.active;
-}
-
 // TODO fast singleton implementation?
 d3.select = function(node) {
-  var group = [typeof node === "string" ? d3_select(node, d3_document) : node];
-  group.parentNode = d3_documentElement;
+  var group;
+  if (typeof node === "string") {
+    group = [d3_select(node, d3_document)];
+    group.parentNode = d3_document.documentElement;
+  } else {
+    group = [node];
+    group.parentNode = d3_documentElement(node);
+  }
   return d3_selection([group]);
 };
 
 d3.selectAll = function(nodes) {
-  var group = d3_array(typeof nodes === "string" ? d3_selectAll(nodes, d3_document) : nodes);
-  group.parentNode = d3_documentElement;
+  var group;
+  if (typeof nodes === "string") {
+    group = d3_array(d3_selectAll(nodes, d3_document));
+    group.parentNode = d3_document.documentElement;
+  } else {
+    group = nodes;
+    group.parentNode = null;
+  }
   return d3_selection([group]);
 };
-
-var d3_selectionRoot = d3.select(d3_documentElement);
 
 d3_selectionPrototype.on = function(type, listener, capture) {
   var n = arguments.length;
@@ -1527,7 +1582,7 @@ function d3_selection_on(type, listener, capture) {
       i = type.indexOf("."),
       wrap = d3_selection_onListener;
 
-  if (i > 0) type = type.substring(0, i);
+  if (i > 0) type = type.slice(0, i);
   var filter = d3_selection_onFilters.get(type);
   if (filter) type = filter, wrap = d3_selection_onFilter;
 
@@ -1569,9 +1624,11 @@ var d3_selection_onFilters = d3.map({
   mouseleave: "mouseout"
 });
 
-d3_selection_onFilters.forEach(function(k) {
-  if ("on" + k in d3_document) d3_selection_onFilters.remove(k);
-});
+if (d3_document) {
+  d3_selection_onFilters.forEach(function(k) {
+    if ("on" + k in d3_document) d3_selection_onFilters.remove(k);
+  });
+}
 
 function d3_selection_onListener(listener, argumentz) {
   return function(e) {
@@ -1596,26 +1653,33 @@ function d3_selection_onFilter(listener, argumentz) {
   };
 }
 
-var d3_event_dragSelect = "onselectstart" in d3_document ? null : d3_vendorSymbol(d3_documentElement.style, "userSelect"),
+var d3_event_dragSelect,
     d3_event_dragId = 0;
 
-function d3_event_dragSuppress() {
+function d3_event_dragSuppress(node) {
   var name = ".dragsuppress-" + ++d3_event_dragId,
       click = "click" + name,
-      w = d3.select(d3_window)
+      w = d3.select(d3_window(node))
           .on("touchmove" + name, d3_eventPreventDefault)
           .on("dragstart" + name, d3_eventPreventDefault)
           .on("selectstart" + name, d3_eventPreventDefault);
+
+  if (d3_event_dragSelect == null) {
+    d3_event_dragSelect = "onselectstart" in node ? false
+        : d3_vendorSymbol(node.style, "userSelect");
+  }
+
   if (d3_event_dragSelect) {
-    var style = d3_documentElement.style,
+    var style = d3_documentElement(node).style,
         select = style[d3_event_dragSelect];
     style[d3_event_dragSelect] = "none";
   }
+
   return function(suppressClick) {
     w.on(name, null);
     if (d3_event_dragSelect) style[d3_event_dragSelect] = select;
     if (suppressClick) { // suppress the next click, but only if it’s immediate
-      function off() { w.on(click, null); }
+      var off = function() { w.on(click, null); };
       w.on(click, function() { d3_eventCancel(); off(); }, true);
       setTimeout(off, 0);
     }
@@ -1626,12 +1690,32 @@ d3.mouse = function(container) {
   return d3_mousePoint(container, d3_eventSource());
 };
 
+// https://bugs.webkit.org/show_bug.cgi?id=44083
+var d3_mouse_bug44083 = this.navigator && /WebKit/.test(this.navigator.userAgent) ? -1 : 0;
+
 function d3_mousePoint(container, e) {
   if (e.changedTouches) e = e.changedTouches[0];
   var svg = container.ownerSVGElement || container;
   if (svg.createSVGPoint) {
     var point = svg.createSVGPoint();
-    point.x = e.clientX, point.y = e.clientY;
+    if (d3_mouse_bug44083 < 0) {
+      var window = d3_window(container);
+      if (window.scrollX || window.scrollY) {
+        svg = d3.select("body").append("svg").style({
+          position: "absolute",
+          top: 0,
+          left: 0,
+          margin: 0,
+          padding: 0,
+          border: "none"
+        }, "important");
+        var ctm = svg[0][0].getScreenCTM();
+        d3_mouse_bug44083 = !(ctm.f || ctm.e);
+        svg.remove();
+      }
+    }
+    if (d3_mouse_bug44083) point.x = e.pageX, point.y = e.pageY;
+    else point.x = e.clientX, point.y = e.clientY;
     point = point.matrixTransform(container.getScreenCTM().inverse());
     return [point.x, point.y];
   }
@@ -1647,11 +1731,12 @@ d3.touches = function(container, touches) {
     return point;
   }) : [];
 };
-var π = Math.PI,
-    τ = 2 * π,
-    halfπ = π / 2,
-    ε = 1e-6,
+var ε = 1e-6,
     ε2 = ε * ε,
+    π = Math.PI,
+    τ = 2 * π,
+    τε = τ - ε,
+    halfπ = π / 2,
     d3_radians = π / 180,
     d3_degrees = 180 / π;
 
@@ -1740,9 +1825,12 @@ d3.interpolateZoom = function(p0, p1) {
 d3.behavior.zoom = function() {
   var view = {x: 0, y: 0, k: 1},
       translate0, // translate when we started zooming (to avoid drift)
-      center, // desired position of translate0 after zooming
+      center0, // implicit desired position of translate0 after zooming
+      center, // explicit desired position of translate0 after zooming
       size = [960, 500], // viewport size; required for zoom interpolation
       scaleExtent = d3_behavior_zoomInfinity,
+      duration = 250,
+      zooming = 0,
       mousedown = "mousedown.zoom",
       mousemove = "mousemove.zoom",
       mouseup = "mouseup.zoom",
@@ -1755,10 +1843,17 @@ d3.behavior.zoom = function() {
       y0,
       y1;
 
+  // Lazily determine the DOM’s support for Wheel events.
+  // https://developer.mozilla.org/en-US/docs/Mozilla_event_reference/wheel
+  if (!d3_behavior_zoomWheel) {
+    d3_behavior_zoomWheel = "onwheel" in d3_document ? (d3_behavior_zoomDelta = function() { return -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1); }, "wheel")
+        : "onmousewheel" in d3_document ? (d3_behavior_zoomDelta = function() { return d3.event.wheelDelta; }, "mousewheel")
+        : (d3_behavior_zoomDelta = function() { return -d3.event.detail; }, "MozMousePixelScroll");
+  }
+
   function zoom(g) {
     g   .on(mousedown, mousedowned)
         .on(d3_behavior_zoomWheel + ".zoom", mousewheeled)
-        .on(mousemove, mousewheelreset)
         .on("dblclick.zoom", dblclicked)
         .on(touchstart, touchstarted);
   }
@@ -1776,8 +1871,8 @@ d3.behavior.zoom = function() {
             .tween("zoom:zoom", function() {
               var dx = size[0],
                   dy = size[1],
-                  cx = dx / 2,
-                  cy = dy / 2,
+                  cx = center0 ? center0[0] : dx / 2,
+                  cy = center0 ? center0[1] : dy / 2,
                   i = d3.interpolateZoom(
                     [(cx - view.x) / view.k, (cy - view.y) / view.k, dx / view.k],
                     [(cx - view1.x) / view1.k, (cy - view1.y) / view1.k, dx / view1.k]
@@ -1787,6 +1882,9 @@ d3.behavior.zoom = function() {
                 this.__chart__ = view = {x: cx - l[0] * k, y: cy - l[1] * k, k: k};
                 zoomed(dispatch);
               };
+            })
+            .each("interrupt.zoom", function() {
+              zoomended(dispatch);
             })
             .each("end.zoom", function() {
               zoomended(dispatch);
@@ -1832,6 +1930,12 @@ d3.behavior.zoom = function() {
     return zoom;
   };
 
+  zoom.duration = function(_) {
+    if (!arguments.length) return duration;
+    duration = +_; // TODO function based on interpolateZoom distance?
+    return zoom;
+  };
+
   zoom.x = function(z) {
     if (!arguments.length) return x1;
     x1 = z;
@@ -1866,13 +1970,24 @@ d3.behavior.zoom = function() {
     view.y += p[1] - l[1];
   }
 
+  function zoomTo(that, p, l, k) {
+    that.__chart__ = {x: view.x, y: view.y, k: view.k};
+
+    scaleTo(Math.pow(2, k));
+    translateTo(center0 = p, l);
+
+    that = d3.select(that);
+    if (duration > 0) that = that.transition().duration(duration);
+    that.call(zoom.event);
+  }
+
   function rescale() {
     if (x1) x1.domain(x0.range().map(function(x) { return (x - view.x) / view.k; }).map(x0.invert));
     if (y1) y1.domain(y0.range().map(function(y) { return (y - view.y) / view.k; }).map(y0.invert));
   }
 
   function zoomstarted(dispatch) {
-    dispatch({type: "zoomstart"});
+    if (!zooming++) dispatch({type: "zoomstart"});
   }
 
   function zoomed(dispatch) {
@@ -1881,7 +1996,8 @@ d3.behavior.zoom = function() {
   }
 
   function zoomended(dispatch) {
-    dispatch({type: "zoomend"});
+    if (!--zooming) dispatch({type: "zoomend"});
+    center0 = null;
   }
 
   function mousedowned() {
@@ -1889,9 +2005,9 @@ d3.behavior.zoom = function() {
         target = d3.event.target,
         dispatch = event.of(that, arguments),
         dragged = 0,
-        subject = d3.select(d3_window).on(mousemove, moved).on(mouseup, ended),
+        subject = d3.select(d3_window(that)).on(mousemove, moved).on(mouseup, ended),
         location0 = location(d3.mouse(that)),
-        dragRestore = d3_event_dragSuppress();
+        dragRestore = d3_event_dragSuppress(that);
 
     d3_selection_interrupt.call(that);
     zoomstarted(dispatch);
@@ -1903,7 +2019,7 @@ d3.behavior.zoom = function() {
     }
 
     function ended() {
-      subject.on(mousemove, d3_window === that ? mousewheelreset : null).on(mouseup, null);
+      subject.on(mousemove, null).on(mouseup, null);
       dragRestore(dragged && d3.event.target === target);
       zoomended(dispatch);
     }
@@ -1919,13 +2035,16 @@ d3.behavior.zoom = function() {
         zoomName = ".zoom-" + d3.event.changedTouches[0].identifier,
         touchmove = "touchmove" + zoomName,
         touchend = "touchend" + zoomName,
-        target = d3.select(d3.event.target).on(touchmove, moved).on(touchend, ended),
-        subject = d3.select(that).on(mousedown, null).on(touchstart, started), // prevent duplicate events
-        dragRestore = d3_event_dragSuppress();
+        targets = [],
+        subject = d3.select(that),
+        dragRestore = d3_event_dragSuppress(that);
 
-    d3_selection_interrupt.call(that);
     started();
     zoomstarted(dispatch);
+
+    // Workaround for Chrome issue 412723: the touchstart listener must be set
+    // after the touchmove listener.
+    subject.on(mousedown, null).on(touchstart, started); // prevent duplicate events
 
     // Updates locations of any touches in locations0.
     function relocate() {
@@ -1939,7 +2058,13 @@ d3.behavior.zoom = function() {
 
     // Temporarily override touchstart while gesture is active.
     function started() {
-      // Only track touches started on the target element.
+
+      // Listen for touchmove and touchend on the target of touchstart.
+      var target = d3.event.target;
+      d3.select(target).on(touchmove, moved).on(touchend, ended);
+      targets.push(target);
+
+      // Only track touches started on the same subject element.
       var changed = d3.event.changedTouches;
       for (var i = 0, n = changed.length; i < n; ++i) {
         locations0[changed[i].identifier] = null;
@@ -1950,11 +2075,9 @@ d3.behavior.zoom = function() {
 
       if (touches.length === 1) {
         if (now - touchtime < 500) { // dbltap
-          var p = touches[0], l = locations0[p.identifier];
-          scaleTo(view.k * 2);
-          translateTo(p, l);
+          var p = touches[0];
+          zoomTo(that, p, locations0[p.identifier], Math.floor(Math.log(view.k) / Math.LN2) + 1);
           d3_eventPreventDefault();
-          zoomed(dispatch);
         }
         touchtime = now;
       } else if (touches.length > 1) {
@@ -1968,6 +2091,9 @@ d3.behavior.zoom = function() {
       var touches = d3.touches(that),
           p0, l0,
           p1, l1;
+
+      d3_selection_interrupt.call(that);
+
       for (var i = 0, n = touches.length; i < n; ++i, l1 = null) {
         p1 = touches[i];
         if (l1 = locations0[p1.identifier]) {
@@ -2004,7 +2130,7 @@ d3.behavior.zoom = function() {
         }
       }
       // Otherwise, remove touchmove and touchend listeners.
-      target.on(zoomName, null);
+      d3.selectAll(targets).on(zoomName, null);
       subject.on(mousedown, mousedowned).on(touchstart, touchstarted);
       dragRestore();
       zoomended(dispatch);
@@ -2014,42 +2140,27 @@ d3.behavior.zoom = function() {
   function mousewheeled() {
     var dispatch = event.of(this, arguments);
     if (mousewheelTimer) clearTimeout(mousewheelTimer);
-    else d3_selection_interrupt.call(this), zoomstarted(dispatch);
+    else translate0 = location(center0 = center || d3.mouse(this)), d3_selection_interrupt.call(this), zoomstarted(dispatch);
     mousewheelTimer = setTimeout(function() { mousewheelTimer = null; zoomended(dispatch); }, 50);
     d3_eventPreventDefault();
-    var point = center || d3.mouse(this);
-    if (!translate0) translate0 = location(point);
     scaleTo(Math.pow(2, d3_behavior_zoomDelta() * .002) * view.k);
-    translateTo(point, translate0);
+    translateTo(center0, translate0);
     zoomed(dispatch);
-  }
-
-  function mousewheelreset() {
-    translate0 = null;
   }
 
   function dblclicked() {
-    var dispatch = event.of(this, arguments),
-        p = d3.mouse(this),
-        l = location(p),
+    var p = d3.mouse(this),
         k = Math.log(view.k) / Math.LN2;
-    zoomstarted(dispatch);
-    scaleTo(Math.pow(2, d3.event.shiftKey ? Math.ceil(k) - 1 : Math.floor(k) + 1));
-    translateTo(p, l);
-    zoomed(dispatch);
-    zoomended(dispatch);
+
+    zoomTo(this, p, location(p), d3.event.shiftKey ? Math.ceil(k) - 1 : Math.floor(k) + 1);
   }
 
   return d3.rebind(zoom, event, "on");
 };
 
-var d3_behavior_zoomInfinity = [0, Infinity]; // default scale extent
-
-// https://developer.mozilla.org/en-US/docs/Mozilla_event_reference/wheel
-var d3_behavior_zoomDelta, d3_behavior_zoomWheel
-    = "onwheel" in d3_document ? (d3_behavior_zoomDelta = function() { return -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1); }, "wheel")
-    : "onmousewheel" in d3_document ? (d3_behavior_zoomDelta = function() { return d3.event.wheelDelta; }, "mousewheel")
-    : (d3_behavior_zoomDelta = function() { return -d3.event.detail; }, "MozMousePixelScroll");
+var d3_behavior_zoomInfinity = [0, Infinity], // default scale extent
+    d3_behavior_zoomDelta, // initialized lazily
+    d3_behavior_zoomWheel;
 function d3_functor(v) {
   return typeof v === "function" ? v : function() { return v; };
 }
@@ -2070,7 +2181,7 @@ var d3_timer_queueHead,
     d3_timer_interval, // is an interval (or frame) active?
     d3_timer_timeout, // is a timeout active?
     d3_timer_active, // active timer object
-    d3_timer_frame = d3_window[d3_vendorSymbol(d3_window, "requestAnimationFrame")] || function(callback) { setTimeout(callback, 17); };
+    d3_timer_frame = this[d3_vendorSymbol(this, "requestAnimationFrame")] || function(callback) { setTimeout(callback, 17); };
 
 // The timer will continue to fire until callback returns true.
 d3.timer = function(callback, delay, then) {
@@ -2404,6 +2515,315 @@ function d3_geo_clipSort(a, b) {
   return ((a = a.x)[0] < 0 ? a[1] - halfπ - ε : halfπ - a[1])
        - ((b = b.x)[0] < 0 ? b[1] - halfπ - ε : halfπ - b[1]);
 }
+
+var d3_geo_clipAntimeridian = d3_geo_clip(
+    d3_true,
+    d3_geo_clipAntimeridianLine,
+    d3_geo_clipAntimeridianInterpolate,
+    [-π, -π / 2]);
+
+// Takes a line and cuts into visible segments. Return values:
+//   0: there were intersections or the line was empty.
+//   1: no intersections.
+//   2: there were intersections, and the first and last segments should be
+//      rejoined.
+function d3_geo_clipAntimeridianLine(listener) {
+  var λ0 = NaN,
+      φ0 = NaN,
+      sλ0 = NaN,
+      clean; // no intersections
+
+  return {
+    lineStart: function() {
+      listener.lineStart();
+      clean = 1;
+    },
+    point: function(λ1, φ1) {
+      var sλ1 = λ1 > 0 ? π : -π,
+          dλ = abs(λ1 - λ0);
+      if (abs(dλ - π) < ε) { // line crosses a pole
+        listener.point(λ0, φ0 = (φ0 + φ1) / 2 > 0 ? halfπ : -halfπ);
+        listener.point(sλ0, φ0);
+        listener.lineEnd();
+        listener.lineStart();
+        listener.point(sλ1, φ0);
+        listener.point(λ1, φ0);
+        clean = 0;
+      } else if (sλ0 !== sλ1 && dλ >= π) { // line crosses antimeridian
+        // handle degeneracies
+        if (abs(λ0 - sλ0) < ε) λ0 -= sλ0 * ε;
+        if (abs(λ1 - sλ1) < ε) λ1 -= sλ1 * ε;
+        φ0 = d3_geo_clipAntimeridianIntersect(λ0, φ0, λ1, φ1);
+        listener.point(sλ0, φ0);
+        listener.lineEnd();
+        listener.lineStart();
+        listener.point(sλ1, φ0);
+        clean = 0;
+      }
+      listener.point(λ0 = λ1, φ0 = φ1);
+      sλ0 = sλ1;
+    },
+    lineEnd: function() {
+      listener.lineEnd();
+      λ0 = φ0 = NaN;
+    },
+    // if there are intersections, we always rejoin the first and last segments.
+    clean: function() { return 2 - clean; }
+  };
+}
+
+function d3_geo_clipAntimeridianIntersect(λ0, φ0, λ1, φ1) {
+  var cosφ0,
+      cosφ1,
+      sinλ0_λ1 = Math.sin(λ0 - λ1);
+  return abs(sinλ0_λ1) > ε
+      ? Math.atan((Math.sin(φ0) * (cosφ1 = Math.cos(φ1)) * Math.sin(λ1)
+                 - Math.sin(φ1) * (cosφ0 = Math.cos(φ0)) * Math.sin(λ0))
+                 / (cosφ0 * cosφ1 * sinλ0_λ1))
+      : (φ0 + φ1) / 2;
+}
+
+function d3_geo_clipAntimeridianInterpolate(from, to, direction, listener) {
+  var φ;
+  if (from == null) {
+    φ = direction * halfπ;
+    listener.point(-π,  φ);
+    listener.point( 0,  φ);
+    listener.point( π,  φ);
+    listener.point( π,  0);
+    listener.point( π, -φ);
+    listener.point( 0, -φ);
+    listener.point(-π, -φ);
+    listener.point(-π,  0);
+    listener.point(-π,  φ);
+  } else if (abs(from[0] - to[0]) > ε) {
+    var s = from[0] < to[0] ? π : -π;
+    φ = direction * s / 2;
+    listener.point(-s, φ);
+    listener.point( 0, φ);
+    listener.point( s, φ);
+  } else {
+    listener.point(to[0], to[1]);
+  }
+}
+// TODO
+// cross and scale return new vectors,
+// whereas add and normalize operate in-place
+
+function d3_geo_cartesian(spherical) {
+  var λ = spherical[0],
+      φ = spherical[1],
+      cosφ = Math.cos(φ);
+  return [
+    cosφ * Math.cos(λ),
+    cosφ * Math.sin(λ),
+    Math.sin(φ)
+  ];
+}
+
+function d3_geo_cartesianDot(a, b) {
+  return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+}
+
+function d3_geo_cartesianCross(a, b) {
+  return [
+    a[1] * b[2] - a[2] * b[1],
+    a[2] * b[0] - a[0] * b[2],
+    a[0] * b[1] - a[1] * b[0]
+  ];
+}
+
+function d3_geo_cartesianAdd(a, b) {
+  a[0] += b[0];
+  a[1] += b[1];
+  a[2] += b[2];
+}
+
+function d3_geo_cartesianScale(vector, k) {
+  return [
+    vector[0] * k,
+    vector[1] * k,
+    vector[2] * k
+  ];
+}
+
+function d3_geo_cartesianNormalize(d) {
+  var l = Math.sqrt(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]);
+  d[0] /= l;
+  d[1] /= l;
+  d[2] /= l;
+}
+function d3_geo_compose(a, b) {
+
+  function compose(x, y) {
+    return x = a(x, y), b(x[0], x[1]);
+  }
+
+  if (a.invert && b.invert) compose.invert = function(x, y) {
+    return x = b.invert(x, y), x && a.invert(x[0], x[1]);
+  };
+
+  return compose;
+}
+
+function d3_geo_equirectangular(λ, φ) {
+  return [λ, φ];
+}
+
+(d3.geo.equirectangular = function() {
+  return d3_geo_projection(d3_geo_equirectangular);
+}).raw = d3_geo_equirectangular.invert = d3_geo_equirectangular;
+
+d3.geo.rotation = function(rotate) {
+  rotate = d3_geo_rotation(rotate[0] % 360 * d3_radians, rotate[1] * d3_radians, rotate.length > 2 ? rotate[2] * d3_radians : 0);
+
+  function forward(coordinates) {
+    coordinates = rotate(coordinates[0] * d3_radians, coordinates[1] * d3_radians);
+    return coordinates[0] *= d3_degrees, coordinates[1] *= d3_degrees, coordinates;
+  }
+
+  forward.invert = function(coordinates) {
+    coordinates = rotate.invert(coordinates[0] * d3_radians, coordinates[1] * d3_radians);
+    return coordinates[0] *= d3_degrees, coordinates[1] *= d3_degrees, coordinates;
+  };
+
+  return forward;
+};
+
+function d3_geo_identityRotation(λ, φ) {
+  return [λ > π ? λ - τ : λ < -π ? λ + τ : λ, φ];
+}
+
+d3_geo_identityRotation.invert = d3_geo_equirectangular;
+
+// Note: |δλ| must be < 2π
+function d3_geo_rotation(δλ, δφ, δγ) {
+  return δλ ? (δφ || δγ ? d3_geo_compose(d3_geo_rotationλ(δλ), d3_geo_rotationφγ(δφ, δγ))
+    : d3_geo_rotationλ(δλ))
+    : (δφ || δγ ? d3_geo_rotationφγ(δφ, δγ)
+    : d3_geo_identityRotation);
+}
+
+function d3_geo_forwardRotationλ(δλ) {
+  return function(λ, φ) {
+    return λ += δλ, [λ > π ? λ - τ : λ < -π ? λ + τ : λ, φ];
+  };
+}
+
+function d3_geo_rotationλ(δλ) {
+  var rotation = d3_geo_forwardRotationλ(δλ);
+  rotation.invert = d3_geo_forwardRotationλ(-δλ);
+  return rotation;
+}
+
+function d3_geo_rotationφγ(δφ, δγ) {
+  var cosδφ = Math.cos(δφ),
+      sinδφ = Math.sin(δφ),
+      cosδγ = Math.cos(δγ),
+      sinδγ = Math.sin(δγ);
+
+  function rotation(λ, φ) {
+    var cosφ = Math.cos(φ),
+        x = Math.cos(λ) * cosφ,
+        y = Math.sin(λ) * cosφ,
+        z = Math.sin(φ),
+        k = z * cosδφ + x * sinδφ;
+    return [
+      Math.atan2(y * cosδγ - k * sinδγ, x * cosδφ - z * sinδφ),
+      d3_asin(k * cosδγ + y * sinδγ)
+    ];
+  }
+
+  rotation.invert = function(λ, φ) {
+    var cosφ = Math.cos(φ),
+        x = Math.cos(λ) * cosφ,
+        y = Math.sin(λ) * cosφ,
+        z = Math.sin(φ),
+        k = z * cosδγ - y * sinδγ;
+    return [
+      Math.atan2(y * cosδγ + z * sinδγ, x * cosδφ + k * sinδφ),
+      d3_asin(k * cosδφ - x * sinδφ)
+    ];
+  };
+
+  return rotation;
+}
+
+d3.geo.circle = function() {
+  var origin = [0, 0],
+      angle,
+      precision = 6,
+      interpolate;
+
+  function circle() {
+    var center = typeof origin === "function" ? origin.apply(this, arguments) : origin,
+        rotate = d3_geo_rotation(-center[0] * d3_radians, -center[1] * d3_radians, 0).invert,
+        ring = [];
+
+    interpolate(null, null, 1, {
+      point: function(x, y) {
+        ring.push(x = rotate(x, y));
+        x[0] *= d3_degrees, x[1] *= d3_degrees;
+      }
+    });
+
+    return {type: "Polygon", coordinates: [ring]};
+  }
+
+  circle.origin = function(x) {
+    if (!arguments.length) return origin;
+    origin = x;
+    return circle;
+  };
+
+  circle.angle = function(x) {
+    if (!arguments.length) return angle;
+    interpolate = d3_geo_circleInterpolate((angle = +x) * d3_radians, precision * d3_radians);
+    return circle;
+  };
+
+  circle.precision = function(_) {
+    if (!arguments.length) return precision;
+    interpolate = d3_geo_circleInterpolate(angle * d3_radians, (precision = +_) * d3_radians);
+    return circle;
+  };
+
+  return circle.angle(90);
+};
+
+// Interpolates along a circle centered at [0°, 0°], with a given radius and
+// precision.
+function d3_geo_circleInterpolate(radius, precision) {
+  var cr = Math.cos(radius),
+      sr = Math.sin(radius);
+  return function(from, to, direction, listener) {
+    var step = direction * precision;
+    if (from != null) {
+      from = d3_geo_circleAngle(cr, from);
+      to = d3_geo_circleAngle(cr, to);
+      if (direction > 0 ? from < to: from > to) from += direction * τ;
+    } else {
+      from = radius + direction * τ;
+      to = radius - .5 * step;
+    }
+    for (var point, t = from; direction > 0 ? t > to : t < to; t -= step) {
+      listener.point((point = d3_geo_spherical([
+        cr,
+        -sr * Math.cos(t),
+        -sr * Math.sin(t)
+      ]))[0], point[1]);
+    }
+  };
+}
+
+// Signed angle of a cartesian point relative to [cr, 0, 0].
+function d3_geo_circleAngle(cr, point) {
+  var a = d3_geo_cartesian(point);
+  a[0] -= cr;
+  d3_geo_cartesianNormalize(a);
+  var angle = d3_acos(-a[1]);
+  return ((-a[2] < 0 ? -angle : angle) + 2 * Math.PI - ε) % (2 * Math.PI);
+}
 // Adds floating point numbers with twice the normal precision.
 // Reference: J. R. Shewchuk, Adaptive Precision Floating-Point Arithmetic and
 // Fast Robust Geometric Predicates, Discrete & Computational Geometry 18(3)
@@ -2572,53 +2992,6 @@ function d3_geo_areaRingStart() {
     nextPoint(λ00, φ00);
   };
 }
-// TODO
-// cross and scale return new vectors,
-// whereas add and normalize operate in-place
-
-function d3_geo_cartesian(spherical) {
-  var λ = spherical[0],
-      φ = spherical[1],
-      cosφ = Math.cos(φ);
-  return [
-    cosφ * Math.cos(λ),
-    cosφ * Math.sin(λ),
-    Math.sin(φ)
-  ];
-}
-
-function d3_geo_cartesianDot(a, b) {
-  return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-}
-
-function d3_geo_cartesianCross(a, b) {
-  return [
-    a[1] * b[2] - a[2] * b[1],
-    a[2] * b[0] - a[0] * b[2],
-    a[0] * b[1] - a[1] * b[0]
-  ];
-}
-
-function d3_geo_cartesianAdd(a, b) {
-  a[0] += b[0];
-  a[1] += b[1];
-  a[2] += b[2];
-}
-
-function d3_geo_cartesianScale(vector, k) {
-  return [
-    vector[0] * k,
-    vector[1] * k,
-    vector[2] * k
-  ];
-}
-
-function d3_geo_cartesianNormalize(d) {
-  var l = Math.sqrt(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]);
-  d[0] /= l;
-  d[1] /= l;
-  d[2] /= l;
-}
 
 function d3_geo_pointInPolygon(point, polygon) {
   var meridian = point[0],
@@ -2684,256 +3057,6 @@ function d3_geo_pointInPolygon(point, polygon) {
   // same side as the South pole.
 
   return (polarAngle < -ε || polarAngle < ε && d3_geo_areaRingSum < 0) ^ (winding & 1);
-}
-
-var d3_geo_clipAntimeridian = d3_geo_clip(
-    d3_true,
-    d3_geo_clipAntimeridianLine,
-    d3_geo_clipAntimeridianInterpolate,
-    [-π, -π / 2]);
-
-// Takes a line and cuts into visible segments. Return values:
-//   0: there were intersections or the line was empty.
-//   1: no intersections.
-//   2: there were intersections, and the first and last segments should be
-//      rejoined.
-function d3_geo_clipAntimeridianLine(listener) {
-  var λ0 = NaN,
-      φ0 = NaN,
-      sλ0 = NaN,
-      clean; // no intersections
-
-  return {
-    lineStart: function() {
-      listener.lineStart();
-      clean = 1;
-    },
-    point: function(λ1, φ1) {
-      var sλ1 = λ1 > 0 ? π : -π,
-          dλ = abs(λ1 - λ0);
-      if (abs(dλ - π) < ε) { // line crosses a pole
-        listener.point(λ0, φ0 = (φ0 + φ1) / 2 > 0 ? halfπ : -halfπ);
-        listener.point(sλ0, φ0);
-        listener.lineEnd();
-        listener.lineStart();
-        listener.point(sλ1, φ0);
-        listener.point(λ1, φ0);
-        clean = 0;
-      } else if (sλ0 !== sλ1 && dλ >= π) { // line crosses antimeridian
-        // handle degeneracies
-        if (abs(λ0 - sλ0) < ε) λ0 -= sλ0 * ε;
-        if (abs(λ1 - sλ1) < ε) λ1 -= sλ1 * ε;
-        φ0 = d3_geo_clipAntimeridianIntersect(λ0, φ0, λ1, φ1);
-        listener.point(sλ0, φ0);
-        listener.lineEnd();
-        listener.lineStart();
-        listener.point(sλ1, φ0);
-        clean = 0;
-      }
-      listener.point(λ0 = λ1, φ0 = φ1);
-      sλ0 = sλ1;
-    },
-    lineEnd: function() {
-      listener.lineEnd();
-      λ0 = φ0 = NaN;
-    },
-    // if there are intersections, we always rejoin the first and last segments.
-    clean: function() { return 2 - clean; }
-  };
-}
-
-function d3_geo_clipAntimeridianIntersect(λ0, φ0, λ1, φ1) {
-  var cosφ0,
-      cosφ1,
-      sinλ0_λ1 = Math.sin(λ0 - λ1);
-  return abs(sinλ0_λ1) > ε
-      ? Math.atan((Math.sin(φ0) * (cosφ1 = Math.cos(φ1)) * Math.sin(λ1)
-                 - Math.sin(φ1) * (cosφ0 = Math.cos(φ0)) * Math.sin(λ0))
-                 / (cosφ0 * cosφ1 * sinλ0_λ1))
-      : (φ0 + φ1) / 2;
-}
-
-function d3_geo_clipAntimeridianInterpolate(from, to, direction, listener) {
-  var φ;
-  if (from == null) {
-    φ = direction * halfπ;
-    listener.point(-π,  φ);
-    listener.point( 0,  φ);
-    listener.point( π,  φ);
-    listener.point( π,  0);
-    listener.point( π, -φ);
-    listener.point( 0, -φ);
-    listener.point(-π, -φ);
-    listener.point(-π,  0);
-    listener.point(-π,  φ);
-  } else if (abs(from[0] - to[0]) > ε) {
-    var s = from[0] < to[0] ? π : -π;
-    φ = direction * s / 2;
-    listener.point(-s, φ);
-    listener.point( 0, φ);
-    listener.point( s, φ);
-  } else {
-    listener.point(to[0], to[1]);
-  }
-}
-
-function d3_geo_equirectangular(λ, φ) {
-  return [λ, φ];
-}
-
-(d3.geo.equirectangular = function() {
-  return d3_geo_projection(d3_geo_equirectangular);
-}).raw = d3_geo_equirectangular.invert = d3_geo_equirectangular;
-
-d3.geo.rotation = function(rotate) {
-  rotate = d3_geo_rotation(rotate[0] % 360 * d3_radians, rotate[1] * d3_radians, rotate.length > 2 ? rotate[2] * d3_radians : 0);
-
-  function forward(coordinates) {
-    coordinates = rotate(coordinates[0] * d3_radians, coordinates[1] * d3_radians);
-    return coordinates[0] *= d3_degrees, coordinates[1] *= d3_degrees, coordinates;
-  }
-
-  forward.invert = function(coordinates) {
-    coordinates = rotate.invert(coordinates[0] * d3_radians, coordinates[1] * d3_radians);
-    return coordinates[0] *= d3_degrees, coordinates[1] *= d3_degrees, coordinates;
-  };
-
-  return forward;
-};
-
-function d3_geo_identityRotation(λ, φ) {
-  return [λ > π ? λ - τ : λ < -π ? λ + τ : λ, φ];
-}
-
-d3_geo_identityRotation.invert = d3_geo_equirectangular;
-
-// Note: |δλ| must be < 2π
-function d3_geo_rotation(δλ, δφ, δγ) {
-  return δλ ? (δφ || δγ ? d3_geo_compose(d3_geo_rotationλ(δλ), d3_geo_rotationφγ(δφ, δγ))
-    : d3_geo_rotationλ(δλ))
-    : (δφ || δγ ? d3_geo_rotationφγ(δφ, δγ)
-    : d3_geo_identityRotation);
-}
-
-function d3_geo_forwardRotationλ(δλ) {
-  return function(λ, φ) {
-    return λ += δλ, [λ > π ? λ - τ : λ < -π ? λ + τ : λ, φ];
-  };
-}
-
-function d3_geo_rotationλ(δλ) {
-  var rotation = d3_geo_forwardRotationλ(δλ);
-  rotation.invert = d3_geo_forwardRotationλ(-δλ);
-  return rotation;
-}
-
-function d3_geo_rotationφγ(δφ, δγ) {
-  var cosδφ = Math.cos(δφ),
-      sinδφ = Math.sin(δφ),
-      cosδγ = Math.cos(δγ),
-      sinδγ = Math.sin(δγ);
-
-  function rotation(λ, φ) {
-    var cosφ = Math.cos(φ),
-        x = Math.cos(λ) * cosφ,
-        y = Math.sin(λ) * cosφ,
-        z = Math.sin(φ),
-        k = z * cosδφ + x * sinδφ;
-    return [
-      Math.atan2(y * cosδγ - k * sinδγ, x * cosδφ - z * sinδφ),
-      d3_asin(k * cosδγ + y * sinδγ)
-    ];
-  }
-
-  rotation.invert = function(λ, φ) {
-    var cosφ = Math.cos(φ),
-        x = Math.cos(λ) * cosφ,
-        y = Math.sin(λ) * cosφ,
-        z = Math.sin(φ),
-        k = z * cosδγ - y * sinδγ;
-    return [
-      Math.atan2(y * cosδγ + z * sinδγ, x * cosδφ + k * sinδφ),
-      d3_asin(k * cosδφ - x * sinδφ)
-    ];
-  };
-
-  return rotation;
-}
-
-d3.geo.circle = function() {
-  var origin = [0, 0],
-      angle,
-      precision = 6,
-      interpolate;
-
-  function circle() {
-    var center = typeof origin === "function" ? origin.apply(this, arguments) : origin,
-        rotate = d3_geo_rotation(-center[0] * d3_radians, -center[1] * d3_radians, 0).invert,
-        ring = [];
-
-    interpolate(null, null, 1, {
-      point: function(x, y) {
-        ring.push(x = rotate(x, y));
-        x[0] *= d3_degrees, x[1] *= d3_degrees;
-      }
-    });
-
-    return {type: "Polygon", coordinates: [ring]};
-  }
-
-  circle.origin = function(x) {
-    if (!arguments.length) return origin;
-    origin = x;
-    return circle;
-  };
-
-  circle.angle = function(x) {
-    if (!arguments.length) return angle;
-    interpolate = d3_geo_circleInterpolate((angle = +x) * d3_radians, precision * d3_radians);
-    return circle;
-  };
-
-  circle.precision = function(_) {
-    if (!arguments.length) return precision;
-    interpolate = d3_geo_circleInterpolate(angle * d3_radians, (precision = +_) * d3_radians);
-    return circle;
-  };
-
-  return circle.angle(90);
-};
-
-// Interpolates along a circle centered at [0°, 0°], with a given radius and
-// precision.
-function d3_geo_circleInterpolate(radius, precision) {
-  var cr = Math.cos(radius),
-      sr = Math.sin(radius);
-  return function(from, to, direction, listener) {
-    var step = direction * precision;
-    if (from != null) {
-      from = d3_geo_circleAngle(cr, from);
-      to = d3_geo_circleAngle(cr, to);
-      if (direction > 0 ? from < to: from > to) from += direction * τ;
-    } else {
-      from = radius + direction * τ;
-      to = radius - .5 * step;
-    }
-    for (var point, t = from; direction > 0 ? t > to : t < to; t -= step) {
-      listener.point((point = d3_geo_spherical([
-        cr,
-        -sr * Math.cos(t),
-        -sr * Math.sin(t)
-      ]))[0], point[1]);
-    }
-  };
-}
-
-// Signed angle of a cartesian point relative to [cr, 0, 0].
-function d3_geo_circleAngle(cr, point) {
-  var a = d3_geo_cartesian(point);
-  a[0] -= cr;
-  d3_geo_cartesianNormalize(a);
-  var angle = d3_acos(-a[1]);
-  return ((-a[2] < 0 ? -angle : angle) + 2 * Math.PI - ε) % (2 * Math.PI);
 }
 
 // Clip features against a small circle centered at [0°, 0°].
@@ -3359,18 +3482,6 @@ function d3_geo_clipExtent(x0, y0, x1, y1) {
         : ca === 2 ? a[1] - b[1]
         : b[0] - a[0];
   }
-}
-function d3_geo_compose(a, b) {
-
-  function compose(x, y) {
-    return x = a(x, y), b(x[0], x[1]);
-  }
-
-  if (a.invert && b.invert) compose.invert = function(x, y) {
-    return x = b.invert(x, y), x && a.invert(x[0], x[1]);
-  };
-
-  return compose;
 }
 
 function d3_geo_conic(projectAt) {
@@ -4076,7 +4187,7 @@ function d3_geo_pathContext(context) {
   };
 
   function point(x, y) {
-    context.moveTo(x, y);
+    context.moveTo(x + pointRadius, y);
     context.arc(x, y, pointRadius, 0, τ);
   }
 
@@ -4578,13 +4689,15 @@ function d3_geom_pointY(d) {
 }
 
 /**
- * Computes the 2D convex hull of a set of points using Graham's scanning
- * algorithm. The algorithm has been implemented as described in Cormen,
- * Leiserson, and Rivest's Introduction to Algorithms. The running time of
- * this algorithm is O(n log n), where n is the number of input points.
+ * Computes the 2D convex hull of a set of points using the monotone chain
+ * algorithm:
+ * http://en.wikibooks.org/wiki/Algorithm_Implementation/Geometry/Convex_hull/Monotone_chain)
  *
- * @param vertices [[x1, y1], [x2, y2], …]
- * @returns polygon [[x1, y1], [x2, y2], …]
+ * The runtime of this algorithm is O(n log n), where n is the number of input
+ * points. However in practice it outperforms other O(n log n) hulls.
+ *
+ * @param vertices [[x1, y1], [x2, y2], ...]
+ * @returns polygon [[x1, y1], [x2, y2], ...]
  */
 d3.geom.hull = function(vertices) {
   var x = d3_geom_pointX,
@@ -4593,86 +4706,40 @@ d3.geom.hull = function(vertices) {
   if (arguments.length) return hull(vertices);
 
   function hull(data) {
+    // Hull of < 3 points is not well-defined
     if (data.length < 3) return [];
 
     var fx = d3_functor(x),
         fy = d3_functor(y),
+        i,
         n = data.length,
-        vertices, // TODO use parallel arrays
-        plen = n - 1,
-        points = [],
-        stack = [],
-        d,
-        i, j, h = 0, x1, y1, x2, y2, u, v, a, sp;
+        points = [], // of the form [[x0, y0, 0], ..., [xn, yn, n]]
+        flippedPoints = [];
 
-    if (fx === d3_geom_pointX && y === d3_geom_pointY) vertices = data;
-    else for (i = 0, vertices = []; i < n; ++i) {
-      vertices.push([+fx.call(this, d = data[i], i), +fy.call(this, d, i)]);
+    for (i = 0 ; i < n; i++) {
+      points.push([+fx.call(this, data[i], i), +fy.call(this, data[i], i), i]);
     }
 
-    // find the starting ref point: leftmost point with the minimum y coord
-    for (i = 1; i < n; ++i) {
-      if (vertices[i][1] < vertices[h][1]
-          || vertices[i][1] == vertices[h][1]
-          && vertices[i][0] < vertices[h][0]) h = i;
-    }
+    // sort ascending by x-coord first, y-coord second
+    points.sort(d3_geom_hullOrder);
 
-    // calculate polar angles from ref point and sort
-    for (i = 0; i < n; ++i) {
-      if (i === h) continue;
-      y1 = vertices[i][1] - vertices[h][1];
-      x1 = vertices[i][0] - vertices[h][0];
-      points.push({angle: Math.atan2(y1, x1), index: i});
-    }
-    points.sort(function(a, b) { return a.angle - b.angle; });
+    // we flip bottommost points across y axis so we can use the upper hull routine on both
+    for (i = 0; i < n; i++) flippedPoints.push([points[i][0], -points[i][1]]);
 
-    // toss out duplicate angles
-    a = points[0].angle;
-    v = points[0].index;
-    u = 0;
-    for (i = 1; i < plen; ++i) {
-      j = points[i].index;
-      if (a == points[i].angle) {
-        // keep angle for point most distant from the reference
-        x1 = vertices[v][0] - vertices[h][0];
-        y1 = vertices[v][1] - vertices[h][1];
-        x2 = vertices[j][0] - vertices[h][0];
-        y2 = vertices[j][1] - vertices[h][1];
-        if (x1 * x1 + y1 * y1 >= x2 * x2 + y2 * y2) {
-          points[i].index = -1;
-          continue;
-        } else {
-          points[u].index = -1;
-        }
-      }
-      a = points[i].angle;
-      u = i;
-      v = j;
-    }
+    var upper = d3_geom_hullUpper(points),
+        lower = d3_geom_hullUpper(flippedPoints);
 
-    // initialize the stack
-    stack.push(h);
-    for (i = 0, j = 0; i < 2; ++j) {
-      if (points[j].index > -1) {
-        stack.push(points[j].index);
-        i++;
-      }
-    }
-    sp = stack.length;
+    // construct the polygon, removing possible duplicate endpoints
+    var skipLeft = lower[0] === upper[0],
+        skipRight  = lower[lower.length - 1] === upper[upper.length - 1],
+        polygon = [];
 
-    // do graham's scan
-    for (; j < plen; ++j) {
-      if (points[j].index < 0) continue; // skip tossed out points
-      while (!d3_geom_hullCCW(stack[sp - 2], stack[sp - 1], points[j].index, vertices)) {
-        --sp;
-      }
-      stack[sp++] = points[j].index;
-    }
+    // add upper hull in r->l order
+    // then add lower hull in l->r order
+    for (i = upper.length - 1; i >= 0; --i) polygon.push(data[points[upper[i]][2]]);
+    for (i = +skipLeft; i < lower.length - skipRight; ++i) polygon.push(data[points[lower[i]][2]]);
 
-    // construct the hull
-    var poly = [];
-    for (i = sp - 1; i >= 0; --i) poly.push(data[stack[i]]);
-    return poly;
+    return polygon;
   }
 
   hull.x = function(_) {
@@ -4686,126 +4753,76 @@ d3.geom.hull = function(vertices) {
   return hull;
 };
 
-// are three points in counter-clockwise order?
-function d3_geom_hullCCW(i1, i2, i3, v) {
-  var t, a, b, c, d, e, f;
-  t = v[i1]; a = t[0]; b = t[1];
-  t = v[i2]; c = t[0]; d = t[1];
-  t = v[i3]; e = t[0]; f = t[1];
-  return (f - b) * (c - a) - (d - b) * (e - a) > 0;
+// finds the 'upper convex hull' (see wiki link above)
+// assumes points arg has >=3 elements, is sorted by x, unique in y
+// returns array of indices into points in left to right order
+function d3_geom_hullUpper(points) {
+  var n = points.length,
+      hull = [0, 1],
+      hs = 2; // hull size
+
+  for (var i = 2; i < n; i++) {
+    while (hs > 1 && d3_cross2d(points[hull[hs-2]], points[hull[hs-1]], points[i]) <= 0) --hs;
+    hull[hs++] = i;
+  }
+
+  // we slice to make sure that the points we 'popped' from hull don't stay behind
+  return hull.slice(0, hs);
 }
 
-var d3_ease_default = function() { return d3_identity; };
+// comparator for ascending sort by x-coord first, y-coord second
+function d3_geom_hullOrder(a, b) {
+  return a[0] - b[0] || a[1] - b[1];
+}
+// import "../transition/transition";
 
-var d3_ease = d3.map({
-  linear: d3_ease_default,
-  poly: d3_ease_poly,
-  quad: function() { return d3_ease_quad; },
-  cubic: function() { return d3_ease_cubic; },
-  sin: function() { return d3_ease_sin; },
-  exp: function() { return d3_ease_exp; },
-  circle: function() { return d3_ease_circle; },
-  elastic: d3_ease_elastic,
-  back: d3_ease_back,
-  bounce: function() { return d3_ease_bounce; }
-});
+d3_selectionPrototype.transition = function(name) {
+  var id = d3_transitionInheritId || ++d3_transitionId,
+      ns = d3_transitionNamespace(name),
+      subgroups = [],
+      subgroup,
+      node,
+      transition = d3_transitionInherit || {time: Date.now(), ease: d3_ease_cubicInOut, delay: 0, duration: 250};
 
-var d3_ease_mode = d3.map({
-  "in": d3_identity,
-  "out": d3_ease_reverse,
-  "in-out": d3_ease_reflect,
-  "out-in": function(f) { return d3_ease_reflect(d3_ease_reverse(f)); }
-});
+  for (var j = -1, m = this.length; ++j < m;) {
+    subgroups.push(subgroup = []);
+    for (var group = this[j], i = -1, n = group.length; ++i < n;) {
+      if (node = group[i]) d3_transitionNode(node, i, ns, id, transition);
+      subgroup.push(node);
+    }
+  }
 
-d3.ease = function(name) {
-  var i = name.indexOf("-"),
-      t = i >= 0 ? name.substring(0, i) : name,
-      m = i >= 0 ? name.substring(i + 1) : "in";
-  t = d3_ease.get(t) || d3_ease_default;
-  m = d3_ease_mode.get(m) || d3_identity;
-  return d3_ease_clamp(m(t.apply(null, d3_arraySlice.call(arguments, 1))));
+  return d3_transition(subgroups, ns, id);
+};
+// import "../transition/transition";
+
+// TODO Interrupt transitions for all namespaces?
+d3_selectionPrototype.interrupt = function(name) {
+  return this.each(name == null
+      ? d3_selection_interrupt
+      : d3_selection_interruptNS(d3_transitionNamespace(name)));
 };
 
-function d3_ease_clamp(f) {
-  return function(t) {
-    return t <= 0 ? 0 : t >= 1 ? 1 : f(t);
+var d3_selection_interrupt = d3_selection_interruptNS(d3_transitionNamespace());
+
+function d3_selection_interruptNS(ns) {
+  return function() {
+    var lock, active;
+    if ((lock = this[ns]) && (active = lock[lock.active])) {
+      if (--lock.count) delete lock[lock.active];
+      else delete this[ns];
+      lock.active += .5;
+      active.event && active.event.interrupt.call(this, this.__data__, active.index);
+    }
   };
 }
 
-function d3_ease_reverse(f) {
-  return function(t) {
-    return 1 - f(1 - t);
-  };
-}
-
-function d3_ease_reflect(f) {
-  return function(t) {
-    return .5 * (t < .5 ? f(2 * t) : (2 - f(2 - 2 * t)));
-  };
-}
-
-function d3_ease_quad(t) {
-  return t * t;
-}
-
-function d3_ease_cubic(t) {
-  return t * t * t;
-}
-
-// Optimized clamp(reflect(poly(3))).
-function d3_ease_cubicInOut(t) {
-  if (t <= 0) return 0;
-  if (t >= 1) return 1;
-  var t2 = t * t, t3 = t2 * t;
-  return 4 * (t < .5 ? t3 : 3 * (t - t2) + t3 - .75);
-}
-
-function d3_ease_poly(e) {
-  return function(t) {
-    return Math.pow(t, e);
-  };
-}
-
-function d3_ease_sin(t) {
-  return 1 - Math.cos(t * halfπ);
-}
-
-function d3_ease_exp(t) {
-  return Math.pow(2, 10 * (t - 1));
-}
-
-function d3_ease_circle(t) {
-  return 1 - Math.sqrt(1 - t * t);
-}
-
-function d3_ease_elastic(a, p) {
-  var s;
-  if (arguments.length < 2) p = 0.45;
-  if (arguments.length) s = p / τ * Math.asin(1 / a);
-  else a = 1, s = p / 4;
-  return function(t) {
-    return 1 + a * Math.pow(2, -10 * t) * Math.sin((t - s) * τ / p);
-  };
-}
-
-function d3_ease_back(s) {
-  if (!s) s = 1.70158;
-  return function(t) {
-    return t * t * ((s + 1) * t - s);
-  };
-}
-
-function d3_ease_bounce(t) {
-  return t < 1 / 2.75 ? 7.5625 * t * t
-      : t < 2 / 2.75 ? 7.5625 * (t -= 1.5 / 2.75) * t + .75
-      : t < 2.5 / 2.75 ? 7.5625 * (t -= 2.25 / 2.75) * t + .9375
-      : 7.5625 * (t -= 2.625 / 2.75) * t + .984375;
-}
-
-function d3_transition(groups, id) {
+function d3_transition(groups, ns, id) {
   d3_subclass(groups, d3_transitionPrototype);
 
-  groups.id = id; // Note: read-only!
+  // Note: read-only!
+  groups.namespace = ns;
+  groups.id = id;
 
   return groups;
 }
@@ -4820,10 +4837,10 @@ d3_transitionPrototype.empty = d3_selectionPrototype.empty;
 d3_transitionPrototype.node = d3_selectionPrototype.node;
 d3_transitionPrototype.size = d3_selectionPrototype.size;
 
-d3.transition = function(selection) {
-  return arguments.length
-      ? (d3_transitionInheritId ? selection.transition() : selection)
-      : d3_selectionRoot.transition();
+d3.transition = function(selection, name) {
+  return selection && selection.transition
+      ? (d3_transitionInheritId ? selection.transition(name) : selection)
+      : d3.selection().transition(selection);
 };
 
 d3.transition.prototype = d3_transitionPrototype;
@@ -4831,6 +4848,7 @@ d3.transition.prototype = d3_transitionPrototype;
 
 d3_transitionPrototype.select = function(selector) {
   var id = this.id,
+      ns = this.namespace,
       subgroups = [],
       subgroup,
       subnode,
@@ -4843,7 +4861,7 @@ d3_transitionPrototype.select = function(selector) {
     for (var group = this[j], i = -1, n = group.length; ++i < n;) {
       if ((node = group[i]) && (subnode = selector.call(node, node.__data__, i, j))) {
         if ("__data__" in node) subnode.__data__ = node.__data__;
-        d3_transitionNode(subnode, i, id, node.__transition__[id]);
+        d3_transitionNode(subnode, i, ns, id, node[ns][id]);
         subgroup.push(subnode);
       } else {
         subgroup.push(null);
@@ -4851,11 +4869,12 @@ d3_transitionPrototype.select = function(selector) {
     }
   }
 
-  return d3_transition(subgroups, id);
+  return d3_transition(subgroups, ns, id);
 };
 
 d3_transitionPrototype.selectAll = function(selector) {
   var id = this.id,
+      ns = this.namespace,
       subgroups = [],
       subgroup,
       subnodes,
@@ -4868,18 +4887,18 @@ d3_transitionPrototype.selectAll = function(selector) {
   for (var j = -1, m = this.length; ++j < m;) {
     for (var group = this[j], i = -1, n = group.length; ++i < n;) {
       if (node = group[i]) {
-        transition = node.__transition__[id];
+        transition = node[ns][id];
         subnodes = selector.call(node, node.__data__, i, j);
         subgroups.push(subgroup = []);
         for (var k = -1, o = subnodes.length; ++k < o;) {
-          if (subnode = subnodes[k]) d3_transitionNode(subnode, k, id, transition);
+          if (subnode = subnodes[k]) d3_transitionNode(subnode, k, ns, id, transition);
           subgroup.push(subnode);
         }
       }
     }
   }
 
-  return d3_transition(subgroups, id);
+  return d3_transition(subgroups, ns, id);
 };
 
 d3_transitionPrototype.filter = function(filter) {
@@ -4899,41 +4918,35 @@ d3_transitionPrototype.filter = function(filter) {
     }
   }
 
-  return d3_transition(subgroups, this.id);
+  return d3_transition(subgroups, this.namespace, this.id);
 };
-function d3_Color() {}
+d3.color = d3_color;
 
-d3_Color.prototype.toString = function() {
+function d3_color() {}
+
+d3_color.prototype.toString = function() {
   return this.rgb() + "";
 };
 
-d3.hsl = function(h, s, l) {
-  return arguments.length === 1
-      ? (h instanceof d3_Hsl ? d3_hsl(h.h, h.s, h.l)
-      : d3_rgb_parse("" + h, d3_rgb_hsl, d3_hsl))
-      : d3_hsl(+h, +s, +l);
-};
+d3.hsl = d3_hsl;
 
 function d3_hsl(h, s, l) {
-  return new d3_Hsl(h, s, l);
+  return this instanceof d3_hsl ? void (this.h = +h, this.s = +s, this.l = +l)
+      : arguments.length < 2 ? (h instanceof d3_hsl ? new d3_hsl(h.h, h.s, h.l)
+      : d3_rgb_parse("" + h, d3_rgb_hsl, d3_hsl))
+      : new d3_hsl(h, s, l);
 }
 
-function d3_Hsl(h, s, l) {
-  this.h = h;
-  this.s = s;
-  this.l = l;
-}
-
-var d3_hslPrototype = d3_Hsl.prototype = new d3_Color;
+var d3_hslPrototype = d3_hsl.prototype = new d3_color;
 
 d3_hslPrototype.brighter = function(k) {
   k = Math.pow(0.7, arguments.length ? k : 1);
-  return d3_hsl(this.h, this.s, this.l / k);
+  return new d3_hsl(this.h, this.s, this.l / k);
 };
 
 d3_hslPrototype.darker = function(k) {
   k = Math.pow(0.7, arguments.length ? k : 1);
-  return d3_hsl(this.h, this.s, k * this.l);
+  return new d3_hsl(this.h, this.s, k * this.l);
 };
 
 d3_hslPrototype.rgb = function() {
@@ -4966,35 +4979,27 @@ function d3_hsl_rgb(h, s, l) {
     return Math.round(v(h) * 255);
   }
 
-  return d3_rgb(vv(h + 120), vv(h), vv(h - 120));
+  return new d3_rgb(vv(h + 120), vv(h), vv(h - 120));
 }
 
-d3.hcl = function(h, c, l) {
-  return arguments.length === 1
-      ? (h instanceof d3_Hcl ? d3_hcl(h.h, h.c, h.l)
-      : (h instanceof d3_Lab ? d3_lab_hcl(h.l, h.a, h.b)
-      : d3_lab_hcl((h = d3_rgb_lab((h = d3.rgb(h)).r, h.g, h.b)).l, h.a, h.b)))
-      : d3_hcl(+h, +c, +l);
-};
+d3.hcl = d3_hcl;
 
 function d3_hcl(h, c, l) {
-  return new d3_Hcl(h, c, l);
+  return this instanceof d3_hcl ? void (this.h = +h, this.c = +c, this.l = +l)
+      : arguments.length < 2 ? (h instanceof d3_hcl ? new d3_hcl(h.h, h.c, h.l)
+      : (h instanceof d3_lab ? d3_lab_hcl(h.l, h.a, h.b)
+      : d3_lab_hcl((h = d3_rgb_lab((h = d3.rgb(h)).r, h.g, h.b)).l, h.a, h.b)))
+      : new d3_hcl(h, c, l);
 }
 
-function d3_Hcl(h, c, l) {
-  this.h = h;
-  this.c = c;
-  this.l = l;
-}
-
-var d3_hclPrototype = d3_Hcl.prototype = new d3_Color;
+var d3_hclPrototype = d3_hcl.prototype = new d3_color;
 
 d3_hclPrototype.brighter = function(k) {
-  return d3_hcl(this.h, this.c, Math.min(100, this.l + d3_lab_K * (arguments.length ? k : 1)));
+  return new d3_hcl(this.h, this.c, Math.min(100, this.l + d3_lab_K * (arguments.length ? k : 1)));
 };
 
 d3_hclPrototype.darker = function(k) {
-  return d3_hcl(this.h, this.c, Math.max(0, this.l - d3_lab_K * (arguments.length ? k : 1)));
+  return new d3_hcl(this.h, this.c, Math.max(0, this.l - d3_lab_K * (arguments.length ? k : 1)));
 };
 
 d3_hclPrototype.rgb = function() {
@@ -5004,25 +5009,17 @@ d3_hclPrototype.rgb = function() {
 function d3_hcl_lab(h, c, l) {
   if (isNaN(h)) h = 0;
   if (isNaN(c)) c = 0;
-  return d3_lab(l, Math.cos(h *= d3_radians) * c, Math.sin(h) * c);
+  return new d3_lab(l, Math.cos(h *= d3_radians) * c, Math.sin(h) * c);
 }
 
-d3.lab = function(l, a, b) {
-  return arguments.length === 1
-      ? (l instanceof d3_Lab ? d3_lab(l.l, l.a, l.b)
-      : (l instanceof d3_Hcl ? d3_hcl_lab(l.l, l.c, l.h)
-      : d3_rgb_lab((l = d3.rgb(l)).r, l.g, l.b)))
-      : d3_lab(+l, +a, +b);
-};
+d3.lab = d3_lab;
 
 function d3_lab(l, a, b) {
-  return new d3_Lab(l, a, b);
-}
-
-function d3_Lab(l, a, b) {
-  this.l = l;
-  this.a = a;
-  this.b = b;
+  return this instanceof d3_lab ? void (this.l = +l, this.a = +a, this.b = +b)
+      : arguments.length < 2 ? (l instanceof d3_lab ? new d3_lab(l.l, l.a, l.b)
+      : (l instanceof d3_hcl ? d3_hcl_lab(l.h, l.c, l.l)
+      : d3_rgb_lab((l = d3_rgb(l)).r, l.g, l.b)))
+      : new d3_lab(l, a, b);
 }
 
 // Corresponds roughly to RGB brighter/darker
@@ -5033,14 +5030,14 @@ var d3_lab_X = 0.950470,
     d3_lab_Y = 1,
     d3_lab_Z = 1.088830;
 
-var d3_labPrototype = d3_Lab.prototype = new d3_Color;
+var d3_labPrototype = d3_lab.prototype = new d3_color;
 
 d3_labPrototype.brighter = function(k) {
-  return d3_lab(Math.min(100, this.l + d3_lab_K * (arguments.length ? k : 1)), this.a, this.b);
+  return new d3_lab(Math.min(100, this.l + d3_lab_K * (arguments.length ? k : 1)), this.a, this.b);
 };
 
 d3_labPrototype.darker = function(k) {
-  return d3_lab(Math.max(0, this.l - d3_lab_K * (arguments.length ? k : 1)), this.a, this.b);
+  return new d3_lab(Math.max(0, this.l - d3_lab_K * (arguments.length ? k : 1)), this.a, this.b);
 };
 
 d3_labPrototype.rgb = function() {
@@ -5054,7 +5051,7 @@ function d3_lab_rgb(l, a, b) {
   x = d3_lab_xyz(x) * d3_lab_X;
   y = d3_lab_xyz(y) * d3_lab_Y;
   z = d3_lab_xyz(z) * d3_lab_Z;
-  return d3_rgb(
+  return new d3_rgb(
     d3_xyz_rgb( 3.2404542 * x - 1.5371385 * y - 0.4985314 * z),
     d3_xyz_rgb(-0.9692660 * x + 1.8760108 * y + 0.0415560 * z),
     d3_xyz_rgb( 0.0556434 * x - 0.2040259 * y + 1.0572252 * z)
@@ -5063,8 +5060,8 @@ function d3_lab_rgb(l, a, b) {
 
 function d3_lab_hcl(l, a, b) {
   return l > 0
-      ? d3_hcl(Math.atan2(b, a) * d3_degrees, Math.sqrt(a * a + b * b), l)
-      : d3_hcl(NaN, NaN, l);
+      ? new d3_hcl(Math.atan2(b, a) * d3_degrees, Math.sqrt(a * a + b * b), l)
+      : new d3_hcl(NaN, NaN, l);
 }
 
 function d3_lab_xyz(x) {
@@ -5078,32 +5075,24 @@ function d3_xyz_rgb(r) {
   return Math.round(255 * (r <= 0.00304 ? 12.92 * r : 1.055 * Math.pow(r, 1 / 2.4) - 0.055));
 }
 
-d3.rgb = function(r, g, b) {
-  return arguments.length === 1
-      ? (r instanceof d3_Rgb ? d3_rgb(r.r, r.g, r.b)
+d3.rgb = d3_rgb;
+
+function d3_rgb(r, g, b) {
+  return this instanceof d3_rgb ? void (this.r = ~~r, this.g = ~~g, this.b = ~~b)
+      : arguments.length < 2 ? (r instanceof d3_rgb ? new d3_rgb(r.r, r.g, r.b)
       : d3_rgb_parse("" + r, d3_rgb, d3_hsl_rgb))
-      : d3_rgb(~~r, ~~g, ~~b);
-};
+      : new d3_rgb(r, g, b);
+}
 
 function d3_rgbNumber(value) {
-  return d3_rgb(value >> 16, value >> 8 & 0xff, value & 0xff);
+  return new d3_rgb(value >> 16, value >> 8 & 0xff, value & 0xff);
 }
 
 function d3_rgbString(value) {
   return d3_rgbNumber(value) + "";
 }
 
-function d3_rgb(r, g, b) {
-  return new d3_Rgb(r, g, b);
-}
-
-function d3_Rgb(r, g, b) {
-  this.r = r;
-  this.g = g;
-  this.b = b;
-}
-
-var d3_rgbPrototype = d3_Rgb.prototype = new d3_Color;
+var d3_rgbPrototype = d3_rgb.prototype = new d3_color;
 
 d3_rgbPrototype.brighter = function(k) {
   k = Math.pow(0.7, arguments.length ? k : 1);
@@ -5111,16 +5100,16 @@ d3_rgbPrototype.brighter = function(k) {
       g = this.g,
       b = this.b,
       i = 30;
-  if (!r && !g && !b) return d3_rgb(i, i, i);
+  if (!r && !g && !b) return new d3_rgb(i, i, i);
   if (r && r < i) r = i;
   if (g && g < i) g = i;
   if (b && b < i) b = i;
-  return d3_rgb(Math.min(255, ~~(r / k)), Math.min(255, ~~(g / k)), Math.min(255, ~~(b / k)));
+  return new d3_rgb(Math.min(255, r / k), Math.min(255, g / k), Math.min(255, b / k));
 };
 
 d3_rgbPrototype.darker = function(k) {
   k = Math.pow(0.7, arguments.length ? k : 1);
-  return d3_rgb(~~(k * this.r), ~~(k * this.g), ~~(k * this.b));
+  return new d3_rgb(k * this.r, k * this.g, k * this.b);
 };
 
 d3_rgbPrototype.hsl = function() {
@@ -5168,10 +5157,12 @@ function d3_rgb_parse(format, rgb, hsl) {
   }
 
   /* Named colors. */
-  if (color = d3_rgb_names.get(format)) return rgb(color.r, color.g, color.b);
+  if (color = d3_rgb_names.get(format.toLowerCase())) {
+    return rgb(color.r, color.g, color.b);
+  }
 
   /* Hexadecimal colors: #rgb and #rrggbb. */
-  if (format != null && format.charAt(0) === "#" && !isNaN(color = parseInt(format.substring(1), 16))) {
+  if (format != null && format.charAt(0) === "#" && !isNaN(color = parseInt(format.slice(1), 16))) {
     if (format.length === 4) {
       r = (color & 0xf00) >> 4; r = (r >> 4) | r;
       g = (color & 0xf0); g = (g >> 4) | g;
@@ -5203,7 +5194,7 @@ function d3_rgb_hsl(r, g, b) {
     h = NaN;
     s = l > 0 && l < 1 ? 0 : h;
   }
-  return d3_hsl(h, s, l);
+  return new d3_hsl(h, s, l);
 }
 
 function d3_rgb_lab(r, g, b) {
@@ -5345,6 +5336,7 @@ var d3_rgb_names = d3.map({
   plum: 0xdda0dd,
   powderblue: 0xb0e0e6,
   purple: 0x800080,
+  rebeccapurple: 0x663399,
   red: 0xff0000,
   rosybrown: 0xbc8f8f,
   royalblue: 0x4169e1,
@@ -5442,8 +5434,8 @@ function d3_interpolateArray(a, b) {
 d3.interpolateNumber = d3_interpolateNumber;
 
 function d3_interpolateNumber(a, b) {
-  b -= a = +a;
-  return function(t) { return a + b * t; };
+  a = +a, b = +b;
+  return function(t) { return a * (1 - t) + b * t; };
 }
 
 d3.interpolateString = d3_interpolateString;
@@ -5464,7 +5456,7 @@ function d3_interpolateString(a, b) {
   while ((am = d3_interpolate_numberA.exec(a))
       && (bm = d3_interpolate_numberB.exec(b))) {
     if ((bs = bm.index) > bi) { // a string precedes the next number in b
-      bs = b.substring(bi, bs);
+      bs = b.slice(bi, bs);
       if (s[i]) s[i] += bs; // coalesce with previous string
       else s[++i] = bs;
     }
@@ -5480,7 +5472,7 @@ function d3_interpolateString(a, b) {
 
   // Add remains of b.
   if (bi < b.length) {
-    bs = b.substring(bi);
+    bs = b.slice(bi);
     if (s[i]) s[i] += bs; // coalesce with previous string
     else s[++i] = bs;
   }
@@ -5511,7 +5503,7 @@ d3.interpolators = [
   function(a, b) {
     var t = typeof b;
     return (t === "string" ? (d3_rgb_names.has(b) || /^(#|rgb\(|hsl\()/.test(b) ? d3_interpolateRgb : d3_interpolateString)
-        : b instanceof d3_Color ? d3_interpolateRgb
+        : b instanceof d3_color ? d3_interpolateRgb
         : Array.isArray(b) ? d3_interpolateArray
         : t === "object" && isNaN(b) ? d3_interpolateObject
         : d3_interpolateNumber)(a, b);
@@ -5635,18 +5627,18 @@ function d3_interpolateTransform(a, b) {
 }
 
 d3_transitionPrototype.tween = function(name, tween) {
-  var id = this.id;
-  if (arguments.length < 2) return this.node().__transition__[id].tween.get(name);
+  var id = this.id, ns = this.namespace;
+  if (arguments.length < 2) return this.node()[ns][id].tween.get(name);
   return d3_selection_each(this, tween == null
-        ? function(node) { node.__transition__[id].tween.remove(name); }
-        : function(node) { node.__transition__[id].tween.set(name, tween); });
+        ? function(node) { node[ns][id].tween.remove(name); }
+        : function(node) { node[ns][id].tween.set(name, tween); });
 };
 
 function d3_transition_tween(groups, name, value, tween) {
-  var id = groups.id;
+  var id = groups.id, ns = groups.namespace;
   return d3_selection_each(groups, typeof value === "function"
-      ? function(node, i, j) { node.__transition__[id].tween.set(name, tween(value.call(node, node.__data__, i, j))); }
-      : (value = tween(value), function(node) { node.__transition__[id].tween.set(name, value); }));
+      ? function(node, i, j) { node[ns][id].tween.set(name, tween(value.call(node, node.__data__, i, j))); }
+      : (value = tween(value), function(node) { node[ns][id].tween.set(name, value); }));
 }
 
 d3_transitionPrototype.attr = function(nameNS, value) {
@@ -5732,7 +5724,7 @@ d3_transitionPrototype.style = function(name, value, priority) {
   // Otherwise, a name, value and priority are specified, and handled as below.
   function styleString(b) {
     return b == null ? styleNull : (b += "", function() {
-      var a = d3_window.getComputedStyle(this, null).getPropertyValue(name), i;
+      var a = d3_window(this).getComputedStyle(this, null).getPropertyValue(name), i;
       return a !== b && (i = d3_interpolate(a, b), function(t) { this.style.setProperty(name, i(t), priority); });
     });
   }
@@ -5744,7 +5736,7 @@ d3_transitionPrototype.styleTween = function(name, tween, priority) {
   if (arguments.length < 3) priority = "";
 
   function styleTween(d, i) {
-    var f = tween.call(this, d, i, d3_window.getComputedStyle(this, null).getPropertyValue(name));
+    var f = tween.call(this, d, i, d3_window(this).getComputedStyle(this, null).getPropertyValue(name));
     return f && function(t) { this.style.setProperty(name, f(t), priority); };
   }
 
@@ -5761,51 +5753,162 @@ function d3_transition_text(b) {
 }
 
 d3_transitionPrototype.remove = function() {
+  var ns = this.namespace;
   return this.each("end.transition", function() {
     var p;
-    if (this.__transition__.count < 2 && (p = this.parentNode)) p.removeChild(this);
+    if (this[ns].count < 2 && (p = this.parentNode)) p.removeChild(this);
   });
 };
 
+var d3_ease_default = function() { return d3_identity; };
+
+var d3_ease = d3.map({
+  linear: d3_ease_default,
+  poly: d3_ease_poly,
+  quad: function() { return d3_ease_quad; },
+  cubic: function() { return d3_ease_cubic; },
+  sin: function() { return d3_ease_sin; },
+  exp: function() { return d3_ease_exp; },
+  circle: function() { return d3_ease_circle; },
+  elastic: d3_ease_elastic,
+  back: d3_ease_back,
+  bounce: function() { return d3_ease_bounce; }
+});
+
+var d3_ease_mode = d3.map({
+  "in": d3_identity,
+  "out": d3_ease_reverse,
+  "in-out": d3_ease_reflect,
+  "out-in": function(f) { return d3_ease_reflect(d3_ease_reverse(f)); }
+});
+
+d3.ease = function(name) {
+  var i = name.indexOf("-"),
+      t = i >= 0 ? name.slice(0, i) : name,
+      m = i >= 0 ? name.slice(i + 1) : "in";
+  t = d3_ease.get(t) || d3_ease_default;
+  m = d3_ease_mode.get(m) || d3_identity;
+  return d3_ease_clamp(m(t.apply(null, d3_arraySlice.call(arguments, 1))));
+};
+
+function d3_ease_clamp(f) {
+  return function(t) {
+    return t <= 0 ? 0 : t >= 1 ? 1 : f(t);
+  };
+}
+
+function d3_ease_reverse(f) {
+  return function(t) {
+    return 1 - f(1 - t);
+  };
+}
+
+function d3_ease_reflect(f) {
+  return function(t) {
+    return .5 * (t < .5 ? f(2 * t) : (2 - f(2 - 2 * t)));
+  };
+}
+
+function d3_ease_quad(t) {
+  return t * t;
+}
+
+function d3_ease_cubic(t) {
+  return t * t * t;
+}
+
+// Optimized clamp(reflect(poly(3))).
+function d3_ease_cubicInOut(t) {
+  if (t <= 0) return 0;
+  if (t >= 1) return 1;
+  var t2 = t * t, t3 = t2 * t;
+  return 4 * (t < .5 ? t3 : 3 * (t - t2) + t3 - .75);
+}
+
+function d3_ease_poly(e) {
+  return function(t) {
+    return Math.pow(t, e);
+  };
+}
+
+function d3_ease_sin(t) {
+  return 1 - Math.cos(t * halfπ);
+}
+
+function d3_ease_exp(t) {
+  return Math.pow(2, 10 * (t - 1));
+}
+
+function d3_ease_circle(t) {
+  return 1 - Math.sqrt(1 - t * t);
+}
+
+function d3_ease_elastic(a, p) {
+  var s;
+  if (arguments.length < 2) p = 0.45;
+  if (arguments.length) s = p / τ * Math.asin(1 / a);
+  else a = 1, s = p / 4;
+  return function(t) {
+    return 1 + a * Math.pow(2, -10 * t) * Math.sin((t - s) * τ / p);
+  };
+}
+
+function d3_ease_back(s) {
+  if (!s) s = 1.70158;
+  return function(t) {
+    return t * t * ((s + 1) * t - s);
+  };
+}
+
+function d3_ease_bounce(t) {
+  return t < 1 / 2.75 ? 7.5625 * t * t
+      : t < 2 / 2.75 ? 7.5625 * (t -= 1.5 / 2.75) * t + .75
+      : t < 2.5 / 2.75 ? 7.5625 * (t -= 2.25 / 2.75) * t + .9375
+      : 7.5625 * (t -= 2.625 / 2.75) * t + .984375;
+}
+
 d3_transitionPrototype.ease = function(value) {
-  var id = this.id;
-  if (arguments.length < 1) return this.node().__transition__[id].ease;
+  var id = this.id, ns = this.namespace;
+  if (arguments.length < 1) return this.node()[ns][id].ease;
   if (typeof value !== "function") value = d3.ease.apply(d3, arguments);
-  return d3_selection_each(this, function(node) { node.__transition__[id].ease = value; });
+  return d3_selection_each(this, function(node) { node[ns][id].ease = value; });
 };
 
 d3_transitionPrototype.delay = function(value) {
-  var id = this.id;
-  if (arguments.length < 1) return this.node().__transition__[id].delay;
+  var id = this.id, ns = this.namespace;
+  if (arguments.length < 1) return this.node()[ns][id].delay;
   return d3_selection_each(this, typeof value === "function"
-      ? function(node, i, j) { node.__transition__[id].delay = +value.call(node, node.__data__, i, j); }
-      : (value = +value, function(node) { node.__transition__[id].delay = value; }));
+      ? function(node, i, j) { node[ns][id].delay = +value.call(node, node.__data__, i, j); }
+      : (value = +value, function(node) { node[ns][id].delay = value; }));
 };
 
 d3_transitionPrototype.duration = function(value) {
-  var id = this.id;
-  if (arguments.length < 1) return this.node().__transition__[id].duration;
+  var id = this.id, ns = this.namespace;
+  if (arguments.length < 1) return this.node()[ns][id].duration;
   return d3_selection_each(this, typeof value === "function"
-      ? function(node, i, j) { node.__transition__[id].duration = Math.max(1, value.call(node, node.__data__, i, j)); }
-      : (value = Math.max(1, value), function(node) { node.__transition__[id].duration = value; }));
+      ? function(node, i, j) { node[ns][id].duration = Math.max(1, value.call(node, node.__data__, i, j)); }
+      : (value = Math.max(1, value), function(node) { node[ns][id].duration = value; }));
 };
 
 d3_transitionPrototype.each = function(type, listener) {
-  var id = this.id;
+  var id = this.id, ns = this.namespace;
   if (arguments.length < 2) {
     var inherit = d3_transitionInherit,
         inheritId = d3_transitionInheritId;
-    d3_transitionInheritId = id;
-    d3_selection_each(this, function(node, i, j) {
-      d3_transitionInherit = node.__transition__[id];
-      type.call(node, node.__data__, i, j);
-    });
-    d3_transitionInherit = inherit;
-    d3_transitionInheritId = inheritId;
+    try {
+      d3_transitionInheritId = id;
+      d3_selection_each(this, function(node, i, j) {
+        d3_transitionInherit = node[ns][id];
+        type.call(node, node.__data__, i, j);
+      });
+    } finally {
+      d3_transitionInherit = inherit;
+      d3_transitionInheritId = inheritId;
+    }
   } else {
     d3_selection_each(this, function(node) {
-      var transition = node.__transition__[id];
-      (transition.event || (transition.event = d3.dispatch("start", "end"))).on(type, listener);
+      var transition = node[ns][id];
+      (transition.event || (transition.event = d3.dispatch("start", "end", "interrupt"))).on(type, listener);
     });
   }
   return this;
@@ -5814,6 +5917,7 @@ d3_transitionPrototype.each = function(type, listener) {
 d3_transitionPrototype.transition = function() {
   var id0 = this.id,
       id1 = ++d3_transitionId,
+      ns = this.namespace,
       subgroups = [],
       subgroup,
       group,
@@ -5824,19 +5928,22 @@ d3_transitionPrototype.transition = function() {
     subgroups.push(subgroup = []);
     for (var group = this[j], i = 0, n = group.length; i < n; i++) {
       if (node = group[i]) {
-        transition = Object.create(node.__transition__[id0]);
-        transition.delay += transition.duration;
-        d3_transitionNode(node, i, id1, transition);
+        transition = node[ns][id0];
+        d3_transitionNode(node, i, ns, id1, {time: transition.time, ease: transition.ease, delay: transition.delay + transition.duration, duration: transition.duration});
       }
       subgroup.push(node);
     }
   }
 
-  return d3_transition(subgroups, id1);
+  return d3_transition(subgroups, ns, id1);
 };
 
-function d3_transitionNode(node, i, id, inherit) {
-  var lock = node.__transition__ || (node.__transition__ = {active: 0, count: 0}),
+function d3_transitionNamespace(name) {
+  return name == null ? "__transition__" : "__transition_" + name + "__";
+}
+
+function d3_transitionNode(node, i, ns, id, inherit) {
+  var lock = node[ns] || (node[ns] = {active: 0, count: 0}),
       transition = lock[id];
 
   if (!transition) {
@@ -5845,18 +5952,20 @@ function d3_transitionNode(node, i, id, inherit) {
     transition = lock[id] = {
       tween: new d3_Map,
       time: time,
-      ease: inherit.ease,
       delay: inherit.delay,
-      duration: inherit.duration
+      duration: inherit.duration,
+      ease: inherit.ease,
+      index: i
     };
+
+    inherit = null; // allow gc
 
     ++lock.count;
 
     d3.timer(function(elapsed) {
-      var d = node.__data__,
-          ease = transition.ease,
-          delay = transition.delay,
-          duration = transition.duration,
+      var delay = transition.delay,
+          duration,
+          ease,
           timer = d3_timer_active,
           tweened = [];
 
@@ -5866,14 +5975,27 @@ function d3_transitionNode(node, i, id, inherit) {
 
       function start(elapsed) {
         if (lock.active > id) return stop();
+
+        var active = lock[lock.active];
+        if (active) {
+          --lock.count;
+          delete lock[lock.active];
+          active.event && active.event.interrupt.call(node, node.__data__, active.index);
+        }
+
         lock.active = id;
-        transition.event && transition.event.start.call(node, d, i);
+
+        transition.event && transition.event.start.call(node, node.__data__, i);
 
         transition.tween.forEach(function(key, value) {
-          if (value = value.call(node, d, i)) {
+          if (value = value.call(node, node.__data__, i)) {
             tweened.push(value);
           }
         });
+
+        // Deferred capture to allow tweens to initialize ease & duration.
+        ease = transition.ease;
+        duration = transition.duration;
 
         d3.timer(function() { // defer to end of current frame
           timer.c = tick(elapsed || 1) ? d3_true : tick;
@@ -5882,7 +6004,7 @@ function d3_transitionNode(node, i, id, inherit) {
       }
 
       function tick(elapsed) {
-        if (lock.active !== id) return stop();
+        if (lock.active !== id) return 1;
 
         var t = elapsed / duration,
             e = ease(t),
@@ -5893,14 +6015,14 @@ function d3_transitionNode(node, i, id, inherit) {
         }
 
         if (t >= 1) {
-          transition.event && transition.event.end.call(node, d, i);
+          transition.event && transition.event.end.call(node, node.__data__, i);
           return stop();
         }
       }
 
       function stop() {
         if (--lock.count) delete lock[id];
-        else delete node.__transition__;
+        else delete node[ns];
         return 1;
       }
     }, 0, time);
@@ -5924,7 +6046,7 @@ function d3_xhr(url, mimeType, response, callback) {
       responseType = null;
 
   // If IE does not support CORS, use XDomainRequest.
-  if (d3_window.XDomainRequest
+  if (this.XDomainRequest
       && !("withCredentials" in request)
       && /^(http(s)?:)?\/\//.test(url)) request = new XDomainRequest;
 
@@ -5934,7 +6056,7 @@ function d3_xhr(url, mimeType, response, callback) {
 
   function respond() {
     var status = request.status, result;
-    if (!status && request.responseText || status >= 200 && status < 300 || status === 304) {
+    if (!status && d3_xhrHasResponse(request) || status >= 200 && status < 300 || status === 304) {
       try {
         result = response.call(xhr, request);
       } catch (e) {
@@ -6021,6 +6143,13 @@ function d3_xhr_fixCallback(callback) {
       : callback;
 }
 
+function d3_xhrHasResponse(request) {
+  var type = request.responseType;
+  return type && type !== "text"
+      ? request.response // null on error
+      : request.responseText; // "" on error
+}
+
 d3.text = d3_xhrType(function(request) {
   return request.responseText;
 });
@@ -6046,13 +6175,9 @@ function d3_html(request) {
 d3.xml = d3_xhrType(function(request) {
   return request.responseXML;
 });
-  if (typeof define === "function" && define.amd) {
-    define(d3);
-  } else if (typeof module === "object" && module.exports) {
-    module.exports = d3;
-  } else {
-    this.d3 = d3;
-  }
+  if (typeof define === "function" && define.amd) define(d3);
+  else if (typeof module === "object" && module.exports) module.exports = d3;
+  this.d3 = d3;
 }();
 d3.combobox = function() {
     var event = d3.dispatch('accept'),
@@ -6916,6 +7041,437 @@ d3.selection.prototype.value = function(value) {
     if (!arguments.length) return this.property('value');
     return this.each(d3_selection_value(value));
 };
+// Copyright (c) 2006, 2008 Tony Garnock-Jones <tonyg@lshift.net>
+// Copyright (c) 2006, 2008 LShift Ltd. <query@lshift.net>
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation files
+// (the "Software"), to deal in the Software without restriction,
+// including without limitation the rights to use, copy, modify, merge,
+// publish, distribute, sublicense, and/or sell copies of the Software,
+// and to permit persons to whom the Software is furnished to do so,
+// subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+// BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+// source:  https://bitbucket.org/lshift/synchrotron/src
+
+Diff3 = (function() {
+    'use strict';
+
+    var diff3 = {
+        longest_common_subsequence: function(file1, file2) {
+            /* Text diff algorithm following Hunt and McIlroy 1976.
+             * J. W. Hunt and M. D. McIlroy, An algorithm for differential file
+             * comparison, Bell Telephone Laboratories CSTR #41 (1976)
+             * http://www.cs.dartmouth.edu/~doug/
+             *
+             * Expects two arrays of strings.
+             */
+            var equivalenceClasses;
+            var file2indices;
+            var newCandidate;
+            var candidates;
+            var line;
+            var c, i, j, jX, r, s;
+
+            equivalenceClasses = {};
+            for (j = 0; j < file2.length; j++) {
+                line = file2[j];
+                if (equivalenceClasses[line]) {
+                    equivalenceClasses[line].push(j);
+                } else {
+                    equivalenceClasses[line] = [j];
+                }
+            }
+
+            candidates = [{file1index: -1,
+                           file2index: -1,
+                           chain: null}];
+
+            for (i = 0; i < file1.length; i++) {
+                line = file1[i];
+                file2indices = equivalenceClasses[line] || [];
+
+                r = 0;
+                c = candidates[0];
+
+                for (jX = 0; jX < file2indices.length; jX++) {
+                    j = file2indices[jX];
+
+                    for (s = 0; s < candidates.length; s++) {
+                        if ((candidates[s].file2index < j) &&
+                            ((s == candidates.length - 1) ||
+                             (candidates[s + 1].file2index > j)))
+                            break;
+                    }
+
+                    if (s < candidates.length) {
+                        newCandidate = {file1index: i,
+                                        file2index: j,
+                                        chain: candidates[s]};
+                        if (r == candidates.length) {
+                            candidates.push(c);
+                        } else {
+                            candidates[r] = c;
+                        }
+                        r = s + 1;
+                        c = newCandidate;
+                        if (r == candidates.length) {
+                            break; // no point in examining further (j)s
+                        }
+                    }
+                }
+
+                candidates[r] = c;
+            }
+
+            // At this point, we know the LCS: it's in the reverse of the
+            // linked-list through .chain of
+            // candidates[candidates.length - 1].
+
+            return candidates[candidates.length - 1];
+        },
+
+        diff_comm: function(file1, file2) {
+            // We apply the LCS to build a "comm"-style picture of the
+            // differences between file1 and file2.
+
+            var result = [];
+            var tail1 = file1.length;
+            var tail2 = file2.length;
+            var common = {common: []};
+
+            function processCommon() {
+                if (common.common.length) {
+                    common.common.reverse();
+                    result.push(common);
+                    common = {common: []};
+                }
+            }
+
+            for (var candidate = Diff3.longest_common_subsequence(file1, file2);
+                 candidate !== null;
+                 candidate = candidate.chain)
+            {
+                var different = {file1: [], file2: []};
+
+                while (--tail1 > candidate.file1index) {
+                    different.file1.push(file1[tail1]);
+                }
+
+                while (--tail2 > candidate.file2index) {
+                    different.file2.push(file2[tail2]);
+                }
+
+                if (different.file1.length || different.file2.length) {
+                    processCommon();
+                    different.file1.reverse();
+                    different.file2.reverse();
+                    result.push(different);
+                }
+
+                if (tail1 >= 0) {
+                    common.common.push(file1[tail1]);
+                }
+            }
+
+            processCommon();
+
+            result.reverse();
+            return result;
+        },
+
+        diff_patch: function(file1, file2) {
+            // We apply the LCD to build a JSON representation of a
+            // diff(1)-style patch.
+
+            var result = [];
+            var tail1 = file1.length;
+            var tail2 = file2.length;
+
+            function chunkDescription(file, offset, length) {
+                var chunk = [];
+                for (var i = 0; i < length; i++) {
+                    chunk.push(file[offset + i]);
+                }
+                return {offset: offset,
+                        length: length,
+                        chunk: chunk};
+            }
+
+            for (var candidate = Diff3.longest_common_subsequence(file1, file2);
+                 candidate !== null;
+                 candidate = candidate.chain)
+            {
+                var mismatchLength1 = tail1 - candidate.file1index - 1;
+                var mismatchLength2 = tail2 - candidate.file2index - 1;
+                tail1 = candidate.file1index;
+                tail2 = candidate.file2index;
+
+                if (mismatchLength1 || mismatchLength2) {
+                    result.push({file1: chunkDescription(file1,
+                                                         candidate.file1index + 1,
+                                                         mismatchLength1),
+                                 file2: chunkDescription(file2,
+                                                         candidate.file2index + 1,
+                                                         mismatchLength2)});
+                }
+            }
+
+            result.reverse();
+            return result;
+        },
+
+        strip_patch: function(patch) {
+        // Takes the output of Diff3.diff_patch(), and removes
+        // information from it. It can still be used by patch(),
+        // below, but can no longer be inverted.
+        var newpatch = [];
+        for (var i = 0; i < patch.length; i++) {
+            var chunk = patch[i];
+            newpatch.push({file1: {offset: chunk.file1.offset,
+                       length: chunk.file1.length},
+                   file2: {chunk: chunk.file2.chunk}});
+        }
+        return newpatch;
+        },
+
+        invert_patch: function(patch) {
+            // Takes the output of Diff3.diff_patch(), and inverts the
+            // sense of it, so that it can be applied to file2 to give
+            // file1 rather than the other way around.
+
+            for (var i = 0; i < patch.length; i++) {
+                var chunk = patch[i];
+                var tmp = chunk.file1;
+                chunk.file1 = chunk.file2;
+                chunk.file2 = tmp;
+            }
+        },
+
+        patch: function (file, patch) {
+            // Applies a patch to a file.
+            //
+            // Given file1 and file2, Diff3.patch(file1,
+            // Diff3.diff_patch(file1, file2)) should give file2.
+
+            var result = [];
+            var commonOffset = 0;
+
+            function copyCommon(targetOffset) {
+                while (commonOffset < targetOffset) {
+                    result.push(file[commonOffset]);
+                    commonOffset++;
+                }
+            }
+
+            for (var chunkIndex = 0; chunkIndex < patch.length; chunkIndex++) {
+                var chunk = patch[chunkIndex];
+                copyCommon(chunk.file1.offset);
+                for (var lineIndex = 0; lineIndex < chunk.file2.chunk.length; lineIndex++) {
+                    result.push(chunk.file2.chunk[lineIndex]);
+                }
+                commonOffset += chunk.file1.length;
+            }
+
+            copyCommon(file.length);
+            return result;
+        },
+
+        diff_indices: function(file1, file2) {
+            // We apply the LCS to give a simple representation of the
+            // offsets and lengths of mismatched chunks in the input
+            // files. This is used by diff3_merge_indices below.
+
+            var result = [];
+            var tail1 = file1.length;
+            var tail2 = file2.length;
+
+            for (var candidate = Diff3.longest_common_subsequence(file1, file2);
+                 candidate !== null;
+                 candidate = candidate.chain)
+            {
+                var mismatchLength1 = tail1 - candidate.file1index - 1;
+                var mismatchLength2 = tail2 - candidate.file2index - 1;
+                tail1 = candidate.file1index;
+                tail2 = candidate.file2index;
+
+                if (mismatchLength1 || mismatchLength2) {
+                    result.push({file1: [tail1 + 1, mismatchLength1],
+                                 file2: [tail2 + 1, mismatchLength2]});
+                }
+            }
+
+            result.reverse();
+            return result;
+        },
+
+        diff3_merge_indices: function (a, o, b) {
+            // Given three files, A, O, and B, where both A and B are
+            // independently derived from O, returns a fairly complicated
+            // internal representation of merge decisions it's taken. The
+            // interested reader may wish to consult
+            //
+            // Sanjeev Khanna, Keshav Kunal, and Benjamin C. Pierce. "A
+            // Formal Investigation of Diff3." In Arvind and Prasad,
+            // editors, Foundations of Software Technology and Theoretical
+            // Computer Science (FSTTCS), December 2007.
+            //
+            // (http://www.cis.upenn.edu/~bcpierce/papers/diff3-short.pdf)
+            var i;
+
+            var m1 = Diff3.diff_indices(o, a);
+            var m2 = Diff3.diff_indices(o, b);
+
+            var hunks = [];
+            function addHunk(h, side) {
+                hunks.push([h.file1[0], side, h.file1[1], h.file2[0], h.file2[1]]);
+            }
+            for (i = 0; i < m1.length; i++) { addHunk(m1[i], 0); }
+            for (i = 0; i < m2.length; i++) { addHunk(m2[i], 2); }
+            hunks.sort();
+
+            var result = [];
+            var commonOffset = 0;
+            function copyCommon(targetOffset) {
+                if (targetOffset > commonOffset) {
+                    result.push([1, commonOffset, targetOffset - commonOffset]);
+                    commonOffset = targetOffset;
+                }
+            }
+
+            for (var hunkIndex = 0; hunkIndex < hunks.length; hunkIndex++) {
+                var firstHunkIndex = hunkIndex;
+                var hunk = hunks[hunkIndex];
+                var regionLhs = hunk[0];
+                var regionRhs = regionLhs + hunk[2];
+                while (hunkIndex < hunks.length - 1) {
+                    var maybeOverlapping = hunks[hunkIndex + 1];
+                    var maybeLhs = maybeOverlapping[0];
+                    if (maybeLhs > regionRhs) break;
+                    regionRhs = maybeLhs + maybeOverlapping[2];
+                    hunkIndex++;
+                }
+
+                copyCommon(regionLhs);
+                if (firstHunkIndex == hunkIndex) {
+            // The "overlap" was only one hunk long, meaning that
+            // there's no conflict here. Either a and o were the
+            // same, or b and o were the same.
+                    if (hunk[4] > 0) {
+                        result.push([hunk[1], hunk[3], hunk[4]]);
+                    }
+                } else {
+            // A proper conflict. Determine the extents of the
+            // regions involved from a, o and b. Effectively merge
+            // all the hunks on the left into one giant hunk, and
+            // do the same for the right; then, correct for skew
+            // in the regions of o that each side changed, and
+            // report appropriate spans for the three sides.
+            var regions = {
+                0: [a.length, -1, o.length, -1],
+                2: [b.length, -1, o.length, -1]
+            };
+                    for (i = firstHunkIndex; i <= hunkIndex; i++) {
+                hunk = hunks[i];
+                        var side = hunk[1];
+                var r = regions[side];
+                var oLhs = hunk[0];
+                var oRhs = oLhs + hunk[2];
+                        var abLhs = hunk[3];
+                        var abRhs = abLhs + hunk[4];
+                r[0] = Math.min(abLhs, r[0]);
+                r[1] = Math.max(abRhs, r[1]);
+                r[2] = Math.min(oLhs, r[2]);
+                r[3] = Math.max(oRhs, r[3]);
+                    }
+            var aLhs = regions[0][0] + (regionLhs - regions[0][2]);
+            var aRhs = regions[0][1] + (regionRhs - regions[0][3]);
+            var bLhs = regions[2][0] + (regionLhs - regions[2][2]);
+            var bRhs = regions[2][1] + (regionRhs - regions[2][3]);
+                    result.push([-1,
+                     aLhs,      aRhs      - aLhs,
+                     regionLhs, regionRhs - regionLhs,
+                     bLhs,      bRhs      - bLhs]);
+                }
+                commonOffset = regionRhs;
+            }
+
+            copyCommon(o.length);
+            return result;
+        },
+
+        diff3_merge: function (a, o, b, excludeFalseConflicts) {
+            // Applies the output of Diff3.diff3_merge_indices to actually
+            // construct the merged file; the returned result alternates
+            // between "ok" and "conflict" blocks.
+
+            var result = [];
+            var files = [a, o, b];
+            var indices = Diff3.diff3_merge_indices(a, o, b);
+
+            var okLines = [];
+            function flushOk() {
+                if (okLines.length) {
+                    result.push({ok: okLines});
+                }
+                okLines = [];
+            }
+            function pushOk(xs) {
+                for (var j = 0; j < xs.length; j++) {
+                    okLines.push(xs[j]);
+                }
+            }
+
+            function isTrueConflict(rec) {
+                if (rec[2] != rec[6]) return true;
+                var aoff = rec[1];
+                var boff = rec[5];
+                for (var j = 0; j < rec[2]; j++) {
+                    if (a[j + aoff] != b[j + boff]) return true;
+                }
+                return false;
+            }
+
+            for (var i = 0; i < indices.length; i++) {
+                var x = indices[i];
+                var side = x[0];
+                if (side == -1) {
+                    if (excludeFalseConflicts && !isTrueConflict(x)) {
+                        pushOk(files[0].slice(x[1], x[1] + x[2]));
+                    } else {
+                        flushOk();
+                        result.push({conflict: {a: a.slice(x[1], x[1] + x[2]),
+                                                aIndex: x[1],
+                                                o: o.slice(x[3], x[3] + x[4]),
+                                                oIndex: x[3],
+                                                b: b.slice(x[5], x[5] + x[6]),
+                                                bIndex: x[5]}});
+                    }
+                } else {
+                    pushOk(files[side].slice(x[1], x[1] + x[2]));
+                }
+            }
+
+            flushOk();
+            return result;
+        }
+    };
+    return diff3;
+})();
+
+if (typeof module !== 'undefined') module.exports = Diff3;
 var JXON = new (function () {
   var
     sValueProp = "keyValue", sAttributesProp = "keyAttributes", sAttrPref = "@", /* you can customize these values */
@@ -16216,10 +16772,6 @@ window.iD = function () {
         locale = locale.split('-')[0];
     }
 
-    connection.on('load.context', function loadContext(err, result) {
-        history.merge(result.data, result.extent);
-    });
-
     context.preauth = function(options) {
         connection.switch(options);
         return context;
@@ -16249,6 +16801,51 @@ window.iD = function () {
     context.connection = function() { return connection; };
     context.history = function() { return history; };
 
+    /* Connection */
+    function entitiesLoaded(err, result) {
+        if (!err) history.merge(result.data, result.extent);
+    }
+
+    context.loadTiles = function(projection, dimensions, callback) {
+        function done(err, result) {
+            entitiesLoaded(err, result);
+            if (callback) callback(err, result);
+        }
+        connection.loadTiles(projection, dimensions, done);
+    };
+
+    context.loadEntity = function(id, callback) {
+        function done(err, result) {
+            entitiesLoaded(err, result);
+            if (callback) callback(err, result);
+        }
+        connection.loadEntity(id, done);
+    };
+
+    context.zoomToEntity = function(id, zoomTo) {
+        if (zoomTo !== false) {
+            this.loadEntity(id, function(err, result) {
+                if (err) return;
+                var entity = _.find(result.data, function(e) { return e.id === id; });
+                if (entity) { map.zoomTo(entity); }
+            });
+        }
+
+        map.on('drawn.zoomToEntity', function() {
+            if (!context.hasEntity(id)) return;
+            map.on('drawn.zoomToEntity', null);
+            context.on('enter.zoomToEntity', null);
+            context.enter(iD.modes.Select(context, [id]));
+        });
+
+        context.on('enter.zoomToEntity', function() {
+            if (mode.id !== 'browse') {
+                map.on('drawn.zoomToEntity', null);
+                context.on('enter.zoomToEntity', null);
+            }
+        });
+    };
+
     /* History */
     context.graph = history.graph;
     context.changes = history.changes;
@@ -16263,7 +16860,7 @@ window.iD = function () {
     };
 
     context.save = function() {
-        if (inIntro) return;
+        if (inIntro || (mode && mode.id === 'save')) return;
         history.save();
         if (history.hasChanges()) return t('save.unsaved_changes');
     };
@@ -16289,6 +16886,7 @@ window.iD = function () {
     context.perform = withDebouncedSave(history.perform);
     context.replace = withDebouncedSave(history.replace);
     context.pop = withDebouncedSave(history.pop);
+    context.overwrite = withDebouncedSave(history.overwrite);
     context.undo = withDebouncedSave(history.undo);
     context.redo = withDebouncedSave(history.redo);
 
@@ -16333,31 +16931,6 @@ window.iD = function () {
         }
     };
 
-    context.loadEntity = function(id, zoomTo) {
-        if (zoomTo !== false) {
-            connection.loadEntity(id, function(error, entity) {
-                if (entity) {
-                    map.zoomTo(entity);
-                }
-            });
-        }
-
-        map.on('drawn.loadEntity', function() {
-            if (!context.hasEntity(id)) return;
-            map.on('drawn.loadEntity', null);
-            context.on('enter.loadEntity', null);
-            context.enter(iD.modes.Select(context, [id]));
-        });
-
-        context.on('enter.loadEntity', function() {
-            if (mode.id !== 'browse') {
-                map.on('drawn.loadEntity', null);
-                context.on('enter.loadEntity', null);
-            }
-        });
-    };
-
-
     /* Behaviors */
     context.install = function(behavior) {
         context.surface().call(behavior);
@@ -16368,10 +16941,12 @@ window.iD = function () {
     };
 
     /* Copy/Paste */
-    var copiedIDs = [];
-    context.copiedIDs = function(_) {
-        if (!arguments.length) return copiedIDs;
-        copiedIDs = _;
+    var copyIDs = [], copyGraph;
+    context.copyGraph = function() { return copyGraph; };
+    context.copyIDs = function(_) {
+        if (!arguments.length) return copyIDs;
+        copyIDs = _;
+        copyGraph = history.graph();
         return context;
     };
 
@@ -16469,23 +17044,52 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.7.0';
+iD.version = '1.7.1';
 
 (function() {
     var detected = {};
 
     var ua = navigator.userAgent,
-        msie = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})');
+        m = null;
 
-    if (msie.exec(ua) !== null) {
-        var rv = parseFloat(RegExp.$1);
-        detected.support = !(rv && rv < 9);
+    m = ua.match(/Trident\/.*rv:([0-9]{1,}[\.0-9]{0,})/i);   // IE11+
+    if (m !== null) {
+        detected.browser = 'msie';
+        detected.version = m[1];
+    }
+    if (!detected.browser) {
+        m = ua.match(/(opr)\/?\s*(\.?\d+(\.\d+)*)/i);   // Opera 15+
+        if (m !== null) {
+            detected.browser = 'Opera';
+            detected.version = m[2];
+        }
+    }
+    if (!detected.browser) {
+        m = ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+        if (m !== null) {
+            detected.browser = m[1];
+            detected.version = m[2];
+            m = ua.match(/version\/([\.\d]+)/i);
+            if (m !== null) detected.version = m[1];
+        }
+    }
+    if (!detected.browser) {
+        detected.browser = navigator.appName;
+        detected.version = navigator.appVersion;
+    }
+
+    // keep major.minor version only..
+    detected.version = detected.version.split(/\W/).slice(0,2).join('.');
+
+    if (detected.browser.toLowerCase() === 'msie') {
+        detected.browser = 'Internet Explorer';
+        detected.support = parseFloat(detected.version) > 9;
     } else {
         detected.support = true;
     }
 
     // Added due to incomplete svg style support. See #715
-    detected.opera = ua.indexOf('Opera') >= 0;
+    detected.opera = (detected.browser.toLowerCase() === 'opera' && parseFloat(detected.version) < 15 );
 
     detected.locale = navigator.language || navigator.userLanguage;
 
@@ -16495,11 +17099,22 @@ iD.version = '1.7.0';
         return navigator.userAgent.indexOf(x) !== -1;
     }
 
-    if (nav('Win')) detected.os = 'win';
-    else if (nav('Mac')) detected.os = 'mac';
-    else if (nav('X11')) detected.os = 'linux';
-    else if (nav('Linux')) detected.os = 'linux';
-    else detected.os = 'win';
+    if (nav('Win')) {
+        detected.os = 'win';
+        detected.platform = 'Windows';
+    }
+    else if (nav('Mac')) {
+        detected.os = 'mac';
+        detected.platform = 'Macintosh';
+    }
+    else if (nav('X11') || nav('Linux')) {
+        detected.os = 'linux';
+        detected.platform = 'Linux';
+    }
+    else {
+        detected.os = 'win';
+        detected.platform = 'Unknown';
+    }
 
     iD.detect = function() { return detected; };
 })();
@@ -16768,6 +17383,14 @@ iD.util.entityOrMemberSelector = function(ids, graph) {
 iD.util.displayName = function(entity) {
     var localeName = 'name:' + iD.detect().locale.toLowerCase().split('-')[0];
     return entity.tags[localeName] || entity.tags.name || entity.tags.ref;
+};
+
+iD.util.displayType = function(id) {
+    return {
+        n: t('inspector.node'),
+        w: t('inspector.way'),
+        r: t('inspector.relation')
+    }[id.charAt(0)];
 };
 
 iD.util.stringQs = function(str) {
@@ -17120,6 +17743,19 @@ iD.geo.lineIntersection = function(a, b) {
     return null;
 };
 
+iD.geo.pathIntersections = function(path1, path2) {
+    var intersections = [];
+    for (var i = 0; i < path1.length - 1; i++) {
+        for (var j = 0; j < path2.length - 1; j++) {
+            var a = [ path1[i], path1[i+1] ],
+                b = [ path2[j], path2[j+1] ],
+                hit = iD.geo.lineIntersection(a, b);
+            if (hit) intersections.push(hit);
+        }
+    }
+    return intersections;
+};
+
 // Return whether point is contained in polygon.
 //
 // `point` should be a 2-item array of coordinates.
@@ -17234,6 +17870,14 @@ _.extend(iD.geo.Extent.prototype, {
             [this[1][0], this[0][1]],
             [this[0][0], this[0][1]]
         ];
+    },
+
+    contains: function(obj) {
+        if (!(obj instanceof iD.geo.Extent)) obj = new iD.geo.Extent(obj);
+        return obj[0][0] >= this[0][0] &&
+               obj[0][1] >= this[0][1] &&
+               obj[1][0] <= this[1][0] &&
+               obj[1][1] <= this[1][1];
     },
 
     intersects: function(obj) {
@@ -17924,11 +18568,13 @@ iD.actions.Connect = function(nodeIds) {
         return graph;
     };
 };
-iD.actions.CopyEntity = function(entity, deep) {
+iD.actions.CopyEntity = function(id, fromGraph, deep) {
     var newEntities = [];
 
     var action = function(graph) {
-        newEntities = entity.copy(deep, graph);
+        var entity = fromGraph.entity(id);
+
+        newEntities = entity.copy(deep, fromGraph);
 
         for (var i = 0; i < newEntities.length; i++) {
             graph = graph.replace(newEntities[i]);
@@ -18090,8 +18736,18 @@ iD.actions.DeleteWay = function(wayId) {
         return graph.remove(way);
     };
 
-    action.disabled = function() {
-        return false;
+    action.disabled = function(graph) {
+        var disabled = false;
+
+        graph.parentRelations(graph.entity(wayId)).forEach(function(parent) {
+            var type = parent.tags.type,
+                role = parent.memberById(wayId).role || 'outer';
+            if (type === 'route' || type === 'boundary' || (type === 'multipolygon' && role === 'outer')) {
+                disabled = 'part_of_relation';
+            }
+        });
+
+        return disabled;
     };
 
     return action;
@@ -18456,33 +19112,520 @@ iD.actions.MergePolygon = function(ids, newRelationId) {
 
     return action;
 };
+iD.actions.MergeRemoteChanges = function(id, localGraph, remoteGraph, formatUser) {
+    var option = 'safe',  // 'safe', 'force_local', 'force_remote'
+        conflicts = [];
+
+    function user(d) {
+        return _.isFunction(formatUser) ? formatUser(d) : d;
+    }
+
+
+    function mergeLocation(remote, target) {
+        function pointEqual(a, b) {
+            var epsilon = 1e-6;
+            return (Math.abs(a[0] - b[0]) < epsilon) && (Math.abs(a[1] - b[1]) < epsilon);
+        }
+
+        if (option === 'force_local' || pointEqual(target.loc, remote.loc)) {
+            return target;
+        }
+        if (option === 'force_remote') {
+            return target.update({loc: remote.loc});
+        }
+
+        conflicts.push(t('merge_remote_changes.conflict.location', { user: user(remote.user) }));
+        return target;
+    }
+
+
+    function mergeNodes(base, remote, target) {
+        if (option === 'force_local' || _.isEqual(target.nodes, remote.nodes)) {
+            return target;
+        }
+        if (option === 'force_remote') {
+            return target.update({nodes: remote.nodes});
+        }
+
+        var ccount = conflicts.length,
+            o = base.nodes || [],
+            a = target.nodes || [],
+            b = remote.nodes || [],
+            nodes = [],
+            hunks = Diff3.diff3_merge(a, o, b, true);
+
+        for (var i = 0; i < hunks.length; i++) {
+            var hunk = hunks[i];
+            if (hunk.ok) {
+                nodes.push.apply(nodes, hunk.ok);
+            } else {
+                // for all conflicts, we can assume c.a !== c.b
+                // because `diff3_merge` called with `true` option to exclude false conflicts..
+                var c = hunk.conflict;
+                if (_.isEqual(c.o, c.a)) {  // only changed remotely
+                    nodes.push.apply(nodes, c.b);
+                } else if (_.isEqual(c.o, c.b)) {  // only changed locally
+                    nodes.push.apply(nodes, c.a);
+                } else {       // changed both locally and remotely
+                    conflicts.push(t('merge_remote_changes.conflict.nodelist', { user: user(remote.user) }));
+                    break;
+                }
+            }
+        }
+
+        return (conflicts.length === ccount) ? target.update({nodes: nodes}) : target;
+    }
+
+
+    function mergeChildren(targetWay, children, updates, graph) {
+        function isUsed(node, targetWay) {
+            var parentWays = _.pluck(graph.parentWays(node), 'id');
+            return node.hasInterestingTags() ||
+                _.without(parentWays, targetWay.id).length > 0 ||
+                graph.parentRelations(node).length > 0;
+        }
+
+        var ccount = conflicts.length;
+
+        for (var i = 0; i < children.length; i++) {
+            var id = children[i],
+                node = graph.hasEntity(id);
+
+            // remove unused childNodes..
+            if (targetWay.nodes.indexOf(id) === -1) {
+                if (node && !isUsed(node, targetWay)) {
+                    updates.removeIds.push(id);
+                }
+                continue;
+            }
+
+            // restore used childNodes..
+            var local = localGraph.hasEntity(id),
+                remote = remoteGraph.hasEntity(id),
+                target;
+
+            if (option === 'force_remote' && remote && remote.visible) {
+                updates.replacements.push(remote);
+
+            } else if (option === 'force_local' && local) {
+                target = iD.Entity(local);
+                if (remote && remote.visible) {
+                    target = target.update({ version: remote.version });
+                }
+                updates.replacements.push(target);
+
+            } else if (option === 'safe' && local && remote) {
+                target = iD.Entity(local, { version: remote.version });
+                if (remote.visible) {
+                    target = mergeLocation(remote, target);
+                } else {
+                    conflicts.push(t('merge_remote_changes.conflict.deleted', { user: user(remote.user) }));
+                }
+
+                if (conflicts.length !== ccount) break;
+                updates.replacements.push(target);
+            }
+        }
+
+        return targetWay;
+    }
+
+
+    function updateChildren(updates, graph) {
+        for (var i = 0; i < updates.replacements.length; i++) {
+            graph = graph.replace(updates.replacements[i]);
+        }
+        if (updates.removeIds.length) {
+            graph = iD.actions.DeleteMultiple(updates.removeIds)(graph);
+        }
+        return graph;
+    }
+
+
+    function mergeMembers(remote, target) {
+        if (option === 'force_local' || _.isEqual(target.members, remote.members)) {
+            return target;
+        }
+        if (option === 'force_remote') {
+            return target.update({members: remote.members});
+        }
+
+        conflicts.push(t('merge_remote_changes.conflict.memberlist', { user: user(remote.user) }));
+        return target;
+    }
+
+
+    function mergeTags(base, remote, target) {
+        function ignoreKey(k) {
+            return _.contains(iD.data.discarded, k);
+        }
+
+        if (option === 'force_local' || _.isEqual(target.tags, remote.tags)) {
+            return target;
+        }
+        if (option === 'force_remote') {
+            return target.update({tags: remote.tags});
+        }
+
+        var ccount = conflicts.length,
+            o = base.tags || {},
+            a = target.tags || {},
+            b = remote.tags || {},
+            keys = _.reject(_.union(_.keys(o), _.keys(a), _.keys(b)), ignoreKey),
+            tags = _.clone(a),
+            changed = false;
+
+        for (var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+
+            if (o[k] !== b[k] && a[k] !== b[k]) {    // changed remotely..
+                if (o[k] !== a[k]) {      // changed locally..
+                    conflicts.push(t('merge_remote_changes.conflict.tags',
+                        { tag: k, local: a[k], remote: b[k], user: user(remote.user) }));
+
+                } else {                  // unchanged locally, accept remote change..
+                    if (b.hasOwnProperty(k)) {
+                        tags[k] = b[k];
+                    } else {
+                        delete tags[k];
+                    }
+                    changed = true;
+                }
+            }
+        }
+
+        return (changed && conflicts.length === ccount) ? target.update({tags: tags}) : target;
+    }
+
+
+    //  `graph.base()` is the common ancestor of the two graphs.
+    //  `localGraph` contains user's edits up to saving
+    //  `remoteGraph` contains remote edits to modified nodes
+    //  `graph` must be a descendent of `localGraph` and may include
+    //      some conflict resolution actions performed on it.
+    //
+    //                  --- ... --- `localGraph` -- ... -- `graph`
+    //                 /
+    //  `graph.base()` --- ... --- `remoteGraph`
+    //
+    var action = function(graph) {
+        var updates = { replacements: [], removeIds: [] },
+            base = graph.base().entities[id],
+            local = localGraph.entity(id),
+            remote = remoteGraph.entity(id),
+            target = iD.Entity(local, { version: remote.version });
+
+        // delete/undelete
+        if (!remote.visible) {
+            if (option === 'force_remote') {
+                return iD.actions.DeleteMultiple([id])(graph);
+
+            } else if (option === 'force_local') {
+                if (target.type === 'way') {
+                    target = mergeChildren(target, _.uniq(local.nodes), updates, graph);
+                    graph = updateChildren(updates, graph);
+                }
+                return graph.replace(target);
+
+            } else {
+                conflicts.push(t('merge_remote_changes.conflict.deleted', { user: user(remote.user) }));
+                return graph;  // do nothing
+            }
+        }
+
+        // merge
+        if (target.type === 'node') {
+            target = mergeLocation(remote, target);
+
+        } else if (target.type === 'way') {
+            // pull in any child nodes that may not be present locally..
+            graph.rebase(remoteGraph.childNodes(remote), [graph], false);
+            target = mergeNodes(base, remote, target);
+            target = mergeChildren(target, _.union(local.nodes, remote.nodes), updates, graph);
+
+        } else if (target.type === 'relation') {
+            target = mergeMembers(remote, target);
+        }
+
+        target = mergeTags(base, remote, target);
+
+        if (!conflicts.length) {
+            graph = updateChildren(updates, graph).replace(target);
+        }
+
+        return graph;
+    };
+
+    action.withOption = function(opt) {
+        option = opt;
+        return action;
+    };
+
+    action.conflicts = function() {
+        return conflicts;
+    };
+
+    return action;
+};
 // https://github.com/openstreetmap/josm/blob/mirror/src/org/openstreetmap/josm/command/MoveCommand.java
 // https://github.com/openstreetmap/potlatch2/blob/master/net/systemeD/halcyon/connection/actions/MoveNodeAction.as
-iD.actions.Move = function(ids, delta, projection) {
-    function addNodes(ids, nodes, graph) {
-        ids.forEach(function(id) {
-            var entity = graph.entity(id);
-            if (entity.type === 'node') {
-                nodes.push(id);
-            } else if (entity.type === 'way') {
-                nodes.push.apply(nodes, entity.nodes);
-            } else {
-                addNodes(_.pluck(entity.members, 'id'), nodes, graph);
+iD.actions.Move = function(moveIds, tryDelta, projection, cache) {
+    var delta = tryDelta;
+
+    function vecAdd(a, b) { return [a[0] + b[0], a[1] + b[1]]; }
+    function vecSub(a, b) { return [a[0] - b[0], a[1] - b[1]]; }
+
+    function setupCache(graph) {
+        function canMove(nodeId) {
+            var parents = _.pluck(graph.parentWays(graph.entity(nodeId)), 'id');
+            if (parents.length < 3) return true;
+
+            // Don't move a vertex where >2 ways meet, unless all parentWays are moving too..
+            var parentsMoving = _.all(parents, function(id) { return cache.moving[id]; });
+            if (!parentsMoving) delete cache.moving[nodeId];
+
+            return parentsMoving;
+        }
+
+        function cacheEntities(ids) {
+            _.each(ids, function(id) {
+                if (cache.moving[id]) return;
+                cache.moving[id] = true;
+
+                var entity = graph.hasEntity(id);
+                if (!entity) return;
+
+                if (entity.type === 'node') {
+                    cache.nodes.push(id);
+                    cache.startLoc[id] = entity.loc;
+                } else if (entity.type === 'way') {
+                    cache.ways.push(id);
+                    cacheEntities(entity.nodes);
+                } else {
+                    cacheEntities(_.pluck(entity.members, 'id'));
+                }
+            });
+        }
+
+        function cacheIntersections(ids) {
+            function isEndpoint(way, id) { return !way.isClosed() && !!way.affix(id); }
+
+            _.each(ids, function(id) {
+                // consider only intersections with 1 moved and 1 unmoved way.
+                _.each(graph.childNodes(graph.entity(id)), function(node) {
+                    var parents = graph.parentWays(node);
+                    if (parents.length !== 2) return;
+
+                    var moved = graph.entity(id),
+                        unmoved = _.find(parents, function(way) { return !cache.moving[way.id]; });
+                    if (!unmoved) return;
+
+                    // exclude ways that are overly connected..
+                    if (_.intersection(moved.nodes, unmoved.nodes).length > 2) return;
+
+                    if (moved.isArea() || unmoved.isArea()) return;
+
+                    cache.intersection[node.id] = {
+                        nodeId: node.id,
+                        movedId: moved.id,
+                        unmovedId: unmoved.id,
+                        movedIsEP: isEndpoint(moved, node.id),
+                        unmovedIsEP: isEndpoint(unmoved, node.id)
+                    };
+                });
+            });
+        }
+
+
+        if (!cache) {
+            cache = {};
+        }
+        if (!cache.ok) {
+            cache.moving = {};
+            cache.intersection = {};
+            cache.replacedVertex = {};
+            cache.startLoc = {};
+            cache.nodes = [];
+            cache.ways = [];
+
+            cacheEntities(moveIds);
+            cacheIntersections(cache.ways);
+            cache.nodes = _.filter(cache.nodes, canMove);
+
+            cache.ok = true;
+        }
+    }
+
+
+    // Place a vertex where the moved vertex used to be, to preserve way shape..
+    function replaceMovedVertex(nodeId, wayId, graph, delta) {
+        var way = graph.entity(wayId),
+            moved = graph.entity(nodeId),
+            movedIndex = way.nodes.indexOf(nodeId),
+            len, prevIndex, nextIndex;
+
+        if (way.isClosed()) {
+            len = way.nodes.length - 1;
+            prevIndex = (movedIndex + len - 1) % len;
+            nextIndex = (movedIndex + len + 1) % len;
+        } else {
+            len = way.nodes.length;
+            prevIndex = movedIndex - 1;
+            nextIndex = movedIndex + 1;
+        }
+
+        var prev = graph.hasEntity(way.nodes[prevIndex]),
+            next = graph.hasEntity(way.nodes[nextIndex]);
+
+        // Don't add orig vertex at endpoint..
+        if (!prev || !next) return graph;
+
+        var key = wayId + '_' + nodeId,
+            orig = cache.replacedVertex[key];
+        if (!orig) {
+            orig = iD.Node();
+            cache.replacedVertex[key] = orig;
+            cache.startLoc[orig.id] = cache.startLoc[nodeId];
+        }
+
+        var start, end;
+        if (delta) {
+            start = projection(cache.startLoc[nodeId]);
+            end = projection.invert(vecAdd(start, delta));
+        } else {
+            end = cache.startLoc[nodeId];
+        }
+        orig = orig.move(end);
+
+        var angle = Math.abs(iD.geo.angle(orig, prev, projection) -
+                iD.geo.angle(orig, next, projection)) * 180 / Math.PI;
+
+        // Don't add orig vertex if it would just make a straight line..
+        if (angle > 175 && angle < 185) return graph;
+
+        // Don't add orig vertex if another point is already nearby (within 10m)
+        if (iD.geo.sphericalDistance(prev.loc, orig.loc) < 10 ||
+            iD.geo.sphericalDistance(orig.loc, next.loc) < 10) return graph;
+
+        // moving forward or backward along way?
+        var p1 = [prev.loc, orig.loc, moved.loc, next.loc].map(projection),
+            p2 = [prev.loc, moved.loc, orig.loc, next.loc].map(projection),
+            d1 = iD.geo.pathLength(p1),
+            d2 = iD.geo.pathLength(p2),
+            insertAt = (d1 < d2) ? movedIndex : nextIndex;
+
+        // moving around closed loop?
+        if (way.isClosed() && insertAt === 0) insertAt = len;
+
+        way = way.addNode(orig.id, insertAt);
+        return graph.replace(orig).replace(way);
+    }
+
+    // Reorder nodes around intersections that have moved..
+    function unZorroIntersection(intersection, graph) {
+        var vertex = graph.entity(intersection.nodeId),
+            way1 = graph.entity(intersection.movedId),
+            way2 = graph.entity(intersection.unmovedId),
+            isEP1 = intersection.movedIsEP,
+            isEP2 = intersection.unmovedIsEP;
+
+        // don't move the vertex if it is the endpoint of both ways.
+        if (isEP1 && isEP2) return graph;
+
+        var nodes1 = _.without(graph.childNodes(way1), vertex),
+            nodes2 = _.without(graph.childNodes(way2), vertex);
+
+        if (way1.isClosed() && way1.first() === vertex.id) nodes1.push(nodes1[0]);
+        if (way2.isClosed() && way2.first() === vertex.id) nodes2.push(nodes2[0]);
+
+        var edge1 = !isEP1 && iD.geo.chooseEdge(nodes1, projection(vertex.loc), projection),
+            edge2 = !isEP2 && iD.geo.chooseEdge(nodes2, projection(vertex.loc), projection),
+            loc;
+
+        // snap vertex to nearest edge (or some point between them)..
+        if (!isEP1 && !isEP2) {
+            var epsilon = 1e-4, maxIter = 10;
+            for (var i = 0; i < maxIter; i++) {
+                loc = iD.geo.interp(edge1.loc, edge2.loc, 0.5);
+                edge1 = iD.geo.chooseEdge(nodes1, projection(loc), projection);
+                edge2 = iD.geo.chooseEdge(nodes2, projection(loc), projection);
+                if (Math.abs(edge1.distance - edge2.distance) < epsilon) break;
+            }
+        } else if (!isEP1) {
+            loc = edge1.loc;
+        } else {
+            loc = edge2.loc;
+        }
+
+        graph = graph.replace(vertex.move(loc));
+
+        // if zorro happened, reorder nodes..
+        if (!isEP1 && edge1.index !== way1.nodes.indexOf(vertex.id)) {
+            way1 = way1.removeNode(vertex.id).addNode(vertex.id, edge1.index);
+            graph = graph.replace(way1);
+        }
+        if (!isEP2 && edge2.index !== way2.nodes.indexOf(vertex.id)) {
+            way2 = way2.removeNode(vertex.id).addNode(vertex.id, edge2.index);
+            graph = graph.replace(way2);
+        }
+
+        return graph;
+    }
+
+
+    function cleanupIntersections(graph) {
+        _.each(cache.intersection, function(obj) {
+            graph = replaceMovedVertex(obj.nodeId, obj.movedId, graph, delta);
+            graph = replaceMovedVertex(obj.nodeId, obj.unmovedId, graph, null);
+            graph = unZorroIntersection(obj, graph);
+        });
+
+        return graph;
+    }
+
+    // check if moving way endpoint can cross an unmoved way, if so limit delta..
+    function limitDelta(graph) {
+        _.each(cache.intersection, function(obj) {
+            if (!obj.movedIsEP) return;
+
+            var node = graph.entity(obj.nodeId),
+                start = projection(node.loc),
+                end = vecAdd(start, delta),
+                movedNodes = graph.childNodes(graph.entity(obj.movedId)),
+                movedPath = _.map(_.pluck(movedNodes, 'loc'),
+                    function(loc) { return vecAdd(projection(loc), delta); }),
+                unmovedNodes = graph.childNodes(graph.entity(obj.unmovedId)),
+                unmovedPath = _.map(_.pluck(unmovedNodes, 'loc'), projection),
+                hits = iD.geo.pathIntersections(movedPath, unmovedPath);
+
+            for (var i = 0; i < hits.length; i++) {
+                if (_.isEqual(hits[i], end)) continue;
+                var edge = iD.geo.chooseEdge(unmovedNodes, end, projection);
+                delta = vecSub(projection(edge.loc), start);
             }
         });
     }
 
+
     var action = function(graph) {
-        var nodes = [];
+        if (delta[0] === 0 && delta[1] === 0) return graph;
 
-        addNodes(ids, nodes, graph);
+        setupCache(graph);
 
-        _.uniq(nodes).forEach(function(id) {
+        if (!_.isEmpty(cache.intersection)) {
+            limitDelta(graph);
+        }
+
+        _.each(cache.nodes, function(id) {
             var node = graph.entity(id),
                 start = projection(node.loc),
-                end = projection.invert([start[0] + delta[0], start[1] + delta[1]]);
-            graph = graph.replace(node.move(end));
+                end = vecAdd(start, delta);
+            graph = graph.replace(node.move(projection.invert(end)));
         });
+
+        if (!_.isEmpty(cache.intersection)) {
+            graph = cleanupIntersections(graph);
+        }
 
         return graph;
     };
@@ -18493,8 +19636,12 @@ iD.actions.Move = function(ids, delta, projection) {
             return entity.type === 'relation' && !entity.isComplete(graph);
         }
 
-        if (_.any(ids, incompleteRelation))
+        if (_.any(moveIds, incompleteRelation))
             return 'incomplete_relation';
+    };
+
+    action.delta = function() {
+        return delta;
     };
 
     return action;
@@ -18853,6 +20000,41 @@ iD.actions.Reverse = function(wayId) {
 
         return graph.replace(way.update({nodes: nodes, tags: tags}));
     };
+};
+iD.actions.Revert = function(id) {
+
+    var action = function(graph) {
+        var entity = graph.hasEntity(id),
+            base = graph.base().entities[id];
+
+        if (entity && !base) {    // entity will be removed..
+            if (entity.type === 'node') {
+                graph.parentWays(entity)
+                    .forEach(function(parent) {
+                        parent = parent.removeNode(id);
+                        graph = graph.replace(parent);
+
+                        if (parent.isDegenerate()) {
+                            graph = iD.actions.DeleteWay(parent.id)(graph);
+                        }
+                    });
+            }
+
+            graph.parentRelations(entity)
+                .forEach(function(parent) {
+                    parent = parent.removeMembersWithID(id);
+                    graph = graph.replace(parent);
+
+                    if (parent.isDegenerate()) {
+                        graph = iD.actions.DeleteRelation(parent.id)(graph);
+                    }
+                });
+        }
+
+        return graph.revert(id);
+    };
+
+    return action;
 };
 iD.actions.RotateWay = function(wayId, pivot, angle, projection) {
     return function(graph) {
@@ -19264,7 +20446,7 @@ iD.behavior.Copy = function(context) {
             }
         }
 
-        context.copiedIDs(canCopy);
+        context.copyIDs(canCopy);
     }
 
     function copy() {
@@ -19902,7 +21084,7 @@ iD.behavior.Hash = function(context) {
 
         if (location.hash) {
             var q = iD.util.stringQs(location.hash.substring(1));
-            if (q.id) context.loadEntity(q.id.split(',')[0], !q.map);
+            if (q.id) context.zoomToEntity(q.id.split(',')[0], !q.map);
             if (q.comment) context.storage('comment', q.comment);
             hashchange();
             if (q.map) hash.hadHash = true;
@@ -20148,18 +21330,20 @@ iD.behavior.Paste = function(context) {
 
         if (!iD.geo.pointInPolygon(mouse, viewport)) return;
 
-        var graph = context.graph(),
-            extent = iD.geo.Extent(),
-            oldIDs = context.copiedIDs(),
+        var extent = iD.geo.Extent(),
+            oldIDs = context.copyIDs(),
+            oldGraph = context.copyGraph(),
             newIDs = [],
             i, j;
 
+        if (!oldIDs.length) return;
+
         for (i = 0; i < oldIDs.length; i++) {
-            var oldEntity = graph.entity(oldIDs[i]),
-                action = iD.actions.CopyEntity(oldEntity, true),
+            var oldEntity = oldGraph.entity(oldIDs[i]),
+                action = iD.actions.CopyEntity(oldEntity.id, oldGraph, true),
                 newEntities;
 
-            extent._extend(oldEntity.extent(graph));
+            extent._extend(oldEntity.extent(oldGraph));
             context.perform(action);
 
             // First element in `newEntities` contains the copied Entity,
@@ -20211,10 +21395,12 @@ iD.behavior.Select = function(context) {
     }
 
     function click() {
-        var datum = d3.event.target.__data__;
-        var lasso = d3.select('#surface .lasso').node();
+        var datum = d3.event.target.__data__,
+            lasso = d3.select('#surface .lasso').node(),
+            mode = context.mode();
+
         if (!(datum instanceof iD.Entity)) {
-            if (!d3.event.shiftKey && !lasso)
+            if (!d3.event.shiftKey && !lasso && mode.id !== 'browse')
                 context.enter(iD.modes.Browse(context));
 
         } else if (!d3.event.shiftKey && !lasso) {
@@ -20222,7 +21408,7 @@ iD.behavior.Select = function(context) {
             if (context.selectedIDs().length !== 1 || context.selectedIDs()[0] !== datum.id) {
                 context.enter(iD.modes.Select(context, [datum.id]));
             } else {
-                context.mode().reselect();
+                mode.suppressMenu(false).reselect();
             }
         } else if (context.selectedIDs().indexOf(datum.id) >= 0) {
             var selectedIDs = _.without(context.selectedIDs(), datum.id);
@@ -20875,8 +22061,11 @@ iD.modes.Move = function(context, entityIDs) {
         annotation = entityIDs.length === 1 ?
             t('operations.move.annotation.' + context.geometry(entityIDs[0])) :
             t('operations.move.annotation.multiple'),
+        cache,
         origin,
         nudgeInterval;
+
+    function vecSub(a, b) { return [a[0] - b[0], a[1] - b[1]]; }
 
     function edge(point, size) {
         var pad = [30, 100, 30, 100];
@@ -20891,11 +22080,14 @@ iD.modes.Move = function(context, entityIDs) {
         if (nudgeInterval) window.clearInterval(nudgeInterval);
         nudgeInterval = window.setInterval(function() {
             context.pan(nudge);
-            context.replace(
-                iD.actions.Move(entityIDs, [-nudge[0], -nudge[1]], context.projection),
-                annotation);
-            var c = context.projection(origin);
-            origin = context.projection.invert([c[0] - nudge[0], c[1] - nudge[1]]);
+
+            var currMouse = context.mouse(),
+                origMouse = context.projection(origin),
+                delta = vecSub(vecSub(currMouse, origMouse), nudge),
+                action = iD.actions.Move(entityIDs, delta, context.projection, cache);
+
+            context.overwrite(action, annotation);
+
         }, 50);
     }
 
@@ -20905,35 +22097,27 @@ iD.modes.Move = function(context, entityIDs) {
     }
 
     function move() {
-        var p = context.mouse();
+        var currMouse = context.mouse(),
+            origMouse = context.projection(origin),
+            delta = vecSub(currMouse, origMouse),
+            action = iD.actions.Move(entityIDs, delta, context.projection, cache);
 
-        var delta = origin ?
-            [p[0] - context.projection(origin)[0],
-                p[1] - context.projection(origin)[1]] :
-            [0, 0];
+        context.overwrite(action, annotation);
 
-        var nudge = edge(p, context.map().dimensions());
+        var nudge = edge(currMouse, context.map().dimensions());
         if (nudge) startNudge(nudge);
         else stopNudge();
-
-        origin = context.map().mouseCoordinates();
-
-        context.replace(
-            iD.actions.Move(entityIDs, delta, context.projection),
-            annotation);
     }
 
     function finish() {
         d3.event.stopPropagation();
-        context.enter(iD.modes.Select(context, entityIDs)
-            .suppressMenu(true));
+        context.enter(iD.modes.Select(context, entityIDs).suppressMenu(true));
         stopNudge();
     }
 
     function cancel() {
         context.pop();
-        context.enter(iD.modes.Select(context, entityIDs)
-            .suppressMenu(true));
+        context.enter(iD.modes.Select(context, entityIDs).suppressMenu(true));
         stopNudge();
     }
 
@@ -20942,6 +22126,9 @@ iD.modes.Move = function(context, entityIDs) {
     }
 
     mode.enter = function() {
+        origin = context.map().mouseCoordinates();
+        cache = {};
+
         context.install(edit);
 
         context.perform(
@@ -21065,43 +22252,291 @@ iD.modes.RotateWay = function(context, wayId) {
 };
 iD.modes.Save = function(context) {
     var ui = iD.ui.Commit(context)
-        .on('cancel', cancel)
-        .on('save', save);
+            .on('cancel', cancel)
+            .on('save', save);
 
     function cancel() {
         context.enter(iD.modes.Browse(context));
     }
 
-    function save(e) {
-        var loading = iD.ui.Loading(context)
-            .message(t('save.uploading'))
-            .blocking(true);
-
-        context.container()
-            .call(loading);
-
-        context.connection().putChangeset(
-            context.history().changes(iD.actions.DiscardTags(context.history().difference())),
-            e.comment,
-            context.history().imageryUsed(),
-            function(err, changeset_id) {
-                loading.close();
-                if (err) {
-                    var confirm = iD.ui.confirm(context.container());
-                    confirm
-                        .select('.modal-section.header')
-                        .append('h3')
-                        .text(t('save.error'));
-                    confirm
-                        .select('.modal-section.message-text')
-                        .append('p')
-                        .text(err.responseText || t('save.unknown_error_details'));
-                } else {
-                    context.flush();
-                    success(e, changeset_id);
+    function save(e, tryAgain) {
+        function withChildNodes(ids, graph) {
+            return _.uniq(_.reduce(ids, function(result, id) {
+                var e = graph.entity(id);
+                if (e.type === 'way') {
+                    var cn = graph.childNodes(e);
+                    result.push.apply(result, _.pluck(_.filter(cn, 'version'), 'id'));
                 }
+                return result;
+            }, _.clone(ids)));
+        }
+
+        var loading = iD.ui.Loading(context).message(t('save.uploading')).blocking(true),
+            history = context.history(),
+            origChanges = history.changes(iD.actions.DiscardTags(history.difference())),
+            localGraph = context.graph(),
+            remoteGraph = iD.Graph(history.base(), true),
+            modified = _.filter(history.difference().summary(), {changeType: 'modified'}),
+            toCheck = _.pluck(_.pluck(modified, 'entity'), 'id'),
+            toLoad = withChildNodes(toCheck, localGraph),
+            conflicts = [],
+            errors = [];
+
+        if (!tryAgain) history.perform(iD.actions.Noop());  // checkpoint
+        context.container().call(loading);
+
+        if (toCheck.length) {
+            context.connection().loadMultiple(toLoad, loaded);
+        } else {
+            finalize();
+        }
+
+
+        // Reload modified entities into an alternate graph and check for conflicts..
+        function loaded(err, result) {
+            if (errors.length) return;
+
+            if (err) {
+                errors.push({
+                    msg: err.responseText,
+                    details: [ t('save.status_code', { code: err.status }) ]
+                });
+                showErrors();
+
+            } else {
+                var loadMore = [];
+                _.each(result.data, function(entity) {
+                    remoteGraph.replace(entity);
+                    toLoad = _.without(toLoad, entity.id);
+
+                    // Because loadMultiple doesn't download /full like loadEntity,
+                    // need to also load children that aren't already being checked..
+                    if (!entity.visible) return;
+                    if (entity.type === 'way') {
+                        loadMore.push.apply(loadMore,
+                            _.difference(entity.nodes, toCheck, toLoad, loadMore));
+                    } else if (entity.type === 'relation' && entity.isMultipolygon()) {
+                        loadMore.push.apply(loadMore,
+                            _.difference(_.pluck(entity.members, 'id'), toCheck, toLoad, loadMore));
+                    }
+                });
+
+                if (loadMore.length) {
+                    toLoad.push.apply(toLoad, loadMore);
+                    context.connection().loadMultiple(loadMore, loaded);
+                }
+
+                if (!toLoad.length) {
+                    checkConflicts();
+                }
+            }
+        }
+
+
+        function checkConflicts() {
+            function choice(id, text, action) {
+                return { id: id, text: text, action: function() { history.replace(action); } };
+            }
+            function formatUser(d) {
+                return '<a href="' + context.connection().userURL(d) + '" target="_blank">' + d + '</a>';
+            }
+            function entityName(entity) {
+                return iD.util.displayName(entity) || (iD.util.displayType(entity.id) + ' ' + entity.id);
+            }
+
+            function compareVersions(local, remote) {
+                if (local.version !== remote.version) return false;
+
+                if (local.type === 'way') {
+                    var children = _.union(local.nodes, remote.nodes);
+
+                    for (var i = 0; i < children.length; i++) {
+                        var a = localGraph.hasEntity(children[i]),
+                            b = remoteGraph.hasEntity(children[i]);
+
+                        if (a && b && a.version !== b.version) return false;
+                    }
+                }
+
+                return true;
+            }
+
+            _.each(toCheck, function(id) {
+                var local = localGraph.entity(id),
+                    remote = remoteGraph.entity(id);
+
+                if (compareVersions(local, remote)) return;
+
+                var action = iD.actions.MergeRemoteChanges,
+                    merge = action(id, localGraph, remoteGraph, formatUser);
+
+                history.replace(merge);
+
+                var mergeConflicts = merge.conflicts();
+                if (!mergeConflicts.length) return;  // merged safely
+
+                var forceLocal = action(id, localGraph, remoteGraph).withOption('force_local'),
+                    forceRemote = action(id, localGraph, remoteGraph).withOption('force_remote'),
+                    keepMine = t('save.conflict.' + (remote.visible ? 'keep_local' : 'restore')),
+                    keepTheirs = t('save.conflict.' + (remote.visible ? 'keep_remote' : 'delete'));
+
+                conflicts.push({
+                    id: id,
+                    name: entityName(local),
+                    details: mergeConflicts,
+                    chosen: 1,
+                    choices: [
+                        choice(id, keepMine, forceLocal),
+                        choice(id, keepTheirs, forceRemote)
+                    ]
+                });
             });
+
+            finalize();
+        }
+
+
+        function finalize() {
+            if (conflicts.length) {
+                conflicts.sort(function(a,b) { return b.id.localeCompare(a.id); });
+                showConflicts();
+            } else if (errors.length) {
+                showErrors();
+            } else {
+                var changes = history.changes(iD.actions.DiscardTags(history.difference()));
+                if (changes.modified.length || changes.created.length || changes.deleted.length) {
+                    context.connection().putChangeset(
+                        changes,
+                        e.comment,
+                        history.imageryUsed(),
+                        function(err, changeset_id) {
+                            if (err) {
+                                errors.push({
+                                    msg: err.responseText,
+                                    details: [ t('save.status_code', { code: err.status }) ]
+                                });
+                                showErrors();
+                            } else {
+                                loading.close();
+                                context.flush();
+                                success(e, changeset_id);
+                            }
+                        });
+                } else {        // changes were insignificant or reverted by user
+                    loading.close();
+                    context.flush();
+                    cancel();
+                }
+            }
+        }
+
+
+        function showConflicts() {
+            var selection = context.container()
+                .select('#sidebar')
+                .append('div')
+                .attr('class','sidebar-component');
+
+            loading.close();
+
+            selection.call(iD.ui.Conflicts(context)
+                .list(conflicts)
+                .on('download', function() {
+                    var data = JXON.stringify(context.connection().osmChangeJXON('CHANGEME', origChanges)),
+                        win = window.open('data:text/xml,' + encodeURIComponent(data), '_blank');
+                    win.focus();
+                })
+                .on('cancel', function() {
+                    history.pop();
+                    selection.remove();
+                })
+                .on('save', function() {
+                    for (var i = 0; i < conflicts.length; i++) {
+                        if (conflicts[i].chosen === 1) {  // user chose "keep theirs"
+                            var entity = context.hasEntity(conflicts[i].id);
+                            if (entity && entity.type === 'way') {
+                                var children = _.uniq(entity.nodes);
+                                for (var j = 0; j < children.length; j++) {
+                                    history.replace(iD.actions.Revert(children[j]));
+                                }
+                            }
+                            history.replace(iD.actions.Revert(conflicts[i].id));
+                        }
+                    }
+
+                    selection.remove();
+                    save(e, true);
+                })
+            );
+        }
+
+
+        function showErrors() {
+            var selection = iD.ui.confirm(context.container());
+
+            history.pop();
+            loading.close();
+
+            selection
+                .select('.modal-section.header')
+                .append('h3')
+                .text(t('save.error'));
+
+            addErrors(selection, errors);
+            selection.okButton();
+        }
+
+
+        function addErrors(selection, data) {
+            var message = selection
+                .select('.modal-section.message-text');
+
+            var items = message
+                .selectAll('.error-container')
+                .data(data);
+
+            var enter = items.enter()
+                .append('div')
+                .attr('class', 'error-container');
+
+            enter
+                .append('a')
+                .attr('class', 'error-description')
+                .attr('href', '#')
+                .classed('hide-toggle', true)
+                .text(function(d) { return d.msg || t('save.unknown_error_details'); })
+                .on('click', function() {
+                    var error = d3.select(this),
+                        detail = d3.select(this.nextElementSibling),
+                        exp = error.classed('expanded');
+
+                    detail.style('display', exp ? 'none' : 'block');
+                    error.classed('expanded', !exp);
+
+                    d3.event.preventDefault();
+                });
+
+            var details = enter
+                .append('div')
+                .attr('class', 'error-detail-container')
+                .style('display', 'none');
+
+            details
+                .append('ul')
+                .attr('class', 'error-detail-list')
+                .selectAll('li')
+                .data(function(d) { return d.details || []; })
+                .enter()
+                .append('li')
+                .attr('class', 'error-detail-item')
+                .text(function(d) { return d; });
+
+            items.exit()
+                .remove();
+        }
+
     }
+
 
     function success(e, changeset_id) {
         context.enter(iD.modes.Browse(context)
@@ -21119,27 +22554,13 @@ iD.modes.Save = function(context) {
         id: 'save'
     };
 
-    var behaviors = [
-        iD.behavior.Hover(context),
-        iD.behavior.Select(context),
-        iD.behavior.Lasso(context),
-        iD.modes.DragNode(context).behavior];
-
     mode.enter = function() {
-        behaviors.forEach(function(behavior) {
-            context.install(behavior);
-        });
-
         context.connection().authenticate(function() {
             context.ui().sidebar.show(ui);
         });
     };
 
     mode.exit = function() {
-        behaviors.forEach(function(behavior) {
-            context.uninstall(behavior);
-        });
-
         context.ui().sidebar.hide(ui);
     };
 
@@ -21886,8 +23307,7 @@ iD.operations.Straighten = function(selectedIDs, context) {
     return operation;
 };
 iD.Connection = function() {
-
-    var event = d3.dispatch('authenticating', 'authenticated', 'auth', 'loading', 'load', 'loaded'),
+    var event = d3.dispatch('authenticating', 'authenticated', 'auth', 'loading', 'loaded'),
         url = 'http://www.openstreetmap.org',
         connection = {},
         inflight = {},
@@ -21906,7 +23326,9 @@ iD.Connection = function() {
         nodeStr = 'node',
         wayStr = 'way',
         relationStr = 'relation',
+        userDetails,
         off;
+
 
     connection.changesetURL = function(changesetId) {
         return url + '/changeset/' + changesetId;
@@ -21929,10 +23351,10 @@ iD.Connection = function() {
     };
 
     connection.loadFromURL = function(url, callback) {
-        function done(dom) {
-            return callback(null, parse(dom));
+        function done(err, dom) {
+            return callback(err, parse(dom));
         }
-        return d3.xml(url).get().on('load', done);
+        return d3.xml(url).get(done);
     };
 
     connection.loadEntity = function(id, callback) {
@@ -21942,9 +23364,32 @@ iD.Connection = function() {
         connection.loadFromURL(
             url + '/api/0.6/' + type + '/' + osmID + (type !== 'node' ? '/full' : ''),
             function(err, entities) {
-                event.load(err, {data: entities});
-                if (callback) callback(err, entities && _.find(entities, function(e) { return e.id === id; }));
+                if (callback) callback(err, {data: entities});
             });
+    };
+
+    connection.loadMultiple = function(ids, callback) {
+        // TODO: upgrade lodash and just use _.chunk
+        function chunk(arr, chunkSize) {
+            var result = [];
+            for (var i = 0; i < arr.length; i += chunkSize) {
+                result.push(arr.slice(i, i + chunkSize));
+            }
+            return result;
+        }
+
+        _.each(_.groupBy(ids, iD.Entity.id.type), function(v, k) {
+            var type = k + 's',
+                osmIDs = _.map(v, iD.Entity.id.toOSM);
+
+            _.each(chunk(osmIDs, 150), function(arr) {
+                connection.loadFromURL(
+                    url + '/api/0.6/' + type + '?' + type + '=' + arr.join(),
+                    function(err, entities) {
+                        if (callback) callback(err, {data: entities});
+                    });
+            });
+        });
     };
 
     function authenticating() {
@@ -21953,6 +23398,12 @@ iD.Connection = function() {
 
     function authenticated() {
         event.authenticated();
+    }
+
+    function getLoc(attrs) {
+        var lon = attrs.lon && attrs.lon.value,
+            lat = attrs.lat && attrs.lat.value;
+        return [parseFloat(lon), parseFloat(lat)];
     }
 
     function getNodes(obj) {
@@ -21988,15 +23439,20 @@ iD.Connection = function() {
         return members;
     }
 
+    function getVisible(attrs) {
+        return (!attrs.visible || attrs.visible.value !== 'false');
+    }
+
     var parsers = {
         node: function nodeData(obj) {
             var attrs = obj.attributes;
             return new iD.Node({
                 id: iD.Entity.id.fromOSM(nodeStr, attrs.id.value),
-                loc: [parseFloat(attrs.lon.value), parseFloat(attrs.lat.value)],
+                loc: getLoc(attrs),
                 version: attrs.version.value,
                 user: attrs.user && attrs.user.value,
-                tags: getTags(obj)
+                tags: getTags(obj),
+                visible: getVisible(attrs)
             });
         },
 
@@ -22007,7 +23463,8 @@ iD.Connection = function() {
                 version: attrs.version.value,
                 user: attrs.user && attrs.user.value,
                 tags: getTags(obj),
-                nodes: getNodes(obj)
+                nodes: getNodes(obj),
+                visible: getVisible(attrs)
             });
         },
 
@@ -22018,13 +23475,14 @@ iD.Connection = function() {
                 version: attrs.version.value,
                 user: attrs.user && attrs.user.value,
                 tags: getTags(obj),
-                members: getMembers(obj)
+                members: getMembers(obj),
+                visible: getVisible(attrs)
             });
         }
     };
 
     function parse(dom) {
-        if (!dom || !dom.childNodes) return new Error('Bad request');
+        if (!dom || !dom.childNodes) return;
 
         var root = dom.childNodes[0],
             children = root.childNodes,
@@ -22093,13 +23551,18 @@ iD.Connection = function() {
     };
 
     connection.changesetTags = function(comment, imageryUsed) {
-        var tags = {
-            imagery_used: imageryUsed.join(';').substr(0, 255),
-            created_by: 'iD ' + iD.version
-        };
+        var detected = iD.detect(),
+            tags = {
+                created_by: 'iD ' + iD.version,
+                imagery_used: imageryUsed.join(';').substr(0, 255),
+                host: (window.location.origin + window.location.pathname).substr(0, 255),
+                locale: detected.locale,
+                browser: detected.browser + ' ' + detected.version,
+                platform: detected.platform
+            };
 
         if (comment) {
-            tags.comment = comment;
+            tags.comment = comment.substr(0, 255);
         }
 
         return tags;
@@ -22129,8 +23592,6 @@ iD.Connection = function() {
                 });
             });
     };
-
-    var userDetails;
 
     connection.userDetails = function(callback) {
         if (userDetails) {
@@ -22179,7 +23640,7 @@ iD.Connection = function() {
         return connection;
     };
 
-    connection.loadTiles = function(projection, dimensions) {
+    connection.loadTiles = function(projection, dimensions, callback) {
 
         if (off) return;
 
@@ -22232,7 +23693,7 @@ iD.Connection = function() {
                 loadedTiles[id] = true;
                 delete inflight[id];
 
-                event.load(err, _.extend({data: parsed}, tile));
+                if (callback) callback(err, _.extend({data: parsed}, tile));
 
                 if (_.isEmpty(inflight)) {
                     event.loaded();
@@ -22258,6 +23719,7 @@ iD.Connection = function() {
     };
 
     connection.flush = function() {
+        userDetails = undefined;
         _.forEach(inflight, abortRequest);
         loadedTiles = {};
         inflight = {};
@@ -22271,12 +23733,14 @@ iD.Connection = function() {
     };
 
     connection.logout = function() {
+        userDetails = undefined;
         oauth.logout();
         event.auth();
         return connection;
     };
 
     connection.authenticate = function(callback) {
+        userDetails = undefined;
         function done(err, res) {
             event.auth();
             if (callback) callback(err, res);
@@ -22520,6 +23984,9 @@ iD.Entity.prototype = {
         if (!this.id && this.type) {
             this.id = iD.Entity.id(this.type);
         }
+        if (!this.hasOwnProperty('visible')) {
+            this.visible = true;
+        }
 
         if (iD.debug) {
             Object.freeze(this);
@@ -22625,10 +24092,7 @@ iD.Graph = function(other, mutable) {
 
     this.transients = {};
     this._childNodes = {};
-
-    if (!mutable) {
-        this.freeze();
-    }
+    this.frozen = !mutable;
 };
 
 iD.Graph.prototype = {
@@ -22663,7 +24127,7 @@ iD.Graph.prototype = {
             result = [];
 
         if (parents) {
-            for (var i = 0, imax = parents.length; i !== imax; i++) {
+            for (var i = 0; i < parents.length; i++) {
                 result.push(this.entity(parents[i]));
             }
         }
@@ -22685,7 +24149,7 @@ iD.Graph.prototype = {
             result = [];
 
         if (parents) {
-            for (var i = 0, imax = parents.length; i !== imax; i++) {
+            for (var i = 0; i < parents.length; i++) {
                 result.push(this.entity(parents[i]));
             }
         }
@@ -22698,7 +24162,7 @@ iD.Graph.prototype = {
 
         var nodes = [];
         if (entity.nodes) {
-            for (var i = 0, l = entity.nodes.length; i < l; i++) {
+            for (var i = 0; i < entity.nodes.length; i++) {
                 nodes[i] = this.entity(entity.nodes[i]);
             }
         }
@@ -22721,20 +24185,19 @@ iD.Graph.prototype = {
     // is used only during the history operation that merges newly downloaded
     // data into each state. To external consumers, it should appear as if the
     // graph always contained the newly downloaded data.
-    rebase: function(entities, stack) {
+    rebase: function(entities, stack, force) {
         var base = this.base(),
             i, j, k, id;
 
         for (i = 0; i < entities.length; i++) {
             var entity = entities[i];
 
-            if (base.entities[entity.id])
+            if (!entity.visible || (!force && base.entities[entity.id]))
                 continue;
 
             // Merging data into the base graph
             base.entities[entity.id] = entity;
-            this._updateCalculated(undefined, entity,
-                base.parentWays, base.parentRels);
+            this._updateCalculated(undefined, entity, base.parentWays, base.parentRels);
 
             // Restore provisionally-deleted nodes that are discovered to have an extant parent
             if (entity.type === 'way') {
@@ -22864,6 +24327,19 @@ iD.Graph.prototype = {
         });
     },
 
+    revert: function(id) {
+        var baseEntity = this.base().entities[id],
+            headEntity = this.entities[id];
+
+        if (headEntity === baseEntity)
+            return this;
+
+        return this.update(function() {
+            this._updateCalculated(headEntity, baseEntity);
+            delete this.entities[id];
+        });
+    },
+
     update: function() {
         var graph = this.frozen ? iD.Graph(this, true) : this;
 
@@ -22871,15 +24347,9 @@ iD.Graph.prototype = {
             arguments[i].call(graph, graph);
         }
 
-        return this.frozen ? graph.freeze() : this;
-    },
+        if (this.frozen) graph.frozen = true;
 
-    freeze: function() {
-        this.frozen = true;
-
-        // No longer freezing entities here due to in-place updates needed in rebase.
-
-        return this;
+        return graph;
     },
 
     // Obliterates any existing entities
@@ -22938,9 +24408,13 @@ iD.History = function(context) {
             return stack[index].graph;
         },
 
+        base: function() {
+            return stack[0].graph;
+        },
+
         merge: function(entities, extent) {
-            stack[0].graph.rebase(entities, _.pluck(stack, 'graph'));
-            tree.rebase(entities);
+            stack[0].graph.rebase(entities, _.pluck(stack, 'graph'), false);
+            tree.rebase(entities, false);
 
             dispatch.change(undefined, extent);
         },
@@ -22972,6 +24446,21 @@ iD.History = function(context) {
                 stack.pop();
                 return change(previous);
             }
+        },
+
+        // Same as calling pop and then perform
+        overwrite: function() {
+            var previous = stack[index].graph;
+
+            if (index > 0) {
+                index--;
+                stack.pop();
+            }
+            stack = stack.slice(0, index + 1);
+            stack.push(perform(arguments));
+            index++;
+
+            return change(previous);
         },
 
         undo: function() {
@@ -23092,6 +24581,12 @@ iD.History = function(context) {
                     if (id in base.graph.entities) {
                         baseEntities[id] = base.graph.entities[id];
                     }
+                    // get originals of parent entities too
+                    _.forEach(base.graph._parentWays[id], function(parentId) {
+                        if (parentId in base.graph.entities) {
+                            baseEntities[parentId] = base.graph.entities[parentId];
+                        }
+                    });
                 });
 
                 var x = {};
@@ -23134,8 +24629,8 @@ iD.History = function(context) {
                     var baseEntities = h.baseEntities.map(function(entity) {
                         return iD.Entity(entity);
                     });
-                    stack[0].graph.rebase(baseEntities, _.pluck(stack, 'graph'));
-                    tree.rebase(baseEntities);
+                    stack[0].graph.rebase(baseEntities, _.pluck(stack, 'graph'), true);
+                    tree.rebase(baseEntities, true);
                 }
 
                 stack = h.stack.map(function(d) {
@@ -23641,13 +25136,13 @@ iD.Tree = function(head) {
 
     var tree = {};
 
-    tree.rebase = function(entities) {
+    tree.rebase = function(entities, force) {
         var insertions = {};
 
         for (var i = 0; i < entities.length; i++) {
             var entity = entities[i];
 
-            if (head.entities.hasOwnProperty(entity.id) || rectangles[entity.id])
+            if (!entity.visible || (!force && (head.entities.hasOwnProperty(entity.id) || rectangles[entity.id])))
                 continue;
 
             insertions[entity.id] = entity;
@@ -24112,14 +25607,16 @@ iD.Background = function(context) {
 
     background.zoomToGpxLayer = function() {
         if (background.hasGpxLayer()) {
-            var viewport = context.map().extent().polygon(),
+            var map = context.map(),
+                viewport = map.trimmedExtent().polygon(),
                 coords = _.reduce(gpxLayer.geojson().features, function(coords, feature) {
                     var c = feature.geometry.coordinates;
                     return _.union(coords, feature.geometry.type === 'Point' ? [c] : c);
                 }, []);
 
             if (!iD.geo.polygonIntersectsPolygon(viewport, coords)) {
-                context.map().extent(d3.geo.bounds(gpxLayer.geojson()));
+                var extent = iD.geo.Extent(d3.geo.bounds(gpxLayer.geojson()));
+                map.centerZoom(extent.center(), map.trimmedExtentZoom(extent));
             }
         }
     };
@@ -24235,6 +25732,7 @@ iD.BackgroundSource = function(data) {
         name = source.name;
 
     source.scaleExtent = data.scaleExtent || [0, 20];
+    source.overzoom = data.overzoom !== false;
 
     source.offset = function(_) {
         if (!arguments.length) return offset;
@@ -24289,7 +25787,7 @@ iD.BackgroundSource = function(data) {
 
     source.validZoom = function(z) {
         return source.scaleExtent[0] <= z &&
-            (!source.isLocatorOverlay() || source.scaleExtent[1] > z);
+            (source.overzoom || source.scaleExtent[1] > z);
     };
 
     source.isLocatorOverlay = function() {
@@ -24523,31 +26021,26 @@ iD.Features = function(context) {
 
         var strings = Object.keys(entity.tags);
 
-        for (var i = 0, imax = strings.length; i !== imax; i++) {
+        for (var i = 0; i < strings.length; i++) {
             var s = strings[i];
             if (past_futures[s] || past_futures[entity.tags[s]]) { return true; }
         }
         return false;
     });
 
-    // lines or areas that don't match another feature filter.
+    // Lines or areas that don't match another feature filter.
+    // IMPORTANT: The 'others' feature must be the last one defined,
+    //   so that code in getMatches can skip this test if `hasMatch = true`
     defineFeature('others', function isOther(entity, resolver, geometry) {
-        return (geometry === 'line' || geometry === 'area') && !(
-            _features.major_roads.filter(entity, resolver, geometry) ||
-            _features.minor_roads.filter(entity, resolver, geometry) ||
-            _features.paths.filter(entity, resolver, geometry) ||
-            _features.buildings.filter(entity, resolver, geometry) ||
-            _features.landuse.filter(entity, resolver, geometry) ||
-            _features.boundaries.filter(entity, resolver, geometry) ||
-            _features.water.filter(entity, resolver, geometry) ||
-            _features.rail.filter(entity, resolver, geometry) ||
-            _features.power.filter(entity, resolver, geometry) ||
-            _features.past_future.filter(entity, resolver, geometry)
-        );
+        return (geometry === 'line' || geometry === 'area');
     });
 
 
     function features() {}
+
+    features.features = function() {
+        return _features;
+    };
 
     features.keys = function() {
         return _keys;
@@ -24609,6 +26102,8 @@ iD.Features = function(context) {
 
     features.gatherStats = function(d, resolver, dimensions) {
         var needsRedraw = false,
+            type = _.groupBy(d, function(ent) { return ent.type; }),
+            entities = [].concat(type.relation || [], type.way || [], type.node || []),
             currHidden, geometry, matches;
 
         _.each(_features, function(f) { f.count = 0; });
@@ -24617,11 +26112,11 @@ iD.Features = function(context) {
         // a _cullFactor of 1 corresponds to a 1000x1000px viewport..
         _cullFactor = dimensions[0] * dimensions[1] / 1000000;
 
-        for (var i = 0, imax = d.length; i !== imax; i++) {
-            geometry = d[i].geometry(resolver);
+        for (var i = 0; i < entities.length; i++) {
+            geometry = entities[i].geometry(resolver);
             if (!(geometry === 'vertex' || geometry === 'relation')) {
-                matches = Object.keys(features.getMatches(d[i], resolver, geometry));
-                for (var j = 0, jmax = matches.length; j !== jmax; j++) {
+                matches = Object.keys(features.getMatches(entities[i], resolver, geometry));
+                for (var j = 0; j < matches.length; j++) {
                     _features[matches[j]].count++;
                 }
             }
@@ -24643,7 +26138,7 @@ iD.Features = function(context) {
     };
 
     features.clear = function(d) {
-        for (var i = 0, imax = d.length; i !== imax; i++) {
+        for (var i = 0; i < d.length; i++) {
             features.clearEntity(d[i]);
         }
     };
@@ -24667,10 +26162,31 @@ iD.Features = function(context) {
                 hasMatch = false;
 
             if (!(geometry === 'vertex' || geometry === 'relation')) {
-                for (var i = 0, imax = _keys.length; i !== imax; i++) {
-                    if (hasMatch && _keys[i] === 'others') {
-                        continue;
+                for (var i = 0; i < _keys.length; i++) {
+
+                    if (_keys[i] === 'others') {
+                        if (hasMatch) continue;
+
+                        // If the entity is a way that has not matched any other
+                        // feature type, see if it has a parent relation, and if so,
+                        // match whatever feature types the parent has matched.
+                        // (The way is a member of a multipolygon.)
+                        //
+                        // IMPORTANT:
+                        // For this to work, getMatches must be called on relations before ways.
+                        //
+                        if (entity.type === 'way') {
+                            var parents = features.getParents(entity, resolver, geometry);
+                            if (parents.length === 1) {
+                                var pkey = iD.Entity.key(parents[0]);
+                                if (_cache[pkey] && _cache[pkey].matches) {
+                                    matches = _.clone(_cache[pkey].matches);
+                                    continue;
+                                }
+                            }
+                        }
                     }
+
                     if (_features[_keys[i]].filter(entity, resolver, geometry)) {
                         matches[_keys[i]] = hasMatch = true;
                     }
@@ -24707,7 +26223,7 @@ iD.Features = function(context) {
 
         var matches = features.getMatches(entity, resolver, geometry);
 
-        for (var i = 0, imax = _hidden.length; i !== imax; i++) {
+        for (var i = 0; i < _hidden.length; i++) {
             if (matches[_hidden[i]]) { return true; }
         }
         return false;
@@ -24720,7 +26236,7 @@ iD.Features = function(context) {
 
         if (!parents.length) { return false; }
 
-        for (var i = 0, imax = parents.length; i !== imax; i++) {
+        for (var i = 0; i < parents.length; i++) {
             if (!features.isHidden(parents[i], resolver, parents[i].geometry(resolver))) {
                 return false;
             }
@@ -24766,7 +26282,7 @@ iD.Features = function(context) {
             return d;
 
         var result = [];
-        for (var i = 0, imax = d.length; i !== imax; i++) {
+        for (var i = 0; i < d.length; i++) {
             var entity = d[i];
             if (!features.isHidden(entity, resolver, entity.geometry(resolver))) {
                 result.push(entity);
@@ -24910,7 +26426,9 @@ iD.Map = function(context) {
         context.features()
             .on('redraw.map', redraw);
 
-        selection.call(zoom);
+        selection
+            .on('dblclick.map', dblClick)
+            .call(zoom);
 
         supersurface = selection.append('div')
             .attr('id', 'supersurface');
@@ -25023,20 +26541,23 @@ iD.Map = function(context) {
         dispatch.drawn({full: true});
     }
 
-    function zoomPan() {
-        if (d3.event && d3.event.sourceEvent.type === 'dblclick') {
-            if (!dblclickEnabled) {
-                zoom.scale(projection.scale() * 2 * Math.PI)
-                    .translate(projection.translate());
-                return d3.event.sourceEvent.preventDefault();
-            }
+    function dblClick() {
+        if (!dblclickEnabled) {
+            d3.event.preventDefault();
+            d3.event.stopImmediatePropagation();
         }
+    }
 
-        if (Math.log(d3.event.scale / Math.LN2 - 8) < minzoom + 1) {
+    function zoomPan() {
+        if (Math.log(d3.event.scale) / Math.LN2 - 8 < minzoom) {
+            surface.interrupt();
             iD.ui.flash(context.container())
                 .select('.content')
                 .text(t('cannot_zoom'));
-            return setZoom(context.minEditableZoom(), true);
+            setZoom(context.minEditableZoom(), true);
+            queueRedraw();
+            dispatch.move(map);
+            return;
         }
 
         projection
@@ -25085,7 +26606,7 @@ iD.Map = function(context) {
         }
 
         if (map.editable()) {
-            context.connection().loadTiles(projection, dimensions);
+            context.loadTiles(projection, dimensions);
             drawVector(difference, extent);
         } else {
             editOff();
@@ -25131,6 +26652,22 @@ iD.Map = function(context) {
         dblclickEnabled = _;
         return map;
     };
+
+    function interpolateZoom(_) {
+        var k = projection.scale(),
+            t = projection.translate();
+
+        surface.node().__chart__ = {
+            x: t[0],
+            y: t[1],
+            k: k * 2 * Math.PI
+        };
+
+        setZoom(_);
+        projection.scale(k).translate(t);  // undo setZoom projection changes
+
+        zoom.event(surface.transition());
+    }
 
     function setZoom(_, force) {
         if (_ === map.zoom() && !force)
@@ -25186,8 +26723,8 @@ iD.Map = function(context) {
         return redraw();
     };
 
-    map.zoomIn = function() { return map.zoom(~~map.zoom() + 1); };
-    map.zoomOut = function() { return map.zoom(~~map.zoom() - 1); };
+    map.zoomIn = function() { interpolateZoom(~~map.zoom() + 1); };
+    map.zoomOut = function() { interpolateZoom(~~map.zoom() - 1); };
 
     map.center = function(loc) {
         if (!arguments.length) {
@@ -25207,6 +26744,7 @@ iD.Map = function(context) {
         }
 
         if (z < minzoom) {
+            surface.interrupt();
             iD.ui.flash(context.container())
                 .select('.content')
                 .text(t('cannot_zoom'));
@@ -25221,8 +26759,10 @@ iD.Map = function(context) {
     };
 
     map.zoomTo = function(entity, zoomLimits) {
-        var extent = entity.extent(context.graph()),
-            zoom = map.extentZoom(extent);
+        var extent = entity.extent(context.graph());
+        if (!isFinite(extent.area())) return;
+
+        var zoom = map.trimmedExtentZoom(extent);
         zoomLimits = zoomLimits || [context.minEditableZoom(), 20];
         map.centerZoom(extent.center(), Math.min(Math.max(zoom, zoomLimits[0]), zoomLimits[1]));
     };
@@ -25265,25 +26805,39 @@ iD.Map = function(context) {
         }
     };
 
-    map.trimmedExtent = function() {
-        var headerY = 60, footerY = 30, pad = 10;
-        return new iD.geo.Extent(projection.invert([pad, dimensions[1] - footerY - pad]),
-                projection.invert([dimensions[0] - pad, headerY + pad]));
+    map.trimmedExtent = function(_) {
+        if (!arguments.length) {
+            var headerY = 60, footerY = 30, pad = 10;
+            return new iD.geo.Extent(projection.invert([pad, dimensions[1] - footerY - pad]),
+                    projection.invert([dimensions[0] - pad, headerY + pad]));
+        } else {
+            var extent = iD.geo.Extent(_);
+            map.centerZoom(extent.center(), map.trimmedExtentZoom(extent));
+        }
     };
 
-    map.extentZoom = function(_) {
-        var extent = iD.geo.Extent(_),
-            tl = projection([extent[0][0], extent[1][1]]),
+    function calcZoom(extent, dim) {
+        var tl = projection([extent[0][0], extent[1][1]]),
             br = projection([extent[1][0], extent[0][1]]);
 
         // Calculate maximum zoom that fits extent
-        var hFactor = (br[0] - tl[0]) / dimensions[0],
-            vFactor = (br[1] - tl[1]) / dimensions[1],
+        var hFactor = (br[0] - tl[0]) / dim[0],
+            vFactor = (br[1] - tl[1]) / dim[1],
             hZoomDiff = Math.log(Math.abs(hFactor)) / Math.LN2,
             vZoomDiff = Math.log(Math.abs(vFactor)) / Math.LN2,
             newZoom = map.zoom() - Math.max(hZoomDiff, vZoomDiff);
 
         return newZoom;
+    }
+
+    map.extentZoom = function(_) {
+        return calcZoom(iD.geo.Extent(_), dimensions);
+    };
+
+    map.trimmedExtentZoom = function(_) {
+        var trimY = 120, trimX = 40,
+            trimmed = [dimensions[0] - trimX, dimensions[1] - trimY];
+        return calcZoom(iD.geo.Extent(_), trimmed);
     };
 
     map.editable = function() {
@@ -26678,7 +28232,10 @@ iD.svg.Points = function(projection, context) {
 
     return function drawPoints(surface, entities, filter) {
         var graph = context.graph(),
-            points = _.filter(entities, function(e) { return e.geometry(graph) === 'point'; });
+            wireframe = surface.classed('fill-wireframe'),
+            points = wireframe ? [] : _.filter(entities, function(e) {
+                return e.geometry(graph) === 'point';
+            });
 
         points.sort(sortY);
 
@@ -26740,7 +28297,7 @@ iD.svg.TagClasses = function() {
             'leisure', 'place'
         ],
         secondary = [
-            'oneway', 'bridge', 'tunnel', 'construction', 'embankment', 'cutting'
+            'oneway', 'bridge', 'tunnel', 'construction', 'embankment', 'cutting', 'barrier'
         ],
         tagClassRe = /^tag-/,
         tags = function(entity) { return entity.tags; };
@@ -26999,12 +28556,19 @@ iD.svg.Vertices = function(projection, context) {
 
     function drawVertices(surface, graph, entities, filter, extent, zoom) {
         var selected = siblingAndChildVertices(context.selectedIDs(), graph, extent),
+            wireframe = surface.classed('fill-wireframe'),
             vertices = [];
 
         for (var i = 0; i < entities.length; i++) {
-            var entity = entities[i];
+            var entity = entities[i],
+                geometry = entity.geometry(graph);
 
-            if (entity.geometry(graph) !== 'vertex')
+            if (wireframe && geometry === 'point') {
+                vertices.push(entity);
+                continue;
+            }
+
+            if (geometry !== 'vertex')
                 continue;
 
             if (entity.id in selected ||
@@ -27071,6 +28635,11 @@ iD.ui = function(context) {
             .attr('id', 'map')
             .call(map);
 
+        content.append('div')
+            .attr('class', 'map-in-map')
+            .style('display', 'none')
+            .call(iD.ui.MapInMap(context));
+
         bar.append('div')
             .attr('class', 'spacer col4');
 
@@ -27128,6 +28697,10 @@ iD.ui = function(context) {
             .attr('class', 'fillD');
 
         footer.append('div')
+            .attr('class', 'api-status')
+            .call(iD.ui.Status(context));
+
+        footer.append('div')
             .attr('id', 'scale-block')
             .call(iD.ui.Scale(context));
 
@@ -27170,10 +28743,6 @@ iD.ui = function(context) {
             .attr('class', 'user-list')
             .attr('tabindex', -1)
             .call(iD.ui.Contributors(context));
-
-        footer.append('div')
-            .attr('class', 'api-status')
-            .call(iD.ui.Status(context));
 
         window.onbeforeunload = function() {
             return context.save();
@@ -27402,7 +28971,7 @@ iD.ui.Background = function(context) {
             ['bottom', [0, 1]]],
         opacityDefault = (context.storage('background-opacity') !== null) ?
             (+context.storage('background-opacity')) : 0.5,
-        customTemplate = '';
+        customTemplate = context.storage('background-custom-template') || '';
 
     // Can be 0 from <1.3.0 use or due to issue #1923.
     if (opacityDefault === 0) opacityDefault = 0.5;
@@ -27458,6 +29027,7 @@ iD.ui.Background = function(context) {
         function setCustom(template) {
             context.background().baseLayerSource(iD.BackgroundSource.Custom(template));
             selectLayer();
+            context.storage('background-custom-template', template);
         }
 
         function clickSetOverlay(d) {
@@ -27608,7 +29178,7 @@ iD.ui.Background = function(context) {
                 .placement('left'))
             .append('div')
             .attr('class', 'opacity')
-            .style('opacity', String);
+            .style('opacity', function(d) { return 1.25 - d; });
 
         var backgroundList = content.append('ul')
             .attr('class', 'layer-list');
@@ -27739,6 +29309,7 @@ iD.ui.Commit = function(context) {
             summary = context.history().difference().summary();
 
         function zoomToEntity(change) {
+
             var entity = change.entity;
             if (change.changeType !== 'deleted' &&
                 context.graph().entity(entity.id).geometry(context.graph()) !== 'vertex') {
@@ -27849,7 +29420,7 @@ iD.ui.Commit = function(context) {
 
         // Confirm Button
         var saveButton = saveSection.append('button')
-            .attr('class', 'action col4 button')
+            .attr('class', 'action col6 button')
             .on('click.save', function() {
                 event.save({
                     comment: commentField.node().value
@@ -27952,17 +29523,273 @@ iD.ui.confirm = function(selection) {
     section.append('div')
         .attr('class', 'modal-section message-text');
 
-    var buttonwrap = section.append('div')
+    var buttons = section.append('div')
         .attr('class', 'modal-section buttons cf');
 
-    buttonwrap.append('button')
-        .attr('class', 'col2 action')
-        .on('click.confirm', function() {
-            modal.remove();
-        })
-        .text(t('confirm.okay'));
+    modal.okButton = function() {
+        buttons
+            .append('button')
+            .attr('class', 'action col4')
+            .on('click.confirm', function() {
+                modal.remove();
+            })
+            .text(t('confirm.okay'));
+
+        return modal;
+    };
 
     return modal;
+};
+iD.ui.Conflicts = function(context) {
+    var dispatch = d3.dispatch('download', 'cancel', 'save'),
+        list;
+
+    function conflicts(selection) {
+        var header = selection
+            .append('div')
+            .attr('class', 'header fillL');
+
+        header
+            .append('button')
+            .attr('class', 'fr')
+            .on('click', function() { dispatch.cancel(); })
+            .append('span')
+            .attr('class', 'icon close');
+
+        header
+            .append('h3')
+            .text(t('save.conflict.header'));
+
+        var body = selection
+            .append('div')
+            .attr('class', 'body fillL');
+
+        body
+            .append('div')
+            .attr('class', 'conflicts-help')
+            .text(t('save.conflict.help'))
+            .append('a')
+            .attr('class', 'conflicts-download')
+            .text(t('save.conflict.download_changes'))
+            .on('click.download', function() { dispatch.download(); });
+
+        body
+            .append('div')
+            .attr('class', 'conflict-container fillL3')
+            .call(showConflict, 0);
+
+        body
+            .append('div')
+            .attr('class', 'conflicts-done')
+            .attr('opacity', 0)
+            .style('display', 'none')
+            .text(t('save.conflict.done'));
+
+        var buttons = body
+            .append('div')
+            .attr('class','buttons col12 joined conflicts-buttons');
+
+        buttons
+            .append('button')
+            .attr('disabled', list.length > 1)
+            .attr('class', 'action conflicts-button col6')
+            .text(t('save.title'))
+            .on('click.try_again', function() { dispatch.save(); });
+
+        buttons
+            .append('button')
+            .attr('class', 'secondary-action conflicts-button col6')
+            .text(t('confirm.cancel'))
+            .on('click.cancel', function() { dispatch.cancel(); });
+    }
+
+
+    function showConflict(selection, index) {
+        if (index < 0 || index >= list.length) return;
+
+        var parent = d3.select(selection.node().parentElement);
+
+        // enable save button if this is the last conflict being reviewed..
+        if (index === list.length - 1) {
+            window.setTimeout(function() {
+                parent.select('.conflicts-button')
+                    .attr('disabled', null);
+
+                parent.select('.conflicts-done')
+                    .transition()
+                    .attr('opacity', 1)
+                    .style('display', 'block');
+            }, 250);
+        }
+
+        var item = selection
+            .selectAll('.conflict')
+            .data([list[index]]);
+
+        var enter = item.enter()
+            .append('div')
+            .attr('class', 'conflict');
+
+        enter
+            .append('h4')
+            .attr('class', 'conflict-count')
+            .text(t('save.conflict.count', { num: index + 1, total: list.length }));
+
+        enter
+            .append('a')
+            .attr('class', 'conflict-description')
+            .attr('href', '#')
+            .text(function(d) { return d.name; })
+            .on('click', function(d) {
+                zoomToEntity(d.id);
+                d3.event.preventDefault();
+            });
+
+        var details = enter
+            .append('div')
+            .attr('class', 'conflict-detail-container');
+
+        details
+            .append('ul')
+            .attr('class', 'conflict-detail-list')
+            .selectAll('li')
+            .data(function(d) { return d.details || []; })
+            .enter()
+            .append('li')
+            .attr('class', 'conflict-detail-item')
+            .html(function(d) { return d; });
+
+        details
+            .append('div')
+            .attr('class', 'conflict-choices')
+            .call(addChoices);
+
+        details
+            .append('div')
+            .attr('class', 'conflict-nav-buttons joined cf')
+            .selectAll('button')
+            .data(['previous', 'next'])
+            .enter()
+            .append('button')
+            .text(function(d) { return t('save.conflict.' + d); })
+            .attr('class', 'conflict-nav-button action col6')
+            .attr('disabled', function(d, i) {
+                return (i === 0 && index === 0) ||
+                    (i === 1 && index === list.length - 1) || null;
+            })
+            .on('click', function(d, i) {
+                var container = parent.select('.conflict-container'),
+                sign = (i === 0 ? -1 : 1);
+
+                container
+                    .selectAll('.conflict')
+                    .remove();
+
+                container
+                    .call(showConflict, index + sign);
+
+                d3.event.preventDefault();
+            });
+
+        item.exit()
+            .remove();
+
+    }
+
+    function addChoices(selection) {
+        var choices = selection
+            .append('ul')
+            .attr('class', 'layer-list')
+            .selectAll('li')
+            .data(function(d) { return d.choices || []; });
+
+        var enter = choices.enter()
+            .append('li')
+            .attr('class', 'layer');
+
+        var label = enter
+            .append('label');
+
+        label
+            .append('input')
+            .attr('type', 'radio')
+            .attr('name', function(d) { return d.id; })
+            .on('change', function(d, i) {
+                var ul = this.parentElement.parentElement.parentElement;
+                ul.__data__.chosen = i;
+                choose(ul, d);
+            });
+
+        label
+            .append('span')
+            .text(function(d) { return d.text; });
+
+        choices
+            .each(function(d, i) {
+                var ul = this.parentElement;
+                if (ul.__data__.chosen === i) choose(ul, d);
+            });
+    }
+
+    function choose(ul, datum) {
+        if (d3.event) d3.event.preventDefault();
+
+        d3.select(ul)
+            .selectAll('li')
+            .classed('active', function(d) { return d === datum; })
+            .selectAll('input')
+            .property('checked', function(d) { return d === datum; });
+
+        var extent = iD.geo.Extent(),
+            entity;
+
+        entity = context.graph().hasEntity(datum.id);
+        if (entity) extent._extend(entity.extent(context.graph()));
+
+        datum.action();
+
+        entity = context.graph().hasEntity(datum.id);
+        if (entity) extent._extend(entity.extent(context.graph()));
+
+        zoomToEntity(datum.id, extent);
+    }
+
+    function zoomToEntity(id, extent) {
+        context.surface().selectAll('.hover')
+            .classed('hover', false);
+
+        var entity = context.graph().hasEntity(id);
+        if (entity) {
+            if (extent) {
+                context.map().trimmedExtent(extent);
+            } else {
+                context.map().zoomTo(entity);
+            }
+            context.surface().selectAll(
+                iD.util.entityOrMemberSelector([entity.id], context.graph()))
+                .classed('hover', true);
+        }
+    }
+
+
+    // The conflict list should be an array of objects like:
+    // {
+    //     id: id,
+    //     name: entityName(local),
+    //     details: merge.conflicts(),
+    //     chosen: 1,
+    //     choices: [
+    //         choice(id, keepMine, forceLocal),
+    //         choice(id, keepTheirs, forceRemote)
+    //     ]
+    // }
+    conflicts.list = function(_) {
+        if (!arguments.length) return list;
+        list = _;
+        return conflicts;
+    };
+
+    return d3.rebind(conflicts, dispatch, 'on');
 };
 iD.ui.Contributors = function(context) {
     function update(selection) {
@@ -28021,7 +29848,7 @@ iD.ui.Contributors = function(context) {
     return function(selection) {
         update(selection);
 
-        context.connection().on('load.contributors', function() {
+        context.connection().on('loaded.contributors', function() {
             update(selection);
         });
 
@@ -28219,14 +30046,42 @@ iD.ui.EntityEditor = function(context) {
     }
 
     function clean(o) {
+        function isOpeningHours(k) {
+            return _.any(['opening_hours', 'service_times', 'collection_times',
+                'operating_times', 'smoking_hours', 'happy_hours'], function(s) {
+                    return k.indexOf(s) !== -1;
+            });
+        }
+        function cleanVal(k, v) {
+            var cleaned = v.split(';')
+                .map(function(s) { return s.trim(); })
+                .join(isOpeningHours(k) ? '; ' : ';');
+
+            // The code below is not intended to validate websites and emails.
+            // It is only intended to prevent obvious copy-paste errors. (#2323)
+
+            // clean website-like tags
+            if (k.indexOf('website') !== -1 || cleaned.indexOf('http') !== -1) {
+                cleaned = cleaned
+                    .replace(/[\u200B-\u200F\uFEFF]/g, '')  // strip LRM and other zero width chars
+                    .replace(/[^\w\+\-\.\/\?\[\]\(\)~!@#$%&*',:;=]/g, encodeURIComponent);
+
+            // clean email-like tags
+            } else if (k.indexOf('email') !== -1) {
+                cleaned = cleaned
+                    .replace(/[\u200B-\u200F\uFEFF]/g, '')  // strip LRM and other zero width chars
+                    .replace(/[^\w\+\-\.\/\?\|~!@#$%^&*'`{};=]/g, '');  // note: ';' allowed as OSM delimiter
+            }
+
+            return cleaned;
+        }
+
         var out = {}, k, v;
-        /*jshint -W083 */
         for (k in o) {
             if (k && (v = o[k]) !== undefined) {
-                out[k] = v.split(';').map(function(s) { return s.trim(); }).join(';');
+                out[k] = cleanVal(k, v);
             }
         }
-        /*jshint +W083 */
         return out;
     }
 
@@ -28537,7 +30392,7 @@ iD.ui.FeatureList = function(context) {
             else if (d.entity) {
                 context.enter(iD.modes.Select(context, [d.entity.id]));
             } else {
-                context.loadEntity(d.id);
+                context.zoomToEntity(d.id);
             }
         }
 
@@ -29103,7 +30958,7 @@ iD.ui.MapData = function(context) {
     function map_data(selection) {
 
         function showsFeature(d) {
-            return autoHiddenFeature(d) ? null : context.features().enabled(d);
+            return context.features().enabled(d);
         }
 
         function autoHiddenFeature(d) {
@@ -29178,13 +31033,10 @@ iD.ui.MapData = function(context) {
             items
                 .classed('active', active)
                 .selectAll('input')
-                .property('checked', active);
-
-            if (name === 'feature') {
-                items
-                    .selectAll('input')
-                    .property('indeterminate', autoHiddenFeature);
-            }
+                .property('checked', active)
+                .property('indeterminate', function(d) {
+                    return (name === 'feature' && autoHiddenFeature(d));
+                });
 
             //exit
             items.exit()
@@ -29225,6 +31077,7 @@ iD.ui.MapData = function(context) {
                 d3.event.stopPropagation();
             }
             setFill((fillSelected === 'wireframe' ? fillDefault : 'wireframe'));
+            context.map().pan([0,0]);  // trigger a redraw
         }
 
         function setVisible(show) {
@@ -29404,7 +31257,6 @@ iD.ui.MapData = function(context) {
         context.features()
             .on('change.map_data-update', update);
 
-        update();
         setFill(fillDefault);
 
         var keybinding = d3.keybinding('features')
@@ -29421,6 +31273,280 @@ iD.ui.MapData = function(context) {
     }
 
     return map_data;
+};
+iD.ui.MapInMap = function(context) {
+    var key = '/';
+
+    function map_in_map(selection) {
+        var backgroundLayer = iD.TileLayer(),
+            overlayLayer = iD.TileLayer(),
+            projection = iD.geo.RawMercator(),
+            zoom = d3.behavior.zoom()
+                .scaleExtent([ztok(0.5), ztok(24)])
+                .on('zoom', zoomPan),
+            transformed = false,
+            panning = false,
+            zDiff = 6,    // by default, minimap renders at (main zoom - 6)
+            tStart, tLast, tCurr, kLast, kCurr, tiles, svg, timeoutId;
+
+        function ztok(z) { return 256 * Math.pow(2, z); }
+        function ktoz(k) { return Math.log(k) / Math.LN2 - 8; }
+
+
+        function startMouse() {
+            context.surface().on('mouseup.map-in-map-outside', endMouse);
+            context.container().on('mouseup.map-in-map-outside', endMouse);
+
+            tStart = tLast = tCurr = projection.translate();
+            panning = true;
+        }
+
+
+        function zoomPan() {
+            var e = d3.event.sourceEvent,
+                t = d3.event.translate,
+                k = d3.event.scale,
+                zMain = ktoz(context.projection.scale() * 2 * Math.PI),
+                zMini = ktoz(k);
+
+            // restrict minimap zoom to < (main zoom - 3)
+            if (zMini > zMain - 3) {
+                zMini = zMain - 3;
+                zoom.scale(kCurr).translate(tCurr);  // restore last good values
+                return;
+            }
+
+            tCurr = t;
+            kCurr = k;
+            zDiff = zMain - zMini;
+
+            var scale = kCurr / kLast,
+                tX = Math.round((tCurr[0] / scale - tLast[0]) * scale),
+                tY = Math.round((tCurr[1] / scale - tLast[1]) * scale);
+
+            iD.util.setTransform(tiles, tX, tY, scale);
+            iD.util.setTransform(svg, 0, 0, scale);
+            transformed = true;
+
+            queueRedraw();
+
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+
+        function endMouse() {
+            context.surface().on('mouseup.map-in-map-outside', null);
+            context.container().on('mouseup.map-in-map-outside', null);
+
+            updateProjection();
+            panning = false;
+
+            if (tCurr[0] !== tStart[0] && tCurr[1] !== tStart[1]) {
+                var dMini = selection.dimensions(),
+                    cMini = [ dMini[0] / 2, dMini[1] / 2 ];
+
+                context.map().center(projection.invert(cMini));
+            }
+        }
+
+
+        function updateProjection() {
+            var loc = context.map().center(),
+                dMini = selection.dimensions(),
+                cMini = [ dMini[0] / 2, dMini[1] / 2 ],
+                tMain = context.projection.translate(),
+                kMain = context.projection.scale(),
+                zMain = ktoz(kMain * 2 * Math.PI),
+                zMini = Math.max(zMain - zDiff, 0.5),
+                kMini = ztok(zMini);
+
+            projection
+                .translate(tMain)
+                .scale(kMini / (2 * Math.PI));
+
+            var s = projection(loc),
+                mouse = panning ? [ tCurr[0] - tStart[0], tCurr[1] - tStart[1] ] : [0, 0],
+                tMini = [
+                    cMini[0] - s[0] + tMain[0] + mouse[0],
+                    cMini[1] - s[1] + tMain[1] + mouse[1]
+                ];
+
+            projection
+                .translate(tMini)
+                .clipExtent([[0, 0], dMini]);
+
+            zoom
+                .center(cMini)
+                .translate(tMini)
+                .scale(kMini);
+
+            tLast = tCurr = tMini;
+            kLast = kCurr = kMini;
+
+            if (transformed) {
+                iD.util.setTransform(tiles, 0, 0);
+                iD.util.setTransform(svg, 0, 0);
+                transformed = false;
+            }
+        }
+
+
+        function redraw() {
+            if (hidden()) return;
+
+            updateProjection();
+
+            var dMini = selection.dimensions(),
+                zMini = ktoz(projection.scale() * 2 * Math.PI);
+
+            // setup tile container
+            tiles = selection
+                .selectAll('.map-in-map-tiles')
+                .data([0]);
+
+            tiles
+                .enter()
+                .append('div')
+                .attr('class', 'map-in-map-tiles');
+
+
+            // redraw background
+            backgroundLayer
+                .source(context.background().baseLayerSource())
+                .projection(projection)
+                .dimensions(dMini);
+
+            var background = tiles
+                .selectAll('.map-in-map-background')
+                .data([0]);
+
+            background.enter()
+                .append('div')
+                .attr('class', 'map-in-map-background');
+
+            background
+                .call(backgroundLayer);
+
+            // redraw overlay
+            var overlaySources = context.background().overlayLayerSources(),
+                hasOverlay = false;
+
+            for (var i = 0; i < overlaySources.length; i++) {
+                if (overlaySources[i].validZoom(zMini)) {
+                    overlayLayer
+                        .source(overlaySources[i])
+                        .projection(projection)
+                        .dimensions(dMini);
+
+                    hasOverlay = true;
+                    break;
+                }
+            }
+
+            var overlay = tiles
+                .selectAll('.map-in-map-overlay')
+                .data(hasOverlay ? [0] : []);
+
+            overlay.enter()
+                .append('div')
+                .attr('class', 'map-in-map-overlay');
+
+            overlay.exit()
+                .remove();
+
+            if (hasOverlay) {
+                overlay
+                    .call(overlayLayer);
+            }
+
+            // redraw bounding box
+            if (!panning) {
+                var getPath = d3.geo.path().projection(projection),
+                    bbox = { type: 'Polygon', coordinates: [context.map().extent().polygon()] };
+
+                svg = selection.selectAll('.map-in-map-svg')
+                    .data([0]);
+
+                svg.enter()
+                    .append('svg')
+                    .attr('class', 'map-in-map-svg');
+
+                var path = svg.selectAll('.map-in-map-bbox')
+                    .data([bbox]);
+
+                path.enter()
+                    .append('path')
+                    .attr('class', 'map-in-map-bbox');
+
+                path
+                    .attr('d', getPath)
+                    .classed('thick', function(d) { return getPath.area(d) < 30; });
+            }
+        }
+
+
+        function queueRedraw() {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(function() { redraw(); }, 300);
+        }
+
+
+        function hidden() {
+            return selection.style('display') === 'none';
+        }
+
+
+        function toggle() {
+            if (d3.event) d3.event.preventDefault();
+
+            if (hidden()) {
+                selection
+                    .style('display', 'block')
+                    .style('opacity', 0)
+                    .transition()
+                    .duration(200)
+                    .style('opacity', 1);
+
+                redraw();
+
+            } else {
+                selection
+                    .style('display', 'block')
+                    .style('opacity', 1)
+                    .transition()
+                    .duration(200)
+                    .style('opacity', 0)
+                    .each('end', function() {
+                        d3.select(this).style('display', 'none');
+                    });
+            }
+        }
+
+
+        selection
+            .on('mousedown.map-in-map', startMouse)
+            .on('mouseup.map-in-map', endMouse);
+
+        selection
+            .call(zoom)
+            .on('dblclick.zoom', null);
+
+        context.map()
+            .on('drawn.map-in-map', function(drawn) {
+                if (drawn.full === true) redraw();
+            });
+
+        redraw();
+
+        var keybinding = d3.keybinding('map-in-map')
+            .on(key, toggle);
+
+        d3.select(document)
+            .call(keybinding);
+    }
+
+    return map_in_map;
 };
 iD.ui.modal = function(selection, blocking) {
 
@@ -29476,15 +31602,9 @@ iD.ui.modal = function(selection, blocking) {
 
     if (animate) {
         shaded.transition().style('opacity', 1);
-        modal
-            .style('top','0px')
-            .transition()
-            .duration(200)
-            .style('top','40px');
     } else {
         shaded.style('opacity', 1);
     }
-
 
     return shaded;
 };
@@ -31020,6 +33140,11 @@ iD.ui.Scale = function(context) {
 };
 iD.ui.SelectionList = function(context, selectedIDs) {
 
+    function selectEntity(entity) {
+        context.enter(iD.modes.Select(context, [entity.id]).suppressMenu(true));
+    }
+
+
     function selectionList(selection) {
         selection.classed('selection-list-pane', true);
 
@@ -31048,9 +33173,7 @@ iD.ui.SelectionList = function(context, selectedIDs) {
 
             var enter = items.enter().append('button')
                 .attr('class', 'feature-list-item')
-                .on('click', function(entity) {
-                    context.enter(iD.modes.Select(context, [entity.id]));
-                });
+                .on('click', selectEntity);
 
             // Enter
 
@@ -33612,21 +35735,30 @@ iD.presets = function() {
     // (see `iD.Way#isArea()`). In other words, the keys of L form the whitelist,
     // and the subkeys form the blacklist.
     all.areaKeys = function() {
-        var areaKeys = {};
+        var areaKeys = {},
+            ignore = ['barrier', 'highway', 'footway', 'railway', 'type'],
+            presets = _.reject(all.collection, 'suggestion');
 
-        all.collection.forEach(function(d) {
-            if (d.suggestion) return;
-
+        // whitelist
+        presets.forEach(function(d) {
             for (var key in d.tags) break;
             if (!key) return;
-            var value = d.tags[key];
+            if (ignore.indexOf(key) !== -1) return;
 
-            if (['highway', 'footway', 'railway', 'type'].indexOf(key) === -1) {
-                if (d.geometry.indexOf('area') >= 0) {
-                    areaKeys[key] = areaKeys[key] || {};
-                } else if (key in areaKeys && value !== '*') {
-                    areaKeys[key][value] = true;
-                }
+            if (d.geometry.indexOf('area') !== -1) {
+                areaKeys[key] = areaKeys[key] || {};
+            }
+        });
+
+        // blacklist
+        presets.forEach(function(d) {
+            for (var key in d.tags) break;
+            if (!key) return;
+            if (ignore.indexOf(key) !== -1) return;
+
+            var value = d.tags[key];
+            if (d.geometry.indexOf('area') === -1 && key in areaKeys && value !== '*') {
+                areaKeys[key][value] = true;
             }
         });
 
@@ -33879,6 +36011,7 @@ iD.presets.Preset = function(id, preset, fields) {
 
     preset.id = id;
     preset.fields = (preset.fields || []).map(getFields);
+    preset.geometry = (preset.geometry || []);
 
     function getFields(f) {
         return fields[f];
@@ -33952,6 +36085,7 @@ iD.presets.Preset = function(id, preset, fields) {
             }
         }
 
+        delete tags.area;
         return tags;
     };
 
@@ -33969,11 +36103,23 @@ iD.presets.Preset = function(id, preset, fields) {
             }
         }
 
-        // Add area=yes if necessary
-        for (k in applyTags) {
-            if (geometry === 'area' && !(k in iD.areaKeys))
+        // Add area=yes if necessary.
+        // This is necessary if the geometry is already an area (e.g. user drew an area) AND any of:
+        // 1. chosen preset could be either an area or a line (`barrier=city_wall`)
+        // 2. chosen preset doesn't have a key in areaKeys (`railway=station`)
+        if (geometry === 'area') {
+            var needsAreaTag = true;
+            if (preset.geometry.indexOf('line') === -1) {
+                for (k in applyTags) {
+                    if (k in iD.areaKeys) {
+                        needsAreaTag = false;
+                        break;
+                    }
+                }
+            }
+            if (needsAreaTag) {
                 tags.area = 'yes';
-            break;
+            }
         }
 
         for (var f in preset.fields) {
@@ -47654,8 +49800,6 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
     },
     "locales": [
         "af",
-        "sq",
-        "sq-AL",
         "ar",
         "ar-AA",
         "hy",
@@ -47666,8 +49810,6 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "ca",
         "zh",
         "zh-CN",
-        "zh-CN.GB2312",
-        "gan",
         "zh-HK",
         "zh-TW",
         "yue",
@@ -47675,7 +49817,6 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "cs",
         "da",
         "nl",
-        "en-DE",
         "en-GB",
         "eo",
         "et",
@@ -47683,7 +49824,6 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "fr",
         "gl",
         "de",
-        "de-DE",
         "el",
         "hi-IN",
         "hu",
@@ -47692,24 +49832,19 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "it",
         "ja",
         "kn",
-        "km",
-        "km-KH",
         "ko",
         "ko-KR",
         "lv",
         "lt",
         "no",
-        "nn",
         "fa",
         "pl",
         "pt",
         "pt-BR",
         "ro-RO",
         "ru",
-        "ru-RU",
         "sc",
         "sr",
-        "sr-RS",
         "si",
         "sk",
         "sl",
@@ -47834,6 +49969,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "multiple": "Deleted {n} objects."
                 },
                 "incomplete_relation": "This feature can't be deleted because it hasn't been fully downloaded.",
+                "part_of_relation": "This feature can't be deleted because it's part of a larger relation. You must remove it from the relation first.",
                 "connected_to_hidden": "This can't be deleted because it is connected to a hidden feature."
             },
             "add_member": {
@@ -47962,7 +50098,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "commit": {
             "title": "Save Changes",
             "description_placeholder": "Brief description of your contributions",
-            "message_label": "Commit message",
+            "message_label": "Changeset comment",
             "upload_explanation": "The changes you upload will be visible on all maps that use OpenStreetMap data.",
             "upload_explanation_with_user": "The changes you upload as {user} will be visible on all maps that use OpenStreetMap data.",
             "save": "Save",
@@ -48110,10 +50246,33 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "title": "Save",
             "help": "Save changes to OpenStreetMap, making them visible to other users.",
             "no_changes": "No changes to save.",
-            "error": "An error occurred while trying to save",
+            "error": "Errors occurred while trying to save",
+            "status_code": "Server returned status code {code}",
             "unknown_error_details": "Please ensure you are connected to the internet.",
             "uploading": "Uploading changes to OpenStreetMap.",
-            "unsaved_changes": "You have unsaved changes"
+            "unsaved_changes": "You have unsaved changes",
+            "conflict": {
+                "header": "Resolve conflicting edits",
+                "count": "Conflict {num} of {total}",
+                "previous": "< Previous",
+                "next": "Next >",
+                "keep_local": "Keep mine",
+                "keep_remote": "Use theirs",
+                "restore": "Restore",
+                "delete": "Leave Deleted",
+                "download_changes": "Or download your changes.",
+                "done": "All conflicts resolved!",
+                "help": "Another user changed some of the same map features you changed.\nClick on each item below for more details about the conflict, and choose whether to keep\nyour changes or the other user's changes.\n"
+            }
+        },
+        "merge_remote_changes": {
+            "conflict": {
+                "deleted": "This object has been deleted by {user}.",
+                "location": "This object was moved by both you and {user}.",
+                "nodelist": "Nodes were changed by both you and {user}.",
+                "memberlist": "Relation members were changed by both you and {user}.",
+                "tags": "You changed the <b>{tag}</b> tag to \"{local}\" and {user} changed it to \"{remote}\"."
+            }
         },
         "success": {
             "edited_osm": "Edited OSM!",
@@ -48125,7 +50284,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "help_html": "Your changes should appear in the \"Standard\" layer in a few minutes. Other layers, and certain features, may take longer\n(<a href='https://help.openstreetmap.org/questions/4705/why-havent-my-changes-appeared-on-the-map' target='_blank'>details</a>).\n"
         },
         "confirm": {
-            "okay": "Okay"
+            "okay": "Okay",
+            "cancel": "Cancel"
         },
         "splash": {
             "welcome": "Welcome to the iD OpenStreetMap editor",
@@ -48172,7 +50332,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         },
         "help": {
             "title": "Help",
-            "help": "# Help\n\nThis is an editor for [OpenStreetMap](http://www.openstreetmap.org/), the\nfree and editable map of the world. You can use it to add and update\ndata in your area, making an open-source and open-data map of the world\nbetter for everyone.\n\nEdits that you make on this map will be visible to everyone who uses\nOpenStreetMap. In order to make an edit, you'll need a\n[free OpenStreetMap account](https://www.openstreetmap.org/user/new).\n\nThe [iD editor](http://ideditor.com/) is a collaborative project with [source\ncode available on GitHub](https://github.com/openstreetmap/iD).\n",
+            "help": "# Help\n\nThis is an editor for [OpenStreetMap](http://www.openstreetmap.org/), the\nfree and editable map of the world. You can use it to add and update\ndata in your area, making an open-source and open-data map of the world\nbetter for everyone.\n\nEdits that you make on this map will be visible to everyone who uses\nOpenStreetMap. In order to make an edit, you'll need to\n[log in](https://www.openstreetmap.org/login).\n\nThe [iD editor](http://ideditor.com/) is a collaborative project with [source\ncode available on GitHub](https://github.com/openstreetmap/iD).\n",
             "editing_saving": "# Editing & Saving\n\nThis editor is designed to work primarily online, and you're accessing\nit through a website right now.\n\n### Selecting Features\n\nTo select a map feature, like a road or point of interest, click\non it on the map. This will highlight the selected feature, open a panel with\ndetails about it, and show a menu of things you can do with the feature.\n\nTo select multiple features, hold down the 'Shift' key. Then either click\non the features you want to select, or drag on the map to draw a rectangle.\nThis will draw a box and select all the points within it.\n\n### Saving Edits\n\nWhen you make changes like editing roads, buildings, and places, these are\nstored locally until you save them to the server. Don't worry if you make\na mistake - you can undo changes by clicking the undo button, and redo\nchanges by clicking the redo button.\n\nClick 'Save' to finish a group of edits - for instance, if you've completed\nan area of town and would like to start on a new area. You'll have a chance\nto review what you've done, and the editor supplies helpful suggestions\nand warnings if something doesn't seem right about the changes.\n\nIf everything looks good, you can enter a short comment explaining the change\nyou made, and click 'Save' again to post the changes\nto [OpenStreetMap.org](http://www.openstreetmap.org/), where they are visible\nto all other users and available for others to build and improve upon.\n\nIf you can't finish your edits in one sitting, you can leave the editor\nwindow and come back (on the same browser and computer), and the\neditor application will offer to restore your work.\n",
             "roads": "# Roads\n\nYou can create, fix, and delete roads with this editor. Roads can be all\nkinds: paths, highways, trails, cycleways, and more - any often-crossed\nsegment should be mappable.\n\n### Selecting\n\nClick on a road to select it. An outline should become visible, along\nwith a small tools menu on the map and a sidebar showing more information\nabout the road.\n\n### Modifying\n\nOften you'll see roads that aren't aligned to the imagery behind them\nor to a GPS track. You can adjust these roads so they are in the correct\nplace.\n\nFirst click on the road you want to change. This will highlight it and show\ncontrol points along it that you can drag to better locations. If\nyou want to add new control points for more detail, double-click a part\nof the road without a node, and one will be added.\n\nIf the road connects to another road, but doesn't properly connect on\nthe map, you can drag one of its control points onto the other road in\norder to join them. Having roads connect is important for the map\nand essential for providing driving directions.\n\nYou can also click the 'Move' tool or press the `M` shortcut key to move the entire road at\none time, and then click again to save that movement.\n\n### Deleting\n\nIf a road is entirely incorrect - you can see that it doesn't exist in satellite\nimagery and ideally have confirmed locally that it's not present - you can delete\nit, which removes it from the map. Be cautious when deleting features -\nlike any other edit, the results are seen by everyone and satellite imagery\nis often out of date, so the road could simply be newly built.\n\nYou can delete a road by clicking on it to select it, then clicking the\ntrash can icon or pressing the 'Delete' key.\n\n### Creating\n\nFound somewhere there should be a road but there isn't? Click the 'Line'\nicon in the top-left of the editor or press the shortcut key `2` to start drawing\na line.\n\nClick on the start of the road on the map to start drawing. If the road\nbranches off from an existing road, start by clicking on the place where they connect.\n\nThen click on points along the road so that it follows the right path, according\nto satellite imagery or GPS. If the road you are drawing crosses another road, connect\nit by clicking on the intersection point. When you're done drawing, double-click\nor press 'Return' or 'Enter' on your keyboard.\n",
             "gps": "# GPS\n\nGPS data is the most trusted source of data for OpenStreetMap. This editor\nsupports local traces - `.gpx` files on your local computer. You can collect\nthis kind of GPS trace with a number of smartphone applications as well as\npersonal GPS hardware.\n\nFor information on how to perform a GPS survey, read\n[Surveying with a GPS](http://learnosm.org/en/beginner/using-gps/).\n\nTo use a GPX track for mapping, drag and drop the GPX file onto the map\neditor. If it's recognized, it will be added to the map as a bright purple\nline. Click on the 'Map Data' menu on the right side to enable,\ndisable, or zoom to this new GPX-powered layer.\n\nThe GPX track isn't directly uploaded to OpenStreetMap - the best way to\nuse it is to draw on the map, using it as a guide for the new features that\nyou add, and also to [upload it to OpenStreetMap](http://www.openstreetmap.org/trace/create)\nfor other users to use.\n",
@@ -48474,6 +50634,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "description": {
                     "label": "Description"
                 },
+                "drive_through": {
+                    "label": "Drive-Through"
+                },
                 "electrified": {
                     "label": "Electrification",
                     "placeholder": "Contact Line, Electrified Rail...",
@@ -48592,6 +50755,13 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "incline": {
                     "label": "Incline"
+                },
+                "incline_steps": {
+                    "label": "Incline",
+                    "options": {
+                        "up": "Up",
+                        "down": "Down"
+                    }
                 },
                 "information": {
                     "label": "Type"
@@ -48859,7 +51029,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "service": {
                     "label": "Type"
                 },
-                "service/bicycle/chaintool": {
+                "service/bicycle/chain_tool": {
                     "label": "Chain Tool",
                     "options": {
                         "undefined": "Assumed to be No",
@@ -48873,6 +51043,15 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                         "undefined": "Assumed to be No",
                         "yes": "Yes",
                         "no": "No"
+                    }
+                },
+                "service_rail": {
+                    "label": "Service Type",
+                    "options": {
+                        "spur": "Spur",
+                        "yard": "Yard",
+                        "siding": "Siding",
+                        "crossover": "Crossover"
                     }
                 },
                 "shelter": {
@@ -50311,9 +52490,17 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Lighthouse",
                     "terms": ""
                 },
+                "man_made/mast": {
+                    "name": "Radio Mast",
+                    "terms": "broadcast tower,cell phone tower,cell tower,guyed tower,mobile phone tower,radio tower,television tower,transmission mast,transmission tower,tv tower"
+                },
                 "man_made/observation": {
                     "name": "Observation Tower",
                     "terms": "lookout tower,fire tower"
+                },
+                "man_made/petroleum_well": {
+                    "name": "Oil Well",
+                    "terms": "drilling rig,oil derrick,oil drill,oil horse,oil rig,oil pump,petroleum well,pumpjack"
                 },
                 "man_made/pier": {
                     "name": "Pier",
@@ -50543,6 +52730,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "City",
                     "terms": ""
                 },
+                "place/farm": {
+                    "name": "Farm",
+                    "terms": ""
+                },
                 "place/hamlet": {
                     "name": "Hamlet",
                     "terms": ""
@@ -50681,6 +52872,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "relation": {
                     "name": "Relation",
+                    "terms": ""
+                },
+                "roundabout": {
+                    "name": "Roundabout",
                     "terms": ""
                 },
                 "route/ferry": {
