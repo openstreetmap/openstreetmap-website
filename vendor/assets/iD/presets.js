@@ -5450,7 +5450,7 @@ iD.data.presets = {
                 "pumpjack"
             ],
             "tags": {
-                "man_made": "mast"
+                "man_made": "petroleum_well"
             },
             "name": "Oil Well"
         },

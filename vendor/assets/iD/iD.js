@@ -17044,7 +17044,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.7.1';
+iD.version = '1.7.2';
 
 (function() {
     var detected = {};
@@ -23378,7 +23378,7 @@ iD.Connection = function() {
             return result;
         }
 
-        _.each(_.groupBy(ids, iD.Entity.id.type), function(v, k) {
+        _.each(_.groupBy(_.uniq(ids), iD.Entity.id.type), function(v, k) {
             var type = k + 's',
                 osmIDs = _.map(v, iD.Entity.id.toOSM);
 
