@@ -599,7 +599,7 @@ pl:
           trunk: Droga szybkiego ruchu
           trunk_link: Droga szybkiego ruchu – dojazd
           unclassified: Droga czwartorzędna
-          unsurfaced: Droga nieutwardzona
+          unsurfaced: Droga polna lub leśna
           "yes": Droga
         historic:
           archaeological_site: Wykopaliska archeologiczne
@@ -803,7 +803,7 @@ pl:
           spur: Bocznica kolejowa
           station: Stacja kolejowa
           stop: Przystanek kolejowy
-          subway: Stacja metra
+          subway: Metro
           subway_entrance: Wejście na stację metra
           switch: Zwrotnica
           tram: Linia tramwajowa
@@ -1070,6 +1070,11 @@ pl:
         (<a href="http://www.and.com">www.and.com</a>)
       contributors_nz_html: '<strong>Nowa Zelandia</strong>: Zawiera dane uzyskane
         z ''Land Information New Zealand''. Crown Copyright reserved.'
+      contributors_si_html: |-
+        <strong>Słowenia</strong>: Zawiera dane
+        <a href="http://www.gu.gov.si/en/">Urzędu Geodezji i Kartografii</a> oraz
+        <a href="http://www.mkgp.gov.si/en/">Ministerstwa Rolnictwa, Leśnictwa i Żywności</a>
+        (informacja publiczna Słowenii).
       contributors_za_html: |-
         <strong>Południowa Afryka</strong>: zawiera dane pochodzące
         z <a href="http://www.ngi.gov.za/">zarządu głównego:
@@ -1429,7 +1434,7 @@ pl:
           primary: Droga pierwszorzędna
           secondary: Droga drugorzędna
           unclassified: Drogi niesklasyfikowane
-          unsurfaced: Droga nieutwardzona
+          unsurfaced: Droga polna lub leśna
           track: Ścieżka
           byway: Droga boczna
           bridleway: Ścieżka dla koni
@@ -1740,6 +1745,7 @@ pl:
       register now: Zarejestruj się
       with username: 'Masz już konto w OpenStreetMap? Zaloguj się podając nazwę użytkownika
         i hasło:'
+      with external: 'Alternatywnie, zaloguj używając:'
       new to osm: Nowy na OpenStreetMap?
       to make changes: Aby wprowadzać zmiany w OpenStreetMap, musisz mieć konto.
       create account minute: Utwórz konto. To zajmuje tylko minutę.
@@ -1751,7 +1757,23 @@ pl:
         aktywność.<br />Skontaktuj się z <a href="%{webmaster}">webmasterem</a>, jeśli
         chcesz przedyskutować blokadę.
       auth failure: Niestety, podane dane nie pozwoliły na zalogowanie.
-      openid_logo_alt: Zaloguj używając OpenID
+      openid_logo_alt: Zaloguj przez OpenID
+      auth_providers:
+        openid:
+          title: Zaloguj przez OpenID
+          alt: Zaloguj przez URL OpenID
+        google:
+          title: Zaloguj przez Google
+          alt: Zaloguj przez Google OpenID
+        yahoo:
+          title: Zaloguj używając Yahoo
+          alt: Zaloguj używając Yahoo OpenID
+        wordpress:
+          title: Zaloguj przez Wordpress
+          alt: Zaloguj używając Wordpress OpenID
+        aol:
+          title: Zaloguj przez AOL
+          alt: Zaloguj używając AOL OpenID
     logout:
       title: Wyloguj
       heading: Wyloguj z OpenStreetMap
@@ -1795,8 +1817,19 @@ pl:
       display name: 'Przyjazna nazwa:'
       display name description: Twoja publiczna nazwa użytkownika. Można ją później
         zmienić w ustawieniach.
+      external auth: 'Logowanie przez:'
       password: Hasło
       confirm password: 'Potwierdzenie hasła:'
+      use external auth: 'Zaloguj przez:'
+      auth no password: Jeśli korzystasz z logowania pośredniego, hasło nie jest wymagane,
+        jednak niektóre dodatkowe narzędzia lub serwer mogą go potrzebować.
+      auth association: |-
+        <p>Twoje ID nie jest jeszcze skojarzone z kontem OpenStreetMap.</p>
+        <ul>
+          <li>Jeśli jesteś nowym użytkownikiem OpenStreetMap, utwórz nowe konto, korzystając z poniższego formularza.</li>
+          <li>Jeśli masz już konto, możesz zalogować się na nie przy użyciu nazwy użytkownika i hasła, a następnie skojarzyć je z Twoim ID w ustawieniach użytkownika.
+          </li>
+        </ul>
       continue: Zarejestruj się
       terms accepted: Dziękujemy za przyjęcie nowych Warunków uczestnictwa!
       terms declined: Jest nam przykro, że zdecydowałeś się nie przyjmować nowych
@@ -1904,6 +1937,7 @@ pl:
       current email address: 'Aktualny adres e-mail:'
       new email address: 'Nowy adres e-mail:'
       email never displayed publicly: (nie jest wyświetlany publicznie)
+      external auth: 'Zewnętrzne uwierzytelnienie:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/PL:OpenID
         link text: co to jest?
@@ -1981,8 +2015,9 @@ pl:
       press confirm button: Użyj poniższego przycisku aby potwierdzić Twój nowy adres
         e-mail.
       button: Potwierdzam
-      success: Twój nowy adres został zatwierdzony, cieszymy się że do nas dołączyłeś!
+      success: Potwierdzenie zmiany adresu mailowego
       failure: Adres email o tym kodzie był już potwierdzony.
+      unknown_token: Ten kod potwierdzający wygasł lub nie istnieje.
     set_home:
       flash success: Nowa lokalizacja domowa zapisana
     go_public:
@@ -2025,6 +2060,9 @@ pl:
           Niniejsza decyzja zostanie poddana przeglądowi przez administratora.
           Możesz też skontaktować się z %{webmaster}em, jeśli chcesz to omówić.
         </p>
+    auth_failure:
+      connection_failed: Połączenie z pośrednikiem logowania nieudane
+      invalid_credentials: Nieprawidłowe dane logownia
   user_role:
     filter:
       not_an_administrator: Tylko administratorzy mogą zarządzać rolami użytkowników,
@@ -2292,6 +2330,7 @@ pl:
         destination: Cel został osiągnięty
         against_oneway: Podążaj przeciwnie do kierunku drogi jednokierunkowej na drodze
         end_oneway: Koniec jednokierunkowej na drodze
+        exit: Wyjście%{exit}
         unnamed: (bez nazwy)
         courtesy: Wyznaczanie trasy dzięki uprzejmości %{link}
       time: Czas

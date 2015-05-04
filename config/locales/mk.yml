@@ -776,7 +776,7 @@ mk:
           spur: Железнички огранок
           station: Железничка станица
           stop: Железничка постојка
-          subway: Метро станица
+          subway: Метро
           subway_entrance: Влез во метро
           switch: Железнички пунктови
           tram: Трамвајска линија
@@ -1054,6 +1054,11 @@ mk:
       contributors_nz_html: |-
         <strong>Нов Зеланд</strong>: Содржи податоци од
         Катастарската служба на Нов Зеланд. Крунски авторски права.
+      contributors_si_html: |-
+        <strong>Словенија</strong>: Содржи податоци од
+        <a href="http://www.gu.gov.si/en/">Геодетската управа</a> и
+        <a href="http://www.mkgp.gov.si/en/">Министерството за земјоделство, шумарство и храна</a>
+        (јавни информации од Словенија).
       contributors_za_html: |-
         <strong>ЈАР</strong>: Содржи податоци од
         <a href="http://www.ngi.gov.za/">Главната управа:
@@ -1723,6 +1728,7 @@ mk:
       register now: Регистрација
       with username: 'Веќе имате сметка на OpenStreetMap? Најавете се со корисничкото
         име и лозинката:'
+      with external: 'Во спротивно, најавете преку надворешно место:'
       new to osm: За новодојденци на OpenStreetMap
       to make changes: Мора да имате сметка за да можете да правите измени на податоците
         на OpenStreetMap.
@@ -1736,6 +1742,22 @@ mk:
         за проблемот.
       auth failure: Жалиме, не можевме да ве најавиме со тие податоци.
       openid_logo_alt: Најава со OpenID
+      auth_providers:
+        openid:
+          title: Најава со OpenID
+          alt: Најава со URL за OpenID
+        google:
+          title: Најава со Google
+          alt: Најава со OpenID од Google
+        yahoo:
+          title: Најава со Yahoo
+          alt: Најава со OpenID од Yahoo
+        wordpress:
+          title: Најава со Wordpress
+          alt: Најава со OpenID од Wordpress
+        aol:
+          title: Најава со AOL
+          alt: Најава со OpenID од AOL
     logout:
       title: Одјава
       heading: Одјава од OpenStreetMap
@@ -1781,8 +1803,22 @@ mk:
       display name: 'Име за приказ:'
       display name description: Вашето јавно прикажано име. Можете да го смените подоцна
         во прилагодувањата.
+      external auth: 'Заверка за надворешното место:'
       password: 'Лозинка:'
       confirm password: 'Потврдете ја лозинката:'
+      use external auth: Во спротивно, најавете преку надворешно место
+      auth no password: Ако користите надворешно место, тогаш не ви треба лозинка,
+        но може да ја побараат некои дополнителни алатки или опслужувачот.
+      auth association: |-
+        <p>Вашата назнака сè уште не е здружен со сметка на OpenStreetMap.</p>
+        <ul>
+          <li>Ако сте нови на OpenStreetMap, тогаш направете сметка со долунаведениот образец.</li>
+          <li>
+            Ако веќе имате сметка, можете да се најавите со
+            корисничкото име и лозинката, а потоа во корисничките
+            нагдувања да ја здружите со вашата назнака.
+          </li>
+        </ul>
       continue: Регистрација
       terms accepted: Ви благодариме што ги прифативте новите услови за учество!
       terms declined: Жалиме што не се согласувате со новите Услови за учество. Повеќе
@@ -1892,6 +1928,7 @@ mk:
       current email address: 'Тековна е-пошта:'
       new email address: 'Нова е-поштенска адреса:'
       email never displayed publicly: (никогаш не се прикажува јавно)
+      external auth: 'Надворешна заверка:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/MK:OpenID?uselang=mk
         link text: што е ова?
@@ -1958,7 +1995,7 @@ mk:
       button: Потврди
       success: Вашата сметка е потврдена. Ви благодариме што се регистриравте!
       already active: Оваа сметка е веќе потврдена.
-      unknown token: ПОтврдниот код е истечен или не постои.
+      unknown token: Потврдниот код е истечен или не постои.
       reconfirm_html: Ако сакате повторно да ви ја испратиме потврдната порака, <a
         href="%{reconfirm}">стиснете тука</a>.
     confirm_resend:
@@ -1973,8 +2010,9 @@ mk:
       press confirm button: Притиснете го копчето за потврдување за да ја потврдите
         новата е-поштенска адреса.
       button: Потврди
-      success: Вашата е-пошта е потврдена. Ви благодариме што се регистриравте!
+      success: Измената на вашата е-пошта е потврдена!
       failure: Со оваа шифра е потврдена веќе една е-поштенска адреса
+      unknown_token: Потврдниот код е истечен или не постои.
     set_home:
       flash success: Матичната местоположба е успешно зачувана
     go_public:
@@ -2016,6 +2054,9 @@ mk:
           Донесената одлуката набргу ќе ја прегледа администратор, но
           можете да се обратите кај %{webmaster} ако сакате да продискутирате за овој проблем.
         </p>
+    auth_failure:
+      connection_failed: Не успеав да воспоставам врска со услужникот за заверка
+      invalid_credentials: Неважечки податоци за заверка
   user_role:
     filter:
       not_an_administrator: Само администраторите можат да раководат со улоги, а вие
@@ -2282,6 +2323,7 @@ mk:
         destination: Стигнавте на одредиштето
         against_oneway: Оди обратно во еднонасочната
         end_oneway: Крај на еднонасочната
+        exit: излези од %{exit}
         unnamed: (неименувано)
         courtesy: Насоките ги добивте благодарение на %{link}
       time: Време

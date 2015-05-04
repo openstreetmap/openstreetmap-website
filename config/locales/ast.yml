@@ -771,7 +771,7 @@ ast:
           spur: Apartaderu industrial
           station: Estación de tren
           stop: Apeaderu
-          subway: Estación de metro
+          subway: Metro
           subway_entrance: Entrada de metro
           switch: Aguyes de ferrocarril
           tram: Tranvía
@@ -1035,6 +1035,11 @@ ast:
         (<a href="http://www.and.com">www.and.com</a>)
       contributors_nz_html: '<strong>Nueva Zelanda</strong>: Contien datos sacaos
         de Land Information New Zealand. Crown Copyright reserved.'
+      contributors_si_html: |-
+        <strong>Eslovenia</strong>: Contien datos de la
+        <a href="http://www.gu.gov.si/en/">Autoridá Topográfica y Cartográfica</a> y del
+        <a href="http://www.mkgp.gov.si/en/">Ministeriu d'Agricultura, Silvicultura y Alimentación</a>
+        (información pública d'Eslovenia).
       contributors_za_html: |-
         <strong>Sudáfrica</strong>: Contien datos sacaos de
         <a href="http://www.ngi.gov.za/">Chief Directorate:
@@ -1691,6 +1696,7 @@ ast:
       register now: Rexistrate agora
       with username: '¿Yá tienes cuenta n''OpenStreetMap? Anicia sesión col to nome
         d''usuariu y contraseña:'
+      with external: 'Alternativamente, usa un terceru p''aniciar sesión:'
       new to osm: ¿Yes nuevu con OpenStreetMap?
       to make changes: Pa camudar los datos d'OpenStreetMap, has de tener una cuenta.
       create account minute: Crea una cuenta. Lleva namái un minutu.
@@ -1703,6 +1709,22 @@ ast:
         si quies discutilo.
       auth failure: Sentímoslo, nun se pudo coneutar al sistema con esos datos.
       openid_logo_alt: Coneutar con una OpenID
+      auth_providers:
+        openid:
+          title: Aniciar sesión con OpenID
+          alt: Aniciar sesión con una URL d'OpenID
+        google:
+          title: Aniciar sesión con Google
+          alt: Aniciar sesión con una OpenID de Google
+        yahoo:
+          title: Aniciar sesión con Yahoo
+          alt: Aniciar sesión con una OpenID de Yahoo
+        wordpress:
+          title: Aniciar sesión con Wordpress
+          alt: Aniciar sesión con una OpenID de Wordpress
+        aol:
+          title: Aniciar sesión con AOL
+          alt: Aniciar sesión con una OpenID de AOL
     logout:
       title: Salir
       heading: Colar d'OpenStreetMap
@@ -1748,8 +1770,22 @@ ast:
       display name: 'Nome a amosar:'
       display name description: El nome d'usuariu que s'amuesa en público. Pue camudalo
         más sero nes preferencies.
+      external auth: 'Autenticación con un terceru:'
       password: 'Contraseña:'
       confirm password: 'Confirma la contraseña:'
+      use external auth: Alternativamente, usa un terceru p'aniciar sesión
+      auth no password: Cola autenticación con un terceru nun fai falta una contraseña,
+        pero delles ferramientes estra o sirvidores inda puen necesitala.
+      auth association: |-
+        <p>La to ID inda nun ta asociada con una cuenta d'OpenStreetMap.</p>
+        <ul>
+          <li>Si yes nuevu n'OpenStreetMap, crea una cuenta nueva usando'l formulariu de más abaxo.</li>
+          <li>
+            Si yá tienes una cuenta, pues aniciar sesión con ella usando'l to
+            nome d'usuariu y contraseña y llueu asociar la cuenta cola
+            to ID na configuración d'usuariu.
+          </li>
+        </ul>
       continue: Date d'alta
       terms accepted: ¡Gracies por aceutar les condiciones de collaboración!
       terms declined: Sentimos que decidieras nun aceutar les Condiciones de Collaborador.
@@ -1855,6 +1891,7 @@ ast:
       current email address: 'Direición de corréu electrónicu actual:'
       new email address: 'Nueva direición de corréu electrónicu:'
       email never displayed publicly: (nunca s'amuesa en público)
+      external auth: 'Autenticación esterna:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: ¿qué ye esto?
@@ -1935,8 +1972,9 @@ ast:
       press confirm button: Calca nel botón de confirmación qu'apaez abaxo pa confirmar
         la to direición de corréu nueva.
       button: Confirmar
-      success: Direición de corréu electrónicu confirmada. ¡Gracies por rexistrate!
+      success: ¡Confirmóse'l to cambiu de direición de corréu electrónicu!
       failure: Yá se confirmó una direición de corréu electrónicu con esti token.
+      unknown_token: El códigu de confirmación caducó o nun esiste.
     set_home:
       flash success: Llocalización d'aniciu guardada correutamente
     go_public:
@@ -1979,6 +2017,9 @@ ast:
           Un alministrador revisará pronto esta decisión, o pues
           comunicate col %{webmaster} si quies discutir esto.
         </p>
+    auth_failure:
+      connection_failed: Falló la conexón col fornidor d'autenticación
+      invalid_credentials: Credenciales d'autenticación inválides
   user_role:
     filter:
       not_an_administrator: Namái los alministradores pueden xestionar los roles,
@@ -2241,6 +2282,7 @@ ast:
         destination: Aportasti al destín
         against_oneway: Dir escontra direición per
         end_oneway: Final de sentíu únicu en
+        exit: salir %{exit}
         unnamed: (ensin nome)
         courtesy: Direiciones cortesía de %{link}
       time: Tiempu

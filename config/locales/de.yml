@@ -812,7 +812,7 @@ de:
           spur: Anschlussgleis
           station: Bahnhof
           stop: Haltepunkt
-          subway: U-Bahn-Station
+          subway: U-Bahn
           subway_entrance: U-Bahn-Eingang
           switch: Weiche
           tram: Straßenbahn
@@ -1091,6 +1091,11 @@ de:
         2007 (<a href="http://www.and.com">www.and.com</a>)'
       contributors_nz_html: '<strong>Neuseeland</strong>: Enthält Daten aus <i>Land
         Information New Zealand</i>. Urheberrecht vorbehalten.'
+      contributors_si_html: |-
+        <strong>Slowenien</strong>: Enthält Daten aus der
+        <a href="http://www.gu.gov.si/en/">Vermessungs- und Kartierungsbehörde</a> sowie dem
+        <a href="http://www.mkgp.gov.si/en/">Ministerium für Landwirtschaft, Forsten und Ernährung</a>
+        (öffentliche Informationen von Slowenien).
       contributors_za_html: '<strong>Südafrika</strong>: Enthält Daten von <i><a href="http://www.ngi.gov.za/">Chief
         Directorate: National Geo-Spatial Information</a></i>, Staatliches Urheberrecht
         vorbehalten.'
@@ -1774,6 +1779,7 @@ de:
       register now: Jetzt registrieren
       with username: 'Hast du bereits ein Konto bei OpenStreetMap? Bitte melde dich
         mit deinem Benutzernamen und Passwort an:'
+      with external: 'Verwende alternativ eine Drittpartei zur Anmeldung:'
       new to osm: Neu bei OpenStreetMap?
       to make changes: Um Datenänderungen bei OpenStreetMap vornehmen zu können, musst
         Du ein Benutzerkonto haben.
@@ -1787,6 +1793,22 @@ de:
         falls du dies klären möchtest.
       auth failure: Mit diesen Daten leider keine Anmeldung möglich.
       openid_logo_alt: Mit einer OpenID anmelden
+      auth_providers:
+        openid:
+          title: Mit OpenID anmelden
+          alt: Mit einer OpenID-URL anmelden
+        google:
+          title: Mit Google anmelden
+          alt: Mit einer Google-OpenID anmelden
+        yahoo:
+          title: Mit Yahoo anmelden
+          alt: Mit einer Yahoo-OpenID anmelden
+        wordpress:
+          title: Mit Wordpress anmelden
+          alt: Mit einer Wordpress-OpenID anmelden
+        aol:
+          title: Mit AOL anmelden
+          alt: Mit einer AOL-OpenID anmelden
     logout:
       title: Abmelden
       heading: Von OpenStreetMap abmelden
@@ -1834,8 +1856,22 @@ de:
       display name: 'Benutzername:'
       display name description: Dein öffentlich angezeigter Benutzername. Er kann
         später in den Einstellungen geändert werden.
+      external auth: 'Drittparteiauthentifikation:'
       password: 'Passwort:'
       confirm password: 'Passwort bestätigen:'
+      use external auth: Verwende alternativ eine Drittpartei zur Anmeldung
+      auth no password: Mit Drittparteiauthentifikation ist kein Passwort erforderlich,
+        jedoch können einige Extrawerkzeuge oder Server eines benötigen.
+      auth association: |-
+        <p>Deine ID ist noch nicht mit einem OpenStreetMap-Benutzerkonto verknüpft.</p>
+        <ul>
+          <li>Falls du neu auf OpenStreetMap bist, erstelle bitte mithilfe des unten stehenden Formulars ein neues Benutzerkonto.</li>
+          <li>
+            Falls du schon ein Benutzerkonto besitzt, kannst du dich bei deinem Konto
+            mit Benutzernamen und Passwort anmelden und anschließend das Benutzerkonto
+            in den Einstellungen mit deiner ID verknüpfen.
+          </li>
+        </ul>
       continue: Registrieren
       terms accepted: Vielen Dank, dass du den neuen Bedingungen für Mitwirkende zugestimmt
         hast!
@@ -1945,6 +1981,7 @@ de:
       current email address: 'Aktuelle E-Mail-Adresse:'
       new email address: 'Neue E-Mail-Adresse:'
       email never displayed publicly: (nicht öffentlich sichtbar)
+      external auth: 'Externe Authentifikation:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: Was ist das?
@@ -2030,8 +2067,9 @@ de:
       press confirm button: Zur Bestätigung der neuen E-Mail-Adresse klicke bitte
         unten auf „Bestätigen“.
       button: Bestätigen
-      success: Deine E-Mail-Adresse wurde bestätigt, danke fürs Registrieren!
+      success: Die Änderung deiner E-Mail-Adresse wurde bestätigt!
       failure: Eine E-Mail-Adresse wurde bereits mit diesem Link bestätigt.
+      unknown_token: Dieser Bestätigungscode ist abgelaufen oder nicht vorhanden.
     set_home:
       flash success: Standort erfolgreich gespeichert
     go_public:
@@ -2068,6 +2106,9 @@ de:
       body: |-
         <p>Dein Benutzerkonto wurde aufgrund verdächtiger Aktivitäten automatisch gesperrt, um potentiellen Schaden von OpenStreetMap abzuwenden.</p>
         <p>Diese Entscheidung wird in Kürze von einem der Administratoren überprüft. Du kannst dich aber auch direkt an den %{webmaster} wenden, sofern du diese Angelegenheit klären möchtest.</p>
+    auth_failure:
+      connection_failed: Verbindung zum Authentifikationsprovider fehlgeschlagen
+      invalid_credentials: Ungültige Authentifikationsinformationen
   user_role:
     filter:
       not_an_administrator: Benutzerrollen können nur von Administratoren verwaltet
@@ -2343,6 +2384,7 @@ de:
         destination: Ziel erreicht
         against_oneway: Go against one-way on
         end_oneway: Ende der Einbahnstrasse
+        exit: '%{exit} verlassen'
         unnamed: (unbekannt)
         courtesy: Routenanweisungen stammen von %{link}
       time: Zeit
