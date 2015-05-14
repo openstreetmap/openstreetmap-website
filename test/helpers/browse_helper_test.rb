@@ -188,6 +188,14 @@ class BrowseHelperTest < ActionView::TestCase
     assert_equal "http://fr.wikipedia.org/wiki/de:Test?uselang=en", link[:url]
     assert_equal "de:Test", link[:title]
 
+    link = wikipedia_link("wikipedia", "de:Englischer Garten (München)#Japanisches Teehaus")
+    assert_equal "http://de.wikipedia.org/wiki/de:Englischer Garten (München)?uselang=en#Japanisches_Teehaus", link[:url]
+    assert_equal "de:Englischer Garten (München)#Japanisches Teehaus", link[:title]
+
+    link = wikipedia_link("wikipedia", "de:Alte Brücke (Heidelberg)#Brückenaffe")
+    assert_equal "http://de.wikipedia.org/wiki/de:Alte Brücke (Heidelberg)?uselang=en#Br.C3.BCckenaffe", link[:url]
+    assert_equal "de:Alte Brücke (Heidelberg)#Brückenaffe", link[:title]
+
     I18n.locale = "pt-BR"
 
     link = wikipedia_link("wikipedia", "zh-classical:Test#Section")
