@@ -286,7 +286,13 @@ class GeocoderController < ApplicationController
   private
 
   def fetch_text(url)
-    OSM.http_client.get(URI.parse(url)).body
+    response = OSM.http_client.get(URI.parse(url))
+
+    if response.success?
+      response.body
+    else
+      fail response.status.to_s
+    end
   end
 
   def fetch_xml(url)
