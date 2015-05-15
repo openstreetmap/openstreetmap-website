@@ -196,6 +196,10 @@ class BrowseHelperTest < ActionView::TestCase
     assert_equal "http://de.wikipedia.org/wiki/de:Alte Brücke (Heidelberg)?uselang=en#Br.C3.BCckenaffe", link[:url]
     assert_equal "de:Alte Brücke (Heidelberg)#Brückenaffe", link[:title]
 
+    link = wikipedia_link("wikipedia", "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus")
+    assert_equal "http://de.wikipedia.org/wiki/de:Liste der Baudenkmäler in Eichstätt?uselang=en#Br.C3.BCckenstra.C3.9Fe_1.2C_Ehemaliges_Bauernhaus", link[:url]
+    assert_equal "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus", link[:title]
+
     I18n.locale = "pt-BR"
 
     link = wikipedia_link("wikipedia", "zh-classical:Test#Section")

@@ -140,7 +140,7 @@ module BrowseHelper
       # Must break it up to correctly build the url
       value = $1
       section = "#" + $2
-      encoded_section = "#" + URI.encode($2.gsub(" ", "_")).gsub("%3A", ":").gsub("%", ".")
+      encoded_section = "#" + URI.encode($2.gsub(/ +/, "_"), /[^A-Za-z0-9:_]/).gsub("%", ".")
     else
       section = ""
       encoded_section = ""
