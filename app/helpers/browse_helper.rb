@@ -1,3 +1,5 @@
+require "uri"
+
 module BrowseHelper
   def printable_name(object, version = false)
     if object.id.is_a?(Array)
@@ -133,17 +135,19 @@ module BrowseHelper
       return nil
     end
 
-    if value =~ /^([^#]*)(#.*)/
+    if value =~ /^([^#]*)#(.*)/
       # Contains a reference to a section of the wikipedia article
       # Must break it up to correctly build the url
       value = $1
-      section = $2
+      section = "#" + $2
+      encoded_section = "#" + URI.encode($2.gsub(" ", "_")).gsub("%3A", ":").gsub("%", ".")
     else
       section = ""
+      encoded_section = ""
     end
 
     {
-      :url => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}#{section}",
+      :url => "http://#{lang}.wikipedia.org/wiki/#{value}?uselang=#{I18n.locale}#{encoded_section}",
       :title => value + section
     }
   end

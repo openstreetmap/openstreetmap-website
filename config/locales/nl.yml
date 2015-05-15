@@ -418,8 +418,10 @@ nl:
     search_osm_nominatim:
       prefix:
         aerialway:
+          cable_car: Kabelbaan
           chair_lift: Stoeltjeslift
           drag_lift: Sleeplift
+          gondola: Gondel
           station: Kabelbaanstation
         aeroway:
           aerodrome: Luchtvaartterrein
@@ -800,7 +802,7 @@ nl:
           spur: Parallelspoorweg
           station: Spoorwegstation
           stop: Spoorhalte
-          subway: Metrostation
+          subway: Metro
           subway_entrance: Metroingang
           switch: Wissel
           tram: Tramrails
@@ -1081,6 +1083,11 @@ nl:
       contributors_nz_html: |-
         <strong>Nieuw-Zeeland</strong>: Bevat gegevens van
         Land Information New Zealand. Crown Copyright voorbehouden.
+      contributors_si_html: |-
+        <strong>Slovenië</strong>: Bevat gegevens uit
+        <a href="http://www.gu.gov.si/en/">Surveying and Mapping Authority</a> en
+        <a href="http://www.mkgp.gov.si/en/">Ministerie van Landbouw, Bosbouw en Voedsel</a>
+        (openbare informatie van Slovenië).
       contributors_za_html: |-
         <strong>Zuid-Afrika</strong>: Bevat gegevens afkomstig uit
         <a href="http://www.ngi.gov.za/">Chief Directorate:
@@ -1753,6 +1760,7 @@ nl:
       register now: Nu inschrijven
       with username: 'Hebt u al een account bij OpenStreetMap? Meld aan met uw gebruikersnaam
         en wachtwoord:'
+      with external: 'U kunt ook gebruik maken van een derde partij om aan te melden:'
       new to osm: Is OpenStreetMap nieuw voor u?
       to make changes: Om wijzigingen in OpenStreetMap te maken, moet u een gebruiker
         hebben.
@@ -1766,6 +1774,22 @@ nl:
         als u deze handeling wilt bespreken.
       auth failure: Met deze gegevens kunt u helaas niet aanmelden.
       openid_logo_alt: Aanmelden met een OpenID
+      auth_providers:
+        openid:
+          title: Aanmelden met OpenID
+          alt: Aanmelden met een OpenID URL
+        google:
+          title: Aanmelden met Google
+          alt: Aanmelden met een Google OpenID
+        yahoo:
+          title: Aanmelden met Yahoo
+          alt: Aanmelden met een Yahoo OpenID
+        wordpress:
+          title: Aanmelden met Wordpress
+          alt: Aanmelden met een Wordpress OpenID
+        aol:
+          title: Aanmelden met AOL
+          alt: Aanmelden met een AOL OpenID
     logout:
       title: Afmelden
       heading: Afmelden van OpenStreetMap
@@ -1811,8 +1835,21 @@ nl:
       display name: 'Weergavenaam:'
       display name description: Uw openbare gebruikersnaam. U kunt deze later in uw
         voorkeuren wijzigen.
+      external auth: 'Derde partijverificatie:'
       password: 'Wachtwoord:'
       confirm password: 'Wachtwoord bevestigen:'
+      use external auth: U kunt ook gebruik maken van een derde partij om aan te melden
+      auth no password: Met derde partijverificatie is een wachtwoord niet verplicht,
+        maar sommige extra hulpmiddelen of servers kunnen het nog steeds nodig hebben.
+      auth association: |-
+        <p>Uw ID is nog niet gekoppeld aan een OpenStreetMapgebruiker.</p>
+        <ul>
+          <li>Als u nieuw bent bij OpenStreetMap, maak dan een gebruiker aan met behulp van het onderstaande formulier.</li>
+          <li>
+            Als u al een gebruiker heeft, kunt u zich aanmelden met uw gebruikersnaam en wachtwoord
+            en daarna uw gebruiker koppelen aan uw OpenID in uw gebruikersinstellingen.
+          </li>
+        </ul>
       continue: Registreren
       terms accepted: Dank u wel voor het aanvaarden van de nieuwe bijdragersovereenkomst!
       terms declined: We vinden het jammer dat u hebt besloten de nieuwe Bijdragersvoorwaarden
@@ -1920,6 +1957,7 @@ nl:
       current email address: 'Huidige e-mailadres:'
       new email address: 'Nieuw e-mailadres:'
       email never displayed publicly: (nooit openbaar gemaakt)
+      external auth: 'Externe verificatie:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: wat is dit?
@@ -1999,8 +2037,9 @@ nl:
       press confirm button: Klik op de knop "Bevestigen" hieronder om uw e-mailadres
         te bevestigen.
       button: Bevestigen
-      success: Uw e-mailadres is bevestigd. Dank u wel voor het registreren!
+      success: Uw e-mailadreswijziging is bevestigd.
       failure: Er is al een e-mailadres bevestigd met dit token.
+      unknown_token: De opgegeven bevestigingscode is verlopen of bestaat niet.
     set_home:
       flash success: De thuislocatie is opgeslagen
     go_public:
@@ -2037,6 +2076,9 @@ nl:
       body: |-
         <p>Uw gebruiker is automatisch opgeschort vanwege verdachte activiteit.</p>
         <p>Deze beslissing wordt snel beoordeeld door een beheerder, maar u kunt ook contact opnemen met de %{webmaster} als u deze handeling wilt bespreken.</p>
+    auth_failure:
+      connection_failed: Verbinding met verificatieprovider mislukt
+      invalid_credentials: Ongeldige verificatiereferenties
   user_role:
     filter:
       not_an_administrator: Alleen beheerders kunnen gebruikersrollen beheren. U bent
@@ -2304,7 +2346,9 @@ nl:
         stay_roundabout: Blijf op de rotonde -
         start: Start op het einde van het
         destination: Bestemming bereikt
+        against_oneway: Ga tegen het verkeer in op
         end_oneway: Einde van eenrichtingsweg op
+        exit: afslag %{exit}
         unnamed: (naamloos)
         courtesy: Routebeschrijving met dank aan %{link}
       time: Tijd

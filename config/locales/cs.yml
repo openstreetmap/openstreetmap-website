@@ -791,7 +791,7 @@ cs:
           spur: Železniční vlečka
           station: Železniční stanice
           stop: Železniční zastávka
-          subway: Stanice metra
+          subway: Metro
           subway_entrance: Vstup do metra
           switch: Výhybka
           tram: Tramvajová trať
@@ -1051,6 +1051,9 @@ cs:
         2007 (<a href="http://www.and.com">www.and.com</a>)'
       contributors_nz_html: '<strong>Nový Zéland</strong>: Obsahuje data pocházející
         z Land Information New Zealand. Crown Copyright reserved.'
+      contributors_si_html: '<strong>Slovinsko</strong>: Obsahuje data <a href="http://www.gu.gov.si/">Zeměměřického
+        a mapovacího úřadu</a> a <a href="http://www.mkgp.gov.si/">Ministerstva zemědělství,
+        lesnictví a potravin</a> (veřejné informace o Slovinsku).'
       contributors_za_html: |-
         <strong>Jihoafrická republika</strong>: Obsahuje data pocházející z <a href="http://www.ngi.gov.za/">Chief Directorate:
         National Geo-Spatial Information</a>, State copyright reserved.
@@ -1715,6 +1718,7 @@ cs:
       login_button: Přihlásit
       register now: Zaregistrujte se
       with username: 'Máte už na OpenStreetMap účet? Přihlaste se svým jménem a heslem:'
+      with external: 'Případně se přihlaste prostřednictvím třetí strany:'
       new to osm: Jste na OpenStreetMap noví?
       to make changes: Pokud chcete upravovat OpenStreetMap, musíte mít uživatelský
         účet.
@@ -1728,6 +1732,22 @@ cs:
         serveru</a>.
       auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
       openid_logo_alt: Přihlášení pomocí OpenID
+      auth_providers:
+        openid:
+          title: Přihlásit se pomocí OpenID
+          alt: Přihlášení pomocí OpenID URL
+        google:
+          title: Přihlásit se prostřednictvím Google
+          alt: Přihlášení pomocí Google OpenID
+        yahoo:
+          title: Přihlásit se prostřednictvím Yahoo
+          alt: Přihlášení pomocí Yahoo OpenID
+        wordpress:
+          title: Přihlásit se prostřednictvím Wordpress
+          alt: Přihlášení pomocí Wordpress OpenID
+        aol:
+          title: Přihlásit se prostřednictvím AOL
+          alt: Přihlášení pomocí AOL OpenID
     logout:
       title: Odhlásit se
       heading: Odhlášení z OpenStreetMap
@@ -1771,8 +1791,22 @@ cs:
       display name: 'Zobrazované jméno:'
       display name description: Vaše veřejně zobrazované uživatelské jméno. Můžete
         si ho později změnit ve svém nastavení.
+      external auth: 'Autentizace třetí stranou:'
       password: 'Heslo:'
       confirm password: 'Potvrdit heslo:'
+      use external auth: Případně se přihlaste prostřednictvím třetí strany
+      auth no password: S autentizací třetí stranou není heslo potřeba, ale některé
+        další nástroje nebo servery je mohou přesto potřebovat.
+      auth association: |-
+        <p>Vaše ID dosud nebylo propojeno s účtem na OpenStreetMap.</p>
+        <ul>
+         <li>Pokud jste na OpenStreetMap noví, vytvořte si nový účet pomocí formuláře níže.</li>
+         <li>
+          Pokud již účet máte, můžete se k němu přihlásit
+          pomocí uživatelského jména a hesla a poté ho
+          v uživatelském nastavení propojit se svým ID.
+         </li>
+        </ul>
       continue: Zaregistrovat se
       terms accepted: Děkujeme za odsouhlasení nových podmínek pro přispěvatele!
       terms declined: Je nám líto, že jste se rozhodli nepřijmout nové Podmínky pro
@@ -1880,6 +1914,7 @@ cs:
       current email address: 'Stávající e-mailová adresa:'
       new email address: 'Nová e-mailová adresa:'
       email never displayed publicly: (nikde se veřejně nezobrazuje)
+      external auth: 'Externí autentizace:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/CS:OpenID
         link text: co to znamená?
@@ -1959,8 +1994,9 @@ cs:
       press confirm button: Pro potvrzení nové e-mailové adresy klikněte na níže zobrazené
         tlačítko.
       button: Potvrdit
-      success: Vaše e-mailová adresa byla potvrzena, děkujeme za registraci!
+      success: Změna vaší e-mailové adresy byla potvrzena!
       failure: Tento kód byl už pro potvrzení e-mailové adresy použit.
+      unknown_token: Zadaný potvrzovací kód vypršel nebo neexistuje.
     set_home:
       flash success: Pozice domova byla úspěšně uložena
     go_public:
@@ -2001,6 +2037,9 @@ cs:
          Toto rozhodnutí zanedlouho posoudí nějaký správce, případně
          můžete kontaktovat %{webmaster}.
         </p>
+    auth_failure:
+      connection_failed: Připojení k poskytovateli autentizace se nezdařilo
+      invalid_credentials: Neplatné autentizační údaje
   user_role:
     filter:
       not_an_administrator: Spravovat role mohou pouze administrátoři. Vy administrátor
@@ -2263,6 +2302,7 @@ cs:
         destination: Jste v cíli
         against_oneway: Jeďte protisměrem na
         end_oneway: Konec jednosměrky na
+        exit: výjezd %{exit}
         unnamed: (nepojmenovaná)
         courtesy: Trasa díky %{link}
       time: Čas

@@ -702,6 +702,7 @@ gl:
           reef: Arrecife
           ridge: Crista
           rock: Rocha
+          saddle: Outeiro
           sand: Area
           scree: Pedregal
           scrub: Matogueira
@@ -776,7 +777,7 @@ gl:
           spur: Vía ramificada
           station: Estación de ferrocarril
           stop: Parada de ferrocarril
-          subway: Estación de metro
+          subway: Metro
           subway_entrance: Boca de metro
           switch: Puntos de cambio de vía
           tram: Vía de tranvías
@@ -1060,6 +1061,11 @@ gl:
       contributors_nz_html: |-
         <strong>Nova Zelandia:</strong> Contén datos con orixe no
         Land Information New Zealand. Dereitos de autor da coroa.
+      contributors_si_html: |-
+        <strong>Eslovenia</strong>: Contén datos da
+        <a href="http://www.gu.gov.si/en/">Autoridade de Planificación e de Cartografía</a> e do
+        <a href="http://www.mkgp.gov.si/en/">Ministerio de Agricultura, Bosques e Alimentación</a>
+        (información pública de Eslovenia).
       contributors_za_html: |-
         <strong>Sudáfrica:</strong> Contén datos con orixe no
         <a href="http://www.ngi.gov.za/">Chief Directorate:
@@ -1416,6 +1422,10 @@ gl:
       close: Pechar
     search:
       search: Procurar
+      get_directions: Obter indicacións
+      get_directions_title: Atopar indicacións entre dous puntos
+      from: De
+      to: A
       where_am_i: Onde estou?
       where_am_i_title: Describa a localización actual usando o motor de procuras
       submit_text: Ir
@@ -1727,6 +1737,7 @@ gl:
       register now: Rexístrese agora
       with username: 'Xa ten unha conta no OpenStreetMap? Acceda ao sistema co seu
         nome de usuario e contrasinal:'
+      with external: 'O ben, utilice un servizo de terceiros para acceder:'
       new to osm: É novo no OpenStreetMap?
       to make changes: Para realizar as modificacións nos datos do OpenStreetMap,
         cómpre ter unha conta.
@@ -1740,6 +1751,22 @@ gl:
         se quere debatelo.
       auth failure: Sentímolo, non puido acceder ao sistema con eses datos.
       openid_logo_alt: Acceder ao sistema cun OpenID
+      auth_providers:
+        openid:
+          title: Acceder ao sistema co OpenID
+          alt: Acceder ao sistema cun URL OpenID
+        google:
+          title: Acceder ao sistema co Google
+          alt: Acceder ao sistema cun OpenID de Google
+        yahoo:
+          title: Acceder ao sistema con Yahoo
+          alt: Acceder ao sistema cun OpenID de Yahoo
+        wordpress:
+          title: Acceder ao sistema con Wordpress
+          alt: Acceder ao sistema cun OpenID de Wordpress
+        aol:
+          title: Acceder ao sistema con AOL
+          alt: Acceder ao sistema cun OpenID de AOL
     logout:
       title: Saír
       heading: Saír do OpenStreetMap
@@ -1785,8 +1812,20 @@ gl:
       display name: 'Nome mostrado:'
       display name description: O seu nome de usuario mostrado publicamente. Pode
         cambialo máis tarde nas preferencias.
+      external auth: 'Autenticación de terceiros:'
       password: 'Contrasinal:'
       confirm password: 'Confirmar o contrasinal:'
+      use external auth: Ou ben, utilice un servizo de terceiros para acceder
+      auth no password: Coa autenticación de terceiros non se precisa un contrasinal,
+        aínda que hai algunhas ferramentas e servidores que aínda a solicitan.
+      auth association: |-
+        <p>O seu identificador todavía non está asociado cunha conta de OpenStreetMap.</p>
+        <ul>
+          <li>Se eres novo en OpenStreetMap, por favor crea unha conta mediante o seguinte formulario.</li>
+          <li>
+            Se xa tes unha conta, podes iniciar sesión na túa conta usando o teu nome de usuario e contrasinal e logo asociar a conta co teu identificador na configuración de usuario.
+          </li>
+        </ul>
       continue: Rexistrarse
       terms accepted: Grazas por aceptar os novos termos do colaborador!
       terms declined: Sentimos que decidise non aceptar os novos Termos do colaborador.
@@ -1892,6 +1931,7 @@ gl:
       current email address: 'Enderezo de correo electrónico actual:'
       new email address: 'Novo enderezo de correo electrónico:'
       email never displayed publicly: (nunca mostrado publicamente)
+      external auth: 'Autenticación externa:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: que é isto?
@@ -1971,8 +2011,9 @@ gl:
       press confirm button: Prema sobre o botón de confirmación que aparece a continuación
         para confirmar o seu novo enderezo de correo electrónico.
       button: Confirmar
-      success: Confirmouse o seu enderezo de correo electrónico. Grazas por se rexistrar!
+      success: Confirmouse o cambio do seu enderezo de correo electrónico!
       failure: Xa se confirmou un enderezo de correo electrónico con este pase.
+      unknown_token: Ese código de confirmación caducou ou non existe.
     set_home:
       flash success: Gardouse o domicilio
     go_public:
@@ -2016,6 +2057,9 @@ gl:
           Axiña un administrador revisará esta decisión.
           Quizais queira contactar co %{webmaster} para conversar sobre isto.
         </p>
+    auth_failure:
+      connection_failed: Fallou a conexión ó proveedor de autenticación
+      invalid_credentials: Credenciais de autenticación inválidas
   user_role:
     filter:
       not_an_administrator: Só os administradores poden xestionar os roles dos usuarios,
@@ -2252,6 +2296,41 @@ gl:
         comment: Comentar
     edit_help: Desplace o mapa e amplíeo na localización que queira editar; logo,
       prema aquí.
+    directions:
+      engines:
+        graphhopper_bicycle: Bicicleta (GraphHopper)
+        graphhopper_foot: A pé (GraphHopper)
+        mapquest_bicycle: Bicicleta (MapQuest)
+        mapquest_car: Coche (MapQuest)
+        mapquest_foot: A pé (MapQuest)
+        osrm_car: Coche (OSRM)
+      directions: Indicacións
+      distance: Distancia
+      errors:
+        no_route: Non se puido atopar unha ruta entre eses dous lugares.
+        no_place: Sentímolo - non se puido atopar ese lugar.
+      instructions:
+        continue_on: Continuar en
+        slight_right: Xire un pouco cara á dereita en
+        turn_right: Xire á dereita en
+        sharp_right: Xiro brusco á dereita en
+        uturn: Cambio de sentido en
+        sharp_left: Xiro brusco á esquerda en
+        turn_left: Xire á esquerda cara
+        slight_left: Xire un pouco cara á esquerda en
+        via_point: (punto intermedio)
+        follow: Siga
+        roundabout: Na rotonda, tomar
+        leave_roundabout: Sair da rotonda -
+        stay_roundabout: Permanecer na rotonda -
+        start: Comezar ó final de
+        destination: Chegada ó destino
+        against_oneway: Ir en contra dun só sentido en
+        end_oneway: Final dun só sentido en
+        exit: sair %{exit}
+        unnamed: (sen nome)
+        courtesy: Indicacións cortesía de %{link}
+      time: Tempo
     query:
       node: Nodo
       way: Camiño
