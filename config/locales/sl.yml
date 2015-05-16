@@ -75,7 +75,7 @@ sl:
         body: Besedilo
         recipient: Prejemnik
       user:
-        email: Naslov e-pošte
+        email: Elektronski naslov
         active: Aktiven
         display_name: Prikazno ime
         description: Opis
@@ -167,7 +167,7 @@ sl:
         relation: zveza
         changeset: Paket sprememb
     timeout:
-      sorry: Oprostite, podatki za %{type}, ID %{id}, ID se predolgo prenašajo.
+      sorry: Oprostite, podatki za %{type} z ID-jem %{id} se predolgo prenašajo.
       type:
         node: vozlišče
         way: pot
@@ -210,6 +210,8 @@ sl:
       reopened_by_anonymous: Ponovno aktiviral anonimni <abbr title='%{exact_time}'>%{when}
         nazaj</abbr>
       hidden_by: Skril %{user} <abbr title='%{exact_time}'>%{when} nazaj</abbr>
+    query:
+      nearby: Značilnosti v neposredni bližini
   changeset:
     changeset_paging_nav:
       showing_page: Stran %{page}
@@ -230,6 +232,8 @@ sl:
       title_user: Paketi sprememb uporabnika %{user}
       title_friend: Paket sprememb vaših prijateljev
       title_nearby: Paketi sprememb bližnjih uporabnikov
+      empty: Ni najdenih množic sprememb.
+      empty_area: Na tem področju ni množic sprememb.
       load_more: Naloži več
     timeout:
       sorry: Žal je seznam zahtevanih sprememb predolg za prenos.
@@ -685,6 +689,7 @@ sl:
           wood: Pragozd
         office:
           accountant: Računovodja
+          administrative: Administracija
           architect: Arhitekt
           company: Podjetje
           employment_agency: Agencija za zaposlovanje
@@ -1578,6 +1583,19 @@ sl:
         obrnite se na <a href="%{webmaster}">webmaster</a>, če želite o tem razpravljati.
       auth failure: Oprostite, prijava s temi podatki ni uspela.
       openid_logo_alt: Prijavite se z OpenID
+      auth_providers:
+        openid:
+          title: Prijava z OpenID
+          alt: Prijava s povezavo OpenID
+        google:
+          title: Prijava z Googlom
+          alt: Prijava z Google OpenID-jem
+        yahoo:
+          title: Prijava z Yahoo
+          alt: Prijava z Yahoo OpenID
+        wordpress:
+          title: Prijava z Wordpressom
+          alt: Prijava z Wordpress OpenID-jem
     logout:
       title: Odjava
       heading: Odjava iz OpenStreetMap
@@ -1733,6 +1751,7 @@ sl:
       current email address: 'E-poštni naslov:'
       new email address: 'Nov e-poštni naslov:'
       email never displayed publicly: (nikoli javno objavljen)
+      external auth: 'Zunanje preverjanje pristnosti:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: kaj je to?
@@ -1813,6 +1832,7 @@ sl:
       button: Potrdi
       success: Potrdili smo vašo spremembo e-poštnega naslova!
       failure: Naslov elektronske pošte je že bil potrjen s tem žetonom.
+      unknown_token: Ta potrditvena koda je potekla ali pa ne obstaja.
     set_home:
       flash success: Domača lokacija uspešno shranjena
     go_public:
@@ -1848,6 +1868,9 @@ sl:
       body: |-
         <p>Žal je bil vaš račun avtomatično začasno ustavljen zaradi sumljivih dejavnosti.</p>
         <p>To odločitev bo pregledal administrator v kratkem ali pa se obrnete na %{webmaster}, če imate pripombe.</p>
+    auth_failure:
+      connection_failed: Povezava do storitve za preverjanje pristnosti ni uspela
+      invalid_credentials: Neveljavne poverilnice za preverjanje pristnosti
   user_role:
     filter:
       not_an_administrator: Samo skrbniki lahko upravljajo vlogo uporabnika, vi pa
@@ -2060,8 +2083,14 @@ sl:
         subscribe: Naroči me
         unsubscribe: Odjavi me
         hide_comment: skrij
+        unhide_comment: razkrij
     notes:
       new:
+        intro: Ste opazili napako ali pa kaj manjka? Obvestite ostale kartografe o
+          tem, da lahko to popravijo. Premaknite oznako na pravilno lokacijo in vpišite
+          opombo, kjer pojasnite problem. (Prosimo, ne vnašajte osebnih podatkov ali
+          informacij pridobljenih iz zemljevidov zaščitenih z avtorskimi pravicami
+          ali imeniških seznamov.)
         add: Dodaj opombo
       show:
         anonymous_warning: To opomba vključuje pripombe anonimnih uporabnikov, ki
@@ -2071,6 +2100,8 @@ sl:
         reactivate: Znova aktiviraj
         comment_and_resolve: Komentiraj in razreši
         comment: Komentar
+    edit_help: Premaknite zemljevid in približajte lokacijo, ki jo želite urediti,
+      nato pa kliknite tukaj.
     directions:
       engines:
         graphhopper_bicycle: Kolo (GraphHopper)
@@ -2081,6 +2112,8 @@ sl:
         osrm_car: Avto (OSRM)
       directions: Navodila
       distance: Razdalja
+      errors:
+        no_route: Ni mogoče najti poti med tema dvema položajema.
       instructions:
         continue_on: Nadaljujte po
         slight_right: Rahlo desno na

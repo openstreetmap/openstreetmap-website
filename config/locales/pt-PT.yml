@@ -722,6 +722,7 @@ pt-PT:
           reef: Recife
           ridge: Cordilheira
           rock: Rocha
+          saddle: Ponto de Sela
           sand: Areia
           scree: Encosta de Rochas Soltas
           scrub: Matagal
@@ -796,7 +797,7 @@ pt-PT:
           spur: Linha Ferroviária Auxiliar
           station: Estação Ferroviária
           stop: Paragem Ferroviária
-          subway: Estação de Metropolitano
+          subway: Metropolitano
           subway_entrance: Entrada para Estação de Metropolitano
           switch: Agulha Ferroviária
           tram: Linha de Elétrico
@@ -1066,6 +1067,11 @@ pt-PT:
         2007 (<a href="http://www.and.com">www.and.com</a>)'
       contributors_nz_html: '<strong>Nova Zelândia</strong>: Contém dados provenientes
         de Land Information New Zealand. Crown Copyright reserved.'
+      contributors_si_html: |-
+        <strong>Eslovénia</strong>: Contém dados da
+        <a href="http://www.gu.gov.si/en/">Autoridade de Cartografia e Topografia (Geodetska uprava Republike Slovenije)</a> e do
+        <a href="http://www.mkgp.gov.si/en/">Ministério da Agricultura, Floresta e Alimentação (Ministrstvo za kmetijstvo, gozdarstvo in prehrano)</a>
+        (informação pública da Eslovénia).
       contributors_za_html: '<strong>África do Sul</strong>: Contém dados provenientes
         de <a href="http://www.ngi.gov.za/">Chief Directorate: National Geo-Spatial
         Information</a>, State copyright reserved.'
@@ -1737,6 +1743,7 @@ pt-PT:
       register now: Criar conta agora
       with username: 'Já tem uma conta no OpenStreetMap? Por favor introduza o nome
         de utilizador e a palavra-passe:'
+      with external: Como alternativa, utilize um serviço externo para iniciar sessão
       new to osm: É a primeira vez que está no OpenStreetMap?
       to make changes: Para editar no OpenStreetMap, é necessário ter uma conta.
       create account minute: Crie uma conta. Leva apenas um minuto.
@@ -1751,8 +1758,21 @@ pt-PT:
         fornecidos.
       openid_logo_alt: Iniciar sessão com OpenID
       auth_providers:
+        openid:
+          title: Iniciar sessão com OpenID
+          alt: Iniciar sessão com URL OpenID
         google:
+          title: Iniciar sessão com Google
           alt: Iniciar sessão com OpenID do Google
+        yahoo:
+          title: Iniciar sessão com Yahoo
+          alt: Iniciar sessão com OpenID Yahoo
+        wordpress:
+          title: Iniciar sessão com Wordpress
+          alt: Iniciar sessão com OpenID Wordpress
+        aol:
+          title: Iniciar sessão com AOL
+          alt: Iniciar sessão com OpenID AOL
     logout:
       title: Sair
       heading: Sair do OpenStreetMap
@@ -1798,8 +1818,23 @@ pt-PT:
       display name: 'Nome de utilizador:'
       display name description: O nome de utilizador será visível publicamente. Poderá
         alterar o nome posteriormente nas preferências.
+      external auth: 'Início de sessão por terceiros:'
       password: 'Palavra-passe:'
       confirm password: 'Confirmar senha:'
+      use external auth: Como alternativa, utilize um serviço externo para iniciar
+        sessão
+      auth no password: Não é necessário introduzir a palavra-passe com o iniciar
+        da sessão por serviço externo, mas o servidor ou as ferramenas externas podem
+        necessitar de uma.
+      auth association: |-
+        <p>O seu identificador ainda não está associado a uma conta no OpenStreetMap.</p>
+        <ul>
+          <li>Se nunca criou uma conta no OpenStreetMap, por favor crie uma no formulário seguinte.</li>
+          <li>
+            Se já tiver uma conta, pode iniciar sessão utilizando o nome de utilizador e a palavra-passe e então associar a sua conta
+            com o seu identificador nas configurações da conta.
+          </li>
+        </ul>
       continue: Criar conta
       terms accepted: Obrigado por aceitar os novos termos de colaborador!
       terms declined: Lamentamos não ter aceitado os novos Termos de Colaborador.
@@ -1906,6 +1941,7 @@ pt-PT:
       current email address: 'E-mail Actual:'
       new email address: 'Novo E-mail:'
       email never displayed publicly: (nunca é mostrado publicamente)
+      external auth: 'Início de sessão externo:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: o que é isto?
@@ -1984,8 +2020,9 @@ pt-PT:
       heading: Confirmar a alteração de e-mail
       press confirm button: Clique no botão confirmar para confirmar o seu e-mail.
       button: Confirmar
-      success: O seu e-mail foi confirmado, obrigado por se inscrever!
+      success: A alteração do seu email foi confirmada!
       failure: Um e-mail já foi confirmado com este código.
+      unknown_token: Este código de confirmação expirou ou não existe.
     set_home:
       flash success: Localização gravada com êxito
     go_public:
@@ -2028,6 +2065,10 @@ pt-PT:
           Esta decisão será revista brevemente  por um administrador.
           Pode contactar o %{webmaster} se desejar.
         </p>
+    auth_failure:
+      connection_failed: Não foi possível fazer a ligação ao serviço externo de início
+        de sessão
+      invalid_credentials: As credenciais de início de sessão não são válidas
   user_role:
     filter:
       not_an_administrator: Apenas os administradores podem gerir cargos, e você não
@@ -2289,6 +2330,7 @@ pt-PT:
         sharp_left: Virar ligeiramente à esquerda para a
         turn_left: Virar à esquerda para a
         slight_left: Virar um pouco à esquerda para a
+        via_point: (através do nó)
         follow: Siga a
         roundabout: Na rotunda siga a
         leave_roundabout: Saia da rotunda -
@@ -2296,6 +2338,7 @@ pt-PT:
         start: Começar no final da
         destination: Chegada ao destino
         end_oneway: Final de via sentido único em
+        exit: sair em %{exit}
         unnamed: (sem nome)
         courtesy: Direções fornecidas por %{link}
       time: Tempo

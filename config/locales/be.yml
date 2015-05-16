@@ -45,7 +45,7 @@ be:
       user_preference: Налады карыстальніка
       user_token: Токен карыстальніка
       way: Крывая
-      way_node: Вузел шляху
+      way_node: Вузел крывой
       way_tag: Тэг крывой
     attributes:
       diary_comment:
@@ -70,11 +70,11 @@ be:
         description: Апісанне
       message:
         sender: Ад
-        title: Загаловак
+        title: Тэма
         body: Тэкст
         recipient: Каму
       user:
-        email: Эл.пошта
+        email: Электронная пошта
         active: Актыўны
         display_name: Бачнае імя
         description: Апісанне
@@ -92,8 +92,8 @@ be:
       name: Potlatch 2
       description: Potlatch 2 (браўзэрны рэдактар)
     remote:
-      name: Дыстанцыйнае кіраванне
-      description: Дыстанцыйнае кіраванне (JOSM або Merkaartor)
+      name: Вонкавы рэдактар
+      description: вонкавага рэдактара (JOSM або Merkaartor)
   browse:
     created: Створаны
     closed: Зачынены
@@ -137,7 +137,7 @@ be:
       history_title: 'Гісторыя вузла: %{name}'
     way:
       title: 'Крывая: %{name}'
-      history_title: 'Гісторыя шляху: %{name}'
+      history_title: 'Гісторыя крывой: %{name}'
       nodes: Вузлы
       also_part_of:
         one: з'яўляецца часткай крывой %{related_ways}
@@ -284,7 +284,7 @@ be:
       user_title: Дзённік %{user}
       leave_a_comment: Пакінуць каментар
       login_to_leave_a_comment: '%{login_link} каб пакінуць каментар'
-      login: Логін
+      login: Увайсці
       save_button: Запісаць
     no_such_entry:
       title: Няма такіх запісаў у дзенніку
@@ -336,7 +336,7 @@ be:
       format_to_export: Фармат для экспарту
       osm_xml_data: OpenStreetMap XML
       map_image: Выява карты (паказвае стандартны слой)
-      embeddable_html: HTML для ўстаўкі
+      embeddable_html: HTML-код
       licence: Ліцэнзія
       export_details: Дадзеныя праекту OpenStreetMap распаўсюджваюцца па ліцэнзіі
         <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open Data Commons
@@ -366,16 +366,16 @@ be:
           title: Іншыя крыніцы
           description: Дадатковыя крыніцы, пералічаныя на Вікі OpenStreetMap
       options: Настройкі
-      format: 'Фармат:'
+      format: Фармат
       scale: Маштаб
       max: макс
       image_size: Памер выявы
-      zoom: маштаб
+      zoom: Павелічэнне
       add_marker: Дадаць маркер на карту
       latitude: 'Шыр:'
       longitude: 'Даў:'
       output: Вывад
-      paste_html: Уставіць HTML для ўбудовы у вэб-сайт
+      paste_html: Уставіць HTML-код у вэб-сайт
       export_button: Экспарт
   geocoder:
     search:
@@ -396,7 +396,7 @@ be:
         aerialway:
           cable_car: Лінная дарога
           chair_lift: Крэсельны пад'ёмнік
-          drag_lift: Бугельны пад'емнік
+          drag_lift: Бугельны пад'ёмнік
           gondola: Лінная дарога
           station: Станцыя канатнай дарогі
         aeroway:
@@ -408,7 +408,7 @@ be:
           taxiway: Рулёжныя дарожкі
           terminal: Тэрмінал
         amenity:
-          animal_shelter: Прытулак для жывел
+          animal_shelter: Прытулак для жывёл
           arts_centre: Цэнтр мастацтваў
           atm: Банкамат
           bank: Банк
@@ -1717,6 +1717,7 @@ be:
       register now: Зарэгістравацца зараз
       with username: 'Ужо маеце рахунак OpenStreetMap? Калі ласка, увайдзіце ў сістэму
         з Вашым іменем удзельніка і паролем:'
+      with external: 'Для альтэрнатыўнага ўваходу, залагіньцеся цераз:'
       new to osm: Упершыню на OpenStreetMap?
       to make changes: Каб змяняць дадзеныя OpenStreetMap, вы павінны мець асабісты
         рахунак.
@@ -1790,8 +1791,22 @@ be:
       display name: 'Бачнае імя:'
       display name description: Ваша імя, якое будзе бачнае ўсім. Вы можаце змяніць
         яго потым ў Вашых настройках.
+      external auth: 'Аўтэнтыфікацыя праз:'
       password: 'Пароль:'
       confirm password: 'Пацверджанне паролю:'
+      use external auth: 'Для альтэрнатыўнага ўваходу, залагіньцеся цераз:'
+      auth no password: Пры выкарыстанні знешняй аўтэнтыфікацыі пароль не патрэбны,
+        але для некаторых дадатковых інструментаў або сервераў ён усё яшчэ спатрэбіцца.
+      auth association: |-
+        <p>Ваш ID яшчэ не звязаны з рахунакам на OpenStreetMap.</p>
+        <ul>
+          <li>Калі вы пачатковец у OpenStreetMap, калі ласка, стварыце новы рахунак, выкарыстоўваючы форму ніжэй.</li>
+          <li>
+            Калі ў вас ужо ёсць рахунак, вы можаце ўвайсці ў яго,
+            выкарыстоўваючы вашыя імя карыстальніка і пароль, і асацыяваць свой рахунак
+            з вашым ID у наладах карыстальніка.
+        </li>
+        </ul>
       continue: Зарэгістравацца
       terms accepted: Дзякуй за прыняцце новых умоў ўдзелу!
       terms declined: Нам шкада, што Вы вырашылі не прыняць новыя ўмовы супрацоўніцтва.
@@ -1976,7 +1991,7 @@ be:
       heading: Пацвердзіць змену паштовага адрасу
       press confirm button: Націсніце кнопку, каб пацвердзіць ваш новы паштовы адрас.
       button: Пацвердзіць
-      success: Ваш адрас пацверджаны, дзякуй за рэгістрацыю!
+      success: Змена вамі адраса электроннай пошты пацверджана!
       failure: Паштовы адрас ужо быў пацверджаны гэтым токенам.
       unknown_token: Тэрмін дзеяння кода пацверджання ўжо прайшоў ці ён не існуе.
     set_home:
@@ -2020,6 +2035,7 @@ be:
           Гэтае рашэнне можа быць хутка перагледжана адміністратарам, ці Вы можаце звязацца з %{webmaster}, калі жадаеце гэта абмеркаваць.
         </p>
     auth_failure:
+      connection_failed: Злучэнне з крыніцай аўтэнтыфікацыі не атрымалася
       invalid_credentials: Хібныя дадзеныя аўтарызацыі
   user_role:
     filter:

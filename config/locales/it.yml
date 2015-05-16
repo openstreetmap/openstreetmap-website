@@ -7,6 +7,7 @@
 # Author: Darth Kule
 # Author: Davalv
 # Author: Davio
+# Author: Devid Farinelli
 # Author: Dieterdreist
 # Author: Efred
 # Author: Frammm
@@ -803,7 +804,7 @@ it:
           spur: Diramazione ferroviaria breve
           station: Stazione ferroviaria
           stop: Fermata ferroviaria
-          subway: Stazione della metropolitana
+          subway: Metropolitana
           subway_entrance: Ingresso metropolitana
           switch: Punti ferroviari
           tram: Tramvia
@@ -1073,6 +1074,11 @@ it:
       contributors_nz_html: |-
         <strong>Nuova Zelanda</strong>: contiene i dati provenienti dalla
         Land Information New Zealand. Crown Copyright reserved.
+      contributors_si_html: |-
+        <strong>Slovenia</strong>: Contiene dati dell'
+        <a href="http://www.gu.gov.si/en/">Autorità per il Rilievo e la Mappatura</a> e del
+        <a href="http://www.mkgp.gov.si/en/">Ministero dell' Agricoltura, delle foreste e dell'alimentazione</a>
+        (informazioni pubbliche della Slovenia).
       contributors_za_html: |-
         <strong>Sud Africa</strong>: contiene i dati provenienti dalla
         <a href="http://www.ngi.gov.za/">Chief Directorate:
@@ -1748,6 +1754,7 @@ it:
       register now: Registrati ora
       with username: 'Possiedi già un profilo OpenStreetMap? Entra con il tuo nome
         utente e password:'
+      with external: In alternativa, effettua l'accesso tramite terze parti
       new to osm: Sei nuovo su OpenStreetMap?
       to make changes: Per apportare modifiche ai dati di OpenStreetMap, è necessario
         disporre di un account.
@@ -1761,6 +1768,22 @@ it:
         di attività sospette.<br />Se desideri discuterne, puoi contattare il <a href="%{webmaster}">webmaster</a>.
       auth failure: Spiacenti, non si può accedere con questi dettagli.
       openid_logo_alt: Accedi con un OpenID
+      auth_providers:
+        openid:
+          title: Accedi con OpenID
+          alt: Accedi con un URL OpenID
+        google:
+          title: Accedi con Google
+          alt: Accedi con un OpenID di Google
+        yahoo:
+          title: Accedi con Yahoo
+          alt: Accedi con un OpenID di Yahoo
+        wordpress:
+          title: Accedi con Wordpress
+          alt: Accedi con un OpenID di Wordpress
+        aol:
+          title: Accedi con AOL
+          alt: Accedi con un OpenID di AOL
     logout:
       title: Esci
       heading: Esci da OpenStreetMap
@@ -1809,8 +1832,23 @@ it:
       display name: 'Nome visualizzato:'
       display name description: Il proprio nome utente visualizzato pubblicamente.
         Può essere modificato più tardi nelle preferenze.
+      external auth: 'Autenticazione tramite terze parti:'
       password: 'Password:'
       confirm password: 'Conferma password:'
+      use external auth: In alternativa, effettua l'accesso tramite terze parti
+      auth no password: Con l'autenticazione tramite terze parti non è richiesta una
+        password, ma alcuni strumenti o server aggiuntivi potrebbero ancora averne
+        bisogno.
+      auth association: |-
+        <p>Il tuo ID non è ancora associato ad alcun profilo OpenStreetMap.</p>
+        <ul>
+          <li>Se sei nuovo in OpenStreetMap, crea un nuovo profilo utilizzando il form sottostante.</li>
+          <li>
+            Se possiedi già un profilo è possibile accedervi
+            utilizzando il proprio nome utente e password, e quindi associare il profilo
+            con il proprio ID all'interno delle impostazioni utente.
+          </li>
+        </ul>
       continue: Registrati
       terms accepted: Grazie di aver accettato le nuove regole per contribuire!
       terms declined: Siamo spiacenti che tu abbia deciso di non accettare i nuovi
@@ -1918,6 +1956,7 @@ it:
       current email address: 'Indirizzo e-mail attuale:'
       new email address: 'Nuovo indirizzo e-mail:'
       email never displayed publicly: (mai visualizzato pubblicamente)
+      external auth: 'Autenticazione Esterna:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/IT:OpenID
         link text: che cos'è questo?
@@ -1997,8 +2036,9 @@ it:
       press confirm button: Premere sul pulsante di conferma sottostante per confermare
         il nuovo indirizzo email.
       button: Conferma
-      success: L'indirizzo email è stato confermato, grazie per l'iscrizione!
+      success: Confermato il cambio di indirizzo e-mail!
       failure: Un indirizzo email con questo codice è già stato confermato.
+      unknown_token: Questo codice di conferma è scaduto oppure non esiste.
     set_home:
       flash success: Posizione personale salvata con successo
     go_public:
@@ -2037,6 +2077,9 @@ it:
         a causa di \n  attività sospette. \n</p>\n<p>\n  Questa decisione sarà riesaminata
         a breve da un amministratore, oppure \n  se desideri discuterne puoi contattare
         il %{webmaster}.\n</p>"
+    auth_failure:
+      connection_failed: Connessione al provider di autenticazione non riuscita
+      invalid_credentials: Le credenziali di autenticazione non sono valide
   user_role:
     filter:
       not_an_administrator: Solo gli amministratori possono gestire i ruoli degli
@@ -2304,6 +2347,7 @@ it:
         destination: Raggiungi la destinazione
         against_oneway: Vai contro il senso unico in
         end_oneway: Fine del senso unico in
+        exit: uscita %{exit}
         unnamed: (senza nome)
         courtesy: Indicazioni per gentile concessione di %{link}
       time: Tempo
