@@ -664,6 +664,42 @@ ALTER SEQUENCE gpx_files_id_seq OWNED BY gpx_files.id;
 
 
 --
+-- Name: issues; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE issues (
+    id integer NOT NULL,
+    reportable_type character varying,
+    reportable_id integer,
+    user_id integer,
+    status integer,
+    resolved_at timestamp without time zone,
+    resolved_by integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: issues_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE issues_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: issues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE issues_id_seq OWNED BY issues.id;
+
+
+--
 -- Name: languages; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -962,6 +998,39 @@ CREATE TABLE relations (
     visible boolean DEFAULT true NOT NULL,
     redaction_id integer
 );
+
+
+--
+-- Name: reports; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE reports (
+    id integer NOT NULL,
+    issue_id integer,
+    user_id integer,
+    details text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: reports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE reports_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: reports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE reports_id_seq OWNED BY reports.id;
 
 
 --
@@ -1270,6 +1339,13 @@ ALTER TABLE ONLY gpx_files ALTER COLUMN id SET DEFAULT nextval('gpx_files_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY issues ALTER COLUMN id SET DEFAULT nextval('issues_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq'::regclass);
 
 
@@ -1306,6 +1382,13 @@ ALTER TABLE ONLY oauth_tokens ALTER COLUMN id SET DEFAULT nextval('oauth_tokens_
 --
 
 ALTER TABLE ONLY redactions ALTER COLUMN id SET DEFAULT nextval('redactions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY reports ALTER COLUMN id SET DEFAULT nextval('reports_id_seq'::regclass);
 
 
 --
@@ -1473,6 +1556,14 @@ ALTER TABLE ONLY gpx_files
 
 
 --
+-- Name: issues_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY issues
+    ADD CONSTRAINT issues_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: languages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1566,6 +1657,14 @@ ALTER TABLE ONLY relation_tags
 
 ALTER TABLE ONLY relations
     ADD CONSTRAINT relations_pkey PRIMARY KEY (relation_id, version);
+
+
+--
+-- Name: reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT reports_pkey PRIMARY KEY (id);
 
 
 --
@@ -2553,6 +2652,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150110152606');
 INSERT INTO schema_migrations (version) VALUES ('20150111192335');
 
 INSERT INTO schema_migrations (version) VALUES ('20150222101847');
+
+INSERT INTO schema_migrations (version) VALUES ('20150516073616');
+
+INSERT INTO schema_migrations (version) VALUES ('20150516075620');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 
