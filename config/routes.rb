@@ -288,6 +288,16 @@ OpenStreetMap::Application.routes.draw do
   resources :user_blocks
   match "/blocks/:id/revoke" => "user_blocks#revoke", :via => [:get, :post], :as => "revoke_user_block"
 
+  # issues and reports
+  resources :issues do
+    member do
+      post "resolve"
+      post "assign"
+      post "ignore"
+      post "reopen"
+    end
+  end
+
   # redactions
   resources :redactions
 end

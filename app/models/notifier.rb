@@ -172,6 +172,13 @@ class Notifier < ActionMailer::Base
     end
   end
 
+  def new_issue_notification(recipient)
+    with_recipient_locale recipient do
+      subject = I18n.t("notifier.new_issue_notification.subject")
+      mail :to => recipient.email, :subject => subject
+    end
+  end
+
   private
 
   def with_recipient_locale(recipient)
@@ -187,4 +194,5 @@ class Notifier < ActionMailer::Base
       EMAIL_FROM
     end
   end
+
 end
