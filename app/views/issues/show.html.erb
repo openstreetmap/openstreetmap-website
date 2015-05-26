@@ -1,2 +1,29 @@
-<h1>Issues#show</h1>
-<p>Find me in app/views/issues/show.html.erb</p>
+<% content_for :heading do %>
+	<h2> Issue #<%= @issue.id %> <br/> <span class="count-number">Status: <strong><%= @issue. status %></strong></span></h2>
+	<p>Issue against: <%= reportable_url(@issue.reportable) %></p>
+	<p>Issue type: <%= @issue.reportable_type %></p>
+	<p class="deemphasize">
+		<small>
+			<%= @issue.reports.count %> reports | First reported: <%= l @issue.created_at.to_date, :format => :long %> | <%= "Last resolved at #{l(@issue.resolved_at.to_datetime, :format =>:long)}" if @issue.resolved? %>
+		</small>
+	</p>
+	<p><%= link_to "Resolve", resolve_issue_url(@issue), :method => :post if @issue.may_resolve? %></p>
+	<p><%= link_to "Ignore", ignore_issue_url(@issue), :method => :post if @issue.may_ignore? %></p>
+	<p><%= link_to "Reopen", reopen_issue_url(@issue), :method => :post if @issue.may_reopen? %></p>
+<% end %>
+
+<h3>Reports under this issue:</h3>
+
+<% if @read_reports.present? %>
+	<div class="read-reports">
+		<h4>Read Reports:</h4>
+		<%= render 'reports',reports: @read_reports %>
+	</div>
+<% end %>	
+
+<% if @unread_reports.any? %>
+	<div class="unread-reports">
+		<h4>New Reports:</h4>
+		<%= render 'reports',reports: @unread_reports %>
+	</div>
+<% end %>	
