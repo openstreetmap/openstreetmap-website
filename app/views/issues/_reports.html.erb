@@ -1,0 +1,11 @@
+<% reports.each do |report| %>
+	<div class="reports">
+		<div class="display:inline">
+			<%= user_thumbnail report.user %>
+			<%= report.details %>
+		</div>
+		<span class="deemphasize"><%= raw(t('Reported by:',:link_user => (link_to h(report.user.display_name), :controller => :user, :action => :view, :display_name => report.user.display_name), :comment_created_at => link_to(l(report.created_at,:format => :friendly)))) %>
+		on <%= l report.created_at.to_datetime, :format => :long %> </span>
+	</div>
+	<hr>
+<% end %>

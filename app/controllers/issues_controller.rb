@@ -1,6 +1,8 @@
 class IssuesController < ApplicationController
   layout "site"
 
+  before_action :authorize_web
+  before_action :check_permission, only: [:index, :show, :resolve,:open,:ignore]
   before_action :find_issue, only: [:show, :resolve, :reopen, :ignore]
 
   def index
@@ -71,6 +73,13 @@ class IssuesController < ApplicationController
       @issue = Issue.find(params[:id])
     end
 
+    def check_permission
+      unless @user.administrator?
+        flash[:error] = t("application.require_admin.not_an_admin")
+        redirect_to root_path
+      end
+    end
+
     def create_new_issue_params
       params.permit(:reportable_id, :reportable_type, :user_id)
     end
@@ -80,6 +89,6 @@ class IssuesController < ApplicationController
     end
 
     def report_params
-      params[:report].permit(:details)
+      params[:report].permit(:details, :user_id)
     end
 end
