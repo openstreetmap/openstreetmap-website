@@ -297,6 +297,8 @@ OpenStreetMap::Application.routes.draw do
       post "reopen"
     end
   end
+  
+  post '/comment' => 'issues#comment'
 
   # redactions
   resources :redactions

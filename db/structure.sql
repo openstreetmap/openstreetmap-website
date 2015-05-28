@@ -120,33 +120,6 @@ CREATE TYPE user_status_enum AS ENUM (
 );
 
 
---
--- Name: maptile_for_point(bigint, bigint, integer); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
-    LANGUAGE c STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
-
-
---
--- Name: tile_for_point(integer, integer); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
-    LANGUAGE c STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
-
-
---
--- Name: xid_to_int4(xid); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION xid_to_int4(xid) RETURNS integer
-    LANGUAGE c IMMUTABLE STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
-
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -657,6 +630,39 @@ CREATE SEQUENCE gpx_files_id_seq
 --
 
 ALTER SEQUENCE gpx_files_id_seq OWNED BY gpx_files.id;
+
+
+--
+-- Name: issue_comments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE issue_comments (
+    id integer NOT NULL,
+    issue_id integer,
+    user_id integer,
+    body text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: issue_comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE issue_comments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: issue_comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE issue_comments_id_seq OWNED BY issue_comments.id;
 
 
 --
@@ -1335,6 +1341,13 @@ ALTER TABLE ONLY gpx_files ALTER COLUMN id SET DEFAULT nextval('gpx_files_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY issue_comments ALTER COLUMN id SET DEFAULT nextval('issue_comments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY issues ALTER COLUMN id SET DEFAULT nextval('issues_id_seq'::regclass);
 
 
@@ -1549,6 +1562,14 @@ ALTER TABLE ONLY gpx_file_tags
 
 ALTER TABLE ONLY gpx_files
     ADD CONSTRAINT gpx_files_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: issue_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY issue_comments
+    ADD CONSTRAINT issue_comments_pkey PRIMARY KEY (id);
 
 
 --
@@ -1924,6 +1945,34 @@ CREATE UNIQUE INDEX index_client_applications_on_key ON client_applications USIN
 
 
 --
+-- Name: index_issue_comments_on_issue_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_issue_comments_on_issue_id ON issue_comments USING btree (issue_id);
+
+
+--
+-- Name: index_issue_comments_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_issue_comments_on_user_id ON issue_comments USING btree (user_id);
+
+
+--
+-- Name: index_issues_on_reportable_id_and_reportable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_issues_on_reportable_id_and_reportable_type ON issues USING btree (reportable_id, reportable_type);
+
+
+--
+-- Name: index_issues_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_issues_on_user_id ON issues USING btree (user_id);
+
+
+--
 -- Name: index_note_comments_on_body; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1949,6 +1998,20 @@ CREATE UNIQUE INDEX index_oauth_nonces_on_nonce_and_timestamp ON oauth_nonces US
 --
 
 CREATE UNIQUE INDEX index_oauth_tokens_on_token ON oauth_tokens USING btree (token);
+
+
+--
+-- Name: index_reports_on_issue_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_reports_on_issue_id ON reports USING btree (issue_id);
+
+
+--
+-- Name: index_reports_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_reports_on_user_id ON reports USING btree (user_id);
 
 
 --
@@ -2348,6 +2411,30 @@ ALTER TABLE ONLY gpx_files
 
 
 --
+-- Name: issue_comments_issue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issue_comments
+    ADD CONSTRAINT issue_comments_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id);
+
+
+--
+-- Name: issue_comments_user_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issue_comments
+    ADD CONSTRAINT issue_comments_user_id FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: issues_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issues
+    ADD CONSTRAINT issues_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: messages_from_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2457,6 +2544,22 @@ ALTER TABLE ONLY relations
 
 ALTER TABLE ONLY relations
     ADD CONSTRAINT relations_redaction_id_fkey FOREIGN KEY (redaction_id) REFERENCES redactions(id);
+
+
+--
+-- Name: reports_issue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT reports_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id);
+
+
+--
+-- Name: reports_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY reports
+    ADD CONSTRAINT reports_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -2650,6 +2753,12 @@ INSERT INTO schema_migrations (version) VALUES ('20150222101847');
 INSERT INTO schema_migrations (version) VALUES ('20150516073616');
 
 INSERT INTO schema_migrations (version) VALUES ('20150516075620');
+
+INSERT INTO schema_migrations (version) VALUES ('20150526130032');
+
+INSERT INTO schema_migrations (version) VALUES ('20150528113100');
+
+INSERT INTO schema_migrations (version) VALUES ('20150528114520');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

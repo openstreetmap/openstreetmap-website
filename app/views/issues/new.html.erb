@@ -1,2 +1,21 @@
-<h1>Issues#new</h1>
-<p>Find me in app/views/issues/new.html.erb</p>
+<% content_for :heading do %>
+    <h1>Report a new Issue for <%= reportable_url(@issue.reportable) %></h1>
+<% end %>
+
+<%= form_for(@issue) do |f| %>
+    <%= f.error_messages %>
+        <fieldset>
+            <div class='form-row'>
+                <%= f.hidden_field :reportable_id, :value => params[:reportable_id] %>
+                <%= f.hidden_field :reportable_type, :value => params[:reportable_type] %>
+                <%= f.hidden_field :user_id, :value => params[:user_id] %>
+            </div>
+            <div class='form-row'>
+                <label class="standard-label"><%= t 'issue.new.message' -%></label>
+                <%= text_area :report, :details, :cols => 80, :rows => 20, placeholder: "Tell us what's wrong! Any information you can give will go on to help moderators a long way." %>
+            </div>
+            <div class='buttons'>
+                <%= submit_tag %>
+            </div>
+        </fieldset>
+<% end %>
