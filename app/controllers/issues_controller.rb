@@ -95,7 +95,7 @@ class IssuesController < ApplicationController
     end
 
     def issue_params
-      params.permit(:reportable_id, :reportable_type,:user_id)
+      params[:issue].permit(:reportable_id, :reportable_type,:user_id)
     end
 
     def report_params
