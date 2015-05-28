@@ -11,9 +11,9 @@ module IssuesHelper
 		when "User"
 			link_to reportable.display_name,	:controller => reportable.class.name.underscore,
 																				:action => "view",
-																				:display_name => reportable.diary_entry.user.display_name
+																				:display_name => reportable.display_name
 		when "DiaryComment"
-			link_to "#{reportable.diary_entry.title} Comment id ##{reportable.id}",	:controller => reportable.diary_entry.class.name.underscore,
+			link_to "#{reportable.diary_entry.title}, Comment id ##{reportable.id}",	:controller => reportable.diary_entry.class.name.underscore,
 					                                                                   	:action => :view,
 					                                                                   	:display_name => reportable.diary_entry.user.display_name,
 					                                                                   	:id => reportable.id
