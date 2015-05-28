@@ -31,7 +31,7 @@
       <%= link_to t('diary_entry.diary_entry.edit_link'), :action => 'edit', :display_name => diary_entry.user.display_name, :id => diary_entry.id %>
     <% end %>
 
-      <li><%= link_to 'Report', new_issue_url(reportable_id: diary_entry.id, reportable_type: diary_entry.class.name, user: diary_entry.user.id) %></li>
+      <li><%= link_to 'Report', new_issue_url(reportable_id: diary_entry.id, reportable_type: diary_entry.class.name, user_id: diary_entry.user.id) %></li>
 
     <%= if_administrator(:li) do %>
       <%= link_to t('diary_entry.diary_entry.hide_link'), hide_diary_entry_path(:display_name => diary_entry.user.display_name, :id => diary_entry.id), :method => :post, :data => { :confirm => t('diary_entry.diary_entry.confirm') } %>

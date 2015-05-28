@@ -11,7 +11,6 @@
 	<p><%= link_to "Ignore", ignore_issue_url(@issue), :method => :post if @issue.may_ignore? %></p>
 	<p><%= link_to "Reopen", reopen_issue_url(@issue), :method => :post if @issue.may_reopen? %></p>
 <% end %>
-
 <h3>Reports under this issue:</h3>
 
 <% if @read_reports.present? %>
@@ -27,3 +26,8 @@
 		<%= render 'reports',reports: @unread_reports %>
 	</div>
 <% end %>	
+<br/>
+<h3>Comments on this issue:</h3>
+	<div class="unread-reports">
+		<%= render 'comments', comments: @comments %>
+	</div>

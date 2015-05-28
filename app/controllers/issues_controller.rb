@@ -2,7 +2,8 @@ class IssuesController < ApplicationController
   layout "site"
 
   before_action :authorize_web
-  before_action :check_permission, only: [:index, :show, :resolve,:open,:ignore]
+  before_action :require_user
+  before_action :check_permission, only: [:index, :show, :resolve,:open,:ignore,:comment]
   before_action :find_issue, only: [:show, :resolve, :reopen, :ignore]
 
   def index
@@ -12,11 +13,13 @@ class IssuesController < ApplicationController
   def show
     @read_reports = @issue.read_reports
     @unread_reports = @issue.unread_reports
+    @comments = @issue.comments
   end
 
   def new
     unless create_new_issue_params.blank?
       @issue = Issue.find_or_initialize_by(create_new_issue_params)
+      puts params[:user_id].to_s + "--------------"
     end
   end
 
@@ -25,18 +28,25 @@ class IssuesController < ApplicationController
     if !@issue 
       @issue = Issue.find_or_initialize_by(issue_params)
       @admins = UserRole.where(role: "administrator")
-      @admins.each do |user|
-        Notifier.new_issue_notification(User.find(user.user_id)).deliver_now
+      @admins.each do |admin|
+        Notifier.new_issue_notification(User.find(admin.user_id)).deliver_now
       end
     end
-
     @report = @issue.reports.build(report_params)
-
-    if @issue.save
-      redirect_to @issue, notice: 'Issue was successfully created.'
+    @report.user_id = @user.id
+    if @issue.save!
+      redirect_to root_path, notice: 'Issue was successfully created.'
     else
       render :new
     end
+  end
+
+  def comment
+    @issue = Issue.find(params[:id])
+    @issue_comment = @issue.comments.build(issue_comment_params)
+    @issue_comment.user_id = @user.id
+    @issue_comment.save!
+    redirect_to @issue
   end
 
   # Status Transistions
@@ -85,10 +95,14 @@ class IssuesController < ApplicationController
     end
 
     def issue_params
-      params[:issue].permit(:reportable_id, :reportable_type,:user_id)
+      params.permit(:reportable_id, :reportable_type,:user_id)
     end
 
     def report_params
-      params[:report].permit(:details, :user_id)
+      params[:report].permit(:details)
+    end
+
+    def issue_comment_params
+      params.require(:issue_comment).permit(:body, :user_id)
     end
 end

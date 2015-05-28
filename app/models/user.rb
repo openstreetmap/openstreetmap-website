@@ -27,6 +27,8 @@ class User < ActiveRecord::Base
   has_many :roles, :class_name => "UserRole"
 
   has_many :issues
+  has_many :issue_comments
+  
   has_many :reports
 
   scope :visible, -> { where(:status => %w(pending active confirmed)) }
