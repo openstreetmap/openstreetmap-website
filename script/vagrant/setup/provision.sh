@@ -9,16 +9,6 @@ export LC_ALL=en_GB.utf8
 # make sure we have up-to-date packages
 apt-get update
 
-## vagrant grub-pc fix from: https://gist.github.com/jrnickell/6289943
-# parameters
-echo "grub-pc grub-pc/kopt_extracted boolean true" | debconf-set-selections
-echo "grub-pc grub2/linux_cmdline string" | debconf-set-selections
-echo "grub-pc grub-pc/install_devices multiselect /dev/sda" | debconf-set-selections
-echo "grub-pc grub-pc/install_devices_failed_upgrade boolean true" | debconf-set-selections
-echo "grub-pc grub-pc/install_devices_disks_changed multiselect /dev/sda" | debconf-set-selections
-# vagrant grub fix
-dpkg-reconfigure -f noninteractive grub-pc
-
 # upgrade all packages
 apt-get upgrade -y
 
