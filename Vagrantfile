@@ -2,8 +2,25 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "sputnik13/trusty64"
+  # use official ubuntu image for virtualbox
+  config.vm.provider "virtualbox" do |_, override|
+    config.vm.box = "ubuntu/trusty64"
+    override.vm.synced_folder ".", "/srv/openstreetmap-website"
+  end
 
+  # use third party image and NFS sharing for lxc
+  config.vm.provider "lxc" do |_, override|
+    override.vm.box = "sputnik13/trusty64"
+    override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => "nfs"
+  end
+
+  # use third party image and NFS sharing for libvirt
+  config.vm.provider "libvirt" do |_, override|
+    override.vm.box = "sputnik13/trusty64"
+    override.vm.synced_folder ".", "/srv/openstreetmap-website", :type => "nfs"
+  end
+
+  # configure shared package cache if possible
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.enable :apt
     config.cache.scope = :box
@@ -11,10 +28,6 @@ Vagrant.configure("2") do |config|
 
   # port forward for webrick on 3000
   config.vm.network :forwarded_port, :guest => 3000, :host => 3000
-
-  # set up synced folder to source in /srv/openstreetmap-website
-  config.vm.synced_folder ".", "/srv/openstreetmap-website",
-    :rsync__exclude => ["config/application.yml", "config/database.yml"]
 
   # provision using a simple shell script
   config.vm.provision :shell, :path => "script/vagrant/setup/provision.sh"
