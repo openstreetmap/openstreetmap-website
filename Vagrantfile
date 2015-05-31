@@ -4,7 +4,7 @@
 Vagrant.configure("2") do |config|
   # use official ubuntu image for virtualbox
   config.vm.provider "virtualbox" do |_, override|
-    config.vm.box = "ubuntu/trusty64"
+    override.vm.box = "ubuntu/trusty64"
     override.vm.synced_folder ".", "/srv/openstreetmap-website"
   end
 
