@@ -40,6 +40,7 @@ class Issue < ActiveRecord::Base
 
 		event :reopen do
 			transitions :from => :resolved, :to => :open
+			transitions :from => :ignored, :to => :open
 		end
 
 	end
