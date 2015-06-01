@@ -1,3 +1,4 @@
+<div class="issue-comments">
 <% comments.each do |comment| %>
 	<div class="comment">
 		<div style="float:left">
@@ -10,9 +11,11 @@
 	On <%= l comment.created_at.to_datetime, :format => :long %> </span>
 	<hr>
 <% end %>
+</div>
+<br/>
 <div class="comment">
 	<%= form_for :issue_comment, :url => { :action => 'comment', :id => @issue.id, :user_id => @user.id } do |f| %>
-	    <%= richtext_area :issue_comment, :body, :cols => 80, :rows => 8 %>
+	    <%= richtext_area :issue_comment, :body, :cols => 10, :rows => 8 %>
     	<%= submit_tag 'Submit' %>
   	<% end %>
 </div>
