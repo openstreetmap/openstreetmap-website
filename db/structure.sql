@@ -1990,6 +1990,20 @@ CREATE INDEX index_issue_comments_on_user_id ON issue_comments USING btree (user
 
 
 --
+-- Name: index_issues_on_reportable_id_and_reportable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_issues_on_reportable_id_and_reportable_type ON issues USING btree (reportable_id, reportable_type);
+
+
+--
+-- Name: index_issues_on_reported_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_issues_on_reported_user_id ON issues USING btree (reported_user_id);
+
+
+--
 -- Name: index_note_comments_on_body; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2134,20 +2148,6 @@ CREATE INDEX relations_changeset_id_idx ON relations USING btree (changeset_id);
 --
 
 CREATE INDEX relations_timestamp_idx ON relations USING btree ("timestamp");
-
-
---
--- Name: reportable_object_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX reportable_object_idx ON issues USING btree (reportable_id, reportable_type);
-
-
---
--- Name: reported_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX reported_user_id_idx ON issues USING btree (reported_user_id);
 
 
 --

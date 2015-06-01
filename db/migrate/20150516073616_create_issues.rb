@@ -17,7 +17,7 @@ class CreateIssues < ActiveRecord::Migration
 
     add_foreign_key :issues, :users, :column => :reported_user_id,:name => "issues_reported_user_id_fkey"
 
-    add_index :issues, :reported_user_id,
+    add_index :issues, :reported_user_id
     add_index :issues, [:reportable_id, :reportable_type]
     
   end
