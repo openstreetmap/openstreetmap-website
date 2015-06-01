@@ -9,7 +9,7 @@ module IssuesHelper
 																:display_name => reportable.user.display_name,
 																:id => reportable.id
 		when "User"
-			link_to reportable.display_name,	:controller => reportable.class.name.underscore,
+			link_to reportable.display_name.to_s,	:controller => reportable.class.name.underscore,
 																				:action => "view",
 																				:display_name => reportable.display_name
 		when "DiaryComment"

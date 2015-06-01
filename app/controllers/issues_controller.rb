@@ -14,12 +14,12 @@ class IssuesController < ApplicationController
     @read_reports = @issue.read_reports
     @unread_reports = @issue.unread_reports
     @comments = @issue.comments
+    @related_issues = @issue.user.issues
   end
 
   def new
     unless create_new_issue_params.blank?
       @issue = Issue.find_or_initialize_by(create_new_issue_params)
-      puts params[:user_id].to_s + "--------------"
     end
   end
 
@@ -35,7 +35,7 @@ class IssuesController < ApplicationController
     @report = @issue.reports.build(report_params)
     @report.user_id = @user.id
     if @issue.save!
-      redirect_to root_path, notice: 'Issue was successfully created.'
+      redirect_to root_path, notice: 'Your report has been registered sucessfully.'
     else
       render :new
     end
@@ -91,11 +91,11 @@ class IssuesController < ApplicationController
     end
 
     def create_new_issue_params
-      params.permit(:reportable_id, :reportable_type, :user_id)
+      params.permit(:reportable_id, :reportable_type, :reported_user_id)
     end
 
     def issue_params
-      params[:issue].permit(:reportable_id, :reportable_type,:user_id)
+      params[:issue].permit(:reportable_id, :reportable_type,:reported_user_id)
     end
 
     def report_params

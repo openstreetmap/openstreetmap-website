@@ -8,5 +8,12 @@ class CreateIssueComments < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+
+  	add_foreign_key :issue_comments, :issues, :name => "issue_comments_issue_id_fkey"
+  	add_foreign_key :issue_comments, :users, :name => "issue_comments_user_id"
+
+  	add_index :issue_comments, :user_id
+  	add_index :issue_comments, :issue_id
+
   end
 end

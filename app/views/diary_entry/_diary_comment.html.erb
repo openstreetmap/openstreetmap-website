@@ -5,5 +5,5 @@
   <%= if_administrator(:span) do %>
     <%= link_to t('diary_entry.diary_comment.hide_link'), hide_diary_comment_path(:display_name => diary_comment.diary_entry.user.display_name, :id => diary_comment.diary_entry.id, :comment => diary_comment.id), :method => :post, :data=> { :confirm => t('diary_entry.diary_comment.confirm') } %> |
   <% end %>
-  <%= link_to 'Report', new_issue_url(reportable_id: diary_comment.id, reportable_type: diary_comment.class.name, user_id: diary_comment.user.id) %>
+  <%= link_to 'Report', new_issue_url(reportable_id: diary_comment.id, reportable_type: diary_comment.class.name, reported_user_id: diary_comment.user.id) %>
 </div>

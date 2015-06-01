@@ -120,6 +120,33 @@ CREATE TYPE user_status_enum AS ENUM (
 );
 
 
+--
+-- Name: maptile_for_point(bigint, bigint, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
+    LANGUAGE c STRICT
+    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
+
+
+--
+-- Name: tile_for_point(integer, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
+    LANGUAGE c STRICT
+    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
+
+
+--
+-- Name: xid_to_int4(xid); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION xid_to_int4(xid) RETURNS integer
+    LANGUAGE c IMMUTABLE STRICT
+    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -671,9 +698,9 @@ ALTER SEQUENCE issue_comments_id_seq OWNED BY issue_comments.id;
 
 CREATE TABLE issues (
     id integer NOT NULL,
-    reportable_type character varying,
-    reportable_id integer,
-    user_id integer,
+    reportable_type character varying NOT NULL,
+    reportable_id integer NOT NULL,
+    reported_user_id integer NOT NULL,
     status integer,
     resolved_at timestamp without time zone,
     resolved_by integer,
@@ -1959,20 +1986,6 @@ CREATE INDEX index_issue_comments_on_user_id ON issue_comments USING btree (user
 
 
 --
--- Name: index_issues_on_reportable_id_and_reportable_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_issues_on_reportable_id_and_reportable_type ON issues USING btree (reportable_id, reportable_type);
-
-
---
--- Name: index_issues_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_issues_on_user_id ON issues USING btree (user_id);
-
-
---
 -- Name: index_note_comments_on_body; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2117,6 +2130,20 @@ CREATE INDEX relations_changeset_id_idx ON relations USING btree (changeset_id);
 --
 
 CREATE INDEX relations_timestamp_idx ON relations USING btree ("timestamp");
+
+
+--
+-- Name: reportable_object_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX reportable_object_idx ON issues USING btree (reportable_id, reportable_type);
+
+
+--
+-- Name: reported_user_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX reported_user_id_idx ON issues USING btree (reported_user_id);
 
 
 --
@@ -2427,11 +2454,11 @@ ALTER TABLE ONLY issue_comments
 
 
 --
--- Name: issues_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: issues_reported_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issues
-    ADD CONSTRAINT issues_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+    ADD CONSTRAINT issues_reported_user_id_fkey FOREIGN KEY (reported_user_id) REFERENCES users(id);
 
 
 --
@@ -2755,10 +2782,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150516073616');
 INSERT INTO schema_migrations (version) VALUES ('20150516075620');
 
 INSERT INTO schema_migrations (version) VALUES ('20150526130032');
-
-INSERT INTO schema_migrations (version) VALUES ('20150528113100');
-
-INSERT INTO schema_migrations (version) VALUES ('20150528114520');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

@@ -9,5 +9,12 @@ class CreateReports < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+
+    add_foreign_key :reports, :issues, :name => "reports_issue_id_fkey"
+    add_foreign_key :reports, :users, :name => "reports_user_id_fkey"
+
+    add_index :reports, :issue_id
+    add_index :reports, :user_id
+        
   end
 end

@@ -1,10 +1,12 @@
 class Issue < ActiveRecord::Base
 	belongs_to :reportable, :polymorphic => true
+	belongs_to :user, :class_name => "User", :foreign_key => :reported_user_id
+
 	has_many :reports
 	has_many :comments, :class_name => "IssueComment"
+	
 	validates :reportable_id, :uniqueness => { :scope => [ :reportable_type ] }
-	belongs_to :user
-	validates :user_id, :presence => true
+	validates :reported_user_id, :presence => true
 
 	# Check if more statuses are needed
 	enum status: %w( open ignored resolved )
