@@ -33,7 +33,9 @@ class IssuesController < ApplicationController
       end
     end
     @report = @issue.reports.build(report_params)
-    @report.user_id = @user.id
+    details =  params[:report][:details].to_s + "||" + params[:spam].to_s + "||" + params[:offensive].to_s + "||" + params[:threat].to_s + "||" + params[:vandal].to_s + "||" + params[:other].to_s
+    @report.reporter_user_id = @user.id
+    @report.details = details
     if @issue.save!
       redirect_to root_path, notice: 'Your report has been registered sucessfully.'
     else
@@ -41,10 +43,22 @@ class IssuesController < ApplicationController
     end
   end
 
+  def update
+    @issue = Issue.find_by(issue_params)
+    @report = @issue.reports.where(reporter_user_id: @user.id).first
+    details =  params[:report][:details].to_s + "||" + params[:spam].to_s + "||" + params[:offensive].to_s + "||" + params[:threat].to_s + "||" + params[:vandal].to_s + "||" + params[:other].to_s
+    @report.details = details    
+    if @report.save!
+      redirect_to root_path, notice: 'Your report was successfully updated.'
+    else
+      render :edit
+    end  
+  end
+
   def comment
     @issue = Issue.find(params[:id])
     @issue_comment = @issue.comments.build(issue_comment_params)
-    @issue_comment.user_id = @user.id
+    @issue_comment.commenter_user_id = @user.id
     @issue_comment.save!
     redirect_to @issue
   end
@@ -103,6 +117,6 @@ class IssuesController < ApplicationController
     end
 
     def issue_comment_params
-      params.require(:issue_comment).permit(:body, :user_id)
+      params.require(:issue_comment).permit(:body)
     end
 end

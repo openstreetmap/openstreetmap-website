@@ -10,12 +10,69 @@
                 <%= f.hidden_field :reportable_type %>
                 <%= f.hidden_field :reported_user_id %>
             </div>
+
             <div class='form-row'>
-                <label class="standard-label"><%= t 'issue.new.message' -%></label>
-                <%= text_area :report, :details, :cols => 80, :rows => 20, placeholder: "Tell us what's wrong! Any information you can give will go on to help moderators a long way." %>
+                <p>Select one (or more) reasons for your report:</p>
+                
+                <div class="new-report-form">
+                    <div class="new-report-checkbox">
+                    <%= check_box_tag :spam, "[SPAM]" %>
+                    </div>
+                    <div class="new-report-string">
+                        <%= label_tag "This #{@issue.reportable.class.name} is/contains spam." %> <br/>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="new-report-form">
+                    <div class="new-report-checkbox">
+                    <%= check_box_tag :offensive, "[OFFENSIVE]" %>
+                    </div>
+                    <div class="new-report-string">
+                        <%= label_tag "This #{@issue.reportable.class.name} is obscene/offensive." %> <br/>
+                    </div>
+                </div>
+                <br/>
+                
+                <div class="new-report-form">
+                    <div class="new-report-checkbox">
+                    <%= check_box_tag :threat, "[THREAT]" %>
+                    </div>
+                    <div class="new-report-string">
+                        <%= label_tag "This #{@issue.reportable.class.name} contains a threat." %> <br/>
+                    </div>
+                </div>
+                <br/>
+
+                <% if @issue.reportable.class.name == "User" %>
+                    <div class="new-report-form">
+                        <div class="new-report-checkbox">
+                        <%= check_box_tag :vandal, "[VANDAL]" %>
+                        </div>
+                        <div class="new-report-string">
+                            <%= label_tag "This #{@issue.reportable.class.name} is a vandal." %> <br/>
+                        </div>
+                    </div>
+                    <br/>
+                <% end %>
+
+                <div class="new-report-form">
+                    <div class="new-report-checkbox">
+                    <%= check_box_tag :other, "[OTHER]" %>
+                    </div>
+                    <div class="new-report-string">
+                        <%= label_tag "Other." %> <br/>
+                    </div>
+                </div>
+                <br/>
+
+                <label class="standard-label"><b><%= t 'issue.new.message' -%>: </b></label> <br/>
+                <%= text_area :report, :details, :cols => 80, :rows => 20, placeholder: "Please provide some more details into the problem. (This field cannot be left blank!)" %>
             </div>
+
             <div class='buttons'>
                 <%= submit_tag %>
             </div>
+        
         </fieldset>
 <% end %>

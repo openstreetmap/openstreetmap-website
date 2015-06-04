@@ -670,7 +670,7 @@ ALTER SEQUENCE gpx_files_id_seq OWNED BY gpx_files.id;
 CREATE TABLE issue_comments (
     id integer NOT NULL,
     issue_id integer,
-    user_id integer,
+    commenter_user_id integer,
     body text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -1040,7 +1040,7 @@ CREATE TABLE relations (
 CREATE TABLE reports (
     id integer NOT NULL,
     issue_id integer,
-    user_id integer,
+    reporter_user_id integer,
     details text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -1976,17 +1976,17 @@ CREATE UNIQUE INDEX index_client_applications_on_key ON client_applications USIN
 
 
 --
+-- Name: index_issue_comments_on_commenter_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_issue_comments_on_commenter_user_id ON issue_comments USING btree (commenter_user_id);
+
+
+--
 -- Name: index_issue_comments_on_issue_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_issue_comments_on_issue_id ON issue_comments USING btree (issue_id);
-
-
---
--- Name: index_issue_comments_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_issue_comments_on_user_id ON issue_comments USING btree (user_id);
 
 
 --
@@ -2039,10 +2039,10 @@ CREATE INDEX index_reports_on_issue_id ON reports USING btree (issue_id);
 
 
 --
--- Name: index_reports_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_reports_on_reporter_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_reports_on_user_id ON reports USING btree (user_id);
+CREATE INDEX index_reports_on_reporter_user_id ON reports USING btree (reporter_user_id);
 
 
 --
@@ -2442,19 +2442,19 @@ ALTER TABLE ONLY gpx_files
 
 
 --
+-- Name: issue_comments_commenter_user_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issue_comments
+    ADD CONSTRAINT issue_comments_commenter_user_id FOREIGN KEY (commenter_user_id) REFERENCES users(id);
+
+
+--
 -- Name: issue_comments_issue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY issue_comments
     ADD CONSTRAINT issue_comments_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id);
-
-
---
--- Name: issue_comments_user_id; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY issue_comments
-    ADD CONSTRAINT issue_comments_user_id FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -2586,11 +2586,11 @@ ALTER TABLE ONLY reports
 
 
 --
--- Name: reports_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: reports_reporter_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY reports
-    ADD CONSTRAINT reports_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+    ADD CONSTRAINT reports_reporter_user_id_fkey FOREIGN KEY (reporter_user_id) REFERENCES users(id);
 
 
 --
@@ -2784,8 +2784,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150111192335');
 INSERT INTO schema_migrations (version) VALUES ('20150222101847');
 
 INSERT INTO schema_migrations (version) VALUES ('20150516073616');
-
-INSERT INTO schema_migrations (version) VALUES ('20150516075620');
 
 INSERT INTO schema_migrations (version) VALUES ('20150526130032');
 
