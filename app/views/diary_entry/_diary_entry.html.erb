@@ -33,7 +33,7 @@
 
       <li>
         <% if @user and diary_entry.user.id != @user.id %>
-          <%= link_to 'Report', new_issue_url(reportable_id: diary_entry.id, reportable_type: diary_entry.class.name, reported_user_id: diary_entry.user.id) %>
+          <%= link_to t('issues.report'), new_issue_url(reportable_id: diary_entry.id, reportable_type: diary_entry.class.name, reported_user_id: diary_entry.user.id) %>
         <% end %>
       </li>
     <%= if_administrator(:li) do %>
