@@ -9088,7 +9088,7 @@ L.Map.include({
 		maxZoom: Infinity,
 		timeout: 10000,
 		maximumAge: 0,
-		enableHighAccuracy: false
+		enableHighAccuracy: true
 	},
 
 	locate: function (/*Object*/ options) {
