@@ -7,9 +7,9 @@
 			<%= @issue.reports.count %> reports | First reported: <%= l @issue.created_at.to_date, :format => :long %>  <%= "| Last resolved at #{l(@issue.resolved_at.to_datetime, :format =>:long)}" if @issue.resolved_at? %>
 		</small>
 	</p>
-	<p><%= link_to "Resolve", resolve_issue_url(@issue), :method => :post if @issue.may_resolve? %></p>
-	<p><%= link_to "Ignore", ignore_issue_url(@issue), :method => :post if @issue.may_ignore? %></p>
-	<p><%= link_to "Reopen", reopen_issue_url(@issue), :method => :post if @issue.may_reopen? %></p>
+	<p><%= link_to t('issues.resolve'), resolve_issue_url(@issue), :method => :post if @issue.may_resolve? %></p>
+	<p><%= link_to t('issues.ignore'), ignore_issue_url(@issue), :method => :post if @issue.may_ignore? %></p>
+	<p><%= link_to t('issues.reopen'), reopen_issue_url(@issue), :method => :post if @issue.may_reopen? %></p>
 <% end %>
 
 <div class="report-related-block">

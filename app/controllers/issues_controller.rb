@@ -32,26 +32,30 @@ class IssuesController < ApplicationController
         Notifier.new_issue_notification(User.find(admin.user_id)).deliver_now
       end
     end
-    @report = @issue.reports.build(report_params)
-    details =  params[:report][:details].to_s + "||" + params[:spam].to_s + "||" + params[:offensive].to_s + "||" + params[:threat].to_s + "||" + params[:vandal].to_s + "||" + params[:other].to_s
-    @report.reporter_user_id = @user.id
-    @report.details = details
-    if @issue.save!
-      redirect_to root_path, notice: 'Your report has been registered sucessfully.'
+    if params[:report][:details] and (params[:spam] or params[:offensive] or params[:threat] or params[:vandal] or params[:other])
+      @report = @issue.reports.build(report_params)
+      details =  params[:report][:details].to_s + "||" + params[:spam].to_s + "||" + params[:offensive].to_s + "||" + params[:threat].to_s + "||" + params[:vandal].to_s + "||" + params[:other].to_s
+      @report.reporter_user_id = @user.id
+      @report.details = details
+      if @issue.save!
+        redirect_to root_path, notice: t('issues.create.successful_report')
+      end
     else
-      render :new
+      redirect_to new_issue_path(reportable_type: @issue.reportable_type,reportable_id: @issue.reportable_id, reported_user_id: @issue.reported_user_id), notice: t('issues.create.provide_details')
     end
   end
 
   def update
     @issue = Issue.find_by(issue_params)
-    @report = @issue.reports.where(reporter_user_id: @user.id).first
-    details =  params[:report][:details].to_s + "||" + params[:spam].to_s + "||" + params[:offensive].to_s + "||" + params[:threat].to_s + "||" + params[:vandal].to_s + "||" + params[:other].to_s
-    @report.details = details    
-    if @report.save!
-      redirect_to root_path, notice: 'Your report was successfully updated.'
+    if params[:report][:details] and (params[:spam] or params[:offensive] or params[:threat] or params[:vandal] or params[:other])
+      @report = @issue.reports.where(reporter_user_id: @user.id).first
+      details =  params[:report][:details].to_s + "||" + params[:spam].to_s + "||" + params[:offensive].to_s + "||" + params[:threat].to_s + "||" + params[:vandal].to_s + "||" + params[:other].to_s
+      @report.details = details    
+      if @report.save!
+        redirect_to root_path, notice: t('issues.update.successful_update')
+      end
     else
-      render :edit
+      redirect_to new_issue_path(reportable_type: @issue.reportable_type,reportable_id: @issue.reportable_id, reported_user_id: @issue.reported_user_id), notice: t('issues.update.provide_details')
     end  
   end
 
@@ -67,7 +71,7 @@ class IssuesController < ApplicationController
   def resolve
     if @issue.resolve
       @issue.save!
-      redirect_to @issue, notice: "Issue status has been set to: 'Resolved'"
+      redirect_to @issue, notice: t('issues.resolved')
     else
       render :show
     end
@@ -76,7 +80,7 @@ class IssuesController < ApplicationController
   def ignore
     if @issue.ignore
       @issue.save!
-      redirect_to @issue, notice: "Issue status has been set to: 'Ignored'"
+      redirect_to @issue, notice: t('issues.ignored')
     else
       render :show
     end
@@ -85,7 +89,7 @@ class IssuesController < ApplicationController
   def reopen
     if @issue.reopen
       @issue.save!
-      redirect_to @issue, notice: "Issue status has been set to: 'Open'"
+      redirect_to @issue, notice: t('issues.reopened')
     else
       render :show
     end

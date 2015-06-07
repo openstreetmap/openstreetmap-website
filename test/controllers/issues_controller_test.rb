@@ -20,7 +20,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_difference "Issue.count",1 do 
       details = "Details of a report"
-      post :create, { :report => { :deatils => details},
+      post :create, { :report => { :details => details},
                       :issue => { reportable_id: 1, reportable_type: "DiaryEntry", reported_user_id: 1} }
     end
     assert_response :redirect

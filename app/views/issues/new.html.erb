@@ -19,7 +19,7 @@
                     <%= check_box_tag :spam, "[SPAM]" %>
                     </div>
                     <div class="new-report-string">
-                        <%= label_tag "This #{@issue.reportable.class.name} is/contains spam." %> <br/>
+                        <%= label_tag "This #{@issue.reportable.class.name} " + t('issues.report_strings.spam') %> <br/>
                     </div>
                 </div>
                 <br/>
@@ -29,7 +29,7 @@
                     <%= check_box_tag :offensive, "[OFFENSIVE]" %>
                     </div>
                     <div class="new-report-string">
-                        <%= label_tag "This #{@issue.reportable.class.name} is obscene/offensive." %> <br/>
+                        <%= label_tag "This #{@issue.reportable.class.name} " + t('issues.report_strings.offensive') %> <br/>
                     </div>
                 </div>
                 <br/>
@@ -39,7 +39,7 @@
                     <%= check_box_tag :threat, "[THREAT]" %>
                     </div>
                     <div class="new-report-string">
-                        <%= label_tag "This #{@issue.reportable.class.name} contains a threat." %> <br/>
+                        <%= label_tag "This #{@issue.reportable.class.name} " + t('issues.report_strings.threat') %> <br/>
                     </div>
                 </div>
                 <br/>
@@ -50,7 +50,7 @@
                         <%= check_box_tag :vandal, "[VANDAL]" %>
                         </div>
                         <div class="new-report-string">
-                            <%= label_tag "This #{@issue.reportable.class.name} is a vandal." %> <br/>
+                        <%= label_tag "This #{@issue.reportable.class.name} " + t('issues.report_strings.vandal') %> <br/>
                         </div>
                     </div>
                     <br/>
@@ -61,13 +61,13 @@
                     <%= check_box_tag :other, "[OTHER]" %>
                     </div>
                     <div class="new-report-string">
-                        <%= label_tag "Other." %> <br/>
+                        <%= label_tag t('issues.report_strings.other') %> <br/>
                     </div>
                 </div>
                 <br/>
 
                 <label class="standard-label"><b><%= t 'issue.new.message' -%>: </b></label> <br/>
-                <%= text_area :report, :details, :cols => 80, :rows => 20, placeholder: "Please provide some more details into the problem. (This field cannot be left blank!)" %>
+                <%= text_area :report, :details, :cols => 80, :rows => 20, placeholder: t('issues.new.details'), required: true %>
             </div>
 
             <div class='buttons'>
