@@ -12,6 +12,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     OmniAuth.config.mock_auth[:google] = nil
     OmniAuth.config.mock_auth[:facebook] = nil
     OmniAuth.config.mock_auth[:windowslive] = nil
+    OmniAuth.config.mock_auth[:github] = nil
     OmniAuth.config.test_mode = false
   end
 
@@ -721,6 +722,94 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     get auth_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "user/new"
+    assert_select "span.username", false
+  end
+
+  def test_login_github_success
+    OmniAuth.config.add_mock(:github, :uid => "123456789")
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "changeset/history"
+    assert_select "span.username", "githubuser"
+  end
+
+  def test_login_github_connection_failed
+    OmniAuth.config.mock_auth[:github] = :connection_failed
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_failure_path(:strategy => "github", :message => "connection_failed", :origin => "/login?referer=%2Fhistory")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", "Connection to authentication provider failed"
+    assert_select "span.username", false
+  end
+
+  def test_login_github_invalid_credentials
+    OmniAuth.config.mock_auth[:github] = :invalid_credentials
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_failure_path(:strategy => "github", :message => "invalid_credentials", :origin => "/login?referer=%2Fhistory")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", "Invalid authentication credentials"
+    assert_select "span.username", false
+  end
+
+  def test_login_github_unknown
+    OmniAuth.config.add_mock(:github, :uid => "987654321")
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
     follow_redirect!

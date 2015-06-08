@@ -3,5 +3,6 @@ module Auth
     providers["Google"] = "google" if defined?(GOOGLE_AUTH_ID)
     providers["Facebook"] = "facebook" if defined?(FACEBOOK_AUTH_ID)
     providers["Windows Live"] = "windowslive" if defined?(WINDOWSLIVE_AUTH_ID)
+    providers["GitHub"] = "github" if defined?(GITHUB_AUTH_ID)
   end.freeze
 end

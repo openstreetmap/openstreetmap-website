@@ -16,6 +16,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     OmniAuth.config.mock_auth[:google] = nil
     OmniAuth.config.mock_auth[:facebook] = nil
     OmniAuth.config.mock_auth[:windowslive] = nil
+    OmniAuth.config.mock_auth[:github] = nil
     OmniAuth.config.test_mode = false
   end
 
@@ -587,6 +588,119 @@ class UserCreationTest < ActionDispatch::IntegrationTest
     assert_equal register_email.to[0], new_email
     # Check that the confirm account url is correct
     confirm_regex = Regexp.new("/user/redirect_tester_windowslive/confirm\\?confirm_string=([a-zA-Z0-9]*)")
+    register_email.parts.each do |part|
+      assert_match confirm_regex, part.body.to_s
+    end
+    confirm_string = register_email.parts[0].body.match(confirm_regex)[1]
+
+    # Check the page
+    assert_response :success
+    assert_template "user/confirm"
+
+    ActionMailer::Base.deliveries.clear
+
+    # Go to the confirmation page
+    get "/user/#{display_name}/confirm", :confirm_string => confirm_string
+    assert_response :success
+    assert_template "user/confirm"
+
+    post "/user/#{display_name}/confirm", :confirm_string => confirm_string
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "site/welcome"
+  end
+
+  def test_user_create_github_success
+    OmniAuth.config.add_mock(:github, :uid => "123454321")
+
+    new_email = "newtester-github@osm.org"
+    display_name = "new_tester-github"
+    password = "testtest"
+    assert_difference("User.count") do
+      assert_difference("ActionMailer::Base.deliveries.size", 1) do
+        post "/user/new",
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :pass_crypt => "", :pass_crypt_confirmation => "" }
+        assert_response :redirect
+        assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to auth_success_path(:provider => "github", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to "/user/terms"
+        post "/user/save",
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :auth_uid => "123454321", :pass_crypt => password, :pass_crypt_confirmation => password }
+        assert_response :redirect
+        follow_redirect!
+      end
+    end
+
+    # Check the page
+    assert_response :success
+    assert_template "user/confirm"
+
+    ActionMailer::Base.deliveries.clear
+  end
+
+  def test_user_create_github_failure
+    OmniAuth.config.mock_auth[:github] = :connection_failed
+
+    new_email = "newtester-github2@osm.org"
+    display_name = "new_tester-github2"
+    assert_difference("User.count", 0) do
+      assert_difference("ActionMailer::Base.deliveries.size", 0) do
+        post "/user/new",
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :pass_crypt => "", :pass_crypt_confirmation => "" }
+        assert_response :redirect
+        assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to auth_success_path(:provider => "github", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to auth_failure_path(:strategy => "github", :message => "connection_failed", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        follow_redirect!
+        assert_response :success
+        assert_template "user/new"
+      end
+    end
+
+    ActionMailer::Base.deliveries.clear
+  end
+
+  def test_user_create_github_redirect
+    OmniAuth.config.add_mock(:github, :uid => "123454321")
+
+    new_email = "redirect_tester_github@osm.org"
+    display_name = "redirect_tester_github"
+    # nothing special about this page, just need a protected page to redirect back to.
+    referer = "/traces/mine"
+    assert_difference("User.count") do
+      assert_difference("ActionMailer::Base.deliveries.size", 1) do
+        post "/user/new",
+             :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :pass_crypt => "", :pass_crypt_confirmation => "" }, :referer => referer
+        assert_response :redirect
+        assert_redirected_to auth_path(:provider => "github", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to auth_success_path(:provider => "github", :origin => "/user/new")
+        follow_redirect!
+        assert_response :redirect
+        assert_redirected_to "/user/terms"
+        post_via_redirect "/user/save",
+                          :user => { :email => new_email, :email_confirmation => new_email, :display_name => display_name, :auth_provider => "github", :auth_uid => "http://localhost:1123/new.tester", :pass_crypt => "testtest", :pass_crypt_confirmation => "testtest" }
+      end
+    end
+
+    # Check the e-mail
+    register_email = ActionMailer::Base.deliveries.first
+
+    assert_equal register_email.to[0], new_email
+    # Check that the confirm account url is correct
+    confirm_regex = Regexp.new("/user/redirect_tester_github/confirm\\?confirm_string=([a-zA-Z0-9]*)")
     register_email.parts.each do |part|
       assert_match confirm_regex, part.body.to_s
     end

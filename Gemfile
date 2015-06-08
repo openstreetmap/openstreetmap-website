@@ -63,6 +63,7 @@ gem "omniauth-openid"
 gem "omniauth-google-oauth2", ">= 0.2.7"
 gem "omniauth-facebook"
 gem "omniauth-windowslive"
+gem "omniauth-github"
 
 # Markdown formatting support
 gem "redcarpet"
