@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Firefishy
+# Author: Fwolff
 # Author: Naudefj
 # Author: Nroets
 ---
@@ -61,6 +62,12 @@ af:
         languages: Tale
         pass_crypt: Wagwoord
   browse:
+    download_xml: Laai XML af
+    view_history: Sien geskiedenis
+    view_details: Sien detail
+    location: 'Ligging:'
+    changeset:
+      discussion: Bespreking
     relation_member:
       entry_role: '%{type} %{name} as %{role}'
       type:
@@ -198,9 +205,16 @@ af:
         uk_postcode: Resultate vanaf <a href="http://www.npemap.org.uk/">NPEMap /
           FreeThe Postcode</a>
         ca_postcode: Resultate vanaf <a href="http://geocoder.ca/">Geocoder.CA</a>
+        osm_nominatim: Resultate vanaf <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
         geonames: Resultate vanaf <a href="http://www.geonames.org/">GeoNames</a>
+        geonames_reverse: Resultate vanaf <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
       prefix:
+        aerialway:
+          cable_car: Kabelkar
+        aeroway:
+          gate: Hek
         amenity:
           arts_centre: Kunssentrum
           atm: OTM
@@ -268,6 +282,7 @@ af:
           shop: Winkel
           social_club: Sosiale klub
           studio: Studio
+          swimming_pool: Swembad
           taxi: Taxi
           telephone: Openbare telefoon
           theatre: Teater
@@ -279,8 +294,19 @@ af:
           youth_centre: Jeugsentrum
         boundary:
           administrative: Administratiewe grens
+          national_park: Nasionale park
+        bridge:
+          "yes": Brug
         building:
           "yes": Gebou
+        craft:
+          brewery: Brouery
+          carpenter: Skrynwerker
+          electrician: Elektrisiën
+          gardener: Tuinier
+          photographer: Fotograaf
+          plumber: Loodgieter
+          shoemaker: Skoenmaker
         highway:
           bridleway: Ruiterpad
           bus_stop: Bushalte
@@ -297,13 +323,15 @@ af:
           primary: Primêre pad
           primary_link: Primêre pad
           raceway: Renbaan
-          residential: Woonerf
+          residential: Residensiële straat
           road: Pad
           secondary: Sekondêre pad
           secondary_link: Sekondêre pad
           service: Dienspad
           services: Snelweg Dienste
+          speed_camera: Spoedkamera
           steps: Trappe
+          street_lamp: Straatlamp
           tertiary: Tersiêre pad
           track: Spoor
           trail: Wandelpad
@@ -311,6 +339,7 @@ af:
           trunk_link: Trokpad
           unclassified: Ongeklassifiseerde pad
           unsurfaced: Grondpad
+          "yes": Straat
         historic:
           archaeological_site: Argeologiese vindplaas
           battlefield: Slagveld
@@ -373,6 +402,7 @@ af:
           cliff: Kloof
           crater: Krater
           fjord: Fjord
+          forest: Woud
           geyser: Geiser
           glacier: Gletser
           heath: Heide
@@ -515,6 +545,8 @@ af:
           theme_park: Pretpark
           viewpoint: Uitkykpunt
           zoo: Dieretuin
+        tunnel:
+          "yes": Tonnel
         waterway:
           boatyard: Skeepswerf
           canal: Kanaal
@@ -542,29 +574,45 @@ af:
     logo:
       alt_text: OpenStreetMap-logo
     home: tuis
-    logout: teken af
-    log_in: meld aan
+    logout: Meld af
+    log_in: Meld aan
     log_in_tooltip: Teken aan met 'n bestaande rekening
-    sign_up: registreer
+    sign_up: Registreer
     sign_up_tooltip: Skep 'n rekening vir wysigings
     edit: Wysig
     history: Geskiedenis
     export: Eksporteer
+    data: Data
     gps_traces: GPS-spore
     gps_traces_tooltip: Beheer GPS-spore
     user_diaries: Gebruikersdagboeke
     user_diaries_tooltip: Wys gebruikersdagboeke
     tag_line: Die vrye wiki-wêreldkaart
+    intro_header: Welkom by OpenStreetMap!
+    intro_text: OpenStreetMap is 'n kaart van die wêreld, geskep deur gewone mense.
+      Dis gratis onder 'n oop lisensie.
+    intro_2_create_account: Skep gebruikerrekening
     osm_read_only: Die OpenStreetMap-databasis kan op die oomblik slegs gelees word
       aangesien noodsaaklik onderhoud tans uitgevoer word.
     donate: Ondersteun OpenStreetMap deur aan die Hardeware Opgradeer-fonds te %{link}.
-    copyright: Outeursreg & lisensie
+    help: Hulp
+    about: Aangaande
+    copyright: Kopiereg
+    community: Gemeenskap
+    foundation_title: Die OpenStreetMap-stigting
     make_a_donation:
       title: Ondersteun OpenStreetMap met'n geldelike donasie
       text: Maak 'n donasie
+    learn_more: Meer inligting
+    more: Meer
   license_page:
     foreign:
       title: Oor hierdie vertaling
+  welcome_page:
+    title: Welkom!
+  help_page:
+    mailing_lists:
+      title: Poslyste
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} het kommentaar op u dagboekinskrywing gelewer'
@@ -666,6 +714,7 @@ af:
       close: Sluit
     search:
       search: Soek
+      get_directions_title: Kry aanwysings tussen twee punte
       where_am_i: Waar is ek?
       submit_text: OK
     key:
@@ -1098,7 +1147,23 @@ af:
       needs_view: Die gebruiker moet aanmeld alvorens hierdie blokkade verwyder sal
         word.
   javascripts:
+    share:
+      title: Deel
     map:
+      zoom:
+        in: Zoem in
+      locate:
+        title: Wys my ligging
       base:
         cycle_map: Fietskaart
+    site:
+      edit_disabled_tooltip: Zoem in om die kaart te redigeer
+      createnote_disabled_tooltip: Zoem in om 'n nota by die kaart te voeg
+      map_data_zoom_in_tooltip: Zoem in om kaartdata te sien
+    directions:
+      engines:
+        graphhopper_bicycle: Fiets (GraphHopper)
+        mapquest_bicycle: Fiets (MapQuest)
+        mapquest_car: Kar (MapQuest)
+        osrm_car: Kar (OSRM)
 ...
