@@ -385,9 +385,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_create_facebook_success
-    OmniAuth.config.add_mock(:facebook, :uid => "123454321", :extra => {
-                               :id_info => { "openid_id" => "http://localhost:1123/new.tester" }
-                             })
+    OmniAuth.config.add_mock(:facebook, :uid => "123454321")
 
     new_email = "newtester-facebook@osm.org"
     display_name = "new_tester-facebook"
@@ -447,9 +445,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_create_facebook_redirect
-    OmniAuth.config.add_mock(:facebook, :uid => "123454321", :extra => {
-                               :id_info => { "openid_id" => "http://localhost:1123/new.tester" }
-                             })
+    OmniAuth.config.add_mock(:facebook, :uid => "123454321")
 
     new_email = "redirect_tester_facebook@osm.org"
     display_name = "redirect_tester_facebook"
@@ -502,9 +498,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_create_windowslive_success
-    OmniAuth.config.add_mock(:windowslive, :uid => "123454321", :extra => {
-                               :id_info => { "openid_id" => "http://localhost:1123/new.tester" }
-                             })
+    OmniAuth.config.add_mock(:windowslive, :uid => "123454321")
 
     new_email = "newtester-windowslive@osm.org"
     display_name = "new_tester-windowslive"
@@ -564,9 +558,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
   end
 
   def test_user_create_windowslive_redirect
-    OmniAuth.config.add_mock(:windowslive, :uid => "123454321", :extra => {
-                               :id_info => { "openid_id" => "http://localhost:1123/new.tester" }
-                             })
+    OmniAuth.config.add_mock(:windowslive, :uid => "123454321")
 
     new_email = "redirect_tester_windowslive@osm.org"
     display_name = "redirect_tester_windowslive"

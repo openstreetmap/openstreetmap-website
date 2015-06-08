@@ -972,9 +972,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_facebook_success
-    OmniAuth.config.add_mock(:facebook, :uid => "123456789", :extra => {
-                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
-                             })
+    OmniAuth.config.add_mock(:facebook, :uid => "123456789")
 
     get "/login", :referer => "/history"
     assert_response :redirect
@@ -1042,9 +1040,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_facebook_unknown
-    OmniAuth.config.add_mock(:facebook, :uid => "987654321", :extra => {
-                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
-                             })
+    OmniAuth.config.add_mock(:facebook, :uid => "987654321")
 
     get "/login", :referer => "/history"
     assert_response :redirect
@@ -1064,9 +1060,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_windowslive_success
-    OmniAuth.config.add_mock(:windowslive, :uid => "123456789", :extra => {
-                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
-                             })
+    OmniAuth.config.add_mock(:windowslive, :uid => "123456789")
 
     get "/login", :referer => "/history"
     assert_response :redirect
@@ -1134,9 +1128,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   end
 
   def test_login_windowslive_unknown
-    OmniAuth.config.add_mock(:windowslive, :uid => "987654321", :extra => {
-                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
-                             })
+    OmniAuth.config.add_mock(:windowslive, :uid => "987654321")
 
     get "/login", :referer => "/history"
     assert_response :redirect
