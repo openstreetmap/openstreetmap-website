@@ -63,7 +63,8 @@ module OSM
   # Raised when to delete an already-deleted object.
   class APIAlreadyDeletedError < APIError
     def initialize(object = "object", object_id = "")
-      @object, @object_id = object, object_id
+      @object = object
+      @object_id = object_id
     end
 
     attr_reader :object, :object_id
@@ -171,7 +172,8 @@ module OSM
   # the changeset ID that the diff was uploaded to.
   class APIChangesetMismatchError < APIError
     def initialize(provided, allowed)
-      @provided, @allowed = provided, allowed
+      @provided = provided
+      @allowed = allowed
     end
 
     def status
@@ -203,7 +205,9 @@ module OSM
   # they should.
   class APIBadXMLError < APIError
     def initialize(model, xml, message = "")
-      @model, @xml, @message = model, xml, message
+      @model = model
+      @xml = xml
+      @message = message
     end
 
     def status
@@ -218,7 +222,10 @@ module OSM
   # Raised when the provided version is not equal to the latest in the db.
   class APIVersionMismatchError < APIError
     def initialize(id, type, provided, latest)
-      @id, @type, @provided, @latest = id, type, provided, latest
+      @id = id
+      @type = type
+      @provided = provided
+      @latest = latest
     end
 
     attr_reader :provided, :latest, :id, :type
@@ -236,7 +243,9 @@ module OSM
   # this is now forbidden by the API.
   class APIDuplicateTagsError < APIError
     def initialize(type, id, tag_key)
-      @type, @id, @tag_key = type, id, tag_key
+      @type = type
+      @id = id
+      @tag_key = tag_key
     end
 
     attr_reader :type, :id, :tag_key
@@ -254,7 +263,9 @@ module OSM
   # This prevents ways from being to long and difficult to work with
   class APITooManyWayNodesError < APIError
     def initialize(id, provided, max)
-      @id, @provided, @max = id, provided, max
+      @id = id
+      @provided = provided
+      @max = max
     end
 
     attr_reader :id, :provided, :max

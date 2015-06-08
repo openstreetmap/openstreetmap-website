@@ -124,8 +124,7 @@ class DiffReader
   # an exception subclassing OSM::APIError will be thrown.
   def commit
     # data structure used for mapping placeholder IDs to real IDs
-    node_ids, way_ids, rel_ids = {}, {}, {}
-    ids = { :node => node_ids, :way => way_ids, :relation => rel_ids }
+    ids = { :node => {}, :way => {}, :relation => {} }
 
     # take the first element and check that it is an osmChange element
     @reader.read

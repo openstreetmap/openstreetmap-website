@@ -95,8 +95,10 @@ class ChangesetController < ApplicationController
     lat << cs.max_lat unless cs.max_lat.nil?
 
     # collapse the arrays to minimum and maximum
-    cs.min_lon, cs.min_lat, cs.max_lon, cs.max_lat =
-      lon.min, lat.min, lon.max, lat.max
+    cs.min_lon = lon.min
+    cs.min_lat = lat.min
+    cs.max_lon = lon.max
+    cs.max_lat = lat.max
 
     # save the larger bounding box and return the changeset, which
     # will include the bigger bounding box.
