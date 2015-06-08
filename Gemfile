@@ -65,6 +65,7 @@ gem "omniauth-facebook"
 gem "omniauth-windowslive"
 gem "omniauth-github"
 gem "omniauth-mediawiki", ">= 0.0.3"
+gem "omniauth-twitter"
 
 # Markdown formatting support
 gem "redcarpet"

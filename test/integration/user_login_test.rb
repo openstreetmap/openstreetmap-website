@@ -14,6 +14,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     OmniAuth.config.mock_auth[:windowslive] = nil
     OmniAuth.config.mock_auth[:github] = nil
     OmniAuth.config.mock_auth[:wikipedia] = nil
+    OmniAuth.config.mock_auth[:twitter] = nil
     OmniAuth.config.test_mode = false
   end
 
@@ -905,6 +906,94 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     get auth_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "user/new"
+    assert_select "span.username", false
+  end
+
+  def test_login_twitter_success
+    OmniAuth.config.add_mock(:twitter, :uid => "123456789")
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "twitter", :origin => "/login")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "twitter", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "changeset/history"
+    assert_select "span.username", "twitteruser"
+  end
+
+  def test_login_twitter_connection_failed
+    OmniAuth.config.mock_auth[:twitter] = :connection_failed
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "twitter", :origin => "/login")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "twitter", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_failure_path(:strategy => "twitter", :message => "connection_failed", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", "Connection to authentication provider failed"
+    assert_select "span.username", false
+  end
+
+  def test_login_twitter_invalid_credentials
+    OmniAuth.config.mock_auth[:twitter] = :invalid_credentials
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "twitter", :origin => "/login")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "twitter", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    assert_redirected_to auth_failure_path(:strategy => "twitter", :message => "invalid_credentials", :origin => "/login")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "login"
+    assert_select "div.flash.error", "Invalid authentication credentials"
+    assert_select "span.username", false
+  end
+
+  def test_login_twitter_unknown
+    OmniAuth.config.add_mock(:twitter, :uid => "987654321")
+
+    get "/login", :referer => "/history"
+    assert_response :redirect
+    assert_redirected_to "controller" => "user", "action" => "login", "cookie_test" => "true", "referer" => "/history"
+    follow_redirect!
+    assert_response :success
+    assert_template "user/login"
+    get auth_path(:provider => "twitter", :origin => "/login")
+    assert_response :redirect
+    assert_redirected_to auth_success_path(:provider => "twitter", :origin => "/login")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
