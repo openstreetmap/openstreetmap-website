@@ -4,6 +4,13 @@
 	<h1>List of existing Issues:</h1>
 <% end %>
 
+<%= form_tag(issues_path, :method => :get) do %>
+	<%= text_field_tag :search_by_user, params[:search_by_user], placeholder: "Search by Reported User" %>
+	<%= submit_tag "Search" %>
+<% end %>
+<br/>
+<br/>
+
 <table>
 	<thead>
 		<tr>

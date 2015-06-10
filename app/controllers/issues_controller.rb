@@ -7,7 +7,22 @@ class IssuesController < ApplicationController
   before_action :find_issue, only: [:show, :resolve, :reopen, :ignore]
 
   def index
-    @issues = Issue.all.order(:status)
+    if params[:search_by_user].present?
+      @user = User.find_by_display_name(params[:search_by_user])
+      if @user.present?
+        @issues = Issue.where(reported_user_id: @user.id).order(:status)
+      else 
+        @issues = Issue.all.order(:status)
+        redirect_to issues_path, notice: t('issues.index.search.user_not_found') 
+      end
+      
+      if @user.present? and not @issues.present?
+        @issues = Issue.all.order(:status)
+        redirect_to issues_path, notice: t('issues.index.search.issues_not_found')
+      end
+    else
+      @issues = Issue.all.order(:status)
+    end
   end
 
   def show
