@@ -14,11 +14,11 @@ class Issue < ActiveRecord::Base
 	scope :with_status, -> (issue_status) { where(:status => statuses[issue_status])}
 
 	def read_reports
-		resolved_at.present? ? reports.where("created_at < ?", resolved_at) : nil
+		resolved_at.present? ? reports.where("updated_at < ?", resolved_at) : nil
 	end
 
 	def unread_reports
-    resolved_at.present? ? reports.where("created_at >= ?", resolved_at) : reports
+    resolved_at.present? ? reports.where("updated_at >= ?", resolved_at) : reports
 	end
 
 	include AASM

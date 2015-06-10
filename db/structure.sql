@@ -151,6 +151,10 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
 --
 -- Name: acls; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
