@@ -14,12 +14,13 @@
   <% [57, 60, 72, 76, 114, 120, 144, 152, 180].each do |size| -%>
   <%= favicon_link_tag "apple-touch-icon-#{size}x#{size}.png", :rel => "apple-touch-icon", :sizes => "#{size}x#{size}", :type => "image/png" %>
   <% end -%>
-  <%= favicon_link_tag "favicon-32x32.png", :sizes => "32x32", :type => "image/png" %>
-  <%= favicon_link_tag "favicon-194x194.png", :sizes => "194x194", :type => "image/png" %>
-  <%= favicon_link_tag "favicon-96x96.png", :sizes => "96x96", :type => "image/png" %>
-  <%= favicon_link_tag "android-chrome-192x192.png", :sizes => "192x192", :type => "image/png" %>
-  <%= favicon_link_tag "favicon-16x16.png", :sizes => "16x16", :type => "image/png" %>
+  <%= favicon_link_tag "favicon-32x32.png", :rel => "icon", :sizes => "32x32", :type => "image/png" %>
+  <%= favicon_link_tag "favicon-194x194.png", :rel => "icon", :sizes => "194x194", :type => "image/png" %>
+  <%= favicon_link_tag "favicon-96x96.png", :rel => "icon", :sizes => "96x96", :type => "image/png" %>
+  <%= favicon_link_tag "android-chrome-192x192.png", :rel => "icon", :sizes => "192x192", :type => "image/png" %>
+  <%= favicon_link_tag "favicon-16x16.png", :rel => "icon", :sizes => "16x16", :type => "image/png" %>
   <%= tag("link", { :rel => "manifest", :href => asset_path("manifest.json") }) %>
+  <%= tag("meta", { :name => "msapplication-config", :content => asset_path("browserconfig.xml") }) %>
   <%= tag("meta", { :name => "msapplication-TileColor", :content => "#00a300" }) %>
   <%= tag("meta", { :name => "msapplication-TileImage", :content => image_path("mstile-144x144.png") }) %>
   <%= tag("meta", { :name => "theme-color", :content => "#ffffff" }) %>
