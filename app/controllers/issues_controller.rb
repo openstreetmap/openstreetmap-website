@@ -35,12 +35,13 @@ class IssuesController < ApplicationController
   def new
     unless create_new_issue_params.blank?
       @issue = Issue.find_or_initialize_by(create_new_issue_params)
+      path = 'issues.report_strings.' + @issue.reportable.class.name.to_s
+      @report_strings_yaml = t( path)
     end
   end
 
   def create
     @issue = Issue.find_by_reportable_id_and_reportable_type(params[:reportable_id],params[:reportable_type])
-
     # Check if Issue alrwady exists
     if !@issue 
       @issue = Issue.find_or_initialize_by(issue_params)
@@ -51,15 +52,15 @@ class IssuesController < ApplicationController
     end
 
     # Check if details provided are sufficient
-    if params[:report][:details] and (params[:spam] or params[:offensive] or params[:threat] or params[:vandal] or params[:other])
+    if check_report_params
       @report = @issue.reports.build(report_params)
-      details =  params[:report][:details].to_s + "||" + params[:spam].to_s + "||" + params[:offensive].to_s + "||" + params[:threat].to_s + "||" + params[:vandal].to_s + "||" + params[:other].to_s
+      details =  get_report_details
       @report.reporter_user_id = @user.id
       @report.details = details
 
       # Checking if instance has been updated since last report
       @last_report = @issue.reports.order(updated_at: :desc).last
-      if @issue.reportable.updated_at.present? and (@issue.ignored? or @issue.resolved?) and @issue.reportable.updated_at > @last_report.updated_at
+      if check_if_updated
         if @issue.reopen
           @issue.save!
         end
@@ -75,9 +76,8 @@ class IssuesController < ApplicationController
 
   def update
     @issue = Issue.find_by(issue_params)
-
     # Check if details provided are sufficient
-    if params[:report][:details] and (params[:spam] or params[:offensive] or params[:threat] or params[:vandal] or params[:other])
+    if check_report_params
       @report = @issue.reports.where(reporter_user_id: @user.id).first
       
       if @report == nil
@@ -86,12 +86,12 @@ class IssuesController < ApplicationController
         notice = t('issues.update.new_report')
       end
 
-      details =  params[:report][:details].to_s + "||" + params[:spam].to_s + "||" + params[:offensive].to_s + "||" + params[:threat].to_s + "||" + params[:vandal].to_s + "||" + params[:other].to_s
+      details =  get_report_details
       @report.details = details    
 
     # Checking if instance has been updated since last report
       @last_report = @issue.reports.order(updated_at: :desc).last
-      if @issue.reportable.updated_at.present? and (@issue.ignored? or @issue.resolved?) and @issue.reportable.updated_at > @last_report.updated_at
+      if check_if_updated
         @issue.reopen
         @issue.save!
       end
@@ -144,7 +144,41 @@ class IssuesController < ApplicationController
     end
   end
 
+
   private
+
+    def check_if_updated
+      if @issue.reportable and (@issue.ignored? or @issue.resolved?) and @issue.reportable.updated_at > @last_report.updated_at
+        return true
+      else
+        return false
+      end
+    end
+ 
+    def get_report_details
+      details = params[:report][:details] + "--||--"
+      path = 'issues.report_strings.' + @issue.reportable.class.name.to_s
+      @report_strings_yaml = t( path)
+      @report_strings_yaml.each do |k,v|
+        if params[k.to_sym]
+          details = details + params[k.to_sym] + "--||--"
+        end
+      end
+      return details
+    end
+
+    def check_report_params
+      path = 'issues.report_strings.' + @issue.reportable.class.name.to_s
+      @report_strings_yaml = t( path)
+      if params[:report] and params[:report][:details]
+        @report_strings_yaml.each do |k,v|
+          if params[k.to_sym]
+            return true
+          end
+        end
+      end
+      return false
+    end
 
     def find_issue
       @issue = Issue.find(params[:id])
@@ -152,7 +186,7 @@ class IssuesController < ApplicationController
 
     def check_permission
       unless @user.administrator?
-        flash[:error] = t("application.require_admin.not_an_admin")
+        flash[:error] = t('application.require_admin.not_an_admin')
         redirect_to root_path
       end
     end
@@ -172,4 +206,5 @@ class IssuesController < ApplicationController
     def issue_comment_params
       params.require(:issue_comment).permit(:body)
     end
+
 end

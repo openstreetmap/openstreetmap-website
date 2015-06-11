@@ -1,5 +1,5 @@
 <% content_for :heading do %>
-    <h1>Report a new Issue for <%= reportable_url(@issue.reportable) %></h1>
+    <h1>Report <%= reportable_url(@issue.reportable) %></h1>
 <% end %>
 
 <%= form_for(@issue) do |f| %>
@@ -13,59 +13,19 @@
 
             <div class='form-row'>
                 <p>Select one (or more) reasons for your report:</p>
-                
-                <div class="new-report-form">
-                    <div class="new-report-checkbox">
-                    <%= check_box_tag :spam, "[SPAM]" %>
-                    </div>
-                    <div class="new-report-string">
-                        <%= label_tag "This #{@issue.reportable.class.name} " + t('issues.report_strings.spam') %> <br/>
-                    </div>
-                </div>
-                <br/>
 
-                <div class="new-report-form">
-                    <div class="new-report-checkbox">
-                    <%= check_box_tag :offensive, "[OFFENSIVE]" %>
-                    </div>
-                    <div class="new-report-string">
-                        <%= label_tag "This #{@issue.reportable.class.name} " + t('issues.report_strings.offensive') %> <br/>
-                    </div>
-                </div>
-                <br/>
-                
-                <div class="new-report-form">
-                    <div class="new-report-checkbox">
-                    <%= check_box_tag :threat, "[THREAT]" %>
-                    </div>
-                    <div class="new-report-string">
-                        <%= label_tag "This #{@issue.reportable.class.name} " + t('issues.report_strings.threat') %> <br/>
-                    </div>
-                </div>
-                <br/>
-
-                <% if @issue.reportable.class.name == "User" %>
+                <% @report_strings_yaml.each do |k,v| %>
                     <div class="new-report-form">
                         <div class="new-report-checkbox">
-                        <%= check_box_tag :vandal, "[VANDAL]" %>
+                        <%= check_box_tag k.to_sym, v[:type].to_s %>
                         </div>
                         <div class="new-report-string">
-                        <%= label_tag "This #{@issue.reportable.class.name} " + t('issues.report_strings.vandal') %> <br/>
+                            <%= label_tag v[:details].to_s %> <br/>
                         </div>
                     </div>
                     <br/>
-                <% end %>
-
-                <div class="new-report-form">
-                    <div class="new-report-checkbox">
-                    <%= check_box_tag :other, "[OTHER]" %>
-                    </div>
-                    <div class="new-report-string">
-                        <%= label_tag t('issues.report_strings.other') %> <br/>
-                    </div>
-                </div>
-                <br/>
-
+                <% end %> 
+                
                 <label class="standard-label"><b><%= t 'issue.new.message' -%>: </b></label> <br/>
                 <%= text_area :report, :details, :cols => 80, :rows => 20, placeholder: t('issues.new.details'), required: true %>
             </div>
