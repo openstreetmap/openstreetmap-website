@@ -248,6 +248,9 @@ class Relation < ActiveRecord::Base
       model = Kernel.const_get(m[0].capitalize)
       # get the element with that ID
       element = model.find_by(:id => m[1])
+      # if found, lock the element to ensure it can't be deleted until
+      # after the current transaction commits.
+      element.lock!('for share') unless element.nil?
 
       # and check that it is OK to use.
       unless element && element.visible? && element.preconditions_ok?
