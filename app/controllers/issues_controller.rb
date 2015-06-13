@@ -7,21 +7,34 @@ class IssuesController < ApplicationController
   before_action :find_issue, only: [:show, :resolve, :reopen, :ignore]
 
   def index
-    if params[:search_by_user].present?
-      @user = User.find_by_display_name(params[:search_by_user])
-      if @user.present?
-        @issues = Issue.where(reported_user_id: @user.id).order(:status)
-      else 
-        @issues = Issue.all.order(:status)
-        redirect_to issues_path, notice: t('issues.index.search.user_not_found') 
-      end
-      
-      if @user.present? and not @issues.present?
-        @issues = Issue.all.order(:status)
-        redirect_to issues_path, notice: t('issues.index.search.issues_not_found')
-      end
+    # Get user role
+    if @user.administrator?
+      @user_role = "administrator"
     else
-      @issues = Issue.all.order(:status)
+      @user_role = "moderator"
+    end
+
+    # If search
+    if params[:search_by_user]
+      @find_user = User.find_by_display_name(params[:search_by_user])
+      if @find_user
+        @issues = Issue.where(reported_user_id: @find_user.id, issue_type: @user_role).order(:status)
+      else 
+        @issues = Issue.where(issue_type: @user_role).order(:status)
+        notice = t('issues.index.search.user_not_found') 
+      end
+
+      if @find_user !=nil and @issues.first == nil
+        @issues = Issue.where(issue_type: @user_role).order(:status)
+        notice = t('issues.index.search.issues_not_found')
+      end
+
+      if notice
+        redirect_to issues_path, notice: notice
+      end 
+    
+    else
+      @issues = Issue.where(issue_type: @user_role).order(:status)
     end
   end
 
@@ -30,6 +43,9 @@ class IssuesController < ApplicationController
     @unread_reports = @issue.unread_reports
     @comments = @issue.comments
     @related_issues = @issue.user.issues
+    if @issue.updated_by
+      @updated_by_admin = User.find(@issue.updated_by)
+    end
   end
 
   def new
@@ -41,13 +57,22 @@ class IssuesController < ApplicationController
   end
 
   def create
+    admin_issues = [ 'DiaryEntry', 'DiaryComment', 'User']
+    moderator_issues = []
     @issue = Issue.find_by_reportable_id_and_reportable_type(params[:reportable_id],params[:reportable_type])
     # Check if Issue alrwady exists
     if !@issue 
       @issue = Issue.find_or_initialize_by(issue_params)
+      @issue.updated_by = nil
       @admins = UserRole.where(role: "administrator")
       @admins.each do |admin|
         Notifier.new_issue_notification(User.find(admin.user_id)).deliver_now
+      end
+
+      # Reassign to moderators if it is a moderator issue
+      @issue.issue_type = "administrator"
+      if moderator_issues.include? @issue.reportable.class.name
+        reassign_issue
       end
     end
 
@@ -112,7 +137,13 @@ class IssuesController < ApplicationController
     @issue = Issue.find(params[:id])
     @issue_comment = @issue.comments.build(issue_comment_params)
     @issue_comment.commenter_user_id = @user.id
+    if params[:reassign]
+      reassign_issue
+      @issue_comment.reassign = true
+    end
     @issue_comment.save!
+    @issue.updated_by = @user.id
+    @issue.save!
     redirect_to @issue
   end
 
@@ -128,6 +159,7 @@ class IssuesController < ApplicationController
 
   def ignore
     if @issue.ignore
+      @issue.updated_by = @user.id
       @issue.save!
       redirect_to @issue, notice: t('issues.ignored')
     else
@@ -137,6 +169,7 @@ class IssuesController < ApplicationController
 
   def reopen
     if @issue.reopen
+      @issue.updated_by = @user.id      
       @issue.save!
       redirect_to @issue, notice: t('issues.reopened')
     else
@@ -144,6 +177,15 @@ class IssuesController < ApplicationController
     end
   end
 
+  # Reassign Issues between Administrators and Moderators
+  def reassign_issue
+    if @issue.issue_type == "moderator"
+      @issue.issue_type = "administrator"
+    else
+      @issue.issue_type = "moderator"
+    end
+    @issue.save!
+  end
 
   private
 

@@ -4,7 +4,7 @@
 	<p>Issue type: <%= @issue.reportable_type %></p>
 	<p class="deemphasize">
 		<small>
-			<%= @issue.reports.count %> reports | First reported: <%= l @issue.created_at.to_date, :format => :long %>  <%= "| Last resolved at #{l(@issue.resolved_at.to_datetime, :format =>:long)}" if @issue.resolved_at? %>
+			<%= @issue.reports.count %> reports | First reported: <%= l @issue.created_at.to_date, :format => :long %>  <%= "| Last resolved at #{l(@issue.resolved_at.to_datetime, :format =>:long)}" if @issue.resolved_at? %> <%= "| Last updated at #{l(@issue.updated_at.to_datetime, :format => :long)} by #{@updated_by_admin.display_name}" if @updated_by_admin %>
 		</small>
 	</p>
 	<p><%= link_to t('issues.resolve'), resolve_issue_url(@issue), :method => :post if @issue.may_resolve? %></p>
