@@ -199,7 +199,9 @@ class Way < ActiveRecord::Base
     new_nds = (nds - old_nodes).sort.uniq
 
     unless new_nds.empty?
-      db_nds = Node.where(:id => new_nds, :visible => true)
+      # NOTE: nodes are locked here to ensure they can't be deleted before
+      # the current transaction commits.
+      db_nds = Node.where(:id => new_nds, :visible => true).lock("for share")
 
       if db_nds.length < new_nds.length
         missing = new_nds - db_nds.collect(&:id)
