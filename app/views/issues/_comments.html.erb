@@ -6,6 +6,11 @@
 		</div>
 		<b> <%= link_to comment.user.display_name, :controller => :user,:action =>:view, :display_name => comment.user.display_name %> </b> <br/>
 		<%= comment.body %>
+
+		<% if comment.reassign %>
+			<br/>
+			<i><%= t('issues.show.comments.reassign') %></i>
+		<% end %>
 	</div>
 	<span class="deemphasize">
 	On <%= l comment.created_at.to_datetime, :format => :long %> </span>
@@ -16,6 +21,9 @@
 <div class="comment">
 	<%= form_for :issue_comment, :url => { :action => 'comment', :id => @issue.id, :user_id => @user.id } do |f| %>
 	    <%= richtext_area :issue_comment, :body, :cols => 10, :rows => 8 %>
+	    <%= label_tag t('issues.show.comments.reassign_param') %> <%= check_box_tag :reassign, true %> 
+	    <br/>
+	    <br/>
     	<%= submit_tag 'Submit' %>
   	<% end %>
 </div>

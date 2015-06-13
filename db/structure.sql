@@ -151,10 +151,6 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 
-SET default_tablespace = '';
-
-SET default_with_oids = false;
-
 --
 -- Name: acls; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
@@ -673,6 +669,7 @@ CREATE TABLE issue_comments (
     commenter_user_id integer,
     body text,
     created_at timestamp without time zone NOT NULL,
+    reassign boolean,
     updated_at timestamp without time zone NOT NULL
 );
 
@@ -706,10 +703,12 @@ CREATE TABLE issues (
     reportable_id integer NOT NULL,
     reported_user_id integer NOT NULL,
     status integer,
+    issue_type character varying,
     resolved_at timestamp without time zone,
     resolved_by integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    updated_by integer
 );
 
 

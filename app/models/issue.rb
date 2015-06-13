@@ -10,6 +10,7 @@ class Issue < ActiveRecord::Base
 
 	# Check if more statuses are needed
 	enum status: %w( open ignored resolved )
+	enum type: %w( administrator moderator )
 
 	scope :with_status, -> (issue_status) { where(:status => statuses[issue_status])}
 
@@ -44,5 +45,4 @@ class Issue < ActiveRecord::Base
 		end
 
 	end
-
 end

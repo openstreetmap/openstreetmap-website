@@ -7,10 +7,12 @@ class CreateIssuesAndReports < ActiveRecord::Migration
       t.integer :reportable_id, :null => false
       t.integer :reported_user_id, :null => false
       t.integer :status
+      t.string :issue_type
       t.datetime :resolved_at
       t.integer :resolved_by
       t.datetime :created_at
       t.datetime :updated_at
+      t.integer :updated_by
 
       t.timestamps null: false
     end
