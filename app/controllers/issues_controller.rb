@@ -57,8 +57,12 @@ class IssuesController < ApplicationController
   end
 
   def create
+
+    # TODO: Find better place to add these
     admin_issues = [ 'DiaryEntry', 'DiaryComment', 'User']
     moderator_issues = []
+
+    
     @issue = Issue.find_by_reportable_id_and_reportable_type(params[:reportable_id],params[:reportable_type])
     # Check if Issue alrwady exists
     if !@issue 
