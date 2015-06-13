@@ -250,7 +250,7 @@ class Relation < ActiveRecord::Base
       element = model.find_by(:id => m[1])
       # if found, lock the element to ensure it can't be deleted until
       # after the current transaction commits.
-      element.lock!('for share') unless element.nil?
+      element.lock!("for share") unless element.nil?
 
       # and check that it is OK to use.
       unless element && element.visible? && element.preconditions_ok?
