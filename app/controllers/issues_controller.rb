@@ -203,25 +203,13 @@ class IssuesController < ApplicationController
  
     def get_report_details
       details = params[:report][:details] + "--||--"
-      path = 'issues.report_strings.' + @issue.reportable.class.name.to_s
-      @report_strings_yaml = t( path)
-      @report_strings_yaml.each do |k,v|
-        if params[k.to_sym]
-          details = details + params[k.to_sym] + "--||--"
-        end
-      end
+      details = details + params[:report_type].to_s + "--||--"
       return details
     end
 
     def check_report_params
-      path = 'issues.report_strings.' + @issue.reportable.class.name.to_s
-      @report_strings_yaml = t( path)
-      if params[:report] and params[:report][:details]
-        @report_strings_yaml.each do |k,v|
-          if params[k.to_sym]
-            return true
-          end
-        end
+      if params[:report] and params[:report][:details] and params[:report_type]
+        return true
       end
       return false
     end
