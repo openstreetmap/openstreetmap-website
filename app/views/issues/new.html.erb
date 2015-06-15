@@ -17,7 +17,7 @@
                 <% @report_strings_yaml.each do |k,v| %>
                     <div class="new-report-form">
                         <div class="new-report-checkbox">
-                        <%= check_box_tag k.to_sym, v[:type].to_s %>
+                        <%= radio_button_tag :report_type, v[:type].to_s %>
                         </div>
                         <div class="new-report-string">
                             <%= label_tag v[:details].to_s %> <br/>
@@ -26,7 +26,7 @@
                     <br/>
                 <% end %> 
                 
-                <label class="standard-label"><b><%= t 'issue.new.message' -%>: </b></label> <br/>
+                <label class="standard-label"><b><%= t 'issue.new.message' %>: </b></label> <br/>
                 <%= text_area :report, :details, :cols => 80, :rows => 20, placeholder: t('issues.new.details'), required: true %>
             </div>
 

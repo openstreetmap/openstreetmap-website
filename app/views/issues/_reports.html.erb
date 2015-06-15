@@ -5,13 +5,11 @@
 		</div>
 		<b><%= link_to report.user.display_name, :controller => :user,:action =>:view, :display_name => report.user.display_name %></b> <br/>
 		<% details =  report.details.split("--||--") %>
+		<label>Tag:</label> 
+		<%= details[1] %>
+		<br/>
 		<%= details[0] %> 
 		<br/>
-		<br/>
-		<label>Tags:</label> 
-		<% details[1..(details.size-1)].each do |tags| %>
-			<%= tags %>
-		<% end %>
 		<br/>
 		<span class="deemphasize">
 		On <%= l report.created_at.to_datetime, :format => :long %> </span>
