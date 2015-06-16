@@ -11,28 +11,14 @@ module I18n
   end
 
   module JS
-    class << self
-      def make_ordered(unordered)
-        ordered = ActiveSupport::OrderedHash.new
-
-        unordered.keys.sort { |a, b| a.to_s <=> b.to_s }.each do |key|
-          value = unordered[key]
-
-          if value.is_a?(Hash)
-            ordered[key] = make_ordered(value)
-          else
-            ordered[key] = value
-          end
+    class FallbackLocales
+      def default_fallbacks_with_validation
+        default_fallbacks_without_validation.select do |locale|
+          ::I18n.available_locales.include?(locale)
         end
-
-        ordered
       end
 
-      def filtered_translations_with_order
-        make_ordered(filtered_translations_without_order)
-      end
-
-      alias_method_chain :filtered_translations, :order
+      alias_method_chain :default_fallbacks, :validation
     end
   end
 end

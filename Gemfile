@@ -50,7 +50,7 @@ gem "composite_primary_keys", "~> 8.1.0"
 gem "http_accept_language", "~> 2.0.0"
 gem "paperclip", "~> 4.0"
 gem "deadlock_retry", ">= 1.2.0"
-gem "openstreetmap-i18n-js", ">= 3.0.0.rc5.3", :require => "i18n-js"
+gem "i18n-js", ">= 3.0.0.rc10"
 gem "rack-cors"
 gem "actionpack-page_caching"
 
