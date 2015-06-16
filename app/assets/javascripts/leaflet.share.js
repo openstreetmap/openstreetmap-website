@@ -73,10 +73,6 @@ L.OSM.share = function (options) {
         .attr('id', 'short_link')
         .text(I18n.t('javascripts.share.short_link')))
       .append($('<a>')
-        .attr('for', 'geo_input')
-        .attr('id', 'geo_link')
-        .text(I18n.t('javascripts.share.geo_link')))
-      .append($('<a>')
         .attr('for', 'embed_html')
         .attr('href', '#')
         .text(I18n.t('javascripts.share.embed')))
@@ -114,14 +110,6 @@ L.OSM.share = function (options) {
     $('<div>')
       .attr('class', 'form-row share-tab')
       .appendTo($form)
-      .append($('<input>')
-        .attr('id', 'geo_input')
-        .attr('type', 'text')
-        .on('click', select));
-
-    $('<div>')
-      .attr('class', 'form-row share-tab')
-      .appendTo($form)
       .append(
         $('<textarea>')
           .attr('id', 'embed_html')
@@ -131,6 +119,21 @@ L.OSM.share = function (options) {
           .attr('class', 'deemphasize')
           .text(I18n.t('javascripts.share.paste_html'))
           .appendTo($linkSection));
+
+    // Geo URI
+
+    var $geoUriSection = $('<div>')
+      .attr('class', 'section share-geo-uri')
+      .appendTo($ui);
+
+    $('<h4>')
+      .text(I18n.t('javascripts.share.geo_uri'))
+      .appendTo($geoUriSection);
+
+    $('<div>')
+      .appendTo($geoUriSection)
+      .append($('<a>')
+        .attr('id', 'geo_uri'));
 
     // Image
 
@@ -312,10 +315,8 @@ L.OSM.share = function (options) {
 
       $('#short_input').val(map.getShortUrl(marker));
       $('#long_input').val(map.getUrl(marker));
-      $('#geo_input').val(map.getGeoUrl(marker));
       $('#short_link').attr('href', map.getShortUrl(marker));
       $('#long_link').attr('href', map.getUrl(marker));
-      $('#geo_link').attr('href', map.getGeoUrl(marker));
 
       var params = {
         bbox: bounds.toBBoxString(),
@@ -333,6 +334,12 @@ L.OSM.share = function (options) {
           '" style="border: 1px solid black"></iframe><br/>' +
           '<small><a href="' + escapeHTML(map.getUrl(marker)) + '">' +
           escapeHTML(I18n.t('javascripts.share.view_larger_map')) + '</a></small>');
+
+      // Geo URI
+
+      $('#geo_uri')
+        .attr('href', map.getGeoUrl(marker))
+        .html(map.getGeoUrl(marker));
 
       // Image
 
