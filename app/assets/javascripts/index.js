@@ -165,6 +165,15 @@ $(document).ready(function () {
     $.cookie("_osm_location", OSM.locationCookie(map), { expires: expiry, path: "/" });
   });
 
+  if ($.cookie('_osm_donate2015') === 'hide') {
+    $('#donate').hide();
+  }
+
+  $('#donate .close').on('click', function() {
+    $('#donate').hide();
+    $.cookie("_osm_donate2015", 'hide', { expires: expiry });
+  });
+
   if ($.cookie('_osm_welcome') === 'hide') {
     $('.welcome').hide();
   }
