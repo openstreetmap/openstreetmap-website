@@ -170,7 +170,7 @@ L.OSM.Map = L.Map.extend({
     return str;
   },
 
-  getGeoUrl: function(marker) {
+  getGeoUri: function(marker) {
     var precision = OSM.zoomPrecision(this.getZoom()),
         latLng,
         params = {};
@@ -183,8 +183,9 @@ L.OSM.Map = L.Map.extend({
 
     params.mlat = latLng.lat.toFixed(precision);
     params.mlon = latLng.lng.toFixed(precision);
+    params.zoom = this.getZoom();
 
-    return 'geo:' + params.mlat + ',' + params.mlon;
+    return 'geo:' + params.mlat + ',' + params.mlon + '?z=' + params.zoom;
   },
 
   addObject: function(object, callback) {

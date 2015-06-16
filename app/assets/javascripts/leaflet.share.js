@@ -338,8 +338,8 @@ L.OSM.share = function (options) {
       // Geo URI
 
       $('#geo_uri')
-        .attr('href', map.getGeoUrl(marker))
-        .html(map.getGeoUrl(marker));
+        .attr('href', map.getGeoUri(marker))
+        .html(map.getGeoUri(marker));
 
       // Image
 
