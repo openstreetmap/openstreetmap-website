@@ -11,6 +11,7 @@
 # Author: CM3X
 # Author: Calibrator
 # Author: Chilin
+# Author: D1g
 # Author: DCamer
 # Author: Dmitry-s93
 # Author: Dr&mx
@@ -236,7 +237,7 @@ ru:
       new_note: Новая заметка
       description: Описание
       open_title: 'Необработанная заметка #%{note_name}'
-      closed_title: 'Обработанная заметка #%{note_name}'
+      closed_title: 'Разрешённая заметка #%{note_name}'
       hidden_title: 'Скрытая заметка #%{note_name}'
       open_by: Создано пользователем %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
       open_by_anonymous: Создано анонимом <abbr title='%{exact_time}'>%{when} назад</abbr>
@@ -244,11 +245,13 @@ ru:
         назад</abbr>
       commented_by_anonymous: Комментарий анонима <abbr title='%{exact_time}'>%{when}
         назад</abbr>
-      closed_by: Обработана %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
-      closed_by_anonymous: Обработана анонимом <abbr title='%{exact_time}'>%{when}
+      closed_by: Решена пользователем %{user} <abbr title='%{exact_time}'>%{when}
         назад</abbr>
-      reopened_by: Обработана %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
-      reopened_by_anonymous: Обработана анонимом <abbr title='%{exact_time}'>%{when}
+      closed_by_anonymous: Разрешена анонимом <abbr title='%{exact_time}'>%{when}
+        назад</abbr>
+      reopened_by: Переоткрыта пользователем %{user} <abbr title='%{exact_time}'>%{when}
+        назад</abbr>
+      reopened_by_anonymous: Переоткрыта анонимом <abbr title='%{exact_time}'>%{when}
         назад</abbr>
       hidden_by: Скрыта %{user} <abbr title='%{exact_time}'>%{when} назад</abbr>
     query:
@@ -1185,15 +1188,12 @@ ru:
       title: help.openstreetmap.org
       description: Задать вопрос или найти ответы на сайте вопросов и ответов OSM.
     mailing_lists:
-      url: http://lists.openstreetmap.org/
       title: Списки рассылок
     forums:
-      url: http://forum.openstreetmap.org/
       title: Форумы
     irc:
       title: IRC
     switch2osm:
-      url: https://switch2osm.org/
       title: switch2osm
       description: Помощь компаниям и организациям в переходе на OpenStreetMap карты
         и другие услуги.
@@ -1312,7 +1312,7 @@ ru:
         commented_note: '%{commenter} оставил комментарий к одной из картографических
           заметок, которую вы тоже комментировали. Заметка находится около %{place}.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} обработал вашу заметку'
+        subject_own: '[OpenStreetMap] %{commenter} разрешил вашу заметку'
         subject_other: '[OpenStreetMap] %{commenter} обработал интересную вам заметку'
         your_note: '%{commenter} разрешил одну из ваших отметок на карте недалеко
           от %{place}.'
@@ -1961,7 +1961,7 @@ ru:
       nearby_diaries: дневники соседей
     popup:
       your location: Ваше местоположение
-      nearby mapper: Ближайший пользователь
+      nearby mapper: Ближайший картограф
       friend: Друг
     account:
       title: Изменить учетную запись
@@ -2050,7 +2050,7 @@ ru:
       press confirm button: Нажмите кнопку подтверждения чтобы подтвердить ваш новый
         адрес электронной почты.
       button: Подтвердить
-      success: Ваш адрес электронной почты подтверждён, спасибо за регистрацию!
+      success: Ваш адрес электронной почты был успешно изменён!
       failure: Адрес электронной почты уже был подтверждён этим токеном.
       unknown_token: Такой код подтверждения истёк или не существует.
     set_home:
@@ -2252,7 +2252,7 @@ ru:
       title: Заметки, созданные или прокомментированный участником %{user}
       heading: Заметки участника %{user}
       subheading: Заметки, созданные или прокомментированные участником %{user}
-      id: ИД
+      id: Идентификатор
       creator: Автор
       description: Описание
       created_at: Создана
@@ -2331,7 +2331,7 @@ ru:
         anonymous_warning: Эта заметка содержит комментарии анонимных участников.
           Требуется независимая проверка сведений.
         hide: Скрыть
-        resolve: Обработана
+        resolve: Разрешить
         reactivate: Переоткрыть
         comment_and_resolve: Прокомментировать и обработать
         comment: Прокомментировать
