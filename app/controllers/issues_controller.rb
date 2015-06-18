@@ -52,7 +52,7 @@ class IssuesController < ApplicationController
     unless create_new_issue_params.blank?
       @issue = Issue.find_or_initialize_by(create_new_issue_params)
       path = 'issues.report_strings.' + @issue.reportable.class.name.to_s
-      @report_strings_yaml = t( path)
+      @report_strings_yaml = t(path)
     end
   end
 
