@@ -3,6 +3,29 @@ require 'test_helper'
 class IssuesControllerTest < ActionController::TestCase
   fixtures :users,:user_roles
 
+  def test_view_dashboard_without_auth
+    # Access issues_path without login
+    get :index
+    assert_response :redirect
+    assert_redirected_to login_path(:referer => issues_path)
+
+    # Access issues_path as normal user
+    session[:user] = users(:normal_user).id
+    get :index
+    assert_response :redirect
+    assert_redirected_to root_path
+
+    # Access issues_path by admin
+    session[:user] = users(:administrator_user).id
+    get :index
+    assert_response :success
+
+    # Access issues_path by moderator
+    session[:user]= users(:moderator_user).id
+    get :index
+    assert_response :success
+  end
+
   def test_new_issue_without_login
     # Test creation of a new issue and a new report without logging in
     get :new, {reportable_id: 1, reportable_type: "User", reported_user_id: 1}
@@ -148,6 +171,32 @@ class IssuesControllerTest < ActionController::TestCase
     get :ignore, id: Issue.find_by_reportable_id_and_reportable_type(1,"User").id
     assert_equal Issue.find_by_reportable_id_and_reportable_type(1,"User").ignored?, true
     assert_response :redirect
+  end
+
+  def test_search_issues
+    # Login as administrator
+    session[:user] = users(:administrator_user).id
+
+    # No issues against the user
+    get :index, search_by_user: "test1"
+    assert_response :redirect
+    assert_redirected_to issues_path
+
+    # User doesn't exist
+    get :index, search_by_user: "test1000"
+    assert_response :redirect
+    assert_redirected_to issues_path
+
+    # Create Issue against user_id:2
+    test_new_issue_after_login
+    assert_equal Issue.count,1
+    assert_equal Issue.first.reported_user_id,2
+
+    session[:user] = users(:administrator_user).id
+
+    # Find Issue against user_id:2
+    get :index, search_by_user: "test2"
+    assert_response :success
   end
 
 end

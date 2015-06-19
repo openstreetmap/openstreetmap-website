@@ -219,7 +219,7 @@ class IssuesController < ApplicationController
     end
 
     def check_permission
-      unless @user.administrator?
+      unless @user.administrator? or @user.moderator?
         flash[:error] = t('application.require_admin.not_an_admin')
         redirect_to root_path
       end
