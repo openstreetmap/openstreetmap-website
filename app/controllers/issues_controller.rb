@@ -60,7 +60,7 @@ class IssuesController < ApplicationController
 
     # TODO: Find better place to add these
     admin_issues = [ 'DiaryEntry', 'DiaryComment', 'User']
-    moderator_issues = []
+    moderator_issues = [ 'Changeset' ]
 
     
     @issue = Issue.find_by_reportable_id_and_reportable_type(params[:reportable_id],params[:reportable_type])

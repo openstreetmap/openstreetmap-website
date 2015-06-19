@@ -129,6 +129,10 @@
 <% end %>
 
 <div class='secondary-actions'>
+  <% if @user and @user.id != @changeset.user.id %>
+    <%= link_to t('browse.changeset.report'), new_issue_url(reportable_id: @changeset.id, reportable_type: @changeset.class.name, reported_user_id: @changeset.user.id) %>
+    &middot;
+  <% end %>
   <%= link_to(t('browse.changeset.changesetxml'), :controller => "changeset", :action => "read") %>
   &middot;
   <%= link_to(t('browse.changeset.osmchangexml'), :controller => "changeset", :action => "download") %>
