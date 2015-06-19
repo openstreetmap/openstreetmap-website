@@ -199,4 +199,27 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_comment_by_normal_user
+    # Create Issue
+    test_new_issue_after_login
+    assert_equal Issue.count,1
+
+    get :comment, id: 1
+    assert_response :redirect
+    assert_redirected_to root_path
+  end
+
+  def test_comment
+    # Create Issue
+    test_new_issue_after_login
+    assert_equal Issue.count,1
+    @issue = Issue.all.first
+
+    # Login as administrator
+    session[:user] = users(:administrator_user).id
+
+    get :comment, id: @issue.id, :issue_comment => { body: "test comment" }
+    assert_response :redirect
+    assert_redirected_to @issue
+  end
 end

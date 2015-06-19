@@ -139,16 +139,21 @@ class IssuesController < ApplicationController
 
   def comment
     @issue = Issue.find(params[:id])
-    @issue_comment = @issue.comments.build(issue_comment_params)
-    @issue_comment.commenter_user_id = @user.id
-    if params[:reassign]
-      reassign_issue
-      @issue_comment.reassign = true
+    if issue_comment_params.blank?
+      notice = t('issues.comment.provide_details')
+    else
+      @issue_comment = @issue.comments.build(issue_comment_params)
+      @issue_comment.commenter_user_id = @user.id
+      if params[:reassign]
+        reassign_issue
+        @issue_comment.reassign = true
+      end
+      @issue_comment.save!
+      @issue.updated_by = @user.id
+      @issue.save!
+      notice = t('issues.comment.comment_created')
     end
-    @issue_comment.save!
-    @issue.updated_by = @user.id
-    @issue.save!
-    redirect_to @issue
+    redirect_to @issue, notice: notice
   end
 
   # Status Transistions
