@@ -2449,7 +2449,7 @@ ALTER TABLE ONLY gpx_files
 --
 
 ALTER TABLE ONLY issue_comments
-    ADD CONSTRAINT issue_comments_commenter_user_id FOREIGN KEY (commenter_user_id) REFERENCES users(id);
+    ADD CONSTRAINT issue_comments_commenter_user_id FOREIGN KEY (commenter_user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 
 --
@@ -2457,7 +2457,7 @@ ALTER TABLE ONLY issue_comments
 --
 
 ALTER TABLE ONLY issue_comments
-    ADD CONSTRAINT issue_comments_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id);
+    ADD CONSTRAINT issue_comments_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id) ON DELETE CASCADE;
 
 
 --
@@ -2465,7 +2465,7 @@ ALTER TABLE ONLY issue_comments
 --
 
 ALTER TABLE ONLY issues
-    ADD CONSTRAINT issues_reported_user_id_fkey FOREIGN KEY (reported_user_id) REFERENCES users(id);
+    ADD CONSTRAINT issues_reported_user_id_fkey FOREIGN KEY (reported_user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 
 --
@@ -2585,7 +2585,7 @@ ALTER TABLE ONLY relations
 --
 
 ALTER TABLE ONLY reports
-    ADD CONSTRAINT reports_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id);
+    ADD CONSTRAINT reports_issue_id_fkey FOREIGN KEY (issue_id) REFERENCES issues(id) ON DELETE CASCADE;
 
 
 --
@@ -2593,7 +2593,7 @@ ALTER TABLE ONLY reports
 --
 
 ALTER TABLE ONLY reports
-    ADD CONSTRAINT reports_reporter_user_id_fkey FOREIGN KEY (reporter_user_id) REFERENCES users(id);
+    ADD CONSTRAINT reports_reporter_user_id_fkey FOREIGN KEY (reporter_user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 
 --
