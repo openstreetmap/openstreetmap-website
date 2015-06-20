@@ -68,16 +68,18 @@ class IssuesController < ApplicationController
     if !@issue 
       @issue = Issue.find_or_initialize_by(issue_params)
       @issue.updated_by = nil
-      @admins = UserRole.where(role: "administrator")
-      @admins.each do |admin|
-        Notifier.new_issue_notification(User.find(admin.user_id)).deliver_now
-      end
 
       # Reassign to moderators if it is a moderator issue
       @issue.issue_type = "administrator"
       if moderator_issues.include? @issue.reportable.class.name
         reassign_issue
       end
+
+      @admins_or_mods = UserRole.where(role: @issue.issue_type)
+      @admins_or_mods.each do |user|
+        Notifier.new_issue_notification(User.find(user.user_id)).deliver_now
+      end
+
     end
 
     # Check if details provided are sufficient
