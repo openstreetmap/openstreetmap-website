@@ -5,15 +5,9 @@ class IssuesController < ApplicationController
   before_action :require_user
   before_action :check_permission, only: [:index, :show, :resolve,:open,:ignore,:comment]
   before_action :find_issue, only: [:show, :resolve, :reopen, :ignore]
+  before_action :get_user_role, only: [:show, :index]
 
   def index
-    # Get user role
-    if @user.administrator?
-      @user_role = "administrator"
-    else
-      @user_role = "moderator"
-    end
-
     # If search
     if params[:search_by_user]
       @find_user = User.find_by_display_name(params[:search_by_user])
@@ -42,7 +36,7 @@ class IssuesController < ApplicationController
     @read_reports = @issue.read_reports
     @unread_reports = @issue.unread_reports
     @comments = @issue.comments
-    @related_issues = @issue.user.issues
+    @related_issues = @issue.user.issues.where(issue_type: @user_role)
     if @issue.updated_by
       @updated_by_admin = User.find(@issue.updated_by)
     end
@@ -200,6 +194,15 @@ class IssuesController < ApplicationController
 
   private
 
+    def get_user_role
+      # Get user role
+      if @user.administrator?
+        @user_role = "administrator"
+      else
+        @user_role = "moderator"
+      end      
+    end
+    
     def check_if_updated
       if @issue.reportable and (@issue.ignored? or @issue.resolved?) and @issue.reportable.updated_at > @last_report.updated_at
         return true
