@@ -30,7 +30,8 @@
 </p>
 <% end %>
 
-<p><b><%= t'user_block.show.status' %></b>: <%= block_status(@user_block) %></p>
+<p><b><%= t'user_block.show.status' %></b>: <abbr title="Created: <%= @user_block.created_at %>
+Expires: <%= @user_block.ends_at %>"><%= block_status(@user_block) %></abbr></p>
 
 <p><b><%= t'user_block.show.reason' %></b></p>
 <div class="richtext"><%= @user_block.reason.to_html %></div>
