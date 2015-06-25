@@ -120,6 +120,21 @@ L.OSM.share = function (options) {
           .text(I18n.t('javascripts.share.paste_html'))
           .appendTo($linkSection));
 
+    // Geo URI
+
+    var $geoUriSection = $('<div>')
+      .attr('class', 'section share-geo-uri')
+      .appendTo($ui);
+
+    $('<h4>')
+      .text(I18n.t('javascripts.share.geo_uri'))
+      .appendTo($geoUriSection);
+
+    $('<div>')
+      .appendTo($geoUriSection)
+      .append($('<a>')
+        .attr('id', 'geo_uri'));
+
     // Image
 
     var $imageSection = $('<div>')
@@ -319,6 +334,12 @@ L.OSM.share = function (options) {
           '" style="border: 1px solid black"></iframe><br/>' +
           '<small><a href="' + escapeHTML(map.getUrl(marker)) + '">' +
           escapeHTML(I18n.t('javascripts.share.view_larger_map')) + '</a></small>');
+
+      // Geo URI
+
+      $('#geo_uri')
+        .attr('href', map.getGeoUri(marker))
+        .html(map.getGeoUri(marker));
 
       // Image
 
