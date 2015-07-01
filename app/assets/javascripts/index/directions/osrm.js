@@ -12,23 +12,23 @@ function OSRMEngine() {
     getRoute: function (points, callback) {
       var TURN_INSTRUCTIONS = [
         "",
-        I18n.t('javascripts.directions.instructions.continue_on'),      // 1
-        I18n.t('javascripts.directions.instructions.slight_right'),     // 2
-        I18n.t('javascripts.directions.instructions.turn_right'),       // 3
-        I18n.t('javascripts.directions.instructions.sharp_right'),      // 4
-        I18n.t('javascripts.directions.instructions.uturn'),            // 5
-        I18n.t('javascripts.directions.instructions.sharp_left'),       // 6
-        I18n.t('javascripts.directions.instructions.turn_left'),        // 7
-        I18n.t('javascripts.directions.instructions.slight_left'),      // 8
-        I18n.t('javascripts.directions.instructions.via_point'),        // 9
-        I18n.t('javascripts.directions.instructions.follow'),           // 10
-        I18n.t('javascripts.directions.instructions.roundabout'),       // 11
-        I18n.t('javascripts.directions.instructions.leave_roundabout'), // 12
-        I18n.t('javascripts.directions.instructions.stay_roundabout'),  // 13
-        I18n.t('javascripts.directions.instructions.start'),            // 14
-        I18n.t('javascripts.directions.instructions.destination'),      // 15
-        I18n.t('javascripts.directions.instructions.against_oneway'),   // 16
-        I18n.t('javascripts.directions.instructions.end_oneway')        // 17
+        'javascripts.directions.instructions.continue_on',      // 1
+        'javascripts.directions.instructions.slight_right',     // 2
+        'javascripts.directions.instructions.turn_right',       // 3
+        'javascripts.directions.instructions.sharp_right',      // 4
+        'javascripts.directions.instructions.uturn',            // 5
+        'javascripts.directions.instructions.sharp_left',       // 6
+        'javascripts.directions.instructions.turn_left',        // 7
+        'javascripts.directions.instructions.slight_left',      // 8
+        'javascripts.directions.instructions.via_point',        // 9
+        'javascripts.directions.instructions.follow',           // 10
+        'javascripts.directions.instructions.roundabout',       // 11
+        'javascripts.directions.instructions.leave_roundabout', // 12
+        'javascripts.directions.instructions.stay_roundabout',  // 13
+        'javascripts.directions.instructions.start',            // 14
+        'javascripts.directions.instructions.destination',      // 15
+        'javascripts.directions.instructions.against_oneway',   // 16
+        'javascripts.directions.instructions.end_oneway'        // 17
       ];
 
       var url = document.location.protocol + "//router.project-osrm.org/viaroute?z=14&output=json&instructions=true";
@@ -64,13 +64,11 @@ function OSRMEngine() {
             var linesegend;
             var instCodes = s[0].split('-');
             var instText = "<b>" + (i + 1) + ".</b> ";
-            instText += TURN_INSTRUCTIONS[instCodes[0]];
-            if (instCodes[1]) {
-              instText += I18n.t('javascripts.directions.instructions.exit', { exit: instCodes[1] } );
-            }
-            if (instCodes[0] !== 15) {
-              instText += " ";
-              instText += s[1] ? "<b>" + s[1] + "</b>" : I18n.t('javascripts.directions.instructions.unnamed');
+            var name = s[1] ? "<b>" + s[1] + "</b>" : I18n.t('javascripts.directions.instructions.unnamed');
+            if (instCodes[0] === "11" && instCodes[1]) {
+              instText += I18n.t('javascripts.directions.instructions.roundabout_with_exit', { exit: instCodes[1], name: name } );
+            } else {
+              instText += I18n.t(TURN_INSTRUCTIONS[instCodes[0]], { name: name });
             }
             if ((i + 1) < data.route_instructions.length) {
               linesegend = data.route_instructions[i + 1][3] + 1;
