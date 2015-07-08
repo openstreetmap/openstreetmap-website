@@ -12,7 +12,7 @@ function OSRMEngine() {
     getRoute: function (points, callback) {
       var TURN_INSTRUCTIONS = [
         "",
-        'javascripts.directions.instructions.continue_on',      // 1
+        'javascripts.directions.instructions.continue',         // 1
         'javascripts.directions.instructions.slight_right',     // 2
         'javascripts.directions.instructions.turn_right',       // 3
         'javascripts.directions.instructions.sharp_right',      // 4
@@ -66,9 +66,9 @@ function OSRMEngine() {
             var instText = "<b>" + (i + 1) + ".</b> ";
             var name = s[1] ? "<b>" + s[1] + "</b>" : I18n.t('javascripts.directions.instructions.unnamed');
             if (instCodes[0] === "11" && instCodes[1]) {
-              instText += I18n.t('javascripts.directions.instructions.roundabout_with_exit', { exit: instCodes[1], name: name } );
+              instText += I18n.t(TURN_INSTRUCTIONS[instCodes[0]] + '_with_exit', { exit: instCodes[1], name: name } );
             } else {
-              instText += I18n.t(TURN_INSTRUCTIONS[instCodes[0]], { name: name });
+              instText += I18n.t(TURN_INSTRUCTIONS[instCodes[0]] + '_without_exit', { name: name });
             }
             if ((i + 1) < data.route_instructions.length) {
               linesegend = data.route_instructions[i + 1][3] + 1;
