@@ -3,7 +3,7 @@ xml.wpt("lon" => note.lon, "lat" => note.lat) do
     xml.cdata! render(:partial => "description", :object => note, :formats => [ :html ])
   end
 
-  xml.extension do
+  xml.extensions do
     xml.id note.id
     xml.url note_url(note, :format => params[:format])
 
