@@ -118,11 +118,17 @@ ia:
       way_paginated: Vias (%{x}-%{y} de %{count})
       relation: Relationes (%{count})
       relation_paginated: Relationes (%{x}-%{y} de %{count})
+      comment: Commentos (%{count})
+      hidden_commented_by: Commento celate de %{user} <abbr title='%{exact_time}'>%{when}
+        retro</abbr>
+      commented_by: Commento de %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
       changesetxml: XML del gruppo de modificationes
       osmchangexml: XML osmChange
       feed:
         title: Gruppo de modificationes %{id}
         title_comment: Gruppo de modificationes %{id} - %{comment}
+      join_discussion: Aperi session pro unir te al discussion
+      discussion: Discussion
     node:
       title: 'Nodo: %{name}'
       history_title: 'Historia del nodo: %{name}'
@@ -203,6 +209,11 @@ ia:
       reopened_by_anonymous: Reactivate per un anonymo <abbr title='%{exact_time}'>%{when}
         retro</abbr>
       hidden_by: Celate per %{user} <abbr title='%{exact_time}'>%{when} retro</abbr>
+    query:
+      title: Cercar objectos proxime
+      introduction: Clicca sur le carta pro cercar elementos a proximitate.
+      nearby: Objectos proxime
+      enclosing: Objectos inglobante
   changeset:
     changeset_paging_nav:
       showing_page: Pagina %{page}
@@ -233,6 +244,15 @@ ia:
     timeout:
       sorry: Le lista de gruppos de modificationes que tu requestava tardava troppo
         de tempore pro esser recuperate.
+    rss:
+      title_all: Discussion sur le gruppo de modificationes OpenStreetMap
+      title_particular: Discussion sur le gruppo de modificationes OpenStreetMap №
+        %{changeset_id}
+      comment: Nove commento sur le gruppo de modificationes № %{changeset_id} per
+        %{author}
+      commented_at_html: Actualisate %{when} retro
+      commented_at_by_html: Actualisate %{when} retro per %{user}
+      full: Discussion complete
   diary_entry:
     new:
       title: Nove entrata de diario
@@ -373,8 +393,10 @@ ia:
     search_osm_nominatim:
       prefix:
         aerialway:
+          cable_car: Telepherico
           chair_lift: Telesedia
           drag_lift: Teleski
+          gondola: Telecabina
           station: Station de telecabina
         aeroway:
           aerodrome: Aerodromo
@@ -385,6 +407,7 @@ ia:
           taxiway: Via de circulation pro aviones
           terminal: Terminal
         amenity:
+          animal_shelter: Refugio pro animales
           arts_centre: Centro artistic
           atm: Cassa automatic
           bank: Banca
@@ -394,6 +417,7 @@ ia:
           bicycle_parking: Stationamento pro bicyclettas
           bicycle_rental: Location de bicyclettas
           biergarten: Terrassa
+          boat_rental: Location de barcas
           brothel: Bordello
           bureau_de_change: Officio de cambio
           bus_station: Station de autobus
@@ -403,8 +427,10 @@ ia:
           car_wash: Lavage de automobiles
           casino: Casino
           charging_station: Station de cargamento
+          childcare: Guarda de infantes
           cinema: Cinema
           clinic: Clinica
+          clock: Horologio
           college: Schola superior
           community_centre: Centro communitari
           courthouse: Tribunal
@@ -423,6 +449,7 @@ ia:
           food_court: Zona de restaurantes
           fountain: Fontana
           fuel: Carburante
+          gambling: Joco de hasardo
           grave_yard: Cemeterio
           gym: Centro de fitness / Gymnasio
           health_centre: Centro de sanitate
@@ -433,6 +460,8 @@ ia:
           library: Bibliotheca
           market: Mercato
           marketplace: Mercato
+          monastery: Monasterio
+          motorcycle_parking: Parking a motocyclo
           nightclub: Club nocturne
           nursery: Sala recreative pro parve infantes
           nursing_home: Casa de convalescentia
@@ -508,7 +537,7 @@ ia:
           primary_link: Via principal
           proposed: Strata proponite
           raceway: Circuito
-          residential: Residential
+          residential: Strata residential
           rest_area: Area de reposo
           road: Via
           secondary: Via secundari
@@ -521,16 +550,18 @@ ia:
           tertiary: Via tertiari
           tertiary_link: Via tertiari
           track: Pista
+          traffic_signals: Lumines de traffico
           trail: Pista
           trunk: Via national
           trunk_link: Via national
           unclassified: Via non classificate
           unsurfaced: Cammino de terra
+          "yes": Cammino
         historic:
           archaeological_site: Sito archeologic
           battlefield: Campo de battalia
           boundary_stone: Lapide de frontiera
-          building: Edificio
+          building: Edificio historic
           castle: Castello
           church: Ecclesia
           citywalls: Muro del citate
@@ -1633,6 +1664,12 @@ ia:
       contact_webmaster: Per favor contacta le <a href="mailto:webmaster@openstreetmap.org">webmaster</a>
         pro arrangiar le creation de un conto. Nos tentara tractar vostre requesta
         le plus rapidemente possibile.
+      about:
+        header: Libere e modificabile
+        html: |-
+          <p>A differentia de altere cartas, OpenStreetMap es completemente create per gente como tu,
+          e cata uno es libere de modificar, actualisar, discargar e usar lo.</p>
+          <p>Crea un conto pro comenciar a contribuer. Nos te inviara un e-mail pro confirmar tu conto.</p>
       license_agreement: Quando tu confirma tu conto, tu debera acceptar le <a href="http://www.osmfoundation.org/wiki/License/Contributor_Terms">conditiones
         de contributor</a>.
       email address: 'Adresse de e-mail:'
@@ -1643,9 +1680,23 @@ ia:
       display name: 'Nomine public:'
       display name description: Tu nomine de usator monstrate publicamente. Tu pote
         cambiar lo plus tarde in le preferentias.
+      external auth: 'Authentication per tertios:'
       password: 'Contrasigno:'
       confirm password: 'Confirmar contrasigno:'
-      continue: Continuar
+      use external auth: Alternativemente, usa un tertio pro aperir session
+      auth no password: Con authentication per tertio, un contrasigno non es necessari,
+        ma alcun instrumentos o servitores supplementari pote totevia necessitar un.
+      auth association: |-
+        <p>Tu ID non es ancora associate con un conto de OpenStreetMap.</p>
+        <ul>
+          <li>Si tu es nove in OpenStreetMap, crea un nove contro con le formulario ci-infra.</li>
+          <li>
+            Si tu ha jam un conto, tu pote aperir session
+            con tu nomine de usator e contrasigno e alora associar le conto
+            a tu ID in tu preferentias de usator.
+          </li>
+        </ul>
+      continue: Crear conto
       terms accepted: Gratias pro acceptar le nove conditiones de contributor!
       terms declined: Nos regretta que tu ha decidite de non acceptar le nove Conditiones
         de contributor. Pro plus informationes, per favor vide <a href="%{url}">iste
@@ -1677,23 +1728,25 @@ ia:
       body: Non existe un usator con le nomine %{user}. Per favor verifica le orthographia,
         o pote esser que le ligamine que tu sequeva es incorrecte.
     view:
-      my diary: mi diario
+      my diary: Mi diario
       new diary entry: nove entrata de diario
-      my edits: mi modificationes
-      my traces: mi tracias
-      my notes: mi notas de carta
-      my settings: mi configurationes
-      my comments: mi commentos
+      my edits: Mi modificationes
+      my traces: Mi tracias
+      my notes: Mi notas
+      my messages: Mi messages
+      my profile: Mi profilo
+      my settings: Mi preferentias
+      my comments: Mi commentos
       oauth settings: configuration oauth
-      blocks on me: blocadas super me
-      blocks by me: blocadas per me
-      send message: inviar message
-      diary: diario
-      edits: modificationes
-      traces: tracias
-      notes: notas de carta
-      remove as friend: remover amico
-      add as friend: adder amico
+      blocks on me: Blocadas concernente me
+      blocks by me: Blocadas facite per me
+      send message: Inviar message
+      diary: Diario
+      edits: Modificationes
+      traces: Tracias
+      notes: Notas de carta
+      remove as friend: Remover amico
+      add as friend: Adder amico
       mapper since: 'Cartographo depost:'
       ago: (%{time_in_words_ago} retro)
       ct status: 'Conditiones de contributor:'
@@ -1727,7 +1780,7 @@ ia:
           moderator: Revocar accesso de moderator
       block_history: blocadas recipite
       moderator_history: blocadas date
-      comments: commentos
+      comments: Commentos
       create_block: blocar iste usator
       activate_user: activar iste usator
       deactivate_user: disactivar iste usator
@@ -1750,6 +1803,7 @@ ia:
       current email address: 'Adresse de e-mail actual:'
       new email address: 'Adresse de e-mail nove:'
       email never displayed publicly: (nunquam monstrate publicamente)
+      external auth: 'Authentication externe:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: que es isto?
@@ -1805,13 +1859,18 @@ ia:
         successo. Tu recipera in e-mail un nota pro confirmar tu nove adresse de e-mail.
       flash update success: Informationes del usator actualisate con successo.
     confirm:
-      heading: Confirmar un conto de usator
+      heading: Verifica tu e-mail!
+      introduction_1: Nos te ha inviate un message de confirmation.
+      introduction_2: Confirma tu conto con un clic sur le ligamine in le message
+        e tu potera comenciar a cartographiar.
       press confirm button: Preme le button de confirmation ci infra pro activar tu
         conto.
       button: Confirmar
       success: Tu conto ha essite confirmate, gratias pro inscriber te!
       already active: Iste conto ha ja essite confirmate.
-      unknown token: Iste indicio non pare exister.
+      unknown token: Iste codice de confirmation ha expirate o non existe.
+      reconfirm_html: Pro reciper un altere message de confirmation, <a href="%{reconfirm}">clicca
+        hic</a>.
     confirm_resend:
       success: Nos ha inviate un nove message de confirmation a %{email} e si tosto
         que tu confirma le conto, tu potera comenciar a cartographiar.<br /><br />Si
@@ -1824,8 +1883,9 @@ ia:
       press confirm button: Preme le button Confirmar ci infra pro confirmar tu nove
         adresse de e-mail.
       button: Confirmar
-      success: Tu adresse de e-mail ha essite confirmate, gratias pro inscriber te!
+      success: Le cambio del adresse de e-mail ha essite confirmate.
       failure: Un adresse de e-mail ha ja essite confirmate con iste indicio.
+      unknown_token: Iste codice de confirmation ha expirate o non existe.
     set_home:
       flash success: Position de origine confirmate con successo
     go_public:
@@ -1868,6 +1928,12 @@ ia:
           Iste decision essera revidite per un administrator tosto, o
           tu pote contactar le %{webmaster} si tu desira discuter isto.
         </p>
+    auth_failure:
+      connection_failed: Le connexion al fornitor de authentication ha fallite
+      invalid_credentials: Datos de authentication non valide
+      no_authorization_code: Nulle codice de autorisation
+      unknown_signature_algorithm: Algorithmo de signatura non cognoscite
+      invalid_scope: Ambito non valide
   user_role:
     filter:
       not_an_administrator: Solmente administratores pote gerer le rolos de usator,
@@ -1982,6 +2048,8 @@ ia:
       heading: '%{block_on} blocate per %{block_by}'
       time_future: Expira in %{time}
       time_past: Expirava %{time} retro
+      created: Create
+      ago: '%{time} retro'
       status: Stato
       show: Monstrar
       edit: Modificar
@@ -2006,7 +2074,10 @@ ia:
       description_area: Un lista de notas reportate, commentate o claudite in tu area
         [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
       description_item: Syndication RSS pro le nota %{id}
+      opened: nove nota (a presso de %{place})
+      commented: nove commento (a presso de %{place})
       closed: nota claudite (a presso de %{place})
+      reopened: nota reactivate (a presso de %{place})
     entry:
       comment: Commento
       full: Nota complete
@@ -2021,22 +2092,73 @@ ia:
       last_changed: Ultime modification
       ago_html: '%{when} retro'
   javascripts:
+    close: Clauder
+    share:
+      title: Divider
+      cancel: Cancellar
+      image: Imagine
+      link: Ligamine o HTML
+      long_link: Ligamine
+      short_link: Ligamine curte
+      geo_uri: Geo URI
+      embed: HTML
+      custom_dimensions: Personalisar dimensiones
+      format: 'Formato:'
+      scale: 'Scala:'
+      image_size: Le imagine monstrara le strato standard in
+      download: Discargar
+      short_url: URL curte
+      include_marker: Includer marcator
+      center_marker: Centrar le carta sur le marcator
+      paste_html: Colla HTML pro incorporar in sito web
+      view_larger_map: Vider carta plus grande
+    key:
+      title: Legenda
+      tooltip: Legenda
+      tooltip_disabled: Le legenda es disponibile solmente pro le strato Standard
     map:
+      zoom:
+        in: Zoom avante
+        out: Zoom retro
+      locate:
+        title: Monstrar mi position
+        popup: Tu es intra {distance} {unit} de iste puncto
       base:
         standard: Standard
         cycle_map: Carta cyclista
         transport_map: Carta de transporto
         mapquest: MapQuest Open
+        hot: Humanitario
+      layers:
+        header: Stratos de carta
+        notes: Notas de carta
+        data: Datos de carta
+        overlays: Activar superpositiones pro resolver problemas in le carta
+        title: Stratos
+      copyright: © <a href='%{copyright_url}'>contributores de OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Facer un donation</a>
     site:
       edit_tooltip: Modificar le carta
       edit_disabled_tooltip: Face zoom avante pro modificar le carta
       createnote_tooltip: Adder un nota al carta
       createnote_disabled_tooltip: Face zoom avante pro adder un nota al carta
+      map_notes_zoom_in_tooltip: Face zoom avante pro vider le notas del carta
+      map_data_zoom_in_tooltip: Face zoom avante pro vider le datos del carta
+      queryfeature_tooltip: Cercar objectos proxime
+      queryfeature_disabled_tooltip: Face zoom avante pro cercar objectos a proximitate
+    changesets:
+      show:
+        comment: Commento
+        subscribe: Subscriber
+        unsubscribe: Cancellar subscription
+        hide_comment: celar
+        unhide_comment: revelar
     notes:
       new:
-        intro: Pro meliorar le carta, le information que tu scribe es monstrate a
-          altere cartographos. Dunque, per favor sia tanto descriptive e precise como
-          possibile quando tu positiona le marcator e scribe tu nota hic infra.
+        intro: Tu ha trovate un error? Qualcosa manca? Face lo saper al altere cartographos
+          a fin que nos pote corriger lo. Displacia le marcator al position correcte
+          e scribe un nota pro explicar le problema. (Non entra informationes personal
+          o proveniente de cartas o catalogos sub derecto de autor.)
         add: Adder nota
       show:
         anonymous_warning: Iste nota include commentos de usatores anonyme que debe
@@ -2046,6 +2168,8 @@ ia:
         reactivate: Reactivar
         comment_and_resolve: Commentar e resolver
         comment: Commento
+    edit_help: Displacia le carta e face zoom avante in un loco que tu vole modificar,
+      postea clicca hic.
   redaction:
     edit:
       description: Description
