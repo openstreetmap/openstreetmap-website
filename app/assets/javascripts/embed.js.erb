@@ -13,6 +13,7 @@ window.onload = function () {
 
   var map = L.map("map");
   map.attributionControl.setPrefix('');
+  map.removeControl(map.attributionControl);
 
   if (!args.layer || args.layer === "mapnik" || args.layer === "osmarender") {
     new L.OSM.Mapnik().addTo(map);
@@ -43,4 +44,65 @@ window.onload = function () {
   } else {
     map.fitWorld();
   }
+  (new L.Control.OSMReportAProblem({})).addTo(map);
 };
+
+L.Control.OSMReportAProblem = L.Control.Attribution.extend({
+        options: {
+                position: 'bottomright',
+                prefix: '<a href="http://www.openstreetmap.org/fixthemap?lat={x}&lon={y}&zoom={z}">Report a problem</a>'
+        },
+        _layerAdd: function(e)
+        {
+		if (e.layer.getAttribution) {
+                        this.addAttribution(e.layer.getAttribution());
+		}
+        },
+        _layerRemove: function(e)
+        {
+		if (e.layer.getAttribution) {
+                        this.removeAttribution(e.layer.getAttribution());
+                }
+        },
+        onAdd: function (map) {
+                this._container = L.DomUtil.create('div', 'leaflet-control-attribution');
+                L.DomEvent.disableClickPropagation(this._container);
+
+                // TODO ugly, refactor
+                for (var i in map._layers) {
+                        if (map._layers[i].getAttribution) {
+                                this.addAttribution(map._layers[i].getAttribution());
+                        }
+                }
+
+                this._update();
+                map.on('moveend', this._update, this);
+                map.on('layeradd', this._layerAdd, this);
+                map.on('layerremove', this._layerRemove, this);
+
+                return this._container;
+        },
+        _update: function () {
+                if (!this._map) { return; }
+
+                var attribs = [];
+
+                for (var i in this._attributions) {
+                        if (this._attributions[i]) {
+                                attribs.push(i);
+                        }
+                }
+
+                var prefixAndAttribs = [];
+
+                if (this.options.prefix) {
+                        prefixAndAttribs.push(this.options.prefix);
+                }
+                if (attribs.length) {
+                        prefixAndAttribs.push(attribs.join(', '));
+                }
+
+                this._container.innerHTML = prefixAndAttribs.join(' | ').replace('{x}', this._map.getCenter().lat).replace('{y}', this._map.getCenter().lng).replace('{z}', this._map.getZoom());
+        }
+
+    });
