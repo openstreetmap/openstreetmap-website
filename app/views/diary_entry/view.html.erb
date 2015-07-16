@@ -10,7 +10,11 @@
 
 <a id="comments"></a>
 <div class='comments'>
-<%= render :partial => 'diary_comment', :collection => @entry.visible_comments %>
+  <% if @reported_comment %>
+    <%= render :partial => 'diary_comment', :collection => @reported_comment %>
+  <% else %>
+    <%= render :partial => 'diary_comment', :collection => @entry.visible_comments %>
+  <% end %>
 </div>
 <%= if_logged_in(:div) do %>
   <h3 id="newcomment"><%= t 'diary_entry.view.leave_a_comment' %></h3>

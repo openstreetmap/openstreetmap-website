@@ -16,7 +16,8 @@ module IssuesHelper
 			link_to "#{reportable.diary_entry.title}, Comment id ##{reportable.id}",	:controller => reportable.diary_entry.class.name.underscore,
 					                                                                   	:action => :view,
 					                                                                   	:display_name => reportable.diary_entry.user.display_name,
-					                                                                   	:id => reportable.id
+					                                                                   	:id => reportable.diary_entry.id,
+					                                                                   	:comment_id => reportable.id
 		when "Changeset"
 			link_to "Changeset ##{reportable.id}, Closed at: #{l(reportable.closed_at.to_datetime, :format => :long)}",		:controller => :browse,
 																									:action => :changeset,
