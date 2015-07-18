@@ -11,8 +11,8 @@
                 <%= f.hidden_field :reported_user_id %>
             </div>
 
-            <div class='form-row'>
-                <p>Select one (or more) reasons for your report:</p>
+            <div class='form-row' style='width:600px'>
+                <p><%= t('issues.new.select') %>:</p>
 
                 <% @report_strings_yaml.each do |k,v| %>
                     <div class="new-report-form">
@@ -26,8 +26,7 @@
                     <br/>
                 <% end %> 
                 
-                <label class="standard-label"><b><%= t 'issue.new.message' %>: </b></label> <br/>
-                <%= text_area :report, :details, :cols => 80, :rows => 20, placeholder: t('issues.new.details'), required: true %>
+                <%= text_area :report, :details, :cols => 20, :rows => 3, placeholder: t('issues.new.details'), required: true %>
             </div>
 
             <div class='buttons'>

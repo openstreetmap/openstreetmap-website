@@ -19,7 +19,7 @@ module IssuesHelper
 					                                                                   	:id => reportable.diary_entry.id,
 					                                                                   	:comment_id => reportable.id
 		when "Changeset"
-			link_to "Changeset ##{reportable.id}, Closed at: #{l(reportable.closed_at.to_datetime, :format => :long)}",		:controller => :browse,
+			link_to "Changeset ##{reportable.id}",		:controller => :browse,
 																									:action => :changeset,
 																									:id => reportable.id
 		else
