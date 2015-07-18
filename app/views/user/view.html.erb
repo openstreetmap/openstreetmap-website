@@ -81,9 +81,6 @@
               <%= link_to t('user.view.add as friend'), make_friend_path(:display_name => @this_user.display_name) %>
             <% end %>
           </li>
-          <li>
-             <%= link_to t('user.view.report'), new_issue_url(reportable_id: @this_user.id, reportable_type: @this_user.class.name, reported_user_id: @this_user.id) %>
-          </li>
           <% if @this_user.blocks.exists? %>
             <li>
               <%= link_to t('user.view.block_history'), :controller => 'user_blocks', :action => 'blocks_on', :display_name => @this_user.display_name %>
@@ -155,6 +152,14 @@
         </small>
       </p>
     </div>
+
+    <% if @user and @this_user.id != @user.id %>
+      <div class="report-button">
+         <%= link_to new_issue_url(reportable_id: @this_user.id, reportable_type: @this_user.class.name, reported_user_id: @this_user.id), :title => t('user.view.report') do%>
+            <%= image_tag('notice.png', size: '10x10') %>
+         <% end %>
+      </div>
+    <% end %>
 
     <div class="user-description richtext"><%= @this_user.description.to_html %></div>
 

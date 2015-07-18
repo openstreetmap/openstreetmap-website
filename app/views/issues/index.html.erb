@@ -15,26 +15,24 @@
 	<thead>
 		<tr>
 			<tr>
-				<td style="text-align:center"><b> # </b> </td>
-				<td style="text-align:center"><b>Issue Type </b></td>
-				<td style="text-align:center"><b> Status </b></td>
-				<td style="text-align:center"><b> Number of Reports</b></td>
-				<td style="text-align:center"><b> Link to instance </b></td>
-				<td style="text-align:center"><b> Reported User </b></td>
-				<td style="text-align:center"></td>
+				<td><b> Status </b></td>
+				<td><b> Number of Reports</b></td>
+				<td><b> Last updated at</b></td>
+				<td><b> Link to instance </b></td>
+				<td><b> Reported User </b></td>
+				<td></td>
 			</tr>
 		</tr>
 	</thead>
 	<tbody>
 		<% @issues.each do |issue| %>
 			<tr>
-				<td style="text-align:center">Issue #<%= issue.id %> </td>
-				<td style="text-align:center"> <%= issue.reportable_type %></td>
-				<td style="text-align:center"><span class="count-number"> <strong><%= issue.status %></strong></span> </td>
-				<td style="text-align:center"><%= issue.reports.count %></td>
-				<td style="text-align:center"> <%= reportable_url(issue.reportable) %></td>
-				<td style="text-align:center"><%= link_to issue.user.display_name , :controller => :user, :action => :view,:display_name => issue.user.display_name %></td>
-				<td style="text-align:center"><%= link_to "Show Issue", issue %></td>
+				<td><span class="count-number"> <strong><%= issue.status %></strong></span> </td>
+				<td><%= issue.reports.count %></td>
+				<td><%= issue.updated_at.strftime('%H:%M, %m/%d/%y') %></td>
+				<td> <%= reportable_url(issue.reportable) %></td>
+				<td><%= link_to issue.user.display_name , :controller => :user, :action => :view,:display_name => issue.user.display_name %></td>
+				<td><b><%= link_to "Show Reports", issue %></b></td>
 			</tr>
 		<% end %>
 	</tbody>
