@@ -48,5 +48,13 @@ module OpenStreetMap
     if defined?(MEMCACHE_SERVERS)
       config.cache_store = :mem_cache_store, MEMCACHE_SERVERS, { :namespace => "rails:cache" }
     end
+
+    # Use logstash for logging if required
+    if defined?(LOGSTASH_PATH)
+      config.logstasher.enabled = true
+      config.logstasher.suppress_app_log = false
+      config.logstasher.logger_path = LOGSTASH_PATH
+      config.logstasher.log_controller_parameters = true
+    end
   end
 end

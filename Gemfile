@@ -85,6 +85,9 @@ gem "soap4r-ruby1.9"
 gem "dalli"
 gem "kgio"
 
+# Used to generate logstash friendly log files
+gem "logstasher"
+
 # Gems useful for development
 group :development do
   gem "vendorer"
