@@ -5,7 +5,10 @@
 <% end %>
 
 <%= form_tag(issues_path, :method => :get) do %>
-	<%= text_field_tag :search_by_user, params[:search_by_user], placeholder: "Search by Reported User" %>
+	Search for a particular issue(s):  
+	<%= select :status, nil, [['open', 0],['resolved',2],['ignored',1]],{:include_blank => "Select status"},data: { behavior: 'category_dropdown' } %>
+	<%= select :issue_type, nil, @issue_types,{:include_blank => "Select type"},data: { behavior: 'category_dropdown' } %>
+	<%= text_field_tag :search_by_user, params[:search_by_user], placeholder: "Reported User" %>
 	<%= submit_tag "Search" %>
 <% end %>
 <br/>
@@ -15,12 +18,13 @@
 	<thead>
 		<tr>
 			<tr>
-				<td><b> Status </b></td>
-				<td><b> Number of Reports</b></td>
-				<td><b> Last updated at</b></td>
-				<td><b> Link to instance </b></td>
-				<td><b> Reported User </b></td>
-				<td></td>
+				<td><b> <%= sortable("status") %></b></td>
+				<td><b> <%= sortable("report_count", "Number of Reports") %></b></td>
+				<td><b> <%= sortable("updated_at","Last updated at") %></b></td>
+				<td><b> <%= sortable("updated_by","Last updated by") %></b></td>
+				<td><b> Link to reports </b></td>
+				<td><b> <%= sortable("reported_user_id","Reported User") %> </b></td>
+				<td><b> Link to reported instance</b></td>
 			</tr>
 		</tr>
 	</thead>
@@ -28,11 +32,12 @@
 		<% @issues.each do |issue| %>
 			<tr>
 				<td><span class="count-number"> <strong><%= issue.status %></strong></span> </td>
-				<td><%= issue.reports.count %></td>
-				<td><%= issue.updated_at.strftime('%H:%M, %m/%d/%y') %></td>
-				<td> <%= reportable_url(issue.reportable) %></td>
+				<td><%= issue.report_count %></td>
+				<td><%= issue.updated_at.strftime('%H:%M %m/%d/%y') %></td>
+				<td><% if issue.user_updated %> <%= issue.user_updated.display_name %> <% else %> - <% end %></td>
+				<td> <%= reports_url(issue) %></td>
 				<td><%= link_to issue.user.display_name , :controller => :user, :action => :view,:display_name => issue.user.display_name %></td>
-				<td><b><%= link_to "Show Reports", issue %></b></td>
+				<td><%= instance_url(issue.reportable) %></td>
 			</tr>
 		<% end %>
 	</tbody>

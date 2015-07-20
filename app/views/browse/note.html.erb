@@ -2,6 +2,13 @@
 
 <h2>
   <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
+  <% if @user and @user.id!=@note.author.id %>
+    <div class="report-button">
+      <%= link_to new_issue_url(reportable_id: @note.id, reportable_type: @note.class.name, reported_user_id: @note.author.id), :title => t('browse.note.report') do %>
+        <%= image_tag('notice.png', size: '10x10') %>
+      <% end %>
+    </div>
+  <% end %>
   <%= t "browse.note.#{@note.status}_title", :note_name => @note.id %>
 </h2>
 
