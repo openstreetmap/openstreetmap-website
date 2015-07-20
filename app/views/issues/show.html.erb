@@ -39,7 +39,7 @@
 				<% if @related_issues.count > 1 %>
 					<% @related_issues.each do |issue| %>
 						<% if issue.id != @issue.id %>
-							<%= link_to "#{issue.reportable_type} ##{issue.reportable_id}", issue %> <br/>
+							<%= reports_url(issue) %> <br/>
 						<% end %>
 					<% end %>
 				<% else %>

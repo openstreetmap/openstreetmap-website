@@ -3,33 +3,48 @@ class IssuesController < ApplicationController
 
   before_action :authorize_web
   before_action :require_user
+  before_action :set_issues
   before_action :check_permission, only: [:index, :show, :resolve,:open,:ignore,:comment]
   before_action :find_issue, only: [:show, :resolve, :reopen, :ignore]
   before_action :get_user_role, only: [:show, :index]
 
+  helper_method :sort_column, :sort_direction
+
   def index
+    if @user.moderator?
+      @issue_types = @moderator_issues
+    else
+      @issue_types = @admin_issues
+    end
+
+    @issues = Issue.where(issue_type: @user_role).order(sort_column + " " + sort_direction)
+
     # If search
-    if params[:search_by_user]
+    if params[:search_by_user] and !params[:search_by_user].blank?
       @find_user = User.find_by_display_name(params[:search_by_user])
       if @find_user
-        @issues = Issue.where(reported_user_id: @find_user.id, issue_type: @user_role).order(:status)
+        @issues = @issues.where(reported_user_id: @find_user.id)
       else 
-        @issues = Issue.where(issue_type: @user_role).order(:status)
         notice = t('issues.index.search.user_not_found') 
       end
-
-      if @find_user !=nil and @issues.first == nil
-        @issues = Issue.where(issue_type: @user_role).order(:status)
-        notice = t('issues.index.search.issues_not_found')
-      end
-
-      if notice
-        redirect_to issues_path, notice: notice
-      end 
-    
-    else
-      @issues = Issue.where(issue_type: @user_role).order(:status)
     end
+
+
+    if params[:status] and !params[:status][0].blank?
+      @issues = @issues.where(status: params[:status][0].to_i)
+    end
+
+    if params[:issue_type] and !params[:issue_type][0].blank?
+      @issues = @issues.where(reportable_type: params[:issue_type][0])
+    end
+
+    if @issues.first == nil
+        notice = t('issues.index.search.issues_not_found')      
+    end
+
+    if notice
+      redirect_to issues_path, notice: notice
+    end 
   end
 
   def show
@@ -51,21 +66,15 @@ class IssuesController < ApplicationController
   end
 
   def create
-
-    # TODO: Find better place to add these
-    admin_issues = [ 'DiaryEntry', 'DiaryComment', 'User']
-    moderator_issues = [ 'Changeset' ]
-
-    
     @issue = Issue.find_by_reportable_id_and_reportable_type(params[:reportable_id],params[:reportable_type])
-    # Check if Issue alrwady exists
+    # Check if Issue already exists
     if !@issue 
       @issue = Issue.find_or_initialize_by(issue_params)
       @issue.updated_by = nil
 
       # Reassign to moderators if it is a moderator issue
       @issue.issue_type = "administrator"
-      if moderator_issues.include? @issue.reportable.class.name
+      if @moderator_issues.include? @issue.reportable.class.name
         reassign_issue
       end
 
@@ -82,7 +91,6 @@ class IssuesController < ApplicationController
       details =  get_report_details
       @report.reporter_user_id = @user.id
       @report.details = details
-
       # Checking if instance has been updated since last report
       @last_report = @issue.reports.order(updated_at: :desc).last
       if check_if_updated
@@ -92,6 +100,8 @@ class IssuesController < ApplicationController
       end
 
       if @issue.save!
+        @issue.report_count = @issue.reports.count
+        @issue.save!
         redirect_to root_path, notice: t('issues.create.successful_report')
       end
     else
@@ -125,7 +135,10 @@ class IssuesController < ApplicationController
         notice = t('issues.update.successful_update')
       end
 
+
       if @report.save!
+        @issue.report_count = @issue.reports.count
+        @issue.save!
         redirect_to root_path, notice: notice
       end
     else
@@ -194,6 +207,11 @@ class IssuesController < ApplicationController
 
   private
 
+    def set_issues
+      @admin_issues = [ 'DiaryEntry', 'DiaryComment', 'User']
+      @moderator_issues = [ 'Changeset', 'Note' ]
+    end
+
     def get_user_role
       # Get user role
       if @user.administrator?
@@ -204,7 +222,7 @@ class IssuesController < ApplicationController
     end
     
     def check_if_updated
-      if @issue.reportable and (@issue.ignored? or @issue.resolved?) and @issue.reportable.updated_at > @last_report.updated_at
+      if @issue.reportable and (@issue.ignored? or @issue.resolved?) and @issue.reportable.has_attribute?(:updated_by) and @issue.reportable.updated_at > @last_report.updated_at
         return true
       else
         return false
@@ -251,4 +269,11 @@ class IssuesController < ApplicationController
       params.require(:issue_comment).permit(:body)
     end
 
+    def sort_column
+      Issue.column_names.include?(params[:sort]) ? params[:sort] : "status"
+    end
+
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    end
 end

@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   has_many :roles, :class_name => "UserRole"
 
   has_many :issues, :class_name => "Issue", :foreign_key => :reported_user_id
+  has_one :issue, :class_name => "Issue", :foreign_key => :updated_by
   has_many :issue_comments
   
   has_many :reports

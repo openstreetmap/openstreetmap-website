@@ -712,7 +712,8 @@ CREATE TABLE issues (
     resolved_by integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    updated_by integer
+    updated_by integer,
+    report_count integer DEFAULT 0
 );
 
 
@@ -2007,6 +2008,13 @@ CREATE INDEX index_issues_on_reported_user_id ON issues USING btree (reported_us
 
 
 --
+-- Name: index_issues_on_updated_by; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_issues_on_updated_by ON issues USING btree (updated_by);
+
+
+--
 -- Name: index_note_comments_on_body; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2469,6 +2477,14 @@ ALTER TABLE ONLY issues
 
 
 --
+-- Name: issues_updated_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY issues
+    ADD CONSTRAINT issues_updated_by_fkey FOREIGN KEY (updated_by) REFERENCES users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: messages_from_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2789,6 +2805,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150222101847');
 INSERT INTO schema_migrations (version) VALUES ('20150516073616');
 
 INSERT INTO schema_migrations (version) VALUES ('20150526130032');
+
+INSERT INTO schema_migrations (version) VALUES ('20150719160821');
 
 INSERT INTO schema_migrations (version) VALUES ('21');
 

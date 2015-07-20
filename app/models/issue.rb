@@ -1,6 +1,7 @@
 class Issue < ActiveRecord::Base
 	belongs_to :reportable, :polymorphic => true
 	belongs_to :user, :class_name => "User", :foreign_key => :reported_user_id
+	belongs_to :user_updated, :class_name => "User", :foreign_key => :updated_by
 
 	has_many :reports, dependent: :destroy
 	has_many :comments, :class_name => "IssueComment", dependent: :destroy
