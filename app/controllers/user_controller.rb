@@ -324,8 +324,13 @@ class UserController < ApplicationController
 
   def confirm_resend
     if user = User.find_by_display_name(params[:display_name])
-      Notifier.signup_confirm(user, user.tokens.create).deliver_now
-      flash[:notice] = t "user.confirm_resend.success", :email => user.email
+      if user.active?
+        flash[:error] = t("user.confirm.already active")
+        redirect_to :action => "login"
+      else
+        Notifier.signup_confirm(user, user.tokens.create).deliver_now
+        flash[:notice] = t "user.confirm_resend.success", :email => user.email
+      end
     else
       flash[:error] = t "user.confirm_resend.failure", :name => params[:display_name]
     end
