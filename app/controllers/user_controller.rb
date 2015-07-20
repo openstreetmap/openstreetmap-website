@@ -318,16 +318,19 @@ class UserController < ApplicationController
     else
       user = User.find_by_display_name(params[:display_name])
 
-      redirect_to root_path if !user || user.active?
+      redirect_to root_path if user.nil? || user.active?
     end
   end
 
   def confirm_resend
-    if user = User.find_by_display_name(params[:display_name])
-      Notifier.signup_confirm(user, user.tokens.create).deliver_now
-      flash[:notice] = t "user.confirm_resend.success", :email => "your email" # user.email
-    else
+    user = User.find_by_display_name(params[:display_name])
+    token = UserToken.find_by_token(session[:token])
+
+    if user.nil? || token.nil? || token.user != user
       flash[:error] = t "user.confirm_resend.failure", :name => params[:display_name]
+    else
+      Notifier.signup_confirm(user, user.tokens.create).deliver_now
+      flash[:notice] = t "user.confirm_resend.success", :email => user.email
     end
 
     redirect_to :action => "login"
@@ -631,6 +634,8 @@ class UserController < ApplicationController
   ##
   #
   def unconfirmed_login(user)
+    session[:token] = user.tokens.create.token
+
     redirect_to :action => "confirm", :display_name => user.display_name
 
     session.delete(:remember_me)

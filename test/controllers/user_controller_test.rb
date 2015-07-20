@@ -474,6 +474,8 @@ class UserControllerTest < ActionController::TestCase
   end
 
   def test_confirm_resend_success
+    session[:token] = users(:inactive_user).tokens.create.token
+
     assert_difference "ActionMailer::Base.deliveries.size", 1 do
       get :confirm_resend, :display_name => users(:inactive_user).display_name
     end
@@ -489,7 +491,17 @@ class UserControllerTest < ActionController::TestCase
     ActionMailer::Base.deliveries.clear
   end
 
-  def test_confirm_resend_failure
+  def test_confirm_resend_no_token
+    assert_no_difference "ActionMailer::Base.deliveries.size" do
+      get :confirm_resend, :display_name => users(:inactive_user).display_name
+    end
+
+    assert_response :redirect
+    assert_redirected_to login_path
+    assert_match "User Inactive User not found.", flash[:error]
+  end
+
+  def test_confirm_resend_unknown_user
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       get :confirm_resend, :display_name => "No Such User"
     end
