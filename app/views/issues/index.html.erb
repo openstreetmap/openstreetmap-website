@@ -1,14 +1,15 @@
 <p id= "notice"><%= notice %></p>
 
 <% content_for :heading do %>
-	<h1>List of <%= @user_role %> issues:</h1>
+	<h1>List of <%= @user_role %> issues:</h1> 
 <% end %>
 
 <%= form_tag(issues_path, :method => :get) do %>
-	Search for a particular issue(s):  
+	Search for a particular issue(s):  <br/>
 	<%= select :status, nil, [['open', 0],['resolved',2],['ignored',1]],{:include_blank => "Select status"},data: { behavior: 'category_dropdown' } %>
-	<%= select :issue_type, nil, @issue_types,{:include_blank => "Select type"},data: { behavior: 'category_dropdown' } %>
+	<%= select :issue_type, nil, @issue_types,{:include_blank => "Select type"}, data: { behavior: 'category_dropdown' } %>
 	<%= text_field_tag :search_by_user, params[:search_by_user], placeholder: "Reported User" %>
+	<%= select :last_reported_by, nil, @users.all.collect  {|f| [f.display_name, f.id]} << ['Not updated',"nil"], {:include_blank => "Select last updated by"}, data: { behavior: 'category_dropdown' } %>
 	<%= submit_tag "Search" %>
 <% end %>
 <br/>

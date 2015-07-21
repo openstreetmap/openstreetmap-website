@@ -2,14 +2,12 @@
 
 <h2>
   <a class="geolink" href="<%= root_path %>"><span class="icon close"></span></a>
-  <% if @user and @user.id != @changeset.user.id %>
-    <div class="report-button">
-      <%= link_to new_issue_url(reportable_id: @changeset.id, reportable_type: @changeset.class.name, reported_user_id: @changeset.user.id), :title => t('browse.changeset.report') do %>
-        <%= image_tag('notice.png', size: '10x10') %>
-      <% end %>
-    </div>
-  <% end %>
   <%= t('browse.changeset.title', :id => @changeset.id) %>
+  <% if @user and @user.id != @changeset.user.id %>
+    <%= link_to new_issue_url(reportable_id: @changeset.id, reportable_type: @changeset.class.name, reported_user_id: @changeset.user.id), :title => t('browse.changeset.report') do %>
+        &nbsp;&#9872;
+    <% end %>
+  <% end %>
 </h2>
 
 
