@@ -13,8 +13,10 @@ class IssuesController < ApplicationController
   def index
     if @user.moderator?
       @issue_types = @moderator_issues
+      @users = User.joins(:roles).where(user_roles: {role: 'moderator'})
     else
       @issue_types = @admin_issues
+      @users = User.joins(:roles).where(user_roles: {role: 'administrator'})
     end
 
     @issues = Issue.where(issue_type: @user_role).order(sort_column + " " + sort_direction)
@@ -40,6 +42,11 @@ class IssuesController < ApplicationController
 
     if @issues.first == nil
         notice = t('issues.index.search.issues_not_found')      
+    end
+
+    if params[:last_reported_by] and !params[:last_reported_by][0].blank?
+      last_reported_by = params[:last_reported_by][0].to_s == "nil" ? nil : params[:last_reported_by][0].to_i
+      @issues = @issues.where(updated_by: last_reported_by)
     end
 
     if notice

@@ -7,11 +7,9 @@
     <h2><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></h2>
 
     <% if @user and diary_entry.user.id != @user.id %>
-      <div class="report-button">
-          <%= link_to new_issue_url(reportable_id: diary_entry.id, reportable_type: diary_entry.class.name, reported_user_id: diary_entry.user.id), :title => t('diary_entry.diary_entry.report') do %>
-            <%= image_tag('notice.png', size: '10x10') %>
+           <%= link_to new_issue_url(reportable_id: diary_entry.id, reportable_type: diary_entry.class.name, reported_user_id: diary_entry.user.id), :title => t('diary_entry.diary_entry.report') do %>
+            &nbsp;&#9872;
           <% end %>
-      </div>
     <% end %>
 
     <small class='deemphasize'>
