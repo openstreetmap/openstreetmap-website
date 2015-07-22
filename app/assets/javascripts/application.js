@@ -76,6 +76,37 @@ window.minimiseMap = function () {
 };
 
 $(document).ready(function () {
+  var headerWidth = 0,
+      compactWidth = 0;
+
+  $("header").children(":visible").each(function (i,e) {
+    headerWidth = headerWidth + $(e).outerWidth();
+  });
+
+  $("body").addClass("compact");
+
+  $("header").children(":visible").each(function (i,e) {
+    compactWidth = compactWidth + $(e).outerWidth();
+  });
+
+  $("body").removeClass("compact");
+
+  function updateHeader() {
+    var windowWidth = $(window).width();
+
+    if (windowWidth < compactWidth) {
+      $("body").removeClass("compact").addClass("small");
+    } else if (windowWidth < headerWidth) {
+      $("body").addClass("compact").removeClass("small");
+    } else {
+      $("body").removeClass("compact").removeClass("small");
+    }
+  }
+
+  updateHeader();
+
+  $(window).resize(updateHeader);
+
   $("#menu-icon").on("click", function(e) {
     e.preventDefault();
     $("header").toggleClass("closed");
