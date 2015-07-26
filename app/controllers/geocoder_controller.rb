@@ -13,25 +13,32 @@ class GeocoderController < ApplicationController
     normalize_params
 
     @sources = []
+
     if params[:lat] && params[:lon]
       @sources.push "latlon"
       @sources.push "osm_nominatim_reverse"
       @sources.push "geonames_reverse" if defined?(GEONAMES_USERNAME)
-    elsif params[:query].match(/^\d{5}(-\d{4})?$/)
-      @sources.push "us_postcode"
-      @sources.push "osm_nominatim"
-    elsif params[:query].match(/^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i)
-      @sources.push "uk_postcode"
-      @sources.push "osm_nominatim"
-    elsif params[:query].match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i)
-      @sources.push "ca_postcode"
-      @sources.push "osm_nominatim"
-    else
-      @sources.push "osm_nominatim"
-      @sources.push "geonames" if defined?(GEONAMES_USERNAME)
+    elsif params[:query]
+      if params[:query].match(/^\d{5}(-\d{4})?$/)
+        @sources.push "us_postcode"
+        @sources.push "osm_nominatim"
+      elsif params[:query].match(/^(GIR 0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\s*[0-9][ABD-HJLNP-UW-Z]{2})$/i)
+        @sources.push "uk_postcode"
+        @sources.push "osm_nominatim"
+      elsif params[:query].match(/^[A-Z]\d[A-Z]\s*\d[A-Z]\d$/i)
+        @sources.push "ca_postcode"
+        @sources.push "osm_nominatim"
+      else
+        @sources.push "osm_nominatim"
+        @sources.push "geonames" if defined?(GEONAMES_USERNAME)
+      end
     end
 
-    render :layout => map_layout
+    if @sources.empty?
+      render :text => "", :status => :bad_request
+    else
+      render :layout => map_layout
+    end
   end
 
   def search_latlon

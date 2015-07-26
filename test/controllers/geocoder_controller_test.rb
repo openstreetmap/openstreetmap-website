@@ -46,6 +46,16 @@ class GeocoderControllerTest < ActionController::TestCase
   end
 
   ##
+  # Test identification with no arguments
+  def test_identify_error
+    get :search
+    assert_response :bad_request
+
+    xhr :get, :search
+    assert_response :bad_request
+  end
+
+  ##
   # Test identification of basic lat/lon pairs
   def test_identify_latlon_basic
     [
