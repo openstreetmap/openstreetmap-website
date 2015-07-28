@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ClientApplicationTest < ActionDispatch::IntegrationTest
+class ClientApplicationsTest < ActionDispatch::IntegrationTest
   fixtures :users, :client_applications
 
   ##
