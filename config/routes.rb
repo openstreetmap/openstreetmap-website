@@ -187,22 +187,22 @@ OpenStreetMap::Application.routes.draw do
   match "/preview/:format" => "site#preview", :via => :post, :as => :preview
 
   # traces
-  match "/user/:display_name/traces/tag/:tag/page/:page" => "trace#list", :via => :get
+  match "/user/:display_name/traces/tag/:tag/page/:page" => "trace#list", :via => :get, :page => /[1-9][0-9]*/
   match "/user/:display_name/traces/tag/:tag" => "trace#list", :via => :get
-  match "/user/:display_name/traces/page/:page" => "trace#list", :via => :get
+  match "/user/:display_name/traces/page/:page" => "trace#list", :via => :get, :page => /[1-9][0-9]*/
   match "/user/:display_name/traces" => "trace#list", :via => :get
   match "/user/:display_name/traces/tag/:tag/rss" => "trace#georss", :via => :get, :defaults => { :format => :rss }
   match "/user/:display_name/traces/rss" => "trace#georss", :via => :get, :defaults => { :format => :rss }
   match "/user/:display_name/traces/:id" => "trace#view", :via => :get
   match "/user/:display_name/traces/:id/picture" => "trace#picture", :via => :get
   match "/user/:display_name/traces/:id/icon" => "trace#icon", :via => :get
-  match "/traces/tag/:tag/page/:page" => "trace#list", :via => :get
+  match "/traces/tag/:tag/page/:page" => "trace#list", :via => :get, :page => /[1-9][0-9]*/
   match "/traces/tag/:tag" => "trace#list", :via => :get
-  match "/traces/page/:page" => "trace#list", :via => :get
+  match "/traces/page/:page" => "trace#list", :via => :get, :page => /[1-9][0-9]*/
   match "/traces" => "trace#list", :via => :get
   match "/traces/tag/:tag/rss" => "trace#georss", :via => :get, :defaults => { :format => :rss }
   match "/traces/rss" => "trace#georss", :via => :get, :defaults => { :format => :rss }
-  match "/traces/mine/tag/:tag/page/:page" => "trace#mine", :via => :get
+  match "/traces/mine/tag/:tag/page/:page" => "trace#mine", :via => :get, :page => /[1-9][0-9]*/
   match "/traces/mine/tag/:tag" => "trace#mine", :via => :get
   match "/traces/mine/page/:page" => "trace#mine", :via => :get
   match "/traces/mine" => "trace#mine", :via => :get
@@ -218,7 +218,7 @@ OpenStreetMap::Application.routes.draw do
   match "/user/:display_name/diary/rss" => "diary_entry#rss", :via => :get, :defaults => { :format => :rss }
   match "/diary/:language/rss" => "diary_entry#rss", :via => :get, :defaults => { :format => :rss }
   match "/diary/rss" => "diary_entry#rss", :via => :get, :defaults => { :format => :rss }
-  match "/user/:display_name/diary/comments/:page" => "diary_entry#comments", :via => :get, :page => /\d+/
+  match "/user/:display_name/diary/comments/:page" => "diary_entry#comments", :via => :get, :page => /[1-9][0-9]*/
   match "/user/:display_name/diary/comments/" => "diary_entry#comments", :via => :get
   match "/user/:display_name/diary" => "diary_entry#list", :via => :get
   match "/diary/:language" => "diary_entry#list", :via => :get
