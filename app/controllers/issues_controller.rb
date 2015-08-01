@@ -40,6 +40,12 @@ class IssuesController < ApplicationController
       @issues = @issues.where(reportable_type: params[:issue_type][0])
     end
 
+    # If last_updated_by
+    if params[:last_updated_by] and !params[:last_updated_by][0].blank?
+      last_reported_by = params[:last_updated_by][0].to_s == "nil" ? nil : params[:last_updated_by][0].to_i
+      @issues = @issues.where(updated_by: last_updated_by)
+    end
+
     if @issues.first == nil
         notice = t('issues.index.search.issues_not_found')      
     end
