@@ -7,6 +7,7 @@
 //= require leaflet.share
 //= require leaflet.polyline
 //= require leaflet.query
+//= require leaflet.contextmenu
 //= require index/search
 //= require index/browse
 //= require index/export
@@ -75,9 +76,60 @@ $(document).ready(function () {
 
   var params = OSM.mapParams();
 
+  // TODO consider using a separate js file for the context menu additions
+  var context_describe = function(e){
+    var precision = OSM.zoomPrecision(map.getZoom());
+    OSM.router.route("/search?query=" + encodeURIComponent(
+      e.latlng.lat.toFixed(precision) + "," + e.latlng.lng.toFixed(precision)
+    ));
+  };
+
+  var context_directionsfrom = function(e){
+    var precision = OSM.zoomPrecision(map.getZoom());
+    OSM.router.route("/directions?" + querystring.stringify({
+      route: e.latlng.lat.toFixed(precision) + ',' + e.latlng.lng.toFixed(precision) + ';' + $('#route_to').val()
+    }));
+  }
+
+  var context_directionsto = function(e){
+    var precision = OSM.zoomPrecision(map.getZoom());
+    OSM.router.route("/directions?" + querystring.stringify({
+      route: $('#route_from').val() + ';' + e.latlng.lat.toFixed(precision) + ',' + e.latlng.lng.toFixed(precision)
+    }));
+  }
+
+  var context_addnote = function(e){
+    // TODO this currently doesn't work correctly - I think the "route" needs to be chained to ensure it comes once the pan has finished.
+    map.panTo(e.latlng, {animate: false});
+    OSM.router.route('/note/new');
+  }
+
+  var context_centrehere = function(e){
+    map.panTo(e.latlng);
+  }
+
+  // TODO internationalisation of the context menu strings
   var map = new L.OSM.Map("map", {
     zoomControl: false,
-    layerControl: false
+    layerControl: false,
+    contextmenu: true,
+    contextmenuWidth: 140,
+    contextmenuItems: [{
+        text: 'Directions from here',
+        callback: context_directionsfrom
+    }, {
+        text: 'Directions to here',
+        callback: context_directionsto
+    }, '-', {
+        text: 'Add a note here',
+        callback: context_addnote
+    }, {
+        text: 'Show address',
+        callback: context_describe
+    }, {
+        text: 'Centre map here',
+        callback: context_centrehere
+    }]
   });
 
   map.attributionControl.setPrefix('');
