@@ -108,6 +108,15 @@ $(document).ready(function () {
     map.panTo(e.latlng);
   }
 
+  var context_queryhere = function(e) {
+    var precision = OSM.zoomPrecision(map.getZoom()),
+      latlng = e.latlng.wrap(),
+      lat = latlng.lat.toFixed(precision),
+      lng = latlng.lng.toFixed(precision);
+
+    OSM.router.route("/query?lat=" + lat + "&lon=" + lng);
+  }
+
   // TODO internationalisation of the context menu strings
   var map = new L.OSM.Map("map", {
     zoomControl: false,
@@ -126,6 +135,9 @@ $(document).ready(function () {
     }, {
         text: 'Show address',
         callback: context_describe
+    }, {
+        text: 'Query features',
+        callback: context_queryhere
     }, {
         text: 'Centre map here',
         callback: context_centrehere
