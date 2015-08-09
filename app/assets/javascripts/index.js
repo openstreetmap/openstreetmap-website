@@ -98,9 +98,8 @@ $(document).ready(function () {
     }));
   }
 
-  // TODO only allow this if zoomed in enough
   var context_addnote = function(e){
-    // TODO this currently doesn't work correctly - I think the "route" needs to be chained to ensure it comes once the pan has finished.
+    // I'd like this, instead of panning, to pass a query parameter about where to place the marker
     map.panTo(e.latlng, {animate: false});
     OSM.router.route('/note/new');
   }
@@ -150,6 +149,9 @@ $(document).ready(function () {
       map.contextmenu.disable(); // on firefox, shift disables our contextmenu. we explicitly do this for all browsers.
     }else{
       map.contextmenu.enable();
+      // we also decide whether to disable some options that only like high zoom
+      map.contextmenu.setDisabled(3, map.getZoom() < 12);
+      map.contextmenu.setDisabled(5, map.getZoom() < 14);
     }
   });
 
