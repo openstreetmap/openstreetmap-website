@@ -98,6 +98,7 @@ $(document).ready(function () {
     }));
   }
 
+  // TODO only allow this if zoomed in enough
   var context_addnote = function(e){
     // TODO this currently doesn't work correctly - I think the "route" needs to be chained to ensure it comes once the pan has finished.
     map.panTo(e.latlng, {animate: false});
@@ -142,6 +143,14 @@ $(document).ready(function () {
         text: 'Centre map here',
         callback: context_centrehere
     }]
+  });
+
+  $(document).on('mousedown', function(e){
+    if(e.shiftKey){
+      map.contextmenu.disable(); // on firefox, shift disables our contextmenu. we explicitly do this for all browsers.
+    }else{
+      map.contextmenu.enable();
+    }
   });
 
   map.attributionControl.setPrefix('');
