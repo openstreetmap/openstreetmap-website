@@ -76,31 +76,38 @@ $(document).ready(function () {
 
   var params = OSM.mapParams();
 
-  // TODO consider using a separate js file for the context menu additions
+  // a separate js file would be nice for the context menu additions; however not clear if context menu can be added outside of context of map obj constructor
   var context_describe = function(e){
-    var precision = OSM.zoomPrecision(map.getZoom());
-    OSM.router.route("/search?query=" + encodeURIComponent(
-      e.latlng.lat.toFixed(precision) + "," + e.latlng.lng.toFixed(precision)
-    ));
+    var precision = OSM.zoomPrecision(map.getZoom()),
+      latlng = e.latlng.wrap(),
+      lat = latlng.lat.toFixed(precision),
+      lng = latlng.lng.toFixed(precision);
+    OSM.router.route("/search?query=" + encodeURIComponent(lat + "," + lng));
   };
 
   var context_directionsfrom = function(e){
-    var precision = OSM.zoomPrecision(map.getZoom());
+    var precision = OSM.zoomPrecision(map.getZoom()),
+      latlng = e.latlng.wrap(),
+      lat = latlng.lat.toFixed(precision),
+      lng = latlng.lng.toFixed(precision);
     OSM.router.route("/directions?" + querystring.stringify({
-      route: e.latlng.lat.toFixed(precision) + ',' + e.latlng.lng.toFixed(precision) + ';' + $('#route_to').val()
+      route: lat + ',' + lng + ';' + $('#route_to').val()
     }));
   }
 
   var context_directionsto = function(e){
-    var precision = OSM.zoomPrecision(map.getZoom());
+    var precision = OSM.zoomPrecision(map.getZoom()),
+      latlng = e.latlng.wrap(),
+      lat = latlng.lat.toFixed(precision),
+      lng = latlng.lng.toFixed(precision);
     OSM.router.route("/directions?" + querystring.stringify({
-      route: $('#route_from').val() + ';' + e.latlng.lat.toFixed(precision) + ',' + e.latlng.lng.toFixed(precision)
+      route: $('#route_from').val() + ';' + lat + ',' + lng
     }));
   }
 
   var context_addnote = function(e){
     // I'd like this, instead of panning, to pass a query parameter about where to place the marker
-    map.panTo(e.latlng, {animate: false});
+    map.panTo(e.latlng.wrap(), {animate: false});
     OSM.router.route('/note/new');
   }
 
@@ -113,7 +120,6 @@ $(document).ready(function () {
       latlng = e.latlng.wrap(),
       lat = latlng.lat.toFixed(precision),
       lng = latlng.lng.toFixed(precision);
-
     OSM.router.route("/query?lat=" + lat + "&lon=" + lng);
   }
 
