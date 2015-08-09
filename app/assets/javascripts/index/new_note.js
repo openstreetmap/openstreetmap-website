@@ -108,13 +108,7 @@ OSM.NewNote = function(map) {
     var mapSize = map.getSize();
     var markerPosition;
 
-    if (mapSize.y > 800) {
-      markerPosition = [mapSize.x / 2, mapSize.y / 2];
-    } else if (mapSize.y > 400) {
-      markerPosition = [mapSize.x / 2, 400];
-    } else {
-      markerPosition = [mapSize.x / 2, mapSize.y];
-    }
+    markerPosition = [mapSize.x / 2, mapSize.y / 2];
 
     newNote = L.marker(map.containerPointToLatLng(markerPosition), {
       icon: noteIcons["new"],
