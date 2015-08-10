@@ -510,7 +510,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "application/gpx+xml", @response.content_type
     assert_select "gpx", :count => 1 do
       assert_select "wpt[lat='#{notes(:open_note).lat}'][lon='#{notes(:open_note).lon}']", :count => 1 do
-        assert_select "extension", :count => 1 do
+        assert_select "extensions", :count => 1 do
           assert_select "id", notes(:open_note).id
           assert_select "url", note_url(notes(:open_note), :format => "gpx")
           assert_select "comment_url", comment_note_url(notes(:open_note), :format => "gpx")
