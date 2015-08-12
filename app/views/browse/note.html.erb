@@ -8,25 +8,25 @@
 <div class="browse-section">
   <h4><%= t('browse.note.description') %></h4>
   <div class="note-description">
-    <%= h(@note.comments.first.body.to_html) %>
+    <%= h(@note_comments.first.body.to_html) %>
   </div>
 
   <div class="details" data-coordinates="<%= @note.lat %>,<%= @note.lon %>" data-status="<%= @note.status %>">
     <%= note_event('open', @note.created_at, @note.author) %>
     <% if @note.status == "closed" %>
       <br/>
-      <%= note_event(@note.status, @note.closed_at, @note.comments.last.author) %>
+      <%= note_event(@note.status, @note.closed_at, @note_comments.last.author) %>
     <% end %>
   </div>
 
-  <% if @note.comments.find { |comment| comment.author.nil? } -%>
+  <% if @note_comments.find { |comment| comment.author.nil? } -%>
     <p class='warning'><%= t "javascripts.notes.show.anonymous_warning" %></p>
   <% end -%>
 
-  <% if @note.comments.length > 1 %>
+  <% if @note_comments.length > 1 %>
     <div class='note-comments'>
       <ul>
-        <% @note.comments[1..-1].each do |comment| %>
+        <% @note_comments[1..-1].each do |comment| %>
           <li id="c<%= comment.id %>">
             <small class='deemphasize'><%= note_event(comment.event, comment.created_at, comment.author) %></small>
             <%= comment.body.to_html %>

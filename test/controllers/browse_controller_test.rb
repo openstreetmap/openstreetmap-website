@@ -88,6 +88,32 @@ class BrowseControllerTest < ActionController::TestCase
     browse_check "note", notes(:open_note).id, "browse/note"
   end
 
+  def test_read_hidden_note
+    get :note, :id => notes(:hidden_note_with_comment).id
+    assert_response :not_found
+    assert_template "browse/not_found"
+    assert_template :layout => "map"
+
+    xhr :get, :note, :id => notes(:hidden_note_with_comment).id
+    assert_response :not_found
+    assert_template "browse/not_found"
+    assert_template :layout => "xhr"
+
+    session[:user] = users(:moderator_user).id
+
+    browse_check "note", notes(:hidden_note_with_comment).id, "browse/note"
+  end
+
+  def test_read_note_hidden_comments
+    browse_check "note", notes(:note_with_hidden_comment).id, "browse/note"
+    assert_select "div.note-comments ul li", :count => 1
+
+    session[:user] = users(:moderator_user).id
+
+    browse_check "note", notes(:note_with_hidden_comment).id, "browse/note"
+    assert_select "div.note-comments ul li", :count => 2
+  end
+
   ##
   #  Methods to check redaction.
   #

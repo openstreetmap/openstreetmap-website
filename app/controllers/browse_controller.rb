@@ -76,7 +76,14 @@ class BrowseController < ApplicationController
 
   def note
     @type = "note"
-    @note = Note.find(params[:id])
+
+    if @user && @user.moderator?
+      @note = Note.find(params[:id])
+      @note_comments = @note.comments.unscope(:where => :visible)
+    else
+      @note = Note.visible.find(params[:id])
+      @note_comments = @note.comments
+    end
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
