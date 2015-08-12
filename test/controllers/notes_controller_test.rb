@@ -872,9 +872,24 @@ class NotesControllerTest < ActionController::TestCase
   def test_mine_success
     get :mine, :display_name => "test"
     assert_response :success
+    assert_select "table.note_list tr", :count => 2
 
     get :mine, :display_name => "pulibc_test2"
     assert_response :success
+    assert_select "table.note_list tr", :count => 3
+
+    get :mine, :display_name => "non-existent"
+    assert_response :not_found
+
+    session[:user] = users(:moderator_user).id
+
+    get :mine, :display_name => "test"
+    assert_response :success
+    assert_select "table.note_list tr", :count => 2
+
+    get :mine, :display_name => "pulibc_test2"
+    assert_response :success
+    assert_select "table.note_list tr", :count => 4
 
     get :mine, :display_name => "non-existent"
     assert_response :not_found
