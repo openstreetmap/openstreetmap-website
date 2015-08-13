@@ -1,14 +1,17 @@
 <% content_for :heading do %>
-	<h2> Issue #<%= @issue.id %> <br/> <span class="count-number">Status: <strong><%= @issue. status %></strong></span></h2>
-	<p>Issue against: <%= reportable_url(@issue.reportable) %></p>
-	<p>Issue type: <%= @issue.reportable_type %></p>
+	<h2> <%= @issue.status.humanize %> Issue #<%= @issue.id %> <br/></h2>
+	<p><%= @issue.reportable_type %> : <%= reportable_url(@issue.reportable) %></p>
 	<p class="deemphasize">
 		<small>
-			<%= @issue.reports.count %> reports | First reported: <%= l @issue.created_at.to_date, :format => :long %>  <%= "| Last resolved at #{l(@issue.resolved_at.to_datetime, :format =>:long)}" if @issue.resolved_at? %> <%= "| Last updated at #{l(@issue.updated_at.to_datetime, :format => :long)} by #{@updated_by_admin.display_name}" if @updated_by_admin %>
+			<%= @issue.reports.count %> reports | First reported: <%= l @issue.created_at.to_datetime, :format => :friendly %>  <%= "| Last resolved at #{l(@issue.resolved_at.to_datetime, :format =>:friendly)}" if @issue.resolved_at? %> <%= "| Last updated at #{l(@issue.updated_at.to_datetime, :format => :friendly)} by #{@updated_by_admin.display_name}" if @updated_by_admin %>
 		</small>
 	</p>
-	<p><%= link_to t('issues.resolve'), resolve_issue_url(@issue), :method => :post if @issue.may_resolve? %></p>
-	<p><%= link_to t('issues.ignore'), ignore_issue_url(@issue), :method => :post if @issue.may_ignore? %></p>
+	<p>
+		<%= link_to t('issues.resolve'), resolve_issue_url(@issue), :method => :post if @issue.may_resolve? %>
+		<% if @issue.may_ignore? %>
+			| <%= link_to t('issues.ignore'), ignore_issue_url(@issue), :method => :post %>
+		<% end %>
+	</p>
 	<p><%= link_to t('issues.reopen'), reopen_issue_url(@issue), :method => :post if @issue.may_reopen? %></p>
 <% end %>
 
@@ -20,6 +23,7 @@
 		<% if @read_reports.present? %>
 			<div class="read-reports">
 				<h4>Read Reports:</h4>
+				<br/>
 				<%= render 'reports',reports: @read_reports %>
 			</div>
 		<% end %>	
@@ -27,6 +31,7 @@
 		<% if @unread_reports.any? %>
 			<div class="unread-reports">
 				<h4>New Reports:</h4>
+				<br/>
 				<%= render 'reports',reports: @unread_reports %>
 			</div>
 		<% end %>	

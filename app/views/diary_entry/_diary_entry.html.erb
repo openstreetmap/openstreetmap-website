@@ -7,7 +7,7 @@
     <h2><%= link_to h(diary_entry.title), :action => 'view', :display_name => diary_entry.user.display_name, :id => diary_entry.id %></h2>
 
     <% if @user and diary_entry.user.id != @user.id %>
-           <%= link_to new_issue_url(reportable_id: diary_entry.id, reportable_type: diary_entry.class.name, reported_user_id: diary_entry.user.id), :title => t('diary_entry.diary_entry.report') do %>
+           <%= link_to new_issue_url(reportable_id: diary_entry.id, reportable_type: diary_entry.class.name, reported_user_id: diary_entry.user.id,referer: request.fullpath), :title => t('diary_entry.diary_entry.report') do %>
             &nbsp;&#9872;
           <% end %>
     <% end %>

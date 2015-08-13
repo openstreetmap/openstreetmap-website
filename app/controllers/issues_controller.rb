@@ -75,6 +75,7 @@ class IssuesController < ApplicationController
       @issue = Issue.find_or_initialize_by(create_new_issue_params)
       path = 'issues.report_strings.' + @issue.reportable.class.name.to_s
       @report_strings_yaml = t(path)
+      flash[:referer] = params[:referer]
     end
   end
 
@@ -90,12 +91,6 @@ class IssuesController < ApplicationController
       if @moderator_issues.include? @issue.reportable.class.name
         reassign_issue
       end
-
-      @admins_or_mods = UserRole.where(role: @issue.issue_type)
-      @admins_or_mods.each do |user|
-        Notifier.new_issue_notification(User.find(user.user_id)).deliver_now
-      end
-
     end
 
     # Check if details provided are sufficient
@@ -115,7 +110,13 @@ class IssuesController < ApplicationController
       if @issue.save!
         @issue.report_count = @issue.reports.count
         @issue.save!
-        redirect_to root_path, notice: t('issues.create.successful_report')
+        
+        @admins_or_mods = UserRole.where(role: @issue.issue_type)
+        @admins_or_mods.each do |user|
+          Notifier.new_issue_notification(@issue.id, User.find(user.user_id)).deliver_now
+        end
+
+        redirect_to flash[:referer], notice: t('issues.create.successful_report')
       end
     else
       redirect_to new_issue_path(reportable_type: @issue.reportable_type,reportable_id: @issue.reportable_id, reported_user_id: @issue.reported_user_id), notice: t('issues.create.provide_details')
@@ -152,7 +153,7 @@ class IssuesController < ApplicationController
       if @report.save!
         @issue.report_count = @issue.reports.count
         @issue.save!
-        redirect_to root_path, notice: notice
+        redirect_to flash[:referer], notice: notice
       end
     else
       redirect_to new_issue_path(reportable_type: @issue.reportable_type,reportable_id: @issue.reportable_id, reported_user_id: @issue.reported_user_id), notice: t('issues.update.provide_details')

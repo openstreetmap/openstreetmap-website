@@ -172,8 +172,12 @@ class Notifier < ActionMailer::Base
     end
   end
 
-  def new_issue_notification(recipient)
+  def new_issue_notification(issue_id,recipient)
     with_recipient_locale recipient do
+      @url = url_for(:host => SERVER_URL,
+                     :controller => "issues",
+                     :action => "show",
+                     :id => issue_id)
       subject = I18n.t("notifier.new_issue_notification.subject")
       mail :to => recipient.email, :subject => subject
     end
