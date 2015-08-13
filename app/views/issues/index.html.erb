@@ -32,9 +32,9 @@
 	<tbody>
 		<% @issues.each do |issue| %>
 			<tr>
-				<td><span class="count-number"> <strong><%= issue.status %></strong></span> </td>
+				<td><%= issue.status.humanize %></td>
 				<td><%= issue.report_count %></td>
-				<td><%= issue.updated_at.strftime('%H:%M %m/%d/%y') %></td>
+				<td><%= l(issue.updated_at.to_datetime, :format => :friendly) %></td>
 				<td><% if issue.user_updated %> <%= issue.user_updated.display_name %> <% else %> - <% end %></td>
 				<td> <%= reports_url(issue) %></td>
 				<td><%= link_to issue.user.display_name , :controller => :user, :action => :view,:display_name => issue.user.display_name %></td>
