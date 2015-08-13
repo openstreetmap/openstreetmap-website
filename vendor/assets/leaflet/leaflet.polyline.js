@@ -18,7 +18,9 @@
 	var defaultOptions = function (options) {
 		if (typeof options === 'number') {
 			// Legacy
-			options = { precision: options };
+			options = {
+				precision: options
+			};
 		} else {
 			options = options || {};
 		}
@@ -95,7 +97,7 @@
 			var numbers = this.decodeFloats(encoded, options);
 			for (var i = 0, len = numbers.length; i < len;) {
 				for (var d = 0; d < options.dimension; ++d, ++i) {
-					numbers[i] = lastNumbers[d] = numbers[i] + (lastNumbers[d] || 0);
+					numbers[i] = Math.round((lastNumbers[d] = numbers[i] + (lastNumbers[d] || 0)) * options.factor) / options.factor;
 				}
 			}
 
