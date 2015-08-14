@@ -89,4 +89,21 @@ module IssuesHelper
 		end
 		link_to title, params.merge(:sort => column, :direction => direction)
 	end
+
+	def report_type(report_class) 
+		case report_class
+		when "DiaryEntry"
+			t('activerecord.models.diary_entry')
+		when "User"
+			t('activerecord.models.user')
+		when "DiaryComment"
+			t('activerecord.models.diary_comment')
+		when "Changeset"
+			t('activerecord.models.changeset')
+		when "Note"
+			t('activerecord.models.note')				
+		else
+			nil
+		end
+	end
 end

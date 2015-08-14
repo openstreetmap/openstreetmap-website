@@ -19,13 +19,13 @@
 	<thead>
 		<tr>
 			<tr>
-				<td><b> <%= sortable("status") %></b></td>
-				<td><b> <%= sortable("report_count", "Number of Reports") %></b></td>
-				<td><b> <%= sortable("updated_at","Last updated at") %></b></td>
-				<td><b> <%= sortable("updated_by","Last updated by") %></b></td>
-				<td><b> Link to reports </b></td>
-				<td><b> <%= sortable("reported_user_id","Reported User") %> </b></td>
-				<td><b> Link to reported instance</b></td>
+				<td style="width:40px;"><b> <%= sortable("status") %></b></td>
+				<td style="width:160px;"><b> <%= sortable("report_count", "Number of Reports") %></b></td>
+				<td style="width:141px;"><b> <%= sortable("updated_at","Last updated at") %></b></td>
+				<td style="width:140px;"><b> <%= sortable("updated_by","Last updated by") %></b></td>
+				<td style="width:203px;"><b> Link to reports </b></td>
+				<td style="width:128px;"><b> <%= sortable("reported_user_id","Reported User") %> </b></td>
+				<td style="width:67px;"><b> Link to reported instance</b></td>
 			</tr>
 		</tr>
 	</thead>
@@ -33,7 +33,7 @@
 		<% @issues.each do |issue| %>
 			<tr>
 				<td><%= issue.status.humanize %></td>
-				<td><%= issue.report_count %></td>
+				<td style="text-align:center;"><%= issue.report_count %></td>
 				<td><%= l(issue.updated_at.to_datetime, :format => :friendly) %></td>
 				<td><% if issue.user_updated %> <%= issue.user_updated.display_name %> <% else %> - <% end %></td>
 				<td> <%= reports_url(issue) %></td>
