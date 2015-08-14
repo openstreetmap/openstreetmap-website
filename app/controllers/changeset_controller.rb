@@ -15,6 +15,7 @@ class ChangesetController < ApplicationController
   before_action :check_api_readable, :except => [:create, :update, :delete, :upload, :download, :query, :list, :feed, :comment, :subscribe, :unsubscribe, :comments_feed]
   before_action(:only => [:list, :feed, :comments_feed]) { |c| c.check_database_readable(true) }
   around_action :api_call_handle_error, :except => [:list, :feed, :comments_feed]
+  around_action :api_call_timeout, :except => [:list, :feed, :comments_feed, :upload]
   around_action :web_timeout, :only => [:list, :feed, :comments_feed]
 
   # Helper methods for checking consistency
