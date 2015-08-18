@@ -24,7 +24,7 @@ module Potlatch
 
     # Return eight-byte double-precision float
     def self.getdouble(s)
-      a = s.read(8).unpack("G")			# G big-endian, E little-endian
+      a = s.read(8).unpack("G")	# G big-endian, E little-endian
       a[0]
     end
 
@@ -42,23 +42,23 @@ module Potlatch
         break if key == ""
         arr[key] = getvalue(s)
       end
-      s.getbyte		# skip the 9 'end of object' value
+      s.getbyte	# skip the 9 'end of object' value
       arr
     end
 
     # Parse and get value
     def self.getvalue(s)
       case s.getbyte
-      when 0 then return getdouble(s)			# number
-      when 1 then return s.getbyte			# boolean
-      when 2 then return getstring(s)			# string
-      when 3 then return getobject(s)			# object/hash
-      when 5 then return nil				# null
-      when 6 then return nil				# undefined
-      when 8 then s.read(4)				# mixedArray
-                  return getobject(s)			#  |
-      when 10 then return getarray(s)			# array
-      else         return nil				# error
+      when 0 then return getdouble(s)                  # number
+      when 1 then return s.getbyte                     # boolean
+      when 2 then return getstring(s)                  # string
+      when 3 then return getobject(s)                  # object/hash
+      when 5 then return nil                           # null
+      when 6 then return nil                           # undefined
+      when 8 then s.read(4)                            # mixedArray
+                  return getobject(s)                  #  |
+      when 10 then return getarray(s)                  # array
+      else         return nil                          # error
       end
     end
 

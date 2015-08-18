@@ -448,11 +448,11 @@ class ApplicationController < ActionController::Base
 
   # extract authorisation credentials from headers, returns user = nil if none
   def get_auth_data
-    if request.env.key? "X-HTTP_AUTHORIZATION"          # where mod_rewrite might have put it
+    if request.env.key? "X-HTTP_AUTHORIZATION" # where mod_rewrite might have put it
       authdata = request.env["X-HTTP_AUTHORIZATION"].to_s.split
-    elsif request.env.key? "REDIRECT_X_HTTP_AUTHORIZATION"          # mod_fcgi
+    elsif request.env.key? "REDIRECT_X_HTTP_AUTHORIZATION" # mod_fcgi
       authdata = request.env["REDIRECT_X_HTTP_AUTHORIZATION"].to_s.split
-    elsif request.env.key? "HTTP_AUTHORIZATION"         # regular location
+    elsif request.env.key? "HTTP_AUTHORIZATION" # regular location
       authdata = request.env["HTTP_AUTHORIZATION"].to_s.split
     end
     # only basic authentication supported

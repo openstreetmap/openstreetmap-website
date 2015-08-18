@@ -122,7 +122,7 @@ module BrowseHelper
       if value =~ /^([a-z-]{2,12}):(.+)$/i
         # Value is <lang>:<title> so split it up
         # Note that value is always left as-is, see: https://trac.openstreetmap.org/ticket/4315
-        lang  = $1
+        lang = $1
       else
         # Value is <title> so default to English Wikipedia
         lang = "en"
@@ -140,7 +140,7 @@ module BrowseHelper
       # Must break it up to correctly build the url
       value = $1
       section = "#" + $2
-      encoded_section = "#" + URI.encode($2.gsub(/ +/, "_"), /[^A-Za-z0-9:_]/).gsub("%", ".")
+      encoded_section = "#" + URI.encode($2.gsub(/ +/, "_"), /[^A-Za-z0-9:_]/).tr("%", ".")
     else
       section = ""
       encoded_section = ""

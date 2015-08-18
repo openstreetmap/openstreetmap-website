@@ -456,7 +456,7 @@ class ChangesetController < ApplicationController
   # restrict changesets to those enclosed by a bounding box
   # we need to return both the changesets and the bounding box
   def conditions_bbox(changesets, bbox)
-    if  bbox
+    if bbox
       bbox.check_boundaries
       bbox = bbox.to_scaled
       return changesets.where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",

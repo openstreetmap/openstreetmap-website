@@ -1358,24 +1358,24 @@ class AmfControllerTest < ActionController::TestCase
   def amf_parse_response
     req = StringIO.new(@response.body)
 
-    req.read(2)   # version
+    req.read(2) # version
 
     # parse through any headers
-    headers = AMF.getint(req)		# Read number of headers
-    headers.times do			# Read each header
-      AMF.getstring(req)		#  |
-      req.getc				#  | skip boolean
-      AMF.getvalue(req)			#  |
+    headers = AMF.getint(req)        # Read number of headers
+    headers.times do                 # Read each header
+      AMF.getstring(req)             #  |
+      req.getc                       #  | skip boolean
+      AMF.getvalue(req)              #  |
     end
 
     # parse through responses
     results = {}
-    bodies = AMF.getint(req)		# Read number of bodies
-    bodies.times do			# Read each body
-      message = AMF.getstring(req)	#  | get message name
-      AMF.getstring(req)		#  | get index in response sequence
-      AMF.getlong(req)			#  | get total size in bytes
-      args = AMF.getvalue(req)		#  | get response (probably an array)
+    bodies = AMF.getint(req)         # Read number of bodies
+    bodies.times do                  # Read each body
+      message = AMF.getstring(req)   #  | get message name
+      AMF.getstring(req)             #  | get index in response sequence
+      AMF.getlong(req)               #  | get total size in bytes
+      args = AMF.getvalue(req)       #  | get response (probably an array)
       results[message] = args
     end
     @amf_result = results

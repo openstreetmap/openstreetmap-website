@@ -292,7 +292,7 @@ class SiteControllerTest < ActionController::TestCase
   # Test editing a specific note
   def test_edit_with_note
     user = users(:public_user)
-    note  = notes(:open_note)
+    note = notes(:open_note)
 
     get :edit, { :note => note.id }, { :user => user.id }
     assert_response :success

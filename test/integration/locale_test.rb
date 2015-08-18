@@ -20,7 +20,7 @@ class LocaleTest < ActionDispatch::IntegrationTest
     assert_equal [], User.find(user.id).languages
     assert_select "html[lang=?]", "en"
 
-    get "/diary/new", {},  { "HTTP_ACCEPT_LANGUAGE" => "fr, en" }
+    get "/diary/new", {}, { "HTTP_ACCEPT_LANGUAGE" => "fr, en" }
     assert_equal %w(fr en), User.find(user.id).languages
     assert_select "html[lang=?]", "fr"
   end

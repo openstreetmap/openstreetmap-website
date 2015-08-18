@@ -84,7 +84,7 @@ class OauthClientsControllerTest < ActionController::TestCase
         :client_application => {
           :name => "Test Application"
         }
-      },         { :user => user }
+      }, { :user => user }
     end
     assert_response :success
     assert_template "new"
@@ -96,7 +96,7 @@ class OauthClientsControllerTest < ActionController::TestCase
           :name => "Test Application",
           :url => "http://test.example.com/"
         }
-      },         { :user => user }
+      }, { :user => user }
     end
     assert_response :redirect
     assert_redirected_to oauth_client_path(:id => ClientApplication.find_by_name("Test Application").id)
@@ -163,7 +163,7 @@ class OauthClientsControllerTest < ActionController::TestCase
         :name => "New Name",
         :url => nil
       }
-    },       { :user => user }
+    }, { :user => user }
     assert_response :success
     assert_template "edit"
 
@@ -174,7 +174,7 @@ class OauthClientsControllerTest < ActionController::TestCase
         :name => "New Name",
         :url => "http://new.example.com/url"
       }
-    },       { :user => user }
+    }, { :user => user }
     assert_response :redirect
     assert_redirected_to oauth_client_path(:id => client.id)
   end

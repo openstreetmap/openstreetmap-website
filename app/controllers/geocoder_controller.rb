@@ -98,7 +98,7 @@ class GeocoderController < ApplicationController
     unless response.match(/Error/)
       dataline = response.split(/\n/)[1]
       data = dataline.split(/,/) # easting,northing,postcode,lat,long
-      postcode = data[2].gsub(/'/, "")
+      postcode = data[2].delete("'")
       zoom = POSTCODE_ZOOM - postcode.count("#")
       @results.push(:lat => data[3], :lon => data[4], :zoom => zoom,
                     :name => postcode)
@@ -174,7 +174,7 @@ class GeocoderController < ApplicationController
       if type.empty?
         prefix_name = ""
       else
-        prefix_name = t "geocoder.search_osm_nominatim.prefix.#{klass}.#{type}", :default => type.gsub("_", " ").capitalize
+        prefix_name = t "geocoder.search_osm_nominatim.prefix.#{klass}.#{type}", :default => type.tr("_", " ").capitalize
       end
       if klass == "boundary" && type == "administrative"
         rank = (place.attributes["place_rank"].to_i + 1) / 2

@@ -98,7 +98,7 @@ class AmfController < ApplicationController
           result = startchangeset(*args)
         end
 
-        err = true if result[0] == -3  # If a conflict is detected, don't execute any more writes
+        err = true if result[0] == -3 # If a conflict is detected, don't execute any more writes
       end
 
       result
@@ -527,7 +527,7 @@ class AmfController < ApplicationController
   # 3. version.
 
   def putrelation(renumberednodes, renumberedways, usertoken, changeset_id, version, relid, tags, members, visible) #:doc:
-    amf_handle_error("'putrelation' #{relid}", "relation", relid)  do
+    amf_handle_error("'putrelation' #{relid}", "relation", relid) do
       user = getuser(usertoken)
 
       return -1, "You are not logged in, so the relation could not be saved." unless user
@@ -645,7 +645,7 @@ class AmfController < ApplicationController
           return -2, "Server error - node with id 0 found in way #{originalway}." if id == 0
           return -2, "Server error - node with latitude -90 found in way #{originalway}." if lat == 90
 
-          id = renumberednodes[id]  if renumberednodes[id]
+          id = renumberednodes[id] if renumberednodes[id]
 
           node = Node.new
           node.changeset_id = changeset_id

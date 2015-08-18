@@ -498,7 +498,7 @@ module OSM
       root["generator"] = GENERATOR
       root["copyright"] = COPYRIGHT_OWNER
       root["attribution"] = ATTRIBUTION_URL
-      root["license"] =  LICENSE_URL
+      root["license"] = LICENSE_URL
       doc.root = root
       doc
     end

@@ -4,7 +4,7 @@ class CreateChangesetComments < ActiveRecord::Migration
   def change
     create_table :changeset_comments do |t|
       t.column :changeset_id, :bigint, :null => false
-      t.column :author_id, :bigint, :null =>  false
+      t.column :author_id, :bigint, :null => false
       t.text :body, :null => false
       t.timestamp :created_at, :null => false
       t.boolean :visible, :null => false

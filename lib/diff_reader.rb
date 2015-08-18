@@ -57,7 +57,7 @@ class DiffReader
         # care of that for us.
         if @reader.node_type == 1 # element
           name = @reader.name
-          attributes =  {}
+          attributes = {}
 
           if @reader.has_attributes?
             while @reader.move_to_next_attribute == 1

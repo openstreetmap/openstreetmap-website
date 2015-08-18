@@ -235,7 +235,7 @@ class TraceController < ApplicationController
   def icon
     trace = Trace.find(params[:id])
 
-    if  trace.visible? && trace.inserted?
+    if trace.visible? && trace.inserted?
       if trace.public? || (@user && @user == trace.user)
         expires_in 7.days, :private => !trace.public?, :public => trace.public?
         send_file(trace.icon_picture_name, :filename => "#{trace.id}_icon.gif", :type => "image/gif", :disposition => "inline")

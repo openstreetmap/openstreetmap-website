@@ -625,7 +625,7 @@ class UserController < ApplicationController
   def failed_login(message)
     flash[:error] = message
 
-    redirect_to :action => "login", :referer =>  session[:referer]
+    redirect_to :action => "login", :referer => session[:referer]
 
     session.delete(:remember_me)
     session.delete(:referer)

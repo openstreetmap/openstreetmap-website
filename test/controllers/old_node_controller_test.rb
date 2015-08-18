@@ -147,7 +147,7 @@ class OldNodeControllerTest < ActionController::TestCase
     check_not_found_id_version(70000, 312344)
     check_not_found_id_version(-1, -13)
     check_not_found_id_version(nodes(:visible_node).id, 24354)
-    check_not_found_id_version(24356,   nodes(:visible_node).version)
+    check_not_found_id_version(24356, nodes(:visible_node).version)
   end
 
   def check_not_found_id_version(id, version)

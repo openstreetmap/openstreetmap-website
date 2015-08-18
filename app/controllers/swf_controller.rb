@@ -31,7 +31,7 @@ class SwfController < ApplicationController
     bounds_top = 240 * 20
 
     m = ""
-    m += swf_record(9, 255.chr + 155.chr + 155.chr)			# Background
+    m += swf_record(9, 255.chr + 155.chr + 155.chr)	# Background
     absx = 0
     absy = 0
     xl = yb = 9999999
@@ -47,7 +47,7 @@ class SwfController < ApplicationController
       user = User.authenticate(:token => params[:token])
       sql = "SELECT gps_points.latitude*0.0000001 AS lat,gps_points.longitude*0.0000001 AS lon,gpx_files.id AS fileid," + "      EXTRACT(EPOCH FROM gps_points.timestamp) AS ts, gps_points.trackid AS trackid " + " FROM gpx_files,gps_points " + "WHERE gpx_files.id=gpx_id " + "  AND gpx_files.user_id=#{user.id} " + "  AND " + OSM.sql_for_area(bbox, "gps_points.") + "  AND (gps_points.timestamp IS NOT NULL) " + "ORDER BY fileid DESC,ts " + "LIMIT 10000 OFFSET #{start}"
     else
-      sql = "SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,gpx_id AS fileid," + "      EXTRACT(EPOCH FROM timestamp) AS ts, gps_points.trackid AS trackid " + 				 " FROM gps_points " + 				 "WHERE " + OSM.sql_for_area(bbox, "gps_points.") + 				 "  AND (gps_points.timestamp IS NOT NULL) " + 				 "ORDER BY fileid DESC,ts " + 				 "LIMIT 10000 OFFSET #{start}"
+      sql = "SELECT latitude*0.0000001 AS lat,longitude*0.0000001 AS lon,gpx_id AS fileid," + "      EXTRACT(EPOCH FROM timestamp) AS ts, gps_points.trackid AS trackid " + " FROM gps_points " + "WHERE " + OSM.sql_for_area(bbox, "gps_points.") + "  AND (gps_points.timestamp IS NOT NULL) " + "ORDER BY fileid DESC,ts " + "LIMIT 10000 OFFSET #{start}"
     end
     gpslist = ActiveRecord::Base.connection.select_all sql
 
@@ -104,11 +104,11 @@ class SwfController < ApplicationController
   # Line-drawing
 
   def start_shape
-    s = 0.chr						# No fill styles
-    s += 2.chr						# Two line styles
-    s += pack_u16(0) + 0.chr + 255.chr + 255.chr	# Width 5, RGB #00FFFF
-    s += pack_u16(0) + 255.chr + 0.chr + 255.chr	# Width 5, RGB #FF00FF
-    s += 34.chr										# 2 fill, 2 line index bits
+    s = 0.chr                                    # No fill styles
+    s += 2.chr                                   # Two line styles
+    s += pack_u16(0) + 0.chr + 255.chr + 255.chr # Width 5, RGB #00FFFF
+    s += pack_u16(0) + 255.chr + 0.chr + 255.chr # Width 5, RGB #FF00FF
+    s += 34.chr	                                 # 2 fill, 2 line index bits
     s
   end
 
@@ -117,10 +117,10 @@ class SwfController < ApplicationController
   end
 
   def start_and_move(x, y, col)
-    d = "001001"					# Line style change, moveTo
+    d = "001001"	# Line style change, moveTo
     l = [length_sb(x), length_sb(y)].max
     d += format("%05b%0*b%0*b", l, l, x, l, y)
-    d += col						# Select line style
+    d += col	# Select line style
     d
   end
 

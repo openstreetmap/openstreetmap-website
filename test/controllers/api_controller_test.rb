@@ -385,7 +385,7 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   def test_permissions_oauth
-    @request.env["oauth.token"] =  AccessToken.new do |token|
+    @request.env["oauth.token"] = AccessToken.new do |token|
       # Just to test a few
       token.allow_read_prefs = true
       token.allow_write_api = true

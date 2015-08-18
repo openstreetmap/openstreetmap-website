@@ -22,7 +22,7 @@ module ShortLink
     # keep support for old shortlinks which use the @ character, now
     # replaced by the ~ character because twitter is horribly broken
     # and we can't have that.
-    str.gsub!("@", "~")
+    str.tr!("@", "~")
 
     str.each_char do |c|
       t = ARRAY.index c

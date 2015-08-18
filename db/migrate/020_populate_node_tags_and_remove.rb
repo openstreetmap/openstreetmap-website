@@ -31,8 +31,8 @@ class PopulateNodeTagsAndRemove < ActiveRecord::Migration
 
     create_table :current_node_tags, :id => false do |t|
       t.column :id,          :bigint, :null => false
-      t.column :k,	     :string, :default => "", :null => false
-      t.column :v,	     :string, :default => "", :null => false
+      t.column :k,           :string, :default => "", :null => false
+      t.column :v,           :string, :default => "", :null => false
     end
 
     create_table :node_tags, :id => false do |t|

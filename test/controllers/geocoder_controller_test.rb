@@ -446,7 +446,7 @@ class GeocoderControllerTest < ActionController::TestCase
       xhr :get, :search_osm_nominatim_reverse, :lat => 51.7632, :lon => -0.0076, :zoom => 17
       results_check :name => "Dinant Link Road, Broxbourne, Hertfordshire, East of England, England, EN11 8HX, United Kingdom",
                     :lat => 51.7634883, :lon => -0.0088373,
-                    :type => "way", :id => 3489841, :zoom  => 17
+                    :type => "way", :id => 3489841, :zoom => 17
     end
   end
 

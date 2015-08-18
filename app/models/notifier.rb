@@ -108,7 +108,7 @@ class Notifier < ActionMailer::Base
                           :title => "Re: #{comment.diary_entry.title}")
 
       mail :from => from_address(comment.user.display_name, "c", comment.id, comment.digest),
-           :to =>  comment.diary_entry.user.email,
+           :to => comment.diary_entry.user.email,
            :subject => I18n.t("notifier.diary_comment_notification.subject", :user => comment.user.display_name)
     end
   end

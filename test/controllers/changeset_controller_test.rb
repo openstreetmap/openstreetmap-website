@@ -1477,12 +1477,12 @@ EOF
     # NOTE: the include method doesn't over-expand, like inserting
     # a real method does. this is because we expect the client to
     # know what it is doing!
-    check_after_include(changeset_id,  1,  1, [1,  1,  1,  1])
-    check_after_include(changeset_id,  3,  3, [1,  1,  3,  3])
-    check_after_include(changeset_id,  4,  2, [1,  1,  4,  3])
-    check_after_include(changeset_id,  2,  2, [1,  1,  4,  3])
-    check_after_include(changeset_id, -1, -1, [-1, -1,  4,  3])
-    check_after_include(changeset_id, -2,  5, [-2, -1,  4,  5])
+    check_after_include(changeset_id, 1, 1, [1, 1, 1, 1])
+    check_after_include(changeset_id, 3, 3, [1, 1, 3, 3])
+    check_after_include(changeset_id, 4, 2, [1, 1, 4, 3])
+    check_after_include(changeset_id, 2, 2, [1, 1, 4, 3])
+    check_after_include(changeset_id, -1, -1, [-1, -1, 4, 3])
+    check_after_include(changeset_id, -2, 5, [-2, -1, 4, 5])
   end
 
   ##
