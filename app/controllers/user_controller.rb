@@ -297,6 +297,7 @@ class UserController < ApplicationController
         user = token.user
         user.status = "active"
         user.email_valid = true
+        gravatar_enable(user)
         user.save!
         referer = token.referer
         token.destroy
@@ -348,6 +349,7 @@ class UserController < ApplicationController
         @user.email = @user.new_email
         @user.new_email = nil
         @user.email_valid = true
+        gravatar_enable(@user)
         if @user.save
           flash[:notice] = t "user.confirm_email.success"
         else
@@ -798,5 +800,24 @@ class UserController < ApplicationController
     end
 
     !blocked
+  end
+
+  ##
+  # check if this user has a gravatar and set the user pref is true
+  def gravatar_enable(user)
+    # code from example https://en.gravatar.com/site/implement/images/ruby/
+    return if user.image.present?
+    hash = Digest::MD5.hexdigest(user.email.downcase)
+    url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without  d=404 we will always get an image back
+    response = OSM.http_client.get(URI.parse(url))
+    oldsetting = user.image_use_gravatar
+    user.image_use_gravatar = response.success?
+    if oldsetting != user.image_use_gravatar
+      flash[:warning] = if user.image_use_gravatar
+                          t "user.account.gravatar.enabled"
+                        else
+                          t "user.account.gravatar.disabled"
+                        end
+    end
   end
 end

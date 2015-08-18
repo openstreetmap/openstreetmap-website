@@ -961,7 +961,7 @@ class UserControllerTest < ActionController::TestCase
     assert_select "contributor-terms", :count => 1 do
       assert_select "[agreed='true']"
     end
-    assert_select "img", :count => 1
+    assert_select "img", :count => 0
     assert_select "roles", :count => 1 do
       assert_select "role", :count => 0
     end
@@ -1013,7 +1013,7 @@ class UserControllerTest < ActionController::TestCase
     assert_select "contributor-terms", :count => 1 do
       assert_select "[agreed='true'][pd='false']"
     end
-    assert_select "img", :count => 1
+    assert_select "img", :count => 0
     assert_select "roles", :count => 1 do
       assert_select "role", :count => 0
     end
