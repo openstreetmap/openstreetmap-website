@@ -1,5 +1,5 @@
 class TraceController < ApplicationController
-  layout "site"
+  layout "site", :except => :georss
 
   skip_before_action :verify_authenticity_token, :only => [:api_create, :api_read, :api_update, :api_delete, :api_data]
   before_action :authorize_web
