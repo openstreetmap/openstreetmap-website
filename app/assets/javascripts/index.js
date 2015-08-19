@@ -8,6 +8,7 @@
 //= require leaflet.polyline
 //= require leaflet.query
 //= require leaflet.contextmenu
+//= require index/contextmenu
 //= require index/search
 //= require index/browse
 //= require index/export
@@ -76,53 +77,6 @@ $(document).ready(function () {
 
   var params = OSM.mapParams();
 
-  // a separate js file would be nice for the context menu additions; however not clear if context menu can be added outside of context of map obj constructor
-  var context_describe = function(e){
-    var precision = OSM.zoomPrecision(map.getZoom()),
-      latlng = e.latlng.wrap(),
-      lat = latlng.lat.toFixed(precision),
-      lng = latlng.lng.toFixed(precision);
-    OSM.router.route("/search?query=" + encodeURIComponent(lat + "," + lng));
-  };
-
-  var context_directionsfrom = function(e){
-    var precision = OSM.zoomPrecision(map.getZoom()),
-      latlng = e.latlng.wrap(),
-      lat = latlng.lat.toFixed(precision),
-      lng = latlng.lng.toFixed(precision);
-    OSM.router.route("/directions?" + querystring.stringify({
-      route: lat + ',' + lng + ';' + $('#route_to').val()
-    }));
-  }
-
-  var context_directionsto = function(e){
-    var precision = OSM.zoomPrecision(map.getZoom()),
-      latlng = e.latlng.wrap(),
-      lat = latlng.lat.toFixed(precision),
-      lng = latlng.lng.toFixed(precision);
-    OSM.router.route("/directions?" + querystring.stringify({
-      route: $('#route_from').val() + ';' + lat + ',' + lng
-    }));
-  }
-
-  var context_addnote = function(e){
-    // I'd like this, instead of panning, to pass a query parameter about where to place the marker
-    map.panTo(e.latlng.wrap(), {animate: false});
-    OSM.router.route('/note/new');
-  }
-
-  var context_centrehere = function(e){
-    map.panTo(e.latlng);
-  }
-
-  var context_queryhere = function(e) {
-    var precision = OSM.zoomPrecision(map.getZoom()),
-      latlng = e.latlng.wrap(),
-      lat = latlng.lat.toFixed(precision),
-      lng = latlng.lng.toFixed(precision);
-    OSM.router.route("/query?lat=" + lat + "&lon=" + lng);
-  }
-
   // TODO internationalisation of the context menu strings
   var map = new L.OSM.Map("map", {
     zoomControl: false,
@@ -131,22 +85,22 @@ $(document).ready(function () {
     contextmenuWidth: 140,
     contextmenuItems: [{
         text: 'Directions from here',
-        callback: context_directionsfrom
+        callback: function(e){ context_directionsfrom(e, map) }
     }, {
         text: 'Directions to here',
-        callback: context_directionsto
+        callback: function(e){ context_directionsto(e, map) }
     }, '-', {
         text: 'Add a note here',
-        callback: context_addnote
+        callback: function(e){ context_addnote(e, map) }
     }, {
         text: 'Show address',
-        callback: context_describe
+        callback: function(e){ context_describe(e, map) }
     }, {
         text: 'Query features',
-        callback: context_queryhere
+        callback: function(e){ context_queryhere(e, map) }
     }, {
         text: 'Centre map here',
-        callback: context_centrehere
+        callback: function(e){ context_centrehere(e, map) }
     }]
   });
 
