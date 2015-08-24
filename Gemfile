@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "4.2.3"
+gem "rails", "4.2.4"
 
 # Sprockets 3 seems to be buggy, so stick with 2 for now
 gem "sprockets", "~> 2.12.3"
