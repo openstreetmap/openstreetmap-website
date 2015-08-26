@@ -123,7 +123,7 @@ OSM.Search = function(map) {
   };
 
   page.load = function() {
-    $(".search_results_entry").each(function() {
+    $(".search_results_entry").each(function(index) {
       var entry = $(this);
       $.ajax({
         url: entry.data("href"),
@@ -137,6 +137,13 @@ OSM.Search = function(map) {
         },
         success: function(html) {
           entry.html(html);
+          // go to first result of first geocoder
+          if (index === 0) {
+            var firstResult = entry.find('*[data-lat][data-lon]:first').first();
+            if (firstResult.length) {
+              clickSearchResult.call(firstResult, false);
+            }
+          }
         }
       });
     });
