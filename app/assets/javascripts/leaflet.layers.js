@@ -101,6 +101,8 @@ L.OSM.layers = function(options) {
         map.fire('baselayerchange', {layer: layer});
       });
 
+      item.on('dblclick', toggle);
+
       map.on('layeradd layerremove', function() {
         item.toggleClass('active', map.hasLayer(layer));
         input.prop('checked', map.hasLayer(layer));
