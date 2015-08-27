@@ -45,7 +45,7 @@ class UserController < ApplicationController
         @user.terms_seen = true
 
         if @user.save
-          flash[:notice] = t "user.new.terms declined", :url => t("user.new.terms declined url")
+          flash[:notice] = t("user.new.terms declined", :url => t("user.new.terms declined url")).html_safe
         end
 
         if params[:referer]
@@ -330,7 +330,7 @@ class UserController < ApplicationController
       flash[:error] = t "user.confirm_resend.failure", :name => params[:display_name]
     else
       Notifier.signup_confirm(user, user.tokens.create).deliver_now
-      flash[:notice] = t "user.confirm_resend.success", :email => user.email
+      flash[:notice] = t("user.confirm_resend.success", :email => user.email).html_safe
     end
 
     redirect_to :action => "login"
