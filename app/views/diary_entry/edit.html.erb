@@ -42,7 +42,10 @@
       </div>
     </fieldset>
 
-    <%= submit_tag t('diary_entry.edit.save_button') %>
-    <%# TODO: button should say 'publish' or 'save changes' depending on new/edit state %>
+    <% if action_name == 'new' %>
+      <%= submit_tag t('diary_entry.new.publish_button') %>
+    <% else %>
+      <%= submit_tag t('diary_entry.edit.save_button') %>
+    <% end %>
   </div>
 <% end %>
