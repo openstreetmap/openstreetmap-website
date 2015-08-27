@@ -294,7 +294,7 @@ class ChangesetController < ApplicationController
         changesets = changesets.where("changesets.id <= ?", params[:max_id])
       end
 
-      @edits = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags)
+      @edits = changesets.order("changesets.id DESC").limit(20).preload(:user, :changeset_tags, :comments)
 
       render :action => :list, :layout => false
     end
