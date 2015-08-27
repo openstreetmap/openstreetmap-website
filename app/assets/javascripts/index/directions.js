@@ -336,13 +336,8 @@ OSM.Directions = function (map) {
       setEngine(params.engine);
     }
 
-    if (params.from) {
-      endpoints[0].setValue(params.from);
-      endpoints[1].setValue("");
-    } else {
-      endpoints[0].setValue("");
-      endpoints[1].setValue("");
-    }
+    endpoints[0].setValue(params.from || "");
+    endpoints[1].setValue(params.to || "");
 
     var o = route[0] && L.latLng(route[0].split(',')),
         d = route[1] && L.latLng(route[1].split(','));
