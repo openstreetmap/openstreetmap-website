@@ -106,7 +106,7 @@ class DiaryEntryControllerTest < ActionController::TestCase
         assert_select "select#diary_entry_language_code", :count => 1
         assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
         assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
-        assert_select "input[name=commit][type=submit][value=Save]", :count => 1
+        assert_select "input[name=commit][type=submit][value=Publish]", :count => 1
         assert_select "input[name=commit][type=submit][value=Edit]", :count => 1
         assert_select "input[name=commit][type=submit][value=Preview]", :count => 1
         assert_select "input", :count => 7
