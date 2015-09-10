@@ -4,7 +4,9 @@
 # Author: EddyPetrisor
 # Author: McDutchie
 # Author: Minisarm
+# Author: Ruila
 # Author: Strainu
+# Author: Wintereu
 ---
 ro:
   time:
@@ -41,6 +43,7 @@ ro:
       tracetag: Etichetă înregistrare GPS
       user: Utilizator
       user_preference: Preferințe utilizator
+      user_token: Jeton utilizator
       way: Cale
       way_node: Nod cale
       way_tag: Etichetă cale
@@ -82,28 +85,66 @@ ro:
     potlatch:
       name: Potlatch 1
       description: Potlatch 1 (editor înglobat în navigator)
+    id:
+      name: iD
+      description: iD (editor-în-navigator)
     potlatch2:
       name: Potlatch 2
       description: Potlatch 2 (editor înglobat în navigator)
     remote:
+      name: Control la distanță
       description: Control de la distanță (JOSM sau Merkaartor)
   browse:
+    created: Creat
+    closed: Închis
+    created_html: Creat <abbr title='%{title}'>cu %{time} în urmă</abbr>
+    closed_html: Închis <abbr title='%{title}'>cu %{time} în urmă</abbr>
+    created_by_html: Creat <abbr title='%{title}'>cu %{time} în urmă</abbr> de %{user}
+    deleted_by_html: Șters <abbr title='%{title}'>cu %{time} în urmă</abbr> de %{user}
+    edited_by_html: Modificat <abbr title='%{title}'>cu %{time} în urmă</abbr> de
+      %{user}
+    closed_by_html: Închis <abbr title='%{title}'>cu %{time} în urmă</abbr> de %{user}
     version: Versiune
     in_changeset: Set de modificări
     anonymous: anonim
     no_comment: (niciun comentariu)
+    part_of: Parte din
+    download_xml: Descarcă XML
+    view_history: Vezi istoric
+    view_details: Vezi detalii
+    location: 'Amplasament:'
     changeset:
       title: 'Set de modificări: %{id}'
       belongs_to: Autor
       node: Noduri (%{count})
       node_paginated: Noduri (%{x}-%{y} din %{count})
+      way: Căi (%{count})
+      way_paginated: Căi (%{x}-%{y} din %{count})
+      relation: Comunicații (%{count})
+      relation_paginated: Comunicații (%{x}-%{y} din %{count})
+      comment: Comentarii (%{count})
+      hidden_commented_by: Ascuns comentariu scris de %{user} <abbr title='%{exact_time}'>cu
+        %{when} în urmă</abbr>
+      commented_by: Comentariu scris de %{user} <abbr title='%{exact_time}'>cu %{when}
+        în urmă</abbr>
       changesetxml: Set de modificări XML
       osmchangexml: XML osmChange
       feed:
         title: 'Set de modificări: %{id}'
         title_comment: Set de modificări %{id} — %{comment}
+      join_discussion: Conectați-vă pentru a vă alătura discuției
+      discussion: Discuție
+    node:
+      title: 'Nod: %{name}'
+      history_title: 'Istoricul nodului: %{name}'
     way:
+      title: 'Cale: %{name}'
+      history_title: 'Istoricul căii: %{name}'
       nodes: Noduri
+    relation:
+      title: 'Relație: %{name}'
+      history_title: 'Istoricul relației: %{name}'
+      members: Membri
     relation_member:
       entry_role: '%{type} %{name} ca %{role}'
       type:
@@ -145,9 +186,16 @@ ro:
       wiki_link:
         key: Pagina de pe wiki pentru tagul %{key}
         tag: Pagina de pe wiki pentru tagul %{key}=%{value}
+      wikidata_link: Elementul %{page} pe Wikidata
       wikipedia_link: Articolul %{page} pe Wikipedia
+      telephone_link: Sună %{phone_number}
     note:
       title: 'Notă: %{id}'
+      new_note: Notă nouă
+      description: Descriere
+      open_title: 'Notă nerezolvată #%{note_name}'
+      closed_title: 'Notă rezolvată #%{note_name}'
+      hidden_title: 'Notă ascunsă #%{note_name}'
   changeset:
     changeset_paging_nav:
       showing_page: Pagina %{page}
@@ -178,6 +226,10 @@ ro:
     timeout:
       sorry: Ne pare rău, preluarea listei de modificări pe care ați solicitat-o a
         durat prea mult.
+    rss:
+      commented_at_html: Actualizat acum %{when}
+      commented_at_by_html: Actualizat acum %{when} de %{user}
+      full: Discuție completă
   diary_entry:
     new:
       title: O nouă înregistrare în jurnal
@@ -264,6 +316,13 @@ ro:
       format_to_export: Format de exportat
       osm_xml_data: Date XML OpenStreetMap
       licence: Licență
+      too_large:
+        planet:
+          title: Planeta OSM
+        overpass:
+          title: Overpass API
+        other:
+          title: Alte surse
       options: Opțiuni
       format: Format
       scale: Scară
@@ -316,6 +375,7 @@ ro:
           charging_station: Stație de taxare
           cinema: Cinematograf
           clinic: Clinică
+          clock: Ceas
           college: Colegiu
           community_centre: Centru comunitar
           courthouse: Tribunal
@@ -343,16 +403,20 @@ ro:
           library: Bibliotecă
           market: Piață
           marketplace: Piață de mărfuri
+          monastery: Mănăstire
+          motorcycle_parking: Parcare pentru motociclete
           nightclub: Club de noapte
           nursery: Creșă
           nursing_home: Azil de bătrâni
           office: Birou
           parking: Parcare
+          parking_entrance: Intrare în parcare
           pharmacy: Farmacie
           place_of_worship: Lăcaș de cult
           police: Poliție
           post_box: Cutie poștală
           post_office: Oficiu poștal
+          preschool: Preșcolar
           prison: Închisoare
           pub: Pub
           public_building: Clădire publică
@@ -392,12 +456,24 @@ ro:
           "yes": Pod
         building:
           "yes": Clădire
+        craft:
+          electrician: Electrician
+          gardener: Grădinar
+          painter: Pictor
+          photographer: Fotograf
+          plumber: Instalator
+          shoemaker: Cizmar
+          tailor: Croitor
+        emergency:
+          ambulance_station: Stație de ambulanță
+          defibrillator: Defibrilator
         highway:
           bridleway: Drum pentru călărie
           bus_guideway: Linie de autobuz ghidată
           bus_stop: Stație de autobuz
           construction: Drum în construcție
           cycleway: Pistă de biciclete
+          elevator: Lift
           emergency_access_point: Punct de acces de urgență
           footway: Cale pietonală
           ford: Vad
@@ -412,7 +488,7 @@ ro:
           primary: Drum principal
           primary_link: Drum principal
           raceway: Pistă
-          residential: Rezidențial
+          residential: Stradă rezidențială
           rest_area: Zonă pentru odihnă
           road: Drum
           secondary: Drum secundar
@@ -431,7 +507,8 @@ ro:
           archaeological_site: Sit arheologic
           battlefield: Câmp de luptă
           boundary_stone: Bornă de graniță
-          building: Clădire
+          building: Clădire istorică
+          bunker: Buncăr
           castle: Castel
           church: Biserică
           fort: Fort
@@ -625,23 +702,10 @@ ro:
     results:
       no_results: Niciun rezultat găsit
       more_results: Mai multe rezultate
-    distance:
-      one: circa 1 km
-      zero: mai puțin de 1 km
-      other: circa %{count} km
-    direction:
-      south_west: sud-vest
-      south: sud
-      south_east: sud-est
-      east: est
-      north_east: nord-est
-      north: nord
-      north_west: nord-vest
-      west: vest
   layouts:
     logo:
       alt_text: Logoul OpenStreetMap
-    home: acasă
+    home: Mergi la locul de reședință
     logout: Închide sesiunea
     log_in: Autentificare
     log_in_tooltip: Autentificare cu un cont existent
@@ -681,6 +745,9 @@ ro:
     how_to_help:
       join_the_community:
         title: Alăturați-vă comunității
+  help_page:
+    beginners_guide:
+      url: http://wiki.openstreetmap.org/wiki/Ro:Beginners%27_guide
   message:
     message_summary:
       delete_button: Şterge

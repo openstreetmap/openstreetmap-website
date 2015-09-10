@@ -7,6 +7,7 @@
 # Author: Edinwiki
 # Author: KWiki
 # Author: Maxmus
+# Author: Palapa
 # Author: Ruila
 # Author: Srdjan m
 ---
@@ -99,6 +100,8 @@ bs:
   browse:
     created: Napravljeno
     closed: Zatvoreno
+    created_html: Kreirano <abbr title='%{title}'>%{time} prije</abbr>
+    closed_html: Zatvoreno <abbr title='%{title}'>%{time} prije</abbr>
     version: Verzija
     in_changeset: Skup promijena
     anonymous: anonimno
@@ -111,11 +114,25 @@ bs:
     changeset:
       title: 'Skup promjena: %{id}'
       belongs_to: Autor
+      node: Čvorovi (%{count})
+      node_paginated: Čvorovi (%{x}-%{y} of %{count})
+      way: Putevi (%{count})
+      way_paginated: Putevi (%{x}-%{y} of %{count})
+      relation: Relacije (%{count})
+      relation_paginated: Relacije (%{x}-%{y} of %{count})
+      comment: Komentari (%{count})
+      hidden_commented_by: Skriveni komentar korisnika %{user} <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
+      commented_by: Komentar korisnika %{user} <abbr title='%{exact_time}'>%{when}
+        ago</abbr>
       changesetxml: XML seta promjena
       osmchangexml: osmChange XML
       feed:
         title: Set promjena %{id}
         title_comment: Set promjena %{id} - %{comment}
+      discussion: Diskusija
+    node:
+      title: 'Čvor: %{name}'
     way:
       nodes: Tačke
     relation:
@@ -163,6 +180,10 @@ bs:
       wikipedia_link: Članak o %{page} na Wikipediji
     note:
       new_note: Nova bilješka
+      description: Opis
+    query:
+      nearby: Obližnje značajke
+      enclosing: Značajke okruženja
   changeset:
     changeset_paging_nav:
       showing_page: Stranica %{page}
@@ -187,6 +208,8 @@ bs:
     timeout:
       sorry: Žao nam je, listi seta promjena koju ste tražili je predugo trajalo za
         preuzimanje.
+    rss:
+      full: Cijela diskusija
   diary_entry:
     new:
       title: Novi unos u dnevnik
@@ -336,6 +359,7 @@ bs:
           charging_station: Stanica za punjenje
           cinema: Kino
           clinic: Klinika
+          clock: Sat
           college: Koledž
           community_centre: Društveni centar
           courthouse: Sud
@@ -354,6 +378,7 @@ bs:
           food_court: Dvorište restorana
           fountain: Fontana
           fuel: Benzinska pumpa
+          gambling: Kockanje
           grave_yard: Groblje
           gym: Fitness centar
           health_centre: Zdravstveni centar
@@ -364,11 +389,14 @@ bs:
           library: Biblioteka
           market: Tržnica
           marketplace: Tržnica
+          monastery: Manastir
+          motorcycle_parking: Parking za motore
           nightclub: Noćni klub
           nursery: Čuvanje djece
           nursing_home: Starački dom
           office: Kancelarija
           parking: Parking
+          parking_entrance: Ulaz u parking
           pharmacy: Apoteka
           place_of_worship: Bogomolja
           police: Policija
@@ -402,6 +430,7 @@ bs:
           veterinary: Veterinar
           village_hall: Seoski Dom
           waste_basket: Kanta za otpatke
+          waste_disposal: Odlaganje otpada
           youth_centre: Centar za omladinu
         boundary:
           administrative: Administrativna granica
@@ -416,6 +445,15 @@ bs:
           "yes": Most
         building:
           "yes": Građevina
+        craft:
+          carpenter: Stolar
+          electrician: Električar
+          gardener: Vrtlar
+          painter: Slikar
+          photographer: Fotograf
+          plumber: Vodoinstalater
+          shoemaker: Obućar
+          tailor: Krojač
         emergency:
           phone: S.O.S. Telefon
         highway:
@@ -461,7 +499,8 @@ bs:
           archaeological_site: Arheološko nalazište
           battlefield: Bojno polje
           boundary_stone: Granični kamen
-          building: Građevina
+          building: Historijska građevina
+          bunker: Bunker
           castle: Dvorac
           church: Crkva
           citywalls: Gradski zidovi
@@ -473,11 +512,14 @@ bs:
           mine: Rudnik
           monument: Spomenik
           ruins: Ruševine
+          stone: Kamen
           tomb: Grobnica
           tower: Toranj
           wayside_cross: Krajputaš
           wayside_shrine: Usputni hram
           wreck: Olupina
+        junction:
+          "yes": Raskršće
         landuse:
           allotments: Vrtovi
           basin: Bazen
@@ -512,6 +554,7 @@ bs:
         leisure:
           beach_resort: Odmaralište - plaža
           bird_hide: Posmatračnica ptica
+          club: Klub
           common: Općinsko zemljište
           fishing: Ribolovno područje
           fitness_station: Fitnes centar
@@ -525,6 +568,7 @@ bs:
           pitch: Sportski teren
           playground: Igralište
           recreation_ground: Teren za rekreaciju
+          resort: Boravište
           sauna: Sauna
           slipway: Navoz
           sports_centre: Sportski centar
@@ -713,6 +757,7 @@ bs:
           camp_site: Kamp
           caravan_site: Kamp-kućice (mjesto)
           chalet: Planinska kuća
+          gallery: Galerija
           guest_house: Apartman
           hostel: Hostel
           hotel: Hotel
@@ -922,8 +967,11 @@ bs:
       url: /dobrodošlica
     beginners_guide:
       url: http://wiki.openstreetmap.org/wiki/Bs:Beginners%27_guide
+    irc:
+      title: IRC
   about_page:
     next: Slijedeće
+    open_data_title: Open Data
   notifier:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} je komentirao tvoj unos u dnevnik'
@@ -989,6 +1037,13 @@ bs:
         njihovim e-mail adresama openstreetmap.org računa.
       click_the_link: Ako ste ovo Vi, kliknite na link ispod za ponovno postavljanje
         lozinke.
+    note_comment_notification:
+      greeting: Zdravo,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} je dao komentar na jednu od tvojih
+          bilješki.'
+    changeset_comment_notification:
+      greeting: Zdravo,
   message:
     inbox:
       title: Dolazna pošta
@@ -1098,6 +1153,8 @@ bs:
       close: Zatvoriti
     search:
       search: Pretraga
+      from: Od
+      to: Za
       where_am_i: Gdje sam?
       where_am_i_title: Opišite trenutnu lokaciju koristeći pretraživač
       submit_text: Idi
@@ -1109,9 +1166,7 @@ bs:
           primary: Državna cesta
           secondary: Sekundarna cesta
           unclassified: Neklasificirana cesta
-          unsurfaced: Neasfaltirana cesta
           track: Staza
-          byway: Prečica
           bridleway: Konjička staza
           cycleway: Biciklistička staza
           footway: Pješačka staza
@@ -1135,7 +1190,6 @@ bs:
           golf: Golf teren
           park: Park
           resident: Stambeno područje
-          tourist: Turistička atrakcija
           common:
           - Travnjaci
           - Livada
@@ -1165,7 +1219,6 @@ bs:
           tunnel: Iscrtkani rubovi = tunel
           bridge: Crni rubovi = most
           private: Privatni pristup
-          permissive: Pristup uz dozvolu
           destination: Pristup odredištu
           construction: Ceste u izgradnji
     richtext_area:
@@ -1279,6 +1332,7 @@ bs:
       public_traces: Javne GPS trase
       your_traces: Vaše GPS trase
       public_traces_from: Javne GPS trase korisnika %{user}
+      description: Pretraži nedavno objavljene GPS tragove
       tagged_with: ' označeno sa %{tags}'
       empty_html: JNoš uvijek nema ništa ovdje. <a href='%{upload_link}'>Postavite
         novu trasu</a> ili naučite više o GPS trasiranju na <a href='http://wiki.openstreetmap.org/wiki/Bs:Beginners'_guide'>wiki
@@ -1343,6 +1397,7 @@ bs:
       allow_write_api: Izmijenite kartu.
       allow_read_gpx: Pročitajte njihove privatne GPS trase.
       allow_write_gpx: Postaviti GPS trase.
+      allow_write_notes: izmijeni bilješke.
     index:
       title: Moji OAuth detalji
       my_tokens: Moje ovlaštene aplikacije
@@ -1369,6 +1424,7 @@ bs:
       allow_write_api: Izmijenite kartu.
       allow_read_gpx: Pročitajte njihove privatne GPS trase.
       allow_write_gpx: Postaviti GPS trase.
+      allow_write_notes: izmijeni bilješke.
     not_found:
       sorry: Žao mi je, taj se %{type} ne može naći.
     create:
@@ -1403,6 +1459,13 @@ bs:
         da diskutujete o ovome.
       auth failure: Žao mi je, ne možemo Vas prijaviti s ovim detaljima.
       openid_logo_alt: Prijavite se sa OtvorenimID
+      auth_providers:
+        yahoo:
+          title: Prijavite se sa Yahoo nalogom
+          alt: Prijavite se sa Yahoo OpenID
+        wordpress:
+          title: Prijavite se sa Wordpress nalogom
+          alt: Prijavite se sa Wordpress OpenID
     logout:
       title: Odjava
       heading: Odjava iz OpenStreetMap
@@ -1478,6 +1541,7 @@ bs:
       new diary entry: Novi unos u dnevnik
       my edits: Moje promjene
       my traces: Moje trase
+      my profile: Moj profil
       my settings: Moja podešavanja
       my comments: Moji komentari
       oauth settings: Oauth podešavanja
@@ -1765,6 +1829,8 @@ bs:
       heading: '%{block_on} blokiran od strane %{block_by}'
       time_future: Završava u %{time}
       time_past: Završeno prije %{time}
+      created: Napravljeno
+      ago: '%{time} prije'
       status: Stanje
       show: Pokazati
       edit: Urediti
@@ -1775,8 +1841,11 @@ bs:
       revoker: 'Opozivalac:'
       needs_view: Korisnik se mora prijaviti prije nego se blokada očisti.
   note:
+    description:
+      opened_at_html: Kreirano prije %{when}
     mine:
       id: Id
+      creator: Izradio
       description: Opis
       created_at: 'Napravljeno:'
       last_changed: Posljednji put promijenjeno
@@ -1790,9 +1859,11 @@ bs:
       link: Veza ili HTML
       long_link: Veza
       short_link: Kratki link
+      geo_uri: Geo URI
       embed: HTML
       custom_dimensions: Postavi prilagođene dimenzije
       format: 'Format:'
+      scale: 'Mjerilo:'
       download: Preuzmi
       short_url: Kratki URL
       include_marker: Uključi oznaku

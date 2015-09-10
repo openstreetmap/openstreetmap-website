@@ -27,6 +27,7 @@
 # Author: Od1n
 # Author: Ontsed
 # Author: Paolopoz
+# Author: Purodha
 # Author: Raoli
 # Author: Ricordisamoa
 # Author: Rippitippi
@@ -34,6 +35,7 @@
 # Author: Shirayuki
 # Author: Simone
 # Author: SimoneSVC
+# Author: Tuxfuzz
 # Author: Ximo17
 # Author: ZioNicco
 ---
@@ -101,7 +103,7 @@ it:
         sender: Mittente
         title: Soggetto
         body: Corpo del messaggio
-        recipient: Recipiente
+        recipient: Destinatario
       user:
         email: Email
         active: Attivo
@@ -146,8 +148,8 @@ it:
       belongs_to: Autore
       node: Nodi (%{count})
       node_paginated: Nodi (%{x}-%{y} di %{count})
-      way: Ways (%{count})
-      way_paginated: Ways (%{x}-%{y} di %{count})
+      way: Percorsi (%{count})
+      way_paginated: Percorsi (%{x}-%{y} di %{count})
       relation: Relazioni (%{count})
       relation_paginated: Relazioni (%{x}-%{y} di %{count})
       comment: Commenti (%{count})
@@ -159,18 +161,18 @@ it:
       feed:
         title: Gruppo di modifiche %{id}
         title_comment: Gruppo di modifiche %{id} - %{comment}
-      join_discussion: Fai login per unirti alla discussione
+      join_discussion: Accedi per unirti alla discussione
       discussion: Discussione
     node:
       title: 'Nodo: %{name}'
       history_title: 'Cronologia nodo: %{name}'
     way:
-      title: 'Way: %{name}'
-      history_title: 'Cronologia way: %{name}'
+      title: 'Percorso: %{name}'
+      history_title: 'Cronologia percorso: %{name}'
       nodes: Nodi
       also_part_of:
-        one: parte di way %{related_ways}
-        other: parte di way %{related_ways}
+        one: parte del percorso %{related_ways}
+        other: parte dei percorsi %{related_ways}
     relation:
       title: 'Relazione: %{name}'
       history_title: 'Cronologia relazione: %{name}'
@@ -315,7 +317,7 @@ it:
       user_title: Diario dell'utente %{user}
       leave_a_comment: Lascia un commento
       login_to_leave_a_comment: '%{login_link} per lasciare un commento'
-      login: Login
+      login: Accedi
       save_button: Salva
     no_such_entry:
       title: Nessuna voce del diario
@@ -477,7 +479,7 @@ it:
           ferry_terminal: Terminal traghetti
           fire_hydrant: Pompa antincendio
           fire_station: Vigili del fuoco
-          food_court: Food Court
+          food_court: Area ristorazione
           fountain: Fontana
           fuel: Stazione di rifornimento
           gambling: Gioco d'azzardo
@@ -495,7 +497,7 @@ it:
           motorcycle_parking: Parcheggio per Moto
           nightclub: Night Club
           nursery: Asilo nido
-          nursing_home: Asilo nido
+          nursing_home: Residenza sanitaria assistenziale
           office: Ufficio
           parking: Parcheggio
           parking_entrance: Entrata del parcheggio
@@ -518,9 +520,9 @@ it:
           shop: Negozio
           shower: Doccia
           social_centre: Centro sociale
-          social_club: Centro Sociale
+          social_club: Associazione
           social_facility: Struttura sociale
-          studio: Studio
+          studio: Studio audio/video
           swimming_pool: Piscina
           taxi: Taxi
           telephone: Telefono pubblico
@@ -593,7 +595,7 @@ it:
           secondary_link: Strada secondaria
           service: Strada di servizio
           services: Stazione di servizio
-          speed_camera: Autovelox fissi
+          speed_camera: Autovelox fisso
           steps: Scala
           street_lamp: Lampione
           tertiary: Strada terziaria
@@ -832,7 +834,7 @@ it:
           chemist: Farmacia
           clothes: Negozio di abbigliamento
           computer: Negozio di computer
-          confectionery: Pasticceria
+          confectionery: Negozio di dolciumi
           convenience: Minimarket
           copyshop: Copisteria
           cosmetics: Negozio cosmetici
@@ -1108,6 +1110,7 @@ it:
         Se ritieni che materiale protetto da copyright sia stato impropriamente aggiunto al database di OpenStreetMap o a questo sito, consulta la nostra
          <a href="http://www.osmfoundation.org/wiki/License/Takedown_procedure">procedura di rimozione per violazione del copyright</a> o segnalacelo direttamente alla nostra
         <a href="http://dmca.openstreetmap.org/">pagina di segnalazione on-line</a>.
+      trademarks_title_html: <span id="trademarks"></span>Marchi registrati
   welcome_page:
     title: Benvenuto!
     introduction_html: Benvenuti in OpenStreetMap, la mappa del mondo libera e modificabile.
@@ -1184,7 +1187,7 @@ it:
       gli argomenti di mappatura.
     welcome:
       url: /welcome
-      title: Benvenuti a OSM
+      title: Benvenuti in OSM
       description: Inizia con questa guida rapida che copre le basi di OpenStreetMap.
     beginners_guide:
       url: http://wiki.openstreetmap.org/wiki/IT:Beginners%27_guide
@@ -1486,9 +1489,7 @@ it:
           primary: Strada primaria
           secondary: Strada secondaria
           unclassified: Strada non classificata
-          unsurfaced: Strada non pavimentata
           track: Strada forestale o agricola
-          byway: Byway (UK)
           bridleway: Percorso per equitazione
           cycleway: Pista Ciclabile
           footway: Percorso pedonale
@@ -1512,7 +1513,6 @@ it:
           golf: Campo da golf
           park: Parco
           resident: Zona residenziale
-          tourist: Attrazione turistica
           common:
           - Area comune
           - prato
@@ -1542,7 +1542,6 @@ it:
           tunnel: Linea tratteggiata = tunnel
           bridge: Quadrettatura nera = ponte
           private: Accesso privato
-          permissive: Accesso permissivo
           destination: Servitù di passaggio
           construction: Strade in costruzione
     richtext_area:
@@ -1812,6 +1811,12 @@ it:
         google:
           title: Accedi con Google
           alt: Accedi con un OpenID di Google
+        facebook:
+          title: Accedi con Facebook
+          alt: Accedi con un Account Facebook
+        windowslive:
+          title: Accedi con Windows Live
+          alt: Accedi con un Account Windows Live
         yahoo:
           title: Accedi con Yahoo
           alt: Accedi con un OpenID di Yahoo
@@ -2117,6 +2122,8 @@ it:
     auth_failure:
       connection_failed: Connessione al provider di autenticazione non riuscita
       invalid_credentials: Le credenziali di autenticazione non sono valide
+      no_authorization_code: Nessun codice di autorizzazione
+      unknown_signature_algorithm: Algoritmo di firma sconosciuto
   user_role:
     filter:
       not_an_administrator: Solo gli amministratori possono gestire i ruoli degli
@@ -2233,6 +2240,7 @@ it:
       heading: '%{block_on} bloccato da %{block_by}'
       time_future: Termina fra %{time}
       time_past: Terminato %{time} fa
+      ago: '%{time} fa'
       status: Stato
       show: Mostra
       edit: Modifica
@@ -2283,6 +2291,7 @@ it:
       link: Link o HTML
       long_link: Link
       short_link: Link breve
+      geo_uri: Geo URI
       embed: HTML
       custom_dimensions: Imposta dimensioni personalizzate
       format: 'Formato:'
@@ -2361,12 +2370,25 @@ it:
         mapquest_car: Auto (MapQuest)
         mapquest_foot: A piedi (MapQuest)
         osrm_car: Auto (OSRM)
-      directions: Direzioni
+      directions: Indicazioni
       distance: Distanza
       errors:
         no_route: Impossibile trovare un percorso fra questi due posti.
         no_place: Spiacenti, non è possibile trovare quel luogo.
       instructions:
+        continue_without_exit: Prosegui su %{name}
+        slight_right_without_exit: Svolta leggermente a destra in %{name}
+        turn_right_without_exit: Svolta a destra in %{name}
+        sharp_right_without_exit: Svolta tutto a destra in %{name}
+        uturn_without_exit: Effettua un'inversione a U lungo %{name}
+        sharp_left_without_exit: Svolta tutto a sinistra in %{name}
+        turn_left_without_exit: Svolta a sinistra in %{name}
+        slight_left_without_exit: Svolta leggermente a sinistra in %{name}
+        follow_without_exit: Segui %{name}
+        roundabout_without_exit: Alla rotonda prendi %{name}
+        leave_roundabout_without_exit: Esci dalla rotonda - %{name}
+        destination_without_exit: Raggiungi la destinazione
+        roundabout_with_exit: Alla rotonda prendi l'uscita n° %{exit} su %{name}
         unnamed: senza nome
         courtesy: Indicazioni per gentile concessione di %{link}
       time: Tempo
