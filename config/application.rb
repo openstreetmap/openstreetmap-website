@@ -56,5 +56,8 @@ module OpenStreetMap
       config.logstasher.logger_path = LOGSTASH_PATH
       config.logstasher.log_controller_parameters = true
     end
+
+    # Configure image optimisation
+    config.assets.image_optim = YAML.load_file("#{Rails.root}/config/image_optim.yml")
   end
 end
