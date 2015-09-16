@@ -32,6 +32,7 @@ iD.data.presets = {
                 "funifor",
                 "funitel"
             ],
+            "searchable": false,
             "name": "Aerialway"
         },
         "aerialway/cable_car": {
@@ -188,6 +189,7 @@ iD.data.presets = {
             "tags": {
                 "aeroway": "*"
             },
+            "searchable": false,
             "name": "Aeroway"
         },
         "aeroway/aerodrome": {
@@ -660,6 +662,30 @@ iD.data.presets = {
                 "amenity": "car_wash"
             },
             "name": "Car Wash"
+        },
+        "amenity/casino": {
+            "fields": [
+                "operator",
+                "address",
+                "building_area",
+                "opening_hours",
+                "smoking"
+            ],
+            "geometry": [
+                "point",
+                "area"
+            ],
+            "terms": [
+                "gambling",
+                "roulette",
+                "craps",
+                "poker",
+                "blackjack"
+            ],
+            "tags": {
+                "amenity": "casino"
+            },
+            "name": "Casino"
         },
         "amenity/charging_station": {
             "icon": "car",
@@ -1479,13 +1505,16 @@ iD.data.presets = {
             "name": "Ranger Station"
         },
         "amenity/recycling": {
-            "icon": "recycling",
+            "icon": "waste-basket",
             "fields": [
                 "operator",
                 "address",
+                "recycling/type",
                 "recycling/cans",
-                "recycling/glass",
+                "recycling/glass_bottles",
                 "recycling/paper",
+                "recycling/glass",
+                "recycling/plastic",
                 "recycling/clothes"
             ],
             "geometry": [
@@ -1943,6 +1972,18 @@ iD.data.presets = {
                 "area"
             ],
             "matchScore": 0.1
+        },
+        "area/highway": {
+            "fields": [
+                "area/highway"
+            ],
+            "geometry": [
+                "area"
+            ],
+            "tags": {
+                "area:highway": "*"
+            },
+            "name": "Road Surface"
         },
         "barrier": {
             "geometry": [
@@ -3645,9 +3686,10 @@ iD.data.presets = {
                 "footway": "crossing"
             },
             "terms": [],
-            "name": "Crossing"
+            "name": "Street Crossing"
         },
         "footway/crosswalk": {
+            "icon": "highway-footway",
             "fields": [
                 "crossing",
                 "access",
@@ -3666,7 +3708,7 @@ iD.data.presets = {
             "terms": [
                 "zebra crossing"
             ],
-            "name": "Crosswalk"
+            "name": "Pedestrian Crosswalk"
         },
         "footway/sidewalk": {
             "fields": [
@@ -3811,6 +3853,7 @@ iD.data.presets = {
             "tags": {
                 "highway": "*"
             },
+            "searchable": false,
             "name": "Highway"
         },
         "highway/bridleway": {
@@ -3853,6 +3896,29 @@ iD.data.presets = {
             "terms": [],
             "name": "Bus Stop"
         },
+        "highway/corridor": {
+            "icon": "highway-footway",
+            "fields": [
+                "width",
+                "level",
+                "access_simple"
+            ],
+            "geometry": [
+                "line"
+            ],
+            "tags": {
+                "highway": "corridor"
+            },
+            "terms": [
+                "gallery",
+                "hall",
+                "hallway",
+                "indoor",
+                "passage",
+                "passageway"
+            ],
+            "name": "Indoor Corridor"
+        },
         "highway/crossing": {
             "fields": [
                 "crossing",
@@ -3866,7 +3932,7 @@ iD.data.presets = {
                 "highway": "crossing"
             },
             "terms": [],
-            "name": "Crossing"
+            "name": "Street Crossing"
         },
         "highway/crosswalk": {
             "fields": [
@@ -3884,7 +3950,7 @@ iD.data.presets = {
             "terms": [
                 "zebra crossing"
             ],
-            "name": "Crosswalk"
+            "name": "Pedestrian Crosswalk"
         },
         "highway/cycleway": {
             "icon": "highway-cycleway",
@@ -3939,7 +4005,8 @@ iD.data.presets = {
                 "maxspeed",
                 "structure",
                 "access",
-                "surface"
+                "surface",
+                "cycleway"
             ],
             "geometry": [
                 "line"
@@ -4055,6 +4122,7 @@ iD.data.presets = {
             "name": "Path"
         },
         "highway/pedestrian": {
+            "icon": "highway-footway",
             "fields": [
                 "surface",
                 "lit",
@@ -4071,7 +4139,7 @@ iD.data.presets = {
                 "highway": "pedestrian"
             },
             "terms": [],
-            "name": "Pedestrian"
+            "name": "Pedestrian Street"
         },
         "highway/primary": {
             "icon": "highway-primary",
@@ -4082,7 +4150,8 @@ iD.data.presets = {
                 "access",
                 "lanes",
                 "surface",
-                "ref"
+                "ref",
+                "cycleway"
             ],
             "geometry": [
                 "line"
@@ -4101,7 +4170,8 @@ iD.data.presets = {
                 "structure",
                 "access",
                 "surface",
-                "ref"
+                "ref",
+                "cycleway"
             ],
             "geometry": [
                 "line"
@@ -4148,7 +4218,8 @@ iD.data.presets = {
                 "maxspeed",
                 "structure",
                 "access",
-                "surface"
+                "surface",
+                "cycleway"
             ],
             "geometry": [
                 "line"
@@ -4200,7 +4271,8 @@ iD.data.presets = {
                 "access",
                 "lanes",
                 "surface",
-                "ref"
+                "ref",
+                "cycleway"
             ],
             "geometry": [
                 "line"
@@ -4219,7 +4291,8 @@ iD.data.presets = {
                 "structure",
                 "access",
                 "surface",
-                "ref"
+                "ref",
+                "cycleway"
             ],
             "geometry": [
                 "line"
@@ -4242,7 +4315,8 @@ iD.data.presets = {
                 "maxspeed",
                 "structure",
                 "access",
-                "surface"
+                "surface",
+                "cycleway"
             ],
             "geometry": [
                 "line"
@@ -4412,7 +4486,8 @@ iD.data.presets = {
                 "access",
                 "lanes",
                 "surface",
-                "ref"
+                "ref",
+                "cycleway"
             ],
             "geometry": [
                 "line"
@@ -4431,7 +4506,8 @@ iD.data.presets = {
                 "structure",
                 "access",
                 "surface",
-                "ref"
+                "ref",
+                "cycleway"
             ],
             "geometry": [
                 "line"
@@ -4549,7 +4625,8 @@ iD.data.presets = {
                 "maxspeed",
                 "structure",
                 "access",
-                "surface"
+                "surface",
+                "cycleway"
             ],
             "geometry": [
                 "line"
@@ -4682,7 +4759,7 @@ iD.data.presets = {
             "tags": {
                 "landuse": "*"
             },
-            "name": "Landuse"
+            "name": "Land Use"
         },
         "landuse/allotments": {
             "geometry": [
@@ -4896,6 +4973,23 @@ iD.data.presets = {
             "terms": [],
             "name": "Orchard"
         },
+        "landuse/plant_nursery": {
+            "icon": "garden",
+            "fields": [
+                "name"
+            ],
+            "geometry": [
+                "point",
+                "area"
+            ],
+            "tags": {
+                "landuse": "plant_nursery"
+            },
+            "terms": [
+                "vivero"
+            ],
+            "name": "Plant Nursery"
+        },
         "landuse/quarry": {
             "geometry": [
                 "area"
@@ -4950,6 +5044,45 @@ iD.data.presets = {
                 "leisure": "*"
             },
             "name": "Leisure"
+        },
+        "leisure/adult_gaming_centre": {
+            "fields": [
+                "operator",
+                "address",
+                "building_area",
+                "opening_hours",
+                "smoking"
+            ],
+            "geometry": [
+                "point",
+                "area"
+            ],
+            "terms": [
+                "gambling",
+                "slot machine"
+            ],
+            "tags": {
+                "leisure": "adult_gaming_centre"
+            },
+            "name": "Adult Gaming Center"
+        },
+        "leisure/bowling_alley": {
+            "fields": [
+                "operator",
+                "address",
+                "building_area",
+                "opening_hours",
+                "smoking"
+            ],
+            "geometry": [
+                "point",
+                "area"
+            ],
+            "terms": [],
+            "tags": {
+                "leisure": "bowling_alley"
+            },
+            "name": "Bowling Alley"
         },
         "leisure/common": {
             "geometry": [
@@ -5408,6 +5541,25 @@ iD.data.presets = {
             },
             "name": "Man Made"
         },
+        "man_made/adit": {
+            "geometry": [
+                "point",
+                "area"
+            ],
+            "fields": [
+                "operator"
+            ],
+            "terms": [
+                "entrance",
+                "underground",
+                "mine",
+                "cave"
+            ],
+            "tags": {
+                "man_made": "adit"
+            },
+            "name": "Adit"
+        },
         "man_made/breakwater": {
             "geometry": [
                 "line",
@@ -5765,7 +5917,13 @@ iD.data.presets = {
                 "fee",
                 "access_simple"
             ],
-            "terms": [],
+            "terms": [
+                "cavern",
+                "hollow",
+                "grotto",
+                "shelter",
+                "cavity"
+            ],
             "tags": {
                 "natural": "cave_entrance"
             },
@@ -5866,6 +6024,25 @@ iD.data.presets = {
             ],
             "name": "Peak"
         },
+        "natural/saddle": {
+            "icon": "triangle-stroked",
+            "fields": [
+                "elevation"
+            ],
+            "geometry": [
+                "point",
+                "vertex"
+            ],
+            "tags": {
+                "natural": "saddle"
+            },
+            "terms": [
+                "pass",
+                "mountain pass",
+                "top"
+            ],
+            "name": "Saddle"
+        },
         "natural/scree": {
             "geometry": [
                 "area"
@@ -5885,7 +6062,10 @@ iD.data.presets = {
             "tags": {
                 "natural": "scrub"
             },
-            "terms": [],
+            "terms": [
+                "bush",
+                "shrubs"
+            ],
             "name": "Scrub"
         },
         "natural/spring": {
@@ -5901,8 +6081,8 @@ iD.data.presets = {
         },
         "natural/tree": {
             "fields": [
-                "leaf_type",
-                "leaf_cycle",
+                "leaf_type_singular",
+                "leaf_cycle_singular",
                 "denotation"
             ],
             "icon": "park",
@@ -5915,6 +6095,40 @@ iD.data.presets = {
                 "natural": "tree"
             },
             "name": "Tree"
+        },
+        "natural/tree_row": {
+            "fields": [
+                "leaf_type",
+                "leaf_cycle",
+                "denotation"
+            ],
+            "icon": "park",
+            "geometry": [
+                "line"
+            ],
+            "terms": [],
+            "tags": {
+                "natural": "tree_row"
+            },
+            "name": "Tree row"
+        },
+        "natural/volcano": {
+            "icon": "triangle",
+            "fields": [
+                "elevation"
+            ],
+            "geometry": [
+                "point",
+                "vertex"
+            ],
+            "tags": {
+                "natural": "volcano"
+            },
+            "terms": [
+                "mountain",
+                "crater"
+            ],
+            "name": "Volcano"
         },
         "natural/water": {
             "fields": [
@@ -6432,6 +6646,7 @@ iD.data.presets = {
             "tags": {
                 "place": "*"
             },
+            "searchable": false,
             "name": "Place"
         },
         "place/city": {
@@ -6601,6 +6816,7 @@ iD.data.presets = {
             "fields": [
                 "power"
             ],
+            "searchable": false,
             "name": "Power"
         },
         "power/generator": {
@@ -6746,6 +6962,7 @@ iD.data.presets = {
             "tags": {
                 "railway": "*"
             },
+            "searchable": false,
             "name": "Railway"
         },
         "railway/abandoned": {
@@ -6829,12 +7046,12 @@ iD.data.presets = {
             "terms": [
                 "crossing",
                 "railroad crossing",
-                "railway crossing",
+                "level crossing",
                 "grade crossing",
                 "road through railroad",
                 "train crossing"
             ],
-            "name": "Level Crossing"
+            "name": "Railway Crossing"
         },
         "railway/monorail": {
             "icon": "railway-monorail",
@@ -9758,6 +9975,7 @@ iD.data.presets = {
             "tags": {
                 "waterway": "*"
             },
+            "searchable": false,
             "name": "Waterway"
         },
         "waterway/canal": {
@@ -38800,6 +39018,7 @@ iD.data.presets = {
         ],
         "vertex": [
             "highway/crosswalk",
+            "highway/crossing",
             "railway/level_crossing",
             "highway/traffic_signals",
             "highway/turning_circle",
@@ -38865,6 +39084,7 @@ iD.data.presets = {
             "name": "Path",
             "icon": "category-path",
             "members": [
+                "highway/pedestrian",
                 "highway/footway",
                 "highway/cycleway",
                 "highway/bridleway",
@@ -38979,11 +39199,11 @@ iD.data.presets = {
                 "key": "access"
             },
             "type": "access",
-            "label": "Access",
-            "placeholder": "Unknown",
+            "label": "Allowed Access",
+            "placeholder": "Not Specified",
             "strings": {
                 "types": {
-                    "access": "General",
+                    "access": "All",
                     "foot": "Foot",
                     "motor_vehicle": "Motor Vehicles",
                     "bicycle": "Bicycles",
@@ -39013,6 +39233,10 @@ iD.data.presets = {
                     "destination": {
                         "title": "Destination",
                         "description": "Access permitted only to reach a destination"
+                    },
+                    "dismount": {
+                        "title": "Dismount",
+                        "description": "Access permitted but rider must dismount"
                     }
                 }
             }
@@ -39020,7 +39244,7 @@ iD.data.presets = {
         "access_simple": {
             "key": "access",
             "type": "combo",
-            "label": "Access",
+            "label": "Allowed Access",
             "placeholder": "yes",
             "options": [
                 "permissive",
@@ -39045,9 +39269,18 @@ iD.data.presets = {
             "keys": [
                 "addr:housename",
                 "addr:housenumber",
+                "addr:conscriptionnumber",
                 "addr:street",
                 "addr:city",
-                "addr:postcode"
+                "addr:postcode",
+                "addr:place",
+                "addr:hamlet",
+                "addr:suburb",
+                "addr:subdistrict",
+                "addr:district",
+                "addr:province",
+                "addr:state",
+                "addr:country"
             ],
             "reference": {
                 "key": "addr"
@@ -39059,6 +39292,7 @@ iD.data.presets = {
                 "placeholders": {
                     "housename": "Housename",
                     "housenumber": "123",
+                    "conscriptionnumber": "123",
                     "street": "Street",
                     "city": "City",
                     "postcode": "Postcode",
@@ -39142,6 +39376,11 @@ iD.data.presets = {
         },
         "amenity": {
             "key": "amenity",
+            "type": "typeCombo",
+            "label": "Type"
+        },
+        "area/highway": {
+            "key": "area:highway",
             "type": "typeCombo",
             "label": "Type"
         },
@@ -39288,6 +39527,54 @@ iD.data.presets = {
             "key": "cuisine",
             "type": "combo",
             "label": "Cuisine"
+        },
+        "cycleway": {
+            "keys": [
+                "cycleway:left",
+                "cycleway:right"
+            ],
+            "reference": {
+                "key": "cycleway"
+            },
+            "type": "cycleway",
+            "label": "Bike Lanes",
+            "placeholder": "none",
+            "strings": {
+                "types": {
+                    "cycleway:left": "Left side",
+                    "cycleway:right": "Right side"
+                },
+                "options": {
+                    "none": {
+                        "title": "None",
+                        "description": "No bike lane"
+                    },
+                    "lane": {
+                        "title": "Standard bike lane",
+                        "description": "A bike lane separated from auto traffic by a painted line"
+                    },
+                    "shared_lane": {
+                        "title": "Shared bike lane",
+                        "description": "A bike lane with no separation from auto traffic"
+                    },
+                    "track": {
+                        "title": "Bike track",
+                        "description": "A bike lane separated from traffic by a physical barrier"
+                    },
+                    "share_busway": {
+                        "title": "Bike lane shared with bus",
+                        "description": "A bike lane shared with a bus lane"
+                    },
+                    "opposite_lane": {
+                        "title": "Opposite bike lane",
+                        "description": "A bike lane that travels in the opposite direction of traffic"
+                    },
+                    "opposite": {
+                        "title": "Contraflow bike lane",
+                        "description": "A bike lane that travels in both directions on a one-way street"
+                    }
+                }
+            }
         },
         "delivery": {
             "key": "delivery",
@@ -39574,6 +39861,19 @@ iD.data.presets = {
                 }
             }
         },
+        "leaf_cycle_singular": {
+            "key": "leaf_cycle",
+            "type": "combo",
+            "label": "Leaf Cycle",
+            "strings": {
+                "options": {
+                    "evergreen": "Evergreen",
+                    "deciduous": "Deciduous",
+                    "semi_evergreen": "Semi-Evergreen",
+                    "semi_deciduous": "Semi-Deciduous"
+                }
+            }
+        },
         "leaf_type": {
             "key": "leaf_type",
             "type": "combo",
@@ -39587,6 +39887,18 @@ iD.data.presets = {
                 }
             }
         },
+        "leaf_type_singular": {
+            "key": "leaf_type",
+            "type": "combo",
+            "label": "Leaf Type",
+            "strings": {
+                "options": {
+                    "broadleaved": "Broadleaved",
+                    "needleleaved": "Needleleaved",
+                    "leafless": "Leafless"
+                }
+            }
+        },
         "leisure": {
             "key": "leisure",
             "type": "typeCombo",
@@ -39596,6 +39908,12 @@ iD.data.presets = {
             "key": "length",
             "type": "number",
             "label": "Length (Meters)"
+        },
+        "level": {
+            "key": "level",
+            "type": "combo",
+            "label": "Level",
+            "universal": true
         },
         "levels": {
             "key": "building:levels",
@@ -39859,10 +40177,31 @@ iD.data.presets = {
             "type": "check",
             "label": "Accepts Glass"
         },
+        "recycling/glass_bottles": {
+            "key": "recycling:glass_bottles",
+            "type": "check",
+            "label": "Accepts Glass Bottles"
+        },
         "recycling/paper": {
             "key": "recycling:paper",
             "type": "check",
             "label": "Accepts Paper"
+        },
+        "recycling/plastic": {
+            "key": "recycling:plastic",
+            "type": "check",
+            "label": "Accepts Plastic"
+        },
+        "recycling/type": {
+            "key": "recycling_type",
+            "type": "combo",
+            "label": "Recycling Type",
+            "strings": {
+                "options": {
+                    "container": "Container",
+                    "centre": "Recycling Center"
+                }
+            }
         },
         "ref": {
             "key": "ref",

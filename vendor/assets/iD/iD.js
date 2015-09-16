@@ -18996,7 +18996,6 @@ if (typeof exports === 'object') {
 }).call(function() {
   return this || (typeof window !== 'undefined' ? window : global);
 }());
-/* jshint ignore:start */
 (function () {
 'use strict';
 window.iD = function () {
@@ -19008,7 +19007,7 @@ window.iD = function () {
 
     // https://github.com/openstreetmap/iD/issues/772
     // http://mathiasbynens.be/notes/localstorage-pattern#comment-9
-    try { storage = localStorage; } catch (e) {}
+    try { storage = localStorage; } catch (e) {}  // eslint-disable-line no-empty
     storage = storage || (function() {
         var s = {};
         return {
@@ -19025,9 +19024,9 @@ window.iD = function () {
             else storage.setItem(k, v);
         } catch(e) {
             // localstorage quota exceeded
-            /* jshint devel:true */
+            /* eslint-disable no-console */
             if (typeof console !== 'undefined') console.error('localStorage quota exceeded');
-            /* jshint devel:false */
+            /* eslint-enable no-console */
         }
     };
 
@@ -19265,6 +19264,8 @@ window.iD = function () {
     context.pan = map.pan;
     context.zoomIn = map.zoomIn;
     context.zoomOut = map.zoomOut;
+    context.zoomInFurther = map.zoomInFurther;
+    context.zoomOutFurther = map.zoomOutFurther;
 
     context.surfaceRect = function() {
         // Work around a bug in Firefox.
@@ -19332,7 +19333,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.7.3';
+iD.version = '1.7.4';
 
 (function() {
     var detected = {};
@@ -19568,8 +19569,21 @@ iD.taginfo = function() {
         if (parameters.value) path = 'tag/wiki_pages?';
         else if (parameters.rtype) path = 'relation/wiki_pages?';
 
+        var decoratedCallback;
+        if (parameters.value) {
+            decoratedCallback = function(err, data) {
+                // The third argument to callback is the softfail flag, to
+                // make the callback function not show a message to the end
+                // user when no docs are found but just return false.
+                var docsFound = callback(err, data, true);
+                if (!docsFound) {
+                    taginfo.docs(_.omit(parameters, 'value'), callback);
+                }
+            };
+        }
+
         request(endpoint + path +
-            iD.util.qsString(parameters), debounce, callback);
+            iD.util.qsString(parameters), debounce, decoratedCallback || callback);
     };
 
     taginfo.endpoint = function(_) {
@@ -19794,8 +19808,9 @@ iD.util.fastMouse = function(container) {
     };
 };
 
-/* jshint -W103 */
+/* eslint-disable no-proto */
 iD.util.getPrototypeOf = Object.getPrototypeOf || function(obj) { return obj.__proto__; };
+/* eslint-enable no-proto */
 
 iD.util.asyncMap = function(inputs, func, callback) {
     var remaining = inputs.length,
@@ -19806,7 +19821,7 @@ iD.util.asyncMap = function(inputs, func, callback) {
         func(d, function done(err, data) {
             errors[i] = err;
             results[i] = data;
-            remaining --;
+            remaining--;
             if (!remaining) callback(errors, results);
         });
     });
@@ -20076,7 +20091,7 @@ iD.geo.polygonContainsPolygon = function(outer, inner) {
     });
 };
 
-iD.geo.polygonIntersectsPolygon = function(outer, inner) {
+iD.geo.polygonIntersectsPolygon = function(outer, inner, checkSegments) {
     function testSegments(outer, inner) {
         for (var i = 0; i < outer.length - 1; i++) {
             for (var j = 0; j < inner.length - 1; j++) {
@@ -20088,9 +20103,13 @@ iD.geo.polygonIntersectsPolygon = function(outer, inner) {
         return false;
     }
 
-    return _.some(inner, function(point) {
-        return iD.geo.pointInPolygon(point, outer);
-    }) || testSegments(outer, inner);
+    function testPoints(outer, inner) {
+        return _.some(inner, function(point) {
+            return iD.geo.pointInPolygon(point, outer);
+        });
+    }
+
+   return testPoints(outer, inner) || (!!checkSegments && testSegments(outer, inner));
 };
 
 iD.geo.pathLength = function(path) {
@@ -20739,16 +20758,16 @@ iD.actions.Circularize = function(wayId, projection, maxAngle) {
                 var startIndex1 = way.nodes.lastIndexOf(startNode.id),
                     endIndex1 = way.nodes.lastIndexOf(endNode.id),
                     wayDirection1 = (endIndex1 - startIndex1);
-                if (wayDirection1 < -1) { wayDirection1 = 1;}
+                if (wayDirection1 < -1) { wayDirection1 = 1; }
 
-                /*jshint -W083 */
+                /* eslint-disable no-loop-func */
                 _.each(_.without(graph.parentWays(keyNodes[i]), way), function(sharedWay) {
                     if (sharedWay.areAdjacent(startNode.id, endNode.id)) {
                         var startIndex2 = sharedWay.nodes.lastIndexOf(startNode.id),
                             endIndex2 = sharedWay.nodes.lastIndexOf(endNode.id),
                             wayDirection2 = (endIndex2 - startIndex2),
                             insertAt = endIndex2;
-                        if (wayDirection2 < -1) { wayDirection2 = 1;}
+                        if (wayDirection2 < -1) { wayDirection2 = 1; }
 
                         if (wayDirection1 !== wayDirection2) {
                             inBetweenNodes.reverse();
@@ -20760,7 +20779,7 @@ iD.actions.Circularize = function(wayId, projection, maxAngle) {
                         graph = graph.replace(sharedWay);
                     }
                 });
-                /*jshint +W083 */
+                /* eslint-enable no-loop-func */
             }
 
         }
@@ -20835,7 +20854,7 @@ iD.actions.Connect = function(nodeIds) {
         for (var i = 0; i < nodeIds.length - 1; i++) {
             var node = graph.entity(nodeIds[i]);
 
-            /*jshint -W083 */
+            /* eslint-disable no-loop-func */
             graph.parentWays(node).forEach(function(parent) {
                 if (!parent.areAdjacent(node.id, survivor.id)) {
                     graph = graph.replace(parent.replaceNode(node.id, survivor.id));
@@ -20845,7 +20864,7 @@ iD.actions.Connect = function(nodeIds) {
             graph.parentRelations(node).forEach(function(parent) {
                 graph = graph.replace(parent.replaceMember(node, survivor));
             });
-            /*jshint +W083 */
+            /* eslint-enable no-loop-func */
 
             survivor = survivor.mergeTags(node.tags);
             graph = iD.actions.DeleteNode(node.id)(graph);
@@ -21497,12 +21516,12 @@ iD.actions.MergeRemoteChanges = function(id, localGraph, remoteGraph, formatUser
 
             } else if (option === 'force_local' && local) {
                 target = iD.Entity(local);
-                if (remote && remote.visible) {
+                if (remote) {
                     target = target.update({ version: remote.version });
                 }
                 updates.replacements.push(target);
 
-            } else if (option === 'safe' && local && remote) {
+            } else if (option === 'safe' && local && remote && local.version !== remote.version) {
                 target = iD.Entity(local, { version: remote.version });
                 if (remote.visible) {
                     target = mergeLocation(remote, target);
@@ -24922,6 +24941,14 @@ iD.modes.Select = function(context, selectedIDs) {
         }
     }
 
+    function toggleMenu() {
+        if (d3.select('.radial-menu').empty()) {
+            showMenu();
+        } else {
+            closeMenu();
+        }
+    }
+
     mode.selectedIDs = function() {
         return selectedIDs;
     };
@@ -25008,9 +25035,9 @@ iD.modes.Select = function(context, selectedIDs) {
 
         operations.unshift(iD.operations.Delete(selectedIDs, context));
 
-        keybinding.on('⎋', function() {
-            context.enter(iD.modes.Browse(context));
-        }, true);
+        keybinding
+            .on('⎋', function() { context.enter(iD.modes.Browse(context)); }, true)
+            .on('space', toggleMenu);
 
         operations.forEach(function(operation) {
             operation.keys.forEach(function(key) {
@@ -25598,15 +25625,20 @@ iD.operations.Straighten = function(selectedIDs, context) {
 
     return operation;
 };
-iD.Connection = function() {
+iD.Connection = function(useHttps) {
+    if (typeof useHttps !== 'boolean') {
+      useHttps = window.location.protocol === 'https:';
+    }
+
     var event = d3.dispatch('authenticating', 'authenticated', 'auth', 'loading', 'loaded'),
-        url = 'http://www.openstreetmap.org',
+        protocol = useHttps ? 'https:' : 'http:',
+        url = protocol + '//www.openstreetmap.org',
         connection = {},
         inflight = {},
         loadedTiles = {},
         tileZoom = 16,
         oauth = osmAuth({
-            url: 'http://www.openstreetmap.org',
+            url: protocol + '//www.openstreetmap.org',
             oauth_consumer_key: '5A043yRSEugj4DJ5TljuapfnrflWDte8jTOcWLlT',
             oauth_secret: 'aB3jKq1TRsCOUrfOIZ6oQMEDmv2ptV76PA54NGLL',
             loading: authenticating,
@@ -25655,6 +25687,17 @@ iD.Connection = function() {
 
         connection.loadFromURL(
             url + '/api/0.6/' + type + '/' + osmID + (type !== 'node' ? '/full' : ''),
+            function(err, entities) {
+                if (callback) callback(err, {data: entities});
+            });
+    };
+
+    connection.loadEntityVersion = function(id, version, callback) {
+        var type = iD.Entity.id.type(id),
+            osmID = iD.Entity.id.toOSM(id);
+
+        connection.loadFromURL(
+            url + '/api/0.6/' + type + '/' + osmID + '/' + version,
             function(err, entities) {
                 if (callback) callback(err, {data: entities});
             });
@@ -25794,7 +25837,7 @@ iD.Connection = function() {
                     tag: _.map(tags, function(value, key) {
                         return { '@k': key, '@v': value };
                     }),
-                    '@version': 0.3,
+                    '@version': 0.6,
                     '@generator': 'iD'
                 }
             }
@@ -25824,7 +25867,7 @@ iD.Connection = function() {
 
         return {
             osmChange: {
-                '@version': 0.3,
+                '@version': 0.6,
                 '@generator': 'iD',
                 'create': nest(changes.created.map(rep), ['node', 'way', 'relation']),
                 'modify': nest(changes.modified.map(rep), ['node', 'way', 'relation']),
@@ -25839,7 +25882,7 @@ iD.Connection = function() {
                 created_by: 'iD ' + iD.version,
                 imagery_used: imageryUsed.join(';').substr(0, 255),
                 host: (window.location.origin + window.location.pathname).substr(0, 255),
-                locale: detected.locale,
+                locale: detected.locale
             };
 
         if (comment) {
@@ -26814,6 +26857,13 @@ iD.History = function(context) {
             };
         },
 
+        validate: function(changes) {
+            return _(iD.validations)
+                .map(function(fn) { return fn()(changes, stack[index].graph); })
+                .flatten()
+                .value();
+        },
+
         hasChanges: function() {
             return this.difference().length() > 0;
         },
@@ -26841,7 +26891,7 @@ iD.History = function(context) {
         },
 
         toJSON: function() {
-            if (stack.length <= 1) return;
+            if (!this.hasChanges()) return;
 
             var allEntities = {},
                 baseEntities = {},
@@ -26892,7 +26942,7 @@ iD.History = function(context) {
             });
         },
 
-        fromJSON: function(json) {
+        fromJSON: function(json, loadChildNodes) {
             var h = JSON.parse(json);
 
             iD.Entity.id.next = h.nextIDs;
@@ -26906,7 +26956,7 @@ iD.History = function(context) {
                 });
 
                 if (h.version === 3) {
-                    // this merges originals for changed entities into the base of
+                    // This merges originals for changed entities into the base of
                     // the stack even if the current stack doesn't have them (for
                     // example when iD has been restarted in a different region)
                     var baseEntities = h.baseEntities.map(function(entity) {
@@ -26914,6 +26964,38 @@ iD.History = function(context) {
                     });
                     stack[0].graph.rebase(baseEntities, _.pluck(stack, 'graph'), true);
                     tree.rebase(baseEntities, true);
+
+                    // When we restore a modified way, we also need to fetch any missing
+                    // childnodes that would normally have been downloaded with it.. #2142
+                    if (loadChildNodes) {
+                        var missing =  _(baseEntities)
+                                .filter('type', 'way')
+                                .pluck('nodes')
+                                .flatten()
+                                .uniq()
+                                .reject(function(n) { return stack[0].graph.hasEntity(n); })
+                                .value();
+
+                        if (!_.isEmpty(missing)) {
+                            var childNodesLoaded = function(err, result) {
+                                if (err) return;
+
+                                var visible = _.groupBy(result.data, 'visible');
+                                if (!_.isEmpty(visible.true)) {
+                                    stack[0].graph.rebase(visible.true, _.pluck(stack, 'graph'), false);
+                                    tree.rebase(visible.true, false);
+                                }
+
+                                // fetch older versions of nodes that were deleted..
+                                _.each(visible.false, function(entity) {
+                                    context.connection()
+                                        .loadEntityVersion(entity.id, +entity.version - 1, childNodesLoaded);
+                                });
+                            };
+
+                            context.connection().loadMultiple(missing, childNodesLoaded);
+                        }
+                    }
                 }
 
                 stack = h.stack.map(function(d) {
@@ -26986,7 +27068,7 @@ iD.History = function(context) {
             if (!lock.locked()) return;
 
             var json = context.storage(getKey('saved_history'));
-            if (json) history.fromJSON(json);
+            if (json) history.fromJSON(json, true);
         },
 
         _getKey: getKey
@@ -27889,6 +27971,7 @@ iD.Background = function(context) {
 
         reader.onload = function(e) {
             gpxLayer.geojson(toGeoJSON.gpx(toDom(e.target.result)));
+            iD.ui.MapInMap.gpxLayer.geojson(toGeoJSON.gpx(toDom(e.target.result)));
             background.zoomToGpxLayer();
             dispatch.change();
         };
@@ -27905,7 +27988,7 @@ iD.Background = function(context) {
                     return _.union(coords, feature.geometry.type === 'Point' ? [c] : c);
                 }, []);
 
-            if (!iD.geo.polygonIntersectsPolygon(viewport, coords)) {
+            if (!iD.geo.polygonIntersectsPolygon(viewport, coords, true)) {
                 var extent = iD.geo.Extent(d3.geo.bounds(gpxLayer.geojson()));
                 map.centerZoom(extent.center(), map.trimmedExtentZoom(extent));
             }
@@ -27914,6 +27997,7 @@ iD.Background = function(context) {
 
     background.toggleGpxLayer = function() {
         gpxLayer.enable(!gpxLayer.enable());
+        iD.ui.MapInMap.gpxLayer.enable(!iD.ui.MapInMap.gpxLayer.enable());
         dispatch.change();
     };
 
@@ -28009,8 +28093,11 @@ iD.Background = function(context) {
         var gpx = q.gpx;
         if (gpx) {
             d3.text(gpx, function(err, gpxTxt) {
-                gpxLayer.geojson(toGeoJSON.gpx(toDom(gpxTxt)));
-                dispatch.change();
+                if (!err) {
+                    gpxLayer.geojson(toGeoJSON.gpx(toDom(gpxTxt)));
+                    iD.ui.MapInMap.gpxLayer.geojson(toGeoJSON.gpx(toDom(gpxTxt)));
+                    dispatch.change();
+                }
             });
         }
     };
@@ -28072,7 +28159,7 @@ iD.BackgroundSource = function(data) {
     source.intersects = function(extent) {
         extent = extent.polygon();
         return !data.polygon || data.polygon.some(function(polygon) {
-            return iD.geo.polygonIntersectsPolygon(polygon, extent);
+            return iD.geo.polygonIntersectsPolygon(polygon, extent, true);
         });
     };
 
@@ -28192,7 +28279,8 @@ iD.Features = function(context) {
         'cycleway': true,
         'bridleway': true,
         'steps': true,
-        'pedestrian': true
+        'pedestrian': true,
+        'corridor': true
     };
 
     var past_futures = {
@@ -29014,8 +29102,19 @@ iD.Map = function(context) {
         return redraw();
     };
 
-    map.zoomIn = function() { interpolateZoom(~~map.zoom() + 1); };
-    map.zoomOut = function() { interpolateZoom(~~map.zoom() - 1); };
+    function zoomIn(integer) {
+      interpolateZoom(~~map.zoom() + integer);
+    }
+
+    function zoomOut(integer) {
+      interpolateZoom(~~map.zoom() - integer);
+    }
+
+    map.zoomIn = function() { zoomIn(1); };
+    map.zoomInFurther = function() { zoomIn(4); };
+
+    map.zoomOut = function() { zoomOut(1); };
+    map.zoomOutFurther = function() { zoomOut(4); };
 
     map.center = function(loc) {
         if (!arguments.length) {
@@ -29274,12 +29373,14 @@ iD.MapillaryLayer = function (context) {
                     .attr('class', 'image');
 
                 enter.append('path')
-                    .attr('d', 'M 0,-5 l 0,-20 l -5,30 l 10,0 l -5,-30');
+                    .attr('class', 'viewfield')
+                    .attr('transform', 'scale(1.5,1.5),translate(-8, -13)')
+                    .attr('d', 'M 6,9 C 8,8.4 8,8.4 10,9 L 16,-2 C 12,-5 4,-5 0,-2 z');
 
                 enter.append('circle')
                     .attr('dx', '0')
                     .attr('dy', '0')
-                    .attr('r', '8');
+                    .attr('r', '6');
 
                 g.attr('transform', transform);
 
@@ -29500,7 +29601,7 @@ iD.svg = {
             if (entity.id in cache) {
                 return cache[entity.id];
             } else {
-                return cache[entity.id] = path(entity.asGeoJSON(graph)); // jshint ignore:line
+                return cache[entity.id] = path(entity.asGeoJSON(graph));
             }
         };
     },
@@ -30022,7 +30123,7 @@ iD.svg.Labels = function(projection, context) {
 
     function reverse(p) {
         var angle = Math.atan2(p[1][1] - p[0][1], p[1][0] - p[0][0]);
-        return !(p[0][0] < p[p.length - 1][0] && angle < Math.PI/2 && angle > - Math.PI/2);
+        return !(p[0][0] < p[p.length - 1][0] && angle < Math.PI/2 && angle > -Math.PI/2);
     }
 
     function lineString(nodes) {
@@ -30119,7 +30220,7 @@ iD.svg.Labels = function(projection, context) {
             if (!icon && !iD.util.displayName(entity))
                 continue;
 
-            for (k = 0; k < label_stack.length; k ++) {
+            for (k = 0; k < label_stack.length; k++) {
                 if (geometry === label_stack[k][0] && entity.tags[label_stack[k][1]]) {
                     labelable[k].push(entity);
                     break;
@@ -30142,7 +30243,7 @@ iD.svg.Labels = function(projection, context) {
         // Try and find a valid label for labellable entities
         for (k = 0; k < labelable.length; k++) {
             var font_size = font_sizes[k];
-            for (i = 0; i < labelable[k].length; i ++) {
+            for (i = 0; i < labelable[k].length; i++) {
                 entity = labelable[k][i];
                 var name = iD.util.displayName(entity),
                     width = name && textWidth(name, font_size),
@@ -30183,7 +30284,7 @@ iD.svg.Labels = function(projection, context) {
                 length = iD.geo.pathLength(nodes);
             if (length < width + 20) return;
 
-            for (var i = 0; i < lineOffsets.length; i ++) {
+            for (var i = 0; i < lineOffsets.length; i++) {
                 var offset = lineOffsets[i],
                     middle = offset / 100 * length,
                     start = middle - width/2;
@@ -30211,7 +30312,7 @@ iD.svg.Labels = function(projection, context) {
                 entitywidth = projection(extent[1])[0] - projection(extent[0])[0],
                 rect;
 
-            if (!centroid || entitywidth < 20) return;
+            if (isNaN(centroid[0]) || entitywidth < 20) return;
 
             var iconX = centroid[0] - (iconSize/2),
                 iconY = centroid[1] - (iconSize/2),
@@ -30581,20 +30682,26 @@ iD.svg.Surface = function() {
     };
 };
 iD.svg.TagClasses = function() {
-    var primary = [
+    var primaries = [
             'building', 'highway', 'railway', 'waterway', 'aeroway',
             'motorway', 'boundary', 'power', 'amenity', 'natural', 'landuse',
             'leisure', 'place'
         ],
-        secondary = [
-            'oneway', 'bridge', 'tunnel', 'construction', 'embankment', 'cutting', 'barrier'
+        statuses = [
+            'proposed', 'construction', 'disused', 'abandoned', 'dismantled',
+            'razed', 'demolished', 'obliterated'
+        ],
+        secondaries = [
+            'oneway', 'bridge', 'tunnel', 'embankment', 'cutting', 'barrier'
         ],
         tagClassRe = /^tag-/,
         tags = function(entity) { return entity.tags; };
 
+
     var tagClasses = function(selection) {
         selection.each(function tagClassesEach(entity) {
-            var classes, value = this.className;
+            var value = this.className,
+                classes, primary, status;
 
             if (value.baseVal !== undefined) value = value.baseVal;
 
@@ -30604,16 +30711,52 @@ iD.svg.TagClasses = function() {
 
             var t = tags(entity), i, k, v;
 
-            for (i = 0; i < primary.length; i++) {
-                k = primary[i];
+            // pick at most one primary classification tag..
+            for (i = 0; i < primaries.length; i++) {
+                k = primaries[i];
                 v = t[k];
                 if (!v || v === 'no') continue;
-                classes += ' tag-' + k + ' tag-' + k + '-' + v;
+
+                primary = k;
+                if (statuses.indexOf(v) !== -1) {   // e.g. `railway=abandoned`
+                    status = v;
+                    classes += ' tag-' + k;
+                } else {
+                    classes += ' tag-' + k + ' tag-' + k + '-' + v;
+                }
+
                 break;
             }
 
-            for (i = 0; i < secondary.length; i++) {
-                k = secondary[i];
+            // add at most one ephemeral status tag, only if relates to primary tag..
+            if (!status) {
+                for (i = 0; i < statuses.length; i++) {
+                    k = statuses[i];
+                    v = t[k];
+                    if (!v || v === 'no') continue;
+
+                    if (v === 'yes') {   // e.g. `railway=rail + abandoned=yes`
+                        status = k;
+                    }
+                    else if (primary && primary === v) {  // e.g. `railway=rail + abandoned=railway`
+                        status = k;
+                    } else if (!primary && primaries.indexOf(v) !== -1) {  // e.g. `abandoned=railway`
+                        status = k;
+                        primary = v;
+                        classes += ' tag-' + v;
+                    }  // else ignore e.g.  `highway=path + abandoned=railway`
+
+                    if (status) break;
+                }
+            }
+
+            if (status) {
+                classes += ' tag-ephemeral';
+            }
+
+            // add any secondary (structure) tags
+            for (i = 0; i < secondaries.length; i++) {
+                k = secondaries[i];
                 v = t[k];
                 if (!v || v === 'no') continue;
                 classes += ' tag-' + k + ' tag-' + k + '-' + v;
@@ -30954,6 +31097,10 @@ iD.ui = function(context) {
             .call(iD.ui.Save(context));
 
         bar.append('div')
+            .attr('class', 'full-screen')
+            .call(iD.ui.FullScreen(context));
+
+        bar.append('div')
             .attr('class', 'spinner')
             .call(iD.ui.Spinner(context));
 
@@ -31047,25 +31194,37 @@ iD.ui = function(context) {
             context.history().unlock();
         };
 
+        var mapDimensions = map.dimensions();
+
         d3.select(window).on('resize.editor', function() {
+            mapDimensions = m.dimensions();
             map.dimensions(m.dimensions());
         });
 
         function pan(d) {
             return function() {
+                d3.event.preventDefault();
                 context.pan(d);
             };
         }
 
         // pan amount
-        var pa = 5;
+        var pa = 10;
 
         var keybinding = d3.keybinding('main')
             .on('⌫', function() { d3.event.preventDefault(); })
             .on('←', pan([pa, 0]))
             .on('↑', pan([0, pa]))
             .on('→', pan([-pa, 0]))
-            .on('↓', pan([0, -pa]));
+            .on('↓', pan([0, -pa]))
+            .on('⇧←', pan([mapDimensions[0], 0]))
+            .on('⇧↑', pan([0, mapDimensions[1]]))
+            .on('⇧→', pan([-mapDimensions[0], 0]))
+            .on('⇧↓', pan([0, -mapDimensions[1]]))
+            .on(iD.ui.cmd('⌘←'), pan([mapDimensions[0], 0]))
+            .on(iD.ui.cmd('⌘↑'), pan([0, mapDimensions[1]]))
+            .on(iD.ui.cmd('⌘→'), pan([-mapDimensions[0], 0]))
+            .on(iD.ui.cmd('⌘↓'), pan([0, -mapDimensions[1]]));
 
         d3.select(document)
             .call(keybinding);
@@ -31510,6 +31669,28 @@ iD.ui.Background = function(context) {
         var overlayList = content.append('ul')
             .attr('class', 'layer-list');
 
+        var controls = content.append('div')
+            .attr('class', 'controls-list');
+
+        var minimapLabel = controls
+            .append('label')
+            .call(bootstrap.tooltip()
+                .html(true)
+                .title(iD.ui.tooltipHtml(t('background.minimap.tooltip'), '/'))
+                .placement('top')
+            );
+
+        minimapLabel.classed('minimap-toggle', true)
+            .append('input')
+            .attr('type', 'checkbox')
+            .on('change', function() {
+                iD.ui.MapInMap.toggle();
+                d3.event.preventDefault();
+            });
+
+        minimapLabel.append('span')
+            .text(t('background.minimap.description'));
+
         var adjustments = content.append('div')
             .attr('class', 'adjustments');
 
@@ -31597,14 +31778,13 @@ iD.ui.cmd = function(code) {
     return keys.join('+');
 };
 iD.ui.Commit = function(context) {
-    var event = d3.dispatch('cancel', 'save');
+    var dispatch = d3.dispatch('cancel', 'save');
 
     function commit(selection) {
         var changes = context.history().changes(),
             summary = context.history().difference().summary();
 
         function zoomToEntity(change) {
-
             var entity = change.entity;
             if (change.changeType !== 'deleted' &&
                 context.graph().entity(entity.id).geometry(context.graph()) !== 'vertex') {
@@ -31618,17 +31798,12 @@ iD.ui.Commit = function(context) {
         var header = selection.append('div')
             .attr('class', 'header fillL');
 
-        header.append('button')
-            .attr('class', 'fr')
-            .on('click', event.cancel)
-            .append('span')
-            .attr('class', 'icon close');
-
         header.append('h3')
             .text(t('commit.title'));
 
         var body = selection.append('div')
             .attr('class', 'body');
+
 
         // Comment Section
         var commentSection = body.append('div')
@@ -31648,9 +31823,10 @@ iD.ui.Commit = function(context) {
 
         commentField.node().select();
 
+
         // Warnings
         var warnings = body.selectAll('div.warning-section')
-            .data([iD.validate(changes, context.graph())])
+            .data([context.history().validate(changes)])
             .enter()
             .append('div')
             .attr('class', 'modal-section warning-section fillL2')
@@ -31684,9 +31860,10 @@ iD.ui.Commit = function(context) {
                 .placement('top')
             );
 
-        // Save Section
+
+        // Upload Explanation
         var saveSection = body.append('div')
-            .attr('class','modal-section fillL cf');
+            .attr('class','modal-section save-section fillL cf');
 
         var prose = saveSection.append('p')
             .attr('class', 'commit-info')
@@ -31713,11 +31890,15 @@ iD.ui.Commit = function(context) {
             prose.html(t('commit.upload_explanation_with_user', {user: userLink.html()}));
         });
 
-        // Confirm Button
-        var saveButton = saveSection.append('button')
-            .attr('class', 'action col6 button')
+
+        // Buttons
+        var buttonSection = saveSection.append('div')
+            .attr('class','buttons fillL cf');
+
+        var saveButton = buttonSection.append('button')
+            .attr('class', 'action col5 button')
             .on('click.save', function() {
-                event.save({
+                dispatch.save({
                     comment: commentField.node().value
                 });
             });
@@ -31726,6 +31907,16 @@ iD.ui.Commit = function(context) {
             .attr('class', 'label')
             .text(t('commit.save'));
 
+        var cancelButton = buttonSection.append('button')
+            .attr('class', 'action col5 button')
+            .on('click.cancel', function() { dispatch.cancel(); });
+
+        cancelButton.append('span')
+            .attr('class', 'label')
+            .text(t('commit.cancel'));
+
+
+        // Changes
         var changeSection = body.selectAll('div.commit-section')
             .data([0])
             .enter()
@@ -31802,7 +31993,7 @@ iD.ui.Commit = function(context) {
         }
     }
 
-    return d3.rebind(commit, event, 'on');
+    return d3.rebind(commit, dispatch, 'on');
 };
 iD.ui.confirm = function(selection) {
     var modal = iD.ui.modal(selection);
@@ -32725,6 +32916,79 @@ iD.ui.flash = function(selection) {
 
     return modal;
 };
+iD.ui.FullScreen = function(context) {
+    var element = context.container().node(),
+        keybinding = d3.keybinding('full-screen');
+        // button;
+
+    function getFullScreenFn() {
+        if (element.requestFullscreen) {
+            return element.requestFullscreen;
+        } else if (element.msRequestFullscreen) {
+            return  element.msRequestFullscreen;
+        } else if (element.mozRequestFullScreen) {
+            return  element.mozRequestFullScreen;
+        } else if (element.webkitRequestFullscreen) {
+            return element.webkitRequestFullscreen;
+        }
+    }
+
+    function getExitFullScreenFn() {
+        if (document.exitFullscreen) {
+            return document.exitFullscreen;
+        } else if (document.msExitFullscreen) {
+            return  document.msExitFullscreen;
+        } else if (document.mozCancelFullScreen) {
+            return  document.mozCancelFullScreen;
+        } else if (document.webkitExitFullscreen) {
+            return document.webkitExitFullscreen;
+        }
+    }
+
+    function isFullScreen() {
+        return document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement ||
+            document.msFullscreenElement;
+    }
+
+    function isSupported() {
+        return !!getFullScreenFn();
+    }
+
+    function fullScreen() {
+        d3.event.preventDefault();
+        if (!isFullScreen()) {
+            // button.classed('active', true);
+            getFullScreenFn().apply(element);
+        } else {
+            // button.classed('active', false);
+            getExitFullScreenFn().apply(document);
+        }
+    }
+
+    return function() { // selection) {
+        if (!isSupported())
+            return;
+
+        // var tooltip = bootstrap.tooltip()
+        //     .placement('left');
+
+        // button = selection.append('button')
+        //     .attr('title', t('full_screen'))
+        //     .attr('tabindex', -1)
+        //     .on('click', fullScreen)
+        //     .call(tooltip);
+
+        // button.append('span')
+        //     .attr('class', 'icon full-screen');
+
+        keybinding
+            .on(iD.ui.cmd('f11'), fullScreen)
+            .on(iD.ui.cmd('⌘⇧F'), fullScreen);
+
+        d3.select(document)
+            .call(keybinding);
+    };
+};
 iD.ui.Geolocate = function(map) {
     function click() {
         navigator.geolocation.getCurrentPosition(
@@ -33242,7 +33506,7 @@ iD.ui.intro = function(context) {
         // Load semi-real data used in intro
         context.connection().toggle(false).flush();
         context.history().reset();
-        
+
         introGraph = JSON.parse(iD.introGraph);
         for (var key in introGraph) {
             introGraph[key] = iD.Entity(introGraph[key]);
@@ -33285,7 +33549,7 @@ iD.ui.intro = function(context) {
             context.connection().toggle(true).flush().loadedTiles(loadedTiles);
             context.history().reset().merge(d3.values(baseEntities));
             context.background().baseLayerSource(background);
-            if (history) context.history().fromJSON(history);
+            if (history) context.history().fromJSON(history, false);
             window.location.replace(hash);
             context.inIntro(false);
             d3.select('#bar button.save').on('click', save);
@@ -33789,7 +34053,10 @@ iD.ui.MapInMap = function(context) {
     var key = '/';
 
     function map_in_map(selection) {
+
         var backgroundLayer = iD.TileLayer(),
+            dispatch = d3.dispatch('change'),
+            gpxLayer = iD.GpxLayer(context, dispatch),
             overlayLayer = iD.TileLayer(),
             projection = iD.geo.RawMercator(),
             zoom = d3.behavior.zoom()
@@ -33798,7 +34065,9 @@ iD.ui.MapInMap = function(context) {
             transformed = false,
             panning = false,
             zDiff = 6,    // by default, minimap renders at (main zoom - 6)
-            tStart, tLast, tCurr, kLast, kCurr, tiles, svg, timeoutId;
+            tStart, tLast, tCurr, kLast, kCurr, tiles, svg, gpx, timeoutId;
+
+        iD.ui.MapInMap.gpxLayer = gpxLayer;
 
         function ztok(z) { return 256 * Math.pow(2, z); }
         function ktoz(k) { return Math.log(k) / Math.LN2 - 8; }
@@ -33837,6 +34106,7 @@ iD.ui.MapInMap = function(context) {
 
             iD.util.setTransform(tiles, tX, tY, scale);
             iD.util.setTransform(svg, 0, 0, scale);
+            iD.util.setTransform(gpx, 0, 0, scale);
             transformed = true;
 
             queueRedraw();
@@ -33898,6 +34168,7 @@ iD.ui.MapInMap = function(context) {
             if (transformed) {
                 iD.util.setTransform(tiles, 0, 0);
                 iD.util.setTransform(svg, 0, 0);
+                iD.util.setTransform(gpx, 0, 0);
                 transformed = false;
             }
         }
@@ -33920,7 +34191,6 @@ iD.ui.MapInMap = function(context) {
                 .enter()
                 .append('div')
                 .attr('class', 'map-in-map-tiles');
-
 
             // redraw background
             backgroundLayer
@@ -33971,6 +34241,20 @@ iD.ui.MapInMap = function(context) {
                     .call(overlayLayer);
             }
 
+            gpxLayer
+                .projection(projection);
+
+            gpx = tiles
+                .selectAll('.map-in-map-gpx')
+                .data([0]);
+
+            gpx.enter()
+                .append('div')
+                .attr('class', 'map-in-map-gpx');
+
+            gpx.call(gpxLayer);
+            gpx.dimensions(dMini);
+
             // redraw bounding box
             if (!panning) {
                 var getPath = d3.geo.path().projection(projection),
@@ -34011,6 +34295,8 @@ iD.ui.MapInMap = function(context) {
         function toggle() {
             if (d3.event) d3.event.preventDefault();
 
+            var label = d3.select('.minimap-toggle');
+
             if (hidden()) {
                 selection
                     .style('display', 'block')
@@ -34018,6 +34304,9 @@ iD.ui.MapInMap = function(context) {
                     .transition()
                     .duration(200)
                     .style('opacity', 1);
+
+                label.classed('active', true)
+                    .select('input').property('checked', true);
 
                 redraw();
 
@@ -34031,9 +34320,13 @@ iD.ui.MapInMap = function(context) {
                     .each('end', function() {
                         d3.select(this).style('display', 'none');
                     });
+
+                label.classed('active', false)
+                    .select('input').property('checked', false);
             }
         }
 
+        iD.ui.MapInMap.toggle = toggle;
 
         selection
             .on('mousedown.map-in-map', startMouse)
@@ -35307,7 +35600,7 @@ iD.ui.RawTagEditor = function(context) {
         $items.order();
 
         $items.each(function(tag) {
-            var reference = iD.ui.TagReference({key: tag.key}, context);
+            var reference = iD.ui.TagReference({key: tag.key, value: tag.value}, context);
 
             if (state === 'hover') {
                 reference.showing(false);
@@ -35945,7 +36238,7 @@ iD.ui.Status = function(context) {
     };
 };
 iD.ui.Success = function(context) {
-    var event = d3.dispatch('cancel'),
+    var dispatch = d3.dispatch('cancel'),
         changeset;
 
     function success(selection) {
@@ -35957,9 +36250,9 @@ iD.ui.Success = function(context) {
 
         header.append('button')
             .attr('class', 'fr')
+            .on('click', function() { dispatch.cancel(); })
             .append('span')
-            .attr('class', 'icon close')
-            .on('click', function() { event.cancel(success); });
+            .attr('class', 'icon close');
 
         header.append('h3')
             .text(t('success.just_edited'));
@@ -36001,7 +36294,7 @@ iD.ui.Success = function(context) {
         return success;
     };
 
-    return d3.rebind(success, event, 'on');
+    return d3.rebind(success, dispatch, 'on');
 };
 iD.ui.TagReference = function(tag, context) {
     var tagReference = {},
@@ -36038,7 +36331,7 @@ iD.ui.TagReference = function(tag, context) {
     function load() {
         button.classed('tag-reference-loading', true);
 
-        context.taginfo().docs(tag, function(err, docs) {
+        context.taginfo().docs(tag, function(err, docs, softfail) {
             if (!err && docs) {
                 docs = findLocal(docs);
             }
@@ -36046,9 +36339,11 @@ iD.ui.TagReference = function(tag, context) {
             body.html('');
 
             if (!docs || !docs.description) {
-                body.append('p').text(t('inspector.no_documentation_key'));
-                show();
-                return;
+                if (!softfail) {
+                    body.append('p').text(t('inspector.no_documentation_key'));
+                    show();
+                }
+                return false;
             }
 
             if (docs.image && docs.image.thumb_url_prefix) {
@@ -36076,6 +36371,8 @@ iD.ui.TagReference = function(tag, context) {
 
             wikiLink.append('span')
                 .text(t('inspector.reference'));
+
+            return true;
         });
     }
 
@@ -36274,6 +36571,27 @@ iD.ui.Zoom = function(context) {
         key: '-'
     }];
 
+    function zoomIn() {
+        d3.event.preventDefault();
+        context.zoomIn();
+    }
+
+    function zoomOut() {
+        d3.event.preventDefault();
+        context.zoomOut();
+    }
+
+    function zoomInFurther() {
+        d3.event.preventDefault();
+        context.zoomInFurther();
+    }
+
+    function zoomOutFurther() {
+        d3.event.preventDefault();
+        context.zoomOutFurther();
+    }
+
+
     return function(selection) {
         var button = selection.selectAll('button')
             .data(zooms)
@@ -36294,12 +36612,16 @@ iD.ui.Zoom = function(context) {
         var keybinding = d3.keybinding('zoom');
 
         _.each(['=','ffequals','plus','ffplus'], function(key) {
-            keybinding.on(key, function() { context.zoomIn(); });
-            keybinding.on('⇧' + key, function() { context.zoomIn(); });
+            keybinding.on(key, zoomIn);
+            keybinding.on('⇧' + key, zoomIn);
+            keybinding.on(iD.ui.cmd('⌘' + key), zoomInFurther);
+            keybinding.on(iD.ui.cmd('⌘⇧' + key), zoomInFurther);
         });
         _.each(['-','ffminus','_','dash'], function(key) {
-            keybinding.on(key, function() { context.zoomOut(); });
-            keybinding.on('⇧' + key, function() { context.zoomOut(); });
+            keybinding.on(key, zoomOut);
+            keybinding.on('⇧' + key, zoomOut);
+            keybinding.on(iD.ui.cmd('⌘' + key), zoomOutFurther);
+            keybinding.on(iD.ui.cmd('⌘⇧' + key), zoomOutFurther);
         });
 
         d3.select(document)
@@ -36362,6 +36684,10 @@ iD.ui.preset.access = function(field) {
         if (type !== 'access') {
             options.unshift('yes');
             options.push('designated');
+
+            if (type === 'bicycle') {
+                options.push('dismount');
+            }
         }
 
         return options.map(function(option) {
@@ -36482,14 +36808,12 @@ iD.ui.preset.access = function(field) {
                 return tags.access ? tags.access : field.placeholder();
             });
 
-        items.selectAll('#preset-input-access-access')
-            .attr('placeholder', 'yes');
+        // items.selectAll('#preset-input-access-access')
+        //     .attr('placeholder', 'yes');
 
-        _.forEach(placeholders[tags.highway], function(value, key) {
-            items.selectAll('#preset-input-access-' + key)
-                .attr('placeholder', function() {
-                    return (tags.access && (value === 'yes' || value === 'designated')) ? tags.access : value;
-                });
+        _.forEach(placeholders[tags.highway], function(v, k) {
+            items.selectAll('#preset-input-access-' + k)
+                .attr('placeholder', function() { return (tags.access || v); });
         });
     };
 
@@ -36889,6 +37213,106 @@ iD.ui.preset.typeCombo = function(field, context) {
     };
 
     return d3.rebind(combo, event, 'on');
+};
+iD.ui.preset.cycleway = function(field) {
+    var event = d3.dispatch('change'),
+        items;
+
+    function cycleway(selection) {
+        var wrap = selection.selectAll('.preset-input-wrap')
+            .data([0]);
+
+        wrap.enter().append('div')
+            .attr('class', 'cf preset-input-wrap')
+            .append('ul');
+
+        items = wrap.select('ul').selectAll('li')
+            .data(field.keys);
+
+        // Enter
+
+        var enter = items.enter().append('li')
+            .attr('class', function(d) { return 'cf preset-cycleway-' + d; });
+
+        enter.append('span')
+            .attr('class', 'col6 label preset-label-cycleway')
+            .attr('for', function(d) { return 'preset-input-cycleway-' + d; })
+            .text(function(d) { return field.t('types.' + d); });
+
+        enter.append('div')
+            .attr('class', 'col6 preset-input-cycleway-wrap')
+            .append('input')
+            .attr('type', 'text')
+            .attr('class', 'preset-input-cycleway')
+            .attr('id', function(d) { return 'preset-input-cycleway-' + d; })
+            .each(function(d) {
+                d3.select(this)
+                    .call(d3.combobox()
+                        .data(cycleway.options(d)));
+            });
+
+        // Update
+
+        wrap.selectAll('.preset-input-cycleway')
+            .on('change', change)
+            .on('blur', change);
+    }
+
+    function change() {
+        var inputs = d3.selectAll('.preset-input-cycleway')[0],
+            left = d3.select(inputs[0]).value(),
+            right = d3.select(inputs[1]).value(),
+            tag = {};
+        if (left === 'none' || left === '') { left = undefined; }
+        if (right === 'none' || right === '') { right = undefined; }
+
+        // Always set both left and right as changing one can affect the other
+        tag = {
+            cycleway: undefined,
+            'cycleway:left': left,
+            'cycleway:right': right
+        };
+
+        // If the left and right tags match, use the cycleway tag to tag both
+        // sides the same way
+        if (left === right) {
+            tag = {
+                cycleway: left,
+                'cycleway:left': undefined,
+                'cycleway:right': undefined
+            };
+        }
+
+        event.change(tag);
+    }
+
+    cycleway.options = function() {
+        return d3.keys(field.strings.options).map(function(option) {
+            return {
+                title: field.t('options.' + option + '.description'),
+                value: option
+            };
+        });
+    };
+
+    cycleway.tags = function(tags) {
+        items.selectAll('.preset-input-cycleway')
+            .value(function(d) {
+                // If cycleway is set, always return that
+                if (tags.cycleway) {
+                    return tags.cycleway;
+                }
+                return tags[d] || '';
+            })
+            .attr('placeholder', field.placeholder());
+    };
+
+    cycleway.focus = function() {
+        items.selectAll('.preset-input-cycleway')
+            .node().focus();
+    };
+
+    return d3.rebind(cycleway, event, 'on');
 };
 iD.ui.preset.text =
 iD.ui.preset.number =
@@ -37635,12 +38059,22 @@ iD.ui.preset.wikipedia = function(field, context) {
 
     function change() {
         var value = title.value(),
-            m = value.match(/https?:\/\/([a-z]+)\.wikipedia\.org\/wiki\/(.+)/),
-            l = m && _.find(iD.data.wikipedia, function(d) { return m[1] === d[2]; });
+            m = value.match(/https?:\/\/([-a-z]+)\.wikipedia\.org\/(?:wiki|\1-[-a-z]+)\/([^#]+)(?:#(.+))?/),
+            l = m && _.find(iD.data.wikipedia, function(d) { return m[1] === d[2]; }),
+            anchor;
 
         if (l) {
             // Normalize title http://www.mediawiki.org/wiki/API:Query#Title_normalization
-            value = m[2].replace(/_/g, ' ');
+            value = decodeURIComponent(m[2]).replace(/_/g, ' ');
+            if (m[3]) {
+                try {
+                    // Best-effort `anchordecode:` implementation
+                    anchor = decodeURIComponent(m[3].replace(/\.([0-9A-F]{2})/g, '%$1'));
+                } catch (e) {
+                    anchor = decodeURIComponent(m[3]);
+                }
+                value += '#' + anchor.replace(/_/g, ' ');
+            }
             value = value.slice(0, 1).toUpperCase() + value.slice(1);
             lang.value(l[1]);
             title.value(value);
@@ -37653,14 +38087,24 @@ iD.ui.preset.wikipedia = function(field, context) {
 
     i.tags = function(tags) {
         var value = tags[field.key] || '',
-            m = value.match(/([^:]+):(.+)/),
-            l = m && _.find(iD.data.wikipedia, function(d) { return m[1] === d[2]; });
+            m = value.match(/([^:]+):([^#]+)(?:#(.+))?/),
+            l = m && _.find(iD.data.wikipedia, function(d) { return m[1] === d[2]; }),
+            anchor = m && m[3];
 
         // value in correct format
         if (l) {
             lang.value(l[1]);
-            title.value(m[2]);
-            link.attr('href', 'http://' + m[1] + '.wikipedia.org/wiki/' + m[2]);
+            title.value(m[2] + (anchor ? ('#' + anchor) : ''));
+            if (anchor) {
+                try {
+                    // Best-effort `anchorencode:` implementation
+                    anchor = encodeURIComponent(anchor.replace(/ /g, '_')).replace(/%/g, '.');
+                } catch (e) {
+                    anchor = anchor.replace(/ /g, '_');
+                }
+            }
+            link.attr('href', 'http://' + m[1] + '.wikipedia.org/wiki/' +
+                      m[2].replace(/ /g, '_') + (anchor ? ('#' + anchor) : ''));
 
         // unrecognized value format
         } else {
@@ -38399,11 +38843,11 @@ iD.presets.Collection = function(collection) {
             value = value.toLowerCase();
 
             var searchable = _.filter(collection, function(a) {
-                return a.searchable !== false && a.suggestion !== true;
-            }),
-            suggestions = _.filter(collection, function(a) {
-                return a.suggestion === true;
-            });
+                    return a.searchable !== false && a.suggestion !== true;
+                }),
+                suggestions = _.filter(collection, function(a) {
+                    return a.suggestion === true;
+                });
 
             // matches value to preset.name
             var leading_name = _.filter(searchable, function(a) {
@@ -38416,8 +38860,13 @@ iD.presets.Collection = function(collection) {
 
             // matches value to preset.terms values
             var leading_terms = _.filter(searchable, function(a) {
-                return _.any(a.terms() || [], leading);
-            });
+                    return _.any(a.terms() || [], leading);
+                });
+
+            // matches value to preset.tags values
+            var leading_tag_values = _.filter(searchable, function(a) {
+                    return _.any(_.without(_.values(a.tags || {}), '*'), leading);
+                });
 
             function leading(a) {
                 var index = a.indexOf(value);
@@ -38480,6 +38929,7 @@ iD.presets.Collection = function(collection) {
 
             var results = leading_name.concat(
                             leading_terms,
+                            leading_tag_values,
                             leading_suggestions.slice(0, maxSuggestionResults+5),
                             levenstein_name,
                             leventstein_terms,
@@ -38566,7 +39016,7 @@ iD.presets.Preset = function(id, preset, fields) {
     };
 
     preset.terms = function() {
-        return preset.t('terms', {'default': ''}).split(',');
+        return preset.t('terms', {'default': ''}).toLowerCase().split(/\s*,+\s*/);
     };
 
     preset.isFallback = function() {
@@ -38592,7 +39042,7 @@ iD.presets.Preset = function(id, preset, fields) {
 
         for (var f in preset.fields) {
             var field = preset.fields[f];
-            if (field.matchGeometry(geometry) && field['default'] === tags[field.key]) {
+            if (field.matchGeometry(geometry) && field.default === tags[field.key]) {
                 delete tags[field.key];
             }
         }
@@ -38636,8 +39086,8 @@ iD.presets.Preset = function(id, preset, fields) {
 
         for (var f in preset.fields) {
             var field = preset.fields[f];
-            if (field.matchGeometry(geometry) && field.key && !tags[field.key] && field['default']) {
-                tags[field.key] = field['default'];
+            if (field.matchGeometry(geometry) && field.key && !tags[field.key] && field.default) {
+                tags[field.key] = field.default;
             }
         }
 
@@ -38646,60 +39096,104 @@ iD.presets.Preset = function(id, preset, fields) {
 
     return preset;
 };
-iD.validate = function(changes, graph) {
-    var warnings = [];
+iD.validations = {};
+iD.validations.DeprecatedTag = function() {
+
+    var validation = function(changes) {
+        var warnings = [];
+        for (var i = 0; i < changes.created.length; i++) {
+            var change = changes.created[i],
+                deprecatedTags = change.deprecatedTags();
+
+            if (!_.isEmpty(deprecatedTags)) {
+                var tags = iD.util.tagText({ tags: deprecatedTags });
+                warnings.push({
+                    id: 'deprecated_tags',
+                    message: t('validations.deprecated_tags', { tags: tags }),
+                    entity: change
+                });
+            }
+        }
+        return warnings;
+    };
+
+    return validation;
+};
+iD.validations.ManyDeletions = function() {
+    var threshold = 100;
+
+    var validation = function(changes) {
+        var warnings = [];
+        if (changes.deleted.length > threshold) {
+            warnings.push({
+                id: 'many_deletions',
+                message: t('validations.many_deletions', { n: changes.deleted.length })
+            });
+        }
+        return warnings;
+    };
+
+    return validation;
+};
+iD.validations.MissingTag = function() {
+
+    var validation = function(changes, graph) {
+        var warnings = [];
+        for (var i = 0; i < changes.created.length; i++) {
+            var change = changes.created[i],
+                geometry = change.geometry(graph);
+
+            if ((geometry === 'point' || geometry === 'line' || geometry === 'area') && !change.isUsed(graph)) {
+                warnings.push({
+                    id: 'missing_tag',
+                    message: t('validations.untagged_' + geometry),
+                    tooltip: t('validations.untagged_' + geometry + '_tooltip'),
+                    entity: change
+                });
+            }
+        }
+        return warnings;
+    };
+
+    return validation;
+};
+iD.validations.TagSuggestsArea = function() {
 
     // https://github.com/openstreetmap/josm/blob/mirror/src/org/
     // openstreetmap/josm/data/validation/tests/UnclosedWays.java#L80
-    function tagSuggestsArea(change) {
-        if (_.isEmpty(change.tags)) return false;
-        var tags = change.tags;
+    function tagSuggestsArea(tags) {
+        if (_.isEmpty(tags)) return false;
+
         var presence = ['landuse', 'amenities', 'tourism', 'shop'];
         for (var i = 0; i < presence.length; i++) {
             if (tags[presence[i]] !== undefined) {
                 return presence[i] + '=' + tags[presence[i]];
             }
         }
+
         if (tags.building && tags.building === 'yes') return 'building=yes';
     }
 
-    if (changes.deleted.length > 100) {
-        warnings.push({
-            message: t('validations.many_deletions', { n: changes.deleted.length })
-        });
-    }
+    var validation = function(changes, graph) {
+        var warnings = [];
+        for (var i = 0; i < changes.created.length; i++) {
+            var change = changes.created[i],
+                geometry = change.geometry(graph),
+                suggestion = (geometry === 'line' ? tagSuggestsArea(change.tags) : undefined);
 
-    for (var i = 0; i < changes.created.length; i++) {
-        var change = changes.created[i],
-            geometry = change.geometry(graph);
-
-        if ((geometry === 'point' || geometry === 'line' || geometry === 'area') && !change.isUsed(graph)) {
-            warnings.push({
-                message: t('validations.untagged_' + geometry),
-                tooltip: t('validations.untagged_' + geometry + '_tooltip'),
-                entity: change
-            });
+            if (suggestion) {
+                warnings.push({
+                    id: 'tag_suggests_area',
+                    message: t('validations.tag_suggests_area', { tag: suggestion }),
+                    entity: change
+                });
+            }
         }
+        return warnings;
+    };
 
-        var deprecatedTags = change.deprecatedTags();
-        if (!_.isEmpty(deprecatedTags)) {
-            warnings.push({
-                message: t('validations.deprecated_tags', {
-                    tags: iD.util.tagText({ tags: deprecatedTags })
-                }), entity: change });
-        }
-
-        if (geometry === 'line' && tagSuggestsArea(change)) {
-            warnings.push({
-                message: t('validations.tag_suggests_area', {tag: tagSuggestsArea(change)}),
-                entity: change
-            });
-        }
-    }
-
-    return warnings;
+    return validation;
 };
-/* jshint ignore:start */
 })();
 window.locale = { _current: 'en' };
 
@@ -52312,6 +52806,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
     },
     "locales": [
         "af",
+        "sq",
         "ar",
         "ar-AA",
         "hy",
@@ -52694,7 +53189,11 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "custom_button": "Edit custom background",
             "custom_prompt": "Enter a tile URL template. Valid tokens are {z}, {x}, {y} for Z/X/Y scheme and {u} for quadtile scheme.",
             "fix_misalignment": "Fix alignment",
-            "reset": "reset"
+            "reset": "reset",
+            "minimap": {
+                "description": "Minimap",
+                "tooltip": "Show a zoomed out map to help locate the area currently displayed."
+            }
         },
         "map_data": {
             "title": "Map Data",
@@ -52851,6 +53350,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "out": "Zoom Out"
         },
         "cannot_zoom": "Cannot zoom out further in current mode.",
+        "full_screen": "Toggle Full Screen",
         "gpx": {
             "local_layer": "Local GPX file",
             "drag_drop": "Drag and drop a .gpx file on the page, or click the button to the right to browse",
@@ -52865,12 +53365,12 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "help": {
             "title": "Help",
             "help": "# Help\n\nThis is an editor for [OpenStreetMap](http://www.openstreetmap.org/), the\nfree and editable map of the world. You can use it to add and update\ndata in your area, making an open-source and open-data map of the world\nbetter for everyone.\n\nEdits that you make on this map will be visible to everyone who uses\nOpenStreetMap. In order to make an edit, you'll need to\n[log in](https://www.openstreetmap.org/login).\n\nThe [iD editor](http://ideditor.com/) is a collaborative project with [source\ncode available on GitHub](https://github.com/openstreetmap/iD).\n",
-            "editing_saving": "# Editing & Saving\n\nThis editor is designed to work primarily online, and you're accessing\nit through a website right now.\n\n### Selecting Features\n\nTo select a map feature, like a road or point of interest, click\non it on the map. This will highlight the selected feature, open a panel with\ndetails about it, and show a menu of things you can do with the feature.\n\nTo select multiple features, hold down the 'Shift' key. Then either click\non the features you want to select, or drag on the map to draw a rectangle.\nThis will draw a box and select all the points within it.\n\n### Saving Edits\n\nWhen you make changes like editing roads, buildings, and places, these are\nstored locally until you save them to the server. Don't worry if you make\na mistake - you can undo changes by clicking the undo button, and redo\nchanges by clicking the redo button.\n\nClick 'Save' to finish a group of edits - for instance, if you've completed\nan area of town and would like to start on a new area. You'll have a chance\nto review what you've done, and the editor supplies helpful suggestions\nand warnings if something doesn't seem right about the changes.\n\nIf everything looks good, you can enter a short comment explaining the change\nyou made, and click 'Save' again to post the changes\nto [OpenStreetMap.org](http://www.openstreetmap.org/), where they are visible\nto all other users and available for others to build and improve upon.\n\nIf you can't finish your edits in one sitting, you can leave the editor\nwindow and come back (on the same browser and computer), and the\neditor application will offer to restore your work.\n",
+            "editing_saving": "# Editing & Saving\n\nThis editor is designed to work primarily online, and you're accessing\nit through a website right now.\n\n### Selecting Features\n\nTo select a map feature, like a road or point of interest, click\non it on the map. This will highlight the selected feature, open a panel with\ndetails about it, and show a menu of things you can do with the feature.\n\nTo select multiple features, hold down the 'Shift' key. Then either click\non the features you want to select, or drag on the map to draw a rectangle.\nThis will draw a box and select all the points within it.\n\n### Saving Edits\n\nWhen you make changes like editing roads, buildings, and places, these are\nstored locally until you save them to the server. Don't worry if you make\na mistake - you can undo changes by clicking the undo button, and redo\nchanges by clicking the redo button.\n\nClick 'Save' to finish a group of edits - for instance, if you've completed\nan area of town and would like to start on a new area. You'll have a chance\nto review what you've done, and the editor supplies helpful suggestions\nand warnings if something doesn't seem right about the changes.\n\nIf everything looks good, you can enter a short comment explaining the change\nyou made, and click 'Save' again to post the changes\nto [OpenStreetMap.org](http://www.openstreetmap.org/), where they are visible\nto all other users and available for others to build and improve upon.\n\nIf you can't finish your edits in one sitting, you can leave the editor\nwindow and come back (on the same browser and computer), and the\neditor application will offer to restore your work.\n\n### Using the editor\n\nA list of available keyboard shortcuts can be found [here](http://wiki.openstreetmap.org/wiki/ID/Shortcuts).\n",
             "roads": "# Roads\n\nYou can create, fix, and delete roads with this editor. Roads can be all\nkinds: paths, highways, trails, cycleways, and more - any often-crossed\nsegment should be mappable.\n\n### Selecting\n\nClick on a road to select it. An outline should become visible, along\nwith a small tools menu on the map and a sidebar showing more information\nabout the road.\n\n### Modifying\n\nOften you'll see roads that aren't aligned to the imagery behind them\nor to a GPS track. You can adjust these roads so they are in the correct\nplace.\n\nFirst click on the road you want to change. This will highlight it and show\ncontrol points along it that you can drag to better locations. If\nyou want to add new control points for more detail, double-click a part\nof the road without a node, and one will be added.\n\nIf the road connects to another road, but doesn't properly connect on\nthe map, you can drag one of its control points onto the other road in\norder to join them. Having roads connect is important for the map\nand essential for providing driving directions.\n\nYou can also click the 'Move' tool or press the `M` shortcut key to move the entire road at\none time, and then click again to save that movement.\n\n### Deleting\n\nIf a road is entirely incorrect - you can see that it doesn't exist in satellite\nimagery and ideally have confirmed locally that it's not present - you can delete\nit, which removes it from the map. Be cautious when deleting features -\nlike any other edit, the results are seen by everyone and satellite imagery\nis often out of date, so the road could simply be newly built.\n\nYou can delete a road by clicking on it to select it, then clicking the\ntrash can icon or pressing the 'Delete' key.\n\n### Creating\n\nFound somewhere there should be a road but there isn't? Click the 'Line'\nicon in the top-left of the editor or press the shortcut key `2` to start drawing\na line.\n\nClick on the start of the road on the map to start drawing. If the road\nbranches off from an existing road, start by clicking on the place where they connect.\n\nThen click on points along the road so that it follows the right path, according\nto satellite imagery or GPS. If the road you are drawing crosses another road, connect\nit by clicking on the intersection point. When you're done drawing, double-click\nor press 'Return' or 'Enter' on your keyboard.\n",
-            "gps": "# GPS\n\nGPS data is the most trusted source of data for OpenStreetMap. This editor\nsupports local traces - `.gpx` files on your local computer. You can collect\nthis kind of GPS trace with a number of smartphone applications as well as\npersonal GPS hardware.\n\nFor information on how to perform a GPS survey, read\n[Surveying with a GPS](http://learnosm.org/en/beginner/using-gps/).\n\nTo use a GPX track for mapping, drag and drop the GPX file onto the map\neditor. If it's recognized, it will be added to the map as a bright purple\nline. Click on the 'Map Data' menu on the right side to enable,\ndisable, or zoom to this new GPX-powered layer.\n\nThe GPX track isn't directly uploaded to OpenStreetMap - the best way to\nuse it is to draw on the map, using it as a guide for the new features that\nyou add, and also to [upload it to OpenStreetMap](http://www.openstreetmap.org/trace/create)\nfor other users to use.\n",
+            "gps": "# GPS\n\nCollected GPS traces are one valuable source of data for OpenStreetMap. This editor\nsupports local traces - `.gpx` files on your local computer. You can collect\nthis kind of GPS trace with a number of smartphone applications as well as\npersonal GPS hardware.\n\nFor information on how to perform a GPS survey, read\n[Mapping with a smartphone, GPS, or paper](http://learnosm.org/en/mobile-mapping/).\n\nTo use a GPX track for mapping, drag and drop the GPX file onto the map\neditor. If it's recognized, it will be added to the map as a bright purple\nline. Click on the 'Map Data' menu on the right side to enable,\ndisable, or zoom to this new GPX-powered layer.\n\nThe GPX track isn't directly uploaded to OpenStreetMap - the best way to\nuse it is to draw on the map, using it as a guide for the new features that\nyou add, and also to [upload it to OpenStreetMap](http://www.openstreetmap.org/trace/create)\nfor other users to use.\n",
             "imagery": "# Imagery\n\nAerial imagery is an important resource for mapping. A combination of\nairplane flyovers, satellite views, and freely-compiled sources are available\nin the editor under the 'Background Settings' menu on the right.\n\nBy default a [Bing Maps](http://www.bing.com/maps/) satellite layer is\npresented in the editor, but as you pan and zoom the map to new geographical\nareas, new sources will become available. Some countries, like the United\nStates, France, and Denmark have very high-quality imagery available for some areas.\n\nImagery is sometimes offset from the map data because of a mistake on the\nimagery provider's side. If you see a lot of roads shifted from the background,\ndon't immediately move them all to match the background. Instead you can adjust\nthe imagery so that it matches the existing data by clicking 'Fix alignment' at\nthe bottom of the Background Settings UI.\n",
             "addresses": "# Addresses\n\nAddresses are some of the most useful information for the map.\n\nAlthough addresses are often represented as parts of streets, in OpenStreetMap\nthey're recorded as attributes of buildings and places along streets.\n\nYou can add address information to places mapped as building outlines\nas well as those mapped as single points. The optimal source of address\ndata is from an on-the-ground survey or personal knowledge - as with any\nother feature, copying from commercial sources like Google Maps is strictly\nforbidden.\n",
-            "inspector": "# Using the Inspector\n\nThe inspector is the section on the left side of the page that allows you to\nedit the details of the selected feature.\n\n### Selecting a Feature Type\n\nAfter you add a point, line, or area, you can choose what type of feature it\nis, like whether it's a highway or residential road, supermarket or cafe.\nThe inspector will display buttons for common feature types, and you can\nfind others by typing what you're looking for in the search box.\n\nClick the 'i' in the bottom-right-hand corner of a feature type button to\nlearn more about it. Click a button to choose that type.\n\n### Using Forms and Editing Tags\n\nAfter you choose a feature type, or when you select a feature that already\nhas a type assigned, the inspector will display fields with details about\nthe feature like its name and address.\n\nBelow the fields you see, you can click icons to add other details,\nlike [Wikipedia](http://www.wikipedia.org/) information, wheelchair\naccess, and more.\n\nAt the bottom of the inspector, click 'Additional tags' to add arbitrary\nother tags to the element. [Taginfo](http://taginfo.openstreetmap.org/) is a\ngreat resource for learn more about popular tag combinations.\n\nChanges you make in the inspector are automatically applied to the map.\nYou can undo them at any time by clicking the 'Undo' button.\n",
+            "inspector": "# Using the Inspector\n\nThe inspector is the section on the left side of the page that allows you to\nedit the details of the selected feature.\n\n### Selecting a Feature Type\n\nAfter you add a point, line, or area, you can choose what type of feature it\nis, like whether it's a highway or residential road, supermarket or cafe.\nThe inspector will display buttons for common feature types, and you can\nfind others by typing what you're looking for in the search box.\n\nClick the 'i' in the bottom-right-hand corner of a feature type button to\nlearn more about it. Click a button to choose that type.\n\n### Using Forms and Editing Tags\n\nAfter you choose a feature type, or when you select a feature that already\nhas a type assigned, the inspector will display fields with details about\nthe feature like its name and address.\n\nBelow the fields you see, you can click the 'Add field' dropdown to add\nother details, like a Wikipedia link, wheelchair access, and more.\n\nAt the bottom of the inspector, click 'Additional tags' to add arbitrary\nother tags to the element. [Taginfo](http://taginfo.openstreetmap.org/) is a\ngreat resource for learn more about popular tag combinations.\n\nChanges you make in the inspector are automatically applied to the map.\nYou can undo them at any time by clicking the 'Undo' button.\n",
             "buildings": "# Buildings\n\nOpenStreetMap is the world's largest database of buildings. You can create\nand improve this database.\n\n### Selecting\n\nYou can select a building by clicking on its border. This will highlight the\nbuilding and open a small tools menu and a sidebar showing more information\nabout the building.\n\n### Modifying\n\nSometimes buildings are incorrectly placed or have incorrect tags.\n\nTo move an entire building, select it, then click the 'Move' tool. Move your\nmouse to shift the building, and click when it's correctly placed.\n\nTo fix the specific shape of a building, click and drag the nodes that form\nits border into better places.\n\n### Creating\n\nOne of the main questions around adding buildings to the map is that\nOpenStreetMap records buildings both as shapes and points. The rule of thumb\nis to _map a building as a shape whenever possible_, and map companies, homes,\namenities, and other things that operate out of buildings as points placed\nwithin the building shape.\n\nStart drawing a building as a shape by clicking the 'Area' button in the top\nleft of the interface, and end it either by pressing 'Return' on your keyboard\nor clicking on the first node drawn to close the shape.\n\n### Deleting\n\nIf a building is entirely incorrect - you can see that it doesn't exist in satellite\nimagery and ideally have confirmed locally that it's not present - you can delete\nit, which removes it from the map. Be cautious when deleting features -\nlike any other edit, the results are seen by everyone and satellite imagery\nis often out of date, so the building could simply be newly built.\n\nYou can delete a building by clicking on it to select it, then clicking the\ntrash can icon or pressing the 'Delete' key.\n",
             "relations": "# Relations\n\nA relation is a special type of feature in OpenStreetMap that groups together\nother features. For example, two common types of relations are *route relations*,\nwhich group together sections of road that belong to a specific freeway or\nhighway, and *multipolygons*, which group together several lines that define\na complex area (one with several pieces or holes in it like a donut).\n\nThe group of features in a relation are called *members*. In the sidebar, you can\nsee which relations a feature is a member of, and click on a relation there\nto select the it. When the relation is selected, you can see all of its\nmembers listed in the sidebar and highlighted on the map.\n\nFor the most part, iD will take care of maintaining relations automatically\nwhile you edit. The main thing you should be aware of is that if you delete a\nsection of road to redraw it more accurately, you should make sure that the\nnew section is a member of the same relations as the original.\n\n## Editing Relations\n\nIf you want to edit relations, here are the basics.\n\nTo add a feature to a relation, select the feature, click the \"+\" button in the\n\"All relations\" section of the sidebar, and select or type the name of the relation.\n\nTo create a new relation, select the first feature that should be a member,\nclick the \"+\" button in the \"All relations\" section, and select \"New relation...\".\n\nTo remove a feature from a relation, select the feature and click the trash\nbutton next to the relation you want to remove it from.\n\nYou can create multipolygons with holes using the \"Merge\" tool. Draw two areas (inner\nand outer), hold the Shift key and click on each of them to select them both, and then\nclick the \"Merge\" (+) button.\n"
         },
@@ -52958,10 +53458,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "fields": {
                 "access": {
-                    "label": "Access",
-                    "placeholder": "Unknown",
+                    "label": "Allowed Access",
+                    "placeholder": "Not Specified",
                     "types": {
-                        "access": "General",
+                        "access": "All",
                         "foot": "Foot",
                         "motor_vehicle": "Motor Vehicles",
                         "bicycle": "Bicycles",
@@ -52991,11 +53491,15 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                         "destination": {
                             "title": "Destination",
                             "description": "Access permitted only to reach a destination"
+                        },
+                        "dismount": {
+                            "title": "Dismount",
+                            "description": "Access permitted but rider must dismount"
                         }
                     }
                 },
                 "access_simple": {
-                    "label": "Access",
+                    "label": "Allowed Access",
                     "placeholder": "yes"
                 },
                 "access_toilets": {
@@ -53006,6 +53510,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "placeholders": {
                         "housename": "Housename",
                         "housenumber": "123",
+                        "conscriptionnumber": "123",
                         "street": "Street",
                         "city": "City",
                         "postcode": "Postcode",
@@ -53063,6 +53568,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "label": "Type"
                 },
                 "amenity": {
+                    "label": "Type"
+                },
+                "area/highway": {
                     "label": "Type"
                 },
                 "artist": {
@@ -53156,6 +53664,44 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "cuisine": {
                     "label": "Cuisine"
+                },
+                "cycleway": {
+                    "label": "Bike Lanes",
+                    "placeholder": "none",
+                    "types": {
+                        "cycleway:left": "Left side",
+                        "cycleway:right": "Right side"
+                    },
+                    "options": {
+                        "none": {
+                            "title": "None",
+                            "description": "No bike lane"
+                        },
+                        "lane": {
+                            "title": "Standard bike lane",
+                            "description": "A bike lane separated from auto traffic by a painted line"
+                        },
+                        "shared_lane": {
+                            "title": "Shared bike lane",
+                            "description": "A bike lane with no separation from auto traffic"
+                        },
+                        "track": {
+                            "title": "Bike track",
+                            "description": "A bike lane separated from traffic by a physical barrier"
+                        },
+                        "share_busway": {
+                            "title": "Bike lane shared with bus",
+                            "description": "A bike lane shared with a bus lane"
+                        },
+                        "opposite_lane": {
+                            "title": "Opposite bike lane",
+                            "description": "A bike lane that travels in the opposite direction of traffic"
+                        },
+                        "opposite": {
+                            "title": "Contraflow bike lane",
+                            "description": "A bike lane that travels in both directions on a one-way street"
+                        }
+                    }
                 },
                 "delivery": {
                     "label": "Delivery"
@@ -53334,6 +53880,15 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                         "mixed": "Mixed"
                     }
                 },
+                "leaf_cycle_singular": {
+                    "label": "Leaf Cycle",
+                    "options": {
+                        "evergreen": "Evergreen",
+                        "deciduous": "Deciduous",
+                        "semi_evergreen": "Semi-Evergreen",
+                        "semi_deciduous": "Semi-Deciduous"
+                    }
+                },
                 "leaf_type": {
                     "label": "Leaf Type",
                     "options": {
@@ -53343,11 +53898,22 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                         "leafless": "Leafless"
                     }
                 },
+                "leaf_type_singular": {
+                    "label": "Leaf Type",
+                    "options": {
+                        "broadleaved": "Broadleaved",
+                        "needleleaved": "Needleleaved",
+                        "leafless": "Leafless"
+                    }
+                },
                 "leisure": {
                     "label": "Type"
                 },
                 "length": {
                     "label": "Length (Meters)"
+                },
+                "level": {
+                    "label": "Level"
                 },
                 "levels": {
                     "label": "Levels",
@@ -53525,8 +54091,21 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "recycling/glass": {
                     "label": "Accepts Glass"
                 },
+                "recycling/glass_bottles": {
+                    "label": "Accepts Glass Bottles"
+                },
                 "recycling/paper": {
                     "label": "Accepts Paper"
+                },
+                "recycling/plastic": {
+                    "label": "Accepts Plastic"
+                },
+                "recycling/type": {
+                    "label": "Recycling Type",
+                    "options": {
+                        "container": "Container",
+                        "centre": "Recycling Center"
+                    }
                 },
                 "ref": {
                     "label": "Reference"
@@ -53910,6 +54489,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Car Wash",
                     "terms": ""
                 },
+                "amenity/casino": {
+                    "name": "Casino",
+                    "terms": "gambling,roulette,craps,poker,blackjack"
+                },
                 "amenity/charging_station": {
                     "name": "Charging Station",
                     "terms": "EV,Electric Vehicle,Supercharger"
@@ -54152,6 +54735,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "area": {
                     "name": "Area",
+                    "terms": ""
+                },
+                "area/highway": {
+                    "name": "Road Surface",
                     "terms": ""
                 },
                 "barrier": {
@@ -54575,11 +55162,11 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "terms": ""
                 },
                 "footway/crossing": {
-                    "name": "Crossing",
+                    "name": "Street Crossing",
                     "terms": ""
                 },
                 "footway/crosswalk": {
-                    "name": "Crosswalk",
+                    "name": "Pedestrian Crosswalk",
                     "terms": "zebra crossing"
                 },
                 "footway/sidewalk": {
@@ -54634,12 +55221,16 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Bus Stop",
                     "terms": ""
                 },
+                "highway/corridor": {
+                    "name": "Indoor Corridor",
+                    "terms": "gallery,hall,hallway,indoor,passage,passageway"
+                },
                 "highway/crossing": {
-                    "name": "Crossing",
+                    "name": "Street Crossing",
                     "terms": ""
                 },
                 "highway/crosswalk": {
-                    "name": "Crosswalk",
+                    "name": "Pedestrian Crosswalk",
                     "terms": "zebra crossing"
                 },
                 "highway/cycleway": {
@@ -54675,7 +55266,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "terms": "hike,hiking,trackway,trail,walk"
                 },
                 "highway/pedestrian": {
-                    "name": "Pedestrian",
+                    "name": "Pedestrian Street",
                     "terms": ""
                 },
                 "highway/primary": {
@@ -54823,7 +55414,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "terms": ""
                 },
                 "landuse": {
-                    "name": "Landuse",
+                    "name": "Land Use",
                     "terms": ""
                 },
                 "landuse/allotments": {
@@ -54894,6 +55485,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Orchard",
                     "terms": ""
                 },
+                "landuse/plant_nursery": {
+                    "name": "Plant Nursery",
+                    "terms": "vivero"
+                },
                 "landuse/quarry": {
                     "name": "Quarry",
                     "terms": ""
@@ -54912,6 +55507,14 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "leisure": {
                     "name": "Leisure",
+                    "terms": ""
+                },
+                "leisure/adult_gaming_centre": {
+                    "name": "Adult Gaming Center",
+                    "terms": "gambling,slot machine"
+                },
+                "leisure/bowling_alley": {
+                    "name": "Bowling Alley",
                     "terms": ""
                 },
                 "leisure/common": {
@@ -55022,6 +55625,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Man Made",
                     "terms": ""
                 },
+                "man_made/adit": {
+                    "name": "Adit",
+                    "terms": "entrance,underground,mine,cave"
+                },
                 "man_made/breakwater": {
                     "name": "Breakwater",
                     "terms": ""
@@ -55124,7 +55731,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "natural/cave_entrance": {
                     "name": "Cave Entrance",
-                    "terms": ""
+                    "terms": "cavern,hollow,grotto,shelter,cavity"
                 },
                 "natural/cliff": {
                     "name": "Cliff",
@@ -55154,13 +55761,17 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Peak",
                     "terms": "acme,aiguille,alp,climax,crest,crown,hill,mount,mountain,pinnacle,summit,tip,top"
                 },
+                "natural/saddle": {
+                    "name": "Saddle",
+                    "terms": "pass,mountain pass,top"
+                },
                 "natural/scree": {
                     "name": "Scree",
                     "terms": "loose rocks"
                 },
                 "natural/scrub": {
                     "name": "Scrub",
-                    "terms": ""
+                    "terms": "bush,shrubs"
                 },
                 "natural/spring": {
                     "name": "Spring",
@@ -55169,6 +55780,14 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "natural/tree": {
                     "name": "Tree",
                     "terms": ""
+                },
+                "natural/tree_row": {
+                    "name": "Tree row",
+                    "terms": ""
+                },
+                "natural/volcano": {
+                    "name": "Volcano",
+                    "terms": "mountain,crater"
                 },
                 "natural/water": {
                     "name": "Water",
@@ -55395,8 +56014,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "terms": "break,interrupt,rest,wait,interruption"
                 },
                 "railway/level_crossing": {
-                    "name": "Level Crossing",
-                    "terms": "crossing,railroad crossing,railway crossing,grade crossing,road through railroad,train crossing"
+                    "name": "Railway Crossing",
+                    "terms": "crossing,railroad crossing,level crossing,grade crossing,road through railroad,train crossing"
                 },
                 "railway/monorail": {
                     "name": "Monorail",
@@ -60939,6 +61558,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 ],
                 [
                     "city"
+                ],
+                [
+                    "postcode"
                 ]
             ]
         },
