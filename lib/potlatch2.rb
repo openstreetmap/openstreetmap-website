@@ -73,6 +73,7 @@ module Potlatch2
     "ru" => "ru",
     "rue" => "rue",
     "sah" => "sah",
+    "scn" => "scn",
     "sk" => "sk",
     "sl" => "sl",
     "sq" => "sq",
