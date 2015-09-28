@@ -3,7 +3,7 @@
 // http://open.mapquestapi.com/directions/
 // https://github.com/apmon/openstreetmap-website/blob/21edc353a4558006f0ce23f5ec3930be6a7d4c8b/app/controllers/routing_controller.rb#L153
 
-function MapQuestEngine(id, vehicleParam) {
+function MapQuestEngine(id, routeType) {
   var MQ_SPRITE_MAP = {
     0: 1, // straight
     1: 2, // slight right
@@ -32,19 +32,23 @@ function MapQuestEngine(id, vehicleParam) {
     draggable: false,
 
     getRoute: function (points, callback) {
-      var url = document.location.protocol + "//open.mapquestapi.com/directions/v2/route";
       var from = points[0];
       var to = points[points.length - 1];
-      url += "?key=" + OSM.MAPQUEST_KEY;
-      url += "&from=" + from.lat + ',' + from.lng;
-      url += "&to=" + to.lat + ',' + to.lng;
-      url += "&" + vehicleParam;
-      //url+="&locale=" + I18n.currentLocale(); //Doesn't actually work. MapQuest requires full locale e.g. "de_DE", but I18n may only provides language, e.g. "de"
-      url += "&manMaps=false";
-      url += "&shapeFormat=raw&generalize=0&unit=k";
 
       return $.ajax({
-        url: url,
+        url: document.location.protocol + "//open.mapquestapi.com/directions/v2/route",
+        data: {
+          key: OSM.MAPQUEST_KEY,
+          from: from.lat + "," + from.lng,
+          to: to.lat + "," + to.lng,
+          routeType: routeType,
+          // locale: I18n.currentLocale(), //Doesn't actually work. MapQuest requires full locale e.g. "de_DE", but I18n may only provides language, e.g. "de"
+          manMaps: false,
+          shapeFormat: "raw",
+          generalize: 0,
+          unit: "k"
+        },
+        dataType: "json",
         success: function (data) {
           if (data.info.statuscode !== 0)
             return callback(true);
@@ -92,7 +96,7 @@ function MapQuestEngine(id, vehicleParam) {
 }
 
 if (OSM.MAPQUEST_KEY) {
-  OSM.Directions.addEngine(new MapQuestEngine("mapquest_bicycle", "routeType=bicycle"), true);
-  OSM.Directions.addEngine(new MapQuestEngine("mapquest_foot", "routeType=pedestrian"), true);
-  OSM.Directions.addEngine(new MapQuestEngine("mapquest_car", "routeType=fastest"), true);
+  OSM.Directions.addEngine(new MapQuestEngine("mapquest_bicycle", "bicycle"), true);
+  OSM.Directions.addEngine(new MapQuestEngine("mapquest_foot", "pedestrian"), true);
+  OSM.Directions.addEngine(new MapQuestEngine("mapquest_car", "fastest"), true);
 }

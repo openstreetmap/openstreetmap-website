@@ -1,4 +1,4 @@
-function GraphHopperEngine(id, vehicleParam) {
+function GraphHopperEngine(id, vehicleType) {
   var GH_INSTR_MAP = {
     "-3": 6, // sharp left
     "-2": 7, // left
@@ -20,21 +20,19 @@ function GraphHopperEngine(id, vehicleParam) {
     getRoute: function (points, callback) {
       // GraphHopper Directions API documentation
       // https://github.com/graphhopper/directions-api/blob/master/docs-routing.md
-      var url = document.location.protocol + "//graphhopper.com/api/1/route?" +
-          vehicleParam +
-          "&locale=" + I18n.currentLocale() +
-          "&key=LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn" +
-          "&type=jsonp" +
-          "&elevation=false" +
-          "&instructions=true";
-
-      for (var i = 0; i < points.length; i++) {
-        url += "&point=" + points[i].lat + ',' + points[i].lng;
-      }
-
       return $.ajax({
-        url: url,
-        dataType: 'jsonp',
+        url: document.location.protocol + "//graphhopper.com/api/1/route",
+        data: {
+          vehicle: vehicleType,
+          locale: I18n.currentLocale(),
+          key: "LijBPDQGfu7Iiq80w3HzwB4RUDJbMbhs6BU0dEnn",
+          type: "jsonp",
+          elevation: false,
+          instructions: true,
+          point: points.map(function (p) { return p.lat + "," + p.lng })
+        },
+        traditional: true,
+        dataType: "jsonp",
         success: function (data) {
           if (!data.paths || data.paths.length === 0)
             return callback(true);
@@ -72,5 +70,5 @@ function GraphHopperEngine(id, vehicleParam) {
   };
 }
 
-OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_bicycle", "vehicle=bike"), true);
-OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_foot", "vehicle=foot"), true);
+OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_bicycle", "bike"), true);
+OSM.Directions.addEngine(new GraphHopperEngine("graphhopper_foot", "foot"), true);

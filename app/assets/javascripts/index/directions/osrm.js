@@ -31,22 +31,28 @@ function OSRMEngine() {
         'javascripts.directions.instructions.end_oneway'        // 17
       ];
 
-      var url = document.location.protocol + "//router.project-osrm.org/viaroute?z=14&output=json&instructions=true";
+      var params = [
+        { name: "z", value: "14" },
+        { name: "output", value: "json" },
+        { name: "instructions", value: true }
+      ];
 
       for (var i = 0; i < points.length; i++) {
-        url += "&loc=" + points[i].lat + ',' + points[i].lng;
+        params.push({ name: "loc", value: points[i].lat + "," + points[i].lng });
+
         if (hintData && previousPoints && previousPoints[i].equals(points[i])) {
-          url += "&hint=" + hintData.locations[i];
+          params.push({ name: "hint", value: hintData.locations[i] });
         }
       }
 
       if (hintData && hintData.checksum) {
-        url += "&checksum=" + hintData.checksum;
+        params.push({ name: "checksum", value: hintData.checksum });
       }
 
       return $.ajax({
-        url: url,
-        dataType: 'json',
+        url: document.location.protocol + "//router.project-osrm.org/viaroute",
+        data: params,
+        dataType: "json",
         success: function (data) {
           if (data.status === 207)
             return callback(true);
