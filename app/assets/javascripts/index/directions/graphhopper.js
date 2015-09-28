@@ -29,7 +29,7 @@ function GraphHopperEngine(id, vehicleType) {
           type: "jsonp",
           elevation: false,
           instructions: true,
-          point: points.map(function (p) { return p.lat + "," + p.lng })
+          point: points.map(function (p) { return p.lat + "," + p.lng; })
         },
         traditional: true,
         dataType: "jsonp",
