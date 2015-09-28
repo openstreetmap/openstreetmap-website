@@ -48,7 +48,7 @@ function MapQuestEngine(id, routeType) {
           generalize: 0,
           unit: "k"
         },
-        dataType: "json",
+        dataType: "jsonp",
         success: function (data) {
           if (data.info.statuscode !== 0)
             return callback(true);
