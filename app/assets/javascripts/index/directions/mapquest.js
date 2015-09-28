@@ -32,9 +32,10 @@ function MapQuestEngine(id, vehicleParam) {
     draggable: false,
 
     getRoute: function (points, callback) {
-      var url = document.location.protocol + "//open.mapquestapi.com/directions/v2/route?key=Fmjtd%7Cluur290anu%2Crl%3Do5-908a0y";
+      var url = document.location.protocol + "//open.mapquestapi.com/directions/v2/route";
       var from = points[0];
       var to = points[points.length - 1];
+      url += "?key=" + OSM.MAPQUEST_KEY;
       url += "&from=" + from.lat + ',' + from.lng;
       url += "&to=" + to.lat + ',' + to.lng;
       url += "&" + vehicleParam;
@@ -90,6 +91,8 @@ function MapQuestEngine(id, vehicleParam) {
   };
 }
 
-OSM.Directions.addEngine(new MapQuestEngine("mapquest_bicycle", "routeType=bicycle"), true);
-OSM.Directions.addEngine(new MapQuestEngine("mapquest_foot", "routeType=pedestrian"), true);
-OSM.Directions.addEngine(new MapQuestEngine("mapquest_car", "routeType=fastest"), true);
+if (OSM.MAPQUEST_KEY) {
+  OSM.Directions.addEngine(new MapQuestEngine("mapquest_bicycle", "routeType=bicycle"), true);
+  OSM.Directions.addEngine(new MapQuestEngine("mapquest_foot", "routeType=pedestrian"), true);
+  OSM.Directions.addEngine(new MapQuestEngine("mapquest_car", "routeType=fastest"), true);
+}
