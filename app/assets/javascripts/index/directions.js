@@ -189,7 +189,7 @@ OSM.Directions = function (map) {
         map.removeLayer(polyline);
 
         if (!dragging) {
-          alert(I18n.t('javascripts.directions.errors.no_route'));
+          $('#sidebar_content').html('<p class="search_results_error">' + I18n.t('javascripts.directions.errors.no_route') + '</p>');
         }
 
         return;

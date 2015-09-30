@@ -84,12 +84,15 @@ function OSRMEngine() {
             steps.push([line[s[3]], s[0].split('-')[0], instText, s[2], line.slice(s[3], linesegend)]);
           }
 
-          callback(null, {
+          callback(false, {
             line: line,
             steps: steps,
             distance: data.route_summary.total_distance,
             time: data.route_summary.total_time
           });
+        },
+        error: function () {
+          callback(true);
         }
       });
     }

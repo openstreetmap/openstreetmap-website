@@ -93,6 +93,9 @@ function MapzenEngine(id, costing) {
           } else {
             callback(true);
           }
+        },
+        error: function () {
+          callback(true);
         }
       });
     }

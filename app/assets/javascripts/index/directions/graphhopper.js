@@ -58,12 +58,15 @@ function GraphHopperEngine(id, vehicleType) {
             ]); // TODO does graphhopper map instructions onto line indices?
           }
 
-          callback(null, {
+          callback(false, {
             line: line,
             steps: steps,
             distance: path.distance,
             time: path.time / 1000
           });
+        },
+        error: function () {
+          callback(true);
         }
       });
     }
