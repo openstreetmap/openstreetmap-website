@@ -87,7 +87,7 @@ function MapzenEngine(id, costing) {
             callback(false, {
               line: line,
               steps: steps,
-              distance: distance,
+              distance: distance * 1000,
               time: time
             });
           } else {
