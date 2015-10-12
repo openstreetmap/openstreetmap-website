@@ -85,22 +85,22 @@ $(document).ready(function () {
     contextmenuWidth: 140,
     contextmenuItems: [{
         text: 'Directions from here',
-        callback: function(e){ context_directionsfrom(e, map) }
+        callback: function(e){ context_directionsfrom(e, map); }
     }, {
         text: 'Directions to here',
-        callback: function(e){ context_directionsto(e, map) }
+        callback: function(e){ context_directionsto(e, map); }
     }, '-', {
         text: 'Add a note here',
-        callback: function(e){ context_addnote(e, map) }
+        callback: function(e){ context_addnote(e, map); }
     }, {
         text: 'Show address',
-        callback: function(e){ context_describe(e, map) }
+        callback: function(e){ context_describe(e, map); }
     }, {
         text: 'Query features',
-        callback: function(e){ context_queryhere(e, map) }
+        callback: function(e){ context_queryhere(e, map); }
     }, {
         text: 'Centre map here',
-        callback: function(e){ context_centrehere(e, map) }
+        callback: function(e){ context_centrehere(e, map); }
     }]
   });
 
