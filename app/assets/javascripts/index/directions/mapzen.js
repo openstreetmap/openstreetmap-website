@@ -28,7 +28,7 @@ function MapzenEngine(id, costing) {
     1,  // kMerge = 25;
     11, // kRoundaboutEnter = 26;
     12, // kRoundaboutExit = 27;
-    1,  // kFerryEnter = 28;
+    18, // kFerryEnter = 28;
     1   // kFerryExit = 29;
   ];
 
