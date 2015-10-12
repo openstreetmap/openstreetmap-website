@@ -28,7 +28,8 @@ function OSRMEngine() {
         'javascripts.directions.instructions.start',            // 14
         'javascripts.directions.instructions.destination',      // 15
         'javascripts.directions.instructions.against_oneway',   // 16
-        'javascripts.directions.instructions.end_oneway'        // 17
+        'javascripts.directions.instructions.end_oneway',       // 17
+        'javascripts.directions.instructions.ferry'             // 18
       ];
 
       var params = [
@@ -69,6 +70,10 @@ function OSRMEngine() {
             var s = data.route_instructions[i];
             var linesegend;
             var instCodes = s[0].split('-');
+            if (s[8] === 2) {
+              /* indicates a ferry in car routing mode, see https://github.com/Project-OSRM/osrm-backend/blob/6cbbd1e5a1b441eb27055f56956e1bac14832a58/profiles/car.lua#L151 */
+              instCodes = ["18"];
+            }
             var instText = "<b>" + (i + 1) + ".</b> ";
             var name = s[1] ? "<b>" + s[1] + "</b>" : I18n.t('javascripts.directions.instructions.unnamed');
             if (instCodes[0] === "11" && instCodes[1]) {
@@ -81,7 +86,7 @@ function OSRMEngine() {
             } else {
               linesegend = s[3] + 1;
             }
-            steps.push([line[s[3]], s[0].split('-')[0], instText, s[2], line.slice(s[3], linesegend)]);
+            steps.push([line[s[3]], instCodes[0], instText, s[2], line.slice(s[3], linesegend)]);
           }
 
           callback(false, {
