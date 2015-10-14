@@ -9,9 +9,12 @@
 # Author: Wintereu
 ---
 ro:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y la %H:%M'
+      blog: '%e %B %Y'
   activerecord:
     models:
       acl: Lista de control al accesului
@@ -80,6 +83,9 @@ ro:
         description: Descriere
         languages: Limbi
         pass_crypt: Parolă
+  printable_name:
+    with_version: '%{id}, v%{version}'
+    with_name_html: '%{name} (%{id})'
   editor:
     default: Implicit (în prezent %{name})
     potlatch:
@@ -141,11 +147,15 @@ ro:
       title: 'Cale: %{name}'
       history_title: 'Istoricul căii: %{name}'
       nodes: Noduri
+      also_part_of:
+        one: parte a liniei de %{related_ways}
+        other: parte din liniile de %{related_ways}
     relation:
       title: 'Relație: %{name}'
       history_title: 'Istoricul relației: %{name}'
       members: Membri
     relation_member:
+      entry: '%{type} %{name}'
       entry_role: '%{type} %{name} ca %{role}'
       type:
         node: Nod
@@ -161,6 +171,7 @@ ro:
         way: drum
         relation: relație
         changeset: set de modificări
+        note: notă
     timeout:
       sorry: Ne pare rău, dar durata recepționării datelor pentru %{type} cu identificatorul
         %{id} a fost prea mare.
@@ -169,6 +180,7 @@ ro:
         way: calea
         relation: relația
         changeset: setul de schimbări
+        note: notă
     redacted:
       redaction: Redactarea %{id}
       message_html: Nu se poate afișa versiunea %{version} a acestui/acestei %{type}
@@ -179,6 +191,9 @@ ro:
         way: drum
         relation: relații
     start_rjs:
+      feature_warning: Se încarcă %{num_features} caracteristici, ceea care ar putea
+        încetini sau bloca navigatorul dumneavoastră. Sigur doriți afișarea acestor
+        date?
       load_data: Încărcare date
       loading: Se încarcă...
     tag_details:
@@ -196,6 +211,16 @@ ro:
       open_title: 'Notă nerezolvată #%{note_name}'
       closed_title: 'Notă rezolvată #%{note_name}'
       hidden_title: 'Notă ascunsă #%{note_name}'
+      open_by: Creat de %{user} <abbr title=cu '%{exact_time}'>%{when} în urmă</abbr>
+      open_by_anonymous: Creat de un utilizator anonim <abbr title=cu '%{exact_time}'>%{when}
+        în urmă</abbr>
+      commented_by: Comentariu scris de %{user} <abbr title='%{exact_time}'>cu %{when}
+        în urmă</abbr>
+      commented_by_anonymous: Comentariu scris de un utilizator anonim <abbr title=cu
+        '%{exact_time}'>%{when} în urmă</abbr>
+    query:
+      introduction: Dați clic pe hartă pentru a găsi obiectivele din apropiere.
+      nearby: Obiectivele din apropiere
   changeset:
     changeset_paging_nav:
       showing_page: Pagina %{page}
@@ -346,6 +371,7 @@ ro:
           Nominatim</a>
         geonames: Rezultate de la <a href="http://www.geonames.org/">GeoNames</a>
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aeroway:
           aerodrome: Aerodrom
@@ -503,6 +529,7 @@ ro:
           trail: Potecă
           unclassified: Drum neclasificat
           unsurfaced: Drum neasfaltat
+          "yes": Drum
         historic:
           archaeological_site: Sit arheologic
           battlefield: Câmp de luptă
@@ -511,17 +538,25 @@ ro:
           bunker: Buncăr
           castle: Castel
           church: Biserică
+          city_gate: Poarta orașului
+          citywalls: Zidurile orașului
           fort: Fort
           house: Casă
+          icon: Pictogramă
           manor: Conac
           memorial: Memorial
           mine: Mină
           monument: Monument
+          roman_road: Drumul roman
           ruins: Ruine
+          stone: Piatră
+          tomb: Mormânt
           tower: Turn
           wayside_cross: Troiță
           wayside_shrine: Altar
           wreck: Epavă
+        junction:
+          "yes": Intersecție
         landuse:
           basin: Bazin
           cemetery: Cimitir
@@ -530,6 +565,7 @@ ro:
           farm: Fermă
           farmland: Teren agricol
           forest: Pădure
+          garages: Garaje
           grass: Iarbă
           industrial: Zonă industrială
           landfill: Groapă de gunoi
@@ -544,6 +580,7 @@ ro:
           vineyard: Podgorie
         leisure:
           beach_resort: Stațiune balneară
+          club: Club
           fishing: Zonă de pescuit
           garden: Grădină
           golf_course: Teren de golf
@@ -554,10 +591,22 @@ ro:
           pitch: Teren de sport
           playground: Loc de joacă
           recreation_ground: Zonă de recreere
+          sauna: Saună
+          sports_centre: Centru de sport
           stadium: Stadion
           swimming_pool: Bazin de înot
           track: Pistă de atletism
           water_park: Parc acvatic
+        man_made:
+          lighthouse: Far
+          pipeline: Conductă
+          tower: Turn
+          works: Fabrică
+        military:
+          barracks: Cazarme
+          bunker: Buncăr
+        mountain_pass:
+          "yes": Trecătoare prin munți
         natural:
           bay: Golf
           beach: Plajă
@@ -565,9 +614,12 @@ ro:
           cave_entrance: Intrare în peșteră
           cliff: Stâncă
           crater: Crater
+          dune: Dune
           fjord: Fiord
+          forest: Pădure
           geyser: Gheizer
           glacier: Ghețar
+          heath: Căldură
           hill: Deal
           island: Insulă
           land: Teren
@@ -575,18 +627,22 @@ ro:
           moor: Baltă
           mud: Noroi
           peak: Vârf
+          point: Punct
           reef: Recif
           ridge: Creastă
           rock: Rocă
           scree: Grohotiș
           scrub: Tufăriș
           spring: Izvor
+          stone: Piatră
           strait: Strâmtoare
           tree: Copac
           valley: Vale
           volcano: Vulcan
           water: Apă
           wood: Pădure
+        office:
+          "yes": Birou
         place:
           airport: Aeroport
           city: Oraș
