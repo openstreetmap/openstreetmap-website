@@ -1,3 +1,4 @@
+<% title_val = t('layouts.project_name.title') + (@title ? ' | ' + @title : '' ) -%>
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
@@ -26,10 +27,11 @@
   <%= tag("link", { :rel => "publisher", :href => "https://plus.google.com/111953119785824514010" }) %>
   <%= tag("link", { :rel => "search", :type => "application/opensearchdescription+xml", :title => "OpenStreetMap Search", :href => asset_path("osm.xml") }) %>
   <%= tag("meta", { :name => "description", :content => "OpenStreetMap is the free wiki world map." }) %>
-  <%= tag("meta", :property => "og:image", :content => image_path("osm_logo.png")) %>
+  <%= tag("meta", { :property => "og:title", :content => title_val }) %>
+  <%= tag("meta", { :property => "og:image", :content => image_url("osm_logo.png") }) %>
   <% if flash[:piwik_goal] -%>
   <%= tag("meta", :name => "piwik-goal", :content => flash[:piwik_goal]) %>
-  <% end -%>  
+  <% end -%>
   <%= style_rules %>
   <%= yield :head %>
   <%= yield :auto_discovery_link_tag %>
@@ -55,5 +57,5 @@
     OSM.oauth_consumer_secret = "<%= @oauth.client_application.secret %>";
     <% end -%>
   </script>
-  <title><%= t 'layouts.project_name.title' %><%= ' | ' + @title if @title %></title>
+  <title><%= title_val %></title>
 </head>
