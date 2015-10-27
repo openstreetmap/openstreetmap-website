@@ -5,7 +5,8 @@ module OpenGraphHelper
       "og:title" => [t("layouts.project_name.title"), title].compact.join(" | "),
       "og:type" => "website",
       "og:image" => image_path("osm_logo_256.png", :host => SERVER_URL, :protocol => "http"),
-      "og:image:secure_url" => image_path("osm_logo_256.png", :host => SERVER_URL, :protocol => "https")
+      "og:image:secure_url" => image_path("osm_logo_256.png", :host => SERVER_URL, :protocol => "https"),
+      "og:url" => url_for(:host => SERVER_URL)
     }
 
     tags.map do |property, content|
