@@ -350,7 +350,7 @@ class NotesController < ApplicationController
     comment = note.comments.create(attributes)
 
     note.comments.map(&:author).uniq.each do |user|
-      if notify && user && user != @user
+      if notify && user && user != @user && user.visible?
         Notifier.note_comment_notification(comment, user).deliver_now
       end
     end

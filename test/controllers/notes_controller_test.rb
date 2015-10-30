@@ -225,7 +225,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "Feature", js["type"]
     assert_equal notes(:open_note_with_comment).id, js["properties"]["id"]
     assert_equal "open", js["properties"]["status"]
-    assert_equal 3, js["properties"]["comments"].count
+    assert_equal 5, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
     assert_nil js["properties"]["comments"].last["user"]
@@ -237,7 +237,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "Feature", js["type"]
     assert_equal notes(:open_note_with_comment).id, js["properties"]["id"]
     assert_equal "open", js["properties"]["status"]
-    assert_equal 3, js["properties"]["comments"].count
+    assert_equal 5, js["properties"]["comments"].count
     assert_equal "commented", js["properties"]["comments"].last["action"]
     assert_equal "This is an additional comment", js["properties"]["comments"].last["text"]
     assert_nil js["properties"]["comments"].last["user"]
@@ -371,7 +371,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "Feature", js["type"]
     assert_equal notes(:open_note_with_comment).id, js["properties"]["id"]
     assert_equal "closed", js["properties"]["status"]
-    assert_equal 3, js["properties"]["comments"].count
+    assert_equal 5, js["properties"]["comments"].count
     assert_equal "closed", js["properties"]["comments"].last["action"]
     assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
     assert_equal "test2", js["properties"]["comments"].last["user"]
@@ -383,7 +383,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "Feature", js["type"]
     assert_equal notes(:open_note_with_comment).id, js["properties"]["id"]
     assert_equal "closed", js["properties"]["status"]
-    assert_equal 3, js["properties"]["comments"].count
+    assert_equal 5, js["properties"]["comments"].count
     assert_equal "closed", js["properties"]["comments"].last["action"]
     assert_equal "This is a close comment", js["properties"]["comments"].last["text"]
     assert_equal "test2", js["properties"]["comments"].last["user"]
@@ -562,7 +562,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "Feature", js["type"]
     assert_equal notes(:open_note_with_comment).id, js["properties"]["id"]
     assert_equal "hidden", js["properties"]["status"]
-    assert_equal 3, js["properties"]["comments"].count
+    assert_equal 5, js["properties"]["comments"].count
     assert_equal "hidden", js["properties"]["comments"].last["action"]
     assert_equal "This is a hide comment", js["properties"]["comments"].last["text"]
     assert_equal "moderator", js["properties"]["comments"].last["user"]
@@ -841,7 +841,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
-        assert_select "item", :count => 8
+        assert_select "item", :count => 10
       end
     end
 
@@ -850,7 +850,7 @@ class NotesControllerTest < ActionController::TestCase
     assert_equal "application/rss+xml", @response.content_type
     assert_select "rss", :count => 1 do
       assert_select "channel", :count => 1 do
-        assert_select "item", :count => 3
+        assert_select "item", :count => 5
       end
     end
   end
