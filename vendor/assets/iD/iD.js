@@ -6407,7 +6407,7 @@ d3.combobox = function() {
 
             for (var i = 0; i < suggestions.length; i++) {
                 if (suggestions[i].value.toLowerCase().indexOf(v.toLowerCase()) === 0) {
-                    var completion = v + suggestions[i].value.substr(v.length);
+                    var completion = suggestions[i].value;
                     idx = i;
                     input.property('value', completion);
                     input.node().setSelectionRange(v.length, completion.length);
@@ -19333,7 +19333,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.7.4';
+iD.version = '1.8.0';
 
 (function() {
     var detected = {};
@@ -19380,7 +19380,7 @@ iD.version = '1.7.4';
     // Added due to incomplete svg style support. See #715
     detected.opera = (detected.browser.toLowerCase() === 'opera' && parseFloat(detected.version) < 15 );
 
-    detected.locale = navigator.language || navigator.userLanguage || 'en-US';
+    detected.locale = navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage || 'en-US');
 
     detected.filedrop = (window.FileReader && 'ondrop' in window);
 
@@ -19486,19 +19486,10 @@ iD.taginfo = function() {
         return _.omit(parameters, 'geometry', 'debounce');
     }
 
-    function shorten(parameters) {
-        if (!parameters.query) {
-            delete parameters.query;
-        } else {
-            parameters.query = parameters.query.slice(0, 3);
-        }
-        return parameters;
-    }
-
     function popularKeys(parameters) {
         var pop_field = 'count_all';
         if (parameters.filter) pop_field = 'count_' + parameters.filter;
-        return function(d) { return parseFloat(d[pop_field]) > 10000; };
+        return function(d) { return parseFloat(d[pop_field]) > 5000 || d.in_wiki; };
     }
 
     function popularValues() {
@@ -19533,7 +19524,7 @@ iD.taginfo = function() {
 
     taginfo.keys = function(parameters, callback) {
         var debounce = parameters.debounce;
-        parameters = clean(shorten(setSort(parameters)));
+        parameters = clean(setSort(parameters));
         request(endpoint + 'keys/all?' +
             iD.util.qsString(_.extend({
                 rp: 10,
@@ -19548,7 +19539,7 @@ iD.taginfo = function() {
 
     taginfo.values = function(parameters, callback) {
         var debounce = parameters.debounce;
-        parameters = clean(shorten(setSort(setFilter(parameters))));
+        parameters = clean(setSort(setFilter(parameters)));
         request(endpoint + 'key/values?' +
             iD.util.qsString(_.extend({
                 rp: 25,
@@ -20236,43 +20227,82 @@ iD.geo.Turn = function(turn) {
 
 iD.geo.Intersection = function(graph, vertexId) {
     var vertex = graph.entity(vertexId),
-        highways = [];
+        parentWays = graph.parentWays(vertex),
+        coincident = [],
+        highways = {};
+
+    function addHighway(way, adjacentNodeId) {
+        if (highways[adjacentNodeId]) {
+            coincident.push(adjacentNodeId);
+        } else {
+            highways[adjacentNodeId] = way;
+        }
+    }
 
     // Pre-split ways that would need to be split in
     // order to add a restriction. The real split will
     // happen when the restriction is added.
-    graph.parentWays(vertex).forEach(function(way) {
+    parentWays.forEach(function(way) {
         if (!way.tags.highway || way.isArea() || way.isDegenerate())
             return;
 
-        if (way.affix(vertexId)) {
-            highways.push(way);
+        var isFirst = (vertexId === way.first()),
+            isLast = (vertexId === way.last()),
+            isAffix = (isFirst || isLast),
+            isClosingNode = (isFirst && isLast);
+
+        if (isAffix && !isClosingNode) {
+            var index = (isFirst ? 1 : way.nodes.length - 2);
+            addHighway(way, way.nodes[index]);
+
         } else {
-            var idx = _.indexOf(way.nodes, vertex.id, 1),
-                wayA = iD.Way({id: way.id + '-a', tags: way.tags, nodes: way.nodes.slice(0, idx + 1)}),
-                wayB = iD.Way({id: way.id + '-b', tags: way.tags, nodes: way.nodes.slice(idx)});
-
-            graph = graph.replace(wayA);
-            graph = graph.replace(wayB);
-
-            highways.push(wayA);
-            highways.push(wayB);
+            var splitIndex, wayA, wayB, indexA, indexB;
+            if (isClosingNode) {
+                splitIndex = Math.ceil(way.nodes.length / 2);  // split at midpoint
+                wayA = iD.Way({id: way.id + '-a', tags: way.tags, nodes: way.nodes.slice(0, splitIndex)});
+                wayB = iD.Way({id: way.id + '-b', tags: way.tags, nodes: way.nodes.slice(splitIndex)});
+                indexA = 1;
+                indexB = way.nodes.length - 2;
+            } else {
+                splitIndex = _.indexOf(way.nodes, vertex.id, 1);  // split at vertexid
+                wayA = iD.Way({id: way.id + '-a', tags: way.tags, nodes: way.nodes.slice(0, splitIndex + 1)});
+                wayB = iD.Way({id: way.id + '-b', tags: way.tags, nodes: way.nodes.slice(splitIndex)});
+                indexA = splitIndex - 1;
+                indexB = splitIndex + 1;
+            }
+            graph = graph.replace(wayA).replace(wayB);
+            addHighway(wayA, way.nodes[indexA]);
+            addHighway(wayB, way.nodes[indexB]);
         }
     });
 
+    // remove any ways from this intersection that are coincident
+    // (i.e. any adjacent node used by more than one intersecting way)
+    coincident.forEach(function (n) {
+        delete highways[n];
+    });
+
+
     var intersection = {
         highways: highways,
+        ways: _.values(highways),
         graph: graph
     };
 
-    intersection.turns = function(fromNodeID) {
-        if (!fromNodeID)
+    intersection.adjacentNodeId = function(fromWayId) {
+        return _.find(_.keys(highways), function(k) {
+            return highways[k].id === fromWayId;
+        });
+    };
+
+    intersection.turns = function(fromNodeId) {
+        var start = highways[fromNodeId];
+        if (!start)
             return [];
 
-        var way = _.find(highways, function(way) { return way.contains(fromNodeID); });
-        if (way.first() === vertex.id && way.tags.oneway === 'yes')
+        if (start.first() === vertex.id && start.tags.oneway === 'yes')
             return [];
-        if (way.last() === vertex.id && way.tags.oneway === '-1')
+        if (start.last() === vertex.id && start.tags.oneway === '-1')
             return [];
 
         function withRestriction(turn) {
@@ -20301,39 +20331,44 @@ iD.geo.Intersection = function(graph, vertexId) {
         }
 
         var from = {
-                node: way.nodes[way.first() === vertex.id ? 1 : way.nodes.length - 2],
-                way: way.id.split(/-(a|b)/)[0]
+                node: fromNodeId,
+                way: start.id.split(/-(a|b)/)[0]
             },
-            via = {node: vertex.id},
+            via = { node: vertex.id },
             turns = [];
 
-        highways.forEach(function(parent) {
-            if (parent === way)
+        _.each(highways, function(end, adjacentNodeId) {
+            if (end === start)
                 return;
 
-            var index = parent.nodes.indexOf(vertex.id);
-
             // backward
-            if (parent.first() !== vertex.id && parent.tags.oneway !== 'yes') {
+            if (end.first() !== vertex.id && end.tags.oneway !== 'yes') {
                 turns.push(withRestriction({
                     from: from,
                     via: via,
-                    to: {node: parent.nodes[index - 1], way: parent.id.split(/-(a|b)/)[0]}
+                    to: {
+                        node: adjacentNodeId,
+                        way: end.id.split(/-(a|b)/)[0]
+                    }
                 }));
             }
 
             // forward
-            if (parent.last() !== vertex.id && parent.tags.oneway !== '-1') {
+            if (end.last() !== vertex.id && end.tags.oneway !== '-1') {
                 turns.push(withRestriction({
                     from: from,
                     via: via,
-                    to: {node: parent.nodes[index + 1], way: parent.id.split(/-(a|b)/)[0]}
+                    to: {
+                        node: adjacentNodeId,
+                        way: end.id.split(/-(a|b)/)[0]
+                    }
                 }));
             }
+
         });
 
         // U-turn
-        if (way.tags.oneway !== 'yes' && way.tags.oneway !== '-1') {
+        if (start.tags.oneway !== 'yes' && start.tags.oneway !== '-1') {
             turns.push(withRestriction({
                 from: from,
                 via: via,
@@ -20461,7 +20496,7 @@ iD.geo.joinWays = function(array, graph) {
     }
 
     function reverse(member) {
-        return member.tags ? iD.actions.Reverse(member.id)(graph).entity(member.id) : member;
+        return member.tags ? iD.actions.Reverse(member.id, {reverseOneway: true})(graph).entity(member.id) : member;
     }
 
     while (array.length) {
@@ -21251,7 +21286,9 @@ iD.actions.Join = function(ids) {
             return 'not_adjacent';
 
         var nodeIds = _.pluck(joined[0].nodes, 'id').slice(1, -1),
-            relation;
+            relation,
+            tags = {},
+            conflicting = false;
 
         joined[0].forEach(function(way) {
             var parents = graph.parentRelations(way);
@@ -21259,10 +21296,21 @@ iD.actions.Join = function(ids) {
                 if (parent.isRestriction() && parent.members.some(function(m) { return nodeIds.indexOf(m.id) >= 0; }))
                     relation = parent;
             });
+
+            for (var k in way.tags) {
+                if (!(k in tags)) {
+                    tags[k] = way.tags[k];
+                } else if (tags[k] && iD.interestingTag(k) && tags[k] !== way.tags[k]) {
+                    conflicting = true;
+                }
+            }
         });
 
         if (relation)
             return 'restriction';
+
+        if (conflicting)
+            return 'conflicting_tags';
     };
 
     return action;
@@ -22167,6 +22215,10 @@ iD.actions.RestrictTurn = function(turn, projection, restrictionId) {
             via  = graph.entity(turn.via.node),
             to   = graph.entity(turn.to.way);
 
+        function isClosingNode(way, nodeId) {
+            return nodeId === way.first() && nodeId === way.last();
+        }
+
         function split(toOrFrom) {
             var newID = toOrFrom.newID || iD.Way().id;
             graph = iD.actions.Split(via.id, [newID])
@@ -22182,12 +22234,12 @@ iD.actions.RestrictTurn = function(turn, projection, restrictionId) {
             }
         }
 
-        if (!from.affix(via.id)) {
+        if (!from.affix(via.id) || isClosingNode(from, via.id)) {
             if (turn.from.node === turn.to.node) {
                 // U-turn
                 from = to = split(turn.from)[0];
             } else if (turn.from.way === turn.to.way) {
-                // Straight-on
+                // Straight-on or circular
                 var s = split(turn.from);
                 from = s[0];
                 to   = s[1];
@@ -22197,7 +22249,7 @@ iD.actions.RestrictTurn = function(turn, projection, restrictionId) {
             }
         }
 
-        if (!to.affix(via.id)) {
+        if (!to.affix(via.id) || isClosingNode(to, via.id)) {
             to = split(turn.to)[0];
         }
 
@@ -22252,7 +22304,7 @@ iD.actions.RestrictTurn = function(turn, projection, restrictionId) {
       http://wiki.openstreetmap.org/wiki/Route#Members
       http://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/corrector/ReverseWayTagCorrector.java
  */
-iD.actions.Reverse = function(wayId) {
+iD.actions.Reverse = function(wayId, options) {
     var replacements = [
             [/:right$/, ':left'], [/:left$/, ':right'],
             [/:forward$/, ':backward'], [/:backward$/, ':forward']
@@ -22282,6 +22334,8 @@ iD.actions.Reverse = function(wayId) {
             return value.replace(numeric, function(_, sign) { return sign === '-' ? '' : '-'; });
         } else if (key === 'incline' || key === 'direction') {
             return {up: 'down', down: 'up'}[value] || value;
+        } else if (options && options.reverseOneway && key === 'oneway') {
+            return {yes: '-1', '1': '-1', '-1': 'yes'}[value] || value;
         } else {
             return {left: 'right', right: 'left'}[value] || value;
         }
@@ -22971,7 +23025,7 @@ iD.behavior.drag = function() {
 };
 iD.behavior.Draw = function(context) {
     var event = d3.dispatch('move', 'click', 'clickWay',
-        'clickNode', 'undo', 'cancel', 'finish'),
+            'clickNode', 'undo', 'cancel', 'finish'),
         keybinding = d3.keybinding('draw'),
         hover = iD.behavior.Hover(context)
             .altDisables(true)
@@ -22989,7 +23043,7 @@ iD.behavior.Draw = function(context) {
     function mousedown() {
 
         function point() {
-            var p = element.node().parentNode;
+            var p = context.container().node();
             return touchId !== null ? d3.touches(p).filter(function(p) {
                 return p.identifier === touchId;
             })[0] : d3.mouse(p);
@@ -22997,17 +23051,20 @@ iD.behavior.Draw = function(context) {
 
         var element = d3.select(this),
             touchId = d3.event.touches ? d3.event.changedTouches[0].identifier : null,
-            time = +new Date(),
-            pos = point();
+            t1 = +new Date(),
+            p1 = point();
 
         element.on('mousemove.draw', null);
 
         d3.select(window).on('mouseup.draw', function() {
-            element.on('mousemove.draw', mousemove);
-            if (iD.geo.euclideanDistance(pos, point()) < closeTolerance ||
-                (iD.geo.euclideanDistance(pos, point()) < tolerance &&
-                (+new Date() - time) < 500)) {
+            var t2 = +new Date(),
+                p2 = point(),
+                dist = iD.geo.euclideanDistance(p1, p2);
 
+            element.on('mousemove.draw', mousemove);
+            d3.select(window).on('mouseup.draw', null);
+
+            if (dist < closeTolerance || (dist < tolerance && (t2 - t1) < 500)) {
                 // Prevent a quick second click
                 d3.select(window).on('click.draw-block', function() {
                     d3.event.stopPropagation();
@@ -23366,6 +23423,7 @@ iD.behavior.Hash = function(context) {
     };
 
     function update() {
+        if (context.inIntro()) return;
         var s1 = formatter(context.map());
         if (s0 !== s1) location.replace(s0 = s1); // don't recenter the map!
     }
@@ -26370,13 +26428,7 @@ iD.Entity.prototype = {
     },
 
     hasInterestingTags: function() {
-        return _.keys(this.tags).some(function(key) {
-            return key !== 'attribution' &&
-                key !== 'created_by' &&
-                key !== 'source' &&
-                key !== 'odbl' &&
-                key.indexOf('tiger:') !== 0;
-        });
+        return _.keys(this.tags).some(iD.interestingTag);
     },
 
     isHighwayIntersection: function() {
@@ -27149,37 +27201,6 @@ _.extend(iD.Node.prototype, {
         };
     }
 });
-iD.oneWayTags = {
-    'aerialway': {
-        'chair_lift': true,
-        'mixed_lift': true,
-        't-bar': true,
-        'j-bar': true,
-        'platter': true,
-        'rope_tow': true,
-        'magic_carpet': true,
-        'yes': true
-    },
-    'highway': {
-        'motorway': true,
-        'motorway_link': true
-    },
-    'junction': {
-        'roundabout': true
-    },
-    'man_made': {
-        'piste:halfpipe': true
-    },
-    'piste:type': {
-        'downhill': true,
-        'sled': true,
-        'yes': true
-    },
-    'waterway': {
-        'river': true,
-        'stream': true
-    }
-};
 iD.Relation = iD.Entity.relation = function iD_Relation() {
     if (!(this instanceof iD_Relation)) {
         return (new iD_Relation()).initialize(arguments);
@@ -27460,6 +27481,46 @@ _.extend(iD.Relation.prototype, {
         return result;
     }
 });
+iD.oneWayTags = {
+    'aerialway': {
+        'chair_lift': true,
+        'mixed_lift': true,
+        't-bar': true,
+        'j-bar': true,
+        'platter': true,
+        'rope_tow': true,
+        'magic_carpet': true,
+        'yes': true
+    },
+    'highway': {
+        'motorway': true,
+        'motorway_link': true
+    },
+    'junction': {
+        'roundabout': true
+    },
+    'man_made': {
+        'piste:halfpipe': true
+    },
+    'piste:type': {
+        'downhill': true,
+        'sled': true,
+        'yes': true
+    },
+    'waterway': {
+        'river': true,
+        'stream': true
+    }
+};
+
+iD.interestingTag = function (key) {
+    return key !== 'attribution' &&
+        key !== 'created_by' &&
+        key !== 'source' &&
+        key !== 'odbl' &&
+        key.indexOf('tiger:') !== 0;
+
+};
 iD.Tree = function(head) {
     var rtree = rbush(),
         rectangles = {};
@@ -29314,18 +29375,16 @@ iD.MapillaryLayer = function (context) {
         enter.append('button')
             .on('click', hide)
             .append('div')
-            .attr('class', 'icon close');
+            .call(iD.svg.Icon('#icon-close'));
 
         enter.append('img');
 
-        var link = enter.append('a')
+        enter
+            .append('a')
             .attr('class', 'link')
-            .attr('target', '_blank');
-
-        link.append('span')
-            .attr('class', 'icon icon-pre-text out-link');
-
-        link.append('span')
+            .attr('target', '_blank')
+            .call(iD.svg.Icon('#icon-out-link', 'inline'))
+            .append('span')
             .text(t('mapillary.view_on_mapillary'));
 
         if (!enable) {
@@ -29815,36 +29874,22 @@ iD.svg.Areas = function(projection) {
     used once globally, since defs IDs must be unique within a document.
 */
 iD.svg.Defs = function(context) {
-    function autosize(image) {
-        var img = document.createElement('img');
-        img.src = image.attr('xlink:href');
-        img.onload = function() {
-            image.attr({
-                width: img.width,
-                height: img.height
-            });
-        };
-    }
 
-    function SpriteDefinition(id, href, data) {
+    function SVGSpriteDefinition(id, href) {
         return function(defs) {
-            defs.append('image')
-                .attr('id', id)
-                .attr('xlink:href', href)
-                .call(autosize);
-
-            defs.selectAll()
-                .data(data)
-                .enter().append('use')
-                .attr('id', function(d) { return d.key; })
-                .attr('transform', function(d) { return 'translate(-' + d.value[0] + ',-' + d.value[1] + ')'; })
-                .attr('xlink:href', '#' + id);
+            d3.xml(href, 'image/svg+xml', function(err, svg) {
+                if (err) return;
+                defs.node().appendChild(
+                    d3.select(svg.documentElement).attr('id', id).node()
+                );
+            });
         };
     }
 
     return function (selection) {
         var defs = selection.append('defs');
 
+        // marker
         defs.append('marker')
             .attr({
                 id: 'oneway-marker',
@@ -29858,6 +29903,7 @@ iD.svg.Defs = function(context) {
             .append('path')
             .attr('d', 'M 5 3 L 0 3 L 0 2 L 5 2 L 5 0 L 10 2.5 L 5 5 z');
 
+        // patterns
         var patterns = defs.selectAll('pattern')
             .data([
                 // pattern name, pattern image name
@@ -29903,6 +29949,7 @@ iD.svg.Defs = function(context) {
                 return context.imagePath('pattern/' + d[1] + '.png');
             });
 
+        // clip paths
         defs.selectAll()
             .data([12, 18, 20, 32, 45])
             .enter().append('clipPath')
@@ -29919,24 +29966,25 @@ iD.svg.Defs = function(context) {
                 return d;
             });
 
-        var maki = [];
-        _.forEach(iD.data.featureIcons, function (dimensions, name) {
-            if (dimensions['12'] && dimensions['18'] && dimensions['24']) {
-                maki.push({key: 'maki-' + name + '-12', value: dimensions['12']});
-                maki.push({key: 'maki-' + name + '-18', value: dimensions['18']});
-                maki.push({key: 'maki-' + name + '-24', value: dimensions['24']});
-            }
-        });
+        defs.call(SVGSpriteDefinition(
+            'iD-sprite',
+            context.imagePath('iD-sprite.svg')));
 
-        defs.call(SpriteDefinition(
-            'sprite',
-            context.imagePath('sprite.svg'),
-            d3.entries(iD.data.operations)));
-
-        defs.call(SpriteDefinition(
+        defs.call(SVGSpriteDefinition(
             'maki-sprite',
-            context.imagePath('maki-sprite.png'),
-            maki));
+            context.imagePath('maki-sprite.svg')));
+    };
+};
+iD.svg.Icon = function(name, svgklass, useklass) {
+    return function (selection) {
+        selection.selectAll('svg')
+            .data([0])
+            .enter()
+            .append('svg')
+            .attr('class', 'icon ' + (svgklass || ''))
+            .append('use')
+            .attr('xlink:href', name)
+            .attr('class', useklass);
     };
 };
 iD.svg.Labels = function(projection, context) {
@@ -30102,19 +30150,18 @@ iD.svg.Labels = function(projection, context) {
     }
 
     function drawAreaIcons(group, entities, filter, classes, labels) {
-
         var icons = group.selectAll('use')
             .filter(filter)
             .data(entities, iD.Entity.key);
 
         icons.enter()
             .append('use')
-            .attr('clip-path', 'url(#clip-square-18)')
-            .attr('class', 'icon');
+            .attr('width', '18px')
+            .attr('height', '18px');
 
         icons.attr('transform', get(labels, 'transform'))
             .attr('xlink:href', function(d) {
-                return '#maki-' + context.presets().match(d, context.graph()).icon + '-18';
+                return '#' + context.presets().match(d, context.graph()).icon + '-18';
             });
 
 
@@ -30646,9 +30693,10 @@ iD.svg.Points = function(projection, context) {
             .call(markerPath, 'stroke');
 
         group.append('use')
-            .attr('class', 'icon')
             .attr('transform', 'translate(-6, -20)')
-            .attr('clip-path', 'url(#clip-square-12)');
+            .attr('class', 'icon')
+            .attr('width', '12px')
+            .attr('height', '12px');
 
         groups.attr('transform', iD.svg.PointTransform(projection))
             .call(iD.svg.TagClasses());
@@ -30660,7 +30708,7 @@ iD.svg.Points = function(projection, context) {
         groups.select('.icon')
             .attr('xlink:href', function(entity) {
                 var preset = context.presets().match(entity, context.graph());
-                return preset.icon ? '#maki-' + preset.icon + '-12' : '';
+                return preset.icon ? '#' + preset.icon + '-12' : '';
             });
 
         groups.exit()
@@ -30787,9 +30835,9 @@ iD.svg.Turns = function(projection) {
         function icon(turn) {
             var u = turn.u ? '-u' : '';
             if (!turn.restriction)
-                return '#icon-restriction-yes' + u;
+                return '#turn-yes' + u;
             var restriction = graph.entity(turn.restriction).tags.restriction;
-            return '#icon-restriction-' +
+            return '#turn-' +
                 (!turn.indirect_restriction && /^only_/.test(restriction) ? 'only' : 'no') + u;
         }
 
@@ -30797,20 +30845,20 @@ iD.svg.Turns = function(projection) {
             .data(turns, key);
 
         // Enter
-
         var enter = groups.enter().append('g')
             .attr('class', 'turn');
 
         var nEnter = enter.filter(function (turn) { return !turn.u; });
 
         nEnter.append('rect')
-            .attr('transform', 'translate(-12, -12)')
-            .attr('width', '45')
-            .attr('height', '25');
+            .attr('transform', 'translate(-22, -12)')
+            .attr('width', '44')
+            .attr('height', '24');
 
         nEnter.append('use')
-            .attr('transform', 'translate(-12, -12)')
-            .attr('clip-path', 'url(#clip-square-45)');
+            .attr('width', '44')
+            .attr('height', '24');
+
 
         var uEnter = enter.filter(function (turn) { return turn.u; });
 
@@ -30818,11 +30866,11 @@ iD.svg.Turns = function(projection) {
             .attr('r', '16');
 
         uEnter.append('use')
-            .attr('transform', 'translate(-16, -16)')
-            .attr('clip-path', 'url(#clip-square-32)');
+            .attr('width', '32')
+            .attr('height', '32');
+
 
         // Update
-
         groups
             .attr('transform', function (turn) {
                 var v = graph.entity(turn.via.node),
@@ -30831,7 +30879,7 @@ iD.svg.Turns = function(projection) {
                     p = projection(v.loc),
                     r = turn.u ? 0 : 60;
 
-                return 'translate(' + (r * Math.cos(a) + p[0]) + ',' + (r * Math.sin(a) + p[1]) + ')' +
+                return 'translate(' + (r * Math.cos(a) + p[0]) + ',' + (r * Math.sin(a) + p[1]) + ') ' +
                     'rotate(' + a * 180 / Math.PI + ')';
             });
 
@@ -30841,8 +30889,8 @@ iD.svg.Turns = function(projection) {
         groups.select('rect');
         groups.select('circle');
 
-        // Exit
 
+        // Exit
         groups.exit()
             .remove();
 
@@ -30970,8 +31018,9 @@ iD.svg.Vertices = function(projection, context) {
         enter.filter(function(d) { return icon(d); })
             .append('use')
             .attr('transform', 'translate(-6, -6)')
-            .attr('clip-path', 'url(#clip-square-12)')
-            .attr('xlink:href', function(d) { return '#maki-' + icon(d) + '-12'; });
+            .attr('xlink:href', function(d) { return '#' + icon(d) + '-12'; })
+            .attr('width', '12px')
+            .attr('height', '12px');
 
         // Vertices with tags get a fill.
         enter.filter(function(d) { return d.hasInterestingTags(); })
@@ -31162,17 +31211,25 @@ iD.ui = function(context) {
             .attr('href', 'http://github.com/openstreetmap/iD')
             .text(iD.version);
 
-        var bugReport = aboutList.append('li')
-            .append('a')
+        var issueLinks = aboutList.append('li');
+
+        issueLinks.append('a')
             .attr('target', '_blank')
             .attr('tabindex', -1)
-            .attr('href', 'https://github.com/openstreetmap/iD/issues');
-
-        bugReport.append('span')
-            .attr('class','icon bug light');
-
-        bugReport.call(bootstrap.tooltip()
+            .attr('href', 'https://github.com/openstreetmap/iD/issues')
+            .call(iD.svg.Icon('#icon-bug', 'light'))
+            .call(bootstrap.tooltip()
                 .title(t('report_a_bug'))
+                .placement('top')
+            );
+
+        issueLinks.append('a')
+            .attr('target', '_blank')
+            .attr('tabindex', -1)
+            .attr('href', 'https://github.com/openstreetmap/iD/blob/master/CONTRIBUTING.md#translating')
+            .call(iD.svg.Icon('#icon-translate', 'light'))
+            .call(bootstrap.tooltip()
+                .title(t('help_translate'))
                 .placement('top')
             );
 
@@ -31299,11 +31356,11 @@ iD.ui.Account = function(context) {
             // Add thumbnail or dont
             if (details.image_url) {
                 userLink.append('img')
-                    .attr('class', 'icon icon-pre-text user-icon')
+                    .attr('class', 'icon pre-text user-icon')
                     .attr('src', details.image_url);
             } else {
-                userLink.append('span')
-                    .attr('class', 'icon avatar light icon-pre-text');
+                userLink
+                    .call(iD.svg.Icon('#icon-avatar', 'pre-text light'));
             }
 
             // Add user name
@@ -31424,11 +31481,11 @@ iD.ui.Background = function(context) {
             ['right', [-1, 0]],
             ['bottom', [0, 1]]],
         opacityDefault = (context.storage('background-opacity') !== null) ?
-            (+context.storage('background-opacity')) : 0.5,
+            (+context.storage('background-opacity')) : 1.0,
         customTemplate = context.storage('background-custom-template') || '';
 
     // Can be 0 from <1.3.0 use or due to issue #1923.
-    if (opacityDefault === 0) opacityDefault = 0.5;
+    if (opacityDefault === 0) opacityDefault = 1.0;
 
     function background(selection) {
 
@@ -31603,12 +31660,9 @@ iD.ui.Background = function(context) {
             button = selection.append('button')
                 .attr('tabindex', -1)
                 .on('click', toggle)
+                .call(iD.svg.Icon('#icon-layers', 'light'))
                 .call(tooltip),
             shown = false;
-
-        button.append('span')
-            .attr('class', 'icon layers light');
-
 
         var opa = content.append('div')
                 .attr('class', 'opacity-options-wrapper');
@@ -31647,8 +31701,7 @@ iD.ui.Background = function(context) {
                 .title(t('background.custom_button'))
                 .placement('left'))
             .on('click', editCustom)
-            .append('span')
-            .attr('class', 'icon geocode');
+            .call(iD.svg.Icon('#icon-search'));
 
         var label = custom.append('label');
 
@@ -31716,15 +31769,14 @@ iD.ui.Background = function(context) {
             .attr('class', function(d) { return d[0] + ' nudge'; })
             .on('mousedown', clickNudge);
 
-        var resetButton = nudgeContainer.append('button')
+        var resetButton = nudgeContainer
+            .append('button')
             .attr('class', 'reset disabled')
             .on('click', function () {
                 context.background().offset([0, 0]);
                 resetButton.classed('disabled', true);
-            });
-
-        resetButton.append('div')
-            .attr('class', 'icon undo');
+            })
+            .call(iD.svg.Icon('#icon-undo'));
 
         context.map()
             .on('move.background-update', _.debounce(update, 1000));
@@ -31752,30 +31804,32 @@ iD.ui.Background = function(context) {
 // Translate a MacOS key command into the appropriate Windows/Linux equivalent.
 // For example, ⌘Z -> Ctrl+Z
 iD.ui.cmd = function(code) {
-    if (iD.detect().os === 'mac')
+    if (iD.detect().os === 'mac') {
         return code;
-
-    var replacements = {
-        '⌘': 'Ctrl',
-        '⇧': 'Shift',
-        '⌥': 'Alt',
-        '⌫': 'Backspace',
-        '⌦': 'Delete'
-    }, keys = [];
+    }
 
     if (iD.detect().os === 'win') {
         if (code === '⌘⇧Z') return 'Ctrl+Y';
     }
 
+    var result = '',
+        replacements = {
+            '⌘': 'Ctrl',
+            '⇧': 'Shift',
+            '⌥': 'Alt',
+            '⌫': 'Backspace',
+            '⌦': 'Delete'
+        };
+
     for (var i = 0; i < code.length; i++) {
         if (code[i] in replacements) {
-            keys.push(replacements[code[i]]);
+            result += replacements[code[i]] + '+';
         } else {
-            keys.push(code[i]);
+            result += code[i];
         }
     }
 
-    return keys.join('+');
+    return result;
 };
 iD.ui.Commit = function(context) {
     var dispatch = d3.dispatch('cancel', 'save');
@@ -31817,7 +31871,11 @@ iD.ui.Commit = function(context) {
             .attr('placeholder', t('commit.description_placeholder'))
             .attr('maxlength', 255)
             .property('value', context.storage('comment') || '')
-            .on('blur.save', function () {
+            .on('input.save', function() {
+                d3.selectAll('.save-section .save-button')
+                    .attr('disabled', (this.value.length ? null : true));
+            })
+            .on('blur.save', function() {
                 context.storage('comment', this.value);
             });
 
@@ -31847,12 +31905,13 @@ iD.ui.Commit = function(context) {
             .on('mouseout', mouseout)
             .on('click', warningClick);
 
-        warningLi.append('span')
-            .attr('class', 'alert icon icon-pre-text');
+        warningLi
+            .call(iD.svg.Icon('#icon-alert', 'pre-text'));
 
-        warningLi.append('strong').text(function(d) {
-            return d.message;
-        });
+        warningLi
+            .append('strong').text(function(d) {
+                return d.message;
+            });
 
         warningLi.filter(function(d) { return d.tooltip; })
             .call(bootstrap.tooltip()
@@ -31877,7 +31936,7 @@ iD.ui.Commit = function(context) {
             if (user.image_url) {
                 userLink.append('img')
                     .attr('src', user.image_url)
-                    .attr('class', 'icon icon-pre-text user-icon');
+                    .attr('class', 'icon pre-text user-icon');
             }
 
             userLink.append('a')
@@ -31896,7 +31955,11 @@ iD.ui.Commit = function(context) {
             .attr('class','buttons fillL cf');
 
         var saveButton = buttonSection.append('button')
-            .attr('class', 'action col5 button')
+            .attr('class', 'action col5 button save-button')
+            .attr('disabled', function() {
+                var n = d3.select('.commit-form textarea').node();
+                return (n && n.value.length) ? null : true;
+            })
             .on('click.save', function() {
                 dispatch.save({
                     comment: commentField.node().value
@@ -31908,7 +31971,7 @@ iD.ui.Commit = function(context) {
             .text(t('commit.save'));
 
         var cancelButton = buttonSection.append('button')
-            .attr('class', 'action col5 button')
+            .attr('class', 'action col5 button cancel-button')
             .on('click.cancel', function() { dispatch.cancel(); });
 
         cancelButton.append('span')
@@ -31936,10 +31999,10 @@ iD.ui.Commit = function(context) {
             .on('mouseout', mouseout)
             .on('click', zoomToEntity);
 
-        li.append('span')
-            .attr('class', function(d) {
-                return d.entity.geometry(d.graph) + ' ' + d.changeType + ' icon icon-pre-text';
-            });
+        li.each(function(d) {
+            d3.select(this)
+                .call(iD.svg.Icon('#icon-' + d.entity.geometry(d.graph), 'pre-text ' + d.changeType));
+        });
 
         li.append('span')
             .attr('class', 'change-type')
@@ -32039,8 +32102,7 @@ iD.ui.Conflicts = function(context) {
             .append('button')
             .attr('class', 'fr')
             .on('click', function() { dispatch.cancel(); })
-            .append('span')
-            .attr('class', 'icon close');
+            .call(iD.svg.Icon('#icon-close'));
 
         header
             .append('h3')
@@ -32291,8 +32353,7 @@ iD.ui.Contributors = function(context) {
             subset = u.slice(0, u.length > limit ? limit - 1 : limit);
 
         selection.html('')
-            .append('span')
-            .attr('class', 'icon nearby light icon-pre-text');
+            .call(iD.svg.Icon('#icon-nearby', 'pre-text light'));
 
         var userList = d3.select(document.createElement('span'));
 
@@ -32423,8 +32484,7 @@ iD.ui.EntityEditor = function(context) {
 
         $enter.append('button')
             .attr('class', 'fr preset-close')
-            .append('span')
-            .attr('class', 'icon close');
+            .call(iD.svg.Icon('#icon-close'));
 
         $enter.append('h3');
 
@@ -32689,8 +32749,8 @@ iD.ui.FeatureList = function(context) {
             .on('keypress', keypress)
             .on('input', inputevent);
 
-        searchWrap.append('span')
-            .attr('class', 'icon search');
+        searchWrap
+            .call(iD.svg.Icon('#icon-search', 'pre-text'));
 
         var listWrap = selection.append('div')
             .attr('class', 'inspector-body');
@@ -32797,10 +32857,8 @@ iD.ui.FeatureList = function(context) {
                 .data([0])
                 .enter().append('button')
                 .property('disabled', true)
-                .attr('class', 'no-results-item');
-
-            resultsIndicator.append('span')
-                .attr('class', 'icon alert');
+                .attr('class', 'no-results-item')
+                .call(iD.svg.Icon('#icon-alert', 'pre-text'));
 
             resultsIndicator.append('span')
                 .attr('class', 'entity-name');
@@ -32832,17 +32890,21 @@ iD.ui.FeatureList = function(context) {
             var items = list.selectAll('.feature-list-item')
                 .data(results, function(d) { return d.id; });
 
-            var enter = items.enter().insert('button', '.geocode-item')
+            var enter = items.enter()
+                .insert('button', '.geocode-item')
                 .attr('class', 'feature-list-item')
                 .on('mouseover', mouseover)
                 .on('mouseout', mouseout)
                 .on('click', click);
 
-            var label = enter.append('div')
+            var label = enter
+                .append('div')
                 .attr('class', 'label');
 
-            label.append('span')
-                .attr('class', function(d) { return d.geometry + ' icon icon-pre-text'; });
+            label.each(function(d) {
+                d3.select(this)
+                    .call(iD.svg.Icon('#icon-' + d.geometry, 'pre-text'));
+            });
 
             label.append('span')
                 .attr('class', 'entity-type')
@@ -32982,7 +33044,7 @@ iD.ui.FullScreen = function(context) {
         //     .attr('class', 'icon full-screen');
 
         keybinding
-            .on(iD.ui.cmd('f11'), fullScreen)
+            .on('f11', fullScreen)
             .on(iD.ui.cmd('⌘⇧F'), fullScreen);
 
         d3.select(document)
@@ -33007,15 +33069,13 @@ iD.ui.Geolocate = function(map) {
     return function(selection) {
         if (!navigator.geolocation) return;
 
-        var button = selection.append('button')
+        selection.append('button')
             .attr('tabindex', -1)
             .attr('title', t('geolocate.title'))
             .on('click', click)
+            .call(iD.svg.Icon('#icon-geolocate', 'light'))
             .call(bootstrap.tooltip()
                 .placement('left'));
-
-         button.append('span')
-             .attr('class', 'icon geolocate light');
     };
 };
 iD.ui.Help = function(context) {
@@ -33097,8 +33157,7 @@ iD.ui.Help = function(context) {
                     .on('click', function() {
                         clickHelp(docs[i - 1], i - 1);
                     });
-                prevLink.append('span').attr('class', 'icon back blue');
-                prevLink.append('span').html(docs[i - 1].title);
+                prevLink.append('span').html('&#9668; ' + docs[i - 1].title);
             }
             if (i < docs.length - 1) {
                 var nextLink = nav.append('a')
@@ -33106,8 +33165,7 @@ iD.ui.Help = function(context) {
                     .on('click', function() {
                         clickHelp(docs[i + 1], i + 1);
                     });
-                nextLink.append('span').html(docs[i + 1].title);
-                nextLink.append('span').attr('class', 'icon forward blue');
+                nextLink.append('span').html(docs[i + 1].title + ' &#9658;');
             }
         }
 
@@ -33126,11 +33184,9 @@ iD.ui.Help = function(context) {
             button = selection.append('button')
                 .attr('tabindex', -1)
                 .on('click', toggle)
+                .call(iD.svg.Icon('#icon-help', 'light'))
                 .call(tooltip),
             shown = false;
-
-        button.append('span')
-            .attr('class', 'icon help light');
 
 
         var toc = pane.append('ul')
@@ -33191,6 +33247,19 @@ iD.ui.Info = function(context) {
         function steradiansToSqmeters(r) {
             // http://gis.stackexchange.com/a/124857/40446
             return r / 12.56637 * 510065621724000;
+        }
+
+        function toLineString(feature) {
+            if (feature.type === 'LineString') return feature;
+
+            var result = { type: 'LineString', coordinates: [] };
+            if (feature.type === 'Polygon') {
+                result.coordinates = feature.coordinates[0];
+            } else if (feature.type === 'MultiPolygon') {
+                result.coordinates = feature.coordinates[0][0];
+            }
+
+            return result;
         }
 
         function displayLength(m) {
@@ -33265,7 +33334,7 @@ iD.ui.Info = function(context) {
             if (hidden()) return;
 
             var resolver = context.graph(),
-                selected = context.selectedIDs(),
+                selected = _.filter(context.selectedIDs(), function(e) { return context.hasEntity(e); }),
                 singular = selected.length === 1 ? selected[0] : null,
                 extent = iD.geo.Extent(),
                 entity;
@@ -33301,7 +33370,7 @@ iD.ui.Info = function(context) {
             if (geometry === 'line' || geometry === 'area') {
                 var closed = (entity.type === 'relation') || (entity.isClosed() && !entity.isDegenerate()),
                     feature = entity.asGeoJSON(resolver),
-                    length = radiansToMeters(d3.geo.length(feature)),
+                    length = radiansToMeters(d3.geo.length(toLineString(feature))),
                     lengthLabel = t('infobox.' + (closed ? 'perimeter' : 'length')),
                     centroid = d3.geo.centroid(feature);
 
@@ -33561,20 +33630,24 @@ iD.ui.intro = function(context) {
             .attr('class', 'joined')
             .selectAll('button.step');
 
-        var entered = buttonwrap.data(steps)
-            .enter().append('button')
-                .attr('class', 'step')
-                .on('click', enter);
+        var entered = buttonwrap
+            .data(steps)
+            .enter()
+            .append('button')
+            .attr('class', 'step')
+            .on('click', enter);
 
-        entered.append('div').attr('class','icon icon-pre-text apply');
-        entered.append('label').text(function(d) { return t(d.title); });
+        entered
+            .call(iD.svg.Icon('#icon-apply', 'pre-text'));
+
+        entered
+            .append('label')
+            .text(function(d) { return t(d.title); });
+
         enter(steps[0]);
 
         function enter (newStep) {
-
-            if (step) {
-                step.exit();
-            }
+            if (step) { step.exit(); }
 
             context.enter(iD.modes.Browse(context));
 
@@ -33893,11 +33966,9 @@ iD.ui.MapData = function(context) {
             button = selection.append('button')
                 .attr('tabindex', -1)
                 .on('click', togglePanel)
+                .call(iD.svg.Icon('#icon-data', 'light'))
                 .call(tooltip),
             shown = false;
-
-        button.append('span')
-            .attr('class', 'icon data light');
 
         content.append('h4')
             .text(t('map_data.title'));
@@ -33954,8 +34025,7 @@ iD.ui.MapData = function(context) {
                 d3.event.stopPropagation();
                 context.background().zoomToGpxLayer();
             })
-            .append('span')
-            .attr('class', 'icon geolocate');
+            .call(iD.svg.Icon('#icon-search'));
 
         gpxLayerItem.append('button')
             .attr('class', 'layer-browse')
@@ -33970,8 +34040,7 @@ iD.ui.MapData = function(context) {
                     })
                     .node().click();
             })
-            .append('span')
-            .attr('class', 'icon geocode');
+            .call(iD.svg.Icon('#icon-geolocate'));
 
         label = gpxLayerItem.append('label')
             .call(bootstrap.tooltip()
@@ -34449,8 +34518,10 @@ iD.ui.Modes = function(context) {
         context
             .on('enter.modes', update);
 
-        buttons.append('span')
-            .attr('class', function(mode) { return mode.id + ' icon icon-pre-text'; });
+        buttons.each(function(d) {
+            d3.select(this)
+                .call(iD.svg.Icon('#icon-' + d.button, 'pre-text'));
+        });
 
         buttons.append('span')
             .attr('class', 'label')
@@ -34490,10 +34561,9 @@ iD.ui.Notice = function(context) {
             .attr('class', 'zoom-to notice')
             .on('click', function() { context.map().zoom(context.minEditableZoom()); });
 
-        button.append('span')
-            .attr('class', 'icon zoom-in-invert');
-
-        button.append('span')
+        button
+            .call(iD.svg.Icon('#icon-plus', 'pre-text'))
+            .append('span')
             .attr('class', 'label')
             .text(t('zoom_in_edit'));
 
@@ -34622,13 +34692,12 @@ iD.ui.preset = function(context) {
 
         wrap.append('button')
             .attr('class', 'remove-icon')
-            .append('span').attr('class', 'icon delete');
+            .call(iD.svg.Icon('#operation-delete'));
 
         wrap.append('button')
             .attr('class', 'modified-icon')
             .attr('tabindex', -1)
-            .append('div')
-            .attr('class', 'icon undo');
+            .call(iD.svg.Icon('#icon-undo'));
 
         // Update
 
@@ -34761,13 +34830,26 @@ iD.ui.PresetIcon = function() {
     var preset, geometry;
 
     function presetIcon(selection) {
-        selection.each(setup);
+        selection.each(render);
     }
 
-    function setup() {
+    function render() {
         var selection = d3.select(this),
             p = preset.apply(this, arguments),
-            geom = geometry.apply(this, arguments);
+            geom = geometry.apply(this, arguments),
+            icon = p.icon || (geom === 'line' ? 'other-line' : 'marker-stroked'),
+            maki = iD.data.featureIcons.hasOwnProperty(icon + '-24');
+
+        function tag_classes(p) {
+            var s = '';
+            for (var i in p.tags) {
+                s += ' tag-' + i;
+                if (p.tags[i] !== '*') {
+                    s += ' tag-' + i + '-' + p.tags[i];
+                }
+            }
+            return s;
+        }
 
         var $fill = selection.selectAll('.preset-icon-fill')
             .data([0]);
@@ -34775,32 +34857,39 @@ iD.ui.PresetIcon = function() {
         $fill.enter().append('div');
 
         $fill.attr('class', function() {
-            var s = 'preset-icon-fill preset-icon-fill-' + geom;
-            for (var i in p.tags) {
-                s += ' tag-' + i + ' tag-' + i + '-' + p.tags[i];
-            }
-            return s;
+            return 'preset-icon-fill preset-icon-fill-' + geom + tag_classes(p);
         });
+
+        var $frame = selection.selectAll('.preset-icon-frame')
+            .data([0]);
+
+        $frame.enter()
+            .append('div')
+            .call(iD.svg.Icon('#preset-icon-frame'));
+
+        $frame.attr('class', function() {
+            return 'preset-icon-frame ' + (geom === 'area' ? '' : 'hide');
+        });
+
 
         var $icon = selection.selectAll('.preset-icon')
             .data([0]);
 
-        $icon.enter().append('div');
+        $icon.enter()
+            .append('div')
+            .attr('class', 'preset-icon')
+            .call(iD.svg.Icon(''));
 
-        $icon.attr('class', function() {
-            var icon = p.icon || (geom === 'line' ? 'other-line' : 'marker-stroked'),
-                klass = 'feature-' + icon + ' preset-icon';
+        $icon
+            .attr('class', 'preset-icon preset-icon-' + (maki ? '32' : '60'));
 
-            var featureicon = iD.data.featureIcons[icon];
-            if (featureicon && featureicon[geom]) {
-                klass += ' preset-icon-' + geom;
-            } else if (icon === 'multipolygon') {
-                // Special case (geometry === 'area')
-                klass += ' preset-icon-relation';
-            }
+        $icon.selectAll('svg')
+            .attr('class', function() {
+                return 'icon ' + icon + tag_classes(p);
+            });
 
-            return klass;
-        });
+        $icon.selectAll('use')       // workaround: maki parking-24 broken?
+            .attr('href', '#' + icon + (maki ? ( icon === 'parking' ? '-18' : '-24') : ''));
     }
 
     presetIcon.preset = function(_) {
@@ -34840,15 +34929,14 @@ iD.ui.PresetList = function(context) {
                 .attr('class', 'preset-choose')
                 .on('click', function() { event.choose(currentPreset); })
                 .append('span')
-                .attr('class', 'icon forward');
+                .html('&#9658;');
         } else {
             messagewrap.append('button')
                 .attr('class', 'close')
                 .on('click', function() {
                     context.enter(iD.modes.Browse(context));
                 })
-                .append('span')
-                .attr('class', 'icon close');
+                .call(iD.svg.Icon('#icon-close'));
         }
 
         function keydown() {
@@ -34905,8 +34993,8 @@ iD.ui.PresetList = function(context) {
             .on('keypress', keypress)
             .on('input', inputevent);
 
-        searchWrap.append('span')
-            .attr('class', 'icon search');
+        searchWrap
+            .call(iD.svg.Icon('#icon-search', 'pre-text'));
 
         if (autofocus) {
             search.node().focus();
@@ -35102,25 +35190,28 @@ iD.ui.RadialMenu = function(context, operations) {
 
         var button = menu.selectAll()
             .data(operations)
-            .enter().append('g')
+            .enter()
+            .append('g')
+            .attr('class', function(d) { return 'radial-menu-item radial-menu-item-' + d.id; })
+            .classed('disabled', function(d) { return d.disabled(); })
             .attr('transform', function(d, i) {
-                return 'translate(' + r * Math.sin(a0 + i * a) + ',' +
-                                      r * Math.cos(a0 + i * a) + ')';
+                return 'translate(' + iD.geo.roundCoords([
+                        r * Math.sin(a0 + i * a),
+                        r * Math.cos(a0 + i * a)]).join(',') + ')';
             });
 
         button.append('circle')
-            .attr('class', function(d) { return 'radial-menu-item radial-menu-item-' + d.id; })
             .attr('r', 15)
-            .classed('disabled', function(d) { return d.disabled(); })
             .on('click', click)
             .on('mousedown', mousedown)
             .on('mouseover', mouseover)
             .on('mouseout', mouseout);
 
         button.append('use')
-            .attr('transform', 'translate(-10, -10)')
-            .attr('clip-path', 'url(#clip-square-20)')
-            .attr('xlink:href', function(d) { return '#icon-operation-' + (d.disabled() ? 'disabled-' : '') + d.id; });
+            .attr('transform', 'translate(-10,-10)')
+            .attr('width', '20')
+            .attr('height', '20')
+            .attr('xlink:href', function(d) { return '#operation-' + d.id; });
 
         tooltip = d3.select(document.body)
             .append('div')
@@ -35291,8 +35382,7 @@ iD.ui.RawMemberEditor = function(context) {
                 .attr('tabindex', -1)
                 .attr('class', 'remove button-input-action member-delete minor')
                 .on('click', deleteMember)
-                .append('span')
-                .attr('class', 'icon delete');
+                .call(iD.svg.Icon('#operation-delete'));
 
             $items.exit()
                 .remove();
@@ -35444,8 +35534,7 @@ iD.ui.RawMembershipEditor = function(context) {
                 .attr('tabindex', -1)
                 .attr('class', 'remove button-input-action member-delete minor')
                 .on('click', deleteMembership)
-                .append('span')
-                .attr('class', 'icon delete');
+                .call(iD.svg.Icon('#operation-delete'));
 
             $items.exit()
                 .remove();
@@ -35480,8 +35569,7 @@ iD.ui.RawMembershipEditor = function(context) {
                     .attr('tabindex', -1)
                     .attr('class', 'remove button-input-action member-delete minor')
                     .on('click', deleteMembership)
-                    .append('span')
-                    .attr('class', 'icon delete');
+                    .call(iD.svg.Icon('#operation-delete'));
 
             } else {
                 $list.selectAll('.member-row-new')
@@ -35491,10 +35579,10 @@ iD.ui.RawMembershipEditor = function(context) {
             var $add = $wrap.selectAll('.add-relation')
                 .data([0]);
 
-            $add.enter().append('button')
+            $add.enter()
+                .append('button')
                 .attr('class', 'add-relation')
-                .append('span')
-                .attr('class', 'icon plus light');
+                .call(iD.svg.Icon('#icon-plus', 'light'));
 
             $wrap.selectAll('.add-relation')
                 .on('click', function() {
@@ -35555,11 +35643,10 @@ iD.ui.RawTagEditor = function(context) {
         var $newTag = $wrap.selectAll('.add-tag')
             .data([0]);
 
-        var $enter = $newTag.enter().append('button')
-            .attr('class', 'add-tag');
-
-        $enter.append('span')
-            .attr('class', 'icon plus light');
+        $newTag.enter()
+            .append('button')
+            .attr('class', 'add-tag')
+            .call(iD.svg.Icon('#icon-plus', 'light'));
 
         $newTag.on('click', addTag);
 
@@ -35568,7 +35655,7 @@ iD.ui.RawTagEditor = function(context) {
 
         // Enter
 
-        $enter = $items.enter().append('li')
+        var $enter = $items.enter().append('li')
             .attr('class', 'tag-row cf');
 
         $enter.append('div')
@@ -35588,8 +35675,7 @@ iD.ui.RawTagEditor = function(context) {
         $enter.append('button')
             .attr('tabindex', -1)
             .attr('class', 'remove minor')
-            .append('span')
-            .attr('class', 'icon delete');
+            .call(iD.svg.Icon('#operation-delete'));
 
         if (context.taginfo()) {
             $enter.each(bindTypeahead);
@@ -35600,7 +35686,12 @@ iD.ui.RawTagEditor = function(context) {
         $items.order();
 
         $items.each(function(tag) {
-            var reference = iD.ui.TagReference({key: tag.key, value: tag.value}, context);
+            var isRelation = (context.entity(id).type === 'relation'),
+                reference;
+            if (isRelation && tag.key === 'type')
+                reference = iD.ui.TagReference({rtype: tag.value}, context);
+            else
+                reference = iD.ui.TagReference({key: tag.key, value: tag.value}, context);
 
             if (state === 'hover') {
                 reference.showing(false);
@@ -35980,12 +36071,9 @@ iD.ui.SelectionList = function(context, selectedIDs) {
                 .on('click', selectEntity);
 
             // Enter
-
             var label = enter.append('div')
-                .attr('class', 'label');
-
-            label.append('span')
-                .attr('class', 'icon icon-pre-text');
+                .attr('class', 'label')
+                .call(iD.svg.Icon('', 'pre-text'));
 
             label.append('span')
                 .attr('class', 'entity-type');
@@ -35994,9 +36082,11 @@ iD.ui.SelectionList = function(context, selectedIDs) {
                 .attr('class', 'entity-name');
 
             // Update
-
-            items.selectAll('.icon')
-                .attr('class', function(entity) { return context.geometry(entity.id) + ' icon icon-pre-text'; });
+            items.selectAll('use')
+                .attr('href', function() {
+                    var entity = this.parentElement.parentElement.__data__;
+                    return '#icon-' + context.geometry(entity.id);
+                });
 
             items.selectAll('.entity-type')
                 .text(function(entity) { return context.presets().match(entity, context.graph()).name(); });
@@ -36005,7 +36095,6 @@ iD.ui.SelectionList = function(context, selectedIDs) {
                 .text(function(entity) { return iD.util.displayName(entity); });
 
             // Exit
-
             items.exit()
                 .remove();
         }
@@ -36251,8 +36340,7 @@ iD.ui.Success = function(context) {
         header.append('button')
             .attr('class', 'fr')
             .on('click', function() { dispatch.cancel(); })
-            .append('span')
-            .attr('class', 'icon close');
+            .call(iD.svg.Icon('#icon-close'));
 
         header.append('h3')
             .text(t('success.just_edited'));
@@ -36279,13 +36367,15 @@ iD.ui.Success = function(context) {
 
         body.selectAll('.button.social')
             .data(d3.entries(sharing))
-            .enter().append('a')
-            .attr('class', function(d) { return 'button social col4 ' + d.key; })
+            .enter()
+            .append('a')
+            .attr('class', 'button social col4')
             .attr('target', '_blank')
             .attr('href', function(d) { return d.value; })
             .call(bootstrap.tooltip()
                 .title(function(d) { return t('success.' + d.key); })
-                .placement('bottom'));
+                .placement('bottom'))
+            .each(function(d) { d3.select(this).call(iD.svg.Icon('#logo-' + d.key, 'social')); });
     }
 
     success.changeset = function(_) {
@@ -36361,15 +36451,12 @@ iD.ui.TagReference = function(tag, context) {
                 .append('p')
                 .text(docs.description);
 
-            var wikiLink = body
+            body
                 .append('a')
                 .attr('target', '_blank')
-                .attr('href', 'http://wiki.openstreetmap.org/wiki/' + docs.title);
-
-            wikiLink.append('span')
-                .attr('class','icon icon-pre-text out-link');
-
-            wikiLink.append('span')
+                .attr('href', 'http://wiki.openstreetmap.org/wiki/' + docs.title)
+                .call(iD.svg.Icon('#icon-out-link', 'inline'))
+                .append('span')
                 .text(t('inspector.reference'));
 
             return true;
@@ -36403,12 +36490,11 @@ iD.ui.TagReference = function(tag, context) {
         button = selection.selectAll('.tag-reference-button')
             .data([0]);
 
-        var enter = button.enter().append('button')
+        button.enter()
+            .append('button')
+            .attr('class', 'tag-reference-button')
             .attr('tabindex', -1)
-            .attr('class', 'tag-reference-button');
-
-        enter.append('span')
-            .attr('class', 'icon inspect');
+            .call(iD.svg.Icon('#icon-inspect'));
 
         button.on('click', function () {
             d3.event.stopPropagation();
@@ -36446,7 +36532,8 @@ iD.ui.TagReference = function(tag, context) {
     };
 
     return tagReference;
-};// toggles the visibility of ui elements, using a combination of the
+};
+// toggles the visibility of ui elements, using a combination of the
 // hide class, which sets display=none, and a d3 transition for opacity.
 // this will cause blinking when called repeatedly, so check that the
 // value actually changes between calls.
@@ -36497,8 +36584,10 @@ iD.ui.UndoRedo = function(context) {
             .on('click', function(d) { return d.action(); })
             .call(tooltip);
 
-        buttons.append('span')
-            .attr('class', function(d) { return 'icon ' + d.id; });
+        buttons.each(function(d) {
+            d3.select(this)
+                .call(iD.svg.Icon('#icon-' + d.id));
+        });
 
         var keybinding = d3.keybinding('undo')
             .on(commands[0].cmd, function() { d3.event.preventDefault(); commands[0].action(); })
@@ -36537,17 +36626,16 @@ iD.ui.ViewOnOSM = function(context) {
         var $link = selection.selectAll('.view-on-osm')
             .data([0]);
 
-        var $enter = $link.enter().append('a')
+        $link.enter()
+            .append('a')
             .attr('class', 'view-on-osm')
-            .attr('target', '_blank');
-
-        $enter.append('span')
-            .attr('class', 'icon icon-pre-text out-link');
-
-        $enter.append('span')
+            .attr('target', '_blank')
+            .call(iD.svg.Icon('#icon-out-link', 'inline'))
+            .append('span')
             .text(t('inspector.view_on_osm'));
 
-        $link.attr('href', context.connection().entityURL(entity));
+        $link
+            .attr('href', context.connection().entityURL(entity));
     }
 
     viewOnOSM.entityID = function(_) {
@@ -36561,11 +36649,13 @@ iD.ui.ViewOnOSM = function(context) {
 iD.ui.Zoom = function(context) {
     var zooms = [{
         id: 'zoom-in',
+        icon: 'plus',
         title: t('zoom.in'),
         action: context.zoomIn,
         key: '+'
     }, {
         id: 'zoom-out',
+        icon: 'minus',
         title: t('zoom.out'),
         action: context.zoomOut,
         key: '-'
@@ -36606,8 +36696,10 @@ iD.ui.Zoom = function(context) {
                     return iD.ui.tooltipHtml(d.title, d.key);
                 }));
 
-        button.append('span')
-            .attr('class', function(d) { return d.id + ' icon'; });
+        button.each(function(d) {
+            d3.select(this)
+                .call(iD.svg.Icon('#icon-' + d.icon, 'light'));
+        });
 
         var keybinding = d3.keybinding('zoom');
 
@@ -37410,13 +37502,13 @@ iD.ui.preset.localized = function(field, context) {
         var translateButton = selection.selectAll('.localized-add')
             .data([0]);
 
-        translateButton.enter().append('button')
+        translateButton.enter()
+            .append('button')
             .attr('class', 'button-input-action localized-add minor')
+            .call(iD.svg.Icon('#icon-plus'))
             .call(bootstrap.tooltip()
                 .title(t('translate.translate'))
-                .placement('left'))
-            .append('span')
-            .attr('class', 'icon plus');
+                .placement('left'));
 
         translateButton
             .on('click', addBlank);
@@ -37522,7 +37614,7 @@ iD.ui.preset.localized = function(field, context) {
                             .style('max-height','0px')
                             .remove();
                     })
-                    .append('span').attr('class', 'icon delete');
+                    .call(iD.svg.Icon('#operation-delete'));
 
                 wrap.append('input')
                     .attr('class', 'localized-lang')
@@ -37590,11 +37682,11 @@ iD.ui.preset.localized = function(field, context) {
 
         input.value(tags[field.key] || '');
 
-        var postfixed = [];
-        for (var i in tags) {
-            var m = i.match(new RegExp(field.key + ':([a-zA-Z_-]+)$'));
-            if (m && m[1]) {
-                postfixed.push({ lang: m[1], value: tags[i]});
+        var postfixed = [], k, m;
+        for (k in tags) {
+            m = k.match(/^(.*):([a-zA-Z_-]+)$/);
+            if (m && m[1] === field.key && m[2]) {
+                postfixed.push({ lang: m[2], value: tags[k] });
             }
         }
 
@@ -37843,7 +37935,7 @@ iD.ui.preset.restrictions = function(field, context) {
 
         surface
             .call(vertices, graph, [vertex], filter, extent, z)
-            .call(lines, graph, intersection.highways, filter)
+            .call(lines, graph, intersection.ways, filter)
             .call(turns, graph, intersection.turns(fromNodeID));
 
         surface
@@ -37857,7 +37949,7 @@ iD.ui.preset.restrictions = function(field, context) {
 
         if (fromNodeID) {
             surface
-                .selectAll('.' + _.find(intersection.highways, function(way) { return way.contains(fromNodeID); }).id)
+                .selectAll('.' + intersection.highways[fromNodeID].id)
                 .classed('selected', true);
         }
 
@@ -37872,7 +37964,7 @@ iD.ui.preset.restrictions = function(field, context) {
         function click() {
             var datum = d3.event.target.__data__;
             if (datum instanceof iD.Entity) {
-                fromNodeID = datum.nodes[(datum.first() === vertexID) ? 1 : datum.nodes.length - 2];
+                fromNodeID = intersection.adjacentNodeId(datum.id);
                 render();
             } else if (datum instanceof iD.geo.Turn) {
                 if (datum.restriction) {
@@ -38039,17 +38131,19 @@ iD.ui.preset.wikipedia = function(field, context) {
         link.enter().append('a')
             .attr('class', 'wiki-link button-input-action minor')
             .attr('target', '_blank')
-            .append('span')
-            .attr('class', 'icon out-link');
+            .call(iD.svg.Icon('#icon-out-link', 'inline'));
     }
 
     function language() {
         var value = lang.value().toLowerCase();
+        var locale = iD.detect().locale.toLowerCase();
+        var localeLanguage;
         return _.find(iD.data.wikipedia, function(d) {
+            if (d[2] === locale) localeLanguage = d;
             return d[0].toLowerCase() === value ||
                 d[1].toLowerCase() === value ||
-                d[2].toLowerCase() === value;
-        }) || iD.data.wikipedia[0];
+                d[2] === value;
+        }) || localeLanguage || ['English', 'English', 'en'];
     }
 
     function changeLang() {
@@ -38849,6 +38943,11 @@ iD.presets.Collection = function(collection) {
                     return a.suggestion === true;
                 });
 
+            function leading(a) {
+                var index = a.indexOf(value);
+                return index === 0 || a[index - 1] === ' ';
+            }
+
             // matches value to preset.name
             var leading_name = _.filter(searchable, function(a) {
                     return leading(a.name().toLowerCase());
@@ -38868,10 +38967,6 @@ iD.presets.Collection = function(collection) {
                     return _.any(_.without(_.values(a.tags || {}), '*'), leading);
                 });
 
-            function leading(a) {
-                var index = a.indexOf(value);
-                return index === 0 || a[index - 1] === ' ';
-            }
 
             // finds close matches to value in preset.name
             var levenstein_name = searchable.map(function(a) {
@@ -39016,7 +39111,7 @@ iD.presets.Preset = function(id, preset, fields) {
     };
 
     preset.terms = function() {
-        return preset.t('terms', {'default': ''}).toLowerCase().split(/\s*,+\s*/);
+        return preset.t('terms', {'default': ''}).toLowerCase().trim().split(/\s*,+\s*/);
     };
 
     preset.isFallback = function() {
@@ -39385,129 +39480,50 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "yh:STRUCTURE",
         "yh:TOTYUMONO",
         "yh:TYPE",
+        "yh:WIDTH",
         "yh:WIDTH_RANK",
         "SK53_bulk:load"
     ],
     "wikipedia": [
         [
-            "English",
-            "English",
-            "en"
+            "Abkhazian",
+            "Аҧсшәа",
+            "ab"
         ],
         [
-            "German",
-            "Deutsch",
-            "de"
+            "Achinese",
+            "Acèh",
+            "ace"
         ],
         [
-            "Dutch",
-            "Nederlands",
-            "nl"
+            "Afrikaans",
+            "Afrikaans",
+            "af"
         ],
         [
-            "French",
-            "Français",
-            "fr"
+            "Akan",
+            "Akan",
+            "ak"
         ],
         [
-            "Italian",
-            "Italiano",
-            "it"
+            "Alemannisch",
+            "Alemannisch",
+            "als"
         ],
         [
-            "Russian",
-            "Русский",
-            "ru"
+            "Amharic",
+            "አማርኛ",
+            "am"
         ],
         [
-            "Spanish",
-            "Español",
-            "es"
+            "Aragonese",
+            "aragonés",
+            "an"
         ],
         [
-            "Polish",
-            "Polski",
-            "pl"
-        ],
-        [
-            "Swedish",
-            "Svenska",
-            "sv"
-        ],
-        [
-            "Japanese",
-            "日本語",
-            "ja"
-        ],
-        [
-            "Portuguese",
-            "Português",
-            "pt"
-        ],
-        [
-            "Chinese",
-            "中文",
-            "zh"
-        ],
-        [
-            "Vietnamese",
-            "Tiếng Việt",
-            "vi"
-        ],
-        [
-            "Ukrainian",
-            "Українська",
-            "uk"
-        ],
-        [
-            "Catalan",
-            "Català",
-            "ca"
-        ],
-        [
-            "Norwegian (Bokmål)",
-            "Norsk (Bokmål)",
-            "no"
-        ],
-        [
-            "Waray-Waray",
-            "Winaray",
-            "war"
-        ],
-        [
-            "Cebuano",
-            "Sinugboanong Binisaya",
-            "ceb"
-        ],
-        [
-            "Finnish",
-            "Suomi",
-            "fi"
-        ],
-        [
-            "Persian",
-            "فارسی",
-            "fa"
-        ],
-        [
-            "Czech",
-            "Čeština",
-            "cs"
-        ],
-        [
-            "Hungarian",
-            "Magyar",
-            "hu"
-        ],
-        [
-            "Korean",
-            "한국어",
-            "ko"
-        ],
-        [
-            "Romanian",
-            "Română",
-            "ro"
+            "Old English",
+            "Ænglisc",
+            "ang"
         ],
         [
             "Arabic",
@@ -39515,119 +39531,254 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "ar"
         ],
         [
-            "Turkish",
-            "Türkçe",
-            "tr"
+            "Aramaic",
+            "ܐܪܡܝܐ",
+            "arc"
         ],
         [
-            "Indonesian",
-            "Bahasa Indonesia",
-            "id"
+            "Egyptian Arabic",
+            "مصرى",
+            "arz"
         ],
         [
-            "Kazakh",
-            "Қазақша",
-            "kk"
+            "Assamese",
+            "অসমীয়া",
+            "as"
         ],
         [
-            "Malay",
-            "Bahasa Melayu",
-            "ms"
+            "Asturian",
+            "asturianu",
+            "ast"
         ],
         [
-            "Serbian",
-            "Српски / Srpski",
-            "sr"
+            "Avaric",
+            "авар",
+            "av"
         ],
         [
-            "Slovak",
-            "Slovenčina",
-            "sk"
-        ],
-        [
-            "Esperanto",
-            "Esperanto",
-            "eo"
-        ],
-        [
-            "Danish",
-            "Dansk",
-            "da"
-        ],
-        [
-            "Lithuanian",
-            "Lietuvių",
-            "lt"
-        ],
-        [
-            "Basque",
-            "Euskara",
-            "eu"
-        ],
-        [
-            "Bulgarian",
-            "Български",
-            "bg"
-        ],
-        [
-            "Hebrew",
-            "עברית",
-            "he"
-        ],
-        [
-            "Slovenian",
-            "Slovenščina",
-            "sl"
-        ],
-        [
-            "Croatian",
-            "Hrvatski",
-            "hr"
-        ],
-        [
-            "Volapük",
-            "Volapük",
-            "vo"
-        ],
-        [
-            "Estonian",
-            "Eesti",
-            "et"
-        ],
-        [
-            "Hindi",
-            "हिन्दी",
-            "hi"
-        ],
-        [
-            "Uzbek",
-            "O‘zbek",
-            "uz"
-        ],
-        [
-            "Galician",
-            "Galego",
-            "gl"
-        ],
-        [
-            "Norwegian (Nynorsk)",
-            "Nynorsk",
-            "nn"
-        ],
-        [
-            "Simple English",
-            "Simple English",
-            "simple"
+            "Aymara",
+            "Aymar aru",
+            "ay"
         ],
         [
             "Azerbaijani",
-            "Azərbaycanca",
+            "azərbaycanca",
             "az"
         ],
         [
-            "Latin",
-            "Latina",
-            "la"
+            "South Azerbaijani",
+            "تۆرکجه",
+            "azb"
+        ],
+        [
+            "Bashkir",
+            "башҡортса",
+            "ba"
+        ],
+        [
+            "Bavarian",
+            "Boarisch",
+            "bar"
+        ],
+        [
+            "Samogitian",
+            "žemaitėška",
+            "bat-smg"
+        ],
+        [
+            "Bikol Central",
+            "Bikol Central",
+            "bcl"
+        ],
+        [
+            "Belarusian",
+            "беларуская",
+            "be"
+        ],
+        [
+            "беларуская (тарашкевіца)‎",
+            "беларуская (тарашкевіца)‎",
+            "be-x-old"
+        ],
+        [
+            "Bulgarian",
+            "български",
+            "bg"
+        ],
+        [
+            "भोजपुरी",
+            "भोजपुरी",
+            "bh"
+        ],
+        [
+            "Bislama",
+            "Bislama",
+            "bi"
+        ],
+        [
+            "Banjar",
+            "Bahasa Banjar",
+            "bjn"
+        ],
+        [
+            "Bambara",
+            "bamanankan",
+            "bm"
+        ],
+        [
+            "Bengali",
+            "বাংলা",
+            "bn"
+        ],
+        [
+            "Tibetan",
+            "བོད་ཡིག",
+            "bo"
+        ],
+        [
+            "Bishnupriya",
+            "বিষ্ণুপ্রিয়া মণিপুরী",
+            "bpy"
+        ],
+        [
+            "Breton",
+            "brezhoneg",
+            "br"
+        ],
+        [
+            "Bosnian",
+            "bosanski",
+            "bs"
+        ],
+        [
+            "Buginese",
+            "ᨅᨔ ᨕᨘᨁᨗ",
+            "bug"
+        ],
+        [
+            "буряад",
+            "буряад",
+            "bxr"
+        ],
+        [
+            "Catalan",
+            "català",
+            "ca"
+        ],
+        [
+            "Chavacano de Zamboanga",
+            "Chavacano de Zamboanga",
+            "cbk-zam"
+        ],
+        [
+            "Min Dong Chinese",
+            "Mìng-dĕ̤ng-ngṳ̄",
+            "cdo"
+        ],
+        [
+            "Chechen",
+            "нохчийн",
+            "ce"
+        ],
+        [
+            "Cebuano",
+            "Cebuano",
+            "ceb"
+        ],
+        [
+            "Chamorro",
+            "Chamoru",
+            "ch"
+        ],
+        [
+            "Cherokee",
+            "ᏣᎳᎩ",
+            "chr"
+        ],
+        [
+            "Cheyenne",
+            "Tsetsêhestâhese",
+            "chy"
+        ],
+        [
+            "Central Kurdish",
+            "کوردیی ناوەندی",
+            "ckb"
+        ],
+        [
+            "Corsican",
+            "corsu",
+            "co"
+        ],
+        [
+            "Cree",
+            "Nēhiyawēwin / ᓀᐦᐃᔭᐍᐏᐣ",
+            "cr"
+        ],
+        [
+            "Crimean Turkish",
+            "qırımtatarca",
+            "crh"
+        ],
+        [
+            "Czech",
+            "čeština",
+            "cs"
+        ],
+        [
+            "Kashubian",
+            "kaszëbsczi",
+            "csb"
+        ],
+        [
+            "Church Slavic",
+            "словѣньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ",
+            "cu"
+        ],
+        [
+            "Chuvash",
+            "Чӑвашла",
+            "cv"
+        ],
+        [
+            "Welsh",
+            "Cymraeg",
+            "cy"
+        ],
+        [
+            "Danish",
+            "dansk",
+            "da"
+        ],
+        [
+            "German",
+            "Deutsch",
+            "de"
+        ],
+        [
+            "Zazaki",
+            "Zazaki",
+            "diq"
+        ],
+        [
+            "Lower Sorbian",
+            "dolnoserbski",
+            "dsb"
+        ],
+        [
+            "Divehi",
+            "ދިވެހިބަސް",
+            "dv"
+        ],
+        [
+            "Dzongkha",
+            "ཇོང་ཁ",
+            "dz"
+        ],
+        [
+            "Ewe",
+            "eʋegbe",
+            "ee"
         ],
         [
             "Greek",
@@ -39635,14 +39786,269 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "el"
         ],
         [
-            "Thai",
-            "ไทย",
-            "th"
+            "Emiliano-Romagnolo",
+            "emiliàn e rumagnòl",
+            "eml"
         ],
         [
-            "Serbo-Croatian",
-            "Srpskohrvatski / Српскохрватски",
-            "sh"
+            "English",
+            "English",
+            "en"
+        ],
+        [
+            "Esperanto",
+            "Esperanto",
+            "eo"
+        ],
+        [
+            "Spanish",
+            "español",
+            "es"
+        ],
+        [
+            "Estonian",
+            "eesti",
+            "et"
+        ],
+        [
+            "Basque",
+            "euskara",
+            "eu"
+        ],
+        [
+            "Extremaduran",
+            "estremeñu",
+            "ext"
+        ],
+        [
+            "Persian",
+            "فارسی",
+            "fa"
+        ],
+        [
+            "Fulah",
+            "Fulfulde",
+            "ff"
+        ],
+        [
+            "Finnish",
+            "suomi",
+            "fi"
+        ],
+        [
+            "Võro",
+            "Võro",
+            "fiu-vro"
+        ],
+        [
+            "Fijian",
+            "Na Vosa Vakaviti",
+            "fj"
+        ],
+        [
+            "Faroese",
+            "føroyskt",
+            "fo"
+        ],
+        [
+            "French",
+            "français",
+            "fr"
+        ],
+        [
+            "Arpitan",
+            "arpetan",
+            "frp"
+        ],
+        [
+            "Northern Frisian",
+            "Nordfriisk",
+            "frr"
+        ],
+        [
+            "Friulian",
+            "furlan",
+            "fur"
+        ],
+        [
+            "Western Frisian",
+            "Frysk",
+            "fy"
+        ],
+        [
+            "Irish",
+            "Gaeilge",
+            "ga"
+        ],
+        [
+            "Gagauz",
+            "Gagauz",
+            "gag"
+        ],
+        [
+            "Gan Chinese",
+            "贛語",
+            "gan"
+        ],
+        [
+            "Scottish Gaelic",
+            "Gàidhlig",
+            "gd"
+        ],
+        [
+            "Galician",
+            "galego",
+            "gl"
+        ],
+        [
+            "Gilaki",
+            "گیلکی",
+            "glk"
+        ],
+        [
+            "Guarani",
+            "Avañe'ẽ",
+            "gn"
+        ],
+        [
+            "Goan Konkani",
+            "गोवा कोंकणी / Gova Konknni",
+            "gom"
+        ],
+        [
+            "Gothic",
+            "𐌲𐌿𐍄𐌹𐍃𐌺",
+            "got"
+        ],
+        [
+            "Gujarati",
+            "ગુજરાતી",
+            "gu"
+        ],
+        [
+            "Manx",
+            "Gaelg",
+            "gv"
+        ],
+        [
+            "Hausa",
+            "Hausa",
+            "ha"
+        ],
+        [
+            "Hakka Chinese",
+            "客家語/Hak-kâ-ngî",
+            "hak"
+        ],
+        [
+            "Hawaiian",
+            "Hawai`i",
+            "haw"
+        ],
+        [
+            "Hebrew",
+            "עברית",
+            "he"
+        ],
+        [
+            "Hindi",
+            "हिन्दी",
+            "hi"
+        ],
+        [
+            "Fiji Hindi",
+            "Fiji Hindi",
+            "hif"
+        ],
+        [
+            "Croatian",
+            "hrvatski",
+            "hr"
+        ],
+        [
+            "Upper Sorbian",
+            "hornjoserbsce",
+            "hsb"
+        ],
+        [
+            "Haitian",
+            "Kreyòl ayisyen",
+            "ht"
+        ],
+        [
+            "Hungarian",
+            "magyar",
+            "hu"
+        ],
+        [
+            "Armenian",
+            "Հայերեն",
+            "hy"
+        ],
+        [
+            "Interlingua",
+            "interlingua",
+            "ia"
+        ],
+        [
+            "Indonesian",
+            "Bahasa Indonesia",
+            "id"
+        ],
+        [
+            "Interlingue",
+            "Interlingue",
+            "ie"
+        ],
+        [
+            "Igbo",
+            "Igbo",
+            "ig"
+        ],
+        [
+            "Inupiaq",
+            "Iñupiak",
+            "ik"
+        ],
+        [
+            "Iloko",
+            "Ilokano",
+            "ilo"
+        ],
+        [
+            "Ido",
+            "Ido",
+            "io"
+        ],
+        [
+            "Icelandic",
+            "íslenska",
+            "is"
+        ],
+        [
+            "Italian",
+            "italiano",
+            "it"
+        ],
+        [
+            "Inuktitut",
+            "ᐃᓄᒃᑎᑐᑦ/inuktitut",
+            "iu"
+        ],
+        [
+            "Japanese",
+            "日本語",
+            "ja"
+        ],
+        [
+            "Lojban",
+            "Lojban",
+            "jbo"
+        ],
+        [
+            "Javanese",
+            "Basa Jawa",
+            "jv"
         ],
         [
             "Georgian",
@@ -39650,24 +40056,404 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "ka"
         ],
         [
-            "Occitan",
-            "Occitan",
-            "oc"
+            "Kara-Kalpak",
+            "Qaraqalpaqsha",
+            "kaa"
+        ],
+        [
+            "Kabyle",
+            "Taqbaylit",
+            "kab"
+        ],
+        [
+            "Kabardian",
+            "Адыгэбзэ",
+            "kbd"
+        ],
+        [
+            "Kongo",
+            "Kongo",
+            "kg"
+        ],
+        [
+            "Kikuyu",
+            "Gĩkũyũ",
+            "ki"
+        ],
+        [
+            "Kazakh",
+            "қазақша",
+            "kk"
+        ],
+        [
+            "Kalaallisut",
+            "kalaallisut",
+            "kl"
+        ],
+        [
+            "Khmer",
+            "ភាសាខ្មែរ",
+            "km"
+        ],
+        [
+            "Kannada",
+            "ಕನ್ನಡ",
+            "kn"
+        ],
+        [
+            "Korean",
+            "한국어",
+            "ko"
+        ],
+        [
+            "Komi-Permyak",
+            "Перем Коми",
+            "koi"
+        ],
+        [
+            "Karachay-Balkar",
+            "къарачай-малкъар",
+            "krc"
+        ],
+        [
+            "Kashmiri",
+            "कॉशुर / کٲشُر",
+            "ks"
+        ],
+        [
+            "Colognian",
+            "Ripoarisch",
+            "ksh"
+        ],
+        [
+            "Kurdish",
+            "Kurdî",
+            "ku"
+        ],
+        [
+            "Komi",
+            "коми",
+            "kv"
+        ],
+        [
+            "Cornish",
+            "kernowek",
+            "kw"
+        ],
+        [
+            "Kyrgyz",
+            "Кыргызча",
+            "ky"
+        ],
+        [
+            "Latin",
+            "Latina",
+            "la"
+        ],
+        [
+            "Ladino",
+            "Ladino",
+            "lad"
+        ],
+        [
+            "Luxembourgish",
+            "Lëtzebuergesch",
+            "lb"
+        ],
+        [
+            "лакку",
+            "лакку",
+            "lbe"
+        ],
+        [
+            "Lezghian",
+            "лезги",
+            "lez"
+        ],
+        [
+            "Ganda",
+            "Luganda",
+            "lg"
+        ],
+        [
+            "Limburgish",
+            "Limburgs",
+            "li"
+        ],
+        [
+            "Ligurian",
+            "Ligure",
+            "lij"
+        ],
+        [
+            "Lombard",
+            "lumbaart",
+            "lmo"
+        ],
+        [
+            "Lingala",
+            "lingála",
+            "ln"
+        ],
+        [
+            "Lao",
+            "ລາວ",
+            "lo"
+        ],
+        [
+            "Northern Luri",
+            "لۊری شومالی",
+            "lrc"
+        ],
+        [
+            "Lithuanian",
+            "lietuvių",
+            "lt"
+        ],
+        [
+            "Latgalian",
+            "latgaļu",
+            "ltg"
+        ],
+        [
+            "Latvian",
+            "latviešu",
+            "lv"
+        ],
+        [
+            "Maithili",
+            "मैथिली",
+            "mai"
+        ],
+        [
+            "Basa Banyumasan",
+            "Basa Banyumasan",
+            "map-bms"
+        ],
+        [
+            "Moksha",
+            "мокшень",
+            "mdf"
+        ],
+        [
+            "Malagasy",
+            "Malagasy",
+            "mg"
+        ],
+        [
+            "Eastern Mari",
+            "олык марий",
+            "mhr"
+        ],
+        [
+            "Maori",
+            "Māori",
+            "mi"
+        ],
+        [
+            "Minangkabau",
+            "Baso Minangkabau",
+            "min"
         ],
         [
             "Macedonian",
-            "Македонски",
+            "македонски",
             "mk"
         ],
         [
-            "Newar / Nepal Bhasa",
+            "Malayalam",
+            "മലയാളം",
+            "ml"
+        ],
+        [
+            "Mongolian",
+            "монгол",
+            "mn"
+        ],
+        [
+            "Marathi",
+            "मराठी",
+            "mr"
+        ],
+        [
+            "Western Mari",
+            "кырык мары",
+            "mrj"
+        ],
+        [
+            "Malay",
+            "Bahasa Melayu",
+            "ms"
+        ],
+        [
+            "Maltese",
+            "Malti",
+            "mt"
+        ],
+        [
+            "Mirandese",
+            "Mirandés",
+            "mwl"
+        ],
+        [
+            "Burmese",
+            "မြန်မာဘာသာ",
+            "my"
+        ],
+        [
+            "Erzya",
+            "эрзянь",
+            "myv"
+        ],
+        [
+            "Mazanderani",
+            "مازِرونی",
+            "mzn"
+        ],
+        [
+            "Nauru",
+            "Dorerin Naoero",
+            "na"
+        ],
+        [
+            "Nāhuatl",
+            "Nāhuatl",
+            "nah"
+        ],
+        [
+            "Neapolitan",
+            "Napulitano",
+            "nap"
+        ],
+        [
+            "Low German",
+            "Plattdüütsch",
+            "nds"
+        ],
+        [
+            "Low Saxon (Netherlands)",
+            "Nedersaksies",
+            "nds-nl"
+        ],
+        [
+            "Nepali",
+            "नेपाली",
+            "ne"
+        ],
+        [
+            "Newari",
             "नेपाल भाषा",
             "new"
         ],
         [
-            "Tagalog",
-            "Tagalog",
-            "tl"
+            "Dutch",
+            "Nederlands",
+            "nl"
+        ],
+        [
+            "Norwegian Nynorsk",
+            "norsk nynorsk",
+            "nn"
+        ],
+        [
+            "Norwegian",
+            "norsk bokmål",
+            "no"
+        ],
+        [
+            "Novial",
+            "Novial",
+            "nov"
+        ],
+        [
+            "Nouormand",
+            "Nouormand",
+            "nrm"
+        ],
+        [
+            "Northern Sotho",
+            "Sesotho sa Leboa",
+            "nso"
+        ],
+        [
+            "Navajo",
+            "Diné bizaad",
+            "nv"
+        ],
+        [
+            "Nyanja",
+            "Chi-Chewa",
+            "ny"
+        ],
+        [
+            "Occitan",
+            "occitan",
+            "oc"
+        ],
+        [
+            "Oromo",
+            "Oromoo",
+            "om"
+        ],
+        [
+            "Oriya",
+            "ଓଡ଼ିଆ",
+            "or"
+        ],
+        [
+            "Ossetic",
+            "Ирон",
+            "os"
+        ],
+        [
+            "Punjabi",
+            "ਪੰਜਾਬੀ",
+            "pa"
+        ],
+        [
+            "Pangasinan",
+            "Pangasinan",
+            "pag"
+        ],
+        [
+            "Pampanga",
+            "Kapampangan",
+            "pam"
+        ],
+        [
+            "Papiamento",
+            "Papiamentu",
+            "pap"
+        ],
+        [
+            "Picard",
+            "Picard",
+            "pcd"
+        ],
+        [
+            "Pennsylvania German",
+            "Deitsch",
+            "pdc"
+        ],
+        [
+            "Palatine German",
+            "Pälzisch",
+            "pfl"
+        ],
+        [
+            "Pali",
+            "पालि",
+            "pi"
+        ],
+        [
+            "Norfuk / Pitkern",
+            "Norfuk / Pitkern",
+            "pih"
+        ],
+        [
+            "Polish",
+            "polski",
+            "pl"
         ],
         [
             "Piedmontese",
@@ -39675,14 +40461,204 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "pms"
         ],
         [
-            "Belarusian",
-            "Беларуская",
-            "be"
+            "Western Punjabi",
+            "پنجابی",
+            "pnb"
         ],
         [
-            "Haitian",
-            "Krèyol ayisyen",
-            "ht"
+            "Pontic",
+            "Ποντιακά",
+            "pnt"
+        ],
+        [
+            "Pashto",
+            "پښتو",
+            "ps"
+        ],
+        [
+            "Portuguese",
+            "português",
+            "pt"
+        ],
+        [
+            "Quechua",
+            "Runa Simi",
+            "qu"
+        ],
+        [
+            "Romansh",
+            "rumantsch",
+            "rm"
+        ],
+        [
+            "Romani",
+            "Romani",
+            "rmy"
+        ],
+        [
+            "Rundi",
+            "Kirundi",
+            "rn"
+        ],
+        [
+            "Romanian",
+            "română",
+            "ro"
+        ],
+        [
+            "Aromanian",
+            "armãneashti",
+            "roa-rup"
+        ],
+        [
+            "tarandíne",
+            "tarandíne",
+            "roa-tara"
+        ],
+        [
+            "Russian",
+            "русский",
+            "ru"
+        ],
+        [
+            "Rusyn",
+            "русиньскый",
+            "rue"
+        ],
+        [
+            "Kinyarwanda",
+            "Kinyarwanda",
+            "rw"
+        ],
+        [
+            "Sanskrit",
+            "संस्कृतम्",
+            "sa"
+        ],
+        [
+            "Sakha",
+            "саха тыла",
+            "sah"
+        ],
+        [
+            "Sardinian",
+            "sardu",
+            "sc"
+        ],
+        [
+            "Sicilian",
+            "sicilianu",
+            "scn"
+        ],
+        [
+            "Scots",
+            "Scots",
+            "sco"
+        ],
+        [
+            "Sindhi",
+            "سنڌي",
+            "sd"
+        ],
+        [
+            "Northern Sami",
+            "sámegiella",
+            "se"
+        ],
+        [
+            "Sango",
+            "Sängö",
+            "sg"
+        ],
+        [
+            "Serbo-Croatian",
+            "srpskohrvatski / српскохрватски",
+            "sh"
+        ],
+        [
+            "Sinhala",
+            "සිංහල",
+            "si"
+        ],
+        [
+            "Simple English",
+            "Simple English",
+            "simple"
+        ],
+        [
+            "Slovak",
+            "slovenčina",
+            "sk"
+        ],
+        [
+            "Slovenian",
+            "slovenščina",
+            "sl"
+        ],
+        [
+            "Samoan",
+            "Gagana Samoa",
+            "sm"
+        ],
+        [
+            "Shona",
+            "chiShona",
+            "sn"
+        ],
+        [
+            "Somali",
+            "Soomaaliga",
+            "so"
+        ],
+        [
+            "Albanian",
+            "shqip",
+            "sq"
+        ],
+        [
+            "Serbian",
+            "српски / srpski",
+            "sr"
+        ],
+        [
+            "Sranan Tongo",
+            "Sranantongo",
+            "srn"
+        ],
+        [
+            "Swati",
+            "SiSwati",
+            "ss"
+        ],
+        [
+            "Southern Sotho",
+            "Sesotho",
+            "st"
+        ],
+        [
+            "Saterland Frisian",
+            "Seeltersk",
+            "stq"
+        ],
+        [
+            "Sundanese",
+            "Basa Sunda",
+            "su"
+        ],
+        [
+            "Swedish",
+            "svenska",
+            "sv"
+        ],
+        [
+            "Swahili",
+            "Kiswahili",
+            "sw"
+        ],
+        [
+            "Silesian",
+            "ślůnski",
+            "szl"
         ],
         [
             "Tamil",
@@ -39695,984 +40671,19 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "te"
         ],
         [
-            "Belarusian (Taraškievica)",
-            "Беларуская (тарашкевіца)",
-            "be-x-old"
-        ],
-        [
-            "Latvian",
-            "Latviešu",
-            "lv"
-        ],
-        [
-            "Breton",
-            "Brezhoneg",
-            "br"
-        ],
-        [
-            "Malagasy",
-            "Malagasy",
-            "mg"
-        ],
-        [
-            "Albanian",
-            "Shqip",
-            "sq"
-        ],
-        [
-            "Armenian",
-            "Հայերեն",
-            "hy"
-        ],
-        [
-            "Tatar",
-            "Tatarça / Татарча",
-            "tt"
-        ],
-        [
-            "Javanese",
-            "Basa Jawa",
-            "jv"
-        ],
-        [
-            "Welsh",
-            "Cymraeg",
-            "cy"
-        ],
-        [
-            "Marathi",
-            "मराठी",
-            "mr"
-        ],
-        [
-            "Luxembourgish",
-            "Lëtzebuergesch",
-            "lb"
-        ],
-        [
-            "Icelandic",
-            "Íslenska",
-            "is"
-        ],
-        [
-            "Bosnian",
-            "Bosanski",
-            "bs"
-        ],
-        [
-            "Burmese",
-            "မြန်မာဘာသာ",
-            "my"
-        ],
-        [
-            "Yoruba",
-            "Yorùbá",
-            "yo"
-        ],
-        [
-            "Bashkir",
-            "Башҡорт",
-            "ba"
-        ],
-        [
-            "Malayalam",
-            "മലയാളം",
-            "ml"
-        ],
-        [
-            "Aragonese",
-            "Aragonés",
-            "an"
-        ],
-        [
-            "Lombard",
-            "Lumbaart",
-            "lmo"
-        ],
-        [
-            "Afrikaans",
-            "Afrikaans",
-            "af"
-        ],
-        [
-            "West Frisian",
-            "Frysk",
-            "fy"
-        ],
-        [
-            "Western Panjabi",
-            "شاہ مکھی پنجابی (Shāhmukhī Pañjābī)",
-            "pnb"
-        ],
-        [
-            "Bengali",
-            "বাংলা",
-            "bn"
-        ],
-        [
-            "Swahili",
-            "Kiswahili",
-            "sw"
-        ],
-        [
-            "Bishnupriya Manipuri",
-            "ইমার ঠার/বিষ্ণুপ্রিয়া মণিপুরী",
-            "bpy"
-        ],
-        [
-            "Ido",
-            "Ido",
-            "io"
-        ],
-        [
-            "Kirghiz",
-            "Кыргызча",
-            "ky"
-        ],
-        [
-            "Urdu",
-            "اردو",
-            "ur"
-        ],
-        [
-            "Nepali",
-            "नेपाली",
-            "ne"
-        ],
-        [
-            "Sicilian",
-            "Sicilianu",
-            "scn"
-        ],
-        [
-            "Gujarati",
-            "ગુજરાતી",
-            "gu"
-        ],
-        [
-            "Cantonese",
-            "粵語",
-            "zh-yue"
-        ],
-        [
-            "Low Saxon",
-            "Plattdüütsch",
-            "nds"
-        ],
-        [
-            "Kurdish",
-            "Kurdî / كوردی",
-            "ku"
-        ],
-        [
-            "Irish",
-            "Gaeilge",
-            "ga"
-        ],
-        [
-            "Asturian",
-            "Asturianu",
-            "ast"
-        ],
-        [
-            "Quechua",
-            "Runa Simi",
-            "qu"
-        ],
-        [
-            "Sundanese",
-            "Basa Sunda",
-            "su"
-        ],
-        [
-            "Chuvash",
-            "Чăваш",
-            "cv"
-        ],
-        [
-            "Scots",
-            "Scots",
-            "sco"
-        ],
-        [
-            "Interlingua",
-            "Interlingua",
-            "ia"
-        ],
-        [
-            "Alemannic",
-            "Alemannisch",
-            "als"
-        ],
-        [
-            "Buginese",
-            "Basa Ugi",
-            "bug"
-        ],
-        [
-            "Neapolitan",
-            "Nnapulitano",
-            "nap"
-        ],
-        [
-            "Samogitian",
-            "Žemaitėška",
-            "bat-smg"
-        ],
-        [
-            "Kannada",
-            "ಕನ್ನಡ",
-            "kn"
-        ],
-        [
-            "Banyumasan",
-            "Basa Banyumasan",
-            "map-bms"
-        ],
-        [
-            "Walloon",
-            "Walon",
-            "wa"
-        ],
-        [
-            "Amharic",
-            "አማርኛ",
-            "am"
-        ],
-        [
-            "Sorani",
-            "Soranî / کوردی",
-            "ckb"
-        ],
-        [
-            "Scottish Gaelic",
-            "Gàidhlig",
-            "gd"
-        ],
-        [
-            "Fiji Hindi",
-            "Fiji Hindi",
-            "hif"
-        ],
-        [
-            "Min Nan",
-            "Bân-lâm-gú",
-            "zh-min-nan"
-        ],
-        [
-            "Tajik",
-            "Тоҷикӣ",
-            "tg"
-        ],
-        [
-            "Mazandarani",
-            "مَزِروني",
-            "mzn"
-        ],
-        [
-            "Egyptian Arabic",
-            "مصرى (Maṣrī)",
-            "arz"
-        ],
-        [
-            "Yiddish",
-            "ייִדיש",
-            "yi"
-        ],
-        [
-            "Venetian",
-            "Vèneto",
-            "vec"
-        ],
-        [
-            "Mongolian",
-            "Монгол",
-            "mn"
-        ],
-        [
-            "Tarantino",
-            "Tarandíne",
-            "roa-tara"
-        ],
-        [
-            "Sanskrit",
-            "संस्कृतम्",
-            "sa"
-        ],
-        [
-            "Nahuatl",
-            "Nāhuatl",
-            "nah"
-        ],
-        [
-            "Ossetian",
-            "Иронау",
-            "os"
-        ],
-        [
-            "Sakha",
-            "Саха тыла (Saxa Tyla)",
-            "sah"
-        ],
-        [
-            "Kapampangan",
-            "Kapampangan",
-            "pam"
-        ],
-        [
-            "Upper Sorbian",
-            "Hornjoserbsce",
-            "hsb"
-        ],
-        [
-            "Sinhalese",
-            "සිංහල",
-            "si"
-        ],
-        [
-            "Northern Sami",
-            "Sámegiella",
-            "se"
-        ],
-        [
-            "Limburgish",
-            "Limburgs",
-            "li"
-        ],
-        [
-            "Maori",
-            "Māori",
-            "mi"
-        ],
-        [
-            "Bavarian",
-            "Boarisch",
-            "bar"
-        ],
-        [
-            "Corsican",
-            "Corsu",
-            "co"
-        ],
-        [
-            "Ilokano",
-            "Ilokano",
-            "ilo"
-        ],
-        [
-            "Gan",
-            "贛語",
-            "gan"
-        ],
-        [
-            "Tibetan",
-            "བོད་སྐད",
-            "bo"
-        ],
-        [
-            "Gilaki",
-            "گیلکی",
-            "glk"
-        ],
-        [
-            "Faroese",
-            "Føroyskt",
-            "fo"
-        ],
-        [
-            "Rusyn",
-            "русиньскый язык",
-            "rue"
-        ],
-        [
-            "Punjabi",
-            "ਪੰਜਾਬੀ",
-            "pa"
-        ],
-        [
-            "Central_Bicolano",
-            "Bikol",
-            "bcl"
-        ],
-        [
-            "Hill Mari",
-            "Кырык Мары (Kyryk Mary) ",
-            "mrj"
-        ],
-        [
-            "Võro",
-            "Võro",
-            "fiu-vro"
-        ],
-        [
-            "Dutch Low Saxon",
-            "Nedersaksisch",
-            "nds-nl"
-        ],
-        [
-            "Turkmen",
-            "تركمن / Туркмен",
-            "tk"
-        ],
-        [
-            "Pashto",
-            "پښتو",
-            "ps"
-        ],
-        [
-            "West Flemish",
-            "West-Vlams",
-            "vls"
-        ],
-        [
-            "Mingrelian",
-            "მარგალური (Margaluri)",
-            "xmf"
-        ],
-        [
-            "Manx",
-            "Gaelg",
-            "gv"
-        ],
-        [
-            "Zazaki",
-            "Zazaki",
-            "diq"
-        ],
-        [
-            "Pangasinan",
-            "Pangasinan",
-            "pag"
-        ],
-        [
-            "Komi",
-            "Коми",
-            "kv"
-        ],
-        [
-            "Zeelandic",
-            "Zeêuws",
-            "zea"
-        ],
-        [
-            "Divehi",
-            "ދިވެހިބަސް",
-            "dv"
-        ],
-        [
-            "Oriya",
-            "ଓଡ଼ିଆ",
-            "or"
-        ],
-        [
-            "Khmer",
-            "ភាសាខ្មែរ",
-            "km"
-        ],
-        [
-            "Norman",
-            "Nouormand/Normaund",
-            "nrm"
-        ],
-        [
-            "Romansh",
-            "Rumantsch",
-            "rm"
-        ],
-        [
-            "Komi-Permyak",
-            "Перем Коми (Perem Komi)",
-            "koi"
-        ],
-        [
-            "Udmurt",
-            "Удмурт кыл",
-            "udm"
-        ],
-        [
-            "Meadow Mari",
-            "Олык Марий (Olyk Marij)",
-            "mhr"
-        ],
-        [
-            "Ladino",
-            "Dzhudezmo",
-            "lad"
-        ],
-        [
-            "North Frisian",
-            "Nordfriisk",
-            "frr"
-        ],
-        [
-            "Kashubian",
-            "Kaszëbsczi",
-            "csb"
-        ],
-        [
-            "Ligurian",
-            "Líguru",
-            "lij"
-        ],
-        [
-            "Wu",
-            "吴语",
-            "wuu"
-        ],
-        [
-            "Friulian",
-            "Furlan",
-            "fur"
-        ],
-        [
-            "Vepsian",
-            "Vepsän",
-            "vep"
-        ],
-        [
-            "Classical Chinese",
-            "古文 / 文言文",
-            "zh-classical"
-        ],
-        [
-            "Uyghur",
-            "ئۇيغۇر تىلى",
-            "ug"
-        ],
-        [
-            "Saterland Frisian",
-            "Seeltersk",
-            "stq"
-        ],
-        [
-            "Sardinian",
-            "Sardu",
-            "sc"
-        ],
-        [
-            "Aromanian",
-            "Armãneashce",
-            "roa-rup"
-        ],
-        [
-            "Pali",
-            "पाऴि",
-            "pi"
-        ],
-        [
-            "Somali",
-            "Soomaaliga",
-            "so"
-        ],
-        [
-            "Bihari",
-            "भोजपुरी",
-            "bh"
-        ],
-        [
-            "Maltese",
-            "Malti",
-            "mt"
-        ],
-        [
-            "Aymara",
-            "Aymar",
-            "ay"
-        ],
-        [
-            "Ripuarian",
-            "Ripoarisch",
-            "ksh"
-        ],
-        [
-            "Novial",
-            "Novial",
-            "nov"
-        ],
-        [
-            "Anglo-Saxon",
-            "Englisc",
-            "ang"
-        ],
-        [
-            "Cornish",
-            "Kernewek/Karnuack",
-            "kw"
-        ],
-        [
-            "Navajo",
-            "Diné bizaad",
-            "nv"
-        ],
-        [
-            "Picard",
-            "Picard",
-            "pcd"
-        ],
-        [
-            "Hakka",
-            "Hak-kâ-fa / 客家話",
-            "hak"
-        ],
-        [
-            "Guarani",
-            "Avañe'ẽ",
-            "gn"
-        ],
-        [
-            "Extremaduran",
-            "Estremeñu",
-            "ext"
-        ],
-        [
-            "Franco-Provençal/Arpitan",
-            "Arpitan",
-            "frp"
-        ],
-        [
-            "Assamese",
-            "অসমীয়া",
-            "as"
-        ],
-        [
-            "Silesian",
-            "Ślůnski",
-            "szl"
-        ],
-        [
-            "Gagauz",
-            "Gagauz",
-            "gag"
-        ],
-        [
-            "Interlingue",
-            "Interlingue",
-            "ie"
-        ],
-        [
-            "Lingala",
-            "Lingala",
-            "ln"
-        ],
-        [
-            "Emilian-Romagnol",
-            "Emiliàn e rumagnòl",
-            "eml"
-        ],
-        [
-            "Chechen",
-            "Нохчийн",
-            "ce"
-        ],
-        [
-            "Kalmyk",
-            "Хальмг",
-            "xal"
-        ],
-        [
-            "Palatinate German",
-            "Pfälzisch",
-            "pfl"
-        ],
-        [
-            "Hawaiian",
-            "Hawai`i",
-            "haw"
-        ],
-        [
-            "Karachay-Balkar",
-            "Къарачай-Малкъар (Qarachay-Malqar)",
-            "krc"
-        ],
-        [
-            "Pennsylvania German",
-            "Deitsch",
-            "pdc"
-        ],
-        [
-            "Kinyarwanda",
-            "Ikinyarwanda",
-            "rw"
-        ],
-        [
-            "Crimean Tatar",
-            "Qırımtatarca",
-            "crh"
-        ],
-        [
-            "Acehnese",
-            "Bahsa Acèh",
-            "ace"
-        ],
-        [
-            "Tongan",
-            "faka Tonga",
-            "to"
-        ],
-        [
-            "Greenlandic",
-            "Kalaallisut",
-            "kl"
-        ],
-        [
-            "Lower Sorbian",
-            "Dolnoserbski",
-            "dsb"
-        ],
-        [
-            "Aramaic",
-            "ܐܪܡܝܐ",
-            "arc"
-        ],
-        [
-            "Erzya",
-            "Эрзянь (Erzjanj Kelj)",
-            "myv"
-        ],
-        [
-            "Lezgian",
-            "Лезги чІал (Lezgi č’al)",
-            "lez"
-        ],
-        [
-            "Banjar",
-            "Bahasa Banjar",
-            "bjn"
-        ],
-        [
-            "Shona",
-            "chiShona",
-            "sn"
-        ],
-        [
-            "Papiamentu",
-            "Papiamentu",
-            "pap"
-        ],
-        [
-            "Kabyle",
-            "Taqbaylit",
-            "kab"
-        ],
-        [
-            "Tok Pisin",
-            "Tok Pisin",
-            "tpi"
-        ],
-        [
-            "Lak",
-            "Лакку",
-            "lbe"
-        ],
-        [
-            "Buryat (Russia)",
-            "Буряад",
-            "bxr"
-        ],
-        [
-            "Lojban",
-            "Lojban",
-            "jbo"
-        ],
-        [
-            "Wolof",
-            "Wolof",
-            "wo"
-        ],
-        [
-            "Moksha",
-            "Мокшень (Mokshanj Kälj)",
-            "mdf"
-        ],
-        [
-            "Zamboanga Chavacano",
-            "Chavacano de Zamboanga",
-            "cbk-zam"
-        ],
-        [
-            "Avar",
-            "Авар",
-            "av"
-        ],
-        [
-            "Sranan",
-            "Sranantongo",
-            "srn"
-        ],
-        [
-            "Mirandese",
-            "Mirandés",
-            "mwl"
-        ],
-        [
-            "Kabardian Circassian",
-            "Адыгэбзэ (Adighabze)",
-            "kbd"
-        ],
-        [
-            "Tahitian",
-            "Reo Mā`ohi",
-            "ty"
-        ],
-        [
-            "Lao",
-            "ລາວ",
-            "lo"
-        ],
-        [
-            "Abkhazian",
-            "Аҧсуа",
-            "ab"
-        ],
-        [
             "Tetum",
-            "Tetun",
+            "tetun",
             "tet"
         ],
         [
-            "Latgalian",
-            "Latgaļu",
-            "ltg"
+            "Tajik",
+            "тоҷикӣ",
+            "tg"
         ],
         [
-            "Nauruan",
-            "dorerin Naoero",
-            "na"
-        ],
-        [
-            "Kongo",
-            "KiKongo",
-            "kg"
-        ],
-        [
-            "Igbo",
-            "Igbo",
-            "ig"
-        ],
-        [
-            "Northern Sotho",
-            "Sesotho sa Leboa",
-            "nso"
-        ],
-        [
-            "Zhuang",
-            "Cuengh",
-            "za"
-        ],
-        [
-            "Karakalpak",
-            "Qaraqalpaqsha",
-            "kaa"
-        ],
-        [
-            "Zulu",
-            "isiZulu",
-            "zu"
-        ],
-        [
-            "Cheyenne",
-            "Tsetsêhestâhese",
-            "chy"
-        ],
-        [
-            "Romani",
-            "romani - रोमानी",
-            "rmy"
-        ],
-        [
-            "Old Church Slavonic",
-            "Словѣньскъ",
-            "cu"
-        ],
-        [
-            "Tswana",
-            "Setswana",
-            "tn"
-        ],
-        [
-            "Cherokee",
-            "ᏣᎳᎩ",
-            "chr"
-        ],
-        [
-            "Bislama",
-            "Bislama",
-            "bi"
-        ],
-        [
-            "Min Dong",
-            "Mìng-dĕ̤ng-ngṳ̄",
-            "cdo"
-        ],
-        [
-            "Gothic",
-            "𐌲𐌿𐍄𐌹𐍃𐌺",
-            "got"
-        ],
-        [
-            "Samoan",
-            "Gagana Samoa",
-            "sm"
-        ],
-        [
-            "Moldovan",
-            "Молдовеняскэ",
-            "mo"
-        ],
-        [
-            "Bambara",
-            "Bamanankan",
-            "bm"
-        ],
-        [
-            "Inuktitut",
-            "ᐃᓄᒃᑎᑐᑦ",
-            "iu"
-        ],
-        [
-            "Norfolk",
-            "Norfuk",
-            "pih"
-        ],
-        [
-            "Pontic",
-            "Ποντιακά",
-            "pnt"
-        ],
-        [
-            "Sindhi",
-            "سنڌي، سندھی ، सिन्ध",
-            "sd"
-        ],
-        [
-            "Swati",
-            "SiSwati",
-            "ss"
-        ],
-        [
-            "Kikuyu",
-            "Gĩkũyũ",
-            "ki"
-        ],
-        [
-            "Ewe",
-            "Eʋegbe",
-            "ee"
-        ],
-        [
-            "Hausa",
-            "هَوُسَ",
-            "ha"
-        ],
-        [
-            "Oromo",
-            "Oromoo",
-            "om"
-        ],
-        [
-            "Fijian",
-            "Na Vosa Vakaviti",
-            "fj"
+            "Thai",
+            "ไทย",
+            "th"
         ],
         [
             "Tigrinya",
@@ -40680,49 +40691,44 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "ti"
         ],
         [
+            "Turkmen",
+            "Türkmençe",
+            "tk"
+        ],
+        [
+            "Tagalog",
+            "Tagalog",
+            "tl"
+        ],
+        [
+            "Tswana",
+            "Setswana",
+            "tn"
+        ],
+        [
+            "Tongan",
+            "lea faka-Tonga",
+            "to"
+        ],
+        [
+            "Tok Pisin",
+            "Tok Pisin",
+            "tpi"
+        ],
+        [
+            "Turkish",
+            "Türkçe",
+            "tr"
+        ],
+        [
             "Tsonga",
             "Xitsonga",
             "ts"
         ],
         [
-            "Kashmiri",
-            "कश्मीरी / كشميري",
-            "ks"
-        ],
-        [
-            "Venda",
-            "Tshivenda",
-            "ve"
-        ],
-        [
-            "Sango",
-            "Sängö",
-            "sg"
-        ],
-        [
-            "Kirundi",
-            "Kirundi",
-            "rn"
-        ],
-        [
-            "Sesotho",
-            "Sesotho",
-            "st"
-        ],
-        [
-            "Dzongkha",
-            "ཇོང་ཁ",
-            "dz"
-        ],
-        [
-            "Cree",
-            "Nehiyaw",
-            "cr"
-        ],
-        [
-            "Akan",
-            "Akana",
-            "ak"
+            "Tatar",
+            "татарча/tatarça",
+            "tt"
         ],
         [
             "Tumbuka",
@@ -40730,34 +40736,99 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "tum"
         ],
         [
-            "Luganda",
-            "Luganda",
-            "lg"
-        ],
-        [
-            "Chichewa",
-            "Chi-Chewa",
-            "ny"
-        ],
-        [
-            "Fula",
-            "Fulfulde",
-            "ff"
-        ],
-        [
-            "Inupiak",
-            "Iñupiak",
-            "ik"
-        ],
-        [
-            "Chamorro",
-            "Chamoru",
-            "ch"
-        ],
-        [
             "Twi",
             "Twi",
             "tw"
+        ],
+        [
+            "Tahitian",
+            "reo tahiti",
+            "ty"
+        ],
+        [
+            "Tuvinian",
+            "тыва дыл",
+            "tyv"
+        ],
+        [
+            "Udmurt",
+            "удмурт",
+            "udm"
+        ],
+        [
+            "Uyghur",
+            "ئۇيغۇرچە / Uyghurche",
+            "ug"
+        ],
+        [
+            "Ukrainian",
+            "українська",
+            "uk"
+        ],
+        [
+            "Urdu",
+            "اردو",
+            "ur"
+        ],
+        [
+            "Uzbek",
+            "oʻzbekcha/ўзбекча",
+            "uz"
+        ],
+        [
+            "Venda",
+            "Tshivenda",
+            "ve"
+        ],
+        [
+            "Venetian",
+            "vèneto",
+            "vec"
+        ],
+        [
+            "Veps",
+            "vepsän kel’",
+            "vep"
+        ],
+        [
+            "Vietnamese",
+            "Tiếng Việt",
+            "vi"
+        ],
+        [
+            "West Flemish",
+            "West-Vlams",
+            "vls"
+        ],
+        [
+            "Volapük",
+            "Volapük",
+            "vo"
+        ],
+        [
+            "Walloon",
+            "walon",
+            "wa"
+        ],
+        [
+            "Waray",
+            "Winaray",
+            "war"
+        ],
+        [
+            "Wolof",
+            "Wolof",
+            "wo"
+        ],
+        [
+            "Wu Chinese",
+            "吴语",
+            "wuu"
+        ],
+        [
+            "Kalmyk",
+            "хальмг",
+            "xal"
         ],
         [
             "Xhosa",
@@ -40765,54 +40836,54 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "xh"
         ],
         [
-            "Ndonga",
-            "Oshiwambo",
-            "ng"
+            "Mingrelian",
+            "მარგალური",
+            "xmf"
         ],
         [
-            "Sichuan Yi",
-            "ꆇꉙ",
-            "ii"
+            "Yiddish",
+            "ייִדיש",
+            "yi"
         ],
         [
-            "Choctaw",
-            "Choctaw",
-            "cho"
+            "Yoruba",
+            "Yorùbá",
+            "yo"
         ],
         [
-            "Marshallese",
-            "Ebon",
-            "mh"
+            "Zhuang",
+            "Vahcuengh",
+            "za"
         ],
         [
-            "Afar",
-            "Afar",
-            "aa"
+            "Zeelandic",
+            "Zeêuws",
+            "zea"
         ],
         [
-            "Kuanyama",
-            "Kuanyama",
-            "kj"
+            "Chinese",
+            "中文",
+            "zh"
         ],
         [
-            "Hiri Motu",
-            "Hiri Motu",
-            "ho"
+            "Classical Chinese",
+            "文言",
+            "zh-classical"
         ],
         [
-            "Muscogee",
-            "Muskogee",
-            "mus"
+            "Chinese (Min Nan)",
+            "Bân-lâm-gú",
+            "zh-min-nan"
         ],
         [
-            "Kanuri",
-            "Kanuri",
-            "kr"
+            "Cantonese",
+            "粵語",
+            "zh-yue"
         ],
         [
-            "Herero",
-            "Otsiherero",
-            "hz"
+            "Zulu",
+            "isiZulu",
+            "zu"
         ]
     ],
     "imperial": {
@@ -50687,2122 +50758,2094 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         ]
     },
     "featureIcons": {
-        "circle-stroked": {
-            "12": [
-                42,
-                0
-            ],
-            "18": [
-                24,
-                0
-            ],
-            "24": [
-                0,
-                0
-            ]
-        },
-        "circle": {
-            "12": [
-                96,
-                0
-            ],
-            "18": [
-                78,
-                0
-            ],
-            "24": [
-                54,
-                0
-            ]
-        },
-        "square-stroked": {
-            "12": [
-                150,
-                0
-            ],
-            "18": [
-                132,
-                0
-            ],
-            "24": [
-                108,
-                0
-            ]
-        },
-        "square": {
-            "12": [
-                204,
-                0
-            ],
-            "18": [
-                186,
-                0
-            ],
-            "24": [
-                162,
-                0
-            ]
-        },
-        "triangle-stroked": {
-            "12": [
-                258,
-                0
-            ],
-            "18": [
-                240,
-                0
-            ],
-            "24": [
-                216,
-                0
-            ]
-        },
-        "triangle": {
-            "12": [
-                42,
-                24
-            ],
-            "18": [
-                24,
-                24
-            ],
-            "24": [
-                0,
-                24
-            ]
-        },
-        "star-stroked": {
-            "12": [
-                96,
-                24
-            ],
-            "18": [
-                78,
-                24
-            ],
-            "24": [
-                54,
-                24
-            ]
-        },
-        "star": {
-            "12": [
-                150,
-                24
-            ],
-            "18": [
-                132,
-                24
-            ],
-            "24": [
-                108,
-                24
-            ]
-        },
-        "cross": {
-            "12": [
-                204,
-                24
-            ],
-            "18": [
-                186,
-                24
-            ],
-            "24": [
-                162,
-                24
-            ]
-        },
-        "marker-stroked": {
-            "12": [
-                258,
-                24
-            ],
-            "18": [
-                240,
-                24
-            ],
-            "24": [
-                216,
-                24
-            ]
-        },
-        "marker": {
-            "12": [
-                42,
-                48
-            ],
-            "18": [
-                24,
-                48
-            ],
-            "24": [
-                0,
-                48
-            ]
-        },
-        "religious-jewish": {
-            "12": [
-                96,
-                48
-            ],
-            "18": [
-                78,
-                48
-            ],
-            "24": [
-                54,
-                48
-            ]
-        },
-        "religious-christian": {
-            "12": [
-                150,
-                48
-            ],
-            "18": [
-                132,
-                48
-            ],
-            "24": [
-                108,
-                48
-            ]
-        },
-        "religious-muslim": {
-            "12": [
-                204,
-                48
-            ],
-            "18": [
-                186,
-                48
-            ],
-            "24": [
-                162,
-                48
-            ]
-        },
-        "cemetery": {
-            "12": [
-                258,
-                48
-            ],
-            "18": [
-                240,
-                48
-            ],
-            "24": [
-                216,
-                48
-            ]
-        },
-        "rocket": {
-            "12": [
-                42,
-                72
-            ],
-            "18": [
-                24,
-                72
-            ],
-            "24": [
-                0,
-                72
-            ]
-        },
-        "airport": {
-            "12": [
-                96,
-                72
-            ],
-            "18": [
-                78,
-                72
-            ],
-            "24": [
-                54,
-                72
-            ]
-        },
-        "heliport": {
-            "12": [
-                150,
-                72
-            ],
-            "18": [
-                132,
-                72
-            ],
-            "24": [
-                108,
-                72
-            ]
-        },
-        "rail": {
-            "12": [
-                204,
-                72
-            ],
-            "18": [
-                186,
-                72
-            ],
-            "24": [
-                162,
-                72
-            ]
-        },
-        "rail-metro": {
-            "12": [
-                258,
-                72
-            ],
-            "18": [
-                240,
-                72
-            ],
-            "24": [
-                216,
-                72
-            ]
-        },
-        "rail-light": {
-            "12": [
-                42,
-                96
-            ],
-            "18": [
-                24,
-                96
-            ],
-            "24": [
-                0,
-                96
-            ]
-        },
-        "bus": {
-            "12": [
-                96,
-                96
-            ],
-            "18": [
-                78,
-                96
-            ],
-            "24": [
-                54,
-                96
-            ]
-        },
-        "fuel": {
-            "12": [
-                150,
-                96
-            ],
-            "18": [
-                132,
-                96
-            ],
-            "24": [
-                108,
-                96
-            ]
-        },
-        "parking": {
-            "12": [
-                204,
-                96
-            ],
-            "18": [
-                186,
-                96
-            ],
-            "24": [
-                162,
-                96
-            ]
-        },
-        "parking-garage": {
-            "12": [
-                258,
-                96
-            ],
-            "18": [
-                240,
-                96
-            ],
-            "24": [
-                216,
-                96
-            ]
-        },
-        "airfield": {
-            "12": [
-                42,
-                120
-            ],
-            "18": [
-                24,
-                120
-            ],
-            "24": [
-                0,
-                120
-            ]
-        },
-        "roadblock": {
-            "12": [
-                96,
-                120
-            ],
-            "18": [
-                78,
-                120
-            ],
-            "24": [
-                54,
-                120
-            ]
-        },
-        "ferry": {
-            "12": [
-                150,
-                120
-            ],
-            "18": [
-                132,
-                120
-            ],
-            "24": [
-                108,
-                120
-            ],
-            "line": [
-                2240,
-                25
-            ]
-        },
-        "harbor": {
-            "12": [
-                204,
-                120
-            ],
-            "18": [
-                186,
-                120
-            ],
-            "24": [
-                162,
-                120
-            ]
-        },
-        "bicycle": {
-            "12": [
-                258,
-                120
-            ],
-            "18": [
-                240,
-                120
-            ],
-            "24": [
-                216,
-                120
-            ]
-        },
-        "park": {
-            "12": [
-                42,
-                144
-            ],
-            "18": [
-                24,
-                144
-            ],
-            "24": [
-                0,
-                144
-            ]
-        },
-        "park2": {
-            "12": [
-                96,
-                144
-            ],
-            "18": [
-                78,
-                144
-            ],
-            "24": [
-                54,
-                144
-            ]
-        },
-        "museum": {
-            "12": [
-                150,
-                144
-            ],
-            "18": [
-                132,
-                144
-            ],
-            "24": [
-                108,
-                144
-            ]
-        },
-        "lodging": {
-            "12": [
-                204,
-                144
-            ],
-            "18": [
-                186,
-                144
-            ],
-            "24": [
-                162,
-                144
-            ]
-        },
-        "monument": {
-            "12": [
-                258,
-                144
-            ],
-            "18": [
-                240,
-                144
-            ],
-            "24": [
-                216,
-                144
-            ]
-        },
-        "zoo": {
-            "12": [
-                42,
-                168
-            ],
-            "18": [
-                24,
-                168
-            ],
-            "24": [
-                0,
-                168
-            ]
-        },
-        "garden": {
-            "12": [
-                96,
-                168
-            ],
-            "18": [
-                78,
-                168
-            ],
-            "24": [
-                54,
-                168
-            ]
-        },
-        "campsite": {
-            "12": [
-                150,
-                168
-            ],
-            "18": [
-                132,
-                168
-            ],
-            "24": [
-                108,
-                168
-            ]
-        },
-        "theatre": {
-            "12": [
-                204,
-                168
-            ],
-            "18": [
-                186,
-                168
-            ],
-            "24": [
-                162,
-                168
-            ]
-        },
-        "art-gallery": {
-            "12": [
-                258,
-                168
-            ],
-            "18": [
-                240,
-                168
-            ],
-            "24": [
-                216,
-                168
-            ]
-        },
-        "pitch": {
-            "12": [
-                42,
-                192
-            ],
-            "18": [
-                24,
-                192
-            ],
-            "24": [
-                0,
-                192
-            ]
-        },
-        "soccer": {
-            "12": [
-                96,
-                192
-            ],
-            "18": [
-                78,
-                192
-            ],
-            "24": [
-                54,
-                192
-            ]
-        },
-        "america-football": {
-            "12": [
-                150,
-                192
-            ],
-            "18": [
-                132,
-                192
-            ],
-            "24": [
-                108,
-                192
-            ]
-        },
-        "tennis": {
-            "12": [
-                204,
-                192
-            ],
-            "18": [
-                186,
-                192
-            ],
-            "24": [
-                162,
-                192
-            ]
-        },
-        "basketball": {
-            "12": [
-                258,
-                192
-            ],
-            "18": [
-                240,
-                192
-            ],
-            "24": [
-                216,
-                192
-            ]
-        },
-        "baseball": {
-            "12": [
-                42,
-                216
-            ],
-            "18": [
-                24,
-                216
-            ],
-            "24": [
-                0,
-                216
-            ]
-        },
-        "golf": {
-            "12": [
-                96,
-                216
-            ],
-            "18": [
-                78,
-                216
-            ],
-            "24": [
-                54,
-                216
-            ]
-        },
-        "swimming": {
-            "12": [
-                150,
-                216
-            ],
-            "18": [
-                132,
-                216
-            ],
-            "24": [
-                108,
-                216
-            ]
-        },
-        "cricket": {
-            "12": [
-                204,
-                216
-            ],
-            "18": [
-                186,
-                216
-            ],
-            "24": [
-                162,
-                216
-            ]
-        },
-        "skiing": {
-            "12": [
-                258,
-                216
-            ],
-            "18": [
-                240,
-                216
-            ],
-            "24": [
-                216,
-                216
-            ]
-        },
-        "school": {
-            "12": [
-                42,
-                240
-            ],
-            "18": [
-                24,
-                240
-            ],
-            "24": [
-                0,
-                240
-            ]
-        },
-        "college": {
-            "12": [
-                96,
-                240
-            ],
-            "18": [
-                78,
-                240
-            ],
-            "24": [
-                54,
-                240
-            ]
-        },
-        "library": {
-            "12": [
-                150,
-                240
-            ],
-            "18": [
-                132,
-                240
-            ],
-            "24": [
-                108,
-                240
-            ]
-        },
-        "post": {
-            "12": [
-                204,
-                240
-            ],
-            "18": [
-                186,
-                240
-            ],
-            "24": [
-                162,
-                240
-            ]
-        },
-        "fire-station": {
-            "12": [
-                258,
-                240
-            ],
-            "18": [
-                240,
-                240
-            ],
-            "24": [
-                216,
-                240
-            ]
-        },
-        "town-hall": {
-            "12": [
-                42,
-                264
-            ],
-            "18": [
-                24,
-                264
-            ],
-            "24": [
-                0,
-                264
-            ]
-        },
-        "police": {
-            "12": [
-                96,
-                264
-            ],
-            "18": [
-                78,
-                264
-            ],
-            "24": [
-                54,
-                264
-            ]
-        },
-        "prison": {
-            "12": [
-                150,
-                264
-            ],
-            "18": [
-                132,
-                264
-            ],
-            "24": [
-                108,
-                264
-            ]
-        },
-        "embassy": {
-            "12": [
-                204,
-                264
-            ],
-            "18": [
-                186,
-                264
-            ],
-            "24": [
-                162,
-                264
-            ]
-        },
-        "beer": {
-            "12": [
-                258,
-                264
-            ],
-            "18": [
-                240,
-                264
-            ],
-            "24": [
-                216,
-                264
-            ]
-        },
-        "restaurant": {
-            "12": [
-                42,
-                288
-            ],
-            "18": [
-                24,
-                288
-            ],
-            "24": [
-                0,
-                288
-            ]
-        },
-        "cafe": {
-            "12": [
-                96,
-                288
-            ],
-            "18": [
-                78,
-                288
-            ],
-            "24": [
-                54,
-                288
-            ]
-        },
-        "shop": {
-            "12": [
-                150,
-                288
-            ],
-            "18": [
-                132,
-                288
-            ],
-            "24": [
-                108,
-                288
-            ]
-        },
-        "fast-food": {
-            "12": [
-                204,
-                288
-            ],
-            "18": [
-                186,
-                288
-            ],
-            "24": [
-                162,
-                288
-            ]
-        },
-        "bar": {
-            "12": [
-                258,
-                288
-            ],
-            "18": [
-                240,
-                288
-            ],
-            "24": [
-                216,
-                288
-            ]
-        },
-        "bank": {
-            "12": [
-                42,
-                312
-            ],
-            "18": [
-                24,
-                312
-            ],
-            "24": [
-                0,
-                312
-            ]
-        },
-        "grocery": {
-            "12": [
-                96,
-                312
-            ],
-            "18": [
-                78,
-                312
-            ],
-            "24": [
-                54,
-                312
-            ]
-        },
-        "cinema": {
-            "12": [
-                150,
-                312
-            ],
-            "18": [
-                132,
-                312
-            ],
-            "24": [
-                108,
-                312
-            ]
-        },
-        "pharmacy": {
-            "12": [
-                204,
-                312
-            ],
-            "18": [
-                186,
-                312
-            ],
-            "24": [
-                162,
-                312
-            ]
-        },
-        "hospital": {
-            "12": [
-                258,
-                312
-            ],
-            "18": [
-                240,
-                312
-            ],
-            "24": [
-                216,
-                312
-            ]
-        },
-        "danger": {
-            "12": [
-                42,
-                336
-            ],
-            "18": [
-                24,
-                336
-            ],
-            "24": [
-                0,
-                336
-            ]
-        },
-        "industrial": {
-            "12": [
-                96,
-                336
-            ],
-            "18": [
-                78,
-                336
-            ],
-            "24": [
-                54,
-                336
-            ]
-        },
-        "warehouse": {
-            "12": [
-                150,
-                336
-            ],
-            "18": [
-                132,
-                336
-            ],
-            "24": [
-                108,
-                336
-            ]
-        },
-        "commercial": {
-            "12": [
-                204,
-                336
-            ],
-            "18": [
-                186,
-                336
-            ],
-            "24": [
-                162,
-                336
-            ]
-        },
-        "building": {
-            "12": [
-                258,
-                336
-            ],
-            "18": [
-                240,
-                336
-            ],
-            "24": [
-                216,
-                336
-            ]
-        },
-        "place-of-worship": {
-            "12": [
-                42,
-                360
-            ],
-            "18": [
-                24,
-                360
-            ],
-            "24": [
-                0,
-                360
-            ]
-        },
-        "alcohol-shop": {
-            "12": [
-                96,
-                360
-            ],
-            "18": [
-                78,
-                360
-            ],
-            "24": [
-                54,
-                360
-            ]
-        },
-        "logging": {
-            "12": [
-                150,
-                360
-            ],
-            "18": [
-                132,
-                360
-            ],
-            "24": [
-                108,
-                360
-            ]
-        },
-        "oil-well": {
-            "12": [
-                204,
-                360
-            ],
-            "18": [
-                186,
-                360
-            ],
-            "24": [
-                162,
-                360
-            ]
-        },
-        "slaughterhouse": {
-            "12": [
-                258,
-                360
-            ],
-            "18": [
-                240,
-                360
-            ],
-            "24": [
-                216,
-                360
-            ]
-        },
-        "dam": {
-            "12": [
-                42,
-                384
-            ],
-            "18": [
-                24,
-                384
-            ],
-            "24": [
-                0,
-                384
-            ]
-        },
-        "water": {
-            "12": [
-                96,
-                384
-            ],
-            "18": [
-                78,
-                384
-            ],
-            "24": [
-                54,
-                384
-            ]
-        },
-        "wetland": {
-            "12": [
-                150,
-                384
-            ],
-            "18": [
-                132,
-                384
-            ],
-            "24": [
-                108,
-                384
-            ]
-        },
-        "disability": {
-            "12": [
-                204,
-                384
-            ],
-            "18": [
-                186,
-                384
-            ],
-            "24": [
-                162,
-                384
-            ]
-        },
-        "telephone": {
-            "12": [
-                258,
-                384
-            ],
-            "18": [
-                240,
-                384
-            ],
-            "24": [
-                216,
-                384
-            ]
-        },
-        "emergency-telephone": {
-            "12": [
-                42,
-                408
-            ],
-            "18": [
-                24,
-                408
-            ],
-            "24": [
-                0,
-                408
-            ]
-        },
-        "toilets": {
-            "12": [
-                96,
-                408
-            ],
-            "18": [
-                78,
-                408
-            ],
-            "24": [
-                54,
-                408
-            ]
-        },
-        "waste-basket": {
-            "12": [
-                150,
-                408
-            ],
-            "18": [
-                132,
-                408
-            ],
-            "24": [
-                108,
-                408
-            ]
-        },
-        "music": {
-            "12": [
-                204,
-                408
-            ],
-            "18": [
-                186,
-                408
-            ],
-            "24": [
-                162,
-                408
-            ]
-        },
-        "land-use": {
-            "12": [
-                258,
-                408
-            ],
-            "18": [
-                240,
-                408
-            ],
-            "24": [
-                216,
-                408
-            ]
-        },
-        "city": {
-            "12": [
-                42,
-                432
-            ],
-            "18": [
-                24,
-                432
-            ],
-            "24": [
-                0,
-                432
-            ]
-        },
-        "town": {
-            "12": [
-                96,
-                432
-            ],
-            "18": [
-                78,
-                432
-            ],
-            "24": [
-                54,
-                432
-            ]
-        },
-        "village": {
-            "12": [
-                150,
-                432
-            ],
-            "18": [
-                132,
-                432
-            ],
-            "24": [
-                108,
-                432
-            ]
-        },
-        "farm": {
-            "12": [
-                204,
-                432
-            ],
-            "18": [
-                186,
-                432
-            ],
-            "24": [
-                162,
-                432
-            ]
-        },
-        "bakery": {
-            "12": [
-                258,
-                432
-            ],
-            "18": [
-                240,
-                432
-            ],
-            "24": [
-                216,
-                432
-            ]
-        },
-        "dog-park": {
-            "12": [
-                42,
-                456
-            ],
-            "18": [
-                24,
-                456
-            ],
-            "24": [
-                0,
-                456
-            ]
-        },
-        "lighthouse": {
-            "12": [
-                96,
-                456
-            ],
-            "18": [
-                78,
-                456
-            ],
-            "24": [
-                54,
-                456
-            ]
-        },
-        "clothing-store": {
-            "12": [
-                150,
-                456
-            ],
-            "18": [
-                132,
-                456
-            ],
-            "24": [
-                108,
-                456
-            ]
-        },
-        "polling-place": {
-            "12": [
-                204,
-                456
-            ],
-            "18": [
-                186,
-                456
-            ],
-            "24": [
-                162,
-                456
-            ]
-        },
-        "playground": {
-            "12": [
-                258,
-                456
-            ],
-            "18": [
-                240,
-                456
-            ],
-            "24": [
-                216,
-                456
-            ]
-        },
-        "entrance": {
-            "12": [
-                42,
-                480
-            ],
-            "18": [
-                24,
-                480
-            ],
-            "24": [
-                0,
-                480
-            ]
-        },
-        "heart": {
-            "12": [
-                96,
-                480
-            ],
-            "18": [
-                78,
-                480
-            ],
-            "24": [
-                54,
-                480
-            ]
-        },
-        "london-underground": {
-            "12": [
-                150,
-                480
-            ],
-            "18": [
-                132,
-                480
-            ],
-            "24": [
-                108,
-                480
-            ]
-        },
-        "minefield": {
-            "12": [
-                204,
-                480
-            ],
-            "18": [
-                186,
-                480
-            ],
-            "24": [
-                162,
-                480
-            ]
-        },
-        "rail-underground": {
-            "12": [
-                258,
-                480
-            ],
-            "18": [
-                240,
-                480
-            ],
-            "24": [
-                216,
-                480
-            ]
-        },
-        "rail-above": {
-            "12": [
-                42,
-                504
-            ],
-            "18": [
-                24,
-                504
-            ],
-            "24": [
-                0,
-                504
-            ]
-        },
-        "camera": {
-            "12": [
-                96,
-                504
-            ],
-            "18": [
-                78,
-                504
-            ],
-            "24": [
-                54,
-                504
-            ]
-        },
-        "laundry": {
-            "12": [
-                150,
-                504
-            ],
-            "18": [
-                132,
-                504
-            ],
-            "24": [
-                108,
-                504
-            ]
-        },
-        "car": {
-            "12": [
-                204,
-                504
-            ],
-            "18": [
-                186,
-                504
-            ],
-            "24": [
-                162,
-                504
-            ]
-        },
-        "suitcase": {
-            "12": [
-                258,
-                504
-            ],
-            "18": [
-                240,
-                504
-            ],
-            "24": [
-                216,
-                504
-            ]
-        },
-        "hairdresser": {
-            "12": [
-                42,
-                528
-            ],
-            "18": [
-                24,
-                528
-            ],
-            "24": [
-                0,
-                528
-            ]
-        },
-        "chemist": {
-            "12": [
-                96,
-                528
-            ],
-            "18": [
-                78,
-                528
-            ],
-            "24": [
-                54,
-                528
-            ]
-        },
-        "mobilephone": {
-            "12": [
-                150,
-                528
-            ],
-            "18": [
-                132,
-                528
-            ],
-            "24": [
-                108,
-                528
-            ]
-        },
-        "scooter": {
-            "12": [
-                204,
-                528
-            ],
-            "18": [
-                186,
-                528
-            ],
-            "24": [
-                162,
-                528
-            ]
-        },
-        "gift": {
-            "12": [
-                258,
-                528
-            ],
-            "18": [
-                240,
-                528
-            ],
-            "24": [
-                216,
-                528
-            ]
-        },
-        "ice-cream": {
-            "12": [
-                42,
-                552
-            ],
-            "18": [
-                24,
-                552
-            ],
-            "24": [
-                0,
-                552
-            ]
-        },
-        "highway-motorway": {
-            "line": [
-                20,
-                25
-            ]
-        },
-        "highway-trunk": {
-            "line": [
-                80,
-                25
-            ]
-        },
-        "highway-primary": {
-            "line": [
-                140,
-                25
-            ]
-        },
-        "highway-secondary": {
-            "line": [
-                200,
-                25
-            ]
-        },
-        "highway-tertiary": {
-            "line": [
-                260,
-                25
-            ]
-        },
-        "highway-motorway-link": {
-            "line": [
-                320,
-                25
-            ]
-        },
-        "highway-trunk-link": {
-            "line": [
-                380,
-                25
-            ]
-        },
-        "highway-primary-link": {
-            "line": [
-                440,
-                25
-            ]
-        },
-        "highway-secondary-link": {
-            "line": [
-                500,
-                25
-            ]
-        },
-        "highway-tertiary-link": {
-            "line": [
-                560,
-                25
-            ]
-        },
-        "highway-residential": {
-            "line": [
-                620,
-                25
-            ]
-        },
-        "highway-unclassified": {
-            "line": [
-                680,
-                25
-            ]
-        },
-        "highway-service": {
-            "line": [
-                740,
-                25
-            ]
-        },
-        "highway-road": {
-            "line": [
-                800,
-                25
-            ]
-        },
-        "highway-track": {
-            "line": [
-                860,
-                25
-            ]
-        },
-        "highway-living-street": {
-            "line": [
-                920,
-                25
-            ]
-        },
-        "highway-path": {
-            "line": [
-                980,
-                25
-            ]
-        },
-        "highway-cycleway": {
-            "line": [
-                1040,
-                25
-            ]
-        },
-        "highway-footway": {
-            "line": [
-                1100,
-                25
-            ]
-        },
-        "highway-bridleway": {
-            "line": [
-                1160,
-                25
-            ]
-        },
-        "highway-steps": {
-            "line": [
-                1220,
-                25
-            ]
-        },
-        "railway-rail": {
-            "line": [
-                1280,
-                25
-            ]
-        },
-        "railway-disused": {
-            "line": [
-                1340,
-                25
-            ]
-        },
-        "railway-abandoned": {
-            "line": [
-                1400,
-                25
-            ]
-        },
-        "railway-subway": {
-            "line": [
-                1460,
-                25
-            ]
-        },
-        "railway-light-rail": {
-            "line": [
-                1520,
-                25
-            ]
-        },
-        "railway-monorail": {
-            "line": [
-                1580,
-                25
-            ]
-        },
-        "waterway-river": {
-            "line": [
-                1640,
-                25
-            ]
-        },
-        "waterway-stream": {
-            "line": [
-                1700,
-                25
-            ]
-        },
-        "waterway-canal": {
-            "line": [
-                1760,
-                25
-            ]
-        },
-        "waterway-ditch": {
-            "line": [
-                1820,
-                25
-            ]
-        },
-        "power-line": {
-            "line": [
-                1880,
-                25
-            ]
-        },
-        "other-line": {
-            "line": [
-                1940,
-                25
-            ]
-        },
-        "category-roads": {
-            "line": [
-                2000,
-                25
-            ]
-        },
-        "category-rail": {
-            "line": [
-                2060,
-                25
-            ]
-        },
-        "category-path": {
-            "line": [
-                2120,
-                25
-            ]
-        },
-        "category-water": {
-            "line": [
-                2180,
-                25
-            ]
-        },
-        "pipeline": {
-            "line": [
-                2300,
-                25
-            ]
-        },
-        "relation": {
-            "relation": [
-                20,
-                25
-            ]
-        },
-        "restriction": {
-            "relation": [
-                80,
-                25
-            ]
-        },
-        "multipolygon": {
-            "relation": [
-                141,
-                25
-            ]
-        },
-        "boundary": {
-            "relation": [
-                200,
-                25
-            ]
-        },
-        "route": {
-            "relation": [
-                260,
-                25
-            ]
-        },
-        "route-road": {
-            "relation": [
-                320,
-                25
-            ]
-        },
-        "route-bicycle": {
-            "relation": [
-                380,
-                25
-            ]
-        },
-        "route-foot": {
-            "relation": [
-                440,
-                25
-            ]
-        },
-        "route-bus": {
-            "relation": [
-                500,
-                25
-            ]
-        },
-        "route-train": {
-            "relation": [
-                560,
-                25
-            ]
-        },
-        "route-detour": {
-            "relation": [
-                620,
-                25
-            ]
-        },
-        "route-tram": {
-            "relation": [
-                680,
-                25
-            ]
-        },
-        "route-ferry": {
-            "relation": [
-                740,
-                25
-            ]
-        },
-        "route-power": {
-            "relation": [
-                800,
-                25
-            ]
-        },
-        "route-pipeline": {
-            "relation": [
-                860,
-                25
-            ]
-        },
-        "route-master": {
-            "relation": [
-                920,
-                25
-            ]
-        },
-        "restriction-no-straight-on": {
-            "relation": [
-                980,
-                25
-            ]
-        },
-        "restriction-no-u-turn": {
-            "relation": [
-                1040,
-                25
-            ]
-        },
-        "restriction-no-left-turn": {
-            "relation": [
-                1100,
-                25
-            ]
-        },
-        "restriction-no-right-turn": {
-            "relation": [
-                1160,
-                25
-            ]
-        },
-        "restriction-only-straight-on": {
-            "relation": [
-                1220,
-                25
-            ]
-        },
-        "restriction-only-left-turn": {
-            "relation": [
-                1280,
-                25
-            ]
-        },
-        "restriction-only-right-turn": {
-            "relation": [
-                1340,
-                25
-            ]
+        "circle-stroked-24": {
+            "x": 0,
+            "y": 0,
+            "width": 24,
+            "height": 24
+        },
+        "circle-stroked-18": {
+            "x": 24,
+            "y": 0,
+            "width": 18,
+            "height": 18
+        },
+        "circle-stroked-12": {
+            "x": 42,
+            "y": 0,
+            "width": 12,
+            "height": 12
+        },
+        "circle-24": {
+            "x": 54,
+            "y": 0,
+            "width": 24,
+            "height": 24
+        },
+        "circle-18": {
+            "x": 78,
+            "y": 0,
+            "width": 18,
+            "height": 18
+        },
+        "circle-12": {
+            "x": 96,
+            "y": 0,
+            "width": 12,
+            "height": 12
+        },
+        "square-stroked-24": {
+            "x": 108,
+            "y": 0,
+            "width": 24,
+            "height": 24
+        },
+        "square-stroked-18": {
+            "x": 132,
+            "y": 0,
+            "width": 18,
+            "height": 18
+        },
+        "square-stroked-12": {
+            "x": 150,
+            "y": 0,
+            "width": 12,
+            "height": 12
+        },
+        "square-24": {
+            "x": 162,
+            "y": 0,
+            "width": 24,
+            "height": 24
+        },
+        "square-18": {
+            "x": 186,
+            "y": 0,
+            "width": 18,
+            "height": 18
+        },
+        "square-12": {
+            "x": 204,
+            "y": 0,
+            "width": 12,
+            "height": 12
+        },
+        "triangle-stroked-24": {
+            "x": 216,
+            "y": 0,
+            "width": 24,
+            "height": 24
+        },
+        "triangle-stroked-18": {
+            "x": 240,
+            "y": 0,
+            "width": 18,
+            "height": 18
+        },
+        "triangle-stroked-12": {
+            "x": 258,
+            "y": 0,
+            "width": 12,
+            "height": 12
+        },
+        "triangle-24": {
+            "x": 0,
+            "y": 24,
+            "width": 24,
+            "height": 24
+        },
+        "triangle-18": {
+            "x": 24,
+            "y": 24,
+            "width": 18,
+            "height": 18
+        },
+        "triangle-12": {
+            "x": 42,
+            "y": 24,
+            "width": 12,
+            "height": 12
+        },
+        "star-stroked-24": {
+            "x": 54,
+            "y": 24,
+            "width": 24,
+            "height": 24
+        },
+        "star-stroked-18": {
+            "x": 78,
+            "y": 24,
+            "width": 18,
+            "height": 18
+        },
+        "star-stroked-12": {
+            "x": 96,
+            "y": 24,
+            "width": 12,
+            "height": 12
+        },
+        "star-24": {
+            "x": 108,
+            "y": 24,
+            "width": 24,
+            "height": 24
+        },
+        "star-18": {
+            "x": 132,
+            "y": 24,
+            "width": 18,
+            "height": 18
+        },
+        "star-12": {
+            "x": 150,
+            "y": 24,
+            "width": 12,
+            "height": 12
+        },
+        "cross-24": {
+            "x": 162,
+            "y": 24,
+            "width": 24,
+            "height": 24
+        },
+        "cross-18": {
+            "x": 186,
+            "y": 24,
+            "width": 18,
+            "height": 18
+        },
+        "cross-12": {
+            "x": 204,
+            "y": 24,
+            "width": 12,
+            "height": 12
+        },
+        "marker-stroked-24": {
+            "x": 216,
+            "y": 24,
+            "width": 24,
+            "height": 24
+        },
+        "marker-stroked-18": {
+            "x": 240,
+            "y": 24,
+            "width": 18,
+            "height": 18
+        },
+        "marker-stroked-12": {
+            "x": 258,
+            "y": 24,
+            "width": 12,
+            "height": 12
+        },
+        "marker-24": {
+            "x": 0,
+            "y": 48,
+            "width": 24,
+            "height": 24
+        },
+        "marker-18": {
+            "x": 24,
+            "y": 48,
+            "width": 18,
+            "height": 18
+        },
+        "marker-12": {
+            "x": 42,
+            "y": 48,
+            "width": 12,
+            "height": 12
+        },
+        "religious-jewish-24": {
+            "x": 54,
+            "y": 48,
+            "width": 24,
+            "height": 24
+        },
+        "religious-jewish-18": {
+            "x": 78,
+            "y": 48,
+            "width": 18,
+            "height": 18
+        },
+        "religious-jewish-12": {
+            "x": 96,
+            "y": 48,
+            "width": 12,
+            "height": 12
+        },
+        "religious-christian-24": {
+            "x": 108,
+            "y": 48,
+            "width": 24,
+            "height": 24
+        },
+        "religious-christian-18": {
+            "x": 132,
+            "y": 48,
+            "width": 18,
+            "height": 18
+        },
+        "religious-christian-12": {
+            "x": 150,
+            "y": 48,
+            "width": 12,
+            "height": 12
+        },
+        "religious-muslim-24": {
+            "x": 162,
+            "y": 48,
+            "width": 24,
+            "height": 24
+        },
+        "religious-muslim-18": {
+            "x": 186,
+            "y": 48,
+            "width": 18,
+            "height": 18
+        },
+        "religious-muslim-12": {
+            "x": 204,
+            "y": 48,
+            "width": 12,
+            "height": 12
+        },
+        "cemetery-24": {
+            "x": 216,
+            "y": 48,
+            "width": 24,
+            "height": 24
+        },
+        "cemetery-18": {
+            "x": 240,
+            "y": 48,
+            "width": 18,
+            "height": 18
+        },
+        "cemetery-12": {
+            "x": 258,
+            "y": 48,
+            "width": 12,
+            "height": 12
+        },
+        "rocket-24": {
+            "x": 0,
+            "y": 72,
+            "width": 24,
+            "height": 24
+        },
+        "rocket-18": {
+            "x": 24,
+            "y": 72,
+            "width": 18,
+            "height": 18
+        },
+        "rocket-12": {
+            "x": 42,
+            "y": 72,
+            "width": 12,
+            "height": 12
+        },
+        "airport-24": {
+            "x": 54,
+            "y": 72,
+            "width": 24,
+            "height": 24
+        },
+        "airport-18": {
+            "x": 78,
+            "y": 72,
+            "width": 18,
+            "height": 18
+        },
+        "airport-12": {
+            "x": 96,
+            "y": 72,
+            "width": 12,
+            "height": 12
+        },
+        "heliport-24": {
+            "x": 108,
+            "y": 72,
+            "width": 24,
+            "height": 24
+        },
+        "heliport-18": {
+            "x": 132,
+            "y": 72,
+            "width": 18,
+            "height": 18
+        },
+        "heliport-12": {
+            "x": 150,
+            "y": 72,
+            "width": 12,
+            "height": 12
+        },
+        "rail-24": {
+            "x": 162,
+            "y": 72,
+            "width": 24,
+            "height": 24
+        },
+        "rail-18": {
+            "x": 186,
+            "y": 72,
+            "width": 18,
+            "height": 18
+        },
+        "rail-12": {
+            "x": 204,
+            "y": 72,
+            "width": 12,
+            "height": 12
+        },
+        "rail-metro-24": {
+            "x": 216,
+            "y": 72,
+            "width": 24,
+            "height": 24
+        },
+        "rail-metro-18": {
+            "x": 240,
+            "y": 72,
+            "width": 18,
+            "height": 18
+        },
+        "rail-metro-12": {
+            "x": 258,
+            "y": 72,
+            "width": 12,
+            "height": 12
+        },
+        "rail-light-24": {
+            "x": 0,
+            "y": 96,
+            "width": 24,
+            "height": 24
+        },
+        "rail-light-18": {
+            "x": 24,
+            "y": 96,
+            "width": 18,
+            "height": 18
+        },
+        "rail-light-12": {
+            "x": 42,
+            "y": 96,
+            "width": 12,
+            "height": 12
+        },
+        "bus-24": {
+            "x": 54,
+            "y": 96,
+            "width": 24,
+            "height": 24
+        },
+        "bus-18": {
+            "x": 78,
+            "y": 96,
+            "width": 18,
+            "height": 18
+        },
+        "bus-12": {
+            "x": 96,
+            "y": 96,
+            "width": 12,
+            "height": 12
+        },
+        "fuel-24": {
+            "x": 108,
+            "y": 96,
+            "width": 24,
+            "height": 24
+        },
+        "fuel-18": {
+            "x": 132,
+            "y": 96,
+            "width": 18,
+            "height": 18
+        },
+        "fuel-12": {
+            "x": 150,
+            "y": 96,
+            "width": 12,
+            "height": 12
+        },
+        "parking-24": {
+            "x": 162,
+            "y": 96,
+            "width": 24,
+            "height": 24
+        },
+        "parking-18": {
+            "x": 186,
+            "y": 96,
+            "width": 18,
+            "height": 18
+        },
+        "parking-12": {
+            "x": 204,
+            "y": 96,
+            "width": 12,
+            "height": 12
+        },
+        "parking-garage-24": {
+            "x": 216,
+            "y": 96,
+            "width": 24,
+            "height": 24
+        },
+        "parking-garage-18": {
+            "x": 240,
+            "y": 96,
+            "width": 18,
+            "height": 18
+        },
+        "parking-garage-12": {
+            "x": 258,
+            "y": 96,
+            "width": 12,
+            "height": 12
+        },
+        "airfield-24": {
+            "x": 0,
+            "y": 120,
+            "width": 24,
+            "height": 24
+        },
+        "airfield-18": {
+            "x": 24,
+            "y": 120,
+            "width": 18,
+            "height": 18
+        },
+        "airfield-12": {
+            "x": 42,
+            "y": 120,
+            "width": 12,
+            "height": 12
+        },
+        "roadblock-24": {
+            "x": 54,
+            "y": 120,
+            "width": 24,
+            "height": 24
+        },
+        "roadblock-18": {
+            "x": 78,
+            "y": 120,
+            "width": 18,
+            "height": 18
+        },
+        "roadblock-12": {
+            "x": 96,
+            "y": 120,
+            "width": 12,
+            "height": 12
+        },
+        "ferry-24": {
+            "x": 108,
+            "y": 120,
+            "width": 24,
+            "height": 24
+        },
+        "ferry-18": {
+            "x": 132,
+            "y": 120,
+            "width": 18,
+            "height": 18
+        },
+        "ferry-12": {
+            "x": 150,
+            "y": 120,
+            "width": 12,
+            "height": 12
+        },
+        "harbor-24": {
+            "x": 162,
+            "y": 120,
+            "width": 24,
+            "height": 24
+        },
+        "harbor-18": {
+            "x": 186,
+            "y": 120,
+            "width": 18,
+            "height": 18
+        },
+        "harbor-12": {
+            "x": 204,
+            "y": 120,
+            "width": 12,
+            "height": 12
+        },
+        "bicycle-24": {
+            "x": 216,
+            "y": 120,
+            "width": 24,
+            "height": 24
+        },
+        "bicycle-18": {
+            "x": 240,
+            "y": 120,
+            "width": 18,
+            "height": 18
+        },
+        "bicycle-12": {
+            "x": 258,
+            "y": 120,
+            "width": 12,
+            "height": 12
+        },
+        "park-24": {
+            "x": 0,
+            "y": 144,
+            "width": 24,
+            "height": 24
+        },
+        "park-18": {
+            "x": 24,
+            "y": 144,
+            "width": 18,
+            "height": 18
+        },
+        "park-12": {
+            "x": 42,
+            "y": 144,
+            "width": 12,
+            "height": 12
+        },
+        "park2-24": {
+            "x": 54,
+            "y": 144,
+            "width": 24,
+            "height": 24
+        },
+        "park2-18": {
+            "x": 78,
+            "y": 144,
+            "width": 18,
+            "height": 18
+        },
+        "park2-12": {
+            "x": 96,
+            "y": 144,
+            "width": 12,
+            "height": 12
+        },
+        "museum-24": {
+            "x": 108,
+            "y": 144,
+            "width": 24,
+            "height": 24
+        },
+        "museum-18": {
+            "x": 132,
+            "y": 144,
+            "width": 18,
+            "height": 18
+        },
+        "museum-12": {
+            "x": 150,
+            "y": 144,
+            "width": 12,
+            "height": 12
+        },
+        "lodging-24": {
+            "x": 162,
+            "y": 144,
+            "width": 24,
+            "height": 24
+        },
+        "lodging-18": {
+            "x": 186,
+            "y": 144,
+            "width": 18,
+            "height": 18
+        },
+        "lodging-12": {
+            "x": 204,
+            "y": 144,
+            "width": 12,
+            "height": 12
+        },
+        "monument-24": {
+            "x": 216,
+            "y": 144,
+            "width": 24,
+            "height": 24
+        },
+        "monument-18": {
+            "x": 240,
+            "y": 144,
+            "width": 18,
+            "height": 18
+        },
+        "monument-12": {
+            "x": 258,
+            "y": 144,
+            "width": 12,
+            "height": 12
+        },
+        "zoo-24": {
+            "x": 0,
+            "y": 168,
+            "width": 24,
+            "height": 24
+        },
+        "zoo-18": {
+            "x": 24,
+            "y": 168,
+            "width": 18,
+            "height": 18
+        },
+        "zoo-12": {
+            "x": 42,
+            "y": 168,
+            "width": 12,
+            "height": 12
+        },
+        "garden-24": {
+            "x": 54,
+            "y": 168,
+            "width": 24,
+            "height": 24
+        },
+        "garden-18": {
+            "x": 78,
+            "y": 168,
+            "width": 18,
+            "height": 18
+        },
+        "garden-12": {
+            "x": 96,
+            "y": 168,
+            "width": 12,
+            "height": 12
+        },
+        "campsite-24": {
+            "x": 108,
+            "y": 168,
+            "width": 24,
+            "height": 24
+        },
+        "campsite-18": {
+            "x": 132,
+            "y": 168,
+            "width": 18,
+            "height": 18
+        },
+        "campsite-12": {
+            "x": 150,
+            "y": 168,
+            "width": 12,
+            "height": 12
+        },
+        "theatre-24": {
+            "x": 162,
+            "y": 168,
+            "width": 24,
+            "height": 24
+        },
+        "theatre-18": {
+            "x": 186,
+            "y": 168,
+            "width": 18,
+            "height": 18
+        },
+        "theatre-12": {
+            "x": 204,
+            "y": 168,
+            "width": 12,
+            "height": 12
+        },
+        "art-gallery-24": {
+            "x": 216,
+            "y": 168,
+            "width": 24,
+            "height": 24
+        },
+        "art-gallery-18": {
+            "x": 240,
+            "y": 168,
+            "width": 18,
+            "height": 18
+        },
+        "art-gallery-12": {
+            "x": 258,
+            "y": 168,
+            "width": 12,
+            "height": 12
+        },
+        "pitch-24": {
+            "x": 0,
+            "y": 192,
+            "width": 24,
+            "height": 24
+        },
+        "pitch-18": {
+            "x": 24,
+            "y": 192,
+            "width": 18,
+            "height": 18
+        },
+        "pitch-12": {
+            "x": 42,
+            "y": 192,
+            "width": 12,
+            "height": 12
+        },
+        "soccer-24": {
+            "x": 54,
+            "y": 192,
+            "width": 24,
+            "height": 24
+        },
+        "soccer-18": {
+            "x": 78,
+            "y": 192,
+            "width": 18,
+            "height": 18
+        },
+        "soccer-12": {
+            "x": 96,
+            "y": 192,
+            "width": 12,
+            "height": 12
+        },
+        "america-football-24": {
+            "x": 108,
+            "y": 192,
+            "width": 24,
+            "height": 24
+        },
+        "america-football-18": {
+            "x": 132,
+            "y": 192,
+            "width": 18,
+            "height": 18
+        },
+        "america-football-12": {
+            "x": 150,
+            "y": 192,
+            "width": 12,
+            "height": 12
+        },
+        "tennis-24": {
+            "x": 162,
+            "y": 192,
+            "width": 24,
+            "height": 24
+        },
+        "tennis-18": {
+            "x": 186,
+            "y": 192,
+            "width": 18,
+            "height": 18
+        },
+        "tennis-12": {
+            "x": 204,
+            "y": 192,
+            "width": 12,
+            "height": 12
+        },
+        "basketball-24": {
+            "x": 216,
+            "y": 192,
+            "width": 24,
+            "height": 24
+        },
+        "basketball-18": {
+            "x": 240,
+            "y": 192,
+            "width": 18,
+            "height": 18
+        },
+        "basketball-12": {
+            "x": 258,
+            "y": 192,
+            "width": 12,
+            "height": 12
+        },
+        "baseball-24": {
+            "x": 0,
+            "y": 216,
+            "width": 24,
+            "height": 24
+        },
+        "baseball-18": {
+            "x": 24,
+            "y": 216,
+            "width": 18,
+            "height": 18
+        },
+        "baseball-12": {
+            "x": 42,
+            "y": 216,
+            "width": 12,
+            "height": 12
+        },
+        "golf-24": {
+            "x": 54,
+            "y": 216,
+            "width": 24,
+            "height": 24
+        },
+        "golf-18": {
+            "x": 78,
+            "y": 216,
+            "width": 18,
+            "height": 18
+        },
+        "golf-12": {
+            "x": 96,
+            "y": 216,
+            "width": 12,
+            "height": 12
+        },
+        "swimming-24": {
+            "x": 108,
+            "y": 216,
+            "width": 24,
+            "height": 24
+        },
+        "swimming-18": {
+            "x": 132,
+            "y": 216,
+            "width": 18,
+            "height": 18
+        },
+        "swimming-12": {
+            "x": 150,
+            "y": 216,
+            "width": 12,
+            "height": 12
+        },
+        "cricket-24": {
+            "x": 162,
+            "y": 216,
+            "width": 24,
+            "height": 24
+        },
+        "cricket-18": {
+            "x": 186,
+            "y": 216,
+            "width": 18,
+            "height": 18
+        },
+        "cricket-12": {
+            "x": 204,
+            "y": 216,
+            "width": 12,
+            "height": 12
+        },
+        "skiing-24": {
+            "x": 216,
+            "y": 216,
+            "width": 24,
+            "height": 24
+        },
+        "skiing-18": {
+            "x": 240,
+            "y": 216,
+            "width": 18,
+            "height": 18
+        },
+        "skiing-12": {
+            "x": 258,
+            "y": 216,
+            "width": 12,
+            "height": 12
+        },
+        "school-24": {
+            "x": 0,
+            "y": 240,
+            "width": 24,
+            "height": 24
+        },
+        "school-18": {
+            "x": 24,
+            "y": 240,
+            "width": 18,
+            "height": 18
+        },
+        "school-12": {
+            "x": 42,
+            "y": 240,
+            "width": 12,
+            "height": 12
+        },
+        "college-24": {
+            "x": 54,
+            "y": 240,
+            "width": 24,
+            "height": 24
+        },
+        "college-18": {
+            "x": 78,
+            "y": 240,
+            "width": 18,
+            "height": 18
+        },
+        "college-12": {
+            "x": 96,
+            "y": 240,
+            "width": 12,
+            "height": 12
+        },
+        "library-24": {
+            "x": 108,
+            "y": 240,
+            "width": 24,
+            "height": 24
+        },
+        "library-18": {
+            "x": 132,
+            "y": 240,
+            "width": 18,
+            "height": 18
+        },
+        "library-12": {
+            "x": 150,
+            "y": 240,
+            "width": 12,
+            "height": 12
+        },
+        "post-24": {
+            "x": 162,
+            "y": 240,
+            "width": 24,
+            "height": 24
+        },
+        "post-18": {
+            "x": 186,
+            "y": 240,
+            "width": 18,
+            "height": 18
+        },
+        "post-12": {
+            "x": 204,
+            "y": 240,
+            "width": 12,
+            "height": 12
+        },
+        "fire-station-24": {
+            "x": 216,
+            "y": 240,
+            "width": 24,
+            "height": 24
+        },
+        "fire-station-18": {
+            "x": 240,
+            "y": 240,
+            "width": 18,
+            "height": 18
+        },
+        "fire-station-12": {
+            "x": 258,
+            "y": 240,
+            "width": 12,
+            "height": 12
+        },
+        "town-hall-24": {
+            "x": 0,
+            "y": 264,
+            "width": 24,
+            "height": 24
+        },
+        "town-hall-18": {
+            "x": 24,
+            "y": 264,
+            "width": 18,
+            "height": 18
+        },
+        "town-hall-12": {
+            "x": 42,
+            "y": 264,
+            "width": 12,
+            "height": 12
+        },
+        "police-24": {
+            "x": 54,
+            "y": 264,
+            "width": 24,
+            "height": 24
+        },
+        "police-18": {
+            "x": 78,
+            "y": 264,
+            "width": 18,
+            "height": 18
+        },
+        "police-12": {
+            "x": 96,
+            "y": 264,
+            "width": 12,
+            "height": 12
+        },
+        "prison-24": {
+            "x": 108,
+            "y": 264,
+            "width": 24,
+            "height": 24
+        },
+        "prison-18": {
+            "x": 132,
+            "y": 264,
+            "width": 18,
+            "height": 18
+        },
+        "prison-12": {
+            "x": 150,
+            "y": 264,
+            "width": 12,
+            "height": 12
+        },
+        "embassy-24": {
+            "x": 162,
+            "y": 264,
+            "width": 24,
+            "height": 24
+        },
+        "embassy-18": {
+            "x": 186,
+            "y": 264,
+            "width": 18,
+            "height": 18
+        },
+        "embassy-12": {
+            "x": 204,
+            "y": 264,
+            "width": 12,
+            "height": 12
+        },
+        "beer-24": {
+            "x": 216,
+            "y": 264,
+            "width": 24,
+            "height": 24
+        },
+        "beer-18": {
+            "x": 240,
+            "y": 264,
+            "width": 18,
+            "height": 18
+        },
+        "beer-12": {
+            "x": 258,
+            "y": 264,
+            "width": 12,
+            "height": 12
+        },
+        "restaurant-24": {
+            "x": 0,
+            "y": 288,
+            "width": 24,
+            "height": 24
+        },
+        "restaurant-18": {
+            "x": 24,
+            "y": 288,
+            "width": 18,
+            "height": 18
+        },
+        "restaurant-12": {
+            "x": 42,
+            "y": 288,
+            "width": 12,
+            "height": 12
+        },
+        "cafe-24": {
+            "x": 54,
+            "y": 288,
+            "width": 24,
+            "height": 24
+        },
+        "cafe-18": {
+            "x": 78,
+            "y": 288,
+            "width": 18,
+            "height": 18
+        },
+        "cafe-12": {
+            "x": 96,
+            "y": 288,
+            "width": 12,
+            "height": 12
+        },
+        "shop-24": {
+            "x": 108,
+            "y": 288,
+            "width": 24,
+            "height": 24
+        },
+        "shop-18": {
+            "x": 132,
+            "y": 288,
+            "width": 18,
+            "height": 18
+        },
+        "shop-12": {
+            "x": 150,
+            "y": 288,
+            "width": 12,
+            "height": 12
+        },
+        "fast-food-24": {
+            "x": 162,
+            "y": 288,
+            "width": 24,
+            "height": 24
+        },
+        "fast-food-18": {
+            "x": 186,
+            "y": 288,
+            "width": 18,
+            "height": 18
+        },
+        "fast-food-12": {
+            "x": 204,
+            "y": 288,
+            "width": 12,
+            "height": 12
+        },
+        "bar-24": {
+            "x": 216,
+            "y": 288,
+            "width": 24,
+            "height": 24
+        },
+        "bar-18": {
+            "x": 240,
+            "y": 288,
+            "width": 18,
+            "height": 18
+        },
+        "bar-12": {
+            "x": 258,
+            "y": 288,
+            "width": 12,
+            "height": 12
+        },
+        "bank-24": {
+            "x": 0,
+            "y": 312,
+            "width": 24,
+            "height": 24
+        },
+        "bank-18": {
+            "x": 24,
+            "y": 312,
+            "width": 18,
+            "height": 18
+        },
+        "bank-12": {
+            "x": 42,
+            "y": 312,
+            "width": 12,
+            "height": 12
+        },
+        "grocery-24": {
+            "x": 54,
+            "y": 312,
+            "width": 24,
+            "height": 24
+        },
+        "grocery-18": {
+            "x": 78,
+            "y": 312,
+            "width": 18,
+            "height": 18
+        },
+        "grocery-12": {
+            "x": 96,
+            "y": 312,
+            "width": 12,
+            "height": 12
+        },
+        "cinema-24": {
+            "x": 108,
+            "y": 312,
+            "width": 24,
+            "height": 24
+        },
+        "cinema-18": {
+            "x": 132,
+            "y": 312,
+            "width": 18,
+            "height": 18
+        },
+        "cinema-12": {
+            "x": 150,
+            "y": 312,
+            "width": 12,
+            "height": 12
+        },
+        "pharmacy-24": {
+            "x": 162,
+            "y": 312,
+            "width": 24,
+            "height": 24
+        },
+        "pharmacy-18": {
+            "x": 186,
+            "y": 312,
+            "width": 18,
+            "height": 18
+        },
+        "pharmacy-12": {
+            "x": 204,
+            "y": 312,
+            "width": 12,
+            "height": 12
+        },
+        "hospital-24": {
+            "x": 216,
+            "y": 312,
+            "width": 24,
+            "height": 24
+        },
+        "hospital-18": {
+            "x": 240,
+            "y": 312,
+            "width": 18,
+            "height": 18
+        },
+        "hospital-12": {
+            "x": 258,
+            "y": 312,
+            "width": 12,
+            "height": 12
+        },
+        "danger-24": {
+            "x": 0,
+            "y": 336,
+            "width": 24,
+            "height": 24
+        },
+        "danger-18": {
+            "x": 24,
+            "y": 336,
+            "width": 18,
+            "height": 18
+        },
+        "danger-12": {
+            "x": 42,
+            "y": 336,
+            "width": 12,
+            "height": 12
+        },
+        "industrial-24": {
+            "x": 54,
+            "y": 336,
+            "width": 24,
+            "height": 24
+        },
+        "industrial-18": {
+            "x": 78,
+            "y": 336,
+            "width": 18,
+            "height": 18
+        },
+        "industrial-12": {
+            "x": 96,
+            "y": 336,
+            "width": 12,
+            "height": 12
+        },
+        "warehouse-24": {
+            "x": 108,
+            "y": 336,
+            "width": 24,
+            "height": 24
+        },
+        "warehouse-18": {
+            "x": 132,
+            "y": 336,
+            "width": 18,
+            "height": 18
+        },
+        "warehouse-12": {
+            "x": 150,
+            "y": 336,
+            "width": 12,
+            "height": 12
+        },
+        "commercial-24": {
+            "x": 162,
+            "y": 336,
+            "width": 24,
+            "height": 24
+        },
+        "commercial-18": {
+            "x": 186,
+            "y": 336,
+            "width": 18,
+            "height": 18
+        },
+        "commercial-12": {
+            "x": 204,
+            "y": 336,
+            "width": 12,
+            "height": 12
+        },
+        "building-24": {
+            "x": 216,
+            "y": 336,
+            "width": 24,
+            "height": 24
+        },
+        "building-18": {
+            "x": 240,
+            "y": 336,
+            "width": 18,
+            "height": 18
+        },
+        "building-12": {
+            "x": 258,
+            "y": 336,
+            "width": 12,
+            "height": 12
+        },
+        "place-of-worship-24": {
+            "x": 0,
+            "y": 360,
+            "width": 24,
+            "height": 24
+        },
+        "place-of-worship-18": {
+            "x": 24,
+            "y": 360,
+            "width": 18,
+            "height": 18
+        },
+        "place-of-worship-12": {
+            "x": 42,
+            "y": 360,
+            "width": 12,
+            "height": 12
+        },
+        "alcohol-shop-24": {
+            "x": 54,
+            "y": 360,
+            "width": 24,
+            "height": 24
+        },
+        "alcohol-shop-18": {
+            "x": 78,
+            "y": 360,
+            "width": 18,
+            "height": 18
+        },
+        "alcohol-shop-12": {
+            "x": 96,
+            "y": 360,
+            "width": 12,
+            "height": 12
+        },
+        "logging-24": {
+            "x": 108,
+            "y": 360,
+            "width": 24,
+            "height": 24
+        },
+        "logging-18": {
+            "x": 132,
+            "y": 360,
+            "width": 18,
+            "height": 18
+        },
+        "logging-12": {
+            "x": 150,
+            "y": 360,
+            "width": 12,
+            "height": 12
+        },
+        "oil-well-24": {
+            "x": 162,
+            "y": 360,
+            "width": 24,
+            "height": 24
+        },
+        "oil-well-18": {
+            "x": 186,
+            "y": 360,
+            "width": 18,
+            "height": 18
+        },
+        "oil-well-12": {
+            "x": 204,
+            "y": 360,
+            "width": 12,
+            "height": 12
+        },
+        "slaughterhouse-24": {
+            "x": 216,
+            "y": 360,
+            "width": 24,
+            "height": 24
+        },
+        "slaughterhouse-18": {
+            "x": 240,
+            "y": 360,
+            "width": 18,
+            "height": 18
+        },
+        "slaughterhouse-12": {
+            "x": 258,
+            "y": 360,
+            "width": 12,
+            "height": 12
+        },
+        "dam-24": {
+            "x": 0,
+            "y": 384,
+            "width": 24,
+            "height": 24
+        },
+        "dam-18": {
+            "x": 24,
+            "y": 384,
+            "width": 18,
+            "height": 18
+        },
+        "dam-12": {
+            "x": 42,
+            "y": 384,
+            "width": 12,
+            "height": 12
+        },
+        "water-24": {
+            "x": 54,
+            "y": 384,
+            "width": 24,
+            "height": 24
+        },
+        "water-18": {
+            "x": 78,
+            "y": 384,
+            "width": 18,
+            "height": 18
+        },
+        "water-12": {
+            "x": 96,
+            "y": 384,
+            "width": 12,
+            "height": 12
+        },
+        "wetland-24": {
+            "x": 108,
+            "y": 384,
+            "width": 24,
+            "height": 24
+        },
+        "wetland-18": {
+            "x": 132,
+            "y": 384,
+            "width": 18,
+            "height": 18
+        },
+        "wetland-12": {
+            "x": 150,
+            "y": 384,
+            "width": 12,
+            "height": 12
+        },
+        "disability-24": {
+            "x": 162,
+            "y": 384,
+            "width": 24,
+            "height": 24
+        },
+        "disability-18": {
+            "x": 186,
+            "y": 384,
+            "width": 18,
+            "height": 18
+        },
+        "disability-12": {
+            "x": 204,
+            "y": 384,
+            "width": 12,
+            "height": 12
+        },
+        "telephone-24": {
+            "x": 216,
+            "y": 384,
+            "width": 24,
+            "height": 24
+        },
+        "telephone-18": {
+            "x": 240,
+            "y": 384,
+            "width": 18,
+            "height": 18
+        },
+        "telephone-12": {
+            "x": 258,
+            "y": 384,
+            "width": 12,
+            "height": 12
+        },
+        "emergency-telephone-24": {
+            "x": 0,
+            "y": 408,
+            "width": 24,
+            "height": 24
+        },
+        "emergency-telephone-18": {
+            "x": 24,
+            "y": 408,
+            "width": 18,
+            "height": 18
+        },
+        "emergency-telephone-12": {
+            "x": 42,
+            "y": 408,
+            "width": 12,
+            "height": 12
+        },
+        "toilets-24": {
+            "x": 54,
+            "y": 408,
+            "width": 24,
+            "height": 24
+        },
+        "toilets-18": {
+            "x": 78,
+            "y": 408,
+            "width": 18,
+            "height": 18
+        },
+        "toilets-12": {
+            "x": 96,
+            "y": 408,
+            "width": 12,
+            "height": 12
+        },
+        "waste-basket-24": {
+            "x": 108,
+            "y": 408,
+            "width": 24,
+            "height": 24
+        },
+        "waste-basket-18": {
+            "x": 132,
+            "y": 408,
+            "width": 18,
+            "height": 18
+        },
+        "waste-basket-12": {
+            "x": 150,
+            "y": 408,
+            "width": 12,
+            "height": 12
+        },
+        "music-24": {
+            "x": 162,
+            "y": 408,
+            "width": 24,
+            "height": 24
+        },
+        "music-18": {
+            "x": 186,
+            "y": 408,
+            "width": 18,
+            "height": 18
+        },
+        "music-12": {
+            "x": 204,
+            "y": 408,
+            "width": 12,
+            "height": 12
+        },
+        "land-use-24": {
+            "x": 216,
+            "y": 408,
+            "width": 24,
+            "height": 24
+        },
+        "land-use-18": {
+            "x": 240,
+            "y": 408,
+            "width": 18,
+            "height": 18
+        },
+        "land-use-12": {
+            "x": 258,
+            "y": 408,
+            "width": 12,
+            "height": 12
+        },
+        "city-24": {
+            "x": 0,
+            "y": 432,
+            "width": 24,
+            "height": 24
+        },
+        "city-18": {
+            "x": 24,
+            "y": 432,
+            "width": 18,
+            "height": 18
+        },
+        "city-12": {
+            "x": 42,
+            "y": 432,
+            "width": 12,
+            "height": 12
+        },
+        "town-24": {
+            "x": 54,
+            "y": 432,
+            "width": 24,
+            "height": 24
+        },
+        "town-18": {
+            "x": 78,
+            "y": 432,
+            "width": 18,
+            "height": 18
+        },
+        "town-12": {
+            "x": 96,
+            "y": 432,
+            "width": 12,
+            "height": 12
+        },
+        "village-24": {
+            "x": 108,
+            "y": 432,
+            "width": 24,
+            "height": 24
+        },
+        "village-18": {
+            "x": 132,
+            "y": 432,
+            "width": 18,
+            "height": 18
+        },
+        "village-12": {
+            "x": 150,
+            "y": 432,
+            "width": 12,
+            "height": 12
+        },
+        "farm-24": {
+            "x": 162,
+            "y": 432,
+            "width": 24,
+            "height": 24
+        },
+        "farm-18": {
+            "x": 186,
+            "y": 432,
+            "width": 18,
+            "height": 18
+        },
+        "farm-12": {
+            "x": 204,
+            "y": 432,
+            "width": 12,
+            "height": 12
+        },
+        "bakery-24": {
+            "x": 216,
+            "y": 432,
+            "width": 24,
+            "height": 24
+        },
+        "bakery-18": {
+            "x": 240,
+            "y": 432,
+            "width": 18,
+            "height": 18
+        },
+        "bakery-12": {
+            "x": 258,
+            "y": 432,
+            "width": 12,
+            "height": 12
+        },
+        "dog-park-24": {
+            "x": 0,
+            "y": 456,
+            "width": 24,
+            "height": 24
+        },
+        "dog-park-18": {
+            "x": 24,
+            "y": 456,
+            "width": 18,
+            "height": 18
+        },
+        "dog-park-12": {
+            "x": 42,
+            "y": 456,
+            "width": 12,
+            "height": 12
+        },
+        "lighthouse-24": {
+            "x": 54,
+            "y": 456,
+            "width": 24,
+            "height": 24
+        },
+        "lighthouse-18": {
+            "x": 78,
+            "y": 456,
+            "width": 18,
+            "height": 18
+        },
+        "lighthouse-12": {
+            "x": 96,
+            "y": 456,
+            "width": 12,
+            "height": 12
+        },
+        "clothing-store-24": {
+            "x": 108,
+            "y": 456,
+            "width": 24,
+            "height": 24
+        },
+        "clothing-store-18": {
+            "x": 132,
+            "y": 456,
+            "width": 18,
+            "height": 18
+        },
+        "clothing-store-12": {
+            "x": 150,
+            "y": 456,
+            "width": 12,
+            "height": 12
+        },
+        "polling-place-24": {
+            "x": 162,
+            "y": 456,
+            "width": 24,
+            "height": 24
+        },
+        "polling-place-18": {
+            "x": 186,
+            "y": 456,
+            "width": 18,
+            "height": 18
+        },
+        "polling-place-12": {
+            "x": 204,
+            "y": 456,
+            "width": 12,
+            "height": 12
+        },
+        "playground-24": {
+            "x": 216,
+            "y": 456,
+            "width": 24,
+            "height": 24
+        },
+        "playground-18": {
+            "x": 240,
+            "y": 456,
+            "width": 18,
+            "height": 18
+        },
+        "playground-12": {
+            "x": 258,
+            "y": 456,
+            "width": 12,
+            "height": 12
+        },
+        "entrance-24": {
+            "x": 0,
+            "y": 480,
+            "width": 24,
+            "height": 24
+        },
+        "entrance-18": {
+            "x": 24,
+            "y": 480,
+            "width": 18,
+            "height": 18
+        },
+        "entrance-12": {
+            "x": 42,
+            "y": 480,
+            "width": 12,
+            "height": 12
+        },
+        "heart-24": {
+            "x": 54,
+            "y": 480,
+            "width": 24,
+            "height": 24
+        },
+        "heart-18": {
+            "x": 78,
+            "y": 480,
+            "width": 18,
+            "height": 18
+        },
+        "heart-12": {
+            "x": 96,
+            "y": 480,
+            "width": 12,
+            "height": 12
+        },
+        "london-underground-24": {
+            "x": 108,
+            "y": 480,
+            "width": 24,
+            "height": 24
+        },
+        "london-underground-18": {
+            "x": 132,
+            "y": 480,
+            "width": 18,
+            "height": 18
+        },
+        "london-underground-12": {
+            "x": 150,
+            "y": 480,
+            "width": 12,
+            "height": 12
+        },
+        "minefield-24": {
+            "x": 162,
+            "y": 480,
+            "width": 24,
+            "height": 24
+        },
+        "minefield-18": {
+            "x": 186,
+            "y": 480,
+            "width": 18,
+            "height": 18
+        },
+        "minefield-12": {
+            "x": 204,
+            "y": 480,
+            "width": 12,
+            "height": 12
+        },
+        "rail-underground-24": {
+            "x": 216,
+            "y": 480,
+            "width": 24,
+            "height": 24
+        },
+        "rail-underground-18": {
+            "x": 240,
+            "y": 480,
+            "width": 18,
+            "height": 18
+        },
+        "rail-underground-12": {
+            "x": 258,
+            "y": 480,
+            "width": 12,
+            "height": 12
+        },
+        "rail-above-24": {
+            "x": 0,
+            "y": 504,
+            "width": 24,
+            "height": 24
+        },
+        "rail-above-18": {
+            "x": 24,
+            "y": 504,
+            "width": 18,
+            "height": 18
+        },
+        "rail-above-12": {
+            "x": 42,
+            "y": 504,
+            "width": 12,
+            "height": 12
+        },
+        "camera-24": {
+            "x": 54,
+            "y": 504,
+            "width": 24,
+            "height": 24
+        },
+        "camera-18": {
+            "x": 78,
+            "y": 504,
+            "width": 18,
+            "height": 18
+        },
+        "camera-12": {
+            "x": 96,
+            "y": 504,
+            "width": 12,
+            "height": 12
+        },
+        "laundry-24": {
+            "x": 108,
+            "y": 504,
+            "width": 24,
+            "height": 24
+        },
+        "laundry-18": {
+            "x": 132,
+            "y": 504,
+            "width": 18,
+            "height": 18
+        },
+        "laundry-12": {
+            "x": 150,
+            "y": 504,
+            "width": 12,
+            "height": 12
+        },
+        "car-24": {
+            "x": 162,
+            "y": 504,
+            "width": 24,
+            "height": 24
+        },
+        "car-18": {
+            "x": 186,
+            "y": 504,
+            "width": 18,
+            "height": 18
+        },
+        "car-12": {
+            "x": 204,
+            "y": 504,
+            "width": 12,
+            "height": 12
+        },
+        "suitcase-24": {
+            "x": 216,
+            "y": 504,
+            "width": 24,
+            "height": 24
+        },
+        "suitcase-18": {
+            "x": 240,
+            "y": 504,
+            "width": 18,
+            "height": 18
+        },
+        "suitcase-12": {
+            "x": 258,
+            "y": 504,
+            "width": 12,
+            "height": 12
+        },
+        "hairdresser-24": {
+            "x": 0,
+            "y": 528,
+            "width": 24,
+            "height": 24
+        },
+        "hairdresser-18": {
+            "x": 24,
+            "y": 528,
+            "width": 18,
+            "height": 18
+        },
+        "hairdresser-12": {
+            "x": 42,
+            "y": 528,
+            "width": 12,
+            "height": 12
+        },
+        "chemist-24": {
+            "x": 54,
+            "y": 528,
+            "width": 24,
+            "height": 24
+        },
+        "chemist-18": {
+            "x": 78,
+            "y": 528,
+            "width": 18,
+            "height": 18
+        },
+        "chemist-12": {
+            "x": 96,
+            "y": 528,
+            "width": 12,
+            "height": 12
+        },
+        "mobilephone-24": {
+            "x": 108,
+            "y": 528,
+            "width": 24,
+            "height": 24
+        },
+        "mobilephone-18": {
+            "x": 132,
+            "y": 528,
+            "width": 18,
+            "height": 18
+        },
+        "mobilephone-12": {
+            "x": 150,
+            "y": 528,
+            "width": 12,
+            "height": 12
+        },
+        "scooter-24": {
+            "x": 162,
+            "y": 528,
+            "width": 24,
+            "height": 24
+        },
+        "scooter-18": {
+            "x": 186,
+            "y": 528,
+            "width": 18,
+            "height": 18
+        },
+        "scooter-12": {
+            "x": 204,
+            "y": 528,
+            "width": 12,
+            "height": 12
+        },
+        "gift-24": {
+            "x": 216,
+            "y": 528,
+            "width": 24,
+            "height": 24
+        },
+        "gift-18": {
+            "x": 240,
+            "y": 528,
+            "width": 18,
+            "height": 18
+        },
+        "gift-12": {
+            "x": 258,
+            "y": 528,
+            "width": 12,
+            "height": 12
+        },
+        "ice-cream-24": {
+            "x": 0,
+            "y": 552,
+            "width": 24,
+            "height": 24
+        },
+        "ice-cream-18": {
+            "x": 24,
+            "y": 552,
+            "width": 18,
+            "height": 18
+        },
+        "ice-cream-12": {
+            "x": 42,
+            "y": 552,
+            "width": 12,
+            "height": 12
         }
-    },
-    "operations": {
-        "icon-operation-delete": [
-            0,
-            140
-        ],
-        "icon-operation-circularize": [
-            20,
-            140
-        ],
-        "icon-operation-straighten": [
-            40,
-            140
-        ],
-        "icon-operation-split": [
-            60,
-            140
-        ],
-        "icon-operation-disconnect": [
-            80,
-            140
-        ],
-        "icon-operation-reverse": [
-            100,
-            140
-        ],
-        "icon-operation-move": [
-            120,
-            140
-        ],
-        "icon-operation-merge": [
-            140,
-            140
-        ],
-        "icon-operation-orthogonalize": [
-            160,
-            140
-        ],
-        "icon-operation-rotate": [
-            180,
-            140
-        ],
-        "icon-operation-simplify": [
-            200,
-            140
-        ],
-        "icon-operation-continue": [
-            220,
-            140
-        ],
-        "icon-operation-disabled-delete": [
-            0,
-            160
-        ],
-        "icon-operation-disabled-circularize": [
-            20,
-            160
-        ],
-        "icon-operation-disabled-straighten": [
-            40,
-            160
-        ],
-        "icon-operation-disabled-split": [
-            60,
-            160
-        ],
-        "icon-operation-disabled-disconnect": [
-            80,
-            160
-        ],
-        "icon-operation-disabled-reverse": [
-            100,
-            160
-        ],
-        "icon-operation-disabled-move": [
-            120,
-            160
-        ],
-        "icon-operation-disabled-merge": [
-            140,
-            160
-        ],
-        "icon-operation-disabled-orthogonalize": [
-            160,
-            160
-        ],
-        "icon-operation-disabled-rotate": [
-            180,
-            160
-        ],
-        "icon-operation-disabled-simplify": [
-            200,
-            160
-        ],
-        "icon-operation-disabled-continue": [
-            220,
-            160
-        ],
-        "icon-restriction-yes": [
-            50,
-            80
-        ],
-        "icon-restriction-no": [
-            95,
-            80
-        ],
-        "icon-restriction-only": [
-            140,
-            80
-        ],
-        "icon-restriction-yes-u": [
-            185,
-            80
-        ],
-        "icon-restriction-no-u": [
-            230,
-            80
-        ],
-        "icon-restriction-only-u": [
-            275,
-            80
-        ]
     },
     "locales": [
         "af",
@@ -52832,7 +52875,6 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "gl",
         "de",
         "el",
-        "hi-IN",
         "hu",
         "is",
         "id",
@@ -52848,7 +52890,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "pl",
         "pt",
         "pt-BR",
-        "ro-RO",
+        "ro",
         "ru",
         "sc",
         "sr",
@@ -53009,7 +53051,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "not_eligible": "These features can't be merged.",
                 "not_adjacent": "These lines can't be merged because they aren't connected.",
                 "restriction": "These lines can't be merged because at least one is a member of a \"{relation}\" relation.",
-                "incomplete_relation": "These features can't be merged because at least one hasn't been fully downloaded."
+                "incomplete_relation": "These features can't be merged because at least one hasn't been fully downloaded.",
+                "conflicting_tags": "These lines can't be merged because some of their tags have conflicting values."
             },
             "move": {
                 "title": "Move",
@@ -53092,7 +53135,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
         "zoom_in_edit": "Zoom in to Edit",
         "logout": "logout",
         "loading_auth": "Connecting to OpenStreetMap...",
-        "report_a_bug": "report a bug",
+        "report_a_bug": "Report a bug",
+        "help_translate": "Help translate",
         "feature_info": {
             "hidden_warning": "{count} hidden features",
             "hidden_details": "These features are currently hidden: {details}"
@@ -54289,6 +54333,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                         "grade5": "Soft: soil/sand/grass"
                     }
                 },
+                "traffic_signals": {
+                    "label": "Type"
+                },
                 "trail_visibility": {
                     "label": "Trail Visibility",
                     "placeholder": "Excellent, Good, Bad...",
@@ -54589,6 +54636,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Marketplace",
                     "terms": ""
                 },
+                "amenity/motorcycle_parking": {
+                    "name": "Motorcycle Parking",
+                    "terms": ""
+                },
                 "amenity/nightclub": {
                     "name": "Nightclub",
                     "terms": "disco*,night club,dancing,dance club"
@@ -54858,8 +54909,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "terms": ""
                 },
                 "building/detached": {
-                    "name": "Detached Home",
-                    "terms": ""
+                    "name": "Detached House",
+                    "terms": "home,single,family,residence,dwelling"
                 },
                 "building/dormitory": {
                     "name": "Dormitory",
@@ -54891,7 +54942,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "building/house": {
                     "name": "House",
-                    "terms": ""
+                    "terms": "home,family,residence,dwelling"
                 },
                 "building/hut": {
                     "name": "Hut",
@@ -54925,6 +54976,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "School Building",
                     "terms": "academy,elementary school,middle school,high school"
                 },
+                "building/semidetached_house": {
+                    "name": "Semi-Detached House",
+                    "terms": "home,double,duplex,twin,family,residence,dwelling"
+                },
                 "building/shed": {
                     "name": "Shed",
                     "terms": ""
@@ -54939,7 +54994,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 },
                 "building/terrace": {
                     "name": "Row Houses",
-                    "terms": ""
+                    "terms": "home,terrace,brownstone,family,residence,dwelling"
                 },
                 "building/train_station": {
                     "name": "Train Station",
@@ -55418,8 +55473,8 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "terms": ""
                 },
                 "landuse/allotments": {
-                    "name": "Allotments",
-                    "terms": ""
+                    "name": "Community Garden",
+                    "terms": "allotment,garden"
                 },
                 "landuse/basin": {
                     "name": "Basin",
@@ -55573,6 +55628,14 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Basketball Court",
                     "terms": ""
                 },
+                "leisure/pitch/rugby_league": {
+                    "name": "Rugby League Field",
+                    "terms": ""
+                },
+                "leisure/pitch/rugby_union": {
+                    "name": "Rugby Union Field",
+                    "terms": ""
+                },
                 "leisure/pitch/skateboard": {
                     "name": "Skate Park",
                     "terms": ""
@@ -55713,8 +55776,28 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "Bunker",
                     "terms": ""
                 },
+                "military/checkpoint": {
+                    "name": "Checkpoint",
+                    "terms": ""
+                },
+                "military/danger_area": {
+                    "name": "Danger Area",
+                    "terms": ""
+                },
+                "military/naval_base": {
+                    "name": "Naval Base",
+                    "terms": ""
+                },
+                "military/obstacle_course": {
+                    "name": "Obstacle Course",
+                    "terms": ""
+                },
                 "military/range": {
                     "name": "Military Range",
+                    "terms": ""
+                },
+                "military/training_area": {
+                    "name": "Training area",
                     "terms": ""
                 },
                 "natural": {
