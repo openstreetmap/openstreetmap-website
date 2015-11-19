@@ -229,7 +229,7 @@ class UserBlocksControllerTest < ActionController::TestCase
     b = UserBlock.find(id)
     assert_in_delta Time.now, b.created_at, 1
     assert_in_delta Time.now, b.updated_at, 1
-    assert_in_delta Time.now + 12.hour, b.ends_at, 1
+    assert_in_delta Time.now + 12.hours, b.ends_at, 1
     assert_equal false, b.needs_view
     assert_equal "Vandalism", b.reason
     assert_equal "markdown", b.reason_format

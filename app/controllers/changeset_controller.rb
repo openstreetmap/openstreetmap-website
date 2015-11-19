@@ -162,7 +162,7 @@ class ChangesetController < ApplicationController
     # global (SVN-style) versioning were used - then that would be
     # unambiguous.
     elements.sort! do |a, b|
-      if (a.timestamp == b.timestamp)
+      if a.timestamp == b.timestamp
         a.version <=> b.version
       else
         a.timestamp <=> b.timestamp
@@ -182,7 +182,7 @@ class ChangesetController < ApplicationController
     # check these assertions.
     elements.each do |elt|
       result.root <<
-        if (elt.version == 1)
+        if elt.version == 1
           # first version, so it must be newly-created.
           created = XML::Node.new "create"
           created << elt.to_xml_node(changeset_cache, user_display_name_cache)

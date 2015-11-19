@@ -155,8 +155,7 @@ module ActionController
 
     def create_paginators_and_retrieve_collections #:nodoc:
       Pagination::OPTIONS[self.class].each do |collection_id, options|
-        next unless options[:actions].include? action_name if
-          options[:actions]
+        next if options[:actions] && !options[:actions].include?(action_name)
 
         paginator, collection =
           paginator_and_collection_for(collection_id, options)

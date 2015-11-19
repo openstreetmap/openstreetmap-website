@@ -97,7 +97,7 @@ module ActionView
 
         current_page = paginator.current_page
         window_pages = current_page.window(options[:window_size]).pages
-        return if window_pages.length <= 1 unless link_to_current_page
+        return unless link_to_current_page || window_pages.length > 1
 
         first = paginator.first
         last = paginator.last
