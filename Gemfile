@@ -38,7 +38,7 @@ gem "r2"
 gem "autoprefixer-rails"
 
 # Use image_optim to optimise images
-gem "openstreetmap-image_optim", ">= 0.21.0.1", :require => "image_optim"
+gem "image_optim", ">= 0.22.0"
 
 # Load rails plugins
 gem "rails-i18n", "~> 4.0.0"
