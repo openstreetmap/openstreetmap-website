@@ -213,7 +213,7 @@ class UserController < ApplicationController
                        :auth_provider => params[:auth_provider],
                        :auth_uid => params[:auth_uid])
 
-      flash.now[:notice] = t "user.new.auth association"
+      flash.now[:notice] = render_to_string :partial => "auth_association"
     else
       check_signup_allowed
     end
