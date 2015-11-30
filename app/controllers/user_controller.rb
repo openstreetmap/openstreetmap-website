@@ -497,7 +497,7 @@ class UserController < ApplicationController
     when "openid"
       email_verified = uid.match(%r{https://www.google.com/accounts/o8/id?(.*)}) ||
                        uid.match(%r{https://me.yahoo.com/(.*)})
-    when "google"
+    when "google", "facebook"
       email_verified = true
     else
       email_verified = false
