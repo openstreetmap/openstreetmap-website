@@ -54,6 +54,9 @@ gem "i18n-js", ">= 3.0.0.rc10"
 gem "rack-cors"
 gem "actionpack-page_caching"
 
+# Sanitise URIs
+gem "rack-uri_sanitizer"
+
 # Omniauth for authentication
 gem "omniauth"
 gem "omniauth-openid"

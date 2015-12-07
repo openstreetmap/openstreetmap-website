@@ -53,7 +53,12 @@ OSM = {
         j = pair.indexOf('='),
         key = pair.slice(0, j),
         val = pair.slice(++j);
-      params[key] = decodeURIComponent(val);
+
+      try {
+        params[key] = decodeURIComponent(val);
+      } catch (e) {
+        // Ignore parse exceptions
+      }
     }
 
     return params;
