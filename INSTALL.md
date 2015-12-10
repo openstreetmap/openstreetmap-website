@@ -160,14 +160,6 @@ bundle exec rake db:create
 
 We need to load the btree-gist extension, which is needed for showing changesets on the history tab.
 
-For PostgreSQL < 9.1 (change the version number in the path as necessary):
-
-```
-psql -d openstreetmap < /usr/share/postgresql/9.0/contrib/btree_gist.sql
-```
-
-For PostgreSQL >= 9.1:
-
 ```
 psql -d openstreetmap -c "CREATE EXTENSION btree_gist"
 ```
