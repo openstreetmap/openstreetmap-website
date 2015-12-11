@@ -14045,7 +14045,8 @@ module.exports = function(o) {
 
         // ## Getting a request token
         var params = timenonce(getAuth(o)),
-            url = o.url + '/oauth/request_token';
+            url = o.url + '/oauth/request_token',
+            timer;
 
         params.oauth_signature = ohauth.signature(
             o.oauth_secret, '',
@@ -14061,6 +14062,15 @@ module.exports = function(o) {
                         return x.join('=');
                     }).join(','),
                 popup = window.open('about:blank', 'oauth_window', settings);
+
+
+            timer = setInterval(function() {
+                if (popup.closed) {
+                    o.done();
+                    clearInterval(timer);
+                    callback('not authenticated', null);
+                }
+            }, 100);
         }
 
         // Request a request token. When this is complete, the popup
@@ -14070,7 +14080,10 @@ module.exports = function(o) {
 
         function reqTokenDone(err, xhr) {
             o.done();
-            if (err) return callback(err);
+            if (err) {
+                if (timer) clearInterval(timer);
+                return callback(err);
+            }
             var resp = ohauth.stringQs(xhr.response);
             token('oauth_request_token_secret', resp.oauth_token_secret);
             var authorize_url = o.url + '/oauth/authorize?' + ohauth.qsString({
@@ -14089,6 +14102,7 @@ module.exports = function(o) {
         // Called by a function in a landing page, in the popup window. The
         // window closes itself.
         window.authComplete = function(token) {
+            if (timer) clearInterval(timer);
             var oauth_token = ohauth.stringQs(token.split('?')[1]);
             get_access_token(oauth_token.oauth_token);
             delete window.authComplete;
@@ -14118,6 +14132,7 @@ module.exports = function(o) {
 
         function accessTokenDone(err, xhr) {
             o.done();
+            if (timer) clearInterval(timer);
             if (err) return callback(err);
             var access_token = ohauth.stringQs(xhr.response);
             token('oauth_token', access_token.oauth_token);
@@ -14427,11 +14442,11 @@ module.exports = function(o) {
 		store.disabled = true
 	}
 	store.enabled = !store.disabled
-	
+
 	if (typeof module != 'undefined' && module.exports) { module.exports = store }
 	else if (typeof define === 'function' && define.amd) { define(store) }
 	else { win.store = store }
-	
+
 })(this.window || global);
 
 })(window)
@@ -14474,7 +14489,7 @@ function extend() {
 },{"./has-keys":5,"object-keys":6}],7:[function(require,module,exports){
 (function(global){/**
  * jsHashes - A fast and independent hashing library pure JavaScript implemented (ES3 compliant) for both server and client side
- * 
+ *
  * @class Hashes
  * @author Tomas Aparicio <tomas@rijndael-project.com>
  * @license New BSD (see LICENSE file)
@@ -14492,11 +14507,11 @@ function extend() {
  */
 (function(){
   var Hashes;
-  
+
   // private helper methods
   function utf8Encode(str) {
     var  x, y, output = '', i = -1, l;
-    
+
     if (str && str.length) {
       l = str.length;
       while ((i+=1) < l) {
@@ -14527,15 +14542,15 @@ function extend() {
     }
     return output;
   }
-  
+
   function utf8Decode(str) {
     var i, ac, c1, c2, c3, arr = [], l;
     i = ac = c1 = c2 = c3 = 0;
-    
+
     if (str && str.length) {
       l = str.length;
       str += '';
-    
+
       while (i < l) {
           c1 = str.charCodeAt(i);
           ac += 1;
@@ -14642,9 +14657,9 @@ function extend() {
     }
     return output;
   }
-  
+
   /**
-   * Convert a raw string to an array of big-endian words 
+   * Convert a raw string to an array of big-endian words
    * Characters >255 have their high-byte silently ignored.
    */
    function rstr2binb(input) {
@@ -14665,14 +14680,14 @@ function extend() {
     var divisor = encoding.length,
         remainders = Array(),
         i, q, x, ld, quotient, dividend, output, full_length;
-  
+
     /* Convert to an array of 16-bit big-endian values, forming the dividend */
     dividend = Array(Math.ceil(input.length / 2));
     ld = dividend.length;
     for (i = 0; i < ld; i+=1) {
       dividend[i] = (input.charCodeAt(i * 2) << 8) | input.charCodeAt(i * 2 + 1);
     }
-  
+
     /**
      * Repeatedly perform a long division. The binary array forms the dividend,
      * the length of the encoding is the divisor. Once computed, the quotient
@@ -14693,13 +14708,13 @@ function extend() {
       remainders[remainders.length] = x;
       dividend = quotient;
     }
-  
+
     /* Convert the remainders to the output string */
     output = '';
     for (i = remainders.length - 1; i >= 0; i--) {
       output += encoding.charAt(remainders[i]);
     }
-  
+
     /* Append leading zero equivalents */
     full_length = Math.ceil(input.length * 8 / (Math.log(encoding.length) / Math.log(2)));
     for (i = output.length; i < full_length; i+=1) {
@@ -14721,10 +14736,10 @@ function extend() {
             | (i + 1 < len ? input.charCodeAt(i+1) << 8 : 0)
             | (i + 2 < len ? input.charCodeAt(i+2)      : 0);
       for (j = 0; j < 4; j+=1) {
-        if (i * 8 + j * 6 > input.length * 8) { 
-          output += b64pad; 
-        } else { 
-          output += tab.charAt((triplet >>> 6*(3-j)) & 0x3F); 
+        if (i * 8 + j * 6 > input.length * 8) {
+          output += b64pad;
+        } else {
+          output += tab.charAt((triplet >>> 6*(3-j)) & 0x3F);
         }
        }
     }
@@ -14732,7 +14747,7 @@ function extend() {
   }
 
   Hashes = {
-  /**  
+  /**
    * @property {String} version
    * @readonly
    */
@@ -14752,7 +14767,7 @@ function extend() {
     // public method for encoding
     this.encode = function (input) {
       var i, j, triplet,
-          output = '', 
+          output = '',
           len = input.length;
 
       pad = pad || '=';
@@ -14770,7 +14785,7 @@ function extend() {
           }
         }
       }
-      return output;    
+      return output;
     };
 
     // public method for decoding
@@ -14842,8 +14857,8 @@ function extend() {
   CRC32 : function (str) {
     var crc = 0, x = 0, y = 0, table, i, iTop;
     str = utf8Encode(str);
-        
-    table = [ 
+
+    table = [
         '00000000 77073096 EE0E612C 990951BA 076DC419 706AF48F E963A535 9E6495A3 0EDB8832 ',
         '79DCB8A4 E0D5E91E 97D2D988 09B64C2B 7EB17CBD E7B82D07 90BF1D91 1DB71064 6AB020F2 F3B97148 ',
         '84BE41DE 1ADAD47D 6DDDE4EB F4D4B551 83D385C7 136C9856 646BA8C0 FD62F97A 8A65C9EC 14015C4F ',
@@ -14861,7 +14876,7 @@ function extend() {
         '7A6A5AA8 E40ECF0B 9309FF9D 0A00AE27 7D079EB1 F00F9344 8708A3D2 1E01F268 6906C2FE F762575D ',
         '806567CB 196C3671 6E6B06E7 FED41B76 89D32BE0 10DA7A5A 67DD4ACC F9B9DF6F 8EBEEFF9 17B7BE43 ',
         '60B08ED5 D6D6A3E8 A1D1937E 38D8C2C4 4FDFF252 D1BB67F1 A6BC5767 3FB506DD 48B2364B D80D2BDA ',
-        'AF0A1B4C 36034AF6 41047A60 DF60EFC3 A867DF55 316E8EEF 4669BE79 CB61B38C BC66831A 256FD2A0 ', 
+        'AF0A1B4C 36034AF6 41047A60 DF60EFC3 A867DF55 316E8EEF 4669BE79 CB61B38C BC66831A 256FD2A0 ',
         '5268E236 CC0C7795 BB0B4703 220216B9 5505262F C5BA3BBE B2BD0B28 2BB45A92 5CB36A04 C2D7FFA7 ',
         'B5D0CF31 2CD99E8B 5BDEAE1D 9B64C2B0 EC63F226 756AA39C 026D930A 9C0906A9 EB0E363F 72076785 ',
         '05005713 95BF4A82 E2B87A14 7BB12BAE 0CB61B38 92D28E9B E5D5BE0D 7CDCEFB7 0BDBDF21 86D3D2D4 ',
@@ -14886,14 +14901,14 @@ function extend() {
    * @class MD5
    * @constructor
    * @param {Object} [config]
-   * 
+   *
    * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
    * Digest Algorithm, as defined in RFC 1321.
    * Version 2.2 Copyright (C) Paul Johnston 1999 - 2009
    * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
    * See <http://pajhome.org.uk/crypt/md5> for more infHashes.
    */
-  MD5 : function (options) {  
+  MD5 : function (options) {
     /**
      * Private config properties. You may need to tweak these to be compatible with
      * the server-side, but the defaults work in most cases.
@@ -14903,24 +14918,24 @@ function extend() {
         b64pad = (options && typeof options.pad === 'string') ? options.pda : '=', // base-64 pad character. Defaults to '=' for strict RFC compliance
         utf8 = (options && typeof options.utf8 === 'boolean') ? options.utf8 : true; // enable/disable utf8 encoding
 
-    // privileged (public) methods 
-    this.hex = function (s) { 
+    // privileged (public) methods
+    this.hex = function (s) {
       return rstr2hex(rstr(s, utf8), hexcase);
     };
-    this.b64 = function (s) { 
+    this.b64 = function (s) {
       return rstr2b64(rstr(s), b64pad);
     };
-    this.any = function(s, e) { 
-      return rstr2any(rstr(s, utf8), e); 
+    this.any = function(s, e) {
+      return rstr2any(rstr(s, utf8), e);
     };
-    this.hex_hmac = function (k, d) { 
-      return rstr2hex(rstr_hmac(k, d), hexcase); 
+    this.hex_hmac = function (k, d) {
+      return rstr2hex(rstr_hmac(k, d), hexcase);
     };
-    this.b64_hmac = function (k, d) { 
-      return rstr2b64(rstr_hmac(k,d), b64pad); 
+    this.b64_hmac = function (k, d) {
+      return rstr2b64(rstr_hmac(k,d), b64pad);
     };
-    this.any_hmac = function (k, d, e) { 
-      return rstr2any(rstr_hmac(k, d), e); 
+    this.any_hmac = function (k, d, e) {
+      return rstr2any(rstr_hmac(k, d), e);
     };
     /**
      * Perform a simple self-test to see if the VM is working
@@ -14929,33 +14944,33 @@ function extend() {
     this.vm_test = function () {
       return hex('abc').toLowerCase() === '900150983cd24fb0d6963f7d28e17f72';
     };
-    /** 
-     * Enable/disable uppercase hexadecimal returned string 
-     * @param {Boolean} 
+    /**
+     * Enable/disable uppercase hexadecimal returned string
+     * @param {Boolean}
      * @return {Object} this
-     */ 
+     */
     this.setUpperCase = function (a) {
       if (typeof a === 'boolean' ) {
         hexcase = a;
       }
       return this;
     };
-    /** 
-     * Defines a base64 pad string 
+    /**
+     * Defines a base64 pad string
      * @param {String} Pad
      * @return {Object} this
-     */ 
+     */
     this.setPad = function (a) {
       b64pad = a || b64pad;
       return this;
     };
-    /** 
-     * Defines a base64 pad string 
-     * @param {Boolean} 
+    /**
+     * Defines a base64 pad string
+     * @param {Boolean}
      * @return {Object} [this]
-     */ 
+     */
     this.setUTF8 = function (a) {
-      if (typeof a === 'boolean') { 
+      if (typeof a === 'boolean') {
         utf8 = a;
       }
       return this;
@@ -14970,7 +14985,7 @@ function extend() {
       s = (utf8) ? utf8Encode(s): s;
       return binl2rstr(binl(rstr2binl(s), s.length * 8));
     }
-    
+
     /**
      * Calculate the HMAC-MD5, of a key and some data (raw strings)
      */
@@ -14980,11 +14995,11 @@ function extend() {
       key = (utf8) ? utf8Encode(key) : key;
       data = (utf8) ? utf8Encode(data) : data;
       bkey = rstr2binl(key);
-      if (bkey.length > 16) { 
-        bkey = binl(bkey, key.length * 8); 
+      if (bkey.length > 16) {
+        bkey = binl(bkey, key.length * 8);
       }
 
-      ipad = Array(16), opad = Array(16); 
+      ipad = Array(16), opad = Array(16);
       for (i = 0; i < 16; i+=1) {
           ipad[i] = bkey[i] ^ 0x36363636;
           opad[i] = bkey[i] ^ 0x5C5C5C5C;
@@ -15002,7 +15017,7 @@ function extend() {
           b = -271733879,
           c = -1732584194,
           d =  271733878;
-        
+
       /* append padding */
       x[len >> 5] |= 0x80 << ((len) % 32);
       x[(((len + 64) >>> 9) << 4) + 14] = len;
@@ -15113,7 +15128,7 @@ function extend() {
    * @class Hashes.SHA1
    * @param {Object} [config]
    * @constructor
-   * 
+   *
    * A JavaScript implementation of the Secure Hash Algorithm, SHA-1, as defined in FIPS 180-1
    * Version 2.2 Copyright Paul Johnston 2000 - 2009.
    * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
@@ -15130,22 +15145,22 @@ function extend() {
         utf8 = (options && typeof options.utf8 === 'boolean') ? options.utf8 : true; // enable/disable utf8 encoding
 
     // public methods
-    this.hex = function (s) { 
-    	return rstr2hex(rstr(s, utf8), hexcase); 
+    this.hex = function (s) {
+    	return rstr2hex(rstr(s, utf8), hexcase);
     };
-    this.b64 = function (s) { 
+    this.b64 = function (s) {
     	return rstr2b64(rstr(s, utf8), b64pad);
     };
-    this.any = function (s, e) { 
+    this.any = function (s, e) {
     	return rstr2any(rstr(s, utf8), e);
     };
     this.hex_hmac = function (k, d) {
     	return rstr2hex(rstr_hmac(k, d));
     };
-    this.b64_hmac = function (k, d) { 
-    	return rstr2b64(rstr_hmac(k, d), b64pad); 
+    this.b64_hmac = function (k, d) {
+    	return rstr2b64(rstr_hmac(k, d), b64pad);
     };
-    this.any_hmac = function (k, d, e) { 
+    this.any_hmac = function (k, d, e) {
     	return rstr2any(rstr_hmac(k, d), e);
     };
     /**
@@ -15156,34 +15171,34 @@ function extend() {
     this.vm_test = function () {
       return hex('abc').toLowerCase() === '900150983cd24fb0d6963f7d28e17f72';
     };
-    /** 
-     * @description Enable/disable uppercase hexadecimal returned string 
-     * @param {boolean} 
+    /**
+     * @description Enable/disable uppercase hexadecimal returned string
+     * @param {boolean}
      * @return {Object} this
      * @public
-     */ 
+     */
     this.setUpperCase = function (a) {
     	if (typeof a === 'boolean') {
         hexcase = a;
       }
     	return this;
     };
-    /** 
-     * @description Defines a base64 pad string 
+    /**
+     * @description Defines a base64 pad string
      * @param {string} Pad
      * @return {Object} this
      * @public
-     */ 
+     */
     this.setPad = function (a) {
       b64pad = a || b64pad;
     	return this;
     };
-    /** 
-     * @description Defines a base64 pad string 
-     * @param {boolean} 
+    /**
+     * @description Defines a base64 pad string
+     * @param {boolean}
      * @return {Object} this
      * @public
-     */ 
+     */
     this.setUTF8 = function (a) {
     	if (typeof a === 'boolean') {
         utf8 = a;
@@ -15244,12 +15259,12 @@ function extend() {
         oldc = c;
         oldd = d;
         olde = e;
-      
+
       	for (j = 0; j < 80; j+=1)	{
-      	  if (j < 16) { 
-            w[j] = x[i + j]; 
-          } else { 
-            w[j] = bit_rol(w[j-3] ^ w[j-8] ^ w[j-14] ^ w[j-16], 1); 
+      	  if (j < 16) {
+            w[j] = x[i + j];
+          } else {
+            w[j] = bit_rol(w[j-3] ^ w[j-8] ^ w[j-14] ^ w[j-16], 1);
           }
       	  t = safe_add(safe_add(bit_rol(a, 5), sha1_ft(j, b, c, d)),
       					   safe_add(safe_add(e, w[j]), sha1_kt(j)));
@@ -15291,7 +15306,7 @@ function extend() {
   /**
    * @class Hashes.SHA256
    * @param {config}
-   * 
+   *
    * A JavaScript implementation of the Secure Hash Algorithm, SHA-256, as defined in FIPS 180-2
    * Version 2.2 Copyright Angel Marin, Paul Johnston 2000 - 2009.
    * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
@@ -15311,23 +15326,23 @@ function extend() {
               sha256_K;
 
     /* privileged (public) methods */
-    this.hex = function (s) { 
-      return rstr2hex(rstr(s, utf8)); 
+    this.hex = function (s) {
+      return rstr2hex(rstr(s, utf8));
     };
-    this.b64 = function (s) { 
+    this.b64 = function (s) {
       return rstr2b64(rstr(s, utf8), b64pad);
     };
-    this.any = function (s, e) { 
-      return rstr2any(rstr(s, utf8), e); 
+    this.any = function (s, e) {
+      return rstr2any(rstr(s, utf8), e);
     };
-    this.hex_hmac = function (k, d) { 
-      return rstr2hex(rstr_hmac(k, d)); 
+    this.hex_hmac = function (k, d) {
+      return rstr2hex(rstr_hmac(k, d));
     };
-    this.b64_hmac = function (k, d) { 
+    this.b64_hmac = function (k, d) {
       return rstr2b64(rstr_hmac(k, d), b64pad);
     };
-    this.any_hmac = function (k, d, e) { 
-      return rstr2any(rstr_hmac(k, d), e); 
+    this.any_hmac = function (k, d, e) {
+      return rstr2any(rstr_hmac(k, d), e);
     };
     /**
      * Perform a simple self-test to see if the VM is working
@@ -15337,41 +15352,41 @@ function extend() {
     this.vm_test = function () {
       return hex('abc').toLowerCase() === '900150983cd24fb0d6963f7d28e17f72';
     };
-    /** 
-     * Enable/disable uppercase hexadecimal returned string 
-     * @param {boolean} 
+    /**
+     * Enable/disable uppercase hexadecimal returned string
+     * @param {boolean}
      * @return {Object} this
      * @public
-     */ 
+     */
     this.setUpperCase = function (a) {
-      if (typeof a === 'boolean') { 
+      if (typeof a === 'boolean') {
         hexcase = a;
       }
       return this;
     };
-    /** 
-     * @description Defines a base64 pad string 
+    /**
+     * @description Defines a base64 pad string
      * @param {string} Pad
      * @return {Object} this
      * @public
-     */ 
+     */
     this.setPad = function (a) {
       b64pad = a || b64pad;
       return this;
     };
-    /** 
-     * Defines a base64 pad string 
-     * @param {boolean} 
+    /**
+     * Defines a base64 pad string
+     * @param {boolean}
      * @return {Object} this
      * @public
-     */ 
+     */
     this.setUTF8 = function (a) {
       if (typeof a === 'boolean') {
         utf8 = a;
       }
       return this;
     };
-    
+
     // private methods
 
     /**
@@ -15389,21 +15404,21 @@ function extend() {
       key = (utf8) ? utf8Encode(key) : key;
       data = (utf8) ? utf8Encode(data) : data;
       var hash, i = 0,
-          bkey = rstr2binb(key), 
-          ipad = Array(16), 
+          bkey = rstr2binb(key),
+          ipad = Array(16),
           opad = Array(16);
 
       if (bkey.length > 16) { bkey = binb(bkey, key.length * 8); }
-      
+
       for (; i < 16; i+=1) {
         ipad[i] = bkey[i] ^ 0x36363636;
         opad[i] = bkey[i] ^ 0x5C5C5C5C;
       }
-      
+
       hash = binb(ipad.concat(rstr2binb(data)), 512 + data.length * 8);
       return binb2rstr(binb(opad.concat(hash), 512 + 256));
     }
-    
+
     /*
      * Main sha256 function, with its support functions
      */
@@ -15419,7 +15434,7 @@ function extend() {
     function sha256_Sigma1512(x) {return (sha256_S(x, 14) ^ sha256_S(x, 18) ^ sha256_S(x, 41));}
     function sha256_Gamma0512(x) {return (sha256_S(x, 1)  ^ sha256_S(x, 8) ^ sha256_R(x, 7));}
     function sha256_Gamma1512(x) {return (sha256_S(x, 19) ^ sha256_S(x, 61) ^ sha256_R(x, 6));}
-    
+
     sha256_K = [
       1116352408, 1899447441, -1245643825, -373957723, 961987163, 1508970993,
       -1841331548, -1424204075, -670586216, 310598401, 607225278, 1426881987,
@@ -15433,18 +15448,18 @@ function extend() {
       1537002063, 1747873779, 1955562222, 2024104815, -2067236844, -1933114872,
       -1866530822, -1538233109, -1090935817, -965641998
     ];
-    
+
     function binb(m, l) {
       var HASH = [1779033703, -1150833019, 1013904242, -1521486534,
                  1359893119, -1694144372, 528734635, 1541459225];
       var W = new Array(64);
       var a, b, c, d, e, f, g, h;
       var i, j, T1, T2;
-    
+
       /* append padding */
       m[l >> 5] |= 0x80 << (24 - l % 32);
       m[((l + 64 >> 9) << 4) + 15] = l;
-    
+
       for (i = 0; i < m.length; i += 16)
       {
       a = HASH[0];
@@ -15455,16 +15470,16 @@ function extend() {
       f = HASH[5];
       g = HASH[6];
       h = HASH[7];
-    
+
       for (j = 0; j < 64; j+=1)
       {
-        if (j < 16) { 
+        if (j < 16) {
           W[j] = m[j + i];
-        } else { 
+        } else {
           W[j] = safe_add(safe_add(safe_add(sha256_Gamma1256(W[j - 2]), W[j - 7]),
                           sha256_Gamma0256(W[j - 15])), W[j - 16]);
         }
-    
+
         T1 = safe_add(safe_add(safe_add(safe_add(h, sha256_Sigma1256(e)), sha256_Ch(e, f, g)),
                                   sha256_K[j]), W[j]);
         T2 = safe_add(sha256_Sigma0256(a), sha256_Maj(a, b, c));
@@ -15477,7 +15492,7 @@ function extend() {
         b = a;
         a = safe_add(T1, T2);
       }
-    
+
       HASH[0] = safe_add(a, HASH[0]);
       HASH[1] = safe_add(b, HASH[1]);
       HASH[2] = safe_add(c, HASH[2]);
@@ -15495,11 +15510,11 @@ function extend() {
   /**
    * @class Hashes.SHA512
    * @param {config}
-   * 
+   *
    * A JavaScript implementation of the Secure Hash Algorithm, SHA-512, as defined in FIPS 180-2
    * Version 2.2 Copyright Anonymous Contributor, Paul Johnston 2000 - 2009.
    * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
-   * See http://pajhome.org.uk/crypt/md5 for details. 
+   * See http://pajhome.org.uk/crypt/md5 for details.
    */
   SHA512 : function (options) {
     /**
@@ -15514,22 +15529,22 @@ function extend() {
         sha512_k;
 
     /* privileged (public) methods */
-    this.hex = function (s) { 
-      return rstr2hex(rstr(s)); 
+    this.hex = function (s) {
+      return rstr2hex(rstr(s));
     };
-    this.b64 = function (s) { 
-      return rstr2b64(rstr(s), b64pad);  
+    this.b64 = function (s) {
+      return rstr2b64(rstr(s), b64pad);
     };
-    this.any = function (s, e) { 
+    this.any = function (s, e) {
       return rstr2any(rstr(s), e);
     };
     this.hex_hmac = function (k, d) {
       return rstr2hex(rstr_hmac(k, d));
     };
-    this.b64_hmac = function (k, d) { 
+    this.b64_hmac = function (k, d) {
       return rstr2b64(rstr_hmac(k, d), b64pad);
     };
-    this.any_hmac = function (k, d, e) { 
+    this.any_hmac = function (k, d, e) {
       return rstr2any(rstr_hmac(k, d), e);
     };
     /**
@@ -15540,34 +15555,34 @@ function extend() {
     this.vm_test = function () {
       return hex('abc').toLowerCase() === '900150983cd24fb0d6963f7d28e17f72';
     };
-    /** 
-     * @description Enable/disable uppercase hexadecimal returned string 
-     * @param {boolean} 
+    /**
+     * @description Enable/disable uppercase hexadecimal returned string
+     * @param {boolean}
      * @return {Object} this
      * @public
-     */ 
+     */
     this.setUpperCase = function (a) {
       if (typeof a === 'boolean') {
         hexcase = a;
       }
       return this;
     };
-    /** 
-     * @description Defines a base64 pad string 
+    /**
+     * @description Defines a base64 pad string
      * @param {string} Pad
      * @return {Object} this
      * @public
-     */ 
+     */
     this.setPad = function (a) {
       b64pad = a || b64pad;
       return this;
     };
-    /** 
-     * @description Defines a base64 pad string 
-     * @param {boolean} 
+    /**
+     * @description Defines a base64 pad string
+     * @param {boolean}
      * @return {Object} this
      * @public
-     */ 
+     */
     this.setUTF8 = function (a) {
       if (typeof a === 'boolean') {
         utf8 = a;
@@ -15576,7 +15591,7 @@ function extend() {
     };
 
     /* private methods */
-    
+
     /**
      * Calculate the SHA-512 of a raw string
      */
@@ -15590,22 +15605,22 @@ function extend() {
     function rstr_hmac(key, data) {
       key = (utf8) ? utf8Encode(key) : key;
       data = (utf8) ? utf8Encode(data) : data;
-      
-      var hash, i = 0, 
+
+      var hash, i = 0,
           bkey = rstr2binb(key),
           ipad = Array(32), opad = Array(32);
 
       if (bkey.length > 32) { bkey = binb(bkey, key.length * 8); }
-      
+
       for (; i < 32; i+=1) {
         ipad[i] = bkey[i] ^ 0x36363636;
         opad[i] = bkey[i] ^ 0x5C5C5C5C;
       }
-      
+
       hash = binb(ipad.concat(rstr2binb(data)), 1024 + data.length * 8);
       return binb2rstr(binb(opad.concat(hash), 1024 + 512));
     }
-            
+
     /**
      * Calculate the SHA-512 of an array of big-endian dwords, and a bit length
      */
@@ -15688,11 +15703,11 @@ function extend() {
             new int64(0x5fcb6fab, 0x3ad6faec), new int64(0x6c44198c, 0x4a475817)
           ];
       }
-  
+
       for (i=0; i<80; i+=1) {
         W[i] = new int64(0, 0);
       }
-    
+
       // append padding to the source string. The format is described in the FIPS.
       x[len >> 5] |= 0x80 << (24 - (len & 0x1f));
       x[((len + 128 >> 10)<< 5) + 31] = len;
@@ -15706,12 +15721,12 @@ function extend() {
         int64copy(f, H[5]);
         int64copy(g, H[6]);
         int64copy(h, H[7]);
-      
+
         for (j=0; j<16; j+=1) {
           W[j].h = x[i + 2*j];
           W[j].l = x[i + 2*j + 1];
         }
-      
+
         for (j=16; j<80; j+=1) {
           //sigma1
           int64rrot(r1, W[j-2], 19);
@@ -15725,36 +15740,36 @@ function extend() {
           int64shr(r3, W[j-15], 7);
           s0.l = r1.l ^ r2.l ^ r3.l;
           s0.h = r1.h ^ r2.h ^ r3.h;
-      
+
           int64add4(W[j], s1, W[j-7], s0, W[j-16]);
         }
-      
+
         for (j = 0; j < 80; j+=1) {
           //Ch
           Ch.l = (e.l & f.l) ^ (~e.l & g.l);
           Ch.h = (e.h & f.h) ^ (~e.h & g.h);
-      
+
           //Sigma1
           int64rrot(r1, e, 14);
           int64rrot(r2, e, 18);
           int64revrrot(r3, e, 9);
           s1.l = r1.l ^ r2.l ^ r3.l;
           s1.h = r1.h ^ r2.h ^ r3.h;
-      
+
           //Sigma0
           int64rrot(r1, a, 28);
           int64revrrot(r2, a, 2);
           int64revrrot(r3, a, 7);
           s0.l = r1.l ^ r2.l ^ r3.l;
           s0.h = r1.h ^ r2.h ^ r3.h;
-      
+
           //Maj
           Maj.l = (a.l & b.l) ^ (a.l & c.l) ^ (b.l & c.l);
           Maj.h = (a.h & b.h) ^ (a.h & c.h) ^ (b.h & c.h);
-      
+
           int64add5(T1, h, s1, Ch, sha512_k[j], W[j]);
           int64add(T2, s0, Maj);
-      
+
           int64copy(h, g);
           int64copy(g, f);
           int64copy(f, e);
@@ -15773,7 +15788,7 @@ function extend() {
         int64add(H[6], H[6], g);
         int64add(H[7], H[7], h);
       }
-    
+
       //represent the hash as an array of 32-bit dwords
       for (i=0; i<8; i+=1) {
         hash[2*i] = H[i].h;
@@ -15781,20 +15796,20 @@ function extend() {
       }
       return hash;
     }
-    
+
     //A constructor for 64-bit numbers
     function int64(h, l) {
       this.h = h;
       this.l = l;
       //this.toString = int64toString;
     }
-    
+
     //Copies src into dst, assuming both are 64-bit numbers
     function int64copy(dst, src) {
       dst.h = src.h;
       dst.l = src.l;
     }
-    
+
     //Right-rotates a 64-bit number by shift
     //Won't handle cases of shift>=32
     //The function revrrot() is for that
@@ -15802,21 +15817,21 @@ function extend() {
       dst.l = (x.l >>> shift) | (x.h << (32-shift));
       dst.h = (x.h >>> shift) | (x.l << (32-shift));
     }
-    
+
     //Reverses the dwords of the source and then rotates right by shift.
     //This is equivalent to rotation by 32+shift
     function int64revrrot(dst, x, shift) {
       dst.l = (x.h >>> shift) | (x.l << (32-shift));
       dst.h = (x.l >>> shift) | (x.h << (32-shift));
     }
-    
+
     //Bitwise-shifts right a 64-bit number by shift
     //Won't handle shift>=32, but it's never needed in SHA512
     function int64shr(dst, x, shift) {
       dst.l = (x.l >>> shift) | (x.h << (32-shift));
       dst.h = (x.h >>> shift);
     }
-    
+
     //Adds two 64-bit numbers
     //Like the original implementation, does not rely on 32-bit operations
     function int64add(dst, x, y) {
@@ -15827,7 +15842,7 @@ function extend() {
        dst.l = (w0 & 0xffff) | (w1 << 16);
        dst.h = (w2 & 0xffff) | (w3 << 16);
     }
-    
+
     //Same, except with 4 addends. Works faster than adding them one by one.
     function int64add4(dst, a, b, c, d) {
        var w0 = (a.l & 0xffff) + (b.l & 0xffff) + (c.l & 0xffff) + (d.l & 0xffff);
@@ -15837,7 +15852,7 @@ function extend() {
        dst.l = (w0 & 0xffff) | (w1 << 16);
        dst.h = (w2 & 0xffff) | (w3 << 16);
     }
-    
+
     //Same, except with 5 addends
     function int64add5(dst, a, b, c, d, e) {
       var w0 = (a.l & 0xffff) + (b.l & 0xffff) + (c.l & 0xffff) + (d.l & 0xffff) + (e.l & 0xffff),
@@ -15852,7 +15867,7 @@ function extend() {
    * @class Hashes.RMD160
    * @constructor
    * @param {Object} [config]
-   * 
+   *
    * A JavaScript implementation of the RIPEMD-160 Algorithm
    * Version 2.2 Copyright Jeremy Lin, Paul Johnston 2000 - 2009.
    * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
@@ -15900,22 +15915,22 @@ function extend() {
 
     /* privileged (public) methods */
     this.hex = function (s) {
-      return rstr2hex(rstr(s, utf8)); 
+      return rstr2hex(rstr(s, utf8));
     };
     this.b64 = function (s) {
       return rstr2b64(rstr(s, utf8), b64pad);
     };
-    this.any = function (s, e) { 
+    this.any = function (s, e) {
       return rstr2any(rstr(s, utf8), e);
     };
-    this.hex_hmac = function (k, d) { 
+    this.hex_hmac = function (k, d) {
       return rstr2hex(rstr_hmac(k, d));
     };
-    this.b64_hmac = function (k, d) { 
+    this.b64_hmac = function (k, d) {
       return rstr2b64(rstr_hmac(k, d), b64pad);
     };
-    this.any_hmac = function (k, d, e) { 
-      return rstr2any(rstr_hmac(k, d), e); 
+    this.any_hmac = function (k, d, e) {
+      return rstr2any(rstr_hmac(k, d), e);
     };
     /**
      * Perform a simple self-test to see if the VM is working
@@ -15925,32 +15940,32 @@ function extend() {
     this.vm_test = function () {
       return hex('abc').toLowerCase() === '900150983cd24fb0d6963f7d28e17f72';
     };
-    /** 
-     * @description Enable/disable uppercase hexadecimal returned string 
-     * @param {boolean} 
+    /**
+     * @description Enable/disable uppercase hexadecimal returned string
+     * @param {boolean}
      * @return {Object} this
      * @public
-     */ 
+     */
     this.setUpperCase = function (a) {
       if (typeof a === 'boolean' ) { hexcase = a; }
       return this;
     };
-    /** 
-     * @description Defines a base64 pad string 
+    /**
+     * @description Defines a base64 pad string
      * @param {string} Pad
      * @return {Object} this
      * @public
-     */ 
+     */
     this.setPad = function (a) {
       if (typeof a !== 'undefined' ) { b64pad = a; }
       return this;
     };
-    /** 
-     * @description Defines a base64 pad string 
-     * @param {boolean} 
+    /**
+     * @description Defines a base64 pad string
+     * @param {boolean}
      * @return {Object} this
      * @public
-     */ 
+     */
     this.setUTF8 = function (a) {
       if (typeof a === 'boolean') { utf8 = a; }
       return this;
@@ -15976,10 +15991,10 @@ function extend() {
           bkey = rstr2binl(key),
           ipad = Array(16), opad = Array(16);
 
-      if (bkey.length > 16) { 
-        bkey = binl(bkey, key.length * 8); 
+      if (bkey.length > 16) {
+        bkey = binl(bkey, key.length * 8);
       }
-      
+
       for (i = 0; i < 16; i+=1) {
         ipad[i] = bkey[i] ^ 0x36363636;
         opad[i] = bkey[i] ^ 0x5C5C5C5C;
@@ -16016,7 +16031,7 @@ function extend() {
       x[len >> 5] |= 0x80 << (len % 32);
       x[(((len + 64) >>> 9) << 4) + 14] = len;
       l = x.length;
-      
+
       for (i = 0; i < l; i+=16) {
         A1 = A2 = h0; B1 = B2 = h1; C1 = C2 = h2; D1 = D2 = h3; E1 = E2 = h4;
         for (j = 0; j <= 79; j+=1) {
@@ -16042,7 +16057,7 @@ function extend() {
       return [h0, h1, h2, h3, h4];
     }
 
-    // specific algorithm methods 
+    // specific algorithm methods
     function rmd160_f(j, x, y, z) {
       return ( 0 <= j && j <= 15) ? (x ^ y ^ z) :
          (16 <= j && j <= 31) ? (x & y) | (~x & z) :
@@ -16296,7 +16311,7 @@ module.exports = Object.keys || require('./shim');
 /**!
  * is
  * the definitive JavaScript type testing library
- * 
+ *
  * @copyright 2013 Enrico Marino
  * @license MIT
  */
@@ -17021,7 +17036,8 @@ module.exports = function forEach (obj, fn, ctx) {
 
 },{}]},{},[1])(1)
 });
-;/*
+;
+/*
  (c) 2013, Vladimir Agafonkin
  RBush, a JavaScript library for high-performance 2D spatial indexing of points and rectangles.
  https://github.com/mourner/rbush
@@ -19333,7 +19349,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.8.0';
+iD.version = '1.8.2';
 
 (function() {
     var detected = {};
@@ -19341,10 +19357,17 @@ iD.version = '1.8.0';
     var ua = navigator.userAgent,
         m = null;
 
-    m = ua.match(/Trident\/.*rv:([0-9]{1,}[\.0-9]{0,})/i);   // IE11+
+    m = ua.match(/(edge)\/?\s*(\.?\d+(\.\d+)*)/i);   // Edge
     if (m !== null) {
-        detected.browser = 'msie';
-        detected.version = m[1];
+        detected.browser = m[1];
+        detected.version = m[2];
+    }
+    if (!detected.browser) {
+        m = ua.match(/Trident\/.*rv:([0-9]{1,}[\.0-9]{0,})/i);   // IE11
+        if (m !== null) {
+            detected.browser = 'msie';
+            detected.version = m[1];
+        }
     }
     if (!detected.browser) {
         m = ua.match(/(opr)\/?\s*(\.?\d+(\.\d+)*)/i);   // Opera 15+
@@ -19371,16 +19394,19 @@ iD.version = '1.8.0';
     detected.version = detected.version.split(/\W/).slice(0,2).join('.');
 
     if (detected.browser.toLowerCase() === 'msie') {
+        detected.ie = true;
         detected.browser = 'Internet Explorer';
-        detected.support = parseFloat(detected.version) > 9;
+        detected.support = parseFloat(detected.version) >= 11;
     } else {
+        detected.ie = false;
         detected.support = true;
     }
 
     // Added due to incomplete svg style support. See #715
     detected.opera = (detected.browser.toLowerCase() === 'opera' && parseFloat(detected.version) < 15 );
 
-    detected.locale = navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage || 'en-US');
+    detected.locale = (navigator.languages && navigator.languages.length)
+        ? navigator.languages[0] : (navigator.language || navigator.userLanguage || 'en-US');
 
     detected.filedrop = (window.FileReader && 'ondrop' in window);
 
@@ -19560,21 +19586,10 @@ iD.taginfo = function() {
         if (parameters.value) path = 'tag/wiki_pages?';
         else if (parameters.rtype) path = 'relation/wiki_pages?';
 
-        var decoratedCallback;
-        if (parameters.value) {
-            decoratedCallback = function(err, data) {
-                // The third argument to callback is the softfail flag, to
-                // make the callback function not show a message to the end
-                // user when no docs are found but just return false.
-                var docsFound = callback(err, data, true);
-                if (!docsFound) {
-                    taginfo.docs(_.omit(parameters, 'value'), callback);
-                }
-            };
-        }
-
-        request(endpoint + path +
-            iD.util.qsString(parameters), debounce, decoratedCallback || callback);
+        request(endpoint + path + iD.util.qsString(parameters), debounce, function(err, d) {
+            if (err) return callback(err);
+            callback(null, d.data);
+        });
     };
 
     taginfo.endpoint = function(_) {
@@ -24924,8 +24939,12 @@ iD.modes.Save = function(context) {
     };
 
     mode.enter = function() {
-        context.connection().authenticate(function() {
-            context.ui().sidebar.show(ui);
+        context.connection().authenticate(function(err) {
+            if (err) {
+                cancel();
+            } else {
+                context.ui().sidebar.show(ui);
+            }
         });
     };
 
@@ -27513,6 +27532,17 @@ iD.oneWayTags = {
     }
 };
 
+iD.pavedTags = {
+    'surface': {
+        'paved': true,
+        'asphalt': true,
+        'concrete': true
+    },
+    'tracktype': {
+        'grade1': true
+    }
+};
+
 iD.interestingTag = function (key) {
     return key !== 'attribution' &&
         key !== 'created_by' &&
@@ -28118,6 +28148,18 @@ iD.Background = function(context) {
     };
 
     background.load = function(imagery) {
+        function parseMap(qmap) {
+            if (!qmap) return false;
+            var args = qmap.split('/').map(Number);
+            if (args.length < 3 || args.some(isNaN)) return false;
+            return iD.geo.Extent([args[1], args[2]]);
+        }
+
+        var q = iD.util.stringQs(location.hash.substring(1)),
+            chosen = q.background || q.layer,
+            extent = parseMap(q.map),
+            best;
+
         backgroundSources = imagery.map(function(source) {
             if (source.type === 'bing') {
                 return iD.BackgroundSource.Bing(source, dispatch);
@@ -28128,13 +28170,14 @@ iD.Background = function(context) {
 
         backgroundSources.unshift(iD.BackgroundSource.None());
 
-        var q = iD.util.stringQs(location.hash.substring(1)),
-            chosen = q.background || q.layer;
+        if (!chosen && extent) {
+            best = this.sources(extent).find(function(s) { return s.best(); });
+        }
 
         if (chosen && chosen.indexOf('custom:') === 0) {
             background.baseLayerSource(iD.BackgroundSource.Custom(chosen.replace(/^custom:/, '')));
         } else {
-            background.baseLayerSource(findSource(chosen) || findSource('Bing') || backgroundSources[1]);
+            background.baseLayerSource(findSource(chosen) || best || findSource('Bing') || backgroundSources[1]);
         }
 
         var locator = _.find(backgroundSources, function(d) {
@@ -28168,7 +28211,8 @@ iD.Background = function(context) {
 iD.BackgroundSource = function(data) {
     var source = _.clone(data),
         offset = [0, 0],
-        name = source.name;
+        name = source.name,
+        best = !!source.best;
 
     source.scaleExtent = data.scaleExtent || [0, 20];
     source.overzoom = data.overzoom !== false;
@@ -28187,6 +28231,10 @@ iD.BackgroundSource = function(data) {
 
     source.name = function() {
         return name;
+    };
+
+    source.best = function() {
+        return best;
     };
 
     source.imageryUsed = function() {
@@ -28838,7 +28886,6 @@ iD.Map = function(context) {
     var dimensions = [1, 1],
         dispatch = d3.dispatch('move', 'drawn'),
         projection = context.projection,
-        roundedProjection = iD.svg.RoundProjection(projection),
         zoom = d3.behavior.zoom()
             .translate(projection.translate())
             .scale(projection.scale() * 2 * Math.PI)
@@ -28848,11 +28895,11 @@ iD.Map = function(context) {
         transformStart,
         transformed = false,
         minzoom = 0,
-        points = iD.svg.Points(roundedProjection, context),
-        vertices = iD.svg.Vertices(roundedProjection, context),
+        points = iD.svg.Points(projection, context),
+        vertices = iD.svg.Vertices(projection, context),
         lines = iD.svg.Lines(projection),
         areas = iD.svg.Areas(projection),
-        midpoints = iD.svg.Midpoints(roundedProjection, context),
+        midpoints = iD.svg.Midpoints(projection, context),
         labels = iD.svg.Labels(projection, context),
         supersurface, surface,
         mouse,
@@ -29005,8 +29052,8 @@ iD.Map = function(context) {
             .scale(d3.event.scale / (2 * Math.PI));
 
         var scale = d3.event.scale / transformStart[0],
-            tX = Math.round((d3.event.translate[0] / scale - transformStart[1][0]) * scale),
-            tY = Math.round((d3.event.translate[1] / scale - transformStart[1][1]) * scale);
+            tX = (d3.event.translate[0] / scale - transformStart[1][0]) * scale,
+            tY = (d3.event.translate[1] / scale - transformStart[1][1]) * scale;
 
         transformed = true;
         iD.util.setTransform(supersurface, tX, tY, scale);
@@ -29023,7 +29070,6 @@ iD.Map = function(context) {
     }
 
     function redraw(difference, extent) {
-
         if (!surface) return;
 
         clearTimeout(timeoutId);
@@ -29473,7 +29519,7 @@ iD.TileLayer = function() {
         source = d3.functor('');
 
     function tileSizeAtZoom(d, z) {
-        return Math.ceil(tileSize * Math.pow(2, z - d[2])) / tileSize;
+        return (tileSize * Math.pow(2, z - d[2])) / tileSize;
     }
 
     function atZoom(t, distance) {
@@ -29547,8 +29593,8 @@ iD.TileLayer = function() {
         }
 
         var pixelOffset = [
-            Math.round(source.offset()[0] * Math.pow(2, z)),
-            Math.round(source.offset()[1] * Math.pow(2, z))
+            source.offset()[0] * Math.pow(2, z),
+            source.offset()[1] * Math.pow(2, z)
         ];
 
         function load(d) {
@@ -29573,8 +29619,8 @@ iD.TileLayer = function() {
             var _ts = tileSize * Math.pow(2, z - d[2]);
             var scale = tileSizeAtZoom(d, z);
             return 'translate(' +
-                (Math.round((d[0] * _ts) - tileOrigin[0]) + pixelOffset[0]) + 'px,' +
-                (Math.round((d[1] * _ts) - tileOrigin[1]) + pixelOffset[1]) + 'px)' +
+                ((d[0] * _ts) - tileOrigin[0] + pixelOffset[0]) + 'px,' +
+                ((d[1] * _ts) - tileOrigin[1] + pixelOffset[1]) + 'px)' +
                 'scale(' + scale + ',' + scale + ')';
         }
 
@@ -29628,12 +29674,6 @@ iD.TileLayer = function() {
     return background;
 };
 iD.svg = {
-    RoundProjection: function(projection) {
-        return function(d) {
-            return iD.geo.roundCoords(projection(d));
-        };
-    },
-
     PointTransform: function(projection) {
         return function(entity) {
             // http://jsperf.com/short-array-join
@@ -29642,19 +29682,12 @@ iD.svg = {
         };
     },
 
-    Round: function () {
-        return d3.geo.transform({
-            point: function(x, y) { return this.stream.point(Math.floor(x), Math.floor(y)); }
-        });
-    },
-
     Path: function(projection, graph, polygon) {
         var cache = {},
-            round = iD.svg.Round().stream,
             clip = d3.geo.clipExtent().extent(projection.clipExtent()).stream,
             project = projection.stream,
             path = d3.geo.path()
-                .projection({stream: function(output) { return polygon ? project(round(output)) : project(clip(round(output))); }});
+                .projection({stream: function(output) { return polygon ? project(output) : project(clip(output)); }});
 
         return function(entity) {
             if (entity.id in cache) {
@@ -29898,10 +29931,15 @@ iD.svg.Defs = function(context) {
                 refX: 5,
                 markerWidth: 2,
                 markerHeight: 2,
+                markerUnits: 'strokeWidth',
                 orient: 'auto'
             })
             .append('path')
-            .attr('d', 'M 5 3 L 0 3 L 0 2 L 5 2 L 5 0 L 10 2.5 L 5 5 z');
+            .attr('class', 'oneway')
+            .attr('d', 'M 5 3 L 0 3 L 0 2 L 5 2 L 5 0 L 10 2.5 L 5 5 z')
+            .attr('stroke', 'none')
+            .attr('fill', '#000')
+            .attr('opacity', '0.5');
 
         // patterns
         var patterns = defs.selectAll('pattern')
@@ -30156,12 +30194,14 @@ iD.svg.Labels = function(projection, context) {
 
         icons.enter()
             .append('use')
+            .attr('class', 'icon areaicon')
             .attr('width', '18px')
             .attr('height', '18px');
 
         icons.attr('transform', get(labels, 'transform'))
             .attr('xlink:href', function(d) {
-                return '#' + context.presets().match(d, context.graph()).icon + '-18';
+                var icon = context.presets().match(d, context.graph()).icon;
+                return '#' + icon + (icon === 'hairdresser' ? '-24': '-18');    // workaround: maki hairdresser-18 broken?
             });
 
 
@@ -30546,6 +30586,10 @@ iD.svg.Lines = function(projection) {
         oneways
             .attr('d', function(d) { return d.d; });
 
+        if (iD.detect().ie) {
+            oneways.each(function() { this.parentNode.insertBefore(this, this); });
+        }
+
         oneways.exit()
             .remove();
 
@@ -30740,7 +30784,8 @@ iD.svg.TagClasses = function() {
             'razed', 'demolished', 'obliterated'
         ],
         secondaries = [
-            'oneway', 'bridge', 'tunnel', 'embankment', 'cutting', 'barrier'
+            'oneway', 'bridge', 'tunnel', 'embankment', 'cutting', 'barrier',
+            'surface', 'tracktype'
         ],
         tagClassRe = /^tag-/,
         tags = function(entity) { return entity.tags; };
@@ -30776,7 +30821,7 @@ iD.svg.TagClasses = function() {
                 break;
             }
 
-            // add at most one ephemeral status tag, only if relates to primary tag..
+            // add at most one status tag, only if relates to primary tag..
             if (!status) {
                 for (i = 0; i < statuses.length; i++) {
                     k = statuses[i];
@@ -30799,7 +30844,7 @@ iD.svg.TagClasses = function() {
             }
 
             if (status) {
-                classes += ' tag-ephemeral';
+                classes += ' tag-status tag-status-' + status;
             }
 
             // add any secondary (structure) tags
@@ -30808,6 +30853,21 @@ iD.svg.TagClasses = function() {
                 v = t[k];
                 if (!v || v === 'no') continue;
                 classes += ' tag-' + k + ' tag-' + k + '-' + v;
+            }
+
+            // For highways, look for surface tagging..
+            if (primary === 'highway') {
+                var paved = (t.highway !== 'track');
+                for (k in t) {
+                    v = t[k];
+                    if (k in iD.pavedTags) {
+                        paved = !!iD.pavedTags[k][v];
+                        break;
+                    }
+                }
+                if (!paved) {
+                    classes += ' tag-unpaved';
+                }
             }
 
             classes = classes.trim();
@@ -30856,6 +30916,7 @@ iD.svg.Turns = function(projection) {
             .attr('height', '24');
 
         nEnter.append('use')
+            .attr('transform', 'translate(-22, -12)')
             .attr('width', '44')
             .attr('height', '24');
 
@@ -30866,6 +30927,7 @@ iD.svg.Turns = function(projection) {
             .attr('r', '16');
 
         uEnter.append('use')
+            .attr('transform', 'translate(-16, -16)')
             .attr('width', '32')
             .attr('height', '32');
 
@@ -30969,7 +31031,7 @@ iD.svg.Vertices = function(projection, context) {
             return icons[entity.id];
         }
 
-        function classCircle(klass) {
+        function setClass(klass) {
             return function(entity) {
                 this.setAttribute('class', 'node vertex ' + klass + ' ' + entity.id);
             };
@@ -31009,10 +31071,10 @@ iD.svg.Vertices = function(projection, context) {
             .attr('class', function(d) { return 'node vertex ' + klass + ' ' + d.id; });
 
         enter.append('circle')
-            .each(classCircle('shadow'));
+            .each(setClass('shadow'));
 
         enter.append('circle')
-            .each(classCircle('stroke'));
+            .each(setClass('stroke'));
 
         // Vertices with icons get a `use`.
         enter.filter(function(d) { return icon(d); })
@@ -31020,12 +31082,13 @@ iD.svg.Vertices = function(projection, context) {
             .attr('transform', 'translate(-6, -6)')
             .attr('xlink:href', function(d) { return '#' + icon(d) + '-12'; })
             .attr('width', '12px')
-            .attr('height', '12px');
+            .attr('height', '12px')
+            .each(setClass('icon'));
 
         // Vertices with tags get a fill.
         enter.filter(function(d) { return d.hasInterestingTags(); })
             .append('circle')
-            .each(classCircle('fill'));
+            .each(setClass('fill'));
 
         groups
             .attr('transform', iD.svg.PointTransform(projection))
@@ -31094,7 +31157,7 @@ iD.ui = function(context) {
         hash();
 
         if (!hash.hadHash) {
-            map.centerZoom([-77.02271, 38.90085], 20);
+            map.centerZoom([0, 0], 2);
         }
 
         container.append('svg')
@@ -31489,6 +31552,14 @@ iD.ui.Background = function(context) {
 
     function background(selection) {
 
+        function sortSources(a, b) {
+            return a.best() ? -1
+                : b.best() ? 1
+                : a.id === 'none' ? 1
+                : b.id === 'none' ? -1
+                : d3.ascending(a, b);
+        }
+
         function setOpacity(d) {
             var bg = context.container().selectAll('.background-layer')
                 .transition()
@@ -31553,7 +31624,8 @@ iD.ui.Background = function(context) {
                 .filter(filter);
 
             var layerLinks = layerList.selectAll('li.layer')
-                .data(sources, function(d) { return d.name(); });
+                .data(sources, function(d) { return d.name(); })
+                .sort(sortSources);
 
             var enter = layerLinks.enter()
                 .insert('li', '.custom_layer')
@@ -31594,7 +31666,6 @@ iD.ui.Background = function(context) {
         }
 
         function clickNudge(d) {
-
             var timeout = window.setTimeout(function() {
                     interval = window.setInterval(nudge, 100);
                 }, 500),
@@ -33566,6 +33637,8 @@ iD.ui.intro = function(context) {
         // Save current map state
         var history = context.history().toJSON(),
             hash = window.location.hash,
+            center = context.map().center(),
+            zoom = context.map().zoom(),
             background = context.background().baseLayerSource(),
             opacity = d3.select('.background-layer').style('opacity'),
             loadedTiles = context.connection().loadedTiles(),
@@ -33619,6 +33692,7 @@ iD.ui.intro = function(context) {
             context.history().reset().merge(d3.values(baseEntities));
             context.background().baseLayerSource(background);
             if (history) context.history().fromJSON(history, false);
+            context.map().centerZoom(center, zoom);
             window.location.replace(hash);
             context.inIntro(false);
             d3.select('#bar button.save').on('click', save);
@@ -34124,9 +34198,9 @@ iD.ui.MapInMap = function(context) {
     function map_in_map(selection) {
 
         var backgroundLayer = iD.TileLayer(),
+            overlayLayers = {},
             dispatch = d3.dispatch('change'),
             gpxLayer = iD.GpxLayer(context, dispatch),
-            overlayLayer = iD.TileLayer(),
             projection = iD.geo.RawMercator(),
             zoom = d3.behavior.zoom()
                 .scaleExtent([ztok(0.5), ztok(24)])
@@ -34170,12 +34244,11 @@ iD.ui.MapInMap = function(context) {
             zDiff = zMain - zMini;
 
             var scale = kCurr / kLast,
-                tX = Math.round((tCurr[0] / scale - tLast[0]) * scale),
-                tY = Math.round((tCurr[1] / scale - tLast[1]) * scale);
+                tX = (tCurr[0] / scale - tLast[0]) * scale,
+                tY = (tCurr[1] / scale - tLast[1]) * scale;
 
             iD.util.setTransform(tiles, tX, tY, scale);
             iD.util.setTransform(svg, 0, 0, scale);
-            iD.util.setTransform(gpx, 0, 0, scale);
             transformed = true;
 
             queueRedraw();
@@ -34237,7 +34310,6 @@ iD.ui.MapInMap = function(context) {
             if (transformed) {
                 iD.util.setTransform(tiles, 0, 0);
                 iD.util.setTransform(svg, 0, 0);
-                iD.util.setTransform(gpx, 0, 0);
                 transformed = false;
             }
         }
@@ -34279,37 +34351,39 @@ iD.ui.MapInMap = function(context) {
                 .call(backgroundLayer);
 
             // redraw overlay
-            var overlaySources = context.background().overlayLayerSources(),
-                hasOverlay = false;
-
+            var overlaySources = context.background().overlayLayerSources();
+            var activeOverlayLayers = [];
             for (var i = 0; i < overlaySources.length; i++) {
                 if (overlaySources[i].validZoom(zMini)) {
-                    overlayLayer
+                    if (!overlayLayers[i]) overlayLayers[i] = iD.TileLayer();
+                    activeOverlayLayers.push(overlayLayers[i]
                         .source(overlaySources[i])
                         .projection(projection)
-                        .dimensions(dMini);
-
-                    hasOverlay = true;
-                    break;
+                        .dimensions(dMini));
                 }
             }
 
             var overlay = tiles
                 .selectAll('.map-in-map-overlay')
-                .data(hasOverlay ? [0] : []);
+                .data([0]);
 
             overlay.enter()
                 .append('div')
                 .attr('class', 'map-in-map-overlay');
 
-            overlay.exit()
+            var overlays = overlay
+                .selectAll('div')
+                .data(activeOverlayLayers, function(d) { return d.source().name(); });
+
+            overlays.enter().append('div');
+            overlays.each(function(layer) {
+                d3.select(this).call(layer);
+            });
+
+            overlays.exit()
                 .remove();
 
-            if (hasOverlay) {
-                overlay
-                    .call(overlayLayer);
-            }
-
+            // redraw gpx overlay
             gpxLayer
                 .projection(projection);
 
@@ -34839,6 +34913,8 @@ iD.ui.PresetIcon = function() {
             geom = geometry.apply(this, arguments),
             icon = p.icon || (geom === 'line' ? 'other-line' : 'marker-stroked'),
             maki = iD.data.featureIcons.hasOwnProperty(icon + '-24');
+
+        if (icon === 'dentist') maki = true;  // workaround for dentist icon missing in `maki-sprite.json`
 
         function tag_classes(p) {
             var s = '';
@@ -36393,11 +36469,11 @@ iD.ui.TagReference = function(tag, context) {
         loaded,
         showing;
 
-    function findLocal(docs) {
+    function findLocal(data) {
         var locale = iD.detect().locale.toLowerCase(),
             localized;
 
-        localized = _.find(docs, function(d) {
+        localized = _.find(data, function(d) {
             return d.lang.toLowerCase() === locale;
         });
         if (localized) return localized;
@@ -36406,34 +36482,37 @@ iD.ui.TagReference = function(tag, context) {
         // 'en' if the language is 'en-US'
         if (locale.indexOf('-') !== -1) {
             var first = locale.split('-')[0];
-            localized = _.find(docs, function(d) {
+            localized = _.find(data, function(d) {
                 return d.lang.toLowerCase() === first;
             });
             if (localized) return localized;
         }
 
         // finally fall back to english
-        return _.find(docs, function(d) {
+        return _.find(data, function(d) {
             return d.lang.toLowerCase() === 'en';
         });
     }
 
-    function load() {
+    function load(param) {
         button.classed('tag-reference-loading', true);
 
-        context.taginfo().docs(tag, function(err, docs, softfail) {
-            if (!err && docs) {
-                docs = findLocal(docs);
+        context.taginfo().docs(param, function show(err, data) {
+            var docs;
+            if (!err && data) {
+                docs = findLocal(data);
             }
 
             body.html('');
 
             if (!docs || !docs.description) {
-                if (!softfail) {
+                if (param.hasOwnProperty('value')) {
+                    load(_.omit(param, 'value'));   // retry with key only
+                } else {
                     body.append('p').text(t('inspector.no_documentation_key'));
-                    show();
+                    done();
                 }
-                return false;
+                return;
             }
 
             if (docs.image && docs.image.thumb_url_prefix) {
@@ -36441,10 +36520,10 @@ iD.ui.TagReference = function(tag, context) {
                     .append('img')
                     .attr('class', 'wiki-image')
                     .attr('src', docs.image.thumb_url_prefix + '100' + docs.image.thumb_url_suffix)
-                    .on('load', function() { show(); })
-                    .on('error', function() { d3.select(this).remove(); show(); });
+                    .on('load', function() { done(); })
+                    .on('error', function() { d3.select(this).remove(); done(); });
             } else {
-                show();
+                done();
             }
 
             body
@@ -36458,12 +36537,10 @@ iD.ui.TagReference = function(tag, context) {
                 .call(iD.svg.Icon('#icon-out-link', 'inline'))
                 .append('span')
                 .text(t('inspector.reference'));
-
-            return true;
         });
     }
 
-    function show() {
+    function done() {
         loaded = true;
 
         button.classed('tag-reference-loading', false);
@@ -36502,10 +36579,10 @@ iD.ui.TagReference = function(tag, context) {
             if (showing) {
                 hide();
             } else if (loaded) {
-                show();
+                done();
             } else {
                 if (context.taginfo()) {
-                    load();
+                    load(tag);
                 }
             }
         });
@@ -37216,8 +37293,29 @@ iD.ui.preset.typeCombo = function(field, context) {
     var event = d3.dispatch('change'),
         optstrings = field.strings && field.strings.options,
         optarray = field.options,
+        snake_case = (field.snake_case || (field.snake_case === undefined)),
         strings = {},
         input;
+
+    function snake(s) {
+        return s.replace(/\s+/g, '_');
+    }
+
+    function unsnake(s) {
+        return s.replace(/_+/g, ' ');
+    }
+
+    function clean(s) {
+        return s.split(';')
+            .map(function(s) { return s.trim(); })
+            .join(';');
+    }
+
+    function optString() {
+        return _.find(_.keys(strings), function(k) {
+                return strings[k] === input.value();
+            });
+    }
 
     function combo(selection) {
         var combobox = d3.combobox();
@@ -37244,14 +37342,14 @@ iD.ui.preset.typeCombo = function(field, context) {
                     stringsLoaded();
                 } else if (optarray) {
                     _.each(optarray, function(k) {
-                        strings[k] = k.replace(/_+/g, ' ');
+                        strings[k] = (snake_case ? unsnake(k) : k);
                     });
                     stringsLoaded();
                 } else if (context.taginfo()) {
                     context.taginfo().values({key: field.key}, function(err, data) {
                         if (!err) {
                             _.each(_.pluck(data, 'value'), function(k) {
-                                strings[k] = k.replace(/_+/g, ' ');
+                                strings[k] = (snake_case ? unsnake(k) : k);
                             });
                             stringsLoaded();
                         }
@@ -37279,14 +37377,14 @@ iD.ui.preset.typeCombo = function(field, context) {
     }
 
     function change() {
-        var optstring = _.find(_.keys(strings), function(k) { return strings[k] === input.value(); }),
-            value = optstring || (input.value()
-                .split(';')
-                .map(function(s) { return s.trim(); })
-                .join(';')
-                .replace(/\s+/g, '_'));
+        var value = optString() || clean(input.value());
 
-        if (field.type === 'typeCombo' && !value) value = 'yes';
+        if (snake_case) {
+            value = snake(value);
+        }
+        if (field.type === 'typeCombo' && !value) {
+            value = 'yes';
+        }
 
         var t = {};
         t[field.key] = value || undefined;
@@ -37295,8 +37393,15 @@ iD.ui.preset.typeCombo = function(field, context) {
 
     combo.tags = function(tags) {
         var key = tags[field.key],
+            optstring = optString(),
             value = strings[key] || key || '';
-        if (field.type === 'typeCombo' && value.toLowerCase() === 'yes') value = '';
+
+        if (field.type === 'typeCombo' && value.toLowerCase() === 'yes') {
+            value = '';
+        }
+        if (!optstring && snake_case) {
+            value = unsnake(value);
+        }
         input.value(value);
     };
 
@@ -53045,14 +53150,14 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             },
             "merge": {
                 "title": "Merge",
-                "description": "Merge these lines.",
+                "description": "Merge these features.",
                 "key": "C",
-                "annotation": "Merged {n} lines.",
+                "annotation": "Merged {n} features.",
                 "not_eligible": "These features can't be merged.",
-                "not_adjacent": "These lines can't be merged because they aren't connected.",
-                "restriction": "These lines can't be merged because at least one is a member of a \"{relation}\" relation.",
+                "not_adjacent": "These features can't be merged because they aren't connected.",
+                "restriction": "These features can't be merged because at least one is a member of a \"{relation}\" relation.",
                 "incomplete_relation": "These features can't be merged because at least one hasn't been fully downloaded.",
-                "conflicting_tags": "These lines can't be merged because some of their tags have conflicting values."
+                "conflicting_tags": "These features can't be merged because some of their tags have conflicting values."
             },
             "move": {
                 "title": "Move",
@@ -53125,7 +53230,7 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
             "nothing": "Nothing to redo."
         },
         "tooltip_keyhint": "Shortcut:",
-        "browser_notice": "This editor is supported in Firefox, Chrome, Safari, Opera, and Internet Explorer 9 and above. Please upgrade your browser or use Potlatch 2 to edit the map.",
+        "browser_notice": "This editor is supported in Firefox, Chrome, Safari, Opera, and Internet Explorer 11 and above. Please upgrade your browser or use Potlatch 2 to edit the map.",
         "translate": {
             "translate": "Translate",
             "localized_translation_label": "Multilingual name",
@@ -53862,6 +53967,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "label": "Handicap",
                     "placeholder": "1-18"
                 },
+                "handrail": {
+                    "label": "Handrail"
+                },
                 "highway": {
                     "label": "Type"
                 },
@@ -53975,6 +54083,9 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                 "maxspeed": {
                     "label": "Speed Limit",
                     "placeholder": "40, 50, 60..."
+                },
+                "maxstay": {
+                    "label": "Max Stay"
                 },
                 "mtb/scale": {
                     "label": "Mountain Biking Difficulty",
@@ -54772,9 +54883,45 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "name": "University Grounds",
                     "terms": "college"
                 },
-                "amenity/vending_machine": {
+                "amenity/vending_machine/cigarettes": {
+                    "name": "Cigarette Vending Machine",
+                    "terms": "cigarette"
+                },
+                "amenity/vending_machine/condoms": {
+                    "name": "Condom Vending Machine",
+                    "terms": "condom"
+                },
+                "amenity/vending_machine/drinks": {
+                    "name": "Drink Vending Machine",
+                    "terms": "drink,soda,beverage,juice,pop"
+                },
+                "amenity/vending_machine/excrement_bags": {
+                    "name": "Excrement Bag Vending Machine",
+                    "terms": "excrement bags,poop,dog,animal"
+                },
+                "amenity/vending_machine/news_papers": {
+                    "name": "Newspaper Vending Machine",
+                    "terms": "newspaper"
+                },
+                "amenity/vending_machine/parcel_pickup_dropoff": {
+                    "name": "Parcel Pickup/Dropoff Vending Machine",
+                    "terms": "parcel,mail,pickup"
+                },
+                "amenity/vending_machine/parking_tickets": {
+                    "name": "Parking Ticket Vending Machine",
+                    "terms": "parking,ticket"
+                },
+                "amenity/vending_machine/public_transport_tickets": {
+                    "name": "Transit Ticket Vending Machine",
+                    "terms": "bus,train,ferry,rail,ticket,transportation"
+                },
+                "amenity/vending_machine/sweets": {
+                    "name": "Snack Vending Machine",
+                    "terms": "candy,gum,chip,pretzel,cookie,cracker"
+                },
+                "amenity/vending_machine/vending_machine": {
                     "name": "Vending Machine",
-                    "terms": "snack,soda,ticket"
+                    "terms": ""
                 },
                 "amenity/veterinary": {
                     "name": "Veterinary",
@@ -54885,15 +55032,15 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081],"
                     "terms": ""
                 },
                 "building/cathedral": {
-                    "name": "Cathedral",
+                    "name": "Cathedral Building",
                     "terms": ""
                 },
                 "building/chapel": {
-                    "name": "Chapel",
+                    "name": "Chapel Building",
                     "terms": ""
                 },
                 "building/church": {
-                    "name": "Church",
+                    "name": "Church Building",
                     "terms": ""
                 },
                 "building/college": {

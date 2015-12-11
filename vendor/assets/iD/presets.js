@@ -850,7 +850,7 @@ iD.data.presets = {
             "name": "Courthouse"
         },
         "amenity/dentist": {
-            "icon": "hospital",
+            "icon": "dentist",
             "fields": [
                 "address",
                 "building_area",
@@ -996,7 +996,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "geometry": [
@@ -1188,6 +1187,7 @@ iD.data.presets = {
                 "supervised",
                 "park_ride",
                 "surface",
+                "maxstay",
                 "address"
             ],
             "geometry": [
@@ -1924,7 +1924,171 @@ iD.data.presets = {
             },
             "name": "University Grounds"
         },
-        "amenity/vending_machine": {
+        "amenity/vending_machine/cigarettes": {
+            "fields": [
+                "operator"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "terms": [
+                "cigarette"
+            ],
+            "tags": {
+                "amenity": "vending_machine",
+                "vending": "cigarettes"
+            },
+            "name": "Cigarette Vending Machine"
+        },
+        "amenity/vending_machine/condoms": {
+            "fields": [
+                "operator"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "terms": [
+                "condom"
+            ],
+            "tags": {
+                "amenity": "vending_machine",
+                "vending": "condoms"
+            },
+            "name": "Condom Vending Machine"
+        },
+        "amenity/vending_machine/drinks": {
+            "fields": [
+                "operator"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "terms": [
+                "drink",
+                "soda",
+                "beverage",
+                "juice",
+                "pop"
+            ],
+            "tags": {
+                "amenity": "vending_machine",
+                "vending": "drinks"
+            },
+            "name": "Drink Vending Machine"
+        },
+        "amenity/vending_machine/excrement_bags": {
+            "fields": [
+                "operator"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "terms": [
+                "excrement bags",
+                "poop",
+                "dog",
+                "animal"
+            ],
+            "tags": {
+                "amenity": "vending_machine",
+                "vending": "excrement_bags"
+            },
+            "name": "Excrement Bag Vending Machine"
+        },
+        "amenity/vending_machine/news_papers": {
+            "fields": [
+                "operator"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "terms": [
+                "newspaper"
+            ],
+            "tags": {
+                "amenity": "vending_machine",
+                "vending": "news_papers"
+            },
+            "name": "Newspaper Vending Machine"
+        },
+        "amenity/vending_machine/parcel_pickup_dropoff": {
+            "fields": [
+                "operator"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "terms": [
+                "parcel",
+                "mail",
+                "pickup"
+            ],
+            "tags": {
+                "amenity": "vending_machine",
+                "vending": "parcel_pickup;parcel_mail_in"
+            },
+            "name": "Parcel Pickup/Dropoff Vending Machine"
+        },
+        "amenity/vending_machine/parking_tickets": {
+            "fields": [
+                "operator"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "terms": [
+                "parking",
+                "ticket"
+            ],
+            "tags": {
+                "amenity": "vending_machine",
+                "vending": "parking_tickets"
+            },
+            "name": "Parking Ticket Vending Machine"
+        },
+        "amenity/vending_machine/public_transport_tickets": {
+            "fields": [
+                "operator"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "terms": [
+                "bus",
+                "train",
+                "ferry",
+                "rail",
+                "ticket",
+                "transportation"
+            ],
+            "tags": {
+                "amenity": "vending_machine",
+                "vending": "public_transport_tickets"
+            },
+            "name": "Transit Ticket Vending Machine"
+        },
+        "amenity/vending_machine/sweets": {
+            "fields": [
+                "operator"
+            ],
+            "geometry": [
+                "point"
+            ],
+            "terms": [
+                "candy",
+                "gum",
+                "chip",
+                "pretzel",
+                "cookie",
+                "cracker"
+            ],
+            "tags": {
+                "amenity": "vending_machine",
+                "vending": "sweets"
+            },
+            "name": "Snack Vending Machine"
+        },
+        "amenity/vending_machine/vending_machine": {
             "fields": [
                 "vending",
                 "operator"
@@ -1932,11 +2096,7 @@ iD.data.presets = {
             "geometry": [
                 "point"
             ],
-            "terms": [
-                "snack",
-                "soda",
-                "ticket"
-            ],
+            "terms": [],
             "tags": {
                 "amenity": "vending_machine"
             },
@@ -2221,11 +2381,13 @@ iD.data.presets = {
                 "address"
             ],
             "geometry": [
+                "point",
                 "area"
             ],
             "tags": {
                 "building": "*"
             },
+            "matchScore": 0.4,
             "terms": [],
             "name": "Building"
         },
@@ -2236,12 +2398,12 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "apartments"
             },
+            "matchScore": 0.5,
             "name": "Apartments"
         },
         "building/barn": {
@@ -2251,12 +2413,12 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "barn"
             },
+            "matchScore": 0.5,
             "name": "Barn"
         },
         "building/bunker": {
@@ -2265,12 +2427,12 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "bunker"
             },
+            "matchScore": 0.5,
             "name": "Bunker",
             "searchable": false
         },
@@ -2281,12 +2443,12 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "cabin"
             },
+            "matchScore": 0.5,
             "name": "Cabin"
         },
         "building/cathedral": {
@@ -2296,13 +2458,13 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "cathedral"
             },
-            "name": "Cathedral"
+            "matchScore": 0.5,
+            "name": "Cathedral Building"
         },
         "building/chapel": {
             "icon": "place-of-worship",
@@ -2311,13 +2473,13 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "chapel"
             },
-            "name": "Chapel"
+            "matchScore": 0.5,
+            "name": "Chapel Building"
         },
         "building/church": {
             "icon": "place-of-worship",
@@ -2326,13 +2488,13 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "church"
             },
-            "name": "Church"
+            "matchScore": 0.5,
+            "name": "Church Building"
         },
         "building/college": {
             "icon": "building",
@@ -2341,7 +2503,6 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "terms": [
@@ -2350,6 +2511,7 @@ iD.data.presets = {
             "tags": {
                 "building": "college"
             },
+            "matchScore": 0.5,
             "name": "College Building"
         },
         "building/commercial": {
@@ -2360,12 +2522,12 @@ iD.data.presets = {
                 "smoking"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "commercial"
             },
+            "matchScore": 0.5,
             "name": "Commercial Building"
         },
         "building/construction": {
@@ -2375,12 +2537,12 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "construction"
             },
+            "matchScore": 0.5,
             "name": "Building Under Construction"
         },
         "building/detached": {
@@ -2390,7 +2552,6 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
@@ -2403,6 +2564,7 @@ iD.data.presets = {
                 "residence",
                 "dwelling"
             ],
+            "matchScore": 0.5,
             "name": "Detached House"
         },
         "building/dormitory": {
@@ -2413,12 +2575,12 @@ iD.data.presets = {
                 "smoking"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "dormitory"
             },
+            "matchScore": 0.5,
             "name": "Dormitory"
         },
         "building/entrance": {
@@ -2433,18 +2595,18 @@ iD.data.presets = {
             "searchable": false
         },
         "building/garage": {
+            "icon": "warehouse",
             "fields": [
                 "capacity"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "garage"
             },
-            "name": "Garage",
-            "icon": "warehouse"
+            "matchScore": 0.5,
+            "name": "Garage"
         },
         "building/garages": {
             "icon": "warehouse",
@@ -2452,12 +2614,12 @@ iD.data.presets = {
                 "capacity"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "garages"
             },
+            "matchScore": 0.5,
             "name": "Garages"
         },
         "building/greenhouse": {
@@ -2467,12 +2629,12 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "greenhouse"
             },
+            "matchScore": 0.5,
             "name": "Greenhouse"
         },
         "building/hospital": {
@@ -2482,12 +2644,12 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "hospital"
             },
+            "matchScore": 0.5,
             "name": "Hospital Building"
         },
         "building/hotel": {
@@ -2498,12 +2660,12 @@ iD.data.presets = {
                 "smoking"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "hotel"
             },
+            "matchScore": 0.5,
             "name": "Hotel Building"
         },
         "building/house": {
@@ -2513,7 +2675,6 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
@@ -2525,16 +2686,17 @@ iD.data.presets = {
                 "residence",
                 "dwelling"
             ],
+            "matchScore": 0.5,
             "name": "House"
         },
         "building/hut": {
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "hut"
             },
+            "matchScore": 0.5,
             "name": "Hut"
         },
         "building/industrial": {
@@ -2544,12 +2706,12 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "industrial"
             },
+            "matchScore": 0.5,
             "name": "Industrial Building"
         },
         "building/kindergarten": {
@@ -2559,7 +2721,6 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "terms": [
@@ -2569,6 +2730,7 @@ iD.data.presets = {
             "tags": {
                 "building": "kindergarten"
             },
+            "matchScore": 0.5,
             "name": "Preschool/Kindergarten Building"
         },
         "building/public": {
@@ -2579,12 +2741,12 @@ iD.data.presets = {
                 "smoking"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "public"
             },
+            "matchScore": 0.5,
             "name": "Public Building"
         },
         "building/residential": {
@@ -2594,12 +2756,12 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "residential"
             },
+            "matchScore": 0.5,
             "name": "Residential Building"
         },
         "building/retail": {
@@ -2610,12 +2772,12 @@ iD.data.presets = {
                 "smoking"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "retail"
             },
+            "matchScore": 0.5,
             "name": "Retail Building"
         },
         "building/roof": {
@@ -2624,12 +2786,12 @@ iD.data.presets = {
                 "address"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "roof"
             },
+            "matchScore": 0.5,
             "name": "Roof"
         },
         "building/school": {
@@ -2639,7 +2801,6 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "terms": [
@@ -2651,6 +2812,7 @@ iD.data.presets = {
             "tags": {
                 "building": "school"
             },
+            "matchScore": 0.5,
             "name": "School Building"
         },
         "building/semidetached_house": {
@@ -2660,7 +2822,6 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
@@ -2675,6 +2836,7 @@ iD.data.presets = {
                 "residence",
                 "dwelling"
             ],
+            "matchScore": 0.5,
             "name": "Semi-Detached House"
         },
         "building/shed": {
@@ -2684,12 +2846,12 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "shed"
             },
+            "matchScore": 0.5,
             "name": "Shed"
         },
         "building/stable": {
@@ -2699,12 +2861,12 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "stable"
             },
+            "matchScore": 0.5,
             "name": "Stable"
         },
         "building/static_caravan": {
@@ -2714,12 +2876,12 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "static_caravan"
             },
+            "matchScore": 0.5,
             "name": "Static Mobile Home"
         },
         "building/terrace": {
@@ -2729,7 +2891,6 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
@@ -2743,6 +2904,7 @@ iD.data.presets = {
                 "residence",
                 "dwelling"
             ],
+            "matchScore": 0.5,
             "name": "Row Houses"
         },
         "building/train_station": {
@@ -2759,6 +2921,7 @@ iD.data.presets = {
             "tags": {
                 "building": "train_station"
             },
+            "matchScore": 0.5,
             "name": "Train Station",
             "searchable": false
         },
@@ -2769,7 +2932,6 @@ iD.data.presets = {
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "terms": [
@@ -2778,21 +2940,22 @@ iD.data.presets = {
             "tags": {
                 "building": "university"
             },
+            "matchScore": 0.5,
             "name": "University Building"
         },
         "building/warehouse": {
-            "icon": "building",
+            "icon": "warehouse",
             "fields": [
                 "address",
                 "levels"
             ],
             "geometry": [
-                "point",
                 "area"
             ],
             "tags": {
                 "building": "warehouse"
             },
+            "matchScore": 0.5,
             "name": "Warehouse"
         },
         "craft": {
@@ -4494,7 +4657,7 @@ iD.data.presets = {
                 "lit",
                 "width",
                 "incline_steps",
-                "access"
+                "handrail"
             ],
             "icon": "highway-steps",
             "geometry": [
@@ -10200,7 +10363,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "geometry": [
@@ -10352,7 +10514,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10371,7 +10532,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10390,7 +10550,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10409,7 +10568,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10428,7 +10586,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10447,7 +10604,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10466,7 +10622,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10485,7 +10640,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10504,7 +10658,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10523,7 +10676,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10542,7 +10694,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10561,7 +10712,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10580,7 +10730,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10599,7 +10748,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10618,7 +10766,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10637,7 +10784,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10656,7 +10802,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10675,7 +10820,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10694,7 +10838,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10713,7 +10856,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10732,7 +10874,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10751,7 +10892,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10770,7 +10910,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10789,7 +10928,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10808,7 +10946,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10827,7 +10964,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10846,7 +10982,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10865,7 +11000,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10884,7 +11018,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10903,7 +11036,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10922,7 +11054,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10941,7 +11072,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10960,7 +11090,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10979,7 +11108,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -10998,7 +11126,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11017,7 +11144,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11036,7 +11162,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11055,7 +11180,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11074,7 +11198,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11093,7 +11216,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11112,7 +11234,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11131,7 +11252,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11150,7 +11270,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11169,7 +11288,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11188,7 +11306,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11207,7 +11324,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11226,7 +11342,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11245,7 +11360,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11264,7 +11378,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11283,7 +11396,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11302,7 +11414,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11321,7 +11432,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11340,7 +11450,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11359,7 +11468,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11378,7 +11486,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11397,7 +11504,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11416,7 +11522,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11435,7 +11540,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11454,7 +11558,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11473,7 +11576,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11492,7 +11594,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11511,7 +11612,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11530,7 +11630,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11549,7 +11648,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11568,7 +11666,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11587,7 +11684,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11606,7 +11702,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11625,7 +11720,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11644,7 +11738,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11663,7 +11756,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11682,7 +11774,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11701,7 +11792,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11720,7 +11810,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11739,7 +11828,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11758,7 +11846,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11777,7 +11864,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11796,7 +11882,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11815,7 +11900,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11834,7 +11918,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11853,7 +11936,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11872,7 +11954,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11891,7 +11972,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11910,7 +11990,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11929,7 +12008,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11948,7 +12026,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11967,7 +12044,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -11986,7 +12062,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12005,7 +12080,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12024,7 +12098,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12043,7 +12116,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12062,7 +12134,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12081,7 +12152,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12100,7 +12170,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12119,7 +12188,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12138,7 +12206,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12157,7 +12224,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12176,7 +12242,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12195,7 +12260,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12214,7 +12278,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12233,7 +12296,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12252,7 +12314,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12271,7 +12332,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12290,7 +12350,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12309,7 +12368,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12328,7 +12386,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12347,7 +12404,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12366,7 +12422,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12385,7 +12440,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12404,7 +12458,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12423,7 +12476,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12442,7 +12494,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12461,7 +12512,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12480,7 +12530,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12499,7 +12548,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12518,7 +12566,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12537,7 +12584,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12556,7 +12602,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12575,7 +12620,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12594,7 +12638,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12613,7 +12656,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12632,7 +12674,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12651,7 +12692,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12670,7 +12710,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12689,7 +12728,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12708,7 +12746,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12727,7 +12764,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12746,7 +12782,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12765,7 +12800,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12784,7 +12818,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12803,7 +12836,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12822,7 +12854,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12841,7 +12872,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12860,7 +12890,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12879,7 +12908,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12898,7 +12926,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12917,7 +12944,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12936,7 +12962,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12955,7 +12980,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12974,7 +12998,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -12994,7 +13017,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13013,7 +13035,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13032,7 +13053,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13051,7 +13071,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13070,7 +13089,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13089,7 +13107,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13108,7 +13125,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13127,7 +13143,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13146,7 +13161,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13165,7 +13179,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13184,7 +13197,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13203,7 +13215,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13222,7 +13233,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13241,7 +13251,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13260,7 +13269,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13279,7 +13287,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13298,7 +13305,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13317,7 +13323,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13336,7 +13341,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13355,7 +13359,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13374,7 +13377,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13393,7 +13395,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13412,7 +13413,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13431,7 +13431,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13450,7 +13449,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13469,7 +13467,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13488,7 +13485,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13507,7 +13503,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13526,7 +13521,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -13545,7 +13539,6 @@ iD.data.presets = {
             "fields": [
                 "operator",
                 "address",
-                "building_area",
                 "opening_hours"
             ],
             "suggestion": true
@@ -39930,6 +39923,11 @@ iD.data.presets = {
             "label": "Handicap",
             "placeholder": "1-18"
         },
+        "handrail": {
+            "key": "handrail",
+            "type": "check",
+            "label": "Handrail"
+        },
         "highway": {
             "key": "highway",
             "type": "typeCombo",
@@ -40106,6 +40104,25 @@ iD.data.presets = {
             "type": "maxspeed",
             "label": "Speed Limit",
             "placeholder": "40, 50, 60..."
+        },
+        "maxstay": {
+            "key": "maxstay",
+            "type": "combo",
+            "label": "Max Stay",
+            "options": [
+                "15 min",
+                "30 min",
+                "45 min",
+                "1 hr",
+                "1.5 hr",
+                "2 hr",
+                "2.5 hr",
+                "3 hr",
+                "4 hr",
+                "1 day",
+                "2 day"
+            ],
+            "snake_case": false
         },
         "mtb/scale": {
             "key": "mtb:scale",
