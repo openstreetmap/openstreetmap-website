@@ -236,33 +236,6 @@ class SiteControllerTest < ActionController::TestCase
     assert_template "index"
   end
 
-  # Test the right editor gets used when the browser is IE
-  def test_edit_with_ie
-    @request.env["HTTP_USER_AGENT"] = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; Trident/7.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; .NET4.0E)"
-
-    get :edit, {}, { :user => users(:public_user).id }
-    assert_response :success
-    assert_template "edit"
-    assert_template :partial => "_potlatch2", :count => 1
-
-    get :edit, { :editor => "id" }, { :user => users(:public_user).id }
-    assert_response :success
-    assert_template "edit"
-    assert_template :partial => "_potlatch2", :count => 1
-
-    @request.env["HTTP_USER_AGENT"] = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko"
-
-    get :edit, {}, { :user => users(:public_user).id }
-    assert_response :success
-    assert_template "edit"
-    assert_template :partial => "_potlatch2", :count => 1
-
-    get :edit, { :editor => "id" }, { :user => users(:public_user).id }
-    assert_response :success
-    assert_template "edit"
-    assert_template :partial => "_potlatch2", :count => 1
-  end
-
   # Test editing a specific node
   def test_edit_with_node
     user = users(:public_user)
