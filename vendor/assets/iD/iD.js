@@ -19349,7 +19349,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.8.2';
+iD.version = '1.8.3';
 
 (function() {
     var detected = {};
@@ -28171,7 +28171,7 @@ iD.Background = function(context) {
         backgroundSources.unshift(iD.BackgroundSource.None());
 
         if (!chosen && extent) {
-            best = this.sources(extent).find(function(s) { return s.best(); });
+            best = _.find(this.sources(extent), function(s) { return s.best(); });
         }
 
         if (chosen && chosen.indexOf('custom:') === 0) {
