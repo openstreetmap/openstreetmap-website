@@ -10,9 +10,9 @@
 <body>
 <div id='id-container'></div>
 <script>
-  if (typeof iD == 'undefined') {
+  if (typeof iD == 'undefined' || !iD.detect().support) {
     document.getElementById('id-container').innerHTML = 'This editor is supported ' +
-      'in Firefox, Chrome, Safari, Opera, and Internet Explorer 9 and above. ' +
+      'in Firefox, Chrome, Safari, Opera, and Internet Explorer 11 and above. ' +
       'Please upgrade your browser or use Potlatch 2 to edit the map.';
     document.getElementById('id-container').className = 'unsupported';
   } else {

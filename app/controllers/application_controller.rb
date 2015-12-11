@@ -435,10 +435,6 @@ class ApplicationController < ActionController::Base
                DEFAULT_EDITOR
              end
 
-    if request.env["HTTP_USER_AGENT"] =~ /MSIE|Trident/ && editor == "id"
-      editor = "potlatch2"
-    end
-
     editor
   end
 
