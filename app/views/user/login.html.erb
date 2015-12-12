@@ -1,8 +1,12 @@
-<div id="login_login">
+<% content_for :head do %>
+  <%= javascript_include_tag "login" %>
+<% end %>
+
 <% content_for :heading do %>
   <h1><%= t 'user.login.heading' %></h1>
 <% end %>
 
+<div id="login_login">
   <%= form_tag({ :action => "login" }, { :id => "login_form" }) do %>
     <%= hidden_field_tag('referer', h(params[:referer])) %>
 
@@ -76,22 +80,3 @@
   <% end %>
 
 </div>
-
-<script type="text/javascript">
-$(document).ready(function() {
-  // Preserve location hash in referer
-  if (window.location.hash) {
-    $('#referer').val($('#referer').val() + window.location.hash);
-  }
-
-  $("#openid_open_url").click(function() {
-    $("#openid_url").val("http://");
-    $("#login_auth_buttons").hide();
-    $("#login_openid_url").show();
-    $("#login_openid_submit").show();
-  });
-
-  $("#login_openid_url").hide();
-  $("#login_openid_submit").hide();
-});
-</script>
