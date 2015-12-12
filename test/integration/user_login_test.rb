@@ -740,10 +740,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "user/login"
     post "/login", :openid_url => "http://localhost:1123/john.doe", :referer => "/history"
     assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -763,10 +763,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "user/login"
     post "/login", :openid_url => "http://localhost:1123/john.doe", :remember_me_openid => true, :referer => "/history"
     assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -787,13 +787,13 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "user/login"
     post "/login", :openid_url => "http://localhost:1123/john.doe", :referer => "/history"
     assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_failure_path(:strategy => "openid", :message => "connection_failed", :origin => "/login")
+    assert_redirected_to auth_failure_path(:strategy => "openid", :message => "connection_failed", :origin => "/login?referer=%2Fhistory")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -814,13 +814,13 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "user/login"
     post "/login", :openid_url => "http://localhost:1123/john.doe", :referer => "/history"
     assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login")
+    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/john.doe", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_failure_path(:strategy => "openid", :message => "invalid_credentials", :origin => "/login")
+    assert_redirected_to auth_failure_path(:strategy => "openid", :message => "invalid_credentials", :origin => "/login?referer=%2Fhistory")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -841,10 +841,10 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_template "user/login"
     post "/login", :openid_url => "http://localhost:1123/fred.bloggs", :referer => "/history"
     assert_response :redirect
-    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/fred.bloggs", :origin => "/login")
+    assert_redirected_to auth_path(:provider => "openid", :openid_url => "http://localhost:1123/fred.bloggs", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/fred.bloggs", :origin => "/login")
+    assert_redirected_to auth_success_path(:provider => "openid", :openid_url => "http://localhost:1123/fred.bloggs", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -864,7 +864,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    get auth_path(:provider => "google", :origin => "/login")
+    get auth_path(:provider => "google", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "google")
     follow_redirect!
@@ -884,12 +884,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    get auth_path(:provider => "google", :origin => "/login")
+    get auth_path(:provider => "google", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "google")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_failure_path(:strategy => "google", :message => "connection_failed", :origin => "/login")
+    assert_redirected_to auth_failure_path(:strategy => "google", :message => "connection_failed", :origin => "/login?referer=%2Fhistory")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -908,12 +908,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    get auth_path(:provider => "google", :origin => "/login")
+    get auth_path(:provider => "google", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "google")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_failure_path(:strategy => "google", :message => "invalid_credentials", :origin => "/login")
+    assert_redirected_to auth_failure_path(:strategy => "google", :message => "invalid_credentials", :origin => "/login?referer=%2Fhistory")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -934,7 +934,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    get auth_path(:provider => "google", :origin => "/login")
+    get auth_path(:provider => "google", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "google")
     follow_redirect!
@@ -956,7 +956,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    get auth_path(:provider => "google", :origin => "/login")
+    get auth_path(:provider => "google", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "google")
     follow_redirect!
@@ -980,7 +980,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    get auth_path(:provider => "facebook", :origin => "/login")
+    get auth_path(:provider => "facebook", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "facebook")
     follow_redirect!
@@ -1000,12 +1000,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    get auth_path(:provider => "facebook", :origin => "/login")
+    get auth_path(:provider => "facebook", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "facebook")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_failure_path(:strategy => "facebook", :message => "connection_failed", :origin => "/login")
+    assert_redirected_to auth_failure_path(:strategy => "facebook", :message => "connection_failed", :origin => "/login?referer=%2Fhistory")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -1024,12 +1024,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    get auth_path(:provider => "facebook", :origin => "/login")
+    get auth_path(:provider => "facebook", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "facebook")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_failure_path(:strategy => "facebook", :message => "invalid_credentials", :origin => "/login")
+    assert_redirected_to auth_failure_path(:strategy => "facebook", :message => "invalid_credentials", :origin => "/login?referer=%2Fhistory")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -1048,7 +1048,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    get auth_path(:provider => "facebook", :origin => "/login")
+    get auth_path(:provider => "facebook", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "facebook")
     follow_redirect!
@@ -1068,7 +1068,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    get auth_path(:provider => "windowslive", :origin => "/login")
+    get auth_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "windowslive")
     follow_redirect!
@@ -1088,12 +1088,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    get auth_path(:provider => "windowslive", :origin => "/login")
+    get auth_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "windowslive")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_failure_path(:strategy => "windowslive", :message => "connection_failed", :origin => "/login")
+    assert_redirected_to auth_failure_path(:strategy => "windowslive", :message => "connection_failed", :origin => "/login?referer=%2Fhistory")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -1112,12 +1112,12 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    get auth_path(:provider => "windowslive", :origin => "/login")
+    get auth_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "windowslive")
     follow_redirect!
     assert_response :redirect
-    assert_redirected_to auth_failure_path(:strategy => "windowslive", :message => "invalid_credentials", :origin => "/login")
+    assert_redirected_to auth_failure_path(:strategy => "windowslive", :message => "invalid_credentials", :origin => "/login?referer=%2Fhistory")
     follow_redirect!
     assert_response :redirect
     follow_redirect!
@@ -1136,7 +1136,7 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user/login"
-    get auth_path(:provider => "windowslive", :origin => "/login")
+    get auth_path(:provider => "windowslive", :origin => "/login?referer=%2Fhistory", :referer => "/history")
     assert_response :redirect
     assert_redirected_to auth_success_path(:provider => "windowslive")
     follow_redirect!

@@ -4,6 +4,13 @@ $(document).ready(function() {
     $("#referer").val($("#referer").val() + window.location.hash);
   }
 
+  // Attach referer to authentication buttons
+  $(".auth_button").each(function () {
+    var params = querystring.parse(this.search.substring(1));
+    params.referer = $("#referer").val();
+    this.search = querystring.stringify(params);
+  });
+
   // Add click handler to show OpenID field
   $("#openid_open_url").click(function() {
     $("#openid_url").val("http://");

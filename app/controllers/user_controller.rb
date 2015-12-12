@@ -257,7 +257,7 @@ class UserController < ApplicationController
       password_authentication(params[:username], params[:password])
     elsif params[:openid_url].present?
       session[:remember_me] ||= params[:remember_me_openid]
-      redirect_to auth_url("openid", params[:openid_url])
+      redirect_to auth_url("openid", params[:openid_url], params[:referer])
     end
   end
 
@@ -516,7 +516,7 @@ class UserController < ApplicationController
       when "pending" then
         unconfirmed_login(user)
       when "active", "confirmed" then
-        successful_login(user)
+        successful_login(user, env["omniauth.params"]["referer"])
       when "suspended" then
         failed_login t("user.login.account is suspended", :webmaster => "mailto:webmaster@openstreetmap.org")
       else
@@ -569,12 +569,19 @@ class UserController < ApplicationController
 
   ##
   # return the URL to use for authentication
-  def auth_url(provider, uid)
-    if provider == "openid"
-      auth_path(:provider => "openid", :openid_url => openid_expand_url(uid), :origin => request.path)
+  def auth_url(provider, uid, referer = nil)
+    params = { :provider => provider }
+
+    params[:openid_url] = openid_expand_url(uid) if provider == "openid"
+
+    if referer.nil?
+      params[:origin] = request.path
     else
-      auth_path(:provider => provider, :origin => request.path)
+      params[:origin] = request.path + "?referer=" + CGI.escape(referer)
+      params[:referer] = referer
     end
+
+    auth_path(params)
   end
 
   ##
@@ -596,11 +603,11 @@ class UserController < ApplicationController
 
   ##
   # process a successful login
-  def successful_login(user)
+  def successful_login(user, referer = nil)
     session[:user] = user.id
     session_expires_after 28.days if session[:remember_me]
 
-    target = session[:referer] || url_for(:controller => :site, :action => :index)
+    target = referer || session[:referer] || url_for(:controller => :site, :action => :index)
 
     # The user is logged in, so decide where to send them:
     #
