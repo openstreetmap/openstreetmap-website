@@ -105,7 +105,7 @@
     </h4>
     <ul>
       <% @nodes.each do |node| %>
-        <li><%= link_to printable_name(node, true), { :action => "node", :id => node.node_id.to_s }, :class => link_class('node', node), :title => link_title(node) %></li>
+        <li><%= link_to printable_name(node, true), { :action => "node", :id => node.node_id.to_s }, :class => link_class('node', node), :title => link_title(node), :rel => link_follow(node) %></li>
       <% end %>
     </ul>
   <% end %>

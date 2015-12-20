@@ -52,6 +52,10 @@ module BrowseHelper
     end
   end
 
+  def link_follow(object)
+    "nofollow" if object.tags.empty?
+  end
+
   def format_key(key)
     if url = wiki_link("key", key)
       link_to h(key), url, :title => t("browse.tag_details.wiki_link.key", :key => key)
