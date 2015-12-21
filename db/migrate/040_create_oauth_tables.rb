@@ -9,7 +9,7 @@ class CreateOauthTables < ActiveRecord::Migration
       t.string :secret, :limit => 50
       t.integer :user_id
 
-      t.timestamps
+      t.timestamps :null => true
     end
     add_index :client_applications, :key, :unique => true
 
@@ -20,7 +20,7 @@ class CreateOauthTables < ActiveRecord::Migration
       t.string :token, :limit => 50
       t.string :secret, :limit => 50
       t.timestamp :authorized_at, :invalidated_at
-      t.timestamps
+      t.timestamps :null => true
     end
 
     add_index :oauth_tokens, :token, :unique => true
@@ -29,7 +29,7 @@ class CreateOauthTables < ActiveRecord::Migration
       t.string :nonce
       t.integer :timestamp
 
-      t.timestamps
+      t.timestamps :null => true
     end
     add_index :oauth_nonces, [:nonce, :timestamp], :unique => true
   end

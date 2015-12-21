@@ -8,7 +8,7 @@ class CreateUserRoles < ActiveRecord::Migration
       t.column :user_id, :bigint, :null => false
       t.column :role, :user_role_enum, :null => false
 
-      t.timestamps
+      t.timestamps :null => true
     end
 
     User.where(:administrator => true).each do |user|

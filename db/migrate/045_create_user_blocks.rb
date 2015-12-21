@@ -10,7 +10,7 @@ class CreateUserBlocks < ActiveRecord::Migration
       t.column :needs_view,   :boolean,  :null => false, :default => false
       t.column :revoker_id,   :bigint
 
-      t.timestamps
+      t.timestamps :null => true
     end
 
     add_foreign_key :user_blocks, :users, :name => "user_blocks_user_id_fkey"

@@ -6,7 +6,7 @@ class CreateRedactions < ActiveRecord::Migration
       t.string :title
       t.text :description
 
-      t.timestamps
+      t.timestamps :null => true
     end
 
     [:nodes, :ways, :relations].each do |tbl|
