@@ -32,7 +32,7 @@ sudo apt-get install ruby2.0 libruby2.0 ruby2.0-dev \
                      libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
                      apache2 apache2-threaded-dev build-essential git-core \
                      postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
-                     libsasl2-dev
+                     libsasl2-dev imagemagick
 sudo gem2.0 install bundler
 ```
 
