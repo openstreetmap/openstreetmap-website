@@ -3,9 +3,11 @@
 
 Vagrant.configure("2") do |config|
   # use official ubuntu image for virtualbox
-  config.vm.provider "virtualbox" do |_, override|
+  config.vm.provider "virtualbox" do |vb, override|
     override.vm.box = "ubuntu/trusty64"
     override.vm.synced_folder ".", "/srv/openstreetmap-website"
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+    vb.customize ["modifyvm", :id, "--cpus", "2"]
   end
 
   # use third party image and NFS sharing for lxc
