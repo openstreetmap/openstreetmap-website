@@ -13,12 +13,12 @@ apt-get update
 apt-get upgrade -y
 
 # install packages as explained in INSTALL.md
-apt-get install -y ruby1.9.1 libruby1.9.1 ruby1.9.1-dev ri1.9.1 \
-    libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
-    apache2 apache2-threaded-dev build-essential git-core \
-    postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
-    libsasl2-dev
-gem1.9.1 install bundle
+apt-get install -y ruby2.0 libruby2.0 ruby2.0-dev \
+                     libmagickwand-dev libxml2-dev libxslt1-dev nodejs \
+                     apache2 apache2-threaded-dev build-essential git-core \
+                     postgresql postgresql-contrib libpq-dev postgresql-server-dev-all \
+                     libsasl2-dev imagemagick
+gem2.0 install bundler
 
 ## install the bundle necessary for openstreetmap-website
 pushd /srv/openstreetmap-website
