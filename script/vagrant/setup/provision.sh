@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # set locale to UTF-8 compatible. apologies to non-english speakers...
+locale-gen en_GB.utf8
 update-locale LANG=en_GB.utf8 LC_ALL=en_GB.utf8
-locale-gen
 export LANG=en_GB.utf8
 export LC_ALL=en_GB.utf8
 
