@@ -457,6 +457,9 @@ iD.data.presets = {
                 "vertex",
                 "line"
             ],
+            "terms": [
+                "seat"
+            ],
             "tags": {
                 "amenity": "bench"
             },
@@ -520,12 +523,15 @@ iD.data.presets = {
                 "area"
             ],
             "terms": [
-                "bike"
+                "bike",
+                "repair",
+                "chain",
+                "pump"
             ],
             "tags": {
                 "amenity": "bicycle_repair_station"
             },
-            "name": "Bicycle Repair Station"
+            "name": "Bicycle Repair Tool Stand"
         },
         "amenity/biergarten": {
             "icon": "beer",
@@ -610,6 +616,7 @@ iD.data.presets = {
                 "area"
             ],
             "terms": [
+                "bistro",
                 "coffee",
                 "tea"
             ],
@@ -869,7 +876,7 @@ iD.data.presets = {
             },
             "name": "Dentist"
         },
-        "amenity/doctor": {
+        "amenity/doctors": {
             "icon": "hospital",
             "fields": [
                 "address",
@@ -964,6 +971,25 @@ iD.data.presets = {
             ],
             "name": "Fast Food"
         },
+        "amenity/ferry_terminal": {
+            "icon": "ferry",
+            "fields": [
+                "network",
+                "operator",
+                "address",
+                "building_area"
+            ],
+            "geometry": [
+                "point",
+                "vertex",
+                "area"
+            ],
+            "terms": [],
+            "tags": {
+                "amenity": "ferry_terminal"
+            },
+            "name": "Ferry Terminal"
+        },
         "amenity/fire_station": {
             "icon": "fire-station",
             "fields": [
@@ -1005,6 +1031,7 @@ iD.data.presets = {
             "terms": [
                 "petrol",
                 "fuel",
+                "gasoline",
                 "propane",
                 "diesel",
                 "lng",
@@ -1078,6 +1105,18 @@ iD.data.presets = {
                 "amenity": "hospital"
             },
             "name": "Hospital Grounds"
+        },
+        "amenity/hunting_stand": {
+            "geometry": [
+                "point",
+                "vertex",
+                "area"
+            ],
+            "terms": [],
+            "tags": {
+                "amenity": "hunting_stand"
+            },
+            "name": "Hunting Stand"
         },
         "amenity/kindergarten": {
             "icon": "school",
@@ -1214,6 +1253,21 @@ iD.data.presets = {
                 "amenity": "parking_entrance"
             },
             "name": "Parking Garage Entrance/Exit"
+        },
+        "amenity/parking_space": {
+            "fields": [
+                "capacity"
+            ],
+            "geometry": [
+                "point",
+                "vertex",
+                "area"
+            ],
+            "terms": [],
+            "tags": {
+                "amenity": "parking_space"
+            },
+            "name": "Parking Space"
         },
         "amenity/pharmacy": {
             "icon": "pharmacy",
@@ -1859,7 +1913,8 @@ iD.data.presets = {
                 "building_area",
                 "access_toilets",
                 "gender",
-                "fee"
+                "fee",
+                "diaper"
             ],
             "geometry": [
                 "point",
@@ -2135,12 +2190,25 @@ iD.data.presets = {
                 "amenity": "waste_basket"
             },
             "terms": [
+                "bin",
                 "rubbish",
                 "litter",
                 "trash",
                 "garbage"
             ],
             "name": "Waste Basket"
+        },
+        "amenity/water_point": {
+            "icon": "water",
+            "geometry": [
+                "area",
+                "vertex",
+                "point"
+            ],
+            "tags": {
+                "amenity": "water_point"
+            },
+            "name": "RV Drinking Water"
         },
         "area": {
             "name": "Area",
@@ -7782,6 +7850,10 @@ iD.data.presets = {
                 "point",
                 "area"
             ],
+            "terms": [
+                "bike",
+                "repair"
+            ],
             "tags": {
                 "shop": "bicycle"
             },
@@ -10306,6 +10378,21 @@ iD.data.presets = {
             "searchable": false,
             "name": "Waterway"
         },
+        "waterway/boatyard": {
+            "icon": "harbor",
+            "fields": [
+                "operator"
+            ],
+            "geometry": [
+                "area",
+                "vertex",
+                "point"
+            ],
+            "tags": {
+                "waterway": "boatyard"
+            },
+            "name": "Boatyard"
+        },
         "waterway/canal": {
             "icon": "waterway-canal",
             "fields": [
@@ -10344,6 +10431,22 @@ iD.data.presets = {
                 "waterway": "ditch"
             },
             "name": "Ditch"
+        },
+        "waterway/dock": {
+            "icon": "harbor",
+            "fields": [
+                "dock",
+                "operator"
+            ],
+            "geometry": [
+                "area",
+                "vertex",
+                "point"
+            ],
+            "tags": {
+                "waterway": "dock"
+            },
+            "name": "Dock"
         },
         "waterway/drain": {
             "icon": "waterway-stream",
@@ -10488,6 +10591,18 @@ iD.data.presets = {
                 "waterway": "stream"
             },
             "name": "Stream"
+        },
+        "waterway/water_point": {
+            "icon": "water",
+            "geometry": [
+                "area",
+                "vertex",
+                "point"
+            ],
+            "tags": {
+                "waterway": "water_point"
+            },
+            "name": "Marine Drinking Water"
         },
         "waterway/weir": {
             "icon": "dam",
@@ -39753,6 +39868,26 @@ iD.data.presets = {
             "key": "description",
             "type": "textarea",
             "label": "Description"
+        },
+        "diaper": {
+            "key": "diaper",
+            "type": "combo",
+            "label": "Diaper Changing Available",
+            "options": [
+                "yes",
+                "no",
+                "room",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5"
+            ]
+        },
+        "dock": {
+            "key": "dock",
+            "type": "combo",
+            "label": "Type"
         },
         "drive_through": {
             "key": "drive_through",

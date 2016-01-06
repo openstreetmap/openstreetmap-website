@@ -206,11 +206,6 @@ path.shadow {
     pointer-events: stroke;
 }
 
-.shadow {
-    -webkit-transition: 200ms;
-       -moz-transition: 200ms;
-            transition: 200ms;
-}
 
 /* points */
 
@@ -296,11 +291,11 @@ g.vertex.vertex-hover {
 
 g.vertex.hover:not(.selected) .shadow,
 g.midpoint.hover:not(.selected) .shadow {
-    fill-opacity: 0.3;
+    fill-opacity: 0.5;
 }
 
 g.vertex.selected .shadow {
-    fill-opacity: 0.5;
+    fill-opacity: 0.7;
 }
 
 .mode-draw-area g.midpoint,
@@ -335,7 +330,7 @@ path.shadow {
 }
 
 path.shadow.hover:not(.selected) {
-    stroke-opacity: 0.3;
+    stroke-opacity: 0.4;
 }
 
 path.shadow.selected {
@@ -953,7 +948,8 @@ path.casing.tag-living_street {
     stroke:#fff;
 }
 
-.preset-icon .icon.highway-pedestrian {
+.preset-icon .icon.highway-footway.tag-highway-corridor,
+.preset-icon .icon.highway-footway.tag-highway-pedestrian {
     color: #8cd05f;
     fill: #fff;
 }
@@ -1058,6 +1054,14 @@ path.stroke.tag-highway-path {
 }
 path.stroke.tag-highway-footway {
     stroke: #ae8681;
+}
+
+.preset-icon .icon.highway-footway.tag-crossing {
+    color: #444;
+}
+path.stroke.tag-highway-footway.tag-crossing {
+    stroke: #444;
+    stroke-dasharray: 6, 4;
 }
 
 .preset-icon .icon.tag-route-bicycle,
@@ -1232,13 +1236,20 @@ path.casing.tag-waterway-ditch {
     stroke: #6591ff;
     stroke-width: 3;
 }
+
+path.area.stroke.tag-waterway-dock,
+path.area.stroke.tag-waterway-boatyard,
 path.area.stroke.tag-waterway-fuel {
     stroke: white;
     stroke-width: 1;
 }
+path.area.casing.tag-waterway-dock,
+path.area.casing.tag-waterway-boatyard,
 path.area.casing.tag-waterway-fuel {
     stroke: none;
 }
+path.area.fill.tag-waterway-dock,
+path.area.fill.tag-waterway-boatyard,
 path.area.fill.tag-waterway-fuel {
     stroke: rgba(255, 255, 255, 0.3);
     fill: rgba(255, 255, 255, 0.3);
@@ -1729,10 +1740,10 @@ text.gpx {
 }
 
 .fill-wireframe path.shadow.hover:not(.selected) {
-    stroke-opacity: 0.2;
+    stroke-opacity: 0.4;
 }
 .fill-wireframe path.shadow.selected {
-    stroke-opacity: 0.4;
+    stroke-opacity: 0.6;
 }
 
 .fill-wireframe .point,
@@ -2305,7 +2316,7 @@ button.save.has-count .count::before {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    padding: 20px;
+    padding: 20px 20px 20px 40px;
 }
 
 .header button,
@@ -2321,9 +2332,16 @@ button.save.has-count .count::before {
     height: 100%;
 }
 
-.preset-list-pane .header button {
+.entity-editor-pane .header button.preset-close,
+.preset-list-pane .header button.preset-choose {
     position: absolute;
     right: 0;
+    top: 0;
+}
+
+.entity-editor-pane .header button.preset-choose {
+    position: absolute;
+    left: 0;
     top: 0;
 }
 
