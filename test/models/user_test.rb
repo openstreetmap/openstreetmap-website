@@ -199,7 +199,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal %w(de fr en), user.languages
     user.languages = %w(fr de sl)
     assert_equal "de", user.preferred_language
-    assert_equal "de", user.preferred_language_from(%w(en sl de es))
+    assert_equal %w(fr de sl), user.preferred_languages.map(&:to_s)
     user = users(:public_user)
     assert_equal %w(en de), user.languages
   end

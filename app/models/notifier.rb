@@ -175,14 +175,8 @@ class Notifier < ActionMailer::Base
   private
 
   def with_recipient_locale(recipient)
-    old_locale = I18n.locale
-
-    begin
-      I18n.locale = recipient.preferred_language_from(I18n.available_locales)
-
+    I18n.with_locale Locale.available.preferred(recipient.preferred_languages) do
       yield
-    ensure
-      I18n.locale = old_locale
     end
   end
 

@@ -131,8 +131,8 @@ class User < ActiveRecord::Base
     languages.find { |l| Language.exists?(:code => l) }
   end
 
-  def preferred_language_from(array)
-    (languages & array.collect(&:to_s)).first
+  def preferred_languages
+    @locales ||= Locale.list(languages)
   end
 
   def nearby(radius = NEARBY_RADIUS, num = NEARBY_USERS)

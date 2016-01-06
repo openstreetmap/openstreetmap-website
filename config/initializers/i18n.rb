@@ -8,6 +8,16 @@ module I18n
         ex.entry[:other]
       end
     end
+
+    class Simple
+      def store_translations_with_normalisation(locale, data, options = {})
+        locale = I18n::Locale::Tag::Rfc4646.tag(locale).to_s
+
+        store_translations_without_normalisation(locale, data, options)
+      end
+
+      alias_method_chain :store_translations, :normalisation
+    end
   end
 
   module JS

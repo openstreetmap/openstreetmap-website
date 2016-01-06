@@ -190,11 +190,13 @@ class AmfController < ApplicationController
     user = getuser(usertoken)
 
     if user && !user.languages.empty?
-      http_accept_language.user_preferred_languages = user.languages
+      langs = Locale.list(user.languages)
+    else
+      langs = Locale.list(http_accept_language.user_preferred_languages)
     end
 
-    lang = http_accept_language.compatible_language_from(getlocales)
-    (real_lang, localised) = getlocalized(lang)
+    lang = getlocales.preferred(langs)
+    (real_lang, localised) = getlocalized(lang.to_s)
 
     # Tell Potlatch what language it's using
     localised["__potlatch_locale"] = real_lang
@@ -874,7 +876,7 @@ class AmfController < ApplicationController
   end
 
   def getlocales
-    Dir.glob("#{Rails.root}/config/potlatch/locales/*").collect { |f| File.basename(f, ".yml") }
+    @locales ||= Locale.list(Dir.glob("#{Rails.root}/config/potlatch/locales/*").collect { |f| File.basename(f, ".yml") })
   end
 
   ##

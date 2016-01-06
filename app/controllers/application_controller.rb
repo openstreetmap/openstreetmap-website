@@ -288,46 +288,29 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def preferred_languages
+    @languages ||= if params[:locale]
+                     Locale.list(params[:locale])
+                   elsif @user
+                     @user.preferred_languages
+                   else
+                     Locale.list(http_accept_language.user_preferred_languages)
+                   end
+  end
+
+  helper_method :preferred_languages
+
   def set_locale
-    response.header["Vary"] = "Accept-Language"
-
-    if @user && !@user.languages.empty?
-      http_accept_language.user_preferred_languages = @user.languages
-      response.header["Vary"] = "*"
-    end
-
-    I18n.locale = select_locale
-
     if @user && @user.languages.empty? && !http_accept_language.user_preferred_languages.empty?
       @user.languages = http_accept_language.user_preferred_languages
       @user.save
     end
 
+    I18n.locale = Locale.available.preferred(preferred_languages)
+
+    response.headers["Vary"] = "Accept-Language"
     response.headers["Content-Language"] = I18n.locale.to_s
   end
-
-  def select_locale(locales = I18n.available_locales)
-    if params[:locale]
-      http_accept_language.user_preferred_languages = [params[:locale]]
-    end
-
-    if http_accept_language.compatible_language_from(locales).nil?
-      http_accept_language.user_preferred_languages = http_accept_language.user_preferred_languages.collect do |pl|
-        pls = [pl]
-
-        while pl.match(/^(.*)-[^-]+$/)
-          pls.push($1) if locales.include?($1) || locales.include?($1.to_sym)
-          pl = $1
-        end
-
-        pls
-      end.flatten
-    end
-
-    http_accept_language.compatible_language_from(locales) || I18n.default_locale
-  end
-
-  helper_method :select_locale
 
   def api_call_handle_error
     yield

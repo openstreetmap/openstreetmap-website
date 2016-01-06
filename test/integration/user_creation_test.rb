@@ -40,7 +40,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
       end
       assert_response :success
       assert_template "user/new"
-      assert_equal response.headers["Content-Language"][0..1], locale.to_s[0..1] unless locale == :root
+      assert_equal locale.to_s, response.headers["Content-Language"] unless locale == :root
       assert_select "form > fieldset > div.form-row > input.field_with_errors#user_email"
       assert_no_missing_translations
     end
