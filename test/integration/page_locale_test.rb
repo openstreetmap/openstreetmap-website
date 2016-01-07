@@ -1,6 +1,6 @@
 require "test_helper"
 
-class LocaleTest < ActionDispatch::IntegrationTest
+class PageLocaleTest < ActionDispatch::IntegrationTest
   fixtures :users
 
   def setup
