@@ -3,7 +3,7 @@ class Locale < I18n::Locale::Tag::Rfc4646
     attr_reader :locales
 
     def initialize(tags)
-      super(tags.map { |tag| Locale.tag(tag) })
+      super(tags.map { |tag| Locale.tag(tag) }).compact!
     end
 
     def candidates(preferred)
