@@ -39,7 +39,7 @@ function MapzenEngine(id, costing) {
 
     getRoute: function (points, callback) {
       return $.ajax({
-        url: document.location.protocol + "//valhalla.mapzen.com/route",
+        url: document.location.protocol + OSM.MAPZEN_VALHALLA_URL,
         data: {
           api_key: OSM.MAPZEN_VALHALLA_KEY,
           json: JSON.stringify({

@@ -36,7 +36,7 @@ function MapQuestEngine(id, routeType) {
       var to = points[points.length - 1];
 
       return $.ajax({
-        url: document.location.protocol + "//open.mapquestapi.com/directions/v2/route",
+        url: document.location.protocol + OSM.MAPQUEST_DIRECTIONS_URL,
         data: {
           key: OSM.MAPQUEST_KEY,
           from: from.lat + "," + from.lng,

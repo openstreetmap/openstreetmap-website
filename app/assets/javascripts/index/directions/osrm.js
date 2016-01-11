@@ -51,7 +51,7 @@ function OSRMEngine() {
       }
 
       return $.ajax({
-        url: document.location.protocol + "//router.project-osrm.org/viaroute",
+        url: document.location.protocol + OSM.OSRM_URL,
         data: params,
         dataType: "json",
         success: function (data) {
