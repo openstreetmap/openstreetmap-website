@@ -2198,6 +2198,22 @@ iD.data.presets = {
             ],
             "name": "Waste Basket"
         },
+        "amenity/waste_disposal": {
+            "icon": "waste-basket",
+            "geometry": [
+                "point",
+                "vertex"
+            ],
+            "tags": {
+                "amenity": "waste_disposal"
+            },
+            "terms": [
+                "rubbish",
+                "litter",
+                "trash"
+            ],
+            "name": "Garbage Dumpster"
+        },
         "amenity/water_point": {
             "icon": "water",
             "geometry": [
@@ -5906,6 +5922,16 @@ iD.data.presets = {
             },
             "name": "Breakwater"
         },
+        "man_made/chimney": {
+            "geometry": [
+                "point",
+                "area"
+            ],
+            "tags": {
+                "man_made": "chimney"
+            },
+            "name": "Chimney"
+        },
         "man_made/cutline": {
             "geometry": [
                 "line"
@@ -5934,6 +5960,29 @@ iD.data.presets = {
             },
             "name": "Flagpole",
             "icon": "embassy"
+        },
+        "man_made/gasometer": {
+            "geometry": [
+                "point",
+                "area"
+            ],
+            "terms": [
+                "gas holder"
+            ],
+            "tags": {
+                "man_made": "gasometer"
+            },
+            "name": "Gasometer"
+        },
+        "man_made/groyne": {
+            "geometry": [
+                "line",
+                "area"
+            ],
+            "tags": {
+                "man_made": "groyne"
+            },
+            "name": "Groyne"
         },
         "man_made/lighthouse": {
             "icon": "lighthouse",
@@ -6067,6 +6116,16 @@ iD.data.presets = {
             },
             "name": "Storage Tank"
         },
+        "man_made/surveillance": {
+            "icon": "camera",
+            "geometry": [
+                "point"
+            ],
+            "tags": {
+                "man_made": "surveillance"
+            },
+            "name": "Surveillance"
+        },
         "man_made/survey_point": {
             "icon": "monument",
             "fields": [
@@ -6155,6 +6214,24 @@ iD.data.presets = {
                 "man_made": "water_works"
             },
             "name": "Water Works"
+        },
+        "man_made/works": {
+            "geometry": [
+                "point",
+                "area"
+            ],
+            "terms": [
+                "car assembly plant",
+                "aluminium processing plant",
+                "brewery",
+                "furniture manufacture factory",
+                "oil refinery",
+                "platic recycling"
+            ],
+            "tags": {
+                "man_made": "works"
+            },
+            "name": "Works"
         },
         "military/airfield": {
             "icon": "airfield",

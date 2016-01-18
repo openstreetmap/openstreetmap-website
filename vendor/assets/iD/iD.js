@@ -19371,7 +19371,7 @@ window.iD = function () {
     return d3.rebind(context, dispatch, 'on');
 };
 
-iD.version = '1.8.4';
+iD.version = '1.8.5';
 
 (function() {
     var detected = {};
@@ -22792,7 +22792,7 @@ iD.behavior.Breathe = function() {
     var duration = 800,
         selector = '.selected.shadow, .selected .shadow',
         selected = d3.select(null),
-        classed = [],
+        classed = '',
         params = {},
         done;
 
@@ -22843,7 +22843,7 @@ iD.behavior.Breathe = function() {
     function run(surface, fromTo) {
         var toFrom = (fromTo === 'from' ? 'to': 'from'),
             currSelected = surface.selectAll(selector),
-            currClassed = Array.prototype.slice.call(surface.node().classList),
+            currClassed = surface.attr('class'),
             n = 0;
 
         if (done || currSelected.empty()) {
@@ -22851,9 +22851,9 @@ iD.behavior.Breathe = function() {
             return;
         }
 
-        if (!_.isEqual(currSelected, selected) || !_.isEqual(currClassed, classed)) {
+        if (!_.isEqual(currSelected, selected) || currClassed !== classed) {
             selected.call(reset);
-            classed = _.clone(currClassed);
+            classed = currClassed;
             selected = currSelected.call(calcAnimationParams);
         }
 
@@ -32401,7 +32401,7 @@ iD.ui.Conflicts = function(context) {
     function showConflict(selection, index) {
         if (index < 0 || index >= list.length) return;
 
-        var parent = d3.select(selection.node().parentElement);
+        var parent = d3.select(selection.node().parentNode);
 
         // enable save button if this is the last conflict being reviewed..
         if (index === list.length - 1) {
@@ -32509,7 +32509,7 @@ iD.ui.Conflicts = function(context) {
             .attr('type', 'radio')
             .attr('name', function(d) { return d.id; })
             .on('change', function(d, i) {
-                var ul = this.parentElement.parentElement.parentElement;
+                var ul = this.parentNode.parentNode.parentNode;
                 ul.__data__.chosen = i;
                 choose(ul, d);
             });
@@ -32520,7 +32520,7 @@ iD.ui.Conflicts = function(context) {
 
         choices
             .each(function(d, i) {
-                var ul = this.parentElement;
+                var ul = this.parentNode;
                 if (ul.__data__.chosen === i) choose(ul, d);
             });
     }
@@ -32832,14 +32832,12 @@ iD.ui.EntityEditor = function(context) {
         function historyChanged() {
             if (state === 'hide') return;
 
-            var entity = context.hasEntity(id);
+            var entity = context.hasEntity(id),
+                graph = context.graph();
             if (!entity) return;
 
-            entityEditor.preset(context.presets().match(entity, context.graph()));
-
-            var head = context.history().difference();
-            entityEditor.modified(base && !_.isEqual(base.changes(), head.changes()));
-
+            entityEditor.preset(context.presets().match(entity, graph));
+            entityEditor.modified(base !== graph);
             entityEditor(selection);
         }
 
@@ -32925,9 +32923,9 @@ iD.ui.EntityEditor = function(context) {
     entityEditor.entityID = function(_) {
         if (!arguments.length) return id;
         id = _;
-        entityEditor.preset(context.presets().match(context.entity(id), context.graph()));
+        base = context.graph();
+        entityEditor.preset(context.presets().match(context.entity(id), base));
         entityEditor.modified(false);
-        base = context.history().difference();
         coalesceChanges = false;
         return entityEditor;
     };
@@ -36438,7 +36436,7 @@ iD.ui.SelectionList = function(context, selectedIDs) {
             // Update
             items.selectAll('use')
                 .attr('href', function() {
-                    var entity = this.parentElement.parentElement.__data__;
+                    var entity = this.parentNode.parentNode.__data__;
                     return '#icon-' + context.geometry(entity.id);
                 });
 
@@ -37371,16 +37369,17 @@ iD.ui.preset.address = function(field, context) {
     function address(selection) {
         isInitialized = false;
 
-        selection.selectAll('.preset-input-wrap')
-            .remove();
-
-        var center = entity.extent(context.graph()).center(),
-            addressFormat;
+        wrap = selection.selectAll('.preset-input-wrap')
+            .data([0]);
 
         // Enter
 
-        wrap = selection.append('div')
+        wrap.enter()
+            .append('div')
             .attr('class', 'preset-input-wrap');
+
+        var center = entity.extent(context.graph()).center(),
+            addressFormat;
 
         iD.countryCode().search(center, function (err, countryCode) {
             addressFormat = _.find(iD.data.addressFormats, function (a) {
@@ -55316,6 +55315,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081]},
                     "name": "Waste Basket",
                     "terms": "bin,rubbish,litter,trash,garbage"
                 },
+                "amenity/waste_disposal": {
+                    "name": "Garbage Dumpster",
+                    "terms": "rubbish,litter,trash"
+                },
                 "amenity/water_point": {
                     "name": "RV Drinking Water",
                     "terms": ""
@@ -56232,6 +56235,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081]},
                     "name": "Breakwater",
                     "terms": ""
                 },
+                "man_made/chimney": {
+                    "name": "Chimney",
+                    "terms": ""
+                },
                 "man_made/cutline": {
                     "name": "Cut line",
                     "terms": ""
@@ -56242,6 +56249,14 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081]},
                 },
                 "man_made/flagpole": {
                     "name": "Flagpole",
+                    "terms": ""
+                },
+                "man_made/gasometer": {
+                    "name": "Gasometer",
+                    "terms": "gas holder"
+                },
+                "man_made/groyne": {
+                    "name": "Groyne",
                     "terms": ""
                 },
                 "man_made/lighthouse": {
@@ -56276,6 +56291,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081]},
                     "name": "Storage Tank",
                     "terms": "water,oil,gas,petrol"
                 },
+                "man_made/surveillance": {
+                    "name": "Surveillance",
+                    "terms": ""
+                },
                 "man_made/survey_point": {
                     "name": "Survey Point",
                     "terms": ""
@@ -56299,6 +56318,10 @@ iD.introGraph = '{"n185954700":{"id":"n185954700","loc":[-85.642244,41.939081]},
                 "man_made/water_works": {
                     "name": "Water Works",
                     "terms": ""
+                },
+                "man_made/works": {
+                    "name": "Works",
+                    "terms": "car assembly plant,aluminium processing plant,brewery,furniture manufacture factory,oil refinery,platic recycling"
                 },
                 "military/airfield": {
                     "name": "Airfield",
