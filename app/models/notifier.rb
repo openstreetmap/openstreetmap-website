@@ -136,17 +136,17 @@ class Notifier < ActionMailer::Base
       @owner = recipient == comment.note.author
       @event = comment.event
 
-      if comment.author
-        @commenter = comment.author.display_name
-      else
-        @commenter = I18n.t("notifier.note_comment_notification.anonymous")
-      end
+      @commenter = if comment.author
+                     comment.author.display_name
+                   else
+                     I18n.t("notifier.note_comment_notification.anonymous")
+                   end
 
-      if @owner
-        subject = I18n.t("notifier.note_comment_notification.#{@event}.subject_own", :commenter => @commenter)
-      else
-        subject = I18n.t("notifier.note_comment_notification.#{@event}.subject_other", :commenter => @commenter)
-      end
+      subject = if @owner
+                  I18n.t("notifier.note_comment_notification.#{@event}.subject_own", :commenter => @commenter)
+                else
+                  I18n.t("notifier.note_comment_notification.#{@event}.subject_other", :commenter => @commenter)
+                end
 
       mail :to => recipient.email, :subject => subject
     end
@@ -162,11 +162,11 @@ class Notifier < ActionMailer::Base
       @time = comment.created_at
       @changeset_author = comment.changeset.user.display_name
 
-      if @owner
-        subject = I18n.t("notifier.changeset_comment_notification.commented.subject_own", :commenter => @commenter)
-      else
-        subject = I18n.t("notifier.changeset_comment_notification.commented.subject_other", :commenter => @commenter)
-      end
+      subject = if @owner
+                  I18n.t("notifier.changeset_comment_notification.commented.subject_own", :commenter => @commenter)
+                else
+                  I18n.t("notifier.changeset_comment_notification.commented.subject_other", :commenter => @commenter)
+                end
 
       mail :to => recipient.email, :subject => subject
     end

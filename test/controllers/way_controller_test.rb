@@ -121,8 +121,8 @@ class WayControllerTest < ActionController::TestCase
 
     # create a way with pre-existing nodes
     content "<osm><way changeset='#{changeset_id}'>" +
-      "<nd ref='#{nid1}'/><nd ref='#{nid2}'/>" +
-      "<tag k='test' v='yes' /></way></osm>"
+    "<nd ref='#{nid1}'/><nd ref='#{nid2}'/>" +
+    "<tag k='test' v='yes' /></way></osm>"
     put :create
     # hope for failure
     assert_response :forbidden,
@@ -138,8 +138,8 @@ class WayControllerTest < ActionController::TestCase
 
     # create a way with pre-existing nodes
     content "<osm><way changeset='#{changeset_id}'>" +
-      "<nd ref='#{nid1}'/><nd ref='#{nid2}'/>" +
-      "<tag k='test' v='yes' /></way></osm>"
+    "<nd ref='#{nid1}'/><nd ref='#{nid2}'/>" +
+    "<tag k='test' v='yes' /></way></osm>"
     put :create
     # hope for success
     assert_response :success,
@@ -179,7 +179,7 @@ class WayControllerTest < ActionController::TestCase
 
     # create a way with non-existing node
     content "<osm><way changeset='#{open_changeset_id}'>" +
-      "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
+    "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
     assert_response :forbidden,
@@ -187,7 +187,7 @@ class WayControllerTest < ActionController::TestCase
 
     # create a way with no nodes
     content "<osm><way changeset='#{open_changeset_id}'>" +
-      "<tag k='test' v='yes' /></way></osm>"
+    "<tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
     assert_response :forbidden,
@@ -195,7 +195,7 @@ class WayControllerTest < ActionController::TestCase
 
     # create a way inside a closed changeset
     content "<osm><way changeset='#{closed_changeset_id}'>" +
-      "<nd ref='#{nid1}'/></way></osm>"
+    "<nd ref='#{nid1}'/></way></osm>"
     put :create
     # expect failure
     assert_response :forbidden,
@@ -211,7 +211,7 @@ class WayControllerTest < ActionController::TestCase
 
     # create a way with non-existing node
     content "<osm><way changeset='#{open_changeset_id}'>" +
-      "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
+    "<nd ref='0'/><tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
     assert_response :precondition_failed,
@@ -220,7 +220,7 @@ class WayControllerTest < ActionController::TestCase
 
     # create a way with no nodes
     content "<osm><way changeset='#{open_changeset_id}'>" +
-      "<tag k='test' v='yes' /></way></osm>"
+    "<tag k='test' v='yes' /></way></osm>"
     put :create
     # expect failure
     assert_response :precondition_failed,
@@ -229,7 +229,7 @@ class WayControllerTest < ActionController::TestCase
 
     # create a way inside a closed changeset
     content "<osm><way changeset='#{closed_changeset_id}'>" +
-      "<nd ref='#{nid1}'/></way></osm>"
+    "<nd ref='#{nid1}'/></way></osm>"
     put :create
     # expect failure
     assert_response :conflict,
@@ -237,9 +237,9 @@ class WayControllerTest < ActionController::TestCase
 
     # create a way with a tag which is too long
     content "<osm><way changeset='#{open_changeset_id}'>" +
-      "<nd ref='#{nid1}'/>" +
-      "<tag k='foo' v='#{'x' * 256}'/>" +
-      "</way></osm>"
+    "<nd ref='#{nid1}'/>" +
+    "<tag k='foo' v='#{'x' * 256}'/>" +
+    "</way></osm>"
     put :create
     # expect failure
     assert_response :bad_request,

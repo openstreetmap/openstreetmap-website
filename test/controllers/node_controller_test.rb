@@ -466,8 +466,8 @@ class NodeControllerTest < ActionController::TestCase
     # try and put something into a string that the API might
     # use unquoted and therefore allow code injection...
     content "<osm><node lat='0' lon='0' changeset='#{changeset_id}'>" +
-      '<tag k="#{@user.inspect}" v="0"/>' +
-      "</node></osm>"
+    '<tag k="#{@user.inspect}" v="0"/>' +
+    "</node></osm>"
     put :create
     assert_require_public_data "Shouldn't be able to create with non-public user"
 
@@ -478,8 +478,8 @@ class NodeControllerTest < ActionController::TestCase
     # try and put something into a string that the API might
     # use unquoted and therefore allow code injection...
     content "<osm><node lat='0' lon='0' changeset='#{changeset_id}'>" +
-      '<tag k="#{@user.inspect}" v="0"/>' +
-      "</node></osm>"
+    '<tag k="#{@user.inspect}" v="0"/>' +
+    "</node></osm>"
     put :create
     assert_response :success
     nodeid = @response.body

@@ -319,21 +319,19 @@ class NotesController < ApplicationController
   # Generate a condition to choose which bugs we want based
   # on their status and the user's request parameters
   def closed_condition(notes)
-    if params[:closed]
-      closed_since = params[:closed].to_i
-    else
-      closed_since = 7
-    end
+    closed_since = if params[:closed]
+                     params[:closed].to_i
+                   else
+                     7
+                   end
 
     if closed_since < 0
-      notes = notes.where("status != 'hidden'")
+      notes.where("status != 'hidden'")
     elsif closed_since > 0
-      notes = notes.where("(status = 'open' OR (status = 'closed' AND closed_at > '#{Time.now - closed_since.days}'))")
+      notes.where("(status = 'open' OR (status = 'closed' AND closed_at > '#{Time.now - closed_since.days}'))")
     else
-      notes = notes.where("status = 'open'")
+      notes.where("status = 'open'")
     end
-
-    notes
   end
 
   ##

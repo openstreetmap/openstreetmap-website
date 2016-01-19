@@ -4,7 +4,7 @@ if defined?(ActiveRecord::ConnectionAdaptors::AbstractAdapter)
       class AbstractAdapter
         protected
 
-        alias_method :old_log, :log
+        alias old_log log
 
         def log(sql, name)
           if block_given?

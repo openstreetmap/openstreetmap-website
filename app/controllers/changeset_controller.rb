@@ -186,16 +186,14 @@ class ChangesetController < ApplicationController
           # first version, so it must be newly-created.
           created = XML::Node.new "create"
           created << elt.to_xml_node(changeset_cache, user_display_name_cache)
+        elsif elt.visible
+          # must be a modify
+          modified = XML::Node.new "modify"
+          modified << elt.to_xml_node(changeset_cache, user_display_name_cache)
         else
-          if elt.visible
-            # must be a modify
-            modified = XML::Node.new "modify"
-            modified << elt.to_xml_node(changeset_cache, user_display_name_cache)
-          else
-            # if the element isn't visible then it must have been deleted
-            deleted = XML::Node.new "delete"
-            deleted << elt.to_xml_node(changeset_cache, user_display_name_cache)
-          end
+          # if the element isn't visible then it must have been deleted
+          deleted = XML::Node.new "delete"
+          deleted << elt.to_xml_node(changeset_cache, user_display_name_cache)
         end
     end
 
@@ -277,11 +275,11 @@ class ChangesetController < ApplicationController
       changesets = conditions_nonempty(Changeset.all)
 
       if params[:display_name]
-        if user.data_public? || user == @user
-          changesets = changesets.where(:user_id => user.id)
-        else
-          changesets = changesets.where("false")
-        end
+        changesets = if user.data_public? || user == @user
+                       changesets.where(:user_id => user.id)
+                     else
+                       changesets.where("false")
+                     end
       elsif params[:bbox]
         changesets = conditions_bbox(changesets, BoundingBox.from_bbox_params(params))
       elsif params[:friends] && @user
@@ -459,11 +457,12 @@ class ChangesetController < ApplicationController
     if bbox
       bbox.check_boundaries
       bbox = bbox.to_scaled
-      return changesets.where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",
-                              bbox.max_lon.to_i, bbox.min_lon.to_i,
-                              bbox.max_lat.to_i, bbox.min_lat.to_i)
+
+      changesets.where("min_lon < ? and max_lon > ? and min_lat < ? and max_lat > ?",
+                       bbox.max_lon.to_i, bbox.min_lon.to_i,
+                       bbox.max_lat.to_i, bbox.min_lat.to_i)
     else
-      return changesets
+      changesets
     end
   end
 
@@ -471,7 +470,7 @@ class ChangesetController < ApplicationController
   # restrict changesets to those by a particular user
   def conditions_user(changesets, user, name)
     if user.nil? && name.nil?
-      return changesets
+      changesets
     else
       # shouldn't provide both name and UID
       fail OSM::APIBadUserInput.new("provide either the user ID or display name, but not both") if user && name
@@ -497,7 +496,8 @@ class ChangesetController < ApplicationController
 
         fail OSM::APINotFoundError if @user.nil? || @user.id != u.id
       end
-      return changesets.where(:user_id => u.id)
+
+      changesets.where(:user_id => u.id)
     end
   end
 
@@ -506,20 +506,19 @@ class ChangesetController < ApplicationController
   def conditions_time(changesets, time)
     if time.nil?
       return changesets
-    else
+    elsif time.count(",") == 1
       # if there is a range, i.e: comma separated, then the first is
       # low, second is high - same as with bounding boxes.
-      if time.count(",") == 1
-        # check that we actually have 2 elements in the array
-        times = time.split(/,/)
-        fail OSM::APIBadUserInput.new("bad time range") if times.size != 2
 
-        from, to = times.collect { |t| DateTime.parse(t) }
-        return changesets.where("closed_at >= ? and created_at <= ?", from, to)
-      else
-        # if there is no comma, assume its a lower limit on time
-        return changesets.where("closed_at >= ?", DateTime.parse(time))
-      end
+      # check that we actually have 2 elements in the array
+      times = time.split(/,/)
+      fail OSM::APIBadUserInput.new("bad time range") if times.size != 2
+
+      from, to = times.collect { |t| DateTime.parse(t) }
+      return changesets.where("closed_at >= ? and created_at <= ?", from, to)
+    else
+      # if there is no comma, assume its a lower limit on time
+      return changesets.where("closed_at >= ?", DateTime.parse(time))
     end
     # stupid DateTime seems to throw both of these for bad parsing, so
     # we have to catch both and ensure the correct code path is taken.

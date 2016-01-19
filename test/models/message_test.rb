@@ -5,7 +5,7 @@ class MessageTest < ActiveSupport::TestCase
   api_fixtures
   fixtures :messages
 
-  EURO = "\xe2\x82\xac" # euro symbol
+  EURO = "\xe2\x82\xac".freeze # euro symbol
 
   # This needs to be updated when new fixtures are added
   # or removed.

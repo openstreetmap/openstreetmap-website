@@ -16,7 +16,7 @@ end
 module Quova
   ##
   # Access details for WSDL description
-  WSDL_URL = "https://webservices.quova.com/OnDemand/GeoPoint/v1/default.asmx?WSDL"
+  WSDL_URL = "https://webservices.quova.com/OnDemand/GeoPoint/v1/default.asmx?WSDL".freeze
   WSDL_USER = QUOVA_USERNAME
   WSDL_PASS = QUOVA_PASSWORD
 

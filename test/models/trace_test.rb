@@ -26,30 +26,30 @@ class TraceTest < ActiveSupport::TestCase
 
   def test_visible
     check_query(Trace.visible, [
-      :public_trace_file, :anon_trace_file, :trackable_trace_file,
-      :identifiable_trace_file, :zipped_trace_file, :tar_trace_file,
-      :tar_gzip_trace_file, :tar_bzip_trace_file, :pending_trace_file
-    ])
+                  :public_trace_file, :anon_trace_file, :trackable_trace_file,
+                  :identifiable_trace_file, :zipped_trace_file, :tar_trace_file,
+                  :tar_gzip_trace_file, :tar_bzip_trace_file, :pending_trace_file
+                ])
   end
 
   def test_visible_to
     check_query(Trace.visible_to(1), [
-      :public_trace_file, :identifiable_trace_file, :pending_trace_file
-    ])
+                  :public_trace_file, :identifiable_trace_file, :pending_trace_file
+                ])
     check_query(Trace.visible_to(2), [
-      :public_trace_file, :anon_trace_file, :trackable_trace_file,
-      :identifiable_trace_file, :pending_trace_file
-    ])
+                  :public_trace_file, :anon_trace_file, :trackable_trace_file,
+                  :identifiable_trace_file, :pending_trace_file
+                ])
     check_query(Trace.visible_to(3), [
-      :public_trace_file, :identifiable_trace_file, :pending_trace_file
-    ])
+                  :public_trace_file, :identifiable_trace_file, :pending_trace_file
+                ])
   end
 
   def test_visible_to_all
     check_query(Trace.visible_to_all, [
-      :public_trace_file, :identifiable_trace_file,
-      :deleted_trace_file, :pending_trace_file
-    ])
+                  :public_trace_file, :identifiable_trace_file,
+                  :deleted_trace_file, :pending_trace_file
+                ])
   end
 
   def test_tagged

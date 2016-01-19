@@ -61,7 +61,7 @@ module ActionController
       DEFAULT_OPTIONS[:group] = nil
     else
       # A hash holding options for controllers using macro-style pagination
-      OPTIONS = {}
+      OPTIONS = {}.freeze
 
       # The default options for pagination
       DEFAULT_OPTIONS = {
@@ -78,7 +78,7 @@ module ActionController
         :select     => nil,
         :group      => nil,
         :parameter  => "page"
-      }
+      }.freeze
     end
 
     def self.included(base) #:nodoc:
@@ -253,19 +253,19 @@ module ActionController
       def current_page
         @current_page ||= self[@current_page_number]
       end
-      alias_method :current, :current_page
+      alias current current_page
 
       # Returns a new Page representing the first page in this paginator.
       def first_page
         @first_page ||= self[1]
       end
-      alias_method :first, :first_page
+      alias first first_page
 
       # Returns a new Page representing the last page in this paginator.
       def last_page
         @last_page ||= self[page_count]
       end
-      alias_method :last, :last_page
+      alias last last_page
 
       # Returns the number of pages in this paginator.
       def page_count
@@ -277,7 +277,7 @@ module ActionController
                         end
       end
 
-      alias_method :length, :page_count
+      alias length page_count
 
       # Returns true if this paginator contains the page of index +number+.
       def has_page_number?(number)
@@ -310,7 +310,7 @@ module ActionController
           @number = 1 unless @paginator.has_page_number? @number
         end
         attr_reader :paginator, :number
-        alias_method :to_i, :number
+        alias to_i number
 
         # Compares two Page objects and returns true when they represent the
         # same page (i.e., their paginators are the same and they have the
@@ -416,7 +416,7 @@ module ActionController
         def pages
           (@first.number..@last.number).to_a.collect! { |n| @paginator[n] }
         end
-        alias_method :to_a, :pages
+        alias to_a pages
       end
     end
   end

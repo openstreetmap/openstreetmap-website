@@ -1,7 +1,7 @@
 # Hack ActionController::DataStreaming to allow streaming from a file handle
 module ActionController
   module DataStreaming
-    alias_method :old_send_file, :send_file
+    alias old_send_file send_file
 
     def send_file(file, options = {})
       if file.is_a?(File) || file.is_a?(Tempfile)

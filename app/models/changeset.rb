@@ -146,7 +146,7 @@ class Changeset < ActiveRecord::Base
     # do the changeset update and the changeset tags update in the
     # same transaction to ensure consistency.
     Changeset.transaction do
-      self.save!
+      save!
 
       tags = self.tags
       ChangesetTag.delete_all(:changeset_id => id)
@@ -166,12 +166,12 @@ class Changeset < ActiveRecord::Base
   # that would make it more than 24h long, in which case clip to
   # 24h, as this has been decided is a reasonable time limit.
   def update_closed_at
-    if self.is_open?
-      if (closed_at - created_at) > (MAX_TIME_OPEN - IDLE_TIMEOUT)
-        self.closed_at = created_at + MAX_TIME_OPEN
-      else
-        self.closed_at = Time.now.getutc + IDLE_TIMEOUT
-      end
+    if is_open?
+      self.closed_at = if (closed_at - created_at) > (MAX_TIME_OPEN - IDLE_TIMEOUT)
+                         created_at + MAX_TIME_OPEN
+                       else
+                         Time.now.getutc + IDLE_TIMEOUT
+                       end
     end
   end
 

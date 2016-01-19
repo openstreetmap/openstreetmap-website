@@ -22,8 +22,8 @@ class NoteCommentTest < ActiveSupport::TestCase
   end
 
   def test_body_valid
-    ok = ["Name", "vergrößern", "foo\x0abar",
-          "ルシステムにも対応します", "輕觸搖晃的遊戲"]
+    ok = %W(Name vergrößern foo\nbar
+            ルシステムにも対応します 輕觸搖晃的遊戲)
     bad = ["foo\x00bar", "foo\x08bar", "foo\x1fbar", "foo\x7fbar",
            "foo\ufffebar", "foo\uffffbar"]
 

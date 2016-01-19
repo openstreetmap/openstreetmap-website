@@ -15,7 +15,7 @@ class RemoveSegments < ActiveRecord::Migration
       end
 
       conn_opts = ActiveRecord::Base.connection
-                  .instance_eval { @connection_options }
+                                    .instance_eval { @connection_options }
       args = conn_opts.map(&:to_s) + [prefix]
       fail "#{cmd} failed" unless system cmd, *args
 

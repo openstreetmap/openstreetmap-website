@@ -102,16 +102,16 @@ class ChangesetControllerTest < ActionController::TestCase
     basic_authorization users(:normal_user).email, "test"
     # Create the first user's changeset
     content "<osm><changeset>" +
-      "<tag k='created_by' v='osm test suite checking changesets'/>" +
-      "</changeset></osm>"
+    "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    "</changeset></osm>"
     put :create
     assert_require_public_data
 
     basic_authorization users(:public_user).email, "test"
     # Create the first user's changeset
     content "<osm><changeset>" +
-      "<tag k='created_by' v='osm test suite checking changesets'/>" +
-      "</changeset></osm>"
+    "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    "</changeset></osm>"
     put :create
 
     assert_response :success, "Creation of changeset did not return sucess status"
@@ -527,8 +527,8 @@ EOF
 
       # create a temporary changeset
       content "<osm><changeset>" +
-        "<tag k='created_by' v='osm test suite checking changesets'/>" +
-        "</changeset></osm>"
+      "<tag k='created_by' v='osm test suite checking changesets'/>" +
+      "</changeset></osm>"
       assert_difference "Changeset.count", 1 do
         put :create
       end
@@ -1102,8 +1102,8 @@ EOF
     basic_authorization users(:public_user).email, "test"
 
     content "<osm><changeset>" +
-      "<tag k='created_by' v='osm test suite checking changesets'/>" +
-      "</changeset></osm>"
+    "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    "</changeset></osm>"
     put :create
     assert_response :success
     changeset_id = @response.body.to_i
@@ -1114,8 +1114,8 @@ EOF
     diff.root = XML::Node.new "osmChange"
     modify = XML::Node.new "modify"
     xml_old_node = old_node.to_xml_node
-    xml_old_node["lat"] = (2.0).to_s
-    xml_old_node["lon"] = (2.0).to_s
+    xml_old_node["lat"] = 2.0.to_s
+    xml_old_node["lon"] = 2.0.to_s
     xml_old_node["changeset"] = changeset_id.to_s
     modify << xml_old_node
     diff.root << modify
@@ -1140,8 +1140,8 @@ EOF
     basic_authorization users(:public_user).email, "test"
 
     content "<osm><changeset>" +
-      "<tag k='created_by' v='osm test suite checking changesets'/>" +
-      "</changeset></osm>"
+    "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    "</changeset></osm>"
     put :create
     assert_response :success
     changeset_id = @response.body.to_i
@@ -1225,8 +1225,8 @@ EOF
 
     # create a temporary changeset
     content "<osm><changeset>" +
-      "<tag k='created_by' v='osm test suite checking changesets'/>" +
-      "</changeset></osm>"
+    "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    "</changeset></osm>"
     put :create
     assert_response :forbidden
 
@@ -1235,8 +1235,8 @@ EOF
 
     # create a temporary changeset
     content "<osm><changeset>" +
-      "<tag k='created_by' v='osm test suite checking changesets'/>" +
-      "</changeset></osm>"
+    "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    "</changeset></osm>"
     put :create
     assert_response :success
     changeset_id = @response.body.to_i
@@ -1281,8 +1281,8 @@ EOF
 
     # create a temporary changeset
     content "<osm><changeset>" +
-      "<tag k='created_by' v='osm test suite checking changesets'/>" +
-      "</changeset></osm>"
+    "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    "</changeset></osm>"
     put :create
     assert_response :success
     changeset_id = @response.body.to_i
@@ -1340,8 +1340,8 @@ OSMFILE
 
     # create a temporary changeset
     content "<osm><changeset>" +
-      "<tag k='created_by' v='osm test suite checking changesets'/>" +
-      "</changeset></osm>"
+    "<tag k='created_by' v='osm test suite checking changesets'/>" +
+    "</changeset></osm>"
     put :create
     assert_response :success
     changeset_id = @response.body.to_i
@@ -2317,8 +2317,8 @@ EOF
   # check the result of a list
   def check_list_result(changesets)
     changesets = changesets.where("num_changes > 0")
-                 .order(:created_at => :desc)
-                 .limit(20)
+                           .order(:created_at => :desc)
+                           .limit(20)
     assert changesets.size <= 20
 
     assert_select "ol.changesets", :count => [changesets.size, 1].min do
@@ -2334,8 +2334,8 @@ EOF
   # check the result of a feed
   def check_feed_result(changesets)
     changesets = changesets.where("num_changes > 0")
-                 .order(:created_at => :desc)
-                 .limit(20)
+                           .order(:created_at => :desc)
+                           .limit(20)
     assert changesets.size <= 20
 
     assert_select "feed", :count => [changesets.size, 1].min do

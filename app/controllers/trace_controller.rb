@@ -30,13 +30,13 @@ class TraceController < ApplicationController
     end
 
     # set title
-    if target_user.nil?
-      @title = t "trace.list.public_traces"
-    elsif @user && @user == target_user
-      @title = t "trace.list.your_traces"
-    else
-      @title = t "trace.list.public_traces_from", :user => target_user.display_name
-    end
+    @title = if target_user.nil?
+               t "trace.list.public_traces"
+             elsif @user && @user == target_user
+               t "trace.list.your_traces"
+             else
+               t "trace.list.public_traces_from", :user => target_user.display_name
+             end
 
     @title += t "trace.list.tagged_with", :tags => params[:tag] if params[:tag]
 
@@ -45,19 +45,17 @@ class TraceController < ApplicationController
     # 2 - all traces, not logged in = all public traces
     # 3 - user's traces, logged in as same user = all user's traces
     # 4 - user's traces, not logged in as that user = all user's public traces
-    if target_user.nil? # all traces
-      if @user
-        @traces = Trace.visible_to(@user) # 1
-      else
-        @traces = Trace.visible_to_all # 2
-      end
-    else
-      if @user && @user == target_user
-        @traces = @user.traces # 3 (check vs user id, so no join + can't pick up non-public traces by changing name)
-      else
-        @traces = target_user.traces.visible_to_all # 4
-      end
-    end
+    @traces = if target_user.nil? # all traces
+                if @user
+                  Trace.visible_to(@user) # 1
+                else
+                  Trace.visible_to_all # 2
+                end
+              elsif @user && @user == target_user
+                @user.traces # 3 (check vs user id, so no join + can't pick up non-public traces by changing name)
+              else
+                target_user.traces.visible_to_all # 4
+              end
 
     @traces = @traces.tagged(params[:tag]) if params[:tag]
 
@@ -315,11 +313,11 @@ class TraceController < ApplicationController
     visibility = params[:visibility]
 
     if visibility.nil?
-      if params[:public] && params[:public].to_i.nonzero?
-        visibility = "public"
-      else
-        visibility = "private"
-      end
+      visibility = if params[:public] && params[:public].to_i.nonzero?
+                     "public"
+                   else
+                     "private"
+                   end
     end
 
     if params[:file].respond_to?(:read)

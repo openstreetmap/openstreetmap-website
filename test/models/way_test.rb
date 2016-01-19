@@ -29,7 +29,7 @@ class WayTest < ActiveSupport::TestCase
     way = Way.find(current_ways(:visible_way).id)
     assert way.valid?
     # it already has 1 node
-    1.upto((MAX_NUMBER_OF_WAY_NODES) / 2) do
+    1.upto(MAX_NUMBER_OF_WAY_NODES / 2) do
       way.add_nd_num(current_nodes(:used_node_1).id)
       way.add_nd_num(current_nodes(:used_node_2).id)
     end

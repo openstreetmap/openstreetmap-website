@@ -29,7 +29,7 @@ class AddChangesets < ActiveRecord::Migration
     # all the changesets will have the id of the user that made them.
     # We need to generate a changeset for each user in the database
     execute "INSERT INTO changesets (id, user_id, created_at, open)" +
-      "SELECT id, id, creation_time, false from users;"
+    "SELECT id, id, creation_time, false from users;"
 
     @conv_user_tables.each do |tbl|
       rename_column tbl, :user_id, :changeset_id

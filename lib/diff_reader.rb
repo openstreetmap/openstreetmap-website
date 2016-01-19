@@ -11,7 +11,7 @@ class DiffReader
     "node"     => Node,
     "way"      => Way,
     "relation" => Relation
-  }
+  }.freeze
 
   ##
   # Construct a diff reader by giving it a bunch of XML +data+ to parse

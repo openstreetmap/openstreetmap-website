@@ -81,7 +81,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
       assert_difference("User.count") do
         assert_difference("ActionMailer::Base.deliveries.size", 1) do
           post_via_redirect "/user/save", {},
-                            { "HTTP_ACCEPT_LANGUAGE" => "#{locale}" }
+                            { "HTTP_ACCEPT_LANGUAGE" => locale.to_s }
         end
       end
 

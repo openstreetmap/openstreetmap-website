@@ -63,7 +63,7 @@ module GPX
       highlightgc.stroke("#000000")
       highlightgc.fill("#000000")
 
-      images = frames.times.collect do
+      images = Array(frames) do
         Magick::Image.new(width, height) do |image|
           image.background_color = "white"
           image.format = "GIF"
@@ -81,11 +81,11 @@ module GPX
 
         if m > 0
           frames.times do |n|
-            if n == mm
-              gc = highlightgc.dup
-            else
-              gc = linegc.dup
-            end
+            gc = if n == mm
+                   highlightgc.dup
+                 else
+                   linegc.dup
+                 end
 
             gc.line(px, py, oldpx, oldpy)
 
@@ -148,13 +148,11 @@ module GPX
     end
   end
 
-  private
-
   TrkPt = Struct.new(:segment, :latitude, :longitude, :altitude, :timestamp) do
     def valid?
       latitude && longitude && timestamp &&
-      latitude >= -90 && latitude <= 90 &&
-      longitude >= -180 && longitude <= 180
+        latitude >= -90 && latitude <= 90 &&
+        longitude >= -180 && longitude <= 180
     end
   end
 end

@@ -93,5 +93,5 @@ module Potlatch2
     "yi" => "yi",
     "zh" => "zh_CN",
     "zh-TW" => "zh_TW"
-  }
+  }.freeze
 end

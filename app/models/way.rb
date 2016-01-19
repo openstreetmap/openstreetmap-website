@@ -163,7 +163,7 @@ class Way < ActiveRecord::Base
 
   def update_from(new_way, user)
     Way.transaction do
-      self.lock!
+      lock!
       check_consistency(self, new_way, user)
       unless new_way.preconditions_ok?(nds)
         fail OSM::APIPreconditionFailedError.new("Cannot update way #{id}: data is invalid.")
@@ -180,7 +180,7 @@ class Way < ActiveRecord::Base
 
   def create_with_history(user)
     check_create_consistency(self, user)
-    unless self.preconditions_ok?
+    unless preconditions_ok?
       fail OSM::APIPreconditionFailedError.new("Cannot create way: data is invalid.")
     end
     self.version = 0
@@ -219,7 +219,7 @@ class Way < ActiveRecord::Base
     # provide repeatable reads for the used-by checks. this means it
     # shouldn't be possible to get race conditions.
     Way.transaction do
-      self.lock!
+      lock!
       check_consistency(self, new_way, user)
       rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Way", :member_id => id }).order(:id)
       fail OSM::APIPreconditionFailedError.new("Way #{id} is still used by relations #{rels.collect(&:id).join(",")}.") unless rels.empty?
@@ -265,7 +265,7 @@ class Way < ActiveRecord::Base
     Way.transaction do
       self.version += 1
       self.timestamp = t
-      self.save!
+      save!
 
       tags = self.tags
       WayTag.delete_all(:way_id => id)

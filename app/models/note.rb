@@ -59,6 +59,6 @@ class Note < ActiveRecord::Base
 
   # Fill in default values for new notes
   def set_defaults
-    self.status = "open" unless self.attribute_present?(:status)
+    self.status = "open" unless attribute_present?(:status)
   end
 end

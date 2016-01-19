@@ -33,7 +33,7 @@ class Relation < ActiveRecord::Base
   scope :ways, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Way", :member_id => ids.flatten }) }
   scope :relations, ->(*ids) { joins(:relation_members).where(:current_relation_members => { :member_type => "Relation", :member_id => ids.flatten }) }
 
-  TYPES = %w(node way relation)
+  TYPES = %w(node way relation).freeze
 
   def self.from_xml(xml, create = false)
     p = XML::Parser.string(xml)
@@ -183,7 +183,7 @@ class Relation < ActiveRecord::Base
     # provide repeatable reads for the used-by checks. this means it
     # shouldn't be possible to get race conditions.
     Relation.transaction do
-      self.lock!
+      lock!
       check_consistency(self, new_relation, user)
       # This will check to see if this relation is used by another relation
       rel = RelationMember.joins(:relation).find_by("visible = ? AND member_type = 'Relation' and member_id = ? ", true, id)
@@ -199,7 +199,7 @@ class Relation < ActiveRecord::Base
 
   def update_from(new_relation, user)
     Relation.transaction do
-      self.lock!
+      lock!
       check_consistency(self, new_relation, user)
       unless new_relation.preconditions_ok?(members)
         fail OSM::APIPreconditionFailedError.new("Cannot update relation #{id}: data or member data is invalid.")
@@ -215,7 +215,7 @@ class Relation < ActiveRecord::Base
 
   def create_with_history(user)
     check_create_consistency(self, user)
-    unless self.preconditions_ok?
+    unless preconditions_ok?
       fail OSM::APIPreconditionFailedError.new("Cannot create relation: data or member data is invalid.")
     end
     self.version = 0
@@ -289,7 +289,7 @@ class Relation < ActiveRecord::Base
       t = Time.now.getutc
       self.version += 1
       self.timestamp = t
-      self.save!
+      save!
 
       tags = self.tags.clone
       relation_tags.each do |old_tag|
@@ -312,7 +312,7 @@ class Relation < ActiveRecord::Base
       end
       # if there are left-over tags then they are new and will have to
       # be added.
-      tags_changed |= (!tags.empty?)
+      tags_changed |= !tags.empty?
       RelationTag.delete_all(:relation_id => id)
       self.tags.each do |k, v|
         tag = RelationTag.new
@@ -370,7 +370,7 @@ class Relation < ActiveRecord::Base
       # materially change the rest of the relation.
       any_relations =
         changed_members.collect { |_id, type| type == "relation" }
-        .inject(false) { |a, e| a || e }
+                       .inject(false) { |a, e| a || e }
 
       update_members = if tags_changed || any_relations
                          # add all non-relation bounding boxes to the changeset

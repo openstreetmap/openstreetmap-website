@@ -28,20 +28,20 @@ class Trace < ActiveRecord::Base
   end
 
   def tagstring=(s)
-    if s.include? ","
-      self.tags = s.split(/\s*,\s*/).select { |tag| tag !~ /^\s*$/ }.collect {|tag|
-        tt = Tracetag.new
-        tt.tag = tag
-        tt
-      }
-    else
-      # do as before for backwards compatibility:
-      self.tags = s.split.collect {|tag|
-        tt = Tracetag.new
-        tt.tag = tag
-        tt
-      }
-    end
+    self.tags = if s.include? ","
+                  s.split(/\s*,\s*/).select { |tag| tag !~ /^\s*$/ }.collect do|tag|
+                    tt = Tracetag.new
+                    tt.tag = tag
+                    tt
+                  end
+                else
+                  # do as before for backwards compatibility:
+                  s.split.collect do|tag|
+                    tt = Tracetag.new
+                    tt.tag = tag
+                    tt
+                  end
+                end
   end
 
   def public?
@@ -101,17 +101,17 @@ class Trace < ActiveRecord::Base
     zipped = filetype =~ /Zip archive/
     tarred = filetype =~ /tar archive/
 
-    if gzipped
-      mimetype = "application/x-gzip"
-    elsif bzipped
-      mimetype = "application/x-bzip2"
-    elsif zipped
-      mimetype = "application/x-zip"
-    elsif tarred
-      mimetype = "application/x-tar"
-    else
-      mimetype = "application/gpx+xml"
-    end
+    mimetype = if gzipped
+                 "application/x-gzip"
+               elsif bzipped
+                 "application/x-bzip2"
+               elsif zipped
+                 "application/x-zip"
+               elsif tarred
+                 "application/x-tar"
+               else
+                 "application/gpx+xml"
+               end
 
     mimetype
   end
@@ -123,21 +123,21 @@ class Trace < ActiveRecord::Base
     zipped = filetype =~ /Zip archive/
     tarred = filetype =~ /tar archive/
 
-    if tarred && gzipped
-      extension = ".tar.gz"
-    elsif tarred && bzipped
-      extension = ".tar.bz2"
-    elsif tarred
-      extension = ".tar"
-    elsif gzipped
-      extension = ".gpx.gz"
-    elsif bzipped
-      extension = ".gpx.bz2"
-    elsif zipped
-      extension = ".zip"
-    else
-      extension = ".gpx"
-    end
+    extension = if tarred && gzipped
+                  ".tar.gz"
+                elsif tarred && bzipped
+                  ".tar.bz2"
+                elsif tarred
+                  ".tar"
+                elsif gzipped
+                  ".gpx.gz"
+                elsif bzipped
+                  ".gpx.bz2"
+                elsif zipped
+                  ".zip"
+                else
+                  ".gpx"
+                end
 
     extension
   end
@@ -156,7 +156,7 @@ class Trace < ActiveRecord::Base
     el1["lon"] = longitude.to_s if inserted
     el1["user"] = user.display_name
     el1["visibility"] = visibility
-    el1["pending"] = (!inserted).to_s
+    el1["pending"] = inserted ? "false" : "true"
     el1["timestamp"] = timestamp.xmlschema
 
     el2 = XML::Node.new "description"
@@ -297,7 +297,7 @@ class Trace < ActiveRecord::Base
       self.icon_picture = gpx.icon(min_lat, min_lon, max_lat, max_lon)
       self.size = gpx.actual_points
       self.inserted = true
-      self.save!
+      save!
     end
 
     logger.info "done trace #{id}"

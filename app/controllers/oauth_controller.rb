@@ -41,38 +41,36 @@ class OauthController < ApplicationController
     if @token.invalidated?
       @message = t "oauth.oauthorize_failure.invalid"
       render :action => "authorize_failure"
-    else
-      if request.post?
-        if user_authorizes_token?
-          @token.authorize!(current_user)
-          if @token.oauth10?
-            callback_url = params[:oauth_callback] || @token.client_application.callback_url
-          else
-            callback_url = @token.oob? ? @token.client_application.callback_url : @token.callback_url
-          end
-          @redirect_url = URI.parse(callback_url) unless callback_url.blank?
+    elsif request.post?
+      if user_authorizes_token?
+        @token.authorize!(current_user)
+        callback_url = if @token.oauth10?
+                         params[:oauth_callback] || @token.client_application.callback_url
+                       else
+                         @token.oob? ? @token.client_application.callback_url : @token.callback_url
+                       end
+        @redirect_url = URI.parse(callback_url) unless callback_url.blank?
 
-          if @redirect_url.to_s.blank?
-            render :action => "authorize_success"
-          else
-            @redirect_url.query = if @redirect_url.query.blank?
-                                    "oauth_token=#{@token.token}"
-                                  else
-                                    @redirect_url.query +
-                                    "&oauth_token=#{@token.token}"
-                                  end
-
-            unless @token.oauth10?
-              @redirect_url.query += "&oauth_verifier=#{@token.verifier}"
-            end
-
-            redirect_to @redirect_url.to_s
-          end
+        if @redirect_url.to_s.blank?
+          render :action => "authorize_success"
         else
-          @token.invalidate!
-          @message = t("oauth.oauthorize_failure.denied", :app_name => @token.client_application.name)
-          render :action => "authorize_failure"
+          @redirect_url.query = if @redirect_url.query.blank?
+                                  "oauth_token=#{@token.token}"
+                                else
+                                  @redirect_url.query +
+                                    "&oauth_token=#{@token.token}"
+                                end
+
+          unless @token.oauth10?
+            @redirect_url.query += "&oauth_verifier=#{@token.verifier}"
+          end
+
+          redirect_to @redirect_url.to_s
         end
+      else
+        @token.invalidate!
+        @message = t("oauth.oauthorize_failure.denied", :app_name => @token.client_application.name)
+        render :action => "authorize_failure"
       end
     end
   end

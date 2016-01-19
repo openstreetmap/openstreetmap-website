@@ -117,7 +117,7 @@ class Node < ActiveRecord::Base
     # provide repeatable reads for the used-by checks. this means it
     # shouldn't be possible to get race conditions.
     Node.transaction do
-      self.lock!
+      lock!
       check_consistency(self, new_node, user)
       ways = Way.joins(:way_nodes).where(:visible => true, :current_way_nodes => { :node_id => id }).order(:id)
       fail OSM::APIPreconditionFailedError.new("Node #{id} is still used by ways #{ways.collect(&:id).join(",")}.") unless ways.empty?
@@ -138,7 +138,7 @@ class Node < ActiveRecord::Base
 
   def update_from(new_node, user)
     Node.transaction do
-      self.lock!
+      lock!
       check_consistency(self, new_node, user)
 
       # update changeset first
@@ -184,7 +184,7 @@ class Node < ActiveRecord::Base
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
-    if self.visible?
+    if visible?
       el["lat"] = lat.to_s
       el["lon"] = lon.to_s
     end
@@ -235,7 +235,7 @@ class Node < ActiveRecord::Base
     Node.transaction do
       self.version += 1
       self.timestamp = t
-      self.save!
+      save!
 
       # Create a NodeTag
       tags = self.tags

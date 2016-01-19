@@ -55,7 +55,7 @@ class OldNode < ActiveRecord::Base
 
     add_metadata_to_xml_node(el, self, changeset_cache, user_display_name_cache)
 
-    if self.visible?
+    if visible?
       el["lat"] = lat.to_s
       el["lon"] = lon.to_s
     end

@@ -136,7 +136,7 @@ class ApiController < ApplicationController
     doc = OSM::API.new.get_xml_doc
 
     # add bounds
-    doc.root << bbox.add_bounds_to(XML::Node.new "bounds")
+    doc.root << bbox.add_bounds_to(XML::Node.new("bounds"))
 
     # get ways
     # find which ways are needed
@@ -258,8 +258,8 @@ class ApiController < ApplicationController
 
     api = XML::Node.new "api"
     version = XML::Node.new "version"
-    version["minimum"] = "#{API_VERSION}"
-    version["maximum"] = "#{API_VERSION}"
+    version["minimum"] = API_VERSION.to_s
+    version["maximum"] = API_VERSION.to_s
     api << version
     area = XML::Node.new "area"
     area["maximum"] = MAX_REQUEST_AREA.to_s

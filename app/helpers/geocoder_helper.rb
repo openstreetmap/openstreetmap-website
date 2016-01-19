@@ -2,13 +2,13 @@ module GeocoderHelper
   def result_to_html(result)
     html_options = { :class => "set_position", :data => {} }
 
-    if result[:type] && result[:id]
-      url = url_for(:controller => :browse, :action => result[:type], :id => result[:id])
-    elsif result[:min_lon] && result[:min_lat] && result[:max_lon] && result[:max_lat]
-      url = "/?bbox=#{result[:min_lon]},#{result[:min_lat]},#{result[:max_lon]},#{result[:max_lat]}"
-    else
-      url = "/#map=#{result[:zoom]}/#{result[:lat]}/#{result[:lon]}"
-    end
+    url = if result[:type] && result[:id]
+            url_for(:controller => :browse, :action => result[:type], :id => result[:id])
+          elsif result[:min_lon] && result[:min_lat] && result[:max_lon] && result[:max_lat]
+            "/?bbox=#{result[:min_lon]},#{result[:min_lat]},#{result[:max_lon]},#{result[:max_lat]}"
+          else
+            "/#map=#{result[:zoom]}/#{result[:lat]}/#{result[:lon]}"
+          end
 
     result.each do |key, value|
       html_options[:data][key.to_s.tr("_", "-")] = value

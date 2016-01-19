@@ -20,7 +20,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
     new_up.k = up.k
     new_up.v = "some other value"
     assert_not_equal new_up.v, up.v
-    assert_raise (ActiveRecord::RecordNotUnique) { new_up.save }
+    assert_raise(ActiveRecord::RecordNotUnique) { new_up.save }
   end
 
   def test_check_valid_length

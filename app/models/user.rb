@@ -242,7 +242,7 @@ class User < ActiveRecord::Base
   private
 
   def set_defaults
-    self.creation_time = Time.now.getutc unless self.attribute_present?(:creation_time)
+    self.creation_time = Time.now.getutc unless attribute_present?(:creation_time)
   end
 
   def encrypt_password

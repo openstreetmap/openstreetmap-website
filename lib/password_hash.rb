@@ -7,7 +7,7 @@ module PasswordHash
   SALT_BYTE_SIZE = 32
   HASH_BYTE_SIZE = 32
   PBKDF2_ITERATIONS = 1000
-  DIGEST_ALGORITHM = "sha512"
+  DIGEST_ALGORITHM = "sha512".freeze
 
   def self.create(password)
     salt = SecureRandom.base64(SALT_BYTE_SIZE)
@@ -44,8 +44,6 @@ module PasswordHash
 
     false
   end
-
-  private
 
   def self.hash(password, salt, iterations, size, algorithm)
     digest = OpenSSL::Digest.new(algorithm)

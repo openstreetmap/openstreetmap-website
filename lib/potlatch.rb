@@ -30,9 +30,7 @@ module Potlatch
 
     # Return numeric array
     def self.getarray(s)
-      getlong(s).times.collect do
-        getvalue(s)
-      end
+      Array.new(getlong(s)) { getvalue(s) }
     end
 
     # Return object/hash
@@ -251,11 +249,11 @@ module Potlatch
           tag = $1
           type = $2
           values = $3
-          if values == "-"
-            autotags[type][tag] = []
-          else
-            autotags[type][tag] = values.split(",").sort.reverse
-          end
+          autotags[type][tag] = if values == "-"
+                                  []
+                                else
+                                  values.split(",").sort.reverse
+                                end
         end
       end
 

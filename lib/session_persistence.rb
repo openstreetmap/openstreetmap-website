@@ -20,12 +20,16 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module SessionPersistence
-  private
+  class << self
+    private
 
-  # Install filter when we are included
-  def self.included(controller)
-    controller.after_filter :persist_session
+    # Install filter when we are included
+    def included(controller)
+      controller.after_filter :persist_session
+    end
   end
+
+  private
 
   # Override this method if you don't want to use session[:_remember_for].
   def session_persistence_key

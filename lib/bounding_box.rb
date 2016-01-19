@@ -6,8 +6,6 @@ class BoundingBox
   SCALED_LON_LIMIT = LON_LIMIT * GeoRecord::SCALE
   SCALED_LAT_LIMIT = LAT_LIMIT * GeoRecord::SCALE
 
-  public
-
   def initialize(min_lon, min_lat, max_lon, max_lat)
     @min_lon = min_lon.to_f unless min_lon.nil?
     @min_lat = min_lat.to_f unless min_lat.nil?
@@ -158,20 +156,22 @@ class BoundingBox
     "#{min_lon},#{min_lat},#{max_lon},#{max_lat}"
   end
 
-  private
+  class << self
+    private
 
-  def self.from_bbox_array(bbox_array)
-    unless bbox_array
-      fail OSM::APIBadUserInput.new(
-        "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat")
+    def from_bbox_array(bbox_array)
+      unless bbox_array
+        fail OSM::APIBadUserInput.new(
+          "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat")
+      end
+      # Take an array of length 4, create a bounding box with min_lon, min_lat, max_lon and
+      # max_lat within their respective boundaries.
+      min_lon = [[bbox_array[0].to_f, -LON_LIMIT].max, +LON_LIMIT].min
+      min_lat = [[bbox_array[1].to_f, -LAT_LIMIT].max, +LAT_LIMIT].min
+      max_lon = [[bbox_array[2].to_f, +LON_LIMIT].min, -LON_LIMIT].max
+      max_lat = [[bbox_array[3].to_f, +LAT_LIMIT].min, -LAT_LIMIT].max
+      BoundingBox.new(min_lon, min_lat, max_lon, max_lat)
     end
-    # Take an array of length 4, create a bounding box with min_lon, min_lat, max_lon and
-    # max_lat within their respective boundaries.
-    min_lon = [[bbox_array[0].to_f, -LON_LIMIT].max, +LON_LIMIT].min
-    min_lat = [[bbox_array[1].to_f, -LAT_LIMIT].max, +LAT_LIMIT].min
-    max_lon = [[bbox_array[2].to_f, +LON_LIMIT].min, -LON_LIMIT].max
-    max_lat = [[bbox_array[3].to_f, +LAT_LIMIT].min, -LAT_LIMIT].max
-    BoundingBox.new(min_lon, min_lat, max_lon, max_lat)
   end
 
   def update!(bbox)
