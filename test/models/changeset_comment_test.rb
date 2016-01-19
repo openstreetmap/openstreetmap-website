@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require "test_helper"
 
 class ChangesetCommentTest < ActiveSupport::TestCase
@@ -37,5 +38,24 @@ class ChangesetCommentTest < ActiveSupport::TestCase
 
   def test_comments_of_changeset_count
     assert_equal 3, Changeset.find(changesets(:normal_user_closed_change).id).comments.count
+  end
+
+  def test_body_valid
+    ok = %W(Name vergrößern foo\nbar
+            ルシステムにも対応します 輕觸搖晃的遊戲)
+    bad = ["foo\x00bar", "foo\x08bar", "foo\x1fbar", "foo\x7fbar",
+           "foo\ufffebar", "foo\uffffbar"]
+
+    ok.each do |body|
+      changeset_comment = changeset_comments(:normal_comment_1)
+      changeset_comment.body = body
+      assert changeset_comment.valid?, "#{body} is invalid, when it should be"
+    end
+
+    bad.each do |body|
+      changeset_comment = changeset_comments(:normal_comment_1)
+      changeset_comment.body = body
+      assert !changeset_comment.valid?, "#{body} is valid when it shouldn't be"
+    end
   end
 end
