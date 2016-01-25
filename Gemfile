@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "4.2.5"
+gem "rails", "4.2.5.1"
 
 # Require things which have moved to gems in ruby 1.9
 gem "bigdecimal", "~> 1.1.0", :platforms => :ruby_19
@@ -90,6 +90,9 @@ gem "kgio"
 
 # Used to generate logstash friendly log files
 gem "logstasher"
+
+# Stay with sprockets-rails 2.x pending fix for konacha
+gem "sprockets-rails", "< 3"
 
 # Gems useful for development
 group :development do

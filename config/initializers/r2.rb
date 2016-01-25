@@ -18,4 +18,6 @@ class R2Template < Tilt::Template
   end
 end
 
-Rails.application.assets.register_engine ".r2", R2Template
+Rails.application.config.assets.configure do |env|
+  env.register_engine ".r2", R2Template
+end
