@@ -17,10 +17,13 @@
 # Author: Ruila
 # Author: Shirayuki
 # Author: Stam.nikos
+# Author: SucreRouge
 # Author: Zserdx
 # Author: 아라
 ---
 el:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y στις %H:%M'
@@ -38,7 +41,7 @@ el:
       node: Κόμβος
       node_tag: Χαρακτηριστικό Κόμβου
       notifier: Ειδοποιητής
-      old_node: Παλιός Κόμβος
+      old_node: Παλιός Kόμβος
       old_node_tag: Παλιά Χαρακτηριστικό Κόμβου
       old_relation: Παλιά Σχέση
       old_relation_member: Παλιό Μέλος της Σχέσης
@@ -140,6 +143,8 @@ el:
       relation: Σχέσεις (%{count})
       relation_paginated: Σχέσεις (%{x}-%{y} από %{count})
       comment: Σχόλια (%{count})
+      hidden_commented_by: Κρυμμένο σχόλιο του %{user} <abbr title='%{exact_time}'>%{when}
+        πριν</abbr>
       commented_by: Σχόλιο από χρήστη %{user} <abbr title='%{exact_time}'>πριν από
         %{when}</abbr>
       changesetxml: Ομάδας αλλαγών XML
@@ -239,6 +244,7 @@ el:
       title: Πληροφορίες Χαρακτηριστικών
       introduction: Κάντε κλικ στον χάρτη για να βρείτε κοντινά χαρακτηριστικά.
       nearby: Κοντινά χαρακτηριστικά
+      enclosing: Περικλείει τα χαρακτηριστικά
   changeset:
     changeset_paging_nav:
       showing_page: Σελίδα %{page}
@@ -270,6 +276,7 @@ el:
       sorry: Λυπάμαι, ο κατάλογος των ομάδων αλλαγών που ζήτησες χρειάστηκε πολύ χρόνο
         για να ανακτηθεί.
     rss:
+      title_all: OpenStreetMap συζήτηση ομάδας αλλαγών
       commented_at_html: Ενημερώθηκε %{when} πριν
       commented_at_by_html: Ενημερώθηκε %{when} πριν από τον %{user}
       full: Πλήρης συζήτηση
@@ -596,10 +603,13 @@ el:
           battlefield: Πεδίο Μάχης
           boundary_stone: Συνοριακή Στήλη
           building: Ιστορικό Κτίριο
+          bunker: Οχυρό
           castle: Κάστρο
           church: Εκκλησία
+          city_gate: Είσοδος της Πόλης
           citywalls: Τείχη της Πόλης
           fort: Οχυρό
+          heritage: Μνημείο Πολιτιστικής Κληρονομιάς
           house: Σπίτι
           icon: Εικονίδιο
           manor: Έπαυλη
@@ -644,9 +654,11 @@ el:
           road: Περιοχή Δρόμων
           village_green: Πράσινο Χωριό
           vineyard: Αμπέλι
+          "yes": Χρήση γης
         leisure:
           beach_resort: Παραθαλάσσιο Θέρετρο
           bird_hide: Καταφύγιο Πουλιών
+          club: Κλαμπ
           common: Κοινόχρηστη Γη
           dog_park: Πάρκο σκύλων
           fishing: Αλιευτική Περιοχή
@@ -674,8 +686,10 @@ el:
           "yes": Ψυχαγωγία
         man_made:
           lighthouse: Φάρος
+          pipeline: Αγωγός
           tower: Πύργος
           works: Εργοστάσιο
+          "yes": Τεχνητό
         military:
           airfield: Στρατιωτικό Αεροδρόμιο
           barracks: Στρατώνας
@@ -708,6 +722,7 @@ el:
           reef: Ύφαλος
           ridge: Σκόπελος
           rock: Βράχος
+          saddle: Σέλα
           sand: Άμμος
           scrub: Θαμνότοπος
           spring: Πηγή
@@ -758,6 +773,7 @@ el:
           town: Κωμόπολη
           unincorporated_area: Μη-ενσωματωμένη Περιοχή
           village: Χωριό
+          "yes": Μέρος
         railway:
           abandoned: Εγκαταλελειμμένος Σιδηρόδρομος
           construction: Σιδηρόδρομος υπό Κατασκευή
@@ -859,6 +875,7 @@ el:
           "yes": Κατάστημα
         tourism:
           alpine_hut: Αλπικό Καταφύγιο
+          apartment: Διαμέρισμα
           artwork: Έργο Τέχνης
           attraction: Αξιοθέατο
           bed_and_breakfast: Ενοικιαζόμενα Δωμάτια
@@ -866,6 +883,7 @@ el:
           camp_site: Χώρος Κατασκήνωσης
           caravan_site: Χώρος Τροχόσπιτων
           chalet: Σαλέ
+          gallery: Γκαλερί
           guest_house: Ξενώνας
           hostel: Ξενώνας
           hotel: Ξενοδοχείο
@@ -897,6 +915,7 @@ el:
           wadi: Wadi
           waterfall: Καταρράκτης
           weir: Υδατοφράκτης
+          "yes": Κανάλι
       admin_levels:
         level2: Σύνορο Χώρας
         level4: Σύνορο Πολιτείας
@@ -918,6 +937,9 @@ el:
       no_results: Δεν βρέθηκε κανένα αποτέλεσμα
       more_results: Περισσότερα αποτελέσματα
   layouts:
+    project_name:
+      title: OpenStreetMap
+      h1: OpenStreetMap
     logo:
       alt_text: Λογότυπο OpenStreetMap
     home: Μετάβαση στην Τοποθεσία Σπιτιού
@@ -948,6 +970,7 @@ el:
     partners_ic: Imperial College του Λονδίνου
     partners_bytemark: Bytemark Hosting
     partners_partners: συνεργάτες
+    partners_url: http://wiki.openstreetmap.org/wiki/Partners
     osm_offline: Η βάση δεδομένων του OpenStreetMap είναι προσωρινά εκτός λειτουργίας
       λόγω εργασιών συντήρησης της βάσης δεδομένων.
     osm_read_only: Η βάση δεδομένων του OpenStreetMap έχει τεθεί προσωρινά σε λειτουργία
@@ -985,14 +1008,14 @@ el:
         Το OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> είναι βάση <i>ανοικτών δεδομένων</i> αδειοδοτημένα υπό την <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) από το <a
         href="http://osmfoundation.org/">Ίδρυμα OpenStreetMap</a> (OSMF).
       intro_2_html: Είστε ελεύθεροι να αντιγράψετε, να διανείμετε, μεταδώσετε και
-        προσαρμόσετε τα δεδομένα μας εφόσον μνημονέψετε το OpenStreetMap και τους
-        συνεισφέροντές του. Εάν αλλοιώσετε ή αξιοποιήσετε τα δεδομένα μας, μπορείτε
+        προσαρμόσετε τα δεδομένα μας εφόσον κάνετε αναφορά στο OpenStreetMap και στους
+        συνεισφέροντές του. Εάν τροποποιήσετε ή αξιοποιήσετε τα δεδομένα μας, μπορείτε
         να διανείμετε το αποτέλεσμα μόνο σύμφωνα με την ίδια άδεια. Ο πλήρης <a href="http://opendatacommons.org/licenses/odbl/1.0/">νομικός
         κώδικας</a> εξηγεί τα δικαιώματα και τις υποχρεώσεις.
       intro_3_html: |-
         Η χαρτογράφηση στα πλακίδια χάρτη, και η τεκμηρίωση μας, είναι αδειοδοτημένες υπο την άδεια <a href="http://creativecommons.org/licenses/by-sa/2.0/">Creative
         Commons Attribution-ShareAlike 2.0</a> (CC-BY-SA).
-      credit_title_html: Πως να μνημονέψετε το OpenStreetMap
+      credit_title_html: Πως να κάνετε αναφορά στο OpenStreetMap
       credit_1_html: |-
         Απαιτείται να χρησιμοποιείτε την αναφορά στο &ldquo;&copy; Συνεισφέροντες του
         OpenStreetMap&rdquo;.
@@ -1148,6 +1171,16 @@ el:
       title: Λίστες Αλληλογραφίας
       description: Κάντε μία ερώτηση ή συζητήστε ενδιαφέροντα θέματα σε ένα ευρύ φάσμα
         τοπικών ή περιφερειακών λιστών αλληλογραφίας.
+    forums:
+      title: Φόρουμ
+    irc:
+      title: IRC
+      description: Διαδραστική συνομιλία σε πολλές διαφορετικές γλώσσες και για πολλά
+        θέματα.
+    switch2osm:
+      title: switch2osm
+      description: Βοήθεια για εταιρείες και οργανισμούς για μετάβαση σε χάρτες που
+        βασίζονται στο OpenStreetMap και άλλες υπηρεσίες.
     wiki:
       url: http://wiki.openstreetmap.org/
       title: wiki.openstreetmap.org
@@ -1155,7 +1188,7 @@ el:
   about_page:
     next: Επόμενη
     copyright_html: <span>&copy;</span>Συνεισφέροντες<br> του OpenStreetMap
-    used_by: Το %{name} προσφέρει δεδομένα χάρτη σε εκατοντάδες ιστοσελίδες, εφαρμογές
+    used_by: Το %{name} προσφέρει δεδομένα χάρτη σε χιλιάδες ιστότοπους, εφαρμογές
       κινητού και συσκευές υλικού
     lede_text: |-
       Το OpenStreetMap αναπτύσσεται από μια κοινότητα χαρτογράφων που συνεισφέρουν και διατηρούν δεδομένα
@@ -1172,6 +1205,7 @@ el:
       τα δεδομένα με συγκεκριμένους τρόπους, πρέπει να διανείμετε το αποτέλεσμα μόνο
       υπό την ίδια άδεια χρήσης. Δείτε τη σελίδα <a href=''%{copyright_path}''>Πνευματικά
       Δικαιώματα και Άδεια Χρήσης</a> για λεπτομέρειες.'
+    legal_title: Νομικό
     partners_title: Συνεργάτες
   notifier:
     diary_comment_notification:
@@ -1405,6 +1439,7 @@ el:
       table:
         entry:
           motorway: Αυτοκινητόδρομος
+          main_road: Κύρια οδός
           trunk: Αυτοκινητόδρομος
           primary: Κύρια Οδός
           secondary: Δευτερεύουσα Οδός
@@ -1425,7 +1460,8 @@ el:
           - Διάδρομος Αεροδρομίου
           - τροχόδρομος
           apron:
-            1: τερματικός σταθμός
+          - Πίστα προσγείωσης αεροδρομίου
+          - τερματικός σταθμός
           admin: Διοικητικό όριο
           forest: Δάσος
           wood: Φυσικό δάσος
@@ -1505,6 +1541,7 @@ el:
       save_button: Αποθήκευση Αλλαγών
       visibility: 'Ορατότητα:'
       visibility_help: τι σημαίνει αυτό;
+      visibility_help_url: http://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     trace_form:
       upload_gpx: 'Αποστολή Αρχείου GPX:'
       description: 'Περιγραφή:'
@@ -1597,6 +1634,7 @@ el:
       allow_read_gpx: διαβάσει τα ιδιωτικά σας GPS ίχνη.
       allow_write_gpx: ανεβάσει ίχνη GPS.
       allow_write_notes: τροποποιήσει σημειώσεις.
+      grant_access: Παροχή Πρόσβασης
     oauthorize_success:
       verification: Ο κωδικός επαλήθευσης είναι %{code}.
     oauthorize_failure:
@@ -1659,6 +1697,7 @@ el:
       register now: Εγγραφείτε τώρα
       with username: 'Έχετε ήδη λογαριασμό OpenStreetMap; Παρακαλώ συνδεθείτε με το
         όνομα χρήστη και κωδικό πρόσβασης:'
+      with external: 'Εναλλακτικά, χρησιμοποιήστε τρίτην υπηρεσία για είσοδο:'
       new to osm: Νέοι στο OpenStreetMap;
       to make changes: Για να κάνεις αλλαγές στα δεδομένα του OpenStreetMap, πρέπει
         να έχεις λογαριασμό.
@@ -1743,6 +1782,7 @@ el:
         το αλλάξετε αργότερα από τις προτιμήσεις.
       password: 'Κωδικός:'
       confirm password: 'Επιβεβαίωση Κωδικού:'
+      use external auth: 'Εναλλακτικά, χρησιμοποιήστε τρίτην υπηρεσία για είσοδο:'
       continue: Εγγραφή
       terms accepted: Ευχαριστούμε για την αποδοχή των νέων όρων συνεισφοράς!
       terms declined: Λυπούμαστε για το ότι αποφασίσατε να μην αποδεχθείτε τους νέους
@@ -1972,6 +2012,8 @@ el:
         Η παρούσα απόφαση θα εξεταστεί από ένα διαχειριστή σύντομα, ή
         μπορείτε να επικοινωνήσετε με τον %{webmaster} αν θέλετε να συζητήσετε αυτό το θέμα.
         </p>
+    auth_failure:
+      unknown_signature_algorithm: Άγνωστος αλγόριθμος υπογραφής
   user_role:
     filter:
       not_a_role: Το αλφαριθμητικό `%{role}' δεν είναι ένας έγκυρος ρόλος.
@@ -2200,6 +2242,7 @@ el:
         roundabout_without_exit: Στον κυκλικό κόμβο πάρτε την %{name}
         leave_roundabout_without_exit: Βγείτε από τον κυκλικό κόμβο - %{name}
         stay_roundabout_without_exit: Μείνετε στον κυκλικό κόμβο - %{name}
+        start_without_exit: Ξεκινήστε στο τέλος του %{name}
         destination_without_exit: Φτάσατε στον προορισμό σας
         against_oneway_without_exit: Πηγαίνετε αντίθετα στον μονόδρομο %{name}
         end_oneway_without_exit: Τέλος του μονόδρομου %{name}

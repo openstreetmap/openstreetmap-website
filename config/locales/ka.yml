@@ -12,6 +12,8 @@ ka:
   activerecord:
     models:
       acl: ხელმისაწვდომობის შეზღუდვის სია
+      changeset: ცვლილებების პაკეტი
+      changeset_tag: ცვლილებების პაკეტის ტეგი
       country: ქვეყანა
       diary_comment: დღიურის კომენტარი
       diary_entry: დღიურის ჩანაწერი
@@ -19,24 +21,35 @@ ka:
       language: ენა
       message: შეტყობინება
       node: კვანძი
+      node_tag: წერტილის ტეგი
       notifier: გამაფრთხილებელი
       old_node: ძველი კვანძი
+      old_node_tag: წერტილის ძველი ტეგი
+      old_relation: ძველი ურთიერთობა
+      old_relation_member: ურთიერთობის ძველი წევრი
+      old_relation_tag: ურთიერთობის ძველი ტეგი
       old_way: ძველი გზა
       old_way_node: ძველი გზის კვანძი
+      old_way_tag: ხაზის ძველი ტეგი
       relation: ურთიერთობა
+      relation_member: ურთიერთობის წევრი
+      relation_tag: ურთიერთობის ტეგი
       session: სესია
       trace: ბილიკი
       tracepoint: ბილიკის წერტილი
+      tracetag: მარშრუტის ტეგი
       user: მომხმარებელი
       user_preference: მომხმარებლის კონფიგურაცია
+      user_token: მომხმარებლის სანიშნი
       way: გზა
       way_node: გზის კვანძი
+      way_tag: ხაზის ტეგი
     attributes:
       diary_comment:
         body: ტექსტი
       diary_entry:
         user: მომხმარებელი
-        title: სათაური
+        title: თემა
         latitude: განედი
         longitude: გრძედი
         language: ენა
@@ -54,7 +67,7 @@ ka:
         description: აღწერა
       message:
         sender: გამგზავნი
-        title: სათაური
+        title: თემა
         body: ტექსტი
         recipient: მიმღები
       user:
@@ -69,6 +82,9 @@ ka:
     potlatch:
       name: Potlatch 1
       description: Potlatch 1 (ბრაუზერის რედაქტორი)
+    id:
+      name: iD
+      description: iD (ბრაუზერის რედაქტორი)
     potlatch2:
       name: Potlatch 2
       description: Potlatch 2 (ბრაუზერის რედაქტორი)
@@ -76,8 +92,21 @@ ka:
       name: დისტანციური მართვა
       description: დისტანციური მათვა (JOSM, ან Merkaartor)
   browse:
+    created: შეიქმნა
+    closed: დახურულია
+    created_html: შეიქმნა <abbr title='%{title}'>%{time} წინ</abbr>
+    closed_html: დაიხურა <abbr title='%{title}'>%{time} წინ</abbr>
+    created_by_html: შეიქმნა <abbr title='%{title}'>%{time} წინ</abbr> ავტორი %{user}
+    deleted_by_html: წაიშალა <abbr title='%{title}'>%{time} წინ</abbr> ავტორი %{user}
+    edited_by_html: დარედაქტირდა <abbr title='%{title}'>%{time} წინ</abbr> ავტორი
+      %{user}
+    closed_by_html: დაიხურა <abbr title='%{title}'>%{time} წინ</abbr> ავტორი %{user}
+    version: ვერსია
+    in_changeset: ცვლილებების პაკეტი
+    anonymous: ანონიმი
+    no_comment: (უკომენტარო)
     changeset:
-      title: ცვლილებების პაკეტი
+      title: 'ცვლილებების პაკეტი: %{id}'
       changesetxml: ცვლილებების პაკეტის XML
       feed:
         title: ცვლილებების პაკეტი %{id}
@@ -92,7 +121,7 @@ ka:
       entry: ურთიერთობა %{relation_name}
       entry_role: ურთიერთობა %{relation_name} (როგორც %{relation_role})
     not_found:
-      sorry: უკაცრავად, %{type} იდენტიფიკატორით %{id}, ვერ მოიძებნა.
+      sorry: 'სამწუხაროდ, %{type} #%{id} ვერ მოიძებნა.'
       type:
         node: კვანძი
         way: გზა
@@ -117,8 +146,8 @@ ka:
     tag_details:
       wikipedia_link: სტატია %{page} ვიკიპედიაში
     note:
-      title: შენიშვნა
-      description: 'აღწერა:'
+      title: 'შენიშვნა: %{id}'
+      description: აღწერა
   changeset:
     changeset_paging_nav:
       showing_page: გვერდი %{page}
@@ -352,7 +381,7 @@ ka:
           archaeological_site: არქეოლოგიური გათხრები
           battlefield: ბრძოლის ველი
           boundary_stone: სასაზღვრო ქვა
-          building: შენობა
+          building: ისტორიული შენობა
           castle: ციხე-სიმაგრე
           church: ეკლესია
           fort: ფორტი
@@ -490,7 +519,7 @@ ka:
           monorail: მონორელსი
           platform: რკინიგზის ბაქანი
           station: რკინიგზის სადგური
-          subway: მეტროსადგური
+          subway: მეტრო
           subway_entrance: მეტროში შესასვლელი
           switch: სარკინიგზო ისარი
           tram: ტრამვაი
@@ -580,7 +609,7 @@ ka:
   layouts:
     logo:
       alt_text: OpenStreetMap-ის ლოგო
-    home: სახლი
+    home: საწყის ადგილზე დაბრუნება
     logout: გასვლა
     log_in: შესვლა
     sign_up: რეგისტრაცია
@@ -596,7 +625,7 @@ ka:
     partners_partners: პარტნიორები
     partners_url: http://wiki.openstreetmap.org/wiki/Partners
     help: დახმარება
-    copyright: საავტორო უფლები და ლიცენზია
+    copyright: საავტორო უფლები
     community: თანასაზოგადოება
     community_blogs: თანასაზოგადოების ბლოგები
     foundation: ფონდი
@@ -878,13 +907,13 @@ ka:
       confirm password: 'პაროლის დადასტურება:'
       flash changed: თქვენი პაროლი შეიცვალა.
     new:
-      title: ანგარიშის შექმნა
+      title: რეგისტრაცია
       email address: 'ელ. ფოსტის მისამართი:'
       confirm email address: 'ელ. ფოსტის მისამართის დადასტურება:'
       display name: 'სახელი ეკრანზე:'
       password: 'პაროლი:'
       confirm password: 'პაროლის დადასტურება:'
-      continue: გაგრძელება
+      continue: რეგისტრაცია
     terms:
       consider_pd_why: რა არის ეს?
       agree: მიღება
@@ -899,7 +928,7 @@ ka:
     view:
       my diary: ჩემი დღიური
       new diary entry: დღიურში ახალი ჩანაწერის გაკეთება
-      my edits: ჩემი რედაქტირებები
+      my edits: ჩემი რედაქტირება
       my settings: ჩემი პარამეტრები
       my comments: ჩემი კომენტარები
       send message: შეტყობინების გაგზავნა
@@ -956,7 +985,7 @@ ka:
       save changes button: ცვლილებების შენახვა
       return to profile: პროფილში დაბრუნება
     confirm:
-      heading: მომხმარებლის ანგარიშის დადასტურება
+      heading: შეამოწმეთ თქვენი ელ.ფოსტა!
       button: დადასტურება
     confirm_resend:
       failure: მომხმარებელი %{name} ვერ მოიძებნა.

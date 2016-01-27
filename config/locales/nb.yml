@@ -14,6 +14,7 @@
 # Author: Nemo bis
 # Author: Nghtwlkr
 # Author: Oyvind
+# Author: SuperPotato
 # Author: The real emj
 # Author: 6400
 ---
@@ -34,7 +35,7 @@ nb:
       message: Melding
       node: Node
       node_tag: Nodemerkelapp
-      notifier: Varsling
+      notifier: Varsler
       old_node: Gammel node
       old_node_tag: Gammel nodemerkelapp
       old_relation: Gammel relasjon
@@ -172,6 +173,7 @@ nb:
         way: vei
         relation: relasjon
         changeset: endringsforløp
+        note: merknad
     timeout:
       sorry: Beklager, det tok for lang tid å hente data for %{type} med ID %{id}.
       type:
@@ -179,6 +181,7 @@ nb:
         way: vei
         relation: relasjon
         changeset: endringsforløp
+        note: merknad
     redacted:
       redaction: Maskering %{id}
       message_html: Versjon %{version} av denne %{type} kan ikke vises fordi den er
@@ -188,8 +191,9 @@ nb:
         way: vei
         relation: relasjon
     start_rjs:
-      feature_warning: Laster %{num_features} funksjonalitetet som kan gjøre at nettleseren
-        blir treg eller stopper helt. Vil du vise frem disse dataene?
+      feature_warning: Henter %{num_features} kartkomponenter, noe som kan gjøre at
+        nettleseren blir treg eller stopper helt. Er du sikker på at du vil vise frem
+        disse dataene?
       load_data: Last inn data
       loading: Laster...
     tag_details:
@@ -202,24 +206,25 @@ nb:
       telephone_link: Ring %{phone_number}
     note:
       title: 'Merknad: %{id}'
-      new_note: Ny notis
+      new_note: Ny merknad
       description: Beskrivelse
       open_title: 'Uavklart merknad #%{note_name}'
       closed_title: 'Avklart merknad: #%{note_name}'
       hidden_title: 'Skjult notis #%{note_name}'
-      open_by: Opprettet av %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
-      open_by_anonymous: Opprettet av anonym bruker <abbr title='%{exact_time}'>%{when}
+      open_by: Opprettet av %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
+      open_by_anonymous: Opprettet av anonym bruker for <abbr title='%{exact_time}'>%{when}
         siden</abbr>
-      commented_by: Kommentar fra %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
-      commented_by_anonymous: Kommentar fra anonym bruker <abbr title='%{exact_time}'>%{when}
+      commented_by: Kommentar fra %{user} for <abbr title='%{exact_time}'>%{when}
         siden</abbr>
-      closed_by: Løst av %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
-      closed_by_anonymous: Løst av anonym bruker <abbr title='%{exact_time}'>%{when}
+      commented_by_anonymous: Kommentar fra anonym bruker for <abbr title='%{exact_time}'>%{when}
         siden</abbr>
-      reopened_by: Gjenaktivisert av %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
-      reopened_by_anonymous: Gjenaktivisert av anonym bruker <abbr title='%{exact_time}'>%{when}
+      closed_by: Løst av %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
+      closed_by_anonymous: Løst av anonym bruker for <abbr title='%{exact_time}'>%{when}
         siden</abbr>
-      hidden_by: Skjult av %{user} <abbr title='%{exact_time}'>%{when} siden</abbr>
+      reopened_by: Gjenåpnet av %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
+      reopened_by_anonymous: Gjenåpnet av anonym bruker for <abbr title='%{exact_time}'>%{when}
+        siden</abbr>
+      hidden_by: Skjult av %{user} for <abbr title='%{exact_time}'>%{when} siden</abbr>
     query:
       title: Forespørselsesfunksjoner
       introduction: Klikk på kartet for å finne nærliggende trekkplaster.
@@ -236,7 +241,7 @@ nb:
       view_changeset_details: Vis detaljert endringsforløp
     changesets:
       id: ID
-      saved_at: Lagret
+      saved_at: Lagret den
       user: Bruker
       comment: Kommentar
       area: Område
@@ -258,28 +263,29 @@ nb:
       title_all: Openstreetmap endringsforløps-diskusjon
       title_particular: 'OpenStreetMap endringsforløp #%{changeset_id} diskusjon'
       comment: Ny kommentar til endringsforløp %{changeset_id} av %{author}
-      commented_at_html: Uppdatert %{when} siden
-      commented_at_by_html: Oppdatert %{when} siden, av %{user}
+      commented_at_html: Oppdatert for %{when} siden
+      commented_at_by_html: Oppdatert for %{when} siden av %{user}
       full: Fullstendig diskusjon
   diary_entry:
     new:
       title: Ny dagbokoppføring
+      publish_button: Publiser
     list:
       title: Brukernes dagbøker
       title_friends: Dagbøkene til vennene dine
       title_nearby: Dagbøkene til nærliggende brukere
-      user_title: Dagboken for %{user}
+      user_title: Dagboken til %{user}
       in_language_title: Dagbokoppføringer på %{language}
       new: Ny dagbokoppføring
-      new_title: Skriv en ny oppføring i i din brukerdagbok
-      no_entries: Ingen oppføringer i dagboka
-      recent_entries: Nye oppføringer i dagboka
-      older_entries: Eldre oppføringer
-      newer_entries: Nyere oppføringer
+      new_title: Skriv et nytt innlegg i brukerdagboken din
+      no_entries: Ingen innlegg i dagboka
+      recent_entries: Nye innlegg i dagboka
+      older_entries: Eldre innlegg
+      newer_entries: Nyere innlegg
     edit:
-      title: Rediger oppføring i dagboka
+      title: Rediger dagbokinnlegg
       subject: 'Emne:'
-      body: 'Kropp:'
+      body: 'Innhold:'
       language: 'Språk:'
       location: 'Posisjon:'
       latitude: 'Breddegrad:'
@@ -289,29 +295,29 @@ nb:
       marker_text: Lokasjon for dagbokoppføring
     view:
       title: '%{user} sin dagbok | %{title}'
-      user_title: Dagboken for %{user}
+      user_title: Dagboken til %{user}
       leave_a_comment: Legg igjen en kommentar
-      login_to_leave_a_comment: '%{login_link} for å legge igjen en kommentar'
+      login_to_leave_a_comment: '%{login_link} for å legge inn en kommentar'
       login: Logg inn
       save_button: Lagre
     no_such_entry:
       title: Ingen slik dagbokoppføring
-      heading: Ingen oppføring med %{id}
+      heading: 'Intet innlegg med id: %{id}'
       body: Det er ingen dagbokinnlegg eller kommentar med ID %{id}. Sjekk om du har
         skrevet feil eller om lenka du klikket er feil.
     diary_entry:
       posted_by: Skrevet av %{link_user} %{created} på %{language_link}
-      comment_link: Kommenter denne oppføringen
-      reply_link: Svar på denne oppføringen
+      comment_link: Kommenter dette innlegget
+      reply_link: Svar på denne innlegget
       comment_count:
         one: '{count} kommentar'
         zero: Ingen kommentarer
         other: '%{count} kommentarer'
-      edit_link: Rediger denne oppføringen
-      hide_link: Skjul denne oppføringen
+      edit_link: Rediger innlegget
+      hide_link: Skjul innlegget
       confirm: Bekreft
     diary_comment:
-      comment_from: Kommentar fra %{link_user}, %{comment_created_at}
+      comment_from: Kommentar fra %{link_user} den %{comment_created_at}
       hide_link: Skjul denne kommentaren
       confirm: Bekreft
     location:
@@ -320,16 +326,16 @@ nb:
       edit: Rediger
     feed:
       user:
-        title: Oppføringer i OpenStreetMap-dagboka for %{user}
-        description: Nye oppføringer i OpenStreetMap-dagboka til %{user}
+        title: Innlegg i OpenStreetMap-dagboka for %{user}
+        description: Nye innlegg i OpenStreetMap-dagboka til %{user}
       language:
-        title: Oppføringer i OpenStreetMap-dagbøker på %{language_name}
-        description: Nye oppføringer i dagbøkene til OpenStreetMap-brukere på %{language_name}
+        title: Innlegg i OpenStreetMap-dagbøker på %{language_name}
+        description: Nye innlegg i dagbøkene til OpenStreetMap-brukere på %{language_name}
       all:
-        title: Oppføringer OpenStreetMap-dagboka
-        description: Nye oppføringer i dagbøkene til OpenStreetMap-brukere
+        title: Innlegg i OpenStreetMap-dagboka
+        description: Nye innlegg i dagbøkene til OpenStreetMap-brukere
     comments:
-      has_commented_on: '%{display_name} har kommentert på følgende dagboksoppføring'
+      has_commented_on: '%{display_name} har kommentert følgende dagbokinnlegg'
       post: Skriv
       when: Når
       comment: Kommentar
@@ -341,7 +347,7 @@ nb:
     start:
       area_to_export: Område som skal eksporteres
       manually_select: Velg et annet område manuelt
-      format_to_export: Format for eksport
+      format_to_export: Eksportformat
       osm_xml_data: OpenStreetMap XML-data
       map_image: Kartbilde (viser standardlag)
       embeddable_html: HTML som kan bygges inn
@@ -349,13 +355,13 @@ nb:
       export_details: Data fra OpenStreetMap er lisensiert under <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
         Data Commons Open Database License</a> (ODbL).
       too_large:
-        advice: 'Hvis eksporten over feiler, vær vennlig å vurdere bruk av en av kildene
-          i listen under:'
+        advice: 'Hvis eksporten over skulle feile kan du forsøke å bruke av en av
+          kildene i listen under:'
         body: Dette området er for stort for å bli eksportert som OpenStreetMap XML-data.
           Forstørr utvalg eller velg et mindre område. Eller du kan bruke en av kildene
           angitt under for nedlasting av bulkdata.
         planet:
-          title: Planet-OSM
+          title: Planet OSM
           description: Regelmessig oppdaterte kopier av hele OpenStreetMap-databasen
         overpass:
           title: Overførings-API
@@ -375,7 +381,7 @@ nb:
       scale: Skala
       max: maks
       image_size: Bildestørrelse
-      zoom: Forstørr
+      zoom: Zoom
       add_marker: Legg til en markør på kartet
       latitude: 'Bre:'
       longitude: 'Len:'
@@ -995,9 +1001,9 @@ nb:
     legal_babble:
       title_html: Opphavsrett og lisenser
       intro_1_html: |-
-        OpenStreetMap er <i>åpne data</i>, lisensiert under <a
+        OpenStreetMap<sup><a href="#trademarks">&reg;</a></sup> er <i>åpne data</i>, lisensiert under <a
         href="http://opendatacommons.org/licenses/odbl/">Open Data
-        Commons Open Database License</a> (ODbL).
+        Commons Open Database License</a> (ODbL) av <a href="http://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).
       intro_2_html: Du står fritt til å kopiere, distribuere, overføre og tilpasse
         våre kart og data, så lenge du krediterer OpenStreetMap og dens bidragsytere.
         Hvis du endrer eller bygger videre på våre kart eller data, må du distribuere
@@ -1023,9 +1029,10 @@ nb:
         alt: Eksempel på hvordan man angir OpenStreetMap som kartkilde på en nettside
         title: Eksempel på kildehenvisning
       more_title_html: Finn ut mer
-      more_1_html: |2-
-          Les mer om hvordan du bruker våre data i den <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">juridiske
-          FAQ-en
+      more_1_html: Les mer om hvordan du kan bruke dataene våre og hvordan du oppgir
+        oss som kilde på <a href="http://osmfoundation.org/Licence">siden om OSMF-lisensen</a>
+        og i den <a href="http://wiki.openstreetmap.org/wiki/Legal_FAQ">juridiske
+        OSS-en</a>.
       more_2_html: |-
         Selv om OpenStreetMap er åpne data, kan vi ikke bidra med gratiskart-API for tredjepartsutviklere. Nærmere informasjon finnes på <a href="http://wiki.openstreetmap.org/wiki/API_usage_policy">API Usage Policy</a>,
         <a href="http://wiki.openstreetmap.org/wiki/Tile_usage_policy">Tile Usage Policy</a> og <a href="http://wiki.openstreetmap.org/wiki/Nominatim#Usage_Policy">Nominatim Usage Policy</a>.
@@ -1118,6 +1125,12 @@ nb:
         strekning, f.eks. navnet på en restaurant eller fartsgrensen på en vei.
     rules:
       title: Regler!
+      paragraph_1_html: OpenStreetMap har få formelle regler, men vi forventer at
+        alle deltagere samarbeider og kommuniserer med fellesskapet. Hvis du er interessert
+        i andre aktiviteter enn manuell redigering, vennligst les og følg retningslinjene
+        for <a href='http://wiki.openstreetmap.org/wiki/Import/Guidelines'>import</a>
+        og <a href='http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>automatiske
+        redigeringer</a>.
     questions:
       title: Noen spørsmål?
       paragraph_1_html: |-
@@ -1171,11 +1184,15 @@ nb:
         område eller saksbestemte e-postlister.
     forums:
       title: Forum
+      description: Spørsmål og diskusjoner for de som foretrekker et oppslagstavlelignende
+        grensesnitt.
     irc:
       title: IRC
       description: Interaktiv sludrekanal på flere ulike språk som dekker mange tema.
     switch2osm:
       title: switch2osm
+      description: Hjelp for bedrifter og organisasjoner som vil bytte til OpenStreetMap-baserte
+        kart og andre tjenester.
     wiki:
       url: http://wiki.openstreetmap.org/
       title: wiki.openstreetmap.org
@@ -1183,8 +1200,8 @@ nb:
   about_page:
     next: Neste
     copyright_html: <span>&copy;</span>OpenStreetMap<br>bidragsytere
-    used_by: '%{name} fordeler kartdata til hundrevis av nettsteder, mobilapper og
-      maskinvareenheter'
+    used_by: Tusenvis av nettsteder, mobilapper og maskinvareenheter bruker kartdata
+      fra %{name}
     lede_text: OpenStreetMap er bygd av et fellesskap av kartleggere som oppretter
       og vedlikeholder data om veier, stier, kafeer, jernbanestasjoner og diverse
       annet, over hele verdien.
@@ -1204,10 +1221,14 @@ nb:
       resultatet under samme lisens. Se <a href=''%{copyright_path}''>Opphavsrett
       og lisenssiden</a> for detaljer.'
     legal_title: Juridisk
+    legal_html: |-
+      Dette nettstedet og mange tilknyttede tjenester drives formelt av <a href='http://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF) på vegne av fellesskapet.
+      <br>
+      Vennligst <a href='http://osmfoundation.org/Contact'>kontakt OSMF</a> om du har spørsmål knyttet til lisensiering, opphavsrett eller andre juridiske spørsmål.
     partners_title: Partnere
   notifier:
     diary_comment_notification:
-      subject: '[OpenStreetMap] %{user} kommenterte på en oppføring i dagboka di'
+      subject: '[OpenStreetMap] %{user} kommenterte et innlegg i dagboka di'
       hi: Hei %{to_user},
       header: '%{from_user} har kommentert på ditt siste OpenStreetMap-dagbokinnlegg
         med emnet %{subject}:'
@@ -1431,6 +1452,7 @@ nb:
       table:
         entry:
           motorway: Motorvei
+          main_road: Hovedvei
           trunk: Hovedvei
           primary: Primær vei
           secondary: Sekundær vei
@@ -1648,6 +1670,7 @@ nb:
       allow_read_gpx: lese dine private GPS-spor.
       allow_write_gpx: laste opp GPS-spor.
       allow_write_notes: endre merknader.
+      grant_access: Gi tilgang
     oauthorize_success:
       title: Autoriseringsforespørsel tillatt
       allowed: Du har gitt programmet %{app_name} tilgang til din konto.
@@ -1816,14 +1839,6 @@ nb:
       use external auth: Alternativt kan du bruke en tredjepart til å logge inn
       auth no password: Med tredjepartsbekreftelse er passord ikke påkrevd, men en
         del ekstra verktøy og tjenere kan trenge det.
-      auth association: |-
-        <p>Din ID er ikke tilknyttet en OpenStreetMap konto enda.</p>
-        <ul>
-          <li>Hvis du er ny på OpenStreetMap, opprett en konto ved bruk av skjemaet nedenfor.</li>
-          <li>
-            Hvis du allerede har en konto kan du logge inn med brukernavn og passord, og deretter tilknytte dem til din ID i brukerinnstillingene.
-          </li>
-        </ul>
       continue: Registrer deg
       terms accepted: Takk for at du godtok de nye bidragsytervilkårene!
       terms declined: Vi beklager at du har besluttet å ikke akseptere de nye bidragsytervilkårene.
@@ -2053,6 +2068,11 @@ nb:
       no_authorization_code: Mangler bekreftelseskode
       unknown_signature_algorithm: Ukjent signeringsalgoritme
       invalid_scope: Ugyldig avgensning
+    auth_association:
+      heading: ID-en din er ikke tilknuttet en OpenStreetMap-konto enda.
+      option_1: Opprett konto i skjemaet nedenfor.
+      option_2: Logg inn med brukernavn og passord, du kan tilknytte kontoen til din
+        ID i brukerinnstillingene.
   user_role:
     filter:
       not_an_administrator: Kun administratorer kan forandre roller, og du er ikke
@@ -2090,10 +2110,10 @@ nb:
         som mulig og gi så mange detaljer du kan om situasjonen, og husk på at meldingen
         blir synlig for offentligheten. Husk på at ikke alle brukere forstår fellesskapssjargongen
         så prøv å bruke lekmannsuttrykk.
-      period: Hvor lenge, fra nå, brukeren vil bli blokkert fra API-en.
+      period: Hvor lenge, fra nå, skal brukeren blokkeres fra API-en.
       submit: Opprett blokkering
-      tried_contacting: Jeg har kontaktet brukeren og bedt dem stoppe.
-      tried_waiting: Jeg har gitt brukeren rimelig med tid til å svare på disse kommunikasjonene.
+      tried_contacting: Jeg har kontaktet brukeren og bedt vedkommende stoppe.
+      tried_waiting: Jeg har gitt brukeren rimelig med tid til å svare på kommunikasjonen.
       needs_view: Brukeren må logge inn før denne blokkeringen blir fjernet.
       back: Vis alle blokkeringer
     edit:
@@ -2102,7 +2122,7 @@ nb:
       reason: Årsaken til hvorfor %{name} blir blokkert. Vennligst vær så rolig og
         rimelig som mulig og oppgi så mange detaljer du kan om situasjonen. Husk at
         ikke alle brukere forstår felleskapssjargongen så prøv å bruke lekmannsuttrykk.
-      period: Hvor lenge, fra nå, brukeren vil bli blokkert fra API-en.
+      period: Hvor lenge, fra nå, brukeren skal bli blokkert fra API-en.
       submit: Oppdater blokkering
       show: Vis denne blokkeringen
       back: Vis alle blokkeringer
@@ -2112,11 +2132,11 @@ nb:
       block_period: Blokkeringsperioden må være en av verdiene som kan velges fra
         rullegardinen.
     create:
-      try_contacting: Vennligst prøv å kontakte brukeren før du blokkerer dem og gi
-        dem rimelig med tid til å svare.
-      try_waiting: Vennligst prøv å gi brukeren rimelig med tid til å svare før du
-        blokkerer dem.
-      flash: Opprettet en blokkering av bruker %{name}.
+      try_contacting: Prøv å kontakte brukeren før du blokkerer dem og gi dem rimelig
+        med tid til å svare.
+      try_waiting: Prøv å gi brukeren rimelig med tid til å svare før du blokkerer
+        dem.
+      flash: Opprettet en blokkering av brukeren %{name}.
     update:
       only_creator_can_edit: Bare moderatoren som opprettet denne blokkeringen kan
         endre den.
@@ -2128,8 +2148,8 @@ nb:
     revoke:
       title: Tilbakekaller blokkering på %{block_on}
       heading: Tilbakekaller blokkering på %{block_on} av %{block_by}
-      time_future: Denne blokkeringen ender i %{time}
-      past: Denne blokkeringen endte %{time} siden og kan ikke tilbakekalles nå.
+      time_future: Denne blokkeringen ender om %{time}
+      past: Denne blokkeringen endte for %{time} siden og kan ikke tilbakekalles nå.
       confirm: Er du sikker på at du vil tilbakekalle denne blokkeringen?
       revoke: Tilbakekall!
       flash: Denne blokkeringen har blitt tilbakekalt.
@@ -2153,22 +2173,22 @@ nb:
     helper:
       time_future: Slutter om %{time}.
       until_login: Aktiv inntil brukeren logger inn.
-      time_past: Sluttet %{time} siden.
+      time_past: Sluttet for %{time} siden.
     blocks_on:
       title: Blokkeringer av %{name}
       heading: Liste over blokkeringer av %{name}
       empty: '%{name} har ikke blitt blokkert ennå.'
     blocks_by:
       title: Blokkeringer av %{name}
-      heading: Liste over blokkeringer av %{name}
+      heading: Liste over blokkeringer utført av %{name}
       empty: '%{name} har ikke blokkert noen ennå.'
     show:
       title: '%{block_on} blokkert av %{block_by}'
       heading: '%{block_on} blokkert av %{block_by}'
       time_future: Slutter om %{time}
-      time_past: Sluttet %{time} siden
+      time_past: Sluttet for %{time} siden
       created: Opprettet
-      ago: '%{time} siden'
+      ago: for %{time} siden
       status: Status
       show: Vis
       edit: Rediger
@@ -2186,8 +2206,8 @@ nb:
       commented_at_by_html: Oppdatert for %{when} siden av %{user}
       closed_at_html: Løst for %{when} siden
       closed_at_by_html: Løst for %{when} siden av %{user}
-      reopened_at_html: Reaktivert for %{when} siden
-      reopened_at_by_html: Reaktivert for %{when} siden av %{user}
+      reopened_at_html: Gjenåpnet for %{when} siden
+      reopened_at_by_html: Gjenåpnet for %{when} siden av %{user}
     rss:
       title: OpenStreetMap-merknader
       description_area: En liste over merknader, rapportert, kommentert på eller lukket
@@ -2196,10 +2216,10 @@ nb:
       opened: ny merknad (nær %{place})
       commented: ny kommentar (nær %{place})
       closed: lukket merknad (nær %{place})
-      reopened: reaktivert merknad (nær %{place})
+      reopened: gjenåpnet merknad (nær %{place})
     entry:
       comment: Kommentar
-      full: Full merknad
+      full: Fullstendig merknad
     mine:
       title: Merknader sendt inn eller kommentert på av %{user}
       heading: '%{user} sine merknader'
@@ -2209,7 +2229,7 @@ nb:
       description: Beskrivelse
       created_at: Opprettet
       last_changed: Sist endret
-      ago_html: '%{when} siden'
+      ago_html: for %{when} siden
   javascripts:
     close: Lukk
     share:
@@ -2240,7 +2260,7 @@ nb:
         in: Forstørr utvalg
         out: Forminsk utvalg
       locate:
-        title: Vis min posisjon
+        title: Vis posisjonen min
         popup: Du er innenfor {distance} {unit} av dette punktet
       base:
         standard: Standard
@@ -2274,10 +2294,10 @@ nb:
         unhide_comment: vis
     notes:
       new:
-        intro: Oppdaget en feil eller noe som mangler? La andre kartleggere få vite
-          det så vi kan fikse det. Flytt markøren to korrekt posisjon og skriv merknad
-          som forklarer problemet. (Ikke oppgi personlig informasjon eller informasjon
-          fra opphavsrettsbeskyttede kart eller katalogoppføringer.)
+        intro: Funnet en feil eller noe som mangler? La andre kartleggere få vite
+          det så vi kan fikse det. Flytt markøren til riktig posisjon og skriv en
+          merknad som forklarer problemet. (Ikke oppgi personlig informasjon eller
+          informasjon fra opphavsrettsbeskyttede kart eller katalogoppføringer.)
         add: Legg til merknad
       show:
         anonymous_warning: Denne merknaden inneholder kommentarer fra anonyme brukere
@@ -2297,6 +2317,9 @@ nb:
         mapquest_car: Bil (MapQuest)
         mapquest_foot: Til fots (MapQuest)
         osrm_car: Bil (OSRM)
+        mapzen_bicycle: Sykkel (Mapzen)
+        mapzen_car: Bil (Mapzen)
+        mapzen_foot: Fot (Mapzen)
       directions: Veianvisninger
       distance: Avstand
       errors:

@@ -277,6 +277,7 @@ pt-PT:
   diary_entry:
     new:
       title: Nova entrada no diário
+      publish_button: Publicar
     list:
       title: Diários dos utilizadores
       title_friends: Diários dos amigos
@@ -756,7 +757,7 @@ pt-PT:
           allotments: Horta Urbana / Comunitária
           block: Bloco
           airport: Aeroporto
-          city: Cidade
+          city: Capital de distrito
           country: País
           county: Condado
           farm: Quinta
@@ -776,9 +777,9 @@ pt-PT:
           state: Estado
           subdivision: Subdivisão
           suburb: Subúrbio
-          town: Cidade
+          town: Cidade / Vila
           unincorporated_area: Área não incorporada
-          village: Vila
+          village: Capital de freguesia
           "yes": Local
         railway:
           abandoned: Ferrovia Abandonada
@@ -937,8 +938,8 @@ pt-PT:
           Nominatim</a>
         geonames: Resultado de <a href="http://www.geonames.org/">GeoNames</a>
       types:
-        cities: Cidades
-        towns: Cidades
+        cities: Capitais de distrito
+        towns: Cidades / Vilas
         places: Lugares
     results:
       no_results: Não foram encontrados resultados
@@ -1099,7 +1100,7 @@ pt-PT:
         para retirar dados protegidos</a> (em inglês) ou preencha os dados diretamente
         no <a href="http://dmca.openstreetmap.org/">formulário</a> (em inglês).
       trademarks_title_html: <span id="trademarks"></span>Marcas registadas
-      trademarks_1_html: OpenStreetMap e o logotipo com a lupa são marcas registadas
+      trademarks_1_html: OpenStreetMap e o respetivo logotipo são marcas registadas
         da OpenStreetMap Foundation. Se tiver alguma questão sobre a utilização das
         marcas, por favor envie as suas questões para o <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">Grupo
         de Trabalho de Licenças</a>.
@@ -1131,6 +1132,12 @@ pt-PT:
         uma linha, como o nome do restaurante ou o limite de velocidade duma estrada.
     rules:
       title: Regras!
+      paragraph_1_html: "O OpenStreetMap tem poucas regras formais mas espera-se que
+        todos os participantes colaborem e comuniquem com a comunidade. Se pretender
+        realizar ações em massa como importação de dados através de programas por
+        favor siga as instruções presentes em \n<a href='http://wiki.openstreetmap.org/wiki/Pt:Import/Guidelines'>Importações</a>
+        and \n<a href='http://wiki.openstreetmap.org/wiki/Pt:Automated_Edits_code_of_conduct'>Edições
+        Automatizadas</a>."
     questions:
       title: Tens perguntas ?
       paragraph_1_html: |-
@@ -1204,7 +1211,7 @@ pt-PT:
   about_page:
     next: Seguinte
     copyright_html: <span>&copy;</span>Colaboradores<br>do OpenStreetMap
-    used_by: O %{name} fornece dados a centenas de sítios na internet, aplicações
+    used_by: O %{name} fornece dados a milhares de sítios na internet, aplicações
       de telemóveis e outros dispositivos
     lede_text: O OpenStreetMap é desenvolvido por uma comunidade voluntária de mapeadores
       que contribuem e mantêm atualizados os dados sobre estradas, trilhos, cafés,
@@ -1472,6 +1479,7 @@ pt-PT:
       table:
         entry:
           motorway: Auto-Estrada
+          main_road: Rua principal
           trunk: Via Rápida
           primary: Estrada Nacional (Primária)
           secondary: Estrada Regional (Secundária)
@@ -1692,6 +1700,7 @@ pt-PT:
       allow_read_gpx: ler os meus trilhos GPS privados.
       allow_write_gpx: enviar trilhos GPS.
       allow_write_notes: alterar erros reportados.
+      grant_access: Permitir Acesso
     oauthorize_success:
       title: Pedido de autorização permitido
       allowed: Forneceu ao programa %{app_name} o acesso à sua conta.
@@ -1865,15 +1874,6 @@ pt-PT:
       auth no password: Não é necessário introduzir a palavra-passe com o iniciar
         da sessão por serviço externo, mas o servidor ou as ferramenas externas podem
         necessitar de uma.
-      auth association: |-
-        <p>O seu identificador ainda não está associado a uma conta no OpenStreetMap.</p>
-        <ul>
-          <li>Se nunca criou uma conta no OpenStreetMap, por favor crie uma no formulário seguinte.</li>
-          <li>
-            Se já tiver uma conta, pode iniciar sessão utilizando o nome de utilizador e a palavra-passe e então associar a sua conta
-            com o seu identificador nas configurações da conta.
-          </li>
-        </ul>
       continue: Criar conta
       terms accepted: Obrigado por aceitar os novos termos de colaborador!
       terms declined: Lamentamos não ter aceitado os novos Termos de Colaborador.
@@ -2111,6 +2111,13 @@ pt-PT:
       no_authorization_code: Sem código de autorização
       unknown_signature_algorithm: Algoritmo de assinatura desconhecido
       invalid_scope: Âmbito inválido
+    auth_association:
+      heading: O seu ID ainda não está associado a uma conta do OpenStreetMap.
+      option_1: Se ainda não tem conta no OpenStreetMap por favor preencha o seguinte
+        formulário.
+      option_2: Se já tiver uma conta, pode entrar na sua conta utilizando os dados
+        de acesso a esta e então associar a sua conta ao seu ID nas preferências da
+        conta.
   user_role:
     filter:
       not_an_administrator: Apenas os administradores podem gerir cargos, e você não
@@ -2361,6 +2368,9 @@ pt-PT:
         mapquest_car: Carro (MapQuest)
         mapquest_foot: A pé (MapQuest)
         osrm_car: Carro (OSRM)
+        mapzen_bicycle: Bicicleta (Mapzen)
+        mapzen_car: Carro (Mapzen)
+        mapzen_foot: A pé (Mapzen)
       directions: Direções
       distance: Distância
       errors:
@@ -2368,6 +2378,12 @@ pt-PT:
         no_place: Desculpe - não foi possível encontrar esse local.
       instructions:
         continue_without_exit: Continuar em %{name}
+        follow_without_exit: Seguir %{name}
+        roundabout_without_exit: Na rotunda seguir %{name}
+        leave_roundabout_without_exit: Saia da rotunda - %{name}
+        stay_roundabout_without_exit: Mantenha-se na rotunda - %{name}
+        destination_without_exit: Chegada ao destino
+        roundabout_with_exit: Na rotunda seguir a saída %{exit} para %{name}
         unnamed: sem nome
         courtesy: Direções fornecidas por %{link}
       time: Tempo

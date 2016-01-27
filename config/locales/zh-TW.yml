@@ -7,6 +7,7 @@
 # Author: Foothsu
 # Author: Hlaw
 # Author: Impersonator 1
+# Author: Jiazheng0609
 # Author: Justincheng12345
 # Author: LNDDYL
 # Author: Liuxinyu970226
@@ -60,7 +61,7 @@ zh-TW:
       tracetag: 軌跡標籤
       user: 使用者
       user_preference: 使用者偏好設定
-      user_token: 使用者密鑰
+      user_token: 使用者權杖
       way: 路徑
       way_node: 路徑節點
       way_tag: 路徑標籤
@@ -129,7 +130,7 @@ zh-TW:
     part_of: 屬於：
     download_xml: 下載 XML
     view_history: 檢視歷史
-    view_details: 檢視詳細資訊
+    view_details: 檢視詳細資料
     location: 位置：
     changeset:
       title: 變更集：%{id}
@@ -237,7 +238,7 @@ zh-TW:
     changeset:
       anonymous: 匿名
       no_edits: (沒有編輯)
-      view_changeset_details: 檢視變更集詳細資訊
+      view_changeset_details: 檢視變更集詳細資料
     changesets:
       id: ID
       saved_at: 已儲存於
@@ -554,21 +555,21 @@ zh-TW:
           motorway_junction: 高速公路交匯處
           motorway_link: 高速公路連接路
           path: 小徑
-          pedestrian: 行人專用道路
+          pedestrian: 人行道
           platform: 車站月台
-          primary: 主要道路
+          primary: 一級道路
           primary_link: 主要道路
           proposed: 計畫道路
           raceway: 賽道
           residential: 住宅區道路
           rest_area: 休息區
           road: 道路
-          secondary: 次級道路
+          secondary: 二級道路
           secondary_link: 次級道路連接路
           service: 服務道路
           services: 高速公路休息區
           speed_camera: 測速照相機
-          steps: 梯級
+          steps: 階梯
           street_lamp: 路燈
           tertiary: 三級道路
           tertiary_link: 三級道路連接路
@@ -1235,7 +1236,7 @@ zh-TW:
         subject_other: '[OpenStreetMap] %{commenter} 再次開啟你感興趣的註記。'
         your_note: '%{commenter} 已經再次開啟你其中一筆接近 %{place} 的地圖註記。'
         commented_note: '%{commenter} 重新開啟了一個您曾評論的地圖註記。該註記位於 %{place} 附近。'
-      details: 關於註記的更多詳細訊息可在 %{url} 找到。
+      details: 關於註記的更多詳細資料可在 %{url} 找到。
     changeset_comment_notification:
       greeting: 您好，
       commented:
@@ -1355,9 +1356,10 @@ zh-TW:
       table:
         entry:
           motorway: 高速公路
+          main_road: 主要道路
           trunk: 主要幹路
-          primary: 主要道路
-          secondary: 次要道路
+          primary: 一級道路
+          secondary: 二級道路
           unclassified: 未分級道路
           track: 行車小徑
           bridleway: 馬道
@@ -1502,7 +1504,7 @@ zh-TW:
       count_points: '%{count} 個點'
       ago: '%{time_in_words_ago} 之前'
       more: 更多
-      trace_details: 檢視軌跡詳細資訊
+      trace_details: 檢視軌跡詳細資料
       view_map: 檢視地圖
       edit: 編輯
       edit_map: 編輯地圖
@@ -1565,7 +1567,7 @@ zh-TW:
     oauthorize_failure:
       title: 授權請求失敗
       denied: 您已拒絕應用程式 %{app_name} 使用您的帳號。
-      invalid: 授權密鑰無效。
+      invalid: 授權權杖無效。
     revoke:
       flash: 您已經撤銷 %{application} 的授權密鑰。
   oauth_clients:
@@ -1578,8 +1580,8 @@ zh-TW:
     show:
       title: '%{app_name} 的 OAuth 詳細資料'
       key: 消費者金鑰：
-      secret: 消費者密鑰：
-      url: 請求密鑰 URL：
+      secret: 消費者祕密金鑰：
+      url: 要求權杖 URL：
       access_url: 存取記號 URL：
       authorize_url: 授權 URL：
       support_notice: 我們支援 HMAC-SHA1 (建議) 和 RSA-SHA1 署名。
@@ -1712,14 +1714,6 @@ zh-TW:
       confirm password: 確認密碼：
       use external auth: 或者使用第三方服務登入
       auth no password: 使用第三方認証無須填寫密碼，但部份額外工具或伺服器可能仍需要使用密碼。
-      auth association: |-
-        <p>您的 ID 尚未連結至 OpenStreetMap 帳號。</p>
-        <ul>
-          <li>若您是 OpenStreetMap 的新使用者，請使用以下表單建立新帳號。</li>
-          <li>
-            若您已有帳號，您可以使用您的使用者名稱及密碼登入您的帳號，然後於您的使用者設定中連結您的帳號至 ID。
-          </li>
-        </ul>
       continue: 註冊
       terms accepted: 感謝您接受新的貢獻條款！
       terms declined: 我們很遺憾你已決定不接受新的貢獻者條款。有關詳細資訊，請參閱<a href="%{url}">此 wiki 頁面</a>。
@@ -1924,6 +1918,10 @@ zh-TW:
       no_authorization_code: 無授權碼
       unknown_signature_algorithm: 不明的簽章演算法
       invalid_scope: 無效範圍
+    auth_association:
+      heading: 您的ID尚未與OpenStreetMap帳號關聯。
+      option_1: 如果您新來到OpenStreetMap，請使用下方表單建立一個帳號。
+      option_2: 如果您已擁有一個帳號，您可以用您的使用者名稱與密碼登入您的帳號，並在使用者設定中關連您的ID。
   user_role:
     filter:
       not_an_administrator: 只有行政員可以進行使用者身份管理，但是您並不是行政員。
@@ -2148,6 +2146,9 @@ zh-TW:
         mapquest_car: 開車 (MapQuest)
         mapquest_foot: 徒步 (MapQuest)
         osrm_car: 開車 (OSRM)
+        mapzen_bicycle: 腳踏車 (Mapzen)
+        mapzen_car: 開車 (Mapzen)
+        mapzen_foot: 徒步 (Mapzen)
       directions: 路線
       distance: 距離
       errors:
@@ -2208,7 +2209,7 @@ zh-TW:
     create:
       flash: 修訂已建立
     update:
-      flash: 已儲存更改。
+      flash: 已儲存變更。
     destroy:
       not_empty: 修訂尚未清空。請在銷毀前清除所有此修訂的版本。
       flash: 修訂已銷毀。

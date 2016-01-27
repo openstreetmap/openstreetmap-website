@@ -16,7 +16,7 @@ eu:
       friendly: '%e %B %Y %H:%M-ean'
   activerecord:
     models:
-      country: Herrialde
+      country: Herrialdea
       friend: Laguna
       language: Hizkuntza
       message: Mezua
@@ -47,6 +47,7 @@ eu:
         friend: Lagun
       trace:
         user: Erabiltzailea
+        visible: Ikusgai
         name: Izena
         size: Tamaina
         latitude: Latitude
@@ -71,11 +72,18 @@ eu:
     remote:
       name: Urrutiko Agintea
   browse:
+    created: Sortua
+    closed: Itxita
     version: Bertsioa
+    download_xml: XML deskargatu
+    view_history: Ikusi historia
     view_details: Ikusi Xehetasunak
     location: 'Kokapena:'
     changeset:
       belongs_to: Egilea
+      discussion: Eztabaida
+    way:
+      nodes: Nodoak
     relation:
       members: Kideak
     relation_member:
@@ -94,11 +102,13 @@ eu:
       type:
         relation: erlazio
     start_rjs:
+      load_data: Kargatu datuak
       loading: Kargatzen...
     tag_details:
       tags: Etiketak
       wikidata_link: '%{page} elementua Wikidatan'
       wikipedia_link: '%{page} artikulua Wikipedian'
+      telephone_link: Deitu %{phone_number} zenbakira
     note:
       title: 'Oharra: %{id}'
       new_note: Ohar berria
@@ -116,10 +126,21 @@ eu:
       saved_at: Noiz gordeta
       user: Erabiltzailea
       comment: Iruzkina
+      area: Eremua
     list:
       load_more: Gehiago kargatu
+    rss:
+      commented_at_html: Eguneratua duela %{when}
+      commented_at_by_html: '%{user}-ek duela %{when} eguneratua'
+      full: Eztabaida osoa
   diary_entry:
+    new:
+      publish_button: Argitaratu
     list:
+      title: Erabiltzaileen egunerokoak
+      title_friends: Lagunen egunerokoak
+      title_nearby: Hurbileko erabiltzaileen egunerokoak
+      user_title: '%{user}(r)en egunerokoa'
       older_entries: Sarrera zaharragoak
       newer_entries: Sarrera berriagoak
     edit:
@@ -132,14 +153,18 @@ eu:
       use_map_link: mapa erabili
       save_button: Gorde
     view:
+      user_title: '%{user}(r)en egunerokoa'
       leave_a_comment: Iruzkin bat utzi
       login: Saioa hasi
       save_button: Gorde
     diary_entry:
+      reply_link: Sarrera honi erantzun
       comment_count:
         one: iruzkin %{count}
         zero: Iruzkinik ez
         other: '%{count} iruzkin'
+      edit_link: Sarrera hau editatu
+      hide_link: Sarrera hau ezkutatu
       confirm: Berretsi
     diary_comment:
       hide_link: Iruzkin hau ezkutatu
@@ -149,19 +174,31 @@ eu:
       view: Ikusi
       edit: Aldatu
     comments:
+      when: Noiz
+      comment: Iruzkina
       ago: Duela %{ago}
       newer_comments: Iruzkin berriagoak
       older_comments: Iruzkin zaharragoak
   export:
+    title: Esportatu
     start:
+      area_to_export: Esportatzeko eremua
+      manually_select: Aukeratu eskuz eremu ezberdin bat
       format_to_export: Esportatzeko formatua
       osm_xml_data: OpenStreetMap XML Data
+      embeddable_html: HTML integragarria
       licence: Lizentzia
       export_details: OpenStreetMap-eko datuak <a href="http://opendatacommons.org/licenses/odbl/1.0/">Open
         Data Commons Datu-base Irekiko Lizentzia</a> baimen baten mende daude.
       too_large:
         planet:
           title: OSM Planeta
+        overpass:
+          title: Overpass API
+        geofabrik:
+          title: Geofabrik Deskargak
+        other:
+          title: Bestelako Jatorriak
       options: Aukerak
       format: Formatua
       scale: Eskala
@@ -170,10 +207,14 @@ eu:
       zoom: Zooma
       latitude: 'Lat:'
       longitude: 'Lon:'
+      output: Irteera
       export_button: Esportatu
   geocoder:
     search_osm_nominatim:
       prefix:
+        aerialway:
+          cable_car: Teleferikoa
+          chair_lift: Teleaulkia
         aeroway:
           aerodrome: Aerodromoa
           apron: Pista
@@ -188,16 +229,21 @@ eu:
           bar: Taberna
           bbq: Barbakoa
           bench: Eserleku
+          bicycle_parking: Txirrinduentzako aparkalekua
           bicycle_rental: Txirrindu Alokairua
+          biergarten: Terraza
+          boat_rental: Txalupen alokairua
           brothel: Putetxe
           bureau_de_change: Diru-truke Bulegoa
           bus_station: Autobus-geltoki
           cafe: Kafetegi
           car_rental: Ibilgailu-alokairu
+          car_sharing: Autoa partekatzea
           car_wash: Auto Garbiketa
           casino: Kasino
           cinema: Zinema
           clinic: Klinika
+          clock: Erlojua
           college: Kolegioa
           community_centre: Komunitate Zentroa
           courthouse: Epaitegia
@@ -211,22 +257,29 @@ eu:
           emergency_phone: Larrialdi Telefonoa
           fast_food: Janari Azkarra
           ferry_terminal: Ferry terminal
+          fire_hydrant: Suteetako ur-hartunea
           fire_station: Suhiltzaileak
+          food_court: Jatetxe-eremua
           fountain: Iturri
           fuel: Gasolindegia
           grave_yard: Hilerri
           gym: Osasun Zentroa / Gimnasioa
           health_centre: Osasun Zentroa
           hospital: Ospitalea
+          hunting_stand: Ehiza postua
           ice_cream: Izozkiak
           kindergarten: Haurtzaindegi
           library: Liburutegia
           market: Merkatu
           marketplace: Merkatua
+          monastery: Monastegia
+          motorcycle_parking: Motorrentzako aparkalekua
           nightclub: Gau-klub
           nursery: Haurtzaindegi
+          nursing_home: Zaharren egoitza
           office: Bulego
           parking: Aparkaleku
+          parking_entrance: Aparkalekuko sarrera
           pharmacy: Farmazia
           place_of_worship: Otoitzerako Lekua
           police: Polizia
@@ -235,6 +288,7 @@ eu:
           preschool: Eskolaurre
           prison: Espetxe
           public_building: Eraikin publiko
+          reception_area: Harrera lekua
           recycling: Birziklatze gune
           restaurant: Jatetxe
           retirement_home: Nagusien etxea
@@ -243,6 +297,7 @@ eu:
           shelter: Aterpea
           shop: Denda
           shower: Dutxa
+          social_centre: Gizarte zentroa
           studio: Estudio
           swimming_pool: Igerilekua
           taxi: Taxi
@@ -262,6 +317,9 @@ eu:
           protected_area: Babestutako Eremua
         bridge:
           aqueduct: Akueduktua
+          suspension: Zubi esekia
+          swing: Zubi birakaria
+          viaduct: Bidezubia
           "yes": Zubia
         building:
           "yes": Eraikina
@@ -270,10 +328,20 @@ eu:
           carpenter: Zurgina
           electrician: Argiketaria
           gardener: Lorezaina
+          painter: Margolaria
           photographer: Argazkilaria
           plumber: Iturgina
           shoemaker: Zapatagina
+          tailor: Jostuna
+          "yes": Artisau denda
+        emergency:
+          ambulance_station: Anbulantzia geralekua
+          defibrillator: Desfibriladorea
+          landing_site: Larrialdi lurreratze-gunea
+          phone: Larrialdi telefonoa
         highway:
+          abandoned: Errepide abandonatua
+          bridleway: Oinezkoen gunea
           bus_stop: Autobus-geraleku
           construction: Eraikitze-lanetan dagoen Autopista
           cycleway: Bidegorria
@@ -284,10 +352,14 @@ eu:
           milestone: Mugarria
           motorway: Autobide
           motorway_link: Autobidea
+          path: Bidea
+          pedestrian: Oinezkoen gunea
           platform: Nasa
           primary: Lehen mailako errepide
           primary_link: Errepide nagusi
-          residential: Bizileku
+          proposed: Proiektatutako errepidea
+          raceway: Lasterketa pista
+          residential: Kalea
           rest_area: Atsedenlekua
           road: Errepide
           secondary: Bigarren mailako errepide
@@ -296,19 +368,34 @@ eu:
           services: Autobide Zerbitzuak
           speed_camera: Radarra
           steps: Eskailera-mailak
+          street_lamp: Farola
           tertiary: Hirugarren mailako errepide
+          tertiary_link: Hirugarren mailako errepide
           track: Pista
+          traffic_signals: Trafiko seinaleak
           unclassified: Sailkatu gabeko errepidea
+          unsurfaced: Alfastatu gabeko errepidea
           "yes": Errepidea
         historic:
           archaeological_site: Aztarnategi arkeologiko
-          building: Eraikina
+          battlefield: Bataila-eremua
+          boundary_stone: Mugarria
+          building: Eraikin historikoa
+          bunker: Bunkerra
           castle: Gaztelu
           church: Eliza
+          citywalls: Hiriko harresiak
+          fort: Gotorlekua
+          heritage: Gizateriaren Ondarea
           house: Etxea
+          icon: Ikonoa
           memorial: Memoriala
           mine: Meategi
           monument: Monumentu
+          roman_road: Erromatar bidea
+          ruins: Hondakinak
+          stone: Harria
+          tomb: Hilobia
           tower: Dorre
         landuse:
           cemetery: Hilerri
@@ -317,19 +404,28 @@ eu:
           farm: Baserria
           forest: Baso
           garages: Garajeak
+          grass: Belardia
+          industrial: Industrialdea
+          landfill: Zabortegia
           meadow: Larre
           military: Eremu Militarra
           mine: Meategi
           quarry: Harrobi
           railway: Trenbide
           reservoir: Urtegi
+          retail: Merkataritza gunea
+          village_green: Udal parkea
+          vineyard: Mahastia
         leisure:
           beach_resort: Hondartza konplexu
           common: Lur Komunak
+          dog_park: Txakurrentzako parkea
           fishing: Arrantza Lekua
+          fitness_centre: Ginmasioa
           fitness_station: Gimnasioa
           garden: Lorategi
           golf_course: Golf-zelai
+          horse_riding: Zalditegia
           ice_rink: Izotz-pista
           marina: Kirol-portu
           miniature_golf: Minigolfa
@@ -338,12 +434,21 @@ eu:
           pitch: Kirolgunea
           playground: Jolastoki
           sauna: Sauna
+          slipway: Harmaila
           sports_centre: Kiroldegi
           stadium: Estadio
           swimming_pool: Igerilekua
+          water_park: Ur jolas-parkea
+          "yes": Aisialdia
         man_made:
           lighthouse: Itsasargia
           tower: Dorrea
+          works: Lantegia
+        military:
+          airfield: Aireportu militarra
+          bunker: Bunkerra
+        mountain_pass:
+          "yes": Mendatea
         natural:
           bay: Badia
           beach: Hondartza
@@ -358,12 +463,16 @@ eu:
           grassland: Belardia
           hill: Muinoa
           island: Irla
+          land: Lurra
+          marsh: Zingira
           mud: Lohi
           peak: Gailur
           point: Puntu
           reef: Arrezife
           rock: Arroka
+          sand: Hondarra
           scree: Harritza
+          stone: Harria
           strait: Itsasertza
           tree: Zuhaitza
           valley: Haran
@@ -371,13 +480,17 @@ eu:
           water: Ura
           wood: Baso
         office:
+          accountant: Kontuhartzailea
+          administrative: Administrazioa
           architect: Arkitektoa
+          company: Enpresa
           employment_agency: Enplegu agentzia
           estate_agent: Inmobiliaria
           government: Gobernuko bulegoa
           insurance: Aseguruetako bulegoa
           lawyer: Abokatua
           ngo: GKE bulegoa
+          telecommunication: Telekomunikazio Bulegoa
           travel_agent: Bidaia-agentzia
           "yes": Bulegoa
         place:
@@ -393,40 +506,55 @@ eu:
           islet: Uhartea
           locality: Lokalitate
           municipality: Udalerri
+          neighbourhood: Auzoa
           postcode: Posta-kode
           region: Eskualde
           sea: Itsasoa
           state: Estatua
-          subdivision: Subdibisio
+          subdivision: Azpibanaketa
           suburb: Aldiri
           town: Herria
           unincorporated_area: Elkartu Gabeko Gunea
           village: Herrixka
+          "yes": Tokia
         railway:
+          abandoned: Abandonatutako trenbidea
           construction: Eraikitze-lanetan dagoen Trenbidea
+          disused: Trenbide ez-erabilia
+          disused_station: Tren geltoki ez-erabilia
+          funicular: Funikularra
           halt: Tren Geralekua
           historic_station: Tren Geltoki Historikoa
           light_rail: Tren Arina
           monorail: Monoraila
+          narrow_gauge: Bide Estuko Trenbidea
           platform: Trenbide Plataforma
+          proposed: Proposatutako trenbidea
           station: Tren Geltokia
-          subway: Metro geltoki
+          stop: Tren geralekua
+          subway: Metroa
           subway_entrance: Metro Sarbidea
           tram: Tranbia
           tram_stop: Tranbia geltoki
         shop:
           art: Arte-denda
           bakery: Okindegi
+          beauty: Edergintza denda
           beverages: Edari-denda
           bicycle: Bizikleta-denda
           books: Liburudenda
           boutique: Boutique
           butcher: Harategi
           car: Auto-denda
+          car_parts: Autoaldagaiak
+          car_repair: Autoen konponketa-lantegia
+          carpet: Alfonbra-denda
           chemist: Farmazia
           clothes: Arropa denda
           computer: Ordenagailu-denda
           confectionery: Gozotegi
+          copyshop: Kopia-denda
+          cosmetics: Kosmetika-denda
           electronics: Elektronika-denda
           estate_agent: Higiezinen agente
           fish: Arrantza-denda
@@ -434,10 +562,12 @@ eu:
           food: Janari-denda
           furniture: Altzari
           gallery: Galeria
+          general: Denetariko denda
           gift: Opari-denda
           greengrocer: Barazki-saltzaile
           grocery: Janaridenda
-          hairdresser: Ile-apaindegi
+          hairdresser: Ileapaindegi
+          hardware: Burdindegia
           hifi: Hi-Fi
           insurance: Aseguruak
           jewelry: Bitxi-denda
@@ -446,16 +576,19 @@ eu:
           mall: Merkataritza-gunea
           market: Merkatu
           mobile_phone: Mugikor-denda
+          motorcycle: Motozikleta-denda
           music: Musika-denda
           newsagent: Kioskoa
           optician: Optika
           pet: Animalia-denda
           pharmacy: Farmazia
           photo: Argazki-denda
+          second_hand: Bigarren eskuko denda
           shoes: Zapatadenda
           shopping_centre: Merkatal Gunea
           sports: Kirol denda
           supermarket: Supermerkatu
+          tailor: Jostuna
           toys: Jostailu Denda
           travel_agency: Bidaia-agentzia
           "yes": Denda
@@ -467,6 +600,7 @@ eu:
           cabin: Kabina
           camp_site: Kanpin
           chalet: Txalet
+          gallery: Galeria
           guest_house: Aterpe
           hostel: Ostatu
           hotel: Hotel
@@ -483,33 +617,48 @@ eu:
           canal: Kanal
           dam: Urtegia
           ditch: Lubakia
+          dock: Kaia
           drain: Isurbidea
           rapids: Ur-lasterrak
           river: Ibai
           waterfall: Ur-jauzi
           weir: Uharka
+      admin_levels:
+        level2: Herrialdeko muga
+        level4: Estatuko muga
+        level5: Eskualdeko muga
+        level6: Konderriko muga
+        level8: Udal muga
+        level9: Herriko muga
+        level10: Auzoko muga
     description:
       types:
         cities: Hiriak
         towns: Herriak
         places: Lekuak
     results:
+      no_results: Ez da emaitzarik aurkitu
       more_results: Emaitza gehiago
   layouts:
     logo:
       alt_text: OpenStreetMap logoa
-    home: hasiera
+    home: Hasierara joan
     logout: Saioa itxi
     log_in: Saioa hasi
-    sign_up: izena eman
+    sign_up: Eman izena
     edit: Aldatu
     history: Historia
     export: Esportatu
     data: Datuak
     export_data: Esportatu datuak
     intro_header: Ongi etorri OpenStreetMapera!
+    intro_2_create_account: Erabiltzaile kontua sortu
+    partners_ic: Londresko Imperial College
+    partners_bytemark: Bytemark Hosting
+    partners_partners: bazkideak
     help: Laguntza
     about: Honi buruz
+    copyright: Egile-eskubideak
     community: Komunitatea
     community_blogs: Komunitateko blogak
     community_blogs_title: OpenStreetMap komunitateko kideen blogak
@@ -522,6 +671,7 @@ eu:
   license_page:
     foreign:
       title: Itzulpen honi buruz
+      english_link: jatorrizkoa ingelesez
     native:
       title: Orrialde honi buruz
       native_link: Euskara version
@@ -543,6 +693,8 @@ eu:
       gida laburra jakin behar dituzun gauzarik garrantzitsuenak dituena.
     whats_on_the_map:
       title: Mapan dagoena
+    rules:
+      title: Arauak!
     questions:
       title: Galderarik?
   fixthemap:
@@ -552,17 +704,26 @@ eu:
     other_concerns:
       title: Bestelako kezkak
   help_page:
+    title: Laguntza Lortu
     welcome:
       url: /welcome
       title: Ongi etorri OSM-ra
+    beginners_guide:
+      title: Hasiberrientzako gida
     help:
       url: https://help.openstreetmap.org/
       title: help.openstreetmap.org
+    forums:
+      title: Foroak
+    irc:
+      title: IRC
     wiki:
       url: http://wiki.openstreetmap.org/wiki/Eu:Main_Page
       title: wiki.openstreetmap.org
   about_page:
     next: Hurrengoa
+    local_knowledge_title: Tokiko Ezagutza
+    open_data_title: Datu Irekiak
   notifier:
     diary_comment_notification:
       hi: Kaixo %{to_user},
@@ -572,6 +733,7 @@ eu:
       greeting: Kaixo,
     signup_confirm:
       subject: '[OpenStreetMap] Ongi etorri OpenStreetMapera'
+      greeting: Kaixo!
     email_confirm:
       subject: '[OpenStreetMap] Baieztatu zure eposta helbidea'
     email_confirm_plain:
@@ -585,10 +747,19 @@ eu:
     note_comment_notification:
       anonymous: Erabiltzale anonimoa
       greeting: Kaixo,
+    changeset_comment_notification:
+      greeting: Kaixo,
   message:
     inbox:
       title: Sarrera-ontzia
       my_inbox: Nire sarrera-ontzia
+      messages: '%{new_messages} eta %{old_messages} dituzu'
+      new_messages:
+        one: '%Mezu berri {count}'
+        other: '%{count} mezu berri'
+      old_messages:
+        one: mezu zahar %{count}
+        other: '%{count} mezu zahar'
       from: Igorlea
       subject: Gaia
       date: Data
@@ -617,6 +788,7 @@ eu:
       date: Data
       reply_button: Erantzun
       unread_button: Markatu irakurri gabekotzat
+      back: Atzera
       to: Hartzailea
     sent_message_summary:
       delete_button: Ezabatu
@@ -626,6 +798,7 @@ eu:
     edit:
       user_page_link: Lankide orria
     sidebar:
+      search_results: Bilaketaren emaitzak
       close: Itxi
     search:
       search: Bilatu
@@ -635,21 +808,28 @@ eu:
       table:
         entry:
           motorway: Autobidea
+          main_road: Errepide nagusia
           primary: Lehen mailako errepidea
           secondary: Bigarren mailako errepidea
           unclassified: Sailkatu gabeko errepidea
+          track: Pista
+          bridleway: Oinezkoen gunea
+          cycleway: Bidegorria
+          footway: Oinezkoen bidea
           rail: Trenbidea
           subway: Metroa
           tram:
             1: tranbia
           cable:
           - Funikularra
+          - teleaulkia
           runway:
           - Aireportuko Pista
           apron:
             1: terminala
           admin: Muga administratiboa
           forest: Baso
+          wood: Basoa
           golf: Golf-zelai
           park: Parke
           industrial: Industrialdea
@@ -659,6 +839,7 @@ eu:
           - urtegia
           farm: Baserria
           cemetery: Hilerri
+          pitch: Kirolgunea
           centre: Kiroldegi
           reserve: Natura-erreserba
           military: Eremu militarra
@@ -668,6 +849,16 @@ eu:
           station: Tren geltokia
           summit:
           - Tontorra
+          - gailurra
+    richtext_area:
+      edit: Aldatu
+      preview: Aurrikusi
+    markdown_help:
+      link: Lotura
+      text: Testua
+      image: Irudia
+      alt: Testu alternatiboa
+      url: URLa
   trace:
     edit:
       filename: 'Fitxategi izena:'
@@ -694,6 +885,7 @@ eu:
     trace_optionals:
       tags: Etiketak
     view:
+      pending: EGITEKE
       filename: 'Fitxategi-izena:'
       download: jaitsi
       uploaded: 'Noiz igota:'
@@ -719,26 +911,45 @@ eu:
   oauth:
     oauthorize:
       allow_write_api: mapa aldatu.
+      allow_write_notes: Oharrak aldatu.
+      grant_access: Baimena Eman
   oauth_clients:
+    new:
+      submit: Erregistratu
     edit:
       submit: Aldatu
     show:
       confirm: Ziur zaude?
       allow_write_api: mapa aldatu.
+    index:
+      application: Aplikazioaren izena
     form:
       name: Izena
+      required: Nahitaezkoa
   user:
     login:
       title: Saio-hasiera
       heading: Saio-hasiera
       email or username: 'Eposta helbidea edo Erabiltzaile izena:'
       password: 'Pasahitza:'
+      openid: '%{logo} OpenID:'
       remember: 'Gogora nazazu:'
       lost password link: Pasahitza ahaztu duzu?
       login_button: Saioa hasi
       register now: Erregistratu orain
+      new to osm: Berria zara OpenStreetMapen?
       create account minute: Sortu kontu bat. Minutu bat besterik ez duzu behar.
       no account: Ez al duzu konturik?
+      auth_providers:
+        google:
+          title: Saioa hasi Googlekin
+        facebook:
+          title: Saioa hasi Facebookekin
+          alt: Saioa hasi Facebookekin
+        windowslive:
+          title: Saioa hasi Windows Livekin
+        yahoo:
+          title: Saioa hasi Yahoorekin
     logout:
       title: Saio-itxiera
       heading: OpenStreetMap-etik saioa itxi
@@ -756,7 +967,9 @@ eu:
       reset: Pasahitza berrezarri
       flash changed: Zure pasahitza aldatu da.
     new:
-      title: Kontua sortu
+      title: Eman izena
+      about:
+        header: Doakoa eta editagarria
       email address: 'Eposta Helbidea:'
       confirm email address: 'Eposta Helbidea baieztatu:'
       display name: 'Erakusteko izena:'
@@ -772,8 +985,8 @@ eu:
         france: Frantzia
         italy: Italy
     view:
-      my diary: nire egunerokoa
-      my edits: nire aldaketak
+      my diary: Nire egunerokoa
+      my edits: Nire aldaketak
       my notes: Nire oharrak
       my messages: Nire mezuak
       my profile: Nire profila
@@ -782,8 +995,8 @@ eu:
       send message: Mezua bidali
       diary: Egunerokoa
       edits: Aldaketak
-      remove as friend: lagun bezala kendu
-      add as friend: lagun bezala gehitu
+      remove as friend: Lagun bezala kendu
+      add as friend: Lagun bezala gehitu
       mapper since: 'Noiztik mapatzaile:'
       ago: (duela %{time_in_words_ago})
       email address: 'Eposta helbidea:'
@@ -797,6 +1010,7 @@ eu:
       role:
         administrator: Lankide hau administratzailea da
         moderator: Lankide hau moderatzailea da
+      comments: Iruzkinak
       create_block: Blokeatu erabiltzaile hau
       activate_user: erabiltzaile hau gaitu
       deactivate_user: erabiltzaile hau ezgaitu
@@ -813,6 +1027,8 @@ eu:
       my settings: Nire aukerak
       current email address: 'Egungo eposta helbidea:'
       new email address: 'E-posta helbide berria:'
+      openid:
+        link text: zer da hau?
       public editing:
         heading: 'Aldaketa publikoak:'
         enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
@@ -834,7 +1050,7 @@ eu:
       save changes button: Aldaketak gorde
       return to profile: Profilera itzuli
     confirm:
-      heading: Erabiltzaile kontua baieztatu
+      heading: Helbide elektronikoa begiratu!
       button: Berretsi
     confirm_email:
       button: Berretsi
@@ -878,6 +1094,12 @@ eu:
     share:
       title: Partekatu
       cancel: Utzi
+      image: Irudia
+      format: 'Formatua:'
+      scale: 'Eskala:'
+    map:
+      base:
+        transport_map: Garraio-mapa
     changesets:
       show:
         subscribe: Harpidetu
@@ -890,6 +1112,16 @@ eu:
       show:
         hide: Ezkutatu
     directions:
+      engines:
+        graphhopper_bicycle: Bizikletaz (GraphHopper)
+        graphhopper_foot: Oinez (GraphHopper)
+        mapquest_bicycle: Bizikletaz (MapQuest)
+        mapquest_car: Autoz (MapQuest)
+        mapquest_foot: Oinez (MapQuest)
+        osrm_car: Autoz (OSRM)
+        mapzen_bicycle: Bizikletaz (Mapzen)
+        mapzen_car: Autoz (Mapzen)
+        mapzen_foot: Oinez (Mapzen)
       distance: Distantzia
       instructions:
         unnamed: izenik gabe
