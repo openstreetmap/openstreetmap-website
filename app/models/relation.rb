@@ -117,7 +117,7 @@ class Relation < ActiveRecord::Base
         p = 1 if visible_members[member.member_type][member.member_id]
       else
         # otherwise, manually go to the db to check things
-        p = 1 if member.member.visible?
+        p = 1 if member.member && member.member.visible?
       end
 
       next unless p
