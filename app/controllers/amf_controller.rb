@@ -151,7 +151,7 @@ class AmfController < ApplicationController
         cs = Changeset.find(closeid.to_i)
         cs.set_closed_time_now
         if cs.user_id != user.id
-          fail OSM::APIUserChangesetMismatchError.new
+          raise OSM::APIUserChangesetMismatchError.new
         elsif closecomment.empty?
           cs.save!
         else
@@ -677,7 +677,7 @@ class AmfController < ApplicationController
 
         # -- Save revised way
 
-        pointlist.collect! do|a|
+        pointlist.collect! do |a|
           renumberednodes[a] ? renumberednodes[a] : a
         end # renumber nodes
         new_way = Way.new

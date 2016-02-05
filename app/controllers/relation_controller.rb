@@ -36,7 +36,7 @@ class RelationController < ApplicationController
     new_relation = Relation.from_xml(request.raw_post)
 
     unless new_relation && new_relation.id == relation.id
-      fail OSM::APIBadUserInput.new("The id in the url (#{relation.id}) is not the same as provided in the xml (#{new_relation.id})")
+      raise OSM::APIBadUserInput.new("The id in the url (#{relation.id}) is not the same as provided in the xml (#{new_relation.id})")
     end
 
     relation.update_from new_relation, @user
@@ -128,13 +128,13 @@ class RelationController < ApplicationController
 
   def relations
     unless params["relations"]
-      fail OSM::APIBadUserInput.new("The parameter relations is required, and must be of the form relations=id[,id[,id...]]")
+      raise OSM::APIBadUserInput.new("The parameter relations is required, and must be of the form relations=id[,id[,id...]]")
     end
 
     ids = params["relations"].split(",").collect(&:to_i)
 
-    if ids.length == 0
-      fail OSM::APIBadUserInput.new("No relations were given to search for")
+    if ids.empty?
+      raise OSM::APIBadUserInput.new("No relations were given to search for")
     end
 
     doc = OSM::API.new.get_xml_doc

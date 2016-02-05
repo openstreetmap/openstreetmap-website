@@ -40,7 +40,7 @@ class Way < ActiveRecord::Base
     doc.find("//osm/way").each do |pt|
       return Way.from_xml_node(pt, create)
     end
-    fail OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/way element.")
+    raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/way element.")
   rescue LibXML::XML::Error, ArgumentError => ex
     raise OSM::APIBadXMLError.new("way", xml, ex.message)
   end
@@ -48,17 +48,17 @@ class Way < ActiveRecord::Base
   def self.from_xml_node(pt, create = false)
     way = Way.new
 
-    fail OSM::APIBadXMLError.new("way", pt, "Version is required when updating") unless create || !pt["version"].nil?
+    raise OSM::APIBadXMLError.new("way", pt, "Version is required when updating") unless create || !pt["version"].nil?
     way.version = pt["version"]
-    fail OSM::APIBadXMLError.new("way", pt, "Changeset id is missing") if pt["changeset"].nil?
+    raise OSM::APIBadXMLError.new("way", pt, "Changeset id is missing") if pt["changeset"].nil?
     way.changeset_id = pt["changeset"]
 
     unless create
-      fail OSM::APIBadXMLError.new("way", pt, "ID is required when updating") if pt["id"].nil?
+      raise OSM::APIBadXMLError.new("way", pt, "ID is required when updating") if pt["id"].nil?
       way.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      fail OSM::APIBadUserInput.new("ID of way cannot be zero when updating.") if way.id == 0
+      raise OSM::APIBadUserInput.new("ID of way cannot be zero when updating.") if way.id == 0
     end
 
     # We don't care about the timestamp nor the visibility as these are either
@@ -71,8 +71,8 @@ class Way < ActiveRecord::Base
 
     # Add in any tags from the XML
     pt.find("tag").each do |tag|
-      fail OSM::APIBadXMLError.new("way", pt, "tag is missing key") if tag["k"].nil?
-      fail OSM::APIBadXMLError.new("way", pt, "tag is missing value") if tag["v"].nil?
+      raise OSM::APIBadXMLError.new("way", pt, "tag is missing key") if tag["k"].nil?
+      raise OSM::APIBadXMLError.new("way", pt, "tag is missing value") if tag["v"].nil?
       way.add_tag_keyval(tag["k"], tag["v"])
     end
 
@@ -147,7 +147,7 @@ class Way < ActiveRecord::Base
 
     # duplicate tags are now forbidden, so we can't allow values
     # in the hash to be overwritten.
-    fail OSM::APIDuplicateTagsError.new("way", id, k) if @tags.include? k
+    raise OSM::APIDuplicateTagsError.new("way", id, k) if @tags.include? k
 
     @tags[k] = v
   end
@@ -166,7 +166,7 @@ class Way < ActiveRecord::Base
       lock!
       check_consistency(self, new_way, user)
       unless new_way.preconditions_ok?(nds)
-        fail OSM::APIPreconditionFailedError.new("Cannot update way #{id}: data is invalid.")
+        raise OSM::APIPreconditionFailedError.new("Cannot update way #{id}: data is invalid.")
       end
 
       self.changeset_id = new_way.changeset_id
@@ -181,7 +181,7 @@ class Way < ActiveRecord::Base
   def create_with_history(user)
     check_create_consistency(self, user)
     unless preconditions_ok?
-      fail OSM::APIPreconditionFailedError.new("Cannot create way: data is invalid.")
+      raise OSM::APIPreconditionFailedError.new("Cannot create way: data is invalid.")
     end
     self.version = 0
     self.visible = true
@@ -191,7 +191,7 @@ class Way < ActiveRecord::Base
   def preconditions_ok?(old_nodes = [])
     return false if nds.empty?
     if nds.length > MAX_NUMBER_OF_WAY_NODES
-      fail OSM::APITooManyWayNodesError.new(id, nds.length, MAX_NUMBER_OF_WAY_NODES)
+      raise OSM::APITooManyWayNodesError.new(id, nds.length, MAX_NUMBER_OF_WAY_NODES)
     end
 
     # check only the new nodes, for efficiency - old nodes having been checked last time and can't
@@ -205,7 +205,7 @@ class Way < ActiveRecord::Base
 
       if db_nds.length < new_nds.length
         missing = new_nds - db_nds.collect(&:id)
-        fail OSM::APIPreconditionFailedError.new("Way #{id} requires the nodes with id in (#{missing.join(',')}), which either do not exist, or are not visible.")
+        raise OSM::APIPreconditionFailedError.new("Way #{id} requires the nodes with id in (#{missing.join(',')}), which either do not exist, or are not visible.")
       end
     end
 
@@ -213,7 +213,7 @@ class Way < ActiveRecord::Base
   end
 
   def delete_with_history!(new_way, user)
-    fail OSM::APIAlreadyDeletedError.new("way", new_way.id) unless visible
+    raise OSM::APIAlreadyDeletedError.new("way", new_way.id) unless visible
 
     # need to start the transaction here, so that the database can
     # provide repeatable reads for the used-by checks. this means it
@@ -222,7 +222,7 @@ class Way < ActiveRecord::Base
       lock!
       check_consistency(self, new_way, user)
       rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Way", :member_id => id }).order(:id)
-      fail OSM::APIPreconditionFailedError.new("Way #{id} is still used by relations #{rels.collect(&:id).join(",")}.") unless rels.empty?
+      raise OSM::APIPreconditionFailedError.new("Way #{id} is still used by relations #{rels.collect(&:id).join(",")}.") unless rels.empty?
 
       self.changeset_id = new_way.changeset_id
       self.changeset = new_way.changeset
@@ -242,7 +242,7 @@ class Way < ActiveRecord::Base
     nds.map! do |node_id|
       if node_id < 0
         new_id = id_map[:node][node_id]
-        fail OSM::APIBadUserInput.new("Placeholder node not found for reference #{node_id} in way #{id.nil? ? placeholder_id : id}") if new_id.nil?
+        raise OSM::APIBadUserInput.new("Placeholder node not found for reference #{node_id} in way #{id.nil? ? placeholder_id : id}") if new_id.nil?
         new_id
       else
         node_id

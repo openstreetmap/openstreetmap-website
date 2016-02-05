@@ -63,7 +63,7 @@ class Changeset < ActiveRecord::Base
     doc.find("//osm/changeset").each do |pt|
       return Changeset.from_xml_node(pt, create)
     end
-    fail OSM::APIBadXMLError.new("changeset", xml, "XML doesn't contain an osm/changeset element.")
+    raise OSM::APIBadXMLError.new("changeset", xml, "XML doesn't contain an osm/changeset element.")
   rescue LibXML::XML::Error, ArgumentError => ex
     raise OSM::APIBadXMLError.new("changeset", xml, ex.message)
   end
@@ -80,8 +80,8 @@ class Changeset < ActiveRecord::Base
     end
 
     pt.find("tag").each do |tag|
-      fail OSM::APIBadXMLError.new("changeset", pt, "tag is missing key") if tag["k"].nil?
-      fail OSM::APIBadXMLError.new("changeset", pt, "tag is missing value") if tag["v"].nil?
+      raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing key") if tag["k"].nil?
+      raise OSM::APIBadXMLError.new("changeset", pt, "tag is missing value") if tag["v"].nil?
       cs.add_tag_keyval(tag["k"], tag["v"])
     end
 
@@ -137,7 +137,7 @@ class Changeset < ActiveRecord::Base
 
     # duplicate tags are now forbidden, so we can't allow values
     # in the hash to be overwritten.
-    fail OSM::APIDuplicateTagsError.new("changeset", id, k) if @tags.include? k
+    raise OSM::APIDuplicateTagsError.new("changeset", id, k) if @tags.include? k
 
     @tags[k] = v
   end
@@ -241,10 +241,10 @@ class Changeset < ActiveRecord::Base
   # bounding box, only the tags of the changeset.
   def update_from(other, user)
     # ensure that only the user who opened the changeset may modify it.
-    fail OSM::APIUserChangesetMismatchError.new unless user.id == user_id
+    raise OSM::APIUserChangesetMismatchError.new unless user.id == user_id
 
     # can't change a closed changeset
-    fail OSM::APIChangesetAlreadyClosedError.new(self) unless is_open?
+    raise OSM::APIChangesetAlreadyClosedError.new(self) unless is_open?
 
     # copy the other's tags
     self.tags = other.tags

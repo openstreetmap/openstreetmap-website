@@ -308,8 +308,8 @@ class ChangesetController < ApplicationController
   # Add a comment to a changeset
   def comment
     # Check the arguments are sane
-    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
-    fail OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput.new("No text was given") if params[:text].blank?
 
     # Extract the arguments
     id = params[:id].to_i
@@ -317,7 +317,7 @@ class ChangesetController < ApplicationController
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    fail OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
+    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
 
     # Add a comment to the changeset
     comment = changeset.comments.create(:changeset => changeset,
@@ -342,15 +342,15 @@ class ChangesetController < ApplicationController
   # Adds a subscriber to the changeset
   def subscribe
     # Check the arguments are sane
-    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    fail OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
-    fail OSM::APIChangesetAlreadySubscribedError.new(changeset) if changeset.subscribers.exists?(@user.id)
+    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
+    raise OSM::APIChangesetAlreadySubscribedError.new(changeset) if changeset.subscribers.exists?(@user.id)
 
     # Add the subscriber
     changeset.subscribers << @user
@@ -363,15 +363,15 @@ class ChangesetController < ApplicationController
   # Removes a subscriber from the changeset
   def unsubscribe
     # Check the arguments are sane
-    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
 
     # Find the changeset and check it is valid
     changeset = Changeset.find(id)
-    fail OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
-    fail OSM::APIChangesetNotSubscribedError.new(changeset) unless changeset.subscribers.exists?(@user.id)
+    raise OSM::APIChangesetNotYetClosedError.new(changeset) if changeset.is_open?
+    raise OSM::APIChangesetNotSubscribedError.new(changeset) unless changeset.subscribers.exists?(@user.id)
 
     # Remove the subscriber
     changeset.subscribers.delete(@user)
@@ -384,7 +384,7 @@ class ChangesetController < ApplicationController
   # Sets visible flag on comment to false
   def hide_comment
     # Check the arguments are sane
-    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
@@ -403,7 +403,7 @@ class ChangesetController < ApplicationController
   # Sets visible flag on comment to true
   def unhide_comment
     # Check the arguments are sane
-    fail OSM::APIBadUserInput.new("No id was given") unless params[:id]
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
 
     # Extract the arguments
     id = params[:id].to_i
@@ -473,19 +473,19 @@ class ChangesetController < ApplicationController
       changesets
     else
       # shouldn't provide both name and UID
-      fail OSM::APIBadUserInput.new("provide either the user ID or display name, but not both") if user && name
+      raise OSM::APIBadUserInput.new("provide either the user ID or display name, but not both") if user && name
 
       # use either the name or the UID to find the user which we're selecting on.
       u = if name.nil?
             # user input checking, we don't have any UIDs < 1
-            fail OSM::APIBadUserInput.new("invalid user ID") if user.to_i < 1
+            raise OSM::APIBadUserInput.new("invalid user ID") if user.to_i < 1
             u = User.find(user.to_i)
           else
             u = User.find_by_display_name(name)
           end
 
       # make sure we found a user
-      fail OSM::APINotFoundError.new if u.nil?
+      raise OSM::APINotFoundError.new if u.nil?
 
       # should be able to get changesets of public users only, or
       # our own changesets regardless of public-ness.
@@ -494,7 +494,7 @@ class ChangesetController < ApplicationController
         # changesets if they're non-public
         setup_user_auth
 
-        fail OSM::APINotFoundError if @user.nil? || @user.id != u.id
+        raise OSM::APINotFoundError if @user.nil? || @user.id != u.id
       end
 
       changesets.where(:user_id => u.id)
@@ -512,7 +512,7 @@ class ChangesetController < ApplicationController
 
       # check that we actually have 2 elements in the array
       times = time.split(/,/)
-      fail OSM::APIBadUserInput.new("bad time range") if times.size != 2
+      raise OSM::APIBadUserInput.new("bad time range") if times.size != 2
 
       from, to = times.collect { |t| DateTime.parse(t) }
       return changesets.where("closed_at >= ? and created_at <= ?", from, to)
@@ -561,7 +561,7 @@ class ChangesetController < ApplicationController
     if ids.nil?
       return changesets
     elsif ids.empty?
-      fail OSM::APIBadUserInput.new("No changesets were given to search for")
+      raise OSM::APIBadUserInput.new("No changesets were given to search for")
     else
       ids = ids.split(",").collect(&:to_i)
       return changesets.where(:id => ids)
@@ -582,7 +582,7 @@ class ChangesetController < ApplicationController
       if params[:limit].to_i > 0 && params[:limit].to_i <= 10000
         params[:limit].to_i
       else
-        fail OSM::APIBadUserInput.new("Comments limit must be between 1 and 10000")
+        raise OSM::APIBadUserInput.new("Comments limit must be between 1 and 10000")
       end
     else
       100

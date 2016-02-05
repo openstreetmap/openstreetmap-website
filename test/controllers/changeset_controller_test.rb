@@ -102,16 +102,16 @@ class ChangesetControllerTest < ActionController::TestCase
     basic_authorization users(:normal_user).email, "test"
     # Create the first user's changeset
     content "<osm><changeset>" +
-    "<tag k='created_by' v='osm test suite checking changesets'/>" +
-    "</changeset></osm>"
+            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+            "</changeset></osm>"
     put :create
     assert_require_public_data
 
     basic_authorization users(:public_user).email, "test"
     # Create the first user's changeset
     content "<osm><changeset>" +
-    "<tag k='created_by' v='osm test suite checking changesets'/>" +
-    "</changeset></osm>"
+            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+            "</changeset></osm>"
     put :create
 
     assert_response :success, "Creation of changeset did not return sucess status"
@@ -527,8 +527,8 @@ EOF
 
       # create a temporary changeset
       content "<osm><changeset>" +
-      "<tag k='created_by' v='osm test suite checking changesets'/>" +
-      "</changeset></osm>"
+              "<tag k='created_by' v='osm test suite checking changesets'/>" +
+              "</changeset></osm>"
       assert_difference "Changeset.count", 1 do
         put :create
       end
@@ -1102,8 +1102,8 @@ EOF
     basic_authorization users(:public_user).email, "test"
 
     content "<osm><changeset>" +
-    "<tag k='created_by' v='osm test suite checking changesets'/>" +
-    "</changeset></osm>"
+            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+            "</changeset></osm>"
     put :create
     assert_response :success
     changeset_id = @response.body.to_i
@@ -1140,8 +1140,8 @@ EOF
     basic_authorization users(:public_user).email, "test"
 
     content "<osm><changeset>" +
-    "<tag k='created_by' v='osm test suite checking changesets'/>" +
-    "</changeset></osm>"
+            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+            "</changeset></osm>"
     put :create
     assert_response :success
     changeset_id = @response.body.to_i
@@ -1225,8 +1225,8 @@ EOF
 
     # create a temporary changeset
     content "<osm><changeset>" +
-    "<tag k='created_by' v='osm test suite checking changesets'/>" +
-    "</changeset></osm>"
+            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+            "</changeset></osm>"
     put :create
     assert_response :forbidden
 
@@ -1235,8 +1235,8 @@ EOF
 
     # create a temporary changeset
     content "<osm><changeset>" +
-    "<tag k='created_by' v='osm test suite checking changesets'/>" +
-    "</changeset></osm>"
+            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+            "</changeset></osm>"
     put :create
     assert_response :success
     changeset_id = @response.body.to_i
@@ -1281,8 +1281,8 @@ EOF
 
     # create a temporary changeset
     content "<osm><changeset>" +
-    "<tag k='created_by' v='osm test suite checking changesets'/>" +
-    "</changeset></osm>"
+            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+            "</changeset></osm>"
     put :create
     assert_response :success
     changeset_id = @response.body.to_i
@@ -1340,8 +1340,8 @@ OSMFILE
 
     # create a temporary changeset
     content "<osm><changeset>" +
-    "<tag k='created_by' v='osm test suite checking changesets'/>" +
-    "</changeset></osm>"
+            "<tag k='created_by' v='osm test suite checking changesets'/>" +
+            "</changeset></osm>"
     put :create
     assert_response :success
     changeset_id = @response.body.to_i

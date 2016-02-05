@@ -93,8 +93,8 @@ module ActionController
       valid_options << :actions unless in_action
 
       unknown_option_keys = options.keys - valid_options
-      fail ActionController::ActionControllerError,
-           "Unknown options: #{unknown_option_keys.join(', ')}" unless
+      raise ActionController::ActionControllerError,
+            "Unknown options: #{unknown_option_keys.join(', ')}" unless
               unknown_option_keys.empty?
 
       options[:singular_name] ||= ActiveSupport::Inflector.singularize(collection_id.to_s)
@@ -225,7 +225,7 @@ module ActionController
       # than or equal to zero). The page CGI parameter for links defaults to
       # "page" and can be overridden with +page_parameter+.
       def initialize(controller, item_count, items_per_page, current_page = 1)
-        fail ArgumentError, "must have at least one item per page" if
+        raise ArgumentError, "must have at least one item per page" if
           items_per_page <= 0
 
         @controller = controller
@@ -242,7 +242,7 @@ module ActionController
       # not belong to this Paginator, an ArgumentError is raised.
       def current_page=(page)
         if page.is_a? Page
-          fail ArgumentError, "Page/Paginator mismatch" unless
+          raise ArgumentError, "Page/Paginator mismatch" unless
             page.paginator == self
         end
         page = page.to_i
@@ -326,7 +326,7 @@ module ActionController
         # left-hand page comes after the right-hand page. Raises ArgumentError
         # if the pages do not belong to the same Paginator object.
         def <=>(other)
-          fail ArgumentError unless @paginator == other.paginator
+          raise ArgumentError unless @paginator == other.paginator
           @number <=> other.number
         end
 

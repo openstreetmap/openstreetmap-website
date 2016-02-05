@@ -264,7 +264,7 @@ class TraceController < ApplicationController
       new_trace = Trace.from_xml(request.raw_post)
 
       unless new_trace && new_trace.id == trace.id
-        fail OSM::APIBadUserInput.new("The id in the url (#{trace.id}) is not the same as provided in the xml (#{new_trace.id})")
+        raise OSM::APIBadUserInput.new("The id in the url (#{trace.id}) is not the same as provided in the xml (#{new_trace.id})")
       end
 
       trace.description = new_trace.description

@@ -217,8 +217,8 @@ class User < ActiveRecord::Base
 
     score = description.spam_score / 4.0
     score += diary_entries.where("created_at > ?", 1.day.ago).count * 10
-    score += diary_entry_score / diary_entries.length if diary_entries.length > 0
-    score += diary_comment_score / diary_comments.length if diary_comments.length > 0
+    score += diary_entry_score / diary_entries.length unless diary_entries.empty?
+    score += diary_comment_score / diary_comments.length unless diary_comments.empty?
     score -= changeset_score
     score -= trace_score
 

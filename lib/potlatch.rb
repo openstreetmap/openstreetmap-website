@@ -179,7 +179,7 @@ module Potlatch
       presetcategory = ""
       #	StringIO.open(txt) do |file|
       File.open("#{Rails.root}/config/potlatch/presets.txt") do |file|
-        file.each_line do|line|
+        file.each_line do |line|
           t = line.chomp
           if t =~ %r{(\w+)/(\w+)}
             presettype = $1
@@ -191,7 +191,7 @@ module Potlatch
             kv = $2
             presetnames[presettype][presetcategory].push(pre)
             presets[pre] = {}
-            kv.split(",").each do|a|
+            kv.split(",").each do |a|
               presets[pre][$1] = $2 if a =~ /^(.+)=(.*)$/
             end
           end
@@ -243,7 +243,7 @@ module Potlatch
       # Read auto-complete
       autotags = { "point" => {}, "way" => {}, "POI" => {} }
       File.open("#{Rails.root}/config/potlatch/autocomplete.txt") do |file|
-        file.each_line do|line|
+        file.each_line do |line|
           next unless line.chomp =~ %r{^([\w:]+)/(\w+)\s+(.+)$}
 
           tag = $1

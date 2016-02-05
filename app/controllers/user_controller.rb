@@ -653,7 +653,7 @@ class UserController < ApplicationController
     user.display_name = params[:user][:display_name]
     user.new_email = params[:user][:new_email]
 
-    if params[:user][:pass_crypt].length > 0 || params[:user][:pass_crypt_confirmation].length > 0
+    unless params[:user][:pass_crypt].empty? && params[:user][:pass_crypt_confirmation].empty?
       user.pass_crypt = params[:user][:pass_crypt]
       user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
     end

@@ -36,7 +36,7 @@ class WayController < ApplicationController
     new_way = Way.from_xml(request.raw_post)
 
     unless new_way && new_way.id == way.id
-      fail OSM::APIBadUserInput.new("The id in the url (#{way.id}) is not the same as provided in the xml (#{new_way.id})")
+      raise OSM::APIBadUserInput.new("The id in the url (#{way.id}) is not the same as provided in the xml (#{new_way.id})")
     end
 
     way.update_from(new_way, @user)
@@ -81,13 +81,13 @@ class WayController < ApplicationController
 
   def ways
     unless params["ways"]
-      fail OSM::APIBadUserInput.new("The parameter ways is required, and must be of the form ways=id[,id[,id...]]")
+      raise OSM::APIBadUserInput.new("The parameter ways is required, and must be of the form ways=id[,id[,id...]]")
     end
 
     ids = params["ways"].split(",").collect(&:to_i)
 
-    if ids.length == 0
-      fail OSM::APIBadUserInput.new("No ways were given to search for")
+    if ids.empty?
+      raise OSM::APIBadUserInput.new("No ways were given to search for")
     end
 
     doc = OSM::API.new.get_xml_doc
