@@ -3,6 +3,8 @@
 # Export driver: phpyaml
 # Author: Nemo bis
 # Author: Snævar
+# Author: Sveinki
+# Author: Sveinn í Felli
 # Author: Ævar Arnfjörð Bjarmason
 ---
 is:
@@ -49,7 +51,7 @@ is:
         body: Texit
       diary_entry:
         user: Notandi
-        title: Titill
+        title: Fyrirsögn
         latitude: Lengdargráða
         longitude: Breiddargráða
         language: Tungumál
@@ -67,7 +69,7 @@ is:
         description: Lýsing
       message:
         sender: Sendandi
-        title: Titill
+        title: Fyrirsögn
         body: Texti
         recipient: Móttakandi
       user:
@@ -79,14 +81,35 @@ is:
         pass_crypt: Lykilorð
   printable_name:
     with_version: '%{id}, útgáfa %{version}'
+  editor:
+    default: Sjálfgefið (núna %{name})
+    remote:
+      name: Fjarstýring
+      description: Fjarstýring (JOSM eða Merkaartor)
   browse:
+    created: Búið til
+    closed: Lokað
+    created_html: Bjó til <abbr title='%{title}'>%{time} síðan</abbr>
+    version: Útgáfa
+    in_changeset: Breytingarsett
+    anonymous: nafnlaus
+    no_comment: (engin athugasemd)
+    part_of: Hluti af
+    download_xml: Sækja XML
+    view_history: Skoða feril
+    view_details: Skoða nánar
+    location: 'Staðsetning:'
     changeset:
-      title: Breytingarsett
+      title: 'Breytingasett: %{id}'
+      belongs_to: Höfundur
       changesetxml: Breytingarsetts XML sniði
       osmchangexml: osmChange XML sniði
       feed:
         title: Breytingarsett %{id}
         title_comment: Breytingarsett %{id} - %{comment}
+      discussion: Umræða
+    relation:
+      members: Meðlimir
     relation_member:
       entry_role: '%{type} %{name} sem „%{role}“'
       type:
@@ -97,7 +120,7 @@ is:
       entry: Venslunum %{relation_name}
       entry_role: Venslunum %{relation_name} (sem „%{relation_role}“)
     not_found:
-      sorry: Því miður %{type} með kennitöluna %{id}.
+      sorry: Því miður, %{type} með kennitöluna %{id} fannst ekki.
       type:
         node: fannst ekki hnútur
         way: fannst ekki vegur
@@ -115,11 +138,14 @@ is:
       load_data: Hlaða inn gögnum
       loading: Hleð inn gögnum...
     tag_details:
-      tags: 'Eigindi:'
+      tags: Merki
       wiki_link:
         key: Wiki-síðan fyrir %{key} lykilinn
         tag: Wiki-síðan fyrir %{key}=%{value} eigindin
+      wikidata_link: Atriðið %{page} á Wikidata
       wikipedia_link: „%{page}“ greinin á Wikipedia
+    note:
+      description: Lýsing
   changeset:
     changeset_paging_nav:
       showing_page: Sýni síðu %{page}
@@ -203,6 +229,7 @@ is:
         title: OpenStreetMap dagbókarfærslur
         description: Nýjustu dagbókarfærslur frá OpenStreetMap
   export:
+    title: Flytja út
     start:
       area_to_export: Svæði til að niðurhala
       manually_select: Velja annað svæði á kortinu
@@ -220,7 +247,7 @@ is:
       scale: Skali
       max: hámark
       image_size: 'Stærð myndar:'
-      zoom: Þys
+      zoom: Aðdráttur
       add_marker: Bæta punkti á kortið
       latitude: 'Lengdargráða:'
       longitude: 'Breiddargráða:'
@@ -241,6 +268,17 @@ is:
     search_osm_nominatim:
       prefix_format: '%{name}:'
       prefix:
+        aerialway:
+          cable_car: Kláflyfta
+          chair_lift: Stólalyfta
+          drag_lift: Toglyfta
+          gondola: Eggjalyfta
+        aeroway:
+          gate: Hlið
+          helipad: Þyrlupallur
+          runway: Flugbraut
+          taxiway: Akstursbraut
+          terminal: Flugstöð
         amenity:
           atm: Hraðbankinn
           bank: Bankinn
@@ -257,6 +295,7 @@ is:
           casino: Spilavíti
           cinema: Kvikmyndarhúsið
           clinic: Heilsugæsla
+          clock: Klukka
           college: Framhaldskóli
           community_centre: Samfélagsmiðstöð
           courthouse: Dómshús
@@ -264,6 +303,7 @@ is:
           dentist: Tannlæknirinn
           doctors: Læknar
           dormitory: Heimavist
+          drinking_water: Drykkjarvatn
           driving_school: Ökuskóli
           embassy: Sendiráðið
           emergency_phone: Neyðarsími
@@ -1124,6 +1164,11 @@ is:
       needs_view: Notandinn þarf að innskrá sig áður en bannið fellur úr gildi.
   javascripts:
     map:
+      zoom:
+        in: Renna að
       base:
         cycle_map: Hjólakort
+    site:
+      edit_disabled_tooltip: Renndu að til að breyta kortinu
+      map_data_zoom_in_tooltip: Renndu að til að skoða gögn kortsins
 ...
