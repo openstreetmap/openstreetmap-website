@@ -225,7 +225,7 @@ class UserController < ApplicationController
     if check_signup_allowed(@user.email)
       session[:referer] = params[:referer]
 
-      @user.status = "pending"
+      @user.status = "active"
 
       if @user.auth_provider.present? && @user.pass_crypt.empty?
         # We are creating an account with external authentication and
