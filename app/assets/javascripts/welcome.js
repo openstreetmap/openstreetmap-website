@@ -1,12 +1,15 @@
 $(document).ready(function() {
-  var params = OSM.params();
+  var params = OSM.params(),
+      parts = window.location.pathname.split("/"),
+      prefix = parts.slice(0, parts.length - 1).join("/");
+
 
   if (params.lat && params.lon) {
     params.lat = parseFloat(params.lat);
     params.lon = parseFloat(params.lon);
     params.zoom = params.zoom || 17;
 
-    var url = '/edit';
+    var url = prefix + '/edit';
 
     if (params.editor) {
       url += '?editor=' + params.editor;
@@ -18,7 +21,7 @@ $(document).ready(function() {
 
   } else {
     var geoSuccess = function (position) {
-      window.location = '/edit' + OSM.formatHash({
+      window.location = prefix + '/edit' + OSM.formatHash({
         zoom: 17,
         lat: position.coords.latitude,
         lon: position.coords.longitude
@@ -42,6 +45,6 @@ $(document).ready(function() {
   }
 
   function manualEdit() {
-    window.location = '/?edit_help=1';
+    window.location = prefix + '/?edit_help=1';
   }
 });
