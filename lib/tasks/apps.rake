@@ -14,8 +14,7 @@ namespace :osm do
         url: ENV["url"],
         allow_write_api: true
 
-      puts "key=#{app.key}"
-      puts "secret=#{app.secret}"
+      puts app.to_json
     end
   end
 end
