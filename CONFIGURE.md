@@ -75,6 +75,14 @@ Do the following:
 * Uncomment and change the "potlatch2_key" configuration value
 * Restart your rails server
 
+Alternately:
+
+```base
+bundle exec rake osm:apps:create name="Local Potlatch" url="http://localhost:3000"
+```
+
+...and copy the `key` value into `application.yml`.
+
 An example excerpt from application.yml:
 
 ```
