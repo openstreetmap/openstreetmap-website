@@ -169,8 +169,6 @@ module Potlatch
     #				[3] colours, [4] casing, [5] areas, [6] autotags
     #				(all hashes)
     def self.get_presets
-      Rails.logger.info("  Message: getpresets")
-
       # Read preset menus
       presets = {}
       presetmenus = { "point" => [], "way" => [], "POI" => [] }
