@@ -91,9 +91,6 @@ gem "kgio"
 # Used to generate logstash friendly log files
 gem "logstasher"
 
-# Stay with sprockets-rails 2.x pending fix for konacha
-gem "sprockets-rails", "< 3"
-
 # Gems useful for development
 group :development do
   gem "vendorer"
