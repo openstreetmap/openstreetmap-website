@@ -1,11 +1,7 @@
 module AssetHelper
   def assets(directory)
-    assets = {}
-
-    Rails.application.assets.index.each_logical_path("#{directory}/*") do |path|
-      assets[path.sub(%r{^#{directory}/}, "")] = asset_path(path)
+    Rails.application.assets_manifest.assets.keys.each_with_object({}) do |asset, assets|
+      assets[asset] = asset_path(asset) if asset.start_with?("#{directory}/")
     end
-
-    assets
   end
 end
