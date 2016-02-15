@@ -15,6 +15,7 @@ class NoteHelperTest < ActionView::TestCase
 
   def test_note_author
     assert_equal "", note_author(nil)
+    assert_equal "anonymous", note_author(users(:deleted_user))
     assert_equal "<a href=\"/user/test2\">test2</a>", note_author(users(:public_user))
     assert_equal "<a href=\"http://test.host/user/test2\">test2</a>", note_author(users(:public_user), :only_path => false)
   end

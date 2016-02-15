@@ -17,6 +17,8 @@ module NoteHelper
   def note_author(author, link_options = {})
     if author.nil?
       ""
+    elsif author.status == "deleted"
+      t("browse.anonymous")
     else
       link_to h(author.display_name), link_options.merge(:controller => "user", :action => "view", :display_name => author.display_name)
     end
