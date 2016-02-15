@@ -6,7 +6,7 @@ class ChangesetHelperTest < ActionView::TestCase
   def test_changeset_user_link
     assert_equal "<a href=\"/user/test2\">test2</a>", changeset_user_link(changesets(:public_user_first_change))
     assert_equal "anonymous", changeset_user_link(changesets(:normal_user_first_change))
-    assert_equal "anonymous", changeset_user_link(changesets(:deleted_user_first_change))
+    assert_equal "deleted", changeset_user_link(changesets(:deleted_user_first_change))
   end
 
   def test_changeset_details
