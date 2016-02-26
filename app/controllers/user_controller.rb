@@ -182,7 +182,7 @@ class UserController < ApplicationController
           if @user.save
             token.destroy
             flash[:notice] = t "user.reset_password.flash changed"
-            redirect_to :action => "login"
+            successful_login(@user)
           end
         end
       else
