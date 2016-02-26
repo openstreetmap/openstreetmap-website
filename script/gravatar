@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+# require File.dirname(__FILE__) + "/../config/environment"
+
+start = 0
+User.where("image_use_gravatar AND id >=" + start.to_s).order("id").find_each do |user|
+  p "checked up to id " + user.id.to_s if user.id % 1000 == 0 # just give a rough indication where we are for restarting
+  next if user.image.present?
+  hash = Digest::MD5.hexdigest(user.email.downcase)
+  url = "https://www.gravatar.com/avatar/#{hash}?d=404" # without d=404 we will always get an image back
+  response = OSM.http_client.get(URI.parse(url))
+  user.image_use_gravatar = response.success?
+  user.save
+  sleep(1)
+end
+
+exit 0
