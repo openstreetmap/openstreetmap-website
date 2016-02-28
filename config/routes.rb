@@ -15,6 +15,8 @@ OpenStreetMap::Application.routes.draw do
   match "api/0.6/changeset/:id/close" => "changeset#close", :via => :put, :id => /\d+/
   match "api/0.6/changesets" => "changeset#query", :via => :get
   post "api/0.6/changeset/:id/comment" => "changeset#comment", :as => :changeset_comment, :id => /\d+/
+  post "api/0.6/changeset/:id/hide_tags" => "changeset#hide_tags", :as => :changeset_tags_hide, :id => /\d+/
+  post "api/0.6/changeset/:id/unhide_tags" => "changeset#unhide_tags", :as => :changeset_tags_unhide, :id => /\d+/
   post "api/0.6/changeset/comment/:id/hide" => "changeset#hide_comment", :as => :changeset_comment_hide, :id => /\d+/
   post "api/0.6/changeset/comment/:id/unhide" => "changeset#unhide_comment", :as => :changeset_comment_unhide, :id => /\d+/
 

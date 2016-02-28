@@ -389,7 +389,7 @@ class ChangesetController < ApplicationController
     # Extract the arguments
     id = params[:id].to_i
 
-    # Find the changeset
+    # Find the comment
     comment = ChangesetComment.find(id)
 
     # Hide the comment
@@ -408,7 +408,7 @@ class ChangesetController < ApplicationController
     # Extract the arguments
     id = params[:id].to_i
 
-    # Find the changeset
+    # Find the comment
     comment = ChangesetComment.find(id)
 
     # Unhide the comment
@@ -416,6 +416,44 @@ class ChangesetController < ApplicationController
 
     # Return a copy of the updated changeset
     render :text => comment.changeset.to_xml.to_s, :content_type => "text/xml"
+  end
+
+  ##
+  # Hide tags
+  def hide_tags
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+
+    # Extract the arguments
+    id = params[:id].to_i
+
+    # Find the changeset
+    changeset = Changeset.find(id)
+
+    # Hide the tags
+    changeset.update(:tags_hidden => true)
+
+    # Return a copy of the updated changeset
+    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
+  end
+
+  ##
+  # Un-Hide tags
+  def unhide_tags
+    # Check the arguments are sane
+    raise OSM::APIBadUserInput.new("No id was given") unless params[:id]
+
+    # Extract the arguments
+    id = params[:id].to_i
+
+    # Find the changeset
+    changeset = Changeset.find(id)
+
+    # Unhide the tags
+    changeset.update(:tags_hidden => false)
+
+    # Return a copy of the updated changeset
+    render :text => changeset.to_xml.to_s, :content_type => "text/xml"
   end
 
   ##
@@ -442,6 +480,7 @@ class ChangesetController < ApplicationController
   rescue OSM::APIBadUserInput
     render :text => "", :status => :bad_request
   end
+
 
   private
 

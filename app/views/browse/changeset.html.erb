@@ -9,8 +9,16 @@
   <h4><%= linkify(h(changeset_comment_or_nocomment(@changeset))) %></h4>
   <div class="details"><%= changeset_details(@changeset) %></div>
 
-  <% unless @changeset.tags_hidden %>
-  <%= render :partial => "tag_details", :object => @changeset.tags.except('comment') %>
+  <% if (@user and @user.moderator?) or !@changeset.tags_hidden %>
+  <%= render :partial => "tag_details", :object => @changeset.tags_hidden ? @changeset.tags : @changeset.tags.except('comment') %>
+  <% end %>
+
+  <% if @user and @user.moderator? %>
+    <%if @changeset.tags_hidden %>
+    — <span class="action-button deemphasize" data-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_tags_unhide_url(@changeset.id) %>"><%= t('javascripts.changesets.show.unhide_tags') %></span>
+    <% else %>
+    — <span class="action-button deemphasize" data-id="<%= @changeset.id %>" data-method="POST" data-url="<%= changeset_tags_hide_url(@changeset.id) %>"><%= t('javascripts.changesets.show.hide_tags') %></span>
+    <% end %>
   <% end %>
 
   <h4 class="comments-header"><%= t('browse.changeset.discussion') %></h4>
