@@ -6,10 +6,12 @@
 </h2>
 
 <div class="browse-section">
-  <h4><%= linkify(h(@changeset.tags['comment'].to_s.presence || t('browse.no_comment'))) %></h4>
+  <h4><%= linkify(h(changeset_comment_or_nocomment(@changeset))) %></h4>
   <div class="details"><%= changeset_details(@changeset) %></div>
 
+  <% unless @changeset.tags_hidden %>
   <%= render :partial => "tag_details", :object => @changeset.tags.except('comment') %>
+  <% end %>
 
   <h4 class="comments-header"><%= t('browse.changeset.discussion') %></h4>
   

@@ -31,4 +31,14 @@ module ChangesetHelper
         :user => changeset_user_link(changeset)
     end
   end
+
+  def changeset_comment_or_nocomment(changeset)
+    if !changeset.tags['comment'].present
+      t("browse.no_comment")
+    elsif changeset.tags_hidden
+      t("browse.tags_hidden")
+    else
+      changeset.tags['comment']
+    end
+  end
 end

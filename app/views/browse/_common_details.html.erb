@@ -1,9 +1,5 @@
 <h4>
-  <% if common_details.changeset.tags['comment'].present? %>
-    <%= linkify(h(common_details.changeset.tags['comment'])) %>
-  <% else %>
-    <%= t 'browse.no_comment' %>
-  <% end %>
+  <%= linkify(h(changeset_comment_or_nocomment(common_details.changeset))) %>
 </h4>
 
 <div class="details">
