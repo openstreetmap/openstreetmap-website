@@ -32,10 +32,10 @@ module ChangesetHelper
     end
   end
 
-  def changeset_comment_or_nocomment(changeset)
+  def changeset_comment_or_nocomment(changeset, moderator = false)
     if !changeset.tags['comment'].present?
       t("browse.no_comment")
-    elsif changeset.tags_hidden
+    elsif changeset.tags_hidden and !moderator
       t("browse.tags_hidden")
     else
       changeset.tags['comment']

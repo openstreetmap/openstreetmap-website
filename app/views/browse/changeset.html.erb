@@ -6,11 +6,14 @@
 </h2>
 
 <div class="browse-section">
-  <h4><%= linkify(h(changeset_comment_or_nocomment(@changeset))) %></h4>
+  <h4><%= linkify(h(changeset_comment_or_nocomment(@changeset, @user && @user.moderator?))) %></h4>
   <div class="details"><%= changeset_details(@changeset) %></div>
 
   <% if (@user and @user.moderator?) or !@changeset.tags_hidden %>
-  <%= render :partial => "tag_details", :object => @changeset.tags_hidden ? @changeset.tags : @changeset.tags.except('comment') %>
+    <% if @changeset.tags_hidden %>
+      <%= t('browse.tags_hidden') %>
+    <% end %>
+    <%= render :partial => "tag_details", :object => @changeset.tags.except('comment') %>
   <% end %>
 
   <% if @user and @user.moderator? %>
