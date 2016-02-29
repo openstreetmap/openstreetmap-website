@@ -7,21 +7,29 @@
 cy:
   time:
     formats:
-      friendly: '%e %B %Y am %H:%M'
+      friendly: '%e %B %Y at %H:%M'
   activerecord:
     models:
       acl: Rhestr Rheoli Mynediad
+      changeset: Changeset
+      changeset_tag: Tag Changeset
       country: Gwlad
       diary_comment: Nodyn Dyddiadur
       diary_entry: Cofnod Dyddiadur
       friend: Ffrind
       language: Iaith
       message: Neges
+      node: Nod
+      node_tag: Tag Nod
       notifier: Hysbysydd
+      old_node: Hen Nod
+      old_node_tag: Tag Hen Nod
       old_relation: Hen Berthynas
       old_relation_member: Aelod o Hen Berthynas
       old_relation_tag: Tag Hen Berthynas
       old_way: Hen Lwybr
+      old_way_node: Nod Hen Ffordd
+      old_way_tag: Tag Hen Ffordd
       relation: Perthynas
       session: Sesiwn
       trace: Dargopïo
@@ -71,6 +79,8 @@ cy:
     id:
       name: iD
       description: iD (golygydd y porwr)
+    remote:
+      name: Rheolaeth o bell
   browse:
     created: Crewyd
     closed: Wedi cau
@@ -293,14 +303,20 @@ cy:
     search_osm_nominatim:
       prefix:
         aerialway:
+          cable_car: Car Cebl
           chair_lift: Cadair godi
           drag_lift: Cadair lusg
+          gondola: Lifft Gondola
+          station: Gorsaf Awyr
         aeroway:
           aerodrome: Maesawyr
           apron: Ffedog
           gate: Giat
           helipad: Pad Hofrennydd
+          runway: Rhedfa Awyr
+          terminal: Terfynell
         amenity:
+          animal_shelter: Cysgod Anifeiliaid
           arts_centre: Canolfan Grefftau
           atm: Peiriant Codi Arian
           bank: Banc
@@ -310,6 +326,7 @@ cy:
           bicycle_parking: Man Cadw Beic
           bicycle_rental: Man Llogi Beic
           biergarten: Gardd Gwrw
+          boat_rental: Llogi Cychod
           brothel: Puteindy
           bureau_de_change: Bureau de Change
           bus_station: Gorsaf Fysiau
@@ -319,19 +336,23 @@ cy:
           car_wash: Golchwr Cerbyd
           casino: Casino
           charging_station: Gorsaf Gwefru
+          childcare: Man Gwarchod Plant
           cinema: Sinema
           clinic: Clinic
+          clock: Cloc
           college: Coleg
           community_centre: Canolfan Cymunedol
           courthouse: Llys
           crematorium: Amlosgfa
           dentist: Deintydd
           doctors: Meddygfa
+          dormitory: Noswylfa
           drinking_water: Dŵr Yfed
           driving_school: Ysgol Yrru
           embassy: Llysgenhadaeth
           emergency_phone: Ffôn Argyfwng
           fast_food: Bwyd Parod
+          ferry_terminal: Terfynell Fferi
           fire_station: Gorsaf Dân
           food_court: Cwrt Fwydydd
           fountain: Ffynnon
@@ -345,11 +366,14 @@ cy:
           library: Llyfrgell
           market: Marchnad
           marketplace: Marchnad
+          monastery: Mynachdy
+          motorcycle_parking: Man Parcio Beiciau Modur
           nightclub: Clwb Nôs
           nursery: Meithrinfa
           nursing_home: Cartref Nyrsio
           office: Swyddfa
           parking: Parcio
+          parking_entrance: Mynedfa Man Parcio
           pharmacy: Fferyllfa
           place_of_worship: Man addoli
           police: Heddlu
@@ -394,10 +418,21 @@ cy:
           "yes": Pont
         building:
           "yes": Adeilad
+        craft:
+          brewery: Bragdy
+          carpenter: Saer
+          electrician: Trydanydd
+          gardener: Garddwr
+          painter: Peintiwr
+          photographer: Ffotograffydd
+          plumber: Plymar
+          "yes": Siop Grefftau
         emergency:
+          ambulance_station: Gorsaf Ambiwlans
           phone: Ffôn Argyfwng
         highway:
           bridleway: Llwybr Ceffyl
+          bus_guideway: Lon Bysiau
           bus_stop: Stop Bysiau
           construction: Priffordd yn cael ei Adeiladu
           cycleway: Llwybr Beicio
@@ -414,10 +449,12 @@ cy:
           primary: Priffordd
           primary_link: Priffordd
           proposed: Ffordd Arfaethedig
+          residential: Ffordd
           rest_area: Man Gorffwys
           road: Ffordd
           secondary: Ffordd Eilaidd
           secondary_link: Ffordd Eilaidd
+          service: Ffordd Waith
           services: Gwasanaethau Traffordd
           speed_camera: Camera Cyflymder
           steps: Grisiau
@@ -425,32 +462,41 @@ cy:
           tertiary: Ffordd Trydyddol
           tertiary_link: Ffordd Trydyddol
           track: Trac
+          traffic_signals: Goleuadau Traffig
           trail: Llwybr
           trunk: Cefnffordd
           trunk_link: Cefnffordd
           unclassified: Ffordd Diddosbarth
           unsurfaced: Ffordd Heb Wyneb
+          "yes": Ffordd
         historic:
           archaeological_site: Safle Archaeolegol
           battlefield: Maes Brwydr
           boundary_stone: Maen Terfyn
-          building: Adeilad
+          building: Adeilad Hanesyddol
+          bunker: Byncar
           castle: Castell
           church: Eglwys
+          city_gate: Gat y Ddinas
           citywalls: Waliau Ddinas
           fort: Caer
+          heritage: Safle Dreftadaeth
           house: Tŷ
           icon: Eicon
           manor: Maenor
           memorial: Cofeb
           mine: Mwynfa
           monument: Cofadail
+          roman_road: Ffordd Rufeinig
           ruins: Adfeilion
+          stone: Carreg
           tomb: Beddrod
           tower: Tŵr
           wayside_cross: Croes Min Ffordd
           wayside_shrine: Cysegrfa Min Ffordd
           wreck: Llongddrylliad
+        junction:
+          "yes": Cyffordd
         landuse:
           allotments: Rhandiroedd
           basin: Basn
@@ -481,8 +527,11 @@ cy:
           vineyard: Gwinllan
         leisure:
           beach_resort: Ardal Wyliau
+          club: Clwb
           common: Tir Comin
+          dog_park: Parc Cwn
           fishing: Man Pysgota
+          fitness_centre: Canolfan Gadw'n Heini
           garden: Gardd
           golf_course: Cwrs Golff
           ice_rink: Llawr Sglefrio
@@ -500,6 +549,11 @@ cy:
           swimming_pool: Pwll Nofio
           track: Trac Rhedeg
           water_park: Parc Dŵr
+        man_made:
+          lighthouse: Goleudy
+          pipeline: Pibell
+          works: Ffatri
+          "yes": Wnaed gan Ddyn
         military:
           airfield: Maes Awyr Milwrol
           barracks: Barics
@@ -518,6 +572,7 @@ cy:
           forest: Coedwig
           geyser: Geiser
           glacier: Rhewlif
+          grassland: Caeau
           heath: Rhos
           hill: Bryn
           island: Ynys
@@ -530,7 +585,9 @@ cy:
           reef: Riff
           ridge: Cefn
           rock: Craig
+          sand: Tywod
           scree: Sgri
+          scrub: Llwyni
           spring: Ffynnon
           stone: Carreg
           strait: Culfor
@@ -542,6 +599,7 @@ cy:
           wood: Coed
         office:
           accountant: Cyfrifydd
+          administrative: Gweinyddu
           architect: Pensaer
           company: Cwmni
           employment_agency: Asiantaeth Cyflogi
@@ -593,6 +651,7 @@ cy:
           proposed: Rheilfford Arfaethedig
           spur: Cainc Rheilffordd
           station: Gorsaf Drenau
+          stop: Siop Reilffordd
           subway: Gorsaf Drenau Tanddaearol
           subway_entrance: Mynedfa at Drenau Tanddaearol
           tram: Tramffordd
@@ -681,6 +740,7 @@ cy:
           camp_site: Man Gwersylla
           caravan_site: Parc Carafanau
           chalet: Chalet
+          gallery: Galeri
           guest_house: Llety
           hostel: Hostel
           hotel: Gwesty
@@ -695,6 +755,7 @@ cy:
           culvert: Twnel Ddŵr
           "yes": Twnel
         waterway:
+          boatyard: Iard Gychod
           canal: Camlas
           dam: Argae
           derelict_canal: Camlas Diffaith
@@ -719,6 +780,10 @@ cy:
         level9: Ffin Pentref
         level10: Ffin Maesdref
     description:
+      title:
+        osm_nominatim: Lleoliad o <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
+          Nominatim</a>
+        geonames: Lleoliad o <a href="http://www.geonames.org/">GeoNames</a>
       types:
         cities: Dinasoedd
         towns: Trefi
@@ -779,6 +844,7 @@ cy:
       english_link: y Saesneg gwreiddiol
     native:
       title: Ynghylch y dudalen hon
+      native_link: Cymraeg
       mapping_link: dechrau mapio
     legal_babble:
       title_html: Hawlfraint a Thrwydded
