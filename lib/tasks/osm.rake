@@ -36,7 +36,7 @@ namespace :osm do
         terms_agreed: Time.now,
         data_public: true,
         status: "active",
-        email_valid: true,
+        email_valid: false,
         # testing1234
         pass_crypt: "aWJugNpTKNMU7K7tVTaWzPxe5iUCwCIY3CgnQXPa7FM=",
         pass_salt: "sha512!1000!4v2n8BkluuIcYW+FNM9JOvGW3BiVp4QFh0P7N/YmDu8="
