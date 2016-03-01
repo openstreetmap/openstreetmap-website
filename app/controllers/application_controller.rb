@@ -6,6 +6,11 @@ class ApplicationController < ActionController::Base
   before_action :fetch_body
 
   def authorize_web
+    if defined? POSM_USER
+      @user = User.find_by_display_name(POSM_USER)
+      return
+    end
+
     if session[:user]
       @user = User.where(:id => session[:user]).where("status IN ('active', 'confirmed', 'suspended')").first
 
@@ -168,6 +173,11 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize(realm = "Web Password", errormessage = "Couldn't authenticate you")
+    if defined? POSM_USER
+      @user = User.find_by_display_name(POSM_USER)
+      return
+    end
+
     # make the @user object from any auth sources we have
     setup_user_auth
 
