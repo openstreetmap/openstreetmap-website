@@ -24,9 +24,11 @@ namespace :osm do
       require File.dirname(__FILE__) + "/../../config/environment"
 
       unless ENV["display_name"]
-        puts "Usage: rake osm:users:create display_name='POSM' [description='Portable OpenStreetMap']"
+        puts "Usage: rake osm:users:create display_name='POSM' [description='Portable OpenStreetMap' password='password']"
         exit 1
       end
+
+      crypt, salt = PasswordHash.create(ENV["password"] || "default")
 
       user = User.find_or_create_by! \
         display_name: ENV["display_name"],
@@ -37,9 +39,8 @@ namespace :osm do
         data_public: true,
         status: "active",
         email_valid: false,
-        # testing1234
-        pass_crypt: "aWJugNpTKNMU7K7tVTaWzPxe5iUCwCIY3CgnQXPa7FM=",
-        pass_salt: "sha512!1000!4v2n8BkluuIcYW+FNM9JOvGW3BiVp4QFh0P7N/YmDu8="
+        pass_crypt: crypt,
+        pass_salt: salt
 
       puts user.to_json
     end
