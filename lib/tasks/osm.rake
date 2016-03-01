@@ -33,7 +33,7 @@ namespace :osm do
       user = User.find_or_create_by! \
         display_name: ENV["display_name"],
         description: ENV["description"] || "Generated user",
-        email: "#{OSM.make_token(8)}@#{OSM.make_token(8)}.#{OSM.make_token(3)}",
+        email: "#{OSM.make_token(8)}@#{OSM.make_token(8)}.#{OSM.make_token(3)}".downcase,
         terms_seen: true,
         terms_agreed: Time.now,
         data_public: true,
