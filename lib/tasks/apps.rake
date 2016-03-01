@@ -9,7 +9,7 @@ namespace :osm do
         exit 1
       end
 
-      app = ClientApplication.create! \
+      app = ClientApplication.find_or_create_by! \
         name: ENV["name"],
         url: ENV["url"],
         allow_write_api: true
