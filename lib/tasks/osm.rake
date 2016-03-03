@@ -28,7 +28,7 @@ namespace :osm do
         exit 1
       end
 
-      crypt, salt = PasswordHash.create(ENV["password"] || "default")
+      crypt, salt = PasswordHash.create(ENV["password"] || OSM.make_token(8))
 
       user = User.find_or_create_by! \
         display_name: ENV["display_name"],
