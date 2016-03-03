@@ -19034,32 +19034,6 @@ window.iD = function () {
         }
     };
 
-    var locale, localePath;
-    context.locale = function(loc, path) {
-        locale = loc;
-        localePath = path;
-
-        // Also set iD.detect().locale (unless we detected 'en-us' and openstreetmap wants 'en')..
-        if (!(loc.toLowerCase() === 'en' && iD.detect().locale.toLowerCase() === 'en-us')) {
-            iD.detect().locale = loc;
-        }
-
-        return context;
-    };
-
-    context.loadLocale = function(cb) {
-        if (locale && locale !== 'en' && iD.data.locales.indexOf(locale) !== -1) {
-            localePath = localePath || context.assetPath() + 'locales/' + locale + '.json';
-            d3.json(localePath, function(err, result) {
-                window.locale[locale] = result;
-                window.locale.current(locale);
-                cb();
-            });
-        } else {
-            cb();
-        }
-    };
-
 
     /* Straight accessors. Avoid using these if you can. */
     var ui, connection, history;
@@ -19300,9 +19274,39 @@ window.iD = function () {
         return context;
     };
 
+    context.asset = function(_) {
+        var filename = assetPath + _;
+        return assetMap[filename] || filename;
+    };
+
     context.imagePath = function(_) {
-        var asset = 'img/' + _;
-        return assetMap[asset] || assetPath + asset;
+        return context.asset('img/' + _);
+    };
+
+    var locale, localePath;
+    context.locale = function(loc, path) {
+        locale = loc;
+        localePath = path;
+
+        // Also set iD.detect().locale (unless we detected 'en-us' and openstreetmap wants 'en')..
+        if (!(loc.toLowerCase() === 'en' && iD.detect().locale.toLowerCase() === 'en-us')) {
+            iD.detect().locale = loc;
+        }
+
+        return context;
+    };
+
+    context.loadLocale = function(cb) {
+        if (locale && locale !== 'en' && iD.data.locales.indexOf(locale) !== -1) {
+            localePath = localePath || context.asset('locales/' + locale + '.json');
+            d3.json(localePath, function(err, result) {
+                window.locale[locale] = result;
+                window.locale.current(locale);
+                cb();
+            });
+        } else {
+            cb();
+        }
     };
 
 
@@ -19362,7 +19366,7 @@ window.iD = function () {
 };
 
 
-iD.version = '1.9.0';
+iD.version = '1.9.1';
 
 (function() {
     var detected = {};
@@ -19465,14 +19469,14 @@ iD.services.mapillary = function() {
             .append('link')
             .attr('id', 'traffico')
             .attr('rel', 'stylesheet')
-            .attr('href', context.assetPath() + 'traffico/stylesheets/traffico.css');
+            .attr('href', context.asset('traffico/stylesheets/traffico.css'));
     }
 
     function loadSignDefs(context) {
         if (!iD.services.mapillary.sign_defs) {
             iD.services.mapillary.sign_defs = {};
             _.each(['au', 'br', 'ca', 'de', 'us'], function(region) {
-                d3.json(context.assetPath() + 'traffico/string-maps/' + region + '-map.json', function(err, data) {
+                d3.json(context.asset('traffico/string-maps/' + region + '-map.json'), function(err, data) {
                     if (err) return;
                     if (region === 'de') region = 'eu';
                     iD.services.mapillary.sign_defs[region] = data;
@@ -34529,7 +34533,7 @@ iD.ui.intro = function(context) {
             center = context.map().center(),
             zoom = context.map().zoom(),
             background = context.background().baseLayerSource(),
-            opacity = d3.select('.background-layer').style('opacity'),
+            opacity = d3.selectAll('#map .layer-background').style('opacity'),
             loadedTiles = context.connection().loadedTiles(),
             baseEntities = context.history().graph().base().entities,
             introGraph, name;
@@ -34552,7 +34556,7 @@ iD.ui.intro = function(context) {
         context.history().merge(d3.values(iD.Graph().load(introGraph).entities));
         context.background().bing();
 
-        d3.select('.background-layer').style('opacity', 1);
+        d3.selectAll('#map .layer-background').style('opacity', 1);
 
         var curtain = d3.curtain();
         selection.call(curtain);
@@ -34577,7 +34581,7 @@ iD.ui.intro = function(context) {
         steps[steps.length - 1].on('startEditing', function() {
             curtain.remove();
             navwrap.remove();
-            d3.select('.background-layer').style('opacity', opacity);
+            d3.selectAll('#map .layer-background').style('opacity', opacity);
             context.connection().toggle(true).flush().loadedTiles(loadedTiles);
             context.history().reset().merge(d3.values(baseEntities));
             context.background().baseLayerSource(background);
@@ -35627,6 +35631,88 @@ iD.ui.Notice = function(context) {
         disableTooHigh();
     };
 };
+iD.ui.PresetIcon = function() {
+    var preset, geometry;
+
+    function presetIcon(selection) {
+        selection.each(render);
+    }
+
+    function render() {
+        var selection = d3.select(this),
+            p = preset.apply(this, arguments),
+            geom = geometry.apply(this, arguments),
+            icon = p.icon || (geom === 'line' ? 'other-line' : 'marker-stroked'),
+            maki = iD.data.featureIcons.hasOwnProperty(icon + '-24');
+
+        if (icon === 'dentist') maki = true;  // workaround for dentist icon missing in `maki-sprite.json`
+
+        function tag_classes(p) {
+            var s = '';
+            for (var i in p.tags) {
+                s += ' tag-' + i;
+                if (p.tags[i] !== '*') {
+                    s += ' tag-' + i + '-' + p.tags[i];
+                }
+            }
+            return s;
+        }
+
+        var $fill = selection.selectAll('.preset-icon-fill')
+            .data([0]);
+
+        $fill.enter().append('div');
+
+        $fill.attr('class', function() {
+            return 'preset-icon-fill preset-icon-fill-' + geom + tag_classes(p);
+        });
+
+        var $frame = selection.selectAll('.preset-icon-frame')
+            .data([0]);
+
+        $frame.enter()
+            .append('div')
+            .call(iD.svg.Icon('#preset-icon-frame'));
+
+        $frame.attr('class', function() {
+            return 'preset-icon-frame ' + (geom === 'area' ? '' : 'hide');
+        });
+
+
+        var $icon = selection.selectAll('.preset-icon')
+            .data([0]);
+
+        $icon.enter()
+            .append('div')
+            .attr('class', 'preset-icon')
+            .call(iD.svg.Icon(''));
+
+        $icon
+            .attr('class', 'preset-icon preset-icon-' + (maki ? '32' : (geom === 'area' ? '44' : '60')));
+
+        $icon.selectAll('svg')
+            .attr('class', function() {
+                return 'icon ' + icon + tag_classes(p);
+            });
+
+        $icon.selectAll('use')       // workaround: maki parking-24 broken?
+            .attr('href', '#' + icon + (maki ? ( icon === 'parking' ? '-18' : '-24') : ''));
+    }
+
+    presetIcon.preset = function(_) {
+        if (!arguments.length) return preset;
+        preset = d3.functor(_);
+        return presetIcon;
+    };
+
+    presetIcon.geometry = function(_) {
+        if (!arguments.length) return geometry;
+        geometry = d3.functor(_);
+        return presetIcon;
+    };
+
+    return presetIcon;
+};
 iD.ui.preset = function(context) {
     var event = d3.dispatch('change'),
         state,
@@ -35893,88 +35979,6 @@ iD.ui.preset = function(context) {
     };
 
     return d3.rebind(presets, event, 'on');
-};
-iD.ui.PresetIcon = function() {
-    var preset, geometry;
-
-    function presetIcon(selection) {
-        selection.each(render);
-    }
-
-    function render() {
-        var selection = d3.select(this),
-            p = preset.apply(this, arguments),
-            geom = geometry.apply(this, arguments),
-            icon = p.icon || (geom === 'line' ? 'other-line' : 'marker-stroked'),
-            maki = iD.data.featureIcons.hasOwnProperty(icon + '-24');
-
-        if (icon === 'dentist') maki = true;  // workaround for dentist icon missing in `maki-sprite.json`
-
-        function tag_classes(p) {
-            var s = '';
-            for (var i in p.tags) {
-                s += ' tag-' + i;
-                if (p.tags[i] !== '*') {
-                    s += ' tag-' + i + '-' + p.tags[i];
-                }
-            }
-            return s;
-        }
-
-        var $fill = selection.selectAll('.preset-icon-fill')
-            .data([0]);
-
-        $fill.enter().append('div');
-
-        $fill.attr('class', function() {
-            return 'preset-icon-fill preset-icon-fill-' + geom + tag_classes(p);
-        });
-
-        var $frame = selection.selectAll('.preset-icon-frame')
-            .data([0]);
-
-        $frame.enter()
-            .append('div')
-            .call(iD.svg.Icon('#preset-icon-frame'));
-
-        $frame.attr('class', function() {
-            return 'preset-icon-frame ' + (geom === 'area' ? '' : 'hide');
-        });
-
-
-        var $icon = selection.selectAll('.preset-icon')
-            .data([0]);
-
-        $icon.enter()
-            .append('div')
-            .attr('class', 'preset-icon')
-            .call(iD.svg.Icon(''));
-
-        $icon
-            .attr('class', 'preset-icon preset-icon-' + (maki ? '32' : (geom === 'area' ? '44' : '60')));
-
-        $icon.selectAll('svg')
-            .attr('class', function() {
-                return 'icon ' + icon + tag_classes(p);
-            });
-
-        $icon.selectAll('use')       // workaround: maki parking-24 broken?
-            .attr('href', '#' + icon + (maki ? ( icon === 'parking' ? '-18' : '-24') : ''));
-    }
-
-    presetIcon.preset = function(_) {
-        if (!arguments.length) return preset;
-        preset = d3.functor(_);
-        return presetIcon;
-    };
-
-    presetIcon.geometry = function(_) {
-        if (!arguments.length) return geometry;
-        geometry = d3.functor(_);
-        return presetIcon;
-    };
-
-    return presetIcon;
 };
 iD.ui.PresetList = function(context) {
     var event = d3.dispatch('choose'),
