@@ -189,6 +189,9 @@ OSM.Query = function(map) {
         if (merge) {
           elements = results.elements.reduce(function (hash, element) {
             var key = element.type + element.id;
+            if ("geometry" in element) {
+              delete element.bounds;
+            }
             hash[key] = $.extend({}, hash[key], element);
             return hash;
           }, {});
