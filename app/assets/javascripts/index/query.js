@@ -161,7 +161,7 @@ OSM.Query = function(map) {
     return geometry;
   }
 
-  function runQuery(latlng, radius, query, $section, compare) {
+  function runQuery(latlng, radius, query, $section, merge, compare) {
     var $ul = $section.find("ul");
 
     $ul.empty();
@@ -186,10 +186,22 @@ OSM.Query = function(map) {
 
         $section.find(".loader").stopTime("loading").hide();
 
-        if (compare) {
-          elements = results.elements.sort(compare);
+        if (merge) {
+          elements = results.elements.reduce(function (hash, element) {
+            var key = element.type + element.id;
+            hash[key] = $.extend({}, hash[key], element);
+            return hash;
+          }, {});
+
+          elements = Object.keys(elements).map(function (key) {
+            return elements[key];
+          });
         } else {
           elements = results.elements;
+        }
+
+        if (compare) {
+          elements = elements.sort(compare);
         }
 
         for (var i = 0; i < elements.length; i++) {
@@ -268,7 +280,7 @@ OSM.Query = function(map) {
       ways = "way(" + around + ")",
       relations = "relation(" + around + ")",
       nearby = "(" + nodes + ";" + ways + ");out tags geom(" + bbox + ");" + relations + ";out geom(" + bbox + ");",
-      isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags geom(" + bbox + ");relation(pivot.a);out tags bb;";
+      isin = "is_in(" + lat + "," + lng + ")->.a;way(pivot.a);out tags bb;out ids geom(" + bbox + ");relation(pivot.a);out tags bb;";
 
     $("#sidebar_content .query-intro")
       .hide();
@@ -287,8 +299,8 @@ OSM.Query = function(map) {
       }
     }, 10);
 
-    runQuery(latlng, radius, nearby, $("#query-nearby"));
-    runQuery(latlng, radius, isin, $("#query-isin"), compareSize);
+    runQuery(latlng, radius, nearby, $("#query-nearby"), false);
+    runQuery(latlng, radius, isin, $("#query-isin"), true, compareSize);
   }
 
   function clickHandler(e) {
