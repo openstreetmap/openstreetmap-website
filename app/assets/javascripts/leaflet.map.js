@@ -17,6 +17,13 @@ L.OSM.Map = L.Map.extend({
     var donate = I18n.t('javascripts.map.donate_link_text', {donate_url: 'http://donate.openstreetmap.org'});
 
     this.baseLayers = [
+      new L.TileLayer("/tiles/mm/{z}/{x}/{y}.png", {
+        attribution: copyright + ". Tiles courtesy of American Red Cross",
+        code: "P",
+        keyid: "posm",
+        name: "POSM",
+        maxZoom: 22
+      }),
       new L.OSM.Mapnik({
         attribution: copyright + " &hearts; " + donate,
         code: "M",
@@ -57,7 +64,7 @@ L.OSM.Map = L.Map.extend({
   },
 
   updateLayers: function(layerParam) {
-    layerParam = layerParam || "M";
+    layerParam = layerParam || "P";
     var layersAdded = "";
 
     for (var i = this.baseLayers.length - 1; i >= 0; i--) {
