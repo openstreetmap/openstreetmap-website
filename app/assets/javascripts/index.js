@@ -192,10 +192,8 @@ $(document).ready(function () {
     map.setView([params.lat, params.lon], params.zoom);
   }
 
-  var marker = L.marker([0, 0], {icon: OSM.getUserIcon()});
-
   if (params.marker) {
-    marker.setLatLng([params.mlat, params.mlon]).addTo(map);
+    L.marker([params.mlat, params.mlon]).addTo(map);
   }
 
   $("#homeanchor").on("click", function(e) {
@@ -205,7 +203,7 @@ $(document).ready(function () {
       center = L.latLng(data.lat, data.lon);
 
     map.setView(center, data.zoom);
-    marker.setLatLng(center).addTo(map);
+    L.marker(center, {icon: OSM.getUserIcon()}).addTo(map);
   });
 
   function remoteEditHandler(bbox, object) {
