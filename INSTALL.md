@@ -193,7 +193,7 @@ bundle exec rake db:migrate
 To ensure that everything is set up properly, you should now run:
 
 ```
-bundle exec rake test
+bundle exec rake test:db
 ```
 
 This test will take a few minutes, reporting tests run, assertions, and any errors. If you receive no errors, then your installation is successful.
