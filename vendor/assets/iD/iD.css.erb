@@ -187,11 +187,11 @@ img.tile-removing {
 use { pointer-events: none; }
 
 /* base styles */
-.layer path:not(.oneway) { fill: none; }     /* IE needs :not(.oneway) */
+.layer-osm path:not(.oneway) { fill: none; }     /* IE needs :not(.oneway) */
 
 /* the above fill: none rule affects paths in <use> shadow dom only in Firefox */
-.layer use.icon path { fill: #333; }                       /* FF svg Maki icons */
-.layer .turn use path { fill: #000; }                      /* FF turn restriction icons */
+.layer-osm use.icon path { fill: #333; }                       /* FF svg Maki icons */
+.layer-osm .turn use path { fill: #000; }                      /* FF turn restriction icons */
 #turn-only-shape2, #turn-only-u-shape2 { fill: #7092FF; }  /* FF turn-only, turn-only-u */
 #turn-no-shape2, #turn-no-u-shape2     { fill: #E06D5F; }  /* FF turn-no, turn-no-u */
 #turn-yes-shape2, #turn-yes-u-shape2   { fill: #8CD05F; }  /* FF turn-yes, turn-yes-u */
@@ -402,17 +402,23 @@ path.fill.tag-leisure-park {
     background-color: rgba(140, 208, 95, 0.3);
 }
 
+path.stroke.tag-amenity-swimming_pool,
+path.stroke.tag-leisure-swimming_pool,
 path.stroke.tag-natural-water,
 path.stroke.tag-landuse-basin,
 path.stroke.tag-landuse-reservoir {
     stroke: rgb(119, 211, 222);
 }
+path.fill.tag-amenity-swimming_pool,
+path.fill.tag-leisure-swimming_pool,
 path.fill.tag-landuse-basin,
 path.fill.tag-landuse-reservoir,
 path.fill.tag-natural-water {
     stroke: rgba(119, 211, 222, 0.3);
     fill: rgba(119, 211, 222, 0.3);
 }
+.preset-icon-fill-area.tag-amenity-swimming_pool,
+.preset-icon-fill-area.tag-leisure-swimming_pool,
 .preset-icon-fill-area.tag-landuse-basin,
 .preset-icon-fill-area.tag-landuse-reservoir,
 .preset-icon-fill-area.tag-natural-water {
@@ -810,19 +816,6 @@ path.casing.tag-tertiary {
     stroke:#7f7f3f;
 }
 
-.preset-icon .icon.highway-unclassified {
-    color: #eaeaea;
-    fill: #444;
-}
-path.stroke.tag-highway-unclassified,
-path.stroke.tag-unclassified {
-    stroke:#eaeaea;
-}
-path.casing.tag-highway-unclassified,
-path.casing.tag-unclassified {
-    stroke:#444;
-}
-
 .preset-icon .icon.highway-residential {
     color: #fff;
     fill: #444;
@@ -838,6 +831,7 @@ path.casing.tag-residential {
 
 /* narrow highways */
 path.stroke.tag-highway-living_street,
+path.stroke.tag-highway-unclassified,
 path.stroke.tag-highway-service,
 path.stroke.tag-highway-track,
 path.stroke.tag-highway-path,
@@ -849,6 +843,7 @@ path.stroke.tag-highway-pedestrian,
 path.stroke.tag-highway-steps,
 path.stroke.tag-highway-road,
 path.stroke.tag-living_street,
+path.stroke.tag-unclassified,
 path.stroke.tag-service,
 path.stroke.tag-track,
 path.stroke.tag-path,
@@ -862,6 +857,7 @@ path.stroke.tag-road {
     stroke-width:4;
 }
 path.casing.tag-highway-living_street,
+path.casing.tag-highway-unclassified,
 path.casing.tag-highway-service,
 path.casing.tag-highway-track,
 path.casing.tag-highway-path,
@@ -873,6 +869,7 @@ path.casing.tag-highway-pedestrian,
 path.casing.tag-highway-steps,
 path.casing.tag-highway-road,
 path.casing.tag-living_street,
+path.casing.tag-unclassified,
 path.casing.tag-service,
 path.casing.tag-track,
 path.casing.tag-path,
@@ -887,6 +884,7 @@ path.casing.tag-road {
 }
 
 .low-zoom path.stroke.tag-highway-living_street,
+.low-zoom path.stroke.tag-highway-unclassified,
 .low-zoom path.stroke.tag-highway-service,
 .low-zoom path.stroke.tag-highway-track,
 .low-zoom path.stroke.tag-highway-path,
@@ -898,6 +896,7 @@ path.casing.tag-road {
 .low-zoom path.stroke.tag-highway-steps,
 .low-zoom path.stroke.tag-highway-road,
 .low-zoom path.stroke.tag-living_street,
+.low-zoom path.stroke.tag-unclassified,
 .low-zoom path.stroke.tag-service,
 .low-zoom path.stroke.tag-track,
 .low-zoom path.stroke.tag-path,
@@ -911,6 +910,7 @@ path.casing.tag-road {
     stroke-width:2;
 }
 .low-zoom path.casing.tag-highway-living_street,
+.low-zoom path.casing.tag-highway-unclassified,
 .low-zoom path.casing.tag-highway-service,
 .low-zoom path.casing.tag-highway-track,
 .low-zoom path.casing.tag-highway-path,
@@ -922,6 +922,7 @@ path.casing.tag-road {
 .low-zoom path.casing.tag-highway-steps,
 .low-zoom path.casing.tag-highway-road,
 .low-zoom path.casing.tag-living_street,
+.low-zoom path.casing.tag-unclassified,
 .low-zoom path.casing.tag-service,
 .low-zoom path.casing.tag-track,
 .low-zoom path.casing.tag-path,
@@ -971,6 +972,19 @@ path.casing.tag-pedestrian.tag-unpaved {
     stroke: #8cd05f;
     stroke-linecap: round;
     stroke-dasharray: none;
+}
+
+.preset-icon .icon.highway-unclassified {
+    color: #eee;
+    fill: #444;
+}
+path.stroke.tag-highway-unclassified,
+path.stroke.tag-unclassified {
+    stroke:#eee;
+}
+path.casing.tag-highway-unclassified,
+path.casing.tag-unclassified {
+    stroke:#444;
 }
 
 .preset-icon .icon.highway-road {
@@ -1417,7 +1431,7 @@ path.shadow.tag-cutting {
 
 /* Surface - unpaved */
 path.casing.tag-unpaved {
-    stroke: #eaeaea;
+    stroke: #ccc;
     stroke-linecap: butt;
     stroke-dasharray: 4, 3;
 }
@@ -1649,7 +1663,7 @@ g.turn circle {
 }
 
 /* GPX Paths */
-div.layer-gpx {
+.layer-gpx {
     pointer-events: none;
 }
 
@@ -1663,41 +1677,82 @@ text.gpx {
     fill: #FF26D4;
 }
 
-/* Mapillary Layer */
+/* Mapillary Image Layer */
 
-.layer-mapillary {
+.layer-mapillary-images {
     pointer-events: none;
 }
 
-.layer-mapillary g {
+.layer-mapillary-images .viewfield-group {
     pointer-events: visible;
     cursor: pointer; /* Opera */
     cursor: url(<%= asset_path("iD/img/cursor-select-mapillary.png") %>) 6 1, pointer; /* FF */
 }
 
-.layer-mapillary g * {
+.layer-mapillary-images .viewfield-group * {
     stroke-width: 1;
     stroke: #444;
     fill: #ffc600;
+    z-index: 50;
 }
 
-.layer-mapillary g:hover * {
+.layer-mapillary-images .viewfield-group:hover * {
     stroke-width: 1;
     stroke: #333;
     fill: #ff9900;
+    z-index: 60;
 }
 
-.layer-mapillary g.selected  * {
+.layer-mapillary-images .viewfield-group.selected  * {
     stroke-width: 2;
     stroke: #222;
     fill: #ff5800;
+    z-index: 60;
 }
 
-.layer-mapillary g:hover path.viewfield,
-.layer-mapillary g.selected path.viewfield,
-.layer-mapillary g path.viewfield {
+.layer-mapillary-images .viewfield-group:hover path.viewfield,
+.layer-mapillary-images .viewfield-group.selected path.viewfield,
+.layer-mapillary-images .viewfield-group path.viewfield {
     stroke-width: 0;
     fill-opacity: 0.6;
+}
+
+/* Mapillary Sign Layer */
+
+.layer-mapillary-signs {
+    pointer-events: none;
+}
+
+.layer-mapillary-signs .icon-sign body {
+    min-width: 20px;
+    height: 28px;
+    width: 28px;
+    border: 2px solid transparent;
+    pointer-events: visible;
+    cursor: pointer; /* Opera */
+    cursor: url(<%= asset_path("iD/img/cursor-select-mapillary.png") %>) 6 1, pointer; /* FF */
+    z-index: 70;
+}
+
+.layer-mapillary-signs .icon-sign:hover body {
+    border: 2px solid rgba(255,198,0,0.8);
+    z-index: 80;
+ }
+
+.layer-mapillary-signs .icon-sign.selected body {
+    border: 2px solid rgba(255,0,0,0.8);
+    z-index: 80;
+ }
+
+.layer-mapillary-signs .icon-sign .t {
+    font-size: 28px;
+    z-index: 70;
+    position: absolute;
+}
+
+.layer-mapillary-signs .icon-sign:hover .t,
+.layer-mapillary-signs .icon-sign.selected .t {
+    z-index: 80;
 }
 
 /* Modes */
@@ -2056,6 +2111,8 @@ ul li { list-style: none;}
 
 .fl { float: left;}
 .fr { float: right;}
+.al { left: 0; }
+.ar { right: 0; }
 
 div.hide,
 form.hide,
@@ -2416,7 +2473,6 @@ button.save.has-count .count::before {
 
 .mapillary-image {
     position: absolute;
-    right: 0;
     bottom: 30px;
     width: 330px;
     height: 250px;
@@ -2430,7 +2486,6 @@ button.save.has-count .count::before {
     height: auto;
     background-color: rgba(0,0,0,.5);
     bottom: 0;
-    right: 0;
     padding: 5px 10px;
 }
 
@@ -2609,6 +2664,18 @@ button.save.has-count .count::before {
     height: 60px;
 }
 
+.preset-icon-44 {
+    position: absolute;
+    top: 9px;
+    left: 8px;
+    margin: auto;
+}
+
+.preset-icon-44 .icon {
+    width: 44px;
+    height: 44px;
+}
+
 .preset-icon-32 {
     position: absolute;
     top: 14px;
@@ -2707,6 +2774,11 @@ button.save.has-count .count::before {
 
 .inspector-preset {
     overflow: hidden;
+    padding-bottom: 10px;
+}
+
+.inspector-preset a.hide-toggle {
+    margin: 0 20px 10px 20px;
 }
 
 .inspector-preset .preset-form {
@@ -2715,24 +2787,9 @@ button.save.has-count .count::before {
     border-radius: 8px;
 }
 
-.entity-editor-pane .preset-list-item::after {
-    content: "";
-    position: absolute;
-    height: 0;
-    width: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    border: solid rgba(0, 0, 0, 0);
-    border-width: 10px;
-    border-bottom-color: #ececec;
-}
-
 .entity-editor-pane .preset-list-item .preset-list-button-wrap {
     margin-bottom: 0;
 }
-
 
 .form-field {
     margin-bottom: 10px;
@@ -3530,6 +3587,10 @@ div.full-screen > button:hover {
     border: 1px solid #CCC;
 }
 
+.imagery-faq {
+  margin-bottom: 10px;
+}
+
 .background-control .adjustments button:last-child {
     border: 0;
 }
@@ -3550,6 +3611,10 @@ div.full-screen > button:hover {
     height: 30px;
     background-color: white;
     color: #7092FF;
+}
+
+.layer-list:empty {
+    display: none;
 }
 
 .layer-list > li:first-child {
@@ -3574,6 +3639,18 @@ div.full-screen > button:hover {
 
 .layer-list li.active {
     background: #E8EBFF;
+}
+
+.layer-list li.best > div.best {
+    display: inline-block;
+    padding: 5px;
+    float: right;
+}
+
+/* make sure tooltip fits in map-control panel */
+/* if too wide, placement will be wrong the first time it displays */
+.layer-list li.best .tooltip-inner {
+    max-width: 160px;
 }
 
 .layer-list label {
@@ -3871,7 +3948,7 @@ div.full-screen > button:hover {
     user-select: none;
 }
 
-#supersurface, .layer-layer {
+#supersurface, .layer {
     position: absolute;
     top: 0;
     left: 0;
@@ -3947,7 +4024,7 @@ div.full-screen > button:hover {
     border-bottom: 1px solid black;
 }
 
-.infobox .selection-heading {
+.infobox .infobox-heading {
     display: block;
     border-radius: 4px 0 0 0;
     padding: 5px 10px;
@@ -4231,9 +4308,11 @@ div.full-screen > button:hover {
 ------------------------------------------------------- */
 
 .save-success p {
-    padding: 15px;
+    padding: 15px 15px 0 15px;
 }
-
+.save-success a.details {
+  padding-left: 15px;
+}
 .save-success .button {
     padding-top: 15px;
 }

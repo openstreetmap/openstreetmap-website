@@ -182,7 +182,7 @@ class UserController < ApplicationController
           if @user.save
             token.destroy
             flash[:notice] = t "user.reset_password.flash changed"
-            redirect_to :action => "login"
+            successful_login(@user)
           end
         end
       else
@@ -559,9 +559,9 @@ class UserController < ApplicationController
     elsif user = User.authenticate(:username => username, :password => password, :pending => true)
       unconfirmed_login(user)
     elsif User.authenticate(:username => username, :password => password, :suspended => true)
-      failed_login t("user.login.account is suspended", :webmaster => "mailto:webmaster@openstreetmap.org")
+      failed_login t("user.login.account is suspended", :webmaster => "mailto:webmaster@openstreetmap.org"), username
     else
-      failed_login t("user.login.auth failure")
+      failed_login t("user.login.auth failure"), username
     end
   end
 
@@ -627,10 +627,11 @@ class UserController < ApplicationController
 
   ##
   # process a failed login
-  def failed_login(message)
+  def failed_login(message, username = nil)
     flash[:error] = message
 
-    redirect_to :action => "login", :referer => session[:referer]
+    redirect_to :action => "login", :referer => session[:referer],
+                :username => username, :remember_me => session[:remember_me]
 
     session.delete(:remember_me)
     session.delete(:referer)
@@ -653,7 +654,7 @@ class UserController < ApplicationController
     user.display_name = params[:user][:display_name]
     user.new_email = params[:user][:new_email]
 
-    if params[:user][:pass_crypt].length > 0 || params[:user][:pass_crypt_confirmation].length > 0
+    unless params[:user][:pass_crypt].empty? && params[:user][:pass_crypt_confirmation].empty?
       user.pass_crypt = params[:user][:pass_crypt]
       user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
     end

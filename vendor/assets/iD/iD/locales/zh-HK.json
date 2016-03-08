@@ -133,7 +133,8 @@
             "key": "D",
             "annotation": "已斷開的綫／範圍。",
             "not_connected": "這裡未有足夠的綫／範圍可斷開。",
-            "connected_to_hidden": "未能將這個斷開因為它連接著一個隱藏的特徵。"
+            "connected_to_hidden": "未能將這個斷開因為它連接著一個隱藏的特徵。",
+            "relation": "未能將這個斷開因為它連接著一個關係的構件。"
         },
         "merge": {
             "title": "合併",
@@ -250,7 +251,9 @@
         "warnings": "警告",
         "modified": "已修改",
         "deleted": "已刪除",
-        "created": "已建立"
+        "created": "已建立",
+        "about_changeset_comments": "有關變動留言",
+        "about_changeset_comments_link": "//wiki.openstreetmap.org/wiki/Good_changeset_comments"
     },
     "contributors": {
         "list": "由{users}編輯",
@@ -289,6 +292,7 @@
         "no_documentation_key": "沒有這個鍵值的相關文件",
         "show_more": "顯示更多",
         "view_on_osm": "在 openstreetmap.org 中檢視",
+        "all_fields": "所有資料",
         "all_tags": "所有標籤",
         "all_members": "所有構件",
         "all_relations": "所有關係",
@@ -321,10 +325,12 @@
         "description": "背景設定",
         "percent_brightness": "{opacity}% 亮度",
         "none": "無",
+        "best_imagery": "這地點最為人所知的背景影像",
         "custom": "自訂",
         "custom_button": "編輯自訂背景",
         "custom_prompt": "輪入區塊範本的網址。有效的標記是以 {z}, {x}, {y} 作為 Z/X/Y 標記系統 Z/X/Y scheme 和 {u} 作為四分位數標記系統 quadtile scheme。",
         "fix_misalignment": "校正對位誤差",
+        "imagery_source_faq": "這個背景影像來自何處？",
         "reset": "重設",
         "minimap": {
             "description": "小地圖",
@@ -448,7 +454,9 @@
         "facebook": "分享至 Facebook",
         "twitter": "分享至 Twitter",
         "google": "分享至 Google+",
-        "help_html": "你的變更會在幾分鐘後出現在標準圖層。其他圖層或某些特徵可能需要多些時間\n(<a href='https://help.openstreetmap.org/questions/4705/why-havent-my-changes-appeared-on-the-map' target='_blank'>詳細資料</a>)。\n"
+        "help_html": "你的變更會在幾分鐘後出現在標準圖層。其他圖層或某些特徵可能需要多些時間。",
+        "help_link_text": "詳細資料",
+        "help_link_url": "https://wiki.openstreetmap.org/wiki/FAQ#I_have_just_made_some_changes_to_the_map._How_do_I_get_to_see_my_changes.3F"
     },
     "confirm": {
         "okay": "確定",
@@ -493,9 +501,15 @@
         "zoom": "放大至 GPX 軌跡",
         "browse": "開啟 .gpx 檔案"
     },
+    "mapillary_images": {
+        "tooltip": "來自Mapillary的街道圖層相片",
+        "title": "相片重疊 (Mapillary)"
+    },
+    "mapillary_signs": {
+        "tooltip": "來自Mapillary的交通訊號",
+        "title": "交通訊號重疊 (Mapillary)"
+    },
     "mapillary": {
-        "tooltip": "來自Mapillary的街道層相片",
-        "title": "相片覆蓋 (Mapillary)",
         "view_on_mapillary": "在Mapillary上觀看這影像"
     },
     "help": {
@@ -594,34 +608,34 @@
     "presets": {
         "categories": {
             "category-building": {
-                "name": "建築物"
+                "name": "建築物特徵"
             },
             "category-golf": {
-                "name": "高爾夫球"
+                "name": "高爾夫特徵"
             },
             "category-landuse": {
-                "name": "土地用途"
+                "name": "土地利用特徵"
             },
             "category-path": {
-                "name": "徑"
+                "name": "路徑特徵"
             },
             "category-rail": {
-                "name": "軌道"
+                "name": "鐵路特徵"
             },
             "category-restriction": {
-                "name": "限制"
+                "name": "限制特徵"
             },
             "category-road": {
-                "name": "路"
+                "name": "道路特徵"
             },
             "category-route": {
-                "name": "路綫"
+                "name": "路綫特徵"
             },
             "category-water-area": {
-                "name": "水"
+                "name": "水特徵"
             },
             "category-water-line": {
-                "name": "水"
+                "name": "水特徵"
             }
         },
         "fields": {
@@ -1362,6 +1376,9 @@
             },
             "shop": {
                 "label": "種類"
+            },
+            "site": {
+                "label": "類別"
             },
             "sloped_curb": {
                 "label": "斜路緣"
@@ -2597,8 +2614,8 @@
                 "terms": "Tertiary Link,三級道路匝道,三級道路連接路,細路駁路"
             },
             "highway/track": {
-                "name": "未舖設路面的車徑",
-                "terms": "Track,分徑,未舖設路面的車徑,未鋪設路面的車徑"
+                "name": "無保養道路",
+                "terms": "未舖設路面的路"
             },
             "highway/traffic_signals": {
                 "name": "交通燈",
@@ -2609,7 +2626,7 @@
                 "terms": "Trunk Road,幹線道路,幹路,幹道"
             },
             "highway/trunk_link": {
-                "name": "幹線\t連接路",
+                "name": "幹線連接路",
                 "terms": "Trunk Link,幹線道路匝道,幹道連接路,幹道駁路"
             },
             "highway/turning_circle": {
@@ -2617,8 +2634,8 @@
                 "terms": "Turning Circle,回轉圈,迴車場,迴車圓環,車輛迴轉處,車輛迴旋處"
             },
             "highway/unclassified": {
-                "name": "未分類的道路",
-                "terms": "Unclassified Road,未分級的道路,未分類的道路,未歸類之路"
+                "name": "次級道路",
+                "terms": "小路,小規模道路"
             },
             "historic": {
                 "name": "歷史遺跡",
@@ -2856,9 +2873,13 @@
                 "name": "船台",
                 "terms": "Slipway,船排,船架滑道,船臺,滑道,滑台"
             },
-            "leisure/sports_center": {
+            "leisure/sports_centre": {
                 "name": "體育中心 / 健身室",
                 "terms": "體育中心, 健身室, 健身中心, 健身房"
+            },
+            "leisure/sports_centre/swimming": {
+                "name": "游泳池設施",
+                "terms": "游泳池設施,游水池設施"
             },
             "leisure/stadium": {
                 "name": "體育館",
@@ -2871,6 +2892,10 @@
             "leisure/track": {
                 "name": "賽道(非小型賽車)",
                 "terms": "賽道(非小型賽車)"
+            },
+            "leisure/water_park": {
+                "name": "水上樂園",
+                "terms": "水上樂園"
             },
             "line": {
                 "name": "綫",
@@ -3373,8 +3398,8 @@
                 "terms": "古董店, 古玩店"
             },
             "shop/art": {
-                "name": "畫廊",
-                "terms": "畫廊"
+                "name": "藝術商店",
+                "terms": "藝術店,美術店,美術商店"
             },
             "shop/baby_goods": {
                 "name": "嬰兒用品店",
@@ -3720,6 +3745,10 @@
                 "name": "文具店",
                 "terms": "Stationery Store,文具店,文具舖"
             },
+            "shop/storage_rental": {
+                "name": "存倉",
+                "terms": "迷你倉,儲存倉"
+            },
             "shop/supermarket": {
                 "name": "超級市場",
                 "terms": "Supermarket,超級市場"
@@ -3819,6 +3848,10 @@
             "tourism/chalet": {
                 "name": "木屋",
                 "terms": "Chalet,木屋"
+            },
+            "tourism/gallery": {
+                "name": "畫廊",
+                "terms": "藝廊,藝術廊"
             },
             "tourism/guest_house": {
                 "name": "賓館",
@@ -3971,6 +4004,10 @@
             "type/route_master": {
                 "name": "路綫總覽",
                 "terms": "Route Master,線路總管,路綫總管,路線總目"
+            },
+            "type/site": {
+                "name": "建築群",
+                "terms": "一群建築"
             },
             "vertex": {
                 "name": "其他",

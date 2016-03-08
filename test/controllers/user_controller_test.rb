@@ -702,7 +702,8 @@ class UserControllerTest < ActionController::TestCase
     # Test setting a new password
     post :reset_password, :token => token.token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "new_password" }
     assert_response :redirect
-    assert_redirected_to :action => :login
+    assert_redirected_to root_path
+    assert_equal users(:inactive_user).id, session[:user]
     user = User.find(users(:inactive_user).id)
     assert_equal "active", user.status
     assert_equal true, user.email_valid

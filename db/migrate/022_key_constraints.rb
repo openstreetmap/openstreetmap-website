@@ -47,6 +47,6 @@ class KeyConstraints < ActiveRecord::Migration
   end
 
   def self.down
-    fail ActiveRecord::IrreversibleMigration
+    raise ActiveRecord::IrreversibleMigration
   end
 end

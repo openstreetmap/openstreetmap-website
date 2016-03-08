@@ -29,14 +29,14 @@ class Trace < ActiveRecord::Base
 
   def tagstring=(s)
     self.tags = if s.include? ","
-                  s.split(/\s*,\s*/).select { |tag| tag !~ /^\s*$/ }.collect do|tag|
+                  s.split(/\s*,\s*/).select { |tag| tag !~ /^\s*$/ }.collect do |tag|
                     tt = Tracetag.new
                     tt.tag = tag
                     tt
                   end
                 else
                   # do as before for backwards compatibility:
-                  s.split.collect do|tag|
+                  s.split.collect do |tag|
                     tt = Tracetag.new
                     tt.tag = tag
                     tt
@@ -181,7 +181,7 @@ class Trace < ActiveRecord::Base
       return Trace.from_xml_node(pt, create)
     end
 
-    fail OSM::APIBadXMLError.new("trace", xml, "XML doesn't contain an osm/gpx_file element.")
+    raise OSM::APIBadXMLError.new("trace", xml, "XML doesn't contain an osm/gpx_file element.")
   rescue LibXML::XML::Error, ArgumentError => ex
     raise OSM::APIBadXMLError.new("trace", xml, ex.message)
   end
@@ -189,15 +189,15 @@ class Trace < ActiveRecord::Base
   def self.from_xml_node(pt, create = false)
     trace = Trace.new
 
-    fail OSM::APIBadXMLError.new("trace", pt, "visibility missing") if pt["visibility"].nil?
+    raise OSM::APIBadXMLError.new("trace", pt, "visibility missing") if pt["visibility"].nil?
     trace.visibility = pt["visibility"]
 
     unless create
-      fail OSM::APIBadXMLError.new("trace", pt, "ID is required when updating.") if pt["id"].nil?
+      raise OSM::APIBadXMLError.new("trace", pt, "ID is required when updating.") if pt["id"].nil?
       trace.id = pt["id"].to_i
       # .to_i will return 0 if there is no number that can be parsed.
       # We want to make sure that there is no id with zero anyway
-      fail OSM::APIBadUserInput.new("ID of trace cannot be zero when updating.") if trace.id == 0
+      raise OSM::APIBadUserInput.new("ID of trace cannot be zero when updating.") if trace.id == 0
     end
 
     # We don't care about the time, as it is explicitly set on create/update/delete
@@ -206,7 +206,7 @@ class Trace < ActiveRecord::Base
     trace.visible = true
 
     description = pt.find("description").first
-    fail OSM::APIBadXMLError.new("trace", pt, "description missing") if description.nil?
+    raise OSM::APIBadXMLError.new("trace", pt, "description missing") if description.nil?
     trace.description = description.content
 
     pt.find("tag").each do |tag|

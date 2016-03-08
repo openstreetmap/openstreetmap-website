@@ -25,15 +25,15 @@ module RichText
 
       doc = Nokogiri::HTML(to_html)
 
-      if doc.content.length > 0
+      if doc.content.empty?
+        link_proportion = 0
+      else
         doc.xpath("//a").each do |link|
           link_count += 1
           link_size += link.content.length
         end
 
         link_proportion = link_size.to_f / doc.content.length.to_f
-      else
-        link_proportion = 0
       end
 
       [link_proportion - 0.2, 0.0].max * 200 + link_count * 40

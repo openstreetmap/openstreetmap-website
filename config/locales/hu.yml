@@ -11,6 +11,7 @@
 # Author: Kempelen
 # Author: Leiric
 # Author: Misibacsi
+# Author: Máté
 # Author: Nemo bis
 # Author: R-Joe
 # Author: Ruila
@@ -1264,10 +1265,12 @@ hu:
           amelyhez te is hozzászóltál, %{place} közelében.'
       details: 'A jegyzetről további információk: %{url}.'
     changeset_comment_notification:
+      greeting: Szia!
       commented:
         subject_own: '[OpenStreetMap] %{commenter} hozzászólt az egyik változtatáscsomagodhoz'
         subject_other: '[OpenStreetMap] %{commenter} hozzászólt az egyik, általad
           érdekesnek vélt változtatáscsomaghoz'
+        partial_changeset_without_comment: hozzászólás nélkül
   message:
     inbox:
       title: Beérkezett üzenetek
@@ -1379,6 +1382,9 @@ hu:
       close: Bezár
     search:
       search: Keresés
+      get_directions_title: Útirány keresése két pont között
+      from: Feladó
+      to: Címzett
       where_am_i: Hol vagyok?
       where_am_i_title: A jelenlegi helyszín leírása a keresőmotor segítségével
       submit_text: Menj
@@ -1386,6 +1392,7 @@ hu:
       table:
         entry:
           motorway: Autópálya
+          main_road: Fő út
           trunk: Autóút
           primary: Főút
           secondary: Összekötő út
@@ -1570,7 +1577,8 @@ hu:
     georss:
       title: OpenStreetMap GPS nyomvonalak
     description:
-      description_with_count: GPX fájl %{count} ponttal %{user} felhasználótól
+      description_with_count:
+        other: GPX fájl %{count} ponttal %{user} felhasználótól
       description_without_count: GPX fájl %{user} felhasználótól
   application:
     require_cookies:
@@ -1684,6 +1692,7 @@ hu:
       register now: Regisztrálj most
       with username: 'Már van OpenStreetMap fiókod? Jelentkezz be a felhasználóneveddel
         és jelszavaddal:'
+      with external: 'Alternatívaként használj külső fiókot a bejelentkezéshez:'
       new to osm: Új vagy az OpenStreetMapnál?
       to make changes: Ahhoz, hogy módosíthasd az OpenStreetMap-adatokat, rendelkezned
         kell egy felhasználói fiókkal.
@@ -1873,6 +1882,7 @@ hu:
       current email address: 'Jelenlegi e-mail cím:'
       new email address: 'Új e-mail cím:'
       email never displayed publicly: (soha nem jelenik meg nyilvánosan)
+      external auth: 'Külső Hitelesítés:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/OpenID
         link text: mi ez?
@@ -1998,6 +2008,9 @@ hu:
           Ezt a döntést rövidesen felül fogja vizsgálni egy adminisztrátor, vagy
           kapcsolatba léphetsz a %{webmaster}rel, ha meg szeretnéd vitatni ezt.
         </p>
+    auth_failure:
+      no_authorization_code: Nem engedély kód
+      unknown_signature_algorithm: Ismeretlen aláírási algoritmus
   user_role:
     filter:
       not_an_administrator: Csak adminisztrátorok végezhetik a felhasználói szerepek
@@ -2114,6 +2127,7 @@ hu:
       heading: '%{block_by} blokkolta %{block_on} felhasználót'
       time_future: Véget ér %{time} múlva
       time_past: Véget ért %{time} óta
+      created: Létrehozva
       ago: '%{time} ezelőtt'
       status: Állapot
       show: Megjelenítés
@@ -2206,6 +2220,9 @@ hu:
       map_data_zoom_in_tooltip: Nagyítsd fel a térképet a térképadatok megjelenítéséhez
     changesets:
       show:
+        comment: Megjegyzés
+        subscribe: Feliratkozás
+        unsubscribe: Leiratkozás
         hide_comment: elrejt
         unhide_comment: megjelenít
     notes:
@@ -2223,22 +2240,24 @@ hu:
         reactivate: Újraaktiválás
         comment_and_resolve: Hozzászólás és lezárás
         comment: Hozzászólás
+    edit_help: Mozgassa a térképet, nagyítson ott ahol módosítani szeretne, majd kattintson
+      ide.
     directions:
       engines:
         graphhopper_bicycle: Kerékpár (GraphHopper)
-        graphhopper_foot: Láb (GraphHopper)
+        graphhopper_foot: Gyalog (GraphHopper)
         mapquest_bicycle: Kerékpár (MapQuest)
         mapquest_car: Autó (MapQuest)
-        mapquest_foot: Láb (MapQuest)
+        mapquest_foot: Gyalog (MapQuest)
         osrm_car: Autó (OSRM)
         mapzen_bicycle: Kerékpár (Mapzen)
         mapzen_car: Autó (Mapzen)
-        mapzen_foot: Láb (Mapzen)
+        mapzen_foot: Gyalog (Mapzen)
       directions: Irányok
       distance: Távolság
       errors:
         no_route: Nem található útvonal a két hely között.
-        no_place: Sajnálom - nem találtam ezt a helyet.
+        no_place: Sajnálom – a hely nem található.
       instructions:
         continue_without_exit: Folyamatosan %{name}
         slight_right_without_exit: Enyhén jobbra %{name}
@@ -2246,13 +2265,18 @@ hu:
         sharp_right_without_exit: Élesen jobbra %{name}
         uturn_without_exit: Forduljon vissza %{name}
         sharp_left_without_exit: Élesen balra %{name}
+        turn_left_without_exit: Forduljon balra %{name}
+        slight_left_without_exit: Enhén balra %{name}
+        follow_without_exit: Kövesse %{name}
         leave_roundabout_without_exit: Hagyja el körforgalmat - %{name}
         stay_roundabout_without_exit: Maradjon a körforgalomban - %{name}
+        unnamed: névtelen út
       time: Időpont
     query:
       node: Csomópont
       way: Vonal
       relation: Kapcsolat
+      nothing_found: Nem találhatóak jellemzők
   redaction:
     edit:
       description: Leírás

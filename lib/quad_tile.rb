@@ -72,7 +72,7 @@ module QuadTile
       end
     end
 
-    sql.push("#{prefix}tile IN (#{single.join(',')})") if single.size > 0
+    sql.push("#{prefix}tile IN (#{single.join(',')})") unless single.empty?
 
     "( " + sql.join(" OR ") + " )"
   end

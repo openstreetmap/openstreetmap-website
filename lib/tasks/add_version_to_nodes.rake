@@ -28,7 +28,7 @@ namespace "db" do
           temp_old_node.timestamp = node.timestamp
           temp_old_node.tile = node.tile
           temp_old_node.version = n
-          temp_old_node.save! || fail
+          temp_old_node.save! || raise
           n += 1
         end
       end
