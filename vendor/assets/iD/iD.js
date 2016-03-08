@@ -19742,6 +19742,8 @@ iD.services.nominatim  = function() {
 
 
     nominatim.countryCode = function(location, callback) {
+        return callback(null, '');
+
         var cache = iD.services.nominatim.cache,
             countryCodes = cache.search([location[0], location[1], location[0], location[1]]);
 
@@ -33771,16 +33773,16 @@ iD.ui.FeatureList = function(context) {
             list.selectAll('.no-results-item .entity-name')
                 .text(noResultsWorldwide ? t('geocoder.no_results_worldwide') : t('geocoder.no_results_visible'));
 
-            list.selectAll('.geocode-item')
-                .data([0])
-                .enter().append('button')
-                .attr('class', 'geocode-item')
-                .on('click', geocode)
-                .append('div')
-                .attr('class', 'label')
-                .append('span')
-                .attr('class', 'entity-name')
-                .text(t('geocoder.search'));
+            // list.selectAll('.geocode-item')
+            //     .data([0])
+            //     .enter().append('button')
+            //     .attr('class', 'geocode-item')
+            //     .on('click', geocode)
+            //     .append('div')
+            //     .attr('class', 'label')
+            //     .append('span')
+            //     .attr('class', 'entity-name')
+            //     .text(t('geocoder.search'));
 
             list.selectAll('.no-results-item')
                 .style('display', (value.length && !results.length) ? 'block' : 'none');
