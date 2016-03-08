@@ -109,4 +109,5 @@ group :development, :test do
   gem "konacha"
   gem "poltergeist"
   gem "coveralls", :require => false
+  gem "puma"
 end
