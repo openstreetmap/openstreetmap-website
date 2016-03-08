@@ -160,6 +160,7 @@ We need to load the btree-gist extension, which is needed for showing changesets
 
 ```
 psql -d openstreetmap -c "CREATE EXTENSION btree_gist"
+psql -d osm_test -c "CREATE EXTENSION btree_gist"
 ```
 
 ### PostgreSQL Functions
