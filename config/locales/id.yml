@@ -177,6 +177,7 @@ id:
         way: way/garis
         relation: relasi
         changeset: Set perubahan
+        note: catatan
     timeout:
       sorry: Maaf, data untuk %{type} dengan id %{id}, terlalu lama untuk dibuka.
       type:
@@ -184,6 +185,7 @@ id:
         way: way/garis
         relation: relasi
         changeset: set perubahan
+        note: catatan
     redacted:
       redaction: Redaksi %{id}
       message_html: Versi %{version} %{type} ini tidak dapat ditampilkan karena telah
@@ -274,6 +276,7 @@ id:
   diary_entry:
     new:
       title: Entri Baru Catatan Harian
+      publish_button: Terbitkan
     list:
       title: Catatan harian pengguna
       title_friends: Catatan harian teman
@@ -1209,7 +1212,7 @@ id:
   about_page:
     next: Berikutnya
     copyright_html: <span>&copy;</span>Kontributor<br>OpenStreetMap
-    used_by: Kekuatan %{name} memetakan data pada ratusan situs web, aplikasi seluler,
+    used_by: Kekuatan %{name} memetakan data pada ribuan situs web, aplikasi seluler,
       dan perangkat keras
     lede_text: "OpenStreetMap dibangun oleh komunitas pembuat peta yang berkontribusi
       dan memelihara data \ntentang jalan, jalur, kafe, stasiun kereta api, dan masih
@@ -1232,6 +1235,7 @@ id:
       Jika Anda mengubah atau membangun dari data dengan cara tertentu, Anda dapat
       menyebarkan hasilnya hanya di bawah lisensi yang sama. Lihat <a href=''%{copyright_path}''>halaman
       Hak Cipta dan Lisensi</a> untuk perinciannya.'
+    legal_title: Hukum
     legal_html: |-
       Situs ini dan layanan terkait lainnya dioperasikan secara resmi oleh <a href='http://osmfoundation.org/'>OpenStreetMap Foundation</a> (OSMF) atas nama komunitas.
       <br>
@@ -1475,6 +1479,7 @@ id:
       table:
         entry:
           motorway: Jalan Tol
+          main_road: Jalan utama
           trunk: Jalan nasional
           primary: Jalan Primer
           secondary: Jalan Sekunder
@@ -1691,6 +1696,7 @@ id:
       allow_read_gpx: baca jejak GPS pribadi Anda.
       allow_write_gpx: unggah jejak GPS.
       allow_write_notes: memodifikasi catatan.
+      grant_access: Ijinkan Akses
     oauthorize_success:
       title: Permintaan otorisasi diperbolehkan
       allowed: Anda telah memberikan aplikasi %{app_name} akses ke akun Anda.
@@ -1895,6 +1901,7 @@ id:
       heading: Pengguna %{user} tidak dapat ditemukan
       body: Maaf, tidak ada pengguna dengan nama %{user}. Silahkan cek kembali ejaan,
         atau mungkin link yang Anda klik salah.
+      deleted: dihapus
     view:
       my diary: Catatan Harian Saya
       new diary entry: Entri baru catatan harian
@@ -1947,16 +1954,16 @@ id:
         revoke:
           administrator: Mencabut akses administrator
           moderator: Mencabut akses moderator
-      block_history: blok diterima
-      moderator_history: blok yang diberikan
+      block_history: Blok Aktif
+      moderator_history: Blok yang Diberikan
       comments: Komentar
-      create_block: Blokir pengguna ini
-      activate_user: aktifkan pengguna ini
-      deactivate_user: nonaktifkan pengguna ini
-      confirm_user: konfirmasi pengguna ini
-      hide_user: sembunyikan pengguna ini
-      unhide_user: munculkan kembali pengguna ini
-      delete_user: hapus pengguna ini
+      create_block: Blokir Pengguna Ini
+      activate_user: Aktifkan Pengguna Ini
+      deactivate_user: Nonaktifkan Pengguna Ini
+      confirm_user: Konfirmasi Pengguna Ini
+      hide_user: Sembunyikan Pengguna Ini
+      unhide_user: Munculkan Kembali Pengguna Ini
+      delete_user: Hapus Pengguna Ini
       confirm: Konfirmasi
       friends_changesets: Telusuri semua set perubahan yang dibuat oleh teman-teman
       friends_diaries: Telusuri seluruh entri catatan harian oleh teman-teman
@@ -2096,9 +2103,17 @@ id:
         %{webmaster} jika Anda ingin mendiskusikannya.\n</p>"
     auth_failure:
       connection_failed: Hubungan dengan penyedia autentikasi gagal
+      invalid_credentials: Kredensial otentikasi tidak sah
       no_authorization_code: Tidak ada kode otorisasi
       unknown_signature_algorithm: Algoritma khas tidak dikenal
       invalid_scope: Cakupan tidak sah
+    auth_association:
+      heading: ID Anda tidak diasosiasikan dengan akun OpenStreetMap manapun.
+      option_1: Jika Anda baru menggunakan OpenStreetMap, silakan buat akun baru menggunakan
+        formulir di bawah.
+      option_2: Jika Anda sudah memiliki akun, Anda dapat masuk log ke akun Anda menggunakan
+        nama pengguna dan kata sandi Anda dan lalu asosiasikan akunnya dengan ID Anda
+        di pengaturan pengguna Anda.
   user_role:
     filter:
       not_an_administrator: Hanya administrator yang dapat melakukan peran manajemen
@@ -2346,6 +2361,9 @@ id:
         mapquest_car: Mobil (MapQuest)
         mapquest_foot: Jalan Kaki (MapQuest)
         osrm_car: Mobil (OSRM)
+        mapzen_bicycle: Sepeda (Mapzen)
+        mapzen_car: Mobil (Mapzen)
+        mapzen_foot: Kaki (Mapzen)
       directions: Petunjuk Arah
       distance: Jarak
       errors:
