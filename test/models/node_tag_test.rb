@@ -4,7 +4,7 @@ class NodeTagTest < ActiveSupport::TestCase
   api_fixtures
 
   def test_tag_count
-    assert_equal 12, NodeTag.count
+    assert_equal 13, NodeTag.count
     node_tag_count(:visible_node, 1)
     node_tag_count(:invisible_node, 1)
     node_tag_count(:used_node_1, 1)

@@ -23,6 +23,7 @@ class BrowseHelperTest < ActionView::TestCase
     assert_dom_equal "18", printable_name(nodes(:node_with_name_redacted_version))
     assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
     assert_dom_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
+    assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>19</bdi>)", printable_name(current_nodes(:node_with_ref_without_name))
 
     I18n.locale = "pt"
 
@@ -32,6 +33,7 @@ class BrowseHelperTest < ActionView::TestCase
     assert_dom_equal "18", printable_name(nodes(:node_with_name_redacted_version))
     assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
     assert_dom_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
+    assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>19</bdi>)", printable_name(current_nodes(:node_with_ref_without_name))
 
     I18n.locale = "pt-BR"
 
@@ -41,6 +43,7 @@ class BrowseHelperTest < ActionView::TestCase
     assert_dom_equal "18", printable_name(nodes(:node_with_name_redacted_version))
     assert_dom_equal "<bdi>Nó teste</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
     assert_dom_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
+    assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>19</bdi>)", printable_name(current_nodes(:node_with_ref_without_name))
 
     I18n.locale = "de"
 
@@ -50,6 +53,7 @@ class BrowseHelperTest < ActionView::TestCase
     assert_dom_equal "18", printable_name(nodes(:node_with_name_redacted_version))
     assert_dom_equal "<bdi>Test Node</bdi> (<bdi>18, v2</bdi>)", printable_name(nodes(:node_with_name_current_version), true)
     assert_dom_equal "18, v1", printable_name(nodes(:node_with_name_redacted_version), true)
+    assert_dom_equal "<bdi>3.1415926</bdi> (<bdi>19</bdi>)", printable_name(current_nodes(:node_with_ref_without_name))
   end
 
   def test_link_class
