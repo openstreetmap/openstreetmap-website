@@ -1,7 +1,14 @@
 //= require leaflet
 //= require leaflet.osm
+//= require i18n/translations
 
 window.onload = function () {
+  if (navigator.languages) {
+    I18n.locale = navigator.languages[0];
+  } else if (navigator.language) {
+    I18n.locale = navigator.language;
+  }
+
   var query = (window.location.search || '?').substr(1),
       args  = {};
 
