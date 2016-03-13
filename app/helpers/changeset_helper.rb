@@ -31,4 +31,16 @@ module ChangesetHelper
         :user => changeset_user_link(changeset)
     end
   end
+
+  def changeset_list_title(params, user)
+    if params[:friends] && user
+      t "changeset.list.title_friend"
+    elsif params[:nearby] && user
+      t "changeset.list.title_nearby"
+    elsif params[:display_name]
+      t "changeset.list.title_user", :user => params[:display_name]
+    else
+      t "changeset.list.title"
+    end
+  end
 end
