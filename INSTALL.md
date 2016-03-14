@@ -20,7 +20,7 @@ of packages required before you can get the various gems installed.
 
 * Ruby 2.0
 * RubyGems 1.3.1+
-* PostgreSQL 8.3+
+* PostgreSQL 9.1+
 * ImageMagick
 * Bundler
 * Javascript Runtime
