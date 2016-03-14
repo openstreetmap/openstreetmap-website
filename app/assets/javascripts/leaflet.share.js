@@ -145,7 +145,14 @@ L.OSM.share = function (options) {
       .text(I18n.t('javascripts.share.image'))
       .appendTo($imageSection);
 
+    $('<div>')
+      .attr('id', 'export-warning')
+      .attr('class', 'deemphasize')
+      .text(I18n.t('javascripts.share.only_standard_layer'))
+      .appendTo($imageSection);
+
     $form = $('<form>')
+      .attr('id', 'export-image')
       .attr('class', 'standard-form')
       .attr('action', '/export/finish')
       .attr('method', 'post')
@@ -364,6 +371,14 @@ L.OSM.share = function (options) {
 
       $("#mapnik_image_width").text(Math.round(size.x / scale / 0.00028));
       $("#mapnik_image_height").text(Math.round(size.y / scale / 0.00028));
+
+      if (map.getMapBaseLayerId() === 'mapnik') {
+        $('#export-image').show();
+        $('#export-warning').hide();
+      } else {
+        $('#export-image').hide();
+        $('#export-warning').show();
+      }
     }
 
     function select() {
