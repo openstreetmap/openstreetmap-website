@@ -119,7 +119,7 @@
     <% end %>
     <%=
         user = (@prev_by_user || @next_by_user).user.display_name
-        link_to user, :controller => "changeset", :action => "list", :display_name => user
+        link_to content_tag(:bdi, user), :controller => "changeset", :action => "list", :display_name => user
     %>
     <% if @next_by_user %>
       &middot;
