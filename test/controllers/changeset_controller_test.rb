@@ -2339,10 +2339,11 @@ EOF
     assert changesets.size <= 20
 
     assert_select "feed", :count => [changesets.size, 1].min do
-      assert_select "entry", :count => changesets.size
+      assert_select "> title", :count => 1, :text => /^Changesets/
+      assert_select "> entry", :count => changesets.size
 
       changesets.each do |changeset|
-        assert_select "entry > id", changeset_url(:id => changeset.id)
+        assert_select "> entry > id", changeset_url(:id => changeset.id)
       end
     end
   end
