@@ -8,7 +8,7 @@ You can install the software directly on your machine, which is the traditional 
 These instructions are based on Ubuntu 12.04 LTS, which is the platform used by the OSMF servers.
 The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and MacOSX
 
-We don't recommend attempting to develop or deploy this software on Windows. If you need to use Windows, then try developing this sofware using Ubuntu in a virtual machine, or use [Vagrant](VAGRANT.md).
+We don't recommend attempting to develop or deploy this software on Windows. If you need to use Windows, then try developing this software using Ubuntu in a virtual machine, or use [Vagrant](VAGRANT.md).
 
 ## Dependencies
 
@@ -20,7 +20,7 @@ of packages required before you can get the various gems installed.
 
 * Ruby 2.0
 * RubyGems 1.3.1+
-* Postgres 8.3+
+* PostgreSQL 8.3+
 * ImageMagick
 * Bundler
 * Javascript Runtime
@@ -50,14 +50,14 @@ sudo yum install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
                  perl-podlators ImageMagick
 ```
 
-If you didn't already have Postgres installed then create a Postgres instance and start the server:
+If you didn't already have PostgreSQL installed then create a PostgreSQL instance and start the server:
 
 ```
 sudo postgresql-setup initdb
 sudo systemctl start postgresql.service
 ```
 
-Optionally set Postgres to start on boot:
+Optionally set PostgreSQL to start on boot:
 
 ```
 sudo systemctl enable postgresql.service
@@ -67,10 +67,10 @@ sudo systemctl enable postgresql.service
 
 For MacOSX, you will need XCode installed from the Mac App Store; OS X 10.7 (Lion) or later; and some familiarity with Unix development via the Terminal.
 
-Installing Postgres:
+Installing PostgreSQL:
 
 * Install Postgres.app from http://postgresapp.com/
-* Add Postgres to your path, by editing your profile:
+* Add PostgreSQL to your path, by editing your profile:
 
 `nano ~/.profile`
 
@@ -156,7 +156,7 @@ bundle exec rake db:create
 
 ### PostgreSQL Btree-gist Extension
 
-We need to load the btree-gist extension, which is needed for showing changesets on the history tab.
+We need to load the `btree-gist` extension, which is needed for showing changesets on the history tab.
 
 ```
 psql -d openstreetmap -c "CREATE EXTENSION btree_gist"
@@ -164,7 +164,7 @@ psql -d openstreetmap -c "CREATE EXTENSION btree_gist"
 
 ### PostgreSQL Functions
 
-We need to install special functions into the postgresql databases, and these are provided by a library that needs compiling first.
+We need to install special functions into the PostgreSQL databases, and these are provided by a library that needs compiling first.
 
 ```
 cd db/functions
