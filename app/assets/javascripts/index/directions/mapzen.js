@@ -46,8 +46,7 @@ function MapzenEngine(id, costing) {
             locations: points.map(function (p) { return { lat: p.lat, lon: p.lng }; }),
             costing: costing,
             directions_options: {
-              units: "km",
-              language: I18n.currentLocale()
+              units: "km"
             }
           })
         },
