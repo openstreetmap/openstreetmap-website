@@ -28,6 +28,7 @@ OpenStreetMap::Application.routes.draw do
   match "api/0.6/node/:id" => "node#update", :via => :put, :id => /\d+/
   match "api/0.6/node/:id" => "node#delete", :via => :delete, :id => /\d+/
   match "api/0.6/nodes" => "node#nodes", :via => :get
+  match "api/0.6/nodes/versions" => "old_node#elements", :via => :get
 
   match "api/0.6/way/create" => "way#create", :via => :put
   match "api/0.6/way/:id/history" => "old_way#history", :via => :get, :id => /\d+/
@@ -39,6 +40,7 @@ OpenStreetMap::Application.routes.draw do
   match "api/0.6/way/:id" => "way#update", :via => :put, :id => /\d+/
   match "api/0.6/way/:id" => "way#delete", :via => :delete, :id => /\d+/
   match "api/0.6/ways" => "way#ways", :via => :get
+  match "api/0.6/ways/versions" => "old_way#elements", :via => :get
 
   match "api/0.6/relation/create" => "relation#create", :via => :put
   match "api/0.6/relation/:id/relations" => "relation#relations_for_relation", :via => :get, :id => /\d+/
@@ -50,6 +52,7 @@ OpenStreetMap::Application.routes.draw do
   match "api/0.6/relation/:id" => "relation#update", :via => :put, :id => /\d+/
   match "api/0.6/relation/:id" => "relation#delete", :via => :delete, :id => /\d+/
   match "api/0.6/relations" => "relation#relations", :via => :get
+  match "api/0.6/relations/versions" => "old_relation#elements", :via => :get
 
   match "api/0.6/map" => "api#map", :via => :get
 

@@ -8,4 +8,9 @@ class OldWayController < OldController
   def lookup_old_element_versions
     @elements = OldWay.where(:way_id => params[:id]).order(:version)
   end
+
+  def lookup_old_elements
+    ids = parse_old_elements("ways")
+    @elements = OldNode.find(ids)
+  end
 end

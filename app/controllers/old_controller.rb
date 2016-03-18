@@ -12,8 +12,9 @@ class OldController < ApplicationController
   before_action :check_api_readable
   before_action :check_api_writable, :only => [:redact]
   around_action :api_call_handle_error, :api_call_timeout
-  before_action :lookup_old_element, :except => [:history]
+  before_action :lookup_old_element, :only => [:version, :redact]
   before_action :lookup_old_element_versions, :only => [:history]
+  before_action :lookup_old_elements, :only => [:elements]
 
   def history
     # the .where() method used in the lookup_old_element_versions
@@ -21,14 +22,29 @@ class OldController < ApplicationController
     # to do that ourselves.
     raise OSM::APINotFoundError.new if @elements.empty?
 
-    doc = OSM::API.new.get_xml_doc
-
     visible_elements = if show_redactions?
                          @elements
                        else
                          @elements.unredacted
                        end
+    print_elements(visible_elements)
+  end
 
+  def elements
+    print_elements(@elements.select { |i| i.redaction_id.nil? })
+  end
+
+  def parse_old_elements(param_key)
+    unless params[param_key] && params[param_key].match(/\d+v\d+(,\d+v\d+)*/)
+      raise OSM::APIBadUserInput.new("The parameter #{param_key} is required, and must be of the form #{param_key}={id}v{version}[,...]")
+    end
+    params[param_key].split(",").collect do |id|
+      id.split("v", 2).collect(&:to_i) # id and version
+    end
+  end
+
+  def print_elements(visible_elements)
+    doc = OSM::API.new.get_xml_doc
     visible_elements.each do |element|
       doc.root << element.to_xml_node
     end

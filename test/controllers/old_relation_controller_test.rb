@@ -19,6 +19,10 @@ class OldRelationControllerTest < ActionController::TestCase
       { :path => "/api/0.6/relation/1/2/redact", :method => :post },
       { :controller => "old_relation", :action => "redact", :id => "1", :version => "2" }
     )
+    assert_routing(
+      { :path => "/api/0.6/relations/versions", :method => :get },
+      { :controller => "old_relation", :action => "elements" }
+    )
   end
 
   # -------------------------------------
@@ -32,6 +36,15 @@ class OldRelationControllerTest < ActionController::TestCase
     # check chat a non-existent relations is not returned
     get :history, :id => 0
     assert_response :not_found
+  end
+
+  def test_elements
+    relation = relations(:relation_with_versions_v2)
+    ids = relation.id.join("v")
+    get :elements, :relations => ids
+    assert_response :success
+    assert_select "osm relation", 1
+    assert_select "osm relation[id='#{relation.relation_id}'][version='#{relation.version}']", 1, "relation #{relation.relation_id} version #{relation.version} should be present."
   end
 
   ##

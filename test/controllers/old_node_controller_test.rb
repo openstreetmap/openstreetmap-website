@@ -23,6 +23,10 @@ class OldNodeControllerTest < ActionController::TestCase
       { :path => "/api/0.6/node/1/2/redact", :method => :post },
       { :controller => "old_node", :action => "redact", :id => "1", :version => "2" }
     )
+    assert_routing(
+      { :path => "/api/0.6/nodes/versions", :method => :get },
+      { :controller => "old_node", :action => "elements" }
+    )
   end
 
   ##
@@ -155,6 +159,25 @@ class OldNodeControllerTest < ActionController::TestCase
     assert_response :not_found
   rescue ActionController::UrlGenerationError => ex
     assert_match /No route matches/, ex.to_s
+  end
+
+  def test_elements
+    n0 = nodes(:visible_node)
+    n1 = nodes(:node_with_versions_v2)
+    n2 = nodes(:node_with_versions_v3)
+    n3 = nodes(:redacted_node_redacted_version)
+    ids = [n0, n1, n2].collect { |n| n.id.join("v") }.join(",")
+    get :elements, :nodes => ids
+    assert_response :success
+    assert_select "osm node", 3
+    [n0, n1, n2].each do |node|
+      assert_select "osm node[id='#{node.node_id}'][version='#{node.version}']", 1, "node #{node.node_id} version #{node.version} should be present."
+    end
+    assert_select "osm node[id='#{n3.node_id}'][version='#{n3.version}']", 0, "redacted node #{n3.node_id} version #{n3.version} shouldn't be present."
+    get :elements, :nodes => n0.id[0]
+    assert_response :bad_request, "invalid request w/o version"
+    get :elements, :nodes => "999999999999v9"
+    assert_response :not_found, "non-existent node"
   end
 
   ##

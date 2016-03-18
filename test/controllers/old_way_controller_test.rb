@@ -19,6 +19,10 @@ class OldWayControllerTest < ActionController::TestCase
       { :path => "/api/0.6/way/1/2/redact", :method => :post },
       { :controller => "old_way", :action => "redact", :id => "1", :version => "2" }
     )
+    assert_routing(
+      { :path => "/api/0.6/ways/versions", :method => :get },
+      { :controller => "old_way", :action => "elements" }
+    )
   end
 
   # -------------------------------------
@@ -49,6 +53,15 @@ class OldWayControllerTest < ActionController::TestCase
     check_current_version(current_ways(:visible_way).id)
     check_current_version(current_ways(:used_way).id)
     check_current_version(current_ways(:way_with_versions).id)
+  end
+
+  def test_elements
+    way = ways(:way_with_versions_v2)
+    ids = way.id.join("v")
+    get :elements, :ways => ids
+    assert_response :success
+    assert_select "osm way", 1
+    assert_select "osm way[id='#{way.way_id}'][version='#{way.version}']", 1, "way #{way.way_id} version #{way.version} should be present."
   end
 
   ##
