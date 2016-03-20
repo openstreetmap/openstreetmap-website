@@ -330,7 +330,7 @@ class UserController < ApplicationController
       flash[:error] = t "user.confirm_resend.failure", :name => params[:display_name]
     else
       Notifier.signup_confirm(user, user.tokens.create).deliver_now
-      flash[:notice] = t("user.confirm_resend.success", :email => user.email).html_safe
+      flash[:notice] = t("user.confirm_resend.success", :email => user.email, :sender => SUPPORT_EMAIL).html_safe
     end
 
     redirect_to :action => "login"
@@ -516,7 +516,7 @@ class UserController < ApplicationController
       when "active", "confirmed" then
         successful_login(user, env["omniauth.params"]["referer"])
       when "suspended" then
-        failed_login t("user.login.account is suspended", :webmaster => "mailto:webmaster@openstreetmap.org")
+        failed_login t("user.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}")
       else
         failed_login t("user.login.auth failure")
       end
@@ -559,7 +559,7 @@ class UserController < ApplicationController
     elsif user = User.authenticate(:username => username, :password => password, :pending => true)
       unconfirmed_login(user)
     elsif User.authenticate(:username => username, :password => password, :suspended => true)
-      failed_login t("user.login.account is suspended", :webmaster => "mailto:webmaster@openstreetmap.org"), username
+      failed_login t("user.login.account is suspended", :webmaster => "mailto:#{SUPPORT_EMAIL}"), username
     else
       failed_login t("user.login.auth failure"), username
     end
