@@ -179,7 +179,7 @@ OSM.Query = function(map) {
       url: url,
       method: "POST",
       data: {
-        data: "[timeout:5][out:json];" + query,
+        data: "[timeout:10][out:json];" + query,
       },
       success: function(results) {
         var elements;
