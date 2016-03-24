@@ -80,25 +80,11 @@ module RichText
     end
 
     def self.html_renderer
-      @html_renderer ||= Renderer.new(:filter_html => true, :safe_links_only => true)
+      @html_renderer ||= Redcarpet::Render::XHTML.new(:filter_html => true, :safe_links_only => true, :link_attributes => { :rel => "nofollow" })
     end
 
     def self.html_parser
       @html_parser ||= Redcarpet::Markdown.new(html_renderer, :no_intra_emphasis => true, :autolink => true, :space_after_headers => true)
-    end
-
-    class Renderer < Redcarpet::Render::XHTML
-      def link(link, _title, alt_text)
-        "<a rel=\"nofollow\" href=\"#{link}\">#{alt_text}</a>"
-      end
-
-      def autolink(link, link_type)
-        if link_type == :email
-          "<a rel=\"nofollow\" href=\"mailto:#{link}\">#{link}</a>"
-        else
-          "<a rel=\"nofollow\" href=\"#{link}\">#{link}</a>"
-        end
-      end
     end
   end
 
