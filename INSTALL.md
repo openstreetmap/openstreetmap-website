@@ -165,10 +165,12 @@ psql -d openstreetmap -c "CREATE EXTENSION btree_gist"
 ### PostgreSQL Functions
 
 We need to install special functions into the PostgreSQL databases, and these are provided by a library that needs compiling first.
+Error like "#include <postgres.h> not found" may show up if latest version of PostgreSQL is not installed. Header files in PostgreSQL 9 and below have different names.
+Also run "sudo apt-get install postgresql-server-dev-headers" separately if command at line #34 did not install completely.
 
 ```
 cd db/functions
-make libpgosm.so
+make libpgosm.so 
 cd ../..
 ```
 
