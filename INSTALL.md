@@ -170,7 +170,7 @@ Also run "sudo apt-get install postgresql-server-dev-headers" separately if comm
 
 ```
 cd db/functions
-make libpgosm.so 
+make libpgosm.so
 cd ../..
 ```
 
