@@ -1087,7 +1087,7 @@ ia:
         in linea</a>.
       trademarks_title_html: <span id="trademarks"></span>Marcas commercial
       trademarks_1_html: OpenStreetMap e le logotypo con le lupa es marcas registrate
-        del Fundation OpenStreetMap. Si vos ha questiones sur vostre uso del marcas,
+        del Fundation OpenStreetMap. Si vos ha questiones sur le uso de iste marcas,
         invia los al <a href="http://wiki.osmfoundation.org/wiki/Licensing_Working_Group">gruppo
         de labor sur licentias</a>.
   welcome_page:
@@ -1456,6 +1456,7 @@ ia:
       table:
         entry:
           motorway: Autostrata
+          main_road: Strata principal
           trunk: Via national
           primary: Via primari
           secondary: Via secundari
@@ -1658,6 +1659,7 @@ ia:
         Non es necessari declarar se de accordo, ma es obligatori haber legite los.
   oauth:
     oauthorize:
+      title: Autorisar accesso a tu conto
       request_access: Le application %{app_name} requesta accesso a tu conto "%{user}".
         Per favor verifica si tu vole que le application ha le sequente possibilitates.
         Tu pote seliger tantes o si poches como tu vole.
@@ -1669,6 +1671,15 @@ ia:
       allow_read_gpx: leger tu tracias GPS private.
       allow_write_gpx: incargar tracias GPS.
       allow_write_notes: modificar notas.
+      grant_access: Conceder accesso
+    oauthorize_success:
+      title: Requesta de autorisation acceptate
+      allowed: Tu ha concedite al application %{app_name} le accesso a tu conto.
+      verification: Le codice de verification es %{code}.
+    oauthorize_failure:
+      title: Requesta de autorisation fallite
+      denied: Tu ha refusate al application %{app_name} le accesso a tu conto.
+      invalid: Le indicio de autorisation non es valide.
     revoke:
       flash: Tu ha revocate le indicio pro %{application}
   oauth_clients:
@@ -1746,6 +1757,7 @@ ia:
       register now: Registrar ora
       with username: 'Ha tu jam un conto de OpenStreetMap? Per favor aperi session
         con tu nomine de usator e contrasigno:'
+      with external: 'Alternativemente, usa un tertio pro aperir session:'
       new to osm: Nove a OpenStreetMap?
       to make changes: Pro facer modificationes in le datos de OpenStreetMap, es necessari
         haber un conto.
@@ -1759,6 +1771,28 @@ ia:
         si tu vole discuter isto.
       auth failure: Pardono, non poteva aperir un session con iste detalios.
       openid_logo_alt: Aperir session con OpenID
+      auth_providers:
+        openid:
+          title: Aperir session con OpenID
+          alt: Aperir session con un URL de OpenID
+        google:
+          title: Aperir session con Google
+          alt: Aperir session con un OpenID de Google
+        facebook:
+          title: Aperir session con Facebook
+          alt: Aperir session con un conto de Facebook
+        windowslive:
+          title: Aperir session con Windows Live
+          alt: Aperir session con un conto de Windows Live
+        yahoo:
+          title: Aperir session con Yahoo
+          alt: Aperir session con un OpenID de Yahoo
+        wordpress:
+          title: Aperir session con WordPress
+          alt: Aperir session con un OpenID de WordPress
+        aol:
+          title: Aperir session con AOL
+          alt: Aperir session con un OpenID de AOL
     logout:
       title: Clauder session
       heading: Clauder le session de OpenStreetMap
@@ -1785,7 +1819,7 @@ ia:
       title: Crear conto
       no_auto_account_create: Infortunatemente in iste momento non es possibile crear
         un conto pro te automaticamente.
-      contact_webmaster: Per favor contacta le <a href="mailto:webmaster@openstreetmap.org">webmaster</a>
+      contact_webmaster: Per favor contacta le <a href="%{webmaster}">webmaster</a>
         pro arrangiar le creation de un conto. Nos tentara tractar vostre requesta
         le plus rapidemente possibile.
       about:
@@ -1841,6 +1875,7 @@ ia:
       heading: Le usator %{user} non existe
       body: Non existe un usator con le nomine %{user}. Per favor verifica le orthographia,
         o pote esser que le ligamine que tu sequeva es incorrecte.
+      deleted: delite
     view:
       my diary: Mi diario
       new diary entry: nove entrata de diario
@@ -1892,16 +1927,16 @@ ia:
         revoke:
           administrator: Revocar accesso de administrator
           moderator: Revocar accesso de moderator
-      block_history: blocadas recipite
-      moderator_history: blocadas date
+      block_history: Blocadas active
+      moderator_history: Blocadas imponite
       comments: Commentos
-      create_block: blocar iste usator
-      activate_user: activar iste usator
-      deactivate_user: disactivar iste usator
+      create_block: Blocar iste usator
+      activate_user: Activar iste usator
+      deactivate_user: Disactivar iste usator
       confirm_user: Confirmar iste usator
-      hide_user: celar iste usator
-      unhide_user: revelar iste usator
-      delete_user: deler iste usator
+      hide_user: Celar iste usator
+      unhide_user: Revelar iste usator
+      delete_user: Deler iste usator
       confirm: Confirmar
       friends_changesets: gruppos de modificationes de tu amicos
       friends_diaries: articulos de diario de tu amicos
@@ -1987,10 +2022,10 @@ ia:
         hic</a>.
     confirm_resend:
       success: Nos ha inviate un nove message de confirmation a %{email} e si tosto
-        que tu confirma le conto, tu potera comenciar a cartographiar.<br /><br />Si
+        que tu confirma le conto, tu potera comenciar a cartographar.<br /><br />Si
         tu usa un systema anti-spam que invia requestas de confirmation, alora per
-        favor assecura te de adder webmaster@openstreetmap.org al lista blanc, post
-        que nos non pote responder a requestas de confirmation.
+        favor assecura te de adder %{sender} al lista blanc, alteremente nos non pote
+        responder a requestas de confirmation.
       failure: Usator %{name} non trovate.
     confirm_email:
       heading: Confirmar un cambio de adresse de e-mail
@@ -2048,6 +2083,12 @@ ia:
       no_authorization_code: Nulle codice de autorisation
       unknown_signature_algorithm: Algorithmo de signatura non cognoscite
       invalid_scope: Ambito non valide
+    auth_association:
+      heading: Tu ID non es ancora associate a un conto de OpenStreetMap.
+      option_1: Si tu es nove in OpenStreetMap, per favor crea un conto per medio
+        del formulario sequente.
+      option_2: Si tu jam ha un conto, tu pote aperir session con tu nomine de usator
+        e contrasigno e postea associar le conto a tu ID in tu preferentias de usator.
   user_role:
     filter:
       not_an_administrator: Solmente administratores pote gerer le rolos de usator,
@@ -2226,6 +2267,7 @@ ia:
       center_marker: Centrar le carta sur le marcator
       paste_html: Colla HTML pro incorporar in sito web
       view_larger_map: Vider carta plus grande
+      only_standard_layer: Solmente le strato standard pote esser exportate como imagine
     embed:
       report_problem: Reportar problema
     key:
@@ -2286,6 +2328,51 @@ ia:
         comment: Commento
     edit_help: Displacia le carta e face zoom avante in un loco que tu vole modificar,
       postea clicca hic.
+    directions:
+      engines:
+        graphhopper_bicycle: Bicycletta (GraphHopper)
+        graphhopper_foot: Pedestre (GraphHopper)
+        mapquest_bicycle: Bicycletta (MapQuest)
+        mapquest_car: Auto (MapQuest)
+        mapquest_foot: Pedestre (MapQuest)
+        osrm_car: Auto (OSRM)
+        mapzen_bicycle: Bicycletta (Mapzen)
+        mapzen_car: Auto (Mapzen)
+        mapzen_foot: Pedestre (Mapzen)
+      directions: Itinerario
+      distance: Distantia
+      errors:
+        no_route: Nulle route ha essite trovate inter iste duo locos.
+        no_place: Iste loco non ha essite trovate.
+      instructions:
+        continue_without_exit: Continuar sur %{name}
+        slight_right_without_exit: Curva suave a dextra verso ${name}
+        turn_right_without_exit: Girar a dextra verso %{name}
+        sharp_right_without_exit: Curva acute a dextra verso %{name}
+        uturn_without_exit: Retornar preter %{name}
+        sharp_left_without_exit: Curva acute a sinistra verso %{name}
+        turn_left_without_exit: Girar a sinistra verso %{name}
+        slight_left_without_exit: Curva suave a sinistra verso %{name}
+        via_point_without_exit: (puncto intermedie)
+        follow_without_exit: Sequer %{name}
+        roundabout_without_exit: Al rotunda prender %{name}
+        leave_roundabout_without_exit: Quitar rotunda - %{name}
+        stay_roundabout_without_exit: Remaner sur rotunda - %{name}
+        start_without_exit: Comenciar al fin de %{name}
+        destination_without_exit: Attinger destination
+        against_oneway_without_exit: Ir contra direction obligatori sur %{name}
+        end_oneway_without_exit: Fin del direction obligatori sur %{name}
+        roundabout_with_exit: Al rotunda prende le exito %{exit} sur %{name}
+        unnamed: cammino sin nomine
+        courtesy: Itinerario fornite per %{link}
+      time: Tempore
+    query:
+      node: Nodo
+      way: Via
+      relation: Relation
+      nothing_found: Nulle elemento trovate
+      error: 'Error al contactar %{server}: %{error}'
+      timeout: Tempore limite excedite contactante %{server}
   redaction:
     edit:
       description: Description
