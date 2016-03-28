@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# abort on error
+set -e
+
 # set locale to UTF-8 compatible. apologies to non-english speakers...
 locale-gen en_GB.utf8
 update-locale LANG=en_GB.utf8 LC_ALL=en_GB.utf8
