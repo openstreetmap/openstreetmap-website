@@ -17,7 +17,7 @@ L.OSM.Map = L.Map.extend({
     var donate = I18n.t('javascripts.map.donate_link_text', {donate_url: 'http://donate.openstreetmap.org'});
 
     this.baseLayers = [
-      new L.TileLayer("/tiles/mm/{z}/{x}/{y}.png", {
+      new L.TileLayer("http://posm.io/tiles/mm/{z}/{x}/{y}.png", {
         attribution: copyright + ". Tiles courtesy of American Red Cross",
         code: "P",
         keyid: "posm",
