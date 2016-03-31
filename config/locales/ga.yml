@@ -21,6 +21,13 @@ ga:
       node: Nód
       node_tag: Clib do Nód
       old_node: Sean-nód
+      old_node_tag: Sean-Chlib Nóid
+      old_relation: Sean-Ghaol
+      old_relation_member: Sean-Bhall de Ghaol
+      old_relation_tag: Sean-Chlib Gaoil
+      old_way: Sean-Bhealach
+      old_way_node: Sean-Nód Bealaigh
+      old_way_tag: Sean-Chlib Bhealaigh
       relation: Gaol
       relation_member: Ball de Ghaol
       relation_tag: Clib Gaoil
@@ -30,7 +37,10 @@ ga:
       tracetag: Clib Loirg
       user: Úsáideoir
       user_preference: Sainrogha Úsáideora
+      user_token: Ceadchomhartha Úsáideora
       way: Bealach
+      way_node: Nód Bealaigh
+      way_tag: Clib Bhealaigh
     attributes:
       diary_comment:
         body: Corp
@@ -75,6 +85,9 @@ ga:
     potlatch2:
       name: Potlatch 2
       description: Potlatch 2 (eagathóir sa bhrabhsálaí)
+    remote:
+      name: Remote Control
+      description: Remote Control (JOSM nó Merkaartor)
   browse:
     created: Cruthaithe ag
     closed: Dúnta ag
@@ -106,6 +119,7 @@ ga:
       hidden_commented_by: Nóta tráchta folaithe ó %{user} <abbr title='%{exact_time}'>%{when}
         ó shin</abbr>
       commented_by: Nóta tráchta ó %{user} <abbr title='%{exact_time}'>%{when} ó shin</abbr>
+      changesetxml: XML an Tacair athruithe
       osmchangexml: XML osmChange
       feed:
         title: Tacar athruithe %{id}
@@ -206,6 +220,7 @@ ga:
       saved_at: Sábháilte ag
       user: Úsáideoir
       comment: Nóta tráchta
+      area: Limistéar
     list:
       title: Tacair athruithe
       title_user: Tacair athruithe de chuid %{user}
@@ -224,6 +239,7 @@ ga:
     rss:
       title_all: Plé ar thacair athruithe OpenStreetMap
       title_particular: Plé ar thacar athruithe %{changeset_id} de chuid OpenStreetMap
+      comment: Nóta tráchta nua ar thacar athruithe %{changeset_id} ó %{author}
       commented_at_html: Nuashonraithe %{when} ó shin
       commented_at_by_html: Nuashonraithe %{when} ó shin ag %{user}
       full: An plé iomlán
@@ -238,6 +254,9 @@ ga:
       user_title: Dialann %{user}
       in_language_title: 'Iontrálacha Dialainne i: %{language}'
       new: Iontráil Nua Dialainne
+      new_title: Scríobh iontráil nua i do dhialann úsáideora
+      no_entries: Níl aon iontráil dialainne ann
+      recent_entries: Iontrálacha dialainne le déanaí
       older_entries: Iontrálacha Níos Sine
       newer_entries: Iontrálacha Níos Nuaí
     edit:
@@ -249,6 +268,7 @@ ga:
       latitude: 'Domhanleithead:'
       longitude: 'Domhanfhad:'
       save_button: Sábháil
+      marker_text: Suíomh na hiontrála dialainne
     view:
       title: Dialann %{user} | %{title}
       user_title: Dialann %{user}
@@ -259,7 +279,11 @@ ga:
     no_such_entry:
       title: Níl an iontráil dialainne sin ann
       heading: 'Níl aon iontráil ann a bhfuil an ID seo aici: %{id}'
+      body: Ár leithscéil, níl aon iontráil dialainne ná nóta tráchta ann a bhfuil
+        an ID %{id} aige. Seiceáil an litriú, nó b'fhéidir go bhfuil an nasc a d'úsáid
+        tú mícheart.
     diary_entry:
+      posted_by: 'Postáilte ag %{link_user} ar an %{created} sa teanga seo: %{language_link}'
       comment_link: Déan trácht ar an iontráil seo
       reply_link: Tabhair freagra ar an iontráil seo
       comment_count:
@@ -287,7 +311,10 @@ ga:
           sa teanga seo: %{language_name}'
       all:
         title: Iontrálacha dialainne OpenStreetMap
+        description: Iontrálacha dialainne le déanaí ó úsáideoirí OpenStreetMap
     comments:
+      has_commented_on: Rinne %{display_name} nótaí tráchta ar na hiontrálacha dialainne
+        seo a leanas
       post: Postáil
       when: Cá huair
       comment: Nóta tráchta
@@ -298,12 +325,18 @@ ga:
     title: Easportáil
     start:
       area_to_export: Limistéar la hEaspórtáil
+      manually_select: Roghnaigh limistéar eile de láimh
+      format_to_export: Formáid le hEaspórtáil
       osm_xml_data: Sonraí XML OpenStreetMap
       embeddable_html: HTML inleabaithe
       licence: Ceadúnas
       too_large:
         overpass:
           title: Comhéadan feidhmchláir Overpass
+        geofabrik:
+          title: Íoslódálacha Geofabrik
+        metro:
+          title: Ábhair asbhainte Metro
         other:
           title: Foinsí Eile
       options: Roghanna
@@ -312,9 +345,11 @@ ga:
       max: uasta
       image_size: Méid na hÍomhá
       zoom: Zúmáil
+      add_marker: Cuir marcóir leis an léarscáil
       latitude: 'D-lthd:'
       longitude: 'D-fhad:'
       output: Aschur
+      paste_html: Greamaigh HTML le leabú i suíomh gréasáil
       export_button: Easportáil
   geocoder:
     search:
@@ -398,6 +433,7 @@ ga:
           market: Margadh
           marketplace: Áit mhargaidh
           monastery: Mainistir
+          motorcycle_parking: Páirceáil do Ghluaisrothair
           nightclub: Club Oíche
           nursery: Naíonra
           nursing_home: Teach Altranais
@@ -417,6 +453,7 @@ ga:
           sauna: Seomra allais/sauna
           school: Scoil
           shop: Siopa
+          shower: Cithfholcadh
           social_centre: Ionad Sóisialta
           social_club: Club Sóisialta
           social_facility: Áislann Shóisialta
@@ -430,9 +467,13 @@ ga:
           university: Ollscoil
           vending_machine: Meaisín Díola
           veterinary: Ionad Cúraim Tréidlia
+          village_hall: Ionad Pobail Sráidbhaile
           waste_basket: Bosca Bruscair
+          waste_disposal: Diúscairt Dramhaíola
           youth_centre: Ionad Óige
         boundary:
+          administrative: Teorainn Riaracháin
+          census: Teorainn Daonáirimh
           national_park: Páirc Náisiúnta
           protected_area: Limistéar faoi Chosaint
         bridge:
@@ -453,6 +494,7 @@ ga:
           plumber: Pluiméir
           shoemaker: Gréasaí
           tailor: Táilliúir
+          "yes": Siopa Ceardaíochta
         emergency:
           ambulance_station: Stáisiún Otharchairr
           defibrillator: Dífhibrileoir
@@ -460,26 +502,45 @@ ga:
         highway:
           bridleway: Cosán marcaíochta
           bus_stop: Stad Bus
+          cycleway: Raon Rothar
           elevator: Ardaitheoir
+          emergency_access_point: Pointe Rochtana Éigeandála
+          footway: Cosán
           ford: Áth
+          living_street: Sráid Chónaithe
           milestone: Cloch Mhíle
           motorway: Mótarbhealach
           motorway_junction: Acomhal
+          motorway_link: Bóthar Mótarbhealaigh
+          path: Slí
+          pedestrian: Ceantar Coisithe
           platform: Árdán
           proposed: Bóthar Atá Beartaithe
           raceway: Ráschúrsa
+          residential: Bóthar Cónaithe
           road: Bóthar
           service: Bóthar Freastail/Rochtana
+          speed_camera: Ceamara Luais
           steps: Céimeanna
           street_lamp: Solas Sráide
           track: Cosán
           traffic_signals: Comharthaí Tráchta
+          trail: Conair
+          trunk: Mórbhóthar
+          trunk_link: Mórbhóthar
           unclassified: Bóthar Neamhaicmithe
+          unsurfaced: Bóthar Gan Dromhchla
           "yes": Bóthar
         historic:
+          archaeological_site: Láithreán Seandálaíochta
+          battlefield: Láthair Chatha
+          building: Foirgneamh Stairiúil
+          bunker: Buncar
           castle: Caisleán
           city_gate: Geata Cathrach
           citywalls: Ballaí Cathrach
+          fort: Dún/Ráth
+          heritage: Láithreán Oidhreachta
           house: Teach
           manor: Mainéar
           memorial: Leac cuimhneacháin
@@ -497,20 +558,36 @@ ga:
           "yes": Acomhal
         landuse:
           allotments: Cuibhrinn
+          brownfield: Talamh Athfhorbraíochta
+          cemetery: Reilig
+          commercial: Limistéar Tráchtála
           conservation: Caomhnú
+          construction: Tógáil
           farm: Feirm
           farmland: Talamh Feirme
           farmyard: Clós Feirme
           forest: Foraois
           garages: Garáistí
           grass: Féar
+          greenfield: Talamh Glasbháin
+          industrial: Limistéar Tionsclaíoch
           landfill: Líonadh Talún
+          meadow: Móinéar/cluain
+          military: Limistéar Míleata
           mine: Mianach
           orchard: Úllord
           quarry: Cairéal
+          reservoir: Taiscumar
+          reservoir_watershed: Dobhardhroim Thaiscumair
+          residential: Ceantar Cónaithe
+          retail: Miondíol
+          vineyard: Fíonghort
+          "yes": Úsáid na Talún
         leisure:
+          beach_resort: Ionad Saoire Cois Trá
           bird_hide: Folachán Éanbhreathnóireachta
           club: Club
+          common: Coimín
           fishing: Áit Iascaireachta
           fitness_centre: Ionad Aclaíochta
           garden: Gairdín
@@ -584,12 +661,14 @@ ga:
           state: Stát
           subdivision: Fo-roinn
           town: Baile
+          village: Sráidbhaile
           "yes": Áit
         railway:
           level_crossing: Crosaire Comhréidh
           monorail: Aonráille
         shop:
           alcohol: Eischeadúnas
+          art: Siopa Ealaíon
           bakery: Bácús
           beverages: Siopa Deochanna
           bicycle: Siopa Rothar
@@ -599,6 +678,7 @@ ga:
           computer: Siopa Ríomhairí
           dry_cleaning: Tirimghlanadh
           estate_agent: Gníomhaire Eastáit
+          farm: Siopa Feirme
           fashion: Siopa Faisin
           fish: Siopa Éisc
           florist: Bláthadóir
@@ -614,16 +694,20 @@ ga:
           optician: Radharceolaí
           organic: Siopa Bia Orgánaigh
           pet: Siopa Peataí
+          photo: Siopa Grianghrafadóireachta
+          shoes: Siopa Bróg
           shopping_centre: Ionad Siopadóireachta
           supermarket: Ollmhargadh
           tailor: Táilliúir
           toys: Siopa Bréagán
+          travel_agency: Gníomhaireacht Taistil
           wine: Eischeadúnas
           "yes": Siopa
         tourism:
           apartment: Árasán
           bed_and_breakfast: Lóistín (B&B)
           cabin: Bothán/cábán
+          chalet: Sealla
           gallery: Dánlann
           hostel: Brú Óige
           hotel: Óstán
@@ -691,6 +775,7 @@ ga:
     copyright: Cóipcheart
     community: Pobal
     community_blogs: Blaganna an Phobail
+    community_blogs_title: Blaganna ó dhaoine i bpobal OpenStreetMap
     foundation: Fondúireacht
     foundation_title: Fondúireacht OpenStreetMap
     make_a_donation:
@@ -750,10 +835,12 @@ ga:
       title: Aon cheist agat?
     start_mapping: Téigh i mbun Léarscáilithe
     add_a_note:
+      title: Easpa Ama chun Eagarthóireacht a Dhéanamh? Fág Nóta!
       paragraph_1_html: Mura bhfuil tú ag iarraidh ach go ndéanfaí rud beag a cheartú
         agus gan an t-am agat clárú agus foghlaim conas eagarthóireacht a dhéanamh,
         tá sé an-éasca nóta a scríobh.
   fixthemap:
+    title: Fadhb a thuairisciú / An léarscáil a dheisiú
     how_to_help:
       title: Conas Cabhrú
       join_the_community:

@@ -25,20 +25,20 @@ be:
       friend: Сябар
       language: Мова
       message: Паведамленне
-      node: Кропка
+      node: Пункт
       node_tag: Тэг кропкі
       notifier: Абвяшчэнне
-      old_node: Старая кропка
+      old_node: Стары пункт
       old_node_tag: Стары тэг кропкі
-      old_relation: Старыя адносіны
+      old_relation: Старое дачыненне
       old_relation_member: Стары ўдзельнік адносін
-      old_relation_tag: Стары тэг адносін
+      old_relation_tag: Стары тэг дачынення
       old_way: Старая лінія
-      old_way_node: Старая кропка лініі
+      old_way_node: Стары пункт лініі
       old_way_tag: Стары тэг лініі
-      relation: Адносіны
+      relation: Дачыненне
       relation_member: Удзельнік адносін
-      relation_tag: Тэг адносін
+      relation_tag: Тэг дачынення
       session: Сеанс
       trace: След
       tracepoint: Кропка следу
@@ -47,7 +47,7 @@ be:
       user_preference: Налады карыстальніка
       user_token: Токен карыстальніка
       way: Лінія
-      way_node: Кропка лініі
+      way_node: Пункт лініі
       way_tag: Тэг лініі
     attributes:
       diary_comment:
@@ -117,11 +117,11 @@ be:
     changeset:
       title: 'Набор змен: %{id}'
       belongs_to: Аўтар
-      node: Кропкі (%{count})
+      node: Пункты (%{count})
       node_paginated: Кропкі (%{x}-%{y} з %{count})
       way: Лініі (%{count})
       way_paginated: Лініі (%{x}-%{y} з %{count})
-      relation: Адносіны (%{count})
+      relation: Дачыненні (%{count})
       relation_paginated: Адносіны (%{x}-%{y} з %{count})
       comment: Каментары (%{count})
       hidden_commented_by: Схаваны каментар ад %{user} <abbr title='%{exact_time}'>%{when}
@@ -135,51 +135,51 @@ be:
       join_discussion: Увайдзіце ў сістэму, каб далучыцца да абмеркавання
       discussion: Абмеркаванне
     node:
-      title: 'Кропка: %{name}'
+      title: 'Пункт: %{name}'
       history_title: 'Гісторыя кропкі: %{name}'
     way:
       title: 'Лінія: %{name}'
       history_title: 'Гісторыя лініі: %{name}'
-      nodes: Кропкі
+      nodes: Пункты
       also_part_of:
         one: частка лініі %{related_ways}
         other: частка ліній %{related_ways}
     relation:
-      title: 'Адносіны: %{name}'
+      title: 'Дачыненне: %{name}'
       history_title: 'Гісторыя адносін: %{name}'
       members: Удзельнікі
     relation_member:
       entry_role: '%{type} %{name} як %{role}'
       type:
-        node: Кропка
+        node: Пункт
         way: Лінія
-        relation: Адносіны
+        relation: Дачыненне
     containing_relation:
-      entry: Адносіны %{relation_name}
-      entry_role: Адносіны %{relation_name} (як %{relation_role})
+      entry: Дачыненне %{relation_name}
+      entry_role: Дачыненне %{relation_name} (як %{relation_role})
     not_found:
       sorry: Прабачце, %{type} з нумарам %{id} не знойдзены.
       type:
-        node: кропка
+        node: пункт
         way: лінія
-        relation: адносіны
+        relation: дачыненне
         changeset: набор змен
     timeout:
       sorry: Прабачце, дадзеныя для %{type} з ідэнтыфікатарам %{id} занадта доўгія
         для атрымання.
       type:
-        node: кропка
+        node: пункт
         way: лінія
-        relation: адносіны
+        relation: дачыненне
         changeset: набор змен
     redacted:
       redaction: Рэдакцыя %{id}
       message_html: Версія %{version} гэтай %{type} не можа быць паказаная, бо яна
         была адрэдагаваная. Глядзіце %{redaction_link} для падрабязнасцяў.
       type:
-        node: кропка
+        node: пункт
         way: лінія
-        relation: адносіны
+        relation: дачыненне
     start_rjs:
       feature_warning: Неабходна загрузіць %{num_features} аб'ектаў, што можа запаволіць
         ваш браўзэр. Вы ўпэўнены, што жадаеце праглядзець гэтыя дадзеныя?
@@ -1104,12 +1104,12 @@ be:
         слоў, якія могуць быць карыснымі.
       editor_html: <Strong>Рэдактар</strong> - гэта праграма або вэб-сайт, які вы
         можаце выкарыстоўваць для рэдагавання карты.
-      node_html: <Strong>Кропка (node)</strong> - гэта пункт на карце, напрыклад,
-        рэстаран ці дрэва.
+      node_html: <Strong>Пункт (node)</strong> - гэта пункт на карце, напрыклад, рэстаран
+        ці дрэва.
       way_html: <Strong>Лінія (way)</strong> - гэта лінія або многавугольнік, напрыклад,
         дарогі, рэкі, азёры або будынкі.
       tag_html: |-
-        <strong>Тэг (tag)</strong> - гэта элемент апісання кропкі або лініі, напрыклад,
+        <strong>Тэг (tag)</strong> - гэта элемент апісання пункта або лініі, напрыклад,
         назва рэстарана або абмежаванне хуткасці на дарозе.
     rules:
       title: Правілы!
@@ -2346,9 +2346,9 @@ be:
         courtesy: Маршрут прадастаўлены %{link}
       time: Час
     query:
-      node: Кропка
+      node: Пункт
       way: Лінія
-      relation: Адносіны
+      relation: Дачыненне
       nothing_found: Аб’екты не знойдзены
       error: 'Памылка сувязі з %{server}: %{error}'
       timeout: Тайм-аўт падключэння да %{server}

@@ -126,11 +126,16 @@ hr:
       way_paginated: Putovi(%{x}-%{y} od %{count})
       relation: Relacije (%{count})
       relation_paginated: Relacije(%{x}-%{y} od %{count})
+      comment: Komentari (%{count})
+      hidden_commented_by: Komentar skriven od %{user} <abbr title="%{exact_time}">prije
+        %{when}</abbr>
+      commented_by: Komentirao/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
       changesetxml: XLM Changeset
       osmchangexml: osmChange XML
       feed:
         title: Changeset %{id}
         title_comment: Changeset %{id} - %{comment}
+      join_discussion: Prijavi se za uključivanje u raspravu
       discussion: Razgovor
     node:
       title: 'Točka: %{name}'
@@ -162,6 +167,7 @@ hr:
         way: put
         relation: relacija
         changeset: changeset
+        note: bilješka
     timeout:
       sorry: Žao mi je, podaci za %{type} sa id %{id}, predugo se čekaju.
       type:
@@ -169,8 +175,11 @@ hr:
         way: put
         relation: relacija
         changeset: changeset
+        note: bilješka
     redacted:
       redaction: Redakcija %{id}
+      message_html: Verzija %{version} ove %{type} ne može se prikazati jer je uređena.
+        Molim pogledaj %{redaction_link} za dodatne informacije.
       type:
         node: točka
         way: put
@@ -185,7 +194,9 @@ hr:
       wiki_link:
         key: Opis wiki stranica za oznaku %{key} (tag)
         tag: Opis wiki stranica za oznaku %{key}=%{value} (tag)
+      wikidata_link: '%{page} Predmet na Wikidata'
       wikipedia_link: Članak o %{page} na Wikipediji
+      telephone_link: Nazovi %{phone_number}
     note:
       title: 'Bilješka: %{id}'
       new_note: Nova bilješka
@@ -206,7 +217,10 @@ hr:
         %{when}</abbr>
       hidden_by: Sakrio/la %{user} <abbr title='%{exact_time}'>prije %{when}</abbr>
     query:
+      title: Potraži značajke
+      introduction: Klikni na kartu za pronalazak okolnih značajki.
       nearby: Obližnje značajke
+      enclosing: Obuhvaćene značajke
   changeset:
     changeset_paging_nav:
       showing_page: Stranica %{page}
@@ -237,9 +251,17 @@ hr:
     timeout:
       sorry: Nažalost, popis Changeseta (skupa promjena) koje ste zatražili je predugo
         trajalo za preuzimanje.
+    rss:
+      title_all: Rasprava o OpenStreetMap setu promjena
+      title_particular: 'Rasprava o OpenStreetMap setu promjena #%{changeset_id}'
+      comment: 'Novi komentar na setu promjena #%{changeset_id} od %{author}'
+      commented_at_html: Osvježeno prije %{when}
+      commented_at_by_html: Osvježio korisnik %{user} prije %{when}
+      full: Kompletna rasprava
   diary_entry:
     new:
       title: Novi zapis u dnevnik
+      publish_button: Objavi
     list:
       title: Dnevnici korisnika
       title_friends: Dnevnici prijatelja
@@ -377,17 +399,21 @@ hr:
     search_osm_nominatim:
       prefix:
         aerialway:
+          cable_car: Kabinska žičara
           chair_lift: Sedežnica
           drag_lift: Sidro/tanjurić
+          gondola: Žičara
           station: Stanica žičare
         aeroway:
           aerodrome: Zračna luka
           apron: Pristanišna platforma
+          gate: Izlaz
           helipad: Heliodrom
           runway: Pista
           taxiway: Rulnica
           terminal: Terminal
         amenity:
+          animal_shelter: Sklonište za životinje
           arts_centre: Umjetnički centar
           atm: Bankomat
           bank: Banka
@@ -396,6 +422,8 @@ hr:
           bench: Klupa
           bicycle_parking: Biciklistički parking
           bicycle_rental: Rent a bicikl
+          biergarten: Vrtna pivnica
+          boat_rental: Najam brodova
           brothel: Bordel
           bureau_de_change: Mjenjačnica
           bus_station: Autobusni kolodvor
@@ -404,8 +432,11 @@ hr:
           car_sharing: Carsharing
           car_wash: Autopraonica
           casino: Casino
+          charging_station: Postaja za punjenje električnih automobila
+          childcare: Vrtić
           cinema: Kino
           clinic: Klinika
+          clock: Sat
           college: Fakultet
           community_centre: Društveni centar
           courthouse: Sud
@@ -421,8 +452,10 @@ hr:
           ferry_terminal: Trajektni terminal
           fire_hydrant: Hidrant
           fire_station: Vatrogasna postaja
+          food_court: Blagovaonski kutak
           fountain: Fontana
           fuel: Benzinska
+          gambling: Kockarnica
           grave_yard: Groblje
           gym: Fitness centar
           health_centre: Zdravstveni centar
@@ -433,11 +466,14 @@ hr:
           library: Knjižnica
           market: Tržnica
           marketplace: Tržnica
+          monastery: Samostan
+          motorcycle_parking: Parking za motocikle
           nightclub: Noćni klub
           nursery: Čuvanje djece
           nursing_home: Starački dom
           office: Kancelarija
           parking: Parking
+          parking_entrance: Ulaz na parking
           pharmacy: Ljekarna
           place_of_worship: Crkva
           police: Policija
@@ -455,7 +491,10 @@ hr:
           school: Škola
           shelter: Sklonište
           shop: Trgovina
+          shower: Tuš
+          social_centre: Društveni centar
           social_club: Društveni klub
+          social_facility: Društvena ustanova
           studio: Studio
           swimming_pool: Bazen
           taxi: Taxi
@@ -468,26 +507,50 @@ hr:
           veterinary: Veterinar
           village_hall: Seoski Dom
           waste_basket: Kanta za otpatke
+          waste_disposal: Kontejner za smeće
           youth_centre: Centar za mladež
         boundary:
           administrative: Administrativna granica
+          census: Statističke granice
           national_park: Nacionalni park
           protected_area: Zaštićeno područje
         bridge:
+          aqueduct: Akvadukt
+          suspension: Viseći most
+          swing: Pokretni most
           viaduct: Vijadukt
           "yes": Most
         building:
           "yes": Zgrada
+        craft:
+          brewery: Pivovara
+          carpenter: Stolar
+          electrician: Električar
+          gardener: Vrtlar
+          painter: Soboslikar
+          photographer: Fotograf
+          plumber: Vodoinstalater
+          shoemaker: Obućar
+          tailor: Krojač
+          "yes": Radionica
+        emergency:
+          ambulance_station: Garaža hitne pomoći
+          defibrillator: Defibrilator
+          landing_site: Mjesto slijetanja u nuždi
+          phone: Telefon za hitne službe
         highway:
+          abandoned: Napuštena cesta
           bridleway: Konjička staza
           bus_guideway: Autobusna traka
           bus_stop: Autobusno stajalište
           construction: Autocesta u izgradnji
           cycleway: Biciklistička staza
+          elevator: Dizalo
           emergency_access_point: S.O.S. točka
           footway: Pješačka staza
           ford: Ford
           living_street: Ulica smirenog prometa
+          milestone: Kilometarski stup
           motorway: Autocesta
           motorway_junction: Čvor (autoputa)
           motorway_link: Autocesta (pristupna cesta)
@@ -496,14 +559,18 @@ hr:
           platform: Platforma
           primary: Državna cesta
           primary_link: Državna cesta
+          proposed: Planirana cesta
           raceway: Trkalište
           residential: Ulica stanovanja
+          rest_area: Odmorište
           road: Cesta
           secondary: Županijska cesta
           secondary_link: Županijska cesta
           service: Servisna cesta
           services: Autocesta - usluge
+          speed_camera: Kamera za kontrolu brzine
           steps: Stepenice
+          street_lamp: Ulična rasvjeta
           tertiary: Lokalna cesta
           track: Makadam
           trail: Staza
@@ -511,11 +578,13 @@ hr:
           trunk_link: Cesta rezrevirana za mot. voz. - prilazna cesta
           unclassified: Nerazvrstana cesta
           unsurfaced: Neasfaltirana cesta
+          "yes": Cesta
         historic:
           archaeological_site: Arheološko nalazište
           battlefield: Bojno polje
           boundary_stone: Granični kamen
           building: Povijesna zgrada
+          bunker: Bunker
           castle: Dvorac
           church: Crkva
           citywalls: Gradske zidine
@@ -905,7 +974,7 @@ hr:
   welcome_page:
     title: Dobrodošli!
     whats_on_the_map:
-      title: Što je na karti
+      title: Što ova karta sadrži
     basic_terms:
       way_html: <strong>Put</strong> je linija ili područje, npr. cesta, potok, jezero
         ili zgrada.
@@ -1521,16 +1590,16 @@ hr:
         revoke:
           administrator: Opozovi pristup administatora
           moderator: Opozovi pristup moderatora
-      block_history: prikaži dobivene blokade
-      moderator_history: prikaži dane blokade
+      block_history: Aktivne blokade
+      moderator_history: Prikaži dane blokade
       comments: Komentari
-      create_block: blokiraj ovog korisnika
-      activate_user: aktiviraj ovog korisnika
-      deactivate_user: deaktiviraj ovog korisnika
-      confirm_user: potvrdi ovog korisnika
-      hide_user: sakrij ovog korisnika
-      unhide_user: otkrij ovog korisnika
-      delete_user: obriši ovog korisnika
+      create_block: Blokiraj ovog korisnika
+      activate_user: Aktiviraj ovog korisnika
+      deactivate_user: Deaktiviraj ovog korisnika
+      confirm_user: Potvrdi ovog korisnika
+      hide_user: Sakrij ovog korisnika
+      unhide_user: Otkrij ovog korisnika
+      delete_user: Obriši ovog korisnika
       confirm: Potvrdi
     popup:
       your location: Vaša lokacija
