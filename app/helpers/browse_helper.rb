@@ -161,7 +161,7 @@ module BrowseHelper
   def wikidata_link(key, value)
     if key == "wikidata" && value =~ /^[Qq][1-9][0-9]*$/
       return {
-        :url => "//www.wikidata.org/wiki/#{value}?uselang=#{I18n.locale}",
+        :url => "//www.wikidata.org/wiki/#{value}?uselang=#{I18n.locale.split("-")[0]}",
         :title => value
       }
     end
