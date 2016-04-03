@@ -8,7 +8,7 @@ sudo apt-get install vagrant
 
 Other Linux distributions should have similar installation instructions using `yum` or similar.
 
-Installers are available for Mac OS X and Windows, please see the [Vagrant project download page](http://www.vagrantup.com/downloads) for more information.
+Installers are available for Mac OS X and Windows, please see the [Vagrant project download page](http://www.vagrantup.com/downloads.html) for more information.
 
 # Setting up openstreetmap-website
 
