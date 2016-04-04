@@ -86,8 +86,8 @@ ga:
       name: Potlatch 2
       description: Potlatch 2 (eagathóir sa bhrabhsálaí)
     remote:
-      name: Remote Control
-      description: Remote Control (JOSM nó Merkaartor)
+      name: Cianrialú
+      description: Cianrialú (JOSM nó Merkaartor)
   browse:
     created: Cruthaithe ag
     closed: Dúnta ag
@@ -144,7 +144,7 @@ ga:
       entry_role: '%{type} %{name} mar %{role}'
       type:
         node: Nód
-        way: Slí
+        way: Bealach
         relation: Gaol
     containing_relation:
       entry: Gaol %{relation_name}
@@ -178,6 +178,9 @@ ga:
       loading: Ag Lódáil...
     tag_details:
       tags: Clibeanna
+      wiki_link:
+        key: An leathanach cur síos ar an vicí don chlib %{key}
+        tag: An leathanach cur síos ar an vicí don chlib %{key}=%{value}
       wikidata_link: An mhír %{page} ar Vicíshonraí
       wikipedia_link: An t-alt %{page} ar an Vicipéid
       telephone_link: Glaoigh ar %{phone_number}
@@ -206,7 +209,7 @@ ga:
       title: Gnéithe a Fhiosrú
       introduction: Cliceáil ar an léarscáil chun gnéithe in aice láimhe a aimsiú.
       nearby: Gnéithe in aice láimhe
-      enclosing: Gnéith thart timpeall air
+      enclosing: Gnéithe thart timpeall air
   changeset:
     changeset_paging_nav:
       showing_page: Leathanach %{page}
@@ -214,6 +217,7 @@ ga:
       previous: « Roimhe
     changeset:
       anonymous: Gan Ainm
+      no_edits: (níl aon athrú ann)
       view_changeset_details: Amharc ar shonraí an tacair athruithe
     changesets:
       id: ID
@@ -330,7 +334,18 @@ ga:
       osm_xml_data: Sonraí XML OpenStreetMap
       embeddable_html: HTML inleabaithe
       licence: Ceadúnas
+      export_details: Tá sonraí OpenStreetMap ceadúnaithe faoi <a href="http://opendatacommons.org/licenses/odbl/1.0/">Cheadúnas
+        Bunachar Sonraí Oscailte (ODbL) de chuid Open Data Commons</a>.
       too_large:
+        advice: 'Má theipeann ar an easpórtáil thuas, smaoinigh ar cheann de na foinsí
+          sa liosta thíos a úsáid:'
+        body: Tá an limistéar seo rómhór le heaspórtáil mar Sonraí XML OpenStreetMap.
+          Zúmáil isteach nó roghnaigh limistéar níos lú, nó bain triail as ceann de
+          na foinsí atá sa liosta thíos chun bulc-íoslódálacha sonraí a dhéanamh.
+        planet:
+          title: Planet OSM
+          description: Cóipeanna a dhéantar a nuashonrú go rialta de bhunachar sonraí
+            iomlán OpenStreetMap
         overpass:
           title: Comhéadan feidhmchláir Overpass
         geofabrik:
@@ -382,6 +397,7 @@ ga:
           taxiway: Bealach innealta
           terminal: Críochfort
         amenity:
+          animal_shelter: Dídean Ainmhithe
           arts_centre: Ionad Ealaíon
           atm: Meaisín bainc
           bank: Banc
@@ -411,6 +427,7 @@ ga:
           dentist: Fiaclóir
           doctors: Dochtúirí
           dormitory: Áras cónaithe
+          drinking_water: Uisce Inólta
           driving_school: Scoil Tiomána
           embassy: Ambasáid
           emergency_phone: Fón Éigeandála
@@ -439,7 +456,9 @@ ga:
           nursing_home: Teach Altranais
           office: Oifig
           parking: Páirceáil
+          parking_entrance: Bealach Isteach ar Áit Pháirceála
           pharmacy: Cógaslann
+          place_of_worship: Ionad Adhartha
           police: Póilíní
           post_box: Bosca Poist
           post_office: Oifig an Phoist
@@ -452,6 +471,7 @@ ga:
           retirement_home: Áras Seanóirí
           sauna: Seomra allais/sauna
           school: Scoil
+          shelter: Scáthlán
           shop: Siopa
           shower: Cithfholcadh
           social_centre: Ionad Sóisialta
@@ -500,8 +520,11 @@ ga:
           defibrillator: Dífhibrileoir
           phone: Fón Éigeandála
         highway:
+          abandoned: Bóthar Mór Tréigthe
           bridleway: Cosán marcaíochta
+          bus_guideway: Lána Bus Treoraithe
           bus_stop: Stad Bus
+          construction: Bealach Mór á Thógáil
           cycleway: Raon Rothar
           elevator: Ardaitheoir
           emergency_access_point: Pointe Rochtana Éigeandála
@@ -515,16 +538,24 @@ ga:
           path: Slí
           pedestrian: Ceantar Coisithe
           platform: Árdán
+          primary: Príomhbhóthar
+          primary_link: Príomhbhóthar
           proposed: Bóthar Atá Beartaithe
           raceway: Ráschúrsa
           residential: Bóthar Cónaithe
+          rest_area: Láthair Scíthe
           road: Bóthar
+          secondary: Bóthar Tánaisteach
+          secondary_link: Bóthar Tánaisteach
           service: Bóthar Freastail/Rochtana
+          services: Seirbhísí Mótarbhealaigh
           speed_camera: Ceamara Luais
           steps: Céimeanna
           street_lamp: Solas Sráide
+          tertiary: Bóthar Tríú-Grád
+          tertiary_link: Bóthar Tríú-Grád
           track: Cosán
-          traffic_signals: Comharthaí Tráchta
+          traffic_signals: Soilse Tráchta
           trail: Conair
           trunk: Mórbhóthar
           trunk_link: Mórbhóthar
@@ -534,9 +565,11 @@ ga:
         historic:
           archaeological_site: Láithreán Seandálaíochta
           battlefield: Láthair Chatha
+          boundary_stone: Cloch Theorann
           building: Foirgneamh Stairiúil
           bunker: Buncar
           castle: Caisleán
+          church: Eaglais
           city_gate: Geata Cathrach
           citywalls: Ballaí Cathrach
           fort: Dún/Ráth
@@ -558,6 +591,7 @@ ga:
           "yes": Acomhal
         landuse:
           allotments: Cuibhrinn
+          basin: Abhantrach
           brownfield: Talamh Athfhorbraíochta
           cemetery: Reilig
           commercial: Limistéar Tráchtála
@@ -577,10 +611,14 @@ ga:
           mine: Mianach
           orchard: Úllord
           quarry: Cairéal
+          railway: Iarnród
+          recreation_ground: Páirc Caitheamh Aimsire
           reservoir: Taiscumar
           reservoir_watershed: Dobhardhroim Thaiscumair
           residential: Ceantar Cónaithe
           retail: Miondíol
+          road: Limistéar Bóthair
+          village_green: Faiche an tSráidbhaile
           vineyard: Fíonghort
           "yes": Úsáid na Talún
         leisure:
@@ -588,21 +626,30 @@ ga:
           bird_hide: Folachán Éanbhreathnóireachta
           club: Club
           common: Coimín
+          dog_park: Páirc do Mhadraí
           fishing: Áit Iascaireachta
           fitness_centre: Ionad Aclaíochta
+          fitness_station: Stáisiún Corpacmhainne
           garden: Gairdín
           golf_course: Galfchúrsa
           horse_riding: Marcaíocht ar Chapall
           ice_rink: Oighear-Rinc
           marina: Muiríne
           miniature_golf: Mionghalf
+          nature_reserve: Tearmann Dúlra
           park: Páirc
+          pitch: Páirc Spóirt
           playground: Áit Súgartha
+          recreation_ground: Páirc Caitheamh Aimsire
+          resort: Ionad Saoire
           sauna: Seomra allais/Sauna
           slipway: Sleamhnán/slip
           sports_centre: Ionad Spóirt
           stadium: Staid
           swimming_pool: Linn Snámha
+          track: Raon Reatha
+          water_park: Páirc Uisce
+          "yes": Fóillíocht
         man_made:
           lighthouse: Teach Solais
           pipeline: Píblíne
@@ -610,29 +657,51 @@ ga:
           works: Monarcha
           "yes": De dhéantús an duine
         military:
+          airfield: Aerpháirc Mhíleata
+          barracks: Beairic
           bunker: Buncar
+        mountain_pass:
+          "yes": Bearnas/mám
         natural:
           bay: Cuan
           beach: Trá
+          cape: Rinn/ceann tíre
+          cave_entrance: Bealach Isteach ar Phluais
           cliff: Aill
+          crater: Cráitéar
           dune: Dumhach
+          fell: Sliabh Carraigeach
+          fjord: Fiord
           forest: Foraois
           geyser: Géasar
           glacier: Oighearshruth
+          grassland: Féarach
+          heath: Móinteach
           hill: Cnoc
           island: Oileán
           land: Talamh
+          marsh: Riasc/seascann
+          moor: Feistiú
+          mud: Puiteach
+          peak: Binn
           reef: Sceir/scairbh
           ridge: Iomaire
           rock: Carraig
+          saddle: Mám
           sand: Gaineamh
+          scree: Scileach
+          scrub: Scrobarnach
+          spring: Foinse uisce
           stone: Cloch
+          strait: Caolas
           tree: Crann
           valley: Gleann
           volcano: Bolcán
           water: Uisce
+          wetland: Bogach
           wood: Coill
         office:
+          accountant: Cuntasóir
           administrative: Riarachán
           architect: Ailtire
           company: Comhlacht
@@ -652,51 +721,114 @@ ga:
           country: Tír
           county: Contae
           farm: Feirm
+          hamlet: Gráig
           house: Teach
           houses: Tithe
           island: Oileán
+          islet: Oileáinín
+          isolated_dwelling: Áit Chónaithe Iargúlta
+          moor: Móinteán
+          municipality: Cathair bhardais/baile bardais
+          neighbourhood: Comharsanacht
           postcode: Cód poist
           region: Réigiún
           sea: Farraige
           state: Stát
           subdivision: Fo-roinn
+          suburb: Bruachbhaile
           town: Baile
+          unincorporated_area: Limistéar Neamhchorpraithe
           village: Sráidbhaile
           "yes": Áit
         railway:
+          abandoned: Iarnród Tréigthe
+          construction: Iarnród á Thógáil
+          disused: Iarnróid atá As Úsáid
+          disused_station: Stáisiún Iarnróid As Úsáid
+          funicular: Iarnród Cáblach
+          halt: Stad Traenach
+          historic_station: Stáisiún Iarnróid Stairiúil
+          junction: Acomhal Iarnróid
           level_crossing: Crosaire Comhréidh
+          light_rail: Iarnród Éadrom
           monorail: Aonráille
+          narrow_gauge: Iarnród Caol
+          platform: Ardán Iarnróid
+          preserved: Iarnród Caomhnaithe
+          proposed: Iarnród atá Beartaithe
+          spur: Craobhlíne Iarnróid
+          station: Stáisiún Iarnróid
+          stop: Stad Iarnróid
+          subway: Meitreo
+          subway_entrance: Bealach Isteach ar Mheitreo
+          switch: Ladhróg Iarnróid
+          tram: Trambhealach
+          tram_stop: Stad Tram
         shop:
           alcohol: Eischeadúnas
           art: Siopa Ealaíon
           bakery: Bácús
+          beauty: Siopa Áilleachta
           beverages: Siopa Deochanna
           bicycle: Siopa Rothar
           books: Siopa Leabhar
+          boutique: Búitíc (Boutique)
           butcher: Búistéir
+          car_parts: Páirteanna do Charranna
+          car_repair: Deisiú Carranna
+          carpet: Siopa Cairpéad
+          charity: Siopa Carthanachta
           chemist: Siopa Poitigéara
+          clothes: Siopa Éadaí
           computer: Siopa Ríomhairí
+          confectionery: Siopa Milseán
+          convenience: Siopa Áise
+          copyshop: Siopa Fótachóipeala
+          cosmetics: Siopa Cosmaidí
+          deli: Deilí
+          department_store: Siopa Ilrannach
+          doityourself: Déan tú féin é/DIY
           dry_cleaning: Tirimghlanadh
+          electronics: Siopa Earraí Leictreacha
           estate_agent: Gníomhaire Eastáit
           farm: Siopa Feirme
           fashion: Siopa Faisin
           fish: Siopa Éisc
           florist: Bláthadóir
           food: Siopa Bia
+          funeral_directors: Adhlacóir
           furniture: Troscán
           gallery: Dánlann
+          garden_centre: Ionad Garraíodóireachta
+          general: Siopa Ginearálta
+          gift: Siopa Bronntanas
+          greengrocer: Siopa Glasraí
+          grocery: Siopa Grósaera
+          hairdresser: Gruaigeadóir
           hardware: Siopa Crua-earraí
+          hifi: Hi-Fi
           insurance: Árachas
+          jewelry: Siopa Seodóireachta
+          kiosk: Both
+          laundry: Neachtlann
           mall: Ionad Siopadóireachta
           market: Margadh
+          mobile_phone: Siopa Fón Póca
+          motorcycle: Siopa Gluaisrothar
           music: Siopa Ceoil
           newsagent: Siopa Nuachtán
           optician: Radharceolaí
           organic: Siopa Bia Orgánaigh
+          outdoor: Siopa Earraí don Taobh Amuigh
           pet: Siopa Peataí
+          pharmacy: Cógaslann
           photo: Siopa Grianghrafadóireachta
+          salon: Ionad áilleachta/sciamhlann
+          second_hand: Siopa Earraí Athláimhe
           shoes: Siopa Bróg
           shopping_centre: Ionad Siopadóireachta
+          sports: Siopa Spóirt
+          stationery: Siopa Stáiseanóireachta
           supermarket: Ollmhargadh
           tailor: Táilliúir
           toys: Siopa Bréagán
@@ -705,26 +837,41 @@ ga:
           "yes": Siopa
         tourism:
           apartment: Árasán
+          artwork: Saothar ealaíne
           bed_and_breakfast: Lóistín (B&B)
           cabin: Bothán/cábán
+          camp_site: Ionad Campála
           chalet: Sealla
           gallery: Dánlann
           hostel: Brú Óige
           hotel: Óstán
           information: Eolas
           museum: Iarsmalann
+          picnic_site: Láthair Phicnicí
+          theme_park: Páirc Siamsaíochta ar Théama
+          viewpoint: Ionad Amhairc
+          zoo: Zú
         tunnel:
           culvert: Lintéar
           "yes": Tollán
         waterway:
+          artificial: Uiscebhealach Saorga
+          boatyard: Bádchlós
           canal: Canáil
           dam: Damba
+          derelict_canal: Canáil Thréigthe
+          ditch: Díog
+          dock: Dug
           drain: Draein
           lock: Loc canála
           lock_gate: Loc-chomhla
+          mooring: Feistiú
+          rapids: Fánsruth
           river: Abhainn
           stream: Sruthán
+          wadi: Sruthchúrsa(wadi)
           waterfall: Eas
+          weir: Cora
           "yes": Uiscebhealach
       admin_levels:
         level2: Teorainn Tíre
@@ -733,6 +880,7 @@ ga:
         level6: Teorainn Contae
         level8: Teorainn Cathrach
         level9: Teorainn Sráidbhaile
+        level10: Teorainn Bruachbhaile
     description:
       title:
         osm_nominatim: Suíomh ó <a href="http://nominatim.openstreetmap.org/">Nominatim
@@ -765,11 +913,20 @@ ga:
     user_diaries: Dialanna Úsáideoirí
     user_diaries_tooltip: Amharc ar dhialanna úsáideoirí
     edit_with: Cuir in eagar le %{editor}
+    tag_line: An Léarscáil Dhomhanda Vicí Shaor in Aisce
     intro_header: Fáilte go OpenStreetMap!
     intro_text: Is léarscáil den domhan é OpenStreetMap, a chruthaigh daoine cosúil
-      leatsa agus atá saor in aisce le húsái faoi cheadúnas oscailte.
+      leatsa agus atá saor in aisce le húsáid faoi cheadúnas oscailte.
     intro_2_create_account: Cruthaigh cuntas úsáideora
+    partners_html: Tugann %{ucl}, %{ic} agus %{bytemark}, agus %{partners}, tacaíocht
+      don óstáil.
+    partners_ic: Imperial College London
+    partners_bytemark: Bytemark Hosting
     partners_partners: comhpháirtithe
+    osm_offline: Tá bunachar sonraí OpenStreetMap as líne faoi láthair fad agus atá
+      obair chothabhála riachtanach á dhéanamh ar an mbunachar sonraí.
+    osm_read_only: Tá bunachar sonraí OpenStreetMap sa mhód inléite amháin faoi láthair
+      fad agus a dhéantar obair chothabhála riachtanach ar an mbunachar sonraí.
     help: Cabhair
     about: Maidir linn
     copyright: Cóipcheart
@@ -829,8 +986,33 @@ ga:
       agus ar féidir eagarthóireacht a dhéanamh uirthi. Anois agus tú cláraithe, tá
       tú réidh chun léarscáiliú a dhéanamh. Seo treoir tosaigh leis an mbuneolas a
       bheidh ag teastáil uait.
+    whats_on_the_map:
+      title: Cad atá ar an léarscáil
+      on_html: Is áit é OpenStreetMap chun léarscáiliú a dhéanamh ar rudaí <em>atá
+        ann dáiríre agus faoi láthair</em> - tá na milliúin foirgneamh, bóithre agus
+        sonraí eile faoi áiteacha ar fáil air. Is féidir leat cibé na gnéithe den
+        fhíorshaol atá suimiúil duit féin a léarscáiliú.
+      off_html: I measc na rudaí <em>nach</em> bhfuil ann tá sonraí bunaithe ar thuairimí
+        cosúil le rátálacha, gnéithe stairiúla nó teoiriciúla, agus sonraí ó fhoinsí
+        faoi chóipcheart. Mura bhfuil cead speisialta agat, ná cóipeáil as léarscáileanna
+        ar líne nó páipéir.
+    basic_terms:
+      title: Téarmaí Bunúsacha a bhaineann le Léarscáiliú
+      paragraph_1_html: Tá roinnt béarlagair dá chuid féin ag baint le OpenStreetMap.
+        Seo roinnt den na focail is tábhachtaí a bheidh úsáideach duit.
+      editor_html: Is éard is <strong>eagarthóir</strong> ann ná ríomhchlár nó suíomh
+        gréasáin a úsáideann tú chun an léarscáil a chur in eagar.
+      node_html: Is éard is <strong>nód</strong> ann ná pointe ar an léarscáil, cosúil
+        le bialann amháin nó crann.
+      way_html: Is éard is <strong>bealach</strong> ann ná líne nó limistéar, cosúil
+        le bóthair, sruthán, loch nó foirgneamh.
+      tag_html: Is éard is <strong>clib</strong> ann ná píosa sonraí faoi nód nó bealach,
+        cosúil le hainm bialainne nó teorainn luais bóthair.
     rules:
       title: Rialacha!
+      paragraph_1_html: |-
+        Is beag riail fhoirmiúil atá ag OpenStreetMap ach bímid ag súil leis go mbeidh rannpháirtithe ag comhoibriú leis an bpobal agus go rachaidh siad i mbun cumarsáide leis. Má tá tú ag smaoineamh ar aon ghníomhaíocht eile a dhéanamh seachas eagarthóireacht a dhéanamh de láimh, léigh agus lean na treoirlínte maidir le h<a href='http://wiki.openstreetmap.org/wiki/Import/Guidelines'>Iompórtálacha</a> agus
+        <a href='http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Eagarthóireacht Uathoibrithe</a>.
     questions:
       title: Aon cheist agat?
     start_mapping: Téigh i mbun Léarscáilithe
@@ -852,17 +1034,50 @@ ga:
     welcome:
       url: /welcome
       title: Fáilte go OSM
+      description: Tosaigh leis an treoir thapa seo a chlúdaíonn gnéithe bunúsacha
+        OpenStreetMap.
+    beginners_guide:
+      url: http://wiki.openstreetmap.org/wiki/GA:Beginners%27_guide
+      title: Treoir do Thosaitheoirí
+      description: Treoir do thosaitheoirí atá faoi stiúir an phobail.
     help:
       url: https://help.openstreetmap.org/
       title: help.openstreetmap.org
+      description: Is féidir ceist a chur nó freagraí a chuardach ar shuíomh ceisteanna
+        agus freagraí OSM.
+    mailing_lists:
+      title: Liosta Seachadta
+      description: Is féidir ceist a chur nó ábhair shuimiúla a phlé ar raon leathan
+        de liostaí seachadta téamacha agus réigiúnacha.
     forums:
       title: Fóraim
+      description: Ceisteanna agus plé dóibh siúd ar fearr leo comhéadan ar stíl clár
+        fógraí.
+    irc:
+      title: IRC
+      description: Comhrá idirghníomhach i go leor teangacha éagsúla agus ar go leor
+        ábhair éagsúla.
     switch2osm:
       title: switch2osm
+      description: Cabhair do chuideachtaí agus eagraíochtaí atá ag athrú chuig léarscáileanna
+        agus seirbhísí eile atá bunaithe ar OpenStreetMap.
+    wiki:
+      url: http://wiki.openstreetmap.org/
+      title: wiki.openstreetmap.org
+      description: Brabhsáil an vicí le haghaidh doiciméadú mionsonraithe OSM.
   about_page:
     next: Ar aghaidh
     copyright_html: <span>&copy;</span>Rannchuiditheoirí<br>OpenStreetMap
+    used_by: Cuireann %{name} sonraí léarscáile ar fáil do na mílte suíomh gréasáin,
+      feidhmchlár móibíleach agus gléas crua-earraí
     local_knowledge_title: Eolas Áitiúil
+    community_driven_title: Faoi Smacht an Phobail
+    open_data_title: Sonraí Oscailte
+    open_data_html: 'Is <i>sonraí oscailte</i> atá in OpenStreetMap: tá saoirse agat
+      é a úsáid chun críocha ar bith a fhad agus a dhéantar OpenStreetMap agus a rannchuiditheoirí
+      a lua. Má athraíonn tú na sonraí nó má thógann tú orthu ar bhealaí áirithe,
+      ní féidir leat an toradh a dháileadh ach faoin gceadúnas céanna. Féach <a href=''%{copyright_path}''>an
+      leathanach faoin gCóipcheart agus Ceadúnais</a> chun sonraí a fháil.'
     legal_title: Dlíthiúil
     partners_title: Comhpháirtithe
   notifier:
@@ -880,8 +1095,58 @@ ga:
         ábhar %{subject}:'
       footer_html: Is féidir leat an teachtaireacht a léamh ag %{readurl} freisin
         agus is féidir leat freagra a scríobh ag %{replyurl}
+    friend_notification:
+      see_their_profile: Is féidir leat a p(h)róifíl a fheiceáil ag %{userurl}.
+    gpx_notification:
+      greeting: Haigh,
+      your_gpx_file: An comhad GPX sin a bhí agat
+      with_description: a bhfuil an cur síos seo ag gabháil leis
+      and_the_tags: 'agus na clibeanna seo a leanas:'
+      and_no_tags: agus clib ar bith.
+      failure:
+        subject: '[OpenStreetMap] Theip ar Iompórtáil GPX'
+        failed_to_import: ', theip ar an iompórtáil. Seo an earráid:'
+        more_info_1: Is féidir tuilleadh eolais maidir le teipeanna ar iompórtálacha
+          GPX agus conas
+        more_info_2: 'iad a sheachaint a fháil ag:'
+      success:
+        subject: '[OpenStreetMap] Iompórtáladh an GPX'
+        loaded_successfully: ', lódáladh é gan fhadhb le %{trace_points} as %{possible_points}
+          pointe féideartha.'
     signup_confirm:
       subject: '[OpenStreetMap] Fáilte go OpenStreetMap'
+      greeting: A chara,
+      created: Tá duine éigin (tusa, tá súil againn) tar éis cuntas a chruthú ag %{site_url}.
+      confirm: Sula ndéanfaimid aon rud eile, ní mór dúinn a chinntiú gur tháinig
+        an t-iarratas seo uait, mar sin más amhlaidh gur tháinig, cliceáil ar an nasc
+        thíos chun do chuntas a dheimhniú.
+      welcome: Tar éis duit do chuntas a dheimhniú, cuirfimid eolas breise ar fáil
+        duit le go mbeidh tú in ann tosú amach.
+    email_confirm:
+      subject: '[OpenStreetMap] Do sheoladh ríomhphoist a dheimhniú'
+    email_confirm_plain:
+      greeting: A chara,
+      hopefully_you: Is mian le duit éigin (tusa, tá súil againn), a s(h)eoladh ríomhphoist
+        ag %{server_url} a athrú go %{new_address}.
+      click_the_link: Más tusa atá ann, cliceáil ar an nasc thíos chun an t-athrú
+        a dheimhniú.
+    email_confirm_html:
+      greeting: A chara,
+      hopefully_you: Is mian le duit éigin (tusa, tá súil againn) a s(h)eoladh ríomhphoist
+        ag %{server_url} a athrú go %{new_address}.
+      click_the_link: Más tusa atá ann, cliceáil ar an nasc thíos chun an t-athrú
+        a dheimhniú.
+    lost_password:
+      subject: '[OpenStreetMap] Iarratas ar athshocrú pasfhocail'
+    note_comment_notification:
+      greeting: A chara,
+      commented:
+        subject_own: '[OpenStreetMap] D''fhág %{commenter} nóta tráchta ar cheann
+          de na nótaí atá agat'
+        subject_other: '[OpenStreetMap] D''fhág %{commenter} nóta tráchta ar nóta
+          a bhfuil suim agat ann'
+        your_note: D'fhág %{commenter} nóta tráchta ar cheann de na nótaí léarscáile
+          atá agat in aice le %{place}.
   message:
     inbox:
       title: Bosca isteach
@@ -927,17 +1192,38 @@ ga:
         theagmháil a dhéanamh le roinnt de na %{people_mapping_nearby_link}?
       people_mapping_nearby: daoine atá i mbun léarscáilithe in aice láimhe
     read:
+      title: Léigh an teachtaireacht
       from: Ó
       subject: Ábhar
       date: Dáta
       reply_button: Freagair
+      unread_button: Marcáil neamhléite
       back: Ar ais
       to: Chuig
     sent_message_summary:
       delete_button: Scrios
+    mark:
+      as_read: Teachtaireacht marcáilte mar léite
+      as_unread: Teachtaireacht marcáilte mar neamhléite
+    delete:
+      deleted: Teachtaireacht scriosta
   site:
     index:
+      js_1: Tá tú ag úsáid brabhsálaí nach dtacaíonn le JavaScript, é sin nó tá JavaScript
+        díchumasaithe agat.
       permalink: Buan-nasc
+      shortlink: Nasc gearr
+      license:
+        copyright: Cóipcheart OpenStreetMap agus rannchuiditheoirí, faoi cheadúnas
+          oscailte
+      remote_failed: Theip ar eagarthóireacht - déan cinnte go bhfuil JOSM nó Merkaartor
+        lódáilte agus go bhfuil an rogha 'cianrialú' cumasaithe
+    edit:
+      user_page_link: leathanach úsáideora
+      flash_player_required: Beidh seinnteoir Flash ag teastáil uait chun Potlatch,
+        eagarthóir Flash OpenStreetMap, a úsáid. Is féidir leat <a href="http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash">Seinnteoir
+        Flash a íoslódáil ó Adobe.com</a>. <a href="http://wiki.openstreetmap.org/wiki/Editing">Tá
+        cúpla rogha eile</a> ar fáil eagarthóireacht a dhéanamh ar OpenStreetMap.
     sidebar:
       search_results: Torthaí an chuardaigh
       close: Dún
@@ -955,36 +1241,78 @@ ga:
           motorway: Mótarbhealach
           main_road: Príomhbhóthar
           trunk: Mórbhóthar
+          primary: Príomhbhóthar
           secondary: Fobhóthar
           unclassified: Bóthar neamhaicmithe
           track: Cosán
           bridleway: Cosán marcaíochta
           cycleway: Slí rothar
           footway: Cosán
+          rail: Iarnród
+          subway: Meitreo
+          tram:
+          - Iarnród Éadrom
+          - tram
           cable:
           - Carr cábla
           - cathaoir chábla
+          runway:
+          - Rúidbhealach Aerfoirt
+          - bealach innealta
+          apron:
+          - Naprún Aerfoirt
+          - críochfort
+          admin: Teorainn riaracháin
           forest: Foraois
           wood: Coill
           golf: Galfchúrsa
           park: Páirc
+          resident: Ceantar cónaithe
+          common:
+          - Coimín
+          - móinéar
+          retail: Limistéar miondíola
+          industrial: Limistéar tionsclaíoch
+          commercial: Limistéar tráchtála
+          heathland: Móinteach/fraochmhá
           lake:
           - Loch
+          - taiscumar
           farm: Feirm
+          cemetery: Reilig
+          allotments: Cuibhrinn
+          pitch: Páirc spóirt
+          centre: Ionad spóirt
+          reserve: Tearmann dúlra
+          military: Limistéar míleata
           school:
           - Scoil
           - ollscoil
+          building: Foirgneamh suntasach
+          station: Stáisiún Iarnróid
+          summit:
+          - Mullach
+          - binn
+          private: Rochtain phríobháideach
+          construction: Bóithre á dtógáil
     richtext_area:
       edit: Cuir in eagar
       preview: Réamhamharc
     markdown_help:
+      title_html: Parsáilte le <a href="http://daringfireball.net/projects/markdown/">Markdown</a>
       headings: Ceannteidil
       heading: Ceannteideal
       subheading: Fotheideal
+      first: An chéad mhír
+      second: An dara mír
       link: Nasc
       text: Téacs
       image: Íomhá
+      alt: Téacs malartach
+      url: URL
   trace:
+    create:
+      upload_trace: Lorg GPS a Uaslódáil
     edit:
       filename: 'Comhadainm:'
       download: íoslódáil
@@ -993,17 +1321,33 @@ ga:
       map: léarscáil
       owner: 'Úinéir:'
       description: 'Cur síos:'
+      tags_help: teormharcáilte le camóga
+      save_button: Sábháil na hAthruithe
+      visibility: 'Infheictheacht:'
     trace_form:
+      upload_gpx: 'Comhad GPX a Uaslódáil:'
+      description: 'Cur síos:'
       tags: 'Clibeanna:'
+      tags_help: teormharcáilte le camóga
+      visibility: 'Infheictheacht:'
+      visibility_help: céard a chiallaíonn seo?
+      upload_button: Uaslódáil
       help: Cabhair
     trace_header:
+      upload_trace: Lorg a uaslódáil
       see_all_traces: Féach gach lorg
+      see_your_traces: Na loirg uaitse a fheiceáil
+    trace_optionals:
+      tags: Clibeanna
     view:
+      title: Amharc ar lorg %{name}
+      heading: Amharc ar lorg %{name}
       pending: AR FEITHEAMH
       filename: 'Comhadainm:'
       download: íoslódáil
       uploaded: 'Uaslódáilte:'
       points: 'Pointí:'
+      start_coordinates: 'Comhordanáid thosaigh:'
       map: léarscáil
       owner: 'Úinéir:'
       description: 'Cur síos:'
@@ -1015,8 +1359,30 @@ ga:
       visibility: 'Infheictheacht:'
     trace_paging_nav:
       showing_page: Leathanach %{page}
+      older: Loirg Níos Sine
+      newer: Loirg Níos Úire
     trace:
+      pending: AR FEITHEAMH
+      count_points: '%{count} pointe'
+      ago: '%{time_in_words_ago} ó shin'
       more: tuilleadh
+      public: POIBLÍ
+      private: PRÍOBHÁIDEACH
+      trackable: INRIANAITHE
+      by: ag
+      in: in
+      map: léarscáil
+    list:
+      public_traces: Loirg GPS phoiblí
+      your_traces: Na loirg GPS uaitse
+      public_traces_from: Loirg GPS phoiblí ó %{user}
+    offline_warning:
+      message: Níl córas uaslódála na gcomhad GPX ar fáil faoi láthair
+    offline:
+      heading: Stóráil GPX As Líne
+      message: Níl córas uaslódála agus stórála na gcomhad GPX ar fáil faoi láthair
+    georss:
+      title: Loirg GPX OpenStreetMap
     description:
       description_without_count: Comhad GPX ó %{user}
   oauth:
@@ -1044,6 +1410,8 @@ ga:
       lost password link: Focal faire caillte agat?
       login_button: Logáil isteach
       register now: Cláraigh anois
+      with external: 'Nó, bain úsáid as tríú páirtí le logáil isteach:'
+      no account: Níl cuntas agat?
       auth failure: Ár leithscéil, níorbh fhéidir logáil isteach leis na sonraí sin.
       openid_logo_alt: Logáil isteach le OpenID
       auth_providers:
@@ -1066,6 +1434,7 @@ ga:
           title: Logáil isteach le Wordpress
           alt: Logáil isteach le OpenID Wordpress
         aol:
+          title: Logáil isteach le AOL
           alt: Logáil isteach le OpenID AOL
     logout:
       title: Logáil amach
@@ -1076,6 +1445,8 @@ ga:
       heading: Focal Faire Caillte?
       email address: 'Seoladh ríomhphoist:'
       new password button: Athshocraigh an focal faire
+      help_text: Iontráil an seoladh ríomhphoist a d'úsáid tú le clárú, agus seolfaimid
+        nasc chugat a bheidh tú in ann a úsáid chun do phasfhocal a athshocrú.
       notice email on way: Is oth linn gur chaill tú é :-( ach tá ríomhphost ar an
         mbealach chugat le go mbeidh tú in ann é a athshocrú go luath.
     reset_password:
@@ -1088,8 +1459,11 @@ ga:
     new:
       title: Clárú
       display name: 'Ainm Taispeána:'
+      external auth: 'Fíordheimhniú Tríú Páirtí:'
       password: 'Focal Faire:'
       confirm password: 'Deimhnigh an Focal Faire:'
+      use external auth: Nó, bain úsáid as tríú páirtí le logáil isteach
+      continue: Cláraigh
     terms:
       legale_select: 'Tír chónaithe:'
       legale_names:
@@ -1102,8 +1476,11 @@ ga:
       my diary: Mo Dhialann
       new diary entry: iontráil nua dialainne
       my traces: Loirg uaimse
+      oauth settings: socruithe oauth
       diary: Dialann
       traces: Loirg
+      ago: (%{time_in_words_ago} ó shin)
+      ct status: 'Téarmaí do rannchuiditheoirí:'
       status: 'Stádas:'
       role:
         administrator: Is riarthóir é an t-úsáideoir seo
@@ -1114,6 +1491,7 @@ ga:
       friend: Cara
     account:
       my settings: Mo chuid socruithe
+      email never displayed publicly: (nach dtaispeántar go poiblí riamh)
       external auth: 'Fíordheimhniú Seachtrach:'
       openid:
         link: http://wiki.openstreetmap.org/wiki/OpenID
@@ -1122,13 +1500,29 @@ ga:
         enabled link text: céard é seo?
       contributor terms:
         link text: céard é seo?
+      preferred languages: 'Teangacha is fearr leat:'
+      preferred editor: 'An tEagarthóir is fearr leat:'
+      image: 'Íomhá:'
       gravatar:
+        gravatar: Úsáid Gravatar
         link text: céard é seo?
+      new image: Cuir íomhá leis
+      keep image: Coinnigh an íomhá reatha
+      delete image: Bain an íomhá reatha
+      replace image: Ionadaigh an íomhá reatha
+      image size hint: (íomhá chearnógach atá 100x100 ar a laghad is fearr)
+      home location: 'Suíomh Baile:'
       latitude: 'Domhanleithead:'
       longitude: 'Domhanfhad:'
+      save changes button: Sábháil na hAthruithe
     confirm:
       introduction_2: Deimhnigh do chuntas trí chliceáil ar an nasc sa ríomhphost
         agus beidh tú in ann tosú ar léirscáiliú a dhéanamh.
+    confirm_resend:
+      failure: Níor aimsíodh an t-úsáideoir %{name}.
+    list:
+      title: Úsáideoirí
+      heading: Úsáideoirí
   user_role:
     revoke:
       confirm: Deimhnigh
@@ -1148,18 +1542,41 @@ ga:
     show:
       needs_view: Ní mór don úsáideoir logáil isteach sula nglanfar an bac seo.
   javascripts:
+    share:
+      title: Comhroinn
+    key:
+      title: Eochair na Léarscáile
+      tooltip: Eochair na Léarscáile
     map:
       zoom:
         in: Zúmáil isteach
         out: Zúmáil amach
       locate:
         title: Taispeáin mo shuíomh
+        popup: Tá tú laistigh de {distance} {unit} den phointe seo
+      base:
+        cycle_map: Léarscáil Rothaíochta
+        transport_map: Léarscáil Iompair
+        hot: Daonnúil
+      layers:
+        header: Sraitheanna Léarscáile
+        notes: Nótaí Léarscáile
+        data: Sonraí Léarscáile
+        title: Sraitheanna
+      copyright: © <a href='%{copyright_url}'>Rannchuiditheoirí OpenStreetMap</a>
+      donate_link_text: <a class='donate-attr' href='%{donate_url}'>Tabhair síntiús
+        airgid</a>
     site:
       edit_disabled_tooltip: Zúmáil isteach chun an léarscáil a chur in eagar
       createnote_disabled_tooltip: Zúmáil isteach chun nóta a chur leis an léarscáil
       map_data_zoom_in_tooltip: Zúmáil isteach chun sonraí na léarscáile a fheiceáil
       queryfeature_tooltip: Gnéithe a fhiosrú
       queryfeature_disabled_tooltip: Zúmáil isteach chun gnéithe a fhiosrú
+    notes:
+      show:
+        comment: Déan nóta tráchta
+    edit_help: Bog an léarscáil agus zúmáil isteach ar áit is mian leat a chur in
+      eagar, ansin cliceáil anseo.
     directions:
       engines:
         graphhopper_bicycle: Rothar (GraphHopper)
@@ -1172,19 +1589,39 @@ ga:
         mapzen_car: Carr (Mapzen)
         mapzen_foot: Ag siúl (Mapzen)
       directions: Treoracha
+      distance: Fad
+      errors:
+        no_route: Níorbh fhéidir bealach a aimsiú idir an dhá áit sin.
+        no_place: Ár leithscéil - níorbh fhéidir an áit sin aimsiú.
       instructions:
         continue_without_exit: Lean ar aghaidh ar %{name}
         slight_right_without_exit: Beagán ar dheis go %{name}
         turn_right_without_exit: Cas ar dheis agus tóg %{name}
+        sharp_right_without_exit: Casadh géar ar dheis go %{name}
+        uturn_without_exit: U-chasadh feadh %{name}
+        sharp_left_without_exit: Casadh géar ar chlé go %{name}
         turn_left_without_exit: Cas ar chlé agus tóg %{name}
         slight_left_without_exit: Beagán ar chlé go %{name}
+        via_point_without_exit: (tríd an bpointe)
         follow_without_exit: Lean %{name}
         roundabout_without_exit: Ag an timpeallán tóg %{name}
+        leave_roundabout_without_exit: Fág an timpeallán - %{name}
+        stay_roundabout_without_exit: Fan ar an timpeallán - %{name}
+        start_without_exit: Tosaigh ag deireadh %{name}
         destination_without_exit: Ceann scríbe baint amach
+        against_oneway_without_exit: Téigh i gcoinne treo an aontreo ar %{name}
+        end_oneway_without_exit: Deireadh an aontreo ar %{name}
         roundabout_with_exit: Ag an timpeallán, tóg bealach amach %{exit} go %{name}
         unnamed: bóthar gan ainm
         courtesy: Treoracha le caoinchead %{link}
       time: Am
     query:
+      node: Nód
+      way: Bealach
+      relation: Gaol
+      error: 'Earráid ag dul i dteagmháil le %{server}: %{error}'
       timeout: Am istigh ag déanamh teagmhála le %{server}
+  redaction:
+    edit:
+      description: Cur síos
 ...
