@@ -91,6 +91,9 @@ gem "kgio"
 # Used to generate logstash friendly log files
 gem "logstasher"
 
+# Used to keep out spam bots
+gem "honeypot-captcha"
+
 # Gems useful for development
 group :development do
   gem "vendorer"
