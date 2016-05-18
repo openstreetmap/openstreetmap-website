@@ -31,6 +31,14 @@ function MapzenEngine(id, costing) {
     18, // kFerryEnter = 28;
     1   // kFerryExit = 29;
   ];
+  // Supported Mapzen locales, mapped from I18n languages to full BCP 47 locale tag string.
+  // See https://mapzen.com/documentation/turn-by-turn/api-reference/#directions-options
+  var MZ_LOCALE_MAP = {
+    en: "en-US",
+    cs: "cs-CZ",
+    de: "de-DE",
+    it: "it-IT"
+  };
 
   return {
     id: id,
@@ -38,6 +46,13 @@ function MapzenEngine(id, costing) {
     draggable: false,
 
     getRoute: function (points, callback) {
+      var directions_options = {
+        units: "km"
+      };
+      var language = MZ_LOCALE_MAP[I18n.currentLocale()];
+      if (language) {
+        directions_options.language = language;
+      }
       return $.ajax({
         url: document.location.protocol + OSM.MAPZEN_VALHALLA_URL,
         data: {
@@ -45,9 +60,7 @@ function MapzenEngine(id, costing) {
           json: JSON.stringify({
             locations: points.map(function (p) { return { lat: p.lat, lon: p.lng }; }),
             costing: costing,
-            directions_options: {
-              units: "km"
-            }
+            directions_options: directions_options
           })
         },
         dataType: "json",
