@@ -106,6 +106,10 @@ OSM = {
       mapParams.lon = parseFloat(params.mlon);
       mapParams.lat = parseFloat(params.mlat);
       mapParams.zoom = parseInt(params.zoom || 12);
+    } else if (isNewOsmHome()) {
+      mapParams.lon = OSM.home.lon;
+      mapParams.lat = OSM.home.lat;
+      mapParams.zoom = 10;
     } else if (loc = $.cookie('_osm_location')) {
       loc = loc.split("|");
       mapParams.lon = parseFloat(loc[0]);
@@ -125,6 +129,35 @@ OSM = {
       mapParams.lon = -0.1;
       mapParams.lat = 51.5;
       mapParams.zoom = parseInt(params.zoom || 5);
+    }
+
+    function isNewOsmHome() {
+
+      function setCookie() {
+        $.removeCookie("_osm_home");
+        var expiry = new Date();
+        expiry.setYear(expiry.getFullYear() + 10);
+        var cookieStr = [OSM.home.lon, OSM.home.lat].join('|');
+        $.cookie("_osm_home", cookieStr, { expires: expiry, path: "/" });  
+      }
+
+      if (!OSM.home) return false;
+      var cookie = $.cookie('_osm_home');
+      if (!cookie) {
+        setCookie();
+        return false;
+      }
+
+      var cookieCoords = cookie.split("|");
+      var cookieCoordsLon = parseFloat(cookieCoords[0]);
+      var cookieCoordsLat = parseFloat(cookieCoords[1]);
+
+      if (OSM.home.lon !== cookieCoordsLon || OSM.home.lat !== cookieCoordsLat) {
+        setCookie();
+        return true;
+      }
+
+      return false;
     }
 
     mapParams.layers = hash.layers || (loc && loc[3]) || '';
