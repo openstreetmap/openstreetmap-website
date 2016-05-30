@@ -11,6 +11,7 @@
 # Author: Jkjk
 # Author: Kuvaly
 # Author: Luk
+# Author: LukasJandera
 # Author: Masox
 # Author: Matěj Grabovský
 # Author: Michaelbrabec
@@ -50,14 +51,14 @@ cs:
       old_relation_tag: Tag staré relace
       old_way: Stará cesta
       old_way_node: Uzel staré cesty
-      old_way_tag: Starý tag cesty
+      old_way_tag: Tag staré cesty
       relation: Relace
       relation_member: Člen relace
       relation_tag: Tag relace
       session: Relace
       trace: Stopa
       tracepoint: Bod stopy
-      tracetag: Štítek stopy
+      tracetag: Tag stopy
       user: Uživatel
       user_preference: Uživatelské nastavení
       user_token: Uživatelský token
@@ -116,12 +117,14 @@ cs:
     closed: Uzavřeno
     created_html: Vytvořeno <abbr title='%{title}'>před %{time}</abbr>
     closed_html: Uzavřeno <abbr title='%{title}'>před %{time}</abbr>
-    created_by_html: Vytvořil <abbr title='%{title}'>před %{time}</abbr> %{user}
+    created_by_html: Vytvořeno <abbr title='%{title}'>před %{time}</abbr> uživatelem
+      %{user}
     deleted_by_html: Smazáno <abbr title='%{title}'>před %{time}</abbr> uživatelem
       %{user}
     edited_by_html: Upraveno <abbr title='%{title}'>před %{time}</abbr> uživatelem
       %{user}
-    closed_by_html: Uzavřel <abbr title='%{title}'>před %{time}</abbr> uživatel %{user}
+    closed_by_html: Uzavřeno <abbr title='%{title}'>před %{time}</abbr> uživatelem
+      %{user}
     version: Verze
     in_changeset: Sada změn
     anonymous: anonym
@@ -141,15 +144,15 @@ cs:
       relation: Relace (%{count})
       relation_paginated: Relace (%{x}–%{y} z %{count})
       comment: Komentáře (%{count})
-      hidden_commented_by: Skrytý komentář od %{user} <abbr title='%{exact_time}'>Před
+      hidden_commented_by: Skrytý komentář od uživatele %{user} <abbr title='%{exact_time}'>před
         %{when}</abbr>
       commented_by: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval %{user}
-      changesetxml: Soubor změn XML
+      changesetxml: Sada změn XML
       osmchangexml: osmChange XML
       feed:
         title: Sada změn %{id}
-        title_comment: 'Sada změn: %{id} - %{comment}'
-      join_discussion: Pokud chcete diskutovat, přihlaste se
+        title_comment: Sada změn %{id} - %{comment}
+      join_discussion: Chcete-li diskutovat, přihlaste se
       discussion: Diskuse
     node:
       title: 'Uzel: %{name}'
@@ -164,7 +167,7 @@ cs:
     relation:
       title: 'Relace: %{name}'
       history_title: 'Historie relace: %{name}'
-      members: Prvky
+      members: Členové
     relation_member:
       entry_role: '%{type} %{name} jako %{role}'
       type:
@@ -220,19 +223,22 @@ cs:
       hidden_title: 'Skrytá poznámka #%{note_name}'
       open_by: Vytvořil %{user} <abbr title='%{exact_time}'>před %{when}</abbr>
       open_by_anonymous: Vytvořil anonym <abbr title='%{exact_time}'>před %{when}</abbr>
-      commented_by: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval %{user}
+      commented_by: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval uživatel
+        %{user}
       commented_by_anonymous: <abbr title='%{exact_time}'>Před %{when}</abbr> okomentoval
         anonym
-      closed_by: Vyřešil <abbr title='%{exact_time}'>před %{when}</abbr> %{user}
+      closed_by: Vyřešil <abbr title='%{exact_time}'>před %{when}</abbr> uživatel
+        %{user}
       closed_by_anonymous: Vyřešil <abbr title='%{exact_time}'>před %{when}</abbr>
         anonym
-      reopened_by: Reaktivoval <abbr title='%{exact_time}'>před %{when}</abbr> %{user}
+      reopened_by: Reaktivoval <abbr title='%{exact_time}'>před %{when}</abbr> uživatel
+        %{user}
       reopened_by_anonymous: Reaktivoval <abbr title='%{exact_time}'>před %{when}</abbr>
         anonym
-      hidden_by: Skryl <abbr title='%{exact_time}'>před %{when}</abbr> %{user}
+      hidden_by: Skryl <abbr title='%{exact_time}'>před %{when}</abbr> uživatel %{user}
     query:
       title: Průzkum prvků
-      introduction: Pro nalezení okolních prvků klikněte do mapy.
+      introduction: Pro nalezení okolních prvků klikněte na mapu.
       nearby: Okolní prvky
       enclosing: Umístění prvku
   changeset:
@@ -259,7 +265,7 @@ cs:
       empty_area: Pro tuto oblast neexistují žádné sady změn.
       empty_user: Tento uživatel nemá žádné sady změn.
       no_more: Nebyly nalezeny žádné další sady změn.
-      no_more_area: Nebyly nalezeny žádné další sady změn pro tuto oblast.
+      no_more_area: Pro tuto oblast nebyly nalezeny žádné další sady změn.
       no_more_user: Nebyly nalezeny žádné další sady změn tohoto uživatele.
       load_more: Načíst další
     timeout:
@@ -284,7 +290,7 @@ cs:
       new: Nový záznam do deníčku
       new_title: Vložit nový záznam do vašeho uživatelského deníčku
       no_entries: Žádné záznamy v deníčku
-      recent_entries: Aktuální deníčkové záznamy
+      recent_entries: Nedávné deníčkové záznamy
       older_entries: Starší záznamy
       newer_entries: Novější záznamy
     edit:
@@ -336,7 +342,7 @@ cs:
         description: Nedávné záznamy v OpenStreetMap deníčku uživatele %{user}
       language:
         title: Deníčkové záznamy OpenStreetMap v jazyce %{language_name}
-        description: Aktuální záznamy v deníčcích uživatelů OpenStreetMap v jazyce
+        description: Nedávné záznamy v deníčcích uživatelů OpenStreetMap v jazyce
           %{language_name}
       all:
         title: Deníčkové záznamy OpenStreetMap
@@ -365,7 +371,7 @@ cs:
         advice: 'Pokud se tento export nezdaří, zvažte použití jednoho z následujících
           zdrojů:'
         body: 'Tato oblast je pro export do XML formátu OpenStreetMap příliš velká.
-          Přejděte na větší měřítko, zvolte menší oblast nebo použijte jeden z následujících
+          Přejděte na větší měřítko, zvolte menší oblast, nebo použijte jeden z následujících
           zdrojů pro stahování velkého množství dat:'
         planet:
           title: Planeta OSM
@@ -460,7 +466,7 @@ cs:
           drinking_water: Pitná voda
           driving_school: Autoškola
           embassy: Velvyslanectví
-          emergency_phone: Nouzový telefon
+          emergency_phone: Tísňová linka
           fast_food: Rychlé občerstvení
           ferry_terminal: Přístaviště přívozu
           fire_hydrant: Požární hydrant
@@ -520,7 +526,7 @@ cs:
           veterinary: Veterinární ordinace
           village_hall: Společenský sál
           waste_basket: Odpadkový koš
-          waste_disposal: Popelnice
+          waste_disposal: Skládka
           youth_centre: Centrum pro mládež
         boundary:
           administrative: Administrativní hranice
@@ -537,14 +543,14 @@ cs:
           "yes": Budova
         craft:
           brewery: Pivovar
-          carpenter: Tesařství
+          carpenter: Tesař
           electrician: Elektrikář
           gardener: Zahradník
           painter: Malíř
           photographer: Fotograf
-          plumber: Instalatérství
-          shoemaker: Ševcovství
-          tailor: Krejčovství
+          plumber: Instalatér
+          shoemaker: Švec
+          tailor: Krejčí
           "yes": Řemeslná dílna
         emergency:
           ambulance_station: Stanoviště záchranné služby
@@ -563,11 +569,11 @@ cs:
           footway: Chodník
           ford: Brod
           living_street: Obytná zóna
-          milestone: Kilometrovník
+          milestone: Mezník
           motorway: Dálnice
           motorway_junction: Dálniční křižovatka
-          motorway_link: Dálnice
-          path: Pěšina
+          motorway_link: Dálniční silnice
+          path: Stezka
           pedestrian: Pěší zóna
           platform: Nástupiště
           primary: Silnice první třídy
@@ -576,7 +582,7 @@ cs:
           raceway: Závodní dráha
           residential: Ulice
           rest_area: Odpočívadlo
-          road: Cesta
+          road: Silnice
           secondary: Silnice druhé třídy
           secondary_link: Silnice druhé třídy
           service: Účelová komunikace
@@ -625,7 +631,7 @@ cs:
         landuse:
           allotments: Zahrádkářská kolonie
           basin: Vodní nádrž
-          brownfield: Brownfield
+          brownfield: Hnědé pole
           cemetery: Hřbitov
           commercial: Komerční zóna
           conservation: Chráněné území
