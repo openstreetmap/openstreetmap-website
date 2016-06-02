@@ -26,14 +26,12 @@ class AddRelations < ActiveRecord::Migration
       t.column "v",  :string, :default => "", :null => false
     end
 
-    add_index "current_relation_tags", ["id"], :name => "current_relation_tags_id_idx"
-    add_index "current_relation_tags", "v", :name => "current_relation_tags_v_idx"
-
     create_table "current_relations", :id => false do |t|
       t.column "id",        :bigserial, :primary_key => true, :null => false
       t.column "user_id",   :bigint, :null => false
       t.column "timestamp", :datetime, :null => false
       t.column "visible",   :boolean, :null => false
+      t.column "version", :bigint, :null => false
     end
 
     create_table "relation_members", :id => false do |t|
@@ -54,8 +52,6 @@ class AddRelations < ActiveRecord::Migration
       t.column "version", :bigint, :null => false
     end
 
-    add_index "relation_tags", %w(id version), :name => "relation_tags_id_version_idx"
-
     create_table "relations", :id => false do |t|
       t.column "id",        :bigint, :null => false, :default => 0
       t.column "user_id",   :bigint, :null => false
@@ -66,6 +62,16 @@ class AddRelations < ActiveRecord::Migration
 
     add_primary_key "relations", %w(id version)
     add_index "relations", ["timestamp"], :name => "relations_timestamp_idx"
+
+    add_primary_key :current_relation_tags, [:id, :k]
+    add_primary_key :relation_tags, [:id, :version, :k]
+
+    add_foreign_key :current_relation_tags, :current_relations, :column => :id, :name => "current_relation_tags_id_fkey"
+    add_foreign_key :current_relation_members, :current_relations, :column => :id, :name => "current_relation_members_id_fkey"
+    add_foreign_key :relation_tags, :relations, :column => [:id, :version], :primary_key => [:id, :version], :name => "relation_tags_id_fkey"
+    add_foreign_key :relation_members, :relations, :column => [:id, :version], :primary_key => [:id, :version], :name => "relation_members_id_fkey"
+
+
   end
 
   def self.down
