@@ -101,7 +101,10 @@ class CreateOsmDb < ActiveRecord::Migration
     end
 
     add_index "gpx_file_tags", ["gpx_id"], :name => "gpx_file_tags_gpxid_idx"
+    add_index "gpx_file_tags", ["tag"], :name => "gpx_file_tags_tag_idx"
 
+    create_enumeration :gpx_visibility_enum, %w(private public trackable identifiable)
+ 
     create_table "gpx_files", :id => false do |t|
       t.column "id",          :bigserial, :primary_key => true, :null => false
       t.column "user_id",     :bigint, :null => false
@@ -111,16 +114,14 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "latitude",    :float, :limit => 53
       t.column "longitude",   :float, :limit => 53
       t.column "timestamp",   :datetime, :null => false
-      t.column "public",      :boolean, :default => true, :null => false
       t.column "description", :string, :default => "", :null => false
       t.column "inserted",    :boolean, :null => false
+      t.column :visibility, :gpx_visibility_enum, :default => "public", :null => false
     end
 
     add_index "gpx_files", ["timestamp"], :name => "gpx_files_timestamp_idx"
-    add_index "gpx_files", %w(visible public), :name => "gpx_files_visible_public_idx"
     add_index "gpx_files", ["user_id"], :name => "gpx_files_user_id_idx"
-    add_index "gpx_file_tags", ["tag"], :name => "gpx_file_tags_tag_idx"
-
+    add_index :gpx_files, [:visible, :visibility], :name => "gpx_files_visible_visibility_idx"
 
     create_table "messages", :id => false do |t|
       t.column "id",                :bigserial, :primary_key => true, :null => false
@@ -256,8 +257,14 @@ class CreateOsmDb < ActiveRecord::Migration
     create_enumeration :format_enum, %w(html markdown text)
     add_column :users, :description_format, :format_enum, :null => false, :default => "markdown"
     add_column :diary_entries, :body_format, :format_enum, :null => false, :default => "markdown"
-    add_column :diary_comments, :body_format, :format_enum, :null => false, :default => "markdown"
     add_column :messages, :body_format, :format_enum, :null => false, :default => "markdown"
+
+
+    rename_column :current_way_tags, :id, :way_id
+    rename_column :current_way_nodes, :id, :way_id
+    rename_column :ways, :id, :way_id
+    rename_column :way_tags, :id, :way_id
+    rename_column :way_nodes, :id, :way_id
   
   end
 

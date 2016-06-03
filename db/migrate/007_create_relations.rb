@@ -14,7 +14,7 @@ class CreateRelations < ActiveRecord::Migration
       t.column "member_type", :nwr_enum, :null => false
       t.column "member_id",   :bigint, :null => false
       t.column "member_role", :string
-      t.column :current_relation_members, :sequence_id, :integer, :default => 0, :null => false
+      t.column :sequence_id, :integer, :default => 0, :null => false
     end
 
     add_primary_key("current_relation_members", [:id, :member_type, :member_id, :member_role, :sequence_id])
@@ -75,6 +75,12 @@ class CreateRelations < ActiveRecord::Migration
     add_foreign_key :current_relation_members, :current_relations, :column => :id, :name => "current_relation_members_id_fkey"
     add_foreign_key :relation_tags, :relations, :column => [:id, :version], :primary_key => [:id, :version], :name => "relation_tags_id_fkey"
     add_foreign_key :relation_members, :relations, :column => [:id, :version], :primary_key => [:id, :version], :name => "relation_members_id_fkey"
+
+    rename_column :current_relation_tags, :id, :relation_id
+    rename_column :current_relation_members, :id, :relation_id
+    rename_column :relations, :id, :relation_id
+    rename_column :relation_tags, :id, :relation_id
+    rename_column :relation_members, :id, :relation_id
 
 
   end

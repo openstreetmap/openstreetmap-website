@@ -2,7 +2,6 @@ require "migrate"
 
 class CreateUserBlocks < ActiveRecord::Migration
   def change
-    create_enumeration :format_enum, %w(html markdown text)
 
     create_table :user_blocks do |t|
       t.column :user_id,      :bigint,   :null => false

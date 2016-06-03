@@ -39,10 +39,9 @@ class CreateOauthTables < ActiveRecord::Migration
     add_index :oauth_nonces, [:nonce, :timestamp], :unique => true
  
  
-     PERMISSIONS = [:allow_read_prefs, :allow_write_prefs, :allow_write_diary,
-                 :allow_write_api, :allow_read_gpx, :allow_write_gpx].freeze
+    permits = ["allow_read_prefs", "allow_write_prefs", "allow_write_diary", "allow_write_api", "allow_read_gpx", "allow_write_gpx"].freeze
 
-    PERMISSIONS.each do |perm|
+    permits.each do |perm|
       # add fine-grained permissions columns for OAuth tokens, allowing people to
       # give permissions to parts of the site only.
       add_column :oauth_tokens, perm, :boolean, :null => false, :default => false

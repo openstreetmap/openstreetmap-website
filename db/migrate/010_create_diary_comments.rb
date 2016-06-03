@@ -16,6 +16,8 @@ class CreateDiaryComments < ActiveRecord::Migration
     add_index "diary_comments", %w(diary_entry_id id), :name => "diary_comments_entry_id_idx", :unique => true
     add_index :diary_comments, [:user_id, :created_at], :name => "diary_comment_user_id_created_at_index"
 
+    add_column :diary_comments, :body_format, :format_enum, :null => false, :default => "markdown"
+
   end
 
   def self.down
