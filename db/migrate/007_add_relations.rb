@@ -14,10 +14,13 @@ class AddRelations < ActiveRecord::Migration
       t.column "member_type", :nwr_enum, :null => false
       t.column "member_id",   :bigint, :null => false
       t.column "member_role", :string
+      t.column :current_relation_members, :sequence_id, :integer, :default => 0, :null => false
     end
 
-    add_primary_key "current_relation_members", %w(id member_type member_id member_role)
+    add_primary_key("current_relation_members", [:id, :member_type, :member_id, :member_role, :sequence_id])
     add_index "current_relation_members", %w(member_type member_id), :name => "current_relation_members_member_idx"
+ 
+
     # the following is obsolete given the primary key, is it not?
     # add_index "current_relation_members", ["id"], :name => "current_relation_members_id_idx"
     create_table "current_relation_tags", :id => false do |t|
@@ -40,11 +43,13 @@ class AddRelations < ActiveRecord::Migration
       t.column "member_id",   :bigint, :null => false
       t.column "member_role", :string
       t.column "version",     :bigint, :default => 0, :null => false
+      t.column :sequence_id, :integer, :default => 0, :null => false
+
     end
 
-    add_primary_key "relation_members", %w(id version member_type member_id member_role)
+    add_primary_key("relation_members", [:id, :version, :member_type, :member_id, :member_role, :sequence_id])
     add_index "relation_members", %w(member_type member_id), :name => "relation_members_member_idx"
-
+ 
     create_table "relation_tags", :id => false do |t|
       t.column "id",      :bigint, :default => 0, :null => false
       t.column "k",       :string, :null => false, :default => ""

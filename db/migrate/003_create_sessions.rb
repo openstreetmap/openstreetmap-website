@@ -1,6 +1,6 @@
 require "migrate"
 
-class SqlSessionStoreSetup < ActiveRecord::Migration
+class CreateSessions < ActiveRecord::Migration
   def self.up
     create_table "sessions" do |t|
       t.column "session_id", :string

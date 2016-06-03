@@ -25,6 +25,15 @@ class CreateOsmDb < ActiveRecord::Migration
     end
     add_primary_key :current_node_tags, [:id, :k]
     add_foreign_key :current_node_tags, :current_nodes, :column => :id, :name => "current_node_tags_id_fkey"
+
+    create_table "current_ways", :id => false do |t|
+      t.column "id",        :bigserial, :primary_key => true, :null => false
+      t.column "user_id",   :bigint, :null => false
+      t.column "timestamp", :datetime, :null => false
+      t.column "visible",   :boolean, :null => false
+      t.column "version", :bigint, :null => false
+    end
+    add_index :current_ways, :timestamp, :name => :current_ways_timestamp_idx
   
     create_table :current_way_nodes, :id => false do |t|
       t.column :id,          :bigint, :null => false
@@ -44,14 +53,6 @@ class CreateOsmDb < ActiveRecord::Migration
     add_primary_key :current_way_tags, [:id, :k]
     add_foreign_key :current_way_tags, :current_ways, :column => :id, :name => "current_way_tags_id_fkey"
 
-    create_table "current_ways", :id => false do |t|
-      t.column "id",        :bigserial, :primary_key => true, :null => false
-      t.column "user_id",   :bigint, :null => false
-      t.column "timestamp", :datetime, :null => false
-      t.column "visible",   :boolean, :null => false
-      t.column "version", :bigint, :null => false
-    end
-    add_index :current_ways, :timestamp, :name => :current_ways_timestamp_idx
    
     create_table "diary_entries", :id => false do |t|
       t.column "id",         :bigserial, :primary_key => true, :null => false
@@ -62,9 +63,14 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "updated_at", :datetime, :null => false
       t.column "latitude", :float, :limit => 53
       t.column "longitude", :float, :limit => 53
-      t.column "language", :string, :limit => 3
+      t.column "language_code", :string, :null => false, :default => "en"
+      t.column :visible, :boolean, :null => false, :default => true
     end
 
+    add_index :diary_entries, [:created_at], :name => "diary_entry_created_at_index"
+    add_index :diary_entries, [:user_id, :created_at], :name => "diary_entry_user_id_created_at_index"
+    add_index :diary_entries, [:language_code, :created_at], :name => "diary_entry_language_code_created_at_index"
+ 
     create_table "friends", :id => false do |t|
       t.column "id",             :bigserial, :primary_key => true, :null => false
       t.column "user_id",        :bigint, :null => false
@@ -124,9 +130,12 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "sent_on",           :datetime, :null => false
       t.column "message_read",      :boolean, :default => false, :null => false
       t.column "to_user_id",        :bigint, :null => false
+      t.column :to_user_visible, :boolean, :default => true, :null => false
+      t.column :from_user_visible, :boolean, :default => true, :null => false
     end
 
     add_index "messages", ["to_user_id"], :name => "messages_to_user_id_idx"
+    add_index :messages, [:from_user_id], :name => "messages_from_user_id_idx"
  
     create_table "nodes", :id => false do |t|
       t.column "id",        :bigint, :null => false
@@ -152,10 +161,11 @@ class CreateOsmDb < ActiveRecord::Migration
     add_primary_key :node_tags, [:id, :version, :k]
     add_foreign_key :node_tags, :nodes, :column => [:id, :version], :primary_key => [:id, :version], :name => "node_tags_id_fkey"
 
+    create_enumeration :user_status_enum, %w(pending active confirmed suspended deleted)
+
     create_table "users", :id => false do |t|
       t.column "email",         :string, :null => false
       t.column "id",            :bigserial, :primary_key => true, :null => false
-      t.column "active",        :integer, :default => 0, :null => false
       t.column "pass_crypt",    :string, :null => false
       t.column "creation_time", :datetime, :null => false
       t.column "display_name",  :string, :default => "", :null => false
@@ -167,17 +177,30 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "administrator", :boolean, :default => false, :null => false
       t.column "email_valid", :boolean, :default => false, :null => false
       t.column "new_email", :string
-      t.column "visible", :boolean, :default => true, :null => false
+      t.column :status, :user_status_enum, :null => false, :default => "pending"
       t.column "creation_ip", :string
-      t.column "image", :text
+      t.column "image_file_name", :text
       t.column "nearby", :integer, :default => 50
       t.column "pass_salt", :string
-      t.column "locale", :string
+      t.column "languages", :string
+      t.column :terms_agreed, :datetime
+      t.column :consider_pd, :boolean, :null => false, :default => false
+      t.column :preferred_editor, :string
+      t.column :terms_seen, :boolean, :null => false, :default => false
+      t.column :image_fingerprint, :string, :null => true
+      t.column :changesets_count, :integer, :null => false, :default => 0
+      t.column :traces_count, :integer, :null => false, :default => 0
+      t.column :image_content_type, :string
+      t.column :diary_entries_count, :integer, :null => false, :default => 0
+      t.column :image_use_gravatar, :boolean, :null => false, :default => true
+
     end
 
     add_index "users", ["email"], :name => "users_email_idx", :unique => true
     add_index "users", ["display_name"], :name => "users_display_name_idx", :unique => true
-
+    add_index :users, [], :columns => "LOWER(display_name)", :name => "users_display_name_lower_idx"
+    add_index :users, [], :columns => "LOWER(email)", :name => "users_email_lower_idx"
+  
     create_table "user_preferences", :id => false do |t|
       t.column "user_id", :bigint, :null => false
       t.column "k", :string, :null => false
@@ -195,6 +218,17 @@ class CreateOsmDb < ActiveRecord::Migration
 
     add_index "user_tokens", ["token"], :name => "user_tokens_token_idx", :unique => true
     add_index "user_tokens", ["user_id"], :name => "user_tokens_user_id_idx"
+
+    create_table "ways", :id => false do |t|
+      t.column "id",        :bigint, :default => 0, :null => false
+      t.column "user_id",   :bigint, :null => false
+      t.column "timestamp", :datetime, :null => false
+      t.column "version",   :bigint, :null => false
+      t.column "visible",   :boolean, :default => true, :null => false
+    end
+
+    add_primary_key "ways", %w(id version)
+    add_index "ways", ["timestamp"], :name => "ways_timestamp_idx"
 
     create_table :way_nodes, :id => false do |t|
       t.column :id,          :bigint, :null => false
@@ -214,19 +248,6 @@ class CreateOsmDb < ActiveRecord::Migration
     end
     add_primary_key :way_tags, [:id, :version, :k]
     add_foreign_key :way_tags, :ways, :column => [:id, :version], :primary_key => [:id, :version], :name => "way_tags_id_fkey"
-
-    create_table "ways", :id => false do |t|
-      t.column "id",        :bigint, :default => 0, :null => false
-      t.column "user_id",   :bigint, :null => false
-      t.column "timestamp", :datetime, :null => false
-      t.column "version",   :bigint, :null => false
-      t.column "visible",   :boolean, :default => true, :null => false
-    end
-
-    add_primary_key "ways", %w(id version)
-    add_index "ways", ["timestamp"], :name => "ways_timestamp_idx"
-
-
 
   end
 
