@@ -29,14 +29,12 @@ class CreateNotes < ActiveRecord::Migration
       t.column :note_id, :bigint, :null => false
       t.boolean :visible, :null => false
       t.datetime :created_at, :null => false
-      t.string :author_ip
+      t.column :author_ip, :inet
       t.column :author_id, :bigint
       t.column :body, :text
-      t.column :event, :map_bug_event_enum
+      t.column :event, :note_event_enum
     end
 
-
- 
     change_column :note_comments, :id, :bigint
 
 
@@ -50,12 +48,5 @@ class CreateNotes < ActiveRecord::Migration
   end
 
   def self.down
-    remove_index :map_bugs, :name => "map_bugs_tile_idx"
-    remove_index :map_bugs, :name => "map_bugs_changed_idx"
-    remove_index :map_bugs, :name => "map_bugs_created_idx"
-
-    drop_table :map_bugs
-
-    drop_enumeration :map_bug_status_enum
   end
 end

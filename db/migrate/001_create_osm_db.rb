@@ -19,12 +19,12 @@ class CreateOsmDb < ActiveRecord::Migration
     add_index "current_nodes", ["tile"], :name => "current_nodes_tile_idx"
 
     create_table :current_node_tags, :id => false do |t|
-      t.column :id,          :bigint, :null => false
+      t.column :node_id,          :bigint, :null => false
       t.column :k,           :string, :default => "", :null => false
       t.column :v,           :string, :default => "", :null => false
     end
-    add_primary_key :current_node_tags, [:id, :k]
-    add_foreign_key :current_node_tags, :current_nodes, :column => :id, :name => "current_node_tags_id_fkey"
+    add_primary_key :current_node_tags, [:node_id, :k]
+    add_foreign_key :current_node_tags, :current_nodes, :column => :node_id, :name => "current_node_tags_id_fkey"
 
     create_table "current_ways", :id => false do |t|
       t.column "id",        :bigserial, :primary_key => true, :null => false
@@ -138,7 +138,7 @@ class CreateOsmDb < ActiveRecord::Migration
     add_index :messages, [:from_user_id], :name => "messages_from_user_id_idx"
  
     create_table "nodes", :id => false do |t|
-      t.column "id",        :bigint, :null => false
+      t.column "node_id",        :bigint, :null => false
       t.column "latitude",  :integer, :null => false
       t.column "longitude", :integer, :null => false
       t.column "user_id",   :bigint, :null => false
@@ -148,18 +148,18 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column :version, :bigint, :null => false
     end
 
-    add_primary_key :nodes, [:id, :version]
+    add_primary_key :nodes, [:node_id, :version]
     add_index "nodes", ["timestamp"], :name => "nodes_timestamp_idx"
     add_index "nodes", ["tile"], :name => "nodes_tile_idx"
 
     create_table :node_tags, :id => false do |t|
-      t.column :id,          :bigint, :null => false
+      t.column :node_id,          :bigint, :null => false
       t.column :version,     :bigint, :null => false
       t.column :k,       :string, :default => "", :null => false
       t.column :v,       :string, :default => "", :null => false
     end
-    add_primary_key :node_tags, [:id, :version, :k]
-    add_foreign_key :node_tags, :nodes, :column => [:id, :version], :primary_key => [:id, :version], :name => "node_tags_id_fkey"
+    add_primary_key :node_tags, [:node_id, :version, :k]
+    add_foreign_key :node_tags, :nodes, :column => [:node_id, :version], :primary_key => [:node_id, :version], :name => "node_tags_id_fkey"
 
     create_enumeration :user_status_enum, %w(pending active confirmed suspended deleted)
 
@@ -174,7 +174,6 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "home_lat",      :float, :limit => 53, :default => nil
       t.column "home_lon",      :float, :limit => 53, :default => nil
       t.column "home_zoom",     :integer, :limit => 2, :default => 3
-      t.column "administrator", :boolean, :default => false, :null => false
       t.column "email_valid", :boolean, :default => false, :null => false
       t.column "new_email", :string
       t.column :status, :user_status_enum, :null => false, :default => "pending"
@@ -196,9 +195,6 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column :auth_uid, :string
       t.column :auth_provider, :string
     end
-
-
-
 
     add_index "users", ["email"], :name => "users_email_idx", :unique => true
     add_index "users", ["display_name"], :name => "users_display_name_idx", :unique => true
@@ -256,6 +252,13 @@ class CreateOsmDb < ActiveRecord::Migration
     add_primary_key :way_tags, [:id, :version, :k]
     add_foreign_key :way_tags, :ways, :column => [:id, :version], :primary_key => [:id, :version], :name => "way_tags_id_fkey"
 
+
+    create_enumeration :format_enum, %w(html markdown text)
+    add_column :users, :description_format, :format_enum, :null => false, :default => "markdown"
+    add_column :diary_entries, :body_format, :format_enum, :null => false, :default => "markdown"
+    add_column :diary_comments, :body_format, :format_enum, :null => false, :default => "markdown"
+    add_column :messages, :body_format, :format_enum, :null => false, :default => "markdown"
+  
   end
 
   def self.down

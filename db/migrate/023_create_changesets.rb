@@ -23,12 +23,12 @@ class CreateChangesets < ActiveRecord::Migration
   
 
     create_table "changeset_tags", :id => false do |t|
-      t.column "id", :bigint, :null => false
+      t.column "changeset_id", :bigint, :null => false
       t.column "k",  :string, :default => "", :null => false
       t.column "v",  :string, :default => "", :null => false
     end
 
-    add_index "changeset_tags", ["id"], :name => "changeset_tags_id_idx"
+    add_index "changeset_tags", ["changeset_id"], :name => "changeset_tags_id_idx"
 
     #
     # Initially we will have one changeset for every user containing
