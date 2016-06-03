@@ -1,6 +1,6 @@
 require "migrate"
 
-class AddJoinTableBetweenUsersAndChangesets < ActiveRecord::Migration
+class CreateJoinTableUsersAndChangesets < ActiveRecord::Migration
   def change
     create_table :changesets_subscribers, :id => false do |t|
       t.column :subscriber_id, :bigint, :null => false

@@ -7,28 +7,21 @@ class CreateUserRoles < ActiveRecord::Migration
     create_table :user_roles do |t|
       t.column :user_id, :bigint, :null => false
       t.column :role, :user_role_enum, :null => false
-
+      t.column :granter_id, :bigint, :null => false
+  
       t.timestamps :null => true
     end
 
-    User.where(:administrator => true).each do |user|
-      UserRole.create(:user_id => user.id, :role => "administrator")
-    end
-
-    remove_column :users, :administrator
-
     add_foreign_key :user_roles, :users, :name => "user_roles_user_id_fkey"
+    add_foreign_key :user_roles, :users, :column => :granter_id, :name => "user_roles_granter_id_fkey"
+
+    # make sure that [user_id, role] is unique
+    add_index :user_roles, [:user_id, :role], :name => "user_roles_id_role_unique", :unique => true
+
+
   end
 
   def self.down
-    add_column :users, :administrator, :boolean, :default => false, :null => false
-
-    UserRole.where(:role => "administrator").each do |role|
-      user = User.find(role.user_id)
-      user.administrator = true
-      user.save!
-    end
-
     drop_table :user_roles
     drop_enumeration :user_role_enum
   end

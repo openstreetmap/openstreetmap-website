@@ -13,5 +13,11 @@ class CreateRedactions < ActiveRecord::Migration
       add_column tbl, :redaction_id, :integer, :null => true
       add_foreign_key tbl, :redactions, :name => "#{tbl}_redaction_id_fkey"
     end
+
+    add_column :redactions, :user_id, :bigint, :null => false
+    add_column :redactions, :description_format, :format_enum, :null => false, :default => "markdown"
+
+    add_foreign_key :redactions, :users, :name => "redactions_user_id_fkey"
+ 
   end
 end

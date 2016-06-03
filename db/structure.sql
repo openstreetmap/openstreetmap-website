@@ -120,33 +120,6 @@ CREATE TYPE user_status_enum AS ENUM (
 );
 
 
---
--- Name: maptile_for_point(bigint, bigint, integer); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION maptile_for_point(bigint, bigint, integer) RETURNS integer
-    LANGUAGE c STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'maptile_for_point';
-
-
---
--- Name: tile_for_point(integer, integer); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION tile_for_point(integer, integer) RETURNS bigint
-    LANGUAGE c STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'tile_for_point';
-
-
---
--- Name: xid_to_int4(xid); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION xid_to_int4(xid) RETURNS integer
-    LANGUAGE c IMMUTABLE STRICT
-    AS '/srv/www/master.osm.compton.nu/db/functions/libpgosm.so', 'xid_to_int4';
-
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -158,9 +131,9 @@ SET default_with_oids = false;
 CREATE TABLE acls (
     id integer NOT NULL,
     address inet,
+    domain character varying,
     k character varying NOT NULL,
-    v character varying,
-    domain character varying
+    v character varying
 );
 
 
@@ -338,6 +311,7 @@ CREATE TABLE current_nodes (
     longitude integer NOT NULL,
     changeset_id bigint NOT NULL,
     visible boolean NOT NULL,
+    tags text DEFAULT ''::text NOT NULL,
     "timestamp" timestamp without time zone NOT NULL,
     tile bigint NOT NULL,
     version bigint NOT NULL
@@ -853,16 +827,16 @@ CREATE TABLE oauth_tokens (
     invalidated_at timestamp without time zone,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
+    callback_url character varying,
+    verifier character varying(20),
+    scope character varying,
+    valid_to timestamp without time zone,
     allow_read_prefs boolean DEFAULT false NOT NULL,
     allow_write_prefs boolean DEFAULT false NOT NULL,
     allow_write_diary boolean DEFAULT false NOT NULL,
     allow_write_api boolean DEFAULT false NOT NULL,
     allow_read_gpx boolean DEFAULT false NOT NULL,
     allow_write_gpx boolean DEFAULT false NOT NULL,
-    callback_url character varying,
-    verifier character varying(20),
-    scope character varying,
-    valid_to timestamp without time zone,
     allow_write_notes boolean DEFAULT false NOT NULL
 );
 
@@ -981,9 +955,9 @@ CREATE TABLE user_blocks (
     ends_at timestamp without time zone NOT NULL,
     needs_view boolean DEFAULT false NOT NULL,
     revoker_id bigint,
+    reason_format format_enum DEFAULT 'markdown'::format_enum NOT NULL,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    reason_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
+    updated_at timestamp without time zone
 );
 
 
@@ -1025,9 +999,9 @@ CREATE TABLE user_roles (
     id integer NOT NULL,
     user_id bigint NOT NULL,
     role user_role_enum NOT NULL,
+    granter_id bigint NOT NULL,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    granter_id bigint NOT NULL
+    updated_at timestamp without time zone
 );
 
 
@@ -1097,27 +1071,27 @@ CREATE TABLE users (
     home_lat double precision,
     home_lon double precision,
     home_zoom smallint DEFAULT 3,
-    nearby integer DEFAULT 50,
-    pass_salt character varying,
-    image_file_name text,
     email_valid boolean DEFAULT false NOT NULL,
     new_email character varying,
-    creation_ip character varying,
-    languages character varying,
     status user_status_enum DEFAULT 'pending'::user_status_enum NOT NULL,
+    creation_ip character varying,
+    image_file_name text,
+    nearby integer DEFAULT 50,
+    pass_salt character varying,
+    languages character varying,
     terms_agreed timestamp without time zone,
     consider_pd boolean DEFAULT false NOT NULL,
-    auth_uid character varying,
     preferred_editor character varying,
     terms_seen boolean DEFAULT false NOT NULL,
-    description_format format_enum DEFAULT 'markdown'::format_enum NOT NULL,
     image_fingerprint character varying,
     changesets_count integer DEFAULT 0 NOT NULL,
     traces_count integer DEFAULT 0 NOT NULL,
+    image_content_type character varying,
     diary_entries_count integer DEFAULT 0 NOT NULL,
     image_use_gravatar boolean DEFAULT true NOT NULL,
-    image_content_type character varying,
-    auth_provider character varying
+    auth_uid character varying,
+    auth_provider character varying,
+    description_format format_enum DEFAULT 'markdown'::format_enum NOT NULL
 );
 
 
@@ -1373,11 +1347,11 @@ ALTER TABLE ONLY current_node_tags
 
 
 --
--- Name: current_nodes_pkey1; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: current_nodes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY current_nodes
-    ADD CONSTRAINT current_nodes_pkey1 PRIMARY KEY (id);
+    ADD CONSTRAINT current_nodes_pkey PRIMARY KEY (id);
 
 
 --
@@ -1699,13 +1673,6 @@ CREATE INDEX current_relation_members_member_idx ON current_relation_members USI
 
 
 --
--- Name: current_relations_timestamp_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX current_relations_timestamp_idx ON current_relations USING btree ("timestamp");
-
-
---
 -- Name: current_way_nodes_node_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1895,31 +1862,31 @@ CREATE INDEX nodes_timestamp_idx ON nodes USING btree ("timestamp");
 
 
 --
--- Name: note_comments_note_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: note_comments_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX note_comments_note_id_idx ON note_comments USING btree (note_id);
-
-
---
--- Name: notes_created_at_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX notes_created_at_idx ON notes USING btree (created_at);
+CREATE INDEX note_comments_id_idx ON note_comments USING btree (note_id);
 
 
 --
--- Name: notes_tile_status_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: notes_changed_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX notes_tile_status_idx ON notes USING btree (tile, status);
+CREATE INDEX notes_changed_idx ON notes USING btree (updated_at);
 
 
 --
--- Name: notes_updated_at_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: notes_tile_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX notes_updated_at_idx ON notes USING btree (updated_at);
+CREATE INDEX notes_tile_idx ON notes USING btree (tile, status);
+
+
+--
+-- Name: notess_created_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX notess_created_idx ON notes USING btree (created_at);
 
 
 --
@@ -2361,11 +2328,11 @@ ALTER TABLE ONLY relations
 
 
 --
--- Name: user_blocks_moderator_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: user_blocks_creator_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_blocks
-    ADD CONSTRAINT user_blocks_moderator_id_fkey FOREIGN KEY (creator_id) REFERENCES users(id);
+    ADD CONSTRAINT user_blocks_creator_id_fkey FOREIGN KEY (creator_id) REFERENCES users(id);
 
 
 --
@@ -2458,181 +2425,33 @@ INSERT INTO schema_migrations (version) VALUES ('1');
 
 INSERT INTO schema_migrations (version) VALUES ('10');
 
-INSERT INTO schema_migrations (version) VALUES ('11');
-
-INSERT INTO schema_migrations (version) VALUES ('12');
-
-INSERT INTO schema_migrations (version) VALUES ('13');
-
-INSERT INTO schema_migrations (version) VALUES ('14');
-
-INSERT INTO schema_migrations (version) VALUES ('15');
-
-INSERT INTO schema_migrations (version) VALUES ('16');
-
-INSERT INTO schema_migrations (version) VALUES ('17');
-
 INSERT INTO schema_migrations (version) VALUES ('18');
-
-INSERT INTO schema_migrations (version) VALUES ('19');
-
-INSERT INTO schema_migrations (version) VALUES ('2');
-
-INSERT INTO schema_migrations (version) VALUES ('20');
-
-INSERT INTO schema_migrations (version) VALUES ('20100513171259');
-
-INSERT INTO schema_migrations (version) VALUES ('20100516124737');
-
-INSERT INTO schema_migrations (version) VALUES ('20100910084426');
-
-INSERT INTO schema_migrations (version) VALUES ('20101114011429');
-
-INSERT INTO schema_migrations (version) VALUES ('20110322001319');
-
-INSERT INTO schema_migrations (version) VALUES ('20110508145337');
-
-INSERT INTO schema_migrations (version) VALUES ('20110521142405');
 
 INSERT INTO schema_migrations (version) VALUES ('20110925112722');
 
-INSERT INTO schema_migrations (version) VALUES ('20111116184519');
-
-INSERT INTO schema_migrations (version) VALUES ('20111212183945');
-
-INSERT INTO schema_migrations (version) VALUES ('20120123184321');
-
-INSERT INTO schema_migrations (version) VALUES ('20120208122334');
-
-INSERT INTO schema_migrations (version) VALUES ('20120208194454');
-
-INSERT INTO schema_migrations (version) VALUES ('20120214210114');
-
-INSERT INTO schema_migrations (version) VALUES ('20120219161649');
-
 INSERT INTO schema_migrations (version) VALUES ('20120318201948');
-
-INSERT INTO schema_migrations (version) VALUES ('20120328090602');
-
-INSERT INTO schema_migrations (version) VALUES ('20120404205604');
-
-INSERT INTO schema_migrations (version) VALUES ('20120808231205');
-
-INSERT INTO schema_migrations (version) VALUES ('20121005195010');
-
-INSERT INTO schema_migrations (version) VALUES ('20121012044047');
-
-INSERT INTO schema_migrations (version) VALUES ('20121119165817');
-
-INSERT INTO schema_migrations (version) VALUES ('20121202155309');
-
-INSERT INTO schema_migrations (version) VALUES ('20121203124841');
-
-INSERT INTO schema_migrations (version) VALUES ('20130328184137');
-
-INSERT INTO schema_migrations (version) VALUES ('20131212124700');
-
-INSERT INTO schema_migrations (version) VALUES ('20140115192822');
-
-INSERT INTO schema_migrations (version) VALUES ('20140117185510');
-
-INSERT INTO schema_migrations (version) VALUES ('20140210003018');
 
 INSERT INTO schema_migrations (version) VALUES ('20140507110937');
 
 INSERT INTO schema_migrations (version) VALUES ('20140519141742');
 
-INSERT INTO schema_migrations (version) VALUES ('20150110152606');
-
 INSERT INTO schema_migrations (version) VALUES ('20150111192335');
-
-INSERT INTO schema_migrations (version) VALUES ('20150222101847');
-
-INSERT INTO schema_migrations (version) VALUES ('21');
-
-INSERT INTO schema_migrations (version) VALUES ('22');
 
 INSERT INTO schema_migrations (version) VALUES ('23');
 
-INSERT INTO schema_migrations (version) VALUES ('24');
-
-INSERT INTO schema_migrations (version) VALUES ('25');
-
-INSERT INTO schema_migrations (version) VALUES ('26');
-
-INSERT INTO schema_migrations (version) VALUES ('27');
-
-INSERT INTO schema_migrations (version) VALUES ('28');
-
-INSERT INTO schema_migrations (version) VALUES ('29');
-
-INSERT INTO schema_migrations (version) VALUES ('3');
-
 INSERT INTO schema_migrations (version) VALUES ('30');
-
-INSERT INTO schema_migrations (version) VALUES ('31');
-
-INSERT INTO schema_migrations (version) VALUES ('32');
-
-INSERT INTO schema_migrations (version) VALUES ('33');
 
 INSERT INTO schema_migrations (version) VALUES ('34');
 
-INSERT INTO schema_migrations (version) VALUES ('35');
-
-INSERT INTO schema_migrations (version) VALUES ('36');
-
-INSERT INTO schema_migrations (version) VALUES ('37');
-
-INSERT INTO schema_migrations (version) VALUES ('38');
-
 INSERT INTO schema_migrations (version) VALUES ('39');
 
-INSERT INTO schema_migrations (version) VALUES ('4');
-
 INSERT INTO schema_migrations (version) VALUES ('40');
-
-INSERT INTO schema_migrations (version) VALUES ('41');
-
-INSERT INTO schema_migrations (version) VALUES ('42');
-
-INSERT INTO schema_migrations (version) VALUES ('43');
 
 INSERT INTO schema_migrations (version) VALUES ('44');
 
 INSERT INTO schema_migrations (version) VALUES ('45');
 
-INSERT INTO schema_migrations (version) VALUES ('46');
-
-INSERT INTO schema_migrations (version) VALUES ('47');
-
-INSERT INTO schema_migrations (version) VALUES ('48');
-
-INSERT INTO schema_migrations (version) VALUES ('49');
-
-INSERT INTO schema_migrations (version) VALUES ('5');
-
-INSERT INTO schema_migrations (version) VALUES ('50');
-
-INSERT INTO schema_migrations (version) VALUES ('51');
-
-INSERT INTO schema_migrations (version) VALUES ('52');
-
 INSERT INTO schema_migrations (version) VALUES ('53');
 
-INSERT INTO schema_migrations (version) VALUES ('54');
-
-INSERT INTO schema_migrations (version) VALUES ('55');
-
-INSERT INTO schema_migrations (version) VALUES ('56');
-
-INSERT INTO schema_migrations (version) VALUES ('57');
-
-INSERT INTO schema_migrations (version) VALUES ('6');
-
 INSERT INTO schema_migrations (version) VALUES ('7');
-
-INSERT INTO schema_migrations (version) VALUES ('8');
-
-INSERT INTO schema_migrations (version) VALUES ('9');
 
