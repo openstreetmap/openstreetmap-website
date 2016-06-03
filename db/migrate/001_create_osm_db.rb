@@ -193,14 +193,19 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column :image_content_type, :string
       t.column :diary_entries_count, :integer, :null => false, :default => 0
       t.column :image_use_gravatar, :boolean, :null => false, :default => true
-
+      t.column :auth_uid, :string
+      t.column :auth_provider, :string
     end
+
+
+
 
     add_index "users", ["email"], :name => "users_email_idx", :unique => true
     add_index "users", ["display_name"], :name => "users_display_name_idx", :unique => true
     add_index :users, [], :columns => "LOWER(display_name)", :name => "users_display_name_lower_idx"
     add_index :users, [], :columns => "LOWER(email)", :name => "users_email_lower_idx"
-  
+    add_index :users, [:auth_provider, :auth_uid], :unique => true, :name => "users_auth_idx"
+
     create_table "user_preferences", :id => false do |t|
       t.column "user_id", :bigint, :null => false
       t.column "k", :string, :null => false
@@ -214,7 +219,9 @@ class CreateOsmDb < ActiveRecord::Migration
       t.column "user_id", :bigint, :null => false
       t.column "token", :string, :null => false
       t.column "expiry", :datetime, :null => false
+      t.column :referer, :text
     end
+ 
 
     add_index "user_tokens", ["token"], :name => "user_tokens_token_idx", :unique => true
     add_index "user_tokens", ["user_id"], :name => "user_tokens_user_id_idx"
