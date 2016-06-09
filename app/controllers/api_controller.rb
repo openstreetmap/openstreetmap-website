@@ -300,10 +300,9 @@ class ApiController < ApplicationController
   # * if authenticated via basic auth all permissions are granted, so the list will contain all permissions.
   # * unauthenticated users have no permissions, so the list will be empty.
   def permissions
-    @permissions = case
-                   when current_token.present?
+    @permissions = if current_token.present?
                      ClientApplication.all_permissions.select { |p| current_token.read_attribute(p) }
-                   when @user
+                   elsif @user
                      ClientApplication.all_permissions
                    else
                      []

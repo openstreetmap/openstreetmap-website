@@ -308,8 +308,7 @@ class AmfControllerTest < ActionController::TestCase
     # try to get version 1
     v1 = ways(:way_with_versions_v2)
     { latest.id => "",
-      v1.way_id => v1.timestamp.strftime("%d %b %Y, %H:%M:%S")
-    }.each do |id, t|
+      v1.way_id => v1.timestamp.strftime("%d %b %Y, %H:%M:%S") }.each do |id, t|
       amf_content "getway_old", "/1", [id, t]
       post :amf_read
       assert_response :success
@@ -329,10 +328,9 @@ class AmfControllerTest < ActionController::TestCase
     way_id = current_ways(:way_with_versions).id
     { "foo"  => "bar",
       way_id => "not a date",
-      way_id => "2009-03-25 00:00:00", # <- wrong format
-      way_id => "0 Jan 2009 00:00:00", # <- invalid date
-      -1     => "1 Jan 2009 00:00:00"  # <- invalid ID
-    }.each do |id, t|
+      way_id => "2009-03-25 00:00:00",                   # <- wrong format
+      way_id => "0 Jan 2009 00:00:00",                   # <- invalid date
+      -1     => "1 Jan 2009 00:00:00" }.each do |id, t|  # <- invalid
       amf_content "getway_old", "/1", [id, t]
       post :amf_read
       assert_response :success
@@ -352,8 +350,7 @@ class AmfControllerTest < ActionController::TestCase
     # try to get specific version of non-existent way
     [[0, ""],
      [0, "1 Jan 1970, 00:00:00"],
-     [v1.way_id, (v1.timestamp - 10).strftime("%d %b %Y, %H:%M:%S")]
-    ].each do |id, t|
+     [v1.way_id, (v1.timestamp - 10).strftime("%d %b %Y, %H:%M:%S")]].each do |id, t|
       amf_content "getway_old", "/1", [id, t]
       post :amf_read
       assert_response :success
@@ -369,8 +366,7 @@ class AmfControllerTest < ActionController::TestCase
   def test_getway_old_invisible
     v1 = ways(:invisible_way)
     # try to get deleted version
-    [[v1.way_id, (v1.timestamp + 10).strftime("%d %b %Y, %H:%M:%S")]
-    ].each do |id, t|
+    [[v1.way_id, (v1.timestamp + 10).strftime("%d %b %Y, %H:%M:%S")]].each do |id, t|
       amf_content "getway_old", "/1", [id, t]
       post :amf_read
       assert_response :success

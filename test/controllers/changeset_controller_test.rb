@@ -1181,8 +1181,7 @@ EOF
     ["<osmChange/>",
      "<osmChange></osmChange>",
      "<osmChange><modify/></osmChange>",
-     "<osmChange><modify></modify></osmChange>"
-    ].each do |diff|
+     "<osmChange><modify></modify></osmChange>"].each do |diff|
       # upload it
       content diff
       post :upload, :id => changesets(:public_user_first_change).id
@@ -1598,8 +1597,7 @@ EOF
   def test_query_invalid
     ["abracadabra!",
      "1,2,3,F",
-     ";drop table users;"
-    ].each do |bbox|
+     ";drop table users;"].each do |bbox|
       get :query, :bbox => bbox
       assert_response :bad_request, "'#{bbox}' isn't a bbox"
     end
@@ -1608,8 +1606,7 @@ EOF
      "00-00-00",
      ";drop table users;",
      ",",
-     "-,-"
-    ].each do |time|
+     "-,-"].each do |time|
       get :query, :time => time
       assert_response :bad_request, "'#{time}' isn't a valid time range"
     end
@@ -1617,8 +1614,7 @@ EOF
     ["me",
      "foobar",
      "-1",
-     "0"
-    ].each do |uid|
+     "0"].each do |uid|
       get :query, :user => uid
       assert_response :bad_request, "'#{uid}' isn't a valid user ID"
     end

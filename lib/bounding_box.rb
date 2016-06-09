@@ -59,11 +59,13 @@ class BoundingBox
     # check the bbox is sane
     if min_lon > max_lon
       raise OSM::APIBadBoundingBox.new(
-        "The minimum longitude must be less than the maximum longitude, but it wasn't")
+        "The minimum longitude must be less than the maximum longitude, but it wasn't"
+      )
     end
     if min_lat > max_lat
       raise OSM::APIBadBoundingBox.new(
-        "The minimum latitude must be less than the maximum latitude, but it wasn't")
+        "The minimum latitude must be less than the maximum latitude, but it wasn't"
+      )
     end
     if min_lon < -LON_LIMIT || min_lat < -LAT_LIMIT || max_lon > +LON_LIMIT || max_lat > +LAT_LIMIT
       raise OSM::APIBadBoundingBox.new("The latitudes must be between #{-LAT_LIMIT} and #{LAT_LIMIT}," +
@@ -162,7 +164,8 @@ class BoundingBox
     def from_bbox_array(bbox_array)
       unless bbox_array
         raise OSM::APIBadUserInput.new(
-          "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat")
+          "The parameter bbox is required, and must be of the form min_lon,min_lat,max_lon,max_lat"
+        )
       end
       # Take an array of length 4, create a bounding box with min_lon, min_lat, max_lon and
       # max_lat within their respective boundaries.

@@ -607,8 +607,7 @@ class RelationControllerTest < ActionController::TestCase
     [current_nodes(:used_node_1),
      current_nodes(:used_node_2),
      current_ways(:used_way),
-     current_ways(:way_with_versions)
-    ].each_with_index do |element, _version|
+     current_ways(:way_with_versions)].each_with_index do |element, _version|
       bbox = element.bbox.to_unscaled
       check_changeset_modify(bbox) do |changeset_id|
         relation_xml = Relation.find(relation_id).to_xml

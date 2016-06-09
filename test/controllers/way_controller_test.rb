@@ -673,8 +673,7 @@ class WayControllerTest < ActionController::TestCase
 
     # check that the set of IDs match expectations
     expected_way_ids = [current_ways(:visible_way).id,
-                        current_ways(:used_way).id
-                       ]
+                        current_ways(:used_way).id]
     found_way_ids = ways_xml.find("//osm/way").collect { |w| w["id"].to_i }
     assert_equal expected_way_ids.sort, found_way_ids.sort,
                  "expected ways for node #{current_nodes(:used_node_1).id} did not match found"

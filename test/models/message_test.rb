@@ -61,8 +61,7 @@ class MessageTest < ActiveSupport::TestCase
                          "\xC2\xC2",     # 2-byte multibyte identifier, followed by another one
                          "\x4a\x82",     # plain ASCII, followed by multibyte continuation
                          "\x82\x82",     # multibyte continuations without multibyte identifier
-                         "\xe1\x82\x4a", # three-byte identifier, contination and (incorrectly) plain ASCII
-                        ]
+                         "\xe1\x82\x4a"] # three-byte identifier, contination and (incorrectly) plain ASCII
     invalid_sequences.each do |char|
       begin
         # create a message and save to the database
