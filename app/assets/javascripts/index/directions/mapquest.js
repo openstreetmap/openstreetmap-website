@@ -5,25 +5,25 @@
 
 function MapQuestEngine(id, routeType) {
   var MQ_SPRITE_MAP = {
-    0: 1, // straight
-    1: 2, // slight right
-    2: 3, // right
-    3: 4, // sharp right
-    4: 5, // reverse
-    5: 6, // sharp left
-    6: 7, // left
-    7: 8, // slight left
-    8: 5, // right U-turn
-    9: 5, // left U-turn
-    10: 2, // right merge
-    11: 8, // left merge
+    0: 0, // straight
+    1: 1, // slight right
+    2: 2, // right
+    3: 3, // sharp right
+    4: 4, // reverse
+    5: 5, // sharp left
+    6: 6, // left
+    7: 7, // slight left
+    8: 3, // right U-turn (mapped to shard-right symbol)
+    9: 8, // left U-turn
+    10: 21, // right merge
+    11: 20, // left merge
     12: 2, // right on-ramp
-    13: 8, // left on-ramp
-    14: 2, // right off-ramp
-    15: 8, // left off-ramp
-    16: 2, // right fork
-    17: 8, // left fork
-    18: 1  // straight fork
+    13: 6, // left on-ramp
+    14: 24, // right off-ramp
+    15: 25, // left off-ramp
+    16: 18, // right fork
+    17: 19, // left fork
+    18: 0  // straight fork
   };
 
   return {
