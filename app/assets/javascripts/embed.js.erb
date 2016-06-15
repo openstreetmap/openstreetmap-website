@@ -22,14 +22,12 @@ window.onload = function () {
   map.attributionControl.setPrefix('');
   map.removeControl(map.attributionControl);
 
-  if (!args.layer || args.layer === "mapnik" || args.layer === "osmarender") {
+  if (!args.layer || args.layer === "mapnik" || args.layer === "osmarender" || args.layer === "mapquest") {
     new L.OSM.Mapnik().addTo(map);
   } else if (args.layer === "cyclemap" || args.layer === "cycle map") {
     new L.OSM.CycleMap().addTo(map);
   } else if (args.layer === "transportmap") {
     new L.OSM.TransportMap().addTo(map);
-  } else if (args.layer === "mapquest") {
-    new L.OSM.MapQuestOpen().addTo(map);
   } else if (args.layer === "hot") {
     new L.OSM.HOT().addTo(map);
   }
