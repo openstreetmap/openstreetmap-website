@@ -35,12 +35,6 @@ L.OSM.Map = L.Map.extend({
         keyid: "transportmap",
         name: I18n.t("javascripts.map.base.transport_map")
       }),
-      new L.OSM.MapQuestOpen({
-        attribution: copyright + ". Tiles courtesy of <a href='http://www.mapquest.com/' target='_blank'>MapQuest</a> <img src='https://developer.mapquest.com/content/osm/mq_logo.png'>",
-        code: "Q",
-        keyid: "mapquest",
-        name: I18n.t("javascripts.map.base.mapquest")
-      }),
       new L.OSM.HOT({
         attribution: copyright + ". Tiles courtesy of <a href='http://hot.openstreetmap.org/' target='_blank'>Humanitarian OpenStreetMap Team</a>",
         code: "H",
