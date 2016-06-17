@@ -24,6 +24,7 @@ google_options = { :name => "google", :scope => "email", :access_type => "online
 facebook_options = { :name => "facebook", :scope => "email" }
 windowslive_options = { :name => "windowslive", :scope => "wl.signin,wl.emails" }
 github_options = { :name => "github", :scope => "user:email" }
+wikipedia_options = { :name => "wikipedia", :client_options => { :site => "https://commons.wikimedia.org" } }
 
 if defined?(GOOGLE_OPENID_REALM)
   google_options[:openid_realm] = GOOGLE_OPENID_REALM
@@ -35,6 +36,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   provider :facebook, FACEBOOK_AUTH_ID, FACEBOOK_AUTH_SECRET, facebook_options if defined?(FACEBOOK_AUTH_ID)
   provider :windowslive, WINDOWSLIVE_AUTH_ID, WINDOWSLIVE_AUTH_SECRET, windowslive_options if defined?(WINDOWSLIVE_AUTH_ID)
   provider :github, GITHUB_AUTH_ID, GITHUB_AUTH_SECRET, github_options if defined?(GITHUB_AUTH_ID)
+  provider :mediawiki, WIKIPEDIA_AUTH_ID, WIKIPEDIA_AUTH_SECRET, wikipedia_options if defined?(WIKIPEDIA_AUTH_ID)
 end
 
 # Pending fix for: https://github.com/intridea/omniauth/pull/795
