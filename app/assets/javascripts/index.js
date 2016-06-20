@@ -175,7 +175,6 @@ $(document).ready(function () {
   });
 
   $('#banner .close-wrap').on('click', function(e) {
-    debugger;
     var cookieId = e.target.id;
     $('#banner').hide();
     e.preventDefault();
