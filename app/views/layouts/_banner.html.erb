@@ -1,0 +1,41 @@
+<% active_banners = {
+  :sotmus2016 => {
+    :alt => 'State of the Map US 2016',
+    :link => 'http://stateofthemap.us/',
+    :img => 'banners/sotmus-2016.jpg'
+  },
+  :sotm2016 => {
+    :alt => 'State of the Map 2016',
+    :link => 'http://2016.stateofthemap.org/',
+    :img => 'banners/sotm-2016.jpg'
+  }
+}
+
+bannerSym = nil
+cookieStr = nil
+queuePos = active_banners.length
+
+# pick least recently seen banner that is not hidden
+active_banners.each_key do |k|
+  c = '_osm_banner_' + k.to_s
+  val = cookies[c.to_sym] || 0
+  next if val == 'hide'
+
+  if val.to_i > 0
+    cookies[c.to_sym] = val.to_i - 1
+  end
+
+  if val.to_i <= queuePos
+    bannerSym = k
+    cookieStr = c
+    queuePos = val.to_i
+  end
+end
+
+unless bannerSym.nil?
+  banner = active_banners[bannerSym]
+  cookies[cookieStr.to_sym] = active_banners.length   # bump to end of queue
+%>
+<%= link_to (image_tag banner[:img], :alt => banner[:alt], :title => banner[:alt]), banner[:link] %>
+<div class="close-wrap" id="<%= cookieStr %>"><span class="icon close"></span></div>
+<% end %>

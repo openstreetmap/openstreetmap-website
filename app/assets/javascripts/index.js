@@ -161,17 +161,27 @@ $(document).ready(function () {
       map.getLayersCode(),
       map._object);
 
-    $.removeCookie("_osm_location");
-    $.cookie("_osm_location", OSM.locationCookie(map), { expires: expiry, path: "/" });
+    $.removeCookie('_osm_location');
+    $.cookie('_osm_location', OSM.locationCookie(map), { expires: expiry, path: '/' });
   });
 
   if ($.cookie('_osm_welcome') === 'hide') {
     $('.welcome').hide();
   }
 
-  $('.welcome .close').on('click', function() {
+  $('.welcome .close-wrap').on('click', function() {
     $('.welcome').hide();
-    $.cookie("_osm_welcome", 'hide', { expires: expiry });
+    $.cookie('_osm_welcome', 'hide', { expires: expiry });
+  });
+
+  $('#banner .close-wrap').on('click', function(e) {
+    debugger;
+    var cookieId = e.target.id;
+    $('#banner').hide();
+    e.preventDefault();
+    if (cookieId) {
+      $.cookie(cookieId, 'hide', { expires: expiry });
+    }
   });
 
   if (OSM.PIWIK) {
