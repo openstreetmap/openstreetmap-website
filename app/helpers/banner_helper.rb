@@ -19,7 +19,7 @@ module BannerHelper
     min_index = 9999
 
     banners.each do |k, v|
-      ckey = cookie_id(v[:id]).to_sym
+      ckey = banner_cookie(v[:id]).to_sym
       cval = cookies[ckey] || 0
       next if cval == "hide"
 
@@ -41,7 +41,7 @@ module BannerHelper
     end
   end
 
-  def cookie_id(key)
+  def banner_cookie(key)
     "_osm_banner_#{key}"
   end
 end
