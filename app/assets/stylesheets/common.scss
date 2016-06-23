@@ -173,6 +173,7 @@ small, aside {
 .icon.clipboard   { background-position: -160px 0; }
 .icon.link        { background-position: -180px 0; }
 .icon.close       { background-position: -200px 0; }
+.close-wrap:hover .icon.close,
 .icon.close:hover { background-position: -200px -20px; }
 .icon.check       { background-position: -220px 0; }
 .icon.note        { background-position: -240px 0; }
@@ -546,6 +547,13 @@ body.compact {
     background: #fff;
     font-size: 12px;
 
+    > div {
+      position: relative;
+      float: left;
+      clear: both;
+      width: 100%;
+    }
+
     h2 {
       padding: $lineheight $lineheight $lineheight/2;
     }
@@ -556,9 +564,24 @@ body.compact {
       font-size: 13px;
     }
 
+    .close-wrap {
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 60px;
+      height: 60px;
+
+      .icon.close {
+        pointer-events: none;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+      }
+    }
+
     .icon.close {
       float: right;
-      cursor: pointer;
     }
 
     p.error {
@@ -568,25 +591,26 @@ body.compact {
     }
   }
 
-  .welcome {
-    display: none;
-  }
-
   .overlay-sidebar #sidebar {
     position: absolute;
     z-index: 1000;
     height: auto;
-    border-bottom-right-radius: 5px;
     overflow: hidden;
+
+    #banner,
     .welcome {
       display: block;
     }
+
     #sidebar_content {
       display: none;
     }
   }
 
   .welcome {
+    display: none;
+    padding-bottom: 5px;
+
     p {
       padding: $lineheight/2 $lineheight $lineheight;
       font-size: 110%;
@@ -604,6 +628,15 @@ body.compact {
       &.learn-more {
         border-right: 1px solid #fff;
       }
+    }
+  }
+
+  #banner {
+    display: none;
+
+    img {
+      display: block;
+      width: $sidebarWidth;
     }
   }
 
