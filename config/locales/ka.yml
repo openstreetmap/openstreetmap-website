@@ -105,12 +105,40 @@ ka:
     in_changeset: ცვლილებების პაკეტი
     anonymous: ანონიმი
     no_comment: (უკომენტარო)
+    download_xml: XML-ის ჩამოტვირთვა
+    view_history: ისტორიის ნახვა
+    view_details: დეტალების ნახვა
+    location: 'მდებარეობა:'
     changeset:
       title: 'ცვლილებების პაკეტი: %{id}'
+      belongs_to: ავტორი
+      node: წერტილები (%{count})
+      node_paginated: წერტილები (%{x}-%{y} %{count}-დან)
+      way: ხაზები (%{count})
+      way_paginated: ხაზები (%{x}-%{y} %{count}-დან)
+      relation: ურთიერთობები (%{count})
+      relation_paginated: ურთიერთობები (%{x}-%{y} %{count}-დან)
+      comment: კომენტარები (%{count})
+      hidden_commented_by: დამალული კომენტარები %{user}-სგან <abbr title='%{exact_time}'>%{when}
+        წინ</abbr>
+      commented_by: კომენატარი %{user}-სგან <abbr title='%{exact_time}'>%{when} წინ</abbr>
       changesetxml: ცვლილებების პაკეტის XML
+      osmchangexml: osmChange XML
       feed:
         title: ცვლილებების პაკეტი %{id}
         title_comment: ცვლილებების პაკეტი %{id} - %{comment}
+      discussion: განხილვა
+    node:
+      title: 'წერტილი: %{name}'
+      history_title: 'წერტილის ისტორია: %{name}'
+    way:
+      title: 'ხაზი: %{name}'
+      history_title: 'ხაზის ისტორია: %{name}'
+      nodes: წერტილები
+    relation:
+      title: 'ურთიერთობა: %{name}'
+      history_title: 'ურთიერთობის ისტორია: %{name}'
+      members: წევრები
     relation_member:
       entry_role: '%{type} %{name} როგორც %{role}'
       type:
@@ -127,6 +155,7 @@ ka:
         way: გზა
         relation: ურთიერთობა
         changeset: ცვლილებების პაკეტი
+        note: შენიშვნა
     timeout:
       sorry: უკაცრავად, მონაცემები %{type}-თვის იდენტიფიკატორით %{id}, საკმაოდ გრძელია
         საპოვნელად.
@@ -135,7 +164,9 @@ ka:
         way: გზა
         relation: ურთიერთობა
         changeset: ცვლილებების პაკეტი
+        note: შენიშვნა
     redacted:
+      redaction: რედაქცია %{id}
       type:
         node: კვანძი
         way: გზა
@@ -145,9 +176,14 @@ ka:
       loading: იტვირთება...
     tag_details:
       wikipedia_link: სტატია %{page} ვიკიპედიაში
+      telephone_link: დარეკეთ %{phone_number}
     note:
       title: 'შენიშვნა: %{id}'
+      new_note: ახალი შენიშვნა
       description: აღწერა
+      open_title: 'დაუმუშავებელი შენიშვნა #%{note_name}'
+      closed_title: 'დამუშავებული შენიშვნა #%{note_name}'
+      hidden_title: 'დამალული შენიშვნა #%{note_name}'
   changeset:
     changeset_paging_nav:
       showing_page: გვერდი %{page}
@@ -164,9 +200,15 @@ ka:
       area: ტერიტორია
     list:
       title: ცვლილებების პაკეტი
+      load_more: მეტის ჩატვირთვა
+    rss:
+      commented_at_html: განახლდა %{when} წინ
+      commented_at_by_html: განაახლა %{when} წინ მომხმარებელმა %{user}
+      full: სრული განხილვა
   diary_entry:
     new:
       title: დღიურში ახალი ჩანაწერის გაკეთება
+      publish_button: გამოქვეყნება
     list:
       title: მომხმარებლების დღიურები
       title_friends: მეგობრების დღიურები
@@ -221,6 +263,7 @@ ka:
       newer_comments: ახალი კომენტარები
       older_comments: ძველი კომენტარები
   export:
+    title: ექსპორტი
     start:
       area_to_export: ტერიტორია ექსპორტისათვის
       manually_select: სხვა რეგიონის გამოყოფა ხელით
@@ -228,6 +271,9 @@ ka:
       osm_xml_data: OpenStreetMap XML–ის მონაცემები
       map_image: რუკის სურათი (სტანდარტული ფენის ჩვენება)
       licence: ლიცენზია
+      too_large:
+        planet:
+          title: პლანეტა OSM
       options: პარამეტრები
       format: ფორმატი
       scale: მასშტაბი
@@ -252,12 +298,17 @@ ka:
         geonames: <a href="http://www.geonames.org/">GeoNames</a>–ის შედეგები
     search_osm_nominatim:
       prefix:
+        aerialway:
+          cable_car: საბაგირო გზა
+          station: საბაგირო გზის სადგური
         aeroway:
           aerodrome: აეროდრომი
           gate: გასასვლელი
+          helipad: ვერტმფრენის დასაჯდომი
           runway: ასაფრენ-დასაფრენი ბილიკი
           terminal: ტერმინალი
         amenity:
+          animal_shelter: ცხოველთა თავშესაფარი
           arts_centre: ხელოვნების ცენტრი
           atm: ბანკომატი
           bank: ბანკი
@@ -267,15 +318,19 @@ ka:
           bicycle_parking: ველოსიპედების სადგომი
           bicycle_rental: ველოსიპედების გაქირავება
           biergarten: ლუდის ბაღი
+          boat_rental: ნავების გაქირავება
           brothel: საროსკიპო
           bureau_de_change: ვალუტის გადაცვლა
           bus_station: ავტობუსის გაჩერება
           cafe: კაფე
           car_rental: მანქანის გაქირავება
+          car_sharing: მანქანების გაქირავება
           car_wash: ავტოსამრეცხაო
           casino: სამორინე
+          charging_station: დასამუხტი სადგური
           cinema: კინოთეატრი
           clinic: პოლიკლინიკა
+          clock: საათი
           college: კოლეჯი
           community_centre: საზოგადოებრივი ცენტრი
           courthouse: სასამართლო
@@ -303,11 +358,13 @@ ka:
           library: ბიბლიოთეკა
           market: მაღაზია
           marketplace: ბაზარი
+          monastery: მონასტერი
           nightclub: ღამის კლუბი
           nursery: პანსიონატი
           nursing_home: მოხუცებულთა თავშესაფარი
           office: ოფისი
           parking: ავტოსადგომი
+          parking_entrance: სადგომის შესასვლელი
           pharmacy: აფთიაქი
           place_of_worship: რელიგიური ადგილი
           police: პოლიცია
@@ -326,6 +383,7 @@ ka:
           shelter: თავშესაფარი
           shop: მაღაზია
           shower: შხაპი
+          social_centre: საზოგადოებრივი ცენტრი
           social_club: საზოგადოებრივი თავშეყრის ადგილი
           studio: სტუდია
           swimming_pool: საცურაო აუზი
@@ -341,20 +399,40 @@ ka:
           youth_centre: ახალგაზრდული ცენტრი
         boundary:
           administrative: ადმინისტრაციული საზღვარი
+          census: აღწერის რაიონის საზღვარი
           national_park: ეროვნული პარკი
           protected_area: დაცული ტერიტორია
         bridge:
           aqueduct: აკვედუკი
           suspension: დაკიდებული ხიდი
           swing: რეგულირებადი ხიდი
+          viaduct: ვიადუკი
           "yes": ხიდი
         building:
           "yes": შენობა
+        craft:
+          brewery: ლუდსახარში
+          carpenter: დურგალი
+          electrician: ელექტრიკოსი
+          gardener: მებაღე
+          painter: მხატვარი
+          photographer: ფოტოგრაფი
+          plumber: სანტექნიკოსი
+          shoemaker: მეწაღე
+          tailor: დალაქი
+          "yes": სახელოსნო
+        emergency:
+          ambulance_station: სასწრაფო დახმარების სადგური
+          defibrillator: დეფიბრილატორი
+          landing_site: ავარიული დაშვების ადგილი
+          phone: საგანგებო კავშირის ტელეფონი
         highway:
+          abandoned: მიტოვებული გზა
           bridleway: საცხენოსნო გზა
           bus_stop: ავტობუსის გაჩერება
           construction: გზის სარემონტო სამუშაოები
           cycleway: ველოსიპედის გზა
+          elevator: ლიფტი
           emergency_access_point: სასწრაფო დახმარების პუნქტი
           footway: ტროტუარი
           living_street: საცხოვრებელი ქუჩა
@@ -365,6 +443,8 @@ ka:
           platform: ბაქანი
           primary: მთავარი გზა
           primary_link: მთავარი გზა
+          proposed: პროექტირებადი გზა
+          raceway: სარბოლო ტრასა
           residential: საცხოვრებელი ქუჩა
           rest_area: მოსასვენებელი ტერიტორია
           road: გზა
@@ -372,27 +452,40 @@ ka:
           secondary_link: მეორადი გზა
           speed_camera: სიჩქარის მაკონტროლებელი კამერა
           steps: საფეხურები
+          street_lamp: ქუჩის სანათი
           tertiary: მესამე კლასის გზა
+          tertiary_link: მესამე კლასის გზა
           track: ბილიკი
+          traffic_signals: შუქნიშანი
           trail: ბილიკი
           unclassified: ადგილობრივი გზა
           unsurfaced: უზედაპირო გზა
+          "yes": გზა
         historic:
           archaeological_site: არქეოლოგიური გათხრები
           battlefield: ბრძოლის ველი
           boundary_stone: სასაზღვრო ქვა
           building: ისტორიული შენობა
+          bunker: ბუნკერი
           castle: ციხე-სიმაგრე
           church: ეკლესია
+          city_gate: ქალაქის კარიბჭე
+          citywalls: ქალაქის კედლები
           fort: ფორტი
+          heritage: კულტურული მემკვიდრეობის ობიექტი
           house: სახლი
           icon: ხატულა
           manor: მამული
           memorial: მემორიალი
           mine: მაღარო
           monument: მონუმენტი
+          roman_road: რომაული გზა
           ruins: ნანგრევები
+          stone: ქვა
+          tomb: აკლდამა
           tower: კოშკი
+        junction:
+          "yes": გზაჯვარედინი
         landuse:
           basin: აუზი
           brownfield: მიტოვებული ადგილი
@@ -420,8 +513,13 @@ ka:
           retail: სავაჭრო ტერიტორია
           village_green: მწვანე სოფელი
           vineyard: ვენახი
+          "yes": მიწათსარგებლობა
         leisure:
+          club: კლუბი
+          dog_park: ძაღლების პარკი
           fishing: სათევზაო ტერიტორია
+          fitness_centre: ფიტნეს-ცენტრი
+          fitness_station: ფიტნეს-სადგური
           garden: ბაღი
           golf_course: გოლფის მოედანი
           ice_rink: ყინულის მოედანი
@@ -432,16 +530,25 @@ ka:
           pitch: სპორტული გაზონი
           playground: სათამაშო მოედანი
           recreation_ground: რეკრეაციული ზონა
+          resort: კურორტი
           sauna: საუნა
           sports_centre: სპორტული ცენტრი
           stadium: სტადიონი
           swimming_pool: საცურაო აუზი
           track: სარბენი ბილიკი
           water_park: აკვაპარკი
+        man_made:
+          lighthouse: შუქურა
+          pipeline: მილსადენი
+          tower: კოშკი
+          works: ფაბრიკა
+          "yes": ხელოვნური
         military:
           airfield: სამხედრო აეროდრომი
           barracks: ყაზარმები
           bunker: ბუნკერი
+        mountain_pass:
+          "yes": უღელტეხილი
         natural:
           bay: ყურე
           beach: პლაჟი
@@ -455,6 +562,7 @@ ka:
           forest: ტყე
           geyser: გეიზერი
           glacier: მყინვარი
+          grassland: მდელო
           hill: ბორცვი
           island: კუნძული
           land: ხმელეთი
@@ -466,6 +574,8 @@ ka:
           reef: რიფი
           ridge: ქედი
           rock: კლდე
+          saddle: უღელტეხილი
+          sand: ქვიშა
           scree: კლდეზვავი
           scrub: ბუჩქნარი
           spring: წყარო
@@ -478,15 +588,21 @@ ka:
           wetland: ჭარბტენიანი ტერიტორია
           wood: ტყე
         office:
+          accountant: ბუღალტერი
+          administrative: ადმინისტრაცია
           architect: არქიტექტორი
           company: კომპანია
+          employment_agency: დასაქმების სააგენტო
           estate_agent: უძრავი ქონების აგენტი
           government: სამთავრობო ოფისი
+          insurance: სადაზღვევო ოფისი
+          lawyer: იურისტი
           ngo: არასამთავრობო ორგანიზაციის ოფისი
           telecommunication: სატელეკომუნიკაციო ოფისი
           travel_agent: ტურისტული სააგენტო
           "yes": ოფისი
         place:
+          block: კვარტალი
           airport: აეროპორტი
           city: ქალაქი
           country: ქვეყანა
@@ -499,6 +615,7 @@ ka:
           islet: პატარა კუნძული
           moor: ტორფნარი
           municipality: მუნიციპალიტეტი
+          neighbourhood: სამეზობლო
           postcode: საფოსტო ინდექსი
           region: რეგიონი
           sea: ზღვა
@@ -516,9 +633,14 @@ ka:
           funicular: ფუნიკულიორი
           halt: მატარებლის გაჩერება
           historic_station: ისტორიული რკინიგზის სადგური
+          level_crossing: სარკინიგზო გადასასვლელი
+          light_rail: მსუბუქი რკინიგზა
           monorail: მონორელსი
           platform: რკინიგზის ბაქანი
+          preserved: ისტორიული რკინიგზა
+          proposed: პროექტირებადი რკინიგზა
           station: რკინიგზის სადგური
+          stop: სარკინიგზო გაჩერება
           subway: მეტრო
           subway_entrance: მეტროში შესასვლელი
           switch: სარკინიგზო ისარი
@@ -532,6 +654,7 @@ ka:
           beverages: სასმელების მაღაზია
           bicycle: ველოსიპედების მაღაზია
           books: წიგნის მაღაზია
+          boutique: ბუტიკი
           butcher: საყასბო
           car: ავტოსალონი
           car_parts: ავტონაწილები
@@ -541,16 +664,22 @@ ka:
           clothes: ტანსაცმლის მაღაზია
           computer: კომპიუტერების მაღაზია
           confectionery: საკონდიტრო
+          convenience: სასურსათო მაღაზია
           cosmetics: კოსმეტიკის მაღაზია
+          dry_cleaning: ქიმწმენდა
           electronics: ელექტროტექნიკის მაღაზია
           estate_agent: უძრავი ქონების აგენტი
           fashion: მოდური ტანსაცმლის მაღაზია
           fish: თევზების მაღაზია
           florist: ყვავილების მაღაზია
           food: საკვების მაღაზია
+          funeral_directors: დამკრძალავი ბიურო
           furniture: ავეჯი
           gallery: გალერეა
           gift: საჩუქრების მაღაზია
+          greengrocer: ხილ-ბოსტნეულის მაღაზია
+          hairdresser: საპარიკმახერო
+          insurance: სადაზღვევო
           jewelry: საიუველირო მაღაზია
           kiosk: ჯიხური
           laundry: სამრეცხაო
@@ -563,19 +692,28 @@ ka:
           optician: ოპტიკა
           organic: ორგანული საკვების მაღაზია
           pet: ზოომაღაზია
+          pharmacy: აფთიაქი
           photo: ფოტომაღაზია
           salon: სალონი
+          second_hand: მეორადების მაღაზია
           shoes: ფეხსაცმლის მაღაზია
           shopping_centre: სავაჭრო ცენტრი
           sports: სპორტული მაღაზია
           stationery: საკანცელარიო მაღაზია
           supermarket: სუპერმარკეტი
+          tailor: დალაქი
           toys: სათამაშოების მაღაზია
           travel_agency: ტურისტული სააგენტო
           video: ვიდეო მაღაზია
+          wine: ღვინის მაღაზია
+          "yes": მაღაზია
         tourism:
+          alpine_hut: ალპური სახლი
+          apartment: ბინა
+          artwork: ხელოვნების ნიმუში
           attraction: ატრაქციონი
           camp_site: ბანაკის ადგილი
+          gallery: გალერეა
           guest_house: სასტუმრო სახლი
           hostel: ჰოსტელი
           hotel: სასტუმრო
@@ -588,12 +726,23 @@ ka:
         tunnel:
           "yes": გვირაბი
         waterway:
+          artificial: ხელოვნური წყალსადენი
           canal: არხი
           dam: კაშხალი
+          derelict_canal: დამშრალი არხი
           dock: ნავსადგური
           river: მდინარე
           stream: ნაკადული
+          wadi: დამშრალი კალაპოტი
           waterfall: ჩანჩქერი
+      admin_levels:
+        level2: ქვეყნის საზღვარი
+        level4: შტატის საზღვარი
+        level5: რეგიონის საზღვარი
+        level6: ოლქის საზღვარი
+        level8: ქალაქის საზღვარი
+        level9: სოფლის საზღვარი
+        level10: გარეუბნის საზღვარი
     description:
       title:
         osm_nominatim: მდებარეობა <a href="http://nominatim.openstreetmap.org/">OpenStreetMap
